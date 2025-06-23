@@ -1,10 +1,17 @@
 {
-  "name": "ngneers-controls",
+  "name": "@ngneers/controls-workspace",
   "version": "1.0.0",
-  "description": "",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "private": true,
+  "scripts": {},
   "license": "MIT",
-  "packageManager": "pnpm@10.12.2"
+  "prettier": "@ngneers/prettier-config",
+  "packageManager": "pnpm@10.12.2",
+  "devDependencies": {
+    "@types/node": "^24.0.3",
+    "playwright": "^1.53.1"
+  },
+  "dependencies": {
+    "@ngneers/prettier-config": "^1.0.1",
+    "prettier": "^3.6.0"
+  }
 }
