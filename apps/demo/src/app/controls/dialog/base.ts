@@ -1,5 +1,5 @@
+import { Component } from '@angular/core';
 import { Dialog } from '@ngneers/controls/dialog';
-import { Component, OnInit } from '@angular/core';
 
 @Component({
   imports: [Dialog],

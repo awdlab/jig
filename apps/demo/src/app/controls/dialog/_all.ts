@@ -1,7 +1,7 @@
-import { Dialog } from '@ngneers/controls/dialog';
-import { Component, OnInit } from '@angular/core';
-import { Dialog_Base_Component } from './base';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+
+import { Dialog_Base_Component } from './base';
 
 @Component({
   imports: [CommonModule],

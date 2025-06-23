@@ -1,3 +1,5 @@
+import { inject } from '@angular/core';
+
 const globalPropertyName = '__ngn-controls-global__';
 
 export type NgnGlobal = {
@@ -9,6 +11,8 @@ declare global {
     [globalPropertyName]: NgnGlobal;
   }
 }
+
+const window = inject(Window);
 
 window[globalPropertyName] ??= {
   nextElementId: 1,

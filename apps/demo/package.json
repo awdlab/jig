@@ -3,11 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "demo": "ng serve",
+    "serve": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:demo": "node dist/demo/server/server.mjs"
+    "serve:ssr": "node dist/demo/server/server.mjs",
+    "lint": "pnpm eslint ."
   },
   "private": true,
   "dependencies": {

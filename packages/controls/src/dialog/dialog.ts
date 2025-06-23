@@ -5,15 +5,15 @@ import {
   Component,
   computed,
   contentChild,
-  effect,
   ElementRef,
   input,
   TemplateRef,
   untracked,
   viewChild,
 } from '@angular/core';
-import { generateElementId } from '../utils/generate-id';
+
 import { TemplateContext } from '../utils/template-context';
+import { generateElementId } from '../utils/generate-id';
 
 function a<T>(): T {
   return undefined as T;
@@ -32,7 +32,7 @@ export class Dialog {
 
   private readonly _defaultHeaderTemplate =
     viewChild.required<TemplateRef<unknown>>('defaultHeaderTemplate');
-  private _userHeaderTemplate = contentChild<TemplateRef<unknown>>('header');
+  private readonly _userHeaderTemplate = contentChild<TemplateRef<unknown>>('header');
   public readonly templateHeader = input<TemplateRef<unknown> | null>(null);
   protected readonly headerTemplate = computed(
     () => this._userHeaderTemplate() ?? this.templateHeader() ?? this._defaultHeaderTemplate()
@@ -50,7 +50,7 @@ export class Dialog {
 
   public readonly open = input(true);
   public readonly modal = input(false);
-  public readonly autofocus = input(false);
+  public readonly autofocus = input(this.modal());
   public readonly title = input<string | null>(null);
 
   public readonly typeTokens = a<{
