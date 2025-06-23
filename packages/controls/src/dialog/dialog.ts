@@ -12,8 +12,8 @@ import {
   viewChild,
 } from '@angular/core';
 
-import { TemplateContext } from '../utils/template-context';
 import { generateElementId } from '../utils/generate-id';
+import { TemplateContext } from '../utils/template-context';
 
 function a<T>(): T {
   return undefined as T;
