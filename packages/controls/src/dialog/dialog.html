@@ -1,1 +1,20 @@
-<p>dialog works!</p>
+<dialog #dialog [autofocus]="autofocus()" [attr.aria-labelledby]="headerId">
+  <header>
+    <ng-template
+      [ngTemplateOutlet]="headerTemplate()"
+      [ngTemplateOutletContext]="{headerId, title: title()}"
+    ></ng-template>
+  </header>
+
+  <ng-content />
+
+  <footer>
+    <ng-template [ngTemplateOutlet]="footerTemplate()"></ng-template>
+  </footer>
+</dialog>
+
+<ng-template #defaultHeaderTemplate let-headerId="headerId" let-title="title">
+  <h2 [id]="headerId">{{ title }}</h2>
+</ng-template>
+
+<ng-template #defaultFooterTemplate></ng-template>

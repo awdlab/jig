@@ -22,6 +22,7 @@
     "@angular/build": "^20.0.3",
     "@angular/cli": "^20.0.3",
     "@angular/compiler-cli": "^20.0.0",
+    "angular-eslint": "20.1.1",
     "ng-packagr": "^20.0.0",
     "typescript": "~5.8.2"
   },

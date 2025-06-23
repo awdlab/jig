@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   imports: [Dialog],
-  template: `<ngn-dialog />`,
+  template: `<ngn-dialog [open]="true"> Content </ngn-dialog>`,
 })
 export class Dialog_Base_Component {
   constructor() {}
