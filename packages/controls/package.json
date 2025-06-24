@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
+    "prebuild": "cpy package.json src/",
     "build": "ng build",
     "lint": "pnpm eslint ."
   },

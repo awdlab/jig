@@ -1,1 +1,1 @@
-export const _ = {};
+export default {};
