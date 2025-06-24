@@ -8,6 +8,6 @@
     "declarationMap": true,
     "types": []
   },
-  "include": ["src/**/*.tssrc/index.tsx.ts"],
+  "include": ["**/*.ts"],
   "exclude": ["**/*.spec.ts", "dist/**"]
 }
