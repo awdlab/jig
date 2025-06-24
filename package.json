@@ -2,7 +2,11 @@
   "name": "@ngneers/controls-workspace",
   "version": "1.0.0",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "demo:serve": "pnpm --filter demo serve",
+    "demo:build": "pnpm --filter demo build",
+    "controls:build": "pnpm --filter @ngneers/controls build"
+  },
   "license": "MIT",
   "prettier": "@ngneers/prettier-config",
   "packageManager": "pnpm@10.12.2",

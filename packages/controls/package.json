@@ -6,6 +6,9 @@
     "build": "ng build",
     "lint": "pnpm eslint ."
   },
+  "dependencies": {
+    "tslib": "^2.8.1"
+  },
   "peerDependencies": {
     "@angular/common": "^20.0.0",
     "@angular/compiler": "^20.0.0",
@@ -13,8 +16,7 @@
     "@angular/forms": "^20.0.0",
     "@angular/platform-browser": "^20.0.0",
     "@angular/router": "^20.0.0",
-    "rxjs": "~7.8.0",
-    "tslib": "^2.3.0"
+    "rxjs": "~7.8.0"
   },
   "devDependencies": {
     "@angular/build": "^20.0.3",

@@ -1,6 +1,5 @@
 import { Directive, inject, Input, OnInit, TemplateRef } from '@angular/core';
-
-import { TemplateContext } from '../utils/template-context';
+import { TemplateContext } from '@ngneers/controls/utils';
 
 @Directive({
   selector: 'ng-template[ngnTemplate]',
