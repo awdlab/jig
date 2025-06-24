@@ -31,6 +31,7 @@
             "styles": ["src/styles.scss"],
             "server": "src/main.server.ts",
             "outputMode": "server",
+            "outputPath": "../../dist/demo",
             "ssr": {
               "entry": "src/server.ts"
             }
