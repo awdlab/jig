@@ -5,7 +5,7 @@
     "ng": "ng",
     "serve": "ng serve",
     "build": "ng build",
-    "serve:ssr": "node dist/demo/server/server.mjs",
+    "serve:ssr": "node ../../dist/demo/server/server.mjs",
     "lint": "pnpm eslint ."
   },
   "private": true,

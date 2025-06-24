@@ -21,7 +21,6 @@ function a<T>(): T {
   selector: 'ngn-dialog',
   imports: [NgTemplateOutlet],
   templateUrl: './dialog.html',
-  styleUrl: './dialog.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TemplateContext],
 })
