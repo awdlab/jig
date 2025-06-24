@@ -14,7 +14,7 @@
     "target": "ES2022",
     "module": "preserve",
     "paths": {
-      "@ngneers/controls/*": ["packages/controls/*/index"],
+      "@ngneers/controls/*": ["packages/controls/src/*/index"],
       "@ngneers/controls-playwright": ["packages/playwright/src/index"]
     }
   },
