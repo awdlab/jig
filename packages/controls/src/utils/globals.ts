@@ -19,7 +19,6 @@ export class NgnGlobal implements NgnGlobalType {
     this._window[globalPropertyName] ??= {
       nextElementId: 1,
     };
-    console.log(this._window[globalPropertyName]);
   }
 
   public get nextElementId(): number {
