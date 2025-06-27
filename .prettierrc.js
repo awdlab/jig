@@ -1,5 +1,5 @@
 module.exports = {
-  ...require("@ngneers/prettier-config"),
+  ...require("@ngneers/prettier-config").default,
   overrides: [
     {
       files: "*.html",
