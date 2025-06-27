@@ -14,7 +14,12 @@
   </footer>
 </dialog>
 
-<ng-template #defaultHeaderTemplate let-headerId="headerId" let-title="title">
+<ng-template
+  #defaultHeaderTemplate
+  [ngnTemplate]="templateTypes('header')"
+  let-headerId="headerId"
+  let-title="title"
+>
   <h2 [id]="headerId">{{ title }}</h2>
 </ng-template>
 

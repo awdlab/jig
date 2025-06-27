@@ -11,15 +11,12 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
+import { TemplateDirective, templateTypesFn } from '@ngneers/controls/api';
 import { TemplateContext, generateElementId } from '@ngneers/controls/utils';
-
-function a<T>(): T {
-  return undefined as T;
-}
 
 @Component({
   selector: 'ngn-dialog',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, TemplateDirective],
   templateUrl: './dialog.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TemplateContext],
@@ -50,7 +47,11 @@ export class Dialog {
   public readonly autofocus = input(this.modal());
   public readonly title = input<string | null>(null);
 
-  public readonly typeTokens = a<{
+  /**
+   * Types for the dialog template.
+   * This is used to provide a strongly typed context for the dialog templates.
+   */
+  public readonly templateTypes = templateTypesFn<{
     header: {
       headerId: string;
       title: string | null;
