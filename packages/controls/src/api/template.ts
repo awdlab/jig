@@ -15,7 +15,10 @@ export class TemplateDirective<T> implements OnInit {
     this._templateContext.register(this.ngnTemplate, this._contentTemplate);
   }
 
-  public static ngTemplateContextGuard<T>(dir: TemplateDirective<T>, ctx: unknown): ctx is T {
+  public static ngTemplateContextGuard<T>(
+    dir: TemplateDirective<T>,
+    ctx: unknown,
+  ): ctx is T {
     return true;
   }
 }

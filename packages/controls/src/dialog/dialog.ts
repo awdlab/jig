@@ -24,23 +24,34 @@ import { TemplateContext, generateElementId } from '@ngneers/controls/utils';
 export class Dialog {
   protected readonly headerId = generateElementId();
 
-  private readonly _defaultHeaderTemplate =
-    viewChild.required<TemplateRef<unknown>>('defaultHeaderTemplate');
-  private readonly _userHeaderTemplate = contentChild<TemplateRef<unknown>>('header');
+  private readonly _defaultHeaderTemplate = viewChild.required<
+    TemplateRef<unknown>
+  >('defaultHeaderTemplate');
+  private readonly _userHeaderTemplate =
+    contentChild<TemplateRef<unknown>>('header');
   public readonly templateHeader = input<TemplateRef<unknown> | null>(null);
   protected readonly headerTemplate = computed(
-    () => this._userHeaderTemplate() ?? this.templateHeader() ?? this._defaultHeaderTemplate()
+    () =>
+      this._userHeaderTemplate() ??
+      this.templateHeader() ??
+      this._defaultHeaderTemplate(),
   );
 
-  private readonly _defaultFooterTemplate =
-    viewChild.required<TemplateRef<unknown>>('defaultFooterTemplate');
-  private readonly _userFooterTemplate = contentChild<TemplateRef<unknown>>('footer');
+  private readonly _defaultFooterTemplate = viewChild.required<
+    TemplateRef<unknown>
+  >('defaultFooterTemplate');
+  private readonly _userFooterTemplate =
+    contentChild<TemplateRef<unknown>>('footer');
   public readonly templateFooter = input<TemplateRef<unknown> | null>(null);
   protected readonly footerTemplate = computed(
-    () => this._userFooterTemplate() ?? this.templateFooter() ?? this._defaultFooterTemplate()
+    () =>
+      this._userFooterTemplate() ??
+      this.templateFooter() ??
+      this._defaultFooterTemplate(),
   );
 
-  private readonly _dialogElement = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
+  private readonly _dialogElement =
+    viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
 
   public readonly open = input(true);
   public readonly modal = input(false);

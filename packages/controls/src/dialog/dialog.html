@@ -3,7 +3,7 @@
   <header>
     <ng-template
       [ngTemplateOutlet]="headerTemplate()"
-      [ngTemplateOutletContext]="{headerId, title: title()}"
+      [ngTemplateOutletContext]="{ headerId, title: title() }"
     ></ng-template>
   </header>
 
@@ -20,7 +20,9 @@
   let-headerId="headerId"
   let-title="title"
 >
-  <h2 [id]="headerId">{{ title }}</h2>
+  @if (title) {
+    <h2 [id]="headerId">{{ title }}</h2>
+  }
 </ng-template>
 
 <ng-template #defaultFooterTemplate></ng-template>

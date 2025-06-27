@@ -5,7 +5,9 @@ type _VariableKeys<T extends ThemePartTemplate> = T['scope'] extends ''
   ? DeepKeys<T['variables']>
   : `${T['scope']}.${DeepKeys<T['variables']>}`;
 
-export type VariableKeys<T extends ThemePartTemplate[]> = _VariableKeys<T[number]>;
+export type VariableKeys<T extends ThemePartTemplate[]> = _VariableKeys<
+  T[number]
+>;
 
 export type VariableDefinition<T, K extends string> = T extends object
   ? { [P in keyof T]?: VariableDefinition<T[P], K> }
@@ -33,7 +35,7 @@ export function createThemePart<
   definition: {
     template: TTemplate;
     dependencies?: TDependencies;
-  } & Partial<ThemePart<TTemplate, TDependencies>>
+  } & Partial<ThemePart<TTemplate, TDependencies>>,
 ): ThemePart<TTemplate, TDependencies> {
   return {
     template: definition.template,

@@ -22,7 +22,7 @@ type _GetError<T extends ThemePart[], P extends ThemePart> = P extends P
 export type GetError<T extends ThemePart<any, any>[]> = _GetError<T, T[number]>;
 
 export function createTheme<const T extends ThemePart<any, any>[]>(
-  parts: GetError<T> extends never ? T : GetError<T>
+  parts: GetError<T> extends never ? T : GetError<T>,
 ): Theme<T> {
   return { parts: parts as T };
 }
