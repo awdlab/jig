@@ -23,13 +23,7 @@ export class TemplateDirective<T> implements OnInit {
 /**
  * A noop with return type T.
  * This function is used to define a typed property to use in a template.
- * @returns A function that returns a value of type T[keyof T].
- * @template T - The type of the template context.
  */
 export function templateTypesFn<T>() {
-  return (_: keyof T): T[keyof T] => {
-    // This function is intentionally left empty.
-    // It is used to provide a strongly typed context for the template.
-    return {} as T[keyof T];
-  };
+  return {} as T;
 }

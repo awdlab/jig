@@ -48,8 +48,7 @@ export class Dialog {
   public readonly title = input<string | null>(null);
 
   /**
-   * Types for the dialog template.
-   * This is used to provide a strongly typed context for the dialog templates.
+   * Types for the dialog templates.
    */
   public readonly templateTypes = templateTypesFn<{
     header: {
