@@ -1,4 +1,11 @@
-import { afterRenderEffect, Signal } from '@angular/core';
+import {
+  afterRenderEffect,
+  inject,
+  Injector,
+  runInInjectionContext,
+  signal,
+  Signal,
+} from '@angular/core';
 import {
   autoUpdate,
   computePosition,
@@ -8,17 +15,27 @@ import {
 } from '@floating-ui/dom';
 
 type PositioningOptions = {
+  injector?: Injector;
   placement?: 'top' | 'bottom' | 'left' | 'right';
   flip?: boolean;
   shift?: boolean;
   offset?: number;
+  stopped?: boolean;
+};
+
+export type AutoPositioningHandle = {
+  stop: () => void;
+  start: () => void;
+  isRunning: () => boolean;
 };
 
 function mergeWithDefaults(options: PositioningOptions): PositioningOptions {
   return {
     placement: 'bottom',
     flip: true,
+    shift: true,
     offset: 4,
+    stopped: false,
     ...options,
   };
 }
@@ -59,20 +76,41 @@ export function autoPositionElement(
   referenceEl: Signal<HTMLElement | undefined>,
   floatingEl: Signal<HTMLElement | undefined>,
   options: PositioningOptions = {},
-) {
+): AutoPositioningHandle {
   options = mergeWithDefaults(options);
   let cleanup: (() => void) | undefined;
 
-  afterRenderEffect(() => {
-    const reference = referenceEl();
-    const floating = floatingEl();
-    if (!reference || !floating) {
-      cleanup?.();
-      cleanup = undefined;
-      return;
-    }
-    cleanup = autoUpdate(reference, floating, () => {
-      positionElement(reference, floating, options);
-    });
-  });
+  const running = runInInjectionContext(
+    options.injector ?? inject(Injector),
+    () => {
+      return signal(!options.stopped);
+    },
+  );
+
+  afterRenderEffect(
+    () => {
+      const reference = referenceEl();
+      const floating = floatingEl();
+      const isRunning = running();
+      if (!reference || !floating || !isRunning) {
+        cleanup?.();
+        cleanup = undefined;
+        return;
+      }
+      cleanup = autoUpdate(reference, floating, () => {
+        positionElement(reference, floating, options);
+      });
+    },
+    { injector: options.injector },
+  );
+
+  return {
+    start: () => {
+      running.set(true);
+    },
+    stop: () => {
+      running.set(false);
+    },
+    isRunning: () => running(),
+  };
 }
