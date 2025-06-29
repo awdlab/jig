@@ -1,6 +1,6 @@
 import { Component, computed, ElementRef, inject, Injector, input, viewChild } from '@angular/core';
 import { autoPositionElement, AutoPositioningHandle } from '@ngneers/controls/api';
-import { computedWithPrevious } from 'packages/controls/src/utils/signals';
+import { computedWithPrevious } from '@ngneers/controls/utils';
 
 export type PopoverOptions = {
   /**

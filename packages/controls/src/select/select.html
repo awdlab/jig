@@ -5,8 +5,25 @@
   [label]="label()"
   [inputId]="inputId()"
 >
-  Select
+  <ng-template
+    [ngTemplateOutlet]="itemTemplate()"
+    [ngTemplateOutletContext]="{ $implicit: selectedItem() }"
+  ></ng-template>
 </ngn-form-field>
 <ngn-popover #popover [options]="popoverOptions()" [anchor]="field.nativeElement">
-  options
+  <ul>
+    @for (item of options(); track item[fieldId()]) {
+      <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+      <li (click)="onSelect(item[fieldId()])">
+        <ng-template
+          [ngTemplateOutlet]="itemTemplate()"
+          [ngTemplateOutletContext]="{ $implicit: item }"
+        ></ng-template>
+      </li>
+    }
+  </ul>
 </ngn-popover>
+
+<ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
+  {{ item?.[fieldLabel()] }} &ZeroWidthSpace;
+</ng-template>

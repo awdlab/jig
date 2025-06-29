@@ -3,72 +3,34 @@ import {
   afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
-  computed,
-  contentChild,
   ElementRef,
   input,
-  TemplateRef,
   untracked,
   viewChild,
 } from '@angular/core';
-import { TemplateDirective, templateTypesFn } from '@ngneers/controls/api';
-import { TemplateContext, generateElementId } from '@ngneers/controls/utils';
+import { NgnTemplate } from '@ngneers/controls/api';
+import { generateElementId } from '@ngneers/controls/utils';
+
+import { DialogTemplates } from './dialog-templates';
 
 @Component({
   selector: 'ngn-dialog',
-  imports: [NgTemplateOutlet, TemplateDirective],
+  imports: [NgTemplateOutlet, NgnTemplate],
   templateUrl: './dialog.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TemplateContext],
 })
-export class Dialog {
+export class Dialog extends DialogTemplates {
   protected readonly headerId = generateElementId();
 
-  private readonly _defaultHeaderTemplate = viewChild.required<
-    TemplateRef<unknown>
-  >('defaultHeaderTemplate');
-  private readonly _userHeaderTemplate =
-    contentChild<TemplateRef<unknown>>('header');
-  public readonly templateHeader = input<TemplateRef<unknown> | null>(null);
-  protected readonly headerTemplate = computed(
-    () =>
-      this._userHeaderTemplate() ??
-      this.templateHeader() ??
-      this._defaultHeaderTemplate(),
-  );
-
-  private readonly _defaultFooterTemplate = viewChild.required<
-    TemplateRef<unknown>
-  >('defaultFooterTemplate');
-  private readonly _userFooterTemplate =
-    contentChild<TemplateRef<unknown>>('footer');
-  public readonly templateFooter = input<TemplateRef<unknown> | null>(null);
-  protected readonly footerTemplate = computed(
-    () =>
-      this._userFooterTemplate() ??
-      this.templateFooter() ??
-      this._defaultFooterTemplate(),
-  );
-
-  private readonly _dialogElement =
-    viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
+  private readonly _dialogElement = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
 
   public readonly open = input(true);
   public readonly modal = input(false);
   public readonly autofocus = input(this.modal());
   public readonly title = input<string | null>(null);
 
-  /**
-   * Types for the dialog templates.
-   */
-  public readonly templateTypes = templateTypesFn<{
-    header: {
-      headerId: string;
-      title: string | null;
-    };
-  }>();
-
   constructor() {
+    super();
     afterRenderEffect(() => {
       if (this.open()) {
         if (untracked(this.modal)) {
