@@ -1,4 +1,4 @@
-<div class="ngn-form-field">
+<div [class.ngn-form-field]="!hasParentFormField">
   @if (label(); as label) {
     <label [for]="inputId()">{{ label }}</label>
   }
