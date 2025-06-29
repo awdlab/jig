@@ -1,18 +1,14 @@
-import {
-  Component,
-  computed,
-  ElementRef,
-  inject,
-  Injector,
-  input,
-  viewChild,
-} from '@angular/core';
-
-import { autoPositionElement } from '../api/positioning';
+import { Component, computed, ElementRef, inject, Injector, input, viewChild } from '@angular/core';
+import { autoPositionElement } from '@ngneers/controls/api';
 
 @Component({
   selector: 'ngn-popover',
   templateUrl: './popover.html',
+  styles: `
+    div {
+      background: red;
+    }
+  `,
 })
 export class Popover {
   public readonly anchor = input.required<HTMLElement>();
