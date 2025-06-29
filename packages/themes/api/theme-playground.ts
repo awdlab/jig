@@ -1,13 +1,13 @@
 import { createTheme } from './theme';
+import { createThemePart, css } from './theme-part';
 import { createThemePartTemplate } from './theme-part-template';
-import { createThemePart, css } from '../../../../themes/theme-part';
 
 const colors = createThemePartTemplate({
   scope: 'colors',
   variables: {
     primary: {
-      light: undefined,
-      dark: undefined,
+      light: null,
+      dark: null,
     },
   },
   classNames: [],
@@ -16,10 +16,10 @@ const colors = createThemePartTemplate({
 const button = createThemePartTemplate({
   scope: 'button',
   variables: {
-    backgroundColor: { primary: undefined, secondary: undefined },
-    color: { primary: undefined, secondary: undefined },
-    borderColor: { primary: undefined, secondary: undefined },
-    padding: undefined,
+    backgroundColor: { primary: null, secondary: null },
+    color: { primary: null, secondary: null },
+    borderColor: { primary: null, secondary: null },
+    padding: null,
   },
   classNames: ['primary', 'secondary'],
 });
