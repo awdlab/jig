@@ -13,4 +13,8 @@ export const routes: Routes = [
     path: 'text-field',
     loadComponent: () => import('./controls/text-field/_all').then(m => m.TextField_All_Component),
   },
+  {
+    path: 'select',
+    loadComponent: () => import('./controls/select/_all').then(m => m.Select_All_Component),
+  },
 ];

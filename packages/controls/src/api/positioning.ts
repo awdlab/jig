@@ -1,18 +1,5 @@
-import {
-  afterRenderEffect,
-  inject,
-  Injector,
-  runInInjectionContext,
-  signal,
-  Signal,
-} from '@angular/core';
-import {
-  autoUpdate,
-  computePosition,
-  flip,
-  offset,
-  shift,
-} from '@floating-ui/dom';
+import { DestroyRef, inject, Injector } from '@angular/core';
+import { autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
 
 type PositioningOptions = {
   injector?: Injector;
@@ -21,6 +8,10 @@ type PositioningOptions = {
   shift?: boolean;
   offset?: number;
   stopped?: boolean;
+  widthConstraints?: {
+    width?: number;
+    maxWidth?: number;
+  };
 };
 
 export type AutoPositioningHandle = {
@@ -43,18 +34,26 @@ function mergeWithDefaults(options: PositioningOptions): PositioningOptions {
 export function positionElement(
   referenceEl: HTMLElement,
   floatingEl: HTMLElement,
-  options: PositioningOptions = {},
+  options: PositioningOptions = {}
 ) {
   options = mergeWithDefaults(options);
 
   const flipMiddleware = options.flip
-    ? flip(
-        options.shift
-          ? { crossAxis: 'alignment', fallbackAxisSideDirection: 'end' }
-          : undefined,
-      )
+    ? flip(options.shift ? { crossAxis: 'alignment', fallbackAxisSideDirection: 'end' } : undefined)
     : undefined;
   const shiftMiddleware = options.shift ? shift() : undefined;
+
+  if (options.widthConstraints) {
+    const refWidth = referenceEl.offsetWidth;
+    if (options.widthConstraints.width) {
+      const widthConstraints = options.widthConstraints.width * refWidth;
+      floatingEl.style.width = `${widthConstraints}px`;
+    }
+    if (options.widthConstraints.maxWidth) {
+      const maxWidthConstraints = options.widthConstraints.maxWidth * refWidth;
+      floatingEl.style.maxWidth = `${maxWidthConstraints}px`;
+    }
+  }
 
   computePosition(referenceEl, floatingEl, {
     placement: options.placement,
@@ -73,44 +72,31 @@ export function positionElement(
 }
 
 export function autoPositionElement(
-  referenceEl: Signal<HTMLElement | undefined>,
-  floatingEl: Signal<HTMLElement | undefined>,
-  options: PositioningOptions = {},
+  referenceEl: HTMLElement,
+  floatingEl: HTMLElement,
+  options: PositioningOptions = {}
 ): AutoPositioningHandle {
   options = mergeWithDefaults(options);
+
   let cleanup: (() => void) | undefined;
+  const destroyRef = options.injector?.get(DestroyRef) ?? inject(DestroyRef);
 
-  const running = runInInjectionContext(
-    options.injector ?? inject(Injector),
-    () => {
-      return signal(!options.stopped);
-    },
-  );
-
-  afterRenderEffect(
-    () => {
-      const reference = referenceEl();
-      const floating = floatingEl();
-      const isRunning = running();
-      if (!reference || !floating || !isRunning) {
-        cleanup?.();
-        cleanup = undefined;
-        return;
-      }
-      cleanup = autoUpdate(reference, floating, () => {
-        positionElement(reference, floating, options);
-      });
-    },
-    { injector: options.injector },
-  );
+  function startAutoUpdate() {
+    cleanup = autoUpdate(referenceEl, floatingEl, () => {
+      positionElement(referenceEl, floatingEl, options);
+    });
+    return cleanup;
+  }
 
   return {
     start: () => {
-      running.set(true);
+      cleanup?.();
+      startAutoUpdate();
     },
     stop: () => {
-      running.set(false);
+      cleanup?.();
+      cleanup = undefined;
     },
-    isRunning: () => running(),
+    isRunning: () => !!cleanup,
   };
 }

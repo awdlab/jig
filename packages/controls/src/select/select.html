@@ -1,0 +1,12 @@
+<ngn-form-field
+  (click)="popover.open()"
+  ngnElementRef
+  #field="ngnElementRef"
+  [label]="label()"
+  [inputId]="inputId()"
+>
+  Select
+</ngn-form-field>
+<ngn-popover #popover [options]="popoverOptions()" [anchor]="field.nativeElement">
+  options
+</ngn-popover>
