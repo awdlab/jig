@@ -3,6 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { FormFieldBase } from '@ngneers/controls/form-field';
 import { generateElementId } from '@ngneers/controls/utils';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function valueControlBaseProvider<T extends Type<ValueControlBase<any>>>(
   type: T
 ): { provide: typeof NG_VALUE_ACCESSOR; useExisting: T; multi: boolean } {

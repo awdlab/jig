@@ -1,7 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { GetElementRef, NgnTemplate } from '@ngneers/controls/api';
+import { GetElementRef, NgnTemplate, valueControlBaseProvider } from '@ngneers/controls/api';
 import { FormField } from '@ngneers/controls/form-field';
 import { Popover, PopoverOptions } from '@ngneers/controls/popover';
 
@@ -11,13 +10,7 @@ import { SelectTemplates } from './select-templates';
   selector: 'ngn-select',
   templateUrl: './select.html',
   imports: [FormField, Popover, GetElementRef, NgTemplateOutlet, NgnTemplate],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: Select,
-      multi: true,
-    },
-  ],
+  providers: [valueControlBaseProvider(Select)],
 })
 export class Select<Option, K extends keyof Option> extends SelectTemplates<Option, Option[K]> {
   public readonly popoverOptions = input<PopoverOptions>();
