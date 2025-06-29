@@ -47,11 +47,11 @@ export function positionElement(
     const refWidth = referenceEl.offsetWidth;
     if (options.widthConstraints.width) {
       const widthConstraints = options.widthConstraints.width * refWidth;
-      floatingEl.style.width = `${widthConstraints}px`;
+      floatingEl.style.width = `min(100%, ${widthConstraints}px)`;
     }
     if (options.widthConstraints.maxWidth) {
       const maxWidthConstraints = options.widthConstraints.maxWidth * refWidth;
-      floatingEl.style.maxWidth = `${maxWidthConstraints}px`;
+      floatingEl.style.maxWidth = `min(100%, ${maxWidthConstraints}px)`;
     }
   }
 
