@@ -1,0 +1,14 @@
+{
+  "name": "@ngneers/controls-themes",
+  "version": "0.0.1",
+  "scripts": {
+    "lint": "pnpm eslint ."
+  },
+  "dependencies": {
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "typescript": "~5.8.2"
+  },
+  "sideEffects": false
+}

@@ -15,6 +15,8 @@
     "module": "preserve",
     "paths": {
       "@ngneers/controls/*": ["packages/controls/src/*/index"],
+      "@ngneers/controls-themes": ["packages/themes/index"],
+      "@ngneers/controls-themes/*": ["packages/themes/*/index"],
       "@ngneers/controls-playwright": ["packages/playwright/src/index"]
     }
   },
