@@ -19,35 +19,49 @@ const button = createThemePartTemplate({
     backgroundColor: { primary: undefined, secondary: undefined },
     color: { primary: undefined, secondary: undefined },
     borderColor: { primary: undefined, secondary: undefined },
+    padding: undefined,
   },
-  classNames: ['', 'primary', 'secondary'],
+  classNames: ['primary', 'secondary'],
 });
 
 const colorsTheme = createThemePart({
   template: colors,
 });
 
-const buttonTheme = createThemePart({
+const buttonVariables = createThemePart({
   template: button,
   dependencies: [colors],
-  variables: {
-    backgroundColor: {
-      primary: '',
+  root: {
+    variables: {
+      backgroundColor: {
+        primary: '',
+      },
     },
   },
-  css: ({ v, c }) => css`
-    .${c('')}, .${c('primary')} {
-      background-color: ${v('button.backgroundColor.primary')};
-      color: ${v('button.color.primary')};
-      border-color: ${v('button.borderColor.primary')};
-    }
-    .${c('secondary')} {
-      background-color: ${v('button.backgroundColor.secondary')};
-      color: ${v('button.color.secondary')};
-      border-color: ${v('button.borderColor.secondary')};
-    }
-  `,
 });
+
+const buttonStyles = createThemePart({
+  template: button,
+  root: {
+    css: ({ v, c }) => css`
+      .${c()} {
+        padding: ${v('button.padding')};
+      }
+      .${c()}, .${c('primary')} {
+        background-color: ${v('button.backgroundColor.primary')};
+        color: ${v('button.color.primary')};
+        border-color: ${v('button.borderColor.primary')};
+      }
+      .${c('secondary')} {
+        background-color: ${v('button.backgroundColor.secondary')};
+        color: ${v('button.color.secondary')};
+        border-color: ${v('button.borderColor.secondary')};
+      }
+    `,
+  },
+});
+
+const buttonTheme = [buttonVariables, buttonStyles] as const;
 
 const theme = createTheme([colorsTheme, buttonTheme]);
 

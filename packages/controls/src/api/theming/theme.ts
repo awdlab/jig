@@ -21,8 +21,22 @@ type _GetError<T extends ThemePart[], P extends ThemePart> = P extends P
   : never;
 export type GetError<T extends ThemePart<any, any>[]> = _GetError<T, T[number]>;
 
-export function createTheme<const T extends ThemePart<any, any>[]>(
-  parts: GetError<T> extends never ? T : GetError<T>,
-): Theme<T> {
-  return { parts: parts as T };
+export type ThemeParts<T extends ThemePart<any, any> = ThemePart<any, any>> = readonly (
+  | T
+  | readonly T[]
+)[];
+type _FlatThemeParts<T> = T extends readonly [infer A, ...infer R]
+  ? A extends ThemePart<any, any>
+    ? [A, ..._FlatThemeParts<R>]
+    : A extends readonly ThemePart<any, any>[]
+      ? [...A, ..._FlatThemeParts<R>]
+      : _FlatThemeParts<R>
+  : [];
+
+export function createTheme<const T extends ThemeParts>(
+  parts: GetError<_FlatThemeParts<T>> extends never ? T : GetError<_FlatThemeParts<T>>
+): Theme<_FlatThemeParts<T>> {
+  return {
+    parts: (parts as T).flat() as _FlatThemeParts<T>,
+  };
 }
