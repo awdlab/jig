@@ -1,3 +1,9 @@
 <ngn-form-field [label]="label()" [inputId]="inputId()">
-  <input type="text" [id]="inputId()" />
+  <input
+    type="text"
+    [value]="value()"
+    [id]="inputId()"
+    (input)="onChange($event)"
+    (blur)="onTouched()"
+  />
 </ngn-form-field>
