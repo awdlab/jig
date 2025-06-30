@@ -13,6 +13,18 @@
 
 <button (click)="dialogOpen.set(true)">open</button>
 
+<ngn-select
+  [label]="'hi'"
+  [options]="options"
+  fieldValue="id"
+  fieldLabel="label"
+  [filter]="true"
+  [ngModel]="selectedItem()"
+  (ngModelChange)="selectedItem.set($event)"
+  #select
+>
+</ngn-select>
+
 {{ selectedItem() }}
 
 <ng-template #itemTemplate [ngnTemplate]="iconType" let-icon></ng-template>

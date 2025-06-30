@@ -9,6 +9,9 @@ import { NgnTemplate } from '../api/template';
   selector: 'ngn-icon',
   templateUrl: './icon.html',
   imports: [NgnTemplate, NgTemplateOutlet],
+  host: {
+    '[attr.ngSkipHydration]': 'true',
+  },
 })
 export class Icon {
   private readonly _globalIconTemplate = inject(GlobalIconTemplate).globalIconTemplate;
