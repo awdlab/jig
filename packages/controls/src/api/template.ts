@@ -23,6 +23,6 @@ export function templateTypesFn<T extends Record<string, Record<string, any>>>()
  * A noop with return type `{ $implicit: Implicit } & Named`.
  * This function is used to define a typed property to use in a template.
  */
-export function templateTypeFn<Implicit, Named extends Record<string, any> = {}>() {
+export function templateTypeFn<Implicit, Named extends Record<string, any> = object>() {
   return {} as { $implicit: Implicit } & Named;
 }
