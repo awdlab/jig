@@ -20,6 +20,14 @@ type SelectFilterOptions<Option extends object> = {
   clearFilterOnClose?: boolean;
 } & FilterConfig<Option>;
 
+type TransformedOption = {
+  data: object;
+  label: string;
+  value: unknown;
+  testId?: string;
+  group?: string;
+};
+
 @Component({
   selector: 'ngn-select',
   templateUrl: './select.html',
@@ -46,12 +54,50 @@ export class Select<Option extends object, K extends keyof Option> extends Selec
   public readonly fieldLabel = input.required<keyof Option>();
   public readonly fieldValue = input.required<K>();
   public readonly fieldTestId = input<keyof Option>();
+  public readonly fieldGroupItems = input<keyof Option>();
 
   public readonly filter = input<SelectFilterOptions<Option> | true>();
   public readonly filterText = input<string>();
   public readonly filterIcon = input<IconType>();
 
   protected readonly filterTextInternal = linkedSignal(this.filterText);
+
+  protected readonly transformedOptions = computed<TransformedOption[]>(() => {
+    const options = this.options();
+
+    const fieldLabel = this.fieldLabel();
+    const fieldValue = this.fieldValue();
+    const fieldTestId = this.fieldTestId();
+    const fieldGroupItems = this.fieldGroupItems();
+
+    return options.map(option => {
+      const label = option[fieldLabel] as string;
+      const value = option[fieldValue];
+      const testId = fieldTestId ? option[fieldTestId] : undefined;
+      const group = fieldGroupItems ? option[fieldGroupItems] : undefined;
+
+      return {
+        data: option,
+        label,
+        value,
+        testId,
+      };
+    });
+  });
+
+  private readonly _flatOptions = computed(() => {
+    const groupItems = this.fieldGroupItems();
+    if (!groupItems) {
+      return this.options();
+    }
+    return this.options().flatMap(option => {
+      const group = option[groupItems];
+      if (Array.isArray(group)) {
+        return group;
+      }
+      return [option];
+    });
+  });
 
   private readonly _appliedFilterOptions = computed<SelectFilterOptions<Option> | null>(() => {
     const filter = this.filter();
@@ -79,7 +125,7 @@ export class Select<Option extends object, K extends keyof Option> extends Selec
   });
 
   protected readonly selectedItem = computed(() =>
-    this.options().find(option => option[this.fieldValue()] === this.value())
+    this._flatOptions().find(option => option[this.fieldValue()] === this.value())
   );
 
   public onSelect(value: Option[K]) {

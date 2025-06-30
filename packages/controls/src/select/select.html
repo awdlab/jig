@@ -27,26 +27,42 @@
       <ngn-icon defaultIcon="fa-solid fa-magnifying-glass" [icon]="filterIcon()" />
     </ngn-form-field>
   }
+  <ng-container
+    *ngTemplateOutlet="optionsTemplate; context: { $implicit: filteredOptions() }"
+  ></ng-container>
+</ngn-popover>
+
+<ng-template #optionsTemplate [ngnTemplate]="templateTypesInternal.options" let-options>
   <ul>
-    @for (item of filteredOptions(); track item[fieldValue()]) {
+    @for (option of options; track option[fieldValue()]) {
       <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-      <li (click)="onSelect(item[fieldValue()])">
+      <li (click)="onSelect(option[fieldValue()])">
         <ng-template
           [ngTemplateOutlet]="itemTemplate()"
           [ngTemplateOutletContext]="{
             $implicit: {
-              data: item,
-              value: item?.[fieldValue()],
-              label: item?.[fieldLabel()],
-              testId: fieldTestId() ? item?.[fieldTestId()!] : undefined,
+              data: option,
+              value: option?.[fieldValue()],
+              label: option?.[fieldLabel()],
+              testId: fieldTestId() ? option?.[fieldTestId()!] : undefined,
             },
           }"
         ></ng-template>
       </li>
+
+      @if (fieldGroupItems(); as fieldGroupItems) {
+        <ng-container
+          *ngTemplateOutlet="optionsTemplate; context: { $implicit: option[fieldGroupItems] }"
+        ></ng-container>
+      }
     }
   </ul>
-</ngn-popover>
+</ng-template>
 
 <ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
   <span [attr.data-testid]="item.testId">{{ item.label }}&ZeroWidthSpace;</span>
+</ng-template>
+
+<ng-template #defaultGroupTemplate [ngnTemplate]="templateTypes.group" let-group>
+  <span [attr.data-testid]="group.testId">{{ group.label }}&ZeroWidthSpace;</span>
 </ng-template>

@@ -27,5 +27,18 @@ export abstract class SelectTemplates<Option, Value> extends ValueControlBase<Va
         testId?: string | number;
       };
     };
+    group: {
+      $implicit: {
+        data: Option;
+        label: string;
+        testId?: string | number;
+      };
+    };
+  }>();
+
+  protected readonly templateTypesInternal = templateTypesFn<{
+    options: {
+      $implicit: Option[];
+    };
   }>();
 }
