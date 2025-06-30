@@ -7,17 +7,40 @@
 >
   <ng-template
     [ngTemplateOutlet]="itemTemplate()"
-    [ngTemplateOutletContext]="{ $implicit: selectedItem() }"
+    [ngTemplateOutletContext]="{
+      $implicit: {
+        data: selectedItem(),
+        value: selectedItem()?.[fieldValue()],
+        label: selectedItem()?.[fieldLabel()],
+        testId: fieldTestId() ? selectedItem()?.[fieldTestId()!] : undefined,
+      },
+    }"
   ></ng-template>
 </ngn-form-field>
 <ngn-popover #popover [options]="popoverOptions()" [anchor]="field.nativeElement">
+  @if (filter()) {
+    <ngn-form-field>
+      <ngn-text-field
+        [ngModel]="filterTextInternal()"
+        (ngModelChange)="filterTextInternal.set($event)"
+      />
+      Filter
+    </ngn-form-field>
+  }
   <ul>
-    @for (item of options(); track item[fieldId()]) {
+    @for (item of filteredOptions(); track item[fieldValue()]) {
       <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-      <li (click)="onSelect(item[fieldId()])">
+      <li (click)="onSelect(item[fieldValue()])">
         <ng-template
           [ngTemplateOutlet]="itemTemplate()"
-          [ngTemplateOutletContext]="{ $implicit: item }"
+          [ngTemplateOutletContext]="{
+            $implicit: {
+              data: item,
+              value: item?.[fieldValue()],
+              label: item?.[fieldLabel()],
+              testId: fieldTestId() ? item?.[fieldTestId()!] : undefined,
+            },
+          }"
         ></ng-template>
       </li>
     }
@@ -25,5 +48,5 @@
 </ngn-popover>
 
 <ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
-  {{ item?.[fieldLabel()] }}&ZeroWidthSpace;
+  <span [attr.data-testid]="item.testId">{{ item.label }}&ZeroWidthSpace;</span>
 </ng-template>

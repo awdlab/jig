@@ -10,8 +10,9 @@ import { Select } from '@ngneers/controls/select';
       [popoverOptions]="{
         sizeConstraints: { width: 1, maxWidth: 1.5, maxHeight: '150px' },
       }"
-      fieldId="id"
+      fieldValue="id"
       fieldLabel="label"
+      [filter]="true"
       [options]="options"
     >
       <ng-template #item [ngnTemplate]="select.templateTypes.item" let-option>

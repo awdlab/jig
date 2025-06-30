@@ -19,6 +19,13 @@ export abstract class SelectTemplates<Option, Value> extends ValueControlBase<Va
    * Types for the dialog templates.
    */
   public readonly templateTypes = templateTypesFn<{
-    item: { $implicit: Option | undefined };
+    item: {
+      $implicit: {
+        data: Option;
+        value: Value;
+        label: string;
+        testId?: string | number;
+      };
+    };
   }>();
 }

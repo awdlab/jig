@@ -25,7 +25,7 @@ export abstract class ValueControlBase<T> implements FormFieldBase, ControlValue
   protected readonly value = signal<T | null>(null);
 
   public writeValue(value: T | null): void {
-    this.value.set(value);
+    this.value.set(value ?? null);
   }
   private _onChange: (_: T | null) => void = () => {};
   public registerOnChange(fn: (value: T | null) => void): void {
@@ -41,6 +41,6 @@ export abstract class ValueControlBase<T> implements FormFieldBase, ControlValue
   }
 
   protected onChange(value: T) {
-    this._onChange(value);
+    this._onChange(value ?? null);
   }
 }
