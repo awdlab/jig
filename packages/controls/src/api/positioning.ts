@@ -1,16 +1,32 @@
 import { DestroyRef, inject, Injector } from '@angular/core';
 import { autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
 
-type PositioningOptions = {
+export type PositioningOptions = {
   injector?: Injector;
   placement?: 'top' | 'bottom' | 'left' | 'right';
   flip?: boolean;
   shift?: boolean;
   offset?: number;
   stopped?: boolean;
-  widthConstraints?: {
-    width?: number;
-    maxWidth?: number;
+  sizeConstraints?: {
+    /**
+     * The width of the floating element. When a number is provided, it is relative to the width of the reference element.
+     * When a string is provided, it is used as the CSS width value.
+     */
+    width?: number | string;
+    /**
+     * The maximum width of the floating element. When a number is provided, it is relative to the width of the reference element.
+     * When a string is provided, it is used as the CSS max-width value.
+     */
+    maxWidth?: number | string;
+    /**
+     * The height of the floating element. When a string is provided, it is used as the CSS height value.
+     */
+    height?: string;
+    /**
+     * The maximum height of the floating element. When a string is provided, it is used as the CSS max-height value.
+     */
+    maxHeight?: string;
   };
 };
 
@@ -43,15 +59,33 @@ export function positionElement(
     : undefined;
   const shiftMiddleware = options.shift ? shift() : undefined;
 
-  if (options.widthConstraints) {
-    const refWidth = referenceEl.offsetWidth;
-    if (options.widthConstraints.width) {
-      const widthConstraints = options.widthConstraints.width * refWidth;
-      floatingEl.style.width = `min(100%, ${widthConstraints}px)`;
+  if (options.sizeConstraints) {
+    if (options.sizeConstraints.width || options.sizeConstraints.maxWidth) {
+      const refWidth = referenceEl.offsetWidth;
+      if (options.sizeConstraints.width) {
+        if (typeof options.sizeConstraints.width === 'string') {
+          floatingEl.style.width = options.sizeConstraints.width;
+        } else {
+          const widthConstraints = options.sizeConstraints.width * refWidth;
+          floatingEl.style.width = `min(100%, ${widthConstraints}px)`;
+        }
+      }
+      if (options.sizeConstraints.maxWidth) {
+        if (typeof options.sizeConstraints.maxWidth === 'string') {
+          floatingEl.style.maxWidth = options.sizeConstraints.maxWidth;
+        } else {
+          const maxWidthConstraints = options.sizeConstraints.maxWidth * refWidth;
+          floatingEl.style.maxWidth = `min(100%, ${maxWidthConstraints}px)`;
+        }
+      }
     }
-    if (options.widthConstraints.maxWidth) {
-      const maxWidthConstraints = options.widthConstraints.maxWidth * refWidth;
-      floatingEl.style.maxWidth = `min(100%, ${maxWidthConstraints}px)`;
+    if (options.sizeConstraints.height || options.sizeConstraints.maxHeight) {
+      if (options.sizeConstraints.height) {
+        floatingEl.style.height = options.sizeConstraints.height;
+      }
+      if (options.sizeConstraints.maxHeight) {
+        floatingEl.style.maxHeight = options.sizeConstraints.maxHeight;
+      }
     }
   }
 

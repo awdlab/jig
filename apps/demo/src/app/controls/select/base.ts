@@ -7,7 +7,9 @@ import { Select } from '@ngneers/controls/select';
   template: `
     <ngn-select
       #select
-      [popoverOptions]="{ width: 1, maxWidth: 2 }"
+      [popoverOptions]="{
+        sizeConstraints: { width: 1, maxWidth: 1.5, maxHeight: '150px' },
+      }"
       fieldId="id"
       fieldLabel="label"
       [options]="options"

@@ -5,6 +5,7 @@ import {
   Component,
   ElementRef,
   input,
+  output,
   untracked,
   viewChild,
 } from '@angular/core';
@@ -28,6 +29,9 @@ export class Dialog extends DialogTemplates {
   public readonly modal = input(false);
   public readonly autofocus = input(this.modal());
   public readonly title = input<string | null>(null);
+  public readonly closeOnEscape = input(true);
+
+  public readonly closed = output<void>();
 
   constructor() {
     super();
@@ -42,5 +46,9 @@ export class Dialog extends DialogTemplates {
         this._dialogElement().nativeElement.close();
       }
     });
+  }
+
+  protected onCancel() {
+    this.closed.emit();
   }
 }

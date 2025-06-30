@@ -1,5 +1,11 @@
-<!-- eslint-disable-next-line @angular-eslint/template/no-autofocus -->
-<dialog #dialog [autofocus]="autofocus()" [attr.aria-labelledby]="headerId">
+<!-- eslint-disable @angular-eslint/template/no-autofocus -->
+<dialog
+  #dialog
+  [attr.closedby]="closeOnEscape() ? 'closerequest' : 'none'"
+  [autofocus]="autofocus()"
+  [attr.aria-labelledby]="headerId"
+  (cancel)="onCancel()"
+>
   <header>
     <ng-template
       [ngTemplateOutlet]="headerTemplate()"

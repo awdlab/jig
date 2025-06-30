@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, viewChild } from '@angular/core';
 import { GetElementRef, NgnTemplate, valueControlBaseProvider } from '@ngneers/controls/api';
 import { FormField } from '@ngneers/controls/form-field';
 import { Popover, PopoverOptions } from '@ngneers/controls/popover';
@@ -13,10 +13,10 @@ import { SelectTemplates } from './select-templates';
   providers: [valueControlBaseProvider(Select)],
 })
 export class Select<Option, K extends keyof Option> extends SelectTemplates<Option, Option[K]> {
+  private readonly _popover = viewChild.required<Popover>(Popover);
+
   public readonly popoverOptions = input<PopoverOptions>();
-
   public readonly options = input<Option[]>([]);
-
   public readonly fieldLabel = input.required<keyof Option>();
   public readonly fieldId = input.required<K>();
 
@@ -27,5 +27,10 @@ export class Select<Option, K extends keyof Option> extends SelectTemplates<Opti
   public onSelect(value: Option[K]) {
     this.value.set(value);
     this.onChange(value);
+    this.close();
+  }
+
+  public close() {
+    this._popover().close();
   }
 }

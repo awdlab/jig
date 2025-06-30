@@ -1,16 +1,13 @@
 import { Component, computed, ElementRef, inject, Injector, input, viewChild } from '@angular/core';
-import { autoPositionElement, AutoPositioningHandle } from '@ngneers/controls/api';
+import {
+  autoPositionElement,
+  AutoPositioningHandle,
+  PositioningOptions,
+} from '@ngneers/controls/api';
 import { computedWithPrevious } from '@ngneers/controls/utils';
 
 export type PopoverOptions = {
-  /**
-   * The width of the popover relative to the width of the anchor element.
-   */
-  width?: number;
-  /**
-   * The maximum width of the popover relative to the width of the anchor element.
-   */
-  maxWidth?: number;
+  sizeConstraints?: PositioningOptions['sizeConstraints'];
 };
 @Component({
   selector: 'ngn-popover',
@@ -33,15 +30,26 @@ export class Popover {
     return autoPositionElement(this.anchor(), popoverEl, {
       injector: this._injector,
       stopped: true,
-      widthConstraints: {
-        width: this.options()?.width,
-        maxWidth: this.options()?.maxWidth,
-      },
+      sizeConstraints: this.options()?.sizeConstraints,
     });
   });
 
   public open() {
+    if (this.isOpen) {
+      return;
+    }
     this._autoPos()?.start();
+    this._popover()?.togglePopover();
+  }
+
+  public get isOpen() {
+    return this._popover()?.matches(':popover-open') ?? false;
+  }
+
+  public close() {
+    if (!this.isOpen) {
+      return;
+    }
     this._popover()?.togglePopover();
   }
 

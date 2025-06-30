@@ -2,6 +2,10 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: '',
+    loadComponent: () => import('./playground/playground').then(m => m.PlaygroundComponent),
+  },
+  {
     path: 'dialog',
     loadComponent: () => import('./controls/dialog/_all').then(m => m.Dialog_All_Component),
   },

@@ -1,0 +1,5 @@
+<ngn-dialog [open]="dialogOpen()" (closed)="dialogOpen.set(false)">
+  <ngn-select [label]="'hi'" [options]="options" fieldId="id" fieldLabel="label"> </ngn-select>
+</ngn-dialog>
+
+<button (click)="dialogOpen.set(true)">open</button>
