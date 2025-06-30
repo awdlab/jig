@@ -22,9 +22,17 @@
   [ngModel]="selectedItem()"
   (ngModelChange)="selectedItem.set($event)"
   #select
+  [filterIcon]="{
+    prefix: 'fa-solid',
+    icon: 'fa-magnifying-glass',
+  }"
 >
 </ngn-select>
 
 {{ selectedItem() }}
 
-<ng-template #itemTemplate [ngnTemplate]="iconType" let-icon></ng-template>
+<ng-template #iconTemplate [ngnTemplate]="iconType" let-icon>
+  <div class="bla">
+    <i class="{{ icon.prefix }} {{ icon.icon }}"></i>
+  </div>
+</ng-template>

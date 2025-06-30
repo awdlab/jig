@@ -1,9 +1,17 @@
-import { Component, signal } from '@angular/core';
+import {
+  afterRenderEffect,
+  Component,
+  inject,
+  signal,
+  TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgnTemplate, templateTypeFn } from '@ngneers/controls/api';
 import { IconType } from '@ngneers/controls/custom-types';
 import { Dialog } from '@ngneers/controls/dialog';
 import { Select } from '@ngneers/controls/select';
+import { GlobalIconTemplate } from 'packages/controls/src/icon/global-icon-template';
 
 @Component({
   templateUrl: 'playground.html',
@@ -11,7 +19,14 @@ import { Select } from '@ngneers/controls/select';
   imports: [FormsModule, Dialog, Select, NgnTemplate],
 })
 export class PlaygroundComponent {
-  constructor() {}
+  private readonly _globalIconTemplate = inject(GlobalIconTemplate);
+  private readonly _iconTemplate = viewChild.required<TemplateRef<unknown>>('iconTemplate');
+
+  constructor() {
+    afterRenderEffect(() => {
+      this._globalIconTemplate.setGlobalIconTemplate(this._iconTemplate());
+    });
+  }
 
   protected readonly dialogOpen = signal(false);
 

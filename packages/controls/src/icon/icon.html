@@ -1,4 +1,8 @@
-<ng-container *ngTemplateOutlet="usedIconTemplate(); context: { $implicit: icon() }">
-</ng-container>
+@if (icon()) {
+  <ng-container *ngTemplateOutlet="usedIconTemplate(); context: { $implicit: icon() }">
+  </ng-container>
 
-<ng-template #defaultIconTemplate let-icon><i class="{{ icon }}"></i></ng-template>
+  <ng-template #defaultIconTemplate let-icon><i class="{{ icon }}"></i></ng-template>
+} @else {
+  <i class="{{ defaultIcon() }}"></i>
+}

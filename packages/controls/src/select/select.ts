@@ -49,7 +49,7 @@ export class Select<Option extends object, K extends keyof Option> extends Selec
 
   public readonly filter = input<SelectFilterOptions<Option> | true>();
   public readonly filterText = input<string>();
-  public readonly filterIcon = input<IconType>('fa-solid fa-magnifying-glass');
+  public readonly filterIcon = input<IconType>();
 
   protected readonly filterTextInternal = linkedSignal(this.filterText);
 
