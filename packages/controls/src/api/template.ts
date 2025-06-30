@@ -13,8 +13,16 @@ export class NgnTemplate<T> {
 
 /**
  * A noop with return type T.
+ * This function is used to define typed properties to use in a template.
+ */
+export function templateTypesFn<T extends Record<string, Record<string, any>>>() {
+  return {} as T;
+}
+
+/**
+ * A noop with return type `{ $implicit: Implicit } & Named`.
  * This function is used to define a typed property to use in a template.
  */
-export function templateTypesFn<T>() {
-  return {} as T;
+export function templateTypeFn<Implicit, Named extends Record<string, any> = {}>() {
+  return {} as { $implicit: Implicit } & Named;
 }

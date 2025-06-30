@@ -1,17 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  contentChild,
-  input,
-  TemplateRef,
-  viewChild,
-} from '@angular/core';
+import { Component, computed, contentChild, input, TemplateRef, viewChild } from '@angular/core';
 import { templateTypesFn } from '@ngneers/controls/api';
 
 @Component({
   template: '',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export abstract class DialogTemplates {
   private readonly _defaultHeaderTemplate =

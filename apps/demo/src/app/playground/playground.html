@@ -1,5 +1,19 @@
-<ngn-dialog [open]="dialogOpen()" (closed)="dialogOpen.set(false)">
-  <ngn-select [label]="'hi'" [options]="options" fieldId="id" fieldLabel="label"> </ngn-select>
+<ngn-dialog [modal]="true" [open]="dialogOpen()" (closed)="dialogOpen.set(false)">
+  <ngn-select
+    [icon]="''"
+    [label]="'hi'"
+    [options]="options"
+    fieldId="id"
+    fieldLabel="label"
+    [ngModel]="selectedItem()"
+    (ngModelChange)="selectedItem.set($event)"
+    #select
+  >
+  </ngn-select>
 </ngn-dialog>
 
 <button (click)="dialogOpen.set(true)">open</button>
+
+{{ selectedItem() }}
+
+<ng-template #itemTemplate [ngnTemplate]="iconType" let-icon></ng-template>
