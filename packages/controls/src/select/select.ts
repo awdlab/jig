@@ -14,6 +14,7 @@ import { Popover, PopoverOptions } from '@ngneers/controls/popover';
 import { TextField } from '@ngneers/controls/text-field';
 
 import { SelectTemplates } from './select-templates';
+import { Icon } from '../icon/icon';
 
 type SelectFilterOptions<Option extends object> = {
   clearFilterOnClose?: boolean;
@@ -30,6 +31,7 @@ type SelectFilterOptions<Option extends object> = {
     GetElementRef,
     NgTemplateOutlet,
     NgnTemplate,
+    Icon,
   ],
   providers: [valueControlBaseProvider(Select)],
 })
@@ -47,7 +49,7 @@ export class Select<Option extends object, K extends keyof Option> extends Selec
 
   public readonly filter = input<SelectFilterOptions<Option> | true>();
   public readonly filterText = input<string>();
-  public readonly filterIcon = input<IconType>();
+  public readonly filterIcon = input<IconType>('fa-solid fa-magnifying-glass');
 
   protected readonly filterTextInternal = linkedSignal(this.filterText);
 
