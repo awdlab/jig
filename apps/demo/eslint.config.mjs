@@ -1,3 +1,3 @@
-import { getEslintConfig } from '../../configs/eslint.mjs';
+import { getEslintConfig } from '../../configs/eslint.angular.mjs';
 
 export default getEslintConfig('./tsconfig.app.json');

@@ -2,12 +2,16 @@
   "name": "@ngneers/controls-themes",
   "version": "0.0.1",
   "scripts": {
-    "lint": "pnpm eslint ."
+    "lint": "pnpm eslint .",
+    "prebuild": "pnpm rimraf ../../dist/themes",
+    "postbuild": "node --experimental-strip-types ./tools/post-build.ts",
+    "build": "pnpm prebuild && tsc -p ./tsconfig.lib.json --outDir ../../dist/themes && pnpm postbuild"
   },
   "dependencies": {
     "tslib": "^2.8.1"
   },
   "devDependencies": {
+    "rimraf": "^6.0.1",
     "typescript": "~5.8.2"
   },
   "sideEffects": false

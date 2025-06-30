@@ -24,7 +24,8 @@
   },
   "typescript.preferences.importModuleSpecifier": "project-relative",
   "typescript.tsdk": "node_modules/typescript/lib",
-  "eslint.useFlatConfig": true
+  "eslint.useFlatConfig": true,
+  "deno.enable": false
   // Remove comments if branch policies are used
   // "git.branchProtection": ["main", "master"],
   // "git.branchProtectionPrompt": "alwaysPrompt",
