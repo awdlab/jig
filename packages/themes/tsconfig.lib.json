@@ -8,6 +8,6 @@
     "declarationMap": true,
     "types": []
   },
-  "include": ["src/**/*.ts", "esbuild.config.mjs"],
+  "include": ["./src/**/*.ts", "esbuild.config.mjs"],
   "exclude": ["**/*.spec.ts", "dist/**"]
 }

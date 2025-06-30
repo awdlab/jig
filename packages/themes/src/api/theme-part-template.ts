@@ -5,10 +5,7 @@ export type ThemePartTemplateVar<T> = T | { [subKey: string]: ThemePartTemplateV
 
 export type ThemePartTemplate<
   TScope extends string = string,
-  TVars extends Record<string, ThemePartTemplateVar<any>> = Record<
-    string,
-    ThemePartTemplateVar<any>
-  >,
+  TVars extends Record<string, ThemePartTemplateVar<any>> = any,
   TClassNames extends string[] = string[],
 > = {
   scope: TScope;

@@ -1,7 +1,7 @@
 import { ThemePart } from './theme-part';
 import { ThemePartTemplate } from './theme-part-template';
 
-export type Theme<T extends ThemePart[]> = {
+export type Theme<T extends ThemePart[] = ThemePart[]> = {
   parts: T;
 };
 

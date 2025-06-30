@@ -1,4 +1,4 @@
-import { createThemePart, createThemePartTemplate, css } from '@ngneers/controls-themes/src/api';
+import { createThemePartTemplate, css } from '@ngneers/controls-themes/api';
 
 const stateVars = {
   background: null,
