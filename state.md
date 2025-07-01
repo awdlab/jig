@@ -12,8 +12,9 @@ Virtual Scrolling
 Lazy Loading
 Theme
 Editable (Custom Value)
-Keyboard selection
+✅Keyboard selection
 SVG icons
+a11y
 
 ## Icons
 
