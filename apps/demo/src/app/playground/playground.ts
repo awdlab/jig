@@ -31,9 +31,33 @@ export class PlaygroundComponent {
   protected readonly dialogOpen = signal(false);
 
   protected readonly options = [
-    { id: 'de', label: 'Germany' },
-    { id: 'fr', label: 'France' },
-    { id: 'es', label: 'Spain' },
+    {
+      id: 'europe',
+      label: 'Europe',
+      children: [
+        { id: 'france', label: 'France' },
+        { id: 'germany', label: 'Germany' },
+        { bullshit: true },
+      ],
+    },
+    {
+      id: 'asia',
+      label: 'Asia',
+      children: [
+        { id: 'japan', label: 'Japan' },
+        { id: 'china', label: 'China' },
+        { id: 'india', label: 'India' },
+      ],
+    },
+    {
+      id: 'america',
+      label: 'America',
+      children: [
+        { id: 'usa', label: 'USA' },
+        { id: 'canada', label: 'Canada' },
+        { id: 'brazil', label: 'Brazil' },
+      ],
+    },
   ] as const;
   protected selectedItem = signal<(typeof this.options)[number]['id']>(this.options[0].id);
 

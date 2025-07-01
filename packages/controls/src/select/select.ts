@@ -2,7 +2,6 @@ import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, input, linkedSignal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  FilterConfig,
   filterOptions,
   GetElementRef,
   NgnTemplate,
@@ -14,11 +13,9 @@ import { Popover, PopoverOptions } from '@ngneers/controls/popover';
 import { TextField } from '@ngneers/controls/text-field';
 
 import { SelectTemplates } from './select-templates';
+import { SelectFilterOptions, SelectOption, SelectOptionFields } from './types';
+import { transformToSelectOptions } from './utils';
 import { Icon } from '../icon/icon';
-
-type SelectFilterOptions<Option extends object> = {
-  clearFilterOnClose?: boolean;
-} & FilterConfig<Option>;
 
 @Component({
   selector: 'ngn-select',
@@ -35,54 +32,74 @@ type SelectFilterOptions<Option extends object> = {
   ],
   providers: [valueControlBaseProvider(Select)],
 })
-export class Select<Option extends object, K extends keyof Option> extends SelectTemplates<
-  Option,
-  Option[K]
-> {
+export class Select<T extends object, K extends keyof T> extends SelectTemplates<T, K> {
   private readonly _popover = viewChild.required<Popover>(Popover);
 
   public readonly popoverOptions = input<PopoverOptions>();
-  public readonly options = input<readonly Option[]>([]);
-  public readonly fieldLabel = input.required<keyof Option>();
-  public readonly fieldValue = input.required<K>();
-  public readonly fieldTestId = input<keyof Option>();
+  public readonly options = input<readonly SelectOption<T, K>[] | readonly T[]>([]);
 
-  public readonly filter = input<SelectFilterOptions<Option> | true>();
+  public readonly fields = input<SelectOptionFields<T, K>>();
+
+  public readonly filter = input<SelectFilterOptions<T> | true>();
   public readonly filterText = input<string>();
   public readonly filterIcon = input<IconType>();
 
   protected readonly filterTextInternal = linkedSignal(this.filterText);
 
-  private readonly _appliedFilterOptions = computed<SelectFilterOptions<Option> | null>(() => {
-    const filter = this.filter();
-    if (!filter) {
-      return null;
+  private readonly _options = computed(() => {
+    const fields = this.fields();
+    const options = this.options();
+
+    if (!fields) {
+      return options as SelectOption<T, K>[];
     }
-    const providedFilterArgs = typeof filter === 'boolean' ? {} : filter;
-    return {
-      filterFields: this.fieldLabel(),
-      splitWords: true,
-      caseSensitive: false,
-      clearFilterOnClose: true,
-      filterFn: 'contains',
-      ...providedFilterArgs,
-    };
+
+    return transformToSelectOptions(options as T[], fields);
   });
+
+  private readonly _flatOptions = computed(() => {
+    return this._options()
+      .map(option => {
+        if (option.items) {
+          return option.items;
+        }
+        return [option];
+      })
+      .flat();
+  });
+
+  private readonly _appliedFilterOptions = computed<SelectFilterOptions<SelectOption> | null>(
+    () => {
+      const filter = this.filter();
+      if (!filter) {
+        return null;
+      }
+      const providedFilterArgs = typeof filter === 'boolean' ? {} : filter;
+      return {
+        filterFields: 'label',
+        splitWords: true,
+        caseSensitive: false,
+        clearFilterOnClose: true,
+        filterFn: 'contains',
+        ...providedFilterArgs,
+      };
+    }
+  );
 
   protected readonly filteredOptions = computed(() => {
     const filter = this._appliedFilterOptions();
     const filterText = this.filterTextInternal();
     if (!filter || !filterText) {
-      return this.options();
+      return this._options();
     }
-    return filterOptions(this.options(), filterText, filter);
+    return filterOptions(this._options(), filterText, filter);
   });
 
   protected readonly selectedItem = computed(() =>
-    this.options().find(option => option[this.fieldValue()] === this.value())
+    this._flatOptions().find(option => option.value === this.value())
   );
 
-  public onSelect(value: Option[K]) {
+  public onSelect(value: T[K]) {
     this.value.set(value);
     this.onChange(value);
     this.close();
