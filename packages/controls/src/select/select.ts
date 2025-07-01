@@ -92,6 +92,7 @@ export class Select<T extends object, K extends keyof T> extends SelectTemplates
     if (!filter || !filterText) {
       return this._options();
     }
+    // TODO: Fix filtering for grouped options
     return filterOptions(this._options(), filterText, filter);
   });
 
