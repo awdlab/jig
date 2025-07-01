@@ -1,11 +1,13 @@
 import { Component, computed, contentChild, input, TemplateRef, viewChild } from '@angular/core';
 import { templateTypesFn, ValueControlBase } from '@ngneers/controls/api';
 
+import { SelectOption } from './types';
+
 @Component({
   imports: [],
   template: '',
 })
-export abstract class SelectTemplates<Option, Value> extends ValueControlBase<Value> {
+export abstract class SelectTemplates<T, K extends keyof T> extends ValueControlBase<T[K]> {
   // Item template
   private readonly _defaultItemTemplate =
     viewChild.required<TemplateRef<unknown>>('defaultItemTemplate');
@@ -21,15 +23,15 @@ export abstract class SelectTemplates<Option, Value> extends ValueControlBase<Va
   public readonly templateTypes = templateTypesFn<{
     item: {
       $implicit: {
-        data: Option;
-        value: Value;
+        data: T;
+        value: T[K];
         label: string;
         testId?: string | number;
       };
     };
     group: {
       $implicit: {
-        data: Option;
+        data: T;
         label: string;
         testId?: string | number;
       };
@@ -38,7 +40,7 @@ export abstract class SelectTemplates<Option, Value> extends ValueControlBase<Va
 
   protected readonly templateTypesInternal = templateTypesFn<{
     options: {
-      $implicit: Option[];
+      $implicit: SelectOption<T, K>[];
     };
   }>();
 }

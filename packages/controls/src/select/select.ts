@@ -2,7 +2,6 @@ import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, input, linkedSignal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  FilterConfig,
   filterOptions,
   GetElementRef,
   NgnTemplate,
@@ -14,19 +13,9 @@ import { Popover, PopoverOptions } from '@ngneers/controls/popover';
 import { TextField } from '@ngneers/controls/text-field';
 
 import { SelectTemplates } from './select-templates';
+import { SelectFilterOptions, SelectOption, SelectOptionFields } from './types';
+import { transformToSelectOptions } from './utils';
 import { Icon } from '../icon/icon';
-
-type SelectFilterOptions<Option extends object> = {
-  clearFilterOnClose?: boolean;
-} & FilterConfig<Option>;
-
-type TransformedOption = {
-  data: object;
-  label: string;
-  value: unknown;
-  testId?: string;
-  group?: string;
-};
 
 @Component({
   selector: 'ngn-select',
@@ -43,92 +32,74 @@ type TransformedOption = {
   ],
   providers: [valueControlBaseProvider(Select)],
 })
-export class Select<Option extends object, K extends keyof Option> extends SelectTemplates<
-  Option,
-  Option[K]
-> {
+export class Select<T extends object, K extends keyof T> extends SelectTemplates<T, K> {
   private readonly _popover = viewChild.required<Popover>(Popover);
 
   public readonly popoverOptions = input<PopoverOptions>();
-  public readonly options = input<readonly Option[]>([]);
-  public readonly fieldLabel = input.required<keyof Option>();
-  public readonly fieldValue = input.required<K>();
-  public readonly fieldTestId = input<keyof Option>();
-  public readonly fieldGroupItems = input<keyof Option>();
+  public readonly options = input<readonly SelectOption<T, K>[] | readonly T[]>([]);
 
-  public readonly filter = input<SelectFilterOptions<Option> | true>();
+  public readonly fields = input<SelectOptionFields<T, K>>();
+
+  public readonly filter = input<SelectFilterOptions<T> | true>();
   public readonly filterText = input<string>();
   public readonly filterIcon = input<IconType>();
 
   protected readonly filterTextInternal = linkedSignal(this.filterText);
 
-  protected readonly transformedOptions = computed<TransformedOption[]>(() => {
+  private readonly _options = computed(() => {
+    const fields = this.fields();
     const options = this.options();
 
-    const fieldLabel = this.fieldLabel();
-    const fieldValue = this.fieldValue();
-    const fieldTestId = this.fieldTestId();
-    const fieldGroupItems = this.fieldGroupItems();
+    if (!fields) {
+      return options as SelectOption<T, K>[];
+    }
 
-    return options.map(option => {
-      const label = option[fieldLabel] as string;
-      const value = option[fieldValue];
-      const testId = fieldTestId ? option[fieldTestId] : undefined;
-      const group = fieldGroupItems ? option[fieldGroupItems] : undefined;
-
-      return {
-        data: option,
-        label,
-        value,
-        testId,
-      };
-    });
+    return transformToSelectOptions(options as T[], fields);
   });
 
   private readonly _flatOptions = computed(() => {
-    const groupItems = this.fieldGroupItems();
-    if (!groupItems) {
-      return this.options();
-    }
-    return this.options().flatMap(option => {
-      const group = option[groupItems];
-      if (Array.isArray(group)) {
-        return group;
-      }
-      return [option];
-    });
+    return this._options()
+      .map(option => {
+        if (option.items) {
+          return option.items;
+        }
+        return [option];
+      })
+      .flat();
   });
 
-  private readonly _appliedFilterOptions = computed<SelectFilterOptions<Option> | null>(() => {
-    const filter = this.filter();
-    if (!filter) {
-      return null;
+  private readonly _appliedFilterOptions = computed<SelectFilterOptions<SelectOption> | null>(
+    () => {
+      const filter = this.filter();
+      if (!filter) {
+        return null;
+      }
+      const providedFilterArgs = typeof filter === 'boolean' ? {} : filter;
+      return {
+        filterFields: 'label',
+        splitWords: true,
+        caseSensitive: false,
+        clearFilterOnClose: true,
+        filterFn: 'contains',
+        ...providedFilterArgs,
+      };
     }
-    const providedFilterArgs = typeof filter === 'boolean' ? {} : filter;
-    return {
-      filterFields: this.fieldLabel(),
-      splitWords: true,
-      caseSensitive: false,
-      clearFilterOnClose: true,
-      filterFn: 'contains',
-      ...providedFilterArgs,
-    };
-  });
+  );
 
   protected readonly filteredOptions = computed(() => {
     const filter = this._appliedFilterOptions();
     const filterText = this.filterTextInternal();
     if (!filter || !filterText) {
-      return this.options();
+      return this._options();
     }
-    return filterOptions(this.options(), filterText, filter);
+    return filterOptions(this._options(), filterText, filter);
   });
 
   protected readonly selectedItem = computed(() =>
-    this._flatOptions().find(option => option[this.fieldValue()] === this.value())
+    this._flatOptions().find(option => option.value === this.value())
   );
 
-  public onSelect(value: Option[K]) {
+  public onSelect(value: T[K]) {
     this.value.set(value);
     this.onChange(value);
     this.close();

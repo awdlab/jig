@@ -1,38 +1,38 @@
-<ngn-dialog [modal]="true" [open]="dialogOpen()" (closed)="dialogOpen.set(false)">
-  <ngn-select
-    [label]="'hi'"
-    [options]="options"
-    fieldValue="id"
-    fieldLabel="label"
-    [ngModel]="selectedItem()"
-    (ngModelChange)="selectedItem.set($event)"
-    #select
-  >
+<ngn-dialog [modal]="true"
+            [open]="dialogOpen()"
+            (closed)="dialogOpen.set(false)">
+  <ngn-select [label]="'hi'"
+              [options]="options"
+              [ngModel]="selectedItem()"
+              (ngModelChange)="selectedItem.set($event)"
+              #select>
   </ngn-select>
 </ngn-dialog>
 
 <button (click)="dialogOpen.set(true)">open</button>
 
-<ngn-select
-  [label]="'hi'"
-  [options]="options"
-  fieldValue="id"
-  fieldLabel="label"
-  fieldGroupItems="children"
-  [filter]="true"
-  [ngModel]="selectedItem()"
-  (ngModelChange)="selectedItem.set($event)"
-  #select
-  [filterIcon]="{
+<ngn-select [label]="'hi'"
+            [options]="options"
+            [filter]="true"
+            [fields]="{
+              label: 'label',
+              value: 'id',
+              groupItems: 'children',
+            }"
+            [ngModel]="selectedItem()"
+            (ngModelChange)="selectedItem.set($event)"
+            #select
+            [filterIcon]="{
     prefix: 'fa-solid',
     icon: 'fa-magnifying-glass',
-  }"
->
+  }">
 </ngn-select>
 
 {{ selectedItem() }}
 
-<ng-template #iconTemplate [ngnTemplate]="iconType" let-icon>
+<ng-template #iconTemplate
+             [ngnTemplate]="iconType"
+             let-icon>
   <div class="bla">
     <i class="{{ icon.prefix }} {{ icon.icon }}"></i>
   </div>

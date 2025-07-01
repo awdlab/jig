@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api';
-import { Select } from '@ngneers/controls/select';
+import { Select, transformToSelectOptions } from '@ngneers/controls/select';
 
 @Component({
   imports: [Select, NgnTemplate],
@@ -24,13 +24,19 @@ import { Select } from '@ngneers/controls/select';
 export class Select_Base_Component {
   constructor() {}
 
-  public readonly options = [
-    { id: 'de', label: 'Germany' },
-    { id: 'fr', label: 'France' },
-    { id: 'es', label: 'Spain' },
-    { id: 'it', label: 'Italy' },
-    { id: 'us', label: 'United States' },
-    { id: 'uk', label: 'United Kingdom' },
-    { id: 'jp', label: 'Japan' },
-  ];
+  public readonly options = transformToSelectOptions(
+    [
+      { id: 'de', label: 'Germany' },
+      { id: 'fr', label: 'France' },
+      { id: 'es', label: 'Spain' },
+      { id: 'it', label: 'Italy' },
+      { id: 'us', label: 'United States' },
+      { id: 'uk', label: 'United Kingdom' },
+      { id: 'jp', label: 'Japan' },
+    ],
+    {
+      value: 'id',
+      label: 'label',
+    }
+  );
 }
