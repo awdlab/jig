@@ -5,6 +5,7 @@ import {
   inject,
   Injector,
   input,
+  output,
   signal,
   viewChild,
 } from '@angular/core';
@@ -25,6 +26,9 @@ export type PopoverOptions = {
 export class Popover {
   public readonly anchor = input.required<HTMLElement>();
   public readonly options = input<PopoverOptions>();
+
+  public readonly opened = output();
+  public readonly closed = output();
 
   private readonly _isOpen = signal(false);
   public readonly isOpen = this._isOpen.asReadonly();
@@ -53,6 +57,14 @@ export class Popover {
     this._popover()?.togglePopover();
   }
 
+  public toggle() {
+    if (this.isOpen()) {
+      this.close();
+    } else {
+      this.open();
+    }
+  }
+
   public close() {
     if (!this.isOpen()) {
       return;
@@ -64,9 +76,11 @@ export class Popover {
     const evt = event as ToggleEvent;
     if (evt.newState === 'closed') {
       this._isOpen.set(false);
+      this.closed.emit();
       this._autoPos()?.stop();
     } else {
       this._isOpen.set(true);
+      this.opened.emit();
     }
   }
 }

@@ -1,4 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+//TMP
+
+.selected {
+  background-color: lightskyblue;
+}
+.highlighted {
+  background-color: lightblue;
+}
+:focus {
+  outline: 2px solid blue;
+}
+
+// TMP ENDS
 
 html,
 body {

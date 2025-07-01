@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, input, linkedSignal, viewChild } from '@angular/core';
+import { Component, computed, input, linkedSignal, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   filterOptions,
@@ -20,7 +20,7 @@ import {
   SelectOption,
   SelectOptionFields,
 } from './types';
-import { transformToSelectOptions } from './utils';
+import { flatOptions, transformToSelectOptions } from './utils';
 import { Icon } from '../icon/icon';
 
 @Component({
@@ -55,6 +55,8 @@ export class Select<T extends object, K extends keyof T> extends SelectTemplates
 
   protected readonly filterTextInternal = linkedSignal(this.filterText);
 
+  protected readonly currentHighlightedValue = signal<T[K] | null>(null);
+
   private readonly _options = computed(() => {
     const fields = this.fields();
     const options = this.options();
@@ -64,16 +66,7 @@ export class Select<T extends object, K extends keyof T> extends SelectTemplates
     return transformToSelectOptions(options as T[], fields);
   });
 
-  private readonly _flatOptions = computed(() => {
-    return this._options()
-      .map(option => {
-        if (option.items) {
-          return option.items;
-        }
-        return [option];
-      })
-      .flat();
-  });
+  private readonly _flatOptions = computed(() => flatOptions(this._options()));
 
   private readonly _appliedFilterOptions = computed(() => {
     const filter = this.filter();
@@ -108,13 +101,66 @@ export class Select<T extends object, K extends keyof T> extends SelectTemplates
     this._flatOptions().find(option => option.value === this.value())
   );
 
-  public onSelect(value: T[K]) {
-    this.value.set(value);
-    this.onChange(value);
-    this.close();
+  protected onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      if (!this._popover().isOpen()) {
+        return;
+      }
+      event.stopPropagation();
+      event.preventDefault();
+      const filteredFlatOptions = flatOptions(this.filteredOptions());
+      this.currentHighlightedValue.update(currentValue => {
+        const currentHighlightIndex = filteredFlatOptions.findIndex(
+          option => option.value === currentValue
+        );
+        if (filteredFlatOptions.length === 0) {
+          return null;
+        }
+        const currentIndex =
+          currentHighlightIndex >= 0
+            ? currentHighlightIndex
+            : filteredFlatOptions.findIndex(option => option.value === this.value());
+
+        if (currentIndex === null) {
+          return event.key === 'ArrowDown'
+            ? filteredFlatOptions[0].value
+            : filteredFlatOptions[filteredFlatOptions.length - 1].value;
+        }
+
+        const nextIndex = event.key === 'ArrowDown' ? currentIndex + 1 : currentIndex - 1;
+        if (nextIndex < 0) {
+          return filteredFlatOptions[filteredFlatOptions.length - 1].value;
+        }
+        if (nextIndex >= filteredFlatOptions.length) {
+          return filteredFlatOptions[0].value;
+        }
+        return filteredFlatOptions[nextIndex].value;
+      });
+    } else if (event.key === 'Enter' || event.key === ' ') {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      const currentHighlightedValue = this.currentHighlightedValue();
+      if (currentHighlightedValue !== null) {
+        this.onSelect(currentHighlightedValue);
+      } else {
+        this._popover().toggle();
+      }
+    }
+  }
+
+  protected onPopoverClosed() {
+    this.currentHighlightedValue.set(null);
     if (this._appliedFilterOptions()?.clearFilterOnClose) {
       this.filterTextInternal.set('');
     }
+  }
+
+  public onSelect(value: T[K]) {
+    if (this.value() !== value) {
+      this.value.set(value);
+      this.onChange(value);
+    }
+    this.close();
   }
 
   public close() {

@@ -33,3 +33,14 @@ export function transformToSelectOptions<Option extends object, K extends keyof 
 ): SelectOption<Option, K>[] {
   return options.map(option => transformToSelectOption(option, fields));
 }
+
+export function flatOptions(items: readonly SelectOption[]): SelectOption[] {
+  return items
+    .map(item => {
+      if (item.items) {
+        return item.items;
+      }
+      return [item];
+    })
+    .flat();
+}
