@@ -5,9 +5,9 @@ import { optionsPreformatted } from './_options';
 
 @Component({
   imports: [Select],
-  template: `<ngn-select #select [options]="options" />`,
+  template: `<ngn-select #select [filter]="true" [options]="options" />`,
 })
-export class Select_Base_Component {
+export class Select_Filter_Component {
   constructor() {}
 
   public readonly options = optionsPreformatted;

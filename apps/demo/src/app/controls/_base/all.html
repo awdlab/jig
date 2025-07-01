@@ -1,0 +1,5 @@
+@for (c of components(); track $index) {
+  <h2>{{ c.title }}</h2>
+  <ng-container *ngComponentOutlet="c.component" />
+  <hr />
+}
