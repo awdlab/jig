@@ -1,4 +1,13 @@
-import { Component, computed, ElementRef, inject, Injector, input, viewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  Injector,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
 import {
   autoPositionElement,
   AutoPositioningHandle,
@@ -15,12 +24,14 @@ export type PopoverOptions = {
 })
 export class Popover {
   public readonly anchor = input.required<HTMLElement>();
-
   public readonly options = input<PopoverOptions>();
 
+  private readonly _isOpen = signal(false);
+  public readonly isOpen = this._isOpen.asReadonly();
+
+  private readonly _injector = inject(Injector);
   private readonly _popoverRef = viewChild<ElementRef<HTMLElement>>('popover');
   private readonly _popover = computed(() => this._popoverRef()?.nativeElement);
-  private readonly _injector = inject(Injector);
   private readonly _autoPos = computedWithPrevious<AutoPositioningHandle | undefined>(prev => {
     prev?.stop();
     const popoverEl = this._popover();
@@ -35,19 +46,15 @@ export class Popover {
   });
 
   public open() {
-    if (this.isOpen) {
+    if (this.isOpen()) {
       return;
     }
     this._autoPos()?.start();
     this._popover()?.togglePopover();
   }
 
-  public get isOpen() {
-    return this._popover()?.matches(':popover-open') ?? false;
-  }
-
   public close() {
-    if (!this.isOpen) {
+    if (!this.isOpen()) {
       return;
     }
     this._popover()?.togglePopover();
@@ -56,7 +63,10 @@ export class Popover {
   protected onToggle(event: Event) {
     const evt = event as ToggleEvent;
     if (evt.newState === 'closed') {
+      this._isOpen.set(false);
       this._autoPos()?.stop();
+    } else {
+      this._isOpen.set(true);
     }
   }
 }
