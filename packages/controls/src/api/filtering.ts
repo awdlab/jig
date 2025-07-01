@@ -1,20 +1,27 @@
-import { notNullish } from '@ngneers/controls/utils';
+import { fuzzyMatch, notNullish } from '@ngneers/controls/utils';
 
-export type PredefinedFilterFunctions = 'contains' | 'startsWith' | 'endsWith' | 'equals';
+export type PredefinedFilterFunctions = 'contains' | 'startsWith' | 'endsWith' | 'equals' | 'fuzzy';
 
-export type FilterConfig<T extends object> = {
+export type FilterConfigInternal<T extends object> = FilterConfig<T> & {
   filterFieldsCallback: (item: T) => string | string[];
   fieldItems?: keyof T;
-  splitWords?: boolean;
-  caseSensitive?: boolean;
-  filterFn?: PredefinedFilterFunctions | ((value: string, item: T) => boolean);
 };
 
-function filterItem<T extends object>(
+export type FilterConfig<T extends object> = {
+  splitWords?: boolean;
+  caseSensitive?: boolean;
+  filterFn?: FilterFn<T>;
+};
+
+export type FilterFn<T extends object> =
+  | PredefinedFilterFunctions
+  | ((value: string, item: T) => Promise<boolean> | boolean);
+
+async function filterItem<T extends object>(
   item: T,
   filterText: string,
-  options: FilterConfig<T>
-): T | null {
+  options: FilterConfigInternal<T>
+): Promise<T | null> {
   const text = options.caseSensitive ? filterText : filterText.toLowerCase();
   const filterFieldsCallbackResult = options.filterFieldsCallback?.(item);
   const fields = Array.isArray(filterFieldsCallbackResult)
@@ -22,11 +29,15 @@ function filterItem<T extends object>(
     : [filterFieldsCallbackResult];
   const words = options.splitWords ? text.split(/\s+/) : [text];
 
-  const itemDoesMatch = fields.some(field => {
-    const value = String(field);
-    const valueStr = options.caseSensitive ? value : value.toLowerCase();
-    return itemMatches<T>(words, options, valueStr);
-  });
+  const itemDoesMatch = (
+    await Promise.all(
+      fields.map(async field => {
+        const value = String(field);
+        const valueStr = options.caseSensitive ? value : value.toLowerCase();
+        return await itemMatches<T>(words, options, valueStr, item);
+      })
+    )
+  ).some(result => result);
   if (itemDoesMatch) {
     return item;
   }
@@ -37,7 +48,7 @@ function filterItem<T extends object>(
   if (!childItems || !Array.isArray(childItems) || childItems.length === 0) {
     return null;
   }
-  const matchingChildren = filterOptions(childItems, filterText, options);
+  const matchingChildren = await filterOptions(childItems, filterText, options);
   if (matchingChildren.length > 0) {
     return {
       ...item,
@@ -47,33 +58,49 @@ function filterItem<T extends object>(
   return null;
 }
 
-function itemMatches<T extends object>(
+async function itemMatches<T extends object>(
   words: string[],
-  filterOptions: FilterConfig<T>,
-  item: string
-): unknown {
-  return words.every(word => {
-    switch (filterOptions.filterFn) {
-      case 'contains':
-      default:
-        return item.includes(word);
-      case 'startsWith':
-        return item.startsWith(word);
-      case 'endsWith':
-        return item.endsWith(word);
-      case 'equals':
-        return item === word;
-    }
-  });
+  filterOptions: FilterConfigInternal<T>,
+  itemString: string,
+  item: T
+): Promise<boolean> {
+  const results = await Promise.all(
+    words.map(async word => {
+      switch (filterOptions.filterFn ?? 'contains') {
+        case 'contains':
+          return itemString.includes(word);
+        case 'startsWith':
+          return itemString.startsWith(word);
+        case 'endsWith':
+          return itemString.endsWith(word);
+        case 'equals':
+          return itemString === word;
+        case 'fuzzy':
+          return fuzzyMatch(itemString, word);
+        default:
+          if (typeof filterOptions.filterFn !== 'function') {
+            throw new Error(
+              `Invalid filter function: ${filterOptions.filterFn}. Expected a function or one of the predefined filter functions.`
+            );
+          }
+          return await filterOptions.filterFn(word, item);
+      }
+    })
+  );
+  return results.some(result => result);
 }
 
-export function filterOptions<T extends object>(
+export async function filterOptions<T extends object>(
   options: T[],
   filterText: string,
-  filterOptions: FilterConfig<T>
-): readonly T[] {
+  filterOptions: FilterConfigInternal<T>
+): Promise<readonly T[]> {
   if (!filterText) {
     return options;
   }
-  return options.map(option => filterItem(option, filterText, filterOptions)).filter(notNullish);
+  return (
+    await Promise.all(
+      options.map(async option => await filterItem(option, filterText, filterOptions))
+    )
+  ).filter(notNullish);
 }

@@ -3,11 +3,6 @@
     [label]="'hi'"
     [options]="options"
     [ngModel]="selectedItem()"
-    [fields]="{
-      label: 'label',
-      value: 'id',
-      groupItems: 'children',
-    }"
     (ngModelChange)="selectedItem.set($event)"
     #select
   >
@@ -19,11 +14,8 @@
 <ngn-select
   [label]="'hi'"
   [options]="options"
-  [filter]="true"
-  [fields]="{
-    label: 'label',
-    value: 'id',
-    groupItems: 'children',
+  [filter]="{
+    filterFn: filterFn,
   }"
   [ngModel]="selectedItem()"
   (ngModelChange)="selectedItem.set($event)"

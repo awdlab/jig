@@ -25,6 +25,9 @@
         (ngModelChange)="filterTextInternal.set($event)"
       />
       <ngn-icon defaultIcon="fa-solid fa-magnifying-glass" [icon]="filterIcon()" />
+      @if (filterIsExecuting()) {
+        <ngn-icon defaultIcon="fa-solid fa-spinner fa-spin" />
+      }
     </ngn-form-field>
   }
   <ng-container

@@ -23,7 +23,7 @@ export abstract class SelectTemplates<T, K extends keyof T> extends ValueControl
   public readonly templateTypes = templateTypesFn<{
     item: {
       $implicit: {
-        data: T;
+        data?: T;
         value: T[K];
         label: string;
         testId?: string | number;
@@ -31,7 +31,7 @@ export abstract class SelectTemplates<T, K extends keyof T> extends ValueControl
     };
     group: {
       $implicit: {
-        data: T;
+        data?: T;
         label: string;
         testId?: string | number;
       };

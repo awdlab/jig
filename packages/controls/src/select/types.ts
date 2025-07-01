@@ -1,11 +1,15 @@
-import { FilterConfig } from '@ngneers/controls/api';
+import { FilterConfig, FilterConfigInternal, FilterFn } from '@ngneers/controls/api';
 
-export type SelectFilterOptions<Option extends object> = {
+type _SelectFilterOptions = {
   clearFilterOnClose?: boolean;
-} & FilterConfig<Option>;
+};
+export type SelectFilterOptions<T extends object> = _SelectFilterOptions & FilterConfig<T>;
+
+export type SelectFilterOptionsInternal<T extends object> = _SelectFilterOptions &
+  FilterConfigInternal<T>;
 
 export type SelectOption<T = any, K extends keyof T = any> = {
-  data: T;
+  data?: T;
   label: string;
   value: T[K];
   testId?: string;
@@ -18,3 +22,5 @@ export type SelectOptionFields<T, K extends keyof T> = {
   testId?: keyof T;
   groupItems?: keyof T;
 };
+
+export type SelectFilterFn<T extends object> = FilterFn<SelectOption<T>>;

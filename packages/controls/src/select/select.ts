@@ -11,9 +11,15 @@ import { IconType } from '@ngneers/controls/custom-types';
 import { FormField } from '@ngneers/controls/form-field';
 import { Popover, PopoverOptions } from '@ngneers/controls/popover';
 import { TextField } from '@ngneers/controls/text-field';
+import { asyncComputed } from '@ngneers/controls/utils';
 
 import { SelectTemplates } from './select-templates';
-import { SelectFilterOptions, SelectOption, SelectOptionFields } from './types';
+import {
+  SelectFilterOptions,
+  SelectFilterOptionsInternal,
+  SelectOption,
+  SelectOptionFields,
+} from './types';
 import { transformToSelectOptions } from './utils';
 import { Icon } from '../icon/icon';
 
@@ -43,7 +49,7 @@ export class Select<T extends object, K extends keyof T> extends SelectTemplates
   });
   public readonly options = input<readonly SelectOption<T, K>[] | readonly T[]>([]);
   public readonly fields = input<SelectOptionFields<T, K>>();
-  public readonly filter = input<SelectFilterOptions<T> | true>();
+  public readonly filter = input<SelectFilterOptions<SelectOption<T>> | boolean>();
   public readonly filterText = input<string>();
   public readonly filterIcon = input<IconType>();
 
@@ -69,34 +75,34 @@ export class Select<T extends object, K extends keyof T> extends SelectTemplates
       .flat();
   });
 
-  private readonly _appliedFilterOptions = computed<SelectFilterOptions<SelectOption> | null>(
-    () => {
-      const filter = this.filter();
-      if (!filter) {
-        return null;
-      }
-      const providedFilterArgs = typeof filter === 'boolean' ? {} : filter;
-      const options: SelectFilterOptions<SelectOption> = {
-        filterFieldsCallback: item => item.label,
-        fieldItems: 'items',
-        splitWords: true,
-        caseSensitive: false,
-        clearFilterOnClose: true,
-        filterFn: 'contains',
-        ...providedFilterArgs,
-      };
-      return options;
+  private readonly _appliedFilterOptions = computed(() => {
+    const filter = this.filter();
+    if (!filter) {
+      return null;
     }
-  );
+    const providedFilterArgs = typeof filter === 'boolean' ? {} : filter;
+    const options: SelectFilterOptionsInternal<SelectOption> = {
+      filterFieldsCallback: item => item.label,
+      fieldItems: 'items',
+      splitWords: true,
+      caseSensitive: false,
+      clearFilterOnClose: true,
+      filterFn: 'contains',
+      ...providedFilterArgs,
+    };
+    return options;
+  });
 
-  protected readonly filteredOptions = computed(() => {
+  protected readonly filteredOptions = asyncComputed(async () => {
     const filter = this._appliedFilterOptions();
     const filterText = this.filterTextInternal();
     if (!filter || !filterText) {
       return this._options();
     }
-    return filterOptions<SelectOption>(this._options(), filterText, filter);
-  });
+    return await filterOptions<SelectOption>(this._options(), filterText, filter);
+  }, []);
+
+  protected readonly filterIsExecuting = this.filteredOptions.isRunning;
 
   protected readonly selectedItem = computed(() =>
     this._flatOptions().find(option => option.value === this.value())

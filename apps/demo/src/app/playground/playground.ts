@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { NgnTemplate, templateTypeFn } from '@ngneers/controls/api';
 import { IconType } from '@ngneers/controls/custom-types';
 import { Dialog } from '@ngneers/controls/dialog';
-import { Select } from '@ngneers/controls/select';
+import { Select, SelectFilterFn, SelectOption } from '@ngneers/controls/select';
 import { GlobalIconTemplate } from 'packages/controls/src/icon/global-icon-template';
 
 @Component({
@@ -28,38 +28,45 @@ export class PlaygroundComponent {
     });
   }
 
+  protected readonly filterFn: SelectFilterFn<(typeof this.options)[number]> = (
+    searchText,
+    item
+  ) => {
+    return item.label.toLowerCase().includes(searchText.toLowerCase());
+  };
+
   protected readonly dialogOpen = signal(false);
 
-  protected readonly options = [
+  protected readonly options: SelectOption[] = [
     {
-      id: 'europe',
+      value: 'europe',
       label: 'Europe',
-      children: [
-        { id: 'france', label: 'France' },
-        { id: 'germany', label: 'Germany' },
-        { bullshit: true },
+      items: [
+        { value: 'france', label: 'France' },
+        { value: 'germany', label: 'Germany' },
+        { value: 'spain', label: 'Spain' },
       ],
     },
     {
-      id: 'asia',
+      value: 'asia',
       label: 'Asia',
-      children: [
-        { id: 'japan', label: 'Japan' },
-        { id: 'china', label: 'China' },
-        { id: 'india', label: 'India' },
+      items: [
+        { value: 'japan', label: 'Japan' },
+        { value: 'china', label: 'China' },
+        { value: 'india', label: 'India' },
       ],
     },
     {
-      id: 'america',
+      value: 'america',
       label: 'America',
-      children: [
-        { id: 'usa', label: 'USA' },
-        { id: 'canada', label: 'Canada' },
-        { id: 'brazil', label: 'Brazil' },
+      items: [
+        { value: 'usa', label: 'United States of America' },
+        { value: 'canada', label: 'Canada' },
+        { value: 'brazil', label: 'Brazil' },
       ],
     },
   ] as const;
-  protected selectedItem = signal<(typeof this.options)[number]['id']>(this.options[0].id);
+  protected selectedItem = signal<(typeof this.options)[number]['value']>(this.options[0].value);
 
   protected readonly iconType = templateTypeFn<IconType>();
 }
