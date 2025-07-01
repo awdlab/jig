@@ -4,6 +4,7 @@ import { Select_Base_Component } from './base';
 import { Select_Fields_Component } from './fields';
 import { Select_Filter_Component } from './filter';
 import { Select_Grouped_Component } from './grouped';
+import { Select_Templates_Component } from './templates';
 import { All_Component, ComponentStory } from '../_base/all';
 
 @Component({
@@ -29,6 +30,10 @@ export class Select_All_Component {
     {
       title: 'Grouped',
       component: Select_Grouped_Component,
+    },
+    {
+      title: 'Templates',
+      component: Select_Templates_Component,
     },
   ];
 }

@@ -6,8 +6,8 @@
 ✅Filtering
 ✅Async Filtering
 ✅Item Templates
-Group Templates
-Selected Item Templates
+✅Group Templates
+✅Selected Item Templates
 Virtual Scrolling
 Lazy Loading
 Theme
