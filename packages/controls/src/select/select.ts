@@ -35,11 +35,14 @@ import { Icon } from '../icon/icon';
 export class Select<T extends object, K extends keyof T> extends SelectTemplates<T, K> {
   private readonly _popover = viewChild.required<Popover>(Popover);
 
-  public readonly popoverOptions = input<PopoverOptions>();
+  public readonly popoverOptions = input<PopoverOptions>({
+    sizeConstraints: {
+      width: 1,
+      maxWidth: 1,
+    },
+  });
   public readonly options = input<readonly SelectOption<T, K>[] | readonly T[]>([]);
-
   public readonly fields = input<SelectOptionFields<T, K>>();
-
   public readonly filter = input<SelectFilterOptions<T> | true>();
   public readonly filterText = input<string>();
   public readonly filterIcon = input<IconType>();
@@ -49,11 +52,9 @@ export class Select<T extends object, K extends keyof T> extends SelectTemplates
   private readonly _options = computed(() => {
     const fields = this.fields();
     const options = this.options();
-
     if (!fields) {
       return options as SelectOption<T, K>[];
     }
-
     return transformToSelectOptions(options as T[], fields);
   });
 
@@ -75,14 +76,16 @@ export class Select<T extends object, K extends keyof T> extends SelectTemplates
         return null;
       }
       const providedFilterArgs = typeof filter === 'boolean' ? {} : filter;
-      return {
-        filterFields: 'label',
+      const options: SelectFilterOptions<SelectOption> = {
+        filterFieldsCallback: item => item.label,
+        fieldItems: 'items',
         splitWords: true,
         caseSensitive: false,
         clearFilterOnClose: true,
         filterFn: 'contains',
         ...providedFilterArgs,
       };
+      return options;
     }
   );
 
@@ -92,8 +95,7 @@ export class Select<T extends object, K extends keyof T> extends SelectTemplates
     if (!filter || !filterText) {
       return this._options();
     }
-    // TODO: Fix filtering for grouped options
-    return filterOptions(this._options(), filterText, filter);
+    return filterOptions<SelectOption>(this._options(), filterText, filter);
   });
 
   protected readonly selectedItem = computed(() =>
