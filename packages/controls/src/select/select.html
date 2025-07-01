@@ -8,12 +8,7 @@
   <ng-template
     [ngTemplateOutlet]="selectedItemTemplate()"
     [ngTemplateOutletContext]="{
-      $implicit: selectedItem() && {
-        data: selectedItem(),
-        value: selectedItem()?.value,
-        label: selectedItem()?.label,
-        testId: selectedItem()?.testId,
-      },
+      $implicit: selectedItem(),
     }"
   ></ng-template>
 </ngn-form-field>
@@ -39,39 +34,20 @@
 <ng-template #optionsTemplate [ngnTemplate]="templateTypesInternal.options" let-options>
   <ul>
     @for (option of options; track option.value) {
-      @if (option.items; as items) {
-        <li>
-          <ng-template
-            [ngTemplateOutlet]="groupTemplate()"
-            [ngTemplateOutletContext]="{
-              $implicit: option && {
-                data: option,
-                value: option.value,
-                label: option.label,
-                testId: option.testId,
-              },
-            }"
-          ></ng-template>
-        </li>
+      <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+      <li (click)="!option.items && onSelect(option.value)">
+        <ng-template
+          [ngTemplateOutlet]="option.items ? groupTemplate() : itemTemplate()"
+          [ngTemplateOutletContext]="{
+            $implicit: option,
+          }"
+        ></ng-template>
+      </li>
 
+      @if (option.items; as items) {
         <ng-container
           *ngTemplateOutlet="optionsTemplate; context: { $implicit: items }"
         ></ng-container>
-      } @else {
-        <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-        <li (click)="onSelect(option.value)">
-          <ng-template
-            [ngTemplateOutlet]="itemTemplate()"
-            [ngTemplateOutletContext]="{
-              $implicit: option && {
-                data: option,
-                value: option.value,
-                label: option.label,
-                testId: option.testId,
-              },
-            }"
-          ></ng-template>
-        </li>
       }
     }
   </ul>
