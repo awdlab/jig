@@ -23,7 +23,7 @@
   (keydown)="onKeyDown($event)"
   (closed)="onPopoverClosed()"
 >
-  <ng-template #content>
+  <ng-template #lazy>
     @if (filter()) {
       <ngn-form-field>
         <ngn-text-field

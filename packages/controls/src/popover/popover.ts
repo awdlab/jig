@@ -1,4 +1,3 @@
-import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
@@ -17,6 +16,7 @@ import {
   AutoPositioningHandle,
   PositioningSizeConstraints,
 } from '@ngneers/controls/api';
+import { LazyCacher } from '@ngneers/controls/lazy-cacher';
 import { computedWithPrevious } from '@ngneers/controls/utils';
 
 export type PopoverOptions = {
@@ -33,14 +33,13 @@ export type PopoverOptions = {
 @Component({
   selector: 'ngn-popover',
   templateUrl: './popover.html',
-  imports: [NgTemplateOutlet],
+  imports: [LazyCacher],
 })
 export class Popover {
   public readonly anchor = input.required<HTMLElement>();
   public readonly options = input<PopoverOptions>();
 
-  protected readonly lazyContent = contentChild<TemplateRef<unknown>>('content');
-  protected readonly hasBeenOpened = signal(false);
+  protected readonly lazyContent = contentChild<TemplateRef<unknown>>('lazy');
 
   protected readonly appliedOptions = computed(() => ({
     cache: false,
@@ -73,7 +72,6 @@ export class Popover {
     if (this.isOpen()) {
       return;
     }
-    this.hasBeenOpened.set(true);
     this._autoPos()?.start();
     this._popover()?.togglePopover();
   }

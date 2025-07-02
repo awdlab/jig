@@ -1,9 +1,5 @@
 <div popover (toggle)="onToggle($event)" #popover id="dropdown" style="position: absolute">
-  @if (lazyContent()) {
-    @if (isOpen() || (appliedOptions().cache && hasBeenOpened())) {
-      <ng-container *ngTemplateOutlet="lazyContent()"></ng-container>
-    }
-  } @else {
+  <ngn-lazy-cacher [lazyContent]="lazyContent()" [open]="isOpen()" [cache]="appliedOptions().cache">
     <ng-content></ng-content>
-  }
+  </ngn-lazy-cacher>
 </div>

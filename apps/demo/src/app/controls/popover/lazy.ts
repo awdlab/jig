@@ -16,7 +16,7 @@ export class TestComponent {
   template: `
     <button #anchor (click)="popover.open()">Open</button>
     <ngn-popover #popover [anchor]="anchor" [options]="{ cache: true }">
-      <ng-template #content>
+      <ng-template #lazy>
         <ngn-test />
       </ng-template>
     </ngn-popover>

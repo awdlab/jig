@@ -1,0 +1,7 @@
+@if (lazyContent()) {
+  @if (open() || (cache() && hasBeenOpened())) {
+    <ng-container *ngTemplateOutlet="lazyContent()"></ng-container>
+  }
+} @else {
+  <ng-content></ng-content>
+}
