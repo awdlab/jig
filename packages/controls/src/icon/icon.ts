@@ -27,7 +27,7 @@ export class Icon {
   public readonly icon = input<IconType>();
 
   private readonly _defaultIconTemplate =
-    viewChild.required<TemplateRef<unknown>>('defaultIconTemplate');
+    viewChild.required<TemplateRef<{ $implicit: IconType }>>('defaultIconTemplate');
 
   protected readonly usedIconTemplate = computed(() => {
     const globalTemplate = this._globalIconTemplate();

@@ -8,17 +8,19 @@ import { NgnItem, templateTypesFn, ValueControlBase } from '@ngneers/controls/ap
 export abstract class ListBoxTemplates<T, K extends keyof T> extends ValueControlBase<T[K]> {
   // Item template
   private readonly _defaultItemTemplate =
-    viewChild.required<TemplateRef<unknown>>('defaultItemTemplate');
-  private readonly _userItemTemplate = contentChild<TemplateRef<unknown>>('item');
-  public readonly templateItem = input<TemplateRef<unknown> | null>(null);
+    viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');
+  private readonly _userItemTemplate =
+    contentChild<TemplateRef<typeof this.templateTypes.item>>('item');
+  public readonly templateItem = input<TemplateRef<typeof this.templateTypes.item> | null>(null);
   protected readonly itemTemplate = computed(
     () => this._userItemTemplate() ?? this.templateItem() ?? this._defaultItemTemplate()
   );
   // Group template
   private readonly _defaultGroupTemplate =
-    viewChild.required<TemplateRef<unknown>>('defaultGroupTemplate');
-  private readonly _userGroupTemplate = contentChild<TemplateRef<unknown>>('group');
-  public readonly templateGroup = input<TemplateRef<unknown> | null>(null);
+    viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultGroupTemplate');
+  private readonly _userGroupTemplate =
+    contentChild<TemplateRef<typeof this.templateTypes.item>>('group');
+  public readonly templateGroup = input<TemplateRef<typeof this.templateTypes.item> | null>(null);
   protected readonly groupTemplate = computed(
     () => this._userGroupTemplate() ?? this.templateGroup() ?? this._defaultGroupTemplate()
   );

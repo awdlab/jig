@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { NgnItem, NgnTemplate, templateTypeFn } from '@ngneers/controls/api';
 import { IconType } from '@ngneers/controls/custom-types';
 import { Dialog } from '@ngneers/controls/dialog';
-import { GlobalIconTemplate } from '@ngneers/controls/icon';
+import { GlobalIconTemplate, IconTemplateData } from '@ngneers/controls/icon';
 import { ListBox } from '@ngneers/controls/list-box';
 import { Scroller } from '@ngneers/controls/scroller';
 import { Select, SelectFilterFn } from '@ngneers/controls/select';
@@ -21,7 +21,8 @@ import { Select, SelectFilterFn } from '@ngneers/controls/select';
 })
 export class PlaygroundComponent {
   private readonly _globalIconTemplate = inject(GlobalIconTemplate);
-  private readonly _iconTemplate = viewChild.required<TemplateRef<unknown>>('iconTemplate');
+  private readonly _iconTemplate =
+    viewChild.required<TemplateRef<IconTemplateData>>('iconTemplate');
 
   constructor() {
     afterRenderEffect(() => {

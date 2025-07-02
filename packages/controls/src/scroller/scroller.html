@@ -1,12 +1,7 @@
 @if (virtual()) {
   <div [style.height.px]="dummyHeight()"></div>
 }
-<div
-  #itemList
-  style="left: 0; right: 0; bottom: 0"
-  [style.top.px]="itemsTop()"
-  [style.position]="virtual() ? 'absolute' : 'unset'"
->
+<div #itemList [style.top.px]="itemsTop()" [style.position]="virtual() ? 'absolute' : 'unset'">
   @for (item of visibleItems(); track item.index) {
     <ng-container
       *ngTemplateOutlet="itemTemplate(); context: { $implicit: item.item, index: item.index }"

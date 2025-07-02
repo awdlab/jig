@@ -33,8 +33,9 @@ export class Scroller<T> {
   public readonly focusable = input<boolean>(false);
 
   private readonly _itemList = viewChild.required<ElementRef<HTMLElement>>('itemList');
-  private readonly _userItemTemplate = contentChild<TemplateRef<unknown>>('item');
-  public readonly templateItem = input<TemplateRef<unknown> | null>(null);
+  private readonly _userItemTemplate =
+    contentChild<TemplateRef<typeof this.templateTypes.item>>('item');
+  public readonly templateItem = input<TemplateRef<typeof this.templateTypes.item> | null>(null);
   protected readonly itemTemplate = computed(() => this._userItemTemplate() ?? this.templateItem());
 
   private readonly _el = inject(ElementRef<HTMLElement>);
