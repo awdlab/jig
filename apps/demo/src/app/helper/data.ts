@@ -1,6 +1,6 @@
 import { transformToNgnItems } from '@ngneers/controls/api';
 
-export const optionsGrouped = [
+const itemsGrouped = [
   {
     label: 'Africa',
     id: 'africa',
@@ -91,15 +91,24 @@ export const optionsGrouped = [
   },
 ];
 
-export const options = optionsGrouped.flatMap(group => group.items);
+const items = itemsGrouped.flatMap(group => group.items);
 
-export const optionsPreformatted = transformToNgnItems(options, {
+const itemsPreformatted = transformToNgnItems(items, {
   value: 'id',
   label: 'label',
 });
 
-export const optionsGroupedPreformatted = transformToNgnItems(optionsGrouped, {
+const itemsGroupedPreformatted = transformToNgnItems(itemsGrouped, {
   value: 'id',
   label: 'label',
   groupItems: 'items',
 });
+
+export const exampleData = {
+  items: {
+    flat: items,
+    grouped: itemsGrouped,
+    flatPreformatted: itemsPreformatted,
+    groupedPreformatted: itemsGroupedPreformatted,
+  },
+};

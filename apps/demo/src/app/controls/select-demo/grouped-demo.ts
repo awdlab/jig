@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Select } from '@ngneers/controls/select';
 
-import { optionsGrouped } from './_options';
+import { exampleData } from '../../helper/data';
 
 @Component({
   imports: [Select],
@@ -18,5 +18,5 @@ import { optionsGrouped } from './_options';
   `,
 })
 export class Select_Grouped_Component {
-  public readonly options = optionsGrouped;
+  public readonly options = exampleData.items.grouped;
 }

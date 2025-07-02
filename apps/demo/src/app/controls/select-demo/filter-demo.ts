@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Select } from '@ngneers/controls/select';
 
-import { optionsPreformatted } from './_options';
+import { exampleData } from '../../helper/data';
 
 @Component({
   imports: [Select],
@@ -13,5 +13,5 @@ import { optionsPreformatted } from './_options';
   />`,
 })
 export class Select_Filter_Component {
-  public readonly options = optionsPreformatted;
+  public readonly options = exampleData.items.flatPreformatted;
 }

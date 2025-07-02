@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Select } from '@ngneers/controls/select';
 
-import { optionsGroupedPreformatted } from './_options';
+import { exampleData } from '../../helper/data';
 
 @Component({
   imports: [Select],
@@ -23,5 +23,5 @@ import { optionsGroupedPreformatted } from './_options';
   </ngn-select>`,
 })
 export class Select_Templates_Component {
-  public readonly options = optionsGroupedPreformatted;
+  public readonly options = exampleData.items.groupedPreformatted;
 }

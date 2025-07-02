@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Select } from '@ngneers/controls/select';
 
-import { options } from './_options';
+import { exampleData } from '../../helper/data';
 
 @Component({
   imports: [Select],
@@ -17,5 +17,5 @@ import { options } from './_options';
   `,
 })
 export class Select_Fields_Component {
-  public readonly options = options;
+  public readonly options = exampleData.items.flat;
 }
