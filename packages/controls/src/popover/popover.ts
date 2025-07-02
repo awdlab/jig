@@ -1,31 +1,51 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
+  contentChild,
   ElementRef,
   inject,
   Injector,
   input,
   output,
   signal,
+  TemplateRef,
   viewChild,
 } from '@angular/core';
 import {
   autoPositionElement,
   AutoPositioningHandle,
-  PositioningOptions,
+  PositioningSizeConstraints,
 } from '@ngneers/controls/api';
 import { computedWithPrevious } from '@ngneers/controls/utils';
 
 export type PopoverOptions = {
-  sizeConstraints?: PositioningOptions['sizeConstraints'];
+  /**
+   * Constraints for the size of the popover.
+   */
+  sizeConstraints?: PositioningSizeConstraints;
+  /**
+   * If true, the content of the popover will be cached and not recreated on each open.
+   * This is useful for performance when the content is expensive to create.
+   */
+  cache?: boolean;
 };
 @Component({
   selector: 'ngn-popover',
   templateUrl: './popover.html',
+  imports: [NgTemplateOutlet],
 })
 export class Popover {
   public readonly anchor = input.required<HTMLElement>();
   public readonly options = input<PopoverOptions>();
+
+  protected readonly lazyContent = contentChild<TemplateRef<unknown>>('content');
+  protected readonly hasBeenOpened = signal(false);
+
+  protected readonly appliedOptions = computed(() => ({
+    cache: false,
+    ...this.options(),
+  }));
 
   public readonly opened = output();
   public readonly closed = output();
@@ -45,7 +65,7 @@ export class Popover {
     return autoPositionElement(this.anchor(), popoverEl, {
       injector: this._injector,
       stopped: true,
-      sizeConstraints: this.options()?.sizeConstraints,
+      sizeConstraints: this.appliedOptions()?.sizeConstraints,
     });
   });
 
@@ -53,6 +73,7 @@ export class Popover {
     if (this.isOpen()) {
       return;
     }
+    this.hasBeenOpened.set(true);
     this._autoPos()?.start();
     this._popover()?.togglePopover();
   }

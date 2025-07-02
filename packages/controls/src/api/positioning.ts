@@ -1,6 +1,27 @@
 import { DestroyRef, inject, Injector } from '@angular/core';
 import { autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
 
+export type PositioningSizeConstraints = {
+  /**
+   * The width of the floating element. When a number is provided, it is relative to the width of the reference element.
+   * When a string is provided, it is used as the CSS width value.
+   */
+  width?: number | string;
+  /**
+   * The maximum width of the floating element. When a number is provided, it is relative to the width of the reference element.
+   * When a string is provided, it is used as the CSS max-width value.
+   */
+  maxWidth?: number | string;
+  /**
+   * The height of the floating element. When a string is provided, it is used as the CSS height value.
+   */
+  height?: string;
+  /**
+   * The maximum height of the floating element. When a string is provided, it is used as the CSS max-height value.
+   */
+  maxHeight?: string;
+};
+
 export type PositioningOptions = {
   injector?: Injector;
   placement?: 'top' | 'bottom' | 'left' | 'right';
@@ -8,26 +29,7 @@ export type PositioningOptions = {
   shift?: boolean;
   offset?: number;
   stopped?: boolean;
-  sizeConstraints?: {
-    /**
-     * The width of the floating element. When a number is provided, it is relative to the width of the reference element.
-     * When a string is provided, it is used as the CSS width value.
-     */
-    width?: number | string;
-    /**
-     * The maximum width of the floating element. When a number is provided, it is relative to the width of the reference element.
-     * When a string is provided, it is used as the CSS max-width value.
-     */
-    maxWidth?: number | string;
-    /**
-     * The height of the floating element. When a string is provided, it is used as the CSS height value.
-     */
-    height?: string;
-    /**
-     * The maximum height of the floating element. When a string is provided, it is used as the CSS max-height value.
-     */
-    maxHeight?: string;
-  };
+  sizeConstraints?: PositioningSizeConstraints;
 };
 
 export type AutoPositioningHandle = {

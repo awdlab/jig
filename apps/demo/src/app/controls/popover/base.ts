@@ -4,7 +4,7 @@ import { Popover } from '@ngneers/controls/popover';
 @Component({
   imports: [Popover],
   template: `
-    <button #anchor (click)="popover.open()">Open Dropdown</button>
+    <button #anchor (click)="popover.open()">Open</button>
     <ngn-popover #popover [anchor]="anchor"> Content </ngn-popover>
   `,
 })

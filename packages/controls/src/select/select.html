@@ -16,31 +16,33 @@
   </div>
 </ngn-form-field>
 <ngn-popover
-  class="ngn-select-popover"
-  (keydown)="onKeyDown($event)"
   #popover
+  class="ngn-select-popover"
   [options]="popoverOptions()"
   [anchor]="field.nativeElement"
+  (keydown)="onKeyDown($event)"
   (closed)="onPopoverClosed()"
 >
-  @if (filter()) {
-    <ngn-form-field>
-      <ngn-text-field
-        [ngModel]="filterTextInternal()"
-        (ngModelChange)="filterTextInternal.set($event)"
-      />
-      <ngn-icon defaultIcon="fa-solid fa-magnifying-glass" [icon]="filterIcon()" />
-      @if (filterIsExecuting()) {
-        <!-- TODO: replace with spinner -->
-        <ngn-icon defaultIcon="fa-solid fa-spinner fa-spin" />
-      }
-    </ngn-form-field>
-  }
-  <div class="ngn-select-options">
-    <ng-container
-      *ngTemplateOutlet="optionsTemplate; context: { $implicit: filteredOptions() }"
-    ></ng-container>
-  </div>
+  <ng-template #content>
+    @if (filter()) {
+      <ngn-form-field>
+        <ngn-text-field
+          [ngModel]="filterTextInternal()"
+          (ngModelChange)="filterTextInternal.set($event)"
+        />
+        <ngn-icon defaultIcon="fa-solid fa-magnifying-glass" [icon]="filterIcon()" />
+        @if (filterIsExecuting()) {
+          <!-- TODO: replace with spinner -->
+          <ngn-icon defaultIcon="fa-solid fa-spinner fa-spin" />
+        }
+      </ngn-form-field>
+    }
+    <div class="ngn-select-options">
+      <ng-container
+        *ngTemplateOutlet="optionsTemplate; context: { $implicit: filteredOptions() }"
+      ></ng-container>
+    </div>
+  </ng-template>
 </ngn-popover>
 
 <ng-template #optionsTemplate [ngnTemplate]="templateTypesInternal.options" let-options>

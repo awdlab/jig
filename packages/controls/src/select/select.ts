@@ -86,6 +86,7 @@ export class Select<T extends object, K extends keyof T> extends SelectTemplates
     return options;
   });
 
+  // Replace with resource API when previous value persists
   protected readonly filteredOptions = asyncComputed(async () => {
     const filter = this._appliedFilterOptions();
     const filterText = this.filterTextInternal();
