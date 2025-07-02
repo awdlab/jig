@@ -1,3 +1,4 @@
+export * from './dom';
 export * from './element-ref';
 export * from './filtering';
 export * from './value-control-base';

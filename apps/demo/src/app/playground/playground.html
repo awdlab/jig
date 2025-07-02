@@ -34,3 +34,13 @@
     <i class="{{ icon.prefix }} {{ icon.icon }}"></i>
   </div>
 </ng-template>
+
+<div style="height: 200px; width: 200px">
+  <ngn-scroller [items]="items" [itemHeight]="30">
+    <ng-template #itemTemplate let-item>
+      <div class="item" style="height: 30px">
+        <p>{{ item.label }}</p>
+      </div>
+    </ng-template>
+  </ngn-scroller>
+</div>

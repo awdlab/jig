@@ -10,13 +10,14 @@ import { FormsModule } from '@angular/forms';
 import { NgnTemplate, templateTypeFn } from '@ngneers/controls/api';
 import { IconType } from '@ngneers/controls/custom-types';
 import { Dialog } from '@ngneers/controls/dialog';
+import { GlobalIconTemplate } from '@ngneers/controls/icon';
+import { Scroller } from '@ngneers/controls/scroller';
 import { Select, SelectFilterFn, SelectOption } from '@ngneers/controls/select';
-import { GlobalIconTemplate } from 'packages/controls/src/icon/global-icon-template';
 
 @Component({
   templateUrl: 'playground.html',
   styleUrl: 'playground.scss',
-  imports: [FormsModule, Dialog, Select, NgnTemplate],
+  imports: [FormsModule, Dialog, Select, NgnTemplate, Scroller],
 })
 export class PlaygroundComponent {
   private readonly _globalIconTemplate = inject(GlobalIconTemplate);
@@ -69,4 +70,9 @@ export class PlaygroundComponent {
   protected selectedItem = signal<(typeof this.options)[number]['value']>(this.options[0].value);
 
   protected readonly iconType = templateTypeFn<IconType>();
+
+  protected readonly items = Array.from({ length: 1000 }, (_, i) => ({
+    label: `Item ${i + 1}`,
+    value: i + 1,
+  }));
 }
