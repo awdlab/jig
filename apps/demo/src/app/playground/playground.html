@@ -36,7 +36,7 @@
 </ng-template>
 
 <div #parent style="height: 200px; width: 200px">
-  <ngn-scroller [items]="items" [itemHeight]="30">
+  <ngn-scroller [items]="items" [itemHeight]="30" [virtual]="true">
     <ng-template #item let-item>
       <div class="item" style="height: 30px">
         <p>{{ item.label }}</p>

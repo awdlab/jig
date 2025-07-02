@@ -1,4 +1,6 @@
-<div [style.height.px]="dummyHeight()"></div>
+@if (virtual()) {
+  <div [style.height.px]="dummyHeight()"></div>
+}
 <div
   #itemList
   style="left: 0; right: 0; bottom: 0"

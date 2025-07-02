@@ -41,7 +41,7 @@ export class Scroller<T> {
   private readonly _elementSize = elementSizeSignal(this._scrollElement);
   private readonly _visibleItemCount = computed(() =>
     this.virtual()
-      ? Math.ceil(this._elementSize().width / this.itemHeight() + this._appliedPadding() * 2)
+      ? Math.ceil(this._elementSize().height / this.itemHeight() + this._appliedPadding() * 2)
       : 0
   );
   private readonly _scrollTop = toSignal(
@@ -55,10 +55,7 @@ export class Scroller<T> {
   );
   private readonly _itemEndIndex = computed(() =>
     this.virtual()
-      ? Math.min(
-          this.items().length,
-          this._itemStartIndex() + this._visibleItemCount() + this._appliedPadding() * 2
-        )
+      ? Math.min(this.items().length, this._itemStartIndex() + this._visibleItemCount())
       : 0
   );
 
