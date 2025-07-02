@@ -46,6 +46,7 @@ export const optionsPreformatted = transformToSelectOptions(options, {
   value: 'id',
   label: 'label',
 });
+
 export const optionsGroupedPreformatted = transformToSelectOptions(optionsGrouped, {
   value: 'id',
   label: 'label',

@@ -1,5 +1,12 @@
-@for (c of components(); track $index) {
+@for (c of componentStories(); track $index) {
   <h2>{{ c.title }}</h2>
-  <ng-container *ngComponentOutlet="c.component" />
+  @if (c.component | async; as component) {
+    test
+    <ng-container *ngComponentOutlet="component" />
+  }
+  <details>
+    <summary>Code</summary>
+    <pre>{{ c.code }}</pre>
+  </details>
   <hr />
 }

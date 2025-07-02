@@ -5,7 +5,8 @@
   "scripts": {
     "demo:serve": "pnpm --filter demo serve",
     "demo:build": "pnpm --filter demo build",
-    "controls:build": "pnpm --filter @ngneers/controls build"
+    "controls:build": "pnpm --filter @ngneers/controls build",
+    "demo:prepare": "tsx ./tools/build-docs-jsons.ts"
   },
   "license": "MIT",
   "packageManager": "pnpm@10.12.4",
@@ -22,6 +23,7 @@
     "globals": "^16.2.0",
     "playwright": "^1.53.1",
     "prettier": "^3.6.2",
+    "tsx": "^4.20.3",
     "typescript-eslint": "^8.35.0"
   }
 }

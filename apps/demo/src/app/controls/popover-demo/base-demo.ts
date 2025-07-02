@@ -8,6 +8,4 @@ import { Popover } from '@ngneers/controls/popover';
     <ngn-popover #popover [anchor]="anchor"> Content </ngn-popover>
   `,
 })
-export class Popover_Base_Component {
-  constructor() {}
-}
+export class Popover_Base_Component {}

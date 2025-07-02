@@ -44,6 +44,9 @@ importers:
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
+      tsx:
+        specifier: ^4.20.3
+        version: 4.20.3
       typescript-eslint:
         specifier: ^8.35.0
         version: 8.35.0(eslint@9.30.0)(typescript@5.8.3)
@@ -89,7 +92,7 @@ importers:
     devDependencies:
       '@angular/build':
         specifier: ^20.0.4
-        version: 20.0.4(nstszpm6ndzbzxeu5qga4xmmrm)
+        version: 20.0.4(2de49d8b36e445cc32c9ae9fdba088f2)
       '@angular/cli':
         specifier: ^20.0.4
         version: 20.0.4(@types/node@24.0.7)(chokidar@4.0.3)
@@ -138,7 +141,7 @@ importers:
     devDependencies:
       '@angular/build':
         specifier: ^20.0.4
-        version: 20.0.4(nstszpm6ndzbzxeu5qga4xmmrm)
+        version: 20.0.4(2de49d8b36e445cc32c9ae9fdba088f2)
       '@angular/cli':
         specifier: ^20.0.4
         version: 20.0.4(@types/node@24.0.7)(chokidar@4.0.3)
@@ -4086,7 +4089,7 @@ snapshots:
       eslint: 9.30.0
       typescript: 5.8.3
 
-  '@angular/build@20.0.4(nstszpm6ndzbzxeu5qga4xmmrm)':
+  '@angular/build@20.0.4(2de49d8b36e445cc32c9ae9fdba088f2)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@angular-devkit/architect': 0.2000.4(chokidar@4.0.3)

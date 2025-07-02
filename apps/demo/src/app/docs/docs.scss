@@ -1,0 +1,7 @@
+.demo-main {
+  display: flex;
+  width: 100%;
+  .demo {
+    flex-grow: 1;
+  }
+}

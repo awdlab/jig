@@ -2,26 +2,24 @@ import { Component } from '@angular/core';
 import { Popover } from '@ngneers/controls/popover';
 
 @Component({
-  selector: 'ngn-test',
-  template: 'Content',
+  selector: 'ngn-lazy-test',
+  template: 'Lazy Content',
 })
-export class TestComponent {
+export class LazyComponent {
   constructor() {
-    console.log('TestComponent initialized');
+    console.log('LazyComponent initialized');
   }
 }
 
 @Component({
-  imports: [Popover, TestComponent],
+  imports: [Popover, LazyComponent],
   template: `
     <button #anchor (click)="popover.open()">Open</button>
     <ngn-popover #popover [anchor]="anchor" [options]="{ cache: true }">
       <ng-template #lazy>
-        <ngn-test />
+        <ngn-lazy-test />
       </ng-template>
     </ngn-popover>
   `,
 })
-export class Popover_Lazy_Component {
-  constructor() {}
-}
+export class Popover_Lazy_Component {}

@@ -23,7 +23,5 @@ import { optionsGroupedPreformatted } from './_options';
   </ngn-select>`,
 })
 export class Select_Templates_Component {
-  constructor() {}
-
   public readonly options = optionsGroupedPreformatted;
 }

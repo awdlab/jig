@@ -1,0 +1,12 @@
+<div class="demo-main">
+  <div class="demo">
+    <router-outlet />
+  </div>
+  <div class="nav">
+    @for (demo of allDemos; track demo.id) {
+      <div class="nav-item">
+        <a [routerLink]="[demo.id]">{{ demo.name }}</a>
+      </div>
+    }
+  </div>
+</div>
