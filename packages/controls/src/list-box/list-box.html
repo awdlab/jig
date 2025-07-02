@@ -1,0 +1,39 @@
+<!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
+<ul
+  class="ngn-list-box"
+  style="height: 100%; width: 100%"
+  [attr.tabIndex]="highlightable() ? 0 : null"
+  (keydown)="onKeyDown($event)"
+>
+  <ngn-scroller
+    [virtual]="virtual()"
+    [itemHeight]="itemHeight() ?? 0"
+    [items]="flatItems()"
+    [templateItem]="usedItemTemplate"
+    #scroller
+  />
+</ul>
+
+<ng-template #usedItemTemplate [ngnTemplate]="scroller.templateTypes.item" let-itemOrGroup>
+  <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+  <li
+    [class.highlighted]="itemOrGroup.value === currentHighlightedValue()"
+    [class.selected]="itemOrGroup.value === value()"
+    (click)="!itemOrGroup.items && selectable() && onSelect(itemOrGroup.value)"
+  >
+    <ng-container
+      *ngTemplateOutlet="
+        itemOrGroup.items ? groupTemplate() : itemTemplate();
+        context: { $implicit: itemOrGroup }
+      "
+    ></ng-container>
+  </li>
+</ng-template>
+
+<ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
+  <span [attr.data-testid]="item?.testId">{{ item?.label }}</span>
+</ng-template>
+
+<ng-template #defaultGroupTemplate [ngnTemplate]="templateTypes.item" let-group>
+  <span [attr.data-testid]="group?.testId">{{ group?.label }}</span>
+</ng-template>

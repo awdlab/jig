@@ -5,7 +5,11 @@ import { optionsPreformatted } from './_options';
 
 @Component({
   imports: [Select],
-  template: `<ngn-select #select [options]="options" />`,
+  template: `<ngn-select
+    #select
+    [options]="options"
+    [popoverOptions]="{ sizeConstraints: { height: '200px' } }"
+  />`,
 })
 export class Select_Base_Component {
   public readonly options = optionsPreformatted;

@@ -9,18 +9,14 @@ import {
 } from '@ngneers/controls/api';
 import { IconType } from '@ngneers/controls/custom-types';
 import { FormField } from '@ngneers/controls/form-field';
+import { ListBox } from '@ngneers/controls/list-box';
 import { Popover, PopoverOptions } from '@ngneers/controls/popover';
 import { TextField } from '@ngneers/controls/text-field';
 import { asyncComputed } from '@ngneers/controls/utils';
 
 import { SelectTemplates } from './select-templates';
-import {
-  SelectFilterOptions,
-  SelectFilterOptionsInternal,
-  SelectOption,
-  SelectOptionFields,
-} from './types';
-import { flatOptions, transformToSelectOptions } from './utils';
+import { SelectFilterOptions, SelectFilterOptionsInternal } from './types';
+import { mapToItems, NgnItem, NgnItemFields, transformToNgnItems } from '../api/ngn-items';
 import { Icon } from '../icon/icon';
 
 @Component({
@@ -29,6 +25,7 @@ import { Icon } from '../icon/icon';
   imports: [
     FormField,
     FormsModule,
+    ListBox,
     TextField,
     Popover,
     GetElementRef,
@@ -41,17 +38,23 @@ import { Icon } from '../icon/icon';
 export class Select<T extends object, K extends keyof T> extends SelectTemplates<T, K> {
   private readonly _popover = viewChild.required<Popover>(Popover);
 
-  public readonly popoverOptions = input<PopoverOptions>({
+  public readonly popoverOptions = input<PopoverOptions>({});
+  protected readonly appliedPopoverOptions = computed(() => ({
+    ...this.popoverOptions(),
     sizeConstraints: {
       width: 1,
       maxWidth: 1,
+      ...this.popoverOptions().sizeConstraints,
     },
-  });
-  public readonly options = input<readonly SelectOption<T, K>[] | readonly T[]>([]);
-  public readonly fields = input<SelectOptionFields<T, K>>();
-  public readonly filter = input<SelectFilterOptions<SelectOption<T>> | boolean>();
+  }));
+  public readonly options = input<readonly NgnItem<T, K>[] | readonly T[]>([]);
+  public readonly fields = input<NgnItemFields<T, K>>();
+  public readonly filter = input<SelectFilterOptions<NgnItem<T, K>> | boolean>();
   public readonly filterText = input<string>();
   public readonly filterIcon = input<IconType>();
+  public readonly virtual = input<boolean>(false);
+  public readonly itemHeight = input<number>();
+  private readonly _listbox = viewChild(ListBox);
 
   protected readonly filterTextInternal = linkedSignal(this.filterText);
 
@@ -61,12 +64,12 @@ export class Select<T extends object, K extends keyof T> extends SelectTemplates
     const fields = this.fields();
     const options = this.options();
     if (!fields) {
-      return options as SelectOption<T, K>[];
+      return options as NgnItem<T, K>[];
     }
-    return transformToSelectOptions(options as T[], fields);
+    return transformToNgnItems(options as T[], fields);
   });
 
-  private readonly _flatOptions = computed(() => flatOptions(this._options()));
+  private readonly _flatOptions = computed(() => mapToItems(this._options()));
 
   private readonly _appliedFilterOptions = computed(() => {
     const filter = this.filter();
@@ -74,7 +77,7 @@ export class Select<T extends object, K extends keyof T> extends SelectTemplates
       return null;
     }
     const providedFilterArgs = typeof filter === 'boolean' ? {} : filter;
-    const options: SelectFilterOptionsInternal<SelectOption> = {
+    const options: SelectFilterOptionsInternal<NgnItem> = {
       filterFieldsCallback: item => item.label,
       fieldItems: 'items',
       splitWords: true,
@@ -93,7 +96,7 @@ export class Select<T extends object, K extends keyof T> extends SelectTemplates
     if (!filter || !filterText) {
       return this._options();
     }
-    return await filterOptions<SelectOption>(this._options(), filterText, filter);
+    return await filterOptions<NgnItem>(this._options(), filterText, filter);
   }, []);
 
   protected readonly filterIsExecuting = this.filteredOptions.isRunning;
@@ -103,48 +106,13 @@ export class Select<T extends object, K extends keyof T> extends SelectTemplates
   );
 
   protected onKeyDown(event: KeyboardEvent) {
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-      if (!this._popover().isOpen()) {
-        return;
-      }
-      event.stopPropagation();
-      event.preventDefault();
-      const filteredFlatOptions = flatOptions(this.filteredOptions());
-      this.currentHighlightedValue.update(currentValue => {
-        const currentHighlightIndex = filteredFlatOptions.findIndex(
-          option => option.value === currentValue
-        );
-        if (filteredFlatOptions.length === 0) {
-          return null;
-        }
-        const currentIndex =
-          currentHighlightIndex >= 0
-            ? currentHighlightIndex
-            : filteredFlatOptions.findIndex(option => option.value === this.value());
-
-        if (currentIndex === null) {
-          return event.key === 'ArrowDown'
-            ? filteredFlatOptions[0].value
-            : filteredFlatOptions[filteredFlatOptions.length - 1].value;
-        }
-
-        const nextIndex = event.key === 'ArrowDown' ? currentIndex + 1 : currentIndex - 1;
-        if (nextIndex < 0) {
-          return filteredFlatOptions[filteredFlatOptions.length - 1].value;
-        }
-        if (nextIndex >= filteredFlatOptions.length) {
-          return filteredFlatOptions[0].value;
-        }
-        return filteredFlatOptions[nextIndex].value;
-      });
-    } else if (event.key === 'Enter' || event.key === ' ') {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-      const currentHighlightedValue = this.currentHighlightedValue();
-      if (currentHighlightedValue !== null) {
-        this.onSelect(currentHighlightedValue);
-      } else {
+    this._listbox()?.onKeyDown(event);
+    // if event is not handled by the listbox, we can handle it here
+    if (!event.defaultPrevented) {
+      if (event.key === 'Enter' || event.key === ' ') {
         this._popover().toggle();
+        event.stopPropagation();
+        event.preventDefault();
       }
     }
   }

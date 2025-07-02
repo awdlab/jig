@@ -7,17 +7,17 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgnTemplate, templateTypeFn } from '@ngneers/controls/api';
+import { NgnItem, NgnTemplate, templateTypeFn } from '@ngneers/controls/api';
 import { IconType } from '@ngneers/controls/custom-types';
 import { Dialog } from '@ngneers/controls/dialog';
 import { GlobalIconTemplate } from '@ngneers/controls/icon';
+import { ListBox } from '@ngneers/controls/list-box';
 import { Scroller } from '@ngneers/controls/scroller';
-import { Select, SelectFilterFn, SelectOption } from '@ngneers/controls/select';
-
+import { Select, SelectFilterFn } from '@ngneers/controls/select';
 @Component({
   templateUrl: 'playground.html',
   styleUrl: 'playground.scss',
-  imports: [FormsModule, Dialog, Select, NgnTemplate, Scroller],
+  imports: [FormsModule, Dialog, Select, NgnTemplate, Scroller, ListBox],
 })
 export class PlaygroundComponent {
   private readonly _globalIconTemplate = inject(GlobalIconTemplate);
@@ -38,7 +38,7 @@ export class PlaygroundComponent {
 
   protected readonly dialogOpen = signal(false);
 
-  protected readonly options: SelectOption[] = [
+  protected readonly options: NgnItem[] = [
     {
       value: 'europe',
       label: 'Europe',

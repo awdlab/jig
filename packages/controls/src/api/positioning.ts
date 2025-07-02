@@ -1,5 +1,5 @@
 import { DestroyRef, inject, Injector } from '@angular/core';
-import { autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
+import { autoUpdate, computePosition, flip, offset, shift, size } from '@floating-ui/dom';
 
 export type PositioningSizeConstraints = {
   /**
@@ -26,6 +26,7 @@ export type PositioningOptions = {
   injector?: Injector;
   placement?: 'top' | 'bottom' | 'left' | 'right';
   flip?: boolean;
+  resize?: boolean;
   shift?: boolean;
   offset?: number;
   stopped?: boolean;
@@ -42,6 +43,7 @@ function mergeWithDefaults(options: PositioningOptions): PositioningOptions {
   return {
     placement: 'bottom',
     flip: true,
+    resize: true,
     shift: true,
     offset: 4,
     stopped: false,
@@ -98,6 +100,15 @@ export function positionElement(
       ...(options.placement?.includes('-')
         ? [flipMiddleware, shiftMiddleware]
         : [shiftMiddleware, flipMiddleware]),
+      options.resize
+        ? size({
+            apply({ availableHeight }) {
+              Object.assign(floatingEl.style, {
+                maxHeight: `${Math.min(Number(options.sizeConstraints?.maxHeight ?? availableHeight), availableHeight)}px`,
+              });
+            },
+          })
+        : undefined,
     ].filter(Boolean),
   }).then(({ x, y }) => {
     Object.assign(floatingEl.style, {
@@ -124,6 +135,10 @@ export function autoPositionElement(
     return cleanup;
   }
 
+  destroyRef.onDestroy(() => {
+    cleanup?.();
+    cleanup = undefined;
+  });
   return {
     start: () => {
       cleanup?.();

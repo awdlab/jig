@@ -35,12 +35,22 @@
   </div>
 </ng-template>
 
-<div style="height: 200px; width: 200px">
+<div #parent style="height: 200px; width: 200px">
   <ngn-scroller [items]="items" [itemHeight]="30">
-    <ng-template #itemTemplate let-item>
+    <ng-template #item let-item>
       <div class="item" style="height: 30px">
         <p>{{ item.label }}</p>
       </div>
     </ng-template>
   </ngn-scroller>
+</div>
+
+<div style="height: 200px; width: 200px">
+  <ngn-list-box [items]="items" [selectable]="true">
+    <ng-template #item let-item>
+      <div class="item" style="height: 30px">
+        <p>{{ item.label }}</p>
+      </div>
+    </ng-template>
+  </ngn-list-box>
 </div>
