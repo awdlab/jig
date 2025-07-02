@@ -1,4 +1,4 @@
-import { Component, computed, contentChild, input, TemplateRef } from '@angular/core';
+import { Component, computed, contentChild, input, TemplateRef, viewChild } from '@angular/core';
 import { NgnItem, templateTypesFn, ValueControlBase } from '@ngneers/controls/api';
 
 @Component({
@@ -8,7 +8,7 @@ import { NgnItem, templateTypesFn, ValueControlBase } from '@ngneers/controls/ap
 export abstract class ListBoxTemplates<T, K extends keyof T> extends ValueControlBase<T[K]> {
   // Item template
   private readonly _defaultItemTemplate =
-    contentChild.required<TemplateRef<unknown>>('defaultItemTemplate');
+    viewChild.required<TemplateRef<unknown>>('defaultItemTemplate');
   private readonly _userItemTemplate = contentChild<TemplateRef<unknown>>('item');
   public readonly templateItem = input<TemplateRef<unknown> | null>(null);
   protected readonly itemTemplate = computed(
@@ -16,7 +16,7 @@ export abstract class ListBoxTemplates<T, K extends keyof T> extends ValueContro
   );
   // Group template
   private readonly _defaultGroupTemplate =
-    contentChild.required<TemplateRef<unknown>>('defaultGroupTemplate');
+    viewChild.required<TemplateRef<unknown>>('defaultGroupTemplate');
   private readonly _userGroupTemplate = contentChild<TemplateRef<unknown>>('group');
   public readonly templateGroup = input<TemplateRef<unknown> | null>(null);
   protected readonly groupTemplate = computed(

@@ -94,7 +94,6 @@ export class Scroller<T> {
       if (itemTop < scrollTop) {
         this._scrollElement.scrollTo({
           top: itemTop - 10,
-          behavior: 'smooth',
         });
       } else if (itemBottom > scrollTop + visibleHeight) {
         this._scrollElement.scrollTo({

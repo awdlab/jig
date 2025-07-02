@@ -29,6 +29,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./controls/select-demo/_all').then(m => m.Select_All_Component),
       },
+      {
+        path: 'list-box',
+        loadComponent: () =>
+          import('./controls/list-box-demo/_all').then(m => m.ListBox_All_Component),
+      },
     ],
   },
 ];

@@ -1,0 +1,19 @@
+import { Component } from '@angular/core';
+import { ListBox } from '@ngneers/controls/list-box';
+
+import { exampleData } from '../../helper/data';
+
+@Component({
+  imports: [ListBox],
+  template: `
+    <ngn-list-box
+      [items]="items"
+      [virtual]="true"
+      [itemHeight]="24"
+      style="display: block; height: 300px;"
+    />
+  `,
+})
+export class ListBox_Virtual_Component {
+  public readonly items = exampleData.items.groupedPreformatted;
+}
