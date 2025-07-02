@@ -8,6 +8,7 @@ import {
   inject,
   input,
   TemplateRef,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -82,27 +83,31 @@ export class Scroller<T> {
   }
 
   public scrollToIndex(index: number) {
-    if (this.virtual()) {
-      const scrollTop = this._scrollTop();
-      const visibleHeight = this._elementSize().height;
-      const itemTop = index * this.itemHeight();
-      const itemBottom = itemTop + this.itemHeight();
+    untracked(() => {
+      if (this.virtual()) {
+        const scrollTop = this._scrollTop();
+        const visibleHeight = this._elementSize().height;
+        const itemTop = index * this.itemHeight();
+        const itemBottom = itemTop + this.itemHeight();
 
-      if (itemTop < scrollTop) {
-        this._scrollElement.scrollTo({
-          top: itemTop - 10,
-        });
-      } else if (itemBottom > scrollTop + visibleHeight) {
-        this._scrollElement.scrollTo({
-          top: itemBottom - visibleHeight + 10,
-        });
+        if (itemTop < scrollTop) {
+          this._scrollElement.scrollTo({
+            top: itemTop - 10,
+          });
+        } else if (itemBottom > scrollTop + visibleHeight) {
+          this._scrollElement.scrollTo({
+            top: itemBottom - visibleHeight + 10,
+          });
+        }
+      } else {
+        const itemElement = this._itemList().nativeElement.querySelector(
+          `:nth-child(${index + 1})`
+        );
+        if (itemElement) {
+          itemElement.scrollIntoView({ block: 'nearest' });
+        }
       }
-    } else {
-      const itemElement = this._itemList().nativeElement.querySelector(`:nth-child(${index + 1})`);
-      if (itemElement) {
-        itemElement.scrollIntoView({ block: 'nearest' });
-      }
-    }
+    });
   }
 
   protected readonly itemsTop = computed(() => {
