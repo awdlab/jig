@@ -5,6 +5,7 @@ import { exampleData } from '../../helper/data';
 
 @Component({
   imports: [ListBox],
+  selector: 'ngn-list-box-templates',
   template: `<ngn-list-box [items]="items" style="display: block; height: 300px;">
     <ng-template #item let-option>
       <span>🏳️{{ option.label }}&ZeroWidthSpace;</span>

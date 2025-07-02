@@ -13,6 +13,7 @@ export class LazyComponent {
 
 @Component({
   imports: [Popover, LazyComponent],
+  selector: 'ngn-popover-lazy',
   template: `
     <button #anchor (click)="popover.open()">Open</button>
     <ngn-popover #popover [anchor]="anchor" [options]="{ cache: true }">

@@ -1,7 +1,8 @@
 @for (c of componentStories(); track $index) {
-  <h2>{{ c.title }}</h2>
-  @if (c.component | async; as component) {
-    test
+  @if (c.component; as component) {
+    <h2 [id]="c.title">
+      <a [routerLink]="'.'" fragment="{{ c.title }}">{{ c.title }}</a>
+    </h2>
     <ng-container *ngComponentOutlet="component" />
   }
   <details>

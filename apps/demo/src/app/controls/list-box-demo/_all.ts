@@ -36,6 +36,7 @@ export const stories: ComponentStories = {
 
 @Component({
   imports: [All_Component],
+  selector: 'ngn-list-box-all',
   template: ` <ngn-all [stories]="stories" /> `,
 })
 export class ListBox_All_Component {

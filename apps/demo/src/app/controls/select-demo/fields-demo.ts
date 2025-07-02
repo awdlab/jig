@@ -5,6 +5,7 @@ import { exampleData } from '../../helper/data';
 
 @Component({
   imports: [Select],
+  selector: 'ngn-select-fields',
   template: `
     <ngn-select
       #select

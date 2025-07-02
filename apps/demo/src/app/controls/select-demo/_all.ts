@@ -36,6 +36,7 @@ export const stories: ComponentStories = {
 
 @Component({
   imports: [All_Component],
+  selector: 'ngn-select-all',
   template: ` <ngn-all [stories]="stories" /> `,
 })
 export class Select_All_Component {

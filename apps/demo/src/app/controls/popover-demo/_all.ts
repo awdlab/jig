@@ -21,6 +21,7 @@ export const stories: ComponentStories = {
 
 @Component({
   imports: [All_Component],
+  selector: 'ngn-popover-all',
   template: ` <ngn-all [stories]="stories" /> `,
 })
 export class Popover_All_Component {

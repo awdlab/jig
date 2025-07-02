@@ -4,6 +4,7 @@ import { TextField } from '@ngneers/controls/text-field';
 
 @Component({
   imports: [FormsModule, TextField],
+  selector: 'ngn-text-field-base',
   template: `
     <ngn-text-field
       [inputId]="'test-input'"

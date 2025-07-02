@@ -16,6 +16,7 @@ export const stories: ComponentStories = {
 
 @Component({
   imports: [All_Component],
+  selector: 'ngn-text-field-all',
   template: `<ngn-all [stories]="stories" />`,
 })
 export class TextField_All_Component {
