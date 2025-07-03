@@ -47,61 +47,34 @@ export class CalendarDays {
     const daysInMonth = this._daysInMonth();
     const daysInPreviousMonth = this._daysInPreviousMonth();
 
-    // Calculate how many days from previous month to show
+    // Calculate starting point and total days needed
     const firstDayOffset = (firstDayOfMonth - firstDayOfWeek + 7) % 7;
+    const daysFromPreviousMonth = firstDayOffset + WEEKS_BEFORE * 7;
+    const daysToNextMonth = (7 - ((daysFromPreviousMonth + daysInMonth) % 7)) % 7;
+    const totalDays = daysFromPreviousMonth + daysInMonth + daysToNextMonth + WEEKS_AFTER * 7;
+    const startDay = daysInPreviousMonth - daysFromPreviousMonth + 1;
 
-    // Calculate additional days to show before and after
-    const additionalDaysBefore = WEEKS_BEFORE * 7;
-    const additionalDaysAfter = WEEKS_AFTER * 7;
-
-    // Build all days
+    // Build all days in one pass
     const allDays: DayModel[] = [];
+    let currentDate = startDay;
+    let currentMonth = -1; // -1 = previous, 0 = current, 1 = next
 
-    // Additional previous month days (full weeks before)
-    for (
-      let day = daysInPreviousMonth - firstDayOffset - additionalDaysBefore + 1;
-      day <= daysInPreviousMonth - firstDayOffset;
-      day++
-    ) {
-      allDays.push({
-        date: day,
-        isCurrentMonth: false,
-      });
-    }
+    for (let i = 0; i < totalDays; i++) {
+      // Determine which month we're in
+      if (currentDate > daysInPreviousMonth && currentMonth === -1) {
+        currentDate = 1;
+        currentMonth = 0;
+      } else if (currentDate > daysInMonth && currentMonth === 0) {
+        currentDate = 1;
+        currentMonth = 1;
+      }
 
-    // Days from previous month to complete the first week
-    for (let i = firstDayOffset - 1; i >= 0; i--) {
       allDays.push({
-        date: daysInPreviousMonth - i,
-        isCurrentMonth: false,
+        date: currentDate,
+        isCurrentMonth: currentMonth === 0,
       });
-    }
 
-    // Current month days
-    for (let day = 1; day <= daysInMonth; day++) {
-      allDays.push({
-        date: day,
-        isCurrentMonth: true,
-      });
-    }
-
-    // Days from next month to complete the last week
-    const remainingDaysInLastWeek = (7 - (allDays.length % 7)) % 7;
-    for (let day = 1; day <= remainingDaysInLastWeek; day++) {
-      allDays.push({
-        date: day,
-        isCurrentMonth: false,
-      });
-    }
-
-    // Additional next month days (full weeks after)
-    let nextMonthDay = remainingDaysInLastWeek + 1;
-    for (let i = 0; i < additionalDaysAfter; i++) {
-      allDays.push({
-        date: nextMonthDay,
-        isCurrentMonth: false,
-      });
-      nextMonthDay++;
+      currentDate++;
     }
 
     // Group into weeks
