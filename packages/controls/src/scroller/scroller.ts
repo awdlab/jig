@@ -2,19 +2,19 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
-  contentChild,
   effect,
   ElementRef,
   inject,
   input,
-  TemplateRef,
   untracked,
   viewChild,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { elementSizeSignal, templateTypesFn } from '@ngneers/controls/api';
+import { elementSizeSignal } from '@ngneers/controls/api';
 import { NgnError } from '@ngneers/controls/utils';
 import { fromEvent, map } from 'rxjs';
+
+import { ScrollerTemplates } from './scroller-templates';
 
 @Component({
   selector: 'ngn-scroller',
@@ -25,7 +25,7 @@ import { fromEvent, map } from 'rxjs';
     '[tabIndex]': 'focusable() ? 0 : -1',
   },
 })
-export class Scroller<T> {
+export class Scroller<T> extends ScrollerTemplates<T> {
   /**
    * The items to be displayed in the scroller.
    * This is a required input and should be an array of items of type T.
@@ -62,14 +62,6 @@ export class Scroller<T> {
   public readonly fieldSticky = input<keyof T | null>(null);
 
   private readonly _itemList = viewChild.required<ElementRef<HTMLElement>>('itemList');
-  /**
-   * The template to be used for rendering each item in the scroller.
-   * Can also be set using the `item` content child.
-   */
-  public readonly templateItem = input<TemplateRef<typeof this.templateTypes.item> | null>(null);
-  private readonly _userItemTemplate =
-    contentChild<TemplateRef<typeof this.templateTypes.item>>('item');
-  protected readonly itemTemplate = computed(() => this._userItemTemplate() ?? this.templateItem());
 
   private readonly _el = inject(ElementRef<HTMLElement>);
   private readonly _scrollElement: HTMLElement = this._el.nativeElement;
@@ -141,6 +133,7 @@ export class Scroller<T> {
   });
 
   constructor() {
+    super();
     effect(() => {
       if (this.virtual() && !this.itemHeight()) {
         throw new NgnError('scroller', 'itemHeight must be set when virtual is true');
@@ -179,15 +172,4 @@ export class Scroller<T> {
       }
     });
   }
-
-  /**
-   * Template types for the scroller.
-   * Can be used with the {@link NgnTemplate} directive for type safe ng-templates.
-   */
-  public readonly templateTypes = templateTypesFn<{
-    item: {
-      $implicit: T;
-      index: number;
-    };
-  }>();
 }
