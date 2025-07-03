@@ -8,6 +8,7 @@ COPY . .
 RUN pnpm install --frozen-lockfile
 
 
+RUN pnpm demo:prepare
 RUN pnpm demo:build
 
 # stage 2
@@ -19,6 +20,6 @@ FROM node:22-alpine
 
 COPY --from=builder /app/dist/demo ./
 ENV PORT=80
-CMD node server/server.mjs
+CMD ["node", "server/server.mjs"]
 
 EXPOSE 80
