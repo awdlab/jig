@@ -1,10 +1,7 @@
-import { Component, computed, contentChild, input, TemplateRef } from '@angular/core';
+import { computed, contentChild, Directive, input, TemplateRef } from '@angular/core';
 import { templateTypesFn } from '@ngneers/controls/api';
 
-@Component({
-  imports: [],
-  template: '',
-})
+@Directive()
 export abstract class ScrollerTemplates<T> {
   /**
    * The template to be used for rendering each item in the scroller.

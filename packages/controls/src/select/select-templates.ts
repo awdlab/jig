@@ -1,10 +1,7 @@
-import { Component, computed, contentChild, input, TemplateRef, viewChild } from '@angular/core';
+import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 import { NgnItem, templateTypesFn, ValueControlBase } from '@ngneers/controls/api';
 
-@Component({
-  imports: [],
-  template: '',
-})
+@Directive()
 export abstract class SelectTemplates<T, K extends keyof T> extends ValueControlBase<T[K]> {
   // Item template
   private readonly _defaultItemTemplate =
