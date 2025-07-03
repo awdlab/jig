@@ -75,6 +75,14 @@ export class Scroller<T> {
       });
   });
 
+  protected readonly itemsTop = computed(() => {
+    return this._itemStartIndex() * this.itemHeight();
+  });
+
+  protected readonly dummyHeight = computed(() => {
+    return this.items().length * this.itemHeight();
+  });
+
   constructor() {
     effect(() => {
       if (this.virtual() && !this.itemHeight()) {
@@ -110,14 +118,6 @@ export class Scroller<T> {
       }
     });
   }
-
-  protected readonly itemsTop = computed(() => {
-    return this._itemStartIndex() * this.itemHeight();
-  });
-
-  protected readonly dummyHeight = computed(() => {
-    return this.items().length * this.itemHeight();
-  });
 
   public readonly templateTypes = templateTypesFn<{
     item: {

@@ -30,13 +30,13 @@ export abstract class ListBoxTemplates<T, K extends keyof T> extends ValueContro
    */
   public readonly templateTypes = templateTypesFn<{
     item: {
-      $implicit: NgnItem<T, K>;
+      $implicit: NgnItem<T, K> | undefined;
     };
   }>();
 
   protected readonly templateTypesInternal = templateTypesFn<{
     item: {
-      $implicit: NgnItem<T, K>;
+      $implicit: NgnItem<T, K> | undefined;
       index: number;
     };
   }>();
