@@ -20,7 +20,7 @@ import { fromEvent, map } from 'rxjs';
   templateUrl: './scroller.html',
   imports: [NgTemplateOutlet],
   host: {
-    style: 'position: relative; overflow: auto; display: block; height: 100%; width: 100%;',
+    style: 'position: relative; overflow: auto; display: block; maxHeight: 100%; width: 100%;',
     '[tabIndex]': 'focusable() ? 0 : -1',
   },
 })

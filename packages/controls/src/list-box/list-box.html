@@ -1,5 +1,5 @@
 <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
-<ul
+<div
   class="ngn-list-box"
   style="height: 100%; width: 100%"
   [attr.tabIndex]="highlightable() ? 0 : null"
@@ -13,17 +13,14 @@
     [fieldSticky]="'items'"
     #scroller
   />
-</ul>
+</div>
 
 <ng-template #usedItemTemplate [ngnTemplate]="scroller.templateTypes.item" let-itemOrGroup>
   <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-  <li
+  <div
     [class.highlighted]="itemOrGroup.value === currentHighlightedValue()"
     [class.selected]="itemOrGroup.value === value()"
     (click)="!itemOrGroup.items && selectable() && onSelect(itemOrGroup.value)"
-    [style.position]="itemOrGroup.items ? 'sticky' : 'initial'"
-    [style.top]="itemOrGroup.items ? '0' : 'unset'"
-    [style.backgroundColor]="itemOrGroup.items ? 'white' : 'unset'"
   >
     <ng-container
       *ngTemplateOutlet="
@@ -31,7 +28,7 @@
         context: { $implicit: itemOrGroup }
       "
     ></ng-container>
-  </li>
+  </div>
 </ng-template>
 
 <ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>

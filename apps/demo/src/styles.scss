@@ -7,6 +7,11 @@
 .highlighted {
   background-color: lightblue;
 }
+.ngn-stick-top {
+  position: sticky;
+  top: 0;
+  background-color: white;
+}
 :focus {
   outline: 2px solid blue;
 }
@@ -87,4 +92,22 @@ h6 {
 #root,
 #__next {
   isolation: isolate;
+}
+[popover] {
+  position: unset;
+  width: unset;
+  height: unset;
+  color: unset;
+  background-color: unset;
+  inset: unset;
+  margin: unset;
+  border-width: unset;
+  border-style: unset;
+  border-color: unset;
+  border-image: unset;
+  padding: unset;
+  overflow: unset;
+}
+[popover]:not(:popover-open):not(dialog[open]) {
+  display: none !important;
 }

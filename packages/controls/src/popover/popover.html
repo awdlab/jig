@@ -1,5 +1,17 @@
-<div popover (toggle)="onToggle($event)" #popover id="dropdown">
-  <ngn-lazy-cacher [lazyContent]="lazyContent()" [open]="isOpen()" [cache]="appliedOptions().cache">
-    <ng-content></ng-content>
-  </ngn-lazy-cacher>
+<div
+  popover
+  (toggle)="onToggle($event)"
+  #popover
+  id="dropdown"
+  style="position: fixed; display: flex; flex-direction: column"
+>
+  <div style="height: 100%; max-height: fit-content; background: gainsboro">
+    <ngn-lazy-cacher
+      [lazyContent]="lazyContent()"
+      [open]="isOpen()"
+      [cache]="appliedOptions().cache"
+    >
+      <ng-content></ng-content>
+    </ngn-lazy-cacher>
+  </div>
 </div>

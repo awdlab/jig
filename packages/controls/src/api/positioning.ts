@@ -103,8 +103,13 @@ export function positionElement(
       options.resize
         ? size({
             apply({ availableHeight }) {
+              const maxHeightConstraint = options.sizeConstraints?.maxHeight;
+              const maxHeightInPx = maxHeightConstraint?.replace(/px$/, '');
+              const maxHeight = maxHeightInPx
+                ? Math.min(availableHeight, parseInt(maxHeightInPx))
+                : availableHeight;
               Object.assign(floatingEl.style, {
-                maxHeight: `${Math.min(Number(options.sizeConstraints?.maxHeight ?? availableHeight), availableHeight)}px`,
+                height: `${maxHeight}px`,
               });
             },
           })
