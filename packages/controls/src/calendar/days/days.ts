@@ -4,6 +4,10 @@ import { NgnTemplate } from '@ngneers/controls/api';
 
 import { WEEK_DAYS, WeekDay } from '../types';
 
+// Configuration: Number of weeks to show before and after the current month
+const WEEKS_BEFORE = 1;
+const WEEKS_AFTER = 1;
+
 type MonthModel = {
   weeks: WeekModel[];
 };
@@ -38,63 +42,76 @@ export class CalendarDays {
   );
 
   protected readonly monthModel = computed((): MonthModel => {
-    const weeks: WeekModel[] = [];
+    const firstDayOfMonth = this._firstDayOfMonth();
+    const firstDayOfWeek = this._firstDayOfWeekIndex();
+    const daysInMonth = this._daysInMonth();
+    const daysInPreviousMonth = this._daysInPreviousMonth();
 
-    let remainingDays = this._daysInMonth();
-    let currentDay = 1;
+    // Calculate how many days from previous month to show
+    const firstDayOffset = (firstDayOfMonth - firstDayOfWeek + 7) % 7;
 
-    const _firstDayOfMonthDistance = this._firstDayOfMonth() - this._firstDayOfWeekIndex();
-    const firstDayOffset =
-      _firstDayOfMonthDistance < 0 ? 7 + _firstDayOfMonthDistance : _firstDayOfMonthDistance;
+    // Calculate additional days to show before and after
+    const additionalDaysBefore = WEEKS_BEFORE * 7;
+    const additionalDaysAfter = WEEKS_AFTER * 7;
 
-    let currentWeek: WeekModel = { days: [] };
+    // Build all days
+    const allDays: DayModel[] = [];
 
-    // Fill the first week with days from the previous month if needed
-    for (let i = 0; i < firstDayOffset; i++) {
-      const previousMonthDay = this._daysInPreviousMonth() - firstDayOffset + i + 1;
-      currentWeek.days.push({
-        date: previousMonthDay,
+    // Additional previous month days (full weeks before)
+    for (
+      let day = daysInPreviousMonth - firstDayOffset - additionalDaysBefore + 1;
+      day <= daysInPreviousMonth - firstDayOffset;
+      day++
+    ) {
+      allDays.push({
+        date: day,
         isCurrentMonth: false,
       });
     }
 
-    while (remainingDays > 0) {
-      // If the current week is full, push it to the weeks array and start a new week
-      if (currentWeek.days.length === 7) {
-        weeks.push(currentWeek);
-        currentWeek = { days: [] };
-      }
+    // Days from previous month to complete the first week
+    for (let i = firstDayOffset - 1; i >= 0; i--) {
+      allDays.push({
+        date: daysInPreviousMonth - i,
+        isCurrentMonth: false,
+      });
+    }
 
-      // Add the current day to the week
-      currentWeek.days.push({
-        date: currentDay,
+    // Current month days
+    for (let day = 1; day <= daysInMonth; day++) {
+      allDays.push({
+        date: day,
         isCurrentMonth: true,
       });
-
-      // Increment the day and decrement the remaining days
-      currentDay++;
-      remainingDays--;
-
-      // If we reach the end of the month, reset the current day
-      if (currentDay > this._daysInMonth()) {
-        currentDay = 1;
-      }
     }
-    // Fill the last week with days from the next month if needed
-    currentDay = 1;
-    while (currentWeek.days.length < 7) {
-      currentWeek.days.push({
-        date: currentDay,
+
+    // Days from next month to complete the last week
+    const remainingDaysInLastWeek = (7 - (allDays.length % 7)) % 7;
+    for (let day = 1; day <= remainingDaysInLastWeek; day++) {
+      allDays.push({
+        date: day,
         isCurrentMonth: false,
       });
-      currentDay++;
     }
-    // Push the last week to the weeks array
-    if (currentWeek.days.length > 0) {
-      weeks.push(currentWeek);
+
+    // Additional next month days (full weeks after)
+    let nextMonthDay = remainingDaysInLastWeek + 1;
+    for (let i = 0; i < additionalDaysAfter; i++) {
+      allDays.push({
+        date: nextMonthDay,
+        isCurrentMonth: false,
+      });
+      nextMonthDay++;
     }
-    return {
-      weeks: weeks,
-    };
+
+    // Group into weeks
+    const weeks: WeekModel[] = [];
+    for (let i = 0; i < allDays.length; i += 7) {
+      weeks.push({
+        days: allDays.slice(i, i + 7),
+      });
+    }
+
+    return { weeks };
   });
 }
