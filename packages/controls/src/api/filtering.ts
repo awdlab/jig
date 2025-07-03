@@ -1,4 +1,4 @@
-import { fuzzyMatch, notNullish } from '@ngneers/controls/utils';
+import { fuzzyMatch, NgnError, notNullish } from '@ngneers/controls/utils';
 
 export type PredefinedFilterFunctions = 'contains' | 'startsWith' | 'endsWith' | 'equals' | 'fuzzy';
 
@@ -79,7 +79,8 @@ async function itemMatches<T extends object>(
           return fuzzyMatch(itemString, word);
         default:
           if (typeof filterOptions.filterFn !== 'function') {
-            throw new Error(
+            throw new NgnError(
+              'filtering',
               `Invalid filter function: ${filterOptions.filterFn}. Expected a function or one of the predefined filter functions.`
             );
           }

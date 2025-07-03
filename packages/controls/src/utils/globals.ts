@@ -4,6 +4,7 @@ const globalPropertyName = '__ngn-controls-global__';
 
 interface NgnGlobalType {
   nextElementId: number;
+  fancyLogging: boolean;
 }
 
 declare global {
@@ -18,6 +19,7 @@ export class NgnGlobal implements NgnGlobalType {
   constructor() {
     this._window[globalPropertyName] ??= {
       nextElementId: 1,
+      fancyLogging: true,
     };
   }
 
@@ -26,5 +28,12 @@ export class NgnGlobal implements NgnGlobalType {
   }
   public set nextElementId(value: number) {
     this._window[globalPropertyName].nextElementId = value;
+  }
+
+  public get fancyLogging(): boolean {
+    return this._window[globalPropertyName].fancyLogging;
+  }
+  public set fancyLogging(value: boolean) {
+    this._window[globalPropertyName].fancyLogging = value;
   }
 }

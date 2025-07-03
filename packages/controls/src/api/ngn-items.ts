@@ -1,3 +1,5 @@
+import { NgnError } from '@ngneers/controls/utils';
+
 export type NgnItem<T = any, K extends keyof T = any> = {
   data?: T;
   label: string;
@@ -19,7 +21,8 @@ export function transformToNgnItem<T extends object, K extends keyof T>(
 ): NgnItem<T, K> {
   const rawItems = fields.groupItems ? item[fields.groupItems] : undefined;
   if (rawItems && !Array.isArray(rawItems)) {
-    throw new Error(
+    throw new NgnError(
+      'transformToNgnItem',
       `Expected groupItems to be an array, but got ${typeof rawItems} for item: ${JSON.stringify(item)}`
     );
   }

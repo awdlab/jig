@@ -9,6 +9,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { IconType } from '@ngneers/controls/custom-types';
+import { NgnError } from '@ngneers/controls/utils';
 
 import { GlobalIconTemplate } from './global-icon-template';
 
@@ -40,7 +41,10 @@ export class Icon {
   constructor() {
     afterRenderEffect(() => {
       if (!this.icon() && !this.defaultIcon()) {
-        throw new Error('Icon component requires either an icon or a default icon to be set.');
+        throw new NgnError(
+          'icon',
+          'Icon component requires either an icon or a default icon to be set.'
+        );
       }
     });
   }

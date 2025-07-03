@@ -13,6 +13,7 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { elementSizeSignal, templateTypesFn } from '@ngneers/controls/api';
+import { NgnError } from '@ngneers/controls/utils';
 import { fromEvent, map } from 'rxjs';
 
 @Component({
@@ -142,7 +143,7 @@ export class Scroller<T> {
   constructor() {
     effect(() => {
       if (this.virtual() && !this.itemHeight()) {
-        throw new Error('Item height must be set when virtual is true');
+        throw new NgnError('scroller', 'itemHeight must be set when virtual is true');
       }
     });
   }
