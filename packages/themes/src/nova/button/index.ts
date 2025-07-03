@@ -1,4 +1,4 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
+import { createThemePart } from '@ngneers/controls-themes/api';
 import { colorsTemplate } from '@ngneers/controls-themes/nova/base';
 import { buttonTemplate } from '@ngneers/controls-themes/templates/button';
 
@@ -13,6 +13,16 @@ export const buttonVariables = createThemePart({
       fontSize: '0.875rem',
       fontWeight: '600',
       padding: '0.5rem 1rem',
+
+      hover: {
+        background: '{color.primary.200}',
+      },
+      focus: {
+        background: '{color.primary.300}',
+      },
+      active: {
+        background: '{color.primary.100}',
+      },
     },
   },
 });

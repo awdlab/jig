@@ -6,6 +6,7 @@ import {
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { provideNgnControls } from '@ngneers/controls/api';
+import { novaCoral } from '@ngneers/controls-themes/nova';
 
 import { routes } from './app.routes';
 
@@ -15,6 +16,6 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    provideNgnControls(),
+    provideNgnControls({ theme: { preset: novaCoral } }),
   ],
 };

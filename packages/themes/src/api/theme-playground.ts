@@ -63,6 +63,6 @@ const buttonStyles = createThemePart({
 
 const buttonTheme = [buttonVariables, buttonStyles] as const;
 
-const theme = createTheme([colorsTheme, buttonTheme]);
+const theme = createTheme('test', [colorsTheme, buttonTheme]);
 
 // TODO: Implement generation of CSS from theme

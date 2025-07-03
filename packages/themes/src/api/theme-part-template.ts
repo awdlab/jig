@@ -11,19 +11,19 @@ export type ThemePartTemplate<
   scope: TScope;
   variables: TVars;
   classNames: TClassNames;
-  css?: CssFunction<DeepKeys<TVars>, TClassNames[number]>;
+  css?: CssFunction<`${TScope}.${DeepKeys<TVars>}`, TClassNames[number]>;
 };
 
 export function createThemePartTemplate<
   TScope extends string,
   TVars extends Record<string, ThemePartTemplateVar<null>>,
   const TClassNames extends string[],
-  TDefaults extends VariableDefinition<TVars, DeepKeys<TVars>>,
+  TDefaults extends VariableDefinition<TVars, `${TScope}.${DeepKeys<TVars>}`>,
 >(
   template: ThemePartTemplate<TScope, TVars, TClassNames>,
   options?: {
     defaults?: TDefaults;
-    defaultStyles?: CssFunction<DeepKeys<TVars>, TClassNames[number]>;
+    defaultStyles?: CssFunction<`${TScope}.${DeepKeys<TVars>}`, TClassNames[number]>;
   }
 ): ThemePartTemplate<TScope, TVars, TClassNames> {
   return {

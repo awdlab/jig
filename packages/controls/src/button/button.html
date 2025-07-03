@@ -1,0 +1,21 @@
+<!-- eslint-disable @angular-eslint/template/no-autofocus -->
+
+<button
+  [ngClass]="theme.class()"
+  [disabled]="disabled()"
+  [type]="type()"
+  [tabindex]="tabIndex() ?? undefined"
+  [autofocus]="autofocus()"
+  [attr.aria-pressed]="ariaPressed() || undefined"
+  [attr.aria-expanded]="ariaExpanded() || undefined"
+  [attr.aria-controls]="ariaControls() || undefined"
+  [attr.aria-label]="ariaLabel() || undefined"
+  [attr.aria-labelledby]="ariaLabelledBy() || undefined"
+  [attr.aria-describedby]="ariaDescribedBy() || undefined"
+  [attr.aria-disabled]="disabled() === true ? undefined : ariaDisabled() || undefined"
+  [attr.aria-hidden]="ariaHidden() || undefined"
+  (click)="clicked.emit($event)"
+  (keydown.enter)="clicked.emit($event)"
+>
+  <ng-content />
+</button>

@@ -10,6 +10,11 @@ export const routes: Routes = [
     loadComponent: () => import('./docs/docs').then(m => m.DocsComponent),
     children: [
       {
+        path: 'button',
+        loadComponent: () =>
+          import('./controls/button-demo/_all').then(m => m.Button_All_Component),
+      },
+      {
         path: 'dialog',
         loadComponent: () =>
           import('./controls/dialog-demo/_all').then(m => m.Dialog_All_Component),

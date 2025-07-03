@@ -3,7 +3,7 @@ import { ThemePart, VariableDefinition } from './theme-part';
 import { ThemePartTemplate } from './theme-part-template';
 import { groupArrayUsing } from './utils';
 
-export type CssScope =
+export type StyleScope =
   | {
       kind: 'attribute';
       name: string;
@@ -41,7 +41,7 @@ export type ApplyThemeOptions = {
    * If not provided, the theme will be applied globally.
    * @default undefined
    */
-  scope?: CssScope;
+  styleScope?: StyleScope;
   /**
    * A prefix to add to the class names and CSS variables of the theme parts.
    * This is useful for avoiding name collisions in the global scope.
@@ -58,7 +58,7 @@ export function applyTheme<T extends Theme>(
   const opt = {
     document: options?.document ?? window.document,
     layer: options?.layer,
-    scope: options?.scope,
+    scope: options?.styleScope,
     namePrefix: options?.namePrefix ?? 'ngn-',
   };
   const parts = groupArrayUsing(
@@ -74,13 +74,75 @@ export function applyTheme<T extends Theme>(
   // variable style elements
   for (const [scope, scopeParts] of parts) {
     const css = buildVariablesCss(scopeParts, opt);
-    // TODO: Add css to document
+    upsertThemeStyleElement(
+      opt.document,
+      {
+        kind: 'variables',
+        'theme-scope': scope,
+        'style-scope': styleScopeToIdentifier(opt.scope),
+      },
+      css
+    );
   }
 
   // style element
   for (const scope of scopes) {
-    const css = buildStyleCss(parts.get(scope) ?? [], opt);
-    // TODO: Add css to document
+    const part = parts.get(scope);
+    if (!part) {
+      console.warn(`No theme parts found for scope '${scope}'. Skipping style generation.`);
+      continue;
+    }
+    const css = buildStyleCss(part, opt);
+    upsertThemeStyleElement(
+      opt.document,
+      {
+        kind: 'styles',
+        'theme-scope': scope,
+        'style-scope': styleScopeToIdentifier(opt.scope),
+      },
+      css
+    );
+  }
+}
+
+export function upsertThemeStyleElement(
+  document: Document,
+  identifiers: Record<string, string | undefined>,
+  css: string
+): HTMLStyleElement {
+  let selector = '';
+  for (const key in identifiers) {
+    if (identifiers[key] === undefined) continue;
+    selector += `[data-${key}="${identifiers[key]}"]`;
+  }
+  if (!selector) throw new Error('No identifiers provided for the style element');
+
+  let styleElement = document.head.querySelector<HTMLStyleElement>(`style[ngn-style]${selector}`);
+  if (!styleElement) {
+    styleElement = document.createElement('style');
+    styleElement.setAttribute('ngn-style', '');
+    for (const key in identifiers) {
+      if (identifiers[key] === undefined) continue;
+      styleElement.setAttribute(`data-${key}`, identifiers[key]);
+    }
+    document.head.appendChild(styleElement);
+  }
+  styleElement.innerHTML = css;
+
+  return styleElement;
+}
+
+function styleScopeToIdentifier(scope: StyleScope | undefined): string | undefined {
+  if (!scope) return undefined;
+  switch (scope.kind) {
+    case 'attribute':
+      return `attr:${scope.name}${scope.value ? `:${scope.value}` : ''}`;
+    case 'class':
+      return `class:${scope.name}`;
+    case 'id':
+      return `id:${scope.name}`;
+    case 'tag':
+      return `tag:${scope.name}`;
   }
 }
 
@@ -112,7 +174,14 @@ function buildVariablesCss(parts: ThemePart[], options: ApplyThemeOptions): stri
   }));
 
   let css = options.layer ? `@layer ${options.layer} { ` : '';
-  css += `${getScopeSelector(options.scope)} { `;
+  css += `${getScopeSelector(options.styleScope)} { `;
+
+  const uniqueTemplates = parts
+    .map(part => part.template)
+    .filter((part, index, self) => self.indexOf(part) === index);
+  for (const template of uniqueTemplates) {
+    css += variableCssFromVariableDefinition(template.variables, options, template.scope);
+  }
 
   for (const { root } of cssParts) {
     if (root) {
@@ -137,14 +206,15 @@ function variableCssFromVariableDefinition(
   let result = '';
   for (const key in content) {
     const value = (content as any)[key];
+    if (!value) continue;
     if (typeof value === 'object') {
-      return variableCssFromVariableDefinition(value, options, `${scope}-${key}`);
+      result += variableCssFromVariableDefinition(value, options, `${scope}-${key}`);
     } else if (typeof value === 'string') {
       const varName = getCssVar(options.namePrefix, `${scope}.${key}`);
       if (value.startsWith('{') && value.endsWith('}')) {
-        result += `--${varName}: var(${getCssVar(options.namePrefix, value.slice(1, -1))});`;
+        result += `${varName}: var(${getCssVar(options.namePrefix, value.slice(1, -1))});`;
       } else {
-        result += `--${varName}: ${value};`;
+        result += `${varName}: ${value};`;
       }
     }
   }
@@ -159,7 +229,8 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions): string {
     }
     const args = {
       v: varKeySelector,
-      c: (className?: string) => getClassName(options.namePrefix, part.template.scope, className),
+      c: (className?: string) =>
+        `.${getClassName(options.namePrefix, part.template.scope, className)}`,
     };
     return {
       root: part.root?.css?.(args),
@@ -170,7 +241,20 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions): string {
   });
 
   let css = options.layer ? `@layer ${options.layer} { ` : '';
-  css += `${getScopeSelector(options.scope)} { `;
+  css += `${getScopeSelector(options.styleScope)} { `;
+
+  const uniqueTemplates = parts
+    .map(part => part.template)
+    .filter((part, index, self) => self.indexOf(part) === index);
+  for (const template of uniqueTemplates) {
+    if (template.css) {
+      css += template.css({
+        v: varKeySelector,
+        c: (className?: string) =>
+          `.${getClassName(options.namePrefix, template.scope, className)}`,
+      });
+    }
+  }
 
   for (const { root } of cssParts) {
     if (root) {
@@ -186,7 +270,7 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions): string {
   return css;
 }
 
-function getScopeSelector(scope: CssScope | undefined): string | null {
+function getScopeSelector(scope: StyleScope | undefined): string | null {
   if (!scope) {
     return ':root';
   }
@@ -211,7 +295,7 @@ function getCssVar(prefix: string, key: string): string {
   return `--${prefix}${varName}`;
 }
 
-function getClassName(prefix: string, scope: string, className?: string) {
+export function getClassName(prefix: string, scope: string, className?: string) {
   let result = `${prefix}${scope}`;
   if (className) result += `-${className}`;
   return result;

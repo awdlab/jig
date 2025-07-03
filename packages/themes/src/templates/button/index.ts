@@ -22,24 +22,24 @@ const stateVars = {
 };
 
 const stateVarDefaults = {
-  background: '{background}',
-  color: '{color}',
-  borderStyle: '{borderStyle}',
-  borderWidth: '{borderWidth}',
-  borderColor: '{borderColor}',
-  borderRadius: '{borderRadius}',
-  padding: '{padding}',
-  fontFamily: '{fontFamily}',
-  fontSize: '{fontSize}',
-  fontWeight: '{fontWeight}',
-  lineHeight: '{lineHeight}',
-  textTransform: '{textTransform}',
-  boxShadow: '{boxShadow}',
-  outlineStyle: '{outlineStyle}',
-  outlineWidth: '{outlineWidth}',
-  outlineColor: '{outlineColor}',
-  outlineOffset: '{outlineOffset}',
-  cursor: '{cursor}',
+  background: '{button.background}',
+  color: '{button.color}',
+  borderStyle: '{button.borderStyle}',
+  borderWidth: '{button.borderWidth}',
+  borderColor: '{button.borderColor}',
+  borderRadius: '{button.borderRadius}',
+  padding: '{button.padding}',
+  fontFamily: '{button.fontFamily}',
+  fontSize: '{button.fontSize}',
+  fontWeight: '{button.fontWeight}',
+  lineHeight: '{button.lineHeight}',
+  textTransform: '{button.textTransform}',
+  boxShadow: '{button.boxShadow}',
+  outlineStyle: '{button.outlineStyle}',
+  outlineWidth: '{button.outlineWidth}',
+  outlineColor: '{button.outlineColor}',
+  outlineOffset: '{button.outlineOffset}',
+  cursor: '{button.cursor}',
 } as const;
 
 export const buttonTemplate = createThemePartTemplate(
@@ -52,7 +52,7 @@ export const buttonTemplate = createThemePartTemplate(
       active: stateVars,
       disabled: stateVars,
     },
-    classNames: [],
+    classNames: ['primary'],
   },
   {
     defaults: {
@@ -63,104 +63,104 @@ export const buttonTemplate = createThemePartTemplate(
     },
     defaultStyles: ({ c, v }) => css`
       ${c()} {
-        background: ${v('background')};
-        color: ${v('color')};
-        border-style: ${v('borderStyle')};
-        border-width: ${v('borderWidth')};
-        border-color: ${v('borderColor')};
-        border-radius: ${v('borderRadius')};
-        padding: ${v('padding')};
-        font-family: ${v('fontFamily')};
-        font-size: ${v('fontSize')};
-        font-weight: ${v('fontWeight')};
-        line-height: ${v('lineHeight')};
-        text-transform: ${v('textTransform')};
-        box-shadow: ${v('boxShadow')};
-        outline-style: ${v('outlineStyle')};
-        outline-width: ${v('outlineWidth')};
-        outline-color: ${v('outlineColor')};
-        outline-offset: ${v('outlineOffset')};
-        cursor: ${v('cursor')};
+        background: ${v('button.background')};
+        color: ${v('button.color')};
+        border-style: ${v('button.borderStyle')};
+        border-width: ${v('button.borderWidth')};
+        border-color: ${v('button.borderColor')};
+        border-radius: ${v('button.borderRadius')};
+        padding: ${v('button.padding')};
+        font-family: ${v('button.fontFamily')};
+        font-size: ${v('button.fontSize')};
+        font-weight: ${v('button.fontWeight')};
+        line-height: ${v('button.lineHeight')};
+        text-transform: ${v('button.textTransform')};
+        box-shadow: ${v('button.boxShadow')};
+        outline-style: ${v('button.outlineStyle')};
+        outline-width: ${v('button.outlineWidth')};
+        outline-color: ${v('button.outlineColor')};
+        outline-offset: ${v('button.outlineOffset')};
+        cursor: ${v('button.cursor')};
       }
       ${c()}:focus-visible {
-        background: ${v('focus.background')};
-        color: ${v('focus.color')};
-        border-style: ${v('focus.borderStyle')};
-        border-width: ${v('focus.borderWidth')};
-        border-color: ${v('focus.borderColor')};
-        border-radius: ${v('focus.borderRadius')};
-        padding: ${v('focus.padding')};
-        font-family: ${v('focus.fontFamily')};
-        font-size: ${v('focus.fontSize')};
-        font-weight: ${v('focus.fontWeight')};
-        line-height: ${v('focus.lineHeight')};
-        text-transform: ${v('focus.textTransform')};
-        box-shadow: ${v('focus.boxShadow')};
-        outline-style: ${v('focus.outlineStyle')};
-        outline-width: ${v('focus.outlineWidth')};
-        outline-color: ${v('focus.outlineColor')};
-        outline-offset: ${v('focus.outlineOffset')};
-        cursor: ${v('focus.cursor')};
+        background: ${v('button.focus.background')};
+        color: ${v('button.focus.color')};
+        border-style: ${v('button.focus.borderStyle')};
+        border-width: ${v('button.focus.borderWidth')};
+        border-color: ${v('button.focus.borderColor')};
+        border-radius: ${v('button.focus.borderRadius')};
+        padding: ${v('button.focus.padding')};
+        font-family: ${v('button.focus.fontFamily')};
+        font-size: ${v('button.focus.fontSize')};
+        font-weight: ${v('button.focus.fontWeight')};
+        line-height: ${v('button.focus.lineHeight')};
+        text-transform: ${v('button.focus.textTransform')};
+        box-shadow: ${v('button.focus.boxShadow')};
+        outline-style: ${v('button.focus.outlineStyle')};
+        outline-width: ${v('button.focus.outlineWidth')};
+        outline-color: ${v('button.focus.outlineColor')};
+        outline-offset: ${v('button.focus.outlineOffset')};
+        cursor: ${v('button.focus.cursor')};
       }
       ${c()}:hover {
-        background: ${v('hover.background')};
-        color: ${v('hover.color')};
-        border-style: ${v('hover.borderStyle')};
-        border-width: ${v('hover.borderWidth')};
-        border-color: ${v('hover.borderColor')};
-        border-radius: ${v('hover.borderRadius')};
-        padding: ${v('hover.padding')};
-        font-family: ${v('hover.fontFamily')};
-        font-size: ${v('hover.fontSize')};
-        font-weight: ${v('hover.fontWeight')};
-        line-height: ${v('hover.lineHeight')};
-        text-transform: ${v('hover.textTransform')};
-        box-shadow: ${v('hover.boxShadow')};
-        outline-style: ${v('hover.outlineStyle')};
-        outline-width: ${v('hover.outlineWidth')};
-        outline-color: ${v('hover.outlineColor')};
-        outline-offset: ${v('hover.outlineOffset')};
-        cursor: ${v('hover.cursor')};
+        background: ${v('button.hover.background')};
+        color: ${v('button.hover.color')};
+        border-style: ${v('button.hover.borderStyle')};
+        border-width: ${v('button.hover.borderWidth')};
+        border-color: ${v('button.hover.borderColor')};
+        border-radius: ${v('button.hover.borderRadius')};
+        padding: ${v('button.hover.padding')};
+        font-family: ${v('button.hover.fontFamily')};
+        font-size: ${v('button.hover.fontSize')};
+        font-weight: ${v('button.hover.fontWeight')};
+        line-height: ${v('button.hover.lineHeight')};
+        text-transform: ${v('button.hover.textTransform')};
+        box-shadow: ${v('button.hover.boxShadow')};
+        outline-style: ${v('button.hover.outlineStyle')};
+        outline-width: ${v('button.hover.outlineWidth')};
+        outline-color: ${v('button.hover.outlineColor')};
+        outline-offset: ${v('button.hover.outlineOffset')};
+        cursor: ${v('button.hover.cursor')};
       }
       ${c()}:active {
-        background: ${v('active.background')};
-        color: ${v('active.color')};
-        border-style: ${v('active.borderStyle')};
-        border-width: ${v('active.borderWidth')};
-        border-color: ${v('active.borderColor')};
-        border-radius: ${v('active.borderRadius')};
-        padding: ${v('active.padding')};
-        font-family: ${v('active.fontFamily')};
-        font-size: ${v('active.fontSize')};
-        font-weight: ${v('active.fontWeight')};
-        line-height: ${v('active.lineHeight')};
-        text-transform: ${v('active.textTransform')};
-        box-shadow: ${v('active.boxShadow')};
-        outline-style: ${v('active.outlineStyle')};
-        outline-width: ${v('active.outlineWidth')};
-        outline-color: ${v('active.outlineColor')};
-        outline-offset: ${v('active.outlineOffset')};
-        cursor: ${v('active.cursor')};
+        background: ${v('button.active.background')};
+        color: ${v('button.active.color')};
+        border-style: ${v('button.active.borderStyle')};
+        border-width: ${v('button.active.borderWidth')};
+        border-color: ${v('button.active.borderColor')};
+        border-radius: ${v('button.active.borderRadius')};
+        padding: ${v('button.active.padding')};
+        font-family: ${v('button.active.fontFamily')};
+        font-size: ${v('button.active.fontSize')};
+        font-weight: ${v('button.active.fontWeight')};
+        line-height: ${v('button.active.lineHeight')};
+        text-transform: ${v('button.active.textTransform')};
+        box-shadow: ${v('button.active.boxShadow')};
+        outline-style: ${v('button.active.outlineStyle')};
+        outline-width: ${v('button.active.outlineWidth')};
+        outline-color: ${v('button.active.outlineColor')};
+        outline-offset: ${v('button.active.outlineOffset')};
+        cursor: ${v('button.active.cursor')};
       }
       ${c()}:disabled {
-        background: ${v('disabled.background')};
-        color: ${v('disabled.color')};
-        border-style: ${v('disabled.borderStyle')};
-        border-width: ${v('disabled.borderWidth')};
-        border-color: ${v('disabled.borderColor')};
-        border-radius: ${v('disabled.borderRadius')};
-        padding: ${v('disabled.padding')};
-        font-family: ${v('disabled.fontFamily')};
-        font-size: ${v('disabled.fontSize')};
-        font-weight: ${v('disabled.fontWeight')};
-        line-height: ${v('disabled.lineHeight')};
-        text-transform: ${v('disabled.textTransform')};
-        box-shadow: ${v('disabled.boxShadow')};
-        outline-style: ${v('disabled.outlineStyle')};
-        outline-width: ${v('disabled.outlineWidth')};
-        outline-color: ${v('disabled.outlineColor')};
-        outline-offset: ${v('disabled.outlineOffset')};
-        cursor: ${v('disabled.cursor')};
+        background: ${v('button.disabled.background')};
+        color: ${v('button.disabled.color')};
+        border-style: ${v('button.disabled.borderStyle')};
+        border-width: ${v('button.disabled.borderWidth')};
+        border-color: ${v('button.disabled.borderColor')};
+        border-radius: ${v('button.disabled.borderRadius')};
+        padding: ${v('button.disabled.padding')};
+        font-family: ${v('button.disabled.fontFamily')};
+        font-size: ${v('button.disabled.fontSize')};
+        font-weight: ${v('button.disabled.fontWeight')};
+        line-height: ${v('button.disabled.lineHeight')};
+        text-transform: ${v('button.disabled.textTransform')};
+        box-shadow: ${v('button.disabled.boxShadow')};
+        outline-style: ${v('button.disabled.outlineStyle')};
+        outline-width: ${v('button.disabled.outlineWidth')};
+        outline-color: ${v('button.disabled.outlineColor')};
+        outline-offset: ${v('button.disabled.outlineOffset')};
+        cursor: ${v('button.disabled.cursor')};
       }
     `,
   }

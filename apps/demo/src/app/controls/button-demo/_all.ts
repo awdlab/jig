@@ -3,27 +3,22 @@ import { Component } from '@angular/core';
 import { All_Component, ComponentStories } from '../_base/all';
 
 export const stories: ComponentStories = {
-  id: 'dialog',
-  name: 'Dialog',
+  id: 'button',
+  name: 'Button',
   stories: () => [
     {
       fileName: 'base',
       title: 'Basic',
-      component: import('./base-demo').then(x => x.Dialog_Base_Component),
-    },
-    {
-      fileName: 'lazy',
-      title: 'Lazy',
-      component: import('./lazy-demo').then(x => x.Dialog_Lazy_Component),
+      component: import('./base-demo').then(x => x.Button_Base_Component),
     },
   ],
 };
 
 @Component({
   imports: [All_Component],
-  selector: 'ngn-dialog-all',
+  selector: 'ngn-button-all',
   template: ` <ngn-all [stories]="stories" /> `,
 })
-export class Dialog_All_Component {
+export class Button_All_Component {
   protected readonly stories = stories;
 }

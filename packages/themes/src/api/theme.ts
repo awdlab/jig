@@ -2,6 +2,7 @@ import { ThemePart } from './theme-part';
 import { ThemePartTemplate } from './theme-part-template';
 
 export type Theme<T extends ThemePart[] = ThemePart[]> = {
+  name: string;
   parts: T;
 };
 
@@ -34,9 +35,11 @@ type _FlatThemeParts<T> = T extends readonly [infer A, ...infer R]
   : [];
 
 export function createTheme<const T extends ThemeParts>(
+  name: string,
   parts: GetError<_FlatThemeParts<T>> extends never ? T : GetError<_FlatThemeParts<T>>
 ): Theme<_FlatThemeParts<T>> {
   return {
+    name,
     parts: (parts as T).flat() as _FlatThemeParts<T>,
   };
 }
