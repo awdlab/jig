@@ -2,6 +2,14 @@
   <div [style.height.px]="dummyHeight()"></div>
 }
 <div #itemList [style.top.px]="itemsTop()" [style.position]="virtual() ? 'absolute' : 'unset'">
+  @if (latestStickyItem(); as latestStickyItem) {
+    <ng-container
+      *ngTemplateOutlet="
+        itemTemplate();
+        context: { $implicit: latestStickyItem.item, index: latestStickyItem.index }
+      "
+    ></ng-container>
+  }
   @for (item of visibleItems(); track item.index) {
     <ng-container
       *ngTemplateOutlet="itemTemplate(); context: { $implicit: item.item, index: item.index }"

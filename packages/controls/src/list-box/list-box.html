@@ -10,6 +10,7 @@
     [itemHeight]="itemHeight() ?? 0"
     [items]="flatItems()"
     [templateItem]="usedItemTemplate"
+    [fieldSticky]="'items'"
     #scroller
   />
 </ul>
@@ -20,6 +21,9 @@
     [class.highlighted]="itemOrGroup.value === currentHighlightedValue()"
     [class.selected]="itemOrGroup.value === value()"
     (click)="!itemOrGroup.items && selectable() && onSelect(itemOrGroup.value)"
+    [style.position]="itemOrGroup.items ? 'sticky' : 'initial'"
+    [style.top]="itemOrGroup.items ? '0' : 'unset'"
+    [style.backgroundColor]="itemOrGroup.items ? 'white' : 'unset'"
   >
     <ng-container
       *ngTemplateOutlet="
