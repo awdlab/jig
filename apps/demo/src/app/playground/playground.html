@@ -3,6 +3,11 @@
     [label]="'hi'"
     [options]="options"
     [ngModel]="selectedItem()"
+    [popoverOptions]="{
+      sizeConstraints: {
+        minWidth: '150px',
+      },
+    }"
     (ngModelChange)="selectedItem.set($event)"
     #select
   >

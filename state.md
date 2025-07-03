@@ -1,14 +1,15 @@
-# Controls
+# State of ngneers-controls
 
-## Select
+## Controls
+
+### Select
 
 ✅Grouping
-✅Filtering
 ✅Async Filtering
 ✅Item Templates
 ✅Group Templates
 ✅Selected Item Templates
-Virtual Scrolling
+✅Virtual Scrolling
 Lazy Loading
 Theme
 Editable (Custom Value)
@@ -16,10 +17,58 @@ Editable (Custom Value)
 SVG icons
 a11y
 
-## Icons
+### Icons
 
 ✅Global Template
 
-## TextField
+### TextField
 
 ✅Input
+
+### Listbox
+
+✅Grouping
+Async Filtering
+✅Item Templates
+✅Group Templates
+✅Virtual Scrolling
+Lazy Loading
+Theme
+✅Keyboard selection
+SVG icons
+a11y
+prevent textwrap -> tooltip
+
+### Scroller
+
+✅Virtual Scrolling
+✅Item Template
+✅Sticky Items
+✅Scroll to index
+❓Horizontal Scrolling
+
+### Popover
+
+✅Positioning
+✅Size Constraints
+✅Height: fit-content
+Theme
+a11y
+
+### Dialog
+
+✅Show & hide
+Positioning
+Size Constraints
+a11y
+Theme
+
+## Docs
+
+Landing Page
+✅Controls Examples
+✅Code Examples for each control
+API Documentation
+✅Navigation between controls
+Sidebar navigation between control examples
+Written documentation for each example

@@ -3,6 +3,10 @@ import { autoUpdate, computePosition, flip, offset, shift, size } from '@floatin
 
 export type PositioningSizeConstraints = {
   /**
+   * The minimum width of the floating element. When a string is provided, it is used as the CSS min-width value.
+   */
+  minWidth?: string;
+  /**
    * The width of the floating element. When a number is provided, it is relative to the width of the reference element.
    * When a string is provided, it is used as the CSS width value.
    */
@@ -90,6 +94,9 @@ export function positionElement(
       if (options.sizeConstraints.maxHeight) {
         floatingEl.style.maxHeight = options.sizeConstraints.maxHeight;
       }
+    }
+    if (options.sizeConstraints.minWidth) {
+      floatingEl.style.minWidth = options.sizeConstraints.minWidth;
     }
   }
 
