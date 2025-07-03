@@ -3,7 +3,7 @@
 }
 <div #itemList [style.top.px]="itemsTop()" [style.position]="virtual() ? 'absolute' : 'unset'">
   @if (latestStickyItem(); as latestStickyItem) {
-    <div class="ngn-stick-top">
+    <div class="ngn-stick-top" [style.height.px]="itemHeight() || null">
       <ng-container
         *ngTemplateOutlet="
           itemTemplate();
@@ -13,7 +13,10 @@
     </div>
   }
   @for (item of visibleItems(); track item.index) {
-    <div [class.ngn-stick-top]="fieldSticky() && item.item[fieldSticky()!]">
+    <div
+      [style.height.px]="itemHeight() || null"
+      [class.ngn-stick-top]="fieldSticky() && item.item[fieldSticky()!]"
+    >
       <ng-container
         *ngTemplateOutlet="itemTemplate(); context: { $implicit: item.item, index: item.index }"
       ></ng-container>
