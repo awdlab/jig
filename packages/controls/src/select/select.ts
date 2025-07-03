@@ -6,9 +6,14 @@ import {
   GetElementRef,
   NgnTemplate,
   valueControlBaseProvider,
+  mapToItems,
+  NgnItem,
+  NgnItemFields,
+  transformToNgnItems,
 } from '@ngneers/controls/api';
 import { IconType } from '@ngneers/controls/custom-types';
 import { FormField } from '@ngneers/controls/form-field';
+import { Icon } from '@ngneers/controls/icon';
 import { ListBox } from '@ngneers/controls/list-box';
 import { Popover, PopoverOptions } from '@ngneers/controls/popover';
 import { TextField } from '@ngneers/controls/text-field';
@@ -16,8 +21,6 @@ import { asyncComputed } from '@ngneers/controls/utils';
 
 import { SelectTemplates } from './select-templates';
 import { SelectFilterOptions, SelectFilterOptionsInternal } from './types';
-import { mapToItems, NgnItem, NgnItemFields, transformToNgnItems } from '../api/ngn-items';
-import { Icon } from '../icon/icon';
 
 @Component({
   selector: 'ngn-select',

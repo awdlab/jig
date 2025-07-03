@@ -96,12 +96,14 @@ const items = itemsGrouped.flatMap(group => group.items);
 const itemsPreformatted = transformToNgnItems(items, {
   value: 'id',
   label: 'label',
+  testId: 'id',
 });
 
 const itemsGroupedPreformatted = transformToNgnItems(itemsGrouped, {
   value: 'id',
   label: 'label',
   groupItems: 'items',
+  testId: 'id',
 });
 
 export const exampleData = {

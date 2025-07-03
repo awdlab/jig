@@ -1,6 +1,7 @@
 {
   "name": "@ngneers/controls",
-  "version": "0.0.1",
+  "version": "0.0.1-pre1",
+  "private": false,
   "scripts": {
     "ng": "ng",
     "prebuild": "cpy package.json src/",
