@@ -24,10 +24,6 @@ export type NgnConfigInit = DeepPartial<
 >;
 
 export function provideNgnConfig(config?: NgnConfigInit): Provider {
-  if (config?.customTranslations) {
-    registerCustomLanguages(config.customTranslations);
-  }
-
   return [
     {
       provide: NGN_CONFIG,
@@ -45,6 +41,9 @@ export function provideNgnConfig(config?: NgnConfigInit): Provider {
     },
     provideAppInitializer(() => {
       const config = inject(NGN_CONFIG);
+      if (config?.customTranslations) {
+        registerCustomLanguages(config.customTranslations);
+      }
       Logger.logLevel = config.logLevel ?? Logger.logLevel;
     }),
   ];
