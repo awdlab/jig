@@ -1,16 +1,19 @@
-export type Month =
-  | 'january'
-  | 'february'
-  | 'march'
-  | 'april'
-  | 'may'
-  | 'june'
-  | 'july'
-  | 'august'
-  | 'september'
-  | 'october'
-  | 'november'
-  | 'december';
+export const MONTHS = [
+  'january',
+  'february',
+  'march',
+  'april',
+  'may',
+  'june',
+  'july',
+  'august',
+  'september',
+  'october',
+  'november',
+  'december',
+] as const;
+
+export type Month = (typeof MONTHS)[number];
 
 export const WEEK_DAYS = [
   'sunday',
@@ -38,6 +41,13 @@ export type DayTemplateType = {
     selected: boolean;
     today: boolean;
     fromOtherMonth: boolean;
+  };
+};
+
+export type WeekDayTemplateType = {
+  $implicit: {
+    weekDay: WeekDay;
+    translation: string;
   };
 };
 

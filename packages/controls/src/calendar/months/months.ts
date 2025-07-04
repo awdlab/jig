@@ -1,7 +1,8 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, input, output, TemplateRef } from '@angular/core';
+import { Component, inject, input, output, TemplateRef } from '@angular/core';
+import { I18n } from '@ngneers/controls/i18n';
 
-import { MonthTemplateType } from '../types';
+import { MONTHS, MonthTemplateType } from '../types';
 
 @Component({
   selector: 'ngn-calendar-months',
@@ -15,8 +16,9 @@ export class CalendarMonths {
   public readonly monthSelected = output<number>();
   public readonly monthTemplate = input.required<TemplateRef<MonthTemplateType>>();
 
+  protected readonly i18n = inject(I18n).translations;
   protected readonly months = Array.from({ length: 12 }, (_, i) =>
-    Intl.DateTimeFormat(undefined, { month: 'long' }).format(new Date(2020, i))
+    this.i18n[`calendar_months_${MONTHS[i]}`]()
   );
 
   public readonly previousYear = output();

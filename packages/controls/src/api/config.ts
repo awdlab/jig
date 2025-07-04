@@ -1,4 +1,5 @@
 import { inject, InjectionToken, provideAppInitializer, Provider } from '@angular/core';
+import { registerCustomLanguages, Translations } from '@ngneers/controls/i18n';
 import { DeepPartial } from '@ngneers/controls/utils';
 import { StyleScope, Theme } from '@ngneers/controls-themes';
 import { Logger, LogLevel } from 'packages/controls/src/utils/logger';
@@ -7,6 +8,7 @@ export const NGN_CONFIG = new InjectionToken<NgnConfig>('NGN_CONFIG');
 
 export type NgnConfig = {
   readonly logLevel: LogLevel;
+  readonly customTranslations?: Record<string, () => Promise<Translations>>;
   readonly theme: {
     readonly preset: Theme<any> | null;
     readonly lazyLoaded: boolean;
@@ -16,9 +18,16 @@ export type NgnConfig = {
   };
 };
 
-export type NgnConfigInit = DeepPartial<NgnConfig, 'theme.preset.*' | 'theme.styleScope.*'>;
+export type NgnConfigInit = DeepPartial<
+  NgnConfig,
+  'theme.preset.*' | 'theme.styleScope.*' | 'customTranslations.*'
+>;
 
 export function provideNgnConfig(config?: NgnConfigInit): Provider {
+  if (config?.customTranslations) {
+    registerCustomLanguages(config.customTranslations);
+  }
+
   return [
     {
       provide: NGN_CONFIG,

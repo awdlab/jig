@@ -1,7 +1,7 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 import { templateTypesFn, ValueControlBase } from '@ngneers/controls/api';
 
-import { DayTemplateType, MonthTemplateType } from './types';
+import { DayTemplateType, MonthTemplateType, WeekDayTemplateType } from './types';
 
 @Directive()
 export abstract class CalendarTemplates extends ValueControlBase<Date> {
@@ -13,6 +13,17 @@ export abstract class CalendarTemplates extends ValueControlBase<Date> {
   public readonly templateDay = input<TemplateRef<typeof this.templateTypes.day> | null>(null);
   protected readonly dayTemplate = computed(
     () => this._userDayTemplate() ?? this.templateDay() ?? this._defaultDayTemplate()
+  );
+  // Week day template
+  private readonly _defaultWeekDayTemplate =
+    viewChild.required<TemplateRef<typeof this.templateTypes.weekDay>>('defaultWeekDayTemplate');
+  private readonly _userWeekDayTemplate =
+    contentChild<TemplateRef<typeof this.templateTypes.weekDay>>('weekDay');
+  public readonly templateWeekDay = input<TemplateRef<typeof this.templateTypes.weekDay> | null>(
+    null
+  );
+  protected readonly weekDayTemplate = computed(
+    () => this._userWeekDayTemplate() ?? this.templateWeekDay() ?? this._defaultWeekDayTemplate()
   );
   // Month template
   private readonly _defaultMonthTemplate =
@@ -29,6 +40,7 @@ export abstract class CalendarTemplates extends ValueControlBase<Date> {
    */
   public readonly templateTypes = templateTypesFn<{
     day: DayTemplateType;
+    weekDay: WeekDayTemplateType;
     month: MonthTemplateType;
   }>();
 }

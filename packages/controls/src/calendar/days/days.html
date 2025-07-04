@@ -4,11 +4,24 @@
   <button (click)="next()">></button>
   <div class="ngn-calendar-days">
     @for (weekDay of weekDaysSorted(); track $index) {
-      <span class="ngn-calendar-week-day">{{ weekDay }}</span>
+      <span class="ngn-calendar-week-day">
+        <ng-container
+          *ngTemplateOutlet="
+            weekDayTemplate();
+            context: {
+              $implicit: {
+                weekDay: weekDay.weekDay,
+                translation: weekDay.translation(),
+              },
+            }
+          "
+        >
+        </ng-container>
+      </span>
     }
     @for (item of monthModel().weeks; track $index) {
       @for (day of item.days; track $index) {
-        <span
+        <button
           class="ngn-calendar-day"
           (click)="
             daySelected.emit({
@@ -34,7 +47,7 @@
             "
           >
           </ng-container>
-        </span>
+        </button>
       }
     }
   </div>

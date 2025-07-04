@@ -1,7 +1,15 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, input, output, TemplateRef } from '@angular/core';
+import { Component, computed, inject, input, output, TemplateRef } from '@angular/core';
+import { I18n } from '@ngneers/controls/i18n';
 
-import { DayModel, DayTemplateType, WEEK_DAYS, WeekDay } from '../types';
+import {
+  DayModel,
+  DayTemplateType,
+  MONTHS,
+  WEEK_DAYS,
+  WeekDay,
+  WeekDayTemplateType,
+} from '../types';
 
 // Configuration: Number of weeks to show before and after the current month
 const WEEKS_BEFORE = 1;
@@ -27,11 +35,13 @@ export class CalendarDays {
   public readonly currentValue = input.required<Date | null>();
   public readonly firstDayOfWeek = input.required<WeekDay>();
   public readonly dayTemplate = input.required<TemplateRef<DayTemplateType>>();
+  public readonly weekDayTemplate = input.required<TemplateRef<WeekDayTemplateType>>();
   public readonly previousMonth = output();
   public readonly nextMonth = output();
   public readonly switchToMonthsView = output();
   public readonly daySelected = output<DayModel>();
 
+  protected readonly i18n = inject(I18n).translations;
   protected readonly todaysDay = new Date().getDate();
   protected readonly todaysMonthSelected = computed(() => {
     const today = new Date();
@@ -39,12 +49,15 @@ export class CalendarDays {
   });
 
   protected readonly monthName = computed(() =>
-    Intl.DateTimeFormat(undefined, { month: 'long' }).format(new Date(this.year(), this.month()))
+    this.i18n[`calendar_months_${MONTHS[this.month()]}`]()
   );
   protected readonly weekDaysSorted = computed(() =>
-    WEEK_DAYS.slice(this._firstDayOfWeekIndex()).concat(
-      WEEK_DAYS.slice(0, this._firstDayOfWeekIndex())
-    )
+    WEEK_DAYS.slice(this._firstDayOfWeekIndex())
+      .concat(WEEK_DAYS.slice(0, this._firstDayOfWeekIndex()))
+      .map(day => ({
+        weekDay: day,
+        translation: this.i18n[`calendar_weekdays_${day}`],
+      }))
   );
 
   private readonly _firstDayOfWeekIndex = computed(() => WEEK_DAYS.indexOf(this.firstDayOfWeek()));

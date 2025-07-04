@@ -80,6 +80,9 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.7.2
         version: 1.7.2
+      '@ngneers/signal-translate':
+        specifier: ^20.0.0
+        version: 20.0.0(@angular/common@20.0.5(@angular/core@20.0.5(@angular/compiler@20.0.5)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.0.5(@angular/compiler@20.0.5)(rxjs@7.8.2))
       express:
         specifier: ^5.1.0
         version: 5.1.0
@@ -132,6 +135,9 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.7.1
         version: 1.7.2
+      '@ngneers/signal-translate':
+        specifier: ^20.0.0
+        version: 20.0.0(@angular/common@20.0.5(@angular/core@20.0.5(@angular/compiler@20.0.5)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.0.5(@angular/compiler@20.0.5)(rxjs@7.8.2))
       rxjs:
         specifier: ~7.8.0
         version: 7.8.2
@@ -1035,6 +1041,12 @@ packages:
     resolution: {integrity: sha512-mAYFoHHgvFu0gOfTTGd1MXePHkc8YcXIx0484TDlrEz6VLtOGUhkHmYAemFAm6cnGEV25NhvCVU9ogbtC62pYA==}
     peerDependencies:
       prettier: '>= 3'
+
+  '@ngneers/signal-translate@20.0.0':
+    resolution: {integrity: sha512-SvtFJWRJOFPak0nvUXSaJAKmt6Otmde8zEQ3KD31TIc3dYXczdswRXx6P86l9HFaurS0l5muKokleFRFlAQ/cA==}
+    peerDependencies:
+      '@angular/common': '20'
+      '@angular/core': '20'
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -4818,6 +4830,12 @@ snapshots:
   '@ngneers/prettier-config@1.0.1(prettier@3.6.2)':
     dependencies:
       prettier: 3.6.2
+
+  '@ngneers/signal-translate@20.0.0(@angular/common@20.0.5(@angular/core@20.0.5(@angular/compiler@20.0.5)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.0.5(@angular/compiler@20.0.5)(rxjs@7.8.2))':
+    dependencies:
+      '@angular/common': 20.0.5(@angular/core@20.0.5(@angular/compiler@20.0.5)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@angular/core': 20.0.5(@angular/compiler@20.0.5)(rxjs@7.8.2)
+      tslib: 2.8.1
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:

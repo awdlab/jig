@@ -10,6 +10,7 @@
       (switchToMonthsView)="switchToView('months')"
       (daySelected)="selectDay($event)"
       [dayTemplate]="dayTemplate()"
+      [weekDayTemplate]="weekDayTemplate()"
     ></ngn-calendar-days>
   }
   @case ('months') {
@@ -37,5 +38,11 @@
 <ng-template #defaultMonthTemplate [ngnTemplate]="templateTypes.month" let-month>
   <span [class.ngn-calendar-month-selected]="month.selected">
     {{ month.month }}
+  </span>
+</ng-template>
+
+<ng-template #defaultWeekDayTemplate [ngnTemplate]="templateTypes.weekDay" let-weekDay>
+  <span>
+    {{ weekDay.translation }}
   </span>
 </ng-template>
