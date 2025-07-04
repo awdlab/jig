@@ -15,6 +15,11 @@ export const routes: Routes = [
           import('./controls/button-demo/_all').then(m => m.Button_All_Component),
       },
       {
+        path: 'calendar',
+        loadComponent: () =>
+          import('./controls/calendar-demo/_all').then(m => m.Calendar_All_Component),
+      },
+      {
         path: 'dialog',
         loadComponent: () =>
           import('./controls/dialog-demo/_all').then(m => m.Dialog_All_Component),

@@ -63,6 +63,20 @@ Size Constraints
 a11y
 Theme
 
+### Calendar
+
+✅Days View
+✅Months View
+Years View / Quick way to select year
+✅Day Templates
+Month Templates
+Time
+Time Templates
+a11y
+Theme
+Popover/Input
+i18n
+
 ## Docs
 
 Landing Page

@@ -1,0 +1,41 @@
+<div>
+  <button (click)="prev()"><</button>
+  <button (click)="switchToMonthsView.emit()">{{ monthName() }}</button>
+  <button (click)="next()">></button>
+  <div class="ngn-calendar-days">
+    @for (weekDay of weekDaysSorted(); track $index) {
+      <span class="ngn-calendar-week-day">{{ weekDay }}</span>
+    }
+    @for (item of monthModel().weeks; track $index) {
+      @for (day of item.days; track $index) {
+        <span
+          class="ngn-calendar-day"
+          (click)="
+            daySelected.emit({
+              date: day.date,
+              monthOffset: day.monthOffset,
+            })
+          "
+        >
+          <ng-container
+            *ngTemplateOutlet="
+              dayTemplate();
+              context: {
+                $implicit: {
+                  date: day.date,
+                  fromOtherMonth: day.monthOffset !== 0,
+                  selected:
+                    currentValue()?.getDate() === day.date &&
+                    currentValue()?.getMonth() === month() + day.monthOffset &&
+                    currentValue()?.getFullYear() === year(),
+                  today: todaysMonthSelected() && todaysDay === day.date,
+                },
+              }
+            "
+          >
+          </ng-container>
+        </span>
+      }
+    }
+  </div>
+</div>
