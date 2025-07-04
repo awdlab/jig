@@ -1,21 +1,3 @@
-type _DeepKeys<
-  T,
-  MaxDepth extends number,
-  P extends string = '',
-  D extends null[] = [],
-> = D['length'] extends MaxDepth
-  ? never
-  : T extends object
-    ? {
-        [K in keyof T]-?: K extends string
-          ? T[K] extends object
-            ? _DeepKeys<T[K], MaxDepth, `${P}${K}.`, [...D, null]>
-            : `${P}${K}`
-          : never;
-      }[keyof T]
-    : P;
-export type DeepKeys<T, D extends number = 10> = _DeepKeys<T, D>;
-
 type _DeepMerge<T, M extends any[]> = T extends T
   ? M extends [infer A, ...infer R]
     ? never extends A
@@ -61,16 +43,4 @@ export function deepMerge<T extends object[]>(...objects: T): DeepMerge<T> {
     });
     return acc;
   }, {} as any) as DeepMerge<T>;
-}
-
-export function groupArrayUsing<T, G>(array: readonly T[], groupFn: (item: T) => G): Map<G, T[]> {
-  const map = new Map<G, T[]>();
-  for (const item of array) {
-    const key = groupFn(item);
-    if (!map.has(key)) {
-      map.set(key, []);
-    }
-    map.get(key)?.push(item);
-  }
-  return map;
 }

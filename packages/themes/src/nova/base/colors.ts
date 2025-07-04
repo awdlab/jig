@@ -1,7 +1,7 @@
 import {
   createThemePart,
-  createThemePartTemplate,
-  ThemePartTemplate,
+  createVariableTemplate,
+  repeatVariables,
 } from '@ngneers/controls-themes/api';
 import {
   bubblegumColor,
@@ -13,50 +13,33 @@ import {
   solarMarigoldColor,
 } from '@ngneers/controls-themes/nova/colors';
 
-const colorTemplate = {
-  default: null,
-  '50': null,
-  '100': null,
-  '200': null,
-  '300': null,
-  '400': null,
-  '500': null,
-  '600': null,
-  '700': null,
-  '800': null,
-  '900': null,
-  '950': null,
-};
-
-export const colorsTemplate = createThemePartTemplate({
+export const colorsTemplate = createVariableTemplate({
   scope: 'color',
   variables: {
-    primary: colorTemplate,
-    secondary: colorTemplate,
-    accent: colorTemplate,
-    error: colorTemplate,
-    warning: colorTemplate,
-    info: colorTemplate,
-    success: colorTemplate,
+    ...repeatVariables(['primary', 'secondary', 'accent', 'error', 'warning', 'info', 'success'], {
+      default: null,
+      '50': null,
+      '100': null,
+      '200': null,
+      '300': null,
+      '400': null,
+      '500': null,
+      '600': null,
+      '700': null,
+      '800': null,
+      '900': null,
+      '950': null,
+    }),
     background: null,
     text: null,
   },
-  classNames: [],
 });
 
-export type BaseColors = {
-  primary: `#${string}`;
-  secondary: `#${string}`;
-  error: `#${string}`;
-  warning: `#${string}`;
-  info: `#${string}`;
-  success: `#${string}`;
-};
-
 export const coral = createThemePart({
-  template: colorsTemplate,
+  scope: 'color',
+  variables: [colorsTemplate],
   root: {
-    variables: {
+    values: {
       primary: coralColor,
       secondary: mustardColor,
       accent: bubblegumColor,

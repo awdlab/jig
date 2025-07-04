@@ -8,7 +8,7 @@ export const NGN_CONFIG = new InjectionToken<NgnConfig>('NGN_CONFIG');
 export type NgnConfig = {
   readonly logLevel: LogLevel;
   readonly theme: {
-    readonly preset: Theme<any> | null;
+    readonly preset: Theme | null;
     readonly lazyLoaded: boolean;
     readonly styleScope: StyleScope | null;
     readonly cssLayer: string | null;

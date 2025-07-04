@@ -1,26 +1,9 @@
-import { Theme } from './theme';
-import { ThemePart, VariableDefinition } from './theme-part';
-import { ThemePartTemplate } from './theme-part-template';
-import { groupArrayUsing } from './utils';
-
-export type StyleScope =
-  | {
-      kind: 'attribute';
-      name: string;
-      value?: string;
-    }
-  | {
-      kind: 'class';
-      name: string;
-    }
-  | {
-      kind: 'id';
-      name: string;
-    }
-  | {
-      kind: 'tag';
-      name: string;
-    };
+import { getClassName } from './get-class-name';
+import { StyleScope } from './style-scope';
+import { upsertThemeStyleElement } from './upsert-theme-style-element';
+import { Theme } from '../theme/theme';
+import { ThemePart } from '../theme/theme-part';
+import { groupArrayUsing } from '../utils/group-array-using';
 
 export type ApplyThemeOptions = {
   /**
@@ -52,7 +35,7 @@ export type ApplyThemeOptions = {
 
 export function applyTheme<T extends Theme>(
   theme: T,
-  scopes: T['parts'][number]['template']['scope'][],
+  scopes: T['parts'][number]['scope'][],
   options?: Partial<ApplyThemeOptions>
 ) {
   const opt = {
@@ -61,15 +44,7 @@ export function applyTheme<T extends Theme>(
     scope: options?.styleScope,
     namePrefix: options?.namePrefix ?? 'ngn-',
   };
-  const parts = groupArrayUsing(
-    Array.from(
-      collectThemeParts(
-        theme,
-        theme.parts.filter(part => scopes.includes(part.template.scope)).map(part => part.template)
-      )
-    ),
-    x => x.template.scope
-  );
+  const parts = groupArrayUsing(getThemePartsByScopes(theme, scopes), x => x.scope);
 
   // variable style elements
   for (const [scope, scopeParts] of parts) {
@@ -105,33 +80,6 @@ export function applyTheme<T extends Theme>(
   }
 }
 
-export function upsertThemeStyleElement(
-  document: Document,
-  identifiers: Record<string, string | undefined>,
-  css: string
-): HTMLStyleElement {
-  let selector = '';
-  for (const key in identifiers) {
-    if (identifiers[key] === undefined) continue;
-    selector += `[data-${key}="${identifiers[key]}"]`;
-  }
-  if (!selector) throw new Error('No identifiers provided for the style element');
-
-  let styleElement = document.head.querySelector<HTMLStyleElement>(`style[ngn-style]${selector}`);
-  if (!styleElement) {
-    styleElement = document.createElement('style');
-    styleElement.setAttribute('ngn-style', '');
-    for (const key in identifiers) {
-      if (identifiers[key] === undefined) continue;
-      styleElement.setAttribute(`data-${key}`, identifiers[key]);
-    }
-    document.head.appendChild(styleElement);
-  }
-  styleElement.innerHTML = css;
-
-  return styleElement;
-}
-
 function styleScopeToIdentifier(scope: StyleScope | undefined): string | undefined {
   if (!scope) return undefined;
   switch (scope.kind) {
@@ -146,42 +94,43 @@ function styleScopeToIdentifier(scope: StyleScope | undefined): string | undefin
   }
 }
 
+function getThemePartsByScopes(theme: Theme, scopes: string[]): ThemePart[] {
+  const result = new Set<ThemePart>();
+  for (const scope of scopes) {
+    collectThemeParts(theme, scope, result);
+  }
+  return Array.from(result);
+}
+
 function collectThemeParts(
   theme: Theme,
-  templates: ThemePartTemplate[],
-  result: Set<ThemePart> = new Set()
+  scope: string,
+  result: Set<ThemePart> = new Set(),
+  collectedScopes: Set<string> = new Set()
 ): Set<ThemePart> {
+  if (collectedScopes.has(scope)) return result;
   for (const part of theme.parts) {
-    if (result.has(part) || !templates.includes(part.template)) {
+    if (part.scope !== scope || result.has(part)) {
       continue;
     }
     result.add(part);
-    collectThemeParts(theme, part.dependencies, result);
+    for (const dep of part.dependencies ?? []) {
+      collectThemeParts(theme, dep.scope, result);
+    }
   }
   return result;
 }
 
 function buildVariablesCss(parts: ThemePart[], options: ApplyThemeOptions): string {
   const cssParts = parts.map(part => ({
-    root: variableCssFromVariableDefinition(part.root?.variables, options, part.template.scope),
-    light: variableCssFromVariableDefinition(part.light?.variables, options, part.template.scope),
-    dark: variableCssFromVariableDefinition(part.dark?.variables, options, part.template.scope),
-    highContrast: variableCssFromVariableDefinition(
-      part.highContrast?.variables,
-      options,
-      part.template.scope
-    ),
+    root: variableCssFromVariableDefinition(part.root?.values, options, part.scope),
+    light: variableCssFromVariableDefinition(part.light?.values, options, part.scope),
+    dark: variableCssFromVariableDefinition(part.dark?.values, options, part.scope),
+    highContrast: variableCssFromVariableDefinition(part.highContrast?.values, options, part.scope),
   }));
 
   let css = options.layer ? `@layer ${options.layer} { ` : '';
   css += `${getScopeSelector(options.styleScope)} { `;
-
-  const uniqueTemplates = parts
-    .map(part => part.template)
-    .filter((part, index, self) => self.indexOf(part) === index);
-  for (const template of uniqueTemplates) {
-    css += variableCssFromVariableDefinition(template.variables, options, template.scope);
-  }
 
   for (const { root } of cssParts) {
     if (root) {
@@ -198,7 +147,7 @@ function buildVariablesCss(parts: ThemePart[], options: ApplyThemeOptions): stri
 }
 
 function variableCssFromVariableDefinition(
-  content: VariableDefinition<any, any> | undefined,
+  content: object | undefined,
   options: ApplyThemeOptions,
   scope: string
 ): string {
@@ -229,8 +178,7 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions): string {
     }
     const args = {
       v: varKeySelector,
-      c: (className?: string) =>
-        `.${getClassName(options.namePrefix, part.template.scope, className)}`,
+      c: (className?: string) => `.${getClassName(options.namePrefix, part.scope, className)}`,
     };
     return {
       root: part.root?.css?.(args),
@@ -242,19 +190,6 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions): string {
 
   let css = options.layer ? `@layer ${options.layer} { ` : '';
   css += `${getScopeSelector(options.styleScope)} { `;
-
-  const uniqueTemplates = parts
-    .map(part => part.template)
-    .filter((part, index, self) => self.indexOf(part) === index);
-  for (const template of uniqueTemplates) {
-    if (template.css) {
-      css += template.css({
-        v: varKeySelector,
-        c: (className?: string) =>
-          `.${getClassName(options.namePrefix, template.scope, className)}`,
-      });
-    }
-  }
 
   for (const { root } of cssParts) {
     if (root) {
@@ -293,10 +228,4 @@ function getCssVar(prefix: string, key: string): string {
     .replace(/([a-z])([A-Z])/g, '$1-$2')
     .toLowerCase();
   return `--${prefix}${varName}`;
-}
-
-export function getClassName(prefix: string, scope: string, className?: string) {
-  let result = `${prefix}${scope}`;
-  if (className) result += `-${className}`;
-  return result;
 }

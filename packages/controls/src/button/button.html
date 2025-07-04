@@ -1,7 +1,8 @@
 <!-- eslint-disable @angular-eslint/template/no-autofocus -->
 
+@let kind = this.kind();
 <button
-  [ngClass]="theme.class()"
+  [ngClass]="[theme.class(), kind ? theme.class(`kind-${kind}`) : '']"
   [disabled]="disabled()"
   [type]="type()"
   [tabindex]="tabIndex() ?? undefined"

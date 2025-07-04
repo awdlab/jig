@@ -9,20 +9,20 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { Logger } from '@ngneers/controls/utils';
-import { applyTheme, getClassName, Theme, ThemePartTemplate } from '@ngneers/controls-themes';
+import { applyTheme, ControlTemplate, getClassName, Theme } from '@ngneers/controls-themes';
 import { skip } from 'rxjs';
 
 import { NGN_CONFIG } from './config';
 
-export type ThemeTemplateInfo<T extends ThemePartTemplate> = {
+export type ControlTemplateInfo<T extends ControlTemplate> = {
   scope: string;
-  class: (className?: T['classNames'][number]) => string;
+  class: (className?: T['classNames'][number] | '') => string;
 };
 
-export function injectThemeTemplate<T extends ThemePartTemplate>(
+export function injectThemeTemplate<T extends ControlTemplate>(
   template: T,
   options?: { injector?: Injector }
-): ThemeTemplateInfo<T> {
+): ControlTemplateInfo<T> {
   const config = options?.injector?.get(NGN_CONFIG) ?? inject(NGN_CONFIG);
   const themeService = options?.injector?.get(ThemeService) ?? inject(ThemeService);
   themeService.loadScope(template.scope);

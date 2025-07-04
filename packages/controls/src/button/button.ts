@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { injectThemeTemplate } from '@ngneers/controls/api';
-import { buttonTemplate } from '@ngneers/controls-themes/templates/button';
+import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
 
 @Component({
   selector: 'ngn-button',
@@ -10,12 +10,13 @@ import { buttonTemplate } from '@ngneers/controls-themes/templates/button';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Button {
-  protected readonly theme = injectThemeTemplate(buttonTemplate);
+  protected readonly theme = injectThemeTemplate(buttonControlTemplate);
 
   public readonly disabled = input(false);
   public readonly autofocus = input<boolean | null>();
   public readonly type = input<'button' | 'submit' | 'reset'>('button');
   public readonly tabIndex = input<number | null>();
+  public readonly kind = input<string | null>();
 
   public readonly ariaPressed = input<boolean | 'mixed' | null>();
   public readonly ariaExpanded = input<boolean | null>();
