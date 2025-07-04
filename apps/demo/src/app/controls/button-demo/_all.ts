@@ -11,6 +11,11 @@ export const stories: ComponentStories = {
       title: 'Basic',
       component: import('./base-demo').then(x => x.Button_Base_Component),
     },
+    {
+      fileName: 'directive',
+      title: 'Directive',
+      component: import('./directive-demo').then(x => x.Button_Directive_Component),
+    },
   ],
 };
 

@@ -1,8 +1,4 @@
-import {
-  createThemePart,
-  createThemePartTemplate,
-  ThemePartTemplate,
-} from '@ngneers/controls-themes/api';
+import { createThemePart, createThemePartTemplate } from '@ngneers/controls-themes/api';
 import {
   bubblegumColor,
   coralColor,
