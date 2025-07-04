@@ -10,7 +10,7 @@ export type NgnConfig = {
   readonly logLevel: LogLevel;
   readonly customTranslations?: Record<string, () => Promise<Translations>>;
   readonly theme: {
-    readonly preset: Theme<any> | null;
+    readonly preset: Theme | null;
     readonly lazyLoaded: boolean;
     readonly styleScope: StyleScope | null;
     readonly cssLayer: string | null;

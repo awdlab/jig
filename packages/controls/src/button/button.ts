@@ -14,6 +14,7 @@ export class Button extends ButtonBase {
   public readonly autofocus = input<boolean | null>();
   public readonly type = input<'button' | 'submit' | 'reset'>('button');
   public readonly tabIndex = input<number | null>();
+  public readonly kind = input<string | null>();
 
   public readonly ariaPressed = input<boolean | 'mixed' | null>();
   public readonly ariaExpanded = input<boolean | null>();
