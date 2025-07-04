@@ -15,5 +15,5 @@ import { Calendar } from '@ngneers/controls/calendar';
   `,
 })
 export class Calendar_Base_Component {
-  public readonly value = signal<Date>(new Date(2025, 6, 4));
+  public readonly value = signal<Date>(new Date());
 }
