@@ -16,6 +16,11 @@ export const stories: ComponentStories = {
       title: 'Directive',
       component: import('./directive-demo').then(x => x.Button_Directive_Component),
     },
+    {
+      fileName: 'kind',
+      title: 'Kind',
+      component: import('./kind-demo').then(x => x.Button_Kind_Component),
+    },
   ],
 };
 
