@@ -1,0 +1,7 @@
+<ng-content />
+
+<ng-template #defaultDividerTemplate>
+  <div [ngClass]="['ngn-splitter-divider', dividerStyleClass() ?? '']">
+    <div class="ngn-splitter-divider-handle"></div>
+  </div>
+</ng-template>

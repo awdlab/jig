@@ -10,25 +10,25 @@ import { ButtonBase } from './button-base';
 export class ButtonDirective extends ButtonBase implements OnDestroy {
   constructor() {
     super();
-    this.el.nativeElement.classList.toggle(this.theme.class(), true);
+    this.element.nativeElement.classList.toggle(this.theme.class(), true);
 
     toObservable(this.kind)
       .pipe(takeUntilDestroyed(), startWith(null), pairwise())
       .subscribe(([prev, next]) => {
         if (prev) {
-          this.el.nativeElement.classList.toggle(this.theme.class(`kind-${prev}`), false);
+          this.element.nativeElement.classList.toggle(this.theme.class(`kind-${prev}`), false);
         }
         if (next) {
-          this.el.nativeElement.classList.toggle(this.theme.class(`kind-${next}`), true);
+          this.element.nativeElement.classList.toggle(this.theme.class(`kind-${next}`), true);
         }
       });
   }
 
   public ngOnDestroy(): void {
-    this.el.nativeElement.classList.toggle(this.theme.class(), false);
+    this.element.nativeElement.classList.toggle(this.theme.class(), false);
     const kind = this.kind();
     if (kind) {
-      this.el.nativeElement.classList.toggle(this.theme.class(`kind-${kind}`), false);
+      this.element.nativeElement.classList.toggle(this.theme.class(`kind-${kind}`), false);
     }
   }
 }

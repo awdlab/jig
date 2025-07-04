@@ -44,6 +44,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./controls/list-box-demo/_all').then(m => m.ListBox_All_Component),
       },
+      {
+        path: 'splitter',
+        loadComponent: () =>
+          import('./controls/splitter-demo/_all').then(m => m.Splitter_All_Component),
+      },
     ],
   },
 ];
