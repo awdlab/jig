@@ -1,7 +1,7 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 import { templateTypesFn, ValueControlBase } from '@ngneers/controls/api';
 
-import { DayTemplateType } from './types';
+import { DayTemplateType, MonthTemplateType } from './types';
 
 @Directive()
 export abstract class CalendarTemplates extends ValueControlBase<Date> {
@@ -14,11 +14,21 @@ export abstract class CalendarTemplates extends ValueControlBase<Date> {
   protected readonly dayTemplate = computed(
     () => this._userDayTemplate() ?? this.templateDay() ?? this._defaultDayTemplate()
   );
+  // Month template
+  private readonly _defaultMonthTemplate =
+    viewChild.required<TemplateRef<typeof this.templateTypes.month>>('defaultMonthTemplate');
+  private readonly _userMonthTemplate =
+    contentChild<TemplateRef<typeof this.templateTypes.month>>('month');
+  public readonly templateMonth = input<TemplateRef<typeof this.templateTypes.month> | null>(null);
+  protected readonly monthTemplate = computed(
+    () => this._userMonthTemplate() ?? this.templateMonth() ?? this._defaultMonthTemplate()
+  );
 
   /**
    * Types for the dialog templates.
    */
   public readonly templateTypes = templateTypesFn<{
     day: DayTemplateType;
+    month: MonthTemplateType;
   }>();
 }

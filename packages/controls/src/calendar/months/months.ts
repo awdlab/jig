@@ -1,17 +1,19 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, input, output } from '@angular/core';
-import { NgnTemplate } from '@ngneers/controls/api';
+import { Component, input, output, TemplateRef } from '@angular/core';
+
+import { MonthTemplateType } from '../types';
 
 @Component({
   selector: 'ngn-calendar-months',
   templateUrl: './months.html',
   styleUrls: ['./months.scss'], // TODO: refactor into theme
-  imports: [NgTemplateOutlet, NgnTemplate],
+  imports: [NgTemplateOutlet],
 })
 export class CalendarMonths {
   public readonly year = input.required<number>();
   public readonly currentValue = input.required<Date | null>();
   public readonly monthSelected = output<number>();
+  public readonly monthTemplate = input.required<TemplateRef<MonthTemplateType>>();
 
   protected readonly months = Array.from({ length: 12 }, (_, i) =>
     Intl.DateTimeFormat(undefined, { month: 'long' }).format(new Date(2020, i))

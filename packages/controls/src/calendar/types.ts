@@ -40,3 +40,10 @@ export type DayTemplateType = {
     fromOtherMonth: boolean;
   };
 };
+
+export type MonthTemplateType = {
+  $implicit: {
+    month: Month;
+    selected: boolean;
+  };
+};

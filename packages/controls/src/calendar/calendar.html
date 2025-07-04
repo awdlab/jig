@@ -19,6 +19,7 @@
       (previousYear)="previousYear()"
       (nextYear)="nextYear()"
       (monthSelected)="selectMonth($event)"
+      [monthTemplate]="monthTemplate()"
     ></ngn-calendar-months>
   }
 }
@@ -30,5 +31,11 @@
     [class.ngn-calendar-day-selected]="day.selected"
   >
     {{ day.date }}
+  </span>
+</ng-template>
+
+<ng-template #defaultMonthTemplate [ngnTemplate]="templateTypes.month" let-month>
+  <span [class.ngn-calendar-month-selected]="month.selected">
+    {{ month.month }}
   </span>
 </ng-template>

@@ -1,4 +1,3 @@
-import { NgTemplateOutlet } from '@angular/common';
 import { Component, input, linkedSignal, signal } from '@angular/core';
 import { NgnTemplate, valueControlBaseProvider } from '@ngneers/controls/api';
 
@@ -11,7 +10,7 @@ import { DayModel, WeekDay } from './types';
   selector: 'ngn-calendar',
   templateUrl: './calendar.html',
   styleUrls: ['./calendar.scss'], // TODO: refactor into theme
-  imports: [NgTemplateOutlet, NgnTemplate, CalendarMonths, CalendarDays],
+  imports: [NgnTemplate, CalendarMonths, CalendarDays],
   providers: [valueControlBaseProvider(Calendar)],
 })
 export class Calendar extends CalendarTemplates {

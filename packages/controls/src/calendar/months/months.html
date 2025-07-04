@@ -4,9 +4,21 @@
   <button (click)="next()">></button>
   <div class="ngn-calendar-months">
     @for (month of months; track $index) {
-      <span class="ngn-calendar-month" (click)="selectMonth($index)">
-        {{ month }}
-      </span>
+      <button class="ngn-calendar-month" (click)="selectMonth($index)">
+        <ng-container
+          *ngTemplateOutlet="
+            monthTemplate();
+            context: {
+              $implicit: {
+                month: month,
+                selected: currentValue()?.getMonth() === $index,
+              },
+            }
+          "
+        >
+          {{ month }}
+        </ng-container>
+      </button>
     }
   </div>
 </div>

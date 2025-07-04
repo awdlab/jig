@@ -1,6 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, input, output, TemplateRef } from '@angular/core';
-import { NgnTemplate } from '@ngneers/controls/api';
 
 import { DayModel, DayTemplateType, WEEK_DAYS, WeekDay } from '../types';
 
@@ -20,7 +19,7 @@ type WeekModel = {
   selector: 'ngn-calendar-days',
   templateUrl: './days.html',
   styleUrls: ['./days.scss'], // TODO: refactor into theme
-  imports: [NgTemplateOutlet, NgnTemplate],
+  imports: [NgTemplateOutlet],
 })
 export class CalendarDays {
   public readonly year = input.required<number>();
