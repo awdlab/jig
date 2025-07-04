@@ -1,7 +1,34 @@
-<ngn-calendar-months></ngn-calendar-months>
+@switch (currentView()) {
+  @case ('days') {
+    <ngn-calendar-days
+      [year]="year()"
+      [month]="month()"
+      [currentValue]="value()"
+      [firstDayOfWeek]="firstDayOfWeek()"
+      (previousMonth)="previousMonth()"
+      (nextMonth)="nextMonth()"
+      (switchToMonthsView)="switchToView('months')"
+      (daySelected)="selectDay($event)"
+      [dayTemplate]="dayTemplate()"
+    ></ngn-calendar-days>
+  }
+  @case ('months') {
+    <ngn-calendar-months
+      [year]="year()"
+      [currentValue]="value() ?? null"
+      (previousYear)="previousYear()"
+      (nextYear)="nextYear()"
+      (monthSelected)="selectMonth($event)"
+    ></ngn-calendar-months>
+  }
+}
 
-<ngn-calendar-days
-  [year]="year()"
-  [month]="month()"
-  [firstDayOfWeek]="firstDayOfWeek()"
-></ngn-calendar-days>
+<ng-template #defaultDayTemplate [ngnTemplate]="templateTypes.day" let-day>
+  <span
+    [class.ngn-calendar-day-other-month]="day.fromOtherMonth"
+    [class.ngn-calendar-day-today]="day.today"
+    [class.ngn-calendar-day-selected]="day.selected"
+  >
+    {{ day.date }}
+  </span>
+</ng-template>

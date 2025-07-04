@@ -1,33 +1,24 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 import { templateTypesFn, ValueControlBase } from '@ngneers/controls/api';
 
+import { DayTemplateType } from './types';
+
 @Directive()
 export abstract class CalendarTemplates extends ValueControlBase<Date> {
-  // Item template
-  private readonly _defaultItemTemplate =
-    viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');
-  private readonly _userItemTemplate =
-    contentChild<TemplateRef<typeof this.templateTypes.item>>('item');
-  public readonly templateItem = input<TemplateRef<typeof this.templateTypes.item> | null>(null);
-  protected readonly itemTemplate = computed(
-    () => this._userItemTemplate() ?? this.templateItem() ?? this._defaultItemTemplate()
-  );
-  // Group template
-  private readonly _defaultGroupTemplate =
-    viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultGroupTemplate');
-  private readonly _userGroupTemplate =
-    contentChild<TemplateRef<typeof this.templateTypes.item>>('group');
-  public readonly templateGroup = input<TemplateRef<typeof this.templateTypes.item> | null>(null);
-  protected readonly groupTemplate = computed(
-    () => this._userGroupTemplate() ?? this.templateGroup() ?? this._defaultGroupTemplate()
+  // Day template
+  private readonly _defaultDayTemplate =
+    viewChild.required<TemplateRef<typeof this.templateTypes.day>>('defaultDayTemplate');
+  private readonly _userDayTemplate =
+    contentChild<TemplateRef<typeof this.templateTypes.day>>('day');
+  public readonly templateDay = input<TemplateRef<typeof this.templateTypes.day> | null>(null);
+  protected readonly dayTemplate = computed(
+    () => this._userDayTemplate() ?? this.templateDay() ?? this._defaultDayTemplate()
   );
 
   /**
    * Types for the dialog templates.
    */
   public readonly templateTypes = templateTypesFn<{
-    item: {
-      $implicit: Date;
-    };
+    day: DayTemplateType;
   }>();
 }

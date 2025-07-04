@@ -1,8 +1,8 @@
-import { JsonPipe, NgTemplateOutlet } from '@angular/common';
-import { Component, computed, input } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import { Component, computed, input, output, TemplateRef } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api';
 
-import { WEEK_DAYS, WeekDay } from '../types';
+import { DayModel, DayTemplateType, WEEK_DAYS, WeekDay } from '../types';
 
 // Configuration: Number of weeks to show before and after the current month
 const WEEKS_BEFORE = 1;
@@ -16,29 +16,47 @@ type WeekModel = {
   days: DayModel[];
 };
 
-type DayModel = {
-  date: number;
-  isCurrentMonth: boolean;
-};
-
 @Component({
   selector: 'ngn-calendar-days',
   templateUrl: './days.html',
   styleUrls: ['./days.scss'], // TODO: refactor into theme
-  imports: [NgTemplateOutlet, NgnTemplate, JsonPipe],
+  imports: [NgTemplateOutlet, NgnTemplate],
 })
 export class CalendarDays {
   public readonly year = input.required<number>();
   public readonly month = input.required<number>();
+  public readonly currentValue = input.required<Date | null>();
   public readonly firstDayOfWeek = input.required<WeekDay>();
+  public readonly dayTemplate = input.required<TemplateRef<DayTemplateType>>();
+  public readonly previousMonth = output();
+  public readonly nextMonth = output();
+  public readonly switchToMonthsView = output();
+  public readonly daySelected = output<DayModel>();
+
+  protected readonly todaysDay = new Date().getDate();
+  protected readonly todaysMonthSelected = computed(() => {
+    const today = new Date();
+    return today.getFullYear() === this.year() && today.getMonth() === this.month();
+  });
+
+  protected readonly monthName = computed(() =>
+    Intl.DateTimeFormat(undefined, { month: 'long' }).format(new Date(this.year(), this.month()))
+  );
+  protected readonly weekDaysSorted = computed(() =>
+    WEEK_DAYS.slice(this._firstDayOfWeekIndex()).concat(
+      WEEK_DAYS.slice(0, this._firstDayOfWeekIndex())
+    )
+  );
 
   private readonly _firstDayOfWeekIndex = computed(() => WEEK_DAYS.indexOf(this.firstDayOfWeek()));
-  private readonly _daysInMonth = computed(() => new Date(this.year(), this.month(), 0).getDate());
+  private readonly _daysInMonth = computed(() =>
+    new Date(this.year(), this.month() + 1, 0).getDate()
+  );
   private readonly _daysInPreviousMonth = computed(() =>
-    new Date(this.year(), this.month() - 1, 0).getDate()
+    new Date(this.year(), this.month(), 0).getDate()
   );
   private readonly _firstDayOfMonth = computed(() =>
-    new Date(this.year(), this.month() - 1, 1).getDay()
+    new Date(this.year(), this.month(), 1).getDay()
   );
 
   protected readonly monthModel = computed((): MonthModel => {
@@ -71,7 +89,7 @@ export class CalendarDays {
 
       allDays.push({
         date: currentDate,
-        isCurrentMonth: currentMonth === 0,
+        monthOffset: currentMonth,
       });
 
       currentDate++;
@@ -87,4 +105,12 @@ export class CalendarDays {
 
     return { weeks };
   });
+
+  protected prev() {
+    this.previousMonth.emit();
+  }
+
+  protected next() {
+    this.nextMonth.emit();
+  }
 }
