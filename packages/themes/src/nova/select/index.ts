@@ -31,6 +31,7 @@ export const selectStyles = createThemePart({
       }
       ${c('')} ${d('popover', 'content')} {
         padding: 0;
+        border-width: 0;
       }
     `,
   },
