@@ -25,7 +25,7 @@ type ThemePartContent<V, K, C, Deps> = {
     c: (className?: C | '') => string;
     d: <const Scope extends ChildrenScopes<Deps>>(
       scope: Scope,
-      className?: ClassnameForChildScope<Deps, Scope>
+      className?: ClassnameForChildScope<Deps, Scope> | ''
     ) => string;
   }) => string;
 };

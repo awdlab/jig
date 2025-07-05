@@ -13,6 +13,7 @@ html,
 body {
   height: 100%;
   font-family: system-ui;
+  margin: 0;
 }
 
 // RESET
@@ -23,10 +24,7 @@ body {
 *::after {
   box-sizing: border-box;
 }
-/* 2. Remove default margin */
-* {
-  margin: 0;
-}
+
 /* 3. Enable keyword animations */
 @media (prefers-reduced-motion: no-preference) {
   html {

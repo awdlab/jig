@@ -43,7 +43,7 @@ export const inputFieldStyles = createThemePart({
       borderColor: '{color.surface.300}',
       borderRadius: '{size.rounded.md}',
       borderWidth: '1px',
-      padding: '0',
+      padding: '0.25rem 0.5rem',
       background: '{color.background}',
       color: '{color.text}',
       outlineColor: 'transparent',
@@ -51,6 +51,10 @@ export const inputFieldStyles = createThemePart({
         'border-color 0.1s ease-in-out, color 0.1s ease-in-out, outline-color 0.1s ease-in-out',
       error: {
         borderColor: '{color.error.default}',
+        focus: {
+          outlineColor: '{color.error.default}',
+          outlineWidth: '1px',
+        },
       },
       hover: {
         borderColor: '{color.surface.500}',
@@ -101,39 +105,39 @@ export const inputFieldStyles = createThemePart({
           outline-width: ${v('input-field.disabled.outlineWidth')};
           cursor: ${v('input-field.disabled.cursor')};
         }
-        &:has(.ng-invalid) {
-          border-color: ${v('input-field.error.borderColor')};
-          border-width: ${v('input-field.error.borderWidth')};
-          background: ${v('input-field.error.background')};
-          color: ${v('input-field.error.color')};
-          outline-color: ${v('input-field.error.outlineColor')};
-          outline-width: ${v('input-field.error.outlineWidth')};
-          cursor: ${v('input-field.error.cursor')};
-          &:hover {
-            border-color: ${v('input-field.error.hover.borderColor')};
-            border-width: ${v('input-field.error.hover.borderWidth')};
-            background: ${v('input-field.error.hover.background')};
-            color: ${v('input-field.error.hover.color')};
-            outline-color: ${v('input-field.error.hover.outlineColor')};
-            outline-width: ${v('input-field.error.hover.outlineWidth')};
-          }
-          &:focus-within {
-            border-color: ${v('input-field.error.focus.borderColor')};
-            border-width: ${v('input-field.error.focus.borderWidth')};
-            background: ${v('input-field.error.focus.background')};
-            color: ${v('input-field.error.focus.color')};
-            outline-color: ${v('input-field.error.focus.outlineColor')};
-            outline-width: ${v('input-field.error.focus.outlineWidth')};
-          }
-          &:disabled {
-            border-color: ${v('input-field.error.disabled.borderColor')};
-            border-width: ${v('input-field.error.disabled.borderWidth')};
-            background: ${v('input-field.error.disabled.background')};
-            color: ${v('input-field.error.disabled.color')};
-            outline-color: ${v('input-field.error.disabled.outlineColor')};
-            outline-width: ${v('input-field.error.disabled.outlineWidth')};
-            cursor: ${v('input-field.error.disabled.cursor')};
-          }
+      }
+      .ng-invalid.ng-touched ${c()}, ${c()} .ng-invalid.ng-touched {
+        border-color: ${v('input-field.error.borderColor')};
+        border-width: ${v('input-field.error.borderWidth')};
+        background: ${v('input-field.error.background')};
+        color: ${v('input-field.error.color')};
+        outline-color: ${v('input-field.error.outlineColor')};
+        outline-width: ${v('input-field.error.outlineWidth')};
+        cursor: ${v('input-field.error.cursor')};
+        &:hover {
+          border-color: ${v('input-field.error.hover.borderColor')};
+          border-width: ${v('input-field.error.hover.borderWidth')};
+          background: ${v('input-field.error.hover.background')};
+          color: ${v('input-field.error.hover.color')};
+          outline-color: ${v('input-field.error.hover.outlineColor')};
+          outline-width: ${v('input-field.error.hover.outlineWidth')};
+        }
+        &:focus-within {
+          border-color: ${v('input-field.error.focus.borderColor')};
+          border-width: ${v('input-field.error.focus.borderWidth')};
+          background: ${v('input-field.error.focus.background')};
+          color: ${v('input-field.error.focus.color')};
+          outline-color: ${v('input-field.error.focus.outlineColor')};
+          outline-width: ${v('input-field.error.focus.outlineWidth')};
+        }
+        &:disabled {
+          border-color: ${v('input-field.error.disabled.borderColor')};
+          border-width: ${v('input-field.error.disabled.borderWidth')};
+          background: ${v('input-field.error.disabled.background')};
+          color: ${v('input-field.error.disabled.color')};
+          outline-color: ${v('input-field.error.disabled.outlineColor')};
+          outline-width: ${v('input-field.error.disabled.outlineWidth')};
+          cursor: ${v('input-field.error.disabled.cursor')};
         }
       }
       ${c('readonly')} {
