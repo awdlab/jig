@@ -29,7 +29,7 @@ export const selectStyles = createThemePart({
         display: flex;
         flex-direction: column;
       }
-      ${d('popover', 'content')} {
+      ${c('')} ${d('popover', 'content')} {
         padding: 0;
       }
     `,
