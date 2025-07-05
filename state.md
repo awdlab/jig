@@ -33,7 +33,7 @@ Async Filtering
 ✅Group Templates
 ✅Virtual Scrolling
 Lazy Loading
-Theme
+🕑Theme -> Fix css to use all possible variables
 ✅Keyboard selection
 SVG icons
 a11y
@@ -69,7 +69,7 @@ Theme
 ✅Months View
 Years View / Quick way to select year
 ✅Day Templates
-Month Templates
+✅Month Templates
 Time
 Time Templates
 a11y
@@ -86,3 +86,7 @@ API Documentation
 ✅Navigation between controls
 Sidebar navigation between control examples
 Written documentation for each example
+
+## Theming
+
+Auto fallback to parent styles if variable not defined
