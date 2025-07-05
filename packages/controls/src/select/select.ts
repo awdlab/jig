@@ -12,8 +12,8 @@ import {
   injectThemeTemplate,
 } from '@ngneers/controls/api';
 import { IconType } from '@ngneers/controls/custom-types';
-import { FormField } from '@ngneers/controls/form-field';
 import { Icon } from '@ngneers/controls/icon';
+import { Inputfield } from '@ngneers/controls/input-field';
 import { ListBox } from '@ngneers/controls/list-box';
 import { Popover, PopoverOptions } from '@ngneers/controls/popover';
 import { TextField } from '@ngneers/controls/text-field';
@@ -28,7 +28,7 @@ import { SelectFilterOptions, SelectFilterOptionsInternal } from './types';
   templateUrl: './select.html',
   imports: [
     NgClass,
-    FormField,
+    Inputfield,
     FormsModule,
     ListBox,
     TextField,

@@ -1,4 +1,4 @@
-<ngn-form-field
+<ngn-input-field
   [ngClass]="theme.class('input')"
   (click)="popover.open()"
   (keydown)="onKeyDown($event)"
@@ -14,7 +14,7 @@
       }"
     ></ng-template>
   </div>
-</ngn-form-field>
+</ngn-input-field>
 <ngn-popover
   #popover
   [options]="appliedPopoverOptions()"
@@ -25,7 +25,7 @@
   <ng-template #lazy>
     <div [ngClass]="theme.class('popover-content')">
       @if (filter()) {
-        <ngn-form-field [ngClass]="theme.class('filter')">
+        <ngn-input-field [ngClass]="theme.class('filter')">
           <ngn-text-field
             [ngModel]="filterTextInternal()"
             (ngModelChange)="filterTextInternal.set($event)"
@@ -35,7 +35,7 @@
             <!-- TODO: replace with spinner -->
             <ngn-icon defaultIcon="fa-solid fa-spinner fa-spin" />
           }
-        </ngn-form-field>
+        </ngn-input-field>
       }
       <ngn-list-box
         [ngClass]="theme.class('list-box')"

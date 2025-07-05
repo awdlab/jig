@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { ValueControlBase, valueControlBaseProvider } from '@ngneers/controls/api';
-import { FormField } from '@ngneers/controls/form-field';
+import { Inputfield } from '@ngneers/controls/input-field';
 
 @Component({
   selector: 'ngn-text-field',
   templateUrl: './text-field.html',
-  imports: [FormField],
+  imports: [Inputfield],
   providers: [valueControlBaseProvider(TextField)],
 })
 export class TextField extends ValueControlBase<string> {
