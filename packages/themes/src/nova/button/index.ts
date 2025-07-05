@@ -42,7 +42,6 @@ export const buttonStyles = createThemePart({
       fontSize: '0.875rem',
       fontWeight: '600',
       padding: '0.5rem 1rem',
-
       hover: {
         background: '{color.primary.200}',
       },
@@ -51,6 +50,11 @@ export const buttonStyles = createThemePart({
       },
       active: {
         background: '{color.primary.100}',
+      },
+      link: {
+        background: 'transparent',
+        color: '{color.primary.default}',
+        borderColor: 'transparent',
       },
     },
     css: ({ v, c }) =>
@@ -72,6 +76,10 @@ export const buttonStyles = createThemePart({
           font-size: ${v('button.fontSize')};
           font-weight: ${v('button.fontWeight')};
           padding: ${v('button.padding')};
+          cursor: pointer;
+        }
+        ${c('kind-link')} {
+          text-decoration: underline;
         }
       `,
   },

@@ -11,25 +11,29 @@ import {
   forestVerdantColor,
   mustardColor,
   solarMarigoldColor,
+  greyColor,
 } from '@ngneers/controls-themes/nova/colors';
 
 export const colorsTemplate = createVariableTemplate({
   scope: 'color',
   variables: {
-    ...repeatVariables(['primary', 'secondary', 'accent', 'error', 'warning', 'info', 'success'], {
-      default: null,
-      '50': null,
-      '100': null,
-      '200': null,
-      '300': null,
-      '400': null,
-      '500': null,
-      '600': null,
-      '700': null,
-      '800': null,
-      '900': null,
-      '950': null,
-    }),
+    ...repeatVariables(
+      ['primary', 'secondary', 'accent', 'error', 'warning', 'info', 'success', 'surface'],
+      {
+        default: null,
+        '50': null,
+        '100': null,
+        '200': null,
+        '300': null,
+        '400': null,
+        '500': null,
+        '600': null,
+        '700': null,
+        '800': null,
+        '900': null,
+        '950': null,
+      }
+    ),
     background: null,
     text: null,
   },
@@ -47,6 +51,7 @@ export const coral = createThemePart({
       warning: solarMarigoldColor,
       info: electricSkyColor,
       success: forestVerdantColor,
+      surface: greyColor,
       background: '#fcf3f6',
       text: '#12070c',
     },

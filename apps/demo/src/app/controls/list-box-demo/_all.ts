@@ -22,6 +22,11 @@ export const stories: ComponentStories = {
       component: import('./grouped-demo').then(x => x.ListBox_Grouped_Component),
     },
     {
+      fileName: 'value',
+      title: 'Value',
+      component: import('./value-demo').then(x => x.ListBox_Value_Component),
+    },
+    {
       fileName: 'virtual',
       title: 'Virtual',
       component: import('./virtual-demo').then(x => x.ListBox_Virtual_Component),

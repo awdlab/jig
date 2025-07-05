@@ -1,7 +1,8 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, effect, input, signal, viewChild } from '@angular/core';
 import {
   flatItems,
+  injectThemeTemplate,
   mapToItems,
   NgnItem,
   NgnItemFields,
@@ -10,16 +11,19 @@ import {
   valueControlBaseProvider,
 } from '@ngneers/controls/api';
 import { Scroller } from '@ngneers/controls/scroller';
+import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
 
 import { ListBoxTemplates } from './list-box-templates';
 
 @Component({
   selector: 'ngn-list-box',
   templateUrl: './list-box.html',
-  imports: [NgTemplateOutlet, Scroller, NgnTemplate],
+  imports: [NgTemplateOutlet, Scroller, NgnTemplate, NgClass],
   providers: [valueControlBaseProvider(ListBox)],
 })
 export class ListBox<T extends object, K extends keyof T> extends ListBoxTemplates<T, K> {
+  protected readonly theme = injectThemeTemplate(listBoxControlTemplate);
+
   public readonly items = input<readonly NgnItem<T, K>[] | readonly T[]>([]);
   public readonly fields = input<NgnItemFields<T, K>>();
 

@@ -21,7 +21,7 @@ import { ScrollerTemplates } from './scroller-templates';
   templateUrl: './scroller.html',
   imports: [NgTemplateOutlet],
   host: {
-    style: 'position: relative; overflow: auto; display: block; maxHeight: 100%; width: 100%;',
+    style: 'overflow: auto; display: block; maxHeight: 100%; width: 100%;',
     '[tabIndex]': 'focusable() ? 0 : -1',
   },
 })

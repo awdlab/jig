@@ -10,7 +10,7 @@ import { exampleData } from '../../helper/data';
     <ngn-list-box
       [items]="items"
       [virtual]="true"
-      [itemHeight]="24"
+      [itemHeight]="40"
       style="display: block; height: 300px;"
     />
   `,

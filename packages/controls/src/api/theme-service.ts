@@ -17,6 +17,9 @@ import { NGN_CONFIG } from './config';
 export type ControlTemplateInfo<T extends ControlTemplate> = {
   scope: string;
   class: (className?: T['classNames'][number] | '') => string;
+  classes: (classes: {
+    [K in T['classNames'][number] | '']?: boolean;
+  }) => string;
 };
 
 export function injectThemeTemplate<T extends ControlTemplate>(
@@ -29,6 +32,16 @@ export function injectThemeTemplate<T extends ControlTemplate>(
   return {
     scope: template.scope,
     class: getClassName.bind(null, config.theme.namePrefix, template.scope),
+    classes: (classes: {
+      [K in T['classNames'][number] | '']?: boolean;
+    }): string => {
+      return Object.entries(classes)
+        .map(([className, condition]) => {
+          return condition ? getClassName(config.theme.namePrefix, template.scope, className) : '';
+        })
+        .filter(Boolean)
+        .join(' ');
+    },
   };
 }
 

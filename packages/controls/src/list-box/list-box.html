@@ -1,11 +1,12 @@
 <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
 <div
-  class="ngn-list-box"
+  [ngClass]="theme.class()"
   style="height: 100%; width: 100%"
   [attr.tabIndex]="highlightable() ? 0 : null"
   (keydown)="onKeyDown($event)"
 >
   <ngn-scroller
+    [ngClass]="theme.class('scroller')"
     [virtual]="virtual()"
     [itemHeight]="itemHeight() ?? 0"
     [items]="flatItems()"
@@ -18,8 +19,14 @@
 <ng-template #usedItemTemplate [ngnTemplate]="scroller.templateTypes.item" let-itemOrGroup>
   <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
   <div
-    [class.highlighted]="itemOrGroup.value === currentHighlightedValue()"
-    [class.selected]="itemOrGroup.value === value()"
+    [ngClass]="
+      theme.classes({
+        item: !itemOrGroup.items,
+        group: !!itemOrGroup.items,
+        'item-selected': itemOrGroup.value === value(),
+        'item-highlighted': itemOrGroup.value === currentHighlightedValue(),
+      })
+    "
     (click)="!itemOrGroup.items && selectable() && onSelect(itemOrGroup.value)"
   >
     <ng-container
