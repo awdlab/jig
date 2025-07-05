@@ -52,7 +52,7 @@ export const coral = createThemePart({
       info: electricSkyColor,
       success: forestVerdantColor,
       surface: greyColor,
-      background: '#fcf3f6',
+      background: '#ffffff',
       text: '#12070c',
     },
   },

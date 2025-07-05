@@ -1,11 +1,11 @@
 <div
+  [ngClass]="theme.class()"
+  #popover
   popover
   (toggle)="onToggle($event)"
-  #popover
-  id="dropdown"
   style="position: fixed; display: flex; flex-direction: column"
 >
-  <div style="height: 100%; max-height: fit-content; background: gainsboro">
+  <div [ngClass]="theme.class('content')" style="height: 100%; max-height: fit-content">
     <ngn-lazy-cacher
       [lazyContent]="lazyContent()"
       [open]="isOpen()"

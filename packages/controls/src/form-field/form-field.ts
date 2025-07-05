@@ -1,4 +1,5 @@
 import { Component, forwardRef, inject, InjectionToken, input } from '@angular/core';
+import { BaseDirective } from '@ngneers/controls/base';
 
 import { FormFieldBase } from './form-field-base';
 
@@ -19,7 +20,7 @@ const FORM_FIELD = new InjectionToken<FormField>('FormField');
     },
   ],
 })
-export class FormField implements FormFieldBase {
+export class FormField extends BaseDirective implements FormFieldBase {
   private readonly _parentFormField = inject(FORM_FIELD, { optional: true, skipSelf: true });
   protected readonly hasParentFormField = !!this._parentFormField;
 

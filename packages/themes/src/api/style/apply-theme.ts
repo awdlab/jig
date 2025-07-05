@@ -179,6 +179,9 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions): string {
     const args = {
       v: varKeySelector,
       c: (className?: string) => `.${getClassName(options.namePrefix, part.scope, className)}`,
+      d: (scope: string, className?: string) => {
+        return `.${getClassName(options.namePrefix, scope, className)}`;
+      },
     };
     return {
       root: part.root?.css?.(args),

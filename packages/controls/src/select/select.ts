@@ -1,15 +1,15 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, input, linkedSignal, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   filterOptions,
-  GetElementRef,
   NgnTemplate,
   valueControlBaseProvider,
   mapToItems,
   NgnItem,
   NgnItemFields,
   transformToNgnItems,
+  injectThemeTemplate,
 } from '@ngneers/controls/api';
 import { IconType } from '@ngneers/controls/custom-types';
 import { FormField } from '@ngneers/controls/form-field';
@@ -18,6 +18,7 @@ import { ListBox } from '@ngneers/controls/list-box';
 import { Popover, PopoverOptions } from '@ngneers/controls/popover';
 import { TextField } from '@ngneers/controls/text-field';
 import { asyncComputed } from '@ngneers/controls/utils';
+import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
 
 import { SelectTemplates } from './select-templates';
 import { SelectFilterOptions, SelectFilterOptionsInternal } from './types';
@@ -26,12 +27,12 @@ import { SelectFilterOptions, SelectFilterOptionsInternal } from './types';
   selector: 'ngn-select',
   templateUrl: './select.html',
   imports: [
+    NgClass,
     FormField,
     FormsModule,
     ListBox,
     TextField,
     Popover,
-    GetElementRef,
     NgTemplateOutlet,
     NgnTemplate,
     Icon,
@@ -39,6 +40,7 @@ import { SelectFilterOptions, SelectFilterOptionsInternal } from './types';
   providers: [valueControlBaseProvider(Select)],
 })
 export class Select<T extends object, K extends keyof T> extends SelectTemplates<T, K> {
+  protected readonly theme = injectThemeTemplate(selectControlTemplate);
   private readonly _popover = viewChild.required<Popover>(Popover);
 
   public readonly popoverOptions = input<PopoverOptions>({});

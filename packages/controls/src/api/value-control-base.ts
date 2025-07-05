@@ -1,5 +1,6 @@
 import { Directive, input, signal, Type } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { BaseDirective } from '@ngneers/controls/base';
 import { FormFieldBase } from '@ngneers/controls/form-field';
 import { generateElementId } from '@ngneers/controls/utils';
 
@@ -15,7 +16,10 @@ export function valueControlBaseProvider<T extends Type<ValueControlBase<any>>>(
 }
 
 @Directive()
-export abstract class ValueControlBase<T> implements FormFieldBase, ControlValueAccessor {
+export abstract class ValueControlBase<T>
+  extends BaseDirective
+  implements FormFieldBase, ControlValueAccessor
+{
   public readonly label = input<string | null>(null);
   public readonly inputId = input<string>(generateElementId());
 
