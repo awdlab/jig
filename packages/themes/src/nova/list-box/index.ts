@@ -5,7 +5,7 @@ import {
   css,
   repeatVariables,
 } from '@ngneers/controls-themes/api';
-import { colorsTemplate } from '@ngneers/controls-themes/nova/base';
+import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
 
 const listBoxKinds = [''] as const;
@@ -49,18 +49,18 @@ export const listBoxVariables = createVariableTemplate({
 export const listBoxStyles = createThemePart({
   controlTemplate: listBoxControlTemplate,
   variables: [listBoxVariables],
-  dependencies: [colorsTemplate],
+  dependencies: [colorsTemplate, sizesTemplate],
   root: {
     values: {
-      borderRadius: '0.25rem',
+      borderRadius: '{size.rounded.md}',
       borderColor: '{color.surface.300}',
       borderWidth: '1px',
       scroller: {
-        padding: '0.25rem',
+        padding: '{size.rounded.sm}',
       },
       item: {
-        padding: '0.5rem',
-        borderRadius: '0.25rem',
+        padding: '{size.rounded.md}',
+        borderRadius: '{size.rounded.md}',
         borderWidth: '0',
         hover: {
           background: '{color.surface.200}',
@@ -78,7 +78,7 @@ export const listBoxStyles = createThemePart({
       group: {
         padding: '0.5rem 0.5rem 0.5rem 1rem',
         color: '{color.surface.600}',
-        borderRadius: '0.25rem',
+        borderRadius: '{size.rounded.md}',
         borderWidth: '0',
         background: '{color.surface.100}',
         hover: {

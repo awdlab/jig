@@ -1,18 +1,17 @@
+import { NgClass } from '@angular/common';
 import { Component, forwardRef, inject, InjectionToken, input } from '@angular/core';
+import { injectThemeTemplate } from '@ngneers/controls/api';
 import { BaseDirective } from '@ngneers/controls/base';
+import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 
 import { InputfieldBase } from './input-field-base';
 
 const FORM_FIELD = new InjectionToken<Inputfield>('Inputfield');
 
 @Component({
+  imports: [NgClass],
   selector: 'ngn-input-field',
   templateUrl: './input-field.html',
-  styles: `
-    .ngn-input-field {
-      border: 2px solid black;
-    }
-  `,
   providers: [
     {
       provide: FORM_FIELD,
@@ -21,6 +20,7 @@ const FORM_FIELD = new InjectionToken<Inputfield>('Inputfield');
   ],
 })
 export class Inputfield extends BaseDirective implements InputfieldBase {
+  protected readonly theme = injectThemeTemplate(inputFieldControlTemplate);
   private readonly _parentInputfield = inject(FORM_FIELD, { optional: true, skipSelf: true });
   protected readonly hasParentInputfield = !!this._parentInputfield;
 

@@ -1,5 +1,5 @@
 import { createThemePart, createVariableTemplate, css } from '@ngneers/controls-themes/api';
-import { colorsTemplate } from '@ngneers/controls-themes/nova/base';
+import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
 
 export const popoverVariables = createVariableTemplate({
@@ -20,14 +20,14 @@ export const popoverVariables = createVariableTemplate({
 export const popoverStyles = createThemePart({
   controlTemplate: popoverControlTemplate,
   variables: [popoverVariables],
-  dependencies: [colorsTemplate],
+  dependencies: [colorsTemplate, sizesTemplate],
   root: {
     values: {
       content: {
         borderColor: '{color.surface.300}',
-        borderRadius: '0.25rem',
+        borderRadius: '{size.rounded.md}',
         borderWidth: '1px',
-        padding: '0.5rem',
+        padding: '{size.rounded.md}',
         background: '{color.background}',
         color: '{color.text}',
         boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',

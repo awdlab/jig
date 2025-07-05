@@ -6,7 +6,7 @@ import {
   css,
   repeatVariables,
 } from '@ngneers/controls-themes/api';
-import { colorsTemplate } from '@ngneers/controls-themes/nova/base';
+import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
 import { subKey } from 'packages/themes/src/api/utils/sub-key';
 
@@ -33,12 +33,12 @@ export const buttonVariables = createVariableTemplate({
 export const buttonStyles = createThemePart({
   controlTemplate: buttonControlTemplate,
   variables: [buttonVariables],
-  dependencies: [colorsTemplate],
+  dependencies: [colorsTemplate, sizesTemplate],
   root: {
     values: {
       background: '{color.primary.default}',
       color: '{color.text}',
-      borderRadius: '0.25rem',
+      borderRadius: '{size.rounded.md}',
       fontSize: '0.875rem',
       fontWeight: '600',
       padding: '0.5rem 1rem',

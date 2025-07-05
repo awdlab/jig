@@ -1,6 +1,6 @@
-<div [class.ngn-input-field]="!hasParentInputfield">
+<div [ngClass]="!hasParentInputfield ? theme.class() : null">
   @if (label(); as label) {
-    <label [for]="inputId()">{{ label }}</label>
+    <label [ngClass]="theme.class('label')" [for]="inputId()">{{ label }}</label>
   }
   <ng-content />
 </div>
