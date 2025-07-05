@@ -1,8 +1,9 @@
 import { computed, contentChild, Directive, input, TemplateRef } from '@angular/core';
 import { templateTypesFn } from '@ngneers/controls/api';
+import { BaseDirective } from '@ngneers/controls/base';
 
 @Directive()
-export abstract class ScrollerTemplates<T> {
+export abstract class ScrollerTemplates<T> extends BaseDirective {
   /**
    * The template to be used for rendering each item in the scroller.
    * Can also be set using the `item` content child.

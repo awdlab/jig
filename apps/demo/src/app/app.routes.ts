@@ -25,14 +25,19 @@ export const routes: Routes = [
           import('./controls/dialog-demo/_all').then(m => m.Dialog_All_Component),
       },
       {
+        path: 'list-box',
+        loadComponent: () =>
+          import('./controls/list-box-demo/_all').then(m => m.ListBox_All_Component),
+      },
+      {
         path: 'popover',
         loadComponent: () =>
           import('./controls/popover-demo/_all').then(m => m.Popover_All_Component),
       },
       {
-        path: 'text-field',
+        path: 'scroller',
         loadComponent: () =>
-          import('./controls/text-field-demo/_all').then(m => m.TextField_All_Component),
+          import('./controls/scroller-demo/_all').then(m => m.Scroller_All_Component),
       },
       {
         path: 'select',
@@ -40,14 +45,14 @@ export const routes: Routes = [
           import('./controls/select-demo/_all').then(m => m.Select_All_Component),
       },
       {
-        path: 'list-box',
-        loadComponent: () =>
-          import('./controls/list-box-demo/_all').then(m => m.ListBox_All_Component),
-      },
-      {
         path: 'splitter',
         loadComponent: () =>
           import('./controls/splitter-demo/_all').then(m => m.Splitter_All_Component),
+      },
+      {
+        path: 'text-field',
+        loadComponent: () =>
+          import('./controls/text-field-demo/_all').then(m => m.TextField_All_Component),
       },
     ],
   },

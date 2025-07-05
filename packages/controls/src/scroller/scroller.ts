@@ -1,17 +1,19 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  afterRenderEffect,
   Component,
   computed,
+  DestroyRef,
   effect,
   ElementRef,
-  inject,
   input,
+  signal,
   untracked,
   viewChild,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { elementSizeSignal } from '@ngneers/controls/api';
-import { NgnError } from '@ngneers/controls/utils';
+import { AllKeysOfUnion, NgnError } from '@ngneers/controls/utils';
 import { fromEvent, map } from 'rxjs';
 
 import { ScrollerTemplates } from './scroller-templates';
@@ -21,7 +23,7 @@ import { ScrollerTemplates } from './scroller-templates';
   templateUrl: './scroller.html',
   imports: [NgTemplateOutlet],
   host: {
-    style: 'overflow: auto; display: block; maxHeight: 100%; width: 100%;',
+    style: 'display: block; height: 100%; width: 100%;',
     '[tabIndex]': 'focusable() ? 0 : -1',
   },
 })
@@ -59,12 +61,12 @@ export class Scroller<T> extends ScrollerTemplates<T> {
    * Determines whether an item is sticky or not.
    * If set, the scroller will stick the items with a truthy value for the specified field to the top of the scroller.
    */
-  public readonly fieldSticky = input<keyof T | null>(null);
+  public readonly fieldSticky = input<AllKeysOfUnion<T> | null>(null);
 
   private readonly _itemList = viewChild.required<ElementRef<HTMLElement>>('itemList');
+  private readonly _scrollElementRef = viewChild.required<ElementRef<HTMLElement>>('scroller');
+  private readonly _scrollElement = computed(() => this._scrollElementRef().nativeElement);
 
-  private readonly _el = inject(ElementRef<HTMLElement>);
-  private readonly _scrollElement: HTMLElement = this._el.nativeElement;
   private readonly _elementSize = elementSizeSignal(this._scrollElement);
 
   private readonly _visibleItemCount = computed(() =>
@@ -72,10 +74,7 @@ export class Scroller<T> extends ScrollerTemplates<T> {
       ? Math.ceil(this._elementSize().height / this.itemHeight() + this.padding() * 2)
       : 0
   );
-  private readonly _scrollTop = toSignal(
-    fromEvent(this._scrollElement, 'scroll').pipe(map(e => (e.target as HTMLElement).scrollTop)),
-    { initialValue: 0 }
-  );
+  private readonly _scrollTop = signal(0);
   private readonly _itemStartIndex = computed(() =>
     this.virtual()
       ? Math.max(0, Math.ceil(this._scrollTop() / this.itemHeight()) - this.padding())
@@ -139,6 +138,14 @@ export class Scroller<T> extends ScrollerTemplates<T> {
         throw new NgnError('scroller', 'itemHeight must be set when virtual is true');
       }
     });
+
+    afterRenderEffect(() => {
+      const el = this._scrollElement();
+      const obs = fromEvent(el, 'scroll').pipe(map(e => (e.target as HTMLElement).scrollTop));
+      obs.pipe(takeUntilDestroyed(this.injector.get(DestroyRef))).subscribe(scrollTop => {
+        this._scrollTop.set(scrollTop);
+      });
+    });
   }
 
   /**
@@ -154,11 +161,11 @@ export class Scroller<T> extends ScrollerTemplates<T> {
         const itemBottom = itemTop + this.itemHeight();
 
         if (itemTop < scrollTop) {
-          this._scrollElement.scrollTo({
+          this._scrollElement().scrollTo({
             top: itemTop - 10,
           });
         } else if (itemBottom > scrollTop + visibleHeight) {
-          this._scrollElement.scrollTo({
+          this._scrollElement().scrollTo({
             top: itemBottom - visibleHeight + 10,
           });
         }

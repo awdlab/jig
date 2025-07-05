@@ -26,3 +26,8 @@ export type DeepPartial<T, Exclude extends string = never, P = never> = T extend
         }
       >
   : T;
+
+/**
+ * Returns all keys of a type T.
+ */
+export type AllKeysOfUnion<T> = T extends object ? keyof T : never;

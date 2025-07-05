@@ -1,9 +1,23 @@
-import { DestroyRef, inject, signal, Signal } from '@angular/core';
+import { afterRenderEffect, DestroyRef, inject, signal, Signal } from '@angular/core';
 
-export function elementSizeSignal(element: HTMLElement): Signal<{ width: number; height: number }> {
+export function elementSizeSignal(
+  element: Signal<HTMLElement>
+): Signal<{ width: number; height: number }> {
   const sizeSignal = signal<{ width: number; height: number }>({
-    width: element.clientWidth,
-    height: element.clientHeight,
+    width: 0,
+    height: 0,
+  });
+
+  afterRenderEffect(() => {
+    const el = element();
+    if (!el) {
+      return;
+    }
+    sizeSignal.set({
+      width: el.clientWidth,
+      height: el.clientHeight,
+    });
+    resizeObserver.observe(el);
   });
 
   const destroyRef = inject(DestroyRef);
@@ -17,7 +31,6 @@ export function elementSizeSignal(element: HTMLElement): Signal<{ width: number;
       height: firstEntry.contentRect.height,
     });
   });
-  resizeObserver.observe(element);
   destroyRef.onDestroy(() => {
     resizeObserver.disconnect();
   });
