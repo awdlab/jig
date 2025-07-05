@@ -38,6 +38,9 @@ import { SelectFilterOptions, SelectFilterOptionsInternal } from './types';
     Icon,
   ],
   providers: [valueControlBaseProvider(Select)],
+  host: {
+    '[class]': 'theme.class("")',
+  },
 })
 export class Select<T extends object, K extends keyof T> extends SelectTemplates<T, K> {
   protected readonly theme = injectThemeTemplate(selectControlTemplate);

@@ -1,5 +1,5 @@
 <ngn-form-field
-  [ngClass]="theme.class('')"
+  [ngClass]="theme.class('input')"
   (click)="popover.open()"
   (keydown)="onKeyDown($event)"
   #field
@@ -16,7 +16,6 @@
   </div>
 </ngn-form-field>
 <ngn-popover
-  [ngClass]="theme.class('popover')"
   #popover
   [options]="appliedPopoverOptions()"
   [anchor]="field.element.nativeElement"
@@ -24,7 +23,7 @@
   (closed)="onPopoverClosed()"
 >
   <ng-template #lazy>
-    <div style="height: 100%; display: flex; flex-direction: column">
+    <div [ngClass]="theme.class('popover-content')">
       @if (filter()) {
         <ngn-form-field [ngClass]="theme.class('filter')">
           <ngn-text-field

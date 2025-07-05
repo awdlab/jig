@@ -3,7 +3,8 @@ import { Scoped } from './scoped';
 export type ControlTemplate<
   S extends string = string,
   C extends string[] = string[],
-> = Scoped<S> & { readonly classNames: C };
+  Deps extends readonly ControlTemplate[] = readonly any[],
+> = Scoped<S> & { readonly classNames: C; readonly dependencies: Deps };
 
 type _ResolveWildcards<C extends string> = C extends `${infer Prefix}*${infer Suffix}`
   ? `${Prefix}${string}${Suffix}`
@@ -15,9 +16,10 @@ type ResolveWildcards<C extends readonly string[]> = C extends readonly [infer H
       : never
     : never
   : C;
-export function createControlTemplate<S extends string, const C extends string[]>(init: {
-  scope: S;
-  classNames: C;
-}) {
-  return init as ControlTemplate<S, ResolveWildcards<C>>;
+export function createControlTemplate<
+  S extends string,
+  const C extends string[],
+  const Deps extends readonly ControlTemplate[],
+>(init: { scope: S; classNames: C; readonly dependencies?: Deps }) {
+  return init as ControlTemplate<S, ResolveWildcards<C>, Deps>;
 }

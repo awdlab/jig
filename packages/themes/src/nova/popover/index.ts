@@ -1,6 +1,5 @@
 import { createThemePart, createVariableTemplate, css } from '@ngneers/controls-themes/api';
 import { colorsTemplate } from '@ngneers/controls-themes/nova/base';
-import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
 import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
 
 export const popoverVariables = createVariableTemplate({
@@ -22,7 +21,6 @@ export const popoverStyles = createThemePart({
   controlTemplate: popoverControlTemplate,
   variables: [popoverVariables],
   dependencies: [colorsTemplate],
-  childControls: [listBoxControlTemplate],
   root: {
     values: {
       content: {

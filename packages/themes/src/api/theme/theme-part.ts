@@ -3,29 +3,29 @@ import { Scoped } from './scoped';
 import { VariableValues } from './variable';
 import { VariableTemplate } from './variable-template';
 
-type ChildrenScopes<Children extends ControlTemplate<any>[]> = Children extends (infer Child)[]
-  ? Child extends ControlTemplate<any>
+type ChildrenScopes<Deps> = Deps extends readonly (infer Child)[]
+  ? Child extends ControlTemplate
     ? Child['scope']
     : never
   : never;
 
-type ClassnameForChildScope<
-  Children extends ControlTemplate<any>[],
-  Scope extends ChildrenScopes<Children>,
-> = Children extends (infer Child)[]
-  ? Child extends ControlTemplate<Scope>
-    ? Child['classNames'][number]
-    : never
-  : never;
+type ClassnameForChildScope<Deps, Scope> =
+  Scope extends ChildrenScopes<Deps>
+    ? Deps extends readonly (infer Child)[]
+      ? Child extends ControlTemplate<Scope>
+        ? Child['classNames'][number]
+        : never
+      : never
+    : never;
 
-type ThemePartContent<V, K, C, Children extends ControlTemplate<any>[]> = {
+type ThemePartContent<V, K, C, Deps> = {
   readonly values?: V;
   readonly css?: (args: {
     v: (key: K) => string;
     c: (className?: C | '') => string;
-    d: <Scope extends ChildrenScopes<Children>>(
+    d: <const Scope extends ChildrenScopes<Deps>>(
       scope: Scope,
-      className?: ClassnameForChildScope<Children, Scope>
+      className?: ClassnameForChildScope<Deps, Scope>
     ) => string;
   }) => string;
 };
@@ -35,12 +35,11 @@ type _ThemePartContent<
   C extends ControlTemplate = ControlTemplate<S>,
   V extends VariableTemplate<S>[] = VariableTemplate<S>[],
   D extends VariableTemplate[] = VariableTemplate[],
-  Children extends ControlTemplate<any>[] = ControlTemplate<any>[],
 > = ThemePartContent<
   VariableValues<V[number]['variables'], V[number]['__varkeys'] | D[number]['__varkeys']>,
   V[number]['__varkeys'] | D[number]['__varkeys'],
   C['classNames'][number],
-  Children
+  C['dependencies']
 >;
 
 export type ThemePart<
@@ -48,34 +47,30 @@ export type ThemePart<
   C extends ControlTemplate<S> = ControlTemplate<S>,
   V extends VariableTemplate<S>[] = VariableTemplate<S>[],
   D extends VariableTemplate[] = VariableTemplate[],
-  Children extends ControlTemplate<any>[] = ControlTemplate<any>[],
 > = Scoped<S> & {
   readonly controlTemplate?: C;
   readonly variables?: V;
   readonly dependencies?: D;
-  readonly childControls?: Children;
-  readonly root?: _ThemePartContent<S, C, V, D, Children>;
-  readonly light?: _ThemePartContent<S, C, V, D, Children>;
-  readonly dark?: _ThemePartContent<S, C, V, D, Children>;
-  readonly highContrast?: _ThemePartContent<S, C, V, D, Children>;
+  readonly root?: _ThemePartContent<S, C, V, D>;
+  readonly light?: _ThemePartContent<S, C, V, D>;
+  readonly dark?: _ThemePartContent<S, C, V, D>;
+  readonly highContrast?: _ThemePartContent<S, C, V, D>;
 };
 
 export function createThemePart<
   C extends ControlTemplate = ControlTemplate,
   const V extends VariableTemplate<C['scope']>[] = VariableTemplate<C['scope']>[],
   const D extends VariableTemplate[] = VariableTemplate[],
-  const Children extends ControlTemplate<any>[] = ControlTemplate<any>[],
 >(
-  init: Omit<ThemePart<C['scope'], C, V, D, Children>, 'scope' | 'controlTemplate'> & {
+  init: Omit<ThemePart<C['scope'], C, V, D>, 'scope' | 'controlTemplate'> & {
     controlTemplate: C;
   }
-): ThemePart<C['scope'], C, V, D, Children>;
+): ThemePart<C['scope'], C, V, D>;
 export function createThemePart<
   S extends string = string,
   const V extends VariableTemplate<S>[] = VariableTemplate<S>[],
   const D extends VariableTemplate[] = VariableTemplate[],
-  const Children extends ControlTemplate<any>[] = ControlTemplate<any>[],
->(init: ThemePart<S, never, V, D, Children>): ThemePart<S, never, V, D, Children>;
+>(init: ThemePart<S, never, V, D>): ThemePart<S, never, V, D>;
 export function createThemePart(init: Partial<ThemePart>): ThemePart {
   return {
     scope: init.scope ?? init.controlTemplate?.scope ?? '',

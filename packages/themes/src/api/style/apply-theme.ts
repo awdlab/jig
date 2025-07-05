@@ -180,7 +180,7 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions): string {
       v: varKeySelector,
       c: (className?: string) => `.${getClassName(options.namePrefix, part.scope, className)}`,
       d: (scope: string, className?: string) => {
-        return `.${getClassName(options.namePrefix, scope, className)}`;
+        return `.${getClassName(options.namePrefix, part.scope)} .${getClassName(options.namePrefix, scope, className)}`;
       },
     };
     return {
