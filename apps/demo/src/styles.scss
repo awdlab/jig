@@ -1,19 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 //TMP
 
-.selected {
-  background-color: lightskyblue;
-}
-.highlighted {
-  background-color: lightblue;
-}
 .ngn-stick-top {
   position: sticky;
   top: 0;
   background-color: white;
-}
-:focus {
-  outline: 2px solid blue;
 }
 
 // TMP ENDS
@@ -110,4 +101,8 @@ h6 {
 }
 [popover]:not(:popover-open):not(dialog[open]) {
   display: none !important;
+}
+:focus-visible {
+  outline: 0 solid transparent;
+  outline-offset: 0;
 }

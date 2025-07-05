@@ -26,7 +26,7 @@ export const stories: ComponentStories = {
 
 @Component({
   imports: [All_Component],
-  selector: 'ngn-list-box-all',
+  selector: 'ngn-scroller-all',
   template: ` <ngn-all [stories]="stories" /> `,
 })
 export class Scroller_All_Component {

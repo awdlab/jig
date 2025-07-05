@@ -1,6 +1,8 @@
 import { createControlTemplate } from '@ngneers/controls-themes/api';
 
+export const inputFieldChildClassNames = ['disabled'] as const;
+
 export const inputFieldControlTemplate = createControlTemplate({
   scope: 'input-field',
-  classNames: ['', 'label'],
+  classNames: ['', 'readonly', 'label', 'disabled'],
 });
