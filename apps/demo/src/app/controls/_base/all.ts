@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, input, signal, Type } from '@angular/core';
+import { Component, computed, effect, inject, input, signal, Type } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { asyncComputed } from '@ngneers/controls/utils';
 
@@ -32,7 +32,8 @@ export class All_Component {
   private readonly _activatedRoute = inject(ActivatedRoute);
   public readonly stories = input.required<ComponentStories>();
 
-  protected readonly componentStories = asyncComputed<ComponentStoryFull[]>(
+  private readonly _singleStory = signal<string | null>(null);
+  private readonly _componentStories = asyncComputed<ComponentStoryFull[]>(
     () =>
       Promise.all(
         this.stories()
@@ -48,10 +49,22 @@ export class All_Component {
     []
   );
 
+  protected readonly componentStories = computed<ComponentStoryFull[]>(() => {
+    const singleStory = this._singleStory();
+    if (singleStory) {
+      return this._componentStories().filter(story => story.fileName === singleStory);
+    }
+    return this._componentStories();
+  });
+
   constructor() {
     const fragment = signal<string | null>(null);
     this._activatedRoute.fragment.subscribe(f => {
       fragment.set(f);
+    });
+    this._activatedRoute.queryParams.subscribe(params => {
+      const singleStory = params['story'];
+      this._singleStory.set(singleStory || null);
     });
     effect(() => {
       const f = fragment();

@@ -1,3 +1,3 @@
 import { Locator } from 'playwright';
 
-export class NgneersButton {}
+export class NgnButtonHarness {}
