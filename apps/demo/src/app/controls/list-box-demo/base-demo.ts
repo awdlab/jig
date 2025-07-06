@@ -9,5 +9,5 @@ import { exampleData } from '../../helper/data';
   template: `<ngn-list-box [items]="items" style="display: block; height: 300px;" />`,
 })
 export class ListBox_Base_Component {
-  public readonly items = exampleData.items.flatPreformatted;
+  protected readonly items = exampleData.items.flatPreformatted;
 }

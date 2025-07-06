@@ -19,5 +19,5 @@ import { exampleData } from '../../helper/data';
   `,
 })
 export class ListBox_Grouped_Component {
-  public readonly items = exampleData.items.grouped;
+  protected readonly items = exampleData.items.grouped;
 }

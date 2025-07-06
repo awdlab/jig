@@ -16,5 +16,5 @@ import { exampleData } from '../../helper/data';
   </ngn-list-box>`,
 })
 export class ListBox_Templates_Component {
-  public readonly items = exampleData.items.groupedPreformatted;
+  protected readonly items = exampleData.items.groupedPreformatted;
 }

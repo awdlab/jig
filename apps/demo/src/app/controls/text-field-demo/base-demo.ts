@@ -15,5 +15,5 @@ import { TextField } from '@ngneers/controls/text-field';
   `,
 })
 export class TextField_Base_Component {
-  public readonly value = signal<string>('');
+  protected readonly value = signal<string>('');
 }

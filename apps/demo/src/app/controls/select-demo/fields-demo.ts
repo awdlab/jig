@@ -18,5 +18,5 @@ import { exampleData } from '../../helper/data';
   `,
 })
 export class Select_Fields_Component {
-  public readonly options = exampleData.items.flat;
+  protected readonly options = exampleData.items.flat;
 }

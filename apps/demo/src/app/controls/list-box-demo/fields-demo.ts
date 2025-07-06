@@ -18,5 +18,5 @@ import { exampleData } from '../../helper/data';
   `,
 })
 export class ListBox_Fields_Component {
-  public readonly items = exampleData.items.flat;
+  protected readonly items = exampleData.items.flat;
 }

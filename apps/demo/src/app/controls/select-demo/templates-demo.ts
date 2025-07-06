@@ -24,5 +24,5 @@ import { exampleData } from '../../helper/data';
   </ngn-select>`,
 })
 export class Select_Templates_Component {
-  public readonly options = exampleData.items.groupedPreformatted;
+  protected readonly options = exampleData.items.groupedPreformatted;
 }

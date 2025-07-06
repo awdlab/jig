@@ -14,5 +14,5 @@ import { exampleData } from '../../helper/data';
   />`,
 })
 export class Select_Filter_Component {
-  public readonly options = exampleData.items.flatPreformatted;
+  protected readonly options = exampleData.items.flatPreformatted;
 }

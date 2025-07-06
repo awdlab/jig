@@ -19,5 +19,5 @@ import { exampleData } from '../../helper/data';
   `,
 })
 export class Select_Grouped_Component {
-  public readonly options = exampleData.items.grouped;
+  protected readonly options = exampleData.items.grouped;
 }

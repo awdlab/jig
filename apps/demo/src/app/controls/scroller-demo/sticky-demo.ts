@@ -18,5 +18,5 @@ import { exampleData } from '../../helper/data';
   `,
 })
 export class Scroller_Sticky_Component {
-  public readonly items = exampleData.items.flatGrouped;
+  protected readonly items = exampleData.items.flatGrouped;
 }
