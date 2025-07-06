@@ -3,9 +3,9 @@ import { SplitterModule } from '@ngneers/controls/splitter';
 
 @Component({
   imports: [SplitterModule],
-  selector: 'ngn-splitter-base',
+  selector: 'ngn-splitter-vertical',
   template: `
-    <ngn-splitter [layout]="'horizontal'">
+    <ngn-splitter [layout]="'vertical'">
       <ngn-splitter-panel [size]="'70px'"> Panel 1 </ngn-splitter-panel>
       <ngn-splitter-panel [size]="'3fr'"> Panel 2 </ngn-splitter-panel>
       <ngn-splitter-panel [size]="'5fr'"> Panel 3 </ngn-splitter-panel>
@@ -15,8 +15,8 @@ import { SplitterModule } from '@ngneers/controls/splitter';
     :host {
       display: block;
       width: 100%;
-      height: 100px;
+      height: 350px;
     }
   `,
 })
-export class Splitter_Base_Component {}
+export class Splitter_Vertical_Component {}

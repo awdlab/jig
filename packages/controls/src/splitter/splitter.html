@@ -2,6 +2,7 @@
 
 <ng-template #defaultDividerTemplate [ngnTemplate]="dividerTemplateType" let-index="index">
   <div
+    [style.grid-area]="`ngn-divider-${index}`"
     [ngClass]="[
       theme.class('divider'),
       dragInfo()?.dividerIndex === index ? theme.class('divider-dragging') : '',

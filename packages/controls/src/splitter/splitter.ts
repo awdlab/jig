@@ -8,20 +8,28 @@ import {
   HostBinding,
   inject,
   input,
+  model,
   OnDestroy,
+  output,
   signal,
   TemplateRef,
   viewChild,
   ViewContainerRef,
   ViewEncapsulation,
 } from '@angular/core';
-import { injectThemeTemplate, NgnTemplate, templateTypeFn } from '@ngneers/controls/api';
+import {
+  injectThemeTemplate,
+  NGN_CONFIG,
+  NgnTemplate,
+  templateTypeFn,
+} from '@ngneers/controls/api';
 import { BaseDirective } from '@ngneers/controls/base';
+import { Logger, NgnStateStorage, registerState } from '@ngneers/controls/utils';
 import { splitterControlTemplate } from '@ngneers/controls-themes/templates/splitter';
 
 import { SplitterPanel } from './panel/splitter-panel';
-import { SplitterPanelSize } from './types';
-import { getSplitterPanelSizeUnit, getSplitterPanelSizeValue } from './utils';
+import { SplitterLayout, SplitterPanelSize, SplitterState } from './types';
+import { getSplitterPanelSizeUnit, getSplitterPanelSizeValue, isSplitterPanelSize } from './utils';
 
 type DragInfo = {
   dividerIndex: number;
@@ -45,9 +53,10 @@ type DragInfo = {
 })
 export class Splitter extends BaseDirective implements OnDestroy {
   private readonly _viewContainer = inject(ViewContainerRef);
+  private readonly _config = inject(NGN_CONFIG);
   protected readonly theme = injectThemeTemplate(splitterControlTemplate);
 
-  // Divider
+  // #region divider
   protected readonly dividerTemplateType = templateTypeFn<undefined, { index: number }>();
   private readonly _dividerTemplate =
     viewChild.required<TemplateRef<typeof this.dividerTemplateType>>('defaultDividerTemplate');
@@ -55,14 +64,30 @@ export class Splitter extends BaseDirective implements OnDestroy {
   private readonly _dividerSizes = computed(() =>
     this.dividers().map(d => {
       const el = d.rootNodes.find(x => x instanceof HTMLElement);
-      return el ? (this.direction() === 'horizontal' ? el.offsetWidth : el.offsetHeight) : 0;
+      return el ? (this.layout() === 'horizontal' ? el.offsetWidth : el.offsetHeight) : 0;
     })
   );
+  // #endregion
 
-  // Panels
+  // #region panels
   public readonly panels = contentChildren(SplitterPanel);
+  protected readonly orderedPanels = computed(() => {
+    const panels = this.panels();
+    const order = this.panelOrder();
+    return order
+      ? [...panels].sort((a, b) => {
+          const aIndex = order.indexOf(a['gridArea']);
+          const bIndex = order.indexOf(b['gridArea']);
+          if (aIndex === -1 && bIndex === -1) return 0;
+          if (aIndex === -1) return 1; // a is not in order, put it at the end
+          if (bIndex === -1) return -1; // b is not in order, put it at the end
+          return aIndex - bIndex; // sort by index in panelOrder
+        })
+      : panels;
+  });
+  // #endregion
 
-  // Sizes
+  // #region sizes
   private readonly _totalDividerSize = computed(() =>
     this._dividerSizes().reduce((acc, size) => acc + size, 0)
   );
@@ -76,23 +101,23 @@ export class Splitter extends BaseDirective implements OnDestroy {
       { px: 0, fr: 0 }
     )
   );
+  // #endregion
 
-  // Host Classes
+  // #region host bindings
   private readonly _hostClass = computed(() => {
-    return `${this.theme.class()} ${this.theme.class(this.direction())} ${this.isDragging() ? this.theme.class('dragging') : ''}`;
+    return `${this.theme.class()} ${this.theme.class(this.layout())} ${this.isDragging() ? this.theme.class('dragging') : ''}`;
   });
   @HostBinding('class')
   protected get hostClass(): string {
     return this._hostClass();
   }
 
-  // Host Styles
   private readonly _gridTemplateSizes = computed(() => this.calculateGridTemplateSizes());
   private readonly _gridTemplateColumns = computed(() =>
-    this.direction() === 'horizontal' ? this._gridTemplateSizes() : null
+    this.layout() === 'horizontal' ? this._gridTemplateSizes() : null
   );
   private readonly _gridTemplateRows = computed(() =>
-    this.direction() === 'vertical' ? this._gridTemplateSizes() : null
+    this.layout() === 'vertical' ? this._gridTemplateSizes() : null
   );
   @HostBinding('style.grid-template-columns')
   protected get gridTemplateColumns(): string | null {
@@ -102,20 +127,62 @@ export class Splitter extends BaseDirective implements OnDestroy {
   protected get gridTemplateRows(): string | null {
     return this._gridTemplateRows();
   }
+  @HostBinding('style.grid-template-areas')
+  protected get gridTemplateAreas(): string | null {
+    const panels = this.orderedPanels();
+    if (panels.length === 0) return null;
+    let result = '';
+    for (let i = 0; i < panels.length; i++) {
+      if (i > 0) {
+        result +=
+          this.layout() === 'horizontal' ? ` ngn-divider-${i - 1} ` : ` "ngn-divider-${i - 1}" `;
+      }
+      result +=
+        this.layout() === 'horizontal' ? panels[i]['gridArea'] : `"${panels[i]['gridArea']}"`;
+    }
+    return this.layout() === 'horizontal' ? `"${result}"` : result;
+  }
+  // #endregion
 
-  // Dragging
+  // #region drag info
   public readonly dragInfo = signal<DragInfo | null>(null);
   public readonly isDragging = computed(() => this.dragInfo() !== null);
+  // #endregion
 
-  // Inputs
-  public readonly direction = input.required<'horizontal' | 'vertical'>();
+  // #region inputs
+  public readonly layout = model.required<SplitterLayout>();
   public readonly dividerStyleClass = input<string | null>();
+  public readonly panelOrder = model<string[] | null>();
+  public readonly stateStorage = input<NgnStateStorage>(
+    this._config.defaults.splitter.stateStorage
+  );
+  public readonly stateKey = input<string | null>();
+  public readonly stateData = input<readonly ('layout' | 'panelOrder' | 'panelSizes')[]>([
+    'layout',
+    'panelOrder',
+    'panelSizes',
+  ]);
+  // #endregion
+
+  // #region outputs
+  public readonly stateSaving = output<SplitterState>();
+  public readonly stateLoading = output<SplitterState>();
+  // #endregion
 
   constructor() {
     super();
+
     afterRenderEffect(() => {
       const panels = this.panels();
       this.updateDividers(panels);
+    });
+
+    registerState({
+      storage: () => this.stateStorage(),
+      key: () => this.stateKey(),
+      valueFn: this.computeState.bind(this),
+      onLoad: this.onStateLoad.bind(this),
+      debounce: 100,
     });
   }
 
@@ -126,7 +193,7 @@ export class Splitter extends BaseDirective implements OnDestroy {
   }
 
   protected onPointerDown(index: number, event: PointerEvent) {
-    const panels = this.panels();
+    const panels = this.orderedPanels();
     if (index < 0 || index >= panels.length - 1) return;
 
     const leftPanel = panels[index];
@@ -135,17 +202,19 @@ export class Splitter extends BaseDirective implements OnDestroy {
     this.dragInfo.set({
       dividerIndex: index,
       pointerId: event.pointerId,
-      startPosition: this.direction() === 'horizontal' ? event.clientX : event.clientY,
+      startPosition: this.layout() === 'horizontal' ? event.clientX : event.clientY,
       leftStartSize: leftPanel.size(),
       rightStartSize: rightPanel.size(),
       leftPanel,
       rightPanel,
     });
 
-    if (!(event.target instanceof HTMLElement)) {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) {
       throw new Error('Event target is not an HTMLElement');
     }
-    event.target.setPointerCapture(event.pointerId);
+    // Make sure the element is stable before capturing the pointer
+    requestAnimationFrame(() => target.setPointerCapture(event.pointerId));
 
     // Prevent default to avoid text selection
     event.preventDefault();
@@ -163,7 +232,7 @@ export class Splitter extends BaseDirective implements OnDestroy {
 
     let controlSize: number;
     let pxDelta: number;
-    if (this.direction() === 'horizontal') {
+    if (this.layout() === 'horizontal') {
       controlSize = this.element.nativeElement.offsetWidth;
       pxDelta = event.clientX - dragInfo.startPosition;
     } else {
@@ -195,8 +264,6 @@ export class Splitter extends BaseDirective implements OnDestroy {
     const dragInfo = this.dragInfo();
     if (!dragInfo || dragInfo.dividerIndex !== index || dragInfo.pointerId !== event.pointerId)
       return;
-
-    // TODO: Presist the new sizes of the panels
 
     this.dragInfo.set(null);
   }
@@ -253,7 +320,7 @@ export class Splitter extends BaseDirective implements OnDestroy {
   }
 
   private calculateGridTemplateSizes() {
-    const panels = this.panels();
+    const panels = this.orderedPanels();
     const dividerSizes = this._dividerSizes();
 
     if (panels.length === 0) return 'none';
@@ -271,4 +338,79 @@ export class Splitter extends BaseDirective implements OnDestroy {
 
     return result.join(' ');
   }
+
+  // #region state
+  private computeState(previousState: SplitterState | null) {
+    const data = this.stateData();
+    const state: SplitterState = {
+      layout: data.includes('layout') ? this.layout() : undefined,
+      panelOrder: data.includes('panelOrder') ? this.panelOrder() : undefined,
+      panelSizes: data.includes('panelSizes')
+        ? this.panels().reduce(
+            (acc, panel, index) => {
+              acc[panel.name() || `ngn-panel-${index}`] = panel.size();
+              return acc;
+            },
+            { ...previousState?.panelSizes }
+          )
+        : undefined,
+    };
+
+    this.stateSaving.emit(state);
+
+    return state;
+  }
+
+  private onStateLoad(state: SplitterState | null) {
+    if (state) {
+      this.ensureValidateState(state);
+      this.stateLoading.emit(state);
+      this.applyFromState(state);
+    }
+    return state;
+  }
+
+  private ensureValidateState(state: SplitterState): void {
+    if (state.layout && state.layout !== 'horizontal' && state.layout !== 'vertical') {
+      Logger.warn(`Invalid layout in saved splitter state.`, { state });
+      delete state.layout;
+    }
+
+    if (
+      state.panelOrder &&
+      (!Array.isArray(state.panelOrder) || state.panelOrder.some(x => typeof x !== 'string'))
+    ) {
+      Logger.warn(`Invalid panelOrder in saved splitter state.`, { state });
+      delete state.panelOrder;
+    }
+
+    if (
+      state.panelSizes &&
+      (typeof state.panelSizes !== 'object' ||
+        state.panelSizes === null ||
+        Object.values(state.panelSizes).some(x => !isSplitterPanelSize(x)))
+    ) {
+      Logger.warn(`Invalid panelSizes in saved splitter state.`, { state });
+      delete state.panelSizes;
+    }
+  }
+
+  private applyFromState(state: SplitterState) {
+    if (state.layout && this.stateData().includes('layout')) {
+      this.layout.set(state.layout);
+    }
+    if (state.panelOrder && this.stateData().includes('panelOrder')) {
+      this.panelOrder.set(state.panelOrder);
+    }
+    if (state.panelSizes && this.stateData().includes('panelSizes')) {
+      const panels = this.panels();
+      for (let i = 0; i < panels.length; i++) {
+        const panelName = panels[i].name() || `ngn-panel-${i}`;
+        if (panelName in state.panelSizes) {
+          panels[i].size.set(state.panelSizes[panelName]);
+        }
+      }
+    }
+  }
+  // #endregion
 }

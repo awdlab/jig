@@ -3,6 +3,7 @@ import { registerCustomLanguages, Translations } from '@ngneers/controls/i18n';
 import { DeepPartial } from '@ngneers/controls/utils';
 import { StyleScope, Theme } from '@ngneers/controls-themes';
 import { Logger, LogLevel } from 'packages/controls/src/utils/logger';
+import { NgnStateStorage } from 'packages/controls/src/utils/state';
 
 export const NGN_CONFIG = new InjectionToken<NgnConfig>('NGN_CONFIG');
 
@@ -15,6 +16,12 @@ export type NgnConfig = {
     readonly styleScope: StyleScope | null;
     readonly cssLayer: string | null;
     readonly namePrefix: string;
+  };
+  readonly defaults: {
+    readonly stateStorage: NgnStateStorage;
+    readonly splitter: {
+      readonly stateStorage: NgnStateStorage;
+    };
   };
 };
 
@@ -36,6 +43,15 @@ export function provideNgnConfig(config?: NgnConfigInit): Provider {
           cssLayer:
             config?.theme?.cssLayer === undefined ? 'ngn-controls' : config?.theme?.cssLayer,
           namePrefix: config?.theme?.namePrefix ?? 'ngn-',
+        },
+        defaults: {
+          stateStorage: config?.defaults?.stateStorage ?? 'session',
+          splitter: {
+            stateStorage:
+              config?.defaults?.splitter?.stateStorage ??
+              config?.defaults?.stateStorage ??
+              'session',
+          },
         },
       } satisfies NgnConfig,
     },
