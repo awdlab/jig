@@ -1,7 +1,19 @@
 <ng-content />
 
-<ng-template #defaultDividerTemplate>
-  <div [ngClass]="['ngn-splitter-divider', dividerStyleClass() ?? '']">
-    <div class="ngn-splitter-divider-handle"></div>
+<ng-template #defaultDividerTemplate let-index="index">
+  <div
+    [ngClass]="[
+      theme.class('divider'),
+      dragInfo()?.dividerIndex === index ? theme.class('divider-dragging') : '',
+      dividerStyleClass() ?? '',
+    ]"
+  >
+    <div
+      [ngClass]="[theme.class('divider-handle')]"
+      (pointerdown)="onPointerDown(index, $event)"
+      (pointermove)="onPointerMove(index, $event)"
+      (pointerup)="onPointerUp(index, $event)"
+      (pointercancel)="onPointerCancel(index, $event)"
+    ></div>
   </div>
 </ng-template>

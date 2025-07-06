@@ -1,5 +1,5 @@
 .ngn-splitter {
-  display: flex;
+  display: grid;
   width: 100%;
   height: 100%;
 }
@@ -10,6 +10,7 @@
 .ngn-splitter-divider {
   display: flex;
   background: lightgrey;
+  flex-shrink: 0;
 }
 
 .ngn-splitter-divider-handle {
@@ -19,8 +20,6 @@
 }
 
 .ngn-splitter-horizontal {
-  flex-direction: row;
-
   .ngn-splitter-divider {
     width: 10px;
     height: 100%;
@@ -34,8 +33,6 @@
 }
 
 .ngn-splitter-vertical {
-  flex-direction: column;
-
   .ngn-splitter-divider {
     width: 100%;
     height: 10px;

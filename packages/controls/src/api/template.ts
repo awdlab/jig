@@ -24,5 +24,5 @@ export function templateTypesFn<T extends Record<string, Record<string, any>>>()
  * This function is used to define a typed property to use in a template.
  */
 export function templateTypeFn<Implicit, Named extends Record<string, any> = object>() {
-  return {} as { $implicit: Implicit } & Named;
+  return {} as ([Implicit] extends [undefined] ? unknown : { $implicit: Implicit }) & Named;
 }
