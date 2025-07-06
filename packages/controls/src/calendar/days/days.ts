@@ -6,6 +6,7 @@ import {
   DayModel,
   DayTemplateType,
   MONTHS,
+  TimeTemplateType,
   WEEK_DAYS,
   WeekDay,
   WeekDayTemplateType,
@@ -36,6 +37,8 @@ export class CalendarDays {
   public readonly firstDayOfWeek = input.required<WeekDay>();
   public readonly dayTemplate = input.required<TemplateRef<DayTemplateType>>();
   public readonly weekDayTemplate = input.required<TemplateRef<WeekDayTemplateType>>();
+  public readonly timeTemplate = input.required<TemplateRef<TimeTemplateType>>();
+  public readonly showSeconds = input.required<boolean>();
   public readonly previousMonth = output();
   public readonly nextMonth = output();
   public readonly switchToMonthsView = output();

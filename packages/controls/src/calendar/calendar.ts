@@ -4,13 +4,14 @@ import { NgnTemplate, valueControlBaseProvider } from '@ngneers/controls/api';
 import { CalendarTemplates } from './calendar-templates';
 import { CalendarDays } from './days/days';
 import { CalendarMonths } from './months/months';
+import { CalendarTime } from './time/time';
 import { DayModel, WeekDay } from './types';
 
 @Component({
   selector: 'ngn-calendar',
   templateUrl: './calendar.html',
   styleUrls: ['./calendar.scss'], // TODO: refactor into theme
-  imports: [NgnTemplate, CalendarMonths, CalendarDays],
+  imports: [NgnTemplate, CalendarMonths, CalendarDays, CalendarTime],
   providers: [valueControlBaseProvider(Calendar)],
 })
 export class Calendar extends CalendarTemplates {
@@ -19,6 +20,7 @@ export class Calendar extends CalendarTemplates {
   );
   protected readonly month = linkedSignal(() => this.value()?.getMonth() || new Date().getMonth());
   protected readonly firstDayOfWeek = input<WeekDay>('monday');
+  protected readonly showSeconds = input<boolean>(false);
 
   protected readonly currentView = signal<'days' | 'months'>('days');
 

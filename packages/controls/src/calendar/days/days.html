@@ -15,8 +15,7 @@
               },
             }
           "
-        >
-        </ng-container>
+        />
       </span>
     }
     @for (item of monthModel().weeks; track $index) {
@@ -45,10 +44,15 @@
                 },
               }
             "
-          >
-          </ng-container>
+          />
         </button>
       }
     }
   </div>
+  <ng-container
+    *ngTemplateOutlet="
+      timeTemplate();
+      context: { $implicit: { time: currentValue(), showSeconds: showSeconds() } }
+    "
+  />
 </div>

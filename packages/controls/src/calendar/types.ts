@@ -57,3 +57,10 @@ export type MonthTemplateType = {
     selected: boolean;
   };
 };
+
+export type TimeTemplateType = {
+  $implicit: {
+    time: Date | null;
+    showSeconds: boolean;
+  };
+};
