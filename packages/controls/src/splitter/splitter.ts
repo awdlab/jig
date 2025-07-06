@@ -28,15 +28,34 @@ import { Logger, NgnStateStorage, registerState } from '@ngneers/controls/utils'
 import { splitterControlTemplate } from '@ngneers/controls-themes/templates/splitter';
 
 import { SplitterPanel } from './panel/splitter-panel';
-import { SplitterLayout, SplitterPanelSize, SplitterState } from './types';
-import { getSplitterPanelSizeUnit, getSplitterPanelSizeValue, isSplitterPanelSize } from './utils';
+import {
+  SplitterLayout,
+  SplitterPanelSizeLimitUnit,
+  SplitterPanelSizeUnit,
+  SplitterState,
+} from './types';
+import {
+  getSplitterPanelSizeLimitUnit,
+  getSplitterPanelSizeLimitValue,
+  getSplitterPanelSizeUnit,
+  getSplitterPanelSizeValue,
+  isSplitterPanelSize,
+} from './utils';
 
 type DragInfo = {
   dividerIndex: number;
   pointerId: number;
   startPosition: number;
-  leftStartSize: SplitterPanelSize;
-  rightStartSize: SplitterPanelSize;
+  leftStartSize: { unit: SplitterPanelSizeUnit; value: number };
+  rightStartSize: { unit: SplitterPanelSizeUnit; value: number };
+  leftLimits: {
+    min: { unit: SplitterPanelSizeLimitUnit; value: number };
+    max: { unit: SplitterPanelSizeLimitUnit; value: number };
+  };
+  rightLimits: {
+    min: { unit: SplitterPanelSizeLimitUnit; value: number };
+    max: { unit: SplitterPanelSizeLimitUnit; value: number };
+  };
   leftPanel: SplitterPanel;
   rightPanel: SplitterPanel;
 };
@@ -203,8 +222,34 @@ export class Splitter extends BaseDirective implements OnDestroy {
       dividerIndex: index,
       pointerId: event.pointerId,
       startPosition: this.layout() === 'horizontal' ? event.clientX : event.clientY,
-      leftStartSize: leftPanel.size(),
-      rightStartSize: rightPanel.size(),
+      leftStartSize: {
+        unit: getSplitterPanelSizeUnit(leftPanel.size()),
+        value: getSplitterPanelSizeValue(leftPanel.size()),
+      },
+      rightStartSize: {
+        unit: getSplitterPanelSizeUnit(rightPanel.size()),
+        value: getSplitterPanelSizeValue(rightPanel.size()),
+      },
+      leftLimits: {
+        min: {
+          unit: getSplitterPanelSizeLimitUnit(leftPanel.minSize()),
+          value: getSplitterPanelSizeLimitValue(leftPanel.minSize()),
+        },
+        max: {
+          unit: getSplitterPanelSizeLimitUnit(leftPanel.maxSize()),
+          value: getSplitterPanelSizeLimitValue(leftPanel.maxSize()),
+        },
+      },
+      rightLimits: {
+        min: {
+          unit: getSplitterPanelSizeLimitUnit(rightPanel.minSize()),
+          value: getSplitterPanelSizeLimitValue(rightPanel.minSize()),
+        },
+        max: {
+          unit: getSplitterPanelSizeLimitUnit(rightPanel.maxSize()),
+          value: getSplitterPanelSizeLimitValue(rightPanel.maxSize()),
+        },
+      },
       leftPanel,
       rightPanel,
     });
@@ -225,38 +270,86 @@ export class Splitter extends BaseDirective implements OnDestroy {
     if (!dragInfo || dragInfo.dividerIndex !== index || dragInfo.pointerId !== event.pointerId)
       return;
 
-    const leftSizeUnit = getSplitterPanelSizeUnit(dragInfo.leftStartSize);
-    const leftSizeValue = getSplitterPanelSizeValue(dragInfo.leftStartSize);
-    const rightSizeUnit = getSplitterPanelSizeUnit(dragInfo.rightStartSize);
-    const rightSizeValue = getSplitterPanelSizeValue(dragInfo.rightStartSize);
+    const {
+      startPosition,
+      leftPanel,
+      rightPanel,
+      leftStartSize,
+      rightStartSize,
+      leftLimits,
+      rightLimits,
+    } = dragInfo;
 
     let controlSize: number;
     let pxDelta: number;
     if (this.layout() === 'horizontal') {
       controlSize = this.element.nativeElement.offsetWidth;
-      pxDelta = event.clientX - dragInfo.startPosition;
+      pxDelta = event.clientX - startPosition;
     } else {
       controlSize = this.element.nativeElement.offsetHeight;
-      pxDelta = event.clientY - dragInfo.startPosition;
+      pxDelta = event.clientY - startPosition;
     }
 
-    let frDelta: number = 0;
-    if (leftSizeUnit === 'fr' || rightSizeUnit === 'fr') {
+    let frPerPx: number = 0;
+    let pxPerFr: number = 0;
+    if (leftStartSize.unit === 'fr' || rightStartSize.unit === 'fr') {
       const frArea = controlSize - this._totalDividerSize() - this._totalPanelSizes().px;
-      const frPerPx = this._totalPanelSizes().fr / frArea;
-      frDelta = pxDelta * frPerPx;
+      frPerPx = this._totalPanelSizes().fr / frArea;
+      pxPerFr = frArea / this._totalPanelSizes().fr;
     }
 
-    if (leftSizeUnit === 'px') {
-      dragInfo.leftPanel.size.set(`${leftSizeValue + pxDelta}px`);
-    } else if (leftSizeUnit === 'fr') {
-      dragInfo.leftPanel.size.set(`${leftSizeValue + frDelta}fr`);
+    const leftStartPx =
+      leftStartSize.unit === 'px' ? leftStartSize.value : pxPerFr * leftStartSize.value;
+    const newLeftPx = leftStartPx + pxDelta;
+    if (pxDelta < 0) {
+      const min =
+        leftLimits.min.unit === 'px'
+          ? leftLimits.min.value
+          : (leftLimits.min.value / 100) * controlSize;
+      if (min > newLeftPx) {
+        pxDelta = -(leftStartPx - min);
+      }
+    } else if (pxDelta > 0) {
+      const max =
+        leftLimits.max.unit === 'px'
+          ? leftLimits.max.value
+          : (leftLimits.max.value / 100) * controlSize;
+      if (max < newLeftPx) {
+        pxDelta = max - leftStartPx;
+      }
     }
 
-    if (rightSizeUnit === 'px') {
-      dragInfo.rightPanel.size.set(`${rightSizeValue - pxDelta}px`);
-    } else if (rightSizeUnit === 'fr') {
-      dragInfo.rightPanel.size.set(`${rightSizeValue - frDelta}fr`);
+    const rightStartPx =
+      rightStartSize.unit === 'px' ? rightStartSize.value : pxPerFr * rightStartSize.value;
+    const newRightPx = rightStartPx - pxDelta;
+    if (pxDelta > 0) {
+      const min =
+        rightLimits.min.unit === 'px'
+          ? rightLimits.min.value
+          : (rightLimits.min.value / 100) * controlSize;
+      if (min > newRightPx) {
+        pxDelta = rightStartPx - min;
+      }
+    } else if (pxDelta < 0) {
+      const max =
+        rightLimits.max.unit === 'px'
+          ? rightLimits.max.value
+          : (rightLimits.max.value / 100) * controlSize;
+      if (max < newRightPx) {
+        pxDelta = -(max - rightStartPx);
+      }
+    }
+
+    const frDelta = pxDelta * frPerPx;
+    if (leftStartSize.unit === 'px') {
+      leftPanel.size.set(`${leftStartSize.value + pxDelta}px`);
+    } else if (leftStartSize.unit === 'fr') {
+      leftPanel.size.set(`${leftStartSize.value + frDelta}fr`);
+    }
+    if (rightStartSize.unit === 'px') {
+      rightPanel.size.set(`${rightStartSize.value - pxDelta}px`);
+    } else if (rightStartSize.unit === 'fr') {
+      rightPanel.size.set(`${rightStartSize.value - frDelta}fr`);
     }
   }
 
@@ -274,8 +367,8 @@ export class Splitter extends BaseDirective implements OnDestroy {
       return;
 
     // Reset the panels to their original sizes
-    dragInfo.leftPanel.size.set(dragInfo.leftStartSize);
-    dragInfo.rightPanel.size.set(dragInfo.rightStartSize);
+    dragInfo.leftPanel.size.set(`${dragInfo.leftStartSize.value}${dragInfo.leftStartSize.unit}`);
+    dragInfo.rightPanel.size.set(`${dragInfo.rightStartSize.value}${dragInfo.rightStartSize.unit}`);
 
     this.dragInfo.set(null);
   }

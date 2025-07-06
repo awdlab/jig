@@ -97,6 +97,8 @@
 - ✅Reorder Panels
 - ✅State Persistence
 - Min/Max Sizes for Panels
+  - ✅during panel resize
+  - during page/container resize and initial values
 - Theme
 - Keyboard interaction
 - a11y
