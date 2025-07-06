@@ -1,6 +1,6 @@
 <ng-content />
 
-<ng-template #defaultDividerTemplate let-index="index">
+<ng-template #defaultDividerTemplate [ngnTemplate]="dividerTemplateType" let-index="index">
   <div
     [ngClass]="[
       theme.class('divider'),

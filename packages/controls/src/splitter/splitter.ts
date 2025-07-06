@@ -15,13 +15,13 @@ import {
   ViewContainerRef,
   ViewEncapsulation,
 } from '@angular/core';
-import { injectThemeTemplate, templateTypeFn } from '@ngneers/controls/api';
+import { injectThemeTemplate, NgnTemplate, templateTypeFn } from '@ngneers/controls/api';
 import { BaseDirective } from '@ngneers/controls/base';
 import { splitterControlTemplate } from '@ngneers/controls-themes/templates/splitter';
 
 import { SplitterPanel } from './panel/splitter-panel';
 import { SplitterPanelSize } from './types';
-import { getSplitterPanelSizeUnit, getSplitterPanelSizeValue, isSplitterPanelSize } from './utils';
+import { getSplitterPanelSizeUnit, getSplitterPanelSizeValue } from './utils';
 
 type DragInfo = {
   dividerIndex: number;
@@ -38,7 +38,7 @@ type DragInfo = {
   templateUrl: './splitter.html',
   styleUrls: ['./splitter.scss'], // TODO: refactor into theme
   encapsulation: ViewEncapsulation.None,
-  imports: [NgClass],
+  imports: [NgClass, NgnTemplate],
   host: {
     role: 'region',
   },
@@ -47,16 +47,22 @@ export class Splitter extends BaseDirective implements OnDestroy {
   private readonly _viewContainer = inject(ViewContainerRef);
   protected readonly theme = injectThemeTemplate(splitterControlTemplate);
 
-  private readonly _dividers = signal<EmbeddedViewRef<typeof this._dividerTemplateType>[]>([]);
-  private readonly _dividerTemplateType = templateTypeFn<undefined, { index: number }>();
+  // Divider
+  protected readonly dividerTemplateType = templateTypeFn<undefined, { index: number }>();
   private readonly _dividerTemplate =
-    viewChild.required<TemplateRef<typeof this._dividerTemplateType>>('defaultDividerTemplate');
+    viewChild.required<TemplateRef<typeof this.dividerTemplateType>>('defaultDividerTemplate');
+  public readonly dividers = signal<EmbeddedViewRef<typeof this.dividerTemplateType>[]>([]);
   private readonly _dividerSizes = computed(() =>
-    this._dividers().map(d => {
+    this.dividers().map(d => {
       const el = d.rootNodes.find(x => x instanceof HTMLElement);
       return el ? (this.direction() === 'horizontal' ? el.offsetWidth : el.offsetHeight) : 0;
     })
   );
+
+  // Panels
+  public readonly panels = contentChildren(SplitterPanel);
+
+  // Sizes
   private readonly _totalDividerSize = computed(() =>
     this._dividerSizes().reduce((acc, size) => acc + size, 0)
   );
@@ -71,8 +77,7 @@ export class Splitter extends BaseDirective implements OnDestroy {
     )
   );
 
-  public readonly panels = contentChildren(SplitterPanel);
-
+  // Host Classes
   private readonly _hostClass = computed(() => {
     return `${this.theme.class()} ${this.theme.class(this.direction())} ${this.isDragging() ? this.theme.class('dragging') : ''}`;
   });
@@ -81,25 +86,28 @@ export class Splitter extends BaseDirective implements OnDestroy {
     return this._hostClass();
   }
 
+  // Host Styles
   private readonly _gridTemplateSizes = computed(() => this.calculateGridTemplateSizes());
   private readonly _gridTemplateColumns = computed(() =>
-    this.direction() === 'horizontal' ? this._gridTemplateSizes() : 'none'
+    this.direction() === 'horizontal' ? this._gridTemplateSizes() : null
   );
   private readonly _gridTemplateRows = computed(() =>
-    this.direction() === 'vertical' ? this._gridTemplateSizes() : 'none'
+    this.direction() === 'vertical' ? this._gridTemplateSizes() : null
   );
   @HostBinding('style.grid-template-columns')
-  protected get gridTemplateColumns(): string {
+  protected get gridTemplateColumns(): string | null {
     return this._gridTemplateColumns();
   }
   @HostBinding('style.grid-template-rows')
-  protected get gridTemplateRows(): string {
+  protected get gridTemplateRows(): string | null {
     return this._gridTemplateRows();
   }
 
+  // Dragging
   public readonly dragInfo = signal<DragInfo | null>(null);
   public readonly isDragging = computed(() => this.dragInfo() !== null);
 
+  // Inputs
   public readonly direction = input.required<'horizontal' | 'vertical'>();
   public readonly dividerStyleClass = input<string | null>();
 
@@ -113,8 +121,8 @@ export class Splitter extends BaseDirective implements OnDestroy {
 
   public ngOnDestroy(): void {
     // Clean up dividers
-    this._dividers().forEach(divider => divider.destroy());
-    this._dividers.set([]);
+    this.dividers().forEach(divider => divider.destroy());
+    this.dividers.set([]);
   }
 
   protected onPointerDown(index: number, event: PointerEvent) {
@@ -148,6 +156,11 @@ export class Splitter extends BaseDirective implements OnDestroy {
     if (!dragInfo || dragInfo.dividerIndex !== index || dragInfo.pointerId !== event.pointerId)
       return;
 
+    const leftSizeUnit = getSplitterPanelSizeUnit(dragInfo.leftStartSize);
+    const leftSizeValue = getSplitterPanelSizeValue(dragInfo.leftStartSize);
+    const rightSizeUnit = getSplitterPanelSizeUnit(dragInfo.rightStartSize);
+    const rightSizeValue = getSplitterPanelSizeValue(dragInfo.rightStartSize);
+
     let controlSize: number;
     let pxDelta: number;
     if (this.direction() === 'horizontal') {
@@ -158,28 +171,23 @@ export class Splitter extends BaseDirective implements OnDestroy {
       pxDelta = event.clientY - dragInfo.startPosition;
     }
 
-    const frArea = controlSize - this._totalDividerSize() - this._totalPanelSizes().px;
-    const frPerPx = this._totalPanelSizes().fr / frArea;
-    const frDelta = pxDelta * frPerPx;
-
-    if (isSplitterPanelSize(dragInfo.leftStartSize, 'px')) {
-      dragInfo.leftPanel.size.set(
-        `${getSplitterPanelSizeValue(dragInfo.leftStartSize) + pxDelta}px`
-      );
-    } else if (isSplitterPanelSize(dragInfo.leftStartSize, 'fr')) {
-      dragInfo.leftPanel.size.set(
-        `${getSplitterPanelSizeValue(dragInfo.leftStartSize) + frDelta}fr`
-      );
+    let frDelta: number = 0;
+    if (leftSizeUnit === 'fr' || rightSizeUnit === 'fr') {
+      const frArea = controlSize - this._totalDividerSize() - this._totalPanelSizes().px;
+      const frPerPx = this._totalPanelSizes().fr / frArea;
+      frDelta = pxDelta * frPerPx;
     }
 
-    if (isSplitterPanelSize(dragInfo.rightStartSize, 'px')) {
-      dragInfo.rightPanel.size.set(
-        `${getSplitterPanelSizeValue(dragInfo.rightStartSize) - pxDelta}px`
-      );
-    } else if (isSplitterPanelSize(dragInfo.rightStartSize, 'fr')) {
-      dragInfo.rightPanel.size.set(
-        `${getSplitterPanelSizeValue(dragInfo.rightStartSize) - frDelta}fr`
-      );
+    if (leftSizeUnit === 'px') {
+      dragInfo.leftPanel.size.set(`${leftSizeValue + pxDelta}px`);
+    } else if (leftSizeUnit === 'fr') {
+      dragInfo.leftPanel.size.set(`${leftSizeValue + frDelta}fr`);
+    }
+
+    if (rightSizeUnit === 'px') {
+      dragInfo.rightPanel.size.set(`${rightSizeValue - pxDelta}px`);
+    } else if (rightSizeUnit === 'fr') {
+      dragInfo.rightPanel.size.set(`${rightSizeValue - frDelta}fr`);
     }
   }
 
@@ -198,13 +206,15 @@ export class Splitter extends BaseDirective implements OnDestroy {
     if (!dragInfo || dragInfo.dividerIndex !== index || dragInfo.pointerId !== event.pointerId)
       return;
 
-    // TODO: Reset the panels to their original sizes
+    // Reset the panels to their original sizes
+    dragInfo.leftPanel.size.set(dragInfo.leftStartSize);
+    dragInfo.rightPanel.size.set(dragInfo.rightStartSize);
 
     this.dragInfo.set(null);
   }
 
   private updateDividers(panels: readonly SplitterPanel[]) {
-    this._dividers.update(divider => {
+    this.dividers.update(divider => {
       if (divider.length === panels.length - 1) {
         return divider; // No need to update if the number of dividers matches the number of panels
       } else if (divider.length < panels.length - 1) {
@@ -223,7 +233,7 @@ export class Splitter extends BaseDirective implements OnDestroy {
 
     // Move dividers to the correct positions
     for (let i = 1; i < panels.length; i++) {
-      this.moveDividerBefore(panels[i], this._dividers()[i - 1]);
+      this.moveDividerBefore(panels[i], this.dividers()[i - 1]);
     }
   }
 
