@@ -18,4 +18,4 @@ export const allDemos = [
   selectStories,
   splitterStories,
   textFieldStories,
-];
+] as const;

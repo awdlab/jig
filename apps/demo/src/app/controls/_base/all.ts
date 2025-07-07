@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, input, signal, Type } from '@angular/core';
+import { Component, computed, effect, inject, signal, Type } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { asyncComputed } from '@ngneers/controls/utils';
 
@@ -30,21 +30,21 @@ export type ComponentStoryFull = Omit<ComponentStory, 'component'> & {
 })
 export class All_Component {
   private readonly _activatedRoute = inject(ActivatedRoute);
-  public readonly stories = input.required<ComponentStories>();
+  public readonly stories = signal<ComponentStories | null>(null);
 
   private readonly _singleStory = signal<string | null>(null);
   private readonly _componentStories = asyncComputed<ComponentStoryFull[]>(
     () =>
       Promise.all(
         this.stories()
-          .stories()
+          ?.stories()
           .map(async component => {
             return <ComponentStoryFull>{
               ...component,
               code: this.getDemoCode(component),
               component: await component.component,
             };
-          })
+          }) ?? []
       ),
     []
   );
@@ -61,6 +61,10 @@ export class All_Component {
     const fragment = signal<string | null>(null);
     this._activatedRoute.fragment.subscribe(f => {
       fragment.set(f);
+    });
+    this._activatedRoute.data.subscribe(data => {
+      const demo = data['demo'] as ComponentStories;
+      this.stories.set(demo || null);
     });
     this._activatedRoute.queryParams.subscribe(params => {
       const singleStory = params['story'];
@@ -81,7 +85,11 @@ export class All_Component {
   }
 
   private getDemoCode(component: ComponentStory): string {
+    const stories = this.stories();
+    if (!stories) {
+      return '';
+    }
     const typedSources = sources as Record<string, Record<string, string>>;
-    return typedSources[this.stories().id][component.fileName];
+    return typedSources[stories.id][component.fileName];
   }
 }

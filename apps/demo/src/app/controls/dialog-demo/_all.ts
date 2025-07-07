@@ -1,6 +1,4 @@
-import { Component } from '@angular/core';
-
-import { All_Component, ComponentStories } from '../_base/all';
+import { ComponentStories } from '../_base/all';
 
 export const stories: ComponentStories = {
   id: 'dialog',
@@ -18,12 +16,3 @@ export const stories: ComponentStories = {
     },
   ],
 };
-
-@Component({
-  imports: [All_Component],
-  selector: 'ngn-dialog-all',
-  template: ` <ngn-all [stories]="stories" /> `,
-})
-export class Dialog_All_Component {
-  protected readonly stories = stories;
-}

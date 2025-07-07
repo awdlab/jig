@@ -1,6 +1,4 @@
-import { Component } from '@angular/core';
-
-import { All_Component, ComponentStories } from '../_base/all';
+import { ComponentStories } from '../_base/all';
 
 export const stories: ComponentStories = {
   id: 'scroller',
@@ -23,12 +21,3 @@ export const stories: ComponentStories = {
     },
   ],
 };
-
-@Component({
-  imports: [All_Component],
-  selector: 'ngn-scroller-all',
-  template: ` <ngn-all [stories]="stories" /> `,
-})
-export class Scroller_All_Component {
-  protected readonly stories = stories;
-}
