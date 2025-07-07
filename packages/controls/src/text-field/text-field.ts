@@ -52,10 +52,19 @@ export class TextField extends ValueControlBase<string> {
     this._maskHelper.handleKeyDown(event, mask);
   }
 
+  protected onTextInput(event: Event) {
+    const mask = this._mask();
+    if (!mask) return;
+    this._maskHelper.handleInput(event as InputEvent, mask);
+  }
+
   private _updateValue(el: HTMLInputElement, newValue: string, cursorPosition: number): void {
     el.value = newValue;
     this.currentInputValue.set(newValue);
     this.onChange(newValue);
-    el.setSelectionRange(cursorPosition, cursorPosition);
+    setTimeout(() => {
+      // Ensure the cursor position is set after the value update for android compatibility
+      el.setSelectionRange(cursorPosition, cursorPosition);
+    });
   }
 }

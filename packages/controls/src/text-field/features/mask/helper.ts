@@ -50,10 +50,26 @@ export class MaskHelper {
     const key = event.key;
     const currentPosition = el.selectionStart ?? 0;
 
-    // Route to appropriate handler based on key type
     if (this._isSpecialKey(key)) {
       this._handleSpecialKey(event, el, key, currentPosition, mask);
-    } else {
+    }
+  }
+
+  /**
+   * Main entry point for handling keyboard input with mask validation
+   */
+  public handleInput(event: InputEvent, mask: TextFieldMaskCfg): void {
+    const el = event.target as HTMLInputElement;
+    const key = event.data;
+    const currentPosition = el.selectionStart ?? 0;
+
+    if (!key) {
+      // If no key data, just return
+      return;
+    }
+
+    // Route to appropriate handler based on key type
+    if (!this._isSpecialKey(key)) {
       this._handleCharacterInput(event, el, key, currentPosition, mask);
     }
   }
@@ -112,7 +128,7 @@ export class MaskHelper {
    * Handle regular character input with mask validation
    */
   private _handleCharacterInput(
-    event: KeyboardEvent,
+    event: InputEvent,
     el: HTMLInputElement,
     key: string,
     currentPosition: number,
@@ -131,6 +147,10 @@ export class MaskHelper {
     // Validate the character against the mask requirements
     if (!maskEntry.accepts.test(key)) {
       event.preventDefault();
+      setTimeout(() => {
+        // Ensure the cursor position is set after the value update for android compatibility
+        el.setSelectionRange(position, position);
+      });
       return;
     }
 
