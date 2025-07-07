@@ -1,10 +1,19 @@
 <ngn-input-field [label]="label()" [inputId]="inputId()">
-  <input
-    [ngClass]="theme.class()"
-    type="text"
-    [value]="value()"
-    [id]="inputId()"
-    (input)="onInput($event)"
-    (blur)="onTouched()"
-  />
+  <div [ngClass]="theme.class()">
+    <input
+      [ngClass]="theme.class('input')"
+      type="text"
+      [value]="value()"
+      [id]="inputId()"
+      (input)="onInput($event)"
+      (keydown)="onKeyDown($event)"
+      (blur)="onTouched()"
+    />
+    <span [ngClass]="theme.class('mask')">
+      <span [ngClass]="theme.class('mask-placeholder')" aria-hidden="true" style="opacity: 0">{{
+        currentInputValue()
+      }}</span>
+      <span [ngClass]="theme.class('mask-text')">{{ maskWatermark() }}</span>
+    </span>
+  </div>
 </ngn-input-field>

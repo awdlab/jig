@@ -9,6 +9,7 @@ export const textFieldVariables = createVariableTemplate({
     fontWeight: null,
     fontFamily: null,
     color: null,
+    maskTextColor: null,
   },
 });
 
@@ -17,9 +18,14 @@ export const textFieldStyles = createThemePart({
   variables: [textFieldVariables],
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
-    values: {},
+    values: {
+      maskTextColor: '{color.surface.400}',
+    },
     css: ({ v, c }) => css`
       ${c()} {
+        position: relative;
+      }
+      ${c('input')} {
         font-size: ${v('text-field.fontSize')};
         font-weight: ${v('text-field.fontWeight')};
         font-family: ${v('text-field.fontFamily')};
@@ -27,6 +33,20 @@ export const textFieldStyles = createThemePart({
         width: 100%;
         background: transparent;
         border: none;
+      }
+      ${c('mask')} {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+      ${c('mask-placeholder')} {
+        opacity: 0;
+      }
+      ${c('mask-text')} {
+        color: ${v('text-field.maskTextColor')};
       }
     `,
   },

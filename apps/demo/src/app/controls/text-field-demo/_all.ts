@@ -9,5 +9,10 @@ export const stories: ComponentStories = {
       title: 'Basic',
       component: () => import('./base-demo').then(x => x.TextField_Base_Component),
     },
+    {
+      fileName: 'mask',
+      title: 'Mask',
+      component: () => import('./mask-demo').then(x => x.TextField_Mask_Component),
+    },
   ],
 };
