@@ -10,8 +10,8 @@ import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/bas
 import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
 import { subKey } from 'packages/themes/src/api/utils/sub-key';
 
-const buttonKinds = ['', 'primary', 'secondary', 'text', 'link'] as const;
-const buttonStates = ['', 'focus', 'hover', 'active', 'disabled'] as const;
+const buttonKinds = ['', 'primary', 'secondary', 'text', 'link', 'icon'] as const;
+const buttonStates = ['', 'hover', 'focus', 'active', 'disabled'] as const;
 
 export const buttonVariables = createVariableTemplate({
   scope: 'button',
@@ -21,12 +21,12 @@ export const buttonVariables = createVariableTemplate({
       background: null,
       color: null,
       borderColor: null,
+      borderRadius: null,
+      borderStyle: null,
+      fontSize: null,
+      fontWeight: null,
+      padding: null,
     }),
-    borderRadius: null,
-    borderStyle: null,
-    fontSize: null,
-    fontWeight: null,
-    padding: null,
   },
 });
 
@@ -58,17 +58,6 @@ export const buttonStyles = createThemePart({
       },
     },
     css: ({ v, c }) =>
-      // TODO: That function name is nasty :D
-      buildVariationCombinationStyles(
-        [buttonKinds, buttonStates],
-        (variation, state) => css`
-          ${c(variation ? `kind-${variation}` : '')}${state ? `:${state}` : ''} {
-            background: ${v(subKey('button', variation, state, 'background'))};
-            color: ${v(subKey('button', variation, state, 'color'))};
-            border-color: ${v(subKey('button', variation, state, 'borderColor'))};
-          }
-        `
-      ) +
       css`
         ${c()} {
           border-radius: ${v('button.borderRadius')};
@@ -81,6 +70,28 @@ export const buttonStyles = createThemePart({
         ${c('kind-link')} {
           text-decoration: underline;
         }
-      `,
+        ${c('kind-circular')} {
+          aspect-ratio: 1 / 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      ` +
+      // TODO: That function name is nasty :D
+      buildVariationCombinationStyles(
+        [buttonKinds, buttonStates],
+        (variation, state) => css`
+          ${c(variation ? `kind-${variation}` : '')}${state ? `:${state}` : ''} {
+            background: ${v(subKey('button', variation, state, 'background'))};
+            color: ${v(subKey('button', variation, state, 'color'))};
+            border-color: ${v(subKey('button', variation, state, 'borderColor'))};
+            border-radius: ${v(subKey('button', variation, state, 'borderRadius'))};
+            border-style: ${v(subKey('button', variation, state, 'borderStyle'))};
+            font-size: ${v(subKey('button', variation, state, 'fontSize'))};
+            font-weight: ${v(subKey('button', variation, state, 'fontWeight'))};
+            padding: ${v(subKey('button', variation, state, 'padding'))};
+          }
+        `
+      ),
   },
 });

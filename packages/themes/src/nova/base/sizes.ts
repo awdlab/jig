@@ -7,6 +7,7 @@ export const sizesTemplate = createVariableTemplate({
       sm: null,
       md: null,
       lg: null,
+      full: null,
     },
     padding: {
       sm: null,
@@ -25,6 +26,7 @@ export const sizes = createThemePart({
         sm: '0.125rem',
         md: '0.25rem',
         lg: '0.5rem',
+        full: '50%',
       },
       padding: {
         sm: '0.25rem',

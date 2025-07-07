@@ -1,10 +1,14 @@
-<div>
-  <button (click)="prev()"><</button>
-  <button (click)="switchToMonthsView.emit()">{{ monthName() }}</button>
-  <button (click)="next()">></button>
+<div [ngClass]="theme.class('details')">
+  <div [ngClass]="theme.class('navigation')">
+    <button [ngClass]="theme.class('previous')" (click)="prev()"><</button>
+    <button [ngClass]="theme.class('month')" (click)="switchToMonthsView.emit()">
+      {{ monthName() }}
+    </button>
+    <button [ngClass]="theme.class('next')" (click)="next()">></button>
+  </div>
   <div class="ngn-calendar-days">
     @for (weekDay of weekDaysSorted(); track $index) {
-      <span class="ngn-calendar-week-day">
+      <span [ngClass]="theme.class('week-day')">
         <ng-container
           *ngTemplateOutlet="
             weekDayTemplate();
@@ -21,7 +25,17 @@
     @for (item of monthModel().weeks; track $index) {
       @for (day of item.days; track $index) {
         <button
-          class="ngn-calendar-day"
+          [ngClass]="
+            theme.classes({
+              day: true,
+              'day-other-month': day.monthOffset !== 0,
+              'day-today': todaysMonth === month() + day.monthOffset && todaysDay === day.date,
+              'day-selected':
+                currentValue()?.getDate() === day.date &&
+                currentValue()?.getMonth() === month() + day.monthOffset &&
+                currentValue()?.getFullYear() === year(),
+            })
+          "
           (click)="
             daySelected.emit({
               date: day.date,

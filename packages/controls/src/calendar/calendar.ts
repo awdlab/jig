@@ -1,20 +1,21 @@
+import { NgClass } from '@angular/common';
 import { Component, input, linkedSignal, signal } from '@angular/core';
-import { NgnTemplate, valueControlBaseProvider } from '@ngneers/controls/api';
+import { injectThemeTemplate, NgnTemplate, valueControlBaseProvider } from '@ngneers/controls/api';
+import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
 import { CalendarTemplates } from './calendar-templates';
 import { CalendarDays } from './days/days';
 import { CalendarMonths } from './months/months';
 import { CalendarTime } from './time/time';
 import { DayModel, WeekDay } from './types';
-
 @Component({
   selector: 'ngn-calendar',
   templateUrl: './calendar.html',
-  styleUrls: ['./calendar.scss'], // TODO: refactor into theme
-  imports: [NgnTemplate, CalendarMonths, CalendarDays, CalendarTime],
+  imports: [NgnTemplate, NgClass, CalendarMonths, CalendarDays, CalendarTime],
   providers: [valueControlBaseProvider(Calendar)],
 })
 export class Calendar extends CalendarTemplates {
+  protected readonly theme = injectThemeTemplate(calendarControlTemplate);
   protected readonly year = linkedSignal(
     () => this.value()?.getFullYear() || new Date().getFullYear()
   );

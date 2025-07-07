@@ -1,16 +1,18 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, inject, input, output, TemplateRef } from '@angular/core';
+import { injectThemeTemplate } from '@ngneers/controls/api';
 import { I18n } from '@ngneers/controls/i18n';
+import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
 import { MONTHS, MonthTemplateType } from '../types';
 
 @Component({
   selector: 'ngn-calendar-months',
   templateUrl: './months.html',
-  styleUrls: ['./months.scss'], // TODO: refactor into theme
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, NgClass],
 })
 export class CalendarMonths {
+  protected readonly theme = injectThemeTemplate(calendarControlTemplate);
   public readonly year = input.required<number>();
   public readonly currentValue = input.required<Date | null>();
   public readonly monthSelected = output<number>();

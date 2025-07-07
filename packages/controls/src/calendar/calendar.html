@@ -1,31 +1,33 @@
-@switch (currentView()) {
-  @case ('days') {
-    <ngn-calendar-days
-      [year]="year()"
-      [month]="month()"
-      [currentValue]="value()"
-      [firstDayOfWeek]="firstDayOfWeek()"
-      (previousMonth)="previousMonth()"
-      (nextMonth)="nextMonth()"
-      (switchToMonthsView)="switchToView('months')"
-      (daySelected)="selectDay($event)"
-      [dayTemplate]="dayTemplate()"
-      [weekDayTemplate]="weekDayTemplate()"
-      [timeTemplate]="timeTemplate()"
-      [showSeconds]="showSeconds()"
-    ></ngn-calendar-days>
+<div [ngClass]="theme.class()">
+  @switch (currentView()) {
+    @case ('days') {
+      <ngn-calendar-days
+        [year]="year()"
+        [month]="month()"
+        [currentValue]="value()"
+        [firstDayOfWeek]="firstDayOfWeek()"
+        (previousMonth)="previousMonth()"
+        (nextMonth)="nextMonth()"
+        (switchToMonthsView)="switchToView('months')"
+        (daySelected)="selectDay($event)"
+        [dayTemplate]="dayTemplate()"
+        [weekDayTemplate]="weekDayTemplate()"
+        [timeTemplate]="timeTemplate()"
+        [showSeconds]="showSeconds()"
+      ></ngn-calendar-days>
+    }
+    @case ('months') {
+      <ngn-calendar-months
+        [year]="year()"
+        [currentValue]="value() ?? null"
+        (previousYear)="previousYear()"
+        (nextYear)="nextYear()"
+        (monthSelected)="selectMonth($event)"
+        [monthTemplate]="monthTemplate()"
+      ></ngn-calendar-months>
+    }
   }
-  @case ('months') {
-    <ngn-calendar-months
-      [year]="year()"
-      [currentValue]="value() ?? null"
-      (previousYear)="previousYear()"
-      (nextYear)="nextYear()"
-      (monthSelected)="selectMonth($event)"
-      [monthTemplate]="monthTemplate()"
-    ></ngn-calendar-months>
-  }
-}
+</div>
 
 <ng-template #defaultDayTemplate [ngnTemplate]="templateTypes.day" let-day>
   <span

@@ -1,10 +1,12 @@
-<div>
-  <button (click)="prev()"><</button>
-  <span>{{ year() }}</span>
-  <button (click)="next()">></button>
-  <div class="ngn-calendar-months">
+<div [ngClass]="theme.class('details')">
+  <div [ngClass]="theme.class('navigation')">
+    <button [ngClass]="theme.class('previous')" (click)="prev()"><</button>
+    <span [ngClass]="theme.class('year')">{{ year() }}</span>
+    <button [ngClass]="theme.class('next')" (click)="next()">></button>
+  </div>
+  <div [ngClass]="theme.class('months')">
     @for (month of months; track $index) {
-      <button class="ngn-calendar-month" (click)="selectMonth($index)">
+      <button [ngClass]="theme.class('month')" (click)="selectMonth($index)">
         <ng-container
           *ngTemplateOutlet="
             monthTemplate();

@@ -1,6 +1,9 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject, input, output, TemplateRef } from '@angular/core';
+import { injectThemeTemplate } from '@ngneers/controls/api';
+import { Button } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
+import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
 import {
   DayModel,
@@ -27,10 +30,10 @@ type WeekModel = {
 @Component({
   selector: 'ngn-calendar-days',
   templateUrl: './days.html',
-  styleUrls: ['./days.scss'], // TODO: refactor into theme
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, NgClass, Button],
 })
 export class CalendarDays {
+  protected readonly theme = injectThemeTemplate(calendarControlTemplate);
   public readonly year = input.required<number>();
   public readonly month = input.required<number>();
   public readonly currentValue = input.required<Date | null>();
@@ -56,7 +59,7 @@ export class CalendarDays {
       .concat(WEEK_DAYS.slice(0, this._firstDayOfWeekIndex()))
       .map(day => ({
         weekDay: day,
-        translation: this.i18n[`calendar_weekdays_${day}`],
+        translation: this.i18n[`calendar_weekdaysShort_${day}`],
       }))
   );
 
