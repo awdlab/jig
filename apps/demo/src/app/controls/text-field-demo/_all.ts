@@ -3,11 +3,11 @@ import { ComponentStories } from '../_base/all';
 export const stories: ComponentStories = {
   id: 'text-field',
   name: 'Text Field',
-  stories: () => [
+  stories: [
     {
       fileName: 'base',
       title: 'Basic',
-      component: import('./base-demo').then(x => x.TextField_Base_Component),
+      component: () => import('./base-demo').then(x => x.TextField_Base_Component),
     },
   ],
 };

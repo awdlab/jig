@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, signal, Type } from '@angular/core';
+import { Component, effect, inject, signal, Type } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { asyncComputed } from '@ngneers/controls/utils';
 
@@ -8,13 +8,13 @@ import sources from '../../sources.json' with { type: 'json' };
 export type ComponentStories = {
   id: string;
   name: string;
-  stories: () => ComponentStory[];
+  stories: ComponentStory[];
 };
 
 export type ComponentStory = {
   fileName: string;
   title: string;
-  component: Promise<Type<unknown>>;
+  component: () => Promise<Type<unknown>>;
 };
 
 export type ComponentStoryFull = Omit<ComponentStory, 'component'> & {
@@ -33,29 +33,22 @@ export class All_Component {
   public readonly stories = signal<ComponentStories | null>(null);
 
   private readonly _singleStory = signal<string | null>(null);
-  private readonly _componentStories = asyncComputed<ComponentStoryFull[]>(
-    () =>
-      Promise.all(
-        this.stories()
-          ?.stories()
-          .map(async component => {
-            return <ComponentStoryFull>{
-              ...component,
-              code: this.getDemoCode(component),
-              component: await component.component,
-            };
-          }) ?? []
-      ),
-    []
-  );
-
-  protected readonly componentStories = computed<ComponentStoryFull[]>(() => {
+  protected readonly componentStories = asyncComputed<ComponentStoryFull[]>(() => {
     const singleStory = this._singleStory();
-    if (singleStory) {
-      return this._componentStories().filter(story => story.fileName === singleStory);
-    }
-    return this._componentStories();
-  });
+
+    const stories =
+      this.stories()?.stories.filter(story => !singleStory || story.fileName === singleStory) ?? [];
+
+    const promises =
+      stories.map(async component => {
+        return <ComponentStoryFull>{
+          ...component,
+          code: this.getDemoCode(component),
+          component: await component.component(),
+        };
+      }) ?? [];
+    return Promise.all(promises);
+  }, []);
 
   constructor() {
     const fragment = signal<string | null>(null);
