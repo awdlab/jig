@@ -102,6 +102,7 @@
 - dark
 - contrast
 - Fix fallback for light/dark/contrast themes
+- RTL
 
 ## Splitter
 
