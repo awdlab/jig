@@ -92,7 +92,7 @@
 - ✅Navigation between controls
 - Sidebar navigation between control examples
 - Written documentation for each example
-- Auto route generation for each control
+- ✅Auto route generation for each control
 
 ## Theming
 
