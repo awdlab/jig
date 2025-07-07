@@ -106,7 +106,7 @@ export const inputFieldStyles = createThemePart({
           cursor: ${v('input-field.disabled.cursor')};
         }
       }
-      .ng-invalid.ng-touched ${c()}, ${c()} .ng-invalid.ng-touched {
+      .ng-invalid.ng-touched ${c()}, ${c()}:has(.ng-invalid.ng-touched) {
         border-color: ${v('input-field.error.borderColor')};
         border-width: ${v('input-field.error.borderWidth')};
         background: ${v('input-field.error.background')};

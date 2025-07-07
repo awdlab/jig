@@ -40,7 +40,7 @@
                     currentValue()?.getDate() === day.date &&
                     currentValue()?.getMonth() === month() + day.monthOffset &&
                     currentValue()?.getFullYear() === year(),
-                  today: todaysMonthSelected() && todaysDay === day.date,
+                  today: todaysMonth === month() + day.monthOffset && todaysDay === day.date,
                 },
               }
             "

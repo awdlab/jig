@@ -5,7 +5,7 @@ export class NgnPopoverHarness {
   private readonly _contentWrapper: Locator;
   private readonly _content: Locator;
 
-  constructor(private locator: Locator) {
+  constructor(locator: Locator) {
     this._ngnLazyCacher = locator.locator('ngn-lazy-cacher');
     this._contentWrapper = locator.locator('.ngn-popover-content');
     this._content = this._ngnLazyCacher.locator('> *');

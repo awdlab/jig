@@ -11,7 +11,7 @@
 - ✅Selected Item Templates
 - ✅Virtual Scrolling
 - Lazy Loading
-- Theme
+- ✅Theme
 - Editable (Custom Value)
 - ✅Keyboard selection
 - SVG icons
@@ -20,10 +20,15 @@
 ### Icons
 
 - ✅Global Template
+- a11y
 
 ### TextField
 
 - ✅Input
+- Mask
+- X to clear value
+- 🕑Theme
+- a11y
 
 ### Listbox
 
@@ -52,7 +57,7 @@
 - ✅Positioning
 - ✅Size Constraints
 - ✅Height: fit-content
-- Theme
+- ✅Theme
 - a11y
 
 ### Dialog
@@ -70,6 +75,7 @@
 - Years View / Quick way to select year
 - ✅Day Templates
 - ✅Month Templates
+- Calendar Week toggle
 - Time
 - Time Templates
 - a11y
@@ -86,10 +92,15 @@
 - ✅Navigation between controls
 - Sidebar navigation between control examples
 - Written documentation for each example
+- Auto route generation for each control
 
 ## Theming
 
-- Auto fallback to parent styles if variable not defined
+- ✅Auto fallback to parent styles if variable not defined
+- light
+- dark
+- contrast
+- Fix fallback for light/dark/contrast themes
 
 ## Splitter
 

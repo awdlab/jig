@@ -46,10 +46,7 @@ export class CalendarDays {
 
   protected readonly i18n = inject(I18n).translations;
   protected readonly todaysDay = new Date().getDate();
-  protected readonly todaysMonthSelected = computed(() => {
-    const today = new Date();
-    return today.getFullYear() === this.year() && today.getMonth() === this.month();
-  });
+  protected readonly todaysMonth = new Date().getMonth();
 
   protected readonly monthName = computed(() =>
     this.i18n[`calendar_months_${MONTHS[this.month()]}`]()
