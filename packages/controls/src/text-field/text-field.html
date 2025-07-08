@@ -7,7 +7,7 @@
       [id]="inputId()"
       (input)="onInput($event)"
       (keydown)="onKeyDown($event)"
-      (textInput)="onTextInput($event)"
+      (beforeinput)="onBeforeInput($event)"
       (blur)="onTouched()"
     />
     <span [ngClass]="theme.class('mask')">

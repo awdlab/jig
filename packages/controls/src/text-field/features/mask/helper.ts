@@ -40,7 +40,7 @@ export class MaskHelper {
   }
 
   /**
-   * Main entry point for handling keyboard input with mask validation
+   * Handle key down events to manage special keys like Backspace and Delete
    */
   public handleKeyDown(event: KeyboardEvent, mask: TextFieldMaskCfg): void {
     if (!mask || this._shouldIgnoreEvent(event)) {
@@ -56,9 +56,9 @@ export class MaskHelper {
   }
 
   /**
-   * Main entry point for handling keyboard input with mask validation
+   * Handle before input event to manage character input with mask validation
    */
-  public handleInput(event: InputEvent, mask: TextFieldMaskCfg): void {
+  public handleBeforeInput(event: InputEvent, mask: TextFieldMaskCfg): void {
     const el = event.target as HTMLInputElement;
     const key = event.data;
     const currentPosition = el.selectionStart ?? 0;

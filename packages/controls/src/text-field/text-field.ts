@@ -52,10 +52,10 @@ export class TextField extends ValueControlBase<string> {
     this._maskHelper.handleKeyDown(event, mask);
   }
 
-  protected onTextInput(event: Event) {
+  protected onBeforeInput(event: Event) {
     const mask = this._mask();
     if (!mask) return;
-    this._maskHelper.handleInput(event as InputEvent, mask);
+    this._maskHelper.handleBeforeInput(event as InputEvent, mask);
   }
 
   private _updateValue(el: HTMLInputElement, newValue: string, cursorPosition: number): void {
