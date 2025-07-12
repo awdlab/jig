@@ -8,9 +8,13 @@ export type SplitterPanelSizeLimit<
 > = `${number}${U}`;
 
 export type SplitterLayout = 'horizontal' | 'vertical';
-export type SplitterState = {
+
+type _SplitterState = {
   layout?: SplitterLayout;
   panelOrder?: string[] | null;
   panelSizes?: Record<string, SplitterPanelSize> | null;
+};
+export type SplitterStateData = keyof _SplitterState;
+export type SplitterState = _SplitterState & {
   [key: string]: unknown;
 };

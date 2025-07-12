@@ -5,170 +5,59 @@ import {
   computed,
   contentChildren,
   EmbeddedViewRef,
-  HostBinding,
   inject,
   input,
   model,
   OnDestroy,
   output,
+  runInInjectionContext,
   signal,
   TemplateRef,
+  untracked,
   viewChild,
   ViewContainerRef,
-  ViewEncapsulation,
 } from '@angular/core';
 import {
+  elementSizeSignal,
   injectThemeTemplate,
   NGN_CONFIG,
   NgnTemplate,
   templateTypeFn,
 } from '@ngneers/controls/api';
 import { BaseDirective } from '@ngneers/controls/base';
+import { I18n } from '@ngneers/controls/i18n';
 import { Logger, NgnStateStorage, registerState } from '@ngneers/controls/utils';
 import { splitterControlTemplate } from '@ngneers/controls-themes/templates/splitter';
 
 import { SplitterPanel } from './panel/splitter-panel';
-import {
-  SplitterLayout,
-  SplitterPanelSizeLimitUnit,
-  SplitterPanelSizeUnit,
-  SplitterState,
-} from './types';
-import {
-  getSplitterPanelSizeLimitUnit,
-  getSplitterPanelSizeLimitValue,
-  getSplitterPanelSizeUnit,
-  getSplitterPanelSizeValue,
-  isSplitterPanelSize,
-} from './utils';
-
-type DragInfo = {
-  dividerIndex: number;
-  pointerId: number;
-  startPosition: number;
-  leftStartSize: { unit: SplitterPanelSizeUnit; value: number };
-  rightStartSize: { unit: SplitterPanelSizeUnit; value: number };
-  leftLimits: {
-    min: { unit: SplitterPanelSizeLimitUnit; value: number };
-    max: { unit: SplitterPanelSizeLimitUnit; value: number };
-  };
-  rightLimits: {
-    min: { unit: SplitterPanelSizeLimitUnit; value: number };
-    max: { unit: SplitterPanelSizeLimitUnit; value: number };
-  };
-  leftPanel: SplitterPanel;
-  rightPanel: SplitterPanel;
-};
+import { DefaultSplitterCalculator, SplitterCalculatorType } from './splitter-calculator';
+import { SplitterLayout, SplitterState, SplitterStateData } from './types';
+import { isSplitterPanelSize } from './utils';
 
 @Component({
   selector: 'ngn-splitter',
   templateUrl: './splitter.html',
-  styleUrls: ['./splitter.scss'], // TODO: refactor into theme
-  encapsulation: ViewEncapsulation.None,
   imports: [NgClass, NgnTemplate],
   host: {
     role: 'region',
+    '[class]': 'hostClass()',
+    '[style.grid-template-columns]': `layout() === 'horizontal' ? calculator().gridTemplateSizes() : null`,
+    '[style.grid-template-rows]': `layout() === 'vertical' ? calculator().gridTemplateSizes() : null`,
+    '[style.grid-template-areas]': 'calculator().gridTemplateAreas()',
+    '[style.max-width]': `layout() === 'horizontal' ? calculator().maxSize() : null`,
+    '[style.max-height]': `layout() === 'vertical' ? calculator().maxSize() : null`,
+    '[style.min-width]': `layout() === 'horizontal' ? calculator().minSize() : null`,
+    '[style.min-height]': `layout() === 'vertical' ? calculator().minSize() : null`,
+    '[attr.aria-label]': 'ariaLabel()',
+    '[attr.aria-labelledby]': 'ariaLabelledBy()',
   },
 })
 export class Splitter extends BaseDirective implements OnDestroy {
   private readonly _viewContainer = inject(ViewContainerRef);
   private readonly _config = inject(NGN_CONFIG);
   protected readonly theme = injectThemeTemplate(splitterControlTemplate);
+  protected readonly translations = inject(I18n).translations;
 
-  // #region divider
-  protected readonly dividerTemplateType = templateTypeFn<undefined, { index: number }>();
-  private readonly _dividerTemplate =
-    viewChild.required<TemplateRef<typeof this.dividerTemplateType>>('defaultDividerTemplate');
-  public readonly dividers = signal<EmbeddedViewRef<typeof this.dividerTemplateType>[]>([]);
-  private readonly _dividerSizes = computed(() =>
-    this.dividers().map(d => {
-      const el = d.rootNodes.find(x => x instanceof HTMLElement);
-      return el ? (this.layout() === 'horizontal' ? el.offsetWidth : el.offsetHeight) : 0;
-    })
-  );
-  // #endregion
-
-  // #region panels
-  public readonly panels = contentChildren(SplitterPanel);
-  protected readonly orderedPanels = computed(() => {
-    const panels = this.panels();
-    const order = this.panelOrder();
-    return order
-      ? [...panels].sort((a, b) => {
-          const aIndex = order.indexOf(a['gridArea']);
-          const bIndex = order.indexOf(b['gridArea']);
-          if (aIndex === -1 && bIndex === -1) return 0;
-          if (aIndex === -1) return 1; // a is not in order, put it at the end
-          if (bIndex === -1) return -1; // b is not in order, put it at the end
-          return aIndex - bIndex; // sort by index in panelOrder
-        })
-      : panels;
-  });
-  // #endregion
-
-  // #region sizes
-  private readonly _totalDividerSize = computed(() =>
-    this._dividerSizes().reduce((acc, size) => acc + size, 0)
-  );
-  private readonly _totalPanelSizes = computed(() =>
-    this.panels().reduce(
-      (acc, panel) => {
-        const size = panel.size();
-        acc[getSplitterPanelSizeUnit(size)] += getSplitterPanelSizeValue(size);
-        return acc;
-      },
-      { px: 0, fr: 0 }
-    )
-  );
-  // #endregion
-
-  // #region host bindings
-  private readonly _hostClass = computed(() => {
-    return `${this.theme.class()} ${this.theme.class(this.layout())} ${this.isDragging() ? this.theme.class('dragging') : ''}`;
-  });
-  @HostBinding('class')
-  protected get hostClass(): string {
-    return this._hostClass();
-  }
-
-  private readonly _gridTemplateSizes = computed(() => this.calculateGridTemplateSizes());
-  private readonly _gridTemplateColumns = computed(() =>
-    this.layout() === 'horizontal' ? this._gridTemplateSizes() : null
-  );
-  private readonly _gridTemplateRows = computed(() =>
-    this.layout() === 'vertical' ? this._gridTemplateSizes() : null
-  );
-  @HostBinding('style.grid-template-columns')
-  protected get gridTemplateColumns(): string | null {
-    return this._gridTemplateColumns();
-  }
-  @HostBinding('style.grid-template-rows')
-  protected get gridTemplateRows(): string | null {
-    return this._gridTemplateRows();
-  }
-  @HostBinding('style.grid-template-areas')
-  protected get gridTemplateAreas(): string | null {
-    const panels = this.orderedPanels();
-    if (panels.length === 0) return null;
-    let result = '';
-    for (let i = 0; i < panels.length; i++) {
-      if (i > 0) {
-        result +=
-          this.layout() === 'horizontal' ? ` ngn-divider-${i - 1} ` : ` "ngn-divider-${i - 1}" `;
-      }
-      result +=
-        this.layout() === 'horizontal' ? panels[i]['gridArea'] : `"${panels[i]['gridArea']}"`;
-    }
-    return this.layout() === 'horizontal' ? `"${result}"` : result;
-  }
-  // #endregion
-
-  // #region drag info
-  public readonly dragInfo = signal<DragInfo | null>(null);
-  public readonly isDragging = computed(() => this.dragInfo() !== null);
-  // #endregion
-
-  // #region inputs
   public readonly layout = model.required<SplitterLayout>();
   public readonly dividerStyleClass = input<string | null>();
   public readonly panelOrder = model<string[] | null>();
@@ -176,17 +65,37 @@ export class Splitter extends BaseDirective implements OnDestroy {
     this._config.defaults.splitter.stateStorage
   );
   public readonly stateKey = input<string | null>();
-  public readonly stateData = input<readonly ('layout' | 'panelOrder' | 'panelSizes')[]>([
+  public readonly stateData = input<readonly SplitterStateData[]>([
     'layout',
     'panelOrder',
     'panelSizes',
   ]);
-  // #endregion
+  public readonly calculatorType = input<SplitterCalculatorType>(DefaultSplitterCalculator);
+  public readonly step = input<`${number}${'%' | 'px'}`>('5px');
 
-  // #region outputs
+  public readonly ariaLabel = input<string | null>();
+  public readonly ariaLabelledBy = input<string | null>();
+
   public readonly stateSaving = output<SplitterState>();
   public readonly stateLoading = output<SplitterState>();
-  // #endregion
+
+  protected readonly dividerTemplateType = templateTypeFn<never, { index: number }>();
+  private readonly _dividerTemplate =
+    viewChild.required<TemplateRef<typeof this.dividerTemplateType>>('defaultDividerTemplate');
+  public readonly dividers = signal<EmbeddedViewRef<typeof this.dividerTemplateType>[]>([]);
+  public readonly panels = contentChildren(SplitterPanel);
+  public readonly elementSize = elementSizeSignal(this.element);
+
+  protected readonly hostClass = computed(() => {
+    return `${this.theme.class()} ${this.theme.class(this.layout())} ${this.isDragging() ? this.theme.class('dragging') : ''}`;
+  });
+
+  public readonly isDragging = computed(() => this.calculator().dragContext() !== null);
+
+  protected readonly calculator = computed(() => {
+    const calculatorType = this.calculatorType();
+    return untracked(() => runInInjectionContext(this.injector, () => new calculatorType(this)));
+  });
 
   constructor() {
     super();
@@ -211,166 +120,55 @@ export class Splitter extends BaseDirective implements OnDestroy {
     this.dividers.set([]);
   }
 
-  protected onPointerDown(index: number, event: PointerEvent) {
-    const panels = this.orderedPanels();
-    if (index < 0 || index >= panels.length - 1) return;
-
-    const leftPanel = panels[index];
-    const rightPanel = panels[index + 1];
-
-    this.dragInfo.set({
-      dividerIndex: index,
-      pointerId: event.pointerId,
-      startPosition: this.layout() === 'horizontal' ? event.clientX : event.clientY,
-      leftStartSize: {
-        unit: getSplitterPanelSizeUnit(leftPanel.size()),
-        value: getSplitterPanelSizeValue(leftPanel.size()),
-      },
-      rightStartSize: {
-        unit: getSplitterPanelSizeUnit(rightPanel.size()),
-        value: getSplitterPanelSizeValue(rightPanel.size()),
-      },
-      leftLimits: {
-        min: {
-          unit: getSplitterPanelSizeLimitUnit(leftPanel.minSize()),
-          value: getSplitterPanelSizeLimitValue(leftPanel.minSize()),
-        },
-        max: {
-          unit: getSplitterPanelSizeLimitUnit(leftPanel.maxSize()),
-          value: getSplitterPanelSizeLimitValue(leftPanel.maxSize()),
-        },
-      },
-      rightLimits: {
-        min: {
-          unit: getSplitterPanelSizeLimitUnit(rightPanel.minSize()),
-          value: getSplitterPanelSizeLimitValue(rightPanel.minSize()),
-        },
-        max: {
-          unit: getSplitterPanelSizeLimitUnit(rightPanel.maxSize()),
-          value: getSplitterPanelSizeLimitValue(rightPanel.maxSize()),
-        },
-      },
-      leftPanel,
-      rightPanel,
-    });
-
+  protected onHandlePointerDown(index: number, event: PointerEvent) {
     const target = event.target;
     if (!(target instanceof HTMLElement)) {
       throw new Error('Event target is not an HTMLElement');
     }
     // Make sure the element is stable before capturing the pointer
-    requestAnimationFrame(() => target.setPointerCapture(event.pointerId));
+    requestAnimationFrame(() => {
+      try {
+        target.setPointerCapture(event.pointerId);
+      } catch {
+        // Ignore errors if the element is not capable of capturing the pointer
+      }
+    });
 
-    // Prevent default to avoid text selection
-    event.preventDefault();
+    this.calculator().startDrag(index, event);
   }
 
-  protected onPointerMove(index: number, event: PointerEvent) {
-    const dragInfo = this.dragInfo();
-    if (!dragInfo || dragInfo.dividerIndex !== index || dragInfo.pointerId !== event.pointerId)
-      return;
-
-    const {
-      startPosition,
-      leftPanel,
-      rightPanel,
-      leftStartSize,
-      rightStartSize,
-      leftLimits,
-      rightLimits,
-    } = dragInfo;
-
-    let controlSize: number;
-    let pxDelta: number;
-    if (this.layout() === 'horizontal') {
-      controlSize = this.element.nativeElement.offsetWidth;
-      pxDelta = event.clientX - startPosition;
-    } else {
-      controlSize = this.element.nativeElement.offsetHeight;
-      pxDelta = event.clientY - startPosition;
-    }
-
-    let frPerPx: number = 0;
-    let pxPerFr: number = 0;
-    if (leftStartSize.unit === 'fr' || rightStartSize.unit === 'fr') {
-      const frArea = controlSize - this._totalDividerSize() - this._totalPanelSizes().px;
-      frPerPx = this._totalPanelSizes().fr / frArea;
-      pxPerFr = frArea / this._totalPanelSizes().fr;
-    }
-
-    const leftStartPx =
-      leftStartSize.unit === 'px' ? leftStartSize.value : pxPerFr * leftStartSize.value;
-    const newLeftPx = leftStartPx + pxDelta;
-    if (pxDelta < 0) {
-      const min =
-        leftLimits.min.unit === 'px'
-          ? leftLimits.min.value
-          : (leftLimits.min.value / 100) * controlSize;
-      if (min > newLeftPx) {
-        pxDelta = -(leftStartPx - min);
-      }
-    } else if (pxDelta > 0) {
-      const max =
-        leftLimits.max.unit === 'px'
-          ? leftLimits.max.value
-          : (leftLimits.max.value / 100) * controlSize;
-      if (max < newLeftPx) {
-        pxDelta = max - leftStartPx;
-      }
-    }
-
-    const rightStartPx =
-      rightStartSize.unit === 'px' ? rightStartSize.value : pxPerFr * rightStartSize.value;
-    const newRightPx = rightStartPx - pxDelta;
-    if (pxDelta > 0) {
-      const min =
-        rightLimits.min.unit === 'px'
-          ? rightLimits.min.value
-          : (rightLimits.min.value / 100) * controlSize;
-      if (min > newRightPx) {
-        pxDelta = rightStartPx - min;
-      }
-    } else if (pxDelta < 0) {
-      const max =
-        rightLimits.max.unit === 'px'
-          ? rightLimits.max.value
-          : (rightLimits.max.value / 100) * controlSize;
-      if (max < newRightPx) {
-        pxDelta = -(max - rightStartPx);
-      }
-    }
-
-    const frDelta = pxDelta * frPerPx;
-    if (leftStartSize.unit === 'px') {
-      leftPanel.size.set(`${leftStartSize.value + pxDelta}px`);
-    } else if (leftStartSize.unit === 'fr') {
-      leftPanel.size.set(`${leftStartSize.value + frDelta}fr`);
-    }
-    if (rightStartSize.unit === 'px') {
-      rightPanel.size.set(`${rightStartSize.value - pxDelta}px`);
-    } else if (rightStartSize.unit === 'fr') {
-      rightPanel.size.set(`${rightStartSize.value - frDelta}fr`);
-    }
+  protected onHandlePointerMove(index: number, event: PointerEvent) {
+    this.calculator().drag(index, event);
   }
 
-  protected onPointerUp(index: number, event: PointerEvent) {
-    const dragInfo = this.dragInfo();
-    if (!dragInfo || dragInfo.dividerIndex !== index || dragInfo.pointerId !== event.pointerId)
-      return;
-
-    this.dragInfo.set(null);
+  protected onHandlePointerUp(index: number, event: PointerEvent) {
+    this.calculator().endDrag(index, event, false);
   }
 
-  protected onPointerCancel(index: number, event: PointerEvent) {
-    const dragInfo = this.dragInfo();
-    if (!dragInfo || dragInfo.dividerIndex !== index || dragInfo.pointerId !== event.pointerId)
-      return;
+  protected onHandlePointerCancel(index: number, event: PointerEvent) {
+    this.calculator().endDrag(index, event, true);
+  }
 
-    // Reset the panels to their original sizes
-    dragInfo.leftPanel.size.set(`${dragInfo.leftStartSize.value}${dragInfo.leftStartSize.unit}`);
-    dragInfo.rightPanel.size.set(`${dragInfo.rightStartSize.value}${dragInfo.rightStartSize.unit}`);
-
-    this.dragInfo.set(null);
+  protected onHandleKeyDown(index: number, event: KeyboardEvent) {
+    if (
+      (event.key === 'ArrowLeft' && this.layout() === 'horizontal') ||
+      (event.key === 'ArrowUp' && this.layout() === 'vertical')
+    ) {
+      this.calculator().moveDivider(index, -this.getStepInPx());
+      event.preventDefault(); // Prevent default scrolling behavior
+    } else if (
+      (event.key === 'ArrowRight' && this.layout() === 'horizontal') ||
+      (event.key === 'ArrowDown' && this.layout() === 'vertical')
+    ) {
+      this.calculator().moveDivider(index, this.getStepInPx());
+      event.preventDefault(); // Prevent default scrolling behavior
+    } else if (event.key === 'Home') {
+      this.calculator().moveDivider(index, Number.NEGATIVE_INFINITY);
+      event.preventDefault(); // Prevent default scrolling behavior
+    } else if (event.key === 'End') {
+      this.calculator().moveDivider(index, Number.POSITIVE_INFINITY);
+      event.preventDefault(); // Prevent default scrolling behavior
+    }
   }
 
   private updateDividers(panels: readonly SplitterPanel[]) {
@@ -412,27 +210,6 @@ export class Splitter extends BaseDirective implements OnDestroy {
     });
   }
 
-  private calculateGridTemplateSizes() {
-    const panels = this.orderedPanels();
-    const dividerSizes = this._dividerSizes();
-
-    if (panels.length === 0) return 'none';
-    const result: string[] = [];
-    for (let i = 0; i < panels.length; i++) {
-      const panel = panels[i];
-      const size = panel.size();
-      result.push(size);
-
-      if (i < dividerSizes.length) {
-        const dividerSize = dividerSizes[i] || 0;
-        result.push(` ${dividerSize}px`);
-      }
-    }
-
-    return result.join(' ');
-  }
-
-  // #region state
   private computeState(previousState: SplitterState | null) {
     const data = this.stateData();
     const state: SplitterState = {
@@ -505,5 +282,18 @@ export class Splitter extends BaseDirective implements OnDestroy {
       }
     }
   }
-  // #endregion
+
+  private getStepInPx(): number {
+    const step = this.step();
+    if (step.endsWith('px')) {
+      return parseFloat(step.slice(0, -2));
+    } else if (step.endsWith('%')) {
+      const size =
+        this.layout() === 'horizontal' ? this.elementSize().width : this.elementSize().height;
+      return (parseFloat(step.slice(0, -1)) / 100) * size;
+    } else {
+      Logger.warn(`Invalid step value: ${step}.`);
+      return 10; // Default step in pixels
+    }
+  }
 }

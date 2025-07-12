@@ -6,6 +6,7 @@ import { inputFieldStyles } from '@ngneers/controls-themes/nova/input-field';
 import { listBoxStyles } from '@ngneers/controls-themes/nova/list-box';
 import { popoverStyles } from '@ngneers/controls-themes/nova/popover';
 import { selectStyles } from '@ngneers/controls-themes/nova/select';
+import { splitterStyles } from '@ngneers/controls-themes/nova/splitter';
 import { textFieldStyles } from '@ngneers/controls-themes/nova/text-field';
 
 export const novaCoral = createTheme('Nova Coral', [
@@ -19,4 +20,5 @@ export const novaCoral = createTheme('Nova Coral', [
   inputFieldStyles,
   textFieldStyles,
   calendarStyles,
+  splitterStyles,
 ]);

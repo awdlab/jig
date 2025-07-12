@@ -109,9 +109,10 @@
 - ✅Resize Panels
 - ✅Reorder Panels
 - ✅State Persistence
-- Min/Max Sizes for Panels
+- ✅Min/Max Sizes for Panels
   - ✅during panel resize
-  - during page/container resize and initial values
-- Theme
-- Keyboard interaction
-- a11y
+  - ✅during page/container resize and initial values
+- ✅Theme
+- Recursive resizing (push panel and resize other if min/max limits are reached)
+- ✅Keyboard interaction
+- ✅a11y

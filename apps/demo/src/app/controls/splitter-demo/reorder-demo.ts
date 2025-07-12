@@ -7,12 +7,26 @@ import { SplitterModule } from '@ngneers/controls/splitter';
   selector: 'ngn-splitter-reorder',
   template: `
     <ngn-button (clicked)="shufflePanels()">Shuffle panel order</ngn-button>
-    <ngn-splitter [layout]="'horizontal'" [panelOrder]="panelOrder()">
-      <ngn-splitter-panel [name]="'first-panel'" [size]="'70px'"> Panel 1 </ngn-splitter-panel>
-      <ngn-splitter-panel [name]="'second-panel'" [size]="'3fr'"> Panel 2 </ngn-splitter-panel>
-      <ngn-splitter-panel [name]="'third-panel'" [size]="'5fr'"> Panel 3 </ngn-splitter-panel>
-      <ngn-splitter-panel [name]="'fourth-panel'" [size]="'1fr'"> Panel 4 </ngn-splitter-panel>
-      <ngn-splitter-panel [name]="'fifth-panel'" [size]="'50px'"> Panel 5 </ngn-splitter-panel>
+    <ngn-splitter
+      [layout]="'horizontal'"
+      [panelOrder]="panelOrder()"
+      [ariaLabel]="'Reorder Panels Splitter'"
+    >
+      <ngn-splitter-panel [name]="'first-panel'" [size]="'70px'" [ariaLabel]="'First Panel'">
+        Panel 1
+      </ngn-splitter-panel>
+      <ngn-splitter-panel [name]="'second-panel'" [size]="'3fr'" [ariaLabel]="'Second Panel'">
+        Panel 2
+      </ngn-splitter-panel>
+      <ngn-splitter-panel [name]="'third-panel'" [size]="'5fr'" [ariaLabel]="'Third Panel'">
+        Panel 3
+      </ngn-splitter-panel>
+      <ngn-splitter-panel [name]="'fourth-panel'" [size]="'1fr'" [ariaLabel]="'Fourth Panel'">
+        Panel 4
+      </ngn-splitter-panel>
+      <ngn-splitter-panel [name]="'fifth-panel'" [size]="'50px'" [ariaLabel]="'Fifth Panel'">
+        Panel 5
+      </ngn-splitter-panel>
     </ngn-splitter>
   `,
   styles: `
