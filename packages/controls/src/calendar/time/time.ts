@@ -2,7 +2,7 @@ import { Component, computed, inject, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { injectThemeTemplate, Platform } from '@ngneers/controls/api';
 import { I18n } from '@ngneers/controls/i18n';
-import { MASKS, TextField } from '@ngneers/controls/text-field';
+import { TextField } from '@ngneers/controls/text-field';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
 @Component({
@@ -13,10 +13,6 @@ import { calendarControlTemplate } from '@ngneers/controls-themes/templates/cale
 export class CalendarTime {
   protected readonly theme = injectThemeTemplate(calendarControlTemplate);
   protected readonly i18n = inject(I18n).translations;
-  protected readonly inputMask = computed(() =>
-    this.showSeconds() ? MASKS.timeSeconds : MASKS.time
-  );
-
   protected readonly isMobile = inject(Platform).isTouchDevice();
 
   public readonly currentValue = input.required<Date | null>();
