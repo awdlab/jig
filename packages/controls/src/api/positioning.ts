@@ -1,5 +1,13 @@
 import { DestroyRef, inject, Injector } from '@angular/core';
-import { autoUpdate, computePosition, flip, offset, shift, size } from '@floating-ui/dom';
+import {
+  autoUpdate,
+  computePosition,
+  flip,
+  offset,
+  Placement,
+  shift,
+  size,
+} from '@floating-ui/dom';
 
 export type PositioningSizeConstraints = {
   /**
@@ -28,7 +36,7 @@ export type PositioningSizeConstraints = {
 
 export type PositioningOptions = {
   injector?: Injector;
-  placement?: 'top' | 'bottom' | 'left' | 'right';
+  placement?: Placement;
   flip?: boolean;
   resize?: boolean;
   shift?: boolean;

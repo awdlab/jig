@@ -7,6 +7,7 @@ import { stories as scrollerStories } from './scroller-demo/_all';
 import { stories as selectStories } from './select-demo/_all';
 import { stories as splitterStories } from './splitter-demo/_all';
 import { stories as textFieldStories } from './text-field-demo/_all';
+import { stories as tooltipStories } from './tooltip-demo/_all';
 
 export const allDemos = [
   buttonStories,
@@ -18,4 +19,5 @@ export const allDemos = [
   selectStories,
   splitterStories,
   textFieldStories,
+  tooltipStories,
 ] as const;

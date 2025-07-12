@@ -116,3 +116,15 @@
 - Recursive resizing (push panel and resize other if min/max limits are reached)
 - ✅Keyboard interaction
 - ✅a11y
+
+## Tooltip
+
+- ✅Basic Tooltip
+- Animations
+- Show delay
+- Positioning left-start, left-end, right-start, right-end not working
+- Option to add a pointer to the tooltip
+- Theme
+- (?) Add option to show tooltip on focus
+- Add option to show tooltip only when content is truncated
+- a11y

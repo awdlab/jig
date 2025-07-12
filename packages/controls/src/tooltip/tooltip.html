@@ -1,0 +1,11 @@
+<div [ngClass]="theme.class('content')">
+  <ngn-lazy-cacher
+    [lazyContent]="contentTemplate()"
+    [open]="isOpen()"
+    [cache]="false"
+  ></ngn-lazy-cacher>
+</div>
+
+<ng-template #defaultContentTemplate>
+  <span>{{ text() }}</span>
+</ng-template>
