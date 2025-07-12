@@ -1,7 +1,8 @@
 import { NgClass } from '@angular/common';
-import { Component, computed, input, linkedSignal, output } from '@angular/core';
+import { Component, computed, inject, input, linkedSignal, output } from '@angular/core';
 import {
   injectThemeTemplate,
+  Platform,
   ValueControlBase,
   valueControlBaseProvider,
 } from '@ngneers/controls/api';
@@ -18,12 +19,16 @@ import { TextFieldMaskCfg } from './features/mask/types';
   providers: [valueControlBaseProvider(TextField)],
 })
 export class TextField extends ValueControlBase<string> {
+  private readonly isTouchDevice = inject(Platform).isTouchDevice();
   public readonly blurred = output<void>();
 
   private readonly _maskHelper = new MaskHelper({
     updateValue: (e, v, i) => this._updateValue(e, v, i),
   });
 
+  public readonly type = input<string>('text');
+  public readonly step = input<number | null>(null);
+  public readonly preventOpen = input<boolean | 'onDesktop'>('onDesktop');
   protected readonly theme = injectThemeTemplate(textFieldControlTemplate);
   protected onInput(event: Event) {
     // Update the current input value
@@ -74,4 +79,12 @@ export class TextField extends ValueControlBase<string> {
     this.blurred.emit();
     this.onTouched();
   }
+
+  protected readonly preventOpenVal = computed(() => {
+    const preventOpen = this.preventOpen();
+    if (typeof preventOpen === 'boolean') {
+      return preventOpen;
+    }
+    return !this.isTouchDevice;
+  });
 }

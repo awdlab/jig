@@ -2,6 +2,7 @@ export * from './config';
 export * from './dom';
 export * from './filtering';
 export * from './ngn-items';
+export * from './platform';
 export * from './positioning';
 export * from './provider';
 export * from './template';

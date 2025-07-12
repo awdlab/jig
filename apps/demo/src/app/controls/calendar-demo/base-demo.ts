@@ -10,6 +10,7 @@ import { Calendar } from '@ngneers/controls/calendar';
       [inputId]="'test-input'"
       [ngModel]="value()"
       (ngModelChange)="value.set($event)"
+      [showTime]="true"
     />
     {{ value() }}
   `,

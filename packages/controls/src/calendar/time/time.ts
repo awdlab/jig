@@ -1,6 +1,6 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { injectThemeTemplate } from '@ngneers/controls/api';
+import { injectThemeTemplate, Platform } from '@ngneers/controls/api';
 import { I18n } from '@ngneers/controls/i18n';
 import { MASKS, TextField } from '@ngneers/controls/text-field';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
@@ -16,6 +16,8 @@ export class CalendarTime {
   protected readonly inputMask = computed(() =>
     this.showSeconds() ? MASKS.timeSeconds : MASKS.time
   );
+
+  protected readonly isMobile = inject(Platform).isTouchDevice();
 
   public readonly currentValue = input.required<Date | null>();
   public readonly showSeconds = input.required<boolean>();

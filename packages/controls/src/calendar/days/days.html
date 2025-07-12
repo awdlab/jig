@@ -63,12 +63,14 @@
       }
     }
   </div>
-  <ng-container
-    *ngTemplateOutlet="
-      timeTemplate();
-      context: {
-        $implicit: { time: currentValue(), showSeconds: showSeconds(), change: doTimeChange },
-      }
-    "
-  />
+  @if (showTime()) {
+    <ng-container
+      *ngTemplateOutlet="
+        timeTemplate();
+        context: {
+          $implicit: { time: currentValue(), showSeconds: showSeconds(), change: doTimeChange },
+        }
+      "
+    />
+  }
 </div>

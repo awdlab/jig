@@ -1,8 +1,12 @@
 <div>
   <ngn-text-field
     #input
+    [type]="'time'"
+    [step]="showSeconds() ? 1 : 60"
     [ngModel]="value()"
-    [mask]="inputMask()"
-    (blurred)="onValueChange(input.value() || '')"
+    (ngModelChange)="isMobile && onValueChange($event)"
+    (blurred)="!isMobile && onValueChange(input.value() || '')"
   />
 </div>
+
+<!-- [mask]="inputMask()" -->

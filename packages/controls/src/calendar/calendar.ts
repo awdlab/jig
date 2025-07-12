@@ -21,6 +21,7 @@ export class Calendar extends CalendarTemplates {
   );
   protected readonly month = linkedSignal(() => this.value()?.getMonth() || new Date().getMonth());
   public readonly firstDayOfWeek = input<WeekDay>('monday');
+  public readonly showTime = input<boolean>(false);
   public readonly showSeconds = input<boolean>(false);
 
   protected readonly currentView = signal<'days' | 'months'>('days');
