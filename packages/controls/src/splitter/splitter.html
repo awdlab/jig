@@ -5,16 +5,20 @@
     [style.grid-area]="`ngn-divider-${index}`"
     [ngClass]="[
       theme.class('divider'),
-      dragInfo()?.dividerIndex === index ? theme.class('divider-dragging') : '',
+      calculator().dragContext()?.dividerIndex === index ? theme.class('divider-dragging') : '',
       dividerStyleClass() ?? '',
     ]"
   >
-    <div
+    <button
+      role="separator"
+      [attr.aria-orientation]="layout()"
+      [attr.aria-label]="translations.splitter_handleLabel()"
       [ngClass]="[theme.class('divider-handle')]"
-      (pointerdown)="onPointerDown(index, $event)"
-      (pointermove)="onPointerMove(index, $event)"
-      (pointerup)="onPointerUp(index, $event)"
-      (pointercancel)="onPointerCancel(index, $event)"
-    ></div>
+      (pointerdown)="onHandlePointerDown(index, $event)"
+      (pointermove)="onHandlePointerMove(index, $event)"
+      (pointerup)="onHandlePointerUp(index, $event)"
+      (pointercancel)="onHandlePointerCancel(index, $event)"
+      (keydown)="onHandleKeyDown(index, $event)"
+    ></button>
   </div>
 </ng-template>

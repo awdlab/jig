@@ -15,6 +15,11 @@ export const stories: ComponentStories = {
       component: () => import('./vertical-demo').then(x => x.Splitter_Vertical_Component),
     },
     {
+      fileName: 'min-max',
+      title: 'Min/Max Sizes',
+      component: () => import('./min-max-demo').then(x => x.Splitter_MinMax_Component),
+    },
+    {
       fileName: 'reorder',
       title: 'Reorder Panels',
       component: () => import('./reorder-demo').then(x => x.Splitter_Reorder_Component),

@@ -11,7 +11,7 @@ type RepeatVariables<K extends string, T> = UnionToIntersection<
 >;
 
 export function repeatVariables<
-  const TVariations extends string[],
+  const TVariations extends readonly string[],
   TVariables extends Record<string, TemplateVariable<null>>,
 >(
   variations: TVariations,

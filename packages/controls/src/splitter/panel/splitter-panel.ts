@@ -1,4 +1,4 @@
-import { Component, HostBinding, input, model } from '@angular/core';
+import { Component, computed, input, model } from '@angular/core';
 import { injectThemeTemplate } from '@ngneers/controls/api';
 import { BaseDirective } from '@ngneers/controls/base';
 import { generateElementId } from '@ngneers/controls/utils';
@@ -9,6 +9,13 @@ import { SplitterPanelSize, SplitterPanelSizeLimit } from '../types';
 @Component({
   selector: 'ngn-splitter-panel',
   templateUrl: './splitter-panel.html',
+  host: {
+    role: 'region',
+    '[class]': `theme.class('panel')`,
+    '[style.grid-area]': 'gridArea()',
+    '[attr.aria-label]': 'ariaLabel()',
+    '[attr.aria-labelledby]': 'ariaLabelledBy()',
+  },
 })
 export class SplitterPanel extends BaseDirective {
   protected readonly theme = injectThemeTemplate(splitterControlTemplate);
@@ -19,11 +26,8 @@ export class SplitterPanel extends BaseDirective {
   public readonly minSize = model<SplitterPanelSizeLimit>('0px');
   public readonly maxSize = model<SplitterPanelSizeLimit>('100%');
 
-  @HostBinding('class')
-  protected readonly hostClass: string = this.theme.class('panel');
+  public readonly ariaLabel = input<string | null>();
+  public readonly ariaLabelledBy = input<string | null>();
 
-  @HostBinding('style.grid-area')
-  protected get gridArea(): string {
-    return this.name() ?? this._fallbackAreaName;
-  }
+  protected readonly gridArea = computed(() => this.name() ?? this._fallbackAreaName);
 }
