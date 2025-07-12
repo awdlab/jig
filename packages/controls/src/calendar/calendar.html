@@ -10,11 +10,12 @@
         (nextMonth)="nextMonth()"
         (switchToMonthsView)="switchToView('months')"
         (daySelected)="selectDay($event)"
+        (timeChanged)="changeTime($event)"
         [dayTemplate]="dayTemplate()"
         [weekDayTemplate]="weekDayTemplate()"
         [timeTemplate]="timeTemplate()"
         [showSeconds]="showSeconds()"
-      ></ngn-calendar-days>
+      />
     }
     @case ('months') {
       <ngn-calendar-months
@@ -24,7 +25,7 @@
         (nextYear)="nextYear()"
         (monthSelected)="selectMonth($event)"
         [monthTemplate]="monthTemplate()"
-      ></ngn-calendar-months>
+      />
     }
   }
 </div>
@@ -53,6 +54,10 @@
 
 <ng-template #defaultTimeTemplate [ngnTemplate]="templateTypes.time" let-time>
   @defer {
-    <ngn-calendar-time [currentValue]="time.time" [showSeconds]="time.showSeconds" />
+    <ngn-calendar-time
+      [currentValue]="time.time"
+      [showSeconds]="time.showSeconds"
+      (timeChange)="time.change($event)"
+    />
   }
 </ng-template>

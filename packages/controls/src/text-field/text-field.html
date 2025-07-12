@@ -8,7 +8,7 @@
       (input)="onInput($event)"
       (keydown)="onKeyDown($event)"
       (beforeinput)="onBeforeInput($event)"
-      (blur)="onTouched()"
+      (blur)="onBlur()"
     />
     <span [ngClass]="theme.class('mask')">
       <span [ngClass]="theme.class('mask-placeholder')" aria-hidden="true" style="opacity: 0">{{

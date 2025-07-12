@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, input, linkedSignal, output } from '@angular/core';
 import {
   injectThemeTemplate,
   ValueControlBase,
@@ -18,6 +18,8 @@ import { TextFieldMaskCfg } from './features/mask/types';
   providers: [valueControlBaseProvider(TextField)],
 })
 export class TextField extends ValueControlBase<string> {
+  public readonly blurred = output<void>();
+
   private readonly _maskHelper = new MaskHelper({
     updateValue: (e, v, i) => this._updateValue(e, v, i),
   });
@@ -29,7 +31,7 @@ export class TextField extends ValueControlBase<string> {
     this.onChange((event.target as HTMLInputElement).value);
   }
 
-  protected readonly currentInputValue = signal<string>('');
+  protected readonly currentInputValue = linkedSignal<string>(() => this.value() || '');
 
   public readonly mask = input<'time' | TextFieldMaskCfg | string | null>(null);
   private readonly _mask = computed(() => this._maskHelper.ensureMask(this.mask()));
@@ -66,5 +68,10 @@ export class TextField extends ValueControlBase<string> {
       // Ensure the cursor position is set after the value update for android compatibility
       el.setSelectionRange(cursorPosition, cursorPosition);
     });
+  }
+
+  protected onBlur() {
+    this.blurred.emit();
+    this.onTouched();
   }
 }

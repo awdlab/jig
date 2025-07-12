@@ -62,5 +62,6 @@ export type TimeTemplateType = {
   $implicit: {
     time: Date | null;
     showSeconds: boolean;
+    change: (newTime: Date | null) => void;
   };
 };

@@ -4,7 +4,7 @@ import { templateTypesFn, ValueControlBase } from '@ngneers/controls/api';
 import { DayTemplateType, MonthTemplateType, TimeTemplateType, WeekDayTemplateType } from './types';
 
 @Directive()
-export abstract class CalendarTemplates extends ValueControlBase<Date> {
+export abstract class CalendarTemplates extends ValueControlBase<Date | null> {
   // Day template
   private readonly _defaultDayTemplate =
     viewChild.required<TemplateRef<typeof this.templateTypes.day>>('defaultDayTemplate');

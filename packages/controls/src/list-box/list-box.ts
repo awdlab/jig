@@ -104,7 +104,6 @@ export class ListBox<T extends object, K extends keyof T> extends ListBoxTemplat
   }
 
   protected onSelect(value: T[K]) {
-    this.value.set(value);
     this.onChange(value);
     this.onTouched();
     this.currentHighlightedValue.set(null);

@@ -1,7 +1,6 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject, input, output, TemplateRef } from '@angular/core';
 import { injectThemeTemplate } from '@ngneers/controls/api';
-import { Button } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
@@ -30,7 +29,7 @@ type WeekModel = {
 @Component({
   selector: 'ngn-calendar-days',
   templateUrl: './days.html',
-  imports: [NgTemplateOutlet, NgClass, Button],
+  imports: [NgTemplateOutlet, NgClass],
 })
 export class CalendarDays {
   protected readonly theme = injectThemeTemplate(calendarControlTemplate);
@@ -46,10 +45,12 @@ export class CalendarDays {
   public readonly nextMonth = output();
   public readonly switchToMonthsView = output();
   public readonly daySelected = output<DayModel>();
+  public readonly timeChanged = output<Date | null>();
 
   protected readonly i18n = inject(I18n).translations;
   protected readonly todaysDay = new Date().getDate();
   protected readonly todaysMonth = new Date().getMonth();
+  protected readonly doTimeChange = (t: Date | null) => this.timeChanged.emit(t);
 
   protected readonly monthName = computed(() =>
     this.i18n[`calendar_months_${MONTHS[this.month()]}`]()

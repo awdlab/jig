@@ -65,8 +65,25 @@ export class Calendar extends CalendarTemplates {
   }
 
   protected selectDay(day: DayModel) {
-    const newValue = new Date(this.year(), this.month() + day.monthOffset, day.date);
-    this.value.set(newValue);
+    const newValue = new Date(this.value() || new Date());
+    newValue.setFullYear(this.year());
+    newValue.setMonth(this.month() + day.monthOffset);
+    newValue.setDate(day.date);
     this.onChange(newValue);
+  }
+
+  protected changeTime(newTime: Date | null) {
+    if (!newTime) {
+      this.onChange(null);
+      return;
+    }
+    const currentValue = this.value();
+    if (currentValue) {
+      const newValue = new Date(currentValue);
+      newValue.setHours(newTime.getHours());
+      newValue.setMinutes(newTime.getMinutes());
+      newValue.setSeconds(newTime.getSeconds());
+      this.onChange(newValue);
+    }
   }
 }

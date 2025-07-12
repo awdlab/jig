@@ -23,10 +23,11 @@ export abstract class ValueControlBase<T>
   public readonly label = input<string | null>(null);
   public readonly inputId = input<string>(generateElementId());
 
-  protected readonly value = signal<T | null>(null);
+  private readonly _value = signal<T | null>(null);
+  public readonly value = this._value.asReadonly();
 
   public writeValue(value: T | null): void {
-    this.value.set(value ?? null);
+    this._value.set(value ?? null);
   }
   private _onChange: (_: T | null) => void = () => {};
   public registerOnChange(fn: (value: T | null) => void): void {
@@ -43,5 +44,6 @@ export abstract class ValueControlBase<T>
 
   protected onChange(value: T) {
     this._onChange(value ?? null);
+    this._value.set(value ?? null);
   }
 }

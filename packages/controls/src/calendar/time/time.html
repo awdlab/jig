@@ -1,1 +1,8 @@
-<div></div>
+<div>
+  <ngn-text-field
+    #input
+    [ngModel]="value()"
+    [mask]="inputMask()"
+    (blurred)="onValueChange(input.value() || '')"
+  />
+</div>

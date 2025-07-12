@@ -134,7 +134,6 @@ export class Select<T extends object, K extends keyof T> extends SelectTemplates
 
   public onSelect(value: T[K]) {
     if (this.value() !== value) {
-      this.value.set(value);
       this.onChange(value);
     }
     this.close();
