@@ -6,5 +6,6 @@ declare module '@ngneers/controls/custom-types' {
       prefix: string;
       icon: string;
     };
+    buttonKind: 'primary' | 'secondary' | 'text' | 'link';
   }
 }
