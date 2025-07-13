@@ -11,11 +11,6 @@ import { InputField } from '@ngneers/controls/input-field';
       🥳
     </ngn-input-field>
     {{ value() }} `,
-  styles: `
-    ngn-input-field {
-      display: flex;
-    }
-  `,
 })
 export class TextField_InputField_Component {
   protected readonly value = signal<string>('');
