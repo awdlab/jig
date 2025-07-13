@@ -1,12 +1,11 @@
 import { NgClass } from '@angular/common';
-import { Component, forwardRef, inject, InjectionToken, input } from '@angular/core';
+import { Component, forwardRef, inject, input } from '@angular/core';
 import { injectThemeTemplate } from '@ngneers/controls/api';
 import { BaseDirective } from '@ngneers/controls/base';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 
 import { InputfieldBase } from './input-field-base';
-
-const FORM_FIELD = new InjectionToken<InputField>('Inputfield');
+import { FORM_FIELD } from './token';
 
 @Component({
   imports: [NgClass],

@@ -9,7 +9,7 @@ import { MASKS, InputMask, TextFieldMaskCfg } from '@ngneers/controls/input-mask
   template: `
     test
     <ngn-input-mask [inputId]="'test-input'" [mask]="mask">
-      <input #input ngnInput [ngModel]="value()" (ngModelChange)="value.set($event)" />
+      <input ngnInput [ngModel]="value()" (ngModelChange)="value.set($event)" />
     </ngn-input-mask>
     {{ value() }}
   `,

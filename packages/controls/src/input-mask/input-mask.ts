@@ -1,15 +1,8 @@
 import { NgClass } from '@angular/common';
-import {
-  afterRenderEffect,
-  Component,
-  computed,
-  contentChild,
-  ElementRef,
-  input,
-  signal,
-} from '@angular/core';
+import { afterRenderEffect, Component, computed, contentChild, input, signal } from '@angular/core';
 import { injectThemeTemplate } from '@ngneers/controls/api';
 import { BaseDirective } from '@ngneers/controls/base';
+import { NgnInput } from '@ngneers/controls/input';
 import { InputField } from '@ngneers/controls/input-field';
 import { inputMaskControlTemplate } from '@ngneers/controls-themes/templates/input-mask';
 
@@ -26,8 +19,10 @@ export class InputMask extends BaseDirective {
   public readonly label = input<string | null>(null);
   public readonly inputId = input<string | null>(null);
 
-  private readonly _inputElementRef = contentChild.required<ElementRef<HTMLInputElement>>('input');
-  protected readonly _inputElement = computed(() => this._inputElementRef().nativeElement);
+  private readonly _ngnInput = contentChild.required<NgnInput>(NgnInput);
+  protected readonly _inputElement = computed(
+    () => this._ngnInput().element.nativeElement as HTMLInputElement
+  );
 
   constructor() {
     super();
