@@ -1,17 +1,16 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MASKS, TextField, TextFieldMaskCfg } from '@ngneers/controls/text-field';
+import { NgnInput } from '@ngneers/controls/input';
+import { MASKS, InputMask, TextFieldMaskCfg } from '@ngneers/controls/input-mask';
 
 @Component({
-  imports: [FormsModule, TextField],
-  selector: 'ngn-text-field-mask',
+  imports: [FormsModule, NgnInput, InputMask],
+  selector: 'ngn-input-mask-demo',
   template: `
-    <ngn-text-field
-      [inputId]="'test-input'"
-      [ngModel]="value()"
-      (ngModelChange)="value.set($event)"
-      [mask]="mask"
-    />
+    test
+    <ngn-input-mask [inputId]="'test-input'" [mask]="mask">
+      <input #input ngnInput [ngModel]="value()" (ngModelChange)="value.set($event)" />
+    </ngn-input-mask>
     {{ value() }}
   `,
 })

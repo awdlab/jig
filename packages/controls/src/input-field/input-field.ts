@@ -6,7 +6,7 @@ import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/in
 
 import { InputfieldBase } from './input-field-base';
 
-const FORM_FIELD = new InjectionToken<Inputfield>('Inputfield');
+const FORM_FIELD = new InjectionToken<InputField>('Inputfield');
 
 @Component({
   imports: [NgClass],
@@ -15,11 +15,11 @@ const FORM_FIELD = new InjectionToken<Inputfield>('Inputfield');
   providers: [
     {
       provide: FORM_FIELD,
-      useExisting: forwardRef(() => Inputfield),
+      useExisting: forwardRef(() => InputField),
     },
   ],
 })
-export class Inputfield extends BaseDirective implements InputfieldBase {
+export class InputField extends BaseDirective implements InputfieldBase {
   protected readonly theme = injectThemeTemplate(inputFieldControlTemplate);
   private readonly _parentInputfield = inject(FORM_FIELD, { optional: true, skipSelf: true });
   protected readonly hasParentInputfield = !!this._parentInputfield;

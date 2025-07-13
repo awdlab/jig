@@ -1,18 +1,15 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TextField } from '@ngneers/controls/text-field';
+import { NgnInput } from '@ngneers/controls/input';
+import { InputField } from '@ngneers/controls/input-field';
 
 @Component({
-  imports: [FormsModule, TextField],
+  imports: [FormsModule, NgnInput, InputField],
   selector: 'ngn-text-field-base',
-  template: `
-    <ngn-text-field
-      [inputId]="'test-input'"
-      [ngModel]="value()"
-      (ngModelChange)="value.set($event)"
-    />
-    {{ value() }}
-  `,
+  template: `<ngn-input-field [inputId]="'test-input'">
+      <input ngnInput [ngModel]="value()" (ngModelChange)="value.set($event)" />
+    </ngn-input-field>
+    {{ value() }} `,
 })
 export class TextField_Base_Component {
   protected readonly value = signal<string>('');

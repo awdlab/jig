@@ -13,10 +13,10 @@ import {
 } from '@ngneers/controls/api';
 import { IconType } from '@ngneers/controls/custom-types';
 import { Icon } from '@ngneers/controls/icon';
-import { Inputfield } from '@ngneers/controls/input-field';
+import { InputField } from '@ngneers/controls/input-field';
+import { NgnInput } from '@ngneers/controls/input-mask';
 import { ListBox } from '@ngneers/controls/list-box';
 import { Popover, PopoverOptions } from '@ngneers/controls/popover';
-import { TextField } from '@ngneers/controls/text-field';
 import { asyncComputed } from '@ngneers/controls/utils';
 import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
 
@@ -28,11 +28,11 @@ import { SelectFilterOptions, SelectFilterOptionsInternal } from './types';
   templateUrl: './select.html',
   imports: [
     NgClass,
-    Inputfield,
+    InputField,
     FormsModule,
     ListBox,
-    TextField,
     Popover,
+    NgnInput,
     NgTemplateOutlet,
     NgnTemplate,
     Icon,

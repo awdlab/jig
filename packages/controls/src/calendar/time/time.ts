@@ -2,13 +2,14 @@ import { Component, computed, inject, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { injectThemeTemplate, Platform } from '@ngneers/controls/api';
 import { I18n } from '@ngneers/controls/i18n';
-import { TextField } from '@ngneers/controls/text-field';
+import { InputField } from '@ngneers/controls/input-field';
+import { MASKS, NgnInput, InputMask } from '@ngneers/controls/input-mask';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
 @Component({
   selector: 'ngn-calendar-time',
   templateUrl: './time.html',
-  imports: [FormsModule, TextField],
+  imports: [FormsModule, InputField, NgnInput, InputMask],
 })
 export class CalendarTime {
   protected readonly theme = injectThemeTemplate(calendarControlTemplate);
@@ -18,6 +19,7 @@ export class CalendarTime {
   public readonly currentValue = input.required<Date | null>();
   public readonly showSeconds = input.required<boolean>();
   public readonly timeChange = output<Date | null>();
+  public readonly mask = computed(() => (this.showSeconds() ? MASKS.timeSeconds : MASKS.time));
 
   protected readonly value = computed(() => {
     const currentValue = this.currentValue();

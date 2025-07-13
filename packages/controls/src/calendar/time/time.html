@@ -1,10 +1,23 @@
 <div>
-  <ngn-text-field
-    #input
-    [type]="'time'"
-    [step]="showSeconds() ? 1 : 60"
-    [ngModel]="value()"
-    (ngModelChange)="isMobile && onValueChange($event)"
-    (blurred)="!isMobile && onValueChange(input.value() || '')"
-  />
+  @if (isMobile) {
+    <ngn-input-field>
+      <input
+        type="time"
+        ngnInput
+        [step]="showSeconds() ? 1 : 60"
+        [ngModel]="value()"
+        (ngModelChange)="onValueChange($event)"
+      />
+    </ngn-input-field>
+  } @else {
+    <ngn-input-mask [mask]="mask()">
+      <input
+        #input
+        ngnInput
+        type="text"
+        [ngModel]="value()"
+        (blur)="onValueChange(input.value || '')"
+      />
+    </ngn-input-mask>
+  }
 </div>

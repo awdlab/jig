@@ -26,7 +26,8 @@
     <div [ngClass]="theme.class('popover-content')">
       @if (filter()) {
         <ngn-input-field [ngClass]="theme.class('filter')">
-          <ngn-text-field
+          <input
+            ngnInput
             [ngModel]="filterTextInternal()"
             (ngModelChange)="filterTextInternal.set($event)"
           />
