@@ -17,15 +17,17 @@ export const inputStyles = createThemePart({
   variables: [inputVariables],
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
-    css: ({ v, c }) => css`
+    css: ({ v, c, d }) => css`
       ${c()} {
         font-size: ${v('input.fontSize')};
         font-weight: ${v('input.fontWeight')};
         font-family: ${v('input.fontFamily')};
         color: ${v('input.color')};
-        width: 100%;
         background: transparent;
         border: none;
+      }
+      ${d('input-field')} ${c()} {
+        width: 100%;
       }
     `,
   },

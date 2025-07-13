@@ -25,4 +25,18 @@ export class InputField extends BaseDirective implements InputfieldBase {
 
   public readonly label = input<string | null>(null);
   public readonly inputId = input<string | null>(null);
+
+  protected clicked(event: MouseEvent) {
+    // Prevent click event from propagating to parent input field
+    if (this.hasParentInputfield) {
+      return;
+    }
+    if (event.target instanceof HTMLElement) {
+      // Focus the input element when the input field is clicked
+      const inputElement = event.target.querySelector('input, textarea');
+      if (inputElement) {
+        (inputElement as HTMLInputElement | HTMLTextAreaElement).focus();
+      }
+    }
+  }
 }

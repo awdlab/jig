@@ -27,7 +27,7 @@ export class InputMask extends BaseDirective {
   constructor() {
     super();
     afterRenderEffect(() => {
-      console.log('InputMask initialized', this._inputElement());
+      console.warn('TODO: Implement event listeners for input mask correctly');
       // TODO: Unsubscribe from these events when the component is destroyed
       this._inputElement().addEventListener('keydown', e => this.onKeyDown(e));
       this._inputElement().addEventListener('beforeinput', e => this.onBeforeInput(e));

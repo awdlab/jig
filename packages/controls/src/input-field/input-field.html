@@ -1,4 +1,5 @@
-<div [ngClass]="!hasParentInputfield ? theme.class() : null">
+<!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+<div [ngClass]="!hasParentInputfield ? theme.class() : null" (click)="clicked($event)">
   @if (label(); as label) {
     <label [ngClass]="theme.class('label')" [for]="inputId()">{{ label }}</label>
   }

@@ -46,6 +46,7 @@ export const inputFieldStyles = createThemePart({
       padding: '0.25rem 0.5rem',
       background: '{color.background}',
       color: '{color.text}',
+      cursor: 'text',
       outlineColor: 'transparent',
       transition:
         'border-color 0.1s ease-in-out, color 0.1s ease-in-out, outline-color 0.1s ease-in-out',
@@ -80,6 +81,8 @@ export const inputFieldStyles = createThemePart({
         outline-width: ${v('input-field.outlineWidth')};
         outline-style: solid;
         cursor: ${v('input-field.cursor')};
+        display: inline-flex;
+        align-items: center;
         &:hover {
           border-color: ${v('input-field.hover.borderColor')};
           border-width: ${v('input-field.hover.borderWidth')};

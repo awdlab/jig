@@ -8,8 +8,14 @@ import { InputField } from '@ngneers/controls/input-field';
   selector: 'ngn-text-field-base',
   template: `<ngn-input-field [inputId]="'test-input'">
       <input ngnInput [ngModel]="value()" (ngModelChange)="value.set($event)" />
+      🥳
     </ngn-input-field>
     {{ value() }} `,
+  styles: `
+    ngn-input-field {
+      display: flex;
+    }
+  `,
 })
 export class TextField_InputField_Component {
   protected readonly value = signal<string>('');
