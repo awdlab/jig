@@ -13,7 +13,7 @@ import { exampleData } from '../../helper/data';
       style="height: 300px"
       [items]="items"
       [virtual]="true"
-      [itemHeight]="35"
+      [itemHeight]="24"
       [padding]="2"
     >
       <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item>

@@ -1,10 +1,22 @@
 <div [ngClass]="theme.class('details')">
   <div [ngClass]="theme.class('navigation')">
-    <button [ngClass]="theme.class('previous')" (click)="prev()"><</button>
-    <button [ngClass]="theme.class('month')" (click)="switchToMonthsView.emit()">
+    <button
+      ngnButton
+      [kind]="'icon'"
+      [icon]="'fa-solid fa-chevron-left'"
+      [ngClass]="theme.class('previous')"
+      (click)="prev()"
+    ></button>
+    <button ngnButton [ngClass]="theme.class('month')" (click)="switchToMonthsView.emit()">
       {{ monthName() }}
     </button>
-    <button [ngClass]="theme.class('next')" (click)="next()">></button>
+    <button
+      ngnButton
+      [kind]="'icon'"
+      [icon]="'fa-solid fa-chevron-right'"
+      [ngClass]="theme.class('next')"
+      (click)="next()"
+    ></button>
   </div>
   <div class="ngn-calendar-days">
     @for (weekDay of weekDaysSorted(); track $index) {

@@ -1,6 +1,7 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject, input, output, TemplateRef } from '@angular/core';
 import { injectThemeTemplate } from '@ngneers/controls/api';
+import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
@@ -29,7 +30,7 @@ type WeekModel = {
 @Component({
   selector: 'ngn-calendar-days',
   templateUrl: './days.html',
-  imports: [NgTemplateOutlet, NgClass],
+  imports: [NgTemplateOutlet, NgClass, NgnButton],
 })
 export class CalendarDays {
   protected readonly theme = injectThemeTemplate(calendarControlTemplate);
