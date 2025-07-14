@@ -9,15 +9,15 @@ import {
 import { FormsModule } from '@angular/forms';
 import { NgnItem, NgnTemplate, templateTypeFn } from '@ngneers/controls/api';
 import { IconType } from '@ngneers/controls/custom-types';
-import { Dialog } from '@ngneers/controls/dialog';
+import { NgnDialog } from '@ngneers/controls/dialog';
 import { GlobalIconTemplate, IconTemplateData } from '@ngneers/controls/icon';
-import { ListBox } from '@ngneers/controls/list-box';
-import { Scroller } from '@ngneers/controls/scroller';
-import { Select, SelectFilterFn } from '@ngneers/controls/select';
+import { NgnListBox } from '@ngneers/controls/list-box';
+import { NgnScroller } from '@ngneers/controls/scroller';
+import { NgnSelect, SelectFilterFn } from '@ngneers/controls/select';
 @Component({
   templateUrl: 'playground.html',
   styleUrl: 'playground.scss',
-  imports: [FormsModule, Dialog, Select, NgnTemplate, Scroller, ListBox],
+  imports: [FormsModule, NgnDialog, NgnSelect, NgnTemplate, NgnScroller, NgnListBox],
 })
 export class PlaygroundComponent {
   private readonly _globalIconTemplate = inject(GlobalIconTemplate);

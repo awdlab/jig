@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ListBox } from '@ngneers/controls/list-box';
+import { NgnListBox } from '@ngneers/controls/list-box';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [ListBox, FormsModule],
+  imports: [NgnListBox, FormsModule],
   selector: 'ngn-list-box-value',
   template: `
     <ngn-list-box

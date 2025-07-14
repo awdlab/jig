@@ -27,7 +27,7 @@ import { ScrollerTemplates } from './scroller-templates';
     '[tabIndex]': 'focusable() ? 0 : -1',
   },
 })
-export class Scroller<T> extends ScrollerTemplates<T> {
+export class NgnScroller<T> extends ScrollerTemplates<T> {
   /**
    * The items to be displayed in the scroller.
    * This is a required input and should be an array of items of type T.

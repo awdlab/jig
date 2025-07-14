@@ -1,9 +1,9 @@
 import { NgClass } from '@angular/common';
 import { afterRenderEffect, Component, computed, contentChild, input, signal } from '@angular/core';
 import { injectThemeTemplate } from '@ngneers/controls/api';
-import { BaseDirective } from '@ngneers/controls/base';
+import { NgnBase } from '@ngneers/controls/base';
 import { NgnInput } from '@ngneers/controls/input';
-import { InputField } from '@ngneers/controls/input-field';
+import { NgnInputField } from '@ngneers/controls/input-field';
 import { inputMaskControlTemplate } from '@ngneers/controls-themes/templates/input-mask';
 
 import { MaskHelper } from './helper';
@@ -12,9 +12,9 @@ import { TextFieldMaskCfg } from './types';
 @Component({
   selector: 'ngn-input-mask',
   templateUrl: './input-mask.html',
-  imports: [NgClass, InputField],
+  imports: [NgClass, NgnInputField],
 })
-export class InputMask extends BaseDirective {
+export class NgnInputMask extends NgnBase {
   protected readonly theme = injectThemeTemplate(inputMaskControlTemplate);
   public readonly label = input<string | null>(null);
   public readonly inputId = input<string | null>(null);

@@ -24,12 +24,12 @@ import {
   NgnTemplate,
   templateTypeFn,
 } from '@ngneers/controls/api';
-import { BaseDirective } from '@ngneers/controls/base';
+import { NgnBase } from '@ngneers/controls/base';
 import { I18n } from '@ngneers/controls/i18n';
 import { Logger, NgnStateStorage, registerState } from '@ngneers/controls/utils';
 import { splitterControlTemplate } from '@ngneers/controls-themes/templates/splitter';
 
-import { SplitterPanel } from './panel/splitter-panel';
+import { NgnSplitterPanel } from './panel/splitter-panel';
 import { DefaultSplitterCalculator, SplitterCalculatorType } from './splitter-calculator';
 import { SplitterLayout, SplitterState, SplitterStateData } from './types';
 import { isSplitterPanelSize } from './utils';
@@ -52,7 +52,7 @@ import { isSplitterPanelSize } from './utils';
     '[attr.aria-labelledby]': 'ariaLabelledBy()',
   },
 })
-export class Splitter extends BaseDirective implements OnDestroy {
+export class NgnSplitter extends NgnBase implements OnDestroy {
   private readonly _viewContainer = inject(ViewContainerRef);
   private readonly _config = inject(NGN_CONFIG);
   protected readonly theme = injectThemeTemplate(splitterControlTemplate);
@@ -83,7 +83,7 @@ export class Splitter extends BaseDirective implements OnDestroy {
   private readonly _dividerTemplate =
     viewChild.required<TemplateRef<typeof this.dividerTemplateType>>('defaultDividerTemplate');
   public readonly dividers = signal<EmbeddedViewRef<typeof this.dividerTemplateType>[]>([]);
-  public readonly panels = contentChildren(SplitterPanel);
+  public readonly panels = contentChildren(NgnSplitterPanel);
   public readonly elementSize = elementSizeSignal(this.element);
 
   protected readonly hostClass = computed(() => {
@@ -171,7 +171,7 @@ export class Splitter extends BaseDirective implements OnDestroy {
     }
   }
 
-  private updateDividers(panels: readonly SplitterPanel[]) {
+  private updateDividers(panels: readonly NgnSplitterPanel[]) {
     this.dividers.update(divider => {
       if (divider.length === panels.length - 1) {
         return divider; // No need to update if the number of dividers matches the number of panels
@@ -201,7 +201,7 @@ export class Splitter extends BaseDirective implements OnDestroy {
     return viewRef;
   }
 
-  private moveDividerBefore(panel: SplitterPanel, divider: EmbeddedViewRef<unknown>) {
+  private moveDividerBefore(panel: NgnSplitterPanel, divider: EmbeddedViewRef<unknown>) {
     const panelElement = panel.element.nativeElement;
     divider.rootNodes.forEach(node => {
       if (node instanceof HTMLElement) {

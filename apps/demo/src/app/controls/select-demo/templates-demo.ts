@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Select } from '@ngneers/controls/select';
+import { NgnSelect } from '@ngneers/controls/select';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [Select],
+  imports: [NgnSelect],
   selector: 'ngn-select-templates',
   template: `<ngn-select #select [options]="options">
     <ng-template #item let-option>

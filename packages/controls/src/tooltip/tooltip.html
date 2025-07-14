@@ -1,9 +1,5 @@
 <div [ngClass]="theme.class('content')">
-  <ngn-lazy-cacher
-    [lazyContent]="contentTemplate()"
-    [open]="isOpen()"
-    [cache]="false"
-  ></ngn-lazy-cacher>
+  <ngn-defer [lazyContent]="contentTemplate()" [open]="isOpen()" [cache]="false"></ngn-defer>
 </div>
 
 <ng-template #defaultContentTemplate>

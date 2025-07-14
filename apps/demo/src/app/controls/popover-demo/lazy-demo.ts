@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Popover } from '@ngneers/controls/popover';
+import { NgnPopover } from '@ngneers/controls/popover';
 
 @Component({
   selector: 'ngn-lazy-test',
@@ -12,7 +12,7 @@ export class LazyComponent {
 }
 
 @Component({
-  imports: [Popover, LazyComponent],
+  imports: [NgnPopover, LazyComponent],
   selector: 'ngn-popover-lazy',
   template: `
     <button #anchor (click)="popover.open()">Open</button>

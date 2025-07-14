@@ -18,7 +18,7 @@ import {
   injectThemeTemplate,
   PositioningSizeConstraints,
 } from '@ngneers/controls/api';
-import { LazyCacher } from '@ngneers/controls/lazy-cacher';
+import { NgnDefer } from '@ngneers/controls/defer';
 import { computedWithPrevious } from '@ngneers/controls/utils';
 import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
 
@@ -36,9 +36,9 @@ export type PopoverOptions = {
 @Component({
   selector: 'ngn-popover',
   templateUrl: './popover.html',
-  imports: [NgClass, LazyCacher],
+  imports: [NgClass, NgnDefer],
 })
-export class Popover {
+export class NgnPopover {
   protected readonly theme = injectThemeTemplate(popoverControlTemplate);
   public readonly anchor = input.required<HTMLElement>();
   public readonly options = input<PopoverOptions>();

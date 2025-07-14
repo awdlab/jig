@@ -1,6 +1,6 @@
 import { Component, computed, input, model } from '@angular/core';
 import { injectThemeTemplate } from '@ngneers/controls/api';
-import { BaseDirective } from '@ngneers/controls/base';
+import { NgnBase } from '@ngneers/controls/base';
 import { generateElementId } from '@ngneers/controls/utils';
 import { splitterControlTemplate } from '@ngneers/controls-themes/templates/splitter';
 
@@ -17,7 +17,7 @@ import { SplitterPanelSize, SplitterPanelSizeLimit } from '../types';
     '[attr.aria-labelledby]': 'ariaLabelledBy()',
   },
 })
-export class SplitterPanel extends BaseDirective {
+export class NgnSplitterPanel extends NgnBase {
   protected readonly theme = injectThemeTemplate(splitterControlTemplate);
   private readonly _fallbackAreaName = generateElementId();
 

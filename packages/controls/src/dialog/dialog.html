@@ -13,9 +13,9 @@
     ></ng-template>
   </header>
 
-  <ngn-lazy-cacher [lazyContent]="lazyContent()" [open]="open()" [cache]="cache()">
+  <ngn-defer [lazyContent]="lazyContent()" [open]="open()" [cache]="cache()">
     <ng-content />
-  </ngn-lazy-cacher>
+  </ngn-defer>
 
   <footer>
     <ng-template [ngTemplateOutlet]="footerTemplate()"></ng-template>

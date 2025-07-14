@@ -21,7 +21,7 @@ import { GlobalIconTemplate } from './global-icon-template';
     '[attr.ngSkipHydration]': 'true',
   },
 })
-export class Icon {
+export class NgnIcon {
   private readonly _globalIconTemplate = inject(GlobalIconTemplate).globalIconTemplate;
 
   public readonly defaultIcon = input<string>();

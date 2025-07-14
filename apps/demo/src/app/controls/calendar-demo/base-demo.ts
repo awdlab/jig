@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Calendar } from '@ngneers/controls/calendar';
+import { NgnCalendar } from '@ngneers/controls/calendar';
 
 @Component({
-  imports: [FormsModule, Calendar],
+  imports: [FormsModule, NgnCalendar],
   selector: 'ngn-calendar-base',
   template: `
     <ngn-calendar

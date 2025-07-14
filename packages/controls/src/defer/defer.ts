@@ -2,11 +2,11 @@ import { NgTemplateOutlet } from '@angular/common';
 import { Component, effect, input, signal, TemplateRef } from '@angular/core';
 
 @Component({
-  selector: 'ngn-lazy-cacher',
-  templateUrl: './lazy-cacher.html',
+  selector: 'ngn-defer',
+  templateUrl: './defer.html',
   imports: [NgTemplateOutlet],
 })
-export class LazyCacher {
+export class NgnDefer {
   public readonly lazyContent = input<TemplateRef<unknown> | undefined | null>(undefined);
   public readonly open = input<boolean>(false);
   public readonly cache = input<boolean>(false);

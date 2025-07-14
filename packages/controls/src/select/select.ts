@@ -12,11 +12,11 @@ import {
   injectThemeTemplate,
 } from '@ngneers/controls/api';
 import { IconType } from '@ngneers/controls/custom-types';
-import { Icon } from '@ngneers/controls/icon';
-import { InputField } from '@ngneers/controls/input-field';
+import { NgnIcon } from '@ngneers/controls/icon';
+import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnInput } from '@ngneers/controls/input-mask';
-import { ListBox } from '@ngneers/controls/list-box';
-import { Popover, PopoverOptions } from '@ngneers/controls/popover';
+import { NgnListBox } from '@ngneers/controls/list-box';
+import { NgnPopover, PopoverOptions } from '@ngneers/controls/popover';
 import { asyncComputed } from '@ngneers/controls/utils';
 import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
 
@@ -28,23 +28,23 @@ import { SelectFilterOptions, SelectFilterOptionsInternal } from './types';
   templateUrl: './select.html',
   imports: [
     NgClass,
-    InputField,
+    NgnInputField,
     FormsModule,
-    ListBox,
-    Popover,
+    NgnListBox,
+    NgnPopover,
     NgnInput,
     NgTemplateOutlet,
     NgnTemplate,
-    Icon,
+    NgnIcon,
   ],
-  providers: [valueControlBaseProvider(Select)],
+  providers: [valueControlBaseProvider(NgnSelect)],
   host: {
     '[class]': 'theme.class("")',
   },
 })
-export class Select<T extends object, K extends keyof T> extends SelectTemplates<T, K> {
+export class NgnSelect<T extends object, K extends keyof T> extends SelectTemplates<T, K> {
   protected readonly theme = injectThemeTemplate(selectControlTemplate);
-  private readonly _popover = viewChild.required<Popover>(Popover);
+  private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);
 
   public readonly popoverOptions = input<PopoverOptions>({});
   protected readonly appliedPopoverOptions = computed(() => ({
@@ -62,7 +62,7 @@ export class Select<T extends object, K extends keyof T> extends SelectTemplates
   public readonly filterIcon = input<IconType>();
   public readonly virtual = input<boolean>(false);
   public readonly itemHeight = input<number>();
-  private readonly _listbox = viewChild(ListBox);
+  private readonly _listbox = viewChild(NgnListBox);
 
   protected readonly filterTextInternal = linkedSignal(this.filterText);
 

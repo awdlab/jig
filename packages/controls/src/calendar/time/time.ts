@@ -2,13 +2,13 @@ import { Component, computed, inject, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { injectThemeTemplate, Platform } from '@ngneers/controls/api';
 import { I18n } from '@ngneers/controls/i18n';
-import { MASKS, NgnInput, InputMask } from '@ngneers/controls/input-mask';
+import { MASKS, NgnInput, NgnInputMask } from '@ngneers/controls/input-mask';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
 @Component({
   selector: 'ngn-calendar-time',
   templateUrl: './time.html',
-  imports: [FormsModule, NgnInput, InputMask],
+  imports: [FormsModule, NgnInput, NgnInputMask],
 })
 export class CalendarTime {
   protected readonly theme = injectThemeTemplate(calendarControlTemplate);

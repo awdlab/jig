@@ -12,9 +12,9 @@ import { DayModel, WeekDay } from './types';
   selector: 'ngn-calendar',
   templateUrl: './calendar.html',
   imports: [NgnTemplate, NgClass, CalendarMonths, CalendarDays, CalendarTime],
-  providers: [valueControlBaseProvider(Calendar)],
+  providers: [valueControlBaseProvider(NgnCalendar)],
 })
-export class Calendar extends CalendarTemplates {
+export class NgnCalendar extends CalendarTemplates {
   protected readonly theme = injectThemeTemplate(calendarControlTemplate);
   protected readonly year = linkedSignal(
     () => this.value()?.getFullYear() || new Date().getFullYear()

@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { Dialog } from '@ngneers/controls/dialog';
+import { NgnDialog } from '@ngneers/controls/dialog';
 
 @Component({
-  imports: [Dialog],
+  imports: [NgnDialog],
   template: `<button (click)="open.set(true)">Open Dialog</button>
     <ngn-dialog [open]="open()" (closed)="open.set(false)"> Content </ngn-dialog>`,
 })

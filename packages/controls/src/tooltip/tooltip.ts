@@ -20,8 +20,8 @@ import {
   injectThemeTemplate,
   PositioningSizeConstraints,
 } from '@ngneers/controls/api';
-import { BaseDirective } from '@ngneers/controls/base';
-import { LazyCacher } from '@ngneers/controls/lazy-cacher';
+import { NgnBase } from '@ngneers/controls/base';
+import { NgnDefer } from '@ngneers/controls/defer';
 import { computedWithPrevious } from '@ngneers/controls/utils';
 import { tooltipControlTemplate } from '@ngneers/controls-themes/templates/tooltip';
 
@@ -29,7 +29,7 @@ import { tooltipControlTemplate } from '@ngneers/controls-themes/templates/toolt
   selector: '[ngnTooltip]',
   exportAs: 'ngnTooltip',
 })
-export class Tooltip extends BaseDirective implements OnDestroy {
+export class NgnTooltip extends NgnBase implements OnDestroy {
   private readonly _viewContainerRef = inject(ViewContainerRef);
   private _tooltip?: ComponentRef<TooltipComponent>;
 
@@ -105,14 +105,14 @@ export class Tooltip extends BaseDirective implements OnDestroy {
 @Component({
   selector: 'ngn-tooltip',
   templateUrl: './tooltip.html',
-  imports: [NgClass, LazyCacher],
+  imports: [NgClass, NgnDefer],
   host: {
     '[class]': `theme.class()`,
     '[attr.popover]': `''`,
     '(toggle)': 'onToggle($event)',
   },
 })
-export class TooltipComponent extends BaseDirective {
+export class TooltipComponent extends NgnBase {
   protected readonly theme = injectThemeTemplate(tooltipControlTemplate);
 
   public readonly anchor = input.required<HTMLElement>();

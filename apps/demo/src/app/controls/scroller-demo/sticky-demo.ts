@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api';
-import { Scroller } from '@ngneers/controls/scroller';
+import { NgnScroller } from '@ngneers/controls/scroller';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [Scroller, NgnTemplate],
+  imports: [NgnScroller, NgnTemplate],
   selector: 'ngn-list-box-sticky',
   template: `
     <ngn-scroller #scroller style="height: 300px" [items]="items" [fieldSticky]="'items'">

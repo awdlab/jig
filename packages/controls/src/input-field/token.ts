@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
 
-import { InputField } from './input-field';
+import { NgnInputField } from './input-field';
 
-export const FORM_FIELD = new InjectionToken<InputField>('Inputfield');
+export const FORM_FIELD = new InjectionToken<NgnInputField>('Inputfield');

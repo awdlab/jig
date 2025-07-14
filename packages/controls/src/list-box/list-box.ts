@@ -10,7 +10,7 @@ import {
   transformToNgnItems,
   valueControlBaseProvider,
 } from '@ngneers/controls/api';
-import { Scroller } from '@ngneers/controls/scroller';
+import { NgnScroller } from '@ngneers/controls/scroller';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
 
 import { ListBoxTemplates } from './list-box-templates';
@@ -18,10 +18,10 @@ import { ListBoxTemplates } from './list-box-templates';
 @Component({
   selector: 'ngn-list-box',
   templateUrl: './list-box.html',
-  imports: [NgTemplateOutlet, Scroller, NgnTemplate, NgClass],
-  providers: [valueControlBaseProvider(ListBox)],
+  imports: [NgTemplateOutlet, NgnScroller, NgnTemplate, NgClass],
+  providers: [valueControlBaseProvider(NgnListBox)],
 })
-export class ListBox<T extends object, K extends keyof T> extends ListBoxTemplates<T, K> {
+export class NgnListBox<T extends object, K extends keyof T> extends ListBoxTemplates<T, K> {
   protected readonly theme = injectThemeTemplate(listBoxControlTemplate);
 
   public readonly items = input<readonly NgnItem<T, K>[] | readonly T[]>([]);
@@ -31,7 +31,7 @@ export class ListBox<T extends object, K extends keyof T> extends ListBoxTemplat
   public readonly highlightable = input<boolean>(true);
   public readonly virtual = input<boolean>();
   public readonly itemHeight = input<number>();
-  private readonly _scroller = viewChild.required<Scroller<T>>(Scroller);
+  private readonly _scroller = viewChild.required<NgnScroller<T>>(NgnScroller);
 
   protected readonly formattedItems = computed(() => {
     const fields = this.fields();

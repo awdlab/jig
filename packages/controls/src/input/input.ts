@@ -1,6 +1,6 @@
 import { AfterViewInit, Directive, input, signal } from '@angular/core';
 import { injectThemeTemplate } from '@ngneers/controls/api';
-import { BaseDirective } from '@ngneers/controls/base';
+import { NgnBase } from '@ngneers/controls/base';
 import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 
@@ -11,7 +11,7 @@ import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/in
       'theme.class() + (invalid() ? ` ${theme.class("invalid")}` : "") + (hasParentInputfield() ? "" : ` ${inputFieldTheme.class()}`)',
   },
 })
-export class NgnInput extends BaseDirective implements AfterViewInit {
+export class NgnInput extends NgnBase implements AfterViewInit {
   protected readonly hasParentInputfield = signal(false);
 
   protected readonly theme = injectThemeTemplate(inputControlTemplate);

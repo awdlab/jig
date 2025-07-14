@@ -1,7 +1,6 @@
 import { Directive, input, signal, Type } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BaseDirective } from '@ngneers/controls/base';
-import { InputfieldBase } from '@ngneers/controls/input-field';
+import { NgnBase } from '@ngneers/controls/base';
 import { generateElementId } from '@ngneers/controls/utils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,10 +15,7 @@ export function valueControlBaseProvider<T extends Type<ValueControlBase<any>>>(
 }
 
 @Directive()
-export abstract class ValueControlBase<T>
-  extends BaseDirective
-  implements InputfieldBase, ControlValueAccessor
-{
+export abstract class ValueControlBase<T> extends NgnBase implements ControlValueAccessor {
   public readonly label = input<string | null>(null);
   public readonly inputId = input<string>(generateElementId());
 

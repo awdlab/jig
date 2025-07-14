@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgnInput } from '@ngneers/controls/input';
-import { InputField } from '@ngneers/controls/input-field';
+import { NgnInputField } from '@ngneers/controls/input-field';
 
 @Component({
-  imports: [FormsModule, NgnInput, InputField],
+  imports: [FormsModule, NgnInput, NgnInputField],
   selector: 'ngn-text-field-base',
   template: `<ngn-input-field [inputId]="'test-input'">
       <input ngnInput [ngModel]="value()" (ngModelChange)="value.set($event)" />

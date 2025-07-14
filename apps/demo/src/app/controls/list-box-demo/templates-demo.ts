@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { ListBox } from '@ngneers/controls/list-box';
+import { NgnListBox } from '@ngneers/controls/list-box';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [ListBox],
+  imports: [NgnListBox],
   selector: 'ngn-list-box-templates',
   template: `<ngn-list-box [items]="items" style="display: block; height: 300px;">
     <ng-template #item let-option>

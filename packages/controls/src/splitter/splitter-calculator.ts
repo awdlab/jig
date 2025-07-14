@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 import { Logger } from '@ngneers/controls/utils';
 
-import { SplitterPanel } from './panel/splitter-panel';
-import { Splitter } from './splitter';
+import { NgnSplitterPanel } from './panel/splitter-panel';
+import { NgnSplitter } from './splitter';
 import {
   SplitterLayout,
   SplitterPanelSize,
@@ -31,11 +31,11 @@ import {
 const LAST_CALC_SIZE_SYMBOL = Symbol('lastCalcSize');
 
 export interface SplitterCalculatorType {
-  new (splitter: Splitter): SplitterCalculator;
+  new (splitter: NgnSplitter): SplitterCalculator;
 }
 
 export interface SplitterCalculator {
-  orderedPanels: Signal<readonly SplitterPanel[]>;
+  orderedPanels: Signal<readonly NgnSplitterPanel[]>;
   gridTemplateSizes: Signal<string>;
   gridTemplateAreas: Signal<string | null>;
   dragContext: Signal<SplitterDragContext | null>;
@@ -62,18 +62,18 @@ export type SplitterDragContext = {
     min: ExpandedSplitterPanelSizeLimit;
     max: ExpandedSplitterPanelSizeLimit;
   };
-  leftPanel: SplitterPanel;
-  rightPanel: SplitterPanel;
+  leftPanel: NgnSplitterPanel;
+  rightPanel: NgnSplitterPanel;
 };
 
 export class DefaultSplitterCalculator implements SplitterCalculator {
-  protected readonly panels: Signal<readonly SplitterPanel[]>;
+  protected readonly panels: Signal<readonly NgnSplitterPanel[]>;
   protected readonly dividers: Signal<readonly EmbeddedViewRef<unknown>[]>;
   protected readonly panelOrder: Signal<readonly string[] | null | undefined>;
   protected readonly layout: Signal<SplitterLayout>;
   protected readonly splitterSize: Signal<number>;
 
-  constructor(splitter: Splitter) {
+  constructor(splitter: NgnSplitter) {
     this.panels = splitter.panels;
     this.dividers = splitter.dividers;
     this.panelOrder = splitter.panelOrder;
@@ -370,13 +370,13 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
     }
   }
 
-  private setPanelSize(panel: SplitterPanel, size: SplitterPanelSize) {
+  private setPanelSize(panel: NgnSplitterPanel, size: SplitterPanelSize) {
     panel.size.set(size);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (panel as any)[LAST_CALC_SIZE_SYMBOL] = size;
   }
 
-  private isPanelSizeCalculated(panel: SplitterPanel): boolean {
+  private isPanelSizeCalculated(panel: NgnSplitterPanel): boolean {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (panel as any)[LAST_CALC_SIZE_SYMBOL] === panel.size();
   }
@@ -384,8 +384,8 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
   private applyDividerDelta(
     pxDelta: number,
     options: {
-      leftPanel: SplitterPanel;
-      rightPanel: SplitterPanel;
+      leftPanel: NgnSplitterPanel;
+      rightPanel: NgnSplitterPanel;
       leftStartSize: { unit: SplitterPanelSizeUnit; value: number };
       rightStartSize: { unit: SplitterPanelSizeUnit; value: number };
       leftLimits: {
