@@ -17,7 +17,9 @@ export class Platform {
       this._deviceType.set('desktop');
       return;
     }
-    const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
+    const isSmallScreen =
+      window.matchMedia('(max-width: 768px)').matches ||
+      window.matchMedia('(max-height: 768px)').matches;
     if (isSmallScreen) {
       this._deviceType.set('mobile');
     } else {

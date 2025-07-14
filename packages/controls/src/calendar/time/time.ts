@@ -13,7 +13,7 @@ import { calendarControlTemplate } from '@ngneers/controls-themes/templates/cale
 export class CalendarTime {
   protected readonly theme = injectThemeTemplate(calendarControlTemplate);
   protected readonly i18n = inject(I18n).translations;
-  protected readonly isMobile = inject(Platform).isTouchDevice();
+  protected readonly isTouchDevice = inject(Platform).isTouchDevice();
 
   public readonly currentValue = input.required<Date | null>();
   public readonly showSeconds = input.required<boolean>();
