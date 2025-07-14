@@ -1,4 +1,12 @@
-import { afterRenderEffect, DestroyRef, ElementRef, inject, signal, Signal } from '@angular/core';
+import {
+  afterRenderEffect,
+  DestroyRef,
+  ElementRef,
+  inject,
+  Injector,
+  signal,
+  Signal,
+} from '@angular/core';
 
 export type Size = { width: number; height: number };
 
@@ -37,4 +45,18 @@ export function elementSizeSignal(
     resizeObserver.disconnect();
   });
   return sizeSignal;
+}
+
+const ABORT_SIGNAL_SYMBOL = Symbol('AbortSignal');
+export function abortSignalOnDestroy(options?: { injector?: Injector }): AbortSignal {
+  const destroyRef = options?.injector?.get(DestroyRef) ?? inject(DestroyRef);
+  if (ABORT_SIGNAL_SYMBOL in destroyRef) {
+    return destroyRef[ABORT_SIGNAL_SYMBOL] as AbortSignal;
+  }
+  const abortController = new AbortController();
+  destroyRef.onDestroy(() => {
+    abortController.abort();
+  });
+  (destroyRef as any)[ABORT_SIGNAL_SYMBOL] = abortController.signal;
+  return abortController.signal;
 }

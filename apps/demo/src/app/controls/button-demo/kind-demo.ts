@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { Button } from '@ngneers/controls/button';
+import { NgnButton } from '@ngneers/controls/button';
 
 @Component({
-  imports: [Button],
+  imports: [NgnButton],
   template: `
-    <ngn-button kind="primary">Primary</ngn-button>
-    <ngn-button kind="secondary">Secondary</ngn-button>
-    <ngn-button kind="text">Text</ngn-button>
-    <ngn-button kind="link">Link</ngn-button>
+    <button ngnButton [kind]="'primary'">Primary</button>
+    <button ngnButton [kind]="'secondary'">Secondary</button>
+    <button ngnButton [kind]="'text'">Text</button>
+    <button ngnButton [kind]="'link'">Link</button>
   `,
 })
 export class Button_Kind_Component {}

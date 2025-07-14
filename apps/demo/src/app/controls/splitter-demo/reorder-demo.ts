@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { Button } from '@ngneers/controls/button';
+import { NgnButton } from '@ngneers/controls/button';
 import { SplitterModule } from '@ngneers/controls/splitter';
 
 @Component({
-  imports: [SplitterModule, Button],
+  imports: [SplitterModule, NgnButton],
   selector: 'ngn-splitter-reorder',
   template: `
-    <ngn-button (clicked)="shufflePanels()">Shuffle panel order</ngn-button>
+    <button ngnButton (clicked)="shufflePanels()">Shuffle panel order</button>
     <ngn-splitter
       [layout]="'horizontal'"
       [panelOrder]="panelOrder()"

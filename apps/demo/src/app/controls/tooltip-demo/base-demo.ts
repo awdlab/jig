@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Button } from '@ngneers/controls/button';
+import { NgnButton } from '@ngneers/controls/button';
 import { Tooltip } from '@ngneers/controls/tooltip';
 
 @Component({
-  imports: [Button, Tooltip],
+  imports: [NgnButton, Tooltip],
   selector: 'ngn-tooltip-base',
-  template: `<ngn-button [ngnTooltip]="'Hello World!'">Hello</ngn-button>`,
+  template: `<button ngnButton [ngnTooltip]="'Hello World!'">Hello</button>`,
 })
 export class Tooltip_Base_Component {}

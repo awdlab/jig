@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
-import { Button } from '@ngneers/controls/button';
+import { NgnButton } from '@ngneers/controls/button';
 
 @Component({
-  imports: [Button],
-  template: `<ngn-button>Click Me!!!</ngn-button>`,
+  imports: [NgnButton],
+  template: `<button ngnButton (click)="onClick()">Click Me!!!</button>`,
 })
-export class Button_Base_Component {}
+export class Button_Base_Component {
+  protected onClick() {
+    alert('Hello!');
+  }
+}

@@ -1,14 +1,14 @@
 import { Component, signal } from '@angular/core';
-import { Button } from '@ngneers/controls/button';
+import { NgnButton } from '@ngneers/controls/button';
 import { SplitterLayout, SplitterModule } from '@ngneers/controls/splitter';
 
 @Component({
-  imports: [SplitterModule, Button],
+  imports: [SplitterModule, NgnButton],
   selector: 'ngn-splitter-state',
   template: `
     <div style="display: flex; gap: 8px;">
-      <ngn-button (clicked)="toggleLayout()">Toggle Layout</ngn-button>
-      <ngn-button (clicked)="shufflePanels()">Shuffle Panels</ngn-button>
+      <button ngnButton (clicked)="toggleLayout()">Toggle Layout</button>
+      <button ngnButton (clicked)="shufflePanels()">Shuffle Panels</button>
     </div>
     <ngn-splitter
       [layout]="layout()"

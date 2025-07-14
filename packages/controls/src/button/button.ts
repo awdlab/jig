@@ -1,33 +1,40 @@
-import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { Directive, input, OnDestroy } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { injectThemeTemplate } from '@ngneers/controls/api';
+import { BaseDirective } from '@ngneers/controls/base';
+import { ButtonKindType } from '@ngneers/controls/custom-types';
+import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
+import { pairwise, startWith } from 'rxjs';
 
-import { ButtonBase } from './button-base';
-
-@Component({
-  selector: 'ngn-button',
-  imports: [NgClass],
-  templateUrl: './button.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+@Directive({
+  selector: 'button[ngnButton], a[ngnButton]',
 })
-export class Button extends ButtonBase {
-  public readonly disabled = input(false);
-  public readonly autofocus = input<boolean | null>();
-  public readonly type = input<'button' | 'submit' | 'reset'>('button');
-  public readonly tabIndex = input<number | null>();
+export class NgnButton extends BaseDirective implements OnDestroy {
+  protected readonly theme = injectThemeTemplate(buttonControlTemplate);
 
-  public readonly ariaPressed = input<boolean | 'mixed' | null>();
-  public readonly ariaExpanded = input<boolean | null>();
-  public readonly ariaControls = input<string | null>();
-  public readonly ariaLabel = input<string | null>();
-  public readonly ariaLabelledBy = input<string | null>();
-  public readonly ariaDescribedBy = input<string | null>();
-  public readonly ariaDisabled = input<boolean | null>();
-  public readonly ariaHidden = input<boolean | null>();
+  public readonly kind = input<ButtonKindType | null>();
 
-  public readonly clicked = output<Event>();
-  public readonly focused = output<Event>();
-  public readonly blurred = output<Event>();
-  public readonly keyPressedDown = output<KeyboardEvent>();
-  public readonly keyReleased = output<KeyboardEvent>();
-  public readonly mouseEntered = output<MouseEvent>();
+  constructor() {
+    super();
+    this.element.nativeElement.classList.toggle(this.theme.class(), true);
+
+    toObservable(this.kind)
+      .pipe(takeUntilDestroyed(), startWith(null), pairwise())
+      .subscribe(([prev, next]) => {
+        if (prev) {
+          this.element.nativeElement.classList.toggle(this.theme.class(`kind-${prev}`), false);
+        }
+        if (next) {
+          this.element.nativeElement.classList.toggle(this.theme.class(`kind-${next}`), true);
+        }
+      });
+  }
+
+  public ngOnDestroy(): void {
+    this.element.nativeElement.classList.toggle(this.theme.class(), false);
+    const kind = this.kind();
+    if (kind) {
+      this.element.nativeElement.classList.toggle(this.theme.class(`kind-${kind}`), false);
+    }
+  }
 }
