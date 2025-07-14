@@ -12,6 +12,9 @@ export const calendarStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c, d }) => css`
+      ${c()} {
+        width: fit-content;
+      }
       ${c('details')} {
         display: flex;
         flex-direction: column;
@@ -55,6 +58,12 @@ export const calendarStyles = createThemePart({
           background: ${v('color.surface.300')};
         }
       }
+      ${c('day-today')} {
+        font-weight: ${v('font.weight.bold')};
+      }
+      ${c('day-other-month')} {
+        color: ${v('color.surface.400')};
+      }
       ${c('day-selected')} {
         background: ${v('color.surface.800')};
         color: ${v('color.surface.50')};
@@ -63,12 +72,6 @@ export const calendarStyles = createThemePart({
         &:active {
           background: ${v('color.surface.800')};
         }
-      }
-      ${c('day-today')} {
-        font-weight: ${v('font.weight.bold')};
-      }
-      ${c('day-other-month')} {
-        color: ${v('color.surface.400')};
       }
     `,
   },
