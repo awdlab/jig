@@ -7,22 +7,22 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgnItem, NgnTemplate, templateTypeFn } from '@ngneers/controls/api';
+import { NgnItem, templateTypeFn } from '@ngneers/controls/api';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnDialog } from '@ngneers/controls/dialog';
-import { GlobalIconTemplate, IconTemplateData } from '@ngneers/controls/icon';
+import { GlobalIconTemplate, IconTemplateContext } from '@ngneers/controls/icon';
 import { NgnListBox } from '@ngneers/controls/list-box';
 import { NgnScroller } from '@ngneers/controls/scroller';
 import { NgnSelect, SelectFilterFn } from '@ngneers/controls/select';
 @Component({
   templateUrl: 'playground.html',
   styleUrl: 'playground.scss',
-  imports: [FormsModule, NgnDialog, NgnSelect, NgnTemplate, NgnScroller, NgnListBox],
+  imports: [FormsModule, NgnDialog, NgnSelect, NgnScroller, NgnListBox],
 })
 export class PlaygroundComponent {
   private readonly _globalIconTemplate = inject(GlobalIconTemplate);
   private readonly _iconTemplate =
-    viewChild.required<TemplateRef<IconTemplateData>>('iconTemplate');
+    viewChild.required<TemplateRef<IconTemplateContext>>('iconTemplate');
 
   constructor() {
     afterRenderEffect(() => {

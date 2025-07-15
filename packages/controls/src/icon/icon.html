@@ -1,8 +1,30 @@
 @if (icon()) {
-  <ng-container *ngTemplateOutlet="usedIconTemplate(); context: { $implicit: icon() }">
+  <ng-container
+    *ngTemplateOutlet="
+      usedIconTemplate();
+      context: {
+        $implicit: {
+          icon: icon(),
+          size: size(),
+        },
+      }
+    "
+  >
   </ng-container>
 
-  <ng-template #defaultIconTemplate let-icon><i class="{{ icon }}"></i></ng-template>
+  <ng-template #defaultIconTemplate [ngnTemplate]="templateType" let-icon
+    ><i
+      [style.--fa-display]="'block'"
+      [style.font-size]="icon.size"
+      [style.width]="icon.size"
+      class="{{ icon.icon }}"
+    ></i
+  ></ng-template>
 } @else {
-  <i class="{{ defaultIcon() }}"></i>
+  <i
+    [style.font-size]="size()"
+    [style.width]="size()"
+    [style.--fa-display]="'block'"
+    class="{{ defaultIcon() }}"
+  ></i>
 }

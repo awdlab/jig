@@ -1,8 +1,8 @@
 import { Injectable, signal, TemplateRef } from '@angular/core';
-import { IconType } from '@ngneers/controls/custom-types';
 
-export type IconTemplateData = { $implicit: IconType };
-export type IconTemplateType = TemplateRef<IconTemplateData>;
+import { IconTemplateContext } from './types';
+
+export type IconTemplateType = TemplateRef<IconTemplateContext>;
 
 @Injectable({ providedIn: 'root' })
 export class GlobalIconTemplate {

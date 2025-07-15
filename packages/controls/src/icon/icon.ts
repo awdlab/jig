@@ -8,15 +8,17 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
+import { NgnTemplate, templateTypeFn } from '@ngneers/controls/api';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnError } from '@ngneers/controls/utils';
 
 import { GlobalIconTemplate } from './global-icon-template';
+import { IconTemplateContext } from './types';
 
 @Component({
   selector: 'ngn-icon',
   templateUrl: './icon.html',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, NgnTemplate],
   host: {
     '[attr.ngSkipHydration]': 'true',
   },
@@ -26,9 +28,12 @@ export class NgnIcon {
 
   public readonly defaultIcon = input<string>();
   public readonly icon = input<IconType>();
+  public readonly size = input<string>('1rem');
+
+  protected readonly templateType = templateTypeFn<IconTemplateContext['$implicit']>();
 
   private readonly _defaultIconTemplate =
-    viewChild.required<TemplateRef<{ $implicit: IconType }>>('defaultIconTemplate');
+    viewChild.required<TemplateRef<IconTemplateContext>>('defaultIconTemplate');
 
   protected readonly usedIconTemplate = computed(() => {
     const globalTemplate = this._globalIconTemplate();

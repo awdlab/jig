@@ -5,4 +5,6 @@ export interface NgnCustomTypes {
 
 export type IconType = NgnCustomTypes extends { icon: infer T } ? T : string;
 
-export type ButtonKindType = NgnCustomTypes extends { kind: { button: infer T } } ? T : string;
+export type ButtonKindType = NgnCustomTypes extends { kind: { button: infer T } }
+  ? T
+  : 'icon' | string;

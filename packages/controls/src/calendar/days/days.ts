@@ -3,6 +3,7 @@ import { Component, computed, inject, input, output, TemplateRef } from '@angula
 import { injectThemeTemplate } from '@ngneers/controls/api';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
+import { NgnIcon } from '@ngneers/controls/icon';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
 import {
@@ -30,7 +31,7 @@ type WeekModel = {
 @Component({
   selector: 'ngn-calendar-days',
   templateUrl: './days.html',
-  imports: [NgTemplateOutlet, NgClass, NgnButton],
+  imports: [NgTemplateOutlet, NgClass, NgnButton, NgnIcon],
 })
 export class CalendarDays {
   protected readonly theme = injectThemeTemplate(calendarControlTemplate);

@@ -25,20 +25,11 @@
   [ngModel]="selectedItem()"
   (ngModelChange)="selectedItem.set($event)"
   #select
-  [filterIcon]="{
-    prefix: 'fa-solid',
-    icon: 'fa-magnifying-glass',
-  }"
+  [filterIcon]="'fa-solid fa-magnifying-glass'"
 >
 </ngn-select>
 
 {{ selectedItem() }}
-
-<ng-template #iconTemplate [ngnTemplate]="iconType" let-icon>
-  <div class="bla">
-    <i class="{{ icon.prefix }} {{ icon.icon }}"></i>
-  </div>
-</ng-template>
 
 <div #parent style="height: 200px; width: 200px">
   <ngn-scroller [items]="items" [itemHeight]="30" [virtual]="true">

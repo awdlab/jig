@@ -21,6 +21,13 @@ export const calendarStyles = createThemePart({
         align-items: center;
         justify-content: center;
       }
+      ${c('navigation')} {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 ${v('size.padding.lg')};
+        width: 100%;
+      }
       ${c('days')} {
         display: grid;
         grid-template-columns: repeat(7, 1fr);

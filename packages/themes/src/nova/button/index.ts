@@ -1,97 +1,91 @@
-import {
-  buildVariationCombinationStyles,
-  combineVariableVariations,
-  createThemePart,
-  createVariableTemplate,
-  css,
-  repeatVariables,
-} from '@ngneers/controls-themes/api';
-import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
+import { createThemePart, createVariableTemplate, css } from '@ngneers/controls-themes/api';
+import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
-import { subKey } from 'packages/themes/src/api/utils/sub-key';
-
-const buttonKinds = ['', 'primary', 'secondary', 'text', 'link', 'icon'] as const;
-const buttonStates = ['', 'hover', 'focus', 'active', 'disabled'] as const;
 
 export const buttonVariables = createVariableTemplate({
   scope: 'button',
-  variables: {
-    // TODO: Find maybe better names for these functions
-    ...repeatVariables(combineVariableVariations(buttonKinds, buttonStates), {
-      background: null,
-      color: null,
-      borderColor: null,
-      borderRadius: null,
-      borderStyle: null,
-      fontSize: null,
-      fontWeight: null,
-      padding: null,
-    }),
-  },
+  variables: {},
 });
 
 export const buttonStyles = createThemePart({
   controlTemplate: buttonControlTemplate,
-  variables: [buttonVariables],
-  dependencies: [colorsTemplate, sizesTemplate],
+  variables: [],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
-    values: {
-      background: '{color.primary.default}',
-      color: '{color.text}',
-      borderRadius: '{size.rounded.md}',
-      fontSize: '0.875rem',
-      fontWeight: '600',
-      padding: '0.5rem 1rem',
-      hover: {
-        background: '{color.primary.200}',
-      },
-      focus: {
-        background: '{color.primary.300}',
-      },
-      active: {
-        background: '{color.primary.100}',
-      },
-      link: {
-        background: 'transparent',
-        color: '{color.primary.default}',
-        borderColor: 'transparent',
-      },
-    },
-    css: ({ v, c }) =>
-      css`
-        ${c()} {
-          border-radius: ${v('button.borderRadius')};
-          border-style: ${v('button.borderStyle')};
-          font-size: ${v('button.fontSize')};
-          font-weight: ${v('button.fontWeight')};
-          padding: ${v('button.padding')};
-          cursor: pointer;
+    css: ({ v, c }) => css`
+      ${c()} {
+        border-radius: ${v('size.rounded.md')};
+        border-style: none;
+        font-weight: ${v('font.weight.semibold')};
+        padding: ${v('size.padding.md')} ${v('size.padding.lg')};
+        cursor: pointer;
+      }
+      ${c('kind-primary')} {
+        background: ${v('color.primary.default')};
+        color: ${v('color.text')};
+        &:hover {
+          background: ${v('color.primary.300')};
         }
-        ${c('kind-link')} {
-          text-decoration: underline;
+        &:focus {
+          background: ${v('color.primary.200')};
         }
-        ${c('kind-circular')} {
-          aspect-ratio: 1 / 1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+        &:active {
+          background: ${v('color.primary.100')};
         }
-      ` +
-      // TODO: That function name is nasty :D
-      buildVariationCombinationStyles(
-        [buttonKinds, buttonStates],
-        (variation, state) => css`
-          ${c(variation ? `kind-${variation}` : '')}${state ? `:${state}` : ''} {
-            background: ${v(subKey('button', variation, state, 'background'))};
-            color: ${v(subKey('button', variation, state, 'color'))};
-            border-color: ${v(subKey('button', variation, state, 'borderColor'))};
-            border-radius: ${v(subKey('button', variation, state, 'borderRadius'))};
-            border-style: ${v(subKey('button', variation, state, 'borderStyle'))};
-            font-size: ${v(subKey('button', variation, state, 'fontSize'))};
-            font-weight: ${v(subKey('button', variation, state, 'fontWeight'))};
-            padding: ${v(subKey('button', variation, state, 'padding'))};
-          }
-        `
-      ),
+      }
+      ${c('kind-secondary')} {
+        background: ${v('color.secondary.default')};
+        color: ${v('color.text')};
+        &:hover {
+          background: ${v('color.secondary.400')};
+        }
+        &:focus {
+          background: ${v('color.secondary.300')};
+        }
+        &:active {
+          background: ${v('color.secondary.200')};
+        }
+      }
+      ${c('kind-text')} {
+        background: transparent;
+        &:hover {
+          background: ${v('color.primary.50')};
+        }
+        &:focus {
+          background: ${v('color.primary.100')};
+        }
+        &:active {
+          background: ${v('color.primary.200')};
+        }
+      }
+      ${c('kind-icon')} {
+        background: transparent;
+        border-radius: ${v('size.rounded.full')};
+        padding: ${v('size.padding.md')};
+        &:hover {
+          background: ${v('color.surface.100')};
+        }
+        &:focus {
+          background: ${v('color.surface.200')};
+        }
+        &:active {
+          background: ${v('color.surface.300')};
+        }
+      }
+      ${c('kind-link')} {
+        text-decoration: underline;
+        background: transparent;
+        color: ${v('color.primary.default')};
+        &:hover {
+          color: ${v('color.primary.500')};
+        }
+        &:focus {
+          color: ${v('color.primary.600')};
+        }
+        &:active {
+          color: ${v('color.primary.700')};
+        }
+      }
+    `,
   },
 });
