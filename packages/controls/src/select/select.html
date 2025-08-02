@@ -5,8 +5,9 @@
   #field
   [label]="label()"
   [inputId]="inputId()"
+  [tabindex]="0"
 >
-  <div class="ngn-select-trigger" tabindex="0">
+  <div class="ngn-select-trigger">
     <ng-template
       [ngTemplateOutlet]="selectedItemTemplate()"
       [ngTemplateOutletContext]="{

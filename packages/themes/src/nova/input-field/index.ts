@@ -30,10 +30,12 @@ export const inputFieldStyles = createThemePart({
         cursor: text;
         display: inline-flex;
         align-items: center;
+        width: 100%;
         &:hover {
           border-color: ${v('color.surface.500')};
         }
-        &:focus-within {
+        &:focus-within,
+        :focus {
           border-color: ${v('color.primary.default')};
           outline-color: ${v('color.primary.default')};
           outline-width: 1px;

@@ -24,6 +24,7 @@ export class NgnInputField extends NgnBase {
 
   public readonly label = input<string | null>(null);
   public readonly inputId = input<string | null>(null);
+  public readonly tabindex = input<number>();
 
   protected clicked(event: MouseEvent) {
     // Prevent click event from propagating to parent input field
