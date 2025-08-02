@@ -18,15 +18,13 @@ export const inputStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
     css: ({ v, c, d }) => css`
-      ${c()} {
+      ${d('input-field')} ${c()} {
         font-size: ${v('input.fontSize')};
         font-weight: ${v('input.fontWeight')};
         font-family: ${v('input.fontFamily')};
         color: ${v('input.color')};
         background: transparent;
         border: none;
-      }
-      ${d('input-field')} ${c()} {
         width: 100%;
       }
     `,

@@ -40,6 +40,7 @@ import { SelectFilterOptions, SelectFilterOptionsInternal } from './types';
   providers: [valueControlBaseProvider(NgnSelect)],
   host: {
     '[class]': 'theme.class("")',
+    style: 'display: block;',
   },
 })
 export class NgnSelect<T extends object, K extends keyof T> extends SelectTemplates<T, K> {
