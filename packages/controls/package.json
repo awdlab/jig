@@ -13,21 +13,21 @@
     "@ngneers/signal-translate": "^20.0.0"
   },
   "peerDependencies": {
-    "@angular/common": "^20.0.0",
-    "@angular/compiler": "^20.0.0",
-    "@angular/core": "^20.0.0",
-    "@angular/forms": "^20.0.0",
-    "@angular/platform-browser": "^20.0.0",
-    "@angular/router": "^20.0.0",
+    "@angular/common": "^20.1.4",
+    "@angular/compiler": "^20.1.4",
+    "@angular/core": "^20.1.4",
+    "@angular/forms": "^20.1.4",
+    "@angular/platform-browser": "^20.1.4",
+    "@angular/router": "^20.1.4",
     "rxjs": "~7.8.0",
     "@floating-ui/dom": "^1.7.1"
   },
   "devDependencies": {
-    "@angular/build": "^20.0.4",
-    "@angular/cli": "^20.0.4",
-    "@angular/compiler-cli": "^20.0.5",
+    "@angular/build": "^20.1.4",
+    "@angular/cli": "^20.1.4",
+    "@angular/compiler-cli": "^20.1.4",
     "angular-eslint": "20.1.1",
-    "ng-packagr": "^20.0.1",
+    "ng-packagr": "^20.1.0",
     "typescript": "~5.8.3"
   },
   "sideEffects": false
