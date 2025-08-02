@@ -31,6 +31,9 @@ export const selectStyles = createThemePart({
       },
     },
     css: ({ v, c, d }) => css`
+      ${c('input')} ${d('input-field')} {
+        cursor: pointer;
+      }
       ${c('popover-content')} {
         height: 100%;
         display: flex;
