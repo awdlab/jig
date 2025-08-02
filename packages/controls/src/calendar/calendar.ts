@@ -65,6 +65,10 @@ export class NgnCalendar extends CalendarTemplates {
     this.switchToView('days');
   }
 
+  protected selectYear(year: number) {
+    this.year.set(year);
+  }
+
   protected selectDay(day: DayModel) {
     const newValue = new Date(this.value() || new Date());
     newValue.setFullYear(this.year());

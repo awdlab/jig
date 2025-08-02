@@ -1,9 +1,11 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject, input, output, TemplateRef } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { injectThemeTemplate } from '@ngneers/controls/api';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
+import { NgnInput } from '@ngneers/controls/input';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
 import {
@@ -31,7 +33,7 @@ type WeekModel = {
 @Component({
   selector: 'ngn-calendar-days',
   templateUrl: './days.html',
-  imports: [NgTemplateOutlet, NgClass, NgnButton, NgnIcon],
+  imports: [FormsModule, NgTemplateOutlet, NgClass, NgnButton, NgnIcon, NgnInput],
 })
 export class CalendarDays {
   protected readonly theme = injectThemeTemplate(calendarControlTemplate);
@@ -48,11 +50,13 @@ export class CalendarDays {
   public readonly nextMonth = output();
   public readonly switchToMonthsView = output();
   public readonly daySelected = output<DayModel>();
+  public readonly yearSelected = output<number>();
   public readonly timeChanged = output<Date | null>();
 
   protected readonly i18n = inject(I18n).translations;
   protected readonly todaysDay = new Date().getDate();
   protected readonly todaysMonth = new Date().getMonth();
+  protected readonly todaysYear = new Date().getFullYear();
   protected readonly doTimeChange = (t: Date | null) => this.timeChanged.emit(t);
 
   protected readonly monthName = computed(() =>
@@ -131,5 +135,9 @@ export class CalendarDays {
 
   protected next() {
     this.nextMonth.emit();
+  }
+
+  protected selectYear(year: number) {
+    this.yearSelected.emit(year);
   }
 }

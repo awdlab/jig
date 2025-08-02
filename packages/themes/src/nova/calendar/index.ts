@@ -21,12 +21,17 @@ export const calendarStyles = createThemePart({
         align-items: center;
         justify-content: center;
       }
+      ${c('header')} {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: ${v('size.padding.sm')};
+        padding: 0 ${v('size.padding.md')};
+        width: 100%;
+      }
       ${c('navigation')} {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        padding: 0 ${v('size.padding.lg')};
-        width: 100%;
       }
       ${c('days')} {
         display: grid;
@@ -78,6 +83,30 @@ export const calendarStyles = createThemePart({
         &:focus,
         &:active {
           background: ${v('color.surface.800')};
+        }
+      }
+      ${c('year')} {
+        width: 60px;
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          display: none; // Chromium and WebKit
+        }
+        appearance: textfield; // Firefox
+      }
+      ${c('month')} {
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        padding: ${v('size.padding.md')} ${v('size.padding.lg')};
+        font-weight: ${v('font.weight.semibold')};
+        &:hover {
+          background: ${v('color.surface.100')};
+        }
+        &:focus {
+          background: ${v('color.surface.200')};
+        }
+        &:active {
+          background: ${v('color.surface.300')};
         }
       }
     `,

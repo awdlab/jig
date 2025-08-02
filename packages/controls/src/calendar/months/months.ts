@@ -1,7 +1,11 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, inject, input, output, TemplateRef } from '@angular/core';
-import { injectThemeTemplate } from '@ngneers/controls/api';
+import { FormsModule } from '@angular/forms';
+import { injectThemeTemplate, NgnItem } from '@ngneers/controls/api';
+import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
+import { NgnIcon } from '@ngneers/controls/icon';
+import { NgnInput } from '@ngneers/controls/input';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
 import { MONTHS, MonthTemplateType } from '../types';
@@ -9,14 +13,28 @@ import { MONTHS, MonthTemplateType } from '../types';
 @Component({
   selector: 'ngn-calendar-months',
   templateUrl: './months.html',
-  imports: [NgTemplateOutlet, NgClass],
+  imports: [FormsModule, NgTemplateOutlet, NgClass, NgnButton, NgnIcon, NgnInput],
 })
 export class CalendarMonths {
   protected readonly theme = injectThemeTemplate(calendarControlTemplate);
   public readonly year = input.required<number>();
   public readonly currentValue = input.required<Date | null>();
   public readonly monthSelected = output<number>();
+  public readonly yearSelected = output<number>();
   public readonly monthTemplate = input.required<TemplateRef<MonthTemplateType>>();
+
+  protected readonly years = Array.from({ length: 1000 }, (_, i) => 1500 + i).map(
+    y =>
+      <NgnItem>{
+        label: y.toString(),
+        value: y,
+        testId: `calendar-year-${y}`,
+      }
+  );
+
+  protected selectYear(year: number) {
+    this.yearSelected.emit(year);
+  }
 
   protected readonly i18n = inject(I18n).translations;
   protected readonly months = Array.from({ length: 12 }, (_, i) =>

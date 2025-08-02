@@ -10,6 +10,7 @@
         (nextMonth)="nextMonth()"
         (switchToMonthsView)="switchToView('months')"
         (daySelected)="selectDay($event)"
+        (yearSelected)="selectYear($event)"
         (timeChanged)="changeTime($event)"
         [dayTemplate]="dayTemplate()"
         [weekDayTemplate]="weekDayTemplate()"
@@ -25,6 +26,7 @@
         (previousYear)="previousYear()"
         (nextYear)="nextYear()"
         (monthSelected)="selectMonth($event)"
+        (yearSelected)="selectYear($event)"
         [monthTemplate]="monthTemplate()"
       />
     }
@@ -32,13 +34,7 @@
 </div>
 
 <ng-template #defaultDayTemplate [ngnTemplate]="templateTypes.day" let-day>
-  <span
-    [class.ngn-calendar-day-other-month]="day.fromOtherMonth"
-    [class.ngn-calendar-day-today]="day.today"
-    [class.ngn-calendar-day-selected]="day.selected"
-  >
-    {{ day.date }}
-  </span>
+  {{ day.date }}
 </ng-template>
 
 <ng-template #defaultWeekDayTemplate [ngnTemplate]="templateTypes.weekDay" let-weekDay>

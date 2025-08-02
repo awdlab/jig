@@ -14,6 +14,11 @@ export const sizesTemplate = createVariableTemplate({
       md: null,
       lg: null,
     },
+    gap: {
+      sm: null,
+      md: null,
+      lg: null,
+    },
   },
 });
 

@@ -6,6 +6,7 @@ export const calendarControlTemplate = createControlTemplate({
   classNames: [
     'input',
     'details',
+    'header',
     'navigation',
     'days',
     'week-day',
