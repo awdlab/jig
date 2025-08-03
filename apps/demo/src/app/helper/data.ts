@@ -89,9 +89,9 @@ const itemsGrouped = [
       { id: 'ec', label: 'Ecuador' },
     ],
   },
-];
+] as const;
 
-const items = itemsGrouped.flatMap(group => group.items);
+const items = itemsGrouped.map(group => group.items).flat();
 
 const flatGroupedItems = itemsGrouped.flatMap(group => [group, ...group.items]) as (
   | (typeof itemsGrouped)[number]

@@ -1,5 +1,10 @@
 <ngn-input-field
-  [ngClass]="theme.class('input')"
+  [ngClass]="
+    theme.classes({
+      input: true,
+      'input-editable': editable(),
+    })
+  "
   (click)="popover.open()"
   (keydown)="onKeyDown($event)"
   #field
@@ -7,14 +12,16 @@
   [inputId]="inputId()"
   [tabindex]="0"
 >
-  <div class="ngn-select-trigger">
+  @if (editable()) {
+    <input ngnInput [ngModel]="value()" (ngModelChange)="onEditableChange($event)" />
+  } @else {
     <ng-template
       [ngTemplateOutlet]="selectedItemTemplate()"
       [ngTemplateOutletContext]="{
         $implicit: selectedItem(),
       }"
     ></ng-template>
-  </div>
+  }
 </ngn-input-field>
 <ngn-popover
   #popover

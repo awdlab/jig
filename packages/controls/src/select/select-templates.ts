@@ -1,8 +1,19 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 import { NgnItem, templateTypesFn, ValueControlBase } from '@ngneers/controls/api';
 
+// @internal
+export type ValueType<T, K extends keyof T, Editable extends boolean> =
+  // If Editable is true, the value can be a string, otherwise it must match the type of T[K].
+  // When Editable is not specified, it has any type, so we need to handle that case.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  any extends Editable ? T[K] : Editable extends true ? string : T[K];
+
 @Directive()
-export abstract class SelectTemplates<T, K extends keyof T> extends ValueControlBase<T[K]> {
+export abstract class SelectTemplates<
+  T,
+  K extends keyof T,
+  Editable extends boolean,
+> extends ValueControlBase<ValueType<T, K, Editable>> {
   // Item template
   private readonly _defaultItemTemplate =
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');

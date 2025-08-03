@@ -20,7 +20,7 @@ import { NgnPopover, PopoverOptions } from '@ngneers/controls/popover';
 import { asyncComputed } from '@ngneers/controls/utils';
 import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
 
-import { SelectTemplates } from './select-templates';
+import { SelectTemplates, ValueType } from './select-templates';
 import { SelectFilterOptions, SelectFilterOptionsInternal } from './types';
 
 @Component({
@@ -43,7 +43,11 @@ import { SelectFilterOptions, SelectFilterOptionsInternal } from './types';
     style: 'display: block;',
   },
 })
-export class NgnSelect<T extends object, K extends keyof T> extends SelectTemplates<T, K> {
+export class NgnSelect<
+  T extends object = object,
+  K extends keyof T = never,
+  Editable extends boolean = false,
+> extends SelectTemplates<T, K, Editable> {
   protected readonly theme = injectThemeTemplate(selectControlTemplate);
   private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);
 
@@ -63,6 +67,7 @@ export class NgnSelect<T extends object, K extends keyof T> extends SelectTempla
   public readonly filterIcon = input<IconType>();
   public readonly virtual = input<boolean>(false);
   public readonly itemHeight = input<number>();
+  public readonly editable = input<Editable>();
   private readonly _listbox = viewChild(NgnListBox);
 
   protected readonly filterTextInternal = linkedSignal(this.filterText);
@@ -135,12 +140,25 @@ export class NgnSelect<T extends object, K extends keyof T> extends SelectTempla
 
   public onSelect(value: T[K]) {
     if (this.value() !== value) {
-      this.onChange(value);
+      if (this.editable()) {
+        const item = this._flatOptions().find(option => option.value === value);
+        if (item) {
+          this.onChange(item.label as ValueType<T, K, Editable>);
+        }
+      } else {
+        this.onChange(value);
+      }
     }
     this.close();
   }
 
   public close() {
     this._popover().close();
+  }
+
+  protected onEditableChange(value: string) {
+    if (this.editable()) {
+      this.onChange(value as ValueType<T, K, Editable>);
+    }
   }
 }

@@ -1,38 +1,22 @@
 import { createThemePart, createVariableTemplate, css } from '@ngneers/controls-themes/api';
-import { colorsTemplate } from '@ngneers/controls-themes/nova/base';
+import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
 
 export const selectVariables = createVariableTemplate({
   scope: 'select',
-  variables: {
-    content: {
-      borderColor: null,
-      borderRadius: null,
-      borderWidth: null,
-      padding: null,
-      background: null,
-      color: null,
-      boxShadow: null,
-    },
-    filter: {
-      margin: null,
-    },
-  },
+  variables: {},
 });
 
 export const selectStyles = createThemePart({
   controlTemplate: selectControlTemplate,
-  variables: [selectVariables],
-  dependencies: [colorsTemplate],
+  dependencies: [colorsTemplate, sizesTemplate],
   root: {
-    values: {
-      filter: {
-        margin: '0.5rem',
-      },
-    },
     css: ({ v, c, d }) => css`
       ${c('input')} ${d('input-field')} {
         cursor: pointer;
+      }
+      ${c('input-editable')} ${d('input-field')} {
+        cursor: text;
       }
       ${c('popover-content')} {
         height: 100%;
@@ -40,12 +24,12 @@ export const selectStyles = createThemePart({
         flex-direction: column;
       }
       ${c('filter')} {
-        margin: ${v('select.filter.margin')};
+        margin: ${v('size.padding.md')};
       }
       ${c('')} ${d('popover', 'content')} {
         padding: 0;
       }
-      ${c('')} ${d('list-box', '')} {
+      ${c('')} ${d('list-box')} {
         border-width: 0;
       }
     `,

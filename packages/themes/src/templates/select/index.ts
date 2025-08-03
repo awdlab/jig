@@ -5,6 +5,6 @@ import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popov
 
 export const selectControlTemplate = createControlTemplate({
   scope: 'select',
-  classNames: ['', 'input', 'popover-content', 'filter', 'list-box'],
+  classNames: ['', 'input', 'input-editable', 'popover-content', 'filter', 'list-box'],
   dependencies: [popoverControlTemplate, listBoxControlTemplate, inputFieldControlTemplate],
 });
