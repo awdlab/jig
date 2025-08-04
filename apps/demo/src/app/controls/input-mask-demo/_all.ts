@@ -5,9 +5,9 @@ export const stories: ComponentStories = {
   name: 'Input Mask',
   stories: [
     {
-      fileName: 'mask',
-      title: 'Mask',
-      component: () => import('./mask-demo').then(x => x.TextField_Mask_Component),
+      fileName: 'base',
+      title: 'Basic',
+      component: () => import('./base-demo').then(x => x.TextField_Mask_Component),
     },
   ],
 };
