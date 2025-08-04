@@ -1,26 +1,27 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, signal } from '@angular/core';
 import { NgnSelect } from '@ngneers/controls/select';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnSelect, FormsModule],
+  imports: [NgnSelect],
   selector: 'ngn-select-editable',
   template: `<ngn-select
     #select
     [options]="options"
     [popoverOptions]="{ sizeConstraints: { height: '200px' } }"
     [editable]="true"
-    [ngModel]="''"
-    (ngModelChange)="changed($event)"
+    (valueChange)="changed($event)"
+    [value]="value()"
     style="width: 200px"
   />`,
 })
 export class Select_Editable_Component {
   protected readonly options = exampleData.items.flatPreformatted;
 
-  protected changed(value: string) {
+  protected readonly value = signal<string | null>(null);
+
+  protected changed(value: string | null): void {
     console.log('Selected value:', value);
   }
 }

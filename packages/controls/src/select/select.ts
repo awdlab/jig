@@ -67,6 +67,11 @@ export class NgnSelect<
   public readonly filterIcon = input<IconType>();
   public readonly virtual = input<boolean>(false);
   public readonly itemHeight = input<number>();
+  /**
+   * Enable this to allow the user to type in a value that is not in the list.
+   * When enabled, the value of the control becomes the label of a selected item or the typed value.
+   * @default false
+   */
   public readonly editable = input<Editable>();
   private readonly _listbox = viewChild(NgnListBox);
 

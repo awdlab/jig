@@ -1,4 +1,4 @@
-import { Directive, input, signal, Type } from '@angular/core';
+import { Directive, input, model, Type } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgnBase } from '@ngneers/controls/base';
 import { generateElementId } from '@ngneers/controls/utils';
@@ -19,11 +19,10 @@ export abstract class ValueControlBase<T> extends NgnBase implements ControlValu
   public readonly label = input<string | null>(null);
   public readonly inputId = input<string>(generateElementId());
 
-  private readonly _value = signal<T | null>(null);
-  public readonly value = this._value.asReadonly();
+  public readonly value = model<T | null>(null);
 
   public writeValue(value: T | null): void {
-    this._value.set(value ?? null);
+    this.value.set(value ?? null);
   }
   private _onChange: (_: T | null) => void = () => {};
   public registerOnChange(fn: (value: T | null) => void): void {
@@ -40,6 +39,6 @@ export abstract class ValueControlBase<T> extends NgnBase implements ControlValu
 
   protected onChange(value: T) {
     this._onChange(value ?? null);
-    this._value.set(value ?? null);
+    this.value.set(value ?? null);
   }
 }
