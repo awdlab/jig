@@ -1,0 +1,22 @@
+<input
+  type="checkbox"
+  [value]="value()"
+  (change)="changed($event)"
+  [indeterminate]="indeterminate()"
+  [ngClass]="theme.class('input')"
+/>
+<div
+  [ngClass]="
+    theme.classes({
+      box: true,
+      'box-checked': !!value(),
+      'box-indeterminate': indeterminate(),
+    })
+  "
+>
+  @if (indeterminate()) {
+    <ngn-icon [icon]="iconIndeterminate()" [defaultIcon]="'fa-solid fa-minus'" />
+  } @else if (value()) {
+    <ngn-icon [icon]="iconChecked()" [defaultIcon]="'fa-solid fa-check'" />
+  }
+</div>

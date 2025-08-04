@@ -1,5 +1,6 @@
 import { stories as buttonStories } from './button-demo/_all';
 import { stories as calendarStories } from './calendar-demo/_all';
+import { stories as checkboxStories } from './checkbox-demo/_all';
 import { stories as dialogStories } from './dialog-demo/_all';
 import { stories as inputStories } from './input-demo/_all';
 import { stories as inputMaskStories } from './input-mask-demo/_all';
@@ -13,6 +14,7 @@ import { stories as tooltipStories } from './tooltip-demo/_all';
 export const allDemos = [
   buttonStories,
   calendarStories,
+  checkboxStories,
   dialogStories,
   inputMaskStories,
   inputStories,
