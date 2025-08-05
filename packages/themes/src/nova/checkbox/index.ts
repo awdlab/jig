@@ -24,6 +24,7 @@ export const checkboxStyles = createThemePart({
         position: absolute;
         inset: 0;
         cursor: pointer;
+        margin: 0;
       }
       ${c('box')} {
         display: flex;
@@ -31,10 +32,11 @@ export const checkboxStyles = createThemePart({
         justify-content: center;
         width: 1.5rem;
         height: 1.5rem;
-        border: 2px solid ${v('color.surface.300')};
-        & > {
-          display: block;
-        }
+        border: 2px solid ${v('color.surface.400')};
+        border-radius: ${v('size.rounded.sm')};
+      }
+      ${c('box-icon')} {
+        display: block;
       }
     `,
   },

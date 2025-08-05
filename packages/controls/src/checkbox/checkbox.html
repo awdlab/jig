@@ -15,8 +15,18 @@
   "
 >
   @if (indeterminate()) {
-    <ngn-icon [icon]="iconIndeterminate()" [defaultIcon]="'fa-solid fa-minus'" />
+    <ngn-icon
+      [ngClass]="theme.class('box-icon')"
+      [icon]="iconIndeterminate()"
+      [defaultIcon]="'fa-solid fa-minus'"
+    />
   } @else if (value()) {
-    <ngn-icon [icon]="iconChecked()" [defaultIcon]="'fa-solid fa-check'" />
+    <ngn-icon
+      [ngClass]="theme.class('box-icon')"
+      [icon]="iconChecked()"
+      [defaultIcon]="'fa-solid fa-check'"
+    />
+  } @else if (iconUnchecked()) {
+    <ngn-icon [ngClass]="theme.class('box-icon')" [icon]="iconUnchecked()" />
   }
 </div>
