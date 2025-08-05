@@ -85,7 +85,7 @@ export const calendarStyles = createThemePart({
           background: ${v('color.surface.800')};
         }
       }
-      ${c('year')} {
+      ${c('year')}${d('input')} {
         width: 60px;
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
