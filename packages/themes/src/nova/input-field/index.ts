@@ -1,11 +1,6 @@
-import { createThemePart, createVariableTemplate, css } from '@ngneers/controls-themes/api';
+import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
-
-export const inputFieldVariables = createVariableTemplate({
-  scope: 'input-field',
-  variables: {},
-});
 
 export const inputFieldStyles = createThemePart({
   controlTemplate: inputFieldControlTemplate,

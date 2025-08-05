@@ -1,22 +1,11 @@
-import { createThemePart, createVariableTemplate, css } from '@ngneers/controls-themes/api';
+import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { inputMaskControlTemplate } from '@ngneers/controls-themes/templates/input-mask';
 
-export const inputMaskVariables = createVariableTemplate({
-  scope: 'input-mask',
-  variables: {
-    maskTextColor: null,
-  },
-});
-
 export const inputMaskStyles = createThemePart({
   controlTemplate: inputMaskControlTemplate,
-  variables: [inputMaskVariables],
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
-    values: {
-      maskTextColor: '{color.surface.400}',
-    },
     css: ({ v, c }) => css`
       ${c()} {
         position: relative;
@@ -33,7 +22,7 @@ export const inputMaskStyles = createThemePart({
         opacity: 0;
       }
       ${c('mask-text')} {
-        color: ${v('input-mask.maskTextColor')};
+        color: ${v('color.surface.400')};
       }
     `,
   },

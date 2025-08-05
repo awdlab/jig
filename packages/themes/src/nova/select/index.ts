@@ -1,11 +1,6 @@
-import { createThemePart, createVariableTemplate, css } from '@ngneers/controls-themes/api';
+import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
-
-export const selectVariables = createVariableTemplate({
-  scope: 'select',
-  variables: {},
-});
 
 export const selectStyles = createThemePart({
   controlTemplate: selectControlTemplate,

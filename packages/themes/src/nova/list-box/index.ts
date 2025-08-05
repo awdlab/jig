@@ -1,141 +1,53 @@
-import {
-  combineVariableVariations,
-  createThemePart,
-  createVariableTemplate,
-  css,
-  repeatVariables,
-} from '@ngneers/controls-themes/api';
+import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
 
-const listBoxKinds = [''] as const;
-const listBoxStates = ['', 'disabled'] as const;
-
-export const listBoxVariables = createVariableTemplate({
-  scope: 'list-box',
-  variables: {
-    // TODO: Find maybe better names for these functions
-    ...repeatVariables(combineVariableVariations(listBoxKinds, listBoxStates), {
-      background: null,
-      color: null,
-      borderColor: null,
-    }),
-    borderRadius: null,
-    borderColor: null,
-    borderWidth: null,
-    fontSize: null,
-    fontWeight: null,
-    scroller: {
-      padding: null,
-    },
-    ...repeatVariables(
-      [...combineVariableVariations(['item'], ['', 'selected', 'highlighted']), 'group'],
-      {
-        background: null,
-        padding: null,
-        color: null,
-        borderRadius: null,
-        borderColor: null,
-        borderWidth: null,
-        hover: {
-          background: null,
-          color: null,
-        },
-      }
-    ),
-  },
-});
-
 export const listBoxStyles = createThemePart({
   controlTemplate: listBoxControlTemplate,
-  variables: [listBoxVariables],
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
-    values: {
-      borderRadius: '{size.rounded.md}',
-      borderColor: '{color.surface.300}',
-      borderWidth: '1px',
-      scroller: {
-        padding: '{size.rounded.sm}',
-      },
-      item: {
-        padding: '{size.rounded.md}',
-        borderRadius: '{size.rounded.md}',
-        borderWidth: '0',
-        hover: {
-          background: '{color.surface.200}',
-        },
-        selected: {
-          background: '{color.surface.300}',
-          hover: {
-            background: '{color.surface.300}',
-          },
-        },
-        highlighted: {
-          background: '{color.surface.200}',
-        },
-      },
-      group: {
-        padding: '0.5rem 0.5rem 0.5rem 1rem',
-        color: '{color.surface.600}',
-        borderRadius: '{size.rounded.md}',
-        borderWidth: '0',
-        background: '{color.surface.100}',
-        hover: {
-          background: '{color.surface.100}',
-        },
-      },
-    },
     css: ({ v, c }) => css`
       ${c()} {
-        border-radius: ${v('list-box.borderRadius')};
-        border-color: ${v('list-box.borderColor')};
-        border-width: ${v('list-box.borderWidth')};
+        border-radius: ${v('size.rounded.md')};
+        border-color: ${v('color.surface.300')};
+        border-width: 1px;
         border-style: solid;
       }
       ${c('scroller')} {
-        padding: ${v('list-box.scroller.padding')};
+        padding: ${v('size.padding.sm')};
       }
       ${c('item')} {
         display: inline-block;
         width: 100%;
-        padding: ${v('list-box.item.padding')};
-        background: ${v('list-box.item.background')};
-        color: ${v('list-box.item.color')};
-        border-radius: ${v('list-box.item.borderRadius')};
-        border-color: ${v('list-box.item.borderColor')};
-        border-width: ${v('list-box.item.borderWidth')};
+        padding: ${v('size.padding.md')};
+        border-radius: ${v('size.rounded.md')};
+        border-width: 0;
         border-style: solid;
         &:hover {
-          background: ${v('list-box.item.hover.background')};
-          color: ${v('list-box.item.hover.color')};
+          background: ${v('color.surface.200')};
         }
       }
       ${c('item-highlighted')} {
-        background: ${v('list-box.item.highlighted.background')};
-        color: ${v('list-box.item.color')};
+        background: ${v('color.surface.200')};
       }
       ${c('item-selected')} {
-        background: ${v('list-box.item.selected.background')};
-        color: ${v('list-box.item.color')};
+        background: ${v('color.surface.300')};
         &:hover {
-          background: ${v('list-box.item.selected.hover.background')};
-          color: ${v('list-box.item.hover.color')};
+          background: ${v('color.surface.300')};
         }
       }
       ${c('group')} {
         display: inline-block;
         width: 100%;
-        padding: ${v('list-box.group.padding')};
-        background: ${v('list-box.group.background')};
-        color: ${v('list-box.group.color')};
-        border-radius: ${v('list-box.group.borderRadius')};
-        border-color: ${v('list-box.group.borderColor')};
-        border-width: ${v('list-box.group.borderWidth')};
+        padding: ${v('size.padding.md')};
+        padding-left: ${v('size.padding.lg')};
+        background: ${v('color.surface.100')};
+        color: ${v('color.surface.600')};
+        border-radius: ${v('size.rounded.md')};
+        border-width: 0;
         border-style: solid;
         &:hover {
-          background: ${v('list-box.group.hover.background')};
-          color: ${v('list-box.group.hover.color')};
+          background: ${v('color.surface.100')};
         }
       }
     `,

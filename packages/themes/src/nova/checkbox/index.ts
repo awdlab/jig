@@ -1,11 +1,6 @@
-import { createThemePart, createVariableTemplate, css } from '@ngneers/controls-themes/api';
+import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
-
-export const checkboxVariables = createVariableTemplate({
-  scope: 'checkbox',
-  variables: {},
-});
 
 export const checkboxStyles = createThemePart({
   controlTemplate: checkboxControlTemplate,

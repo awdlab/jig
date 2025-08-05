@@ -1,11 +1,6 @@
-import { createThemePart, createVariableTemplate, css } from '@ngneers/controls-themes/api';
+import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { colorsTemplate, sizesTemplate, fontTemplate } from '@ngneers/controls-themes/nova/base';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
-
-export const calendarVariables = createVariableTemplate({
-  scope: 'calendar',
-  variables: {},
-});
 
 export const calendarStyles = createThemePart({
   controlTemplate: calendarControlTemplate,

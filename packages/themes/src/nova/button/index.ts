@@ -1,15 +1,9 @@
-import { createThemePart, createVariableTemplate, css } from '@ngneers/controls-themes/api';
+import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
 
-export const buttonVariables = createVariableTemplate({
-  scope: 'button',
-  variables: {},
-});
-
 export const buttonStyles = createThemePart({
   controlTemplate: buttonControlTemplate,
-  variables: [],
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c }) => css`
