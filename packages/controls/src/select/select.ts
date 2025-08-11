@@ -76,6 +76,9 @@ export class NgnSelect<
       });
     });
     effect(() => {
+      if (!this.editable()) {
+        return;
+      }
       const valueSig = this._customEditableInput()?.value;
       if (valueSig) {
         setInputSignalValue(valueSig, this.value() || '');
