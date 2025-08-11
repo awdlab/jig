@@ -1,6 +1,13 @@
 import { NgClass } from '@angular/common';
 import { Component, input, linkedSignal, signal } from '@angular/core';
-import { injectThemeTemplate, NgnTemplate, valueControlBaseProvider } from '@ngneers/controls/api';
+import {
+  injectThemeTemplate,
+  NgnItem,
+  NgnTemplate,
+  valueControlBaseProvider,
+} from '@ngneers/controls/api';
+import { NgnInput } from '@ngneers/controls/input';
+import { NgnSelect } from '@ngneers/controls/select';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
 import { CalendarTemplates } from './calendar-templates';
@@ -8,10 +15,20 @@ import { CalendarDays } from './days/days';
 import { CalendarMonths } from './months/months';
 import { CalendarTime } from './time/time';
 import { DayModel, WeekDay } from './types';
+
+function generateYearOptions(): NgnItem[] {
+  const MAX_ITEMS = 200;
+  const currentYear = new Date().getFullYear();
+  return Array.from({ length: MAX_ITEMS }, (_, i) => ({
+    label: (currentYear - MAX_ITEMS / 2 + i).toString(),
+    value: currentYear - MAX_ITEMS / 2 + i,
+  }));
+}
+
 @Component({
   selector: 'ngn-calendar',
   templateUrl: './calendar.html',
-  imports: [NgnTemplate, NgClass, CalendarMonths, CalendarDays, CalendarTime],
+  imports: [NgnTemplate, NgClass, NgnInput, NgnSelect, CalendarMonths, CalendarDays, CalendarTime],
   providers: [valueControlBaseProvider(NgnCalendar)],
 })
 export class NgnCalendar extends CalendarTemplates {
@@ -25,6 +42,7 @@ export class NgnCalendar extends CalendarTemplates {
   public readonly showSeconds = input<boolean>(false);
 
   protected readonly currentView = signal<'days' | 'months'>('days');
+  protected readonly yearOptions = generateYearOptions();
 
   protected readonly previousMonth = () => {
     const currentMonth = this.month();

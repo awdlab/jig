@@ -15,6 +15,7 @@
         [dayTemplate]="dayTemplate()"
         [weekDayTemplate]="weekDayTemplate()"
         [timeTemplate]="timeTemplate()"
+        [yearTemplate]="yearTemplate()"
         [showTime]="showTime()"
         [showSeconds]="showSeconds()"
       />
@@ -28,6 +29,7 @@
         (monthSelected)="selectMonth($event)"
         (yearSelected)="selectYear($event)"
         [monthTemplate]="monthTemplate()"
+        [yearTemplate]="yearTemplate()"
       />
     }
   }
@@ -56,5 +58,22 @@
       [showSeconds]="time.showSeconds"
       (timeChange)="time.change($event)"
     />
+  }
+</ng-template>
+
+<ng-template #defaultYearTemplate [ngnTemplate]="templateTypes.year" let-y>
+  @defer {
+    <ngn-select
+      [editable]="true"
+      [value]="year() + ''"
+      (valueChange)="y.change(+($event || 0))"
+      [options]="yearOptions"
+      [virtual]="true"
+      [itemHeight]="40"
+      [popoverOptions]="{ sizeConstraints: { maxHeight: '300px' } }"
+      [ngClass]="theme.class('year')"
+    >
+      <input ngnInput type="number" aria-label="Select year" />
+    </ngn-select>
   }
 </ng-template>

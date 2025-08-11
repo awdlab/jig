@@ -30,6 +30,12 @@ export const stories: ComponentStories = {
       component: () => import('./editable-demo').then(x => x.Select_Editable_Component),
     },
     {
+      fileName: 'editable-custom',
+      title: 'Editable Custom',
+      component: () =>
+        import('./editable-custom-demo').then(x => x.Select_Editable_Custom_Component),
+    },
+    {
       fileName: 'templates',
       title: 'Templates',
       component: () => import('./templates-demo').then(x => x.Select_Templates_Component),

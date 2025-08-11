@@ -1,6 +1,7 @@
 import { createControlTemplate } from '@ngneers/controls-themes/api';
 import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
 import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
+import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
 
 export const calendarControlTemplate = createControlTemplate({
   scope: 'calendar',
@@ -22,5 +23,5 @@ export const calendarControlTemplate = createControlTemplate({
     'next',
     'previous',
   ],
-  dependencies: [buttonControlTemplate, inputControlTemplate],
+  dependencies: [buttonControlTemplate, selectControlTemplate, inputControlTemplate],
 });

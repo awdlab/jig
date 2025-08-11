@@ -4,8 +4,8 @@
       type="time"
       ngnInput
       [step]="showSeconds() ? 1 : 60"
-      [ngModel]="value()"
-      (ngModelChange)="onValueChange($event)"
+      [value]="value()"
+      (valueChange)="onValueChange($event)"
     />
   } @else {
     <ngn-input-mask [mask]="mask()">
@@ -13,7 +13,7 @@
         #input
         ngnInput
         type="text"
-        [ngModel]="value()"
+        [value]="value()"
         (blur)="onValueChange(input.value || '')"
       />
     </ngn-input-mask>

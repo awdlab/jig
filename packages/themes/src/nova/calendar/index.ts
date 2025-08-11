@@ -80,8 +80,8 @@ export const calendarStyles = createThemePart({
           background: ${v('color.surface.800')};
         }
       }
-      ${c('year')}${d('input')} {
-        width: 60px;
+      ${c('year')}${d('select')} {
+        width: 4.5rem;
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
           display: none; // Chromium and WebKit

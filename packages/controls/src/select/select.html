@@ -13,7 +13,9 @@
   [tabindex]="0"
 >
   @if (editable()) {
-    <input ngnInput [ngModel]="value()" (ngModelChange)="onEditableChange($event)" />
+    <ng-content select="[ngnInput]">
+      <input ngnInput [value]="value() || ''" (valueChange)="onEditableChange($event)" />
+    </ng-content>
   } @else {
     <ng-template
       [ngTemplateOutlet]="selectedItemTemplate()"
@@ -36,8 +38,8 @@
         <ngn-input-field [ngClass]="theme.class('filter')">
           <input
             ngnInput
-            [ngModel]="filterTextInternal()"
-            (ngModelChange)="filterTextInternal.set($event)"
+            [value]="filterTextInternal()"
+            (valueChange)="filterTextInternal.set($event)"
           />
           <ngn-icon defaultIcon="fa-solid fa-magnifying-glass" [icon]="filterIcon()" />
           @if (filterIsExecuting()) {
@@ -62,8 +64,8 @@
           label: 'label',
           testId: 'testId',
         }"
-        [ngModel]="selectedItem()?.value"
-        (ngModelChange)="onSelect($event)"
+        [value]="selectedItem()?.value"
+        (valueChange)="onSelect($event)"
       />
     </div>
   </ng-template>

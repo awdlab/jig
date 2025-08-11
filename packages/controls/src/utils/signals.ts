@@ -1,4 +1,5 @@
-import { computed, effect, Signal, signal } from '@angular/core';
+import { computed, effect, InputSignal, Signal, signal } from '@angular/core';
+import { SIGNAL } from '@angular/core/primitives/signals';
 
 export function computedWithPrevious<T>(computeFn: (prev?: T) => T, previous?: T): () => T {
   let current = previous;
@@ -40,4 +41,8 @@ export function asyncComputed<T>(
   const returnFn = returnSignal as unknown as { (): T; isRunning: Signal<boolean> };
   returnFn.isRunning = isRunning;
   return returnFn;
+}
+
+export function setInputSignalValue<T>(input: InputSignal<T>, value: T): void {
+  input[SIGNAL].applyValueToInputSignal(input[SIGNAL], value);
 }

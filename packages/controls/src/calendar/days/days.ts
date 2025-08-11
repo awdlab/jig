@@ -1,11 +1,9 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject, input, output, TemplateRef } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { injectThemeTemplate } from '@ngneers/controls/api';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnInput } from '@ngneers/controls/input';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
 import {
@@ -16,6 +14,7 @@ import {
   WEEK_DAYS,
   WeekDay,
   WeekDayTemplateType,
+  YearTemplateType,
 } from '../types';
 
 // Configuration: Number of weeks to show before and after the current month
@@ -33,7 +32,7 @@ type WeekModel = {
 @Component({
   selector: 'ngn-calendar-days',
   templateUrl: './days.html',
-  imports: [FormsModule, NgTemplateOutlet, NgClass, NgnButton, NgnIcon, NgnInput],
+  imports: [NgTemplateOutlet, NgClass, NgnButton, NgnIcon],
 })
 export class CalendarDays {
   protected readonly theme = injectThemeTemplate(calendarControlTemplate);
@@ -44,6 +43,7 @@ export class CalendarDays {
   public readonly dayTemplate = input.required<TemplateRef<DayTemplateType>>();
   public readonly weekDayTemplate = input.required<TemplateRef<WeekDayTemplateType>>();
   public readonly timeTemplate = input.required<TemplateRef<TimeTemplateType>>();
+  public readonly yearTemplate = input.required<TemplateRef<YearTemplateType>>();
   public readonly showTime = input.required<boolean>();
   public readonly showSeconds = input.required<boolean>();
   public readonly previousMonth = output();
@@ -58,6 +58,7 @@ export class CalendarDays {
   protected readonly todaysMonth = new Date().getMonth();
   protected readonly todaysYear = new Date().getFullYear();
   protected readonly doTimeChange = (t: Date | null) => this.timeChanged.emit(t);
+  protected readonly doYearChange = (t: number) => this.yearSelected.emit(t);
 
   protected readonly monthName = computed(() =>
     this.i18n[`calendar_months_${MONTHS[this.month()]}`]()

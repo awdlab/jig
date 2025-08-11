@@ -65,3 +65,10 @@ export type TimeTemplateType = {
     change: (newTime: Date | null) => void;
   };
 };
+
+export type YearTemplateType = {
+  $implicit: {
+    year: number;
+    change: (newYear: number) => void;
+  };
+};

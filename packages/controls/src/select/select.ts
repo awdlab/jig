@@ -1,6 +1,15 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, computed, input, linkedSignal, signal, viewChild } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  Component,
+  computed,
+  contentChild,
+  effect,
+  input,
+  linkedSignal,
+  OutputRefSubscription,
+  signal,
+  viewChild,
+} from '@angular/core';
 import {
   filterOptions,
   NgnTemplate,
@@ -17,7 +26,7 @@ import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnInput } from '@ngneers/controls/input-mask';
 import { NgnListBox } from '@ngneers/controls/list-box';
 import { NgnPopover, PopoverOptions } from '@ngneers/controls/popover';
-import { asyncComputed } from '@ngneers/controls/utils';
+import { asyncComputed, setInputSignalValue } from '@ngneers/controls/utils';
 import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
 
 import { SelectTemplates, ValueType } from './select-templates';
@@ -29,7 +38,6 @@ import { SelectFilterOptions, SelectFilterOptionsInternal } from './types';
   imports: [
     NgClass,
     NgnInputField,
-    FormsModule,
     NgnListBox,
     NgnPopover,
     NgnInput,
@@ -50,6 +58,30 @@ export class NgnSelect<
 > extends SelectTemplates<T, K, Editable> {
   protected readonly theme = injectThemeTemplate(selectControlTemplate);
   private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);
+  private readonly _customEditableInput = contentChild(NgnInput);
+  private _customEditableSub?: OutputRefSubscription;
+
+  constructor() {
+    super();
+    effect(() => {
+      this._customEditableSub?.unsubscribe();
+      const editable = this.editable();
+      const customEditableInput = this._customEditableInput();
+      if (!editable || !customEditableInput) {
+        return;
+      }
+
+      this._customEditableSub = customEditableInput.valueChange.subscribe(value => {
+        this.onEditableChange(value);
+      });
+    });
+    effect(() => {
+      const valueSig = this._customEditableInput()?.value;
+      if (valueSig) {
+        setInputSignalValue(valueSig, this.value() || '');
+      }
+    });
+  }
 
   public readonly popoverOptions = input<PopoverOptions>({});
   protected readonly appliedPopoverOptions = computed(() => ({

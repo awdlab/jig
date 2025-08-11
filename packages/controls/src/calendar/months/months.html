@@ -8,14 +8,16 @@
         <ngn-icon [defaultIcon]="'fa-solid fa-chevron-right'" />
       </button>
     </div>
-    <input
-      ngnInput
-      [ngModel]="year()"
-      (ngModelChange)="selectYear($event)"
-      [ngClass]="theme.class('year')"
-      type="number"
-      pattern="[0-9]*"
-      aria-label="Select year"
+    <ng-container
+      *ngTemplateOutlet="
+        yearTemplate();
+        context: {
+          $implicit: {
+            year: year(),
+            change: doYearChange,
+          },
+        }
+      "
     />
   </div>
   <div [ngClass]="theme.class('months')">
@@ -31,9 +33,7 @@
               },
             }
           "
-        >
-          {{ month }}
-        </ng-container>
+        />
       </button>
     }
   </div>
