@@ -5,7 +5,7 @@
       ngnInput
       [step]="showSeconds() ? 1 : 60"
       [value]="value()"
-      (valueChange)="onValueChange($event)"
+      (valueChange)="onValueChange($event || '')"
     />
   } @else {
     <ngn-input-mask [mask]="mask()">

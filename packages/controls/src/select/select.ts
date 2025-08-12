@@ -92,7 +92,7 @@ export class NgnSelect<
   /**
    * Manually set the filter text.
    */
-  public readonly filterText = input<string>();
+  public readonly filterText = input<string | null>(null);
   /**
    * The icon to display in the filter input.
    */
@@ -177,7 +177,7 @@ export class NgnSelect<
         return;
       }
 
-      this._customEditableSub = customEditableInput.valueChange.subscribe(value => {
+      this._customEditableSub = customEditableInput.value.subscribe(value => {
         this.onEditableChange(value);
       });
     });
@@ -229,7 +229,7 @@ export class NgnSelect<
     this._popover().close();
   }
 
-  protected onEditableChange(value: string) {
+  protected onEditableChange(value: string | null) {
     if (this.editable()) {
       this.onChange(value as ValueType<T, K, Editable>);
     }

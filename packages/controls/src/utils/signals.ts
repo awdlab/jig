@@ -1,5 +1,16 @@
-import { computed, effect, InputSignal, Signal, signal } from '@angular/core';
+import {
+  computed,
+  effect,
+  inject,
+  Injector,
+  InputSignal,
+  runInInjectionContext,
+  signal,
+  Signal,
+} from '@angular/core';
 import { SIGNAL } from '@angular/core/primitives/signals';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { fromEvent } from 'rxjs/internal/observable/fromEvent';
 
 export function computedWithPrevious<T>(computeFn: (prev?: T) => T, previous?: T): () => T {
   let current = previous;
@@ -45,4 +56,22 @@ export function asyncComputed<T>(
 
 export function setInputSignalValue<T>(input: InputSignal<T>, value: T): void {
   input[SIGNAL].applyValueToInputSignal(input[SIGNAL], value);
+}
+
+export function fromEventSignal<T extends Event>(
+  element: HTMLElement,
+  eventName: string,
+  injector?: Injector
+): Signal<T | null> {
+  const inj = injector ?? inject(Injector);
+  const res = runInInjectionContext(inj, () => {
+    const sig = signal<T | null>(null);
+    fromEvent<T>(element, eventName)
+      .pipe(takeUntilDestroyed())
+      .subscribe(value => {
+        sig.set(value);
+      });
+    return sig;
+  });
+  return res;
 }
