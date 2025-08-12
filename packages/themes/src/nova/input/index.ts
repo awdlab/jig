@@ -11,7 +11,9 @@ export const inputStyles = createThemePart({
         background: transparent;
         border: none;
         width: 100%;
+        height: 100%;
         outline: none;
+        resize: none;
       }
     `,
   },

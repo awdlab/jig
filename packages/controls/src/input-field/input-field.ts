@@ -4,7 +4,7 @@ import { injectThemeTemplate } from '@ngneers/controls/api';
 import { NgnBase } from '@ngneers/controls/base';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 
-import { FORM_FIELD } from './token';
+import { INPUT_FIELD } from './token';
 
 @Component({
   imports: [NgClass],
@@ -12,14 +12,14 @@ import { FORM_FIELD } from './token';
   templateUrl: './input-field.html',
   providers: [
     {
-      provide: FORM_FIELD,
+      provide: INPUT_FIELD,
       useExisting: forwardRef(() => NgnInputField),
     },
   ],
 })
 export class NgnInputField extends NgnBase {
   protected readonly theme = injectThemeTemplate(inputFieldControlTemplate);
-  private readonly _parentInputfield = inject(FORM_FIELD, { optional: true, skipSelf: true });
+  private readonly _parentInputfield = inject(INPUT_FIELD, { optional: true, skipSelf: true });
   protected readonly hasParentInputfield = !!this._parentInputfield;
 
   public readonly label = input<string | null>(null);

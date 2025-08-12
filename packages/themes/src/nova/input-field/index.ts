@@ -26,6 +26,11 @@ export const inputFieldStyles = createThemePart({
         display: inline-flex;
         align-items: center;
         width: 100%;
+        &:has(textarea) {
+          resize: both;
+          overflow: auto;
+        }
+        overflow: auto;
         &:hover {
           border-color: ${v('color.surface.500')};
         }

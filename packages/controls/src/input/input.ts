@@ -6,7 +6,7 @@ import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/in
 import { fromEvent } from 'rxjs';
 
 @Directive({
-  selector: 'input[ngnInput]',
+  selector: 'input[ngnInput], textarea[ngnInput]',
   host: {
     '[class]':
       'theme.class() + (invalid() ? ` ${theme.class("invalid")}` : "") + (hasParentInputfield() ? "" : ` ${inputFieldTheme.class()}`)',
