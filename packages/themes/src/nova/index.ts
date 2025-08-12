@@ -1,5 +1,5 @@
 import { createTheme } from '@ngneers/controls-themes/api';
-import { avatarStyles } from '@ngneers/controls-themes/nova/avatar';
+import { avatarGroupStyles, avatarStyles } from '@ngneers/controls-themes/nova/avatar';
 import { coral, font, sizes } from '@ngneers/controls-themes/nova/base';
 import { buttonStyles } from '@ngneers/controls-themes/nova/button';
 import { calendarStyles } from '@ngneers/controls-themes/nova/calendar';
@@ -17,6 +17,7 @@ export const novaCoral = createTheme('Nova Coral', [
   sizes,
   font,
   avatarStyles,
+  avatarGroupStyles,
   buttonStyles,
   listBoxStyles,
   popoverStyles,

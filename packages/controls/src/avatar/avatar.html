@@ -1,19 +1,17 @@
-<div [ngClass]="theme.class('')" [style.--size.px]="size()">
-  <ng-content>
-    @if (!image() || imageLoadFailed()) {
-      <span
-        [ngClass]="theme.class('initials')"
-        [style.--letterCount]="initialsLimited()?.length || 1"
-      >
-        {{ initialsLimited() }}
-      </span>
-    } @else {
-      <img
-        [ngClass]="theme.class('image')"
-        [src]="image()"
-        [alt]="alt() ?? ''"
-        (error)="imageLoadFailed.set(true)"
-      />
-    }
-  </ng-content>
-</div>
+<ng-content>
+  @if (!image() || imageLoadFailed()) {
+    <span
+      [ngClass]="theme.class('initials')"
+      [style.--letterCount]="initialsLimited()?.length || 1"
+    >
+      {{ initialsLimited() }}
+    </span>
+  } @else {
+    <img
+      [ngClass]="theme.class('image')"
+      [src]="image()"
+      [alt]="alt() ?? ''"
+      (error)="imageLoadFailed.set(true)"
+    />
+  }
+</ng-content>

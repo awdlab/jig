@@ -24,5 +24,10 @@ export const stories: ComponentStories = {
       title: 'Icon',
       component: () => import('./icon-demo').then(x => x.Avatar_Icon_Component),
     },
+    {
+      fileName: 'group',
+      title: 'Group',
+      component: () => import('./group-demo').then(x => x.Avatar_Group_Component),
+    },
   ],
 };
