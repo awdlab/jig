@@ -3,7 +3,7 @@
   #popover
   popover
   (toggle)="onToggle($event)"
-  style="position: fixed; display: flex; flex-direction: column"
+  style="position: static; display: flex; flex-direction: column"
 >
   <div [ngClass]="theme.class('content')" style="height: 100%; max-height: fit-content">
     <ngn-defer [lazyContent]="lazyContent()" [open]="isOpen()" [cache]="appliedOptions().cache">

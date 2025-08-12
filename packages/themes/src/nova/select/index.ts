@@ -13,7 +13,11 @@ export const selectStyles = createThemePart({
         justify-content: space-between;
         align-items: center;
       }
-      ${c('icon')}, ${c('filter-icon')} {
+      ${c('icon')} {
+        color: ${v('color.surface.500')};
+        cursor: pointer;
+      }
+      ${c('filter-icon')} {
         color: ${v('color.surface.500')};
       }
       ${c('input-editable')} ${d('input-field')} {
