@@ -15,7 +15,8 @@ export const avatarStyles = createThemePart({
         width: var(--size);
         height: var(--size);
         overflow: hidden;
-        display: flex;
+        display: inline-flex;
+        vertical-align: middle;
         align-items: center;
         justify-content: center;
         &:not(:has(${c('image')})) {
