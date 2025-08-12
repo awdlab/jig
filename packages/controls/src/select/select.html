@@ -24,6 +24,11 @@
       }"
     ></ng-template>
   }
+  <ngn-icon
+    [ngClass]="theme.class('icon')"
+    [icon]="dropdownIcon()"
+    defaultIcon="fa-solid fa-chevron-down"
+  />
 </ngn-input-field>
 <ngn-popover
   #popover
@@ -41,7 +46,11 @@
             [value]="filterTextInternal()"
             (valueChange)="filterTextInternal.set($event)"
           />
-          <ngn-icon defaultIcon="fa-solid fa-magnifying-glass" [icon]="filterIcon()" />
+          <ngn-icon
+            [ngClass]="theme.class('filter-icon')"
+            defaultIcon="fa-solid fa-magnifying-glass"
+            [icon]="filterIcon()"
+          />
           @if (filterIsExecuting()) {
             <!-- TODO: replace with spinner -->
             <ngn-icon defaultIcon="fa-solid fa-spinner fa-spin" />

@@ -61,31 +61,9 @@ export class NgnSelect<
   private readonly _customEditableInput = contentChild(NgnInput);
   private _customEditableSub?: OutputRefSubscription;
 
-  constructor() {
-    super();
-    effect(() => {
-      this._customEditableSub?.unsubscribe();
-      const editable = this.editable();
-      const customEditableInput = this._customEditableInput();
-      if (!editable || !customEditableInput) {
-        return;
-      }
-
-      this._customEditableSub = customEditableInput.valueChange.subscribe(value => {
-        this.onEditableChange(value);
-      });
-    });
-    effect(() => {
-      if (!this.editable()) {
-        return;
-      }
-      const valueSig = this._customEditableInput()?.value;
-      if (valueSig) {
-        setInputSignalValue(valueSig, this.value() || '');
-      }
-    });
-  }
-
+  /**
+   * Options for the popover.
+   */
   public readonly popoverOptions = input<PopoverOptions>({});
   protected readonly appliedPopoverOptions = computed(() => ({
     ...this.popoverOptions(),
@@ -95,12 +73,42 @@ export class NgnSelect<
       ...this.popoverOptions().sizeConstraints,
     },
   }));
+  /**
+   * The available options to choose from. They can either be
+   * * A list of `NgnItem` objects
+   * * A list of plain objects. You'll have to provide a `fields` input to specify how to map the plain objects to `NgnItem` objects.
+   */
   public readonly options = input<readonly NgnItem<T, K>[] | readonly T[]>([]);
+  /**
+   * Required if the options are not `NgnItem` objects.
+   */
   public readonly fields = input<NgnItemFields<T, K>>();
-  public readonly filter = input<SelectFilterOptions<NgnItem<T, K>> | boolean>();
+  /**
+   * Accepts a boolean value that determines whether the filter is enabled.
+   * Alternatively, you can provide `SelectFilterOptions` to customize the filter behavior.
+   * @default false
+   */
+  public readonly filter = input<SelectFilterOptions<NgnItem<T, K>> | boolean>(false);
+  /**
+   * Manually set the filter text.
+   */
   public readonly filterText = input<string>();
+  /**
+   * The icon to display in the filter input.
+   */
   public readonly filterIcon = input<IconType>();
+  /**
+   * The icon to display in the dropdown.
+   */
+  public readonly dropdownIcon = input<IconType>();
+  /**
+   * Whether the select is virtualized.
+   * @default false
+   */
   public readonly virtual = input<boolean>(false);
+  /**
+   * When `virtual` is enabled, this property defines the height of each item in the list.
+   */
   public readonly itemHeight = input<number>();
   /**
    * Enable this to allow the user to type in a value that is not in the list.
@@ -158,6 +166,31 @@ export class NgnSelect<
   protected readonly selectedItem = computed(() =>
     this._flatOptions().find(option => option.value === this.value())
   );
+
+  constructor() {
+    super();
+    effect(() => {
+      this._customEditableSub?.unsubscribe();
+      const editable = this.editable();
+      const customEditableInput = this._customEditableInput();
+      if (!editable || !customEditableInput) {
+        return;
+      }
+
+      this._customEditableSub = customEditableInput.valueChange.subscribe(value => {
+        this.onEditableChange(value);
+      });
+    });
+    effect(() => {
+      if (!this.editable()) {
+        return;
+      }
+      const valueSig = this._customEditableInput()?.value;
+      if (valueSig) {
+        setInputSignalValue(valueSig, this.value() || '');
+      }
+    });
+  }
 
   protected onKeyDown(event: KeyboardEvent) {
     this._listbox()?.onKeyDown(event);

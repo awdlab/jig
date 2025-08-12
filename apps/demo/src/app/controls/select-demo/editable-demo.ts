@@ -13,7 +13,6 @@ import { exampleData } from '../../helper/data';
     [editable]="true"
     (valueChange)="changed($event)"
     [value]="value()"
-    style="width: 200px"
   />`,
 })
 export class Select_Editable_Component {

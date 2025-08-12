@@ -9,6 +9,12 @@ export const selectStyles = createThemePart({
     css: ({ v, c, d }) => css`
       ${c('input')} ${d('input-field')} {
         cursor: pointer;
+        display: inline-flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      ${c('icon')}, ${c('filter-icon')} {
+        color: ${v('color.surface.500')};
       }
       ${c('input-editable')} ${d('input-field')} {
         cursor: text;

@@ -14,7 +14,6 @@ import { exampleData } from '../../helper/data';
     [editable]="true"
     (valueChange)="changed($event)"
     [value]="value()"
-    style="width: 200px"
   >
     <input ngnInput title="Custom Editable Input" type="text" />
   </ngn-select>`,

@@ -10,7 +10,6 @@ import { exampleData } from '../../helper/data';
     #select
     [options]="options"
     [popoverOptions]="{ sizeConstraints: { height: '200px' } }"
-    style="width: 200px"
   />`,
 })
 export class Select_Base_Component {
