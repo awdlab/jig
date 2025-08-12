@@ -13,6 +13,7 @@ export const checkboxStyles = createThemePart({
         align-items: center;
         justify-content: center;
         position: relative;
+        vertical-align: middle;
       }
       ${c('input')} {
         opacity: 0;
