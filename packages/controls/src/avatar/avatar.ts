@@ -1,8 +1,7 @@
 import { NgClass } from '@angular/common';
-import { afterRenderEffect, Component, computed, input, signal } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
 import { injectThemeTemplate } from '@ngneers/controls/api';
 import { NgnBase } from '@ngneers/controls/base';
-import { NgnError } from '@ngneers/controls/utils';
 import { avatarControlTemplate } from '@ngneers/controls-themes/templates/avatar';
 
 @Component({
@@ -23,13 +22,5 @@ export class NgnAvatar extends NgnBase {
 
   constructor() {
     super();
-    afterRenderEffect(() => {
-      if (!this.initials() && !this.image()) {
-        throw new NgnError(
-          'avatar',
-          'Avatar component requires either initials or an image to be set.'
-        );
-      }
-    });
   }
 }

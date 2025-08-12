@@ -19,5 +19,10 @@ export const stories: ComponentStories = {
       title: 'Size',
       component: () => import('./size-demo').then(x => x.Avatar_Size_Component),
     },
+    {
+      fileName: 'icon',
+      title: 'Icon',
+      component: () => import('./icon-demo').then(x => x.Avatar_Icon_Component),
+    },
   ],
 };
