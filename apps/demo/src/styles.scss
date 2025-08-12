@@ -9,11 +9,19 @@
 
 // TMP ENDS
 
+@font-face {
+  font-family: ngn-system;
+  font-style: normal;
+  font-weight: 400;
+  ascent-override: 100%;
+  src: local('system-ui');
+}
+
 @layer reset {
   html,
   body {
     height: 100%;
-    font-family: system-ui;
+    font-family: ngn-system;
     margin: 0;
   }
 

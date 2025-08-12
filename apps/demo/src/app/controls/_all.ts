@@ -1,3 +1,4 @@
+import { stories as avatarStories } from './avatar-demo/_all';
 import { stories as buttonStories } from './button-demo/_all';
 import { stories as calendarStories } from './calendar-demo/_all';
 import { stories as checkboxStories } from './checkbox-demo/_all';
@@ -12,6 +13,7 @@ import { stories as splitterStories } from './splitter-demo/_all';
 import { stories as tooltipStories } from './tooltip-demo/_all';
 
 export const allDemos = [
+  avatarStories,
   buttonStories,
   calendarStories,
   checkboxStories,

@@ -9,6 +9,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { NgnTemplate, templateTypeFn } from '@ngneers/controls/api';
+import { NgnBase } from '@ngneers/controls/base';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnError } from '@ngneers/controls/utils';
 
@@ -23,7 +24,7 @@ import { IconTemplateContext } from './types';
     '[attr.ngSkipHydration]': 'true',
   },
 })
-export class NgnIcon {
+export class NgnIcon extends NgnBase {
   private readonly _globalIconTemplate = inject(GlobalIconTemplate).globalIconTemplate;
 
   public readonly defaultIcon = input<string>();
@@ -44,6 +45,7 @@ export class NgnIcon {
   });
 
   constructor() {
+    super();
     afterRenderEffect(() => {
       if (!this.icon() && !this.defaultIcon()) {
         throw new NgnError(
