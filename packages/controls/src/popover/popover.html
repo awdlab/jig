@@ -5,7 +5,7 @@
   (toggle)="onToggle($event)"
   style="position: static; display: flex; flex-direction: column"
 >
-  <div [ngClass]="theme.class('content')" style="height: 100%; max-height: fit-content">
+  <div [ngClass]="theme.class('content')">
     <ngn-defer [lazyContent]="lazyContent()" [open]="isOpen()" [cache]="appliedOptions().cache">
       <ng-content></ng-content>
     </ngn-defer>
