@@ -1,7 +1,8 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { injectThemeTemplate, Platform } from '@ngneers/controls/api';
 import { I18n } from '@ngneers/controls/i18n';
-import { MASKS, NgnInput, NgnInputMask } from '@ngneers/controls/input-mask';
+import { NgnInput } from '@ngneers/controls/input';
+import { MASKS, NgnInputMask } from '@ngneers/controls/input-mask';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
 @Component({

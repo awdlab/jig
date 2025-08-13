@@ -1,10 +1,13 @@
 {
-  "name": "demo",
+  "name": "@ngneers/controls-demo",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "serve": "ng serve",
+    "prepare": "tsx ../../tools/build-docs-jsons.ts",
+    "preserve": "pnpm prepare",
     "build": "ng build",
+    "prebuild": "pnpm prepare",
     "serve:ssr": "node ../../dist/demo/server/server.mjs",
     "lint": "pnpm eslint ."
   },

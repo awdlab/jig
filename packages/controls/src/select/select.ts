@@ -22,8 +22,8 @@ import {
 } from '@ngneers/controls/api';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnIcon } from '@ngneers/controls/icon';
+import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnInput } from '@ngneers/controls/input-mask';
 import { NgnListBox } from '@ngneers/controls/list-box';
 import { NgnPopover, PopoverOptions } from '@ngneers/controls/popover';
 import { asyncComputed, setInputSignalValue } from '@ngneers/controls/utils';

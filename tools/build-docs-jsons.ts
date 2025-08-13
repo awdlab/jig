@@ -1,7 +1,7 @@
 import { readdir, readFile, writeFile } from 'fs/promises';
 
-const controlsDemoDir = 'apps/demo/src/app/controls';
-const outFile = 'apps/demo/src/app/sources.json';
+const controlsDemoDir = 'src/app/controls';
+const outFile = 'src/app/sources.json';
 
 const resultJson: Record<string, Record<string, string>> = {};
 

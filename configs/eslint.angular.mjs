@@ -30,6 +30,6 @@ export function getEslintConfig(tsconfigPath) {
         '@angular-eslint/component-class-suffix': 'off',
       },
     },
-    globalIgnores(['dist', '.angular', 'node_modules']),
+    globalIgnores(['dist', '.angular', 'node_modules', '**/fontawesome']),
   ]);
 }

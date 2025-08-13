@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "demo:serve": "pnpm --filter demo serve",
-    "predemo:serve": "pnpm demo:prepare",
-    "demo:build": "pnpm --filter demo build",
+    "demo:serve": "pnpm --filter @ngneers/controls-demo serve",
+    "demo:build": "pnpm --filter @ngneers/controls-demo build",
     "controls:build": "pnpm --filter @ngneers/controls build",
-    "demo:prepare": "tsx ./tools/build-docs-jsons.ts"
+    "build": "pnpm --filter * build",
+    "lint": "pnpm --filter * lint",
+    "test": "pnpm playwright test"
   },
   "license": "MIT",
   "packageManager": "pnpm@10.12.4",

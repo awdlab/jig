@@ -1,9 +1,7 @@
 import { inject, InjectionToken, provideAppInitializer, Provider } from '@angular/core';
 import { registerCustomLanguages, Translations } from '@ngneers/controls/i18n';
-import { DeepPartial } from '@ngneers/controls/utils';
+import { DeepPartial, Logger, LogLevel, NgnStateStorage } from '@ngneers/controls/utils';
 import { StyleScope, Theme } from '@ngneers/controls-themes';
-import { Logger, LogLevel } from 'packages/controls/src/utils/logger';
-import { NgnStateStorage } from 'packages/controls/src/utils/state';
 
 export const NGN_CONFIG = new InjectionToken<NgnConfig>('NGN_CONFIG');
 

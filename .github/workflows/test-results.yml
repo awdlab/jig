@@ -1,0 +1,23 @@
+name: Test Results
+
+on:
+  workflow_run:
+    workflows: ['CI']
+    types:
+      - completed
+permissions: {}
+
+jobs:
+  build:
+    uses: awdware/dev/.github/workflows/test-results.yml@main
+    secrets: inherit
+    permissions:
+      checks: write
+      # needed unless run with comment_mode: off
+      pull-requests: write
+      # only needed for private repository
+      contents: read
+      # only needed for private repository
+      issues: read
+      # required by download step to access artifacts API
+      actions: read
