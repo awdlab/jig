@@ -26,7 +26,7 @@ jobs:
       - name: Lint
         run: pnpm run lint
       - name: Prepare playwright
-        run: pnpm exec playwright install
+        run: pnpm exec playwright install --with-deps
       - name: Test
         run: pnpm run test
         env:
