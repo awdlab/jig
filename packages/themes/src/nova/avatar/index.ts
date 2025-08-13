@@ -29,6 +29,13 @@ export const avatarStyles = createThemePart({
         font-size: calc(var(--size) / -8 * var(--letterCount) + var(--size) * 0.77);
         user-select: none;
       }
+      ${c('image')} {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+      }
     `,
   },
 });

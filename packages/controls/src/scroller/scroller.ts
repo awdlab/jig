@@ -1,4 +1,4 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
   Component,
@@ -12,8 +12,9 @@ import {
   viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { elementSizeSignal } from '@ngneers/controls/api';
+import { elementSizeSignal, injectThemeTemplate } from '@ngneers/controls/api';
 import { AllKeysOfUnion, NgnError } from '@ngneers/controls/utils';
+import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scroller';
 import { fromEvent, map } from 'rxjs';
 
 import { ScrollerTemplates } from './scroller-templates';
@@ -21,13 +22,15 @@ import { ScrollerTemplates } from './scroller-templates';
 @Component({
   selector: 'ngn-scroller',
   templateUrl: './scroller.html',
-  imports: [NgTemplateOutlet],
+  imports: [NgClass, NgTemplateOutlet],
   host: {
-    style: 'display: block; height: 100%; width: 100%;',
+    '[class]': 'theme.class()',
     '[tabIndex]': 'focusable() ? 0 : -1',
   },
 })
 export class NgnScroller<T> extends ScrollerTemplates<T> {
+  protected readonly theme = injectThemeTemplate(scrollerControlTemplate);
+
   /**
    * The items to be displayed in the scroller.
    * This is a required input and should be an array of items of type T.
@@ -64,8 +67,7 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
   public readonly fieldSticky = input<AllKeysOfUnion<T> | null>(null);
 
   private readonly _itemList = viewChild.required<ElementRef<HTMLElement>>('itemList');
-  private readonly _scrollElementRef = viewChild.required<ElementRef<HTMLElement>>('scroller');
-  private readonly _scrollElement = computed(() => this._scrollElementRef().nativeElement);
+  private readonly _scrollElement = computed(() => this.element.nativeElement);
 
   private readonly _elementSize = elementSizeSignal(this._scrollElement);
 

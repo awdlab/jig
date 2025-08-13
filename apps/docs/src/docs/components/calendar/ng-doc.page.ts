@@ -1,0 +1,22 @@
+import { NgDocPage } from '@ng-doc/core';
+import { NgnCalendar } from '@ngneers/controls/calendar';
+
+import { Demo_Calendar_Base } from '../../../app/demos/calendar/base';
+import ComponentsCategory from '../../categories/components/ng-doc.category';
+
+const CalendarPage: NgDocPage = {
+  title: `Calendar`,
+  mdFile: './index.md',
+  category: ComponentsCategory,
+  demos: {
+    Demo_Calendar_Base,
+  },
+  playgrounds: {
+    CalendarPlayground: {
+      target: NgnCalendar,
+      template: `<ngn-calendar ng-doc-selector></ngn-calendar>`,
+    },
+  },
+};
+
+export default CalendarPage;

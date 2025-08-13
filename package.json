@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "demo:serve": "pnpm --filter @ngneers/controls-demo serve",
-    "demo:build": "pnpm --filter @ngneers/controls-demo build",
+    "docs:serve": "pnpm --filter @ngneers/controls-docs serve",
+    "docs:build": "pnpm --filter @ngneers/controls-docs build",
     "controls:build": "pnpm --filter @ngneers/controls build",
     "build": "pnpm --filter * build",
     "lint": "pnpm --filter * lint",

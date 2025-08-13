@@ -1,0 +1,39 @@
+{
+  "name": "@ngneers/controls-docs",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "serve": "ng serve",
+    "build": "ng build",
+    "serve:ssr": "node ../../dist/demo/server/server.mjs",
+    "lint": "pnpm eslint ."
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/common": "^20.1.4",
+    "@angular/compiler": "^20.1.4",
+    "@angular/core": "^20.1.4",
+    "@angular/forms": "^20.1.4",
+    "@angular/platform-browser": "^20.1.4",
+    "@angular/platform-server": "^20.1.4",
+    "@angular/router": "^20.1.4",
+    "@angular/ssr": "^20.1.4",
+    "@floating-ui/dom": "^1.7.3",
+    "@ng-doc/app": "20.1.0",
+    "@ng-doc/builder": "20.1.0",
+    "@ng-doc/core": "20.1.0",
+    "@ng-doc/ui-kit": "20.1.0",
+    "@ngneers/signal-translate": "^20.0.0",
+    "express": "^5.1.0",
+    "rxjs": "~7.8.2",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@angular/build": "^20.1.4",
+    "@angular/cli": "^20.1.4",
+    "@angular/compiler-cli": "^20.1.4",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.1.0",
+    "typescript": "~5.8.3"
+  }
+}

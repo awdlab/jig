@@ -22,6 +22,7 @@ export const inputFieldStyles = createThemePart({
         outline-color: transparent;
         outline-width: 0;
         outline-style: solid;
+        outline-offset: -2px;
         cursor: text;
         display: inline-flex;
         align-items: center;

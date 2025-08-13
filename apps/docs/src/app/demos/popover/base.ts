@@ -1,0 +1,12 @@
+import { Component } from '@angular/core';
+import { NgnPopover } from '@ngneers/controls/popover';
+
+@Component({
+  imports: [NgnPopover],
+  selector: 'ngn-popover-base',
+  template: `
+    <button #anchor (click)="popover.open()">Open</button>
+    <ngn-popover #popover [anchor]="anchor"> Content </ngn-popover>
+  `,
+})
+export class Demo_Popover_Base {}

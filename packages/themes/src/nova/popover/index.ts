@@ -10,6 +10,27 @@ export const popoverStyles = createThemePart({
       ${c()} {
         background: transparent;
         pointer-events: none;
+        position: static;
+        display: flex;
+        flex-direction: column;
+
+        // Browser-Reset:
+        width: unset;
+        height: unset;
+        color: unset;
+        background-color: unset;
+        inset: unset;
+        margin: unset;
+        border-width: unset;
+        border-style: unset;
+        border-color: unset;
+        border-image: unset;
+        padding: unset;
+        overflow: unset;
+
+        &:not(:popover-open) {
+          display: none;
+        }
       }
       ${c('content')} {
         max-height: 100%;

@@ -8,8 +8,7 @@ COPY . .
 RUN pnpm install --frozen-lockfile
 
 
-RUN pnpm demo:prepare
-RUN pnpm demo:build
+RUN pnpm docs:build
 
 # stage 2
 FROM node:22-alpine
@@ -18,7 +17,7 @@ FROM node:22-alpine
 # COPY config/nginx.conf /etc/nginx/nginx.conf
 # COPY config/security-headers.conf /etc/nginx/security-headers.conf
 
-COPY --from=builder /app/dist/demo ./
+COPY --from=builder /app/dist/docs ./
 ENV PORT=80
 CMD ["node", "server/server.mjs"]
 

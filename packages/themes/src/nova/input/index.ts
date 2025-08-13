@@ -7,7 +7,12 @@ export const inputStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
     css: ({ c, d }) => css`
+      ${c()} {
+        font-family: inherit;
+        font-size: inherit;
+      }
       ${d('input-field')} ${c()} {
+        padding: 0;
         background: transparent;
         border: none;
         width: 100%;

@@ -1,34 +1,36 @@
-<div #scroller style="overflow: auto; display: block; height: 100%; width: 100%">
-  <div style="width: 100%; height: 100%; position: relative">
-    @if (virtual()) {
-      <div [style.height.px]="dummyHeight()"></div>
+<div [ngClass]="theme.class('scrollarea')">
+  @if (virtual()) {
+    <div [style.height.px]="dummyHeight()"></div>
+  }
+  <div
+    #itemList
+    [style.top.px]="itemsTop()"
+    [style.position]="virtual() ? 'absolute' : 'unset'"
+    [style.width.%]="100"
+  >
+    @if (latestStickyItem(); as latestStickyItem) {
+      <div [ngClass]="theme.class('sticky')" [style.height.px]="itemHeight() || null">
+        <ng-container
+          *ngTemplateOutlet="
+            itemTemplate();
+            context: { $implicit: latestStickyItem.item, index: latestStickyItem.index }
+          "
+        ></ng-container>
+      </div>
     }
-    <div
-      #itemList
-      [style.top.px]="itemsTop()"
-      [style.position]="virtual() ? 'absolute' : 'unset'"
-      [style.width.%]="100"
-    >
-      @if (latestStickyItem(); as latestStickyItem) {
-        <div class="ngn-stick-top" [style.height.px]="itemHeight() || null">
-          <ng-container
-            *ngTemplateOutlet="
-              itemTemplate();
-              context: { $implicit: latestStickyItem.item, index: latestStickyItem.index }
-            "
-          ></ng-container>
-        </div>
-      }
-      @for (item of visibleItems(); track item.index) {
-        <div
-          [style.height.px]="itemHeight() || null"
-          [class.ngn-stick-top]="fieldSticky() && item.item[fieldSticky()!]"
-        >
-          <ng-container
-            *ngTemplateOutlet="itemTemplate(); context: { $implicit: item.item, index: item.index }"
-          ></ng-container>
-        </div>
-      }
-    </div>
+    @for (item of visibleItems(); track item.index) {
+      <div
+        [style.height.px]="itemHeight() || null"
+        [ngClass]="
+          theme.classes({
+            sticky: !!fieldSticky() && !!item.item[fieldSticky()!],
+          })
+        "
+      >
+        <ng-container
+          *ngTemplateOutlet="itemTemplate(); context: { $implicit: item.item, index: item.index }"
+        ></ng-container>
+      </div>
+    }
   </div>
 </div>

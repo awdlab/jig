@@ -86,7 +86,7 @@ export class NgnSelect<
   /**
    * Accepts a boolean value that determines whether the filter is enabled.
    * Alternatively, you can provide `SelectFilterOptions` to customize the filter behavior.
-   * @default false
+   * @defaultValue `false`
    */
   public readonly filter = input<SelectFilterOptions<NgnItem<T, K>> | boolean>(false);
   /**
@@ -103,7 +103,7 @@ export class NgnSelect<
   public readonly dropdownIcon = input<IconType>();
   /**
    * Whether the select is virtualized.
-   * @default false
+   * @defaultValue `false`
    */
   public readonly virtual = input<boolean>(false);
   /**
@@ -113,7 +113,7 @@ export class NgnSelect<
   /**
    * Enable this to allow the user to type in a value that is not in the list.
    * When enabled, the value of the control becomes the label of a selected item or the typed value.
-   * @default false
+   * @defaultValue `false`
    */
   public readonly editable = input<Editable>();
   private readonly _listbox = viewChild(NgnListBox);

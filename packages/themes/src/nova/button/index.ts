@@ -13,6 +13,7 @@ export const buttonStyles = createThemePart({
         font-weight: ${v('font.weight.semibold')};
         padding: ${v('size.padding.md')} ${v('size.padding.lg')};
         cursor: pointer;
+        font-family: inherit;
       }
       ${c('kind-primary')} {
         background: ${v('color.primary.default')};
