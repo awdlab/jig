@@ -107,7 +107,7 @@ function convertType(typeArguments: SomeType): string {
   }
 }
 
-async function convertControl(project: ProjectReflection, control: DeclarationReflection) {
+function convertControl(project: ProjectReflection, control: DeclarationReflection) {
   const props = control.getProperties();
 
   const inputs = props.filter(
@@ -120,31 +120,42 @@ async function convertControl(project: ProjectReflection, control: DeclarationRe
   const convertedInputs = inputs.map(input => {
     const actualType = convertType((input.type as ReferenceType).typeArguments?.[0]!);
 
+    // TODO: Parse comments
+    // TODO: Parse required input
+
     return {
       type: actualType,
       name: input.name,
     };
   });
 
-  console.log(convertedInputs);
+  return convertedInputs;
 }
 
-async function convertControlGroup(project: ProjectReflection, controlGroupName: string) {
+function convertControlGroup(project: ProjectReflection, controlGroupName: string) {
   const group = project.getChildByName(controlGroupName) as DeclarationReflection;
   const childNames = group.children?.map(child => child.name) ?? [];
 
-  for (const childName of childNames) {
+  return childNames.map(childName => {
     const child = group.getChildByName(childName) as DeclarationReflection;
-    await convertControl(project, child);
-  }
+    const inputs = convertControl(project, child);
+    return {
+      name: child.name,
+      inputs,
+    };
+  });
 }
 
 async function convertProject(project: ProjectReflection) {
   const controlGroupNames = await getControlNames();
 
-  for (const controlGroupName of controlGroupNames) {
-    await convertControlGroup(project, `${controlGroupName}/${controlGroupName}`);
-  }
+  return controlGroupNames.map(controlGroupName => {
+    const controls = convertControlGroup(project, `${controlGroupName}/${controlGroupName}`);
+    return {
+      group: controlGroupName,
+      controls,
+    };
+  });
 }
 
 async function run() {
@@ -153,7 +164,8 @@ async function run() {
     console.error('Failed to parse TypeScript documentation');
     return;
   }
-  convertProject(project);
+  const inputs = await convertProject(project);
+  console.log(inputs);
 }
 
 run();
