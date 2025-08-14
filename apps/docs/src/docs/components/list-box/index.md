@@ -1,9 +1,11 @@
 ---
 keyword: ListBoxPage
+title: Examples
 ---
-#
 
-The List Box component provides a scrollable list interface for displaying and selecting from multiple items with support for virtualization, grouping, and custom templates.
+The List Box component provides a scrollable list interface for displaying and
+selecting from multiple items with support for virtualization, grouping, and
+custom templates.
 
 ## Basic Usage
 
@@ -32,5 +34,3 @@ The List Box component provides a scrollable list interface for displaying and s
 ## Playground
 
 {{ NgDocActions.playground("ListBoxPlayground", {inputs: {} }) }}
-
-{{ NgDocApi.api("../../packages/controls/src/list-box/list-box.ts#NgnListBox") }}

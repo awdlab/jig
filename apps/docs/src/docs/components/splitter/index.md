@@ -1,9 +1,10 @@
 ---
 keyword: SplitterPage
+title: Examples
 ---
-#
 
-The Splitter component provides resizable panels with support for horizontal and vertical layouts, minimum/maximum sizes, and state management.
+The Splitter component provides resizable panels with support for horizontal and
+vertical layouts, minimum/maximum sizes, and state management.
 
 ## Basic Usage
 
@@ -28,5 +29,3 @@ The Splitter component provides resizable panels with support for horizontal and
 ## Playground
 
 {{ NgDocActions.playground("SplitterPlayground", {inputs: {} }) }}
-
-<!-- {{ NgDocApi.api("../../packages/controls/src/splitter/splitter.ts#NgnSplitter", {inputs: {layout: 'vertical'} }) }} -->

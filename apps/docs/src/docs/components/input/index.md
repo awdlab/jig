@@ -1,5 +1,6 @@
 ---
 keyword: InputPage
+title: Examples
 ---
 
 The Input component provides text input functionality with support for various
@@ -22,5 +23,3 @@ input types, textarea mode, and input field wrappers.
 {{ NgDocActions.demo("Demo_TextField_TextareaInputField") }}
 
 ## API
-
-{{ NgDocApi.api("../../packages/controls/src/input/input.ts#NgnInput") }}

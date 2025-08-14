@@ -6,7 +6,7 @@ import ComponentsCategory from '../../categories/components/ng-doc.category';
 
 const ButtonPage: NgDocPage = {
   title: `Button`,
-  mdFile: './index.md',
+  mdFile: ['./index.md', './api.md'],
   category: ComponentsCategory,
   demos: {
     Demo_Button_Base,

@@ -6,7 +6,7 @@ import ComponentsCategory from '../../categories/components/ng-doc.category';
 
 const CalendarPage: NgDocPage = {
   title: `Calendar`,
-  mdFile: './index.md',
+  mdFile: ['./index.md', './api.md'],
   category: ComponentsCategory,
   demos: {
     Demo_Calendar_Base,

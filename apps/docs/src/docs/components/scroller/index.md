@@ -1,9 +1,10 @@
 ---
 keyword: ScrollerPage
+title: Examples
 ---
-#
 
-The Scroller component provides efficient scrolling with support for virtual scrolling, sticky elements, and large datasets.
+The Scroller component provides efficient scrolling with support for virtual
+scrolling, sticky elements, and large datasets.
 
 ## Basic Usage
 
@@ -20,5 +21,3 @@ The Scroller component provides efficient scrolling with support for virtual scr
 ## Playground
 
 <!-- {{ NgDocActions.playground("ScrollerPlayground", {inputs: {} }) }} -->
-
-{{ NgDocApi.api("../../packages/controls/src/scroller/scroller.ts#NgnScroller") }}

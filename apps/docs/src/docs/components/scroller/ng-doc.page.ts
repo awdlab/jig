@@ -8,7 +8,7 @@ import ComponentsCategory from '../../categories/components/ng-doc.category';
 
 const ScrollerPage: NgDocPage = {
   title: `Scroller`,
-  mdFile: './index.md',
+  mdFile: ['./index.md', './api.md'],
   category: ComponentsCategory,
   demos: {
     Demo_Scroller_Base,

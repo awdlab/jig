@@ -8,7 +8,7 @@ import ComponentsCategory from '../../categories/components/ng-doc.category';
 
 const InputPage: NgDocPage = {
   title: `Input`,
-  mdFile: './index.md',
+  mdFile: ['./index.md', './api.md'],
   category: ComponentsCategory,
   demos: {
     Demo_TextField_Base,

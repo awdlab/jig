@@ -1,9 +1,10 @@
 ---
 keyword: CheckboxPage
+title: Examples
 ---
-#
 
-The Checkbox component provides a form control for boolean input with support for checked, unchecked, and indeterminate states.
+The Checkbox component provides a form control for boolean input with support
+for checked, unchecked, and indeterminate states.
 
 ## Basic Usage
 
@@ -16,5 +17,3 @@ The Checkbox component provides a form control for boolean input with support fo
 ## Playground
 
 {{ NgDocActions.playground("CheckboxPlayground", {inputs: {checked: false} }) }}
-
-{{ NgDocApi.api("../../packages/controls/src/checkbox/checkbox.ts#NgnCheckbox") }}

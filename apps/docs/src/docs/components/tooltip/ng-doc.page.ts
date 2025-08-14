@@ -5,7 +5,7 @@ import ComponentsCategory from '../../categories/components/ng-doc.category';
 
 const TooltipPage: NgDocPage = {
   title: `Tooltip`,
-  mdFile: './index.md',
+  mdFile: ['./index.md', './api.md'],
   category: ComponentsCategory,
   demos: {
     Demo_Tooltip_Base,

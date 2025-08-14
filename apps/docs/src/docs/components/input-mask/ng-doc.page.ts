@@ -7,7 +7,7 @@ import ComponentsCategory from '../../categories/components/ng-doc.category';
 
 const InputMaskPage: NgDocPage = {
   title: `Input Mask`,
-  mdFile: './index.md',
+  mdFile: ['./index.md', './api.md'],
   category: ComponentsCategory,
   demos: {
     Demo_TextField_Mask,

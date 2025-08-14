@@ -7,7 +7,7 @@ import ComponentsCategory from '../../categories/components/ng-doc.category';
 
 const DialogPage: NgDocPage = {
   title: `Dialog`,
-  mdFile: './index.md',
+  mdFile: ['./index.md', './api.md'],
   category: ComponentsCategory,
   demos: {
     Demo_Dialog_Base,

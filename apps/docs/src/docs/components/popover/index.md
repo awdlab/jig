@@ -1,9 +1,10 @@
 ---
 keyword: PopoverPage
+title: Examples
 ---
-#
 
-The Popover component provides floating content that appears relative to a trigger element, with support for both eager and lazy loading.
+The Popover component provides floating content that appears relative to a
+trigger element, with support for both eager and lazy loading.
 
 ## Basic Usage
 
@@ -16,5 +17,3 @@ The Popover component provides floating content that appears relative to a trigg
 ## Playground
 
 {{ NgDocActions.playground("PopoverPlayground", {inputs: {} }) }}
-
-{{ NgDocApi.api("../../packages/controls/src/popover/popover.ts#NgnPopover") }}

@@ -12,7 +12,7 @@ import ComponentsCategory from '../../categories/components/ng-doc.category';
 
 const SelectPage: NgDocPage = {
   title: `Select`,
-  mdFile: './index.md',
+  mdFile: ['./index.md', './api.md'],
   category: ComponentsCategory,
   demos: {
     Demo_Select_Base,

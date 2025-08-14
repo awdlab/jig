@@ -1,9 +1,11 @@
 ---
 keyword: DialogPage
+title: Examples
 ---
-#
 
-The Dialog component provides modal dialog functionality with support for both eager and lazy loading of content.
+
+The Dialog component provides modal dialog functionality with support for both
+eager and lazy loading of content.
 
 ## Basic Usage
 
@@ -16,5 +18,3 @@ The Dialog component provides modal dialog functionality with support for both e
 ## Playground
 
 {{ NgDocActions.playground("DialogPlayground", {inputs: {} }) }}
-
-{{ NgDocApi.api("../../packages/controls/src/dialog/dialog.ts#NgnDialog") }}

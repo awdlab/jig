@@ -1,9 +1,10 @@
 ---
 keyword: SelectPage
+title: Examples
 ---
-#
 
-The Select component provides a dropdown selection interface with support for filtering, grouping, custom templates, and editable options.
+The Select component provides a dropdown selection interface with support for
+filtering, grouping, custom templates, and editable options.
 
 ## Basic Usage
 
@@ -36,5 +37,3 @@ The Select component provides a dropdown selection interface with support for fi
 ## Playground
 
 {{ NgDocActions.playground("SelectPlayground", {inputs: {} }) }}
-
-{{ NgDocApi.api("../../packages/controls/src/select/select.ts#NgnSelect") }}
