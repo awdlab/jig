@@ -67,7 +67,7 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
   public readonly fieldSticky = input<AllKeysOfUnion<T> | null>(null);
 
   private readonly _itemList = viewChild.required<ElementRef<HTMLElement>>('itemList');
-  private readonly _scrollElement = computed(() => this.element.nativeElement);
+  private readonly _scrollElement = viewChild.required<ElementRef<HTMLElement>>('scrollarea');
 
   private readonly _elementSize = elementSizeSignal(this._scrollElement);
 
@@ -143,7 +143,9 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
 
     afterRenderEffect(() => {
       const el = this._scrollElement();
-      const obs = fromEvent(el, 'scroll').pipe(map(e => (e.target as HTMLElement).scrollTop));
+      const obs = fromEvent(el.nativeElement, 'scroll').pipe(
+        map(e => (e.target as HTMLElement).scrollTop)
+      );
       obs.pipe(takeUntilDestroyed(this.injector.get(DestroyRef))).subscribe(scrollTop => {
         this._scrollTop.set(scrollTop);
       });
@@ -163,11 +165,11 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
         const itemBottom = itemTop + this.itemHeight();
 
         if (itemTop < scrollTop) {
-          this._scrollElement().scrollTo({
+          this._scrollElement().nativeElement.scrollTo({
             top: itemTop - 10,
           });
         } else if (itemBottom > scrollTop + visibleHeight) {
-          this._scrollElement().scrollTo({
+          this._scrollElement().nativeElement.scrollTo({
             top: itemBottom - visibleHeight + 10,
           });
         }

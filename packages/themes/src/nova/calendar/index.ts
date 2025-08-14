@@ -44,6 +44,7 @@ export const calendarStyles = createThemePart({
       }
       ${c('week-day')} {
         font-weight: ${v('font.weight.semibold')};
+        font-size: inherit;
       }
       ${c('day')} {
         display: flex;
@@ -55,6 +56,7 @@ export const calendarStyles = createThemePart({
         background: transparent;
         border-width: 0;
         border-radius: ${v('size.rounded.full')};
+        font-size: inherit;
         &:hover {
           background: ${v('color.surface.100')};
         }
@@ -94,6 +96,7 @@ export const calendarStyles = createThemePart({
         border: none;
         padding: ${v('size.padding.md')} ${v('size.padding.lg')};
         font-weight: ${v('font.weight.semibold')};
+        font-size: inherit;
         &:hover {
           background: ${v('color.surface.100')};
         }
