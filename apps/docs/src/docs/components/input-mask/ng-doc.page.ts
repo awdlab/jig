@@ -1,4 +1,5 @@
 import { NgDocPage } from '@ng-doc/core';
+import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputMask } from '@ngneers/controls/input-mask';
 
 import { Demo_TextField_Mask } from '../../../app/demos/input-mask/base';
@@ -11,10 +12,13 @@ const InputMaskPage: NgDocPage = {
   demos: {
     Demo_TextField_Mask,
   },
+  imports: [NgnInput],
   playgrounds: {
     InputMaskPlayground: {
       target: NgnInputMask,
-      template: `<ngn-input-mask ng-doc-selector></ngn-input-mask>`,
+      template: `<ng-doc-selector>
+        <input ngnInput>
+      </ng-doc-selector>`,
     },
   },
 };
