@@ -18,14 +18,15 @@
     "@ngneers/eslint-config": "^2.0.1",
     "@ngneers/eslint-config-angular": "^2.0.0",
     "@ngneers/prettier-config": "^1.0.1",
+    "@playwright/test": "^1.53.1",
     "@types/node": "^24.0.7",
     "angular-eslint": "20.1.1",
     "cpy-cli": "^5.0.0",
     "eslint": "^9.30.0",
     "globals": "^16.2.0",
-    "@playwright/test": "^1.53.1",
     "prettier": "^3.6.2",
     "tsx": "^4.20.3",
+    "typedoc": "^0.28.10",
     "typescript-eslint": "^8.35.0"
   }
 }

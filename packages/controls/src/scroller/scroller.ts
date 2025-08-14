@@ -33,7 +33,7 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
 
   /**
    * The items to be displayed in the scroller.
-   * This is a required input and should be an array of items of type T.
+   * This is a required input and should be an array of items of type {@link T}.
    */
   public readonly items = input.required<readonly T[]>();
   /**

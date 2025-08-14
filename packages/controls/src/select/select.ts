@@ -75,8 +75,8 @@ export class NgnSelect<
   }));
   /**
    * The available options to choose from. They can either be
-   * * A list of `NgnItem` objects
-   * * A list of plain objects. You'll have to provide a `fields` input to specify how to map the plain objects to `NgnItem` objects.
+   * * A list of {@link NgnItem} objects
+   * * A list of plain objects. You'll have to provide a {@link fields} input to specify how to map the plain objects to {@link NgnItem} objects.
    */
   public readonly options = input<readonly NgnItem<T, K>[] | readonly T[]>([]);
   /**
