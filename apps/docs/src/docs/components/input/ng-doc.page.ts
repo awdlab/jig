@@ -1,5 +1,4 @@
 import { NgDocPage } from '@ng-doc/core';
-import { NgnInput } from '@ngneers/controls/input';
 
 import { Demo_TextField_Base } from '../../../app/demos/input/base';
 import { Demo_TextField_InputField } from '../../../app/demos/input/input-field';
@@ -16,12 +15,6 @@ const InputPage: NgDocPage = {
     Demo_TextField_InputField,
     Demo_TextField_Textarea,
     Demo_TextField_TextareaInputField,
-  },
-  playgrounds: {
-    InputPlayground: {
-      target: NgnInput,
-      template: `<input ngnInput ng-doc-selector />`,
-    },
   },
 };
 
