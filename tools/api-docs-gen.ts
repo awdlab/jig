@@ -29,6 +29,7 @@ const options: TypeDocOptions & PluginOptions = {
   tableColumnSettings: {
     hideModifiers: true,
     hideSources: true,
+    hideInherited: true,
   },
 };
 
