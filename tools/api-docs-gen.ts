@@ -106,14 +106,9 @@ function convertControl(control: DeclarationReflection) {
   outputs.length && control.groups.push(groupOutputs);
   publicProps.length && control.groups.push(groupPublic);
 
-  inputs.forEach(input => {
+  [...inputs, ...outputs].forEach(input => {
     input.type = (input.type as ReferenceType).typeArguments?.[0]!;
     input.flags.setFlag(ReflectionFlag.Readonly, false);
-  });
-
-  outputs.forEach(output => {
-    output.type = (output.type as ReferenceType).typeArguments?.[0]!;
-    output.flags.setFlag(ReflectionFlag.Readonly, false);
   });
 }
 
