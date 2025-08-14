@@ -2,12 +2,15 @@ import { readdir } from 'fs/promises';
 import { type PluginOptions } from 'typedoc-plugin-markdown';
 import {
   Application,
-  type DeclarationReflection,
+  DeclarationReflection,
+  Deserializer,
+  Logger,
   type ProjectReflection,
   type ReferenceType,
   ReflectionFlag,
   ReflectionGroup,
   ReflectionKind,
+  Serializer,
   type TypeDocOptions,
 } from 'typedoc';
 
@@ -49,20 +52,38 @@ async function getControlNames() {
 function convertControl(control: DeclarationReflection) {
   const props = control.getProperties();
 
-  // TODO: Convert Outputs
   const inputs = props.filter(
     prop =>
       prop.kind === ReflectionKind.Property &&
       prop.flags.isPublic &&
-      ['InputSignal', 'ModelSignal'].includes((prop.type as ReferenceType).name)
+      ['InputSignal'].includes((prop.type as ReferenceType).name)
   );
 
   const outputs = props.filter(
     prop =>
       prop.kind === ReflectionKind.Property &&
       prop.flags.isPublic &&
-      ['OutputEmitterRef', 'ModelSignal'].includes((prop.type as ReferenceType).name)
+      ['OutputEmitterRef'].includes((prop.type as ReferenceType).name)
   );
+
+  const models = props.filter(
+    prop =>
+      prop.kind === ReflectionKind.Property &&
+      prop.flags.isPublic &&
+      ['ModelSignal'].includes((prop.type as ReferenceType).name)
+  );
+
+  const d = new Deserializer(new Logger());
+  const s = new Serializer();
+  const modelsOutput = models.map(m => {
+    const copy = new DeclarationReflection(m.name, m.kind, control);
+    copy.fromObject(d, m.toObject(s));
+    copy.name = `${copy.name}Change`;
+    return copy;
+  });
+
+  inputs.push(...models);
+  outputs.push(...modelsOutput);
 
   const publicProps = props.filter(
     prop =>
@@ -88,6 +109,11 @@ function convertControl(control: DeclarationReflection) {
   inputs.forEach(input => {
     input.type = (input.type as ReferenceType).typeArguments?.[0]!;
     input.flags.setFlag(ReflectionFlag.Readonly, false);
+  });
+
+  outputs.forEach(output => {
+    output.type = (output.type as ReferenceType).typeArguments?.[0]!;
+    output.flags.setFlag(ReflectionFlag.Readonly, false);
   });
 }
 
