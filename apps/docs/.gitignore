@@ -45,5 +45,5 @@ Thumbs.db
 # NgDoc files
 /ng-doc
 
-# NgDoc files
-/ng-doc
+# Generated TypeDoc files
+/src/docs/api

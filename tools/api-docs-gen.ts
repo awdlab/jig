@@ -2,60 +2,22 @@ import { readdir } from 'fs/promises';
 import { type PluginOptions } from 'typedoc-plugin-markdown';
 import {
   Application,
-  ArrayType,
-  ConditionalType,
-  DeclarationReflection,
-  IndexedAccessType,
-  InferredType,
-  IntersectionType,
-  IntrinsicType,
-  LiteralType,
-  MappedType,
-  NamedTupleMember,
-  OptionalType,
-  PredicateType,
-  ProjectReflection,
-  QueryType,
-  ReferenceType,
+  type DeclarationReflection,
+  type ProjectReflection,
+  type ReferenceType,
   ReflectionFlag,
+  ReflectionGroup,
   ReflectionKind,
-  ReflectionType,
-  RestType,
-  TemplateLiteralType,
-  TupleType,
   type TypeDocOptions,
-  TypeOperatorType,
-  UnionType,
-  UnknownType,
 } from 'typedoc';
 
 const COMPONENT_DOCS_PATH = '../../apps/docs/src/docs/components';
+const OUT_DIR = '../../apps/docs/src/docs/api';
 
-type SomeType =
-  | ArrayType
-  | ConditionalType
-  | IndexedAccessType
-  | InferredType
-  | IntersectionType
-  | IntrinsicType
-  | LiteralType
-  | MappedType
-  | OptionalType
-  | PredicateType
-  | QueryType
-  | ReferenceType
-  | ReflectionType
-  | RestType
-  | TemplateLiteralType
-  | TupleType
-  | NamedTupleMember
-  | TypeOperatorType
-  | UnionType
-  | UnknownType;
-
-const a: TypeDocOptions & PluginOptions = {
+const options: TypeDocOptions & PluginOptions = {
   entryPoints: ['./src/**/*.ts'],
   plugin: ['typedoc-plugin-markdown'],
+  out: OUT_DIR,
   hidePageHeader: true,
   hideBreadcrumbs: true,
   hideGenerator: true,
@@ -66,11 +28,12 @@ const a: TypeDocOptions & PluginOptions = {
   classPropertiesFormat: 'table',
   tableColumnSettings: {
     hideModifiers: true,
+    hideSources: true,
   },
 };
 
 async function parseTsDocs() {
-  const app = await Application.bootstrapWithPlugins(a);
+  const app = await Application.bootstrapWithPlugins(options);
 
   const project = await app.convert();
 
@@ -93,8 +56,33 @@ function convertControl(control: DeclarationReflection) {
       ['InputSignal', 'ModelSignal'].includes((prop.type as ReferenceType).name)
   );
 
-  const ignoredProps = props.filter(prop => !inputs.includes(prop));
-  ignoredProps.forEach(prop => prop.setFlag(ReflectionFlag.Private, true));
+  const outputs = props.filter(
+    prop =>
+      prop.kind === ReflectionKind.Property &&
+      prop.flags.isPublic &&
+      ['OutputEmitterRef', 'ModelSignal'].includes((prop.type as ReferenceType).name)
+  );
+
+  const publicProps = props.filter(
+    prop =>
+      prop.kind === ReflectionKind.Property &&
+      prop.flags.isPublic &&
+      !inputs.includes(prop) &&
+      !outputs.includes(prop)
+  );
+
+  const groupInputs = new ReflectionGroup('Inputs', control);
+  const groupOutputs = new ReflectionGroup('Outputs', control);
+  const groupPublic = new ReflectionGroup('Properties', control);
+
+  groupInputs.children = inputs;
+  groupOutputs.children = outputs;
+  groupPublic.children = publicProps;
+
+  control.groups = [];
+  inputs.length && control.groups.push(groupInputs);
+  outputs.length && control.groups.push(groupOutputs);
+  publicProps.length && control.groups.push(groupPublic);
 
   inputs.forEach(input => {
     input.type = (input.type as ReferenceType).typeArguments?.[0]!;

@@ -1,9 +1,10 @@
 ---
 keyword: AvatarPage
+title: Examples
 ---
-#
 
-The Avatar component is a user interface element that represents a user or an entity visually using an image, initials or custom content like icons.
+The Avatar component is a user interface element that represents a user or a
+entity visually using an image, initials or custom content like icons.
 
 ## Initials
 
@@ -24,9 +25,3 @@ The Avatar component is a user interface element that represents a user or an en
 ## Group
 
 {{ NgDocActions.demo("Demo_Avatar_Group") }}
-
-## Playground
-
-{{ NgDocActions.playground("AvatarPlayground", {inputs: {initials: 'AB'} }) }}
-
-{{ NgDocApi.api("../../packages/controls/src/avatar/avatar.ts#NgnAvatar") }}

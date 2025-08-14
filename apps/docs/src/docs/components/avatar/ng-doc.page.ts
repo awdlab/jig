@@ -10,7 +10,7 @@ import ComponentsCategory from '../../categories/components/ng-doc.category';
 
 const AvatarPage: NgDocPage = {
   title: `Avatar`,
-  mdFile: './index.md',
+  mdFile: ['./index.md', './api.md', './playground.md'],
   category: ComponentsCategory,
   demos: {
     Demo_Avatar_Base,
