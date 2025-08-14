@@ -3,7 +3,7 @@
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
     "project.json": "package.json, .prettier*, .eslint*, eslint.config.mjs, .npm*, jest*, nx.json, pnpm-lock.yaml, tsconfig*, angular.json, ng-package.json, playwright*",
-    "package.json": ".prettier*, .eslint*, eslint.config.mjs, .npm*, jest*, nx.json, pnpm-lock.yaml, tsconfig*, angular.json, ng-package.json, playwright*",
+    "package.json": ".prettier*, .eslint*, eslint.config.mjs, .npm*, jest*, nx.json, pnpm-lock.yaml, tsconfig*, angular.json, ng-package.json, playwright*, .markdownlint.jsonc",
     "*.ts": "$(capture).spec.ts, $(capture).test.ts, $(capture).d.ts, $(capture).js, $(capture).js.map, $(capture).ts.map",
     "*.js": "$(capture).d.ts, $(capture).js.map",
     "*.css": "$(capture).css.map"
