@@ -1,4 +1,5 @@
 import { readdir } from 'fs/promises';
+import { type PluginOptions } from 'typedoc-plugin-markdown';
 import {
   Application,
   ArrayType,
@@ -16,11 +17,13 @@ import {
   ProjectReflection,
   QueryType,
   ReferenceType,
+  ReflectionFlag,
   ReflectionKind,
   ReflectionType,
   RestType,
   TemplateLiteralType,
   TupleType,
+  type TypeDocOptions,
   TypeOperatorType,
   UnionType,
   UnknownType,
@@ -50,14 +53,28 @@ type SomeType =
   | UnionType
   | UnknownType;
 
+const a: TypeDocOptions & PluginOptions = {
+  entryPoints: ['./src/**/*.ts'],
+  plugin: ['typedoc-plugin-markdown'],
+  hidePageHeader: true,
+  hideBreadcrumbs: true,
+  hideGenerator: true,
+  hidePageTitle: true,
+  hideGroupHeadings: true,
+  propertyMembersFormat: 'table',
+  parametersFormat: 'table',
+  classPropertiesFormat: 'table',
+  tableColumnSettings: {
+    hideModifiers: true,
+  },
+};
+
 async function parseTsDocs() {
-  const app = await Application.bootstrapWithPlugins({
-    entryPoints: ['./src/**/*.ts'],
-  });
+  const app = await Application.bootstrapWithPlugins(a);
 
   const project = await app.convert();
 
-  return project;
+  return { app, project };
 }
 
 async function getControlNames() {
@@ -65,49 +82,7 @@ async function getControlNames() {
   return dirs;
 }
 
-function convertType(typeArguments: SomeType): string {
-  switch (typeArguments.type) {
-    case 'array':
-      return `Array<${convertType(typeArguments.elementType)}>`;
-    case 'union':
-      return typeArguments.types
-        .filter(
-          x =>
-            (x.type !== 'intrinsic' || x.name !== 'undefined') &&
-            (x.type !== 'literal' || x.value !== null)
-        )
-        .map(convertType)
-        .join(' | ');
-    case 'intersection':
-      return typeArguments.types.map(convertType).join(' & ');
-    case 'literal':
-      return JSON.stringify(typeArguments.value);
-    case 'intrinsic':
-      return typeArguments.name;
-    case 'templateLiteral':
-      return typeArguments.stringify('templateLiteralElement');
-    case 'reference':
-      if (
-        typeArguments.reflection?.isTypeParameter() &&
-        typeArguments.reflection.type?.type === 'intrinsic'
-      ) {
-        return typeArguments.reflection.type?.name;
-      }
-      if (typeArguments.typeArguments) {
-        return `${typeArguments.name}<${typeArguments.typeArguments.map(convertType).join(', ')}>`;
-      }
-      return typeArguments.name;
-    case 'typeOperator':
-      if (typeArguments.operator === 'readonly') {
-        return convertType(typeArguments.target);
-      }
-      return `${typeArguments.operator} ${convertType(typeArguments.target)}`;
-    default:
-      return typeArguments.toString();
-  }
-}
-
-function convertControl(project: ProjectReflection, control: DeclarationReflection) {
+function convertControl(control: DeclarationReflection) {
   const props = control.getProperties();
 
   // TODO: Convert Outputs
@@ -118,55 +93,41 @@ function convertControl(project: ProjectReflection, control: DeclarationReflecti
       ['InputSignal', 'ModelSignal'].includes((prop.type as ReferenceType).name)
   );
 
-  const convertedInputs = inputs.map(input => {
-    const actualType = convertType((input.type as ReferenceType).typeArguments?.[0]!);
+  const ignoredProps = props.filter(prop => !inputs.includes(prop));
+  ignoredProps.forEach(prop => prop.setFlag(ReflectionFlag.Private, true));
 
-    // TODO: Parse comments
-    // TODO: Parse required input
-
-    return {
-      type: actualType,
-      name: input.name,
-    };
+  inputs.forEach(input => {
+    input.type = (input.type as ReferenceType).typeArguments?.[0]!;
+    input.flags.setFlag(ReflectionFlag.Readonly, false);
   });
-
-  return convertedInputs;
 }
 
 function convertControlGroup(project: ProjectReflection, controlGroupName: string) {
   const group = project.getChildByName(controlGroupName) as DeclarationReflection;
   const childNames = group.children?.map(child => child.name) ?? [];
 
-  return childNames.map(childName => {
+  childNames.forEach(childName => {
     const child = group.getChildByName(childName) as DeclarationReflection;
-    const inputs = convertControl(project, child);
-    return {
-      name: child.name,
-      inputs,
-    };
+    convertControl(child);
   });
 }
 
 async function convertProject(project: ProjectReflection) {
   const controlGroupNames = await getControlNames();
 
-  return controlGroupNames.map(controlGroupName => {
-    const controls = convertControlGroup(project, `${controlGroupName}/${controlGroupName}`);
-    return {
-      group: controlGroupName,
-      controls,
-    };
+  return controlGroupNames.forEach(controlGroupName => {
+    convertControlGroup(project, `${controlGroupName}/${controlGroupName}`);
   });
 }
 
 async function run() {
-  const project = await parseTsDocs();
+  const { app, project } = await parseTsDocs();
   if (!project) {
     console.error('Failed to parse TypeScript documentation');
     return;
   }
-  const inputs = await convertProject(project);
-  console.log(inputs);
+  await convertProject(project);
+  await app.generateOutputs(project);
 }
 
 run();
