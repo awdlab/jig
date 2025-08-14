@@ -6,6 +6,7 @@
     "docs:serve": "pnpm --filter @ngneers/controls-docs serve",
     "docs:build": "pnpm --filter @ngneers/controls-docs build",
     "controls:build": "pnpm --filter @ngneers/controls build",
+    "api-docs:generate": "pnpm --filter @ngneers/controls api-docs:generate",
     "build": "pnpm --filter * build",
     "lint": "pnpm --filter * lint",
     "test": "pnpm playwright test"
