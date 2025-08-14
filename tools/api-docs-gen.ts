@@ -110,6 +110,7 @@ function convertType(typeArguments: SomeType): string {
 function convertControl(project: ProjectReflection, control: DeclarationReflection) {
   const props = control.getProperties();
 
+  // TODO: Convert Outputs
   const inputs = props.filter(
     prop =>
       prop.kind === ReflectionKind.Property &&
