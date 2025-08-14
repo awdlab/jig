@@ -10,7 +10,3 @@ for date selection and time input.
 ## Basic Usage
 
 {{ NgDocActions.demo("Demo_Calendar_Base") }}
-
-## Playground
-
-{{ NgDocActions.playground("CalendarPlayground", {inputs: {showTime: true} }) }}

@@ -17,7 +17,3 @@ scrolling, sticky elements, and large datasets.
 ## Virtual Scrolling
 
 {{ NgDocActions.demo("Demo_Scroller_Virtual") }}
-
-## Playground
-
-<!-- {{ NgDocActions.playground("ScrollerPlayground", {inputs: {} }) }} -->

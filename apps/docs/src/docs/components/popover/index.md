@@ -13,7 +13,3 @@ trigger element, with support for both eager and lazy loading.
 ## Lazy Loading
 
 {{ NgDocActions.demo("Demo_Popover_Lazy") }}
-
-## Playground
-
-{{ NgDocActions.playground("PopoverPlayground", {inputs: {} }) }}

@@ -21,5 +21,3 @@ input types, textarea mode, and input field wrappers.
 ### Textarea Input Field
 
 {{ NgDocActions.demo("Demo_TextField_TextareaInputField") }}
-
-## API

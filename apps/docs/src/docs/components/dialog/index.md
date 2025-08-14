@@ -14,7 +14,3 @@ eager and lazy loading of content.
 ## Lazy Loading
 
 {{ NgDocActions.demo("Demo_Dialog_Lazy") }}
-
-## Playground
-
-{{ NgDocActions.playground("DialogPlayground", {inputs: {} }) }}

@@ -33,7 +33,3 @@ filtering, grouping, custom templates, and editable options.
 ## Custom Editable
 
 {{ NgDocActions.demo("Demo_Select_EditableCustom") }}
-
-## Playground
-
-{{ NgDocActions.playground("SelectPlayground", {inputs: {} }) }}

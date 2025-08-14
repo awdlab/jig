@@ -11,7 +11,7 @@ import ComponentsCategory from '../../categories/components/ng-doc.category';
 
 const ListBoxPage: NgDocPage = {
   title: `List Box`,
-  mdFile: ['./index.md', './api.md'],
+  mdFile: ['./index.md', './api.md', './playground.md'],
   category: ComponentsCategory,
   demos: {
     Demo_ListBox_Base,

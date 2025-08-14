@@ -25,7 +25,3 @@ vertical layouts, minimum/maximum sizes, and state management.
 ## Vertical Layout
 
 {{ NgDocActions.demo("Demo_Splitter_Vertical") }}
-
-## Playground
-
-{{ NgDocActions.playground("SplitterPlayground", {inputs: {} }) }}

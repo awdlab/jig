@@ -7,7 +7,7 @@ import ComponentsCategory from '../../categories/components/ng-doc.category';
 
 const CheckboxPage: NgDocPage = {
   title: `Checkbox`,
-  mdFile: ['./index.md', './api.md'],
+  mdFile: ['./index.md', './api.md', './playground.md'],
   category: ComponentsCategory,
   demos: {
     Demo_Checkbox_Base,

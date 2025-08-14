@@ -13,7 +13,3 @@ for checked, unchecked, and indeterminate states.
 ## Indeterminate State
 
 {{ NgDocActions.demo("Demo_Checkbox_Indeterminate") }}
-
-## Playground
-
-{{ NgDocActions.playground("CheckboxPlayground", {inputs: {checked: false} }) }}

@@ -30,7 +30,3 @@ custom templates.
 ## Virtual Scrolling
 
 {{ NgDocActions.demo("ListBox_Virtual_Component") }}
-
-## Playground
-
-{{ NgDocActions.playground("ListBoxPlayground", {inputs: {} }) }}

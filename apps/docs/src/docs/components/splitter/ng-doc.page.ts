@@ -9,7 +9,7 @@ import ComponentsCategory from '../../categories/components/ng-doc.category';
 
 const SplitterPage: NgDocPage = {
   title: `Splitter`,
-  mdFile: ['./index.md', './api.md'],
+  mdFile: ['./index.md', './api.md', './playground.md'],
   category: ComponentsCategory,
   demos: {
     Demo_Splitter_Base,
