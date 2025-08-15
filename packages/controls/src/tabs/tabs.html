@@ -1,0 +1,19 @@
+<div>
+  Headers:
+  @for (header of headers(); track header) {
+    <button (click)="selectTab(header.id)">
+      <ng-container *ngTemplateOutlet="header.template"></ng-container>
+    </button>
+  }
+</div>
+
+Content:
+
+@for (content of contents(); track content; let i = $index) {
+  <ngn-defer
+    [lazyContent]="content.template"
+    [open]="content.id === activeTab() || (!activeTab() && i === 0)"
+    [cache]="cache()"
+    [lazy]="lazy()"
+  />
+}

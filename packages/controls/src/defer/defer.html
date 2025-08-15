@@ -1,5 +1,5 @@
 @if (lazyContent()) {
-  @if (open() || (cache() && hasBeenOpened())) {
+  @if (open() || (cache() && hasBeenOpened()) || !lazy()) {
     <ng-container *ngTemplateOutlet="lazyContent()"></ng-container>
   }
 } @else {
