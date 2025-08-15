@@ -107,7 +107,7 @@ export class NgnSelect<
    */
   public readonly virtual = input<boolean>(false);
   /**
-   * When `virtual` is enabled, this property defines the height of each item in the list.
+   * When {@link virtual} is enabled, this property defines the height of each item in the list.
    */
   public readonly itemHeight = input<number>();
   /**

@@ -1,4 +1,4 @@
-import { readdir } from 'fs/promises';
+import { readdir, readFile, stat, writeFile } from 'fs/promises';
 import { type PluginOptions } from 'typedoc-plugin-markdown';
 import {
   Application,
@@ -17,6 +17,7 @@ import {
   UnionType,
   type SomeType,
 } from 'typedoc';
+import { join } from 'path';
 
 const COMPONENT_DOCS_PATH = '../../apps/docs/src/docs/components';
 const OUT_DIR = '../../apps/docs/src/docs/api';
@@ -156,6 +157,42 @@ async function convertProject(project: ProjectReflection) {
   });
 }
 
+async function getAllMarkdownFilesRecursive(dir = OUT_DIR): Promise<string[]> {
+  const entries = await readdir(dir);
+  let markdownFiles: string[] = [];
+
+  for (const entry of entries) {
+    const fullPath = join(dir, entry);
+    const stats = await stat(fullPath);
+
+    if (stats.isDirectory()) {
+      const nestedFiles = await getAllMarkdownFilesRecursive(fullPath);
+      markdownFiles = markdownFiles.concat(nestedFiles);
+    } else if (entry.endsWith('.md')) {
+      markdownFiles.push(fullPath);
+    }
+  }
+
+  return markdownFiles;
+}
+
+async function fixLinks() {
+  const allMarkdownFilesRecursive = await getAllMarkdownFilesRecursive();
+
+  const all = allMarkdownFilesRecursive.map(async filePath => {
+    const content = await readFile(filePath, 'utf-8');
+
+    const out = content.replace(
+      /\(\.\.\/\.\.\/types\/type-aliases\/([^/]+)\.md\)/,
+      '(/docs/api/type-aliases/ngneers-controls/$1)'
+    );
+
+    await writeFile(filePath, out, 'utf-8');
+  });
+
+  await Promise.all(all);
+}
+
 async function run() {
   const { app, project } = await parseTsDocs();
   if (!project) {
@@ -164,6 +201,8 @@ async function run() {
   }
   await convertProject(project);
   await app.generateOutputs(project);
+
+  await fixLinks();
 }
 
 run();
