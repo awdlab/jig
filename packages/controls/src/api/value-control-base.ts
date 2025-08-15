@@ -16,9 +16,19 @@ export function valueControlBaseProvider<T extends Type<ValueControlBase<any>>>(
 
 @Directive()
 export abstract class ValueControlBase<T> extends NgnBase implements ControlValueAccessor {
+  /**
+   * The label for the control.
+   */
   public readonly label = input<string | null>(null);
+  /**
+   * The ID for the control
+   * @defaultValue A generated unique value.
+   */
   public readonly inputId = input<string>(generateElementId());
 
+  /**
+   * The value of the control.
+   */
   public readonly value = model<T>(undefined as T);
 
   public writeValue(value: T): void {

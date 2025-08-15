@@ -27,10 +27,22 @@ export class NgnCheckbox<Indeterminate extends boolean> extends ValueControlBase
 > {
   protected readonly theme = injectThemeTemplate(checkboxControlTemplate);
 
+  /**
+   * Set a custom icon for the checked state.
+   */
   public readonly iconChecked = input<IconType>();
+  /**
+   * Set a custom icon for the unchecked state.
+   */
   public readonly iconUnchecked = input<IconType>();
+  /**
+   * Set a custom icon for the indeterminate state.
+   */
   public readonly iconIndeterminate = input<IconType>();
-
+  /**
+   * Set whether to allow the indeterminate state.
+   * If `true`, this will change the {@link value} type to `boolean \| null`.
+   */
   public readonly allowIndeterminate = input<Indeterminate>();
   protected readonly indeterminate = computed(
     () => this.allowIndeterminate() && this.value() === null

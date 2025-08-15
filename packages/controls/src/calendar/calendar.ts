@@ -37,8 +37,17 @@ export class NgnCalendar extends CalendarTemplates {
     () => this.value()?.getFullYear() || new Date().getFullYear()
   );
   protected readonly month = linkedSignal(() => this.value()?.getMonth() || new Date().getMonth());
+  /**
+   * Set the first day of the week.
+   */
   public readonly firstDayOfWeek = input<WeekDay>('monday');
+  /**
+   * Whether to show the time input.
+   */
   public readonly showTime = input<boolean>(false);
+  /**
+   * Whether to show seconds in the time input.
+   */
   public readonly showSeconds = input<boolean>(false);
 
   protected readonly currentView = signal<'days' | 'months'>('days');

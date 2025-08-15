@@ -16,6 +16,9 @@ export abstract class CalendarTemplates extends ValueControlBase<Date | null> {
     viewChild.required<TemplateRef<typeof this.templateTypes.day>>('defaultDayTemplate');
   private readonly _userDayTemplate =
     contentChild<TemplateRef<typeof this.templateTypes.day>>('day');
+  /**
+   * Set a custom template for a day.
+   */
   public readonly templateDay = input<TemplateRef<typeof this.templateTypes.day> | null>(null);
   protected readonly dayTemplate = computed(
     () => this._userDayTemplate() ?? this.templateDay() ?? this._defaultDayTemplate()
@@ -25,6 +28,9 @@ export abstract class CalendarTemplates extends ValueControlBase<Date | null> {
     viewChild.required<TemplateRef<typeof this.templateTypes.weekDay>>('defaultWeekDayTemplate');
   private readonly _userWeekDayTemplate =
     contentChild<TemplateRef<typeof this.templateTypes.weekDay>>('weekDay');
+  /**
+   * Set a custom template for a week day.
+   */
   public readonly templateWeekDay = input<TemplateRef<typeof this.templateTypes.weekDay> | null>(
     null
   );
@@ -36,6 +42,9 @@ export abstract class CalendarTemplates extends ValueControlBase<Date | null> {
     viewChild.required<TemplateRef<typeof this.templateTypes.month>>('defaultMonthTemplate');
   private readonly _userMonthTemplate =
     contentChild<TemplateRef<typeof this.templateTypes.month>>('month');
+  /**
+   * Set a custom template for a month.
+   */
   public readonly templateMonth = input<TemplateRef<typeof this.templateTypes.month> | null>(null);
   protected readonly monthTemplate = computed(
     () => this._userMonthTemplate() ?? this.templateMonth() ?? this._defaultMonthTemplate()
@@ -45,6 +54,9 @@ export abstract class CalendarTemplates extends ValueControlBase<Date | null> {
     viewChild.required<TemplateRef<typeof this.templateTypes.time>>('defaultTimeTemplate');
   private readonly _userTimeTemplate =
     contentChild<TemplateRef<typeof this.templateTypes.time>>('time');
+  /**
+   * Set a custom template for the time input.
+   */
   public readonly templateTime = input<TemplateRef<typeof this.templateTypes.time> | null>(null);
   protected readonly timeTemplate = computed(
     () => this._userTimeTemplate() ?? this.templateTime() ?? this._defaultTimeTemplate()
@@ -54,19 +66,37 @@ export abstract class CalendarTemplates extends ValueControlBase<Date | null> {
     viewChild.required<TemplateRef<typeof this.templateTypes.year>>('defaultYearTemplate');
   private readonly _userYearTemplate =
     contentChild<TemplateRef<typeof this.templateTypes.year>>('year');
+  /**
+   * Set a custom template for the year input.
+   */
   public readonly templateYear = input<TemplateRef<typeof this.templateTypes.year> | null>(null);
   protected readonly yearTemplate = computed(
     () => this._userYearTemplate() ?? this.templateYear() ?? this._defaultYearTemplate()
   );
 
   /**
-   * Types for the dialog templates.
+   * Types for the calendar templates.
    */
   public readonly templateTypes = templateTypesFn<{
+    /**
+     * Type of the template variable for the day template.
+     */
     day: DayTemplateType;
+    /**
+     * Type of the template variable for the week day template.
+     */
     weekDay: WeekDayTemplateType;
+    /**
+     * Type of the template variable for the month template.
+     */
     month: MonthTemplateType;
+    /**
+     * Type of the template variable for the time template.
+     */
     time: TimeTemplateType;
+    /**
+     * Type of the template variable for the year template.
+     */
     year: YearTemplateType;
   }>();
 }
