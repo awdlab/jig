@@ -2,7 +2,7 @@ import { computed, contentChild, Directive, input, TemplateRef, viewChild } from
 import { NgnItem, templateTypesFn, ValueControlBase } from '@ngneers/controls/api';
 
 @Directive()
-export abstract class ListBoxTemplates<T, K extends keyof T> extends ValueControlBase<T[K]> {
+export abstract class ListBoxTemplates<T, K extends keyof T> extends ValueControlBase<T[K] | null> {
   // Item template
   private readonly _defaultItemTemplate =
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');

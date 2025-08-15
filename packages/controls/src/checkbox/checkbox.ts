@@ -10,8 +10,8 @@ import { NgnIcon } from '@ngneers/controls/icon';
 import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
 
 type ValueType<Indeterminate extends boolean> = Indeterminate extends false
-  ? boolean | null
-  : boolean;
+  ? boolean
+  : boolean | null;
 
 @Component({
   selector: 'ngn-checkbox',

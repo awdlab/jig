@@ -19,10 +19,10 @@ export abstract class ValueControlBase<T> extends NgnBase implements ControlValu
   public readonly label = input<string | null>(null);
   public readonly inputId = input<string>(generateElementId());
 
-  public readonly value = model<T | null>(null);
+  public readonly value = model<T>(undefined as T);
 
-  public writeValue(value: T | null): void {
-    this.value.set(value ?? null);
+  public writeValue(value: T): void {
+    this.value.set(value);
   }
   private _onChange: (_: T | null) => void = () => {};
   public registerOnChange(fn: (value: T | null) => void): void {
@@ -38,7 +38,7 @@ export abstract class ValueControlBase<T> extends NgnBase implements ControlValu
   }
 
   protected onChange(value: T) {
-    this._onChange(value ?? null);
-    this.value.set(value ?? null);
+    this._onChange(value);
+    this.value.set(value);
   }
 }

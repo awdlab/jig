@@ -4,14 +4,18 @@ import {
   Application,
   DeclarationReflection,
   Deserializer,
+  IntrinsicType,
+  LiteralType,
   Logger,
   type ProjectReflection,
-  type ReferenceType,
+  ReferenceType,
   ReflectionFlag,
   ReflectionGroup,
   ReflectionKind,
   Serializer,
   type TypeDocOptions,
+  UnionType,
+  type SomeType,
 } from 'typedoc';
 
 const COMPONENT_DOCS_PATH = '../../apps/docs/src/docs/components';
@@ -34,6 +38,7 @@ const options: TypeDocOptions & PluginOptions = {
     hideSources: true,
     hideInherited: true,
   },
+  searchInComments: true,
 };
 
 async function parseTsDocs() {
@@ -109,6 +114,27 @@ function convertControl(control: DeclarationReflection) {
   [...inputs, ...outputs].forEach(input => {
     input.type = (input.type as ReferenceType).typeArguments?.[0]!;
     input.flags.setFlag(ReflectionFlag.Readonly, false);
+  });
+
+  function isNullorUndefinedType(type: SomeType): boolean {
+    return (
+      (type instanceof LiteralType && type.value === null) ||
+      (type instanceof IntrinsicType && type.name === 'undefined')
+    );
+  }
+
+  // Sort null & undefined to the back
+  [...inputs, ...outputs, ...publicProps].forEach(prop => {
+    if (prop.type instanceof UnionType) {
+      prop.type.types.sort((a, b) => {
+        if (isNullorUndefinedType(a) && !isNullorUndefinedType(b)) {
+          return 1;
+        } else if (isNullorUndefinedType(b) && !isNullorUndefinedType(a)) {
+          return -1;
+        }
+        return 0;
+      });
+    }
   });
 }
 
