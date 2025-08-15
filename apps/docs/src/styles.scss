@@ -4,3 +4,10 @@
 ng-doc-page-link:has(~ .ng-doc-code-with-link) {
   display: none;
 }
+
+:root {
+  --ng-doc-text: rgb(20, 20, 20);
+  &[data-theme='dark'] {
+    --ng-doc-text: rgb(200, 200, 200);
+  }
+}

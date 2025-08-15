@@ -55,7 +55,7 @@ async function getControlNames() {
   return dirs;
 }
 
-function convertControl(control: DeclarationReflection) {
+async function convertControl(control: DeclarationReflection) {
   const props = control.getProperties();
 
   const inputs = props.filter(
@@ -112,9 +112,36 @@ function convertControl(control: DeclarationReflection) {
   outputs.length && control.groups.push(groupOutputs);
   publicProps.length && control.groups.push(groupPublic);
 
+  // Remove readonly & signal/output wrapper type from inputs/outputs
   [...inputs, ...outputs].forEach(input => {
     input.type = (input.type as ReferenceType).typeArguments?.[0]!;
     input.flags.setFlag(ReflectionFlag.Readonly, false);
+  });
+
+  // Add * to required inputs
+  const promises = [...inputs].map(async input => {
+    const source = input.sources?.[0];
+    const file = source?.fullFileName;
+    const line = source?.line;
+    if (!file || !line) return;
+    const lineText = await readFile(file, 'utf-8').then(content => {
+      const lines = content.split('\n');
+      return lines[line - 1];
+    });
+    if (lineText.includes('.required')) {
+      input.name = `${input.name}*`;
+    }
+  });
+  await Promise.all(promises);
+
+  // Sort required inputs to the top and alphabetically
+  inputs.sort((a, b) => {
+    if (a.name.endsWith('*') && !b.name.endsWith('*')) {
+      return -1;
+    } else if (!a.name.endsWith('*') && b.name.endsWith('*')) {
+      return 1;
+    }
+    return a.name.localeCompare(b.name);
   });
 
   function isNullorUndefinedType(type: SomeType): boolean {
@@ -139,22 +166,26 @@ function convertControl(control: DeclarationReflection) {
   });
 }
 
-function convertControlGroup(project: ProjectReflection, controlGroupName: string) {
+async function convertControlGroup(project: ProjectReflection, controlGroupName: string) {
   const group = project.getChildByName(controlGroupName) as DeclarationReflection;
   const childNames = group.children?.map(child => child.name) ?? [];
 
-  childNames.forEach(childName => {
-    const child = group.getChildByName(childName) as DeclarationReflection;
-    convertControl(child);
-  });
+  await Promise.all(
+    childNames.map(childName => {
+      const child = group.getChildByName(childName) as DeclarationReflection;
+      return convertControl(child);
+    })
+  );
 }
 
 async function convertProject(project: ProjectReflection) {
   const controlGroupNames = await getControlNames();
 
-  return controlGroupNames.forEach(controlGroupName => {
-    convertControlGroup(project, `${controlGroupName}/${controlGroupName}`);
-  });
+  return Promise.all(
+    controlGroupNames.map(controlGroupName => {
+      return convertControlGroup(project, `${controlGroupName}/${controlGroupName}`);
+    })
+  );
 }
 
 async function getAllMarkdownFilesRecursive(dir = OUT_DIR): Promise<string[]> {
