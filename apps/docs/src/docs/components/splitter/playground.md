@@ -6,4 +6,4 @@ route: playground
 
 ## Playground
 
-{{ NgDocActions.playground("SplitterPlayground", {inputs: {} }) }}
+<!-- {{ NgDocActions.playground("SplitterPlayground", {inputs: {layout: 'vertical'} }) }} -->

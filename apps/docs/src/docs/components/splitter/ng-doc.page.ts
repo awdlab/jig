@@ -1,4 +1,5 @@
 import { NgDocPage } from '@ng-doc/core';
+import { NgnSplitterPanel } from '@ngneers/controls/splitter';
 
 import { Demo_Splitter_Base } from '../../../app/demos/splitter/base';
 import { Demo_Splitter_MinMax } from '../../../app/demos/splitter/min-max';
@@ -11,6 +12,7 @@ const SplitterPage: NgDocPage = {
   title: `Splitter`,
   mdFile: ['./index.md', './api.md', './playground.md'],
   category: ComponentsCategory,
+  imports: [NgnSplitterPanel],
   demos: {
     Demo_Splitter_Base,
     Demo_Splitter_MinMax,
@@ -21,10 +23,11 @@ const SplitterPage: NgDocPage = {
   // playgrounds: {
   //   SplitterPlayground: {
   //     target: NgnSplitter,
-  //     template: `<ngn-splitter ng-doc-selector style="height: 200px;">
-  //       <div>Panel 1</div>
-  //       <div>Panel 2</div>
-  //     </ngn-splitter>`,
+  //     template: `<ng-doc-selector  style="height: 200px;">
+  //       <ngn-splitter-panel [ariaLabel]="'First Panel'"> Panel 1 </ngn-splitter-panel>
+  //       <ngn-splitter-panel  [ariaLabel]="'Second Panel'"> Panel 2 </ngn-splitter-panel>
+  //       <ngn-splitter-panel [ariaLabel]="'Third Panel'"> Panel 3 </ngn-splitter-panel>
+  //     </ng-doc-selector>`,
   //   },
   // },
 };

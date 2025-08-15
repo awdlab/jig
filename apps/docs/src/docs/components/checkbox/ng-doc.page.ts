@@ -16,7 +16,7 @@ const CheckboxPage: NgDocPage = {
   playgrounds: {
     CheckboxPlayground: {
       target: NgnCheckbox,
-      template: `<ngn-checkbox ng-doc-selector>Check me</ngn-checkbox>`,
+      template: `<ng-doc-selector>Check me</ng-doc-selector>`,
     },
   },
 };

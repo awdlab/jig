@@ -24,7 +24,7 @@ const ListBoxPage: NgDocPage = {
   playgrounds: {
     ListBoxPlayground: {
       target: NgnListBox,
-      template: `<ngn-list-box ng-doc-selector></ngn-list-box>`,
+      template: `<ng-doc-selector></ng-doc-selector>`,
     },
   },
 };

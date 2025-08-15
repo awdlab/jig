@@ -26,7 +26,7 @@ const SelectPage: NgDocPage = {
   playgrounds: {
     SelectPlayground: {
       target: NgnSelect,
-      template: `<ngn-select ng-doc-selector></ngn-select>`,
+      template: `<ng-doc-selector></ng-doc-selector>`,
     },
   },
 };

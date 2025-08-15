@@ -18,9 +18,9 @@ const ScrollerPage: NgDocPage = {
   playgrounds: {
     ScrollerPlayground: {
       target: NgnScroller,
-      template: `<ngn-scroller ng-doc-selector style="height: 200px;">
+      template: `<ng-doc-selector style="height: 200px;">
         <div>Scrollable content</div>
-      </ngn-scroller>`,
+      </ng-doc-selector>`,
     },
   },
 };

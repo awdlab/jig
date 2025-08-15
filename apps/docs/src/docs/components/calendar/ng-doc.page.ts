@@ -14,7 +14,7 @@ const CalendarPage: NgDocPage = {
   playgrounds: {
     CalendarPlayground: {
       target: NgnCalendar,
-      template: `<ngn-calendar ng-doc-selector></ngn-calendar>`,
+      template: `<ng-doc-selector></ng-doc-selector>`,
     },
   },
 };
