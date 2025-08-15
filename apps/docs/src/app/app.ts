@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, inject, PLATFORM_ID } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NgDocThemeService } from '@ng-doc/app/services/theme';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +10,12 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.scss',
 })
 export class App {
-  protected title = 'docs';
+  constructor() {
+    if (isPlatformBrowser(inject(PLATFORM_ID))) {
+      const themeService = inject(NgDocThemeService);
+      if (themeService.currentTheme === null) {
+        themeService.set('auto');
+      }
+    }
+  }
 }
