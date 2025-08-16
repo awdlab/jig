@@ -37,7 +37,7 @@ export class NgnTabs extends NgnBase implements AfterViewInit {
   public readonly cache = input(false);
   public readonly lazy = input(false);
 
-  protected readonly indicatorWidth = signal(100);
+  protected readonly indicatorWidth = signal(0);
   protected readonly indicatorLeft = signal(0);
 
   private readonly _tabs = contentChildren(NgnTab);

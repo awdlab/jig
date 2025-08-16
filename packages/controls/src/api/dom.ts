@@ -42,13 +42,16 @@ function elementsSizesSignalInt(element: ElementArray | ElementSingle): Signal<S
       return;
     }
     sizeSignal.set(
-      elements.map(el => ({
-        width: el.clientWidth,
-        height: el.clientHeight,
-      }))
+      elements.map(el => {
+        const rect = el.getBoundingClientRect();
+        return {
+          width: rect.width,
+          height: rect.height,
+        };
+      })
     );
     elements.forEach(el => {
-      resizeObserver.observe(el);
+      resizeObserver.observe(el, { box: 'border-box' });
     });
   });
   const destroyRef = inject(DestroyRef);
@@ -58,11 +61,10 @@ function elementsSizesSignalInt(element: ElementArray | ElementSingle): Signal<S
   const resizeObserver = new ResizeObserver(entries => {
     entries.forEach(entry => {
       const index = elements.findIndex(el => el === entry.target);
-      const element = elements[index];
       sizeSignal.update(s => {
         s[index] = {
-          width: element.clientWidth, // Using clientWidth instead of the resizeObservers rects as the source of truth
-          height: element.clientHeight,
+          width: entry.borderBoxSize[0].inlineSize,
+          height: entry.borderBoxSize[0].blockSize,
         };
         return s;
       });

@@ -23,6 +23,7 @@ export const tabsStyles = createThemePart({
         background: ${v('color.background')};
         border: none;
         cursor: pointer;
+        white-space: nowrap;
         font-weight: ${v('font.weight.semibold')};
         padding: ${v('size.padding.md')};
         &:hover {
