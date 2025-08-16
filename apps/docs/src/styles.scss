@@ -7,6 +7,7 @@ ng-doc-page-link:has(~ .ng-doc-code-with-link) {
 
 :root {
   --ng-doc-text: rgb(20, 20, 20);
+  --ng-doc-app-max-width: 1800px;
   &[data-theme='dark'] {
     --ng-doc-text: rgb(200, 200, 200);
   }
