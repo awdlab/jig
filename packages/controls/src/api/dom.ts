@@ -1,5 +1,6 @@
 import {
   afterRenderEffect,
+  computed,
   DestroyRef,
   ElementRef,
   inject,
@@ -10,35 +11,60 @@ import {
 
 export type Size = { width: number; height: number };
 
-export function elementSizeSignal(
-  element: Signal<HTMLElement | ElementRef<HTMLElement>> | HTMLElement | ElementRef<HTMLElement>
-): Signal<Size> {
-  const sizeSignal = signal<Size>({ width: 0, height: 0 });
+type ElementArray =
+  | Signal<Array<HTMLElement | ElementRef<HTMLElement>>>
+  | Array<HTMLElement | ElementRef<HTMLElement>>;
+type ElementSingle =
+  | Signal<HTMLElement | ElementRef<HTMLElement>>
+  | HTMLElement
+  | ElementRef<HTMLElement>;
 
+export function elementSizeSignal(element: ElementSingle): Signal<Size> {
+  const val = elementsSizesSignalInt(element);
+  return computed(() => val()[0] ?? { width: 0, height: 0 });
+}
+
+export function elementsSizesSignal(element: ElementArray): Signal<Size[]> {
+  return elementsSizesSignalInt(element);
+}
+
+function elementsSizesSignalInt(element: ElementArray | ElementSingle): Signal<Size[]> {
+  const sizeSignal = signal<Size[]>([]);
+
+  let elements: HTMLElement[];
   afterRenderEffect(() => {
-    let el = typeof element === 'function' ? element() : element;
-    if (el instanceof ElementRef) {
-      el = el.nativeElement;
-    }
-    if (!el) {
+    const rawElement = typeof element === 'function' ? element() : element;
+    const arrayElement = Array.isArray(rawElement) ? rawElement : [rawElement];
+    elements = arrayElement.map(el => (el instanceof ElementRef ? el.nativeElement : el));
+
+    if (!elements.length) {
       return;
     }
-    sizeSignal.set({
-      width: el.clientWidth,
-      height: el.clientHeight,
+    sizeSignal.set(
+      elements.map(el => ({
+        width: el.clientWidth,
+        height: el.clientHeight,
+      }))
+    );
+    elements.forEach(el => {
+      resizeObserver.observe(el);
     });
-    resizeObserver.observe(el);
   });
-
   const destroyRef = inject(DestroyRef);
   if (typeof ResizeObserver === 'undefined') {
     return sizeSignal; // ResizeObserver is not supported, return initial size
   }
   const resizeObserver = new ResizeObserver(entries => {
-    const firstEntry = entries[0];
-    sizeSignal.set({
-      width: firstEntry.contentRect.width,
-      height: firstEntry.contentRect.height,
+    entries.forEach(entry => {
+      const index = elements.findIndex(el => el === entry.target);
+      const element = elements[index];
+      sizeSignal.update(s => {
+        s[index] = {
+          width: element.clientWidth, // Using clientWidth instead of the resizeObservers rects as the source of truth
+          height: element.clientHeight,
+        };
+        return s;
+      });
     });
   });
   destroyRef.onDestroy(() => {

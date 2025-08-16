@@ -1,19 +1,35 @@
-<div>
-  Headers:
-  @for (header of headers(); track header) {
-    <button (click)="selectTab(header.id)">
+<div [ngClass]="theme.class('headers')">
+  @for (header of headers(); track header; let i = $index) {
+    <button
+      #tabHeader
+      [ngClass]="
+        theme.classes({
+          header: true,
+          'header-active': header.id === activeTab() || (!activeTab() && i === 0),
+        })
+      "
+      (click)="selectTab(header.id)"
+    >
       <ng-container *ngTemplateOutlet="header.template"></ng-container>
     </button>
   }
+  <div
+    [ngClass]="theme.class('header-active-indicator')"
+    [style.width.px]="indicatorWidth()"
+    [style.left.px]="indicatorLeft()"
+  ></div>
 </div>
-
-Content:
-
 @for (content of contents(); track content; let i = $index) {
-  <ngn-defer
-    [lazyContent]="content.template"
-    [open]="content.id === activeTab() || (!activeTab() && i === 0)"
-    [cache]="cache()"
-    [lazy]="lazy()"
-  />
+  <div
+    [ngClass]="
+      content.id === activeTab() || (!activeTab() && i === 0) ? theme.class('content') : ''
+    "
+  >
+    <ngn-defer
+      [lazyContent]="content.template"
+      [open]="content.id === activeTab() || (!activeTab() && i === 0)"
+      [cache]="cache()"
+      [lazy]="lazy()"
+    />
+  </div>
 }

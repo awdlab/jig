@@ -12,22 +12,24 @@ import { popoverStyles } from '@ngneers/controls-themes/nova/popover';
 import { scrollerStyles } from '@ngneers/controls-themes/nova/scroller';
 import { selectStyles } from '@ngneers/controls-themes/nova/select';
 import { splitterStyles } from '@ngneers/controls-themes/nova/splitter';
+import { tabsStyles } from '@ngneers/controls-themes/nova/tabs';
 
 export const novaCoral = createTheme('Nova Coral', [
-  coral,
-  sizes,
-  font,
-  avatarStyles,
   avatarGroupStyles,
+  avatarStyles,
   buttonStyles,
+  calendarStyles,
+  checkboxStyles,
+  coral,
+  font,
+  inputFieldStyles,
+  inputMaskStyles,
+  inputStyles,
   listBoxStyles,
   popoverStyles,
-  selectStyles,
-  inputFieldStyles,
-  inputStyles,
-  inputMaskStyles,
-  calendarStyles,
   scrollerStyles,
+  selectStyles,
+  sizes,
   splitterStyles,
-  checkboxStyles,
+  tabsStyles,
 ]);

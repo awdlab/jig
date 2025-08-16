@@ -10,10 +10,6 @@ route: api
 
 {% include "../../api/tabs/tabs/classes/NgnTabs.md" %}
 
-### Tab Header
+### Tab
 
-{% include "../../api/tabs/tab-header/classes/NgnTabHeader.md" %}
-
-### Tab Content
-
-{% include "../../api/tabs/tab-content/classes/NgnTabContent.md" %}
+{% include "../../api/tabs/tab/classes/NgnTab.md" %}
