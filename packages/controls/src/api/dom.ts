@@ -46,6 +46,7 @@ function elementsSizesSignalInt(element: ElementArray | ElementSingle): Signal<S
         height: el.clientHeight,
       }))
     );
+    // TODO: Unobserve / disconnect
     elements.forEach(el => {
       resizeObserver.observe(el);
     });
