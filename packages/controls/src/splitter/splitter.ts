@@ -61,38 +61,97 @@ export class NgnSplitter extends NgnBase implements OnDestroy {
   protected readonly theme = injectThemeTemplate(splitterControlTemplate);
   protected readonly translations = inject(I18n).translations;
 
+  /**
+   * The layout of the splitter.
+   */
   public readonly layout = model.required<SplitterLayout>();
+  /**
+   * The CSS class(es) to apply to the divider elements.
+   */
   public readonly dividerStyleClass = input<string | null>();
+  /**
+   * A array of panel names that defines the order of panels.
+   * If nullish, the order is determined by the order the panels are defined in the template.
+   */
   public readonly panelOrder = model<string[] | null>();
+  /**
+   * The storage to use for saving the splitter state.
+   * @defaultValue `session`
+   */
   public readonly stateStorage = input<NgnStateStorage>(
     this._config.defaults.splitter.stateStorage
   );
+  /**
+   * The key to use for saving the splitter state.
+   * If nullish, the state will not be saved.
+   */
   public readonly stateKey = input<string | null>();
+  /**
+   * The type of data to save in the splitter state.
+   * @defaultValue `['layout', 'panelOrder', 'panelSizes']`
+   */
   public readonly stateData = input<readonly SplitterStateData[]>([
     'layout',
     'panelOrder',
     'panelSizes',
   ]);
+  /**
+   * The type of calculator to use for the splitter.
+   * @defaultValue `DefaultSplitterCalculator`
+   */
   public readonly calculatorType = input<SplitterCalculatorType>(DefaultSplitterCalculator);
+  /**
+   * The step size for moving the dividers using the keyboard.
+   * This can be a pixel value (e.g., '5px') or a percentage value (e.g., '5%').
+   * If a percentage is used, it will be calculated based on the size of the splitter element.
+   * @defaultValue '5px'
+   */
   public readonly step = input<`${number}${'%' | 'px'}`>('5px');
 
+  /**
+   * The ARIA label for the splitter.
+   */
   public readonly ariaLabel = input<string | null>();
+  /**
+   * The ARIA labelledby attribute for the splitter.
+   */
   public readonly ariaLabelledBy = input<string | null>();
 
+  /**
+   * Event emitted when the splitter state is being saved.
+   * This can be used to modify the state before it is saved.
+   */
   public readonly stateSaving = output<SplitterState>();
+  /**
+   * Event emitted when the splitter state is loaded.
+   * This can be used to modify the state before it is applied or to perform actions based on the loaded state.
+   */
   public readonly stateLoading = output<SplitterState>();
 
   protected readonly dividerTemplateType = templateTypeFn<never, { index: number }>();
   private readonly _dividerTemplate =
     viewChild.required<TemplateRef<typeof this.dividerTemplateType>>('defaultDividerTemplate');
+
+  /**
+   * The current dividers in the splitter.
+   */
   public readonly dividers = signal<EmbeddedViewRef<typeof this.dividerTemplateType>[]>([]);
+  /**
+   * The current panels in the splitter.
+   */
   public readonly panels = contentChildren(NgnSplitterPanel);
+  /**
+   * The current size of the splitter element.
+   */
   public readonly elementSize = elementSizeSignal(this.element);
 
   protected readonly hostClass = computed(() => {
     return `${this.theme.class()} ${this.theme.class(this.layout())} ${this.isDragging() ? this.theme.class('dragging') : ''}`;
   });
 
+  /**
+   * A value indicating whether the splitter is currently being dragged.
+   */
   public readonly isDragging = computed(() => this.calculator().dragContext() !== null);
 
   protected readonly calculator = computed(() => {
@@ -236,14 +295,14 @@ export class NgnSplitter extends NgnBase implements OnDestroy {
 
   private onStateLoad(state: SplitterState | null) {
     if (state) {
-      this.ensureValidateState(state);
+      this.ensureValidState(state);
       this.stateLoading.emit(state);
       this.applyFromState(state);
     }
     return state;
   }
 
-  private ensureValidateState(state: SplitterState): void {
+  private ensureValidState(state: SplitterState): void {
     if (state.layout && state.layout !== 'horizontal' && state.layout !== 'vertical') {
       Logger.warn(`Invalid layout in saved splitter state.`, { state });
       delete state.layout;
