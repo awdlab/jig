@@ -6,6 +6,9 @@ import { splitterControlTemplate } from '@ngneers/controls-themes/templates/spli
 
 import { SplitterPanelSize, SplitterPanelSizeLimit } from '../types';
 
+/**
+ * @category control
+ */
 @Component({
   selector: 'ngn-splitter-panel',
   templateUrl: './splitter-panel.html',

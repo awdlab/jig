@@ -16,6 +16,9 @@ import { NgnError } from '@ngneers/controls/utils';
 import { GlobalIconTemplate } from './global-icon-template';
 import { IconTemplateContext } from './types';
 
+/**
+ * @category control
+ */
 @Component({
   selector: 'ngn-icon',
   templateUrl: './icon.html',

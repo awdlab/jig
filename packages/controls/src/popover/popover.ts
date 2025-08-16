@@ -16,23 +16,16 @@ import {
   autoPositionElement,
   AutoPositioningHandle,
   injectThemeTemplate,
-  PositioningSizeConstraints,
 } from '@ngneers/controls/api';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { computedWithPrevious } from '@ngneers/controls/utils';
 import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
 
-export type PopoverOptions = {
-  /**
-   * Constraints for the size of the popover.
-   */
-  sizeConstraints?: PositioningSizeConstraints;
-  /**
-   * If true, the content of the popover will be cached and not recreated on each open.
-   * This is useful for performance when the content is expensive to create.
-   */
-  cache?: boolean;
-};
+import { PopoverOptions } from './types';
+
+/**
+ * @category control
+ */
 @Component({
   selector: 'ngn-popover',
   templateUrl: './popover.html',

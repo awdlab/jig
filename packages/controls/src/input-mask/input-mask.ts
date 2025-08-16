@@ -9,6 +9,9 @@ import { inputMaskControlTemplate } from '@ngneers/controls-themes/templates/inp
 import { MaskHelper } from './helper';
 import { TextFieldMaskCfg } from './types';
 
+/**
+ * @category control
+ */
 @Component({
   selector: 'ngn-input-mask',
   templateUrl: './input-mask.html',

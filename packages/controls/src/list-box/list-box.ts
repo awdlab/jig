@@ -15,6 +15,9 @@ import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-
 
 import { ListBoxTemplates } from './list-box-templates';
 
+/**
+ * @category control
+ */
 @Component({
   selector: 'ngn-list-box',
   templateUrl: './list-box.html',

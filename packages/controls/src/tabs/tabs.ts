@@ -1,5 +1,7 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
+  afterRenderEffect,
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -17,6 +19,10 @@ import { NgnDefer } from '@ngneers/controls/defer';
 import { tabsControlTemplate } from '@ngneers/controls-themes/templates/tabs';
 
 import { NgnTab } from './tab';
+
+/**
+ * @category control
+ */
 @Component({
   selector: 'ngn-tabs',
   imports: [NgTemplateOutlet, NgClass, NgnDefer],
@@ -26,7 +32,7 @@ import { NgnTab } from './tab';
     '[class]': 'theme.class()',
   },
 })
-export class NgnTabs extends NgnBase {
+export class NgnTabs extends NgnBase implements AfterViewInit {
   protected readonly theme = injectThemeTemplate(tabsControlTemplate);
   public readonly cache = input(false);
   public readonly lazy = input(false);
@@ -58,17 +64,17 @@ export class NgnTabs extends NgnBase {
     }))
   );
 
-  public selectTab(tabId: string) {
-    this.activeTab.set(tabId);
-  }
-
   constructor() {
     super();
 
+    afterRenderEffect(() => {
+      if (!this.activeTab() || !this._tabs().find(tab => tab.safeTabId() === this.activeTab())) {
+        this.activeTab.set(this._tabs()[0]?.tabId());
+      }
+    });
+
     effect(() => {
-      const activeTabIndex = !this.activeTab()
-        ? 0
-        : this._tabs().findIndex(tab => tab.tabId() === this.activeTab());
+      const activeTabIndex = this._tabs().findIndex(tab => tab.safeTabId() === this.activeTab());
 
       const headersizes = this._headerSizes(); // Figure out why this signal is not retriggering
       const headerSizesBeforeActive = headersizes
@@ -79,5 +85,15 @@ export class NgnTabs extends NgnBase {
       this.indicatorWidth.set(headersizes[activeTabIndex]?.width ?? 0);
       this.indicatorLeft.set(headerSizesBeforeActive);
     });
+  }
+
+  public ngAfterViewInit() {
+    if (!this.activeTab()) {
+      this.activeTab.set(this._tabs()[0]?.tabId());
+    }
+  }
+
+  public selectTab(tabId: string) {
+    this.activeTab.set(tabId);
   }
 }

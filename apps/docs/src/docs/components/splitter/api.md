@@ -4,6 +4,10 @@ title: API
 route: api
 ---
 
-## API
+## Splitter API
 
 {% include "../../api/splitter/splitter/classes/NgnSplitter.md" %}
+
+## Splitter Panel
+
+{% include "../../api/splitter/panel/splitter-panel/classes/NgnSplitterPanel.md" %}

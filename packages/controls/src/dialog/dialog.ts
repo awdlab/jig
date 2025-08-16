@@ -17,6 +17,9 @@ import { generateElementId } from '@ngneers/controls/utils';
 
 import { DialogTemplates } from './dialog-templates';
 
+/**
+ * @category control
+ */
 @Component({
   selector: 'ngn-dialog',
   imports: [NgTemplateOutlet, NgnTemplate, NgnDefer],

@@ -33,6 +33,7 @@ function elementsSizesSignalInt(element: ElementArray | ElementSingle): Signal<S
 
   let elements: HTMLElement[];
   afterRenderEffect(() => {
+    resizeObserver.disconnect();
     const rawElement = typeof element === 'function' ? element() : element;
     const arrayElement = Array.isArray(rawElement) ? rawElement : [rawElement];
     elements = arrayElement.map(el => (el instanceof ElementRef ? el.nativeElement : el));
@@ -46,7 +47,6 @@ function elementsSizesSignalInt(element: ElementArray | ElementSingle): Signal<S
         height: el.clientHeight,
       }))
     );
-    // TODO: Unobserve / disconnect
     elements.forEach(el => {
       resizeObserver.observe(el);
     });

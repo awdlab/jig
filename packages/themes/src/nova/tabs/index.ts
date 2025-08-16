@@ -42,6 +42,10 @@ export const tabsStyles = createThemePart({
         position: absolute;
         bottom: -1px;
         border-bottom: 2px solid ${v('color.primary.default')};
+        transition:
+          left 0.2s ease-in-out,
+          width 0.2s ease-in-out;
+        pointer-events: none;
       }
     `,
   },

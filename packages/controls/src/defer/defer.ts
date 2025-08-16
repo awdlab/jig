@@ -1,6 +1,9 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, effect, input, signal, TemplateRef } from '@angular/core';
 
+/**
+ * @category control
+ */
 @Component({
   selector: 'ngn-defer',
   templateUrl: './defer.html',

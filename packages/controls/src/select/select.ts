@@ -32,6 +32,9 @@ import { selectControlTemplate } from '@ngneers/controls-themes/templates/select
 import { SelectTemplates, ValueType } from './select-templates';
 import { SelectFilterOptions, SelectFilterOptionsInternal } from './types';
 
+/**
+ * @category control
+ */
 @Component({
   selector: 'ngn-select',
   templateUrl: './select.html',

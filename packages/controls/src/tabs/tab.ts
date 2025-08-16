@@ -1,12 +1,17 @@
 import {
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   contentChild,
   input,
+  signal,
   TemplateRef,
 } from '@angular/core';
 import { NgnBase } from '@ngneers/controls/base';
 
+/**
+ * @category control
+ */
 @Component({
   selector: 'ngn-tab',
   imports: [],
@@ -14,12 +19,24 @@ import { NgnBase } from '@ngneers/controls/base';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgnTab extends NgnBase {
+  /**
+   * The unique identifier for the tab.
+   */
   public readonly tabId = input.required<string>();
+
+  /**
+   * Useful for accessing the {@link tabId} in a safe way, without worrying about timing.
+   */
+  public readonly safeTabId = signal<string | null>(null);
 
   public readonly content = contentChild<TemplateRef<unknown>>('content');
   public readonly header = contentChild<TemplateRef<unknown>>('header');
 
   constructor() {
     super();
+
+    afterRenderEffect(() => {
+      this.safeTabId.set(this.tabId());
+    });
   }
 }

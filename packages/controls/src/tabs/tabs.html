@@ -5,7 +5,7 @@
       [ngClass]="
         theme.classes({
           header: true,
-          'header-active': header.id === activeTab() || (!activeTab() && i === 0),
+          'header-active': header.id === activeTab(),
         })
       "
       (click)="selectTab(header.id)"
@@ -20,14 +20,10 @@
   ></div>
 </div>
 @for (content of contents(); track content; let i = $index) {
-  <div
-    [ngClass]="
-      content.id === activeTab() || (!activeTab() && i === 0) ? theme.class('content') : ''
-    "
-  >
+  <div [ngClass]="content.id === activeTab() ? theme.class('content') : ''">
     <ngn-defer
       [lazyContent]="content.template"
-      [open]="content.id === activeTab() || (!activeTab() && i === 0)"
+      [open]="content.id === activeTab()"
       [cache]="cache()"
       [lazy]="lazy()"
     />

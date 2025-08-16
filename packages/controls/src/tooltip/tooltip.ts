@@ -25,6 +25,9 @@ import { NgnDefer } from '@ngneers/controls/defer';
 import { computedWithPrevious } from '@ngneers/controls/utils';
 import { tooltipControlTemplate } from '@ngneers/controls-themes/templates/tooltip';
 
+/**
+ * @category control
+ */
 @Directive({
   selector: '[ngnTooltip]',
   exportAs: 'ngnTooltip',

@@ -34,6 +34,9 @@ import { DefaultSplitterCalculator, SplitterCalculatorType } from './splitter-ca
 import { SplitterLayout, SplitterState, SplitterStateData } from './types';
 import { isSplitterPanelSize } from './utils';
 
+/**
+ * @category control
+ */
 @Component({
   selector: 'ngn-splitter',
   templateUrl: './splitter.html',

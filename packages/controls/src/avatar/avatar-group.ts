@@ -4,6 +4,9 @@ import { injectThemeTemplate } from '@ngneers/controls/api';
 import { NgnBase } from '@ngneers/controls/base';
 import { avatarGroupControlTemplate } from '@ngneers/controls-themes/templates/avatar';
 
+/**
+ * @category control
+ */
 @Component({
   selector: 'ngn-avatar-group',
   templateUrl: './avatar-group.html',

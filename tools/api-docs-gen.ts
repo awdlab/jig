@@ -50,11 +50,6 @@ async function parseTsDocs() {
   return { app, project };
 }
 
-async function getControlNames() {
-  const dirs = await readdir(COMPONENT_DOCS_PATH);
-  return dirs;
-}
-
 async function convertControl(control: DeclarationReflection) {
   const props = control.getProperties();
 
@@ -166,24 +161,23 @@ async function convertControl(control: DeclarationReflection) {
   });
 }
 
-async function convertControlGroup(project: ProjectReflection, controlGroupName: string) {
-  const group = project.getChildByName(controlGroupName) as DeclarationReflection;
-  const childNames = group.children?.map(child => child.name) ?? [];
-
-  await Promise.all(
-    childNames.map(childName => {
-      const child = group.getChildByName(childName) as DeclarationReflection;
-      return convertControl(child);
-    })
-  );
-}
-
 async function convertProject(project: ProjectReflection) {
-  const controlGroupNames = await getControlNames();
+  const componentLevelReflections = project.children?.flatMap(c => c.children);
+  const controlReflections =
+    componentLevelReflections
+      ?.filter(x =>
+        x?.comment?.blockTags.some(
+          tag =>
+            tag.tag === '@category' &&
+            tag.content.some(tc => tc.kind === 'text' && tc.text === 'control')
+        )
+      )
+      .filter(Boolean)
+      .map(x => x as DeclarationReflection) ?? [];
 
   return Promise.all(
-    controlGroupNames.map(controlGroupName => {
-      return convertControlGroup(project, `${controlGroupName}/${controlGroupName}`);
+    controlReflections.map(control => {
+      return convertControl(control);
     })
   );
 }

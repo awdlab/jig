@@ -25,6 +25,9 @@ function generateYearOptions(): NgnItem[] {
   }));
 }
 
+/**
+ * @category control
+ */
 @Component({
   selector: 'ngn-calendar',
   templateUrl: './calendar.html',

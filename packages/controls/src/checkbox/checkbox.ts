@@ -13,6 +13,9 @@ type ValueType<Indeterminate extends boolean> = Indeterminate extends false
   ? boolean
   : boolean | null;
 
+/**
+ * @category control
+ */
 @Component({
   selector: 'ngn-checkbox',
   templateUrl: './checkbox.html',

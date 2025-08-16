@@ -19,6 +19,9 @@ import { fromEvent, map } from 'rxjs';
 
 import { ScrollerTemplates } from './scroller-templates';
 
+/**
+ * @category control
+ */
 @Component({
   selector: 'ngn-scroller',
   templateUrl: './scroller.html',

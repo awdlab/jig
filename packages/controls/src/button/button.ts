@@ -6,6 +6,9 @@ import { ButtonKindType } from '@ngneers/controls/custom-types';
 import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
 import { pairwise, startWith } from 'rxjs';
 
+/**
+ * @category control
+ */
 @Directive({
   selector: 'button[ngnButton], a[ngnButton]',
 })

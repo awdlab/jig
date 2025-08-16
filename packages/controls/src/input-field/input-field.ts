@@ -6,6 +6,9 @@ import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/in
 
 import { INPUT_FIELD } from './token';
 
+/**
+ * @category control
+ */
 @Component({
   imports: [NgClass],
   selector: 'ngn-input-field',

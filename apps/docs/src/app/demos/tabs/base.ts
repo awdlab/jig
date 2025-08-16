@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { NgnTabs } from '@ngneers/controls/tabs';
-import { NgnTab } from 'packages/controls/src/tabs/tab';
+import { NgnTabs, NgnTab } from '@ngneers/controls/tabs';
 
 @Component({
   selector: 'demo-1',
@@ -24,7 +23,7 @@ export class Demo2Component {
 
 @Component({
   imports: [NgnTabs, NgnTab, Demo1Component, Demo2Component],
-  selector: 'ngn-icon-base',
+  selector: 'ngn-tabs-base',
   template: `
     <ngn-tabs>
       <ngn-tab tabId="tab1">

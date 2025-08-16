@@ -13,6 +13,9 @@ import { fromEventSignal } from '@ngneers/controls/utils';
 import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 
+/**
+ * @category control
+ */
 @Directive({
   selector: 'input[ngnInput], textarea[ngnInput]',
   host: {
