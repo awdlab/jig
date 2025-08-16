@@ -4,6 +4,7 @@ export * from './generate-id';
 export * from './globals';
 export * from './logger';
 export * from './not-nullish';
+export * from './object';
 export * from './signals';
 export * from './state';
 export * from './types';

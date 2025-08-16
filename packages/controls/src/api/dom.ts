@@ -8,6 +8,7 @@ import {
   signal,
   Signal,
 } from '@angular/core';
+import { deepCopy } from '@ngneers/controls/utils';
 
 export type Size = { width: number; height: number };
 
@@ -66,7 +67,7 @@ function elementsSizesSignalInt(element: ElementArray | ElementSingle): Signal<S
           width: entry.borderBoxSize[0].inlineSize,
           height: entry.borderBoxSize[0].blockSize,
         };
-        return s;
+        return deepCopy(s);
       });
     });
   });

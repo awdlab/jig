@@ -76,7 +76,7 @@ export class NgnTabs extends NgnBase implements AfterViewInit {
     effect(() => {
       const activeTabIndex = this._tabs().findIndex(tab => tab.safeTabId() === this.activeTab());
 
-      const headersizes = this._headerSizes(); // Figure out why this signal is not retriggering
+      const headersizes = this._headerSizes();
       const headerSizesBeforeActive = headersizes
         .slice(0, activeTabIndex)
         .map(size => size.width)
