@@ -4,12 +4,10 @@ title: API
 route: api
 ---
 
-## API
-
-### Tabs
+## Tabs API
 
 {% include "../../api/tabs/tabs/classes/NgnTabs.md" %}
 
-### Tab
+## Tab API
 
 {% include "../../api/tabs/tab/classes/NgnTab.md" %}
