@@ -1,5 +1,13 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["**/*.ts"],
+  "compilerOptions": {
+    "types": [
+      "node",
+      "vitest/globals"
+    ]
+  },
+  "include": [
+    "**/*.ts"
+  ],
   "exclude": []
 }

@@ -9,8 +9,8 @@
     "controls:build": "pnpm --filter @ngneers/controls build",
     "themes:build": "pnpm --filter @ngneers/controls-themes build",
     "api-docs:generate": "pnpm --filter @ngneers/controls api-docs:generate",
-    "build": "pnpm --filter * build",
-    "lint": "pnpm --filter * lint",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
     "test": "pnpm playwright test"
   },
   "license": "MIT",
