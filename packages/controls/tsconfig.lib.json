@@ -8,6 +8,11 @@
     "declarationMap": true,
     "types": []
   },
-  "include": ["**/*.ts"],
-  "exclude": ["**/*.spec.ts", "dist/**"]
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "**/*.spec.ts",
+    "dist/**"
+  ]
 }

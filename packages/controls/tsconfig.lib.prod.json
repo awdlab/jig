@@ -3,7 +3,15 @@
 {
   "extends": "./tsconfig.lib.json",
   "compilerOptions": {
-    "declarationMap": false
+    "declarationMap": false,
+    "paths": {
+      "@ngneers/controls-themes": [
+        "dist/themes/index",
+      ],
+      "@ngneers/controls-themes/*": [
+        "dist/themes/*/index",
+      ],
+    }
   },
   "angularCompilerOptions": {
     "compilationMode": "partial"
