@@ -6,10 +6,10 @@
     "declarationMap": false,
     "paths": {
       "@ngneers/controls-themes": [
-        "dist/themes/index",
+        "packages/themes/dist/index",
       ],
       "@ngneers/controls-themes/*": [
-        "dist/themes/*/index",
+        "packages/themes/dist/*/index",
       ],
     }
   },

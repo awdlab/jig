@@ -61,7 +61,7 @@
             "styles": ["node_modules/@ng-doc/app/styles/global.css", "src/styles.scss"],
             "server": "src/main.server.ts",
             "outputMode": "server",
-            "outputPath": "../../dist/docs",
+            "outputPath": "./dist",
             "ssr": {
               "entry": "src/server.ts"
             },

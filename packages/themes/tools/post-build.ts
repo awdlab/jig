@@ -6,7 +6,7 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const projectRoot = path.join(__dirname, '..');
 const repoRoot = path.join(projectRoot, '../..');
-const distDir = path.join(repoRoot, 'dist/themes');
+const distDir = path.join(projectRoot, 'dist');
 
 preparePackageJson(path.join(projectRoot, 'package.json'), path.join(distDir, 'package.json'));
 copyFile(path.join(projectRoot, 'README.md'), path.join(distDir, 'README.md'));

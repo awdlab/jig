@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "scripts": {
     "lint": "pnpm eslint .",
-    "prebuild": "pnpm rimraf ../../dist/themes",
+    "prebuild": "pnpm rimraf ./dist",
     "postbuild": "node --experimental-strip-types ./tools/post-build.ts",
-    "build": "pnpm prebuild && tsc -p ./tsconfig.lib.json --outDir ../../dist/themes && pnpm postbuild"
+    "build": "pnpm prebuild && tsc -p ./tsconfig.lib.json --outDir ./dist && pnpm postbuild"
   },
   "type": "module",
   "dependencies": {
