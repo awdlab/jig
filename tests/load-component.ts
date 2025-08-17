@@ -10,7 +10,7 @@ export async function loadComponent(
   }
 ) {
   return await test.step('Load Component', async () => {
-    await page.goto('http://localhost:4200');
+    await page.goto(process.env['CI'] ? 'http://localhost:4200' : 'http://hostmachine:4200');
     await expect(page.locator('body')).toHaveAttribute('data-ngn-test-wrapper');
 
     async function setTemplate(template: TemplateType) {

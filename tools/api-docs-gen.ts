@@ -20,7 +20,6 @@ import {
 } from 'typedoc';
 import { join } from 'path';
 
-const COMPONENT_DOCS_PATH = '../../apps/docs/src/docs/components';
 const OUT_DIR = '../../apps/docs/src/docs/api';
 
 const options: TypeDocOptions & PluginOptions = {

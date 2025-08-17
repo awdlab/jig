@@ -27,6 +27,7 @@ export default defineConfig({
   snapshotDir: 'tests/snapshots',
   use: {
     trace: 'on-first-retry',
+    connectOptions: process.env['CI'] ? undefined : { wsEndpoint: 'ws://127.0.0.1:3000/' },
   },
 
   projects: [
@@ -55,7 +56,7 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'pnpm run test-wrapper:serve',
+    command: 'pnpm run test-wrapper:serve --host "0.0.0.0" --allowed-hosts',
     url: 'http://localhost:4200',
     reuseExistingServer: !process.env['CI'],
   },
