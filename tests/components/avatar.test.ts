@@ -34,7 +34,7 @@ test('sizes', async ({ page }) => {
     {
       template: `@for(size of inputs().sizes; track size) {
         @for(initial of inputs().initials; track initial) {
-          <ngn-avatar [initials]="initial" [size]="size" />
+          <ngn-avatar [initials]="initial ? initial : undefined" [image]="initial ? undefined : 'example.png'" [size]="size" />
         }
           <br />
       }`,
@@ -43,11 +43,11 @@ test('sizes', async ({ page }) => {
     {
       inputs: {
         sizes: [10, 16, 20, 24, 32, 48, 64, 96, 128],
-        initials: ['A', 'AB', 'ABC', 'ABCD'],
+        initials: ['A', 'AB', 'ABC', 'ABCD', false],
       },
     }
   );
 
-  await expect(page.locator('ngn-avatar')).toHaveCount(36);
+  await expect(page.locator('ngn-avatar')).toHaveCount(45);
   await expectScreenshot(page);
 });
