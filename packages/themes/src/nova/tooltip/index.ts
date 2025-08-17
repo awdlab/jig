@@ -12,8 +12,6 @@ export const tooltipStyles = createThemePart({
   root: {
     css: ({ v, c }) => css`
       ${c()} {
-        pointer-events: none;
-
         // Browser-Reset:
         width: unset;
         height: unset;
@@ -47,6 +45,10 @@ export const tooltipStyles = createThemePart({
         padding: ${v('size.padding.md')};
       }
 
+      ${c('text')} {
+        pointer-events: none;
+      }
+
       @keyframes ngn-tooltip-fade-in {
         from {
           opacity: 0;
@@ -62,7 +64,6 @@ export const tooltipStyles = createThemePart({
         }
         to {
           opacity: 0;
-          display: none;
         }
       }
     `,

@@ -3,5 +3,5 @@
 </div>
 
 <ng-template #defaultContentTemplate>
-  <span>{{ text() }}</span>
+  <span [ngClass]="theme.class('text')">{{ text() }}</span>
 </ng-template>

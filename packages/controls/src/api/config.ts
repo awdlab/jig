@@ -1,7 +1,7 @@
 import { inject, InjectionToken, provideAppInitializer, Provider } from '@angular/core';
 import { Placement } from '@floating-ui/dom';
 import { registerCustomLanguages, Translations } from '@ngneers/controls/i18n';
-import { DeepPartial, Logger, LogLevel, NgnStateStorage } from '@ngneers/controls/utils';
+import { DeepPartial, Logger, LogLevel, NgnStateStorage, TimeSpan } from '@ngneers/controls/utils';
 import { StyleScope, Theme } from '@ngneers/controls-themes';
 
 export const NGN_CONFIG = new InjectionToken<NgnConfig>('NGN_CONFIG');
@@ -24,6 +24,8 @@ export type NgnConfig = {
     readonly tooltip: {
       readonly placement: Placement;
       readonly offset: number;
+      readonly showDelay: TimeSpan;
+      readonly hideDelay: TimeSpan;
     };
   };
 };
@@ -58,6 +60,8 @@ export function provideNgnConfig(config?: NgnConfigInit): Provider {
           tooltip: {
             placement: 'bottom',
             offset: 4,
+            showDelay: '0.5s',
+            hideDelay: 0,
           },
         },
       } satisfies NgnConfig,

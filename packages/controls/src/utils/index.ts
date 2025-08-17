@@ -7,4 +7,5 @@ export * from './not-nullish';
 export * from './object';
 export * from './signals';
 export * from './state';
+export * from './time-span';
 export * from './types';

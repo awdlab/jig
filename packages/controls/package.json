@@ -7,7 +7,8 @@
     "prebuild": "cpy package.json src/",
     "build": "ng build",
     "lint": "pnpm eslint .",
-    "test": "ng test",
+    "test": "ng test --watch=false",
+    "test:watch": "ng test",
     "api-docs:generate": "node --experimental-strip-types ../../tools/api-docs-gen.ts"
   },
   "dependencies": {

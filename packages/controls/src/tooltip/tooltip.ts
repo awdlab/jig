@@ -24,7 +24,12 @@ import {
 } from '@ngneers/controls/api';
 import { NgnBase } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
-import { computedWithPrevious, notNullish } from '@ngneers/controls/utils';
+import {
+  computedWithPrevious,
+  getTimeSpanMilliseconds,
+  notNullish,
+  TimeSpan,
+} from '@ngneers/controls/utils';
 import { tooltipControlTemplate } from '@ngneers/controls-themes/templates/tooltip';
 
 /**
@@ -51,6 +56,12 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   public readonly offset = input<number>(this._config.defaults.tooltip.offset, {
     alias: 'ngnTooltipOffset',
   });
+  public readonly showDelay = input<TimeSpan>(this._config.defaults.tooltip.showDelay, {
+    alias: 'ngnTooltipShowDelay',
+  });
+  public readonly hideDelay = input<TimeSpan>(this._config.defaults.tooltip.hideDelay, {
+    alias: 'ngnTooltipHideDelay',
+  });
 
   constructor() {
     super();
@@ -68,6 +79,12 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
     });
     effect(() => {
       if (this._tooltip) this._tooltip.setInput('offset', this.offset());
+    });
+    effect(() => {
+      if (this._tooltip) this._tooltip.setInput('showDelay', this.showDelay());
+    });
+    effect(() => {
+      if (this._tooltip) this._tooltip.setInput('hideDelay', this.hideDelay());
     });
   }
 
@@ -98,6 +115,8 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
       this._tooltip.setInput('size', this.size());
       this._tooltip.setInput('placement', this.placement());
       this._tooltip.setInput('offset', this.offset());
+      this._tooltip.setInput('showDelay', this.showDelay());
+      this._tooltip.setInput('hideDelay', this.hideDelay());
       this.updateContent(this._tooltip);
     }
     return this._tooltip.instance;
@@ -121,11 +140,16 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   imports: [NgClass, NgnDefer],
   host: {
     '[class]': `theme.class() + ' ' + positionClass()`,
+    '[style.display]': `isShown() ? 'block' : 'none'`,
     '[attr.popover]': `''`,
     '(toggle)': 'onToggle($event)',
+    '(mouseenter)': 'show(true)',
+    '(mouseleave)': 'hide()',
+    '(click)': 'hide(true)',
   },
 })
 export class TooltipComponent extends NgnBase {
+  private _showHideTimeout?: ReturnType<typeof setTimeout>;
   protected readonly theme = injectThemeTemplate(tooltipControlTemplate);
   private readonly _config = inject(NGN_CONFIG);
 
@@ -135,6 +159,11 @@ export class TooltipComponent extends NgnBase {
   public readonly size = input<PositioningSizeConstraints | null>();
   public readonly placement = input<Placement>(this._config.defaults.tooltip.placement);
   public readonly offset = input<number>(this._config.defaults.tooltip.offset);
+  public readonly showDelay = input<TimeSpan>(this._config.defaults.tooltip.showDelay);
+  public readonly hideDelay = input<TimeSpan>(this._config.defaults.tooltip.hideDelay);
+
+  protected readonly showDelayMs = computed(() => getTimeSpanMilliseconds(this.showDelay()));
+  protected readonly hideDelayMs = computed(() => getTimeSpanMilliseconds(this.hideDelay()));
 
   private readonly _isShown = signal(false);
   protected readonly isShown = this._isShown.asReadonly();
@@ -169,12 +198,34 @@ export class TooltipComponent extends NgnBase {
     });
   });
 
-  public show() {
+  public show(skipDelay = false) {
+    clearTimeout(this._showHideTimeout);
+
+    const delay = skipDelay ? 0 : this.showDelayMs();
+    if (delay <= 0) {
+      this.onShow();
+    } else {
+      this._showHideTimeout = setTimeout(() => this.onShow(), delay);
+    }
+  }
+
+  public hide(skipDelay = false) {
+    clearTimeout(this._showHideTimeout);
+
+    const delay = skipDelay ? 0 : this.hideDelayMs();
+    if (delay <= 0) {
+      this.onHide();
+    } else {
+      this._showHideTimeout = setTimeout(() => this.onHide(), delay);
+    }
+  }
+
+  protected onShow() {
     this._isShown.set(true);
     this.element.nativeElement.showPopover();
   }
 
-  public hide() {
+  protected onHide() {
     this.element.nativeElement.hidePopover();
   }
 
