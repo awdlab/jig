@@ -25,12 +25,12 @@ export function elementSizeSignal(element: ElementSingle): Signal<Size> {
   return computed(() => val()[0] ?? { width: 0, height: 0 });
 }
 
-export function elementsSizesSignal(element: ElementArray): Signal<Size[]> {
+export function elementsSizesSignal(element: ElementArray): Signal<readonly Size[]> {
   return elementsSizesSignalInt(element);
 }
 
-function elementsSizesSignalInt(element: ElementArray | ElementSingle): Signal<Size[]> {
-  const sizeSignal = signal<Size[]>([]);
+function elementsSizesSignalInt(element: ElementArray | ElementSingle): Signal<readonly Size[]> {
+  const sizeSignal = signal<readonly Size[]>([]);
 
   let elements: HTMLElement[];
   afterRenderEffect(() => {
@@ -63,11 +63,12 @@ function elementsSizesSignalInt(element: ElementArray | ElementSingle): Signal<S
     entries.forEach(entry => {
       const index = elements.findIndex(el => el === entry.target);
       sizeSignal.update(s => {
-        s[index] = {
+        const copy = deepCopy(s);
+        copy[index] = {
           width: entry.borderBoxSize[0].inlineSize,
           height: entry.borderBoxSize[0].blockSize,
         };
-        return deepCopy(s);
+        return copy;
       });
     });
   });
