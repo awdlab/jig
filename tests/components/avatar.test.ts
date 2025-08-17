@@ -1,27 +1,53 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../load-component';
+import { NgnAvatarHarness } from '@ngneers/controls-playwright';
+import { expectScreenshot } from '../helper/screenshot';
 
-test('base', async ({ page }) => {
+test('initials & image', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-avatar [initials]="inputs().initials" (click)="output('click', 'test')" />`,
+      template: `<ngn-avatar [initials]="inputs().initials" [image]="inputs().image" />`,
       imports: ['avatar'],
     },
     {
       inputs: {
-        initials: 'CD',
-      },
-      outputs: {
-        click: 'a => console.log(a)',
+        initials: 'AB',
       },
     }
   );
 
-  await expect(page.locator('ngn-avatar')).toHaveText('CD');
-  await page.locator('ngn-avatar').click();
-  await page.waitForTimeout(1000);
-  await handle.setInputs({ initials: 'EF' });
-  await expect(page.locator('ngn-avatar')).toHaveText('EF');
-  expect(await handle.getOutputLog()).toEqual({ click: ['test'] });
+  const avatar = new NgnAvatarHarness(page.locator('ngn-avatar'));
+  await avatar.expectInitials('AB');
+  handle.setInputs({ initials: 'CD' });
+  await avatar.expectInitials('CD');
+  handle.setInputs({ image: 'does-not-exist.png', initials: 'EF' });
+  await avatar.expectInitials('EF');
+  handle.setInputs({ image: 'example.png' });
+  await page.waitForTimeout(200); // Wait for image to load
+  await avatar.expectImageSrc('example.png');
+});
+
+test('sizes', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `@for(size of inputs().sizes; track size) {
+        @for(initial of inputs().initials; track initial) {
+          <ngn-avatar [initials]="initial" [size]="size" />
+        }
+          <br />
+      }`,
+      imports: ['avatar'],
+    },
+    {
+      inputs: {
+        sizes: [10, 16, 20, 24, 32, 48, 64, 96, 128],
+        initials: ['A', 'AB', 'ABC', 'ABCD'],
+      },
+    }
+  );
+
+  await expect(page.locator('ngn-avatar')).toHaveCount(36);
+  await expectScreenshot(page);
 });
