@@ -1,8 +1,22 @@
-import test from '@playwright/test';
+import test, { expect } from '@playwright/test';
 import { NgnInputMaskHarness } from 'packages/playwright/src/components/input-mask';
+import { loadComponent } from '../load-component';
 
 test('base', async ({ page }) => {
-  await page.goto('http://localhost:4200/docs/input-mask?story=base');
+  const handle = await loadComponent(
+    page,
+    {
+      imports: ['input', 'inputMask'],
+      template: `<ngn-input-mask [mask]="inputs().mask">
+        <input ngnInput>
+      </ngn-input-mask>`,
+    },
+    {
+      inputs: {
+        mask: 'time',
+      },
+    }
+  );
 
   const inputMask = new NgnInputMaskHarness(page.locator('ngn-input-mask').first());
   await inputMask.input.expectValue('');

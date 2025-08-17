@@ -1,8 +1,15 @@
 import { NgnPopoverHarness } from '@ngneers/controls-playwright';
 import test from '@playwright/test';
+import { loadComponent } from '../load-component';
 
 test('base', async ({ page }) => {
-  await page.goto('http://localhost:4200/docs/popover?story=base');
+  const handle = await loadComponent(page, {
+    template: `
+      <button #anchor (click)="popover.open()">Open</button>
+      <ngn-popover #popover [anchor]="anchor"> Content </ngn-popover>
+    `,
+    imports: ['popover'],
+  });
 
   const popover = new NgnPopoverHarness(page.locator('ngn-popover').first());
   await popover.expectRendered();
@@ -13,8 +20,17 @@ test('base', async ({ page }) => {
 });
 
 test('lazy', async ({ page }) => {
-  await page.goto('http://localhost:4200/docs/popover?story=lazy');
-
+  const handle = await loadComponent(page, {
+    template: `
+      <button #anchor (click)="popover.open()">Open</button>
+      <ngn-popover #popover [anchor]="anchor" [options]="{ cache: true }">
+        <ng-template #lazy>
+          <dummy></dummy>
+        </ng-template>
+      </ngn-popover>
+    `,
+    imports: ['popover', 'dummy_component'],
+  });
   const popover = new NgnPopoverHarness(page.locator('ngn-popover').first());
   await popover.expectRendered(false);
 

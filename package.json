@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "docs:serve": "pnpm --filter @ngneers/controls-docs serve",
+    "test-wrapper:serve": "pnpm --filter @ngneers/test-wrapper serve",
     "docs:build": "pnpm --filter @ngneers/controls-docs build",
     "controls:build": "pnpm --filter @ngneers/controls build",
     "themes:build": "pnpm --filter @ngneers/controls-themes build",

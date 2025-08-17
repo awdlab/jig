@@ -76,7 +76,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'pnpm run docs:serve',
+    command: 'pnpm run test-wrapper:serve',
     url: 'http://localhost:4200',
     reuseExistingServer: !process.env['CI'],
   },

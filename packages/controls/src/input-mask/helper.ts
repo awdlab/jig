@@ -1,3 +1,4 @@
+import { MASKS } from './masks';
 import { TextFieldMaskCfg } from './types';
 
 // Interface for communicating with the parent component
@@ -23,6 +24,9 @@ export class MaskHelper {
   public ensureMask(mask: TextFieldMaskCfg | string | null): TextFieldMaskCfg | null {
     if (!mask) return null;
     if (typeof mask === 'string') {
+      if (mask === 'time') {
+        return MASKS.time;
+      }
       // Convert string mask to TextFieldMaskCfg
       // 0 => digit, A => letter, * => alphanumeric
       return mask.split('').map(char => {
