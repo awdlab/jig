@@ -1,3 +1,9 @@
+/**
+ * The only reason this should be okay is because playwright generates the screenshots with `-win32` even
+ * though we are running against the playwright docker container (linux). The playwright UI is running
+ * on windows while the rendering happens in the container, yet the screenshots are saved with the `-win32` suffix.
+ */
+
 import { copyFile, readdir, stat } from 'fs/promises';
 import { join } from 'path';
 
