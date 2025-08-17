@@ -5,12 +5,15 @@ test('base', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-avatar [initials]="inputs().initials" (click)="output.emit({click: 'test'})" />`,
+      template: `<ngn-avatar [initials]="inputs().initials" (click)="output('click', 'test')" />`,
       imports: ['avatar'],
     },
     {
       inputs: {
         initials: 'CD',
+      },
+      outputs: {
+        click: 'a => console.log(a)',
       },
     }
   );

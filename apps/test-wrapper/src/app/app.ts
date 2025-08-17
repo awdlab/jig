@@ -31,7 +31,6 @@ export class App {
   private readonly _testComponentRef =
     signal<ComponentRef<TestComponentBase> | null>(null);
   private readonly _win = inject(WindowService);
-  private _outputSub?: OutputRefSubscription;
 
   constructor() {
     const viewContainerRef = inject(ViewContainerRef);
@@ -63,11 +62,5 @@ export class App {
       return;
     }
     component.setInput('inputs', this._win.inputs());
-    this._outputSub?.unsubscribe();
-    this._outputSub = component.instance.output.subscribe((event) => {
-      const key = Object.keys(event)[0];
-      this._win.outputs()?.[key]?.(event[key]);
-      this._win.logOutput(key, event[key]);
-    });
   }
 }

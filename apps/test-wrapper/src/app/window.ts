@@ -5,8 +5,11 @@ export type InputsType = {
   [key: string]: any;
 };
 
+/**
+ * Key value pair, where an output with `key` evals a javascript (passed as string)
+ */
 export type OutputsType = {
-  [key: string]: (val: any) => void;
+  [key: string]: string;
 };
 
 export type TemplateType = {
@@ -37,6 +40,19 @@ export class WindowService {
       outputLog: {},
     };
     document.body.setAttribute('data-ngn-test-wrapper', 'initialized');
+  }
+
+  public handleOutput(key: string, value: any) {
+    const triggeredOutput = this.outputs()?.[key];
+    this.logOutput(key, value);
+    if (triggeredOutput) {
+      try {
+        const fn = window.eval(triggeredOutput);
+        return fn(value);
+      } catch (err) {
+        console.error('Error evaluating output:', triggeredOutput, value, err);
+      }
+    }
   }
 
   public logOutput(key: string, value: any) {

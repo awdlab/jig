@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   input,
   OnInit,
   output,
@@ -8,7 +9,7 @@ import {
   Type,
 } from '@angular/core';
 import '@angular/compiler';
-import { TemplateType } from './window';
+import { TemplateType, WindowService } from './window';
 import { IMPORTS } from './imports';
 
 @Component({
@@ -16,8 +17,12 @@ import { IMPORTS } from './imports';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestComponentBase {
-  public readonly output = output<Record<string, any>>();
   public readonly inputs = input<any>({});
+  private readonly _window = inject(WindowService);
+
+  public output(key: string, value: any) {
+    return this._window.handleOutput(key, value);
+  }
 }
 
 export async function defineTestComponent(
