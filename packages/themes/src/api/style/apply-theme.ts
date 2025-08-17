@@ -228,9 +228,12 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions): string {
   let css = options.layer ? `@layer ${options.layer} { ` : '';
   css += `${getScopeSelector(options.styleScope)} { `;
 
+  let unscopableCss = '';
   for (const { root } of cssParts) {
     if (root) {
-      css += root;
+      const { unscopable, scopable } = splitScopableCss(root);
+      css += scopable;
+      unscopableCss += unscopable;
     }
   }
 
@@ -238,6 +241,7 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions): string {
   // TODO: Special handling for @media, @container, ... for scoping
 
   css += ' }';
+  css += unscopableCss;
   if (options.layer) css += ' }';
   return css;
 }
@@ -265,4 +269,34 @@ function getCssVar(prefix: string, key: string): string {
     .replace(/([a-z])([A-Z])/g, '$1-$2')
     .toLowerCase();
   return `--${prefix}${varName}`;
+}
+
+function splitScopableCss(css: string): { unscopable: string; scopable: string } {
+  let depth = 0;
+  let result = {
+    scopable: '',
+    unscopable: '',
+  };
+
+  let start = 0;
+  let kind: keyof typeof result = 'scopable';
+  for (let i = 0; i < css.length; i++) {
+    const char = css[i];
+    if (char === '@' && (!css[i - 1] || css[i - 1] === ' ') && kind === 'scopable') {
+      result.scopable += css.slice(start, i - 1);
+      start = i;
+      kind = 'unscopable';
+    } else if (char === '{') {
+      depth++;
+    } else if (char === '}') {
+      depth--;
+      if (depth === 0 && kind === 'unscopable') {
+        result.unscopable += css.slice(start, i + 1);
+        start = i + 1;
+        kind = 'scopable';
+      }
+    }
+  }
+  result[kind] += css.slice(start);
+  return result;
 }

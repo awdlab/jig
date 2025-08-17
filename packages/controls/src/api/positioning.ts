@@ -1,11 +1,14 @@
 import { DestroyRef, inject, Injector } from '@angular/core';
 import {
+  Alignment,
   autoUpdate,
   computePosition,
+  ComputePositionReturn,
   flip,
   offset,
   Placement,
   shift,
+  Side,
   size,
 } from '@floating-ui/dom';
 
@@ -43,6 +46,7 @@ export type PositioningOptions = {
   offset?: number;
   stopped?: boolean;
   sizeConstraints?: PositioningSizeConstraints;
+  onPositionChange?: (position: ComputePositionReturn) => void;
 };
 
 export type AutoPositioningHandle = {
@@ -130,11 +134,12 @@ export function positionElement(
           })
         : undefined,
     ].filter(Boolean),
-  }).then(({ x, y }) => {
+  }).then(pos => {
     Object.assign(floatingEl.style, {
-      left: `${x}px`,
-      top: `${y}px`,
+      left: `${pos.x}px`,
+      top: `${pos.y}px`,
     });
+    options.onPositionChange?.(pos);
   });
 }
 
@@ -170,4 +175,8 @@ export function autoPositionElement(
     },
     isRunning: () => !!cleanup,
   };
+}
+
+export function splitPlacement(placement: Placement): [Side, Alignment | undefined] {
+  return placement.split('-') as [Side, Alignment | undefined];
 }

@@ -1,4 +1,5 @@
 import { inject, InjectionToken, provideAppInitializer, Provider } from '@angular/core';
+import { Placement } from '@floating-ui/dom';
 import { registerCustomLanguages, Translations } from '@ngneers/controls/i18n';
 import { DeepPartial, Logger, LogLevel, NgnStateStorage } from '@ngneers/controls/utils';
 import { StyleScope, Theme } from '@ngneers/controls-themes';
@@ -19,6 +20,10 @@ export type NgnConfig = {
     readonly stateStorage: NgnStateStorage;
     readonly splitter: {
       readonly stateStorage: NgnStateStorage;
+    };
+    readonly tooltip: {
+      readonly placement: Placement;
+      readonly offset: number;
     };
   };
 };
@@ -49,6 +54,10 @@ export function provideNgnConfig(config?: NgnConfigInit): Provider {
               config?.defaults?.splitter?.stateStorage ??
               config?.defaults?.stateStorage ??
               'session',
+          },
+          tooltip: {
+            placement: 'bottom',
+            offset: 4,
           },
         },
       } satisfies NgnConfig,

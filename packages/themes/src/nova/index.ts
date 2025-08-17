@@ -1,6 +1,6 @@
 import { createTheme } from '@ngneers/controls-themes/api';
 import { avatarGroupStyles, avatarStyles } from '@ngneers/controls-themes/nova/avatar';
-import { coral, font, sizes } from '@ngneers/controls-themes/nova/base';
+import { animation, coral, font, sizes } from '@ngneers/controls-themes/nova/base';
 import { buttonStyles } from '@ngneers/controls-themes/nova/button';
 import { calendarStyles } from '@ngneers/controls-themes/nova/calendar';
 import { checkboxStyles } from '@ngneers/controls-themes/nova/checkbox';
@@ -13,8 +13,10 @@ import { scrollerStyles } from '@ngneers/controls-themes/nova/scroller';
 import { selectStyles } from '@ngneers/controls-themes/nova/select';
 import { splitterStyles } from '@ngneers/controls-themes/nova/splitter';
 import { tabsStyles } from '@ngneers/controls-themes/nova/tabs';
+import { tooltipStyles } from '@ngneers/controls-themes/nova/tooltip';
 
 export const novaCoral = createTheme('Nova Coral', [
+  animation,
   avatarGroupStyles,
   avatarStyles,
   buttonStyles,
@@ -32,4 +34,5 @@ export const novaCoral = createTheme('Nova Coral', [
   sizes,
   splitterStyles,
   tabsStyles,
+  tooltipStyles,
 ]);

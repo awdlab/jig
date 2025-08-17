@@ -1,3 +1,4 @@
+export * from './animation';
 export * from './colors';
-export * from './sizes';
 export * from './font';
+export * from './sizes';

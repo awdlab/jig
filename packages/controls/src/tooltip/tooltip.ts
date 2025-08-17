@@ -18,11 +18,13 @@ import {
   autoPositionElement,
   AutoPositioningHandle,
   injectThemeTemplate,
+  NGN_CONFIG,
   PositioningSizeConstraints,
+  splitPlacement,
 } from '@ngneers/controls/api';
 import { NgnBase } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
-import { computedWithPrevious } from '@ngneers/controls/utils';
+import { computedWithPrevious, notNullish } from '@ngneers/controls/utils';
 import { tooltipControlTemplate } from '@ngneers/controls-themes/templates/tooltip';
 
 /**
@@ -34,6 +36,7 @@ import { tooltipControlTemplate } from '@ngneers/controls-themes/templates/toolt
 })
 export class NgnTooltip extends NgnBase implements OnDestroy {
   private readonly _viewContainerRef = inject(ViewContainerRef);
+  private readonly _config = inject(NGN_CONFIG);
   private _tooltip?: ComponentRef<TooltipComponent>;
 
   public readonly content = input<TemplateRef<unknown> | string | null | undefined>(undefined, {
@@ -42,8 +45,11 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   public readonly size = input<PositioningSizeConstraints | null | undefined>(undefined, {
     alias: 'ngnTooltipSize',
   });
-  public readonly placement = input<Placement>('bottom', {
+  public readonly placement = input<Placement>(this._config.defaults.tooltip.placement, {
     alias: 'ngnTooltipPlacement',
+  });
+  public readonly offset = input<number>(this._config.defaults.tooltip.offset, {
+    alias: 'ngnTooltipOffset',
   });
 
   constructor() {
@@ -59,6 +65,9 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
     });
     effect(() => {
       if (this._tooltip) this._tooltip.setInput('placement', this.placement());
+    });
+    effect(() => {
+      if (this._tooltip) this._tooltip.setInput('offset', this.offset());
     });
   }
 
@@ -88,6 +97,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
       this._tooltip.setInput('anchor', this.element.nativeElement);
       this._tooltip.setInput('size', this.size());
       this._tooltip.setInput('placement', this.placement());
+      this._tooltip.setInput('offset', this.offset());
       this.updateContent(this._tooltip);
     }
     return this._tooltip.instance;
@@ -110,22 +120,25 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   templateUrl: './tooltip.html',
   imports: [NgClass, NgnDefer],
   host: {
-    '[class]': `theme.class()`,
+    '[class]': `theme.class() + ' ' + positionClass()`,
     '[attr.popover]': `''`,
     '(toggle)': 'onToggle($event)',
   },
 })
 export class TooltipComponent extends NgnBase {
   protected readonly theme = injectThemeTemplate(tooltipControlTemplate);
+  private readonly _config = inject(NGN_CONFIG);
 
   public readonly anchor = input.required<HTMLElement>();
   public readonly text = input<string | null>();
   public readonly content = input<TemplateRef<unknown>>();
   public readonly size = input<PositioningSizeConstraints | null>();
-  public readonly placement = input<Placement>('bottom');
+  public readonly placement = input<Placement>(this._config.defaults.tooltip.placement);
+  public readonly offset = input<number>(this._config.defaults.tooltip.offset);
 
-  private readonly _isOpen = signal(false);
-  protected readonly isOpen = this._isOpen.asReadonly();
+  private readonly _isShown = signal(false);
+  protected readonly isShown = this._isShown.asReadonly();
+  protected readonly positionClass = signal<string>('');
 
   private readonly _defaultContentTemplate =
     viewChild.required<TemplateRef<unknown>>('defaultContentTemplate');
@@ -145,10 +158,19 @@ export class TooltipComponent extends NgnBase {
       resize: false,
       sizeConstraints: this.size() ?? undefined,
       placement: this.placement(),
+      offset: this.offset(),
+      onPositionChange: ({ placement }) =>
+        this.positionClass.set(
+          splitPlacement(placement)
+            .filter(notNullish)
+            .map(x => this.theme.class(x))
+            .join(' ')
+        ),
     });
   });
 
   public show() {
+    this._isShown.set(true);
     this.element.nativeElement.showPopover();
   }
 
@@ -159,10 +181,14 @@ export class TooltipComponent extends NgnBase {
   protected onToggle(event: Event) {
     const evt = event as ToggleEvent;
     if (evt.newState === 'closed') {
-      this._isOpen.set(false);
-      this._autoPos()?.stop();
+      Promise.all(this.element.nativeElement.getAnimations().map(a => a.finished))
+        .then(() => {
+          this._isShown.set(false);
+          this._autoPos()?.stop();
+        })
+        .catch(() => {});
     } else {
-      this._isOpen.set(true);
+      this._isShown.set(true);
       this._autoPos()?.start();
     }
   }
