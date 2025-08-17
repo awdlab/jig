@@ -7,6 +7,7 @@
     "prebuild": "cpy package.json src/",
     "build": "ng build",
     "lint": "pnpm eslint .",
+    "test": "ng test",
     "api-docs:generate": "node --experimental-strip-types ../../tools/api-docs-gen.ts"
   },
   "dependencies": {
@@ -19,9 +20,9 @@
     "@angular/forms": "^20.1.4",
     "@angular/platform-browser": "^20.1.4",
     "@angular/router": "^20.1.4",
-    "rxjs": "~7.8.0",
     "@floating-ui/dom": "^1.7.1",
-    "@ngneers/signal-translate": "^20.0.0"
+    "@ngneers/signal-translate": "^20.0.0",
+    "rxjs": "~7.8.0"
   },
   "devDependencies": {
     "@angular/build": "^20.1.4",
@@ -29,7 +30,8 @@
     "@angular/compiler-cli": "^20.1.4",
     "angular-eslint": "20.1.1",
     "ng-packagr": "^20.1.0",
-    "typescript": "~5.8.3"
+    "typescript": "~5.8.3",
+    "vitest": "^3.2.4"
   },
   "sideEffects": false
 }
