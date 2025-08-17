@@ -16,6 +16,7 @@ import {
   type TypeDocOptions,
   UnionType,
   type SomeType,
+  CommentTag,
 } from 'typedoc';
 import { join } from 'path';
 
@@ -125,6 +126,7 @@ async function convertControl(control: DeclarationReflection) {
     });
     if (lineText.includes('.required')) {
       input.name = `${input.name}*`;
+      input.defaultValue = '&nbsp;';
     }
   });
   await Promise.all(promises);
