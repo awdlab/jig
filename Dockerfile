@@ -17,7 +17,7 @@ FROM node:22-alpine
 # COPY config/nginx.conf /etc/nginx/nginx.conf
 # COPY config/security-headers.conf /etc/nginx/security-headers.conf
 
-COPY --from=builder /app/dist/docs ./
+COPY --from=builder /app/apps/docs/dist ./
 ENV PORT=80
 CMD ["node", "server/server.mjs"]
 
