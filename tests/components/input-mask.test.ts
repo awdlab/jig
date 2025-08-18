@@ -45,10 +45,13 @@ test('base', async ({ page }, testInfo) => {
   await inputMask.input.expectValue('12:4');
   await inputMask.expectTextWithMask('12:4M');
 
+  await page.waitForTimeout(50);
   await inputMask.input.press('ArrowLeft');
   await inputMask.input.press('Backspace');
+  await page.waitForTimeout(50);
   await inputMask.input.expectValue('12:4');
   await inputMask.expectTextWithMask('12:4M');
+  await page.waitForTimeout(50);
   await inputMask.input.press('Backspace');
   await inputMask.input.expectValue('10:4');
   await inputMask.expectTextWithMask('10:4M');
