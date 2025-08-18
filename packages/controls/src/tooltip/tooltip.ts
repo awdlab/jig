@@ -44,25 +44,61 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   private readonly _config = inject(NGN_CONFIG);
   private _tooltip?: ComponentRef<TooltipComponent>;
 
+  /**
+   * The content of the tooltip, can be a string or a TemplateRef.
+   * If the value is falsy, the tooltip will not be shown.
+   * @alias ngnTooltip
+   */
   public readonly content = input<TemplateRef<unknown> | string | null | undefined>(undefined, {
     alias: 'ngnTooltip',
   });
+  /**
+   * The size constraints for the tooltip.
+   * This can be used to limit the width and height of the tooltip.
+   * If not provided, the tooltip is only constrained by the size of the screen.
+   * @alias ngnTooltipSize
+   */
   public readonly size = input<PositioningSizeConstraints | null | undefined>(undefined, {
     alias: 'ngnTooltipSize',
   });
+  /**
+   * The placement of the tooltip relative to the anchor element.
+   * @alias ngnTooltipPlacement
+   * @defaultValue `bottom`
+   */
   public readonly placement = input<Placement>(this._config.defaults.tooltip.placement, {
     alias: 'ngnTooltipPlacement',
   });
+  /**
+   * The offset in Pixels of the tooltip from the anchor element.
+   * @alias ngnTooltipOffset
+   * @defaultValue `4`
+   */
   public readonly offset = input<number>(this._config.defaults.tooltip.offset, {
     alias: 'ngnTooltipOffset',
   });
+  /**
+   * The delay before the tooltip is shown. If a number is provided, it is interpreted as milliseconds.
+   * @alias ngnTooltipShowDelay
+   * @defaultValue `"0.5s"`
+   */
   public readonly showDelay = input<TimeSpan>(this._config.defaults.tooltip.showDelay, {
     alias: 'ngnTooltipShowDelay',
   });
+  /**
+   * The delay before the tooltip is hidden. If a number is provided, it is interpreted as milliseconds.
+   * @alias ngnTooltipHideDelay
+   * @defaultValue `"0.1s"`
+   */
   public readonly hideDelay = input<TimeSpan>(this._config.defaults.tooltip.hideDelay, {
     alias: 'ngnTooltipHideDelay',
   });
-  public readonly showOnlyIfTruncated = input<boolean | null | ''>(false, {
+  /**
+   * If set to `true`, the tooltip will only be shown if the anchor element is truncated. `""` is equivalent to `true`.
+   * @alias ngnTooltipShowOnlyIfTruncated
+   * @defaultValue `false`
+   */
+  public readonly showOnlyIfTruncated = input<boolean | ''>(false, {
     alias: 'ngnTooltipShowOnlyIfTruncated',
   });
 
@@ -106,7 +142,9 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
       this._tooltip.instance.show();
     } else {
       const tooltip = this.getTooltip();
-      requestAnimationFrame(() => tooltip.show());
+      if (tooltip) {
+        requestAnimationFrame(() => tooltip.show());
+      }
     }
   }
 
@@ -114,8 +152,8 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
     this._tooltip?.instance.hide();
   }
 
-  private getTooltip(): TooltipComponent {
-    if (!this._tooltip) {
+  private getTooltip(): TooltipComponent | undefined {
+    if (!this._tooltip && this.content()) {
       this._tooltip = this._viewContainerRef.createComponent(TooltipComponent);
       this._tooltip.setInput('anchor', this.element.nativeElement);
       this._tooltip.setInput('size', this.size());
@@ -126,7 +164,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
       this._tooltip.setInput('showOnlyIfTruncated', this.showOnlyIfTruncated());
       this.updateContent(this._tooltip);
     }
-    return this._tooltip.instance;
+    return this._tooltip?.instance;
   }
 
   private updateContent(tooltip: ComponentRef<TooltipComponent>) {
@@ -159,15 +197,49 @@ export class TooltipComponent extends NgnBase {
   protected readonly theme = injectThemeTemplate(tooltipControlTemplate);
   private readonly _config = inject(NGN_CONFIG);
 
+  /**
+   * The anchor element to which the tooltip is attached.
+   */
   public readonly anchor = input.required<HTMLElement>();
+  /**
+   * The text content of the tooltip.
+   */
   public readonly text = input<string | null>();
+  /**
+   * The content template of the tooltip.
+   */
   public readonly content = input<TemplateRef<unknown>>();
+  /**
+   * The size constraints for the tooltip.
+   * This can be used to limit the width and height of the tooltip.
+   * If not provided, the tooltip is only constrained by the size of the screen.
+   */
   public readonly size = input<PositioningSizeConstraints | null>();
+  /**
+   * The placement of the tooltip relative to the anchor element.
+   * @defaultValue `bottom`
+   */
   public readonly placement = input<Placement>(this._config.defaults.tooltip.placement);
+  /**
+   * The offset in Pixels of the tooltip from the anchor element.
+   * @defaultValue `4`
+   */
   public readonly offset = input<number>(this._config.defaults.tooltip.offset);
+  /**
+   * The delay before the tooltip is shown. If a number is provided, it is interpreted as milliseconds.
+   * @defaultValue `"0.5s"`
+   */
   public readonly showDelay = input<TimeSpan>(this._config.defaults.tooltip.showDelay);
+  /**
+   * The delay before the tooltip is hidden. If a number is provided, it is interpreted as milliseconds.
+   * @defaultValue `"0.1s"`
+   */
   public readonly hideDelay = input<TimeSpan>(this._config.defaults.tooltip.hideDelay);
-  public readonly showOnlyIfTruncated = input<boolean | null | ''>(false);
+  /**
+   * If set to `true`, the tooltip will only be shown if the anchor element is truncated. `""` is equivalent to `true`.
+   * @defaultValue `false`
+   */
+  public readonly showOnlyIfTruncated = input<boolean | ''>(false);
 
   protected readonly showDelayMs = computed(() => getTimeSpanMilliseconds(this.showDelay()));
   protected readonly hideDelayMs = computed(() => getTimeSpanMilliseconds(this.hideDelay()));
@@ -229,6 +301,9 @@ export class TooltipComponent extends NgnBase {
   }
 
   protected onShow() {
+    if (!this.content() && !this.text()) {
+      return;
+    }
     if (this.showOnlyIfTruncated() !== false && !isElementTruncated(this.anchor())) {
       return;
     }
