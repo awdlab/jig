@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import { provideRouter, TitleStrategy, withInMemoryScrolling } from '@angular/router';
 import {
   provideNgDocApp,
   provideSearchEngine,
@@ -21,6 +21,7 @@ import { provideNgnControls } from '@ngneers/controls/api/ng';
 import { novaCoral } from '@ngneers/controls-themes/nova';
 
 import { routes } from './app.routes';
+import { CustomTitleStrategy } from './title';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,7 +36,7 @@ export const appConfig: ApplicationConfig = {
         {
           path: '',
           pathMatch: 'full',
-          loadComponent: () => import('./start/start').then(m => m.StartComponent),
+          loadComponent: () => import('./start/start').then(m => m.StartPage),
         },
         {
           path: 'docs',
@@ -54,5 +55,6 @@ export const appConfig: ApplicationConfig = {
     providePageSkeleton(NG_DOC_DEFAULT_PAGE_SKELETON),
     provideMainPageProcessor(NG_DOC_DEFAULT_PAGE_PROCESSORS),
     provideNgnControls({ theme: { preset: novaCoral } }),
+    { provide: TitleStrategy, useClass: CustomTitleStrategy },
   ],
 };

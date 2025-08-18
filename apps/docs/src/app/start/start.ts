@@ -5,6 +5,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: 'start.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StartComponent {
+export class StartPage {
   constructor() {}
 }
