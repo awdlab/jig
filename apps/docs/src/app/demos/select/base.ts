@@ -9,8 +9,6 @@ import { exampleData } from '../../helper/data';
   template: `<ngn-select
     #select
     [options]="options"
-    [virtual]="true"
-    [itemHeight]="40"
     [popoverOptions]="{ sizeConstraints: { height: '200px' } }"
   />`,
 })
