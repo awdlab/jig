@@ -3,7 +3,7 @@ const timeSpanRegex = /^(?:(.+)d)?(?:(.+)h)?(?:(.+)m)?(?:([^m]+)s)?(?:(.+)ms)?$/
 /**
  * Represents a time span that can be expressed in various formats:
  * - As a number (milliseconds)
- * - As a string in the format "XdYhZmWsMs" where each part is optional (e.g., "1d2h30m45s500ms" or "2h15m")
+ * - As a string in the format "XdXhXmXsXms" where each part is optional (e.g., "1d2h30m45s500ms" or "2h15m")
  * - As an object with properties for days, hours, minutes, seconds, and milliseconds
  * @example
  * ```typescript
