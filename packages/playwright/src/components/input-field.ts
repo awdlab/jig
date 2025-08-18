@@ -9,8 +9,8 @@ export class NgnInputFieldHarness<T extends Record<string, any> = Record<string,
 
   constructor(
     public locator: Locator,
-    children: (locator: Locator) => T
+    children?: (locator: Locator) => T
   ) {
-    this.children = children(locator);
+    this.children = children?.(locator) ?? ({} as T);
   }
 }
