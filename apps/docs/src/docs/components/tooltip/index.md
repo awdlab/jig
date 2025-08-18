@@ -10,3 +10,11 @@ sizing options.
 ## Basic Usage
 
 {{ NgDocActions.demo("Demo_Tooltip_Base") }}
+
+## Placement Options
+
+{{ NgDocActions.demo("Demo_Tooltip_Placement") }}
+
+## Show Only If Truncated
+
+{{ NgDocActions.demo("Demo_Tooltip_ShowOnlyIfTruncated") }}

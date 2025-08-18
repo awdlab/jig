@@ -10,6 +10,7 @@ import {
   shift,
   Side,
   size,
+  Strategy,
 } from '@floating-ui/dom';
 
 export type PositioningSizeConstraints = {
@@ -46,6 +47,7 @@ export type PositioningOptions = {
   offset?: number;
   stopped?: boolean;
   sizeConstraints?: PositioningSizeConstraints;
+  strategy?: Strategy;
   onPositionChange?: (position: ComputePositionReturn) => void;
 };
 
@@ -114,6 +116,7 @@ export function positionElement(
 
   computePosition(referenceEl, floatingEl, {
     placement: options.placement,
+    strategy: options.strategy,
     middleware: [
       options.offset ? offset(options.offset) : undefined,
       ...(options.placement?.includes('-')

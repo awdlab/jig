@@ -17,6 +17,7 @@ import {
   UnionType,
   type SomeType,
   CommentTag,
+  OptionDefaults,
 } from 'typedoc';
 import { join } from 'path';
 
@@ -40,6 +41,7 @@ const options: TypeDocOptions & PluginOptions = {
     hideInherited: true,
   },
   searchInComments: true,
+  blockTags: [...OptionDefaults.blockTags, '@alias'],
 };
 
 async function parseTsDocs() {
@@ -106,6 +108,15 @@ async function convertControl(control: DeclarationReflection) {
   inputs.length && control.groups.push(groupInputs);
   outputs.length && control.groups.push(groupOutputs);
   publicProps.length && control.groups.push(groupPublic);
+
+  // Replace names with aliases
+  [...inputs, ...outputs].forEach(input => {
+    const i = input.comment?.blockTags.findIndex(tag => tag.tag === '@alias');
+    if (i !== undefined && i !== -1) {
+      input.name = input.comment?.blockTags[i].content[0].text ?? input.name;
+      input.comment?.blockTags.splice(i, 1);
+    }
+  });
 
   // Remove readonly & signal/output wrapper type from inputs/outputs
   [...inputs, ...outputs].forEach(input => {

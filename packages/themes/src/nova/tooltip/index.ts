@@ -27,17 +27,6 @@ export const tooltipStyles = createThemePart({
         overflow: unset;
       }
 
-      ${c()}:not(:popover-open) {
-        display: block;
-        animation: ngn-tooltip-fade-out ${v('animation.duration.fade')}
-          ${v('animation.easing.fade')} forwards;
-      }
-
-      ${c()}:popover-open {
-        animation: ngn-tooltip-fade-in ${v('animation.duration.fade')} ${v('animation.easing.fade')}
-          forwards;
-      }
-
       ${c('content')} {
         background: ${v('color.surface.950')};
         color: ${v('color.surface.50')};
@@ -47,6 +36,16 @@ export const tooltipStyles = createThemePart({
 
       ${c('text')} {
         pointer-events: none;
+      }
+
+      ${c()}:popover-open {
+        animation: ngn-tooltip-fade-in ${v('animation.duration.fade')} ${v('animation.easing.fade')}
+          forwards;
+      }
+
+      ${c('closing')}:popover-open {
+        animation: ngn-tooltip-fade-out ${v('animation.duration.fade')}
+          ${v('animation.easing.fade')} forwards;
       }
 
       @keyframes ngn-tooltip-fade-in {
