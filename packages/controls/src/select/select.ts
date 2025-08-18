@@ -28,7 +28,8 @@ import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnListBox } from '@ngneers/controls/list-box';
 import { NgnPopover, PopoverOptions } from '@ngneers/controls/popover';
-import { asyncComputed, setInputSignalValue } from '@ngneers/controls/utils-ng';
+import { NgnError } from '@ngneers/controls/utils';
+import { asyncComputed } from '@ngneers/controls/utils-ng';
 import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
 
 import { SelectTemplates, ValueType } from './select-templates';
@@ -60,7 +61,8 @@ export class NgnSelect<
   T extends object = object,
   K extends keyof T = never,
   Editable extends boolean = false,
-> extends SelectTemplates<T, K, Editable> {
+  Multiple extends boolean = false,
+> extends SelectTemplates<T, K, Editable, Multiple> {
   protected readonly theme = injectThemeTemplate(selectControlTemplate);
   private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);
   private readonly _customEditableInput = contentChild(NgnInput);
@@ -118,16 +120,46 @@ export class NgnSelect<
   /**
    * Enable this to allow the user to type in a value that is not in the list.
    * When enabled, the value of the control becomes the label of a selected item or the typed value.
+   *
+   * Cannot be used with
+   * * {@link multiple} selection
+   * * {@link filter} without also setting {@link editableAutoFilter} to `false`
+   *
    * @defaultValue `false`
    */
   public readonly editable = input<Editable>();
+  /**
+   * Whether to automatically filter the options based on the user's input in the {@link editable} input.
+   * @defaultValue `true`
+   */
+  public readonly editableAutoFilter = input<boolean>(true);
+  /**
+   * Enable this to allow the user to select multiple values.
+   * When enabled, the value of the control becomes an array of selected items.
+   *
+   * This is only applicable when {@link editable} is `false`.
+   * @defaultValue `false`
+   */
+  public readonly multiple = input<Multiple>();
+  /**
+   * Whether to scroll to the selected item when the dropdown is opened.
+   * @defaultValue `true`
+   */
   public readonly scrollToSelectedItemOnOpen = input<boolean | ScrollLogicalPosition>(true);
+
   private readonly _listbox = viewChild(NgnListBox);
-  private _userTyped = false;
+  private _userChangedEditableInput = false;
 
   protected readonly filterTextInternal = linkedSignal(this.filterText);
-
   protected readonly currentHighlightedValue = signal<T[K] | null>(null);
+  protected readonly valueStr = computed(() => {
+    const v = this.value();
+    return typeof v === 'string' ? v : null;
+  });
+  protected readonly valueArray = computed(() => {
+    const v = this.value();
+    return Array.isArray(v) ? v : v ? [v] : [];
+  });
 
   private readonly _options = computed(() => {
     const fields = this.fields();
@@ -169,16 +201,29 @@ export class NgnSelect<
 
   protected readonly filterIsExecuting = this.filteredOptions.isRunning;
 
-  protected readonly selectedItem = computed(() => {
+  protected readonly selectedItems = computed(() => {
     if (this.editable()) {
-      return this._flatOptions().find(option => option.label === this.value());
+      return [this._flatOptions().find(option => option.label === this.value())];
     } else {
-      return this._flatOptions().find(option => option.value === this.value());
+      return this.valueArray().map(value =>
+        this._flatOptions().find(option => option.value === value)
+      );
     }
   });
+  protected readonly selectedItemsValues = computed(() =>
+    this.selectedItems().map(item => item?.value)
+  );
 
   constructor() {
     super();
+    effect(() => {
+      if (this.editable() && this.multiple()) {
+        throw new NgnError('select', 'Editable and multiple selection cannot be used together');
+      }
+      if (this.editable() && this.filter()) {
+        throw new NgnError('select', 'Editable and filtering cannot be used together');
+      }
+    });
     effect(() => {
       this._customEditableSub?.unsubscribe();
       const editable = this.editable();
@@ -197,7 +242,7 @@ export class NgnSelect<
       }
       const valueSig = this._customEditableInput()?.value;
       if (valueSig) {
-        setInputSignalValue(valueSig, this.value() || '');
+        valueSig.set((this.value() as string) || '');
       }
     });
     effect(() => {
@@ -205,10 +250,10 @@ export class NgnSelect<
         return;
       }
       const hasOptions = !!this.filteredOptions().length;
-      if (!this._userTyped) {
+      if (!this._userChangedEditableInput) {
         return;
       }
-      this._userTyped = false;
+      this._userChangedEditableInput = false;
       if (hasOptions) {
         this.open();
       } else {
@@ -238,18 +283,20 @@ export class NgnSelect<
     }
   }
 
-  public onSelect(value: T[K]) {
-    if (this.value() !== value) {
-      if (this.editable()) {
+  public onSelect(value: ValueType<T, K, Editable, Multiple> | null) {
+    if (this.editable()) {
+      if (this.value() !== value) {
         const item = this._flatOptions().find(option => option.value === value);
         if (item) {
-          this.onChange(item.label as ValueType<T, K, Editable>);
+          this.onChange(item.label as ValueType<T, K, Editable, Multiple>);
         }
-      } else {
-        this.onChange(value);
       }
+    } else if (this.value() !== value) {
+      this.onChange(value);
     }
-    this.close();
+    if (!this.multiple()) {
+      this.close();
+    }
   }
 
   public open() {
@@ -262,9 +309,11 @@ export class NgnSelect<
 
   protected onEditableChange(value: string | null) {
     if (this.editable()) {
-      this.onChange(value as ValueType<T, K, Editable>);
-      this._userTyped = true;
-      this.filterTextInternal.set(value);
+      this.onChange(value as ValueType<T, K, Editable, Multiple>);
+      this._userChangedEditableInput = true;
+      if (this.editableAutoFilter()) {
+        this.filterTextInternal.set(value);
+      }
     }
   }
 }

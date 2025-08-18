@@ -24,7 +24,7 @@ import {
 import { NgnScroller } from '@ngneers/controls/scroller';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
 
-import { ListBoxTemplates } from './list-box-templates';
+import { ListBoxTemplates, ValueType } from './list-box-templates';
 
 /**
  * @category control
@@ -35,7 +35,11 @@ import { ListBoxTemplates } from './list-box-templates';
   imports: [NgTemplateOutlet, NgnScroller, NgnTemplate, NgClass],
   providers: [valueControlBaseProvider(NgnListBox)],
 })
-export class NgnListBox<T extends object, K extends keyof T> extends ListBoxTemplates<T, K> {
+export class NgnListBox<
+  T extends object,
+  K extends keyof T,
+  Multiple extends boolean = false,
+> extends ListBoxTemplates<T, K, Multiple> {
   protected readonly theme = injectThemeTemplate(listBoxControlTemplate);
 
   public readonly items = input<readonly NgnItem<T, K>[] | readonly T[]>([]);
@@ -46,6 +50,7 @@ export class NgnListBox<T extends object, K extends keyof T> extends ListBoxTemp
   public readonly highlightable = input<boolean>(true);
   public readonly virtual = input<boolean>();
   public readonly itemHeight = input<number>();
+  public readonly multiple = input<Multiple>();
   private readonly _scroller = viewChild.required<NgnScroller<T>>(NgnScroller);
 
   protected readonly formattedItems = computed(() => {
@@ -58,7 +63,10 @@ export class NgnListBox<T extends object, K extends keyof T> extends ListBoxTemp
   });
 
   protected readonly flatItems = computed(() => flatItems(this.formattedItems()));
-
+  protected readonly valueArray = computed(() => {
+    const v = this.value();
+    return Array.isArray(v) ? v : v ? [v] : [];
+  });
   protected readonly currentHighlightedValue = signal<T[K] | null>(null);
 
   constructor() {
@@ -102,7 +110,9 @@ export class NgnListBox<T extends object, K extends keyof T> extends ListBoxTemp
         const currentIndex =
           currentHighlightIndex >= 0
             ? currentHighlightIndex
-            : flattenedItems.findIndex(option => option.value === this.value());
+            : flattenedItems.findIndex(
+                option => option.value === this.valueArray()[this.valueArray().length - 1]
+              );
 
         if (currentIndex === -1) {
           return event.key === 'ArrowDown'
@@ -134,8 +144,19 @@ export class NgnListBox<T extends object, K extends keyof T> extends ListBoxTemp
   }
 
   protected onSelect(value: T[K]) {
-    this.onChange(value);
+    if (this.multiple()) {
+      const currentValue = (this.value() as Array<T[K]>) ?? [];
+      if (!currentValue.includes(value)) {
+        this.onChange([...currentValue, value] as ValueType<T, K, Multiple>);
+      } else {
+        this.onChange(currentValue.filter(item => item !== value) as ValueType<T, K, Multiple>);
+      }
+    } else {
+      if (this.value() !== value) {
+        this.onChange(value);
+      }
+    }
+
     this.onTouched();
-    this.currentHighlightedValue.set(null);
   }
 }

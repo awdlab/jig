@@ -7,6 +7,7 @@ import { Demo_Select_EditableCustom } from '../../../app/demos/select/editable-c
 import { Demo_Select_Fields } from '../../../app/demos/select/fields';
 import { Demo_Select_Filter } from '../../../app/demos/select/filter';
 import { Demo_Select_Grouped } from '../../../app/demos/select/grouped';
+import { Demo_Select_Multiple } from '../../../app/demos/select/multiple';
 import { Demo_Select_Templates } from '../../../app/demos/select/templates';
 import ComponentsCategory from '../../categories/components/ng-doc.category';
 
@@ -22,6 +23,7 @@ const SelectPage: NgDocPage = {
     Demo_Select_Templates,
     Demo_Select_Editable,
     Demo_Select_EditableCustom,
+    Demo_Select_Multiple,
   },
   playgrounds: {
     SelectPlayground: {

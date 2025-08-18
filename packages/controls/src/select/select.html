@@ -14,13 +14,20 @@
 >
   @if (editable()) {
     <ng-content select="[ngnInput]">
-      <input ngnInput [value]="value() || ''" (valueChange)="onEditableChange($event)" />
+      <input ngnInput [value]="valueStr() || ''" (valueChange)="onEditableChange($event)" />
     </ng-content>
+  } @else if (multiple()) {
+    <ng-container
+      [ngTemplateOutlet]="selectedItemsTemplate()"
+      [ngTemplateOutletContext]="{
+        $implicit: selectedItems(),
+      }"
+    />
   } @else {
     <ng-container
       [ngTemplateOutlet]="selectedItemTemplate()"
       [ngTemplateOutletContext]="{
-        $implicit: selectedItem(),
+        $implicit: selectedItems()[0],
       }"
     />
   }
@@ -72,13 +79,14 @@
         [virtual]="virtual()"
         [templateItem]="itemTemplate()"
         [templateGroup]="groupTemplate()"
+        [multiple]="multiple()"
         [fields]="{
           groupItems: 'items',
           value: 'value',
           label: 'label',
           testId: 'testId',
         }"
-        [value]="selectedItem()?.value"
+        [value]="multiple() ? selectedItemsValues() : selectedItemsValues()[0]"
         [scrollToSelectedItemOnInit]="scrollToSelectedItemOnOpen()"
         (valueChange)="onSelect($event)"
       />
@@ -99,6 +107,19 @@
 
 <ng-template #defaultSelectedItemTemplate [ngnTemplate]="templateTypes.item" let-item>
   <span [attr.data-testid]="item?.testId">{{ item?.label ?? '&ZeroWidthSpace;' }}</span>
+</ng-template>
+
+<ng-template #defaultSelectedItemsTemplate [ngnTemplate]="templateTypes.selectedItems" let-items>
+  <span>
+    @for (item of items; track item?.value) {
+      <span [attr.data-testid]="item?.testId">{{ item?.label }}</span>
+      @if (!$last) {
+        <span>, </span>
+      }
+    } @empty {
+      <span>&ZeroWidthSpace;</span>
+    }
+  </span>
 </ng-template>
 
 <ng-template #defaultNoItemsTemplate>

@@ -4,6 +4,7 @@
   style="height: 100%; width: 100%"
   [attr.tabIndex]="highlightable() ? 0 : null"
   (keydown)="onKeyDown($event)"
+  (focusout)="currentHighlightedValue.set(null)"
 >
   <ngn-scroller
     [ngClass]="theme.class('scroller')"
@@ -23,7 +24,7 @@
       theme.classes({
         item: !itemOrGroup.items,
         group: !!itemOrGroup.items,
-        'item-selected': itemOrGroup.value === value(),
+        'item-selected': valueArray().includes(itemOrGroup.value),
         'item-highlighted': itemOrGroup.value === currentHighlightedValue(),
       })
     "

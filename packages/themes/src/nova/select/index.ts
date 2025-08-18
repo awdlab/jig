@@ -12,6 +12,7 @@ export const selectStyles = createThemePart({
         display: inline-flex;
         justify-content: space-between;
         align-items: center;
+        white-space: nowrap;
       }
       ${c('icon')} {
         color: ${v('color.surface.500')};

@@ -22,6 +22,10 @@ filtering, grouping, custom templates, and editable options.
 
 {{ NgDocActions.demo("Demo_Select_Grouped") }}
 
+## Multiple Selection
+
+{{ NgDocActions.demo("Demo_Select_Multiple") }}
+
 ## Custom Templates
 
 {{ NgDocActions.demo("Demo_Select_Templates") }}
