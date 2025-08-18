@@ -12,6 +12,7 @@ export const tabsStyles = createThemePart({
         flex-direction: column;
       }
       ${c('content')} {
+        padding: ${v('size.padding.sm')};
       }
       ${c('headers')} {
         width: 100%;
