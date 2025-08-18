@@ -231,7 +231,14 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@24.1.0)(jiti@1.21.7)(jsdom@26.1.0)(less@4.3.0)(sass@1.89.2)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.1)
 
-  packages/playwright: {}
+  packages/playwright:
+    dependencies:
+      '@ngneers/controls':
+        specifier: workspace:*
+        version: link:../controls
+      '@ngneers/controls-themes':
+        specifier: workspace:*
+        version: link:../themes
 
   packages/themes:
     dependencies:
