@@ -39,7 +39,7 @@ export class NgnCalendar extends CalendarTemplates {
   protected readonly year = linkedSignal(
     () => this.value()?.getFullYear() || new Date().getFullYear()
   );
-  protected readonly month = linkedSignal(() => this.value()?.getMonth() || new Date().getMonth());
+  protected readonly month = linkedSignal(() => this.value()?.getMonth() ?? new Date().getMonth());
   /**
    * Set the first day of the week.
    */
