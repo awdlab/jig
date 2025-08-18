@@ -10,12 +10,16 @@ export class NgnScrollerHarness {
 
   constructor(public locator: Locator) {
     this.scrollarea = locator.locator(this.classes['scrollarea']);
-    this.item = locator.locator(this.classes['item']);
+    this.item = locator.locator(`${this.classes['item']}:not(${this.classes['item-sticky']})`);
     this.itemSticky = locator.locator(this.classes['item-sticky']);
   }
 
   public expectItemsCount(count: number): Promise<void> {
     return expect(this.item).toHaveCount(count);
+  }
+
+  public expectStickyItemsCount(count: number): Promise<void> {
+    return expect(this.itemSticky).toHaveCount(count);
   }
 
   public expectItemsCountBetween(min: number, max: number): Promise<void> {

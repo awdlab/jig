@@ -93,3 +93,122 @@ test('virtual', async ({ page }, testInfo) => {
   );
   await expectScreenshot(page, testInfo, 'auto-scrolled');
 });
+
+test('grouped', async ({ page }, testInfo) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+      <ngn-select
+        style="width: 200px;"
+        [options]="inputs().options"
+        [popoverOptions]="inputs().popoverOptions" />
+    `,
+      imports: ['select'],
+    },
+    {
+      inputs: {
+        options: exampleData.items.groupedPreformatted,
+        popoverOptions: <PopoverOptions>{ sizeConstraints: { maxHeight: '300px' } },
+      },
+    }
+  );
+
+  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+
+  await select.expectOpened(false);
+  await select.open();
+  const listBox = select.listBox;
+  const scroller = listBox.scroller;
+
+  await scroller.expectItemsCount(exampleData.items.flatPreformatted.length);
+  await scroller.expectStickyItemsCount(exampleData.items.groupedPreformatted.length);
+  await expectScreenshot(page, testInfo, 'opened');
+  await scroller.clickItemByText(exampleData.items.flatPreformatted[0].label);
+  await select.selectedItemText(exampleData.items.flatPreformatted[0].label);
+});
+
+test('templates', async ({ page }, testInfo) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+      <ngn-select
+      style="width: 200px;"
+      [options]="inputs().options"
+      [popoverOptions]="inputs().popoverOptions">
+        <ng-template #item let-item>
+          👀{{ item?.label }}
+        </ng-template>
+        <ng-template #selectedItem let-item>
+          ✅{{ item?.label }}
+        </ng-template>
+        <ng-template #group let-item>
+          ⭐{{ item?.label }}
+        </ng-template>
+      </ngn-select>
+    `,
+      imports: ['select'],
+    },
+    {
+      inputs: {
+        options: exampleData.items.groupedPreformatted,
+        popoverOptions: <PopoverOptions>{ sizeConstraints: { maxHeight: '300px' } },
+      },
+    }
+  );
+
+  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+
+  await select.expectOpened(false);
+  await select.open();
+  const listBox = select.listBox;
+  const scroller = listBox.scroller;
+
+  await scroller.expectItemsCount(exampleData.items.flatPreformatted.length);
+  await scroller.expectStickyItemsCount(exampleData.items.groupedPreformatted.length);
+  await expectScreenshot(page, testInfo, 'opened');
+  await scroller.clickItemByText('👀' + exampleData.items.flatPreformatted[0].label);
+  await select.selectedItemText('✅' + exampleData.items.flatPreformatted[0].label);
+});
+
+test('fields', async ({ page }, testInfo) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+      <ngn-select
+        style="width: 200px;"
+        [options]="inputs().options"
+        [popoverOptions]="inputs().popoverOptions"
+        [fields]="inputs().fields"
+      />
+    `,
+      imports: ['select'],
+    },
+    {
+      inputs: {
+        options: exampleData.items.grouped,
+        popoverOptions: <PopoverOptions>{ sizeConstraints: { maxHeight: '300px' } },
+        fields: {
+          label: 'label',
+          value: 'id',
+          groupItems: 'items',
+        },
+      },
+    }
+  );
+
+  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+
+  await select.expectOpened(false);
+  await select.open();
+  const listBox = select.listBox;
+  const scroller = listBox.scroller;
+
+  await scroller.expectItemsCount(exampleData.items.flatPreformatted.length);
+  await scroller.expectStickyItemsCount(exampleData.items.groupedPreformatted.length);
+  await expectScreenshot(page, testInfo, 'opened');
+  await scroller.clickItemByText(exampleData.items.flatPreformatted[0].label);
+  await select.selectedItemText(exampleData.items.flatPreformatted[0].label);
+});

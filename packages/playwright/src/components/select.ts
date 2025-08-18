@@ -40,4 +40,12 @@ export class NgnSelectHarness {
     await this.icon.click();
     await this.expectOpened(false);
   }
+
+  public async selectedItemText(text: string, editable = false) {
+    if (editable) {
+      await this.inputEditable.expectValue(text);
+    } else {
+      await expect(this.input).toHaveText(text);
+    }
+  }
 }

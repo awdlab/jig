@@ -12,6 +12,9 @@ export type NgnItemFields<T, K extends keyof T> = {
   label: keyof T;
   value: K;
   testId?: keyof T;
+  /**
+   * @todo think about new name
+   */
   groupItems?: keyof T;
 };
 
