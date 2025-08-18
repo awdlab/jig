@@ -1,6 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { NgnInputMaskHarness } from 'packages/playwright/src/components/input-mask';
-import { loadComponent } from '../load-component';
+import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 
 test('base', async ({ page }, testInfo) => {

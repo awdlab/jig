@@ -1,6 +1,6 @@
 import { NgnPopoverHarness } from '@ngneers/controls-playwright';
 import test from '@playwright/test';
-import { loadComponent } from '../load-component';
+import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 
 test('base', async ({ page }, testInfo) => {

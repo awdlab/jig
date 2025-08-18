@@ -56,8 +56,8 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'pnpm run test-wrapper:serve --host "0.0.0.0" --allowed-hosts',
-    url: 'http://localhost:4200',
+    command: 'pnpm run test-wrapper:serve --port 4222 --host "0.0.0.0" --allowed-hosts',
+    url: 'http://localhost:4222',
     reuseExistingServer: !process.env['CI'],
   },
 });

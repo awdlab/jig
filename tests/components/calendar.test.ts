@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { loadComponent } from '../load-component';
+import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { NgnCalendarHarness } from 'packages/playwright/src/components/calendar';
 

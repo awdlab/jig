@@ -1,6 +1,6 @@
 import test from '@playwright/test';
 import { NgnInputHarness } from 'packages/playwright/src/components/input';
-import { loadComponent } from '../load-component';
+import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 
 test('base', async ({ page }, testInfo) => {

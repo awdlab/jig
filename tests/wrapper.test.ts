@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { loadComponent } from './load-component';
+import { loadComponent } from './helper/load-component';
 
 test('Component Test Wrapper Works', async ({ page }) => {
   const handle = await loadComponent(
