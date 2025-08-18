@@ -15,6 +15,7 @@
     "module": "preserve",
     "paths": {
       "@ngneers/controls/*": ["packages/controls/src/*/index"],
+      "@ngneers/controls/i18n/translations/*": ["packages/controls/src/i18n/translations/*"],
       "@ngneers/controls-themes": ["packages/themes/src/index"],
       "@ngneers/controls-themes/*": ["packages/themes/src/*/index"],
       "@ngneers/controls-playwright": ["packages/playwright/src/index"],

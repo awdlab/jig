@@ -11,7 +11,7 @@
     <button
       ngnButton
       kind="text"
-      [ngClass]="theme.class('month')"
+      [ngClass]="theme.class('current-month')"
       (click)="switchToMonthsView.emit()"
     >
       {{ monthName() }}

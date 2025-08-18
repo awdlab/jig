@@ -1,7 +1,10 @@
 import { Locator, expect } from '@playwright/test';
-import { NgnInputFieldHarness } from './input-field';
+import { themeClasses } from '../utils/theme';
+import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
 
 export class NgnInputHarness {
+  public readonly classes = themeClasses(inputControlTemplate);
+
   public readonly locator: Locator;
 
   constructor(locator: Locator) {

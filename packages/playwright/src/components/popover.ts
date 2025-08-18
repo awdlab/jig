@@ -1,13 +1,17 @@
 import { Locator, expect } from '@playwright/test';
+import { themeClasses } from '../utils/theme';
+import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
 
 export class NgnPopoverHarness {
+  public readonly classes = themeClasses(popoverControlTemplate);
+
   private readonly _ngnLazyCacher: Locator;
   private readonly _contentWrapper: Locator;
   private readonly _content: Locator;
 
   constructor(locator: Locator) {
     this._ngnLazyCacher = locator.locator('ngn-defer');
-    this._contentWrapper = locator.locator('.ngn-popover-content');
+    this._contentWrapper = locator.locator(this.classes.content);
     this._content = this._ngnLazyCacher.locator('> *');
   }
 

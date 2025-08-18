@@ -82,7 +82,7 @@ export const calendarStyles = createThemePart({
           background: ${v('color.surface.800')};
         }
       }
-      ${c('year')}${d('select')} ${d('input')} {
+      ${c('current-year')}${d('select')} ${d('input')} {
         width: 2.5rem;
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
@@ -90,7 +90,7 @@ export const calendarStyles = createThemePart({
         }
         appearance: textfield; // Firefox
       }
-      ${c('month')} {
+      ${c('month')}, ${c('current-month')} {
         cursor: pointer;
         background: transparent;
         border: none;
