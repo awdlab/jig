@@ -101,6 +101,14 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   public readonly showOnlyIfTruncated = input<boolean | ''>(false, {
     alias: 'ngnTooltipShowOnlyIfTruncated',
   });
+  /**
+   * The CSS class to apply to the tooltip.
+   * This can be used to apply custom styles to the tooltip.
+   * @alias ngnTooltipStyleClass
+   */
+  public readonly styleClass = input<string | null | undefined>(undefined, {
+    alias: 'ngnTooltipStyleClass',
+  });
 
   constructor() {
     super();
@@ -127,6 +135,9 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
     });
     effect(() => {
       if (this._tooltip) this._tooltip.setInput('showOnlyIfTruncated', this.showOnlyIfTruncated());
+    });
+    effect(() => {
+      if (this._tooltip) this._tooltip.setInput('styleClass', this.styleClass());
     });
   }
 
@@ -162,6 +173,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
       this._tooltip.setInput('showDelay', this.showDelay());
       this._tooltip.setInput('hideDelay', this.hideDelay());
       this._tooltip.setInput('showOnlyIfTruncated', this.showOnlyIfTruncated());
+      this._tooltip.setInput('styleClass', this.styleClass());
       this.updateContent(this._tooltip);
     }
     return this._tooltip?.instance;
@@ -184,7 +196,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   templateUrl: './tooltip.html',
   imports: [NgClass, NgnDefer],
   host: {
-    '[class]': `theme.class() + ' ' + positionClass()`,
+    '[class]': `[theme.class(), positionClass(), styleClass() ?? '']`,
     '[attr.popover]': `''`,
     '(toggle)': 'onToggle($event)',
     '(mouseenter)': 'show(true)',
@@ -240,6 +252,11 @@ export class TooltipComponent extends NgnBase {
    * @defaultValue `false`
    */
   public readonly showOnlyIfTruncated = input<boolean | ''>(false);
+  /**
+   * The CSS class to apply to the tooltip.
+   * This can be used to apply custom styles to the tooltip.
+   */
+  public readonly styleClass = input<string | null>();
 
   protected readonly showDelayMs = computed(() => getTimeSpanMilliseconds(this.showDelay()));
   protected readonly hideDelayMs = computed(() => getTimeSpanMilliseconds(this.hideDelay()));
