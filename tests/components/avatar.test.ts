@@ -28,7 +28,7 @@ test('initials & image', async ({ page }) => {
   await avatar.expectImageSrc('example.png');
 });
 
-test('sizes', async ({ page }) => {
+test('sizes', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
@@ -49,5 +49,5 @@ test('sizes', async ({ page }) => {
   );
 
   await expect(page.locator('ngn-avatar')).toHaveCount(45);
-  await expectScreenshot(page);
+  await expectScreenshot(page, testInfo);
 });

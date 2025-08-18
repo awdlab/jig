@@ -1,8 +1,9 @@
 import test from '@playwright/test';
 import { NgnInputHarness } from 'packages/playwright/src/components/input';
 import { loadComponent } from '../load-component';
+import { expectScreenshot } from '../helper/screenshot';
 
-test('base', async ({ page }) => {
+test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `<input ngnInput />`,
     imports: ['input'],
@@ -11,4 +12,5 @@ test('base', async ({ page }) => {
   await textField.expectValue('');
   await textField.fill('123');
   await textField.expectValue('123');
+  await expectScreenshot(page, testInfo);
 });

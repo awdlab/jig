@@ -1,8 +1,9 @@
 import { NgnPopoverHarness } from '@ngneers/controls-playwright';
 import test from '@playwright/test';
 import { loadComponent } from '../load-component';
+import { expectScreenshot } from '../helper/screenshot';
 
-test('base', async ({ page }) => {
+test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `
       <button #anchor (click)="popover.open()">Open</button>
@@ -13,13 +14,15 @@ test('base', async ({ page }) => {
 
   const popover = new NgnPopoverHarness(page.locator('ngn-popover').first());
   await popover.expectRendered();
+  await expectScreenshot(page, testInfo, 'closed');
 
   const button = page.locator('button').first();
   await button.click();
   await popover.expectOpened();
+  await expectScreenshot(page, testInfo, 'opened');
 });
 
-test('lazy', async ({ page }) => {
+test('lazy', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `
       <button #anchor (click)="popover.open()">Open</button>
@@ -33,9 +36,11 @@ test('lazy', async ({ page }) => {
   });
   const popover = new NgnPopoverHarness(page.locator('ngn-popover').first());
   await popover.expectRendered(false);
+  await expectScreenshot(page, testInfo, 'closed');
 
   const button = page.locator('button').first();
   await button.click();
   await popover.expectRendered(true);
   await popover.expectOpened();
+  await expectScreenshot(page, testInfo, 'opened');
 });

@@ -1,8 +1,9 @@
 import test, { expect } from '@playwright/test';
 import { NgnInputMaskHarness } from 'packages/playwright/src/components/input-mask';
 import { loadComponent } from '../load-component';
+import { expectScreenshot } from '../helper/screenshot';
 
-test('base', async ({ page }) => {
+test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
@@ -21,6 +22,7 @@ test('base', async ({ page }) => {
   const inputMask = new NgnInputMaskHarness(page.locator('ngn-input-mask').first());
   await inputMask.input.expectValue('');
   await inputMask.expectTextWithMask('HH:MM');
+  await expectScreenshot(page, testInfo, 'initial-state');
 
   await inputMask.input.press('1');
   await inputMask.input.expectValue('1');
@@ -37,6 +39,7 @@ test('base', async ({ page }) => {
   await inputMask.input.press('Backspace');
   await inputMask.input.expectValue('12:');
   await inputMask.expectTextWithMask('12:MM');
+  await expectScreenshot(page, testInfo, 'half');
 
   await inputMask.input.press('4');
   await inputMask.input.expectValue('12:4');
@@ -72,4 +75,5 @@ test('base', async ({ page }) => {
   await inputMask.input.pressSequentially('1234');
   await inputMask.input.expectValue('12:34');
   await inputMask.expectTextWithMask('12:34');
+  await expectScreenshot(page, testInfo, 'end');
 });
