@@ -61,7 +61,7 @@ export function provideNgnConfig(config?: NgnConfigInit): Provider {
             placement: 'bottom',
             offset: 4,
             showDelay: '0.5s',
-            hideDelay: 0,
+            hideDelay: '0.1s',
           },
         },
       } satisfies NgnConfig,

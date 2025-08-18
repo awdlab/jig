@@ -27,15 +27,14 @@ export const tooltipStyles = createThemePart({
         overflow: unset;
       }
 
-      ${c()}:not(:popover-open) {
-        display: block;
-        animation: ngn-tooltip-fade-out ${v('animation.duration.fade')}
-          ${v('animation.easing.fade')} forwards;
-      }
-
       ${c()}:popover-open {
         animation: ngn-tooltip-fade-in ${v('animation.duration.fade')} ${v('animation.easing.fade')}
           forwards;
+      }
+
+      ${c('closing')}:popover-open {
+        animation: ngn-tooltip-fade-out ${v('animation.duration.fade')}
+          ${v('animation.easing.fade')} forwards;
       }
 
       ${c('content')} {

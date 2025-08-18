@@ -62,6 +62,9 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   public readonly hideDelay = input<TimeSpan>(this._config.defaults.tooltip.hideDelay, {
     alias: 'ngnTooltipHideDelay',
   });
+  public readonly showOnlyIfTruncated = input<boolean | null | ''>(false, {
+    alias: 'ngnTooltipShowOnlyIfTruncated',
+  });
 
   constructor() {
     super();
@@ -85,6 +88,9 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
     });
     effect(() => {
       if (this._tooltip) this._tooltip.setInput('hideDelay', this.hideDelay());
+    });
+    effect(() => {
+      if (this._tooltip) this._tooltip.setInput('showOnlyIfTruncated', this.showOnlyIfTruncated());
     });
   }
 
@@ -117,6 +123,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
       this._tooltip.setInput('offset', this.offset());
       this._tooltip.setInput('showDelay', this.showDelay());
       this._tooltip.setInput('hideDelay', this.hideDelay());
+      this._tooltip.setInput('showOnlyIfTruncated', this.showOnlyIfTruncated());
       this.updateContent(this._tooltip);
     }
     return this._tooltip.instance;
@@ -140,7 +147,6 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   imports: [NgClass, NgnDefer],
   host: {
     '[class]': `theme.class() + ' ' + positionClass()`,
-    '[style.display]': `isShown() ? 'block' : 'none'`,
     '[attr.popover]': `''`,
     '(toggle)': 'onToggle($event)',
     '(mouseenter)': 'show(true)',
@@ -161,6 +167,7 @@ export class TooltipComponent extends NgnBase {
   public readonly offset = input<number>(this._config.defaults.tooltip.offset);
   public readonly showDelay = input<TimeSpan>(this._config.defaults.tooltip.showDelay);
   public readonly hideDelay = input<TimeSpan>(this._config.defaults.tooltip.hideDelay);
+  public readonly showOnlyIfTruncated = input<boolean | null | ''>(false);
 
   protected readonly showDelayMs = computed(() => getTimeSpanMilliseconds(this.showDelay()));
   protected readonly hideDelayMs = computed(() => getTimeSpanMilliseconds(this.hideDelay()));
@@ -188,6 +195,7 @@ export class TooltipComponent extends NgnBase {
       sizeConstraints: this.size() ?? undefined,
       placement: this.placement(),
       offset: this.offset(),
+      strategy: 'fixed',
       onPositionChange: ({ placement }) =>
         this.positionClass.set(
           splitPlacement(placement)
@@ -221,26 +229,43 @@ export class TooltipComponent extends NgnBase {
   }
 
   protected onShow() {
+    if (this.showOnlyIfTruncated() !== false && !isElementTruncated(this.anchor())) {
+      return;
+    }
+
     this._isShown.set(true);
     this.element.nativeElement.showPopover();
   }
 
   protected onHide() {
-    this.element.nativeElement.hidePopover();
+    this.element.nativeElement.classList.toggle(this.theme.class('closing'), true);
+    setTimeout(() => {
+      Promise.all(this.element.nativeElement.getAnimations().map(a => a.finished))
+        .then(() => this.element.nativeElement.hidePopover())
+        .catch(() => {})
+        .finally(() =>
+          this.element.nativeElement.classList.toggle(this.theme.class('closing'), false)
+        );
+    });
   }
 
   protected onToggle(event: Event) {
     const evt = event as ToggleEvent;
     if (evt.newState === 'closed') {
-      Promise.all(this.element.nativeElement.getAnimations().map(a => a.finished))
-        .then(() => {
-          this._isShown.set(false);
-          this._autoPos()?.stop();
-        })
-        .catch(() => {});
+      this._isShown.set(false);
+      this._autoPos()?.stop();
     } else {
       this._isShown.set(true);
       this._autoPos()?.start();
     }
   }
+}
+
+function isElementTruncated(element: HTMLElement): boolean {
+  return (
+    element.clientWidth < element.scrollWidth || // horizontal overflow
+    element.clientHeight < element.scrollHeight || // vertical overflow
+    element.offsetWidth < element.scrollWidth || // single-line ellipsis
+    element.offsetHeight < element.scrollHeight // multi-line ellipsis (line-clamp)
+  );
 }
