@@ -309,19 +309,18 @@ export class TooltipComponent extends NgnBase {
     }
 
     this._isShown.set(true);
+    this._autoPos()?.start();
     this.element.nativeElement.showPopover();
   }
 
   protected onHide() {
     this.element.nativeElement.classList.toggle(this.theme.class('closing'), true);
-    setTimeout(() => {
-      Promise.all(this.element.nativeElement.getAnimations().map(a => a.finished))
-        .then(() => this.element.nativeElement.hidePopover())
-        .catch(() => {})
-        .finally(() =>
-          this.element.nativeElement.classList.toggle(this.theme.class('closing'), false)
-        );
-    });
+    Promise.all(this.element.nativeElement.getAnimations().map(a => a.finished))
+      .then(() => this.element.nativeElement.hidePopover())
+      .catch(() => {})
+      .finally(() =>
+        this.element.nativeElement.classList.toggle(this.theme.class('closing'), false)
+      );
   }
 
   protected onToggle(event: Event) {
