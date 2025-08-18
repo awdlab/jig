@@ -18,6 +18,15 @@ export class NgnScrollerHarness {
     return expect(this.item).toHaveCount(count);
   }
 
+  public expectItemsCountBetween(min: number, max: number): Promise<void> {
+    return expect(async () => {
+      const count = await this.item.count();
+      if (count < min || count > max) {
+        throw new Error(`Expected item count to be between ${min} and ${max}, but got ${count}`);
+      }
+    }).toPass();
+  }
+
   public expectItemsTexts(texts: string[]): Promise<void> {
     return expect(this.item).toHaveText(texts);
   }
@@ -36,5 +45,16 @@ export class NgnScrollerHarness {
 
   public getItemByText(text: string): Locator {
     return this.item.filter({ hasText: new RegExp(`^\\s*${text}\\s*$`, 'i') });
+  }
+
+  public async scrollToIndex(index: number, itemHeight?: number): Promise<void> {
+    if (!itemHeight) {
+      await this.item.nth(index).scrollIntoViewIfNeeded();
+      return;
+    }
+    const scrollAmount = index * itemHeight;
+    await this.scrollarea.evaluate((el, amount) => {
+      el.scrollTo({ top: amount });
+    }, scrollAmount);
   }
 }
