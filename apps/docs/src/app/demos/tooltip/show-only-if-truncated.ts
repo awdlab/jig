@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PositioningSizeConstraints } from '@ngneers/controls/api';
+import { PositioningSizeConstraints } from '@ngneers/controls/api/ng';
 import { NgnTooltip } from '@ngneers/controls/tooltip';
 
 @Component({

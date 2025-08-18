@@ -1,6 +1,7 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, inject, input, output, TemplateRef } from '@angular/core';
-import { injectThemeTemplate, NgnItem } from '@ngneers/controls/api';
+import { NgnItem } from '@ngneers/controls/api';
+import { injectThemeTemplate } from '@ngneers/controls/api/ng';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';

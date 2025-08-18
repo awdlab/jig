@@ -12,8 +12,8 @@ import {
   viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { elementSizeSignal, injectThemeTemplate } from '@ngneers/controls/api';
-import { AllKeysOfUnion, NgnError } from '@ngneers/controls/utils';
+import { elementSizeSignal, injectThemeTemplate } from '@ngneers/controls/api/ng';
+import { AllKeysOfUnion, getScrollTop, NgnError } from '@ngneers/controls/utils';
 import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scroller';
 import { fromEvent, map } from 'rxjs';
 
@@ -159,31 +159,39 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
    * Scrolls the item with the given index into view.
    * @param index The index of the item to scroll to.
    */
-  public scrollToIndex(index: number) {
+  public scrollToIndex(index: number, position: ScrollLogicalPosition = 'nearest') {
     untracked(() => {
-      if (this.virtual()) {
-        const scrollTop = this._scrollTop();
-        const visibleHeight = this._elementSize().height;
-        const itemTop = index * this.itemHeight();
-        const itemBottom = itemTop + this.itemHeight();
-
-        if (itemTop < scrollTop) {
-          this._scrollElement().nativeElement.scrollTo({
-            top: itemTop - 10,
-          });
-        } else if (itemBottom > scrollTop + visibleHeight) {
-          this._scrollElement().nativeElement.scrollTo({
-            top: itemBottom - visibleHeight + 10,
-          });
+      const getItemSize = () => {
+        if (this.virtual()) {
+          const itemHeight = this.itemHeight();
+          const itemTop = index * itemHeight;
+          return { itemHeight, itemTop };
+        } else {
+          const itemElement = this._itemList().nativeElement.querySelector(
+            `:nth-child(${index + 1})`
+          ) as HTMLElement | null;
+          if (itemElement) {
+            const itemTop = itemElement.offsetTop;
+            const itemHeight = itemElement.clientHeight;
+            return { itemTop, itemHeight };
+          }
+          return null;
         }
-      } else {
-        const itemElement = this._itemList().nativeElement.querySelector(
-          `:nth-child(${index + 1})`
-        );
-        if (itemElement) {
-          itemElement.scrollIntoView({ block: 'nearest' });
-        }
+      };
+      const size = getItemSize();
+      if (!size) {
+        return;
       }
+      const { itemTop, itemHeight } = size;
+      this._scrollElement().nativeElement.scrollTo({
+        top: getScrollTop(
+          itemTop,
+          itemHeight,
+          this._scrollElement().nativeElement.clientHeight,
+          this._scrollElement().nativeElement.scrollTop,
+          position
+        ),
+      });
     });
   }
 }

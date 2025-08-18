@@ -8,7 +8,7 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import { NgnTemplate, templateTypeFn } from '@ngneers/controls/api';
+import { NgnTemplate, templateTypeFn } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnError } from '@ngneers/controls/utils';

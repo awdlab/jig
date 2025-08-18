@@ -9,7 +9,10 @@
     [style.width.%]="100"
   >
     @if (latestStickyItem(); as latestStickyItem) {
-      <div [ngClass]="theme.class('sticky')" [style.height.px]="itemHeight() || null">
+      <div
+        [ngClass]="theme.class('item-sticky') + ' ' + theme.class('item-sticky-preserved')"
+        [style.height.px]="itemHeight() || null"
+      >
         <ng-container
           *ngTemplateOutlet="
             itemTemplate();
@@ -23,7 +26,8 @@
         [style.height.px]="itemHeight() || null"
         [ngClass]="
           theme.classes({
-            sticky: !!fieldSticky() && !!item.item[fieldSticky()!],
+            item: true,
+            'item-sticky': !!fieldSticky() && !!item.item[fieldSticky()!],
           })
         "
       >

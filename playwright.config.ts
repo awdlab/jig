@@ -28,8 +28,8 @@ export default defineConfig({
   use: {
     trace: 'on-first-retry',
     connectOptions: process.env['CI'] ? undefined : { wsEndpoint: 'ws://127.0.0.1:3000/' },
+    actionTimeout: 5000,
   },
-
   projects: [
     {
       name: 'chromium',

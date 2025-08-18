@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, output } from '@angular/core';
-import { injectThemeTemplate, Platform } from '@ngneers/controls/api';
+import { injectThemeTemplate, Platform } from '@ngneers/controls/api/ng';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnInput } from '@ngneers/controls/input';
 import { MASKS, NgnInputMask } from '@ngneers/controls/input-mask';

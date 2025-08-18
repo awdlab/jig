@@ -1,5 +1,5 @@
 import { computed, contentChild, Directive, input, TemplateRef } from '@angular/core';
-import { templateTypesFn } from '@ngneers/controls/api';
+import { templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 
 @Directive()

@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { novaCoral } from '@ngneers/controls-themes/nova';
 
-import { provideNgnControls } from '@ngneers/controls/api';
+import { provideNgnControls } from '@ngneers/controls/api/ng';
 
 export const appConfig: ApplicationConfig = {
   providers: [

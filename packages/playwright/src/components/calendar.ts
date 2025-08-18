@@ -38,7 +38,7 @@ export class NgnCalendarHarness {
 
   public expectDate(year: string, month: string, day: string) {
     return Promise.all([
-      this.currentYear.editableInput.expectValue(year),
+      this.currentYear.inputEditable.expectValue(year),
       expect(this.currentMonth).toHaveText(month),
       expect(this.daySelected).toHaveText(day),
     ]);

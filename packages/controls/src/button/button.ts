@@ -1,6 +1,6 @@
 import { Directive, input, OnDestroy } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { injectThemeTemplate } from '@ngneers/controls/api';
+import { injectThemeTemplate } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 import { ButtonKindType } from '@ngneers/controls/custom-types';
 import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';

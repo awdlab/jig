@@ -1,2 +1,1 @@
-export * from './filtering';
 export * from './ngn-items';

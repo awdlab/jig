@@ -1,11 +1,11 @@
 import { NgClass } from '@angular/common';
 import { Component, input, linkedSignal, signal } from '@angular/core';
+import { NgnItem } from '@ngneers/controls/api';
 import {
   injectThemeTemplate,
-  NgnItem,
   NgnTemplate,
   valueControlBaseProvider,
-} from '@ngneers/controls/api';
+} from '@ngneers/controls/api/ng';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnSelect } from '@ngneers/controls/select';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';

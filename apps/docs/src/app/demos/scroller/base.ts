@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgnTemplate } from '@ngneers/controls/api';
+import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnScroller } from '@ngneers/controls/scroller';
 
 import { exampleData } from '../../helper/data';

@@ -1,5 +1,6 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
-import { NgnItem, templateTypesFn, ValueControlBase } from '@ngneers/controls/api';
+import { NgnItem } from '@ngneers/controls/api';
+import { templateTypesFn, ValueControlBase } from '@ngneers/controls/api/ng';
 
 // @internal
 export type ValueType<T, K extends keyof T, Editable extends boolean> =

@@ -1,7 +1,8 @@
 import { inject, InjectionToken, provideAppInitializer, Provider } from '@angular/core';
 import { Placement } from '@floating-ui/dom';
 import { registerCustomLanguages, Translations } from '@ngneers/controls/i18n';
-import { DeepPartial, Logger, LogLevel, NgnStateStorage, TimeSpan } from '@ngneers/controls/utils';
+import { DeepPartial, Logger, LogLevel, TimeSpan } from '@ngneers/controls/utils';
+import { NgnStateStorage } from '@ngneers/controls/utils-ng';
 import { StyleScope, Theme } from '@ngneers/controls-themes';
 
 export const NGN_CONFIG = new InjectionToken<NgnConfig>('NGN_CONFIG');

@@ -18,7 +18,7 @@ export const scrollerStyles = createThemePart({
         position: relative;
         overflow: auto;
       }
-      ${c('sticky')} {
+      ${c('item-sticky')} {
         position: sticky;
         top: 0;
         background: white;

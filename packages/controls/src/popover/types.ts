@@ -1,4 +1,4 @@
-import { PositioningSizeConstraints } from '@ngneers/controls/api';
+import { PositioningSizeConstraints } from '@ngneers/controls/api/ng';
 
 export type PopoverOptions = {
   /**

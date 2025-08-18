@@ -11,9 +11,9 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { NgnTemplate } from '@ngneers/controls/api';
+import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnDefer } from '@ngneers/controls/defer';
-import { generateElementId } from '@ngneers/controls/utils';
+import { generateElementId } from '@ngneers/controls/utils-ng';
 
 import { DialogTemplates } from './dialog-templates';
 

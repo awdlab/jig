@@ -7,9 +7,9 @@ import {
   runInInjectionContext,
   signal,
 } from '@angular/core';
-import { injectThemeTemplate } from '@ngneers/controls/api';
+import { injectThemeTemplate } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
-import { fromEventSignal } from '@ngneers/controls/utils';
+import { fromEventSignal } from '@ngneers/controls/utils-ng';
 import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 

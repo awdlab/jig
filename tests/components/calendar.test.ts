@@ -58,7 +58,7 @@ test('IO', async ({ page }, testInfo) => {
   await expectOutput(new Date(2024, 0, 5, 12, 0, 0));
   await expectScreenshot(page, testInfo, 'different-year-month-selected');
 
-  await calendar.currentYear.editableInput.fill('2026');
+  await calendar.currentYear.inputEditable.fill('2026');
   await calendar.selectDay(1);
   await calendar.expectDate('2026', 'January', '1');
   await expectOutput(new Date(2026, 0, 1, 12, 0, 0));

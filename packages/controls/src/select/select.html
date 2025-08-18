@@ -5,7 +5,7 @@
       'input-editable': editable(),
     })
   "
-  (click)="popover.open()"
+  (click)="open()"
   (keydown)="onKeyDown($event)"
   #field
   [label]="label()"
@@ -74,6 +74,7 @@
           testId: 'testId',
         }"
         [value]="selectedItem()?.value"
+        [scrollToSelectedItemOnInit]="scrollToSelectedItemOnOpen()"
         (valueChange)="onSelect($event)"
       />
     </div>
@@ -81,13 +82,13 @@
 </ngn-popover>
 
 <ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
-  <span [attr.data-testid]="item?.testId">{{ item?.label }}&ZeroWidthSpace;</span>
+  <span [attr.data-testid]="item?.testId">{{ item?.label }}</span>
 </ng-template>
 
 <ng-template #defaultGroupTemplate [ngnTemplate]="templateTypes.item" let-group>
-  <span [attr.data-testid]="group?.testId">{{ group?.label }}&ZeroWidthSpace;</span>
+  <span [attr.data-testid]="group?.testId">{{ group?.label }}</span>
 </ng-template>
 
 <ng-template #defaultSelectedItemTemplate [ngnTemplate]="templateTypes.item" let-item>
-  <span [attr.data-testid]="item?.testId">{{ item?.label }}&ZeroWidthSpace;</span>
+  <span [attr.data-testid]="item?.testId">{{ item?.label ?? '&ZeroWidthSpace;' }}</span>
 </ng-template>

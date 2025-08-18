@@ -17,7 +17,7 @@ import {
   NG_DOC_DEFAULT_PAGE_PROCESSORS,
 } from '@ng-doc/app';
 import { provideNgDocContext } from '@ng-doc/generated';
-import { provideNgnControls } from '@ngneers/controls/api';
+import { provideNgnControls } from '@ngneers/controls/api/ng';
 import { novaCoral } from '@ngneers/controls-themes/nova';
 
 import { routes } from './app.routes';

@@ -21,15 +21,11 @@ import {
   NGN_CONFIG,
   PositioningSizeConstraints,
   splitPlacement,
-} from '@ngneers/controls/api';
+} from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
-import {
-  computedWithPrevious,
-  getTimeSpanMilliseconds,
-  notNullish,
-  TimeSpan,
-} from '@ngneers/controls/utils';
+import { getTimeSpanMilliseconds, notNullish, TimeSpan } from '@ngneers/controls/utils';
+import { computedWithPrevious } from '@ngneers/controls/utils-ng';
 import { tooltipControlTemplate } from '@ngneers/controls-themes/templates/tooltip';
 
 /**

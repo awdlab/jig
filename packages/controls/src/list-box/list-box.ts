@@ -1,15 +1,26 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, computed, effect, input, signal, viewChild } from '@angular/core';
+import {
+  afterRenderEffect,
+  Component,
+  computed,
+  effect,
+  input,
+  signal,
+  untracked,
+  viewChild,
+} from '@angular/core';
 import {
   flatItems,
-  injectThemeTemplate,
   mapToItems,
   NgnItem,
   NgnItemFields,
-  NgnTemplate,
   transformToNgnItems,
-  valueControlBaseProvider,
 } from '@ngneers/controls/api';
+import {
+  injectThemeTemplate,
+  NgnTemplate,
+  valueControlBaseProvider,
+} from '@ngneers/controls/api/ng';
 import { NgnScroller } from '@ngneers/controls/scroller';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
 
@@ -30,6 +41,7 @@ export class NgnListBox<T extends object, K extends keyof T> extends ListBoxTemp
   public readonly items = input<readonly NgnItem<T, K>[] | readonly T[]>([]);
   public readonly fields = input<NgnItemFields<T, K>>();
 
+  public readonly scrollToSelectedItemOnInit = input<boolean | ScrollLogicalPosition>(false);
   public readonly selectable = input<boolean>(false);
   public readonly highlightable = input<boolean>(true);
   public readonly virtual = input<boolean>();
@@ -61,6 +73,17 @@ export class NgnListBox<T extends object, K extends keyof T> extends ListBoxTemp
         option => option.value === currentHighlightedValue
       );
       this._scroller().scrollToIndex(index);
+    });
+
+    afterRenderEffect(() => {
+      const pos = this.scrollToSelectedItemOnInit();
+      if (pos) {
+        const val = untracked(this.value);
+        const index = flatItems(untracked(this.formattedItems)).findIndex(
+          option => option.value === val
+        );
+        this._scroller().scrollToIndex(index, pos === true ? 'nearest' : pos);
+      }
     });
   }
 
@@ -104,6 +127,10 @@ export class NgnListBox<T extends object, K extends keyof T> extends ListBoxTemp
         this.onSelect(currentHighlightedValue);
       }
     }
+  }
+
+  public scrollToIndex(index: number) {
+    this._scroller().scrollToIndex(index);
   }
 
   protected onSelect(value: T[K]) {

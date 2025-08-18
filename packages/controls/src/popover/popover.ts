@@ -16,9 +16,9 @@ import {
   autoPositionElement,
   AutoPositioningHandle,
   injectThemeTemplate,
-} from '@ngneers/controls/api';
+} from '@ngneers/controls/api/ng';
 import { NgnDefer } from '@ngneers/controls/defer';
-import { computedWithPrevious } from '@ngneers/controls/utils';
+import { computedWithPrevious } from '@ngneers/controls/utils-ng';
 import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
 
 import { PopoverOptions } from './types';

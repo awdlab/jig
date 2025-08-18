@@ -1,7 +1,7 @@
 import { Component, computed, input, model } from '@angular/core';
-import { injectThemeTemplate } from '@ngneers/controls/api';
+import { injectThemeTemplate } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
-import { generateElementId } from '@ngneers/controls/utils';
+import { generateElementId } from '@ngneers/controls/utils-ng';
 import { splitterControlTemplate } from '@ngneers/controls-themes/templates/splitter';
 
 import { SplitterPanelSize, SplitterPanelSizeLimit } from '../types';

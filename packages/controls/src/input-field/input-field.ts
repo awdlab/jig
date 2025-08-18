@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, forwardRef, inject, input } from '@angular/core';
-import { injectThemeTemplate } from '@ngneers/controls/api';
+import { injectThemeTemplate } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 

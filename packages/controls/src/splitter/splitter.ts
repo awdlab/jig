@@ -23,10 +23,11 @@ import {
   NGN_CONFIG,
   NgnTemplate,
   templateTypeFn,
-} from '@ngneers/controls/api';
+} from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 import { I18n } from '@ngneers/controls/i18n';
-import { Logger, NgnStateStorage, registerState } from '@ngneers/controls/utils';
+import { Logger } from '@ngneers/controls/utils';
+import { NgnStateStorage, registerState } from '@ngneers/controls/utils-ng';
 import { splitterControlTemplate } from '@ngneers/controls-themes/templates/splitter';
 
 import { NgnSplitterPanel } from './panel/splitter-panel';

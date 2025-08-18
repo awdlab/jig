@@ -8,18 +8,19 @@ import { exampleData } from '../../helper/data';
   selector: 'ngn-select-templates',
   template: `<ngn-select #select [options]="options">
     <ng-template #item let-option>
-      <span>🏳️{{ option.label }}&ZeroWidthSpace;</span>
+      <span>🏳️{{ option.label }}</span>
     </ng-template>
     <ng-template #group let-option>
-      <span>🌍{{ option.label }}&ZeroWidthSpace;</span>
+      <span>🌍{{ option.label }}</span>
     </ng-template>
     <ng-template #selectedItem let-option>
       <span>
         @if (option) {
           ✅{{ option.label }}
+        } @else {
+          &ZeroWidthSpace;
         }
-        &ZeroWidthSpace;</span
-      >
+      </span>
     </ng-template>
   </ngn-select>`,
 })

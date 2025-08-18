@@ -1,5 +1,5 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
-import { templateTypesFn } from '@ngneers/controls/api';
+import { templateTypesFn } from '@ngneers/controls/api/ng';
 
 @Directive()
 export abstract class DialogTemplates {

@@ -8,10 +8,10 @@ import { exampleData } from '../../helper/data';
   selector: 'ngn-list-box-templates',
   template: `<ngn-list-box [items]="items" style="display: block; height: 300px;">
     <ng-template #item let-option>
-      <span>🏳️{{ option.label }}&ZeroWidthSpace;</span>
+      <span>🏳️{{ option.label }}</span>
     </ng-template>
     <ng-template #group let-option>
-      <span>🌍{{ option.label }}&ZeroWidthSpace;</span>
+      <span>🌍{{ option.label }}</span>
     </ng-template>
   </ngn-list-box>`,
 })

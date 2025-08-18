@@ -12,21 +12,23 @@ import {
 } from '@angular/core';
 import {
   filterOptions,
-  NgnTemplate,
-  valueControlBaseProvider,
   mapToItems,
   NgnItem,
   NgnItemFields,
   transformToNgnItems,
-  injectThemeTemplate,
 } from '@ngneers/controls/api';
+import {
+  NgnTemplate,
+  valueControlBaseProvider,
+  injectThemeTemplate,
+} from '@ngneers/controls/api/ng';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnListBox } from '@ngneers/controls/list-box';
 import { NgnPopover, PopoverOptions } from '@ngneers/controls/popover';
-import { asyncComputed, setInputSignalValue } from '@ngneers/controls/utils';
+import { asyncComputed, setInputSignalValue } from '@ngneers/controls/utils-ng';
 import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
 
 import { SelectTemplates, ValueType } from './select-templates';
@@ -119,6 +121,7 @@ export class NgnSelect<
    * @defaultValue `false`
    */
   public readonly editable = input<Editable>();
+  public readonly scrollToSelectedItemOnOpen = input<boolean | ScrollLogicalPosition>(true);
   private readonly _listbox = viewChild(NgnListBox);
 
   protected readonly filterTextInternal = linkedSignal(this.filterText);
@@ -166,9 +169,13 @@ export class NgnSelect<
 
   protected readonly filterIsExecuting = this.filteredOptions.isRunning;
 
-  protected readonly selectedItem = computed(() =>
-    this._flatOptions().find(option => option.value === this.value())
-  );
+  protected readonly selectedItem = computed(() => {
+    if (this.editable()) {
+      return this._flatOptions().find(option => option.label === this.value());
+    } else {
+      return this._flatOptions().find(option => option.value === this.value());
+    }
+  });
 
   constructor() {
     super();
@@ -226,6 +233,10 @@ export class NgnSelect<
       }
     }
     this.close();
+  }
+
+  public open() {
+    this._popover().open();
   }
 
   public close() {

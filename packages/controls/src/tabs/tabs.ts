@@ -13,7 +13,7 @@ import {
   signal,
   viewChildren,
 } from '@angular/core';
-import { elementsSizesSignal, injectThemeTemplate } from '@ngneers/controls/api';
+import { elementsSizesSignal, injectThemeTemplate } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { tabsControlTemplate } from '@ngneers/controls-themes/templates/tabs';
