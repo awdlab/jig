@@ -1,17 +1,5 @@
 import { DOCUMENT, inject, Injectable } from '@angular/core';
-
-const globalPropertyName = '__ngn-controls-global__';
-
-interface NgnGlobalType {
-  nextElementId: number;
-  fancyLogging: boolean;
-}
-
-declare global {
-  interface Window {
-    [globalPropertyName]: NgnGlobalType;
-  }
-}
+import { globalPropertyName, NgnGlobalType } from '@ngneers/controls/utils';
 
 @Injectable()
 export class NgnGlobal implements NgnGlobalType {

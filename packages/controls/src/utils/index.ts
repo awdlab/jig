@@ -1,5 +1,6 @@
 export * from './error';
 export * from './fuzzy-match';
+export * from './globals';
 export * from './logger';
 export * from './not-nullish';
 export * from './object';
