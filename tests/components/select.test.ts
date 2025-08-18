@@ -212,3 +212,103 @@ test('fields', async ({ page }, testInfo) => {
   await scroller.clickItemByText(exampleData.items.flatPreformatted[0].label);
   await select.selectedItemText(exampleData.items.flatPreformatted[0].label);
 });
+
+test('filter', async ({ page }, testInfo) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+      <ngn-select
+        style="width: 200px;"
+        [options]="inputs().options"
+        [popoverOptions]="inputs().popoverOptions"
+        [filter]="inputs().filter"
+      />
+    `,
+      imports: ['select'],
+    },
+    {
+      inputs: {
+        options: exampleData.items.groupedPreformatted,
+        popoverOptions: <PopoverOptions>{ sizeConstraints: { maxHeight: '300px' } },
+        filter: true,
+      },
+    }
+  );
+
+  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+
+  await select.expectOpened(false);
+  await select.open();
+  const listBox = select.listBox;
+  const scroller = listBox.scroller;
+
+  await scroller.expectItemsCount(exampleData.items.flatPreformatted.length);
+  await scroller.expectStickyItemsCount(exampleData.items.groupedPreformatted.length);
+
+  await select.filter.children.input.fill('ger');
+  await scroller.expectItemsTexts(['Nigeria', 'Algeria', 'Germany']);
+  await scroller.expectStickyItemsTexts(['Africa', 'Europe']);
+  await expectScreenshot(page, testInfo, 'filtered');
+
+  await select.filter.children.input.fill('Ocea');
+  await scroller.expectItemsTexts([
+    'Australia',
+    'New Zealand',
+    'Fiji',
+    'Papua New Guinea',
+    'Solomon Islands',
+  ]);
+  await scroller.expectStickyItemsTexts(['Oceania']);
+});
+
+test('editable', async ({ page }, testInfo) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+      <ngn-select
+        style="width: 200px;"
+        [options]="inputs().options"
+        [popoverOptions]="inputs().popoverOptions"
+        [editable]="true"
+        (valueChange)="output('value', $event)"
+      />
+    `,
+      imports: ['select'],
+    },
+    {
+      inputs: {
+        options: exampleData.items.groupedPreformatted,
+        popoverOptions: <PopoverOptions>{ sizeConstraints: { maxHeight: '300px' } },
+        fields: {
+          label: 'label',
+          value: 'id',
+          groupItems: 'items',
+        },
+      },
+    }
+  );
+
+  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+
+  await select.expectOpened(false);
+  await select.open();
+  const listBox = select.listBox;
+  const scroller = listBox.scroller;
+
+  await scroller.expectItemsCount(exampleData.items.flatPreformatted.length);
+  await scroller.expectStickyItemsCount(exampleData.items.groupedPreformatted.length);
+
+  await select.inputEditable.fill('ger');
+
+  expect(await handle.getOutputLog()).toEqual({ value: ['ger'] });
+
+  await scroller.expectItemsTexts(['Nigeria', 'Algeria', 'Germany']);
+  await scroller.expectStickyItemsTexts(['Africa', 'Europe']);
+  await expectScreenshot(page, testInfo, 'filtered');
+
+  await scroller.clickItemByText('Germany');
+
+  expect(await handle.getOutputLog()).toEqual({ value: ['ger', 'Germany'] });
+});

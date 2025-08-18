@@ -123,6 +123,7 @@ export class NgnSelect<
   public readonly editable = input<Editable>();
   public readonly scrollToSelectedItemOnOpen = input<boolean | ScrollLogicalPosition>(true);
   private readonly _listbox = viewChild(NgnListBox);
+  private _userTyped = false;
 
   protected readonly filterTextInternal = linkedSignal(this.filterText);
 
@@ -141,9 +142,6 @@ export class NgnSelect<
 
   private readonly _appliedFilterOptions = computed(() => {
     const filter = this.filter();
-    if (!filter) {
-      return null;
-    }
     const providedFilterArgs = typeof filter === 'boolean' ? {} : filter;
     const options: SelectFilterOptionsInternal<NgnItem> = {
       filterFieldsCallback: item => item.label,
@@ -159,12 +157,14 @@ export class NgnSelect<
 
   // Replace with resource API when previous value persists
   protected readonly filteredOptions = asyncComputed(async () => {
-    const filter = this._appliedFilterOptions();
+    const filter = !!this.filter();
+    const editable = !!this.editable();
+    const appliedFilterOptions = this._appliedFilterOptions();
     const filterText = this.filterTextInternal();
-    if (!filter || !filterText) {
+    if ((!filter && !editable) || !filterText) {
       return this._options();
     }
-    return await filterOptions<NgnItem>(this._options(), filterText, filter);
+    return await filterOptions<NgnItem>(this._options(), filterText, appliedFilterOptions);
   }, []);
 
   protected readonly filterIsExecuting = this.filteredOptions.isRunning;
@@ -200,6 +200,21 @@ export class NgnSelect<
         setInputSignalValue(valueSig, this.value() || '');
       }
     });
+    effect(() => {
+      if (!this.editable()) {
+        return;
+      }
+      const hasOptions = !!this.filteredOptions().length;
+      if (!this._userTyped) {
+        return;
+      }
+      this._userTyped = false;
+      if (hasOptions) {
+        this.open();
+      } else {
+        this.close();
+      }
+    });
   }
 
   protected onKeyDown(event: KeyboardEvent) {
@@ -217,7 +232,9 @@ export class NgnSelect<
   protected onPopoverClosed() {
     this.currentHighlightedValue.set(null);
     if (this._appliedFilterOptions()?.clearFilterOnClose) {
-      this.filterTextInternal.set('');
+      if (!this.editable()) {
+        this.filterTextInternal.set('');
+      }
     }
   }
 
@@ -246,6 +263,8 @@ export class NgnSelect<
   protected onEditableChange(value: string | null) {
     if (this.editable()) {
       this.onChange(value as ValueType<T, K, Editable>);
+      this._userTyped = true;
+      this.filterTextInternal.set(value);
     }
   }
 }

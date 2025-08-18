@@ -34,8 +34,15 @@ export const selectStyles = createThemePart({
       ${c('')} ${d('popover', 'content')} {
         padding: 0;
       }
-      ${c('')} ${d('list-box')} {
+      ${c('list-box')} ${d('list-box')} {
         border-width: 0;
+      }
+      ${c('no-items')} {
+        text-align: center;
+        padding: ${v('size.padding.md')};
+      }
+      ${c('list-box')}${c('list-box-empty')} ${d('list-box', 'scroller')} {
+        padding: 0;
       }
     `,
   },

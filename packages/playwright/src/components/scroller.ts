@@ -35,6 +35,10 @@ export class NgnScrollerHarness {
     return expect(this.item).toHaveText(texts);
   }
 
+  public expectStickyItemsTexts(texts: string[]): Promise<void> {
+    return expect(this.itemSticky).toHaveText(texts);
+  }
+
   public clickItemByIndex(index: number): Promise<void> {
     return this.item.nth(index).click();
   }

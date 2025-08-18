@@ -4,10 +4,11 @@ import { selectControlTemplate } from '@ngneers/controls-themes/templates/select
 import { NgnInputHarness } from './input';
 import { NGN_CLASSES } from '../utils/classes';
 import { NgnListBoxHarness } from './list-box';
+import { NgnInputFieldHarness } from './input-field';
 
 export class NgnSelectHarness {
   public readonly classes = themeClasses(selectControlTemplate);
-  public readonly filter: Locator;
+  public readonly filter: NgnInputFieldHarness<{ input: NgnInputHarness }>;
   public readonly filterIcon: Locator;
   public readonly icon: Locator;
   public readonly input: Locator;
@@ -16,7 +17,9 @@ export class NgnSelectHarness {
   public readonly popoverContent: Locator;
 
   constructor(public locator: Locator) {
-    this.filter = locator.locator(this.classes['filter']);
+    this.filter = new NgnInputFieldHarness(locator.locator(this.classes['filter']), l => ({
+      input: new NgnInputHarness(l.locator(NGN_CLASSES.input[''])),
+    }));
     this.filterIcon = locator.locator(this.classes['filter-icon']);
     this.icon = locator.locator(this.classes['icon']);
     this.input = locator.locator(this.classes['input']);

@@ -17,12 +17,12 @@
       <input ngnInput [value]="value() || ''" (valueChange)="onEditableChange($event)" />
     </ng-content>
   } @else {
-    <ng-template
+    <ng-container
       [ngTemplateOutlet]="selectedItemTemplate()"
       [ngTemplateOutletContext]="{
         $implicit: selectedItem(),
       }"
-    ></ng-template>
+    />
   }
   <ngn-icon
     [ngClass]="theme.class('icon')"
@@ -58,7 +58,12 @@
         </ngn-input-field>
       }
       <ngn-list-box
-        [ngClass]="theme.class('list-box')"
+        [ngClass]="
+          theme.classes({
+            'list-box': true,
+            'list-box-empty': !filteredOptions().length,
+          })
+        "
         style="height: 100%; min-height: 0"
         [highlightable]="false"
         [selectable]="true"
@@ -77,6 +82,9 @@
         [scrollToSelectedItemOnInit]="scrollToSelectedItemOnOpen()"
         (valueChange)="onSelect($event)"
       />
+      @if (!filteredOptions().length) {
+        <ng-container [ngTemplateOutlet]="noItemsTemplate()" />
+      }
     </div>
   </ng-template>
 </ngn-popover>
@@ -91,4 +99,10 @@
 
 <ng-template #defaultSelectedItemTemplate [ngnTemplate]="templateTypes.item" let-item>
   <span [attr.data-testid]="item?.testId">{{ item?.label ?? '&ZeroWidthSpace;' }}</span>
+</ng-template>
+
+<ng-template #defaultNoItemsTemplate>
+  <span [ngClass]="theme.class('no-items')" [attr.data-testid]="'no-items'">{{
+    'No items found'
+  }}</span>
 </ng-template>

@@ -14,6 +14,7 @@ import { exampleData } from '../../helper/data';
         label: 'label',
         groupItems: 'items',
       }"
+      [filter]="true"
       [options]="options"
     />
   `,

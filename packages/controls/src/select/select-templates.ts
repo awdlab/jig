@@ -48,6 +48,15 @@ export abstract class SelectTemplates<
     () => this._userGroupTemplate() ?? this.templateGroup() ?? this._defaultGroupTemplate()
   );
 
+  // No items template
+  private readonly _defaultNoItemsTemplate =
+    viewChild.required<TemplateRef<null>>('defaultNoItemsTemplate');
+  private readonly _userNoItemsTemplate = contentChild<TemplateRef<null>>('noItems');
+  public readonly templateNoItems = input<TemplateRef<null> | null>(null);
+  protected readonly noItemsTemplate = computed(
+    () => this._userNoItemsTemplate() ?? this.templateNoItems() ?? this._defaultNoItemsTemplate()
+  );
+
   /**
    * Types for the dialog templates.
    */

@@ -14,6 +14,8 @@ export const selectControlTemplate = createControlTemplate({
     'filter',
     'filter-icon',
     'list-box',
+    'list-box-empty',
+    'no-items',
   ],
   dependencies: [popoverControlTemplate, listBoxControlTemplate, inputFieldControlTemplate],
 });
