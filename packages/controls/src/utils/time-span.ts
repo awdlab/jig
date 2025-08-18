@@ -1,16 +1,51 @@
 const timeSpanRegex = /^(?:(.+)d)?(?:(.+)h)?(?:(.+)m)?(?:([^m]+)s)?(?:(.+)ms)?$/;
 
+/**
+ * Represents a time span that can be expressed in various formats:
+ * - As a number (milliseconds)
+ * - As a string in the format "XdYhZmWsMs" where each part is optional (e.g., "1d2h30m45s500ms" or "2h15m")
+ * - As an object with properties for days, hours, minutes, seconds, and milliseconds
+ * @example
+ * ```typescript
+ * // As a number
+ * const duration1: TimeSpan = 5000;
+ * // As a string
+ * const duration2: TimeSpan = "1d2h30m45s500ms";
+ * // As an object
+ * const duration3: TimeSpan = { days: 1, hours: 2, minutes: 30, seconds: 45, milliseconds: 500 };
+ * ```
+ */
 export type TimeSpan =
   | number
   | `${`${number}d` | ''}${`${number}h` | ''}${`${number}m` | ''}${`${number}s` | ''}${`${number}ms` | ''}`
   | {
+      /**
+       * Number of days in the time span.
+       */
       days?: number;
+      /**
+       * Number of hours in the time span.
+       */
       hours?: number;
+      /**
+       * Number of minutes in the time span.
+       */
       minutes?: number;
+      /**
+       * Number of seconds in the time span.
+       */
       seconds?: number;
+      /**
+       * Number of milliseconds in the time span.
+       */
       milliseconds?: number;
     };
 
+/**
+ * Checks if the provided value is a valid TimeSpan.
+ * @param value The value to check.
+ * @returns `true` if the value is a valid TimeSpan, otherwise `false`.
+ */
 export function isTimeSpan(value: unknown): value is TimeSpan {
   if (typeof value === 'number') return true;
   if (typeof value === 'string') {
@@ -29,6 +64,11 @@ export function isTimeSpan(value: unknown): value is TimeSpan {
   return false;
 }
 
+/**
+ * Converts a TimeSpan to milliseconds.
+ * @param timeSpan The TimeSpan to convert.
+ * @returns The equivalent time span in milliseconds.
+ */
 export function getTimeSpanMilliseconds(timeSpan: TimeSpan): number {
   if (typeof timeSpan === 'number') return timeSpan;
 
@@ -41,6 +81,11 @@ export function getTimeSpanMilliseconds(timeSpan: TimeSpan): number {
   return toMilliseconds(days, hours, minutes, seconds, milliseconds);
 }
 
+/**
+ * Converts a TimeSpan to a string representation.
+ * @param timeSpan The TimeSpan to convert.
+ * @returns A string representation of the time span.
+ */
 export function getTimeSpanString(timeSpan: TimeSpan): string {
   if (typeof timeSpan === 'number') return `${timeSpan}ms`;
   if (typeof timeSpan === 'string') return timeSpan;
@@ -55,6 +100,11 @@ export function getTimeSpanString(timeSpan: TimeSpan): string {
   );
 }
 
+/**
+ * Converts a TimeSpan to an object representation.
+ * @param timeSpan The TimeSpan to convert.
+ * @returns An object representation of the time span with properties for days, hours, minutes, seconds, and milliseconds.
+ */
 export function getTimeSpan(timeSpan: TimeSpan): TimeSpan & object {
   if (typeof timeSpan === 'number') {
     return { milliseconds: timeSpan };
