@@ -3,7 +3,6 @@ keyword: CalendarPage
 title: Examples
 ---
 
-
 The Calendar component provides a date and time picker interface with support
 for date selection and time input.
 

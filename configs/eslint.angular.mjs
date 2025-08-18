@@ -20,7 +20,7 @@ export function getEslintConfig(tsconfigPath) {
       files: ['**/*.spec.ts', '**/*.test.ts', '**/test/**/*.ts'],
       languageOptions: {
         globals: {
-          fail: 'readonly',
+          ...globals.vitest,
         },
       },
     },

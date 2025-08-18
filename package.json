@@ -10,6 +10,8 @@
     "themes:build": "pnpm --filter @ngneers/controls-themes build",
     "api-docs:generate": "pnpm --filter @ngneers/controls api-docs:generate",
     "build": "pnpm -r build",
+    "format": "pnpm prettier --write \"**/*.{ts,html,json,md}\"",
+    "format:check": "pnpm prettier --check \"**/*.{ts,html,json,md}\"",
     "lint": "pnpm -r lint",
     "playwright-docker": "docker run --add-host=hostmachine:host-gateway -p 3000:3000 --rm --init -it --workdir /home/pwuser --user pwuser mcr.microsoft.com/playwright:v1.54.2-noble /bin/sh -c \"npx -y playwright@1.54.2 run-server --port 3000 --host 0.0.0.0\"",
     "playwright:fix-screenshots": "node --experimental-strip-types ./tools/fix-playwright-screenshots.ts",

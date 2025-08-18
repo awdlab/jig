@@ -3,7 +3,6 @@ keyword: DialogPage
 title: Examples
 ---
 
-
 The Dialog component provides modal dialog functionality with support for both
 eager and lazy loading of content.
 
