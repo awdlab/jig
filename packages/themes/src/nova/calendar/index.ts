@@ -30,6 +30,7 @@ export const calendarStyles = createThemePart({
       }
       ${c('details')} {
         display: flex;
+        gap: ${v('size.padding.md')};
         flex-direction: column;
         align-items: center;
         justify-content: center;
@@ -39,8 +40,10 @@ export const calendarStyles = createThemePart({
         align-items: center;
         justify-content: flex-start;
         gap: ${v('size.padding.sm')};
-        padding: 0 ${v('size.padding.md')};
+        padding: ${v('size.padding.md')};
+        padding-top: 0;
         width: 100%;
+        border-bottom: 1px solid ${v('color.surface.300')};
       }
       ${c('navigation')} {
         display: flex;
@@ -51,7 +54,7 @@ export const calendarStyles = createThemePart({
         grid-template-columns: repeat(7, 1fr);
         justify-items: center;
         align-items: center;
-        gap: ${v('size.padding.sm')};
+        gap: ${v('size.padding.md')};
       }
       ${c('months')} {
         display: grid;
@@ -123,6 +126,17 @@ export const calendarStyles = createThemePart({
         }
         &:active {
           background: ${v('color.surface.300')};
+        }
+      }
+      ${c('time')} {
+        border-top: 1px solid ${v('color.surface.300')};
+        width: 100%;
+        padding-top: ${v('size.padding.md')};
+        display: flex;
+        justify-content: center;
+        > * {
+          width: 100px;
+          display: block;
         }
       }
     `,

@@ -87,11 +87,13 @@
 
 <ng-template #defaultTimeTemplate [ngnTemplate]="templateTypes.time" let-time>
   @defer {
-    <ngn-calendar-time
-      [currentValue]="time.time"
-      [showSeconds]="time.showSeconds"
-      (timeChange)="time.change($event)"
-    />
+    <div [ngClass]="theme.class('time')">
+      <ngn-calendar-time
+        [currentValue]="time.time"
+        [showSeconds]="time.showSeconds"
+        (timeChange)="time.change($event)"
+      />
+    </div>
   }
 </ng-template>
 
