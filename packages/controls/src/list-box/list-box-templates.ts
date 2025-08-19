@@ -3,6 +3,11 @@ import { NgnItem } from '@ngneers/controls/api';
 import { templateTypesFn, ValueControlBase } from '@ngneers/controls/api/ng';
 import { InputGeneric } from '@ngneers/controls/utils';
 
+/**
+ * This type determines the value type for the select control.
+ * * If `multiple` is `true`, the value is an array of items: `T[K][]`.
+ * * Else it is the item's value type `T[K]`.
+ */
 export type ValueType<T, K extends keyof T, Multiple extends boolean> =
   InputGeneric<Multiple, false> extends true ? T[K][] : T[K];
 
