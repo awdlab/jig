@@ -13,20 +13,24 @@ custom templates.
 
 ## Field Mapping
 
-{{ NgDocActions.demo("ListBox_Fields_Component") }}
+{{ NgDocActions.demo("Demo_ListBox_Fields") }}
 
 ## Grouped Items
 
-{{ NgDocActions.demo("ListBox_Grouped_Component") }}
+{{ NgDocActions.demo("Demo_ListBox_Grouped") }}
 
 ## Custom Templates
 
-{{ NgDocActions.demo("ListBox_Templates_Component") }}
+{{ NgDocActions.demo("Demo_ListBox_Templates") }}
 
 ## Value Selection
 
-{{ NgDocActions.demo("ListBox_Value_Component") }}
+{{ NgDocActions.demo("Demo_ListBox_Value") }}
+
+## Multiple Selection
+
+{{ NgDocActions.demo("Demo_ListBox_Multiple") }}
 
 ## Virtual Scrolling
 
-{{ NgDocActions.demo("ListBox_Virtual_Component") }}
+{{ NgDocActions.demo("Demo_ListBox_Virtual") }}

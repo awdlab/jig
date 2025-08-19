@@ -18,6 +18,6 @@ import { exampleData } from '../../helper/data';
     />
   `,
 })
-export class ListBox_Grouped_Component {
+export class Demo_ListBox_Grouped {
   protected readonly items = exampleData.items.grouped;
 }

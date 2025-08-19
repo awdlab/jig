@@ -15,6 +15,6 @@ import { exampleData } from '../../helper/data';
     />
   `,
 })
-export class ListBox_Virtual_Component {
+export class Demo_ListBox_Virtual {
   protected readonly items = exampleData.items.groupedPreformatted;
 }

@@ -17,7 +17,7 @@ import { exampleData } from '../../helper/data';
     />
   `,
 })
-export class ListBox_Value_Component {
+export class Demo_ListBox_Value {
   protected readonly items = exampleData.items.groupedPreformatted;
   protected readonly value = signal<(typeof this.items)[number]['value'] | null>(null);
 }
