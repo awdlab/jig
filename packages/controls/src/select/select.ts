@@ -95,7 +95,7 @@ export class NgnSelect<
   /**
    * Accepts a boolean value that determines whether the filter is enabled.
    * Alternatively, you can provide `SelectFilterOptions` to customize the filter behavior.
-   * @defaultValue `false`
+   * @default `false`
    */
   public readonly filter = input<SelectFilterOptions<NgnItem<T, K>> | boolean>(false);
   /**
@@ -112,7 +112,7 @@ export class NgnSelect<
   public readonly dropdownIcon = input<IconType>();
   /**
    * Whether the select is virtualized.
-   * @defaultValue `false`
+   * @default `false`
    */
   public readonly virtual = input<boolean>(false);
   /**
@@ -127,12 +127,12 @@ export class NgnSelect<
    * * {@link multiple} selection
    * * {@link filter} without also setting {@link editableAutoFilter} to `false`
    *
-   * @defaultValue `false`
+   * @default `false`
    */
   public readonly editable = input<Editable>();
   /**
    * Whether to automatically filter the options based on the user's input in the {@link editable} input.
-   * @defaultValue `true`
+   * @default `true`
    */
   public readonly editableAutoFilter = input<boolean>(true);
   /**
@@ -140,12 +140,12 @@ export class NgnSelect<
    * When enabled, the value of the control becomes an array of selected items.
    *
    * This is only applicable when {@link editable} is `false`.
-   * @defaultValue `false`
+   * @default `false`
    */
   public readonly multiple = input<Multiple>();
   /**
    * Whether to scroll to the selected item when the dropdown is opened.
-   * @defaultValue `true`
+   * @default `true`
    */
   public readonly scrollToSelectedItemOnOpen = input<boolean | ScrollLogicalPosition>(true);
 
@@ -237,6 +237,17 @@ export class NgnSelect<
       this._customEditableSub = customEditableInput.value.subscribe(value => {
         this.onEditableChange(value);
       });
+      // Set ARIA attributes for accessibility
+      customEditableInput.element.nativeElement.setAttribute('aria-autocomplete', 'list');
+      customEditableInput.element.nativeElement.setAttribute(
+        'aria-expanded',
+        `${this._popover().isOpen()}`
+      );
+      customEditableInput.element.nativeElement.setAttribute('aria-haspopup', 'listbox');
+      customEditableInput.element.nativeElement.setAttribute(
+        'aria-controls',
+        `${this.inputId()}_listbox`
+      );
     });
     effect(() => {
       if (!this.editable()) {

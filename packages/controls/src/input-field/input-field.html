@@ -1,6 +1,11 @@
 <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
 <div
-  [ngClass]="!hasParentInputfield ? theme.class() : null"
+  [ngClass]="
+    theme.classes({
+      '': !hasParentInputfield,
+      invalid: invalid(),
+    })
+  "
   (click)="clicked($event)"
   [tabindex]="tabindex()"
 >

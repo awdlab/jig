@@ -5,7 +5,7 @@ type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
   ? I
   : never;
 
-type Classes<CT extends ControlTemplate> = Record<CT['classNames'][number], string> & {
+type Classes<CT extends ControlTemplate> = Record<CT['classNames'][number] | '', string> & {
   $deps: UnionToIntersection<
     Prettify<
       CT['dependencies'] extends []
@@ -29,7 +29,7 @@ export function themeClasses<CT extends ControlTemplate>(template: CT): Classes<
 
   const ownRes: Record<CT['classNames'][number], string> = {} as any;
 
-  for (const className of template.classNames) {
+  for (const className of ['', ...template.classNames]) {
     const key = className as CT['classNames'][number];
     ownRes[key] = `.ngn-${template.scope}${className ? '-' : ''}${className}`;
   }

@@ -45,7 +45,7 @@ export const inputFieldStyles = createThemePart({
           cursor: disabled;
         }
       }
-      .ng-invalid.ng-touched ${c()}, ${c()}:has(.ng-invalid.ng-touched) {
+      ${c('invalid')}, .ng-invalid.ng-touched ${c()}, ${c()}:has(.ng-invalid.ng-touched) {
         border-color: ${v('color.error.default')};
         &:hover {
           border-color: ${v('color.error.default')};

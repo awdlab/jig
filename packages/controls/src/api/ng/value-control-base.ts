@@ -22,10 +22,14 @@ export abstract class ValueControlBase<T> extends NgnBase implements ControlValu
   public readonly label = input<string | null>(null);
   /**
    * The ID for the control
-   * @defaultValue A generated unique value.
+   * @default A generated unique value.
    */
   public readonly inputId = input<string>(generateElementId());
-
+  /**
+   * Explicitly apply invalid state styling
+   * @default false
+   */
+  public readonly invalid = input<boolean>(false);
   /**
    * The value of the control.
    */

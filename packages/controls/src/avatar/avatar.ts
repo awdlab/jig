@@ -39,7 +39,7 @@ export class NgnAvatar extends NgnBase {
   public readonly alt = input<string>();
   /**
    * The size of the avatar in pixels.
-   * @defaultValue `48`
+   * @default `48`
    */
   public readonly size = input<number>(48);
 

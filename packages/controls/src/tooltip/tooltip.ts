@@ -60,7 +60,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   /**
    * The placement of the tooltip relative to the anchor element.
    * @alias ngnTooltipPlacement
-   * @defaultValue `bottom`
+   * @default `bottom`
    */
   public readonly placement = input<Placement>(this._config.defaults.tooltip.placement, {
     alias: 'ngnTooltipPlacement',
@@ -68,7 +68,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   /**
    * The offset in Pixels of the tooltip from the anchor element.
    * @alias ngnTooltipOffset
-   * @defaultValue `4`
+   * @default `4`
    */
   public readonly offset = input<number>(this._config.defaults.tooltip.offset, {
     alias: 'ngnTooltipOffset',
@@ -76,7 +76,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   /**
    * The delay before the tooltip is shown. If a number is provided, it is interpreted as milliseconds.
    * @alias ngnTooltipShowDelay
-   * @defaultValue `"0.5s"`
+   * @default `"0.5s"`
    */
   public readonly showDelay = input<TimeSpan>(this._config.defaults.tooltip.showDelay, {
     alias: 'ngnTooltipShowDelay',
@@ -84,7 +84,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   /**
    * The delay before the tooltip is hidden. If a number is provided, it is interpreted as milliseconds.
    * @alias ngnTooltipHideDelay
-   * @defaultValue `"0.1s"`
+   * @default `"0.1s"`
    */
   public readonly hideDelay = input<TimeSpan>(this._config.defaults.tooltip.hideDelay, {
     alias: 'ngnTooltipHideDelay',
@@ -92,7 +92,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   /**
    * If set to `true`, the tooltip will only be shown if the anchor element is truncated. `""` is equivalent to `true`.
    * @alias ngnTooltipShowOnlyIfTruncated
-   * @defaultValue `false`
+   * @default `false`
    */
   public readonly showOnlyIfTruncated = input<boolean | ''>(false, {
     alias: 'ngnTooltipShowOnlyIfTruncated',
@@ -225,27 +225,27 @@ export class TooltipComponent extends NgnBase {
   public readonly size = input<PositioningSizeConstraints | null>();
   /**
    * The placement of the tooltip relative to the anchor element.
-   * @defaultValue `bottom`
+   * @default `bottom`
    */
   public readonly placement = input<Placement>(this._config.defaults.tooltip.placement);
   /**
    * The offset in Pixels of the tooltip from the anchor element.
-   * @defaultValue `4`
+   * @default `4`
    */
   public readonly offset = input<number>(this._config.defaults.tooltip.offset);
   /**
    * The delay before the tooltip is shown. If a number is provided, it is interpreted as milliseconds.
-   * @defaultValue `"0.5s"`
+   * @default `"0.5s"`
    */
   public readonly showDelay = input<TimeSpan>(this._config.defaults.tooltip.showDelay);
   /**
    * The delay before the tooltip is hidden. If a number is provided, it is interpreted as milliseconds.
-   * @defaultValue `"0.1s"`
+   * @default `"0.1s"`
    */
   public readonly hideDelay = input<TimeSpan>(this._config.defaults.tooltip.hideDelay);
   /**
    * If set to `true`, the tooltip will only be shown if the anchor element is truncated. `""` is equivalent to `true`.
-   * @defaultValue `false`
+   * @default `false`
    */
   public readonly showOnlyIfTruncated = input<boolean | ''>(false);
   /**

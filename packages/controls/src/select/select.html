@@ -10,26 +10,44 @@
   #field
   [label]="label()"
   [inputId]="inputId()"
+  [invalid]="invalid()"
   [tabindex]="0"
 >
   @if (editable()) {
     <ng-content select="[ngnInput]">
-      <input ngnInput [value]="valueStr() || ''" (valueChange)="onEditableChange($event)" />
+      <input
+        autocomplete="list"
+        [attr.aria-expanded]="popover.isOpen()"
+        aria-haspopup="listbox"
+        [attr.aria-controls]="inputId() + '_listbox'"
+        ngnInput
+        [value]="valueStr() || ''"
+        (valueChange)="onEditableChange($event)"
+      />
     </ng-content>
-  } @else if (multiple()) {
-    <ng-container
-      [ngTemplateOutlet]="selectedItemsTemplate()"
-      [ngTemplateOutletContext]="{
-        $implicit: selectedItems(),
-      }"
-    />
   } @else {
-    <ng-container
-      [ngTemplateOutlet]="selectedItemTemplate()"
-      [ngTemplateOutletContext]="{
-        $implicit: selectedItems()[0],
-      }"
-    />
+    <div
+      role="combobox"
+      [attr.aria-expanded]="popover.isOpen()"
+      aria-haspopup="listbox"
+      [attr.aria-controls]="inputId() + '_listbox'"
+    >
+      @if (multiple()) {
+        <ng-container
+          [ngTemplateOutlet]="selectedItemsTemplate()"
+          [ngTemplateOutletContext]="{
+            $implicit: selectedItems(),
+          }"
+        />
+      } @else {
+        <ng-container
+          [ngTemplateOutlet]="selectedItemTemplate()"
+          [ngTemplateOutletContext]="{
+            $implicit: selectedItems()[0],
+          }"
+        />
+      }
+    </div>
   }
   <ngn-icon
     [ngClass]="theme.class('icon')"
@@ -43,6 +61,7 @@
   [anchor]="field.element.nativeElement"
   (keydown)="onKeyDown($event)"
   (closed)="onPopoverClosed()"
+  [id]="inputId() + '_popover'"
 >
   <ng-template #lazy>
     <div [ngClass]="theme.class('popover-content')">
@@ -89,6 +108,7 @@
         [value]="multiple() ? selectedItemsValues() : selectedItemsValues()[0]"
         [scrollToSelectedItemOnInit]="scrollToSelectedItemOnOpen()"
         (valueChange)="onSelect($event)"
+        [inputId]="inputId() + '_listbox'"
       />
       @if (!filteredOptions().length) {
         <ng-container [ngTemplateOutlet]="noItemsTemplate()" />

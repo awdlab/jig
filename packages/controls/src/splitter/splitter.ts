@@ -77,7 +77,7 @@ export class NgnSplitter extends NgnBase implements OnDestroy {
   public readonly panelOrder = model<string[] | null>();
   /**
    * The storage to use for saving the splitter state.
-   * @defaultValue `session`
+   * @default `session`
    */
   public readonly stateStorage = input<NgnStateStorage>(
     this._config.defaults.splitter.stateStorage
@@ -89,7 +89,7 @@ export class NgnSplitter extends NgnBase implements OnDestroy {
   public readonly stateKey = input<string | null>();
   /**
    * The type of data to save in the splitter state.
-   * @defaultValue `['layout', 'panelOrder', 'panelSizes']`
+   * @default `['layout', 'panelOrder', 'panelSizes']`
    */
   public readonly stateData = input<readonly SplitterStateData[]>([
     'layout',
@@ -98,14 +98,14 @@ export class NgnSplitter extends NgnBase implements OnDestroy {
   ]);
   /**
    * The type of calculator to use for the splitter.
-   * @defaultValue `DefaultSplitterCalculator`
+   * @default `DefaultSplitterCalculator`
    */
   public readonly calculatorType = input<SplitterCalculatorType>(DefaultSplitterCalculator);
   /**
    * The step size for moving the dividers using the keyboard.
    * This can be a pixel value (e.g., '5px') or a percentage value (e.g., '5%').
    * If a percentage is used, it will be calculated based on the size of the splitter element.
-   * @defaultValue '5px'
+   * @default '5px'
    */
   public readonly step = input<`${number}${'%' | 'px'}`>('5px');
 

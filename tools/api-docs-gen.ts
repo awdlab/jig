@@ -136,14 +136,12 @@ async function convertControl(control: DeclarationReflection) {
     });
     if (lineText.includes('.required')) {
       input.name = `${input.name}*`;
-      const i = input.comment?.blockTags.findIndex(tag => tag.tag === '@defaultValue');
-      // remove @defaultValue tag
+      const i = input.comment?.blockTags.findIndex(tag => tag.tag === '@default');
+      // remove @default tag
       if (i !== undefined && i !== -1) {
         input.comment?.blockTags.splice(i, 1);
       }
-      input.comment?.blockTags.push(
-        new CommentTag('@defaultValue', [{ kind: 'text', text: '&nbsp;' }])
-      );
+      input.comment?.blockTags.push(new CommentTag('@default', [{ kind: 'text', text: '&nbsp;' }]));
     }
   });
   await Promise.all(promises);

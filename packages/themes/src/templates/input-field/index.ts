@@ -4,5 +4,5 @@ export const inputFieldChildClassNames = ['disabled'] as const;
 
 export const inputFieldControlTemplate = createControlTemplate({
   scope: 'input-field',
-  classNames: ['', 'readonly', 'label', 'disabled'],
+  classNames: ['invalid', 'readonly', 'label', 'disabled'],
 });

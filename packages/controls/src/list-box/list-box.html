@@ -1,25 +1,19 @@
-<!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
-<div
-  [ngClass]="theme.class()"
-  style="height: 100%; width: 100%"
-  [attr.tabIndex]="highlightable() ? 0 : null"
-  (keydown)="onKeyDown($event)"
-  (focusout)="currentHighlightedValue.set(null)"
->
-  <ngn-scroller
-    [ngClass]="theme.class('scroller')"
-    [virtual]="virtual()"
-    [itemHeight]="itemHeight() ?? 0"
-    [items]="flatItems()"
-    [templateItem]="usedItemTemplate"
-    [fieldSticky]="'items'"
-    #scroller
-  />
-</div>
+<ngn-scroller
+  [ngClass]="theme.class('scroller')"
+  [virtual]="virtual()"
+  [itemHeight]="itemHeight() ?? 0"
+  [items]="flatItems()"
+  [templateItem]="usedItemTemplate"
+  [fieldSticky]="'items'"
+  #scroller
+/>
 
 <ng-template #usedItemTemplate [ngnTemplate]="scroller.templateTypes.item" let-itemOrGroup>
   <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
   <div
+    [id]="inputId() + '_option_' + itemOrGroup.value"
+    [attr.role]="'option'"
+    [ariaSelected]="selectable() ? valueArray().includes(itemOrGroup.value) : null"
     [ngClass]="
       theme.classes({
         item: !itemOrGroup.items,

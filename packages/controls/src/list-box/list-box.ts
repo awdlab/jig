@@ -34,6 +34,20 @@ import { ListBoxTemplates, ValueType } from './list-box-templates';
   templateUrl: './list-box.html',
   imports: [NgTemplateOutlet, NgnScroller, NgnTemplate, NgClass],
   providers: [valueControlBaseProvider(NgnListBox)],
+  host: {
+    '[class]': `theme.classes({
+      '': true,
+      invalid: invalid(),
+    })`,
+    '[attr.tabIndex]': 'highlightable() ? 0 : null',
+    '(keydown)': 'onKeyDown($event)',
+    '(focusout)': 'currentHighlightedValue.set(null)',
+    role: 'listbox',
+    '[attr.aria-activedescendant]':
+      'currentHighlightedValue() ? inputId() + "_option_" + currentHighlightedValue() : null',
+    '[ariaMultiSelectable]': '!!multiple()',
+    '[id]': 'inputId()',
+  },
 })
 export class NgnListBox<
   T extends object,

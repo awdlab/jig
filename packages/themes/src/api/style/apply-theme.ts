@@ -10,25 +10,25 @@ export type ApplyThemeOptions = {
    * The document to apply the theme to. Defaults to `window.document`.
    * This is useful for server-side rendering or when you want to apply the theme to a
    * specific document instance.
-   * @defaultValue `window.document`
+   * @default `window.document`
    */
   document: Document;
   /**
    * The CSS layer to apply the theme to.
    * If not provided, the theme will be applied to the default layer.
-   * @defaultValue `undefined`
+   * @default `undefined`
    */
   layer?: string;
   /**
    * Defines whether the theme should be applied globally or scoped to a specific element.
    * If not provided, the theme will be applied globally.
-   * @defaultValue `undefined`
+   * @default `undefined`
    */
   styleScope?: StyleScope;
   /**
    * A prefix to add to the class names and CSS variables of the theme parts.
    * This is useful for avoiding name collisions in the global scope.
-   * @defaultValue `'ngn-'`
+   * @default `'ngn-'`
    */
   namePrefix: string;
 };

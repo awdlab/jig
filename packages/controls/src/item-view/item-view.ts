@@ -19,6 +19,7 @@ import { ItemViewTemplates } from './item-view-templates';
   imports: [NgClass, NgTemplateOutlet],
   host: {
     '[class]': 'theme.class()',
+    '[attr.role]': '"list"',
   },
 })
 export class NgnItemView<T> extends ItemViewTemplates<T> {

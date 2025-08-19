@@ -23,7 +23,7 @@ export class NgnInputHarness {
   }
 
   public pressSequentially(text: string): Promise<void> {
-    return this.locator.pressSequentially(text);
+    return this.locator.pressSequentially(text, { delay: 5 });
   }
 
   public press(key: string): Promise<void> {

@@ -28,6 +28,10 @@ export class NgnInput extends NgnBase implements AfterViewInit {
 
   protected readonly theme = injectThemeTemplate(inputControlTemplate);
   protected readonly inputFieldTheme = injectThemeTemplate(inputFieldControlTemplate);
+  /**
+   * Explicitly apply invalid state styling
+   * @default false
+   */
   public readonly invalid = input<boolean>(false);
 
   public readonly value = model<string | null>('');
