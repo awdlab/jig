@@ -1,9 +1,10 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, computed, input, linkedSignal, signal, viewChild } from '@angular/core';
+import { Component, computed, inject, input, linkedSignal, signal, viewChild } from '@angular/core';
 import { NgnItem } from '@ngneers/controls/api';
 import {
   injectThemeTemplate,
   NgnTemplate,
+  Platform,
   valueControlBaseProvider,
 } from '@ngneers/controls/api/ng';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -73,7 +74,7 @@ export class NgnCalendar extends CalendarTemplates {
   public readonly inline = input<boolean>(false);
 
   private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);
-
+  private readonly _platform = inject(Platform);
   protected readonly theme = injectThemeTemplate(calendarControlTemplate);
   protected readonly year = linkedSignal(
     () => this.value()?.getFullYear() || new Date().getFullYear()
@@ -167,6 +168,9 @@ export class NgnCalendar extends CalendarTemplates {
   public open() {
     if (this.inline()) {
       throw new NgnError('calendar', 'cannot open inline calendar');
+    }
+    if (this._platform.isTouchDevice()) {
+      return;
     }
     this._popover().open();
   }

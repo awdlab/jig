@@ -135,7 +135,7 @@ export const calendarStyles = createThemePart({
         display: flex;
         justify-content: center;
         > * {
-          width: 100px;
+          width: 120px;
           display: block;
         }
       }
