@@ -1,13 +1,17 @@
-import { NgClass } from '@angular/common';
-import { Component, input, linkedSignal, signal } from '@angular/core';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { Component, computed, input, linkedSignal, signal, viewChild } from '@angular/core';
 import { NgnItem } from '@ngneers/controls/api';
 import {
   injectThemeTemplate,
   NgnTemplate,
   valueControlBaseProvider,
 } from '@ngneers/controls/api/ng';
+import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
+import { NgnInputField } from '@ngneers/controls/input-field';
+import { NgnPopover } from '@ngneers/controls/popover';
 import { NgnSelect } from '@ngneers/controls/select';
+import { NgnError } from '@ngneers/controls/utils';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
 import { CalendarTemplates } from './calendar-templates';
@@ -31,30 +35,68 @@ function generateYearOptions(): NgnItem[] {
 @Component({
   selector: 'ngn-calendar',
   templateUrl: './calendar.html',
-  imports: [NgnTemplate, NgClass, NgnInput, NgnSelect, CalendarMonths, CalendarDays, CalendarTime],
+  imports: [
+    NgTemplateOutlet,
+    NgnTemplate,
+    NgClass,
+    NgnInput,
+    NgnIcon,
+    NgnInputField,
+    NgnSelect,
+    NgnPopover,
+    CalendarMonths,
+    CalendarDays,
+    CalendarTime,
+  ],
   providers: [valueControlBaseProvider(NgnCalendar)],
 })
 export class NgnCalendar extends CalendarTemplates {
+  /**
+   * Set the first day of the week.
+   * @default 'monday'
+   */
+  public readonly firstDayOfWeek = input<WeekDay>('monday');
+  /**
+   * Whether to show the time input.
+   * @default false
+   */
+  public readonly showTime = input<boolean>(false);
+  /**
+   * Whether to show seconds in the time input.
+   * @default false
+   */
+  public readonly showSeconds = input<boolean>(false);
+  /**
+   * Whether to show the calendar inline instead of with a input field & popup.
+   * @default false
+   */
+  public readonly inline = input<boolean>(false);
+
+  private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);
+
   protected readonly theme = injectThemeTemplate(calendarControlTemplate);
   protected readonly year = linkedSignal(
     () => this.value()?.getFullYear() || new Date().getFullYear()
   );
   protected readonly month = linkedSignal(() => this.value()?.getMonth() ?? new Date().getMonth());
-  /**
-   * Set the first day of the week.
-   */
-  public readonly firstDayOfWeek = input<WeekDay>('monday');
-  /**
-   * Whether to show the time input.
-   */
-  public readonly showTime = input<boolean>(false);
-  /**
-   * Whether to show seconds in the time input.
-   */
-  public readonly showSeconds = input<boolean>(false);
-
   protected readonly currentView = signal<'days' | 'months'>('days');
   protected readonly yearOptions = generateYearOptions();
+  protected readonly valueStr = computed(() => {
+    const value = this.value();
+    if (!value) {
+      return null;
+    }
+    // Format as YYYY-MM-DDTHH:MM(:SS)
+    return `${String(value.getFullYear()).padStart(4, '0')}-${String(value.getMonth() + 1).padStart(
+      2,
+      '0'
+    )}-${String(value.getDate()).padStart(2, '0')}T${String(value.getHours()).padStart(
+      2,
+      '0'
+    )}:${String(value.getMinutes()).padStart(2, '0')}${
+      this.showSeconds() ? `:${String(value.getSeconds()).padStart(2, '0')}` : ''
+    }`;
+  });
 
   protected readonly previousMonth = () => {
     const currentMonth = this.month();
@@ -120,5 +162,45 @@ export class NgnCalendar extends CalendarTemplates {
       newValue.setSeconds(newTime.getSeconds());
       this.onChange(newValue);
     }
+  }
+
+  public open() {
+    if (this.inline()) {
+      throw new NgnError('calendar', 'cannot open inline calendar');
+    }
+    this._popover().open();
+  }
+
+  public close() {
+    if (this.inline()) {
+      throw new NgnError('calendar', 'cannot close inline calendar');
+    }
+    this._popover().close();
+  }
+
+  protected onKeyDown(event: KeyboardEvent) {
+    // @todo: handle date selection with keys
+
+    // if event is not handled by the listbox, we can handle it here
+    if (event.key === 'Enter') {
+      this._popover().toggle();
+      event.stopPropagation();
+      event.preventDefault();
+    }
+  }
+
+  protected stringValueChange(newValue: string | null) {
+    if (!newValue) {
+      return true;
+    }
+
+    const date = new Date(newValue);
+    if (!isNaN(date.getTime())) {
+      if (!this.showSeconds()) {
+        date.setSeconds(this.value()?.getSeconds() || 0);
+      }
+      this.onChange(date);
+    }
+    return true;
   }
 }

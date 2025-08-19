@@ -9,7 +9,7 @@ test('IO', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-calendar [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<ngn-calendar [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['calendar'],
     },
     {
@@ -70,7 +70,7 @@ test('first day of week', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-calendar [value]="inputs().value" [firstDayOfWeek]="inputs().firstDayOfWeek" (valueChange)="output('value', $event)" />`,
+      template: `<ngn-calendar [inline]="true" [value]="inputs().value" [firstDayOfWeek]="inputs().firstDayOfWeek" (valueChange)="output('value', $event)" />`,
       imports: ['calendar'],
     },
     {

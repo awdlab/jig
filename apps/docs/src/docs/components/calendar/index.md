@@ -9,3 +9,7 @@ for date selection and time input.
 ## Basic Usage
 
 {{ NgDocActions.demo("Demo_Calendar_Base") }}
+
+## Inline Usage
+
+{{ NgDocActions.demo("Demo_Calendar_Inline") }}

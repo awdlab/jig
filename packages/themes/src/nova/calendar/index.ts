@@ -10,6 +10,24 @@ export const calendarStyles = createThemePart({
       ${c()} {
         width: fit-content;
       }
+      ${c('inline')} {
+        padding: ${v('size.padding.md')};
+        border: 1px solid ${v('color.surface.300')};
+        border-radius: ${v('size.rounded.md')};
+      }
+      ${c('input-field')} ${d('input-field')} {
+        display: flex;
+      }
+      ${c('input')} {
+        cursor: text;
+        appearance: textfield; // Hide the calendar icon in Firefox
+      }
+      ${c('input')}::-webkit-calendar-picker-indicator {
+        display: none; // Hide the calendar icon in WebKit browsers
+      }
+      ${c('input')} ${d('input-field')} {
+        display: flex;
+      }
       ${c('details')} {
         display: flex;
         flex-direction: column;

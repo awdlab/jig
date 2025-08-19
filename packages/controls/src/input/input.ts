@@ -36,6 +36,8 @@ export class NgnInput extends NgnBase implements AfterViewInit {
 
   public readonly value = model<string | null>('');
 
+  private readonly _input = this.element.nativeElement as HTMLInputElement;
+
   public ngAfterViewInit() {
     this.hasParentInputfield.set(!!this.element.nativeElement.closest('ngn-input-field'));
     const changeEvent = fromEventSignal(
@@ -53,8 +55,8 @@ export class NgnInput extends NgnBase implements AfterViewInit {
       effect(() => {
         const _changeEvent = changeEvent();
         const _inputEvent = inputEvent();
-        const val = (this.element.nativeElement as HTMLInputElement).value;
-        this.value.set(val || '');
+        const val = this._input.value;
+        this.value.set(val ?? '');
       });
     });
   }
@@ -62,7 +64,9 @@ export class NgnInput extends NgnBase implements AfterViewInit {
   constructor() {
     super();
     effect(() => {
-      (this.element.nativeElement as HTMLInputElement).value = this.value() || '';
+      if (this._input.value !== this.value()) {
+        this._input.value = this.value() || '';
+      }
     });
   }
 }

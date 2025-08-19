@@ -41,7 +41,7 @@ export const popoverStyles = createThemePart({
         border-color: ${v('color.surface.300')};
         border-radius: ${v('size.rounded.md')};
         border-width: 1px;
-        padding: ${v('size.rounded.md')};
+        padding: ${v('size.padding.md')};
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       }
     `,

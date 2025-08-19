@@ -1,40 +1,74 @@
-<div [ngClass]="theme.class()">
-  @switch (currentView()) {
-    @case ('days') {
-      <ngn-calendar-days
-        [year]="year()"
-        [month]="month()"
-        [currentValue]="value()"
-        [firstDayOfWeek]="firstDayOfWeek()"
-        (previousMonth)="previousMonth()"
-        (nextMonth)="nextMonth()"
-        (switchToMonthsView)="switchToView('months')"
-        (daySelected)="selectDay($event)"
-        (yearSelected)="selectYear($event)"
-        (timeChanged)="changeTime($event)"
-        [dayTemplate]="dayTemplate()"
-        [weekDayTemplate]="weekDayTemplate()"
-        [timeTemplate]="timeTemplate()"
-        [yearTemplate]="yearTemplate()"
-        [showTime]="showTime()"
-        [showSeconds]="showSeconds()"
-      />
-    }
-    @case ('months') {
-      <ngn-calendar-months
-        [year]="year()"
-        [currentValue]="value() ?? null"
-        (previousYear)="previousYear()"
-        (nextYear)="nextYear()"
-        (monthSelected)="selectMonth($event)"
-        (yearSelected)="selectYear($event)"
-        [monthTemplate]="monthTemplate()"
-        [yearTemplate]="yearTemplate()"
-      />
-    }
-  }
-</div>
+@if (inline()) {
+  <ng-container *ngTemplateOutlet="calendar"></ng-container>
+} @else {
+  <ngn-input-field
+    #field
+    [ngClass]="theme.class('input-field')"
+    (click)="open()"
+    (keydown)="onKeyDown($event)"
+  >
+    <input
+      [ngClass]="theme.class('input')"
+      ngnInput
+      #input
+      (valueChange)="stringValueChange($event)"
+      type="datetime-local"
+      [value]="valueStr()"
+    />
+    <ngn-icon defaultIcon="far fa-calendar" />
+  </ngn-input-field>
+  <ngn-popover #popover [anchor]="field.element.nativeElement" [id]="inputId() + '_popover'">
+    <ng-template #lazy>
+      <ng-container *ngTemplateOutlet="calendar"></ng-container>
+    </ng-template>
+  </ngn-popover>
+}
 
+<ng-template #calendar>
+  <div
+    [ngClass]="
+      theme.classes({
+        '': true,
+        inline: inline(),
+      })
+    "
+  >
+    @switch (currentView()) {
+      @case ('days') {
+        <ngn-calendar-days
+          [year]="year()"
+          [month]="month()"
+          [currentValue]="value()"
+          [firstDayOfWeek]="firstDayOfWeek()"
+          (previousMonth)="previousMonth()"
+          (nextMonth)="nextMonth()"
+          (switchToMonthsView)="switchToView('months')"
+          (daySelected)="selectDay($event)"
+          (yearSelected)="selectYear($event)"
+          (timeChanged)="changeTime($event)"
+          [dayTemplate]="dayTemplate()"
+          [weekDayTemplate]="weekDayTemplate()"
+          [timeTemplate]="timeTemplate()"
+          [yearTemplate]="yearTemplate()"
+          [showTime]="showTime()"
+          [showSeconds]="showSeconds()"
+        />
+      }
+      @case ('months') {
+        <ngn-calendar-months
+          [year]="year()"
+          [currentValue]="value() ?? null"
+          (previousYear)="previousYear()"
+          (nextYear)="nextYear()"
+          (monthSelected)="selectMonth($event)"
+          (yearSelected)="selectYear($event)"
+          [monthTemplate]="monthTemplate()"
+          [yearTemplate]="yearTemplate()"
+        />
+      }
+    }
+  </div>
+</ng-template>
 <ng-template #defaultDayTemplate [ngnTemplate]="templateTypes.day" let-day>
   {{ day.date }}
 </ng-template>

@@ -2,6 +2,7 @@ import { NgDocPage } from '@ng-doc/core';
 import { NgnCalendar } from '@ngneers/controls/calendar';
 
 import { Demo_Calendar_Base } from '../../../app/demos/calendar/base';
+import { Demo_Calendar_Inline } from '../../../app/demos/calendar/inline';
 import ComponentsCategory from '../../categories/components/ng-doc.category';
 
 const CalendarPage: NgDocPage = {
@@ -10,6 +11,7 @@ const CalendarPage: NgDocPage = {
   category: ComponentsCategory,
   demos: {
     Demo_Calendar_Base,
+    Demo_Calendar_Inline,
   },
   playgrounds: {
     CalendarPlayground: {
