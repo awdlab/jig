@@ -58,6 +58,9 @@ async function filterItem<T extends object>(
   return null;
 }
 
+/**
+ * @todo fix only one word needing to match
+ */
 async function itemMatches<T extends object>(
   words: string[],
   filterOptions: FilterConfigInternal<T>,
