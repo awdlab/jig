@@ -12,7 +12,7 @@
       ngnInput
       #input
       (valueChange)="stringValueChange($event)"
-      type="datetime-local"
+      [type]="showTime() ? 'datetime-local' : 'date'"
       [value]="valueStr()"
     />
     <ngn-icon defaultIcon="far fa-calendar" />

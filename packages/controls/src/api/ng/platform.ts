@@ -12,6 +12,9 @@ export class Platform {
     if (!win) {
       return;
     }
+    if (typeof win.matchMedia !== 'function') {
+      return;
+    }
     const hasMouse = win.matchMedia('(any-hover: hover)').matches;
     if (hasMouse) {
       this._deviceType.set('desktop');

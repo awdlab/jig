@@ -4,17 +4,17 @@ import { NgnCalendar } from '@ngneers/controls/calendar';
 
 @Component({
   imports: [FormsModule, NgnCalendar],
-  selector: 'ngn-calendar-inline',
+  selector: 'ngn-calendar-time',
   template: `
     <ngn-calendar
       [inputId]="'test-input'"
-      [inline]="true"
       [ngModel]="value()"
       (ngModelChange)="value.set($event)"
+      [showTime]="true"
     />
     {{ value() }}
   `,
 })
-export class Demo_Calendar_Inline {
+export class Demo_Calendar_Time {
   protected readonly value = signal<Date>(new Date());
 }

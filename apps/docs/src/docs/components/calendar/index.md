@@ -13,3 +13,11 @@ for date selection and time input.
 ## Inline Usage
 
 {{ NgDocActions.demo("Demo_Calendar_Inline") }}
+
+## Time
+
+{{ NgDocActions.demo("Demo_Calendar_Time") }}
+
+## Inline Time
+
+{{ NgDocActions.demo("Demo_Calendar_InlineTime") }}

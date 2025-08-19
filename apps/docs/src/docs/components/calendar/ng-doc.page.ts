@@ -3,6 +3,8 @@ import { NgnCalendar } from '@ngneers/controls/calendar';
 
 import { Demo_Calendar_Base } from '../../../app/demos/calendar/base';
 import { Demo_Calendar_Inline } from '../../../app/demos/calendar/inline';
+import { Demo_Calendar_InlineTime } from '../../../app/demos/calendar/inline-time';
+import { Demo_Calendar_Time } from '../../../app/demos/calendar/time';
 import ComponentsCategory from '../../categories/components/ng-doc.category';
 
 const CalendarPage: NgDocPage = {
@@ -12,6 +14,8 @@ const CalendarPage: NgDocPage = {
   demos: {
     Demo_Calendar_Base,
     Demo_Calendar_Inline,
+    Demo_Calendar_Time,
+    Demo_Calendar_InlineTime,
   },
   playgrounds: {
     CalendarPlayground: {

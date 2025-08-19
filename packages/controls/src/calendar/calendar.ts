@@ -87,15 +87,19 @@ export class NgnCalendar extends CalendarTemplates {
     if (!value) {
       return null;
     }
-    // Format as YYYY-MM-DDTHH:MM(:SS)
+    // Format as YYYY-MM-DD(THH:MM(:SS))
     return `${String(value.getFullYear()).padStart(4, '0')}-${String(value.getMonth() + 1).padStart(
       2,
       '0'
-    )}-${String(value.getDate()).padStart(2, '0')}T${String(value.getHours()).padStart(
-      2,
-      '0'
-    )}:${String(value.getMinutes()).padStart(2, '0')}${
-      this.showSeconds() ? `:${String(value.getSeconds()).padStart(2, '0')}` : ''
+    )}-${String(value.getDate()).padStart(2, '0')}${
+      this.showTime()
+        ? `T${String(value.getHours()).padStart(
+            2,
+            '0'
+          )}:${String(value.getMinutes()).padStart(2, '0')}${
+            this.showSeconds() ? `:${String(value.getSeconds()).padStart(2, '0')}` : ''
+          }`
+        : ''
     }`;
   });
 
@@ -200,7 +204,11 @@ export class NgnCalendar extends CalendarTemplates {
 
     const date = new Date(newValue);
     if (!isNaN(date.getTime())) {
-      if (!this.showSeconds()) {
+      if (!this.showTime()) {
+        date.setHours(this.value()?.getHours() || 0);
+        date.setMinutes(this.value()?.getMinutes() || 0);
+        date.setSeconds(this.value()?.getSeconds() || 0);
+      } else if (!this.showSeconds()) {
         date.setSeconds(this.value()?.getSeconds() || 0);
       }
       this.onChange(date);
