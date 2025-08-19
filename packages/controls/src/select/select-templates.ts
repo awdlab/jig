@@ -1,20 +1,16 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 import { NgnItem } from '@ngneers/controls/api';
 import { templateTypesFn, ValueControlBase } from '@ngneers/controls/api/ng';
+import { InputGeneric } from '@ngneers/controls/utils';
 
 // @internal
-export type ValueTypeEditable<
-  T,
-  K extends keyof T,
-  Editable extends boolean,
-> = Editable extends true ? string : T[K];
+export type ValueTypeEditable<T, K extends keyof T, Editable extends boolean> =
+  InputGeneric<Editable, false> extends true ? string : T[K];
 // @internal
-export type ValueType<
-  T,
-  K extends keyof T,
-  Editable extends boolean,
-  Multiple extends boolean,
-> = Multiple extends true ? ValueTypeEditable<T, K, Editable>[] : ValueTypeEditable<T, K, Editable>;
+export type ValueType<T, K extends keyof T, Editable extends boolean, Multiple extends boolean> =
+  InputGeneric<Multiple, false> extends true
+    ? ValueTypeEditable<T, K, Editable>[]
+    : ValueTypeEditable<T, K, Editable>;
 
 @Directive()
 export abstract class SelectTemplates<

@@ -1,10 +1,10 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 import { NgnItem } from '@ngneers/controls/api';
 import { templateTypesFn, ValueControlBase } from '@ngneers/controls/api/ng';
+import { InputGeneric } from '@ngneers/controls/utils';
 
-export type ValueType<T, K extends keyof T, Multiple extends boolean> = Multiple extends true
-  ? T[K][]
-  : T[K];
+export type ValueType<T, K extends keyof T, Multiple extends boolean> =
+  InputGeneric<Multiple, false> extends true ? T[K][] : T[K];
 
 @Directive()
 export abstract class ListBoxTemplates<
