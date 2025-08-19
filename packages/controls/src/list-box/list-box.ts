@@ -153,7 +153,7 @@ export class NgnListBox<
       }
     } else {
       if (this.value() !== value) {
-        this.onChange(value);
+        this.onChange(value as ValueType<T, K, Multiple>);
       }
     }
 

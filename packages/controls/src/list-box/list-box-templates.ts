@@ -2,11 +2,9 @@ import { computed, contentChild, Directive, input, TemplateRef, viewChild } from
 import { NgnItem } from '@ngneers/controls/api';
 import { templateTypesFn, ValueControlBase } from '@ngneers/controls/api/ng';
 
-export type ValueType<T, K extends keyof T, Multiple extends boolean> =
-  // If Multiple is true, the value can be a string, otherwise it must match the type of T[K].
-  // When Multiple is not specified, it has any type, so we need to handle that case.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  any extends Multiple ? T[K] : Multiple extends true ? T[K][] : T[K];
+export type ValueType<T, K extends keyof T, Multiple extends boolean> = Multiple extends true
+  ? T[K][]
+  : T[K];
 
 @Directive()
 export abstract class ListBoxTemplates<

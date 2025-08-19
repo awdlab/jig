@@ -19,7 +19,7 @@ import { exampleData } from '../../helper/data';
 export class Demo_Select_Multiple {
   protected readonly options = exampleData.items.groupedPreformatted;
 
-  protected log(value: any) {
+  protected log(value: string[] | null) {
     console.log('Selected values:', value);
   }
 }

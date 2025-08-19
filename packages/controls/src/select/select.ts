@@ -266,7 +266,7 @@ export class NgnSelect<
     this._listbox()?.onKeyDown(event);
     // if event is not handled by the listbox, we can handle it here
     if (!event.defaultPrevented) {
-      if (event.key === 'Enter' || event.key === ' ') {
+      if (event.key === 'Enter') {
         this._popover().toggle();
         event.stopPropagation();
         event.preventDefault();

@@ -3,21 +3,18 @@ import { NgnItem } from '@ngneers/controls/api';
 import { templateTypesFn, ValueControlBase } from '@ngneers/controls/api/ng';
 
 // @internal
-export type ValueTypeEditable<T, K extends keyof T, Editable extends boolean> =
-  // If Editable is true, the value can be a string, otherwise it must match the type of T[K].
-  // When Editable is not specified, it has any type, so we need to handle that case.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  any extends Editable ? T[K] : Editable extends true ? string : T[K];
+export type ValueTypeEditable<
+  T,
+  K extends keyof T,
+  Editable extends boolean,
+> = Editable extends true ? string : T[K];
 // @internal
-export type ValueType<T, K extends keyof T, Editable extends boolean, Multiple extends boolean> =
-  // If Multiple is true, the value can be a string, otherwise it must match the type of T[K].
-  // When Multiple is not specified, it has any type, so we need to handle that case.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  any extends Multiple
-    ? ValueTypeEditable<T, K, Editable>
-    : Multiple extends true
-      ? ValueTypeEditable<T, K, Editable>[]
-      : ValueTypeEditable<T, K, Editable>;
+export type ValueType<
+  T,
+  K extends keyof T,
+  Editable extends boolean,
+  Multiple extends boolean,
+> = Multiple extends true ? ValueTypeEditable<T, K, Editable>[] : ValueTypeEditable<T, K, Editable>;
 
 @Directive()
 export abstract class SelectTemplates<
