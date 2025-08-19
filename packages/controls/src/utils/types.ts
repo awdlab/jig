@@ -32,4 +32,10 @@ export type DeepPartial<T, Exclude extends string = never, P = never> = T extend
  */
 export type AllKeysOfUnion<T> = T extends object ? keyof T : never;
 
-export type InputGeneric<T, Default> = symbol extends T ? Default : T;
+/**
+ * Angular fills unspecified generic inputs with `any`.
+ * This replaces that `any` with a `Default` type, or returns `T` if `T` is not `any`.
+ */
+export type InputGeneric<T, Default> =
+  // Works, because any can be extended by anything, in this case symbols (That we are likely never using in generics)
+  symbol extends T ? Default : T;
