@@ -1,3 +1,4 @@
+export * from './equality';
 export * from './error';
 export * from './fuzzy-match';
 export * from './globals';

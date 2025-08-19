@@ -1,0 +1,19 @@
+@for (item of items(); track item; let i = $index) {
+  <div
+    #item
+    [ngClass]="
+      theme.classes({
+        item: true,
+        'item-overflowing': i >= visibleItemCount(),
+      })
+    "
+  >
+    <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item, index: i }" />
+    @if (!$last && separatorChar(); as separatorChar) {
+      <span>{{ separatorChar }}</span>
+    }
+  </div>
+}
+@if (moreItemsCount()) {
+  <div #overflowItem [ngClass]="theme.class('more-items')">+{{ moreItemsCount() }}</div>
+}

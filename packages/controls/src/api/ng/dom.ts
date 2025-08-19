@@ -13,10 +13,10 @@ import { deepCopy } from '@ngneers/controls/utils';
 export type Size = { width: number; height: number };
 
 type ElementArray =
-  | Signal<Array<HTMLElement | ElementRef<HTMLElement>>>
-  | Array<HTMLElement | ElementRef<HTMLElement>>;
+  | Signal<ReadonlyArray<HTMLElement | ElementRef<HTMLElement>>>
+  | ReadonlyArray<HTMLElement | ElementRef<HTMLElement>>;
 type ElementSingle =
-  | Signal<HTMLElement | ElementRef<HTMLElement>>
+  | Signal<HTMLElement | ElementRef<HTMLElement> | undefined>
   | HTMLElement
   | ElementRef<HTMLElement>;
 
@@ -30,13 +30,15 @@ export function elementsSizesSignal(element: ElementArray): Signal<readonly Size
 }
 
 function elementsSizesSignalInt(element: ElementArray | ElementSingle): Signal<readonly Size[]> {
-  const sizeSignal = signal<readonly Size[]>([]);
+  const sizeSignal = signal<readonly Size[]>([], {
+    equal: (a, b) => JSON.stringify(a) === JSON.stringify(b),
+  });
 
   let elements: HTMLElement[];
   afterRenderEffect(() => {
     resizeObserver.disconnect();
     const rawElement = typeof element === 'function' ? element() : element;
-    const arrayElement = Array.isArray(rawElement) ? rawElement : [rawElement];
+    const arrayElement = Array.isArray(rawElement) ? rawElement : rawElement ? [rawElement] : [];
     elements = arrayElement.map(el => (el instanceof ElementRef ? el.nativeElement : el));
 
     if (!elements.length) {

@@ -110,16 +110,16 @@
 </ng-template>
 
 <ng-template #defaultSelectedItemsTemplate [ngnTemplate]="templateTypes.selectedItems" let-items>
-  <span>
-    @for (item of items; track item?.value) {
-      <span [attr.data-testid]="item?.testId">{{ item?.label }}</span>
-      @if (!$last) {
-        <span>, </span>
-      }
-    } @empty {
-      <span>&ZeroWidthSpace;</span>
-    }
-  </span>
+  <ngn-item-view #itemView [items]="items" [separator]="true" style="margin-right: 8px">
+    <ng-template #item let-item [ngnTemplate]="itemView.templateTypes.item">
+      <ng-container
+        *ngTemplateOutlet="selectedItemTemplate(); context: { $implicit: item }"
+      ></ng-container>
+    </ng-template>
+  </ngn-item-view>
+  @if (items.length < 1) {
+    &ZeroWidthSpace;
+  }
 </ng-template>
 
 <ng-template #defaultNoItemsTemplate>
