@@ -125,7 +125,7 @@ test('grouped', async ({ page }, testInfo) => {
   await scroller.expectStickyItemsCount(exampleData.items.groupedPreformatted.length);
   await expectScreenshot(page, testInfo, 'opened');
   await scroller.clickItemByText(exampleData.items.flatPreformatted[0].label);
-  await select.selectedItemText(exampleData.items.flatPreformatted[0].label);
+  await select.expectSelectedItemText(exampleData.items.flatPreformatted[0].label);
 });
 
 test('templates', async ({ page }, testInfo) => {
@@ -169,7 +169,7 @@ test('templates', async ({ page }, testInfo) => {
   await scroller.expectStickyItemsCount(exampleData.items.groupedPreformatted.length);
   await expectScreenshot(page, testInfo, 'opened');
   await scroller.clickItemByText('👀' + exampleData.items.flatPreformatted[0].label);
-  await select.selectedItemText('✅' + exampleData.items.flatPreformatted[0].label);
+  await select.expectSelectedItemText('✅' + exampleData.items.flatPreformatted[0].label);
 });
 
 test('fields', async ({ page }, testInfo) => {
@@ -210,7 +210,7 @@ test('fields', async ({ page }, testInfo) => {
   await scroller.expectStickyItemsCount(exampleData.items.groupedPreformatted.length);
   await expectScreenshot(page, testInfo, 'opened');
   await scroller.clickItemByText(exampleData.items.flatPreformatted[0].label);
-  await select.selectedItemText(exampleData.items.flatPreformatted[0].label);
+  await select.expectSelectedItemText(exampleData.items.flatPreformatted[0].label);
 });
 
 test('filter', async ({ page }, testInfo) => {
@@ -311,4 +311,64 @@ test('editable', async ({ page }, testInfo) => {
   await scroller.clickItemByText('Germany');
 
   expect(await handle.getOutputLog()).toEqual({ value: ['ger', 'Germany'] });
+});
+
+test('multiple', async ({ page }, testInfo) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+      <ngn-select
+        style="width: 200px;"
+        [multiple]="true"
+        [options]="inputs().options"
+        [popoverOptions]="inputs().popoverOptions" />
+    `,
+      imports: ['select'],
+    },
+    {
+      inputs: {
+        options: exampleData.items.flatPreformatted,
+        popoverOptions: <PopoverOptions>{ sizeConstraints: { maxHeight: '300px' } },
+      },
+    }
+  );
+
+  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+
+  await select.expectOpened(false);
+  await select.open();
+  const listBox = select.listBox;
+  const scroller = listBox.scroller;
+  await scroller.expectItemsCount(exampleData.items.flatPreformatted.length);
+  await expectScreenshot(page, testInfo, 'opened');
+  await scroller.clickItemByText(exampleData.items.flatPreformatted[0].label);
+  await select.expectSelectedItemText(exampleData.items.flatPreformatted[0].label);
+
+  await expectScreenshot(page, testInfo, 'selected-1');
+  await scroller.clickItemByText(exampleData.items.flatPreformatted[1].label);
+  await scroller.clickItemByText(exampleData.items.flatPreformatted[2].label);
+  await scroller.clickItemByText(exampleData.items.flatPreformatted[3].label);
+  await scroller.clickItemByText(exampleData.items.flatPreformatted[4].label);
+  await select.multipleItemView.expectItemVisibleCount(2);
+  await select.multipleItemView.expectItemOverflowingCount(3);
+  await select.multipleItemView.expectItemVisibleTexts([
+    exampleData.items.flatPreformatted[0].label + ', ',
+    exampleData.items.flatPreformatted[1].label + ', ',
+  ]);
+
+  await expectScreenshot(page, testInfo, 'selected-4');
+  await scroller.clickItemByText(exampleData.items.flatPreformatted[5].label);
+  await scroller.clickItemByText(exampleData.items.flatPreformatted[6].label);
+  await scroller.clickItemByText(exampleData.items.flatPreformatted[7].label);
+  await scroller.clickItemByText(exampleData.items.flatPreformatted[8].label);
+  await select.multipleItemView.expectItemVisibleCount(2);
+  await select.multipleItemView.expectItemOverflowingCount(7);
+  await select.multipleItemView.expectItemVisibleTexts([
+    exampleData.items.flatPreformatted[0].label + ', ',
+    exampleData.items.flatPreformatted[1].label + ', ',
+  ]);
+
+  await select.close();
+  await expectScreenshot(page, testInfo, 'closed');
 });

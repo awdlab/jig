@@ -18,6 +18,9 @@ export const selectStyles = createThemePart({
         color: ${v('color.surface.500')};
         cursor: pointer;
       }
+      ${c('combobox')} {
+        width: 100%;
+      }
       ${c('filter-icon')} {
         color: ${v('color.surface.500')};
       }

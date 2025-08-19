@@ -4,6 +4,7 @@ export * from './calendar';
 export * from './input-field';
 export * from './input-mask';
 export * from './input';
+export * from './item-view';
 export * from './list-box';
 export * from './popover';
 export * from './scroller';

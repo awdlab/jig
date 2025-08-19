@@ -14,6 +14,9 @@ export const itemViewStyles = createThemePart({
         white-space: nowrap;
         overflow: hidden;
       }
+      ${c('item')} {
+        display: inline-block;
+      }
       ${c('item-overflowing')} {
         position: absolute;
         opacity: 0;

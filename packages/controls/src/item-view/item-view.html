@@ -1,5 +1,5 @@
 @for (item of items(); track item; let i = $index) {
-  <div
+  <span
     role="listitem"
     #item
     [ngClass]="
@@ -8,12 +8,13 @@
         'item-overflowing': i >= visibleItemCount(),
       })
     "
+    [ariaHidden]="i >= visibleItemCount()"
   >
     <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item, index: i }" />
     @if (!$last && separatorChar(); as separatorChar) {
       <span>{{ separatorChar }}</span>
     }
-  </div>
+  </span>
 }
 @if (moreItemsCount()) {
   <div #overflowItem [ngClass]="theme.class('more-items')">+{{ moreItemsCount() }}</div>

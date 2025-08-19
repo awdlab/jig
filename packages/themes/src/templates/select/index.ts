@@ -7,6 +7,7 @@ export const selectControlTemplate = createControlTemplate({
   scope: 'select',
   classNames: [
     '',
+    'combobox',
     'input',
     'icon',
     'input-editable',

@@ -28,6 +28,7 @@
   } @else {
     <div
       role="combobox"
+      [ngClass]="theme.class('combobox')"
       [attr.aria-expanded]="popover.isOpen()"
       aria-haspopup="listbox"
       [attr.aria-controls]="inputId() + '_listbox'"

@@ -5,6 +5,7 @@ import { NgnInputHarness } from './input';
 import { NGN_CLASSES } from '../utils/classes';
 import { NgnListBoxHarness } from './list-box';
 import { NgnInputFieldHarness } from './input-field';
+import { NgnItemViewHarness } from './item-view';
 
 export class NgnSelectHarness {
   public readonly classes = themeClasses(selectControlTemplate);
@@ -15,6 +16,7 @@ export class NgnSelectHarness {
   public readonly inputEditable: NgnInputHarness;
   public readonly listBox: NgnListBoxHarness;
   public readonly popoverContent: Locator;
+  public readonly multipleItemView: NgnItemViewHarness;
 
   constructor(public locator: Locator) {
     this.filter = new NgnInputFieldHarness(locator.locator(this.classes['filter']), l => ({
@@ -28,6 +30,7 @@ export class NgnSelectHarness {
     );
     this.listBox = new NgnListBoxHarness(locator.locator(this.classes['list-box']));
     this.popoverContent = locator.locator(this.classes['popover-content']);
+    this.multipleItemView = new NgnItemViewHarness(locator.locator('ngn-item-view'));
   }
 
   public async expectOpened(opened = true) {
@@ -44,7 +47,7 @@ export class NgnSelectHarness {
     await this.expectOpened(false);
   }
 
-  public async selectedItemText(text: string, editable = false) {
+  public async expectSelectedItemText(text: string, editable = false) {
     if (editable) {
       await this.inputEditable.expectValue(text);
     } else {
