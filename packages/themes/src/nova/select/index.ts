@@ -9,7 +9,7 @@ export const selectStyles = createThemePart({
     css: ({ v, c, d }) => css`
       ${c('input')} ${d('input-field')} {
         cursor: pointer;
-        display: inline-flex;
+        display: flex;
         justify-content: space-between;
         align-items: center;
         white-space: nowrap;

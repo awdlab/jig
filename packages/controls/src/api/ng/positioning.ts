@@ -83,7 +83,7 @@ export function positionElement(
 
   if (options.sizeConstraints) {
     if (options.sizeConstraints.width || options.sizeConstraints.maxWidth) {
-      const refWidth = referenceEl.offsetWidth;
+      const refWidth = referenceEl.getBoundingClientRect().width;
       if (options.sizeConstraints.width) {
         if (typeof options.sizeConstraints.width === 'string') {
           floatingEl.style.width = options.sizeConstraints.width;
