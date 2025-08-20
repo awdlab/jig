@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { injectThemeTemplate, NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnDefer } from '@ngneers/controls/defer';
+import { NgnIcon } from '@ngneers/controls/icon';
 import { generateElementId } from '@ngneers/controls/utils-ng';
 import { accordionControlTemplate } from '@ngneers/controls-themes/templates/accordion';
 
@@ -21,7 +22,7 @@ import { ACCORDION_CONTROL } from './types';
  */
 @Component({
   selector: 'ngn-accordion-panel',
-  imports: [NgTemplateOutlet, NgClass, NgnDefer, NgnTemplate],
+  imports: [NgTemplateOutlet, NgClass, NgnDefer, NgnTemplate, NgnIcon],
   templateUrl: './accordion-panel.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -57,6 +58,9 @@ export class NgnAccordionPanel extends AccordionTemplates {
    * The header text for the accordion panel.
    */
   public readonly header = input<string>();
+
+  protected readonly iconExpanded = this._accordionControl.iconExpanded;
+  protected readonly iconCollapsed = this._accordionControl.iconCollapsed;
 
   protected readonly open = computed(() =>
     this._accordionControl.openedPanels().includes(this.panelId())

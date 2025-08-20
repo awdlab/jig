@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
 import { injectThemeTemplate } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
+import { IconType } from '@ngneers/controls/custom-types';
 import { accordionControlTemplate } from '@ngneers/controls-themes/templates/accordion';
 
 import { ACCORDION_CONTROL, AccordionControl } from './types';
@@ -26,6 +27,8 @@ import { ACCORDION_CONTROL, AccordionControl } from './types';
           togglePanel: accordion.togglePanel.bind(accordion),
           lazy: accordion.lazy,
           cache: accordion.cache,
+          iconExpanded: accordion.iconExpanded,
+          iconCollapsed: accordion.iconCollapsed,
         },
     },
   ],
@@ -38,6 +41,8 @@ export class NgnAccordion extends NgnBase {
   /**
    * Whether multiple panels can be opened at once.
    */
+  public readonly iconExpanded = input<IconType>();
+  public readonly iconCollapsed = input<IconType>();
   public readonly multiple = input<boolean>(false);
   public readonly openedPanels = model<string[]>([]);
 

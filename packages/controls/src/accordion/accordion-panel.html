@@ -8,10 +8,14 @@
     <ng-container
       *ngTemplateOutlet="
         headerTemplate();
-        context: { $implicit: { panelId: panelId(), text: header() } }
+        context: { $implicit: { panelId: panelId(), text: header(), expanded: open() } }
       "
     ></ng-container>
   }
+  <ngn-icon
+    [defaultIcon]="open() ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"
+    [icon]="open() ? iconExpanded() : iconCollapsed()"
+  />
 </header>
 
 <div

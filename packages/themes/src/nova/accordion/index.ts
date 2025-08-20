@@ -37,16 +37,29 @@ export const accordionStyles = createThemePart({
       }
       ${c('panel-header')} {
         display: flex;
+        align-items: center;
+        justify-content: space-between;
         cursor: pointer;
         user-select: none;
+        ngn-icon {
+          color: ${v('color.surface.500')};
+          padding: 0 ${v('size.padding.md')};
+          transition: color 0.2s ease-in-out;
+        }
         &:hover {
           ${c('panel-header-text')} {
+            color: ${v('color.surface.600')};
+          }
+          ngn-icon {
             color: ${v('color.surface.600')};
           }
         }
         &:focus-visible {
           outline: none;
           ${c('panel-header-text')} {
+            color: ${v('color.text')};
+          }
+          ngn-icon {
             color: ${v('color.text')};
           }
         }
