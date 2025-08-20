@@ -15,6 +15,8 @@ export const IMPORTS = {
     import('@ngneers/controls/input-field').then((m) => m.NgnInputField),
   inputMask: () =>
     import('@ngneers/controls/input-mask').then((m) => m.NgnInputMask),
+  itemView: () =>
+    import('@ngneers/controls/item-view').then((m) => m.NgnItemView),
   listBox: () => import('@ngneers/controls/list-box').then((m) => m.NgnListBox),
   popover: () => import('@ngneers/controls/popover').then((m) => m.NgnPopover),
   scroller: () =>
