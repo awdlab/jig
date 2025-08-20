@@ -1,10 +1,10 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
+import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
 
 export const listBoxStyles = createThemePart({
   controlTemplate: listBoxControlTemplate,
-  dependencies: [colorsTemplate, sizesTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c }) => css`
       ${c()} {
@@ -45,12 +45,13 @@ export const listBoxStyles = createThemePart({
         display: inline-block;
         width: 100%;
         padding: ${v('size.padding.md')};
-        padding-left: ${v('size.padding.lg')};
+        font-weight: ${v('font.weight.semibold')};
         background: ${v('color.surface.100')};
-        color: ${v('color.surface.600')};
+        color: ${v('color.surface.500')};
         border-radius: ${v('size.rounded.md')};
         border-width: 0;
         border-style: solid;
+        cursor: default;
         &:hover {
           background: ${v('color.surface.100')};
         }

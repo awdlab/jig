@@ -171,47 +171,14 @@ function variableCssFromVariableDefinition(
 }
 
 function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions): string {
-  const varKeySelector = (themePart: ThemePart, key: string) => {
-    const vars = getCssVar(options.namePrefix, key);
+  const varKeySelector = (key: string) => `var(${getCssVar(options.namePrefix, key)})`;
 
-    const keyParts = key.split('.');
-    const prefix = keyParts.shift();
-    const propName = keyParts.pop();
-
-    // TODO: may need refactoring to existing helper methods I am not aware of
-    function valueExistsForKey(key: string[]): boolean {
-      let current = themePart.root?.values as Record<string, object> | undefined;
-      if (!propName) {
-        return false;
-      }
-      for (const part of key) {
-        if (!current || !current || !(part in current)) {
-          return false;
-        }
-        current = current[part] as Record<string, object> | undefined;
-      }
-      return !!current?.[propName];
-    }
-    let foundKey = false;
-    while (keyParts.length > 0) {
-      keyParts.pop();
-      if (valueExistsForKey(keyParts)) {
-        foundKey = true;
-        break;
-      }
-    }
-    if (!foundKey) {
-      return `var(${vars}, inherit)`;
-    }
-    const fallbackKey = [prefix, ...keyParts, propName].join('.');
-    return `var(${vars}, var(${getCssVar(options.namePrefix, fallbackKey)}))`;
-  };
   const cssParts = parts.map(part => {
     if (!part.root?.css && !part.light?.css && !part.dark?.css && !part.highContrast?.css) {
       return {};
     }
     const args = {
-      v: (key: string) => varKeySelector(part, key),
+      v: (key: string) => varKeySelector(key),
       c: (className?: string) => `.${getClassName(options.namePrefix, part.scope, className)}`,
       d: (scope: string, className?: string) => {
         return `.${getClassName(options.namePrefix, scope, className)}`;
