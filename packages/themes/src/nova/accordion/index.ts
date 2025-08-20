@@ -14,14 +14,31 @@ export const accordionStyles = createThemePart({
       ${c('panel')} {
         border-bottom: 1px solid ${v('color.surface.200')};
       }
-      ${c('panel-content')} {
-        display: block;
-        padding: ${v('size.padding.md')} ${v('size.padding.xl')};
+      ${c('panel-content-expander')} {
         color: ${v('color.text')};
+        /**
+        * Nice css trick to animate from auto height to 0 without using (currently not well supported) 'interpolate-size'
+        * Source: https://css-tricks.com/css-grid-can-do-auto-height-transitions
+        */
+        display: grid;
+        grid-template-rows: 1fr;
+        overflow: hidden;
+        transition: grid-template-rows 0.2s ease-in-out;
+      }
+      ${c('panel-content')} {
+        min-height: 0;
+        ngn-defer {
+          padding: ${v('size.padding.md')} ${v('size.padding.xl')};
+          display: block;
+        }
+      }
+      ${c('panel-content-expander-collapsed')} {
+        grid-template-rows: 0fr;
       }
       ${c('panel-header')} {
         display: flex;
         cursor: pointer;
+        user-select: none;
         &:hover {
           ${c('panel-header-text')} {
             color: ${v('color.surface.600')};

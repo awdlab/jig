@@ -2,5 +2,12 @@ import { createControlTemplate } from '@ngneers/controls-themes/api';
 
 export const accordionControlTemplate = createControlTemplate({
   scope: 'accordion',
-  classNames: ['panel', 'panel-header', 'panel-header-text', 'panel-content'],
+  classNames: [
+    'panel',
+    'panel-header',
+    'panel-header-text',
+    'panel-content-expander',
+    'panel-content-expander-collapsed',
+    'panel-content',
+  ],
 });

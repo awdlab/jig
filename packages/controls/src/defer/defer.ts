@@ -10,10 +10,11 @@ import { Component, effect, input, signal, TemplateRef } from '@angular/core';
   imports: [NgTemplateOutlet],
   host: {
     '[class.open]': 'open()',
+    '[class.hidden]': '!open() && hiddenOnClosed()',
   },
   styles: [
     `
-      :host:not(.open) {
+      :host.hidden {
         visibility: hidden;
         position: absolute;
         top: -9999px;
@@ -27,6 +28,7 @@ export class NgnDefer {
   public readonly open = input<boolean>(false);
   public readonly lazy = input<boolean>(true);
   public readonly cache = input<boolean>(false);
+  public readonly hiddenOnClosed = input<boolean>(true);
 
   protected readonly hasBeenOpened = signal(false);
 

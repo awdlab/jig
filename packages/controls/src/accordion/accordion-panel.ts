@@ -32,6 +32,7 @@ export class NgnAccordionPanel extends AccordionTemplates {
   protected readonly theme = injectThemeTemplate(accordionControlTemplate);
 
   private readonly _accordionControl = inject(ACCORDION_CONTROL);
+  private _afterTransitionCallback?: () => void;
 
   /**
    * The unique identifier for the accordion panel.
@@ -44,12 +45,14 @@ export class NgnAccordionPanel extends AccordionTemplates {
   public readonly safePanelId = signal<string | null>(null);
   /**
    * Whether to lazily load the content of the panel when opened.
+   * @default false
    */
-  public readonly lazy = input(false);
+  public readonly lazy = input<boolean>();
   /**
    * Whether to cache the content of the panel when {@link lazy} is enabled and the panel is closed.
+   * @default false
    */
-  public readonly cache = input(false);
+  public readonly cache = input<boolean>();
   /**
    * The header text for the accordion panel.
    */
@@ -59,6 +62,8 @@ export class NgnAccordionPanel extends AccordionTemplates {
     this._accordionControl.openedPanels().includes(this.panelId())
   );
 
+  protected readonly afterTransitionOpen = signal<boolean>(false);
+
   protected readonly lazyInt = computed(() => this.lazy() ?? this._accordionControl.lazy());
   protected readonly cacheInt = computed(() => this.cache() ?? this._accordionControl.cache());
 
@@ -66,6 +71,20 @@ export class NgnAccordionPanel extends AccordionTemplates {
     super();
     effect(() => {
       this.safePanelId.set(this.panelId());
+    });
+
+    effect(() => {
+      if (!this.lazyInt() || this.cacheInt()) {
+        return;
+      }
+      if (this.open()) {
+        this.afterTransitionOpen.set(true);
+        this._afterTransitionCallback = undefined;
+      } else {
+        this._afterTransitionCallback = () => {
+          this.afterTransitionOpen.set(false);
+        };
+      }
     });
   }
 
@@ -77,5 +96,9 @@ export class NgnAccordionPanel extends AccordionTemplates {
     if (event.key === 'Enter' || event.key === ' ') {
       this.toggle();
     }
+  }
+
+  protected handleTransitionEnd() {
+    this._afterTransitionCallback?.();
   }
 }

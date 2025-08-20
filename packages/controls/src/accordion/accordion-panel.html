@@ -14,13 +14,25 @@
   }
 </header>
 
-<ngn-defer
-  [ngClass]="theme.class('panel-content')"
-  [lazyContent]="contentTemplate()"
-  [open]="open()"
-  [cache]="cacheInt()"
-  [lazy]="lazyInt()"
-/>
+<div
+  [ngClass]="
+    theme.classes({
+      'panel-content-expander': true,
+      'panel-content-expander-collapsed': !open(),
+    })
+  "
+  (transitionend)="handleTransitionEnd()"
+>
+  <div [ngClass]="theme.class('panel-content')">
+    <ngn-defer
+      [lazyContent]="contentTemplate()"
+      [open]="lazyInt() && !cacheInt() ? afterTransitionOpen() : open()"
+      [hiddenOnClosed]="false"
+      [cache]="cacheInt()"
+      [lazy]="lazyInt()"
+    />
+  </div>
+</div>
 
 <ng-template #defaultHeaderTemplate let-header [ngnTemplate]="templateTypes.header">
   <span

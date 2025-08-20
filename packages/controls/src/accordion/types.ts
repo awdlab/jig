@@ -9,8 +9,8 @@ export type HeaderTemplateType = {
 export type AccordionControl = {
   openedPanels: Signal<string[]>;
   togglePanel: (panelId: string) => void;
-  lazy: Signal<boolean | undefined>;
-  cache: Signal<boolean | undefined>;
+  lazy: Signal<boolean>;
+  cache: Signal<boolean>;
 };
 
 export const ACCORDION_CONTROL = new InjectionToken<AccordionControl>('AccordionControl');
