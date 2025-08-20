@@ -372,3 +372,37 @@ test('multiple', async ({ page }, testInfo) => {
   await select.close();
   await expectScreenshot(page, testInfo, 'closed');
 });
+
+test('invalid', async ({ page }, testInfo) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+      <ngn-select style="width: 200px;" [invalid]="inputs().invalid" [options]="inputs().options" [popoverOptions]="inputs().popoverOptions" />
+    `,
+      imports: ['select'],
+    },
+    {
+      inputs: {
+        options: exampleData.items.flatPreformatted,
+        popoverOptions: <PopoverOptions>{ sizeConstraints: { maxHeight: '300px' } },
+        invalid: true,
+      },
+    }
+  );
+
+  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+
+  await select.expectOpened(false);
+  await expectScreenshot(page, testInfo, 'invalid');
+  await select.open();
+  const listBox = select.listBox;
+  const scroller = listBox.scroller;
+  await expectScreenshot(page, testInfo, 'invalid-open');
+  await scroller.clickItemByText(exampleData.items.flatPreformatted[0].label);
+  await expectScreenshot(page, testInfo, 'invalid-selected');
+  handle.setInputs({
+    invalid: false,
+  });
+  await expectScreenshot(page, testInfo, 'valid');
+});
