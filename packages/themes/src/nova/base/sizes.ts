@@ -13,11 +13,7 @@ export const sizesTemplate = createVariableTemplate({
       sm: null,
       md: null,
       lg: null,
-    },
-    gap: {
-      sm: null,
-      md: null,
-      lg: null,
+      xl: null,
     },
   },
 });
@@ -36,7 +32,8 @@ export const sizes = createThemePart({
       padding: {
         sm: '0.25rem',
         md: '0.5rem',
-        lg: '1rem',
+        lg: '0.75rem',
+        xl: '1rem',
       },
     },
   },

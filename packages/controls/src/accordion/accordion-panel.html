@@ -1,0 +1,32 @@
+<header
+  [ngClass]="theme.class('panel-header')"
+  tabindex="0"
+  (click)="toggle()"
+  (keydown)="handleKeydown($event)"
+>
+  @if (headerTemplate()) {
+    <ng-container
+      *ngTemplateOutlet="
+        headerTemplate();
+        context: { $implicit: { panelId: panelId(), text: header() } }
+      "
+    ></ng-container>
+  }
+</header>
+
+<ngn-defer
+  [ngClass]="theme.class('panel-content')"
+  [lazyContent]="contentTemplate()"
+  [open]="open()"
+  [cache]="cacheInt()"
+  [lazy]="lazyInt()"
+/>
+
+<ng-template #defaultHeaderTemplate let-header [ngnTemplate]="templateTypes.header">
+  <span
+    [ngClass]="theme.class('panel-header-text')"
+    [attr.data-testid]="'accordion-header-' + header.panelId"
+  >
+    {{ header.text }}
+  </span>
+</ng-template>
