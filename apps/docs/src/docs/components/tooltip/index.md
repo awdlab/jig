@@ -18,3 +18,7 @@ sizing options.
 ## Show Only If Truncated
 
 {{ NgDocActions.demo("Demo_Tooltip_ShowOnlyIfTruncated") }}
+
+## Arrow Options
+
+{{ NgDocActions.demo("Demo_Tooltip_Arrow") }}

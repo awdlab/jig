@@ -32,10 +32,60 @@ export const tooltipStyles = createThemePart({
         color: ${v('color.surface.50')};
         border-radius: ${v('size.rounded.md')};
         padding: ${v('size.padding.md')};
+        position: relative;
       }
 
       ${c('text')} {
         pointer-events: none;
+      }
+
+      ${c('with-arrow')} {
+        --arrow-width: 16px;
+
+        &::before {
+          content: '';
+          background: ${v('color.surface.950')};
+          position: absolute;
+          clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+          width: var(--arrow-width);
+          height: var(--arrow-width);
+        }
+
+        &${c('left')} {
+          margin-right: calc(var(--arrow-width) / 2);
+          &::before {
+            right: calc(var(--arrow-width) / -2);
+            top: var(--anchor-center);
+            transform: translateY(-50%);
+          }
+        }
+
+        &${c('right')} {
+          margin-left: calc(var(--arrow-width) / 2);
+          &::before {
+            left: calc(var(--arrow-width) / -2);
+            top: var(--anchor-center);
+            transform: translateY(-50%);
+          }
+        }
+
+        &${c('top')} {
+          margin-bottom: calc(var(--arrow-width) / 2);
+          &::before {
+            bottom: calc(var(--arrow-width) / -2);
+            left: var(--anchor-center);
+            transform: translateX(-50%);
+          }
+        }
+
+        &${c('bottom')} {
+          margin-top: calc(var(--arrow-width) / 2);
+          &::before {
+            top: calc(var(--arrow-width) / -2);
+            left: var(--anchor-center);
+            transform: translateX(-50%);
+          }
+        }
       }
 
       ${c()}:popover-open {

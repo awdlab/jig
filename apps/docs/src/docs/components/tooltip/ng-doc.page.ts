@@ -1,5 +1,6 @@
 import { NgDocPage } from '@ng-doc/core';
 
+import { Demo_Tooltip_Arrow } from '../../../app/demos/tooltip/arrow';
 import { Demo_Tooltip_Base } from '../../../app/demos/tooltip/base';
 import { Demo_Tooltip_Placement } from '../../../app/demos/tooltip/placement';
 import { Demo_Tooltip_ShowOnlyIfTruncated } from '../../../app/demos/tooltip/show-only-if-truncated';
@@ -13,6 +14,7 @@ const TooltipPage: NgDocPage = {
     Demo_Tooltip_Base,
     Demo_Tooltip_Placement,
     Demo_Tooltip_ShowOnlyIfTruncated,
+    Demo_Tooltip_Arrow,
   },
 };
 

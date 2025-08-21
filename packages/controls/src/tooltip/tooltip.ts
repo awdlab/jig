@@ -28,6 +28,11 @@ import { getTimeSpanMilliseconds, notNullish, TimeSpan } from '@ngneers/controls
 import { computedWithPrevious } from '@ngneers/controls/utils-ng';
 import { tooltipControlTemplate } from '@ngneers/controls-themes/templates/tooltip';
 
+import {
+  relativeAnchorElementPosition,
+  RelativeAnchorElementPositionData,
+} from './relative-anchor-element-position';
+
 /**
  * @category control
  */
@@ -105,6 +110,14 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   public readonly styleClass = input<string | null | undefined>(undefined, {
     alias: 'ngnTooltipStyleClass',
   });
+  /**
+   * Whether to show an arrow pointing to the anchor element. `""` is equivalent to `true`.
+   * @alias ngnTooltipShowArrow
+   * @defaultValue `true`
+   */
+  public readonly showArrow = input<boolean | ''>(this._config.defaults.tooltip.showArrow, {
+    alias: 'ngnTooltipShowArrow',
+  });
 
   constructor() {
     super();
@@ -134,6 +147,9 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
     });
     effect(() => {
       if (this._tooltip) this._tooltip.setInput('styleClass', this.styleClass());
+    });
+    effect(() => {
+      if (this._tooltip) this._tooltip.setInput('showArrow', this.showArrow());
     });
   }
 
@@ -170,6 +186,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
       this._tooltip.setInput('hideDelay', this.hideDelay());
       this._tooltip.setInput('showOnlyIfTruncated', this.showOnlyIfTruncated());
       this._tooltip.setInput('styleClass', this.styleClass());
+      this._tooltip.setInput('showArrow', this.showArrow());
       this.updateContent(this._tooltip);
     }
     return this._tooltip?.instance;
@@ -192,7 +209,10 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   templateUrl: './tooltip.html',
   imports: [NgClass, NgnDefer],
   host: {
-    '[class]': `[theme.class(), positionClass(), styleClass() ?? '']`,
+    '[class]': `[theme.class(), showArrow() !== false ? theme.class('with-arrow') : '', positionClass(), styleClass() ?? ''].join(' ')`,
+    '[style.--anchor-start]': `toPixels(relativeAnchorElementPosition()?.start)`,
+    '[style.--anchor-center]': `toPixels(relativeAnchorElementPosition()?.center)`,
+    '[style.--anchor-end]': `toPixels(relativeAnchorElementPosition()?.end)`,
     '[attr.popover]': `''`,
     '(toggle)': 'onToggle($event)',
     '(mouseenter)': 'show(true)',
@@ -253,6 +273,10 @@ export class TooltipComponent extends NgnBase {
    * This can be used to apply custom styles to the tooltip.
    */
   public readonly styleClass = input<string | null>();
+  /**
+   * Whether to show an arrow pointing to the anchor element.
+   */
+  public readonly showArrow = input<boolean | ''>(this._config.defaults.tooltip.showArrow);
 
   protected readonly showDelayMs = computed(() => getTimeSpanMilliseconds(this.showDelay()));
   protected readonly hideDelayMs = computed(() => getTimeSpanMilliseconds(this.hideDelay()));
@@ -260,6 +284,9 @@ export class TooltipComponent extends NgnBase {
   private readonly _isShown = signal(false);
   protected readonly isShown = this._isShown.asReadonly();
   protected readonly positionClass = signal<string>('');
+  protected readonly relativeAnchorElementPosition = signal<
+    RelativeAnchorElementPositionData | undefined
+  >(undefined);
 
   private readonly _defaultContentTemplate =
     viewChild.required<TemplateRef<unknown>>('defaultContentTemplate');
@@ -280,14 +307,17 @@ export class TooltipComponent extends NgnBase {
       sizeConstraints: this.size() ?? undefined,
       placement: this.placement(),
       offset: this.offset(),
-      strategy: 'fixed',
-      onPositionChange: ({ placement }) =>
+      middleware: [relativeAnchorElementPosition],
+      onPositionChange: ({ placement, middlewareData }) => {
+        this.relativeAnchorElementPosition.set(middlewareData[relativeAnchorElementPosition.name]);
         this.positionClass.set(
           splitPlacement(placement)
             .filter(notNullish)
             .map(x => this.theme.class(x))
             .join(' ')
-        ),
+        );
+        console.log(this.positionClass());
+      },
     });
   });
 
@@ -345,6 +375,10 @@ export class TooltipComponent extends NgnBase {
       this._isShown.set(true);
       this._autoPos()?.start();
     }
+  }
+
+  protected toPixels(value: number | undefined): string | undefined {
+    return value !== undefined ? `${value}px` : undefined;
   }
 }
 

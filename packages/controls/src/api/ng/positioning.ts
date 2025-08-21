@@ -5,6 +5,7 @@ import {
   computePosition,
   ComputePositionReturn,
   flip,
+  Middleware,
   offset,
   Placement,
   shift,
@@ -48,6 +49,7 @@ export type PositioningOptions = {
   stopped?: boolean;
   sizeConstraints?: PositioningSizeConstraints;
   strategy?: Strategy;
+  middleware?: Middleware[];
   onPositionChange?: (position: ComputePositionReturn) => void;
 };
 
@@ -57,7 +59,10 @@ export type AutoPositioningHandle = {
   isRunning: () => boolean;
 };
 
-function mergeWithDefaults(options: PositioningOptions): PositioningOptions {
+function mergeWithDefaults(
+  options: PositioningOptions,
+  floatingEl: HTMLElement
+): PositioningOptions {
   return {
     placement: 'bottom',
     flip: true,
@@ -65,6 +70,10 @@ function mergeWithDefaults(options: PositioningOptions): PositioningOptions {
     shift: true,
     offset: 4,
     stopped: false,
+    strategy:
+      (options.strategy ?? getComputedStyle(floatingEl).position === 'fixed')
+        ? 'fixed'
+        : 'absolute',
     ...options,
   };
 }
@@ -74,7 +83,7 @@ export function positionElement(
   floatingEl: HTMLElement,
   options: PositioningOptions = {}
 ) {
-  options = mergeWithDefaults(options);
+  options = mergeWithDefaults(options, floatingEl);
 
   const flipMiddleware = options.flip
     ? flip(options.shift ? { crossAxis: 'alignment' } : undefined)
@@ -136,6 +145,7 @@ export function positionElement(
             },
           })
         : undefined,
+      ...(options.middleware || []),
     ].filter(Boolean),
   }).then(pos => {
     Object.assign(floatingEl.style, {
@@ -151,7 +161,7 @@ export function autoPositionElement(
   floatingEl: HTMLElement,
   options: PositioningOptions = {}
 ): AutoPositioningHandle {
-  options = mergeWithDefaults(options);
+  options = mergeWithDefaults(options, floatingEl);
 
   let cleanup: (() => void) | undefined;
   const destroyRef = options.injector?.get(DestroyRef) ?? inject(DestroyRef);

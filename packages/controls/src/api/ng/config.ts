@@ -27,6 +27,7 @@ export type NgnConfig = {
       readonly offset: number;
       readonly showDelay: TimeSpan;
       readonly hideDelay: TimeSpan;
+      readonly showArrow: boolean;
     };
   };
 };
@@ -63,6 +64,7 @@ export function provideNgnConfig(config?: NgnConfigInit): Provider {
             offset: 4,
             showDelay: '0.5s',
             hideDelay: '0.1s',
+            showArrow: true,
           },
         },
       } satisfies NgnConfig,
