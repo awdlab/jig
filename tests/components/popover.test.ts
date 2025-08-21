@@ -28,7 +28,9 @@ test('lazy', async ({ page }, testInfo) => {
       <button #anchor (click)="popover.open()">Open</button>
       <ngn-popover #popover [anchor]="anchor" [options]="{ cache: true }">
         <ng-template #lazy>
-          <dummy></dummy>
+          <dummy>
+            Content
+          </dummy>
         </ng-template>
       </ngn-popover>
     `,

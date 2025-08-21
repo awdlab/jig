@@ -1,4 +1,8 @@
 export const IMPORTS = {
+  accordion: () =>
+    import('@ngneers/controls/accordion').then((m) => m.NgnAccordion),
+  accordionPanel: () =>
+    import('@ngneers/controls/accordion').then((m) => m.NgnAccordionPanel),
   avatar: () => import('@ngneers/controls/avatar').then((m) => m.NgnAvatar),
   avatarGroup: () =>
     import('@ngneers/controls/avatar').then((m) => m.NgnAvatarGroup),

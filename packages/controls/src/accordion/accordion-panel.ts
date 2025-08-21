@@ -41,7 +41,7 @@ export class NgnAccordionPanel extends AccordionTemplates {
    */
   public readonly panelId = input<string>(generateElementId());
   /**
-   * Whether to lazily load the content of the panel when opened.
+   * Whether to lazily load the content of the panel when expanded.
    * @default false
    */
   public readonly lazy = input<boolean>();
@@ -56,7 +56,7 @@ export class NgnAccordionPanel extends AccordionTemplates {
   public readonly header = input<string>();
   /**
    * Whether the accordion panel is disabled. Disabling will prevent user interaction,
-   * but not automatically close the panel if it was already open, or is opened programatically.
+   * but not automatically close the panel if it was already expanded, or is expanded programatically.
    * @default false
    */
   public readonly disabled = input<boolean>(false);
@@ -64,14 +64,14 @@ export class NgnAccordionPanel extends AccordionTemplates {
   protected readonly iconExpanded = this._accordionControl.iconExpanded;
   protected readonly iconCollapsed = this._accordionControl.iconCollapsed;
 
-  protected readonly open = computed(() =>
-    this._accordionControl.openedPanels().includes(this.panelId())
+  protected readonly expanded = computed(() =>
+    this._accordionControl.expandedPanels().includes(this.panelId())
   );
 
   protected readonly headerId = computed(() => `${this.panelId()}-accordionpanel-header`);
   protected readonly contentId = computed(() => `${this.panelId()}-accordionpanel-content`);
 
-  protected readonly afterTransitionOpen = signal<boolean>(false);
+  protected readonly afterTransitionExpanded = signal<boolean>(false);
 
   protected readonly lazyInt = computed(() => this.lazy() ?? this._accordionControl.lazy());
   protected readonly cacheInt = computed(() => this.cache() ?? this._accordionControl.cache());
@@ -82,19 +82,19 @@ export class NgnAccordionPanel extends AccordionTemplates {
       if (!this.lazyInt() || this.cacheInt()) {
         return;
       }
-      if (this.open()) {
-        this.afterTransitionOpen.set(true);
+      if (this.expanded()) {
+        this.afterTransitionExpanded.set(true);
         this._afterTransitionCallback = undefined;
       } else {
         this._afterTransitionCallback = () => {
-          this.afterTransitionOpen.set(false);
+          this.afterTransitionExpanded.set(false);
         };
       }
     });
   }
 
   /**
-   * Toggles the open state of the accordion panel.
+   * Toggles the expanded state of the accordion panel.
    */
   public toggle() {
     this._accordionControl.togglePanel(this.panelId());

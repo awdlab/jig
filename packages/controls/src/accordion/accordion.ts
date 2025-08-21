@@ -23,7 +23,7 @@ import { ACCORDION_CONTROL, AccordionControl } from './types';
       deps: [NgnAccordion],
       useFactory: (accordion: NgnAccordion) =>
         <AccordionControl>{
-          openedPanels: accordion.openedPanels,
+          expandedPanels: accordion.expandedPanels,
           togglePanel: accordion.togglePanel.bind(accordion),
           lazy: accordion.lazy,
           cache: accordion.cache,
@@ -39,26 +39,26 @@ export class NgnAccordion extends NgnBase {
   public readonly lazy = input(false);
 
   /**
-   * Whether multiple panels can be opened at once.
+   * Whether multiple panels can be expanded at once.
    */
   public readonly iconExpanded = input<IconType>();
   public readonly iconCollapsed = input<IconType>();
   public readonly multiple = input<boolean>(false);
-  public readonly openedPanels = model<string[]>([]);
+  public readonly expandedPanels = model<string[]>([]);
 
   public togglePanel(panelId: string) {
     if (!this.multiple()) {
-      if (this.openedPanels().includes(panelId)) {
-        this.openedPanels.set([]);
+      if (this.expandedPanels().includes(panelId)) {
+        this.expandedPanels.set([]);
         return;
       }
-      this.openedPanels.set([panelId]);
+      this.expandedPanels.set([panelId]);
       return;
     }
-    if (this.openedPanels().includes(panelId)) {
-      this.openedPanels.update(panels => panels.filter(id => id !== panelId));
+    if (this.expandedPanels().includes(panelId)) {
+      this.expandedPanels.update(panels => panels.filter(id => id !== panelId));
     } else {
-      this.openedPanels.update(panels => [...panels, panelId]);
+      this.expandedPanels.update(panels => [...panels, panelId]);
     }
   }
 

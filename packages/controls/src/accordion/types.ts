@@ -9,7 +9,7 @@ export type HeaderTemplateType = {
   };
 };
 export type AccordionControl = {
-  openedPanels: Signal<string[]>;
+  expandedPanels: Signal<string[]>;
   togglePanel: (panelId: string) => void;
   lazy: Signal<boolean>;
   cache: Signal<boolean>;

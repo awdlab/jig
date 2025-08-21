@@ -8,7 +8,7 @@
     "
     [id]="headerId()"
     [disabled]="disabled()"
-    [ariaExpanded]="open()"
+    [ariaExpanded]="expanded()"
     (click)="toggle()"
     [attr.aria-controls]="contentId()"
   >
@@ -16,13 +16,13 @@
       <ng-container
         *ngTemplateOutlet="
           headerTemplate();
-          context: { $implicit: { panelId: panelId(), text: header(), expanded: open() } }
+          context: { $implicit: { panelId: panelId(), text: header(), expanded: expanded() } }
         "
       ></ng-container>
     }
     <ngn-icon
-      [defaultIcon]="open() ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"
-      [icon]="open() ? iconExpanded() : iconCollapsed()"
+      [defaultIcon]="expanded() ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"
+      [icon]="expanded() ? iconExpanded() : iconCollapsed()"
     />
   </button>
 </header>
@@ -31,7 +31,7 @@
   [ngClass]="
     theme.classes({
       'panel-content-expander': true,
-      'panel-content-expander-collapsed': !open(),
+      'panel-content-expander-collapsed': !expanded(),
     })
   "
   (transitionend)="handleTransitionEnd()"
@@ -40,12 +40,12 @@
     [ngClass]="theme.class('panel-content')"
     [id]="contentId()"
     [attr.aria-labelledby]="headerId()"
-    [attr.aria-hidden]="!open()"
+    [attr.aria-hidden]="!expanded()"
     role="region"
   >
     <ngn-defer
       [lazyContent]="contentTemplate()"
-      [open]="lazyInt() && !cacheInt() ? afterTransitionOpen() : open()"
+      [open]="lazyInt() && !cacheInt() ? afterTransitionExpanded() : expanded()"
       [hiddenOnClosed]="false"
       [cache]="cacheInt()"
       [lazy]="lazyInt()"

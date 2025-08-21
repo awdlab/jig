@@ -176,6 +176,7 @@ async function convertControl(control: DeclarationReflection) {
         return 0;
       });
     }
+    // TypeDoc only generates a default value column for the @defaultValue tag
     const tag = prop.comment?.blockTags.find(tag => tag.tag === '@default');
     if (tag) {
       tag.tag = '@defaultValue';
