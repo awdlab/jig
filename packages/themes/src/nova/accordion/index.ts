@@ -28,7 +28,10 @@ export const accordionStyles = createThemePart({
       ${c('panel-content')} {
         min-height: 0;
         ngn-defer {
-          padding: ${v('size.padding.md')} ${v('size.padding.xl')};
+          padding-top: 0;
+          padding-bottom: ${v('size.padding.md')};
+          padding-left: ${v('size.padding.xl')};
+          padding-right: ${v('size.padding.xl')};
           display: block;
         }
       }
@@ -37,6 +40,10 @@ export const accordionStyles = createThemePart({
       }
       ${c('panel-header')} {
         display: flex;
+        width: 100%;
+        background: transparent;
+        border: none;
+        padding: 0;
         align-items: center;
         justify-content: space-between;
         cursor: pointer;
@@ -62,6 +69,11 @@ export const accordionStyles = createThemePart({
           ngn-icon {
             color: ${v('color.text')};
           }
+        }
+      }
+      ${c('panel-header-disabled')} {
+        ${c('panel-header-text')} {
+          color: ${v('color.surface.300')};
         }
       }
       ${c('panel-header-text')} {

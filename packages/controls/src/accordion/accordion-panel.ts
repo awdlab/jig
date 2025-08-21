@@ -41,10 +41,6 @@ export class NgnAccordionPanel extends AccordionTemplates {
    */
   public readonly panelId = input<string>(generateElementId());
   /**
-   * Useful for accessing the {@link panelId} in a safe way, without worrying about timing.
-   */
-  public readonly safePanelId = signal<string | null>(null);
-  /**
    * Whether to lazily load the content of the panel when opened.
    * @default false
    */
@@ -58,6 +54,12 @@ export class NgnAccordionPanel extends AccordionTemplates {
    * The header text for the accordion panel.
    */
   public readonly header = input<string>();
+  /**
+   * Whether the accordion panel is disabled. Disabling will prevent user interaction,
+   * but not automatically close the panel if it was already open, or is opened programatically.
+   * @default false
+   */
+  public readonly disabled = input<boolean>(false);
 
   protected readonly iconExpanded = this._accordionControl.iconExpanded;
   protected readonly iconCollapsed = this._accordionControl.iconCollapsed;
@@ -66,6 +68,9 @@ export class NgnAccordionPanel extends AccordionTemplates {
     this._accordionControl.openedPanels().includes(this.panelId())
   );
 
+  protected readonly headerId = computed(() => `${this.panelId()}-accordionpanel-header`);
+  protected readonly contentId = computed(() => `${this.panelId()}-accordionpanel-content`);
+
   protected readonly afterTransitionOpen = signal<boolean>(false);
 
   protected readonly lazyInt = computed(() => this.lazy() ?? this._accordionControl.lazy());
@@ -73,10 +78,6 @@ export class NgnAccordionPanel extends AccordionTemplates {
 
   constructor() {
     super();
-    effect(() => {
-      this.safePanelId.set(this.panelId());
-    });
-
     effect(() => {
       if (!this.lazyInt() || this.cacheInt()) {
         return;
@@ -92,17 +93,14 @@ export class NgnAccordionPanel extends AccordionTemplates {
     });
   }
 
+  /**
+   * Toggles the open state of the accordion panel.
+   */
   public toggle() {
     this._accordionControl.togglePanel(this.panelId());
   }
-
-  public handleKeydown(event: KeyboardEvent) {
-    if (event.key === 'Enter' || event.key === ' ') {
-      this.toggle();
-    }
-  }
-
   protected handleTransitionEnd() {
     this._afterTransitionCallback?.();
+    this._afterTransitionCallback = undefined;
   }
 }

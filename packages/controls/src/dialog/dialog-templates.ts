@@ -6,6 +6,10 @@ export abstract class DialogTemplates {
   private readonly _defaultHeaderTemplate =
     viewChild.required<TemplateRef<unknown>>('defaultHeaderTemplate');
   private readonly _userHeaderTemplate = contentChild<TemplateRef<unknown>>('header');
+  /**
+   * Set a custom template for the header of the dialog.
+   * Can also be set using an `<ng-template>` element with `#header` template reference variable.
+   */
   public readonly templateHeader = input<TemplateRef<unknown> | null>(null);
   protected readonly headerTemplate = computed(
     () => this._userHeaderTemplate() ?? this.templateHeader() ?? this._defaultHeaderTemplate()
@@ -14,6 +18,10 @@ export abstract class DialogTemplates {
   private readonly _defaultFooterTemplate =
     viewChild.required<TemplateRef<unknown>>('defaultFooterTemplate');
   private readonly _userFooterTemplate = contentChild<TemplateRef<unknown>>('footer');
+  /**
+   * Set a custom template for the footer of the dialog.
+   * Can also be set using an `<ng-template>` element with `#footer` template reference variable.
+   */
   public readonly templateFooter = input<TemplateRef<unknown> | null>(null);
   protected readonly footerTemplate = computed(
     () => this._userFooterTemplate() ?? this.templateFooter() ?? this._defaultFooterTemplate()

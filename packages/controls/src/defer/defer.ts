@@ -11,6 +11,7 @@ import { Component, effect, input, signal, TemplateRef } from '@angular/core';
   host: {
     '[class.open]': 'open()',
     '[class.hidden]': '!open() && hiddenOnClosed()',
+    '[attr.aria-hidden]': '!open()',
   },
   styles: [
     `

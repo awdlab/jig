@@ -18,6 +18,7 @@ export abstract class CalendarTemplates extends ValueControlBase<Date | null> {
     contentChild<TemplateRef<typeof this.templateTypes.day>>('day');
   /**
    * Set a custom template for a day.
+   * Can also be set using an `<ng-template>` element with `#day` template reference variable.
    */
   public readonly templateDay = input<TemplateRef<typeof this.templateTypes.day> | null>(null);
   protected readonly dayTemplate = computed(
@@ -30,6 +31,7 @@ export abstract class CalendarTemplates extends ValueControlBase<Date | null> {
     contentChild<TemplateRef<typeof this.templateTypes.weekDay>>('weekDay');
   /**
    * Set a custom template for a week day.
+   * Can also be set using an `<ng-template>` element with `#weekDay` template reference variable.
    */
   public readonly templateWeekDay = input<TemplateRef<typeof this.templateTypes.weekDay> | null>(
     null
@@ -44,6 +46,7 @@ export abstract class CalendarTemplates extends ValueControlBase<Date | null> {
     contentChild<TemplateRef<typeof this.templateTypes.month>>('month');
   /**
    * Set a custom template for a month.
+   * Can also be set using an `<ng-template>` element with `#month` template reference variable.
    */
   public readonly templateMonth = input<TemplateRef<typeof this.templateTypes.month> | null>(null);
   protected readonly monthTemplate = computed(
@@ -56,6 +59,7 @@ export abstract class CalendarTemplates extends ValueControlBase<Date | null> {
     contentChild<TemplateRef<typeof this.templateTypes.time>>('time');
   /**
    * Set a custom template for the time input.
+   * Can also be set using an `<ng-template>` element with `#time` template reference variable.
    */
   public readonly templateTime = input<TemplateRef<typeof this.templateTypes.time> | null>(null);
   protected readonly timeTemplate = computed(
@@ -68,6 +72,7 @@ export abstract class CalendarTemplates extends ValueControlBase<Date | null> {
     contentChild<TemplateRef<typeof this.templateTypes.year>>('year');
   /**
    * Set a custom template for the year input.
+   * Can also be set using an `<ng-template>` element with `#year` template reference variable.
    */
   public readonly templateYear = input<TemplateRef<typeof this.templateTypes.year> | null>(null);
   protected readonly yearTemplate = computed(

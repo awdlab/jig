@@ -28,6 +28,10 @@ export abstract class SelectTemplates<
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');
   private readonly _userItemTemplate =
     contentChild<TemplateRef<typeof this.templateTypes.item>>('item');
+  /**
+   * Set a custom template for an item of the select control.
+   * Can also be set using an `<ng-template>` element with `#item` template reference variable.
+   */
   public readonly templateItem = input<TemplateRef<typeof this.templateTypes.item> | null>(null);
   protected readonly itemTemplate = computed(
     () => this._userItemTemplate() ?? this.templateItem() ?? this._defaultItemTemplate()
@@ -39,6 +43,10 @@ export abstract class SelectTemplates<
   >('defaultSelectedItemTemplate');
   private readonly _userSelectedItemTemplate =
     contentChild<TemplateRef<typeof this.templateTypes.item>>('selectedItem');
+  /**
+   * Set a custom template for the selected item of the select control.
+   * Can also be set using an `<ng-template>` element with `#selectedItem` template reference variable.
+   */
   public readonly templateSelectedItem = input<TemplateRef<typeof this.templateTypes.item> | null>(
     null
   );
@@ -55,6 +63,10 @@ export abstract class SelectTemplates<
   >('defaultSelectedItemsTemplate');
   private readonly _userSelectedItemsTemplate =
     contentChild<TemplateRef<typeof this.templateTypes.selectedItems>>('selectedItems');
+  /**
+   * Set a custom template for the selected items of the select control if {@link multiple} is `true`.
+   * Can also be set using an `<ng-template>` element with `#selectedItems` template reference variable.
+   */
   public readonly templateSelectedItems = input<TemplateRef<
     typeof this.templateTypes.selectedItems
   > | null>(null);
@@ -70,6 +82,10 @@ export abstract class SelectTemplates<
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultGroupTemplate');
   private readonly _userGroupTemplate =
     contentChild<TemplateRef<typeof this.templateTypes.item>>('group');
+  /**
+   * Set a custom template for a group in the select control.
+   * Can also be set using an `<ng-template>` element with `#group` template reference variable.
+   */
   public readonly templateGroup = input<TemplateRef<typeof this.templateTypes.item> | null>(null);
   protected readonly groupTemplate = computed(
     () => this._userGroupTemplate() ?? this.templateGroup() ?? this._defaultGroupTemplate()
@@ -79,6 +95,10 @@ export abstract class SelectTemplates<
   private readonly _defaultNoItemsTemplate =
     viewChild.required<TemplateRef<null>>('defaultNoItemsTemplate');
   private readonly _userNoItemsTemplate = contentChild<TemplateRef<null>>('noItems');
+  /**
+   * Set a custom template for the no items state of the select control.
+   * Can also be set using an `<ng-template>` element with `#noItems` template reference variable.
+   */
   public readonly templateNoItems = input<TemplateRef<null> | null>(null);
   protected readonly noItemsTemplate = computed(
     () => this._userNoItemsTemplate() ?? this.templateNoItems() ?? this._defaultNoItemsTemplate()

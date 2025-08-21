@@ -1,21 +1,30 @@
-<header
-  [ngClass]="theme.class('panel-header')"
-  tabindex="0"
-  (click)="toggle()"
-  (keydown)="handleKeydown($event)"
->
-  @if (headerTemplate()) {
-    <ng-container
-      *ngTemplateOutlet="
-        headerTemplate();
-        context: { $implicit: { panelId: panelId(), text: header(), expanded: open() } }
-      "
-    ></ng-container>
-  }
-  <ngn-icon
-    [defaultIcon]="open() ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"
-    [icon]="open() ? iconExpanded() : iconCollapsed()"
-  />
+<header>
+  <button
+    [ngClass]="
+      theme.classes({
+        'panel-header': true,
+        'panel-header-disabled': disabled(),
+      })
+    "
+    [id]="headerId()"
+    [ariaDisabled]="disabled()"
+    [ariaExpanded]="open()"
+    (click)="toggle()"
+    [attr.aria-controls]="contentId()"
+  >
+    @if (headerTemplate()) {
+      <ng-container
+        *ngTemplateOutlet="
+          headerTemplate();
+          context: { $implicit: { panelId: panelId(), text: header(), expanded: open() } }
+        "
+      ></ng-container>
+    }
+    <ngn-icon
+      [defaultIcon]="open() ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"
+      [icon]="open() ? iconExpanded() : iconCollapsed()"
+    />
+  </button>
 </header>
 
 <div
@@ -27,7 +36,13 @@
   "
   (transitionend)="handleTransitionEnd()"
 >
-  <div [ngClass]="theme.class('panel-content')">
+  <div
+    [ngClass]="theme.class('panel-content')"
+    [id]="contentId()"
+    [attr.aria-labelledby]="headerId()"
+    [attr.aria-hidden]="!open()"
+    role="region"
+  >
     <ngn-defer
       [lazyContent]="contentTemplate()"
       [open]="lazyInt() && !cacheInt() ? afterTransitionOpen() : open()"
@@ -39,10 +54,7 @@
 </div>
 
 <ng-template #defaultHeaderTemplate let-header [ngnTemplate]="templateTypes.header">
-  <span
-    [ngClass]="theme.class('panel-header-text')"
-    [attr.data-testid]="'accordion-header-' + header.panelId"
-  >
+  <span [ngClass]="theme.class('panel-header-text')">
     {{ header.text }}
   </span>
 </ng-template>

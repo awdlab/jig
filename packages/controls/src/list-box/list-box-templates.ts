@@ -22,6 +22,10 @@ export abstract class ListBoxTemplates<
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');
   private readonly _userItemTemplate =
     contentChild<TemplateRef<typeof this.templateTypes.item>>('item');
+  /**
+   * Set a custom template for an item of the list box.
+   * Can also be set using an `<ng-template>` element with `#item` template reference variable.
+   */
   public readonly templateItem = input<TemplateRef<typeof this.templateTypes.item> | null>(null);
   protected readonly itemTemplate = computed(
     () => this._userItemTemplate() ?? this.templateItem() ?? this._defaultItemTemplate()
@@ -31,6 +35,10 @@ export abstract class ListBoxTemplates<
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultGroupTemplate');
   private readonly _userGroupTemplate =
     contentChild<TemplateRef<typeof this.templateTypes.item>>('group');
+  /**
+   * Set a custom template for a group in the list box.
+   * Can also be set using an `<ng-template>` element with `#group` template reference variable.
+   */
   public readonly templateGroup = input<TemplateRef<typeof this.templateTypes.item> | null>(null);
   protected readonly groupTemplate = computed(
     () => this._userGroupTemplate() ?? this.templateGroup() ?? this._defaultGroupTemplate()
