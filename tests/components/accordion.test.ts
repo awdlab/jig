@@ -1,5 +1,5 @@
 import test, { expect, Page } from '@playwright/test';
-import { loadComponent } from '../helper/load-component';
+import { expectOutput, loadComponent } from '../helper/load-component';
 import { exampleData } from '../helper/data';
 import { InputsType } from 'apps/test-wrapper/src/app/window';
 import { NgnAccordionHarness } from 'packages/playwright/src/components/accordion';
@@ -121,7 +121,7 @@ test('lazy', async ({ page }, testInfo) => {
   const accordion = new NgnAccordionHarness(page.locator('ngn-accordion'));
   await accordion.expectPanelCount(3);
 
-  expect((await handle.getOutputLog())['constructorCalled']).toEqual(['panel1']); // panel1 is loaded eagerly
+  await expectOutput(handle, 'constructorCalled', ['panel1']); // panel1 is loaded eagerly
 
   const panel1 = accordion.getPanelByIndex(0);
   const panel2 = accordion.getPanelByIndex(1);
@@ -131,43 +131,29 @@ test('lazy', async ({ page }, testInfo) => {
   await panel1.expectExpanded(true);
   await panel2.expectExpanded(false);
   await panel3.expectExpanded(false);
-  expect((await handle.getOutputLog())['constructorCalled']).toEqual(['panel1']); // panel1 is still only loaded once
+  await expectOutput(handle, 'constructorCalled', ['panel1']); // panel1 is still only loaded once
 
   await panel2.toggle();
   await panel1.expectExpanded(false);
   await panel2.expectExpanded(true);
   await panel3.expectExpanded(false);
-  expect((await handle.getOutputLog())['constructorCalled']).toEqual(['panel1', 'panel2']); // panel2 is loaded lazily
+  await expectOutput(handle, 'constructorCalled', ['panel1', 'panel2']); // panel2 is loaded lazily
 
   await panel3.toggle();
   await panel1.expectExpanded(false);
   await panel2.expectExpanded(false);
   await panel3.expectExpanded(true);
-  expect((await handle.getOutputLog())['constructorCalled']).toEqual([
-    'panel1',
-    'panel2',
-    'panel3',
-  ]); // panel3 is loaded lazily
+  await expectOutput(handle, 'constructorCalled', ['panel1', 'panel2', 'panel3']); // panel3 is loaded lazily
 
   await panel2.toggle();
   await panel1.expectExpanded(false);
   await panel2.expectExpanded(true);
   await panel3.expectExpanded(false);
-  expect((await handle.getOutputLog())['constructorCalled']).toEqual([
-    'panel1',
-    'panel2',
-    'panel3',
-    'panel2',
-  ]); // panel2 is not cached
+  await expectOutput(handle, 'constructorCalled', ['panel1', 'panel2', 'panel3', 'panel2']); // panel2 is not cached
 
   await panel3.toggle();
   await panel1.expectExpanded(false);
   await panel2.expectExpanded(false);
   await panel3.expectExpanded(true);
-  expect((await handle.getOutputLog())['constructorCalled']).toEqual([
-    'panel1',
-    'panel2',
-    'panel3',
-    'panel2',
-  ]); // panel3 is cached
+  await expectOutput(handle, 'constructorCalled', ['panel1', 'panel2', 'panel3', 'panel2']); // panel3 is cached
 });

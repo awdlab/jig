@@ -1,6 +1,12 @@
 import test, { expect, Page } from '@playwright/test';
 import type { InputsType, OutputsType, TemplateType } from 'apps/test-wrapper/src/app/window';
 
+type Handle = {
+  setInputs: (inputs: InputsType) => Promise<void>;
+  setOutputs: (outputs: OutputsType) => Promise<void>;
+  getOutputLog: () => Promise<Record<string, any[]>>;
+};
+
 export async function loadComponent(
   page: Page,
   template: TemplateType,
@@ -70,4 +76,10 @@ export async function loadComponent(
       getOutputLog: () => getOutputLog(),
     };
   });
+}
+
+export async function expectOutput(handle: Handle, key: string, value: any) {
+  await expect(async () => {
+    expect((await handle.getOutputLog())[key]).toEqual(value);
+  }).toPass();
 }
