@@ -105,6 +105,24 @@ test('expand & collapse', async ({ page }, testInfo) => {
   await panel1.expectExpanded(false);
   await panel2.expectExpanded(true);
   await panel3.expectExpanded(false);
+
+  await handle.setInputs({
+    multiple: true,
+  });
+
+  await panel1.toggle();
+
+  await panel1.expectExpanded(true);
+  await panel2.expectExpanded(true);
+  await panel3.expectExpanded(false);
+
+  await expectScreenshot(page, testInfo, 'multiple');
+
+  await panel2.toggle();
+
+  await panel1.expectExpanded(true);
+  await panel2.expectExpanded(false);
+  await panel3.expectExpanded(false);
 });
 
 test('lazy', async ({ page }, testInfo) => {
