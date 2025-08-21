@@ -65,7 +65,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   /**
    * The placement of the tooltip relative to the anchor element.
    * @alias ngnTooltipPlacement
-   * @default `bottom`
+   * @default 'bottom'
    */
   public readonly placement = input<Placement>(this._config.defaults.tooltip.placement, {
     alias: 'ngnTooltipPlacement',
@@ -73,7 +73,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   /**
    * The offset in Pixels of the tooltip from the anchor element.
    * @alias ngnTooltipOffset
-   * @default `4`
+   * @default 4
    */
   public readonly offset = input<number>(this._config.defaults.tooltip.offset, {
     alias: 'ngnTooltipOffset',
@@ -81,7 +81,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   /**
    * The delay before the tooltip is shown. If a number is provided, it is interpreted as milliseconds.
    * @alias ngnTooltipShowDelay
-   * @default `"0.5s"`
+   * @default '0.5s'
    */
   public readonly showDelay = input<TimeSpan>(this._config.defaults.tooltip.showDelay, {
     alias: 'ngnTooltipShowDelay',
@@ -89,7 +89,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   /**
    * The delay before the tooltip is hidden. If a number is provided, it is interpreted as milliseconds.
    * @alias ngnTooltipHideDelay
-   * @default `"0.1s"`
+   * @default '0.1s'
    */
   public readonly hideDelay = input<TimeSpan>(this._config.defaults.tooltip.hideDelay, {
     alias: 'ngnTooltipHideDelay',
@@ -97,7 +97,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   /**
    * If set to `true`, the tooltip will only be shown if the anchor element is truncated. `""` is equivalent to `true`.
    * @alias ngnTooltipShowOnlyIfTruncated
-   * @default `false`
+   * @default false
    */
   public readonly showOnlyIfTruncated = input<boolean | ''>(false, {
     alias: 'ngnTooltipShowOnlyIfTruncated',
@@ -113,7 +113,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   /**
    * Whether to show an arrow pointing to the anchor element. `""` is equivalent to `true`.
    * @alias ngnTooltipShowArrow
-   * @defaultValue `true`
+   * @default true
    */
   public readonly showArrow = input<boolean | ''>(this._config.defaults.tooltip.showArrow, {
     alias: 'ngnTooltipShowArrow',

@@ -164,6 +164,7 @@ async function convertControl(control: DeclarationReflection) {
   }
 
   // Sort null & undefined to the back
+  // & map @default to @defaultValue
   [...inputs, ...outputs, ...publicProps].forEach(prop => {
     if (prop.type instanceof UnionType) {
       prop.type.types.sort((a, b) => {
@@ -174,6 +175,10 @@ async function convertControl(control: DeclarationReflection) {
         }
         return 0;
       });
+    }
+    const tag = prop.comment?.blockTags.find(tag => tag.tag === '@default');
+    if (tag) {
+      tag.tag = '@defaultValue';
     }
   });
 }
