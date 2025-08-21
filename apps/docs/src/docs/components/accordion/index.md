@@ -16,3 +16,7 @@ Display content in an accordion.
 ### Lazy
 
 {{ NgDocActions.demo("Demo_Accordion_Lazy") }}
+
+### Disabled
+
+{{ NgDocActions.demo("Demo_Accordion_Disabled") }}

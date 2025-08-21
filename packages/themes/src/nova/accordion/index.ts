@@ -71,8 +71,12 @@ export const accordionStyles = createThemePart({
           }
         }
       }
-      ${c('panel-header-disabled')} {
+      ${c('panel-header-disabled')}, ${c('panel-header-disabled')}:hover {
+        cursor: default;
         ${c('panel-header-text')} {
+          color: ${v('color.surface.300')};
+        }
+        ngn-icon {
           color: ${v('color.surface.300')};
         }
       }
