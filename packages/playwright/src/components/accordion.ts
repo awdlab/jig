@@ -39,6 +39,10 @@ export class NgnAccordionPanelHarness {
     return expect(this.header).toHaveAttribute('aria-expanded', String(expanded));
   }
 
+  public expectDisabled(disabled = true) {
+    return expect(this.header).toBeDisabled();
+  }
+
   public async toggle() {
     await this.header.click();
     const handle = await this.content.elementHandle();

@@ -33,7 +33,7 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
         [lazy]="inputs().lazy" [cache]="inputs().cache"
       >
         @for(panel of inputs().panels; track panel) {
-          <ngn-accordion-panel [panelId]="panel.id" [header]="panel.header" [lazy]="panel.lazy" [cache]="panel.cache">
+          <ngn-accordion-panel [panelId]="panel.id" [header]="panel.header" [lazy]="panel.lazy" [cache]="panel.cache" [disabled]="panel.disabled">
             <ng-template #content> 
               <dummy [dummyId]="panel.id" (calledConstructor)="output('constructorCalled', $event)">
                 {{ panel.content }}
@@ -123,6 +123,16 @@ test('expand & collapse', async ({ page }, testInfo) => {
   await panel1.expectExpanded(true);
   await panel2.expectExpanded(false);
   await panel3.expectExpanded(false);
+
+  const panels = deepCopy(PANELS) as any[];
+  panels[0].disabled = true;
+  await handle.setInputs({
+    panels,
+  });
+
+  await panel1.expectDisabled();
+
+  await expectScreenshot(page, testInfo, 'disabled');
 });
 
 test('lazy', async ({ page }, testInfo) => {
