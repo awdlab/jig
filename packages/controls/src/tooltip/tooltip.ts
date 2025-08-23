@@ -260,6 +260,8 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
     effect(() => this._tooltip()?.setInput('showOnlyIfTruncated', this.showOnlyIfTruncated()));
     effect(() => this._tooltip()?.setInput('size', this.size()));
     effect(() => this._tooltip()?.setInput('options', this.effectiveOptions()));
+
+    console.log(this.effectiveOptions());
   }
 
   public ngOnDestroy(): void {
@@ -343,6 +345,8 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
     '[style.--anchor-start]': `toPixels(relativeAnchorElementPosition()?.start)`,
     '[style.--anchor-center]': `toPixels(relativeAnchorElementPosition()?.center)`,
     '[style.--anchor-end]': `toPixels(relativeAnchorElementPosition()?.end)`,
+    '[style.left]': `toPixels(position().x)`,
+    '[style.top]': `toPixels(position().y)`,
     '[attr.popover]': `''`,
     '[attr.id]': `id`,
     '[attr.role]': `'tooltip'`,
@@ -398,6 +402,7 @@ export class TooltipComponent extends NgnBase {
     getTimeSpanMilliseconds(this.options().hideDelay)
   );
 
+  protected readonly position = signal<{ x: number; y: number }>({ x: 0, y: 0 });
   protected readonly positionClass = signal<string>('');
   protected readonly relativeAnchorElementPosition = signal<
     RelativeAnchorElementPositionData | undefined
@@ -430,8 +435,10 @@ export class TooltipComponent extends NgnBase {
       placement: this.options().placement,
       offset: this.options().offset,
       middleware: [relativeAnchorElementPosition],
-      onPositionChange: ({ placement, middlewareData }) => {
+      disableSettingStyles: true,
+      onPositionChange: ({ x, y, placement, middlewareData }) => {
         this.relativeAnchorElementPosition.set(middlewareData[relativeAnchorElementPosition.name]);
+        this.position.set({ x, y });
         this.positionClass.set(
           splitPlacement(placement)
             .filter(notNullish)
@@ -453,6 +460,13 @@ export class TooltipComponent extends NgnBase {
         });
       } else {
         document.removeEventListener('keydown', this.onDocumentKeyDown.bind(this));
+      }
+    });
+    effect(() => {
+      if (this.isShown()) {
+        this._autoPos()?.start();
+      } else {
+        this._autoPos()?.stop();
       }
     });
   }
@@ -513,7 +527,6 @@ export class TooltipComponent extends NgnBase {
     }
 
     this._isShown.set(true);
-    this._autoPos()?.start();
     this.element.nativeElement.showPopover();
   }
 
@@ -531,10 +544,8 @@ export class TooltipComponent extends NgnBase {
     const evt = event as ToggleEvent;
     if (evt.newState === 'closed') {
       this._isShown.set(false);
-      this._autoPos()?.stop();
     } else {
       this._isShown.set(true);
-      this._autoPos()?.start();
     }
   }
 

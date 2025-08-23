@@ -50,6 +50,7 @@ export type PositioningOptions = {
   sizeConstraints?: PositioningSizeConstraints;
   strategy?: Strategy;
   middleware?: Middleware[];
+  disableSettingStyles?: boolean;
   onPositionChange?: (position: ComputePositionReturn) => void;
 };
 
@@ -148,10 +149,12 @@ export function positionElement(
       ...(options.middleware || []),
     ].filter(Boolean),
   }).then(pos => {
-    Object.assign(floatingEl.style, {
-      left: `${pos.x}px`,
-      top: `${pos.y}px`,
-    });
+    if (!options.disableSettingStyles) {
+      Object.assign(floatingEl.style, {
+        left: `${pos.x}px`,
+        top: `${pos.y}px`,
+      });
+    }
     options.onPositionChange?.(pos);
   });
 }
