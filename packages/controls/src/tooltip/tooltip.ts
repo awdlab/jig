@@ -4,6 +4,7 @@ import {
   ComponentRef,
   computed,
   Directive,
+  DOCUMENT,
   effect,
   inject,
   input,
@@ -26,7 +27,7 @@ import {
 import { NgnBase } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { getTimeSpanMilliseconds, notNullish, TimeSpan } from '@ngneers/controls/utils';
-import { computedWithPrevious } from '@ngneers/controls/utils-ng';
+import { computedWithPrevious, generateElementId } from '@ngneers/controls/utils-ng';
 import { tooltipControlTemplate } from '@ngneers/controls-themes/templates/tooltip';
 
 import {
@@ -73,7 +74,7 @@ export type TooltipOptions = {
   readonly showOnFocus: boolean;
   /**
    * Hides the tooltip (without delay) when the mouse hovers over the tooltip.
-   * @default true
+   * @default false
    */
   readonly hideOnTooltipHover: boolean;
   /**
@@ -197,7 +198,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   /**
    * Hides the tooltip (without delay) when the mouse hovers over the tooltip.
    * @alias ngnTooltipHideOnTooltipHover
-   * @default true
+   * @default false
    */
   public readonly hideOnTooltipHover = input<boolean | '' | null | undefined>(null, {
     alias: 'ngnTooltipHideOnTooltipHover',
@@ -338,11 +339,13 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   templateUrl: './tooltip.html',
   imports: [NgClass, NgnDefer],
   host: {
-    '[class]': `[theme.class(), options().showArrow !== false ? theme.class('with-arrow') : '', positionClass(), styleClass() ?? ''].join(' ')`,
+    '[class]': `[theme.class(), isClosing() ? theme.class('closing') : '', options().showArrow !== false ? theme.class('with-arrow') : '', positionClass(), styleClass() ?? ''].join(' ')`,
     '[style.--anchor-start]': `toPixels(relativeAnchorElementPosition()?.start)`,
     '[style.--anchor-center]': `toPixels(relativeAnchorElementPosition()?.center)`,
     '[style.--anchor-end]': `toPixels(relativeAnchorElementPosition()?.end)`,
     '[attr.popover]': `''`,
+    '[attr.id]': `id`,
+    '[attr.role]': `'tooltip'`,
     '(toggle)': 'onToggle($event)',
     '(mouseenter)': 'onMouseEnter()',
     '(mouseleave)': 'onMouseLeave()',
@@ -395,12 +398,17 @@ export class TooltipComponent extends NgnBase {
     getTimeSpanMilliseconds(this.options().hideDelay)
   );
 
-  private readonly _isShown = signal(false);
-  protected readonly isShown = this._isShown.asReadonly();
   protected readonly positionClass = signal<string>('');
   protected readonly relativeAnchorElementPosition = signal<
     RelativeAnchorElementPositionData | undefined
   >(undefined);
+
+  private readonly _isShown = signal(false);
+  private readonly _isClosing = signal(false);
+
+  public readonly id = generateElementId();
+  public readonly isShown = this._isShown.asReadonly();
+  public readonly isClosing = this._isClosing.asReadonly();
 
   private readonly _defaultContentTemplate =
     viewChild.required<TemplateRef<unknown>>('defaultContentTemplate');
@@ -430,10 +438,24 @@ export class TooltipComponent extends NgnBase {
             .map(x => this.theme.class(x))
             .join(' ')
         );
-        console.log(this.positionClass());
       },
     });
   });
+
+  constructor() {
+    super();
+    const document = inject(DOCUMENT);
+    const destroyAbortSignal = abortSignalOnDestroy();
+    effect(() => {
+      if (this.isShown() && !this.isClosing()) {
+        document.addEventListener('keydown', this.onDocumentKeyDown.bind(this), {
+          signal: destroyAbortSignal,
+        });
+      } else {
+        document.removeEventListener('keydown', this.onDocumentKeyDown.bind(this));
+      }
+    });
+  }
 
   public show(skipDelay = false) {
     clearTimeout(this._showHideTimeout);
@@ -475,6 +497,13 @@ export class TooltipComponent extends NgnBase {
     }
   }
 
+  protected onDocumentKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Escape' || event.key === 'Esc') {
+      this.hide(true);
+      event.preventDefault();
+    }
+  }
+
   protected onShow() {
     if (!this.content() && !this.text()) {
       return;
@@ -489,13 +518,13 @@ export class TooltipComponent extends NgnBase {
   }
 
   protected onHide() {
-    this.element.nativeElement.classList.toggle(this.theme.class('closing'), true);
-    Promise.all(this.element.nativeElement.getAnimations().map(a => a.finished))
-      .then(() => this.element.nativeElement.hidePopover())
-      .catch(() => {})
-      .finally(() =>
-        this.element.nativeElement.classList.toggle(this.theme.class('closing'), false)
-      );
+    this._isClosing.set(true);
+    requestAnimationFrame(() => {
+      Promise.all(this.element.nativeElement.getAnimations().map(a => a.finished))
+        .then(() => this.element.nativeElement.hidePopover())
+        .catch(() => {})
+        .finally(() => this._isClosing.set(false));
+    });
   }
 
   protected onToggle(event: Event) {

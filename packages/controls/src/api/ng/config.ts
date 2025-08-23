@@ -54,7 +54,7 @@ export const defaultNgnConfig: NgnConfig = {
       showArrow: true,
       showOnHover: true,
       showOnFocus: true,
-      hideOnTooltipHover: true,
+      hideOnTooltipHover: false,
       hideOnClick: true,
     },
   },
