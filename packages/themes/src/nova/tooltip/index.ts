@@ -52,36 +52,36 @@ export const tooltipStyles = createThemePart({
         }
 
         &${c('left')} {
-          margin-right: calc(var(--arrow-width) / 2);
+          padding-right: calc(var(--arrow-width) / 2);
           &::before {
-            right: calc(var(--arrow-width) / -2);
+            right: 0;
             top: var(--anchor-center);
             transform: translateY(-50%);
           }
         }
 
         &${c('right')} {
-          margin-left: calc(var(--arrow-width) / 2);
+          padding-left: calc(var(--arrow-width) / 2);
           &::before {
-            left: calc(var(--arrow-width) / -2);
+            left: 0;
             top: var(--anchor-center);
             transform: translateY(-50%);
           }
         }
 
         &${c('top')} {
-          margin-bottom: calc(var(--arrow-width) / 2);
+          padding-bottom: calc(var(--arrow-width) / 2);
           &::before {
-            bottom: calc(var(--arrow-width) / -2);
+            bottom: 0;
             left: var(--anchor-center);
             transform: translateX(-50%);
           }
         }
 
         &${c('bottom')} {
-          margin-top: calc(var(--arrow-width) / 2);
+          padding-top: calc(var(--arrow-width) / 2);
           &::before {
-            top: calc(var(--arrow-width) / -2);
+            top: 0;
             left: var(--anchor-center);
             transform: translateX(-50%);
           }
@@ -94,6 +94,7 @@ export const tooltipStyles = createThemePart({
       }
 
       ${c('closing')}:popover-open {
+        pointer-events: none;
         animation: ngn-tooltip-fade-out ${v('animation.duration.fade')}
           ${v('animation.easing.fade')} forwards;
       }

@@ -15,6 +15,7 @@ import {
 } from '@angular/core';
 import { Placement } from '@floating-ui/dom';
 import {
+  abortSignalOnDestroy,
   autoPositionElement,
   AutoPositioningHandle,
   injectThemeTemplate,
@@ -33,6 +34,55 @@ import {
   RelativeAnchorElementPositionData,
 } from './relative-anchor-element-position';
 
+export type TooltipOptions = {
+  /**
+   * The placement of the tooltip relative to the anchor element.
+   * @default bottom
+   */
+  readonly placement: Placement;
+  /**
+   * The offset in Pixels of the tooltip from the anchor element.
+   * @default 4
+   */
+  readonly offset: number;
+  /**
+   * The delay before the tooltip is shown. If a number is provided, it is interpreted as milliseconds.
+   * @default '0.5s'
+   */
+  readonly showDelay: TimeSpan;
+  /**
+   * The delay before the tooltip is hidden. If a number is provided, it is interpreted as milliseconds.
+   * @default '0.1s'
+   */
+  readonly hideDelay: TimeSpan;
+  /**
+   * Whether to show an arrow pointing to the anchor element. `""` is equivalent to `true`.
+   * @default true
+   */
+  readonly showArrow: boolean;
+
+  /**
+   * Shows the tooltip on hover.
+   * @default true
+   */
+  readonly showOnHover: boolean;
+  /**
+   * Shows the tooltip on focus.
+   * @default true
+   */
+  readonly showOnFocus: boolean;
+  /**
+   * Hides the tooltip (without delay) when the mouse hovers over the tooltip.
+   * @default true
+   */
+  readonly hideOnTooltipHover: boolean;
+  /**
+   * Hides the tooltip (without delay) when the user clicks on the tooltip.
+   * @default true
+   */
+  readonly hideOnClick: boolean;
+};
+
 /**
  * @category control
  */
@@ -43,56 +93,23 @@ import {
 export class NgnTooltip extends NgnBase implements OnDestroy {
   private readonly _viewContainerRef = inject(ViewContainerRef);
   private readonly _config = inject(NGN_CONFIG);
-  private _tooltip?: ComponentRef<TooltipComponent>;
+  private readonly _tooltip = signal<ComponentRef<TooltipComponent> | null>(null);
 
   /**
    * The content of the tooltip, can be a string or a TemplateRef.
    * If the value is falsy, the tooltip will not be shown.
    * @alias ngnTooltip
    */
-  public readonly content = input<TemplateRef<unknown> | string | null | undefined>(undefined, {
+  public readonly content = input<TemplateRef<unknown> | string | null | undefined>(null, {
     alias: 'ngnTooltip',
   });
   /**
-   * The size constraints for the tooltip.
-   * This can be used to limit the width and height of the tooltip.
-   * If not provided, the tooltip is only constrained by the size of the screen.
-   * @alias ngnTooltipSize
+   * The CSS class to apply to the tooltip.
+   * This can be used to apply custom styles to the tooltip.
+   * @alias ngnTooltipStyleClass
    */
-  public readonly size = input<PositioningSizeConstraints | null | undefined>(undefined, {
-    alias: 'ngnTooltipSize',
-  });
-  /**
-   * The placement of the tooltip relative to the anchor element.
-   * @alias ngnTooltipPlacement
-   * @default 'bottom'
-   */
-  public readonly placement = input<Placement>(this._config.defaults.tooltip.placement, {
-    alias: 'ngnTooltipPlacement',
-  });
-  /**
-   * The offset in Pixels of the tooltip from the anchor element.
-   * @alias ngnTooltipOffset
-   * @default 4
-   */
-  public readonly offset = input<number>(this._config.defaults.tooltip.offset, {
-    alias: 'ngnTooltipOffset',
-  });
-  /**
-   * The delay before the tooltip is shown. If a number is provided, it is interpreted as milliseconds.
-   * @alias ngnTooltipShowDelay
-   * @default '0.5s'
-   */
-  public readonly showDelay = input<TimeSpan>(this._config.defaults.tooltip.showDelay, {
-    alias: 'ngnTooltipShowDelay',
-  });
-  /**
-   * The delay before the tooltip is hidden. If a number is provided, it is interpreted as milliseconds.
-   * @alias ngnTooltipHideDelay
-   * @default '0.1s'
-   */
-  public readonly hideDelay = input<TimeSpan>(this._config.defaults.tooltip.hideDelay, {
-    alias: 'ngnTooltipHideDelay',
+  public readonly styleClass = input<string | null | undefined>(null, {
+    alias: 'ngnTooltipStyleClass',
   });
   /**
    * If set to `true`, the tooltip will only be shown if the anchor element is truncated. `""` is equivalent to `true`.
@@ -103,66 +120,156 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
     alias: 'ngnTooltipShowOnlyIfTruncated',
   });
   /**
-   * The CSS class to apply to the tooltip.
-   * This can be used to apply custom styles to the tooltip.
-   * @alias ngnTooltipStyleClass
+   * The size constraints for the tooltip.
+   * This can be used to limit the width and height of the tooltip.
+   * If not provided, the tooltip is only constrained by the size of the screen.
+   * @alias ngnTooltipSize
    */
-  public readonly styleClass = input<string | null | undefined>(undefined, {
-    alias: 'ngnTooltipStyleClass',
+  public readonly size = input<PositioningSizeConstraints | null | undefined>(null, {
+    alias: 'ngnTooltipSize',
+  });
+
+  /**
+   * The options for the tooltip.
+   * This is a shorthand for setting multiple options at once.
+   * The individual options take precedence over the options set here.
+   * @alias ngnTooltipOptions
+   */
+  public readonly options = input<Partial<TooltipOptions> | null | undefined>(null, {
+    alias: 'ngnTooltipOptions',
+  });
+  /**
+   * The placement of the tooltip relative to the anchor element.
+   * @alias ngnTooltipPlacement
+   * @default 'bottom'
+   */
+  public readonly placement = input<Placement | null | undefined>(null, {
+    alias: 'ngnTooltipPlacement',
+  });
+  /**
+   * The offset in Pixels of the tooltip from the anchor element.
+   * @alias ngnTooltipOffset
+   * @default 4
+   */
+  public readonly offset = input<number | null | undefined>(null, {
+    alias: 'ngnTooltipOffset',
+  });
+  /**
+   * The delay before the tooltip is shown. If a number is provided, it is interpreted as milliseconds.
+   * @alias ngnTooltipShowDelay
+   * @default '0.5s'
+   */
+  public readonly showDelay = input<TimeSpan | null | undefined>(null, {
+    alias: 'ngnTooltipShowDelay',
+  });
+  /**
+   * The delay before the tooltip is hidden. If a number is provided, it is interpreted as milliseconds.
+   * @alias ngnTooltipHideDelay
+   * @default '0.1s'
+   */
+  public readonly hideDelay = input<TimeSpan | null | undefined>(null, {
+    alias: 'ngnTooltipHideDelay',
   });
   /**
    * Whether to show an arrow pointing to the anchor element. `""` is equivalent to `true`.
    * @alias ngnTooltipShowArrow
    * @default true
    */
-  public readonly showArrow = input<boolean | ''>(this._config.defaults.tooltip.showArrow, {
+  public readonly showArrow = input<boolean | '' | null | undefined>(null, {
     alias: 'ngnTooltipShowArrow',
   });
+  /**
+   * Shows the tooltip on hover.
+   * @alias ngnTooltipShowOnHover
+   * @default true
+   */
+  public readonly showOnHover = input<boolean | '' | null | undefined>(null, {
+    alias: 'ngnTooltipShowOnHover',
+  });
+  /**
+   * Shows the tooltip on focus.
+   * @alias ngnTooltipShowOnFocus
+   * @default true
+   */
+  public readonly showOnFocus = input<boolean | '' | null | undefined>(null, {
+    alias: 'ngnTooltipShowOnFocus',
+  });
+  /**
+   * Hides the tooltip (without delay) when the mouse hovers over the tooltip.
+   * @alias ngnTooltipHideOnTooltipHover
+   * @default true
+   */
+  public readonly hideOnTooltipHover = input<boolean | '' | null | undefined>(null, {
+    alias: 'ngnTooltipHideOnTooltipHover',
+  });
+  /**
+   * Hides the tooltip (without delay) when the user clicks on the tooltip.
+   * @alias ngnTooltipHideOnClick
+   * @default true
+   */
+  public readonly hideOnClick = input<boolean | '' | null | undefined>(null, {
+    alias: 'ngnTooltipHideOnClick',
+  });
+
+  public readonly effectiveOptions = computed<TooltipOptions>(() => {
+    const defaults = this._config.defaults.tooltip;
+    return {
+      placement: this.placement() ?? this.options()?.placement ?? defaults.placement,
+      offset: this.offset() ?? this.options()?.offset ?? defaults.offset,
+      showDelay: this.showDelay() ?? this.options()?.showDelay ?? defaults.showDelay,
+      hideDelay: this.hideDelay() ?? this.options()?.hideDelay ?? defaults.hideDelay,
+      showArrow: (this.showArrow() ?? this.options()?.showArrow ?? defaults.showArrow) !== false,
+      showOnHover:
+        (this.showOnHover() ?? this.options()?.showOnHover ?? defaults.showOnHover) !== false,
+      showOnFocus:
+        (this.showOnFocus() ?? this.options()?.showOnFocus ?? defaults.showOnFocus) !== false,
+      hideOnTooltipHover:
+        (this.hideOnTooltipHover() ??
+          this.options()?.hideOnTooltipHover ??
+          defaults.hideOnTooltipHover) !== false,
+      hideOnClick:
+        (this.hideOnClick() ?? this.options()?.hideOnClick ?? defaults.hideOnClick) !== false,
+    };
+  });
+
+  public readonly tooltip = computed(() => this._tooltip()?.instance);
 
   constructor() {
     super();
-    this.element.nativeElement.addEventListener('mouseenter', this.onMouseEnter.bind(this));
-    this.element.nativeElement.addEventListener('mouseleave', this.onMouseLeave.bind(this));
+
+    const abortSignal = abortSignalOnDestroy();
+    this.element.nativeElement.addEventListener('mouseenter', this.onMouseEnter.bind(this), {
+      signal: abortSignal,
+    });
+    this.element.nativeElement.addEventListener('mouseleave', this.onMouseLeave.bind(this), {
+      signal: abortSignal,
+    });
+    this.element.nativeElement.addEventListener('focus', this.onFocus.bind(this), {
+      signal: abortSignal,
+    });
+    this.element.nativeElement.addEventListener('blur', this.onBlur.bind(this), {
+      signal: abortSignal,
+    });
 
     effect(() => {
-      if (this._tooltip) this.updateContent(this._tooltip);
+      const tooltip = this._tooltip();
+      if (tooltip) this.updateContent(tooltip);
     });
-    effect(() => {
-      if (this._tooltip) this._tooltip.setInput('size', this.size());
-    });
-    effect(() => {
-      if (this._tooltip) this._tooltip.setInput('placement', this.placement());
-    });
-    effect(() => {
-      if (this._tooltip) this._tooltip.setInput('offset', this.offset());
-    });
-    effect(() => {
-      if (this._tooltip) this._tooltip.setInput('showDelay', this.showDelay());
-    });
-    effect(() => {
-      if (this._tooltip) this._tooltip.setInput('hideDelay', this.hideDelay());
-    });
-    effect(() => {
-      if (this._tooltip) this._tooltip.setInput('showOnlyIfTruncated', this.showOnlyIfTruncated());
-    });
-    effect(() => {
-      if (this._tooltip) this._tooltip.setInput('styleClass', this.styleClass());
-    });
-    effect(() => {
-      if (this._tooltip) this._tooltip.setInput('showArrow', this.showArrow());
-    });
+    effect(() => this._tooltip()?.setInput('styleClass', this.styleClass()));
+    effect(() => this._tooltip()?.setInput('showOnlyIfTruncated', this.showOnlyIfTruncated()));
+    effect(() => this._tooltip()?.setInput('size', this.size()));
+    effect(() => this._tooltip()?.setInput('options', this.effectiveOptions()));
   }
 
   public ngOnDestroy(): void {
-    this.element.nativeElement.removeEventListener('mouseenter', this.onMouseEnter.bind(this));
-    this.element.nativeElement.removeEventListener('mouseleave', this.onMouseLeave.bind(this));
-    this._tooltip?.destroy();
-    this._tooltip = undefined;
+    this._tooltip()?.destroy();
+    this._tooltip.set(null);
   }
 
-  protected onMouseEnter(): void {
-    if (this._tooltip) {
-      this._tooltip.instance.show();
+  public show(): void {
+    const tooltip = this._tooltip();
+    if (tooltip) {
+      tooltip.instance.show();
     } else {
       const tooltip = this.getTooltip();
       if (tooltip) {
@@ -171,25 +278,47 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
     }
   }
 
-  protected onMouseLeave(): void {
-    this._tooltip?.instance.hide();
+  public hide(): void {
+    this._tooltip()?.instance.hide();
+  }
+
+  protected onMouseEnter() {
+    if (this.effectiveOptions().showOnHover) {
+      this.show();
+    }
+  }
+
+  protected onMouseLeave() {
+    if (this.effectiveOptions().showOnHover) {
+      this.hide();
+    }
+  }
+
+  protected onFocus() {
+    if (this.effectiveOptions().showOnFocus) {
+      this.show();
+    }
+  }
+
+  protected onBlur() {
+    if (this.effectiveOptions().showOnFocus) {
+      this.hide();
+    }
   }
 
   private getTooltip(): TooltipComponent | undefined {
-    if (!this._tooltip && this.content()) {
-      this._tooltip = this._viewContainerRef.createComponent(TooltipComponent);
-      this._tooltip.setInput('anchor', this.element.nativeElement);
-      this._tooltip.setInput('size', this.size());
-      this._tooltip.setInput('placement', this.placement());
-      this._tooltip.setInput('offset', this.offset());
-      this._tooltip.setInput('showDelay', this.showDelay());
-      this._tooltip.setInput('hideDelay', this.hideDelay());
-      this._tooltip.setInput('showOnlyIfTruncated', this.showOnlyIfTruncated());
-      this._tooltip.setInput('styleClass', this.styleClass());
-      this._tooltip.setInput('showArrow', this.showArrow());
-      this.updateContent(this._tooltip);
+    let tooltip = this._tooltip();
+    if (!tooltip && this.content()) {
+      tooltip = this._viewContainerRef.createComponent(TooltipComponent);
+      tooltip.setInput('anchor', this.element.nativeElement);
+      this.updateContent(tooltip);
+      tooltip.setInput('styleClass', this.styleClass());
+      tooltip.setInput('showOnlyIfTruncated', this.showOnlyIfTruncated());
+      tooltip.setInput('size', this.size());
+      tooltip.setInput('options', this.effectiveOptions());
+      this._tooltip.set(tooltip);
     }
-    return this._tooltip?.instance;
+    return tooltip?.instance;
   }
 
   private updateContent(tooltip: ComponentRef<TooltipComponent>) {
@@ -209,15 +338,15 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   templateUrl: './tooltip.html',
   imports: [NgClass, NgnDefer],
   host: {
-    '[class]': `[theme.class(), showArrow() !== false ? theme.class('with-arrow') : '', positionClass(), styleClass() ?? ''].join(' ')`,
+    '[class]': `[theme.class(), options().showArrow !== false ? theme.class('with-arrow') : '', positionClass(), styleClass() ?? ''].join(' ')`,
     '[style.--anchor-start]': `toPixels(relativeAnchorElementPosition()?.start)`,
     '[style.--anchor-center]': `toPixels(relativeAnchorElementPosition()?.center)`,
     '[style.--anchor-end]': `toPixels(relativeAnchorElementPosition()?.end)`,
     '[attr.popover]': `''`,
     '(toggle)': 'onToggle($event)',
-    '(mouseenter)': 'show(true)',
-    '(mouseleave)': 'hide()',
-    '(click)': 'hide(true)',
+    '(mouseenter)': 'onMouseEnter()',
+    '(mouseleave)': 'onMouseLeave()',
+    '(click)': 'onClick()',
   },
 })
 export class TooltipComponent extends NgnBase {
@@ -238,48 +367,33 @@ export class TooltipComponent extends NgnBase {
    */
   public readonly content = input<TemplateRef<unknown>>();
   /**
-   * The size constraints for the tooltip.
-   * This can be used to limit the width and height of the tooltip.
-   * If not provided, the tooltip is only constrained by the size of the screen.
+   * The CSS class to apply to the tooltip.
+   * This can be used to apply custom styles to the tooltip.
    */
-  public readonly size = input<PositioningSizeConstraints | null>();
-  /**
-   * The placement of the tooltip relative to the anchor element.
-   * @default `bottom`
-   */
-  public readonly placement = input<Placement>(this._config.defaults.tooltip.placement);
-  /**
-   * The offset in Pixels of the tooltip from the anchor element.
-   * @default `4`
-   */
-  public readonly offset = input<number>(this._config.defaults.tooltip.offset);
-  /**
-   * The delay before the tooltip is shown. If a number is provided, it is interpreted as milliseconds.
-   * @default `"0.5s"`
-   */
-  public readonly showDelay = input<TimeSpan>(this._config.defaults.tooltip.showDelay);
-  /**
-   * The delay before the tooltip is hidden. If a number is provided, it is interpreted as milliseconds.
-   * @default `"0.1s"`
-   */
-  public readonly hideDelay = input<TimeSpan>(this._config.defaults.tooltip.hideDelay);
+  public readonly styleClass = input<string | null>();
   /**
    * If set to `true`, the tooltip will only be shown if the anchor element is truncated. `""` is equivalent to `true`.
    * @default `false`
    */
   public readonly showOnlyIfTruncated = input<boolean | ''>(false);
   /**
-   * The CSS class to apply to the tooltip.
-   * This can be used to apply custom styles to the tooltip.
+   * The size constraints for the tooltip.
+   * This can be used to limit the width and height of the tooltip.
+   * If not provided, the tooltip is only constrained by the size of the screen.
    */
-  public readonly styleClass = input<string | null>();
+  public readonly size = input<PositioningSizeConstraints | null>();
   /**
-   * Whether to show an arrow pointing to the anchor element.
+   * The options for the tooltip.
+   *
    */
-  public readonly showArrow = input<boolean | ''>(this._config.defaults.tooltip.showArrow);
+  public readonly options = input<TooltipOptions>(this._config.defaults.tooltip);
 
-  protected readonly showDelayMs = computed(() => getTimeSpanMilliseconds(this.showDelay()));
-  protected readonly hideDelayMs = computed(() => getTimeSpanMilliseconds(this.hideDelay()));
+  protected readonly showDelayMs = computed(() =>
+    getTimeSpanMilliseconds(this.options().showDelay)
+  );
+  protected readonly hideDelayMs = computed(() =>
+    getTimeSpanMilliseconds(this.options().hideDelay)
+  );
 
   private readonly _isShown = signal(false);
   protected readonly isShown = this._isShown.asReadonly();
@@ -305,8 +419,8 @@ export class TooltipComponent extends NgnBase {
       stopped: true,
       resize: false,
       sizeConstraints: this.size() ?? undefined,
-      placement: this.placement(),
-      offset: this.offset(),
+      placement: this.options().placement,
+      offset: this.options().offset,
       middleware: [relativeAnchorElementPosition],
       onPositionChange: ({ placement, middlewareData }) => {
         this.relativeAnchorElementPosition.set(middlewareData[relativeAnchorElementPosition.name]);
@@ -340,6 +454,24 @@ export class TooltipComponent extends NgnBase {
       this.onHide();
     } else {
       this._showHideTimeout = setTimeout(() => this.onHide(), delay);
+    }
+  }
+
+  protected onMouseEnter() {
+    if (this.options().hideOnTooltipHover) {
+      this.hide(true);
+    } else {
+      this.show(true);
+    }
+  }
+
+  protected onMouseLeave() {
+    this.hide();
+  }
+
+  protected onClick() {
+    if (this.options().hideOnClick) {
+      this.hide(true);
     }
   }
 
