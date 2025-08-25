@@ -23,11 +23,11 @@ import {
 import { NgnBase } from '@ngneers/controls/base';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnDefer } from '@ngneers/controls/defer';
+import { NgnIcon } from '@ngneers/controls/icon';
 import { generateElementId } from '@ngneers/controls/utils-ng';
 import { tabsControlTemplate } from '@ngneers/controls-themes/templates/tabs';
 
 import { NgnTab } from './tab';
-import { NgnIcon } from '../icon';
 
 /**
  * @category control
