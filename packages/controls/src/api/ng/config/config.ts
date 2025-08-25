@@ -4,7 +4,7 @@ import { DeepPartial, Logger, LogLevel } from '@ngneers/controls/utils';
 import { NgnStateStorage } from '@ngneers/controls/utils-ng';
 import { StyleScope, Theme } from '@ngneers/controls-themes';
 
-import type { TooltipOptions } from '@ngneers/controls/tooltip';
+import type { TooltipOptions } from './tooltip';
 
 export const NGN_CONFIG = new InjectionToken<NgnConfig>('NGN_CONFIG');
 
