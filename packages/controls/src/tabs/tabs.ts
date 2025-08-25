@@ -11,22 +11,30 @@ import {
   input,
   model,
   signal,
+  viewChild,
   viewChildren,
 } from '@angular/core';
-import { elementsSizesSignal, injectThemeTemplate } from '@ngneers/controls/api/ng';
+import {
+  elementSizeSignal,
+  elementsSizesSignal,
+  injectThemeTemplate,
+  NgnScrollAmount,
+} from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
+import { IconType } from '@ngneers/controls/custom-types';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { generateElementId } from '@ngneers/controls/utils-ng';
 import { tabsControlTemplate } from '@ngneers/controls-themes/templates/tabs';
 
 import { NgnTab } from './tab';
+import { NgnIcon } from '../icon';
 
 /**
  * @category control
  */
 @Component({
   selector: 'ngn-tabs',
-  imports: [NgTemplateOutlet, NgClass, NgnDefer],
+  imports: [NgTemplateOutlet, NgClass, NgnDefer, NgnScrollAmount, NgnIcon],
   templateUrl: './tabs.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -37,12 +45,22 @@ export class NgnTabs extends NgnBase implements AfterViewInit {
   protected readonly theme = injectThemeTemplate(tabsControlTemplate);
   public readonly cache = input(false);
   public readonly lazy = input(false);
+  public readonly iconScrollLeft = input<IconType>();
+  public readonly iconScrollRight = input<IconType>();
 
   protected readonly elementId = generateElementId();
   protected readonly indicatorWidth = signal(0);
   protected readonly indicatorLeft = signal(0);
 
   private readonly _tabs = contentChildren(NgnTab);
+  private readonly _tabList = viewChild.required<unknown, ElementRef<HTMLDivElement>>('tabList', {
+    read: ElementRef<HTMLDivElement>,
+  });
+  private readonly _tabListScrollDirective = viewChild.required('tabList', {
+    read: NgnScrollAmount,
+  });
+  private readonly _tabListScroll = computed(() => this._tabListScrollDirective().scrollLeft());
+  private readonly _tabListSize = elementSizeSignal(this._tabList);
 
   private readonly _renderedTabHeaders = viewChildren<ElementRef<HTMLButtonElement>>('tabHeader');
   private readonly _headerElements = computed(() =>
@@ -65,6 +83,19 @@ export class NgnTabs extends NgnBase implements AfterViewInit {
       template: tab.content(),
     }))
   );
+
+  private readonly _totalTabsWidth = computed(() => {
+    return this._headerSizes().reduce((sum, size) => sum + size.width, 0);
+  });
+
+  protected readonly tabsOverflowingRight = computed(() => {
+    const tabListWidth = this._tabListSize().width;
+    const totalHeadersWidth = this._totalTabsWidth();
+    const scrollAmount = this._tabListScroll();
+    return totalHeadersWidth - scrollAmount > tabListWidth;
+  });
+
+  protected readonly tabsOverflowingLeft = computed(() => this._tabListScroll() > 0);
 
   constructor() {
     super();
@@ -120,6 +151,67 @@ export class NgnTabs extends NgnBase implements AfterViewInit {
       if (tabElement) {
         tabElement.focus();
       }
+    }
+  }
+
+  protected scrollHeaders(direction: 'left' | 'right') {
+    const tabListElement = this._tabList().nativeElement;
+    const headers = this._headerSizes().map(s => s.width);
+    const scrollAmount = this._tabListScroll();
+
+    const PADDING_FOR_STICKY_ELEMENTS = 10;
+
+    const tabListWidth = tabListElement.clientWidth - PADDING_FOR_STICKY_ELEMENTS; // account for right padding
+
+    let leftCutOffTabHeaderIndex = -1;
+    let rightCutOffTabHeaderIndex = -1;
+    let cumulativeWidth = PADDING_FOR_STICKY_ELEMENTS; // account for left padding
+
+    for (let i = 0; i < headers.length; i++) {
+      const headerStart = cumulativeWidth;
+      const headerEnd = cumulativeWidth + headers[i];
+      cumulativeWidth = headerEnd;
+
+      if (leftCutOffTabHeaderIndex === -1 && headerEnd > scrollAmount) {
+        leftCutOffTabHeaderIndex = i;
+      }
+      if (
+        rightCutOffTabHeaderIndex === -1 &&
+        headerStart < scrollAmount + tabListWidth &&
+        headerEnd > scrollAmount + tabListWidth
+      ) {
+        rightCutOffTabHeaderIndex = i;
+      }
+    }
+
+    if (direction === 'right') {
+      const newScrollAmount = headers
+        .slice(0, rightCutOffTabHeaderIndex)
+        .reduce((a, b) => a + b, 0);
+
+      const scrollAmountFixed =
+        newScrollAmount >= tabListElement.scrollWidth
+          ? newScrollAmount
+          : newScrollAmount - PADDING_FOR_STICKY_ELEMENTS;
+      tabListElement.scrollTo({ left: scrollAmountFixed, behavior: 'smooth' });
+    } else {
+      let usedUpSpace = 0;
+      let indexOfFirstVisibleTab = leftCutOffTabHeaderIndex;
+      while (
+        usedUpSpace < tabListWidth - PADDING_FOR_STICKY_ELEMENTS * 2 &&
+        indexOfFirstVisibleTab >= 0
+      ) {
+        usedUpSpace += headers[indexOfFirstVisibleTab];
+        indexOfFirstVisibleTab--;
+      }
+
+      const scrollTo =
+        indexOfFirstVisibleTab < 0
+          ? 0
+          : headers.slice(0, indexOfFirstVisibleTab + 2).reduce((a, b) => a + b, 0) -
+            PADDING_FOR_STICKY_ELEMENTS;
+
+      tabListElement.scrollTo({ left: scrollTo, behavior: 'smooth' });
     }
   }
 }

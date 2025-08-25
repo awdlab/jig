@@ -1,4 +1,19 @@
-<div role="tablist" [ngClass]="theme.class('headers')" [id]="elementId + '_tablist'">
+<div
+  ngnScrollAmount
+  #tabList
+  role="tablist"
+  [ngClass]="theme.class('headers')"
+  [id]="elementId + '_tablist'"
+>
+  @if (tabsOverflowingLeft()) {
+    <button tabindex="-1" [ngClass]="theme.class('scroll-left')" (click)="scrollHeaders('left')">
+      <ngn-icon
+        [size]="'10px'"
+        [icon]="iconScrollLeft()"
+        [defaultIcon]="'fa-solid fa-chevron-left'"
+      ></ngn-icon>
+    </button>
+  }
   @for (header of headers(); track header; let i = $index) {
     <button
       type="button"
@@ -18,6 +33,15 @@
       (click)="selectTab(header.id)"
     >
       <ng-container *ngTemplateOutlet="header.template"></ng-container>
+    </button>
+  }
+  @if (tabsOverflowingRight()) {
+    <button tabindex="-1" [ngClass]="theme.class('scroll-right')" (click)="scrollHeaders('right')">
+      <ngn-icon
+        [size]="'10px'"
+        [icon]="iconScrollRight()"
+        [defaultIcon]="'fa-solid fa-chevron-right'"
+      ></ngn-icon>
     </button>
   }
   <div
