@@ -1,4 +1,4 @@
-<div #scrollarea [ngClass]="theme.class('scrollarea')">
+<div #scrollarea ngnScrollAmount [ngClass]="theme.class('scrollarea')">
   @if (virtual()) {
     <div [style.height.px]="dummyHeight()"></div>
   }

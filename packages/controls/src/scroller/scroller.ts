@@ -1,21 +1,16 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
-  afterRenderEffect,
   Component,
   computed,
-  DestroyRef,
   effect,
   ElementRef,
   input,
-  signal,
   untracked,
   viewChild,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { elementSizeSignal, injectThemeTemplate } from '@ngneers/controls/api/ng';
+import { elementSizeSignal, injectThemeTemplate, NgnScrollAmount } from '@ngneers/controls/api/ng';
 import { AllKeysOfUnion, getScrollTop, NgnError } from '@ngneers/controls/utils';
 import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scroller';
-import { fromEvent, map } from 'rxjs';
 
 import { ScrollerTemplates } from './scroller-templates';
 
@@ -25,7 +20,7 @@ import { ScrollerTemplates } from './scroller-templates';
 @Component({
   selector: 'ngn-scroller',
   templateUrl: './scroller.html',
-  imports: [NgClass, NgTemplateOutlet],
+  imports: [NgClass, NgTemplateOutlet, NgnScrollAmount],
   host: {
     '[class]': 'theme.class()',
     '[tabIndex]': 'focusable() ? 0 : -1',
@@ -79,7 +74,8 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
       ? Math.ceil(this._elementSize().height / this.itemHeight() + this.padding() * 2)
       : 0
   );
-  private readonly _scrollTop = signal(0);
+  private readonly _scrollTopDirective = viewChild.required(NgnScrollAmount);
+  private readonly _scrollTop = computed(() => this._scrollTopDirective().scrollTop());
   private readonly _itemStartIndex = computed(() =>
     this.virtual()
       ? Math.max(0, Math.ceil(this._scrollTop() / this.itemHeight()) - this.padding())
@@ -142,16 +138,6 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
       if (this.virtual() && !this.itemHeight()) {
         throw new NgnError('scroller', 'itemHeight must be set when virtual is true');
       }
-    });
-
-    afterRenderEffect(() => {
-      const el = this._scrollElement();
-      const obs = fromEvent(el.nativeElement, 'scroll').pipe(
-        map(e => (e.target as HTMLElement).scrollTop)
-      );
-      obs.pipe(takeUntilDestroyed(this.injector.get(DestroyRef))).subscribe(scrollTop => {
-        this._scrollTop.set(scrollTop);
-      });
     });
   }
 
