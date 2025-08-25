@@ -16,6 +16,7 @@ import {
 import { elementsSizesSignal, injectThemeTemplate } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
+import { generateElementId } from '@ngneers/controls/utils-ng';
 import { tabsControlTemplate } from '@ngneers/controls-themes/templates/tabs';
 
 import { NgnTab } from './tab';
@@ -37,6 +38,7 @@ export class NgnTabs extends NgnBase implements AfterViewInit {
   public readonly cache = input(false);
   public readonly lazy = input(false);
 
+  protected readonly elementId = generateElementId();
   protected readonly indicatorWidth = signal(0);
   protected readonly indicatorLeft = signal(0);
 
@@ -95,5 +97,29 @@ export class NgnTabs extends NgnBase implements AfterViewInit {
 
   public selectTab(tabId: string) {
     this.activeTab.set(tabId);
+  }
+
+  protected handleTabKeyPress(event: KeyboardEvent, tabId: string) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.selectTab(tabId);
+      return;
+    }
+    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+      event.preventDefault();
+      const indexOfCurrentTab = this._tabs().findIndex(tab => tab.safeTabId() === tabId);
+      if (indexOfCurrentTab === -1) {
+        return;
+      }
+      const nextIndex = event.key === 'ArrowRight' ? indexOfCurrentTab + 1 : indexOfCurrentTab - 1;
+      // overflow
+      const safeNextIndex = (nextIndex + this._tabs().length) % this._tabs().length;
+      const tabListId = `${this.elementId}_tablist`;
+      const tablistElement = document.getElementById(tabListId);
+      const tabElement = tablistElement?.children[safeNextIndex] as HTMLElement;
+      if (tabElement) {
+        tabElement.focus();
+      }
+    }
   }
 }

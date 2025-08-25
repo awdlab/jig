@@ -1,6 +1,13 @@
-<div [ngClass]="theme.class('headers')">
+<div role="tablist" [ngClass]="theme.class('headers')" [id]="elementId + '_tablist'">
   @for (header of headers(); track header; let i = $index) {
     <button
+      type="button"
+      role="tab"
+      [ariaSelected]="header.id === activeTab()"
+      [id]="elementId + '_tab_' + header.id"
+      [attr.aria-controls]="elementId + '_tabpanel_' + header.id"
+      [tabindex]="header.id === activeTab() ? 0 : -1"
+      (keydown)="handleTabKeyPress($event, header.id)"
       #tabHeader
       [ngClass]="
         theme.classes({
@@ -20,7 +27,12 @@
   ></div>
 </div>
 @for (content of contents(); track content; let i = $index) {
-  <div [ngClass]="content.id === activeTab() ? theme.class('content') : ''">
+  <div
+    role="tabpanel"
+    [ngClass]="content.id === activeTab() ? theme.class('content') : ''"
+    [id]="elementId + '_tabpanel_' + content.id"
+    [attr.aria-labelledby]="elementId + '_tab_' + content.id"
+  >
     <ngn-defer
       [lazyContent]="content.template"
       [open]="content.id === activeTab()"
