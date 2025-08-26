@@ -19,6 +19,7 @@ import {
   elementsSizesSignal,
   injectThemeTemplate,
   NgnScrollAmount,
+  NgnDragScroll,
 } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 import { IconType } from '@ngneers/controls/custom-types';
@@ -26,7 +27,6 @@ import { NgnDefer } from '@ngneers/controls/defer';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { generateElementId } from '@ngneers/controls/utils-ng';
 import { tabsControlTemplate } from '@ngneers/controls-themes/templates/tabs';
-import { NgnDragScroll } from 'packages/controls/src/api/ng/directives/drag-scroll';
 
 import { NgnTab } from './tab';
 
