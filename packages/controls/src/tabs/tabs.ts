@@ -26,6 +26,7 @@ import { NgnDefer } from '@ngneers/controls/defer';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { generateElementId } from '@ngneers/controls/utils-ng';
 import { tabsControlTemplate } from '@ngneers/controls-themes/templates/tabs';
+import { NgnDragScroll } from 'packages/controls/src/api/ng/directives/drag-scroll';
 
 import { NgnTab } from './tab';
 
@@ -36,7 +37,7 @@ const PADDING_FOR_STICKY_ELEMENTS = 15;
  */
 @Component({
   selector: 'ngn-tabs',
-  imports: [NgTemplateOutlet, NgClass, NgnDefer, NgnScrollAmount, NgnIcon],
+  imports: [NgTemplateOutlet, NgClass, NgnDefer, NgnScrollAmount, NgnDragScroll, NgnIcon],
   templateUrl: './tabs.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -108,7 +109,9 @@ export class NgnTabs extends NgnBase implements AfterViewInit {
     const tabListWidth = this._tabListSize().width;
     const totalHeadersWidth = this._totalTabsWidth();
     const scrollAmount = this._tabListScroll();
-    return totalHeadersWidth - scrollAmount > tabListWidth + 0.1; // 0.1 for rounding errors
+    return (
+      totalHeadersWidth - scrollAmount > tabListWidth + 0.1 + 0.005 * this._headerElements().length // buffer for rounding errors
+    );
   });
 
   protected readonly tabsOverflowingLeft = computed(() => this._tabListScroll() > 0);
