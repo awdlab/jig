@@ -8,7 +8,7 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import { NgnTemplate, templateTypeFn } from '@ngneers/controls/api/ng';
+import { NgnTemplate, templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnError } from '@ngneers/controls/utils';
@@ -34,7 +34,7 @@ export class NgnIcon extends NgnBase {
   public readonly icon = input<IconType>();
   public readonly size = input<string>('1rem');
 
-  protected readonly templateType = templateTypeFn<IconTemplateContext['$implicit']>();
+  protected readonly templateType = templateTypesFn<IconTemplateContext>();
 
   private readonly _defaultIconTemplate =
     viewChild.required<TemplateRef<IconTemplateContext>>('defaultIconTemplate');

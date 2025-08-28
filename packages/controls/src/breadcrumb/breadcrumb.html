@@ -1,0 +1,17 @@
+<ngn-item-view
+  #itemView
+  [items]="items()"
+  [templateItem]="itemTemplate()"
+  [templateSeparator]="separatorTemplate()"
+  [overflowStrategy]="'endButOne'"
+/>
+
+<ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
+  <span [ngClass]="theme.class('item')">{{ item.label }}</span>
+</ng-template>
+
+<ng-template #defaultSeparatorTemplate [ngnTemplate]="templateTypes.separator" let-separator>
+  <span [ngClass]="theme.class('separator')">
+    <ngn-icon defaultIcon="fa-solid fa-chevron-right" [icon]="separator.icon" />
+  </span>
+</ng-template>

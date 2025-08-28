@@ -5,17 +5,54 @@
     [ngClass]="
       theme.classes({
         item: true,
-        'item-overflowing': i >= visibleItemCount(),
+        'item-overflowing': !visibleItemIndices().includes(i),
       })
     "
-    [ariaHidden]="i >= visibleItemCount()"
+    [ariaHidden]="!visibleItemIndices().includes(i)"
   >
-    <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item, index: i }" />
-    @if (!$last && separatorChar(); as separatorChar) {
-      <span>{{ separatorChar }}</span>
+    <ng-container
+      *ngTemplateOutlet="
+        itemTemplate();
+        context: { $implicit: item, index: i, last: $last, first: $first }
+      "
+    />
+    @if (!$last) {
+      <ng-container
+        *ngTemplateOutlet="
+          separatorTemplate();
+          context: { $implicit: { character: separatorChar(), icon: separatorIcon() } }
+        "
+      />
     }
   </span>
+
+  @if (i === overflowItemIndex()) {
+    <div #overflowItem>
+      <span [ngClass]="theme.class('more-items')">+{{ moreItemsCount() }}</span>
+      @if (overflowStrategy() !== 'end') {
+        <span
+          [ngClass]="
+            theme.classes({
+              item: true,
+              'hidden-separator': !hasRenderedItemAfterOverflowItem(),
+            })
+          "
+        >
+          <ng-container
+            *ngTemplateOutlet="
+              separatorTemplate();
+              context: { $implicit: { character: separatorChar(), icon: separatorIcon() } }
+            "
+        /></span>
+      }
+    </div>
+  }
 }
-@if (moreItemsCount()) {
-  <div #overflowItem [ngClass]="theme.class('more-items')">+{{ moreItemsCount() }}</div>
-}
+
+<ng-template #defaultSeparatorTemplate [ngnTemplate]="templateTypes.separator" let-separator>
+  @if (separator.character) {
+    <span>{{ separator.character }}</span>
+  } @else if (separator.icon) {
+    <ngn-icon [icon]="separator.icon" />
+  }
+</ng-template>

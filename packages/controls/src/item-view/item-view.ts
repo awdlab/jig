@@ -4,11 +4,15 @@ import {
   elementSizeSignal,
   elementsSizesSignal,
   injectThemeTemplate,
+  NgnTemplate,
 } from '@ngneers/controls/api/ng';
+import { IconType } from '@ngneers/controls/custom-types';
+import { NgnIcon } from '@ngneers/controls/icon';
 import { areArraysDeepEqual } from '@ngneers/controls/utils';
 import { itemViewControlTemplate } from '@ngneers/controls-themes/templates/item-view';
 
 import { ItemViewTemplates } from './item-view-templates';
+import { OverflowStrategy } from './types';
 
 /**
  * @category control
@@ -16,7 +20,7 @@ import { ItemViewTemplates } from './item-view-templates';
 @Component({
   selector: 'ngn-item-view',
   templateUrl: './item-view.html',
-  imports: [NgClass, NgTemplateOutlet],
+  imports: [NgClass, NgTemplateOutlet, NgnTemplate, NgnIcon],
   host: {
     '[class]': 'theme.class()',
     '[attr.role]': '"list"',
@@ -30,10 +34,19 @@ export class NgnItemView<T> extends ItemViewTemplates<T> {
    */
   public readonly items = input.required<readonly T[]>();
   /**
-   * A separator to be displayed between items. Set `true` for `,` or provide a custom string.
-   * @default false
+   * A separator string (character) to be displayed between items. Set `true` for `,` or provide a custom string.
    */
-  public readonly separator = input<boolean | string>(false);
+  public readonly separator = input<true | string>();
+  /**
+   * A separator icon to be displayed between items.
+   */
+  public readonly separatorIcon = input<IconType>();
+  /**
+   * Strategy to use when there are more items than can be displayed in the available space.
+   * The value determines where the items should start to overflow.
+   * @default 'end'
+   */
+  public readonly overflowStrategy = input<OverflowStrategy>('end');
 
   protected readonly separatorChar = computed(() => {
     const sep = this.separator();
@@ -53,6 +66,42 @@ export class NgnItemView<T> extends ItemViewTemplates<T> {
   private readonly _overflowItemRef = viewChild<ElementRef<HTMLElement>>('overflowItem');
   private readonly _overflowItemSize = elementSizeSignal(this._overflowItemRef);
 
+  protected readonly itemOverflowCheckOrder = computed(() => {
+    const count = this.items().length;
+    switch (this.overflowStrategy()) {
+      case 'end':
+        return Array.from({ length: count }, (_, i) => i);
+      case 'endButOne': {
+        const arr = [...Array.from({ length: count - 1 }, (_, i) => i)];
+        arr.splice(1, 0, count - 1);
+        return arr;
+      }
+      case 'start':
+        return Array.from({ length: count }, (_, i) => count - i - 1);
+      case 'startButOne': {
+        const arr = [...Array.from({ length: count - 1 }, (_, i) => count - i - 1)];
+        arr.splice(1, 0, 0);
+        return arr;
+      }
+      case 'center': {
+        const order = [];
+        let leftIndex = 0;
+        let rightIndex = count - 1;
+
+        for (let i = 0; i < count; i++) {
+          if (i % 2 === 0) {
+            order.push(leftIndex++);
+          } else {
+            order.push(rightIndex--);
+          }
+        }
+        return order;
+      }
+      default:
+        throw new Error(`Unknown overflow strategy: ${this.overflowStrategy()}`);
+    }
+  });
+
   private readonly _themeGap = computed(() => {
     const elements = this._renderedItemRefs().map(ref => ref.nativeElement);
     if (elements.length <= 1) {
@@ -68,7 +117,7 @@ export class NgnItemView<T> extends ItemViewTemplates<T> {
     return el2Left - el1Left - el1Width;
   });
 
-  protected readonly visibleItemCount = computed(() => {
+  private readonly _visibleItemCount = computed(() => {
     if (!this._renderedItemWidths().length) {
       return this.items().length;
     }
@@ -85,8 +134,8 @@ export class NgnItemView<T> extends ItemViewTemplates<T> {
 
     let totalWidth = 0;
     let count = 0;
-
-    for (const width of renderedItemWidths) {
+    for (let i = 0; i < renderedItemWidths.length; i++) {
+      const width = renderedItemWidths[this.itemOverflowCheckOrder()[i]];
       totalWidth += width + this._themeGap();
       if (totalWidth + overflowItemWidth > containerWidth) {
         break;
@@ -96,8 +145,25 @@ export class NgnItemView<T> extends ItemViewTemplates<T> {
 
     return count;
   });
+
+  protected readonly visibleItemIndices = computed(() => {
+    return Array.from(
+      { length: this._visibleItemCount() },
+      (_, i) => this.itemOverflowCheckOrder()[i]
+    ).toSorted();
+  });
+
+  protected readonly hasRenderedItemAfterOverflowItem = computed(() => {
+    const arr = [this.overflowItemIndex(), ...this.visibleItemIndices()].toSorted();
+    return !!arr[arr.indexOf(this.overflowItemIndex()) + 1];
+  });
+
+  protected readonly overflowItemIndex = computed(() => {
+    return this.itemOverflowCheckOrder()[this._visibleItemCount()];
+  });
+
   protected readonly moreItemsCount = computed(() => {
-    return this.items().length - this.visibleItemCount();
+    return this.items().length - this._visibleItemCount();
   });
 
   constructor() {

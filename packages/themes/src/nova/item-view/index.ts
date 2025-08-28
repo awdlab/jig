@@ -16,6 +16,9 @@ export const itemViewStyles = createThemePart({
       }
       ${c('item')} {
         display: inline-block;
+        &${c('hidden-separator')} {
+          visibility: hidden;
+        }
       }
       ${c('item-overflowing')} {
         position: absolute;

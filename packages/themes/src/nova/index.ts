@@ -2,6 +2,7 @@ import { createTheme } from '@ngneers/controls-themes/api';
 import { accordionStyles } from '@ngneers/controls-themes/nova/accordion';
 import { avatarGroupStyles, avatarStyles } from '@ngneers/controls-themes/nova/avatar';
 import { animation, coral, font, sizes } from '@ngneers/controls-themes/nova/base';
+import { breadcrumbStyles } from '@ngneers/controls-themes/nova/breadcrumb';
 import { buttonStyles } from '@ngneers/controls-themes/nova/button';
 import { calendarStyles } from '@ngneers/controls-themes/nova/calendar';
 import { checkboxStyles } from '@ngneers/controls-themes/nova/checkbox';
@@ -22,6 +23,7 @@ export const novaCoral = createTheme('Nova Coral', [
   animation,
   avatarGroupStyles,
   avatarStyles,
+  breadcrumbStyles,
   buttonStyles,
   calendarStyles,
   checkboxStyles,
