@@ -28,7 +28,17 @@
 
   @if (i === overflowItemIndex()) {
     <div #overflowItem>
-      <span [ngClass]="theme.class('more-items')">+{{ moreItemsCount() }}</span>
+      <ng-container
+        *ngTemplateOutlet="
+          overflowTemplate();
+          context: {
+            $implicit: {
+              totalCount: items().length,
+              overflowCount: moreItemsCount(),
+            },
+          }
+        "
+      />
       @if (overflowStrategy() !== 'end') {
         <span
           [ngClass]="
@@ -55,4 +65,8 @@
   } @else if (separator.icon) {
     <ngn-icon [icon]="separator.icon" />
   }
+</ng-template>
+
+<ng-template #defaultOverflowItemTemplate [ngnTemplate]="templateTypes.overflow" let-overflow>
+  <span [ngClass]="theme.class('more-items')">+{{ overflow.overflowCount }}</span>
 </ng-template>

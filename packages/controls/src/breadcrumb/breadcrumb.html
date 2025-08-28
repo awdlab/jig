@@ -3,8 +3,13 @@
   [items]="items()"
   [templateItem]="itemTemplate()"
   [templateSeparator]="separatorTemplate()"
-  [overflowStrategy]="'endButOne'"
+  [templateOverflow]="overflowTemplate"
+  [overflowStrategy]="'startButOne'"
 />
+
+<ng-template #overflowTemplate [ngnTemplate]="itemView.templateTypes.overflow" let-overflow>
+  <span [ngClass]="theme.class('item')">...</span>
+</ng-template>
 
 <ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
   <span [ngClass]="theme.class('item')">{{ item.label }}</span>
