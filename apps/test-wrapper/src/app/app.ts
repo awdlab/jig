@@ -52,6 +52,8 @@ export class App {
       }
       const component = viewContainerRef.createComponent(com);
       this._testComponentRef.set(component);
+    });
+    effect(() => {
       this.setInputs();
     });
   }

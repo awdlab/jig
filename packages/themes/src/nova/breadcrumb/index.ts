@@ -11,20 +11,32 @@ export const breadcrumbStyles = createThemePart({
         display: flex;
         align-items: center;
         gap: ${v('size.padding.md')};
+        user-select: none;
         ${d('item-view')} {
           gap: ${v('size.padding.md')};
         }
       }
-      ${c('segment')} {
-        display: flex;
-        align-items: center;
-        gap: ${v('size.padding.md')};
-      }
       ${c('separator')} {
         display: inline-block;
+        color: ${v('color.surface.500')};
         ngn-icon {
           display: inline-block;
           margin-left: 0.5rem;
+        }
+      }
+      ${c('item')} {
+        cursor: default;
+        color: ${v('color.surface.600')};
+        transition: color 0.2s;
+        background: transparent;
+        border: none;
+        padding: 0;
+        font-size: inherit;
+      }
+      ${c('item-clickable')} {
+        cursor: pointer;
+        &:hover {
+          color: ${v('color.text')};
         }
       }
     `,

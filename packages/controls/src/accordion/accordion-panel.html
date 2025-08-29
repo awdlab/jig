@@ -34,7 +34,7 @@
       'panel-content-expander-collapsed': !expanded(),
     })
   "
-  (transitionend)="handleTransitionEnd()"
+  #content
 >
   <div
     [ngClass]="theme.class('panel-content')"

@@ -1,12 +1,14 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
+  ElementRef,
   inject,
   input,
   signal,
+  viewChild,
 } from '@angular/core';
 import { injectThemeTemplate, NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnDefer } from '@ngneers/controls/defer';
@@ -33,7 +35,7 @@ export class NgnAccordionPanel extends AccordionTemplates {
   protected readonly theme = injectThemeTemplate(accordionControlTemplate);
 
   private readonly _accordionControl = inject(ACCORDION_CONTROL);
-  private _afterTransitionCallback?: () => void;
+  private readonly _afterTransitionCallback?: () => void;
 
   /**
    * The unique identifier for the accordion panel.
@@ -63,6 +65,7 @@ export class NgnAccordionPanel extends AccordionTemplates {
 
   protected readonly iconExpanded = this._accordionControl.iconExpanded;
   protected readonly iconCollapsed = this._accordionControl.iconCollapsed;
+  protected readonly _contentViewChild = viewChild.required<ElementRef<HTMLElement>>('content');
 
   protected readonly expanded = computed(() =>
     this._accordionControl.expandedPanels().includes(this.panelId())
@@ -78,17 +81,27 @@ export class NgnAccordionPanel extends AccordionTemplates {
 
   constructor() {
     super();
-    effect(() => {
+    afterRenderEffect(() => {
       if (!this.lazyInt() || this.cacheInt()) {
         return;
       }
       if (this.expanded()) {
         this.afterTransitionExpanded.set(true);
-        this._afterTransitionCallback = undefined;
       } else {
-        this._afterTransitionCallback = () => {
-          this.afterTransitionExpanded.set(false);
-        };
+        requestAnimationFrame(() => {
+          const allAnimationsDone = Promise.all(
+            this._contentViewChild()
+              .nativeElement.getAnimations()
+              .map(x => x.finished)
+          );
+          allAnimationsDone
+            .then(() => {
+              this.afterTransitionExpanded.set(false);
+            })
+            .catch(() => {
+              // ignore cancelled animation
+            });
+        });
       }
     });
   }
@@ -98,9 +111,5 @@ export class NgnAccordionPanel extends AccordionTemplates {
    */
   public toggle() {
     this._accordionControl.togglePanel(this.panelId());
-  }
-  protected handleTransitionEnd() {
-    this._afterTransitionCallback?.();
-    this._afterTransitionCallback = undefined;
   }
 }

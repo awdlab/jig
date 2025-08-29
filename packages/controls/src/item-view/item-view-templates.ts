@@ -75,6 +75,7 @@ export abstract class ItemViewTemplates<T> extends NgnBase {
       $implicit: {
         totalCount: number;
         overflowCount: number;
+        overflowItems: T[];
       };
     };
   }>();

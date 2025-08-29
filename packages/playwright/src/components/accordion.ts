@@ -45,7 +45,5 @@ export class NgnAccordionPanelHarness {
 
   public async toggle() {
     await this.header.click();
-    const handle = await this.content.elementHandle();
-    await handle?.waitForElementState('stable');
   }
 }

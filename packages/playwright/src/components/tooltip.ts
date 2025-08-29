@@ -20,11 +20,6 @@ export class NgnTooltipHarness {
 
   public async expectOpened(opened = true) {
     await expect(this._contentWrapper).toBeVisible({ visible: opened });
-    if (opened) {
-      await this.locator.evaluate(
-        async el => await Promise.all(el.getAnimations().map(a => a.finished))
-      );
-    }
   }
 
   public async expectRendered(rendered = true): Promise<void> {

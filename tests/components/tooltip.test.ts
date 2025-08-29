@@ -96,12 +96,6 @@ test('position change', async ({ page, browser }, testInfo) => {
     await test.step(`Placement: ${config.placement}, Offset: ${config.offset}, Arrow: ${config.showArrow}`, async () => {
       await handle.setInputs(config);
 
-      if (browser.browserType().name() === 'webkit') {
-        // WebKit looses focus after the setInputs call.
-        await button.hover();
-      }
-      // TODO: setInputs recreates the component, so we need to wait for it again.
-      await tooltip.expectOpened();
       await expectScreenshot(
         page,
         testInfo,

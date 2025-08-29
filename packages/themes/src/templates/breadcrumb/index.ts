@@ -3,6 +3,6 @@ import { itemViewControlTemplate } from '@ngneers/controls-themes/templates/item
 
 export const breadcrumbControlTemplate = createControlTemplate({
   scope: 'breadcrumb',
-  classNames: ['item', 'segment', 'item-clickable', 'separator'],
+  classNames: ['item', 'item-clickable', 'separator'],
   dependencies: [itemViewControlTemplate],
 });

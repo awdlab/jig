@@ -153,6 +153,11 @@ export class NgnItemView<T> extends ItemViewTemplates<T> {
     ).toSorted();
   });
 
+  protected readonly overflowingItems = computed(() => {
+    const visibleItemIndices = this.visibleItemIndices();
+    return this.items().filter((_, i) => !visibleItemIndices.includes(i));
+  });
+
   protected readonly hasRenderedItemAfterOverflowItem = computed(() => {
     const arr = [this.overflowItemIndex(), ...this.visibleItemIndices()].toSorted();
     return !!arr[arr.indexOf(this.overflowItemIndex()) + 1];

@@ -8,11 +8,30 @@
 />
 
 <ng-template #overflowTemplate [ngnTemplate]="itemView.templateTypes.overflow" let-overflow>
-  <span [ngClass]="theme.class('item')">...</span>
+  <span
+    [ngClass]="
+      theme.classes({
+        item: true,
+        'item-clickable': true,
+      })
+    "
+    >...</span
+  >
 </ng-template>
 
 <ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
-  <span [ngClass]="theme.class('item')">{{ item.label }}</span>
+  <button
+    [ngClass]="
+      theme.classes({
+        item: true,
+        'item-clickable': !!item.callback || !!item.route,
+      })
+    "
+    (click)="item.callback?.()"
+    [routerLink]="item.route"
+  >
+    {{ item.label }}
+  </button>
 </ng-template>
 
 <ng-template #defaultSeparatorTemplate [ngnTemplate]="templateTypes.separator" let-separator>

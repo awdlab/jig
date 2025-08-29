@@ -1,5 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { injectThemeTemplate, NgnTemplate } from '@ngneers/controls/api/ng';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -15,7 +16,7 @@ import { BreadcrumbItem } from './types';
 @Component({
   selector: 'ngn-breadcrumb',
   templateUrl: './breadcrumb.html',
-  imports: [NgClass, NgnTemplate, NgnIcon, NgnItemView],
+  imports: [NgClass, NgnTemplate, NgnIcon, NgnItemView, RouterLink],
   host: {
     '[class]': 'theme.class()',
   },

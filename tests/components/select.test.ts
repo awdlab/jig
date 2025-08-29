@@ -401,7 +401,7 @@ test('invalid', async ({ page }, testInfo) => {
   await expectScreenshot(page, testInfo, 'invalid-open');
   await scroller.clickItemByText(exampleData.items.flatPreformatted[0].label);
   await expectScreenshot(page, testInfo, 'invalid-selected');
-  handle.setInputs({
+  await handle.setInputs({
     invalid: false,
   });
   await expectScreenshot(page, testInfo, 'valid');

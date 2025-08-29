@@ -4,6 +4,8 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  transition: none !important;
+  animation: none !important;
 }
 
 .page-center {
