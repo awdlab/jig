@@ -1,15 +1,15 @@
-import { isPlatformBrowser } from '@angular/common';
 import {
   afterRenderEffect,
   DestroyRef,
   Directive,
   ElementRef,
   inject,
-  PLATFORM_ID,
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { fromEvent } from 'rxjs';
+
+import { Platform } from '../platform';
 
 @Directive({
   selector: '[ngnDragScroll]',
@@ -23,7 +23,7 @@ export class NgnDragScroll {
 
   constructor() {
     const destroyRef = inject(DestroyRef);
-    if (!isPlatformBrowser(inject(PLATFORM_ID))) {
+    if (!inject(Platform).isBrowser) {
       return;
     }
     afterRenderEffect(() => {

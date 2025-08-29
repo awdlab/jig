@@ -21,9 +21,15 @@ export function areArraysDeepEqual<T>(a: readonly T[], b: readonly T[]): boolean
   }
   for (let i = 0; i < a.length; i++) {
     if (typeof a[i] === 'object' && typeof b[i] === 'object') {
-      return areObjectsDeepEqual(a[i] as object, b[i] as object);
+      const res = areObjectsDeepEqual(a[i] as object, b[i] as object);
+      if (!res) {
+        return false;
+      }
     } else {
-      return a[i] === b[i];
+      const res = a[i] === b[i];
+      if (!res) {
+        return false;
+      }
     }
   }
   return true;

@@ -1,10 +1,13 @@
-import { computed, DOCUMENT, inject, Injectable, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { computed, DOCUMENT, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 
 export type DeviceType = 'mobile' | 'desktop' | 'tablet';
 
 @Injectable()
 export class Platform {
   private readonly _deviceType = signal<DeviceType>('desktop');
+
+  public readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   constructor() {
     const doc = inject(DOCUMENT);

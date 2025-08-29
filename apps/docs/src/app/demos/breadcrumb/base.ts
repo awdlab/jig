@@ -3,7 +3,7 @@ import { BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
 
 @Component({
   imports: [NgnBreadcrumb],
-  template: `<ngn-breadcrumb [items]="items()" />`,
+  template: `<ngn-breadcrumb [items]="items()" /> <button (click)="click()">Click me</button>`,
 })
 export class Demo_Breadcrumb_Base {
   protected readonly items = signal<BreadcrumbItem[]>([
@@ -18,4 +18,16 @@ export class Demo_Breadcrumb_Base {
     { label: 'Item 9', id: 'item-9', callback: () => {} },
     { label: 'Item 10', id: 'item-10' },
   ]);
+
+  protected click() {
+    this.items.update(items => {
+      const copy = [...items];
+      if (copy[4].label.length > 8) {
+        copy[4] = { label: 'Item 5', id: 'item-5', callback: () => {} };
+      } else {
+        copy[4] = { label: 'Item 5 (longer label yeehaw)', id: 'item-5', callback: () => {} };
+      }
+      return copy;
+    });
+  }
 }

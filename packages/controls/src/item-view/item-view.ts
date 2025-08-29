@@ -1,10 +1,22 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, computed, ElementRef, input, viewChild, viewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  signal,
+  viewChild,
+  viewChildren,
+} from '@angular/core';
 import {
   elementSizeSignal,
   elementsSizesSignal,
   injectThemeTemplate,
   NgnTemplate,
+  Platform,
 } from '@ngneers/controls/api/ng';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -26,7 +38,7 @@ import { OverflowStrategy } from './types';
     '[attr.role]': '"list"',
   },
 })
-export class NgnItemView<T> extends ItemViewTemplates<T> {
+export class NgnItemView<T> extends ItemViewTemplates<T> implements AfterViewInit {
   protected readonly theme = injectThemeTemplate(itemViewControlTemplate);
   /**
    * The items to be displayed in the item view.
@@ -47,6 +59,9 @@ export class NgnItemView<T> extends ItemViewTemplates<T> {
    * @default 'end'
    */
   public readonly overflowStrategy = input<OverflowStrategy>('end');
+
+  private readonly _themeGap = signal(0);
+  private readonly _isBrowser = inject(Platform).isBrowser;
 
   protected readonly separatorChar = computed(() => {
     const sep = this.separator();
@@ -100,21 +115,6 @@ export class NgnItemView<T> extends ItemViewTemplates<T> {
       default:
         throw new Error(`Unknown overflow strategy: ${this.overflowStrategy()}`);
     }
-  });
-
-  private readonly _themeGap = computed(() => {
-    const elements = this._renderedItemRefs().map(ref => ref.nativeElement);
-    if (elements.length <= 1) {
-      return 0;
-    }
-    const el1Left = elements[0].offsetLeft;
-    const el2Left = elements[1].offsetLeft;
-    const el1Width = this._renderedItemWidths()[0];
-    if (!el1Width) {
-      return 0;
-    }
-
-    return el2Left - el1Left - el1Width;
   });
 
   private readonly _visibleItemCount = computed(() => {
@@ -173,5 +173,23 @@ export class NgnItemView<T> extends ItemViewTemplates<T> {
 
   constructor() {
     super();
+
+    effect(() => {
+      console.log('sizes', this._renderedItemSizes());
+    });
+    effect(() => {
+      console.log('width', this._renderedItemWidths());
+    });
+  }
+
+  public ngAfterViewInit(): void {
+    if (!this._isBrowser) {
+      return;
+    }
+    requestAnimationFrame(() => {
+      const gap = (this.element.nativeElement.computedStyleMap().get('column-gap') as CSSUnitValue)
+        .value;
+      this._themeGap.set(gap);
+    });
   }
 }
