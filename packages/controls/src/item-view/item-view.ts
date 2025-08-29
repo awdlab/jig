@@ -3,7 +3,6 @@ import {
   AfterViewInit,
   Component,
   computed,
-  effect,
   ElementRef,
   inject,
   input,
@@ -173,13 +172,6 @@ export class NgnItemView<T> extends ItemViewTemplates<T> implements AfterViewIni
 
   constructor() {
     super();
-
-    effect(() => {
-      console.log('sizes', this._renderedItemSizes());
-    });
-    effect(() => {
-      console.log('width', this._renderedItemWidths());
-    });
   }
 
   public ngAfterViewInit(): void {
