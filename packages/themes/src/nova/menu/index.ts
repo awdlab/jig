@@ -19,35 +19,34 @@ export const menuStyles = createThemePart({
           padding: 4px;
         }
       }
-      ${c('item-button')} {
-        background: transparent;
-        border: none;
-        padding: 0;
-
-        &:hover ${c('item')}:not(${c('item-disabled')}) {
-          background: ${v('color.surface.100')};
-        }
-        &:focus-visible {
-          outline: none;
-          ${c('item')}:not(${c('item-disabled')}) {
-            background: ${v('color.surface.200')};
-          }
-        }
-        &:active ${c('item')}:not(${c('item-disabled')}) {
-          background: ${v('color.surface.300')};
-        }
-      }
       ${c('item')} {
         border-radius: ${v('size.rounded.sm')};
         padding: ${v('size.padding.md')};
         display: flex;
         align-items: center;
+        background: transparent;
+        border: none;
+        justify-content: space-between;
         &:not(${c('item-disabled')}) {
           cursor: pointer;
+          &:hover {
+            background: ${v('color.surface.100')};
+          }
+          &:focus {
+            outline: none;
+            background: ${v('color.surface.200')};
+          }
+          &:active {
+            background: ${v('color.surface.300')};
+          }
         }
       }
       ${c('item-disabled')} {
         background: ${v('color.surface.200')};
+      }
+      ${c('icon-children')} {
+        --icon-size: 12px;
+        color: ${v('color.surface.500')};
       }
     `,
   },

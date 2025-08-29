@@ -67,6 +67,7 @@ export const tabsStyles = createThemePart({
         flex-shrink: 0;
         z-index: 1;
         color: ${v('color.surface.400')};
+        --icon-size: 10px;
         cursor: pointer;
         --blurColor: ${v('color.background')};
         &:hover {

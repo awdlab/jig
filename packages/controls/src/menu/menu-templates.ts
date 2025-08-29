@@ -7,13 +7,14 @@ import { MenuItem } from './types';
 export abstract class MenuTemplates {
   // Item template
   private readonly _defaultItemTemplate =
-    viewChild.required<TemplateRef<unknown>>('defaultItemTemplate');
-  private readonly _userItemTemplate = contentChild<TemplateRef<unknown>>('item');
+    viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');
+  private readonly _userItemTemplate =
+    contentChild<TemplateRef<typeof this.templateTypes.item>>('item');
   /**
    * Set a custom template for an item of the menu.
    * Can also be set using an `<ng-template>` element with `#item` template reference variable.
    */
-  public readonly templateItem = input<TemplateRef<unknown> | null>(null);
+  public readonly templateItem = input<TemplateRef<typeof this.templateTypes.item> | null>(null);
   protected readonly itemTemplate = computed(
     () => this._userItemTemplate() ?? this.templateItem() ?? this._defaultItemTemplate()
   );
@@ -36,9 +37,7 @@ export abstract class MenuTemplates {
    */
   public readonly templateTypes = templateTypesFn<{
     item: {
-      $implicit: {
-        item: MenuItem;
-      };
+      $implicit: MenuItem;
     };
   }>();
 }

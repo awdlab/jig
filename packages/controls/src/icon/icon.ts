@@ -3,15 +3,17 @@ import {
   afterRenderEffect,
   Component,
   computed,
+  effect,
   inject,
   input,
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import { NgnTemplate, templateTypesFn } from '@ngneers/controls/api/ng';
+import { injectThemeTemplate, NgnTemplate, templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnError } from '@ngneers/controls/utils';
+import { iconControlTemplate } from '@ngneers/controls-themes/templates/icon';
 
 import { GlobalIconTemplate } from './global-icon-template';
 import { IconTemplateContext } from './types';
@@ -25,14 +27,16 @@ import { IconTemplateContext } from './types';
   imports: [NgTemplateOutlet, NgnTemplate],
   host: {
     '[attr.ngSkipHydration]': 'true',
+    '[class]': 'theme.class()',
   },
 })
 export class NgnIcon extends NgnBase {
+  protected readonly theme = injectThemeTemplate(iconControlTemplate);
   private readonly _globalIconTemplate = inject(GlobalIconTemplate).globalIconTemplate;
 
   public readonly defaultIcon = input<string>();
   public readonly icon = input<IconType>();
-  public readonly size = input<string>('1rem');
+  public readonly size = input<string>();
 
   protected readonly templateType = templateTypesFn<IconTemplateContext>();
 
@@ -55,6 +59,13 @@ export class NgnIcon extends NgnBase {
           'icon',
           'Icon component requires either an icon or a default icon to be set.'
         );
+      }
+    });
+
+    effect(() => {
+      const size = this.size();
+      if (size) {
+        this.element.nativeElement.style.setProperty('--icon-size', size);
       }
     });
   }

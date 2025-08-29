@@ -3,13 +3,14 @@
     [ngClass]="theme.class('popover')"
     [anchor]="anchor()"
     [options]="{ placement: placement(), padding: isSubMenu() ? 0 : undefined }"
+    (closed)="popoverClosed.emit()"
   >
     <ng-template #lazy>
-      <ng-container *ngTemplateOutlet="menu"></ng-container>
+      <ng-container *ngTemplateOutlet="menu" />
     </ng-template>
   </ngn-popover>
 } @else {
-  <ng-container *ngTemplateOutlet="menu"></ng-container>
+  <ng-container *ngTemplateOutlet="menu" />
 }
 
 <ng-template #menu>
@@ -17,15 +18,16 @@
     @for (item of items(); track item.id) {
       @if (item.children) {
         <button
-          [tabindex]="$index === 0 ? 0 : -1"
-          [ngClass]="theme.class('item-button')"
+          #menuItem
           role="menuitem"
+          [tabindex]="$index === 0 ? 0 : -1"
+          [ngnAutofocus]="popover() && $index === 0"
+          [ngClass]="theme.classes({ item: true, 'item-disabled': item.disabled })"
           #itemButton
           (click)="childMenu.open()"
+          (keydown)="handleKeydown($event, true)"
         >
-          <ng-container
-            *ngTemplateOutlet="itemTemplate(); context: { $implicit: { item } }"
-          ></ng-container>
+          <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item }" />
         </button>
         <ngn-menu
           #childMenu
@@ -34,16 +36,18 @@
           [placement]="'right-start'"
           [popover]="true"
           [isSubMenu]="true"
+          (popoverClosed)="menuItem.focus()"
         />
       } @else {
         <button
-          [tabindex]="$index === 0 ? 0 : -1"
-          [ngClass]="theme.class('item-button')"
+          #menuItem
           role="menuitem"
+          [tabindex]="$index === 0 ? 0 : -1"
+          [ngnAutofocus]="popover() && $index === 0"
+          [ngClass]="theme.classes({ item: true, 'item-disabled': item.disabled })"
+          (keydown)="handleKeydown($event, false)"
         >
-          <ng-container
-            *ngTemplateOutlet="itemTemplate(); context: { $implicit: { item } }"
-          ></ng-container>
+          <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item }" />
         </button>
       }
     }
@@ -51,9 +55,14 @@
 </ng-template>
 
 <ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
-  <span [ngClass]="theme.classes({ item: true, 'item-disabled': item.item.disabled })">
-    {{ item.item.label }}
-  </span>
+  {{ item.label }}
+  @if (item.children) {
+    <ngn-icon
+      [ngClass]="theme.class('icon-children')"
+      defaultIcon="fa-solid fa-caret-right"
+      [icon]="iconChildren()"
+    />
+  }
 </ng-template>
 
 <ng-template #defaultGroupTemplate></ng-template>
