@@ -9,6 +9,8 @@ export const iconStyles = createThemePart({
       ${c()} {
         font-size: var(--icon-size);
         width: var(--icon-size);
+        height: var(--icon-size);
+        display: flex;
       }
     `,
   },

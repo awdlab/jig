@@ -7,6 +7,9 @@ export const selectStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
     css: ({ v, c, d }) => css`
+      ${c()} {
+        --icon-size: 14px;
+      }
       ${c('input')} ${d('input-field')} {
         cursor: pointer;
         display: flex;

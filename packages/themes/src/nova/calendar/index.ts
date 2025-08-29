@@ -9,6 +9,7 @@ export const calendarStyles = createThemePart({
     css: ({ v, c, d }) => css`
       ${c()} {
         width: fit-content;
+        --icon-size: 14px;
       }
       ${c('inline')} {
         padding: ${v('size.padding.md')};
