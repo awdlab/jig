@@ -2,10 +2,10 @@ import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, viewChild } from '@angular/core';
 import { Placement } from '@floating-ui/dom';
 import { injectThemeTemplate, NgnTemplate } from '@ngneers/controls/api/ng';
+import { NgnPopover } from '@ngneers/controls/popover';
 import { menuControlTemplate } from '@ngneers/controls-themes/templates/menu';
 
 import { MenuTemplates } from './menu-templates';
-import { NgnPopover } from '../popover';
 import { MenuItem } from './types';
 
 /**
