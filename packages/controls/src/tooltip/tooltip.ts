@@ -212,8 +212,6 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
     effect(() => this._tooltip()?.setInput('showOnlyIfTruncated', this.showOnlyIfTruncated()));
     effect(() => this._tooltip()?.setInput('size', this.size()));
     effect(() => this._tooltip()?.setInput('options', this.effectiveOptions()));
-
-    console.log(this.effectiveOptions());
   }
 
   public ngOnDestroy(): void {
