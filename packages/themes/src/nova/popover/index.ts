@@ -34,6 +34,7 @@ export const popoverStyles = createThemePart({
       }
       ${c('content')} {
         max-height: 100%;
+        flex-shrink: 0;
         pointer-events: auto;
         border-style: solid;
         background: ${v('color.background')};

@@ -1,5 +1,14 @@
-<div [ngClass]="theme.class()" #popover popover (toggle)="onToggle($event)">
-  <div [ngClass]="theme.class('content')">
+<div
+  [ngClass]="theme.class()"
+  #popover
+  popover
+  (toggle)="onToggle($event)"
+  [style.min-height]="!hasShrinkableContent() ? 'fit-content' : null"
+>
+  <div
+    [ngClass]="theme.class('content')"
+    [style.min-height]="!hasShrinkableContent() ? 'fit-content' : null"
+  >
     <ngn-defer [lazyContent]="lazyContent()" [open]="isOpen()" [cache]="appliedOptions().cache">
       <ng-content></ng-content>
     </ngn-defer>

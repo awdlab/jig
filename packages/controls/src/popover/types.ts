@@ -1,3 +1,4 @@
+import { Placement } from '@floating-ui/dom';
 import { PositioningSizeConstraints } from '@ngneers/controls/api/ng';
 
 export type PopoverOptions = {
@@ -10,4 +11,12 @@ export type PopoverOptions = {
    * This is useful for performance when the content is expensive to create.
    */
   cache?: boolean;
+  /**
+   * The placement of the popover relative to the anchor element.
+   */
+  placement?: Placement;
+  /**
+   * The padding of the popover content.
+   */
+  padding?: number;
 };

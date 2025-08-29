@@ -35,6 +35,10 @@ export class NgnPopover {
   protected readonly theme = injectThemeTemplate(popoverControlTemplate);
   public readonly anchor = input.required<HTMLElement>();
   public readonly options = input<PopoverOptions>();
+  /**
+   * Set to true for scrollable/shrink-able content
+   */
+  public readonly hasShrinkableContent = input<boolean>(false);
 
   protected readonly lazyContent = contentChild<TemplateRef<unknown>>('lazy');
 
@@ -62,6 +66,8 @@ export class NgnPopover {
       injector: this._injector,
       stopped: true,
       sizeConstraints: this.appliedOptions()?.sizeConstraints,
+      placement: this.appliedOptions()?.placement,
+      offset: this.appliedOptions()?.padding,
     });
   });
 

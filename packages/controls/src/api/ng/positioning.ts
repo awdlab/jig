@@ -60,6 +60,10 @@ export type AutoPositioningHandle = {
   isRunning: () => boolean;
 };
 
+function filterNonNullishKeys<T extends Record<string, unknown>>(obj: T): Partial<T> {
+  return Object.fromEntries(Object.entries(obj).filter(([, value]) => value != null)) as Partial<T>;
+}
+
 function mergeWithDefaults(
   options: PositioningOptions,
   floatingEl: HTMLElement
@@ -75,7 +79,7 @@ function mergeWithDefaults(
       (options.strategy ?? getComputedStyle(floatingEl).position === 'fixed')
         ? 'fixed'
         : 'absolute',
-    ...options,
+    ...filterNonNullishKeys(options),
   };
 }
 
@@ -129,9 +133,6 @@ export function positionElement(
     strategy: options.strategy,
     middleware: [
       options.offset ? offset(options.offset) : undefined,
-      ...(options.placement?.includes('-')
-        ? [flipMiddleware, shiftMiddleware]
-        : [shiftMiddleware, flipMiddleware]),
       options.resize
         ? size({
             apply({ availableHeight }) {
@@ -141,11 +142,14 @@ export function positionElement(
                 ? Math.min(availableHeight, parseInt(maxHeightInPx))
                 : availableHeight;
               Object.assign(floatingEl.style, {
-                height: `${maxHeight}px`,
+                height: `${maxHeight - 1}px`,
               });
             },
           })
         : undefined,
+      ...(options.placement?.includes('-')
+        ? [flipMiddleware, shiftMiddleware]
+        : [shiftMiddleware, flipMiddleware]),
       ...(options.middleware || []),
     ].filter(Boolean),
   }).then(pos => {
@@ -153,6 +157,7 @@ export function positionElement(
       Object.assign(floatingEl.style, {
         left: `${pos.x}px`,
         top: `${pos.y}px`,
+        justifyContent: pos.middlewareData.flip?.index ? 'flex-end' : 'flex-start',
       });
     }
     options.onPositionChange?.(pos);

@@ -56,7 +56,7 @@ export class NgnListBox<
 > extends ListBoxTemplates<T, K, Multiple> {
   protected readonly theme = injectThemeTemplate(listBoxControlTemplate);
 
-  public readonly items = input<readonly NgnItem<T, K>[] | readonly T[]>([]);
+  public readonly items = input.required<readonly NgnItem<T, K>[] | readonly T[]>();
   public readonly fields = input<NgnItemFields<T, K>>();
 
   public readonly scrollToSelectedItemOnInit = input<boolean | ScrollLogicalPosition>(false);

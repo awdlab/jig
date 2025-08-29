@@ -63,6 +63,7 @@
   (keydown)="onKeyDown($event)"
   (closed)="onPopoverClosed()"
   [id]="inputId() + '_popover'"
+  [hasShrinkableContent]="true"
 >
   <ng-template #lazy>
     <div [ngClass]="theme.class('popover-content')">

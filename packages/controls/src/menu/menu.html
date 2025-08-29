@@ -1,0 +1,59 @@
+@if (popover()) {
+  <ngn-popover
+    [ngClass]="theme.class('popover')"
+    [anchor]="anchor()"
+    [options]="{ placement: placement(), padding: isSubMenu() ? 0 : undefined }"
+  >
+    <ng-template #lazy>
+      <ng-container *ngTemplateOutlet="menu"></ng-container>
+    </ng-template>
+  </ngn-popover>
+} @else {
+  <ng-container *ngTemplateOutlet="menu"></ng-container>
+}
+
+<ng-template #menu>
+  <div [ngClass]="theme.class()" role="menu">
+    @for (item of items(); track item.id) {
+      @if (item.children) {
+        <button
+          [tabindex]="$index === 0 ? 0 : -1"
+          [ngClass]="theme.class('item-button')"
+          role="menuitem"
+          #itemButton
+          (click)="childMenu.open()"
+        >
+          <ng-container
+            *ngTemplateOutlet="itemTemplate(); context: { $implicit: { item } }"
+          ></ng-container>
+        </button>
+        <ngn-menu
+          #childMenu
+          [anchor]="itemButton"
+          [items]="item.children"
+          [placement]="'right-start'"
+          [popover]="true"
+          [isSubMenu]="true"
+        />
+      } @else {
+        <button
+          [tabindex]="$index === 0 ? 0 : -1"
+          [ngClass]="theme.class('item-button')"
+          role="menuitem"
+        >
+          <ng-container
+            *ngTemplateOutlet="itemTemplate(); context: { $implicit: { item } }"
+          ></ng-container>
+        </button>
+      }
+    }
+  </div>
+</ng-template>
+
+<ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
+  <span [ngClass]="theme.classes({ item: true, 'item-disabled': item.item.disabled })">
+    {{ item.item.label }}
+  </span>
+</ng-template>
+
+<ng-template #defaultGroupTemplate></ng-template>
