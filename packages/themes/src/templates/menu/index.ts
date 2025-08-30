@@ -3,6 +3,14 @@ import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popov
 
 export const menuControlTemplate = createControlTemplate({
   scope: 'menu',
-  classNames: ['submenu', 'popover', 'item', 'item-disabled', 'item-opened', 'icon-children'],
+  classNames: [
+    'submenu',
+    'popover',
+    'item',
+    'item-disabled',
+    'item-opened',
+    'icon-children',
+    'separator',
+  ],
   dependencies: [popoverControlTemplate],
 });

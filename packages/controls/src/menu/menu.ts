@@ -14,7 +14,7 @@ import { injectThemeTemplate, NgnAutofocus, NgnTemplate } from '@ngneers/control
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnPopover } from '@ngneers/controls/popover';
-import { afterRenderComputed } from '@ngneers/controls/utils-ng';
+import { afterRenderComputed, generateElementId } from '@ngneers/controls/utils-ng';
 import { menuControlTemplate } from '@ngneers/controls-themes/templates/menu';
 
 import { MenuTemplates } from './menu-templates';
@@ -34,6 +34,7 @@ import { MenuItem } from './types';
 })
 export class NgnMenu extends MenuTemplates {
   protected readonly theme = injectThemeTemplate(menuControlTemplate);
+  protected readonly elementId = input(generateElementId());
   public readonly anchor = input.required<HTMLElement>();
   public readonly items = input.required<MenuItem[]>();
   public readonly popover = input<boolean>();

@@ -14,51 +14,73 @@
 }
 
 <ng-template #menu>
-  <div [ngClass]="theme.class()" role="menu" [tabIndex]="0">
-    @for (item of items(); track item.id) {
-      @if (item.children) {
-        <button
-          #menuItem
-          role="menuitem"
-          [tabindex]="-1"
-          [ngnAutofocus]="autofocus() && $index === 0"
-          [ngClass]="
-            theme.classes({
-              item: true,
-              'item-disabled': item.disabled,
-              'item-opened': childMenu.isOpen(),
-            })
-          "
-          (click)="openChildMenu(childMenu, menuItem, 'click')"
-          (mouseenter)="openChildMenu(childMenu, menuItem, 'hover')"
-          (keydown)="handleKeydown($event, childMenu)"
-        >
-          <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item }" />
-        </button>
-        <ngn-menu
-          #childMenu
-          [anchor]="menuItem"
-          [items]="item.children"
-          [placement]="'right-start'"
-          [popover]="true"
-          [isSubMenu]="true"
-          (closed)="menuItem.focus()"
-        />
+  <div [ngClass]="theme.class()" role="menu" [tabIndex]="0" [id]="elementId() + '_menu'">
+    @for (item of items(); track 'id' in item ? item.id : item) {
+      @if ('separator' in item) {
+        <ng-container *ngTemplateOutlet="separatorTemplate" />
       } @else {
-        <button
-          #menuItem
-          role="menuitem"
-          [tabindex]="-1"
-          [ngnAutofocus]="autofocus() && $index === 0"
-          [ngClass]="theme.classes({ item: true, 'item-disabled': item.disabled })"
-          (keydown)="handleKeydown($event)"
-          (mouseenter)="closeChildMenus('hover', menuItem)"
-        >
-          <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item }" />
-        </button>
+        <ng-container
+          *ngTemplateOutlet="regularItemTemplate; context: { $implicit: item, index: $index }"
+        />
       }
     }
   </div>
+</ng-template>
+
+<ng-template #separatorTemplate>
+  <hr [ngClass]="theme.class('separator')" />
+</ng-template>
+
+<ng-template
+  #regularItemTemplate
+  [ngnTemplate]="internalTemplateTypes.regularItem"
+  let-item
+  let-index="index"
+>
+  @if (item.children) {
+    <button
+      #menuItem
+      role="menuitem"
+      aria-haspopup="menu"
+      [attr.aria-expanded]="childMenu.isOpen()"
+      [tabindex]="-1"
+      [ngnAutofocus]="autofocus() && index === 0"
+      [ngClass]="
+        theme.classes({
+          item: true,
+          'item-disabled': item.disabled,
+          'item-opened': childMenu.isOpen(),
+        })
+      "
+      (click)="openChildMenu(childMenu, menuItem, 'click')"
+      (mouseenter)="openChildMenu(childMenu, menuItem, 'hover')"
+      (keydown)="handleKeydown($event, childMenu)"
+    >
+      <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item }" />
+    </button>
+    <ngn-menu
+      #childMenu
+      [anchor]="menuItem"
+      [items]="item.children"
+      [placement]="'right-start'"
+      [popover]="true"
+      [isSubMenu]="true"
+      (closed)="menuItem.focus()"
+      [elementId]="elementId() + '_submenu_' + item.id"
+    />
+  } @else {
+    <button
+      #menuItem
+      role="menuitem"
+      [tabindex]="-1"
+      [ngnAutofocus]="autofocus() && index === 0"
+      [ngClass]="theme.classes({ item: true, 'item-disabled': item.disabled })"
+      (keydown)="handleKeydown($event)"
+      (mouseenter)="closeChildMenus('hover', menuItem)"
+    >
+      <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item }" />
+    </button>
+  }
 </ng-template>
 
 <ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>

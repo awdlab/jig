@@ -28,6 +28,7 @@ export const menuStyles = createThemePart({
         background: transparent;
         border: none;
         justify-content: space-between;
+        transition: background 0.2s ease;
         &:not(${c('item-disabled')}) {
           cursor: pointer;
           &:hover {
@@ -51,6 +52,12 @@ export const menuStyles = createThemePart({
       ${c('icon-children')} {
         --icon-size: 8px;
         color: ${v('color.surface.500')};
+      }
+      ${c('separator')} {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid var(--ngn-color-surface-300);
+        margin: ${v('size.padding.sm')} 0;
       }
     `,
   },

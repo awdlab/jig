@@ -1,7 +1,7 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 import { templateTypesFn } from '@ngneers/controls/api/ng';
 
-import { MenuItem } from './types';
+import { MenuItemDefault } from './types';
 
 @Directive()
 export abstract class MenuTemplates {
@@ -37,7 +37,14 @@ export abstract class MenuTemplates {
    */
   public readonly templateTypes = templateTypesFn<{
     item: {
-      $implicit: MenuItem;
+      $implicit: MenuItemDefault;
+    };
+  }>();
+
+  protected readonly internalTemplateTypes = templateTypesFn<{
+    regularItem: {
+      $implicit: MenuItemDefault;
+      index: number;
     };
   }>();
 }

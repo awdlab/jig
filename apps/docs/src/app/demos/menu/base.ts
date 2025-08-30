@@ -11,6 +11,7 @@ export class Demo_Menu_Base {
     { id: '1', label: 'Item 1', icon: 'icon-1' },
     { id: '2', label: 'Item 2', icon: 'icon-2' },
     { id: '3', label: 'Item 3', icon: 'icon-3' },
+    { separator: true },
     {
       id: '4',
       label: 'Item 4',
