@@ -84,7 +84,7 @@ export function positionElement(
   options = mergeWithDefaults(options);
 
   const flipMiddleware = options.flip
-    ? flip(options.shift ? { crossAxis: 'alignment' } : undefined)
+    ? flip(options.shift ? { crossAxis: 'alignment', fallbackAxisSideDirection: 'end' } : undefined)
     : undefined;
   const shiftMiddleware = options.shift ? shift() : undefined;
 

@@ -49,7 +49,7 @@ export class NgnMenu extends MenuTemplates {
   private readonly _menuItems = viewChildren<ElementRef<HTMLElement>>('menuItem');
   private readonly _childMenus = viewChildren(NgnMenu);
   protected readonly autofocus = signal(false);
-  protected hasClickFocus: boolean = false;
+  protected hasClickFocus: boolean | null = null;
 
   public open(focus = true) {
     this._popover().open();
@@ -91,7 +91,9 @@ export class NgnMenu extends MenuTemplates {
     if (closeBy === 'hover' && !this.hasClickFocus && !this.isSubMenu()) {
       return;
     }
-    menuItem?.focus();
+    if (closeBy === 'hover' && this.hoverHasEffect()) {
+      menuItem?.focus();
+    }
     this._childMenus().forEach(menu => {
       menu.close(false);
     });
@@ -104,12 +106,15 @@ export class NgnMenu extends MenuTemplates {
   ) {
     if (childMenu.isOpen()) {
       menuItem?.focus();
+      if (openBy === 'click') {
+        this.hasClickFocus = false;
+      }
       return;
     }
     if (openBy === 'click') {
       this.hasClickFocus = true;
     }
-    if (openBy === 'hover' && !this.hasClickFocus && !this.isSubMenu()) {
+    if (openBy === 'hover' && !this.hoverHasEffect()) {
       return;
     }
     this.closeChildMenus(openBy, menuItem);
@@ -121,5 +126,9 @@ export class NgnMenu extends MenuTemplates {
   protected popoverClosed() {
     this.closed.emit();
     this.hasClickFocus = false;
+  }
+
+  private hoverHasEffect() {
+    return this.hasClickFocus || (this.isSubMenu() && this.hasClickFocus !== false);
   }
 }
