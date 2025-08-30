@@ -64,10 +64,7 @@ function filterNonNullishKeys<T extends Record<string, unknown>>(obj: T): Partia
   return Object.fromEntries(Object.entries(obj).filter(([, value]) => value != null)) as Partial<T>;
 }
 
-function mergeWithDefaults(
-  options: PositioningOptions,
-  floatingEl: HTMLElement
-): PositioningOptions {
+function mergeWithDefaults(options: PositioningOptions): PositioningOptions {
   return {
     placement: 'bottom',
     flip: true,
@@ -75,10 +72,6 @@ function mergeWithDefaults(
     shift: true,
     offset: 4,
     stopped: false,
-    strategy:
-      (options.strategy ?? getComputedStyle(floatingEl).position === 'fixed')
-        ? 'fixed'
-        : 'absolute',
     ...filterNonNullishKeys(options),
   };
 }
@@ -88,7 +81,7 @@ export function positionElement(
   floatingEl: HTMLElement,
   options: PositioningOptions = {}
 ) {
-  options = mergeWithDefaults(options, floatingEl);
+  options = mergeWithDefaults(options);
 
   const isVerticalAlignment =
     options.placement?.startsWith('top') || options.placement?.startsWith('bottom');
@@ -173,7 +166,7 @@ export function autoPositionElement(
   floatingEl: HTMLElement,
   options: PositioningOptions = {}
 ): AutoPositioningHandle {
-  options = mergeWithDefaults(options, floatingEl);
+  options = mergeWithDefaults(options);
 
   let cleanup: (() => void) | undefined;
   const destroyRef = options.injector?.get(DestroyRef) ?? inject(DestroyRef);
