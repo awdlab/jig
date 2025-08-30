@@ -5,10 +5,13 @@ import {
   ElementRef,
   inject,
   Injector,
+  runInInjectionContext,
   signal,
   Signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { deepCopy } from '@ngneers/controls/utils';
+import { fromEvent, Observable, Subject, Subscription } from 'rxjs';
 
 export type Size = { width: number; height: number };
 
@@ -18,7 +21,14 @@ type ElementArray =
 type ElementSingle =
   | Signal<HTMLElement | ElementRef<HTMLElement> | undefined>
   | HTMLElement
+  | Document
   | ElementRef<HTMLElement>;
+
+function getElement(el: ElementSingle): HTMLElement | Document | undefined {
+  const rawElement = typeof el === 'function' ? el() : el;
+  const element = rawElement instanceof ElementRef ? rawElement.nativeElement : rawElement;
+  return element;
+}
 
 export function elementSizeSignal(element: ElementSingle): Signal<Size> {
   const val = elementsSizesSignalInt(element);
@@ -92,4 +102,48 @@ export function abortSignalOnDestroy(options?: { injector?: Injector }): AbortSi
   });
   (destroyRef as any)[ABORT_SIGNAL_SYMBOL] = abortController.signal;
   return abortController.signal;
+}
+
+export function domEventObservable<EventName extends keyof GlobalEventHandlersEventMap>(
+  element: ElementSingle,
+  eventName: EventName,
+  injector?: Injector
+): Observable<GlobalEventHandlersEventMap[EventName]> {
+  const inj = injector ?? inject(Injector);
+
+  const result = new Subject<GlobalEventHandlersEventMap[EventName]>();
+  const destroyRef = inj.get(DestroyRef);
+
+  let subscription: Subscription | undefined;
+  runInInjectionContext(inj, () => {
+    afterRenderEffect(() => {
+      subscription?.unsubscribe();
+      const el = getElement(element);
+      if (!el) {
+        return;
+      }
+      subscription = fromEvent(el, eventName)
+        .pipe(takeUntilDestroyed(destroyRef))
+        .subscribe(e => result.next(e as GlobalEventHandlersEventMap[EventName]));
+    });
+  });
+  return result.asObservable().pipe(takeUntilDestroyed(destroyRef));
+}
+
+export function domEventSignal<EventName extends keyof GlobalEventHandlersEventMap>(
+  element: HTMLElement,
+  eventName: EventName,
+  injector?: Injector
+): Signal<GlobalEventHandlersEventMap[EventName] | null> {
+  const inj = injector ?? inject(Injector);
+  const res = runInInjectionContext(inj, () => {
+    const sig = signal<GlobalEventHandlersEventMap[EventName] | null>(null);
+    fromEvent(element, eventName)
+      .pipe(takeUntilDestroyed())
+      .subscribe(value => {
+        sig.set(value as GlobalEventHandlersEventMap[EventName]);
+      });
+    return sig;
+  });
+  return res;
 }

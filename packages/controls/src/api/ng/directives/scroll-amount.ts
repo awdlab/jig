@@ -1,13 +1,7 @@
-import {
-  afterRenderEffect,
-  DestroyRef,
-  Directive,
-  ElementRef,
-  inject,
-  signal,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { fromEvent, map } from 'rxjs';
+import { afterRenderEffect, Directive, ElementRef, inject, signal } from '@angular/core';
+import { map } from 'rxjs';
+
+import { domEventObservable } from '../dom';
 
 @Directive({
   selector: '[ngnScrollAmount]',
@@ -16,11 +10,11 @@ export class NgnScrollAmount {
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
   public readonly scrollTop = signal(this._el.nativeElement.scrollTop);
   public readonly scrollLeft = signal(this._el.nativeElement.scrollLeft);
+  private readonly _scrollEvent = domEventObservable(this._el.nativeElement, 'scroll');
 
   constructor() {
-    const destroyRef = inject(DestroyRef);
     afterRenderEffect(() => {
-      const obs = fromEvent(this._el.nativeElement, 'scroll').pipe(
+      const obs = this._scrollEvent.pipe(
         map(e => {
           const target = e.target as HTMLElement;
           return {
@@ -29,7 +23,7 @@ export class NgnScrollAmount {
           };
         })
       );
-      obs.pipe(takeUntilDestroyed(destroyRef)).subscribe(scroll => {
+      obs.subscribe(scroll => {
         this.scrollTop.set(scroll.top);
         this.scrollLeft.set(scroll.left);
       });

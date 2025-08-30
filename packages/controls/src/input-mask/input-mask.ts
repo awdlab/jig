@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { afterRenderEffect, Component, computed, contentChild, input, signal } from '@angular/core';
-import { injectThemeTemplate } from '@ngneers/controls/api/ng';
+import { domEventObservable, injectThemeTemplate } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
@@ -23,25 +23,21 @@ export class NgnInputMask extends NgnBase {
   public readonly inputId = input<string | null>(null);
 
   private readonly _ngnInput = contentChild.required<NgnInput>(NgnInput);
-  protected readonly _inputElement = computed(
+  private readonly _inputElement = computed(
     () => this._ngnInput().element.nativeElement as HTMLInputElement
   );
 
+  private readonly _keydownEvent = domEventObservable(this._inputElement, 'keydown');
+  private readonly _beforeInputEvent = domEventObservable(this._inputElement, 'beforeinput');
+
   constructor() {
     super();
+    this._keydownEvent.subscribe(e => this.onKeyDown(e));
+    this._beforeInputEvent.subscribe(e => this.onBeforeInput(e));
     afterRenderEffect(() => {
-      console.warn('TODO: Implement event listeners for input mask correctly');
-      // TODO: Unsubscribe from these events when the component is destroyed
-      this._inputElement().addEventListener('keydown', e => this.onKeyDown(e));
-      this._inputElement().addEventListener('beforeinput', e => this.onBeforeInput(e));
-      this._inputElement().addEventListener('input', e => this.onInput(e));
-      // TODO: Use a more reliable way to detect non user input changes
-      // This is a workaround for cases where the value is set programmatically
-      setInterval(() => {
-        if (this._inputElement().value !== this.currentInputValue()) {
-          this.currentInputValue.set(this._inputElement().value);
-        }
-      }, 10);
+      if (this._ngnInput().value() !== this.currentInputValue()) {
+        this.currentInputValue.set(this._ngnInput().value() ?? '');
+      }
     });
   }
 

@@ -7,9 +7,8 @@ import {
   runInInjectionContext,
   signal,
 } from '@angular/core';
-import { injectThemeTemplate } from '@ngneers/controls/api/ng';
+import { domEventSignal, injectThemeTemplate } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
-import { fromEventSignal } from '@ngneers/controls/utils-ng';
 import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 
@@ -40,12 +39,12 @@ export class NgnInput extends NgnBase implements AfterViewInit {
 
   public ngAfterViewInit() {
     this.hasParentInputfield.set(!!this.element.nativeElement.closest('ngn-input-field'));
-    const changeEvent = fromEventSignal(
+    const changeEvent = domEventSignal(
       this.element.nativeElement as HTMLInputElement,
       'change',
       this.injector
     );
-    const inputEvent = fromEventSignal(
+    const inputEvent = domEventSignal(
       this.element.nativeElement as HTMLInputElement,
       'input',
       this.injector

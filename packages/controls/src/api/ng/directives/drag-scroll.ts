@@ -1,14 +1,6 @@
-import {
-  afterRenderEffect,
-  DestroyRef,
-  Directive,
-  ElementRef,
-  inject,
-  signal,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { fromEvent } from 'rxjs';
+import { afterRenderEffect, Directive, DOCUMENT, ElementRef, inject, signal } from '@angular/core';
 
+import { domEventObservable } from '../dom';
 import { Platform } from '../platform';
 
 @Directive({
@@ -21,29 +13,30 @@ export class NgnDragScroll {
   private _startY?: number = undefined;
   protected readonly isDragging = signal(false);
 
+  private readonly _document = inject(DOCUMENT);
+
+  private readonly _pointerDownEvent = domEventObservable(this._el.nativeElement, 'pointerdown');
+  private readonly _pointerMoveEvent = domEventObservable(this._document, 'pointermove');
+  private readonly _pointerUpEvent = domEventObservable(this._document, 'pointerup');
+
   constructor() {
-    const destroyRef = inject(DestroyRef);
     if (!inject(Platform).isBrowser) {
       return;
     }
     afterRenderEffect(() => {
-      const pointerDown = fromEvent(this._el.nativeElement, 'pointerdown');
-      const pointerMove = fromEvent(document, 'pointermove');
-      const pointerUp = fromEvent(document, 'pointerup');
-
-      pointerDown.pipe(takeUntilDestroyed(destroyRef)).subscribe(event => {
+      this._pointerDownEvent.subscribe(event => {
         this._pointerDown = true;
         this._startX = (event as PointerEvent).clientX;
         this._startY = (event as PointerEvent).clientY;
       });
-      pointerUp.pipe(takeUntilDestroyed(destroyRef)).subscribe(() => {
+      this._pointerUpEvent.subscribe(() => {
         this._pointerDown = false;
         this._startX = undefined;
         this._startY = undefined;
         this.isDragging.set(false);
       });
 
-      pointerMove.pipe(takeUntilDestroyed(destroyRef)).subscribe(event => {
+      this._pointerMoveEvent.subscribe(event => {
         if (!this._pointerDown) {
           return;
         }

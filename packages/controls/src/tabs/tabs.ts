@@ -107,11 +107,11 @@ export class NgnTabs extends NgnBase implements AfterViewInit {
 
   protected readonly tabsOverflowingRight = computed(() => {
     const tabListWidth = this._tabListSize().width;
-    const totalHeadersWidth = this._totalTabsWidth();
+    const tabListScrollWidth = this._tabList().nativeElement.scrollWidth;
     const scrollAmount = this._tabListScroll();
-    return (
-      totalHeadersWidth - scrollAmount > tabListWidth + 0.1 + 0.005 * this._headerElements().length // buffer for rounding errors
-    );
+    const _totalHeadersWidth = this._totalTabsWidth(); // retrigger calculation
+
+    return tabListScrollWidth - scrollAmount > tabListWidth;
   });
 
   protected readonly tabsOverflowingLeft = computed(() => this._tabListScroll() > 0);
@@ -197,7 +197,7 @@ export class NgnTabs extends NgnBase implements AfterViewInit {
       setTimeout(() => {
         tablistElement.scrollTo({ left: newScrollLeft, behavior: 'smooth' });
       });
-    } else if (index >= rightCutOffTabHeaderIndex) {
+    } else if (index >= rightCutOffTabHeaderIndex && rightCutOffTabHeaderIndex >= 0) {
       const newScrollLeft =
         this.calculateHeaderSliceWidth(0, index) -
         this._tabListSize().width +
