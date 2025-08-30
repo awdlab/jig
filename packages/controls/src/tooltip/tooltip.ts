@@ -386,6 +386,7 @@ export class TooltipComponent extends NgnBase {
       offset: this.options().offset,
       middleware: [relativeAnchorElementPosition],
       disableSettingStyles: true,
+      strategy: 'fixed',
       onPositionChange: ({ x, y, placement, middlewareData }) => {
         this.relativeAnchorElementPosition.set(middlewareData[relativeAnchorElementPosition.name]);
         this.position.set({ x, y });
@@ -469,6 +470,8 @@ export class TooltipComponent extends NgnBase {
   }
 
   protected onShow() {
+    console.log('onShow');
+
     if (!this.content() && !this.text()) {
       return;
     }
@@ -476,8 +479,10 @@ export class TooltipComponent extends NgnBase {
       return;
     }
 
-    this._isShown.set(true);
     this.element.nativeElement.showPopover();
+    requestAnimationFrame(() => {
+      this._isShown.set(true);
+    });
   }
 
   protected onHide() {
