@@ -21,11 +21,11 @@
           #menuItem
           role="menuitem"
           [tabindex]="$index === 0 ? 0 : -1"
-          [ngnAutofocus]="popover() && $index === 0"
+          [ngnAutofocus]="autofocus() && $index === 0"
           [ngClass]="theme.classes({ item: true, 'item-disabled': item.disabled })"
           #itemButton
           (click)="childMenu.open()"
-          (keydown)="handleKeydown($event, true)"
+          (keydown)="handleKeydown($event, childMenu)"
         >
           <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item }" />
         </button>
@@ -43,9 +43,9 @@
           #menuItem
           role="menuitem"
           [tabindex]="$index === 0 ? 0 : -1"
-          [ngnAutofocus]="popover() && $index === 0"
+          [ngnAutofocus]="autofocus() && $index === 0"
           [ngClass]="theme.classes({ item: true, 'item-disabled': item.disabled })"
-          (keydown)="handleKeydown($event, false)"
+          (keydown)="handleKeydown($event)"
         >
           <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item }" />
         </button>

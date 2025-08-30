@@ -5,6 +5,7 @@ import {
   ElementRef,
   input,
   output,
+  signal,
   viewChild,
   viewChildren,
 } from '@angular/core';
@@ -46,12 +47,14 @@ export class NgnMenu extends MenuTemplates {
 
   private readonly _popover = viewChild.required(NgnPopover);
   private readonly _menuItems = viewChildren<ElementRef<HTMLElement>>('menuItem');
+  protected readonly autofocus = signal(false);
 
-  public open() {
+  public open(focus = false) {
     this._popover().open();
+    this.autofocus.set(focus);
   }
 
-  protected handleKeydown(event: KeyboardEvent, hasSubMenu: boolean) {
+  protected handleKeydown(event: KeyboardEvent, subMenu?: NgnMenu) {
     let currentIndex = this._menuItems()
       .map(x => x.nativeElement)
       .indexOf(event.target as HTMLElement);
@@ -68,8 +71,8 @@ export class NgnMenu extends MenuTemplates {
         currentIndex = 0;
       }
       this._menuItems()[currentIndex].nativeElement.focus();
-    } else if (event.key === 'ArrowRight' && hasSubMenu) {
-      this._menuItems()[currentIndex].nativeElement.click();
+    } else if (event.key === 'ArrowRight' && subMenu) {
+      subMenu.open(true);
     } else if (event.key === 'ArrowLeft' && this.isSubMenu()) {
       this._popover().close();
     }
