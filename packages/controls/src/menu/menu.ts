@@ -14,6 +14,7 @@ import { injectThemeTemplate, NgnAutofocus, NgnTemplate } from '@ngneers/control
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnPopover } from '@ngneers/controls/popover';
+import { afterRenderComputed } from '@ngneers/controls/utils-ng';
 import { menuControlTemplate } from '@ngneers/controls-themes/templates/menu';
 
 import { MenuTemplates } from './menu-templates';
@@ -38,20 +39,24 @@ export class NgnMenu extends MenuTemplates {
   public readonly popover = input<boolean>();
   public readonly placement = input<Placement>('bottom-start');
   public readonly iconChildren = input<IconType>();
-  /**
-   * @internal
-   */
   public readonly isSubMenu = input<boolean>(false);
 
-  public readonly popoverClosed = output<void>();
+  public readonly closed = output<void>();
+  public readonly isOpen = afterRenderComputed(() => this._popover().isOpen(), false);
 
   private readonly _popover = viewChild.required(NgnPopover);
   private readonly _menuItems = viewChildren<ElementRef<HTMLElement>>('menuItem');
+  private readonly _childMenus = viewChildren(NgnMenu);
   protected readonly autofocus = signal(false);
+  protected hasClickFocus: boolean = false;
 
-  public open(focus = false) {
+  public open(focus = true) {
     this._popover().open();
     this.autofocus.set(focus);
+  }
+
+  public close(emitCloseEvent = true) {
+    this._popover().close(emitCloseEvent);
   }
 
   protected handleKeydown(event: KeyboardEvent, subMenu?: NgnMenu) {
@@ -72,9 +77,48 @@ export class NgnMenu extends MenuTemplates {
       }
       this._menuItems()[currentIndex].nativeElement.focus();
     } else if (event.key === 'ArrowRight' && subMenu) {
-      subMenu.open(true);
+      this.openChildMenu(subMenu, null, 'arrow');
     } else if (event.key === 'ArrowLeft' && this.isSubMenu()) {
       this._popover().close();
     }
+  }
+
+  protected closeChildMenus(
+    closeBy: 'hover' | 'click' | 'arrow',
+    menuItem: HTMLButtonElement | null
+  ) {
+    if (closeBy === 'hover' && !this.hasClickFocus && !this.isSubMenu()) {
+      return;
+    }
+    menuItem?.focus();
+    this._childMenus().forEach(menu => {
+      menu.close(false);
+    });
+  }
+
+  protected openChildMenu(
+    childMenu: NgnMenu,
+    menuItem: HTMLButtonElement | null,
+    openBy: 'hover' | 'click' | 'arrow'
+  ) {
+    if (childMenu.isOpen()) {
+      menuItem?.focus();
+      return;
+    }
+    if (openBy === 'click') {
+      this.hasClickFocus = true;
+    }
+    if (openBy === 'hover' && !this.hasClickFocus && !this.isSubMenu()) {
+      return;
+    }
+    this.closeChildMenus(openBy, menuItem);
+    setTimeout(() => {
+      childMenu.open(openBy === 'arrow');
+    });
+  }
+
+  protected popoverClosed() {
+    this.closed.emit();
+    this.hasClickFocus = false;
   }
 }

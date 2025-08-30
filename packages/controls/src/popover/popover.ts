@@ -42,6 +42,8 @@ export class NgnPopover {
 
   protected readonly lazyContent = contentChild<TemplateRef<unknown>>('lazy');
 
+  private _skipNextCloseEvent = false;
+
   protected readonly appliedOptions = computed(() => ({
     cache: false,
     ...this.options(),
@@ -87,9 +89,12 @@ export class NgnPopover {
     }
   }
 
-  public close() {
+  public close(emitCloseEvent = true) {
     if (!this.isOpen()) {
       return;
+    }
+    if (!emitCloseEvent) {
+      this._skipNextCloseEvent = true;
     }
     this._popover()?.togglePopover();
   }
@@ -98,7 +103,11 @@ export class NgnPopover {
     const evt = event as ToggleEvent;
     if (evt.newState === 'closed') {
       this._isOpen.set(false);
-      this.closed.emit();
+      if (this._skipNextCloseEvent) {
+        this._skipNextCloseEvent = false;
+      } else {
+        this.closed.emit();
+      }
       this._autoPos()?.stop();
     } else {
       this._isOpen.set(true);

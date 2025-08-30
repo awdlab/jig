@@ -44,6 +44,9 @@ export const menuStyles = createThemePart({
       ${c('item-disabled')} {
         background: ${v('color.surface.200')};
       }
+      ${c('item-opened')} {
+        background: ${v('color.surface.100')};
+      }
       ${c('icon-children')} {
         --icon-size: 12px;
         color: ${v('color.surface.500')};

@@ -21,6 +21,24 @@ export class Demo_Menu_Base {
         { id: '4-3', label: 'Item 4-3', icon: 'icon-4-3' },
       ],
     },
-    { id: '5', label: 'Item 5', icon: 'icon-5' },
+    {
+      id: '5',
+      label: 'Item 5',
+      icon: 'icon-5',
+      children: [
+        { id: '5-1', label: 'Item 5-1', icon: 'icon-5-1' },
+        { id: '5-2', label: 'Item 5-2', icon: 'icon-5-2' },
+        {
+          id: '5-3',
+          label: 'Item 5-3',
+          icon: 'icon-5-3',
+          children: [
+            { id: '5-3-1', label: 'Item 5-3-1', icon: 'icon-5-3-1' },
+            { id: '5-3-2', label: 'Item 5-3-2', icon: 'icon-5-3-2' },
+            { id: '5-3-3', label: 'Item 5-3-3', icon: 'icon-5-3-3' },
+          ],
+        },
+      ],
+    },
   ]);
 }

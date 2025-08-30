@@ -1,4 +1,5 @@
 import {
+  afterRenderEffect,
   computed,
   effect,
   inject,
@@ -74,4 +75,12 @@ export function fromEventSignal<T extends Event>(
     return sig;
   });
   return res;
+}
+
+export function afterRenderComputed<T>(computeFn: () => T, defaultValue: T): () => T {
+  const value = signal(defaultValue);
+  afterRenderEffect(() => {
+    value.set(computeFn());
+  });
+  return value.asReadonly();
 }

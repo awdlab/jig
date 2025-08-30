@@ -3,7 +3,7 @@
     [ngClass]="theme.class('popover')"
     [anchor]="anchor()"
     [options]="{ placement: placement(), padding: isSubMenu() ? 0 : undefined }"
-    (closed)="popoverClosed.emit()"
+    (closed)="popoverClosed()"
   >
     <ng-template #lazy>
       <ng-container *ngTemplateOutlet="menu" />
@@ -14,38 +14,45 @@
 }
 
 <ng-template #menu>
-  <div [ngClass]="theme.class()" role="menu">
+  <div [ngClass]="theme.class()" role="menu" [tabIndex]="0">
     @for (item of items(); track item.id) {
       @if (item.children) {
         <button
           #menuItem
           role="menuitem"
-          [tabindex]="$index === 0 ? 0 : -1"
+          [tabindex]="-1"
           [ngnAutofocus]="autofocus() && $index === 0"
-          [ngClass]="theme.classes({ item: true, 'item-disabled': item.disabled })"
-          #itemButton
-          (click)="childMenu.open()"
+          [ngClass]="
+            theme.classes({
+              item: true,
+              'item-disabled': item.disabled,
+              'item-opened': childMenu.isOpen(),
+            })
+          "
+          (click)="openChildMenu(childMenu, menuItem, 'click')"
+          (mouseenter)="openChildMenu(childMenu, menuItem, 'hover')"
           (keydown)="handleKeydown($event, childMenu)"
         >
           <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item }" />
         </button>
         <ngn-menu
           #childMenu
-          [anchor]="itemButton"
+          [anchor]="menuItem"
           [items]="item.children"
           [placement]="'right-start'"
           [popover]="true"
           [isSubMenu]="true"
-          (popoverClosed)="menuItem.focus()"
+          (closed)="menuItem.focus()"
         />
       } @else {
         <button
           #menuItem
           role="menuitem"
-          [tabindex]="$index === 0 ? 0 : -1"
+          [tabindex]="-1"
           [ngnAutofocus]="autofocus() && $index === 0"
           [ngClass]="theme.classes({ item: true, 'item-disabled': item.disabled })"
           (keydown)="handleKeydown($event)"
+          (mouseenter)="closeChildMenus('hover', menuItem)"
         >
           <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item }" />
         </button>
