@@ -66,6 +66,7 @@
       [popover]="true"
       [isSubMenu]="true"
       (closed)="menuItem.focus()"
+      (closeAll)="doCloseAll()"
       [elementId]="elementId() + '_submenu_' + item.id"
     />
   } @else {
@@ -77,6 +78,7 @@
       [ngClass]="theme.class('item')"
       [disabled]="item.disabled"
       (keydown)="handleKeydown($event)"
+      (click)="itemClicked(item)"
       (mouseenter)="closeChildMenus('hover', menuItem)"
     >
       <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item }" />

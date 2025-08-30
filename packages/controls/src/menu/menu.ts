@@ -43,6 +43,7 @@ export class NgnMenu extends MenuTemplates {
   public readonly isSubMenu = input<boolean>(false);
 
   public readonly closed = output<void>();
+  public readonly closeAll = output<void>();
   public readonly isOpen = afterRenderComputed(() => this._popover().isOpen(), false);
 
   private readonly _popover = viewChild.required(NgnPopover);
@@ -81,6 +82,20 @@ export class NgnMenu extends MenuTemplates {
       this.openChildMenu(subMenu, null, 'arrow');
     } else if (event.key === 'ArrowLeft' && this.isSubMenu()) {
       this._popover().close();
+    }
+  }
+
+  protected doCloseAll() {
+    this.closeAll.emit();
+    this.close();
+  }
+
+  protected itemClicked(item: MenuItem) {
+    this.closeAll.emit();
+    this.close();
+    if ('id' in item) {
+      // is regular item
+      item.callback?.();
     }
   }
 
