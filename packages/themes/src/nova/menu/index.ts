@@ -17,6 +17,7 @@ export const menuStyles = createThemePart({
       ${c('popover')} {
         ${d('popover', 'content')} {
           padding: 4px;
+          min-width: 160px;
         }
       }
       ${c('item')} {
@@ -48,7 +49,7 @@ export const menuStyles = createThemePart({
         background: ${v('color.surface.100')};
       }
       ${c('icon-children')} {
-        --icon-size: 12px;
+        --icon-size: 8px;
         color: ${v('color.surface.500')};
       }
     `,
