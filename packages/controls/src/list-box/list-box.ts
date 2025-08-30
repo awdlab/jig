@@ -43,9 +43,9 @@ import { ListBoxTemplates, ValueType } from './list-box-templates';
     '(keydown)': 'onKeyDown($event)',
     '(focusout)': 'currentHighlightedValue.set(null)',
     role: 'listbox',
-    '[attr.aria-activedescendant]':
+    '[aria-activedescendant]':
       'currentHighlightedValue() ? inputId() + "_option_" + currentHighlightedValue() : null',
-    '[ariaMultiSelectable]': '!!multiple()',
+    '[aria-multiselectable]': '!!multiple()',
     '[id]': 'inputId()',
   },
 })

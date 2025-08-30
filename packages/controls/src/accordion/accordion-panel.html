@@ -8,9 +8,9 @@
     "
     [id]="headerId()"
     [disabled]="disabled()"
-    [ariaExpanded]="expanded()"
+    [aria-expanded]="expanded()"
     (click)="toggle()"
-    [attr.aria-controls]="contentId()"
+    [aria-controls]="contentId()"
   >
     @if (headerTemplate()) {
       <ng-container
@@ -39,8 +39,8 @@
   <div
     [ngClass]="theme.class('panel-content')"
     [id]="contentId()"
-    [attr.aria-labelledby]="headerId()"
-    [attr.aria-hidden]="!expanded()"
+    [aria-labelledby]="headerId()"
+    [aria-hidden]="!expanded()"
     role="region"
   >
     <ngn-defer

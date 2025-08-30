@@ -5,13 +5,13 @@ import { SplitterModule } from '@ngneers/controls/splitter';
   imports: [SplitterModule],
   selector: 'ngn-splitter-minmax',
   template: `
-    <ngn-splitter [layout]="'horizontal'" [ariaLabel]="'Min/Max Sizes Splitter'">
+    <ngn-splitter [layout]="'horizontal'" [aria-label]="'Min/Max Sizes Splitter'">
       <ngn-splitter-panel
         [name]="'first-panel'"
         [size]="'70px'"
         [minSize]="'10%'"
         [maxSize]="'250px'"
-        [ariaLabel]="'First Panel'"
+        [aria-label]="'First Panel'"
       >
         Panel 1
       </ngn-splitter-panel>
@@ -20,7 +20,7 @@ import { SplitterModule } from '@ngneers/controls/splitter';
         [size]="'3fr'"
         [minSize]="'150px'"
         [maxSize]="'50%'"
-        [ariaLabel]="'Second Panel'"
+        [aria-label]="'Second Panel'"
       >
         Panel 2
       </ngn-splitter-panel>
@@ -28,7 +28,7 @@ import { SplitterModule } from '@ngneers/controls/splitter';
         [name]="'third-panel'"
         [size]="'5fr'"
         [maxSize]="'750px'"
-        [ariaLabel]="'Third Panel'"
+        [aria-label]="'Third Panel'"
       >
         Panel 3
       </ngn-splitter-panel>
@@ -36,11 +36,11 @@ import { SplitterModule } from '@ngneers/controls/splitter';
         [name]="'fourth-panel'"
         [size]="'1fr'"
         [minSize]="'15%'"
-        [ariaLabel]="'Fourth Panel'"
+        [aria-label]="'Fourth Panel'"
       >
         Panel 4
       </ngn-splitter-panel>
-      <ngn-splitter-panel [name]="'fifth-panel'" [size]="'50px'" [ariaLabel]="'Fifth Panel'">
+      <ngn-splitter-panel [name]="'fifth-panel'" [size]="'50px'" [aria-label]="'Fifth Panel'">
         Panel 5
       </ngn-splitter-panel>
     </ngn-splitter>

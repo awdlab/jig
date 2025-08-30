@@ -17,9 +17,9 @@
     <ng-content select="[ngnInput]">
       <input
         autocomplete="list"
-        [attr.aria-expanded]="popover.isOpen()"
+        [aria-expanded]="popover.isOpen()"
         aria-haspopup="listbox"
-        [attr.aria-controls]="inputId() + '_listbox'"
+        [aria-controls]="inputId() + '_listbox'"
         ngnInput
         [value]="valueStr() || ''"
         (valueChange)="onEditableChange($event)"
@@ -29,9 +29,9 @@
     <div
       role="combobox"
       [ngClass]="theme.class('combobox')"
-      [attr.aria-expanded]="popover.isOpen()"
+      [aria-expanded]="popover.isOpen()"
       aria-haspopup="listbox"
-      [attr.aria-controls]="inputId() + '_listbox'"
+      [aria-controls]="inputId() + '_listbox'"
     >
       @if (multiple()) {
         <ng-container

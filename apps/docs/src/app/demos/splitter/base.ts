@@ -5,10 +5,14 @@ import { SplitterModule } from '@ngneers/controls/splitter';
   imports: [SplitterModule],
   selector: 'ngn-splitter-base',
   template: `
-    <ngn-splitter [layout]="'horizontal'" [ariaLabel]="'Basic Example Splitter'">
-      <ngn-splitter-panel [size]="'70px'" [ariaLabel]="'First Panel'"> Panel 1 </ngn-splitter-panel>
-      <ngn-splitter-panel [size]="'3fr'" [ariaLabel]="'Second Panel'"> Panel 2 </ngn-splitter-panel>
-      <ngn-splitter-panel [size]="'5fr'" [ariaLabel]="'Third Panel'"> Panel 3 </ngn-splitter-panel>
+    <ngn-splitter [layout]="'horizontal'" [aria-label]="'Basic Example Splitter'">
+      <ngn-splitter-panel [size]="'70px'" [aria-label]="'First Panel'">
+        Panel 1
+      </ngn-splitter-panel>
+      <ngn-splitter-panel [size]="'3fr'" [aria-label]="'Second Panel'">
+        Panel 2
+      </ngn-splitter-panel>
+      <ngn-splitter-panel [size]="'5fr'" [aria-label]="'Third Panel'"> Panel 3 </ngn-splitter-panel>
     </ngn-splitter>
   `,
   styles: `

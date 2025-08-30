@@ -24,9 +24,9 @@ const SplitterPage: NgDocPage = {
   //   SplitterPlayground: {
   //     target: NgnSplitter,
   //     template: `<ng-doc-selector  style="height: 200px;">
-  //       <ngn-splitter-panel [ariaLabel]="'First Panel'"> Panel 1 </ngn-splitter-panel>
-  //       <ngn-splitter-panel  [ariaLabel]="'Second Panel'"> Panel 2 </ngn-splitter-panel>
-  //       <ngn-splitter-panel [ariaLabel]="'Third Panel'"> Panel 3 </ngn-splitter-panel>
+  //       <ngn-splitter-panel [aria-label]="'First Panel'"> Panel 1 </ngn-splitter-panel>
+  //       <ngn-splitter-panel  [aria-label]="'Second Panel'"> Panel 2 </ngn-splitter-panel>
+  //       <ngn-splitter-panel [aria-label]="'Third Panel'"> Panel 3 </ngn-splitter-panel>
   //     </ng-doc-selector>`,
   //   },
   // },

@@ -11,8 +11,8 @@
   >
     <button
       role="separator"
-      [attr.aria-orientation]="layout()"
-      [attr.aria-label]="translations['splitter_handleLabel']()"
+      [aria-orientation]="layout()"
+      [aria-label]="translations['splitter_handleLabel']()"
       [ngClass]="[theme.class('divider-handle')]"
       (pointerdown)="onHandlePointerDown(index, $event)"
       (pointermove)="onHandlePointerMove(index, $event)"

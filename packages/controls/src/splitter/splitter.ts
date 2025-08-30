@@ -52,8 +52,6 @@ import { isSplitterPanelSize } from './utils';
     '[style.max-height]': `layout() === 'vertical' ? calculator().maxSize() : null`,
     '[style.min-width]': `layout() === 'horizontal' ? calculator().minSize() : null`,
     '[style.min-height]': `layout() === 'vertical' ? calculator().minSize() : null`,
-    '[attr.aria-label]': 'ariaLabel()',
-    '[attr.aria-labelledby]': 'ariaLabelledBy()',
   },
 })
 export class NgnSplitter extends NgnBase implements OnDestroy {
@@ -108,15 +106,6 @@ export class NgnSplitter extends NgnBase implements OnDestroy {
    * @default '5px'
    */
   public readonly step = input<`${number}${'%' | 'px'}`>('5px');
-
-  /**
-   * The ARIA label for the splitter.
-   */
-  public readonly ariaLabel = input<string | null>();
-  /**
-   * The ARIA labelledby attribute for the splitter.
-   */
-  public readonly ariaLabelledBy = input<string | null>();
 
   /**
    * Event emitted when the splitter state is being saved.

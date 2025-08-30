@@ -13,7 +13,7 @@
   <div
     [id]="inputId() + '_option_' + itemOrGroup.value"
     [attr.role]="'option'"
-    [ariaSelected]="selectable() ? valueArray().includes(itemOrGroup.value) : null"
+    [aria-selected]="selectable() ? valueArray().includes(itemOrGroup.value) : null"
     [ngClass]="
       theme.classes({
         item: !itemOrGroup.items,
