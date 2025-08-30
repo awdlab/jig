@@ -150,8 +150,8 @@ export function positionElement(
       const flipped = pos.middlewareData.flip?.index;
       const flippedToLREnd =
         flipped &&
-        (pos.placement.startsWith('left-') ||
-          (pos.placement.startsWith('right-') && pos.placement.endsWith('-end')));
+        (pos.placement.startsWith('left-') || pos.placement.startsWith('right-')) &&
+        pos.placement.endsWith('-end');
       const flippedToTop = flipped && pos.placement.startsWith('top-');
 
       Object.assign(floatingEl.style, {
