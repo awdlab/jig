@@ -83,9 +83,6 @@ export function positionElement(
 ) {
   options = mergeWithDefaults(options);
 
-  const isVerticalAlignment =
-    options.placement?.startsWith('top') || options.placement?.startsWith('bottom');
-
   const flipMiddleware = options.flip
     ? flip(options.shift ? { crossAxis: 'alignment' } : undefined)
     : undefined;
@@ -150,11 +147,17 @@ export function positionElement(
     ].filter(Boolean),
   }).then(pos => {
     if (!options.disableSettingStyles) {
+      const flipped = pos.middlewareData.flip?.index;
+      const flippedToLREnd =
+        flipped &&
+        (pos.placement.startsWith('left-') ||
+          (pos.placement.startsWith('right-') && pos.placement.endsWith('-end')));
+      const flippedToTop = flipped && pos.placement.startsWith('top-');
+
       Object.assign(floatingEl.style, {
         left: `${pos.x}px`,
         top: `${pos.y}px`,
-        justifyContent:
-          pos.middlewareData.flip?.index && isVerticalAlignment ? 'flex-end' : 'flex-start',
+        justifyContent: flippedToLREnd || flippedToTop ? 'flex-end' : 'flex-start',
       });
     }
     options.onPositionChange?.(pos);

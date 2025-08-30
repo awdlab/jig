@@ -39,7 +39,7 @@ export class NgnMenu extends MenuTemplates {
   public readonly items = input.required<MenuItem[]>();
   public readonly popover = input<boolean>();
   public readonly placement = input<Placement>('bottom-start');
-  public readonly iconChildren = input<IconType>();
+  public readonly iconChildrenIndicator = input<IconType>();
   public readonly isSubMenu = input<boolean>(false);
 
   public readonly closed = output<void>();

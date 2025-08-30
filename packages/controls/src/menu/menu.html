@@ -48,10 +48,10 @@
       [ngClass]="
         theme.classes({
           item: true,
-          'item-disabled': item.disabled,
           'item-opened': childMenu.isOpen(),
         })
       "
+      [disabled]="item.disabled"
       (click)="openChildMenu(childMenu, menuItem, 'click')"
       (mouseenter)="openChildMenu(childMenu, menuItem, 'hover')"
       (keydown)="handleKeydown($event, childMenu)"
@@ -74,7 +74,8 @@
       role="menuitem"
       [tabindex]="-1"
       [ngnAutofocus]="autofocus() && index === 0"
-      [ngClass]="theme.classes({ item: true, 'item-disabled': item.disabled })"
+      [ngClass]="theme.class('item')"
+      [disabled]="item.disabled"
       (keydown)="handleKeydown($event)"
       (mouseenter)="closeChildMenus('hover', menuItem)"
     >
@@ -89,7 +90,7 @@
     <ngn-icon
       [ngClass]="theme.class('icon-children')"
       defaultIcon="fa-solid fa-chevron-right"
-      [icon]="iconChildren()"
+      [icon]="iconChildrenIndicator()"
     />
   }
 </ng-template>

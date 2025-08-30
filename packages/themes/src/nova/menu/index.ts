@@ -29,7 +29,7 @@ export const menuStyles = createThemePart({
         border: none;
         justify-content: space-between;
         transition: background 0.2s ease;
-        &:not(${c('item-disabled')}) {
+        &:not(:disabled) {
           cursor: pointer;
           &:hover {
             background: ${v('color.surface.100')};
@@ -42,9 +42,9 @@ export const menuStyles = createThemePart({
             background: ${v('color.surface.300')};
           }
         }
-      }
-      ${c('item-disabled')} {
-        background: ${v('color.surface.200')};
+        &:disabled {
+          background: ${v('color.surface.200')};
+        }
       }
       ${c('item-opened')} {
         background: ${v('color.surface.100')};
