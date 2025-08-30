@@ -10,6 +10,7 @@ export const accordionStyles = createThemePart({
       ${c()} {
         display: flex;
         flex-direction: column;
+        --icon-size: 14px;
       }
       ${c('panel')} {
         border-bottom: 1px solid ${v('color.surface.200')};
@@ -50,7 +51,7 @@ export const accordionStyles = createThemePart({
         user-select: none;
         ngn-icon {
           color: ${v('color.surface.500')};
-          padding: 0 ${v('size.padding.md')};
+          margin: 0 ${v('size.padding.md')};
           transition: color 0.2s ease-in-out;
         }
         &:hover {
