@@ -17,7 +17,7 @@ import { SplitterPanelSize, SplitterPanelSizeLimit } from '../types';
     '[class]': `theme.class('panel')`,
     '[style.grid-area]': 'gridArea()',
     '[aria-label]': 'ariaLabel()',
-    '[aria-labelledby]': 'ariaLabelledBy()',
+    '[attr.aria-labelledby]': 'ariaLabelledBy()',
   },
 })
 export class NgnSplitterPanel extends NgnBase {

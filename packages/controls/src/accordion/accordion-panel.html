@@ -10,7 +10,7 @@
     [disabled]="disabled()"
     [aria-expanded]="expanded()"
     (click)="toggle()"
-    [aria-controls]="contentId()"
+    [attr.aria-controls]="contentId()"
   >
     @if (headerTemplate()) {
       <ng-container
@@ -39,7 +39,7 @@
   <div
     [ngClass]="theme.class('panel-content')"
     [id]="contentId()"
-    [aria-labelledby]="headerId()"
+    [attr.aria-labelledby]="headerId()"
     [aria-hidden]="!expanded()"
     role="region"
   >
