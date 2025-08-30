@@ -38,7 +38,7 @@ test('base', async ({ page }, testInfo) => {
   });
 });
 
-test('position change', async ({ page, browser }, testInfo) => {
+test('position change', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
@@ -103,4 +103,50 @@ test('position change', async ({ page, browser }, testInfo) => {
       );
     });
   }
+});
+
+test('positioning on scroll', async ({ page }, testInfo) => {
+  const handle = await loadComponent(page, {
+    template: `
+        <div style="height: calc(100vh + 30px); width: calc(100vw + 30px); position: relative;">
+          <div id="toScreenshot" style="position: absolute; top: 50vh; left: 50vw; width: 200px; height: 200px;">
+            <button
+              style="margin: 50px;"
+              [ngnTooltip]="'Hello World!'"
+              [ngnTooltipShowDelay]="0"
+              [ngnTooltipHideDelay]="'1m'"
+            >
+              Button
+            </button>
+          </div>
+        </div>
+      `,
+    imports: ['tooltip'],
+  });
+
+  const tooltip = new NgnTooltipHarness(page.getByRole('tooltip').first());
+  const button = page.getByRole('button').first();
+  const toScreenshot = page.locator('#toScreenshot');
+  await button.hover();
+  await tooltip.expectRendered();
+  await tooltip.expectOpened();
+
+  await test.step('not scrolled', async () => {
+    await expectScreenshot(toScreenshot, testInfo);
+  });
+
+  await test.step('scrolled vertically', async () => {
+    await page.evaluate(() => window.scrollTo(0, 25));
+    await expectScreenshot(toScreenshot, testInfo);
+  });
+
+  await test.step('scrolled both', async () => {
+    await page.evaluate(() => window.scrollTo(25, 25));
+    await expectScreenshot(toScreenshot, testInfo);
+  });
+
+  await test.step('scrolled horizontally', async () => {
+    await page.evaluate(() => window.scrollTo(25, 0));
+    await expectScreenshot(toScreenshot, testInfo);
+  });
 });

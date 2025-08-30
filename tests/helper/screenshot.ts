@@ -1,6 +1,20 @@
-import { expect, Page, TestInfo } from '@playwright/test';
+import {
+  expect,
+  Locator,
+  Page,
+  PageAssertionsToHaveScreenshotOptions,
+  TestInfo,
+} from '@playwright/test';
 
-export function expectScreenshot(page: Page, testInfo: TestInfo, name?: string) {
+export function expectScreenshot(
+  toScreenshot: Page | Locator,
+  testInfo: TestInfo,
+  name?: string,
+  options?: PageAssertionsToHaveScreenshotOptions
+) {
   const fullName = `${testInfo.title}${name ? '-' + name : ''}.png`;
-  return expect(page).toHaveScreenshot(fullName, { fullPage: true });
+  return expect(toScreenshot).toHaveScreenshot(fullName, {
+    fullPage: 'addInitScript' in toScreenshot,
+    ...options,
+  });
 }

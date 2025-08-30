@@ -479,10 +479,8 @@ export class TooltipComponent extends NgnBase {
       return;
     }
 
+    this._isShown.set(true);
     this.element.nativeElement.showPopover();
-    requestAnimationFrame(() => {
-      this._isShown.set(true);
-    });
   }
 
   protected onHide() {
