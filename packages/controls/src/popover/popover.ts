@@ -41,6 +41,7 @@ export class NgnPopover {
   public readonly hasShrinkableContent = input<boolean>(false);
 
   protected readonly lazyContent = contentChild<TemplateRef<unknown>>('lazy');
+  protected readonly _content = viewChild.required<ElementRef<HTMLElement>>('content');
 
   private _skipNextCloseEvent = false;
 
@@ -54,6 +55,7 @@ export class NgnPopover {
 
   private readonly _isOpen = signal(false);
   public readonly isOpen = this._isOpen.asReadonly();
+  protected readonly isFullyClosed = signal(true);
 
   private readonly _injector = inject(Injector);
   private readonly _popoverRef = viewChild<ElementRef<HTMLElement>>('popover');
@@ -103,15 +105,32 @@ export class NgnPopover {
     const evt = event as ToggleEvent;
     if (evt.newState === 'closed') {
       this._isOpen.set(false);
+
       if (this._skipNextCloseEvent) {
         this._skipNextCloseEvent = false;
       } else {
         this.closed.emit();
       }
       this._autoPos()?.stop();
+
+      requestAnimationFrame(() => {
+        const allAnimationsDone = Promise.all(
+          this._content()
+            .nativeElement.getAnimations()
+            .map(x => x.finished)
+        );
+        allAnimationsDone
+          .then(() => {
+            this.isFullyClosed.set(true);
+          })
+          .catch(() => {
+            // ignore cancelled animation
+          });
+      });
     } else {
       this._isOpen.set(true);
       this.opened.emit();
+      this.isFullyClosed.set(false);
     }
   }
 }

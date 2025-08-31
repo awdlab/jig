@@ -32,11 +32,11 @@ test('base', async ({ page }, testInfo) => {
   await scroller.expectItemsCount(exampleData.items.flatPreformatted.length);
   await scroller.expectItemsTexts(exampleData.items.flatPreformatted.map(item => item.label));
   await expectScreenshot(page, testInfo, 'opened');
-  await scroller.clickItemByText(exampleData.items.flatPreformatted[0].label);
+  await select.clickItemByText(exampleData.items.flatPreformatted[0].label);
   await expectScreenshot(page, testInfo, 'selected');
 
   await select.open();
-  await scroller.clickItemByText(exampleData.items.flatPreformatted[15].label);
+  await select.clickItemByText(exampleData.items.flatPreformatted[15].label);
   await select.open();
   await expect(scroller.getItemByText(exampleData.items.flatPreformatted[15].label)).toBeInViewport(
     { ratio: 1 }
@@ -75,7 +75,7 @@ test('virtual', async ({ page }, testInfo) => {
 
   await scroller.expectItemsCountBetween(12, 15);
   await expectScreenshot(page, testInfo, 'opened');
-  await scroller.clickItemByText(exampleData.items.flatPreformatted[0].label);
+  await select.clickItemByText(exampleData.items.flatPreformatted[0].label);
   await expectScreenshot(page, testInfo, 'selected');
 
   await select.open();
@@ -86,7 +86,7 @@ test('virtual', async ({ page }, testInfo) => {
   await expect(
     scroller.getItemByText(exampleData.items.flatPreformatted[15].label)
   ).toBeInViewport();
-  await scroller.getItemByText(exampleData.items.flatPreformatted[15].label).click();
+  await select.clickItemByText(exampleData.items.flatPreformatted[15].label);
   await select.open();
   await expect(scroller.getItemByText(exampleData.items.flatPreformatted[15].label)).toBeInViewport(
     { ratio: 1 }
@@ -124,7 +124,7 @@ test('grouped', async ({ page }, testInfo) => {
   await scroller.expectItemsCount(exampleData.items.flatPreformatted.length);
   await scroller.expectStickyItemsCount(exampleData.items.groupedPreformatted.length);
   await expectScreenshot(page, testInfo, 'opened');
-  await scroller.clickItemByText(exampleData.items.flatPreformatted[0].label);
+  await select.clickItemByText(exampleData.items.flatPreformatted[0].label);
   await select.expectSelectedItemText(exampleData.items.flatPreformatted[0].label);
 });
 
@@ -168,7 +168,7 @@ test('templates', async ({ page }, testInfo) => {
   await scroller.expectItemsCount(exampleData.items.flatPreformatted.length);
   await scroller.expectStickyItemsCount(exampleData.items.groupedPreformatted.length);
   await expectScreenshot(page, testInfo, 'opened');
-  await scroller.clickItemByText('👀' + exampleData.items.flatPreformatted[0].label);
+  await select.clickItemByText('👀' + exampleData.items.flatPreformatted[0].label);
   await select.expectSelectedItemText('✅' + exampleData.items.flatPreformatted[0].label);
 });
 
@@ -209,7 +209,7 @@ test('fields', async ({ page }, testInfo) => {
   await scroller.expectItemsCount(exampleData.items.flatPreformatted.length);
   await scroller.expectStickyItemsCount(exampleData.items.groupedPreformatted.length);
   await expectScreenshot(page, testInfo, 'opened');
-  await scroller.clickItemByText(exampleData.items.flatPreformatted[0].label);
+  await select.clickItemByText(exampleData.items.flatPreformatted[0].label);
   await select.expectSelectedItemText(exampleData.items.flatPreformatted[0].label);
 });
 
@@ -308,7 +308,7 @@ test('editable', async ({ page }, testInfo) => {
   await scroller.expectStickyItemsTexts(['Africa', 'Europe']);
   await expectScreenshot(page, testInfo, 'filtered');
 
-  await scroller.clickItemByText('Germany');
+  await select.clickItemByText('Germany');
 
   expect(await handle.getOutputLog()).toEqual({ value: ['ger', 'Germany'] });
 });
@@ -342,14 +342,14 @@ test('multiple', async ({ page }, testInfo) => {
   const scroller = listBox.scroller;
   await scroller.expectItemsCount(exampleData.items.flatPreformatted.length);
   await expectScreenshot(page, testInfo, 'opened');
-  await scroller.clickItemByText(exampleData.items.flatPreformatted[0].label);
+  await select.clickItemByText(exampleData.items.flatPreformatted[0].label, false);
   await select.expectSelectedItemText(exampleData.items.flatPreformatted[0].label);
 
   await expectScreenshot(page, testInfo, 'selected-1');
-  await scroller.clickItemByText(exampleData.items.flatPreformatted[1].label);
-  await scroller.clickItemByText(exampleData.items.flatPreformatted[2].label);
-  await scroller.clickItemByText(exampleData.items.flatPreformatted[3].label);
-  await scroller.clickItemByText(exampleData.items.flatPreformatted[4].label);
+  await select.clickItemByText(exampleData.items.flatPreformatted[1].label, false);
+  await select.clickItemByText(exampleData.items.flatPreformatted[2].label, false);
+  await select.clickItemByText(exampleData.items.flatPreformatted[3].label, false);
+  await select.clickItemByText(exampleData.items.flatPreformatted[4].label, false);
   await select.multipleItemView.expectItemVisibleCount(2);
   await select.multipleItemView.expectItemOverflowingCount(3);
   await select.multipleItemView.expectItemVisibleTexts([
@@ -358,10 +358,10 @@ test('multiple', async ({ page }, testInfo) => {
   ]);
 
   await expectScreenshot(page, testInfo, 'selected-4');
-  await scroller.clickItemByText(exampleData.items.flatPreformatted[5].label);
-  await scroller.clickItemByText(exampleData.items.flatPreformatted[6].label);
-  await scroller.clickItemByText(exampleData.items.flatPreformatted[7].label);
-  await scroller.clickItemByText(exampleData.items.flatPreformatted[8].label);
+  await select.clickItemByText(exampleData.items.flatPreformatted[5].label, false);
+  await select.clickItemByText(exampleData.items.flatPreformatted[6].label, false);
+  await select.clickItemByText(exampleData.items.flatPreformatted[7].label, false);
+  await select.clickItemByText(exampleData.items.flatPreformatted[8].label, false);
   await select.multipleItemView.expectItemVisibleCount(2);
   await select.multipleItemView.expectItemOverflowingCount(7);
   await select.multipleItemView.expectItemVisibleTexts([
@@ -396,10 +396,9 @@ test('invalid', async ({ page }, testInfo) => {
   await select.expectOpened(false);
   await expectScreenshot(page, testInfo, 'invalid');
   await select.open();
-  const listBox = select.listBox;
-  const scroller = listBox.scroller;
   await expectScreenshot(page, testInfo, 'invalid-open');
-  await scroller.clickItemByText(exampleData.items.flatPreformatted[0].label);
+  await select.clickItemByText(exampleData.items.flatPreformatted[0].label);
+  await select.expectOpened(false);
   await expectScreenshot(page, testInfo, 'invalid-selected');
   await handle.setInputs({
     invalid: false,

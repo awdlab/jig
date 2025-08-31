@@ -54,4 +54,11 @@ export class NgnSelectHarness {
       await expect(this.input).toHaveText(text);
     }
   }
+
+  public async clickItemByText(text: string, expectClosed = true) {
+    await this.listBox.scroller.clickItemByText(text);
+    if (expectClosed) {
+      await this.expectOpened(false);
+    }
+  }
 }

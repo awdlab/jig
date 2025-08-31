@@ -4,8 +4,9 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  transition: none !important;
-  animation: none !important;
+  // Disable animations. Can't set to "none", because forwarded animations should still apply.
+  transition-duration: 0s !important;
+  animation-duration: 0s !important;
 }
 
 .page-center {

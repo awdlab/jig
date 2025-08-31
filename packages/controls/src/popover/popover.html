@@ -6,10 +6,20 @@
   [style.min-height]="!hasShrinkableContent() ? 'fit-content' : null"
 >
   <div
-    [ngClass]="theme.class('content')"
+    #content
+    [ngClass]="
+      theme.classes({
+        content: true,
+        'content-closing': !this.isOpen() && !this.isFullyClosed(),
+      })
+    "
     [style.min-height]="!hasShrinkableContent() ? 'fit-content' : null"
   >
-    <ngn-defer [lazyContent]="lazyContent()" [open]="isOpen()" [cache]="appliedOptions().cache">
+    <ngn-defer
+      [lazyContent]="lazyContent()"
+      [open]="isOpen() || !isFullyClosed()"
+      [cache]="appliedOptions().cache"
+    >
       <ng-content></ng-content>
     </ngn-defer>
   </div>

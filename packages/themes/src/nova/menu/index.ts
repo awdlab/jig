@@ -11,9 +11,6 @@ export const menuStyles = createThemePart({
         display: flex;
         flex-direction: column;
       }
-      ${c('submenu')} ${d('popover', 'content')} {
-        margin: -4px 0;
-      }
       ${c('popover')} {
         ${d('popover', 'content')} {
           padding: 4px;
