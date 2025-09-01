@@ -95,6 +95,7 @@ export class NgnPopover {
     if (!this.isOpen()) {
       return;
     }
+    this._autoPos()?.stop();
     if (!emitCloseEvent) {
       this._skipNextCloseEvent = true;
     }

@@ -42,6 +42,7 @@ export class NgnMenu extends MenuTemplates {
   public readonly placement = input<Placement>('bottom-start');
   public readonly iconChildrenIndicator = input<IconType>();
   public readonly isSubMenu = input<boolean>(false);
+  public readonly openSubmenuOnHover = input<boolean>(true);
 
   public readonly closed = output<void>();
   public readonly closeAll = output<void>();
@@ -52,7 +53,6 @@ export class NgnMenu extends MenuTemplates {
   private readonly _menuItems = viewChildren<ElementRef<HTMLElement>>('menuItem');
   private readonly _childMenus = viewChildren(NgnMenu);
   protected readonly autofocus = signal(false);
-  protected hasClickFocus: boolean | null = null;
 
   public open(focus = true) {
     this._popover().open();
@@ -88,13 +88,15 @@ export class NgnMenu extends MenuTemplates {
   }
 
   protected doCloseAll() {
-    this.closeAll.emit();
     this.close();
+    // Delay the closing of the parents to ensure the children close first (for animation purposes)
+    requestAnimationFrame(() => {
+      this.closeAll.emit();
+    });
   }
 
   protected itemClicked(item: MenuItem) {
-    this.closeAll.emit();
-    this.close();
+    this.doCloseAll();
     if ('id' in item) {
       // is regular item
       item.callback?.();
@@ -106,10 +108,10 @@ export class NgnMenu extends MenuTemplates {
     menuItem: HTMLButtonElement | null
   ) {
     if (closeBy === 'hover') {
-      if (this._isTouchDevice() || (!this.hasClickFocus && !this.isSubMenu())) {
+      if (this._isTouchDevice() || !this.openSubmenuOnHover()) {
         return;
       }
-      if (this.hoverHasEffect()) {
+      if (this.openSubmenuOnHover()) {
         menuItem?.focus();
       }
     }
@@ -124,19 +126,13 @@ export class NgnMenu extends MenuTemplates {
     openBy: 'hover' | 'click' | 'arrow'
   ) {
     if (openBy === 'hover') {
-      if (this._isTouchDevice() || !this.hoverHasEffect()) {
+      if (this._isTouchDevice() || !this.openSubmenuOnHover()) {
         return;
       }
     }
     if (childMenu.isOpen()) {
       menuItem?.focus();
-      if (openBy === 'click') {
-        this.hasClickFocus = false;
-      }
       return;
-    }
-    if (openBy === 'click') {
-      this.hasClickFocus = true;
     }
     this.closeChildMenus(openBy, menuItem);
     setTimeout(() => {
@@ -146,10 +142,5 @@ export class NgnMenu extends MenuTemplates {
 
   protected popoverClosed() {
     this.closed.emit();
-    this.hasClickFocus = false;
-  }
-
-  private hoverHasEffect() {
-    return this.hasClickFocus || (this.isSubMenu() && this.hasClickFocus !== false);
   }
 }

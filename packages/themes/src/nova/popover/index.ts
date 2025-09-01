@@ -41,7 +41,7 @@ export const popoverStyles = createThemePart({
         &:not(:popover-open) {
           display: none;
           /* Due to the TRANSITION_BUFFER, the child would reappear (for TRANSITION_BUFFER), because the closing class gets removed */
-          ${c('content')}:not(${c('content-closing')}) {
+          > ${c('content')}:not(${c('content-closing')}) {
             display: none;
           }
         }

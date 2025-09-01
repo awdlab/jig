@@ -68,6 +68,7 @@
       (closed)="menuItem.focus()"
       (closeAll)="doCloseAll()"
       [elementId]="elementId() + '_submenu_' + item.id"
+      [openSubmenuOnHover]="openSubmenuOnHover()"
     />
   } @else {
     <button
