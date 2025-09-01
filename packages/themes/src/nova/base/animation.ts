@@ -21,7 +21,7 @@ export const animation = createThemePart({
         fade: '0.2s',
       },
       easing: {
-        fade: 'ease-in-out',
+        fade: 'ease',
       },
     },
   },
