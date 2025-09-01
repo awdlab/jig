@@ -24,7 +24,7 @@ export const breadcrumbStyles = createThemePart({
           margin-left: 0.5rem;
         }
       }
-      ${c('item')} {
+      ${c('item')}, ${c('overflow')} {
         cursor: default;
         color: ${v('color.surface.600')};
         transition: color 0.2s;
@@ -32,8 +32,9 @@ export const breadcrumbStyles = createThemePart({
         border: none;
         padding: 0;
         font-size: inherit;
+        display: inline-block;
       }
-      ${c('item-clickable')} {
+      ${c('item-clickable')}, ${c('overflow')} {
         cursor: pointer;
         &:hover {
           color: ${v('color.text')};

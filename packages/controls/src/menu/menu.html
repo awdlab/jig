@@ -81,6 +81,7 @@
       (keydown)="handleKeydown($event)"
       (click)="itemClicked(item)"
       (mouseenter)="closeChildMenus('hover', menuItem)"
+      [routerLink]="item.route"
     >
       <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item }" />
     </button>

@@ -20,7 +20,7 @@
       <ng-container
         *ngTemplateOutlet="
           separatorTemplate();
-          context: { $implicit: { character: separatorChar(), icon: separatorIcon() } }
+          context: { $implicit: { character: separatorChar(), icon: iconItemSeparator() } }
         "
       />
     }
@@ -52,7 +52,7 @@
           <ng-container
             *ngTemplateOutlet="
               separatorTemplate();
-              context: { $implicit: { character: separatorChar(), icon: separatorIcon() } }
+              context: { $implicit: { character: separatorChar(), icon: iconItemSeparator() } }
             "
         /></span>
       }

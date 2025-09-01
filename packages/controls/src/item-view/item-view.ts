@@ -51,7 +51,7 @@ export class NgnItemView<T> extends ItemViewTemplates<T> implements AfterViewIni
   /**
    * A separator icon to be displayed between items.
    */
-  public readonly separatorIcon = input<IconType>();
+  public readonly iconItemSeparator = input<IconType>();
   /**
    * Strategy to use when there are more items than can be displayed in the available space.
    * The value determines where the items should start to overflow.

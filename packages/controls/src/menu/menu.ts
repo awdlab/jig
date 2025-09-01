@@ -10,6 +10,7 @@ import {
   viewChild,
   viewChildren,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Placement } from '@floating-ui/dom';
 import { injectThemeTemplate, NgnAutofocus, NgnTemplate, Platform } from '@ngneers/controls/api/ng';
 import { IconType } from '@ngneers/controls/custom-types';
@@ -26,7 +27,7 @@ import { MenuItem } from './types';
  */
 @Component({
   selector: 'ngn-menu',
-  imports: [NgClass, NgTemplateOutlet, NgnTemplate, NgnAutofocus, NgnPopover, NgnIcon],
+  imports: [NgClass, NgTemplateOutlet, NgnTemplate, NgnAutofocus, NgnPopover, NgnIcon, RouterLink],
   templateUrl: './menu.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -97,8 +98,7 @@ export class NgnMenu extends MenuTemplates {
 
   protected itemClicked(item: MenuItem) {
     this.doCloseAll();
-    if ('id' in item) {
-      // is regular item
+    if ('callback' in item) {
       item.callback?.();
     }
   }

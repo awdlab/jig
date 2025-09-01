@@ -1,14 +1,8 @@
+import { NgnActionItem } from '@ngneers/controls/api';
+
 export type MenuItem = MenuItemDefault | MenuItemSeparator;
 
-export type MenuItemDefault = {
-  id: string;
-  label: string;
-  icon?: string;
-  callback?: () => void;
-  disabled?: boolean;
-  testId?: string;
-  children?: MenuItem[];
-};
+export type MenuItemDefault = NgnActionItem;
 
 export type MenuItemSeparator = {
   separator: true;

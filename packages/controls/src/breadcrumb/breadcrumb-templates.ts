@@ -2,7 +2,7 @@ import { computed, contentChild, Directive, input, TemplateRef, viewChild } from
 import { templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 
-import { ItemTemplateType, SeparatorTemplateType } from './types';
+import { ItemTemplateType, OverflowTemplateType, SeparatorTemplateType } from './types';
 
 @Directive()
 export abstract class BreadcrumbTemplates extends NgnBase {
@@ -38,6 +38,22 @@ export abstract class BreadcrumbTemplates extends NgnBase {
       this._userSeparatorTemplate() ?? this.templateSeparator() ?? this._defaultSeparatorTemplate()
   );
 
+  // Overflow template
+  private readonly _defaultOverflowTemplate =
+    viewChild.required<TemplateRef<typeof this.templateTypes.overflow>>('defaultOverflowTemplate');
+  private readonly _userOverflowTemplate =
+    contentChild<TemplateRef<typeof this.templateTypes.overflow>>('overflow');
+  /**
+   * Set a custom template for the overflowing items.
+   * Can also be set using an `<ng-template>` element with `#overflow` template reference variable.
+   */
+  public readonly templateOverflow = input<TemplateRef<typeof this.templateTypes.overflow> | null>(
+    null
+  );
+  protected readonly overflowTemplate = computed(
+    () => this._userOverflowTemplate() ?? this.templateOverflow() ?? this._defaultOverflowTemplate()
+  );
+
   /**
    * Types for the breadcrumb templates.
    */
@@ -47,5 +63,6 @@ export abstract class BreadcrumbTemplates extends NgnBase {
      */
     item: ItemTemplateType;
     separator: SeparatorTemplateType;
+    overflow: OverflowTemplateType;
   }>();
 }
