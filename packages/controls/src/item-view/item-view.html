@@ -1,4 +1,4 @@
-@for (item of items(); track item; let i = $index) {
+@for (item of items(); track item[idKey()]; let i = $index) {
   <span
     role="listitem"
     #item

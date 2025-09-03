@@ -11,7 +11,7 @@
       <ngn-icon [icon]="iconScrollLeft()" [defaultIcon]="'fa-solid fa-chevron-left'" />
     </button>
   }
-  @for (header of headers(); track header; let i = $index) {
+  @for (header of headers(); track header.id; let i = $index) {
     <button
       type="button"
       role="tab"
@@ -43,7 +43,7 @@
     [style.left.px]="indicatorLeft()"
   ></div>
 </div>
-@for (content of contents(); track content; let i = $index) {
+@for (content of contents(); track content.id; let i = $index) {
   <div
     role="tabpanel"
     [ngClass]="content.id === activeTab() ? theme.class('content') : ''"

@@ -37,8 +37,15 @@ import { OverflowStrategy } from './types';
     '[attr.role]': '"list"',
   },
 })
-export class NgnItemView<T> extends ItemViewTemplates<T> implements AfterViewInit {
+export class NgnItemView<T extends object, IdKey extends keyof T>
+  extends ItemViewTemplates<T>
+  implements AfterViewInit
+{
   protected readonly theme = injectThemeTemplate(itemViewControlTemplate);
+  /**
+   * The key of the id property in the item object. This is used to track items in the template.
+   */
+  public readonly idKey = input.required<IdKey>();
   /**
    * The items to be displayed in the item view.
    * This is a required input and should be an array of items of type {@link T}.

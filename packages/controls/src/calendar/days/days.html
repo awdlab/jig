@@ -29,7 +29,7 @@
     />
   </div>
   <div class="ngn-calendar-days">
-    @for (weekDay of weekDaysSorted(); track $index) {
+    @for (weekDay of weekDaysSorted(); track weekDay) {
       <span [ngClass]="theme.class('week-day')">
         <ng-container
           *ngTemplateOutlet="

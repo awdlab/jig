@@ -21,7 +21,7 @@
     />
   </div>
   <div [ngClass]="theme.class('months')">
-    @for (month of months; track $index) {
+    @for (month of months; track month) {
       <button [ngClass]="theme.class('month')" (click)="selectMonth($index)">
         <ng-container
           *ngTemplateOutlet="
