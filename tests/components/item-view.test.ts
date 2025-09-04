@@ -7,7 +7,7 @@ test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-item-view [items]="inputs().items" style="width: {{inputs().width}};">
+      template: `<ngn-item-view [items]="inputs().items" [idField]="'id'" style="width: {{inputs().width}};">
         <ng-template #item let-item>
           <span style="padding: 8px; background: {{item.color}}">{{item.label}}</span>
         </ng-template>
@@ -17,9 +17,9 @@ test('base', async ({ page }, testInfo) => {
     {
       inputs: {
         items: [
-          { label: 'Item 1', color: 'red' },
-          { label: 'Item 2', color: 'green' },
-          { label: 'Item 3', color: 'blue' },
+          { id: 1, label: 'Item 1', color: 'red' },
+          { id: 2, label: 'Item 2', color: 'green' },
+          { id: 3, label: 'Item 3', color: 'blue' },
         ],
         width: '200px',
       },
@@ -36,10 +36,10 @@ test('base', async ({ page }, testInfo) => {
 
   handle.setInputs({
     items: [
-      { label: 'Item 1', color: 'red' },
-      { label: 'Item 2', color: 'green' },
-      { label: 'Item 3', color: 'blue' },
-      { label: 'Item 4', color: 'yellow' },
+      { id: 1, label: 'Item 1', color: 'red' },
+      { id: 2, label: 'Item 2', color: 'green' },
+      { id: 3, label: 'Item 3', color: 'blue' },
+      { id: 4, label: 'Item 4', color: 'yellow' },
     ],
   });
 

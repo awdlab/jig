@@ -8,7 +8,7 @@ import { exampleData } from '../../helper/data';
   imports: [NgnItemView, NgnTemplate],
   selector: 'demo-item-view-base',
   template: `
-    <ngn-item-view #itemView [items]="items" [idKey]="'id'">
+    <ngn-item-view #itemView [items]="items" [idField]="'id'">
       <ng-template #item [ngnTemplate]="itemView.templateTypes.item" let-item>
         <span style="padding: 4px; background: lightgray;">
           {{ item.label }}
