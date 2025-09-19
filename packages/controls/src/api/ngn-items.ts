@@ -12,21 +12,18 @@ export type NgnItemFields<T, K extends keyof T> = {
   label: keyof T;
   value: K;
   testId?: keyof T;
-  /**
-   * @todo think about new name
-   */
-  groupItems?: keyof T;
+  children?: keyof T;
 };
 
 export function transformToNgnItem<T extends object, K extends keyof T>(
   item: T,
   fields: NgnItemFields<T, K>
 ): NgnItem<T, K> {
-  const rawItems = fields.groupItems ? item[fields.groupItems] : undefined;
+  const rawItems = fields.children ? item[fields.children] : undefined;
   if (rawItems && !Array.isArray(rawItems)) {
     throw new NgnError(
       'transformToNgnItem',
-      `Expected groupItems to be an array, but got ${typeof rawItems} for item: ${JSON.stringify(item)}`
+      `Expected children to be an array, but got ${typeof rawItems} for item: ${JSON.stringify(item)}`
     );
   }
   const items = (rawItems as T[])?.length
@@ -47,7 +44,7 @@ export function transformToNgnItems<T extends object, K extends keyof T>(
     label: keyof T;
     value: K;
     testId?: keyof T;
-    groupItems?: keyof T;
+    children?: keyof T;
   }
 ): NgnItem<T, K>[] {
   return items.map(item => transformToNgnItem(item, fields));

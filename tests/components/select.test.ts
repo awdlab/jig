@@ -193,7 +193,7 @@ test('fields', async ({ page }, testInfo) => {
         fields: {
           label: 'label',
           value: 'id',
-          groupItems: 'items',
+          children: 'items',
         },
       },
     }
@@ -284,7 +284,7 @@ test('editable', async ({ page }, testInfo) => {
         fields: {
           label: 'label',
           value: 'id',
-          groupItems: 'items',
+          children: 'items',
         },
       },
     }

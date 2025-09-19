@@ -107,7 +107,7 @@ const itemsPreformatted = transformToNgnItems(items, {
 const itemsGroupedPreformatted = transformToNgnItems(itemsGrouped, {
   value: 'id',
   label: 'label',
-  groupItems: 'items',
+  children: 'items',
   testId: 'id',
 });
 

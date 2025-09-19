@@ -11,7 +11,7 @@ import { exampleData } from '../../helper/data';
       [fields]="{
         value: 'id',
         label: 'label',
-        groupItems: 'items',
+        children: 'items',
       }"
       [items]="items"
       style="display: block; height: 300px;"

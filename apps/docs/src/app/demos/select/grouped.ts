@@ -12,7 +12,7 @@ import { exampleData } from '../../helper/data';
       [fields]="{
         value: 'id',
         label: 'label',
-        groupItems: 'items',
+        children: 'items',
       }"
       [filter]="true"
       [options]="options"
