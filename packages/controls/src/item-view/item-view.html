@@ -8,7 +8,6 @@
         'item-overflowing': !visibleItemIndices().includes(i),
       })
     "
-    [aria-hidden]="!visibleItemIndices().includes(i)"
   >
     <ng-container
       *ngTemplateOutlet="
@@ -27,7 +26,7 @@
   </span>
 
   @if (i === overflowItemIndex()) {
-    <div #overflowItem>
+    <div aria-hidden="true" #overflowItem>
       <ng-container
         *ngTemplateOutlet="
           overflowTemplate();

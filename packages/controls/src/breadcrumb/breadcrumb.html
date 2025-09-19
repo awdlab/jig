@@ -19,7 +19,7 @@
 </ng-template>
 
 <ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
-  <button
+  <a
     [ngClass]="
       theme.classes({
         item: true,
@@ -30,7 +30,7 @@
     [routerLink]="item.route"
   >
     {{ item.label }}
-  </button>
+  </a>
 </ng-template>
 
 <ng-template #defaultSeparatorTemplate [ngnTemplate]="templateTypes.separator" let-separator>
