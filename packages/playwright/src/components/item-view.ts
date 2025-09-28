@@ -7,6 +7,7 @@ export class NgnItemViewHarness {
   public readonly item: Locator;
   public readonly itemVisible: Locator;
   public readonly itemOverflowing: Locator;
+  public readonly overflowItem: Locator;
 
   constructor(public locator: Locator) {
     this.item = locator.locator(this.classes['item']);
@@ -14,6 +15,7 @@ export class NgnItemViewHarness {
       `${this.classes['item']}:not(${this.classes['item-overflowing']})`
     );
     this.itemOverflowing = locator.locator(this.classes['item-overflowing']);
+    this.overflowItem = locator.locator(this.classes['more-items']);
   }
 
   public async expectItemCount(count: number) {
@@ -38,5 +40,9 @@ export class NgnItemViewHarness {
 
   public async expectItemOverflowingTexts(texts: string[]) {
     await expect(this.itemOverflowing).toHaveText(texts);
+  }
+
+  public getItemByIndex(index: number) {
+    return this.itemVisible.nth(index);
   }
 }

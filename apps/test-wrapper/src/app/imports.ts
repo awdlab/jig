@@ -6,6 +6,8 @@ export const IMPORTS = {
   avatar: () => import('@ngneers/controls/avatar').then((m) => m.NgnAvatar),
   avatarGroup: () =>
     import('@ngneers/controls/avatar').then((m) => m.NgnAvatarGroup),
+  breadcrumb: () =>
+    import('@ngneers/controls/breadcrumb').then((m) => m.NgnBreadcrumb),
   button: () => import('@ngneers/controls/button').then((m) => m.NgnButton),
   calendar: () =>
     import('@ngneers/controls/calendar').then((m) => m.NgnCalendar),

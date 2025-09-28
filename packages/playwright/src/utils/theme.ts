@@ -8,11 +8,9 @@ type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
 type Classes<CT extends ControlTemplate> = Record<CT['classNames'][number] | '', string> & {
   $deps: UnionToIntersection<
     Prettify<
-      CT['dependencies'] extends []
-        ? CT['dependencies'][number] extends infer I
-          ? I extends ControlTemplate
-            ? Record<I['scope'], Classes<I>>
-            : never
+      CT['dependencies'][number] extends infer Dep
+        ? Dep extends ControlTemplate<infer I>
+          ? Record<I, Classes<Dep>>
           : never
         : never
     >
@@ -22,7 +20,7 @@ type Classes<CT extends ControlTemplate> = Record<CT['classNames'][number] | '',
 export function themeClasses<CT extends ControlTemplate>(template: CT): Classes<CT> {
   const result: Classes<CT> = {} as any;
 
-  const deps = template.dependencies?.map(dep => ({ [dep]: themeClasses(dep) }));
+  const deps = template.dependencies?.map(dep => ({ [dep.scope]: themeClasses(dep) }));
   if (deps) {
     result.$deps = Object.assign({}, ...deps);
   }

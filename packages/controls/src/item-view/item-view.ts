@@ -186,8 +186,8 @@ export class NgnItemView<T extends object, idField extends keyof T>
       return;
     }
     requestAnimationFrame(() => {
-      const gap = (this.element.nativeElement.computedStyleMap().get('column-gap') as CSSUnitValue)
-        .value;
+      const gapString = getComputedStyle(this.element.nativeElement).getPropertyValue('column-gap');
+      const gap = parseFloat(gapString) || 0;
       this._themeGap.set(gap);
     });
   }

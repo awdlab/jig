@@ -26,7 +26,7 @@
   </span>
 
   @if (i === overflowItemIndex()) {
-    <div aria-hidden="true" #overflowItem>
+    <div [ngClass]="theme.class('more-items')" aria-hidden="true" #overflowItem>
       <ng-container
         *ngTemplateOutlet="
           overflowTemplate();
@@ -68,5 +68,5 @@
 </ng-template>
 
 <ng-template #defaultOverflowItemTemplate [ngnTemplate]="templateTypes.overflow" let-overflow>
-  <span [ngClass]="theme.class('more-items')">+{{ overflow.overflowCount }}</span>
+  <span [ngClass]="theme.class('more-items-default')">+{{ overflow.overflowCount }}</span>
 </ng-template>
