@@ -1,5 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
-import { computed, DOCUMENT, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
+import { computed, DOCUMENT, inject, Injectable, PLATFORM_ID, Signal, signal } from '@angular/core';
+
+import { elementSizeSignal, Size } from './dom';
 
 export type DeviceType = 'mobile' | 'desktop' | 'tablet';
 
@@ -8,6 +10,12 @@ export class Platform {
   private readonly _deviceType = signal<DeviceType>('desktop');
 
   public readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
+  public readonly windowSize: Signal<Size> = this.isBrowser
+    ? elementSizeSignal(document.body)
+    : signal({ width: 0, height: 0 });
+  public readonly width = computed(() => this.windowSize().width);
+  public readonly height = computed(() => this.windowSize().height);
 
   constructor() {
     const doc = inject(DOCUMENT);
