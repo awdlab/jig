@@ -6,8 +6,8 @@ import {
   injectThemeTemplate,
 } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
+import { NgnButton } from '@ngneers/controls/button';
 import { buttonGroupControlTemplate } from '@ngneers/controls-themes/templates/button-group';
-import { NgnButton } from 'packages/controls/src/button/button';
 
 /**
  * @category control
