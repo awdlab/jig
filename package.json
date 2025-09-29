@@ -18,7 +18,7 @@
     "test": "pnpm playwright test"
   },
   "license": "MIT",
-  "packageManager": "pnpm@10.12.4",
+  "packageManager": "pnpm@10.17.1",
   "devDependencies": {
     "@angular-eslint/builder": "^20.2.0",
     "@eslint/js": "^9.34.0",
