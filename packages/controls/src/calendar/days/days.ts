@@ -1,5 +1,14 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, computed, inject, input, output, TemplateRef } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  input,
+  output,
+  TemplateRef,
+  viewChildren,
+} from '@angular/core';
 import { injectThemeTemplate } from '@ngneers/controls/api/ng';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
@@ -72,6 +81,7 @@ export class CalendarDays {
       }))
   );
 
+  private readonly _dayButton = viewChildren<ElementRef<HTMLButtonElement>>('dayButton');
   private readonly _firstDayOfWeekIndex = computed(() => WEEK_DAYS.indexOf(this.firstDayOfWeek()));
   private readonly _daysInMonth = computed(() =>
     new Date(this.year(), this.month() + 1, 0).getDate()
@@ -130,6 +140,14 @@ export class CalendarDays {
     return { weeks };
   });
 
+  protected readonly tabFocusDay = computed(() => {
+    const val = this.currentValue();
+    if (val && val.getMonth() === this.month() && val.getFullYear() === this.year()) {
+      return val.getDate();
+    }
+    return 1;
+  });
+
   protected prev() {
     this.previousMonth.emit();
   }
@@ -140,5 +158,62 @@ export class CalendarDays {
 
   protected selectYear(year: number) {
     this.yearSelected.emit(year);
+  }
+
+  protected dayKeydown(event: KeyboardEvent, day: HTMLButtonElement) {
+    if (['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
+      event.preventDefault();
+
+      const getCurrentMonthButtons = () => {
+        return this._dayButton()
+          .map(ref => ref.nativeElement)
+          .filter(x => !x.classList.contains(this.theme.class('day-other-month')));
+      };
+
+      const allDayButtons = getCurrentMonthButtons();
+      const index = allDayButtons.indexOf(day);
+      const daysInMonth = this._daysInMonth();
+      if (event.key === 'ArrowRight') {
+        if (index < daysInMonth - 1) {
+          allDayButtons[index + 1]?.focus();
+        } else {
+          this.next();
+          setTimeout(() => {
+            getCurrentMonthButtons()[0]?.focus();
+          });
+        }
+      } else if (event.key === 'ArrowLeft') {
+        if (index > 0) {
+          allDayButtons[index - 1]?.focus();
+        } else {
+          this.prev();
+          setTimeout(() => {
+            const buttons = getCurrentMonthButtons();
+            buttons[buttons.length - 1]?.focus();
+          });
+        }
+      } else if (event.key === 'ArrowDown') {
+        if (index < daysInMonth - 7) {
+          allDayButtons[index + 7]?.focus();
+        } else {
+          this.next();
+          const nextIndex = (index + 7) % daysInMonth;
+          setTimeout(() => {
+            getCurrentMonthButtons()[nextIndex]?.focus();
+          });
+        }
+      } else if (event.key === 'ArrowUp') {
+        if (index >= 7) {
+          allDayButtons[index - 7]?.focus();
+        } else {
+          this.prev();
+          setTimeout(() => {
+            const buttons = getCurrentMonthButtons();
+            const targetIndex = Math.min(buttons.length - 7 + index, buttons.length - 1);
+            buttons[targetIndex]?.focus();
+          });
+        }
+      }
+    }
   }
 }

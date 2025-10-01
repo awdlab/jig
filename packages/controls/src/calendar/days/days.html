@@ -47,6 +47,7 @@
     @for (item of monthModel().weeks; track $index) {
       @for (day of item.days; track $index) {
         <button
+          #dayButton
           [ngClass]="
             theme.classes({
               day: true,
@@ -61,12 +62,15 @@
                 currentValue()?.getFullYear() === year(),
             })
           "
+          [tabIndex]="!day.monthOffset && tabFocusDay() === day.date ? 0 : -1"
+          type="button"
           (click)="
             daySelected.emit({
               date: day.date,
               monthOffset: day.monthOffset,
             })
           "
+          (keydown)="dayKeydown($event, dayButton)"
         >
           <ng-container
             *ngTemplateOutlet="

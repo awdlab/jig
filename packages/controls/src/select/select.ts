@@ -148,6 +148,11 @@ export class NgnSelect<
    * @default `true`
    */
   public readonly scrollToSelectedItemOnOpen = input<boolean | ScrollLogicalPosition>(true);
+  /**
+   * Tabindex for the select control.
+   * @default `0`
+   */
+  public readonly tabindex = input<number>(0);
 
   private readonly _listbox = viewChild(NgnListBox);
   private _userChangedEditableInput = false;
