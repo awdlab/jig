@@ -4,7 +4,7 @@
   "scripts": {
     "lint": "pnpm eslint .",
     "prebuild": "pnpm rimraf ./dist",
-    "postbuild": "node --experimental-strip-types ./tools/post-build.ts",
+    "postbuild": "tsx ./tools/post-build.ts",
     "build": "pnpm prebuild && tsc -p ./tsconfig.lib.json --outDir ./dist && pnpm postbuild"
   },
   "type": "module",
@@ -13,7 +13,6 @@
   },
   "devDependencies": {
     "rimraf": "^6.0.1",
-    "tsx": "^4.20.5",
     "typescript": "~5.9.2"
   },
   "sideEffects": false

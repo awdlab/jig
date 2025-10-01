@@ -33,10 +33,10 @@ jobs:
         run: pnpm run docs:build
 
   playwright:
-    name: 'Playwright Tests'
+    name: "Playwright Tests"
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.55.0-noble
+      image: mcr.microsoft.com/playwright:v1.55.1-noble
       options: --user 1001
     steps:
       - uses: actions/checkout@v4
@@ -61,7 +61,7 @@ jobs:
           path: tests/results/test-report.xml
 
   event_file:
-    name: 'Event File'
+    name: "Event File"
     runs-on: ubuntu-latest
     steps:
       - name: Upload

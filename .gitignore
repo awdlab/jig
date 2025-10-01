@@ -1,6 +1,9 @@
 node_modules
 dist
 
+# Linked tsconfig files
+**/tsconfig.symlink.json
+
 # Playwright
 tests/results/
 /playwright-report/

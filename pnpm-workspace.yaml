@@ -2,12 +2,23 @@ packages:
   - packages/*
   - apps/*
 
+minimumReleaseAge: 4320 # 3 days
 ignoredBuiltDependencies:
   - '@parcel/watcher'
   - lmdb
   - msgpackr-extract
-
 onlyBuiltDependencies:
   - esbuild
 
-minimumReleaseAge: 4320 # 3 days
+catalog:
+  '@angular/common': 20.3.2
+  '@angular/compiler': 20.3.2
+  '@angular/core': 20.3.2
+  '@angular/forms': 20.3.2
+  '@angular/platform-browser': 20.3.2
+  '@angular/platform-server': 20.3.2
+  '@angular/router': 20.3.2
+  '@angular/ssr': 20.3.3
+  '@angular/build': 20.3.3
+  '@angular/cli': 20.3.3
+  '@angular/compiler-cli': 20.3.2
