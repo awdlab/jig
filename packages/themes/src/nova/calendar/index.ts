@@ -105,7 +105,7 @@ export const calendarStyles = createThemePart({
         }
       }
       ${c('current-year')}${d('select')} ${d('input')} {
-        width: 2.5rem;
+        width: 3rem;
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
           display: none; // Chromium and WebKit
