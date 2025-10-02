@@ -3,6 +3,16 @@ import { templateTypesFn } from '@ngneers/controls/api/ng';
 
 @Directive()
 export abstract class DialogTemplates {
+  private readonly _userContentTemplate = contentChild<TemplateRef<unknown>>('content');
+  /**
+   * The required template for the content of the dialog.
+   * Can also be set using an `<ng-template>` element with `#content` template reference variable.
+   */
+  public readonly templateContent = input<TemplateRef<unknown> | null>(null);
+  protected readonly contentTemplate = computed(
+    () => this._userContentTemplate() ?? this.templateContent()
+  );
+
   private readonly _defaultHeaderTemplate =
     viewChild.required<TemplateRef<unknown>>('defaultHeaderTemplate');
   private readonly _userHeaderTemplate = contentChild<TemplateRef<unknown>>('header');

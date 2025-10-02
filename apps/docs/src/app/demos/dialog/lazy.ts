@@ -14,8 +14,8 @@ export class LazyComponent {
 @Component({
   imports: [NgnDialog, LazyComponent],
   template: `<button (click)="open.set(true)">Open Dialog</button>
-    <ngn-dialog [open]="open()" (closed)="open.set(false)">
-      <ng-template #lazy>
+    <ngn-dialog [open]="open()" (openChange)="open.set($event)">
+      <ng-template #content>
         <ngn-lazy-test />
       </ng-template>
     </ngn-dialog>`,

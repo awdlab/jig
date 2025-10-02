@@ -1,19 +1,34 @@
 <!-- eslint-disable @angular-eslint/template/no-autofocus -->
 <dialog
   #dialog
-  [attr.closedby]="closeOnEscape() ? 'closerequest' : 'none'"
+  [ngClass]="theme.class()"
+  [attr.closedby]="closedBy()"
   [autofocus]="autofocus()"
   [attr.aria-labelledby]="headerId"
   (cancel)="onCancel()"
+  [style.minWidth]="size().minWidth"
+  [style.maxWidth]="size().maxWidth"
+  [style.width]="size().width"
+  [style.minHeight]="size().minHeight"
+  [style.maxHeight]="size().maxHeight"
 >
-  <header>
+  <header [ngClass]="theme.class('header')">
     <ng-template
       [ngTemplateOutlet]="headerTemplate()"
       [ngTemplateOutletContext]="{ headerId, title: title() }"
     ></ng-template>
+    <button ngnButton [kind]="'icon'" (click)="open.set(false)">
+      <ngn-icon [defaultIcon]="'fa-solid fa-xmark'" [size]="'12px'"></ngn-icon>
+    </button>
   </header>
 
-  <ngn-defer [lazyContent]="lazyContent()" [open]="open()" [cache]="cache()">
+  <ngn-defer
+    [lazyContent]="contentTemplate()"
+    [lazy]="lazy()"
+    [open]="open()"
+    [cache]="cache()"
+    [ngClass]="theme.class('content')"
+  >
     <ng-content />
   </ngn-defer>
 
@@ -29,8 +44,12 @@
   let-title="title"
 >
   @if (title) {
-    <h2 [id]="headerId">{{ title }}</h2>
+    <h2 [ngClass]="theme.class('default-header')" [id]="headerId">{{ title }}</h2>
+  } @else {
+    <div>
+      <!-- Placeholder for default header content -->
+    </div>
   }
 </ng-template>
 
-<ng-template #defaultFooterTemplate></ng-template>
+<ng-template #defaultFooterTemplate> </ng-template>
