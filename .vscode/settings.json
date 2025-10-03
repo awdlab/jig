@@ -40,7 +40,8 @@
   "deno.enable": false,
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "task.autoDetect": "off"
   // Remove comments if branch policies are used
   // "git.branchProtection": ["main", "master"],
   // "git.branchProtectionPrompt": "alwaysPrompt",

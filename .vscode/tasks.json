@@ -1,5 +1,80 @@
 {
   // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
   "version": "2.0.0",
-  "tasks": []
+  "tasks": [
+    {
+      "label": "▶️ Serve docs",
+      "command": "pnpm docs:serve",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🧰 Generate API docs",
+      "command": "pnpm api-docs:generate",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🧰 Build docs",
+      "command": "pnpm docs:build",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🧰 Build controls",
+      "command": "pnpm controls:build",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🧰 Build themes",
+      "command": "pnpm themes:build",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🧰 Build all",
+      "dependsOn": ["🧰 Build controls", "🧰 Build themes", "🧰 Build docs"],
+      "problemMatcher": []
+    },
+    {
+      "label": "✏️ Format",
+      "command": "pnpm format",
+      "type": "shell",
+      "problemMatcher": []
+    }
+    {
+      "label": "✅ Lint",
+      "command": "pnpm lint",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🐋 Playwright: docker",
+      "command": "pnpm playwright-docker",
+      "hide": true,
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🎭 Playwright",
+      "command": "pnpm test",
+      "dependsOn": ["🐋 Playwright docker"],
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🎭 Playwright UI",
+      "command": "pnpm test --ui",
+      "dependsOn": ["🐋 Playwright docker"],
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "♻️ Playwright: Fix screenshots",
+      "command": "playwright:fix-screenshots",
+      "type": "shell",
+      "problemMatcher": []
+    }
+  ]
 }
