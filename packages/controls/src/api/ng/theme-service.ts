@@ -35,12 +35,14 @@ export function injectThemeTemplate<T extends ControlTemplate>(
     classes: (classes: {
       [K in T['classNames'][number] | '']?: boolean;
     }): string => {
-      return Object.entries(classes)
-        .map(([className, condition]) => {
-          return condition ? getClassName(config.theme.namePrefix, template.scope, className) : '';
-        })
-        .filter(Boolean)
-        .join(' ');
+      let result = '';
+      for (const className in classes) {
+        if ((classes as any)[className]) {
+          if (result) result += ' ';
+          result += getClassName(config.theme.namePrefix, template.scope, className);
+        }
+      }
+      return result;
     },
   };
 }

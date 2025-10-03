@@ -11,13 +11,13 @@ import {
   viewChild,
 } from '@angular/core';
 import { injectThemeTemplate, NgnTemplate } from '@ngneers/controls/api/ng';
+import { NgnButton } from '@ngneers/controls/button';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { generateElementId } from '@ngneers/controls/utils-ng';
 import { dialogControlTemplate } from '@ngneers/controls-themes/templates/dialog';
 
 import { DialogTemplates } from './dialog-templates';
-import { NgnButton } from '../button';
 import { DialogSize } from './types';
 
 /**

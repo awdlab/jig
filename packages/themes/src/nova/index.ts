@@ -7,6 +7,7 @@ import { buttonStyles } from '@ngneers/controls-themes/nova/button';
 import { buttonGroupStyles } from '@ngneers/controls-themes/nova/button-group';
 import { calendarStyles } from '@ngneers/controls-themes/nova/calendar';
 import { checkboxStyles } from '@ngneers/controls-themes/nova/checkbox';
+import { chipStyles } from '@ngneers/controls-themes/nova/chip';
 import { dialogStyles } from '@ngneers/controls-themes/nova/dialog';
 import { iconStyles } from '@ngneers/controls-themes/nova/icon';
 import { inputStyles } from '@ngneers/controls-themes/nova/input';
@@ -32,6 +33,7 @@ export const novaCoral = createTheme('Nova Coral', [
   buttonGroupStyles,
   calendarStyles,
   checkboxStyles,
+  chipStyles,
   coral,
   dialogStyles,
   font,

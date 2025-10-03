@@ -30,7 +30,7 @@
       "label": "🧰 Build themes",
       "command": "pnpm themes:build",
       "type": "shell",
-      "problemMatcher": []
+      "problemMatcher": [],
     },
     {
       "label": "🧰 Build all",
