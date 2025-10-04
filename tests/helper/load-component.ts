@@ -62,6 +62,16 @@ export async function loadComponent(
       });
     }
 
+    async function getOutputLogAndClear() {
+      return await test.step('Get and clear output log', async () => {
+        return await page.evaluate(() => {
+          const o = (window as any).__ngn_test_wrapper.outputLog as Record<string, any[]>;
+          (window as any).__ngn_test_wrapper.outputLog = {};
+          return o;
+        });
+      });
+    }
+
     setTemplate(template);
     if (io?.inputs) {
       setInputs(io.inputs);
@@ -74,6 +84,7 @@ export async function loadComponent(
       setInputs: (inputs: InputsType) => setInputs(inputs),
       setOutputs: (outputs: OutputsType) => setOutputs(outputs),
       getOutputLog: () => getOutputLog(),
+      getOutputLogAndClear: () => getOutputLogAndClear(),
     };
   });
 }

@@ -13,6 +13,7 @@ export const IMPORTS = {
     import('@ngneers/controls/calendar').then((m) => m.NgnCalendar),
   checkbox: () =>
     import('@ngneers/controls/checkbox').then((m) => m.NgnCheckbox),
+  chip: () => import('@ngneers/controls/chip').then((m) => m.NgnChip),
   defer: () => import('@ngneers/controls/defer').then((m) => m.NgnDefer),
   dialog: () => import('@ngneers/controls/dialog').then((m) => m.NgnDialog),
   icon: () => import('@ngneers/controls/icon').then((m) => m.NgnIcon),

@@ -30,7 +30,7 @@
       "label": "🧰 Build themes",
       "command": "pnpm themes:build",
       "type": "shell",
-      "problemMatcher": [],
+      "problemMatcher": []
     },
     {
       "label": "🧰 Build all",
@@ -42,7 +42,7 @@
       "command": "pnpm format",
       "type": "shell",
       "problemMatcher": []
-    }
+    },
     {
       "label": "✅ Lint",
       "command": "pnpm lint",
@@ -52,21 +52,18 @@
     {
       "label": "🐋 Playwright: docker",
       "command": "pnpm playwright-docker",
-      "hide": true,
       "type": "shell",
       "problemMatcher": []
     },
     {
       "label": "🎭 Playwright",
       "command": "pnpm test",
-      "dependsOn": ["🐋 Playwright docker"],
       "type": "shell",
       "problemMatcher": []
     },
     {
       "label": "🎭 Playwright UI",
-      "command": "pnpm test --ui",
-      "dependsOn": ["🐋 Playwright docker"],
+      "command": "pnpm test:ui",
       "type": "shell",
       "problemMatcher": []
     },

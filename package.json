@@ -16,7 +16,8 @@
     "playwright-docker": "docker run --add-host=hostmachine:host-gateway -p 3000:3000 --rm --init -it --workdir /home/pwuser --user pwuser mcr.microsoft.com/playwright:v1.55.1-noble /bin/sh -c \"npx -y playwright@1.55.1 run-server --port 3000 --host 0.0.0.0\"",
     "playwright:fix-screenshots": "tsx ./tools/fix-playwright-screenshots.ts",
     "run-migrations": "tsx ./tools/migrate.ts",
-    "test": "pnpm playwright test"
+    "test": "pnpm playwright test",
+    "test:ui": "pnpm playwright test --ui"
   },
   "license": "MIT",
   "packageManager": "pnpm@10.17.1",
