@@ -17,7 +17,7 @@
       [ngTemplateOutlet]="headerTemplate()"
       [ngTemplateOutletContext]="{ headerId, title: title() }"
     ></ng-template>
-    <button ngnButton [kind]="'icon'" (click)="open.set(false)">
+    <button ngnButton [kind]="'icon'" (click)="open.set(false)" tabindex="-1">
       <ngn-icon [defaultIcon]="'fa-solid fa-xmark'" [size]="'12px'"></ngn-icon>
     </button>
   </header>

@@ -1,10 +1,11 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { dialogControlTemplate } from '@ngneers/controls-themes/templates/dialog';
+import { shadowTemplate } from 'packages/themes/src/nova/base/shadow';
 
 export const dialogStyles = createThemePart({
   controlTemplate: dialogControlTemplate,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate],
   root: {
     css: ({ v, c }) => css`
       ${c()} {
@@ -15,6 +16,7 @@ export const dialogStyles = createThemePart({
         border-radius: ${v('size.rounded.md')};
         padding: ${v('size.padding.md')};
         flex-direction: column;
+        box-shadow: ${v('shadow.xl')};
         &[open] {
           display: flex;
         }
