@@ -1,7 +1,11 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
+import {
+  colorsTemplate,
+  fontTemplate,
+  shadowTemplate,
+  sizesTemplate,
+} from '@ngneers/controls-themes/nova/base';
 import { dialogControlTemplate } from '@ngneers/controls-themes/templates/dialog';
-import { shadowTemplate } from 'packages/themes/src/nova/base/shadow';
 
 export const dialogStyles = createThemePart({
   controlTemplate: dialogControlTemplate,
