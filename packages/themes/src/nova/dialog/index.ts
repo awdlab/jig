@@ -20,7 +20,7 @@ export const dialogStyles = createThemePart({
         border-radius: ${v('size.rounded.md')};
         padding: ${v('size.padding.lg')};
         flex-direction: column;
-        box-shadow: ${v('shadow.xl')};
+        box-shadow: ${v('shadow.lg')};
         &[open] {
           display: flex;
         }

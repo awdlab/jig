@@ -59,7 +59,7 @@ export const popoverStyles = createThemePart({
         border-width: 1px;
         padding: ${v('size.padding.md')};
         opacity: 0;
-        box-shadow: ${v('shadow.lg')};
+        box-shadow: ${v('shadow.md')};
         /* We add some delay that is larger than the TRANSITION_BUFFER to not hide the content shortly during opening */
         transition: display ${v('animation.duration.fade')} allow-discrete;
         animation: ngnPopover_fadeIn ${v('animation.duration.fade')} ${v('animation.easing.fade')}
