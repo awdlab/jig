@@ -101,6 +101,13 @@ export class NgnDialog extends DialogTemplates {
   }
 
   protected onCancel() {
-    this.open.set(false);
+    /**
+     * In case the dialog is closed with the same click event that tries to open it again immediately,
+     * we need to wait for the next animation frame to avoid a stuck state where the outside thinks it's opened
+     * but inside `open` is set to false.
+     */
+    requestAnimationFrame(() => {
+      this.open.set(false);
+    });
   }
 }

@@ -13,7 +13,7 @@ import { NgnDialog } from '@ngneers/controls/dialog';
       [size]="{ width: '400px', maxWidth: '90vw' }"
     >
       Content
-      <button>awd</button>
+      <button autofocus>awd</button>
     </ngn-dialog>`,
 })
 export class Demo_Dialog_Base {

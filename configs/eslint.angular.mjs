@@ -30,6 +30,12 @@ export function getEslintConfig(tsconfigPath) {
         '@angular-eslint/component-class-suffix': 'off',
       },
     },
+    {
+      files: ['**/*.html'],
+      rules: {
+        '@angular-eslint/template/no-autofocus': 'off',
+      },
+    },
     globalIgnores(['dist', '.angular', 'node_modules', '**/fontawesome']),
   ]);
 }

@@ -18,7 +18,7 @@ export const dialogStyles = createThemePart({
         margin: auto;
         border: 1px solid ${v('color.surface.300')};
         border-radius: ${v('size.rounded.md')};
-        padding: ${v('size.padding.md')};
+        padding: ${v('size.padding.lg')};
         flex-direction: column;
         box-shadow: ${v('shadow.xl')};
         &[open] {
@@ -33,6 +33,7 @@ export const dialogStyles = createThemePart({
         align-items: center;
         justify-content: space-between;
         gap: ${v('size.padding.sm')};
+        padding-bottom: ${v('size.padding.lg')};
       }
       ${c('default-header')} {
         font-weight: 600;
