@@ -14,6 +14,7 @@ export const selectStyles = createThemePart({
         cursor: pointer;
         display: flex;
         justify-content: space-between;
+        gap: ${v('size.padding.sm')};
         align-items: center;
         white-space: nowrap;
       }

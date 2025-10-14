@@ -1,5 +1,14 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, computed, inject, input, linkedSignal, signal, viewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  linkedSignal,
+  Signal,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { NgnItem } from '@ngneers/controls/api';
 import {
   injectThemeTemplate,
@@ -7,6 +16,7 @@ import {
   Platform,
   valueControlBaseProvider,
 } from '@ngneers/controls/api/ng';
+import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
@@ -17,9 +27,8 @@ import { calendarControlTemplate } from '@ngneers/controls-themes/templates/cale
 
 import { CalendarTemplates } from './calendar-templates';
 import { CalendarDays } from './days/days';
-import { CalendarMonths } from './months/months';
 import { CalendarTime } from './time/time';
-import { DayModel, WeekDay } from './types';
+import { DayModel, MONTHS, WeekDay } from './types';
 
 function generateYearOptions(): NgnItem[] {
   const MAX_ITEMS = 200;
@@ -29,6 +38,8 @@ function generateYearOptions(): NgnItem[] {
     value: currentYear - MAX_ITEMS / 2 + i,
   }));
 }
+
+type MonthItemType = NgnItem<{ $: (typeof MONTHS)[number] }, '$'>;
 
 /**
  * @category control
@@ -45,7 +56,6 @@ function generateYearOptions(): NgnItem[] {
     NgnInputField,
     NgnSelect,
     NgnPopover,
-    CalendarMonths,
     CalendarDays,
     CalendarTime,
   ],
@@ -75,6 +85,7 @@ export class NgnCalendar extends CalendarTemplates {
 
   private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);
   private readonly _platform = inject(Platform);
+  private readonly i18n = inject(I18n).translations;
   protected readonly theme = injectThemeTemplate(calendarControlTemplate);
   protected readonly year = linkedSignal(
     () => this.value()?.getFullYear() || new Date().getFullYear()
@@ -82,6 +93,12 @@ export class NgnCalendar extends CalendarTemplates {
   protected readonly month = linkedSignal(() => this.value()?.getMonth() ?? new Date().getMonth());
   protected readonly currentView = signal<'days' | 'months'>('days');
   protected readonly yearOptions = generateYearOptions();
+  protected readonly monthOptions: Signal<MonthItemType[]> = computed(() => {
+    return Array.from({ length: 12 }, (_, i) => this.i18n[`calendar_months_${MONTHS[i]}`]()).map(
+      (label, index) =>
+        <MonthItemType>{ label, value: MONTHS[index], testId: `calendar-month-${MONTHS[index]}` }
+    );
+  });
   protected readonly valueStr = computed(() => {
     const value = this.value();
     if (!value) {

@@ -29,7 +29,7 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    provideAnimations(),
+    provideAnimations(), // required for ng doc
     provideHttpClient(withInterceptorsFromDi()),
     provideRouter(
       [

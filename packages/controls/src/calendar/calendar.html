@@ -33,40 +33,25 @@
       })
     "
   >
-    @switch (currentView()) {
-      @case ('days') {
-        <ngn-calendar-days
-          [year]="year()"
-          [month]="month()"
-          [currentValue]="value()"
-          [firstDayOfWeek]="firstDayOfWeek()"
-          (previousMonth)="previousMonth()"
-          (nextMonth)="nextMonth()"
-          (switchToMonthsView)="switchToView('months')"
-          (daySelected)="selectDay($event)"
-          (yearSelected)="selectYear($event)"
-          (timeChanged)="changeTime($event)"
-          [dayTemplate]="dayTemplate()"
-          [weekDayTemplate]="weekDayTemplate()"
-          [timeTemplate]="timeTemplate()"
-          [yearTemplate]="yearTemplate()"
-          [showTime]="showTime()"
-          [showSeconds]="showSeconds()"
-        />
-      }
-      @case ('months') {
-        <ngn-calendar-months
-          [year]="year()"
-          [currentValue]="value() ?? null"
-          (previousYear)="previousYear()"
-          (nextYear)="nextYear()"
-          (monthSelected)="selectMonth($event)"
-          (yearSelected)="selectYear($event)"
-          [monthTemplate]="monthTemplate()"
-          [yearTemplate]="yearTemplate()"
-        />
-      }
-    }
+    <ngn-calendar-days
+      [year]="year()"
+      [month]="month()"
+      [currentValue]="value()"
+      [firstDayOfWeek]="firstDayOfWeek()"
+      (previousMonth)="previousMonth()"
+      (nextMonth)="nextMonth()"
+      (switchToMonthsView)="switchToView('months')"
+      (daySelected)="selectDay($event)"
+      (yearSelected)="selectYear($event)"
+      (timeChanged)="changeTime($event)"
+      [dayTemplate]="dayTemplate()"
+      [weekDayTemplate]="weekDayTemplate()"
+      [timeTemplate]="timeTemplate()"
+      [yearTemplate]="yearTemplate()"
+      [monthTemplate]="monthTemplate()"
+      [showTime]="showTime()"
+      [showSeconds]="showSeconds()"
+    />
   </div>
 </ng-template>
 <ng-template #defaultDayTemplate [ngnTemplate]="templateTypes.day" let-day>
@@ -76,12 +61,6 @@
 <ng-template #defaultWeekDayTemplate [ngnTemplate]="templateTypes.weekDay" let-weekDay>
   <span>
     {{ weekDay.translation }}
-  </span>
-</ng-template>
-
-<ng-template #defaultMonthTemplate [ngnTemplate]="templateTypes.month" let-month>
-  <span [class.ngn-calendar-month-selected]="month.selected">
-    {{ month.month }}
   </span>
 </ng-template>
 
@@ -113,6 +92,23 @@
       [tabindex]="-1"
     >
       <input ngnInput type="number" aria-label="Select year" />
+    </ngn-select>
+  }
+</ng-template>
+
+<ng-template #defaultMonthTemplate [ngnTemplate]="templateTypes.month" let-m>
+  @defer {
+    <ngn-select
+      [value]="m.month"
+      (valueChange)="m.change($event!)"
+      [options]="monthOptions()"
+      [popoverOptions]="{
+        sizeConstraints: { maxHeight: '300px', width: '130px', maxWidth: '130px' },
+      }"
+      [ngClass]="theme.class('current-month')"
+      [scrollToSelectedItemOnOpen]="'center'"
+      [tabindex]="-1"
+    >
     </ngn-select>
   }
 </ng-template>

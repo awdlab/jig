@@ -8,14 +8,18 @@
         <ngn-icon [defaultIcon]="'fa-solid fa-chevron-right'" />
       </button>
     </div>
-    <button
-      ngnButton
-      kind="text"
-      [ngClass]="theme.class('current-month')"
-      (click)="switchToMonthsView.emit()"
-    >
-      {{ monthName() }}
-    </button>
+    <ng-container
+      *ngTemplateOutlet="
+        monthTemplate();
+        context: {
+          $implicit: {
+            month: MONTHS[month()],
+            change: doMonthChange,
+          },
+        }
+      "
+    />
+
     <ng-container
       *ngTemplateOutlet="
         yearTemplate();

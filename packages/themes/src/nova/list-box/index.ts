@@ -28,6 +28,7 @@ export const listBoxStyles = createThemePart({
         border-radius: ${v('size.rounded.md')};
         border-width: 0;
         border-style: solid;
+        cursor: default;
         &:hover {
           background: ${v('color.surface.200')};
         }

@@ -115,23 +115,6 @@ export const calendarStyles = createThemePart({
         }
         appearance: textfield; // Firefox
       }
-      ${c('month')}, ${c('current-month')} {
-        cursor: pointer;
-        background: transparent;
-        border: none;
-        padding: ${v('size.padding.md')} ${v('size.padding.lg')};
-        font-weight: ${v('font.weight.semibold')};
-        font-size: inherit;
-        &:hover {
-          background: ${v('color.surface.100')};
-        }
-        &:focus {
-          background: ${v('color.surface.200')};
-        }
-        &:active {
-          background: ${v('color.surface.300')};
-        }
-      }
       ${c('time')} {
         border-top: 1px solid ${v('color.surface.300')};
         width: 100%;
