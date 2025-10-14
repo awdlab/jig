@@ -60,7 +60,6 @@ export class CalendarDays {
   public readonly showSeconds = input.required<boolean>();
   public readonly previousMonth = output();
   public readonly nextMonth = output();
-  public readonly switchToMonthsView = output();
   public readonly daySelected = output<DayModel>();
   public readonly yearSelected = output<number>();
   public readonly monthSelected = output<Month>();

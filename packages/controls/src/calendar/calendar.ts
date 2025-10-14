@@ -28,7 +28,7 @@ import { calendarControlTemplate } from '@ngneers/controls-themes/templates/cale
 import { CalendarTemplates } from './calendar-templates';
 import { CalendarDays } from './days/days';
 import { CalendarTime } from './time/time';
-import { DayModel, MONTHS, WeekDay } from './types';
+import { DayModel, Month, MONTHS, WeekDay } from './types';
 
 function generateYearOptions(): NgnItem[] {
   const MAX_ITEMS = 200;
@@ -91,7 +91,6 @@ export class NgnCalendar extends CalendarTemplates {
     () => this.value()?.getFullYear() || new Date().getFullYear()
   );
   protected readonly month = linkedSignal(() => this.value()?.getMonth() ?? new Date().getMonth());
-  protected readonly currentView = signal<'days' | 'months'>('days');
   protected readonly yearOptions = generateYearOptions();
   protected readonly monthOptions: Signal<MonthItemType[]> = computed(() => {
     return Array.from({ length: 12 }, (_, i) => this.i18n[`calendar_months_${MONTHS[i]}`]()).map(
@@ -150,13 +149,8 @@ export class NgnCalendar extends CalendarTemplates {
     this.year.set(this.year() + 1);
   };
 
-  protected switchToView(view: 'days' | 'months') {
-    this.currentView.set(view);
-  }
-
-  protected selectMonth(index: number) {
-    this.month.set(index);
-    this.switchToView('days');
+  protected selectMonth(month: Month) {
+    this.month.set(MONTHS.indexOf(month));
   }
 
   protected selectYear(year: number) {
