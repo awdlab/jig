@@ -32,7 +32,9 @@ async function getAllPngFilesRecursive(dir: string): Promise<string[]> {
 
 async function fixScreenshot(filePath: string) {
   // copy *-win32.png to *-linux.png
-  const newFilePath = reverse ? filePath.replace('-linux.png', '-win32.png') : filePath.replace('-win32.png', '-linux.png');
+  const newFilePath = reverse
+    ? filePath.replace('-linux.png', '-win32.png')
+    : filePath.replace('-win32.png', '-linux.png');
   await rename(filePath, newFilePath);
 }
 
