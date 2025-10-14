@@ -1,14 +1,5 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  computed,
-  inject,
-  input,
-  linkedSignal,
-  Signal,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { Component, computed, inject, input, linkedSignal, Signal, viewChild } from '@angular/core';
 import { NgnItem } from '@ngneers/controls/api';
 import {
   injectThemeTemplate,
