@@ -45,7 +45,6 @@ test('IO', async ({ page }, testInfo) => {
   await calendar.expectDate('2023', 'February', '4');
   await expectOutput(new Date(2023, 1, 4, 12, 0, 0));
 
-  await calendar.currentMonth.click();
   await calendar.selectMonth(12);
   await expectOutput();
   await expectScreenshot(page, testInfo, 'month-selected');

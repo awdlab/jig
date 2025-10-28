@@ -54,7 +54,7 @@ export type WeekDayTemplateType = {
 export type MonthTemplateType = {
   $implicit: {
     month: Month;
-    selected: boolean;
+    change: (newMonth: Month) => void;
   };
 };
 

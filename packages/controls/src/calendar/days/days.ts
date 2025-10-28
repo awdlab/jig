@@ -18,7 +18,9 @@ import { calendarControlTemplate } from '@ngneers/controls-themes/templates/cale
 import {
   DayModel,
   DayTemplateType,
+  Month,
   MONTHS,
+  MonthTemplateType,
   TimeTemplateType,
   WEEK_DAYS,
   WeekDay,
@@ -53,25 +55,25 @@ export class CalendarDays {
   public readonly weekDayTemplate = input.required<TemplateRef<WeekDayTemplateType>>();
   public readonly timeTemplate = input.required<TemplateRef<TimeTemplateType>>();
   public readonly yearTemplate = input.required<TemplateRef<YearTemplateType>>();
+  public readonly monthTemplate = input.required<TemplateRef<MonthTemplateType>>();
   public readonly showTime = input.required<boolean>();
   public readonly showSeconds = input.required<boolean>();
   public readonly previousMonth = output();
   public readonly nextMonth = output();
-  public readonly switchToMonthsView = output();
   public readonly daySelected = output<DayModel>();
   public readonly yearSelected = output<number>();
+  public readonly monthSelected = output<Month>();
   public readonly timeChanged = output<Date | null>();
 
+  protected readonly MONTHS = MONTHS;
   protected readonly i18n = inject(I18n).translations;
   protected readonly todaysDay = new Date().getDate();
   protected readonly todaysMonth = new Date().getMonth();
   protected readonly todaysYear = new Date().getFullYear();
   protected readonly doTimeChange = (t: Date | null) => this.timeChanged.emit(t);
   protected readonly doYearChange = (t: number) => this.yearSelected.emit(t);
+  protected readonly doMonthChange = (t: Month) => this.monthSelected.emit(t);
 
-  protected readonly monthName = computed(() =>
-    this.i18n[`calendar_months_${MONTHS[this.month()]}`]()
-  );
   protected readonly weekDaysSorted = computed(() =>
     WEEK_DAYS.slice(this._firstDayOfWeekIndex())
       .concat(WEEK_DAYS.slice(0, this._firstDayOfWeekIndex()))

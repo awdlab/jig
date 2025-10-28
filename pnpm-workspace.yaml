@@ -2,23 +2,26 @@ packages:
   - packages/*
   - apps/*
 
-minimumReleaseAge: 4320 # 3 days
+catalog:
+  '@angular/animations': ~20.3.4
+  '@angular/build': ~20.3.5
+  '@angular/cli': ~20.3.5
+  '@angular/common': ~20.3.4
+  '@angular/compiler': ~20.3.4
+  '@angular/compiler-cli': ~20.3.4
+  '@angular/core': ~20.3.4
+  '@angular/forms': ~20.3.4
+  '@angular/platform-browser': ~20.3.4
+  '@angular/platform-server': ~20.3.4
+  '@angular/router': ~20.3.4
+  '@angular/ssr': ~20.3.5
+
 ignoredBuiltDependencies:
   - '@parcel/watcher'
   - lmdb
   - msgpackr-extract
+
+minimumReleaseAge: 4320
+
 onlyBuiltDependencies:
   - esbuild
-
-catalog:
-  '@angular/common': 20.3.2
-  '@angular/compiler': 20.3.2
-  '@angular/core': 20.3.2
-  '@angular/forms': 20.3.2
-  '@angular/platform-browser': 20.3.2
-  '@angular/platform-server': 20.3.2
-  '@angular/router': 20.3.2
-  '@angular/ssr': 20.3.3
-  '@angular/build': 20.3.3
-  '@angular/cli': 20.3.3
-  '@angular/compiler-cli': 20.3.2

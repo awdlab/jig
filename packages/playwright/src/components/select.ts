@@ -61,4 +61,11 @@ export class NgnSelectHarness {
       await this.expectOpened(false);
     }
   }
+
+  public async clickItemByIndex(index: number, expectClosed = true) {
+    await this.listBox.scroller.clickItemByIndex(index);
+    if (expectClosed) {
+      await this.expectOpened(false);
+    }
+  }
 }
