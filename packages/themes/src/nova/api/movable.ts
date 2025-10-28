@@ -8,6 +8,7 @@ export const movableStyles = createThemePart({
     css: ({ v, c }) => css`
       ${c('drag-handle-grab')} {
         cursor: grab;
+        user-select: none;
       }
       ${c('drag-handle-grabbing')} {
         cursor: grabbing;
