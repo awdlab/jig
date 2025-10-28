@@ -131,18 +131,16 @@ export function domEventObservable<EventName extends keyof GlobalEventHandlersEv
 }
 
 export function domEventSignal<EventName extends keyof GlobalEventHandlersEventMap>(
-  element: HTMLElement,
+  element: ElementSingle,
   eventName: EventName,
   injector?: Injector
 ): Signal<GlobalEventHandlersEventMap[EventName] | null> {
   const inj = injector ?? inject(Injector);
   const res = runInInjectionContext(inj, () => {
     const sig = signal<GlobalEventHandlersEventMap[EventName] | null>(null);
-    fromEvent(element, eventName)
-      .pipe(takeUntilDestroyed())
-      .subscribe(value => {
-        sig.set(value as GlobalEventHandlersEventMap[EventName]);
-      });
+    domEventObservable(element, eventName, inj).subscribe(value => {
+      sig.set(value as GlobalEventHandlersEventMap[EventName]);
+    });
     return sig;
   });
   return res;

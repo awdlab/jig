@@ -10,8 +10,10 @@
   [style.width]="size().width"
   [style.minHeight]="size().minHeight"
   [style.maxHeight]="size().maxHeight"
+  [ngnMovable]="movable()"
+  [ngnMovableDragHandle]="header"
 >
-  <header [ngClass]="theme.class('header')">
+  <header #header [ngClass]="theme.class('header')">
     <ng-template
       [ngTemplateOutlet]="headerTemplate()"
       [ngTemplateOutletContext]="{ headerId, title: title() }"
@@ -31,7 +33,7 @@
     <ng-content />
   </ngn-defer>
 
-  <footer>
+  <footer [ngClass]="theme.class('footer')">
     <ng-template [ngTemplateOutlet]="footerTemplate()"></ng-template>
   </footer>
 </dialog>
@@ -51,4 +53,10 @@
   }
 </ng-template>
 
-<ng-template #defaultFooterTemplate> </ng-template>
+<ng-template #defaultFooterTemplate>
+  <div [ngClass]="theme.class('default-footer')">
+    @for (button of footerButtons(); track $index) {
+      <ngn-action-button [config]="button" />
+    }
+  </div>
+</ng-template>

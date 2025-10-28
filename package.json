@@ -20,7 +20,7 @@
     "test:ui": "pnpm playwright test --ui"
   },
   "license": "MIT",
-  "packageManager": "pnpm@10.17.1",
+  "packageManager": "pnpm@10.20.0",
   "devDependencies": {
     "@angular-eslint/builder": "^20.3.0",
     "@eslint/js": "^9.37.0",

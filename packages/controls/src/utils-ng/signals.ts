@@ -1,13 +1,26 @@
 import { afterRenderEffect, computed, effect, InputSignal, signal, Signal } from '@angular/core';
 import { SIGNAL } from '@angular/core/primitives/signals';
 
-export function computedWithPrevious<T>(computeFn: (prev?: T) => T, previous?: T): () => T {
+export function computedWithPrevious<T>(computeFn: (prev?: T) => T, previous?: T): Signal<T> {
   let current = previous;
 
   return computed<T>(() => {
     const prev = current;
     current = computeFn(prev);
     return current;
+  });
+}
+
+export function signalWithPrevious<T>(
+  signal: Signal<T>,
+  previous?: T
+): Signal<{ current: T; previous: T | undefined }> {
+  let current = previous;
+
+  return computed(() => {
+    const prev = current;
+    current = signal();
+    return { current, previous: prev };
   });
 }
 

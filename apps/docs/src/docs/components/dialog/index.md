@@ -10,6 +10,14 @@ eager and lazy loading of content.
 
 {{ NgDocActions.demo("Demo_Dialog_Base") }}
 
+## Buttons
+
+{{ NgDocActions.demo("Demo_Dialog_Buttons") }}
+
+## Movable
+
+{{ NgDocActions.demo("Demo_Dialog_Movable") }}
+
 ## Lazy Loading
 
 {{ NgDocActions.demo("Demo_Dialog_Lazy") }}

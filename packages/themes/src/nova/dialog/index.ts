@@ -40,6 +40,15 @@ export const dialogStyles = createThemePart({
         font-size: ${v('font.size.2xl')};
         margin: 0;
       }
+      ${c('footer')} {
+        padding-top: ${v('size.padding.lg')};
+      }
+      ${c('default-footer')} {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: ${v('size.padding.sm')};
+      }
     `,
   },
 });

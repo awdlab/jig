@@ -10,8 +10,9 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { injectThemeTemplate, NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnButton } from '@ngneers/controls/button';
+import { NgnActionButtonConfig } from '@ngneers/controls/api';
+import { injectThemeTemplate, NgnMovable, NgnTemplate } from '@ngneers/controls/api/ng';
+import { NgnActionButton, NgnButton } from '@ngneers/controls/button';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { generateElementId } from '@ngneers/controls/utils-ng';
@@ -25,7 +26,16 @@ import { DialogSize } from './types';
  */
 @Component({
   selector: 'ngn-dialog',
-  imports: [NgTemplateOutlet, NgnTemplate, NgnDefer, NgClass, NgnButton, NgnIcon],
+  imports: [
+    NgTemplateOutlet,
+    NgnTemplate,
+    NgnMovable,
+    NgnDefer,
+    NgClass,
+    NgnButton,
+    NgnActionButton,
+    NgnIcon,
+  ],
   templateUrl: './dialog.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -73,6 +83,14 @@ export class NgnDialog extends DialogTemplates {
    * The size of the dialog. You can set any CSS size value (e.g. `300px`, `50%`, `auto`, `min-content`, etc.) for each property.
    */
   public readonly size = input<DialogSize>({});
+  /**
+   * Action buttons to be displayed in the footer of the dialog.
+   */
+  public readonly footerButtons = input<NgnActionButtonConfig[]>([]);
+  /**
+   * Action buttons to be displayed in the footer of the dialog.
+   */
+  public readonly movable = input<boolean | null | undefined | ''>(false);
 
   protected readonly closedBy = computed(() => {
     switch (this.closeBy()) {

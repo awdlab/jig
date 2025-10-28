@@ -1,0 +1,10 @@
+<button
+  type="button"
+  ngnButton
+  [kind]="config().kind"
+  [disabled]="config().disabled"
+  (click)="config().action?.()"
+  [attr.data-test-id]="config().testId"
+>
+  {{ config().label }}
+</button>
