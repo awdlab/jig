@@ -1,6 +1,16 @@
 import { createControlTemplate } from '@ngneers/controls-themes/api';
+import { movableDirectiveTemplate } from '@ngneers/controls-themes/templates/api';
 
 export const dialogControlTemplate = createControlTemplate({
   scope: 'dialog',
-  classNames: ['header', 'default-header', 'content', 'footer', 'default-footer', 'close-button'],
+  classNames: [
+    'modal',
+    'header',
+    'default-header',
+    'content',
+    'footer',
+    'default-footer',
+    'close-button',
+  ],
+  dependencies: [movableDirectiveTemplate],
 });

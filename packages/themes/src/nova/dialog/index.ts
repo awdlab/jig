@@ -11,7 +11,7 @@ export const dialogStyles = createThemePart({
   controlTemplate: dialogControlTemplate,
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate],
   root: {
-    css: ({ v, c }) => css`
+    css: ({ v, c, d }) => css`
       ${c()} {
         background-color: canvas;
         color: inherit;
@@ -21,9 +21,12 @@ export const dialogStyles = createThemePart({
         padding: ${v('size.padding.lg')};
         flex-direction: column;
         box-shadow: ${v('shadow.lg')};
+        position: fixed;
         &[open] {
           display: flex;
         }
+      }
+      ${c('modal')} {
         &::backdrop {
           background-color: rgba(0, 0, 0, 0.1);
         }
@@ -48,6 +51,9 @@ export const dialogStyles = createThemePart({
         align-items: center;
         justify-content: flex-end;
         gap: ${v('size.padding.sm')};
+      }
+      ${d('movable', 'moved')} {
+        margin: unset;
       }
     `,
   },

@@ -1,5 +1,6 @@
 export * from './config';
 export * from './directives';
+export * from './components';
 export * from './dom';
 export * from './movable';
 export * from './platform';

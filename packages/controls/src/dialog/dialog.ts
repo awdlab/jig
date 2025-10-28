@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
   ChangeDetectionStrategy,
@@ -7,6 +7,8 @@ import {
   ElementRef,
   input,
   model,
+  TemplateRef,
+  Type,
   untracked,
   viewChild,
 } from '@angular/core';
@@ -19,7 +21,13 @@ import { generateElementId } from '@ngneers/controls/utils-ng';
 import { dialogControlTemplate } from '@ngneers/controls-themes/templates/dialog';
 
 import { DialogTemplates } from './dialog-templates';
-import { DialogSize } from './types';
+import { DialogCloseBy, DialogSize } from './types';
+
+type TypedContent = {
+  template?: TemplateRef<unknown>;
+  string?: string;
+  component?: Type<unknown>;
+};
 
 /**
  * @category control
@@ -34,12 +42,13 @@ import { DialogSize } from './types';
     NgClass,
     NgnButton,
     NgnActionButton,
+    NgComponentOutlet,
     NgnIcon,
   ],
   templateUrl: './dialog.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NgnDialog extends DialogTemplates {
+export class NgnDialog<T> extends DialogTemplates<T> {
   protected readonly theme = injectThemeTemplate(dialogControlTemplate);
   protected readonly headerId = generateElementId();
 
@@ -70,7 +79,7 @@ export class NgnDialog extends DialogTemplates {
   /**
    * The title of the dialog. Displayed in the default header template.
    */
-  public readonly title = input<string | null>(null);
+  public readonly title = input<string | null | undefined>(null);
   /**
    * Determines how the dialog can be closed by the user.
    * - `'any'` - The dialog can be closed by clicking outside the dialog or pressing the Escape key.
@@ -78,7 +87,7 @@ export class NgnDialog extends DialogTemplates {
    * - `'none'` - The dialog cannot be closed by user interaction. It can only be closed programmatically.
    * @default 'any'
    */
-  public readonly closeBy = input<'any' | 'escape' | 'none'>('any');
+  public readonly closeBy = input<DialogCloseBy>('any');
   /**
    * The size of the dialog. You can set any CSS size value (e.g. `300px`, `50%`, `auto`, `min-content`, etc.) for each property.
    */
@@ -92,7 +101,10 @@ export class NgnDialog extends DialogTemplates {
    */
   public readonly movable = input<boolean | null | undefined | ''>(false);
 
-  protected readonly closedBy = computed(() => {
+  /**
+   * How a modal dialog can be closed by the user.
+   */
+  protected readonly modalClosedBy = computed(() => {
     switch (this.closeBy()) {
       case 'any':
         return 'any';
@@ -100,6 +112,33 @@ export class NgnDialog extends DialogTemplates {
         return 'closerequest';
       case 'none':
         return 'none';
+    }
+  });
+  /**
+   * How a popover dialog can be closed by the user.
+   */
+  protected readonly popoverClosedBy = computed(() => {
+    switch (this.closeBy()) {
+      case 'any':
+        return 'auto';
+      case 'escape':
+        return 'manual';
+      case 'none':
+        return 'manual';
+    }
+  });
+
+  protected readonly typedContent = computed<TypedContent>(() => {
+    const content = this.contentTemplate();
+    if (!content) {
+      return {};
+    }
+    if (typeof content === 'string') {
+      return { string: content };
+    } else if (content instanceof TemplateRef) {
+      return { template: content };
+    } else {
+      return { component: content };
     }
   });
 
@@ -110,15 +149,38 @@ export class NgnDialog extends DialogTemplates {
         if (untracked(this.modal)) {
           this._dialogElement().nativeElement.showModal();
         } else {
-          this._dialogElement().nativeElement.show();
+          this._dialogElement().nativeElement.showPopover();
         }
       } else {
         this._dialogElement().nativeElement.close();
+        this._dialogElement().nativeElement.hidePopover();
       }
     });
   }
 
-  protected onCancel() {
+  /**
+   * Different cancel handlers for different event types. Required for modal and popover dialogs.
+   */
+  protected onCancel(event?: ToggleEvent | KeyboardEvent): void {
+    if (event instanceof KeyboardEvent) {
+      // Modal dialogs handle this on their own
+      if (this.modal()) {
+        return;
+      }
+      if (event.key !== 'Escape' || (event.target as HTMLElement).tagName !== 'DIALOG') {
+        // TODO: limitation: when focus is inside a different element, we cannot know if it is safe to close, so we skip it
+        return;
+      }
+      if (this.closeBy() === 'escape') {
+        this.open.set(false);
+      }
+      return;
+    }
+
+    if (event instanceof ToggleEvent && event.newState !== 'closed') {
+      // This is also just for popover dialogs
+      return;
+    }
     /**
      * In case the dialog is closed with the same click event that tries to open it again immediately,
      * we need to wait for the next animation frame to avoid a stuck state where the outside thinks it's opened

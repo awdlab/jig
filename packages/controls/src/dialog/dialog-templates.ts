@@ -1,16 +1,25 @@
-import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
+import {
+  computed,
+  contentChild,
+  Directive,
+  input,
+  TemplateRef,
+  Type,
+  viewChild,
+} from '@angular/core';
 import { templateTypesFn } from '@ngneers/controls/api/ng';
 
 @Directive()
-export abstract class DialogTemplates {
+export abstract class DialogTemplates<T> {
   private readonly _userContentTemplate = contentChild<TemplateRef<unknown>>('content');
   /**
-   * The required template for the content of the dialog.
+   * The content of the dialog.
+   * Can be a string, a component type, or a template reference.
    * Can also be set using an `<ng-template>` element with `#content` template reference variable.
    */
-  public readonly templateContent = input<TemplateRef<unknown> | null>(null);
+  public readonly content = input<TemplateRef<unknown> | null | Type<T> | string>(null);
   protected readonly contentTemplate = computed(
-    () => this._userContentTemplate() ?? this.templateContent()
+    () => this._userContentTemplate() ?? this.content()
   );
 
   private readonly _defaultHeaderTemplate =

@@ -6,4 +6,5 @@ export type NgnActionButtonConfig = {
   kind?: ButtonKindType;
   disabled?: boolean;
   testId?: string;
+  close?: boolean;
 };

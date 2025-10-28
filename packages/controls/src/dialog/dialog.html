@@ -1,10 +1,13 @@
+<!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
 <dialog
   #dialog
-  [ngClass]="theme.class()"
-  [attr.closedby]="closedBy()"
+  [ngClass]="theme.classes({ '': true, modal: modal() })"
+  [attr.closedby]="modalClosedBy()"
   [autofocus]="autofocus()"
   [attr.aria-labelledby]="headerId"
   (cancel)="onCancel()"
+  (toggle)="onCancel($event)"
+  (keydown)="onCancel($event)"
   [style.minWidth]="size().minWidth"
   [style.maxWidth]="size().maxWidth"
   [style.width]="size().width"
@@ -12,6 +15,7 @@
   [style.maxHeight]="size().maxHeight"
   [ngnMovable]="movable()"
   [ngnMovableDragHandle]="header"
+  [attr.popover]="popoverClosedBy()"
 >
   <header #header [ngClass]="theme.class('header')">
     <ng-template
@@ -23,15 +27,25 @@
     </button>
   </header>
 
-  <ngn-defer
-    [lazyContent]="contentTemplate()"
-    [lazy]="lazy()"
-    [open]="open()"
-    [cache]="cache()"
-    [ngClass]="theme.class('content')"
-  >
-    <ng-content />
-  </ngn-defer>
+  @if (typedContent().template; as template) {
+    <ngn-defer
+      [lazyContent]="template"
+      [lazy]="lazy()"
+      [open]="open()"
+      [cache]="cache()"
+      [ngClass]="theme.class('content')"
+    >
+      <ng-content />
+    </ngn-defer>
+  } @else if (typedContent().string; as string) {
+    <div [ngClass]="theme.class('content')">
+      {{ string }}
+    </div>
+  } @else if (typedContent().component; as component) {
+    <div [ngClass]="theme.class('content')">
+      <ng-container *ngComponentOutlet="component" />
+    </div>
+  }
 
   <footer [ngClass]="theme.class('footer')">
     <ng-template [ngTemplateOutlet]="footerTemplate()"></ng-template>
@@ -56,7 +70,7 @@
 <ng-template #defaultFooterTemplate>
   <div [ngClass]="theme.class('default-footer')">
     @for (button of footerButtons(); track $index) {
-      <ngn-action-button [config]="button" />
+      <ngn-action-button [config]="button" (closed)="open.set(false)" />
     }
   </div>
 </ng-template>

@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { NgnActionButtonConfig } from '@ngneers/controls/api';
 import { NgnBase } from '@ngneers/controls/base';
 
@@ -11,4 +11,12 @@ import { NgnButton } from './button';
 })
 export class NgnActionButton extends NgnBase {
   public readonly config = input.required<NgnActionButtonConfig>();
+  public readonly closed = output<void>();
+
+  protected clicked(): void {
+    this.config().action?.();
+    if (this.config().close) {
+      this.closed.emit();
+    }
+  }
 }

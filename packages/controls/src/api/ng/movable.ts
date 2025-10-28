@@ -15,9 +15,14 @@ import { movableDirectiveTemplate } from '@ngneers/controls-themes/templates/api
 import { domEventSignal } from './dom';
 import { injectThemeTemplate } from './theme-service';
 
-@Directive({ selector: '[ngnMovable]' })
+@Directive({
+  selector: '[ngnMovable]',
+  host: {
+    '[class]': '_theme.classes({ movable: !!ngnMovable(), moved: dragged()})',
+  },
+})
 export class NgnMovable {
-  private readonly _theme = injectThemeTemplate(movableDirectiveTemplate);
+  protected readonly _theme = injectThemeTemplate(movableDirectiveTemplate);
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
   private readonly _document = inject(DOCUMENT);
 
@@ -54,6 +59,8 @@ export class NgnMovable {
     return handle ?? this._el.nativeElement;
   });
 
+  protected readonly dragged = signal(false);
+
   private readonly _pointerDownSignal = domEventSignal(this._eventElement, 'pointerdown');
   private readonly _pointerMoveSignal = domEventSignal(this._document, 'pointermove');
   private readonly _pointerUpSignal = domEventSignal(this._document, 'pointerup');
@@ -82,8 +89,7 @@ export class NgnMovable {
       }
       const pointerMove = this._pointerMoveSignal();
       if (pointerMove && untracked(this._isDragging)) {
-        this._el.nativeElement.style.position = 'fixed';
-        this._el.nativeElement.style.margin = 'unset';
+        this.dragged.set(true);
         const newLeft = pointerMove.clientX - this._startX;
         const newTop = pointerMove.clientY - this._startY;
 
@@ -96,11 +102,20 @@ export class NgnMovable {
 
           this._el.nativeElement.style.left = `${clampedLeft}px`;
           this._el.nativeElement.style.top = `${clampedTop}px`;
-          return;
+        } else {
+          this._el.nativeElement.style.left = `${pointerMove.clientX - this._startX}px`;
+          this._el.nativeElement.style.top = `${pointerMove.clientY - this._startY}px`;
         }
 
-        this._el.nativeElement.style.left = `${pointerMove.clientX - this._startX}px`;
-        this._el.nativeElement.style.top = `${pointerMove.clientY - this._startY}px`;
+        this._el.nativeElement.style.width = `${this._el.nativeElement.offsetWidth}px`;
+        this._el.nativeElement.style.height = `${this._el.nativeElement.offsetHeight}px`;
+        if (
+          !['fixed', 'absolute', 'static'].includes(
+            getComputedStyle(this._el.nativeElement).position
+          )
+        ) {
+          this._el.nativeElement.style.position = 'fixed';
+        }
       }
     });
 

@@ -21,3 +21,7 @@ eager and lazy loading of content.
 ## Lazy Loading
 
 {{ NgDocActions.demo("Demo_Dialog_Lazy") }}
+
+## Creating Dialogs Programmatically
+
+{{ NgDocActions.demo("Demo_Dialog_CreateDialog") }}
