@@ -25,3 +25,7 @@ eager and lazy loading of content.
 ## Creating Dialogs Programmatically
 
 {{ NgDocActions.demo("Demo_Dialog_CreateDialog") }}
+
+## Prompt Dialog
+
+{{ NgDocActions.demo("Demo_Dialog_Prompt") }}

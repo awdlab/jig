@@ -14,6 +14,13 @@
   [style.minHeight]="size().minHeight"
   [style.maxHeight]="size().maxHeight"
   [ngnMovable]="movable()"
+  [ngnResizable]="resizable()"
+  [ngnResizableSizeLimits]="{
+    minWidth: size().minWidth,
+    minHeight: size().minHeight,
+    maxWidth: size().maxWidth,
+    maxHeight: size().maxHeight,
+  }"
   [ngnMovableDragHandle]="header"
   [attr.popover]="popoverClosedBy()"
 >
@@ -22,7 +29,7 @@
       [ngTemplateOutlet]="headerTemplate()"
       [ngTemplateOutletContext]="{ headerId, title: title() }"
     ></ng-template>
-    <button ngnButton [kind]="'icon'" (click)="open.set(false)" tabindex="-1">
+    <button ngnButton [kind]="'icon'" (click)="closeWithButton()" tabindex="-1">
       <ngn-icon [defaultIcon]="'fa-solid fa-xmark'" [size]="'12px'"></ngn-icon>
     </button>
   </header>
@@ -43,7 +50,7 @@
     </div>
   } @else if (typedContent().component; as component) {
     <div [ngClass]="theme.class('content')">
-      <ng-container *ngComponentOutlet="component" />
+      <ng-container *ngComponentOutlet="component; inputs: contentComponentInputs()" />
     </div>
   }
 
@@ -70,7 +77,7 @@
 <ng-template #defaultFooterTemplate>
   <div [ngClass]="theme.class('default-footer')">
     @for (button of footerButtons(); track $index) {
-      <ngn-action-button [config]="button" (closed)="open.set(false)" />
+      <ngn-action-button [config]="singleButtonTypeFix(button)" (clicked)="buttonClick($event)" />
     }
   </div>
 </ng-template>

@@ -7,13 +7,20 @@ import {
   ElementRef,
   input,
   model,
+  output,
+  signal,
   TemplateRef,
   Type,
   untracked,
   viewChild,
 } from '@angular/core';
 import { NgnActionButtonConfig } from '@ngneers/controls/api';
-import { injectThemeTemplate, NgnMovable, NgnTemplate } from '@ngneers/controls/api/ng';
+import {
+  injectThemeTemplate,
+  NgnMovable,
+  NgnTemplate,
+  NgnResizable,
+} from '@ngneers/controls/api/ng';
 import { NgnActionButton, NgnButton } from '@ngneers/controls/button';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -21,6 +28,7 @@ import { generateElementId } from '@ngneers/controls/utils-ng';
 import { dialogControlTemplate } from '@ngneers/controls-themes/templates/dialog';
 
 import { DialogTemplates } from './dialog-templates';
+import { PromptDialogBase } from './prompt-dialog-base';
 import { DialogCloseBy, DialogSize } from './types';
 
 type TypedContent = {
@@ -44,17 +52,23 @@ type TypedContent = {
     NgnActionButton,
     NgComponentOutlet,
     NgnIcon,
+    NgnResizable,
   ],
   templateUrl: './dialog.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NgnDialog<T> extends DialogTemplates<T> {
+export class NgnDialog<
+  T,
+  Buttons extends NgnActionButtonConfig<unknown>[],
+> extends DialogTemplates<T> {
   protected readonly theme = injectThemeTemplate(dialogControlTemplate);
   protected readonly headerId = generateElementId();
 
   private readonly _dialogElement = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
   /**
    * Shows or hides the dialog.
+   *
+   * You probably want to react to openChange events from outside to update your variable accordingly.
    */
   public readonly open = model(true);
   /**
@@ -95,11 +109,53 @@ export class NgnDialog<T> extends DialogTemplates<T> {
   /**
    * Action buttons to be displayed in the footer of the dialog.
    */
-  public readonly footerButtons = input<NgnActionButtonConfig[]>([]);
+  public readonly footerButtons = input<Buttons>();
   /**
-   * Action buttons to be displayed in the footer of the dialog.
+   * Whether the dialog is movable by dragging its header.
    */
   public readonly movable = input<boolean | null | undefined | ''>(false);
+  /**
+   * Whether the dialog is resizable.
+   */
+  public readonly resizable = input<boolean | null | undefined | ''>(false);
+
+  /**
+   * The result of the dialog, which is the `value` of the button that was clicked to close the dialog or null.
+   */
+  public readonly buttonClicked = output<Buttons[number]['value'] | null>();
+
+  public readonly promptResult = output<{
+    value: (T extends PromptDialogBase<infer D, Buttons[number]['value']> ? D : never) | null;
+    button: Buttons[number]['value'] | null;
+  }>();
+
+  private readonly _latestClickedButtonValue = signal<{ button: Buttons[number]['value'] } | null>(
+    null
+  );
+
+  protected readonly contentComponentInputs = computed(() => {
+    const component = this.typedContent().component;
+    if (!component || !(component.prototype instanceof PromptDialogBase)) {
+      return {};
+    }
+    const latestButton = this._latestClickedButtonValue();
+    if (latestButton === null) {
+      return {};
+    }
+    return {
+      ngnPromptDialogResolveFn: {
+        button: latestButton.button,
+        fn: (result: T extends PromptDialogBase<infer D, Buttons[number]['value']> ? D : never) => {
+          this.promptResult.emit({
+            value: result,
+            button: latestButton.button,
+          });
+          this._latestClickedButtonValue.set(null);
+          this.open.set(false);
+        },
+      },
+    };
+  });
 
   /**
    * How a modal dialog can be closed by the user.
@@ -165,6 +221,7 @@ export class NgnDialog<T> extends DialogTemplates<T> {
     if (event instanceof KeyboardEvent) {
       // Modal dialogs handle this on their own
       if (this.modal()) {
+        this.cancelPrompt();
         return;
       }
       if (event.key !== 'Escape' || (event.target as HTMLElement).tagName !== 'DIALOG') {
@@ -173,6 +230,7 @@ export class NgnDialog<T> extends DialogTemplates<T> {
       }
       if (this.closeBy() === 'escape') {
         this.open.set(false);
+        this.cancelPrompt();
       }
       return;
     }
@@ -188,6 +246,38 @@ export class NgnDialog<T> extends DialogTemplates<T> {
      */
     requestAnimationFrame(() => {
       this.open.set(false);
+      this.cancelPrompt();
     });
+  }
+
+  private cancelPrompt() {
+    if (this.contentComponentInputs()) {
+      this.promptResult.emit({
+        value: null,
+        button: null,
+      });
+      this._latestClickedButtonValue.set(null);
+    }
+  }
+
+  protected closeWithButton() {
+    this.open.set(false);
+    this.cancelPrompt();
+  }
+
+  /**
+   * Opens the dialog. Alternatively, you can also set the `open` input to `true`.
+   */
+  public openDialog(): void {
+    this.open.set(true);
+  }
+
+  protected singleButtonTypeFix(button: unknown): Buttons[number] {
+    return button as Buttons[number];
+  }
+
+  protected buttonClick(button: Buttons[number]['value']): void {
+    this.buttonClicked.emit(button);
+    this._latestClickedButtonValue.set({ button });
   }
 }

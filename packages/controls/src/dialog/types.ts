@@ -12,12 +12,13 @@ export type DialogSize = {
 
 export type DialogCloseBy = 'any' | 'escape' | 'none';
 
-export type DialogConfig = {
+export type DialogConfig<T, Buttons extends NgnActionButtonConfig<unknown>[]> = {
   title?: string;
   size?: DialogSize;
   modal?: boolean;
   closeBy?: DialogCloseBy;
-  footerButtons?: NgnActionButtonConfig[];
-  content?: string | TemplateRef<unknown> | Type<any>;
+  footerButtons?: Buttons;
+  content?: string | TemplateRef<unknown> | Type<T>;
   movable?: boolean;
+  resizable?: boolean;
 };

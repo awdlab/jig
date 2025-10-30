@@ -9,14 +9,13 @@ import { NgnButton } from './button';
   templateUrl: 'action-button.html',
   imports: [NgnButton],
 })
-export class NgnActionButton extends NgnBase {
-  public readonly config = input.required<NgnActionButtonConfig>();
-  public readonly closed = output<void>();
+export class NgnActionButton<T> extends NgnBase {
+  public readonly config = input.required<NgnActionButtonConfig<T>>();
 
-  protected clicked(): void {
+  public readonly clicked = output<T>();
+
+  protected click(): void {
+    this.clicked.emit(this.config().value);
     this.config().action?.();
-    if (this.config().close) {
-      this.closed.emit();
-    }
   }
 }

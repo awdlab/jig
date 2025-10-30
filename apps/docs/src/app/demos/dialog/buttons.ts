@@ -6,13 +6,14 @@ import { NgnDialog } from '@ngneers/controls/dialog';
   imports: [NgnDialog],
   template: `<button (click)="open.set(true)">Open Dialog</button>
     <ngn-dialog
-      [title]="'test'"
+      [title]="'Buttons'"
+      content="Check the console for button click results"
       [open]="open()"
-      [closeBy]="'any'"
       [modal]="true"
       (openChange)="open.set($event)"
       [size]="{ width: '400px', maxWidth: '90vw' }"
       [footerButtons]="buttons"
+      (buttonClicked)="onButtonClicked($event)"
     >
       Content
     </ngn-dialog>`,
@@ -20,13 +21,14 @@ import { NgnDialog } from '@ngneers/controls/dialog';
 export class Demo_Dialog_Buttons {
   protected readonly open = signal(false);
 
-  protected readonly buttons: NgnActionButtonConfig[] = [
+  protected readonly buttons = [
     {
       label: 'Confirm',
       kind: 'primary',
       action: () => {
         console.log('Confirmed');
       },
+      value: true,
     },
     {
       label: 'Cancel',
@@ -34,6 +36,12 @@ export class Demo_Dialog_Buttons {
       action: () => {
         console.log('Cancelled');
       },
+      value: false,
     },
-  ];
+  ] satisfies NgnActionButtonConfig<unknown>[];
+
+  protected onButtonClicked(value: boolean | null): void {
+    console.log('Dialog button clicked with value:', value);
+    this.open.set(false);
+  }
 }

@@ -140,6 +140,17 @@ export class NgnMovable {
     });
   }
 
+  public bakePosition() {
+    this._el.nativeElement.style.left = `${this._el.nativeElement.offsetLeft}px`;
+    this._el.nativeElement.style.top = `${this._el.nativeElement.offsetTop}px`;
+    if (
+      !['fixed', 'absolute', 'static'].includes(getComputedStyle(this._el.nativeElement).position)
+    ) {
+      this._el.nativeElement.style.position = 'fixed';
+    }
+    this.dragged.set(true);
+  }
+
   private refreshCursor() {
     const handle = this._ngnMovableDragHandleWithPrevious();
     if (handle.previous && handle.previous !== handle.current) {

@@ -10,8 +10,9 @@ import { NgnDialog } from '@ngneers/controls/dialog';
       [closeBy]="'any'"
       [modal]="true"
       (openChange)="open.set($event)"
-      [size]="{ width: '400px', maxWidth: '90vw' }"
+      [size]="{ width: '400px', maxWidth: '90vw', minWidth: '200px' }"
       [movable]="true"
+      [resizable]="true"
     >
       Content
     </ngn-dialog>`,

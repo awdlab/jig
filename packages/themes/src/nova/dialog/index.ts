@@ -22,7 +22,8 @@ export const dialogStyles = createThemePart({
         flex-direction: column;
         box-shadow: ${v('shadow.lg')};
         position: fixed;
-        &[open] {
+        &[open],
+        &:popover-open {
           display: flex;
         }
       }
@@ -42,6 +43,9 @@ export const dialogStyles = createThemePart({
         font-weight: 600;
         font-size: ${v('font.size.2xl')};
         margin: 0;
+      }
+      ${c('content')} {
+        overflow: auto;
       }
       ${c('footer')} {
         padding-top: ${v('size.padding.lg')};

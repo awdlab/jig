@@ -1,13 +1,11 @@
 import { Component, inject, Injector } from '@angular/core';
 import { createDialog } from '@ngneers/controls/dialog';
-import { NgnSelect } from '@ngneers/controls/select';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
   selector: 'demo-1',
-  template: `{{ loremIpsum1 }} <ngn-select [options]="options" />`,
-  imports: [NgnSelect],
+  template: `{{ loremIpsum1 }}`,
 })
 export class DialogDemo1Component {
   protected readonly loremIpsum1 = exampleData.loremIpsum.full.split(' ').slice(0, 100).join(' ');
@@ -39,7 +37,9 @@ export class Demo_Dialog_CreateDialog {
     createDialog(this._injector, {
       title: 'Test Dialog',
       content: DialogDemo1Component,
-      movable: true,
+      size: {
+        maxWidth: '70vw',
+      },
       closeBy: 'escape',
     });
   }
