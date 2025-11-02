@@ -26,7 +26,7 @@ import { IconTemplateContext } from './types';
   templateUrl: './icon.html',
   imports: [NgTemplateOutlet, NgnTemplate],
   host: {
-    '[attr.ngSkipHydration]': 'true',
+    ngSkipHydration: 'true',
     '[class]': 'theme.class()',
   },
 })

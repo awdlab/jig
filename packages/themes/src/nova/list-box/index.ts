@@ -61,7 +61,7 @@ export const listBoxStyles = createThemePart({
         text-align: center;
         padding: ${v('size.padding.md')};
       }
-      :has(${c('empty')}) ${c('scroller')} {
+      ${c('')}:has(${c('empty')}) ${c('scroller')} {
         display: none;
       }
     `,
