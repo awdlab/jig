@@ -36,8 +36,8 @@
     "@angular/build": "catalog:",
     "@angular/cli": "catalog:",
     "@angular/compiler-cli": "^20.3.4",
-    "@types/express": "^5.0.3",
-    "@types/node": "^24.7.1",
+    "@types/express": "^5.0.5",
+    "@types/node": "^24.9.2",
     "typescript": "~5.9.3"
   }
 }

@@ -30,7 +30,7 @@
     "@angular/build": "catalog:",
     "@angular/cli": "catalog:",
     "@angular/compiler-cli": "catalog:",
-    "angular-eslint": "20.3.0",
+    "angular-eslint": "20.5.0",
     "ng-packagr": "^20.3.0",
     "typescript": "~5.9.3",
     "vitest": "^3.2.4"
