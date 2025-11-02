@@ -10,6 +10,7 @@ import {
   viewChild,
 } from '@angular/core';
 import {
+  FilterConfig,
   FilterConfigInternal,
   filterOptions,
   flatItems,
@@ -24,7 +25,6 @@ import {
   valueControlBaseProvider,
 } from '@ngneers/controls/api/ng';
 import { NgnScroller } from '@ngneers/controls/scroller';
-import { SelectFilterOptions } from '@ngneers/controls/select';
 import { asyncComputed } from '@ngneers/controls/utils-ng';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
 
@@ -74,10 +74,10 @@ export class NgnListBox<
   public readonly multiple = input<Multiple>();
   /**
    * Accepts a boolean value that determines whether the filter is enabled.
-   * Alternatively, you can provide `SelectFilterOptions` to customize the filter behavior.
+   * Alternatively, you can provide `FilterConfig` to customize the filter behavior.
    * @default `false`
    */
-  public readonly filter = input<SelectFilterOptions<NgnItem<T, K>> | boolean>(false);
+  public readonly filter = input<FilterConfig<NgnItem<T, K>> | boolean>(false);
   /**
    * Manually set the filter text.
    */
@@ -99,7 +99,6 @@ export class NgnListBox<
   });
   protected readonly currentHighlightedValue = signal<T[K] | null>(null);
 
-  // Replace with resource API when previous value persists
   protected readonly filteredItems = asyncComputed(async () => {
     const filter = !!this.filter();
     const appliedFilterOptions = this._appliedFilterOptions();
