@@ -23,10 +23,10 @@
     "@angular/router": "catalog:",
     "@angular/ssr": "catalog:",
     "@floating-ui/dom": "^1.7.4",
-    "@ng-doc/app": "20.1.0",
-    "@ng-doc/builder": "20.1.0",
-    "@ng-doc/core": "20.1.0",
-    "@ng-doc/ui-kit": "20.1.0",
+    "@ng-doc/app": "20.1.1",
+    "@ng-doc/builder": "20.1.1",
+    "@ng-doc/core": "20.1.1",
+    "@ng-doc/ui-kit": "20.1.1",
     "@ngneers/signal-translate": "^20.0.0",
     "express": "^5.1.0",
     "rxjs": "~7.8.2",
@@ -35,7 +35,7 @@
   "devDependencies": {
     "@angular/build": "catalog:",
     "@angular/cli": "catalog:",
-    "@angular/compiler-cli": "^20.3.4",
+    "@angular/compiler-cli": "catalog:",
     "@types/express": "^5.0.5",
     "@types/node": "^24.9.2",
     "typescript": "~5.9.3"
