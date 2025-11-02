@@ -10,6 +10,8 @@ import {
   viewChild,
 } from '@angular/core';
 import {
+  FilterConfigInternal,
+  filterOptions,
   flatItems,
   mapToItems,
   NgnItem,
@@ -22,6 +24,8 @@ import {
   valueControlBaseProvider,
 } from '@ngneers/controls/api/ng';
 import { NgnScroller } from '@ngneers/controls/scroller';
+import { SelectFilterOptions } from '@ngneers/controls/select';
+import { asyncComputed } from '@ngneers/controls/utils-ng';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
 
 import { ListBoxTemplates, ValueType } from './list-box-templates';
@@ -38,6 +42,7 @@ import { ListBoxTemplates, ValueType } from './list-box-templates';
     '[class]': `theme.classes({
       '': true,
       invalid: invalid(),
+      empty: !displayedItems().length,
     })`,
     '[attr.tabIndex]': 'highlightable() ? 0 : null',
     '(keydown)': 'onKeyDown($event)',
@@ -56,6 +61,8 @@ export class NgnListBox<
 > extends ListBoxTemplates<T, K, Multiple> {
   protected readonly theme = injectThemeTemplate(listBoxControlTemplate);
 
+  private readonly _scroller = viewChild.required<NgnScroller<T>>(NgnScroller);
+
   public readonly items = input.required<readonly NgnItem<T, K>[] | readonly T[]>();
   public readonly fields = input<NgnItemFields<T, K>>();
 
@@ -65,9 +72,19 @@ export class NgnListBox<
   public readonly virtual = input<boolean>();
   public readonly itemHeight = input<number>();
   public readonly multiple = input<Multiple>();
-  private readonly _scroller = viewChild.required<NgnScroller<T>>(NgnScroller);
+  /**
+   * Accepts a boolean value that determines whether the filter is enabled.
+   * Alternatively, you can provide `SelectFilterOptions` to customize the filter behavior.
+   * @default `false`
+   */
+  public readonly filter = input<SelectFilterOptions<NgnItem<T, K>> | boolean>(false);
+  /**
+   * Manually set the filter text.
+   */
+  public readonly filterText = input<string | null>(null);
+  public readonly displayedItems = computed(() => flatItems(this.filteredItems()));
 
-  protected readonly formattedItems = computed(() => {
+  private readonly _formattedItems = computed(() => {
     const fields = this.fields();
     const items = this.items();
     if (!fields) {
@@ -76,12 +93,38 @@ export class NgnListBox<
     return transformToNgnItems(items as readonly T[], fields);
   });
 
-  protected readonly flatItems = computed(() => flatItems(this.formattedItems()));
   protected readonly valueArray = computed(() => {
     const v = this.value();
     return Array.isArray(v) ? v : v ? [v] : [];
   });
   protected readonly currentHighlightedValue = signal<T[K] | null>(null);
+
+  // Replace with resource API when previous value persists
+  protected readonly filteredItems = asyncComputed(async () => {
+    const filter = !!this.filter();
+    const appliedFilterOptions = this._appliedFilterOptions();
+    const filterText = this.filterText();
+    if (!filter || !filterText) {
+      return this._formattedItems();
+    }
+    return await filterOptions(this._formattedItems(), filterText, appliedFilterOptions);
+  }, []);
+
+  private readonly _appliedFilterOptions = computed(() => {
+    const filter = this.filter();
+    const providedFilterArgs = typeof filter === 'boolean' ? {} : filter;
+    const options: FilterConfigInternal<NgnItem> = {
+      filterFieldsCallback: item => item.label,
+      fieldItems: 'items',
+      splitWords: true,
+      caseSensitive: false,
+      filterFn: 'contains',
+      ...providedFilterArgs,
+    };
+    return options;
+  });
+
+  protected readonly filterIsExecuting = this.filteredItems.isRunning;
 
   constructor() {
     super();
@@ -91,7 +134,7 @@ export class NgnListBox<
       if (!currentHighlightedValue) {
         return;
       }
-      const index = flatItems(this.formattedItems()).findIndex(
+      const index = flatItems(this.filteredItems()).findIndex(
         option => option.value === currentHighlightedValue
       );
       this._scroller().scrollToIndex(index);
@@ -99,9 +142,10 @@ export class NgnListBox<
 
     afterRenderEffect(() => {
       const pos = this.scrollToSelectedItemOnInit();
-      if (pos) {
+      const filterDone = this.filteredItems.firstRunCompleted();
+      if (pos && filterDone) {
         const val = untracked(this.value);
-        const index = flatItems(untracked(this.formattedItems)).findIndex(
+        const index = flatItems(untracked(this.filteredItems)).findIndex(
           option => option.value === val
         );
         this._scroller().scrollToIndex(index, pos === true ? 'nearest' : pos);
@@ -113,7 +157,7 @@ export class NgnListBox<
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.stopPropagation();
       event.preventDefault();
-      const flattenedItems = mapToItems(this.formattedItems());
+      const flattenedItems = mapToItems(this.filteredItems());
       this.currentHighlightedValue.update(currentValue => {
         const currentHighlightIndex = flattenedItems.findIndex(
           option => option.value === currentValue

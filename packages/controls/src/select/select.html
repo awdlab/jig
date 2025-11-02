@@ -79,42 +79,31 @@
             defaultIcon="fa-solid fa-magnifying-glass"
             [icon]="filterIcon()"
           />
-          @if (filterIsExecuting()) {
-            <!-- TODO: replace with spinner -->
-            <ngn-icon defaultIcon="fa-solid fa-spinner fa-spin" />
-          }
         </ngn-input-field>
       }
       <ngn-list-box
         [ngClass]="
           theme.classes({
             'list-box': true,
-            'list-box-empty': !filteredOptions().length,
           })
         "
         style="height: 100%; min-height: 0"
         [highlightable]="false"
         [selectable]="true"
-        [items]="filteredOptions()"
+        [filter]="appliedFilter()"
+        [filterText]="filterTextInternal()"
+        [items]="formattedOptions()"
         [itemHeight]="itemHeight()"
         [virtual]="virtual()"
         [templateItem]="itemTemplate()"
         [templateGroup]="groupTemplate()"
         [multiple]="multiple()"
-        [fields]="{
-          children: 'items',
-          value: 'value',
-          label: 'label',
-          testId: 'testId',
-        }"
         [value]="multiple() ? selectedItemsValues() : selectedItemsValues()[0]"
         [scrollToSelectedItemOnInit]="scrollToSelectedItemOnOpen()"
         (valueChange)="onSelect($event)"
         [inputId]="inputId() + '_listbox'"
+        [templateEmpty]="noItemsTemplate()"
       />
-      @if (!filteredOptions().length) {
-        <ng-container [ngTemplateOutlet]="noItemsTemplate()" />
-      }
     </div>
   </ng-template>
 </ngn-popover>
@@ -148,10 +137,4 @@
   @if (items.length < 1) {
     &ZeroWidthSpace;
   }
-</ng-template>
-
-<ng-template #defaultNoItemsTemplate>
-  <span [ngClass]="theme.class('no-items')" [attr.data-testid]="'no-items'">{{
-    'No items found'
-  }}</span>
 </ng-template>

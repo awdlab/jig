@@ -2,11 +2,18 @@
   [ngClass]="theme.class('scroller')"
   [virtual]="virtual()"
   [itemHeight]="itemHeight() ?? 0"
-  [items]="flatItems()"
+  [items]="displayedItems()"
   [templateItem]="usedItemTemplate"
   [fieldSticky]="'items'"
+  [loading]="filterIsExecuting()"
   #scroller
 />
+
+@if (!displayedItems().length) {
+  <ng-container
+    *ngTemplateOutlet="emptyTemplate() || defaultEmptyTemplate; context: {}"
+  ></ng-container>
+}
 
 <ng-template #usedItemTemplate [ngnTemplate]="scroller.templateTypes.item" let-itemOrGroup>
   <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
@@ -39,4 +46,8 @@
 
 <ng-template #defaultGroupTemplate [ngnTemplate]="templateTypes.item" let-group>
   <span [attr.data-testid]="group?.testId">{{ group?.label }}</span>
+</ng-template>
+
+<ng-template #defaultEmptyTemplate>
+  <span [ngClass]="theme.class('empty')" [attr.data-testid]="'empty'">{{ 'No items found' }}</span>
 </ng-template>

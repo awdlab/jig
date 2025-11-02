@@ -7,11 +7,12 @@ import {
   input,
   linkedSignal,
   OutputRefSubscription,
+  Signal,
   signal,
   viewChild,
 } from '@angular/core';
 import {
-  filterOptions,
+  FilterConfig,
   mapToItems,
   NgnItem,
   NgnItemFields,
@@ -30,11 +31,10 @@ import { NgnItemView } from '@ngneers/controls/item-view';
 import { NgnListBox } from '@ngneers/controls/list-box';
 import { NgnPopover, PopoverOptions } from '@ngneers/controls/popover';
 import { NgnError } from '@ngneers/controls/utils';
-import { asyncComputed } from '@ngneers/controls/utils-ng';
 import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
 
 import { SelectTemplates, ValueType } from './select-templates';
-import { SelectFilterOptions, SelectFilterOptionsInternal } from './types';
+import { SelectFilterOptions } from './types';
 
 /**
  * @category control
@@ -168,7 +168,7 @@ export class NgnSelect<
     return Array.isArray(v) ? v : v ? [v] : [];
   });
 
-  private readonly _options = computed(() => {
+  protected readonly formattedOptions: Signal<NgnItem[]> = computed(() => {
     const fields = this.fields();
     const options = this.options();
     if (!fields) {
@@ -177,36 +177,11 @@ export class NgnSelect<
     return transformToNgnItems(options as T[], fields);
   });
 
-  private readonly _flatOptions = computed(() => mapToItems(this._options()));
+  protected readonly appliedFilter: Signal<FilterConfig<NgnItem> | boolean> = computed(
+    () => this.filter() || this.editable() || false
+  );
 
-  private readonly _appliedFilterOptions = computed(() => {
-    const filter = this.filter();
-    const providedFilterArgs = typeof filter === 'boolean' ? {} : filter;
-    const options: SelectFilterOptionsInternal<NgnItem> = {
-      filterFieldsCallback: item => item.label,
-      fieldItems: 'items',
-      splitWords: true,
-      caseSensitive: false,
-      clearFilterOnClose: true,
-      filterFn: 'contains',
-      ...providedFilterArgs,
-    };
-    return options;
-  });
-
-  // Replace with resource API when previous value persists
-  protected readonly filteredOptions = asyncComputed(async () => {
-    const filter = !!this.filter();
-    const editable = !!this.editable();
-    const appliedFilterOptions = this._appliedFilterOptions();
-    const filterText = this.filterTextInternal();
-    if ((!filter && !editable) || !filterText) {
-      return this._options();
-    }
-    return await filterOptions<NgnItem>(this._options(), filterText, appliedFilterOptions);
-  }, []);
-
-  protected readonly filterIsExecuting = this.filteredOptions.isRunning;
+  private readonly _flatOptions = computed(() => mapToItems(this.formattedOptions()));
 
   protected readonly selectedItems = computed(() => {
     if (this.editable()) {
@@ -267,7 +242,7 @@ export class NgnSelect<
       if (!this.editable()) {
         return;
       }
-      const hasOptions = !!this.filteredOptions().length;
+      const hasOptions = !!this._listbox()?.displayedItems().length;
       if (!this._userChangedEditableInput) {
         return;
       }
@@ -294,7 +269,8 @@ export class NgnSelect<
 
   protected onPopoverClosed() {
     this.currentHighlightedValue.set(null);
-    if (this._appliedFilterOptions()?.clearFilterOnClose) {
+    const filter = this.filter();
+    if (filter === true || (typeof filter === 'object' && filter.clearFilterOnClose)) {
       if (!this.editable()) {
         this.filterTextInternal.set('');
       }

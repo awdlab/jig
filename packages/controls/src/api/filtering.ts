@@ -95,7 +95,7 @@ async function itemMatches<T extends object>(
 }
 
 export async function filterOptions<T extends object>(
-  options: T[],
+  options: readonly T[],
   filterText: string,
   filterOptions: FilterConfigInternal<T>
 ): Promise<readonly T[]> {

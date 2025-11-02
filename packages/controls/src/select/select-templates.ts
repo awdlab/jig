@@ -92,16 +92,14 @@ export abstract class SelectTemplates<
   );
 
   // No items template
-  private readonly _defaultNoItemsTemplate =
-    viewChild.required<TemplateRef<null>>('defaultNoItemsTemplate');
-  private readonly _userNoItemsTemplate = contentChild<TemplateRef<null>>('noItems');
+  private readonly _userNoItemsTemplate = contentChild<TemplateRef<unknown>>('noItems');
   /**
    * Set a custom template for the no items state of the select control.
    * Can also be set using an `<ng-template>` element with `#noItems` template reference variable.
    */
-  public readonly templateNoItems = input<TemplateRef<null> | null>(null);
+  public readonly templateNoItems = input<TemplateRef<unknown> | null>(null);
   protected readonly noItemsTemplate = computed(
-    () => this._userNoItemsTemplate() ?? this.templateNoItems() ?? this._defaultNoItemsTemplate()
+    () => this._userNoItemsTemplate() ?? this.templateNoItems()
   );
 
   /**

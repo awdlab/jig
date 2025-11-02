@@ -57,6 +57,13 @@ export const listBoxStyles = createThemePart({
           background: ${v('color.surface.100')};
         }
       }
+      ${c('empty')} {
+        text-align: center;
+        padding: ${v('size.padding.md')};
+      }
+      :has(${c('empty')}) ${c('scroller')} {
+        display: none;
+      }
     `,
   },
 });

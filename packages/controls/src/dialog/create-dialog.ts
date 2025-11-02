@@ -99,7 +99,8 @@ export function createDialog<T, Buttons extends NgnActionButtonConfig<unknown>[]
 
   return {
     close: () => dialogRef.destroy(),
-    updateConfig: newConfig => applyDialogConfig(dialogRef, newConfig),
+    updateConfig: (newConfig: Partial<DialogConfig<T, Buttons>>) =>
+      applyDialogConfig(dialogRef, newConfig),
     buttonClicked: buttonClicked.asObservable(),
   } as T extends PromptDialogBase<any, any>
     ? PromptDialogHandle<T, Buttons>

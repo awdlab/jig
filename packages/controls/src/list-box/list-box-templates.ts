@@ -44,6 +44,19 @@ export abstract class ListBoxTemplates<
     () => this._userGroupTemplate() ?? this.templateGroup() ?? this._defaultGroupTemplate()
   );
 
+  // Empty template
+  private readonly _defaultEmptyTemplate =
+    viewChild.required<TemplateRef<unknown>>('defaultEmptyTemplate');
+  private readonly _userEmptyTemplate = contentChild<TemplateRef<unknown>>('empty');
+  /**
+   * Set a custom template for the empty state in the list box.
+   * Can also be set using an `<ng-template>` element with `#empty` template reference variable.
+   */
+  public readonly templateEmpty = input<TemplateRef<unknown> | null>(null);
+  protected readonly emptyTemplate = computed(
+    () => this._userEmptyTemplate() ?? this.templateEmpty() ?? this._defaultEmptyTemplate()
+  );
+
   /**
    * Types for the dialog templates.
    */

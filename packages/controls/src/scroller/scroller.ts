@@ -9,6 +9,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { elementSizeSignal, injectThemeTemplate, NgnScrollAmount } from '@ngneers/controls/api/ng';
+import { NgnIcon } from '@ngneers/controls/icon';
 import { AllKeysOfUnion, getScrollTop, NgnError } from '@ngneers/controls/utils';
 import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scroller';
 
@@ -20,7 +21,7 @@ import { ScrollerTemplates } from './scroller-templates';
 @Component({
   selector: 'ngn-scroller',
   templateUrl: './scroller.html',
-  imports: [NgClass, NgTemplateOutlet, NgnScrollAmount],
+  imports: [NgClass, NgTemplateOutlet, NgnScrollAmount, NgnIcon],
   host: {
     '[class]': 'theme.class()',
     '[tabIndex]': 'focusable() ? 0 : -1',
@@ -63,6 +64,11 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
    * If set, the scroller will stick the items with a truthy value for the specified field to the top of the scroller.
    */
   public readonly fieldSticky = input<AllKeysOfUnion<T> | null>(null);
+  /**
+   * Determines whether the scroller is loading items.
+   * @default `false`
+   */
+  public readonly loading = input<boolean>(false);
 
   private readonly _itemList = viewChild.required<ElementRef<HTMLElement>>('itemList');
   private readonly _scrollElement = viewChild.required<ElementRef<HTMLElement>>('scrollarea');

@@ -3,6 +3,7 @@ import { NgnListBox } from '@ngneers/controls/list-box';
 
 import { Demo_ListBox_Base } from '../../../app/demos/list-box/base';
 import { Demo_ListBox_Fields } from '../../../app/demos/list-box/fields-demo';
+import { Demo_ListBox_Filter } from '../../../app/demos/list-box/filter';
 import { Demo_ListBox_Grouped } from '../../../app/demos/list-box/grouped-demo';
 import { Demo_ListBox_Multiple } from '../../../app/demos/list-box/multiple';
 import { Demo_ListBox_Templates } from '../../../app/demos/list-box/templates-demo';
@@ -22,6 +23,7 @@ const ListBoxPage: NgDocPage = {
     Demo_ListBox_Value,
     Demo_ListBox_Virtual,
     Demo_ListBox_Multiple,
+    Demo_ListBox_Filter,
   },
   playgrounds: {
     ListBoxPlayground: {

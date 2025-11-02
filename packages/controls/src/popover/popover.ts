@@ -51,6 +51,7 @@ export class NgnPopover {
   }));
 
   public readonly opened = output();
+  public readonly closing = output();
   public readonly closed = output();
 
   private readonly _isOpen = signal(false);
@@ -110,7 +111,7 @@ export class NgnPopover {
       if (this._skipNextCloseEvent) {
         this._skipNextCloseEvent = false;
       } else {
-        this.closed.emit();
+        this.closing.emit();
       }
       this._autoPos()?.stop();
 
@@ -123,6 +124,7 @@ export class NgnPopover {
         allAnimationsDone
           .then(() => {
             this.isFullyClosed.set(true);
+            this.closed.emit();
           })
           .catch(() => {
             // ignore cancelled animation

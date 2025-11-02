@@ -27,9 +27,10 @@ export function signalWithPrevious<T>(
 export function asyncComputed<T>(
   computeFn: () => Promise<T>,
   initial: T
-): { (): T; isRunning: Signal<boolean> } {
+): { (): T; isRunning: Signal<boolean>; firstRunCompleted: Signal<boolean> } {
   let latestUpdated = 0;
-  let runningCounter = signal(0);
+  const runningCounter = signal(0);
+  const firstRunCompleted = signal(false);
   const returnSignal = signal<T>(initial);
   effect(() => {
     const current = Date.now();
@@ -44,6 +45,7 @@ export function asyncComputed<T>(
         }
         latestUpdated = current;
         returnSignal.set(value);
+        firstRunCompleted.set(true);
       })
       .catch(error => {
         runningCounter.update(value => value - 1);
@@ -51,8 +53,13 @@ export function asyncComputed<T>(
       });
   });
   const isRunning = computed(() => runningCounter() > 0);
-  const returnFn = returnSignal as unknown as { (): T; isRunning: Signal<boolean> };
+  const returnFn = returnSignal as unknown as {
+    (): T;
+    isRunning: Signal<boolean>;
+    firstRunCompleted: Signal<boolean>;
+  };
   returnFn.isRunning = isRunning;
+  returnFn.firstRunCompleted = firstRunCompleted;
   return returnFn;
 }
 

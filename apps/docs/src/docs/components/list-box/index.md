@@ -31,6 +31,10 @@ custom templates.
 
 {{ NgDocActions.demo("Demo_ListBox_Multiple") }}
 
+## Filtering
+
+{{ NgDocActions.demo("Demo_ListBox_Filter") }}
+
 ## Virtual Scrolling
 
 {{ NgDocActions.demo("Demo_ListBox_Virtual") }}
