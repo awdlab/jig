@@ -1,10 +1,7 @@
-@layer tailwind, global, ngn-controls;
+@use 'tailwindcss';
+@use 'prismjs/themes/prism.css';
 
-@layer tailwind {
-  @import 'tailwindcss';
-  @import 'prismjs/themes/prism.css';
-}
-
+@layer base, global, ngn-controls, utilities;
 @theme {
 }
 

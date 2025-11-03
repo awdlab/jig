@@ -470,8 +470,6 @@ export class TooltipComponent extends NgnBase {
   }
 
   protected onShow() {
-    console.log('onShow');
-
     if (!this.content() && !this.text()) {
       return;
     }
