@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgnInput } from '@ngneers/controls/input';
-import { MASKS, NgnInputMask, TextFieldMaskCfg } from '@ngneers/controls/input-mask';
+import { MASKS, NgnInputMask, InputMaskCfg } from '@ngneers/controls/input-mask';
 
 @Component({
   imports: [FormsModule, NgnInput, NgnInputMask],
@@ -13,7 +13,7 @@ import { MASKS, NgnInputMask, TextFieldMaskCfg } from '@ngneers/controls/input-m
     {{ value() }}
   `,
 })
-export class Demo_TextField_Mask {
+export class Demo_InputMask_Mask {
   protected readonly value = signal<string>('');
-  protected readonly mask: TextFieldMaskCfg = MASKS.time;
+  protected readonly mask: InputMaskCfg = MASKS.time;
 }

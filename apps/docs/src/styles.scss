@@ -1,21 +1,33 @@
-/* You can add global styles to this file, and also import other style files */
-@import '@ng-doc/app/styles/themes/dark.css';
+@layer tailwind, global, ngn-controls;
 
-ng-doc-page-link:has(~ .ng-doc-code-with-link) {
-  display: none;
+@layer tailwind {
+  @import 'tailwindcss';
+  @import 'prismjs/themes/prism.css';
 }
 
-:root {
-  --ng-doc-text: rgb(20, 20, 20);
-  --ng-doc-app-max-width: 1900px;
-  &[data-theme='dark'] {
-    --ng-doc-text: rgb(200, 200, 200);
+@theme {
+}
+
+@layer global {
+  html,
+  body {
+    font-family: 'Inter', sans-serif;
+    @apply h-full;
   }
-}
 
-table.ngde tbody tr td {
-  padding: 16px 8px;
-  &:last-child {
-    min-width: 400px;
+  h1 {
+    @apply text-4xl font-semibold mt-8 mb-4;
+  }
+  h2 {
+    @apply text-3xl font-semibold mt-8 mb-4;
+  }
+  h3 {
+    @apply text-2xl font-semibold mt-6 mb-3;
+  }
+  h4 {
+    @apply text-xl font-semibold mt-6 mb-2;
+  }
+  h5 {
+    @apply text-lg font-semibold mt-4 mb-2;
   }
 }

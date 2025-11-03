@@ -8,6 +8,7 @@ import {
 import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
 
 const TRANSITION_BUFFER = '50ms';
+const MOVE_AMOUNT = 6; // in px
 
 export const popoverStyles = createThemePart({
   controlTemplate: popoverControlTemplate,
@@ -32,6 +33,7 @@ export const popoverStyles = createThemePart({
         border-color: unset;
         border-image: unset;
         padding: unset;
+        padding-bottom: ${MOVE_AMOUNT}px; /** to make space for the animation (prevent overflow) */
         overflow: visible; /** so that box-shadow is not clipped */
         /* The 100 ms buffer is so that the animation of the content finishes before the popover closes (Animation doesn't get cancelled) */
         transition:
@@ -72,7 +74,7 @@ export const popoverStyles = createThemePart({
       @keyframes ngnPopover_fadeIn {
         from {
           opacity: 0;
-          transform: translateY(6px);
+          transform: translateY(${MOVE_AMOUNT}px);
         }
         to {
           opacity: 1;
@@ -86,7 +88,7 @@ export const popoverStyles = createThemePart({
         }
         to {
           opacity: 0;
-          transform: translateY(6px);
+          transform: translateY(${MOVE_AMOUNT}px);
           display: none;
         }
       }

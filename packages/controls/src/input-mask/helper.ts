@@ -1,5 +1,5 @@
 import { MASKS } from './masks';
-import { TextFieldMaskCfg } from './types';
+import { InputMaskCfg } from './types';
 
 // Interface for communicating with the parent component
 type MaskData = {
@@ -21,7 +21,7 @@ export class MaskHelper {
    * Converts string masks to TextFieldMaskCfg format
    * Returns null if no mask is provided
    */
-  public ensureMask(mask: TextFieldMaskCfg | string | null): TextFieldMaskCfg | null {
+  public ensureMask(mask: InputMaskCfg | string | null): InputMaskCfg | null {
     if (!mask) return null;
     if (typeof mask === 'string') {
       if (mask === 'time') {
@@ -46,7 +46,7 @@ export class MaskHelper {
   /**
    * Handle key down events to manage special keys like Backspace and Delete
    */
-  public handleKeyDown(event: KeyboardEvent, mask: TextFieldMaskCfg): void {
+  public handleKeyDown(event: KeyboardEvent, mask: InputMaskCfg): void {
     if (!mask || this._shouldIgnoreEvent(event)) {
       return;
     }
@@ -62,7 +62,7 @@ export class MaskHelper {
   /**
    * Handle before input event to manage character input with mask validation
    */
-  public handleBeforeInput(event: InputEvent, mask: TextFieldMaskCfg): void {
+  public handleBeforeInput(event: InputEvent, mask: InputMaskCfg): void {
     const el = event.target as HTMLInputElement;
     const key = event.data;
     const currentPosition = el.selectionStart ?? 0;
@@ -100,7 +100,7 @@ export class MaskHelper {
     el: HTMLInputElement,
     key: string,
     currentPosition: number,
-    mask: TextFieldMaskCfg
+    mask: InputMaskCfg
   ): void {
     if (key === 'Backspace' && currentPosition > 0) {
       const maskEntry = mask[currentPosition - 1];
@@ -136,7 +136,7 @@ export class MaskHelper {
     el: HTMLInputElement,
     key: string,
     currentPosition: number,
-    mask: TextFieldMaskCfg
+    mask: InputMaskCfg
   ): void {
     // Skip over static characters and find the next input position
     const { position, autoPrintChars } = this._processStaticCharacters(el, currentPosition, mask);
@@ -173,7 +173,7 @@ export class MaskHelper {
   private _processStaticCharacters(
     el: HTMLInputElement,
     startPosition: number,
-    mask: TextFieldMaskCfg
+    mask: InputMaskCfg
   ): { position: number; autoPrintChars: string } {
     let currentPosition = startPosition;
     let autoPrintChars = '';

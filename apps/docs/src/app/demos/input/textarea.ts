@@ -10,6 +10,6 @@ import { NgnInput } from '@ngneers/controls/input';
     {{ value() }}
   `,
 })
-export class Demo_TextField_Textarea {
+export class Demo_Input_Textarea {
   protected readonly value = signal<string>('');
 }

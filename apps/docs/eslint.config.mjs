@@ -1,4 +1,4 @@
 import { getEslintConfig } from '../../configs/eslint.angular.mjs';
-import { defineConfig, globalIgnores } from 'eslint/config';
+import { defineConfig } from 'eslint/config';
 
-export default defineConfig(getEslintConfig('./tsconfig.app.json'), globalIgnores(['ng-doc/**/*']));
+export default defineConfig(getEslintConfig('./tsconfig.app.json'));

@@ -19,9 +19,7 @@
       "@ngneers/controls/i18n/translations/*": ["packages/controls/src/i18n/translations/*"],
       "@ngneers/controls-themes": ["packages/themes/src/index"],
       "@ngneers/controls-themes/*": ["packages/themes/src/*/index"],
-      "@ngneers/controls-playwright": ["packages/playwright/src/index"],
-      "@ng-doc/generated": ["apps/docs/ng-doc/docs/index.ts"],
-      "@ng-doc/generated/*": ["apps/docs/ng-doc/docs/*"]
+      "@ngneers/controls-playwright": ["packages/playwright/src/index"]
     }
   },
   "angularCompilerOptions": {

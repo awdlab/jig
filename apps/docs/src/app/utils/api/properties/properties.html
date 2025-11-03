@@ -1,0 +1,22 @@
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (prop of properties(); track prop.id) {
+      <tr [id]="kind() + '_' + prop.name">
+        <td [class.required]="!prop.flags.hasFlag(FLAGS.Optional)">{{ prop.name }}</td>
+        <td>{{ prop.type }}</td>
+        <td>
+          @if (prop.comment) {
+            <ngn-docs-api-comment [comment]="prop.comment" [propKind]="kind()" />
+          }
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>

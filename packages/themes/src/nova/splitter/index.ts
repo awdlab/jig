@@ -27,8 +27,9 @@ export const splitterStyles = createThemePart({
         border: none;
         padding: 0;
         position: relative;
+        background: ${v('color.surface.100')};
         &:hover {
-          background: ${v('color.surface.300')};
+          background: ${v('color.surface.200')};
         }
         &:focus {
           background: ${v('color.surface.300')};

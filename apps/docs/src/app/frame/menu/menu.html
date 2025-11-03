@@ -1,0 +1,43 @@
+<div class="flex h-full">
+  @if (!isCompact()) {
+    <ng-container *ngTemplateOutlet="menu" />
+  }
+  <ng-content />
+</div>
+
+@if (isCompact()) {
+  <!-- todo: sidepanel -->
+}
+
+<ng-template #menu>
+  <div class="flex flex-col w-64 shrink-0">
+    @for (item of menuItems; track $index) {
+      @if (item.children) {
+        <ng-container *ngTemplateOutlet="menuCategory; context: { $implicit: item, level: 0 }" />
+      } @else {
+        <ng-container *ngTemplateOutlet="menuItem; context: { $implicit: item, level: 0 }" />
+      }
+    }
+  </div>
+</ng-template>
+
+<ng-template #menuItem [ngnTemplate]="templateTypes.item" let-item let-level="level">
+  <a
+    [routerLink]="item.link"
+    class="pr-4 py-2 hover:bg-gray-100"
+    [style.paddingLeft.rem]="1 + level"
+  >
+    {{ item.title }}
+  </a>
+</ng-template>
+
+<ng-template #menuCategory [ngnTemplate]="templateTypes.item" let-item let-level="level">
+  <a [routerLink]="item.link" class="px-4 py-2 hover:bg-gray-100">
+    {{ item.title }}
+  </a>
+  <div class="flex flex-col">
+    @for (child of item.children; track $index) {
+      <ng-container *ngTemplateOutlet="menuItem; context: { $implicit: child, level: level + 1 }" />
+    }
+  </div>
+</ng-template>

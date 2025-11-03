@@ -5,13 +5,13 @@ import { NgnInputField } from '@ngneers/controls/input-field';
 
 @Component({
   imports: [FormsModule, NgnInput, NgnInputField],
-  selector: 'ngn-text-field-base',
+  selector: 'ngn-text-field-inputfield',
   template: `<ngn-input-field [inputId]="'test-input'">
       <input ngnInput [ngModel]="value()" (ngModelChange)="value.set($event)" />
       🥳
     </ngn-input-field>
     {{ value() }} `,
 })
-export class Demo_TextField_InputField {
+export class Demo_Input_InputField {
   protected readonly value = signal<string>('');
 }

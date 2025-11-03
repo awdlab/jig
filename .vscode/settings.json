@@ -41,8 +41,9 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "task.autoDetect": "off"
+  "task.autoDetect": "off",
   // Remove comments if branch policies are used
   // "git.branchProtection": ["main", "master"],
   // "git.branchProtectionPrompt": "alwaysPrompt",
+  "tailwindCSS.experimental.configFile": "apps/docs/src/styles.scss"
 }

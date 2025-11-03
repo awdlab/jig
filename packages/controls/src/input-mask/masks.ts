@@ -1,4 +1,4 @@
-import { TextFieldMaskCfg } from './types';
+import { InputMaskCfg } from './types';
 
 const time = [
   {
@@ -22,7 +22,7 @@ const time = [
     default: '0',
     placeholder: 'M',
   },
-] as const satisfies TextFieldMaskCfg;
+] as const satisfies InputMaskCfg;
 
 const timeSeconds = [
   ...time,
@@ -37,9 +37,9 @@ const timeSeconds = [
     default: '0',
     placeholder: 'S',
   },
-] as const satisfies TextFieldMaskCfg;
+] as const satisfies InputMaskCfg;
 
 export const MASKS = {
   time,
   timeSeconds,
-} as const satisfies Record<string, TextFieldMaskCfg>;
+} as const satisfies Record<string, InputMaskCfg>;

@@ -1,5 +1,4 @@
-import { readdir, readFile, stat, writeFile } from 'fs/promises';
-import { type PluginOptions } from 'typedoc-plugin-markdown';
+import { readFile } from 'fs/promises';
 import {
   Application,
   DeclarationReflection,
@@ -19,28 +18,19 @@ import {
   CommentTag,
   OptionDefaults,
 } from 'typedoc';
-import { join } from 'path';
 
-const OUT_DIR = '../../apps/docs/src/docs/api';
+const OUT_DIR = '../../apps/docs/src/app/docs/_generated';
 
-const options: TypeDocOptions & PluginOptions = {
+const options: TypeDocOptions = {
   entryPoints: ['./src/**/*.ts'],
-  plugin: ['typedoc-plugin-markdown'],
-  out: OUT_DIR,
-  hidePageHeader: true,
-  hideBreadcrumbs: true,
-  hideGenerator: true,
-  hidePageTitle: true,
-  hideGroupHeadings: true,
-  propertyMembersFormat: 'table',
-  parametersFormat: 'table',
-  classPropertiesFormat: 'table',
-  tableColumnSettings: {
-    hideModifiers: true,
-    hideSources: true,
-    hideInherited: true,
-  },
   searchInComments: true,
+  outputs: [
+    {
+      name: 'json',
+      path: OUT_DIR + '/typedoc.json',
+      options: { pretty: false },
+    },
+  ],
   blockTags: [...OptionDefaults.blockTags, '@alias'],
 };
 
@@ -135,22 +125,27 @@ async function convertControl(control: DeclarationReflection) {
       return lines[line - 1];
     });
     if (lineText.includes('.required')) {
-      input.name = `${input.name}*`;
+      input.flags.setFlag(ReflectionFlag.Optional, false);
       const i = input.comment?.blockTags.findIndex(tag => tag.tag === '@default');
       // remove @default tag
       if (i !== undefined && i !== -1) {
         input.comment?.blockTags.splice(i, 1);
       }
       input.comment?.blockTags.push(new CommentTag('@default', [{ kind: 'text', text: '&nbsp;' }]));
+    } else {
+      input.flags.setFlag(ReflectionFlag.Optional, true);
     }
   });
   await Promise.all(promises);
 
   // Sort required inputs to the top and alphabetically
   inputs.sort((a, b) => {
-    if (a.name.endsWith('*') && !b.name.endsWith('*')) {
+    if (!a.flags.hasFlag(ReflectionFlag.Optional) && b.flags.hasFlag(ReflectionFlag.Optional)) {
       return -1;
-    } else if (!a.name.endsWith('*') && b.name.endsWith('*')) {
+    } else if (
+      a.flags.hasFlag(ReflectionFlag.Optional) &&
+      !b.flags.hasFlag(ReflectionFlag.Optional)
+    ) {
       return 1;
     }
     return a.name.localeCompare(b.name);
@@ -205,42 +200,6 @@ async function convertProject(project: ProjectReflection) {
   );
 }
 
-async function getAllMarkdownFilesRecursive(dir = OUT_DIR): Promise<string[]> {
-  const entries = await readdir(dir);
-  let markdownFiles: string[] = [];
-
-  for (const entry of entries) {
-    const fullPath = join(dir, entry);
-    const stats = await stat(fullPath);
-
-    if (stats.isDirectory()) {
-      const nestedFiles = await getAllMarkdownFilesRecursive(fullPath);
-      markdownFiles = markdownFiles.concat(nestedFiles);
-    } else if (entry.endsWith('.md')) {
-      markdownFiles.push(fullPath);
-    }
-  }
-
-  return markdownFiles;
-}
-
-async function fixLinks() {
-  const allMarkdownFilesRecursive = await getAllMarkdownFilesRecursive();
-
-  const all = allMarkdownFilesRecursive.map(async filePath => {
-    const content = await readFile(filePath, 'utf-8');
-
-    const out = content.replace(
-      /\(\.\.\/\.\.\/types\/type-aliases\/([^/]+)\.md\)/,
-      '(/docs/api/type-aliases/ngneers-controls/$1)'
-    );
-
-    await writeFile(filePath, out, 'utf-8');
-  });
-
-  await Promise.all(all);
-}
-
 async function run() {
   const { app, project } = await parseTsDocs();
   if (!project) {
@@ -249,8 +208,6 @@ async function run() {
   }
   await convertProject(project);
   await app.generateOutputs(project);
-
-  await fixLinks();
 }
 
 run();

@@ -1,0 +1,8 @@
+@if (part().kind === 'text') {
+  {{ part().text }}
+} @else if (part().kind === 'code') {
+  <code>{{ part().text }}</code>
+} @else if (part().kind === 'inline-tag') {
+  <!-- TODO: differentiate between "internal" & external links -->
+  <a [routerLink]="location" [fragment]="propKind() + '_' + part().text">{{ part().text }}</a>
+}

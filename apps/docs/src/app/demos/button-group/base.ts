@@ -10,4 +10,4 @@ import { NgnButtonGroup } from '@ngneers/controls/button-group';
     <button ngnButton [kind]="'primary'">Button C123</button>
   </ngn-button-group>`,
 })
-export class Demo_Button_Group_Base {}
+export class Demo_ButtonGroup_Base {}

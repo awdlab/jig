@@ -7,7 +7,7 @@ import { NgnInputField } from '@ngneers/controls/input-field';
 import { inputMaskControlTemplate } from '@ngneers/controls-themes/templates/input-mask';
 
 import { MaskHelper } from './helper';
-import { TextFieldMaskCfg } from './types';
+import { InputMaskCfg } from './types';
 
 /**
  * @category control
@@ -53,7 +53,7 @@ export class NgnInputMask extends NgnBase {
 
   protected readonly currentInputValue = signal<string>('');
 
-  public readonly mask = input<'time' | TextFieldMaskCfg | string | null>(null);
+  public readonly mask = input<'time' | InputMaskCfg | string | null>(null);
   private readonly _mask = computed(() => this._maskHelper.ensureMask(this.mask()));
 
   protected readonly maskWatermark = computed(() => {

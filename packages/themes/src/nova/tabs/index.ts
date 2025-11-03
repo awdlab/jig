@@ -34,7 +34,7 @@ export const tabsStyles = createThemePart({
         cursor: pointer;
         white-space: nowrap;
         font-weight: ${v('font.weight.semibold')};
-        padding: ${v('size.padding.md')};
+        padding: ${v('size.padding.md')} ${v('size.padding.xl')};
         border-bottom: 1px solid ${v('color.surface.300')};
         &:hover {
           background: ${v('color.surface.100')};
