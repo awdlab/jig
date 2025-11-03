@@ -5,7 +5,7 @@ import {
   provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import { provideRouter, withInMemoryScrolling, withViewTransitions } from '@angular/router';
 import { provideNgnControls } from '@ngneers/controls/api/ng';
 import { novaCoral } from '@ngneers/controls-themes/nova';
 
@@ -21,7 +21,8 @@ export const appConfig: ApplicationConfig = {
       withInMemoryScrolling({
         scrollPositionRestoration: 'enabled',
         anchorScrolling: 'enabled',
-      })
+      }),
+      withViewTransitions()
     ),
     provideClientHydration(withEventReplay()),
     provideNgnControls({ theme: { preset: novaCoral } }),

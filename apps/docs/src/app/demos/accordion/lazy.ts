@@ -2,28 +2,7 @@ import { Component } from '@angular/core';
 import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
 
 import { exampleData } from '../../helper/data';
-
-@Component({
-  selector: 'demo-1',
-  template: `{{ loremIpsum1 }}`,
-})
-export class Demo1Component {
-  protected readonly loremIpsum1 = exampleData.loremIpsum.full.split(' ').slice(0, 100).join(' ');
-  constructor() {
-    console.log('Demo1Component initialized');
-  }
-}
-
-@Component({
-  selector: 'demo-2',
-  template: `{{ loremIpsum2 }}`,
-})
-export class Demo2Component {
-  protected readonly loremIpsum2 = exampleData.loremIpsum.full.split(' ').slice(100, 200).join(' ');
-  constructor() {
-    console.log('Demo2Component initialized');
-  }
-}
+import { DummyLoremIpsumComponent1, DummyLoremIpsumComponent2 } from '../dummies/lorem-ipsum';
 
 @Component({
   selector: 'demo-3',
@@ -37,16 +16,22 @@ export class Demo3Component {
 }
 
 @Component({
-  imports: [NgnAccordion, NgnAccordionPanel, Demo1Component, Demo2Component, Demo3Component],
+  imports: [
+    NgnAccordion,
+    NgnAccordionPanel,
+    DummyLoremIpsumComponent1,
+    DummyLoremIpsumComponent2,
+    Demo3Component,
+  ],
   template: `<ngn-accordion [lazy]="true">
     <ngn-accordion-panel [header]="'Panel 1'">
       <ng-template #content>
-        <demo-1 />
+        <dummy-lorem-ipsum-1 />
       </ng-template>
     </ngn-accordion-panel>
     <ngn-accordion-panel [header]="'Panel 2'" [lazy]="false">
       <ng-template #content>
-        <demo-2 />
+        <dummy-lorem-ipsum-2 />
       </ng-template>
     </ngn-accordion-panel>
     <ngn-accordion-panel [header]="'Panel 3'" [cache]="true">
