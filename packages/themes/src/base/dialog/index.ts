@@ -29,7 +29,7 @@ export const dialogStyles = createThemePart({
         align-items: center;
         justify-content: flex-end;
       }
-      ${d('movable', 'moved')} {
+      ${c()}${d('movable', 'moved')} {
         margin: unset;
       }
     `,
