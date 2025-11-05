@@ -9,11 +9,11 @@ import {
   signal,
   untracked,
 } from '@angular/core';
+import { NgnBase } from '@ngneers/controls/base';
 import { signalWithPrevious } from '@ngneers/controls/utils-ng';
 import { movableDirectiveTemplate } from '@ngneers/controls-themes/templates/api';
 
 import { domEventSignal } from './dom';
-import { injectThemeTemplate } from './theme-service';
 
 @Directive({
   selector: '[ngnMovable]',
@@ -21,8 +21,8 @@ import { injectThemeTemplate } from './theme-service';
     '[class]': '_theme.classes({ movable: !!ngnMovable(), moved: dragged()})',
   },
 })
-export class NgnMovable {
-  protected readonly _theme = injectThemeTemplate(movableDirectiveTemplate);
+export class NgnMovable extends NgnBase {
+  protected readonly _theme = this.injectThemeTemplate(movableDirectiveTemplate);
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
   private readonly _document = inject(DOCUMENT);
 
@@ -70,6 +70,7 @@ export class NgnMovable {
   private _startY = 0;
 
   constructor() {
+    super();
     effect(() => {
       if (!this.ngnMovable()) {
         return;

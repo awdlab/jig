@@ -190,7 +190,7 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions, isBase = 
       c: (className?: string) =>
         `.${getClassName(options.namePrefix, part.scope, className)}${unstyledSelector}`,
       d: (scope: string, className?: string) => {
-        return `.${getClassName(options.namePrefix, scope, className)}`;
+        return `.${getClassName(options.namePrefix, scope, className)}${unstyledSelector}`;
       },
     };
     return {
