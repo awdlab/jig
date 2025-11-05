@@ -1,7 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, forwardRef, inject, input } from '@angular/core';
-import { injectThemeTemplate } from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
+import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 
 import { INPUT_FIELD } from './token';
@@ -18,10 +17,11 @@ import { INPUT_FIELD } from './token';
       provide: INPUT_FIELD,
       useExisting: forwardRef(() => NgnInputField),
     },
+    provideSelf(NgnInputField),
   ],
 })
 export class NgnInputField extends NgnBase {
-  protected readonly theme = injectThemeTemplate(inputFieldControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(inputFieldControlTemplate);
   private readonly _parentInputfield = inject(INPUT_FIELD, { optional: true, skipSelf: true });
   protected readonly hasParentInputfield = !!this._parentInputfield;
 

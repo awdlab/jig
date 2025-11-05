@@ -7,7 +7,7 @@ export const ButtonGroupPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/button-group/index.md',
       components: [Demo_ButtonGroup_Base],
     },

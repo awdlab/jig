@@ -3,17 +3,27 @@
     <tr>
       <th>Property</th>
       <th>Type</th>
-      <th>Description</th>
+      <th>Default</th>
+      <th style="min-width: 250px">Description</th>
     </tr>
   </thead>
   <tbody>
     @for (prop of properties(); track prop.id) {
       <tr [id]="kind() + '_' + prop.name">
-        <td [class.required]="!prop.flags.hasFlag(FLAGS.Optional)">{{ prop.name }}</td>
-        <td>{{ prop.type }}</td>
+        <td [class.required]="!prop.flags.hasFlag(FLAGS.Optional)">
+          <code class="code-name-highlight">{{ prop.name }}</code>
+        </td>
+        <td>
+          <code>
+            {{ prop.type }}
+          </code>
+        </td>
+        <td>
+          <ngn-docs-api-comment [comment]="getDefaultValue(prop)" [propKind]="kind()" />
+        </td>
         <td>
           @if (prop.comment) {
-            <ngn-docs-api-comment [comment]="prop.comment" [propKind]="kind()" />
+            <ngn-docs-api-comment [comment]="prop.comment.summary" [propKind]="kind()" />
           }
         </td>
       </tr>

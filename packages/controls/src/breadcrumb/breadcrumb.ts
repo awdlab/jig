@@ -1,7 +1,8 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { injectThemeTemplate, NgnTemplate } from '@ngneers/controls/api/ng';
+import { NgnTemplate } from '@ngneers/controls/api/ng';
+import { provideSelf } from '@ngneers/controls/base';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnItemView } from '@ngneers/controls/item-view';
@@ -21,9 +22,10 @@ import { BreadcrumbItem } from './types';
   host: {
     '[class]': 'theme.class()',
   },
+  providers: [provideSelf(NgnBreadcrumb)],
 })
 export class NgnBreadcrumb extends BreadcrumbTemplates {
-  protected readonly theme = injectThemeTemplate(breadcrumbControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(breadcrumbControlTemplate);
 
   public readonly items = input.required<BreadcrumbItem[]>();
   public readonly iconItemSeparator = input<IconType>();

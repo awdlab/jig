@@ -1,6 +1,7 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 import { NgnItem } from '@ngneers/controls/api';
-import { templateTypesFn, ValueControlBase } from '@ngneers/controls/api/ng';
+import { templateTypesFn } from '@ngneers/controls/api/ng';
+import { ValueControlBase } from '@ngneers/controls/base';
 import { InputGeneric } from '@ngneers/controls/utils';
 
 /**

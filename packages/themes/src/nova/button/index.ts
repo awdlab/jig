@@ -1,9 +1,11 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
+import { baseStyles } from '@ngneers/controls-themes/base';
 import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
 
 export const buttonStyles = createThemePart({
   controlTemplate: buttonControlTemplate,
+  base: baseStyles.button,
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c }) => css`
@@ -13,7 +15,6 @@ export const buttonStyles = createThemePart({
         font-weight: ${v('font.weight.semibold')};
         padding: ${v('size.padding.md')} ${v('size.padding.lg')};
         cursor: pointer;
-        font-family: inherit;
       }
       ${c('kind-primary')} {
         background: ${v('color.primary.default')};

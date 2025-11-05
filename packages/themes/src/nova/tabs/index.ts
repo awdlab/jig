@@ -1,38 +1,25 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
+import { baseStyles } from '@ngneers/controls-themes/base';
 import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { tabsControlTemplate } from '@ngneers/controls-themes/templates/tabs';
 
 export const tabsStyles = createThemePart({
   controlTemplate: tabsControlTemplate,
+  base: baseStyles.tabs,
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c }) => css`
-      ${c()} {
-        display: flex;
-        flex-direction: column;
-      }
       ${c('content')} {
         padding: ${v('size.padding.sm')};
       }
       ${c('headers')} {
-        width: 100%;
-        display: flex;
-        position: relative;
         border-top-left-radius: ${v('size.rounded.sm')};
         border-top-right-radius: ${v('size.rounded.sm')};
-        overflow-x: scroll;
-        overflow-y: hidden;
-        &::-webkit-scrollbar {
-          display: none;
-        }
-        --ms-overflow-style: none; /* IE and Edge */
-        scrollbar-width: none; /* Firefox */
       }
       ${c('header')} {
         background: ${v('color.background')};
         border: none;
         cursor: pointer;
-        white-space: nowrap;
         font-weight: ${v('font.weight.semibold')};
         padding: ${v('size.padding.md')} ${v('size.padding.xl')};
         border-bottom: 1px solid ${v('color.surface.300')};
@@ -47,25 +34,16 @@ export const tabsStyles = createThemePart({
           background: ${v('color.surface.300')};
         }
       }
-      ${c('header-active')} {
-      }
       ${c('header-active-indicator')} {
-        position: absolute;
-        bottom: 0;
         border-bottom: 2px solid ${v('color.primary.default')};
         transition:
           left 0.2s ease-in-out,
           width 0.2s ease-in-out;
-        pointer-events: none;
       }
       ${c('scroll-left')}, ${c('scroll-right')} {
-        position: sticky;
-        border: none;
         background: ${v('color.background')};
         width: 16px;
         padding: 0;
-        flex-shrink: 0;
-        z-index: 1;
         color: ${v('color.surface.400')};
         --icon-size: 10px;
         cursor: pointer;
@@ -85,13 +63,6 @@ export const tabsStyles = createThemePart({
           background: ${v('color.surface.300')};
           color: ${v('color.surface.700')};
           --blurColor: ${v('color.surface.300')};
-        }
-        &::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          pointer-events: none;
         }
       }
       ${c('scroll-left')} {

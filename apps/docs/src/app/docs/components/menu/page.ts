@@ -7,7 +7,7 @@ export const MenuPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/menu/index.md',
       components: [Demo_Menu_Base],
     },

@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
-import { injectThemeTemplate } from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
+import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { IconType } from '@ngneers/controls/custom-types';
 import { accordionControlTemplate } from '@ngneers/controls-themes/templates/accordion';
 
@@ -18,6 +17,7 @@ import { ACCORDION_CONTROL, AccordionControl } from './types';
     '[class]': 'theme.class()',
   },
   providers: [
+    provideSelf(NgnAccordion),
     {
       provide: ACCORDION_CONTROL,
       deps: [NgnAccordion],
@@ -34,7 +34,7 @@ import { ACCORDION_CONTROL, AccordionControl } from './types';
   ],
 })
 export class NgnAccordion extends NgnBase {
-  protected readonly theme = injectThemeTemplate(accordionControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(accordionControlTemplate);
   public readonly cache = input(false);
   public readonly lazy = input(false);
 

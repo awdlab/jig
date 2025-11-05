@@ -8,9 +8,10 @@ import {
   viewChild,
 } from '@angular/core';
 import { templateTypesFn } from '@ngneers/controls/api/ng';
+import { NgnBase } from '@ngneers/controls/base';
 
 @Directive()
-export abstract class DialogTemplates<T> {
+export abstract class DialogTemplates<T> extends NgnBase {
   private readonly _userContentTemplate = contentChild<TemplateRef<unknown>>('content');
   /**
    * The content of the dialog.

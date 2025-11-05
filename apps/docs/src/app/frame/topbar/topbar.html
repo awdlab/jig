@@ -1,5 +1,5 @@
 <header class="h-14 text-xl flex px-4 justify-between">
-  <a routerLink="/" class="font-bold h-full flex items-center gap-2">
+  <a [routerLink]="'/'" class="font-bold h-full flex items-center gap-2">
     <img src="img/logo.png" alt="logo" class="h-10 w-10" />
     ngn-controls
   </a>
@@ -15,7 +15,7 @@
       <ngn-icon size="28px" [icon]="'fa-brands fa-github'" />
     </a>
     @if (isCompact()) {
-      <button ngnButton [kind]="'icon'" aria-label="Menu Toggle" (click)="menuToggled.emit()">
+      <button ngnButton [kind]="'icon'" aria-label="Menu Toggle" (click)="toggleMenu()">
         <ngn-icon size="28px" [icon]="'fa-solid fa-bars'" />
       </button>
     }

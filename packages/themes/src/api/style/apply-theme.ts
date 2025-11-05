@@ -105,10 +105,8 @@ function getThemePartsByScopes(theme: Theme, scopes: string[]): ThemePart[] {
 function collectThemeParts(
   theme: Theme,
   scope: string,
-  result: Set<ThemePart> = new Set(),
-  collectedScopes: Set<string> = new Set()
+  result: Set<ThemePart> = new Set()
 ): Set<ThemePart> {
-  if (collectedScopes.has(scope)) return result;
   for (const part of theme.parts) {
     if (part.scope !== scope || result.has(part)) {
       continue;
@@ -116,6 +114,11 @@ function collectThemeParts(
     result.add(part);
     for (const dep of part.dependencies ?? []) {
       collectThemeParts(theme, dep.scope, result);
+    }
+    if (part.base) {
+      for (const dep of part.base.dependencies ?? []) {
+        collectThemeParts(theme, dep.scope, result);
+      }
     }
   }
   return result;
@@ -170,16 +173,22 @@ function variableCssFromVariableDefinition(
   return result;
 }
 
-function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions): string {
+function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions, isBase = false): string {
   const varKeySelector = (key: string) => `var(${getCssVar(options.namePrefix, key)})`;
 
   const cssParts = parts.map(part => {
     if (!part.root?.css && !part.light?.css && !part.dark?.css && !part.highContrast?.css) {
       return {};
     }
+
+    // Create a selector for unstyled mode. To avoid specificity issues, we use a always-true selector
+    // for when unstyled mode is active.
+    const unstyledSelector = `:not(${isBase ? '.ngn-css-specificity' : '.ngn-unstyled'})`;
+
     const args = {
       v: (key: string) => varKeySelector(key),
-      c: (className?: string) => `.${getClassName(options.namePrefix, part.scope, className)}`,
+      c: (className?: string) =>
+        `.${getClassName(options.namePrefix, part.scope, className)}${unstyledSelector}`,
       d: (scope: string, className?: string) => {
         return `.${getClassName(options.namePrefix, scope, className)}`;
       },
@@ -193,6 +202,18 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions): string {
   });
 
   let css = options.layer ? `@layer ${options.layer} { ` : '';
+
+  const baseCss = parts
+    .filter(p => p.base)
+    .map(part => {
+      const base = part.base!;
+      return buildStyleCss([base], { ...options, layer: undefined }, true);
+    });
+
+  if (baseCss.length > 0) {
+    css += baseCss.join('\n');
+  }
+
   css += `${getScopeSelector(options.styleScope)} { `;
 
   let unscopableCss = '';
@@ -209,6 +230,7 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions): string {
 
   css += ' }';
   css += unscopableCss;
+
   if (options.layer) css += ' }';
   return css;
 }

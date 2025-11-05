@@ -9,7 +9,7 @@ export const ScrollerPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/scroller/index.md',
       components: [Demo_Scroller_Base, Demo_Scroller_Sticky, Demo_Scroller_Virtual],
     },

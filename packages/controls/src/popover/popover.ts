@@ -12,11 +12,8 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import {
-  autoPositionElement,
-  AutoPositioningHandle,
-  injectThemeTemplate,
-} from '@ngneers/controls/api/ng';
+import { autoPositionElement, AutoPositioningHandle } from '@ngneers/controls/api/ng';
+import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { computedWithPrevious } from '@ngneers/controls/utils-ng';
 import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
@@ -30,9 +27,10 @@ import { PopoverOptions } from './types';
   selector: 'ngn-popover',
   templateUrl: './popover.html',
   imports: [NgClass, NgnDefer],
+  providers: [provideSelf(NgnPopover)],
 })
-export class NgnPopover {
-  protected readonly theme = injectThemeTemplate(popoverControlTemplate);
+export class NgnPopover extends NgnBase {
+  protected readonly theme = this.injectThemeTemplate(popoverControlTemplate);
   public readonly anchor = input.required<HTMLElement>();
   public readonly options = input<PopoverOptions>();
   /**

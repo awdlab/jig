@@ -9,7 +9,7 @@ export const ChipPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/chip/index.md',
       components: [Demo_Chip_Base, Demo_Chip_Closable, Demo_Chip_Actionable],
     },

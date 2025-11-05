@@ -1,4 +1,5 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
+import { baseStyles } from '@ngneers/controls-themes/base';
 import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import {
   avatarControlTemplate,
@@ -7,18 +8,12 @@ import {
 
 export const avatarStyles = createThemePart({
   controlTemplate: avatarControlTemplate,
+  base: baseStyles.avatar,
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c }) => css`
       ${c()} {
         border-radius: ${v('size.rounded.full')};
-        width: var(--size);
-        height: var(--size);
-        overflow: hidden;
-        display: inline-flex;
-        vertical-align: middle;
-        align-items: center;
-        justify-content: center;
         &:not(:has(${c('image')})) {
           background-color: var(--color, ${v('color.primary.default')});
         }
@@ -26,15 +21,6 @@ export const avatarStyles = createThemePart({
       ${c('initials')} {
         color: ${v('color.text')};
         font-weight: ${v('font.weight.semibold')};
-        font-size: calc(var(--size) / -8 * var(--letterCount) + var(--size) * 0.77);
-        user-select: none;
-      }
-      ${c('image')} {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-        display: block;
       }
     `,
   },
@@ -42,6 +28,7 @@ export const avatarStyles = createThemePart({
 
 export const avatarGroupStyles = createThemePart({
   controlTemplate: avatarGroupControlTemplate,
+  base: baseStyles.avatarGroup,
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c, d }) => css`

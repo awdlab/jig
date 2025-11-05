@@ -1,6 +1,5 @@
 import { Component, computed, input, model } from '@angular/core';
-import { injectThemeTemplate } from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
+import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { generateElementId } from '@ngneers/controls/utils-ng';
 import { splitterControlTemplate } from '@ngneers/controls-themes/templates/splitter';
 
@@ -12,6 +11,7 @@ import { SplitterPanelSize, SplitterPanelSizeLimit } from '../types';
 @Component({
   selector: 'ngn-splitter-panel',
   templateUrl: './splitter-panel.html',
+  providers: [provideSelf(NgnSplitterPanel)],
   host: {
     role: 'region',
     '[class]': `theme.class('panel')`,
@@ -21,7 +21,7 @@ import { SplitterPanelSize, SplitterPanelSizeLimit } from '../types';
   },
 })
 export class NgnSplitterPanel extends NgnBase {
-  protected readonly theme = injectThemeTemplate(splitterControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(splitterControlTemplate);
   private readonly _fallbackAreaName = generateElementId();
 
   public readonly name = input<string | null>();

@@ -10,7 +10,7 @@ export const CalendarPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/calendar/index.md',
       components: [
         Demo_Calendar_Base,

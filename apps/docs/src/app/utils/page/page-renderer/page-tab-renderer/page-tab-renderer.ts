@@ -10,10 +10,14 @@ import { NgnDocsPageSection } from '../section/section';
   selector: 'ngn-docs-page-tab-renderer',
   templateUrl: 'page-tab-renderer.html',
   imports: [NgnDocsPageSection, NgnTabs, NgnTab],
+  host: {
+    class: 'min-w-0 w-full',
+  },
 })
 export class NgnDocsPageTabRenderer {
   private readonly _router = inject(Router);
   private readonly _activatedRoute = inject(ActivatedRoute);
+  protected readonly baseRoute = this._activatedRoute.snapshot.data['baseRoute'] as string;
   protected readonly page = this._activatedRoute.snapshot.data['page'] as NgnDocsTabPage;
 
   private _first = true;
@@ -41,7 +45,7 @@ export class NgnDocsPageTabRenderer {
       }
       const tab = this.page.tabs.find(x => x.title === activeTab);
       this._router.navigate([
-        'docs',
+        this.baseRoute,
         safeRoutePath(this.page.title),
         ...(tab?.default ? [] : [safeRoutePath(activeTab)]),
       ]);

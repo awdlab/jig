@@ -16,11 +16,11 @@
   @if (editable()) {
     <ng-content select="[ngnInput]">
       <input
+        ngnInput
         autocomplete="list"
         [aria-expanded]="popover.isOpen()"
         aria-haspopup="listbox"
         [attr.aria-controls]="inputId() + '_listbox'"
-        ngnInput
         [value]="valueStr() || ''"
         (valueChange)="onEditableChange($event)"
       />

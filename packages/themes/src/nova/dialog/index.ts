@@ -1,4 +1,5 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
+import { baseStyles } from '@ngneers/controls-themes/base';
 import {
   colorsTemplate,
   fontTemplate,
@@ -9,23 +10,16 @@ import { dialogControlTemplate } from '@ngneers/controls-themes/templates/dialog
 
 export const dialogStyles = createThemePart({
   controlTemplate: dialogControlTemplate,
+  base: baseStyles.dialog,
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate],
   root: {
     css: ({ v, c, d }) => css`
       ${c()} {
         background-color: canvas;
-        color: inherit;
-        margin: auto;
         border: 1px solid ${v('color.surface.300')};
         border-radius: ${v('size.rounded.md')};
         padding: ${v('size.padding.lg')};
-        flex-direction: column;
         box-shadow: ${v('shadow.lg')};
-        position: fixed;
-        &[open],
-        &:popover-open {
-          display: flex;
-        }
       }
       ${c('modal')} {
         &::backdrop {
@@ -33,9 +27,6 @@ export const dialogStyles = createThemePart({
         }
       }
       ${c('header')} {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
         gap: ${v('size.padding.sm')};
         padding-bottom: ${v('size.padding.lg')};
       }
@@ -44,20 +35,11 @@ export const dialogStyles = createThemePart({
         font-size: ${v('font.size.2xl')};
         margin: 0;
       }
-      ${c('content')} {
-        overflow: auto;
-      }
       ${c('footer')} {
         padding-top: ${v('size.padding.lg')};
       }
       ${c('default-footer')} {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
         gap: ${v('size.padding.sm')};
-      }
-      ${d('movable', 'moved')} {
-        margin: unset;
       }
     `,
   },

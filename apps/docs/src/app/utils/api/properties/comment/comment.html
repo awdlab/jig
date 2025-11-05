@@ -1,3 +1,1 @@
-@for (part of comment().summary; track $index) {
-  <ngn-docs-api-summary-part [part]="part" [propKind]="propKind()" />
-}
+<div [innerHTML]="commentString() | markdown | async"></div>

@@ -7,7 +7,7 @@ export const ItemViewPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/item-view/index.md',
       components: [Demo_ItemView_Base],
     },

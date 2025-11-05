@@ -11,7 +11,7 @@ export const AvatarPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/avatar/index.md',
       components: [
         Demo_Avatar_Base,

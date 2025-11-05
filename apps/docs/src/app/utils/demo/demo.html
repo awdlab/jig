@@ -7,14 +7,14 @@
     </button>
   </div>
 
-  <div class="w-full relative">
+  <div class="w-full">
     @if (codeVisible()) {
-      <pre
-        class="bg-gray-100 max-h-100 p-4 overflow-auto"
-      ><code class="pi-0 " [innerHtml]="formattedCode()"></code></pre>
-      <button ngnButton [kind]="'icon'" class="absolute top-1 right-4" (click)="copyCode()">
-        <ngn-icon [size]="'1rem'" [icon]="'fa-solid fa-copy'" />
-      </button>
+      <div class="bg-[#1f1f1f] text-white max-h-100 p-4 overflow-auto relative">
+        <pre><code class="pi-0 prism" [innerHtml]="formattedCode()"></code></pre>
+        <button ngnButton [kind]="'icon'" class="absolute top-1 right-4" (click)="copyCode()">
+          <ngn-icon [size]="'1rem'" [icon]="'fa-solid fa-copy'" />
+        </button>
+      </div>
     }
   </div>
 </div>

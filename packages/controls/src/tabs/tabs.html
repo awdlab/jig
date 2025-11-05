@@ -41,6 +41,7 @@
     [ngClass]="theme.class('header-active-indicator')"
     [style.width.px]="indicatorWidth()"
     [style.left.px]="indicatorLeft()"
+    [style.transitionDuration.ms]="isFirstRender() ? 0 : undefined"
   ></div>
 </div>
 @for (content of contents(); track content.id; let i = $index) {

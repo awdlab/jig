@@ -1,16 +1,14 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
+import { baseStyles } from '@ngneers/controls-themes/base';
 import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { menuControlTemplate } from '@ngneers/controls-themes/templates/menu';
 
 export const menuStyles = createThemePart({
   controlTemplate: menuControlTemplate,
+  base: baseStyles.menu,
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
     css: ({ v, c, d }) => css`
-      ${c()} {
-        display: flex;
-        flex-direction: column;
-      }
       ${c('popover')} {
         ${d('popover', 'content')} {
           padding: 4px;
@@ -20,11 +18,8 @@ export const menuStyles = createThemePart({
       ${c('item')} {
         border-radius: ${v('size.rounded.sm')};
         padding: ${v('size.padding.md')};
-        display: flex;
-        align-items: center;
         background: transparent;
         border: none;
-        justify-content: space-between;
         transition: background 0.2s ease;
         &:not(:disabled) {
           cursor: pointer;

@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { NgnActionButtonConfig } from '@ngneers/controls/api';
-import { NgnBase } from '@ngneers/controls/base';
+import { NgnBase, provideSelf } from '@ngneers/controls/base';
 
 import { NgnButton } from './button';
 
@@ -8,6 +8,7 @@ import { NgnButton } from './button';
   selector: 'ngn-action-button',
   templateUrl: 'action-button.html',
   imports: [NgnButton],
+  providers: [provideSelf(NgnActionButton)],
 })
 export class NgnActionButton<T> extends NgnBase {
   public readonly config = input.required<NgnActionButtonConfig<T>>();

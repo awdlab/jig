@@ -9,8 +9,8 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import { injectThemeTemplate, NgnTemplate, templateTypesFn } from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
+import { NgnTemplate, templateTypesFn } from '@ngneers/controls/api/ng';
+import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnError } from '@ngneers/controls/utils';
 import { iconControlTemplate } from '@ngneers/controls-themes/templates/icon';
@@ -25,13 +25,14 @@ import { IconTemplateContext } from './types';
   selector: 'ngn-icon',
   templateUrl: './icon.html',
   imports: [NgTemplateOutlet, NgnTemplate],
+  providers: [provideSelf(NgnIcon)],
   host: {
     ngSkipHydration: 'true',
     '[class]': 'theme.class()',
   },
 })
 export class NgnIcon extends NgnBase {
-  protected readonly theme = injectThemeTemplate(iconControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(iconControlTemplate);
   private readonly _globalIconTemplate = inject(GlobalIconTemplate).globalIconTemplate;
 
   public readonly defaultIcon = input<string>();

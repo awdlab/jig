@@ -1,9 +1,8 @@
 import { Component, computed, inject, input, output } from '@angular/core';
-import { injectThemeTemplate, Platform } from '@ngneers/controls/api/ng';
+import { Platform } from '@ngneers/controls/api/ng';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnInput } from '@ngneers/controls/input';
 import { MASKS, NgnInputMask } from '@ngneers/controls/input-mask';
-import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
 @Component({
   selector: 'ngn-calendar-time',
@@ -11,7 +10,6 @@ import { calendarControlTemplate } from '@ngneers/controls-themes/templates/cale
   imports: [NgnInput, NgnInputMask],
 })
 export class CalendarTime {
-  protected readonly theme = injectThemeTemplate(calendarControlTemplate);
   protected readonly i18n = inject(I18n).translations;
   protected readonly isTouchDevice = inject(Platform).isTouchDevice();
 

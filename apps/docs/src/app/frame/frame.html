@@ -1,6 +1,4 @@
 <div class="flex flex-col h-full">
-  <ngn-docs-topbar [isCompact]="isCompact()" (menuToggled)="menu.toggle()" />
-  <ngn-docs-menu #menu [isCompact]="isCompact()">
-    <ng-content />
-  </ngn-docs-menu>
+  <ngn-docs-topbar />
+  <router-outlet />
 </div>

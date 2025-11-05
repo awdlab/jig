@@ -6,9 +6,9 @@ import {
   Type,
   ViewContainerRef,
 } from '@angular/core';
-import { marked } from 'marked';
 import { firstValueFrom } from 'rxjs';
 
+import { marked } from './marked';
 import { parseMarkdown } from './parse-md';
 import { MdCfg } from './types';
 import { Api } from '../api/api';
@@ -66,8 +66,27 @@ export async function renderMd(vcr: ViewContainerRef, http: HttpClient, cfg: MdC
     })
   );
 
-  const resultHtml = result
-    .map(x => (typeof x === 'string' ? x : `<div id="${x.id}" class="component-host"></div>`))
+  const groupedResult: Result[] = [];
+  // Merge consecutive strings
+  for (const item of result) {
+    if (typeof item === 'string') {
+      const last = groupedResult[groupedResult.length - 1];
+      if (typeof last === 'string') {
+        groupedResult[groupedResult.length - 1] = `${last}\n${item}`;
+      } else {
+        groupedResult.push(item);
+      }
+    } else {
+      groupedResult.push(item);
+    }
+  }
+
+  const resultHtml = groupedResult
+    .map(x =>
+      typeof x === 'string'
+        ? `<span class="md">${x}</span>`
+        : `<div id="${x.id}" class="component-host"></div>`
+    )
     .join('\n');
   const resultComponents = result.filter(x => typeof x !== 'string');
 

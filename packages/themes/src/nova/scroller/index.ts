@@ -1,27 +1,15 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
+import { baseStyles } from '@ngneers/controls-themes/base';
 import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scroller';
 
 export const scrollerStyles = createThemePart({
   controlTemplate: scrollerControlTemplate,
+  base: baseStyles.scroller,
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
     css: ({ v, c }) => css`
-      ${c()} {
-        display: block;
-        height: 100%;
-        width: 100%;
-      }
-      ${c('scrollarea')} {
-        width: 100%;
-        height: 100%;
-        position: relative;
-        overflow-y: auto;
-        overflow-x: hidden;
-      }
       ${c('item-sticky')} {
-        position: sticky;
-        top: 0;
         background: white;
       }
     `,

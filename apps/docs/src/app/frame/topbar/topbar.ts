@@ -1,13 +1,21 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnIcon } from '@ngneers/controls/icon';
+
+import { FrameState } from '../frame-state';
 
 @Component({
   selector: 'ngn-docs-topbar',
   templateUrl: 'topbar.html',
-  imports: [NgnButton, NgnIcon],
+  imports: [NgnButton, NgnIcon, RouterLink],
 })
 export class NgnDocsTopbar {
-  public readonly menuToggled = output<void>();
-  public readonly isCompact = input<boolean>(false);
+  private readonly _frameState = inject(FrameState);
+
+  protected readonly isCompact = this._frameState.isCompact;
+
+  protected toggleMenu() {
+    this._frameState.menuOpen.update(v => !v);
+  }
 }

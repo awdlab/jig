@@ -8,7 +8,8 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { elementSizeSignal, injectThemeTemplate, NgnScrollAmount } from '@ngneers/controls/api/ng';
+import { elementSizeSignal, NgnScrollAmount } from '@ngneers/controls/api/ng';
+import { provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { AllKeysOfUnion, getScrollTop, NgnError } from '@ngneers/controls/utils';
 import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scroller';
@@ -22,13 +23,14 @@ import { ScrollerTemplates } from './scroller-templates';
   selector: 'ngn-scroller',
   templateUrl: './scroller.html',
   imports: [NgClass, NgTemplateOutlet, NgnScrollAmount, NgnIcon],
+  providers: [provideSelf(NgnScroller)],
   host: {
     '[class]': 'theme.class()',
     '[tabIndex]': 'focusable() ? 0 : -1',
   },
 })
 export class NgnScroller<T> extends ScrollerTemplates<T> {
-  protected readonly theme = injectThemeTemplate(scrollerControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(scrollerControlTemplate);
 
   /**
    * The items to be displayed in the scroller.

@@ -7,8 +7,8 @@ import {
   runInInjectionContext,
   signal,
 } from '@angular/core';
-import { domEventSignal, injectThemeTemplate } from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
+import { domEventSignal } from '@ngneers/controls/api/ng';
+import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 
@@ -21,12 +21,13 @@ import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/in
     '[class]':
       'theme.class() + (invalid() ? ` ${theme.class("invalid")}` : "") + (hasParentInputfield() ? "" : ` ${inputFieldTheme.class()}`)',
   },
+  providers: [provideSelf(NgnInput)],
 })
 export class NgnInput extends NgnBase implements AfterViewInit {
   protected readonly hasParentInputfield = signal(false);
 
-  protected readonly theme = injectThemeTemplate(inputControlTemplate);
-  protected readonly inputFieldTheme = injectThemeTemplate(inputFieldControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(inputControlTemplate);
+  protected readonly inputFieldTheme = this.injectThemeTemplate(inputFieldControlTemplate);
   /**
    * Explicitly apply invalid state styling
    * @default false

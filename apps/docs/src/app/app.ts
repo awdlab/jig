@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
-import { NgnDocsFrame } from './frame/frame';
-
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NgnDocsFrame],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

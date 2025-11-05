@@ -1,4 +1,5 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
+import { baseStyles } from '@ngneers/controls-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
@@ -12,27 +13,11 @@ const MOVE_AMOUNT = 6; // in px
 
 export const popoverStyles = createThemePart({
   controlTemplate: popoverControlTemplate,
+  base: baseStyles.popover,
   dependencies: [colorsTemplate, sizesTemplate, animationTemplate, shadowTemplate],
   root: {
     css: ({ v, c }) => css`
       ${c()} {
-        background: transparent;
-        pointer-events: none;
-        position: static;
-        display: flex;
-        flex-direction: column;
-        /* Browser-Reset: */
-        width: unset;
-        height: unset;
-        color: unset;
-        background-color: unset;
-        inset: unset;
-        margin: unset;
-        border-width: unset;
-        border-style: unset;
-        border-color: unset;
-        border-image: unset;
-        padding: unset;
         padding-bottom: ${MOVE_AMOUNT}px; /** to make space for the animation (prevent overflow) */
         overflow: visible; /** so that box-shadow is not clipped */
         /* The 100 ms buffer is so that the animation of the content finishes before the popover closes (Animation doesn't get cancelled) */
@@ -40,19 +25,8 @@ export const popoverStyles = createThemePart({
           display calc(${v('animation.duration.fade')} + ${TRANSITION_BUFFER}) allow-discrete,
           overlay calc(${v('animation.duration.fade')} + ${TRANSITION_BUFFER}) allow-discrete;
         /* Currently not supported by webkit & firefox: https://bugzilla.mozilla.org/show_bug.cgi?id=1971162 */
-
-        &:not(:popover-open) {
-          display: none;
-          /* Due to the TRANSITION_BUFFER, the child would reappear (for TRANSITION_BUFFER), because the closing class gets removed */
-          > ${c('content')}:not(${c('content-closing')}) {
-            display: none;
-          }
-        }
       }
       ${c('content')} {
-        max-height: 100%;
-        flex-shrink: 0;
-        pointer-events: auto;
         border-style: solid;
         background: ${v('color.background')};
         color: ${v('color.text')};

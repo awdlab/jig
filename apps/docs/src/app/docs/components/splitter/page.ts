@@ -11,7 +11,7 @@ export const SplitterPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/splitter/index.md',
       components: [
         Demo_Splitter_Base,

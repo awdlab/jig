@@ -8,7 +8,7 @@ export const PopoverPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/popover/index.md',
       components: [Demo_Popover_Base, Demo_Popover_Lazy],
     },

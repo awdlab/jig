@@ -18,11 +18,8 @@ import {
   NgnItemFields,
   transformToNgnItems,
 } from '@ngneers/controls/api';
-import {
-  NgnTemplate,
-  valueControlBaseProvider,
-  injectThemeTemplate,
-} from '@ngneers/controls/api/ng';
+import { NgnTemplate } from '@ngneers/controls/api/ng';
+import { provideSelf, valueControlBaseProvider } from '@ngneers/controls/base';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
@@ -53,7 +50,7 @@ import { SelectFilterOptions } from './types';
     NgnItemView,
     NgnIcon,
   ],
-  providers: [valueControlBaseProvider(NgnSelect)],
+  providers: [valueControlBaseProvider(NgnSelect), provideSelf(NgnSelect)],
   host: {
     '[class]': 'theme.class("")',
     style: 'display: block;',
@@ -65,7 +62,7 @@ export class NgnSelect<
   Editable extends boolean = false,
   Multiple extends boolean = false,
 > extends SelectTemplates<T, K, Editable, Multiple> {
-  protected readonly theme = injectThemeTemplate(selectControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(selectControlTemplate);
   private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);
   private readonly _customEditableInput = contentChild(NgnInput);
   private _customEditableSub?: OutputRefSubscription;

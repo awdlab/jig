@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { afterRenderEffect, Component, computed, contentChild, input, signal } from '@angular/core';
-import { domEventObservable, injectThemeTemplate } from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
+import { domEventObservable } from '@ngneers/controls/api/ng';
+import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
 import { inputMaskControlTemplate } from '@ngneers/controls-themes/templates/input-mask';
@@ -16,9 +16,10 @@ import { InputMaskCfg } from './types';
   selector: 'ngn-input-mask',
   templateUrl: './input-mask.html',
   imports: [NgClass, NgnInputField],
+  providers: [provideSelf(NgnInputMask)],
 })
 export class NgnInputMask extends NgnBase {
-  protected readonly theme = injectThemeTemplate(inputMaskControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(inputMaskControlTemplate);
   public readonly label = input<string | null>(null);
   public readonly inputId = input<string | null>(null);
 

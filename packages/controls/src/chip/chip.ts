@@ -1,7 +1,6 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, input, output } from '@angular/core';
-import { injectThemeTemplate } from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
+import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { ChipKindType, IconType } from '@ngneers/controls/custom-types';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { chipControlTemplate } from '@ngneers/controls-themes/templates/chip';
@@ -13,12 +12,13 @@ import { chipControlTemplate } from '@ngneers/controls-themes/templates/chip';
   selector: 'ngn-chip',
   templateUrl: './chip.html',
   imports: [NgClass, NgnIcon, NgTemplateOutlet],
+  providers: [provideSelf(NgnChip)],
   host: {
     '[class]': 'hostClass()',
   },
 })
 export class NgnChip extends NgnBase {
-  protected readonly theme = injectThemeTemplate(chipControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(chipControlTemplate);
 
   /**
    * Set the kind of the chip (for styling purposes).

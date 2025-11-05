@@ -24,14 +24,15 @@ export type ControlTemplateInfo<T extends ControlTemplate> = {
 
 export function injectThemeTemplate<T extends ControlTemplate>(
   template: T,
-  options?: { injector?: Injector }
+  options?: { injector?: Injector; unstyled?: () => boolean }
 ): ControlTemplateInfo<T> {
   const config = options?.injector?.get(NGN_CONFIG) ?? inject(NGN_CONFIG);
   const themeService = options?.injector?.get(ThemeService) ?? inject(ThemeService);
   themeService.loadScope(template.scope);
   return {
     scope: template.scope,
-    class: getClassName.bind(null, config.theme.namePrefix, template.scope),
+    class: (className?: T['classNames'][number] | '') =>
+      getClassName(config.theme.namePrefix, template.scope, className, options?.unstyled?.()),
     classes: (classes: {
       [K in T['classNames'][number] | '']?: boolean;
     }): string => {
@@ -39,7 +40,12 @@ export function injectThemeTemplate<T extends ControlTemplate>(
       for (const className in classes) {
         if ((classes as any)[className]) {
           if (result) result += ' ';
-          result += getClassName(config.theme.namePrefix, template.scope, className);
+          result += getClassName(
+            config.theme.namePrefix,
+            template.scope,
+            className,
+            options?.unstyled?.()
+          );
         }
       }
       return result;

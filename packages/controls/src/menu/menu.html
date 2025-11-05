@@ -3,7 +3,7 @@
     [ngClass]="theme.class('popover')"
     [anchor]="anchor()"
     [options]="{ placement: placement(), padding: isSubMenu() ? 0 : undefined }"
-    (closed)="popoverClosed()"
+    (closing)="popoverClosed()"
   >
     <ng-template #lazy>
       <ng-container *ngTemplateOutlet="menu" />

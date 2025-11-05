@@ -1,7 +1,8 @@
 import { Directive, input, model, Type } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgnBase } from '@ngneers/controls/base';
 import { generateElementId } from '@ngneers/controls/utils-ng';
+
+import { NgnBase } from './base';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function valueControlBaseProvider<T extends Type<ValueControlBase<any>>>(

@@ -50,6 +50,7 @@ export type ThemePart<
 > = Scoped<S> & {
   readonly controlTemplate?: C;
   readonly variables?: V;
+  readonly base?: ThemePart<S, C, V, VariableTemplate[]>;
   readonly dependencies?: D;
   readonly root?: _ThemePartContent<S, C, V, D>;
   readonly light?: _ThemePartContent<S, C, V, D>;
@@ -76,6 +77,7 @@ export function createThemePart(init: Partial<ThemePart>): ThemePart {
     scope: init.scope ?? init.controlTemplate?.scope ?? '',
     controlTemplate: init.controlTemplate,
     variables: init.variables,
+    base: init.base,
     dependencies: init.dependencies,
     root: init.root,
     light: init.light,

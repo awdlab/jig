@@ -10,7 +10,7 @@ export const InputPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/input/index.md',
       components: [
         Demo_Input_Base,

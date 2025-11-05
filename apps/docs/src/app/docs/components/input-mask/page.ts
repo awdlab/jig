@@ -7,7 +7,7 @@ export const InputMaskPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/input-mask/index.md',
       components: [Demo_InputMask_Mask],
     },

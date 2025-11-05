@@ -10,7 +10,7 @@ export const TooltipPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/tooltip/index.md',
       components: [
         Demo_Tooltip_Base,

@@ -11,6 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { injectThemeTemplate, NgnTemplate } from '@ngneers/controls/api/ng';
+import { provideSelf } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { generateElementId } from '@ngneers/controls/utils-ng';
@@ -27,6 +28,7 @@ import { ACCORDION_CONTROL } from './types';
   imports: [NgTemplateOutlet, NgClass, NgnDefer, NgnTemplate, NgnIcon],
   templateUrl: './accordion-panel.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideSelf(NgnAccordionPanel)],
   host: {
     '[class]': 'theme.class("panel")',
   },
@@ -35,7 +37,6 @@ export class NgnAccordionPanel extends AccordionTemplates {
   protected readonly theme = injectThemeTemplate(accordionControlTemplate);
 
   private readonly _accordionControl = inject(ACCORDION_CONTROL);
-  private readonly _afterTransitionCallback?: () => void;
 
   /**
    * The unique identifier for the accordion panel.

@@ -1,13 +1,14 @@
-<div class="flex h-full">
-  @if (!isCompact()) {
+<div class="menu-wrapper flex h-full">
+  <div class="hide-when-compact">
     <ng-container *ngTemplateOutlet="menu" />
-  }
-  <ng-content />
+  </div>
+
+  <router-outlet />
 </div>
 
-@if (isCompact()) {
+<div class="hide-when-large">
   <!-- todo: sidepanel -->
-}
+</div>
 
 <ng-template #menu>
   <div class="flex flex-col w-64 shrink-0">
@@ -24,15 +25,18 @@
 <ng-template #menuItem [ngnTemplate]="templateTypes.item" let-item let-level="level">
   <a
     [routerLink]="item.link"
-    class="pr-4 py-2 hover:bg-gray-100"
-    [style.paddingLeft.rem]="1 + level"
+    class="menu-item pr-4"
+    [class.active-item]="item === activeMenuItem()"
+    [style.paddingLeft.rem]="0.5 + level"
   >
-    {{ item.title }}
+    <span class="text-wrapper">
+      {{ item.title }}
+    </span>
   </a>
 </ng-template>
 
 <ng-template #menuCategory [ngnTemplate]="templateTypes.item" let-item let-level="level">
-  <a [routerLink]="item.link" class="px-4 py-2 hover:bg-gray-100">
+  <a [routerLink]="item.link" class="px-4 py-2">
     {{ item.title }}
   </a>
   <div class="flex flex-col">

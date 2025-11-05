@@ -9,7 +9,7 @@ import {
   TemplateRef,
   viewChildren,
 } from '@angular/core';
-import { injectThemeTemplate } from '@ngneers/controls/api/ng';
+import { ControlTemplateInfo } from '@ngneers/controls/api/ng';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -46,7 +46,7 @@ type WeekModel = {
   imports: [NgTemplateOutlet, NgClass, NgnButton, NgnIcon],
 })
 export class CalendarDays {
-  protected readonly theme = injectThemeTemplate(calendarControlTemplate);
+  public readonly theme = input.required<ControlTemplateInfo<typeof calendarControlTemplate>>();
   public readonly year = input.required<number>();
   public readonly month = input.required<number>();
   public readonly currentValue = input.required<Date | null>();
@@ -169,7 +169,7 @@ export class CalendarDays {
       const getCurrentMonthButtons = () => {
         return this._dayButton()
           .map(ref => ref.nativeElement)
-          .filter(x => !x.classList.contains(this.theme.class('day-other-month')));
+          .filter(x => !x.classList.contains(this.theme().class('day-other-month')));
       };
 
       const allDayButtons = getCurrentMonthButtons();

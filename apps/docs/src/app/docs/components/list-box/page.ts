@@ -14,7 +14,7 @@ export const ListBoxPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/list-box/index.md',
       components: [
         Demo_ListBox_Base,

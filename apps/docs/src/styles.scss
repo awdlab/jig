@@ -1,5 +1,5 @@
 @use 'tailwindcss';
-@use 'prismjs/themes/prism.css';
+@use 'prism.css';
 
 @layer base, global, ngn-controls, utilities;
 @theme {

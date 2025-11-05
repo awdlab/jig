@@ -12,7 +12,8 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Placement } from '@floating-ui/dom';
-import { injectThemeTemplate, NgnAutofocus, NgnTemplate, Platform } from '@ngneers/controls/api/ng';
+import { NgnAutofocus, NgnTemplate, Platform } from '@ngneers/controls/api/ng';
+import { provideSelf } from '@ngneers/controls/base';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnPopover } from '@ngneers/controls/popover';
@@ -30,12 +31,13 @@ import { MenuItem } from './types';
   imports: [NgClass, NgTemplateOutlet, NgnTemplate, NgnAutofocus, NgnPopover, NgnIcon, RouterLink],
   templateUrl: './menu.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideSelf(NgnMenu)],
   host: {
     '[class]': 'isSubMenu() ? theme.class("submenu") : ""',
   },
 })
 export class NgnMenu extends MenuTemplates {
-  protected readonly theme = injectThemeTemplate(menuControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(menuControlTemplate);
   protected readonly elementId = input(generateElementId());
   public readonly anchor = input.required<HTMLElement>();
   public readonly items = input.required<MenuItem[]>();

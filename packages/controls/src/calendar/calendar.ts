@@ -1,12 +1,8 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject, input, linkedSignal, Signal, viewChild } from '@angular/core';
 import { NgnItem } from '@ngneers/controls/api';
-import {
-  injectThemeTemplate,
-  NgnTemplate,
-  Platform,
-  valueControlBaseProvider,
-} from '@ngneers/controls/api/ng';
+import { NgnTemplate, Platform } from '@ngneers/controls/api/ng';
+import { provideSelf, valueControlBaseProvider } from '@ngneers/controls/base';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
@@ -50,7 +46,7 @@ type MonthItemType = NgnItem<{ $: (typeof MONTHS)[number] }, '$'>;
     CalendarDays,
     CalendarTime,
   ],
-  providers: [valueControlBaseProvider(NgnCalendar)],
+  providers: [valueControlBaseProvider(NgnCalendar), provideSelf(NgnCalendar)],
 })
 export class NgnCalendar extends CalendarTemplates {
   /**
@@ -77,7 +73,7 @@ export class NgnCalendar extends CalendarTemplates {
   private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);
   private readonly _platform = inject(Platform);
   private readonly i18n = inject(I18n).translations;
-  protected readonly theme = injectThemeTemplate(calendarControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(calendarControlTemplate);
   protected readonly year = linkedSignal(
     () => this.value()?.getFullYear() || new Date().getFullYear()
   );

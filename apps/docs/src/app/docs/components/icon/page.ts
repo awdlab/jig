@@ -7,7 +7,7 @@ export const IconPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/icon/index.md',
       components: [Demo_Icon_Base],
     },

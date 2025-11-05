@@ -8,7 +8,7 @@ export const ButtonPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/button/index.md',
       components: [Demo_Button_Base, Demo_Button_Kind],
     },

@@ -19,13 +19,12 @@ import {
   abortSignalOnDestroy,
   autoPositionElement,
   AutoPositioningHandle,
-  injectThemeTemplate,
   NGN_CONFIG,
   PositioningSizeConstraints,
   splitPlacement,
   TooltipOptions,
 } from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
+import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { getTimeSpanMilliseconds, notNullish, TimeSpan } from '@ngneers/controls/utils';
 import { computedWithPrevious, generateElementId } from '@ngneers/controls/utils-ng';
@@ -42,6 +41,7 @@ import {
 @Directive({
   selector: '[ngnTooltip]',
   exportAs: 'ngnTooltip',
+  providers: [provideSelf(NgnTooltip)],
 })
 export class NgnTooltip extends NgnBase implements OnDestroy {
   private readonly _viewContainerRef = inject(ViewContainerRef);
@@ -290,6 +290,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
   selector: 'ngn-tooltip',
   templateUrl: './tooltip.html',
   imports: [NgClass, NgnDefer],
+  providers: [provideSelf(TooltipComponent)],
   host: {
     '[class]': `[theme.class(), isClosing() ? theme.class('closing') : '', options().showArrow !== false ? theme.class('with-arrow') : '', positionClass(), styleClass() ?? ''].join(' ')`,
     '[style.--anchor-start]': `toPixels(relativeAnchorElementPosition()?.start)`,
@@ -308,7 +309,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
 })
 export class TooltipComponent extends NgnBase {
   private _showHideTimeout?: ReturnType<typeof setTimeout>;
-  protected readonly theme = injectThemeTemplate(tooltipControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(tooltipControlTemplate);
   private readonly _config = inject(NGN_CONFIG);
 
   /**

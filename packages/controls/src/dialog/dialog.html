@@ -41,9 +41,7 @@
       [open]="open()"
       [cache]="cache()"
       [ngClass]="theme.class('content')"
-    >
-      <ng-content />
-    </ngn-defer>
+    />
   } @else if (typedContent().string; as string) {
     <div [ngClass]="theme.class('content')">
       {{ string }}
@@ -52,6 +50,8 @@
     <div [ngClass]="theme.class('content')">
       <ng-container *ngComponentOutlet="component; inputs: contentComponentInputs()" />
     </div>
+  } @else {
+    <ng-content />
   }
 
   <footer [ngClass]="theme.class('footer')">

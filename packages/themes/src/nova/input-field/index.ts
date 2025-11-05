@@ -1,9 +1,11 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
+import { baseStyles } from '@ngneers/controls-themes/base';
 import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 
 export const inputFieldStyles = createThemePart({
   controlTemplate: inputFieldControlTemplate,
+  base: baseStyles.inputField,
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
     css: ({ v, c }) => css`
@@ -23,14 +25,6 @@ export const inputFieldStyles = createThemePart({
         outline-width: 0;
         outline-style: solid;
         outline-offset: -2px;
-        cursor: text;
-        display: inline-flex;
-        align-items: center;
-        width: 100%;
-        &:has(textarea) {
-          resize: both;
-          overflow: auto;
-        }
         overflow: auto;
         &:hover {
           border-color: ${v('color.surface.500')};

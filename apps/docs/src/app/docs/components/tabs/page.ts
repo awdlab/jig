@@ -8,7 +8,7 @@ export const TabsPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/tabs/index.md',
       components: [Demo_Tabs_Base, Demo_Tabs_Dynamic],
     },

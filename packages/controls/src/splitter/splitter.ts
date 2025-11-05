@@ -19,12 +19,11 @@ import {
 } from '@angular/core';
 import {
   elementSizeSignal,
-  injectThemeTemplate,
   NGN_CONFIG,
   NgnTemplate,
   templateTypeFn,
 } from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
+import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { I18n } from '@ngneers/controls/i18n';
 import { Logger } from '@ngneers/controls/utils';
 import { NgnStateStorage, registerState } from '@ngneers/controls/utils-ng';
@@ -42,6 +41,7 @@ import { isSplitterPanelSize } from './utils';
   selector: 'ngn-splitter',
   templateUrl: './splitter.html',
   imports: [NgClass, NgnTemplate],
+  providers: [provideSelf(NgnSplitter)],
   host: {
     role: 'region',
     '[class]': 'hostClass()',
@@ -57,7 +57,7 @@ import { isSplitterPanelSize } from './utils';
 export class NgnSplitter extends NgnBase implements OnDestroy {
   private readonly _viewContainer = inject(ViewContainerRef);
   private readonly _config = inject(NGN_CONFIG);
-  protected readonly theme = injectThemeTemplate(splitterControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(splitterControlTemplate);
   protected readonly translations = inject(I18n).translations;
 
   /**

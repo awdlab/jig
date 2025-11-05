@@ -1,9 +1,11 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
+import { baseStyles } from '@ngneers/controls-themes/base';
 import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { chipControlTemplate } from '@ngneers/controls-themes/templates/chip';
 
 export const chipStyles = createThemePart({
   controlTemplate: chipControlTemplate,
+  base: baseStyles.chip,
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c, d }) => css`
@@ -17,21 +19,17 @@ export const chipStyles = createThemePart({
         --chip-foreground-active: var(--chip-foreground);
         --chip-background-active: ${v('color.surface.400')};
 
-        display: inline-flex;
-        align-items: stretch;
         background: var(--chip-background);
         border-radius: 999rem; /* Creates a pill shape */
       }
 
       ${c('content')} {
-        flex-grow: 1;
         padding: ${v('size.padding.sm')} ${v('size.padding.lg')};
         font-size: ${v('font.size.sm')};
         line-height: 1.25rem;
         background: none;
         color: var(--chip-foreground);
         border: none;
-        font-family: inherit;
       }
 
       ${c('close-button')} {

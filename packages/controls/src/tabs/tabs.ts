@@ -17,11 +17,10 @@ import {
 import {
   elementSizeSignal,
   elementsSizesSignal,
-  injectThemeTemplate,
   NgnScrollAmount,
   NgnDragScroll,
 } from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
+import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -40,12 +39,13 @@ const PADDING_FOR_STICKY_ELEMENTS = 15;
   imports: [NgTemplateOutlet, NgClass, NgnDefer, NgnScrollAmount, NgnDragScroll, NgnIcon],
   templateUrl: './tabs.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideSelf(NgnTabs)],
   host: {
     '[class]': 'theme.class()',
   },
 })
 export class NgnTabs extends NgnBase implements AfterViewInit {
-  protected readonly theme = injectThemeTemplate(tabsControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(tabsControlTemplate);
   /**
    * Whether to lazy load the tab contents when they become visible.
    */
@@ -66,6 +66,8 @@ export class NgnTabs extends NgnBase implements AfterViewInit {
    * Icon for the right scroll button.
    */
   public readonly iconScrollRight = input<IconType>();
+
+  protected readonly isFirstRender = signal(true);
 
   protected readonly elementId = generateElementId();
   protected readonly indicatorWidth = signal(0);
@@ -143,6 +145,9 @@ export class NgnTabs extends NgnBase implements AfterViewInit {
     if (!this.activeTab()) {
       this.activeTab.set(this._tabs()[0]?.tabId());
     }
+    setTimeout(() => {
+      this.isFirstRender.set(false);
+    });
   }
 
   protected selectTab(tabId: string) {

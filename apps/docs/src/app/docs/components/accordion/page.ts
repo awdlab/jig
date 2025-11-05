@@ -10,7 +10,7 @@ export const AccordionPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/accordion/index.md',
       components: [
         Demo_Accordion_Base,

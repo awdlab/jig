@@ -12,7 +12,7 @@ export const DialogPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/dialog/index.md',
       components: [
         Demo_Dialog_Base,

@@ -1,26 +1,23 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
+import { baseStyles } from '@ngneers/controls-themes/base';
 import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { breadcrumbControlTemplate } from '@ngneers/controls-themes/templates/breadcrumb';
 
 export const breadcrumbStyles = createThemePart({
   controlTemplate: breadcrumbControlTemplate,
+  base: baseStyles.breadcrumb,
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c, d }) => css`
       ${c()} {
-        display: flex;
-        align-items: center;
         gap: ${v('size.padding.md')};
-        user-select: none;
         ${d('item-view')} {
           gap: ${v('size.padding.md')};
         }
       }
       ${c('separator')} {
-        display: inline-block;
         color: ${v('color.surface.500')};
         ngn-icon {
-          display: inline-block;
           margin-left: 0.5rem;
         }
       }
@@ -32,7 +29,6 @@ export const breadcrumbStyles = createThemePart({
         border: none;
         padding: 0;
         font-size: inherit;
-        display: inline-block;
       }
       ${c('item-clickable')}, ${c('overflow')} {
         cursor: pointer;

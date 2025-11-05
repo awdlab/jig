@@ -13,10 +13,10 @@ import {
 import {
   elementSizeSignal,
   elementsSizesSignal,
-  injectThemeTemplate,
   NgnTemplate,
   Platform,
 } from '@ngneers/controls/api/ng';
+import { provideSelf } from '@ngneers/controls/base';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { areArraysDeepEqual } from '@ngneers/controls/utils';
@@ -32,6 +32,7 @@ import { OverflowStrategy } from './types';
   selector: 'ngn-item-view',
   templateUrl: './item-view.html',
   imports: [NgClass, NgTemplateOutlet, NgnTemplate, NgnIcon],
+  providers: [provideSelf(NgnItemView)],
   host: {
     '[class]': 'theme.class()',
     '[attr.role]': '"list"',
@@ -41,7 +42,7 @@ export class NgnItemView<T extends object, idField extends keyof T>
   extends ItemViewTemplates<T>
   implements AfterViewInit
 {
-  protected readonly theme = injectThemeTemplate(itemViewControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(itemViewControlTemplate);
   /**
    * The key of the id property in the item object. This is used to track items in the template.
    */

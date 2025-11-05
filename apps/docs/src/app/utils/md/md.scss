@@ -3,5 +3,50 @@
     .component-host {
       width: 100%;
     }
+    .md {
+      p,
+      code,
+      pre {
+        display: inline;
+      }
+      p:has(~ p) {
+        display: inline-block;
+      }
+      a {
+        color: rgb(0, 106, 255);
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      table {
+        width: 100%;
+        overflow-y: auto;
+        border-spacing: 0;
+        padding-left: 8px;
+        thead tr th {
+          text-align: left;
+          background-color: #f6f6f6;
+          padding: 12px;
+          &:first-child {
+            border-top-left-radius: 8px;
+          }
+          &:last-child {
+            border-top-right-radius: 8px;
+          }
+        }
+        tbody tr td {
+          padding: 12px;
+          vertical-align: top;
+          border-bottom: 1px solid #ebebeb;
+        }
+      }
+      .code-name-highlight {
+        background: #f0f0f0;
+        border-radius: 4px;
+        padding: 0 4px;
+        margin: 1px 0;
+        display: inline-block;
+      }
+    }
   }
 }

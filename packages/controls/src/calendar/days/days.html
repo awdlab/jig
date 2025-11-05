@@ -1,10 +1,10 @@
-<div [ngClass]="theme.class('details')">
-  <div [ngClass]="theme.class('header')">
-    <div [ngClass]="theme.class('navigation')">
-      <button ngnButton [kind]="'icon'" [ngClass]="theme.class('previous')" (click)="prev()">
+<div [ngClass]="theme().class('details')">
+  <div [ngClass]="theme().class('header')">
+    <div [ngClass]="theme().class('navigation')">
+      <button ngnButton [kind]="'icon'" [ngClass]="theme().class('previous')" (click)="prev()">
         <ngn-icon [defaultIcon]="'fa-solid fa-chevron-left'" />
       </button>
-      <button ngnButton [kind]="'icon'" [ngClass]="theme.class('next')" (click)="next()">
+      <button ngnButton [kind]="'icon'" [ngClass]="theme().class('next')" (click)="next()">
         <ngn-icon [defaultIcon]="'fa-solid fa-chevron-right'" />
       </button>
     </div>
@@ -34,7 +34,7 @@
   </div>
   <div class="ngn-calendar-days">
     @for (weekDay of weekDaysSorted(); track weekDay) {
-      <span [ngClass]="theme.class('week-day')">
+      <span [ngClass]="theme().class('week-day')">
         <ng-container
           *ngTemplateOutlet="
             weekDayTemplate();
@@ -53,7 +53,7 @@
         <button
           #dayButton
           [ngClass]="
-            theme.classes({
+            theme().classes({
               day: true,
               'day-other-month': day.monthOffset !== 0,
               'day-today':

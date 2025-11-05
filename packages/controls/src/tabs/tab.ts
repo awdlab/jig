@@ -7,7 +7,7 @@ import {
   signal,
   TemplateRef,
 } from '@angular/core';
-import { NgnBase } from '@ngneers/controls/base';
+import { NgnBase, provideSelf } from '@ngneers/controls/base';
 
 /**
  * @category control
@@ -17,6 +17,7 @@ import { NgnBase } from '@ngneers/controls/base';
   imports: [],
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideSelf(NgnTab)],
 })
 export class NgnTab extends NgnBase {
   /**

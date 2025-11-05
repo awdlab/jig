@@ -19,11 +19,8 @@ import {
   NgnItemFields,
   transformToNgnItems,
 } from '@ngneers/controls/api';
-import {
-  injectThemeTemplate,
-  NgnTemplate,
-  valueControlBaseProvider,
-} from '@ngneers/controls/api/ng';
+import { NgnTemplate } from '@ngneers/controls/api/ng';
+import { provideSelf, valueControlBaseProvider } from '@ngneers/controls/base';
 import { NgnScroller } from '@ngneers/controls/scroller';
 import { asyncComputed } from '@ngneers/controls/utils-ng';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
@@ -37,7 +34,7 @@ import { ListBoxTemplates, ValueType } from './list-box-templates';
   selector: 'ngn-list-box',
   templateUrl: './list-box.html',
   imports: [NgTemplateOutlet, NgnScroller, NgnTemplate, NgClass],
-  providers: [valueControlBaseProvider(NgnListBox)],
+  providers: [valueControlBaseProvider(NgnListBox), provideSelf(NgnListBox)],
   host: {
     '[class]': `theme.classes({
       '': true,
@@ -59,7 +56,7 @@ export class NgnListBox<
   K extends keyof T,
   Multiple extends boolean = false,
 > extends ListBoxTemplates<T, K, Multiple> {
-  protected readonly theme = injectThemeTemplate(listBoxControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(listBoxControlTemplate);
 
   private readonly _scroller = viewChild.required<NgnScroller<T>>(NgnScroller);
 

@@ -1,0 +1,39 @@
+.menu-wrapper ::ng-deep > *:last-child {
+  // This is the rendered router outlet
+  overflow-y: auto;
+  padding: 0 2rem;
+  scrollbar-gutter: stable;
+}
+
+.menu-item {
+  &.active-item {
+    font-weight: bold;
+    .text-wrapper {
+      border-left-width: 2px;
+    }
+  }
+  &.active-item,
+  &:hover {
+    .text-wrapper {
+      border-color: gray;
+    }
+  }
+}
+
+.text-wrapper {
+  border-left: 1px solid lightgray;
+  padding: 0.5rem;
+  display: inline-block;
+  transition: border-color 0.3s;
+}
+
+.hide-when-compact {
+  @media (max-width: 900px) {
+    display: none;
+  }
+}
+.hide-when-large {
+  @media (min-width: 900px) {
+    display: none;
+  }
+}

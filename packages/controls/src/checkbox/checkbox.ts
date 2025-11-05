@@ -1,10 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
-import {
-  injectThemeTemplate,
-  ValueControlBase,
-  valueControlBaseProvider,
-} from '@ngneers/controls/api/ng';
+import { provideSelf, ValueControlBase, valueControlBaseProvider } from '@ngneers/controls/base';
 import { IconType } from '@ngneers/controls/custom-types';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
@@ -20,7 +16,7 @@ type ValueType<Indeterminate extends boolean> = Indeterminate extends false
   selector: 'ngn-checkbox',
   templateUrl: './checkbox.html',
   imports: [NgClass, NgnIcon],
-  providers: [valueControlBaseProvider(NgnCheckbox)],
+  providers: [valueControlBaseProvider(NgnCheckbox), provideSelf(NgnCheckbox)],
   host: {
     '[class]': 'theme.class()',
   },
@@ -28,7 +24,7 @@ type ValueType<Indeterminate extends boolean> = Indeterminate extends false
 export class NgnCheckbox<Indeterminate extends boolean> extends ValueControlBase<
   ValueType<Indeterminate>
 > {
-  protected readonly theme = injectThemeTemplate(checkboxControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(checkboxControlTemplate);
 
   /**
    * Set a custom icon for the checked state.
@@ -44,7 +40,7 @@ export class NgnCheckbox<Indeterminate extends boolean> extends ValueControlBase
   public readonly iconIndeterminate = input<IconType>();
   /**
    * Set whether to allow the indeterminate state.
-   * If `true`, this will change the {@link value} type to `boolean \| null`.
+   * If `true`, this will change the {@link value} type to `boolean | null`.
    */
   public readonly allowIndeterminate = input<Indeterminate>();
   protected readonly indeterminate = computed(

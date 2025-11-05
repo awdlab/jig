@@ -1,9 +1,11 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
+import { baseStyles } from '@ngneers/controls-themes/base';
 import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
 
 export const listBoxStyles = createThemePart({
   controlTemplate: listBoxControlTemplate,
+  base: baseStyles.listBox,
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c }) => css`
@@ -12,8 +14,6 @@ export const listBoxStyles = createThemePart({
         border-color: ${v('color.surface.300')};
         border-width: 1px;
         border-style: solid;
-        width: 100%;
-        height: 100%;
       }
       ${c('invalid')} {
         border-color: ${v('color.error.default')};
@@ -22,8 +22,6 @@ export const listBoxStyles = createThemePart({
         padding: ${v('size.padding.sm')};
       }
       ${c('item')} {
-        display: inline-block;
-        width: 100%;
         padding: ${v('size.padding.md')};
         border-radius: ${v('size.rounded.md')};
         border-width: 0;
@@ -43,8 +41,6 @@ export const listBoxStyles = createThemePart({
         }
       }
       ${c('group')} {
-        display: inline-block;
-        width: 100%;
         padding: ${v('size.padding.md')};
         font-weight: ${v('font.weight.semibold')};
         background: ${v('color.surface.100')};
@@ -60,9 +56,6 @@ export const listBoxStyles = createThemePart({
       ${c('empty')} {
         text-align: center;
         padding: ${v('size.padding.md')};
-      }
-      ${c('')}:has(${c('empty')}) ${c('scroller')} {
-        display: none;
       }
     `,
   },

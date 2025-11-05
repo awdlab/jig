@@ -1,11 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, computed, contentChildren, input } from '@angular/core';
-import {
-  elementSizeSignal,
-  elementsSizesSignal,
-  injectThemeTemplate,
-} from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
+import { elementSizeSignal, elementsSizesSignal } from '@ngneers/controls/api/ng';
+import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { buttonGroupControlTemplate } from '@ngneers/controls-themes/templates/button-group';
 
@@ -19,9 +15,10 @@ import { buttonGroupControlTemplate } from '@ngneers/controls-themes/templates/b
   host: {
     '[class]': 'theme.class()',
   },
+  providers: [provideSelf(NgnButtonGroup)],
 })
 export class NgnButtonGroup extends NgnBase {
-  protected readonly theme = injectThemeTemplate(buttonGroupControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(buttonGroupControlTemplate);
 
   private readonly _contentRef = contentChildren(NgnButton);
   private readonly _content = computed(() =>

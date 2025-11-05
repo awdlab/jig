@@ -8,7 +8,7 @@ export const CheckboxPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/checkbox/index.md',
       components: [Demo_Checkbox_Base, Demo_Checkbox_Indeterminate],
     },

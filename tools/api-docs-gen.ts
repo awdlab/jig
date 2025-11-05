@@ -23,6 +23,7 @@ const OUT_DIR = '../../apps/docs/src/app/docs/_generated';
 
 const options: TypeDocOptions = {
   entryPoints: ['./src/**/*.ts'],
+  exclude: ['**/tests/**', '**/*.spec.ts', '**/*.test.ts'],
   searchInComments: true,
   outputs: [
     {
@@ -159,7 +160,7 @@ async function convertControl(control: DeclarationReflection) {
   }
 
   // Sort null & undefined to the back
-  // & map @default to @defaultValue
+  // & map @defaultValue to @default
   [...inputs, ...outputs, ...publicProps].forEach(prop => {
     if (prop.type instanceof UnionType) {
       prop.type.types.sort((a, b) => {
@@ -171,10 +172,10 @@ async function convertControl(control: DeclarationReflection) {
         return 0;
       });
     }
-    // TypeDoc only generates a default value column for the @defaultValue tag
-    const tag = prop.comment?.blockTags.find(tag => tag.tag === '@default');
+    // Unify @defaultValue to @default
+    const tag = prop.comment?.blockTags.find(tag => tag.tag === '@defaultValue');
     if (tag) {
-      tag.tag = '@defaultValue';
+      tag.tag = '@default';
     }
   });
 }

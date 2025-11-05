@@ -15,12 +15,8 @@ import {
   viewChild,
 } from '@angular/core';
 import { NgnActionButtonConfig } from '@ngneers/controls/api';
-import {
-  injectThemeTemplate,
-  NgnMovable,
-  NgnTemplate,
-  NgnResizable,
-} from '@ngneers/controls/api/ng';
+import { NgnMovable, NgnTemplate, NgnResizable } from '@ngneers/controls/api/ng';
+import { provideSelf } from '@ngneers/controls/base';
 import { NgnActionButton, NgnButton } from '@ngneers/controls/button';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -56,12 +52,13 @@ type TypedContent = {
   ],
   templateUrl: './dialog.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideSelf(NgnDialog)],
 })
 export class NgnDialog<
   T,
   Buttons extends NgnActionButtonConfig<unknown>[],
 > extends DialogTemplates<T> {
-  protected readonly theme = injectThemeTemplate(dialogControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(dialogControlTemplate);
   protected readonly headerId = generateElementId();
 
   private readonly _dialogElement = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');

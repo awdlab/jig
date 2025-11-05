@@ -7,7 +7,7 @@ export const BreadcrumbPage: NgnDocsPage = {
   tabs: [
     {
       default: true,
-      title: 'Examples',
+      title: 'Features',
       mdFile: 'components/breadcrumb/index.md',
       components: [Demo_Breadcrumb_Base],
     },

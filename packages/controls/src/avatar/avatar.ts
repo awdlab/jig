@@ -1,7 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, computed, input, linkedSignal } from '@angular/core';
-import { injectThemeTemplate } from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
+import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { avatarControlTemplate } from '@ngneers/controls-themes/templates/avatar';
 
 /**
@@ -16,9 +15,10 @@ import { avatarControlTemplate } from '@ngneers/controls-themes/templates/avatar
     '[style.--size.px]': 'size()',
     '[style.--color]': 'color()',
   },
+  providers: [provideSelf(NgnAvatar)],
 })
 export class NgnAvatar extends NgnBase {
-  protected readonly theme = injectThemeTemplate(avatarControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(avatarControlTemplate);
 
   /**
    * The initials to display when no image is available.

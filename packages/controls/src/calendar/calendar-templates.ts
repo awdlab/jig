@@ -1,5 +1,6 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
-import { templateTypesFn, ValueControlBase } from '@ngneers/controls/api/ng';
+import { templateTypesFn } from '@ngneers/controls/api/ng';
+import { ValueControlBase } from '@ngneers/controls/base';
 
 import {
   DayTemplateType,
