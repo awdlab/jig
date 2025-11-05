@@ -1,5 +1,5 @@
 {
-  "name": "@ngneers/controls-themes",
+  "name": "@ngneers/controls-custom-types",
   "version": "0.0.1",
   "scripts": {
     "lint": "pnpm eslint .",
@@ -8,9 +8,9 @@
     "build": "pnpm prebuild && tsc -p ./tsconfig.lib.json --outDir ./dist && pnpm postbuild"
   },
   "type": "module",
+  "main": "dist/index.js",
   "dependencies": {
-    "tslib": "^2.8.1",
-    "@ngneers/controls-custom-types": "workspace:*"
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
     "rimraf": "^6.0.1",

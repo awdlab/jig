@@ -20,7 +20,6 @@ import {
 } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { provideSelf, valueControlBaseProvider } from '@ngneers/controls/base';
-import { IconType } from '@ngneers/controls/custom-types';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
@@ -28,6 +27,7 @@ import { NgnItemView } from '@ngneers/controls/item-view';
 import { NgnListBox } from '@ngneers/controls/list-box';
 import { NgnPopover, PopoverOptions } from '@ngneers/controls/popover';
 import { deepMerge, NgnError } from '@ngneers/controls/utils';
+import { IconType } from '@ngneers/controls-custom-types';
 import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
 
 import { SelectTemplates, ValueType } from './select-templates';

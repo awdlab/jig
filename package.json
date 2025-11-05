@@ -8,6 +8,7 @@
     "docs:build": "pnpm --filter @ngneers/controls-docs build",
     "controls:build": "pnpm --filter @ngneers/controls build",
     "themes:build": "pnpm --filter @ngneers/controls-themes build",
+    "types:build": "pnpm --filter @ngneers/controls-custom-types build",
     "api-docs:generate": "pnpm --filter @ngneers/controls api-docs:generate",
     "build": "pnpm -r build",
     "format": "pnpm prettier --write \"**/*.{ts,html,json,md}\"",

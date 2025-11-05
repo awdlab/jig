@@ -259,6 +259,9 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.7.1
         version: 1.7.4
+      '@ngneers/controls-custom-types':
+        specifier: workspace:*
+        version: link:../custom-types
       '@ngneers/controls-themes':
         specifier: 'workspace:'
         version: link:../themes
@@ -294,6 +297,19 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@24.9.2)(jiti@2.6.1)(less@4.4.2)(lightningcss@1.30.2)(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6)(yaml@2.8.1)
 
+  packages/custom-types:
+    dependencies:
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+
   packages/playwright:
     dependencies:
       '@ngneers/controls':
@@ -305,6 +321,9 @@ importers:
 
   packages/themes:
     dependencies:
+      '@ngneers/controls-custom-types':
+        specifier: workspace:*
+        version: link:../custom-types
       tslib:
         specifier: ^2.8.1
         version: 2.8.1

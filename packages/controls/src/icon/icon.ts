@@ -11,8 +11,8 @@ import {
 } from '@angular/core';
 import { NgnTemplate, templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
-import { IconType } from '@ngneers/controls/custom-types';
 import { NgnError } from '@ngneers/controls/utils';
+import { IconType } from '@ngneers/controls-custom-types';
 import { iconControlTemplate } from '@ngneers/controls-themes/templates/icon';
 
 import { GlobalIconTemplate } from './global-icon-template';

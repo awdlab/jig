@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { CustomKind } from '@ngneers/controls/custom-types';
+import { CustomKind } from '@ngneers/controls-custom-types';
 
 import { NGN_CONFIG } from './config';
 

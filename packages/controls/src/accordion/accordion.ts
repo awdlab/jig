@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
-import { IconType } from '@ngneers/controls/custom-types';
+import { IconType } from '@ngneers/controls-custom-types';
 import { accordionControlTemplate } from '@ngneers/controls-themes/templates/accordion';
 
 import { ACCORDION_CONTROL, AccordionControl } from './types';

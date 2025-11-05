@@ -3,5 +3,6 @@
   "dest": "../dist",
   "lib": {
     "entryFile": "index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["@ngneers/controls-custom-types"]
 }

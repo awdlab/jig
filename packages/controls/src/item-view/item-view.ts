@@ -17,9 +17,9 @@ import {
   Platform,
 } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
-import { IconType } from '@ngneers/controls/custom-types';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { areArraysDeepEqual } from '@ngneers/controls/utils';
+import { IconType } from '@ngneers/controls-custom-types';
 import { itemViewControlTemplate } from '@ngneers/controls-themes/templates/item-view';
 
 import { ItemViewTemplates } from './item-view-templates';

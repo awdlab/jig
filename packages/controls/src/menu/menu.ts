@@ -14,11 +14,11 @@ import { RouterLink } from '@angular/router';
 import { Placement } from '@floating-ui/dom';
 import { NgnTemplate, Platform } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
-import { IconType } from '@ngneers/controls/custom-types';
 import { NgnAutofocus } from '@ngneers/controls/directives';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnPopover } from '@ngneers/controls/popover';
 import { afterRenderComputed, generateElementId } from '@ngneers/controls/utils-ng';
+import { IconType } from '@ngneers/controls-custom-types';
 import { menuControlTemplate } from '@ngneers/controls-themes/templates/menu';
 
 import { MenuTemplates } from './menu-templates';

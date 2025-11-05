@@ -12,8 +12,8 @@ import {
   viewChildren,
 } from '@angular/core';
 import { ControlTemplateInfo, injectThemeTemplate } from '@ngneers/controls/api/ng';
-import { CustomKind } from '@ngneers/controls/custom-types';
 import { setInputSignalValue } from '@ngneers/controls/utils-ng';
+import { CustomKind } from '@ngneers/controls-custom-types';
 import { ControlTemplate } from '@ngneers/controls-themes';
 
 export const NGN_CONTROL = new InjectionToken<NgnBase<never>>('NGN_CONTROL');
@@ -54,7 +54,7 @@ export abstract class NgnBase<T extends string | null> {
    * The available kinds depend on the control and the theme used.
    * If your theme does not provide typings for custom kinds, this defaults to `string`.
    * If the control does not support custom kinds, this is `never` and cannot be set.
-   * You can extend the available kinds by augmenting the `NgnCustomTypes` interface in `@ngneers/controls/custom-types`.
+   * You can extend the available kinds by augmenting the `NgnCustomTypes` interface in `@ngneers/controls-custom-types`.
    * @todo link to custom types documentation
    */
   public readonly kind = input<CustomKind<T>>(undefined as never);

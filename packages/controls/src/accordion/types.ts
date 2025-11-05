@@ -1,5 +1,5 @@
 import { InjectionToken, Signal } from '@angular/core';
-import { IconType } from '@ngneers/controls/custom-types';
+import { IconType } from '@ngneers/controls-custom-types';
 
 export type HeaderTemplateType = {
   $implicit: {

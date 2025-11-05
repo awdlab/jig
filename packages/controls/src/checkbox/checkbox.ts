@@ -1,8 +1,8 @@
 import { NgClass } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
 import { provideSelf, ValueControlBase, valueControlBaseProvider } from '@ngneers/controls/base';
-import { IconType } from '@ngneers/controls/custom-types';
 import { NgnIcon } from '@ngneers/controls/icon';
+import { IconType } from '@ngneers/controls-custom-types';
 import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
 
 type ValueType<Indeterminate extends boolean> = Indeterminate extends false

@@ -1,5 +1,5 @@
 import { NgnActionItem, NgnActionItemFlat } from '@ngneers/controls/api';
-import { IconType } from '@ngneers/controls/custom-types';
+import { IconType } from '@ngneers/controls-custom-types';
 
 export type BreadcrumbItem = NgnActionItemFlat<NgnActionItem>;
 

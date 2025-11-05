@@ -16,11 +16,11 @@ import {
 } from '@angular/core';
 import { elementSizeSignal, elementsSizesSignal } from '@ngneers/controls/api/ng';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
-import { IconType } from '@ngneers/controls/custom-types';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { NgnDragScroll, NgnScrollAmount } from '@ngneers/controls/directives';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { generateElementId } from '@ngneers/controls/utils-ng';
+import { IconType } from '@ngneers/controls-custom-types';
 import { tabsControlTemplate } from '@ngneers/controls-themes/templates/tabs';
 
 import { NgnTab } from './tab';

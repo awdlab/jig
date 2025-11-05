@@ -1,8 +1,8 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, input, output } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
-import { IconType } from '@ngneers/controls/custom-types';
 import { NgnIcon } from '@ngneers/controls/icon';
+import { IconType } from '@ngneers/controls-custom-types';
 import { chipControlTemplate } from '@ngneers/controls-themes/templates/chip';
 
 /**
