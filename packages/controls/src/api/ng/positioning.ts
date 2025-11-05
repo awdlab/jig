@@ -51,6 +51,7 @@ export type PositioningOptions = {
   strategy?: Strategy;
   middleware?: Middleware[];
   disableSettingStyles?: boolean;
+  hasShrinkableContent?: boolean;
   onPositionChange?: (position: ComputePositionReturn) => void;
 };
 
@@ -134,9 +135,11 @@ export function positionElement(
               const maxHeight = maxHeightInPx
                 ? Math.min(availableHeight, parseInt(maxHeightInPx))
                 : availableHeight;
-              Object.assign(floatingEl.style, {
-                height: `${maxHeight - 1}px`,
-              });
+              if (options.hasShrinkableContent) {
+                Object.assign(floatingEl.style, {
+                  height: `${maxHeight}px`,
+                });
+              }
             },
           })
         : undefined,
@@ -152,7 +155,7 @@ export function positionElement(
         flipped &&
         (pos.placement.startsWith('left-') || pos.placement.startsWith('right-')) &&
         pos.placement.endsWith('-end');
-      const flippedToTop = flipped && pos.placement.startsWith('top-');
+      const flippedToTop = flipped && pos.placement.startsWith('top');
 
       Object.assign(floatingEl.style, {
         left: `${pos.x}px`,

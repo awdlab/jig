@@ -71,6 +71,7 @@ export class NgnPopover extends NgnBase {
       sizeConstraints: this.appliedOptions()?.sizeConstraints,
       placement: this.appliedOptions()?.placement,
       offset: this.appliedOptions()?.padding,
+      hasShrinkableContent: this.hasShrinkableContent(),
     });
   });
 

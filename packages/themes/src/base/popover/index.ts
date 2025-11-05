@@ -37,6 +37,7 @@ export const popoverStyles = createThemePart({
         max-height: 100%;
         flex-shrink: 0;
         pointer-events: auto;
+        box-sizing: content-box;
       }
     `,
   },
