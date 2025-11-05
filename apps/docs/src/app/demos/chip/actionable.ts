@@ -6,16 +6,17 @@ import { NgnChip } from '@ngneers/controls/chip';
   imports: [NgnChip],
   selector: 'ngn-chip-actionable',
   template: `
-    <div style="display: flex; flex-direction: column; gap: 8px; flex-wrap: wrap;">
-      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+    <div class="flex flex-col gap-2 flex-wrap">
+      <div class="flex gap-2 flex-wrap">
         <ngn-chip [actionable]="true" (clicked)="onChipClick()">Click me!</ngn-chip>
         <ngn-chip
           [actionable]="true"
           [closable]="true"
           (clicked)="onChipClick()"
           (closed)="onChipClose()"
-          >Click or close me!</ngn-chip
         >
+          Click or close me!
+        </ngn-chip>
       </div>
       <div class="flex gap-2 flex-wrap">
         @for (kind of kinds; track $index) {

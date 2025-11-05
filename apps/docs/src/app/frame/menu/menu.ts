@@ -81,5 +81,10 @@ function findItem(items: MenuItem[], routeParts: string[]): MenuItem | undefined
     }
   }
 
+  if (routeParts.length > 1) {
+    // try parent path to get lesser specific item instead of nothing
+    return findItem(items, routeParts.slice(0, -1));
+  }
+
   return undefined;
 }

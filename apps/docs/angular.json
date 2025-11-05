@@ -41,7 +41,7 @@
                 "output": "/demos"
               }
             ],
-            "styles": ["src/styles.scss"],
+            "styles": ["src/styles/layers.css", "src/styles.scss"],
             "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {

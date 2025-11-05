@@ -1,0 +1,23 @@
+@layer global {
+  html,
+  body {
+    font-family: 'Inter', sans-serif;
+    @apply h-full;
+  }
+
+  h1 {
+    @apply text-4xl font-semibold mt-8 mb-4;
+  }
+  h2 {
+    @apply text-3xl font-semibold mt-8 mb-4;
+  }
+  h3 {
+    @apply text-2xl font-semibold mt-6 mb-3;
+  }
+  h4 {
+    @apply text-xl font-semibold mt-6 mb-2;
+  }
+  h5 {
+    @apply text-lg font-semibold mt-4 mb-2;
+  }
+}
