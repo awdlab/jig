@@ -1,7 +1,5 @@
 import { afterRenderEffect, Directive, DOCUMENT, ElementRef, inject, signal } from '@angular/core';
-
-import { domEventObservable } from '../dom';
-import { Platform } from '../platform';
+import { domEventObservable, Platform } from '@ngneers/controls/api/ng';
 
 @Directive({
   selector: '[ngnDragScroll]',

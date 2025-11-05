@@ -8,8 +8,9 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { elementSizeSignal, NgnScrollAmount } from '@ngneers/controls/api/ng';
+import { elementSizeSignal } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
+import { NgnScrollAmount } from '@ngneers/controls/directives';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { AllKeysOfUnion, getScrollTop, NgnError } from '@ngneers/controls/utils';
 import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scroller';

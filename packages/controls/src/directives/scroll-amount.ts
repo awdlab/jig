@@ -1,7 +1,6 @@
 import { afterRenderEffect, Directive, ElementRef, inject, signal } from '@angular/core';
+import { domEventObservable } from '@ngneers/controls/api/ng';
 import { map } from 'rxjs';
-
-import { domEventObservable } from '../dom';
 
 @Directive({
   selector: '[ngnScrollAmount]',

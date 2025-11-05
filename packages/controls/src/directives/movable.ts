@@ -12,8 +12,7 @@ import {
 import { NgnBase } from '@ngneers/controls/base';
 import { signalWithPrevious } from '@ngneers/controls/utils-ng';
 import { movableDirectiveTemplate } from '@ngneers/controls-themes/templates/api';
-
-import { domEventSignal } from './dom';
+import { domEventSignal } from '@ngneers/controls/api/ng';
 
 @Directive({
   selector: '[ngnMovable]',

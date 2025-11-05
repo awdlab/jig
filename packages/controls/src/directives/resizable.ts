@@ -1,10 +1,13 @@
 import { Directive, DOCUMENT, effect, ElementRef, inject, input, signal } from '@angular/core';
 import { resizableDirectiveTemplate } from '@ngneers/controls-themes/templates/api';
 
-import { domEventSignal, elementSizeSignal } from './dom';
 import { NgnMovable } from './movable';
-import { Platform } from './platform';
-import { injectThemeTemplate } from './theme-service';
+import {
+  domEventSignal,
+  elementSizeSignal,
+  injectThemeTemplate,
+  Platform,
+} from '@ngneers/controls/api/ng';
 
 @Directive({
   selector: '[ngnResizable]',

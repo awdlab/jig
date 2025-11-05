@@ -15,10 +15,11 @@ import {
   viewChild,
 } from '@angular/core';
 import { NgnActionButtonConfig } from '@ngneers/controls/api';
-import { NgnMovable, NgnTemplate, NgnResizable } from '@ngneers/controls/api/ng';
+import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
 import { NgnActionButton, NgnButton } from '@ngneers/controls/button';
 import { NgnDefer } from '@ngneers/controls/defer';
+import { NgnMovable, NgnResizable } from '@ngneers/controls/directives';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { generateElementId } from '@ngneers/controls/utils-ng';
 import { dialogControlTemplate } from '@ngneers/controls-themes/templates/dialog';
