@@ -95,6 +95,9 @@ importers:
       typedoc:
         specifier: ^0.28.14
         version: 0.28.14(typescript@5.9.3)
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
       typescript-eslint:
         specifier: ^8.46.2
         version: 8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)

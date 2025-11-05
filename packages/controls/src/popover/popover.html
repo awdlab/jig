@@ -4,7 +4,9 @@
   popover
   (toggle)="onToggle($event)"
   [style.min-height]="
-    hasShrinkableContent() ? this.appliedOptions()?.sizeConstraints.minHeight : 'fit-content'
+    hasShrinkableContent()
+      ? (this.appliedOptions().sizeConstraints?.minHeight ?? null)
+      : 'fit-content'
   "
 >
   <div
