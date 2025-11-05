@@ -9,19 +9,20 @@ export interface NgnThemeTypes {
 
 export type IconType = NgnCustomTypes extends { icon: infer T } ? T : string;
 
-export type CustomKindInt<K> = K extends string
-  ? NgnCustomTypes extends {
-      kind: { [key in K]: infer T };
-    }
+type GetCustomType<Group, K> = K extends string
+  ? Group extends { kind: { [key in K]: infer T } }
     ? T
-    : NgnThemeTypes extends {
-          kind: { [key in K]: infer T };
-        }
-      ? T
-      : never
+    : never
   : never;
 
+type CustomKindInt<K> =
+  GetCustomType<NgnCustomTypes, K> extends never
+    ? GetCustomType<NgnThemeTypes, K>
+    : GetCustomType<NgnCustomTypes, K>;
+
+type UnionCustomKind<K> = CustomKindInt<K> extends readonly (infer A)[] ? A : never;
+
 export type CustomKind<K> =
-  CustomKindInt<K> extends never ? never : CustomKindInt<K> | null | undefined;
+  UnionCustomKind<K> extends never ? never : UnionCustomKind<K> | null | undefined;
 
 export type ChipKindType = NgnCustomTypes extends { kind: { chip: infer T } } ? T : string;

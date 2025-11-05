@@ -1,14 +1,27 @@
 import { ThemePart } from './theme-part';
 
-export type Theme<P extends ThemePart[] = ThemePart[]> = {
+export type Theme<
+  P extends ThemePart[] = ThemePart[],
+  KINDS extends Record<string, readonly string[]> = Record<string, readonly string[]>,
+> = {
   readonly name: string;
   readonly parts: P;
+  readonly meta: {
+    kinds?: KINDS;
+  };
 };
 
 // TODO: Check that all dependencies are available in the parts
-export function createTheme<P extends ThemePart[]>(name: string, parts: P): Theme<P> {
+export function createTheme<P extends ThemePart[], KINDS extends Record<string, readonly string[]>>(
+  name: string,
+  parts: P,
+  metadata?: { kinds?: KINDS }
+): Theme<P, KINDS> {
   return {
     name,
     parts,
+    meta: {
+      kinds: metadata?.kinds,
+    },
   };
 }

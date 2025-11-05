@@ -26,49 +26,51 @@ import { tabsStyles } from '@ngneers/controls-themes/nova/tabs';
 import { tooltipStyles } from '@ngneers/controls-themes/nova/tooltip';
 
 export const KINDS = {
-  button: ['primary', 'secondary', 'icon', 'link', 'text'] as const,
+  button: ['primary', 'secondary', 'link', 'text', 'icon'] as const,
   chip: ['primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'] as const,
-};
-
-type KINDS = {
-  [key in keyof typeof KINDS]: (typeof KINDS)[key][number];
 };
 
 declare module '@ngneers/controls/custom-types' {
   export interface NgnThemeTypes {
-    kind: KINDS;
+    kind: typeof KINDS;
   }
 }
 
-export const novaCoral = createTheme('Nova Coral', [
-  accordionStyles,
-  animation,
-  avatarGroupStyles,
-  avatarStyles,
-  breadcrumbStyles,
-  buttonStyles,
-  buttonGroupStyles,
-  calendarStyles,
-  checkboxStyles,
-  chipStyles,
-  coral,
-  dialogStyles,
-  font,
-  iconStyles,
-  shadow,
-  inputFieldStyles,
-  inputMaskStyles,
-  inputStyles,
-  itemViewStyles,
-  listBoxStyles,
-  menuStyles,
-  movableStyles,
-  popoverStyles,
-  resizableStyles,
-  scrollerStyles,
-  selectStyles,
-  sizes,
-  splitterStyles,
-  tabsStyles,
-  tooltipStyles,
-]);
+export const novaCoral = createTheme(
+  'Nova Coral',
+  [
+    accordionStyles,
+    animation,
+    avatarGroupStyles,
+    avatarStyles,
+    breadcrumbStyles,
+    buttonStyles,
+    buttonGroupStyles,
+    calendarStyles,
+    checkboxStyles,
+    chipStyles,
+    coral,
+    dialogStyles,
+    font,
+    iconStyles,
+    shadow,
+    inputFieldStyles,
+    inputMaskStyles,
+    inputStyles,
+    itemViewStyles,
+    listBoxStyles,
+    menuStyles,
+    movableStyles,
+    popoverStyles,
+    resizableStyles,
+    scrollerStyles,
+    selectStyles,
+    sizes,
+    splitterStyles,
+    tabsStyles,
+    tooltipStyles,
+  ],
+  {
+    kinds: KINDS,
+  }
+);

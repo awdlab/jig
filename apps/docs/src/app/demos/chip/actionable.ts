@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { injectThemeControlKinds } from '@ngneers/controls/api/ng';
 import { NgnChip } from '@ngneers/controls/chip';
 
 @Component({
@@ -16,21 +17,19 @@ import { NgnChip } from '@ngneers/controls/chip';
           >Click or close me!</ngn-chip
         >
       </div>
-      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-        <ngn-chip kind="primary" [actionable]="true" (clicked)="onChipClick()">Primary</ngn-chip>
-        <ngn-chip kind="secondary" [actionable]="true" (clicked)="onChipClick()"
-          >Secondary</ngn-chip
-        >
-        <ngn-chip kind="accent" [actionable]="true" (clicked)="onChipClick()">Accent</ngn-chip>
-        <ngn-chip kind="info" [actionable]="true" (clicked)="onChipClick()">Info</ngn-chip>
-        <ngn-chip kind="success" [actionable]="true" (clicked)="onChipClick()">Success</ngn-chip>
-        <ngn-chip kind="warning" [actionable]="true" (clicked)="onChipClick()">Warning</ngn-chip>
-        <ngn-chip kind="error" [actionable]="true" (clicked)="onChipClick()">Error</ngn-chip>
+      <div class="flex gap-2 flex-wrap">
+        @for (kind of kinds; track $index) {
+          <ngn-chip [kind]="kind" [actionable]="true" (clicked)="onChipClick()">
+            {{ kind ?? '*no kind*' }}
+          </ngn-chip>
+        }
       </div>
     </div>
   `,
 })
 export class Demo_Chip_Actionable {
+  protected readonly kinds = [null, ...injectThemeControlKinds('chip')];
+
   protected onChipClick() {
     alert('Chip clicked!');
   }

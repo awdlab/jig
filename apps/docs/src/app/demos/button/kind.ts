@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
+import { injectThemeControlKinds } from '@ngneers/controls/api/ng';
 import { NgnButton } from '@ngneers/controls/button';
 
 @Component({
   imports: [NgnButton],
   template: `
-    <button ngnButton [kind]="'primary'">Primary</button>
-    <button ngnButton [kind]="'secondary'">Secondary</button>
-    <button ngnButton [kind]="'text'">Text</button>
-    <button ngnButton [kind]="'link'">Link</button>
-    <button ngnButton [kind]="'icon'">❗</button>
+    <div class="flex gap-2 flex-wrap">
+      @for (kind of kinds; track $index) {
+        <button ngnButton [kind]="kind">{{ kind === 'icon' ? '👽' : kind }}</button>
+      }
+    </div>
   `,
 })
-export class Demo_Button_Kind {}
+export class Demo_Button_Kind {
+  protected readonly kinds = injectThemeControlKinds('button');
+}

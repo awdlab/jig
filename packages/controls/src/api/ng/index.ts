@@ -1,6 +1,7 @@
 export * from './config';
 export * from './components';
 export * from './dom';
+export * from './kinds';
 export * from './platform';
 export * from './positioning';
 export * from './provider';
