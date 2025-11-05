@@ -9,6 +9,8 @@ export const IMPORTS = {
   breadcrumb: () =>
     import('@ngneers/controls/breadcrumb').then((m) => m.NgnBreadcrumb),
   button: () => import('@ngneers/controls/button').then((m) => m.NgnButton),
+  buttonGroup: () =>
+    import('@ngneers/controls/button-group').then((m) => m.NgnButtonGroup),
   calendar: () =>
     import('@ngneers/controls/calendar').then((m) => m.NgnCalendar),
   checkbox: () =>
