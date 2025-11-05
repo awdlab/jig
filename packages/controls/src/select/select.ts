@@ -27,7 +27,7 @@ import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnItemView } from '@ngneers/controls/item-view';
 import { NgnListBox } from '@ngneers/controls/list-box';
 import { NgnPopover, PopoverOptions } from '@ngneers/controls/popover';
-import { NgnError } from '@ngneers/controls/utils';
+import { deepMerge, NgnError } from '@ngneers/controls/utils';
 import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
 
 import { SelectTemplates, ValueType } from './select-templates';
@@ -71,16 +71,19 @@ export class NgnSelect<
    * Options for the popover.
    */
   public readonly popoverOptions = input<PopoverOptions>({});
-  protected readonly appliedPopoverOptions = computed(() => ({
-    ...this.popoverOptions(),
-    sizeConstraints: {
-      width: 1,
-      maxWidth: 1,
-      ...this.popoverOptions().sizeConstraints,
-      minHeight: '250px',
-      maxHeight: '700px',
-    },
-  }));
+  protected readonly appliedPopoverOptions = computed(() =>
+    deepMerge(
+      {
+        sizeConstraints: {
+          width: 1,
+          maxWidth: 1,
+          minHeight: '250px',
+          maxHeight: '700px',
+        },
+      },
+      this.popoverOptions()
+    )
+  );
   /**
    * The available options to choose from. They can either be
    * * A list of {@link NgnItem} objects
