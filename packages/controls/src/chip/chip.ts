@@ -1,7 +1,7 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, input, output } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
-import { ChipKindType, IconType } from '@ngneers/controls/custom-types';
+import { IconType } from '@ngneers/controls/custom-types';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { chipControlTemplate } from '@ngneers/controls-themes/templates/chip';
 
@@ -17,13 +17,9 @@ import { chipControlTemplate } from '@ngneers/controls-themes/templates/chip';
     '[class]': 'hostClass()',
   },
 })
-export class NgnChip extends NgnBase {
+export class NgnChip extends NgnBase<'chip'> {
   protected readonly theme = this.injectThemeTemplate(chipControlTemplate);
 
-  /**
-   * Set the kind of the chip (for styling purposes).
-   */
-  public readonly kind = input<ChipKindType | null | undefined>();
   /**
    * Set whether the chip can be closed (removed).
    * @default false

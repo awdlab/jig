@@ -11,7 +11,7 @@ import { templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 
 @Directive()
-export abstract class DialogTemplates<T> extends NgnBase {
+export abstract class DialogTemplates<T> extends NgnBase<'dialog'> {
   private readonly _userContentTemplate = contentChild<TemplateRef<unknown>>('content');
   /**
    * The content of the dialog.

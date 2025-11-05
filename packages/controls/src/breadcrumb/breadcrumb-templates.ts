@@ -5,7 +5,7 @@ import { NgnBase } from '@ngneers/controls/base';
 import { ItemTemplateType, OverflowTemplateType, SeparatorTemplateType } from './types';
 
 @Directive()
-export abstract class BreadcrumbTemplates extends NgnBase {
+export abstract class BreadcrumbTemplates extends NgnBase<'breadcrumb'> {
   // Item template
   private readonly _defaultItemTemplate =
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');

@@ -23,7 +23,7 @@ export abstract class SelectTemplates<
   K extends keyof T,
   Editable extends boolean,
   Multiple extends boolean,
-> extends ValueControlBase<ValueType<T, K, Editable, Multiple> | null> {
+> extends ValueControlBase<'select', ValueType<T, K, Editable, Multiple> | null> {
   // Item template
   private readonly _defaultItemTemplate =
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');

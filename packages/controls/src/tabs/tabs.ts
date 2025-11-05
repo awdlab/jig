@@ -40,7 +40,7 @@ const PADDING_FOR_STICKY_ELEMENTS = 15;
     '[class]': 'theme.class()',
   },
 })
-export class NgnTabs extends NgnBase implements AfterViewInit {
+export class NgnTabs extends NgnBase<'tabs'> implements AfterViewInit {
   protected readonly theme = this.injectThemeTemplate(tabsControlTemplate);
   /**
    * Whether to lazy load the tab contents when they become visible.

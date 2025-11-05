@@ -17,7 +17,7 @@ export abstract class ListBoxTemplates<
   T,
   K extends keyof T,
   Multiple extends boolean,
-> extends ValueControlBase<ValueType<T, K, Multiple> | null> {
+> extends ValueControlBase<'list-box', ValueType<T, K, Multiple> | null> {
   // Item template
   private readonly _defaultItemTemplate =
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');

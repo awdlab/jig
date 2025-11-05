@@ -31,7 +31,7 @@ import { IconTemplateContext } from './types';
     '[class]': 'theme.class()',
   },
 })
-export class NgnIcon extends NgnBase {
+export class NgnIcon extends NgnBase<'icon'> {
   protected readonly theme = this.injectThemeTemplate(iconControlTemplate);
   private readonly _globalIconTemplate = inject(GlobalIconTemplate).globalIconTemplate;
 

@@ -5,7 +5,7 @@ import { NgnBase } from '@ngneers/controls/base';
 import { HeaderTemplateType } from './types';
 
 @Directive()
-export abstract class AccordionTemplates extends NgnBase {
+export abstract class AccordionTemplates extends NgnBase<'accordion-panel'> {
   private readonly _defaultHeaderTemplate =
     viewChild.required<TemplateRef<HeaderTemplateType>>('defaultHeaderTemplate');
   private readonly _userHeaderTemplate = contentChild<TemplateRef<HeaderTemplateType>>('header');

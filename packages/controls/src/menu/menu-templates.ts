@@ -5,7 +5,7 @@ import { NgnBase } from '@ngneers/controls/base';
 import { MenuItemDefault } from './types';
 
 @Directive()
-export abstract class MenuTemplates extends NgnBase {
+export abstract class MenuTemplates extends NgnBase<'menu'> {
   // Item template
   private readonly _defaultItemTemplate =
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');

@@ -22,6 +22,7 @@ type ValueType<Indeterminate extends boolean> = Indeterminate extends false
   },
 })
 export class NgnCheckbox<Indeterminate extends boolean> extends ValueControlBase<
+  'checkbox',
   ValueType<Indeterminate>
 > {
   protected readonly theme = this.injectThemeTemplate(checkboxControlTemplate);

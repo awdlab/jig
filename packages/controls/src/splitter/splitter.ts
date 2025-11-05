@@ -54,7 +54,7 @@ import { isSplitterPanelSize } from './utils';
     '[style.min-height]': `layout() === 'vertical' ? calculator().minSize() : null`,
   },
 })
-export class NgnSplitter extends NgnBase implements OnDestroy {
+export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
   private readonly _viewContainer = inject(ViewContainerRef);
   private readonly _config = inject(NGN_CONFIG);
   protected readonly theme = this.injectThemeTemplate(splitterControlTemplate);

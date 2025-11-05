@@ -19,7 +19,7 @@ import { NgnBase, provideSelf } from '@ngneers/controls/base';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideSelf(NgnTab)],
 })
-export class NgnTab extends NgnBase {
+export class NgnTab extends NgnBase<'tab'> {
   /**
    * The unique identifier for the tab.
    */

@@ -12,19 +12,26 @@ import {
   viewChildren,
 } from '@angular/core';
 import { ControlTemplateInfo, injectThemeTemplate } from '@ngneers/controls/api/ng';
+import { CustomKind } from '@ngneers/controls/custom-types';
 import { setInputSignalValue } from '@ngneers/controls/utils-ng';
 import { ControlTemplate } from '@ngneers/controls-themes';
 
-export const NGN_CONTROL = new InjectionToken<NgnBase>('NGN_CONTROL');
+export const NGN_CONTROL = new InjectionToken<NgnBase<never>>('NGN_CONTROL');
 
-export function provideSelf(control: Type<NgnBase>): Provider {
+/**
+ * @internal
+ * Provides the control itself for dependency injection.
+ * @param control - The control class to provide.
+ * @returns A provider for the control itself.
+ */
+export function provideSelf(control: Type<unknown>): Provider {
   return { provide: NGN_CONTROL, useExisting: forwardRef(() => control) };
 }
 
 @Directive({
   host: { class: 'ngn-control' },
 })
-export abstract class NgnBase {
+export abstract class NgnBase<T extends string | null> {
   /**
    * The element reference for the host element.
    */
@@ -42,6 +49,16 @@ export abstract class NgnBase {
    */
   public readonly unstyled = input(false);
 
+  /**
+   * Some controls support custom kinds for styling purposes.
+   * The available kinds depend on the control and the theme used.
+   * If your theme does not provide typings for custom kinds, this defaults to `string`.
+   * If the control does not support custom kinds, this is `never` and cannot be set.
+   * You can extend the available kinds by augmenting the `NgnCustomTypes` interface in `@ngneers/controls/custom-types`.
+   * @todo link to custom types documentation
+   */
+  public readonly kind = input<CustomKind<T>>(undefined as never);
+
   private readonly _childNgnControls = viewChildren(NGN_CONTROL);
   constructor() {
     effect(() => {
@@ -53,6 +70,9 @@ export abstract class NgnBase {
     });
   }
 
+  /**
+   * @internal
+   */
   protected injectThemeTemplate<T extends ControlTemplate>(template: T): ControlTemplateInfo<T> {
     const opts = { unstyled: this.unstyled };
     return injectThemeTemplate(template, opts);

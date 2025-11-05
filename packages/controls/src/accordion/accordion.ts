@@ -33,7 +33,7 @@ import { ACCORDION_CONTROL, AccordionControl } from './types';
     },
   ],
 })
-export class NgnAccordion extends NgnBase {
+export class NgnAccordion extends NgnBase<'accordion'> {
   protected readonly theme = this.injectThemeTemplate(accordionControlTemplate);
   public readonly cache = input(false);
   public readonly lazy = input(false);

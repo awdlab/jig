@@ -4,8 +4,7 @@ import { generateElementId } from '@ngneers/controls/utils-ng';
 
 import { NgnBase } from './base';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function valueControlBaseProvider<T extends Type<ValueControlBase<any>>>(
+export function valueControlBaseProvider<T extends Type<any>>(
   type: T
 ): { provide: typeof NG_VALUE_ACCESSOR; useExisting: T; multi: boolean } {
   return {
@@ -16,7 +15,10 @@ export function valueControlBaseProvider<T extends Type<ValueControlBase<any>>>(
 }
 
 @Directive()
-export abstract class ValueControlBase<T> extends NgnBase implements ControlValueAccessor {
+export abstract class ValueControlBase<C extends string, T>
+  extends NgnBase<C>
+  implements ControlValueAccessor
+{
   /**
    * The label for the control.
    */

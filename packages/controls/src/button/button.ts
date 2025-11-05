@@ -1,7 +1,6 @@
-import { Directive, input, OnDestroy } from '@angular/core';
+import { Directive, OnDestroy } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
-import { ButtonKindType } from '@ngneers/controls/custom-types';
 import { toggleClass } from '@ngneers/controls/utils';
 import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
 import { pairwise, startWith } from 'rxjs';
@@ -13,10 +12,8 @@ import { pairwise, startWith } from 'rxjs';
   selector: 'button[ngnButton], a[ngnButton]',
   providers: [provideSelf(NgnButton)],
 })
-export class NgnButton extends NgnBase implements OnDestroy {
+export class NgnButton extends NgnBase<'button'> implements OnDestroy {
   protected readonly theme = this.injectThemeTemplate(buttonControlTemplate);
-
-  public readonly kind = input<ButtonKindType | null | undefined>();
 
   constructor() {
     super();

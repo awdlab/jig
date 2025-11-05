@@ -3,7 +3,7 @@ import { templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 
 @Directive()
-export abstract class ScrollerTemplates<T> extends NgnBase {
+export abstract class ScrollerTemplates<T> extends NgnBase<'scroller'> {
   /**
    * The template to be used for rendering each item in the scroller.
    * Can also be set using the `item` content child.

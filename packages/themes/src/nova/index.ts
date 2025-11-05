@@ -1,3 +1,4 @@
+import '@ngneers/controls/custom-types';
 import { createTheme } from '@ngneers/controls-themes/api';
 import { accordionStyles } from '@ngneers/controls-themes/nova/accordion';
 import { movableStyles, resizableStyles } from '@ngneers/controls-themes/nova/api';
@@ -23,6 +24,20 @@ import { selectStyles } from '@ngneers/controls-themes/nova/select';
 import { splitterStyles } from '@ngneers/controls-themes/nova/splitter';
 import { tabsStyles } from '@ngneers/controls-themes/nova/tabs';
 import { tooltipStyles } from '@ngneers/controls-themes/nova/tooltip';
+
+export const KINDS = {
+  button: ['primary', 'secondary', 'icon', 'link', 'text'] as const,
+};
+
+type KINDS = {
+  [key in keyof typeof KINDS]: (typeof KINDS)[key][number];
+};
+
+declare module '@ngneers/controls/custom-types' {
+  export interface NgnThemeTypes {
+    kind: KINDS;
+  }
+}
 
 export const novaCoral = createTheme('Nova Coral', [
   accordionStyles,

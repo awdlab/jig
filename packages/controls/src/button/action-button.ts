@@ -10,7 +10,7 @@ import { NgnButton } from './button';
   imports: [NgnButton],
   providers: [provideSelf(NgnActionButton)],
 })
-export class NgnActionButton<T> extends NgnBase {
+export class NgnActionButton<T> extends NgnBase<null> {
   public readonly config = input.required<NgnActionButtonConfig<T>>();
 
   public readonly clicked = output<T>();

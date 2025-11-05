@@ -20,7 +20,7 @@ import { movableDirectiveTemplate } from '@ngneers/controls-themes/templates/api
     '[class]': '_theme.classes({ movable: !!ngnMovable(), moved: dragged()})',
   },
 })
-export class NgnMovable extends NgnBase {
+export class NgnMovable extends NgnBase<'movable'> {
   protected readonly _theme = this.injectThemeTemplate(movableDirectiveTemplate);
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
   private readonly _document = inject(DOCUMENT);

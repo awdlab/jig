@@ -29,7 +29,7 @@ import { PopoverOptions } from './types';
   imports: [NgClass, NgnDefer],
   providers: [provideSelf(NgnPopover)],
 })
-export class NgnPopover extends NgnBase {
+export class NgnPopover extends NgnBase<'popover'> {
   protected readonly theme = this.injectThemeTemplate(popoverControlTemplate);
   public readonly anchor = input.required<HTMLElement>();
   public readonly options = input<PopoverOptions>();

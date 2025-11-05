@@ -20,7 +20,7 @@ import { INPUT_FIELD } from './token';
     provideSelf(NgnInputField),
   ],
 })
-export class NgnInputField extends NgnBase {
+export class NgnInputField extends NgnBase<'input-field'> {
   protected readonly theme = this.injectThemeTemplate(inputFieldControlTemplate);
   private readonly _parentInputfield = inject(INPUT_FIELD, { optional: true, skipSelf: true });
   protected readonly hasParentInputfield = !!this._parentInputfield;

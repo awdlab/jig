@@ -12,7 +12,7 @@ import { avatarGroupControlTemplate } from '@ngneers/controls-themes/templates/a
   imports: [NgClass],
   providers: [provideSelf(NgnAvatarGroup)],
 })
-export class NgnAvatarGroup extends NgnBase {
+export class NgnAvatarGroup extends NgnBase<'avatar-group'> {
   protected readonly theme = this.injectThemeTemplate(avatarGroupControlTemplate);
 
   constructor() {

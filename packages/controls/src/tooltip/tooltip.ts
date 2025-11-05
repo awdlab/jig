@@ -43,7 +43,7 @@ import {
   exportAs: 'ngnTooltip',
   providers: [provideSelf(NgnTooltip)],
 })
-export class NgnTooltip extends NgnBase implements OnDestroy {
+export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
   private readonly _viewContainerRef = inject(ViewContainerRef);
   private readonly _config = inject(NGN_CONFIG);
   private readonly _tooltip = signal<ComponentRef<TooltipComponent> | null>(null);
@@ -307,7 +307,7 @@ export class NgnTooltip extends NgnBase implements OnDestroy {
     '(click)': 'onClick()',
   },
 })
-export class TooltipComponent extends NgnBase {
+export class TooltipComponent extends NgnBase<'tooltip'> {
   private _showHideTimeout?: ReturnType<typeof setTimeout>;
   protected readonly theme = this.injectThemeTemplate(tooltipControlTemplate);
   private readonly _config = inject(NGN_CONFIG);

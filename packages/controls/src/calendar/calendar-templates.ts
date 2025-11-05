@@ -11,7 +11,7 @@ import {
 } from './types';
 
 @Directive()
-export abstract class CalendarTemplates extends ValueControlBase<Date | null> {
+export abstract class CalendarTemplates extends ValueControlBase<'calendar', Date | null> {
   // Day template
   private readonly _defaultDayTemplate =
     viewChild.required<TemplateRef<typeof this.templateTypes.day>>('defaultDayTemplate');

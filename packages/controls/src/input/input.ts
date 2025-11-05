@@ -23,7 +23,7 @@ import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/in
   },
   providers: [provideSelf(NgnInput)],
 })
-export class NgnInput extends NgnBase implements AfterViewInit {
+export class NgnInput extends NgnBase<'input'> implements AfterViewInit {
   protected readonly hasParentInputfield = signal(false);
 
   protected readonly theme = this.injectThemeTemplate(inputControlTemplate);

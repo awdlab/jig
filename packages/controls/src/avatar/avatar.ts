@@ -17,7 +17,7 @@ import { avatarControlTemplate } from '@ngneers/controls-themes/templates/avatar
   },
   providers: [provideSelf(NgnAvatar)],
 })
-export class NgnAvatar extends NgnBase {
+export class NgnAvatar extends NgnBase<'avatar'> {
   protected readonly theme = this.injectThemeTemplate(avatarControlTemplate);
 
   /**
