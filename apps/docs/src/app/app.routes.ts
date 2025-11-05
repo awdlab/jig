@@ -7,19 +7,19 @@ import { Start } from './start/start';
 import { TestComponent } from './test';
 import { NgnDocsPageRenderer } from './utils/page/page-renderer/page-renderer';
 import { NgnDocsPageTabRenderer } from './utils/page/page-renderer/page-tab-renderer/page-tab-renderer';
-import { NgnDocsPage } from './utils/page/types';
+import { NgnDocsCategory, NgnDocsPage } from './utils/page/types';
 import { safeRoutePath } from './utils/routing';
 
-function getDocsRoutes(pages: NgnDocsPage[], baseRoute: string): Routes {
+function getDocsRoutes(pages: NgnDocsPage[], category?: NgnDocsCategory): Routes {
   const routes = pages.map(page => {
     if (page.kind === 'tabs') {
       const route: Route = {
         path: safeRoutePath(page.title),
-        data: { page, baseRoute },
+        data: { page, category },
         component: NgnDocsPageTabRenderer,
         children: page.tabs.map(tab => ({
           path: tab.default ? '' : safeRoutePath(tab.title),
-          data: { page, baseRoute },
+          data: { page, category },
           component: NgnDocsPageTabRenderer, // Dummy: is handled by parent and never used
         })),
       };
@@ -28,13 +28,13 @@ function getDocsRoutes(pages: NgnDocsPage[], baseRoute: string): Routes {
       return {
         path: safeRoutePath(page.title),
         component: NgnDocsPageRenderer,
-        data: { page, baseRoute },
+        data: { page, category },
       };
     } else if (page.kind === 'category') {
       return <Route>{
         path: safeRoutePath(page.title),
         children: [
-          ...getDocsRoutes(page.pages, `${baseRoute}/${safeRoutePath(page.title)}`),
+          ...getDocsRoutes(page.pages, page),
           {
             path: '',
             pathMatch: 'full',
@@ -62,7 +62,7 @@ export const routes: Routes = [
       {
         path: '',
         component: NgnDocsMenu,
-        children: getDocsRoutes(ALL_DOCS_PAGES, ''),
+        children: getDocsRoutes(ALL_DOCS_PAGES),
       },
     ],
   },

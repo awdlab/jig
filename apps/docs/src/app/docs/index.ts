@@ -5,6 +5,7 @@ export const ALL_DOCS_PAGES: NgnDocsPage[] = [
   {
     kind: 'category',
     title: 'Components',
+    tabTitle: 'Component',
     pages: ALL_COMPONENT_PAGES,
   } as NgnDocsCategory,
 ];

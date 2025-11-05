@@ -21,6 +21,7 @@ type Tabs = {
 
 type Category = {
   kind: 'category';
+  tabTitle?: string;
   pages: NgnDocsPage[];
 };
 
