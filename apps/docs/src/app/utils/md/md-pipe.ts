@@ -14,7 +14,6 @@ export class MarkdownPipe implements PipeTransform {
     try {
       const result = await marked(value);
       const cleaned = result.trim();
-      console.log('MarkdownPipe transform result:', value, cleaned);
       return cleaned;
     } catch (error) {
       console.error('Error parsing markdown:', error);

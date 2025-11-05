@@ -27,6 +27,7 @@ import { tooltipStyles } from '@ngneers/controls-themes/nova/tooltip';
 
 export const KINDS = {
   button: ['primary', 'secondary', 'icon', 'link', 'text'] as const,
+  chip: ['primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'] as const,
 };
 
 type KINDS = {
