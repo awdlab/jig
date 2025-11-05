@@ -9,10 +9,10 @@ import {
   signal,
   untracked,
 } from '@angular/core';
+import { domEventSignal } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 import { signalWithPrevious } from '@ngneers/controls/utils-ng';
 import { movableDirectiveTemplate } from '@ngneers/controls-themes/templates/api';
-import { domEventSignal } from '@ngneers/controls/api/ng';
 
 @Directive({
   selector: '[ngnMovable]',
