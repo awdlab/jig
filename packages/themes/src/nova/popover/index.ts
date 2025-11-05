@@ -18,7 +18,8 @@ export const popoverStyles = createThemePart({
   root: {
     css: ({ v, c }) => css`
       ${c()} {
-        padding-bottom: ${MOVE_AMOUNT}px; /** to make space for the animation (prevent overflow) */
+        /** to make space for the animation (prevent overflow) */
+        padding-bottom: ${MOVE_AMOUNT + 1}px;
         overflow: visible; /** so that box-shadow is not clipped */
         /* The 100 ms buffer is so that the animation of the content finishes before the popover closes (Animation doesn't get cancelled) */
         transition:

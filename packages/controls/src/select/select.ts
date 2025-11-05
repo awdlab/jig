@@ -77,6 +77,8 @@ export class NgnSelect<
       width: 1,
       maxWidth: 1,
       ...this.popoverOptions().sizeConstraints,
+      minHeight: '250px',
+      maxHeight: '700px',
     },
   }));
   /**

@@ -37,6 +37,10 @@ export type PositioningSizeConstraints = {
    * The maximum height of the floating element. When a string is provided, it is used as the CSS max-height value.
    */
   maxHeight?: string;
+  /**
+   * The minimum height of the floating element. When a string is provided, it is used as the CSS min-height value.
+   */
+  minHeight?: string;
 };
 
 export type PositioningOptions = {
@@ -137,7 +141,7 @@ export function positionElement(
                 : availableHeight;
               if (options.hasShrinkableContent) {
                 Object.assign(floatingEl.style, {
-                  height: `${maxHeight}px`,
+                  height: `${maxHeight - 1}px`,
                 });
               }
             },

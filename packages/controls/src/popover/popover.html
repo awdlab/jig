@@ -3,7 +3,9 @@
   #popover
   popover
   (toggle)="onToggle($event)"
-  [style.min-height]="!hasShrinkableContent() ? 'fit-content' : null"
+  [style.min-height]="
+    hasShrinkableContent() ? this.appliedOptions()?.sizeConstraints.minHeight : 'fit-content'
+  "
 >
   <div
     #content
@@ -13,7 +15,7 @@
         'content-closing': !this.isOpen() && !this.isFullyClosed(),
       })
     "
-    [style.min-height]="!hasShrinkableContent() ? 'fit-content' : null"
+    [style.min-height]="hasShrinkableContent() ? null : 'fit-content'"
   >
     <ngn-defer
       [lazyContent]="lazyContent()"
