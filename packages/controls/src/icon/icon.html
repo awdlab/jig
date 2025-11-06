@@ -15,5 +15,8 @@
     ><i [style.--fa-display]="'block'" class="{{ icon.icon }}"></i
   ></ng-template>
 } @else {
-  <i [style.--fa-display]="'block'" class="{{ defaultIcon() }}"></i>
+  <!-- imported svg icon -->
+  @if (defaultIconSvg(); as defaultIcon) {
+    <div [ngClass]="theme.class('default')" [innerHtml]="defaultIcon"></div>
+  }
 }

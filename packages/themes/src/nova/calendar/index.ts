@@ -19,12 +19,14 @@ export const calendarStyles = createThemePart({
       }
       ${c('details')} {
         gap: ${v('size.padding.md')};
+        min-width: 300px;
       }
       ${c('header')} {
         gap: ${v('size.padding.sm')};
         padding: ${v('size.padding.md')};
         padding-top: 0;
         border-bottom: 1px solid ${v('color.surface.300')};
+        justify-content: space-between;
       }
       ${c('navigation')} {
         align-items: center;
@@ -72,6 +74,9 @@ export const calendarStyles = createThemePart({
         &:not(${c('day-other-month')}):active {
           background: ${v('color.surface.800')};
         }
+      }
+      ${c('current-month')} {
+        width: 100%;
       }
       ${c('current-year')}${d('select')} ${d('input')} {
         width: 3rem;

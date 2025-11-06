@@ -35,13 +35,13 @@
 
 <ng-template #defaultSeparatorTemplate [ngnTemplate]="templateTypes.separator" let-separator>
   <span [ngClass]="theme.class('separator')">
-    <ngn-icon defaultIcon="fa-solid fa-chevron-right" [icon]="separator.icon" />
+    <ngn-icon defaultIcon="chevron_right" [icon]="separator.icon" />
   </span>
 </ng-template>
 
 <ng-template #defaultOverflowTemplate [ngnTemplate]="templateTypes.overflow" let-overflow>
   <button #menuAnchor [ngClass]="theme.class('overflow')" (click)="menu.open()">
-    <ngn-icon defaultIcon="fa-solid fa-ellipsis" [icon]="overflow.icon" />
+    <ngn-icon defaultIcon="ellipsis" [icon]="overflow.icon" />
   </button>
   <ngn-menu #menu [popover]="true" [items]="overflow.overflowingItems" [anchor]="menuAnchor" />
 </ng-template>

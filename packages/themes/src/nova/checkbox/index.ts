@@ -18,9 +18,6 @@ export const checkboxStyles = createThemePart({
         border: 2px solid ${v('color.surface.400')};
         border-radius: ${v('size.rounded.sm')};
       }
-      ${c('box-icon')} {
-        display: block;
-      }
     `,
   },
 });

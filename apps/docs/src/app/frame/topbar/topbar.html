@@ -3,7 +3,7 @@
     <img src="img/logo.png" alt="logo" class="h-10 w-10" />
     ngn-controls
   </a>
-  <div class="h-full flex items-center gap-2 text-gray-800">
+  <div class="h-full flex items-center gap-2 text-gray-800 text-2xl">
     <button ngnButton [kind]="'icon'">☀️</button>
     <a
       href="https://github.com/NGneers/controls"
@@ -12,11 +12,11 @@
       ngnButton
       [kind]="'icon'"
     >
-      <ngn-icon size="28px" [icon]="'fa-brands fa-github'" />
+      <ngn-icon size="28px" icon="img/icons/github.svg" />
     </a>
     @if (isCompact()) {
       <button ngnButton [kind]="'icon'" aria-label="Menu Toggle" (click)="toggleMenu()">
-        <ngn-icon size="28px" [icon]="'fa-solid fa-bars'" />
+        <ngn-icon size="28px" icon="img/icons/bars.svg" />
       </button>
     }
   </div>

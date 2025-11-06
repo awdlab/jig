@@ -7,10 +7,20 @@ export const iconStyles = createThemePart({
   root: {
     css: ({ v, c }) => css`
       ${c()} {
-        font-size: var(--icon-size);
-        width: var(--icon-size);
-        height: var(--icon-size);
+        width: 1em;
+        height: 1em;
         display: flex;
+      }
+      ${c('default')} {
+        width: 1em;
+        height: 1em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        svg {
+          width: 100%;
+          height: 100%;
+        }
       }
     `,
   },

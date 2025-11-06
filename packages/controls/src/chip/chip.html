@@ -10,11 +10,7 @@
 
 @if (closable()) {
   <button type="button" [ngClass]="theme.class('close-button')" (click)="closed.emit($event)">
-    <ngn-icon
-      [ngClass]="theme.class('close-icon')"
-      [icon]="iconClose()"
-      [defaultIcon]="'fa-regular fa-circle-xmark'"
-    />
+    <ngn-icon [ngClass]="theme.class('close-icon')" [icon]="iconClose()" [defaultIcon]="'xmark'" />
   </button>
 }
 

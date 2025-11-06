@@ -4,6 +4,7 @@ import { upsertThemeStyleElement } from './upsert-theme-style-element';
 import { Theme } from '../theme/theme';
 import { ThemePart } from '../theme/theme-part';
 import { groupArrayUsing } from '../utils/group-array-using';
+import { globalStyles } from '@ngneers/controls-themes/base/global';
 
 export type ApplyThemeOptions = {
   /**
@@ -61,10 +62,11 @@ export function applyTheme<T extends Theme>(
   }
 
   // style element
-  for (const scope of scopes) {
-    const part = parts.get(scope);
-    if (!part) {
-      console.warn(`No theme parts found for scope '${scope}'. Skipping style generation.`);
+  const scopedParts = scopes.map(scope => parts.get(scope) ?? scope);
+  const allParts = [...scopedParts, [globalStyles]];
+  for (const part of allParts) {
+    if (typeof part === 'string') {
+      console.warn(`No theme parts found for scope '${part}'. Skipping style generation.`);
       continue;
     }
     const css = buildStyleCss(part, opt);
@@ -72,7 +74,7 @@ export function applyTheme<T extends Theme>(
       opt.document,
       {
         kind: 'styles',
-        'theme-scope': scope,
+        'theme-scope': part[0].scope,
         'style-scope': styleScopeToIdentifier(opt.scope),
       },
       css

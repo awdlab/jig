@@ -25,9 +25,6 @@ export const checkboxStyles = createThemePart({
         align-items: center;
         justify-content: center;
       }
-      ${c('box-icon')} {
-        display: block;
-      }
     `,
   },
 });

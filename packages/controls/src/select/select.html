@@ -50,11 +50,7 @@
       }
     </div>
   }
-  <ngn-icon
-    [ngClass]="theme.class('icon')"
-    [icon]="dropdownIcon()"
-    defaultIcon="fa-solid fa-chevron-down"
-  />
+  <ngn-icon [ngClass]="theme.class('icon')" [icon]="dropdownIcon()" defaultIcon="chevron_down" />
 </ngn-input-field>
 <ngn-popover
   #popover
@@ -76,7 +72,7 @@
           />
           <ngn-icon
             [ngClass]="theme.class('filter-icon')"
-            defaultIcon="fa-solid fa-magnifying-glass"
+            defaultIcon="magnifying_glass"
             [icon]="filterIcon()"
           />
         </ngn-input-field>

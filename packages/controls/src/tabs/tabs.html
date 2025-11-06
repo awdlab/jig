@@ -8,7 +8,7 @@
 >
   @if (tabsOverflowingLeft()) {
     <button tabindex="-1" [ngClass]="theme.class('scroll-left')" (click)="scrollHeaders('left')">
-      <ngn-icon [icon]="iconScrollLeft()" [defaultIcon]="'fa-solid fa-chevron-left'" />
+      <ngn-icon [icon]="iconScrollLeft()" [defaultIcon]="'chevron_left'" />
     </button>
   }
   @for (header of headers(); track header.id; let i = $index) {
@@ -34,7 +34,7 @@
   }
   @if (tabsOverflowingRight()) {
     <button tabindex="-1" [ngClass]="theme.class('scroll-right')" (click)="scrollHeaders('right')">
-      <ngn-icon [icon]="iconScrollRight()" [defaultIcon]="'fa-solid fa-chevron-right'" />
+      <ngn-icon [icon]="iconScrollRight()" [defaultIcon]="'chevron_right'" />
     </button>
   }
   <div

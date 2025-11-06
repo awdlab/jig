@@ -13,7 +13,7 @@ export const buttonStyles = createThemePart({
         border-radius: ${v('size.rounded.md')};
         border-style: none;
         font-weight: ${v('font.weight.semibold')};
-        padding: ${v('size.padding.md')} ${v('size.padding.lg')};
+        padding: ${v('size.padding.lg')};
         cursor: pointer;
       }
       ${c('kind-primary')} {
@@ -58,6 +58,13 @@ export const buttonStyles = createThemePart({
         background: transparent;
         border-radius: ${v('size.rounded.full')};
         padding: ${v('size.padding.md')};
+
+        width: calc(1em + 2 * ${v('size.padding.md')}); /** font size plus padding */
+        height: calc(1em + 2 * ${v('size.padding.md')});
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
         &:hover {
           background: ${v('color.surface.100')};
         }

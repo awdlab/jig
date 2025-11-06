@@ -8,6 +8,7 @@ import { calendarStyles } from '@ngneers/controls-themes/base/calendar';
 import { checkboxStyles } from '@ngneers/controls-themes/base/checkbox';
 import { chipStyles } from '@ngneers/controls-themes/base/chip';
 import { dialogStyles } from '@ngneers/controls-themes/base/dialog';
+import { globalStyles } from '@ngneers/controls-themes/base/global';
 import { iconStyles } from '@ngneers/controls-themes/base/icon';
 import { inputStyles } from '@ngneers/controls-themes/base/input';
 import { inputFieldStyles } from '@ngneers/controls-themes/base/input-field';
@@ -35,6 +36,7 @@ export const baseStyles = {
   checkbox: checkboxStyles,
   chip: chipStyles,
   dialog: dialogStyles,
+  global: globalStyles,
   icon: iconStyles,
   input: inputStyles,
   inputField: inputFieldStyles,
