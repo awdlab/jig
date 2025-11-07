@@ -5,6 +5,7 @@ import {
   ElementRef,
   inject,
   input,
+  model,
   output,
   signal,
   viewChild,
@@ -12,12 +13,12 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Placement } from '@floating-ui/dom';
-import { NgnTemplate, Platform } from '@ngneers/controls/api/ng';
+import { NgnTemplate, Openable, Platform } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
 import { NgnAutofocus } from '@ngneers/controls/directives';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnPopover } from '@ngneers/controls/popover';
-import { afterRenderComputed, generateElementId } from '@ngneers/controls/utils-ng';
+import { generateElementId } from '@ngneers/controls/utils-ng';
 import { IconType } from '@ngneers/controls-custom-types';
 import { menuControlTemplate } from '@ngneers/controls-themes/templates/menu';
 
@@ -37,7 +38,7 @@ import { MenuItem } from './types';
     '[class]': 'isSubMenu() ? theme.class("submenu") : ""',
   },
 })
-export class NgnMenu extends MenuTemplates {
+export class NgnMenu extends MenuTemplates implements Openable {
   protected readonly theme = this.injectThemeTemplate(menuControlTemplate);
   protected readonly elementId = input(generateElementId());
   public readonly anchor = input.required<HTMLElement>();
@@ -50,7 +51,7 @@ export class NgnMenu extends MenuTemplates {
 
   public readonly closed = output<void>();
   public readonly closeAll = output<void>();
-  public readonly isOpen = afterRenderComputed(() => this._popover().open(), false);
+  public readonly open = model(false);
 
   private readonly _isTouchDevice = inject(Platform).isTouchDevice;
   private readonly _popover = viewChild.required(NgnPopover);
@@ -65,6 +66,10 @@ export class NgnMenu extends MenuTemplates {
 
   public close(emitCloseEvent = true) {
     this._popover().close(emitCloseEvent);
+  }
+
+  public toggle() {
+    this._popover().toggle();
   }
 
   protected handleKeydown(event: KeyboardEvent, subMenu?: NgnMenu) {
@@ -133,7 +138,7 @@ export class NgnMenu extends MenuTemplates {
         return;
       }
     }
-    if (childMenu.isOpen()) {
+    if (childMenu.open()) {
       menuItem?.focus();
       return;
     }
@@ -141,6 +146,10 @@ export class NgnMenu extends MenuTemplates {
     setTimeout(() => {
       childMenu.show(openBy === 'arrow');
     });
+  }
+
+  protected popoverOpenChange(newState: boolean) {
+    this.open.set(newState);
   }
 
   protected popoverClosed() {
