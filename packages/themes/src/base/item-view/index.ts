@@ -13,10 +13,15 @@ export const itemViewStyles = createThemePart({
         overflow: hidden;
       }
       ${c('item')} {
-        display: inline-block;
+        display: flex;
+        align-items: center;
         &${c('hidden-separator')} {
           visibility: hidden;
         }
+      }
+      ${c('more-items')} {
+        display: flex;
+        align-items: center;
       }
       ${c('item-overflowing')} {
         position: absolute;

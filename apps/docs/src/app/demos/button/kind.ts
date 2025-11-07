@@ -5,7 +5,7 @@ import { NgnButton } from '@ngneers/controls/button';
 @Component({
   imports: [NgnButton],
   template: `
-    <div class="flex gap-2 flex-wrap">
+    <div class="flex gap-2 flex-wrap items-center">
       @for (kind of kinds; track $index) {
         <button ngnButton [kind]="kind">{{ kind === 'icon' ? '👽' : kind }}</button>
       }

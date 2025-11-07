@@ -12,9 +12,10 @@ export const breadcrumbStyles = createThemePart({
         user-select: none;
       }
       ${c('separator')} {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
         ngn-icon {
-          display: inline-block;
+          display: flex;
         }
       }
       ${c('item')}, ${c('overflow')} {

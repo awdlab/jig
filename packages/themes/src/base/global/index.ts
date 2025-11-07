@@ -6,7 +6,7 @@ export const globalStyles = createThemePart({
   root: {
     css: ({ v, c }) => css`
       ${c()} {
-        line-height: 1;
+        /** Global styles */
       }
     `,
   },

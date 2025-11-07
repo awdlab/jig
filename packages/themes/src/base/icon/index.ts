@@ -18,6 +18,7 @@ export const iconStyles = createThemePart({
         align-items: center;
         justify-content: center;
         svg {
+          fill: currentColor;
           width: 100%;
           height: 100%;
         }

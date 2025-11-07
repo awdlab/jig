@@ -40,6 +40,7 @@ export const chipStyles = createThemePart({
         border: none;
         border-top-right-radius: 999rem; /* Creates a pill shape */
         border-bottom-right-radius: 999rem; /* Creates a pill shape */
+        font-size: 12px;
 
         &:focus {
           opacity: 0.8;

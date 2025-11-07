@@ -31,10 +31,6 @@ export type ApplyThemeOptions = {
    * @default `'ngn-'`
    */
   namePrefix: string;
-  /**
-   * Global styles to be applied regardless of scope.
-   */
-  globalStyles: ThemePart;
 };
 
 export function applyTheme<T extends Theme>(
@@ -47,7 +43,6 @@ export function applyTheme<T extends Theme>(
     layer: options.layer,
     scope: options.styleScope,
     namePrefix: options.namePrefix ?? 'ngn-',
-    globalStyles: options.globalStyles,
   };
   const parts = groupArrayUsing(getThemePartsByScopes(theme, scopes), x => x.scope);
 
@@ -66,11 +61,7 @@ export function applyTheme<T extends Theme>(
   }
 
   // style element
-  const scopedParts = scopes.map(scope => parts.get(scope) ?? scope);
-  const allParts = [...scopedParts];
-  if (opt.globalStyles) {
-    allParts.push([opt.globalStyles]);
-  }
+  const allParts = scopes.map(scope => parts.get(scope) ?? scope);
   for (const part of allParts) {
     if (typeof part === 'string') {
       console.warn(`No theme parts found for scope '${part}'. Skipping style generation.`);
@@ -87,6 +78,35 @@ export function applyTheme<T extends Theme>(
       css
     );
   }
+}
+
+export function applyGlobalStyles(globalStyles: ThemePart, options: ApplyThemeOptions) {
+  const opt = {
+    document: options.document ?? window.document,
+    layer: options.layer,
+    scope: options.styleScope,
+    namePrefix: options.namePrefix ?? 'ngn-',
+  };
+  const cssVariables = buildVariablesCss([globalStyles], opt);
+  upsertThemeStyleElement(
+    opt.document,
+    {
+      kind: 'variables',
+      'theme-scope': globalStyles.scope,
+      'style-scope': styleScopeToIdentifier(opt.scope),
+    },
+    cssVariables
+  );
+  const cssStyles = buildStyleCss([globalStyles], opt);
+  upsertThemeStyleElement(
+    opt.document,
+    {
+      kind: 'styles',
+      'theme-scope': globalStyles.scope,
+      'style-scope': styleScopeToIdentifier(opt.scope),
+    },
+    cssStyles
+  );
 }
 
 function styleScopeToIdentifier(scope: StyleScope | undefined): string | undefined {

@@ -15,7 +15,7 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
     page,
     {
       template: `
-        <ngn-breadcrumb style="width: 400px;" [items]="inputs().items" />
+        <ngn-breadcrumb style="width: 390px;" [items]="inputs().items" />
       `,
       imports: ['breadcrumb'],
     },

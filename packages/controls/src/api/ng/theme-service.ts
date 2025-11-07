@@ -9,7 +9,13 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { Logger } from '@ngneers/controls/utils';
-import { applyTheme, ControlTemplate, getClassName, Theme } from '@ngneers/controls-themes';
+import {
+  applyGlobalStyles,
+  applyTheme,
+  ControlTemplate,
+  getClassName,
+  Theme,
+} from '@ngneers/controls-themes';
 import { globalStyles } from '@ngneers/controls-themes/base/global';
 import { skip } from 'rxjs';
 
@@ -124,7 +130,12 @@ export class ThemeService implements OnDestroy {
       layer: this._config.theme.cssLayer ?? undefined,
       styleScope: this._config.theme.styleScope ?? undefined,
       namePrefix: this._config.theme.namePrefix,
-      globalStyles,
+    });
+    applyGlobalStyles(globalStyles, {
+      document: this._document,
+      layer: this._config.theme.cssLayer ?? undefined,
+      styleScope: this._config.theme.styleScope ?? undefined,
+      namePrefix: this._config.theme.namePrefix,
     });
   }
 }

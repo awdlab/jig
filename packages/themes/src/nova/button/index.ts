@@ -13,7 +13,7 @@ export const buttonStyles = createThemePart({
         border-radius: ${v('size.rounded.md')};
         border-style: none;
         font-weight: ${v('font.weight.semibold')};
-        padding: ${v('size.padding.lg')};
+        padding: ${v('size.padding.md')} ${v('size.padding.lg')};
         cursor: pointer;
       }
       ${c('kind-primary')} {

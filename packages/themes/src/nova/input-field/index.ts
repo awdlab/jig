@@ -26,7 +26,8 @@ export const inputFieldStyles = createThemePart({
         outline-style: solid;
         outline-offset: -2px;
         overflow: auto;
-        height: 2em;
+        /** line-height + vertical padding + border */
+        height: calc(1lh + 2 * ${v('size.padding.sm')} + 2px);
         &:hover {
           border-color: ${v('color.surface.500')};
         }
