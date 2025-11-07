@@ -7,7 +7,7 @@
     "build": "ng build",
     "preserve": "pnpm run prepare-docs",
     "prebuild": "pnpm run prepare-docs",
-    "prepare-docs": "cd ../../ && pnpm api-docs:generate && pnpm icons:generate",
+    "prepare-docs": "cd ../../ && pnpm icons:generate && pnpm api-docs:generate",
     "serve:ssr": "node ../../dist/demo/server/server.mjs",
     "lint": "pnpm eslint ."
   },
