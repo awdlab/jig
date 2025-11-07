@@ -51,6 +51,8 @@ jobs:
         run: pnpm i
       - name: Check for test compiler errors
         run: pnpm run test:build
+      - name: Generate Icons
+        run: pnpm run icons:generate
       - name: Fix Screenshots
         run: pnpm run playwright:fix-screenshots
       - name: Run Tests
