@@ -18,7 +18,7 @@
       <input
         ngnInput
         autocomplete="list"
-        [aria-expanded]="popover.isOpen()"
+        [aria-expanded]="popover.open()"
         aria-haspopup="listbox"
         [attr.aria-controls]="inputId() + '_listbox'"
         [value]="valueStr() || ''"
@@ -29,7 +29,7 @@
     <div
       role="combobox"
       [ngClass]="theme.class('combobox')"
-      [aria-expanded]="popover.isOpen()"
+      [aria-expanded]="popover.open()"
       aria-haspopup="listbox"
       [attr.aria-controls]="inputId() + '_listbox'"
     >

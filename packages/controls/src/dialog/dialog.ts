@@ -15,7 +15,13 @@ import {
   viewChild,
 } from '@angular/core';
 import { NgnActionButtonConfig } from '@ngneers/controls/api';
-import { CloseBy, toModalCloseBy, toPopoverCloseBy, NgnTemplate } from '@ngneers/controls/api/ng';
+import {
+  CloseBy,
+  toModalCloseBy,
+  toPopoverCloseBy,
+  NgnTemplate,
+  Openable,
+} from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
 import { NgnActionButton, NgnButton } from '@ngneers/controls/button';
 import { NgnDefer } from '@ngneers/controls/defer';
@@ -55,10 +61,10 @@ type TypedContent = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideSelf(NgnDialog)],
 })
-export class NgnDialog<
-  T,
-  Buttons extends NgnActionButtonConfig<unknown>[],
-> extends DialogTemplates<T> {
+export class NgnDialog<T, Buttons extends NgnActionButtonConfig<unknown>[]>
+  extends DialogTemplates<T>
+  implements Openable
+{
   protected readonly theme = this.injectThemeTemplate(dialogControlTemplate);
   protected readonly headerId = generateElementId();
 
@@ -116,11 +122,14 @@ export class NgnDialog<
    * Whether the dialog is resizable.
    */
   public readonly resizable = input<boolean | null | undefined | ''>(false);
-
   /**
    * The result of the dialog, which is the `value` of the button that was clicked to close the dialog or null.
    */
   public readonly buttonClicked = output<Buttons[number]['value'] | null>();
+  /**
+   * Emits when the dialog has fully closed.
+   */
+  public readonly closed = output();
 
   public readonly promptResult = output<{
     value: (T extends PromptDialogBase<infer D, Buttons[number]['value']> ? D : never) | null;
@@ -163,6 +172,7 @@ export class NgnDialog<
    * How a popover dialog can be closed by the user.
    */
   protected readonly popoverClosedBy = computed(() => toPopoverCloseBy(this.closeBy()));
+  protected readonly isFullyClosed = signal(true);
 
   protected readonly typedContent = computed<TypedContent>(() => {
     const content = this.contentTemplate();
@@ -202,6 +212,7 @@ export class NgnDialog<
       // Modal dialogs handle this on their own
       if (this.modal()) {
         this.cancelPrompt();
+        this.setStateToClosed();
         return;
       }
       if (event.key !== 'Escape' || (event.target as HTMLElement).tagName !== 'DIALOG') {
@@ -209,8 +220,7 @@ export class NgnDialog<
         return;
       }
       if (this.closeBy() === 'escape') {
-        this.open.set(false);
-        this.cancelPrompt();
+        this.setStateToClosed();
       }
       return;
     }
@@ -225,8 +235,25 @@ export class NgnDialog<
      * but inside `open` is set to false.
      */
     requestAnimationFrame(() => {
-      this.open.set(false);
-      this.cancelPrompt();
+      this.setStateToClosed();
+    });
+  }
+
+  private setStateToClosed() {
+    this.open.set(false);
+    this.cancelPrompt();
+    requestAnimationFrame(() => {
+      const allAnimationsDone = Promise.all(
+        this.element.nativeElement.getAnimations().map(x => x.finished)
+      );
+      allAnimationsDone
+        .then(() => {
+          this.isFullyClosed.set(true);
+          this.closed.emit();
+        })
+        .catch(() => {
+          // ignore cancelled animation
+        });
     });
   }
 
@@ -250,6 +277,12 @@ export class NgnDialog<
    */
   public show(): void {
     this.open.set(true);
+  }
+  public close(): void {
+    this.open.set(false);
+  }
+  public toggle(): void {
+    this.open.update(open => !open);
   }
 
   protected singleButtonTypeFix(button: unknown): Buttons[number] {

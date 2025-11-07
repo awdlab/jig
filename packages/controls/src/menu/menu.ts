@@ -50,7 +50,7 @@ export class NgnMenu extends MenuTemplates {
 
   public readonly closed = output<void>();
   public readonly closeAll = output<void>();
-  public readonly isOpen = afterRenderComputed(() => this._popover().isOpen(), false);
+  public readonly isOpen = afterRenderComputed(() => this._popover().open(), false);
 
   private readonly _isTouchDevice = inject(Platform).isTouchDevice;
   private readonly _popover = viewChild.required(NgnPopover);

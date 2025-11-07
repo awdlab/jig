@@ -3,7 +3,7 @@ import { MenuItem, NgnMenu } from '@ngneers/controls/menu';
 
 @Component({
   imports: [NgnMenu],
-  template: ` <button #anchor (click)="menu.open()">Open Menu</button>
+  template: ` <button #anchor (click)="menu.show()">Open Menu</button>
     <ngn-menu #menu [popover]="true" [anchor]="anchor" [items]="items()" />`,
 })
 export class Demo_Menu_Base {

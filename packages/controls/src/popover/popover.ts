@@ -7,9 +7,11 @@ import {
   inject,
   Injector,
   input,
+  model,
   output,
   signal,
   TemplateRef,
+  untracked,
   viewChild,
 } from '@angular/core';
 import {
@@ -17,6 +19,7 @@ import {
   toPopoverCloseBy,
   autoPositionElement,
   AutoPositioningHandle,
+  Openable,
 } from '@ngneers/controls/api/ng';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
@@ -34,8 +37,23 @@ import { PopoverOptions } from './types';
   imports: [NgClass, NgnDefer],
   providers: [provideSelf(NgnPopover)],
 })
-export class NgnPopover extends NgnBase<'popover'> {
+export class NgnPopover extends NgnBase<'popover'> implements Openable {
   protected readonly theme = this.injectThemeTemplate(popoverControlTemplate);
+
+  /**
+   * Emits when the popover has fully closed.
+   */
+  public readonly closed = output();
+  /**
+   * Emits when the popover is closed.
+   */
+  public readonly closing = output();
+  /**
+   * Shows or hides the popover.
+   *
+   * You probably want to react to openChange events from outside to update your variable accordingly.
+   */
+  public readonly open = model<boolean>(false);
   public readonly anchor = input.required<HTMLElement>();
   public readonly options = input<PopoverOptions>();
   /**
@@ -51,25 +69,19 @@ export class NgnPopover extends NgnBase<'popover'> {
   protected readonly lazyContent = contentChild<TemplateRef<unknown>>('lazy');
   protected readonly _content = viewChild.required<ElementRef<HTMLElement>>('content');
   protected readonly closeByPopover = computed(() => toPopoverCloseBy(this.closeBy()));
+  protected readonly isFullyClosed = signal(true);
 
-  private _skipNextCloseEvent = false;
+  private _skipEmitCloseEvent = false;
+  private _triggeredByInput = false;
 
   protected readonly appliedOptions = computed(() => ({
     cache: false,
     ...this.options(),
   }));
 
-  public readonly opened = output();
-  public readonly closing = output();
-  public readonly closed = output();
-
-  private readonly _isOpen = signal(false);
-  public readonly isOpen = this._isOpen.asReadonly();
-  protected readonly isFullyClosed = signal(true);
-
   private readonly _injector = inject(Injector);
-  private readonly _popoverRef = viewChild<ElementRef<HTMLElement>>('popover');
-  private readonly _popover = computed(() => this._popoverRef()?.nativeElement);
+  private readonly _popoverRef = viewChild.required<ElementRef<HTMLElement>>('popover');
+  private readonly _popover = computed(() => this._popoverRef().nativeElement);
   private readonly _autoPos = computedWithPrevious<AutoPositioningHandle | undefined>(prev => {
     prev?.stop();
     const popoverEl = this._popover();
@@ -86,40 +98,53 @@ export class NgnPopover extends NgnBase<'popover'> {
     });
   });
 
+  /**
+   * Opens the drawer. Alternatively, you can also set the `open` input to `true`.
+   */
   public show() {
-    if (this.isOpen()) {
-      return;
-    }
-    this._autoPos()?.start();
-    this._popover()?.togglePopover(true);
+    untracked(() => {
+      if (this.open() && !this._triggeredByInput) {
+        return;
+      }
+      this._triggeredByInput = false;
+      this._autoPos()?.start();
+      this._popover().togglePopover(true);
+    });
   }
 
+  /**
+   * Closes the drawer. Alternatively, you can also set the `open` input to `false`.
+   */
+  public close(emitCloseEvent = true) {
+    untracked(() => {
+      if (!this.open() && !this._triggeredByInput) {
+        return;
+      }
+      this._triggeredByInput = false;
+      this._skipEmitCloseEvent = !emitCloseEvent;
+      this._autoPos()?.stop();
+      this._popover().togglePopover(false);
+    });
+  }
+
+  /**
+   * Toggles the drawer open or closed. Alternatively, you can also set the `open` input accordingly.
+   */
   public toggle() {
-    if (this.isOpen()) {
+    if (untracked(this.open)) {
       this.close();
     } else {
       this.show();
     }
   }
 
-  public close(emitCloseEvent = true) {
-    if (!this.isOpen()) {
-      return;
-    }
-    this._autoPos()?.stop();
-    if (!emitCloseEvent) {
-      this._skipNextCloseEvent = true;
-    }
-    this._popover()?.togglePopover();
-  }
-
   protected onToggle(event: Event) {
     const evt = event as ToggleEvent;
     if (evt.newState === 'closed') {
-      this._isOpen.set(false);
+      this.open.set(false);
 
-      if (this._skipNextCloseEvent) {
-        this._skipNextCloseEvent = false;
+      if (this._skipEmitCloseEvent) {
+        this._skipEmitCloseEvent = false;
       } else {
         this.closing.emit();
       }
@@ -141,8 +166,7 @@ export class NgnPopover extends NgnBase<'popover'> {
           });
       });
     } else {
-      this._isOpen.set(true);
-      this.opened.emit();
+      this.open.set(true);
       this.isFullyClosed.set(false);
     }
   }

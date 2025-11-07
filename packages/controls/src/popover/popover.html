@@ -14,14 +14,14 @@
     [ngClass]="
       theme.classes({
         content: true,
-        'content-closing': !this.isOpen() && !this.isFullyClosed(),
+        'content-closing': !this.open() && !this.isFullyClosed(),
       })
     "
     [style.min-height]="hasShrinkableContent() ? null : 'fit-content'"
   >
     <ngn-defer
       [lazyContent]="lazyContent()"
-      [open]="isOpen() || !isFullyClosed()"
+      [open]="open() || !isFullyClosed()"
       [cache]="appliedOptions().cache"
     >
       <ng-content></ng-content>

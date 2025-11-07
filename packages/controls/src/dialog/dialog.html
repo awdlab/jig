@@ -38,7 +38,7 @@
     <ngn-defer
       [lazyContent]="template"
       [lazy]="lazy()"
-      [open]="open()"
+      [open]="open() || !isFullyClosed()"
       [cache]="cache()"
       [ngClass]="theme.class('content')"
     />

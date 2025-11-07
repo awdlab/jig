@@ -223,7 +223,7 @@ export class NgnSelect<
       customEditableInput.element.nativeElement.setAttribute('aria-autocomplete', 'list');
       customEditableInput.element.nativeElement.setAttribute(
         'aria-expanded',
-        `${this._popover().isOpen()}`
+        `${this._popover().open()}`
       );
       customEditableInput.element.nativeElement.setAttribute('aria-haspopup', 'listbox');
       customEditableInput.element.nativeElement.setAttribute(

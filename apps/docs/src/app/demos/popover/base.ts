@@ -5,7 +5,7 @@ import { NgnPopover } from '@ngneers/controls/popover';
   imports: [NgnPopover],
   selector: 'ngn-popover-base',
   template: `
-    <button #anchor (click)="popover.open()">Open</button>
+    <button #anchor (click)="popover.show()">Open</button>
     <ngn-popover #popover [anchor]="anchor"> Content </ngn-popover>
   `,
 })

@@ -11,7 +11,7 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { PopoverCloseBy, toPopoverCloseBy } from '@ngneers/controls/api/ng';
+import { Openable, PopoverCloseBy, toPopoverCloseBy } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { drawerControlTemplate } from '@ngneers/controls-themes/templates/drawer';
@@ -27,11 +27,11 @@ import { DrawerTemplates } from './drawer-templates';
   imports: [NgClass, NgTemplateOutlet, NgnDefer],
   providers: [provideSelf(NgnDrawer)],
 })
-export class NgnDrawer extends DrawerTemplates {
+export class NgnDrawer extends DrawerTemplates implements Openable {
   protected readonly theme = this.injectThemeTemplate(drawerControlTemplate);
 
   /**
-   * Emits when the drawer has fully closed
+   * Emits when the drawer has fully closed.
    */
   public readonly closed = output();
   /**
