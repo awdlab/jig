@@ -1,4 +1,4 @@
-import { Directive, input, model, Type } from '@angular/core';
+import { booleanAttribute, computed, Directive, input, model, signal, Type } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { generateElementId } from '@ngneers/controls/utils-ng';
 
@@ -37,6 +37,19 @@ export abstract class ValueControlBase<C extends string, T>
    * The value of the control.
    */
   public readonly value = model<T>(undefined as T);
+  /**
+   * Set the disabled state of the control.
+   */
+  public readonly disabled = input(false, {
+    transform: booleanAttribute,
+  });
+  private readonly _isDisabled = signal<boolean>(false);
+  /**
+   * Read the disabled state of the control.
+   */
+  public readonly isDisabled = computed(() => this._isDisabled() || this.disabled());
+
+  public readonly isInvalid = computed(() => this.invalid());
 
   public writeValue(value: T): void {
     this.value.set(value);
@@ -51,11 +64,21 @@ export abstract class ValueControlBase<C extends string, T>
   }
 
   protected onTouched() {
+    if (this.isDisabled()) {
+      return;
+    }
     this._onTouched();
   }
 
   protected onChange(value: T) {
+    if (this.isDisabled()) {
+      return;
+    }
     this._onChange(value);
     this.value.set(value);
+  }
+
+  public setDisabledState(isDisabled: boolean): void {
+    this._isDisabled.set(isDisabled);
   }
 }

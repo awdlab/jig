@@ -36,6 +36,14 @@ export const colorsTemplate = createVariableTemplate({
     ),
     background: null,
     text: null,
+    disabled: {
+      text: null,
+      background: null,
+    },
+    invalid: {
+      text: null,
+      background: null,
+    },
   },
 });
 
@@ -54,6 +62,14 @@ export const coral = createThemePart({
       surface: greyColor,
       background: '#ffffff',
       text: '#12070c',
+      disabled: {
+        text: greyColor[700],
+        background: greyColor[200],
+      },
+      invalid: {
+        text: crimsonFlameColor[500],
+        background: crimsonFlameColor[50],
+      },
     },
   },
 });

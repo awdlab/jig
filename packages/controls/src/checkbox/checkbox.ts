@@ -18,7 +18,7 @@ type ValueType<Indeterminate extends boolean> = Indeterminate extends false
   imports: [NgClass, NgnIcon],
   providers: [valueControlBaseProvider(NgnCheckbox), provideSelf(NgnCheckbox)],
   host: {
-    '[class]': 'theme.class()',
+    '[class]': 'theme.classes({ "": true, disabled: isDisabled(), invalid: isInvalid() })',
   },
 })
 export class NgnCheckbox<Indeterminate extends boolean> extends ValueControlBase<

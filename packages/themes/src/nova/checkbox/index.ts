@@ -16,29 +16,39 @@ export const checkboxStyles = createThemePart({
       ${c('input')} {
         cursor: pointer;
       }
+      ${c('disabled')} ${c('input')} {
+        cursor: default;
+      }
       ${c('box')} {
         width: 1.5rem;
         height: 1.5rem;
         border: 2px solid ${v('color.surface.400')};
         border-radius: ${v('size.rounded.sm')};
       }
-      ${c('box-icon-enter')} {
+      ${c('disabled')} ${c('box')} {
+        background-color: ${v('color.disabled.background')};
+      }
+      ${c('invalid')} ${c('box')} {
+        background-color: ${v('color.invalid.background')};
+        border-color: ${v('color.invalid.text')};
+      }
+      ${c('anim-box-icon-enter')} {
         /* prettier-ignore */
-        animation: ${c('box-icon-enter', 'animation')} ${v('anim.time.snappyFade')} ${v(
+        animation: ${c('anim-box-icon-enter', 'animation')} ${v('anim.time.snappyFade')} ${v(
           'anim.ease.snappyFade'
         )};
         pointer-events: none;
       }
-      ${c('box-icon-leave')} {
+      ${c('anim-box-icon-leave')} {
         /* prettier-ignore */
-        animation: ${c('box-icon-enter', 'animation')} ${v('anim.time.snappyFade')} ${v(
+        animation: ${c('anim-box-icon-enter', 'animation')} ${v('anim.time.snappyFade')} ${v(
           'anim.ease.snappyFade'
         )} reverse;
         pointer-events: none;
         position: absolute;
       }
 
-      @keyframes ${c('box-icon-enter', 'animation')} {
+      @keyframes ${c('anim-box-icon-enter', 'animation')} {
         from {
           opacity: 0;
           transform: scale(0.8);

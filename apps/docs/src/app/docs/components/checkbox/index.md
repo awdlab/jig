@@ -8,3 +8,7 @@ for checked, unchecked, and indeterminate states.
 ## Indeterminate State
 
 {{ demo: Demo_Checkbox_Indeterminate }}
+
+## Control States
+
+{{ demo: Demo_Checkbox_States }}

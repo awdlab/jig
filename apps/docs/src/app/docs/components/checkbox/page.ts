@@ -1,5 +1,6 @@
 import { Demo_Checkbox_Base } from '../../../demos/checkbox/base';
 import { Demo_Checkbox_Indeterminate } from '../../../demos/checkbox/indeterminate';
+import { Demo_Checkbox_States } from '../../../demos/checkbox/states';
 import { NgnDocsPage } from '../../../utils/page/types';
 
 export const CheckboxPage: NgnDocsPage = {
@@ -10,7 +11,7 @@ export const CheckboxPage: NgnDocsPage = {
       default: true,
       title: 'Features',
       mdFile: 'components/checkbox/index.md',
-      components: [Demo_Checkbox_Base, Demo_Checkbox_Indeterminate],
+      components: [Demo_Checkbox_Base, Demo_Checkbox_Indeterminate, Demo_Checkbox_States],
     },
     {
       title: 'API',
