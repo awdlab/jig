@@ -18,6 +18,7 @@
     "playwright:fix-screenshots": "tsx ./tools/fix-playwright-screenshots.ts",
     "run-migrations": "tsx ./tools/migrate.ts",
     "test": "pnpm playwright test",
+    "test:build": "pnpm tsc --noEmit --project tests/tsconfig.test.json",
     "test:ui": "pnpm playwright test --ui"
   },
   "license": "MIT",

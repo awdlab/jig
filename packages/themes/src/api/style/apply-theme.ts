@@ -4,7 +4,6 @@ import { upsertThemeStyleElement } from './upsert-theme-style-element';
 import { Theme } from '../theme/theme';
 import { ThemePart } from '../theme/theme-part';
 import { groupArrayUsing } from '../utils/group-array-using';
-import { globalStyles } from '@ngneers/controls-themes/base/global';
 
 export type ApplyThemeOptions = {
   /**
@@ -32,18 +31,23 @@ export type ApplyThemeOptions = {
    * @default `'ngn-'`
    */
   namePrefix: string;
+  /**
+   * Global styles to be applied regardless of scope.
+   */
+  globalStyles: ThemePart;
 };
 
 export function applyTheme<T extends Theme>(
   theme: T,
   scopes: T['parts'][number]['scope'][],
-  options?: Partial<ApplyThemeOptions>
+  options: ApplyThemeOptions
 ) {
   const opt = {
-    document: options?.document ?? window.document,
-    layer: options?.layer,
-    scope: options?.styleScope,
-    namePrefix: options?.namePrefix ?? 'ngn-',
+    document: options.document ?? window.document,
+    layer: options.layer,
+    scope: options.styleScope,
+    namePrefix: options.namePrefix ?? 'ngn-',
+    globalStyles: options.globalStyles,
   };
   const parts = groupArrayUsing(getThemePartsByScopes(theme, scopes), x => x.scope);
 
@@ -63,7 +67,10 @@ export function applyTheme<T extends Theme>(
 
   // style element
   const scopedParts = scopes.map(scope => parts.get(scope) ?? scope);
-  const allParts = [...scopedParts, [globalStyles]];
+  const allParts = [...scopedParts];
+  if (opt.globalStyles) {
+    allParts.push([opt.globalStyles]);
+  }
   for (const part of allParts) {
     if (typeof part === 'string') {
       console.warn(`No theme parts found for scope '${part}'. Skipping style generation.`);
