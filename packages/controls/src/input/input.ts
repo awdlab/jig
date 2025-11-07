@@ -19,7 +19,7 @@ import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/in
   selector: 'input[ngnInput], textarea[ngnInput]',
   host: {
     '[class]':
-      'theme.class() + (invalid() ? ` ${theme.class("invalid")}` : "") + (hasParentInputfield() ? "" : ` ${inputFieldTheme.class()}`)',
+      'theme.classes({"": true, invalid: invalid()}) + (hasParentInputfield() ? "" : ` ${inputFieldTheme.class()}`)',
   },
   providers: [provideSelf(NgnInput)],
 })
