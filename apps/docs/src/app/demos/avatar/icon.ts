@@ -6,7 +6,7 @@ import { NgnIcon } from '@ngneers/controls/icon';
   imports: [NgnAvatar, NgnIcon],
   template: `
     <ngn-avatar>
-      <ngn-icon icon="fa fa-user" />
+      <ngn-icon icon="img/icons/user.svg" />
     </ngn-avatar>
   `,
 })
