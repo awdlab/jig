@@ -250,7 +250,7 @@ export class NgnSelect<
       }
       this._userChangedEditableInput = false;
       if (hasOptions) {
-        this.open();
+        this.show();
       } else {
         this.close();
       }
@@ -295,8 +295,8 @@ export class NgnSelect<
     }
   }
 
-  public open() {
-    this._popover().open();
+  public show() {
+    this._popover().show();
   }
 
   public close() {

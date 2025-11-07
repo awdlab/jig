@@ -1,0 +1,30 @@
+<div
+  [ngClass]="theme.class()"
+  #popover
+  [attr.popover]="closeByPopover()"
+  (toggle)="onToggle($event)"
+>
+  <header [ngClass]="theme.class('header')">
+    <ng-container *ngTemplateOutlet="headerTemplate()" />
+  </header>
+  <ngn-defer
+    [lazyContent]="contentTemplate()"
+    [open]="open() || !isFullyClosed()"
+    [lazy]="lazy()"
+    [cache]="cache()"
+  >
+    <ng-content />
+  </ngn-defer>
+  @if (footerTemplate(); as footerTemplate) {
+    <footer [ngClass]="theme.class('footer')">
+      <ng-container *ngTemplateOutlet="footerTemplate" />
+    </footer>
+  }
+</div>
+
+<ng-template #defaultHeaderTemplate>
+  <div [ngClass]="theme.class('default-header')">
+    <h3>Drawer Header</h3>
+    <button (click)="close()">Close</button>
+  </div>
+</ng-template>

@@ -1,7 +1,7 @@
 <div
   [ngClass]="theme.class()"
   #popover
-  popover
+  [attr.popover]="closeByPopover()"
   (toggle)="onToggle($event)"
   [style.min-height]="
     hasShrinkableContent()

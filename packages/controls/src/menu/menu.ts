@@ -58,8 +58,8 @@ export class NgnMenu extends MenuTemplates {
   private readonly _childMenus = viewChildren(NgnMenu);
   protected readonly autofocus = signal(false);
 
-  public open(focus = true) {
-    this._popover().open();
+  public show(focus = true) {
+    this._popover().show();
     this.autofocus.set(focus);
   }
 
@@ -139,7 +139,7 @@ export class NgnMenu extends MenuTemplates {
     }
     this.closeChildMenus(openBy, menuItem);
     setTimeout(() => {
-      childMenu.open(openBy === 'arrow');
+      childMenu.show(openBy === 'arrow');
     });
   }
 

@@ -11,6 +11,7 @@ import { calendarStyles } from '@ngneers/controls-themes/nova/calendar';
 import { checkboxStyles } from '@ngneers/controls-themes/nova/checkbox';
 import { chipStyles } from '@ngneers/controls-themes/nova/chip';
 import { dialogStyles } from '@ngneers/controls-themes/nova/dialog';
+import { drawerStyles } from '@ngneers/controls-themes/nova/drawer';
 import { iconStyles } from '@ngneers/controls-themes/nova/icon';
 import { inputStyles } from '@ngneers/controls-themes/nova/input';
 import { inputFieldStyles } from '@ngneers/controls-themes/nova/input-field';
@@ -51,6 +52,7 @@ export const novaCoral = createTheme(
     chipStyles,
     coral,
     dialogStyles,
+    drawerStyles,
     font,
     iconStyles,
     shadow,

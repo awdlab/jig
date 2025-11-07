@@ -1,4 +1,5 @@
 export * from './config';
+export * from './closable';
 export * from './components';
 export * from './dom';
 export * from './kinds';

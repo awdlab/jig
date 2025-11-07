@@ -12,7 +12,12 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import { autoPositionElement, AutoPositioningHandle } from '@ngneers/controls/api/ng';
+import {
+  PopoverCloseBy,
+  toPopoverCloseBy,
+  autoPositionElement,
+  AutoPositioningHandle,
+} from '@ngneers/controls/api/ng';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { computedWithPrevious } from '@ngneers/controls/utils-ng';
@@ -37,9 +42,15 @@ export class NgnPopover extends NgnBase<'popover'> {
    * Set to true for scrollable/shrink-able content
    */
   public readonly hasShrinkableContent = input<boolean>(false);
+  /**
+   * How the drawer closes depending on user interaction.
+   * @default 'any'
+   */
+  public readonly closeBy = input<PopoverCloseBy>('any');
 
   protected readonly lazyContent = contentChild<TemplateRef<unknown>>('lazy');
   protected readonly _content = viewChild.required<ElementRef<HTMLElement>>('content');
+  protected readonly closeByPopover = computed(() => toPopoverCloseBy(this.closeBy()));
 
   private _skipNextCloseEvent = false;
 
@@ -75,19 +86,19 @@ export class NgnPopover extends NgnBase<'popover'> {
     });
   });
 
-  public open() {
+  public show() {
     if (this.isOpen()) {
       return;
     }
     this._autoPos()?.start();
-    this._popover()?.togglePopover();
+    this._popover()?.togglePopover(true);
   }
 
   public toggle() {
     if (this.isOpen()) {
       this.close();
     } else {
-      this.open();
+      this.show();
     }
   }
 

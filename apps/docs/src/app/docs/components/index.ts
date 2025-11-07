@@ -7,6 +7,7 @@ import { CalendarPage } from './calendar/page';
 import { CheckboxPage } from './checkbox/page';
 import { ChipPage } from './chip/page';
 import { DialogPage } from './dialog/page';
+import { DrawerPage } from './drawer/page';
 import { IconPage } from './icon/page';
 import { InputPage } from './input/page';
 import { InputMaskPage } from './input-mask/page';
@@ -30,6 +31,7 @@ export const ALL_COMPONENT_PAGES = [
   CheckboxPage,
   ChipPage,
   DialogPage,
+  DrawerPage,
   IconPage,
   InputPage,
   InputMaskPage,

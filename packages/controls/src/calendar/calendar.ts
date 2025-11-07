@@ -167,14 +167,14 @@ export class NgnCalendar extends CalendarTemplates {
     }
   }
 
-  public open() {
+  public show() {
     if (this.inline()) {
       throw new NgnError('calendar', 'cannot open inline calendar');
     }
     if (this._platform.isTouchDevice()) {
       return;
     }
-    this._popover().open();
+    this._popover().show();
   }
 
   public close() {

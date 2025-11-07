@@ -15,7 +15,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { NgnActionButtonConfig } from '@ngneers/controls/api';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
+import { CloseBy, toModalCloseBy, toPopoverCloseBy, NgnTemplate } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
 import { NgnActionButton, NgnButton } from '@ngneers/controls/button';
 import { NgnDefer } from '@ngneers/controls/defer';
@@ -26,7 +26,7 @@ import { dialogControlTemplate } from '@ngneers/controls-themes/templates/dialog
 
 import { DialogTemplates } from './dialog-templates';
 import { PromptDialogBase } from './prompt-dialog-base';
-import { DialogCloseBy, DialogSize } from './types';
+import { DialogSize } from './types';
 
 type TypedContent = {
   template?: TemplateRef<unknown>;
@@ -99,7 +99,7 @@ export class NgnDialog<
    * - `'none'` - The dialog cannot be closed by user interaction. It can only be closed programmatically.
    * @default 'any'
    */
-  public readonly closeBy = input<DialogCloseBy>('any');
+  public readonly closeBy = input<CloseBy>('any');
   /**
    * The size of the dialog. You can set any CSS size value (e.g. `300px`, `50%`, `auto`, `min-content`, etc.) for each property.
    */
@@ -158,29 +158,11 @@ export class NgnDialog<
   /**
    * How a modal dialog can be closed by the user.
    */
-  protected readonly modalClosedBy = computed(() => {
-    switch (this.closeBy()) {
-      case 'any':
-        return 'any';
-      case 'escape':
-        return 'closerequest';
-      case 'none':
-        return 'none';
-    }
-  });
+  protected readonly modalClosedBy = computed(() => toModalCloseBy(this.closeBy()));
   /**
    * How a popover dialog can be closed by the user.
    */
-  protected readonly popoverClosedBy = computed(() => {
-    switch (this.closeBy()) {
-      case 'any':
-        return 'auto';
-      case 'escape':
-        return 'manual';
-      case 'none':
-        return 'manual';
-    }
-  });
+  protected readonly popoverClosedBy = computed(() => toPopoverCloseBy(this.closeBy()));
 
   protected readonly typedContent = computed<TypedContent>(() => {
     const content = this.contentTemplate();
@@ -266,7 +248,7 @@ export class NgnDialog<
   /**
    * Opens the dialog. Alternatively, you can also set the `open` input to `true`.
    */
-  public openDialog(): void {
+  public show(): void {
     this.open.set(true);
   }
 
