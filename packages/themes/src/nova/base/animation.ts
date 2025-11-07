@@ -1,27 +1,31 @@
 import { createThemePart, createVariableTemplate } from '@ngneers/controls-themes/api';
 
 export const animationTemplate = createVariableTemplate({
-  scope: 'animation',
+  scope: 'anim',
   variables: {
-    duration: {
+    time: {
       fade: null,
+      snappyFade: null,
     },
-    easing: {
+    ease: {
       fade: null,
+      snappyFade: null,
     },
   },
 });
 
 export const animation = createThemePart({
-  scope: 'animation',
+  scope: 'anim',
   variables: [animationTemplate],
   root: {
     values: {
-      duration: {
+      time: {
         fade: '0.2s',
+        snappyFade: '0.1s',
       },
-      easing: {
+      ease: {
         fade: 'ease',
+        snappyFade: 'ease-out',
       },
     },
   },

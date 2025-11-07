@@ -216,8 +216,11 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions, isBase = 
 
     const args = {
       v: (key: string) => varKeySelector(key),
-      c: (className?: string) =>
-        `.${getClassName(options.namePrefix, part.scope, className)}${unstyledSelector}`,
+      c: (className?: string, kind: 'class' | 'animation' = 'class') => {
+        const prefix = kind === 'animation' ? '' : '.';
+        const unstyledSuffix = kind === 'animation' ? '' : unstyledSelector;
+        return `${prefix}${getClassName(options.namePrefix, part.scope, className)}${unstyledSuffix}`;
+      },
       d: (scope: string, className?: string) => {
         return `.${getClassName(options.namePrefix, scope, className)}${unstyledSelector}`;
       },

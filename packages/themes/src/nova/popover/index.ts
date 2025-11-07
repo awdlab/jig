@@ -23,8 +23,8 @@ export const popoverStyles = createThemePart({
         overflow: visible; /** so that box-shadow is not clipped */
         /* The 100 ms buffer is so that the animation of the content finishes before the popover closes (Animation doesn't get cancelled) */
         transition:
-          display calc(${v('animation.duration.fade')} + ${TRANSITION_BUFFER}) allow-discrete,
-          overlay calc(${v('animation.duration.fade')} + ${TRANSITION_BUFFER}) allow-discrete;
+          display calc(${v('anim.time.fade')} + ${TRANSITION_BUFFER}) allow-discrete,
+          overlay calc(${v('anim.time.fade')} + ${TRANSITION_BUFFER}) allow-discrete;
         /* Currently not supported by webkit & firefox: https://bugzilla.mozilla.org/show_bug.cgi?id=1971162 */
       }
       ${c('content')} {
@@ -38,12 +38,10 @@ export const popoverStyles = createThemePart({
         opacity: 0;
         box-shadow: ${v('shadow.md')};
         /* We add some delay that is larger than the TRANSITION_BUFFER to not hide the content shortly during opening */
-        transition: display ${v('animation.duration.fade')} allow-discrete;
-        animation: ngnPopover_fadeIn ${v('animation.duration.fade')} ${v('animation.easing.fade')}
-          forwards;
+        transition: display ${v('anim.time.fade')} allow-discrete;
+        animation: ngnPopover_fadeIn ${v('anim.time.fade')} ${v('anim.ease.fade')} forwards;
         &${c('content-closing')} {
-          animation: ngnPopover_fadeOut ${v('animation.duration.fade')}
-            ${v('animation.easing.fade')} forwards;
+          animation: ngnPopover_fadeOut ${v('anim.time.fade')} ${v('anim.ease.fade')} forwards;
         }
       }
       @keyframes ngnPopover_fadeIn {

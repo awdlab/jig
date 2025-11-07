@@ -22,7 +22,7 @@ type ThemePartContent<V, K, C, Deps> = {
   readonly values?: V;
   readonly css?: (args: {
     v: (key: K) => string;
-    c: (className?: C | '') => string;
+    c: (className?: C | '', kind?: 'class' | 'animation') => string;
     d: <const Scope extends ChildrenScopes<Deps>>(
       scope: Scope,
       className?: ClassnameForChildScope<Deps, Scope> | ''

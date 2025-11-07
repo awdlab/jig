@@ -19,10 +19,23 @@
       [ngClass]="theme.class('box-icon')"
       [icon]="iconIndeterminate()"
       [defaultIcon]="'minus'"
+      [animate.enter]="theme.class('box-icon-enter')"
+      [animate.leave]="theme.class('box-icon-leave')"
     />
   } @else if (value()) {
-    <ngn-icon [ngClass]="theme.class('box-icon')" [icon]="iconChecked()" [defaultIcon]="'check'" />
+    <ngn-icon
+      [ngClass]="theme.class('box-icon')"
+      [icon]="iconChecked()"
+      [defaultIcon]="'check'"
+      [animate.enter]="theme.class('box-icon-enter')"
+      [animate.leave]="theme.class('box-icon-leave')"
+    />
   } @else if (iconUnchecked()) {
-    <ngn-icon [ngClass]="theme.class('box-icon')" [icon]="iconUnchecked()" />
+    <ngn-icon
+      [ngClass]="theme.class('box-icon')"
+      [icon]="iconUnchecked()"
+      [animate.enter]="theme.class('box-icon-enter')"
+      [animate.leave]="theme.class('box-icon-leave')"
+    />
   }
 </div>
