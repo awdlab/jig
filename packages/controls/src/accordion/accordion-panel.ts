@@ -10,7 +10,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { injectThemeTemplate, NgnTemplate } from '@ngneers/controls/api/ng';
+import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -34,7 +34,7 @@ import { ACCORDION_CONTROL } from './types';
   },
 })
 export class NgnAccordionPanel extends AccordionTemplates {
-  protected readonly theme = injectThemeTemplate(accordionControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(accordionControlTemplate);
 
   private readonly _accordionControl = inject(ACCORDION_CONTROL);
 

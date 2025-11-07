@@ -42,10 +42,9 @@ export const tabsStyles = createThemePart({
       }
       ${c('scroll-left')}, ${c('scroll-right')} {
         background: ${v('color.background')};
-        width: 16px;
         padding: 0;
         color: ${v('color.surface.400')};
-        --icon-size: 10px;
+        --icon-size: 0.625rem;
         cursor: pointer;
         --blurColor: ${v('color.background')};
         &:hover {
@@ -66,20 +65,12 @@ export const tabsStyles = createThemePart({
         }
       }
       ${c('scroll-left')} {
-        left: 0;
-        margin-right: -16px;
         &::after {
-          left: 100%;
-          right: -10px;
           background: linear-gradient(90deg, var(--blurColor), transparent);
         }
       }
       ${c('scroll-right')} {
-        right: 0;
-        margin-left: -16px;
         &::after {
-          right: 100%;
-          left: -10px;
           background: linear-gradient(270deg, var(--blurColor), transparent);
         }
       }

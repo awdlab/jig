@@ -3,7 +3,7 @@
     <ng-container *ngComponentOutlet="component()" />
 
     <button ngnButton [kind]="'icon'" (click)="toggleCodeVisibility()">
-      <ngn-icon [icon]="'fa-solid fa-code'" />
+      <ngn-icon [icon]="'img/icons/code.svg'" />
     </button>
   </div>
 
@@ -12,7 +12,7 @@
       <div class="bg-[#1f1f1f] text-white max-h-100 p-4 overflow-auto relative">
         <pre><code class="pi-0 prism" [innerHtml]="formattedCode()"></code></pre>
         <button ngnButton [kind]="'icon'" class="absolute top-1 right-4" (click)="copyCode()">
-          <ngn-icon [icon]="'fa-solid fa-copy'" />
+          <ngn-icon [icon]="'img/icons/copy.svg'" />
         </button>
       </div>
     }

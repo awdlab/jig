@@ -13,7 +13,9 @@ import { exampleData } from '../../helper/data';
       <ng-template #content> {{ loremIpsum2 }} </ng-template>
     </ngn-accordion-panel>
     <ngn-accordion-panel [header]="'Panel 3'">
-      <ng-template #content> {{ loremIpsum3 }} </ng-template>
+      <ng-template #content>
+        {{ loremIpsum3 }}
+      </ng-template>
     </ngn-accordion-panel>
   </ngn-accordion>`,
 })

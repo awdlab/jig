@@ -32,6 +32,7 @@ export const tabsStyles = createThemePart({
       }
       ${c('scroll-left')}, ${c('scroll-right')} {
         position: sticky;
+        width: 1rem;
         border: none;
         flex-shrink: 0;
         z-index: 1;
@@ -45,20 +46,18 @@ export const tabsStyles = createThemePart({
       }
       ${c('scroll-left')} {
         left: 0;
-        margin-right: -16px;
+        margin-right: -1rem;
         &::after {
           left: 100%;
-          right: -10px;
-          background: linear-gradient(90deg, var(--blurColor), transparent);
+          right: -0.625rem;
         }
       }
       ${c('scroll-right')} {
         right: 0;
-        margin-left: -16px;
+        margin-left: -1rem;
         &::after {
           right: 100%;
-          left: -10px;
-          background: linear-gradient(270deg, var(--blurColor), transparent);
+          left: -0.625rem;
         }
       }
     `,
