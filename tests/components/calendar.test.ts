@@ -1,7 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
-import { NgnCalendarHarness } from 'packages/playwright/src/components/calendar';
+import { NgnCalendarHarness } from '@ngneers/controls-playwright';
 
 test('IO', async ({ page }, testInfo) => {
   await page.clock.setFixedTime(new Date('2025-08-18T12:13:14'));

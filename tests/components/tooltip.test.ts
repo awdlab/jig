@@ -1,6 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { NgnTooltipHarness } from 'packages/playwright/src/components/tooltip';
+import { NgnTooltipHarness } from '@ngneers/controls-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 
 test('base', async ({ page }, testInfo) => {

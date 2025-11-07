@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { NgnInputMaskHarness } from 'packages/playwright/src/components/input-mask';
+import { NgnInputMaskHarness } from '@ngneers/controls-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 

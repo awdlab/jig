@@ -2,7 +2,7 @@ import test, { Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { InputsType } from 'apps/test-wrapper/src/app/window';
 import { type NgnActionItem } from '@ngneers/controls/api';
-import { NgnBreadcrumbHarness } from 'packages/playwright/src/components/breadcrumb';
+import { NgnBreadcrumbHarness } from '@ngneers/controls-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 
 const ITEMS: NgnActionItem[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => ({

@@ -1,5 +1,5 @@
 import test from '@playwright/test';
-import { NgnInputHarness } from 'packages/playwright/src/components/input';
+import { NgnInputHarness } from '@ngneers/controls-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 

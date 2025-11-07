@@ -2,7 +2,7 @@ import test, { Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { InputsType } from 'apps/test-wrapper/src/app/window';
 import { expectScreenshot } from '../helper/screenshot';
-import { NgnButtonGroupHarness } from 'packages/playwright/src/components/button-group';
+import { NgnButtonGroupHarness } from '@ngneers/controls-playwright';
 
 async function prepareTest(page: Page, inputs: InputsType = {}) {
   const handle = await loadComponent(page, {
