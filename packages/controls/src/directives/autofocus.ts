@@ -1,33 +1,48 @@
 import {
-  AfterViewChecked,
   AfterViewInit,
+  booleanAttribute,
   Directive,
+  effect,
   ElementRef,
   inject,
   input,
+  signal,
 } from '@angular/core';
 
 @Directive({ selector: '[ngnAutofocus]' })
-export class NgnAutofocus implements AfterViewInit, AfterViewChecked {
+export class NgnAutofocus implements AfterViewInit {
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
-  private _focused = false;
+  private readonly _focused = signal(false);
+  private readonly _isInitialized = signal(false);
 
-  public readonly ngnAutofocus = input(true, { transform: value => !!value });
+  public readonly ngnAutofocus = input(true, { transform: booleanAttribute });
 
-  public ngAfterViewInit() {
-    if (!this._focused && this.ngnAutofocus()) {
+  constructor() {
+    effect(() => {
+      if (!this.ngnAutofocus()) {
+        this._focused.set(false);
+      }
+    });
+    effect(() => {
       this.autoFocus();
-    }
+    });
   }
 
-  public ngAfterViewChecked() {
-    if (!this._focused && this.ngnAutofocus()) {
-      this.autoFocus();
-    }
+  public ngAfterViewInit() {
+    this._isInitialized.set(true);
   }
 
   private autoFocus() {
+    if (!this._isInitialized()) {
+      return;
+    }
+    if (!this.ngnAutofocus()) {
+      return;
+    }
+    if (this._focused()) {
+      return;
+    }
     this._el.nativeElement.focus();
-    this._focused = true;
+    this._focused.set(true);
   }
 }
