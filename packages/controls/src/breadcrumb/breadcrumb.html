@@ -40,7 +40,7 @@
 </ng-template>
 
 <ng-template #defaultOverflowTemplate [ngnTemplate]="templateTypes.overflow" let-overflow>
-  <button #menuAnchor [ngClass]="theme.class('overflow')" (click)="menu.open()">
+  <button #menuAnchor [ngClass]="theme.class('overflow')" (click)="menu.show()">
     <ngn-icon defaultIcon="ellipsis" [icon]="overflow.icon" />
   </button>
   <ngn-menu #menu [popover]="true" [items]="overflow.overflowingItems" [anchor]="menuAnchor" />

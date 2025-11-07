@@ -6,7 +6,7 @@ import { expectScreenshot } from '../helper/screenshot';
 test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `
-      <button #anchor (click)="popover.open()">Open</button>
+      <button #anchor (click)="popover.show()">Open</button>
       <ngn-popover #popover [anchor]="anchor"> Content </ngn-popover>
     `,
     imports: ['popover'],
@@ -25,7 +25,7 @@ test('base', async ({ page }, testInfo) => {
 test('lazy', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `
-      <button #anchor (click)="popover.open()">Open</button>
+      <button #anchor (click)="popover.show()">Open</button>
       <ngn-popover #popover [anchor]="anchor" [options]="{ cache: true }">
         <ng-template #lazy>
           <dummy>
