@@ -4,11 +4,12 @@
   "private": false,
   "scripts": {
     "ng": "ng",
-    "prebuild": "cpy package.json src/",
+    "prebuild": "cpy package.json src/ && pnpm run icons:generate",
     "build": "ng build",
     "lint": "pnpm eslint .",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
+    "icons:generate": "tsx ../../tools/generate-icons.ts",
     "api-docs:generate": "tsx ../../tools/api-docs-gen.ts"
   },
   "dependencies": {
