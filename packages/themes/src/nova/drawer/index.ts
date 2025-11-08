@@ -19,11 +19,19 @@ export const drawerStyles = createThemePart({
         box-shadow: ${v('shadow.lg')};
         padding: ${v('size.padding.xl')};
         gap: ${v('size.padding.md')};
-        &::backdrop {
-          background-color: rgba(0, 0, 0, 0.1);
-        }
-        transition: display calc(${v('anim.time.fade')} + 10ms) allow-discrete;
+        transition:
+          display calc(${v('anim.time.fade')} + 10ms) allow-discrete,
+          overlay calc(${v('anim.time.fade')} + 10ms) allow-discrete;
         animation: ngnDrawer_in ${v('anim.time.fade')} ${v('anim.ease.fade')};
+        &::backdrop {
+          transition: background-color ${v('anim.time.fade')};
+        }
+        &:popover-open::backdrop {
+          background-color: rgba(0, 0, 0, 0.1);
+          @starting-style {
+            background-color: transparent;
+          }
+        }
         &:not(:popover-open) {
           animation: ngnDrawer_out ${v('anim.time.fade')} ${v('anim.ease.fade')} forwards;
         }

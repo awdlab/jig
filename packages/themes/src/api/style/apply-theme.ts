@@ -303,7 +303,8 @@ function splitScopableCss(css: string): { unscopable: string; scopable: string }
   let kind: keyof typeof result = 'scopable';
   for (let i = 0; i < css.length; i++) {
     const char = css[i];
-    if (char === '@' && (!css[i - 1] || css[i - 1] === ' ') && kind === 'scopable') {
+    // @MaSch0212 review the `!depth` condition here, some queries are allowed inside scopable css
+    if (!depth && char === '@' && (!css[i - 1] || css[i - 1] === ' ') && kind === 'scopable') {
       result.scopable += css.slice(start, i - 1);
       start = i;
       kind = 'unscopable';
