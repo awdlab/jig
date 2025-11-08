@@ -1,5 +1,6 @@
 export type HeaderTemplateType = {
   $implicit: {
-    requestClose: () => void;
+    close: () => void;
+    text?: string;
   };
 };

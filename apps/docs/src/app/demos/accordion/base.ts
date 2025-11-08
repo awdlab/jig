@@ -7,19 +7,13 @@ import { exampleData } from '../../helper/data';
   imports: [NgnAccordion, NgnAccordionPanel],
   template: `<ngn-accordion>
     <ngn-accordion-panel [header]="'Panel 1'">
-      <ng-template #content>
-        <span>{{ loremIpsum1 }}</span>
-      </ng-template>
+      <ng-template #content> {{ loremIpsum1 }} </ng-template>
     </ngn-accordion-panel>
     <ngn-accordion-panel [header]="'Panel 2'">
-      <ng-template #content>
-        <span>{{ loremIpsum2 }}</span>
-      </ng-template>
+      <ng-template #content> {{ loremIpsum2 }} </ng-template>
     </ngn-accordion-panel>
     <ngn-accordion-panel [header]="'Panel 3'">
-      <ng-template #content>
-        <span>{{ loremIpsum3 }}</span>
-      </ng-template>
+      <ng-template #content> {{ loremIpsum3 }} </ng-template>
     </ngn-accordion-panel>
   </ngn-accordion>`,
 })

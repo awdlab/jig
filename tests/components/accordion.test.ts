@@ -36,7 +36,7 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
           <ngn-accordion-panel [panelId]="panel.id" [header]="panel.header" [lazy]="panel.lazy" [cache]="panel.cache" [disabled]="panel.disabled">
             <ng-template #content> 
               <dummy [dummyId]="panel.id" (calledConstructor)="output('constructorCalled', $event)">
-                <span>{{ panel.content }}</span>
+                {{ panel.content }}
               </dummy>
             </ng-template>
           </ngn-accordion-panel>

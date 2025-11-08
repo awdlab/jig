@@ -26,6 +26,12 @@ export const drawerStyles = createThemePart({
       ${c('footer')} {
         width: 100%;
       }
+      body:has(${c()}:popover-open) {
+        pointer-events: none;
+        ${c()} {
+          pointer-events: all;
+        }
+      }
     `,
   },
 });

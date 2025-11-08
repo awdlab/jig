@@ -3,17 +3,19 @@ import {
   afterRenderEffect,
   Component,
   computed,
-  ElementRef,
+  effect,
   input,
   model,
   output,
   signal,
   untracked,
-  viewChild,
 } from '@angular/core';
-import { Openable, PopoverCloseBy, toPopoverCloseBy } from '@ngneers/controls/api/ng';
+import { NgnTemplate, Openable, PopoverCloseBy, toPopoverCloseBy } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
+import { NgnButton } from '@ngneers/controls/button';
 import { NgnDefer } from '@ngneers/controls/defer';
+import { NgnIcon } from '@ngneers/controls/icon';
+import { IconType } from '@ngneers/controls-custom-types';
 import { drawerControlTemplate } from '@ngneers/controls-themes/templates/drawer';
 
 import { DrawerTemplates } from './drawer-templates';
@@ -24,8 +26,16 @@ import { DrawerTemplates } from './drawer-templates';
 @Component({
   selector: 'ngn-drawer',
   templateUrl: './drawer.html',
-  imports: [NgClass, NgTemplateOutlet, NgnDefer],
+  imports: [NgClass, NgTemplateOutlet, NgnDefer, NgnButton, NgnIcon, NgnTemplate],
   providers: [provideSelf(NgnDrawer)],
+  host: {
+    '[class]': 'theme.classes({"": true, horizontal: horizontal()})',
+    '[attr.popover]': 'closeByPopover()',
+    '(toggle)': 'onToggle($event)',
+    '[ariaModal]': 'modal() ? "true" : undefined',
+    role: 'complementary',
+    '[attr.data-position]': 'position()',
+  },
 })
 export class NgnDrawer extends DrawerTemplates implements Openable {
   protected readonly theme = this.injectThemeTemplate(drawerControlTemplate);
@@ -46,10 +56,29 @@ export class NgnDrawer extends DrawerTemplates implements Openable {
    */
   public readonly closeBy = input<PopoverCloseBy>('any');
   /**
+   * Whether the drawer is a modal or not.
+   * A modal drawer prevents interaction with the rest of the page while open.
+   * @default false
+   */
+  public readonly modal = input<boolean>(false);
+  /**
    * Position of the drawer
    * @default 'left'
    */
   public readonly position = input<'top' | 'right' | 'bottom' | 'left'>('left');
+  /**
+   * The width or height of the drawer depending on its position
+   * @default '300px'
+   */
+  public readonly size = input<string>('300px');
+  /**
+   * Header text of the drawer
+   */
+  public readonly header = input<string>();
+  /**
+   * The icon to use for the close button in the default header template
+   */
+  public readonly iconClose = input<IconType>();
   /**
    * Lazy load the drawer content
    * @default false
@@ -61,22 +90,38 @@ export class NgnDrawer extends DrawerTemplates implements Openable {
    */
   public readonly cache = input<boolean>(false);
 
+  private _togglingTriggeredByInput = false;
   protected readonly isFullyClosed = signal(true);
   protected readonly closeByPopover = computed(() => toPopoverCloseBy(this.closeBy()));
-
-  private readonly _popoverRef = viewChild.required<ElementRef<HTMLElement>>('popover');
-  private readonly _popover = computed(() => this._popoverRef().nativeElement);
-  private _triggeredByInput = false;
+  protected readonly horizontal = computed(
+    () => this.position() === 'top' || this.position() === 'bottom'
+  );
+  protected readonly doClose = this.close.bind(this);
 
   constructor() {
     super();
     afterRenderEffect(() => {
       if (this.open()) {
-        this._triggeredByInput = true;
+        this._togglingTriggeredByInput = true;
         this.show();
       } else {
-        this._triggeredByInput = true;
+        this._togglingTriggeredByInput = true;
         this.close();
+      }
+    });
+
+    effect(() => {
+      const position = this.position();
+      this.element.nativeElement.style.top = position !== 'bottom' ? '0' : 'unset';
+      this.element.nativeElement.style.bottom = position !== 'top' ? '0' : 'unset';
+      this.element.nativeElement.style.left = position !== 'right' ? '0' : 'unset';
+      this.element.nativeElement.style.right = position !== 'left' ? '0' : 'unset';
+      if (position === 'left' || position === 'right') {
+        this.element.nativeElement.style.width = this.size();
+        this.element.nativeElement.style.height = '100%';
+      } else {
+        this.element.nativeElement.style.height = this.size();
+        this.element.nativeElement.style.width = '100%';
       }
     });
   }
@@ -86,11 +131,11 @@ export class NgnDrawer extends DrawerTemplates implements Openable {
    */
   public show() {
     untracked(() => {
-      if (this.open() && !this._triggeredByInput) {
+      if (this.open() && !this._togglingTriggeredByInput) {
         return;
       }
-      this._triggeredByInput = false;
-      this._popover().togglePopover(true);
+      this._togglingTriggeredByInput = false;
+      this.element.nativeElement.togglePopover(true);
     });
   }
 
@@ -99,11 +144,11 @@ export class NgnDrawer extends DrawerTemplates implements Openable {
    */
   public close() {
     untracked(() => {
-      if (!this.open() && !this._triggeredByInput) {
+      if (!this.open() && !this._togglingTriggeredByInput) {
         return;
       }
-      this._triggeredByInput = false;
-      this._popover().togglePopover(false);
+      this._togglingTriggeredByInput = false;
+      this.element.nativeElement.togglePopover(false);
     });
   }
 
