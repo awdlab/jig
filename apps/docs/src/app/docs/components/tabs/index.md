@@ -1,9 +1,9 @@
 Display content in a tabbed interface.
 
-### Basic Usage
+#### Basic Usage
 
 {{ demo: Demo_Tabs_Base }}
 
-### Dynamic Tabs
+#### Dynamic Tabs
 
 {{ demo: Demo_Tabs_Dynamic }}

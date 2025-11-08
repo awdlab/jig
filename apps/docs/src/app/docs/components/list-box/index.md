@@ -2,34 +2,34 @@ The List Box component provides a scrollable list interface for displaying and
 selecting from multiple items with support for virtualization, grouping, and
 custom templates.
 
-## Basic Usage
+### Basic Usage
 
 {{ demo: Demo_ListBox_Base }}
 
-## Field Mapping
+### Field Mapping
 
 {{ demo: Demo_ListBox_Fields }}
 
-## Grouped Items
+### Grouped Items
 
 {{ demo: Demo_ListBox_Grouped }}
 
-## Custom Templates
+### Custom Templates
 
 {{ demo: Demo_ListBox_Templates }}
 
-## Value Selection
+### Value Selection
 
 {{ demo: Demo_ListBox_Value }}
 
-## Multiple Selection
+### Multiple Selection
 
 {{ demo: Demo_ListBox_Multiple }}
 
-## Filtering
+### Filtering
 
 {{ demo: Demo_ListBox_Filter }}
 
-## Virtual Scrolling
+### Virtual Scrolling
 
 {{ demo: Demo_ListBox_Virtual }}

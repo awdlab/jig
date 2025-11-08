@@ -1,22 +1,22 @@
 The Avatar component is a user interface element that represents a user or a
 entity visually using an image, initials or custom content like icons.
 
-## Initials
+### Initials
 
 {{ demo: Demo_Avatar_Base }}
 
-## Image
+### Image
 
 {{ demo: Demo_Avatar_Image }}
 
-## Size
+### Size
 
 {{ demo: Demo_Avatar_Size }}
 
-## Icon
+### Icon
 
 {{ demo: Demo_Avatar_Icon }}
 
-## Group
+### Group
 
 {{ demo: Demo_Avatar_Group }}

@@ -1,17 +1,17 @@
 Display content in an accordion.
 
-### Basic Usage
+#### Basic Usage
 
 {{ demo: Demo_Accordion_Base }}
 
-### Multiple
+#### Multiple
 
 {{ demo: Demo_Accordion_Multiple }}
 
-### Lazy
+#### Lazy
 
 {{ demo: Demo_Accordion_Lazy }}
 
-### Disabled
+#### Disabled
 
 {{ demo: Demo_Accordion_Disabled }}

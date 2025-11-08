@@ -1,26 +1,26 @@
 The Dialog component provides modal dialog functionality with support for both
 eager and lazy loading of content.
 
-## Basic Usage
+### Basic Usage
 
 {{ demo: Demo_Dialog_Base }}
 
-## Buttons
+### Buttons
 
 {{ demo: Demo_Dialog_Buttons }}
 
-## Movable
+### Movable
 
 {{ demo: Demo_Dialog_Movable }}
 
-## Lazy Loading
+### Lazy Loading
 
 {{ demo: Demo_Dialog_Lazy }}
 
-## Creating Dialogs Programmatically
+### Creating Dialogs Programmatically
 
 {{ demo: Demo_Dialog_CreateDialog }}
 
-## Prompt Dialog
+### Prompt Dialog
 
 {{ demo: Demo_Dialog_Prompt }}

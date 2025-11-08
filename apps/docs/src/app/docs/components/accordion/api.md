@@ -1,7 +1,7 @@
-## Accordion API
+### Accordion API
 
 {{ api: accordion/accordion NgnAccordion }}
 
-## Accordion Panel API
+### Accordion Panel API
 
 {{ api: accordion/accordion-panel NgnAccordionPanel }}
