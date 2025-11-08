@@ -14,7 +14,7 @@ import { NgnDrawer } from '@ngneers/controls/drawer';
       [position]="position() ?? 'left'"
       [open]="!!position()"
       [closeBy]="'any'"
-      (openChange)="!$event && position.set(null)"
+      (closed)="position.set(null)"
     >
       Content
     </ngn-drawer>`,

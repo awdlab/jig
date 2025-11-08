@@ -22,6 +22,48 @@ export const drawerStyles = createThemePart({
         &::backdrop {
           background-color: rgba(0, 0, 0, 0.1);
         }
+        transition: display calc(${v('anim.time.fade')} + 10ms) allow-discrete;
+        animation: ngnDrawer_in ${v('anim.time.fade')} ${v('anim.ease.fade')};
+        &:not(:popover-open) {
+          animation: ngnDrawer_out ${v('anim.time.fade')} ${v('anim.ease.fade')} forwards;
+        }
+
+        &[data-position='top'] {
+          --animation-y: -40px;
+          --animation-x: 0;
+        }
+        &[data-position='right'] {
+          --animation-y: 0;
+          --animation-x: 40px;
+        }
+        &[data-position='bottom'] {
+          --animation-y: 40px;
+          --animation-x: 0;
+        }
+        &[data-position='left'] {
+          --animation-y: 0;
+          --animation-x: -40px;
+        }
+      }
+      @keyframes ngnDrawer_in {
+        from {
+          opacity: 0;
+          transform: translateY(var(--animation-y)) translateX(var(--animation-x));
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) translateX(0);
+        }
+      }
+      @keyframes ngnDrawer_out {
+        from {
+          opacity: 1;
+          transform: translateY(0) translateX(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(var(--animation-y)) translateX(var(--animation-x));
+        }
       }
       ${c('default-header-text')} {
         font-weight: ${v('font.weight.semibold')};
