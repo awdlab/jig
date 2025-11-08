@@ -14,10 +14,14 @@
     >
       <ngn-icon size="28px" icon="img/icons/github.svg" />
     </a>
-    @if (isCompact()) {
-      <button ngnButton [kind]="'icon'" aria-label="Menu Toggle" (click)="toggleMenu()">
-        <ngn-icon size="28px" icon="img/icons/bars.svg" />
-      </button>
-    }
+    <button
+      class="hide-when-large"
+      ngnButton
+      [kind]="'icon'"
+      aria-label="Menu Toggle"
+      (click)="toggleMenu()"
+    >
+      <ngn-icon size="28px" icon="img/icons/bars.svg" />
+    </button>
   </div>
 </header>

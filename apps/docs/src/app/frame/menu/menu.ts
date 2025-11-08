@@ -2,6 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgnTemplate, templateTypesFn } from '@ngneers/controls/api/ng';
+import { NgnDrawer } from '@ngneers/controls/drawer';
 
 import { ALL_DOCS_PAGES } from '../../docs';
 import { AppLocation } from '../../helper/app-location';
@@ -17,7 +18,7 @@ type MenuItem = {
 @Component({
   selector: 'ngn-docs-menu',
   templateUrl: 'menu.html',
-  imports: [RouterLink, NgTemplateOutlet, NgnTemplate, RouterOutlet],
+  imports: [RouterLink, RouterOutlet, NgTemplateOutlet, NgnTemplate, NgnDrawer],
   host: { class: 'h-full min-h-0' },
   styleUrl: 'menu.scss',
 })
