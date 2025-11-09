@@ -252,7 +252,7 @@ export class NgnSelect<
       if (hasOptions) {
         this.show();
       } else {
-        this.close();
+        this.hide();
       }
     });
   }
@@ -279,7 +279,7 @@ export class NgnSelect<
     }
   }
 
-  public onSelect(value: ValueType<T, K, Editable, Multiple> | null) {
+  protected onSelect(value: ValueType<T, K, Editable, Multiple> | null) {
     if (this.editable()) {
       if (this.value() !== value) {
         const item = this._flatOptions().find(option => option.value === value);
@@ -291,16 +291,22 @@ export class NgnSelect<
       this.onChange(value);
     }
     if (!this.multiple()) {
-      this.close();
+      this.hide();
     }
   }
 
+  /**
+   * Shows the select dropdown.
+   */
   public show() {
     this._popover().show();
   }
 
-  public close() {
-    this._popover().close();
+  /**
+   * Hides the select dropdown.
+   */
+  public hide() {
+    this._popover().hide();
   }
 
   protected onEditableChange(value: string | null) {

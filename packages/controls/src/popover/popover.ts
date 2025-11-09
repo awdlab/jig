@@ -115,7 +115,7 @@ export class NgnPopover extends NgnBase<'popover'> implements Openable {
   /**
    * Closes the drawer. Alternatively, you can also set the `open` input to `false`.
    */
-  public close(emitCloseEvent = true) {
+  public hide(emitCloseEvent = true) {
     untracked(() => {
       if (!this.open() && !this._triggeredByInput) {
         return;
@@ -132,7 +132,7 @@ export class NgnPopover extends NgnBase<'popover'> implements Openable {
    */
   public toggle() {
     if (untracked(this.open)) {
-      this.close();
+      this.hide();
     } else {
       this.show();
     }

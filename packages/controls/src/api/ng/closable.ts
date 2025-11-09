@@ -26,7 +26,7 @@ export function toModalCloseBy(closeBy: CloseBy): 'any' | 'closerequest' | 'none
 
 export interface Openable {
   show(): void;
-  close(): void;
+  hide(): void;
   toggle(): void;
   open: ModelSignal<boolean>;
   closed: OutputEmitterRef<void>;

@@ -167,6 +167,9 @@ export class NgnCalendar extends CalendarTemplates {
     }
   }
 
+  /**
+   * Shows the calendar popup. Only works if `inline` is `false`.
+   */
   public show() {
     if (this.inline()) {
       throw new NgnError('calendar', 'cannot open inline calendar');
@@ -177,11 +180,14 @@ export class NgnCalendar extends CalendarTemplates {
     this._popover().show();
   }
 
-  public close() {
+  /**
+   * Hides the calendar popup. Only works if `inline` is `false`.
+   */
+  public hide() {
     if (this.inline()) {
       throw new NgnError('calendar', 'cannot close inline calendar');
     }
-    this._popover().close();
+    this._popover().hide();
   }
 
   protected onKeyDown(event: KeyboardEvent) {

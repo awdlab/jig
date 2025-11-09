@@ -278,7 +278,7 @@ export class NgnDialog<T, Buttons extends NgnActionButtonConfig<unknown>[]>
   public show(): void {
     this.open.set(true);
   }
-  public close(): void {
+  public hide(): void {
     this.open.set(false);
   }
   public toggle(): void {

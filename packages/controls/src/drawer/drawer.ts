@@ -96,7 +96,7 @@ export class NgnDrawer extends DrawerTemplates implements Openable {
   protected readonly horizontal = computed(
     () => this.position() === 'top' || this.position() === 'bottom'
   );
-  protected readonly doClose = this.close.bind(this);
+  protected readonly doClose = this.hide.bind(this);
 
   constructor() {
     super();
@@ -106,7 +106,7 @@ export class NgnDrawer extends DrawerTemplates implements Openable {
         this.show();
       } else {
         this._togglingTriggeredByInput = true;
-        this.close();
+        this.hide();
       }
     });
 
@@ -142,7 +142,7 @@ export class NgnDrawer extends DrawerTemplates implements Openable {
   /**
    * Closes the drawer. Alternatively, you can also set the `open` input to `false`.
    */
-  public close() {
+  public hide() {
     untracked(() => {
       if (!this.open() && !this._togglingTriggeredByInput) {
         return;
@@ -157,7 +157,7 @@ export class NgnDrawer extends DrawerTemplates implements Openable {
    */
   public toggle() {
     if (untracked(this.open)) {
-      this.close();
+      this.hide();
     } else {
       this.show();
     }

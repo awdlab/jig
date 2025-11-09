@@ -3,7 +3,6 @@ import {
   Directive,
   ElementRef,
   inject,
-  Injector,
   input,
   ViewContainerRef,
 } from '@angular/core';
@@ -15,7 +14,6 @@ import { MenuItem } from './types';
 @Directive({ selector: '[ngnContextMenu]' })
 export class NgnContextMenu {
   private readonly _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly _injector = inject(Injector);
   private readonly _vcr = inject(ViewContainerRef);
   private _menu?: ComponentRef<NgnMenu>;
 

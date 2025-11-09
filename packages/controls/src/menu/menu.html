@@ -1,10 +1,11 @@
-@if (popover()) {
+@if (popover() && anchor(); as anchor) {
   <ngn-popover
     [ngClass]="theme.class('popover')"
-    [anchor]="anchor()"
+    [anchor]="anchor"
     [options]="{ placement: placement(), padding: isSubMenu() ? 0 : undefined }"
     (openChange)="popoverOpenChange($event)"
     (closed)="popoverClosed()"
+    (closing)="closing.emit()"
   >
     <ng-template #lazy>
       <ng-container *ngTemplateOutlet="menu" />
@@ -66,7 +67,7 @@
       [placement]="'right-start'"
       [popover]="true"
       [isSubMenu]="true"
-      (openChange)="!$event && menuItem.focus()"
+      (closing)="menuItem.focus()"
       (closeAll)="doCloseAll()"
       [elementId]="elementId() + '_submenu_' + item.id"
       [openSubmenuOnHover]="openSubmenuOnHover()"
@@ -95,7 +96,7 @@
     <ngn-icon
       [ngClass]="theme.class('icon-children')"
       defaultIcon="chevron_right"
-      [icon]="iconChildrenIndicator()"
+      [icon]="iconSubmenuIndicator()"
     />
   }
 </ng-template>
