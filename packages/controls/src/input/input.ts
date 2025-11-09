@@ -27,7 +27,7 @@ export class NgnInput extends NgnBase<'input'> implements AfterViewInit {
   protected readonly hasParentInputfield = signal(false);
 
   protected readonly theme = this.injectThemeTemplate(inputControlTemplate);
-  protected readonly inputFieldTheme = this.injectThemeTemplate(inputFieldControlTemplate);
+  protected readonly inputFieldTheme = this.injectThemeTemplate(inputFieldControlTemplate, true);
   /**
    * Explicitly apply invalid state styling
    * @default false

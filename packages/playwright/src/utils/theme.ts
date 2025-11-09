@@ -1,24 +1,7 @@
-import type { ControlTemplate } from '@ngneers/controls-themes';
-import { Prettify } from '@ngneers/controls/utils';
+import type { ControlTemplate, ThemeClasses } from '@ngneers/controls-themes';
 
-type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void
-  ? I
-  : never;
-
-type Classes<CT extends ControlTemplate> = Record<CT['classNames'][number] | '', string> & {
-  $deps: UnionToIntersection<
-    Prettify<
-      CT['dependencies'][number] extends infer Dep
-        ? Dep extends ControlTemplate<infer I>
-          ? Record<I, Classes<Dep>>
-          : never
-        : never
-    >
-  >;
-};
-
-export function themeClasses<CT extends ControlTemplate>(template: CT): Classes<CT> {
-  const result: Classes<CT> = {} as any;
+export function themeClasses<CT extends ControlTemplate>(template: CT): ThemeClasses<CT> {
+  const result: ThemeClasses<CT> = {} as any;
 
   const deps = template.dependencies?.map(dep => ({ [dep.scope]: themeClasses(dep) }));
   if (deps) {

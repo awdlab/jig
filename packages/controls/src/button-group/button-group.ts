@@ -17,7 +17,7 @@ import { buttonGroupControlTemplate } from '@ngneers/controls-themes/templates/b
   },
   providers: [provideSelf(NgnButtonGroup)],
 })
-export class NgnButtonGroup extends NgnBase<'button-group'> {
+export class NgnButtonGroup extends NgnBase<'buttonGroup'> {
   protected readonly theme = this.injectThemeTemplate(buttonGroupControlTemplate);
 
   private readonly _contentRef = contentChildren(NgnButton);

@@ -20,7 +20,7 @@ import { SplitterPanelSize, SplitterPanelSizeLimit } from '../types';
     '[attr.aria-labelledby]': 'ariaLabelledBy()',
   },
 })
-export class NgnSplitterPanel extends NgnBase<'splitter-panel'> {
+export class NgnSplitterPanel extends NgnBase<'splitter'> {
   protected readonly theme = this.injectThemeTemplate(splitterControlTemplate);
   private readonly _fallbackAreaName = generateElementId();
 

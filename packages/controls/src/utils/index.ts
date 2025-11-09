@@ -7,5 +7,6 @@ export * from './logger';
 export * from './not-nullish';
 export * from './object';
 export * from './positioning';
+export * from './passthrough';
 export * from './time-span';
 export * from './types';

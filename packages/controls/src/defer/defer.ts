@@ -26,7 +26,7 @@ import { NgnBase, provideSelf } from '@ngneers/controls/base';
     `,
   ],
 })
-export class NgnDefer extends NgnBase<'defer'> {
+export class NgnDefer extends NgnBase<null> {
   public readonly lazyContent = input<TemplateRef<unknown> | undefined | null>(undefined);
   public readonly open = input<boolean>(false);
   public readonly lazy = input<boolean>(true);

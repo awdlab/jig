@@ -19,7 +19,7 @@ import {
 import { globalStyles } from '@ngneers/controls-themes/base/global';
 import { skip } from 'rxjs';
 
-import { NGN_CONFIG } from './config';
+import { NGN_CONFIG, NgnConfig } from './config';
 
 export type ControlTemplateInfo<T extends ControlTemplate> = {
   scope: string;
@@ -29,13 +29,11 @@ export type ControlTemplateInfo<T extends ControlTemplate> = {
   }) => string;
 };
 
-export function injectThemeTemplate<T extends ControlTemplate>(
+export function themeTemplateToTemplateInfo<T extends ControlTemplate>(
+  config: NgnConfig,
   template: T,
-  options?: { injector?: Injector; unstyled?: () => boolean }
+  options?: { unstyled?: () => boolean }
 ): ControlTemplateInfo<T> {
-  const config = options?.injector?.get(NGN_CONFIG) ?? inject(NGN_CONFIG);
-  const themeService = options?.injector?.get(ThemeService) ?? inject(ThemeService);
-  themeService.loadScope(template.scope);
   return {
     scope: template.scope,
     class: (className?: T['classNames'][number] | '') =>
@@ -58,6 +56,16 @@ export function injectThemeTemplate<T extends ControlTemplate>(
       return result;
     },
   };
+}
+
+export function injectThemeTemplate<T extends ControlTemplate>(
+  template: T,
+  options?: { injector?: Injector; unstyled?: () => boolean }
+): ControlTemplateInfo<T> {
+  const config = options?.injector?.get(NGN_CONFIG) ?? inject(NGN_CONFIG);
+  const themeService = options?.injector?.get(ThemeService) ?? inject(ThemeService);
+  themeService.loadScope(template.scope);
+  return themeTemplateToTemplateInfo(config, template, { unstyled: options?.unstyled });
 }
 
 @Injectable()

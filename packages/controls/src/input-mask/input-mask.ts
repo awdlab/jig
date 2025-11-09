@@ -18,7 +18,7 @@ import { InputMaskCfg } from './types';
   imports: [NgClass, NgnInputField],
   providers: [provideSelf(NgnInputMask)],
 })
-export class NgnInputMask extends NgnBase<'input-mask'> {
+export class NgnInputMask extends NgnBase<'inputMask'> {
   protected readonly theme = this.injectThemeTemplate(inputMaskControlTemplate);
   public readonly label = input<string | null>(null);
   public readonly inputId = input<string | null>(null);

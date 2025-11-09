@@ -1,6 +1,7 @@
 import { booleanAttribute, computed, Directive, input, model, signal, Type } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { generateElementId } from '@ngneers/controls/utils-ng';
+import { ControlName } from '@ngneers/controls-themes/templates';
 
 import { NgnBase } from './base';
 
@@ -15,7 +16,7 @@ export function valueControlBaseProvider<T extends Type<any>>(
 }
 
 @Directive()
-export abstract class ValueControlBase<C extends string, T>
+export abstract class ValueControlBase<C extends ControlName, T>
   extends NgnBase<C>
   implements ControlValueAccessor
 {

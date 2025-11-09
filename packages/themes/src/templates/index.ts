@@ -1,0 +1,31 @@
+export type ThemeTemplate = {
+  accordion: Awaited<typeof import('./accordion')>['accordionControlTemplate'];
+  movable: Awaited<typeof import('./api')>['movableDirectiveTemplate'];
+  resizable: Awaited<typeof import('./api')>['resizableDirectiveTemplate'];
+  avatar: Awaited<typeof import('./avatar')>['avatarControlTemplate'];
+  avatarGroup: Awaited<typeof import('./avatar')>['avatarGroupControlTemplate'];
+  breadcrumb: Awaited<typeof import('./breadcrumb')>['breadcrumbControlTemplate'];
+  button: Awaited<typeof import('./button')>['buttonControlTemplate'];
+  buttonGroup: Awaited<typeof import('./button-group')>['buttonGroupControlTemplate'];
+  calendar: Awaited<typeof import('./calendar')>['calendarControlTemplate'];
+  checkbox: Awaited<typeof import('./checkbox')>['checkboxControlTemplate'];
+  chip: Awaited<typeof import('./chip')>['chipControlTemplate'];
+  dialog: Awaited<typeof import('./dialog')>['dialogControlTemplate'];
+  drawer: Awaited<typeof import('./drawer')>['drawerControlTemplate'];
+  global: Awaited<typeof import('./global')>['globalControlTemplate'];
+  icon: Awaited<typeof import('./icon')>['iconControlTemplate'];
+  input: Awaited<typeof import('./input')>['inputControlTemplate'];
+  inputField: Awaited<typeof import('./input-field')>['inputFieldControlTemplate'];
+  inputMask: Awaited<typeof import('./input-mask')>['inputMaskControlTemplate'];
+  itemView: Awaited<typeof import('./item-view')>['itemViewControlTemplate'];
+  listBox: Awaited<typeof import('./list-box')>['listBoxControlTemplate'];
+  menu: Awaited<typeof import('./menu')>['menuControlTemplate'];
+  popover: Awaited<typeof import('./popover')>['popoverControlTemplate'];
+  scroller: Awaited<typeof import('./scroller')>['scrollerControlTemplate'];
+  select: Awaited<typeof import('./select')>['selectControlTemplate'];
+  splitter: Awaited<typeof import('./splitter')>['splitterControlTemplate'];
+  tabs: Awaited<typeof import('./tabs')>['tabsControlTemplate'];
+  tooltip: Awaited<typeof import('./tooltip')>['tooltipControlTemplate'];
+};
+
+export type ControlName = keyof ThemeTemplate;
