@@ -3,6 +3,7 @@ export * from './closable';
 export * from './components';
 export * from './dom';
 export * from './kinds';
+export * from './passthrough';
 export * from './platform';
 export * from './positioning';
 export * from './provider';
