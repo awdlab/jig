@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { NgnListBox } from '@ngneers/controls/list-box';
 
-import { exampleData } from '../../helper/data';
-
 @Component({
   imports: [NgnListBox],
   selector: 'ngn-list-box-virtual',
@@ -16,5 +14,7 @@ import { exampleData } from '../../helper/data';
   `,
 })
 export class Demo_ListBox_Virtual {
-  protected readonly items = exampleData.items.groupedPreformatted;
+  protected readonly items = Array.from({ length: 10000 }, (_, i) => `Item ${i + 1}`).map(
+    (label, index) => ({ id: index + 1, label })
+  );
 }

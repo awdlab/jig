@@ -1,5 +1,6 @@
-import type { ControlTemplate } from '@ngneers/controls-themes';
 import { Prettify } from '@ngneers/controls/utils';
+
+import type { ControlTemplate } from '@ngneers/controls-themes';
 
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void
   ? I
