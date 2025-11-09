@@ -1,9 +1,9 @@
+import { objectKeys } from '@ngneers/controls/utils';
 import { ControlTemplate } from '@ngneers/controls-themes';
 import { ControlName, ThemeTemplate } from '@ngneers/controls-themes/templates';
 
 import { NgnConfig } from './config';
 import { ControlTemplateInfo } from './theme-service';
-import { objectKeys } from '../../utils/object';
 
 import type { ThemeClasses } from '@ngneers/controls-themes';
 
