@@ -1,0 +1,57 @@
+import {
+  ComponentRef,
+  Directive,
+  ElementRef,
+  inject,
+  Injector,
+  input,
+  ViewContainerRef,
+} from '@angular/core';
+import { domEventHandler, setComponentInput } from '@ngneers/controls/api/ng';
+
+import { NgnMenu } from './menu';
+import { MenuItem } from './types';
+
+@Directive({ selector: '[ngnContextMenu]' })
+export class NgnContextMenu {
+  private readonly _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly _injector = inject(Injector);
+  private readonly _vcr = inject(ViewContainerRef);
+  private _menu?: ComponentRef<NgnMenu>;
+
+  public readonly ngnContextMenu = input.required<MenuItem[]>();
+
+  private handleClick(event: PointerEvent) {
+    if (event.button !== 2) {
+      return;
+    }
+    if (this._menu?.instance.open()) {
+      return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+    this.openMenu(event);
+    return false;
+  }
+
+  constructor() {
+    domEventHandler(this._elementRef, 'contextmenu', this.handleClick.bind(this));
+  }
+
+  private createMenu() {
+    if (!this._menu) {
+      this._menu = this._vcr.createComponent(NgnMenu);
+    }
+    return this._menu;
+  }
+
+  private openMenu(event: PointerEvent) {
+    const menu = this.createMenu();
+    setComponentInput(menu, 'items', this.ngnContextMenu());
+    setComponentInput(menu, 'anchor', this._elementRef.nativeElement);
+    setComponentInput(menu, 'popover', true);
+    setTimeout(() => {
+      menu.instance.show();
+    });
+  }
+}

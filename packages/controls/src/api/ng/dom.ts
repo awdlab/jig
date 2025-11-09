@@ -2,6 +2,7 @@ import {
   afterRenderEffect,
   computed,
   DestroyRef,
+  effect,
   ElementRef,
   inject,
   Injector,
@@ -11,6 +12,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { deepCopy } from '@ngneers/controls/utils';
+import { signalWithPrevious } from '@ngneers/controls/utils-ng';
 import { fromEvent, Observable, Subject, Subscription } from 'rxjs';
 
 export type Size = { width: number; height: number };
@@ -144,4 +146,36 @@ export function domEventSignal<EventName extends keyof GlobalEventHandlersEventM
     return sig;
   });
   return res;
+}
+
+export function domEventHandler<EventName extends keyof GlobalEventHandlersEventMap>(
+  element: ElementSingle,
+  eventName: EventName,
+  handler: (event: GlobalEventHandlersEventMap[EventName]) => void,
+  injector?: Injector
+): void {
+  const inj = injector ?? inject(Injector);
+  const destroyRef = inj.get(DestroyRef);
+  runInInjectionContext(inj, () => {
+    const destroyed = signal(false);
+    destroyRef.onDestroy(() => {
+      destroyed.set(true);
+    });
+    const elSig = computed(() => (destroyed() ? null : getElement(element)));
+    const elSigWithPrev = signalWithPrevious(elSig);
+
+    effect(() => {
+      const element = elSigWithPrev();
+      const previousElement = element.previous;
+      if (previousElement) {
+        previousElement.removeEventListener(
+          eventName,
+          handler as EventListenerOrEventListenerObject
+        );
+      }
+      if (element.current) {
+        element.current.addEventListener(eventName, handler as EventListenerOrEventListenerObject);
+      }
+    });
+  });
 }
