@@ -1,9 +1,29 @@
 import { ControlTemplateInfo, NgnConfig } from '@ngneers/controls/api/ng';
-import { NgnPassthrough, PassthroughValue } from '@ngneers/controls/base';
 import { ControlTemplate } from '@ngneers/controls-themes';
 import { ControlName, ThemeTemplate } from '@ngneers/controls-themes/templates';
 
 import { objectKeys } from './object';
+
+import type { ThemeClasses } from '@ngneers/controls-themes';
+
+export type PassthroughValue = {
+  $attributes?: Record<string, string>;
+  $styles?: Partial<CSSStyleDeclaration>;
+};
+
+type ThemeClassToPassthrough<T> = {
+  [K in keyof T]?: T[K] extends string
+    ? PassthroughValue
+    : K extends `$${string}`
+      ? ThemeClassToPassthrough<T[K]>
+      : ThemeClassToPassthrough<T[K]> & PassthroughValue;
+};
+
+export type NgnPassthrough<T extends ControlName> = T extends null
+  ? never
+  : ThemeTemplate[T] extends ControlTemplate
+    ? ThemeClassToPassthrough<ThemeClasses<ThemeTemplate[T]>> & PassthroughValue
+    : never;
 
 /**
  * @todo @LoaderB0T

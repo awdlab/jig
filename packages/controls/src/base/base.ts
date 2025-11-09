@@ -13,13 +13,11 @@ import {
   viewChildren,
 } from '@angular/core';
 import { ControlTemplateInfo, injectThemeTemplate, NGN_CONFIG } from '@ngneers/controls/api/ng';
-import { applyPassthrough } from '@ngneers/controls/utils';
+import { applyPassthrough, NgnPassthrough } from '@ngneers/controls/utils';
 import { setInputSignalValue } from '@ngneers/controls/utils-ng';
 import { CustomKind } from '@ngneers/controls-custom-types';
 import { ControlTemplate } from '@ngneers/controls-themes';
 import { ControlName, ThemeTemplate } from '@ngneers/controls-themes/templates';
-
-import { NgnPassthrough } from './types';
 
 export const NGN_CONTROL = new InjectionToken<NgnBase<never>>('NGN_CONTROL');
 
