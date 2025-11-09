@@ -45,8 +45,9 @@ export class NgnContextMenu {
 
   private openMenu(event: PointerEvent) {
     const menu = this.createMenu();
+
     setComponentInput(menu, 'items', this.ngnContextMenu());
-    setComponentInput(menu, 'anchor', this._elementRef.nativeElement);
+    setComponentInput(menu, 'anchor', { x: event.clientX, y: event.clientY });
     setComponentInput(menu, 'popover', true);
     setTimeout(() => {
       menu.instance.show();

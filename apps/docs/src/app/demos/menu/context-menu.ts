@@ -3,7 +3,12 @@ import { MenuItem, NgnContextMenu } from '@ngneers/controls/menu';
 
 @Component({
   imports: [NgnContextMenu],
-  template: `<div [ngnContextMenu]="items()">test</div>`,
+  template: `<div
+    class="p-4 flex items-center justify-center border border-dashed border-gray-400 rounded-md cursor-context-menu"
+    [ngnContextMenu]="items()"
+  >
+    Right click me
+  </div>`,
 })
 export class Demo_Menu_ContextMenu {
   protected readonly items = signal<MenuItem[]>([

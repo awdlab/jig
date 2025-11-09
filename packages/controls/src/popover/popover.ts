@@ -26,7 +26,7 @@ import { NgnDefer } from '@ngneers/controls/defer';
 import { computedWithPrevious } from '@ngneers/controls/utils-ng';
 import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
 
-import { PopoverOptions } from './types';
+import { Anchor, PopoverOptions } from './types';
 
 /**
  * @category control
@@ -54,7 +54,13 @@ export class NgnPopover extends NgnBase<'popover'> implements Openable {
    * You probably want to react to openChange events from outside to update your variable accordingly.
    */
   public readonly open = model<boolean>(false);
-  public readonly anchor = input.required<HTMLElement>();
+  /**
+   * The element to which the popover is anchored.
+   */
+  public readonly anchor = input.required<Anchor>();
+  /**
+   * The popover options.
+   */
   public readonly options = input<PopoverOptions>();
   /**
    * Set to true for scrollable/shrink-able content

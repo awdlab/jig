@@ -8,11 +8,13 @@ import {
   Middleware,
   offset,
   Placement,
+  ReferenceElement,
   shift,
   Side,
   size,
   Strategy,
 } from '@floating-ui/dom';
+import { Anchor } from '@ngneers/controls/popover';
 
 export type PositioningSizeConstraints = {
   /**
@@ -82,11 +84,13 @@ function mergeWithDefaults(options: PositioningOptions): PositioningOptions {
 }
 
 export function positionElement(
-  referenceEl: HTMLElement,
+  anchor: Anchor,
   floatingEl: HTMLElement,
   options: PositioningOptions = {}
 ) {
   options = mergeWithDefaults(options);
+
+  const referenceElement = toReferenceElement(anchor);
 
   const flipMiddleware = options.flip
     ? flip(options.shift ? { crossAxis: 'alignment', fallbackAxisSideDirection: 'end' } : undefined)
@@ -95,7 +99,7 @@ export function positionElement(
 
   if (options.sizeConstraints) {
     if (options.sizeConstraints.width || options.sizeConstraints.maxWidth) {
-      const refWidth = referenceEl.getBoundingClientRect().width;
+      const refWidth = referenceElement.getBoundingClientRect().width;
       if (options.sizeConstraints.width) {
         if (typeof options.sizeConstraints.width === 'string') {
           floatingEl.style.width = options.sizeConstraints.width;
@@ -126,7 +130,7 @@ export function positionElement(
     }
   }
 
-  computePosition(referenceEl, floatingEl, {
+  computePosition(referenceElement, floatingEl, {
     placement: options.placement,
     strategy: options.strategy,
     middleware: [
@@ -171,8 +175,27 @@ export function positionElement(
   });
 }
 
+function toReferenceElement(anchor: Anchor): ReferenceElement {
+  const referenceElement: ReferenceElement =
+    anchor instanceof HTMLElement
+      ? anchor
+      : {
+          getBoundingClientRect: () => ({
+            x: anchor.x,
+            y: anchor.y,
+            width: 1,
+            height: 1,
+            top: anchor.y,
+            right: anchor.x + 1,
+            bottom: anchor.y + 1,
+            left: anchor.x,
+          }),
+        };
+  return referenceElement;
+}
+
 export function autoPositionElement(
-  referenceEl: HTMLElement,
+  anchor: Anchor,
   floatingEl: HTMLElement,
   options: PositioningOptions = {}
 ): AutoPositioningHandle {
@@ -182,8 +205,8 @@ export function autoPositionElement(
   const destroyRef = options.injector?.get(DestroyRef) ?? inject(DestroyRef);
 
   function startAutoUpdate() {
-    cleanup = autoUpdate(referenceEl, floatingEl, () => {
-      positionElement(referenceEl, floatingEl, options);
+    cleanup = autoUpdate(toReferenceElement(anchor), floatingEl, () => {
+      positionElement(anchor, floatingEl, options);
     });
     return cleanup;
   }
