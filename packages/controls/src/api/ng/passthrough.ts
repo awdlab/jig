@@ -2,7 +2,7 @@ import { ControlTemplateInfo, NgnConfig } from '@ngneers/controls/api/ng';
 import { ControlTemplate } from '@ngneers/controls-themes';
 import { ControlName, ThemeTemplate } from '@ngneers/controls-themes/templates';
 
-import { objectKeys } from './object';
+import { objectKeys } from '../../utils/object';
 
 import type { ThemeClasses } from '@ngneers/controls-themes';
 

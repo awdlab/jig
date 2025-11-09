@@ -12,8 +12,13 @@ import {
   Type,
   viewChildren,
 } from '@angular/core';
-import { ControlTemplateInfo, injectThemeTemplate, NGN_CONFIG } from '@ngneers/controls/api/ng';
-import { applyPassthrough, NgnPassthrough } from '@ngneers/controls/utils';
+import {
+  ControlTemplateInfo,
+  injectThemeTemplate,
+  NGN_CONFIG,
+  applyPassthrough,
+  NgnPassthrough,
+} from '@ngneers/controls/api/ng';
 import { setInputSignalValue } from '@ngneers/controls/utils-ng';
 import { CustomKind } from '@ngneers/controls-custom-types';
 import { ControlTemplate } from '@ngneers/controls-themes';
