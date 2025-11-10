@@ -2,11 +2,12 @@ import { Component, signal } from '@angular/core';
 import { MenuItem, NgnMenu } from '@ngneers/controls/menu';
 
 @Component({
-  selector: 'ngn-demo-menu-base',
+  selector: 'ngn-demo-menu-popover',
   imports: [NgnMenu],
-  template: `<ngn-menu #menu [items]="items()" />`,
+  template: ` <button #anchor (click)="menu.show()">Open Menu</button>
+    <ngn-menu #menu [popover]="true" [anchor]="anchor" [items]="items()" />`,
 })
-export class Demo_Menu_Base {
+export class Demo_Menu_Popover {
   public readonly items = signal<MenuItem[]>([
     { id: '1', label: 'Item 1', icon: 'icon-1' },
     { id: '2', label: 'Item 2', icon: 'icon-2' },

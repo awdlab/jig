@@ -16,6 +16,7 @@ export class Demo3Component {
 }
 
 @Component({
+  selector: 'ngn-demo-accordion-lazy',
   imports: [
     NgnAccordion,
     NgnAccordionPanel,

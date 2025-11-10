@@ -4,7 +4,7 @@ import { NgnTooltip } from '@ngneers/controls/tooltip';
 
 @Component({
   imports: [NgnButton, NgnTooltip],
-  selector: 'ngn-tooltip-base',
+  selector: 'ngn-demo-tooltip-base',
   template: `<button ngnButton [ngnTooltip]="'Hello World!'">Hello</button>`,
 })
 export class Demo_Tooltip_Base {}

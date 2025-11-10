@@ -5,7 +5,7 @@ import { exampleData } from '../../helper/data';
 
 @Component({
   imports: [NgnSelect],
-  selector: 'ngn-select-grouped',
+  selector: 'ngn-demo-select-grouped',
   template: `
     <ngn-select
       #select

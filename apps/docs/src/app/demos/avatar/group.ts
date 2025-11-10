@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgnAvatar, NgnAvatarGroup } from '@ngneers/controls/avatar';
 
 @Component({
+  selector: 'ngn-demo-avatar-group',
   imports: [NgnAvatar, NgnAvatarGroup],
   template: `
     <ngn-avatar-group>

@@ -3,6 +3,7 @@ import { NgnActionButtonConfig } from '@ngneers/controls/api';
 import { NgnDialog } from '@ngneers/controls/dialog';
 
 @Component({
+  selector: 'ngn-demo-dialog-buttons',
   imports: [NgnDialog],
   template: `<button (click)="open.set(true)">Open Dialog</button>
     <ngn-dialog

@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { NgnCheckbox } from '@ngneers/controls/checkbox';
 
 @Component({
+  selector: 'ngn-demo-checkbox-states',
   imports: [NgnCheckbox],
-  selector: 'ngn-checkbox-disabled',
   template: `<ngn-checkbox disabled [value]="false" />
     <ngn-checkbox [invalid]="true" [value]="false" />`,
 })

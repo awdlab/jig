@@ -3,8 +3,8 @@ import { injectThemeControlKinds } from '@ngneers/controls/api/ng';
 import { NgnChip } from '@ngneers/controls/chip';
 
 @Component({
+  selector: 'ngn-demo-chip-base',
   imports: [NgnChip],
-  selector: 'ngn-chip-base',
   template: `
     <div class="flex gap-2 flex-wrap">
       @for (kind of kinds; track $index) {

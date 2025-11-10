@@ -4,7 +4,7 @@ import { NgnTooltip } from '@ngneers/controls/tooltip';
 
 @Component({
   imports: [NgnButton, NgnTooltip],
-  selector: 'ngn-tooltip-placement',
+  selector: 'ngn-demo-tooltip-placement',
   template: `
     <button ngnButton [ngnTooltip]="content" [ngnTooltipPlacement]="'left-start'">
       Left Start

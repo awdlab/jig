@@ -5,7 +5,7 @@ import { DummyLazyComponent } from '../dummies/lazy';
 
 @Component({
   imports: [NgnPopover, DummyLazyComponent],
-  selector: 'ngn-popover-lazy',
+  selector: 'ngn-demo-popover-lazy',
   template: `
     <button #anchor (click)="popover.show()">Open</button>
     <ngn-popover #popover [anchor]="anchor" [options]="{ cache: true }">

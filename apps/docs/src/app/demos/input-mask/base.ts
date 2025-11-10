@@ -5,7 +5,7 @@ import { MASKS, NgnInputMask, InputMaskCfg } from '@ngneers/controls/input-mask'
 
 @Component({
   imports: [FormsModule, NgnInput, NgnInputMask],
-  selector: 'ngn-input-mask-demo',
+  selector: 'ngn-demo-input-mask-base',
   template: `
     <ngn-input-mask [inputId]="'test-input'" [mask]="mask">
       <input ngnInput [ngModel]="value()" (ngModelChange)="value.set($event)" />

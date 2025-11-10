@@ -6,7 +6,7 @@ import { exampleData } from '../../helper/data';
 
 @Component({
   imports: [NgnListBox, FormsModule],
-  selector: 'ngn-list-box-value',
+  selector: 'ngn-demo-list-box-value-demo',
   template: `
     <ngn-list-box
       [items]="items"

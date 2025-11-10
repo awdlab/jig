@@ -3,8 +3,8 @@ import { injectThemeControlKinds } from '@ngneers/controls/api/ng';
 import { NgnChip } from '@ngneers/controls/chip';
 
 @Component({
+  selector: 'ngn-demo-chip-actionable',
   imports: [NgnChip],
-  selector: 'ngn-chip-actionable',
   template: `
     <div class="flex flex-col gap-2 flex-wrap">
       <div class="flex gap-2 flex-wrap">

@@ -4,7 +4,7 @@ import { NgnTooltip } from '@ngneers/controls/tooltip';
 
 @Component({
   imports: [NgnButton, NgnTooltip],
-  selector: 'ngn-tooltip-arrow',
+  selector: 'ngn-demo-tooltip-arrow',
   template: `<button ngnButton [ngnTooltip]="'Hello World!'" [ngnTooltipShowArrow]="true">
       With Arrow
     </button>

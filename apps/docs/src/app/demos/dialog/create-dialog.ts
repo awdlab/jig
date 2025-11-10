@@ -4,6 +4,7 @@ import { createDialog } from '@ngneers/controls/dialog';
 import { DummyLoremIpsumComponent1 } from '../dummies/lorem-ipsum';
 
 @Component({
+  selector: 'ngn-demo-dialog-create-dialog',
   template: `<button (click)="showDialog()">Open Dialog</button>
     <button (click)="showComponentDialog()">Open Component Dialog</button>`,
 })

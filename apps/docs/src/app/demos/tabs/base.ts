@@ -5,7 +5,7 @@ import { DummyLoremIpsumComponent1, DummyLoremIpsumComponent2 } from '../dummies
 
 @Component({
   imports: [NgnTabs, NgnTab, DummyLoremIpsumComponent1, DummyLoremIpsumComponent2],
-  selector: 'ngn-tabs-base',
+  selector: 'ngn-demo-tabs-base',
   template: `
     <ngn-tabs>
       <ngn-tab tabId="tab1">

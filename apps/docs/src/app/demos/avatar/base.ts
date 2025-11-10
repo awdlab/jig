@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgnAvatar } from '@ngneers/controls/avatar';
 
 @Component({
+  selector: 'ngn-demo-avatar-base',
   imports: [NgnAvatar],
   template: `<ngn-avatar initials="A" />
     <ngn-avatar initials="AB" color="var(--ngn-color-secondary-default)" />

@@ -3,6 +3,7 @@ import { injectThemeControlKinds } from '@ngneers/controls/api/ng';
 import { NgnButton } from '@ngneers/controls/button';
 
 @Component({
+  selector: 'ngn-demo-button-kind',
   imports: [NgnButton],
   template: `
     <div class="flex gap-2 flex-wrap items-center">

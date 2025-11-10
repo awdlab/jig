@@ -5,7 +5,7 @@ import { NgnInputField } from '@ngneers/controls/input-field';
 
 @Component({
   imports: [FormsModule, NgnInput, NgnInputField],
-  selector: 'ngn-textarea-base',
+  selector: 'ngn-demo-input-textarea-input-field',
   template: `<ngn-input-field [inputId]="'test-input'">
       <textarea ngnInput [ngModel]="value()" (ngModelChange)="value.set($event)"></textarea>
       🥳

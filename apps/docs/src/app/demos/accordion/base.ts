@@ -4,6 +4,7 @@ import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
 import { exampleData } from '../../helper/data';
 
 @Component({
+  selector: 'ngn-demo-accordion-base',
   imports: [NgnAccordion, NgnAccordionPanel],
   template: `<ngn-accordion>
     <ngn-accordion-panel [header]="'Panel 1'">

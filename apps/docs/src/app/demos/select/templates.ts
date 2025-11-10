@@ -5,7 +5,7 @@ import { exampleData } from '../../helper/data';
 
 @Component({
   imports: [NgnSelect],
-  selector: 'ngn-select-templates',
+  selector: 'ngn-demo-select-templates',
   template: `<ngn-select #select [options]="options">
     <ng-template #item let-option>
       <span>🏳️{{ option.label }}</span>

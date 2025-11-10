@@ -3,6 +3,7 @@ import { NgnAvatar } from '@ngneers/controls/avatar';
 import { NgnIcon } from '@ngneers/controls/icon';
 
 @Component({
+  selector: 'ngn-demo-avatar-icon',
   imports: [NgnAvatar, NgnIcon],
   template: `
     <ngn-avatar>

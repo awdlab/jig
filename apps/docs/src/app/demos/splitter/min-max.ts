@@ -3,7 +3,7 @@ import { SplitterModule } from '@ngneers/controls/splitter';
 
 @Component({
   imports: [SplitterModule],
-  selector: 'ngn-splitter-minmax',
+  selector: 'ngn-demo-splitter-min-max',
   template: `
     <ngn-splitter [layout]="'horizontal'" [aria-label]="'Min/Max Sizes Splitter'">
       <ngn-splitter-panel

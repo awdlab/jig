@@ -5,7 +5,7 @@ import { exampleData } from '../../helper/data';
 
 @Component({
   imports: [NgnListBox],
-  selector: 'ngn-list-box-fields',
+  selector: 'ngn-demo-list-box-fields-demo',
   template: `
     <ngn-list-box
       [fields]="{

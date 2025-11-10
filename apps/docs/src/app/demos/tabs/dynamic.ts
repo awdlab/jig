@@ -3,7 +3,7 @@ import { NgnTabs, NgnTab } from '@ngneers/controls/tabs';
 
 @Component({
   imports: [NgnTabs, NgnTab],
-  selector: 'ngn-tabs-dynamic',
+  selector: 'ngn-demo-tabs-dynamic',
   template: `
     <ngn-tabs>
       @for (tab of tabs(); track tab; let index = $index) {

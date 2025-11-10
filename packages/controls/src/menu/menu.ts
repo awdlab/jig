@@ -96,7 +96,7 @@ export class NgnMenu extends MenuTemplates implements Openable {
   public readonly open = model(false);
 
   private readonly _isTouchDevice = inject(Platform).isTouchDevice;
-  private readonly _popover = viewChild.required(NgnPopover);
+  private readonly _popover = viewChild(NgnPopover);
   private readonly _menuItems = viewChildren<ElementRef<HTMLElement>>('menuItem');
   private readonly _childMenus = viewChildren(NgnMenu);
   protected readonly autofocus = signal(false);
@@ -118,7 +118,13 @@ export class NgnMenu extends MenuTemplates implements Openable {
    * @param focus Whether to focus the menu after showing it. Defaults to `true`.
    */
   public show(focus = true) {
-    this._popover().show();
+    if (!this.popover()) {
+      throw new NgnError(
+        'NgnMenu',
+        'The show() method can only be used when popover mode is enabled.'
+      );
+    }
+    this._popover()?.show();
     this.autofocus.set(focus);
   }
 
@@ -127,14 +133,26 @@ export class NgnMenu extends MenuTemplates implements Openable {
    * @param emitCloseEvent Whether to emit the close event. Defaults to `true`.
    */
   public hide(emitCloseEvent = true) {
-    this._popover().hide(emitCloseEvent);
+    if (!this.popover()) {
+      throw new NgnError(
+        'NgnMenu',
+        'The hide() method can only be used when popover mode is enabled.'
+      );
+    }
+    this._popover()?.hide(emitCloseEvent);
   }
 
   /**
    * Toggles the menu open or closed.
    */
   public toggle() {
-    this._popover().toggle();
+    if (!this.popover()) {
+      throw new NgnError(
+        'NgnMenu',
+        'The toggle() method can only be used when popover mode is enabled.'
+      );
+    }
+    this._popover()?.toggle();
   }
 
   protected handleKeydown(event: KeyboardEvent, subMenu?: NgnMenu) {
@@ -157,7 +175,7 @@ export class NgnMenu extends MenuTemplates implements Openable {
     } else if (event.key === 'ArrowRight' && subMenu) {
       this.openChildMenu(subMenu, null, 'arrow');
     } else if (event.key === 'ArrowLeft' && this.isSubMenu()) {
-      this._popover().hide();
+      this._popover()?.hide();
     }
   }
 
@@ -170,7 +188,9 @@ export class NgnMenu extends MenuTemplates implements Openable {
   }
 
   protected itemClicked(item: MenuItem) {
-    this.doCloseAll();
+    if (this.popover()) {
+      this.doCloseAll();
+    }
     if ('callback' in item) {
       item.callback?.();
     }

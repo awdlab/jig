@@ -6,7 +6,7 @@ import { exampleData } from '../../helper/data';
 
 @Component({
   imports: [NgnItemView, NgnTemplate],
-  selector: 'demo-item-view-base',
+  selector: 'ngn-demo-item-view-base',
   template: `
     <ngn-item-view #itemView [items]="items" [idField]="'id'">
       <ng-template #item [ngnTemplate]="itemView.templateTypes.item" let-item>

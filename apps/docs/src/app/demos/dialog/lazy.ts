@@ -4,6 +4,7 @@ import { NgnDialog } from '@ngneers/controls/dialog';
 import { DummyLazyComponent } from '../dummies/lazy';
 
 @Component({
+  selector: 'ngn-demo-dialog-lazy',
   imports: [NgnDialog, DummyLazyComponent],
   template: `<button (click)="open.set(true)">Open Dialog</button>
     <ngn-dialog [open]="open()" (openChange)="open.set($event)">

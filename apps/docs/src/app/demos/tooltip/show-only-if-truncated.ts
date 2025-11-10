@@ -4,7 +4,7 @@ import { NgnTooltip } from '@ngneers/controls/tooltip';
 
 @Component({
   imports: [NgnTooltip],
-  selector: 'ngn-tooltip-show-only-if-truncated',
+  selector: 'ngn-demo-tooltip-show-only-if-truncated',
   template: `
     <h1>Truncated</h1>
     <p

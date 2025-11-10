@@ -5,7 +5,7 @@ import { exampleData } from '../../helper/data';
 
 @Component({
   imports: [NgnListBox],
-  selector: 'ngn-list-box-filter',
+  selector: 'ngn-demo-list-box-filter',
   template: ` <input
       type="text"
       placeholder="Filter items..."

@@ -1,22 +1,16 @@
 import { Component, signal } from '@angular/core';
-import { MenuItem, NgnContextMenu } from '@ngneers/controls/menu';
+import { MenuItem, NgnMenu } from '@ngneers/controls/menu';
 
 @Component({
-  selector: 'ngn-demo-menu-context-menu',
-  imports: [NgnContextMenu],
-  template: `<div
-    class="p-4 flex items-center justify-center border border-dashed border-gray-400 rounded-md cursor-context-menu"
-    [ngnContextMenu]="items()"
-  >
-    Right click me
-  </div>`,
+  selector: 'ngn-demo-menu-tiered',
+  imports: [NgnMenu],
+  template: `<ngn-menu class="w-10" [openSubmenuOnHover]="false" #menu [items]="items()" />`,
 })
-export class Demo_Menu_ContextMenu {
-  protected readonly items = signal<MenuItem[]>([
+export class Demo_Menu_Tiered {
+  public readonly items = signal<MenuItem[]>([
     { id: '1', label: 'Item 1', icon: 'icon-1' },
     { id: '2', label: 'Item 2', icon: 'icon-2' },
     { id: '3', label: 'Item 3', icon: 'icon-3' },
-    { separator: true },
     {
       id: '4',
       label: 'Item 4',

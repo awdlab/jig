@@ -4,7 +4,7 @@ import { SplitterLayout, SplitterModule } from '@ngneers/controls/splitter';
 
 @Component({
   imports: [SplitterModule, NgnButton],
-  selector: 'ngn-splitter-state',
+  selector: 'ngn-demo-splitter-state',
   template: `
     <div style="display: flex; gap: 8px;">
       <button ngnButton (click)="toggleLayout()">Toggle Layout</button>

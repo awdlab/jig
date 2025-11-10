@@ -4,7 +4,7 @@ import { SplitterModule } from '@ngneers/controls/splitter';
 
 @Component({
   imports: [SplitterModule, NgnButton],
-  selector: 'ngn-splitter-reorder',
+  selector: 'ngn-demo-splitter-reorder',
   template: `
     <button ngnButton (click)="shufflePanels()">Shuffle panel order</button>
     <ngn-splitter

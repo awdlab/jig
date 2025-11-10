@@ -3,8 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { NgnCalendar } from '@ngneers/controls/calendar';
 
 @Component({
+  selector: 'ngn-demo-calendar-base',
   imports: [FormsModule, NgnCalendar],
-  selector: 'ngn-calendar-base',
   template: `
     <ngn-calendar
       [inputId]="'test-input'"

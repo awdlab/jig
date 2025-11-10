@@ -5,7 +5,7 @@ import { exampleData } from '../../helper/data';
 
 @Component({
   imports: [NgnSelect],
-  selector: 'ngn-select-editable',
+  selector: 'ngn-demo-select-editable',
   template: `<ngn-select
     #select
     [options]="options"

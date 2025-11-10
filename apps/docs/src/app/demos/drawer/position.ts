@@ -3,7 +3,7 @@ import { NgnDrawer } from '@ngneers/controls/drawer';
 
 @Component({
   imports: [NgnDrawer],
-  selector: 'demo-drawer-position',
+  selector: 'ngn-demo-drawer-position',
   template: `<button (click)="position.set('left')">←</button>
     <button (click)="position.set('right')">→</button>
     <button (click)="position.set('top')">↑</button>

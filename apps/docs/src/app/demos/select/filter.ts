@@ -5,7 +5,7 @@ import { exampleData } from '../../helper/data';
 
 @Component({
   imports: [NgnSelect],
-  selector: 'ngn-select-filter',
+  selector: 'ngn-demo-select-filter',
   template: `<ngn-select #select [filter]="true" [options]="options" />`,
 })
 export class Demo_Select_Filter {

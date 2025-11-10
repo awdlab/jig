@@ -4,6 +4,7 @@ import { createDialog, PromptDialogBase } from '@ngneers/controls/dialog';
 import { NgnInput } from '@ngneers/controls/input';
 
 @Component({
+  selector: 'ngn-demo-dialog-prompt',
   imports: [FormsModule, NgnInput],
   template: `<input ngnInput [(ngModel)]="value" />`,
 })
@@ -26,6 +27,7 @@ export class DialogPromptDemo extends PromptDialogBase<{ value: string }, true |
 }
 
 @Component({
+  selector: 'ngn-demo-dialog-prompt',
   imports: [],
   template: `<button (click)="prompt()">Show Prompt</button>`,
 })

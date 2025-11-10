@@ -6,7 +6,7 @@ import { exampleData } from '../../helper/data';
 
 @Component({
   imports: [NgnScroller, NgnTemplate],
-  selector: 'ngn-list-box-virtual',
+  selector: 'ngn-demo-scroller-virtual',
   template: `
     <ngn-scroller
       #scroller

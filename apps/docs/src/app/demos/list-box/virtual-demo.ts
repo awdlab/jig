@@ -3,7 +3,7 @@ import { NgnListBox } from '@ngneers/controls/list-box';
 
 @Component({
   imports: [NgnListBox],
-  selector: 'ngn-list-box-virtual',
+  selector: 'ngn-demo-list-box-virtual-demo',
   template: `
     <ngn-list-box
       [items]="items"

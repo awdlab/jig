@@ -3,7 +3,7 @@ import { SplitterModule } from '@ngneers/controls/splitter';
 
 @Component({
   imports: [SplitterModule],
-  selector: 'ngn-splitter-vertical',
+  selector: 'ngn-demo-splitter-vertical',
   template: `
     <ngn-splitter [layout]="'vertical'" [aria-label]="'Vertical Splitter Example'">
       <ngn-splitter-panel [size]="'70px'" [aria-label]="'First Panel'">
