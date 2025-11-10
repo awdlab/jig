@@ -9,7 +9,6 @@ import { NgnDrawer } from '@ngneers/controls/drawer';
     <button (click)="position.set('top')">↑</button>
     <button (click)="position.set('bottom')">↓</button>
     <ngn-drawer
-      [title]="'test'"
       [header]="'Drawer ' + position()"
       [position]="position() ?? 'left'"
       [open]="!!position()"

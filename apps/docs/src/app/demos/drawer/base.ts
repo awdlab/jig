@@ -6,7 +6,6 @@ import { NgnDrawer } from '@ngneers/controls/drawer';
   selector: 'ngn-demo-drawer-base',
   template: `<button (click)="open.set(true)">Open Drawer</button>
     <ngn-drawer
-      [title]="'test'"
       [header]="'Drawer Header'"
       [modal]="true"
       [open]="open()"
