@@ -1,4 +1,4 @@
-// import '@ngneers/controls-custom-types';
+import '@ngneers/controls-custom-types';
 import { createTheme } from '@ngneers/controls-themes/api';
 import { accordionStyles } from '@ngneers/controls-themes/nova/accordion';
 import { movableStyles, resizableStyles } from '@ngneers/controls-themes/nova/api';
@@ -29,9 +29,18 @@ import { tooltipStyles } from '@ngneers/controls-themes/nova/tooltip';
 
 export const KINDS = {
   button: ['primary', 'secondary', 'link', 'text', 'icon'] as const,
-  chip: ['primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'] as const,
-  tag: ['primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'] as const,
+  tag: ['default', 'pill'] as const,
 };
+
+export const COLORS = [
+  'primary',
+  'secondary',
+  'accent',
+  'info',
+  'success',
+  'warning',
+  'error',
+] as const;
 
 export const novaCoral = createTheme(
   'Nova Coral',
@@ -71,5 +80,13 @@ export const novaCoral = createTheme(
   ],
   {
     kinds: KINDS,
+    colors: COLORS,
   }
 );
+
+declare module '@ngneers/controls-custom-types' {
+  export interface NgnThemeTypes {
+    kind: typeof KINDS;
+    color: typeof COLORS;
+  }
+}

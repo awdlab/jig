@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { injectThemeControlKinds } from '@ngneers/controls/api/ng';
+import { injectThemeColors } from '@ngneers/controls/api/ng';
 import { NgnChip } from '@ngneers/controls/chip';
 
 @Component({
@@ -7,12 +7,14 @@ import { NgnChip } from '@ngneers/controls/chip';
   imports: [NgnChip],
   template: `
     <div class="flex gap-2 flex-wrap">
-      @for (kind of kinds; track $index) {
-        <ngn-chip [kind]="kind">{{ kind ?? '*no kind*' }}</ngn-chip>
+      @for (color of colors; track $index) {
+        <ngn-chip [color]="color">
+          {{ color ?? 'default' }}
+        </ngn-chip>
       }
     </div>
   `,
 })
 export class Demo_Chip_Base {
-  protected readonly kinds = [null, ...injectThemeControlKinds('chip')];
+  protected readonly colors = [null, ...injectThemeColors()];
 }

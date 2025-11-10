@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { CustomKind } from '@ngneers/controls-custom-types';
+import { CustomColor, CustomKind } from '@ngneers/controls-custom-types';
 
 import { NGN_CONFIG } from './config';
 
@@ -13,4 +13,15 @@ import { NGN_CONFIG } from './config';
 export function injectThemeControlKinds<T extends string>(controlName: T): CustomKind<T>[] {
   const val = inject(NGN_CONFIG).theme.preset?.meta.kinds?.[controlName] ?? [];
   return val as CustomKind<T>[];
+}
+
+/**
+ * Retrieves the available colors from the theme configuration.
+ * Does **not** return custom colors defined by the user in `NgnCustomTypes`.
+ * @returns A tuple of available colors.
+ * @todo make reactive (signal)
+ */
+export function injectThemeColors(): CustomColor[] {
+  const val = inject(NGN_CONFIG).theme.preset?.meta.colors ?? [];
+  return val as CustomColor[];
 }

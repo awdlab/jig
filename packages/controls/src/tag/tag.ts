@@ -2,7 +2,7 @@ import { NgClass } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
-import { IconType } from '@ngneers/controls-custom-types';
+import { CustomColor, IconType } from '@ngneers/controls-custom-types';
 import { tagControlTemplate } from '@ngneers/controls-themes/templates/tag';
 
 /**
@@ -24,11 +24,16 @@ export class NgnTag extends NgnBase<'tag'> {
    * Set an icon to display before the text.
    */
   public readonly icon = input<IconType>();
+  /**
+   * Set the color of the chip.
+   */
+  public readonly color = input<CustomColor | null>();
 
   protected readonly hostClass = computed(() =>
     this.theme.classes({
       '': true,
       [`kind-${this.kind()}`]: !!this.kind(),
+      [`color-${this.color()}`]: !!this.color(),
     })
   );
 }

@@ -28,37 +28,41 @@ export const tagStyles = createThemePart({
         font-size: inherit;
       }
 
-      ${c('kind-primary')} {
+      ${c('kind-pill')} {
+        border-radius: 999rem;
+      }
+
+      ${c('color-primary')} {
         --tag-foreground: ${v('color.primary.600')};
         --tag-background: ${v('color.primary.100')};
       }
 
-      ${c('kind-secondary')} {
+      ${c('color-secondary')} {
         --tag-foreground: ${v('color.secondary.600')};
         --tag-background: ${v('color.secondary.100')};
       }
 
-      ${c('kind-accent')} {
+      ${c('color-accent')} {
         --tag-foreground: ${v('color.accent.600')};
         --tag-background: ${v('color.accent.100')};
       }
 
-      ${c('kind-info')} {
+      ${c('color-info')} {
         --tag-foreground: ${v('color.info.600')};
         --tag-background: ${v('color.info.100')};
       }
 
-      ${c('kind-success')} {
+      ${c('color-success')} {
         --tag-foreground: ${v('color.success.600')};
         --tag-background: ${v('color.success.100')};
       }
 
-      ${c('kind-warning')} {
+      ${c('color-warning')} {
         --tag-foreground: ${v('color.warning.600')};
         --tag-background: ${v('color.warning.100')};
       }
 
-      ${c('kind-error')} {
+      ${c('color-error')} {
         --tag-foreground: ${v('color.error.600')};
         --tag-background: ${v('color.error.100')};
       }

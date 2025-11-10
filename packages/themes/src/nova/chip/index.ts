@@ -94,7 +94,7 @@ export const chipStyles = createThemePart({
         }
       }
 
-      ${c('kind-primary')} {
+      ${c('color-primary')} {
         --chip-foreground: ${v('color.text')};
         --chip-background: ${v('color.primary.default')};
         --chip-background-focus: ${v('color.primary.200')};
@@ -102,7 +102,7 @@ export const chipStyles = createThemePart({
         --chip-background-active: ${v('color.primary.100')};
       }
 
-      ${c('kind-secondary')} {
+      ${c('color-secondary')} {
         --chip-foreground: ${v('color.text')};
         --chip-background: ${v('color.secondary.default')};
         --chip-background-focus: ${v('color.secondary.200')};
@@ -110,7 +110,7 @@ export const chipStyles = createThemePart({
         --chip-background-active: ${v('color.secondary.100')};
       }
 
-      ${c('kind-accent')} {
+      ${c('color-accent')} {
         --chip-foreground: ${v('color.text')};
         --chip-background: ${v('color.accent.default')};
         --chip-background-focus: ${v('color.accent.200')};
@@ -118,7 +118,7 @@ export const chipStyles = createThemePart({
         --chip-background-active: ${v('color.accent.100')};
       }
 
-      ${c('kind-info')} {
+      ${c('color-info')} {
         --chip-foreground: ${v('color.text')};
         --chip-background: ${v('color.info.default')};
         --chip-background-focus: ${v('color.info.200')};
@@ -126,7 +126,7 @@ export const chipStyles = createThemePart({
         --chip-background-active: ${v('color.info.100')};
       }
 
-      ${c('kind-success')} {
+      ${c('color-success')} {
         --chip-foreground: ${v('color.text')};
         --chip-background: ${v('color.success.default')};
         --chip-background-focus: ${v('color.success.200')};
@@ -134,7 +134,7 @@ export const chipStyles = createThemePart({
         --chip-background-active: ${v('color.success.100')};
       }
 
-      ${c('kind-warning')} {
+      ${c('color-warning')} {
         --chip-foreground: ${v('color.text')};
         --chip-background: ${v('color.warning.default')};
         --chip-background-focus: ${v('color.warning.200')};
@@ -142,7 +142,7 @@ export const chipStyles = createThemePart({
         --chip-background-active: ${v('color.warning.100')};
       }
 
-      ${c('kind-error')} {
+      ${c('color-error')} {
         --chip-foreground: ${v('color.text')};
         --chip-background: ${v('color.error.default')};
         --chip-background-focus: ${v('color.error.200')};
