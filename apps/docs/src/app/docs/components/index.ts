@@ -10,6 +10,7 @@ import { DialogPage } from './dialog/page';
 import { DrawerPage } from './drawer/page';
 import { IconPage } from './icon/page';
 import { InputPage } from './input/page';
+import { InputFieldPage } from './input-field/page';
 import { InputMaskPage } from './input-mask/page';
 import { ItemViewPage } from './item-view/page';
 import { ListBoxPage } from './list-box/page';
@@ -35,6 +36,7 @@ export const ALL_COMPONENT_PAGES = [
   DrawerPage,
   IconPage,
   InputPage,
+  InputFieldPage,
   InputMaskPage,
   ItemViewPage,
   ListBoxPage,

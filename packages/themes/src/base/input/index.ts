@@ -10,15 +10,6 @@ export const inputStyles = createThemePart({
         font-family: inherit;
         font-size: inherit;
       }
-      ${d('input-field')} ${c()} {
-        padding: 0;
-        background: transparent;
-        border: none;
-        width: 100%;
-        height: 100%;
-        outline: none;
-        resize: none;
-      }
     `,
   },
 });

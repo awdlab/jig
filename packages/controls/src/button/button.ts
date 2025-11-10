@@ -1,4 +1,4 @@
-import { Directive, OnDestroy } from '@angular/core';
+import { booleanAttribute, Directive, input, OnDestroy } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { toggleClass } from '@ngneers/controls/utils';
@@ -11,9 +11,18 @@ import { pairwise, startWith } from 'rxjs';
 @Directive({
   selector: 'button[ngnButton], a[ngnButton]',
   providers: [provideSelf(NgnButton)],
+  host: {
+    '[class]': 'theme.classes({ "": true, inline: inline() })',
+  },
 })
 export class NgnButton extends NgnBase<'button'> implements OnDestroy {
   protected readonly theme = this.injectThemeTemplate(buttonControlTemplate);
+
+  /**
+   * Whether the button is displayed inline.
+   * This will make the button height fit the current line height.
+   */
+  public readonly inline = input(false, { transform: booleanAttribute });
 
   constructor() {
     super();

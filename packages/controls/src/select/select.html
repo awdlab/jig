@@ -11,7 +11,7 @@
   [label]="label()"
   [inputId]="inputId()"
   [invalid]="invalid()"
-  [tabindex]="tabindex()"
+  [tabindex]="editable() ? -1 : tabindex()"
 >
   @if (editable()) {
     <ng-content select="[ngnInput]">

@@ -1,3 +1,6 @@
+@if (label(); as label) {
+  <label [ngClass]="theme.class('label')" [for]="inputId()">{{ label }}</label>
+}
 <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
 <div
   [ngClass]="
@@ -9,8 +12,20 @@
   (click)="clicked($event)"
   [tabindex]="tabindex()"
 >
-  @if (label(); as label) {
-    <label [ngClass]="theme.class('label')" [for]="inputId()">{{ label }}</label>
+  <ng-content select="input, textarea" />
+  @if (showClearButton()) {
+    <button
+      tabindex="-1"
+      [ngClass]="theme.class('clear-button')"
+      ngnButton
+      type="button"
+      [kind]="'icon'"
+      inline
+      (click)="clearButtonClicked($event)"
+      aria-label="Clear input"
+    >
+      <ngn-icon defaultIcon="xmark" [icon]="iconClearButton()" />
+    </button>
   }
   <ng-content />
 </div>

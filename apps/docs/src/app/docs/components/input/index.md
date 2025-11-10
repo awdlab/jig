@@ -5,14 +5,6 @@ input types, textarea mode, and input field wrappers.
 
 {{ demo: Demo_Input_Base }}
 
-#### Input Field
-
-{{ demo: Demo_Input_InputField }}
-
 #### Textarea
 
 {{ demo: Demo_Input_Textarea }}
-
-#### Textarea Input Field
-
-{{ demo: Demo_Input_TextareaInputField }}

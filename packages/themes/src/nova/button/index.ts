@@ -10,10 +10,11 @@ export const buttonStyles = createThemePart({
   root: {
     css: ({ v, c }) => css`
       ${c()} {
+        --padding: ${v('size.padding.md')} ${v('size.padding.lg')};
         border-radius: ${v('size.rounded.md')};
         border-style: none;
         font-weight: ${v('font.weight.semibold')};
-        padding: ${v('size.padding.md')} ${v('size.padding.lg')};
+        padding: var(--padding);
         cursor: pointer;
       }
       ${c('kind-primary')} {
@@ -57,10 +58,10 @@ export const buttonStyles = createThemePart({
       ${c('kind-icon')} {
         background: transparent;
         border-radius: ${v('size.rounded.full')};
-        padding: ${v('size.padding.md')};
+        --padding: ${v('size.padding.md')};
 
-        width: calc(1em + 2 * ${v('size.padding.md')}); /** font size plus padding */
-        height: calc(1em + 2 * ${v('size.padding.md')});
+        width: calc(1em + 2 * var(--padding)); /** font size plus padding */
+        height: calc(1em + 2 * var(--padding));
         display: flex;
         align-items: center;
         justify-content: center;
@@ -73,6 +74,11 @@ export const buttonStyles = createThemePart({
         }
         &:active {
           background: ${v('color.surface.300')};
+        }
+
+        &${c('inline')} {
+          height: 1lh;
+          width: 1lh;
         }
       }
       ${c('kind-link')} {

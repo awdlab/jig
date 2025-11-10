@@ -6,7 +6,7 @@ import { NgnInput } from '@ngneers/controls/input';
   imports: [FormsModule, NgnInput],
   selector: 'ngn-demo-input-textarea',
   template: `
-    <textarea ngnInput [ngModel]="value()" (ngModelChange)="value.set($event)"></textarea>
+    <textarea ngnInput rows="3" [ngModel]="value()" (ngModelChange)="value.set($event)"></textarea>
     {{ value() }}
   `,
 })

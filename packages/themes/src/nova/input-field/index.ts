@@ -8,7 +8,7 @@ export const inputFieldStyles = createThemePart({
   base: baseStyles.inputField,
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
-    css: ({ v, c }) => css`
+    css: ({ v, c, d }) => css`
       ${c()} {
         border-radius: ${v('size.rounded.md')};
         border-color: ${v('color.surface.300')};
@@ -54,7 +54,12 @@ export const inputFieldStyles = createThemePart({
           cursor: disabled;
         }
       }
-      ${c('readonly')} {
+      ${c('clear-button')} {
+        font-size: calc(1em * 0.9);
+        color: ${v('color.surface.500')};
+        &:hover {
+          color: ${v('color.surface.700')};
+        }
       }
     `,
   },
