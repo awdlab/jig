@@ -1,13 +1,6 @@
 import { Placement } from '@floating-ui/dom';
 import { PositioningSizeConstraints } from '@ngneers/controls/api/ng';
 
-export type Point = {
-  x: number;
-  y: number;
-};
-
-export type Anchor = HTMLElement | Point;
-
 export type PopoverOptions = {
   /**
    * Constraints for the size of the popover.

@@ -20,13 +20,14 @@ import {
   autoPositionElement,
   AutoPositioningHandle,
   Openable,
+  Anchor,
 } from '@ngneers/controls/api/ng';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { computedWithPrevious } from '@ngneers/controls/utils-ng';
 import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
 
-import { Anchor, PopoverOptions } from './types';
+import { PopoverOptions } from './types';
 
 /**
  * @category control

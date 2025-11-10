@@ -14,7 +14,13 @@ import {
   size,
   Strategy,
 } from '@floating-ui/dom';
-import { Anchor } from '@ngneers/controls/popover';
+
+export type Point = {
+  x: number;
+  y: number;
+};
+
+export type Anchor = HTMLElement | Point;
 
 export type PositioningSizeConstraints = {
   /**
