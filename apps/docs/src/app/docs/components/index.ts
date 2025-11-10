@@ -19,6 +19,7 @@ import { ScrollerPage } from './scroller/page';
 import { SelectPage } from './select/page';
 import { SplitterPage } from './splitter/page';
 import { TabsPage } from './tabs/page';
+import { TagPage } from './tag/page';
 import { TooltipPage } from './tooltip/page';
 
 export const ALL_COMPONENT_PAGES = [
@@ -43,5 +44,6 @@ export const ALL_COMPONENT_PAGES = [
   SelectPage,
   SplitterPage,
   TabsPage,
+  TagPage,
   TooltipPage,
 ];

@@ -22,6 +22,7 @@ import { scrollerStyles } from '@ngneers/controls-themes/base/scroller';
 import { selectStyles } from '@ngneers/controls-themes/base/select';
 import { splitterStyles } from '@ngneers/controls-themes/base/splitter';
 import { tabsStyles } from '@ngneers/controls-themes/base/tabs';
+import { tagStyles } from '@ngneers/controls-themes/base/tag';
 import { tooltipStyles } from '@ngneers/controls-themes/base/tooltip';
 
 export const baseStyles = {
@@ -51,5 +52,6 @@ export const baseStyles = {
   select: selectStyles,
   splitter: splitterStyles,
   tabs: tabsStyles,
+  tag: tagStyles,
   tooltip: tooltipStyles,
 };

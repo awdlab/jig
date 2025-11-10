@@ -14,4 +14,5 @@ export * from './menu';
 export * from './popover';
 export * from './scroller';
 export * from './select';
+export * from './tag';
 export * from './tooltip';

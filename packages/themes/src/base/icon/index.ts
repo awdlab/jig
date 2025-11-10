@@ -10,6 +10,11 @@ export const iconStyles = createThemePart({
         width: 1em;
         height: 1em;
         display: flex;
+        svg {
+          fill: currentColor;
+          width: 100%;
+          height: 100%;
+        }
       }
       ${c('default')} {
         width: 1em;
