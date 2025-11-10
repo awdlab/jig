@@ -1,0 +1,1 @@
+{{ api: tag/tag NgnTag }}

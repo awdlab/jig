@@ -1,17 +1,13 @@
 import {
   Component,
   ComponentRef,
-  createComponent,
   effect,
-  ElementRef,
-  EnvironmentInjector,
   inject,
-  Injector,
-  OutputRefSubscription,
-  runInInjectionContext,
+  OnInit,
   signal,
+  TemplateRef,
   Type,
-  untracked,
+  viewChild,
   ViewContainerRef,
 } from '@angular/core';
 import {
@@ -19,12 +15,31 @@ import {
   TestComponentBase,
 } from './define-test-component';
 import { WindowService } from './window';
+import { NgnTemplate, templateTypeFn } from '@ngneers/controls/api/ng';
+import {
+  GlobalIconTemplate,
+  IconTemplateContext,
+} from '@ngneers/controls/icon';
 
 @Component({
   selector: 'app-root',
-  template: '',
+  imports: [NgnTemplate],
+  template: `
+    <ng-template #customIconTemplate [ngnTemplate]="iconTemplateType" let-icon>
+      <svg xmlns="http://www.w3.org/2000/svg" style="width: 1em; height: 1em">
+        <use [attr.href]="icon.icon + '#root'"></use>
+      </svg>
+    </ng-template>
+  `,
 })
-export class App {
+export class App implements OnInit {
+  private readonly _icon = inject(GlobalIconTemplate);
+  protected readonly iconTemplateType =
+    templateTypeFn<IconTemplateContext['$implicit']>();
+
+  private readonly _iconTemplate =
+    viewChild.required<TemplateRef<IconTemplateContext>>('customIconTemplate');
+
   private readonly _testComponent = signal<Type<TestComponentBase> | null>(
     null,
   );
@@ -56,6 +71,10 @@ export class App {
     effect(() => {
       this.setInputs();
     });
+  }
+
+  public ngOnInit() {
+    this._icon.setGlobalIconTemplate(this._iconTemplate());
   }
 
   private setInputs() {

@@ -24,11 +24,13 @@ import { scrollerStyles } from '@ngneers/controls-themes/nova/scroller';
 import { selectStyles } from '@ngneers/controls-themes/nova/select';
 import { splitterStyles } from '@ngneers/controls-themes/nova/splitter';
 import { tabsStyles } from '@ngneers/controls-themes/nova/tabs';
+import { tagStyles } from '@ngneers/controls-themes/nova/tag';
 import { tooltipStyles } from '@ngneers/controls-themes/nova/tooltip';
 
 export const KINDS = {
   button: ['primary', 'secondary', 'link', 'text', 'icon'] as const,
   chip: ['primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'] as const,
+  tag: ['primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'] as const,
 };
 
 export const novaCoral = createTheme(
@@ -64,6 +66,7 @@ export const novaCoral = createTheme(
     sizes,
     splitterStyles,
     tabsStyles,
+    tagStyles,
     tooltipStyles,
   ],
   {

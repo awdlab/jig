@@ -1,0 +1,25 @@
+import { tagControlTemplate } from '@ngneers/controls-themes/templates/tag';
+import { themeClasses } from '../utils/theme';
+import test, { expect, Locator } from '@playwright/test';
+
+export class NgnTagHarness {
+  public readonly classes = themeClasses(tagControlTemplate);
+
+  public readonly locator: Locator;
+  public readonly content: Locator;
+  public readonly icon: Locator;
+
+  constructor(locator: Locator) {
+    this.locator = locator;
+    this.content = locator.locator(this.classes.content);
+    this.icon = locator.locator(this.classes.icon);
+  }
+
+  public async expectIcon(hasIcon: boolean) {
+    if (hasIcon) {
+      await expect(this.icon).toBeVisible();
+    } else {
+      await expect(this.icon).not.toBeVisible();
+    }
+  }
+}

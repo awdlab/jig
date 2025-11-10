@@ -1,0 +1,6 @@
+@if (icon()) {
+  <ngn-icon [ngClass]="theme.class('icon')" [icon]="icon()" />
+}
+<div [ngClass]="theme.class('content')">
+  <ng-content />
+</div>
