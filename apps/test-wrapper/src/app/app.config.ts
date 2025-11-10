@@ -12,7 +12,10 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideNgnControls({ theme: { preset: novaCoral } }),
+    provideNgnControls({
+      theme: { preset: novaCoral },
+      disableAnimations: true,
+    }),
     provideRouter([]),
   ],
 };

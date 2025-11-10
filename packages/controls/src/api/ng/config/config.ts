@@ -11,6 +11,7 @@ export const NGN_CONFIG = new InjectionToken<NgnConfig>('NGN_CONFIG');
 export type NgnConfig = {
   readonly logLevel: LogLevel;
   readonly customTranslations?: Record<string, () => Promise<Translations>>;
+  readonly disableAnimations: boolean;
   readonly theme: {
     readonly preset: Theme | null;
     readonly lazyLoaded: boolean;
@@ -34,6 +35,7 @@ export type NgnConfigInit = DeepPartial<
 
 export const defaultNgnConfig: NgnConfig = {
   logLevel: 'info',
+  disableAnimations: false,
   theme: {
     preset: null,
     lazyLoaded: false,
@@ -66,6 +68,8 @@ export function provideNgnConfig(config?: NgnConfigInit): Provider {
       provide: NGN_CONFIG,
       useValue: {
         logLevel: config?.logLevel ?? defaultNgnConfig.logLevel,
+        customTranslations: config?.customTranslations,
+        disableAnimations: config?.disableAnimations ?? defaultNgnConfig.disableAnimations,
         theme: {
           preset: config?.theme?.preset ?? defaultNgnConfig.theme.preset,
           lazyLoaded: config?.theme?.lazyLoaded ?? defaultNgnConfig.theme.lazyLoaded,

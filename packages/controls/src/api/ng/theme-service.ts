@@ -83,6 +83,19 @@ export class ThemeService implements OnDestroy {
       );
     }
 
+    if (this._config.disableAnimations) {
+      const style = this._document.createElement('style');
+      style.setAttribute('ngn-style', '');
+      // we set the durations instead of setting animation/transition to none,
+      // so that the animation starts/ends are still applied & the events are still fired
+      style.innerHTML = `.ngn-control, .ngn-control * {
+        animation-duration: 0s !important;
+        transition-duration: 0s !important;
+      }`;
+      this._document.head.appendChild(style);
+      Logger.debug('Animations have been disabled via configuration.');
+    }
+
     toObservable(this.activeTheme)
       .pipe(takeUntilDestroyed(), skip(1))
       .subscribe(this.onThemeChange.bind(this));
