@@ -31,12 +31,6 @@ export const KINDS = {
   chip: ['primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'] as const,
 };
 
-// declare module '@ngneers/controls-custom-types' {
-//   export interface NgnThemeTypes {
-//     kind: typeof KINDS;
-//   }
-// }
-
 export const novaCoral = createTheme(
   'Nova Coral',
   [
