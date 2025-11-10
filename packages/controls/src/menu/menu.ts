@@ -2,6 +2,7 @@ import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   effect,
   ElementRef,
   inject,
@@ -70,10 +71,10 @@ export class NgnMenu extends MenuTemplates implements Openable {
    */
   public readonly isSubMenu = input<boolean>(false);
   /**
-   * Whether to open submenus on hover.
-   * @default true
+   * Whether to open submenus on hover. Defaults to true in popover mode.
+   * @default popover()
    */
-  public readonly openSubmenuOnHover = input<boolean>(true);
+  public readonly openSubmenuOnHover = input<boolean>();
 
   /**
    * Emitted when the menu is fully closed.
@@ -99,6 +100,9 @@ export class NgnMenu extends MenuTemplates implements Openable {
   private readonly _popover = viewChild(NgnPopover);
   private readonly _menuItems = viewChildren<ElementRef<HTMLElement>>('menuItem');
   private readonly _childMenus = viewChildren(NgnMenu);
+  private readonly _openSubmenuOnHover = computed(
+    () => this.openSubmenuOnHover() ?? this.popover()
+  );
   protected readonly autofocus = signal(false);
 
   constructor() {
@@ -201,10 +205,10 @@ export class NgnMenu extends MenuTemplates implements Openable {
     menuItem: HTMLButtonElement | null
   ) {
     if (closeBy === 'hover') {
-      if (this._isTouchDevice() || !this.openSubmenuOnHover()) {
+      if (this._isTouchDevice() || !this._openSubmenuOnHover()) {
         return;
       }
-      if (this.openSubmenuOnHover()) {
+      if (this._openSubmenuOnHover()) {
         menuItem?.focus();
       }
     }
@@ -219,7 +223,7 @@ export class NgnMenu extends MenuTemplates implements Openable {
     openBy: 'hover' | 'click' | 'arrow'
   ) {
     if (openBy === 'hover') {
-      if (this._isTouchDevice() || !this.openSubmenuOnHover()) {
+      if (this._isTouchDevice() || !this._openSubmenuOnHover()) {
         return;
       }
     }

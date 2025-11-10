@@ -4,7 +4,7 @@ import { MenuItem, NgnMenu } from '@ngneers/controls/menu';
 @Component({
   selector: 'ngn-demo-menu-tiered',
   imports: [NgnMenu],
-  template: `<ngn-menu class="w-10" [openSubmenuOnHover]="false" #menu [items]="items()" />`,
+  template: `<ngn-menu class="w-40 block" #menu [items]="items()" />`,
 })
 export class Demo_Menu_Tiered {
   public readonly items = signal<MenuItem[]>([
