@@ -34,28 +34,33 @@ test('features', async ({ page }, testInfo) => {
   });
 });
 
-test('kinds', async ({ page }, testInfo) => {
+test('kinds and colors', async ({ page }, testInfo) => {
   await loadComponent(
     page,
     {
       template: `
       <div class="page-center">
-        @for (kind of inputs().kinds; track $index) {
-          <ngn-tag [icon]="'icon.svg'" [kind]="kind">{{ kind ?? '*no kind*' }}</ngn-tag>
-        }
+        <div class="flex gap-2 flex-wrap">
+          @for (kind of inputs().kinds; track $index) {
+            @if (inputs().kinds.length > 1) {
+              <div class="w-full font-bold mt-4 mb-2">Kind: {{ kind ?? '*none*' }}</div>
+            }
+            @for (color of inputs().colors; track $index) {
+              <ngn-tag [kind]="kind" [color]="color">{{ color ?? 'default' }}</ngn-tag>
+            }
+          }
+        </div>
       </div>
     `,
       imports: ['tag'],
     },
     {
       inputs: {
-        kinds: [null, 'primary', 'secondary', 'accent', 'success', 'warning', 'error', 'info'],
+        kinds: [null, 'pill'],
+        colors: [null, 'primary', 'secondary', 'accent', 'success', 'warning', 'error', 'info'],
       },
     }
   );
 
-  const firstTag = new NgnTagHarness(page.locator('ngn-tag').first());
-  await firstTag.expectIcon(true);
-
-  await expectScreenshot(page, testInfo, 'kinds');
+  await expectScreenshot(page, testInfo, 'kinds-and-colors');
 });

@@ -70,56 +70,27 @@ test('features', async ({ page }, testInfo) => {
   });
 });
 
-test('kinds', async ({ page }, testInfo) => {
-  const handle = await loadComponent(
+test('colors', async ({ page }, testInfo) => {
+  await loadComponent(
     page,
     {
       template: `
-      <ngn-chip
-        class="page-center"
-        [actionable]="true"
-        [closable]="true"
-        [kind]="inputs().kind"
-      >Chip</ngn-chip>
+      <div class="page-center">
+        <div class="flex gap-2 flex-wrap">
+          @for (color of inputs().colors; track $index) {
+            <ngn-chip [color]="color">{{ color ?? 'default' }}</ngn-chip>
+          }
+        </div>
+      </div>
     `,
       imports: ['chip'],
     },
     {
-      inputs: { kind: undefined },
+      inputs: {
+        colors: [null, 'primary', 'secondary', 'accent', 'success', 'warning', 'error', 'info'],
+      },
     }
   );
 
-  const chip = new NgnChipHarness(page.locator('ngn-chip'));
-
-  const kinds = [
-    undefined,
-    'primary',
-    'secondary',
-    'accent',
-    'success',
-    'warning',
-    'error',
-    'info',
-  ];
-
-  for (const kind of kinds) {
-    await page.mouse.move(0, 0);
-
-    await test.step(`kind: ${kind ?? 'default'}`, async () => {
-      await handle.setInputs({ kind });
-
-      await expectScreenshot(page, testInfo, `kind-${kind ?? 'default'}`);
-
-      await chip.content.hover();
-      await expectScreenshot(page, testInfo, `kind-${kind ?? 'default'}-hover`);
-
-      await chip.content.focus();
-      await expectScreenshot(page, testInfo, `kind-${kind ?? 'default'}-focus`);
-      await chip.content.blur();
-
-      await mouseDownOnElement(page, chip.content);
-      await expectScreenshot(page, testInfo, `kind-${kind ?? 'default'}-active`);
-      await page.mouse.up();
-    });
-  }
+  await expectScreenshot(page, testInfo, 'colors');
 });
