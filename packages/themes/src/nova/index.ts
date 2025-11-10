@@ -1,4 +1,3 @@
-import '@ngneers/controls-custom-types';
 import { createTheme } from '@ngneers/controls-themes/api';
 import { accordionStyles } from '@ngneers/controls-themes/nova/accordion';
 import { movableStyles, resizableStyles } from '@ngneers/controls-themes/nova/api';
@@ -19,6 +18,7 @@ import { inputMaskStyles } from '@ngneers/controls-themes/nova/input-mask';
 import { itemViewStyles } from '@ngneers/controls-themes/nova/item-view';
 import { listBoxStyles } from '@ngneers/controls-themes/nova/list-box';
 import { menuStyles } from '@ngneers/controls-themes/nova/menu';
+import { messageStyles } from '@ngneers/controls-themes/nova/message';
 import { popoverStyles } from '@ngneers/controls-themes/nova/popover';
 import { scrollerStyles } from '@ngneers/controls-themes/nova/scroller';
 import { selectStyles } from '@ngneers/controls-themes/nova/select';
@@ -27,8 +27,11 @@ import { tabsStyles } from '@ngneers/controls-themes/nova/tabs';
 import { tagStyles } from '@ngneers/controls-themes/nova/tag';
 import { tooltipStyles } from '@ngneers/controls-themes/nova/tooltip';
 
+import type {} from './theme-types';
+
 export const KINDS = {
   button: ['primary', 'secondary', 'link', 'text', 'icon'] as const,
+  message: ['default', 'outlined', 'simple'] as const,
   tag: ['default', 'pill'] as const,
 };
 
@@ -67,6 +70,7 @@ export const novaCoral = createTheme(
     itemViewStyles,
     listBoxStyles,
     menuStyles,
+    messageStyles,
     movableStyles,
     popoverStyles,
     resizableStyles,
@@ -83,10 +87,3 @@ export const novaCoral = createTheme(
     colors: COLORS,
   }
 );
-
-declare module '@ngneers/controls-custom-types' {
-  export interface NgnThemeTypes {
-    kind: typeof KINDS;
-    color: typeof COLORS;
-  }
-}

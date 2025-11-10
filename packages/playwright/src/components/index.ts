@@ -11,6 +11,7 @@ export * from './input-mask';
 export * from './item-view';
 export * from './list-box';
 export * from './menu';
+export * from './message';
 export * from './popover';
 export * from './scroller';
 export * from './select';

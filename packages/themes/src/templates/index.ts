@@ -20,6 +20,7 @@ export type ThemeTemplate = {
   itemView: Awaited<typeof import('./item-view')>['itemViewControlTemplate'];
   listBox: Awaited<typeof import('./list-box')>['listBoxControlTemplate'];
   menu: Awaited<typeof import('./menu')>['menuControlTemplate'];
+  message: Awaited<typeof import('./message')>['messageControlTemplate'];
   popover: Awaited<typeof import('./popover')>['popoverControlTemplate'];
   scroller: Awaited<typeof import('./scroller')>['scrollerControlTemplate'];
   select: Awaited<typeof import('./select')>['selectControlTemplate'];

@@ -27,6 +27,7 @@ export const IMPORTS = {
   itemView: () =>
     import('@ngneers/controls/item-view').then((m) => m.NgnItemView),
   listBox: () => import('@ngneers/controls/list-box').then((m) => m.NgnListBox),
+  message: () => import('@ngneers/controls/message').then((m) => m.NgnMessage),
   popover: () => import('@ngneers/controls/popover').then((m) => m.NgnPopover),
   scroller: () =>
     import('@ngneers/controls/scroller').then((m) => m.NgnScroller),

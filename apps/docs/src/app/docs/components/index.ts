@@ -15,6 +15,7 @@ import { InputMaskPage } from './input-mask/page';
 import { ItemViewPage } from './item-view/page';
 import { ListBoxPage } from './list-box/page';
 import { MenuPage } from './menu/page';
+import { MessagePage } from './message/page';
 import { PopoverPage } from './popover/page';
 import { ScrollerPage } from './scroller/page';
 import { SelectPage } from './select/page';
@@ -41,6 +42,7 @@ export const ALL_COMPONENT_PAGES = [
   ItemViewPage,
   ListBoxPage,
   MenuPage,
+  MessagePage,
   PopoverPage,
   ScrollerPage,
   SelectPage,
