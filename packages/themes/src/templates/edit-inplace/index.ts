@@ -2,10 +2,8 @@ import { createControlTemplate } from '@ngneers/controls-themes/api';
 import { inplaceControlTemplate } from '@ngneers/controls-themes/templates/inplace';
 
 export const editInplaceControlTemplate = createControlTemplate({
-  scope: 'inplace',
+  scope: 'edit-inplace',
   classNames: [
-    'display',
-    'edit',
     'default-display',
     'default-edit',
     'default-edit-input',

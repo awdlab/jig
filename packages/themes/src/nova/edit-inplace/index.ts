@@ -8,8 +8,9 @@ export const editInplaceStyles = createThemePart({
   base: baseStyles.editInplace,
   dependencies: [sizesTemplate, colorsTemplate],
   root: {
-    css: ({ v, c }) => css`
-      ${c('display')} {
+    css: ({ c }) => css`
+      ${c('default-display')} {
+        padding: 1px; /* To avoid layout shift when switching to edit mode */
       }
     `,
   },
