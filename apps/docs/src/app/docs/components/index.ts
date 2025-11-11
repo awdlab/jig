@@ -9,6 +9,7 @@ import { ChipPage } from './chip/page';
 import { DialogPage } from './dialog/page';
 import { DrawerPage } from './drawer/page';
 import { IconPage } from './icon/page';
+import { InplacePage } from './inplace/page';
 import { InputPage } from './input/page';
 import { InputFieldPage } from './input-field/page';
 import { InputMaskPage } from './input-mask/page';
@@ -36,6 +37,7 @@ export const ALL_COMPONENT_PAGES = [
   DialogPage,
   DrawerPage,
   IconPage,
+  InplacePage,
   InputPage,
   InputFieldPage,
   InputMaskPage,

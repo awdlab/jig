@@ -11,6 +11,7 @@ import { dialogStyles } from '@ngneers/controls-themes/base/dialog';
 import { drawerStyles } from '@ngneers/controls-themes/base/drawer';
 import { globalStyles } from '@ngneers/controls-themes/base/global';
 import { iconStyles } from '@ngneers/controls-themes/base/icon';
+import { inplaceStyles } from '@ngneers/controls-themes/base/inplace';
 import { inputStyles } from '@ngneers/controls-themes/base/input';
 import { inputFieldStyles } from '@ngneers/controls-themes/base/input-field';
 import { inputMaskStyles } from '@ngneers/controls-themes/base/input-mask';
@@ -42,6 +43,7 @@ export const baseStyles = {
   drawer: drawerStyles,
   global: globalStyles,
   icon: iconStyles,
+  inplace: inplaceStyles,
   input: inputStyles,
   inputField: inputFieldStyles,
   inputMask: inputMaskStyles,

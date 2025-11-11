@@ -12,6 +12,7 @@ import { chipStyles } from '@ngneers/controls-themes/nova/chip';
 import { dialogStyles } from '@ngneers/controls-themes/nova/dialog';
 import { drawerStyles } from '@ngneers/controls-themes/nova/drawer';
 import { iconStyles } from '@ngneers/controls-themes/nova/icon';
+import { inplaceStyles } from '@ngneers/controls-themes/nova/inplace';
 import { inputStyles } from '@ngneers/controls-themes/nova/input';
 import { inputFieldStyles } from '@ngneers/controls-themes/nova/input-field';
 import { inputMaskStyles } from '@ngneers/controls-themes/nova/input-mask';
@@ -64,6 +65,7 @@ export const novaCoral = createTheme(
     font,
     iconStyles,
     shadow,
+    inplaceStyles,
     inputFieldStyles,
     inputMaskStyles,
     inputStyles,

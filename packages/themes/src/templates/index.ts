@@ -14,6 +14,7 @@ export type ThemeTemplate = {
   drawer: Awaited<typeof import('./drawer')>['drawerControlTemplate'];
   global: Awaited<typeof import('./global')>['globalControlTemplate'];
   icon: Awaited<typeof import('./icon')>['iconControlTemplate'];
+  inplace: Awaited<typeof import('./inplace')>['inplaceControlTemplate'];
   input: Awaited<typeof import('./input')>['inputControlTemplate'];
   inputField: Awaited<typeof import('./input-field')>['inputFieldControlTemplate'];
   inputMask: Awaited<typeof import('./input-mask')>['inputMaskControlTemplate'];

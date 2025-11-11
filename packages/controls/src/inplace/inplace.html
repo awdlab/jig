@@ -1,0 +1,15 @@
+@if (contentVisible()) {
+  <div [ngClass]="theme.class('content')">
+    <ngn-defer
+      [open]="contentVisible()"
+      [lazyContent]="contentTemplate()"
+      [lazyContentContext]="{ $implicit: { close: closeContent } }"
+      [lazy]="lazy()"
+      [cache]="cache()"
+    />
+  </div>
+} @else {
+  <button [ngClass]="theme.class('display')" role="button" (click)="switchToContent()">
+    <ng-container [ngTemplateOutlet]="displayTemplate()" />
+  </button>
+}
