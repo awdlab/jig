@@ -1,0 +1,48 @@
+<ngn-inplace
+  [templateDisplay]="displayTemplate()"
+  [templateDisplayContext]="{ $implicit: { value: value() } }"
+  [templateContent]="editTemplate()"
+  [templateContentContext]="{
+    $implicit: {
+      value: value(),
+      update: value.set.bind(value),
+      close: editVisible.set.bind(editVisible, false),
+    },
+  }"
+  [contentVisible]="editVisible()"
+  (contentVisibleChange)="editVisible.set($event)"
+  [lazy]="lazy()"
+  [cache]="cache()"
+/>
+
+<ng-template #defaultDisplayTemplate [ngnTemplate]="templateTypes.display" let-display>
+  <div [ngClass]="theme.class('default-display')">
+    <span>{{ display.value }}</span>
+  </div>
+</ng-template>
+
+<ng-template #defaultEditTemplate [ngnTemplate]="templateTypes.edit" let-edit>
+  <div [ngClass]="theme.class('default-edit')">
+    <ngn-input-field (focusout)="focusOut($event)">
+      <input
+        type="text"
+        ngnInput
+        ngnAutofocus
+        [value]="edit.value"
+        (valueChange)="edit.update($event ?? '')"
+        (keydown.enter)="edit.close()"
+        [ngClass]="theme.class('default-edit-input')"
+      />
+      <button
+        ngnButton
+        type="button"
+        kind="icon"
+        [inline]="true"
+        (click)="edit.close()"
+        [ngClass]="theme.class('default-edit-close-button')"
+      >
+        <ngn-icon defaultIcon="check" />
+      </button>
+    </ngn-input-field>
+  </div>
+</ng-template>

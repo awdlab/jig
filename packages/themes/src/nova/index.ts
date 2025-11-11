@@ -11,6 +11,7 @@ import { checkboxStyles } from '@ngneers/controls-themes/nova/checkbox';
 import { chipStyles } from '@ngneers/controls-themes/nova/chip';
 import { dialogStyles } from '@ngneers/controls-themes/nova/dialog';
 import { drawerStyles } from '@ngneers/controls-themes/nova/drawer';
+import { editInplaceStyles } from '@ngneers/controls-themes/nova/edit-inplace';
 import { iconStyles } from '@ngneers/controls-themes/nova/icon';
 import { inplaceStyles } from '@ngneers/controls-themes/nova/inplace';
 import { inputStyles } from '@ngneers/controls-themes/nova/input';
@@ -62,6 +63,7 @@ export const novaCoral = createTheme(
     coral,
     dialogStyles,
     drawerStyles,
+    editInplaceStyles,
     font,
     iconStyles,
     shadow,

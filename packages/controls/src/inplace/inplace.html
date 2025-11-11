@@ -3,13 +3,16 @@
     <ngn-defer
       [open]="contentVisible()"
       [lazyContent]="contentTemplate()"
-      [lazyContentContext]="{ $implicit: { close: closeContent } }"
+      [lazyContentContext]="templateContentContext() ?? { $implicit: { close: closeContent } }"
       [lazy]="lazy()"
       [cache]="cache()"
     />
   </div>
 } @else {
   <button [ngClass]="theme.class('display')" role="button" (click)="switchToContent()">
-    <ng-container [ngTemplateOutlet]="displayTemplate()" />
+    <ng-container
+      [ngTemplateOutlet]="displayTemplate()"
+      [ngTemplateOutletContext]="templateDisplayContext()"
+    />
   </button>
 }

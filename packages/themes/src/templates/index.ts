@@ -12,6 +12,7 @@ export type ThemeTemplate = {
   chip: Awaited<typeof import('./chip')>['chipControlTemplate'];
   dialog: Awaited<typeof import('./dialog')>['dialogControlTemplate'];
   drawer: Awaited<typeof import('./drawer')>['drawerControlTemplate'];
+  editInplace: Awaited<typeof import('./edit-inplace')>['editInplaceControlTemplate'];
   global: Awaited<typeof import('./global')>['globalControlTemplate'];
   icon: Awaited<typeof import('./icon')>['iconControlTemplate'];
   inplace: Awaited<typeof import('./inplace')>['inplaceControlTemplate'];

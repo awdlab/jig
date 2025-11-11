@@ -1,4 +1,4 @@
-export type DisplayTemplateType = {
+export type ContentTemplateType = {
   $implicit: {
     close: () => void;
   };

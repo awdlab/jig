@@ -2,7 +2,7 @@ import { computed, contentChild, Directive, input, TemplateRef } from '@angular/
 import { templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 
-import { DisplayTemplateType as ContentTemplateType } from './types';
+import { ContentTemplateType } from './types';
 
 @Directive()
 export abstract class InplaceTemplates extends NgnBase<'inplace'> {
@@ -16,6 +16,10 @@ export abstract class InplaceTemplates extends NgnBase<'inplace'> {
   protected readonly displayTemplate = computed(
     () => this._userDisplayTemplate() ?? this.templateDisplay()
   );
+  /**
+   * Context for the display template.
+   */
+  public readonly templateDisplayContext = input<unknown>();
 
   // Content template
   private readonly _userContentTemplate =
@@ -30,6 +34,10 @@ export abstract class InplaceTemplates extends NgnBase<'inplace'> {
   protected readonly contentTemplate = computed(
     () => this._userContentTemplate() ?? this.templateContent()
   );
+  /**
+   * Context for the content template.
+   */
+  public readonly templateContentContext = input<unknown>();
 
   /**
    * Types for the drawer templates.
