@@ -17,5 +17,6 @@ export * from './message';
 export * from './popover';
 export * from './scroller';
 export * from './select';
+export * from './tabs';
 export * from './tag';
 export * from './tooltip';

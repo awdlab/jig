@@ -38,6 +38,7 @@ export const IMPORTS = {
   splitter: () =>
     import('@ngneers/controls/splitter').then((m) => m.NgnSplitter),
   tabs: () => import('@ngneers/controls/tabs').then((m) => m.NgnTabs),
+  tab: () => import('@ngneers/controls/tabs').then((m) => m.NgnTab),
   tag: () => import('@ngneers/controls/tag').then((m) => m.NgnTag),
   tooltip: () => import('@ngneers/controls/tooltip').then((m) => m.NgnTooltip),
   dummy_component: () =>
