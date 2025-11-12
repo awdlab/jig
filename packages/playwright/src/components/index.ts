@@ -5,6 +5,8 @@ export * from './button-group';
 export * from './button';
 export * from './calendar';
 export * from './chip';
+export * from './edit-inplace';
+export * from './inplace';
 export * from './input';
 export * from './input-field';
 export * from './input-mask';

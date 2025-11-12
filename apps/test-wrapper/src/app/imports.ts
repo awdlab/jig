@@ -18,7 +18,10 @@ export const IMPORTS = {
   chip: () => import('@ngneers/controls/chip').then((m) => m.NgnChip),
   defer: () => import('@ngneers/controls/defer').then((m) => m.NgnDefer),
   dialog: () => import('@ngneers/controls/dialog').then((m) => m.NgnDialog),
+  editInplace: () =>
+    import('@ngneers/controls/edit-inplace').then((m) => m.NgnEditInplace),
   icon: () => import('@ngneers/controls/icon').then((m) => m.NgnIcon),
+  inplace: () => import('@ngneers/controls/inplace').then((m) => m.NgnInplace),
   input: () => import('@ngneers/controls/input').then((m) => m.NgnInput),
   inputField: () =>
     import('@ngneers/controls/input-field').then((m) => m.NgnInputField),
