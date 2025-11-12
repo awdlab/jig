@@ -3,6 +3,7 @@ import { createControlTemplate } from '@ngneers/controls-themes/api';
 export const tabsControlTemplate = createControlTemplate({
   scope: 'tabs',
   classNames: [
+    'headers-container',
     'headers',
     'header',
     'header-active',

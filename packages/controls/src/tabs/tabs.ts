@@ -15,7 +15,7 @@ import {
   viewChildren,
 } from '@angular/core';
 import { elementSizeSignal, elementsSizesSignal } from '@ngneers/controls/api/ng';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { provideSelf } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { NgnDragScroll, NgnScrollAmount } from '@ngneers/controls/directives';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -24,6 +24,7 @@ import { IconType } from '@ngneers/controls-custom-types';
 import { tabsControlTemplate } from '@ngneers/controls-themes/templates/tabs';
 
 import { NgnTab } from './tab';
+import { TabsTemplates } from './tabs-templates';
 
 const PADDING_FOR_STICKY_ELEMENTS = 15;
 
@@ -40,7 +41,7 @@ const PADDING_FOR_STICKY_ELEMENTS = 15;
     '[class]': 'theme.class()',
   },
 })
-export class NgnTabs extends NgnBase<'tabs'> implements AfterViewInit {
+export class NgnTabs extends TabsTemplates implements AfterViewInit {
   protected readonly theme = this.injectThemeTemplate(tabsControlTemplate);
   /**
    * Whether to lazy load the tab contents when they become visible.

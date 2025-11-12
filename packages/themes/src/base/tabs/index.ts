@@ -10,6 +10,10 @@ export const tabsStyles = createThemePart({
         display: flex;
         flex-direction: column;
       }
+      ${c('headers-container')} {
+        display: flex;
+        align-items: center;
+      }
       ${c('headers')} {
         width: 100%;
         display: flex;

@@ -16,13 +16,15 @@ export const tabsStyles = createThemePart({
         border-top-left-radius: ${v('size.rounded.sm')};
         border-top-right-radius: ${v('size.rounded.sm')};
       }
+      ${c('headers-container')} {
+        border-bottom: 1px solid ${v('color.surface.300')};
+      }
       ${c('header')} {
         background: ${v('color.background')};
         border: none;
         cursor: pointer;
         font-weight: ${v('font.weight.semibold')};
         padding: ${v('size.padding.md')} ${v('size.padding.xl')};
-        border-bottom: 1px solid ${v('color.surface.300')};
         &:hover {
           background: ${v('color.surface.100')};
         }

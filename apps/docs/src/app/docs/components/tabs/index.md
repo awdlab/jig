@@ -7,3 +7,7 @@ Display content in a tabbed interface.
 #### Dynamic Tabs
 
 {{ demo: Demo_Tabs_Dynamic }}
+
+#### Custom Tab Headers
+
+{{ demo: Demo_Tabs_CustomHeader }}

@@ -1,48 +1,57 @@
-<div
-  ngnScrollAmount
-  ngnDragScroll
-  #tabList
-  role="tablist"
-  [ngClass]="theme.class('headers')"
-  [id]="elementId + '_tablist'"
->
-  @if (tabsOverflowingLeft()) {
-    <button tabindex="-1" [ngClass]="theme.class('scroll-left')" (click)="scrollHeaders('left')">
-      <ngn-icon [icon]="iconScrollLeft()" [defaultIcon]="'chevron_left'" />
-    </button>
-  }
-  @for (header of headers(); track header.id; let i = $index) {
-    <button
-      type="button"
-      role="tab"
-      [aria-selected]="header.id === activeTab()"
-      [id]="elementId + '_tab_' + header.id"
-      [attr.aria-controls]="elementId + '_tabpanel_' + header.id"
-      [tabindex]="header.id === activeTab() ? 0 : -1"
-      (keydown)="handleTabKeyPress($event, header.id)"
-      #tabHeader
-      [ngClass]="
-        theme.classes({
-          header: true,
-          'header-active': header.id === activeTab(),
-        })
-      "
-      (click)="selectTab(header.id)"
-    >
-      <ng-container *ngTemplateOutlet="header.template"></ng-container>
-    </button>
-  }
-  @if (tabsOverflowingRight()) {
-    <button tabindex="-1" [ngClass]="theme.class('scroll-right')" (click)="scrollHeaders('right')">
-      <ngn-icon [icon]="iconScrollRight()" [defaultIcon]="'chevron_right'" />
-    </button>
-  }
+<div [ngClass]="theme.class('headers-container')">
+  <ng-container [ngTemplateOutlet]="headerLeftTemplate()" />
   <div
-    [ngClass]="theme.class('header-active-indicator')"
-    [style.width.px]="indicatorWidth()"
-    [style.left.px]="indicatorLeft()"
-    [style.transitionDuration.ms]="isFirstRender() ? 0 : undefined"
-  ></div>
+    ngnScrollAmount
+    ngnDragScroll
+    #tabList
+    role="tablist"
+    [ngClass]="theme.class('headers')"
+    [id]="elementId + '_tablist'"
+  >
+    @if (tabsOverflowingLeft()) {
+      <button tabindex="-1" [ngClass]="theme.class('scroll-left')" (click)="scrollHeaders('left')">
+        <ngn-icon [icon]="iconScrollLeft()" [defaultIcon]="'chevron_left'" />
+      </button>
+    }
+
+    @for (header of headers(); track header.id; let i = $index) {
+      <button
+        type="button"
+        role="tab"
+        [aria-selected]="header.id === activeTab()"
+        [id]="elementId + '_tab_' + header.id"
+        [attr.aria-controls]="elementId + '_tabpanel_' + header.id"
+        [tabindex]="header.id === activeTab() ? 0 : -1"
+        (keydown)="handleTabKeyPress($event, header.id)"
+        #tabHeader
+        [ngClass]="
+          theme.classes({
+            header: true,
+            'header-active': header.id === activeTab(),
+          })
+        "
+        (click)="selectTab(header.id)"
+      >
+        <ng-container *ngTemplateOutlet="header.template"></ng-container>
+      </button>
+    }
+    @if (tabsOverflowingRight()) {
+      <button
+        tabindex="-1"
+        [ngClass]="theme.class('scroll-right')"
+        (click)="scrollHeaders('right')"
+      >
+        <ngn-icon [icon]="iconScrollRight()" [defaultIcon]="'chevron_right'" />
+      </button>
+    }
+    <div
+      [ngClass]="theme.class('header-active-indicator')"
+      [style.width.px]="indicatorWidth()"
+      [style.left.px]="indicatorLeft()"
+      [style.transitionDuration.ms]="isFirstRender() ? 0 : undefined"
+    ></div>
+  </div>
+  <ng-container [ngTemplateOutlet]="headerRightTemplate()" />
 </div>
 @for (content of contents(); track content.id; let i = $index) {
   <div
