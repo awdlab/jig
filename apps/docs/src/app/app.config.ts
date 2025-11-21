@@ -2,6 +2,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
+  provideCheckNoChangesConfig,
   provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
@@ -10,6 +11,7 @@ import { provideNgnControls } from '@ngneers/controls/api/ng';
 import { novaCoral } from '@ngneers/controls-themes/nova';
 
 import { routes } from './app.routes';
+import { environment } from '../environment/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,5 +28,6 @@ export const appConfig: ApplicationConfig = {
     ),
     provideClientHydration(withEventReplay()),
     provideNgnControls({ theme: { preset: novaCoral } }),
+    ...[environment.production ? [] : [provideCheckNoChangesConfig({ exhaustive: true })]],
   ],
 };
