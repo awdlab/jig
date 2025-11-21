@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
 import {
   ConsoleLogger,
   DeclarationReflection,
@@ -9,7 +9,7 @@ import {
 } from 'typedoc/browser';
 
 import { NgnDocsApiProperties } from './properties/properties';
-import * as projectJson from '../../docs/_generated/typedoc.json';
+import { getTypedocProject } from './typedoc';
 
 @Component({
   selector: 'ngn-docs-api',
@@ -20,10 +20,13 @@ export class Api {
   public readonly moduleName = input('scroller/scroller');
   public readonly controlName = input('NgnScroller');
 
-  private readonly _project: ProjectReflection;
+  private readonly _project = signal<ProjectReflection | null>(null);
 
   protected readonly props = computed(() => {
-    const module = this._project.getChildByName(this.moduleName());
+    const module = this._project()?.getChildByName(this.moduleName());
+    if (!module) {
+      return { inputs: [], outputs: [], properties: [] };
+    }
     const component = module?.getChildByName(this.controlName());
     if (component?.kind !== ReflectionKind.Class) {
       throw new Error(`API class not found: ${this.controlName()}`);
@@ -55,9 +58,13 @@ export class Api {
   constructor() {
     const logger = new ConsoleLogger();
     const deserializer = new Deserializer(logger);
-    this._project = deserializer.reviveProject('API Docs', projectJson as any, {
-      projectRoot: '/',
-      registry: new FileRegistry(),
+
+    getTypedocProject().then(projectJson => {
+      const project = deserializer.reviveProject('API Docs', projectJson as any, {
+        projectRoot: '/',
+        registry: new FileRegistry(),
+      });
+      this._project.set(project);
     });
   }
 }
