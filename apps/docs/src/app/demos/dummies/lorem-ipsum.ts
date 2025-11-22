@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dummy-lorem-ipsum-1',
   template: `{{ loremIpsum1 }}`,
 })
@@ -14,6 +15,7 @@ export class DummyLoremIpsumComponent1 {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dummy-lorem-ipsum-2',
   template: `{{ loremIpsum2 }}`,
 })

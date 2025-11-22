@@ -1,5 +1,12 @@
 import { NgClass } from '@angular/common';
-import { booleanAttribute, Component, forwardRef, inject, input } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  forwardRef,
+  inject,
+  input,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -12,6 +19,7 @@ import { INPUT_FIELD } from './token';
  * @category control
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgClass, NgnIcon, NgnButton],
   selector: 'ngn-input-field',
   templateUrl: './input-field.html',

@@ -1,9 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NgnListBox } from '@ngneers/controls/list-box';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnListBox],
   selector: 'ngn-demo-list-box-filter',
   template: ` <input

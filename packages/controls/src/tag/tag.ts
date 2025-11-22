@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { CustomColor, IconType } from '@ngneers/controls-custom-types';
@@ -9,6 +9,7 @@ import { tagControlTemplate } from '@ngneers/controls-themes/templates/tag';
  * @category control
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-tag',
   templateUrl: './tag.html',
   imports: [NgClass, NgnIcon],

@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgnTab, NgnTabs } from '@ngneers/controls/tabs';
@@ -8,6 +8,7 @@ import { NgnDocsCategory, NgnDocsTabPage } from '../../types';
 import { NgnDocsPageSection } from '../section/section';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-page-tab-renderer',
   templateUrl: 'page-tab-renderer.html',
   imports: [NgnDocsPageSection, NgnTabs, NgnTab],

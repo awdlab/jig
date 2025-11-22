@@ -13,6 +13,7 @@ import {
   TemplateRef,
   viewChild,
   ViewContainerRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { Placement } from '@floating-ui/dom';
 import {
@@ -287,6 +288,7 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-tooltip',
   templateUrl: './tooltip.html',
   imports: [NgClass, NgnDefer],

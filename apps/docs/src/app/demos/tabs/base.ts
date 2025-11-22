@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgnTabs, NgnTab } from '@ngneers/controls/tabs';
 
 import { DummyLoremIpsumComponent1, DummyLoremIpsumComponent2 } from '../dummies/lorem-ipsum';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnTabs, NgnTab, DummyLoremIpsumComponent1, DummyLoremIpsumComponent2],
   selector: 'ngn-demo-tabs-base',
   template: `

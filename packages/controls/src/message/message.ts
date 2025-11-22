@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { CustomColor, IconType } from '@ngneers/controls-custom-types';
@@ -9,6 +9,7 @@ import { messageControlTemplate } from '@ngneers/controls-themes/templates/messa
  * @category control
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-message',
   templateUrl: './message.html',
   imports: [NgClass, NgnIcon],

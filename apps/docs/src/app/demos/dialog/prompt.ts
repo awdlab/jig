@@ -1,9 +1,10 @@
-import { Component, inject, Injector, signal } from '@angular/core';
+import { Component, inject, Injector, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { createDialog, PromptDialogBase } from '@ngneers/controls/dialog';
 import { NgnInput } from '@ngneers/controls/input';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-dialog-prompt',
   imports: [FormsModule, NgnInput],
   template: `<input ngnInput [(ngModel)]="value" />`,
@@ -27,6 +28,7 @@ export class DialogPromptDemo extends PromptDialogBase<{ value: string }, true |
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-dialog-prompt',
   imports: [],
   template: `<button (click)="prompt()">Show Prompt</button>`,

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { PositioningSizeConstraints } from '@ngneers/controls/api/ng';
 import { NgnTooltip } from '@ngneers/controls/tooltip';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnTooltip],
   selector: 'ngn-demo-tooltip-show-only-if-truncated',
   template: `

@@ -1,5 +1,5 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { CustomColor, IconType } from '@ngneers/controls-custom-types';
@@ -9,6 +9,7 @@ import { chipControlTemplate } from '@ngneers/controls-themes/templates/chip';
  * @category control
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-chip',
   templateUrl: './chip.html',
   imports: [NgClass, NgnIcon, NgTemplateOutlet],

@@ -9,6 +9,7 @@ import {
   output,
   signal,
   untracked,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { NgnTemplate, Openable, PopoverCloseBy, toPopoverCloseBy } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
@@ -24,6 +25,7 @@ import { DrawerTemplates } from './drawer-templates';
  * @category control
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-drawer',
   templateUrl: './drawer.html',
   imports: [NgClass, NgTemplateOutlet, NgnDefer, NgnButton, NgnIcon, NgnTemplate],

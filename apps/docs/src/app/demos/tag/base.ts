@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { injectThemeColors, injectThemeControlKinds } from '@ngneers/controls/api/ng';
 import { NgnTag } from '@ngneers/controls/tag';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnTag],
   selector: 'ngn-demo-tag-base',
   template: `

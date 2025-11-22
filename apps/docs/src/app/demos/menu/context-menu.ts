@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { MenuItem, NgnContextMenu } from '@ngneers/controls/menu';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-menu-context-menu',
   imports: [NgnContextMenu],
   template: `<div

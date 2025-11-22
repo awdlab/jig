@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { SplitterModule } from '@ngneers/controls/splitter';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SplitterModule],
   selector: 'ngn-demo-splitter-min-max',
   template: `

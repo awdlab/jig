@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnItemView } from '@ngneers/controls/item-view';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnItemView, NgnTemplate],
   selector: 'ngn-demo-item-view-base',
   template: `

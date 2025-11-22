@@ -1,10 +1,11 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { NgnActionButtonConfig } from '@ngneers/controls/api';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 
 import { NgnButton } from './button';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-action-button',
   templateUrl: 'action-button.html',
   imports: [NgnButton],

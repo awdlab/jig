@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { FrameState } from './frame-state';
 import { NgnDocsTopbar } from './topbar/topbar';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-frame',
   templateUrl: 'frame.html',
   imports: [NgnDocsTopbar, RouterOutlet],

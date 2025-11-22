@@ -1,4 +1,4 @@
-let _cache: Promise<any> | null = null;
+let _cache: Promise<typeof import('../../docs/_generated/typedoc.json')> | null = null;
 
 export async function getTypedocProject() {
   _cache ??= import('../../docs/_generated/typedoc.json');

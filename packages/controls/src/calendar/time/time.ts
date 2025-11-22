@@ -1,10 +1,11 @@
-import { Component, computed, inject, input, output } from '@angular/core';
+import { Component, computed, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { Platform } from '@ngneers/controls/api/ng';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnInput } from '@ngneers/controls/input';
 import { MASKS, NgnInputMask } from '@ngneers/controls/input-mask';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-calendar-time',
   templateUrl: './time.html',
   imports: [NgnInput, NgnInputMask],

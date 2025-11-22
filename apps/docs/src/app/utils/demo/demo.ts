@@ -1,11 +1,12 @@
 import { NgComponentOutlet } from '@angular/common';
-import { Component, computed, input, signal, Type } from '@angular/core';
+import { Component, computed, input, signal, Type, ChangeDetectionStrategy } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnIcon } from '@ngneers/controls/icon';
 
 import { style } from '../code/prism';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-demo',
   templateUrl: 'demo.html',
   styleUrl: 'demo.scss',

@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnInplace } from '@ngneers/controls/inplace';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnInplace, NgnTemplate, NgnButton],
   selector: 'ngn-demo-inplace-base',
   template: ` <ngn-inplace #inplace>

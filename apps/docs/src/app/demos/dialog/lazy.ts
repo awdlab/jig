@@ -1,9 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NgnDialog } from '@ngneers/controls/dialog';
 
 import { DummyLazyComponent } from '../dummies/lazy';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-dialog-lazy',
   imports: [NgnDialog, DummyLazyComponent],
   template: `<button (click)="open.set(true)">Open Dialog</button>

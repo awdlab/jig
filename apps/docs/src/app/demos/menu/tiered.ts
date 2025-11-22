@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { MenuItem, NgnMenu } from '@ngneers/controls/menu';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-menu-tiered',
   imports: [NgnMenu],
   template: `<ngn-menu class="w-40 block" #menu [items]="items()" />`,

@@ -1,9 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgnInput } from '@ngneers/controls/input';
 import { MASKS, NgnInputMask, InputMaskCfg } from '@ngneers/controls/input-mask';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, NgnInput, NgnInputMask],
   selector: 'ngn-demo-input-mask-base',
   template: `

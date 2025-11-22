@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnButtonGroup } from '@ngneers/controls/button-group';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-button-group-base',
   imports: [NgnButton, NgnButtonGroup],
   template: `<ngn-button-group>

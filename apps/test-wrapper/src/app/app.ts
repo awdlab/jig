@@ -9,6 +9,7 @@ import {
   Type,
   viewChild,
   ViewContainerRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   defineTestComponent,
@@ -22,6 +23,7 @@ import {
 } from '@ngneers/controls/icon';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-root',
   imports: [NgnTemplate],
   template: `

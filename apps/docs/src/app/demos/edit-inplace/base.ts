@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgnEditInplace } from '@ngneers/controls/edit-inplace';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnEditInplace, FormsModule],
   selector: 'ngn-demo-inplace-base',
   template: ` <ngn-edit-inplace

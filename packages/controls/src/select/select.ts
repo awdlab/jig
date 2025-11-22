@@ -10,6 +10,7 @@ import {
   Signal,
   signal,
   viewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   FilterConfig,
@@ -37,6 +38,7 @@ import { SelectFilterOptions } from './types';
  * @category control
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-select',
   templateUrl: './select.html',
   imports: [

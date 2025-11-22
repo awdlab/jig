@@ -8,6 +8,7 @@ import {
   signal,
   untracked,
   viewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   FilterConfig,
@@ -31,6 +32,7 @@ import { ListBoxTemplates, ValueType } from './list-box-templates';
  * @category control
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-list-box',
   templateUrl: './list-box.html',
   imports: [NgTemplateOutlet, NgnScroller, NgnTemplate, NgClass],

@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, input, model } from '@angular/core';
+import { Component, input, model, ChangeDetectionStrategy } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { provideSelf, valueControlBaseProvider } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
@@ -16,6 +16,7 @@ import { EditInplaceTemplates } from './edit-inplace-templates';
  * @category control
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-edit-inplace',
   templateUrl: './edit-inplace.html',
   imports: [

@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-breadcrumb-base',
   imports: [NgnBreadcrumb],
   template: `<ngn-breadcrumb [items]="items()" /> <button (click)="click()">Click me</button>`,

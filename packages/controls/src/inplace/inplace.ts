@@ -1,5 +1,5 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, input, model } from '@angular/core';
+import { Component, input, model, ChangeDetectionStrategy } from '@angular/core';
 import { provideSelf } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { inplaceControlTemplate } from '@ngneers/controls-themes/templates/inplace';
@@ -10,6 +10,7 @@ import { InplaceTemplates } from './inplace-templates';
  * @category control
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-inplace',
   templateUrl: './inplace.html',
   imports: [NgClass, NgTemplateOutlet, NgnDefer],

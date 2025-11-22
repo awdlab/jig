@@ -16,6 +16,7 @@ import {
   untracked,
   viewChild,
   ViewContainerRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   elementSizeSignal,
@@ -38,6 +39,7 @@ import { isSplitterPanelSize } from './utils';
  * @category control
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-splitter',
   templateUrl: './splitter.html',
   imports: [NgClass, NgnTemplate],

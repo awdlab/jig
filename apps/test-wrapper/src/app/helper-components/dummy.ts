@@ -1,6 +1,13 @@
-import { Component, input, OnInit, output } from '@angular/core';
+import {
+  Component,
+  input,
+  OnInit,
+  output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dummy',
   template: `<ng-content />`,
 })

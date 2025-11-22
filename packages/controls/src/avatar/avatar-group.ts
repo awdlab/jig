@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { avatarGroupControlTemplate } from '@ngneers/controls-themes/templates/avatar';
 
@@ -7,6 +7,7 @@ import { avatarGroupControlTemplate } from '@ngneers/controls-themes/templates/a
  * @category control
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-avatar-group',
   templateUrl: './avatar-group.html',
   imports: [NgClass],

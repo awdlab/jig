@@ -7,6 +7,7 @@ import {
   input,
   TemplateRef,
   viewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgnTemplate, templateTypesFn } from '@ngneers/controls/api/ng';
@@ -24,6 +25,7 @@ import { IconTemplateContext } from './types';
  * @category control
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-icon',
   templateUrl: './icon.html',
   imports: [NgClass, NgTemplateOutlet, NgnTemplate],

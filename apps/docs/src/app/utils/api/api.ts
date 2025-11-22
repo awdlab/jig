@@ -1,4 +1,4 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import {
   ConsoleLogger,
   DeclarationReflection,
@@ -12,6 +12,7 @@ import { NgnDocsApiProperties } from './properties/properties';
 import { getTypedocProject } from './typedoc';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-api',
   templateUrl: 'api.html',
   imports: [NgnDocsApiProperties],

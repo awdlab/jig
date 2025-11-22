@@ -1,5 +1,6 @@
 import { defineConfig, globalIgnores } from 'eslint/config';
 import ngneers from '@ngneers/eslint-config-angular';
+import { tsPlugin } from 'angular-eslint';
 import globals from 'globals';
 
 export function getEslintConfig(tsconfigPath) {
@@ -26,8 +27,10 @@ export function getEslintConfig(tsconfigPath) {
     },
     {
       files: ['**/*.ts'],
+      plugins: { '@angular-eslint': tsPlugin },
       rules: {
         '@angular-eslint/component-class-suffix': 'off',
+        '@angular-eslint/prefer-on-push-component-change-detection': 'error',
       },
     },
     {
@@ -36,6 +39,6 @@ export function getEslintConfig(tsconfigPath) {
         '@angular-eslint/template/no-autofocus': 'off',
       },
     },
-    globalIgnores(['dist', '.angular', 'node_modules', '**/fontawesome']),
+    globalIgnores(['dist', '.angular', 'node_modules']),
   ]);
 }

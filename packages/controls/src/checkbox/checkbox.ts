@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
 import { provideSelf, ValueControlBase, valueControlBaseProvider } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { IconType } from '@ngneers/controls-custom-types';
@@ -13,6 +13,7 @@ type ValueType<Indeterminate extends boolean> = Indeterminate extends false
  * @category control
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-checkbox',
   templateUrl: './checkbox.html',
   imports: [NgClass, NgnIcon],

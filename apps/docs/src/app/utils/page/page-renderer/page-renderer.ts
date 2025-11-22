@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgnDocsSinglePage } from '../types';
 import { NgnDocsPageSection } from './section/section';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-page-renderer',
   templateUrl: 'page-renderer.html',
   imports: [NgnDocsPageSection],

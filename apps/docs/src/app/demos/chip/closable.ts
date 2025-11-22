@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgnChip } from '@ngneers/controls/chip';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnChip],
   selector: 'ngn-demo-chip-closable',
   template: `<ngn-chip [closable]="true" (closed)="onChipClose()">Close me!</ngn-chip>`,

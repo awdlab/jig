@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
 import { SplitterModule } from '@ngneers/controls/splitter';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SplitterModule, NgnButton],
   selector: 'ngn-demo-splitter-reorder',
   template: `

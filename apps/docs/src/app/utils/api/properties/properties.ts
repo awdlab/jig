@@ -1,9 +1,10 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { CommentDisplayPart, DeclarationReflection, ReflectionFlag } from 'typedoc/browser';
 
 import { NgnDocsApiComment } from './comment/comment';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-api-properties',
   templateUrl: 'properties.html',
   imports: [NgnDocsApiComment],

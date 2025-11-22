@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { injectThemeColors } from '@ngneers/controls/api/ng';
 import { NgnChip } from '@ngneers/controls/chip';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-chip-base',
   imports: [NgnChip],
   template: `

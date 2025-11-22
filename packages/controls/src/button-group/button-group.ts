@@ -1,5 +1,11 @@
 import { NgClass } from '@angular/common';
-import { Component, computed, contentChildren, input } from '@angular/core';
+import {
+  Component,
+  computed,
+  contentChildren,
+  input,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { elementSizeSignal, elementsSizesSignal } from '@ngneers/controls/api/ng';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
@@ -9,6 +15,7 @@ import { buttonGroupControlTemplate } from '@ngneers/controls-themes/templates/b
  * @category control
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-button-group',
   templateUrl: './button-group.html',
   imports: [NgClass],

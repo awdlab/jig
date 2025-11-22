@@ -9,6 +9,7 @@ import {
   signal,
   viewChild,
   viewChildren,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   elementSizeSignal,
@@ -29,6 +30,7 @@ import { OverflowStrategy } from './types';
  * @category control
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-item-view',
   templateUrl: './item-view.html',
   imports: [NgClass, NgTemplateOutlet, NgnTemplate, NgnIcon],

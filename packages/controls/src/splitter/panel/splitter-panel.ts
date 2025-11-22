@@ -1,4 +1,4 @@
-import { Component, computed, input, model } from '@angular/core';
+import { Component, computed, input, model, ChangeDetectionStrategy } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { generateElementId } from '@ngneers/controls/utils-ng';
 import { splitterControlTemplate } from '@ngneers/controls-themes/templates/splitter';
@@ -9,6 +9,7 @@ import { SplitterPanelSize, SplitterPanelSizeLimit } from '../types';
  * @category control
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-splitter-panel',
   templateUrl: './splitter-panel.html',
   providers: [provideSelf(NgnSplitterPanel)],
