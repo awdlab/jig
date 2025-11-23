@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, input, model, ChangeDetectionStrategy } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { provideSelf, valueControlBaseProvider } from '@ngneers/controls/base';
+import { provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnAutofocus } from '@ngneers/controls/directives';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -29,7 +29,7 @@ import { EditInplaceTemplates } from './edit-inplace-templates';
     NgnIcon,
     NgnInputField,
   ],
-  providers: [provideSelf(NgnEditInplace), valueControlBaseProvider(NgnEditInplace)],
+  providers: [provideSelf(NgnEditInplace)],
   host: {
     '[class]': 'theme.classes({"": true})',
   },

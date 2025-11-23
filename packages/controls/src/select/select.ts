@@ -20,7 +20,7 @@ import {
   transformToNgnItems,
 } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { provideSelf, valueControlBaseProvider } from '@ngneers/controls/base';
+import { provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
@@ -52,7 +52,7 @@ import { SelectFilterOptions } from './types';
     NgnItemView,
     NgnIcon,
   ],
-  providers: [valueControlBaseProvider(NgnSelect), provideSelf(NgnSelect)],
+  providers: [provideSelf(NgnSelect)],
   host: {
     '[class]': 'theme.class("")',
     style: 'display: block;',
@@ -286,11 +286,11 @@ export class NgnSelect<
       if (this.value() !== value) {
         const item = this._flatOptions().find(option => option.value === value);
         if (item) {
-          this.onChange(item.label as ValueType<T, K, Editable, Multiple>);
+          this.value.set(item.label as ValueType<T, K, Editable, Multiple>);
         }
       }
     } else if (this.value() !== value) {
-      this.onChange(value);
+      this.value.set(value);
     }
     if (!this.multiple()) {
       this.hide();
@@ -313,7 +313,7 @@ export class NgnSelect<
 
   protected onEditableChange(value: string | null) {
     if (this.editable()) {
-      this.onChange(value as ValueType<T, K, Editable, Multiple>);
+      this.value.set(value as ValueType<T, K, Editable, Multiple>);
       this._userChangedEditableInput = true;
       if (this.editableAutoFilter()) {
         this.filterTextInternal.set(value);

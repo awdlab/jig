@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
-import { provideSelf, ValueControlBase, valueControlBaseProvider } from '@ngneers/controls/base';
+import { provideSelf, ValueControlBase } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { IconType } from '@ngneers/controls-custom-types';
 import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
@@ -17,9 +17,9 @@ type ValueType<Indeterminate extends boolean> = Indeterminate extends false
   selector: 'ngn-checkbox',
   templateUrl: './checkbox.html',
   imports: [NgClass, NgnIcon],
-  providers: [valueControlBaseProvider(NgnCheckbox), provideSelf(NgnCheckbox)],
+  providers: [provideSelf(NgnCheckbox)],
   host: {
-    '[class]': 'theme.classes({ "": true, disabled: isDisabled(), invalid: isInvalid() })',
+    '[class]': 'theme.classes({ "": true, disabled: disabled(), invalid: invalid() })',
   },
 })
 export class NgnCheckbox<Indeterminate extends boolean> extends ValueControlBase<
@@ -51,7 +51,7 @@ export class NgnCheckbox<Indeterminate extends boolean> extends ValueControlBase
 
   protected changed(event: Event) {
     const target = event.target as HTMLInputElement;
-    this.onChange(target.checked);
+    this.value.set(target.checked);
   }
 
   constructor() {

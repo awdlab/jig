@@ -5,7 +5,7 @@ import { NgnCheckbox } from '@ngneers/controls/checkbox';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-checkbox-states',
   imports: [NgnCheckbox],
-  template: `<ngn-checkbox disabled [value]="false" />
+  template: `<ngn-checkbox [disabled]="true" [value]="false" />
     <ngn-checkbox [invalid]="true" [value]="false" />`,
 })
 export class Demo_Checkbox_States {}

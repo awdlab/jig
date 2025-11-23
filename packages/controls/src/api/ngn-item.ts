@@ -1,3 +1,4 @@
+import { computed, Signal } from '@angular/core';
 import { NgnError } from '@ngneers/controls/utils';
 
 export type NgnItem<T = any, K extends keyof T = any> = {
@@ -50,7 +51,19 @@ export function transformToNgnItems<T extends object, K extends keyof T>(
   return items.map(item => transformToNgnItem(item, fields));
 }
 
-export function mapToItems(items: readonly NgnItem[]): NgnItem[] {
+export function transformToNgnItemsSignal<T extends object, K extends keyof T>(
+  items: Signal<readonly T[]>,
+  fields: {
+    label: keyof T;
+    value: K;
+    testId?: keyof T;
+    children?: keyof T;
+  }
+): Signal<NgnItem<T, K>[]> {
+  return computed(() => transformToNgnItems(items(), fields));
+}
+
+export function mapToItems(items: readonly NgnItem[]): readonly NgnItem[] {
   return items
     .map(item => {
       if (item.items) {

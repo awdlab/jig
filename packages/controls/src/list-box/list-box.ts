@@ -21,7 +21,7 @@ import {
   transformToNgnItems,
 } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { provideSelf, valueControlBaseProvider } from '@ngneers/controls/base';
+import { provideSelf } from '@ngneers/controls/base';
 import { NgnScroller } from '@ngneers/controls/scroller';
 import { asyncComputed } from '@ngneers/controls/utils-ng';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
@@ -36,7 +36,7 @@ import { ListBoxTemplates, ValueType } from './list-box-templates';
   selector: 'ngn-list-box',
   templateUrl: './list-box.html',
   imports: [NgTemplateOutlet, NgnScroller, NgnTemplate, NgClass],
-  providers: [valueControlBaseProvider(NgnListBox), provideSelf(NgnListBox)],
+  providers: [provideSelf(NgnListBox)],
   host: {
     '[class]': `theme.classes({
       '': true,
@@ -203,16 +203,16 @@ export class NgnListBox<
     if (this.multiple()) {
       const currentValue = (this.value() as Array<T[K]>) ?? [];
       if (!currentValue.includes(value)) {
-        this.onChange([...currentValue, value] as ValueType<T, K, Multiple>);
+        this.value.set([...currentValue, value] as ValueType<T, K, Multiple>);
       } else {
-        this.onChange(currentValue.filter(item => item !== value) as ValueType<T, K, Multiple>);
+        this.value.set(currentValue.filter(item => item !== value) as ValueType<T, K, Multiple>);
       }
     } else {
       if (this.value() !== value) {
-        this.onChange(value as ValueType<T, K, Multiple>);
+        this.value.set(value as ValueType<T, K, Multiple>);
       }
     }
 
-    this.onTouched();
+    this.touched.set(true);
   }
 }

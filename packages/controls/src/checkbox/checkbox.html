@@ -4,8 +4,8 @@
   (change)="changed($event)"
   [indeterminate]="indeterminate()"
   [ngClass]="theme.class('input')"
-  [attr.disabled]="isDisabled() ? '' : undefined"
-  [ariaInvalid]="isInvalid() ? 'true' : undefined"
+  [attr.disabled]="disabled() ? '' : undefined"
+  [ariaInvalid]="invalid() ? 'true' : undefined"
 />
 <div
   [ngClass]="

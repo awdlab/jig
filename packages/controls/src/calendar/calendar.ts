@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { NgnItem } from '@ngneers/controls/api';
 import { NgnTemplate, Platform } from '@ngneers/controls/api/ng';
-import { provideSelf, valueControlBaseProvider } from '@ngneers/controls/base';
+import { provideSelf } from '@ngneers/controls/base';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
@@ -56,7 +56,7 @@ type MonthItemType = NgnItem<{ $: (typeof MONTHS)[number] }, '$'>;
     CalendarDays,
     CalendarTime,
   ],
-  providers: [valueControlBaseProvider(NgnCalendar), provideSelf(NgnCalendar)],
+  providers: [provideSelf(NgnCalendar)],
 })
 export class NgnCalendar extends CalendarTemplates {
   /**
@@ -159,12 +159,12 @@ export class NgnCalendar extends CalendarTemplates {
     newValue.setFullYear(this.year());
     newValue.setMonth(this.month() + day.monthOffset);
     newValue.setDate(day.date);
-    this.onChange(newValue);
+    this.value.set(newValue);
   }
 
   protected changeTime(newTime: Date | null) {
     if (!newTime) {
-      this.onChange(null);
+      this.value.set(null);
       return;
     }
     const currentValue = this.value();
@@ -173,7 +173,7 @@ export class NgnCalendar extends CalendarTemplates {
       newValue.setHours(newTime.getHours());
       newValue.setMinutes(newTime.getMinutes());
       newValue.setSeconds(newTime.getSeconds());
-      this.onChange(newValue);
+      this.value.set(newValue);
     }
   }
 
@@ -225,7 +225,7 @@ export class NgnCalendar extends CalendarTemplates {
       } else if (!this.showSeconds()) {
         date.setSeconds(this.value()?.getSeconds() || 0);
       }
-      this.onChange(date);
+      this.value.set(date);
     }
     return true;
   }
