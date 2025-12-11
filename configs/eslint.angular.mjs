@@ -39,6 +39,14 @@ export function getEslintConfig(tsconfigPath) {
             style: 'kebab-case',
           },
         ],
+        '@angular-eslint/directive-selector': [
+          'error',
+          {
+            type: 'attribute',
+            prefix: ['ngn'],
+            style: 'camelCase',
+          },
+        ],
       },
     },
     {
