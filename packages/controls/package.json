@@ -32,10 +32,9 @@
     "@angular/build": "catalog:",
     "@angular/cli": "catalog:",
     "@angular/compiler-cli": "catalog:",
-    "angular-eslint": "20.6.0",
     "ng-packagr": "^21.0.0",
     "typescript": "~5.9.3",
-    "vitest": "^4.0.13"
+    "vitest": "^4.0.15"
   },
   "sideEffects": false
 }
