@@ -1,5 +1,5 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
-import { NgnItem } from '@ngneers/controls/api';
+import { NgnItem, NgnItemsValue } from '@ngneers/controls/api';
 import { templateTypesFn } from '@ngneers/controls/api/ng';
 import { ValueControlBase } from '@ngneers/controls/base';
 import { InputGeneric } from '@ngneers/controls/utils';
@@ -9,15 +9,14 @@ import { InputGeneric } from '@ngneers/controls/utils';
  * * If `multiple` is `true`, the value is an array of items: `T[K][]`.
  * * Else it is the item's value type `T[K]`.
  */
-export type ValueType<T, K extends keyof T, Multiple extends boolean> =
-  InputGeneric<Multiple, false> extends true ? T[K][] : T[K];
+export type ValueType<Items extends readonly NgnItem[], Multiple extends boolean> =
+  InputGeneric<Multiple, false> extends true ? NgnItemsValue<Items>[] : NgnItemsValue<Items>;
 
 @Directive()
 export abstract class ListBoxTemplates<
-  T,
-  K extends keyof T,
+  Items extends readonly NgnItem[],
   Multiple extends boolean,
-> extends ValueControlBase<'listBox', ValueType<T, K, Multiple> | null> {
+> extends ValueControlBase<'listBox', ValueType<Items, Multiple> | null> {
   // Item template
   private readonly _defaultItemTemplate =
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');
@@ -63,13 +62,13 @@ export abstract class ListBoxTemplates<
    */
   public readonly templateTypes = templateTypesFn<{
     item: {
-      $implicit: NgnItem<T, K> | undefined;
+      $implicit: Items[number] | undefined;
     };
   }>();
 
   protected readonly templateTypesInternal = templateTypesFn<{
     item: {
-      $implicit: NgnItem<T, K> | undefined;
+      $implicit: Items[number] | undefined;
       index: number;
     };
   }>();

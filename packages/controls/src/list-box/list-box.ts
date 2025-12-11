@@ -17,8 +17,7 @@ import {
   flatItems,
   mapToItems,
   NgnItem,
-  NgnItemFields,
-  transformToNgnItems,
+  NgnItemsValue,
 } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
@@ -54,16 +53,14 @@ import { ListBoxTemplates, ValueType } from './list-box-templates';
   },
 })
 export class NgnListBox<
-  T extends object,
-  K extends keyof T,
+  Items extends readonly NgnItem[],
   Multiple extends boolean = false,
-> extends ListBoxTemplates<T, K, Multiple> {
+> extends ListBoxTemplates<Items, Multiple> {
   protected readonly theme = this.injectThemeTemplate(listBoxControlTemplate);
 
-  private readonly _scroller = viewChild.required<NgnScroller<T>>(NgnScroller);
+  private readonly _scroller = viewChild.required<NgnScroller<NgnItemsValue<Items>>>(NgnScroller);
 
-  public readonly items = input.required<readonly NgnItem<T, K>[] | readonly T[]>();
-  public readonly fields = input<NgnItemFields<T, K>>();
+  public readonly items = input.required<Items>();
 
   public readonly scrollToSelectedItemOnInit = input<boolean | ScrollLogicalPosition>(false);
   public readonly selectable = input<boolean>(false);
@@ -76,36 +73,26 @@ export class NgnListBox<
    * Alternatively, you can provide `FilterConfig` to customize the filter behavior.
    * @default `false`
    */
-  public readonly filter = input<FilterConfig<NgnItem<T, K>> | boolean>(false);
+  public readonly filter = input<FilterConfig<Items[number]> | boolean>(false);
   /**
    * Manually set the filter text.
    */
   public readonly filterText = input<string | null>(null);
   public readonly displayedItems = computed(() => flatItems(this.filteredItems()));
 
-  private readonly _formattedItems = computed(() => {
-    const fields = this.fields();
-    const items = this.items();
-    if (!fields) {
-      return items as NgnItem<T, K>[];
-    }
-    return transformToNgnItems(items as readonly T[], fields);
-  });
-
   protected readonly valueArray = computed(() => {
     const v = this.value();
-    return Array.isArray(v) ? v : v ? [v] : [];
+    return (Array.isArray(v) ? v : v ? [v] : []) as NgnItemsValue<Items>[];
   });
-  protected readonly currentHighlightedValue = signal<T[K] | null>(null);
-
+  protected readonly currentHighlightedValue = signal<NgnItemsValue<Items> | null>(null);
   protected readonly filteredItems = asyncComputed(async () => {
     const filter = !!this.filter();
     const appliedFilterOptions = this._appliedFilterOptions();
     const filterText = this.filterText();
     if (!filter || !filterText) {
-      return this._formattedItems();
+      return this.items();
     }
-    return await filterOptions(this._formattedItems(), filterText, appliedFilterOptions);
+    return await filterOptions(this.items(), filterText, appliedFilterOptions);
   }, []);
 
   private readonly _appliedFilterOptions = computed(() => {
@@ -199,17 +186,17 @@ export class NgnListBox<
     this._scroller().scrollToIndex(index);
   }
 
-  protected onSelect(value: T[K]) {
+  protected onSelect(value: NgnItemsValue<Items>) {
     if (this.multiple()) {
-      const currentValue = (this.value() as Array<T[K]>) ?? [];
+      const currentValue = (this.value() as Array<NgnItemsValue<Items>>) ?? [];
       if (!currentValue.includes(value)) {
-        this.value.set([...currentValue, value] as ValueType<T, K, Multiple>);
+        this.value.set([...currentValue, value] as ValueType<Items, Multiple>);
       } else {
-        this.value.set(currentValue.filter(item => item !== value) as ValueType<T, K, Multiple>);
+        this.value.set(currentValue.filter(item => item !== value) as ValueType<Items, Multiple>);
       }
     } else {
       if (this.value() !== value) {
-        this.value.set(value as ValueType<T, K, Multiple>);
+        this.value.set(value as ValueType<Items, Multiple>);
       }
     }
 

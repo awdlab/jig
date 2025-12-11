@@ -9,7 +9,7 @@ import {
   viewChild,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { NgnItem } from '@ngneers/controls/api';
+import { NgnItem, transformToNgnItems } from '@ngneers/controls/api';
 import { NgnTemplate, Platform } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
 import { I18n } from '@ngneers/controls/i18n';
@@ -89,11 +89,14 @@ export class NgnCalendar extends CalendarTemplates {
   );
   protected readonly month = linkedSignal(() => this.value()?.getMonth() ?? new Date().getMonth());
   protected readonly yearOptions = generateYearOptions();
-  protected readonly monthOptions: Signal<MonthItemType[]> = computed(() => {
-    return Array.from({ length: 12 }, (_, i) => this.i18n[`calendar_months_${MONTHS[i]}`]()).map(
+  protected readonly monthOptions: Signal<NgnItem<MonthItemType>[]> = computed(() => {
+    const months = Array.from({ length: 12 }, (_, i) =>
+      this.i18n[`calendar_months_${MONTHS[i]}`]()
+    ).map(
       (label, index) =>
         <MonthItemType>{ label, value: MONTHS[index], testId: `calendar-month-${MONTHS[index]}` }
     );
+    return transformToNgnItems(months, { value: 'value', label: 'label' });
   });
   protected readonly valueStr = computed(() => {
     const value = this.value();

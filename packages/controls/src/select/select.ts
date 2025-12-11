@@ -12,13 +12,7 @@ import {
   viewChild,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import {
-  FilterConfig,
-  mapToItems,
-  NgnItem,
-  NgnItemFields,
-  transformToNgnItems,
-} from '@ngneers/controls/api';
+import { FilterConfig, mapToItems, NgnItem } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -91,11 +85,7 @@ export class NgnSelect<
    * * A list of {@link NgnItem} objects
    * * A list of plain objects. You'll have to provide a {@link fields} input to specify how to map the plain objects to {@link NgnItem} objects.
    */
-  public readonly options = input<readonly NgnItem<T, K>[] | readonly T[]>([]);
-  /**
-   * Required if the options are not `NgnItem` objects.
-   */
-  public readonly fields = input<NgnItemFields<T, K>>();
+  public readonly options = input<readonly NgnItem<T, K>[]>([]);
   /**
    * Accepts a boolean value that determines whether the filter is enabled.
    * Alternatively, you can provide `SelectFilterOptions` to customize the filter behavior.
@@ -172,20 +162,11 @@ export class NgnSelect<
     return Array.isArray(v) ? v : v ? [v] : [];
   });
 
-  protected readonly formattedOptions: Signal<NgnItem[]> = computed(() => {
-    const fields = this.fields();
-    const options = this.options();
-    if (!fields) {
-      return options as NgnItem<T, K>[];
-    }
-    return transformToNgnItems(options as T[], fields);
-  });
-
   protected readonly appliedFilter: Signal<FilterConfig<NgnItem> | boolean> = computed(
     () => this.filter() || this.editable() || false
   );
 
-  private readonly _flatOptions = computed(() => mapToItems(this.formattedOptions()));
+  private readonly _flatOptions = computed(() => mapToItems(this.options()));
 
   protected readonly selectedItems = computed(() => {
     if (this.editable()) {
@@ -281,16 +262,17 @@ export class NgnSelect<
     }
   }
 
-  protected onSelect(value: ValueType<T, K, Editable, Multiple> | null) {
+  protected onSelect(value: ValueType<T, K, false, Multiple> | null) {
     if (this.editable()) {
-      if (this.value() !== value) {
-        const item = this._flatOptions().find(option => option.value === value);
-        if (item) {
-          this.value.set(item.label as ValueType<T, K, Editable, Multiple>);
-        }
+      const item = this._flatOptions().find(option => option.value === value);
+      if (item) {
+        this.value.set(item.label as ValueType<T, K, Editable, Multiple>);
       }
-    } else if (this.value() !== value) {
-      this.value.set(value);
+    } else {
+      const v = value as ValueType<T, K, Editable, Multiple>;
+      if (this.value() !== v) {
+        this.value.set(v);
+      }
     }
     if (!this.multiple()) {
       this.hide();

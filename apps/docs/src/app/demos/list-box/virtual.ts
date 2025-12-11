@@ -1,23 +1,21 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgnListBox } from '@ngneers/controls/list-box';
 
-import { exampleData } from '../../helper/data';
-
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnListBox],
-  selector: 'ngn-demo-list-box-fields-demo',
+  selector: 'ngn-demo-list-box-virtual-demo',
   template: `
     <ngn-list-box
-      [fields]="{
-        value: 'id',
-        label: 'label',
-      }"
       [items]="items"
+      [virtual]="true"
+      [itemHeight]="40"
       style="display: block; height: 300px;"
     />
   `,
 })
-export class Demo_ListBox_Fields {
-  protected readonly items = exampleData.items.flat;
+export class Demo_ListBox_Virtual {
+  protected readonly items = Array.from({ length: 10000 }, (_, i) => `Item ${i + 1}`).map(
+    (label, index) => ({ value: index + 1, label })
+  );
 }

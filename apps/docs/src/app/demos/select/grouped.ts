@@ -7,19 +7,8 @@ import { exampleData } from '../../helper/data';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnSelect],
   selector: 'ngn-demo-select-grouped',
-  template: `
-    <ngn-select
-      #select
-      [fields]="{
-        value: 'id',
-        label: 'label',
-        children: 'items',
-      }"
-      [filter]="true"
-      [options]="options"
-    />
-  `,
+  template: ` <ngn-select #select [filter]="true" [options]="options" /> `,
 })
 export class Demo_Select_Grouped {
-  protected readonly options = exampleData.items.grouped;
+  protected readonly options = exampleData.items.groupedPreformatted;
 }

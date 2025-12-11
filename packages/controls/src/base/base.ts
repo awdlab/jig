@@ -61,7 +61,7 @@ export abstract class NgnBase<T extends ControlName | null> {
    * Some controls support custom kinds for styling purposes.
    * The available kinds depend on the control and the theme used.
    *
-   * @todo link to custom types documentation
+   * TODO: link to custom types documentation
    */
   public readonly kind = input<CustomKind<T>>(undefined as never);
 

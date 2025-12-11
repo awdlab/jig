@@ -172,47 +172,6 @@ test('templates', async ({ page }, testInfo) => {
   await select.expectSelectedItemText('✅' + exampleData.items.flatPreformatted[0].label);
 });
 
-test('fields', async ({ page }, testInfo) => {
-  const handle = await loadComponent(
-    page,
-    {
-      template: `
-      <ngn-select
-        style="width: 200px;"
-        [options]="inputs().options"
-        [popoverOptions]="inputs().popoverOptions"
-        [fields]="inputs().fields"
-      />
-    `,
-      imports: ['select'],
-    },
-    {
-      inputs: {
-        options: exampleData.items.grouped,
-        popoverOptions: <PopoverOptions>{ sizeConstraints: { maxHeight: '300px' } },
-        fields: {
-          label: 'label',
-          value: 'id',
-          children: 'items',
-        },
-      },
-    }
-  );
-
-  const select = new NgnSelectHarness(page.locator('ngn-select').first());
-
-  await select.expectOpened(false);
-  await select.open();
-  const listBox = select.listBox;
-  const scroller = listBox.scroller;
-
-  await scroller.expectItemsCount(exampleData.items.flatPreformatted.length);
-  await scroller.expectStickyItemsCount(exampleData.items.groupedPreformatted.length);
-  await expectScreenshot(page, testInfo, 'opened');
-  await select.clickItemByText(exampleData.items.flatPreformatted[0].label);
-  await select.expectSelectedItemText(exampleData.items.flatPreformatted[0].label);
-});
-
 test('filter', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
@@ -281,11 +240,6 @@ test('editable', async ({ page }, testInfo) => {
       inputs: {
         options: exampleData.items.groupedPreformatted,
         popoverOptions: <PopoverOptions>{ sizeConstraints: { maxHeight: '300px' } },
-        fields: {
-          label: 'label',
-          value: 'id',
-          children: 'items',
-        },
       },
     }
   );

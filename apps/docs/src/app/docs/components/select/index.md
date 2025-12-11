@@ -5,10 +5,6 @@ filtering, grouping, custom templates, and editable options.
 
 {{ demo: Demo_Select_Base }}
 
-### Field Mapping
-
-{{ demo: Demo_Select_Fields }}
-
 ### Filtering
 
 {{ demo: Demo_Select_Filter }}

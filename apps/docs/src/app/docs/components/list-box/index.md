@@ -6,10 +6,6 @@ custom templates.
 
 {{ demo: Demo_ListBox_Base }}
 
-### Field Mapping
-
-{{ demo: Demo_ListBox_Fields }}
-
 ### Grouped Items
 
 {{ demo: Demo_ListBox_Grouped }}

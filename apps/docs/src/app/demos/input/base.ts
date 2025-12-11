@@ -1,13 +1,12 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { NgnInput } from '@ngneers/controls/input';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, NgnInput],
+  imports: [NgnInput],
   selector: 'ngn-demo-input-base',
   template: `
-    <input ngnInput [ngModel]="value()" (ngModelChange)="value.set($event)" />
+    <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
     {{ value() }}
   `,
 })

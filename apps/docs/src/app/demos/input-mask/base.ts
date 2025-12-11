@@ -1,15 +1,14 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { NgnInput } from '@ngneers/controls/input';
 import { MASKS, NgnInputMask, InputMaskCfg } from '@ngneers/controls/input-mask';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, NgnInput, NgnInputMask],
+  imports: [NgnInput, NgnInputMask],
   selector: 'ngn-demo-input-mask-base',
   template: `
     <ngn-input-mask [inputId]="'test-input'" [mask]="mask">
-      <input ngnInput [ngModel]="value()" (ngModelChange)="value.set($event)" />
+      <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
     </ngn-input-mask>
     {{ value() }}
   `,

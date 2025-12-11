@@ -16,6 +16,20 @@ export type NgnItemFields<T, K extends keyof T> = {
   children?: keyof T;
 };
 
+export type NgnItemValue<Item extends NgnItem> = Item extends { items: readonly (infer A)[] }
+  ? A extends NgnItem
+    ? NgnItemValue<A>
+    : never
+  : Item extends { value: infer T }
+    ? T
+    : never;
+
+export type NgnItemsValue<Items extends readonly NgnItem[]> = Items[number] extends infer A
+  ? A extends NgnItem
+    ? NgnItemValue<A>
+    : never
+  : never;
+
 export function transformToNgnItem<T extends object, K extends keyof T>(
   item: T,
   fields: NgnItemFields<T, K>
@@ -39,27 +53,28 @@ export function transformToNgnItem<T extends object, K extends keyof T>(
   };
 }
 
-export function transformToNgnItems<T extends object, K extends keyof T>(
-  items: readonly T[],
-  fields: {
-    label: keyof T;
-    value: K;
-    testId?: keyof T;
-    children?: keyof T;
-  }
-): NgnItem<T, K>[] {
-  return items.map(item => transformToNgnItem(item, fields));
+export function transformToNgnItems<Items extends readonly object[], K extends keyof Items[number]>(
+  items: Items,
+  fields: NgnItemFields<Items[number], K>
+): { [P in keyof Items]: NgnItem<Items[P], K> } & readonly NgnItem<Items[number], K>[] {
+  return items.map((item: Items[number]) => transformToNgnItem(item, fields)) as {
+    [P in keyof Items]: NgnItem<Items[P], K>;
+  } & readonly NgnItem<Items[number], K>[];
 }
 
-export function transformToNgnItemsSignal<T extends object, K extends keyof T>(
-  items: Signal<readonly T[]>,
+export function transformToNgnItemsSignal<
+  T extends object,
+  K extends keyof T,
+  Items extends readonly T[],
+>(
+  items: Signal<Items>,
   fields: {
     label: keyof T;
     value: K;
     testId?: keyof T;
     children?: keyof T;
   }
-): Signal<NgnItem<T, K>[]> {
+): Signal<{ [P in keyof Items]: NgnItem<Items[P], K> } & readonly NgnItem<T, K>[]> {
   return computed(() => transformToNgnItems(items(), fields));
 }
 
