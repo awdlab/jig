@@ -1,5 +1,9 @@
 import test, { expect, Page } from '@playwright/test';
-import type { InputsType, OutputsType, TemplateType } from 'apps/test-wrapper/src/app/window';
+import type {
+  InputsType,
+  OutputsType,
+  TemplateType,
+} from '../../apps/test-wrapper/src/app/window.js';
 
 type Handle = {
   setInputs: (inputs: InputsType) => Promise<void>;

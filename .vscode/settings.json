@@ -45,5 +45,6 @@
   // Remove comments if branch policies are used
   // "git.branchProtection": ["main", "master"],
   // "git.branchProtectionPrompt": "alwaysPrompt",
-  "tailwindCSS.experimental.configFile": "apps/docs/src/styles.scss"
+  "tailwindCSS.experimental.configFile": "apps/docs/src/styles.scss",
+  "typescript.experimental.useTsgo": true
 }

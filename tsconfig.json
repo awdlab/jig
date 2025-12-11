@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -15,12 +14,12 @@
     "lib": ["es2024", "DOM"],
     "module": "preserve",
     "paths": {
-      "@ngneers/controls/i18n/translations/*": ["packages/controls/src/i18n/translations/*"],
-      "@ngneers/controls/*": ["packages/controls/src/*/index"],
-      "@ngneers/controls-custom-types": ["packages/custom-types/src/index"],
-      "@ngneers/controls-themes": ["packages/themes/src/index"],
-      "@ngneers/controls-themes/*": ["packages/themes/src/*/index"],
-      "@ngneers/controls-playwright": ["packages/playwright/src/index"]
+      "@ngneers/controls/i18n/translations/*": ["./packages/controls/src/i18n/translations/*"],
+      "@ngneers/controls/*": ["./packages/controls/src/*/index"],
+      "@ngneers/controls-custom-types": ["./packages/custom-types/src/index"],
+      "@ngneers/controls-themes": ["./packages/themes/src/index"],
+      "@ngneers/controls-themes/*": ["./packages/themes/src/*/index"],
+      "@ngneers/controls-playwright": ["./packages/playwright/src/index"]
     }
   },
   "angularCompilerOptions": {

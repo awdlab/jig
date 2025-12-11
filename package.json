@@ -19,7 +19,7 @@
     "playwright:fix-screenshots": "tsx ./tools/fix-playwright-screenshots.ts",
     "run-migrations": "tsx ./tools/migrate.ts",
     "test": "pnpm playwright test",
-    "test:build": "pnpm tsc --noEmit --project tests/tsconfig.test.json",
+    "test:build": "pnpm tsgo --noEmit --project tests/tsconfig.test.json",
     "test:ui": "pnpm playwright test --ui"
   },
   "license": "MIT",
@@ -32,6 +32,7 @@
     "@ngneers/prettier-config": "^1.0.1",
     "@playwright/test": "^1.57.0",
     "@types/node": "^25.0.0",
+    "@typescript/native-preview": "7.0.0-dev.20251211.1",
     "angular-eslint": "21.1.0",
     "awesome-logging": "^2.0.3",
     "cpy-cli": "^6.0.0",
