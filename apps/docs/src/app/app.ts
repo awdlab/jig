@@ -12,7 +12,7 @@ import { GlobalIconTemplate, IconTemplateContext } from '@ngneers/controls/icon'
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-root',
+  selector: 'ngn-root',
   imports: [RouterOutlet, NgnTemplate],
   templateUrl: './app.html',
   styleUrl: './app.scss',

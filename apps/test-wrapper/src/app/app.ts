@@ -24,7 +24,7 @@ import {
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-root',
+  selector: 'ngn-root',
   imports: [NgnTemplate],
   template: `
     <ng-template #customIconTemplate [ngnTemplate]="iconTemplateType" let-icon>

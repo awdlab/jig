@@ -31,6 +31,14 @@ export function getEslintConfig(tsconfigPath) {
       rules: {
         '@angular-eslint/component-class-suffix': 'off',
         '@angular-eslint/prefer-on-push-component-change-detection': 'error',
+        '@angular-eslint/component-selector': [
+          'error',
+          {
+            type: 'element',
+            prefix: ['ngn', 'demo', 'dummy'],
+            style: 'kebab-case',
+          },
+        ],
       },
     },
     {

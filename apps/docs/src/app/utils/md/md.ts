@@ -13,7 +13,7 @@ import { MdCfg } from './types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'md',
+  selector: 'ngn-md',
   template: '',
   styleUrl: 'md.scss',
   host: {
