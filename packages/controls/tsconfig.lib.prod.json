@@ -5,8 +5,8 @@
   "compilerOptions": {
     "declarationMap": false,
     "paths": {
-      "@ngneers/controls-themes": ["packages/themes/dist/index"],
-      "@ngneers/controls-themes/*": ["packages/themes/dist/*/index"]
+      "@ngneers/controls-themes": ["../themes/dist/index"],
+      "@ngneers/controls-themes/*": ["../themes/dist/*/index"]
     }
   },
   "angularCompilerOptions": {
