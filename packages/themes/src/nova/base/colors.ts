@@ -5,7 +5,7 @@ import {
 } from '@ngneers/controls-themes/api';
 import {
   bubblegumColor,
-  coralColor,
+  inkColor,
   crimsonFlameColor,
   electricSkyColor,
   forestVerdantColor,
@@ -55,7 +55,7 @@ export const coral = createThemePart({
   variables: [colorsTemplate],
   root: {
     values: {
-      primary: coralColor,
+      primary: inkColor,
       secondary: mustardColor,
       accent: bubblegumColor,
       error: crimsonFlameColor,

@@ -9,6 +9,11 @@ import { NgnDocsPageSection } from './section/section';
   selector: 'ngn-docs-page-renderer',
   templateUrl: 'page-renderer.html',
   imports: [NgnDocsPageSection],
+  styles: `
+    :host {
+      width: 100%;
+    }
+  `,
 })
 export class NgnDocsPageRenderer {
   protected readonly page = inject(ActivatedRoute).snapshot.data['page'] as NgnDocsSinglePage;
