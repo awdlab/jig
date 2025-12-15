@@ -1,5 +1,4 @@
 type ColorShades = {
-  default: string;
   '50': string;
   '100': string;
   '200': string;
@@ -25,7 +24,7 @@ export function getColorPalette(baseColor: string): ColorShades {
       acc[level.toString() as keyof ColorShades] = getColorShade(baseColor, level);
       return acc;
     },
-    { default: baseColor } as ColorShades
+    {} as ColorShades
   );
 }
 

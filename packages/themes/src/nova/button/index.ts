@@ -18,7 +18,7 @@ export const buttonStyles = createThemePart({
         cursor: pointer;
       }
       ${c('kind-primary')} {
-        background: ${v('color.primary.default')};
+        background: ${v('color.primary.500')};
         color: ${v('color.text')};
         &:hover {
           background: ${v('color.primary.300')};
@@ -31,7 +31,7 @@ export const buttonStyles = createThemePart({
         }
       }
       ${c('kind-secondary')} {
-        background: ${v('color.secondary.default')};
+        background: ${v('color.secondary.500')};
         color: ${v('color.text')};
         &:hover {
           background: ${v('color.secondary.400')};
@@ -84,7 +84,7 @@ export const buttonStyles = createThemePart({
       ${c('kind-link')} {
         text-decoration: underline;
         background: transparent;
-        color: ${v('color.primary.default')};
+        color: ${v('color.primary.500')};
         &:hover {
           color: ${v('color.primary.500')};
         }

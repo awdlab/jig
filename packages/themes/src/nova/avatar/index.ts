@@ -15,7 +15,7 @@ export const avatarStyles = createThemePart({
       ${c()} {
         border-radius: ${v('size.rounded.full')};
         &:not(:has(${c('image')})) {
-          background-color: var(--color, ${v('color.primary.default')});
+          background-color: var(--color, ${v('color.primary.500')});
         }
       }
       ${c('initials')} {

@@ -16,7 +16,7 @@ export const listBoxStyles = createThemePart({
         border-style: solid;
       }
       ${c('invalid')} {
-        border-color: ${v('color.error.default')};
+        border-color: ${v('color.error.500')};
       }
       ${c('scroller')} {
         padding: ${v('size.padding.sm')};

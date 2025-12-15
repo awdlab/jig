@@ -96,7 +96,7 @@ export const chipStyles = createThemePart({
 
       ${c('color-primary')} {
         --chip-foreground: ${v('color.text')};
-        --chip-background: ${v('color.primary.default')};
+        --chip-background: ${v('color.primary.500')};
         --chip-background-focus: ${v('color.primary.200')};
         --chip-background-hover: ${v('color.primary.300')};
         --chip-background-active: ${v('color.primary.100')};
@@ -104,7 +104,7 @@ export const chipStyles = createThemePart({
 
       ${c('color-secondary')} {
         --chip-foreground: ${v('color.text')};
-        --chip-background: ${v('color.secondary.default')};
+        --chip-background: ${v('color.secondary.500')};
         --chip-background-focus: ${v('color.secondary.200')};
         --chip-background-hover: ${v('color.secondary.300')};
         --chip-background-active: ${v('color.secondary.100')};
@@ -112,7 +112,7 @@ export const chipStyles = createThemePart({
 
       ${c('color-accent')} {
         --chip-foreground: ${v('color.text')};
-        --chip-background: ${v('color.accent.default')};
+        --chip-background: ${v('color.accent.500')};
         --chip-background-focus: ${v('color.accent.200')};
         --chip-background-hover: ${v('color.accent.300')};
         --chip-background-active: ${v('color.accent.100')};
@@ -120,7 +120,7 @@ export const chipStyles = createThemePart({
 
       ${c('color-info')} {
         --chip-foreground: ${v('color.text')};
-        --chip-background: ${v('color.info.default')};
+        --chip-background: ${v('color.info.500')};
         --chip-background-focus: ${v('color.info.200')};
         --chip-background-hover: ${v('color.info.300')};
         --chip-background-active: ${v('color.info.100')};
@@ -128,7 +128,7 @@ export const chipStyles = createThemePart({
 
       ${c('color-success')} {
         --chip-foreground: ${v('color.text')};
-        --chip-background: ${v('color.success.default')};
+        --chip-background: ${v('color.success.500')};
         --chip-background-focus: ${v('color.success.200')};
         --chip-background-hover: ${v('color.success.300')};
         --chip-background-active: ${v('color.success.100')};
@@ -136,7 +136,7 @@ export const chipStyles = createThemePart({
 
       ${c('color-warning')} {
         --chip-foreground: ${v('color.text')};
-        --chip-background: ${v('color.warning.default')};
+        --chip-background: ${v('color.warning.500')};
         --chip-background-focus: ${v('color.warning.200')};
         --chip-background-hover: ${v('color.warning.300')};
         --chip-background-active: ${v('color.warning.100')};
@@ -144,7 +144,7 @@ export const chipStyles = createThemePart({
 
       ${c('color-error')} {
         --chip-foreground: ${v('color.text')};
-        --chip-background: ${v('color.error.default')};
+        --chip-background: ${v('color.error.500')};
         --chip-background-focus: ${v('color.error.200')};
         --chip-background-hover: ${v('color.error.300')};
         --chip-background-active: ${v('color.error.100')};

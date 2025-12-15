@@ -35,8 +35,8 @@ export const inputFieldStyles = createThemePart({
         }
         &:focus-within,
         :focus {
-          border-color: ${v('color.primary.default')};
-          outline-color: ${v('color.primary.default')};
+          border-color: ${v('color.primary.500')};
+          outline-color: ${v('color.primary.500')};
           outline-width: 1px;
         }
       }

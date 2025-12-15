@@ -37,7 +37,7 @@ export const tabsStyles = createThemePart({
         }
       }
       ${c('header-active-indicator')} {
-        border-bottom: 2px solid ${v('color.primary.default')};
+        border-bottom: 2px solid ${v('color.primary.500')};
         transition:
           left 0.2s ease-in-out,
           width 0.2s ease-in-out;
