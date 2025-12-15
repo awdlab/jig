@@ -19,16 +19,13 @@ export function getColorShade(baseColor: string, level: number): string {
 const colors = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as const;
 
 export function getColorPalette(baseColor: string): ColorShades {
-  return colors.reduce(
-    (acc, level) => {
-      acc[level.toString() as keyof ColorShades] = getColorShade(baseColor, level);
-      return acc;
-    },
-    {} as ColorShades
-  );
+  return colors.reduce((acc, level) => {
+    acc[level.toString() as keyof ColorShades] = getColorShade(baseColor, level);
+    return acc;
+  }, {} as ColorShades);
 }
 
-export const inkColor = getColorPalette('#4d29ff');
+export const inkColor = getColorPalette('#4557ba');
 
 export const mustardColor = getColorPalette('#ffc300');
 

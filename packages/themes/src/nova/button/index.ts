@@ -21,13 +21,13 @@ export const buttonStyles = createThemePart({
         background: ${v('color.primary.500')};
         color: ${v('color.text')};
         &:hover {
-          background: ${v('color.primary.300')};
+          background: ${v('color.primary.400')};
         }
         &:focus {
-          background: ${v('color.primary.200')};
+          background: ${v('color.primary.300')};
         }
         &:active {
-          background: ${v('color.primary.100')};
+          background: ${v('color.primary.200')};
         }
       }
       ${c('kind-secondary')} {
