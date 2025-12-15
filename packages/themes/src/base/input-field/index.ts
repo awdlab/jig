@@ -25,6 +25,14 @@ export const inputFieldStyles = createThemePart({
           outline: none;
           resize: none;
         }
+
+        &:has(${d('input')}:disabled) {
+          cursor: default;
+        }
+        &:has(${d('input')}[aria-readonly]),
+        &:has(${d('input')}:read-only) {
+          cursor: default;
+        }
       }
 
       ${c()}:has(${d('input', 'empty')}) ${c('clear-button')} {

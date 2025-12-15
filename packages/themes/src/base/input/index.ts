@@ -9,6 +9,12 @@ export const inputStyles = createThemePart({
       ${c()} {
         font-family: inherit;
         font-size: inherit;
+
+        &:disabled,
+        &:read-only,
+        &[aria-readonly] {
+          cursor: default;
+        }
       }
     `,
   },

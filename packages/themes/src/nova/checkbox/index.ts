@@ -13,24 +13,22 @@ export const checkboxStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, animationTemplate],
   root: {
     css: ({ v, c, d }) => css`
-      ${c('input')} {
-        cursor: pointer;
-      }
-      ${c('disabled')} ${c('input')} {
-        cursor: default;
-      }
       ${c('box')} {
         width: 1.5rem;
         height: 1.5rem;
-        border: 2px solid ${v('color.surface.400')};
+        border: 2px solid ${v('color.border')};
         border-radius: ${v('size.rounded.sm')};
       }
-      ${c('disabled')} ${c('box')} {
+      ${c('input')}[disabled] ~ ${c('box')} {
         background-color: ${v('color.disabled.background')};
+        border-color: ${v('color.disabled.border')};
+      }
+      ${c('input')}[aria-readonly] ~ ${c('box')} {
+        border-color: ${v('color.disabled.border')};
       }
       ${c('invalid')} ${c('box')} {
         background-color: ${v('color.invalid.background')};
-        border-color: ${v('color.invalid.text')};
+        border-color: ${v('color.invalid.border')};
       }
       ${c('anim-box-icon-enter')} {
         /* prettier-ignore */

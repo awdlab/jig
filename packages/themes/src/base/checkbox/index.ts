@@ -14,7 +14,11 @@ export const checkboxStyles = createThemePart({
         position: relative;
         vertical-align: middle;
       }
+      ${c('input')}[disabled], ${c('input')}[aria-readonly] {
+        cursor: default;
+      }
       ${c('input')} {
+        cursor: pointer;
         opacity: 0;
         position: absolute;
         inset: 0;

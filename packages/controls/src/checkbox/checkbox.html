@@ -5,6 +5,7 @@
   [indeterminate]="indeterminate()"
   [ngClass]="theme.class('input')"
   [attr.disabled]="disabled() ? '' : undefined"
+  [ariaReadOnly]="readonly() ? '' : undefined"
   [ariaInvalid]="invalid() ? 'true' : undefined"
 />
 <div
