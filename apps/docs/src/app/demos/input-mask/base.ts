@@ -13,7 +13,7 @@ import { MASKS, NgnInputMask, InputMaskCfg } from '@ngneers/controls/input-mask'
     {{ value() }}
   `,
 })
-export class Demo_InputMask_Mask {
+export class Demo_InputMask_Base {
   protected readonly value = signal<string>('');
   protected readonly mask: InputMaskCfg = MASKS.time;
 }

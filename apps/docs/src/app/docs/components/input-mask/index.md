@@ -3,4 +3,4 @@ for data entry like phone numbers, dates, and custom formats.
 
 ### Basic Usage
 
-{{ demo: Demo_InputMask_Mask }}
+{{ demo: Demo_InputMask_Base }}
