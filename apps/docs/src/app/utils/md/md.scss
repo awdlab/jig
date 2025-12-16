@@ -25,7 +25,7 @@
         padding-left: 8px;
         thead tr th {
           text-align: left;
-          background-color: #f6f6f6;
+          background-color: var(--ngn-color-surface-100);
           padding: 12px;
           &:first-child {
             border-top-left-radius: 8px;
@@ -37,11 +37,11 @@
         tbody tr td {
           padding: 12px;
           vertical-align: top;
-          border-bottom: 1px solid #ebebeb;
+          border-bottom: 1px solid var(--ngn-color-surface-200);
         }
       }
       .code-name-highlight {
-        background: #f0f0f0;
+        background: var(--ngn-color-surface-200);
         border-radius: 4px;
         padding: 2px 4px;
         margin: 1px 0;

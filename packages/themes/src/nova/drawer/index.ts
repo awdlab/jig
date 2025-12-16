@@ -23,6 +23,7 @@ export const drawerStyles = createThemePart({
           display calc(${v('anim.time.fade')} + 10ms) allow-discrete,
           overlay calc(${v('anim.time.fade')} + 10ms) allow-discrete;
         animation: ngnDrawer_in ${v('anim.time.fade')} ${v('anim.ease.fade')};
+        background: ${v('color.background')};
         &::backdrop {
           transition: background-color ${v('anim.time.fade')};
         }

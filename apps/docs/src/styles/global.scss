@@ -2,9 +2,10 @@
   html,
   body {
     font-family: 'Inter', sans-serif;
+    background: var(--ngn-color-background);
+    color: var(--ngn-color-text);
     @apply h-full;
   }
-
   h1 {
     @apply text-4xl font-semibold mt-4 mb-4;
   }

@@ -26,17 +26,10 @@ export function getColorPalette(baseColor: string): ColorShades {
 }
 
 export const inkColor = getColorPalette('#4557ba');
-
 export const mustardColor = getColorPalette('#ffc300');
-
 export const bubblegumColor = getColorPalette('#ff248a');
-
 export const forestVerdantColor = getColorPalette('#27c427');
-
 export const solarMarigoldColor = getColorPalette('#ff9500');
-
 export const crimsonFlameColor = getColorPalette('#ed1612');
-
 export const electricSkyColor = getColorPalette('#0da6f2');
-
 export const greyColor = getColorPalette('#475569');

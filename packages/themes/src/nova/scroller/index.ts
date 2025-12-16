@@ -10,7 +10,7 @@ export const scrollerStyles = createThemePart({
   root: {
     css: ({ v, c }) => css`
       ${c('item-sticky')} {
-        background: white;
+        background: inherit;
       }
     `,
   },

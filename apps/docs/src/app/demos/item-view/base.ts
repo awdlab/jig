@@ -11,7 +11,7 @@ import { exampleData } from '../../helper/data';
   template: `
     <ngn-item-view #itemView [items]="items" [idField]="'id'">
       <ng-template #item [ngnTemplate]="itemView.templateTypes.item" let-item>
-        <span style="padding: 4px; background: lightgray;">
+        <span style="padding: 4px; background: gray;">
           {{ item.label }}
         </span>
       </ng-template>
