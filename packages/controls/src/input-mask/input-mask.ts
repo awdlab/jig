@@ -8,7 +8,7 @@ import {
   signal,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { domEventObservable } from '@ngneers/controls/api/ng';
+import { domEventHandler } from '@ngneers/controls/api/ng';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
@@ -37,13 +37,11 @@ export class NgnInputMask extends NgnBase<'inputMask'> {
     () => this._ngnInput().element.nativeElement as HTMLInputElement
   );
 
-  private readonly _keydownEvent = domEventObservable(this._inputElement, 'keydown');
-  private readonly _beforeInputEvent = domEventObservable(this._inputElement, 'beforeinput');
-
   constructor() {
     super();
-    this._keydownEvent.subscribe(e => this.onKeyDown(e));
-    this._beforeInputEvent.subscribe(e => this.onBeforeInput(e));
+    domEventHandler(this._inputElement, 'keydown', event => this.onKeyDown(event));
+    domEventHandler(this._inputElement, 'beforeinput', event => this.onBeforeInput(event));
+
     afterRenderEffect(() => {
       if (this._ngnInput().value() !== this.currentInputValue()) {
         this.currentInputValue.set(this._ngnInput().value() ?? '');
