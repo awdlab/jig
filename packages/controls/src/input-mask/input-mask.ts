@@ -31,6 +31,10 @@ export class NgnInputMask extends NgnBase<'inputMask'> {
   protected readonly theme = this.injectThemeTemplate(inputMaskControlTemplate);
   public readonly label = input<string | null>(null);
   public readonly inputId = input<string | null>(null);
+  /**
+   * The mask to apply to the input. Can be a predefined mask key, a custom mask configuration, or a string pattern.
+   */
+  public readonly mask = input<'time' | InputMaskCfg | string | null>(null);
 
   private readonly _ngnInput = contentChild.required<NgnInput>(NgnInput);
   private readonly _inputElement = computed(
@@ -53,7 +57,6 @@ export class NgnInputMask extends NgnBase<'inputMask'> {
     updateValue: (e, v, i) => this._updateValue(e, v, i),
   });
 
-  public readonly preventOpen = input<boolean | 'onDesktop'>('onDesktop');
   protected onInput(event: Event) {
     // Update the current input value
     this.currentInputValue.set((event.target as HTMLInputElement).value);
@@ -61,7 +64,6 @@ export class NgnInputMask extends NgnBase<'inputMask'> {
 
   protected readonly currentInputValue = signal<string>('');
 
-  public readonly mask = input<'time' | InputMaskCfg | string | null>(null);
   private readonly _mask = computed(() => this._maskHelper.ensureMask(this.mask()));
 
   protected readonly maskWatermark = computed(() => {
