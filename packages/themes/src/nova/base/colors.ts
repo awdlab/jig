@@ -20,7 +20,6 @@ export const colorsTemplate = createVariableTemplate({
     ...repeatVariables(
       ['primary', 'secondary', 'accent', 'error', 'warning', 'info', 'success', 'surface'],
       {
-        default: null,
         '50': null,
         '100': null,
         '200': null,
@@ -50,32 +49,52 @@ export const colorsTemplate = createVariableTemplate({
   },
 });
 
+function reversePalette<T extends Record<string, string>>(palette: T): T {
+  const keys = Object.keys(palette);
+  const values = Object.values(palette).reverse();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const newPalette: any = {};
+  keys.forEach((key, i) => {
+    newPalette[key] = values[i];
+  });
+  return newPalette;
+}
+
+function getThemeColors(isDark: boolean) {
+  const p = (palette: typeof inkColor) => (isDark ? reversePalette(palette) : palette);
+
+  return {
+    primary: p(inkColor),
+    secondary: p(mustardColor),
+    accent: p(bubblegumColor),
+    error: p(crimsonFlameColor),
+    warning: p(solarMarigoldColor),
+    info: p(electricSkyColor),
+    success: p(forestVerdantColor),
+    surface: p(greyColor),
+    background: p(greyColor)[50],
+    border: p(greyColor)[400],
+    text: p(greyColor)[950],
+    disabled: {
+      text: p(greyColor)[700],
+      border: p(greyColor)[300],
+      background: p(greyColor)[200],
+    },
+    invalid: {
+      text: p(crimsonFlameColor)[500],
+      border: p(crimsonFlameColor)[400],
+      background: p(crimsonFlameColor)[50],
+    },
+  };
+}
+
 export const coral = createThemePart({
   scope: 'color',
   variables: [colorsTemplate],
   root: {
-    values: {
-      primary: inkColor,
-      secondary: mustardColor,
-      accent: bubblegumColor,
-      error: crimsonFlameColor,
-      warning: solarMarigoldColor,
-      info: electricSkyColor,
-      success: forestVerdantColor,
-      surface: greyColor,
-      background: greyColor[50],
-      border: greyColor[400],
-      text: greyColor[950],
-      disabled: {
-        text: greyColor[700],
-        border: greyColor[300],
-        background: greyColor[200],
-      },
-      invalid: {
-        text: crimsonFlameColor[500],
-        border: crimsonFlameColor[400],
-        background: crimsonFlameColor[50],
-      },
-    },
+    values: getThemeColors(false),
+  },
+  dark: {
+    values: getThemeColors(true),
   },
 });

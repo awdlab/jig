@@ -15,7 +15,7 @@ export const dialogStyles = createThemePart({
   root: {
     css: ({ v, c, d }) => css`
       ${c()} {
-        background-color: canvas;
+        background-color: ${v('color.background')};
         border: 1px solid ${v('color.surface.300')};
         border-radius: ${v('size.rounded.md')};
         padding: ${v('size.padding.lg')};
@@ -23,7 +23,7 @@ export const dialogStyles = createThemePart({
       }
       ${c('modal')} {
         &::backdrop {
-          background-color: rgba(0, 0, 0, 0.1);
+          background-color: rgba(from ${v('color.text')} r g b / 0.1);
         }
       }
       ${c('header')} {

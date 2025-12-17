@@ -4,7 +4,9 @@
     ngn-controls
   </a>
   <div class="h-full flex items-center gap-2 text-(--ngn-color-surface-800) text-2xl">
-    <button ngnButton [kind]="'icon'">☀️</button>
+    <button ngnButton [kind]="'icon'" (click)="toggleDarkMode()">
+      {{ darkModeEnabled() ? '🌙' : '☀️' }}
+    </button>
     <a
       href="https://github.com/NGneers/controls"
       target="_blank"

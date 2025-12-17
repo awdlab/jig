@@ -28,7 +28,7 @@ export const drawerStyles = createThemePart({
           transition: background-color ${v('anim.time.fade')};
         }
         &:popover-open::backdrop {
-          background-color: rgba(0, 0, 0, 0.1);
+          background-color: rgba(from ${v('color.text')} r g b / 0.1);
           @starting-style {
             background-color: transparent;
           }

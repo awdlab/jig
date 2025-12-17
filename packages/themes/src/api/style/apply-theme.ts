@@ -164,9 +164,13 @@ function buildVariablesCss(parts: ThemePart[], options: ApplyThemeOptions): stri
   let css = options.layer ? `@layer ${options.layer} { ` : '';
   css += `${getScopeSelector(options.styleScope)} { `;
 
-  for (const { root } of cssParts) {
+  for (const { root, dark } of cssParts) {
     if (root) {
       css += root;
+    }
+    if (dark) {
+      // check for special 'dark' class on body
+      css += `&.dark { ${dark} }`;
     }
   }
 
@@ -249,11 +253,22 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions, isBase = 
   css += `${getScopeSelector(options.styleScope)} { `;
 
   let unscopableCss = '';
-  for (const { root } of cssParts) {
+  for (const { root, dark } of cssParts) {
     if (root) {
       const { unscopable, scopable } = splitScopableCss(root);
       css += scopable;
       unscopableCss += unscopable;
+    }
+    if (dark) {
+      const { unscopable, scopable } = splitScopableCss(dark);
+      // check for special 'dark' class on body
+      css += `&.dark { ${scopable} }`;
+      if (unscopable) {
+        console.warn(
+          'Unscopable CSS inside dark theme is not supported and will be ignored:',
+          unscopable
+        );
+      }
     }
   }
 
