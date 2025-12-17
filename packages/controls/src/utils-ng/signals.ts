@@ -1,4 +1,12 @@
-import { afterRenderEffect, computed, effect, InputSignal, signal, Signal } from '@angular/core';
+import {
+  afterRenderEffect,
+  computed,
+  effect,
+  InputSignal,
+  InputSignalWithTransform,
+  signal,
+  Signal,
+} from '@angular/core';
 import { SIGNAL } from '@angular/core/primitives/signals';
 
 export function computedWithPrevious<T>(computeFn: (prev?: T) => T, previous?: T): Signal<T> {
@@ -63,7 +71,10 @@ export function asyncComputed<T>(
   return returnFn;
 }
 
-export function setInputSignalValue<T>(input: InputSignal<T>, value: T): void {
+export function setInputSignalValue<T>(
+  input: InputSignal<T> | InputSignalWithTransform<T, unknown>,
+  value: T
+): void {
   input[SIGNAL].applyValueToInputSignal(input[SIGNAL], value);
 }
 

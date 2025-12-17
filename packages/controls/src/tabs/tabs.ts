@@ -2,6 +2,7 @@ import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
   AfterViewInit,
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -46,11 +47,11 @@ export class NgnTabs extends TabsTemplates implements AfterViewInit {
   /**
    * Whether to lazy load the tab contents when they become visible.
    */
-  public readonly lazy = input(false);
+  public readonly lazy = input(false, { transform: booleanAttribute });
   /**
    * Whether to cache the tab contents. Only applies to {@link lazy} loaded tabs.
    */
-  public readonly cache = input(false);
+  public readonly cache = input(false, { transform: booleanAttribute });
   /**
    * Get or set the active tab ID.
    */

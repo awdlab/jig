@@ -1,6 +1,7 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
+  booleanAttribute,
   Component,
   computed,
   effect,
@@ -62,7 +63,7 @@ export class NgnDrawer extends DrawerTemplates implements Openable {
    * A modal drawer prevents interaction with the rest of the page while open.
    * @default false
    */
-  public readonly modal = input<boolean>(false);
+  public readonly modal = input(false, { transform: booleanAttribute });
   /**
    * Position of the drawer
    * @default 'left'
@@ -85,12 +86,12 @@ export class NgnDrawer extends DrawerTemplates implements Openable {
    * Lazy load the drawer content
    * @default false
    */
-  public readonly lazy = input<boolean>(false);
+  public readonly lazy = input(false, { transform: booleanAttribute });
   /**
    * Whether to cache the lazy loaded content
    * @default false
    */
-  public readonly cache = input<boolean>(false);
+  public readonly cache = input(false, { transform: booleanAttribute });
 
   private _togglingTriggeredByInput = false;
   protected readonly isFullyClosed = signal(true);

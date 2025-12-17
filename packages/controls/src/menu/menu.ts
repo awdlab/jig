@@ -1,5 +1,6 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -55,7 +56,7 @@ export class NgnMenu extends MenuTemplates implements Openable {
   /**
    * Whether the menu is a popover. Requires `anchor` to be set.
    */
-  public readonly popover = input<boolean>();
+  public readonly popover = input(false, { transform: booleanAttribute });
   /**
    * The placement of the menu relative to the anchor element. Only used if `popover` is true.
    * @default 'bottom-start'
@@ -69,12 +70,12 @@ export class NgnMenu extends MenuTemplates implements Openable {
    * Whether this menu is a submenu. Used internally.
    * @internal
    */
-  public readonly isSubMenu = input<boolean>(false);
+  public readonly isSubMenu = input(false, { transform: booleanAttribute });
   /**
    * Whether to open submenus on hover. Defaults to true in popover mode.
    * @default popover()
    */
-  public readonly openSubmenuOnHover = input<boolean>();
+  public readonly openSubmenuOnHover = input(false, { transform: booleanAttribute });
 
   /**
    * Emitted when the menu is fully closed.

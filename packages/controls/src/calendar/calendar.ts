@@ -1,5 +1,6 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
+  booleanAttribute,
   Component,
   computed,
   inject,
@@ -68,17 +69,17 @@ export class NgnCalendar extends CalendarTemplates {
    * Whether to show the time input.
    * @default false
    */
-  public readonly showTime = input<boolean>(false);
+  public readonly showTime = input(false, { transform: booleanAttribute });
   /**
    * Whether to show seconds in the time input.
    * @default false
    */
-  public readonly showSeconds = input<boolean>(false);
+  public readonly showSeconds = input(false, { transform: booleanAttribute });
   /**
    * Whether to show the calendar inline instead of with a input field & popup.
    * @default false
    */
-  public readonly inline = input<boolean>(false);
+  public readonly inline = input(false, { transform: booleanAttribute });
 
   private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);
   private readonly _platform = inject(Platform);

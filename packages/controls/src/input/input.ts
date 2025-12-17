@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  booleanAttribute,
   Directive,
   effect,
   input,
@@ -32,7 +33,7 @@ export class NgnInput extends NgnBase<'input'> implements AfterViewInit {
    * Explicitly apply invalid state styling
    * @default false
    */
-  public readonly invalid = input<boolean>(false);
+  public readonly invalid = input(false, { transform: booleanAttribute });
 
   public readonly value = model<string | null>('');
 

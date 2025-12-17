@@ -1,6 +1,7 @@
 import { NgClass, NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -79,16 +80,16 @@ export class NgnDialog<T, Buttons extends NgnActionButtonConfig<unknown>[]>
    * When `true`, the content will be loaded lazily when the dialog is opened for the first time.
    * Only applies when using a template for the content.
    */
-  public readonly lazy = input(false);
+  public readonly lazy = input(false, { transform: booleanAttribute });
   /**
    * When {@link lazy} is `true`, setting this to `true` will cache the content after the first load.
    */
-  public readonly cache = input(false);
+  public readonly cache = input(false, { transform: booleanAttribute });
   /**
    * When `true`, the dialog will be shown as a modal dialog making the background content non-interactable.
    * @default false
    */
-  public readonly modal = input(false);
+  public readonly modal = input(false, { transform: booleanAttribute });
   /**
    * When `true`, the dialog will automatically receive focus when opened.
    * @default modal()

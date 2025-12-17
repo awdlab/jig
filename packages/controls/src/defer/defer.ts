@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  booleanAttribute,
   Component,
   effect,
   input,
@@ -37,10 +38,10 @@ import { NgnBase, provideSelf } from '@ngneers/controls/base';
 export class NgnDefer<T> extends NgnBase<null> {
   public readonly lazyContent = input<TemplateRef<T> | undefined | null>(undefined);
   public readonly lazyContentContext = input<T | null>(null);
-  public readonly open = input<boolean>(false);
-  public readonly lazy = input<boolean>(true);
-  public readonly cache = input<boolean>(false);
-  public readonly hiddenOnClosed = input<boolean>(true);
+  public readonly open = input(false, { transform: booleanAttribute });
+  public readonly lazy = input(true, { transform: booleanAttribute });
+  public readonly cache = input(false, { transform: booleanAttribute });
+  public readonly hiddenOnClosed = input(true, { transform: booleanAttribute });
 
   protected readonly hasBeenOpened = signal(false);
 

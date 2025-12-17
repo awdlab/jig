@@ -1,4 +1,5 @@
 import {
+  booleanAttribute,
   computed,
   Directive,
   DOCUMENT,
@@ -40,13 +41,13 @@ export class NgnMovable extends NgnBase<'movable'> {
    * When `true`, the cursor will change to indicate that the element / drag handle is movable.
    * @default true
    */
-  public readonly ngnMovableChangeCursor = input(true);
+  public readonly ngnMovableChangeCursor = input(true, { transform: booleanAttribute });
 
   /**
    * When `true`, the movement will be limited to the viewport.
    * @default true
    */
-  public readonly ngnMovableLimitToViewport = input(true);
+  public readonly ngnMovableLimitToViewport = input(true, { transform: booleanAttribute });
 
   private readonly _ngnMovableDragHandleWithPrevious = signalWithPrevious(
     this.ngnMovableDragHandle,

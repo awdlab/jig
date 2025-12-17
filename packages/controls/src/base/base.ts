@@ -1,5 +1,6 @@
 import {
   afterRenderEffect,
+  booleanAttribute,
   Directive,
   effect,
   ElementRef,
@@ -55,7 +56,7 @@ export abstract class NgnBase<T extends ControlName | null> {
    * ⚠️ Caution: This property is *not* reactive and has to be set before the control starts rendering.
    * @default false
    */
-  public readonly unstyled = input(false);
+  public readonly unstyled = input(false, { transform: booleanAttribute });
 
   /**
    * Some controls support custom kinds for styling purposes.

@@ -1,5 +1,5 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, input, model, ChangeDetectionStrategy } from '@angular/core';
+import { booleanAttribute, Component, input, model, ChangeDetectionStrategy } from '@angular/core';
 import { provideSelf } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { inplaceControlTemplate } from '@ngneers/controls-themes/templates/inplace';
@@ -32,12 +32,12 @@ export class NgnInplace extends InplaceTemplates {
    * Whether the content is loaded lazily.
    * @default true
    */
-  public readonly lazy = input<boolean>(true);
+  public readonly lazy = input(true, { transform: booleanAttribute });
   /**
    * Whether the content is cached when closed.
    * @default false
    */
-  public readonly cache = input<boolean>(false);
+  public readonly cache = input(false, { transform: booleanAttribute });
 
   /**
    * Switches to the content view.

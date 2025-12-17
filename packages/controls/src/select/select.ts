@@ -1,5 +1,6 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
+  booleanAttribute,
   Component,
   computed,
   contentChild,
@@ -108,7 +109,7 @@ export class NgnSelect<
    * Whether the select is virtualized.
    * @default `false`
    */
-  public readonly virtual = input<boolean>(false);
+  public readonly virtual = input(false, { transform: booleanAttribute });
   /**
    * When {@link virtual} is enabled, this property defines the height of each item in the list.
    */
@@ -128,7 +129,7 @@ export class NgnSelect<
    * Whether to automatically filter the options based on the user's input in the {@link editable} input.
    * @default `true`
    */
-  public readonly editableAutoFilter = input<boolean>(true);
+  public readonly editableAutoFilter = input(true, { transform: booleanAttribute });
   /**
    * Enable this to allow the user to select multiple values.
    * When enabled, the value of the control becomes an array of selected items.

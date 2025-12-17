@@ -1,6 +1,7 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
+  booleanAttribute,
   Component,
   computed,
   effect,
@@ -63,9 +64,9 @@ export class NgnListBox<
   public readonly items = input.required<Items>();
 
   public readonly scrollToSelectedItemOnInit = input<boolean | ScrollLogicalPosition>(false);
-  public readonly selectable = input<boolean>(false);
-  public readonly highlightable = input<boolean>(true);
-  public readonly virtual = input<boolean>();
+  public readonly selectable = input(false, { transform: booleanAttribute });
+  public readonly highlightable = input(true, { transform: booleanAttribute });
+  public readonly virtual = input(false, { transform: booleanAttribute });
   public readonly itemHeight = input<number>();
   public readonly multiple = input<Multiple>();
   /**

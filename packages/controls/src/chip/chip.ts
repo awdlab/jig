@@ -1,5 +1,12 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, computed, input, output, ChangeDetectionStrategy } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  computed,
+  input,
+  output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { CustomColor, IconType } from '@ngneers/controls-custom-types';
@@ -25,12 +32,12 @@ export class NgnChip extends NgnBase<'chip'> {
    * Set whether the chip can be closed (removed).
    * @default false
    */
-  public readonly closable = input<boolean>(false);
+  public readonly closable = input(false, { transform: booleanAttribute });
   /**
    * Set whether the chip is actionable (can be clicked).
    * @default false
    */
-  public readonly actionable = input<boolean>(false);
+  public readonly actionable = input(false, { transform: booleanAttribute });
   /**
    * Set a custom icon for the close button.
    */

@@ -64,7 +64,7 @@ export class NgnInputField extends NgnBase<'inputField'> {
    * Explicitly apply invalid state styling
    * @default false
    */
-  public readonly invalid = input<boolean>(false);
+  public readonly invalid = input(false, { transform: booleanAttribute });
 
   protected clicked(event: MouseEvent) {
     // Prevent click event from propagating to parent input field

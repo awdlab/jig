@@ -1,5 +1,6 @@
 import { NgClass } from '@angular/common';
 import {
+  booleanAttribute,
   Component,
   computed,
   contentChild,
@@ -68,7 +69,7 @@ export class NgnPopover extends NgnBase<'popover'> implements Openable {
   /**
    * Set to true for scrollable/shrink-able content
    */
-  public readonly hasShrinkableContent = input<boolean>(false);
+  public readonly hasShrinkableContent = input(false, { transform: booleanAttribute });
   /**
    * How the drawer closes depending on user interaction.
    * @default 'any'

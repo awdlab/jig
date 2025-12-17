@@ -1,6 +1,7 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -47,12 +48,12 @@ export class NgnAccordionPanel extends AccordionTemplates {
    * Whether to lazily load the content of the panel when expanded.
    * @default false
    */
-  public readonly lazy = input<boolean>();
+  public readonly lazy = input(null, { transform: booleanAttribute });
   /**
    * Whether to cache the content of the panel when {@link lazy} is enabled and the panel is closed.
    * @default false
    */
-  public readonly cache = input<boolean>();
+  public readonly cache = input(null, { transform: booleanAttribute });
   /**
    * The header text for the accordion panel.
    */
@@ -62,7 +63,7 @@ export class NgnAccordionPanel extends AccordionTemplates {
    * but not automatically close the panel if it was already expanded, or is expanded programatically.
    * @default false
    */
-  public readonly disabled = input<boolean>(false);
+  public readonly disabled = input(false, { transform: booleanAttribute });
 
   protected readonly iconExpanded = this._accordionControl.iconExpanded;
   protected readonly iconCollapsed = this._accordionControl.iconCollapsed;

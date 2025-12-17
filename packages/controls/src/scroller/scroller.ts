@@ -1,5 +1,6 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
+  booleanAttribute,
   Component,
   computed,
   effect,
@@ -62,7 +63,7 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
    * Determines whether the scroller should have a tab index and be focusable.
    * @default `false`
    */
-  public readonly focusable = input<boolean>(false);
+  public readonly focusable = input(false, { transform: booleanAttribute });
   /**
    * Determines whether an item is sticky or not.
    * If set, the scroller will stick the items with a truthy value for the specified field to the top of the scroller.
@@ -72,7 +73,7 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
    * Determines whether the scroller is loading items.
    * @default `false`
    */
-  public readonly loading = input<boolean>(false);
+  public readonly loading = input(false, { transform: booleanAttribute });
 
   private readonly _itemList = viewChild.required<ElementRef<HTMLElement>>('itemList');
   private readonly _scrollElement = viewChild.required<ElementRef<HTMLElement>>('scrollarea');

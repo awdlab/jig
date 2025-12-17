@@ -41,7 +41,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       width: 50px;
       height: 50px;
       &.dark {
-        color: white;
+        color: var(--ngn-color-background);
       }
     }
   `,

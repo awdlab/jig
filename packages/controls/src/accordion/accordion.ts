@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, input, model } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { IconType } from '@ngneers/controls-custom-types';
 import { accordionControlTemplate } from '@ngneers/controls-themes/templates/accordion';
@@ -35,15 +35,15 @@ import { ACCORDION_CONTROL, AccordionControl } from './types';
 })
 export class NgnAccordion extends NgnBase<'accordion'> {
   protected readonly theme = this.injectThemeTemplate(accordionControlTemplate);
-  public readonly cache = input(false);
-  public readonly lazy = input(false);
+  public readonly cache = input(false, { transform: booleanAttribute });
+  public readonly lazy = input(false, { transform: booleanAttribute });
 
   /**
    * Whether multiple panels can be expanded at once.
    */
   public readonly iconExpanded = input<IconType>();
   public readonly iconCollapsed = input<IconType>();
-  public readonly multiple = input<boolean>(false);
+  public readonly multiple = input(false, { transform: booleanAttribute });
   public readonly expandedPanels = model<string[]>([]);
 
   public togglePanel(panelId: string) {
