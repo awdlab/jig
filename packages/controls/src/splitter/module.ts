@@ -10,4 +10,4 @@ import { NgnSplitter } from './splitter';
   imports: [NgnSplitter, NgnSplitterPanel],
   exports: [NgnSplitter, NgnSplitterPanel],
 })
-export class SplitterModule {}
+export class NgnSplitterModule {}

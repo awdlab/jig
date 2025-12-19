@@ -1,10 +1,10 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
-import { SplitterLayout, SplitterModule } from '@ngneers/controls/splitter';
+import { SplitterLayout, NgnSplitterModule } from '@ngneers/controls/splitter';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SplitterModule, NgnButton],
+  imports: [NgnSplitterModule, NgnButton],
   selector: 'ngn-demo-splitter-state',
   template: `
     <div style="display: flex; gap: 8px;">

@@ -1,10 +1,10 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
-import { SplitterModule } from '@ngneers/controls/splitter';
+import { NgnSplitterModule } from '@ngneers/controls/splitter';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SplitterModule, NgnButton],
+  imports: [NgnSplitterModule, NgnButton],
   selector: 'ngn-demo-splitter-reorder',
   template: `
     <button ngnButton (click)="shufflePanels()">Shuffle panel order</button>

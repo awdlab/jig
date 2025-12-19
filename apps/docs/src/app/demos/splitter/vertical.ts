@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { SplitterModule } from '@ngneers/controls/splitter';
+import { NgnSplitterModule } from '@ngneers/controls/splitter';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SplitterModule],
+  imports: [NgnSplitterModule],
   selector: 'ngn-demo-splitter-vertical',
   template: `
     <ngn-splitter [layout]="'vertical'" [aria-label]="'Vertical Splitter Example'">
