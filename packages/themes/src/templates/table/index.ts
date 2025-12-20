@@ -1,0 +1,9 @@
+import { createControlTemplate } from '@ngneers/controls-themes/api';
+
+import { scrollerControlTemplate } from '../scroller';
+
+export const tableControlTemplate = createControlTemplate({
+  scope: 'table',
+  classNames: ['row', 'cell', 'columnheader'],
+  dependencies: [scrollerControlTemplate],
+});

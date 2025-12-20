@@ -8,10 +8,6 @@ export const scrollerStyles = createThemePart({
   base: baseStyles.scroller,
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
-    css: ({ v, c }) => css`
-      ${c('item-sticky')} {
-        background: inherit;
-      }
-    `,
+    css: ({ v, c }) => css``,
   },
 });

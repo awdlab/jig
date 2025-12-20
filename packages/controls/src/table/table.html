@@ -1,0 +1,23 @@
+<ngn-scroller
+  #scroller
+  [virtual]="virtual()"
+  [items]="rowsWithHeaderDummy()"
+  [itemHeight]="rowHeight() || 0"
+  [style.--ngn-table-row-height.px]="rowHeight()"
+  [fieldSticky]="'sticky'"
+>
+  <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item let-index="index">
+    @if (index === 0) {
+      <div role="rowgroup">
+        <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
+      </div>
+    } @else {
+      <div role="rowgroup">
+        <ng-container
+          [ngTemplateOutlet]="bodyTemplate()"
+          [ngTemplateOutletContext]="{ $implicit: item }"
+        ></ng-container>
+      </div>
+    }
+  </ng-template>
+</ngn-scroller>

@@ -14,12 +14,10 @@ export const listBoxStyles = createThemePart({
         border-color: ${v('color.surface.300')};
         border-width: 1px;
         border-style: solid;
+        padding: ${v('size.padding.sm')};
       }
       ${c('invalid')} {
         border-color: ${v('color.error.500')};
-      }
-      ${c('scroller')} {
-        padding: ${v('size.padding.sm')};
       }
       ${c('item')} {
         padding: ${v('size.padding.md')};

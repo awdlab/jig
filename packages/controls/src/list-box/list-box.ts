@@ -22,7 +22,7 @@ import {
 } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
-import { NgnScroller } from '@ngneers/controls/scroller';
+import { NgnScroller, NgnScrollerItem } from '@ngneers/controls/scroller';
 import { asyncComputed } from '@ngneers/controls/utils-ng';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
 
@@ -35,7 +35,7 @@ import { ListBoxTemplates, ValueType } from './list-box-templates';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-list-box',
   templateUrl: './list-box.html',
-  imports: [NgTemplateOutlet, NgnScroller, NgnTemplate, NgClass],
+  imports: [NgTemplateOutlet, NgnScroller, NgnScrollerItem, NgnTemplate, NgClass],
   providers: [provideSelf(NgnListBox)],
   host: {
     '[class]': `theme.classes({

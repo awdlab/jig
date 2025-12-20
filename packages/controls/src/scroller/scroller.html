@@ -1,45 +1,23 @@
-<div #scrollarea ngnScrollAmount [ngClass]="theme.class('scrollarea')">
-  @if (virtual()) {
-    <div [style.height.px]="dummyHeight()"></div>
-  }
-  <div
-    #itemList
-    [style.top.px]="itemsTop()"
-    [style.position]="virtual() ? 'absolute' : 'unset'"
-    [style.width.%]="100"
-  >
-    @if (latestStickyItem(); as latestStickyItem) {
-      <div
-        [ngClass]="theme.class('item-sticky') + ' ' + theme.class('item-sticky-preserved')"
-        [style.height.px]="itemHeight() || null"
-      >
-        <ng-container
-          *ngTemplateOutlet="
-            itemTemplate();
-            context: { $implicit: latestStickyItem.item, index: latestStickyItem.index }
-          "
-        ></ng-container>
-      </div>
-    }
-    @for (item of visibleItems(); track item.index) {
-      <div
-        [style.height.px]="itemHeight() || null"
-        [ngClass]="
-          theme.classes({
-            item: true,
-            'item-sticky': !!fieldSticky() && !!item.item[fieldSticky()!],
-          })
-        "
-      >
-        <ng-container
-          *ngTemplateOutlet="itemTemplate(); context: { $implicit: item.item, index: item.index }"
-        ></ng-container>
-      </div>
-    }
-  </div>
+<div [ngClass]="theme.class('spacer')" [style.height.px]="paddingTop()"></div>
 
-  @if (loading()) {
-    <!-- TODO: replace with spinner -->
-    LOADING...
-  }
-</div>
+@if (latestStickyItem(); as latestStickyItem) {
+  <ng-container
+    *ngTemplateOutlet="
+      itemTemplate();
+      context: { $implicit: latestStickyItem.item, index: latestStickyItem.index }
+    "
+  ></ng-container>
+}
+
+@for (item of visibleItems(); track item.index) {
+  <ng-container
+    *ngTemplateOutlet="itemTemplate(); context: { $implicit: item.item, index: item.index }"
+  ></ng-container>
+}
+
+<div [ngClass]="theme.class('spacer')" [style.height.px]="paddingBottom()"></div>
+
+@if (loading()) {
+  <!-- TODO: replace with spinner -->
+  LOADING...
+}

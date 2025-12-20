@@ -28,7 +28,17 @@ export class TestComponentBase {
 export async function defineTestComponent(
   template: TemplateType,
 ): Promise<Type<TestComponentBase>> {
-  const imports = await Promise.all(template.imports.map((x) => IMPORTS[x]()));
+  const imports = await Promise.all(
+    template.imports.flatMap((x) => {
+      const imp = IMPORTS[x];
+      if (Array.isArray(imp)) {
+        return imp.map((y) => y());
+      }
+      const result = imp();
+      return Array.isArray(result) ? result : [result];
+    }),
+  );
+
   @Component({
     template: template.template,
     imports,

@@ -16,7 +16,7 @@ test('regular scrolling with 50 elements', async ({ page }, testInfo) => {
       template: `
         <ngn-scroller #scroller style="height: 300px; width: 300px;" [items]="inputs().items">
           <ng-template #item let-item>
-            <div style="padding: 8px; border-bottom: 1px solid #ccc;">
+            <div [ngnScrollerItem]="item" style="padding: 8px; border-bottom: 1px solid #ccc;">
               {{ item.label }}
             </div>
           </ng-template>
@@ -71,7 +71,7 @@ test('virtual scrolling with 5000 elements', async ({ page }, testInfo) => {
           [virtual]="true"
           [itemHeight]="inputs().itemHeight">
           <ng-template #item let-item>
-            <div style="height: 40px; padding: 8px; border-bottom: 1px solid #ccc; box-sizing: border-box;">
+            <div [ngnScrollerItem]="item" style="height: 40px; padding: 8px; border-bottom: 1px solid #ccc; box-sizing: border-box;">
               {{ item.label }}
             </div>
           </ng-template>
@@ -153,7 +153,8 @@ test('regular scrolling with sticky items', async ({ page }, testInfo) => {
           [items]="inputs().items"
           [fieldSticky]="'items'">
           <ng-template #item let-item>
-            <div [style.padding]="item.items ? '12px 8px' : '8px 8px'"
+            <div [ngnScrollerItem]="item"
+                 [style.padding]="item.items ? '12px 8px' : '8px 8px'"
                  [style.background]="item.items ? '#e0e0e0' : 'white'"
                  [style.font-weight]="item.items ? 'bold' : 'normal'"
                  [style.border-bottom]="'1px solid #ccc'">
@@ -217,7 +218,8 @@ test('virtual scrolling with sticky items', async ({ page }, testInfo) => {
           [itemHeight]="inputs().itemHeight"
           [fieldSticky]="'items'">
           <ng-template #item let-item>
-            <div [style.height.px]="40"
+            <div [ngnScrollerItem]="item"
+                 [style.height.px]="40"
                  [style.padding]="item.items ? '12px 8px' : '8px 8px'"
                  [style.background]="item.items ? '#e0e0e0' : 'white'"
                  [style.font-weight]="item.items ? 'bold' : 'normal'"
@@ -286,7 +288,7 @@ test('fixed scrolling with scroll to index', async ({ page }, testInfo) => {
             style="height: 300px; width: 300px;" 
             [items]="inputs().items">
             <ng-template #item let-item>
-              <div style="padding: 8px; border-bottom: 1px solid #ccc;">
+              <div [ngnScrollerItem]="item"style="padding: 8px; border-bottom: 1px solid #ccc;">
                 {{ item.label }}
               </div>
             </ng-template>
@@ -318,7 +320,7 @@ test('fixed scrolling with scroll to index', async ({ page }, testInfo) => {
 
   await page.waitForTimeout(100);
 
-  // Verify item 50 is visible
+  // Verify item 50 is visible (0-based index)
   const item50 = scroller.getItemByText('Item 51');
   await expect(item50).toBeInViewport();
 
@@ -361,7 +363,7 @@ test('virtual scrolling with scroll to index', async ({ page }, testInfo) => {
             [virtual]="true"
             [itemHeight]="inputs().itemHeight">
             <ng-template #item let-item>
-              <div style="height: 40px; padding: 8px; border-bottom: 1px solid #ccc; box-sizing: border-box;">
+              <div [ngnScrollerItem]="item" style="height: 40px; padding: 8px; border-bottom: 1px solid #ccc; box-sizing: border-box;">
                 {{ item.label }}
               </div>
             </ng-template>
@@ -424,7 +426,7 @@ test('virtual scrolling with padding of 5 and assertions', async ({ page }, test
     page,
     {
       template: `
-        <ngn-scroller 
+        <ngn-scroller
           #scroller 
           style="height: 400px; width: 300px;" 
           [items]="inputs().items"
@@ -432,7 +434,7 @@ test('virtual scrolling with padding of 5 and assertions', async ({ page }, test
           [itemHeight]="inputs().itemHeight"
           [padding]="inputs().padding">
           <ng-template #item let-item>
-            <div style="height: 40px; padding: 8px; border-bottom: 1px solid #ccc; box-sizing: border-box;">
+            <div [ngnScrollerItem]="item" style="height: 40px; padding: 8px; border-bottom: 1px solid #ccc; box-sizing: border-box;">
               {{ item.label }}
             </div>
           </ng-template>

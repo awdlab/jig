@@ -1,17 +1,17 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnScroller } from '@ngneers/controls/scroller';
+import { NgnScroller, NgnScrollerItem } from '@ngneers/controls/scroller';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgnScroller, NgnTemplate],
+  imports: [NgnScroller, NgnTemplate, NgnScrollerItem],
   selector: 'ngn-demo-scroller-base',
   template: `
     <ngn-scroller #scroller style="height: 300px" [items]="items">
       <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item>
-        <span>
+        <span [ngnScrollerItem]="item">
           {{ item.label }}
         </span>
       </ng-template>

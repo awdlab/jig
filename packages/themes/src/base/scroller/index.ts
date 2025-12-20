@@ -10,13 +10,18 @@ export const scrollerStyles = createThemePart({
         display: block;
         height: 100%;
         width: 100%;
-      }
-      ${c('scrollarea')} {
-        width: 100%;
-        height: 100%;
-        position: relative;
         overflow-y: auto;
         overflow-x: hidden;
+        position: relative;
+        overflow-anchor: none;
+      }
+      ${c('virtual')} {
+        display: flex;
+        flex-direction: column;
+      }
+      ${c('spacer')} {
+        flex-shrink: 0;
+        display: block;
       }
       ${c('item-sticky')} {
         position: sticky;

@@ -28,6 +28,8 @@ import { tabsStyles } from '@ngneers/controls-themes/base/tabs';
 import { tagStyles } from '@ngneers/controls-themes/base/tag';
 import { tooltipStyles } from '@ngneers/controls-themes/base/tooltip';
 
+import { tableStyles } from './table';
+
 export const baseStyles = {
   accordion: accordionStyles,
   movable: movableStyles,
@@ -57,6 +59,7 @@ export const baseStyles = {
   scroller: scrollerStyles,
   select: selectStyles,
   splitter: splitterStyles,
+  table: tableStyles,
   tabs: tabsStyles,
   tag: tagStyles,
   tooltip: tooltipStyles,

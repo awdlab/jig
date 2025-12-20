@@ -18,6 +18,7 @@
 <ng-template #usedItemTemplate [ngnTemplate]="scroller.templateTypes.item" let-itemOrGroup>
   <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
   <div
+    [ngnScrollerItem]="itemOrGroup"
     [id]="inputId() + '_option_' + itemOrGroup.value"
     [attr.role]="'option'"
     [aria-selected]="selectable() ? valueArray().includes(itemOrGroup.value) : null"

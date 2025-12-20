@@ -25,6 +25,8 @@ import { CustomKind } from '@ngneers/controls-custom-types';
 import { ControlTemplate } from '@ngneers/controls-themes';
 import { ControlName, ThemeTemplate } from '@ngneers/controls-themes/templates';
 
+import { setNgnInstance } from './ngn-instance';
+
 export const NGN_CONTROL = new InjectionToken<NgnBase<never>>('NGN_CONTROL');
 
 /**
@@ -78,6 +80,7 @@ export abstract class NgnBase<T extends ControlName | null> {
   private readonly _childNgnControls = viewChildren(NGN_CONTROL);
 
   constructor() {
+    setNgnInstance(this.element.nativeElement, this);
     effect(() => {
       // Propagate unstyled state to direct child controls, does not effect
       // custom user content passed into ng-content or projected templates.

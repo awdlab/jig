@@ -28,6 +28,7 @@ export type ThemeTemplate = {
   select: Awaited<typeof import('./select')>['selectControlTemplate'];
   splitter: Awaited<typeof import('./splitter')>['splitterControlTemplate'];
   tabs: Awaited<typeof import('./tabs')>['tabsControlTemplate'];
+  table: Awaited<typeof import('./table')>['tableControlTemplate'];
   tag: Awaited<typeof import('./tag')>['tagControlTemplate'];
   tooltip: Awaited<typeof import('./tooltip')>['tooltipControlTemplate'];
 };
