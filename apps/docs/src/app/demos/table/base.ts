@@ -1,11 +1,17 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { NgnTable, NgnTableCell, NgnTableColumnHeader, NgnTableRow } from '@ngneers/controls/table';
+import {
+  NgnTable,
+  NgnTableCell,
+  NgnTableColumnHeader,
+  NgnTableHeaderRow,
+  NgnTableRow,
+} from '@ngneers/controls/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgnTable, NgnTableRow, NgnTableCell, NgnTableColumnHeader],
+  imports: [NgnTable, NgnTableRow, NgnTableCell, NgnTableColumnHeader, NgnTableHeaderRow],
   selector: 'ngn-demo-table-base',
   template: `<ngn-table
     style="height: 200px"
@@ -15,7 +21,7 @@ import { exampleData } from '../../helper/data';
     [rowHeight]="50"
   >
     <ng-template #header>
-      <div ngnTableRow>
+      <div ngnTableHeaderRow>
         <div ngnTableColumnHeader>Id</div>
         <div ngnTableColumnHeader>Name</div>
         <div ngnTableColumnHeader>Department</div>
@@ -23,15 +29,15 @@ import { exampleData } from '../../helper/data';
       </div>
     </ng-template>
     <ng-template #body let-row>
-      <div ngnTableRow>
-        <div ngnTableCell>{{ row.id }}</div>
-        <div ngnTableCell>{{ row.name }}</div>
-        <div ngnTableCell>{{ row.department }}</div>
-        <div ngnTableCell>{{ row.location }}</div>
+      <div [ngnTableRow]="row">
+        <div ngnTableCell>{{ row.data.id }}</div>
+        <div ngnTableCell>{{ row.data.name }}</div>
+        <div ngnTableCell>{{ row.data.department }}</div>
+        <div ngnTableCell>{{ row.data.location }}</div>
       </div>
     </ng-template>
   </ngn-table>`,
 })
 export class Demo_Table_Base {
-  protected readonly rows = exampleData.table(1000);
+  protected readonly rows = exampleData.table(20);
 }

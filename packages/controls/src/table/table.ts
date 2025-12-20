@@ -6,6 +6,7 @@ import { NgnScroller } from '@ngneers/controls/scroller';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 import { NgnTableTemplates } from './table-templates';
+import { FormattedTableRow } from './types';
 
 @Component({
   selector: 'ngn-table',
@@ -18,19 +19,26 @@ import { NgnTableTemplates } from './table-templates';
       '': true,
     })`,
     role: 'table',
+    '[attr.aria-rowcount]': 'rows().length',
+    tabindex: '0',
   },
 })
-export class NgnTable<T extends object[], K extends keyof T[number]> extends NgnTableTemplates<T> {
+export class NgnTable<T extends object, K extends keyof T> extends NgnTableTemplates<T> {
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate);
 
-  public readonly rows = input.required<T>();
+  public readonly rows = input.required<T[]>();
   public readonly rowHeight = input<number>();
   public readonly fieldId = input.required<K>();
   public readonly virtual = input<boolean>(false);
 
-  protected readonly rowsWithHeaderDummy = computed(() => [
-    { sticky: true } as T[number] | { sticky: true },
-    ...this.rows(),
-  ]);
-  protected readonly trackById = (item: T[number]): unknown => item[this.fieldId()];
+  protected readonly trackById = (item: T): unknown => item[this.fieldId()];
+
+  protected readonly formattedRows = computed<FormattedTableRow<T>[]>(() => {
+    const rows = this.rows();
+    return rows.map((data, index) => ({
+      id: data[this.fieldId()] as T[keyof T] & (string | number),
+      data,
+      index,
+    }));
+  });
 }

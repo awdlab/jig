@@ -5,7 +5,7 @@ import { NgnBase } from '@ngneers/controls/base';
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export abstract class NgnTableTemplates<T extends object[]> extends NgnBase<'table'> {
+export abstract class NgnTableTemplates<T extends object> extends NgnBase<'table'> {
   private readonly _headerTemplate = contentChild<TemplateRef<unknown>>('header');
   private readonly _bodyTemplate = contentChild<TemplateRef<unknown>>('body');
 

@@ -1,17 +1,22 @@
-import { Directive } from '@angular/core';
-import { NgnBase } from '@ngneers/controls/base';
-import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
+import { Directive, effect, input } from '@angular/core';
+import { NgnScrollerItem } from '@ngneers/controls/scroller';
+import { setInputSignalValue } from '@ngneers/controls/utils-ng';
 
-@Directive({ selector: '[ngnTableRow]' })
-export class NgnTableRow extends NgnBase<'table'> {
-  private readonly theme = this.injectThemeTemplate(tableControlTemplate);
+import { FormattedTableRow } from './types';
+
+@Directive({
+  selector: '[ngnTableRow]',
+  host: { role: 'row', '[attr.aria-rowindex]': 'ngnTableRow().index + 2' },
+})
+export class NgnTableRow extends NgnScrollerItem {
+  public readonly ngnTableRow = input.required<FormattedTableRow<unknown>>();
+  public override readonly ngnScrollerItem = input<object>({});
+
   constructor() {
     super();
-    this.prepareDom();
-  }
-
-  private prepareDom() {
-    this.element.nativeElement.classList.toggle(this.theme.class('row'), true);
-    this.element.nativeElement.setAttribute('role', 'row');
+    effect(() => {
+      const row = this.ngnTableRow();
+      setInputSignalValue(this.ngnScrollerItem, row);
+    });
   }
 }

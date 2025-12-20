@@ -8,16 +8,22 @@ export const tableStyles = createThemePart({
   root: {
     css: ({ v, c, d }) => css`
       ${c()} {
-        display: block;
-        div[role='rowgroup'] {
+        display: grid;
+        grid-auto-rows: auto;
+        grid-template-columns: repeat(4, minmax(100px, 1fr));
+        ${d('scroller', 'item')} {
           display: grid;
           grid-template-rows: subgrid;
           grid-template-columns: subgrid;
           grid-column: 1 / -1;
         }
+        div[role='rowgroup'] {
+          display: grid;
+          grid-template-columns: subgrid;
+          grid-column: 1 / -1;
+        }
         div[role='row'] {
           display: grid;
-          grid-template-rows: subgrid;
           grid-template-columns: subgrid;
           grid-column: 1 / -1;
         }

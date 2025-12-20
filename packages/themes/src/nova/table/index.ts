@@ -8,6 +8,15 @@ export const tableStyles = createThemePart({
   base: baseStyles.table,
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
-    css: ({ v, c }) => css``,
+    css: ({ v, c, d }) => css`
+      ${c()} {
+        ${d('scroller')} {
+          gap: ${v('size.padding.md')};
+        }
+        ${d('scroller', 'item-sticky')} {
+          top: ${v('size.padding.md')};
+        }
+      }
+    `,
   },
 });

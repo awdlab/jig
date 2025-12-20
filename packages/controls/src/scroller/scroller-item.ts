@@ -11,6 +11,9 @@ export class NgnScrollerItem implements AfterViewInit {
   private readonly _scroller = signal<NgnScroller<unknown> | null>(null);
 
   public ngAfterViewInit() {
+    if (!this._el.nativeElement.isConnected) {
+      return;
+    }
     const parentInstance = getNearestNgnInstance(this._el.nativeElement);
     if (!(parentInstance instanceof NgnScroller)) {
       throw new NgnError(
@@ -32,12 +35,7 @@ export class NgnScrollerItem implements AfterViewInit {
       const isSticky = !!stickyField && !!(item as any)[stickyField];
 
       this._el.nativeElement.classList.toggle(scroller['theme'].class('item-sticky'), isSticky);
-
-      const isVirtual = scroller.virtual();
-
-      this._el.nativeElement.style.display = 'block';
-      this._el.nativeElement.style.flexShrink = isVirtual ? '0' : '';
-      this._el.nativeElement.style.height = isVirtual ? `var(--ngn-scroller-item-height)` : '';
+      this._el.nativeElement.classList.toggle(scroller['theme'].class('item'), true);
     });
   }
 }
