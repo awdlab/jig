@@ -61,7 +61,7 @@ describe('DefaultSplitterCalculator', () => {
   });
 
   describe('Grid Template Sizes', () => {
-    it.only('should generate correct grid template for horizontal layout with mixed panels', () => {
+    it('should generate correct grid template for horizontal layout with mixed panels', () => {
       const panel1 = createMockPanel('200px', '100px', '300px');
       const panel2 = createMockPanel('1fr', '100px', '500px');
       const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
@@ -70,7 +70,6 @@ describe('DefaultSplitterCalculator', () => {
         const calculator = new DefaultSplitterCalculator(splitter);
         const template = calculator.gridTemplateSizes();
 
-        // Should include both panel sizes and a divider
         expect(template).toEqual('200px 10px 1fr');
       });
     });
@@ -83,7 +82,7 @@ describe('DefaultSplitterCalculator', () => {
         const calculator = new DefaultSplitterCalculator(splitter);
         const template = calculator.gridTemplateSizes();
 
-        expect(template).toBe('1fr');
+        expect(template).toEqual('1fr');
       });
     });
 
@@ -94,7 +93,7 @@ describe('DefaultSplitterCalculator', () => {
         const calculator = new DefaultSplitterCalculator(splitter);
         const template = calculator.gridTemplateSizes();
 
-        expect(template).toBe('none');
+        expect(template).toEqual('none');
       });
     });
 
@@ -108,12 +107,7 @@ describe('DefaultSplitterCalculator', () => {
         const calculator = new DefaultSplitterCalculator(splitter);
         const template = calculator.gridTemplateSizes();
 
-        // Should include all panels and dividers in the template
-        expect(template).toContain('1fr');
-        expect(template).toContain('200px');
-        // Template should have format like: "1fr <divider> 200px <divider> 1fr"
-        const parts = template.split(' ');
-        expect(parts.length).toBeGreaterThanOrEqual(5); // 3 panels + 2 dividers
+        expect(template).toEqual('1fr 10px 200px 10px 1fr');
       });
     });
   });
@@ -128,7 +122,7 @@ describe('DefaultSplitterCalculator', () => {
         const calculator = new DefaultSplitterCalculator(splitter);
         const areas = calculator.gridTemplateAreas();
 
-        expect(areas).toBe('"left ngn-divider-0 right"');
+        expect(areas).toEqual('"left ngn-divider-0 right"');
       });
     });
 
@@ -141,7 +135,7 @@ describe('DefaultSplitterCalculator', () => {
         const calculator = new DefaultSplitterCalculator(splitter);
         const areas = calculator.gridTemplateAreas();
 
-        expect(areas).toBe('"top" "ngn-divider-0" "bottom"');
+        expect(areas).toEqual('"top" "ngn-divider-0" "bottom"');
       });
     });
 
@@ -155,7 +149,7 @@ describe('DefaultSplitterCalculator', () => {
         const calculator = new DefaultSplitterCalculator(splitter);
         const areas = calculator.gridTemplateAreas();
 
-        expect(areas).toBe('"a ngn-divider-0 b ngn-divider-1 c"');
+        expect(areas).toEqual('"a ngn-divider-0 b ngn-divider-1 c"');
       });
     });
 
@@ -182,8 +176,7 @@ describe('DefaultSplitterCalculator', () => {
         const minSize = calculator.minSize();
 
         // minSize should be sum of px sizes (divider is added separately): 200px + 300px = 500px
-        expect(minSize).toContain('500px');
-        expect(minSize).toContain('+ 0%');
+        expect(minSize).toEqual('calc(510px + 0%)');
       });
     });
 
@@ -197,8 +190,7 @@ describe('DefaultSplitterCalculator', () => {
         const minSize = calculator.minSize();
 
         // minSize should be sum of minSizes for fr panels: 100px + 150px = 250px
-        expect(minSize).toContain('250px');
-        expect(minSize).toContain('+ 0%');
+        expect(minSize).toEqual('calc(260px + 0%)');
       });
     });
 
@@ -212,7 +204,7 @@ describe('DefaultSplitterCalculator', () => {
         const minSize = calculator.minSize();
 
         // minSize should include percentage limits: 10% + 20% = 30%
-        expect(minSize).toContain('30%');
+        expect(minSize).toEqual('calc(10px + 30%)');
       });
     });
 
@@ -226,8 +218,7 @@ describe('DefaultSplitterCalculator', () => {
         const maxSize = calculator.maxSize();
 
         // maxSize should be sum of px sizes: 200px + 300px = 500px
-        expect(maxSize).toContain('500px');
-        expect(maxSize).toContain('+ 0%');
+        expect(maxSize).toEqual('calc(510px + 0%)');
       });
     });
 
@@ -241,8 +232,7 @@ describe('DefaultSplitterCalculator', () => {
         const maxSize = calculator.maxSize();
 
         // maxSize should be sum of maxSizes for fr panels: 500px + 400px = 900px
-        expect(maxSize).toContain('900px');
-        expect(maxSize).toContain('+ 0%');
+        expect(maxSize).toEqual('calc(910px + 0%)');
       });
     });
   });
@@ -405,8 +395,8 @@ describe('DefaultSplitterCalculator', () => {
         calculator.endDrag(0, endEvent, true);
 
         // Sizes should be restored
-        expect(panel1.size()).toBe('400px');
-        expect(panel2.size()).toBe('400px');
+        expect(panel1.size()).toEqual('400px');
+        expect(panel2.size()).toEqual('400px');
       });
     });
   });
@@ -430,8 +420,8 @@ describe('DefaultSplitterCalculator', () => {
         calculator.moveDivider(0, 50);
 
         // Panel1 should increase by 50px, Panel2 should decrease by 50px
-        expect(panel1.size()).toBe('450px');
-        expect(panel2.size()).toBe('350px');
+        expect(panel1.size()).toEqual('450px');
+        expect(panel2.size()).toEqual('350px');
       });
     });
 
@@ -452,8 +442,8 @@ describe('DefaultSplitterCalculator', () => {
         calculator.moveDivider(0, -150);
 
         // Panel1 should be clamped to min size
-        expect(panel1.size()).toBe('100px');
-        expect(panel2.size()).toBe('700px');
+        expect(panel1.size()).toEqual('100px');
+        expect(panel2.size()).toEqual('700px');
       });
     });
 
@@ -474,8 +464,8 @@ describe('DefaultSplitterCalculator', () => {
         calculator.moveDivider(0, 150);
 
         // Panel1 should be clamped to max size
-        expect(panel1.size()).toBe('500px');
-        expect(panel2.size()).toBe('300px');
+        expect(panel1.size()).toEqual('500px');
+        expect(panel2.size()).toEqual('300px');
       });
     });
 
@@ -512,9 +502,9 @@ describe('DefaultSplitterCalculator', () => {
         calculator.moveDivider(0, 50);
 
         // Panel1 should increase, Panel2 should decrease, Panel3 unchanged
-        expect(panel1.size()).toBe('350px');
-        expect(panel2.size()).toBe('250px');
-        expect(panel3.size()).toBe('300px');
+        expect(panel1.size()).toEqual('350px');
+        expect(panel2.size()).toEqual('250px');
+        expect(panel3.size()).toEqual('300px');
       });
     });
 
