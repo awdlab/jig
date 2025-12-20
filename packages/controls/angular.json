@@ -40,7 +40,17 @@
           "options": {
             "tsConfig": "tsconfig.spec.json",
             "runner": "vitest",
-            "buildTarget": "::development"
+            "buildTarget": "::development",
+            "reporters": [
+              "default",
+              [
+                "junit",
+                {
+                  "suiteName": "Unit Tests",
+                  "outputFile": "test-report.xml"
+                }
+              ]
+            ]
           }
         }
       }
