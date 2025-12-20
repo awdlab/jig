@@ -30,16 +30,25 @@ function createMockSplitter(
 ): NgnSplitter {
   const mockDivider = {
     rootNodes: [
-      {
-        offsetWidth: dividerSize,
-        offsetHeight: dividerSize,
-      } as HTMLElement,
+      Object.setPrototypeOf(
+        {
+          offsetWidth: dividerSize,
+          offsetHeight: dividerSize,
+        },
+        HTMLElement.prototype
+      ) as HTMLElement,
     ],
   };
 
   return {
     panels: signal(panels) as Signal<readonly NgnSplitterPanel[]>,
-    dividers: signal(panels.length > 1 ? Array(panels.length - 1).fill(mockDivider) : []),
+    dividers: signal(
+      panels.length > 1
+        ? Array(panels.length - 1)
+            .fill(0)
+            .map(() => mockDivider)
+        : []
+    ),
     panelOrder: signal(panelOrder),
     layout: signal(layout),
     elementSize: signal({ width: splitterSize, height: splitterSize }),
@@ -52,7 +61,7 @@ describe('DefaultSplitterCalculator', () => {
   });
 
   describe('Grid Template Sizes', () => {
-    it('should generate correct grid template for horizontal layout with mixed panels', () => {
+    it.only('should generate correct grid template for horizontal layout with mixed panels', () => {
       const panel1 = createMockPanel('200px', '100px', '300px');
       const panel2 = createMockPanel('1fr', '100px', '500px');
       const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
@@ -62,9 +71,7 @@ describe('DefaultSplitterCalculator', () => {
         const template = calculator.gridTemplateSizes();
 
         // Should include both panel sizes and a divider
-        expect(template).toContain('200px');
-        expect(template).toContain('1fr');
-        expect(template).toContain('px'); // divider is in px
+        expect(template).toEqual('200px 10px 1fr');
       });
     });
 
