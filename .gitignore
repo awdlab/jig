@@ -1,5 +1,6 @@
 node_modules
 dist
+test-results
 
 # Linked tsconfig files
 **/tsconfig.symlink.json

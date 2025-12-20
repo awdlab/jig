@@ -22,7 +22,7 @@ export default defineConfig({
   /* See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['html', { outputFile: 'tests/results/test-report.html' }],
-    ['junit', { outputFile: 'tests/results/test-report.xml' }],
+    ['junit', { outputFile: 'test-results/playwright-tests.xml' }],
   ],
   snapshotDir: 'tests/snapshots',
   use: {

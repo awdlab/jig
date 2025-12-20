@@ -25,6 +25,8 @@ jobs:
         run: pnpm run format:check
       - name: Lint
         run: pnpm run lint
+      - name: Unit Tests
+        run: pnpm run unit-test
       - name: Build themes
         run: pnpm run types:build
       - name: Build themes
@@ -53,8 +55,6 @@ jobs:
         run: pnpm run icons:generate
       - name: Check for test compiler errors
         run: pnpm run test:build
-      - name: Fix Screenshots
-        run: pnpm run playwright:fix-screenshots
       - name: Run Tests
         run: pnpm run test
         env:
