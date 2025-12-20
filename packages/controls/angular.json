@@ -47,7 +47,7 @@
                 "junit",
                 {
                   "suiteName": "Unit Tests",
-                  "outputFile": "../../test-results/controls-unit-tests.xml"
+                  "outputFile": "test-report.xml"
                 }
               ]
             ]

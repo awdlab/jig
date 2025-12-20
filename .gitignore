@@ -1,6 +1,8 @@
 node_modules
 dist
-test-results
+test-report.xml
+_generated
+.angular
 
 # Linked tsconfig files
 **/tsconfig.symlink.json
