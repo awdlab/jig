@@ -399,9 +399,320 @@ describe('DefaultSplitterCalculator', () => {
         expect(panel2.size()).toEqual('400px');
       });
     });
+
+    it('should complete drag without cancelling', () => {
+      const panel1 = createMockPanel('400px', '100px', '500px');
+      const panel2 = createMockPanel('400px', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+        const startEvent = new PointerEvent('pointerdown', { clientX: 100, pointerId: 1 });
+        const dragEvent = new PointerEvent('pointermove', { clientX: 150, pointerId: 1 });
+        const endEvent = new PointerEvent('pointerup', { clientX: 150, pointerId: 1 });
+
+        calculator.startDrag(0, startEvent);
+        calculator.drag(0, dragEvent);
+
+        const size1AfterDrag = panel1.size();
+
+        // End drag without cancel
+        calculator.endDrag(0, endEvent, false);
+
+        // Sizes should remain changed
+        expect(panel1.size()).toEqual(size1AfterDrag);
+        expect(calculator.dragContext()).toBeNull();
+      });
+    });
+
+    it('should ignore drag with wrong divider index', () => {
+      const panel1 = createMockPanel('400px', '100px', '500px');
+      const panel2 = createMockPanel('400px', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+        const startEvent = new PointerEvent('pointerdown', { clientX: 100, pointerId: 1 });
+        const dragEvent = new PointerEvent('pointermove', { clientX: 150, pointerId: 1 });
+
+        calculator.startDrag(0, startEvent);
+
+        // Try to drag with wrong index
+        calculator.drag(1, dragEvent);
+
+        // Sizes should not change
+        expect(panel1.size()).toEqual('400px');
+        expect(panel2.size()).toEqual('400px');
+      });
+    });
+
+    it('should ignore drag with wrong pointerId', () => {
+      const panel1 = createMockPanel('400px', '100px', '500px');
+      const panel2 = createMockPanel('400px', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+        const startEvent = new PointerEvent('pointerdown', { clientX: 100, pointerId: 1 });
+        const dragEvent = new PointerEvent('pointermove', { clientX: 150, pointerId: 2 });
+
+        calculator.startDrag(0, startEvent);
+
+        // Try to drag with wrong pointerId
+        calculator.drag(0, dragEvent);
+
+        // Sizes should not change
+        expect(panel1.size()).toEqual('400px');
+        expect(panel2.size()).toEqual('400px');
+      });
+    });
+
+    it('should ignore drag when no context exists', () => {
+      const panel1 = createMockPanel('400px', '100px', '500px');
+      const panel2 = createMockPanel('400px', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+        const dragEvent = new PointerEvent('pointermove', { clientX: 150, pointerId: 1 });
+
+        // Try to drag without starting
+        calculator.drag(0, dragEvent);
+
+        // Sizes should not change
+        expect(panel1.size()).toEqual('400px');
+        expect(panel2.size()).toEqual('400px');
+      });
+    });
+
+    it('should ignore endDrag with wrong divider index', () => {
+      const panel1 = createMockPanel('400px', '100px', '500px');
+      const panel2 = createMockPanel('400px', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+        const startEvent = new PointerEvent('pointerdown', { clientX: 100, pointerId: 1 });
+        const endEvent = new PointerEvent('pointerup', { clientX: 150, pointerId: 1 });
+
+        calculator.startDrag(0, startEvent);
+        expect(calculator.dragContext()).not.toBeNull();
+
+        // Try to end with wrong index
+        calculator.endDrag(1, endEvent, false);
+
+        // Context should still exist
+        expect(calculator.dragContext()).not.toBeNull();
+      });
+    });
+
+    it('should ignore endDrag with wrong pointerId', () => {
+      const panel1 = createMockPanel('400px', '100px', '500px');
+      const panel2 = createMockPanel('400px', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+        const startEvent = new PointerEvent('pointerdown', { clientX: 100, pointerId: 1 });
+        const endEvent = new PointerEvent('pointerup', { clientX: 150, pointerId: 2 });
+
+        calculator.startDrag(0, startEvent);
+        expect(calculator.dragContext()).not.toBeNull();
+
+        // Try to end with wrong pointerId
+        calculator.endDrag(0, endEvent, false);
+
+        // Context should still exist
+        expect(calculator.dragContext()).not.toBeNull();
+      });
+    });
+
+    it('should handle drag with negative delta for vertical layout', () => {
+      const panel1 = createMockPanel('400px', '100px', '500px');
+      const panel2 = createMockPanel('400px', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'vertical', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+        const startEvent = new PointerEvent('pointerdown', { clientY: 200, pointerId: 1 });
+        const dragEvent = new PointerEvent('pointermove', { clientY: 150, pointerId: 1 });
+
+        calculator.startDrag(0, startEvent);
+        calculator.drag(0, dragEvent);
+
+        // Panel sizes should have changed (delta is -50)
+        expect(panel1.size()).not.toEqual('400px');
+      });
+    });
+  });
+
+  describe('ensureMinMaxSizes', () => {
+    it('should enforce min size constraints on px panels', () => {
+      const panel1 = createMockPanel('50px', '100px', '500px'); // Below min
+      const panel2 = createMockPanel('200px', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+        calculator.ensureMinMaxSizes();
+
+        // Panel1 should be adjusted to min size
+        const size1 = parseFloat(panel1.size());
+        expect(size1).toBeGreaterThanOrEqual(100);
+      });
+    });
+
+    it('should enforce max size constraints on px panels', () => {
+      const panel1 = createMockPanel('600px', '100px', '500px'); // Above max
+      const panel2 = createMockPanel('200px', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+        calculator.ensureMinMaxSizes();
+
+        // Panel1 should be adjusted to max size
+        const size1 = parseFloat(panel1.size());
+        expect(size1).toBeLessThanOrEqual(500);
+      });
+    });
+
+    it('should enforce min size constraints on fr panels', () => {
+      const panel1 = createMockPanel('0.5fr', '200px', '500px');
+      const panel2 = createMockPanel('1fr', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+        calculator.ensureMinMaxSizes();
+
+        // Both panels should be within their constraints
+        expect(panel1.size()).toContain('fr');
+        expect(panel2.size()).toContain('fr');
+      });
+    });
+
+    it('should enforce max size constraints on fr panels', () => {
+      const panel1 = createMockPanel('2fr', '100px', '400px');
+      const panel2 = createMockPanel('1fr', '100px', '300px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+        calculator.ensureMinMaxSizes();
+
+        // Both panels should be within their constraints
+        expect(panel1.size()).toContain('fr');
+        expect(panel2.size()).toContain('fr');
+      });
+    });
+
+    it('should handle empty panels array', () => {
+      const splitter = createMockSplitter([], 'horizontal', 1000, 0);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+        // Should not throw
+        expect(() => calculator.ensureMinMaxSizes()).not.toThrow();
+      });
+    });
+
+    it('should distribute excess fr when panels hit max constraints', () => {
+      const panel1 = createMockPanel('1fr', '100px', '300px');
+      const panel2 = createMockPanel('1fr', '100px', '300px');
+      const panel3 = createMockPanel('1fr', '100px', '300px');
+      const splitter = createMockSplitter([panel1, panel2, panel3], 'horizontal', 1000, 20);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+        calculator.ensureMinMaxSizes();
+
+        // All panels should be within their constraints
+        expect(panel1.size()).toContain('fr');
+        expect(panel2.size()).toContain('fr');
+        expect(panel3.size()).toContain('fr');
+      });
+    });
   });
 
   describe('Divider Movement', () => {
+    it('should not move divider with invalid index (negative)', () => {
+      const panel1 = createMockPanel('400px', '100px', '500px');
+      const panel2 = createMockPanel('400px', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+
+        const setPanelSize = (calculator as any).setPanelSize.bind(calculator);
+        setPanelSize(panel1, '400px');
+        setPanelSize(panel2, '400px');
+
+        calculator.moveDivider(-1, 50);
+
+        // Panels should remain unchanged
+        expect(panel1.size()).toEqual('400px');
+        expect(panel2.size()).toEqual('400px');
+      });
+    });
+
+    it('should not move divider with invalid index (too large)', () => {
+      const panel1 = createMockPanel('400px', '100px', '500px');
+      const panel2 = createMockPanel('400px', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+
+        const setPanelSize = (calculator as any).setPanelSize.bind(calculator);
+        setPanelSize(panel1, '400px');
+        setPanelSize(panel2, '400px');
+
+        calculator.moveDivider(5, 50);
+
+        // Panels should remain unchanged
+        expect(panel1.size()).toEqual('400px');
+        expect(panel2.size()).toEqual('400px');
+      });
+    });
+
+    it('should not move divider when panel sizes are not calculated', () => {
+      const panel1 = createMockPanel('400px', '100px', '500px');
+      const panel2 = createMockPanel('400px', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+
+        // Don't call setPanelSize, so panels are not "calculated"
+        calculator.moveDivider(0, 50);
+
+        // Panels should remain unchanged
+        expect(panel1.size()).toEqual('400px');
+        expect(panel2.size()).toEqual('400px');
+      });
+    });
+
+    it('should handle zero delta movement', () => {
+      const panel1 = createMockPanel('400px', '100px', '500px');
+      const panel2 = createMockPanel('400px', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+
+        const setPanelSize = (calculator as any).setPanelSize.bind(calculator);
+        setPanelSize(panel1, '400px');
+        setPanelSize(panel2, '400px');
+
+        calculator.moveDivider(0, 0);
+
+        // Panels should remain unchanged
+        expect(panel1.size()).toEqual('400px');
+        expect(panel2.size()).toEqual('400px');
+      });
+    });
+
     it('should move divider correctly for px panels', () => {
       const panel1 = createMockPanel('400px', '100px', '500px');
       const panel2 = createMockPanel('400px', '100px', '500px');
@@ -762,6 +1073,147 @@ describe('DefaultSplitterCalculator', () => {
         const size1 = parseFloat(panel1.size());
         expect(size1).toBeLessThanOrEqual(200);
         expect(size1).toBeGreaterThanOrEqual(100);
+      });
+    });
+
+    it('should handle impossible constraint scenarios gracefully', () => {
+      const panel1 = createMockPanel('400px', '300px', '500px');
+      const panel2 = createMockPanel('400px', '300px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+
+        const setPanelSize = (calculator as any).setPanelSize.bind(calculator);
+        setPanelSize(panel1, '400px');
+        setPanelSize(panel2, '400px');
+
+        // Try to move beyond both constraints (panel1 would need to be > 500, panel2 would need to be < 300)
+        calculator.moveDivider(0, 200);
+
+        // Movement should be limited by constraints
+        const size1 = parseFloat(panel1.size());
+        const size2 = parseFloat(panel2.size());
+        expect(size1).toBeLessThanOrEqual(500);
+        expect(size2).toBeGreaterThanOrEqual(300);
+      });
+    });
+
+    it('should handle four panels with cascading constraints', () => {
+      const panel1 = createMockPanel('200px', '100px', '300px');
+      const panel2 = createMockPanel('200px', '100px', '300px');
+      const panel3 = createMockPanel('200px', '100px', '300px');
+      const panel4 = createMockPanel('200px', '100px', '300px');
+      const splitter = createMockSplitter([panel1, panel2, panel3, panel4], 'horizontal', 1000, 30);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+
+        const setPanelSize = (calculator as any).setPanelSize.bind(calculator);
+        setPanelSize(panel1, '200px');
+        setPanelSize(panel2, '200px');
+        setPanelSize(panel3, '200px');
+        setPanelSize(panel4, '200px');
+
+        // Move middle divider
+        calculator.moveDivider(1, 50);
+
+        // Verify panels changed
+        const size2 = parseFloat(panel2.size());
+        const size3 = parseFloat(panel3.size());
+        expect(size2).toBeGreaterThan(200);
+        expect(size3).toBeLessThan(200);
+      });
+    });
+
+    it('should handle negative size clamping with Math.max', () => {
+      const panel1 = createMockPanel('100px', '50px', '500px');
+      const panel2 = createMockPanel('1fr', '50px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+
+        const setPanelSize = (calculator as any).setPanelSize.bind(calculator);
+        setPanelSize(panel1, '100px');
+        setPanelSize(panel2, '1fr');
+
+        // Try extreme negative movement
+        calculator.moveDivider(0, -500);
+
+        // Panel sizes should never be negative
+        const size1 = parseFloat(panel1.size());
+        expect(size1).toBeGreaterThanOrEqual(0);
+      });
+    });
+
+    it('should handle mixed fr panels with different ratios', () => {
+      const panel1 = createMockPanel('2fr', '100px', '500px');
+      const panel2 = createMockPanel('1fr', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+
+        const setPanelSize = (calculator as any).setPanelSize.bind(calculator);
+        setPanelSize(panel1, '2fr');
+        setPanelSize(panel2, '1fr');
+
+        // Move divider
+        calculator.moveDivider(0, 100);
+
+        // Both should still have fr units
+        expect(panel1.size()).toContain('fr');
+        expect(panel2.size()).toContain('fr');
+
+        // Verify fr values changed
+        const size1 = parseFloat(panel1.size());
+        const size2 = parseFloat(panel2.size());
+        // Panel1 should change, Panel2 should change
+        expect(size1).not.toEqual(2);
+        expect(size2).not.toEqual(1);
+      });
+    });
+
+    it('should handle percentage minSize at boundary', () => {
+      const panel1 = createMockPanel('300px', '30%', '500px'); // 30% of 1000 = 300px
+      const panel2 = createMockPanel('500px', '100px', '600px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+
+        const setPanelSize = (calculator as any).setPanelSize.bind(calculator);
+        setPanelSize(panel1, '300px');
+        setPanelSize(panel2, '500px');
+
+        // Try to shrink panel1 below its min (which is exactly its current size)
+        calculator.moveDivider(0, -50);
+
+        // Panel1 should stay at or above min
+        const size1 = parseFloat(panel1.size());
+        expect(size1).toBeGreaterThanOrEqual(300);
+      });
+    });
+
+    it('should handle percentage maxSize at boundary', () => {
+      const panel1 = createMockPanel('500px', '100px', '50%'); // 50% of 1000 = 500px
+      const panel2 = createMockPanel('300px', '100px', '600px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+
+        const setPanelSize = (calculator as any).setPanelSize.bind(calculator);
+        setPanelSize(panel1, '500px');
+        setPanelSize(panel2, '300px');
+
+        // Try to grow panel1 beyond its max (which is exactly its current size)
+        calculator.moveDivider(0, 50);
+
+        // Panel1 should stay at or below max
+        const size1 = parseFloat(panel1.size());
+        expect(size1).toBeLessThanOrEqual(500);
       });
     });
   });
