@@ -1,6 +1,8 @@
-import { Directive, effect, input } from '@angular/core';
+import { Directive, effect, ElementRef, inject, input } from '@angular/core';
+import { injectThemeTemplate } from '@ngneers/controls/api/ng';
 import { NgnScrollerItem } from '@ngneers/controls/scroller';
 import { setInputSignalValue } from '@ngneers/controls/utils-ng';
+import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 import { FormattedTableRow } from './types';
 
@@ -14,6 +16,8 @@ import { FormattedTableRow } from './types';
 export class NgnTableRow<T> extends NgnScrollerItem {
   public readonly ngnTableRow = input.required<FormattedTableRow<T>>();
   public override readonly ngnScrollerItem = input<object>({});
+  private readonly _element = inject(ElementRef<HTMLElement>);
+  private readonly _theme = injectThemeTemplate(tableControlTemplate);
 
   constructor() {
     super();
@@ -21,5 +25,10 @@ export class NgnTableRow<T> extends NgnScrollerItem {
       const row = this.ngnTableRow();
       setInputSignalValue(this.ngnScrollerItem, row);
     });
+    this.prepareDom();
+  }
+
+  private prepareDom() {
+    this._element.nativeElement.classList.toggle(this._theme.class('row'), true);
   }
 }

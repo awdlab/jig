@@ -13,7 +13,10 @@ export const tableStyles = createThemePart({
       ${c('table')} {
         display: grid;
         height: 100%;
-        grid-template-rows: var(--ngn-table-row-height) auto var(--ngn-table-row-height);
+        grid-template-rows: var(--ngn-table-row-height) auto;
+        &:has(${c('foot')}) {
+          grid-template-rows: var(--ngn-table-row-height) auto var(--ngn-table-row-height);
+        }
         grid-template-columns: repeat(var(--ngn-table-column-count), minmax(100px, 1fr));
         ${d('scroller', 'item')} {
           display: contents;

@@ -1,7 +1,8 @@
 <table
   [ngClass]="theme.class('table')"
-  [style.--ngn-table-column-count]="columnCount()"
   [attr.aria-rowcount]="rows().length"
+  [style.--ngn-table-column-count]="columnCount()"
+  [style.--ngn-table-row-height.px]="rowHeight()"
 >
   <thead [ngClass]="theme.class('head')">
     <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
@@ -14,7 +15,6 @@
     [virtual]="virtual()"
     [items]="formattedRows()"
     [itemHeight]="rowHeight() || 0"
-    [style.--ngn-table-row-height.px]="rowHeight()"
     [style.--ngn-table-item-start-index]="scroller.itemStartIndex()"
   >
     <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item let-index="index">

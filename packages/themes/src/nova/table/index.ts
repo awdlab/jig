@@ -9,12 +9,21 @@ export const tableStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c, d }) => css`
-      ${c()} {
-        gap: ${v('size.padding.md')};
-
-        ${d('scroller', 'item-sticky')} {
-          top: ${v('size.padding.md')};
-        }
+      ${c('table')} {
+      }
+      ${c('cell')} {
+        border-bottom: 1px solid ${v('color.surface.200')};
+        padding: 0 ${v('size.padding.md')};
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
+      ${c('head')} ${c('cell')} {
+        font-weight: ${v('font.weight.semibold')};
       }
     `,
   },

@@ -26,13 +26,13 @@ export class NgnScrollerItem implements AfterViewInit {
 
   constructor() {
     effect(() => {
-      const item = this.ngnScrollerItem();
+      const item = this.ngnScrollerItem() as Record<string, unknown> | null;
       const scroller = this._scroller();
       if (!item || !scroller) {
         return;
       }
       const stickyField = scroller.fieldSticky() as unknown as string | null;
-      const isSticky = !!stickyField && !!(item as any)[stickyField];
+      const isSticky = !!stickyField && stickyField in item ? !!item[stickyField] : false;
 
       this._el.nativeElement.classList.toggle(scroller['theme'].class('item-sticky'), isSticky);
       this._el.nativeElement.classList.toggle(scroller['theme'].class('item'), true);
