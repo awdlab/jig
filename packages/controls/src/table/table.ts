@@ -1,5 +1,5 @@
 import { NgTemplateOutlet, NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
 import { NgnScroller } from '@ngneers/controls/scroller';
@@ -7,6 +7,8 @@ import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 import { NgnTableTemplates } from './table-templates';
 import { FormattedTableRow } from './types';
+
+import type { NgnTableHeaderCell } from './table-column-header';
 
 @Component({
   selector: 'ngn-table',
@@ -25,6 +27,7 @@ import { FormattedTableRow } from './types';
 })
 export class NgnTable<T extends object, K extends keyof T> extends NgnTableTemplates<T> {
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate);
+  private readonly _registeredHeaderCells = signal<NgnTableHeaderCell[]>([]);
 
   public readonly rows = input.required<T[]>();
   public readonly rowHeight = input<number>();
@@ -42,4 +45,14 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
       index,
     }));
   });
+
+  protected readonly columnCount = computed(() => this._registeredHeaderCells().length);
+
+  public registerHeaderCell(cell: NgnTableHeaderCell): void {
+    this._registeredHeaderCells.update(cells => [...cells, cell]);
+  }
+
+  public unregisterHeaderCell(cell: NgnTableHeaderCell): void {
+    this._registeredHeaderCells.update(cells => cells.filter(c => c !== cell));
+  }
 }

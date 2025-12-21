@@ -1,9 +1,6 @@
-import { DestroyRef, inject } from '@angular/core';
+import { DestroyRef, inject, Type } from '@angular/core';
 
-import { NgnBase } from './base';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyNgnBase = NgnBase<any>;
+import { AnyNgnBase } from './base';
 
 const NGN_INSTANCE_KEY = '__ngneers_control_instance__';
 
@@ -24,12 +21,15 @@ export function getNgnInstance(element: HTMLElement): AnyNgnBase {
   return elementWithInstance(element)[NGN_INSTANCE_KEY] as AnyNgnBase;
 }
 
-export function getNearestNgnInstance(element: HTMLElement): AnyNgnBase | null {
+export function getNearestNgnInstance<T extends Type<Omit<AnyNgnBase, 'kind'>>>(
+  element: HTMLElement,
+  kind?: T
+): InstanceType<T> | null {
   let current: HTMLElement | null = element;
   while (current) {
     const instance = elementWithInstance(current)[NGN_INSTANCE_KEY] as AnyNgnBase | undefined;
-    if (instance) {
-      return instance;
+    if (instance && (!kind || instance instanceof kind)) {
+      return instance as InstanceType<T>;
     }
     current = current.parentElement;
   }

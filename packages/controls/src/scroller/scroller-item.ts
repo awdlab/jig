@@ -14,8 +14,8 @@ export class NgnScrollerItem implements AfterViewInit {
     if (!this._el.nativeElement.isConnected) {
       return;
     }
-    const parentInstance = getNearestNgnInstance(this._el.nativeElement);
-    if (!(parentInstance instanceof NgnScroller)) {
+    const parentInstance = getNearestNgnInstance(this._el.nativeElement, NgnScroller);
+    if (!parentInstance) {
       throw new NgnError(
         'scroller',
         'ngnScrollerItem must be used within an NgnScroller component'

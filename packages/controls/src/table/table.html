@@ -1,4 +1,4 @@
-<table [ngClass]="theme.class('table')">
+<table [ngClass]="theme.class('table')" [style.--ngn-table-column-count]="columnCount()">
   <thead [ngClass]="theme.class('head')">
     <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
   </thead>

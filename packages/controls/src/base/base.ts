@@ -29,6 +29,9 @@ import { setNgnInstance } from './ngn-instance';
 
 export const NGN_CONTROL = new InjectionToken<NgnBase<never>>('NGN_CONTROL');
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyNgnBase = Omit<NgnBase<any>, 'kind' | 'pt'>;
+
 /**
  * @internal
  * Provides the control itself for dependency injection.

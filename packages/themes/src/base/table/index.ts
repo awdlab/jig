@@ -14,7 +14,7 @@ export const tableStyles = createThemePart({
         display: grid;
         height: 100%;
         grid-template-rows: var(--ngn-table-row-height) auto var(--ngn-table-row-height);
-        grid-template-columns: repeat(4, minmax(100px, 1fr));
+        grid-template-columns: repeat(var(--ngn-table-column-count), minmax(100px, 1fr));
         ${d('scroller', 'item')} {
           display: contents;
         }
@@ -27,7 +27,6 @@ export const tableStyles = createThemePart({
         grid-template-rows: repeat(auto, var(--ngn-table-row-height));
         grid-template-columns: subgrid;
         grid-column: 1 / -1;
-        /* grid-row: 1 / -1; */
       }
       ${c('row')}, ${c('head')}, ${c('foot')} {
         display: contents;
