@@ -1,8 +1,9 @@
-import { TestBed } from '@angular/core/testing';
 import { signal, Signal } from '@angular/core';
-import { DefaultSplitterCalculator } from './splitter-calculator';
-import { NgnSplitter } from './splitter';
+import { TestBed } from '@angular/core/testing';
+
 import { NgnSplitterPanel } from './panel/splitter-panel';
+import { NgnSplitter } from './splitter';
+import { DefaultSplitterCalculator } from './splitter-calculator';
 import { SplitterLayout } from './types';
 
 // Mock panel helper
@@ -806,7 +807,7 @@ describe('DefaultSplitterCalculator', () => {
         expect(size2).toBeLessThan(1);
         expect(panel1.size()).toContain('fr');
         expect(panel2.size()).toContain('fr');
-        
+
         // Total fr should remain approximately 2
         expect(size1 + size2).toBeCloseTo(2, 1);
       });
@@ -945,10 +946,10 @@ describe('DefaultSplitterCalculator', () => {
         // Panel1 should shrink, Panel2 should grow
         const size1 = parseFloat(panel1.size());
         const size2 = parseFloat(panel2.size());
-        
+
         // Verify panel1 shrank
         expect(size1).toBeLessThan(400);
-        
+
         // Verify panel2 grew
         expect(size2).toBeGreaterThan(400);
       });
