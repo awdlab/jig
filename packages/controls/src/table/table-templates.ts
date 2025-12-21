@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, contentChild, TemplateRef } from '@angular/core';
+import { templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 
 import { FormattedTableRow } from './types';
-import { templateTypesFn } from '../api/ng';
 
 @Component({
   template: '',

@@ -1,9 +1,9 @@
 import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { getNearestNgnInstance, NgnBase } from '@ngneers/controls/base';
+import { NgnError } from '@ngneers/controls/utils';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 import { NgnTable } from './table';
-import { NgnError } from '../utils';
 
 @Directive({ selector: '[ngnTableHeaderCell]' })
 export class NgnTableHeaderCell extends NgnBase<'table'> implements OnDestroy, OnInit {
