@@ -17,7 +17,7 @@ This is **NGneers Controls**, an Angular component library that provides a compr
 - **Language**: TypeScript 5.9+
 - **Package Manager**: pnpm (v10.26.1+)
 - **Build Tool**: Angular CLI with ng-packagr
-- **Testing**: 
+- **Testing**:
   - Playwright for E2E tests
   - Vitest for unit tests
 - **Linting**: ESLint with @ngneers/eslint-config-angular
@@ -39,7 +39,7 @@ This is **NGneers Controls**, an Angular component library that provides a compr
 ### Angular Components
 
 - **Component prefix**: `ngn` (e.g., `ngnButton`, `ngnInput`)
-- **Selector style**: 
+- **Selector style**:
   - Element selectors: `kebab-case` (e.g., `ngn-button`)
   - Attribute selectors: `camelCase` (e.g., `ngnButton`)
 - **Change detection**: Prefer `OnPush` change detection strategy (enforced by ESLint)
@@ -169,6 +169,7 @@ pnpm api-docs:generate
 - Use snapshots (`tests/snapshots/`) for visual regression testing
 
 Example Playwright test structure:
+
 ```typescript
 import test, { expect } from '@playwright/test';
 import { loadComponent } from './helper/load-component';
@@ -190,6 +191,7 @@ test('Component behavior', async ({ page }) => {
 - Use `assertType<T>()` for type testing
 
 Example unit test structure:
+
 ```typescript
 describe('ComponentOrFunction', () => {
   it('should do something', () => {
@@ -236,9 +238,9 @@ import { NgnBase, provideSelf } from '@ngneers/controls/base';
 })
 export class NgnExample extends NgnBase<'example'> {
   protected readonly theme = this.injectThemeTemplate(exampleTemplate);
-  
+
   public readonly someInput = input<string>();
-  
+
   constructor() {
     super();
     // Initialization logic
@@ -249,6 +251,7 @@ export class NgnExample extends NgnBase<'example'> {
 ### Public API Exports
 
 Each component directory should have an `index.ts` that exports public APIs:
+
 ```typescript
 export * from './component-name';
 export * from './types';
