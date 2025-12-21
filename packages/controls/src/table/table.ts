@@ -31,6 +31,7 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
   public readonly rowHeight = input<number>();
   public readonly fieldId = input.required<K>();
   public readonly virtual = input<boolean>(false);
+  public readonly striped = input<boolean>(false);
 
   protected readonly trackById = (item: T): unknown => item[this.fieldId()];
 

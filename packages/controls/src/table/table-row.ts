@@ -11,13 +11,14 @@ import { FormattedTableRow } from './types';
   host: {
     '[attr.aria-rowindex]': 'ngnTableRow().index + 2',
     '[style.--ngn-table-row-index]': 'ngnTableRow().index + 2',
+    '[class]': `theme.classes({'even': ngnTableRow().index % 2 === 0})`,
   },
 })
 export class NgnTableRow<T> extends NgnScrollerItem {
   public readonly ngnTableRow = input.required<FormattedTableRow<T>>();
   public override readonly ngnScrollerItem = input<object>({});
   private readonly _element = inject(ElementRef<HTMLElement>);
-  private readonly _theme = injectThemeTemplate(tableControlTemplate);
+  protected readonly theme = injectThemeTemplate(tableControlTemplate);
 
   constructor() {
     super();
@@ -29,6 +30,6 @@ export class NgnTableRow<T> extends NgnScrollerItem {
   }
 
   private prepareDom() {
-    this._element.nativeElement.classList.toggle(this._theme.class('row'), true);
+    this._element.nativeElement.classList.toggle(this.theme.class('row'), true);
   }
 }

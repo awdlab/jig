@@ -1,5 +1,5 @@
 <table
-  [ngClass]="theme.class('table')"
+  [ngClass]="theme.classes({ table: true, striped: striped() })"
   [attr.aria-rowcount]="rows().length"
   [style.--ngn-table-column-count]="columnCount()"
   [style.--ngn-table-row-height.px]="rowHeight()"
