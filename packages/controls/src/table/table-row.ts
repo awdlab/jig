@@ -6,7 +6,10 @@ import { FormattedTableRow } from './types';
 
 @Directive({
   selector: '[ngnTableRow]',
-  host: { role: 'row', '[attr.aria-rowindex]': 'ngnTableRow().index + 2' },
+  host: {
+    '[attr.aria-rowindex]': 'ngnTableRow().index + 2',
+    '[style.--ngn-table-row-index]': 'ngnTableRow().index + 2',
+  },
 })
 export class NgnTableRow<T> extends NgnScrollerItem {
   public readonly ngnTableRow = input.required<FormattedTableRow<T>>();

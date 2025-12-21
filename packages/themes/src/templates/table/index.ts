@@ -4,6 +4,6 @@ import { scrollerControlTemplate } from '../scroller';
 
 export const tableControlTemplate = createControlTemplate({
   scope: 'table',
-  classNames: ['row', 'cell', 'columnheader'],
+  classNames: ['table', 'head', 'body', 'cell', 'row', 'foot'],
   dependencies: [scrollerControlTemplate],
 });

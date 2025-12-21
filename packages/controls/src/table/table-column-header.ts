@@ -2,8 +2,8 @@ import { Directive } from '@angular/core';
 import { NgnBase } from '@ngneers/controls/base';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
-@Directive({ selector: '[ngnTableColumnHeader]' })
-export class NgnTableColumnHeader extends NgnBase<'table'> {
+@Directive({ selector: '[ngnTableHeaderCell]' })
+export class NgnTableHeaderCell extends NgnBase<'table'> {
   private readonly theme = this.injectThemeTemplate(tableControlTemplate);
   constructor() {
     super();
@@ -11,7 +11,6 @@ export class NgnTableColumnHeader extends NgnBase<'table'> {
   }
 
   private prepareDom() {
-    this.element.nativeElement.classList.toggle(this.theme.class('columnheader'), true);
-    this.element.nativeElement.setAttribute('role', 'columnheader');
+    this.element.nativeElement.classList.toggle(this.theme.class('cell'), true);
   }
 }

@@ -2,7 +2,7 @@ import { Directive } from '@angular/core';
 import { NgnBase } from '@ngneers/controls/base';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
-@Directive({ selector: '[ngnTableHeaderRow]', host: { role: 'row', '[attr.aria-rowindex]': '1' } })
+@Directive({ selector: '[ngnTableHeaderRow]', host: { '[attr.aria-rowindex]': '1' } })
 export class NgnTableHeaderRow extends NgnBase<'table'> {
   private readonly theme = this.injectThemeTemplate(tableControlTemplate);
   constructor() {

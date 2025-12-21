@@ -1,4 +1,4 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet, NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
@@ -12,7 +12,7 @@ import { FormattedTableRow } from './types';
   selector: 'ngn-table',
   templateUrl: './table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, NgnScroller, NgnTemplate],
+  imports: [NgTemplateOutlet, NgnScroller, NgnTemplate, NgClass],
   providers: [provideSelf(NgnTable)],
   host: {
     '[class]': `theme.classes({
@@ -36,6 +36,7 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
   protected readonly formattedRows = computed<FormattedTableRow<T>[]>(() => {
     const rows = this.rows();
     return rows.map((data, index) => ({
+      kind: 'data' as const,
       id: data[this.fieldId()] as T[keyof T] & (string | number),
       data,
       index,

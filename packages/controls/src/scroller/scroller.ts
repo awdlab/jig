@@ -87,14 +87,17 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
       : 0
   );
   private readonly _scrollTop = computed(() => this._scrollAmount.scrollTop());
-  private readonly _itemStartIndex = computed(() =>
+  /**
+   * The index of the first item that is rendered in the (virtual) scroller.
+   */
+  public readonly itemStartIndex = computed(() =>
     this.virtual()
       ? Math.max(0, Math.ceil(this._scrollTop() / this.itemHeight()) - this.padding())
       : 0
   );
   private readonly _itemEndIndex = computed(() =>
     this.virtual()
-      ? Math.min(this.items().length, this._itemStartIndex() + this._visibleItemCount())
+      ? Math.min(this.items().length, this.itemStartIndex() + this._visibleItemCount())
       : 0
   );
 
@@ -102,7 +105,7 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
     if (!this.virtual()) {
       return 0;
     }
-    return (this._itemStartIndex() - (this.latestStickyItem() ? 1 : 0)) * this.itemHeight();
+    return (this.itemStartIndex() - (this.latestStickyItem() ? 1 : 0)) * this.itemHeight();
   });
 
   protected readonly paddingBottom = computed(() => {
@@ -117,11 +120,11 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
       return this.items().map((item, index) => ({ item, index }));
     }
     return this.items()
-      .slice(this._itemStartIndex(), this._itemEndIndex())
+      .slice(this.itemStartIndex(), this._itemEndIndex())
       .map((item, index) => {
         return {
           item,
-          index: this._itemStartIndex() + index,
+          index: this.itemStartIndex() + index,
         };
       });
   });
@@ -140,7 +143,7 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
       return null;
     }
     const unrenderedItemsAtTop = this.items()
-      .slice(0, this._itemStartIndex())
+      .slice(0, this.itemStartIndex())
       .map((item, index) => ({
         item,
         index,

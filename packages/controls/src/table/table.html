@@ -1,20 +1,23 @@
-<div role="rowgroup">
-  <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
-</div>
+<table [ngClass]="theme.class('table')">
+  <thead [ngClass]="theme.class('head')">
+    <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
+  </thead>
 
-<div
-  ngn-scroller
-  role="rowgroup"
-  #scroller
-  [virtual]="virtual()"
-  [items]="formattedRows()"
-  [itemHeight]="rowHeight() || 0"
-  [style.--ngn-table-row-height.px]="rowHeight()"
->
-  <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item let-index="index">
-    <ng-container
-      [ngTemplateOutlet]="bodyTemplate()"
-      [ngTemplateOutletContext]="{ $implicit: item }"
-    ></ng-container>
-  </ng-template>
-</div>
+  <tbody
+    [ngClass]="theme.class('body')"
+    ngn-scroller
+    #scroller
+    [virtual]="virtual()"
+    [items]="formattedRows()"
+    [itemHeight]="rowHeight() || 0"
+    [style.--ngn-table-row-height.px]="rowHeight()"
+    [style.--ngn-table-item-start-index]="scroller.itemStartIndex()"
+  >
+    <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item let-index="index">
+      <ng-container
+        [ngTemplateOutlet]="bodyTemplate()"
+        [ngTemplateOutletContext]="{ $implicit: item }"
+      ></ng-container>
+    </ng-template>
+  </tbody>
+</table>

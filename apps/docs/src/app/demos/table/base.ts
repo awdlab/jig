@@ -3,7 +3,7 @@ import { NgnTemplate } from '@ngneers/controls/api/ng';
 import {
   NgnTable,
   NgnTableCell,
-  NgnTableColumnHeader,
+  NgnTableHeaderCell,
   NgnTableHeaderRow,
   NgnTableRow,
 } from '@ngneers/controls/table';
@@ -16,7 +16,7 @@ import { exampleData } from '../../helper/data';
     NgnTable,
     NgnTableRow,
     NgnTableCell,
-    NgnTableColumnHeader,
+    NgnTableHeaderCell,
     NgnTableHeaderRow,
     NgnTemplate,
   ],
@@ -30,23 +30,23 @@ import { exampleData } from '../../helper/data';
     [rowHeight]="50"
   >
     <ng-template #header>
-      <div ngnTableHeaderRow>
-        <div ngnTableColumnHeader>Id</div>
-        <div ngnTableColumnHeader>Name</div>
-        <div ngnTableColumnHeader>Department</div>
-        <div ngnTableColumnHeader>Location</div>
-      </div>
+      <tr ngnTableHeaderRow>
+        <th ngnTableHeaderCell>Id</th>
+        <th ngnTableHeaderCell>Name</th>
+        <th ngnTableHeaderCell>Department</th>
+        <th ngnTableHeaderCell>Location</th>
+      </tr>
     </ng-template>
     <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-      <div [ngnTableRow]="row">
-        <div ngnTableCell>{{ row.data.id }}</div>
-        <div ngnTableCell>{{ row.data.name }}</div>
-        <div ngnTableCell>{{ row.data.department }}</div>
-        <div ngnTableCell>{{ row.data.location }}</div>
-      </div>
+      <tr [ngnTableRow]="row">
+        <td ngnTableCell>{{ row.data.id }}</td>
+        <td ngnTableCell>{{ row.data.name }}</td>
+        <td ngnTableCell>{{ row.data.department }}</td>
+        <td ngnTableCell>{{ row.data.location }}</td>
+      </tr>
     </ng-template>
   </ngn-table>`,
 })
 export class Demo_Table_Base {
-  protected readonly rows = exampleData.table(20);
+  protected readonly rows = exampleData.table(30);
 }
