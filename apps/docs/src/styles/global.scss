@@ -6,6 +6,9 @@
     color: var(--ngn-color-text);
     @apply h-full;
   }
+  * {
+    scrollbar-color: var(--ngn-color-scrollbar);
+  }
   h1 {
     @apply text-4xl font-semibold mt-4 mb-4;
   }
