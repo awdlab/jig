@@ -16,7 +16,7 @@ export class NgnTemplate<T> {
  * This function is used to define typed properties to use in a template.
  */
 export function templateTypesFn<T extends Record<string, Record<string, any>>>() {
-  return {} as T & { $input: { [K in keyof T]: Partial<T[K]> } };
+  return {} as T & { $implicit: { [K in keyof T]: Partial<T[K]> } };
 }
 
 /**

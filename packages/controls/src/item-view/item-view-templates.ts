@@ -9,9 +9,9 @@ export abstract class ItemViewTemplates<T> extends NgnBase<'itemView'> {
    * The template to be used for rendering each item in the item view.
    * Can also be set using the `item` content child.
    */
-  public readonly templateItem = input<TemplateRef<typeof this.templateTypes.$input.item> | null>(
-    null
-  );
+  public readonly templateItem = input<TemplateRef<
+    typeof this.templateTypes.$implicit.item
+  > | null>(null);
   private readonly _userItemTemplate =
     contentChild<TemplateRef<typeof this.templateTypes.item>>('item');
   protected readonly itemTemplate = computed(() => this._userItemTemplate() ?? this.templateItem());

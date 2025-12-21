@@ -10,9 +10,8 @@ export const tableStyles = createThemePart({
   root: {
     css: ({ v, c, d }) => css`
       ${c()} {
-        ${d('scroller')} {
-          gap: ${v('size.padding.md')};
-        }
+        gap: ${v('size.padding.md')};
+
         ${d('scroller', 'item-sticky')} {
           top: ${v('size.padding.md')};
         }

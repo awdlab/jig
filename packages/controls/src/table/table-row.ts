@@ -8,8 +8,8 @@ import { FormattedTableRow } from './types';
   selector: '[ngnTableRow]',
   host: { role: 'row', '[attr.aria-rowindex]': 'ngnTableRow().index + 2' },
 })
-export class NgnTableRow extends NgnScrollerItem {
-  public readonly ngnTableRow = input.required<FormattedTableRow<unknown>>();
+export class NgnTableRow<T> extends NgnScrollerItem {
+  public readonly ngnTableRow = input.required<FormattedTableRow<T>>();
   public override readonly ngnScrollerItem = input<object>({});
 
   constructor() {

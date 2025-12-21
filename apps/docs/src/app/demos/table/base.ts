@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { NgnTemplate } from '@ngneers/controls/api/ng';
 import {
   NgnTable,
   NgnTableCell,
@@ -11,9 +12,17 @@ import { exampleData } from '../../helper/data';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgnTable, NgnTableRow, NgnTableCell, NgnTableColumnHeader, NgnTableHeaderRow],
+  imports: [
+    NgnTable,
+    NgnTableRow,
+    NgnTableCell,
+    NgnTableColumnHeader,
+    NgnTableHeaderRow,
+    NgnTemplate,
+  ],
   selector: 'ngn-demo-table-base',
   template: `<ngn-table
+    #table
     style="height: 200px"
     [rows]="rows"
     [fieldId]="'id'"
@@ -28,7 +37,7 @@ import { exampleData } from '../../helper/data';
         <div ngnTableColumnHeader>Location</div>
       </div>
     </ng-template>
-    <ng-template #body let-row>
+    <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
       <div [ngnTableRow]="row">
         <div ngnTableCell>{{ row.data.id }}</div>
         <div ngnTableCell>{{ row.data.name }}</div>
