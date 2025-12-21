@@ -1,4 +1,8 @@
-<table [ngClass]="theme.class('table')" [style.--ngn-table-column-count]="columnCount()">
+<table
+  [ngClass]="theme.class('table')"
+  [style.--ngn-table-column-count]="columnCount()"
+  [attr.aria-rowcount]="rows().length"
+>
   <thead [ngClass]="theme.class('head')">
     <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
   </thead>

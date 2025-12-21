@@ -20,8 +20,6 @@ import type { NgnTableHeaderCell } from './table-column-header';
     '[class]': `theme.classes({
       '': true,
     })`,
-    role: 'table',
-    '[attr.aria-rowcount]': 'rows().length',
     tabindex: '0',
   },
 })
