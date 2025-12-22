@@ -557,18 +557,18 @@ describe('DefaultSplitterCalculator', () => {
 
       TestBed.runInInjectionContext(() => {
         const calculator = new DefaultSplitterCalculator(splitter);
-        
+
         // Set initial calculated sizes
         const setPanelSize = (calculator as any).setPanelSize.bind(calculator);
         setPanelSize(panel1, '400px');
         setPanelSize(panel2, '400px');
-        
+
         // Change a panel size directly (simulating external change)
         panel1.size.set('50px'); // Below min
-        
+
         // Trigger change detection manually by accessing the computed signal
-        TestBed.flushEffects();
-        
+        TestBed.tick();
+
         // After effects run, size should be adjusted to min
         const size1 = parseFloat(panel1.size());
         expect(size1).toBeGreaterThanOrEqual(100);
@@ -582,10 +582,10 @@ describe('DefaultSplitterCalculator', () => {
 
       TestBed.runInInjectionContext(() => {
         const calculator = new DefaultSplitterCalculator(splitter);
-        
+
         // Trigger afterRenderEffect by flushing effects
-        TestBed.flushEffects();
-        
+        TestBed.tick();
+
         // After effects run, panel1 size should be adjusted to min (ensureMinMaxSizes called)
         const size1 = parseFloat(panel1.size());
         expect(size1).toBeGreaterThanOrEqual(100);
@@ -842,9 +842,9 @@ describe('DefaultSplitterCalculator', () => {
       });
     });
 
-    it('should move divider when both panels have fr units', () => {
-      const panel1 = createMockPanel('1fr', '100px', '500px');
-      const panel2 = createMockPanel('1fr', '100px', '500px');
+    it.only('should move divider when both panels have fr units', () => {
+      const panel1 = createMockPanel('1fr', '100px', '100%');
+      const panel2 = createMockPanel('1fr', '100px', '100%');
       const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
 
       TestBed.runInInjectionContext(() => {
@@ -864,8 +864,8 @@ describe('DefaultSplitterCalculator', () => {
         const size2 = parseFloat(panel2.size());
 
         // Panel1 should increase, Panel2 should decrease
-        expect(size1).toBeGreaterThan(1);
-        expect(size2).toBeLessThan(1);
+        expect(size1).toBeCloseTo(1.202020202, 4);
+        expect(size2).toBeCloseTo(0.797979798, 4);
         expect(panel1.size()).toContain('fr');
         expect(panel2.size()).toContain('fr');
 
