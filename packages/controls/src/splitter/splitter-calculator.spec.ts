@@ -569,9 +569,9 @@ describe('DefaultSplitterCalculator', () => {
         // Trigger change detection manually by accessing the computed signal
         TestBed.tick();
 
-        // After effects run, size should be adjusted to min
+        // After effects run, size should be adjusted to min (100px)
         const size1 = parseFloat(panel1.size());
-        expect(size1).toBeGreaterThanOrEqual(100);
+        expect(size1).toEqual(100);
       });
     });
 
@@ -586,9 +586,9 @@ describe('DefaultSplitterCalculator', () => {
         // Trigger afterRenderEffect by flushing effects
         TestBed.tick();
 
-        // After effects run, panel1 size should be adjusted to min (ensureMinMaxSizes called)
+        // After effects run, panel1 size should be adjusted to min (100px) via ensureMinMaxSizes
         const size1 = parseFloat(panel1.size());
-        expect(size1).toBeGreaterThanOrEqual(100);
+        expect(size1).toEqual(100);
       });
     });
 
@@ -601,9 +601,9 @@ describe('DefaultSplitterCalculator', () => {
         const calculator = new DefaultSplitterCalculator(splitter);
         calculator.ensureMinMaxSizes();
 
-        // Panel1 should be adjusted to min size
+        // Panel1 should be adjusted to min size (100px)
         const size1 = parseFloat(panel1.size());
-        expect(size1).toBeGreaterThanOrEqual(100);
+        expect(size1).toEqual(100);
       });
     });
 
@@ -616,9 +616,9 @@ describe('DefaultSplitterCalculator', () => {
         const calculator = new DefaultSplitterCalculator(splitter);
         calculator.ensureMinMaxSizes();
 
-        // Panel1 should be adjusted to max size
+        // Panel1 should be adjusted to max size (500px)
         const size1 = parseFloat(panel1.size());
-        expect(size1).toBeLessThanOrEqual(500);
+        expect(size1).toEqual(500);
       });
     });
 
@@ -648,8 +648,11 @@ describe('DefaultSplitterCalculator', () => {
         calculator.ensureMinMaxSizes();
 
         // Panel1 should be adjusted to satisfy minSize constraint
+        // With 1000px total, 10px divider: 990px fr area
+        // 0.1fr + 1fr = 1.1fr total, so 0.1fr would be ~90px
+        // But minSize is 300px, so it needs to be adjusted to at least 300/990 * 1.1 = ~0.333fr
         const size1 = parseFloat(panel1.size());
-        expect(size1).toBeGreaterThan(0.1);
+        expect(size1).toBeCloseTo(0.333333333, 4);
         expect(panel1.size()).toContain('fr');
       });
     });
@@ -842,7 +845,7 @@ describe('DefaultSplitterCalculator', () => {
       });
     });
 
-    it.only('should move divider when both panels have fr units', () => {
+    it('should move divider when both panels have fr units', () => {
       const panel1 = createMockPanel('1fr', '100px', '100%');
       const panel2 = createMockPanel('1fr', '100px', '100%');
       const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
@@ -914,8 +917,11 @@ describe('DefaultSplitterCalculator', () => {
         calculator.moveDivider(0, 50);
 
         // Panel1 (px) should increase, Panel2 (fr) should decrease
+        // Total fr area: 1000 - 10 (divider) - 450 (panel1) = 540px
+        // Panel2 starts at 1fr = 540px, after gaining 50px: 590px
+        // New fr value: 590 / 540 ≈ 1.0926fr
         expect(panel1.size()).toEqual('450px');
-        expect(parseFloat(panel2.size())).toBeLessThan(1);
+        expect(parseFloat(panel2.size())).toBeCloseTo(1.092592593, 4);
         expect(panel2.size()).toContain('fr');
       });
     });
@@ -982,10 +988,12 @@ describe('DefaultSplitterCalculator', () => {
         calculator.moveDivider(1, 50);
 
         // Verify that divider movement occurred
+        // Panel 2: 1fr in area of (1000 - 10 - 100 - 200) = 690px
+        // After losing 50px: 640px, which is 640/690 ≈ 0.927fr
         const size3 = parseFloat(panel3.size());
         expect(panel2.size()).toContain('fr');
-        // Panel 3 should shrink
-        expect(size3).toBeLessThan(200);
+        // Panel 3 should shrink from 200px to 150px
+        expect(size3).toEqual(150);
       });
     });
 
@@ -1008,11 +1016,11 @@ describe('DefaultSplitterCalculator', () => {
         const size1 = parseFloat(panel1.size());
         const size2 = parseFloat(panel2.size());
 
-        // Verify panel1 shrank
-        expect(size1).toBeLessThan(400);
+        // Verify panel1 shrank to minimum (10% of 1000 = 100px)
+        expect(size1).toEqual(100);
 
-        // Verify panel2 grew
-        expect(size2).toBeGreaterThan(400);
+        // Verify panel2 grew by the actual movement amount
+        expect(size2).toEqual(690);
       });
     });
 
@@ -1080,10 +1088,14 @@ describe('DefaultSplitterCalculator', () => {
         calculator.moveDivider(0, 50);
 
         // Panel1 (fr) should grow, Panel2 (px) should shrink, Panel3 unchanged
-        expect(parseFloat(panel1.size())).toBeGreaterThan(1);
+        // Total fr area: 1000 - 10*2 - 200 = 780px
+        // Starting: 1fr + 1fr = 390px each
+        // After: panel1 gains 50px = 440px = 440/780 * 2 ≈ 1.128fr
+        // panel2: 200 - 50 = 150px
+        expect(parseFloat(panel1.size())).toBeCloseTo(1.128205128, 4);
         expect(panel1.size()).toContain('fr');
-        // Panel2 should shrink but might be constrained
-        expect(parseFloat(panel2.size())).toBeLessThan(200);
+        // Panel2 should shrink to 150px
+        expect(parseFloat(panel2.size())).toEqual(150);
         expect(panel3.size()).toContain('1fr');
       });
     });
@@ -1131,10 +1143,10 @@ describe('DefaultSplitterCalculator', () => {
         // Try to move first divider 150px left (would make panel1 = 50px, below min)
         calculator.moveDivider(0, -150);
 
-        // Panel1 should be at or near min
+        // Panel1 should be clamped to minSize (100px)
+        // Panel2 gains the limited movement
         const size1 = parseFloat(panel1.size());
-        expect(size1).toBeLessThanOrEqual(200);
-        expect(size1).toBeGreaterThanOrEqual(100);
+        expect(size1).toEqual(100);
       });
     });
 
@@ -1153,11 +1165,12 @@ describe('DefaultSplitterCalculator', () => {
         // Try to move beyond both constraints (panel1 would need to be > 500, panel2 would need to be < 300)
         calculator.moveDivider(0, 200);
 
-        // Movement should be limited by constraints
+        // Movement should be limited: panel1 can grow to max 500, panel2 can shrink to min 300
+        // So actual movement is limited to min(100, 100) = 100px
         const size1 = parseFloat(panel1.size());
         const size2 = parseFloat(panel2.size());
-        expect(size1).toBeLessThanOrEqual(500);
-        expect(size2).toBeGreaterThanOrEqual(300);
+        expect(size1).toEqual(500);
+        expect(size2).toEqual(300);
       });
     });
 
@@ -1236,10 +1249,13 @@ describe('DefaultSplitterCalculator', () => {
         calculator.moveDivider(1, 50);
 
         // Verify panels changed
+        // Moving divider 1 by 50px to right:
+        // Panel 2: 200 + 50 = 250px
+        // Panel 3: 200 - 50 = 150px
         const size2 = parseFloat(panel2.size());
         const size3 = parseFloat(panel3.size());
-        expect(size2).toBeGreaterThan(200);
-        expect(size3).toBeLessThan(200);
+        expect(size2).toEqual(250);
+        expect(size3).toEqual(150);
       });
     });
 
@@ -1259,8 +1275,9 @@ describe('DefaultSplitterCalculator', () => {
         calculator.moveDivider(0, -500);
 
         // Panel sizes should never be negative
+        // Panel1 minSize is 50px, so it should be clamped to at least 50px
         const size1 = parseFloat(panel1.size());
-        expect(size1).toBeGreaterThanOrEqual(0);
+        expect(size1).toEqual(50);
       });
     });
 
@@ -1307,9 +1324,9 @@ describe('DefaultSplitterCalculator', () => {
         // Try to shrink panel1 below its min (which is exactly its current size)
         calculator.moveDivider(0, -50);
 
-        // Panel1 should stay at or above min
+        // Panel1 should stay at or above min (300px = 30% of 1000)
         const size1 = parseFloat(panel1.size());
-        expect(size1).toBeGreaterThanOrEqual(300);
+        expect(size1).toEqual(300);
       });
     });
 
@@ -1328,9 +1345,9 @@ describe('DefaultSplitterCalculator', () => {
         // Try to grow panel1 beyond its max (which is exactly its current size)
         calculator.moveDivider(0, 50);
 
-        // Panel1 should stay at or below max
+        // Panel1 should stay at or below max (500px = 50% of 1000)
         const size1 = parseFloat(panel1.size());
-        expect(size1).toBeLessThanOrEqual(500);
+        expect(size1).toEqual(500);
       });
     });
   });
