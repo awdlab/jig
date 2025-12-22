@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
+import { NgnCalendar } from '@ngneers/controls/calendar';
 import {
   NgnTable,
   NgnTableCell,
@@ -19,6 +20,7 @@ import { exampleData } from '../../helper/data';
     NgnTableHeaderCell,
     NgnTableHeaderRow,
     NgnTemplate,
+    NgnCalendar,
   ],
   selector: 'ngn-demo-table-base',
   template: `<ngn-table
@@ -42,7 +44,9 @@ import { exampleData } from '../../helper/data';
       <tr [ngnTableRow]="row">
         <td ngnTableCell>{{ row.data.id }}</td>
         <td ngnTableCell>{{ row.data.name }}</td>
-        <td ngnTableCell>{{ row.data.department }}</td>
+        <td ngnTableCell class="flex items-center">
+          <ngn-calendar />
+        </td>
         <td ngnTableCell>{{ row.data.location }}</td>
       </tr>
     </ng-template>

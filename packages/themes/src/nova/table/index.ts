@@ -20,12 +20,6 @@ export const tableStyles = createThemePart({
         border-bottom: 1px solid ${v('color.surface.200')};
         padding: 0 ${v('size.padding.md')};
         text-align: left;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
       }
       ${c('head')} ${c('cell')} {
         font-weight: ${v('font.weight.semibold')};

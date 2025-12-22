@@ -17,19 +17,19 @@ export const tableStyles = createThemePart({
         &:has(${c('foot')}) {
           grid-template-rows: var(--ngn-table-row-height) auto var(--ngn-table-row-height);
         }
-        grid-template-columns: repeat(var(--ngn-table-column-count), minmax(100px, 1fr));
-        ${d('scroller', 'item')} {
-          display: contents;
-        }
-        ${d('scroller', 'spacer')} {
-          grid-column: 1 / -1;
-        }
+        grid-template-columns: repeat(var(--ngn-table-column-count), 1fr);
       }
       ${c('body')}${d('scroller')} {
         display: grid;
         grid-template-rows: repeat(auto, var(--ngn-table-row-height));
         grid-template-columns: subgrid;
         grid-column: 1 / -1;
+        > ${d('scroller', 'item')} {
+          display: contents;
+        }
+        > ${d('scroller', 'spacer')} {
+          grid-column: 1 / -1;
+        }
       }
       ${c('row')}, ${c('head')}, ${c('foot')} {
         display: contents;
@@ -39,6 +39,12 @@ export const tableStyles = createThemePart({
         --row-index: calc(var(--ngn-table-row-index) - var(--ngn-table-item-start-index));
         grid-row-start: var(--row-index);
         grid-column-start: var(--ngn-table-column-index);
+        &:not(:has(*)) {
+          line-height: var(--ngn-table-row-height);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
     `,
   },

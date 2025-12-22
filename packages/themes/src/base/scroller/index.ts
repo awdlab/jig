@@ -20,7 +20,7 @@ export const scrollerStyles = createThemePart({
         flex-direction: column;
         ${c('item')} {
           flex-shrink: 0;
-          height: var(--ngn-scroller-item-height);
+          height: var(--ngn-scroller-item-height, unset);
         }
       }
       ${c('spacer')} {

@@ -31,7 +31,7 @@ import { ScrollerTemplates } from './scroller-templates';
   host: {
     '[class]': 'theme.classes({ "": true, virtual: virtual() })',
     '[tabIndex]': 'focusable() ? 0 : -1',
-    '[style.--ngn-scroller-item-height.px]': 'itemHeight()',
+    '[style.--ngn-scroller-item-height.px]': 'itemHeight() ?? "auto"',
   },
 })
 export class NgnScroller<T> extends ScrollerTemplates<T> {
@@ -56,7 +56,7 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
   /**
    * When {@link virtual} scrolling is enabled, this input is required to define the height of each item in pixels.
    */
-  public readonly itemHeight = input<number>(0);
+  public readonly itemHeight = input<number | undefined>(undefined);
   /**
    * When {@link virtual} scrolling is enabled, this input defines the number of items to be rendered above and below the visible area.
    * This can help to reduce flickering when scrolling.
@@ -81,9 +81,11 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
 
   private readonly _elementSize = elementSizeSignal(this._el);
 
+  private readonly _itemHeightPx = computed(() => this.itemHeight() ?? 0);
+
   private readonly _visibleItemCount = computed(() =>
     this.virtual()
-      ? Math.ceil(this._elementSize().height / this.itemHeight() + this.padding() * 2)
+      ? Math.ceil(this._elementSize().height / this._itemHeightPx() + this.padding() * 2)
       : 0
   );
   private readonly _scrollTop = computed(() => this._scrollAmount.scrollTop());
@@ -92,7 +94,7 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
    */
   public readonly itemStartIndex = computed(() =>
     this.virtual()
-      ? Math.max(0, Math.ceil(this._scrollTop() / this.itemHeight()) - this.padding())
+      ? Math.max(0, Math.ceil(this._scrollTop() / this._itemHeightPx()) - this.padding())
       : 0
   );
   private readonly _itemEndIndex = computed(() =>
@@ -105,14 +107,14 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
     if (!this.virtual()) {
       return 0;
     }
-    return (this.itemStartIndex() - (this.latestStickyItem() ? 1 : 0)) * this.itemHeight();
+    return (this.itemStartIndex() - (this.latestStickyItem() ? 1 : 0)) * this._itemHeightPx();
   });
 
   protected readonly paddingBottom = computed(() => {
     if (!this.virtual()) {
       return 0;
     }
-    return (this.items().length - this._itemEndIndex()) * this.itemHeight();
+    return (this.items().length - this._itemEndIndex()) * this._itemHeightPx();
   });
 
   protected readonly visibleItems = computed(() => {
@@ -169,7 +171,7 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
     untracked(() => {
       const getItemSize = () => {
         if (this.virtual()) {
-          const itemHeight = this.itemHeight();
+          const itemHeight = this._itemHeightPx();
           const itemTop = index * itemHeight;
           return { itemHeight, itemTop };
         } else {
