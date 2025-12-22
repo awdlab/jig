@@ -64,7 +64,6 @@ export class App implements OnInit {
     });
     effect(() => {
       const com = this._testComponent();
-      this._testComponentRef()?.destroy();
       viewContainerRef.clear();
       if (!com) {
         return;

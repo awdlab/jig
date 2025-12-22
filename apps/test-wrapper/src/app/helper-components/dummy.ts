@@ -24,7 +24,7 @@ export class DummyComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.calledNgOnInit.emit(this.dummyId());
     console.log('DUMMY ngOnInit', this.dummyId());
   }

@@ -1,16 +1,14 @@
+import '@angular/compiler';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   input,
-  OnInit,
-  output,
-  signal,
   Type,
 } from '@angular/core';
-import '@angular/compiler';
-import { TemplateType, WindowService } from './window';
+
 import { IMPORTS } from './imports';
+import { TemplateType, WindowService } from './window';
 
 @Component({
   template: '',
