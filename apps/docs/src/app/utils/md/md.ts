@@ -6,6 +6,7 @@ import {
   input,
   ViewContainerRef,
   ChangeDetectionStrategy,
+  DestroyRef,
 } from '@angular/core';
 
 import { renderMd } from './render-md';
@@ -23,6 +24,7 @@ import { MdCfg } from './types';
 export class Md {
   private readonly _http = inject(HttpClient);
   private readonly _vcr = inject(ViewContainerRef);
+  private readonly _destroyRef = inject(DestroyRef);
 
   public readonly cfg = input.required<MdCfg>();
 
@@ -30,7 +32,7 @@ export class Md {
     effect(() => {
       const cfg = this.cfg();
       this._vcr.clear();
-      renderMd(this._vcr, this._http, cfg);
+      renderMd(this._destroyRef, this._vcr, this._http, cfg);
     });
   }
 }

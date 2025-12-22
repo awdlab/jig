@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   ApplicationRef,
   createComponent,
+  DestroyRef,
   EnvironmentInjector,
   Type,
   ViewContainerRef,
@@ -16,7 +17,12 @@ import { NgnDocsDemo } from '../demo/demo';
 
 type Result = string | { component: Type<unknown>; inputs?: Record<string, unknown>; id: string };
 
-export async function renderMd(vcr: ViewContainerRef, http: HttpClient, cfg: MdCfg) {
+export async function renderMd(
+  destroyRef: DestroyRef,
+  vcr: ViewContainerRef,
+  http: HttpClient,
+  cfg: MdCfg
+) {
   const path = `/md/${cfg.mdFile}`;
   const res = await firstValueFrom(http.get(path, { responseType: 'text' }));
 
@@ -103,6 +109,10 @@ export async function renderMd(vcr: ViewContainerRef, http: HttpClient, cfg: MdC
         hostElement: element,
         environmentInjector: vcr.injector.get(EnvironmentInjector),
         elementInjector: vcr.injector,
+      });
+
+      destroyRef.onDestroy(() => {
+        componentInstance.destroy();
       });
 
       if (toRender.inputs) {
