@@ -218,7 +218,7 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
 
       if (i < dividerSizes.length) {
         const dividerSize = dividerSizes[i] || 0;
-        result.push(` ${dividerSize}px`);
+        result.push(`${dividerSize}px`);
       }
     }
 

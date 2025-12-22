@@ -41,6 +41,8 @@
             "tsConfig": "tsconfig.spec.json",
             "runner": "vitest",
             "buildTarget": "::development",
+            "coverage": true,
+            "coverageReporters": [["lcov", { "projectRoot": "../../" }]],
             "reporters": [
               "default",
               [
