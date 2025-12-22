@@ -11,16 +11,17 @@ import {
   ViewContainerRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import {
-  defineTestComponent,
-  TestComponentBase,
-} from './define-test-component';
-import { WindowService } from './window';
 import { NgnTemplate, templateTypeFn } from '@ngneers/controls/api/ng';
 import {
   GlobalIconTemplate,
   IconTemplateContext,
 } from '@ngneers/controls/icon';
+
+import {
+  defineTestComponent,
+  TestComponentBase,
+} from './define-test-component';
+import { WindowService } from './window';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -63,6 +64,7 @@ export class App implements OnInit {
     });
     effect(() => {
       const com = this._testComponent();
+      this._testComponentRef()?.destroy();
       viewContainerRef.clear();
       if (!com) {
         return;
