@@ -1,4 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 
@@ -16,9 +17,14 @@ export class AppLocation {
   constructor() {
     const url = this._router.url;
     this.updateUrl(url);
-    this._router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
-      const url = this._router.url;
-      this.updateUrl(url);
-    });
+    this._router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntilDestroyed()
+      )
+      .subscribe(() => {
+        const url = this._router.url;
+        this.updateUrl(url);
+      });
   }
 }
