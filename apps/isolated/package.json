@@ -1,0 +1,38 @@
+{
+  "name": "@ngneers/isolated",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "serve": "ng serve",
+    "build": "ng build"
+  },
+  "prettier": {
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/common": "catalog:",
+    "@angular/compiler": "catalog:",
+    "@angular/core": "catalog:",
+    "@angular/forms": "catalog:",
+    "@angular/platform-browser": "catalog:",
+    "@angular/router": "catalog:",
+    "@floating-ui/dom": "^1.7.4",
+    "@ngneers/signal-translate": "^20.0.0",
+    "rxjs": "~7.8.2",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@angular/build": "catalog:",
+    "@angular/cli": "catalog:",
+    "@angular/compiler-cli": "catalog:",
+    "typescript": "~5.9.3"
+  }
+}

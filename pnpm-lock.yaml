@@ -196,6 +196,52 @@ importers:
         specifier: ~5.9.3
         version: 5.9.3
 
+  apps/isolated:
+    dependencies:
+      '@angular/common':
+        specifier: 'catalog:'
+        version: 21.0.4(@angular/core@21.0.4(@angular/compiler@21.0.4)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@angular/compiler':
+        specifier: 'catalog:'
+        version: 21.0.4
+      '@angular/core':
+        specifier: 'catalog:'
+        version: 21.0.4(@angular/compiler@21.0.4)(rxjs@7.8.2)
+      '@angular/forms':
+        specifier: 'catalog:'
+        version: 21.0.4(@angular/common@21.0.4(@angular/core@21.0.4(@angular/compiler@21.0.4)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.4(@angular/compiler@21.0.4)(rxjs@7.8.2))(@angular/platform-browser@21.0.4(@angular/animations@21.0.4(@angular/core@21.0.4(@angular/compiler@21.0.4)(rxjs@7.8.2)))(@angular/common@21.0.4(@angular/core@21.0.4(@angular/compiler@21.0.4)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.4(@angular/compiler@21.0.4)(rxjs@7.8.2)))(@standard-schema/spec@1.0.0)(rxjs@7.8.2)
+      '@angular/platform-browser':
+        specifier: 'catalog:'
+        version: 21.0.4(@angular/animations@21.0.4(@angular/core@21.0.4(@angular/compiler@21.0.4)(rxjs@7.8.2)))(@angular/common@21.0.4(@angular/core@21.0.4(@angular/compiler@21.0.4)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.4(@angular/compiler@21.0.4)(rxjs@7.8.2))
+      '@angular/router':
+        specifier: 'catalog:'
+        version: 21.0.4(@angular/common@21.0.4(@angular/core@21.0.4(@angular/compiler@21.0.4)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.4(@angular/compiler@21.0.4)(rxjs@7.8.2))(@angular/platform-browser@21.0.4(@angular/animations@21.0.4(@angular/core@21.0.4(@angular/compiler@21.0.4)(rxjs@7.8.2)))(@angular/common@21.0.4(@angular/core@21.0.4(@angular/compiler@21.0.4)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.4(@angular/compiler@21.0.4)(rxjs@7.8.2)))(rxjs@7.8.2)
+      '@floating-ui/dom':
+        specifier: ^1.7.4
+        version: 1.7.4
+      '@ngneers/signal-translate':
+        specifier: ^20.0.0
+        version: 20.0.0(@angular/common@21.0.4(@angular/core@21.0.4(@angular/compiler@21.0.4)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.4(@angular/compiler@21.0.4)(rxjs@7.8.2))
+      rxjs:
+        specifier: ~7.8.2
+        version: 7.8.2
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@angular/build':
+        specifier: 'catalog:'
+        version: 21.0.3(07baf19bf9f1e704e816f5cfe1e5b0dc)
+      '@angular/cli':
+        specifier: 'catalog:'
+        version: 21.0.3(@types/node@25.0.3)(chokidar@4.0.3)
+      '@angular/compiler-cli':
+        specifier: 'catalog:'
+        version: 21.0.4(@angular/compiler@21.0.4)(typescript@5.9.3)
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+
   apps/test-wrapper:
     dependencies:
       '@angular/common':
@@ -6325,7 +6371,7 @@ snapshots:
       agent-base: 7.1.4
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.6
-      lru-cache: 11.2.2
+      lru-cache: 11.2.4
       socks-proxy-agent: 8.0.5
     transitivePeerDependencies:
       - supports-color
@@ -6338,7 +6384,7 @@ snapshots:
     dependencies:
       '@npmcli/promise-spawn': 9.0.1
       ini: 6.0.0
-      lru-cache: 11.2.2
+      lru-cache: 11.2.4
       npm-pick-manifest: 11.0.3
       proc-log: 6.0.0
       promise-retry: 2.0.1
@@ -7275,7 +7321,7 @@ snapshots:
       '@npmcli/fs': 5.0.0
       fs-minipass: 3.0.3
       glob: 13.0.0
-      lru-cache: 11.2.2
+      lru-cache: 11.2.4
       minipass: 7.1.2
       minipass-collect: 2.0.1
       minipass-flush: 1.0.5
@@ -8232,7 +8278,7 @@ snapshots:
 
   hosted-git-info@9.0.2:
     dependencies:
-      lru-cache: 11.2.2
+      lru-cache: 11.2.4
 
   html-encoding-sniffer@4.0.0:
     dependencies:
