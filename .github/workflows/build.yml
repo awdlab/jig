@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    timeout-minutes: 5
     runs-on: ubuntu-latest
 
     steps:
@@ -38,6 +39,7 @@ jobs:
 
   playwright:
     name: "Playwright Tests"
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.57.0-noble
@@ -68,6 +70,7 @@ jobs:
 
   event_file:
     name: "Event File"
+    timeout-minutes: 1
     runs-on: ubuntu-latest
     steps:
       - name: Upload
