@@ -1,4 +1,5 @@
 import { Component, effect, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgnTab, NgnTabs } from '@ngneers/controls/tabs';
@@ -32,7 +33,7 @@ export class NgnDocsPageTabRenderer {
   );
 
   constructor() {
-    this._activatedRoute.url.subscribe(() => {
+    this._activatedRoute.url.pipe(takeUntilDestroyed()).subscribe(() => {
       const tab = this._activatedRoute.snapshot.firstChild?.url[0]?.path || '';
       const activeTab = this.page.tabs.find(
         t => (t.default ? '' : safeRoutePath(t.title)) === tab

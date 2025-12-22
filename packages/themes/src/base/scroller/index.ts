@@ -18,6 +18,10 @@ export const scrollerStyles = createThemePart({
       ${c('virtual')} {
         display: flex;
         flex-direction: column;
+        ${c('item')} {
+          flex-shrink: 0;
+          height: var(--ngn-scroller-item-height, unset);
+        }
       }
       ${c('spacer')} {
         flex-shrink: 0;
@@ -26,6 +30,9 @@ export const scrollerStyles = createThemePart({
       ${c('item-sticky')} {
         position: sticky;
         top: 0;
+      }
+      ${c('item')} {
+        display: block;
       }
     `,
   },

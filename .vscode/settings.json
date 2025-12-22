@@ -46,6 +46,6 @@
   // "git.branchProtection": ["main", "master"],
   // "git.branchProtectionPrompt": "alwaysPrompt",
   "tailwindCSS.experimental.configFile": "apps/docs/src/styles.scss",
-  "typescript.experimental.useTsgo": true,
+  "typescript.experimental.useTsgo": false,
   "coverage-gutters.coverageBaseDir": "**/coverage/**"
 }

@@ -33,11 +33,18 @@ export function getEslintConfig(tsconfigPath) {
         '@angular-eslint/prefer-on-push-component-change-detection': 'error',
         '@angular-eslint/component-selector': [
           'error',
-          {
-            type: 'element',
-            prefix: ['ngn', 'demo', 'dummy'],
-            style: 'kebab-case',
-          },
+          [
+            {
+              type: 'attribute',
+              prefix: ['ngn'],
+              style: 'camelCase',
+            },
+            {
+              type: 'element',
+              prefix: ['ngn', 'demo', 'dummy'],
+              style: 'kebab-case',
+            },
+          ],
         ],
         '@angular-eslint/directive-selector': [
           'error',

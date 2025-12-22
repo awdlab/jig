@@ -1,4 +1,4 @@
-<div [ngClass]="theme.class('spacer')" [style.height.px]="paddingTop()"></div>
+<div aria-hidden="true" [ngClass]="theme.class('spacer')" [style.height.px]="paddingTop()"></div>
 
 @if (latestStickyItem(); as latestStickyItem) {
   <ng-container
@@ -15,7 +15,7 @@
   ></ng-container>
 }
 
-<div [ngClass]="theme.class('spacer')" [style.height.px]="paddingBottom()"></div>
+<div aria-hidden="true" [ngClass]="theme.class('spacer')" [style.height.px]="paddingBottom()"></div>
 
 @if (loading()) {
   <!-- TODO: replace with spinner -->

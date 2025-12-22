@@ -8,6 +8,22 @@ export const tableStyles = createThemePart({
   base: baseStyles.table,
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
-    css: ({ v, c }) => css``,
+    css: ({ v, c, d }) => css`
+      ${c('table')} {
+      }
+      ${c('striped')} {
+        ${c('even')} ${c('cell')} {
+          background: ${v('color.surface.100')};
+        }
+      }
+      ${c('cell')} {
+        border-bottom: 1px solid ${v('color.surface.200')};
+        padding: 0 ${v('size.padding.md')};
+        text-align: left;
+      }
+      ${c('head')} ${c('cell')} {
+        font-weight: ${v('font.weight.semibold')};
+      }
+    `,
   },
 });
