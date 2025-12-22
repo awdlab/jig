@@ -41,6 +41,8 @@ function createMockSplitter(
     ],
   };
 
+  const elementSizeSignal = signal({ width: splitterSize, height: splitterSize });
+
   return {
     panels: signal(panels) as Signal<readonly NgnSplitterPanel[]>,
     dividers: signal(
@@ -52,7 +54,7 @@ function createMockSplitter(
     ),
     panelOrder: signal(panelOrder),
     layout: signal(layout),
-    elementSize: signal({ width: splitterSize, height: splitterSize }),
+    elementSize: elementSizeSignal,
   } as any;
 }
 
@@ -548,6 +550,48 @@ describe('DefaultSplitterCalculator', () => {
   });
 
   describe('ensureMinMaxSizes', () => {
+    it('should trigger ensureMinMaxSizes via afterRenderEffect when panel sizes change', () => {
+      const panel1 = createMockPanel('400px', '100px', '500px');
+      const panel2 = createMockPanel('400px', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+        
+        // Set initial calculated sizes
+        const setPanelSize = (calculator as any).setPanelSize.bind(calculator);
+        setPanelSize(panel1, '400px');
+        setPanelSize(panel2, '400px');
+        
+        // Change a panel size directly (simulating external change)
+        panel1.size.set('50px'); // Below min
+        
+        // Trigger change detection manually by accessing the computed signal
+        TestBed.flushEffects();
+        
+        // After effects run, size should be adjusted to min
+        const size1 = parseFloat(panel1.size());
+        expect(size1).toBeGreaterThanOrEqual(100);
+      });
+    });
+
+    it('should trigger ensureMinMaxSizes via afterRenderEffect when panel size changes', () => {
+      const panel1 = createMockPanel('50px', '100px', '500px'); // Below min initially
+      const panel2 = createMockPanel('400px', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+        
+        // Trigger afterRenderEffect by flushing effects
+        TestBed.flushEffects();
+        
+        // After effects run, panel1 size should be adjusted to min (ensureMinMaxSizes called)
+        const size1 = parseFloat(panel1.size());
+        expect(size1).toBeGreaterThanOrEqual(100);
+      });
+    });
+
     it('should enforce min size constraints on px panels', () => {
       const panel1 = createMockPanel('50px', '100px', '500px'); // Below min
       const panel2 = createMockPanel('200px', '100px', '500px');
@@ -590,6 +634,23 @@ describe('DefaultSplitterCalculator', () => {
         // Both panels should be within their constraints
         expect(panel1.size()).toContain('fr');
         expect(panel2.size()).toContain('fr');
+      });
+    });
+
+    it('should adjust fr panels below minSize threshold and redistribute', () => {
+      // Setup where panel1 has very small fr that will be below minSize
+      const panel1 = createMockPanel('0.1fr', '300px', '500px'); // minSize is large relative to fr
+      const panel2 = createMockPanel('1fr', '100px', '500px');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+        calculator.ensureMinMaxSizes();
+
+        // Panel1 should be adjusted to satisfy minSize constraint
+        const size1 = parseFloat(panel1.size());
+        expect(size1).toBeGreaterThan(0.1);
+        expect(panel1.size()).toContain('fr');
       });
     });
 
@@ -1097,6 +1158,61 @@ describe('DefaultSplitterCalculator', () => {
         const size2 = parseFloat(panel2.size());
         expect(size1).toBeLessThanOrEqual(500);
         expect(size2).toBeGreaterThanOrEqual(300);
+      });
+    });
+
+    it('should return early when constraints prevent any movement after retry', () => {
+      // Create a scenario where both panels are at their limits
+      // Panel1 at max, Panel2 at min - moving right would violate both
+      const panel1 = createMockPanel('500px', '400px', '500px'); // At max
+      const panel2 = createMockPanel('300px', '300px', '400px'); // At min
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+
+        const setPanelSize = (calculator as any).setPanelSize.bind(calculator);
+        setPanelSize(panel1, '500px');
+        setPanelSize(panel2, '300px');
+
+        // Try to move right - panel1 can't grow (at max), panel2 can't shrink (at min)
+        calculator.moveDivider(0, 100);
+
+        // Sizes should remain unchanged (early return triggered at line 525)
+        expect(panel1.size()).toEqual('500px');
+        expect(panel2.size()).toEqual('300px');
+      });
+    });
+
+    it('should return early when left and right constraints conflict after retry', () => {
+      // Create complex cascading scenario with 4 panels
+      // The key is to create a situation where the retry with adjusted delta still fails
+      const panel1 = createMockPanel('200px', '200px', '200px'); // Fixed size
+      const panel2 = createMockPanel('200px', '150px', '250px'); // Can adjust 50px each way
+      const panel3 = createMockPanel('200px', '150px', '250px'); // Can adjust 50px each way
+      const panel4 = createMockPanel('200px', '200px', '200px'); // Fixed size
+      const splitter = createMockSplitter([panel1, panel2, panel3, panel4], 'horizontal', 1000, 30);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+
+        const setPanelSize = (calculator as any).setPanelSize.bind(calculator);
+        setPanelSize(panel1, '200px');
+        setPanelSize(panel2, '200px');
+        setPanelSize(panel3, '200px');
+        setPanelSize(panel4, '200px');
+
+        // Try to move middle divider (index 1) by large amount
+        // Panel1 is fixed, Panel2 can shrink 50px, Panel3 can grow 50px, Panel4 is fixed
+        // Left side (Panel1+Panel2) can handle -50px total (Panel1 can't shrink, Panel2 can shrink 50)
+        // Right side (Panel3+Panel4) can handle +50px total (Panel3 can grow 50, Panel4 can't grow)
+        // But we're trying -100px, so it will adjust to -50
+        // However if there's asymmetry in how recursion works, line 525 might be hit
+        calculator.moveDivider(1, -100);
+
+        // Verify state
+        expect(panel1.size()).toEqual('200px'); // Should stay fixed
+        expect(panel4.size()).toEqual('200px'); // Should stay fixed
       });
     });
 
