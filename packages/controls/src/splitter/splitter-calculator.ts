@@ -521,9 +521,6 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
       appliedLeft = recursion(pxDelta, dividerIndex, -1);
       appliedRight = -recursion(-pxDelta, dividerIndex + 1, 1);
 
-      // istanbul ignore next - Defensive code for edge case where adjusted pxDelta still can't be applied.
-      // This appears to be unreachable given the adjustment logic above ensures pxDelta is set to the
-      // min/max of what both sides can handle. Unable to reproduce in testing despite multiple attempts.
       if (appliedLeft !== pxDelta || appliedRight !== pxDelta) {
         return;
       }

@@ -1350,5 +1350,26 @@ describe('DefaultSplitterCalculator', () => {
         expect(size1).toEqual(500);
       });
     });
+
+    it('should ignore moveDivider when panel minSizes are greater than splitter size', () => {
+      const panel1 = createMockPanel('1fr', '600px', '100%');
+      const panel2 = createMockPanel('1fr', '600px', '100%');
+      const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
+
+      TestBed.runInInjectionContext(() => {
+        const calculator = new DefaultSplitterCalculator(splitter);
+
+        const setPanelSize = (calculator as any).setPanelSize.bind(calculator);
+        setPanelSize(panel1, '1fr');
+        setPanelSize(panel2, '1fr');
+
+        // Attempt to move divider
+        calculator.moveDivider(0, 100);
+
+        // Sizes should remain unchanged
+        expect(panel1.size()).toEqual('1fr');
+        expect(panel2.size()).toEqual('1fr');
+      });
+    });
   });
 });
