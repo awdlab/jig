@@ -902,8 +902,8 @@ describe('DefaultSplitterCalculator', () => {
     });
 
     it('should move divider when left is px and right is fr', () => {
-      const panel1 = createMockPanel('400px', '100px', '500px');
-      const panel2 = createMockPanel('1fr', '100px', '500px');
+      const panel1 = createMockPanel('400px', '100px', '100%');
+      const panel2 = createMockPanel('1fr', '100px', '100%');
       const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
 
       TestBed.runInInjectionContext(() => {
@@ -917,11 +917,13 @@ describe('DefaultSplitterCalculator', () => {
         calculator.moveDivider(0, 50);
 
         // Panel1 (px) should increase, Panel2 (fr) should decrease
-        // Total fr area: 1000 - 10 (divider) - 450 (panel1) = 540px
-        // Panel2 starts at 1fr = 540px, after gaining 50px: 590px
-        // New fr value: 590 / 540 ≈ 1.0926fr
+        // Initial fr area: 1000 - 10 (divider) - 400 (panel1) = 590px
+        // frPerPx: 1 / 590 ≈ 0.001694915
+        // Panel1 gains 50px: 400 + 50 = 450px
+        // Panel2 loses 50px which converts to: -50 * (1/590) ≈ -0.0847fr
+        // New fr value: 1 - 0.0847 ≈ 0.9153fr
         expect(panel1.size()).toEqual('450px');
-        expect(parseFloat(panel2.size())).toBeCloseTo(1.092592593, 4);
+        expect(parseFloat(panel2.size())).toBeCloseTo(0.9152542373, 4);
         expect(panel2.size()).toContain('fr');
       });
     });
@@ -971,9 +973,9 @@ describe('DefaultSplitterCalculator', () => {
     });
 
     it('should push away panels when minSize is already reached', () => {
-      const panel1 = createMockPanel('100px', '100px', '300px');
-      const panel2 = createMockPanel('1fr', '100px', '500px');
-      const panel3 = createMockPanel('200px', '100px', '400px');
+      const panel1 = createMockPanel('100px', '100px', '100%');
+      const panel2 = createMockPanel('1fr', '100px', '100%');
+      const panel3 = createMockPanel('200px', '100px', '100%');
       const splitter = createMockSplitter([panel1, panel2, panel3], 'horizontal', 1000, 20);
 
       TestBed.runInInjectionContext(() => {
@@ -998,8 +1000,8 @@ describe('DefaultSplitterCalculator', () => {
     });
 
     it('should handle minSize with percentage units during move', () => {
-      const panel1 = createMockPanel('400px', '10%', '500px'); // 10% of 1000 = 100px min
-      const panel2 = createMockPanel('400px', '20%', '500px'); // 20% of 1000 = 200px min
+      const panel1 = createMockPanel('400px', '10%', '100%'); // 10% of 1000 = 100px min
+      const panel2 = createMockPanel('400px', '20%', '100%'); // 20% of 1000 = 200px min
       const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
 
       TestBed.runInInjectionContext(() => {
@@ -1009,18 +1011,18 @@ describe('DefaultSplitterCalculator', () => {
         setPanelSize(panel1, '400px');
         setPanelSize(panel2, '400px');
 
-        // Try to move divider 150px to the left (less aggressive move)
+        // Try to move divider 150px to the left
         calculator.moveDivider(0, -150);
 
         // Panel1 should shrink, Panel2 should grow
         const size1 = parseFloat(panel1.size());
         const size2 = parseFloat(panel2.size());
 
-        // Verify panel1 shrank to minimum (10% of 1000 = 100px)
-        expect(size1).toEqual(100);
+        // Verify panel1 shrank by 150px (400 - 150 = 250px, which is above its min of 100px)
+        expect(size1).toEqual(250);
 
-        // Verify panel2 grew by the actual movement amount
-        expect(size2).toEqual(690);
+        // Verify panel2 grew by 150px
+        expect(size2).toEqual(550);
       });
     });
 
@@ -1071,9 +1073,9 @@ describe('DefaultSplitterCalculator', () => {
     });
 
     it('should handle three panels with fr and px combinations', () => {
-      const panel1 = createMockPanel('1fr', '100px', '400px');
-      const panel2 = createMockPanel('200px', '100px', '300px');
-      const panel3 = createMockPanel('1fr', '100px', '400px');
+      const panel1 = createMockPanel('1fr', '100px', '100%');
+      const panel2 = createMockPanel('200px', '100px', '100%');
+      const panel3 = createMockPanel('1fr', '100px', '100%');
       const splitter = createMockSplitter([panel1, panel2, panel3], 'horizontal', 1000, 20);
 
       TestBed.runInInjectionContext(() => {
@@ -1088,11 +1090,13 @@ describe('DefaultSplitterCalculator', () => {
         calculator.moveDivider(0, 50);
 
         // Panel1 (fr) should grow, Panel2 (px) should shrink, Panel3 unchanged
-        // Total fr area: 1000 - 10*2 - 200 = 780px
-        // Starting: 1fr + 1fr = 390px each
-        // After: panel1 gains 50px = 440px = 440/780 * 2 ≈ 1.128fr
+        // Total fr area: 1000 - 20*2 (dividers) - 200 (panel2) = 760px
+        // Starting: 2fr total (1fr + 1fr) = 380px per fr
+        // frPerPx: 2/760 = 1/380
+        // After: panel1 gains 50px = 50 * (1/380) ≈ 0.1316fr
+        // New fr value: 1 + 0.1316 ≈ 1.1316fr
         // panel2: 200 - 50 = 150px
-        expect(parseFloat(panel1.size())).toBeCloseTo(1.128205128, 4);
+        expect(parseFloat(panel1.size())).toBeCloseTo(1.131578947, 4);
         expect(panel1.size()).toContain('fr');
         // Panel2 should shrink to 150px
         expect(parseFloat(panel2.size())).toEqual(150);
@@ -1260,8 +1264,8 @@ describe('DefaultSplitterCalculator', () => {
     });
 
     it('should handle negative size clamping with Math.max', () => {
-      const panel1 = createMockPanel('100px', '50px', '500px');
-      const panel2 = createMockPanel('1fr', '50px', '500px');
+      const panel1 = createMockPanel('100px', '50px', '100%');
+      const panel2 = createMockPanel('1fr', '50px', '100%');
       const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
 
       TestBed.runInInjectionContext(() => {
