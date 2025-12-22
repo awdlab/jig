@@ -1,6 +1,7 @@
 import {
   afterRenderEffect,
   booleanAttribute,
+  DestroyRef,
   Directive,
   effect,
   ElementRef,
@@ -84,6 +85,15 @@ export abstract class NgnBase<T extends ControlName | null> {
 
   constructor() {
     setNgnInstance(this.element.nativeElement, this);
+    inject(DestroyRef).onDestroy(() => {
+      /**
+       * Manually wipe the innerHTML to ensure no detached children remain
+       * mapped to this component's LView slots in the browser's memory.
+       * This is especially important for controls that use ng-content
+       * or dynamically render child components.
+       */
+      this.element.nativeElement.innerHTML = '';
+    });
     effect(() => {
       // Propagate unstyled state to direct child controls, does not effect
       // custom user content passed into ng-content or projected templates.

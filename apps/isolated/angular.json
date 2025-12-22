@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "test-wrapper": {
+    "isolated": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -34,7 +34,8 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
-            }
+            },
+            "production": {}
           },
           "defaultConfiguration": "development"
         },
@@ -42,7 +43,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "development": {
-              "buildTarget": "test-wrapper:build:development"
+              "buildTarget": "isolated:build:development"
+            },
+            "production": {
+              "buildTarget": "isolated:build:production"
             }
           },
           "defaultConfiguration": "development"
