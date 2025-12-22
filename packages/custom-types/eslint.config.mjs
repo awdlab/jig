@@ -11,7 +11,7 @@ export default defineConfig([
         ...globals.node,
       },
       parserOptions: {
-        project: './tsconfig.lib.json',
+        project: './tsconfig.eslint.json',
       },
     },
   },
