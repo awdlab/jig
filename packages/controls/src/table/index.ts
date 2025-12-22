@@ -3,3 +3,4 @@ export * from './table-column-header';
 export * from './table-header-row';
 export * from './table-row';
 export * from './table';
+export * from './types';
