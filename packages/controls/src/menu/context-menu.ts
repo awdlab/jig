@@ -4,6 +4,7 @@ import {
   ElementRef,
   inject,
   input,
+  OnDestroy,
   ViewContainerRef,
 } from '@angular/core';
 import { domEventHandler, setComponentInput } from '@ngneers/controls/api/ng';
@@ -12,12 +13,20 @@ import { NgnMenu } from './menu';
 import { MenuItem } from './types';
 
 @Directive({ selector: '[ngnContextMenu]' })
-export class NgnContextMenu {
+export class NgnContextMenu implements OnDestroy {
   private readonly _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _vcr = inject(ViewContainerRef);
   private _menu?: ComponentRef<NgnMenu>;
 
   public readonly ngnContextMenu = input.required<MenuItem[]>();
+
+  constructor() {
+    domEventHandler(this._elementRef, 'contextmenu', this.handleClick.bind(this));
+  }
+
+  public ngOnDestroy(): void {
+    this._menu?.destroy();
+  }
 
   private handleClick(event: PointerEvent) {
     if (event.button !== 2) {
@@ -30,10 +39,6 @@ export class NgnContextMenu {
     event.stopPropagation();
     this.openMenu(event);
     return false;
-  }
-
-  constructor() {
-    domEventHandler(this._elementRef, 'contextmenu', this.handleClick.bind(this));
   }
 
   private createMenu() {

@@ -14,7 +14,9 @@
     #scroller
     [virtual]="virtual()"
     [items]="formattedRows()"
+    [fieldId]="'id'"
     [itemHeight]="rowHeight() || 0"
+    [virtualPadding]="virtualPadding()"
     [style.--ngn-table-item-start-index]="scroller.itemStartIndex()"
   >
     <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item let-index="index">

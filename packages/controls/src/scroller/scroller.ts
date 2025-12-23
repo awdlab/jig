@@ -45,6 +45,10 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
    */
   public readonly items = input.required<readonly T[]>();
   /**
+   * The field of the item that uniquely identifies it.
+   */
+  public readonly fieldId = input<keyof T>();
+  /**
    * Whether the scroller should use virtual scrolling.
    * When set to true, the scroller will only render the items that are currently visible
    * on the screen, improving performance for large lists.
@@ -62,7 +66,7 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
    * This can help to reduce flickering when scrolling.
    * @default `2`
    */
-  public readonly padding = input<number>(2);
+  public readonly virtualPadding = input<number>(2);
   /**
    * Determines whether the scroller should have a tab index and be focusable.
    * @default `false`
@@ -85,7 +89,7 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
 
   private readonly _visibleItemCount = computed(() =>
     this.virtual()
-      ? Math.ceil(this._elementSize().height / this._itemHeightPx() + this.padding() * 2)
+      ? Math.ceil(this._elementSize().height / this._itemHeightPx() + this.virtualPadding() * 2)
       : 0
   );
   private readonly _scrollTop = computed(() => this._scrollAmount.scrollTop());
@@ -94,7 +98,7 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
    */
   public readonly itemStartIndex = computed(() =>
     this.virtual()
-      ? Math.max(0, Math.ceil(this._scrollTop() / this._itemHeightPx()) - this.padding())
+      ? Math.max(0, Math.ceil(this._scrollTop() / this._itemHeightPx()) - this.virtualPadding())
       : 0
   );
   private readonly _itemEndIndex = computed(() =>
@@ -200,5 +204,13 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
         ),
       });
     });
+  }
+
+  protected track(item: { item: T; index: number }): unknown {
+    const fieldId = this.fieldId();
+    if (fieldId) {
+      return item.item[fieldId];
+    }
+    return item.index;
   }
 }

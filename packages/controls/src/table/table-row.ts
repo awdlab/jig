@@ -7,15 +7,15 @@ import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 import { FormattedTableRow } from './types';
 
 @Directive({
-  selector: '[ngnTableRow]',
+  selector: '[ngnTableBodyTr]',
   host: {
-    '[attr.aria-rowindex]': 'ngnTableRow().index + 2',
-    '[style.--ngn-table-row-index]': 'ngnTableRow().index + 2',
-    '[class]': `theme.classes({'even': ngnTableRow().index % 2 === 0})`,
+    '[attr.aria-rowindex]': 'ngnTableBodyTr().index + 2',
+    '[style.--ngn-table-row-index]': 'ngnTableBodyTr().index + 2',
+    '[class]': `theme.classes({'even': ngnTableBodyTr().index % 2 === 0})`,
   },
 })
-export class NgnTableRow<T> extends NgnScrollerItem {
-  public readonly ngnTableRow = input.required<FormattedTableRow<T>>();
+export class NgnTableBodyTr<T> extends NgnScrollerItem {
+  public readonly ngnTableBodyTr = input.required<FormattedTableRow<T>>();
   public override readonly ngnScrollerItem = input<object>({});
   private readonly _element = inject(ElementRef<HTMLElement>);
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
@@ -23,7 +23,7 @@ export class NgnTableRow<T> extends NgnScrollerItem {
   constructor() {
     super();
     effect(() => {
-      const row = this.ngnTableRow();
+      const row = this.ngnTableBodyTr();
       setInputSignalValue(this.ngnScrollerItem, row);
     });
     this.prepareDom();

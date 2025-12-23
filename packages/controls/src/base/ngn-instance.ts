@@ -1,4 +1,4 @@
-import { DestroyRef, inject, Type } from '@angular/core';
+import { afterNextRender, DestroyRef, inject, signal, Signal, Type } from '@angular/core';
 
 import { AnyNgnBase } from './base';
 
@@ -34,4 +34,15 @@ export function getNearestNgnInstance<T extends Type<Omit<AnyNgnBase, 'kind'>>>(
     current = current.parentElement;
   }
   return null;
+}
+
+export function getNearestNgnInstanceSig<T extends Type<Omit<AnyNgnBase, 'kind'>>>(
+  element: HTMLElement,
+  kind?: T
+): Signal<InstanceType<T> | null> {
+  const sig = signal<InstanceType<T> | null>(null);
+  afterNextRender(() => {
+    sig.set(getNearestNgnInstance(element, kind));
+  });
+  return sig;
 }

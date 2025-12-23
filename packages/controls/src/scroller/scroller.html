@@ -9,7 +9,7 @@
   ></ng-container>
 }
 
-@for (item of visibleItems(); track item.index) {
+@for (item of visibleItems(); track track(item)) {
   <ng-container
     *ngTemplateOutlet="itemTemplate(); context: { $implicit: item.item, index: item.index }"
   ></ng-container>

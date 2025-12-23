@@ -24,6 +24,19 @@ export const tableStyles = createThemePart({
       ${c('head')} ${c('cell')} {
         font-weight: ${v('font.weight.semibold')};
       }
+      ${c('sortable-column')} {
+        cursor: pointer;
+        user-select: none;
+        justify-content: space-between;
+        gap: ${v('size.padding.sm')};
+        ${d('icon')} {
+          grid-column: 2 / span 1;
+          color: ${v('color.surface.600')};
+        }
+        &${c('sorted-column')} ${d('icon')} {
+          color: ${v('color.surface.800')};
+        }
+      }
     `,
   },
 });

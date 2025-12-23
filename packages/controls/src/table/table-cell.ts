@@ -3,10 +3,10 @@ import { NgnBase } from '@ngneers/controls/base';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 @Directive({
-  selector: '[ngnTableCell]',
+  selector: '[ngnTableTd]',
   host: { '[style.--ngn-table-column-index]': 'columnIndex()' },
 })
-export class NgnTableCell extends NgnBase<'table'> {
+export class NgnTableTd extends NgnBase<'table'> {
   private readonly theme = this.injectThemeTemplate(tableControlTemplate);
 
   protected readonly columnIndex = signal(0);

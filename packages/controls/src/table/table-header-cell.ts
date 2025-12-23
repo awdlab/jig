@@ -5,8 +5,8 @@ import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 import { NgnTable } from './table';
 
-@Directive({ selector: '[ngnTableHeaderCell]' })
-export class NgnTableHeaderCell extends NgnBase<'table'> implements OnDestroy, OnInit {
+@Directive({ selector: '[ngnTableTh]' })
+export class NgnTableTh extends NgnBase<'table'> implements OnDestroy, OnInit {
   private readonly theme = this.injectThemeTemplate(tableControlTemplate);
   private _table?: NgnTable<object, never>;
   constructor() {
@@ -17,10 +17,7 @@ export class NgnTableHeaderCell extends NgnBase<'table'> implements OnDestroy, O
   public ngOnInit(): void {
     const table = getNearestNgnInstance(this.element.nativeElement, NgnTable);
     if (!table) {
-      throw new NgnError(
-        'ngnTableHeaderCell',
-        'ngnTableHeaderCell must be used within an NgnTable component'
-      );
+      throw new NgnError('ngnTableTh', 'ngnTableTh must be used within an NgnTable component');
     }
     this._table = table;
     this._table.registerHeaderCell(this);

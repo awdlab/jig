@@ -46,6 +46,20 @@ export const tableStyles = createThemePart({
           text-overflow: ellipsis;
         }
       }
+      ${c('head')} ${c('cell')} {
+        display: grid;
+        align-items: center;
+        grid-auto-columns: min-content;
+        grid-auto-flow: column;
+      }
+      ${c('sortable-column')} {
+        ${d('icon')} {
+          visibility: hidden;
+        }
+        &:hover ${d('icon')}, &${c('sorted-column')} ${d('icon')} {
+          visibility: visible;
+        }
+      }
     `,
   },
 });
