@@ -16,6 +16,8 @@ export const tableControlTemplate = createControlTemplate({
     'striped',
     'sortable-column',
     'sorted-column',
+    'filterable-column',
+    'filtered-column',
   ],
   dependencies: [scrollerControlTemplate, iconControlTemplate],
 });
