@@ -432,7 +432,7 @@ test('virtual scrolling with padding of 5 and assertions', async ({ page }, test
           [items]="inputs().items"
           [virtual]="true"
           [itemHeight]="inputs().itemHeight"
-          [padding]="inputs().padding">
+          [virtualPadding]="inputs().padding">
           <ng-template #item let-item>
             <div [ngnScrollerItem]="item" style="height: 40px; padding: 8px; border-bottom: 1px solid #ccc; box-sizing: border-box;">
               {{ item.label }}
