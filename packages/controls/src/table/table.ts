@@ -2,6 +2,7 @@ import { NgTemplateOutlet, NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, model, signal } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
+import { NgnFilterConfig } from '@ngneers/controls/filter';
 import { NgnScroller } from '@ngneers/controls/scroller';
 import { AllKeysOfUnion, objectKeys } from '@ngneers/controls/utils';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
@@ -38,6 +39,12 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
     column: Extract<AllKeysOfUnion<T>, string>;
     direction: 'asc' | 'desc';
   } | null>(null);
+  public readonly filters = model<
+    | {
+        [key in Extract<AllKeysOfUnion<T>, string>]?: NgnFilterConfig;
+      }
+    | null
+  >(null);
 
   protected readonly trackById = (item: T): unknown => item[this.fieldId()];
 

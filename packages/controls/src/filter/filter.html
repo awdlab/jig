@@ -1,0 +1,144 @@
+<ng-template #rowsTemplate>
+  <div [ngClass]="theme.class('rows')">
+    @if (filterKind() === 'list') {
+      <div [ngClass]="theme.class('row')" data-testid="filter-row-list">
+        <ngn-select
+          [ngClass]="theme.class('value')"
+          [multiple]="true"
+          [options]="listOptions()"
+          [value]="listSelection()"
+          (valueChange)="setListSelection($event)"
+        />
+      </div>
+    } @else {
+      @for (c of conditions(); track c.id; let i = $index) {
+        <div [ngClass]="theme.class('row')" [attr.data-testid]="'filter-row-' + i">
+          <ngn-select
+            [ngClass]="theme.class('operator')"
+            [options]="operatorOptions()"
+            [value]="c.operator"
+            (valueChange)="setOperator(i, $event)"
+          />
+          @if (operatorRequiresValue(c.operator)) {
+            <ngn-input-field [ngClass]="theme.class('value')">
+              <input
+                ngnInput
+                [type]="inputType()"
+                [value]="c.rawValue || ''"
+                (valueChange)="setRawValue(i, $event)"
+              />
+            </ngn-input-field>
+          }
+
+          @if (allowMultiple() && conditions().length > 1) {
+            <div [ngClass]="theme.class('row-actions')">
+              <button
+                type="button"
+                ngnButton
+                kind="text"
+                [attr.aria-label]="i18n['filter_removeCondition']() + ' ' + (i + 1)"
+                (click)="removeCondition(i)"
+              >
+                <ngn-icon defaultIcon="xmark" />
+              </button>
+            </div>
+          }
+        </div>
+      }
+    }
+  </div>
+</ng-template>
+
+<ng-template #actionsTemplate>
+  @if (filterKind() !== 'list' && allowMultiple()) {
+    <div [ngClass]="theme.class('actions')">
+      <button type="button" ngnButton kind="text" (click)="addCondition()">
+        {{ i18n['filter_addCondition']() }}
+      </button>
+    </div>
+  }
+</ng-template>
+
+<ng-template #matchModeTemplate>
+  @if (filterKind() !== 'list' && allowMultiple() && conditions().length > 1) {
+    <div
+      [ngClass]="theme.class('match')"
+      role="radiogroup"
+      [attr.aria-label]="i18n['filter_matchModeLabel']()"
+      [attr.data-testid]="'filter-match-mode'"
+    >
+      <label>
+        <input
+          type="radio"
+          [attr.name]="inputId() + '_match-mode'"
+          value="all"
+          [checked]="matchMode() === 'all'"
+          (change)="matchMode.set('all')"
+        />
+        {{ i18n['filter_match_all']() }}
+      </label>
+      <label>
+        <input
+          type="radio"
+          [attr.name]="inputId() + '_match-mode'"
+          value="any"
+          [checked]="matchMode() === 'any'"
+          (change)="matchMode.set('any')"
+        />
+        {{ i18n['filter_match_any']() }}
+      </label>
+    </div>
+  }
+</ng-template>
+
+<ng-template #popoverTemplate let-anchor="anchor">
+  <ngn-popover
+    #popover
+    [options]="appliedPopoverOptions()"
+    [anchor]="anchor"
+    [hasShrinkableContent]="true"
+    (keydown)="onKeyDown($event)"
+    [id]="inputId() + '_popover'"
+  >
+    <ng-template #lazy>
+      <div [ngClass]="theme.class('popover-content')">
+        <ng-container [ngTemplateOutlet]="matchModeTemplate" />
+        <ng-container [ngTemplateOutlet]="rowsTemplate" />
+        <ng-container [ngTemplateOutlet]="actionsTemplate" />
+      </div>
+    </ng-template>
+  </ngn-popover>
+</ng-template>
+
+@if (mode() === 'inline') {
+  <div [ngClass]="theme.class('inline')">
+    <ng-container [ngTemplateOutlet]="matchModeTemplate" />
+    <ng-container [ngTemplateOutlet]="rowsTemplate" />
+    <ng-container [ngTemplateOutlet]="actionsTemplate" />
+  </div>
+} @else if (mode() === 'input') {
+  <ngn-input-field
+    [ngClass]="theme.class('input-field')"
+    (click)="show()"
+    (keydown)="onKeyDown($event)"
+    #field
+    [label]="label()"
+    [inputId]="inputId()"
+    [invalid]="invalid()"
+  >
+    <div role="button" [ngClass]="theme.class('summary')">{{ summaryText() }}</div>
+    <ngn-icon [ngClass]="theme.class('icon')" defaultIcon="magnifying_glass" />
+  </ngn-input-field>
+
+  <ng-container
+    [ngTemplateOutlet]="popoverTemplate"
+    [ngTemplateOutletContext]="{ anchor: field.element.nativeElement }"
+  />
+} @else {
+  @if (anchor()) {
+    <ng-container
+      [ngTemplateOutlet]="popoverTemplate"
+      [ngTemplateOutletContext]="{ anchor: anchor() }"
+    />
+  }
+}

@@ -10,6 +10,7 @@ import { chipStyles } from '@ngneers/controls-themes/base/chip';
 import { dialogStyles } from '@ngneers/controls-themes/base/dialog';
 import { drawerStyles } from '@ngneers/controls-themes/base/drawer';
 import { editInplaceStyles } from '@ngneers/controls-themes/base/edit-inplace';
+import { filterStyles } from '@ngneers/controls-themes/base/filter';
 import { globalStyles } from '@ngneers/controls-themes/base/global';
 import { iconStyles } from '@ngneers/controls-themes/base/icon';
 import { inplaceStyles } from '@ngneers/controls-themes/base/inplace';
@@ -44,6 +45,7 @@ export const baseStyles = {
   chip: chipStyles,
   dialog: dialogStyles,
   drawer: drawerStyles,
+  filter: filterStyles,
   editInplace: editInplaceStyles,
   global: globalStyles,
   icon: iconStyles,

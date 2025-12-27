@@ -9,6 +9,7 @@ import { ChipPage } from './chip/page';
 import { DialogPage } from './dialog/page';
 import { DrawerPage } from './drawer/page';
 import { EditInplacePage } from './edit-inplace/page';
+import { FilterPage } from './filter/page';
 import { IconPage } from './icon/page';
 import { InplacePage } from './inplace/page';
 import { InputPage } from './input/page';
@@ -39,6 +40,7 @@ export const ALL_COMPONENT_PAGES = [
   DialogPage,
   DrawerPage,
   EditInplacePage,
+  FilterPage,
   IconPage,
   InplacePage,
   InputPage,

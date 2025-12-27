@@ -20,6 +20,7 @@ export const IMPORTS = {
   dialog: () => import('@ngneers/controls/dialog').then((m) => m.NgnDialog),
   editInplace: () =>
     import('@ngneers/controls/edit-inplace').then((m) => m.NgnEditInplace),
+  filter: () => import('@ngneers/controls/filter').then((m) => m.NgnFilter),
   icon: () => import('@ngneers/controls/icon').then((m) => m.NgnIcon),
   inplace: () => import('@ngneers/controls/inplace').then((m) => m.NgnInplace),
   input: () => import('@ngneers/controls/input').then((m) => m.NgnInput),

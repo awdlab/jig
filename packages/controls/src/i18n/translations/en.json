@@ -34,6 +34,45 @@
       "december": "December"
     }
   },
+  "filter": {
+    "noFilter": "No filter",
+    "addCondition": "Add condition",
+    "removeCondition": "Remove condition",
+    "matchModeLabel": "Match mode",
+    "match": {
+      "all": "All",
+      "any": "Any"
+    },
+    "selected": "selected",
+    "conditions": "conditions",
+    "operators": {
+      "isEqual": "Is equal",
+      "isNotEqual": "Is not equal",
+      "contains": "Contains",
+      "startsWith": "Starts with",
+      "endsWith": "Ends with",
+      "isEmpty": "Is empty",
+      "isNotEmpty": "Is not empty",
+      "greaterThan": "Greater than",
+      "greaterThanOrEqual": "Greater than or equal",
+      "lessThan": "Less than",
+      "lessThanOrEqual": "Less than or equal",
+      "after": "After",
+      "onOrAfter": "On or after",
+      "before": "Before",
+      "onOrBefore": "On or before",
+      "isTrue": "Is true",
+      "isFalse": "Is false",
+      "custom": "Custom"
+    },
+    "errors": {
+      "noOperatorsAvailable": "No operators available",
+      "cannotOpenInline": "cannot open inline filter",
+      "cannotCloseInline": "cannot close inline filter",
+      "headlessRequiresAnchor": "headless mode requires an [anchor] input",
+      "popoverNotAvailable": "popover is not available"
+    }
+  },
   "splitter": {
     "handleLabel": "Drag to resize"
   }
