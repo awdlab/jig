@@ -37,15 +37,12 @@ export const tableStyles = createThemePart({
         color: ${v('color.surface.600')};
         order: 3;
       }
-      ${c('sortable-column')} ${d('filter')} {
-        color: ${v('color.surface.600')};
-      }
-      &${c('sorted-column')} ${c('sort-control')} {
-        color: ${v('color.surface.800')};
-      }
       ${c('filter-control')} {
         color: ${v('color.surface.600')};
         order: 2;
+      }
+      ${c('sorted-column')} ${c('sort-control')} {
+        color: ${v('color.surface.800')};
       }
     `,
   },
