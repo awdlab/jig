@@ -300,7 +300,7 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
     '[style.--anchor-end]': `toPixels(relativeAnchorElementPosition()?.end)`,
     '[style.left]': `toPixels(position().x)`,
     '[style.top]': `toPixels(position().y)`,
-    '[attr.popover]': `''`,
+    '[attr.popover]': `'hint'`,
     '[attr.id]': `id`,
     '[attr.role]': `'tooltip'`,
     '(toggle)': 'onToggle($event)',

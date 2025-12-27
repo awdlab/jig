@@ -5,13 +5,10 @@
   [disabled]="config().disabled"
   (click)="click($event)"
   [attr.data-test-id]="config().testId"
+  [ngnTooltip]="config().kind === 'icon' ? config().label : null"
 >
   @if (config().icon || config().defaultIcon) {
-    <ngn-icon
-      [ngnTooltip]="config().label"
-      [icon]="config().icon"
-      [defaultIcon]="config().defaultIcon"
-    />
+    <ngn-icon [icon]="config().icon" [defaultIcon]="config().defaultIcon" />
   } @else {
     {{ config().label }}
   }
