@@ -19,7 +19,7 @@ import { iconControlTemplate } from '@ngneers/controls-themes/templates/icon';
 
 import { DEFAULT_ICONS } from './default-icons/ts';
 import { GlobalIconTemplate } from './global-icon-template';
-import { IconTemplateContext } from './types';
+import { DefaultIcon, IconTemplateContext } from './types';
 
 /**
  * @category control
@@ -40,7 +40,7 @@ export class NgnIcon extends NgnBase<'icon'> {
   private readonly _globalIconTemplate = inject(GlobalIconTemplate).globalIconTemplate;
   private readonly _sanitizer = inject(DomSanitizer);
 
-  public readonly defaultIcon = input<keyof typeof DEFAULT_ICONS>();
+  public readonly defaultIcon = input<DefaultIcon>();
   public readonly icon = input<IconType>();
 
   protected readonly templateType = templateTypesFn<IconTemplateContext>();

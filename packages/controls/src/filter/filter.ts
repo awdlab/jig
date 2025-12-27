@@ -17,7 +17,7 @@ import {
   NgnItem,
   transformToNgnItems,
 } from '@ngneers/controls/api';
-import { type Anchor, Platform } from '@ngneers/controls/api/ng';
+import { type Anchor } from '@ngneers/controls/api/ng';
 import { provideSelf, ValueControlBase } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
@@ -35,7 +35,6 @@ import {
   NgnFilterConditionConfig,
   NgnFilterConfig,
   NgnFilterDataType,
-  NgnFilterKind,
   NgnFilterMode,
   NgnFilterMatchMode,
   NgnFilterOperatorId,
@@ -100,6 +99,8 @@ function defaultOperatorsForType(dataType: NgnFilterDataType): readonly Operator
       ];
     case 'custom':
       return [{ id: 'custom', labelKey: 'filter_operators_custom', requiresValue: true }];
+    case 'list':
+      return [{ id: 'in', labelKey: 'filter_operators_in', requiresValue: true }];
   }
 }
 
@@ -138,11 +139,10 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   public readonly allowMultiple = input(false, { transform: booleanAttribute });
 
   /**
-   * Controls the evaluation + UI shape of the filter.
-   * - `default`: operator + value conditions (current behavior)
-   * - `list`: filters literal strings using a multi select
+   * Options for `dataType="list"`.
+   * When provided, they are used as-is. When `null` or `undefined`, options are derived from {@link data}.
    */
-  public readonly filterKind = input<NgnFilterKind>('default');
+  public readonly listOptions = input<readonly string[] | null | undefined>();
 
   /**
    * Controls how the filter is rendered.
@@ -169,9 +169,8 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   protected readonly appliedPopoverOptions = computed(() =>
     deepMerge(
       {
-        sizeConstraints: {
-          width: 1,
-          maxWidth: 1,
+        sizeConstraints: <PopoverOptions['sizeConstraints']>{
+          width: '250px',
           minHeight: '200px',
           maxHeight: '500px',
         },
@@ -186,7 +185,6 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   public readonly filterResultChange = output<readonly T[]>();
 
   private readonly _popover = viewChild(NgnPopover);
-  private readonly _platform = inject(Platform);
   private readonly _global = inject(NgnGlobal);
 
   protected readonly matchMode = signal<NgnFilterMatchMode>('all');
@@ -226,7 +224,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     return options;
   });
 
-  protected readonly listOptions = computed<readonly NgnItem[]>(() => {
+  protected readonly autoListOptions = computed<readonly NgnItem[]>(() => {
     const seen = new Set<string>();
     const items: Array<{ label: string; value: string; testId: string }> = [];
 
@@ -240,6 +238,19 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     }
 
     return transformToNgnItems(items, { label: 'label', value: 'value' });
+  });
+
+  protected readonly resolvedListOptions = computed<readonly NgnItem[]>(() => {
+    const listOptions = this.listOptions();
+    return listOptions
+      ? listOptions.map(
+          (opt): NgnItem => ({
+            label: opt,
+            value: opt,
+            testId: `filter-list-${opt}`,
+          })
+        )
+      : this.autoListOptions();
   });
 
   protected readonly matchModeOptions: readonly NgnItem[] = [
@@ -261,7 +272,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   });
 
   protected readonly summaryText = computed(() => {
-    if (this.filterKind() === 'list') {
+    if (this.dataType() === 'list') {
       const selected = this.listSelection();
       if (selected.length === 0) {
         return this.i18n['filter_noFilter']();
@@ -293,11 +304,10 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     return `${active.length} ${this.i18n['filter_conditions']()} (${matchLabel})`;
   });
 
-  protected readonly configValue = computed<NgnFilterConfig>(() => ({
-    ...(this.filterKind() === 'list'
+  protected readonly configValue = computed<NgnFilterConfig>(() =>
+    this.dataType() === 'list'
       ? {
-          kind: 'list',
-          dataType: 'string',
+          dataType: 'list',
           matchMode: 'all',
           conditions: <readonly NgnFilterConditionConfig[]>[
             {
@@ -308,7 +318,6 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
           ],
         }
       : {
-          kind: 'default',
           dataType: this.dataType(),
           matchMode: this.allowMultiple() ? this.matchMode() : 'all',
           conditions: this.conditions().map(
@@ -317,8 +326,8 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
               rawValue: c.rawValue,
             })
           ),
-        }),
-  }));
+        }
+  );
 
   protected readonly activeConditionConfigs = computed<readonly NgnFilterConditionConfig[]>(() => {
     const defs = this.operatorDefs();
@@ -467,9 +476,6 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     }
     if (this.mode() === 'headless' && !this.anchor()) {
       throw new NgnError('filter', 'Headless mode requires an [anchor] input.');
-    }
-    if (this._platform.isTouchDevice()) {
-      return;
     }
     const popover = this._popover();
     if (!popover) {

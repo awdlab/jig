@@ -52,6 +52,7 @@
       "contains": "Contains",
       "startsWith": "Starts with",
       "endsWith": "Ends with",
+      "in": "Is one of",
       "isEmpty": "Is empty",
       "isNotEmpty": "Is not empty",
       "greaterThan": "Greater than",

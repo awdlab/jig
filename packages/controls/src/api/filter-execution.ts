@@ -1,10 +1,8 @@
 import { stringMatches } from './string-match';
 
-type NgnFilterDataType = 'string' | 'number' | 'date' | 'dateTime' | 'boolean' | 'custom';
+type NgnFilterDataType = 'string' | 'number' | 'date' | 'dateTime' | 'boolean' | 'custom' | 'list';
 
 type NgnFilterMatchMode = 'all' | 'any';
-
-type NgnFilterKind = 'default' | 'list';
 
 type NgnFilterOperatorId =
   | 'isEqual'
@@ -29,7 +27,6 @@ type NgnFilterConditionConfig = {
 };
 
 type NgnFilterConfig = {
-  kind?: NgnFilterKind;
   dataType: NgnFilterDataType;
   matchMode: NgnFilterMatchMode;
   conditions: readonly NgnFilterConditionConfig[];
@@ -88,6 +85,8 @@ export function parseFilterRawValue(raw: string | null, dataType: NgnFilterDataT
   switch (dataType) {
     case 'string':
       return raw;
+    case 'list':
+      return raw;
     case 'number':
       return asNumber(raw);
     case 'date':
@@ -108,7 +107,7 @@ export function getActiveFilterConditions(config: NgnFilterConfig): readonly Ngn
     .map(c => {
       const requiresValue = operatorRequiresValue(c.operator);
       const parsed =
-        c.operator === 'in' && dt === 'string'
+        c.operator === 'in' && (dt === 'string' || dt === 'list')
           ? (() => {
               if (!c.rawValue) {
                 return null;
@@ -159,6 +158,31 @@ function matchesValue(
           return left.length === 0;
         case 'isNotEmpty':
           return left.length > 0;
+        default:
+          return false;
+      }
+    }
+    case 'list': {
+      const left = normalizeString(value);
+      switch (condition.operator) {
+        case 'in': {
+          const arr = Array.isArray(condition.value) ? condition.value : [];
+          return arr.map(normalizeString).includes(left);
+        }
+        case 'isEmpty':
+          return left.length === 0;
+        case 'isNotEmpty':
+          return left.length > 0;
+        case 'isEqual':
+          return left === normalizeString(condition.value);
+        case 'isNotEqual':
+          return left !== normalizeString(condition.value);
+        case 'contains':
+          return stringMatches(left, normalizeString(condition.value), 'contains');
+        case 'startsWith':
+          return stringMatches(left, normalizeString(condition.value), 'startsWith');
+        case 'endsWith':
+          return stringMatches(left, normalizeString(condition.value), 'endsWith');
         default:
           return false;
       }

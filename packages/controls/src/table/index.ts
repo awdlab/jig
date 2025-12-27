@@ -1,5 +1,6 @@
 export * from './module';
 export * from './table-cell';
+export * from './table-filterable-column';
 export * from './table-header-cell';
 export * from './table-header-row';
 export * from './table-row';

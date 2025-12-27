@@ -40,6 +40,9 @@ import { PopoverOptions } from './types';
   templateUrl: './popover.html',
   imports: [NgClass, NgnDefer],
   providers: [provideSelf(NgnPopover)],
+  host: {
+    '(click)': '$event.stopPropagation()',
+  },
 })
 export class NgnPopover extends NgnBase<'popover'> implements Openable {
   protected readonly theme = this.injectThemeTemplate(popoverControlTemplate);

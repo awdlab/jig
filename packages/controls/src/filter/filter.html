@@ -1,11 +1,11 @@
 <ng-template #rowsTemplate>
   <div [ngClass]="theme.class('rows')">
-    @if (filterKind() === 'list') {
+    @if (dataType() === 'list') {
       <div [ngClass]="theme.class('row')" data-testid="filter-row-list">
         <ngn-select
           [ngClass]="theme.class('value')"
           [multiple]="true"
-          [options]="listOptions()"
+          [options]="resolvedListOptions()"
           [value]="listSelection()"
           (valueChange)="setListSelection($event)"
         />
@@ -50,7 +50,7 @@
 </ng-template>
 
 <ng-template #actionsTemplate>
-  @if (filterKind() !== 'list' && allowMultiple()) {
+  @if (dataType() !== 'list' && allowMultiple()) {
     <div [ngClass]="theme.class('actions')">
       <button type="button" ngnButton kind="text" (click)="addCondition()">
         {{ i18n['filter_addCondition']() }}
@@ -60,7 +60,7 @@
 </ng-template>
 
 <ng-template #matchModeTemplate>
-  @if (filterKind() !== 'list' && allowMultiple() && conditions().length > 1) {
+  @if (dataType() !== 'list' && allowMultiple() && conditions().length > 1) {
     <div
       [ngClass]="theme.class('match')"
       role="radiogroup"

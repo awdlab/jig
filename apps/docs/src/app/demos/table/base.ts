@@ -1,13 +1,23 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnCalendar } from '@ngneers/controls/calendar';
-import { NgnTableModule, NgnTableSortableColumn } from '@ngneers/controls/table';
+import {
+  NgnTableFilterableColumn,
+  NgnTableModule,
+  NgnTableSortableColumn,
+} from '@ngneers/controls/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgnTableModule, NgnTableSortableColumn, NgnTemplate, NgnCalendar],
+  imports: [
+    NgnTableModule,
+    NgnTableSortableColumn,
+    NgnTableFilterableColumn,
+    NgnTemplate,
+    NgnCalendar,
+  ],
   selector: 'ngn-demo-table-base',
   template: `<ngn-table
     #table
@@ -20,7 +30,14 @@ import { exampleData } from '../../helper/data';
   >
     <ng-template #header>
       <tr ngnTableHeadTr>
-        <th ngnTableTh [ngnTableSortableColumn]="table.columns().id">Id</th>
+        <th
+          ngnTableTh
+          [ngnTableSortableColumn]="table.columns().id"
+          [ngnTableFilterableColumn]="table.columns().id"
+          [ngnTableFilterableColumnType]="'string'"
+        >
+          Id
+        </th>
         <th ngnTableTh [ngnTableSortableColumn]="table.columns().name">Name</th>
         <th ngnTableTh [ngnTableSortableColumn]="table.columns().department">Department</th>
         <th ngnTableTh [ngnTableSortableColumn]="table.columns().location">Location</th>

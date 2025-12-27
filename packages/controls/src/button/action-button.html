@@ -3,8 +3,16 @@
   ngnButton
   [kind]="config().kind"
   [disabled]="config().disabled"
-  (click)="click()"
+  (click)="click($event)"
   [attr.data-test-id]="config().testId"
 >
-  {{ config().label }}
+  @if (config().icon || config().defaultIcon) {
+    <ngn-icon
+      [ngnTooltip]="config().label"
+      [icon]="config().icon"
+      [defaultIcon]="config().defaultIcon"
+    />
+  } @else {
+    {{ config().label }}
+  }
 </button>

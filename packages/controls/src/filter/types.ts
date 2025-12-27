@@ -1,8 +1,13 @@
-export type NgnFilterDataType = 'string' | 'number' | 'date' | 'dateTime' | 'boolean' | 'custom';
+export type NgnFilterDataType =
+  | 'string'
+  | 'number'
+  | 'date'
+  | 'dateTime'
+  | 'boolean'
+  | 'custom'
+  | 'list';
 
 export type NgnFilterMode = 'inline' | 'input' | 'headless';
-
-export type NgnFilterKind = 'default' | 'list';
 
 export type NgnFilterMatchMode = 'any' | 'all';
 
@@ -41,8 +46,6 @@ export type NgnFilterConditionConfig = {
  * Complete filter configuration without any actual dataset/result.
  */
 export type NgnFilterConfig = {
-  /** The filter kind used for UI + evaluation. */
-  kind: NgnFilterKind;
   /** The chosen datatype for the filter value. */
   dataType: NgnFilterDataType;
   /** How multiple conditions should be combined. */

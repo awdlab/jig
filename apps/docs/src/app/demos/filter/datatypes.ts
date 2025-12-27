@@ -11,7 +11,7 @@ import { NgnFilter } from '@ngneers/controls/filter';
         <div class="text-sm font-medium">List</div>
         <ngn-filter
           mode="inline"
-          filterKind="list"
+          dataType="list"
           [data]="listData"
           (filterResultChange)="listFiltered.set($event)"
         />
