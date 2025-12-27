@@ -10,6 +10,7 @@ import {
   untracked,
   viewChild,
   ChangeDetectionStrategy,
+  inject,
 } from '@angular/core';
 import {
   FilterConfig,
@@ -22,6 +23,7 @@ import {
 } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
+import { I18n } from '@ngneers/controls/i18n';
 import { NgnScroller, NgnScrollerItem } from '@ngneers/controls/scroller';
 import { asyncComputed } from '@ngneers/controls/utils-ng';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
@@ -57,6 +59,7 @@ export class NgnListBox<
   Items extends readonly NgnItem[],
   Multiple extends boolean = false,
 > extends ListBoxTemplates<Items, Multiple> {
+  protected readonly i18n = inject(I18n).translations;
   protected readonly theme = this.injectThemeTemplate(listBoxControlTemplate);
 
   private readonly _scroller = viewChild.required<NgnScroller<NgnItemsValue<Items>>>(NgnScroller);

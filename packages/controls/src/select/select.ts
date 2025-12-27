@@ -12,10 +12,12 @@ import {
   signal,
   viewChild,
   ChangeDetectionStrategy,
+  inject,
 } from '@angular/core';
 import { FilterConfig, mapToItems, NgnItem } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
+import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
@@ -60,6 +62,7 @@ export class NgnSelect<
   Multiple extends boolean = false,
 > extends SelectTemplates<T, K, Editable, Multiple> {
   protected readonly theme = this.injectThemeTemplate(selectControlTemplate);
+  protected readonly i18n = inject(I18n).translations;
   private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);
   private readonly _customEditableInput = contentChild(NgnInput);
   private _customEditableSub?: OutputRefSubscription;

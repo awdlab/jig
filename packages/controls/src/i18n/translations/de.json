@@ -64,13 +64,6 @@
       "isTrue": "Ist wahr",
       "isFalse": "Ist falsch",
       "custom": "Benutzerdefiniert"
-    },
-    "errors": {
-      "noOperatorsAvailable": "Keine Operatoren verfügbar",
-      "cannotOpenInline": "Inline-Filter kann nicht geöffnet werden",
-      "cannotCloseInline": "Inline-Filter kann nicht geschlossen werden",
-      "headlessRequiresAnchor": "Headless-Modus erfordert ein [anchor]-Input",
-      "popoverNotAvailable": "Popover ist nicht verfügbar"
     }
   },
   "splitter": {

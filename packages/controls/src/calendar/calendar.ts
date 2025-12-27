@@ -91,11 +91,15 @@ export class NgnCalendar extends CalendarTemplates {
   protected readonly month = linkedSignal(() => this.value()?.getMonth() ?? new Date().getMonth());
   protected readonly yearOptions = generateYearOptions();
   protected readonly monthOptions: Signal<NgnItem<MonthItemType>[]> = computed(() => {
-    const months = Array.from({ length: 12 }, (_, i) =>
-      this.i18n[`calendar_months_${MONTHS[i]}`]()
-    ).map(
-      (label, index) =>
-        <MonthItemType>{ label, value: MONTHS[index], testId: `calendar-month-${MONTHS[index]}` }
+    const months = Array.from(
+      { length: 12 },
+      (_, i) =>
+        <MonthItemType>{
+          label: `calendar_months_${MONTHS[i]}`,
+          value: MONTHS[i],
+          translate: true,
+          testId: `calendar-month-${MONTHS[i]}`,
+        }
     );
     return transformToNgnItems(months, { value: 'value', label: 'label' });
   });

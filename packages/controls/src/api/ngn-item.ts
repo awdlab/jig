@@ -5,6 +5,7 @@ export type NgnItem<T = any, K extends keyof T = any> = {
   data?: T;
   label: string;
   value: T[K];
+  translate?: boolean;
   testId?: string;
   items?: NgnItem<T, K>[];
 };

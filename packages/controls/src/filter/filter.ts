@@ -128,7 +128,7 @@ function defaultOperatorsForType(dataType: NgnFilterDataType): readonly Operator
 })
 export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilterConfig> {
   protected readonly theme = this.injectThemeTemplate(filterControlTemplate);
-  protected readonly i18n = inject(I18n).translations as Record<string, () => string>;
+  protected readonly i18n = inject(I18n).translations;
 
   /** Data to filter. */
   public readonly data = input<readonly T[]>([]);
@@ -189,11 +189,6 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   private readonly _platform = inject(Platform);
   private readonly _global = inject(NgnGlobal);
 
-  private t(key: string): string {
-    const value = this.i18n[key];
-    return typeof value === 'function' ? value() : key;
-  }
-
   protected readonly matchMode = signal<NgnFilterMatchMode>('all');
   protected readonly conditions = signal<readonly ConditionInternal[]>([
     this.createCondition('isEqual'),
@@ -219,12 +214,16 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   });
 
   protected readonly operatorOptions = computed(() => {
-    const options = this.operatorDefs().map(op => ({
-      label: this.t(op.labelKey),
-      value: op.id,
-      testId: `filter-operator-${op.id}`,
-    }));
-    return transformToNgnItems(options, { label: 'label', value: 'value' });
+    const options = this.operatorDefs().map(
+      op =>
+        <NgnItem>{
+          label: op.labelKey,
+          translate: true,
+          value: op.id,
+          testId: `filter-operator-${op.id}`,
+        }
+    );
+    return options;
   });
 
   protected readonly listOptions = computed<readonly NgnItem[]>(() => {
@@ -244,8 +243,8 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   });
 
   protected readonly matchModeOptions: readonly NgnItem[] = [
-    { label: this.t('filter_match_all'), value: 'all', testId: 'filter-match-all' },
-    { label: this.t('filter_match_any'), value: 'any', testId: 'filter-match-any' },
+    { label: 'filter_match_all', translate: true, value: 'all', testId: 'filter-match-all' },
+    { label: 'filter_match_any', translate: true, value: 'any', testId: 'filter-match-any' },
   ];
 
   protected readonly inputType = computed(() => {
@@ -265,31 +264,33 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     if (this.filterKind() === 'list') {
       const selected = this.listSelection();
       if (selected.length === 0) {
-        return this.t('filter_noFilter');
+        return this.i18n['filter_noFilter']();
       }
       if (selected.length === 1) {
-        return selected[0] ?? this.t('filter_noFilter');
+        return selected[0] ?? this.i18n['filter_noFilter']();
       }
-      return `${selected.length} ${this.t('filter_selected')}`;
+      return `${selected.length} ${this.i18n['filter_selected']()}`;
     }
 
     const active = this.activeConditionConfigs();
     if (active.length === 0) {
-      return this.t('filter_noFilter');
+      return this.i18n['filter_noFilter']();
     }
     if (active.length === 1) {
       const c = active[0];
 
       const def = this.operatorDefs().find(d => d.id === c.operator);
-      const operatorLabel = def ? this.t(def.labelKey) : c.operator;
+      const operatorLabel = def ? this.i18n[def.labelKey]() : c.operator;
       return c.rawValue == null || c.rawValue === ''
         ? operatorLabel
         : `${operatorLabel} ${c.rawValue}`;
     }
 
     const matchLabel =
-      this.matchMode() === 'all' ? this.t('filter_match_all') : this.t('filter_match_any');
-    return `${active.length} ${this.t('filter_conditions')} (${matchLabel})`;
+      this.matchMode() === 'all'
+        ? this.i18n['filter_match_all']()
+        : this.i18n['filter_match_any']();
+    return `${active.length} ${this.i18n['filter_conditions']()} (${matchLabel})`;
   });
 
   protected readonly configValue = computed<NgnFilterConfig>(() => ({
@@ -375,7 +376,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
       const defs = this.operatorDefs();
       const first = defs[0];
       if (!first) {
-        throw new NgnError('filter', this.t('filter_errors_noOperatorsAvailable'));
+        throw new NgnError('filter', 'No operators available.');
       }
       // Ensure all conditions use a valid operator
       const defIds = new Set(defs.map(d => d.id));
@@ -462,17 +463,17 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   /** Shows the filter popup. Only works when {@link mode} is not `inline`. */
   public show(): void {
     if (this.mode() === 'inline') {
-      throw new NgnError('filter', this.t('filter_errors_cannotOpenInline'));
+      throw new NgnError('filter', 'Cannot open an inline filter.');
     }
     if (this.mode() === 'headless' && !this.anchor()) {
-      throw new NgnError('filter', this.t('filter_errors_headlessRequiresAnchor'));
+      throw new NgnError('filter', 'Headless mode requires an [anchor] input.');
     }
     if (this._platform.isTouchDevice()) {
       return;
     }
     const popover = this._popover();
     if (!popover) {
-      throw new NgnError('filter', this.t('filter_errors_popoverNotAvailable'));
+      throw new NgnError('filter', 'Popover is not available.');
     }
     popover.show();
   }
@@ -480,7 +481,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   /** Hides the filter popup. Only works when {@link mode} is not `inline`. */
   public hide(): void {
     if (this.mode() === 'inline') {
-      throw new NgnError('filter', this.t('filter_errors_cannotCloseInline'));
+      throw new NgnError('filter', 'Cannot close an inline filter.');
     }
     this._popover()?.hide();
   }
