@@ -23,7 +23,12 @@
 <ng-template #defaultHeaderTemplate [ngnTemplate]="templateTypes.header" let-header>
   <div [ngClass]="theme.class('default-header')">
     <span [ngClass]="theme.class('default-header-text')">{{ header.text }}</span>
-    <button ngnButton [kind]="'icon'" aria-label="close" (click)="header.close()">
+    <button
+      ngnButton
+      [kind]="'icon'"
+      [attr.aria-label]="i18n['drawer_close']()"
+      (click)="header.close()"
+    >
       <ngn-icon defaultIcon="xmark" [icon]="iconClose()" />
     </button>
   </div>

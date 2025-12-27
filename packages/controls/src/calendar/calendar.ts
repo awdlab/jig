@@ -83,7 +83,7 @@ export class NgnCalendar extends CalendarTemplates {
 
   private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);
   private readonly _platform = inject(Platform);
-  private readonly i18n = inject(I18n).translations;
+  protected readonly i18n = inject(I18n).translations;
   protected readonly theme = this.injectThemeTemplate(calendarControlTemplate);
   protected readonly year = linkedSignal(
     () => this.value()?.getFullYear() || new Date().getFullYear()

@@ -13,7 +13,7 @@ This is **NGneers Controls**, an Angular component library that provides a compr
 
 ## Technology Stack
 
-- **Framework**: Angular 20+ (with standalone components and signals)
+- **Framework**: Angular 21+ (with standalone components and signals)
 - **Language**: TypeScript 5.9+
 - **Package Manager**: pnpm (v10.26.1+)
 - **Build Tool**: Angular CLI with ng-packagr

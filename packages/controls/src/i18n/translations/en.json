@@ -1,6 +1,7 @@
 {
   "calendar": {
     "today": "Today",
+    "selectYear": "Select year",
     "weekdays": {
       "monday": "Monday",
       "tuesday": "Tuesday",
@@ -68,5 +69,11 @@
   },
   "splitter": {
     "handleLabel": "Drag to resize"
+  },
+  "inputField": {
+    "clearInput": "Clear input"
+  },
+  "drawer": {
+    "close": "Close"
   }
 }

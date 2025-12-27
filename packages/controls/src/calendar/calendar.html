@@ -92,7 +92,7 @@
       [editableAutoFilter]="false"
       [tabindex]="-1"
     >
-      <input ngnInput type="number" aria-label="Select year" />
+      <input ngnInput type="number" [attr.aria-label]="i18n['calendar_selectYear']()" />
     </ngn-select>
   }
 </ng-template>

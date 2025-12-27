@@ -22,7 +22,7 @@
       [kind]="'icon'"
       inline
       (click)="clearButtonClicked($event)"
-      aria-label="Clear input"
+      [attr.aria-label]="i18n['inputField_clearInput']()"
     >
       <ngn-icon defaultIcon="xmark" [icon]="iconClearButton()" />
     </button>

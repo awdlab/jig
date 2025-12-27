@@ -5,6 +5,7 @@ import {
   Component,
   computed,
   effect,
+  inject,
   input,
   model,
   output,
@@ -16,6 +17,7 @@ import { NgnTemplate, Openable, PopoverCloseBy, toPopoverCloseBy } from '@ngneer
 import { provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnDefer } from '@ngneers/controls/defer';
+import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { IconType } from '@ngneers/controls-custom-types';
 import { drawerControlTemplate } from '@ngneers/controls-themes/templates/drawer';
@@ -42,6 +44,7 @@ import { DrawerTemplates } from './drawer-templates';
 })
 export class NgnDrawer extends DrawerTemplates implements Openable {
   protected readonly theme = this.injectThemeTemplate(drawerControlTemplate);
+  protected readonly i18n = inject(I18n).translations;
 
   /**
    * Emits when the drawer has fully closed.
