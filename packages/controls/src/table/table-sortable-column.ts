@@ -16,6 +16,7 @@ import { NgnIcon } from '@ngneers/controls/icon';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 import { NgnTable } from './table';
+import { NgnTableTh } from './table-header-cell';
 
 @Directive({
   selector: '[ngnTableSortableColumn]',
@@ -28,25 +29,28 @@ export class NgnTableSortableColumn implements OnDestroy {
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
 
+  public readonly ngnTableSortableColumn = input();
+
   private readonly _table = getNearestNgnInstanceSig<Type<NgnTable<any, any>>>(
     this._element.nativeElement,
     NgnTable
   );
   protected readonly sort = computed(() => {
     const tableSort = this._table()?.sort();
-    if (tableSort?.column === this.ngnTableSortableColumn()) {
+    if (tableSort?.column === this.columnId()) {
       return tableSort.direction;
     }
     return null;
   });
 
-  public readonly ngnTableSortableColumn = input.required<string>();
+  private readonly columnId = inject(NgnTableTh).ngnTableTh;
 
   private readonly _ngnIcon: ComponentRef<NgnIcon>;
 
   constructor() {
     this._ngnIcon = inject(ViewContainerRef).createComponent(NgnIcon);
     this._element.nativeElement.appendChild(this._ngnIcon.location.nativeElement);
+    this._ngnIcon.location.nativeElement.classList.add(this.theme.class('sort-control'));
 
     effect(() => {
       const sort = this.sort();
@@ -67,9 +71,9 @@ export class NgnTableSortableColumn implements OnDestroy {
     const table = this._table();
     table?.sort.set(
       currentSort === null
-        ? { column: this.ngnTableSortableColumn(), direction: 'asc' }
+        ? { column: this.columnId(), direction: 'asc' }
         : currentSort === 'asc'
-          ? { column: this.ngnTableSortableColumn(), direction: 'desc' }
+          ? { column: this.columnId(), direction: 'desc' }
           : null
     );
   }

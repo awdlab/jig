@@ -23,19 +23,29 @@ export const tableStyles = createThemePart({
       }
       ${c('head')} ${c('cell')} {
         font-weight: ${v('font.weight.semibold')};
+        gap: ${v('size.padding.sm')};
       }
       ${c('sortable-column')} {
         cursor: pointer;
         user-select: none;
-        justify-content: space-between;
-        gap: ${v('size.padding.sm')};
-        ${d('icon')} {
-          grid-column: 2 / span 1;
-          color: ${v('color.surface.600')};
-        }
-        &${c('sorted-column')} ${d('icon')} {
-          color: ${v('color.surface.800')};
-        }
+      }
+      ${c('spacer')} {
+        order: 1;
+        flex-grow: 1;
+      }
+      ${c('sort-control')} {
+        color: ${v('color.surface.600')};
+        order: 3;
+      }
+      ${c('sortable-column')} ${d('filter')} {
+        color: ${v('color.surface.600')};
+      }
+      &${c('sorted-column')} ${c('sort-control')} {
+        color: ${v('color.surface.800')};
+      }
+      ${c('filter-control')} {
+        color: ${v('color.surface.600')};
+        order: 2;
       }
     `,
   },

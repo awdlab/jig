@@ -1,7 +1,7 @@
 import { createControlTemplate } from '@ngneers/controls-themes/api';
+import { filterControlTemplate } from '@ngneers/controls-themes/templates/filter';
 import { iconControlTemplate } from '@ngneers/controls-themes/templates/icon';
-
-import { scrollerControlTemplate } from '../scroller';
+import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scroller';
 
 export const tableControlTemplate = createControlTemplate({
   scope: 'table',
@@ -14,10 +14,13 @@ export const tableControlTemplate = createControlTemplate({
     'foot',
     'even',
     'striped',
+    'spacer',
+    'sort-control',
     'sortable-column',
     'sorted-column',
+    'filter-control',
     'filterable-column',
     'filtered-column',
   ],
-  dependencies: [scrollerControlTemplate, iconControlTemplate],
+  dependencies: [scrollerControlTemplate, iconControlTemplate, filterControlTemplate],
 });

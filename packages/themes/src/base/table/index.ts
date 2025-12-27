@@ -47,16 +47,15 @@ export const tableStyles = createThemePart({
         }
       }
       ${c('head')} ${c('cell')} {
-        display: grid;
+        display: flex;
+        justify-content: flex-end;
         align-items: center;
-        grid-auto-columns: min-content;
-        grid-auto-flow: column;
       }
       ${c('sortable-column')} {
-        ${d('icon')} {
+        ${c('sort-control')} {
           visibility: hidden;
         }
-        &:hover ${d('icon')}, &${c('sorted-column')} ${d('icon')} {
+        &:hover ${c('sort-control')}, &${c('sorted-column')} ${c('sort-control')} {
           visibility: visible;
         }
       }

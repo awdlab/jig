@@ -18,6 +18,7 @@ import { NgnFilter, NgnFilterDataType } from '@ngneers/controls/filter';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 import { NgnTable } from './table';
+import { NgnTableTh } from './table-header-cell';
 
 @Directive({
   selector: '[ngnTableFilterableColumn]',
@@ -28,6 +29,10 @@ import { NgnTable } from './table';
 export class NgnTableFilterableColumn implements OnDestroy {
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly _columnId = inject(NgnTableTh).ngnTableTh;
+
+  public readonly ngnTableFilterableColumn = input();
+
   private readonly _ngnActionButton: ComponentRef<NgnActionButton<null>>;
   private readonly _ngnFilter: ComponentRef<NgnFilter>;
 
@@ -36,14 +41,10 @@ export class NgnTableFilterableColumn implements OnDestroy {
     NgnTable
   );
   protected readonly filter = computed(() => {
-    const tableSort = this._table()?.sort();
-    if (tableSort?.column === this.ngnTableFilterableColumn()) {
-      return tableSort.direction;
-    }
-    return null;
+    const tableFilter = this._table()?.filters()?.[this._columnId()];
+    return tableFilter;
   });
 
-  public readonly ngnTableFilterableColumn = input.required<string>();
   public readonly ngnTableFilterableColumnType = input.required<NgnFilterDataType>();
   public readonly ngnTableFilterableColumnItems = input<string[] | null | undefined>();
 
@@ -52,6 +53,8 @@ export class NgnTableFilterableColumn implements OnDestroy {
     this._ngnFilter = inject(ViewContainerRef).createComponent(NgnFilter);
     this._element.nativeElement.appendChild(this._ngnActionButton.location.nativeElement);
     this._element.nativeElement.appendChild(this._ngnFilter.location.nativeElement);
+    this._ngnActionButton.location.nativeElement.classList.add(this.theme.class('filter-control'));
+
     setComponentInput(this._ngnActionButton, 'kind', 'icon');
     setComponentInput(this._ngnFilter, 'anchor', this._ngnActionButton.location.nativeElement);
     setComponentInput(this._ngnFilter, 'mode', 'headless');
@@ -78,6 +81,11 @@ export class NgnTableFilterableColumn implements OnDestroy {
     });
     effect(() => {
       setComponentInput(this._ngnFilter, 'listOptions', this.ngnTableFilterableColumnItems());
+    });
+    this._ngnFilter.instance.filterChange.subscribe(cfg => {
+      const table = this._table();
+      const currentFilters = table?.filters() || {};
+      table?.filters.set({ ...currentFilters, [this._columnId()]: cfg });
     });
   }
 
