@@ -6,6 +6,9 @@ export const itemViewStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c }) => css`
+      :has(> ${c()}) {
+        min-width: 0;
+      }
       ${c()} {
         display: flex;
         width: 100%;
