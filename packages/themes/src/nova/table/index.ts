@@ -11,6 +11,7 @@ export const tableStyles = createThemePart({
     css: ({ v, c, d }) => css`
       ${c()} ${d('popover')} {
         font-weight: ${v('font.weight.normal')};
+        cursor: default;
       }
       ${c('table')} {
       }

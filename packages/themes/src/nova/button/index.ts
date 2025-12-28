@@ -1,6 +1,11 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { baseStyles } from '@ngneers/controls-themes/base';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
+import {
+  colorsTemplate,
+  fontTemplate,
+  sizesTemplate,
+  themedColors,
+} from '@ngneers/controls-themes/nova/base';
 import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
 
 export const buttonStyles = createThemePart({
@@ -17,42 +22,45 @@ export const buttonStyles = createThemePart({
         padding: var(--padding);
         cursor: pointer;
       }
+
+      ${themedColors(c, v)}
+
       ${c('kind-primary')} {
-        background: ${v('color.primary.500')};
+        background: var(--theme-color-500);
         color: ${v('color.text')};
         &:hover {
-          background: ${v('color.primary.400')};
+          background: var(--theme-color-400);
         }
         &:focus {
-          background: ${v('color.primary.300')};
+          background: var(--theme-color-300);
         }
         &:active {
-          background: ${v('color.primary.200')};
+          background: var(--theme-color-200);
         }
       }
       ${c('kind-secondary')} {
-        background: ${v('color.secondary.500')};
-        color: ${v('color.text')};
+        background: transparent;
         &:hover {
-          background: ${v('color.secondary.400')};
+          background: var(--theme-color-100);
         }
         &:focus {
-          background: ${v('color.secondary.300')};
+          background: var(--theme-color-200);
         }
         &:active {
-          background: ${v('color.secondary.200')};
+          background: var(--theme-color-300);
         }
       }
       ${c('kind-text')} {
         background: transparent;
+        color: var(--theme-color-500);
         &:hover {
-          background: ${v('color.primary.50')};
+          color: var(--theme-color-600);
         }
         &:focus {
-          background: ${v('color.primary.100')};
+          color: var(--theme-color-700);
         }
         &:active {
-          background: ${v('color.primary.200')};
+          color: var(--theme-color-800);
         }
       }
       ${c('kind-icon')} {
@@ -67,13 +75,13 @@ export const buttonStyles = createThemePart({
         justify-content: center;
 
         &:hover {
-          background: ${v('color.surface.100')};
+          background: var(--theme-color-100);
         }
         &:focus {
-          background: ${v('color.surface.200')};
+          background: var(--theme-color-200);
         }
         &:active {
-          background: ${v('color.surface.300')};
+          background: var(--theme-color-300);
         }
 
         &${c('inline')} {
@@ -84,15 +92,15 @@ export const buttonStyles = createThemePart({
       ${c('kind-link')} {
         text-decoration: underline;
         background: transparent;
-        color: ${v('color.primary.500')};
+        color: var(--theme-color-500);
         &:hover {
-          color: ${v('color.primary.500')};
+          color: var(--theme-color-600);
         }
         &:focus {
-          color: ${v('color.primary.600')};
+          color: var(--theme-color-700);
         }
         &:active {
-          color: ${v('color.primary.700')};
+          color: var(--theme-color-800);
         }
       }
     `,

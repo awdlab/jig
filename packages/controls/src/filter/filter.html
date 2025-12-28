@@ -35,11 +35,11 @@
               <button
                 type="button"
                 ngnButton
-                kind="text"
-                [attr.aria-label]="i18n['filter_removeCondition']() + ' ' + (i + 1)"
+                [kind]="'secondary'"
+                [color]="'error'"
                 (click)="removeCondition(i)"
               >
-                <ngn-icon defaultIcon="xmark" />
+                {{ i18n['filter_removeCondition']() + ' ' + (i + 1) }}
               </button>
             </div>
           }

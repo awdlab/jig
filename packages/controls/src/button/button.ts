@@ -1,7 +1,8 @@
-import { booleanAttribute, Directive, input, OnDestroy } from '@angular/core';
+import { booleanAttribute, computed, Directive, input, OnDestroy } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { toggleClass } from '@ngneers/controls/utils';
+import { CustomColor } from '@ngneers/controls-custom-types';
 import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
 import { pairwise, startWith } from 'rxjs';
 
@@ -12,7 +13,7 @@ import { pairwise, startWith } from 'rxjs';
   selector: 'button[ngnButton], a[ngnButton]',
   providers: [provideSelf(NgnButton)],
   host: {
-    '[class]': 'theme.classes({ "": true, inline: inline() })',
+    '[class]': 'hostClass()',
   },
 })
 export class NgnButton extends NgnBase<'button'> implements OnDestroy {
@@ -23,6 +24,11 @@ export class NgnButton extends NgnBase<'button'> implements OnDestroy {
    * This will make the button height fit the current line height.
    */
   public readonly inline = input(false, { transform: booleanAttribute });
+
+  /**
+   * Set the color of the chip.
+   */
+  public readonly color = input<CustomColor | null>();
 
   constructor() {
     super();
@@ -47,4 +53,12 @@ export class NgnButton extends NgnBase<'button'> implements OnDestroy {
       toggleClass(this.element.nativeElement, this.theme.class(`kind-${kind}`), false);
     }
   }
+
+  protected readonly hostClass = computed(() =>
+    this.theme.classes({
+      '': true,
+      [`color-${this.color()}`]: !!this.color(),
+      inline: this.inline(),
+    })
+  );
 }

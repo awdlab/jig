@@ -52,12 +52,16 @@ export const colorsTemplate = createVariableTemplate({
 function reversePalette<T extends Record<string, string>>(palette: T): T {
   const keys = Object.keys(palette);
   const values = Object.values(palette).reverse();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const newPalette: any = {};
+
+  const newPalette: Record<string, string> = {};
   keys.forEach((key, i) => {
-    newPalette[key] = values[i];
+    const value = values[i];
+    if (value != null) {
+      newPalette[key] = value;
+    }
   });
-  return newPalette;
+
+  return newPalette as T;
 }
 
 function getThemeColors(isDark: boolean) {
@@ -98,3 +102,53 @@ export const coral = createThemePart({
     values: getThemeColors(true),
   },
 });
+
+type ThemePaletteColor =
+  | 'primary'
+  | 'secondary'
+  | 'accent'
+  | 'info'
+  | 'success'
+  | 'warning'
+  | 'error'
+  | 'surface';
+
+type ThemePaletteShade =
+  | '50'
+  | '100'
+  | '200'
+  | '300'
+  | '400'
+  | '500'
+  | '600'
+  | '700'
+  | '800'
+  | '900'
+  | '950';
+
+type ThemePaletteVarName = `color.${ThemePaletteColor}.${ThemePaletteShade}`;
+
+export function themedColors(
+  c: (className?: `color-${string}`) => string,
+  v: (varName: ThemePaletteVarName) => string
+): string {
+  return ([null, 'primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'] as const)
+    .map(
+      color => `
+      ${color ? c(`color-${color}`) : c()} {
+        --theme-color-950: ${v(`color.${color ?? 'surface'}.950`)};
+        --theme-color-900: ${v(`color.${color ?? 'surface'}.900`)};
+        --theme-color-800: ${v(`color.${color ?? 'surface'}.800`)};
+        --theme-color-700: ${v(`color.${color ?? 'surface'}.700`)};
+        --theme-color-600: ${v(`color.${color ?? 'surface'}.600`)};
+        --theme-color-500: ${v(`color.${color ?? 'surface'}.500`)};
+        --theme-color-400: ${v(`color.${color ?? 'surface'}.400`)};
+        --theme-color-300: ${v(`color.${color ?? 'surface'}.300`)};
+        --theme-color-200: ${v(`color.${color ?? 'surface'}.200`)};
+        --theme-color-100: ${v(`color.${color ?? 'surface'}.100`)};
+        --theme-color-50: ${v(`color.${color ?? 'surface'}.50`)};
+      }
+      `
+    )
+    .join('\n');
+}
