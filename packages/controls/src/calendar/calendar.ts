@@ -10,7 +10,7 @@ import {
   viewChild,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { NgnItem, transformToNgnItems } from '@ngneers/controls/api';
+import { NgnItem } from '@ngneers/controls/api';
 import { NgnTemplate, Platform } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
 import { I18n } from '@ngneers/controls/i18n';
@@ -94,14 +94,14 @@ export class NgnCalendar extends CalendarTemplates {
     const months = Array.from(
       { length: 12 },
       (_, i) =>
-        <MonthItemType>{
+        <NgnItem>{
           label: `calendar_months_${MONTHS[i]}`,
           value: MONTHS[i],
           translate: true,
           testId: `calendar-month-${MONTHS[i]}`,
         }
     );
-    return transformToNgnItems(months, { value: 'value', label: 'label' });
+    return months;
   });
   protected readonly valueStr = computed(() => {
     const value = this.value();

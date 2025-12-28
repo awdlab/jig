@@ -40,6 +40,9 @@ export class NgnTableFilterableColumn implements OnDestroy {
     this._element.nativeElement,
     NgnTable
   );
+  private readonly _rows = computed(() => {
+    return this._table()?.rows() || [];
+  });
   protected readonly filter = computed(() => {
     const tableFilter = this._table()?.filters()?.[this._columnId()];
     return tableFilter;
@@ -75,6 +78,13 @@ export class NgnTableFilterableColumn implements OnDestroy {
 
     effect(() => {
       setComponentInput(this._ngnActionButton, 'config', cfg());
+    });
+    effect(() => {
+      setComponentInput(
+        this._ngnFilter,
+        'data',
+        this._rows().map(row => row[this._columnId()])
+      );
     });
     effect(() => {
       setComponentInput(this._ngnFilter, 'dataType', this.ngnTableFilterableColumnType());

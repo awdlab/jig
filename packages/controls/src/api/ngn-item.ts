@@ -13,6 +13,7 @@ export type NgnItem<T = any, K extends keyof T = any> = {
 export type NgnItemFields<T, K extends keyof T> = {
   label: keyof T;
   value: K;
+  translate?: keyof T;
   testId?: keyof T;
   children?: keyof T;
 };
@@ -49,6 +50,7 @@ export function transformToNgnItem<T extends object, K extends keyof T>(
     data: item,
     label: item[fields.label] as string,
     value: item[fields.value],
+    translate: fields.translate ? Boolean(item[fields.translate]) : undefined,
     testId: fields.testId ? (item[fields.testId] as string) : undefined,
     items: items,
   };
@@ -69,12 +71,7 @@ export function transformToNgnItemsSignal<
   Items extends readonly T[],
 >(
   items: Signal<Items>,
-  fields: {
-    label: keyof T;
-    value: K;
-    testId?: keyof T;
-    children?: keyof T;
-  }
+  fields: NgnItemFields<T, K>
 ): Signal<{ [P in keyof Items]: NgnItem<Items[P], K> } & readonly NgnItem<T, K>[]> {
   return computed(() => transformToNgnItems(items(), fields));
 }

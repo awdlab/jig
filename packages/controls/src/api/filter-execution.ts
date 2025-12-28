@@ -1,3 +1,5 @@
+import { AllKeysOfUnion, objectEntries } from '@ngneers/controls/utils';
+
 import { stringMatches } from './string-match';
 
 type NgnFilterDataType = 'string' | 'number' | 'date' | 'dateTime' | 'boolean' | 'custom' | 'list';
@@ -270,4 +272,18 @@ export function executeFilter<T>(
     const evals = active.map(cond => matchesValue(value, dt, cond));
     return mode === 'any' ? evals.some(Boolean) : evals.every(Boolean);
   });
+}
+
+export function executeMultiFilter<T extends object>(
+  data: readonly T[],
+  configs: {
+    [key in Extract<AllKeysOfUnion<T>, string>]?: NgnFilterConfig;
+  }
+): readonly T[] {
+  let result: readonly T[] = data;
+  for (const [key, config] of objectEntries(configs)) {
+    const forcedAll: NgnFilterConfig = { ...(config as NgnFilterConfig), matchMode: 'all' };
+    result = executeFilter(result, forcedAll, (item: T): unknown => item[key]);
+  }
+  return result;
 }

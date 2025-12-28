@@ -18,6 +18,7 @@ export const tableStyles = createThemePart({
           grid-template-rows: var(--ngn-table-row-height) auto var(--ngn-table-row-height);
         }
         grid-template-columns: repeat(var(--ngn-table-column-count), 1fr);
+        align-content: baseline;
       }
       ${c('body')}${d('scroller')} {
         display: grid;

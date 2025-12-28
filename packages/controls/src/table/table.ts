@@ -1,14 +1,15 @@
 import { NgTemplateOutlet, NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, model, signal } from '@angular/core';
+import { executeMultiFilter } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
 import { NgnFilterConfig } from '@ngneers/controls/filter';
 import { NgnScroller } from '@ngneers/controls/scroller';
-import { AllKeysOfUnion, objectKeys } from '@ngneers/controls/utils';
+import { AllKeysOfUnion } from '@ngneers/controls/utils';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 import { NgnTableTemplates } from './table-templates';
-import { FormattedTableRow, TableHeader } from './types';
+import { FormattedTableRow } from './types';
 
 import type { NgnTableTh } from './table-header-cell';
 
@@ -29,12 +30,13 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate);
   private readonly _registeredHeaderCells = signal<NgnTableTh[]>([]);
 
-  public readonly rows = input.required<T[]>();
+  public readonly rows = input.required<readonly T[]>();
   public readonly rowHeight = input<number>();
   public readonly fieldId = input.required<K>();
   public readonly virtual = input<boolean>(false);
   public readonly virtualPadding = input<number>(2);
   public readonly striped = input<boolean>(false);
+  protected readonly trackById = (item: T): unknown => item[this.fieldId()];
   public readonly sort = model<{
     column: Extract<AllKeysOfUnion<T>, string>;
     direction: 'asc' | 'desc';
@@ -46,10 +48,8 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
     | null
   >(null);
 
-  protected readonly trackById = (item: T): unknown => item[this.fieldId()];
-
   protected readonly formattedRows = computed<FormattedTableRow<T>[]>(() => {
-    const rows = this.sortedRows();
+    const rows = this._sortedRows();
     return rows.map((data, index) => ({
       kind: 'data' as const,
       id: data[this.fieldId()] as T[keyof T] & (string | number),
@@ -58,8 +58,17 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
     }));
   });
 
-  protected readonly sortedRows = computed<T[]>(() => {
+  private readonly _filteredRows = computed<readonly T[]>(() => {
+    const filters = this.filters();
     const rows = this.rows();
+    if (!filters) {
+      return rows;
+    }
+    return executeMultiFilter(rows, filters);
+  });
+
+  private readonly _sortedRows = computed<readonly T[]>(() => {
+    const rows = this._filteredRows();
     const sort = this.sort();
     if (!sort) {
       return rows;
@@ -89,18 +98,9 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
   });
 
   protected readonly columnCount = computed(() => this._registeredHeaderCells().length);
-  public readonly columns = computed<TableHeader<T>>(() => {
-    const rows = this.rows();
-    const keys = new Set<Extract<AllKeysOfUnion<T>, string>>();
-    rows.forEach(row =>
-      objectKeys(row).forEach(key => keys.add(key as Extract<AllKeysOfUnion<T>, string>))
-    );
-    const res = {} as TableHeader<T>;
-    keys.forEach(key => {
-      res[key] = key;
-    });
-    return res;
-  });
+  public column<V extends AllKeysOfUnion<T> & string>(column: V): V {
+    return column;
+  }
 
   public registerHeaderCell(cell: NgnTableTh): void {
     this._registeredHeaderCells.update(cells => [...cells, cell]);

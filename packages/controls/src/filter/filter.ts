@@ -11,12 +11,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import {
-  executeFilter,
-  getActiveFilterConditions,
-  NgnItem,
-  transformToNgnItems,
-} from '@ngneers/controls/api';
+import { executeFilter, getActiveFilterConditions, NgnItem } from '@ngneers/controls/api';
 import { type Anchor } from '@ngneers/controls/api/ng';
 import { provideSelf, ValueControlBase } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
@@ -226,7 +221,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
 
   protected readonly autoListOptions = computed<readonly NgnItem[]>(() => {
     const seen = new Set<string>();
-    const items: Array<{ label: string; value: string; testId: string }> = [];
+    const items: Array<NgnItem> = [];
 
     for (const raw of this.data()) {
       const s = String(raw);
@@ -237,7 +232,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
       items.push({ label: s, value: s, testId: `filter-list-${s}` });
     }
 
-    return transformToNgnItems(items, { label: 'label', value: 'value' });
+    return items.sort((a, b) => a.label.localeCompare(b.label));
   });
 
   protected readonly resolvedListOptions = computed<readonly NgnItem[]>(() => {

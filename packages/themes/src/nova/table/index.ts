@@ -33,13 +33,13 @@ export const tableStyles = createThemePart({
         order: 1;
         flex-grow: 1;
       }
-      ${c('sort-control')} {
-        color: ${v('color.surface.600')};
-        order: 3;
-      }
       ${c('filter-control')} {
-        color: ${v('color.surface.600')};
         order: 2;
+        color: ${v('color.surface.600')};
+      }
+      ${c('sort-control')} {
+        order: 3;
+        color: ${v('color.surface.600')};
       }
       ${c('sorted-column')} ${c('sort-control')} {
         color: ${v('color.surface.800')};

@@ -8,7 +8,7 @@ import { NgnTable } from './table';
 @Directive({ selector: '[ngnTableTh]' })
 export class NgnTableTh extends NgnBase<'table'> implements OnDestroy, OnInit {
   private readonly theme = this.injectThemeTemplate(tableControlTemplate);
-  private _table?: NgnTable<object, never>;
+  private _table?: NgnTable<any, any>;
 
   public readonly ngnTableTh = input.required<string>();
 
@@ -22,7 +22,7 @@ export class NgnTableTh extends NgnBase<'table'> implements OnDestroy, OnInit {
   }
 
   public ngOnInit(): void {
-    const table = getNearestNgnInstance(this.element.nativeElement, NgnTable);
+    const table = getNearestNgnInstance(this.element.nativeElement, NgnTable<any, any>);
     if (!table) {
       throw new NgnError('ngnTableTh', 'ngnTableTh must be used within an NgnTable component');
     }

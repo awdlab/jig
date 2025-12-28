@@ -31,16 +31,30 @@ import { exampleData } from '../../helper/data';
     <ng-template #header>
       <tr ngnTableHeadTr>
         <th
-          [ngnTableTh]="table.columns().id"
+          [ngnTableTh]="table.column('id')"
           [ngnTableSortableColumn]
           [ngnTableFilterableColumn]
           [ngnTableFilterableColumnType]="'string'"
         >
           Id
         </th>
-        <th [ngnTableTh]="table.columns().name" [ngnTableSortableColumn]>Name</th>
-        <th [ngnTableTh]="table.columns().department" [ngnTableSortableColumn]>Department</th>
-        <th [ngnTableTh]="table.columns().location" [ngnTableSortableColumn]>Location</th>
+        <th [ngnTableTh]="table.column('name')" [ngnTableSortableColumn]>Name</th>
+        <th
+          [ngnTableTh]="table.column('department')"
+          [ngnTableSortableColumn]
+          [ngnTableFilterableColumn]
+          [ngnTableFilterableColumnType]="'list'"
+        >
+          Department
+        </th>
+        <th
+          [ngnTableTh]="table.column('location')"
+          [ngnTableSortableColumn]
+          [ngnTableFilterableColumn]
+          [ngnTableFilterableColumnType]="'list'"
+        >
+          Location
+        </th>
         <th ngnTableTh>Debug</th>
       </tr>
     </ng-template>
