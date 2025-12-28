@@ -35,7 +35,7 @@
               <button
                 type="button"
                 ngnButton
-                [kind]="'secondary'"
+                [kind]="'text'"
                 [color]="'error'"
                 (click)="removeCondition(i)"
               >
@@ -47,23 +47,6 @@
       }
     }
   </div>
-</ng-template>
-
-<ng-template #actionsTemplate>
-  @if (dataType() !== 'list' && allowMultiple()) {
-    <div [ngClass]="theme.class('actions')">
-      <button
-        type="button"
-        ngnButton
-        kind="secondary"
-        (click)="addCondition()"
-        data-testid="filter-add-rule"
-      >
-        <span aria-hidden="true">+</span>
-        {{ i18n['filter_addCondition']() }}
-      </button>
-    </div>
-  }
 </ng-template>
 
 <ng-template #matchModeTemplate>
@@ -80,6 +63,18 @@
 
 <ng-template #footerTemplate>
   <div [ngClass]="theme.class('footer')">
+    @if (dataType() !== 'list' && allowMultiple()) {
+      <button
+        type="button"
+        ngnButton
+        kind="secondary"
+        (click)="addCondition()"
+        data-testid="filter-add-rule"
+      >
+        <span aria-hidden="true">+</span>
+        {{ i18n['filter_addCondition']() }}
+      </button>
+    }
     <button type="button" ngnButton kind="secondary" (click)="clear()" data-testid="filter-clear">
       {{ i18n['filter_clear']?.() ?? 'Clear' }}
     </button>
@@ -99,7 +94,6 @@
       <div [ngClass]="theme.class('popover-content')">
         <ng-container [ngTemplateOutlet]="matchModeTemplate" />
         <ng-container [ngTemplateOutlet]="rowsTemplate" />
-        <ng-container [ngTemplateOutlet]="actionsTemplate" />
         <ng-container [ngTemplateOutlet]="footerTemplate" />
       </div>
     </ng-template>
@@ -110,7 +104,6 @@
   <div [ngClass]="theme.class('inline')">
     <ng-container [ngTemplateOutlet]="matchModeTemplate" />
     <ng-container [ngTemplateOutlet]="rowsTemplate" />
-    <ng-container [ngTemplateOutlet]="actionsTemplate" />
     <ng-container [ngTemplateOutlet]="footerTemplate" />
   </div>
 } @else if (mode() === 'input') {

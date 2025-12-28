@@ -19,7 +19,6 @@ export const filterControlTemplate = createControlTemplate({
     'operator',
     'value',
     'row-actions',
-    'actions',
     'match',
     'footer',
   ],

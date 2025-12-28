@@ -33,13 +33,7 @@ export const filterStyles = createThemePart({
       ${c('row-actions')} {
         align-items: center;
       }
-      ${c('actions')} {
-        width: 100%;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: ${v('size.padding.sm')};
-      }
+
       ${c('match')} {
         width: 100%;
         min-width: 0;
@@ -47,6 +41,7 @@ export const filterStyles = createThemePart({
 
       ${c('footer')} {
         display: flex;
+        flex-direction: column;
         gap: ${v('size.padding.sm')};
         width: 100%;
       }

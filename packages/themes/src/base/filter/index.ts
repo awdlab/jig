@@ -24,16 +24,13 @@ export const filterStyles = createThemePart({
         min-width: 0;
       }
       ${c('operator')} {
-        order: 2;
         min-width: 0;
       }
       ${c('value')} {
-        order: 3;
         min-width: 0;
         max-width: 100%;
       }
       ${c('row-actions')} {
-        order: 1;
         display: flex;
         flex: 0 0 auto;
       }
@@ -42,10 +39,6 @@ export const filterStyles = createThemePart({
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-      }
-      ${c('actions')} {
-        display: flex;
-        flex-wrap: wrap;
       }
       ${c('match')} {
         min-width: 0;
