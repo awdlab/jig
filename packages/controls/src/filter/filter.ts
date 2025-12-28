@@ -556,7 +556,9 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
 
   protected clear(): void {
     this.value.set(null);
-    this.hide();
+    if (this.mode() !== 'inline') {
+      this.hide();
+    }
   }
 
   /** Shows the filter popup. Only works when {@link mode} is not `inline`. */

@@ -25,20 +25,21 @@ export class Demo_Dialog_Buttons {
 
   protected readonly buttons = [
     {
-      label: 'Confirm',
-      kind: 'primary',
-      action: () => {
-        console.log('Confirmed');
-      },
-      value: true,
-    },
-    {
       label: 'Cancel',
       kind: 'secondary',
       action: () => {
         console.log('Cancelled');
       },
       value: false,
+    },
+    {
+      label: 'Confirm',
+      kind: 'primary',
+      color: 'primary',
+      action: () => {
+        console.log('Confirmed');
+      },
+      value: true,
     },
   ] satisfies NgnActionButtonConfig<unknown>[];
 

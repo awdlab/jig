@@ -55,7 +55,7 @@
       <button
         type="button"
         ngnButton
-        kind="text"
+        kind="secondary"
         (click)="addCondition()"
         data-testid="filter-add-rule"
       >
@@ -80,7 +80,7 @@
 
 <ng-template #footerTemplate>
   <div [ngClass]="theme.class('footer')">
-    <button type="button" ngnButton kind="text" (click)="clear()" data-testid="filter-clear">
+    <button type="button" ngnButton kind="secondary" (click)="clear()" data-testid="filter-clear">
       {{ i18n['filter_clear']?.() ?? 'Clear' }}
     </button>
   </div>

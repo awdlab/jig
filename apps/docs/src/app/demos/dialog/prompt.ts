@@ -42,14 +42,15 @@ export class Demo_Dialog_Prompt {
       content: DialogPromptDemo,
       footerButtons: [
         {
-          label: 'Confirm',
-          kind: 'primary',
-          value: true,
-        },
-        {
           label: 'Cancel',
           kind: 'secondary',
           value: false,
+        },
+        {
+          label: 'Confirm',
+          kind: 'primary',
+          color: 'primary',
+          value: true,
         },
       ],
     });
