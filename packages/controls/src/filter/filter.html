@@ -6,12 +6,12 @@
           [ngClass]="theme.class('value')"
           [multiple]="true"
           [options]="resolvedListOptions()"
-          [value]="listSelection()"
+          [value]="$any(draftState().listSelection)"
           (valueChange)="setListSelection($event)"
         />
       </div>
     } @else {
-      @for (c of conditions(); track c.id; let i = $index) {
+      @for (c of draftState().conditions; track c.id; let i = $index) {
         <div [ngClass]="theme.class('row')" [attr.data-testid]="'filter-row-' + i">
           <ngn-select
             [ngClass]="theme.class('operator')"
@@ -30,7 +30,7 @@
             </ngn-input-field>
           }
 
-          @if (allowMultiple() && conditions().length > 1) {
+          @if (allowMultiple() && draftState().conditions.length > 1) {
             <div [ngClass]="theme.class('row-actions')">
               <button
                 type="button"
@@ -52,7 +52,14 @@
 <ng-template #actionsTemplate>
   @if (dataType() !== 'list' && allowMultiple()) {
     <div [ngClass]="theme.class('actions')">
-      <button type="button" ngnButton kind="text" (click)="addCondition()">
+      <button
+        type="button"
+        ngnButton
+        kind="text"
+        (click)="addCondition()"
+        data-testid="filter-add-rule"
+      >
+        <span aria-hidden="true">+</span>
         {{ i18n['filter_addCondition']() }}
       </button>
     </div>
@@ -60,35 +67,26 @@
 </ng-template>
 
 <ng-template #matchModeTemplate>
-  @if (dataType() !== 'list' && allowMultiple() && conditions().length > 1) {
-    <div
+  @if (dataType() !== 'list' && allowMultiple()) {
+    <ngn-select
       [ngClass]="theme.class('match')"
-      role="radiogroup"
-      [attr.aria-label]="i18n['filter_matchModeLabel']()"
-      [attr.data-testid]="'filter-match-mode'"
-    >
-      <label>
-        <input
-          type="radio"
-          [attr.name]="inputId() + '_match-mode'"
-          value="all"
-          [checked]="matchMode() === 'all'"
-          (change)="matchMode.set('all')"
-        />
-        {{ i18n['filter_match_all']() }}
-      </label>
-      <label>
-        <input
-          type="radio"
-          [attr.name]="inputId() + '_match-mode'"
-          value="any"
-          [checked]="matchMode() === 'any'"
-          (change)="matchMode.set('any')"
-        />
-        {{ i18n['filter_match_any']() }}
-      </label>
-    </div>
+      [options]="matchModeOptions"
+      [value]="draftState().matchMode"
+      (valueChange)="setDraftMatchMode($event)"
+      data-testid="filter-match-mode"
+    />
   }
+</ng-template>
+
+<ng-template #footerTemplate>
+  <div [ngClass]="theme.class('footer')">
+    <button type="button" ngnButton kind="text" (click)="clear()" data-testid="filter-clear">
+      {{ i18n['filter_clear']?.() ?? 'Clear' }}
+    </button>
+    <button type="button" ngnButton kind="primary" (click)="apply()" data-testid="filter-apply">
+      {{ i18n['filter_apply']?.() ?? 'Apply' }}
+    </button>
+  </div>
 </ng-template>
 
 <ng-template #popoverTemplate let-anchor="anchor">
@@ -105,6 +103,7 @@
         <ng-container [ngTemplateOutlet]="matchModeTemplate" />
         <ng-container [ngTemplateOutlet]="rowsTemplate" />
         <ng-container [ngTemplateOutlet]="actionsTemplate" />
+        <ng-container [ngTemplateOutlet]="footerTemplate" />
       </div>
     </ng-template>
   </ngn-popover>
@@ -115,6 +114,7 @@
     <ng-container [ngTemplateOutlet]="matchModeTemplate" />
     <ng-container [ngTemplateOutlet]="rowsTemplate" />
     <ng-container [ngTemplateOutlet]="actionsTemplate" />
+    <ng-container [ngTemplateOutlet]="footerTemplate" />
   </div>
 } @else if (mode() === 'input') {
   <ngn-input-field

@@ -281,7 +281,7 @@ export function executeMultiFilter<T extends object>(
   }
 ): readonly T[] {
   let result: readonly T[] = data;
-  for (const [key, config] of objectEntries(configs)) {
+  for (const [key, config] of objectEntries(configs).filter(x => !!x[1])) {
     const forcedAll: NgnFilterConfig = { ...(config as NgnFilterConfig), matchMode: 'all' };
     result = executeFilter(result, forcedAll, (item: T): unknown => item[key]);
   }

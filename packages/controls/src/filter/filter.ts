@@ -42,6 +42,12 @@ type ConditionInternal = {
   rawValue: string | null;
 };
 
+type FilterState = {
+  matchMode: NgnFilterMatchMode;
+  conditions: readonly ConditionInternal[];
+  listSelection: readonly string[];
+};
+
 type OperatorDef = {
   id: NgnFilterOperatorId;
   labelKey: string;
@@ -176,19 +182,18 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   );
 
   /** Emits whenever the filter configuration changes. */
-  public readonly filterChange = output<NgnFilterConfig>();
+  public readonly filterChange = output<NgnFilterConfig | null>();
   /** Emits the filtered data whenever local filtering is enabled. */
   public readonly filterResultChange = output<readonly T[]>();
 
   private readonly _popover = viewChild(NgnPopover);
   private readonly _global = inject(NgnGlobal);
 
-  protected readonly matchMode = signal<NgnFilterMatchMode>('all');
-  protected readonly conditions = signal<readonly ConditionInternal[]>([
-    this.createCondition('isEqual'),
-  ]);
+  // Draft state edited by the UI. Changes are only committed via apply().
+  protected readonly draftState = signal<FilterState>(this.createInitialState());
 
-  protected readonly listSelection = signal<string[]>([]);
+  // Applied state used for summary + output + local filtering.
+  protected readonly appliedState = signal<FilterState>(this.createInitialState());
 
   private nextConditionId(): string {
     return `ngn-id-${this._global.nextElementId++}`;
@@ -196,6 +201,14 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
 
   private createCondition(operator: NgnFilterOperatorId): ConditionInternal {
     return { id: this.nextConditionId(), operator, rawValue: null };
+  }
+
+  private createInitialState(): FilterState {
+    return {
+      matchMode: 'all',
+      conditions: [this.createCondition('isEqual')],
+      listSelection: [],
+    };
   }
 
   protected readonly operatorDefs = computed(() => {
@@ -269,7 +282,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
 
   protected readonly summaryText = computed(() => {
     if (this.dataType() === 'list') {
-      const selected = this.listSelection();
+      const selected = this.appliedState().listSelection;
       if (selected.length === 0) {
         return this.i18n['filter_noFilter']();
       }
@@ -294,7 +307,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     }
 
     const matchLabel =
-      this.matchMode() === 'all'
+      this.appliedState().matchMode === 'all'
         ? this.i18n['filter_match_all']()
         : this.i18n['filter_match_any']();
     return `${active.length} ${this.i18n['filter_conditions']()} (${matchLabel})`;
@@ -309,14 +322,16 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
             {
               operator: 'in',
               rawValue:
-                this.listSelection().length > 0 ? JSON.stringify(this.listSelection()) : null,
+                this.appliedState().listSelection.length > 0
+                  ? JSON.stringify(this.appliedState().listSelection)
+                  : null,
             },
           ],
         }
       : {
           dataType: this.dataType(),
-          matchMode: this.allowMultiple() ? this.matchMode() : 'all',
-          conditions: this.conditions().map(
+          matchMode: this.allowMultiple() ? this.appliedState().matchMode : 'all',
+          conditions: this.appliedState().conditions.map(
             (c): NgnFilterConditionConfig => ({
               operator: c.operator,
               rawValue: c.rawValue,
@@ -329,7 +344,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     const defs = this.operatorDefs();
     const defById = new Map(defs.map(d => [d.id, d] as const));
 
-    return this.conditions().filter(c => {
+    return this.appliedState().conditions.filter(c => {
       const def = defById.get(c.operator);
       const requiresValue = def?.requiresValue ?? true;
       return !requiresValue || (c.rawValue != null && c.rawValue !== '');
@@ -356,24 +371,21 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   constructor() {
     super();
 
-    effect(() => {
-      const config = this.configValue();
-      this.value.set(config);
-      this.filterChange.emit(config);
-    });
+    // Initial commit so consumers get a starting value/config.
+    this.applyDraft({ close: false });
 
     effect(() => {
-      // When local filtering is disabled, do not emit or compute any result.
-      if (!this.filterLocally()) {
-        return;
-      }
-      this.filterResultChange.emit(this.filteredData());
-    });
-
-    effect(() => {
-      if (!this.allowMultiple() && this.conditions().length > 1) {
-        this.conditions.set(this.conditions().slice(0, 1));
-        this.matchMode.set('all');
+      if (!this.allowMultiple()) {
+        this.draftState.update(state => ({
+          ...state,
+          matchMode: 'all',
+          conditions: state.conditions.slice(0, 1),
+        }));
+        this.appliedState.update(state => ({
+          ...state,
+          matchMode: 'all',
+          conditions: state.conditions.slice(0, 1),
+        }));
       }
     });
 
@@ -383,21 +395,43 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
       if (!first) {
         throw new NgnError('filter', 'No operators available.');
       }
-      // Ensure all conditions use a valid operator
+      // Ensure all conditions use a valid operator in both draft and applied state.
       const defIds = new Set(defs.map(d => d.id));
-      const current = this.conditions();
-      let changed = false;
-      const next = current.map(c => {
-        if (defIds.has(c.operator)) {
-          return c;
-        }
-        changed = true;
-        return { ...c, operator: first.id, rawValue: null };
+
+      const normalizeConditions = (
+        conditions: readonly ConditionInternal[]
+      ): readonly ConditionInternal[] => {
+        let changed = false;
+        const next = conditions.map(c => {
+          if (defIds.has(c.operator)) {
+            return c;
+          }
+          changed = true;
+          return { ...c, operator: first.id, rawValue: null };
+        });
+        return changed ? next : conditions;
+      };
+
+      this.draftState.update(state => {
+        const nextConditions = normalizeConditions(state.conditions);
+        return nextConditions === state.conditions
+          ? state
+          : { ...state, conditions: nextConditions };
       });
-      if (changed) {
-        this.conditions.set(next);
-      }
+
+      this.appliedState.update(state => {
+        const nextConditions = normalizeConditions(state.conditions);
+        return nextConditions === state.conditions
+          ? state
+          : { ...state, conditions: nextConditions };
+      });
     });
+  }
+
+  protected setDraftMatchMode(value: unknown): void {
+    if (value === 'all' || value === 'any') {
+      this.draftState.update(state => ({ ...state, matchMode: value }));
+    }
   }
 
   protected operatorRequiresValue(operator: NgnFilterOperatorId): boolean {
@@ -409,7 +443,8 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     if (!operator) {
       return;
     }
-    const next = this.conditions().slice();
+    const state = this.draftState();
+    const next = state.conditions.slice();
     const existing = next[index];
     if (!existing) {
       return;
@@ -419,17 +454,18 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
       operator,
       rawValue: this.operatorRequiresValue(operator) ? existing.rawValue : null,
     };
-    this.conditions.set(next);
+    this.draftState.set({ ...state, conditions: next });
   }
 
   protected setRawValue(index: number, rawValue: string | null): void {
-    const next = this.conditions().slice();
+    const state = this.draftState();
+    const next = state.conditions.slice();
     const existing = next[index];
     if (!existing) {
       return;
     }
     next[index] = { ...existing, rawValue };
-    this.conditions.set(next);
+    this.draftState.set({ ...state, conditions: next });
   }
 
   protected addCondition(): void {
@@ -437,32 +473,98 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
       return;
     }
     const firstOp = this.operatorDefs()[0]?.id ?? 'isEqual';
-    this.conditions.set([...this.conditions(), this.createCondition(firstOp)]);
+    this.draftState.update(state => ({
+      ...state,
+      conditions: [...state.conditions, this.createCondition(firstOp)],
+    }));
   }
 
   protected removeCondition(index: number): void {
     if (!this.allowMultiple()) {
       return;
     }
-    const current = this.conditions();
+    const current = this.draftState().conditions;
     if (current.length <= 1) {
       return;
     }
     const next = current.slice();
     next.splice(index, 1);
-    this.conditions.set(next);
+    this.draftState.update(state => ({ ...state, conditions: next }));
   }
 
   protected setListSelection(value: unknown): void {
     if (Array.isArray(value)) {
-      this.listSelection.set(value.map(v => String(v)));
+      this.draftState.update(state => ({ ...state, listSelection: value.map(v => String(v)) }));
       return;
     }
     if (value == null) {
-      this.listSelection.set([]);
+      this.draftState.update(state => ({ ...state, listSelection: [] }));
       return;
     }
-    this.listSelection.set([String(value)]);
+    this.draftState.update(state => ({ ...state, listSelection: [String(value)] }));
+  }
+
+  protected clear(): void {
+    const firstOp = this.operatorDefs()[0]?.id ?? 'isEqual';
+    this.draftState.set({
+      matchMode: 'all',
+      conditions: [this.createCondition(firstOp)],
+      listSelection: [],
+    });
+    this.applyDraft({ close: true });
+  }
+
+  protected apply(): void {
+    this.applyDraft();
+  }
+
+  private applyDraft(options?: { close?: boolean }): void {
+    const draft = this.draftState();
+
+    if (this.dataType() === 'list') {
+      this.appliedState.update(state => ({
+        ...state,
+        listSelection: [...draft.listSelection],
+        matchMode: 'all',
+      }));
+    } else {
+      this.appliedState.update(state => ({
+        ...state,
+        matchMode: this.allowMultiple() ? draft.matchMode : 'all',
+        conditions: draft.conditions.map(c => ({ ...c })),
+      }));
+    }
+
+    const config = this.configValue();
+    this.value.set(config);
+    if (
+      config.conditions.length === 0 ||
+      (config.conditions.length === 1 &&
+        this.operatorDefs().find(x => x.id === config.conditions[0].operator)?.requiresValue &&
+        (config.conditions[0].rawValue === null || config.conditions[0].rawValue === ''))
+    ) {
+      this.filterChange.emit(null);
+    } else {
+      this.filterChange.emit(config);
+    }
+
+    if (this.filterLocally()) {
+      this.filterResultChange.emit(this.filteredData());
+    }
+
+    const close = options?.close ?? true;
+    if (close && this.mode() !== 'inline') {
+      this.hide();
+    }
+  }
+
+  private syncDraftFromApplied(): void {
+    const applied = this.appliedState();
+    this.draftState.set({
+      matchMode: applied.matchMode,
+      conditions: applied.conditions.map(c => ({ ...c })),
+      listSelection: [...applied.listSelection],
+    });
   }
 
   /** Shows the filter popup. Only works when {@link mode} is not `inline`. */
@@ -477,6 +579,8 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     if (!popover) {
       throw new NgnError('filter', 'Popover is not available.');
     }
+
+    this.syncDraftFromApplied();
     popover.show();
   }
 

@@ -32,6 +32,8 @@ test('base (string contains) emits filtered result', async ({ page }) => {
   await op1.clickItemByText('Contains');
   await filter.valueInput(0).fill('ger');
 
+  await filter.applyButton().click();
+
   await expect(async () => {
     const log = await handle.getOutputLog();
     const last = log['filtered']?.at(-1);
@@ -79,7 +81,11 @@ test('multiple conditions (any/all) emits config + filtered', async ({ page }) =
   await filter.valueInput(1).fill('fr');
 
   // match any => all 3
-  await filter.matchModeRadio('any').check();
+  const match = filter.matchModeSelect();
+  await match.open();
+  await match.clickItemByText('Match any');
+
+  await filter.applyButton().click();
 
   await expect(async () => {
     const log = await handle.getOutputLog();
@@ -90,7 +96,10 @@ test('multiple conditions (any/all) emits config + filtered', async ({ page }) =
   }).toPass();
 
   // match all => none
-  await filter.matchModeRadio('all').check();
+  await match.open();
+  await match.clickItemByText('Match all');
+
+  await filter.applyButton().click();
 
   await expect(async () => {
     const log = await handle.getOutputLog();
@@ -133,6 +142,8 @@ test('list kind (multi select) filters by membership', async ({ page }) => {
   await select.clickItemByText('Germany', false);
   await select.clickItemByText('France', false);
   await select.close();
+
+  await filter.applyButton().click();
 
   await expect(async () => {
     const log = await handle.getOutputLog();

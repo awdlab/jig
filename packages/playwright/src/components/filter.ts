@@ -44,10 +44,18 @@ export class NgnFilterHarness {
   }
 
   public addConditionButton(): Locator {
-    return this.locator.locator(`${this.classes['actions']} button`);
+    return this.locator.locator('[data-testid="filter-add-rule"]');
   }
 
-  public matchModeRadio(mode: 'all' | 'any'): Locator {
-    return this.locator.locator(`${this.classes['match']} input[type="radio"][value="${mode}"]`);
+  public matchModeSelect(): NgnSelectHarness {
+    return new NgnSelectHarness(this.locator.locator('[data-testid="filter-match-mode"]'));
+  }
+
+  public clearButton(): Locator {
+    return this.locator.locator('[data-testid="filter-clear"]');
+  }
+
+  public applyButton(): Locator {
+    return this.locator.locator('[data-testid="filter-apply"]');
   }
 }

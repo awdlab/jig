@@ -95,7 +95,7 @@ export class NgnTableFilterableColumn implements OnDestroy {
     this._ngnFilter.instance.filterChange.subscribe(cfg => {
       const table = this._table();
       const currentFilters = table?.filters() || {};
-      table?.filters.set({ ...currentFilters, [this._columnId()]: cfg });
+      table?.filters.set({ ...currentFilters, [this._columnId()]: cfg ?? undefined });
     });
   }
 

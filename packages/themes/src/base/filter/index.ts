@@ -50,6 +50,11 @@ export const filterStyles = createThemePart({
       ${c('match')} {
         min-width: 0;
       }
+      ${c('footer')} {
+        display: flex;
+        flex-wrap: wrap;
+        min-width: 0;
+      }
     `,
   },
 });

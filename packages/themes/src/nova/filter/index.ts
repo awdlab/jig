@@ -34,22 +34,24 @@ export const filterStyles = createThemePart({
         align-items: center;
       }
       ${c('actions')} {
-        justify-content: flex-start;
+        width: 100%;
+        justify-content: center;
         align-items: center;
         flex-wrap: wrap;
         gap: ${v('size.padding.sm')};
       }
       ${c('match')} {
-        display: inline-flex;
-        align-items: center;
-        gap: ${v('size.padding.sm')};
-        flex: 0 1 auto;
+        width: 100%;
+        min-width: 0;
       }
 
-      ${c('match')} label {
-        display: inline-flex;
-        align-items: center;
+      ${c('footer')} {
+        display: flex;
         gap: ${v('size.padding.sm')};
+        width: 100%;
+      }
+      ${c('footer')} button {
+        flex: 1 1 0;
       }
     `,
   },

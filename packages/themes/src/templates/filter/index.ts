@@ -21,6 +21,7 @@ export const filterControlTemplate = createControlTemplate({
     'row-actions',
     'actions',
     'match',
+    'footer',
   ],
   dependencies: [
     popoverControlTemplate,
