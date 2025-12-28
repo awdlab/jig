@@ -21,7 +21,7 @@ import { exampleData } from '../../helper/data';
   selector: 'ngn-demo-table-base',
   template: `<ngn-table
     #table
-    style="height: 200px"
+    style="height: 400px"
     [rows]="rows"
     [fieldId]="'id'"
     [virtual]="true"
@@ -62,15 +62,17 @@ import { exampleData } from '../../helper/data';
       <tr [ngnTableBodyTr]="row">
         <td ngnTableTd>{{ row.data.id }}</td>
         <td ngnTableTd>{{ row.data.name }}</td>
-        <td ngnTableTd class="flex items-center">
-          <ngn-calendar />
-        </td>
+        <td ngnTableTd>{{ row.data.department }}</td>
         <td ngnTableTd>{{ row.data.location }}</td>
-        <td ngnTableTd>test</td>
+        <td ngnTableTd class="flex items-center">
+          @defer (on idle) {
+            <ngn-calendar />
+          }
+        </td>
       </tr>
     </ng-template>
   </ngn-table>`,
 })
 export class Demo_Table_Base {
-  protected readonly rows = exampleData.table(10);
+  protected readonly rows = exampleData.table(30000);
 }
