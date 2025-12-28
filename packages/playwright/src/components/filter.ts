@@ -54,8 +54,4 @@ export class NgnFilterHarness {
   public clearButton(): Locator {
     return this.locator.locator('[data-testid="filter-clear"]');
   }
-
-  public applyButton(): Locator {
-    return this.locator.locator('[data-testid="filter-apply"]');
-  }
 }

@@ -6,12 +6,12 @@
           [ngClass]="theme.class('value')"
           [multiple]="true"
           [options]="resolvedListOptions()"
-          [value]="$any(draftState().listSelection)"
+          [value]="$any(templateListSelection())"
           (valueChange)="setListSelection($event)"
         />
       </div>
     } @else {
-      @for (c of draftState().conditions; track c.id; let i = $index) {
+      @for (c of templateConfig().conditions; track $index; let i = $index) {
         <div [ngClass]="theme.class('row')" [attr.data-testid]="'filter-row-' + i">
           <ngn-select
             [ngClass]="theme.class('operator')"
@@ -30,7 +30,7 @@
             </ngn-input-field>
           }
 
-          @if (allowMultiple() && draftState().conditions.length > 1) {
+          @if (allowMultiple() && templateConfig().conditions.length > 1) {
             <div [ngClass]="theme.class('row-actions')">
               <button
                 type="button"
@@ -71,8 +71,8 @@
     <ngn-select
       [ngClass]="theme.class('match')"
       [options]="matchModeOptions"
-      [value]="draftState().matchMode"
-      (valueChange)="setDraftMatchMode($event)"
+      [value]="templateConfig().matchMode"
+      (valueChange)="setMatchMode($event)"
       data-testid="filter-match-mode"
     />
   }
@@ -82,9 +82,6 @@
   <div [ngClass]="theme.class('footer')">
     <button type="button" ngnButton kind="text" (click)="clear()" data-testid="filter-clear">
       {{ i18n['filter_clear']?.() ?? 'Clear' }}
-    </button>
-    <button type="button" ngnButton kind="primary" (click)="apply()" data-testid="filter-apply">
-      {{ i18n['filter_apply']?.() ?? 'Apply' }}
     </button>
   </div>
 </ng-template>
