@@ -306,7 +306,7 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
     '(toggle)': 'onToggle($event)',
     '(mouseenter)': 'onMouseEnter()',
     '(mouseleave)': 'onMouseLeave()',
-    '(click)': 'onClick()',
+    '(click)': 'onClick($event)',
   },
 })
 export class TooltipComponent extends NgnBase<'tooltip'> {
@@ -459,10 +459,11 @@ export class TooltipComponent extends NgnBase<'tooltip'> {
     this.hide();
   }
 
-  protected onClick() {
+  protected onClick(event: PointerEvent) {
     if (this.options().hideOnClick) {
       this.hide(true);
     }
+    event.stopPropagation();
   }
 
   protected onDocumentKeyDown(event: KeyboardEvent) {

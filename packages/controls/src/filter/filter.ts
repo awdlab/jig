@@ -163,12 +163,13 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   public readonly popoverOptions = input<PopoverOptions>({});
   protected readonly appliedPopoverOptions = computed(() =>
     deepMerge(
-      {
-        sizeConstraints: <PopoverOptions['sizeConstraints']>{
+      <PopoverOptions>{
+        sizeConstraints: {
           width: '250px',
           minHeight: '200px',
           maxHeight: '500px',
         },
+        placement: 'bottom-start',
       },
       this.popoverOptions()
     )

@@ -1,6 +1,7 @@
 import { createControlTemplate } from '@ngneers/controls-themes/api';
 import { filterControlTemplate } from '@ngneers/controls-themes/templates/filter';
 import { iconControlTemplate } from '@ngneers/controls-themes/templates/icon';
+import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
 import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scroller';
 
 export const tableControlTemplate = createControlTemplate({
@@ -22,5 +23,10 @@ export const tableControlTemplate = createControlTemplate({
     'filterable-column',
     'filtered-column',
   ],
-  dependencies: [scrollerControlTemplate, iconControlTemplate, filterControlTemplate],
+  dependencies: [
+    scrollerControlTemplate,
+    iconControlTemplate,
+    filterControlTemplate,
+    popoverControlTemplate,
+  ],
 });

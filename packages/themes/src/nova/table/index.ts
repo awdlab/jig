@@ -9,6 +9,9 @@ export const tableStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c, d }) => css`
+      ${c()} ${d('popover')} {
+        font-weight: ${v('font.weight.normal')};
+      }
       ${c('table')} {
       }
       ${c('striped')} {
