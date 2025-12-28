@@ -39,6 +39,7 @@
     "noFilter": "Kein Filter",
     "addCondition": "Bedingung hinzufügen",
     "removeCondition": "Bedingung entfernen",
+    "clear": "Zurücksetzen",
     "matchModeLabel": "Match-Modus",
     "match": {
       "all": "Alle",

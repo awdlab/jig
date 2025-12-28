@@ -61,6 +61,7 @@ export class NgnTableFilterableColumn implements OnDestroy {
     setComponentInput(this._ngnActionButton, 'kind', 'icon');
     setComponentInput(this._ngnFilter, 'anchor', this._ngnActionButton.location.nativeElement);
     setComponentInput(this._ngnFilter, 'mode', 'headless');
+    setComponentInput(this._ngnFilter, 'allowMultiple', true);
 
     const cfg = computed(
       () =>
