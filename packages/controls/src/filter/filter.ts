@@ -30,7 +30,6 @@ import {
   NgnFilterDataType,
   NgnFilterMode,
   NgnFilterOperatorId,
-  NgnFilterOutput,
 } from './types';
 
 type ConditionInternal = {
@@ -368,18 +367,6 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
       return this.data();
     }
     return executeFilter(this.data(), cfg);
-  });
-
-  protected readonly outputValue = computed<NgnFilterOutput<T> | null>(() => {
-    const cfg = this.value();
-    if (!cfg) {
-      return null;
-    }
-    return {
-      ...cfg,
-      activeConditions: this.activeConditions(),
-      filtered: this.filteredData(),
-    };
   });
 
   constructor() {
