@@ -21,6 +21,7 @@ import { itemViewStyles } from '@ngneers/controls-themes/base/item-view';
 import { listBoxStyles } from '@ngneers/controls-themes/base/list-box';
 import { menuStyles } from '@ngneers/controls-themes/base/menu';
 import { messageStyles } from '@ngneers/controls-themes/base/message';
+import { paginatorStyles } from '@ngneers/controls-themes/base/paginator';
 import { popoverStyles } from '@ngneers/controls-themes/base/popover';
 import { scrollerStyles } from '@ngneers/controls-themes/base/scroller';
 import { selectStyles } from '@ngneers/controls-themes/base/select';
@@ -57,6 +58,7 @@ export const baseStyles = {
   listBox: listBoxStyles,
   menu: menuStyles,
   message: messageStyles,
+  paginator: paginatorStyles,
   popover: popoverStyles,
   scroller: scrollerStyles,
   select: selectStyles,

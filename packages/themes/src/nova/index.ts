@@ -22,6 +22,7 @@ import { itemViewStyles } from '@ngneers/controls-themes/nova/item-view';
 import { listBoxStyles } from '@ngneers/controls-themes/nova/list-box';
 import { menuStyles } from '@ngneers/controls-themes/nova/menu';
 import { messageStyles } from '@ngneers/controls-themes/nova/message';
+import { paginatorStyles } from '@ngneers/controls-themes/nova/paginator';
 import { popoverStyles } from '@ngneers/controls-themes/nova/popover';
 import { scrollerStyles } from '@ngneers/controls-themes/nova/scroller';
 import { selectStyles } from '@ngneers/controls-themes/nova/select';
@@ -79,6 +80,7 @@ export const novaCoral = createTheme(
     menuStyles,
     messageStyles,
     movableStyles,
+    paginatorStyles,
     popoverStyles,
     resizableStyles,
     scrollerStyles,

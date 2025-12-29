@@ -1,0 +1,15 @@
+<button ngnButton [kind]="'icon'">
+  <ngn-icon [defaultIcon]="'chevron_left'" />
+</button>
+
+<ngn-item-view #itemView [items]="pages()" [idField]="'page'" [overflowStrategy]="'endButOne'">
+  <ng-template #item let-item [ngnTemplate]="itemView.templateTypes.item">
+    <button ngnButton [kind]="'icon'">
+      {{ item.page + 1 }}
+    </button>
+  </ng-template>
+</ngn-item-view>
+
+<button ngnButton [kind]="'icon'">
+  <ngn-icon [defaultIcon]="'chevron_right'" />
+</button>

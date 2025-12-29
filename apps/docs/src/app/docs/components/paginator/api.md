@@ -1,0 +1,1 @@
+{{ api: paginator/paginator NgnPaginator }}

@@ -24,6 +24,7 @@ export type ThemeTemplate = {
   listBox: Awaited<typeof import('./list-box')>['listBoxControlTemplate'];
   menu: Awaited<typeof import('./menu')>['menuControlTemplate'];
   message: Awaited<typeof import('./message')>['messageControlTemplate'];
+  paginator: Awaited<typeof import('./paginator')>['paginatorControlTemplate'];
   popover: Awaited<typeof import('./popover')>['popoverControlTemplate'];
   scroller: Awaited<typeof import('./scroller')>['scrollerControlTemplate'];
   select: Awaited<typeof import('./select')>['selectControlTemplate'];
