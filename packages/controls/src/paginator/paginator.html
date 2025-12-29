@@ -2,9 +2,20 @@
   <ngn-icon [defaultIcon]="'chevron_left'" />
 </button>
 
-<ngn-item-view #itemView [items]="pages()" [idField]="'page'" [overflowStrategy]="'endButOne'">
+<ngn-item-view
+  #itemView
+  [items]="pages()"
+  [idField]="'page'"
+  [overflowStrategy]="'aroundIndex'"
+  [overflowStrategyIndex]="page()"
+>
   <ng-template #item let-item [ngnTemplate]="itemView.templateTypes.item">
-    <button ngnButton [kind]="'icon'">
+    <button
+      ngnButton
+      [kind]="'icon'"
+      [style.background]="page() === item.page ? 'var(--ngn-color-secondary-500)' : null"
+      (click)="page.set(item.page)"
+    >
       {{ item.page + 1 }}
     </button>
   </ng-template>

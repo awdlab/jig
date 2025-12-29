@@ -6,6 +6,7 @@ import {
   effect,
   inject,
   input,
+  model,
   output,
 } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
@@ -52,7 +53,7 @@ export class NgnPaginator extends NgnBase<'paginator'> {
   );
 
   public readonly value = output<PaginationState>();
-  public readonly page = input(0);
+  public readonly page = model(0);
 
   constructor() {
     super();

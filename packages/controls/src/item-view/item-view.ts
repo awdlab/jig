@@ -68,6 +68,12 @@ export class NgnItemView<T extends object, idField extends keyof T>
    * @default 'end'
    */
   public readonly overflowStrategy = input<OverflowStrategy>('end');
+  /**
+   * Index of the item to be used as the overflow indicator when using the 'aroundIndex' overflow strategy.
+   * This input is only relevant when the {@link overflowStrategy} is set to 'aroundIndex'.
+   * @default 0
+   */
+  public readonly overflowStrategyIndex = input<number>(0);
 
   private readonly _themeGap = signal(0);
   private readonly _isBrowser = inject(Platform).isBrowser;
@@ -118,6 +124,21 @@ export class NgnItemView<T extends object, idField extends keyof T>
           } else {
             order.push(rightIndex--);
           }
+        }
+        return order;
+      }
+      case 'aroundIndex': {
+        const index = Math.min(Math.max(0, Math.floor(this.overflowStrategyIndex())), count - 1);
+        const order = [index];
+        let offset = 1;
+        while (order.length < count) {
+          if (index - offset >= 0) {
+            order.push(index - offset);
+          }
+          if (index + offset < count) {
+            order.push(index + offset);
+          }
+          offset++;
         }
         return order;
       }
