@@ -146,7 +146,8 @@ export class NgnItemView<T extends object, IdField extends keyof T>
     });
 
     const renderedItemOrders = layout.renderedItemOrders;
-    // Add all items to the result, marking them as visible or overflowed
+    // First pass: build the full list with items marked as visible vs overflowed.
+    // We'll insert overflow indicators afterwards at the computed insertion indices.
     const res: RenderItem<T>[] = this.items().map((item, index) => {
       if (renderedItemOrders.some(x => x.index === index)) {
         return <RenderItem<T>>{
@@ -163,7 +164,9 @@ export class NgnItemView<T extends object, IdField extends keyof T>
       }
     });
 
-    const getTheoreticalFirstIndexForOverflowIndicator = () => {
+    const getFallbackOverflowIndicatorIndex = () => {
+      // When the layout says "no indicator" for the only slot (null), we still need a stable
+      // insertion index so the DOM structure stays consistent for measurement.
       if (this.itemOverflowCheckOrder().length === 0) {
         return 0;
       }
@@ -171,17 +174,31 @@ export class NgnItemView<T extends object, IdField extends keyof T>
     };
 
     // Insert overflow indicators at the calculated indices
-    let adjust = 0;
-    layout.overflowIndicatorIndices.forEach(index => {
-      const usedIndex = index ?? getTheoreticalFirstIndexForOverflowIndicator() + adjust;
-      res.splice(usedIndex, 0, <RenderItem<T>>{
-        id: `overflow-indicator-${index}`,
+    // Note: inserting into `res` shifts subsequent indices; track that shift explicitly with `insertOffset`.
+    let insertOffset = 0;
+    layout.overflowIndicatorIndices.forEach((indicatorIndex, iterationIndex) => {
+      const insertIndex = indicatorIndex ?? getFallbackOverflowIndicatorIndex() + insertOffset;
+
+      // If two overflow indicators are rendered (aroundIndex), we must split overflow items by location
+      // so each indicator shows its own count/list.
+      const overflowIndicatorLocation =
+        layout.overflowIndicatorCount === 1 ? null : iterationIndex === 0 ? 'start' : 'end';
+      const items = this.items().filter(
+        (_, i) =>
+          !renderedItemOrders.some(ro => ro.index === i) &&
+          (!overflowIndicatorLocation ||
+            this.itemOverflowCheckOrder().find(o => o.index === i)?.location ===
+              overflowIndicatorLocation)
+      );
+
+      res.splice(insertIndex, 0, <RenderItem<T>>{
+        id: `overflow-indicator-${indicatorIndex}`,
         kind: 'overflowIndicator',
-        visible: index !== null,
-        items: this.items().filter((_, i) => !renderedItemOrders.some(ro => ro.index === i)),
-        hasSeparator: renderedItemOrders.some(x => x.index + adjust > usedIndex),
+        visible: indicatorIndex !== null,
+        items,
+        hasSeparator: renderedItemOrders.some(x => x.index + insertOffset > insertIndex),
       });
-      adjust++;
+      insertOffset++;
     });
 
     return res;

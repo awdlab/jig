@@ -28,6 +28,11 @@ export type ItemViewLayoutResult = {
   overflowIndicatorIndices: readonly (number | null)[];
 };
 
+/**
+ * Returns the *priority order* in which items are considered for keeping visible.
+ * The algorithm is greedy: it walks this list until items no longer fit.
+ * Each entry also carries a `location` which describes which overflow indicator would own the item.
+ */
 export function getItemOverflowCheckOrder(params: {
   count: number;
   strategy: OverflowStrategy;
@@ -53,6 +58,7 @@ export function getItemOverflowCheckOrder(params: {
       return arr.map(index => ({ index, location: 'start' }));
     }
     case 'center': {
+      // "Center" overflows symmetrically: keep alternating left/right items first.
       const order: OverflowOrderEntry[] = [];
       let leftIndex = 0;
       let rightIndex = count - 1;
@@ -67,6 +73,7 @@ export function getItemOverflowCheckOrder(params: {
       return order;
     }
     case 'aroundIndex': {
+      // "AroundIndex" keeps the chosen item visible, then expands outward on both sides.
       // FreezeCount applies to both ends; we must ensure the chosen index stays in-bounds.
       const minIndex = Math.min(freezeCount, count - 1);
       const maxIndex = Math.max(minIndex, count - freezeCount - 1);
@@ -125,68 +132,77 @@ export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLa
   const gap = Math.max(0, params.gap);
   const maxOverflowIndicatorCount = params.strategy === 'aroundIndex' ? 2 : 1;
 
-  const checkOrder = getItemOverflowCheckOrder({
+  const overflowCheckOrder = getItemOverflowCheckOrder({
     count,
     strategy: params.strategy,
     freezeCount: params.freezeCount,
     strategyIndex: params.strategyIndex,
   });
 
-  const getFittingItemCount = (lostSpace: number): number => {
-    let fittingItemCount = 0;
-    let totalWidth = Math.max(0, lostSpace);
+  const getVisibleItemCount = (reservedWidth: number): number => {
+    let visibleItemCount = 0;
+    let totalWidth = Math.max(0, reservedWidth);
 
-    for (let i = 0; i < checkOrder.length; i++) {
-      const index = checkOrder[i].index;
+    for (let i = 0; i < overflowCheckOrder.length; i++) {
+      const index = overflowCheckOrder[i].index;
       const itemWidth = params.itemWidths[index] ?? 0;
       const itemGap = i > 0 ? gap : 0;
       const newWidth = totalWidth + itemWidth + itemGap;
 
       if (newWidth <= containerWidth) {
         totalWidth = newWidth;
-        fittingItemCount++;
+        visibleItemCount++;
       } else {
         break;
       }
     }
 
-    return fittingItemCount;
+    return visibleItemCount;
   };
 
   let overflowIndicatorCount = 0;
   let previousOverflowIndicatorCount = -1;
-  let remainingItemOrders: OverflowOrder = checkOrder;
+  let remainingItemOrders: OverflowOrder = overflowCheckOrder;
   let renderedItemOrders: OverflowOrderEntry[] = [];
-  let overflowIndicatorTypes = new Set<ItemOverflowLocation>();
+  let overflowIndicatorLocations = new Set<ItemOverflowLocation>();
 
+  // Fixed-point iteration:
+  // 1) We blindly assume that we don't need any overflow indicators for the first pass.
+  // 2) We see how many items fit with that assumption.
+  // 3) The remaining items define which overflow locations exist (start/end/center).
+  // 4) That determines the *actual* number of indicators.
+  // Repeat until the indicator count stabilizes.
   while (overflowIndicatorCount !== previousOverflowIndicatorCount) {
-    let visibleItemCount = 0;
-
     previousOverflowIndicatorCount = overflowIndicatorCount;
 
-    const theoreticalVisibleItemCount = getFittingItemCount(
+    const initialVisibleItemCount = getVisibleItemCount(
       overflowIndicatorCount * (overflowItemWidth + gap)
     );
 
-    remainingItemOrders = checkOrder
-      .slice(theoreticalVisibleItemCount)
+    remainingItemOrders = overflowCheckOrder
+      .slice(initialVisibleItemCount)
       .toSorted((a, b) => a.index - b.index);
 
-    overflowIndicatorTypes = new Set(remainingItemOrders.map(i => i.location));
-    overflowIndicatorCount = overflowIndicatorTypes.size;
-    visibleItemCount = getFittingItemCount(overflowIndicatorCount * (overflowItemWidth + gap));
-    renderedItemOrders = checkOrder.slice(0, visibleItemCount);
+    overflowIndicatorLocations = new Set(remainingItemOrders.map(i => i.location));
+    overflowIndicatorCount = overflowIndicatorLocations.size;
+    const finalVisibleItemCount = getVisibleItemCount(
+      overflowIndicatorCount * (overflowItemWidth + gap)
+    );
+    renderedItemOrders = overflowCheckOrder.slice(0, finalVisibleItemCount);
   }
 
   (['start', 'end'] as const).forEach(location => {
-    if (overflowIndicatorTypes.has(location)) {
+    // Optimization: if all overflowed items for a side would fit inside the overflow indicator width,
+    // we can render them inline and drop that overflow indicator entirely.
+    // This is only applicable for start/end & the aroundIndex strategy. Center has no "adjacent" insertion point.
+    if (overflowIndicatorLocations.has(location)) {
       const itemsWithIndices = remainingItemOrders
         .map((x, i) => [i + renderedItemOrders.length, x] as const)
         .filter(x => x[1].location === location);
       const itemSizes = itemsWithIndices.map(i => params.itemWidths[i[1].index] ?? 0);
       const itemsTotalSize = itemSizes.reduce((a, b) => a + b, 0);
       if (itemsTotalSize <= overflowItemWidth) {
-        overflowIndicatorTypes.delete(location);
+        overflowIndicatorLocations.delete(location);
         renderedItemOrders = [...renderedItemOrders, ...itemsWithIndices.map(i => i[1])];
         overflowIndicatorCount--;
       }
@@ -195,10 +211,11 @@ export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLa
 
   // Keep result consistent after the optimization pass.
   const renderedIndices = new Set(renderedItemOrders.map(x => x.index));
-  remainingItemOrders = checkOrder
+  remainingItemOrders = overflowCheckOrder
     .filter(x => !renderedIndices.has(x.index))
     .toSorted((a, b) => a.index - b.index);
 
+  // Calculate the insertion indices for the overflow indicators.
   const overflowIndicatorIndices = (() => {
     if (overflowIndicatorCount === 0) {
       return [null];
@@ -210,11 +227,11 @@ export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLa
       const lastEndIndex = remainingItemOrders.findLast(x => x.location === 'end')?.index;
       const firstStartIndex = remainingItemOrders.find(x => x.location === 'start')?.index;
       const lastStartIndex = remainingItemOrders.findLast(x => x.location === 'start')?.index;
-      if (overflowIndicatorTypes.has('start')) {
+      if (overflowIndicatorLocations.has('start')) {
         const startIndex = firstStartIndex ?? firstEndIndex ?? 0;
         res.push(startIndex + Math.min(Math.max(0, Math.floor(params.freezeCount)), count));
       }
-      if (overflowIndicatorTypes.has('end')) {
+      if (overflowIndicatorLocations.has('end')) {
         const endIndex = lastEndIndex ? lastEndIndex + 1 : (lastStartIndex ?? 0);
         res.push(endIndex);
       }
@@ -224,7 +241,7 @@ export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLa
   })();
 
   return {
-    checkOrder,
+    checkOrder: overflowCheckOrder,
     renderedItemOrders,
     remainingItemOrders,
     overflowIndicatorCount,
