@@ -23,8 +23,26 @@ import { areArraysDeepEqual } from '@ngneers/controls/utils';
 import { IconType } from '@ngneers/controls-custom-types';
 import { itemViewControlTemplate } from '@ngneers/controls-themes/templates/item-view';
 
+import {
+  calculateItemViewLayout,
+  getItemOverflowCheckOrder,
+  type OverflowOrder,
+} from './item-view-layout';
 import { ItemViewTemplates } from './item-view-templates';
 import { OverflowStrategy } from './types';
+
+type RenderItem<T> =
+  | {
+      id: string | number;
+      kind: 'visibleItem' | 'overflowItem';
+      item: T;
+    }
+  | {
+      id: string;
+      kind: 'overflowIndicator';
+      visible: boolean;
+      items: T[];
+    };
 
 /**
  * @category control
@@ -40,7 +58,7 @@ import { OverflowStrategy } from './types';
     '[attr.role]': '"list"',
   },
 })
-export class NgnItemView<T extends object, idField extends keyof T>
+export class NgnItemView<T extends object, IdField extends keyof T>
   extends ItemViewTemplates<T>
   implements AfterViewInit
 {
@@ -48,7 +66,7 @@ export class NgnItemView<T extends object, idField extends keyof T>
   /**
    * The key of the id property in the item object. This is used to track items in the template.
    */
-  public readonly idField = input.required<idField>();
+  public readonly idField = input.required<IdField>();
   /**
    * The items to be displayed in the item view.
    * This is a required input and should be an array of items of type {@link T}.
@@ -69,6 +87,11 @@ export class NgnItemView<T extends object, idField extends keyof T>
    */
   public readonly overflowStrategy = input<OverflowStrategy>('end');
   /**
+   * The amount of items to keep visible after or before overflowing, depending on the {@link overflowStrategy}.
+   * @default 0
+   */
+  public readonly overflowStrategyFreezeCount = input<number>(0);
+  /**
    * Index of the item to be used as the overflow indicator when using the 'aroundIndex' overflow strategy.
    * This input is only relevant when the {@link overflowStrategy} is set to 'aroundIndex'.
    * @default 0
@@ -80,13 +103,10 @@ export class NgnItemView<T extends object, idField extends keyof T>
 
   protected readonly separatorChar = computed(() => {
     const sep = this.separator();
-    if (typeof sep === 'boolean') {
-      return sep ? ', ' : '';
-    }
-    return sep;
+    return typeof sep === 'boolean' ? (sep ? ', ' : '') : sep;
   });
 
-  private readonly _renderedItemRefs = viewChildren<ElementRef<HTMLElement>>('item');
+  private readonly _renderedItemRefs = viewChildren<ElementRef<HTMLElement>>('itemRef');
   private readonly _renderedItemSizes = elementsSizesSignal(this._renderedItemRefs);
   private readonly _renderedItemWidths = computed(
     () => this._renderedItemSizes().map(size => size.width),
@@ -96,114 +116,65 @@ export class NgnItemView<T extends object, idField extends keyof T>
   private readonly _overflowItemRef = viewChild<ElementRef<HTMLElement>>('overflowItem');
   private readonly _overflowItemSize = elementSizeSignal(this._overflowItemRef);
 
-  protected readonly itemOverflowCheckOrder = computed(() => {
+  protected readonly itemOverflowCheckOrder = computed<OverflowOrder>(() => {
     const count = this.items().length;
-    switch (this.overflowStrategy()) {
-      case 'end':
-        return Array.from({ length: count }, (_, i) => i);
-      case 'endButOne': {
-        const arr = [...Array.from({ length: count - 1 }, (_, i) => i)];
-        arr.splice(1, 0, count - 1);
-        return arr;
-      }
-      case 'start':
-        return Array.from({ length: count }, (_, i) => count - i - 1);
-      case 'startButOne': {
-        const arr = [...Array.from({ length: count - 1 }, (_, i) => count - i - 1)];
-        arr.splice(1, 0, 0);
-        return arr;
-      }
-      case 'center': {
-        const order = [];
-        let leftIndex = 0;
-        let rightIndex = count - 1;
-
-        for (let i = 0; i < count; i++) {
-          if (i % 2 === 0) {
-            order.push(leftIndex++);
-          } else {
-            order.push(rightIndex--);
-          }
-        }
-        return order;
-      }
-      case 'aroundIndex': {
-        const index = Math.min(Math.max(0, Math.floor(this.overflowStrategyIndex())), count - 1);
-        const order = [index];
-        let offset = 1;
-        while (order.length < count) {
-          if (index - offset >= 0) {
-            order.push(index - offset);
-          }
-          if (index + offset < count) {
-            order.push(index + offset);
-          }
-          offset++;
-        }
-        return order;
-      }
-      default:
-        throw new Error(`Unknown overflow strategy: ${this.overflowStrategy()}`);
-    }
+    const freezeCount = Math.min(this.overflowStrategyFreezeCount(), count);
+    return getItemOverflowCheckOrder({
+      count,
+      strategy: this.overflowStrategy(),
+      freezeCount,
+      strategyIndex: this.overflowStrategyIndex(),
+    });
   });
 
-  private readonly _visibleItemCount = computed(() => {
-    if (!this._renderedItemWidths().length) {
-      return this.items().length;
-    }
+  protected readonly renderedItems = computed<RenderItem<T>[]>(() => {
     const containerWidth = this._containerSize().width;
     const renderedItemWidths = this._renderedItemWidths();
-    const overflowItemWidth = this._overflowItemSize().width;
 
-    if (
-      containerWidth >=
-      renderedItemWidths.reduce((a, b) => a + b, 0) + (this.items().length - 1) * this._themeGap()
-    ) {
-      return renderedItemWidths.length;
-    }
+    const count = this.items().length;
+    const freezeCount = Math.min(this.overflowStrategyFreezeCount(), count);
+    const layout = calculateItemViewLayout({
+      count,
+      strategy: this.overflowStrategy(),
+      freezeCount,
+      strategyIndex: this.overflowStrategyIndex(),
+      containerWidth,
+      itemWidths: renderedItemWidths,
+      overflowItemWidth: this._overflowItemSize().width,
+      gap: this._themeGap(),
+    });
 
-    let totalWidth = 0;
-    let count = 0;
-    for (let i = 0; i < renderedItemWidths.length; i++) {
-      const width = renderedItemWidths[this.itemOverflowCheckOrder()[i]];
-      totalWidth += width + this._themeGap();
-      if (totalWidth + overflowItemWidth > containerWidth) {
-        break;
+    const renderedItemOrders = layout.renderedItemOrders;
+    // Add all items to the result, marking them as visible or overflowed
+    const res: RenderItem<T>[] = this.items().map((item, index) => {
+      if (renderedItemOrders.some(x => x.index === index)) {
+        return <RenderItem<T>>{
+          id: item[this.idField()] as string | number,
+          kind: 'visibleItem',
+          item,
+        };
+      } else {
+        return <RenderItem<T>>{
+          id: item[this.idField()] as string | number,
+          kind: 'overflowItem',
+          item,
+        };
       }
-      count++;
-    }
+    });
 
-    return count;
+    // Calculate the indices where overflow indicators should be inserted
+    // Insert overflow indicators at the calculated indices
+    layout.overflowIndicatorIndices.forEach(index => {
+      res.splice(index ?? 0, 0, <RenderItem<T>>{
+        id: `overflow-indicator-${index}`,
+        kind: 'overflowIndicator',
+        visible: index !== null,
+        items: this.items().filter((_, i) => !renderedItemOrders.some(ro => ro.index === i)),
+      });
+    });
+
+    return res;
   });
-
-  protected readonly visibleItemIndices = computed(() => {
-    return Array.from(
-      { length: this._visibleItemCount() },
-      (_, i) => this.itemOverflowCheckOrder()[i]
-    ).toSorted();
-  });
-
-  protected readonly overflowingItems = computed(() => {
-    const visibleItemIndices = this.visibleItemIndices();
-    return this.items().filter((_, i) => !visibleItemIndices.includes(i));
-  });
-
-  protected readonly hasRenderedItemAfterOverflowItem = computed(() => {
-    const arr = [this.overflowItemIndex(), ...this.visibleItemIndices()].toSorted();
-    return !!arr[arr.indexOf(this.overflowItemIndex()) + 1];
-  });
-
-  protected readonly overflowItemIndex = computed(() => {
-    return this.itemOverflowCheckOrder()[this._visibleItemCount()];
-  });
-
-  protected readonly moreItemsCount = computed(() => {
-    return this.items().length - this._visibleItemCount();
-  });
-
-  constructor() {
-    super();
-  }
 
   public ngAfterViewInit(): void {
     if (!this._isBrowser) {

@@ -1,59 +1,55 @@
-@for (item of items(); track item[idField()]; let i = $index) {
-  <span
-    role="listitem"
-    #item
-    [ngClass]="
-      theme.classes({
-        item: true,
-        'item-overflowing': !visibleItemIndices().includes(i),
-      })
-    "
-  >
-    <ng-container
-      *ngTemplateOutlet="
-        itemTemplate();
-        context: { $implicit: item, index: i, last: $last, first: $first }
+@for (item of renderedItems(); track item.id; let i = $index) {
+  @if (item.kind === 'visibleItem' || item.kind === 'overflowItem') {
+    <span
+      role="listitem"
+      #itemRef
+      [ngClass]="
+        theme.classes({
+          item: true,
+          'item-overflowing': item.kind === 'overflowItem',
+        })
       "
-    />
-    @if (!$last) {
+    >
       <ng-container
         *ngTemplateOutlet="
-          separatorTemplate();
-          context: { $implicit: { character: separatorChar(), icon: iconItemSeparator() } }
+          itemTemplate();
+          context: { $implicit: item.item, index: i, last: $last, first: $first }
         "
       />
-    }
-  </span>
-
-  @if (i === overflowItemIndex()) {
-    <div [ngClass]="theme.class('more-items')" aria-hidden="true" #overflowItem>
+      @if (!$last) {
+        <ng-container
+          *ngTemplateOutlet="
+            separatorTemplate();
+            context: { $implicit: { character: separatorChar(), icon: iconItemSeparator() } }
+          "
+        />
+      }
+    </span>
+  } @else if (item.kind === 'overflowIndicator') {
+    <div
+      [ngClass]="theme.classes({ 'more-items': true, 'more-items-hidden': !item.visible })"
+      aria-hidden="true"
+      #overflowItem
+    >
       <ng-container
         *ngTemplateOutlet="
           overflowTemplate();
           context: {
             $implicit: {
               totalCount: items().length,
-              overflowCount: moreItemsCount(),
-              overflowItems: overflowingItems(),
+              overflowCount: item.items.length,
+              overflowItems: item.items,
             },
           }
         "
       />
-      @if (overflowStrategy() !== 'end') {
-        <span
-          [ngClass]="
-            theme.classes({
-              item: true,
-              'hidden-separator': !hasRenderedItemAfterOverflowItem(),
-            })
+      @if (!$last) {
+        <ng-container
+          *ngTemplateOutlet="
+            separatorTemplate();
+            context: { $implicit: { character: separatorChar(), icon: iconItemSeparator() } }
           "
-        >
-          <ng-container
-            *ngTemplateOutlet="
-              separatorTemplate();
-              context: { $implicit: { character: separatorChar(), icon: iconItemSeparator() } }
-            "
-        /></span>
+        />
       }
     </div>
   }

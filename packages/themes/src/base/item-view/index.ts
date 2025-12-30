@@ -26,7 +26,11 @@ export const itemViewStyles = createThemePart({
         display: flex;
         align-items: center;
       }
-      ${c('item-overflowing')} {
+      ${c('more-items-default')} {
+        /* Changing width in number chars might result in flickering behavior */
+        font-variant-numeric: tabular-nums;
+      }
+      ${c('more-items-hidden')}, ${c('item-overflowing')} {
         position: absolute;
         opacity: 0;
         pointer-events: none;

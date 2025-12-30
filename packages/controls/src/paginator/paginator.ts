@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,6 +8,7 @@ import {
   model,
   output,
 } from '@angular/core';
+import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
@@ -17,7 +17,6 @@ import { NgnItemView } from '@ngneers/controls/item-view';
 import { paginatorControlTemplate } from '@ngneers/controls-themes/templates/paginator';
 
 import { PaginationState } from './types';
-import { NgnTemplate } from '../api/ng';
 
 /**
  * @category control
@@ -26,7 +25,7 @@ import { NgnTemplate } from '../api/ng';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-paginator',
   templateUrl: './paginator.html',
-  imports: [NgClass, NgnButton, NgnIcon, NgnItemView, NgnTemplate],
+  imports: [NgnButton, NgnIcon, NgnItemView, NgnTemplate],
   providers: [provideSelf(NgnPaginator)],
   host: {
     '[class]': 'theme.class("")',

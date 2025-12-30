@@ -48,6 +48,7 @@ test('base', async ({ page }, testInfo) => {
   await itemView.expectItemVisibleCount(2);
   await itemView.expectItemVisibleTexts(['Item 1', 'Item 2']);
   await itemView.expectItemOverflowingCount(2);
+  await expect(itemView.overflowItem).toHaveCount(1);
 
   handle.setInputs({
     width: '300px',
@@ -64,6 +65,7 @@ test('base', async ({ page }, testInfo) => {
   await itemView.expectItemVisibleCount(3);
   await itemView.expectItemVisibleTexts(['Item 1', 'Item 2', 'Item 3']);
   await itemView.expectItemOverflowingCount(1);
+  await expect(itemView.overflowItem).toHaveCount(1);
 
   await expectScreenshot(page, testInfo);
 });

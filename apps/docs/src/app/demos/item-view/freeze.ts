@@ -7,16 +7,14 @@ import { exampleData } from '../../helper/data';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnItemView, NgnTemplate],
-  selector: 'ngn-demo-item-view-base',
+  selector: 'ngn-demo-item-view-freeze',
   template: `
     <ngn-item-view
       #itemView
       [items]="items"
       [idField]="'id'"
-      style="background: red;"
-      [overflowStrategy]="'aroundIndex'"
-      [overflowStrategyIndex]="2"
       [overflowStrategyFreezeCount]="1"
+      style="background: red;"
     >
       <ng-template #item [ngnTemplate]="itemView.templateTypes.item" let-item>
         <span style="padding: 4px; background: gray;">
@@ -26,6 +24,6 @@ import { exampleData } from '../../helper/data';
     </ngn-item-view>
   `,
 })
-export class Demo_ItemView_Base {
+export class Demo_ItemView_Freeze {
   protected readonly items = exampleData.items.flat.slice(0, 5);
 }

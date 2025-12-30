@@ -1,7 +1,1 @@
-export type OverflowStrategy =
-  | 'start'
-  | 'end'
-  | 'center'
-  | 'startButOne'
-  | 'endButOne'
-  | 'aroundIndex';
+export type OverflowStrategy = 'start' | 'end' | 'center' | 'aroundIndex';

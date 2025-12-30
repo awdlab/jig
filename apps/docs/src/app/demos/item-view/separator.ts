@@ -7,25 +7,28 @@ import { exampleData } from '../../helper/data';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnItemView, NgnTemplate],
-  selector: 'ngn-demo-item-view-base',
+  selector: 'ngn-demo-item-view-separator',
   template: `
     <ngn-item-view
       #itemView
       [items]="items"
       [idField]="'id'"
+      [separator]="'|'"
       style="background: red;"
-      [overflowStrategy]="'aroundIndex'"
-      [overflowStrategyIndex]="2"
-      [overflowStrategyFreezeCount]="1"
     >
       <ng-template #item [ngnTemplate]="itemView.templateTypes.item" let-item>
         <span style="padding: 4px; background: gray;">
           {{ item.label }}
         </span>
       </ng-template>
+      <ng-template #separator [ngnTemplate]="itemView.templateTypes.separator" let-separator>
+        <span style="padding: 4px; background: lightgray;">
+          {{ separator.character }}
+        </span>
+      </ng-template>
     </ngn-item-view>
   `,
 })
-export class Demo_ItemView_Base {
+export class Demo_ItemView_Separator {
   protected readonly items = exampleData.items.flat.slice(0, 5);
 }

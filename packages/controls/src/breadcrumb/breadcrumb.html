@@ -6,7 +6,8 @@
   [templateSeparator]="separatorTemplate()"
   [templateOverflow]="usedOverflowTemplate"
   [iconItemSeparator]="iconItemSeparator()"
-  [overflowStrategy]="'startButOne'"
+  [overflowStrategy]="'start'"
+  [overflowStrategyFreezeCount]="1"
 />
 
 <ng-template #usedOverflowTemplate [ngnTemplate]="itemView.templateTypes.overflow" let-overflow>
