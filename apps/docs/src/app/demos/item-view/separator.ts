@@ -17,15 +17,15 @@ import { exampleData } from '../../helper/data';
       [overflowStrategy]="'end'"
       [overflowStrategyFreezeCount]="1"
       [overflowStrategyIndex]="2"
-      style="background: red;"
+      style="background: var(--ngn-color-surface-200);"
     >
       <ng-template #item [ngnTemplate]="itemView.templateTypes.item" let-item>
-        <span style="padding: 4px; background: gray;">
+        <span style="padding: 4px; background: var(--ngn-color-surface-400);">
           {{ item.label }}
         </span>
       </ng-template>
       <ng-template #separator [ngnTemplate]="itemView.templateTypes.separator" let-separator>
-        <span style="padding: 4px; background: lightgray;">
+        <span style="padding: 4px; background: var(--ngn-color-surface-300);">
           {{ separator.character }}
         </span>
       </ng-template>

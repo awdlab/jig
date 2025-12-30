@@ -180,25 +180,30 @@ export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLa
 
   (['start', 'end'] as const).forEach(location => {
     if (overflowIndicatorTypes.has(location)) {
-      const itemsWIthIndices = remainingItemOrders
-        .map((x, i) => [i + renderedItemOrders.length - 1, x] as const)
+      const itemsWithIndices = remainingItemOrders
+        .map((x, i) => [i + renderedItemOrders.length, x] as const)
         .filter(x => x[1].location === location);
-      const itemSizes = itemsWIthIndices.map(i => params.itemWidths[checkOrder[i[0]]?.index] ?? 0);
+      const itemSizes = itemsWithIndices.map(i => params.itemWidths[i[1].index] ?? 0);
       const itemsTotalSize = itemSizes.reduce((a, b) => a + b, 0);
       if (itemsTotalSize <= overflowItemWidth) {
         overflowIndicatorTypes.delete(location);
-        renderedItemOrders = [...renderedItemOrders, ...itemsWIthIndices.map(i => i[1])];
+        renderedItemOrders = [...renderedItemOrders, ...itemsWithIndices.map(i => i[1])];
         overflowIndicatorCount--;
       }
     }
   });
 
+  // Keep result consistent after the optimization pass.
+  const renderedIndices = new Set(renderedItemOrders.map(x => x.index));
+  remainingItemOrders = checkOrder
+    .filter(x => !renderedIndices.has(x.index))
+    .toSorted((a, b) => a.index - b.index);
+
   const overflowIndicatorIndices = (() => {
-    if (maxOverflowIndicatorCount === 1 && overflowIndicatorCount === 1) {
-      const overflowIndicatorIndex = checkOrder[renderedItemOrders.length]?.index ?? -1;
-      if (overflowIndicatorIndex >= 0) {
-        return [overflowIndicatorIndex];
-      }
+    if (overflowIndicatorCount === 0) {
+      return [null];
+    } else if (maxOverflowIndicatorCount === 1 && overflowIndicatorCount === 1) {
+      return [remainingItemOrders[0]?.index ?? null];
     } else if (maxOverflowIndicatorCount === 2) {
       const res: number[] = [];
       const firstEndIndex = remainingItemOrders.find(x => x.location === 'end')?.index;

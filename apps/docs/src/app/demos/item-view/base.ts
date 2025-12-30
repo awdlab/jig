@@ -13,13 +13,13 @@ import { exampleData } from '../../helper/data';
       #itemView
       [items]="items"
       [idField]="'id'"
-      style="background: red;"
+      style="background: var(--ngn-color-surface-200);"
       [overflowStrategy]="'aroundIndex'"
       [overflowStrategyIndex]="2"
       [overflowStrategyFreezeCount]="1"
     >
       <ng-template #item [ngnTemplate]="itemView.templateTypes.item" let-item>
-        <span style="padding: 4px; background: gray;">
+        <span style="padding: 4px; background: var(--ngn-color-surface-400);">
           {{ item.label }}
         </span>
       </ng-template>

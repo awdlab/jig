@@ -164,6 +164,9 @@ export class NgnItemView<T extends object, IdField extends keyof T>
     });
 
     const getTheoreticalFirstIndexForOverflowIndicator = () => {
+      if (this.itemOverflowCheckOrder().length === 0) {
+        return 0;
+      }
       return this.itemOverflowCheckOrder()[this.itemOverflowCheckOrder().length - 1].index;
     };
 
@@ -176,7 +179,7 @@ export class NgnItemView<T extends object, IdField extends keyof T>
         kind: 'overflowIndicator',
         visible: index !== null,
         items: this.items().filter((_, i) => !renderedItemOrders.some(ro => ro.index === i)),
-        hasSeparator: renderedItemOrders.some(x => x.index + adjust > usedIndex)
+        hasSeparator: renderedItemOrders.some(x => x.index + adjust > usedIndex),
       });
       adjust++;
     });

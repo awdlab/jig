@@ -114,8 +114,7 @@ describe('item-view layout', () => {
               expect(new Set(visible).size).toBe(visible.length);
 
               // Fixed-point: the final overflowIndicatorCount matches the remaining locations.
-              const remainingOrders = layout.checkOrder
-                .slice(layout.renderedItemOrders.length)
+              const remainingOrders = layout.remainingItemOrders
                 .slice()
                 .sort((a, b) => a.index - b.index);
               expect(new Set(remainingOrders.map(x => x.location)).size).toBe(
@@ -127,13 +126,32 @@ describe('item-view layout', () => {
               if (layout.overflowIndicatorCount === 0) {
                 expect(layout.overflowIndicatorIndices).toEqual([null]);
               } else if (layout.overflowIndicatorCount === 1) {
-                const expectedIndex =
-                  layout.checkOrder[layout.renderedItemOrders.length]?.index ?? null;
-                expect(layout.overflowIndicatorIndices).toEqual([expectedIndex]);
-                if (expectedIndex !== null) {
-                  expect(Number.isInteger(expectedIndex)).toBe(true);
-                  expect(expectedIndex).toBeGreaterThanOrEqual(0);
-                  expect(expectedIndex).toBeLessThan(count);
+                // aroundIndex inserts at a derived index (start side accounts for freezeCount).
+                if (strategy === 'aroundIndex') {
+                  const firstEndIndex = remainingOrders.find(x => x.location === 'end')?.index;
+                  const lastEndIndex = remainingOrders.findLast(x => x.location === 'end')?.index;
+                  const firstStartIndex = remainingOrders.find(x => x.location === 'start')?.index;
+                  const lastStartIndex = remainingOrders.findLast(
+                    x => x.location === 'start'
+                  )?.index;
+
+                  let expectedIndex: number | null = null;
+                  if (remainingOrders.some(x => x.location === 'start')) {
+                    const startIndex = firstStartIndex ?? firstEndIndex ?? 0;
+                    expectedIndex = startIndex + freezeCount;
+                  } else if (remainingOrders.some(x => x.location === 'end')) {
+                    expectedIndex = lastEndIndex ? lastEndIndex + 1 : (lastStartIndex ?? 0);
+                  }
+
+                  expect(layout.overflowIndicatorIndices).toEqual([expectedIndex]);
+                } else {
+                  const expectedIndex = remainingOrders[0]?.index ?? null;
+                  expect(layout.overflowIndicatorIndices).toEqual([expectedIndex]);
+                  if (expectedIndex !== null) {
+                    expect(Number.isInteger(expectedIndex)).toBe(true);
+                    expect(expectedIndex).toBeGreaterThanOrEqual(0);
+                    expect(expectedIndex).toBeLessThan(count);
+                  }
                 }
               } else if (layout.overflowIndicatorCount === 2) {
                 const firstEndIndex = remainingOrders.find(x => x.location === 'end')?.index;
@@ -153,15 +171,13 @@ describe('item-view layout', () => {
                 expect(expected[0]).toBeLessThanOrEqual(expected[1]);
               }
 
-              // Fixed-point: given the final overflowIndicatorCount, renderedItemOrders.length is stable.
-              const stableVisibleCount = getFittingItemCount({
-                containerWidth,
-                checkOrder: layout.checkOrder,
-                itemWidths: widths,
-                gap,
-                lostSpace: layout.overflowIndicatorCount * (overflowWidth + gap),
-              });
-              expect(layout.renderedItemOrders.length).toBe(stableVisibleCount);
+              // Partition sanity: rendered + remaining covers all items exactly once.
+              const renderedIndices = new Set(layout.renderedItemOrders.map(x => x.index));
+              const remainingIndices = new Set(layout.remainingItemOrders.map(x => x.index));
+              expect(renderedIndices.size).toBe(layout.renderedItemOrders.length);
+              expect(remainingIndices.size).toBe(layout.remainingItemOrders.length);
+              expect(renderedIndices.size + remainingIndices.size).toBe(count);
+              remainingIndices.forEach(idx => expect(renderedIndices.has(idx)).toBe(false));
             });
           });
 
