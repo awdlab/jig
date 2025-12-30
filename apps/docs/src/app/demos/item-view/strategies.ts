@@ -18,6 +18,7 @@ import { exampleData } from '../../helper/data';
         [overflowStrategy]="strategy"
         [overflowStrategyIndex]="2"
         [overflowStrategyFreezeCount]="1"
+        [separator]="'|'"
       >
         <ng-template #item [ngnTemplate]="itemView.templateTypes.item" let-item>
           <span style="padding: 4px; background: gray;">

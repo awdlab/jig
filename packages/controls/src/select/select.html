@@ -131,18 +131,16 @@
 </ng-template>
 
 <ng-template #defaultSelectedItemTemplate [ngnTemplate]="templateTypes.item" let-item>
-  <span [attr.data-testid]="item?.testId">
-    @let label = item?.label;
-    @if (label) {
-      @if (item?.translate) {
-        {{ i18n[label]() }}
-      } @else {
-        {{ label }}
-      }
+  @let label = item?.label;
+  @if (label) {
+    @if (item?.translate) {
+      <span [attr.data-testid]="item?.testId">{{ i18n[label]() }}</span>
     } @else {
-      &ZeroWidthSpace;
+      <span [attr.data-testid]="item?.testId">{{ label }}</span>
     }
-  </span>
+  } @else {
+    <span [attr.data-testid]="item?.testId">&ZeroWidthSpace;</span>
+  }
 </ng-template>
 
 <ng-template #defaultSelectedItemsTemplate [ngnTemplate]="templateTypes.selectedItems" let-items>

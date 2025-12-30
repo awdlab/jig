@@ -191,7 +191,7 @@ export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLa
       const endIndex = lastEndIndex ? lastEndIndex + 1 : (lastStartIndex ?? 0);
       return [startIndex + Math.min(Math.max(0, Math.floor(params.freezeCount)), count), endIndex];
     }
-    return [null];
+    return [];
   })();
 
   return {

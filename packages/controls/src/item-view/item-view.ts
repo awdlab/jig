@@ -42,6 +42,7 @@ type RenderItem<T> =
       kind: 'overflowIndicator';
       visible: boolean;
       items: T[];
+      hasSeparator: boolean;
     };
 
 /**
@@ -162,15 +163,22 @@ export class NgnItemView<T extends object, IdField extends keyof T>
       }
     });
 
-    // Calculate the indices where overflow indicators should be inserted
+    const getTheoreticalFirstIndexForOverflowIndicator = () => {
+      return this.itemOverflowCheckOrder()[this.itemOverflowCheckOrder().length - 1].index;
+    };
+
     // Insert overflow indicators at the calculated indices
+    let adjust = 0;
     layout.overflowIndicatorIndices.forEach(index => {
-      res.splice(index ?? 0, 0, <RenderItem<T>>{
+      const usedIndex = index ?? getTheoreticalFirstIndexForOverflowIndicator() + adjust;
+      res.splice(usedIndex, 0, <RenderItem<T>>{
         id: `overflow-indicator-${index}`,
         kind: 'overflowIndicator',
         visible: index !== null,
         items: this.items().filter((_, i) => !renderedItemOrders.some(ro => ro.index === i)),
+        hasSeparator: renderedItemOrders.some(x => x.index + adjust > usedIndex)
       });
+      adjust++;
     });
 
     return res;

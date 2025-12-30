@@ -14,6 +14,9 @@ import { exampleData } from '../../helper/data';
       [items]="items"
       [idField]="'id'"
       [separator]="'|'"
+      [overflowStrategy]="'end'"
+      [overflowStrategyFreezeCount]="1"
+      [overflowStrategyIndex]="2"
       style="background: red;"
     >
       <ng-template #item [ngnTemplate]="itemView.templateTypes.item" let-item>

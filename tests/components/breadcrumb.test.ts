@@ -33,8 +33,8 @@ test('base', async ({ page }, testInfo) => {
   const handle = await prepareTest(page);
 
   const breadcrumb = new NgnBreadcrumbHarness(page.locator('ngn-breadcrumb'));
-  await breadcrumb.itemView.expectItemCount(11); // 10 + 1 overflow item
-  await breadcrumb.itemView.expectItemVisibleCount(5); // 4 + 1 overflow item
+  await breadcrumb.itemView.expectItemCount(10);
+  await breadcrumb.itemView.expectItemVisibleCount(4);
 
   await breadcrumb.itemView.overflowItem.locator(breadcrumb.classes['overflow']).click();
   await breadcrumb.overflowMenu.expectItemCount(6);

@@ -44,12 +44,17 @@
         "
       />
       @if (!$last) {
-        <ng-container
-          *ngTemplateOutlet="
-            separatorTemplate();
-            context: { $implicit: { character: separatorChar(), icon: iconItemSeparator() } }
-          "
-        />
+        <span
+          [style.visibility]="item.hasSeparator ? 'visible' : 'hidden'"
+          style="display: contents"
+        >
+          <ng-container
+            *ngTemplateOutlet="
+              separatorTemplate();
+              context: { $implicit: { character: separatorChar(), icon: iconItemSeparator() } }
+            "
+          />
+        </span>
       }
     </div>
   }
