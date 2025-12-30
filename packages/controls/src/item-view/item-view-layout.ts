@@ -22,7 +22,6 @@ export type ItemViewLayoutInput = {
 
 export type ItemViewLayoutResult = {
   checkOrder: OverflowOrder;
-  visibleItemCount: number;
   renderedItemOrders: OverflowOrder;
   remainingItemOrders: OverflowOrder;
   overflowIndicatorCount: number;
@@ -124,6 +123,7 @@ export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLa
   const containerWidth = Math.max(0, params.containerWidth);
   const overflowItemWidth = Math.max(0, params.overflowItemWidth);
   const gap = Math.max(0, params.gap);
+  const maxOverflowIndicatorCount = params.strategy === 'aroundIndex' ? 2 : 1;
 
   const checkOrder = getItemOverflowCheckOrder({
     count,
@@ -155,10 +155,13 @@ export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLa
 
   let overflowIndicatorCount = 0;
   let previousOverflowIndicatorCount = -1;
-  let visibleItemCount = 0;
   let remainingItemOrders: OverflowOrder = checkOrder;
+  let renderedItemOrders: OverflowOrderEntry[] = [];
+  let overflowIndicatorTypes = new Set<ItemOverflowLocation>();
 
   while (overflowIndicatorCount !== previousOverflowIndicatorCount) {
+    let visibleItemCount = 0;
+
     previousOverflowIndicatorCount = overflowIndicatorCount;
 
     const theoreticalVisibleItemCount = getFittingItemCount(
@@ -169,34 +172,54 @@ export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLa
       .slice(theoreticalVisibleItemCount)
       .toSorted((a, b) => a.index - b.index);
 
-    overflowIndicatorCount = new Set(remainingItemOrders.map(i => i.location)).size;
-
+    overflowIndicatorTypes = new Set(remainingItemOrders.map(i => i.location));
+    overflowIndicatorCount = overflowIndicatorTypes.size;
     visibleItemCount = getFittingItemCount(overflowIndicatorCount * (overflowItemWidth + gap));
+    renderedItemOrders = checkOrder.slice(0, visibleItemCount);
   }
 
-  const renderedItemOrders = checkOrder.slice(0, visibleItemCount);
+  (['start', 'end'] as const).forEach(location => {
+    if (overflowIndicatorTypes.has(location)) {
+      const itemsWIthIndices = remainingItemOrders
+        .map((x, i) => [i + renderedItemOrders.length - 1, x] as const)
+        .filter(x => x[1].location === location);
+      const itemSizes = itemsWIthIndices.map(i => params.itemWidths[checkOrder[i[0]]?.index] ?? 0);
+      const itemsTotalSize = itemSizes.reduce((a, b) => a + b, 0);
+      if (itemsTotalSize <= overflowItemWidth) {
+        overflowIndicatorTypes.delete(location);
+        renderedItemOrders = [...renderedItemOrders, ...itemsWIthIndices.map(i => i[1])];
+        overflowIndicatorCount--;
+      }
+    }
+  });
 
   const overflowIndicatorIndices = (() => {
-    if (overflowIndicatorCount === 1) {
-      const overflowIndicatorIndex = checkOrder[visibleItemCount]?.index ?? -1;
+    if (maxOverflowIndicatorCount === 1 && overflowIndicatorCount === 1) {
+      const overflowIndicatorIndex = checkOrder[renderedItemOrders.length]?.index ?? -1;
       if (overflowIndicatorIndex >= 0) {
         return [overflowIndicatorIndex];
       }
-    } else if (overflowIndicatorCount === 2) {
+    } else if (maxOverflowIndicatorCount === 2) {
+      const res: number[] = [];
       const firstEndIndex = remainingItemOrders.find(x => x.location === 'end')?.index;
       const lastEndIndex = remainingItemOrders.findLast(x => x.location === 'end')?.index;
       const firstStartIndex = remainingItemOrders.find(x => x.location === 'start')?.index;
       const lastStartIndex = remainingItemOrders.findLast(x => x.location === 'start')?.index;
-      const startIndex = firstStartIndex ?? firstEndIndex ?? 0;
-      const endIndex = lastEndIndex ? lastEndIndex + 1 : (lastStartIndex ?? 0);
-      return [startIndex + Math.min(Math.max(0, Math.floor(params.freezeCount)), count), endIndex];
+      if (overflowIndicatorTypes.has('start')) {
+        const startIndex = firstStartIndex ?? firstEndIndex ?? 0;
+        res.push(startIndex + Math.min(Math.max(0, Math.floor(params.freezeCount)), count));
+      }
+      if (overflowIndicatorTypes.has('end')) {
+        const endIndex = lastEndIndex ? lastEndIndex + 1 : (lastStartIndex ?? 0);
+        res.push(endIndex);
+      }
+      return res;
     }
     return [];
   })();
 
   return {
     checkOrder,
-    visibleItemCount,
     renderedItemOrders,
     remainingItemOrders,
     overflowIndicatorCount,

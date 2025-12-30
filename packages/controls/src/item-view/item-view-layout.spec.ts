@@ -86,7 +86,7 @@ describe('item-view layout', () => {
                   gap,
                 });
 
-                expect(layout.visibleItemCount).toBe(expectedByWidth[containerWidth]);
+                expect(layout.renderedItemOrders.length).toBe(expectedByWidth[containerWidth]);
               });
             });
           }
@@ -104,7 +104,10 @@ describe('item-view layout', () => {
                 gap,
               });
 
-              resultsByWidth.push({ containerWidth, visibleItemCount: layout.visibleItemCount });
+              resultsByWidth.push({
+                containerWidth,
+                visibleItemCount: layout.renderedItemOrders.length,
+              });
 
               // Basic sanity: no duplicates in the chosen visible indices.
               const visible = getVisibleIndices(layout);
@@ -112,7 +115,7 @@ describe('item-view layout', () => {
 
               // Fixed-point: the final overflowIndicatorCount matches the remaining locations.
               const remainingOrders = layout.checkOrder
-                .slice(layout.visibleItemCount)
+                .slice(layout.renderedItemOrders.length)
                 .slice()
                 .sort((a, b) => a.index - b.index);
               expect(new Set(remainingOrders.map(x => x.location)).size).toBe(
@@ -124,7 +127,8 @@ describe('item-view layout', () => {
               if (layout.overflowIndicatorCount === 0) {
                 expect(layout.overflowIndicatorIndices).toEqual([null]);
               } else if (layout.overflowIndicatorCount === 1) {
-                const expectedIndex = layout.checkOrder[layout.visibleItemCount]?.index ?? null;
+                const expectedIndex =
+                  layout.checkOrder[layout.renderedItemOrders.length]?.index ?? null;
                 expect(layout.overflowIndicatorIndices).toEqual([expectedIndex]);
                 if (expectedIndex !== null) {
                   expect(Number.isInteger(expectedIndex)).toBe(true);
@@ -149,7 +153,7 @@ describe('item-view layout', () => {
                 expect(expected[0]).toBeLessThanOrEqual(expected[1]);
               }
 
-              // Fixed-point: given the final overflowIndicatorCount, visibleItemCount is stable.
+              // Fixed-point: given the final overflowIndicatorCount, renderedItemOrders.length is stable.
               const stableVisibleCount = getFittingItemCount({
                 containerWidth,
                 checkOrder: layout.checkOrder,
@@ -157,7 +161,7 @@ describe('item-view layout', () => {
                 gap,
                 lostSpace: layout.overflowIndicatorCount * (overflowWidth + gap),
               });
-              expect(layout.visibleItemCount).toBe(stableVisibleCount);
+              expect(layout.renderedItemOrders.length).toBe(stableVisibleCount);
             });
           });
 
@@ -243,6 +247,6 @@ describe('item-view layout', () => {
     });
 
     // Optimal could show 3 items (50 + 50 + 1) but current algorithm shows only 2.
-    expect(layout.visibleItemCount).toBe(3);
+    expect(layout.renderedItemOrders.length).toBe(3);
   });
 });
