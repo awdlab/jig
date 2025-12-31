@@ -119,12 +119,13 @@ export class NgnItemView<T extends object, IdField extends keyof T>
     return typeof sep === 'boolean' ? (sep ? ', ' : '') : sep;
   });
 
+  private readonly _enableSizeMeasuring = computed(() => !this.sameWidthItems());
   private readonly _renderedItemRefs = viewChildren<ElementRef<HTMLElement>>('itemRef');
   private readonly _firstItemRef = viewChild<ElementRef<HTMLElement>>('itemRef');
   private readonly _firstItemWidth = elementSizeSignal(this._firstItemRef);
   private readonly _renderedItemSizes = elementsSizesSignal(
     this._renderedItemRefs,
-    this.sameWidthItems
+    this._enableSizeMeasuring
   );
   private readonly _renderedItemWidths = computed(
     () =>

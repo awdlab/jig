@@ -10,6 +10,7 @@ import { exampleData } from '../../helper/data';
   selector: 'ngn-demo-item-view-strategies',
   template: `
     @for (strategy of strategies; track $index) {
+      {{ strategy }}:
       <ngn-item-view
         #itemView
         [items]="items"
@@ -17,8 +18,6 @@ import { exampleData } from '../../helper/data';
         style="background: var(--ngn-color-surface-200);"
         [overflowStrategy]="strategy"
         [overflowStrategyIndex]="2"
-        [overflowStrategyFreezeCount]="1"
-        [separator]="'|'"
       >
         <ng-template #item [ngnTemplate]="itemView.templateTypes.item" let-item>
           <span style="padding: 4px; background: var(--ngn-color-surface-400);">
