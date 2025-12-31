@@ -56,6 +56,7 @@ export const tableStyles = createThemePart({
       }
       ${c()} ${d('paginator')} {
         width: 90%;
+        max-width: 800px;
         align-self: center;
       }
     `,
