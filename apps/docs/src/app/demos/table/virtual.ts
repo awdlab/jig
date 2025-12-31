@@ -18,7 +18,7 @@ import { exampleData } from '../../helper/data';
   >
     <ng-template #header>
       <tr ngnTableHeadTr>
-        <th [ngnTableTh]="table.column('id')">Id</th>
+        <th [ngnTableTh]="table.column('id')">ID</th>
         <th [ngnTableTh]="table.column('name')">Name</th>
         <th [ngnTableTh]="table.column('department')">Department</th>
         <th [ngnTableTh]="table.column('location')">Location</th>

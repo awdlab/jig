@@ -11,7 +11,7 @@ import { exampleData } from '../../helper/data';
   template: `<ngn-table #table style="height: 400px" [rows]="rows" [fieldId]="'id'">
     <ng-template #header>
       <tr ngnTableHeadTr>
-        <th [ngnTableTh]="table.column('id')" [ngnTableSortableColumn]>Id</th>
+        <th [ngnTableTh]="table.column('id')" [ngnTableSortableColumn]>ID</th>
         <th [ngnTableTh]="table.column('name')" [ngnTableSortableColumn]>Name</th>
         <th [ngnTableTh]="table.column('department')" [ngnTableSortableColumn]>Department</th>
         <th [ngnTableTh]="table.column('location')" [ngnTableSortableColumn]>Location</th>

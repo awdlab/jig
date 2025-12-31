@@ -16,7 +16,7 @@ import { exampleData } from '../../helper/data';
           [ngnTableFilterableColumn]
           [ngnTableFilterableColumnType]="'string'"
         >
-          Id
+          ID
         </th>
         <th
           [ngnTableTh]="table.column('name')"
