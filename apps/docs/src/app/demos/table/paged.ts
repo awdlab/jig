@@ -8,13 +8,7 @@ import { exampleData } from '../../helper/data';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnTableModule, NgnTemplate],
   selector: 'ngn-demo-table-paged',
-  template: `<ngn-table
-    #table
-    style="height: 400px"
-    [rows]="rows"
-    [fieldId]="'id'"
-    [paginator]="true"
-  >
+  template: `<ngn-table #table [rows]="rows" [fieldId]="'id'" [paginator]="true">
     <ng-template #header>
       <tr ngnTableHeadTr>
         <th [ngnTableTh]="table.column('id')">Id</th>

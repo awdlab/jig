@@ -8,7 +8,8 @@ export const tableStyles = createThemePart({
   root: {
     css: ({ v, c, d }) => css`
       ${c()} {
-        display: block;
+        display: flex;
+        flex-direction: column;
       }
       ${c('table')} {
         display: grid;
