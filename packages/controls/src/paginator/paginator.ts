@@ -71,4 +71,16 @@ export class NgnPaginator extends NgnBase<'paginator'> {
       });
     });
   }
+
+  protected previousPage(): void {
+    if (this.page() > 0) {
+      this.page.update(page => page - 1);
+    }
+  }
+
+  protected nextPage(): void {
+    if (this.page() < this.pageCount() - 1) {
+      this.page.update(page => page + 1);
+    }
+  }
 }

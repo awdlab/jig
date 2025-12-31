@@ -21,6 +21,9 @@ export const buttonStyles = createThemePart({
         font-weight: ${v('font.weight.semibold')};
         padding: var(--padding);
         cursor: pointer;
+        &:disabled {
+          cursor: default;
+        }
       }
 
       ${themedColors(c, v)}
@@ -28,38 +31,38 @@ export const buttonStyles = createThemePart({
       ${c('kind-primary')} {
         background: var(--theme-color-500);
         color: ${v('color.text')};
-        &:hover {
+        &:hover:not(:disabled) {
           background: var(--theme-color-400);
         }
-        &:focus {
+        &:focus:not(:disabled) {
           background: var(--theme-color-300);
         }
-        &:active {
+        &:active:not(:disabled) {
           background: var(--theme-color-200);
         }
       }
       ${c('kind-secondary')} {
         background: transparent;
-        &:hover {
+        &:hover:not(:disabled) {
           background: var(--theme-color-100);
         }
-        &:focus {
+        &:focus:not(:disabled) {
           background: var(--theme-color-200);
         }
-        &:active {
+        &:active:not(:disabled) {
           background: var(--theme-color-300);
         }
       }
       ${c('kind-text')} {
         background: transparent;
         color: var(--theme-color-500);
-        &:hover {
+        &:hover:not(:disabled) {
           color: var(--theme-color-600);
         }
-        &:focus {
+        &:focus:not(:disabled) {
           color: var(--theme-color-700);
         }
-        &:active {
+        &:active:not(:disabled) {
           color: var(--theme-color-800);
         }
       }
@@ -74,13 +77,13 @@ export const buttonStyles = createThemePart({
         align-items: center;
         justify-content: center;
 
-        &:hover {
+        &:hover:not(:disabled) {
           background: var(--theme-color-100);
         }
-        &:focus {
+        &:focus:not(:disabled) {
           background: var(--theme-color-200);
         }
-        &:active {
+        &:active:not(:disabled) {
           background: var(--theme-color-300);
         }
 
@@ -93,13 +96,13 @@ export const buttonStyles = createThemePart({
         text-decoration: underline;
         background: transparent;
         color: var(--theme-color-500);
-        &:hover {
+        &:hover:not(:disabled) {
           color: var(--theme-color-600);
         }
-        &:focus {
+        &:focus:not(:disabled) {
           color: var(--theme-color-700);
         }
-        &:active {
+        &:active:not(:disabled) {
           color: var(--theme-color-800);
         }
       }

@@ -1,4 +1,4 @@
-<button ngnButton [kind]="'icon'">
+<button ngnButton [kind]="'icon'" (click)="previousPage()">
   <ngn-icon [defaultIcon]="'chevron_left'" />
 </button>
 
@@ -21,10 +21,10 @@
     </button>
   </ng-template>
   <ng-template #overflow let-item [ngnTemplate]="itemView.templateTypes.overflow">
-    <button ngnButton [kind]="'icon'" style="opacity: 0.5">+{{ item.overflowCount }}</button>
+    <button ngnButton [kind]="'icon'" style="opacity: 0.5" disabled>...</button>
   </ng-template>
 </ngn-item-view>
 
-<button ngnButton [kind]="'icon'">
+<button ngnButton [kind]="'icon'" (click)="nextPage()">
   <ngn-icon [defaultIcon]="'chevron_right'" />
 </button>
