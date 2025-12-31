@@ -8,6 +8,10 @@ export const paginatorStyles = createThemePart({
   base: baseStyles.paginator,
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
-    css: ({ v, c }) => css``,
+    css: ({ v, c, d }) => css`
+      ${c()} > ${d('item-view')} {
+        justify-content: center;
+      }
+    `,
   },
 });

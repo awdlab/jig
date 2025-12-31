@@ -1,6 +1,7 @@
 import { createControlTemplate } from '@ngneers/controls-themes/api';
 import { filterControlTemplate } from '@ngneers/controls-themes/templates/filter';
 import { iconControlTemplate } from '@ngneers/controls-themes/templates/icon';
+import { paginatorControlTemplate } from '@ngneers/controls-themes/templates/paginator';
 import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
 import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scroller';
 
@@ -29,5 +30,6 @@ export const tableControlTemplate = createControlTemplate({
     iconControlTemplate,
     filterControlTemplate,
     popoverControlTemplate,
+    paginatorControlTemplate,
   ],
 });
