@@ -9,11 +9,14 @@
   [overflowStrategy]="'aroundIndex'"
   [overflowStrategyFreezeCount]="1"
   [overflowStrategyIndex]="page()"
+  [sameWidthItems]="true"
 >
   <ng-template #item let-item [ngnTemplate]="itemView.templateTypes.item">
+    @let buttonStyles = getButtonFontStyles(item.page);
     <button
       ngnButton
       [kind]="'icon'"
+      [ngStyle]="buttonStyles"
       [style.background]="page() === item.page ? 'var(--ngn-color-secondary-500)' : null"
       (click)="page.set(item.page)"
     >

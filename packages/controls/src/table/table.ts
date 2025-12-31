@@ -4,6 +4,7 @@ import { executeMultiFilter } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
 import { NgnFilterConfig } from '@ngneers/controls/filter';
+import { NgnPaginator, PaginationState } from '@ngneers/controls/paginator';
 import { NgnScroller } from '@ngneers/controls/scroller';
 import { AllKeysOfUnion } from '@ngneers/controls/utils';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
@@ -17,11 +18,12 @@ import type { NgnTableTh } from './table-header-cell';
   selector: 'ngn-table',
   templateUrl: './table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, NgnScroller, NgnTemplate, NgClass],
+  imports: [NgTemplateOutlet, NgnScroller, NgnPaginator, NgnTemplate, NgClass],
   providers: [provideSelf(NgnTable)],
   host: {
     '[class]': `theme.classes({
       '': true,
+      virtual: virtual()
     })`,
     tabindex: '0',
   },
@@ -36,6 +38,7 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
   public readonly virtual = input<boolean>(false);
   public readonly virtualPadding = input<number>(2);
   public readonly striped = input<boolean>(false);
+  public readonly paginator = input<boolean>(false);
   protected readonly trackById = (item: T): unknown => item[this.fieldId()];
   public readonly sort = model<{
     column: Extract<AllKeysOfUnion<T>, string>;
@@ -47,6 +50,7 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
       }
     | null
   >(null);
+  protected readonly pageState = signal<PaginationState | null>(null);
 
   protected readonly formattedRows = computed<FormattedTableRow<T>[]>(() => {
     const rows = this._sortedRows();
@@ -56,6 +60,21 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
       data,
       index,
     }));
+  });
+
+  protected readonly pagedRows = computed<FormattedTableRow<T>[]>(() => {
+    const paginator = this.paginator();
+    if (!paginator) {
+      return this.formattedRows();
+    }
+    const pageState = this.pageState();
+    if (!pageState) {
+      return [];
+    }
+    return this.formattedRows().slice(
+      pageState.slice.skip,
+      pageState.slice.take + pageState.slice.skip
+    );
   });
 
   private readonly _filteredRows = computed<readonly T[]>(() => {
@@ -98,6 +117,11 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
   });
 
   protected readonly columnCount = computed(() => this._registeredHeaderCells().length);
+
+  protected pageChanged(event: PaginationState) {
+    this.pageState.set(event);
+  }
+
   public column<V extends AllKeysOfUnion<T> & string>(column: V): V {
     return column;
   }

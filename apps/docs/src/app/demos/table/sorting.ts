@@ -1,20 +1,20 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnTableModule } from '@ngneers/controls/table';
+import { NgnTableModule, NgnTableSortableColumn } from '@ngneers/controls/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgnTableModule, NgnTemplate],
-  selector: 'ngn-demo-table-base',
+  imports: [NgnTableModule, NgnTableSortableColumn, NgnTemplate],
+  selector: 'ngn-demo-table-sorting',
   template: `<ngn-table #table style="height: 400px" [rows]="rows" [fieldId]="'id'">
     <ng-template #header>
       <tr ngnTableHeadTr>
-        <th [ngnTableTh]="table.column('id')">Id</th>
-        <th [ngnTableTh]="table.column('name')">Name</th>
-        <th [ngnTableTh]="table.column('department')">Department</th>
-        <th [ngnTableTh]="table.column('location')">Location</th>
+        <th [ngnTableTh]="table.column('id')" [ngnTableSortableColumn]>Id</th>
+        <th [ngnTableTh]="table.column('name')" [ngnTableSortableColumn]>Name</th>
+        <th [ngnTableTh]="table.column('department')" [ngnTableSortableColumn]>Department</th>
+        <th [ngnTableTh]="table.column('location')" [ngnTableSortableColumn]>Location</th>
       </tr>
     </ng-template>
     <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
@@ -27,6 +27,6 @@ import { exampleData } from '../../helper/data';
     </ng-template>
   </ngn-table>`,
 })
-export class Demo_Table_Base {
+export class Demo_Table_Sorting {
   protected readonly rows = exampleData.table(100);
 }

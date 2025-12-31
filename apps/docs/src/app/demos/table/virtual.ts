@@ -7,8 +7,15 @@ import { exampleData } from '../../helper/data';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnTableModule, NgnTemplate],
-  selector: 'ngn-demo-table-base',
-  template: `<ngn-table #table style="height: 400px" [rows]="rows" [fieldId]="'id'">
+  selector: 'ngn-demo-table-virtual',
+  template: `<ngn-table
+    #table
+    style="height: 400px"
+    [rows]="rows"
+    [fieldId]="'id'"
+    [virtual]="true"
+    [rowHeight]="50"
+  >
     <ng-template #header>
       <tr ngnTableHeadTr>
         <th [ngnTableTh]="table.column('id')">Id</th>
@@ -27,6 +34,6 @@ import { exampleData } from '../../helper/data';
     </ng-template>
   </ngn-table>`,
 })
-export class Demo_Table_Base {
-  protected readonly rows = exampleData.table(100);
+export class Demo_Table_Virtual {
+  protected readonly rows = exampleData.table(30000);
 }

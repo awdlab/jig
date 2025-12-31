@@ -35,6 +35,16 @@ export const tableStyles = createThemePart({
       ${c('row')}, ${c('head')}, ${c('foot')} {
         display: contents;
       }
+      ${c()}:not(${c('virtual')}) {
+        ${c('cell')} {
+          &:not(:has(*)) {
+            height: min-content;
+          }
+          &:has(*) {
+            height: 100%;
+          }
+        }
+      }
       ${c('cell')} {
         height: var(--ngn-table-row-height);
         --row-index: calc(var(--ngn-table-row-index) - var(--ngn-table-item-start-index));

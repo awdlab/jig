@@ -8,6 +8,7 @@ export const tableControlTemplate = createControlTemplate({
   scope: 'table',
   classNames: [
     'table',
+    'virtual',
     'head',
     'body',
     'cell',

@@ -1,3 +1,4 @@
+import { NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,7 +26,7 @@ import { PaginationState } from './types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-paginator',
   templateUrl: './paginator.html',
-  imports: [NgnButton, NgnIcon, NgnItemView, NgnTemplate],
+  imports: [NgnButton, NgnIcon, NgnItemView, NgnTemplate, NgStyle],
   providers: [provideSelf(NgnPaginator)],
   host: {
     '[class]': 'theme.class("")',
@@ -82,5 +83,24 @@ export class NgnPaginator extends NgnBase<'paginator'> {
     if (this.page() < this.pageCount() - 1) {
       this.page.update(page => page + 1);
     }
+  }
+
+  protected getButtonFontStyles(page: number): {
+    [klass: string]: string;
+  } {
+    function getFontSizeMultiplier() {
+      const charCount = (page + 1).toString().length;
+      if (charCount <= 2) {
+        return 1;
+      }
+      return Math.pow(0.85, charCount - 2);
+    }
+
+    return {
+      fontSize: `${getFontSizeMultiplier()}em`,
+      width: 'calc(1rem + 2 * var(--padding))',
+      height: 'calc(1rem + 2 * var(--padding))',
+      lineHeight: '0',
+    };
   }
 }

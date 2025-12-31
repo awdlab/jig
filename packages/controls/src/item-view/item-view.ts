@@ -26,6 +26,7 @@ import { itemViewControlTemplate } from '@ngneers/controls-themes/templates/item
 import {
   calculateItemViewLayout,
   getItemOverflowCheckOrder,
+  ItemOverflowLocation,
   type OverflowOrder,
 } from './item-view-layout';
 import { ItemViewTemplates } from './item-view-templates';
@@ -34,7 +35,13 @@ import { OverflowStrategy } from './types';
 type RenderItem<T> =
   | {
       id: string | number;
-      kind: 'visibleItem' | 'overflowItem';
+      kind: 'visibleItem';
+      item: T;
+    }
+  | {
+      id: string | number;
+      kind: 'overflowItem';
+      location: ItemOverflowLocation;
       item: T;
     }
   | {
@@ -98,6 +105,11 @@ export class NgnItemView<T extends object, IdField extends keyof T>
    * @default 0
    */
   public readonly overflowStrategyIndex = input<number>(0);
+  /**
+   * Set this to `true` for greatly improving performance when all items have the same width.
+   * Especially true for large lists of items.
+   */
+  public readonly sameWidthItems = input<boolean>(false);
 
   private readonly _themeGap = signal(0);
   private readonly _isBrowser = inject(Platform).isBrowser;
@@ -108,9 +120,17 @@ export class NgnItemView<T extends object, IdField extends keyof T>
   });
 
   private readonly _renderedItemRefs = viewChildren<ElementRef<HTMLElement>>('itemRef');
-  private readonly _renderedItemSizes = elementsSizesSignal(this._renderedItemRefs);
+  private readonly _firstItemRef = viewChild<ElementRef<HTMLElement>>('itemRef');
+  private readonly _firstItemWidth = elementSizeSignal(this._firstItemRef);
+  private readonly _renderedItemSizes = elementsSizesSignal(
+    this._renderedItemRefs,
+    this.sameWidthItems
+  );
   private readonly _renderedItemWidths = computed(
-    () => this._renderedItemSizes().map(size => size.width),
+    () =>
+      this.sameWidthItems()
+        ? this.items().map(() => this._firstItemWidth().width || Number.MAX_SAFE_INTEGER)
+        : this._renderedItemSizes().map(size => size.width),
     { equal: areArraysDeepEqual }
   );
   private readonly _containerSize = elementSizeSignal(this.element.nativeElement);
@@ -148,7 +168,7 @@ export class NgnItemView<T extends object, IdField extends keyof T>
     const renderedItemOrders = layout.renderedItemOrders;
     // First pass: build the full list with items marked as visible vs overflowed.
     // We'll insert overflow indicators afterwards at the computed insertion indices.
-    const res: RenderItem<T>[] = this.items().map((item, index) => {
+    let res: RenderItem<T>[] = this.items().map((item, index) => {
       if (renderedItemOrders.some(x => x.index === index)) {
         return <RenderItem<T>>{
           id: item[this.idField()] as string | number,
@@ -159,6 +179,7 @@ export class NgnItemView<T extends object, IdField extends keyof T>
         return <RenderItem<T>>{
           id: item[this.idField()] as string | number,
           kind: 'overflowItem',
+          location: this.itemOverflowCheckOrder().find(o => o.index === index)!.location,
           item,
         };
       }

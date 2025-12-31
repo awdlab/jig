@@ -29,6 +29,9 @@ export const tableStyles = createThemePart({
         font-weight: ${v('font.weight.semibold')};
         gap: ${v('size.padding.sm')};
       }
+      ${c()}:not(${c('virtual')}) ${c('cell')} {
+        padding: ${v('size.padding.md')};
+      }
       ${c('sortable-column')} {
         cursor: pointer;
         user-select: none;

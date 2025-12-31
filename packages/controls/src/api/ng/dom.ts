@@ -32,16 +32,22 @@ function getElement(el: ElementSingle): HTMLElement | Document | undefined {
   return element;
 }
 
-export function elementSizeSignal(element: ElementSingle): Signal<Size> {
-  const val = elementsSizesSignalInt(element);
+export function elementSizeSignal(element: ElementSingle, active?: Signal<boolean>): Signal<Size> {
+  const val = elementsSizesSignalInt(element, active);
   return computed(() => val()[0] ?? { width: 0, height: 0 });
 }
 
-export function elementsSizesSignal(element: ElementArray): Signal<readonly Size[]> {
-  return elementsSizesSignalInt(element);
+export function elementsSizesSignal(
+  element: ElementArray,
+  active?: Signal<boolean>
+): Signal<readonly Size[]> {
+  return elementsSizesSignalInt(element, active);
 }
 
-function elementsSizesSignalInt(element: ElementArray | ElementSingle): Signal<readonly Size[]> {
+function elementsSizesSignalInt(
+  element: ElementArray | ElementSingle,
+  active?: Signal<boolean>
+): Signal<readonly Size[]> {
   const sizeSignal = signal<readonly Size[]>([], {
     equal: (a, b) => JSON.stringify(a) === JSON.stringify(b),
   });
@@ -49,6 +55,9 @@ function elementsSizesSignalInt(element: ElementArray | ElementSingle): Signal<r
   let elements: HTMLElement[];
   afterRenderEffect(() => {
     resizeObserver.disconnect();
+    if (active && !active()) {
+      return;
+    }
     const rawElement = typeof element === 'function' ? element() : element;
     const arrayElement = Array.isArray(rawElement) ? rawElement : rawElement ? [rawElement] : [];
     elements = arrayElement.map(el => (el instanceof ElementRef ? el.nativeElement : el));

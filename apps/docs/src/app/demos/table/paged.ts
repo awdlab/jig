@@ -7,8 +7,14 @@ import { exampleData } from '../../helper/data';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnTableModule, NgnTemplate],
-  selector: 'ngn-demo-table-base',
-  template: `<ngn-table #table style="height: 400px" [rows]="rows" [fieldId]="'id'">
+  selector: 'ngn-demo-table-paged',
+  template: `<ngn-table
+    #table
+    style="height: 400px"
+    [rows]="rows"
+    [fieldId]="'id'"
+    [paginator]="true"
+  >
     <ng-template #header>
       <tr ngnTableHeadTr>
         <th [ngnTableTh]="table.column('id')">Id</th>
@@ -27,6 +33,6 @@ import { exampleData } from '../../helper/data';
     </ng-template>
   </ngn-table>`,
 })
-export class Demo_Table_Base {
-  protected readonly rows = exampleData.table(100);
+export class Demo_Table_Paged {
+  protected readonly rows = exampleData.table(1000);
 }
