@@ -1,6 +1,6 @@
 @for (item of renderedItems(); track item.id; let i = $index) {
   @if (item.kind === 'visibleItem' || item.kind === 'overflowItem') {
-    @if (item.kind === 'visibleItem' || !sameWidthItems() || $first) {
+    @if (item.kind === 'visibleItem' || $first) {
       <span
         role="listitem"
         #itemRef

@@ -108,6 +108,12 @@ export class NgnItemView<T extends object, IdField extends keyof T>
   /**
    * Set this to `true` for greatly improving performance when all items have the same width.
    * Especially true for large lists of items.
+   *
+   * ⚠️ This reduces the accessibility of the control as screen
+   * readers will not be able to determine the number of hidden items and keyboard users cannot directly
+   * navigate to them. Use this only for potentially very large lists (with items of identical width) where users will not
+   * need to access overflowed items directly.
+   * @default false
    */
   public readonly sameWidthItems = input<boolean>(false);
 
@@ -152,6 +158,7 @@ export class NgnItemView<T extends object, IdField extends keyof T>
   protected readonly renderedItems = computed<RenderItem<T>[]>(() => {
     const containerWidth = this._containerSize().width;
     const renderedItemWidths = this._renderedItemWidths();
+    const overflowCheckOrder = this.itemOverflowCheckOrder();
 
     const count = this.items().length;
     const freezeCount = Math.min(this.overflowStrategyFreezeCount(), count);
@@ -167,10 +174,19 @@ export class NgnItemView<T extends object, IdField extends keyof T>
     });
 
     const renderedItemOrders = layout.renderedItemOrders;
+    // Precompute quick lookups for the hot paths below.
+    // - `renderedIndexSet` allows O(1) visibility checks.
+    // - `locationByIndex` avoids repeatedly scanning the overflow order to find an item's location.
+    const renderedIndexSet = new Set<number>(renderedItemOrders.map(x => x.index));
+    const locationByIndex: Array<ItemOverflowLocation | undefined> = new Array(count);
+    for (const entry of overflowCheckOrder) {
+      locationByIndex[entry.index] = entry.location;
+    }
+
     // First pass: build the full list with items marked as visible vs overflowed.
     // We'll insert overflow indicators afterwards at the computed insertion indices.
     let res: RenderItem<T>[] = this.items().map((item, index) => {
-      if (renderedItemOrders.some(x => x.index === index)) {
+      if (renderedIndexSet.has(index)) {
         return <RenderItem<T>>{
           id: item[this.idField()] as string | number,
           kind: 'visibleItem',
@@ -180,7 +196,7 @@ export class NgnItemView<T extends object, IdField extends keyof T>
         return <RenderItem<T>>{
           id: item[this.idField()] as string | number,
           kind: 'overflowItem',
-          location: this.itemOverflowCheckOrder().find(o => o.index === index)!.location,
+          location: locationByIndex[index] ?? 'end',
           item,
         };
       }
@@ -189,15 +205,37 @@ export class NgnItemView<T extends object, IdField extends keyof T>
     const getFallbackOverflowIndicatorIndex = () => {
       // When the layout says "no indicator" for the only slot (null), we still need a stable
       // insertion index so the DOM structure stays consistent for measurement.
-      if (this.itemOverflowCheckOrder().length === 0) {
+      if (overflowCheckOrder.length === 0) {
         return 0;
       }
-      return this.itemOverflowCheckOrder()[this.itemOverflowCheckOrder().length - 1].index;
+      return overflowCheckOrder[overflowCheckOrder.length - 1].index;
     };
 
     // Insert overflow indicators at the calculated indices
     // Note: inserting into `res` shifts subsequent indices; track that shift explicitly with `insertOffset`.
     let insertOffset = 0;
+
+    // Collect overflowed items, both as a single list and grouped by location.
+    const overflowedItemsAll: T[] = [];
+    const overflowedItemsByLocation: Record<ItemOverflowLocation, T[]> = {
+      start: [],
+      end: [],
+      center: [],
+    };
+    const allItems = this.items();
+    for (let i = 0; i < count; i++) {
+      if (renderedIndexSet.has(i)) {
+        continue;
+      }
+      const item = allItems[i];
+      if (item === undefined) {
+        continue;
+      }
+      overflowedItemsAll.push(item);
+      const location = locationByIndex[i] ?? 'end';
+      overflowedItemsByLocation[location].push(item);
+    }
+
     layout.overflowIndicatorIndices.forEach((indicatorIndex, iterationIndex) => {
       const insertIndex = indicatorIndex ?? getFallbackOverflowIndicatorIndex() + insertOffset;
 
@@ -205,13 +243,9 @@ export class NgnItemView<T extends object, IdField extends keyof T>
       // so each indicator shows its own count/list.
       const overflowIndicatorLocation =
         layout.overflowIndicatorCount === 1 ? null : iterationIndex === 0 ? 'start' : 'end';
-      const items = this.items().filter(
-        (_, i) =>
-          !renderedItemOrders.some(ro => ro.index === i) &&
-          (!overflowIndicatorLocation ||
-            this.itemOverflowCheckOrder().find(o => o.index === i)?.location ===
-              overflowIndicatorLocation)
-      );
+      const items = overflowIndicatorLocation
+        ? overflowedItemsByLocation[overflowIndicatorLocation]
+        : overflowedItemsAll;
 
       res.splice(insertIndex, 0, <RenderItem<T>>{
         id: `overflow-indicator-${indicatorIndex}`,
@@ -222,6 +256,11 @@ export class NgnItemView<T extends object, IdField extends keyof T>
       });
       insertOffset++;
     });
+
+    // In fixed width mode, remove all hidden items except for the first one (used for measurement)
+    if (this.sameWidthItems()) {
+      res = res.filter((item, index) => item.kind !== 'overflowItem' || index === 0);
+    }
 
     return res;
   });

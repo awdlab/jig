@@ -5,6 +5,6 @@ import { NgnPaginator } from '@ngneers/controls/paginator';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-paginator-base',
   imports: [NgnPaginator],
-  template: ` <ngn-paginator [totalItems]="300" /> `,
+  template: ` <ngn-paginator [totalItems]="50" /> `,
 })
 export class Demo_Paginator_Base {}
