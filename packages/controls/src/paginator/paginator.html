@@ -1,4 +1,4 @@
-<button ngnButton [kind]="'icon'" (click)="previousPage()">
+<button ngnButton [kind]="'icon'" (click)="previousPage($event)">
   <ngn-icon [defaultIcon]="'chevron_left'" />
 </button>
 
@@ -28,6 +28,15 @@
   </ng-template>
 </ngn-item-view>
 
-<button ngnButton [kind]="'icon'" (click)="nextPage()">
+<button ngnButton [kind]="'icon'" (click)="nextPage($event)">
   <ngn-icon [defaultIcon]="'chevron_right'" />
 </button>
+
+@if (!fixedPageSize()) {
+  <ngn-select
+    [ngClass]="theme.class('page-size-options')"
+    [options]="pageSizeOptions()"
+    [value]="appliedPageSize()"
+    (valueChange)="pageSize.set($event)"
+  />
+}

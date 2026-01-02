@@ -3,3 +3,11 @@ The Paginator component enables easy pagination of large datasets in Angular app
 ### Base
 
 {{ demo: Demo_Paginator_Base }}
+
+### Overflow Handling
+
+{{ demo: Demo_Paginator_Overflow }}
+
+### Custom Page Sizes
+
+{{ demo: Demo_Paginator_Pagesize }}

@@ -1,4 +1,4 @@
-import { NgStyle } from '@angular/common';
+import { NgStyle, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,12 +9,14 @@ import {
   model,
   output,
 } from '@angular/core';
+import { NgnItem } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnItemView } from '@ngneers/controls/item-view';
+import { NgnSelect } from '@ngneers/controls/select';
 import { paginatorControlTemplate } from '@ngneers/controls-themes/templates/paginator';
 
 import { PaginationState } from './types';
@@ -26,7 +28,7 @@ import { PaginationState } from './types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-paginator',
   templateUrl: './paginator.html',
-  imports: [NgnButton, NgnIcon, NgnItemView, NgnTemplate, NgStyle],
+  imports: [NgnButton, NgnIcon, NgnItemView, NgnSelect, NgnTemplate, NgStyle, NgClass],
   providers: [provideSelf(NgnPaginator)],
   host: {
     '[class]': 'theme.class("")',
@@ -36,11 +38,26 @@ export class NgnPaginator extends NgnBase<'paginator'> {
   protected readonly theme = this.injectThemeTemplate(paginatorControlTemplate);
   protected readonly i18n = inject(I18n).translations;
 
+  /**
+   * Total number of items to paginate.
+   */
   public readonly totalItems = input.required<number>();
-  public readonly pageSize = input<number>();
+  /**
+   * Number of items per page. If not set, the first value from `possiblePageSizes` will be used.
+   */
+  public readonly pageSize = model<number>();
+  /**
+   * Possible page sizes to choose from.
+   * @default [5, 10, 25, 50]
+   */
   public readonly possiblePageSizes = input([5, 10, 25, 50], {
     transform: (sizes: number[]) => sizes.sort((a, b) => a - b),
   });
+  /**
+   * If set to `true`, the page size selector will be hidden and the page size cannot be changed by the user.
+   * @default false
+   */
+  public readonly fixedPageSize = input(false);
 
   protected readonly appliedPageSize = computed(
     () => this.pageSize() || this.possiblePageSizes()[0]
@@ -51,8 +68,21 @@ export class NgnPaginator extends NgnBase<'paginator'> {
   protected readonly pages = computed(() =>
     Array.from({ length: this.pageCount() }, (_, i) => ({ page: i }))
   );
+  protected readonly pageSizeOptions = computed<NgnItem[]>(() =>
+    this.possiblePageSizes().map(size => ({
+      label: size.toString(),
+      value: size,
+    }))
+  );
 
+  /**
+   * Emits the current pagination state whenever the page or page size changes.
+   */
   public readonly value = output<PaginationState>();
+  /**
+   * Current page index (zero-based).
+   * @default 0
+   */
   public readonly page = model(0);
 
   constructor() {
@@ -73,16 +103,16 @@ export class NgnPaginator extends NgnBase<'paginator'> {
     });
   }
 
-  protected previousPage(): void {
-    if (this.page() > 0) {
-      this.page.update(page => page - 1);
-    }
+  protected previousPage(event: PointerEvent): void {
+    const amount = event.shiftKey ? 10 : event.ctrlKey ? 100 : 1;
+    const newPage = Math.max(this.page() - amount, 0);
+    this.page.set(newPage);
   }
 
-  protected nextPage(): void {
-    if (this.page() < this.pageCount() - 1) {
-      this.page.update(page => page + 1);
-    }
+  protected nextPage(event: PointerEvent): void {
+    const amount = event.shiftKey ? 10 : event.ctrlKey ? 100 : 1;
+    const newPage = Math.min(this.page() + amount, this.pageCount() - 1);
+    this.page.set(newPage);
   }
 
   protected getButtonFontStyles(page: number): {

@@ -4,6 +4,6 @@ import { itemViewControlTemplate } from '@ngneers/controls-themes/templates/item
 
 export const paginatorControlTemplate = createControlTemplate({
   scope: 'paginator',
-  classNames: [''],
+  classNames: ['page-size-options'],
   dependencies: [buttonControlTemplate, itemViewControlTemplate],
 });

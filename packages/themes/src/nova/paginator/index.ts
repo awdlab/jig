@@ -12,6 +12,9 @@ export const paginatorStyles = createThemePart({
       ${c()} > ${d('item-view')} {
         justify-content: center;
       }
+      ${c('page-size-options')} {
+        min-width: 4rem;
+      }
     `,
   },
 });
