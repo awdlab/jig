@@ -1,32 +1,30 @@
 @for (item of renderedItems(); track item.id; let i = $index) {
   @if (item.kind === 'visibleItem' || item.kind === 'overflowItem') {
-    @if (item.kind === 'visibleItem' || $first) {
-      <span
-        role="listitem"
-        #itemRef
-        [ngClass]="
-          theme.classes({
-            item: true,
-            'item-overflowing': item.kind === 'overflowItem',
-          })
+    <span
+      role="listitem"
+      #itemRef
+      [ngClass]="
+        theme.classes({
+          item: true,
+          'item-overflowing': item.kind === 'overflowItem',
+        })
+      "
+    >
+      <ng-container
+        *ngTemplateOutlet="
+          itemTemplate();
+          context: { $implicit: item.item, index: i, last: $last, first: $first }
         "
-      >
+      />
+      @if (!$last) {
         <ng-container
           *ngTemplateOutlet="
-            itemTemplate();
-            context: { $implicit: item.item, index: i, last: $last, first: $first }
+            separatorTemplate();
+            context: { $implicit: { character: separatorChar(), icon: iconItemSeparator() } }
           "
         />
-        @if (!$last) {
-          <ng-container
-            *ngTemplateOutlet="
-              separatorTemplate();
-              context: { $implicit: { character: separatorChar(), icon: iconItemSeparator() } }
-            "
-          />
-        }
-      </span>
-    }
+      }
+    </span>
   } @else if (item.kind === 'overflowIndicator') {
     <div
       [ngClass]="theme.classes({ 'more-items': true, 'more-items-hidden': !item.visible })"

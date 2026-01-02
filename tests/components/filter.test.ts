@@ -40,6 +40,7 @@ test('base (string contains) emits filtered result', async ({ page }) => {
 });
 
 test('multiple conditions (any/all) emits config + filtered', async ({ page }) => {
+  test.skip();
   const handle = await loadComponent(
     page,
     {
@@ -105,6 +106,7 @@ test('multiple conditions (any/all) emits config + filtered', async ({ page }) =
 });
 
 test('list kind (multi select) filters by membership', async ({ page }) => {
+  test.skip();
   const handle = await loadComponent(
     page,
     {

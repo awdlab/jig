@@ -37,6 +37,9 @@ export const itemViewStyles = createThemePart({
         top: -9999px;
         left: -9999px;
       }
+      ${c('more-items-hidden')} {
+        visibility: hidden;
+      }
     `,
   },
 });

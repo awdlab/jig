@@ -51,7 +51,7 @@ export class NgnSelectHarness {
     if (editable) {
       await this.inputEditable.expectValue(text);
     } else {
-      await expect(this.input).toHaveText(text);
+      await expect(this.input).toHaveText(text, { useInnerText: true });
     }
   }
 
