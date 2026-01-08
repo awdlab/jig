@@ -33,20 +33,20 @@
     "@ngneers/prettier-config": "^1.0.1",
     "@playwright/test": "^1.57.0",
     "@types/node": "^25.0.3",
-    "@typescript/native-preview": "7.0.0-dev.20251227.1",
+    "@typescript/native-preview": "7.0.0-dev.20260108.1",
     "@vitest/coverage-v8": "^4.0.16",
     "angular-eslint": "21.1.0",
     "awesome-logging": "^2.0.3",
     "cpy-cli": "^6.0.0",
     "eslint": "^9.39.2",
-    "globals": "^16.5.0",
+    "globals": "^17.0.0",
     "jsdom": "^27.4.0",
     "json5": "^2.2.3",
     "prettier": "^3.7.4",
     "tsx": "^4.21.0",
     "typedoc": "^0.28.15",
     "typescript": "~5.9.3",
-    "typescript-eslint": "^8.50.1",
+    "typescript-eslint": "^8.52.0",
     "yaml": "^2.8.2"
   }
 }
