@@ -16,3 +16,7 @@ providing consistent styling and behavior across different types of inputs.
 #### States
 
 {{ demo: Demo_InputField_States }}
+
+#### Label
+
+{{ demo: Demo_InputField_Label }}

@@ -7,7 +7,7 @@ import { NgnInputField } from '@ngneers/controls/input-field';
   imports: [NgnInput, NgnInputField],
   selector: 'ngn-demo-input-field-base',
   template: `
-    <ngn-input-field [inputId]="'test-input'">
+    <ngn-input-field>
       <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
       🥳
     </ngn-input-field>

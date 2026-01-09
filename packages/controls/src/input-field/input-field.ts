@@ -6,11 +6,15 @@ import {
   inject,
   input,
   ChangeDetectionStrategy,
+  effect,
+  contentChild,
 } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
+import { NgnInput } from '@ngneers/controls/input';
+import { generateElementId } from '@ngneers/controls/utils-ng';
 import { IconType } from '@ngneers/controls-custom-types';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 
@@ -46,7 +50,7 @@ export class NgnInputField extends NgnBase<'inputField'> {
   /**
    * ID for the input element
    */
-  public readonly inputId = input<string | null>(null);
+  public readonly inputId = input<string>(generateElementId());
   /**
    * Show clear button
    * @default false
@@ -67,6 +71,19 @@ export class NgnInputField extends NgnBase<'inputField'> {
    * @default false
    */
   public readonly invalid = input(false, { transform: booleanAttribute });
+
+  private readonly _ngnInput = contentChild(NgnInput);
+
+  constructor() {
+    super();
+    effect(() => {
+      const ngnInput = this._ngnInput();
+      if (!ngnInput) {
+        return;
+      }
+      ngnInput.element.nativeElement.id = this.inputId();
+    });
+  }
 
   protected clicked(event: MouseEvent) {
     // Prevent click event from propagating to parent input field

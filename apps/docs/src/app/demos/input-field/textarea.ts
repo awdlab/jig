@@ -6,7 +6,7 @@ import { NgnInputField } from '@ngneers/controls/input-field';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnInput, NgnInputField],
   selector: 'ngn-demo-input-field-textarea',
-  template: `<ngn-input-field [inputId]="'test-input'">
+  template: `<ngn-input-field>
       <textarea
         ngnInput
         rows="3"

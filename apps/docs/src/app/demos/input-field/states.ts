@@ -8,27 +8,27 @@ import { NgnInputField } from '@ngneers/controls/input-field';
   selector: 'ngn-demo-input-field-states',
   template: `
     Default:
-    <ngn-input-field [inputId]="'test-input'">
+    <ngn-input-field>
       <input ngnInput />
     </ngn-input-field>
     Disabled:
-    <ngn-input-field [inputId]="'test-input'">
+    <ngn-input-field>
       <input ngnInput disabled />
     </ngn-input-field>
     Readonly:
-    <ngn-input-field [inputId]="'test-input'">
+    <ngn-input-field>
       <input ngnInput readonly />
     </ngn-input-field>
     Invalid:
-    <ngn-input-field [inputId]="'test-input'">
+    <ngn-input-field>
       <input ngnInput invalid />
     </ngn-input-field>
     Disabled + Invalid:
-    <ngn-input-field [inputId]="'test-input'">
+    <ngn-input-field>
       <input ngnInput invalid disabled />
     </ngn-input-field>
     Readonly + Invalid:
-    <ngn-input-field [inputId]="'test-input'">
+    <ngn-input-field>
       <input ngnInput invalid readonly />
     </ngn-input-field>
   `,
