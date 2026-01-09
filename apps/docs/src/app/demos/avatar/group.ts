@@ -12,7 +12,7 @@ import { NgnAvatar, NgnAvatarGroup } from '@ngneers/controls/avatar';
       <ngn-avatar image="img/avatar/3.png" />
       <ngn-avatar image="img/avatar/4.png" />
       <ngn-avatar image="img/avatar/5.png" />
-      <ngn-avatar initials="+2" color="var(--ngn-color-surface-400)" />
+      <ngn-avatar initials="+2" bgColor="var(--ngn-color-surface-400)" />
     </ngn-avatar-group>
   `,
 })
