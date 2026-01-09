@@ -7,7 +7,7 @@ import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
   host: { '[style.--ngn-table-column-index]': 'columnIndex()' },
 })
 export class NgnTableTd extends NgnBase<'table'> {
-  private readonly theme = this.injectThemeTemplate(tableControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(tableControlTemplate);
 
   protected readonly columnIndex = signal(0);
 

@@ -1,8 +1,8 @@
 import { NgClass } from '@angular/common';
-import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
-import { CustomColor, IconType } from '@ngneers/controls-custom-types';
+import { IconType } from '@ngneers/controls-custom-types';
 import { tagControlTemplate } from '@ngneers/controls-themes/templates/tag';
 
 /**
@@ -15,7 +15,7 @@ import { tagControlTemplate } from '@ngneers/controls-themes/templates/tag';
   imports: [NgClass, NgnIcon],
   providers: [provideSelf(NgnTag)],
   host: {
-    '[class]': 'hostClass()',
+    '[class]': 'theme.class()',
   },
 })
 export class NgnTag extends NgnBase<'tag'> {
@@ -25,16 +25,4 @@ export class NgnTag extends NgnBase<'tag'> {
    * Set an icon to display before the text.
    */
   public readonly icon = input<IconType>();
-  /**
-   * Set the color of the chip.
-   */
-  public readonly color = input<CustomColor | null>();
-
-  protected readonly hostClass = computed(() =>
-    this.theme.classes({
-      '': true,
-      [`kind-${this.kind()}`]: !!this.kind(),
-      [`color-${this.color()}`]: !!this.color(),
-    })
-  );
 }

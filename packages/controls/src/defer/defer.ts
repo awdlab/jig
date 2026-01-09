@@ -36,6 +36,7 @@ import { NgnBase, provideSelf } from '@ngneers/controls/base';
   ],
 })
 export class NgnDefer<T> extends NgnBase<null> {
+  protected readonly theme = null;
   public readonly lazyContent = input<TemplateRef<T> | undefined | null>(undefined);
   public readonly lazyContentContext = input<T | null>(null);
   public readonly open = input(false, { transform: booleanAttribute });

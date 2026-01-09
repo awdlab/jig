@@ -7,7 +7,7 @@ import { NgnTable } from './table';
 
 @Directive({ selector: '[ngnTableTh]' })
 export class NgnTableTh extends NgnBase<'table'> implements OnDestroy, OnInit {
-  private readonly theme = this.injectThemeTemplate(tableControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(tableControlTemplate);
   private _table?: NgnTable<any, any>;
 
   public readonly ngnTableTh = input.required<string>();

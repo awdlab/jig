@@ -15,7 +15,7 @@ import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
 import { generateElementId } from '@ngneers/controls/utils-ng';
-import { IconType } from '@ngneers/controls-custom-types';
+import { CustomKind, IconType } from '@ngneers/controls-custom-types';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 
 import { INPUT_FIELD } from './token';
@@ -47,6 +47,12 @@ export class NgnInputField extends NgnBase<'inputField'> {
    * @default null
    */
   public readonly label = input<string | null>(null);
+  /**
+   * The kind of label presentation
+   * @todo add link to custom kind documentation subsection label
+   * @default undefined
+   */
+  public readonly labelKind = input<CustomKind<'inputFieldLabel'>>(undefined as never);
   /**
    * ID for the input element
    */

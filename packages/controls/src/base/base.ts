@@ -11,9 +11,11 @@ import {
   Injector,
   input,
   Provider,
+  Signal,
   Type,
   viewChildren,
 } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import {
   ControlTemplateInfo,
   injectThemeTemplate,
@@ -21,10 +23,12 @@ import {
   applyPassthrough,
   NgnPassthrough,
 } from '@ngneers/controls/api/ng';
+import { toggleClass } from '@ngneers/controls/utils';
 import { setInputSignalValue } from '@ngneers/controls/utils-ng';
-import { CustomKind } from '@ngneers/controls-custom-types';
+import { CustomColor, CustomKind } from '@ngneers/controls-custom-types';
 import { ControlTemplate } from '@ngneers/controls-themes';
 import { ControlName, ThemeTemplate } from '@ngneers/controls-themes/templates';
+import { pairwise, startWith } from 'rxjs';
 
 import { setNgnInstance } from './ngn-instance';
 
@@ -47,6 +51,8 @@ export function provideSelf(control: Type<unknown>): Provider {
   host: { class: 'ngn-control' },
 })
 export abstract class NgnBase<T extends ControlName | null> {
+  protected abstract theme: ControlTemplateInfo<never> | null;
+
   /**
    * The element reference for the host element.
    */
@@ -70,7 +76,8 @@ export abstract class NgnBase<T extends ControlName | null> {
    *
    * TODO: link to custom types documentation
    */
-  public readonly kind = input<CustomKind<T>>(undefined as never);
+  public readonly kind = input<CustomKind<T> | null | undefined>(undefined as never);
+  public readonly color = input<CustomColor | null | undefined>(undefined as never);
 
   /**
    * Custom passthrough attributes to apply to the control's theme classes and its dependencies.
@@ -102,6 +109,9 @@ export abstract class NgnBase<T extends ControlName | null> {
       });
     });
 
+    this.initializeKindAndColorClasses();
+
+    //todo: rework completely
     afterRenderEffect(() => {
       const pt = this.pt();
       const controlTemplate = this._controlTemplate;
@@ -138,5 +148,53 @@ export abstract class NgnBase<T extends ControlName | null> {
     return theme as ControlTemplateInfo<
       External extends true ? ControlTemplate : T extends string ? ThemeTemplate[T] : never
     >;
+  }
+
+  /**
+   * Toggles the kind and color theme classes based on the current values of the kind and color inputs.
+   */
+  private initializeKindAndColorClasses() {
+    const destroyRef = inject(DestroyRef);
+    const element = this.element.nativeElement;
+
+    type ThemeClassToken = Parameters<ControlTemplateInfo<never>['class']>[0];
+    /**
+     * We can't know here whether the control has any kind or color classes,
+     * so we cast explicitly to ThemeClassToken. In practice, controls without
+     * kind or color classes will simply not toggle any classes as the input type does not allow it.
+     */
+    const classToken = (value: string): ThemeClassToken => value as unknown as ThemeClassToken;
+
+    const togglePrefixedThemeClass = (
+      prefix: 'kind' | 'color',
+      value: unknown,
+      enabled: boolean
+    ): void => {
+      if (!value) {
+        return;
+      }
+      const theme = this.theme;
+      if (!theme) {
+        return;
+      }
+      toggleClass(element, theme.class(classToken(`${prefix}-${value}`)), enabled);
+    };
+
+    const init = (prefix: 'kind' | 'color', signal: Signal<unknown | undefined>): void => {
+      toObservable(signal)
+        .pipe(takeUntilDestroyed(), startWith(null), pairwise())
+        .subscribe(([prev, next]) => {
+          togglePrefixedThemeClass(prefix, prev, false);
+          togglePrefixedThemeClass(prefix, next, true);
+        });
+
+      destroyRef.onDestroy(() => {
+        // Clean up theme classes on destroy
+        togglePrefixedThemeClass(prefix, signal(), false);
+      });
+    };
+
+    init('kind', this.kind);
+    init('color', this.color);
   }
 }

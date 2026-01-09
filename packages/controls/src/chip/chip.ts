@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
-import { CustomColor, IconType } from '@ngneers/controls-custom-types';
+import { IconType } from '@ngneers/controls-custom-types';
 import { chipControlTemplate } from '@ngneers/controls-themes/templates/chip';
 
 /**
@@ -43,10 +43,6 @@ export class NgnChip extends NgnBase<'chip'> {
    */
   public readonly iconClose = input<IconType>();
   /**
-   * Set the color of the chip.
-   */
-  public readonly color = input<CustomColor | null>();
-  /**
    * Emitted when the chip is closed (removed).
    */
   public readonly closed = output<Event>();
@@ -58,7 +54,6 @@ export class NgnChip extends NgnBase<'chip'> {
   protected readonly hostClass = computed(() =>
     this.theme.classes({
       '': true,
-      [`color-${this.color()}`]: !!this.color(),
       closable: this.closable(),
       actionable: this.actionable(),
     })

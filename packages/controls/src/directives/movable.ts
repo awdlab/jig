@@ -18,11 +18,11 @@ import { movableDirectiveTemplate } from '@ngneers/controls-themes/templates/api
 @Directive({
   selector: '[ngnMovable]',
   host: {
-    '[class]': '_theme.classes({ movable: !!ngnMovable(), moved: dragged()})',
+    '[class]': 'theme.classes({ movable: !!ngnMovable(), moved: dragged()})',
   },
 })
 export class NgnMovable extends NgnBase<'movable'> {
-  protected readonly _theme = this.injectThemeTemplate(movableDirectiveTemplate);
+  protected readonly theme = this.injectThemeTemplate(movableDirectiveTemplate);
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
   private readonly _document = inject(DOCUMENT);
 
@@ -156,23 +156,23 @@ export class NgnMovable extends NgnBase<'movable'> {
     const handle = this._ngnMovableDragHandleWithPrevious();
     if (handle.previous && handle.previous !== handle.current) {
       handle.previous.classList.remove(
-        this._theme.class('drag-handle-grab'),
-        this._theme.class('drag-handle-grabbing')
+        this.theme.class('drag-handle-grab'),
+        this.theme.class('drag-handle-grabbing')
       );
     }
     if (!this.ngnMovable() || !this.ngnMovableChangeCursor()) {
       handle.current?.classList.remove(
-        this._theme.class('drag-handle-grab'),
-        this._theme.class('drag-handle-grabbing')
+        this.theme.class('drag-handle-grab'),
+        this.theme.class('drag-handle-grabbing')
       );
       return;
     }
     if (this._isDragging()) {
-      handle.current?.classList.add(this._theme.class('drag-handle-grabbing'));
-      handle.current?.classList.remove(this._theme.class('drag-handle-grab'));
+      handle.current?.classList.add(this.theme.class('drag-handle-grabbing'));
+      handle.current?.classList.remove(this.theme.class('drag-handle-grab'));
     } else {
-      handle.current?.classList.add(this._theme.class('drag-handle-grab'));
-      handle.current?.classList.remove(this._theme.class('drag-handle-grabbing'));
+      handle.current?.classList.add(this.theme.class('drag-handle-grab'));
+      handle.current?.classList.remove(this.theme.class('drag-handle-grabbing'));
     }
   }
 }

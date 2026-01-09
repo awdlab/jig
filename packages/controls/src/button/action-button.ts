@@ -14,6 +14,7 @@ import { NgnButton } from './button';
   providers: [provideSelf(NgnActionButton)],
 })
 export class NgnActionButton<T> extends NgnBase<null> {
+  protected readonly theme = null;
   public readonly config = input.required<NgnActionButtonConfig<T>>();
 
   public readonly clicked = output<T>();

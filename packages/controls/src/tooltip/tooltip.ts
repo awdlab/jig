@@ -45,6 +45,7 @@ import {
   providers: [provideSelf(NgnTooltip)],
 })
 export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
+  protected readonly theme = null;
   private readonly _viewContainerRef = inject(ViewContainerRef);
   private readonly _config = inject(NGN_CONFIG);
   private readonly _tooltip = signal<ComponentRef<TooltipComponent> | null>(null);

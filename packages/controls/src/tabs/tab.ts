@@ -20,6 +20,7 @@ import { NgnBase, provideSelf } from '@ngneers/controls/base';
   providers: [provideSelf(NgnTab)],
 })
 export class NgnTab extends NgnBase<'tabs'> {
+  protected readonly theme = null;
   /**
    * The unique identifier for the tab.
    */

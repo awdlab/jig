@@ -14,7 +14,7 @@ import { avatarControlTemplate } from '@ngneers/controls-themes/templates/avatar
   host: {
     '[class]': 'theme.class()',
     '[style.--size.px]': 'size()',
-    '[style.--color]': 'color()',
+    '[style.--color]': 'bgColor()',
   },
   providers: [provideSelf(NgnAvatar)],
 })
@@ -29,7 +29,7 @@ export class NgnAvatar extends NgnBase<'avatar'> {
   /**
    * The background color of the avatar, if the initials are used.
    */
-  public readonly color = input<string>();
+  public readonly bgColor = input<string>();
   /**
    * The image URL to display in the avatar.
    */
