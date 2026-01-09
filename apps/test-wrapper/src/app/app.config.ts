@@ -8,6 +8,9 @@ import { provideRouter } from '@angular/router';
 import { provideNgnControls } from '@ngneers/controls/api/ng';
 import { novaCoral } from '@ngneers/controls-themes/nova';
 
+import { App } from './app';
+import { LeakTestComponent } from './leak-test.component';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -16,7 +19,10 @@ export const appConfig: ApplicationConfig = {
       theme: { preset: novaCoral },
       disableAnimations: true,
     }),
-    provideRouter([]),
+    provideRouter([
+      { path: '', pathMatch: 'full', component: App },
+      { path: 'leaks', component: LeakTestComponent },
+    ]),
     provideCheckNoChangesConfig({ exhaustive: true }),
   ],
 };
