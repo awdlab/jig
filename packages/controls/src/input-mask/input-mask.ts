@@ -12,6 +12,7 @@ import { domEventHandler } from '@ngneers/controls/api/ng';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
+import { generateElementId } from '@ngneers/controls/utils-ng';
 import { inputMaskControlTemplate } from '@ngneers/controls-themes/templates/input-mask';
 
 import { MaskHelper } from './helper';
@@ -30,7 +31,7 @@ import { InputMaskCfg } from './types';
 export class NgnInputMask extends NgnBase<'inputMask'> {
   protected readonly theme = this.injectThemeTemplate(inputMaskControlTemplate);
   public readonly label = input<string | null>(null);
-  public readonly inputId = input<string | null>(null);
+  public readonly inputId = input<string>(generateElementId());
   /**
    * The mask to apply to the input. Can be a predefined mask key, a custom mask configuration, or a string pattern.
    */
