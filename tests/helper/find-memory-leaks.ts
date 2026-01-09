@@ -199,3 +199,13 @@ export async function forceGcAndCheckForLeaks(params: {
     return findLeakedComponentInstances(snapshot, componentClassNames);
   });
 }
+
+export async function enableHeapProfiler(page: Page) {
+  // Get the CDP session for memory operations
+  const client = await page.context().newCDPSession(page);
+
+  // Enable heap profiler
+  await client.send('HeapProfiler.enable');
+
+  return client;
+}

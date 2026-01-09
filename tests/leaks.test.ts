@@ -1,6 +1,6 @@
 import test, { expect } from '@playwright/test';
 import type { CDPSession, Page } from '@playwright/test';
-import { forceGcAndCheckForLeaks } from './helper/find-memory-leaks';
+import { enableHeapProfiler, forceGcAndCheckForLeaks } from './helper/find-memory-leaks';
 
 const ITERATIONS = 10; // Number of times to load and destroy components
 
@@ -40,11 +40,7 @@ test('Memory leak detection for all components', async ({ page }) => {
   // Wait for the page to be ready
   await expect(page.locator('ngn-leak-test')).toBeAttached();
 
-  // Get the CDP session for memory operations
-  const client = await page.context().newCDPSession(page);
-
-  // Enable heap profiler
-  await client.send('HeapProfiler.enable');
+  const client = await enableHeapProfiler(page);
 
   // Component class names to check for leaks
   const componentClassNames = [
