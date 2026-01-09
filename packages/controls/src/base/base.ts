@@ -154,6 +154,21 @@ export abstract class NgnBase<T extends ControlName | null> {
    * Toggles the kind and color theme classes based on the current values of the kind and color inputs.
    */
   private initializeKindAndColorClasses() {
+    this.initializeAutoThemeClasses('kind', this.kind);
+    this.initializeAutoThemeClasses('color', this.color);
+  }
+
+  /**
+   * Initializes automatic theme class toggling for a given prefix based on the provided string signal.
+   *
+   * ⚠️ Caution: This method assumes that the control's theme supports classes with the given prefix.
+   *
+   * ⚠️ Caution: Make sure the signal provides only string or nullish values.
+   *
+   * @param prefix The prefix for the theme class (e.g., 'kind' or 'color').
+   * @param signal The signal that provides the current string value for the theme class.
+   */
+  protected initializeAutoThemeClasses(prefix: string, signal: Signal<unknown | undefined>) {
     const destroyRef = inject(DestroyRef);
     const element = this.element.nativeElement;
 
@@ -165,11 +180,7 @@ export abstract class NgnBase<T extends ControlName | null> {
      */
     const classToken = (value: string): ThemeClassToken => value as unknown as ThemeClassToken;
 
-    const togglePrefixedThemeClass = (
-      prefix: 'kind' | 'color',
-      value: unknown,
-      enabled: boolean
-    ): void => {
+    const togglePrefixedThemeClass = (prefix: string, value: unknown, enabled: boolean): void => {
       if (!value) {
         return;
       }
@@ -180,21 +191,16 @@ export abstract class NgnBase<T extends ControlName | null> {
       toggleClass(element, theme.class(classToken(`${prefix}-${value}`)), enabled);
     };
 
-    const init = (prefix: 'kind' | 'color', signal: Signal<unknown | undefined>): void => {
-      toObservable(signal)
-        .pipe(takeUntilDestroyed(), startWith(null), pairwise())
-        .subscribe(([prev, next]) => {
-          togglePrefixedThemeClass(prefix, prev, false);
-          togglePrefixedThemeClass(prefix, next, true);
-        });
-
-      destroyRef.onDestroy(() => {
-        // Clean up theme classes on destroy
-        togglePrefixedThemeClass(prefix, signal(), false);
+    toObservable(signal)
+      .pipe(takeUntilDestroyed(), startWith(null), pairwise())
+      .subscribe(([prev, next]) => {
+        togglePrefixedThemeClass(prefix, prev, false);
+        togglePrefixedThemeClass(prefix, next, true);
       });
-    };
 
-    init('kind', this.kind);
-    init('color', this.color);
+    destroyRef.onDestroy(() => {
+      // Clean up theme classes on destroy
+      togglePrefixedThemeClass(prefix, signal(), false);
+    });
   }
 }

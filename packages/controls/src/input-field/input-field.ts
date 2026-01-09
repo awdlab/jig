@@ -82,6 +82,7 @@ export class NgnInputField extends NgnBase<'inputField'> {
 
   constructor() {
     super();
+    this.initializeAutoThemeClasses('labelKind', this.labelKind);
     effect(() => {
       const ngnInput = this._ngnInput();
       if (!ngnInput) {
