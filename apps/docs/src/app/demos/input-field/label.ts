@@ -6,6 +6,9 @@ import { NgnInputField } from '@ngneers/controls/input-field';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnInput, NgnInputField],
   selector: 'ngn-demo-input-field-label',
+  host: {
+    style: 'display: flex; flex-direction: column; gap: 1rem;',
+  },
   template: `
     <ngn-input-field [label]="'label over'" [labelKind]="'over'">
       <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
@@ -14,6 +17,15 @@ import { NgnInputField } from '@ngneers/controls/input-field';
       <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
     </ngn-input-field>
     <ngn-input-field [label]="'label on'" [labelKind]="'on'">
+      <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
+    </ngn-input-field>
+    <ngn-input-field [label]="'float label over'" [labelKind]="'floatOver'">
+      <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
+    </ngn-input-field>
+    <ngn-input-field [label]="'float label in'" [labelKind]="'floatIn'">
+      <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
+    </ngn-input-field>
+    <ngn-input-field [label]="'float label on'" [labelKind]="'floatOn'">
       <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
     </ngn-input-field>
   `,
