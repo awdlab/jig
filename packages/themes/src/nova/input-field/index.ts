@@ -3,6 +3,7 @@ import { baseStyles } from '@ngneers/controls-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
+  fontTemplate,
   sizesTemplate,
 } from '@ngneers/controls-themes/nova/base';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
@@ -10,7 +11,7 @@ import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/in
 export const inputFieldStyles = createThemePart({
   controlTemplate: inputFieldControlTemplate,
   base: baseStyles.inputField,
-  dependencies: [colorsTemplate, sizesTemplate, animationTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, animationTemplate, fontTemplate],
   root: {
     css: ({ v, c, d }) => {
       const invalidDisabledSelector = `
@@ -52,7 +53,7 @@ export const inputFieldStyles = createThemePart({
           outline-color: transparent;
           outline-width: 0;
           outline-style: solid;
-          outline-offset: -2px;
+          outline-offset: -1px;
           overflow: auto;
           /** line-height + vertical padding + border */
           height: calc(1lh + 2 * ${v('size.padding.sm')} + 2px);
@@ -65,13 +66,19 @@ export const inputFieldStyles = createThemePart({
           :focus {
             border-color: ${v('color.primary.500')};
             outline-color: ${v('color.primary.500')};
-            outline-width: 1px;
+            outline-width: 2px;
           }
         }
 
         ${c('label')} {
-          color: ${v('color.surface.700')};
-          font-size: 0.85rem;
+          color: ${v('color.surface.500')};
+          font-size: ${v('font.size.sm')};
+          font-weight: ${v('font.weight.medium')};
+
+          max-width: 100%;
+          white-space: pre;
+          overflow: hidden;
+          text-overflow: ellipsis;
 
           transition-duration: ${v('anim.time.fade')};
           transition-timing-function: ${v('anim.ease.fade')};
@@ -156,14 +163,13 @@ export const inputFieldStyles = createThemePart({
 
         /* Label over */
         ${c('labelKind-over')}, ${c('labelKind-floatOver')} {
-          --topPadding: calc(1rem + 2 * ${v('size.padding.sm')});
           position: relative;
-          padding-top: var(--topPadding);
           ${c('label')} {
             position: absolute;
             top: 0;
+            transform: translateY(-100%);
             left: 0;
-            padding: ${v('size.padding.sm')} ${v('size.padding.md')};
+            padding: 0 ${v('size.padding.md')};
             transition-property: top, transform, font-size;
           }
         }
@@ -171,7 +177,8 @@ export const inputFieldStyles = createThemePart({
         ${c('labelKind-floatOver')}:not(${getFloating(c('labelKind-floatOver'))}) {
           ${c('label')} {
             font-size: 1rem;
-            top: calc(50% + var(--topPadding) / 2);
+            pointer-events: none;
+            top: 50%;
             transform: translateY(-50%);
           }
         }
@@ -194,6 +201,7 @@ export const inputFieldStyles = createThemePart({
         ${c('labelKind-floatIn')}:not(${getFloating(c('labelKind-floatIn'))}) {
           ${c('label')} {
             font-size: 1rem;
+            pointer-events: none;
             top: 50%;
             transform: translateY(-50%);
           }
@@ -207,18 +215,19 @@ export const inputFieldStyles = createThemePart({
             padding: ${v('size.padding.sm')} 4px;
             top: 0;
             left: ${v('size.padding.md')};
+            max-width: calc(100% - ${v('size.padding.md')} * 2);
             transform: translateY(-50%);
-            transition-property: top, transform, left, font-size;
+            transition-property: top, left, font-size;
 
             &:before {
               content: '';
               z-index: -1;
               position: absolute;
+              top: 50%;
+              transform: translateY(-50%);
               left: 0;
-              bottom: 50%;
               width: 100%;
-              height: 3px;
-              transform: translateY(calc(100% - 0.5px));
+              height: 5px;
               background: ${v('color.background')};
             }
           }
@@ -227,9 +236,9 @@ export const inputFieldStyles = createThemePart({
         ${c('labelKind-floatOn')}:not(${getFloating(c('labelKind-floatOn'))}) {
           ${c('label')} {
             font-size: 1rem;
+            pointer-events: none;
             left: calc(${v('size.padding.md')} - 4px);
             top: 50%;
-            transform: translateY(-50%);
             &:before {
               display: none;
             }
