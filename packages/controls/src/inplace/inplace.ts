@@ -16,8 +16,7 @@ import { InplaceTemplates } from './inplace-templates';
   imports: [NgClass, NgTemplateOutlet, NgnDefer],
   providers: [provideSelf(NgnInplace)],
   host: {
-    '[class]':
-      'theme.classes({"": true, disabled: disabled()})',
+    '[class]': 'theme.classes({"": true, disabled: disabled()})',
   },
 })
 export class NgnInplace extends InplaceTemplates {
