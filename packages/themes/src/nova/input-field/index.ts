@@ -218,18 +218,19 @@ export const inputFieldStyles = createThemePart({
             left: ${v('size.padding.md')};
             max-width: calc(100% - ${v('size.padding.md')} * 2);
             transform: translateY(-55%);
-            transition-property: top, left, font-size, transform;
+            transition-property: top, left, font-size, transform, padding;
 
             &:before {
               content: '';
               z-index: -1;
               position: absolute;
-              top: 50%;
-              transform: translateY(-55%);
+              top: 55%;
+              transform: translateY(-50%) scale(1);
               left: 0;
               width: 100%;
               height: 5px;
               background: ${v('color.background')};
+              transition: transform ${v('anim.time.fade')} ${v('anim.ease.fade')};
             }
           }
         }
@@ -243,7 +244,7 @@ export const inputFieldStyles = createThemePart({
             transform: translateY(-50%);
             top: 50%;
             &:before {
-              display: none;
+              transform: translateY(-50%) scale(0);
             }
           }
         }
