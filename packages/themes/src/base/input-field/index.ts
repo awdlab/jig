@@ -5,7 +5,10 @@ export const inputFieldStyles = createThemePart({
   controlTemplate: inputFieldControlTemplate,
   dependencies: [],
   root: {
-    css: ({ v, c, d }) => css`
+    css: ({ c, d }) => css`
+      ${c('host')} {
+        display: block;
+      }
       ${c()} {
         cursor: text;
         display: inline-flex;

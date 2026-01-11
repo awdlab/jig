@@ -7,7 +7,7 @@ import { MASKS, NgnInputMask, InputMaskCfg } from '@ngneers/controls/input-mask'
   imports: [NgnInput, NgnInputMask],
   selector: 'ngn-demo-input-mask-base',
   template: `
-    <ngn-input-mask [inputId]="'test-input'" [mask]="mask">
+    <ngn-input-mask [mask]="mask">
       <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
     </ngn-input-mask>
     {{ value() }}

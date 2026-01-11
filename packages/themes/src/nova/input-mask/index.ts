@@ -8,9 +8,16 @@ export const inputMaskStyles = createThemePart({
   base: baseStyles.inputMask,
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
-    css: ({ v, c }) => css`
+    css: ({ v, c, d }) => css`
       ${c('mask-text')} {
         color: ${v('color.surface.400')};
+      }
+      ${c()}:has(${d('input')}${d('input-field')}) {
+        ${c('mask')} {
+          /* 1px for the top & left border of the input field */
+          top: calc(1px + ${v('size.padding.sm')});
+          left: calc(1px + ${v('size.padding.md')});
+        }
       }
     `,
   },

@@ -28,6 +28,9 @@ import { INPUT_FIELD } from './token';
   imports: [NgClass, NgnIcon, NgnButton],
   selector: 'ngn-input-field',
   templateUrl: './input-field.html',
+  host: {
+    '[class]': 'theme.class("host")',
+  },
   providers: [
     {
       provide: INPUT_FIELD,
