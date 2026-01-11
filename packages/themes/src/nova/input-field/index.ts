@@ -70,20 +70,6 @@ export const inputFieldStyles = createThemePart({
           }
         }
 
-        ${c('label')} {
-          color: ${v('color.surface.500')};
-          font-size: ${v('font.size.sm')};
-          font-weight: ${v('font.weight.medium')};
-
-          max-width: 100%;
-          white-space: pre;
-          overflow: hidden;
-          text-overflow: ellipsis;
-
-          transition-duration: ${v('anim.time.fade')};
-          transition-timing-function: ${v('anim.ease.fade')};
-        }
-
         /* disabled */
         ${c()}:has(${d('input')}:disabled), :disabled ${c()} {
           background: ${v('color.disabled.background')};
@@ -161,6 +147,21 @@ export const inputFieldStyles = createThemePart({
           }
         }
 
+        /* Label Styles */
+        ${c('label')} {
+          color: ${v('color.surface.500')};
+          font-size: ${v('font.size.xs')};
+          font-weight: ${v('font.weight.medium')};
+
+          max-width: 100%;
+          white-space: pre;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          transition-duration: ${v('anim.time.fade')};
+          transition-timing-function: ${v('anim.ease.fade')};
+        }
+
         /* Label over */
         ${c('labelKind-over')}, ${c('labelKind-floatOver')} {
           position: relative;
@@ -187,12 +188,12 @@ export const inputFieldStyles = createThemePart({
         ${c('labelKind-in')}, ${c('labelKind-floatIn')} {
           position: relative;
           ${c()} {
-            padding-top: 1.5rem;
+            padding-top: 1.2rem;
           }
           ${c('label')} {
             position: absolute;
             padding: ${v('size.padding.sm')} ${v('size.padding.md')};
-            transform: translateY(1px);
+            transform: translateY(0);
             top: 0;
             transition-property: top, transform, font-size;
           }
@@ -216,15 +217,15 @@ export const inputFieldStyles = createThemePart({
             top: 0;
             left: ${v('size.padding.md')};
             max-width: calc(100% - ${v('size.padding.md')} * 2);
-            transform: translateY(-50%);
-            transition-property: top, left, font-size;
+            transform: translateY(-55%);
+            transition-property: top, left, font-size, transform;
 
             &:before {
               content: '';
               z-index: -1;
               position: absolute;
               top: 50%;
-              transform: translateY(-50%);
+              transform: translateY(-55%);
               left: 0;
               width: 100%;
               height: 5px;
@@ -237,7 +238,9 @@ export const inputFieldStyles = createThemePart({
           ${c('label')} {
             font-size: 1rem;
             pointer-events: none;
-            left: calc(${v('size.padding.md')} - 4px);
+            padding: 0 ${v('size.padding.md')};
+            left: 0;
+            transform: translateY(-50%);
             top: 50%;
             &:before {
               display: none;
