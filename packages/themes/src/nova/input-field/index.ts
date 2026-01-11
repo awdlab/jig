@@ -57,7 +57,7 @@ export const inputFieldStyles = createThemePart({
           overflow: auto;
           /** line-height + vertical padding + border */
           --baseHeight: calc(1lh + 2 * ${v('size.padding.sm')} + 2px);
-          height: var(--baseHeight);
+          height: max(var(--baseHeight), fit-content);
 
           /* regular */
           &:hover {
@@ -190,7 +190,7 @@ export const inputFieldStyles = createThemePart({
           position: relative;
           ${c()} {
             padding-top: 1.2rem;
-            height: calc(var(--baseHeight) + 1.2rem);
+            height: max(calc(var(--baseHeight) + 1.2rem), fit-content);
           }
           ${c('label')} {
             position: absolute;
