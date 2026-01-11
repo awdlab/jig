@@ -35,6 +35,9 @@
       "december": "December"
     }
   },
+  "editInplace": {
+    "placeholder": "Click to edit"
+  },
   "filter": {
     "noFilter": "No filter",
     "addCondition": "Add condition",

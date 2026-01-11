@@ -1,9 +1,17 @@
 import { NgClass } from '@angular/common';
-import { booleanAttribute, Component, input, model, ChangeDetectionStrategy } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  input,
+  model,
+  ChangeDetectionStrategy,
+  inject,
+} from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnAutofocus } from '@ngneers/controls/directives';
+import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInplace } from '@ngneers/controls/inplace';
 import { NgnInput } from '@ngneers/controls/input';
@@ -31,11 +39,13 @@ import { EditInplaceTemplates } from './edit-inplace-templates';
   ],
   providers: [provideSelf(NgnEditInplace)],
   host: {
-    '[class]': 'theme.classes({"": true})',
+    '[class]':
+      'theme.classes({"": true, invalid: invalid(), readonly: readonly(), disabled: disabled()})',
   },
 })
 export class NgnEditInplace extends EditInplaceTemplates {
   protected readonly theme = this.injectThemeTemplate(editInplaceControlTemplate);
+  protected readonly i18n = inject(I18n).translations;
 
   protected readonly closeContent = this.switchToDisplay.bind(this);
 

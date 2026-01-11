@@ -1,0 +1,25 @@
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { NgnEditInplace } from '@ngneers/controls/edit-inplace';
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgnEditInplace],
+  selector: 'ngn-demo-inplace-states',
+  template: `
+    Default:
+    <ngn-edit-inplace [value]="value()" (valueChange)="value.set($event)" /><br />
+    Readonly:
+    <ngn-edit-inplace [value]="value()" (valueChange)="value.set($event)" readonly /><br />
+    Disabled:
+    <ngn-edit-inplace [value]="value()" (valueChange)="value.set($event)" disabled /><br />
+    Invalid:
+    <ngn-edit-inplace [value]="value()" (valueChange)="value.set($event)" invalid /><br />
+    Invalid + Readonly:
+    <ngn-edit-inplace [value]="value()" (valueChange)="value.set($event)" invalid readonly /><br />
+    Invalid + Disabled:
+    <ngn-edit-inplace [value]="value()" (valueChange)="value.set($event)" invalid disabled /><br />
+  `,
+})
+export class Demo_EditInplace_States {
+  public readonly value = signal('Edit me');
+}

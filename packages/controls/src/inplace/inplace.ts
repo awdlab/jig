@@ -16,7 +16,8 @@ import { InplaceTemplates } from './inplace-templates';
   imports: [NgClass, NgTemplateOutlet, NgnDefer],
   providers: [provideSelf(NgnInplace)],
   host: {
-    '[class]': 'theme.classes({"": true})',
+    '[class]':
+      'theme.classes({"": true, disabled: disabled()})',
   },
 })
 export class NgnInplace extends InplaceTemplates {
@@ -38,11 +39,19 @@ export class NgnInplace extends InplaceTemplates {
    * @default false
    */
   public readonly cache = input(false, { transform: booleanAttribute });
+  /**
+   * Explicitly apply disabled state styling
+   * @default false
+   */
+  public readonly disabled = input(false, { transform: booleanAttribute });
 
   /**
    * Switches to the content view.
    */
   public switchToContent() {
+    if (this.disabled()) {
+      return;
+    }
     this.contentVisible.set(true);
   }
 

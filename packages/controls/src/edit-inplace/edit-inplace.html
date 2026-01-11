@@ -13,11 +13,18 @@
   (contentVisibleChange)="editVisible.set($event)"
   [lazy]="lazy()"
   [cache]="cache()"
+  [disabled]="disabled() || readonly()"
 />
 
 <ng-template #defaultDisplayTemplate [ngnTemplate]="templateTypes.display" let-display>
   <div [ngClass]="theme.class('default-display')">
-    <span>{{ display.value }}</span>
+    @if (!display.value) {
+      <span [ngClass]="theme.class('default-fallback-display')">{{
+        i18n['editInplace_placeholder']()
+      }}</span>
+    } @else {
+      <span>{{ display.value }}</span>
+    }
   </div>
 </ng-template>
 

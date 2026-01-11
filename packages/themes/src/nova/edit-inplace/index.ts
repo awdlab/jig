@@ -8,9 +8,41 @@ export const editInplaceStyles = createThemePart({
   base: baseStyles.editInplace,
   dependencies: [sizesTemplate, colorsTemplate],
   root: {
-    css: ({ c }) => css`
+    css: ({ c, d, v }) => css`
       ${c('default-display')} {
         padding: 1px; /* To avoid layout shift when switching to edit mode */
+      }
+      ${c()} {
+        display: inline-block;
+      }
+      ${c('default-fallback-display')} {
+        font-style: italic;
+      }
+
+      ${c('readonly')} ${d('inplace', 'display')} {
+        cursor: default;
+        &:hover,
+        &:active,
+        &:focus-visible {
+          background-color: transparent;
+        }
+      }
+      ${c('disabled')} ${d('inplace', 'display')} {
+        cursor: default;
+        color: ${v('color.disabled.text')};
+        &:hover,
+        &:active,
+        &:focus-visible {
+          background-color: transparent;
+        }
+      }
+      ${c('invalid')} {
+        ${d('inplace', 'display')} {
+          color: ${v('color.error.500')};
+        }
+        &${c('disabled')} ${d('inplace', 'display')} {
+          color: ${v('color.error.200')};
+        }
       }
     `,
   },
