@@ -51,6 +51,11 @@ export class NgnInputField extends NgnBase<'inputField'> {
    */
   public readonly label = input<string | null>(null);
   /**
+   * Sets the `aria-labelledby` attribute on the input element
+   * @default null
+   */
+  public readonly labelledBy = input<string | null>(null);
+  /**
    * The kind of label presentation
    * @todo add link to custom kind documentation subsection label
    * @default undefined
@@ -92,6 +97,14 @@ export class NgnInputField extends NgnBase<'inputField'> {
         return;
       }
       ngnInput.element.nativeElement.id = this.inputId();
+    });
+    effect(() => {
+      const ngnInput = this._ngnInput();
+      if (!ngnInput) {
+        return;
+      }
+      const labelledBy = this.labelledBy();
+      ngnInput.element.nativeElement.setAttribute('aria-labelledby', labelledBy ?? '');
     });
   }
 

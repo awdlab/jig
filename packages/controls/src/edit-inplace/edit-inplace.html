@@ -23,7 +23,13 @@
 
 <ng-template #defaultEditTemplate [ngnTemplate]="templateTypes.edit" let-edit>
   <div [ngClass]="theme.class('default-edit')">
-    <ngn-input-field (focusout)="focusOut($event)">
+    <ngn-input-field
+      (focusout)="focusOut($event)"
+      [label]="label()"
+      [inputId]="inputId()"
+      [invalid]="invalid()"
+      [labelledBy]="labelledBy()"
+    >
       <input
         type="text"
         ngnInput

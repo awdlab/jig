@@ -6,6 +6,10 @@
     [ngClass]="theme.class('input-field')"
     (click)="show()"
     (keydown)="onKeyDown($event)"
+    [label]="label()"
+    [inputId]="inputId()"
+    [invalid]="invalid()"
+    [labelledBy]="labelledBy()"
   >
     <input
       [ngClass]="theme.class('input')"
@@ -14,6 +18,8 @@
       (valueChange)="stringValueChange($event)"
       [type]="showTime() ? 'datetime-local' : 'date'"
       [value]="valueStr()"
+      [disabled]="disabled()"
+      [readOnly]="readonly()"
     />
     <ngn-icon defaultIcon="calendar" />
   </ngn-input-field>

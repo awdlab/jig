@@ -15,6 +15,11 @@ export abstract class ValueControlBase<C extends ControlName, T>
    */
   public readonly label = input<string | null>(null);
   /**
+   * Sets the `aria-labelledby` attribute on the control.
+   * @default null
+   */
+  public readonly labelledBy = input<string | null>(null);
+  /**
    * The ID for the control
    * @default generateElementId()
    */

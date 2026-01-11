@@ -7,6 +7,7 @@
   [attr.disabled]="disabled() ? '' : undefined"
   [ariaReadOnly]="readonly() ? '' : undefined"
   [ariaInvalid]="invalid() ? 'true' : undefined"
+  [ariaLabelledByElements]="labelledBy()"
 />
 <div
   [ngClass]="
