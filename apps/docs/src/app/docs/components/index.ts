@@ -23,6 +23,7 @@ import { PaginatorPage } from './paginator/page';
 import { PopoverPage } from './popover/page';
 import { ScrollerPage } from './scroller/page';
 import { SelectPage } from './select/page';
+import { SliderPage } from './slider/page';
 import { SplitterPage } from './splitter/page';
 import { TablePage } from './table/page';
 import { TabsPage } from './tabs/page';
@@ -55,6 +56,7 @@ export const ALL_COMPONENT_PAGES = [
   PopoverPage,
   ScrollerPage,
   SelectPage,
+  SliderPage,
   SplitterPage,
   TablePage,
   TabsPage,

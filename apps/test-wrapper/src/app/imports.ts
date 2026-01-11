@@ -38,6 +38,7 @@ export const IMPORTS = {
     import('@ngneers/controls/scroller').then((m) => m.NgnScrollerItem),
   ],
   select: () => import('@ngneers/controls/select').then((m) => m.NgnSelect),
+  slider: () => import('@ngneers/controls/slider').then((m) => m.NgnSlider),
   splitter: () =>
     import('@ngneers/controls/splitter').then((m) => m.NgnSplitter),
   tabs: () => import('@ngneers/controls/tabs').then((m) => m.NgnTabs),

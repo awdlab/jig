@@ -28,6 +28,7 @@ export type ThemeTemplate = {
   popover: Awaited<typeof import('./popover')>['popoverControlTemplate'];
   scroller: Awaited<typeof import('./scroller')>['scrollerControlTemplate'];
   select: Awaited<typeof import('./select')>['selectControlTemplate'];
+  slider: Awaited<typeof import('./slider')>['sliderControlTemplate'];
   splitter: Awaited<typeof import('./splitter')>['splitterControlTemplate'];
   tabs: Awaited<typeof import('./tabs')>['tabsControlTemplate'];
   table: Awaited<typeof import('./table')>['tableControlTemplate'];

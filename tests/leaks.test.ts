@@ -1,5 +1,4 @@
 import test, { expect } from '@playwright/test';
-import type { CDPSession, Page } from '@playwright/test';
 import { enableHeapProfiler, forceGcAndCheckForLeaks } from './helper/find-memory-leaks';
 
 const ITERATIONS = 10; // Number of times to load and destroy components
@@ -70,6 +69,7 @@ test('Memory leak detection for all components', async ({ page }) => {
     'NgnScroller',
     'NgnScrollerItem',
     'NgnSelect',
+    'NgnSlider',
     'NgnSplitter',
     'NgnTab',
     'NgnTabs',

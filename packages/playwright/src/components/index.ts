@@ -19,6 +19,7 @@ export * from './popover';
 export * from './scroller';
 export * from './filter';
 export * from './select';
+export * from './slider';
 export * from './tabs';
 export * from './tag';
 export * from './tooltip';

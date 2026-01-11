@@ -30,6 +30,7 @@ import { NgnMessage } from '@ngneers/controls/message';
 import { NgnPopover } from '@ngneers/controls/popover';
 import { NgnScroller, NgnScrollerItem } from '@ngneers/controls/scroller';
 import { NgnSelect } from '@ngneers/controls/select';
+import { NgnSlider } from '@ngneers/controls/slider';
 import { NgnSplitter, NgnSplitterPanel } from '@ngneers/controls/splitter';
 import { NgnTableModule } from '@ngneers/controls/table';
 import { NgnTab, NgnTabs } from '@ngneers/controls/tabs';
@@ -73,6 +74,7 @@ declare global {
     NgnScroller,
     NgnScrollerItem,
     NgnSelect,
+    NgnSlider,
     NgnSplitter,
     NgnSplitterPanel,
     NgnTab,
@@ -210,6 +212,9 @@ declare global {
 
       <!-- Select -->
       <ngn-select [options]="items()" />
+
+      <!-- Select -->
+      <ngn-slider />
 
       <!-- Splitter -->
       <ngn-splitter

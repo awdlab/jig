@@ -1,19 +1,31 @@
-import { afterRenderEffect, Directive, DOCUMENT, ElementRef, inject, signal } from '@angular/core';
+import {
+  afterRenderEffect,
+  Directive,
+  DOCUMENT,
+  ElementRef,
+  inject,
+  output,
+  signal,
+} from '@angular/core';
 import { domEventObservable, Platform } from '@ngneers/controls/api/ng';
 
-@Directive({
-  selector: '[ngnDragScroll]',
-})
-export class NgnDragScroll {
-  private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
+import { NgnDragInfo } from './types';
+
+@Directive()
+export abstract class NgnDragBase {
+  protected readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly _document = inject(DOCUMENT);
+
   private _pointerDown = false;
   private _startX?: number = undefined;
   private _startY?: number = undefined;
+
   protected readonly isDragging = signal(false);
+  public readonly dragStart = output<void>();
+  public readonly dragEnd = output<void>();
+  public readonly dragged = output<NgnDragInfo>();
 
-  private readonly _document = inject(DOCUMENT);
-
-  private readonly _pointerDownEvent = domEventObservable(this._el.nativeElement, 'pointerdown');
+  private readonly _pointerDownEvent = domEventObservable(this.el.nativeElement, 'pointerdown');
   private readonly _pointerMoveEvent = domEventObservable(this._document, 'pointermove');
   private readonly _pointerUpEvent = domEventObservable(this._document, 'pointerup');
 
@@ -28,10 +40,14 @@ export class NgnDragScroll {
         this._startY = (event as PointerEvent).clientY;
       });
       this._pointerUpEvent.subscribe(() => {
+        if (!this._pointerDown) {
+          return;
+        }
         this._pointerDown = false;
         this._startX = undefined;
         this._startY = undefined;
         this.isDragging.set(false);
+        this.dragEnd.emit();
       });
 
       this._pointerMoveEvent.subscribe(event => {
@@ -41,6 +57,13 @@ export class NgnDragScroll {
         this.handleDrag(event);
       });
     });
+  }
+
+  protected abstract onDragged(delta: NgnDragInfo): void;
+
+  private onDraggedInt(delta: NgnDragInfo) {
+    this.dragged.emit(delta);
+    this.onDragged(delta);
   }
 
   private handleDrag(event: Event) {
@@ -56,16 +79,13 @@ export class NgnDragScroll {
         return;
       }
       this.isDragging.set(true);
+      this.dragStart.emit();
     }
     if (!this.isDragging()) {
       return;
     }
     this._startX = clientX;
     this._startY = clientY;
-    this._el.nativeElement.scrollBy({
-      left: -deltaX,
-      top: -deltaY,
-      behavior: 'auto',
-    });
+    this.onDraggedInt({ deltaX: deltaX, deltaY: deltaY, absoluteX: clientX, absoluteY: clientY });
   }
 }

@@ -1,0 +1,14 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div #track [ngClass]="theme.class('track')" (click)="trackClicked($event)">
+  <div [class]="theme.class('fill')" [style.--valuePercent.%]="left()"></div>
+  <div
+    #thumb
+    [ngClass]="theme.class('thumb')"
+    ngnDrag
+    (dragged)="onDragged($event)"
+    (dragEnd)="onDragEnd()"
+    [style.--valuePercent.%]="left()"
+    (click)="thumbClicked($event)"
+  ></div>
+</div>

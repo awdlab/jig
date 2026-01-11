@@ -26,6 +26,7 @@ import { paginatorStyles } from '@ngneers/controls-themes/nova/paginator';
 import { popoverStyles } from '@ngneers/controls-themes/nova/popover';
 import { scrollerStyles } from '@ngneers/controls-themes/nova/scroller';
 import { selectStyles } from '@ngneers/controls-themes/nova/select';
+import { sliderStyles } from '@ngneers/controls-themes/nova/slider';
 import { splitterStyles } from '@ngneers/controls-themes/nova/splitter';
 import { tableStyles } from '@ngneers/controls-themes/nova/table';
 import { tabsStyles } from '@ngneers/controls-themes/nova/tabs';
@@ -87,6 +88,7 @@ export const novaCoral = createTheme(
     scrollerStyles,
     selectStyles,
     sizes,
+    sliderStyles,
     splitterStyles,
     tableStyles,
     tabsStyles,

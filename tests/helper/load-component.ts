@@ -1,8 +1,9 @@
 import test, { expect, Page } from '@playwright/test';
-import type {
-  InputsType,
-  OutputsType,
-  TemplateType,
+import {
+  evalKey,
+  type InputsType,
+  type OutputsType,
+  type TemplateType,
 } from '../../apps/test-wrapper/src/app/window.js';
 
 type Handle = {
@@ -10,6 +11,12 @@ type Handle = {
   setOutputs: (outputs: OutputsType) => Promise<void>;
   getOutputLog: () => Promise<Record<string, any[]>>;
 };
+
+export function evalValue(code: string): { [evalKey]: string } {
+  return {
+    [evalKey]: code,
+  };
+}
 
 export async function loadComponent(
   page: Page,

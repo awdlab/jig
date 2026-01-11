@@ -21,7 +21,7 @@ import {
   defineTestComponent,
   TestComponentBase,
 } from './define-test-component';
-import { WindowService } from './window';
+import { isEval, WindowService } from './window';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -85,6 +85,29 @@ export class App implements OnInit {
     if (!component) {
       return;
     }
-    component.setInput('inputs', this._win.inputs());
+    const inputs = this._win.inputs();
+
+    function getMappedVal(val: any): any {
+      if (val && typeof val === 'object' && !Array.isArray(val)) {
+        const keys = Object.keys(val);
+        if (keys.length === 1 && isEval(keys[0])) {
+          console.log('Converting eval input', val[keys[0]]);
+          // eval case
+          return eval(val[keys[0]]);
+        }
+      }
+      return val;
+    }
+
+    const mappedInputs = Object.entries(inputs).reduce(
+      (acc, [key, val]) => {
+        return {
+          ...acc,
+          [key]: getMappedVal(val),
+        };
+      },
+      {} as Record<string, any>,
+    );
+    component.setInput('inputs', mappedInputs);
   }
 }

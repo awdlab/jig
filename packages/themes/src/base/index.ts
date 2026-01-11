@@ -25,6 +25,7 @@ import { paginatorStyles } from '@ngneers/controls-themes/base/paginator';
 import { popoverStyles } from '@ngneers/controls-themes/base/popover';
 import { scrollerStyles } from '@ngneers/controls-themes/base/scroller';
 import { selectStyles } from '@ngneers/controls-themes/base/select';
+import { sliderStyles } from '@ngneers/controls-themes/base/slider';
 import { splitterStyles } from '@ngneers/controls-themes/base/splitter';
 import { tabsStyles } from '@ngneers/controls-themes/base/tabs';
 import { tagStyles } from '@ngneers/controls-themes/base/tag';
@@ -62,6 +63,7 @@ export const baseStyles = {
   popover: popoverStyles,
   scroller: scrollerStyles,
   select: selectStyles,
+  slider: sliderStyles,
   splitter: splitterStyles,
   table: tableStyles,
   tabs: tabsStyles,

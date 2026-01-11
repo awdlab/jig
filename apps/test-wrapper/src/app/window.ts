@@ -2,6 +2,12 @@ import { Injectable, signal } from '@angular/core';
 
 import { IMPORTS } from './imports';
 
+export const evalKey = '__is_eval__';
+
+export function isEval(key: unknown): key is typeof evalKey {
+  return key === evalKey;
+}
+
 export type InputsType = {
   [key: string]: any;
 };
