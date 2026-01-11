@@ -12,7 +12,9 @@
   [labelledBy]="labelledBy()"
   [inputId]="inputId()"
   [invalid]="invalid()"
-  [tabindex]="editable() ? -1 : tabindex()"
+  [readonly]="readonly()"
+  [disabled]="disabled()"
+  [tabindex]="editable() || disabled() ? -1 : tabindex()"
 >
   @if (editable()) {
     <ng-content select="[ngnInput]">
@@ -24,6 +26,8 @@
         [attr.aria-controls]="inputId() + '_listbox'"
         [value]="valueStr() || ''"
         (valueChange)="onEditableChange($event)"
+        [readOnly]="readonly()"
+        [disabled]="disabled()"
       />
     </ng-content>
   } @else {
@@ -33,6 +37,9 @@
       [aria-expanded]="popover.open()"
       aria-haspopup="listbox"
       [attr.aria-controls]="inputId() + '_listbox'"
+      [attr.aria-invalid]="invalid() ? 'true' : null"
+      [attr.aria-readonly]="readonly() ? 'true' : null"
+      [attr.disabled]="disabled() ? '' : null"
     >
       @if (multiple()) {
         <ng-container

@@ -85,6 +85,16 @@ export class NgnInputField extends NgnBase<'inputField'> {
    * @default false
    */
   public readonly invalid = input(false, { transform: booleanAttribute });
+  /**
+   * Explicitly apply readonly state styling
+   * @default false
+   */
+  public readonly readonly = input(false, { transform: booleanAttribute });
+  /**
+   * Explicitly apply disabled state styling
+   * @default false
+   */
+  public readonly disabled = input(false, { transform: booleanAttribute });
 
   private readonly _ngnInput = contentChild(NgnInput);
 

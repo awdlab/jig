@@ -13,8 +13,14 @@ export const selectStyles = createThemePart({
         --icon-size: 14px;
       }
       ${c('input')} ${d('input-field')} {
-        cursor: pointer;
         gap: ${v('size.padding.sm')};
+        &:not(:has([aria-readonly])):not(:has([disabled])) {
+          cursor: pointer;
+        }
+        &:has([aria-readonly]),
+        &:has([disabled]) {
+          cursor: default;
+        }
       }
       ${c('icon')} {
         color: ${v('color.surface.500')};

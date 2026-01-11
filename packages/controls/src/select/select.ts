@@ -256,6 +256,9 @@ export class NgnSelect<
     // if event is not handled by the listbox, we can handle it here
     if (!event.defaultPrevented) {
       if (event.key === 'Enter') {
+        if (this.readonly() || this.disabled()) {
+          return;
+        }
         this._popover().toggle();
         event.stopPropagation();
         event.preventDefault();
@@ -294,6 +297,9 @@ export class NgnSelect<
    * Shows the select dropdown.
    */
   public show() {
+    if (this.disabled() || this.readonly()) {
+      return;
+    }
     this._popover().show();
   }
 

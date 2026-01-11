@@ -72,7 +72,9 @@ export const inputFieldStyles = createThemePart({
         }
 
         /* disabled */
-        ${c()}:has(${d('input')}:disabled), :disabled ${c()} {
+        ${c('disabled')}, ${c()}:has(${d('input')}:disabled), :disabled ${c()}, ${c()}:has(${d(
+          'input'
+        )}[disabled]) {
           background: ${v('color.disabled.background')};
           border-color: ${v('color.disabled.border')};
           color: ${v('color.disabled.text')};
@@ -87,7 +89,9 @@ export const inputFieldStyles = createThemePart({
         }
 
         /* read-only */
-        ${c()}:has(${d('input')}:read-only), ${c()}:has(${d('input')}[aria-readonly]) {
+        ${c('readonly')} ${c()}:has(${d('input')}:read-only), ${c()}:has(${d(
+          'input'
+        )}[aria-readonly]) {
           border-color: ${v('color.disabled.border')};
           &:hover {
             border-color: ${v('color.disabled.border')};

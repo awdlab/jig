@@ -28,3 +28,7 @@ filtering, grouping, custom templates, and editable options.
 ### Custom Editable
 
 {{ demo: Demo_Select_EditableCustom }}
+
+### States
+
+{{ demo: Demo_Select_States }}

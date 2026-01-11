@@ -4,6 +4,7 @@ import { Demo_Select_EditableCustom } from '../../../demos/select/editable-custo
 import { Demo_Select_Filter } from '../../../demos/select/filter';
 import { Demo_Select_Grouped } from '../../../demos/select/grouped';
 import { Demo_Select_Multiple } from '../../../demos/select/multiple';
+import { Demo_Select_States } from '../../../demos/select/states';
 import { Demo_Select_Templates } from '../../../demos/select/templates';
 import { NgnDocsPage } from '../../../utils/page/types';
 
@@ -23,6 +24,7 @@ export const SelectPage: NgnDocsPage = {
         Demo_Select_Editable,
         Demo_Select_EditableCustom,
         Demo_Select_Multiple,
+        Demo_Select_States,
       ],
     },
     {

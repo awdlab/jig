@@ -3,6 +3,6 @@ import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
 
 export const inputFieldControlTemplate = createControlTemplate({
   scope: 'input-field',
-  classNames: ['host', 'invalid', 'label', 'clear-button', 'labelKind-*'],
+  classNames: ['host', 'disabled', 'readonly', 'invalid', 'label', 'clear-button', 'labelKind-*'],
   dependencies: [inputControlTemplate],
 });
