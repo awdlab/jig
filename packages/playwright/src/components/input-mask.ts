@@ -8,13 +8,11 @@ export class NgnInputMaskHarness {
   public readonly classes = themeClasses(inputMaskControlTemplate);
 
   public readonly input: NgnInputHarness;
-  public readonly inputField: NgnInputFieldHarness;
   public readonly mask: Locator;
 
   constructor(locator: Locator) {
     this.input = new NgnInputHarness(locator.locator('input[ngnInput]').first());
-    this.inputField = new NgnInputFieldHarness(locator.locator('ngn-input-field').first());
-    this.mask = this.inputField.locator.locator(this.classes.mask).first();
+    this.mask = locator.locator(this.classes.mask).first();
   }
 
   public expectTextWithMask(textWithMask: string): Promise<void> {
