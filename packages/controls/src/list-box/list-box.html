@@ -32,6 +32,13 @@
     "
     (click)="!itemOrGroup.items && selectable() && onSelect(itemOrGroup.value)"
   >
+    @if (showCheckboxes() && !itemOrGroup.items) {
+      <ngn-checkbox
+        [value]="valueArray().includes(itemOrGroup.value)"
+        aria-hidden="true"
+        inert="true"
+      />
+    }
     <ng-container
       *ngTemplateOutlet="
         itemOrGroup.items ? groupTemplate() : itemTemplate();

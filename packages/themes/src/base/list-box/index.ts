@@ -5,7 +5,7 @@ export const listBoxStyles = createThemePart({
   controlTemplate: listBoxControlTemplate,
   dependencies: [],
   root: {
-    css: ({ v, c }) => css`
+    css: ({ c, d }) => css`
       ${c()} {
         width: 100%;
         height: 100%;
@@ -20,6 +20,9 @@ export const listBoxStyles = createThemePart({
       }
       ${c('')}:has(${c('empty')}) ${c('scroller')} {
         display: none;
+      }
+      ${c()} ${d('scroller', 'item')} {
+        display: flex;
       }
     `,
   },

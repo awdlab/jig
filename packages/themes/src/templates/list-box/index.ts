@@ -1,4 +1,6 @@
 import { createControlTemplate } from '@ngneers/controls-themes/api';
+import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
+import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scroller';
 
 export const listBoxControlTemplate = createControlTemplate({
   scope: 'list-box',
@@ -11,4 +13,5 @@ export const listBoxControlTemplate = createControlTemplate({
     'item-selected',
     'item-highlighted',
   ],
+  dependencies: [checkboxControlTemplate, scrollerControlTemplate],
 });

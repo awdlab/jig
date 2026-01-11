@@ -23,6 +23,7 @@ import {
 } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
+import { NgnCheckbox } from '@ngneers/controls/checkbox';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnScroller, NgnScrollerItem } from '@ngneers/controls/scroller';
 import { asyncComputed } from '@ngneers/controls/utils-ng';
@@ -37,7 +38,7 @@ import { ListBoxTemplates, ValueType } from './list-box-templates';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-list-box',
   templateUrl: './list-box.html',
-  imports: [NgTemplateOutlet, NgnScroller, NgnScrollerItem, NgnTemplate, NgClass],
+  imports: [NgTemplateOutlet, NgnScroller, NgnScrollerItem, NgnCheckbox, NgnTemplate, NgClass],
   providers: [provideSelf(NgnListBox)],
   host: {
     '[class]': `theme.classes({
@@ -72,6 +73,13 @@ export class NgnListBox<
   public readonly virtual = input(false, { transform: booleanAttribute });
   public readonly itemHeight = input<number>();
   public readonly multiple = input<Multiple>();
+  /**
+   * Whether to use a checkbox to indicate selection state.
+   *
+   * This option is true per default when `multiple` is `true`.
+   * @default multiple()
+   */
+  public readonly checkbox = input<boolean>();
   /**
    * Accepts a boolean value that determines whether the filter is enabled.
    * Alternatively, you can provide `FilterConfig` to customize the filter behavior.
@@ -114,6 +122,8 @@ export class NgnListBox<
   });
 
   protected readonly filterIsExecuting = this.filteredItems.isRunning;
+
+  protected readonly showCheckboxes = computed(() => this.checkbox() ?? this.multiple() ?? false);
 
   constructor() {
     super();

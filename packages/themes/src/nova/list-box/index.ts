@@ -8,7 +8,7 @@ export const listBoxStyles = createThemePart({
   base: baseStyles.listBox,
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
-    css: ({ v, c }) => css`
+    css: ({ v, c, d }) => css`
       ${c()} {
         border-radius: ${v('size.rounded.md')};
         border-color: ${v('color.surface.300')};
@@ -24,6 +24,7 @@ export const listBoxStyles = createThemePart({
         border-radius: ${v('size.rounded.md')};
         border-width: 0;
         border-style: solid;
+        user-select: none;
         cursor: default;
         &:hover {
           background: ${v('color.surface.200')};
@@ -32,7 +33,7 @@ export const listBoxStyles = createThemePart({
       ${c('item-highlighted')} {
         background: ${v('color.surface.200')};
       }
-      ${c('item-selected')} {
+      ${c('item-selected')}:not(:has(${d('checkbox')})) {
         background: ${v('color.surface.300')};
         &:hover {
           background: ${v('color.surface.300')};
@@ -54,6 +55,10 @@ export const listBoxStyles = createThemePart({
       ${c('empty')} {
         text-align: center;
         padding: ${v('size.padding.md')};
+      }
+      ${c()} ${d('scroller', 'item')} {
+        gap: ${v('size.padding.md')};
+        align-items: center;
       }
     `,
   },

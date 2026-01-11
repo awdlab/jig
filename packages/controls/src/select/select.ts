@@ -151,6 +151,13 @@ export class NgnSelect<
    * @default `0`
    */
   public readonly tabindex = input<number>(0);
+  /**
+   * Whether to use a checkbox to indicate selection state.
+   *
+   * This option is true per default when {@link multiple} is `true`.
+   * @default multiple()
+   */
+  public readonly checkbox = input<boolean>();
 
   private readonly _listbox = viewChild(NgnListBox);
   private _userChangedEditableInput = false;

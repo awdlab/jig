@@ -42,6 +42,17 @@ export const sliderStyles = createThemePart({
           }
         }
       }
+      ${c('invalid')} {
+        ${c('track')} {
+          background: ${v('color.error.200')};
+        }
+        ${c('thumb')} {
+          border-color: ${v('color.error.500')};
+        }
+        ${c('fill')} {
+          background: ${v('color.error.500')};
+        }
+      }
       ${c()}[disabled] {
         ${c('track')} {
           background: ${v('color.surface.100')};
@@ -52,6 +63,17 @@ export const sliderStyles = createThemePart({
         ${c('fill')} {
           background: ${v('color.surface.200')};
         }
+        &${c('invalid')} {
+          ${c('track')} {
+            background: ${v('color.error.100')};
+          }
+          ${c('thumb')} {
+            border-color: ${v('color.error.200')};
+          }
+          ${c('fill')} {
+            background: ${v('color.error.200')};
+          }
+        }
       }
       ${c()}[aria-readonly='true'] {
         ${c('thumb')} {
@@ -59,6 +81,17 @@ export const sliderStyles = createThemePart({
         }
         ${c('fill')} {
           background: ${v('color.surface.700')};
+        }
+        &${c('invalid')} {
+          ${c('track')} {
+            background: ${v('color.error.100')};
+          }
+          ${c('thumb')} {
+            border-color: ${v('color.error.300')};
+          }
+          ${c('fill')} {
+            background: ${v('color.error.300')};
+          }
         }
       }
     `,

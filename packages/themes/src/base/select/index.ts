@@ -11,6 +11,7 @@ export const selectStyles = createThemePart({
         justify-content: space-between;
         align-items: center;
         white-space: nowrap;
+        user-select: none;
       }
       ${c('combobox')} {
         width: 100%;

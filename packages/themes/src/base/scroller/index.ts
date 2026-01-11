@@ -28,6 +28,7 @@ export const scrollerStyles = createThemePart({
         display: block;
       }
       ${c('item-sticky')} {
+        z-index: 1;
         position: sticky;
         top: 0;
       }
