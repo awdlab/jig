@@ -49,7 +49,7 @@
 </ng-template>
 
 <ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
-  <span [attr.data-testid]="item?.testId">
+  <span [attr.data-testid]="item?.testId" [ngClass]="theme.class('default-item')">
     @let label = item?.label;
     @if (label) {
       @if (item?.translate) {
@@ -62,7 +62,7 @@
 </ng-template>
 
 <ng-template #defaultGroupTemplate [ngnTemplate]="templateTypes.item" let-group>
-  <span [attr.data-testid]="group?.testId">
+  <span [attr.data-testid]="group?.testId" [ngClass]="theme.class('default-group')">
     @let label = group?.label;
     @if (label) {
       @if (group?.translate) {

@@ -9,6 +9,8 @@ export const listBoxControlTemplate = createControlTemplate({
     'invalid',
     'item',
     'group',
+    'default-item',
+    'default-group',
     'scroller',
     'item-selected',
     'item-highlighted',

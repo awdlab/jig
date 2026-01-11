@@ -52,6 +52,12 @@ export const listBoxStyles = createThemePart({
           background: ${v('color.surface.100')};
         }
       }
+      ${c('default-group')}, ${c('default-item')} {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
       ${c('empty')} {
         text-align: center;
         padding: ${v('size.padding.md')};
