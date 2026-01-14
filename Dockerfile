@@ -11,7 +11,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm docs:build
 
 # stage 2
-FROM node:22-alpine
+FROM node:24-alpine
 
 # COPY config/angular.conf /etc/nginx/angular.conf
 # COPY config/nginx.conf /etc/nginx/nginx.conf
