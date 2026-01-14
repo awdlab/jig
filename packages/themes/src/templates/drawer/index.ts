@@ -9,5 +9,7 @@ export const drawerControlTemplate = createControlTemplate({
     'footer',
     'default-header',
     'default-header-text',
+    'anim-in',
+    'anim-out',
   ],
 });

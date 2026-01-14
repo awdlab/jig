@@ -22,7 +22,7 @@ export const drawerStyles = createThemePart({
         transition:
           display calc(${v('anim.time.fade')} + 10ms) allow-discrete,
           overlay calc(${v('anim.time.fade')} + 10ms) allow-discrete;
-        animation: ngnDrawer_in ${v('anim.time.fade')} ${v('anim.ease.fade')};
+        animation: ${c('anim-in', 'animation')} ${v('anim.time.fade')} ${v('anim.ease.fade')};
         background: ${v('color.background')};
         &::backdrop {
           transition: background-color ${v('anim.time.fade')};
@@ -34,7 +34,8 @@ export const drawerStyles = createThemePart({
           }
         }
         &:not(:popover-open) {
-          animation: ngnDrawer_out ${v('anim.time.fade')} ${v('anim.ease.fade')} forwards;
+          animation: ${c('anim-out', 'animation')} ${v('anim.time.fade')} ${v('anim.ease.fade')}
+            forwards;
         }
 
         &[data-position='top'] {
@@ -54,7 +55,7 @@ export const drawerStyles = createThemePart({
           --animation-x: -40px;
         }
       }
-      @keyframes ngnDrawer_in {
+      @keyframes ${c('anim-in', 'animation')} {
         from {
           opacity: 0;
           transform: translateY(var(--animation-y)) translateX(var(--animation-x));
@@ -64,7 +65,7 @@ export const drawerStyles = createThemePart({
           transform: translateY(0) translateX(0);
         }
       }
-      @keyframes ngnDrawer_out {
+      @keyframes ${c('anim-out', 'animation')} {
         from {
           opacity: 1;
           transform: translateY(0) translateX(0);

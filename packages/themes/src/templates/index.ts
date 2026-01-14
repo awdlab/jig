@@ -26,9 +26,11 @@ export type ThemeTemplate = {
   message: Awaited<typeof import('./message')>['messageControlTemplate'];
   paginator: Awaited<typeof import('./paginator')>['paginatorControlTemplate'];
   popover: Awaited<typeof import('./popover')>['popoverControlTemplate'];
+  progress: Awaited<typeof import('./progress')>['progressControlTemplate'];
   scroller: Awaited<typeof import('./scroller')>['scrollerControlTemplate'];
   select: Awaited<typeof import('./select')>['selectControlTemplate'];
   slider: Awaited<typeof import('./slider')>['sliderControlTemplate'];
+  spinner: Awaited<typeof import('./spinner')>['spinnerControlTemplate'];
   splitter: Awaited<typeof import('./splitter')>['splitterControlTemplate'];
   tabs: Awaited<typeof import('./tabs')>['tabsControlTemplate'];
   table: Awaited<typeof import('./table')>['tableControlTemplate'];

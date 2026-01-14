@@ -23,9 +23,11 @@ import { menuStyles } from '@ngneers/controls-themes/base/menu';
 import { messageStyles } from '@ngneers/controls-themes/base/message';
 import { paginatorStyles } from '@ngneers/controls-themes/base/paginator';
 import { popoverStyles } from '@ngneers/controls-themes/base/popover';
+import { progressStyles } from '@ngneers/controls-themes/base/progress';
 import { scrollerStyles } from '@ngneers/controls-themes/base/scroller';
 import { selectStyles } from '@ngneers/controls-themes/base/select';
 import { sliderStyles } from '@ngneers/controls-themes/base/slider';
+import { spinnerStyles } from '@ngneers/controls-themes/base/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/base/splitter';
 import { tabsStyles } from '@ngneers/controls-themes/base/tabs';
 import { tagStyles } from '@ngneers/controls-themes/base/tag';
@@ -61,9 +63,11 @@ export const baseStyles = {
   message: messageStyles,
   paginator: paginatorStyles,
   popover: popoverStyles,
+  progress: progressStyles,
   scroller: scrollerStyles,
   select: selectStyles,
   slider: sliderStyles,
+  spinner: spinnerStyles,
   splitter: splitterStyles,
   table: tableStyles,
   tabs: tabsStyles,

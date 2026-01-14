@@ -21,9 +21,11 @@ import { MenuPage } from './menu/page';
 import { MessagePage } from './message/page';
 import { PaginatorPage } from './paginator/page';
 import { PopoverPage } from './popover/page';
+import { ProgressPage } from './progress/page';
 import { ScrollerPage } from './scroller/page';
 import { SelectPage } from './select/page';
 import { SliderPage } from './slider/page';
+import { SpinnerPage } from './spinner/page';
 import { SplitterPage } from './splitter/page';
 import { TablePage } from './table/page';
 import { TabsPage } from './tabs/page';
@@ -54,9 +56,11 @@ export const ALL_COMPONENT_PAGES = [
   MessagePage,
   PaginatorPage,
   PopoverPage,
+  ProgressPage,
   ScrollerPage,
   SelectPage,
   SliderPage,
+  SpinnerPage,
   SplitterPage,
   TablePage,
   TabsPage,

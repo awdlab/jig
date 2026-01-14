@@ -33,12 +33,15 @@ export const IMPORTS = {
   listBox: () => import('@ngneers/controls/list-box').then((m) => m.NgnListBox),
   message: () => import('@ngneers/controls/message').then((m) => m.NgnMessage),
   popover: () => import('@ngneers/controls/popover').then((m) => m.NgnPopover),
+  progress: () =>
+    import('@ngneers/controls/progress').then((m) => m.NgnProgress),
   scroller: () => [
     import('@ngneers/controls/scroller').then((m) => m.NgnScroller),
     import('@ngneers/controls/scroller').then((m) => m.NgnScrollerItem),
   ],
   select: () => import('@ngneers/controls/select').then((m) => m.NgnSelect),
   slider: () => import('@ngneers/controls/slider').then((m) => m.NgnSlider),
+  spinner: () => import('@ngneers/controls/spinner').then((m) => m.NgnSpinner),
   splitter: () =>
     import('@ngneers/controls/splitter').then((m) => m.NgnSplitter),
   tabs: () => import('@ngneers/controls/tabs').then((m) => m.NgnTabs),

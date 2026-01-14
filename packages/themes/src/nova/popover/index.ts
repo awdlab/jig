@@ -39,12 +39,14 @@ export const popoverStyles = createThemePart({
         box-shadow: ${v('shadow.md')};
         /* We add some delay that is larger than the TRANSITION_BUFFER to not hide the content shortly during opening */
         transition: display ${v('anim.time.fade')} allow-discrete;
-        animation: ngnPopover_fadeIn ${v('anim.time.fade')} ${v('anim.ease.fade')} forwards;
+        animation: ${c('anim-in', 'animation')} ${v('anim.time.fade')} ${v('anim.ease.fade')}
+          forwards;
         &${c('content-closing')} {
-          animation: ngnPopover_fadeOut ${v('anim.time.fade')} ${v('anim.ease.fade')} forwards;
+          animation: ${c('anim-out', 'animation')} ${v('anim.time.fade')} ${v('anim.ease.fade')}
+            forwards;
         }
       }
-      @keyframes ngnPopover_fadeIn {
+      @keyframes ${c('anim-in', 'animation')} {
         from {
           opacity: 0;
           transform: translateY(${MOVE_AMOUNT}px);
@@ -54,7 +56,7 @@ export const popoverStyles = createThemePart({
           transform: translateY(0);
         }
       }
-      @keyframes ngnPopover_fadeOut {
+      @keyframes ${c('anim-out', 'animation')} {
         from {
           opacity: 1;
           transform: translateY(0);

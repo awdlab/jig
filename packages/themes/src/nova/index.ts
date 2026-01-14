@@ -24,9 +24,11 @@ import { menuStyles } from '@ngneers/controls-themes/nova/menu';
 import { messageStyles } from '@ngneers/controls-themes/nova/message';
 import { paginatorStyles } from '@ngneers/controls-themes/nova/paginator';
 import { popoverStyles } from '@ngneers/controls-themes/nova/popover';
+import { progressStyles } from '@ngneers/controls-themes/nova/progress';
 import { scrollerStyles } from '@ngneers/controls-themes/nova/scroller';
 import { selectStyles } from '@ngneers/controls-themes/nova/select';
 import { sliderStyles } from '@ngneers/controls-themes/nova/slider';
+import { spinnerStyles } from '@ngneers/controls-themes/nova/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/nova/splitter';
 import { tableStyles } from '@ngneers/controls-themes/nova/table';
 import { tabsStyles } from '@ngneers/controls-themes/nova/tabs';
@@ -84,11 +86,13 @@ export const novaCoral = createTheme(
     movableStyles,
     paginatorStyles,
     popoverStyles,
+    progressStyles,
     resizableStyles,
     scrollerStyles,
     selectStyles,
     sizes,
     sliderStyles,
+    spinnerStyles,
     splitterStyles,
     tableStyles,
     tabsStyles,

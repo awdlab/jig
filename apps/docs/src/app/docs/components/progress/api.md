@@ -1,0 +1,1 @@
+{{ api: progress/progress NgnProgress }}
