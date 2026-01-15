@@ -9,10 +9,6 @@ export const progressStyles = createThemePart({
       void v;
       void d;
       return css`
-        ${c()} {
-          display: block;
-          width: 100%;
-        }
         ${c('track')} {
           position: relative;
           overflow: hidden;
@@ -25,10 +21,17 @@ export const progressStyles = createThemePart({
         /* Circular mode base styles */
         ${c('circular')} {
           width: auto;
-          display: inline-block;
+          ${c('svg')} {
+            display: block;
+          }
         }
-        ${c('circular')} ${c('svg')} {
-          display: block;
+        ${c('indeterminate')} {
+          ${c('fill')}, ${c('fill2')} {
+            position: absolute;
+          }
+          ${c('track')} {
+            position: relative;
+          }
         }
       `;
     },

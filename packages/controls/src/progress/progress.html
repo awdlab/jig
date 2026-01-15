@@ -25,7 +25,7 @@
     />
   </svg>
 } @else {
-  <div [class]="theme.class('track')">
+  <div [class]="theme.class('track')" [style.height.px]="safeThickness()">
     <div [class]="theme.class('fill')"></div>
     @if (indeterminate()) {
       <div [class]="theme.class('fill2')"></div>

@@ -15,13 +15,10 @@ export const progressStyles = createThemePart({
     css: ({ v, c, d }) => {
       void d;
       return css`
-        ${c()} {
-          height: 0.5rem;
-        }
         ${c('track')} {
           background: ${v('color.surface.200')};
           border-radius: ${v('size.rounded.md')};
-          height: 100%;
+          height: 0.5rem;
         }
         ${c('fill')}, ${c('fill2')} {
           background: ${v('color.primary.500')};
@@ -30,9 +27,6 @@ export const progressStyles = createThemePart({
           height: 100%;
         }
         ${c('indeterminate')} {
-          ${c('fill')}, ${c('fill2')} {
-            position: absolute;
-          }
           ${c('fill')} {
             animation: ${c('fill', 'animation')} 2s infinite;
           }
@@ -63,13 +57,7 @@ export const progressStyles = createThemePart({
         }
 
         /* Circular mode styles */
-        ${c('circular')} {
-          height: auto;
-          display: inline-flex;
-        }
-        ${c('circular')} ${c('svg')} {
-          display: block;
-        }
+
         ${c('circular')} ${c('track')} {
           stroke: ${v('color.surface.200')};
           background: none;
