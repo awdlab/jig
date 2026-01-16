@@ -77,11 +77,6 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
    * If set, the scroller will stick the items with a truthy value for the specified field to the top of the scroller.
    */
   public readonly fieldSticky = input<AllKeysOfUnion<T> | null>(null);
-  /**
-   * Determines whether the scroller is loading items.
-   * @default `false`
-   */
-  public readonly loading = input(false, { transform: booleanAttribute });
 
   private readonly _elementSize = elementSizeSignal(this._el);
 
