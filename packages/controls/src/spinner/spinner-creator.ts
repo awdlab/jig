@@ -1,11 +1,43 @@
-import { DestroyRef, ElementRef, inject, ViewContainerRef } from '@angular/core';
+import { DestroyRef, effect, ElementRef, inject, Signal, ViewContainerRef } from '@angular/core';
 import { setComponentInput } from '@ngneers/controls/api/ng';
+import { debounceSignal } from '@ngneers/controls/utils-ng';
 import { CustomColor } from '@ngneers/controls-custom-types';
 
 import { NgnSpinner } from './spinner';
 
 export function injectSpinnerCreator() {
   return new NgnSpinnerCreator();
+}
+
+export function createConditionalSpinner(
+  isVisible: Signal<boolean>,
+  options?: {
+    spinnerOptions?: SpinnerOptions;
+    debounce?: number | boolean;
+    element?: SpinnerTarget;
+  }
+) {
+  const debounceMs =
+    typeof options?.debounce === 'number'
+      ? options.debounce
+      : (options?.debounce ?? true)
+        ? 200
+        : 0;
+
+  const debouncedVisible = debounceMs ? debounceSignal(isVisible, debounceMs) : isVisible;
+
+  const spinnerCreator = injectSpinnerCreator();
+  const element = options?.element ?? inject(ElementRef).nativeElement;
+  let ref: SpinnerRef | undefined;
+  effect(() => {
+    const visible = debouncedVisible();
+    if (visible && !ref) {
+      ref = spinnerCreator.show(element, options?.spinnerOptions);
+    } else if (!visible && ref) {
+      ref.hide();
+      ref = undefined;
+    }
+  });
 }
 
 export type SpinnerRef = {

@@ -26,6 +26,7 @@ import { provideSelf } from '@ngneers/controls/base';
 import { NgnCheckbox } from '@ngneers/controls/checkbox';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnScroller, NgnScrollerItem } from '@ngneers/controls/scroller';
+import { createConditionalSpinner } from '@ngneers/controls/spinner';
 import { asyncComputed } from '@ngneers/controls/utils-ng';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
 
@@ -101,6 +102,9 @@ export class NgnListBox<
     const filter = !!this.filter();
     const appliedFilterOptions = this._appliedFilterOptions();
     const filterText = this.filterText();
+
+    console.warn('Filtering items with text:', filterText);
+
     if (!filter || !filterText) {
       return this.items();
     }
@@ -127,6 +131,7 @@ export class NgnListBox<
 
   constructor() {
     super();
+    createConditionalSpinner(this.filterIsExecuting);
 
     effect(() => {
       const currentHighlightedValue = this.currentHighlightedValue();

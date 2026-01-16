@@ -41,7 +41,7 @@ export const KINDS = {
   button: ['primary', 'secondary', 'link', 'text', 'icon'] as const,
   message: ['default', 'outlined', 'simple'] as const,
   tag: ['default', 'pill'] as const,
-  inputFieldLabel: ['in', 'on', 'over', 'floatIn', 'floatOn', 'floatOver'] as const,
+  inputFieldLabel: ['in', 'on', 'over', 'floatIn', 'floatOn', 'floatOver', 'hidden'] as const,
 };
 
 export const COLORS = [

@@ -85,3 +85,35 @@ export function afterRenderComputed<T>(computeFn: () => T, defaultValue: T): () 
   });
   return value.asReadonly();
 }
+
+export function debounceSignal<T>(input: Signal<T>, delayMs: (() => number) | number): Signal<T> {
+  const delayFn = typeof delayMs === 'function' ? delayMs : () => delayMs;
+  const debounced = signal(input());
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+  effect(onCleanup => {
+    const value = input();
+    const delay = delayFn();
+
+    // Clear any pending timeout
+    if (timeoutId !== undefined) {
+      clearTimeout(timeoutId);
+    }
+
+    // Set new timeout
+    timeoutId = setTimeout(() => {
+      debounced.set(value);
+      timeoutId = undefined;
+    }, delay);
+
+    // Cleanup function to clear timeout when effect is destroyed or re-run
+    onCleanup(() => {
+      if (timeoutId !== undefined) {
+        clearTimeout(timeoutId);
+        timeoutId = undefined;
+      }
+    });
+  });
+
+  return debounced.asReadonly();
+}
