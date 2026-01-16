@@ -23,3 +23,9 @@ Customize the stroke thickness of the spinner circle.
 The spinner can be styled with the themes colors or a custom color.
 
 {{ demo: Demo_Spinner_Colors }}
+
+### Programmatic Creation
+
+You can create and control spinners programmatically.
+
+{{ demo: Demo_Spinner_Creator }}

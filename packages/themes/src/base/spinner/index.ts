@@ -6,6 +6,15 @@ export const spinnerStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c, d }) => css`
+      ${c('centered')} {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      *:has(> ${c('centered')}) {
+        position: relative;
+      }
       ${c()} {
         display: inline-block;
         width: calc(1px * var(--size));

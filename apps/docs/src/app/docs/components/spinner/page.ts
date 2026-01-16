@@ -1,5 +1,6 @@
 import { Demo_Spinner_Base } from '../../../demos/spinner/base';
 import { Demo_Spinner_Colors } from '../../../demos/spinner/colors';
+import { Demo_Spinner_Creator } from '../../../demos/spinner/creator';
 import { Demo_Spinner_Sizes } from '../../../demos/spinner/sizes';
 import { Demo_Spinner_Thickness } from '../../../demos/spinner/thickness';
 import { NgnDocsPage } from '../../../utils/page/types';
@@ -17,6 +18,7 @@ export const SpinnerPage: NgnDocsPage = {
         Demo_Spinner_Sizes,
         Demo_Spinner_Thickness,
         Demo_Spinner_Colors,
+        Demo_Spinner_Creator,
       ],
     },
     {
