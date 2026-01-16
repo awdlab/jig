@@ -36,37 +36,47 @@ export function asyncComputed<T>(
   computeFn: () => Promise<T>,
   initial: T
 ): { (): T; isRunning: Signal<boolean>; firstRunCompleted: Signal<boolean> } {
-  let latestUpdated = 0;
-  const runningCounter = signal(0);
+  let latestId = 0;
+  let latestCompletedId = 0;
+  const isRunningSignal = signal(false);
   const firstRunCompleted = signal(false);
   const returnSignal = signal<T>(initial);
+
   effect(() => {
-    const current = Date.now();
-    runningCounter.update(value => value + 1);
+    const currentId = ++latestId;
+    isRunningSignal.set(true);
+
     computeFn()
       .then(value => {
-        runningCounter.update(value => value - 1);
         // Only update the signal if this is the latest call
-        if (current < latestUpdated) {
+        if (currentId <= latestCompletedId) {
           console.debug('asyncComputed: ignoring stale value update');
           return;
         }
-        latestUpdated = current;
+        latestCompletedId = currentId;
         returnSignal.set(value);
         firstRunCompleted.set(true);
+
+        // Set isRunning to false if this is the latest operation
+        if (currentId === latestId) {
+          isRunningSignal.set(false);
+        }
       })
       .catch(error => {
-        runningCounter.update(value => value - 1);
+        // Also check if this is the latest operation on error
+        if (currentId === latestId) {
+          isRunningSignal.set(false);
+        }
         console.error('Error in asyncComputed:', error);
       });
   });
-  const isRunning = computed(() => runningCounter() > 0);
+
   const returnFn = returnSignal as unknown as {
     (): T;
     isRunning: Signal<boolean>;
     firstRunCompleted: Signal<boolean>;
   };
-  returnFn.isRunning = isRunning;
+  returnFn.isRunning = isRunningSignal.asReadonly();
   returnFn.firstRunCompleted = firstRunCompleted;
   return returnFn;
 }
