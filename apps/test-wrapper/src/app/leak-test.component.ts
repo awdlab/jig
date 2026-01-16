@@ -28,9 +28,11 @@ import { NgnItemView } from '@ngneers/controls/item-view';
 import { NgnListBox } from '@ngneers/controls/list-box';
 import { NgnMessage } from '@ngneers/controls/message';
 import { NgnPopover } from '@ngneers/controls/popover';
+import { NgnProgress } from '@ngneers/controls/progress';
 import { NgnScroller, NgnScrollerItem } from '@ngneers/controls/scroller';
 import { NgnSelect } from '@ngneers/controls/select';
 import { NgnSlider } from '@ngneers/controls/slider';
+import { NgnSpinner } from '@ngneers/controls/spinner';
 import { NgnSplitter, NgnSplitterPanel } from '@ngneers/controls/splitter';
 import { NgnTableModule } from '@ngneers/controls/table';
 import { NgnTab, NgnTabs } from '@ngneers/controls/tabs';
@@ -71,10 +73,12 @@ declare global {
     NgnListBox,
     NgnMessage,
     NgnPopover,
+    NgnProgress,
     NgnScroller,
     NgnScrollerItem,
     NgnSelect,
     NgnSlider,
+    NgnSpinner,
     NgnSplitter,
     NgnSplitterPanel,
     NgnTab,
@@ -201,6 +205,9 @@ declare global {
         Open popover
       </button>
 
+      <!-- Progress -->
+      <ngn-progress [value]="50" />
+
       <!-- Scroller -->
       <ngn-scroller [items]="items()" style="height: 100px;">
         <ng-template #item let-item>
@@ -213,8 +220,11 @@ declare global {
       <!-- Select -->
       <ngn-select [options]="items()" />
 
-      <!-- Select -->
+      <!-- Slider -->
       <ngn-slider />
+
+      <!-- Spinner -->
+      <ngn-spinner [size]="48" [thickness]="'4px'" [centered]="true" />
 
       <!-- Splitter -->
       <ngn-splitter
