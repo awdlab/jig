@@ -97,10 +97,6 @@ export async function filterOptions<T extends object>(
     return options;
   }
 
-  // wait for 1s for testing purposes
-
-  await new Promise(resolve => setTimeout(resolve, 1000));
-
   return (
     await Promise.all(
       options.map(async option => await filterItem(option, filterText, filterOptions))
