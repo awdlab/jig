@@ -14,6 +14,7 @@ import { exampleData } from '../../helper/data';
     [rows]="rows"
     [fieldId]="'id'"
     [virtual]="true"
+    [virtualPadding]="12"
     [rowHeight]="50"
   >
     <ng-template #header>
