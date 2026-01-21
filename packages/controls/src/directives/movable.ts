@@ -10,7 +10,7 @@ import {
   signal,
   untracked,
 } from '@angular/core';
-import { domEventSignal } from '@ngneers/controls/api/ng';
+import { domEventHandler, domEventSignal } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 import { signalWithPrevious } from '@ngneers/controls/utils-ng';
 import { movableDirectiveTemplate } from '@ngneers/controls-themes/templates/api';
@@ -18,7 +18,7 @@ import { movableDirectiveTemplate } from '@ngneers/controls-themes/templates/api
 @Directive({
   selector: '[ngnMovable]',
   host: {
-    '[class]': 'theme.classes({ movable: !!ngnMovable(), moved: dragged()})',
+    '[class]': 'theme.classes({ movable: ngnMovable(), moved: dragged()})',
   },
 })
 export class NgnMovable extends NgnBase<'movable'> {
@@ -28,8 +28,9 @@ export class NgnMovable extends NgnBase<'movable'> {
 
   /**
    * Whether the element is movable.
+   * @default true
    */
-  public readonly ngnMovable = input<boolean | null | undefined | ''>(true);
+  public readonly ngnMovable = input(true, { transform: booleanAttribute });
 
   /**
    * The handle element used to drag the element. If omitted, the entire element will be used as the drag handle.
@@ -71,6 +72,14 @@ export class NgnMovable extends NgnBase<'movable'> {
 
   constructor() {
     super();
+
+    domEventHandler(this._el.nativeElement, 'touchstart', e => {
+      if (!this.ngnMovable()) {
+        return;
+      }
+      e.preventDefault();
+    });
+
     effect(() => {
       if (!this.ngnMovable()) {
         return;
