@@ -34,8 +34,10 @@ export abstract class NgnDragBase {
     if (!this._isBrowser) {
       return;
     }
-    domEventHandler(this.el.nativeElement, 'touchstart', e => {
-      e.preventDefault();
+    domEventHandler(this.el.nativeElement, 'touchmove', e => {
+      if (e.cancelable) {
+        e.preventDefault();
+      }
     });
     afterRenderEffect(() => {
       this._pointerDownEvent.subscribe(event => {

@@ -73,11 +73,13 @@ export class NgnMovable extends NgnBase<'movable'> {
   constructor() {
     super();
 
-    domEventHandler(this._el.nativeElement, 'touchstart', e => {
+    domEventHandler(this._el.nativeElement, 'touchmove', e => {
       if (!this.ngnMovable()) {
         return;
       }
-      e.preventDefault();
+      if (e.cancelable) {
+        e.preventDefault();
+      }
     });
 
     effect(() => {
