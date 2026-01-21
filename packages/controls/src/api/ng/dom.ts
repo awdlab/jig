@@ -115,6 +115,15 @@ export function abortSignalOnDestroy(options?: { injector?: Injector }): AbortSi
   return abortController.signal;
 }
 
+/**
+ * Creates an Observable that emits the latest event of the specified type from the given DOM element.
+ *
+ * ⚠️ Cannot be used to cancel or call preventDefault on the event, as the event is emitted after the event handler phase.
+ * @param element The target DOM element or ElementRef. Either can be provided directly or via a Signal.
+ * @param eventName The name of the event to listen for.
+ * @param injector Optional injector to use for lifecycle management. If not provided, the current injector is used.
+ * @returns An Observable that emits the latest event of the specified type. Does not complete until the injector is destroyed.
+ */
 export function domEventObservable<EventName extends keyof GlobalEventHandlersEventMap>(
   element: ElementSingle,
   eventName: EventName,
@@ -141,6 +150,15 @@ export function domEventObservable<EventName extends keyof GlobalEventHandlersEv
   return result.asObservable().pipe(takeUntilDestroyed(destroyRef));
 }
 
+/**
+ * Creates a Signal that emits the latest event of the specified type from the given DOM element.
+ *
+ * ⚠️ Cannot be used to cancel or call preventDefault on the event, as the event is emitted after the event handler phase.
+ * @param element The target DOM element or ElementRef. Either can be provided directly or via a Signal.
+ * @param eventName The name of the event to listen for.
+ * @param injector Optional injector to use for lifecycle management. If not provided, the current injector is used.
+ * @returns A Signal that emits the latest event of the specified type or null if no event has occurred.
+ */
 export function domEventSignal<EventName extends keyof GlobalEventHandlersEventMap>(
   element: ElementSingle,
   eventName: EventName,
@@ -157,6 +175,13 @@ export function domEventSignal<EventName extends keyof GlobalEventHandlersEventM
   return res;
 }
 
+/**
+ * Attaches an event handler to a DOM element that is automatically removed when the injector is destroyed.
+ * @param element The target DOM element or ElementRef. Either can be provided directly or via a Signal.
+ * @param eventName The name of the event to listen for.
+ * @param handler The function to handle the event.
+ * @param injector Optional injector to use for lifecycle management. If not provided, the current injector is used.
+ */
 export function domEventHandler<EventName extends keyof GlobalEventHandlersEventMap>(
   element: ElementSingle,
   eventName: EventName,

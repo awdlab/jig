@@ -7,7 +7,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { domEventObservable, Platform } from '@ngneers/controls/api/ng';
+import { domEventHandler, domEventObservable, Platform } from '@ngneers/controls/api/ng';
 
 import { NgnDragInfo } from './types';
 
@@ -15,6 +15,7 @@ import { NgnDragInfo } from './types';
 export abstract class NgnDragBase {
   protected readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _document = inject(DOCUMENT);
+  private readonly _isBrowser = inject(Platform).isBrowser;
 
   private _pointerDown = false;
   private _startX?: number = undefined;
@@ -30,9 +31,12 @@ export abstract class NgnDragBase {
   private readonly _pointerUpEvent = domEventObservable(this._document, 'pointerup');
 
   constructor() {
-    if (!inject(Platform).isBrowser) {
+    if (!this._isBrowser) {
       return;
     }
+    domEventHandler(this.el.nativeElement, 'touchstart', e => {
+      e.preventDefault();
+    });
     afterRenderEffect(() => {
       this._pointerDownEvent.subscribe(event => {
         this._pointerDown = true;
