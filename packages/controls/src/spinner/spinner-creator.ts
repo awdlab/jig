@@ -1,22 +1,70 @@
-import { DestroyRef, effect, ElementRef, inject, Signal, ViewContainerRef } from '@angular/core';
+import {
+  DestroyRef,
+  effect,
+  ElementRef,
+  inject,
+  Injector,
+  runInInjectionContext,
+  Signal,
+  ViewContainerRef,
+} from '@angular/core';
 import { setComponentInput } from '@ngneers/controls/api/ng';
 import { debounceSignal } from '@ngneers/controls/utils-ng';
 import { CustomColor } from '@ngneers/controls-custom-types';
 
 import { NgnSpinner } from './spinner';
 
-export function injectSpinnerCreator() {
+/**
+ * Creates an instance of the spinner creator.
+ *
+ * @param injector The injector to use. Defaults to the current injector.
+ * @returns The spinner creator.
+ */
+export function injectSpinnerCreator(injector?: Injector): NgnSpinnerCreator {
+  if (injector) {
+    return runInInjectionContext(injector, () => injectSpinnerCreator());
+  }
   return new NgnSpinnerCreator();
 }
 
+/**
+ * Creates and manages a conditional spinner based on a visibility signal.
+ * @param isVisible Signal that determines whether the spinner is visible.
+ * @param options Optional configuration for the spinner.
+ */
 export function createConditionalSpinner(
   isVisible: Signal<boolean>,
   options?: {
+    /**
+     * Options for the spinner instance.
+     */
     spinnerOptions?: SpinnerOptions;
+    /**
+     * Debounce time in milliseconds or a boolean indicating whether to debounce (default is 200ms).
+     */
     debounce?: number | boolean;
+    /**
+     * The target element where the spinner will be attached.
+     * If a string is provided, it will be used as a selector to find the element.
+     * If omitted, the spinner will be attached to the host element of the current injector.
+     */
     element?: SpinnerTarget;
+    /**
+     * The injector to use. If omitted, the current injector will be used.
+     */
+    injector?: Injector;
   }
 ) {
+  if (options?.injector) {
+    runInInjectionContext(options.injector, () =>
+      createConditionalSpinner(isVisible, {
+        ...options,
+        injector: undefined,
+      })
+    );
+    return;
+  }
+
   const debounceMs =
     typeof options?.debounce === 'number'
       ? options.debounce
@@ -41,14 +89,30 @@ export function createConditionalSpinner(
 }
 
 export type SpinnerRef = {
+  /**
+   * Hides the spinner.
+   */
   hide: () => void;
 };
 
 export type SpinnerTarget = HTMLElement | ElementRef<HTMLElement> | string;
 export type SpinnerOptions = {
+  /**
+   * The color of the spinner.
+   */
   color?: CustomColor;
+  /**
+   * The diameter of the spinner in pixels.
+   */
   size?: number;
+  /**
+   * The thickness of the spinner's stroke.
+   */
   thickness?: string;
+  /**
+   * Whether the spinner should be centered within its container.
+   * @default true
+   */
   centered?: boolean;
 };
 
@@ -77,6 +141,14 @@ class NgnSpinnerCreator {
     });
   }
 
+  /**
+   * Shows a spinner on the specified target element.
+   * @param target The target element or selector where the spinner will be attached.
+   * If a string is provided, it will be used as a selector to find the element.
+   * If the element is not found, the spinner will be retried until it is found.
+   * @param options Optional configuration for the spinner.
+   * @returns A reference to the spinner instance.
+   */
   public show(target: SpinnerTarget, options?: SpinnerOptions): SpinnerRef {
     options = { ...DEFAULT_OPTIONS, ...options };
     const hideCb = {

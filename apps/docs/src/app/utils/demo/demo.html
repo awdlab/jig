@@ -2,7 +2,7 @@
   <div class="component-wrapper p-4 flex gap-2 items-start w-full">
     <ng-container *ngComponentOutlet="component()" />
 
-    <button ngnButton [kind]="'icon'" (click)="toggleCodeVisibility()">
+    <button class="z-10" ngnButton [kind]="'icon'" (click)="toggleCodeVisibility()">
       <ngn-icon [icon]="'img/icons/code.svg'" />
     </button>
   </div>

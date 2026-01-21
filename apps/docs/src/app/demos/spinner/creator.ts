@@ -1,24 +1,42 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { injectSpinnerCreator } from '@ngneers/controls/spinner';
+import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { NgnButton } from '@ngneers/controls/button';
+import { createConditionalSpinner, injectSpinnerCreator } from '@ngneers/controls/spinner';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-spinner-creator',
-  imports: [],
+  imports: [NgnButton],
   template: `
-    <div id="some-area" style="width: 550px; height: 300px; background: lightgray;">
+    <div id="some-area" style="width: 550px; height: 300px; background: lightgray; padding: 30px;">
       Some content
     </div>
-    <button (click)="show()">Show Spinner</button>
+    <button ngnButton kind="secondary" (click)="show()">Show Spinner</button>
+    <button ngnButton kind="secondary" (click)="toggleVisible()">Toggle Conditional Spinner</button>
   `,
 })
 export class Demo_Spinner_Creator {
   private readonly _spinnerCreator = injectSpinnerCreator();
+  private readonly _spinnerVisible = signal(false);
+
+  constructor() {
+    createConditionalSpinner(this._spinnerVisible, {
+      element: '#some-area',
+      spinnerOptions: {
+        size: 48,
+        thickness: '6px',
+        color: 'primary',
+      },
+    });
+  }
 
   protected show() {
     const ref = this._spinnerCreator.show('#some-area');
     setTimeout(() => {
       ref.hide();
     }, 2000);
+  }
+
+  protected toggleVisible() {
+    this._spinnerVisible.update(visible => !visible);
   }
 }
