@@ -7,7 +7,10 @@ import { createConditionalSpinner, injectSpinnerCreator } from '@ngneers/control
   selector: 'ngn-demo-spinner-creator',
   imports: [NgnButton],
   template: `
-    <div id="some-area" style="width: 550px; height: 300px; background: lightgray; padding: 30px;">
+    <div
+      id="some-area"
+      style="width: 450px; height: 200px; background: var(--ngn-color-surface-100); padding: 30px;"
+    >
       Some content
     </div>
     <button ngnButton kind="secondary" (click)="show()">Show Spinner</button>
