@@ -33,6 +33,7 @@ import { splitterStyles } from '@ngneers/controls-themes/nova/splitter';
 import { tableStyles } from '@ngneers/controls-themes/nova/table';
 import { tabsStyles } from '@ngneers/controls-themes/nova/tabs';
 import { tagStyles } from '@ngneers/controls-themes/nova/tag';
+import { toastStyles } from '@ngneers/controls-themes/nova/toast';
 import { tooltipStyles } from '@ngneers/controls-themes/nova/tooltip';
 
 import type {} from './theme-types';
@@ -97,6 +98,7 @@ export const novaCoral = createTheme(
     tableStyles,
     tabsStyles,
     tagStyles,
+    toastStyles,
     tooltipStyles,
   ],
   {

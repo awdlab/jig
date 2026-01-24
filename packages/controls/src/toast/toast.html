@@ -1,0 +1,36 @@
+@if (templateHeader(); as headerTemplate) {
+  <ng-container
+    [ngTemplateOutlet]="headerTemplate"
+    [ngTemplateOutletContext]="{
+      header: header(),
+      closable: !!closable(),
+      closeToast: close.bind(this),
+    }"
+  ></ng-container>
+} @else {
+  <div [ngClass]="theme.class('defaultHeader')">
+    <span [ngClass]="theme.class('defaultHeaderText')">
+      @if (icon(); as icon) {
+        <ngn-icon [icon]="icon" />
+      }
+      {{ header() }}
+    </span>
+    @if (closable()) {
+      <button ngnButton kind="icon" (click)="close()">
+        <ngn-icon [defaultIcon]="'xmark'" [icon]="closeIcon()" />
+      </button>
+    }
+  </div>
+}
+@if (templateContent(); as contentTemplate) {
+  <ng-container
+    [ngTemplateOutlet]="contentTemplate"
+    [ngTemplateOutletContext]="{
+      content: content(),
+    }"
+  ></ng-container>
+} @else {
+  <div [ngClass]="theme.class('defaultContent')">
+    {{ content() }}
+  </div>
+}

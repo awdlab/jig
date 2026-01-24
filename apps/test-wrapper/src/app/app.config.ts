@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideNgnControls } from '@ngneers/controls/api/ng';
+import { withToasts } from '@ngneers/controls/toast';
 import { novaCoral } from '@ngneers/controls-themes/nova';
 
 import { App } from './app';
@@ -15,10 +16,13 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideNgnControls({
-      theme: { preset: novaCoral },
-      disableAnimations: true,
-    }),
+    provideNgnControls(
+      {
+        theme: { preset: novaCoral },
+        disableAnimations: true,
+      },
+      withToasts(),
+    ),
     provideRouter([
       { path: '', pathMatch: 'full', component: App },
       { path: 'leaks', component: LeakTestComponent },

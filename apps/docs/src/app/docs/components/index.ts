@@ -30,6 +30,7 @@ import { SplitterPage } from './splitter/page';
 import { TablePage } from './table/page';
 import { TabsPage } from './tabs/page';
 import { TagPage } from './tag/page';
+import { ToastPage } from './toast/page';
 import { TooltipPage } from './tooltip/page';
 
 export const ALL_COMPONENT_PAGES = [
@@ -65,5 +66,6 @@ export const ALL_COMPONENT_PAGES = [
   TablePage,
   TabsPage,
   TagPage,
+  ToastPage,
   TooltipPage,
 ];

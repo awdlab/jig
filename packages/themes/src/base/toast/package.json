@@ -1,0 +1,14 @@
+{
+  "name": "@ngneers/controls-themes/base/toast",
+  "version": "0.0.0-PLACEHOLDER",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "esm2022": "./esm2022/base/toast/index.mjs",
+      "esm": "./esm/base/toast/index.mjs",
+      "default": "./fesm2022/ngneers-controls-themes-base-toast.mjs"
+    }
+  },
+  "module": "./fesm2022/ngneers-controls-themes-base-toast.mjs",
+  "typings": "./index.d.ts"
+}

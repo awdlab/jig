@@ -6,6 +6,17 @@ import { NgnConfigInit, provideNgnConfig } from './config';
 import { Platform } from './platform';
 import { ThemeService } from './theme-service';
 
-export function provideNgnControls(config?: NgnConfigInit): Provider[] {
-  return [NgnGlobal, ThemeService, I18n, Platform, provideNgnConfig(config)];
+export type NgnFeature = {
+  providers: Provider[];
+};
+
+export function provideNgnControls(config?: NgnConfigInit, ...features: NgnFeature[]): Provider[] {
+  return [
+    NgnGlobal,
+    ThemeService,
+    I18n,
+    Platform,
+    provideNgnConfig(config),
+    ...features.map(f => f.providers).flat(),
+  ];
 }

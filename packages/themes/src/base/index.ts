@@ -1,3 +1,4 @@
+import { createTheme } from '@ngneers/controls-themes/api';
 import { accordionStyles } from '@ngneers/controls-themes/base/accordion';
 import { movableStyles, resizableStyles } from '@ngneers/controls-themes/base/api';
 import { avatarGroupStyles, avatarStyles } from '@ngneers/controls-themes/base/avatar';
@@ -31,6 +32,7 @@ import { spinnerStyles } from '@ngneers/controls-themes/base/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/base/splitter';
 import { tabsStyles } from '@ngneers/controls-themes/base/tabs';
 import { tagStyles } from '@ngneers/controls-themes/base/tag';
+import { toastStyles } from '@ngneers/controls-themes/base/toast';
 import { tooltipStyles } from '@ngneers/controls-themes/base/tooltip';
 
 import { tableStyles } from './table';
@@ -72,5 +74,8 @@ export const baseStyles = {
   table: tableStyles,
   tabs: tabsStyles,
   tag: tagStyles,
+  toast: toastStyles,
   tooltip: tooltipStyles,
 };
+
+export const unstyledBase = createTheme('Nova Coral', [...Object.values(baseStyles)]);

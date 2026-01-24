@@ -48,6 +48,7 @@ export const IMPORTS = {
   tab: () => import('@ngneers/controls/tabs').then((m) => m.NgnTab),
   table: () => import('@ngneers/controls/table').then((m) => m.NgnTable),
   tag: () => import('@ngneers/controls/tag').then((m) => m.NgnTag),
+  toast: () => import('@ngneers/controls/toast').then((m) => m.NgnToast),
   tooltip: () => import('@ngneers/controls/tooltip').then((m) => m.NgnTooltip),
   dummy_component: () =>
     import('./helper-components/dummy').then((m) => m.DummyComponent),

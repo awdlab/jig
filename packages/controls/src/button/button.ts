@@ -1,4 +1,4 @@
-import { booleanAttribute, computed, Directive, input, OnDestroy } from '@angular/core';
+import { booleanAttribute, computed, Directive, input } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { toggleClass } from '@ngneers/controls/utils';
 import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
@@ -13,7 +13,7 @@ import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button
     '[class]': 'hostClass()',
   },
 })
-export class NgnButton extends NgnBase<'button'> implements OnDestroy {
+export class NgnButton extends NgnBase<'button'> {
   protected readonly theme = this.injectThemeTemplate(buttonControlTemplate);
 
   /**
@@ -27,7 +27,7 @@ export class NgnButton extends NgnBase<'button'> implements OnDestroy {
     toggleClass(this.element.nativeElement, this.theme.class(), true);
   }
 
-  public ngOnDestroy(): void {
+  protected override afterLeave(): void {
     toggleClass(this.element.nativeElement, this.theme.class(), false);
   }
 

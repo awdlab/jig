@@ -84,7 +84,7 @@ importers:
         specifier: ^6.0.0
         version: 6.0.0
       eslint:
-        specifier: ^9.39.2
+        specifier: 9.39.2
         version: 9.39.2(jiti@2.6.1)
       globals:
         specifier: ^17.0.0
@@ -234,7 +234,7 @@ importers:
     devDependencies:
       '@angular/build':
         specifier: 'catalog:'
-        version: 21.1.0(35433729d83760aa3e884c0fe207cc84)
+        version: 21.1.0(2b5e23967660cb70ac22792ffe430d7f)
       '@angular/cli':
         specifier: 'catalog:'
         version: 21.1.0(@types/node@25.0.9)(chokidar@5.0.0)(hono@4.11.3)
@@ -280,7 +280,7 @@ importers:
     devDependencies:
       '@angular/build':
         specifier: 'catalog:'
-        version: 21.1.0(2b5e23967660cb70ac22792ffe430d7f)
+        version: 21.1.0(35433729d83760aa3e884c0fe207cc84)
       '@angular/cli':
         specifier: 'catalog:'
         version: 21.1.0(@types/node@25.0.9)(chokidar@5.0.0)(hono@4.11.3)

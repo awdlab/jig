@@ -35,6 +35,7 @@ export type ThemeTemplate = {
   tabs: Awaited<typeof import('./tabs')>['tabsControlTemplate'];
   table: Awaited<typeof import('./table')>['tableControlTemplate'];
   tag: Awaited<typeof import('./tag')>['tagControlTemplate'];
+  toast: Awaited<typeof import('./toast')>['toastControlTemplate'];
   tooltip: Awaited<typeof import('./tooltip')>['tooltipControlTemplate'];
 };
 

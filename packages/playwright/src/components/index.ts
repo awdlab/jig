@@ -24,4 +24,5 @@ export * from './slider';
 export * from './spinner';
 export * from './tabs';
 export * from './tag';
+export * from './toast';
 export * from './tooltip';

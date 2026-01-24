@@ -89,20 +89,13 @@ export abstract class NgnBase<T extends ControlName | null> {
   private _controlTemplateInfo?: ControlTemplateInfo<T extends string ? ThemeTemplate[T] : never>;
   private _controlTemplate?: ControlTemplate;
   private readonly _childNgnControls = viewChildren(NGN_CONTROL);
+  private readonly _afterLeaveCbs: (() => void)[] = [];
 
   constructor() {
     setNgnInstance(this.element.nativeElement, this);
-    inject(DestroyRef).onDestroy(() => {
-      /**
-       * Manually wipe the innerHTML to ensure no detached children remain
-       * mapped to this component's LView slots in the browser's memory.
-       * This is especially important for controls that use ng-content
-       * or dynamically render child components.
-       */
-      this.element.nativeElement.innerHTML = '';
-    });
+    this.prepareAfterLeaveHook();
     effect(() => {
-      // Propagate unstyled state to direct child controls, does not effect
+      // Propagate unstyled state to direct child controls, does not affect
       // custom user content passed into ng-content or projected templates.
       this._childNgnControls().forEach(child => {
         setInputSignalValue(child.unstyled, this.unstyled());
@@ -126,6 +119,72 @@ export abstract class NgnBase<T extends ControlName | null> {
         );
       }
     });
+  }
+
+  /**
+   * Prepares the after leave hook to be called when the control is destroyed
+   * and its leave animation has finished.
+   */
+  private prepareAfterLeaveHook() {
+    inject(DestroyRef).onDestroy(() => {
+      if (typeof this.element.nativeElement.getAnimations !== 'function') {
+        this.afterLeaveInternal();
+      } else {
+        /**
+         * Recursively searches for a leave animation on the element and its parents.
+         * @param element The element to search for leave animations.
+         * @returns The leave animation if found, otherwise null.
+         */
+        function findLeaveAnimationRecursive(element: HTMLElement): Animation | null {
+          const animations = element.getAnimations();
+          const leaveAnimation = animations.find(
+            a => a instanceof CSSAnimation && a.animationName.endsWith('-leave')
+          );
+          if (leaveAnimation) {
+            return leaveAnimation;
+          }
+          if (element.parentElement) {
+            return findLeaveAnimationRecursive(element.parentElement);
+          }
+          return null;
+        }
+
+        requestAnimationFrame(() => {
+          const leaveAnimation = findLeaveAnimationRecursive(this.element.nativeElement);
+          if (!leaveAnimation) {
+            this.afterLeaveInternal();
+          } else {
+            leaveAnimation.finished
+              .catch(() => {
+                // ignore errors from animations being cancelled
+              })
+              .finally(() => {
+                this.afterLeaveInternal();
+              });
+          }
+        });
+      }
+    });
+  }
+
+  private afterLeaveInternal() {
+    /**
+     * After the control is hidden/removed from the DOM,
+     * manually wipe the innerHTML to ensure no detached children remain
+     * mapped to this component's LView slots in the browser's memory.
+     * This is especially important for controls that use ng-content
+     * or dynamically render child components.
+     */
+    this.element.nativeElement.innerHTML = '';
+    this._afterLeaveCbs.forEach(cb => cb());
+    this.afterLeave();
+  }
+  /**
+   * Lifecycle hook that is called after the control has left (been removed from) the DOM.
+   * Can be overridden by subclasses to perform custom actions after the leave animation.
+   */
+  protected afterLeave() {
+    // Can be overridden by subclasses
   }
 
   /**
@@ -169,7 +228,6 @@ export abstract class NgnBase<T extends ControlName | null> {
    * @param signal The signal that provides the current string value for the theme class.
    */
   protected initializeAutoThemeClasses(prefix: string, signal: Signal<unknown | undefined>) {
-    const destroyRef = inject(DestroyRef);
     const element = this.element.nativeElement;
 
     type ThemeClassToken = Parameters<ControlTemplateInfo<never>['class']>[0];
@@ -198,8 +256,7 @@ export abstract class NgnBase<T extends ControlName | null> {
         togglePrefixedThemeClass(prefix, next, true);
       });
 
-    destroyRef.onDestroy(() => {
-      // Clean up theme classes on destroy
+    this._afterLeaveCbs.push(() => {
       togglePrefixedThemeClass(prefix, signal(), false);
     });
   }

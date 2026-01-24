@@ -62,6 +62,6 @@ export function getEslintConfig(tsconfigPath) {
         '@angular-eslint/template/no-autofocus': 'off',
       },
     },
-    globalIgnores(['dist', '.angular', 'node_modules']),
+    globalIgnores(['dist', '.angular', 'node_modules', 'coverage']),
   ]);
 }

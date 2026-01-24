@@ -1,6 +1,11 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { baseStyles } from '@ngneers/controls-themes/base';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
+import {
+  colorsTemplate,
+  fontTemplate,
+  sizesTemplate,
+  themedColors,
+} from '@ngneers/controls-themes/nova/base';
 import { tagControlTemplate } from '@ngneers/controls-themes/templates/tag';
 
 export const tagStyles = createThemePart({
@@ -9,13 +14,12 @@ export const tagStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c }) => css`
-      ${c('')} {
-        --tag-foreground: ${v('color.text')};
-        --tag-background: ${v('color.surface.200')};
+      ${themedColors(c, v)}
 
+      ${c('')} {
         gap: ${v('size.padding.md')};
-        background: var(--tag-background);
-        color: var(--tag-foreground);
+        background: var(--theme-color-100);
+        color: var(--theme-color-600);
         padding: ${v('size.padding.sm')} ${v('size.padding.md')};
         line-height: 1;
         border-radius: ${v('size.rounded.md')};
@@ -24,47 +28,12 @@ export const tagStyles = createThemePart({
       }
 
       ${c('icon')} {
-        color: var(--tag-foreground);
+        color: var(--theme-color-600);
         font-size: inherit;
       }
 
       ${c('kind-pill')} {
         border-radius: 999rem;
-      }
-
-      ${c('color-primary')} {
-        --tag-foreground: ${v('color.primary.600')};
-        --tag-background: ${v('color.primary.100')};
-      }
-
-      ${c('color-secondary')} {
-        --tag-foreground: ${v('color.secondary.600')};
-        --tag-background: ${v('color.secondary.100')};
-      }
-
-      ${c('color-accent')} {
-        --tag-foreground: ${v('color.accent.600')};
-        --tag-background: ${v('color.accent.100')};
-      }
-
-      ${c('color-info')} {
-        --tag-foreground: ${v('color.info.600')};
-        --tag-background: ${v('color.info.100')};
-      }
-
-      ${c('color-success')} {
-        --tag-foreground: ${v('color.success.600')};
-        --tag-background: ${v('color.success.100')};
-      }
-
-      ${c('color-warning')} {
-        --tag-foreground: ${v('color.warning.600')};
-        --tag-background: ${v('color.warning.100')};
-      }
-
-      ${c('color-error')} {
-        --tag-foreground: ${v('color.error.600')};
-        --tag-background: ${v('color.error.100')};
       }
     `,
   },
