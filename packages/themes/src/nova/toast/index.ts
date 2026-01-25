@@ -24,6 +24,7 @@ export const toastStyles = createThemePart({
         background: transparent;
         top: ${v('size.padding.lg')};
         right: ${v('size.padding.lg')};
+        margin-left: ${v('size.padding.lg')};
         overflow: visible;
       }
 
