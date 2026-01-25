@@ -19,7 +19,7 @@ export const toastStyles = createThemePart({
 
       ${c('host')} {
         --toastGap: ${v('size.padding.md')};
-        max-width: 35rem;
+        max-width: min(35rem, 100%);
         gap: var(--toastGap);
         background: transparent;
         top: ${v('size.padding.lg')};

@@ -31,6 +31,8 @@ import { ContentTemplateType, HeaderTemplateType } from './types';
     '(mouseleave)': 'mouseLeave()',
     '[animate.enter]': "theme.class('anim-enter')",
     '[animate.leave]': "theme.class('anim-leave')",
+    role: 'alert',
+    'aria-live': 'assertive',
   },
 })
 export class NgnToast extends NgnBase<'toast'> implements OnInit {
