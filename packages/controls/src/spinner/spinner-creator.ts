@@ -114,6 +114,10 @@ export type SpinnerOptions = {
    * @default true
    */
   centered?: boolean;
+  /**
+   * Set aria busy attribute on the reference element while the spinner is visible.
+   */
+  ariaBusy?: boolean;
 };
 
 function getElement(target: SpinnerTarget): HTMLElement | null {
@@ -128,6 +132,7 @@ function getElement(target: SpinnerTarget): HTMLElement | null {
 
 const DEFAULT_OPTIONS: SpinnerOptions = {
   centered: true,
+  ariaBusy: true,
 };
 
 class NgnSpinnerCreator {
@@ -179,6 +184,9 @@ class NgnSpinnerCreator {
 
     const doHide = () => {
       componentRef.destroy();
+      if (options?.ariaBusy) {
+        element.removeAttribute('aria-busy');
+      }
       delete hideCb.hide;
     };
 
@@ -187,6 +195,9 @@ class NgnSpinnerCreator {
       unregisterOnDestroy();
     };
     element.appendChild(componentRef.location.nativeElement);
+    if (options.ariaBusy) {
+      element.setAttribute('aria-busy', 'true');
+    }
     const unregisterOnDestroy = this._destroyRef.onDestroy(() => {
       doHide();
     });
