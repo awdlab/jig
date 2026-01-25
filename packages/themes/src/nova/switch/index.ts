@@ -52,7 +52,7 @@ export const switchStyles = createThemePart({
         background-color: ${v('color.invalid.border')};
       }
       ${c('invalid')}:has(${c('input')}[disabled]) ${c('track')} {
-        background-color: ${v('color.invalid.background')};
+        background-color: ${v('color.error.200')};
       }
       ${c()}:has(${c('input')}[aria-readonly]) ${c('thumb')} {
         background-color: ${v('color.surface.100')};
