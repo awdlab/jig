@@ -11,13 +11,16 @@ export type ContentTemplateType = {
   content?: string;
 };
 
-export type NgnToastOptions = {
-  header?: string;
-  content?: string;
+export type NgnToastOptionsMeta = {
   closable?: boolean;
   color?: CustomColor;
   icon?: IconType;
   autoHide?: number | false;
+};
+
+export type NgnToastOptions = NgnToastOptionsMeta & {
+  header?: string;
+  content?: string;
   headerTemplate?: TemplateRef<HeaderTemplateType>;
   contentTemplate?: TemplateRef<ContentTemplateType>;
 };

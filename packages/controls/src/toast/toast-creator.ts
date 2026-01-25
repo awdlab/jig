@@ -1,5 +1,5 @@
-import { inject, Injector, runInInjectionContext } from '@angular/core';
-import { throwExp } from '@ngneers/controls/utils';
+import { Injector, runInInjectionContext } from '@angular/core';
+import { injectOrThrow } from '@ngneers/controls/utils-ng';
 
 import { NgnToastManager } from './toast-manager';
 import { NgnToastOptions, NgnToastRef } from './types';
@@ -8,9 +8,11 @@ class ToastCreator {
   private readonly _manager: NgnToastManager;
 
   constructor() {
-    this._manager =
-      inject(NgnToastManager, { optional: true }) ??
-      throwExp('Toast', 'NgnToastManager not found. Make sure to provide the Toast feature.');
+    this._manager = injectOrThrow(
+      NgnToastManager,
+      'injectToastCreator',
+      'NgnToastManager not found. Make sure to use withToasts() to provide ngn toasts!'
+    );
   }
 
   public show(options: NgnToastOptions): NgnToastRef {

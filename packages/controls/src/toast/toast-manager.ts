@@ -8,8 +8,10 @@ import {
   signal,
 } from '@angular/core';
 import { Platform } from '@ngneers/controls/api/ng';
+import { injectOrThrow } from '@ngneers/controls/utils-ng';
 
 import { DEFAULT_TOAST_OPTIONS } from './defaults';
+import { NGN_TOAST_USER_DEFAULTS } from './provider';
 import { NgnToastHost } from './toast-host';
 import { NgnToastOptions } from './types';
 
@@ -19,6 +21,11 @@ type ToastFull = NgnToastOptions & { id: number };
 export class NgnToastManager implements OnDestroy {
   private readonly _toasts = signal<ToastFull[]>([]);
   private readonly _appRef = inject(ApplicationRef);
+  private readonly _userDefaults = injectOrThrow(
+    NGN_TOAST_USER_DEFAULTS,
+    'NgnToastManager',
+    'Failed to inject NGN_TOAST_USER_DEFAULTS, make sure to use withToasts() to provide ngn toasts!'
+  );
   private _nextId = 0;
 
   public readonly toasts = this._toasts.asReadonly();
@@ -56,7 +63,7 @@ export class NgnToastManager implements OnDestroy {
 
   public addToast(options: NgnToastOptions): number {
     const id = this._nextId++;
-    const toast: ToastFull = { ...DEFAULT_TOAST_OPTIONS, ...options, id };
+    const toast: ToastFull = { ...DEFAULT_TOAST_OPTIONS, ...this._userDefaults, ...options, id };
     this._toasts.update(toasts => [...toasts, toast]);
     return id;
   }
