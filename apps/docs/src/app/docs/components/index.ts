@@ -27,6 +27,7 @@ import { SelectPage } from './select/page';
 import { SliderPage } from './slider/page';
 import { SpinnerPage } from './spinner/page';
 import { SplitterPage } from './splitter/page';
+import { SwitchPage } from './switch/page';
 import { TablePage } from './table/page';
 import { TabsPage } from './tabs/page';
 import { TagPage } from './tag/page';
@@ -63,6 +64,7 @@ export const ALL_COMPONENT_PAGES = [
   SliderPage,
   SpinnerPage,
   SplitterPage,
+  SwitchPage,
   TablePage,
   TabsPage,
   TagPage,

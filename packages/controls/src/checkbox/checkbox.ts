@@ -2,12 +2,12 @@ import { NgClass } from '@angular/common';
 import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
 import { provideSelf, ValueControlBase } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
+import { InputGeneric } from '@ngneers/controls/utils';
 import { IconType } from '@ngneers/controls-custom-types';
 import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
 
-type ValueType<Indeterminate extends boolean> = Indeterminate extends false
-  ? boolean
-  : boolean | null;
+type ValueType<Indeterminate extends boolean> =
+  InputGeneric<Indeterminate, false> extends false ? boolean : boolean | null;
 
 /**
  * @category control
@@ -50,11 +50,14 @@ export class NgnCheckbox<Indeterminate extends boolean> extends ValueControlBase
   );
 
   protected changed(event: Event) {
-    if (this.readonly()) {
-      return;
-    }
     const target = event.target as HTMLInputElement;
     this.value.set(target.checked);
+  }
+
+  protected onClick(event: Event) {
+    if (this.readonly() || this.disabled()) {
+      event.preventDefault();
+    }
   }
 
   constructor() {

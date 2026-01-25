@@ -19,17 +19,30 @@ export const checkboxStyles = createThemePart({
         border: 2px solid ${v('color.border')};
         border-radius: ${v('size.rounded.sm')};
       }
-      ${c('input')}[disabled] ~ ${c('box')} {
+      ${c()}:has(${c('input')}[disabled]) ${c('box')} {
         background-color: ${v('color.disabled.background')};
         border-color: ${v('color.disabled.border')};
       }
-      ${c('input')}[aria-readonly] ~ ${c('box')} {
+      ${c()}:has(${c('input')}[aria-readonly]) ${c('box')} {
         border-color: ${v('color.disabled.border')};
       }
       ${c('invalid')} ${c('box')} {
         background-color: ${v('color.invalid.background')};
         border-color: ${v('color.invalid.border')};
       }
+      ${c('invalid')}:has(${c('input')}[disabled]) ${c('box')} {
+        background-color: ${v('color.disabled.background')};
+        border-color: ${v('color.error.300')};
+      }
+      ${c('invalid')}:has(${c('input')}[aria-readonly]) ${c('box')} {
+        background-color: ${v('color.invalid.background')};
+        border-color: ${v('color.error.300')};
+      }
+
+      ${c()}:has(${c('input')}:focus-visible) ${c('box')} {
+        outline: 2px solid ${v('color.text')};
+      }
+
       ${c('anim-box-icon-enter')} {
         /* prettier-ignore */
         animation: ${c('anim-box-icon-enter', 'animation')} ${v('anim.time.snappyFade')} ${v(

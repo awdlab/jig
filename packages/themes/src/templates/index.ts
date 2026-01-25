@@ -32,6 +32,7 @@ export type ThemeTemplate = {
   slider: Awaited<typeof import('./slider')>['sliderControlTemplate'];
   spinner: Awaited<typeof import('./spinner')>['spinnerControlTemplate'];
   splitter: Awaited<typeof import('./splitter')>['splitterControlTemplate'];
+  switch: Awaited<typeof import('./switch')>['switchControlTemplate'];
   tabs: Awaited<typeof import('./tabs')>['tabsControlTemplate'];
   table: Awaited<typeof import('./table')>['tableControlTemplate'];
   tag: Awaited<typeof import('./tag')>['tagControlTemplate'];

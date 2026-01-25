@@ -1,8 +1,8 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
+import { switchControlTemplate } from '@ngneers/controls-themes/templates/switch';
 
-export const checkboxStyles = createThemePart({
-  controlTemplate: checkboxControlTemplate,
+export const switchStyles = createThemePart({
+  controlTemplate: switchControlTemplate,
   dependencies: [],
   root: {
     css: ({ v, c, d }) => css`
@@ -10,26 +10,21 @@ export const checkboxStyles = createThemePart({
         display: inline-flex;
         user-select: none;
         align-items: center;
-        justify-content: center;
         position: relative;
         vertical-align: middle;
         width: min-content;
         min-width: min-content;
-      }
-      ${c('input')}[disabled], ${c('input')}[aria-readonly] {
-        cursor: default;
+        flex-shrink: 0;
       }
       ${c('input')} {
-        cursor: pointer;
-        opacity: 0;
         position: absolute;
+        opacity: 0;
         inset: 0;
         margin: 0;
       }
-      ${c('box')} {
+      ${c('track')} {
         display: flex;
         align-items: center;
-        justify-content: center;
       }
     `,
   },

@@ -30,6 +30,7 @@ import { selectStyles } from '@ngneers/controls-themes/nova/select';
 import { sliderStyles } from '@ngneers/controls-themes/nova/slider';
 import { spinnerStyles } from '@ngneers/controls-themes/nova/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/nova/splitter';
+import { switchStyles } from '@ngneers/controls-themes/nova/switch';
 import { tableStyles } from '@ngneers/controls-themes/nova/table';
 import { tabsStyles } from '@ngneers/controls-themes/nova/tabs';
 import { tagStyles } from '@ngneers/controls-themes/nova/tag';
@@ -95,6 +96,7 @@ export const novaCoral = createTheme(
     sliderStyles,
     spinnerStyles,
     splitterStyles,
+    switchStyles,
     tableStyles,
     tabsStyles,
     tagStyles,

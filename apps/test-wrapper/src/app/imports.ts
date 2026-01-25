@@ -44,6 +44,7 @@ export const IMPORTS = {
   spinner: () => import('@ngneers/controls/spinner').then((m) => m.NgnSpinner),
   splitter: () =>
     import('@ngneers/controls/splitter').then((m) => m.NgnSplitter),
+  switch: () => import('@ngneers/controls/switch').then((m) => m.NgnSwitch),
   tabs: () => import('@ngneers/controls/tabs').then((m) => m.NgnTabs),
   tab: () => import('@ngneers/controls/tabs').then((m) => m.NgnTab),
   table: () => import('@ngneers/controls/table').then((m) => m.NgnTable),

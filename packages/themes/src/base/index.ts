@@ -30,6 +30,7 @@ import { selectStyles } from '@ngneers/controls-themes/base/select';
 import { sliderStyles } from '@ngneers/controls-themes/base/slider';
 import { spinnerStyles } from '@ngneers/controls-themes/base/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/base/splitter';
+import { switchStyles } from '@ngneers/controls-themes/base/switch';
 import { tabsStyles } from '@ngneers/controls-themes/base/tabs';
 import { tagStyles } from '@ngneers/controls-themes/base/tag';
 import { toastStyles } from '@ngneers/controls-themes/base/toast';
@@ -71,6 +72,7 @@ export const baseStyles = {
   slider: sliderStyles,
   spinner: spinnerStyles,
   splitter: splitterStyles,
+  switch: switchStyles,
   table: tableStyles,
   tabs: tabsStyles,
   tag: tagStyles,

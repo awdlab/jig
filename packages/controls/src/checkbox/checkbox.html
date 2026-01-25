@@ -1,14 +1,3 @@
-<input
-  type="checkbox"
-  [value]="value()"
-  (change)="changed($event)"
-  [indeterminate]="indeterminate()"
-  [ngClass]="theme.class('input')"
-  [attr.disabled]="disabled() ? '' : undefined"
-  [ariaReadOnly]="readonly() ? '' : undefined"
-  [ariaInvalid]="invalid() ? 'true' : undefined"
-  [ariaLabelledByElements]="labelledBy()"
-/>
 <div
   [ngClass]="
     theme.classes({
@@ -43,3 +32,15 @@
     />
   }
 </div>
+<input
+  type="checkbox"
+  [checked]="value()"
+  (change)="changed($event)"
+  (click)="onClick($event)"
+  [indeterminate]="indeterminate()"
+  [ngClass]="theme.class('input')"
+  [attr.disabled]="disabled() ? '' : undefined"
+  [ariaReadOnly]="readonly() ? '' : undefined"
+  [ariaInvalid]="invalid() ? 'true' : undefined"
+  [ariaLabelledByElements]="labelledBy()"
+/>
