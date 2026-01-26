@@ -103,8 +103,6 @@ export class NgnListBox<
     const appliedFilterOptions = this._appliedFilterOptions();
     const filterText = this.filterText();
 
-    console.warn('Filtering items with text:', filterText);
-
     if (!filter || !filterText) {
       return this.items();
     }

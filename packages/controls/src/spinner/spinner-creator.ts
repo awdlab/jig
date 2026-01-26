@@ -103,10 +103,13 @@ export type SpinnerOptions = {
   color?: CustomColor;
   /**
    * The diameter of the spinner in pixels.
+   * @default 64
    */
   size?: number;
   /**
-   * The thickness of the spinner's stroke.
+   * The thickness of the spinner's stroke. If not provided,
+   * a default thickness derived from the size will be used.
+   * @default undefined
    */
   thickness?: string;
   /**
@@ -116,6 +119,7 @@ export type SpinnerOptions = {
   centered?: boolean;
   /**
    * Set aria busy attribute on the reference element while the spinner is visible.
+   * @default true
    */
   ariaBusy?: boolean;
 };
