@@ -1,12 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import {
-  ApplicationRef,
-  createComponent,
-  DestroyRef,
-  EnvironmentInjector,
-  Type,
-  ViewContainerRef,
-} from '@angular/core';
+import { DestroyRef, Type, ViewContainerRef } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
 import { marked } from './marked';
@@ -14,6 +7,7 @@ import { parseMarkdown } from './parse-md';
 import { MdCfg } from './types';
 import { Api } from '../api/api';
 import { NgnDocsDemo } from '../demo/demo';
+import { renderComponent } from '../rendering/render-component';
 
 type Result = string | { component: Type<unknown>; inputs?: Record<string, unknown>; id: string };
 
@@ -28,6 +22,16 @@ export async function renderMd(
 
   const parsedMd = parseMarkdown(res);
 
+  function getComponent(name: string): Type<unknown> {
+    const res = cfg.components?.find(c => {
+      return typeof c === 'function' && c.name === `_${name}`;
+    });
+    if (!res) {
+      throw new Error(`Component ${name} not found among provided components.`);
+    }
+    return res;
+  }
+
   const result: Result[] = await Promise.all(
     parsedMd.map(async block => {
       const kind = block.kind;
@@ -35,19 +39,13 @@ export async function renderMd(
         const res = await marked.parse(block.content);
         return res;
       } else if (kind === 'component') {
-        const compType = cfg.components?.find(c => c.name === `_${block.content}`);
-        if (!compType) {
-          throw new Error(`Component ${block.content} not found among provided components.`);
-        }
+        const compType = getComponent(block.content);
         return {
           component: compType,
           id: `__component_placeholder_${Math.random().toString(36).substring(2, 9)}`,
         };
       } else if (kind === 'demo') {
-        const demoComponent = cfg.components?.find(c => c.name === `_${block.component}`);
-        if (!demoComponent) {
-          throw new Error(`Component ${block.component} not found among provided components.`);
-        }
+        const demoComponent = getComponent(block.component);
         return {
           component: NgnDocsDemo,
           inputs: { component: demoComponent },
@@ -60,9 +58,8 @@ export async function renderMd(
         return res;
       } else if (kind === 'api') {
         const { module, component } = block;
-        const compType = Api;
         return {
-          component: compType,
+          component: Api,
           inputs: { moduleName: module, controlName: component },
           id: `__component_placeholder_${Math.random().toString(36).substring(2, 9)}`,
         };
@@ -105,24 +102,13 @@ export async function renderMd(
     if (element) {
       // Create an instance of the component and insert it into the DOM
 
-      const componentInstance = createComponent(toRender.component, {
-        hostElement: element,
-        environmentInjector: vcr.injector.get(EnvironmentInjector),
-        elementInjector: vcr.injector,
-      });
-
-      destroyRef.onDestroy(() => {
-        componentInstance.destroy();
-      });
+      const componentRef = renderComponent(toRender.component, vcr, destroyRef, { element });
 
       if (toRender.inputs) {
         Object.entries(toRender.inputs).forEach(([key, value]) => {
-          componentInstance.setInput(key, value);
+          componentRef.setInput(key, value);
         });
       }
-
-      const appRef = vcr.injector.get(ApplicationRef);
-      appRef.attachView(componentInstance.hostView);
     }
   });
 }

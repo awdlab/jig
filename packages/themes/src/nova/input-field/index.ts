@@ -154,7 +154,7 @@ export const inputFieldStyles = createThemePart({
 
         /* Label Styles */
         ${c('label')} {
-          color: ${v('color.surface.500')};
+          color: ${v('color.surface.600')};
           font-size: ${v('font.size.xs')};
           font-weight: ${v('font.weight.medium')};
 
@@ -253,6 +253,11 @@ export const inputFieldStyles = createThemePart({
               transform: translateY(-50%) scale(0);
             }
           }
+        }
+
+        /* Label hidden */
+        ${c('labelKind-hidden')} ${c('label')} {
+          display: none;
         }
       `;
     },

@@ -132,21 +132,23 @@ export function themedColors(
   c: (className?: `color-${string}`) => string,
   v: (varName: ThemePaletteVarName) => string
 ): string {
-  return ([null, 'primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'] as const)
+  return (
+    ['primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error', 'surface'] as const
+  )
     .map(
       color => `
       ${color ? c(`color-${color}`) : c()} {
-        --theme-color-950: ${v(`color.${color ?? 'surface'}.950`)};
-        --theme-color-900: ${v(`color.${color ?? 'surface'}.900`)};
-        --theme-color-800: ${v(`color.${color ?? 'surface'}.800`)};
-        --theme-color-700: ${v(`color.${color ?? 'surface'}.700`)};
-        --theme-color-600: ${v(`color.${color ?? 'surface'}.600`)};
-        --theme-color-500: ${v(`color.${color ?? 'surface'}.500`)};
-        --theme-color-400: ${v(`color.${color ?? 'surface'}.400`)};
-        --theme-color-300: ${v(`color.${color ?? 'surface'}.300`)};
-        --theme-color-200: ${v(`color.${color ?? 'surface'}.200`)};
-        --theme-color-100: ${v(`color.${color ?? 'surface'}.100`)};
-        --theme-color-50: ${v(`color.${color ?? 'surface'}.50`)};
+        --theme-color-950: ${v(`color.${color}.950`)};
+        --theme-color-900: ${v(`color.${color}.900`)};
+        --theme-color-800: ${v(`color.${color}.800`)};
+        --theme-color-700: ${v(`color.${color}.700`)};
+        --theme-color-600: ${v(`color.${color}.600`)};
+        --theme-color-500: ${v(`color.${color}.500`)};
+        --theme-color-400: ${v(`color.${color}.400`)};
+        --theme-color-300: ${v(`color.${color}.300`)};
+        --theme-color-200: ${v(`color.${color}.200`)};
+        --theme-color-100: ${v(`color.${color}.100`)};
+        --theme-color-50: ${v(`color.${color}.50`)};
       }
       `
     )

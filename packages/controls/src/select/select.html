@@ -15,6 +15,7 @@
   [readonly]="readonly()"
   [disabled]="disabled()"
   [tabindex]="editable() || disabled() ? -1 : tabindex()"
+  (focusout)="potentiallyBlurred()"
 >
   @if (editable()) {
     <ng-content select="[ngnInput]">
@@ -24,6 +25,7 @@
         [aria-expanded]="popover.open()"
         aria-haspopup="listbox"
         [attr.aria-controls]="inputId() + '_listbox'"
+        [id]="inputId()"
         [value]="valueStr() || ''"
         (valueChange)="onEditableChange($event)"
         [readOnly]="readonly()"
@@ -40,6 +42,7 @@
       [attr.aria-invalid]="invalid() ? 'true' : null"
       [attr.aria-readonly]="readonly() ? 'true' : null"
       [attr.disabled]="disabled() ? '' : null"
+      [id]="inputId()"
     >
       @if (multiple()) {
         <ng-container

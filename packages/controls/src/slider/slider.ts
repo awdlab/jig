@@ -35,6 +35,7 @@ import { sliderControlTemplate } from '@ngneers/controls-themes/templates/slider
     '[attr.aria-valuetext]': 'valueTextValue()',
     '[tabindex]': 'disabled() ? -1 : 0',
     '(keydown)': 'onKeyDown($event)',
+    '(blur)': 'touched.set(true)',
   },
 })
 export class NgnSlider extends ValueControlBase<'slider', number> {

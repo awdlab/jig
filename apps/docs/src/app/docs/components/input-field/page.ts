@@ -1,3 +1,4 @@
+import { NgnDocsInputFieldPlayground } from './playground';
 import { Demo_InputField_Base } from '../../../demos/input-field/base';
 import { Demo_InputField_Clear } from '../../../demos/input-field/clear';
 import { Demo_InputField_Label } from '../../../demos/input-field/label';
@@ -20,6 +21,11 @@ export const InputFieldPage: NgnDocsPage = {
         Demo_InputField_States,
         Demo_InputField_Label,
       ],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/input-field/playground.md',
+      components: [NgnDocsInputFieldPlayground],
     },
     {
       title: 'API',

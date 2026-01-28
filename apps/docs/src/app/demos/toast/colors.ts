@@ -17,7 +17,7 @@ import { CustomColor } from '@ngneers/controls-custom-types';
   `,
 })
 export class Demo_Toast_Colors {
-  protected readonly colors = injectThemeColors();
+  protected readonly colors = injectThemeColors('toast');
   private readonly _toastCreator = injectToastCreator();
 
   protected showToast(color: CustomColor) {

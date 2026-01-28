@@ -1,3 +1,4 @@
+import { NgnDocsTablePlayground } from './playground';
 import { Demo_Table_Base } from '../../../demos/table/base';
 import { Demo_Table_Filtering } from '../../../demos/table/filtering';
 import { Demo_Table_Paged } from '../../../demos/table/paged';
@@ -20,6 +21,11 @@ export const TablePage: NgnDocsPage = {
         Demo_Table_Sorting,
         Demo_Table_Virtual,
       ],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/table/playground.md',
+      components: [NgnDocsTablePlayground],
     },
     {
       title: 'API',

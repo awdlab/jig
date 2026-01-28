@@ -1,3 +1,4 @@
+import { NgnDocsTooltipPlayground } from './playground';
 import { Demo_Tooltip_Arrow } from '../../../demos/tooltip/arrow';
 import { Demo_Tooltip_Base } from '../../../demos/tooltip/base';
 import { Demo_Tooltip_Placement } from '../../../demos/tooltip/placement';
@@ -18,6 +19,11 @@ export const TooltipPage: NgnDocsPage = {
         Demo_Tooltip_ShowOnlyIfTruncated,
         Demo_Tooltip_Arrow,
       ],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/tooltip/playground.md',
+      components: [NgnDocsTooltipPlayground],
     },
     {
       title: 'API',

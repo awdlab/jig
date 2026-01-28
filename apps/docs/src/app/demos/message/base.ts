@@ -10,16 +10,16 @@ import { NgnMessage } from '@ngneers/controls/message';
     <div class="flex gap-2 flex-col">
       @for (kind of kinds; track $index) {
         @if (kinds.length > 1) {
-          <div class="w-full font-bold mt-4 mb-2">Kind: {{ kind ?? '*none*' }}</div>
+          <div class="w-full font-bold mt-4 mb-2">Kind: {{ kind }}</div>
         }
         @for (color of colors; track $index) {
-          <ngn-message [kind]="kind" [color]="color">{{ color ?? 'default' }} message</ngn-message>
+          <ngn-message [kind]="kind" [color]="color">{{ color }} message</ngn-message>
         }
       }
     </div>
   `,
 })
 export class Demo_Message_Base {
-  protected readonly kinds = [null, ...injectThemeControlKinds('message')];
-  protected readonly colors = [null, ...injectThemeColors()];
+  protected readonly kinds = injectThemeControlKinds('message');
+  protected readonly colors = injectThemeColors('message');
 }

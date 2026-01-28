@@ -56,6 +56,9 @@ export class NgnInput extends NgnBase<'input'> implements AfterViewInit {
       effect(() => {
         const _changeEvent = changeEvent();
         const _inputEvent = inputEvent();
+        if (!_changeEvent && !_inputEvent) {
+          return;
+        }
         const val = this._input.value;
         this.value.set(val ?? '');
       });

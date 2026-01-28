@@ -21,7 +21,16 @@ export function injectThemeControlKinds<T extends string>(controlName: T): Custo
  * @returns A tuple of available colors.
  * @todo make reactive (signal)
  */
-export function injectThemeColors(): CustomColor[] {
-  const val = inject(NGN_CONFIG).theme.preset?.meta.colors ?? [];
+export function injectThemeColors(controlName?: string): CustomColor[] {
+  const theme = inject(NGN_CONFIG).theme;
+  if (controlName) {
+    const classNames = theme.preset?.parts.find(x => x.scope === controlName)?.controlTemplate
+      ?.classNames;
+    const hasColor = classNames?.includes('color-*');
+    if (!hasColor) {
+      return [];
+    }
+  }
+  const val = theme.preset?.meta.colors ?? [];
   return val as CustomColor[];
 }

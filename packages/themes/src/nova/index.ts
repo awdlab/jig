@@ -47,6 +47,7 @@ export const KINDS = {
 };
 
 export const COLORS = [
+  'surface',
   'primary',
   'secondary',
   'accent',

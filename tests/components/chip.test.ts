@@ -87,7 +87,16 @@ test('colors', async ({ page }, testInfo) => {
     },
     {
       inputs: {
-        colors: [null, 'primary', 'secondary', 'accent', 'success', 'warning', 'error', 'info'],
+        colors: [
+          'surface',
+          'primary',
+          'secondary',
+          'accent',
+          'success',
+          'warning',
+          'error',
+          'info',
+        ],
       },
     }
   );

@@ -1,3 +1,4 @@
+import { NgnDocsToastPlayground } from './playground';
 import { Demo_Toast_Base } from '../../../demos/toast/base';
 import { Demo_Toast_Closable } from '../../../demos/toast/closable';
 import { Demo_Toast_Colors } from '../../../demos/toast/colors';
@@ -20,6 +21,11 @@ export const ToastPage: NgnDocsPage = {
         Demo_Toast_Persistent,
         Demo_Toast_Icon,
       ],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/toast/playground.md',
+      components: [NgnDocsToastPlayground],
     },
     {
       title: 'API',

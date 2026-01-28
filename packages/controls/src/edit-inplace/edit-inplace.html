@@ -14,6 +14,7 @@
   [lazy]="lazy()"
   [cache]="cache()"
   [disabled]="disabled() || readonly()"
+  (contentVisibleChange)="!$event && touched.set(true)"
 />
 
 <ng-template #defaultDisplayTemplate [ngnTemplate]="templateTypes.display" let-display>
@@ -45,6 +46,7 @@
         (valueChange)="edit.update($event ?? '')"
         (keydown.enter)="edit.close()"
         [ngClass]="theme.class('default-edit-input')"
+        (blur)="touched.set(true)"
       />
       <button
         ngnButton

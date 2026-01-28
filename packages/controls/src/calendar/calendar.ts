@@ -81,7 +81,7 @@ export class NgnCalendar extends CalendarTemplates {
    */
   public readonly inline = input(false, { transform: booleanAttribute });
 
-  private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);
+  private readonly _popover = viewChild<NgnPopover>(NgnPopover);
   private readonly _platform = inject(Platform);
   protected readonly i18n = inject(I18n).translations;
   protected readonly theme = this.injectThemeTemplate(calendarControlTemplate);
@@ -192,10 +192,14 @@ export class NgnCalendar extends CalendarTemplates {
     if (this.inline()) {
       throw new NgnError('calendar', 'cannot open inline calendar');
     }
-    if (this._platform.isTouchDevice()) {
+    if (this._platform.isTouchDevice() || this.disabled() || this.readonly()) {
       return;
     }
-    this._popover().show();
+    const popover = this._popover();
+    if (!popover) {
+      throw new NgnError('calendar', 'popover not found despite inline being false');
+    }
+    popover.show();
   }
 
   /**
@@ -205,15 +209,23 @@ export class NgnCalendar extends CalendarTemplates {
     if (this.inline()) {
       throw new NgnError('calendar', 'cannot close inline calendar');
     }
-    this._popover().hide();
+    const popover = this._popover();
+    if (!popover) {
+      throw new NgnError('calendar', 'popover not found despite inline being false');
+    }
+    popover.hide();
   }
 
   protected onKeyDown(event: KeyboardEvent) {
     // @todo: handle date selection with keys
 
     // if event is not handled by the listbox, we can handle it here
-    if (event.key === 'Enter') {
-      this._popover().toggle();
+    if (event.key === 'Enter' && !this.inline()) {
+      const popover = this._popover();
+      if (!popover) {
+        throw new NgnError('calendar', 'popover not found despite inline being false');
+      }
+      popover.toggle();
       event.stopPropagation();
       event.preventDefault();
     }
@@ -236,5 +248,14 @@ export class NgnCalendar extends CalendarTemplates {
       this.value.set(date);
     }
     return true;
+  }
+
+  protected potentiallyBlurred() {
+    setTimeout(() => {
+      if (this.element.nativeElement.contains(document.activeElement) || this._popover()?.open()) {
+        return;
+      }
+      this.touched.set(true);
+    });
   }
 }

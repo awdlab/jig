@@ -1,6 +1,7 @@
 import {
   afterRenderEffect,
   booleanAttribute,
+  computed,
   DestroyRef,
   Directive,
   effect,
@@ -11,6 +12,7 @@ import {
   Injector,
   input,
   Provider,
+  signal,
   Signal,
   Type,
   viewChildren,
@@ -22,6 +24,8 @@ import {
   NGN_CONFIG,
   applyPassthrough,
   NgnPassthrough,
+  injectThemeControlKinds,
+  injectThemeColors,
 } from '@ngneers/controls/api/ng';
 import { toggleClass } from '@ngneers/controls/utils';
 import { setInputSignalValue } from '@ngneers/controls/utils-ng';
@@ -35,7 +39,7 @@ import { setNgnInstance } from './ngn-instance';
 export const NGN_CONTROL = new InjectionToken<NgnBase<never>>('NGN_CONTROL');
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyNgnBase = Omit<NgnBase<any>, 'kind' | 'pt'>;
+export type AnyNgnBase = Omit<NgnBase<any>, 'kind' | 'appliedKind' | 'pt'>;
 
 /**
  * @internal
@@ -52,6 +56,9 @@ export function provideSelf(control: Type<unknown>): Provider {
 })
 export abstract class NgnBase<T extends ControlName | null> {
   protected abstract theme: ControlTemplateInfo<never> | null;
+
+  private readonly _defaultKind = signal<CustomKind<T> | undefined>(undefined);
+  private readonly _defaultColor = signal<CustomColor | undefined>(undefined);
 
   /**
    * The element reference for the host element.
@@ -76,8 +83,15 @@ export abstract class NgnBase<T extends ControlName | null> {
    *
    * TODO: link to custom types documentation
    */
-  public readonly kind = input<CustomKind<T> | null | undefined>(undefined as never);
-  public readonly color = input<CustomColor | null | undefined>(undefined as never);
+  public readonly kind = input<CustomKind<T> | undefined>(undefined as never);
+  public readonly color = input<CustomColor | undefined>(undefined as never);
+
+  public readonly appliedKind = computed<CustomKind<T> | undefined>(
+    () => this.kind() ?? this._defaultKind()
+  );
+  public readonly appliedColor = computed<CustomColor | undefined>(
+    () => this.color() ?? this._defaultColor()
+  );
 
   /**
    * Custom passthrough attributes to apply to the control's theme classes and its dependencies.
@@ -204,6 +218,16 @@ export abstract class NgnBase<T extends ControlName | null> {
         T extends string ? ThemeTemplate[T] : never
       >;
     }
+
+    const kinds = injectThemeControlKinds(theme.scope);
+    if (kinds.length) {
+      this._defaultKind.set(kinds[0] as CustomKind<T>);
+    }
+    const colors = injectThemeColors(theme.scope);
+    if (colors.length) {
+      this._defaultColor.set(colors[0] as CustomColor);
+    }
+
     return theme as ControlTemplateInfo<
       External extends true ? ControlTemplate : T extends string ? ThemeTemplate[T] : never
     >;
@@ -213,8 +237,8 @@ export abstract class NgnBase<T extends ControlName | null> {
    * Toggles the kind and color theme classes based on the current values of the kind and color inputs.
    */
   private initializeKindAndColorClasses() {
-    this.initializeAutoThemeClasses('kind', this.kind);
-    this.initializeAutoThemeClasses('color', this.color);
+    this.initializeAutoThemeClasses('kind', this.appliedKind);
+    this.initializeAutoThemeClasses('color', this.appliedColor);
   }
 
   /**

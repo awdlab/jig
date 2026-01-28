@@ -10,6 +10,8 @@
     [inputId]="inputId()"
     [invalid]="invalid()"
     [labelledBy]="labelledBy()"
+    (focusout)="potentiallyBlurred()"
+    [disabled]="disabled()"
   >
     <input
       [ngClass]="theme.class('input')"
@@ -23,7 +25,12 @@
     />
     <ngn-icon defaultIcon="calendar" />
   </ngn-input-field>
-  <ngn-popover #popover [anchor]="field.element.nativeElement" [id]="inputId() + '_popover'">
+  <ngn-popover
+    #popover
+    [anchor]="field.element.nativeElement"
+    [id]="inputId() + '_popover'"
+    (closing)="potentiallyBlurred()"
+  >
     <ng-template #lazy>
       <ng-container *ngTemplateOutlet="calendar"></ng-container>
     </ng-template>
@@ -58,6 +65,7 @@
       [monthTemplate]="monthTemplate()"
       [showTime]="showTime()"
       [showSeconds]="showSeconds()"
+      (focusout)="potentiallyBlurred()"
     />
   </div>
 </ng-template>

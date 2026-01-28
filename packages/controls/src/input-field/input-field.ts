@@ -30,6 +30,7 @@ import { INPUT_FIELD } from './token';
   templateUrl: './input-field.html',
   host: {
     '[class]': 'theme.class("host")',
+    '[inert]': 'disabled()',
   },
   providers: [
     {

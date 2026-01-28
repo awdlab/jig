@@ -1,3 +1,4 @@
+import { NgnDocsMenuPlayground } from './playground';
 import { Demo_Menu_Base } from '../../../demos/menu/base';
 import { Demo_Menu_ContextMenu } from '../../../demos/menu/context-menu';
 import { Demo_Menu_Popover } from '../../../demos/menu/popover';
@@ -20,6 +21,11 @@ export const MenuPage: NgnDocsPage = {
         Demo_Menu_Separator,
         Demo_Menu_Tiered,
       ],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/menu/playground.md',
+      components: [NgnDocsMenuPlayground],
     },
     {
       title: 'API',

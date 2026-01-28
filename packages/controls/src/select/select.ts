@@ -263,10 +263,28 @@ export class NgnSelect<
         event.stopPropagation();
         event.preventDefault();
       }
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        if (this.readonly() || this.disabled()) {
+          return;
+        }
+        const currentIndex = this.options().findIndex(option => option.value === this.value());
+        let newIndex = event.key === 'ArrowDown' ? currentIndex + 1 : currentIndex - 1;
+        if (newIndex < 0) {
+          newIndex = 0;
+        }
+        if (newIndex >= this.options().length) {
+          newIndex = this.options().length - 1;
+        }
+        const newValue = this.options()[newIndex]?.value;
+        if (newValue !== undefined) {
+          this.onSelect(newValue as ValueType<T, K, false, Multiple>);
+        }
+      }
     }
   }
 
   protected onPopoverClosed() {
+    this.potentiallyBlurred();
     this.currentHighlightedValue.set(null);
     const filter = this.filter();
     if (filter === true || (typeof filter === 'object' && filter.clearFilterOnClose)) {
@@ -318,5 +336,14 @@ export class NgnSelect<
         this.filterTextInternal.set(value);
       }
     }
+  }
+
+  protected potentiallyBlurred() {
+    setTimeout(() => {
+      if (this.element.nativeElement.contains(document.activeElement) || this._popover().open()) {
+        return;
+      }
+      this.touched.set(true);
+    });
   }
 }

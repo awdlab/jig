@@ -38,6 +38,13 @@ export class NgnButtonGroup extends NgnBase<'buttonGroup'> {
     return sizes.reduce((acc, size) => acc + size.width, 0);
   });
 
+  /**
+   * Defines the orientation of the button group.
+   * - 'auto' - The orientation is determined based on the available space.
+   * - 'horizontal' - The buttons are arranged horizontally. (Default for `auto` if enough space)
+   * - 'vertical' - The buttons are arranged vertically.
+   * @default 'auto'
+   */
   public readonly orientation = input<'auto' | 'horizontal' | 'vertical'>('auto');
   protected readonly appliedOrientation = computed(() => {
     if (this.orientation() === 'auto') {

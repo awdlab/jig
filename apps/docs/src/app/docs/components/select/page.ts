@@ -1,3 +1,4 @@
+import { NgnDocsSelectPlayground } from './playground';
 import { Demo_Select_Base } from '../../../demos/select/base';
 import { Demo_Select_Editable } from '../../../demos/select/editable';
 import { Demo_Select_EditableCustom } from '../../../demos/select/editable-custom';
@@ -26,6 +27,11 @@ export const SelectPage: NgnDocsPage = {
         Demo_Select_Multiple,
         Demo_Select_States,
       ],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/select/playground.md',
+      components: [NgnDocsSelectPlayground],
     },
     {
       title: 'API',

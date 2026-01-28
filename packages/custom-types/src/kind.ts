@@ -13,5 +13,4 @@ type CustomKindInt<K> =
 
 type UnionCustomKind<K> = CustomKindInt<K> extends readonly (infer A)[] ? A : never;
 
-export type CustomKind<K> =
-  UnionCustomKind<K> extends never ? never : UnionCustomKind<K> | null | undefined;
+export type CustomKind<K> = UnionCustomKind<K> extends never ? never : UnionCustomKind<K>;

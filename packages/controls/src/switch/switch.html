@@ -11,4 +11,5 @@
   [ariaReadOnly]="readonly() ? '' : undefined"
   [ariaInvalid]="invalid() ? 'true' : undefined"
   [ariaLabelledByElements]="labelledBy()"
+  (blur)="touched.set(true)"
 />

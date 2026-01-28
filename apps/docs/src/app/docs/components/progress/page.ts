@@ -1,3 +1,4 @@
+import { NgnDocsProgressPlayground } from './playground';
 import { Demo_Progress_Base } from '../../../demos/progress/base';
 import { Demo_Progress_Circular } from '../../../demos/progress/circular';
 import { Demo_Progress_CircularIndeterminate } from '../../../demos/progress/circular-indeterminate';
@@ -20,6 +21,11 @@ export const ProgressPage: NgnDocsPage = {
         Demo_Progress_CircularIndeterminate,
         Demo_Progress_Sizes,
       ],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/progress/playground.md',
+      components: [NgnDocsProgressPlayground],
     },
     {
       title: 'API',

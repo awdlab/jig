@@ -1,3 +1,4 @@
+import { NgnDocsSpinnerPlayground } from './playground';
 import { Demo_Spinner_Base } from '../../../demos/spinner/base';
 import { Demo_Spinner_Colors } from '../../../demos/spinner/colors';
 import { Demo_Spinner_Creator } from '../../../demos/spinner/creator';
@@ -20,6 +21,11 @@ export const SpinnerPage: NgnDocsPage = {
         Demo_Spinner_Colors,
         Demo_Spinner_Creator,
       ],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/spinner/playground.md',
+      components: [NgnDocsSpinnerPlayground],
     },
     {
       title: 'API',

@@ -50,7 +50,7 @@ async function convertControl(control: DeclarationReflection) {
     prop =>
       prop.kind === ReflectionKind.Property &&
       prop.flags.isPublic &&
-      ['InputSignal'].includes((prop.type as ReferenceType).name)
+      ['InputSignal', 'InputSignalWithTransform'].includes((prop.type as ReferenceType).name)
   );
 
   const outputs = props.filter(

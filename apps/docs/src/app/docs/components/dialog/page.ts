@@ -1,3 +1,4 @@
+import { NgnDocsDialogPlayground } from './playground';
 import { Demo_Dialog_Base } from '../../../demos/dialog/base';
 import { Demo_Dialog_Buttons } from '../../../demos/dialog/buttons';
 import { Demo_Dialog_CreateDialog } from '../../../demos/dialog/create-dialog';
@@ -22,6 +23,11 @@ export const DialogPage: NgnDocsPage = {
         Demo_Dialog_Prompt,
         Demo_Dialog_CreateDialog,
       ],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/dialog/playground.md',
+      components: [NgnDocsDialogPlayground],
     },
     {
       title: 'API',

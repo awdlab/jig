@@ -1,3 +1,4 @@
+import { NgnDocsFilterPlayground } from './playground';
 import { Demo_Filter_Base } from '../../../demos/filter/base';
 import { Demo_Filter_Custom } from '../../../demos/filter/custom';
 import { Demo_Filter_DataTypes } from '../../../demos/filter/datatypes';
@@ -22,6 +23,11 @@ export const FilterPage: NgnDocsPage = {
         Demo_Filter_Custom,
         Demo_Filter_Multiple,
       ],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/filter/playground.md',
+      components: [NgnDocsFilterPlayground],
     },
     {
       title: 'API',

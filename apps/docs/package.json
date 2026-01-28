@@ -39,8 +39,8 @@
     "@angular/cli": "catalog:",
     "@angular/compiler-cli": "catalog:",
     "@types/express": "^5.0.6",
-    "@types/node": "^25.0.9",
+    "@types/node": "^25.1.0",
     "@types/prismjs": "^1.26.5",
-    "typescript": "~5.9.3"
+    "typescript": "catalog:"
   }
 }

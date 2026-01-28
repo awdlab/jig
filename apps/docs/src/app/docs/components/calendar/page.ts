@@ -1,3 +1,4 @@
+import { NgnDocsCalendarPlayground } from './playground';
 import { Demo_Calendar_Base } from '../../../demos/calendar/base';
 import { Demo_Calendar_Inline } from '../../../demos/calendar/inline';
 import { Demo_Calendar_InlineTime } from '../../../demos/calendar/inline-time';
@@ -18,6 +19,11 @@ export const CalendarPage: NgnDocsPage = {
         Demo_Calendar_Time,
         Demo_Calendar_InlineTime,
       ],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/calendar/playground.md',
+      components: [NgnDocsCalendarPlayground],
     },
     {
       title: 'API',

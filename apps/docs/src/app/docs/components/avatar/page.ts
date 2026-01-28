@@ -1,3 +1,4 @@
+import { NgnDocsAvatarPlayground } from './playground';
 import { Demo_Avatar_Base } from '../../../demos/avatar/base';
 import { Demo_Avatar_Group } from '../../../demos/avatar/group';
 import { Demo_Avatar_Icon } from '../../../demos/avatar/icon';
@@ -20,6 +21,11 @@ export const AvatarPage: NgnDocsPage = {
         Demo_Avatar_Icon,
         Demo_Avatar_Group,
       ],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/avatar/playground.md',
+      components: [NgnDocsAvatarPlayground],
     },
     {
       title: 'API',

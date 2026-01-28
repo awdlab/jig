@@ -1,0 +1,17 @@
+import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
+import { NgnTag } from '@ngneers/controls/tag';
+
+import { NgnDocsPlayground } from '../../../utils/playground/playground';
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgnTag, NgnDocsPlayground],
+  template: `
+    <ngn-docs-playground componentName="NgnTag" [component]="component()">
+      <ngn-tag #ref>Tag</ngn-tag>
+    </ngn-docs-playground>
+  `,
+})
+export class NgnDocsTagPlayground {
+  protected readonly component = viewChild.required('ref', { read: NgnTag });
+}

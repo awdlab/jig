@@ -58,8 +58,17 @@ test('kinds and colors', async ({ page }, testInfo) => {
     },
     {
       inputs: {
-        kinds: [null, 'outlined', 'simple'],
-        colors: [null, 'primary', 'secondary', 'accent', 'success', 'warning', 'error', 'info'],
+        kinds: ['default', 'outlined', 'simple'],
+        colors: [
+          'surface',
+          'primary',
+          'secondary',
+          'accent',
+          'success',
+          'warning',
+          'error',
+          'info',
+        ],
       },
     }
   );

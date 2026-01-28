@@ -8,7 +8,7 @@ import { NgnButton } from '@ngneers/controls/button';
   imports: [NgnButton],
   template: `
     @for (color of colors; track $index) {
-      <span> {{ color ?? 'default' }}: </span>
+      <span> {{ color }}: </span>
       <div class="flex gap-2 flex-wrap items-center">
         @for (kind of kinds; track $index) {
           <button ngnButton [kind]="kind" [color]="color">
@@ -21,5 +21,5 @@ import { NgnButton } from '@ngneers/controls/button';
 })
 export class Demo_Button_Kind {
   protected readonly kinds = injectThemeControlKinds('button');
-  protected readonly colors = [null, ...injectThemeColors()];
+  protected readonly colors = injectThemeColors('button');
 }

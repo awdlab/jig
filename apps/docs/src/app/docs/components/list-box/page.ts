@@ -1,3 +1,4 @@
+import { NgnDocsListBoxPlayground } from './playground';
 import { Demo_ListBox_Base } from '../../../demos/list-box/base';
 import { Demo_ListBox_Filter } from '../../../demos/list-box/filter';
 import { Demo_ListBox_Grouped } from '../../../demos/list-box/grouped';
@@ -24,6 +25,11 @@ export const ListBoxPage: NgnDocsPage = {
         Demo_ListBox_Multiple,
         Demo_ListBox_Filter,
       ],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/list-box/playground.md',
+      components: [NgnDocsListBoxPlayground],
     },
     {
       title: 'API',

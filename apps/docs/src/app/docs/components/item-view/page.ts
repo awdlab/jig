@@ -1,3 +1,4 @@
+import { NgnDocsItemViewPlayground } from './playground';
 import { Demo_ItemView_Base } from '../../../demos/item-view/base';
 import { Demo_ItemView_Freeze } from '../../../demos/item-view/freeze';
 import { Demo_ItemView_Separator } from '../../../demos/item-view/separator';
@@ -18,6 +19,11 @@ export const ItemViewPage: NgnDocsPage = {
         Demo_ItemView_Freeze,
         Demo_ItemView_Strategies,
       ],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/item-view/playground.md',
+      components: [NgnDocsItemViewPlayground],
     },
     {
       title: 'API',

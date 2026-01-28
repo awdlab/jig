@@ -1,3 +1,4 @@
+import { NgnDocsButtonPlayground } from './playground';
 import { Demo_Button_Base } from '../../../demos/button/base';
 import { Demo_Button_Kind } from '../../../demos/button/kind';
 import { NgnDocsPage } from '../../../utils/page/types';
@@ -11,6 +12,11 @@ export const ButtonPage: NgnDocsPage = {
       title: 'Features',
       mdFile: 'components/button/index.md',
       components: [Demo_Button_Base, Demo_Button_Kind],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/button/playground.md',
+      components: [NgnDocsButtonPlayground],
     },
     {
       title: 'API',

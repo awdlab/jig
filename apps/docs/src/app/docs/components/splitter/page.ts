@@ -1,3 +1,4 @@
+import { NgnDocsSplitterPlayground } from './playground';
 import { Demo_Splitter_Base } from '../../../demos/splitter/base';
 import { Demo_Splitter_MinMax } from '../../../demos/splitter/min-max';
 import { Demo_Splitter_Reorder } from '../../../demos/splitter/reorder';
@@ -20,6 +21,11 @@ export const SplitterPage: NgnDocsPage = {
         Demo_Splitter_State,
         Demo_Splitter_Vertical,
       ],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/splitter/playground.md',
+      components: [NgnDocsSplitterPlayground],
     },
     {
       title: 'API',

@@ -10,12 +10,12 @@ import { NgnChip } from '@ngneers/controls/chip';
     <div class="flex gap-2 flex-wrap">
       @for (color of colors; track $index) {
         <ngn-chip [color]="color">
-          {{ color ?? 'default' }}
+          {{ color }}
         </ngn-chip>
       }
     </div>
   `,
 })
 export class Demo_Chip_Base {
-  protected readonly colors = [null, ...injectThemeColors()];
+  protected readonly colors = injectThemeColors('chip');
 }

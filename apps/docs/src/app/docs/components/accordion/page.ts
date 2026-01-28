@@ -1,3 +1,4 @@
+import { NgnDocsAccordionPlayground } from './playground';
 import { Demo_Accordion_Base } from '../../../demos/accordion/base';
 import { Demo_Accordion_Disabled } from '../../../demos/accordion/disabled';
 import { Demo_Accordion_Lazy } from '../../../demos/accordion/lazy';
@@ -18,6 +19,11 @@ export const AccordionPage: NgnDocsPage = {
         Demo_Accordion_Lazy,
         Demo_Accordion_Disabled,
       ],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/accordion/playground.md',
+      components: [NgnDocsAccordionPlayground],
     },
     {
       title: 'API',

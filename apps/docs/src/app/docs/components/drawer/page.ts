@@ -1,3 +1,4 @@
+import { NgnDocsDrawerPlayground } from './playground';
 import { Demo_Drawer_Base } from '../../../demos/drawer/base';
 import { Demo_Drawer_Position } from '../../../demos/drawer/position';
 import { NgnDocsPage } from '../../../utils/page/types';
@@ -11,6 +12,11 @@ export const DrawerPage: NgnDocsPage = {
       title: 'Features',
       mdFile: 'components/drawer/index.md',
       components: [Demo_Drawer_Base, Demo_Drawer_Position],
+    },
+    {
+      title: 'Playground',
+      mdFile: 'components/drawer/playground.md',
+      components: [NgnDocsDrawerPlayground],
     },
     {
       title: 'API',
