@@ -23,14 +23,14 @@ export const tabsStyles = createThemePart({
         font-weight: ${v('font.weight.semibold')};
         padding: ${v('size.padding.md')} ${v('size.padding.xl')};
         &:hover {
-          background: ${v('color.surface.100')};
+          background: ${v('color.surface.50')};
         }
         &:focus-visible {
           outline: none;
-          background: ${v('color.surface.200')};
+          background: ${v('color.surface.100')};
         }
         &:active {
-          background: ${v('color.surface.300')};
+          background: ${v('color.surface.100')};
         }
       }
       ${c('header-active-indicator')} {
@@ -72,6 +72,9 @@ export const tabsStyles = createThemePart({
         &::after {
           background: linear-gradient(270deg, var(--blurColor), transparent);
         }
+      }
+      ${c('content')} {
+        background: ${v('color.background')};
       }
     `,
   },

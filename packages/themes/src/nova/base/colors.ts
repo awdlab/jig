@@ -133,7 +133,7 @@ export function themedColors(
   v: (varName: ThemePaletteVarName) => string
 ): string {
   return (
-    ['primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error', 'surface'] as const
+    ['surface', 'primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'] as const
   )
     .map(
       color => `

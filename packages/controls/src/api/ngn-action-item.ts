@@ -1,7 +1,9 @@
+import { IconType } from '@ngneers/controls-custom-types';
+
 export type NgnActionItem = {
   id: string;
   label: string;
-  icon?: string;
+  icon?: IconType;
   callback?: () => void;
   disabled?: boolean;
   testId?: string;

@@ -8,6 +8,7 @@ import { exampleData } from '../../helper/data';
   imports: [NgnSelect],
   selector: 'ngn-demo-select-filter',
   template: `<ngn-select #select [filter]="true" [options]="options" />`,
+  host: { class: 'w-48' },
 })
 export class Demo_Select_Filter {
   protected readonly options = exampleData.items.flatPreformatted;

@@ -10,22 +10,31 @@
     scrollbar-color: var(--ngn-color-scrollbar);
   }
   h1 {
-    @apply text-4xl font-semibold mt-4 mb-4;
+    @apply text-4xl font-semibold my-10;
   }
   h2 {
-    @apply text-3xl font-semibold mt-4 mb-4;
+    @apply text-3xl font-semibold my-8;
   }
   h3 {
-    @apply text-2xl font-semibold mt-3 mb-3;
+    @apply text-2xl font-semibold my-6;
   }
   h4 {
-    @apply text-xl font-semibold mt-2 mb-2;
+    @apply text-xl font-semibold my-4;
   }
   h5 {
-    @apply text-lg font-semibold mt-2 mb-2;
+    @apply text-lg font-semibold my-3;
   }
 }
 
-.mono {
+.mono,
+code {
   font-family: 'Consolas', 'Menlo', 'Monaco', 'Lucida Console', 'Courier New', monospace;
+}
+
+.playground {
+  background: var(--ngn-color-surface-50);
+  background-image: radial-gradient(circle, var(--ngn-color-surface-200) 1px, transparent 1px);
+  background-size: 20px 20px;
+  border: 1px solid var(--ngn-color-surface-200);
+  border-radius: var(--ngn-size-rounded-lg);
 }

@@ -108,6 +108,7 @@
         [value]="multiple() ? selectedItemsValues() : selectedItemsValues()[0]"
         [scrollToSelectedItemOnInit]="scrollToSelectedItemOnOpen()"
         (valueChange)="onSelect($event)"
+        (itemClicked)="onItemClicked()"
         [inputId]="inputId() + '_listbox'"
         [templateEmpty]="noItemsTemplate()"
         [checkbox]="checkbox()"

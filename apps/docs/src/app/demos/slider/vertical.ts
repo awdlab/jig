@@ -13,8 +13,11 @@ import { NgnSlider } from '@ngneers/controls/slider';
       (valueChange)="value.set($event)"
     />
     <br />
-    {{ value() }}
+    <div class="w-10 flex  justify-center">
+      {{ value() }}
+    </div>
   `,
+  host: { class: 'flex flex-col items-center' },
 })
 export class Demo_Slider_Vertical {
   protected readonly value = signal(50);

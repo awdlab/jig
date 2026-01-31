@@ -9,9 +9,16 @@ export const menuStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
     css: ({ v, c, d }) => css`
+      ${c('root')} {
+        background: ${v('color.background')};
+        padding: 4px;
+        border-radius: ${v('size.rounded.md')};
+        border: 1px solid ${v('color.surface.300')};
+      }
       ${c('popover')} {
         ${d('popover', 'content')} {
-          padding: 4px;
+          border: none;
+          padding: 0;
           min-width: 160px;
         }
       }

@@ -11,7 +11,9 @@ export const accordionPanelStyles = createThemePart({
     css: ({ v, c }) => css`
       ${c('root')} {
         --icon-size: 14px;
-        border-bottom: 1px solid ${v('color.surface.200')};
+        &:not(:last-child) {
+          border-bottom: 1px solid ${v('color.surface.200')};
+        }
       }
       ${c('content-expander')} {
         color: ${v('color.text')};

@@ -24,6 +24,7 @@ import { exampleData } from '../../helper/data';
       </span>
     </ng-template>
   </ngn-select>`,
+  host: { class: 'w-48' },
 })
 export class Demo_Select_Templates {
   protected readonly options = exampleData.items.groupedPreformatted;

@@ -27,6 +27,7 @@ import { exampleData } from '../../helper/data';
       </ngn-item-view>
     }
   `,
+  host: { class: 'flex-1' },
 })
 export class Demo_ItemView_Strategies {
   protected readonly items = exampleData.items.flat.slice(0, 5);

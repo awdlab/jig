@@ -15,11 +15,6 @@
 
 .playground-wrapper {
   animation: rainbow-animation 5s infinite linear;
-  background: var(--ngn-color-surface-50);
-  background-image: radial-gradient(circle, var(--ngn-color-surface-200) 1px, transparent 1px);
-  background-size: 20px 20px;
-  overflow: hidden;
-  height: 100%;
   container: playground / size;
 }
 .panels {
@@ -28,13 +23,15 @@
 @container playground (max-width: 900px) {
   .properties-wrapper {
     flex-direction: column;
+    display: block;
     height: fit-content;
-    overflow-y: auto;
     max-width: unset;
     width: 100%;
   }
   .panels {
     max-width: unset;
+    height: unset;
+    min-height: 100%;
   }
 }
 

@@ -1,10 +1,18 @@
-<div class="h-10 border-b border-(--ngn-color-surface-200) flex items-center px-4 font-semibold">
-  🎨 TOKENS
-</div>
 <div class="p-4 flex flex-col gap-4 overflow-y-auto h-full">
-  <ngn-message color="info">
-    🖱️ Hover over a token to highlight the corresponding element in the preview.
+  <div class="flex items-center gap-2 font-semibold pb-2">
+    <ngn-icon style="color: var(--ngn-color-primary-500)" [icon]="'img/icons/palette.svg'" />
+    TOKENS
+  </div>
+  <ngn-message color="info" [icon]="'img/icons/pointer.svg'">
+    Hover over a token to highlight the corresponding element in the preview.
   </ngn-message>
+  <div
+    class="mono p-2 bg-(--ngn-color-surface-100) rounded-sm"
+    (mouseenter)="activeToken.set(null)"
+    [class.selected]="activeToken() === null"
+  >
+    * no highlight *
+  </div>
   @for (group of tokensGroups(); track $index) {
     <div>
       <h4 class="text-base font-semibold">{{ group.name }}</h4>

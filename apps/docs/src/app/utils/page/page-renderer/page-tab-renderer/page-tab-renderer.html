@@ -1,5 +1,6 @@
-<div class="w-full h-16 flex items-center border-b border-(--ngn-color-surface-200)">
-  <h2 class="px-6 text-2xl">{{ page.title }}</h2>
+<div class="w-full flex flex-col justify-center">
+  <ngn-breadcrumb [items]="breadcrumbItems()" />
+  <h2 class="text-3xl m-0 py-6">{{ page.title }}</h2>
 </div>
 
 <ngn-tabs

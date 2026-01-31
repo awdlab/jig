@@ -10,7 +10,7 @@ import { NgnDocsPlaygroundTokens } from './tokens/tokens';
   templateUrl: 'playground.html',
   styleUrl: 'playground.scss',
   imports: [NgnDocsPlaygroundTokens, NgnDocsPlaygroundInputs],
-  host: { class: 'h-full' },
+  host: { class: 'h-full py-2 pr-2 md:py-8 md:pr-8 flex' },
 })
 export class NgnDocsPlayground {
   public readonly controls = input.required<

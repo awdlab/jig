@@ -19,6 +19,7 @@ import { NgnSlider } from '@ngneers/controls/slider';
     Invalid + Disabled:
     <ngn-slider [value]="value()" invalid disabled />
   `,
+  host: { class: 'flex-1 max-w-100' },
 })
 export class Demo_Slider_States {
   protected readonly value = signal(50);

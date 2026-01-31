@@ -22,6 +22,7 @@ import { exampleData } from '../../helper/data';
     Invalid + Disabled:
     <ngn-select [options]="options" [popoverOptions]="popoverOptions" invalid disabled />
   `,
+  host: { class: 'w-48' },
 })
 export class Demo_Select_States {
   protected readonly options = exampleData.items.flatPreformatted;

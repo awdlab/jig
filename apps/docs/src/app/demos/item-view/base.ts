@@ -25,6 +25,7 @@ import { exampleData } from '../../helper/data';
       </ng-template>
     </ngn-item-view>
   `,
+  host: { class: 'contents' },
 })
 export class Demo_ItemView_Base {
   protected readonly items = exampleData.items.flat.slice(0, 5);

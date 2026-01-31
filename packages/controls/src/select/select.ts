@@ -305,6 +305,9 @@ export class NgnSelect<
         this.value.set(v);
       }
     }
+  }
+
+  protected onItemClicked() {
     if (!this.multiple()) {
       this.hide();
     }

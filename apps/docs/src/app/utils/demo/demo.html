@@ -1,8 +1,13 @@
-<div class="demo-wrapper flex flex-col w-full">
-  <div class="component-wrapper p-4 flex gap-2 items-start w-full">
+<div class="playground flex flex-col w-full">
+  <div
+    class="component-wrapper p-4 flex gap-2 w-full min-h-fit h-[200px] justify-center items-center"
+  >
     <ng-container *ngComponentOutlet="component()" />
-
-    <button class="z-10" ngnButton [kind]="'icon'" (click)="toggleCodeVisibility()">
+  </div>
+  <div
+    class="w-full bg-(--ngn-color-surface-100) border-t border-(--ngn-color-surface-200) flex justify-end p-2"
+  >
+    <button ngnButton [kind]="'icon'" (click)="toggleCodeVisibility()">
       <ngn-icon [icon]="'img/icons/code.svg'" />
     </button>
   </div>

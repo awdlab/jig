@@ -1,10 +1,19 @@
 import { NgComponentOutlet } from '@angular/common';
-import { Component, effect, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+  computed,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NgnPassthrough } from '@ngneers/controls/base';
+import { BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
 import { NgnTab, NgnTabs } from '@ngneers/controls/tabs';
+import { filter } from 'rxjs';
 
 import { safeRoutePath } from '../../../routing';
 import { NgnDocsCategory, NgnDocsTabPage } from '../../types';
@@ -14,9 +23,9 @@ import { NgnDocsPageSection } from '../section/section';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-page-tab-renderer',
   templateUrl: 'page-tab-renderer.html',
-  imports: [NgnDocsPageSection, NgnTabs, NgnTab, NgComponentOutlet],
+  imports: [NgnDocsPageSection, NgnTabs, NgnTab, NgComponentOutlet, NgnBreadcrumb],
   host: {
-    class: 'min-w-0 w-full h-full flex flex-col',
+    class: 'min-w-0 w-full h-full flex flex-col pt-2 pl-2 md:pt-8 md:pl-8',
   },
 })
 export class NgnDocsPageTabRenderer {
@@ -35,12 +44,6 @@ export class NgnDocsPageTabRenderer {
   );
 
   protected readonly tabPt: NgnPassthrough<'tabs'> = {
-    headers: {
-      $styles: {
-        marginLeft: '1.5rem',
-        marginRight: '1.5rem',
-      },
-    },
     content: {
       $styles: {
         height: '100%',
@@ -49,8 +52,25 @@ export class NgnDocsPageTabRenderer {
     },
   };
 
+  protected readonly breadcrumbItems = computed<BreadcrumbItem[]>(() => {
+    return [
+      {
+        id: this.category ? safeRoutePath(this.category.title) : 'all',
+        label: this.category ? this.category.title : 'All Components',
+      },
+      {
+        id: safeRoutePath(this.page.title),
+        label: this.page.title,
+      },
+      {
+        id: this.activeTab(),
+        label: this.activeTab(),
+      },
+    ];
+  });
+
   constructor() {
-    this._activatedRoute.url.pipe(takeUntilDestroyed()).subscribe(() => {
+    const switchToTabFromUrl = () => {
       const tab = this._activatedRoute.snapshot.firstChild?.url[0]?.path || '';
       const activeTab = this.page.tabs.find(
         t => (t.default ? '' : safeRoutePath(t.title)) === tab
@@ -58,7 +78,17 @@ export class NgnDocsPageTabRenderer {
       if (activeTab) {
         this.activeTab.set(activeTab);
       }
-    });
+    };
+
+    switchToTabFromUrl();
+    this._router.events
+      .pipe(
+        filter(e => e instanceof NavigationEnd),
+        takeUntilDestroyed()
+      )
+      .subscribe(() => {
+        switchToTabFromUrl();
+      });
 
     effect(() => {
       const activeTab = this.activeTab();

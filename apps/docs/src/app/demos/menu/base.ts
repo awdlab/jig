@@ -9,8 +9,8 @@ import { MenuItem, NgnMenu } from '@ngneers/controls/menu';
 })
 export class Demo_Menu_Base {
   public readonly items = signal<MenuItem[]>([
-    { id: '1', label: 'Item 1', icon: 'icon-1' },
-    { id: '2', label: 'Item 2', icon: 'icon-2' },
-    { id: '3', label: 'Item 3', icon: 'icon-3' },
+    { id: '1', label: 'Item 1' },
+    { id: '2', label: 'Item 2' },
+    { id: '3', label: 'Item 3', icon: 'img/icons/code.svg' },
   ]);
 }

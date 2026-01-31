@@ -10,7 +10,7 @@ import { NgnListBox } from '@ngneers/controls/list-box';
       [items]="items"
       [virtual]="true"
       [itemHeight]="40"
-      style="display: block; height: 300px;"
+      style="display: block; height: 300px; width: 150px;"
     />
   `,
 })

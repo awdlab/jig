@@ -11,6 +11,7 @@ import { interval } from 'rxjs';
     <ngn-progress [value]="value()" />
     {{ value() }}%
   `,
+  host: { class: 'flex-1 max-w-100' },
 })
 export class Demo_Progress_Base {
   protected readonly value = signal(50);

@@ -19,6 +19,7 @@ import { NgnEditInplace } from '@ngneers/controls/edit-inplace';
     Invalid + Disabled:
     <ngn-edit-inplace [value]="value()" (valueChange)="value.set($event)" invalid disabled /><br />
   `,
+  host: { style: 'display: block; width: 400px;' },
 })
 export class Demo_EditInplace_States {
   public readonly value = signal('Edit me');

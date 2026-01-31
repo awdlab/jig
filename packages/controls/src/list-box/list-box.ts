@@ -11,6 +11,7 @@ import {
   viewChild,
   ChangeDetectionStrategy,
   inject,
+  output,
 } from '@angular/core';
 import {
   FilterConfig,
@@ -91,6 +92,9 @@ export class NgnListBox<
    * Manually set the filter text.
    */
   public readonly filterText = input<string | null>(null);
+
+  public readonly itemClicked = output<NgnItemsValue<Items>>();
+
   public readonly displayedItems = computed(() => flatItems(this.filteredItems()));
 
   protected readonly valueArray = computed(() => {
@@ -216,7 +220,7 @@ export class NgnListBox<
         this.value.set(value as ValueType<Items, Multiple>);
       }
     }
-
+    this.itemClicked.emit(value);
     this.touched.set(true);
   }
 }

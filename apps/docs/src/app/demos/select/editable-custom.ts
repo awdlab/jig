@@ -18,6 +18,7 @@ import { exampleData } from '../../helper/data';
   >
     <input ngnInput title="Custom Editable Input" type="text" />
   </ngn-select>`,
+  host: { class: 'w-48' },
 })
 export class Demo_Select_EditableCustom {
   protected readonly options = exampleData.items.flatPreformatted;

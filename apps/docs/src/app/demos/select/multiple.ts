@@ -16,6 +16,7 @@ import { exampleData } from '../../helper/data';
       (valueChange)="log($event)"
     />
   `,
+  host: { class: 'w-48' },
 })
 export class Demo_Select_Multiple {
   protected readonly options = exampleData.items.groupedPreformatted;

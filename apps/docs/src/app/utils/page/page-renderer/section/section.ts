@@ -8,7 +8,7 @@ import { NgnDocsMdSection } from '../../types';
   selector: 'ngn-docs-section',
   templateUrl: 'section.html',
   imports: [Md],
-  host: { class: 'w-full h-full block overflow-y-auto p-4' },
+  host: { class: 'w-full h-full block overflow-y-auto py-8 pr-8' },
 })
 export class NgnDocsPageSection {
   public readonly section = input.required<NgnDocsMdSection>();

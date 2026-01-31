@@ -19,6 +19,7 @@ export const breadcrumbStyles = createThemePart({
         color: ${v('color.surface.500')};
         ngn-icon {
           margin-left: 0.5rem;
+          font-size: ${v('font.size.xs')};
         }
       }
       ${c('item')}, ${c('overflow')} {
@@ -35,6 +36,10 @@ export const breadcrumbStyles = createThemePart({
         &:hover {
           color: ${v('color.text')};
         }
+      }
+      ${c('item')}:last-child {
+        color: ${v('color.text')};
+        font-weight: ${v('font.weight.semibold')};
       }
     `,
   },

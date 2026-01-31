@@ -1,10 +1,20 @@
-<div class="h-10 border-b border-(--ngn-color-surface-200) flex items-center px-4 font-semibold">
-  ⚙️ INPUTS
-</div>
 <div class="p-4 flex flex-col gap-4 overflow-y-auto h-full">
+  <div class="flex items-center gap-2 font-semibold pb-2">
+    <ngn-icon style="color: var(--ngn-color-primary-500)" [icon]="'img/icons/sliders.svg'" />
+    INPUTS
+  </div>
   @for (control of controls(); track $index) {
     <div>
-      <h4 class="text-base font-semibold">{{ control.componentName }}</h4>
+      <h4 class="text-base font-semibold flex items-center gap-2">
+        {{ control.componentName }}
+        @if (isArray(control.component)) {
+          <ngn-icon
+            style="color: var(--ngn-color-info-500)"
+            [icon]="'img/icons/info.svg'"
+            [ngnTooltip]="'The playground contains multiple instances of this component.\nOnly the first is affected by the changes you make here!'"
+          />
+        }
+      </h4>
       <ngn-docs-playground-component-inputs
         [component]="control.component"
         [componentName]="control.componentName"

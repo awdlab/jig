@@ -24,6 +24,7 @@ import { exampleData } from '../../helper/data';
       </ng-template>
     </ngn-scroller>
   `,
+  host: { class: 'w-48' },
 })
 export class Demo_Scroller_Virtual {
   protected readonly items = exampleData.items.flat;

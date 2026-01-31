@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { injectTheme } from '@ngneers/controls/api/ng';
 import { AnyNgnBase, FullAnyNgnBase, NgnPassthrough } from '@ngneers/controls/base';
+import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnMessage } from '@ngneers/controls/message';
 import { notNullish } from '@ngneers/controls/utils';
 import { setInputSignalValue } from '@ngneers/controls/utils-ng';
@@ -24,7 +25,7 @@ import { getTypedocProject } from '../../typedoc';
   selector: 'ngn-docs-tokens',
   templateUrl: 'tokens.html',
   styleUrl: 'tokens.scss',
-  imports: [NgnMessage],
+  imports: [NgnMessage, NgnIcon],
   host: { class: 'flex flex-col' },
 })
 export class NgnDocsPlaygroundTokens<

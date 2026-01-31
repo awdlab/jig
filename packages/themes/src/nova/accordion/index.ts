@@ -8,6 +8,13 @@ export const accordionStyles = createThemePart({
   base: baseStyles.accordion,
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
-    css: ({ v, c }) => css``,
+    css: ({ v, c }) => css`
+      ${c('root')} {
+        background: ${v('color.background')};
+        border: 1px solid ${v('color.surface.300')};
+        border-radius: ${v('size.rounded.lg')};
+        display: block;
+      }
+    `,
   },
 });

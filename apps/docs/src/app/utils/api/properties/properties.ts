@@ -7,6 +7,7 @@ import {
   Injector,
   runInInjectionContext,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { injectThemeColors, injectThemeControlKinds } from '@ngneers/controls/api/ng';
 import { CommentDisplayPart, DeclarationReflection, ReflectionFlag } from 'typedoc/browser';
 
@@ -16,8 +17,8 @@ import { NgnDocsApiComment } from './comment/comment';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-api-properties',
   templateUrl: 'properties.html',
-  imports: [NgnDocsApiComment],
-  host: { class: 'block overflow-x-auto md' },
+  imports: [NgnDocsApiComment, RouterLink],
+  host: { class: 'block md' },
 })
 export class NgnDocsApiProperties {
   public readonly kind = input.required<'Inputs' | 'Outputs' | 'Properties'>();

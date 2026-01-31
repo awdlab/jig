@@ -15,6 +15,7 @@ import { exampleData } from '../../helper/data';
     (valueChange)="changed($event)"
     [value]="value()"
   />`,
+  host: { class: 'w-48' },
 })
 export class Demo_Select_Editable {
   protected readonly options = exampleData.items.flatPreformatted;

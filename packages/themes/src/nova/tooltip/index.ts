@@ -18,6 +18,7 @@ export const tooltipStyles = createThemePart({
         color: ${v('color.surface.50')};
         border-radius: ${v('size.rounded.md')};
         padding: ${v('size.padding.md')};
+        white-space: pre-line;
       }
 
       ${c('with-arrow')} {

@@ -12,6 +12,7 @@ import { exampleData } from '../../helper/data';
     [options]="options"
     [popoverOptions]="{ sizeConstraints: { height: '200px' } }"
   />`,
+  host: { class: 'w-48' },
 })
 export class Demo_Select_Base {
   protected readonly options = exampleData.items.flatPreformatted;

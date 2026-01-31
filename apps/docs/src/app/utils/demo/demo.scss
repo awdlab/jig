@@ -1,10 +1,4 @@
-.demo-wrapper {
-  border: 1px solid var(--ngn-color-surface-200);
-  border-radius: 0.375rem;
-}
-
 // Styles for dynamically rendered components via ngComponentOutlet
 :host ::ng-deep .component-wrapper > *:first-child {
-  width: 100%;
   min-width: 0;
 }
