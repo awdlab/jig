@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, viewChild, viewChildren } from '@angular/core';
 import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
@@ -7,15 +7,20 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnAccordion, NgnAccordionPanel, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnAccordion" [component]="component()">
-      <ngn-accordion #ref>
-        <ngn-accordion-panel [header]="'Panel 1'">
+    <ngn-docs-playground
+      [controls]="[
+        { componentName: 'NgnAccordion', component: componentAccordion() },
+        { componentName: 'NgnAccordionPanel', component: componentPanels() },
+      ]"
+    >
+      <ngn-accordion #ref class="flex-1">
+        <ngn-accordion-panel #ref2 [header]="'Panel 1'">
           <ng-template #content>Content 1</ng-template>
         </ngn-accordion-panel>
-        <ngn-accordion-panel [header]="'Panel 2'">
+        <ngn-accordion-panel #ref2 [header]="'Panel 2'">
           <ng-template #content>Content 2</ng-template>
         </ngn-accordion-panel>
-        <ngn-accordion-panel [header]="'Panel 3'">
+        <ngn-accordion-panel #ref2 [header]="'Panel 3'">
           <ng-template #content>Content 3</ng-template>
         </ngn-accordion-panel>
       </ngn-accordion>
@@ -23,5 +28,6 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   `,
 })
 export class NgnDocsAccordionPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnAccordion });
+  protected readonly componentAccordion = viewChild.required('ref', { read: NgnAccordion });
+  protected readonly componentPanels = viewChildren('ref2', { read: NgnAccordionPanel });
 }

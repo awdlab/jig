@@ -11,7 +11,7 @@ export const spinnerStyles = createThemePart({
     css: ({ v, c, d }) => css`
       ${themedColors(c, v)}
 
-      ${c()} {
+      ${c('root')} {
         color: var(--theme-color-500);
       }
 

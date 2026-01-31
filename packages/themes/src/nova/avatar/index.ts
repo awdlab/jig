@@ -12,7 +12,7 @@ export const avatarStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c }) => css`
-      ${c()} {
+      ${c('root')} {
         border-radius: ${v('size.rounded.full')};
         &:not(:has(${c('image')})) {
           background-color: var(--color, ${v('color.primary.500')});
@@ -32,10 +32,10 @@ export const avatarGroupStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c, d }) => css`
-      ${c()} {
+      ${c('root')} {
         display: flex;
       }
-      ${c()} ${d('avatar')} {
+      ${c('root')} ${d('avatar', 'root')} {
         --border-width: 3px;
         border: var(--border-width) solid ${v('color.background')};
         &:not(:first-child) {

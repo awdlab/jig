@@ -16,7 +16,7 @@ export const spinnerStyles = createThemePart({
       *:has(> ${c('centered')}) {
         position: relative;
       }
-      ${c()} {
+      ${c('root')} {
         display: inline-block;
         width: calc(1px * var(--size));
         height: calc(1px * var(--size));

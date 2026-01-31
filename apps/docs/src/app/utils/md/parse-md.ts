@@ -11,6 +11,7 @@ export type DemoBlock = {
 export type ComponentBlock = {
   kind: 'component';
   content: string; // component name
+  inputs?: Record<string, any>;
 };
 export type IncludeBlock = {
   kind: 'include';
@@ -29,10 +30,36 @@ export type Block = MarkdownBlock | ComponentBlock | IncludeBlock | ApiBlock | D
 type PlaceholderHandler = (value: string) => Block;
 
 const defaultHandlers: Record<string, PlaceholderHandler> = {
-  component: value => ({
-    kind: 'component',
-    content: value.trim(),
-  }),
+  component: value => {
+    const parts = value.split(' ');
+    if (parts.length === 0) {
+      throw new Error(`Invalid component placeholder value: ${value}`);
+    }
+    const componentName = parts[0];
+
+    const inputs: Record<string, any> = {};
+    for (let i = 1; i < parts.length; i++) {
+      const [key, val] = parts[i].split('=');
+      if (key && val !== undefined) {
+        // Try to parse boolean and number values
+        if (val === 'true') {
+          inputs[key] = true;
+        } else if (val === 'false') {
+          inputs[key] = false;
+        } else if (!isNaN(Number(val))) {
+          inputs[key] = Number(val);
+        } else {
+          inputs[key] = val;
+        }
+      }
+    }
+
+    return {
+      kind: 'component',
+      content: componentName,
+      inputs,
+    };
+  },
   demo: value => ({
     kind: 'demo',
     component: value.trim(),

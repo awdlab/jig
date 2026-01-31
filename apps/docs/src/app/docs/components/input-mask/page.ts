@@ -8,19 +8,18 @@ export const InputMaskPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/input-mask/index.md',
       components: [Demo_InputMask_Base, Demo_InputMask_InputField],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/input-mask/playground.md',
-      components: [NgnDocsInputMaskPlayground],
+      component: NgnDocsInputMaskPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/input-mask/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/input-mask/api.md' },
   ],
 };

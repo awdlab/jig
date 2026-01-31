@@ -7,7 +7,7 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnInput, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnInput" [component]="component()">
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnInput', component: component() }]">
       <input #ref ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
     </ngn-docs-playground>
   `,

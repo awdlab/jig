@@ -1,13 +1,13 @@
 import { afterNextRender, DestroyRef, inject, signal, Signal, Type } from '@angular/core';
 
-import { AnyNgnBase } from './base';
+import type { AnyNgnBase, FullAnyNgnBase } from './base';
 
 const NGN_INSTANCE_KEY = '__ngneers_control_instance__';
 
 function elementWithInstance(
   element: HTMLElement
 ): HTMLElement & { [NGN_INSTANCE_KEY]?: AnyNgnBase } {
-  return element as HTMLElement & { [NGN_INSTANCE_KEY]?: AnyNgnBase };
+  return element as HTMLElement & { [NGN_INSTANCE_KEY]?: FullAnyNgnBase };
 }
 
 export function setNgnInstance(element: HTMLElement, instance: AnyNgnBase): void {
@@ -17,8 +17,8 @@ export function setNgnInstance(element: HTMLElement, instance: AnyNgnBase): void
   });
 }
 
-export function getNgnInstance(element: HTMLElement): AnyNgnBase {
-  return elementWithInstance(element)[NGN_INSTANCE_KEY] as AnyNgnBase;
+export function getNgnInstance(element: HTMLElement): FullAnyNgnBase {
+  return elementWithInstance(element)[NGN_INSTANCE_KEY] as FullAnyNgnBase;
 }
 
 export function getNearestNgnInstance<T extends Type<Omit<AnyNgnBase, 'kind'>>>(
@@ -27,7 +27,7 @@ export function getNearestNgnInstance<T extends Type<Omit<AnyNgnBase, 'kind'>>>(
 ): InstanceType<T> | null {
   let current: HTMLElement | null = element;
   while (current) {
-    const instance = elementWithInstance(current)[NGN_INSTANCE_KEY] as AnyNgnBase | undefined;
+    const instance = elementWithInstance(current)[NGN_INSTANCE_KEY] as FullAnyNgnBase | undefined;
     if (instance && (!kind || instance instanceof kind)) {
       return instance as InstanceType<T>;
     }
@@ -36,7 +36,7 @@ export function getNearestNgnInstance<T extends Type<Omit<AnyNgnBase, 'kind'>>>(
   return null;
 }
 
-export function getNearestNgnInstanceSig<T extends Type<Omit<AnyNgnBase, 'kind'>>>(
+export function getNearestNgnInstanceSig<T extends Type<AnyNgnBase>>(
   element: HTMLElement,
   kind?: T
 ): Signal<InstanceType<T> | null> {

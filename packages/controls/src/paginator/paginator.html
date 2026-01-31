@@ -34,7 +34,8 @@
 
 @if (!fixedPageSize()) {
   <ngn-select
-    [ngClass]="theme.class('page-size-options')"
+    [ptInt]="this"
+    [ptClass]="'page-size-options'"
     [options]="pageSizeOptions()"
     [value]="appliedPageSize()"
     (valueChange)="pageSize.set($event)"

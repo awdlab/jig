@@ -6,7 +6,7 @@ export const tagStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ c }) => css`
-      ${c('')} {
+      ${c('root')} {
         display: inline-flex;
         align-items: center;
       }

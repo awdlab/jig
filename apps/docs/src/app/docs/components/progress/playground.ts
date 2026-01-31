@@ -7,8 +7,8 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnProgress, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnProgress" [component]="component()">
-      <ngn-progress #ref [value]="value()" />
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnProgress', component: component() }]">
+      <ngn-progress class="flex-1" #ref [value]="value()" />
     </ngn-docs-playground>
   `,
 })

@@ -18,9 +18,9 @@
 />
 
 <ng-template #defaultDisplayTemplate [ngnTemplate]="templateTypes.display" let-display>
-  <div [ngClass]="theme.class('default-display')">
+  <div [ptInt]="this" [ptClass]="'default-display'">
     @if (!display.value) {
-      <span [ngClass]="theme.class('default-fallback-display')">{{
+      <span [ptInt]="this" [ptClass]="'default-fallback-display'">{{
         i18n['editInplace_placeholder']()
       }}</span>
     } @else {
@@ -30,7 +30,7 @@
 </ng-template>
 
 <ng-template #defaultEditTemplate [ngnTemplate]="templateTypes.edit" let-edit>
-  <div [ngClass]="theme.class('default-edit')">
+  <div [ptInt]="this" [ptClass]="'default-edit'">
     <ngn-input-field
       (focusout)="focusOut($event)"
       [label]="label()"
@@ -45,7 +45,8 @@
         [value]="edit.value"
         (valueChange)="edit.update($event ?? '')"
         (keydown.enter)="edit.close()"
-        [ngClass]="theme.class('default-edit-input')"
+        [ptInt]="this"
+        [ptClass]="'default-edit-input'"
         (blur)="touched.set(true)"
       />
       <button
@@ -54,7 +55,8 @@
         kind="icon"
         [inline]="true"
         (click)="edit.close()"
-        [ngClass]="theme.class('default-edit-close-button')"
+        [ptInt]="this"
+        [ptClass]="'default-edit-close-button'"
       >
         <ngn-icon defaultIcon="check" />
       </button>

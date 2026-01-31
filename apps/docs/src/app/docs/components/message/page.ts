@@ -8,19 +8,18 @@ export const MessagePage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/message/index.md',
       components: [Demo_Message_Base, Demo_Message_WithIcon],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/message/playground.md',
-      components: [NgnDocsMessagePlayground],
+      component: NgnDocsMessagePlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/message/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/message/api.md' },
   ],
 };

@@ -8,7 +8,7 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnSelect, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnSelect" [component]="component()">
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnSelect', component: component() }]">
       <ngn-select #ref [options]="options" />
     </ngn-docs-playground>
   `,

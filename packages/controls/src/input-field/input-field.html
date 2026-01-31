@@ -1,16 +1,15 @@
 @if (label(); as label) {
-  <label [ngClass]="theme.class('label')" [for]="inputId()">{{ label }}</label>
+  <label [ptInt]="this" [ptClass]="'label'" [for]="inputId()">{{ label }}</label>
 }
 <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
 <div
-  [ngClass]="
-    theme.classes({
-      '': !hasParentInputfield,
-      invalid: invalid(),
-      readonly: readonly(),
-      disabled: disabled(),
-    })
-  "
+  [ptInt]="this"
+  [ptClass]="{
+    root: !hasParentInputfield,
+    invalid: invalid(),
+    readonly: readonly(),
+    disabled: disabled(),
+  }"
   (click)="clicked($event)"
   [tabindex]="tabindex()"
 >
@@ -18,7 +17,8 @@
   @if (showClearButton()) {
     <button
       tabindex="-1"
-      [ngClass]="theme.class('clear-button')"
+      [ptInt]="this"
+      [ptClass]="'clear-button'"
       ngnButton
       type="button"
       [kind]="'icon'"

@@ -6,7 +6,7 @@ export const sliderStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c, d }) => css`
-      ${c()} {
+      ${c('root')} {
         user-select: none;
         display: flex;
       }
@@ -22,6 +22,8 @@ export const sliderStyles = createThemePart({
         height: var(--thumbSize);
       }
       ${c('horizontal')} {
+        width: 100%;
+        max-height: min-content;
         ${c('track')} {
           width: calc(100% - var(--thumbSize));
           height: var(--trackThickness);
@@ -40,6 +42,8 @@ export const sliderStyles = createThemePart({
         }
       }
       ${c('vertical')} {
+        height: 100%;
+        max-width: min-content;
         ${c('track')} {
           height: calc(100% - var(--thumbSize));
           width: var(--trackThickness);

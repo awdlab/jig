@@ -1,14 +1,15 @@
 import { Locator, expect } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { accordionControlTemplate } from '@ngneers/controls-themes/templates/accordion';
+import { accordionPanelControlTemplate } from '@ngneers/controls-themes/templates/accordion-panel';
 
 export class NgnAccordionHarness {
-  public readonly classes = themeClasses(accordionControlTemplate);
+  public readonly classes = themeClasses(accordionPanelControlTemplate);
 
   public readonly panels: Locator;
 
   constructor(public locator: Locator) {
-    this.panels = this.locator.locator(this.classes['panel']);
+    this.panels = this.locator.locator(this.classes['root']);
   }
 
   public getPanelByIndex(index: number): NgnAccordionPanelHarness {
@@ -21,14 +22,14 @@ export class NgnAccordionHarness {
 }
 
 export class NgnAccordionPanelHarness {
-  public readonly classes = themeClasses(accordionControlTemplate);
+  public readonly classes = themeClasses(accordionPanelControlTemplate);
 
   public readonly header: Locator;
   public readonly content: Locator;
 
   constructor(public locator: Locator) {
-    this.header = this.locator.locator(this.classes['panel-header']);
-    this.content = this.locator.locator(this.classes['panel-content']);
+    this.header = this.locator.locator(this.classes['header']);
+    this.content = this.locator.locator(this.classes['content']);
   }
 
   public expectHeaderText(expected: string) {

@@ -7,7 +7,7 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnIcon, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnIcon" [component]="component()">
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnIcon', component: component() }]">
       <ngn-icon #ref icon="img/icons/user.svg" />
     </ngn-docs-playground>
   `,

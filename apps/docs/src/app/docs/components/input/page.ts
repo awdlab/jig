@@ -8,19 +8,18 @@ export const InputPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/input/index.md',
       components: [Demo_Input_Base, Demo_Input_Textarea],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/input/playground.md',
-      components: [NgnDocsInputPlayground],
+      component: NgnDocsInputPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/input/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/input/api.md' },
   ],
 };

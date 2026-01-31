@@ -7,19 +7,18 @@ export const IconPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/icon/index.md',
       components: [Demo_Icon_Base],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/icon/playground.md',
-      components: [NgnDocsIconPlayground],
+      component: NgnDocsIconPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/icon/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/icon/api.md' },
   ],
 };

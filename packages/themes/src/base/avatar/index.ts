@@ -10,7 +10,7 @@ export const avatarStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c }) => css`
-      ${c()} {
+      ${c('root')} {
         width: var(--size);
         height: var(--size);
         overflow: hidden;

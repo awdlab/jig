@@ -1,4 +1,4 @@
-import { NgStyle, NgClass } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { NgnItem } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -28,14 +28,11 @@ import { PaginationState } from './types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-paginator',
   templateUrl: './paginator.html',
-  imports: [NgnButton, NgnIcon, NgnItemView, NgnSelect, NgnTemplate, NgStyle, NgClass],
+  imports: [NgnButton, NgnIcon, NgnItemView, NgnSelect, NgnTemplate, NgStyle, NgnPt],
   providers: [provideSelf(NgnPaginator)],
-  host: {
-    '[class]': 'theme.class("")',
-  },
 })
 export class NgnPaginator extends NgnBase<'paginator'> {
-  protected readonly theme = this.injectThemeTemplate(paginatorControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(paginatorControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
 
   /**

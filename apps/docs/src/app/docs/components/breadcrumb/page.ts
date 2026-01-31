@@ -7,19 +7,18 @@ export const BreadcrumbPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/breadcrumb/index.md',
       components: [Demo_Breadcrumb_Base],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/breadcrumb/playground.md',
-      components: [NgnDocsBreadcrumbPlayground],
+      component: NgnDocsBreadcrumbPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/breadcrumb/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/breadcrumb/api.md' },
   ],
 };

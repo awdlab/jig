@@ -12,7 +12,7 @@ export const inputMaskStyles = createThemePart({
       ${c('mask-text')} {
         color: ${v('color.surface.400')};
       }
-      ${c()}:has(${d('input')}${d('input-field')}) {
+      ${c('root')}:has(${d('input', 'root')}${d('input-field', 'root')}) {
         ${c('mask')} {
           /* 1px for the top & left border of the input field */
           top: calc(1px + ${v('size.padding.sm')});

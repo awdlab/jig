@@ -56,6 +56,12 @@ export function transformToNgnItem<T extends object, K extends keyof T>(
   };
 }
 
+export function transformToNgnItemPrimitive<T extends string | number>(
+  item: T
+): NgnItem<{ var: T }, 'var'> {
+  return transformToNgnItem({ var: item }, { label: 'var', value: 'var' });
+}
+
 export function transformToNgnItems<Items extends readonly object[], K extends keyof Items[number]>(
   items: Items,
   fields: NgnItemFields<Items[number], K>

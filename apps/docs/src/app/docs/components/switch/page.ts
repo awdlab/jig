@@ -8,19 +8,18 @@ export const SwitchPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/switch/index.md',
       components: [Demo_Switch_Base, Demo_Switch_States],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/switch/playground.md',
-      components: [NgnDocsSwitchPlayground],
+      component: NgnDocsSwitchPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/switch/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/switch/api.md' },
   ],
 };

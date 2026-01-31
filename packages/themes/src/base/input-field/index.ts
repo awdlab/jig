@@ -9,7 +9,7 @@ export const inputFieldStyles = createThemePart({
       ${c('host')} {
         display: block;
       }
-      ${c()} {
+      ${c('root')} {
         cursor: text;
         display: inline-flex;
         align-items: center;
@@ -20,7 +20,7 @@ export const inputFieldStyles = createThemePart({
           resize: both;
         }
 
-        & ${d('input')} {
+        & ${d('input', 'root')} {
           padding: 0;
           background: transparent;
           border: none;
@@ -29,16 +29,16 @@ export const inputFieldStyles = createThemePart({
           resize: none;
         }
 
-        &:has(${d('input')}:disabled) {
+        &:has(${d('input', 'root')}:disabled) {
           cursor: default;
         }
-        &:has(${d('input')}[aria-readonly]),
-        &:has(${d('input')}:read-only) {
+        &:has(${d('input', 'root')}[aria-readonly]),
+        &:has(${d('input', 'root')}:read-only) {
           cursor: default;
         }
       }
 
-      ${c()}:has(${d('input', 'empty')}) ${c('clear-button')} {
+      ${c('root')}:has(${d('input', 'empty')}) ${c('clear-button')} {
         display: none;
       }
     `,

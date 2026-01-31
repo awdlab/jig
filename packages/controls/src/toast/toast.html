@@ -8,8 +8,8 @@
     }"
   ></ng-container>
 } @else {
-  <div [ngClass]="theme.class('defaultHeader')">
-    <span [ngClass]="theme.class('defaultHeaderText')">
+  <div [ptInt]="this" [ptClass]="'defaultHeader'">
+    <span [ptInt]="this" [ptClass]="'defaultHeaderText'">
       @if (icon(); as icon) {
         <ngn-icon [icon]="icon" />
       }
@@ -30,7 +30,7 @@
     }"
   ></ng-container>
 } @else {
-  <div [ngClass]="theme.class('defaultContent')">
+  <div [ptInt]="this" [ptClass]="'defaultContent'">
     {{ content() }}
   </div>
 }

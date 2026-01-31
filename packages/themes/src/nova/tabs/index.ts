@@ -9,9 +9,6 @@ export const tabsStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c }) => css`
-      ${c('content')} {
-        padding: ${v('size.padding.sm')};
-      }
       ${c('headers')} {
         border-top-left-radius: ${v('size.rounded.sm')};
         border-top-right-radius: ${v('size.rounded.sm')};

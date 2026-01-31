@@ -1,6 +1,6 @@
 @if (icon()) {
-  <ngn-icon [ngClass]="theme.class('icon')" [icon]="icon()" />
+  <ngn-icon [ptInt]="this" [ptClass]="'icon'" [icon]="icon()" />
 }
-<div [ngClass]="theme.class('content')">
+<div [ptInt]="this" [ptClass]="'content'">
   <ng-content />
 </div>

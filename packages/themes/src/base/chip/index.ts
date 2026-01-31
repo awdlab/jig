@@ -6,7 +6,7 @@ export const chipStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c, d }) => css`
-      ${c('')} {
+      ${c('root')} {
         display: inline-flex;
         align-items: stretch;
       }

@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
   booleanAttribute,
@@ -14,7 +14,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { NgnTemplate, Openable, PopoverCloseBy, toPopoverCloseBy } from '@ngneers/controls/api/ng';
-import { provideSelf } from '@ngneers/controls/base';
+import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { I18n } from '@ngneers/controls/i18n';
@@ -31,10 +31,9 @@ import { DrawerTemplates } from './drawer-templates';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-drawer',
   templateUrl: './drawer.html',
-  imports: [NgClass, NgTemplateOutlet, NgnDefer, NgnButton, NgnIcon, NgnTemplate],
+  imports: [NgnPt, NgTemplateOutlet, NgnDefer, NgnButton, NgnIcon, NgnTemplate],
   providers: [provideSelf(NgnDrawer)],
   host: {
-    '[class]': 'theme.classes({"": true, horizontal: horizontal()})',
     '[attr.popover]': 'closeByPopover()',
     '(toggle)': 'onToggle($event)',
     '[ariaModal]': 'modal() ? "true" : undefined',
@@ -43,7 +42,10 @@ import { DrawerTemplates } from './drawer-templates';
   },
 })
 export class NgnDrawer extends DrawerTemplates implements Openable {
-  protected readonly theme = this.injectThemeTemplate(drawerControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(drawerControlTemplate, {
+    root: true,
+    horizontal: () => this.horizontal(),
+  });
   protected readonly i18n = inject(I18n).translations;
 
   /**

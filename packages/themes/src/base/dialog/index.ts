@@ -6,7 +6,7 @@ export const dialogStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c, d }) => css`
-      ${c()} {
+      ${c('root')} {
         color: inherit;
         margin: auto;
         flex-direction: column;
@@ -29,7 +29,7 @@ export const dialogStyles = createThemePart({
         align-items: center;
         justify-content: flex-end;
       }
-      ${c()}${d('movable', 'moved')} {
+      ${c('root')}${d('movable', 'moved')} {
         margin: unset;
       }
     `,

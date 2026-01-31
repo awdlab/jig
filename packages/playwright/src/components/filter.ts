@@ -35,7 +35,7 @@ export class NgnFilterHarness {
 
   public valueInput(index: number): NgnInputHarness {
     return new NgnInputHarness(
-      this.row(index).locator(`${this.classes['value']} ${NGN_CLASSES.input['']}`)
+      this.row(index).locator(`${this.classes['value']} ${NGN_CLASSES.input['root']}`)
     );
   }
 

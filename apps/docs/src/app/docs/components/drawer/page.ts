@@ -8,19 +8,18 @@ export const DrawerPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/drawer/index.md',
       components: [Demo_Drawer_Base, Demo_Drawer_Position],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/drawer/playground.md',
-      components: [NgnDocsDrawerPlayground],
+      component: NgnDocsDrawerPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/drawer/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/drawer/api.md' },
   ],
 };

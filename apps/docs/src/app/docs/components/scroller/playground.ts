@@ -8,8 +8,8 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnScroller, NgnTemplate, NgnScrollerItem, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnScroller" [component]="component()">
-      <ngn-scroller #ref style="height: 200px" [items]="items">
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnScroller', component: component() }]">
+      <ngn-scroller class="flex-1" #ref style="height: 200px" [items]="items">
         <ng-template #item [ngnTemplate]="component().templateTypes.item" let-item>
           <span [ngnScrollerItem]="item">{{ item.label }}</span>
         </ng-template>

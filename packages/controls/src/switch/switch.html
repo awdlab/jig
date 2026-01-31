@@ -1,15 +1,17 @@
-<div [ngClass]="theme.classes({ track: true, 'track-checked': !!value() })">
-  <div [ngClass]="theme.class('thumb')"></div>
+<div [ptInt]="this" [ptClass]="{ track: true, 'track-checked': !!value() }">
+  <div [ptInt]="this" [ptClass]="'thumb'"></div>
 </div>
 <input
   type="checkbox"
   [checked]="value()"
   (change)="changed($event)"
   (click)="onClick($event)"
-  [ngClass]="theme.class('input')"
+  [ptInt]="this"
+  [ptClass]="'input'"
   [attr.disabled]="disabled() ? '' : undefined"
   [ariaReadOnly]="readonly() ? '' : undefined"
   [ariaInvalid]="invalid() ? 'true' : undefined"
   [ariaLabelledByElements]="labelledBy()"
   (blur)="touched.set(true)"
+  [id]="inputId()"
 />

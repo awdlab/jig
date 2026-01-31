@@ -12,34 +12,41 @@ import { Logger } from '@ngneers/controls/utils';
 import {
   applyGlobalStyles,
   applyTheme,
+  ControlName,
   ControlTemplate,
   getClassName,
   Theme,
+  ThemeClasses,
+  ThemeTemplate,
 } from '@ngneers/controls-themes';
 import { globalStyles } from '@ngneers/controls-themes/base/global';
 import { skip } from 'rxjs';
 
 import { NGN_CONFIG, NgnConfig } from './config';
 
-export type ControlTemplateInfo<T extends ControlTemplate> = {
+export type AppliedThemeClassCfg<T extends ControlName> =
+  | keyof ThemeClasses<ThemeTemplate[T]>
+  | Partial<Record<keyof ThemeClasses<ThemeTemplate[T]>, boolean | (() => boolean)>>;
+
+export type ControlTemplateInfo<T extends ControlTemplate<string, string[]>> = {
   scope: string;
-  class: (className?: T['classNames'][number] | '') => string;
+  class: (className: T['classNames'][number]) => string;
   classes: (classes: {
-    [K in T['classNames'][number] | '']?: boolean;
+    [K in T['classNames'][number]]?: boolean;
   }) => string;
 };
 
-export function themeTemplateToTemplateInfo<T extends ControlTemplate>(
+export function themeTemplateToTemplateInfo<T extends ControlTemplate<string, string[]>>(
   config: NgnConfig,
   template: T,
   options?: { unstyled?: () => boolean }
 ): ControlTemplateInfo<T> {
   return {
     scope: template.scope,
-    class: (className?: T['classNames'][number] | '') =>
+    class: (className: T['classNames'][number]) =>
       getClassName(config.theme.namePrefix, template.scope, className, options?.unstyled?.()),
     classes: (classes: {
-      [K in T['classNames'][number] | '']?: boolean;
+      [K in T['classNames'][number]]?: boolean;
     }): string => {
       let result = '';
       for (const className in classes) {
@@ -58,7 +65,7 @@ export function themeTemplateToTemplateInfo<T extends ControlTemplate>(
   };
 }
 
-export function injectThemeTemplate<T extends ControlTemplate>(
+export function injectThemeTemplate<T extends ControlTemplate<string, string[]>>(
   template: T,
   options?: { injector?: Injector; unstyled?: () => boolean }
 ): ControlTemplateInfo<T> {
@@ -66,6 +73,49 @@ export function injectThemeTemplate<T extends ControlTemplate>(
   const themeService = options?.injector?.get(ThemeService) ?? inject(ThemeService);
   themeService.loadScope(template.scope);
   return themeTemplateToTemplateInfo(config, template, { unstyled: options?.unstyled });
+}
+
+export function injectTheme<T extends ControlName>(
+  controlName: T,
+  options?: { injector?: Injector }
+): ControlTemplate<T, string[]> {
+  const themeService = options?.injector?.get(ThemeService) ?? inject(ThemeService);
+  const theme = themeService.activeTheme();
+  if (!theme) {
+    throw new Error(
+      `No active theme is set. Cannot inject theme for control "${controlName}". Please provide a theme in the configuration or set lazyLoaded to true if you plan to load themes dynamically.`
+    );
+  }
+  const template = theme.parts.find(part => part.scope === controlName)?.controlTemplate as
+    | ControlTemplate<T, string[]>
+    | undefined;
+  if (!template) {
+    throw new Error(
+      `The active theme "${theme.name}" does not contain a template for control "${controlName}".`
+    );
+  }
+  return template;
+}
+
+export function getAppliedClasses<T extends ControlName>(
+  klass: AppliedThemeClassCfg<T>,
+  themeTemplateInfo: Omit<ControlTemplateInfo<ControlTemplate<T, string[]>>, 'class' | 'classes'>
+): Array<{ class: string; name: string }> {
+  function suffixes() {
+    if (typeof klass === 'string') {
+      return [klass];
+    } else if (typeof klass === 'object' && klass !== null) {
+      return Object.entries(klass)
+        .filter(([_, value]) => (typeof value === 'function' ? value() : value))
+        .map(([key, _]) => key);
+    }
+    return [];
+  }
+  const classes = suffixes().map(suffix => ({
+    class: (themeTemplateInfo as ControlTemplateInfo<ControlTemplate<T, string[]>>).class(suffix),
+    name: suffix,
+  }));
+  return classes;
 }
 
 @Injectable()

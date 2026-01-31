@@ -1,15 +1,17 @@
 <table
-  [ngClass]="theme.classes({ table: true, striped: striped() })"
+  [ptInt]="this"
+  [ptClass]="{ table: true, striped: striped() }"
   [attr.aria-rowcount]="rows().length"
   [style.--ngn-table-column-count]="columnCount()"
   [style.--ngn-table-row-height.px]="rowHeight()"
 >
-  <thead [ngClass]="theme.class('head')">
+  <thead [ptInt]="this" [ptClass]="'head'">
     <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
   </thead>
 
   <tbody
-    [ngClass]="theme.class('body')"
+    [ptInt]="this"
+    [ptClass]="'body'"
     ngn-scroller
     #scroller
     [virtual]="virtual()"

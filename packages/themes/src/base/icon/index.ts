@@ -6,7 +6,7 @@ export const iconStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c }) => css`
-      ${c()} {
+      ${c('root')} {
         width: 1em;
         height: 1em;
         display: flex;

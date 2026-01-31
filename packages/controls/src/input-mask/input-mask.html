@@ -1,9 +1,9 @@
-<div [ngClass]="theme.class()">
+<div [ptInt]="this" [ptClass]="'root'">
   <ng-content />
-  <span [ngClass]="theme.class('mask')">
-    <span [ngClass]="theme.class('mask-placeholder')" aria-hidden="true" style="opacity: 0">{{
+  <span [ptInt]="this" [ptClass]="'mask'">
+    <span [ptInt]="this" [ptClass]="'mask-placeholder'" aria-hidden="true" style="opacity: 0">{{
       currentInputValue()
     }}</span>
-    <span [ngClass]="theme.class('mask-text')">{{ maskWatermark() }}</span>
+    <span [ptInt]="this" [ptClass]="'mask-text'">{{ maskWatermark() }}</span>
   </span>
 </div>

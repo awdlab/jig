@@ -1,6 +1,6 @@
 import { Directive, ElementRef, inject, input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { getNearestNgnInstance, NgnBase } from '@ngneers/controls/base';
-import { NgnError } from '@ngneers/controls/utils';
+import { NgnError, toggleClass } from '@ngneers/controls/utils';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 import { NgnTable } from './table';
@@ -35,6 +35,6 @@ export class NgnTableTh extends NgnBase<'table'> implements OnDestroy, OnInit {
   }
 
   private prepareDom() {
-    this.element.nativeElement.classList.toggle(this.theme.class('cell'), true);
+    toggleClass(this.element.nativeElement, this.theme.class('cell'), true);
   }
 }

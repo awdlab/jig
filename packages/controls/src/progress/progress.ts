@@ -5,7 +5,7 @@ import {
   computed,
   booleanAttribute,
 } from '@angular/core';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
 import { progressControlTemplate } from '@ngneers/controls-themes/templates/progress';
 
 const TAU = Math.PI * 2;
@@ -17,10 +17,9 @@ const TAU = Math.PI * 2;
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-progress',
   templateUrl: './progress.html',
-  imports: [],
+  imports: [NgnPt],
   providers: [provideSelf(NgnProgress)],
   host: {
-    '[class]': 'theme.classes({"": true, indeterminate: indeterminate(), circular: circular()})',
     role: 'progressbar',
     '[attr.aria-valuemin]': '0',
     '[attr.aria-valuemax]': '100',
@@ -29,7 +28,11 @@ const TAU = Math.PI * 2;
   },
 })
 export class NgnProgress extends NgnBase<'progress'> {
-  protected readonly theme = this.injectThemeTemplate(progressControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(progressControlTemplate, {
+    root: true,
+    indeterminate: () => this.indeterminate(),
+    circular: () => this.circular(),
+  });
 
   /**
    * The current progress value (0-100).

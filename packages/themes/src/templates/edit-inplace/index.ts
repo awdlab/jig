@@ -4,6 +4,7 @@ import { inplaceControlTemplate } from '@ngneers/controls-themes/templates/inpla
 export const editInplaceControlTemplate = createControlTemplate({
   scope: 'edit-inplace',
   classNames: [
+    'root',
     'disabled',
     'readonly',
     'invalid',

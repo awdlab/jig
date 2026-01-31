@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   ComponentRef,
@@ -25,7 +24,7 @@ import {
   splitPlacement,
   TooltipOptions,
 } from '@ngneers/controls/api/ng';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { getTimeSpanMilliseconds, notNullish, TimeSpan } from '@ngneers/controls/utils';
 import { computedWithPrevious, generateElementId } from '@ngneers/controls/utils-ng';
@@ -292,10 +291,10 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-tooltip',
   templateUrl: './tooltip.html',
-  imports: [NgClass, NgnDefer],
+  imports: [NgnPt, NgnDefer],
   providers: [provideSelf(TooltipComponent)],
   host: {
-    '[class]': `[theme.class(), isClosing() ? theme.class('closing') : '', options().showArrow !== false ? theme.class('with-arrow') : '', positionClass(), styleClass() ?? ''].join(' ')`,
+    '[class]': `positionClass()`,
     '[style.--anchor-start]': `toPixels(relativeAnchorElementPosition()?.start)`,
     '[style.--anchor-center]': `toPixels(relativeAnchorElementPosition()?.center)`,
     '[style.--anchor-end]': `toPixels(relativeAnchorElementPosition()?.end)`,
@@ -312,7 +311,11 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
 })
 export class TooltipComponent extends NgnBase<'tooltip'> {
   private _showHideTimeout?: ReturnType<typeof setTimeout>;
-  protected readonly theme = this.injectThemeTemplate(tooltipControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(tooltipControlTemplate, {
+    root: true,
+    closing: () => this.isClosing(),
+    'with-arrow': () => this.options().showArrow !== false,
+  });
   private readonly _config = inject(NGN_CONFIG);
 
   /**
@@ -327,11 +330,6 @@ export class TooltipComponent extends NgnBase<'tooltip'> {
    * The content template of the tooltip.
    */
   public readonly content = input<TemplateRef<unknown>>();
-  /**
-   * The CSS class to apply to the tooltip.
-   * This can be used to apply custom styles to the tooltip.
-   */
-  public readonly styleClass = input<string | null>();
   /**
    * If set to `true`, the tooltip will only be shown if the anchor element is truncated. `""` is equivalent to `true`.
    * @default `false`

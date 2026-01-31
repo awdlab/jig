@@ -1,15 +1,21 @@
-<div [ngClass]="theme.class('headers-container')">
+<div [ptInt]="this" [ptClass]="'headers-container'">
   <ng-container [ngTemplateOutlet]="headerLeftTemplate()" />
   <div
     ngnScrollAmount
     ngnDragScroll
     #tabList
     role="tablist"
-    [ngClass]="theme.class('headers')"
+    [ptInt]="this"
+    [ptClass]="'headers'"
     [id]="elementId + '_tablist'"
   >
     @if (tabsOverflowingLeft()) {
-      <button tabindex="-1" [ngClass]="theme.class('scroll-left')" (click)="scrollHeaders('left')">
+      <button
+        tabindex="-1"
+        [ptInt]="this"
+        [ptClass]="'scroll-left'"
+        (click)="scrollHeaders('left')"
+      >
         <ngn-icon [icon]="iconScrollLeft()" [defaultIcon]="'chevron_left'" />
       </button>
     }
@@ -24,12 +30,11 @@
         [tabindex]="header.id === activeTab() ? 0 : -1"
         (keydown)="handleTabKeyPress($event, header.id)"
         #tabHeader
-        [ngClass]="
-          theme.classes({
-            header: true,
-            'header-active': header.id === activeTab(),
-          })
-        "
+        [ptInt]="this"
+        [ptClass]="{
+          header: true,
+          'header-active': header.id === activeTab(),
+        }"
         (click)="selectTab(header.id)"
       >
         <ng-container *ngTemplateOutlet="header.template"></ng-container>
@@ -38,14 +43,16 @@
     @if (tabsOverflowingRight()) {
       <button
         tabindex="-1"
-        [ngClass]="theme.class('scroll-right')"
+        [ptInt]="this"
+        [ptClass]="'scroll-right'"
         (click)="scrollHeaders('right')"
       >
         <ngn-icon [icon]="iconScrollRight()" [defaultIcon]="'chevron_right'" />
       </button>
     }
     <div
-      [ngClass]="theme.class('header-active-indicator')"
+      [ptInt]="this"
+      [ptClass]="'header-active-indicator'"
       [style.width.px]="indicatorWidth()"
       [style.left.px]="indicatorLeft()"
       [style.transitionDuration.ms]="isFirstRender() ? 0 : undefined"
@@ -56,7 +63,8 @@
 @for (content of contents(); track content.id; let i = $index) {
   <div
     role="tabpanel"
-    [ngClass]="content.id === activeTab() ? theme.class('content') : ''"
+    [ptInt]="this"
+    [ptClass]="{ content: content.id === activeTab() }"
     [id]="elementId + '_tabpanel_' + content.id"
     [attr.aria-labelledby]="elementId + '_tab_' + content.id"
   >

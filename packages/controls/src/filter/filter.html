@@ -1,9 +1,10 @@
 <ng-template #rowsTemplate>
-  <div [ngClass]="theme.class('rows')">
+  <div [ptInt]="this" [ptClass]="'rows'">
     @if (dataType() === 'list') {
-      <div [ngClass]="theme.class('row')" data-testid="filter-row-list">
+      <div [ptInt]="this" [ptClass]="'row'" data-testid="filter-row-list">
         <ngn-select
-          [ngClass]="theme.class('value')"
+          [ptInt]="this"
+          [ptClass]="'value'"
           [multiple]="true"
           [options]="resolvedListOptions()"
           [value]="$any(templateListSelection())"
@@ -12,15 +13,16 @@
       </div>
     } @else {
       @for (c of templateConfig().conditions; track $index; let i = $index) {
-        <div [ngClass]="theme.class('row')" [attr.data-testid]="'filter-row-' + i">
+        <div [ptInt]="this" [ptClass]="'row'" [attr.data-testid]="'filter-row-' + i">
           <ngn-select
-            [ngClass]="theme.class('operator')"
+            [ptInt]="this"
+            [ptClass]="'operator'"
             [options]="operatorOptions()"
             [value]="c.operator"
             (valueChange)="setOperator(i, $event)"
           />
           @if (operatorRequiresValue(c.operator)) {
-            <ngn-input-field [ngClass]="theme.class('value')">
+            <ngn-input-field [ptInt]="this" [ptClass]="'value'">
               <input
                 ngnInput
                 [type]="inputType()"
@@ -31,7 +33,7 @@
           }
 
           @if (allowMultiple() && templateConfig().conditions.length > 1) {
-            <div [ngClass]="theme.class('row-actions')">
+            <div [ptInt]="this" [ptClass]="'row-actions'">
               <button
                 type="button"
                 ngnButton
@@ -52,7 +54,8 @@
 <ng-template #matchModeTemplate>
   @if (dataType() !== 'list' && allowMultiple()) {
     <ngn-select
-      [ngClass]="theme.class('match')"
+      [ptInt]="this"
+      [ptClass]="'match'"
       [options]="matchModeOptions"
       [value]="templateConfig().matchMode"
       (valueChange)="setMatchMode($event)"
@@ -62,7 +65,7 @@
 </ng-template>
 
 <ng-template #footerTemplate>
-  <div [ngClass]="theme.class('footer')">
+  <div [ptInt]="this" [ptClass]="'footer'">
     @if (dataType() !== 'list' && allowMultiple()) {
       <button
         type="button"
@@ -91,7 +94,7 @@
     [id]="inputId() + '_popover'"
   >
     <ng-template #lazy>
-      <div [ngClass]="theme.class('popover-content')">
+      <div [ptInt]="this" [ptClass]="'popover-content'">
         <ng-container [ngTemplateOutlet]="matchModeTemplate" />
         <ng-container [ngTemplateOutlet]="rowsTemplate" />
         <ng-container [ngTemplateOutlet]="footerTemplate" />
@@ -101,14 +104,15 @@
 </ng-template>
 
 @if (mode() === 'inline') {
-  <div [ngClass]="theme.class('inline')">
+  <div [ptInt]="this" [ptClass]="'inline'">
     <ng-container [ngTemplateOutlet]="matchModeTemplate" />
     <ng-container [ngTemplateOutlet]="rowsTemplate" />
     <ng-container [ngTemplateOutlet]="footerTemplate" />
   </div>
 } @else if (mode() === 'input') {
   <ngn-input-field
-    [ngClass]="theme.class('input-field')"
+    [ptInt]="this"
+    [ptClass]="'input-field'"
     (click)="show()"
     (keydown)="onKeyDown($event)"
     #field
@@ -116,8 +120,8 @@
     [inputId]="inputId()"
     [invalid]="invalid()"
   >
-    <div role="button" [ngClass]="theme.class('summary')">{{ summaryText() }}</div>
-    <ngn-icon [ngClass]="theme.class('icon')" defaultIcon="magnifying_glass" />
+    <div role="button" [ptInt]="this" [ptClass]="'summary'">{{ summaryText() }}</div>
+    <ngn-icon [ptInt]="this" [ptClass]="'icon'" defaultIcon="magnifying_glass" />
   </ngn-input-field>
 
   <ng-container

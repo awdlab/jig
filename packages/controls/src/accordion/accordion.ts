@@ -13,9 +13,6 @@ import { ACCORDION_CONTROL, AccordionControl } from './types';
   imports: [],
   templateUrl: './accordion.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[class]': 'theme.class()',
-  },
   providers: [
     provideSelf(NgnAccordion),
     {
@@ -34,7 +31,7 @@ import { ACCORDION_CONTROL, AccordionControl } from './types';
   ],
 })
 export class NgnAccordion extends NgnBase<'accordion'> {
-  protected readonly theme = this.injectThemeTemplate(accordionControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(accordionControlTemplate, 'root');
   public readonly cache = input(false, { transform: booleanAttribute });
   public readonly lazy = input(false, { transform: booleanAttribute });
 

@@ -1,6 +1,7 @@
 @if (popover() && anchor(); as anchor) {
   <ngn-popover
-    [ngClass]="theme.class('popover')"
+    [ptInt]="this"
+    [ptClass]="'popover'"
     [anchor]="anchor"
     [options]="{ placement: placement(), padding: isSubMenu() ? 0 : undefined }"
     (openChange)="popoverOpenChange($event)"
@@ -16,7 +17,7 @@
 }
 
 <ng-template #menu>
-  <div [ngClass]="theme.class()" role="menu" [tabIndex]="0" [id]="elementId() + '_menu'">
+  <div [ptInt]="this" [ptClass]="'root'" role="menu" [tabIndex]="0" [id]="elementId() + '_menu'">
     @for (item of items(); track 'id' in item ? item.id : item) {
       @if ('separator' in item) {
         <ng-container *ngTemplateOutlet="separatorTemplate" />
@@ -30,7 +31,7 @@
 </ng-template>
 
 <ng-template #separatorTemplate>
-  <hr [ngClass]="theme.class('separator')" />
+  <hr [ptInt]="this" [ptClass]="'separator'" />
 </ng-template>
 
 <ng-template
@@ -47,12 +48,11 @@
       [aria-expanded]="childMenu.open()"
       [tabindex]="-1"
       [ngnAutofocus]="open() && autofocus() && index === 0"
-      [ngClass]="
-        theme.classes({
-          item: true,
-          'item-opened': childMenu.open(),
-        })
-      "
+      [ptInt]="this"
+      [ptClass]="{
+        item: true,
+        'item-opened': childMenu.open(),
+      }"
       [disabled]="item.disabled"
       (click)="openChildMenu(childMenu, menuItem, 'click')"
       (mouseenter)="openChildMenu(childMenu, menuItem, 'hover')"
@@ -78,7 +78,8 @@
       role="menuitem"
       [tabindex]="-1"
       [ngnAutofocus]="open() && autofocus() && index === 0"
-      [ngClass]="theme.class('item')"
+      [ptInt]="this"
+      [ptClass]="'item'"
       [disabled]="item.disabled"
       (keydown)="handleKeydown($event)"
       (click)="itemClicked(item)"
@@ -94,7 +95,8 @@
   {{ item.label }}
   @if (item.children) {
     <ngn-icon
-      [ngClass]="theme.class('icon-children')"
+      [ptInt]="this"
+      [ptClass]="'icon-children'"
       defaultIcon="chevron_right"
       [icon]="iconSubmenuIndicator()"
     />

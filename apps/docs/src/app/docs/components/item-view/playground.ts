@@ -10,7 +10,10 @@ type ItemType = { id: string; label: string };
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnItemView, NgnTemplate, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnItemView" [component]="component()">
+    <ngn-docs-playground
+      class="flex-1"
+      [controls]="[{ componentName: 'NgnItemView', component: component() }]"
+    >
       <ngn-item-view #ref [items]="items" [idField]="'id'">
         <ng-template #item [ngnTemplate]="ref.templateTypes.item" let-item>
           <span style="padding: 4px;">{{ item.label }}</span>

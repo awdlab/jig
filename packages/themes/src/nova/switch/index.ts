@@ -45,7 +45,7 @@ export const switchStyles = createThemePart({
         transform: translateX(1.5rem);
       }
 
-      ${c()}:has(${c('input')}[disabled]) ${c('track')} {
+      ${c('root')}:has(${c('input')}[disabled]) ${c('track')} {
         background-color: ${v('color.disabled.background')};
       }
       ${c('invalid')} ${c('track')} {
@@ -54,11 +54,11 @@ export const switchStyles = createThemePart({
       ${c('invalid')}:has(${c('input')}[disabled]) ${c('track')} {
         background-color: ${v('color.error.200')};
       }
-      ${c()}:has(${c('input')}[aria-readonly]) ${c('thumb')} {
+      ${c('root')}:has(${c('input')}[aria-readonly]) ${c('thumb')} {
         background-color: ${v('color.surface.100')};
       }
 
-      ${c()}:has(${c('input')}:focus-visible) ${c('track')} {
+      ${c('root')}:has(${c('input')}:focus-visible) ${c('track')} {
         outline: 2px solid ${v('color.text')};
       }
     `,

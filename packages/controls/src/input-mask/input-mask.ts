@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   afterRenderEffect,
   Component,
@@ -9,7 +8,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { domEventHandler } from '@ngneers/controls/api/ng';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnInput } from '@ngneers/controls/input';
 import { inputMaskControlTemplate } from '@ngneers/controls-themes/templates/input-mask';
 
@@ -23,7 +22,7 @@ import { InputMaskCfg } from './types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-input-mask',
   templateUrl: './input-mask.html',
-  imports: [NgClass],
+  imports: [NgnPt],
   providers: [provideSelf(NgnInputMask)],
 })
 export class NgnInputMask extends NgnBase<'inputMask'> {

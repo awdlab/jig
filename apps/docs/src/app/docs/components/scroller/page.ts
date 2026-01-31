@@ -9,19 +9,18 @@ export const ScrollerPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/scroller/index.md',
       components: [Demo_Scroller_Base, Demo_Scroller_Sticky, Demo_Scroller_Virtual],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/scroller/playground.md',
-      components: [NgnDocsScrollerPlayground],
+      component: NgnDocsScrollerPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/scroller/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/scroller/api.md' },
   ],
 };

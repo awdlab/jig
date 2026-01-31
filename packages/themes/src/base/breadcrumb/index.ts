@@ -6,10 +6,11 @@ export const breadcrumbStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c, d }) => css`
-      ${c()} {
+      ${c('root')} {
         display: flex;
         align-items: center;
         user-select: none;
+        width: 100%;
       }
       ${c('separator')} {
         display: inline-flex;

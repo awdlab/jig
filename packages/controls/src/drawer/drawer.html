@@ -1,4 +1,4 @@
-<header [ngClass]="theme.class('header')">
+<header [ptInt]="this" [ptClass]="'header'">
   <ng-container
     *ngTemplateOutlet="
       headerTemplate();
@@ -11,18 +11,20 @@
   [open]="open() || !isFullyClosed()"
   [lazy]="lazy()"
   [cache]="cache()"
+  [ptInt]="this"
+  [ptClass]="'content'"
 >
   <ng-content />
 </ngn-defer>
 @if (footerTemplate(); as footerTemplate) {
-  <footer [ngClass]="theme.class('footer')">
+  <footer [ptInt]="this" [ptClass]="'footer'">
     <ng-container *ngTemplateOutlet="footerTemplate" />
   </footer>
 }
 
 <ng-template #defaultHeaderTemplate [ngnTemplate]="templateTypes.header" let-header>
-  <div [ngClass]="theme.class('default-header')">
-    <span [ngClass]="theme.class('default-header-text')">{{ header.text }}</span>
+  <div [ptInt]="this" [ptClass]="'default-header'">
+    <span [ptInt]="this" [ptClass]="'default-header-text'">{{ header.text }}</span>
     <button
       ngnButton
       [kind]="'icon'"

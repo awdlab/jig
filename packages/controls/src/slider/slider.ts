@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   input,
@@ -7,7 +6,7 @@ import {
   ElementRef,
   computed,
 } from '@angular/core';
-import { provideSelf, ValueControlBase } from '@ngneers/controls/base';
+import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
 import { NgnDrag, NgnDragInfo } from '@ngneers/controls/directives';
 import { sliderControlTemplate } from '@ngneers/controls-themes/templates/slider';
 
@@ -18,11 +17,9 @@ import { sliderControlTemplate } from '@ngneers/controls-themes/templates/slider
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-slider',
   templateUrl: './slider.html',
-  imports: [NgClass, NgnDrag],
+  imports: [NgnPt, NgnDrag],
   providers: [provideSelf(NgnSlider)],
   host: {
-    '[class]':
-      'theme.classes({ "": true, invalid: invalid(), horizontal: !vertical(), vertical: vertical() })',
     role: 'slider',
     '[attr.aria-valuemin]': 'min()',
     '[attr.aria-valuemax]': 'max()',
@@ -39,7 +36,12 @@ import { sliderControlTemplate } from '@ngneers/controls-themes/templates/slider
   },
 })
 export class NgnSlider extends ValueControlBase<'slider', number> {
-  protected readonly theme = this.injectThemeTemplate(sliderControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(sliderControlTemplate, {
+    root: true,
+    invalid: () => this.invalid(),
+    horizontal: () => !this.vertical(),
+    vertical: () => this.vertical(),
+  });
 
   private readonly _track = viewChild.required<ElementRef<HTMLDivElement>>('track');
 

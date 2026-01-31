@@ -9,9 +9,9 @@ export const tableStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c, d }) => css`
-      ${c()} {
+      ${c('root')} {
         gap: ${v('size.padding.md')};
-        ${d('popover')} {
+        ${d('popover', 'root')} {
           font-weight: ${v('font.weight.normal')};
           cursor: default;
         }
@@ -32,7 +32,7 @@ export const tableStyles = createThemePart({
         font-weight: ${v('font.weight.semibold')};
         gap: ${v('size.padding.sm')};
       }
-      ${c()}:not(${c('virtual')}) ${c('cell')} {
+      ${c('root')}:not(${c('virtual')}) ${c('cell')} {
         padding: ${v('size.padding.md')};
       }
       ${c('sortable-column')} {
@@ -54,7 +54,7 @@ export const tableStyles = createThemePart({
       ${c('sorted-column')} ${c('sort-control')} {
         color: ${v('color.surface.800')};
       }
-      ${c()} ${d('paginator')} {
+      ${c('root')} ${d('paginator', 'root')} {
         width: 90%;
         max-width: 800px;
         align-self: center;

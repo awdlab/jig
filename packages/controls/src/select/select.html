@@ -1,10 +1,9 @@
 <ngn-input-field
-  [ngClass]="
-    theme.classes({
-      input: true,
-      'input-editable': editable(),
-    })
-  "
+  [ptInt]="this"
+  [ptClass]="{
+    input: true,
+    'input-editable': editable(),
+  }"
   (click)="show()"
   (keydown)="onKeyDown($event)"
   #field
@@ -35,7 +34,8 @@
   } @else {
     <div
       role="combobox"
-      [ngClass]="theme.class('combobox')"
+      [ptInt]="this"
+      [ptClass]="'combobox'"
       [aria-expanded]="popover.open()"
       aria-haspopup="listbox"
       [attr.aria-controls]="inputId() + '_listbox'"
@@ -61,7 +61,7 @@
       }
     </div>
   }
-  <ngn-icon [ngClass]="theme.class('icon')" [icon]="dropdownIcon()" defaultIcon="chevron_down" />
+  <ngn-icon [ptInt]="this" [ptClass]="'icon'" [icon]="dropdownIcon()" defaultIcon="chevron_down" />
 </ngn-input-field>
 <ngn-popover
   #popover
@@ -73,29 +73,29 @@
   [hasShrinkableContent]="true"
 >
   <ng-template #lazy>
-    <div [ngClass]="theme.class('popover-content')">
+    <div [ptInt]="this" [ptClass]="'popover-content'">
       @if (filter()) {
-        <ngn-input-field [ngClass]="theme.class('filter')">
+        <ngn-input-field [ptInt]="this" [ptClass]="'filter'">
           <input
             ngnInput
             [value]="filterTextInternal()"
             (valueChange)="filterTextInternal.set($event)"
           />
           <ngn-icon
-            [ngClass]="theme.class('filter-icon')"
+            [ptInt]="this"
+            [ptClass]="'filter-icon'"
             defaultIcon="magnifying_glass"
             [icon]="filterIcon()"
           />
         </ngn-input-field>
       }
       <ngn-list-box
-        [ngClass]="
-          theme.classes({
-            'list-box': true,
-          })
-        "
+        [ptInt]="this"
+        [ptClass]="{
+          'list-box': true,
+        }"
         style="height: 100%; min-height: 0"
-        [highlightable]="false"
+        [focussable]="false"
         [selectable]="true"
         [filter]="appliedFilter()"
         [filterText]="filterTextInternal()"

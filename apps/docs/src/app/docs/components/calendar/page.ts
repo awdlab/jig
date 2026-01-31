@@ -10,8 +10,10 @@ export const CalendarPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/calendar/index.md',
       components: [
         Demo_Calendar_Base,
@@ -21,13 +23,10 @@ export const CalendarPage: NgnDocsPage = {
       ],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/calendar/playground.md',
-      components: [NgnDocsCalendarPlayground],
+      component: NgnDocsCalendarPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/calendar/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/calendar/api.md' },
   ],
 };

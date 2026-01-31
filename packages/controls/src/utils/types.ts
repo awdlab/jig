@@ -29,8 +29,9 @@ export type DeepPartial<T, Exclude extends string = never, P = never> = T extend
 
 /**
  * Returns all keys of a type T.
+ * If T is a union, returns all keys from all union members.
  */
-export type AllKeysOfUnion<T> = T extends object ? keyof T : never;
+export type AllKeysOfUnion<T> = T extends any ? keyof T : never;
 
 /**
  * Angular fills unspecified generic inputs with `any`.

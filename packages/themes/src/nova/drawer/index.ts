@@ -15,7 +15,7 @@ export const drawerStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate, shadowTemplate],
   root: {
     css: ({ v, c }) => css`
-      ${c()} {
+      ${c('root')} {
         box-shadow: ${v('shadow.lg')};
         padding: ${v('size.padding.xl')};
         gap: ${v('size.padding.md')};

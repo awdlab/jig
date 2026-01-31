@@ -6,7 +6,7 @@ export const inputStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ c, d }) => css`
-      ${c()} {
+      ${c('root')} {
         font-family: inherit;
         font-size: inherit;
 

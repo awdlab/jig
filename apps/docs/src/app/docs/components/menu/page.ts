@@ -11,8 +11,10 @@ export const MenuPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/menu/index.md',
       components: [
         Demo_Menu_Base,
@@ -23,13 +25,10 @@ export const MenuPage: NgnDocsPage = {
       ],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/menu/playground.md',
-      components: [NgnDocsMenuPlayground],
+      component: NgnDocsMenuPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/menu/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/menu/api.md' },
   ],
 };

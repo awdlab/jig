@@ -1,5 +1,5 @@
 import { Component, input, ChangeDetectionStrategy, computed } from '@angular/core';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
 import { spinnerControlTemplate } from '@ngneers/controls-themes/templates/spinner';
 
 /**
@@ -9,17 +9,19 @@ import { spinnerControlTemplate } from '@ngneers/controls-themes/templates/spinn
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-spinner',
   templateUrl: './spinner.html',
-  imports: [],
+  imports: [NgnPt],
   providers: [provideSelf(NgnSpinner)],
   host: {
-    '[class]': 'theme.classes({ "": true, centered: centered() })',
     role: 'status',
     '[style.--size]': 'size()',
     '[style.--thickness]': 'thickness() || null',
   },
 })
 export class NgnSpinner extends NgnBase<'spinner'> {
-  protected readonly theme = this.injectThemeTemplate(spinnerControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(spinnerControlTemplate, {
+    root: true,
+    centered: () => !!this.centered(),
+  });
 
   public readonly size = input<number>(64);
   public readonly thickness = input<string>();

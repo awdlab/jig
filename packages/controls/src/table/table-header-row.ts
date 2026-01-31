@@ -1,5 +1,6 @@
 import { Directive } from '@angular/core';
 import { NgnBase } from '@ngneers/controls/base';
+import { toggleClass } from '@ngneers/controls/utils';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 @Directive({ selector: '[ngnTableHeadTr]', host: { '[attr.aria-rowindex]': '1' } })
@@ -11,6 +12,6 @@ export class NgnTableHeadTr extends NgnBase<'table'> {
   }
 
   private prepareDom() {
-    this.element.nativeElement.classList.toggle(this.theme.class('row'), true);
+    toggleClass(this.element.nativeElement, this.theme.class('row'), true);
   }
 }

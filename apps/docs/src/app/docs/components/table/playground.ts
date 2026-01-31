@@ -10,8 +10,8 @@ type RowType = { id: string; name: string };
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnTableModule, NgnTemplate, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnTable" [component]="component()">
-      <ngn-table #ref style="height: 200px" [rows]="rows" [fieldId]="'id'">
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnTable', component: component() }]">
+      <ngn-table #ref style="height: 200px" class="flex-1" [rows]="rows" [fieldId]="'id'">
         <ng-template #header>
           <tr ngnTableHeadTr>
             <th [ngnTableTh]="component().column('id')">ID</th>

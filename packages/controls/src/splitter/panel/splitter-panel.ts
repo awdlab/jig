@@ -15,14 +15,13 @@ import { SplitterPanelSize, SplitterPanelSizeLimit } from '../types';
   providers: [provideSelf(NgnSplitterPanel)],
   host: {
     role: 'region',
-    '[class]': `theme.class('panel')`,
     '[style.grid-area]': 'gridArea()',
     '[aria-label]': 'ariaLabel()',
     '[attr.aria-labelledby]': 'ariaLabelledBy()',
   },
 })
 export class NgnSplitterPanel extends NgnBase<'splitter'> {
-  protected readonly theme = this.injectThemeTemplate(splitterControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(splitterControlTemplate, 'panel');
   private readonly _fallbackAreaName = generateElementId();
 
   public readonly name = input<string | null>();

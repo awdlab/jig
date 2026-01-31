@@ -1,7 +1,8 @@
 <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
 <dialog
   #dialog
-  [ngClass]="theme.classes({ '': true, modal: modal() })"
+  [ptInt]="this"
+  [ptClass]="{ root: true, modal: modal() }"
   [attr.closedby]="modalClosedBy()"
   [autofocus]="autofocus()"
   [attr.aria-labelledby]="headerId"
@@ -24,7 +25,7 @@
   [ngnMovableDragHandle]="header"
   [attr.popover]="popoverClosedBy()"
 >
-  <header #header [ngClass]="theme.class('header')">
+  <header #header [ptInt]="this" [ptClass]="'header'">
     <ng-template
       [ngTemplateOutlet]="headerTemplate()"
       [ngTemplateOutletContext]="{ headerId, title: title() }"
@@ -40,21 +41,22 @@
       [lazy]="lazy()"
       [open]="open() || !isFullyClosed()"
       [cache]="cache()"
-      [ngClass]="theme.class('content')"
+      [ptInt]="this"
+      [ptClass]="'content'"
     />
   } @else if (typedContent().string; as string) {
-    <div [ngClass]="theme.class('content')">
+    <div [ptInt]="this" [ptClass]="'content'">
       {{ string }}
     </div>
   } @else if (typedContent().component; as component) {
-    <div [ngClass]="theme.class('content')">
+    <div [ptInt]="this" [ptClass]="'content'">
       <ng-container *ngComponentOutlet="component; inputs: contentComponentInputs()" />
     </div>
   } @else {
     <ng-content />
   }
 
-  <footer [ngClass]="theme.class('footer')">
+  <footer [ptInt]="this" [ptClass]="'footer'">
     <ng-template [ngTemplateOutlet]="footerTemplate()"></ng-template>
   </footer>
 </dialog>
@@ -66,7 +68,7 @@
   let-title="title"
 >
   @if (title) {
-    <h2 [ngClass]="theme.class('default-header')" [id]="headerId">{{ title }}</h2>
+    <h2 [ptInt]="this" [ptClass]="'default-header'" [id]="headerId">{{ title }}</h2>
   } @else {
     <div>
       <!-- Placeholder for default header content -->
@@ -75,7 +77,7 @@
 </ng-template>
 
 <ng-template #defaultFooterTemplate>
-  <div [ngClass]="theme.class('default-footer')">
+  <div [ptInt]="this" [ptClass]="'default-footer'">
     @for (button of footerButtons(); track $index) {
       <ngn-action-button [config]="singleButtonTypeFix(button)" (clicked)="buttonClick($event)" />
     }

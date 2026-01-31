@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   booleanAttribute,
   Component,
@@ -9,7 +8,7 @@ import {
   effect,
   contentChild,
 } from '@angular/core';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -25,11 +24,10 @@ import { INPUT_FIELD } from './token';
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, NgnIcon, NgnButton],
+  imports: [NgnPt, NgnIcon, NgnButton],
   selector: 'ngn-input-field',
   templateUrl: './input-field.html',
   host: {
-    '[class]': 'theme.class("host")',
     '[inert]': 'disabled()',
   },
   providers: [
@@ -41,7 +39,7 @@ import { INPUT_FIELD } from './token';
   ],
 })
 export class NgnInputField extends NgnBase<'inputField'> {
-  protected readonly theme = this.injectThemeTemplate(inputFieldControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(inputFieldControlTemplate, 'host');
   protected readonly i18n = inject(I18n).translations;
   private readonly _parentInputfield = inject(INPUT_FIELD, { optional: true, skipSelf: true });
   protected readonly hasParentInputfield = !!this._parentInputfield;

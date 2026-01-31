@@ -7,7 +7,7 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnSwitch, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnSwitch" [component]="component()">
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnSwitch', component: component() }]">
       <ngn-switch #ref />
     </ngn-docs-playground>
   `,

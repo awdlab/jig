@@ -9,19 +9,18 @@ export const TabsPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/tabs/index.md',
       components: [Demo_Tabs_Base, Demo_Tabs_Dynamic, Demo_Tabs_CustomHeader],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/tabs/playground.md',
-      components: [NgnDocsTabsPlayground],
+      component: NgnDocsTabsPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/tabs/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/tabs/api.md' },
   ],
 };

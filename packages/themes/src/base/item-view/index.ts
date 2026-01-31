@@ -6,10 +6,10 @@ export const itemViewStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c }) => css`
-      :has(> ${c()}) {
+      :has(> ${c('root')}) {
         min-width: 0;
       }
-      ${c()} {
+      ${c('root')} {
         display: flex;
         width: 100%;
         white-space: nowrap;

@@ -1,17 +1,21 @@
 import { Type } from '@angular/core';
 
-export type NgnDocsSection = {
+export type NgnDocsMdSection = {
   mdFile: string;
   components?: Type<unknown>[];
 };
 
 type Tab = {
-  title: string;
   default?: boolean;
-} & NgnDocsSection;
+} & NgnDocsPage;
 
-type SinglePage = NgnDocsSection & {
+type SinglePage = NgnDocsMdSection & {
   kind: 'single';
+};
+
+type ComponentPage = {
+  kind: 'component';
+  component: Type<unknown>;
 };
 
 type Tabs = {
@@ -27,7 +31,7 @@ type Category = {
 
 export type NgnDocsPage = {
   title: string;
-} & (SinglePage | Tabs | Category);
+} & (SinglePage | Tabs | Category | ComponentPage);
 
 export type NgnDocsTabPage = NgnDocsPage & {
   kind: 'tabs';

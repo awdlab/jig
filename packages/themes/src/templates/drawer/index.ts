@@ -3,6 +3,7 @@ import { createControlTemplate } from '@ngneers/controls-themes/api';
 export const drawerControlTemplate = createControlTemplate({
   scope: 'drawer',
   classNames: [
+    'root',
     'horizontal',
     'content',
     'header',

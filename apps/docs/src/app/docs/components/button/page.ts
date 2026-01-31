@@ -8,19 +8,18 @@ export const ButtonPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/button/index.md',
       components: [Demo_Button_Base, Demo_Button_Kind],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/button/playground.md',
-      components: [NgnDocsButtonPlayground],
+      component: NgnDocsButtonPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/button/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/button/api.md' },
   ],
 };

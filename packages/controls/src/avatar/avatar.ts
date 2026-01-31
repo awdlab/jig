@@ -1,6 +1,5 @@
-import { NgClass } from '@angular/common';
 import { Component, computed, input, linkedSignal, ChangeDetectionStrategy } from '@angular/core';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { avatarControlTemplate } from '@ngneers/controls-themes/templates/avatar';
 
 /**
@@ -10,16 +9,15 @@ import { avatarControlTemplate } from '@ngneers/controls-themes/templates/avatar
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-avatar',
   templateUrl: './avatar.html',
-  imports: [NgClass],
+  imports: [NgnPt],
   host: {
-    '[class]': 'theme.class()',
     '[style.--size.px]': 'size()',
     '[style.--color]': 'bgColor()',
   },
   providers: [provideSelf(NgnAvatar)],
 })
 export class NgnAvatar extends NgnBase<'avatar'> {
-  protected readonly theme = this.injectThemeTemplate(avatarControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(avatarControlTemplate, 'root');
 
   /**
    * The initials to display when no image is available.

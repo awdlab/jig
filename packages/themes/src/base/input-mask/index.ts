@@ -6,7 +6,7 @@ export const inputMaskStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c }) => css`
-      ${c()} {
+      ${c('root')} {
         position: relative;
       }
       ${c('mask')} {

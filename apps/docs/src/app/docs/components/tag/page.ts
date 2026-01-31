@@ -8,19 +8,18 @@ export const TagPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/tag/index.md',
       components: [Demo_Tag_Base, Demo_Tag_WithIcon],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/tag/playground.md',
-      components: [NgnDocsTagPlayground],
+      component: NgnDocsTagPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/tag/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/tag/api.md' },
   ],
 };

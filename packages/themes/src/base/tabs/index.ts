@@ -6,7 +6,7 @@ export const tabsStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c }) => css`
-      ${c()} {
+      ${c('root')} {
         display: flex;
         flex-direction: column;
       }

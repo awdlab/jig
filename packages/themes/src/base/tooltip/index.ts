@@ -6,7 +6,7 @@ export const tooltipStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c }) => css`
-      ${c()} {
+      ${c('root')} {
         // Browser-Reset:
         width: unset;
         height: unset;

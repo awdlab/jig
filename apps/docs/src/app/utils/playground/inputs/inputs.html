@@ -1,0 +1,14 @@
+<div class="h-10 border-b border-(--ngn-color-surface-200) flex items-center px-4 font-semibold">
+  ⚙️ INPUTS
+</div>
+<div class="p-4 flex flex-col gap-4 overflow-y-auto h-full">
+  @for (control of controls(); track $index) {
+    <div>
+      <h4 class="text-base font-semibold">{{ control.componentName }}</h4>
+      <ngn-docs-playground-component-inputs
+        [component]="control.component"
+        [componentName]="control.componentName"
+      />
+    </div>
+  }
+</div>

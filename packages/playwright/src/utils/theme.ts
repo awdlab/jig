@@ -10,9 +10,9 @@ export function themeClasses<CT extends ControlTemplate>(template: CT): ThemeCla
 
   const ownRes: Record<CT['classNames'][number], string> = {} as any;
 
-  for (const className of ['', ...template.classNames]) {
+  for (const className of template.classNames) {
     const key = className as CT['classNames'][number];
-    ownRes[key] = `.ngn-${template.scope}${className ? '-' : ''}${className}`;
+    ownRes[key] = `.ngn-${template.scope}-${className}`;
   }
   Object.assign(result, ownRes);
   return result;

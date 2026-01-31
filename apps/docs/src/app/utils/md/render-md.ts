@@ -42,6 +42,7 @@ export async function renderMd(
         const compType = getComponent(block.content);
         return {
           component: compType,
+          inputs: block.inputs,
           id: `__component_placeholder_${Math.random().toString(36).substring(2, 9)}`,
         };
       } else if (kind === 'demo') {

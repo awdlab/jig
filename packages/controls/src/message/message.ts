@@ -1,6 +1,5 @@
-import { NgClass } from '@angular/common';
 import { Component, input, ChangeDetectionStrategy } from '@angular/core';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { IconType } from '@ngneers/controls-custom-types';
 import { messageControlTemplate } from '@ngneers/controls-themes/templates/message';
@@ -12,14 +11,11 @@ import { messageControlTemplate } from '@ngneers/controls-themes/templates/messa
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-message',
   templateUrl: './message.html',
-  imports: [NgClass, NgnIcon],
+  imports: [NgnPt, NgnIcon],
   providers: [provideSelf(NgnMessage)],
-  host: {
-    '[class]': 'theme.class()',
-  },
 })
 export class NgnMessage extends NgnBase<'message'> {
-  protected readonly theme = this.injectThemeTemplate(messageControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(messageControlTemplate, 'root');
 
   /**
    * Set an icon to display before the text.

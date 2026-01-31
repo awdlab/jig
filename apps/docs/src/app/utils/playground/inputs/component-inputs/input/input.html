@@ -1,0 +1,41 @@
+@let label = input().name + (dataType()?.optional ? '' : '*');
+
+@if (dataType(); as dataType) {
+  @switch (dataType.kind) {
+    @case ('primitive') {
+      @switch (dataType.type) {
+        @case ('string') {
+          <ngn-input-field [label]="label" [labelKind]="'on'">
+            <input type="text" ngnInput [value]="value()" (valueChange)="value.set($event)" />
+          </ngn-input-field>
+        }
+        @case ('number') {
+          <ngn-input-field [label]="label" [labelKind]="'on'">
+            <input type="number" ngnInput [value]="value()" (valueChange)="value.set($event)" />
+          </ngn-input-field>
+        }
+        @case ('boolean') {
+          <div class="flex items-center justify-between gap-2">
+            <label [for]="switch.inputId()">
+              <!-- We intentionally do not use the label variable here to avoid showing the asterisk for required boolean inputs -->
+              {{ input().name }}
+            </label>
+            <ngn-switch #switch [value]="value()" (valueChange)="value.set($event)" />
+          </div>
+        }
+        @case ('date') {
+          <ngn-calendar [label]="label" [value]="value()" (valueChange)="value.set($event)" />
+        }
+      }
+    }
+    @case ('literalUnion') {
+      <ngn-select
+        [value]="value()"
+        [label]="label"
+        (valueChange)="value.set($event)"
+        [options]="dataType.values"
+        [editable]="dataType.allowCustomValue"
+      />
+    }
+  }
+}

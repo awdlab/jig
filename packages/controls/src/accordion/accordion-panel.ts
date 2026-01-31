@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
   booleanAttribute,
@@ -12,11 +12,11 @@ import {
   viewChild,
 } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { provideSelf } from '@ngneers/controls/base';
+import { provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { generateElementId } from '@ngneers/controls/utils-ng';
-import { accordionControlTemplate } from '@ngneers/controls-themes/templates/accordion';
+import { accordionPanelControlTemplate } from '@ngneers/controls-themes/templates/accordion-panel';
 
 import { AccordionTemplates } from './accordion-templates';
 import { ACCORDION_CONTROL } from './types';
@@ -26,16 +26,13 @@ import { ACCORDION_CONTROL } from './types';
  */
 @Component({
   selector: 'ngn-accordion-panel',
-  imports: [NgTemplateOutlet, NgClass, NgnDefer, NgnTemplate, NgnIcon],
+  imports: [NgTemplateOutlet, NgnPt, NgnDefer, NgnTemplate, NgnIcon],
   templateUrl: './accordion-panel.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideSelf(NgnAccordionPanel)],
-  host: {
-    '[class]': 'theme.class("panel")',
-  },
 })
 export class NgnAccordionPanel extends AccordionTemplates {
-  protected readonly theme = this.injectThemeTemplate(accordionControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(accordionPanelControlTemplate, 'root');
 
   private readonly _accordionControl = inject(ACCORDION_CONTROL);
 

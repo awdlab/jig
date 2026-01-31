@@ -1,5 +1,4 @@
 import {
-  afterRenderEffect,
   booleanAttribute,
   computed,
   DestroyRef,
@@ -11,6 +10,7 @@ import {
   InjectionToken,
   Injector,
   input,
+  InputSignal,
   Provider,
   signal,
   Signal,
@@ -21,11 +21,9 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import {
   ControlTemplateInfo,
   injectThemeTemplate,
-  NGN_CONFIG,
-  applyPassthrough,
-  NgnPassthrough,
   injectThemeControlKinds,
   injectThemeColors,
+  AppliedThemeClassCfg,
 } from '@ngneers/controls/api/ng';
 import { toggleClass } from '@ngneers/controls/utils';
 import { setInputSignalValue } from '@ngneers/controls/utils-ng';
@@ -35,11 +33,24 @@ import { ControlName, ThemeTemplate } from '@ngneers/controls-themes/templates';
 import { pairwise, startWith } from 'rxjs';
 
 import { setNgnInstance } from './ngn-instance';
+import { NgnPassthrough, NgnPtEngine } from './passthrough';
 
 export const NGN_CONTROL = new InjectionToken<NgnBase<never>>('NGN_CONTROL');
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyNgnBase = Omit<NgnBase<any>, 'kind' | 'appliedKind' | 'pt'>;
+export type AnyNgnBase = NgnBaseSafe<any>;
+export type NgnBaseSafe<T extends ControlName | null> = Omit<
+  NgnBase<T>,
+  'kind' | 'appliedKind' | 'pt'
+>;
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export type FullAnyNgnBase = Omit<NgnBase<any>, 'kind' | 'appliedKind' | 'pt'> & {
+  kind: InputSignal<CustomKind<any> | undefined>;
+  appliedKind: InputSignal<CustomKind<any> | undefined>;
+  pt: InputSignal<NgnPassthrough<any> | undefined>;
+};
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 /**
  * @internal
@@ -71,8 +82,6 @@ export abstract class NgnBase<T extends ControlName | null> {
   /**
    * If true, the control will not apply any theme styles.
    * The base styles of the control will still be applied.
-   *
-   * ⚠️ Caution: This property is *not* reactive and has to be set before the control starts rendering.
    * @default false
    */
   public readonly unstyled = input(false, { transform: booleanAttribute });
@@ -99,9 +108,6 @@ export abstract class NgnBase<T extends ControlName | null> {
    */
   public readonly pt = input<T extends string ? NgnPassthrough<T> : never>();
 
-  private readonly _ngnConfig = inject(NGN_CONFIG);
-  private _controlTemplateInfo?: ControlTemplateInfo<T extends string ? ThemeTemplate[T] : never>;
-  private _controlTemplate?: ControlTemplate;
   private readonly _childNgnControls = viewChildren(NGN_CONTROL);
   private readonly _afterLeaveCbs: (() => void)[] = [];
 
@@ -117,22 +123,6 @@ export abstract class NgnBase<T extends ControlName | null> {
     });
 
     this.initializeKindAndColorClasses();
-
-    //todo: rework completely
-    afterRenderEffect(() => {
-      const pt = this.pt();
-      const controlTemplate = this._controlTemplate;
-      const controlTemplateInfo = this._controlTemplateInfo;
-      if (controlTemplate && controlTemplateInfo && pt) {
-        applyPassthrough(
-          this._ngnConfig,
-          controlTemplate,
-          controlTemplateInfo,
-          pt,
-          this.element.nativeElement
-        );
-      }
-    });
   }
 
   /**
@@ -206,18 +196,12 @@ export abstract class NgnBase<T extends ControlName | null> {
    */
   protected injectThemeTemplate<External extends boolean = false>(
     template: External extends true ? ControlTemplate : T extends string ? ThemeTemplate[T] : never,
-    external?: External
+    hostClass?: null extends T ? never : AppliedThemeClassCfg<T & string>
   ): ControlTemplateInfo<
     External extends true ? ControlTemplate : T extends string ? ThemeTemplate[T] : never
   > {
     const opts = { unstyled: this.unstyled };
     const theme = injectThemeTemplate(template, opts);
-    if (!external) {
-      this._controlTemplate = template as ControlTemplate;
-      this._controlTemplateInfo = theme as ControlTemplateInfo<
-        T extends string ? ThemeTemplate[T] : never
-      >;
-    }
 
     const kinds = injectThemeControlKinds(theme.scope);
     if (kinds.length) {
@@ -226,6 +210,10 @@ export abstract class NgnBase<T extends ControlName | null> {
     const colors = injectThemeColors(theme.scope);
     if (colors.length) {
       this._defaultColor.set(colors[0] as CustomColor);
+    }
+
+    if (hostClass !== undefined) {
+      new NgnPtEngine(this, hostClass);
     }
 
     return theme as ControlTemplateInfo<

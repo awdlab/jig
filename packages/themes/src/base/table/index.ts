@@ -7,7 +7,7 @@ export const tableStyles = createThemePart({
   dependencies: [sizesTemplate],
   root: {
     css: ({ v, c, d }) => css`
-      ${c()} {
+      ${c('root')} {
         display: flex;
         flex-direction: column;
       }
@@ -21,7 +21,7 @@ export const tableStyles = createThemePart({
         grid-template-columns: repeat(var(--ngn-table-column-count), 1fr);
         align-content: baseline;
       }
-      ${c('body')}${d('scroller')} {
+      ${c('body')}${d('scroller', 'root')} {
         display: grid;
         grid-template-rows: repeat(auto, var(--ngn-table-row-height));
         grid-template-columns: subgrid;
@@ -36,7 +36,7 @@ export const tableStyles = createThemePart({
       ${c('row')}, ${c('head')}, ${c('foot')} {
         display: contents;
       }
-      ${c()}:not(${c('virtual')}) {
+      ${c('root')}:not(${c('virtual')}) {
         ${c('cell')} {
           &:not(:has(*)) {
             height: min-content;

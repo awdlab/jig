@@ -1,4 +1,4 @@
-import { booleanAttribute, computed, Directive, input } from '@angular/core';
+import { booleanAttribute, Directive, input } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { toggleClass } from '@ngneers/controls/utils';
 import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
@@ -9,12 +9,12 @@ import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button
 @Directive({
   selector: 'button[ngnButton], a[ngnButton]',
   providers: [provideSelf(NgnButton)],
-  host: {
-    '[class]': 'hostClass()',
-  },
 })
 export class NgnButton extends NgnBase<'button'> {
-  protected readonly theme = this.injectThemeTemplate(buttonControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(buttonControlTemplate, {
+    root: true,
+    inline: () => this.inline(),
+  });
 
   /**
    * Whether the button is displayed inline.
@@ -24,17 +24,10 @@ export class NgnButton extends NgnBase<'button'> {
 
   constructor() {
     super();
-    toggleClass(this.element.nativeElement, this.theme.class(), true);
+    toggleClass(this.element.nativeElement, this.theme.class('root'), true);
   }
 
   protected override afterLeave(): void {
-    toggleClass(this.element.nativeElement, this.theme.class(), false);
+    toggleClass(this.element.nativeElement, this.theme.class('root'), false);
   }
-
-  protected readonly hostClass = computed(() =>
-    this.theme.classes({
-      '': true,
-      inline: this.inline(),
-    })
-  );
 }

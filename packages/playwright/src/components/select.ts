@@ -20,13 +20,13 @@ export class NgnSelectHarness {
 
   constructor(public locator: Locator) {
     this.filter = new NgnInputFieldHarness(locator.locator(this.classes['filter']), l => ({
-      input: new NgnInputHarness(l.locator(NGN_CLASSES.input[''])),
+      input: new NgnInputHarness(l.locator(NGN_CLASSES.input['root'])),
     }));
     this.filterIcon = locator.locator(this.classes['filter-icon']);
     this.icon = locator.locator(this.classes['icon']);
     this.input = locator.locator(this.classes['input']);
     this.inputEditable = new NgnInputHarness(
-      locator.locator(`${this.classes['input-editable']} ${NGN_CLASSES.input['']}`)
+      locator.locator(`${this.classes['input-editable']} ${NGN_CLASSES.input['root']}`)
     );
     this.listBox = new NgnListBoxHarness(locator.locator(this.classes['list-box']));
     this.popoverContent = locator.locator(this.classes['popover-content']);

@@ -1,8 +1,8 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { provideSelf } from '@ngneers/controls/base';
+import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnItemView } from '@ngneers/controls/item-view';
 import { NgnMenu } from '@ngneers/controls/menu';
@@ -19,14 +19,12 @@ import { BreadcrumbItem } from './types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-breadcrumb',
   templateUrl: './breadcrumb.html',
-  imports: [NgClass, RouterLink, NgTemplateOutlet, NgnTemplate, NgnIcon, NgnItemView, NgnMenu],
-  host: {
-    '[class]': 'theme.class()',
-  },
+  imports: [NgnPt, RouterLink, NgTemplateOutlet, NgnTemplate, NgnIcon, NgnItemView, NgnMenu],
+
   providers: [provideSelf(NgnBreadcrumb)],
 })
 export class NgnBreadcrumb extends BreadcrumbTemplates {
-  protected readonly theme = this.injectThemeTemplate(breadcrumbControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(breadcrumbControlTemplate, 'root');
 
   public readonly items = input.required<BreadcrumbItem[]>();
   public readonly iconItemSeparator = input<IconType>();

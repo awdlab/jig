@@ -1,5 +1,6 @@
 <ngn-scroller
-  [ngClass]="theme.class('scroller')"
+  [ptInt]="this"
+  [ptClass]="'scroller'"
   [virtual]="virtual()"
   [itemHeight]="itemHeight()"
   [items]="displayedItems()"
@@ -21,15 +22,17 @@
     [id]="inputId() + '_option_' + itemOrGroup.value"
     [attr.role]="'option'"
     [aria-selected]="selectable() ? valueArray().includes(itemOrGroup.value) : null"
-    [ngClass]="
-      theme.classes({
-        item: !itemOrGroup.items,
-        group: !!itemOrGroup.items,
-        'item-selected': valueArray().includes(itemOrGroup.value),
-        'item-highlighted': itemOrGroup.value === currentHighlightedValue(),
-      })
-    "
+    [ptInt]="this"
+    [ptClass]="{
+      item: !itemOrGroup.items,
+      group: !!itemOrGroup.items,
+      'item-selected': valueArray().includes(itemOrGroup.value),
+      'item-highlighted': itemOrGroup.value === currentHighlightedValue(),
+    }"
     (click)="!itemOrGroup.items && selectable() && onSelect(itemOrGroup.value)"
+    (mouseenter)="
+      !itemOrGroup.items && selectable() && selectOnHover() && onSelect(itemOrGroup.value)
+    "
   >
     @if (showCheckboxes() && !itemOrGroup.items) {
       <ngn-checkbox
@@ -48,7 +51,7 @@
 </ng-template>
 
 <ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
-  <span [attr.data-testid]="item?.testId" [ngClass]="theme.class('default-item')">
+  <span [attr.data-testid]="item?.testId" [ptInt]="this" [ptClass]="'default-item'">
     @let label = item?.label;
     @if (label) {
       @if (item?.translate) {
@@ -61,7 +64,7 @@
 </ng-template>
 
 <ng-template #defaultGroupTemplate [ngnTemplate]="templateTypes.item" let-group>
-  <span [attr.data-testid]="group?.testId" [ngClass]="theme.class('default-group')">
+  <span [attr.data-testid]="group?.testId" [ptInt]="this" [ptClass]="'default-group'">
     @let label = group?.label;
     @if (label) {
       @if (group?.translate) {
@@ -74,5 +77,7 @@
 </ng-template>
 
 <ng-template #defaultEmptyTemplate>
-  <span [ngClass]="theme.class('empty')" [attr.data-testid]="'empty'">{{ 'No items found' }}</span>
+  <span [ptInt]="this" [ptClass]="'empty'" [attr.data-testid]="'empty'">{{
+    'No items found'
+  }}</span>
 </ng-template>

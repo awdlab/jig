@@ -3,17 +3,18 @@
 <ng-template #defaultDividerTemplate [ngnTemplate]="dividerTemplateType" let-index="index">
   <div
     [style.grid-area]="`ngn-divider-${index}`"
-    [ngClass]="[
-      theme.class('divider'),
-      calculator().dragContext()?.dividerIndex === index ? theme.class('divider-dragging') : '',
-      dividerStyleClass() ?? '',
-    ]"
+    [ptInt]="this"
+    [ptClass]="{
+      divider: true,
+      'divider-dragging': calculator().dragContext()?.dividerIndex === index,
+    }"
   >
     <button
       role="separator"
       [aria-orientation]="layout()"
       [aria-label]="translations['splitter_handleLabel']()"
-      [ngClass]="[theme.class('divider-handle')]"
+      [ptInt]="this"
+      [ptClass]="'divider-handle'"
       (pointerdown)="onHandlePointerDown(index, $event)"
       (pointermove)="onHandlePointerMove(index, $event)"
       (pointerup)="onHandlePointerUp(index, $event)"

@@ -1,6 +1,7 @@
 import { Directive, effect, ElementRef, inject, input } from '@angular/core';
 import { injectThemeTemplate } from '@ngneers/controls/api/ng';
 import { NgnScrollerItem } from '@ngneers/controls/scroller';
+import { toggleClass } from '@ngneers/controls/utils';
 import { setInputSignalValue } from '@ngneers/controls/utils-ng';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
@@ -30,6 +31,6 @@ export class NgnTableBodyTr<T> extends NgnScrollerItem {
   }
 
   private prepareDom() {
-    this._element.nativeElement.classList.toggle(this.theme.class('row'), true);
+    toggleClass(this._element.nativeElement, this.theme.class('row'), true);
   }
 }

@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   afterRenderEffect,
   Component,
@@ -24,7 +23,7 @@ import {
   NgnTemplate,
   templateTypeFn,
 } from '@ngneers/controls/api/ng';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { I18n } from '@ngneers/controls/i18n';
 import { Logger } from '@ngneers/controls/utils';
 import { NgnStateStorage, registerState } from '@ngneers/controls/utils-ng';
@@ -42,11 +41,10 @@ import { isSplitterPanelSize } from './utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-splitter',
   templateUrl: './splitter.html',
-  imports: [NgClass, NgnTemplate],
+  imports: [NgnPt, NgnTemplate],
   providers: [provideSelf(NgnSplitter)],
   host: {
     role: 'region',
-    '[class]': 'hostClass()',
     '[style.grid-template-columns]': `layout() === 'horizontal' ? calculator().gridTemplateSizes() : null`,
     '[style.grid-template-rows]': `layout() === 'vertical' ? calculator().gridTemplateSizes() : null`,
     '[style.grid-template-areas]': 'calculator().gridTemplateAreas()',
@@ -59,17 +57,18 @@ import { isSplitterPanelSize } from './utils';
 export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
   private readonly _viewContainer = inject(ViewContainerRef);
   private readonly _config = inject(NGN_CONFIG);
-  protected readonly theme = this.injectThemeTemplate(splitterControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(splitterControlTemplate, {
+    root: true,
+    dragging: () => this.isDragging(),
+    horizontal: () => this.layout() === 'horizontal',
+    vertical: () => this.layout() === 'vertical',
+  });
   protected readonly translations = inject(I18n).translations;
 
   /**
    * The layout of the splitter.
    */
   public readonly layout = model.required<SplitterLayout>();
-  /**
-   * The CSS class(es) to apply to the divider elements.
-   */
-  public readonly dividerStyleClass = input<string | null>();
   /**
    * A array of panel names that defines the order of panels.
    * If nullish, the order is determined by the order the panels are defined in the template.
@@ -136,10 +135,6 @@ export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
    * The current size of the splitter element.
    */
   public readonly elementSize = elementSizeSignal(this.element);
-
-  protected readonly hostClass = computed(() => {
-    return `${this.theme.class()} ${this.theme.class(this.layout())} ${this.isDragging() ? this.theme.class('dragging') : ''}`;
-  });
 
   /**
    * A value indicating whether the splitter is currently being dragged.

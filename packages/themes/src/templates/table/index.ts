@@ -8,6 +8,7 @@ import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scro
 export const tableControlTemplate = createControlTemplate({
   scope: 'table',
   classNames: [
+    'root',
     'table',
     'virtual',
     'head',

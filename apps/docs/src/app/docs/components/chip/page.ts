@@ -9,19 +9,18 @@ export const ChipPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/chip/index.md',
       components: [Demo_Chip_Base, Demo_Chip_Closable, Demo_Chip_Actionable],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/chip/playground.md',
-      components: [NgnDocsChipPlayground],
+      component: NgnDocsChipPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/chip/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/chip/api.md' },
   ],
 };

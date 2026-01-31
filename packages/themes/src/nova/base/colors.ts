@@ -76,7 +76,7 @@ function getThemeColors(isDark: boolean) {
     info: p(electricSkyColor),
     success: p(forestVerdantColor),
     surface: p(greyColor),
-    background: p(greyColor)[50],
+    background: p(greyColor)[25],
     border: p(greyColor)[400],
     text: p(greyColor)[950],
     disabled: {
@@ -129,7 +129,7 @@ type ThemePaletteShade =
 type ThemePaletteVarName = `color.${ThemePaletteColor}.${ThemePaletteShade}`;
 
 export function themedColors(
-  c: (className?: `color-${string}`) => string,
+  c: (className: `color-${string}`) => string,
   v: (varName: ThemePaletteVarName) => string
 ): string {
   return (
@@ -137,7 +137,7 @@ export function themedColors(
   )
     .map(
       color => `
-      ${color ? c(`color-${color}`) : c()} {
+      ${c(`color-${color}`)} {
         --theme-color-950: ${v(`color.${color}.950`)};
         --theme-color-900: ${v(`color.${color}.900`)};
         --theme-color-800: ${v(`color.${color}.800`)};

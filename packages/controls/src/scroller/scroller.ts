@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   booleanAttribute,
   Component,
@@ -11,7 +11,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { elementSizeSignal } from '@ngneers/controls/api/ng';
-import { provideSelf } from '@ngneers/controls/base';
+import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnScrollAmount } from '@ngneers/controls/directives';
 import { AllKeysOfUnion, getScrollTop, NgnError } from '@ngneers/controls/utils';
 import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scroller';
@@ -25,17 +25,19 @@ import { ScrollerTemplates } from './scroller-templates';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-scroller, [ngn-scroller]',
   templateUrl: './scroller.html',
-  imports: [NgClass, NgTemplateOutlet],
+  imports: [NgnPt, NgTemplateOutlet],
   providers: [provideSelf(NgnScroller)],
   hostDirectives: [{ directive: NgnScrollAmount }],
   host: {
-    '[class]': 'theme.classes({ "": true, virtual: virtual() })',
     '[tabIndex]': 'focusable() ? 0 : -1',
     '[style.--ngn-scroller-item-height.px]': 'itemHeight() ?? "auto"',
   },
 })
 export class NgnScroller<T> extends ScrollerTemplates<T> {
-  protected readonly theme = this.injectThemeTemplate(scrollerControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(scrollerControlTemplate, {
+    root: true,
+    virtual: () => !!this.virtual(),
+  });
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _scrollAmount = inject(NgnScrollAmount);
 

@@ -8,19 +8,18 @@ export const PopoverPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/popover/index.md',
       components: [Demo_Popover_Base, Demo_Popover_Lazy],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/popover/playground.md',
-      components: [NgnDocsPopoverPlayground],
+      component: NgnDocsPopoverPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/popover/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/popover/api.md' },
   ],
 };

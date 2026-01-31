@@ -1,6 +1,5 @@
-import { NgClass } from '@angular/common';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { provideSelf, ValueControlBase } from '@ngneers/controls/base';
+import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
 import { switchControlTemplate } from '@ngneers/controls-themes/templates/switch';
 
 /**
@@ -10,14 +9,14 @@ import { switchControlTemplate } from '@ngneers/controls-themes/templates/switch
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-switch',
   templateUrl: './switch.html',
-  imports: [NgClass],
+  imports: [NgnPt],
   providers: [provideSelf(NgnSwitch)],
-  host: {
-    '[class]': 'theme.classes({ "": true, invalid: invalid() })',
-  },
 })
 export class NgnSwitch extends ValueControlBase<'switch', boolean> {
-  protected readonly theme = this.injectThemeTemplate(switchControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(switchControlTemplate, {
+    root: true,
+    invalid: () => this.invalid(),
+  });
 
   protected changed(event: Event) {
     const target = event.target as HTMLInputElement;

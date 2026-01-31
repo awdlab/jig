@@ -9,7 +9,7 @@ export const calendarStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c, d }) => css`
-      ${c()} {
+      ${c('root')} {
         --icon-size: 14px;
       }
       ${c('inline')} {
@@ -78,7 +78,7 @@ export const calendarStyles = createThemePart({
       ${c('current-month')} {
         width: 100%;
       }
-      ${c('current-year')}${d('select')} ${d('input')} {
+      ${c('current-year')}${d('select', 'root')} ${d('input', 'root')} {
         width: 3rem;
       }
       ${c('time')} {

@@ -8,7 +8,7 @@ import { selectControlTemplate } from '@ngneers/controls-themes/templates/select
 export const filterControlTemplate = createControlTemplate({
   scope: 'filter',
   classNames: [
-    '',
+    'root',
     'inline',
     'input-field',
     'summary',

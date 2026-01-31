@@ -27,7 +27,7 @@ export const tooltipStyles = createThemePart({
         }
       }
 
-      ${c()}:popover-open {
+      ${c('root')}:popover-open {
         animation: ngn-tooltip-fade-in ${v('anim.time.fade')} ${v('anim.ease.fade')} forwards;
       }
 

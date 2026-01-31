@@ -1,0 +1,24 @@
+<div class="h-10 border-b border-(--ngn-color-surface-200) flex items-center px-4 font-semibold">
+  🎨 TOKENS
+</div>
+<div class="p-4 flex flex-col gap-4 overflow-y-auto h-full">
+  <ngn-message color="info">
+    🖱️ Hover over a token to highlight the corresponding element in the preview.
+  </ngn-message>
+  @for (group of tokensGroups(); track $index) {
+    <div>
+      <h4 class="text-base font-semibold">{{ group.name }}</h4>
+      <div class="flex flex-col gap-2">
+        @for (token of group.tokens; track $index) {
+          <div
+            [class.selected]="activeToken() === token"
+            (mouseenter)="activeToken.set(token)"
+            class="mono p-2 bg-(--ngn-color-surface-100) rounded-sm"
+          >
+            {{ token.name }}
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

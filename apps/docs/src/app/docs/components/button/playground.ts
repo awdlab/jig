@@ -7,7 +7,7 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnButton, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnButton" [component]="component()">
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnButton', component: component() }]">
       <button #ref ngnButton>
         @if (component().appliedKind() === 'icon') {
           👽

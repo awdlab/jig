@@ -11,8 +11,10 @@ export const AvatarPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/avatar/index.md',
       components: [
         Demo_Avatar_Base,
@@ -23,13 +25,10 @@ export const AvatarPage: NgnDocsPage = {
       ],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/avatar/playground.md',
-      components: [NgnDocsAvatarPlayground],
+      component: NgnDocsAvatarPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/avatar/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/avatar/api.md' },
   ],
 };

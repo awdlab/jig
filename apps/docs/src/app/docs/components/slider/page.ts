@@ -10,19 +10,18 @@ export const SliderPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/slider/index.md',
       components: [Demo_Slider_Base, Demo_Slider_MinMax, Demo_Slider_Vertical, Demo_Slider_States],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/slider/playground.md',
-      components: [NgnDocsSliderPlayground],
+      component: NgnDocsSliderPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/slider/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/slider/api.md' },
   ],
 };

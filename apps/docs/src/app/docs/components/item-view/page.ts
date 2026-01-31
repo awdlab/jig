@@ -10,8 +10,10 @@ export const ItemViewPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/item-view/index.md',
       components: [
         Demo_ItemView_Base,
@@ -21,13 +23,10 @@ export const ItemViewPage: NgnDocsPage = {
       ],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/item-view/playground.md',
-      components: [NgnDocsItemViewPlayground],
+      component: NgnDocsItemViewPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/item-view/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/item-view/api.md' },
   ],
 };

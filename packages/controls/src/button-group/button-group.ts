@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   computed,
@@ -7,7 +6,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { elementSizeSignal, elementsSizesSignal } from '@ngneers/controls/api/ng';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { buttonGroupControlTemplate } from '@ngneers/controls-themes/templates/button-group';
 
@@ -18,14 +17,12 @@ import { buttonGroupControlTemplate } from '@ngneers/controls-themes/templates/b
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-button-group',
   templateUrl: './button-group.html',
-  imports: [NgClass],
-  host: {
-    '[class]': 'theme.class()',
-  },
+  imports: [NgnPt],
+
   providers: [provideSelf(NgnButtonGroup)],
 })
 export class NgnButtonGroup extends NgnBase<'buttonGroup'> {
-  protected readonly theme = this.injectThemeTemplate(buttonGroupControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(buttonGroupControlTemplate, 'root');
 
   private readonly _contentRef = contentChildren(NgnButton);
   private readonly _content = computed(() =>

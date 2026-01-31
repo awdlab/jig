@@ -10,8 +10,9 @@ export const AccordionPage: NgnDocsPage = {
   title: `Accordion`,
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+      title: 'Examples',
       mdFile: 'components/accordion/index.md',
       components: [
         Demo_Accordion_Base,
@@ -21,11 +22,12 @@ export const AccordionPage: NgnDocsPage = {
       ],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/accordion/playground.md',
-      components: [NgnDocsAccordionPlayground],
+      component: NgnDocsAccordionPlayground,
     },
     {
+      kind: 'single',
       title: 'API',
       mdFile: 'components/accordion/api.md',
     },

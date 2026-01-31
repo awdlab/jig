@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
@@ -11,6 +11,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { ControlTemplateInfo } from '@ngneers/controls/api/ng';
+import { NgnBaseSafe, NgnPt } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -45,9 +46,10 @@ type WeekModel = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-calendar-days',
   templateUrl: './days.html',
-  imports: [NgTemplateOutlet, NgClass, NgnButton, NgnIcon],
+  imports: [NgTemplateOutlet, NgnPt, NgnButton, NgnIcon],
 })
 export class CalendarDays {
+  public readonly component = input.required<NgnBaseSafe<'calendar'>>();
   public readonly theme = input.required<ControlTemplateInfo<typeof calendarControlTemplate>>();
   public readonly year = input.required<number>();
   public readonly month = input.required<number>();

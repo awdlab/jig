@@ -17,6 +17,6 @@
 } @else {
   <!-- imported svg icon -->
   @if (defaultIconSvg(); as defaultIcon) {
-    <div [ngClass]="theme.class('default')" [innerHtml]="defaultIcon"></div>
+    <div [ptInt]="this" [ptClass]="'default'" [innerHtml]="defaultIcon"></div>
   }
 }

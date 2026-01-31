@@ -17,7 +17,7 @@ export const popoverStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, animationTemplate, shadowTemplate],
   root: {
     css: ({ v, c }) => css`
-      ${c()} {
+      ${c('root')} {
         /** to make space for the animation (prevent overflow) */
         padding-bottom: ${MOVE_AMOUNT + 1}px;
         overflow: visible; /** so that box-shadow is not clipped */

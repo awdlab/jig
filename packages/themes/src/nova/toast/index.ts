@@ -28,7 +28,7 @@ export const toastStyles = createThemePart({
         overflow: visible;
       }
 
-      ${c('')} {
+      ${c('root')} {
         background: var(--theme-color-400);
         color: ${v('color.text')};
         padding: ${v('size.padding.md')} ${v('size.padding.lg')};

@@ -6,7 +6,7 @@ export const splitterStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c }) => css`
-      ${c()} {
+      ${c('root')} {
         display: grid;
         width: 100%;
         height: 100%;

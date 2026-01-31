@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   booleanAttribute,
   Component,
@@ -16,7 +16,7 @@ import {
 } from '@angular/core';
 import { FilterConfig, mapToItems, NgnItem } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { provideSelf } from '@ngneers/controls/base';
+import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
@@ -39,7 +39,7 @@ import { SelectFilterOptions } from './types';
   selector: 'ngn-select',
   templateUrl: './select.html',
   imports: [
-    NgClass,
+    NgnPt,
     NgnInputField,
     NgnListBox,
     NgnPopover,
@@ -51,7 +51,6 @@ import { SelectFilterOptions } from './types';
   ],
   providers: [provideSelf(NgnSelect)],
   host: {
-    '[class]': 'theme.class("")',
     style: 'display: block;',
   },
 })
@@ -61,7 +60,7 @@ export class NgnSelect<
   Editable extends boolean = false,
   Multiple extends boolean = false,
 > extends SelectTemplates<T, K, Editable, Multiple> {
-  protected readonly theme = this.injectThemeTemplate(selectControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(selectControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
   private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);
   private readonly _customEditableInput = contentChild(NgnInput);

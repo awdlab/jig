@@ -7,8 +7,8 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnPaginator, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnPaginator" [component]="component()">
-      <ngn-paginator #ref [totalItems]="50" />
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnPaginator', component: component() }]">
+      <ngn-paginator class="flex-1" #ref [totalItems]="50" />
     </ngn-docs-playground>
   `,
 })

@@ -11,8 +11,10 @@ export const TablePage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/table/index.md',
       components: [
         Demo_Table_Base,
@@ -23,13 +25,10 @@ export const TablePage: NgnDocsPage = {
       ],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/table/playground.md',
-      components: [NgnDocsTablePlayground],
+      component: NgnDocsTablePlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/table/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/table/api.md' },
   ],
 };

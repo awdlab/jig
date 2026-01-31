@@ -7,6 +7,7 @@ import { selectControlTemplate } from '@ngneers/controls-themes/templates/select
 export const calendarControlTemplate = createControlTemplate({
   scope: 'calendar',
   classNames: [
+    'root',
     'inline',
     'input',
     'input-field',

@@ -20,12 +20,11 @@ import { NgnToastManager } from './toast-manager';
   templateUrl: 'toast-host.html',
   imports: [NgnToast],
   host: {
-    '[class]': 'theme.class("host")',
     '[attr.popover]': '"manual"',
   },
 })
 export class NgnToastHost extends NgnBase<'toast'> {
-  protected readonly theme = this.injectThemeTemplate(toastControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(toastControlTemplate, 'host');
   private readonly _toastManager = inject(NgnToastManager);
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
 

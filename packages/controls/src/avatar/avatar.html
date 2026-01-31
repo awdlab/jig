@@ -1,14 +1,16 @@
 <ng-content>
   @if (!image() || imageLoadFailed()) {
     <span
-      [ngClass]="theme.class('initials')"
+      [ptInt]="this"
+      [ptClass]="'initials'"
       [style.--letterCount]="initialsLimited()?.length || 1"
     >
       {{ initialsLimited() }}
     </span>
   } @else {
     <img
-      [ngClass]="theme.class('image')"
+      [ptInt]="this"
+      [ptClass]="'image'"
       [src]="image()"
       [alt]="alt() ?? ''"
       (error)="imageLoadFailed.set(true)"

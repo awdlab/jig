@@ -3,7 +3,8 @@
     [attr.width]="svgSize()"
     [attr.height]="svgSize()"
     [attr.viewBox]="'0 0 ' + svgSize() + ' ' + svgSize()"
-    [class]="theme.class('svg')"
+    [ptInt]="this"
+    [ptClass]="'svg'"
   >
     <circle
       [attr.cx]="svgCenter()"
@@ -11,7 +12,8 @@
       [attr.r]="safeRadius()"
       [attr.stroke-width]="safeThickness()"
       fill="none"
-      [class]="theme.class('track')"
+      [ptInt]="this"
+      [ptClass]="'track'"
     />
     <circle
       [attr.cx]="svgCenter()"
@@ -21,14 +23,15 @@
       fill="none"
       [attr.stroke-dasharray]="strokeDasharray()"
       [attr.stroke-dashoffset]="strokeDashoffset()"
-      [class]="theme.class('fill')"
+      [ptInt]="this"
+      [ptClass]="'fill'"
     />
   </svg>
 } @else {
-  <div [class]="theme.class('track')" [style.height.px]="safeThickness()">
-    <div [class]="theme.class('fill')"></div>
+  <div [ptInt]="this" [ptClass]="'track'" [style.height.px]="safeThickness()">
+    <div [ptInt]="this" [ptClass]="'fill'"></div>
     @if (indeterminate()) {
-      <div [class]="theme.class('fill2')"></div>
+      <div [ptInt]="this" [ptClass]="'fill2'"></div>
     }
   </div>
 }

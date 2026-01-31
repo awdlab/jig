@@ -9,6 +9,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnIcon } from '@ngneers/controls/icon';
+import { toggleClass } from '@ngneers/controls/utils';
 
 import { FrameState } from '../frame-state';
 
@@ -28,7 +29,11 @@ export class NgnDocsTopbar {
   constructor() {
     effect(() => {
       const darkModeEnabled = this.darkModeEnabled();
-      this._document.body.parentElement?.classList.toggle('dark', darkModeEnabled);
+      const element = this._document.body.parentElement;
+      if (!element) {
+        return;
+      }
+      toggleClass(element, 'dark', darkModeEnabled);
     });
   }
 

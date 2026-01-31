@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -17,7 +17,7 @@ import {
   NgnTemplate,
   Platform,
 } from '@ngneers/controls/api/ng';
-import { provideSelf } from '@ngneers/controls/base';
+import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { areArraysDeepEqual } from '@ngneers/controls/utils';
 import { IconType } from '@ngneers/controls-custom-types';
@@ -59,10 +59,9 @@ type RenderItem<T> =
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-item-view',
   templateUrl: './item-view.html',
-  imports: [NgClass, NgTemplateOutlet, NgnTemplate, NgnIcon],
+  imports: [NgnPt, NgTemplateOutlet, NgnTemplate, NgnIcon],
   providers: [provideSelf(NgnItemView)],
   host: {
-    '[class]': 'theme.class()',
     '[attr.role]': '"list"',
   },
 })
@@ -70,7 +69,7 @@ export class NgnItemView<T extends object, IdField extends keyof T>
   extends ItemViewTemplates<T>
   implements AfterViewInit
 {
-  protected readonly theme = this.injectThemeTemplate(itemViewControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(itemViewControlTemplate, 'root');
   /**
    * The key of the id property in the item object. This is used to track items in the template.
    */

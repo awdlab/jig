@@ -6,7 +6,7 @@ export const buttonStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c }) => css`
-      ${c()} {
+      ${c('root')} {
         font-family: inherit;
       }
     `,

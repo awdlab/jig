@@ -1,4 +1,4 @@
-import { NgTemplateOutlet, NgClass } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ChangeDetectionStrategy,
@@ -7,7 +7,7 @@ import {
   output,
   OnInit,
 } from '@angular/core';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { IconType } from '@ngneers/controls-custom-types';
@@ -23,10 +23,9 @@ import { ContentTemplateType, HeaderTemplateType } from './types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-toast',
   templateUrl: './toast.html',
-  imports: [NgTemplateOutlet, NgClass, NgnButton, NgnIcon],
+  imports: [NgTemplateOutlet, NgnPt, NgnButton, NgnIcon],
   providers: [provideSelf(NgnToast)],
   host: {
-    '[class]': 'theme.class()',
     '(mouseenter)': 'mouseEnter()',
     '(mouseleave)': 'mouseLeave()',
     '[animate.enter]': "theme.class('anim-enter')",
@@ -36,7 +35,7 @@ import { ContentTemplateType, HeaderTemplateType } from './types';
   },
 })
 export class NgnToast extends NgnBase<'toast'> implements OnInit {
-  protected readonly theme = this.injectThemeTemplate(toastControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(toastControlTemplate, 'root');
 
   public readonly header = input<string>();
   public readonly content = input<string>();

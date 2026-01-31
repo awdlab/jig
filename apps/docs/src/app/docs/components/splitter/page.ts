@@ -11,8 +11,10 @@ export const SplitterPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/splitter/index.md',
       components: [
         Demo_Splitter_Base,
@@ -23,13 +25,10 @@ export const SplitterPage: NgnDocsPage = {
       ],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/splitter/playground.md',
-      components: [NgnDocsSplitterPlayground],
+      component: NgnDocsSplitterPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/splitter/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/splitter/api.md' },
   ],
 };

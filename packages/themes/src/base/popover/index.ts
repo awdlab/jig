@@ -6,7 +6,7 @@ export const popoverStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c }) => css`
-      ${c()} {
+      ${c('root')} {
         background: transparent;
         pointer-events: none;
         position: static;

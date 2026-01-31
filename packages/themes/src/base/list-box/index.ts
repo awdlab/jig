@@ -6,9 +6,10 @@ export const listBoxStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ c, d }) => css`
-      ${c()} {
+      ${c('root')} {
         width: 100%;
         height: 100%;
+        display: block;
       }
       ${c('item')} {
         display: inline-block;
@@ -18,10 +19,10 @@ export const listBoxStyles = createThemePart({
         display: inline-block;
         width: 100%;
       }
-      ${c('')}:has(${c('empty')}) ${c('scroller')} {
+      ${c('root')}:has(${c('empty')}) ${c('scroller')} {
         display: none;
       }
-      ${c()} ${d('scroller', 'item')} {
+      ${c('root')} ${d('scroller', 'item')} {
         display: flex;
       }
     `,

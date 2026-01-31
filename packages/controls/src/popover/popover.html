@@ -1,5 +1,6 @@
 <div
-  [ngClass]="theme.class()"
+  [ptInt]="this"
+  [ptClass]="'root'"
   #popover
   [attr.popover]="closeByPopover()"
   (toggle)="onToggle($event)"
@@ -11,12 +12,11 @@
 >
   <div
     #content
-    [ngClass]="
-      theme.classes({
-        content: true,
-        'content-closing': !this.open() && !this.isFullyClosed(),
-      })
-    "
+    [ptInt]="this"
+    [ptClass]="{
+      content: true,
+      'content-closing': !this.open() && !this.isFullyClosed(),
+    }"
     [style.min-height]="hasShrinkableContent() ? null : 'fit-content'"
   >
     <ngn-defer

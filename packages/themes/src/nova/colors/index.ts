@@ -1,4 +1,5 @@
 type ColorShades = {
+  '25': string;
   '50': string;
   '100': string;
   '200': string;
@@ -10,13 +11,14 @@ type ColorShades = {
   '800': string;
   '900': string;
   '950': string;
+  '975': string;
 };
 
 export function getColorShade(baseColor: string, level: number): string {
   return `hsl(from ${baseColor} h s ${(1000 - level) / 10})`;
 }
 
-const colors = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as const;
+const colors = [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 975] as const;
 
 export function getColorPalette(baseColor: string): ColorShades {
   return colors.reduce((acc, level) => {

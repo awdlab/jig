@@ -1,8 +1,8 @@
-import { NgTemplateOutlet, NgClass } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, model, signal } from '@angular/core';
 import { executeMultiFilter } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { provideSelf } from '@ngneers/controls/base';
+import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnFilterConfig } from '@ngneers/controls/filter';
 import { NgnPaginator, PaginationState } from '@ngneers/controls/paginator';
 import { NgnScroller } from '@ngneers/controls/scroller';
@@ -18,18 +18,17 @@ import type { NgnTableTh } from './table-header-cell';
   selector: 'ngn-table',
   templateUrl: './table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, NgnScroller, NgnPaginator, NgnTemplate, NgClass],
+  imports: [NgTemplateOutlet, NgnScroller, NgnPaginator, NgnTemplate, NgnPt],
   providers: [provideSelf(NgnTable)],
   host: {
-    '[class]': `theme.classes({
-      '': true,
-      virtual: virtual()
-    })`,
     tabindex: '0',
   },
 })
 export class NgnTable<T extends object, K extends keyof T> extends NgnTableTemplates<T> {
-  protected readonly theme = this.injectThemeTemplate(tableControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(tableControlTemplate, {
+    root: true,
+    virtual: () => this.virtual(),
+  });
   private readonly _registeredHeaderCells = signal<NgnTableTh[]>([]);
 
   public readonly rows = input.required<readonly T[]>();

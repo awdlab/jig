@@ -7,20 +7,18 @@ export const ButtonGroupPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/button-group/index.md',
       components: [Demo_ButtonGroup_Base],
     },
-
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/button-group/playground.md',
-      components: [NgnDocsButtonGroupPlayground],
+      component: NgnDocsButtonGroupPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/button-group/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/button-group/api.md' },
   ],
 };

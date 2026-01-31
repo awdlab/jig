@@ -6,10 +6,10 @@ export const calendarStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c, d }) => css`
-      ${c()} {
+      ${c('root')} {
         width: fit-content;
       }
-      ${c('input-field')} ${d('input-field')} {
+      ${c('input-field')} ${d('input-field', 'root')} {
         display: flex;
       }
       ${c('input')} {
@@ -19,7 +19,7 @@ export const calendarStyles = createThemePart({
       ${c('input')}::-webkit-calendar-picker-indicator {
         display: none; // Hide the calendar icon in WebKit browsers
       }
-      ${c('input')} ${d('input-field')} {
+      ${c('input')} ${d('input-field', 'root')} {
         display: flex;
       }
       ${c('details')} {
@@ -58,7 +58,7 @@ export const calendarStyles = createThemePart({
         justify-content: center;
         font-size: inherit;
       }
-      ${c('current-year')}${d('select')} ${d('input')} {
+      ${c('current-year')}${d('select', 'root')} ${d('input', 'root')} {
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
           display: none; // Chromium and WebKit

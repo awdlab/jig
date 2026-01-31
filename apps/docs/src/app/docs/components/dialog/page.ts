@@ -12,8 +12,10 @@ export const DialogPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/dialog/index.md',
       components: [
         Demo_Dialog_Base,
@@ -25,13 +27,10 @@ export const DialogPage: NgnDocsPage = {
       ],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/dialog/playground.md',
-      components: [NgnDocsDialogPlayground],
+      component: NgnDocsDialogPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/dialog/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/dialog/api.md' },
   ],
 };

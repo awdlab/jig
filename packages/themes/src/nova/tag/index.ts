@@ -16,7 +16,7 @@ export const tagStyles = createThemePart({
     css: ({ v, c }) => css`
       ${themedColors(c, v)}
 
-      ${c('')} {
+      ${c('root')} {
         gap: ${v('size.padding.md')};
         background: var(--theme-color-100);
         color: var(--theme-color-600);

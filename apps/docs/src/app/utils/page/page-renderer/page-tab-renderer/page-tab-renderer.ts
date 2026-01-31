@@ -1,7 +1,9 @@
+import { NgComponentOutlet } from '@angular/common';
 import { Component, effect, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgnPassthrough } from '@ngneers/controls/base';
 import { NgnTab, NgnTabs } from '@ngneers/controls/tabs';
 
 import { safeRoutePath } from '../../../routing';
@@ -12,9 +14,9 @@ import { NgnDocsPageSection } from '../section/section';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-page-tab-renderer',
   templateUrl: 'page-tab-renderer.html',
-  imports: [NgnDocsPageSection, NgnTabs, NgnTab],
+  imports: [NgnDocsPageSection, NgnTabs, NgnTab, NgComponentOutlet],
   host: {
-    class: 'min-w-0 w-full',
+    class: 'min-w-0 w-full h-full flex flex-col',
   },
 })
 export class NgnDocsPageTabRenderer {
@@ -31,6 +33,21 @@ export class NgnDocsPageTabRenderer {
   protected readonly activeTab = signal(
     this.page.tabs.find(t => t.default)?.title || this.page.tabs[0].title
   );
+
+  protected readonly tabPt: NgnPassthrough<'tabs'> = {
+    headers: {
+      $styles: {
+        marginLeft: '1.5rem',
+        marginRight: '1.5rem',
+      },
+    },
+    content: {
+      $styles: {
+        height: '100%',
+        minHeight: '0',
+      },
+    },
+  };
 
   constructor() {
     this._activatedRoute.url.pipe(takeUntilDestroyed()).subscribe(() => {

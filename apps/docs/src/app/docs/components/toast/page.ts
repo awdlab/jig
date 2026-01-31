@@ -11,8 +11,10 @@ export const ToastPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/toast/index.md',
       components: [
         Demo_Toast_Base,
@@ -23,13 +25,10 @@ export const ToastPage: NgnDocsPage = {
       ],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/toast/playground.md',
-      components: [NgnDocsToastPlayground],
+      component: NgnDocsToastPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/toast/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/toast/api.md' },
   ],
 };

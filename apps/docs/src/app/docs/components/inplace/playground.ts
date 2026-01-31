@@ -8,7 +8,7 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnInplace, NgnTemplate, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnInplace" [component]="component()">
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnInplace', component: component() }]">
       <ngn-inplace #ref>
         <ng-template #display>Show Details</ng-template>
         <ng-template #content [ngnTemplate]="component().templateTypes.content">

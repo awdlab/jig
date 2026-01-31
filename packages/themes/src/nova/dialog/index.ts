@@ -14,7 +14,7 @@ export const dialogStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate],
   root: {
     css: ({ v, c, d }) => css`
-      ${c()} {
+      ${c('root')} {
         background-color: ${v('color.background')};
         border: 1px solid ${v('color.surface.300')};
         border-radius: ${v('size.rounded.md')};

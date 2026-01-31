@@ -1,6 +1,5 @@
-import { NgClass } from '@angular/common';
 import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
-import { provideSelf, ValueControlBase } from '@ngneers/controls/base';
+import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { InputGeneric } from '@ngneers/controls/utils';
 import { IconType } from '@ngneers/controls-custom-types';
@@ -16,17 +15,17 @@ type ValueType<Indeterminate extends boolean> =
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-checkbox',
   templateUrl: './checkbox.html',
-  imports: [NgClass, NgnIcon],
+  imports: [NgnPt, NgnIcon],
   providers: [provideSelf(NgnCheckbox)],
-  host: {
-    '[class]': 'theme.classes({ "": true, invalid: invalid() })',
-  },
 })
 export class NgnCheckbox<Indeterminate extends boolean> extends ValueControlBase<
   'checkbox',
   ValueType<Indeterminate>
 > {
-  protected readonly theme = this.injectThemeTemplate(checkboxControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(checkboxControlTemplate, {
+    root: true,
+    invalid: () => this.invalid(),
+  });
 
   /**
    * Set a custom icon for the checked state.

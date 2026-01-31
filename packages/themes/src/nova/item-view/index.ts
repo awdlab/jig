@@ -9,7 +9,7 @@ export const itemViewStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
     css: ({ v, c }) => css`
-      ${c()} {
+      ${c('root')} {
         gap: 4px;
       }
     `,

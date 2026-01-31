@@ -6,7 +6,7 @@ export const menuStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c, d }) => css`
-      ${c()} {
+      ${c('root')} {
         display: flex;
         flex-direction: column;
       }

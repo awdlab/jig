@@ -7,8 +7,14 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnSlider, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnSlider" [component]="component()">
-      <ngn-slider #ref [value]="value()" (valueChange)="value.set($event)" />
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnSlider', component: component() }]">
+      <ngn-slider
+        class="flex-1"
+        [class.h-[400px]]="component().vertical()"
+        #ref
+        [value]="value()"
+        (valueChange)="value.set($event)"
+      />
     </ngn-docs-playground>
   `,
 })

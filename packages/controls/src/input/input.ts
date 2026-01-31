@@ -19,16 +19,19 @@ import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/in
 @Directive({
   selector: 'input[ngnInput], textarea[ngnInput]',
   host: {
-    '[class]':
-      'theme.classes({"": true, invalid: invalid(), empty: !value()}) + (hasParentInputfield() ? "" : ` ${inputFieldTheme.class()}`)',
+    '[class]': '(hasParentInputfield() ? "" : ` ${inputFieldTheme.class("root")}`)',
   },
   providers: [provideSelf(NgnInput)],
 })
 export class NgnInput extends NgnBase<'input'> implements AfterViewInit {
   protected readonly hasParentInputfield = signal(false);
 
-  protected readonly theme = this.injectThemeTemplate(inputControlTemplate);
-  protected readonly inputFieldTheme = this.injectThemeTemplate(inputFieldControlTemplate, true);
+  protected readonly theme = this.injectThemeTemplate(inputControlTemplate, {
+    root: true,
+    invalid: () => this.invalid(),
+    empty: () => !this.value(),
+  });
+  protected readonly inputFieldTheme = this.injectThemeTemplate<true>(inputFieldControlTemplate);
   /**
    * Explicitly apply invalid state styling
    * @default false

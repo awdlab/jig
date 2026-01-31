@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   booleanAttribute,
   Component,
@@ -24,7 +23,7 @@ import {
   Openable,
   Anchor,
 } from '@ngneers/controls/api/ng';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { computedWithPrevious } from '@ngneers/controls/utils-ng';
 import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
@@ -38,7 +37,7 @@ import { PopoverOptions } from './types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-popover',
   templateUrl: './popover.html',
-  imports: [NgClass, NgnDefer],
+  imports: [NgnPt, NgnDefer],
   providers: [provideSelf(NgnPopover)],
   host: {
     '(click)': '$event.stopPropagation()',

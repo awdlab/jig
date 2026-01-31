@@ -1,6 +1,6 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { booleanAttribute, Component, input, model, ChangeDetectionStrategy } from '@angular/core';
-import { provideSelf } from '@ngneers/controls/base';
+import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { inplaceControlTemplate } from '@ngneers/controls-themes/templates/inplace';
 
@@ -13,14 +13,14 @@ import { InplaceTemplates } from './inplace-templates';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-inplace',
   templateUrl: './inplace.html',
-  imports: [NgClass, NgTemplateOutlet, NgnDefer],
+  imports: [NgnPt, NgTemplateOutlet, NgnDefer],
   providers: [provideSelf(NgnInplace)],
-  host: {
-    '[class]': 'theme.classes({"": true, disabled: disabled()})',
-  },
 })
 export class NgnInplace extends InplaceTemplates {
-  protected readonly theme = this.injectThemeTemplate(inplaceControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(inplaceControlTemplate, {
+    root: true,
+    disabled: () => this.disabled(),
+  });
 
   protected readonly closeContent = this.switchToDisplay.bind(this);
 

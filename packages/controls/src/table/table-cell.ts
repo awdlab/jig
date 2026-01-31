@@ -1,5 +1,6 @@
 import { Directive, signal } from '@angular/core';
 import { NgnBase } from '@ngneers/controls/base';
+import { toggleClass } from '@ngneers/controls/utils';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 @Directive({
@@ -22,6 +23,6 @@ export class NgnTableTd extends NgnBase<'table'> {
   }
 
   private prepareDom() {
-    this.element.nativeElement.classList.toggle(this.theme.class('cell'), true);
+    toggleClass(this.element.nativeElement, this.theme.class('cell'), true);
   }
 }

@@ -8,19 +8,18 @@ export const EditInplacePage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/edit-inplace/index.md',
       components: [Demo_EditInplace_Base, Demo_EditInplace_States],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/edit-inplace/playground.md',
-      components: [NgnDocsEditInplacePlayground],
+      component: NgnDocsEditInplacePlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/edit-inplace/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/edit-inplace/api.md' },
   ],
 };

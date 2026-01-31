@@ -6,7 +6,7 @@ export const drawerStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c, d }) => css`
-      ${c()} {
+      ${c('root')} {
         color: inherit;
         flex-direction: column;
         position: fixed;
@@ -25,9 +25,9 @@ export const drawerStyles = createThemePart({
       ${c('footer')} {
         width: 100%;
       }
-      body:has(${c()}:popover-open) {
+      body:has(${c('root')}:popover-open) {
         pointer-events: none;
-        ${c()} {
+        ${c('root')} {
           pointer-events: all;
         }
       }

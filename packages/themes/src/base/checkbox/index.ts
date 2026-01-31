@@ -6,7 +6,7 @@ export const checkboxStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c, d }) => css`
-      ${c('')} {
+      ${c('root')} {
         display: inline-flex;
         user-select: none;
         align-items: center;

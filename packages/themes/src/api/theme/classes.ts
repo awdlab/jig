@@ -5,10 +5,7 @@ type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
   ? I
   : never;
 
-export type ThemeClasses<CT extends ControlTemplate> = Record<
-  CT['classNames'][number] | '',
-  string
-> & {
+export type ThemeClasses<CT extends ControlTemplate> = Record<CT['classNames'][number], string> & {
   $deps: UnionToIntersection<
     Prettify<
       CT['dependencies'][number] extends infer Dep

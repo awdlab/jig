@@ -3,7 +3,8 @@
 } @else {
   <ngn-input-field
     #field
-    [ngClass]="theme.class('input-field')"
+    [ptInt]="this"
+    [ptClass]="'input-field'"
     (click)="show()"
     (keydown)="onKeyDown($event)"
     [label]="label()"
@@ -14,7 +15,8 @@
     [disabled]="disabled()"
   >
     <input
-      [ngClass]="theme.class('input')"
+      [ptInt]="this"
+      [ptClass]="'input'"
       ngnInput
       #input
       (valueChange)="stringValueChange($event)"
@@ -39,14 +41,14 @@
 
 <ng-template #calendar>
   <div
-    [ngClass]="
-      theme.classes({
-        '': true,
-        inline: inline(),
-      })
-    "
+    [ptInt]="this"
+    [ptClass]="{
+      root: true,
+      inline: inline(),
+    }"
   >
     <ngn-calendar-days
+      [component]="this"
       [theme]="theme"
       [year]="year()"
       [month]="month()"
@@ -81,8 +83,9 @@
 
 <ng-template #defaultTimeTemplate [ngnTemplate]="templateTypes.time" let-time>
   @defer {
-    <div [ngClass]="theme.class('time')">
+    <div [ptInt]="this" [ptClass]="'time'">
       <ngn-calendar-time
+        [component]="this"
         [currentValue]="time.time"
         [showSeconds]="time.showSeconds"
         (timeChange)="time.change($event)"
@@ -101,7 +104,8 @@
       [virtual]="true"
       [itemHeight]="40"
       [popoverOptions]="{ sizeConstraints: { maxHeight: '300px' } }"
-      [ngClass]="theme.class('current-year')"
+      [ptInt]="this"
+      [ptClass]="'current-year'"
       [scrollToSelectedItemOnOpen]="'center'"
       [editableAutoFilter]="false"
       [tabindex]="-1"
@@ -120,7 +124,8 @@
       [popoverOptions]="{
         sizeConstraints: { maxHeight: '300px', width: '130px', maxWidth: '130px' },
       }"
-      [ngClass]="theme.class('current-month')"
+      [ptInt]="this"
+      [ptClass]="'current-month'"
       [scrollToSelectedItemOnOpen]="'center'"
       [tabindex]="-1"
     />

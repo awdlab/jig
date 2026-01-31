@@ -7,7 +7,7 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnPopover, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnPopover" [component]="component()">
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnPopover', component: component() }]">
       <button #anchor (click)="component().show()">Open Popover</button>
       <ngn-popover #ref [anchor]="anchor">Popover Content</ngn-popover>
     </ngn-docs-playground>

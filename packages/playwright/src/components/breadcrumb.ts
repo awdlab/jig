@@ -12,8 +12,10 @@ export class NgnBreadcrumbHarness {
 
   constructor(public locator: Locator) {
     this.itemView = new NgnItemViewHarness(
-      this.locator.locator(this.classes.$deps['item-view'][''])
+      this.locator.locator(this.classes.$deps['item-view']['root'])
     );
-    this.overflowMenu = new NgnMenuHarness(this.locator.locator(this.classes.$deps['menu']['']));
+    this.overflowMenu = new NgnMenuHarness(
+      this.locator.locator(this.classes.$deps['menu']['root'])
+    );
   }
 }

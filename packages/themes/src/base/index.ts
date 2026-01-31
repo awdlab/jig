@@ -1,5 +1,6 @@
 import { createTheme } from '@ngneers/controls-themes/api';
 import { accordionStyles } from '@ngneers/controls-themes/base/accordion';
+import { accordionPanelStyles } from '@ngneers/controls-themes/base/accordion-panel';
 import { movableStyles, resizableStyles } from '@ngneers/controls-themes/base/api';
 import { avatarGroupStyles, avatarStyles } from '@ngneers/controls-themes/base/avatar';
 import { breadcrumbStyles } from '@ngneers/controls-themes/base/breadcrumb';
@@ -40,6 +41,7 @@ import { tableStyles } from './table';
 
 export const baseStyles = {
   accordion: accordionStyles,
+  accordionPanel: accordionPanelStyles,
   movable: movableStyles,
   resizable: resizableStyles,
   avatarGroup: avatarGroupStyles,

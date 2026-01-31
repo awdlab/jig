@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
   Component,
@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgnTemplate, templateTypesFn } from '@ngneers/controls/api/ng';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnError } from '@ngneers/controls/utils';
 import { asyncComputed } from '@ngneers/controls/utils-ng';
 import { IconType } from '@ngneers/controls-custom-types';
@@ -28,15 +28,14 @@ import { DefaultIcon, IconTemplateContext } from './types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-icon',
   templateUrl: './icon.html',
-  imports: [NgClass, NgTemplateOutlet, NgnTemplate],
+  imports: [NgnPt, NgTemplateOutlet, NgnTemplate],
   providers: [provideSelf(NgnIcon)],
   host: {
     ngSkipHydration: 'true',
-    '[class]': 'theme.class()',
   },
 })
 export class NgnIcon extends NgnBase<'icon'> {
-  protected readonly theme = this.injectThemeTemplate(iconControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(iconControlTemplate, 'root');
   private readonly _globalIconTemplate = inject(GlobalIconTemplate).globalIconTemplate;
   private readonly _sanitizer = inject(DomSanitizer);
 

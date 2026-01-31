@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
   booleanAttribute,
@@ -22,7 +22,7 @@ import {
   NgnItemsValue,
 } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { provideSelf } from '@ngneers/controls/base';
+import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnCheckbox } from '@ngneers/controls/checkbox';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnScroller, NgnScrollerItem } from '@ngneers/controls/scroller';
@@ -39,15 +39,10 @@ import { ListBoxTemplates, ValueType } from './list-box-templates';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-list-box',
   templateUrl: './list-box.html',
-  imports: [NgTemplateOutlet, NgnScroller, NgnScrollerItem, NgnCheckbox, NgnTemplate, NgClass],
+  imports: [NgTemplateOutlet, NgnScroller, NgnScrollerItem, NgnCheckbox, NgnTemplate, NgnPt],
   providers: [provideSelf(NgnListBox)],
   host: {
-    '[class]': `theme.classes({
-      '': true,
-      invalid: invalid(),
-      empty: !displayedItems().length,
-    })`,
-    '[attr.tabIndex]': 'highlightable() ? 0 : null',
+    '[attr.tabIndex]': 'focussable() ? 0 : null',
     '(keydown)': 'onKeyDown($event)',
     '(focusout)': 'currentHighlightedValue.set(null)',
     role: 'listbox',
@@ -62,7 +57,11 @@ export class NgnListBox<
   Multiple extends boolean = false,
 > extends ListBoxTemplates<Items, Multiple> {
   protected readonly i18n = inject(I18n).translations;
-  protected readonly theme = this.injectThemeTemplate(listBoxControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(listBoxControlTemplate, {
+    root: true,
+    invalid: () => this.invalid(),
+    empty: () => !this.displayedItems().length,
+  });
 
   private readonly _scroller = viewChild.required<NgnScroller<NgnItemsValue<Items>>>(NgnScroller);
 
@@ -70,7 +69,8 @@ export class NgnListBox<
 
   public readonly scrollToSelectedItemOnInit = input<boolean | ScrollLogicalPosition>(false);
   public readonly selectable = input(false, { transform: booleanAttribute });
-  public readonly highlightable = input(true, { transform: booleanAttribute });
+  public readonly selectOnHover = input(false, { transform: booleanAttribute });
+  public readonly focussable = input(true, { transform: booleanAttribute });
   public readonly virtual = input(false, { transform: booleanAttribute });
   public readonly itemHeight = input<number>();
   public readonly multiple = input<Multiple>();

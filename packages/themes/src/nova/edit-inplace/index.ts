@@ -12,7 +12,7 @@ export const editInplaceStyles = createThemePart({
       ${c('default-display')} {
         padding: 1px; /* To avoid layout shift when switching to edit mode */
       }
-      ${c()} {
+      ${c('root')} {
         display: inline-block;
       }
       ${c('default-fallback-display')} {

@@ -11,8 +11,10 @@ export const InputFieldPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/input-field/index.md',
       components: [
         Demo_InputField_Base,
@@ -23,13 +25,10 @@ export const InputFieldPage: NgnDocsPage = {
       ],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/input-field/playground.md',
-      components: [NgnDocsInputFieldPlayground],
+      component: NgnDocsInputFieldPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/input-field/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/input-field/api.md' },
   ],
 };

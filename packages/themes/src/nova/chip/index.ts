@@ -16,7 +16,7 @@ export const chipStyles = createThemePart({
     css: ({ v, c, d }) => css`
       ${themedColors(c, v)}
 
-      ${c('')} {
+      ${c('root')} {
         background: var(--theme-color-400);
         border-radius: 999rem; /* Creates a pill shape */
       }

@@ -1,5 +1,6 @@
 export type ThemeTemplate = {
   accordion: Awaited<typeof import('./accordion')>['accordionControlTemplate'];
+  accordionPanel: Awaited<typeof import('./accordion-panel')>['accordionPanelControlTemplate'];
   movable: Awaited<typeof import('./api')>['movableDirectiveTemplate'];
   resizable: Awaited<typeof import('./api')>['resizableDirectiveTemplate'];
   avatar: Awaited<typeof import('./avatar')>['avatarControlTemplate'];

@@ -1,3 +1,5 @@
+import { AllKeysOfUnion } from './types';
+
 export function deepCopy<T>(obj: T): T extends ReadonlyArray<infer U> ? Array<U> : T {
   return JSON.parse(JSON.stringify(obj));
 }
@@ -31,4 +33,14 @@ export function deepMerge<T extends Record<string, unknown>, U extends Record<st
     }
   }
   return output;
+}
+
+export function getPropertyIfExists<T extends object, K extends AllKeysOfUnion<T>>(
+  obj: T,
+  key: K
+): T[K] | undefined {
+  if (key in obj) {
+    return obj[key];
+  }
+  return undefined;
 }

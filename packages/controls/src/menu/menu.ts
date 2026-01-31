@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
@@ -17,7 +17,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { Placement } from '@floating-ui/dom';
 import { Anchor, NgnTemplate, Openable, Platform } from '@ngneers/controls/api/ng';
-import { provideSelf } from '@ngneers/controls/base';
+import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnAutofocus } from '@ngneers/controls/directives';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnPopover } from '@ngneers/controls/popover';
@@ -34,16 +34,15 @@ import { MenuItem } from './types';
  */
 @Component({
   selector: 'ngn-menu',
-  imports: [NgClass, NgTemplateOutlet, NgnTemplate, NgnAutofocus, NgnPopover, NgnIcon, RouterLink],
+  imports: [NgnPt, NgTemplateOutlet, NgnTemplate, NgnAutofocus, NgnPopover, NgnIcon, RouterLink],
   templateUrl: './menu.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideSelf(NgnMenu)],
-  host: {
-    '[class]': 'isSubMenu() ? theme.class("submenu") : ""',
-  },
 })
 export class NgnMenu extends MenuTemplates implements Openable {
-  protected readonly theme = this.injectThemeTemplate(menuControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(menuControlTemplate, {
+    submenu: () => this.isSubMenu(),
+  });
   protected readonly elementId = input(generateElementId());
   /**
    * The element to which the menu is anchored. Required if `popover` is true.

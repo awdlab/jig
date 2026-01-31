@@ -6,7 +6,7 @@ export const messageStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ c }) => css`
-      ${c('')} {
+      ${c('root')} {
         display: flex;
         align-items: flex-start;
       }

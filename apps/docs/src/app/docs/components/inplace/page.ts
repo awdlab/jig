@@ -7,19 +7,18 @@ export const InplacePage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/inplace/index.md',
       components: [Demo_Inplace_Base],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/inplace/playground.md',
-      components: [NgnDocsInplacePlayground],
+      component: NgnDocsInplacePlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/inplace/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/inplace/api.md' },
   ],
 };

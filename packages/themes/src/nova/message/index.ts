@@ -16,7 +16,7 @@ export const messageStyles = createThemePart({
     css: ({ v, c }) => css`
       ${themedColors(c, v)}
 
-      ${c('')} {
+      ${c('root')} {
         gap: ${v('size.padding.md')};
         background: var(--theme-color-50);
         color: var(--theme-color-700);

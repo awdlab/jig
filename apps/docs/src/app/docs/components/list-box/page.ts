@@ -13,8 +13,10 @@ export const ListBoxPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/list-box/index.md',
       components: [
         Demo_ListBox_Base,
@@ -27,13 +29,10 @@ export const ListBoxPage: NgnDocsPage = {
       ],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/list-box/playground.md',
-      components: [NgnDocsListBoxPlayground],
+      component: NgnDocsListBoxPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/list-box/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/list-box/api.md' },
   ],
 };

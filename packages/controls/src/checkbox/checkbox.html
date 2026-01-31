@@ -1,15 +1,15 @@
 <div
-  [ngClass]="
-    theme.classes({
-      box: true,
-      'box-checked': !!value(),
-      'box-indeterminate': indeterminate(),
-    })
-  "
+  [ptInt]="this"
+  [ptClass]="{
+    box: true,
+    'box-checked': !!value(),
+    'box-indeterminate': indeterminate(),
+  }"
 >
   @if (indeterminate()) {
     <ngn-icon
-      [ngClass]="theme.class('box-icon')"
+      [ptInt]="this"
+      [ptClass]="'box-icon'"
       [icon]="iconIndeterminate()"
       [defaultIcon]="'minus'"
       [animate.enter]="theme.class('anim-box-icon-enter')"
@@ -17,7 +17,8 @@
     />
   } @else if (value()) {
     <ngn-icon
-      [ngClass]="theme.class('box-icon')"
+      [ptInt]="this"
+      [ptClass]="'box-icon'"
       [icon]="iconChecked()"
       [defaultIcon]="'check'"
       [animate.enter]="theme.class('anim-box-icon-enter')"
@@ -25,7 +26,8 @@
     />
   } @else if (iconUnchecked()) {
     <ngn-icon
-      [ngClass]="theme.class('box-icon')"
+      [ptInt]="this"
+      [ptClass]="'box-icon'"
       [icon]="iconUnchecked()"
       [animate.enter]="theme.class('anim-box-icon-enter')"
       [animate.leave]="theme.class('anim-box-icon-leave')"
@@ -38,7 +40,8 @@
   (change)="changed($event)"
   (click)="onClick($event)"
   [indeterminate]="indeterminate()"
-  [ngClass]="theme.class('input')"
+  [ptInt]="this"
+  [ptClass]="'input'"
   [attr.disabled]="disabled() ? '' : undefined"
   [ariaReadOnly]="readonly() ? '' : undefined"
   [ariaInvalid]="invalid() ? 'true' : undefined"

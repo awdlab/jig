@@ -12,7 +12,7 @@ export class NgnEditInplaceHarness {
 
   constructor(public locator: Locator) {
     this.inplace = new NgnInplaceHarness(
-      this.locator.locator(this.classes['$deps']['inplace'][''])
+      this.locator.locator(this.classes['$deps']['inplace']['root'])
     );
     this.input = this.locator.locator(this.classes['default-edit-input']);
     this.closeButton = this.locator.locator(this.classes['default-edit-close-button']);

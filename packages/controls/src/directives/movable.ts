@@ -17,12 +17,12 @@ import { movableDirectiveTemplate } from '@ngneers/controls-themes/templates/api
 
 @Directive({
   selector: '[ngnMovable]',
-  host: {
-    '[class]': 'theme.classes({ movable: ngnMovable(), moved: dragged()})',
-  },
 })
 export class NgnMovable extends NgnBase<'movable'> {
-  protected readonly theme = this.injectThemeTemplate(movableDirectiveTemplate);
+  protected readonly theme = this.injectThemeTemplate(movableDirectiveTemplate, {
+    movable: () => this.ngnMovable(),
+    moved: () => this.dragged(),
+  });
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
   private readonly _document = inject(DOCUMENT);
 

@@ -9,6 +9,9 @@ export const progressStyles = createThemePart({
       void v;
       void d;
       return css`
+        ${c('root')} {
+          width: 100%;
+        }
         ${c('track')} {
           position: relative;
           overflow: hidden;

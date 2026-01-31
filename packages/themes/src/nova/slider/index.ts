@@ -9,7 +9,7 @@ export const sliderStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
     css: ({ v, c, d }) => css`
-      ${c()} {
+      ${c('root')} {
         --trackThickness: 0.5rem;
         --thumbBorderSize: 0.125rem;
         --thumbSize: calc(var(--thumbBorderSize) * 2 + 1rem);
@@ -34,7 +34,7 @@ export const sliderStyles = createThemePart({
         border-radius: ${v('size.rounded.full')};
         border: var(--thumbBorderSize) solid ${v('color.surface.900')};
       }
-      ${c()}:not([disabled]):not([aria-readonly='true']) {
+      ${c('root')}:not([disabled]):not([aria-readonly='true']) {
         ${c('thumb')} {
           cursor: grab;
           &:active {
@@ -53,7 +53,7 @@ export const sliderStyles = createThemePart({
           background: ${v('color.error.500')};
         }
       }
-      ${c()}[disabled] {
+      ${c('root')}[disabled] {
         ${c('track')} {
           background: ${v('color.surface.100')};
         }
@@ -75,7 +75,7 @@ export const sliderStyles = createThemePart({
           }
         }
       }
-      ${c()}[aria-readonly='true'] {
+      ${c('root')}[aria-readonly='true'] {
         ${c('thumb')} {
           border-color: ${v('color.surface.700')};
         }

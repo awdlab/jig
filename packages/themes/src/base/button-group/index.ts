@@ -6,13 +6,15 @@ export const buttonGroupStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c, d }) => css`
-      ${c()} {
+      ${c('root')} {
         display: block;
+        width: 100%;
+        max-width: 100%;
       }
       ${c('horizontal')}, ${c('vertical')} {
         display: flex;
         width: fit-content;
-        & ${d('button')} {
+        & ${d('button', 'root')} {
           border-radius: 0;
           white-space: nowrap;
         }

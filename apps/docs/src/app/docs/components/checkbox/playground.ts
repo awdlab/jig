@@ -7,7 +7,7 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnCheckbox, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnCheckbox" [component]="component()">
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnCheckbox', component: component() }]">
       <ngn-checkbox #ref />
     </ngn-docs-playground>
   `,

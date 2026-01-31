@@ -1,16 +1,30 @@
-<h1>{{ page.title }}</h1>
+<div class="w-full h-16 flex items-center border-b border-(--ngn-color-surface-200)">
+  <h2 class="px-6 text-2xl">{{ page.title }}</h2>
+</div>
 
 <ngn-tabs
+  class="h-full min-h-0"
   [lazy]="true"
   [cache]="true"
   [activeTab]="activeTab()"
   (activeTabChange)="activeTab.set($event)"
+  [pt]="tabPt"
 >
   @for (tab of page.tabs; track $index) {
     <ngn-tab [tabId]="tab.title">
       <ng-template #header> {{ tab.title }} </ng-template>
       <ng-template #content>
-        <ngn-docs-section [section]="tab" />
+        @switch (tab.kind) {
+          @case ('single') {
+            <ngn-docs-section [section]="tab" />
+          }
+          @case ('component') {
+            <ng-container *ngComponentOutlet="tab.component" />
+          }
+          @default {
+            Unsupported tab page kind: {{ tab.kind }}
+          }
+        }
       </ng-template>
     </ngn-tab>
   }

@@ -1,8 +1,9 @@
-<svg [attr.viewBox]="viewBox()" xmlns="http://www.w3.org/2000/svg" [class]="theme.class('svg')">
+<svg [attr.viewBox]="viewBox()" xmlns="http://www.w3.org/2000/svg" [ptInt]="this" [ptClass]="'svg'">
   <circle
     [attr.cx]="size() / 2"
     [attr.cy]="size() / 2"
     fill="none"
-    [class]="theme.class('circle')"
+    [ptInt]="this"
+    [ptClass]="'circle'"
   />
 </svg>

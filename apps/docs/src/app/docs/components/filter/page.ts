@@ -12,8 +12,10 @@ export const FilterPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/filter/index.md',
       components: [
         Demo_Filter_Base,
@@ -25,13 +27,10 @@ export const FilterPage: NgnDocsPage = {
       ],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/filter/playground.md',
-      components: [NgnDocsFilterPlayground],
+      component: NgnDocsFilterPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/filter/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/filter/api.md' },
   ],
 };

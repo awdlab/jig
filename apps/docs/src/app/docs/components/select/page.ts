@@ -14,8 +14,10 @@ export const SelectPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/select/index.md',
       components: [
         Demo_Select_Base,
@@ -29,13 +31,10 @@ export const SelectPage: NgnDocsPage = {
       ],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/select/playground.md',
-      components: [NgnDocsSelectPlayground],
+      component: NgnDocsSelectPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/select/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/select/api.md' },
   ],
 };

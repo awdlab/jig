@@ -1,11 +1,10 @@
 <div
   #content
-  [ngClass]="
-    theme.classes({
-      horizontal: appliedOrientation() === 'horizontal',
-      vertical: appliedOrientation() === 'vertical',
-    })
-  "
+  [ptInt]="this"
+  [ptClass]="{
+    horizontal: appliedOrientation() === 'horizontal',
+    vertical: appliedOrientation() === 'vertical',
+  }"
   role="group"
 >
   <ng-content />

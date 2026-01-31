@@ -6,7 +6,7 @@ export const scrollerStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c }) => css`
-      ${c()} {
+      ${c('root')} {
         display: block;
         height: 100%;
         width: 100%;

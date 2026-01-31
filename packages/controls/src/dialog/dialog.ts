@@ -1,4 +1,4 @@
-import { NgClass, NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
+import { NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
   booleanAttribute,
@@ -23,7 +23,7 @@ import {
   NgnTemplate,
   Openable,
 } from '@ngneers/controls/api/ng';
-import { provideSelf } from '@ngneers/controls/base';
+import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnActionButton, NgnButton } from '@ngneers/controls/button';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { NgnMovable, NgnResizable } from '@ngneers/controls/directives';
@@ -51,7 +51,7 @@ type TypedContent = {
     NgnTemplate,
     NgnMovable,
     NgnDefer,
-    NgClass,
+    NgnPt,
     NgnButton,
     NgnActionButton,
     NgComponentOutlet,

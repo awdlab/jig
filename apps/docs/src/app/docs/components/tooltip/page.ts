@@ -10,8 +10,10 @@ export const TooltipPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/tooltip/index.md',
       components: [
         Demo_Tooltip_Base,
@@ -21,13 +23,10 @@ export const TooltipPage: NgnDocsPage = {
       ],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/tooltip/playground.md',
-      components: [NgnDocsTooltipPlayground],
+      component: NgnDocsTooltipPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/tooltip/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/tooltip/api.md' },
   ],
 };

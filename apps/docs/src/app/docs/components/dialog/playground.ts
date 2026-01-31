@@ -7,7 +7,7 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnDialog, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnDialog" [component]="component()">
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnDialog', component: component() }]">
       <button (click)="open.set(true)">Open Dialog</button>
       <ngn-dialog
         #ref

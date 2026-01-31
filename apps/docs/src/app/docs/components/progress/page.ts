@@ -11,8 +11,10 @@ export const ProgressPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/progress/index.md',
       components: [
         Demo_Progress_Base,
@@ -23,13 +25,10 @@ export const ProgressPage: NgnDocsPage = {
       ],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/progress/playground.md',
-      components: [NgnDocsProgressPlayground],
+      component: NgnDocsProgressPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/progress/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/progress/api.md' },
   ],
 };

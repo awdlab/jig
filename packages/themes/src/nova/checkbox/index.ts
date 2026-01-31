@@ -19,11 +19,11 @@ export const checkboxStyles = createThemePart({
         border: 2px solid ${v('color.border')};
         border-radius: ${v('size.rounded.sm')};
       }
-      ${c()}:has(${c('input')}[disabled]) ${c('box')} {
+      ${c('root')}:has(${c('input')}[disabled]) ${c('box')} {
         background-color: ${v('color.disabled.background')};
         border-color: ${v('color.disabled.border')};
       }
-      ${c()}:has(${c('input')}[aria-readonly]) ${c('box')} {
+      ${c('root')}:has(${c('input')}[aria-readonly]) ${c('box')} {
         border-color: ${v('color.disabled.border')};
       }
       ${c('invalid')} ${c('box')} {
@@ -39,7 +39,7 @@ export const checkboxStyles = createThemePart({
         border-color: ${v('color.error.300')};
       }
 
-      ${c()}:has(${c('input')}:focus-visible) ${c('box')} {
+      ${c('root')}:has(${c('input')}:focus-visible) ${c('box')} {
         outline: 2px solid ${v('color.text')};
       }
 

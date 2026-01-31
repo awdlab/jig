@@ -8,8 +8,8 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnListBox, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnListBox" [component]="component()">
-      <ngn-list-box #ref [items]="items" style="display: block; height: 200px;" />
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnListBox', component: component() }]">
+      <ngn-list-box #ref class="flex-1" [items]="items" style="display: block; height: 200px;" />
     </ngn-docs-playground>
   `,
 })

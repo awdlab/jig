@@ -11,8 +11,10 @@ export const SpinnerPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/spinner/index.md',
       components: [
         Demo_Spinner_Base,
@@ -23,13 +25,10 @@ export const SpinnerPage: NgnDocsPage = {
       ],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/spinner/playground.md',
-      components: [NgnDocsSpinnerPlayground],
+      component: NgnDocsSpinnerPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/spinner/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/spinner/api.md' },
   ],
 };

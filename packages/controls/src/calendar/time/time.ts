@@ -1,5 +1,6 @@
 import { Component, computed, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { Platform } from '@ngneers/controls/api/ng';
+import { NgnBaseSafe } from '@ngneers/controls/base';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnInput } from '@ngneers/controls/input';
 import { MASKS, NgnInputMask } from '@ngneers/controls/input-mask';
@@ -14,6 +15,7 @@ export class CalendarTime {
   protected readonly i18n = inject(I18n).translations;
   protected readonly isTouchDevice = inject(Platform).isTouchDevice();
 
+  public readonly component = input.required<NgnBaseSafe<'calendar'>>();
   public readonly currentValue = input.required<Date | null>();
   public readonly showSeconds = input.required<boolean>();
   public readonly timeChange = output<Date | null>();

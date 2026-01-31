@@ -7,8 +7,8 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnBreadcrumb, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnBreadcrumb" [component]="component()">
-      <ngn-breadcrumb #ref [items]="items()" />
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnBreadcrumb', component: component() }]">
+      <ngn-breadcrumb class="flex-1" #ref [items]="items()" />
     </ngn-docs-playground>
   `,
 })

@@ -14,7 +14,7 @@ export const buttonStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c }) => css`
-      ${c()} {
+      ${c('root')} {
         --padding: ${v('size.padding.md')} ${v('size.padding.lg')};
         border-radius: ${v('size.rounded.md')};
         border-style: none;

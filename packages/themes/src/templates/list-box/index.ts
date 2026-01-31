@@ -5,6 +5,7 @@ import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scro
 export const listBoxControlTemplate = createControlTemplate({
   scope: 'list-box',
   classNames: [
+    'root',
     'empty',
     'invalid',
     'item',

@@ -12,11 +12,11 @@ import { NgnMovable } from './movable';
 @Directive({
   selector: '[ngnResizable]',
   host: {
-    '[class]': '_theme.classes({ resizable: !!ngnResizable(), resized: resized()})',
+    '[class]': 'theme.classes({ resizable: !!ngnResizable(), resized: resized()})',
   },
 })
 export class NgnResizable {
-  protected readonly _theme = injectThemeTemplate(resizableDirectiveTemplate);
+  protected readonly theme = injectThemeTemplate(resizableDirectiveTemplate);
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
   private readonly _isBrowser = inject(Platform).isBrowser;
   private readonly _document = inject(DOCUMENT);

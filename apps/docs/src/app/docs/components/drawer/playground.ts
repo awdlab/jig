@@ -7,7 +7,7 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnDrawer, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnDrawer" [component]="component()">
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnDrawer', component: component() }]">
       <button (click)="open.set(true)">Open Drawer</button>
       <ngn-drawer
         #ref

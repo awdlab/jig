@@ -1,13 +1,6 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
-import {
-  booleanAttribute,
-  Component,
-  computed,
-  input,
-  output,
-  ChangeDetectionStrategy,
-} from '@angular/core';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { NgTemplateOutlet } from '@angular/common';
+import { booleanAttribute, Component, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { IconType } from '@ngneers/controls-custom-types';
 import { chipControlTemplate } from '@ngneers/controls-themes/templates/chip';
@@ -19,14 +12,15 @@ import { chipControlTemplate } from '@ngneers/controls-themes/templates/chip';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-chip',
   templateUrl: './chip.html',
-  imports: [NgClass, NgnIcon, NgTemplateOutlet],
+  imports: [NgnPt, NgnIcon, NgTemplateOutlet],
   providers: [provideSelf(NgnChip)],
-  host: {
-    '[class]': 'hostClass()',
-  },
 })
 export class NgnChip extends NgnBase<'chip'> {
-  protected readonly theme = this.injectThemeTemplate(chipControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(chipControlTemplate, {
+    root: true,
+    closable: () => this.closable(),
+    actionable: () => this.actionable(),
+  });
 
   /**
    * Set whether the chip can be closed (removed).
@@ -50,12 +44,4 @@ export class NgnChip extends NgnBase<'chip'> {
    * Emitted when the chip is clicked.
    */
   public readonly clicked = output<Event>();
-
-  protected readonly hostClass = computed(() =>
-    this.theme.classes({
-      '': true,
-      closable: this.closable(),
-      actionable: this.actionable(),
-    })
-  );
 }

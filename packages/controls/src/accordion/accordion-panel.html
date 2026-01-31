@@ -1,11 +1,10 @@
 <header>
   <button
-    [ngClass]="
-      theme.classes({
-        'panel-header': true,
-        'panel-header-disabled': disabled(),
-      })
-    "
+    [ptInt]="this"
+    [ptClass]="{
+      header: true,
+      'header-disabled': disabled(),
+    }"
     [id]="headerId()"
     [disabled]="disabled()"
     [aria-expanded]="expanded()"
@@ -28,16 +27,16 @@
 </header>
 
 <div
-  [ngClass]="
-    theme.classes({
-      'panel-content-expander': true,
-      'panel-content-expander-collapsed': !expanded(),
-    })
-  "
+  [ptInt]="this"
+  [ptClass]="{
+    'content-expander': true,
+    'content-expander-collapsed': !expanded(),
+  }"
   #content
 >
   <div
-    [ngClass]="theme.class('panel-content')"
+    [ptInt]="this"
+    [ptClass]="'content'"
     [id]="contentId()"
     [attr.aria-labelledby]="headerId()"
     [aria-hidden]="!expanded()"
@@ -56,7 +55,7 @@
 </div>
 
 <ng-template #defaultHeaderTemplate let-header [ngnTemplate]="templateTypes.header">
-  <span [ngClass]="theme.class('panel-header-text')">
+  <span [ptInt]="this" [ptClass]="'header-text'">
     {{ header.text }}
   </span>
 </ng-template>

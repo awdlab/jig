@@ -9,19 +9,18 @@ export const CheckboxPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/checkbox/index.md',
       components: [Demo_Checkbox_Base, Demo_Checkbox_Indeterminate, Demo_Checkbox_States],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/checkbox/playground.md',
-      components: [NgnDocsCheckboxPlayground],
+      component: NgnDocsCheckboxPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/checkbox/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/checkbox/api.md' },
   ],
 };

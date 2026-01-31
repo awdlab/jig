@@ -6,7 +6,7 @@ export const selectStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ v, c, d }) => css`
-      ${c('input')} ${d('input-field')} {
+      ${c('input')} ${d('input-field', 'root')} {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -16,7 +16,7 @@ export const selectStyles = createThemePart({
       ${c('combobox')} {
         width: 100%;
       }
-      ${c('input-editable')} ${d('input-field')} {
+      ${c('input-editable')} ${d('input-field', 'root')} {
         cursor: text;
       }
       ${c('popover-content')} {
@@ -24,10 +24,10 @@ export const selectStyles = createThemePart({
         display: flex;
         flex-direction: column;
       }
-      ${c('')} ${d('popover', 'content')} {
+      ${c('root')} ${d('popover', 'content')} {
         padding: 0;
       }
-      ${c('list-box')}${d('list-box')} {
+      ${c('list-box')}${d('list-box', 'root')} {
         border-width: 0;
       }
     `,

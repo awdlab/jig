@@ -6,6 +6,6 @@ export const inputMaskChildClassNames = ['disabled'] as const;
 
 export const inputMaskControlTemplate = createControlTemplate({
   scope: 'input-mask',
-  classNames: ['mask', 'mask-placeholder', 'mask-text'],
+  classNames: ['root', 'mask', 'mask-placeholder', 'mask-text'],
   dependencies: [inputFieldControlTemplate, inputControlTemplate],
 });

@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { executeFilter, getActiveFilterConditions, NgnItem } from '@ngneers/controls/api';
 import { type Anchor } from '@ngneers/controls/api/ng';
-import { provideSelf, ValueControlBase } from '@ngneers/controls/base';
+import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -102,7 +102,7 @@ function defaultOperatorsForType(dataType: NgnFilterDataType): readonly Operator
   selector: 'ngn-filter',
   templateUrl: './filter.html',
   imports: [
-    NgClass,
+    NgnPt,
     NgTemplateOutlet,
     NgnInputField,
     NgnInput,
@@ -113,12 +113,11 @@ function defaultOperatorsForType(dataType: NgnFilterDataType): readonly Operator
   ],
   providers: [provideSelf(NgnFilter)],
   host: {
-    '[class]': 'theme.class("")',
     style: 'display: block;',
   },
 })
 export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilterConfig | null> {
-  protected readonly theme = this.injectThemeTemplate(filterControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(filterControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
 
   /** Data to filter. */

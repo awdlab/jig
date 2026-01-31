@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   booleanAttribute,
   Component,
@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { NgnItem } from '@ngneers/controls/api';
 import { NgnTemplate, Platform } from '@ngneers/controls/api/ng';
-import { provideSelf } from '@ngneers/controls/base';
+import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
@@ -48,7 +48,7 @@ type MonthItemType = NgnItem<{ $: (typeof MONTHS)[number] }, '$'>;
   imports: [
     NgTemplateOutlet,
     NgnTemplate,
-    NgClass,
+    NgnPt,
     NgnInput,
     NgnIcon,
     NgnInputField,

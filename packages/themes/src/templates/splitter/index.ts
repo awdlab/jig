@@ -3,6 +3,7 @@ import { createControlTemplate } from '@ngneers/controls-themes/api';
 export const splitterControlTemplate = createControlTemplate({
   scope: 'splitter',
   classNames: [
+    'root',
     'horizontal',
     'vertical',
     'panel',

@@ -3,12 +3,11 @@
     <span
       role="listitem"
       #itemRef
-      [ngClass]="
-        theme.classes({
-          item: true,
-          'item-overflowing': item.kind === 'overflowItem',
-        })
-      "
+      [ptInt]="this"
+      [ptClass]="{
+        item: true,
+        'item-overflowing': item.kind === 'overflowItem',
+      }"
     >
       <ng-container
         *ngTemplateOutlet="
@@ -27,7 +26,8 @@
     </span>
   } @else if (item.kind === 'overflowIndicator') {
     <div
-      [ngClass]="theme.classes({ 'more-items': true, 'more-items-hidden': !item.visible })"
+      [ptInt]="this"
+      [ptClass]="{ 'more-items': true, 'more-items-hidden': !item.visible }"
       aria-hidden="true"
       #overflowItem
     >
@@ -69,5 +69,5 @@
 </ng-template>
 
 <ng-template #defaultOverflowItemTemplate [ngnTemplate]="templateTypes.overflow" let-overflow>
-  <span [ngClass]="theme.class('more-items-default')">+{{ overflow.overflowCount }}</span>
+  <span [ptInt]="this" [ptClass]="'more-items-default'">+{{ overflow.overflowCount }}</span>
 </ng-template>

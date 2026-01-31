@@ -8,7 +8,7 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnButton, NgnTooltip, NgnDocsPlayground],
   template: `
-    <ngn-docs-playground componentName="NgnTooltip" [component]="component()">
+    <ngn-docs-playground [controls]="[{ componentName: 'NgnTooltip', component: component() }]">
       <button #ref ngnButton [ngnTooltip]="'Tooltip text'">Hover me</button>
     </ngn-docs-playground>
   `,

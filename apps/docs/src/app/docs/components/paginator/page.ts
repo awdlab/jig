@@ -9,19 +9,18 @@ export const PaginatorPage: NgnDocsPage = {
   kind: 'tabs',
   tabs: [
     {
+      kind: 'single',
       default: true,
-      title: 'Features',
+
+      title: 'Examples',
       mdFile: 'components/paginator/index.md',
       components: [Demo_Paginator_Base, Demo_Paginator_Overflow, Demo_Paginator_Pagesize],
     },
     {
+      kind: 'component',
       title: 'Playground',
-      mdFile: 'components/paginator/playground.md',
-      components: [NgnDocsPaginatorPlayground],
+      component: NgnDocsPaginatorPlayground,
     },
-    {
-      title: 'API',
-      mdFile: 'components/paginator/api.md',
-    },
+    { kind: 'single', title: 'API', mdFile: 'components/paginator/api.md' },
   ],
 };
