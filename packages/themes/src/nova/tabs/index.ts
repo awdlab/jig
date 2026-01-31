@@ -25,7 +25,7 @@ export const tabsStyles = createThemePart({
         &:hover {
           background: ${v('color.surface.100')};
         }
-        &:focus {
+        &:focus-visible {
           outline: none;
           background: ${v('color.surface.200')};
         }
@@ -51,7 +51,7 @@ export const tabsStyles = createThemePart({
           color: ${v('color.surface.500')};
           --blurColor: ${v('color.surface.100')};
         }
-        &:focus {
+        &:focus-visible {
           background: ${v('color.surface.200')};
           color: ${v('color.surface.600')};
           --blurColor: ${v('color.surface.200')};
