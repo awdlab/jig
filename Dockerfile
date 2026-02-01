@@ -4,10 +4,16 @@ FROM node:alpine AS builder
 RUN npm install -g pnpm
 
 WORKDIR /app
-COPY . .
+
+# Install dependencies
+COPY package.json .
+COPY pnpm-lock.yaml .
+COPY .npmrc .
+COPY pnpm-workspace.yaml .
 RUN pnpm install --frozen-lockfile
 
-
+# Build the app
+COPY . .
 RUN pnpm docs:build
 
 # stage 2
