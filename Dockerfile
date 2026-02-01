@@ -8,7 +8,7 @@ WORKDIR /app
 # Install dependencies
 COPY package.json .
 COPY pnpm-lock.yaml .
-COPY .npmrc .
+# COPY .npmrc .
 COPY pnpm-workspace.yaml .
 RUN pnpm install --frozen-lockfile
 
