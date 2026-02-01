@@ -1,17 +1,24 @@
 # stage 1
-FROM node:alpine AS builder
-
-RUN npm install -g pnpm
+FROM node:24-slim AS builder
 
 WORKDIR /app
 
+RUN corepack enable
+
 # Install dependencies
-COPY package.json .
-COPY packages/*/package.json packages/*/
-COPY apps/*/package.json apps/*/
 COPY pnpm-lock.yaml .
-# COPY .npmrc .
 COPY pnpm-workspace.yaml .
+COPY package.json .
+# Copy project packages.json files
+COPY apps/docs/package.json apps/docs/package.json
+COPY apps/isolated/package.json apps/isolated/package.json
+COPY apps/test-wrapper/package.json apps/test-wrapper/package.json
+COPY packages/controls/package.json packages/controls/package.json
+COPY packages/custom-types/package.json packages/custom-types/package.json
+COPY packages/playwright/package.json packages/playwright/package.json
+COPY packages/themes/package.json packages/themes/package.json
+
+# COPY .npmrc .
 RUN pnpm install --frozen-lockfile
 
 # Build the app
