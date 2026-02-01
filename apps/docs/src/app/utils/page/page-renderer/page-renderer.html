@@ -1,3 +1,6 @@
-<h1 class="px-2 md:px-8">{{ page.title }}</h1>
+<div class="flex w-full flex-col justify-center">
+  <ngn-breadcrumb [items]="breadcrumbItems()" />
+  <h2 class="m-0 py-6 text-3xl">{{ page.title }}</h2>
+</div>
 
-<ngn-docs-section class="w-full p-2 md:p-8" [section]="page" />
+<ngn-docs-section class="w-full pr-2 md:pr-8" [section]="page" />

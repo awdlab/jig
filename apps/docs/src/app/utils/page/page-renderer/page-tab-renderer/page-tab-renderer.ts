@@ -44,6 +44,9 @@ export class NgnDocsPageTabRenderer {
   );
 
   protected readonly tabPt: NgnPassthrough<'tabs'> = {
+    'headers-container': {
+      $classes: 'mr-2 md:mr-8',
+    },
     content: {
       $styles: {
         height: '100%',

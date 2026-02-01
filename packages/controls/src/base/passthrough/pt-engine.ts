@@ -101,7 +101,10 @@ export class NgnPtEngine<T extends NgnBaseSafe<Name>, Name extends ControlName> 
       });
     }
     if (classPt.$classes) {
-      classPt.$classes.forEach(cls => {
+      const arrayOfClasses = Array.isArray(classPt.$classes)
+        ? classPt.$classes.flatMap(c => c.split(' '))
+        : classPt.$classes.split(' ');
+      arrayOfClasses.forEach(cls => {
         try {
           this._elementRef.nativeElement.classList.add(cls);
         } catch {
@@ -125,7 +128,10 @@ export class NgnPtEngine<T extends NgnBaseSafe<Name>, Name extends ControlName> 
       });
     }
     if (classPt.$classes) {
-      classPt.$classes.forEach(cls => {
+      const arrayOfClasses = Array.isArray(classPt.$classes)
+        ? classPt.$classes.flatMap(c => c.split(' '))
+        : classPt.$classes.split(' ');
+      arrayOfClasses.forEach(cls => {
         try {
           this._elementRef.nativeElement.classList.remove(cls);
         } catch {

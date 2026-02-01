@@ -8,7 +8,7 @@ import type {
 export type PassthroughValue = {
   $attributes?: Record<string, string>;
   $styles?: Partial<CSSStyleDeclaration>;
-  $classes?: string[];
+  $classes?: string | string[];
 };
 
 type ThemeClassToPassthrough<T> = {
