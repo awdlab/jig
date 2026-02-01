@@ -13,6 +13,7 @@ export const avatarStyles = createThemePart({
       ${c('root')} {
         width: var(--size);
         height: var(--size);
+        flex-shrink: 0;
         overflow: hidden;
         display: inline-flex;
         vertical-align: middle;
@@ -21,6 +22,7 @@ export const avatarStyles = createThemePart({
       }
       ${c('initials')} {
         font-size: calc(var(--size) / -12 * var(--letterCount) + var(--size) * 0.7);
+        line-height: 1;
         font-family: monospace;
         user-select: none;
       }
