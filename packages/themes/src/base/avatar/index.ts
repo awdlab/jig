@@ -20,7 +20,8 @@ export const avatarStyles = createThemePart({
         justify-content: center;
       }
       ${c('initials')} {
-        font-size: calc(var(--size) / -8 * var(--letterCount) + var(--size) * 0.77);
+        font-size: calc(var(--size) / -12 * var(--letterCount) + var(--size) * 0.7);
+        font-family: monospace;
         user-select: none;
       }
       ${c('image')} {
