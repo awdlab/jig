@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "prettier": "node --experimental-strip-types node_modules/prettier/bin/prettier.cjs",
     "docs:serve": "pnpm --filter @ngneers/controls-docs serve",
     "test-wrapper:serve": "pnpm --filter @ngneers/test-wrapper serve",
     "isolated:serve": "pnpm --filter @ngneers/isolated serve",

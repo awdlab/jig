@@ -6,7 +6,7 @@ import { NgnMessage } from '@ngneers/controls/message';
   imports: [NgnMessage],
   selector: 'ngn-demo-message-with-icon',
   template: `
-    <div class="flex gap-2 flex-col">
+    <div class="flex flex-col gap-2">
       <ngn-message icon="img/icons/code.svg" color="success">
         Success message with icon
       </ngn-message>

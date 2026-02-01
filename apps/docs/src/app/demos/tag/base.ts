@@ -7,10 +7,10 @@ import { NgnTag } from '@ngneers/controls/tag';
   imports: [NgnTag],
   selector: 'ngn-demo-tag-base',
   template: `
-    <div class="flex gap-2 flex-wrap">
+    <div class="flex flex-wrap gap-2">
       @for (kind of kinds; track $index) {
         @if (kinds.length > 1) {
-          <div class="w-full font-bold mt-4 mb-2">Kind: {{ kind }}</div>
+          <div class="mt-4 mb-2 w-full font-bold">Kind: {{ kind }}</div>
         }
         @for (color of colors; track $index) {
           <ngn-tag [kind]="kind" [color]="color">{{ color }}</ngn-tag>

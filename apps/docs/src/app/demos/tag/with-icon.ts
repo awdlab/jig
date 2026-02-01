@@ -6,7 +6,7 @@ import { NgnTag } from '@ngneers/controls/tag';
   imports: [NgnTag],
   selector: 'ngn-demo-tag-with-icon',
   template: `
-    <div class="flex gap-2 flex-wrap">
+    <div class="flex flex-wrap gap-2">
       <ngn-tag [icon]="'img/icons/code.svg'">Tag with icon</ngn-tag>
     </div>
   `,

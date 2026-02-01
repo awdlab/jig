@@ -10,7 +10,7 @@ import { NgnInplace } from '@ngneers/controls/inplace';
   template: ` <ngn-inplace #inplace>
     <ng-template #display>Show Details</ng-template>
     <ng-template #content [ngnTemplate]="inplace.templateTypes.content" let-content>
-      <div class="flex gap-2 items-center">
+      <div class="flex items-center gap-2">
         <span>These are so many details!</span>
         <button ngnButton [kind]="'icon'" (click)="content.close()">x</button>
       </div>

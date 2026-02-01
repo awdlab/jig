@@ -1,17 +1,17 @@
 <div
-  class="playground-wrapper flex-col md:flex-row playground overflow-y-auto md:overflow-hidden flex w-full h-full justify-between items-center gap-2"
+  class="playground-wrapper playground flex h-full w-full flex-col items-center justify-between gap-2 overflow-y-auto md:flex-row md:overflow-hidden"
 >
-  <div class="flex w-full flex-1 justify-center items-center p-4 min-w-[250px] min-h-[300px]">
+  <div class="flex min-h-[300px] w-full min-w-[250px] flex-1 items-center justify-center p-4">
     <ng-content />
   </div>
   <div
-    class="panels bg-(--ngn-color-surface-50) w-full md:max-w-fit flex-1 flex flex-col md:h-full"
+    class="panels flex w-full flex-1 flex-col bg-(--ngn-color-surface-50) md:h-full md:max-w-fit"
   >
-    <div class="h-16 flex items-center px-4 border-b border-(--ngn-color-surface-200) border-l">
+    <div class="flex h-16 items-center border-b border-l border-(--ngn-color-surface-200) px-4">
       <span class="font-semibold">Control Properties</span>
     </div>
     <div
-      class="properties-wrapper md:overflow-y-auto min-w-[250px] md:max-w-[800px] flex md:h-full bg-(--ngn-color-surface-25) overflow-hidden"
+      class="properties-wrapper flex min-w-[250px] overflow-hidden bg-(--ngn-color-surface-25) md:h-full md:max-w-[800px] md:overflow-y-auto"
     >
       <ngn-docs-playground-inputs
         class="flex-1 border-l border-(--ngn-color-surface-200)"

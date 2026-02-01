@@ -5,7 +5,7 @@ import { MenuItem, NgnMenu } from '@ngneers/controls/menu';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-menu-tiered',
   imports: [NgnMenu],
-  template: `<ngn-menu class="w-40 block" #menu [items]="items()" />`,
+  template: `<ngn-menu class="block w-40" #menu [items]="items()" />`,
 })
 export class Demo_Menu_Tiered {
   public readonly items = signal<MenuItem[]>([

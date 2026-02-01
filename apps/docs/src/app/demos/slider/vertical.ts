@@ -13,7 +13,7 @@ import { NgnSlider } from '@ngneers/controls/slider';
       (valueChange)="value.set($event)"
     />
     <br />
-    <div class="w-10 flex  justify-center">
+    <div class="flex w-10 justify-center">
       {{ value() }}
     </div>
   `,

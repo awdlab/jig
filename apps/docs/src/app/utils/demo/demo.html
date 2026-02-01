@@ -1,11 +1,11 @@
-<div class="playground flex flex-col w-full">
+<div class="playground flex w-full flex-col">
   <div
-    class="component-wrapper p-4 flex gap-2 w-full h-fit min-h-[200px] justify-center items-center"
+    class="component-wrapper flex h-fit min-h-[200px] w-full items-center justify-center gap-2 p-4"
   >
     <ng-container *ngComponentOutlet="component()" />
   </div>
   <div
-    class="w-full bg-(--ngn-color-surface-100) border-t border-(--ngn-color-surface-200) flex justify-end p-2"
+    class="flex w-full justify-end border-t border-(--ngn-color-surface-200) bg-(--ngn-color-surface-100) p-2"
   >
     <button ngnButton [kind]="'icon'" (click)="toggleCodeVisibility()">
       <ngn-icon [icon]="'img/icons/code.svg'" />
@@ -14,7 +14,7 @@
 
   <div class="w-full">
     @if (codeVisible()) {
-      <div class="bg-[#1f1f1f] text-white max-h-100 p-4 overflow-auto relative">
+      <div class="relative max-h-100 overflow-auto bg-[#1f1f1f] p-4 text-white">
         <pre><code class="pi-0 prism" [innerHtml]="formattedCode()"></code></pre>
         <button ngnButton [kind]="'icon'" class="absolute top-1 right-4" (click)="copyCode()">
           <ngn-icon [icon]="'img/icons/copy.svg'" />

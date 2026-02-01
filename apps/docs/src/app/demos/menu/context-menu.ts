@@ -6,7 +6,7 @@ import { MenuItem, NgnContextMenu } from '@ngneers/controls/menu';
   selector: 'ngn-demo-menu-context-menu',
   imports: [NgnContextMenu],
   template: `<div
-    class="p-4 flex items-center justify-center border border-dashed border-gray-400 rounded-md cursor-context-menu"
+    class="flex cursor-context-menu items-center justify-center rounded-md border border-dashed border-gray-400 p-4"
     [ngnContextMenu]="items()"
   >
     Right click me

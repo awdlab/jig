@@ -1,5 +1,5 @@
-<div class="p-4 flex flex-col gap-4 overflow-y-auto h-full">
-  <div class="flex items-center gap-2 font-semibold pb-2">
+<div class="flex h-full flex-col gap-4 overflow-y-auto p-4">
+  <div class="flex items-center gap-2 pb-2 font-semibold">
     <ngn-icon style="color: var(--ngn-color-primary-500)" [icon]="'img/icons/palette.svg'" />
     TOKENS
   </div>
@@ -7,7 +7,7 @@
     Hover over a token to highlight the corresponding element in the preview.
   </ngn-message>
   <div
-    class="mono p-2 bg-(--ngn-color-surface-100) rounded-sm"
+    class="mono rounded-sm bg-(--ngn-color-surface-100) p-2"
     (mouseenter)="activeToken.set(null)"
     [class.selected]="activeToken() === null"
   >
@@ -21,7 +21,7 @@
           <div
             [class.selected]="activeToken() === token"
             (mouseenter)="activeToken.set(token)"
-            class="mono p-2 bg-(--ngn-color-surface-100) rounded-sm"
+            class="mono rounded-sm bg-(--ngn-color-surface-100) p-2"
           >
             {{ token.name }}
           </div>

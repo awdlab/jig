@@ -1,9 +1,9 @@
-<header class="h-16 text-xl flex px-4 justify-between border-b border-(--ngn-color-surface-200)">
-  <a [routerLink]="'/'" class="font-bold h-full flex items-center gap-2">
+<header class="flex h-16 justify-between border-b border-(--ngn-color-surface-200) px-4 text-xl">
+  <a [routerLink]="'/'" class="flex h-full items-center gap-2 font-bold">
     <img src="img/logo.png" alt="logo" class="h-10 w-10" />
     ngn-controls
   </a>
-  <div class="h-full flex items-center gap-2 text-(--ngn-color-surface-800) text-2xl">
+  <div class="flex h-full items-center gap-2 text-2xl text-(--ngn-color-surface-800)">
     <button ngnButton [kind]="'icon'" (click)="toggleDarkMode()">
       {{ darkModeEnabled() ? '🌙' : '☀️' }}
     </button>
