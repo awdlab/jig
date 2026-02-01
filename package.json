@@ -30,7 +30,7 @@
     "@eslint/js": "^9.39.2",
     "@ngneers/eslint-config": "^2.0.1",
     "@ngneers/eslint-config-angular": "^2.0.0",
-    "@ngneers/prettier-config": "^1.0.1",
+    "@ngneers/prettier-config": "^1.1.0",
     "@playwright/test": "^1.58.0",
     "@types/node": "^25.1.0",
     "@typescript/native-preview": "7.0.0-dev.20260128.1",
@@ -48,5 +48,8 @@
     "typescript": "catalog:",
     "typescript-eslint": "^8.54.0",
     "yaml": "^2.8.2"
+  },
+  "dependencies": {
+    "prettier-plugin-tailwindcss": "^0.7.2"
   }
 }
