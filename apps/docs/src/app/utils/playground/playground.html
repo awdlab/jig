@@ -1,7 +1,7 @@
 <div
-  class="playground-wrapper playground overflow-y-auto flex flex-wrap w-full h-full justify-between items-center gap-2"
+  class="playground-wrapper playground flex flex-wrap w-full h-full justify-between items-center gap-2"
 >
-  <div class="flex flex-1 justify-center items-center p-4 md:min-w-[300px] min-h-[300px]">
+  <div class="flex flex-1 justify-center items-center p-4 min-w-[250px] min-h-[300px]">
     <ng-content />
   </div>
   <div
@@ -11,7 +11,7 @@
       <span class="font-semibold">Control Properties</span>
     </div>
     <div
-      class="properties-wrapper md:min-w-[400px] md:max-w-[800px] flex h-full bg-(--ngn-color-surface-25) overflow-hidden"
+      class="properties-wrapper overflow-y-auto min-w-[250px] md:max-w-[800px] flex h-full bg-(--ngn-color-surface-25) overflow-hidden"
     >
       <ngn-docs-playground-inputs class="flex-1" [controls]="controls()" />
       <ngn-docs-tokens class="flex-1" [controls]="controls()" />
