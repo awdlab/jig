@@ -24,5 +24,4 @@ jobs:
           envs: GITHUB_TOKEN # Forwards to remote
           script: |
             cd ${{ secrets.UPDATE_PATH }}
-            GIT_TERMINAL_PROMPT=0 git config credential.helper ''
             pwsh update.ps1
