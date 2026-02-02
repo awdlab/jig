@@ -1,11 +1,12 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { NgnButton } from '@ngneers/controls/button';
 import { NgnDrawer } from '@ngneers/controls/drawer';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgnDrawer],
+  imports: [NgnDrawer, NgnButton],
   selector: 'ngn-demo-drawer-base',
-  template: `<button (click)="open.set(true)">Open Drawer</button>
+  template: `<button ngnButton (click)="open.set(true)">Open Drawer</button>
     <ngn-drawer
       [header]="'Drawer Header'"
       [modal]="true"

@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
+import { NgnButton } from '@ngneers/controls/button';
 import { NgnPopover } from '@ngneers/controls/popover';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgnPopover, NgnDocsPlayground],
+  imports: [NgnPopover, NgnButton, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnPopover', component: component() }]">
-      <button #anchor (click)="component().show()">Open Popover</button>
+      <button ngnButton #anchor (click)="component().show()">Open Popover</button>
       <ngn-popover #ref [anchor]="anchor">Popover Content</ngn-popover>
     </ngn-docs-playground>
   `,

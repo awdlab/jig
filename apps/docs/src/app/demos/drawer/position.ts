@@ -1,14 +1,15 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { NgnButton } from '@ngneers/controls/button';
 import { NgnDrawer } from '@ngneers/controls/drawer';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgnDrawer],
+  imports: [NgnDrawer, NgnButton],
   selector: 'ngn-demo-drawer-position',
-  template: `<button (click)="position.set('left')">←</button>
-    <button (click)="position.set('right')">→</button>
-    <button (click)="position.set('top')">↑</button>
-    <button (click)="position.set('bottom')">↓</button>
+  template: `<button ngnButton (click)="position.set('left')">←</button>
+    <button ngnButton (click)="position.set('right')">→</button>
+    <button ngnButton (click)="position.set('top')">↑</button>
+    <button ngnButton (click)="position.set('bottom')">↓</button>
     <ngn-drawer
       [header]="'Drawer ' + position()"
       [position]="position() ?? 'left'"

@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, signal, viewChild } from '@angular/core';
+import { NgnButton } from '@ngneers/controls/button';
 import { NgnDrawer } from '@ngneers/controls/drawer';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgnDrawer, NgnDocsPlayground],
+  imports: [NgnDrawer, NgnButton, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnDrawer', component: component() }]">
-      <button (click)="open.set(true)">Open Drawer</button>
+      <button ngnButton (click)="open.set(true)">Open Drawer</button>
       <ngn-drawer
         #ref
         [header]="'Drawer Header'"

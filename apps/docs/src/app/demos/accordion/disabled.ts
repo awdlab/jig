@@ -1,12 +1,13 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
+import { NgnButton } from '@ngneers/controls/button';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-accordion-disabled',
-  imports: [NgnAccordion, NgnAccordionPanel],
+  imports: [NgnAccordion, NgnButton, NgnAccordionPanel],
   template: `<ngn-accordion [multiple]="true">
       <ngn-accordion-panel [header]="'Panel 1'">
         <ng-template #content> {{ loremIpsum1 }} </ng-template>
@@ -18,7 +19,7 @@ import { exampleData } from '../../helper/data';
         <ng-template #content> {{ loremIpsum3 }} </ng-template>
       </ngn-accordion-panel>
     </ngn-accordion>
-    <button (click)="toggleDisabled()">Toggle Disabled</button> `,
+    <button ngnButton (click)="toggleDisabled()">Toggle Disabled</button> `,
 })
 export class Demo_Accordion_Disabled {
   protected readonly loremIpsum1 = exampleData.loremIpsum.full.split(' ').slice(0, 100).join(' ');

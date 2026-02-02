@@ -1,4 +1,5 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { NgnButton } from '@ngneers/controls/button';
 import { NgnDialog } from '@ngneers/controls/dialog';
 
 import { DummyLazyComponent } from '../dummies/lazy';
@@ -6,8 +7,8 @@ import { DummyLazyComponent } from '../dummies/lazy';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-dialog-lazy',
-  imports: [NgnDialog, DummyLazyComponent],
-  template: `<button (click)="open.set(true)">Open Dialog</button>
+  imports: [NgnDialog, NgnButton, DummyLazyComponent],
+  template: `<button ngnButton (click)="open.set(true)">Open Dialog</button>
     <ngn-dialog [open]="open()" (openChange)="open.set($event)">
       <ng-template #content>
         <dummy-lazy-test />

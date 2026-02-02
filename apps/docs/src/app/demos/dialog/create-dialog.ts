@@ -1,4 +1,5 @@
 import { Component, inject, Injector, ChangeDetectionStrategy } from '@angular/core';
+import { NgnButton } from '@ngneers/controls/button';
 import { createDialog } from '@ngneers/controls/dialog';
 
 import { DummyLoremIpsumComponent1 } from '../dummies/lorem-ipsum';
@@ -6,8 +7,9 @@ import { DummyLoremIpsumComponent1 } from '../dummies/lorem-ipsum';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-dialog-create-dialog',
-  template: `<button (click)="showDialog()">Open Dialog</button>
-    <button (click)="showComponentDialog()">Open Component Dialog</button>`,
+  imports: [NgnButton],
+  template: `<button ngnButton (click)="showDialog()">Open Dialog</button>
+    <button ngnButton (click)="showComponentDialog()">Open Component Dialog</button>`,
 })
 export class Demo_Dialog_CreateDialog {
   private readonly _injector = inject(Injector);

@@ -1,9 +1,10 @@
 import { Component, computed, signal, ChangeDetectionStrategy } from '@angular/core';
+import { NgnButton } from '@ngneers/controls/button';
 import { NgnTabs, NgnTab } from '@ngneers/controls/tabs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgnTabs, NgnTab],
+  imports: [NgnTabs, NgnTab, NgnButton],
   selector: 'ngn-demo-tabs-dynamic',
   template: `
     <ngn-tabs>
@@ -14,8 +15,8 @@ import { NgnTabs, NgnTab } from '@ngneers/controls/tabs';
         </ngn-tab>
       }
     </ngn-tabs>
-    <button (click)="count.set(count() + 1)">Add Tab</button>
-    <button (click)="count.set(count() - 1)">Remove Tab</button>
+    <button ngnButton (click)="count.set(count() + 1)">Add Tab</button>
+    <button ngnButton (click)="count.set(count() - 1)">Remove Tab</button>
   `,
 })
 export class Demo_Tabs_Dynamic {

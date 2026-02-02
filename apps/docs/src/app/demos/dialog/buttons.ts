@@ -1,12 +1,13 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NgnActionButtonConfig } from '@ngneers/controls/api';
+import { NgnButton } from '@ngneers/controls/button';
 import { NgnDialog } from '@ngneers/controls/dialog';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-dialog-buttons',
-  imports: [NgnDialog],
-  template: `<button (click)="open.set(true)">Open Dialog</button>
+  imports: [NgnDialog, NgnButton],
+  template: `<button ngnButton (click)="open.set(true)">Open Dialog</button>
     <ngn-dialog
       [title]="'Buttons'"
       content="Check the console for button click results"

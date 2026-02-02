@@ -1,11 +1,12 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { NgnButton } from '@ngneers/controls/button';
 import { MenuItem, NgnMenu } from '@ngneers/controls/menu';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-menu-popover',
-  imports: [NgnMenu],
-  template: ` <button #anchor (click)="menu.show()">Open Menu</button>
+  imports: [NgnMenu, NgnButton],
+  template: ` <button ngnButton #anchor (click)="menu.show()">Open Menu</button>
     <ngn-menu #menu [popover]="true" [anchor]="anchor" [items]="items()" />`,
 })
 export class Demo_Menu_Popover {

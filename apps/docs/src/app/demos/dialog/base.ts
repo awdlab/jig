@@ -1,11 +1,12 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { NgnButton } from '@ngneers/controls/button';
 import { NgnDialog } from '@ngneers/controls/dialog';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-dialog-base',
-  imports: [NgnDialog],
-  template: `<button (click)="open.set(true)">Open Dialog</button>
+  imports: [NgnDialog, NgnButton],
+  template: `<button ngnButton(click)="open.set(true)">Open Dialog</button>
     <ngn-dialog
       [title]="'test'"
       [open]="open()"
@@ -15,7 +16,7 @@ import { NgnDialog } from '@ngneers/controls/dialog';
       [size]="{ width: '400px', maxWidth: '90vw' }"
     >
       Content
-      <button autofocus>awd</button>
+      <button ngnButton autofocus>awd</button>
     </ngn-dialog>`,
 })
 export class Demo_Dialog_Base {

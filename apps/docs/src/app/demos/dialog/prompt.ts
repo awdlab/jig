@@ -1,4 +1,5 @@
 import { Component, inject, Injector, signal, ChangeDetectionStrategy } from '@angular/core';
+import { NgnButton } from '@ngneers/controls/button';
 import { createDialog, PromptDialogBase } from '@ngneers/controls/dialog';
 import { NgnInput } from '@ngneers/controls/input';
 
@@ -29,8 +30,8 @@ export class DialogPromptDemo extends PromptDialogBase<{ value: string }, true |
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-dialog-prompt',
-  imports: [],
-  template: `<button (click)="prompt()">Show Prompt</button>`,
+  imports: [NgnButton],
+  template: `<button ngnButton (click)="prompt()">Show Prompt</button>`,
 })
 export class Demo_Dialog_Prompt {
   private readonly _injector = inject(Injector);

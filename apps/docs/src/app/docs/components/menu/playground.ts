@@ -1,14 +1,24 @@
 import { ChangeDetectionStrategy, Component, signal, viewChild } from '@angular/core';
+import { NgnButton } from '@ngneers/controls/button';
 import { MenuItem, NgnMenu } from '@ngneers/controls/menu';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgnMenu, NgnDocsPlayground],
+  imports: [NgnMenu, NgnButton, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnMenu', component: component() }]">
-      <ngn-menu #ref [items]="items()" />
+      <button
+        [style.display]="component().popover() ? 'unset' : 'none'"
+        ngnButton
+        #anchor
+        (click)="ref.show()"
+      >
+        Open Menu
+      </button>
+
+      <ngn-menu #ref [items]="items()" [anchor]="anchor" />
     </ngn-docs-playground>
   `,
 })
