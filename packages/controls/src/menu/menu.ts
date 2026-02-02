@@ -22,7 +22,7 @@ import { NgnAutofocus } from '@ngneers/controls/directives';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnPopover } from '@ngneers/controls/popover';
 import { NgnError } from '@ngneers/controls/utils';
-import { generateElementId } from '@ngneers/controls/utils-ng';
+import { effectWithPrevious, explicitEffect, generateElementId } from '@ngneers/controls/utils-ng';
 import { IconType } from '@ngneers/controls-custom-types';
 import { menuControlTemplate } from '@ngneers/controls-themes/templates/menu';
 
@@ -52,6 +52,11 @@ export class NgnMenu extends MenuTemplates implements Openable {
    * The menu items to display.
    */
   public readonly items = input.required<MenuItem[]>();
+  /**
+   * Whether to automatically set ARIA attributes on the anchor element.
+   * @default true if anchor is an HTMLButtonElement, false otherwise.
+   */
+  public readonly autoAnchorAria = input<boolean>();
   /**
    * Whether the menu is a popover. Requires `anchor` to be set.
    */
@@ -115,6 +120,45 @@ export class NgnMenu extends MenuTemplates implements Openable {
         );
       }
     });
+
+    const autoAriaEnabled = computed(() => {
+      if (this.autoAnchorAria() !== undefined) {
+        return this.autoAnchorAria();
+      }
+      return this.anchor() instanceof HTMLButtonElement;
+    });
+
+    effectWithPrevious(this.anchor, (current, previous) => {
+      if (previous instanceof HTMLElement && autoAriaEnabled()) {
+        previous.removeAttribute('aria-controls');
+        previous.removeAttribute('aria-expanded');
+        previous.removeAttribute('aria-haspopup');
+      }
+      if (current instanceof HTMLElement && autoAriaEnabled()) {
+        current.setAttribute('aria-controls', `${this.elementId()}_menu`);
+        current.setAttribute('aria-haspopup', 'menu');
+      }
+    });
+
+    effect(() => {
+      const anchor = this.anchor();
+      if (anchor instanceof HTMLElement && autoAriaEnabled()) {
+        anchor.setAttribute('aria-expanded', this.open() ? 'true' : 'false');
+      }
+    });
+
+    explicitEffect([this.open], ([open]) => {
+      if (!open) {
+        if (this._popover()?.open()) {
+          this.hide();
+        }
+      }
+      if (open) {
+        if (!this._popover()?.open()) {
+          this.show(this.autofocus());
+        }
+      }
+    });
   }
 
   /**
@@ -156,7 +200,15 @@ export class NgnMenu extends MenuTemplates implements Openable {
         'The toggle() method can only be used when popover mode is enabled.'
       );
     }
-    this._popover()?.toggle();
+    const popoverEl = this._popover();
+    if (!popoverEl) {
+      throw new NgnError('NgnMenu', 'Popover element is not available.');
+    }
+    if (popoverEl.open()) {
+      popoverEl.hide();
+    } else {
+      popoverEl.open();
+    }
   }
 
   protected handleKeydown(event: KeyboardEvent, subMenu?: NgnMenu) {

@@ -25,7 +25,7 @@ import {
 } from '@ngneers/controls/api/ng';
 import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
-import { computedWithPrevious } from '@ngneers/controls/utils-ng';
+import { computedWithPrevious, explicitAfterRenderEffect } from '@ngneers/controls/utils-ng';
 import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
 
 import { PopoverOptions } from './types';
@@ -109,6 +109,21 @@ export class NgnPopover extends NgnBase<'popover'> implements Openable {
       hasShrinkableContent: this.hasShrinkableContent(),
     });
   });
+
+  constructor() {
+    super();
+
+    explicitAfterRenderEffect([this.open], ([open]) => {
+      if (!open) {
+        this._triggeredByInput = true;
+        this.hide();
+      }
+      if (open) {
+        this._triggeredByInput = true;
+        this.show();
+      }
+    });
+  }
 
   /**
    * Opens the drawer. Alternatively, you can also set the `open` input to `true`.

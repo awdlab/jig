@@ -17,7 +17,6 @@ import {
   Type,
   viewChildren,
 } from '@angular/core';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import {
   ControlTemplateInfo,
   injectThemeTemplate,
@@ -26,11 +25,10 @@ import {
   AppliedThemeClassCfg,
 } from '@ngneers/controls/api/ng';
 import { toggleClass } from '@ngneers/controls/utils';
-import { setInputSignalValue } from '@ngneers/controls/utils-ng';
+import { effectWithPrevious, setInputSignalValue } from '@ngneers/controls/utils-ng';
 import { CustomColor, CustomKind } from '@ngneers/controls-custom-types';
 import { ControlTemplate } from '@ngneers/controls-themes';
 import { ControlName, ThemeTemplate } from '@ngneers/controls-themes/templates';
-import { pairwise, startWith } from 'rxjs';
 
 import { setNgnInstance } from './ngn-instance';
 import { NgnPassthrough, NgnPtEngine } from './passthrough';
@@ -261,12 +259,10 @@ export abstract class NgnBase<T extends ControlName | null> {
       toggleClass(element, theme.class(classToken(`${prefix}-${value}`)), enabled);
     };
 
-    toObservable(signal)
-      .pipe(takeUntilDestroyed(), startWith(null), pairwise())
-      .subscribe(([prev, next]) => {
-        togglePrefixedThemeClass(prefix, prev, false);
-        togglePrefixedThemeClass(prefix, next, true);
-      });
+    effectWithPrevious(signal, (current, previous) => {
+      togglePrefixedThemeClass(prefix, previous, false);
+      togglePrefixedThemeClass(prefix, current, true);
+    });
 
     this._afterLeaveCbs.push(() => {
       togglePrefixedThemeClass(prefix, signal(), false);

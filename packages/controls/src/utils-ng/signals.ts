@@ -2,22 +2,14 @@ import {
   afterRenderEffect,
   computed,
   effect,
+  EffectRef,
   InputSignal,
   InputSignalWithTransform,
   signal,
   Signal,
+  untracked,
 } from '@angular/core';
 import { SIGNAL } from '@angular/core/primitives/signals';
-
-export function computedWithPrevious<T>(computeFn: (prev?: T) => T, previous?: T): Signal<T> {
-  let current = previous;
-
-  return computed<T>(() => {
-    const prev = current;
-    current = computeFn(prev);
-    return current;
-  });
-}
 
 export function signalWithPrevious<T>(
   signal: Signal<T>,
@@ -30,6 +22,55 @@ export function signalWithPrevious<T>(
     current = signal();
     return { current, previous: prev };
   });
+}
+
+export function computedWithPrevious<T>(computeFn: (prev?: T) => T, previous?: T): Signal<T> {
+  let current = previous;
+
+  return computed<T>(() => {
+    const prev = current;
+    current = computeFn(prev);
+    return current;
+  });
+}
+
+export function effectWithPrevious<T>(
+  signal: Signal<T>,
+  effectFn: (current: T, previous: T | undefined) => void
+): EffectRef {
+  const sig = signalWithPrevious(signal);
+  return effect(() => {
+    const { current, previous } = sig();
+    effectFn(current, previous);
+  });
+}
+function explicitEffectBase<T extends readonly Signal<any>[]>(
+  usedEffectFn: (fn: () => void) => EffectRef,
+  signals: [...T],
+  effectFn: (values: { [K in keyof T]: T[K] extends Signal<infer U> ? U : never }) => void
+): EffectRef {
+  return usedEffectFn(() => {
+    const values = signals.map(sig => sig()) as {
+      [K in keyof T]: T[K] extends Signal<infer U> ? U : never;
+    };
+    untracked(() => {
+      effectFn(values);
+    });
+  });
+}
+
+export function explicitEffect<T extends readonly Signal<any>[]>(
+  signals: [...T],
+  effectFn: (values: { [K in keyof T]: T[K] extends Signal<infer U> ? U : never }) => void
+): EffectRef {
+  return explicitEffectBase(effect, signals, effectFn);
+}
+
+export function explicitAfterRenderEffect<T extends readonly Signal<any>[]>(
+  signals: [...T],
+  effectFn: (values: { [K in keyof T]: T[K] extends Signal<infer U> ? U : never }) => void
+): EffectRef {
+  return explicitEffectBase(afterRenderEffect, signals, effectFn);
 }
 
 export function asyncComputed<T>(

@@ -51,6 +51,9 @@
         padding: 2px 6px;
         margin: 1px 0;
         display: inline;
+        code {
+          white-space: pre-wrap;
+        }
       }
       .code-type-highlight {
         color: var(--ngn-color-accent-700);

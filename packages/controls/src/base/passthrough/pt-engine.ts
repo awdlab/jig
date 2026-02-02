@@ -1,13 +1,11 @@
 import { computed, ElementRef, inject, Signal, signal } from '@angular/core';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import {
   type ControlTemplateInfo,
   type AppliedThemeClassCfg,
   getAppliedClasses,
 } from '@ngneers/controls/api/ng';
 import { getPropertyIfExists, objectKeys } from '@ngneers/controls/utils';
-import { classSignal } from '@ngneers/controls/utils-ng';
-import { pairwise, startWith } from 'rxjs';
+import { classSignal, effectWithPrevious } from '@ngneers/controls/utils-ng';
 
 import type { AnyNgnPassthrough, PassthroughValue } from './types';
 import type { NgnBase, NgnBaseSafe } from '../base';
@@ -62,26 +60,24 @@ export class NgnPtEngine<T extends NgnBaseSafe<Name>, Name extends ControlName> 
     const classes = computed(() => this.classes().map(c => c.class));
     classSignal(this._elementRef.nativeElement, classes);
 
-    toObservable(this._appliedPts)
-      .pipe(takeUntilDestroyed(), startWith(null), pairwise())
-      .subscribe(([prev, next]) => {
-        if (prev) {
-          for (const classPt of prev) {
-            if (!classPt) {
-              continue;
-            }
-            this.removePreviousPtValues(classPt);
+    effectWithPrevious(this._appliedPts, (current, previous) => {
+      if (previous) {
+        for (const classPt of previous) {
+          if (!classPt) {
+            continue;
           }
+          this.removePreviousPtValues(classPt);
         }
-        if (next) {
-          for (const classPt of next) {
-            if (!classPt) {
-              continue;
-            }
-            this.setNewPtValues(classPt);
+      }
+      if (current) {
+        for (const classPt of current) {
+          if (!classPt) {
+            continue;
           }
+          this.setNewPtValues(classPt);
         }
-      });
+      }
+    });
   }
 
   private setNewPtValues(classPt: PassthroughValue) {
