@@ -1,5 +1,5 @@
-import { Placement } from '@floating-ui/dom';
-import { TimeSpan } from '@ngneers/controls/utils';
+import type { Placement } from '@floating-ui/dom';
+import type { TimeSpan } from '@ngneers/controls/utils';
 
 export type TooltipOptions = {
   /**

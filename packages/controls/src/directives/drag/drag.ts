@@ -1,7 +1,8 @@
 import { Directive } from '@angular/core';
 
 import { NgnDragBase } from './drag-base';
-import { NgnDragInfo } from './types';
+
+import type { NgnDragInfo } from './types';
 
 @Directive({
   selector: '[ngnDrag]',

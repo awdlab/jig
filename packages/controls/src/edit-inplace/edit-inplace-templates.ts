@@ -2,7 +2,7 @@ import { computed, contentChild, Directive, input, TemplateRef, viewChild } from
 import { templateTypesFn } from '@ngneers/controls/api/ng';
 import { ValueControlBase } from '@ngneers/controls/base';
 
-import { DisplayTemplateType, EditTemplateType } from './types';
+import type { DisplayTemplateType, EditTemplateType } from './types';
 
 @Directive()
 export abstract class EditInplaceTemplates extends ValueControlBase<'editInplace', string> {

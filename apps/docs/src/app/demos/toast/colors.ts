@@ -2,7 +2,8 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { injectThemeColors } from '@ngneers/controls/api/ng';
 import { NgnButton } from '@ngneers/controls/button';
 import { injectToastCreator } from '@ngneers/controls/toast';
-import { CustomColor } from '@ngneers/controls-custom-types';
+
+import type { CustomColor } from '@ngneers/controls-custom-types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

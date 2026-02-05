@@ -5,7 +5,8 @@ import { Demo_Dialog_CreateDialog } from '../../../demos/dialog/create-dialog';
 import { Demo_Dialog_Lazy } from '../../../demos/dialog/lazy';
 import { Demo_Dialog_Movable } from '../../../demos/dialog/movable';
 import { Demo_Dialog_Prompt } from '../../../demos/dialog/prompt';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const DialogPage: NgnDocsPage = {
   title: `Dialog`,

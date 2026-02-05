@@ -3,7 +3,8 @@ import { Demo_ItemView_Base } from '../../../demos/item-view/base';
 import { Demo_ItemView_Freeze } from '../../../demos/item-view/freeze';
 import { Demo_ItemView_Separator } from '../../../demos/item-view/separator';
 import { Demo_ItemView_Strategies } from '../../../demos/item-view/strategies';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const ItemViewPage: NgnDocsPage = {
   title: `ItemView`,

@@ -1,9 +1,9 @@
 import {
   expect,
-  Locator,
-  Page,
-  PageAssertionsToHaveScreenshotOptions,
-  TestInfo,
+  type Locator,
+  type Page,
+  type PageAssertionsToHaveScreenshotOptions,
+  type TestInfo,
 } from '@playwright/test';
 
 export function expectScreenshot(

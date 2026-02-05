@@ -5,14 +5,15 @@ import {
   inject,
   Injector,
   runInInjectionContext,
-  Signal,
+  type Signal,
   ViewContainerRef,
 } from '@angular/core';
 import { setComponentInput } from '@ngneers/controls/api/ng';
 import { debounceSignal } from '@ngneers/controls/utils-ng';
-import { CustomColor } from '@ngneers/controls-custom-types';
 
 import { NgnSpinner } from './spinner';
+
+import type { CustomColor } from '@ngneers/controls-custom-types';
 
 /**
  * Creates an instance of the spinner creator.

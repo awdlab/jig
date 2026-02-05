@@ -1,7 +1,8 @@
 import { NgnDocsInputMaskPlayground } from './playground';
 import { Demo_InputMask_Base } from '../../../demos/input-mask/base';
 import { Demo_InputMask_InputField } from '../../../demos/input-mask/input-field';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const InputMaskPage: NgnDocsPage = {
   title: `Input Mask`,

@@ -6,7 +6,7 @@ import {
   ElementRef,
   inject,
   input,
-  OnDestroy,
+  type OnDestroy,
   Type,
   ViewContainerRef,
 } from '@angular/core';

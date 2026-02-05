@@ -1,4 +1,4 @@
-import { Locator, expect } from '@playwright/test';
+import { type Locator, expect } from '@playwright/test';
 import { NgnInputHarness } from './input';
 import { NgnInputFieldHarness } from './input-field';
 import { themeClasses } from '../utils/theme';

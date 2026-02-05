@@ -1,4 +1,4 @@
-import {
+import type {
   SplitterPanelSize,
   SplitterPanelSizeLimit,
   SplitterPanelSizeLimitUnit,
@@ -17,7 +17,7 @@ export type ExpandedSplitterPanelSizeLimit = {
 export function isSplitterPanelSize(value: unknown): value is SplitterPanelSize {
   if (typeof value !== 'string') return false;
   const m = value.match(/^(.+)(px|fr)$/);
-  if (!m) return false;
+  if (!m || !m[1]) return false;
   if (isNaN(parseFloat(m[1]))) return false;
   return true;
 }
@@ -33,7 +33,7 @@ export function getSplitterPanelSizeValue(value: SplitterPanelSize): number {
 export function isSplitterPanelSizeLimit(value: unknown): value is SplitterPanelSize {
   if (typeof value !== 'string') return false;
   const m = value.match(/^(.+)(px|%)$/);
-  if (!m) return false;
+  if (!m || !m[1]) return false;
   if (isNaN(parseFloat(m[1]))) return false;
   return true;
 }

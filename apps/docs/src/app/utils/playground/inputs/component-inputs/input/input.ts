@@ -5,15 +5,13 @@ import {
   computed,
   effect,
   linkedSignal,
-  InputSignal,
+  type InputSignal,
   inject,
   Injector,
   runInInjectionContext,
-  Signal,
+  type Signal,
 } from '@angular/core';
-import { NgnItem } from '@ngneers/controls/api';
 import { injectThemeColors, injectThemeControlKinds } from '@ngneers/controls/api/ng';
-import { AnyNgnBase } from '@ngneers/controls/base';
 import { NgnCalendar } from '@ngneers/controls/calendar';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
@@ -21,7 +19,10 @@ import { NgnSelect } from '@ngneers/controls/select';
 import { NgnSwitch } from '@ngneers/controls/switch';
 import { notNullish } from '@ngneers/controls/utils';
 import { setInputSignalValue } from '@ngneers/controls/utils-ng';
-import { DeclarationReflection, SomeType } from 'typedoc/browser';
+
+import type { NgnItem } from '@ngneers/controls/api';
+import type { AnyNgnBase } from '@ngneers/controls/base';
+import type { SomeType, DeclarationReflection } from 'typedoc/browser';
 
 type TypeDeclaration = (
   | {
@@ -131,7 +132,7 @@ export class NgnDocsPlaygroundInput {
     if (!content.length) {
       return undefined;
     }
-    const value = content[0].kind === 'code' ? content[0].text : undefined;
+    const value = content[0]?.kind === 'code' ? content[0]?.text : undefined;
     if (!value) {
       return undefined;
     }
@@ -231,7 +232,7 @@ export class NgnDocsPlaygroundInput {
           return {
             kind: 'literalUnion',
             optional: isOptional,
-            primitiveType: typeof literalTypes[0].value,
+            primitiveType: typeof literalTypes[0]?.value,
             values: literalTypes.map(
               x =>
                 <NgnItem>{

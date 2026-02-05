@@ -1,4 +1,4 @@
-import { ComponentRef, InputSignal, InputSignalWithTransform } from '@angular/core';
+import { ComponentRef, type InputSignal, type InputSignalWithTransform } from '@angular/core';
 
 type ComponentFromRef<T extends ComponentRef<any>> = T extends ComponentRef<infer C> ? C : never;
 type InputsFromComponent<T> = {

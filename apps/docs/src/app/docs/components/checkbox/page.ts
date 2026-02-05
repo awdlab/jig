@@ -2,7 +2,8 @@ import { NgnDocsCheckboxPlayground } from './playground';
 import { Demo_Checkbox_Base } from '../../../demos/checkbox/base';
 import { Demo_Checkbox_Indeterminate } from '../../../demos/checkbox/indeterminate';
 import { Demo_Checkbox_States } from '../../../demos/checkbox/states';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const CheckboxPage: NgnDocsPage = {
   title: `Checkbox`,

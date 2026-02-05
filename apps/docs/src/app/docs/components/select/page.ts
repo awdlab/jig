@@ -7,7 +7,8 @@ import { Demo_Select_Grouped } from '../../../demos/select/grouped';
 import { Demo_Select_Multiple } from '../../../demos/select/multiple';
 import { Demo_Select_States } from '../../../demos/select/states';
 import { Demo_Select_Templates } from '../../../demos/select/templates';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const SelectPage: NgnDocsPage = {
   title: `Select`,

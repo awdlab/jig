@@ -13,7 +13,7 @@ import {
 import { elementSizeSignal } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnScrollAmount } from '@ngneers/controls/directives';
-import { AllKeysOfUnion, getScrollTop, NgnError } from '@ngneers/controls/utils';
+import { type AllKeysOfUnion, getScrollTop, NgnError } from '@ngneers/controls/utils';
 import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scroller';
 
 import { ScrollerTemplates } from './scroller-templates';

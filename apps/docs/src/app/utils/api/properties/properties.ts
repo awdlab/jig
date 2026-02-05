@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { injectThemeColors, injectThemeControlKinds } from '@ngneers/controls/api/ng';
-import { CommentDisplayPart, DeclarationReflection, ReflectionFlag } from 'typedoc/browser';
+import { type CommentDisplayPart, ReflectionFlag, DeclarationReflection } from 'typedoc/browser';
 
 import { NgnDocsApiComment } from './comment/comment';
 

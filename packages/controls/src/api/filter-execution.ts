@@ -1,4 +1,4 @@
-import { AllKeysOfUnion, objectEntries } from '@ngneers/controls/utils';
+import { type AllKeysOfUnion, objectEntries } from '@ngneers/controls/utils';
 
 import { stringMatches } from './string-match';
 

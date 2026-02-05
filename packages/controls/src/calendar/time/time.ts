@@ -1,9 +1,10 @@
 import { Component, computed, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { Platform } from '@ngneers/controls/api/ng';
-import { NgnBaseSafe } from '@ngneers/controls/base';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnInput } from '@ngneers/controls/input';
 import { MASKS, NgnInputMask } from '@ngneers/controls/input-mask';
+
+import type { NgnBaseSafe } from '@ngneers/controls/base';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,18 +40,27 @@ export class CalendarTime {
   protected onValueChange(value: string) {
     const [hours, minutes, seconds] = value.split(':').map(Number);
 
+    if (hours === undefined || minutes === undefined) {
+      throw new Error(`Invalid time value: ${value}`);
+    }
+
     if (isNaN(hours)) {
       this.timeChange.emit(null);
     }
 
-    const fixedSeconds = isNaN(seconds) ? 0 : seconds;
     const fixedMinutes = isNaN(minutes) ? 0 : minutes;
 
     const currentDate = this.currentValue();
     const newDate = new Date(currentDate || new Date());
     newDate.setHours(hours);
     newDate.setMinutes(fixedMinutes);
-    newDate.setSeconds(this.showSeconds() ? fixedSeconds : 0);
+
+    if (this.showSeconds()) {
+      const fixedSeconds = isNaN(seconds ?? 0) ? 0 : (seconds ?? 0);
+      newDate.setSeconds(fixedSeconds);
+    } else {
+      newDate.setSeconds(0);
+    }
 
     if (
       newDate.getMinutes() !== currentDate?.getMinutes() ||

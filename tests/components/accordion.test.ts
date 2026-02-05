@@ -1,7 +1,7 @@
-import test, { expect, Page } from '@playwright/test';
+import test, { expect, type Page } from '@playwright/test';
 import { expectOutput, loadComponent } from '../helper/load-component';
 import { exampleData } from '../helper/data';
-import { InputsType } from '../../apps/test-wrapper/src/app/window.js';
+import { type InputsType } from '../../apps/test-wrapper/src/app/window.js';
 import { NgnAccordionHarness } from '@ngneers/controls-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { deepCopy } from '@ngneers/controls/utils';

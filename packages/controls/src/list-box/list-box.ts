@@ -14,13 +14,13 @@ import {
   output,
 } from '@angular/core';
 import {
-  FilterConfig,
-  FilterConfigInternal,
+  type FilterConfig,
+  type FilterConfigInternal,
   filterOptions,
   flatItems,
   mapToItems,
-  NgnItem,
-  NgnItemsValue,
+  type NgnItem,
+  type NgnItemsValue,
 } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
@@ -31,7 +31,7 @@ import { createConditionalSpinner } from '@ngneers/controls/spinner';
 import { asyncComputed } from '@ngneers/controls/utils-ng';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
 
-import { ListBoxTemplates, ValueType } from './list-box-templates';
+import { ListBoxTemplates, type ValueType } from './list-box-templates';
 
 /**
  * @category control
@@ -180,18 +180,18 @@ export class NgnListBox<
 
         if (currentIndex === -1) {
           return event.key === 'ArrowDown'
-            ? flattenedItems[0].value
-            : flattenedItems[flattenedItems.length - 1].value;
+            ? flattenedItems[0]?.value
+            : flattenedItems[flattenedItems.length - 1]?.value;
         }
 
         const nextIndex = event.key === 'ArrowDown' ? currentIndex + 1 : currentIndex - 1;
         if (nextIndex < 0) {
-          return flattenedItems[flattenedItems.length - 1].value;
+          return flattenedItems[flattenedItems.length - 1]?.value;
         }
         if (nextIndex >= flattenedItems.length) {
-          return flattenedItems[0].value;
+          return flattenedItems[0]?.value;
         }
-        return flattenedItems[nextIndex].value;
+        return flattenedItems[nextIndex]?.value;
       });
     } else if (this.selectable() && (event.key === 'Enter' || event.key === ' ')) {
       const currentHighlightedValue = this.currentHighlightedValue();

@@ -5,16 +5,17 @@ import {
   input,
   TemplateRef,
   output,
-  OnInit,
+  type OnInit,
 } from '@angular/core';
 import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnIcon } from '@ngneers/controls/icon';
-import { IconType } from '@ngneers/controls-custom-types';
 import { toastControlTemplate } from '@ngneers/controls-themes/templates/toast';
 
 import { DEFAULT_TOAST_OPTIONS } from './defaults';
-import { ContentTemplateType, HeaderTemplateType } from './types';
+
+import type { ContentTemplateType, HeaderTemplateType } from './types';
+import type { IconType } from '@ngneers/controls-custom-types';
 
 /**
  * @category control

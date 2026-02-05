@@ -15,19 +15,20 @@ import {
   viewChildren,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Placement } from '@floating-ui/dom';
-import { Anchor, NgnTemplate, Openable, Platform } from '@ngneers/controls/api/ng';
+import { type Anchor, NgnTemplate, type Openable, Platform } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnAutofocus } from '@ngneers/controls/directives';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnPopover } from '@ngneers/controls/popover';
 import { NgnError } from '@ngneers/controls/utils';
 import { effectWithPrevious, explicitEffect, generateElementId } from '@ngneers/controls/utils-ng';
-import { IconType } from '@ngneers/controls-custom-types';
 import { menuControlTemplate } from '@ngneers/controls-themes/templates/menu';
 
 import { MenuTemplates } from './menu-templates';
-import { MenuItem } from './types';
+
+import type { MenuItem } from './types';
+import type { Placement } from '@floating-ui/dom';
+import type { IconType } from '@ngneers/controls-custom-types';
 
 /**
  * @category control
@@ -227,7 +228,7 @@ export class NgnMenu extends MenuTemplates implements Openable {
       } else if (currentIndex >= this._menuItems().length) {
         currentIndex = 0;
       }
-      this._menuItems()[currentIndex].nativeElement.focus();
+      this._menuItems()[currentIndex]?.nativeElement.focus();
     } else if (event.key === 'ArrowRight' && subMenu) {
       this.openChildMenu(subMenu, null, 'arrow');
     } else if (event.key === 'ArrowLeft' && this.isSubMenu()) {

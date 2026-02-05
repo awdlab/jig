@@ -3,7 +3,7 @@ import {
   ComponentRef,
   effect,
   inject,
-  OnInit,
+  type OnInit,
   signal,
   TemplateRef,
   Type,
@@ -14,7 +14,7 @@ import {
 import { NgnTemplate, templateTypeFn } from '@ngneers/controls/api/ng';
 import {
   GlobalIconTemplate,
-  IconTemplateContext,
+  type IconTemplateContext,
 } from '@ngneers/controls/icon';
 
 import {

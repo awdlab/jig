@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
-  AfterViewInit,
+  type AfterViewInit,
   booleanAttribute,
   ChangeDetectionStrategy,
   Component,
@@ -20,12 +20,14 @@ import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { NgnDragScroll, NgnScrollAmount } from '@ngneers/controls/directives';
 import { NgnIcon } from '@ngneers/controls/icon';
+import { NgnError } from '@ngneers/controls/utils';
 import { generateElementId } from '@ngneers/controls/utils-ng';
-import { IconType } from '@ngneers/controls-custom-types';
 import { tabsControlTemplate } from '@ngneers/controls-themes/templates/tabs';
 
 import { NgnTab } from './tab';
 import { TabsTemplates } from './tabs-templates';
+
+import type { IconType } from '@ngneers/controls-custom-types';
 
 const PADDING_FOR_STICKY_ELEMENTS = 15;
 
@@ -118,7 +120,7 @@ export class NgnTabs extends TabsTemplates implements AfterViewInit {
 
     afterRenderEffect(() => {
       if (!this.activeTab() || !this._tabs().find(tab => tab.safeTabId() === this.activeTab())) {
-        this.activeTab.set(this._tabs()[0]?.tabId());
+        this.activeTab.set(this._tabs()[0]?.tabId() ?? '');
       }
     });
 
@@ -138,7 +140,7 @@ export class NgnTabs extends TabsTemplates implements AfterViewInit {
 
   public ngAfterViewInit() {
     if (!this.activeTab()) {
-      this.activeTab.set(this._tabs()[0]?.tabId());
+      this.activeTab.set(this._tabs()[0]?.tabId() ?? '');
     }
     setTimeout(() => {
       this.isFirstRender.set(false);
@@ -180,7 +182,7 @@ export class NgnTabs extends TabsTemplates implements AfterViewInit {
       this.ensureTabHeaderIsScrolledIntoView(safeNextIndex);
 
       const tabElement = document.getElementById(
-        `${this.elementId}_tab_${this._tabs()[safeNextIndex].safeTabId()}`
+        `${this.elementId}_tab_${this._tabs()[safeNextIndex]?.safeTabId()}`
       ) as HTMLElement;
       if (tabElement) {
         tabElement.focus();
@@ -198,10 +200,17 @@ export class NgnTabs extends TabsTemplates implements AfterViewInit {
         tablistElement.scrollTo({ left: newScrollLeft, behavior: 'smooth' });
       });
     } else if (index >= rightCutOffTabHeaderIndex && rightCutOffTabHeaderIndex >= 0) {
+      const rightCutOffHeader = this._headerSizes()[rightCutOffTabHeaderIndex];
+      if (!rightCutOffHeader) {
+        throw new NgnError(
+          'NgnTabs',
+          `Right cut off header is undefined for index ${rightCutOffTabHeaderIndex}`
+        );
+      }
       const newScrollLeft =
         this.calculateHeaderSliceWidth(0, index) -
         this._tabListSize().width +
-        this._headerSizes()[rightCutOffTabHeaderIndex].width +
+        rightCutOffHeader.width +
         PADDING_FOR_STICKY_ELEMENTS;
       setTimeout(() => {
         tablistElement.scrollTo({ left: newScrollLeft, behavior: 'smooth' });
@@ -225,22 +234,24 @@ export class NgnTabs extends TabsTemplates implements AfterViewInit {
     let rightCutOffTabHeaderIndex = -1;
     let cumulativeWidth = PADDING_FOR_STICKY_ELEMENTS; // account for left padding
 
-    for (let i = 0; i < headers.length; i++) {
-      const headerStart = cumulativeWidth;
-      const headerEnd = cumulativeWidth + headers[i];
-      cumulativeWidth = headerEnd;
+    headers.forEach(header => {
+      for (let i = 0; i < headers.length; i++) {
+        const headerStart = cumulativeWidth;
+        const headerEnd = cumulativeWidth + header;
+        cumulativeWidth = headerEnd;
 
-      if (leftCutOffTabHeaderIndex === -1 && headerEnd > scrollAmount) {
-        leftCutOffTabHeaderIndex = i;
+        if (leftCutOffTabHeaderIndex === -1 && headerEnd > scrollAmount) {
+          leftCutOffTabHeaderIndex = i;
+        }
+        if (
+          rightCutOffTabHeaderIndex === -1 &&
+          headerStart < scrollAmount + tabListWidth &&
+          headerEnd > scrollAmount + tabListWidth
+        ) {
+          rightCutOffTabHeaderIndex = i;
+        }
       }
-      if (
-        rightCutOffTabHeaderIndex === -1 &&
-        headerStart < scrollAmount + tabListWidth &&
-        headerEnd > scrollAmount + tabListWidth
-      ) {
-        rightCutOffTabHeaderIndex = i;
-      }
-    }
+    });
     return {
       left: leftCutOffTabHeaderIndex,
       right: rightCutOffTabHeaderIndex,
@@ -271,7 +282,7 @@ export class NgnTabs extends TabsTemplates implements AfterViewInit {
         usedUpSpace < tabListWidth - PADDING_FOR_STICKY_ELEMENTS * 2 &&
         indexOfFirstVisibleTab >= 0
       ) {
-        usedUpSpace += headers[indexOfFirstVisibleTab];
+        usedUpSpace += headers[indexOfFirstVisibleTab] ?? 0;
         indexOfFirstVisibleTab--;
       }
 

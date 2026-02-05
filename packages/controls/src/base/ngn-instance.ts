@@ -1,4 +1,4 @@
-import { afterNextRender, DestroyRef, inject, signal, Signal, Type } from '@angular/core';
+import { afterNextRender, DestroyRef, inject, signal, type Signal, Type } from '@angular/core';
 
 import type { AnyNgnBase, FullAnyNgnBase } from './base';
 

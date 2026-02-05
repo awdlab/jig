@@ -3,7 +3,7 @@ import {
   inject,
   Injectable,
   Injector,
-  OnDestroy,
+  type OnDestroy,
   signal,
   untracked,
 } from '@angular/core';
@@ -12,17 +12,17 @@ import { Logger } from '@ngneers/controls/utils';
 import {
   applyGlobalStyles,
   applyTheme,
-  ControlName,
-  ControlTemplate,
+  type ControlName,
+  type ControlTemplate,
   getClassName,
-  Theme,
-  ThemeClasses,
-  ThemeTemplate,
+  type Theme,
+  type ThemeClasses,
+  type ThemeTemplate,
 } from '@ngneers/controls-themes';
 import { globalStyles } from '@ngneers/controls-themes/base/global';
 import { skip } from 'rxjs';
 
-import { NGN_CONFIG, NgnConfig } from './config';
+import { NGN_CONFIG, type NgnConfig } from './config';
 
 export type AppliedThemeClassCfg<T extends ControlName> =
   | keyof ThemeClasses<ThemeTemplate[T]>

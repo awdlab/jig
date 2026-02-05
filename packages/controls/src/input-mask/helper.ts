@@ -1,5 +1,6 @@
 import { MASKS } from './masks';
-import { InputMaskCfg } from './types';
+
+import type { InputMaskCfg } from './types';
 
 // Interface for communicating with the parent component
 type MaskData = {
@@ -104,6 +105,9 @@ export class MaskHelper {
   ): void {
     if (key === 'Backspace' && currentPosition > 0) {
       const maskEntry = mask[currentPosition - 1];
+      if (!maskEntry) {
+        return;
+      }
       // Get the default character for this position
       const defaultChar = typeof maskEntry === 'string' ? maskEntry : maskEntry.default;
 
@@ -118,6 +122,9 @@ export class MaskHelper {
       event.preventDefault();
     } else if (key === 'Delete' && currentPosition < el.value.length) {
       const maskEntry = mask[currentPosition];
+      if (!maskEntry) {
+        return;
+      }
       // Get the default character for this position
       const defaultChar = typeof maskEntry === 'string' ? maskEntry : maskEntry.default;
       const newVal =

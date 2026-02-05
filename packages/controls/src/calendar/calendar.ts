@@ -6,11 +6,10 @@ import {
   inject,
   input,
   linkedSignal,
-  Signal,
+  type Signal,
   viewChild,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { NgnItem } from '@ngneers/controls/api';
 import { NgnTemplate, Platform } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { I18n } from '@ngneers/controls/i18n';
@@ -25,7 +24,9 @@ import { calendarControlTemplate } from '@ngneers/controls-themes/templates/cale
 import { CalendarTemplates } from './calendar-templates';
 import { CalendarDays } from './days/days';
 import { CalendarTime } from './time/time';
-import { DayModel, Month, MONTHS, WeekDay } from './types';
+import { type DayModel, type Month, MONTHS, type WeekDay } from './types';
+
+import type { NgnItem } from '@ngneers/controls/api';
 
 function generateYearOptions(): NgnItem[] {
   const MAX_ITEMS = 200;

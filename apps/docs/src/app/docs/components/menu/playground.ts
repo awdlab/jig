@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal, viewChild } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
-import { MenuItem, NgnMenu } from '@ngneers/controls/menu';
+import { type MenuItem, NgnMenu } from '@ngneers/controls/menu';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 

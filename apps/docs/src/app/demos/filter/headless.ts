@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
-import { NgnFilter, NgnFilterConfig } from '@ngneers/controls/filter';
+import { NgnFilter, type NgnFilterConfig } from '@ngneers/controls/filter';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

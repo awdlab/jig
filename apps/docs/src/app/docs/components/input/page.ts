@@ -1,7 +1,8 @@
 import { NgnDocsInputPlayground } from './playground';
 import { Demo_Input_Base } from '../../../demos/input/base';
 import { Demo_Input_Textarea } from '../../../demos/input/textarea';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const InputPage: NgnDocsPage = {
   title: `Input`,

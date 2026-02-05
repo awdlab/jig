@@ -1,6 +1,6 @@
 import { sliderControlTemplate } from '@ngneers/controls-themes/templates/slider';
 import { themeClasses } from '../utils/theme';
-import test, { expect, Locator } from '@playwright/test';
+import test, { expect, type Locator } from '@playwright/test';
 
 export class NgnSliderHarness {
   public readonly classes = themeClasses(sliderControlTemplate);

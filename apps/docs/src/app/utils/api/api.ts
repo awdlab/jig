@@ -1,15 +1,10 @@
 import { Component, computed, input, signal, ChangeDetectionStrategy } from '@angular/core';
-import {
-  ConsoleLogger,
-  DeclarationReflection,
-  Deserializer,
-  FileRegistry,
-  ProjectReflection,
-  ReflectionKind,
-} from 'typedoc/browser';
+import { ConsoleLogger, Deserializer, FileRegistry, ReflectionKind } from 'typedoc/browser';
 
 import { getTypedocProject } from '../typedoc';
 import { NgnDocsApiProperties } from './properties/properties';
+
+import type { DeclarationReflection, ProjectReflection } from 'typedoc/browser';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

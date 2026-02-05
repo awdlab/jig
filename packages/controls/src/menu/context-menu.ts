@@ -4,13 +4,14 @@ import {
   ElementRef,
   inject,
   input,
-  OnDestroy,
+  type OnDestroy,
   ViewContainerRef,
 } from '@angular/core';
 import { domEventHandler, setComponentInput } from '@ngneers/controls/api/ng';
 
 import { NgnMenu } from './menu';
-import { MenuItem } from './types';
+
+import type { MenuItem } from './types';
 
 @Directive({ selector: '[ngnContextMenu]' })
 export class NgnContextMenu implements OnDestroy {

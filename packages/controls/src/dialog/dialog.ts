@@ -15,13 +15,12 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { NgnActionButtonConfig } from '@ngneers/controls/api';
 import {
-  CloseBy,
+  type CloseBy,
   toModalCloseBy,
   toPopoverCloseBy,
   NgnTemplate,
-  Openable,
+  type Openable,
 } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnActionButton, NgnButton } from '@ngneers/controls/button';
@@ -33,7 +32,9 @@ import { dialogControlTemplate } from '@ngneers/controls-themes/templates/dialog
 
 import { DialogTemplates } from './dialog-templates';
 import { PromptDialogBase } from './prompt-dialog-base';
-import { DialogSize } from './types';
+
+import type { DialogSize } from './types';
+import type { NgnActionButtonConfig } from '@ngneers/controls/api';
 
 type TypedContent = {
   template?: TemplateRef<unknown>;

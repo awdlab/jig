@@ -1,3 +1,5 @@
+import { NgnError } from '@ngneers/controls/utils';
+
 import type { OverflowStrategy } from './types';
 
 export type ItemOverflowLocation = 'start' | 'end' | 'center';
@@ -144,7 +146,13 @@ export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLa
     let totalWidth = Math.max(0, reservedWidth);
 
     for (let i = 0; i < overflowCheckOrder.length; i++) {
-      const index = overflowCheckOrder[i].index;
+      const index = overflowCheckOrder[i]?.index;
+      if (index === undefined) {
+        throw new NgnError(
+          'calculateItemViewLayout',
+          'Invalid overflow check order: index is undefined'
+        );
+      }
       const itemWidth = params.itemWidths[index] ?? 0;
       const itemGap = i > 0 ? gap : 0;
       const newWidth = totalWidth + itemWidth + itemGap;

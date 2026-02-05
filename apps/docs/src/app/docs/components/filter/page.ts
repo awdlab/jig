@@ -5,7 +5,8 @@ import { Demo_Filter_DataTypes } from '../../../demos/filter/datatypes';
 import { Demo_Filter_Headless } from '../../../demos/filter/headless';
 import { Demo_Filter_Inline } from '../../../demos/filter/inline';
 import { Demo_Filter_Multiple } from '../../../demos/filter/multiple';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const FilterPage: NgnDocsPage = {
   title: `Filter`,

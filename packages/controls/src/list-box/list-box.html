@@ -55,7 +55,7 @@
     @let label = item?.label;
     @if (label) {
       @if (item?.translate) {
-        {{ i18n[label]() }}
+        {{ i18n._unsafe[label]?.() }}
       } @else {
         {{ label }}
       }
@@ -68,7 +68,7 @@
     @let label = group?.label;
     @if (label) {
       @if (group?.translate) {
-        {{ i18n[label]() }}
+        {{ i18n._unsafe[label]?.() }}
       } @else {
         {{ label }}
       }

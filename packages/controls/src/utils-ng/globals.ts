@@ -1,5 +1,5 @@
 import { DOCUMENT, inject, Injectable } from '@angular/core';
-import { globalPropertyName, NgnGlobalType } from '@ngneers/controls/utils';
+import { globalPropertyName, type NgnGlobalType } from '@ngneers/controls/utils';
 
 @Injectable()
 export class NgnGlobal implements NgnGlobalType {

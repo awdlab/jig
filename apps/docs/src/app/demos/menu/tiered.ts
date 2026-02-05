@@ -1,5 +1,5 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
-import { MenuItem, NgnMenu } from '@ngneers/controls/menu';
+import { type MenuItem, NgnMenu } from '@ngneers/controls/menu';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

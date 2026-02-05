@@ -2,7 +2,6 @@ export * from './style/apply-theme';
 export * from './style/get-class-name';
 export * from './style/style-scope';
 export * from './style/upsert-theme-style-element';
-export * from './theme/build-variation-combination-styles';
 export * from './theme/classes';
 export * from './theme/combine-variable-variations';
 export * from './theme/combine-variations';

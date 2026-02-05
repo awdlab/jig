@@ -3,17 +3,16 @@ import {
   computed,
   EmbeddedViewRef,
   signal,
-  Signal,
+  type Signal,
   untracked,
 } from '@angular/core';
-import { Logger } from '@ngneers/controls/utils';
+import { Logger, NgnError, throwExp } from '@ngneers/controls/utils';
 
 import { NgnSplitterPanel } from './panel/splitter-panel';
 import { NgnSplitter } from './splitter';
-import { SplitterLayout, SplitterPanelSize } from './types';
 import {
-  ExpandedSplitterPanelSize,
-  ExpandedSplitterPanelSizeLimit,
+  type ExpandedSplitterPanelSize,
+  type ExpandedSplitterPanelSizeLimit,
   expandSplitterPanelSize,
   expandSplitterPanelSizeLimit,
   getSplitterPanelSizeLimitInPx,
@@ -22,6 +21,8 @@ import {
   getSplitterPanelSizeUnit,
   getSplitterPanelSizeValue,
 } from './utils';
+
+import type { SplitterLayout, SplitterPanelSize } from './types';
 
 const LAST_CALC_SIZE_SYMBOL = Symbol('lastCalcSize');
 
@@ -211,8 +212,7 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
 
     if (panels.length === 0) return 'none';
     const result: string[] = [];
-    for (let i = 0; i < panels.length; i++) {
-      const panel = panels[i];
+    panels.forEach((panel, i) => {
       const size = panel.size();
       result.push(size);
 
@@ -220,7 +220,7 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
         const dividerSize = dividerSizes[i] || 0;
         result.push(`${dividerSize}px`);
       }
-    }
+    });
 
     return result.join(' ');
   });
@@ -229,14 +229,13 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
     const panels = this.orderedPanels();
     if (panels.length === 0) return null;
     let result = '';
-    for (let i = 0; i < panels.length; i++) {
+    panels.forEach((panel, i) => {
       if (i > 0) {
         result +=
           this.layout() === 'horizontal' ? ` ngn-divider-${i - 1} ` : ` "ngn-divider-${i - 1}" `;
       }
-      result +=
-        this.layout() === 'horizontal' ? panels[i]['gridArea']() : `"${panels[i]['gridArea']()}"`;
-    }
+      result += this.layout() === 'horizontal' ? panel['gridArea']() : `"${panel['gridArea']()}"`;
+    });
     return this.layout() === 'horizontal' ? `"${result}"` : result;
   });
 
@@ -341,8 +340,12 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
     const panels = this.orderedPanels();
     if (index < 0 || index >= panels.length - 1) return;
 
-    const leftPanel = panels[index];
-    const rightPanel = panels[index + 1];
+    const leftPanel =
+      panels[index] ??
+      throwExp('NgnSplitterCalculator', `Left panel is missing for divider at index ${index}`);
+    const rightPanel =
+      panels[index + 1] ??
+      throwExp('NgnSplitterCalculator', `Right panel is missing for divider at index ${index}`);
 
     // If the size is not calculated, we cannot move the divider
     if (!this.isPanelSizeCalculated(leftPanel) || !this.isPanelSizeCalculated(rightPanel)) {
@@ -477,6 +480,9 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
     ): number => {
       if (panelIndex >= panels.length || panelIndex < 0) return 0;
       const panel = panels[panelIndex];
+      if (!panel) {
+        throw new NgnError('NgnSplitterCalculator', `Panel is missing at index ${panelIndex}`);
+      }
       let unappliedDelta = 0;
 
       const startPx =
@@ -526,15 +532,15 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
       }
     }
 
-    for (let i = 0; i < panels.length; i++) {
-      const pxDelta = appliedPanelDeltas[i];
-      if (panels[i].startSize.unit === 'px') {
-        const size = panels[i].startSize.value + pxDelta;
-        this.setPanelSize(panels[i].panel, `${Math.max(0, size)}px`);
+    panels.forEach((panel, i) => {
+      const pxDelta = appliedPanelDeltas[i] || 0;
+      if (panel.startSize.unit === 'px') {
+        const size = panel.startSize.value + pxDelta;
+        this.setPanelSize(panel.panel, `${Math.max(0, size)}px`);
       } else {
-        const size = panels[i].startSize.value + pxDelta * fractionFactors.frPerPx;
-        this.setPanelSize(panels[i].panel, `${Math.max(0, size)}fr`);
+        const size = panel.startSize.value + pxDelta * fractionFactors.frPerPx;
+        this.setPanelSize(panel.panel, `${Math.max(0, size)}fr`);
       }
-    }
+    });
   }
 }

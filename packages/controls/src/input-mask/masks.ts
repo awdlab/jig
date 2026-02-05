@@ -1,4 +1,4 @@
-import { InputMaskCfg } from './types';
+import type { InputMaskCfg } from './types';
 
 const time = [
   {

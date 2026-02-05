@@ -1,7 +1,7 @@
-import { ControlTemplate } from './control-template';
-import { Scoped } from './scoped';
-import { VariableValues } from './variable';
-import { VariableTemplate } from './variable-template';
+import { type ControlTemplate } from './control-template';
+import { type Scoped } from './scoped';
+import { type VariableValues } from './variable';
+import { type VariableTemplate } from './variable-template';
 
 type ChildrenScopes<Deps> = Deps extends readonly (infer Child)[]
   ? Child extends ControlTemplate

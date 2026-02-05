@@ -10,14 +10,15 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { NgnPassthrough } from '@ngneers/controls/base';
-import { BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
+import { type BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
 import { NgnTab, NgnTabs } from '@ngneers/controls/tabs';
 import { filter } from 'rxjs';
 
 import { safeRoutePath } from '../../../routing';
-import { NgnDocsCategory, NgnDocsTabPage } from '../../types';
 import { NgnDocsPageSection } from '../section/section';
+
+import type { NgnDocsCategory, NgnDocsTabPage } from '../../types';
+import type { NgnPassthrough } from '@ngneers/controls/base';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,7 +41,7 @@ export class NgnDocsPageTabRenderer {
   private _first = true;
 
   protected readonly activeTab = signal(
-    this.page.tabs.find(t => t.default)?.title || this.page.tabs[0].title
+    this.page.tabs.find(t => t.default)?.title || this.page.tabs[0]?.title || ''
   );
 
   protected readonly tabPt: NgnPassthrough<'tabs'> = {

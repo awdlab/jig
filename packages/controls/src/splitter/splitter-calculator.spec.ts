@@ -1,10 +1,11 @@
-import { signal, Signal } from '@angular/core';
+import { signal, type Signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { NgnSplitterPanel } from './panel/splitter-panel';
 import { NgnSplitter } from './splitter';
 import { DefaultSplitterCalculator } from './splitter-calculator';
-import { SplitterLayout } from './types';
+
+import type { SplitterLayout } from './types';
 
 // Mock panel helper
 function createMockPanel(

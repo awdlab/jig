@@ -4,7 +4,8 @@ import { Demo_Table_Filtering } from '../../../demos/table/filtering';
 import { Demo_Table_Paged } from '../../../demos/table/paged';
 import { Demo_Table_Sorting } from '../../../demos/table/sorting';
 import { Demo_Table_Virtual } from '../../../demos/table/virtual';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const TablePage: NgnDocsPage = {
   title: `Table`,

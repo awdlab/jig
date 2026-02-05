@@ -1,4 +1,4 @@
-import { computed, Signal } from '@angular/core';
+import { computed, type Signal } from '@angular/core';
 import { NgnError } from '@ngneers/controls/utils';
 
 export type NgnItem<T = any, K extends keyof T = any> = {

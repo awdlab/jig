@@ -1,6 +1,6 @@
 import { messageControlTemplate } from '@ngneers/controls-themes/templates/message';
 import { themeClasses } from '../utils/theme';
-import test, { expect, Locator } from '@playwright/test';
+import test, { expect, type Locator } from '@playwright/test';
 
 export class NgnMessageHarness {
   public readonly classes = themeClasses(messageControlTemplate);

@@ -6,19 +6,20 @@ import {
   ElementRef,
   inject,
   input,
-  OnDestroy,
+  type OnDestroy,
   Type,
   ViewContainerRef,
 } from '@angular/core';
-import { NgnActionButtonConfig } from '@ngneers/controls/api';
 import { injectThemeTemplate, setComponentInput } from '@ngneers/controls/api/ng';
 import { getNearestNgnInstanceSig } from '@ngneers/controls/base';
 import { NgnActionButton } from '@ngneers/controls/button';
-import { NgnFilter, NgnFilterDataType } from '@ngneers/controls/filter';
+import { NgnFilter, type NgnFilterDataType } from '@ngneers/controls/filter';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 import { NgnTable } from './table';
 import { NgnTableTh } from './table-header-cell';
+
+import type { NgnActionButtonConfig } from '@ngneers/controls/api';
 
 @Directive({
   selector: '[ngnTableFilterableColumn]',

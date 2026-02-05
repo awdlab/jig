@@ -3,7 +3,8 @@ import { Demo_Slider_Base } from '../../../demos/slider/base';
 import { Demo_Slider_MinMax } from '../../../demos/slider/min-max';
 import { Demo_Slider_States } from '../../../demos/slider/states';
 import { Demo_Slider_Vertical } from '../../../demos/slider/vertical';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const SliderPage: NgnDocsPage = {
   title: `Slider`,

@@ -1,6 +1,7 @@
 import { notNullish } from '@ngneers/controls/utils';
-import { ControlName } from '@ngneers/controls-themes';
-import { DeclarationReflection, ProjectReflection } from 'typedoc/browser';
+
+import type { ControlName } from '@ngneers/controls-themes';
+import type { DeclarationReflection, ProjectReflection } from 'typedoc/browser';
 
 export function getProjectControl(
   project: ProjectReflection,

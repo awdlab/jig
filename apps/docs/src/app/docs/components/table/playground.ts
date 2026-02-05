@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnTable, NgnTableModule } from '@ngneers/controls/table';
+import { NgnTableModule } from '@ngneers/controls/table';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
+
+import type { NgnTable } from '@ngneers/controls/table';
 
 type RowType = { id: string; name: string };
 

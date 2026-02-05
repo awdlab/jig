@@ -1,4 +1,4 @@
-import { FilterConfig, FilterConfigInternal, FilterFn, NgnItem } from '@ngneers/controls/api';
+import type { FilterConfig, FilterConfigInternal, FilterFn, NgnItem } from '@ngneers/controls/api';
 
 type _SelectFilterOptions = {
   clearFilterOnClose?: boolean;

@@ -1,10 +1,10 @@
-import { inject, InjectionToken, provideAppInitializer, Provider } from '@angular/core';
-import { registerCustomLanguages, Translations } from '@ngneers/controls/i18n';
-import { DeepPartial, Logger, LogLevel } from '@ngneers/controls/utils';
-import { NgnStateStorage } from '@ngneers/controls/utils-ng';
-import { StyleScope, Theme } from '@ngneers/controls-themes';
+import { inject, InjectionToken, provideAppInitializer, type Provider } from '@angular/core';
+import { registerCustomLanguages, type Translations } from '@ngneers/controls/i18n';
+import { type DeepPartial, Logger, type LogLevel } from '@ngneers/controls/utils';
 
 import type { TooltipOptions } from './tooltip';
+import type { NgnStateStorage } from '@ngneers/controls/utils-ng';
+import type { StyleScope, Theme } from '@ngneers/controls-themes';
 
 export const NGN_CONFIG = new InjectionToken<NgnConfig>('NGN_CONFIG');
 

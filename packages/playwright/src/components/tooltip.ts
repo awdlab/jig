@@ -1,6 +1,6 @@
 import { tooltipControlTemplate } from '@ngneers/controls-themes/templates/tooltip';
 import { themeClasses } from '../utils/theme';
-import { expect, Locator } from '@playwright/test';
+import { expect, type Locator } from '@playwright/test';
 
 export class NgnTooltipHarness {
   public readonly classes = themeClasses(tooltipControlTemplate);

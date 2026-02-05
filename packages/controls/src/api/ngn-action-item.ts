@@ -1,4 +1,4 @@
-import { IconType } from '@ngneers/controls-custom-types';
+import type { IconType } from '@ngneers/controls-custom-types';
 
 export type NgnActionItem = {
   id: string;

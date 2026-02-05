@@ -1,4 +1,4 @@
-import { NgnToastOptions } from './types';
+import type { NgnToastOptions } from './types';
 
 export const DEFAULT_TOAST_OPTIONS: NgnToastOptions = {
   closable: false,

@@ -7,14 +7,14 @@ import {
   effect,
   input,
   linkedSignal,
-  OutputRefSubscription,
-  Signal,
+  type OutputRefSubscription,
+  type Signal,
   signal,
   viewChild,
   ChangeDetectionStrategy,
   inject,
 } from '@angular/core';
-import { FilterConfig, mapToItems, NgnItem } from '@ngneers/controls/api';
+import { type FilterConfig, mapToItems, type NgnItem } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { I18n } from '@ngneers/controls/i18n';
@@ -23,13 +23,14 @@ import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnItemView } from '@ngneers/controls/item-view';
 import { NgnListBox } from '@ngneers/controls/list-box';
-import { NgnPopover, PopoverOptions } from '@ngneers/controls/popover';
+import { NgnPopover, type PopoverOptions } from '@ngneers/controls/popover';
 import { deepMerge, NgnError } from '@ngneers/controls/utils';
-import { IconType } from '@ngneers/controls-custom-types';
 import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
 
-import { SelectTemplates, ValueType } from './select-templates';
-import { SelectFilterOptions } from './types';
+import { SelectTemplates, type ValueType } from './select-templates';
+
+import type { SelectFilterOptions } from './types';
+import type { IconType } from '@ngneers/controls-custom-types';
 
 /**
  * @category control

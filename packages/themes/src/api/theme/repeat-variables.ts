@@ -1,6 +1,6 @@
-import { TemplateVariable } from './template-variable';
+import { type TemplateVariable } from './template-variable';
 import { deepSet } from '../utils/deep-set';
-import { UnionToIntersection } from '../utils/union-to-intersection';
+import { type UnionToIntersection } from '../utils/union-to-intersection';
 
 type RepeatVariables<K extends string, T> = UnionToIntersection<
   K extends `${infer P}.${infer R}`

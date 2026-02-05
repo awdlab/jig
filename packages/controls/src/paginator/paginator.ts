@@ -9,7 +9,6 @@ import {
   model,
   output,
 } from '@angular/core';
-import { NgnItem } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
@@ -17,9 +16,11 @@ import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnItemView } from '@ngneers/controls/item-view';
 import { NgnSelect } from '@ngneers/controls/select';
+import { throwExp } from '@ngneers/controls/utils';
 import { paginatorControlTemplate } from '@ngneers/controls-themes/templates/paginator';
 
-import { PaginationState } from './types';
+import type { PaginationState } from './types';
+import type { NgnItem } from '@ngneers/controls/api';
 
 /**
  * @category control
@@ -57,7 +58,10 @@ export class NgnPaginator extends NgnBase<'paginator'> {
   public readonly fixedPageSize = input(false);
 
   protected readonly appliedPageSize = computed(
-    () => this.pageSize() || this.possiblePageSizes()[0]
+    () =>
+      this.pageSize() ||
+      this.possiblePageSizes()[0] ||
+      throwExp('NgnPaginator', 'At least one page size must be provided')
   );
   protected readonly pageCount = computed(() =>
     Math.ceil(this.totalItems() / this.appliedPageSize())

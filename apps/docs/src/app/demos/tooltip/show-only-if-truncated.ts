@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { PositioningSizeConstraints } from '@ngneers/controls/api/ng';
 import { NgnTooltip } from '@ngneers/controls/tooltip';
+
+import type { PositioningSizeConstraints } from '@ngneers/controls/api/ng';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

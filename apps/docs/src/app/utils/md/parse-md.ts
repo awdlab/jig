@@ -1,3 +1,5 @@
+import { throwExp } from '@ngneers/controls/utils';
+
 // Base block types
 export type MarkdownBlock = {
   kind: 'markdown';
@@ -35,11 +37,13 @@ const defaultHandlers: Record<string, PlaceholderHandler> = {
     if (parts.length === 0) {
       throw new Error(`Invalid component placeholder value: ${value}`);
     }
-    const componentName = parts[0];
+    const componentName =
+      parts[0] ??
+      throwExp('parseMarkdown', 'Component name is required in component placeholder', parts);
 
     const inputs: Record<string, any> = {};
-    for (let i = 1; i < parts.length; i++) {
-      const [key, val] = parts[i].split('=');
+    parts.forEach(part => {
+      const [key, val] = part.split('=');
       if (key && val !== undefined) {
         // Try to parse boolean and number values
         if (val === 'true') {
@@ -52,7 +56,7 @@ const defaultHandlers: Record<string, PlaceholderHandler> = {
           inputs[key] = val;
         }
       }
-    }
+    });
 
     return {
       kind: 'component',
@@ -75,8 +79,11 @@ const defaultHandlers: Record<string, PlaceholderHandler> = {
     }
     return {
       kind: 'api',
-      module: parts[0],
-      component: parts[1],
+      module:
+        parts[0] ?? throwExp('parseMarkdown', 'Module name is required in api placeholder', parts),
+      component:
+        parts[1] ??
+        throwExp('parseMarkdown', 'Component name is required in api placeholder', parts),
     };
   },
   // Extendable for other placeholder types
@@ -109,8 +116,10 @@ export function parseMarkdown(
       });
     }
 
-    const placeholderName = match[1]; // e.g. "component"
-    const placeholderValue = match[2]; // e.g. "TestComponent"
+    const placeholderName =
+      match[1] ?? throwExp('parseMarkdown', 'Placeholder name is required', match);
+    const placeholderValue =
+      match[2] ?? throwExp('parseMarkdown', 'Placeholder value is required', match); // e.g. "TestComponent"
 
     const handler = handlers[placeholderName];
 

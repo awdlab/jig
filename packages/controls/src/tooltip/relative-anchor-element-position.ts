@@ -1,4 +1,4 @@
-import { Middleware, Placement } from '@floating-ui/dom';
+import type { Middleware, Placement } from '@floating-ui/dom';
 
 export type RelativeAnchorElementPositionData = {
   start: number;

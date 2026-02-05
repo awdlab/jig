@@ -7,7 +7,7 @@ import {
   inject,
   input,
   model,
-  OnDestroy,
+  type OnDestroy,
   output,
   runInInjectionContext,
   signal,
@@ -25,14 +25,15 @@ import {
 } from '@ngneers/controls/api/ng';
 import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { I18n } from '@ngneers/controls/i18n';
-import { Logger } from '@ngneers/controls/utils';
-import { NgnStateStorage, registerState } from '@ngneers/controls/utils-ng';
+import { Logger, NgnError } from '@ngneers/controls/utils';
+import { type NgnStateStorage, registerState } from '@ngneers/controls/utils-ng';
 import { splitterControlTemplate } from '@ngneers/controls-themes/templates/splitter';
 
 import { NgnSplitterPanel } from './panel/splitter-panel';
-import { DefaultSplitterCalculator, SplitterCalculatorType } from './splitter-calculator';
-import { SplitterLayout, SplitterState, SplitterStateData } from './types';
+import { DefaultSplitterCalculator, type SplitterCalculatorType } from './splitter-calculator';
 import { isSplitterPanelSize } from './utils';
+
+import type { SplitterLayout, SplitterState, SplitterStateData } from './types';
 
 /**
  * @category control
@@ -239,9 +240,13 @@ export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
     });
 
     // Move dividers to the correct positions
-    for (let i = 1; i < panels.length; i++) {
-      this.moveDividerBefore(panels[i], this.dividers()[i - 1]);
-    }
+    panels.forEach((panel, i) => {
+      const divider = this.dividers()[i - 1];
+      if (!divider) {
+        throw new NgnError('NgnSplitter', `Divider is missing for panel at index ${i}`);
+      }
+      this.moveDividerBefore(panel, divider);
+    });
   }
 
   private createDivider(index: number) {
@@ -324,9 +329,13 @@ export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
     if (state.panelSizes && this.stateData().includes('panelSizes')) {
       const panels = this.panels();
       for (let i = 0; i < panels.length; i++) {
-        const panelName = panels[i].name() || `ngn-panel-${i}`;
+        const panelName = panels[i]?.name() || `ngn-panel-${i}`;
         if (panelName in state.panelSizes) {
-          panels[i].size.set(state.panelSizes[panelName]);
+          const panelSize = state.panelSizes[panelName];
+          if (!panelSize) {
+            continue;
+          }
+          panels[i]?.size.set(panelSize);
         }
       }
     }

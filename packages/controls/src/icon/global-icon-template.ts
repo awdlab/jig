@@ -1,6 +1,6 @@
 import { Injectable, signal, TemplateRef } from '@angular/core';
 
-import { IconTemplateContext } from './types';
+import type { IconTemplateContext } from './types';
 
 export type IconTemplateType = TemplateRef<IconTemplateContext>;
 

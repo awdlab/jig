@@ -1,8 +1,8 @@
 import { Directive, input } from '@angular/core';
 
 import { NgnPtEngine } from './pt-engine';
-import { NgnBaseSafe } from '../base';
 
+import type { NgnBaseSafe } from '../base';
 import type { AppliedThemeClassCfg } from '@ngneers/controls/api/ng';
 import type { ControlName } from '@ngneers/controls-themes';
 

@@ -1,4 +1,4 @@
-import { computed, ElementRef, inject, Signal, signal } from '@angular/core';
+import { computed, ElementRef, inject, type Signal, signal } from '@angular/core';
 import {
   type ControlTemplateInfo,
   type AppliedThemeClassCfg,

@@ -1,12 +1,6 @@
-import {
-  ApplicationRef,
-  createComponent,
-  DestroyRef,
-  EnvironmentInjector,
-  Type,
-  untracked,
-  ViewContainerRef,
-} from '@angular/core';
+import { ApplicationRef, createComponent, EnvironmentInjector, untracked } from '@angular/core';
+
+import type { DestroyRef, Type, ViewContainerRef } from '@angular/core';
 
 export function renderComponent(
   toRender: Type<unknown>,

@@ -1,6 +1,6 @@
 import { chipControlTemplate } from '@ngneers/controls-themes/templates/chip';
 import { themeClasses } from '../utils/theme';
-import test, { expect, Locator } from '@playwright/test';
+import test, { expect, type Locator } from '@playwright/test';
 
 export class NgnChipHarness {
   public readonly classes = themeClasses(chipControlTemplate);

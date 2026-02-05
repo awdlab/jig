@@ -4,7 +4,8 @@ import { Demo_Menu_ContextMenu } from '../../../demos/menu/context-menu';
 import { Demo_Menu_Popover } from '../../../demos/menu/popover';
 import { Demo_Menu_Separator } from '../../../demos/menu/separator';
 import { Demo_Menu_Tiered } from '../../../demos/menu/tiered';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const MenuPage: NgnDocsPage = {
   title: `Menu`,

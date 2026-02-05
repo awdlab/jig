@@ -5,7 +5,7 @@ import { toggleClass } from '@ngneers/controls/utils';
 import { setInputSignalValue } from '@ngneers/controls/utils-ng';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
-import { FormattedTableRow } from './types';
+import type { FormattedTableRow } from './types';
 
 @Directive({
   selector: '[ngnTableBodyTr]',

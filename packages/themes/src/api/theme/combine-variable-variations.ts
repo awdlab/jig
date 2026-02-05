@@ -1,4 +1,4 @@
-import { SubKey } from '../utils/sub-key';
+import { type SubKey } from '../utils/sub-key';
 
 type CombineVariableVariations<
   A extends readonly string[],

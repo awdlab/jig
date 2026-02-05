@@ -1,5 +1,5 @@
 import {
-  ApplicationConfig,
+  type ApplicationConfig,
   provideBrowserGlobalErrorListeners,
   provideCheckNoChangesConfig,
   provideZonelessChangeDetection,

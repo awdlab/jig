@@ -13,16 +13,22 @@ import {
   untracked,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { NgnTemplate, Openable, PopoverCloseBy, toPopoverCloseBy } from '@ngneers/controls/api/ng';
+import {
+  NgnTemplate,
+  type Openable,
+  type PopoverCloseBy,
+  toPopoverCloseBy,
+} from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
-import { IconType } from '@ngneers/controls-custom-types';
 import { drawerControlTemplate } from '@ngneers/controls-themes/templates/drawer';
 
 import { DrawerTemplates } from './drawer-templates';
+
+import type { IconType } from '@ngneers/controls-custom-types';
 
 /**
  * @category control

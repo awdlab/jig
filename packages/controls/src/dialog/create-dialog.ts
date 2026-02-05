@@ -1,11 +1,12 @@
 import { ComponentRef, Injector, ViewContainerRef } from '@angular/core';
-import { NgnActionButtonConfig } from '@ngneers/controls/api';
 import { setComponentInput } from '@ngneers/controls/api/ng';
 import { Observable, Subject } from 'rxjs';
 
 import { NgnDialog } from './dialog';
 import { PromptDialogBase } from './prompt-dialog-base';
-import { DialogConfig } from './types';
+
+import type { DialogConfig } from './types';
+import type { NgnActionButtonConfig } from '@ngneers/controls/api';
 
 export type DialogHandle<T, Buttons extends NgnActionButtonConfig<unknown>[]> = {
   close: () => void;

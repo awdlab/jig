@@ -1,5 +1,6 @@
 import { TemplateRef } from '@angular/core';
-import { CustomColor, IconType } from '@ngneers/controls-custom-types';
+
+import type { CustomColor, IconType } from '@ngneers/controls-custom-types';
 
 export type HeaderTemplateType = {
   header?: string;

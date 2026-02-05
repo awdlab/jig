@@ -1,18 +1,18 @@
 import { DestroyRef, inject, Injector } from '@angular/core';
 import {
-  Alignment,
+  type Alignment,
   autoUpdate,
   computePosition,
-  ComputePositionReturn,
+  type ComputePositionReturn,
   flip,
-  Middleware,
+  type Middleware,
   offset,
-  Placement,
-  ReferenceElement,
+  type Placement,
+  type ReferenceElement,
   shift,
-  Side,
+  type Side,
   size,
-  Strategy,
+  type Strategy,
 } from '@floating-ui/dom';
 
 export type Point = {

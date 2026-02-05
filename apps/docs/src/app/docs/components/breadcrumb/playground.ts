@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal, viewChild } from '@angular/core';
-import { BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
+import { type BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 

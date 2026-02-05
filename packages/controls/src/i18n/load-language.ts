@@ -1,6 +1,6 @@
 import { NgnError } from '@ngneers/controls/utils';
 
-import { SupportedLanguage, Translations } from './types';
+import type { SupportedLanguage, Translations } from './types';
 
 const customLanguages: Record<string, (() => Promise<Translations>) | undefined> = {};
 
@@ -19,12 +19,16 @@ export function registerCustomLanguages(
   });
 }
 
-export function loadLanguage(language: SupportedLanguage): Promise<Translations> {
+export async function loadLanguage(language: SupportedLanguage): Promise<Translations> {
   switch (language) {
-    case 'en':
-      return import('./translations/en.json').then(m => m.default);
-    case 'de':
-      return import('./translations/de.json').then(m => m.default);
+    case 'en': {
+      const m = await import('./translations/en');
+      return m.default;
+    }
+    case 'de': {
+      const m = await import('./translations/de');
+      return m.default;
+    }
     default:
       if (customLanguages[language]) {
         return customLanguages[language]();

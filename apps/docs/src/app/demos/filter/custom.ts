@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { executeFilter } from '@ngneers/controls/api';
-import { NgnFilter, NgnFilterConfig } from '@ngneers/controls/filter';
+import { NgnFilter, type NgnFilterConfig } from '@ngneers/controls/filter';
 
 type Country = {
   name: string;

@@ -1,13 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { DestroyRef, Type, ViewContainerRef } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
 import { marked } from './marked';
 import { parseMarkdown } from './parse-md';
-import { MdCfg } from './types';
 import { Api } from '../api/api';
 import { NgnDocsDemo } from '../demo/demo';
 import { renderComponent } from '../rendering/render-component';
+
+import type { MdCfg } from './types';
+import type { HttpClient } from '@angular/common/http';
+import type { DestroyRef, Type, ViewContainerRef } from '@angular/core';
 
 type Result = string | { component: Type<unknown>; inputs?: Record<string, unknown>; id: string };
 

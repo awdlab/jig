@@ -1,6 +1,7 @@
 import { ALL_COMPONENT_PAGES } from './components';
 import { ALL_THEME_PAGES } from './theme';
-import { NgnDocsCategory, NgnDocsPage } from '../utils/page/types';
+
+import type { NgnDocsCategory, NgnDocsPage } from '../utils/page/types';
 
 export const ALL_DOCS_PAGES: NgnDocsPage[] = [
   {

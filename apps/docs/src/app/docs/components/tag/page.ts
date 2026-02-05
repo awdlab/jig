@@ -1,7 +1,8 @@
 import { NgnDocsTagPlayground } from './playground';
 import { Demo_Tag_Base } from '../../../demos/tag/base';
 import { Demo_Tag_WithIcon } from '../../../demos/tag/with-icon';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const TagPage: NgnDocsPage = {
   title: `Tag`,

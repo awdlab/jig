@@ -1,6 +1,7 @@
 import { NgnDocsIconPlayground } from './playground';
 import { Demo_Icon_Base } from '../../../demos/icon/base';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const IconPage: NgnDocsPage = {
   title: `Icon`,

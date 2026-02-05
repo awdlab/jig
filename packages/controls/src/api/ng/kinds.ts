@@ -1,7 +1,8 @@
 import { inject } from '@angular/core';
-import { CustomColor, CustomKind } from '@ngneers/controls-custom-types';
 
 import { NGN_CONFIG } from './config';
+
+import type { CustomColor, CustomKind } from '@ngneers/controls-custom-types';
 
 /**
  * Retrieves the available kinds for a given control from the theme configuration.

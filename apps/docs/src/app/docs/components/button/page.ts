@@ -1,7 +1,8 @@
 import { NgnDocsButtonPlayground } from './playground';
 import { Demo_Button_Base } from '../../../demos/button/base';
 import { Demo_Button_Kind } from '../../../demos/button/kind';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const ButtonPage: NgnDocsPage = {
   title: `Button`,

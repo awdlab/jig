@@ -1,8 +1,9 @@
 import { Component, input, ChangeDetectionStrategy } from '@angular/core';
-import { AnyNgnBase } from '@ngneers/controls/base';
 
 import { NgnDocsPlaygroundInputs } from './inputs/inputs';
 import { NgnDocsPlaygroundTokens } from './tokens/tokens';
+
+import type { AnyNgnBase } from '@ngneers/controls/base';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

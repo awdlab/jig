@@ -1,6 +1,6 @@
 import { spinnerControlTemplate } from '@ngneers/controls-themes/templates/spinner';
 import { themeClasses } from '../utils/theme';
-import test, { expect, Locator } from '@playwright/test';
+import test, { expect, type Locator } from '@playwright/test';
 
 export class NgnSpinnerHarness {
   public readonly classes = themeClasses(spinnerControlTemplate);

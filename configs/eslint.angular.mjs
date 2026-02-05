@@ -30,6 +30,7 @@ export function getEslintConfig(tsconfigPath) {
       plugins: { '@angular-eslint': tsPlugin },
       rules: {
         '@angular-eslint/component-class-suffix': 'off',
+        '@typescript-eslint/no-import-type-side-effects': 'error',
         '@angular-eslint/prefer-on-push-component-change-detection': 'error',
         '@angular-eslint/component-selector': [
           'error',

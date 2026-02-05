@@ -1,5 +1,5 @@
-import { Placement } from '@floating-ui/dom';
-import { PositioningSizeConstraints } from '@ngneers/controls/api/ng';
+import type { Placement } from '@floating-ui/dom';
+import type { PositioningSizeConstraints } from '@ngneers/controls/api/ng';
 
 export type PopoverOptions = {
   /**

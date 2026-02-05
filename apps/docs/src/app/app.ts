@@ -1,14 +1,14 @@
 import {
   Component,
   inject,
-  OnInit,
-  TemplateRef,
+  type OnInit,
   viewChild,
   ChangeDetectionStrategy,
+  type TemplateRef,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgnTemplate, templateTypeFn } from '@ngneers/controls/api/ng';
-import { GlobalIconTemplate, IconTemplateContext } from '@ngneers/controls/icon';
+import { GlobalIconTemplate, type IconTemplateContext } from '@ngneers/controls/icon';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

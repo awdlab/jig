@@ -1,9 +1,10 @@
 import { booleanAttribute, Directive, input, model } from '@angular/core';
-import { FormValueControl } from '@angular/forms/signals';
 import { generateElementId } from '@ngneers/controls/utils-ng';
-import { ControlName } from '@ngneers/controls-themes/templates';
 
 import { NgnBase } from './base';
+
+import type { FormValueControl } from '@angular/forms/signals';
+import type { ControlName } from '@ngneers/controls-themes/templates';
 
 @Directive()
 export abstract class ValueControlBase<C extends ControlName, T>

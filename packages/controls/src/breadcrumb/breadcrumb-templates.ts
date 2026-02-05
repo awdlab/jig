@@ -2,7 +2,7 @@ import { computed, contentChild, Directive, input, TemplateRef, viewChild } from
 import { templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 
-import { ItemTemplateType, OverflowTemplateType, SeparatorTemplateType } from './types';
+import type { ItemTemplateType, OverflowTemplateType, SeparatorTemplateType } from './types';
 
 @Directive()
 export abstract class BreadcrumbTemplates extends NgnBase<'breadcrumb'> {

@@ -1,4 +1,4 @@
-import { NgnActionItem } from '@ngneers/controls/api';
+import type { NgnActionItem } from '@ngneers/controls/api';
 
 export type MenuItem = MenuItemDefault | MenuItemSeparator;
 

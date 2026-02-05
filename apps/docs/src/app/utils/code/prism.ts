@@ -71,5 +71,5 @@ Prism.languages.insertBefore('typescript', 'string', {
 });
 
 export function style(code: string) {
-  return Prism.highlight(code, Prism.languages['typescript'], 'typescript');
+  return Prism.highlight(code, Prism.languages['typescript']!, 'typescript');
 }

@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import { IMPORTS } from './imports';
-import { TemplateType, WindowService } from './window';
+import { type TemplateType, WindowService } from './window';
 
 @Component({
   template: '',

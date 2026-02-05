@@ -3,7 +3,7 @@ import {
   getTimeSpanMilliseconds,
   getTimeSpanString,
   isTimeSpan,
-  TimeSpan,
+  type TimeSpan,
 } from './time-span';
 
 describe('TimeSpan', () => {

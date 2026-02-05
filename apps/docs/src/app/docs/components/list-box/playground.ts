@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
-import { NgnItem } from '@ngneers/controls/api';
 import { NgnListBox } from '@ngneers/controls/list-box';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
+
+import type { NgnItem } from '@ngneers/controls/api';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -10,25 +10,26 @@ import {
   viewChildren,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { ControlTemplateInfo } from '@ngneers/controls/api/ng';
-import { NgnBaseSafe, NgnPt } from '@ngneers/controls/base';
+import { type NgnBaseSafe, NgnPt } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
 import {
-  DayModel,
-  DayTemplateType,
-  Month,
+  type DayModel,
+  type DayTemplateType,
+  type Month,
   MONTHS,
-  MonthTemplateType,
-  TimeTemplateType,
+  type MonthTemplateType,
+  type TimeTemplateType,
   WEEK_DAYS,
-  WeekDay,
-  WeekDayTemplateType,
-  YearTemplateType,
+  type WeekDay,
+  type WeekDayTemplateType,
+  type YearTemplateType,
 } from '../types';
+
+import type { ControlTemplateInfo } from '@ngneers/controls/api/ng';
 
 // Configuration: Number of weeks to show before and after the current month
 const WEEKS_BEFORE = 1;

@@ -10,20 +10,19 @@ import {
   output,
   viewChild,
 } from '@angular/core';
-import { executeFilter, getActiveFilterConditions, NgnItem } from '@ngneers/controls/api';
-import { type Anchor } from '@ngneers/controls/api/ng';
+import { executeFilter, getActiveFilterConditions, type NgnItem } from '@ngneers/controls/api';
 import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnPopover, PopoverOptions } from '@ngneers/controls/popover';
+import { NgnPopover, type PopoverOptions } from '@ngneers/controls/popover';
 import { NgnSelect } from '@ngneers/controls/select';
 import { deepMerge, NgnError } from '@ngneers/controls/utils';
 import { filterControlTemplate } from '@ngneers/controls-themes/templates/filter';
 
-import {
+import type {
   NgnFilterCondition,
   NgnFilterConditionConfig,
   NgnFilterConfig,
@@ -31,6 +30,7 @@ import {
   NgnFilterMode,
   NgnFilterOperatorId,
 } from './types';
+import type { Anchor } from '@ngneers/controls/api/ng';
 
 type ConditionInternal = {
   operator: NgnFilterOperatorId;
@@ -233,7 +233,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   protected readonly operatorDefs = computed(() => {
     const dt = this.dataType();
     const defs = defaultOperatorsForType(dt);
-    if (dt === 'custom' && defs.length === 1 && defs[0].id === 'custom') {
+    if (dt === 'custom' && defs.length === 1 && defs[0]?.id === 'custom') {
       return defs;
     }
     return defs;
@@ -323,9 +323,9 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     if (active.length === 1) {
       const c = active[0];
 
-      const def = this.operatorDefs().find(d => d.id === c.operator);
-      const operatorLabel = def ? this.i18n[def.labelKey]() : c.operator;
-      return c.rawValue == null || c.rawValue === ''
+      const def = this.operatorDefs().find(d => d.id === c?.operator);
+      const operatorLabel = def ? this.i18n._unsafe[def.labelKey]?.() : c?.operator;
+      return c?.rawValue == null || c?.rawValue === ''
         ? operatorLabel
         : `${operatorLabel} ${c.rawValue}`;
     }

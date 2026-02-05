@@ -2,7 +2,8 @@ import { Injector, runInInjectionContext } from '@angular/core';
 import { injectOrThrow } from '@ngneers/controls/utils-ng';
 
 import { NgnToastManager } from './toast-manager';
-import { NgnToastOptions, NgnToastRef } from './types';
+
+import type { NgnToastOptions, NgnToastRef } from './types';
 
 class ToastCreator {
   private readonly _manager: NgnToastManager;

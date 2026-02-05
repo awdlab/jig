@@ -1,7 +1,15 @@
 import { isPlatformBrowser } from '@angular/common';
-import { computed, DOCUMENT, inject, Injectable, PLATFORM_ID, Signal, signal } from '@angular/core';
+import {
+  computed,
+  DOCUMENT,
+  inject,
+  Injectable,
+  PLATFORM_ID,
+  type Signal,
+  signal,
+} from '@angular/core';
 
-import { elementSizeSignal, Size } from './dom';
+import { elementSizeSignal, type Size } from './dom';
 
 export type DeviceType = 'mobile' | 'desktop' | 'tablet';
 

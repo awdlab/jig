@@ -4,7 +4,8 @@ import { Demo_Avatar_Group } from '../../../demos/avatar/group';
 import { Demo_Avatar_Icon } from '../../../demos/avatar/icon';
 import { Demo_Avatar_Image } from '../../../demos/avatar/image';
 import { Demo_Avatar_Size } from '../../../demos/avatar/size';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const AvatarPage: NgnDocsPage = {
   title: `Avatar`,

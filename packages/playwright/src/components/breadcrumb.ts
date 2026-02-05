@@ -1,4 +1,4 @@
-import { Locator } from '@playwright/test';
+import { type Locator } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { breadcrumbControlTemplate } from '@ngneers/controls-themes/templates/breadcrumb';
 import { NgnItemViewHarness } from './item-view';

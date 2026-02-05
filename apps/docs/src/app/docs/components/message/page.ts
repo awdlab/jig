@@ -1,7 +1,8 @@
 import { NgnDocsMessagePlayground } from './playground';
 import { Demo_Message_Base } from '../../../demos/message/base';
 import { Demo_Message_WithIcon } from '../../../demos/message/with-icon';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const MessagePage: NgnDocsPage = {
   title: `Message`,

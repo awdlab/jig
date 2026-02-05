@@ -1,4 +1,4 @@
-import { ModelSignal, OutputEmitterRef } from '@angular/core';
+import { type ModelSignal, OutputEmitterRef } from '@angular/core';
 
 export type PopoverCloseBy = 'any' | 'none';
 export type CloseBy = PopoverCloseBy | 'escape';

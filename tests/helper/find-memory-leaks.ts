@@ -1,4 +1,4 @@
-import test, { CDPSession, Page } from '@playwright/test';
+import test, { type CDPSession, type Page } from '@playwright/test';
 
 type HeapSnapshot = {
   nodes: number[];

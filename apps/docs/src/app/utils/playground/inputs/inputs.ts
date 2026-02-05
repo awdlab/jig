@@ -1,9 +1,10 @@
 import { Component, input, ChangeDetectionStrategy } from '@angular/core';
-import { AnyNgnBase } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnTooltip } from '@ngneers/controls/tooltip';
 
 import { NgnDocsPlaygroundComponentInputs } from './component-inputs/component-inputs';
+
+import type { AnyNgnBase } from '@ngneers/controls/base';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

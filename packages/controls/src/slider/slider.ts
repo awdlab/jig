@@ -7,7 +7,7 @@ import {
   computed,
 } from '@angular/core';
 import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
-import { NgnDrag, NgnDragInfo } from '@ngneers/controls/directives';
+import { NgnDrag, type NgnDragInfo } from '@ngneers/controls/directives';
 import { sliderControlTemplate } from '@ngneers/controls-themes/templates/slider';
 
 /**

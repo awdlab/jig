@@ -122,7 +122,7 @@
     @let label = item?.label;
     @if (label) {
       @if (item?.translate) {
-        {{ i18n[label]() }}
+        {{ i18n._unsafe[label]?.() }}
       } @else {
         {{ label }}
       }
@@ -135,7 +135,7 @@
     @let label = group?.label;
     @if (label) {
       @if (group?.translate) {
-        {{ i18n[label]() }}
+        {{ i18n._unsafe[label]?.() }}
       } @else {
         {{ label }}
       }
@@ -147,7 +147,7 @@
   @let label = item?.label;
   @if (label) {
     @if (item?.translate) {
-      <span [attr.data-testid]="item?.testId">{{ i18n[label]() }}</span>
+      <span [attr.data-testid]="item?.testId">{{ i18n._unsafe[label]?.() }}</span>
     } @else {
       <span [attr.data-testid]="item?.testId">{{ label }}</span>
     }

@@ -1,7 +1,8 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 import { templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
-import { IconType } from '@ngneers/controls-custom-types';
+
+import type { IconType } from '@ngneers/controls-custom-types';
 
 @Directive()
 export abstract class ItemViewTemplates<T> extends NgnBase<'itemView'> {

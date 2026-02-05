@@ -1,10 +1,11 @@
-import { Provider } from '@angular/core';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnGlobal } from '@ngneers/controls/utils-ng';
 
-import { NgnConfigInit, provideNgnConfig } from './config';
+import { type NgnConfigInit, provideNgnConfig } from './config';
 import { Platform } from './platform';
 import { ThemeService } from './theme-service';
+
+import type { Provider } from '@angular/core';
 
 export type NgnFeature = {
   providers: Provider[];

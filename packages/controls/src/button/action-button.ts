@@ -1,10 +1,11 @@
 import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
-import { NgnActionButtonConfig } from '@ngneers/controls/api';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnTooltip } from '@ngneers/controls/tooltip';
 
 import { NgnButton } from './button';
+
+import type { NgnActionButtonConfig } from '@ngneers/controls/api';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

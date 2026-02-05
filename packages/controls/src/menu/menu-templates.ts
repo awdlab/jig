@@ -2,7 +2,7 @@ import { computed, contentChild, Directive, input, TemplateRef, viewChild } from
 import { templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 
-import { MenuItemDefault } from './types';
+import type { MenuItemDefault } from './types';
 
 @Directive()
 export abstract class MenuTemplates extends NgnBase<'menu'> {

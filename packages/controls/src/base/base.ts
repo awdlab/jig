@@ -10,28 +10,29 @@ import {
   InjectionToken,
   Injector,
   input,
-  InputSignal,
-  Provider,
+  type InputSignal,
+  type Provider,
   signal,
-  Signal,
+  type Signal,
   Type,
   viewChildren,
 } from '@angular/core';
 import {
-  ControlTemplateInfo,
+  type ControlTemplateInfo,
   injectThemeTemplate,
   injectThemeControlKinds,
   injectThemeColors,
-  AppliedThemeClassCfg,
+  type AppliedThemeClassCfg,
 } from '@ngneers/controls/api/ng';
 import { toggleClass } from '@ngneers/controls/utils';
 import { effectWithPrevious, setInputSignalValue } from '@ngneers/controls/utils-ng';
-import { CustomColor, CustomKind } from '@ngneers/controls-custom-types';
-import { ControlTemplate } from '@ngneers/controls-themes';
-import { ControlName, ThemeTemplate } from '@ngneers/controls-themes/templates';
 
 import { setNgnInstance } from './ngn-instance';
-import { NgnPassthrough, NgnPtEngine } from './passthrough';
+import { type NgnPassthrough, NgnPtEngine } from './passthrough';
+
+import type { CustomColor, CustomKind } from '@ngneers/controls-custom-types';
+import type { ControlTemplate } from '@ngneers/controls-themes';
+import type { ControlName, ThemeTemplate } from '@ngneers/controls-themes/templates';
 
 export const NGN_CONTROL = new InjectionToken<NgnBase<never>>('NGN_CONTROL');
 

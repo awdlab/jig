@@ -1,5 +1,3 @@
-import { Route, Routes } from '@angular/router';
-
 import { ALL_DOCS_PAGES } from './docs';
 import { NgnDocsFrame } from './frame/frame';
 import { NgnDocsMenu } from './frame/menu/menu';
@@ -7,8 +5,10 @@ import { Start } from './start/start';
 import { TestComponent } from './test';
 import { NgnDocsPageRenderer } from './utils/page/page-renderer/page-renderer';
 import { NgnDocsPageTabRenderer } from './utils/page/page-renderer/page-tab-renderer/page-tab-renderer';
-import { NgnDocsCategory, NgnDocsPage } from './utils/page/types';
 import { safeRoutePath } from './utils/routing';
+
+import type { NgnDocsCategory, NgnDocsPage } from './utils/page/types';
+import type { Route, Routes } from '@angular/router';
 
 function getDocsRoutes(pages: NgnDocsPage[], category?: NgnDocsCategory): Routes {
   const routes = pages.map(page => {
@@ -38,7 +38,7 @@ function getDocsRoutes(pages: NgnDocsPage[], category?: NgnDocsCategory): Routes
           {
             path: '',
             pathMatch: 'full',
-            redirectTo: safeRoutePath(page.pages[0].title),
+            redirectTo: safeRoutePath(page.pages[0]?.title || ''),
           },
         ],
       };

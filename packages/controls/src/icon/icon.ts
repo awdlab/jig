@@ -14,12 +14,13 @@ import { NgnTemplate, templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnError } from '@ngneers/controls/utils';
 import { asyncComputed } from '@ngneers/controls/utils-ng';
-import { IconType } from '@ngneers/controls-custom-types';
 import { iconControlTemplate } from '@ngneers/controls-themes/templates/icon';
 
 import { DEFAULT_ICONS } from './default-icons/ts';
 import { GlobalIconTemplate } from './global-icon-template';
-import { DefaultIcon, IconTemplateContext } from './types';
+
+import type { DefaultIcon, IconTemplateContext } from './types';
+import type { IconType } from '@ngneers/controls-custom-types';
 
 /**
  * @category control

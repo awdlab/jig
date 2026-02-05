@@ -1,6 +1,7 @@
 import { TemplateRef, Type } from '@angular/core';
-import { NgnActionButtonConfig } from '@ngneers/controls/api';
-import { CloseBy } from '@ngneers/controls/api/ng';
+
+import type { NgnActionButtonConfig } from '@ngneers/controls/api';
+import type { CloseBy } from '@ngneers/controls/api/ng';
 
 export type DialogSize = {
   width?: string;

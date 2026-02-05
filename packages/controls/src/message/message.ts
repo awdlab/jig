@@ -1,8 +1,9 @@
 import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
-import { IconType } from '@ngneers/controls-custom-types';
 import { messageControlTemplate } from '@ngneers/controls-themes/templates/message';
+
+import type { IconType } from '@ngneers/controls-custom-types';
 
 /**
  * @category control

@@ -1,12 +1,13 @@
 import { Component, inject, ChangeDetectionStrategy, computed } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
+import { type BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
 import { notNullish } from '@ngneers/controls/utils';
 
-import { NgnDocsCategory, NgnDocsSinglePage } from '../types';
 import { NgnDocsPageSection } from './section/section';
 import { safeRoutePath } from '../../routing';
+
+import type { NgnDocsCategory, NgnDocsSinglePage } from '../types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

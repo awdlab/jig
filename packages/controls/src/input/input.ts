@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  type AfterViewInit,
   booleanAttribute,
   Directive,
   effect,

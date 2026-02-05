@@ -16,19 +16,19 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import {
-  PopoverCloseBy,
+  type PopoverCloseBy,
   toPopoverCloseBy,
   autoPositionElement,
-  AutoPositioningHandle,
-  Openable,
-  Anchor,
+  type AutoPositioningHandle,
+  type Openable,
+  type Anchor,
 } from '@ngneers/controls/api/ng';
 import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { computedWithPrevious, explicitAfterRenderEffect } from '@ngneers/controls/utils-ng';
 import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
 
-import { PopoverOptions } from './types';
+import type { PopoverOptions } from './types';
 
 /**
  * @category control

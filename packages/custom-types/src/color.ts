@@ -1,4 +1,4 @@
-import { NgnCustomTypes, NgnThemeTypes } from './custom-types';
+import { type NgnCustomTypes, type NgnThemeTypes } from './custom-types';
 
 type GetCustomType<Group> = Group extends { color: infer T } ? T : never;
 

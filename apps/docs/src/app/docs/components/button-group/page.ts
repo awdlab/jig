@@ -1,6 +1,7 @@
 import { NgnDocsButtonGroupPlayground } from './playground';
 import { Demo_ButtonGroup_Base } from '../../../demos/button-group/base';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const ButtonGroupPage: NgnDocsPage = {
   title: `ButtonGroup`,

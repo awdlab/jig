@@ -1,7 +1,8 @@
 import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
 import { Md } from '../../../md/md';
-import { NgnDocsMdSection } from '../../types';
+
+import type { NgnDocsMdSection } from '../../types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

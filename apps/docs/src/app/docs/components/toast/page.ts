@@ -4,7 +4,8 @@ import { Demo_Toast_Closable } from '../../../demos/toast/closable';
 import { Demo_Toast_Colors } from '../../../demos/toast/colors';
 import { Demo_Toast_Icon } from '../../../demos/toast/icon';
 import { Demo_Toast_Persistent } from '../../../demos/toast/persistent';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const ToastPage: NgnDocsPage = {
   title: `Toast`,

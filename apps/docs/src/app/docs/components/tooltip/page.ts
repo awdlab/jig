@@ -3,7 +3,8 @@ import { Demo_Tooltip_Arrow } from '../../../demos/tooltip/arrow';
 import { Demo_Tooltip_Base } from '../../../demos/tooltip/base';
 import { Demo_Tooltip_Placement } from '../../../demos/tooltip/placement';
 import { Demo_Tooltip_ShowOnlyIfTruncated } from '../../../demos/tooltip/show-only-if-truncated';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const TooltipPage: NgnDocsPage = {
   title: `Tooltip`,

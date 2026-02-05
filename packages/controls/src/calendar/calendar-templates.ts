@@ -2,7 +2,7 @@ import { computed, contentChild, Directive, input, TemplateRef, viewChild } from
 import { templateTypesFn } from '@ngneers/controls/api/ng';
 import { ValueControlBase } from '@ngneers/controls/base';
 
-import {
+import type {
   DayTemplateType,
   MonthTemplateType,
   TimeTemplateType,

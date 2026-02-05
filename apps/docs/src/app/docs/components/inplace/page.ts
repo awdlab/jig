@@ -1,6 +1,7 @@
 import { NgnDocsInplacePlayground } from './playground';
 import { Demo_Inplace_Base } from '../../../demos/inplace/base';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const InplacePage: NgnDocsPage = {
   title: `Inplace`,

@@ -1,4 +1,4 @@
-import { NgnCustomTypes, NgnThemeTypes } from './custom-types';
+import { type NgnCustomTypes, type NgnThemeTypes } from './custom-types';
 
 type GetCustomType<Group, K> = K extends string
   ? Group extends { kind: { [key in K]: infer T } }

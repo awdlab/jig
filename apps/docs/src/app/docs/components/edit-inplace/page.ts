@@ -1,7 +1,8 @@
 import { NgnDocsEditInplacePlayground } from './playground';
 import { Demo_EditInplace_Base } from '../../../demos/edit-inplace/base';
 import { Demo_EditInplace_States } from '../../../demos/edit-inplace/states';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const EditInplacePage: NgnDocsPage = {
   title: `Edit Inplace`,

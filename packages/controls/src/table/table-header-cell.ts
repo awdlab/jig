@@ -1,4 +1,12 @@
-import { Directive, ElementRef, inject, input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  inject,
+  input,
+  type OnDestroy,
+  type OnInit,
+  Renderer2,
+} from '@angular/core';
 import { getNearestNgnInstance, NgnBase } from '@ngneers/controls/base';
 import { NgnError, toggleClass } from '@ngneers/controls/utils';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';

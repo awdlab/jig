@@ -1,8 +1,9 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { PopoverOptions } from '@ngneers/controls/popover';
 import { NgnSelect } from '@ngneers/controls/select';
 
 import { exampleData } from '../../helper/data';
+
+import type { PopoverOptions } from '@ngneers/controls/popover';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,4 +1,4 @@
-import test, { expect, Page } from '@playwright/test';
+import test, { expect, type Page } from '@playwright/test';
 import { NgnSpinnerHarness } from '@ngneers/controls-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';

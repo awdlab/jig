@@ -6,11 +6,12 @@ import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnItemView } from '@ngneers/controls/item-view';
 import { NgnMenu } from '@ngneers/controls/menu';
-import { IconType } from '@ngneers/controls-custom-types';
 import { breadcrumbControlTemplate } from '@ngneers/controls-themes/templates/breadcrumb';
 
 import { BreadcrumbTemplates } from './breadcrumb-templates';
-import { BreadcrumbItem } from './types';
+
+import type { BreadcrumbItem } from './types';
+import type { IconType } from '@ngneers/controls-custom-types';
 
 /**
  * @category control

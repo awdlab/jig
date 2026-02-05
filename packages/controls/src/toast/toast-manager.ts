@@ -4,16 +4,18 @@ import {
   createComponent,
   inject,
   Injectable,
-  OnDestroy,
+  type OnDestroy,
   signal,
 } from '@angular/core';
 import { Platform } from '@ngneers/controls/api/ng';
+import { NgnError } from '@ngneers/controls/utils';
 import { injectOrThrow } from '@ngneers/controls/utils-ng';
 
 import { DEFAULT_TOAST_OPTIONS } from './defaults';
 import { NGN_TOAST_USER_DEFAULTS } from './provider';
 import { NgnToastHost } from './toast-host';
-import { NgnToastOptions } from './types';
+
+import type { NgnToastOptions } from './types';
 
 type ToastFull = NgnToastOptions & { id: number };
 
@@ -43,8 +45,15 @@ export class NgnToastManager implements OnDestroy {
       });
       this._appRef.attachView(this._component.hostView);
       const hostEl = this._component.location.nativeElement as HTMLElement;
-      const appRootEl = this._appRef.components[0].location.nativeElement as HTMLElement;
-
+      const appRootEl = this._appRef.components[0]?.location.nativeElement as
+        | undefined
+        | HTMLElement;
+      if (!appRootEl) {
+        throw new NgnError(
+          'NgnToastManager',
+          'Failed to find application root element to attach toast host!'
+        );
+      }
       appRootEl.appendChild(hostEl);
     });
   }

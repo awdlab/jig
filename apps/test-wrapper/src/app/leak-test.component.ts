@@ -2,11 +2,11 @@ import {
   Component,
   ChangeDetectionStrategy,
   signal,
-  OnInit,
-  OnDestroy,
+  type OnInit,
+  type OnDestroy,
 } from '@angular/core';
 import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
-import { NgnItem } from '@ngneers/controls/api';
+import { type NgnItem } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnAvatar, NgnAvatarGroup } from '@ngneers/controls/avatar';
 import { NgnBreadcrumb } from '@ngneers/controls/breadcrumb';

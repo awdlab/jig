@@ -1,6 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
-  AfterViewInit,
+  type AfterViewInit,
   Component,
   computed,
   ElementRef,
@@ -19,18 +19,19 @@ import {
 } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
-import { areArraysDeepEqual } from '@ngneers/controls/utils';
-import { IconType } from '@ngneers/controls-custom-types';
+import { areArraysDeepEqual, throwExp } from '@ngneers/controls/utils';
 import { itemViewControlTemplate } from '@ngneers/controls-themes/templates/item-view';
 
 import {
   calculateItemViewLayout,
   getItemOverflowCheckOrder,
-  ItemOverflowLocation,
+  type ItemOverflowLocation,
   type OverflowOrder,
 } from './item-view-layout';
 import { ItemViewTemplates } from './item-view-templates';
-import { OverflowStrategy } from './types';
+
+import type { OverflowStrategy } from './types';
+import type { IconType } from '@ngneers/controls-custom-types';
 
 type RenderItem<T> =
   | {
@@ -208,7 +209,9 @@ export class NgnItemView<T extends object, IdField extends keyof T>
       if (overflowCheckOrder.length === 0) {
         return 0;
       }
-      return overflowCheckOrder[overflowCheckOrder.length - 1].index;
+      const lastItem = overflowCheckOrder[overflowCheckOrder.length - 1];
+      return (lastItem ?? throwExp('NgnItemView', 'Unexpected empty entry in overflowCheckOrder'))
+        .index;
     };
 
     // Insert overflow indicators at the calculated indices

@@ -4,7 +4,8 @@ import { Demo_Progress_Circular } from '../../../demos/progress/circular';
 import { Demo_Progress_CircularIndeterminate } from '../../../demos/progress/circular-indeterminate';
 import { Demo_Progress_Indeterminate } from '../../../demos/progress/indeterminate';
 import { Demo_Progress_Sizes } from '../../../demos/progress/sizes';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const ProgressPage: NgnDocsPage = {
   title: `Progress`,

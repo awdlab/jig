@@ -1,6 +1,7 @@
 import { NgnDocsBreadcrumbPlayground } from './playground';
 import { Demo_Breadcrumb_Base } from '../../../demos/breadcrumb/base';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const BreadcrumbPage: NgnDocsPage = {
   title: `Breadcrumb`,

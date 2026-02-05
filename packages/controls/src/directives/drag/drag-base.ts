@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { domEventHandler, domEventObservable, Platform } from '@ngneers/controls/api/ng';
 
-import { NgnDragInfo } from './types';
+import type { NgnDragInfo } from './types';
 
 @Directive()
 export abstract class NgnDragBase {

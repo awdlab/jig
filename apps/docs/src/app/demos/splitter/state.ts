@@ -1,6 +1,6 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
-import { SplitterLayout, NgnSplitterModule } from '@ngneers/controls/splitter';
+import { type SplitterLayout, NgnSplitterModule } from '@ngneers/controls/splitter';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

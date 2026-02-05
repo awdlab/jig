@@ -1,16 +1,12 @@
 import { Component, input, ChangeDetectionStrategy, signal, computed } from '@angular/core';
-import { AnyNgnBase } from '@ngneers/controls/base';
 import { notNullish } from '@ngneers/controls/utils';
-import {
-  ConsoleLogger,
-  DeclarationReflection,
-  Deserializer,
-  FileRegistry,
-  ProjectReflection,
-} from 'typedoc/browser';
+import { ConsoleLogger, Deserializer, FileRegistry } from 'typedoc/browser';
 
 import { NgnDocsPlaygroundInput } from './input/input';
 import { getTypedocProject } from '../../../typedoc';
+
+import type { AnyNgnBase } from '@ngneers/controls/base';
+import type { DeclarationReflection, ProjectReflection } from 'typedoc/browser';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

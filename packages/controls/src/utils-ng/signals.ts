@@ -2,11 +2,11 @@ import {
   afterRenderEffect,
   computed,
   effect,
-  EffectRef,
-  InputSignal,
-  InputSignalWithTransform,
+  type EffectRef,
+  type InputSignal,
+  type InputSignalWithTransform,
   signal,
-  Signal,
+  type Signal,
   untracked,
 } from '@angular/core';
 import { SIGNAL } from '@angular/core/primitives/signals';

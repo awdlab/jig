@@ -1,8 +1,9 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
-import { CommentDisplayPart } from 'typedoc/browser';
 
 import { MarkdownPipe } from '../../../md/md-pipe';
+
+import type { CommentDisplayPart } from 'typedoc/browser';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

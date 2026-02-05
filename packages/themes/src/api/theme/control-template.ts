@@ -1,4 +1,4 @@
-import { Scoped } from './scoped';
+import { type Scoped } from './scoped';
 
 export type ControlTemplate<
   S extends string = string,

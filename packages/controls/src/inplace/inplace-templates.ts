@@ -2,7 +2,7 @@ import { computed, contentChild, Directive, input, TemplateRef } from '@angular/
 import { templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 
-import { ContentTemplateType } from './types';
+import type { ContentTemplateType } from './types';
 
 @Directive()
 export abstract class InplaceTemplates extends NgnBase<'inplace'> {

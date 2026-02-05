@@ -1,7 +1,7 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
-import { MASKS, NgnInputMask, InputMaskCfg } from '@ngneers/controls/input-mask';
+import { MASKS, NgnInputMask, type InputMaskCfg } from '@ngneers/controls/input-mask';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

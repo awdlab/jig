@@ -1,4 +1,4 @@
-import { Locator, expect } from '@playwright/test';
+import { type Locator, expect } from '@playwright/test';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 import { themeClasses } from '../utils/theme';
 import { NgnSelectHarness } from './select';

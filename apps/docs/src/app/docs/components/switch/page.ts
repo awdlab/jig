@@ -1,7 +1,8 @@
 import { NgnDocsSwitchPlayground } from './playground';
 import { Demo_Switch_Base } from '../../../demos/switch/base';
 import { Demo_Switch_States } from '../../../demos/switch/states';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const SwitchPage: NgnDocsPage = {
   title: `Switch`,

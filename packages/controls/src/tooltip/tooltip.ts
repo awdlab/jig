@@ -7,33 +7,34 @@ import {
   effect,
   inject,
   input,
-  OnDestroy,
+  type OnDestroy,
   signal,
   TemplateRef,
   viewChild,
   ViewContainerRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { Placement } from '@floating-ui/dom';
 import {
   abortSignalOnDestroy,
   autoPositionElement,
-  AutoPositioningHandle,
+  type AutoPositioningHandle,
   NGN_CONFIG,
-  PositioningSizeConstraints,
+  type PositioningSizeConstraints,
   splitPlacement,
-  TooltipOptions,
+  type TooltipOptions,
 } from '@ngneers/controls/api/ng';
 import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
-import { getTimeSpanMilliseconds, notNullish, TimeSpan } from '@ngneers/controls/utils';
+import { getTimeSpanMilliseconds, notNullish, type TimeSpan } from '@ngneers/controls/utils';
 import { computedWithPrevious, generateElementId } from '@ngneers/controls/utils-ng';
 import { tooltipControlTemplate } from '@ngneers/controls-themes/templates/tooltip';
 
 import {
   relativeAnchorElementPosition,
-  RelativeAnchorElementPositionData,
+  type RelativeAnchorElementPositionData,
 } from './relative-anchor-element-position';
+
+import type { Placement } from '@floating-ui/dom';
 
 /**
  * @category control

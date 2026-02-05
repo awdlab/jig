@@ -1,7 +1,8 @@
-import { Signal } from '@angular/core';
 import { toggleClass } from '@ngneers/controls/utils';
 
 import { effectWithPrevious } from './signals';
+
+import type { Signal } from '@angular/core';
 
 export function classSignal(element: HTMLElement, klass: Signal<string | string[]>) {
   effectWithPrevious(klass, (current, previous) => {

@@ -1,7 +1,8 @@
-import { InjectionToken, Provider } from '@angular/core';
+import { InjectionToken, type Provider } from '@angular/core';
 
 import { NgnToastManager } from './toast-manager';
-import { NgnToastOptionsMeta } from './types';
+
+import type { NgnToastOptionsMeta } from './types';
 
 export type NgnToastFeature = {
   providers: Provider[];

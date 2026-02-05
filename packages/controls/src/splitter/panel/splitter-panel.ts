@@ -3,7 +3,7 @@ import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { generateElementId } from '@ngneers/controls/utils-ng';
 import { splitterControlTemplate } from '@ngneers/controls-themes/templates/splitter';
 
-import { SplitterPanelSize, SplitterPanelSizeLimit } from '../types';
+import type { SplitterPanelSize, SplitterPanelSizeLimit } from '../types';
 
 /**
  * @category control

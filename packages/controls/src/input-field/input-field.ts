@@ -14,10 +14,11 @@ import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
 import { generateElementId } from '@ngneers/controls/utils-ng';
-import { CustomKind, IconType } from '@ngneers/controls-custom-types';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 
 import { INPUT_FIELD } from './token';
+
+import type { CustomKind, IconType } from '@ngneers/controls-custom-types';
 
 /**
  * @category control

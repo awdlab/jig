@@ -3,16 +3,16 @@ import { ChangeDetectionStrategy, Component, computed, input, model, signal } fr
 import { executeMultiFilter } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
-import { NgnFilterConfig } from '@ngneers/controls/filter';
-import { NgnPaginator, PaginationState } from '@ngneers/controls/paginator';
+import { NgnPaginator, type PaginationState } from '@ngneers/controls/paginator';
 import { NgnScroller } from '@ngneers/controls/scroller';
-import { AllKeysOfUnion } from '@ngneers/controls/utils';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 import { NgnTableTemplates } from './table-templates';
-import { FormattedTableRow } from './types';
 
 import type { NgnTableTh } from './table-header-cell';
+import type { FormattedTableRow } from './types';
+import type { NgnFilterConfig } from '@ngneers/controls/filter';
+import type { AllKeysOfUnion } from '@ngneers/controls/utils';
 
 @Component({
   selector: 'ngn-table',

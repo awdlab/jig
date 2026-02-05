@@ -1,4 +1,4 @@
-import { Locator, expect } from '@playwright/test';
+import { type Locator, expect } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { switchControlTemplate } from '@ngneers/controls-themes/templates/switch';
 

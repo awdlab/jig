@@ -1,4 +1,12 @@
-import { AfterViewInit, Directive, effect, ElementRef, inject, input, signal } from '@angular/core';
+import {
+  type AfterViewInit,
+  Directive,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { getNearestNgnInstance } from '@ngneers/controls/base';
 import { NgnError, toggleClass } from '@ngneers/controls/utils';
 

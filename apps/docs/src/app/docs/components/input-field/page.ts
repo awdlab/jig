@@ -4,7 +4,8 @@ import { Demo_InputField_Clear } from '../../../demos/input-field/clear';
 import { Demo_InputField_Label } from '../../../demos/input-field/label';
 import { Demo_InputField_States } from '../../../demos/input-field/states';
 import { Demo_InputField_Textarea } from '../../../demos/input-field/textarea';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const InputFieldPage: NgnDocsPage = {
   title: `Input Field`,

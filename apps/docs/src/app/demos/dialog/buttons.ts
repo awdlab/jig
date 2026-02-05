@@ -1,7 +1,8 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
-import { NgnActionButtonConfig } from '@ngneers/controls/api';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnDialog } from '@ngneers/controls/dialog';
+
+import type { NgnActionButtonConfig } from '@ngneers/controls/api';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

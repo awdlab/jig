@@ -6,7 +6,8 @@ import { Demo_ListBox_Multiple } from '../../../demos/list-box/multiple';
 import { Demo_ListBox_Templates } from '../../../demos/list-box/templates';
 import { Demo_ListBox_Value } from '../../../demos/list-box/value';
 import { Demo_ListBox_Virtual } from '../../../demos/list-box/virtual';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const ListBoxPage: NgnDocsPage = {
   title: `List Box`,

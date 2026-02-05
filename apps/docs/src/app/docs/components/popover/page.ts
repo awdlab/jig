@@ -1,7 +1,8 @@
 import { NgnDocsPopoverPlayground } from './playground';
 import { Demo_Popover_Base } from '../../../demos/popover/base';
 import { Demo_Popover_Lazy } from '../../../demos/popover/lazy';
-import { NgnDocsPage } from '../../../utils/page/types';
+
+import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const PopoverPage: NgnDocsPage = {
   title: `Popover`,

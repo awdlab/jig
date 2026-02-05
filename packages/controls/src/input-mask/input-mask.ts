@@ -13,7 +13,8 @@ import { NgnInput } from '@ngneers/controls/input';
 import { inputMaskControlTemplate } from '@ngneers/controls-themes/templates/input-mask';
 
 import { MaskHelper } from './helper';
-import { InputMaskCfg } from './types';
+
+import type { InputMaskCfg } from './types';
 
 /**
  * @category control

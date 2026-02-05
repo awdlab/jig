@@ -1,9 +1,10 @@
 import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
 import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
-import { InputGeneric } from '@ngneers/controls/utils';
-import { IconType } from '@ngneers/controls-custom-types';
 import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
+
+import type { InputGeneric } from '@ngneers/controls/utils';
+import type { IconType } from '@ngneers/controls-custom-types';
 
 type ValueType<Indeterminate extends boolean> =
   InputGeneric<Indeterminate, false> extends false ? boolean : boolean | null;

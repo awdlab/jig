@@ -1,6 +1,6 @@
 import { toastControlTemplate } from '@ngneers/controls-themes/templates/toast';
 import { themeClasses } from '../utils/theme';
-import test, { expect, Locator, Page } from '@playwright/test';
+import test, { expect, type Locator, type Page } from '@playwright/test';
 
 export class NgnToastHarness {
   public readonly classes = themeClasses(toastControlTemplate);

@@ -1,5 +1,5 @@
-import { DefaultIcon } from '@ngneers/controls/icon';
-import { CustomColor, CustomKind, IconType } from '@ngneers/controls-custom-types';
+import type { DefaultIcon } from '@ngneers/controls/icon';
+import type { CustomColor, CustomKind, IconType } from '@ngneers/controls-custom-types';
 
 export type NgnActionButtonConfig<T = unknown> = {
   label: string;

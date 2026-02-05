@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, contentChild, TemplateRef } from '@
 import { templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 
-import { FormattedTableRow } from './types';
+import type { FormattedTableRow } from './types';
 
 @Component({
   template: '',

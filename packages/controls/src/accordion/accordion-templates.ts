@@ -2,7 +2,7 @@ import { computed, contentChild, Directive, input, TemplateRef, viewChild } from
 import { templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 
-import { HeaderTemplateType } from './types';
+import type { HeaderTemplateType } from './types';
 
 @Directive()
 export abstract class AccordionTemplates extends NgnBase<'accordionPanel'> {

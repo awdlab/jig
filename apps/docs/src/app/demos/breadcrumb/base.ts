@@ -1,13 +1,11 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
-import { BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
-import { NgnButton } from '@ngneers/controls/button';
+import { type BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-breadcrumb-base',
-  imports: [NgnBreadcrumb, NgnButton],
-  template: `<ngn-breadcrumb [items]="items()" />
-    <button ngnButton (click)="click()">Click me</button>`,
+  imports: [NgnBreadcrumb],
+  template: `<ngn-breadcrumb [items]="items()" />`,
   host: { class: 'flex-1' },
 })
 export class Demo_Breadcrumb_Base {
@@ -23,16 +21,4 @@ export class Demo_Breadcrumb_Base {
     { label: 'Item 9', id: 'item-9', callback: () => {} },
     { label: 'Item 10', id: 'item-10' },
   ]);
-
-  protected click() {
-    this.items.update(items => {
-      const copy = [...items];
-      if (copy[4].label.length > 8) {
-        copy[4] = { label: 'Item 5', id: 'item-5', callback: () => {} };
-      } else {
-        copy[4] = { label: 'Item 5 (longer label yeehaw)', id: 'item-5', callback: () => {} };
-      }
-      return copy;
-    });
-  }
 }

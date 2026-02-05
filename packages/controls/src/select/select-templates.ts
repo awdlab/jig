@@ -1,8 +1,9 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
-import { NgnItem } from '@ngneers/controls/api';
 import { templateTypesFn } from '@ngneers/controls/api/ng';
 import { ValueControlBase } from '@ngneers/controls/base';
-import { InputGeneric } from '@ngneers/controls/utils';
+
+import type { NgnItem } from '@ngneers/controls/api';
+import type { InputGeneric } from '@ngneers/controls/utils';
 
 /**
  * This type determines the value type for the select control.

@@ -10,7 +10,8 @@ import {
 } from '@angular/core';
 
 import { renderMd } from './render-md';
-import { MdCfg } from './types';
+
+import type { MdCfg } from './types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

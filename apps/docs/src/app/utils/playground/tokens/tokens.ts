@@ -9,16 +9,18 @@ import {
   effect,
 } from '@angular/core';
 import { injectTheme } from '@ngneers/controls/api/ng';
-import { AnyNgnBase, FullAnyNgnBase, NgnPassthrough } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnMessage } from '@ngneers/controls/message';
 import { notNullish } from '@ngneers/controls/utils';
 import { setInputSignalValue } from '@ngneers/controls/utils-ng';
-import { ControlName, ControlTemplate } from '@ngneers/controls-themes';
-import { ConsoleLogger, Deserializer, FileRegistry, ProjectReflection } from 'typedoc/browser';
+import { ConsoleLogger, Deserializer, FileRegistry } from 'typedoc/browser';
 
 import { getInternalControlName } from '../../api/api-docs-helper';
 import { getTypedocProject } from '../../typedoc';
+
+import type { AnyNgnBase, FullAnyNgnBase, NgnPassthrough } from '@ngneers/controls/base';
+import type { ControlName, ControlTemplate } from '@ngneers/controls-themes';
+import type { ProjectReflection } from 'typedoc/browser';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

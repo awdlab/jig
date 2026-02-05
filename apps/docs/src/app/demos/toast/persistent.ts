@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
-import { injectToastCreator, NgnToastRef } from '@ngneers/controls/toast';
+import { injectToastCreator, type NgnToastRef } from '@ngneers/controls/toast';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

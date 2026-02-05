@@ -1,8 +1,9 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
-import { NgnItemsValue } from '@ngneers/controls/api';
 import { NgnListBox } from '@ngneers/controls/list-box';
 
 import { exampleData } from '../../helper/data';
+
+import type { NgnItemsValue } from '@ngneers/controls/api';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,9 +1,12 @@
 import { NgComponentOutlet } from '@angular/common';
-import { Component, computed, input, signal, ChangeDetectionStrategy, Type } from '@angular/core';
+import { Component, computed, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnIcon } from '@ngneers/controls/icon';
+import { throwExp } from '@ngneers/controls/utils';
 
 import { style } from '../code/prism';
+
+import type { Type } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,8 +37,12 @@ export class NgnDocsDemo {
       return input.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
     }
 
-    const componentShortName = toKebabCase(componentNameParts[1]);
-    const demoShortName = toKebabCase(componentNameParts[2]);
+    const componentShortName = toKebabCase(
+      componentNameParts[1] || throwExp('docs:demo', 'Invalid component name format')
+    );
+    const demoShortName = toKebabCase(
+      componentNameParts[2] || throwExp('docs:demo', 'Invalid component name format')
+    );
 
     const path = `/demos/${componentShortName}/${demoShortName}.ts`;
     const res = await fetch(path);

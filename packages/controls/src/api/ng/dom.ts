@@ -8,7 +8,7 @@ import {
   Injector,
   runInInjectionContext,
   signal,
-  Signal,
+  type Signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { deepCopy } from '@ngneers/controls/utils';
@@ -87,9 +87,13 @@ function elementsSizesSignalInt(
       const index = elements.findIndex(el => el === entry.target);
       sizeSignal.update(s => {
         const copy = deepCopy(s);
+        const borderBoxSize = entry.borderBoxSize[0];
+        if (!borderBoxSize) {
+          return s;
+        }
         copy[index] = {
-          width: entry.borderBoxSize[0].inlineSize,
-          height: entry.borderBoxSize[0].blockSize,
+          width: borderBoxSize.inlineSize,
+          height: borderBoxSize.blockSize,
         };
         return copy;
       });
