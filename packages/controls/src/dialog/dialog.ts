@@ -63,7 +63,10 @@ type TypedContent = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideSelf(NgnDialog)],
 })
-export class NgnDialog<T, Buttons extends NgnActionButtonConfig<unknown>[]>
+export class NgnDialog<
+  T,
+  Buttons extends NgnActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
+>
   extends DialogTemplates<T>
   implements Openable
 {

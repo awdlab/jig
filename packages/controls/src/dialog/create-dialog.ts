@@ -8,13 +8,19 @@ import { PromptDialogBase } from './prompt-dialog-base';
 import type { DialogConfig } from './types';
 import type { NgnActionButtonConfig } from '@ngneers/controls/api';
 
-export type DialogHandle<T, Buttons extends NgnActionButtonConfig<unknown>[]> = {
+export type DialogHandle<
+  T,
+  Buttons extends NgnActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
+> = {
   close: () => void;
   updateConfig: (config: Partial<DialogConfig<T, Buttons>>) => void;
   buttonClicked: Observable<Buttons[number]['value'] | null>;
 };
 
-export type PromptDialogHandle<T, Buttons extends NgnActionButtonConfig<unknown>[]> = {
+export type PromptDialogHandle<
+  T,
+  Buttons extends NgnActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
+> = {
   close: () => void;
   updateConfig: (config: Partial<DialogConfig<T, Buttons>>) => void;
   result: Promise<{
@@ -23,10 +29,10 @@ export type PromptDialogHandle<T, Buttons extends NgnActionButtonConfig<unknown>
   }>;
 };
 
-function applyDialogConfig<T, Buttons extends NgnActionButtonConfig<unknown>[]>(
-  dialogRef: ComponentRef<NgnDialog<T, Buttons>>,
-  config: DialogConfig<T, Buttons>
-): void {
+function applyDialogConfig<
+  T,
+  Buttons extends NgnActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
+>(dialogRef: ComponentRef<NgnDialog<T, Buttons>>, config: DialogConfig<T, Buttons>): void {
   if (config.title !== undefined) {
     setComponentInput(dialogRef, 'title', config.title);
   }
@@ -53,7 +59,10 @@ function applyDialogConfig<T, Buttons extends NgnActionButtonConfig<unknown>[]>(
   }
 }
 
-export function createDialog<T, Buttons extends NgnActionButtonConfig<unknown>[]>(
+export function createDialog<
+  T,
+  Buttons extends NgnActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
+>(
   injector: Injector,
   config: DialogConfig<T, Buttons>
 ): T extends PromptDialogBase<any, any>
@@ -64,7 +73,7 @@ export function createDialog<T, Buttons extends NgnActionButtonConfig<unknown>[]
   const viewContainerRef = injector.get(ViewContainerRef);
   const dialogRef = viewContainerRef.createComponent(NgnDialog, {
     injector,
-  });
+  }) as unknown as ComponentRef<NgnDialog<T, Buttons>>;
 
   applyDialogConfig(dialogRef, config);
   dialogRef.instance.buttonClicked.subscribe(value => {

@@ -42,7 +42,7 @@ export function getEslintConfig(tsconfigPath) {
             },
             {
               type: 'element',
-              prefix: ['ngn', 'demo', 'dummy'],
+              prefix: ['ngn', 'demo', 'dummy', 'test'],
               style: 'kebab-case',
             },
           ],
