@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   booleanAttribute,
   computed,
   DestroyRef,
@@ -62,7 +63,7 @@ export function provideSelf(control: Type<unknown>): Provider {
 }
 
 @Directive({
-  host: { class: 'ngn-control' },
+  host: { class: 'ngn-control ngn-control-initializing' },
 })
 export abstract class NgnBase<T extends ControlName | null> {
   protected abstract theme: ControlTemplateInfo<never> | null;
@@ -122,6 +123,11 @@ export abstract class NgnBase<T extends ControlName | null> {
     });
 
     this.initializeKindAndColorClasses();
+
+    afterNextRender(() => {
+      // Remove the initializing class after the first render to prevent FOUC.
+      this.element.nativeElement.classList.remove('ngn-control-initializing');
+    });
   }
 
   /**

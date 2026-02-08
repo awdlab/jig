@@ -12,6 +12,13 @@ export const globalStyles = createThemePart({
           scrollbar-color: var(--ngn-color-scrollbar);
         }
       }
+      .ngn-control.ngn-control-initializing {
+        /*
+         * Hide controls until they are fully initialized to prevent FOUC
+         * The 'ngn-control-initialized' class is added in a afterNextRender callback in NgnBase.
+         */
+        display: none !important;
+      }
     `,
   },
 });
