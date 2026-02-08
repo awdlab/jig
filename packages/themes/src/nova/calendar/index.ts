@@ -31,6 +31,7 @@ export const calendarStyles = createThemePart({
       }
       ${c('navigation')} {
         align-items: center;
+        gap: ${v('size.padding.sm')};
       }
       ${c('days')} {
         gap: ${v('size.padding.md')};

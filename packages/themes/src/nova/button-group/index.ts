@@ -11,6 +11,7 @@ export const buttonGroupStyles = createThemePart({
     css: ({ v, c, d }) => css`
       ${c('horizontal')} {
         & ${d('button', 'root')} {
+          border-right: 1px solid var(--theme-color-300);
           &:first-child {
             border-top-left-radius: ${v('size.rounded.md')};
             border-bottom-left-radius: ${v('size.rounded.md')};
@@ -18,6 +19,7 @@ export const buttonGroupStyles = createThemePart({
           &:last-child {
             border-top-right-radius: ${v('size.rounded.md')};
             border-bottom-right-radius: ${v('size.rounded.md')};
+            border-right: none;
           }
         }
       }
