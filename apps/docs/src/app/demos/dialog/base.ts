@@ -6,7 +6,7 @@ import { NgnDialog } from '@ngneers/controls/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-dialog-base',
   imports: [NgnDialog, NgnButton],
-  template: `<button ngnButton(click)="open.set(true)">Open Dialog</button>
+  template: `<button ngnButton (click)="open.set(true)">Open Dialog</button>
     <ngn-dialog
       [title]="'test'"
       [open]="open()"

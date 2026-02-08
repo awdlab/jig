@@ -29,7 +29,17 @@ export class NgnAutofocus implements AfterViewInit {
   }
 
   public ngAfterViewInit() {
-    this._isInitialized.set(true);
+    /**
+     * The additional microtask ensures that the control is rendered and the
+     * ngn-control-initializing class is removed before trying to focus the element.
+     */
+    if (this._el.nativeElement.getClientRects().length === 0) {
+      queueMicrotask(() => {
+        this._isInitialized.set(true);
+      });
+    } else {
+      this._isInitialized.set(true);
+    }
   }
 
   private autoFocus() {
