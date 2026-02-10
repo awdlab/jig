@@ -1,0 +1,55 @@
+import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { NgnToggleButton } from '@ngneers/controls/toggle-button';
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgnToggleButton],
+  selector: 'ngn-demo-toggle-button-states',
+  template: `
+    Default:
+    <ngn-toggle-button [value]="value()" (valueChange)="value.set($event)" label="Toggle" />
+    Disabled:
+    <ngn-toggle-button
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      label="Toggle"
+      disabled
+    />
+    Readonly:
+    <ngn-toggle-button
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      label="Toggle"
+      readonly
+    />
+    Invalid:
+    <ngn-toggle-button [value]="value()" (valueChange)="value.set($event)" label="Toggle" invalid />
+    Invalid + Disabled:
+    <ngn-toggle-button
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      label="Toggle"
+      disabled
+      invalid
+    />
+    Invalid + Readonly:
+    <ngn-toggle-button
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      label="Toggle"
+      readonly
+      invalid
+    />
+  `,
+  styles: `
+    :host {
+      display: grid;
+      grid-template-columns: fit-content(200px) 1fr;
+      gap: 1rem;
+      align-items: center;
+    }
+  `,
+})
+export class Demo_ToggleButton_States {
+  protected readonly value = signal(false);
+}

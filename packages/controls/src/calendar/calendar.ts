@@ -18,7 +18,7 @@ import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnPopover } from '@ngneers/controls/popover';
 import { NgnSelect } from '@ngneers/controls/select';
-import { NgnError } from '@ngneers/controls/utils';
+import { NgnError, throwExp } from '@ngneers/controls/utils';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
 import { CalendarTemplates } from './calendar-templates';
@@ -96,9 +96,11 @@ export class NgnCalendar extends CalendarTemplates {
       { length: 12 },
       (_, i) =>
         <NgnItem>{
-          label: `calendar_months_${MONTHS[i]}`,
+          label:
+            this.i18n[
+              `calendar_months_${MONTHS[i] ?? throwExp('calendar', 'invalid month index')}`
+            ],
           value: MONTHS[i],
-          translate: true,
           testId: `calendar-month-${MONTHS[i]}`,
         }
     );

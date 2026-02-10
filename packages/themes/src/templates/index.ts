@@ -30,6 +30,7 @@ export type ThemeTemplate = {
   progress: Awaited<typeof import('./progress')>['progressControlTemplate'];
   scroller: Awaited<typeof import('./scroller')>['scrollerControlTemplate'];
   select: Awaited<typeof import('./select')>['selectControlTemplate'];
+  selectButton: Awaited<typeof import('./select-button')>['selectButtonControlTemplate'];
   slider: Awaited<typeof import('./slider')>['sliderControlTemplate'];
   spinner: Awaited<typeof import('./spinner')>['spinnerControlTemplate'];
   splitter: Awaited<typeof import('./splitter')>['splitterControlTemplate'];
@@ -38,6 +39,7 @@ export type ThemeTemplate = {
   table: Awaited<typeof import('./table')>['tableControlTemplate'];
   tag: Awaited<typeof import('./tag')>['tagControlTemplate'];
   toast: Awaited<typeof import('./toast')>['toastControlTemplate'];
+  toggleButton: Awaited<typeof import('./toggle-button')>['toggleButtonControlTemplate'];
   tooltip: Awaited<typeof import('./tooltip')>['tooltipControlTemplate'];
 };
 

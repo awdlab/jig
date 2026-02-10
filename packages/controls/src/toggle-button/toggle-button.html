@@ -1,0 +1,32 @@
+<button
+  [ptInt]="this"
+  [ptClass]="'button'"
+  (click)="toggle()"
+  [disabled]="disabled()"
+  [ariaReadOnly]="readonly()"
+  (blur)="touched.set(true)"
+>
+  <span [ptInt]="this" [ptClass]="'label'">
+    @let renderedIcon = (value() ? iconOn() : iconOff()) ?? icon();
+    @if (renderedIcon) {
+      <ngn-icon [icon]="renderedIcon" />
+    }
+    {{ (value() ? labelOn() : labelOff()) ?? label() }}
+  </span>
+  @if (fixedWidth()) {
+    <span inert [ptInt]="this" [ptClass]="'placeholder-active'">
+      @let renderedIconOn = iconOn() ?? icon();
+      @if (renderedIconOn) {
+        <ngn-icon [icon]="renderedIconOn" />
+      }
+      {{ labelOn() ?? label() }}
+    </span>
+    <span inert [ptInt]="this" [ptClass]="'placeholder'">
+      @let renderedIconOff = iconOff() ?? icon();
+      @if (renderedIconOff) {
+        <ngn-icon [icon]="renderedIconOff" />
+      }
+      {{ labelOff() ?? label() }}
+    </span>
+  }
+</button>

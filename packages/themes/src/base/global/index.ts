@@ -5,7 +5,9 @@ export const globalStyles = createThemePart({
   controlTemplate: globalControlTemplate,
   root: {
     css: ({ v, c }) => css`
-      --ngn-color-scrollbar: var(--ngn-color-surface-300) transparent;
+      --ngn-color-scrollbar-thumb: var(--ngn-color-surface-300);
+      --ngn-color-scrollbar-track: transparent;
+      --ngn-color-scrollbar: var(--ngn-color-scrollbar-thumb) var(--ngn-color-scrollbar-track);
       ${c('root')} {
         /* styles for all ngn controls go here */
         * {

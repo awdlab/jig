@@ -56,11 +56,10 @@ import type { IconType } from '@ngneers/controls-custom-types';
   },
 })
 export class NgnSelect<
-  T extends object = object,
-  K extends keyof T = never,
+  V,
   Editable extends boolean = false,
   Multiple extends boolean = false,
-> extends SelectTemplates<T, K, Editable, Multiple> {
+> extends SelectTemplates<V, Editable, Multiple> {
   protected readonly theme = this.injectThemeTemplate(selectControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
   private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);
@@ -89,13 +88,13 @@ export class NgnSelect<
    * * A list of {@link NgnItem} objects
    * * A list of plain objects. You'll have to provide a {@link fields} input to specify how to map the plain objects to {@link NgnItem} objects.
    */
-  public readonly options = input<readonly NgnItem<T, K>[]>([]);
+  public readonly options = input<readonly NgnItem<unknown, V>[]>([]);
   /**
    * Accepts a boolean value that determines whether the filter is enabled.
    * Alternatively, you can provide `SelectFilterOptions` to customize the filter behavior.
    * @default `false`
    */
-  public readonly filter = input<SelectFilterOptions<NgnItem<T, K>> | boolean>(false);
+  public readonly filter = input<SelectFilterOptions<NgnItem<unknown, V>> | boolean>(false);
   /**
    * Manually set the filter text.
    */
@@ -163,7 +162,7 @@ export class NgnSelect<
   private _userChangedEditableInput = false;
 
   protected readonly filterTextInternal = linkedSignal(this.filterText);
-  protected readonly currentHighlightedValue = signal<T[K] | null>(null);
+  protected readonly currentHighlightedValue = signal<V | null>(null);
   protected readonly valueStr = computed(() => {
     const v = this.value();
     return typeof v === 'string' ? v : null;
@@ -277,7 +276,7 @@ export class NgnSelect<
         }
         const newValue = this.options()[newIndex]?.value;
         if (newValue !== undefined) {
-          this.onSelect(newValue as ValueType<T, K, false, Multiple>);
+          this.onSelect(newValue as ValueType<V, false, Multiple>);
         }
       }
     }
@@ -294,14 +293,14 @@ export class NgnSelect<
     }
   }
 
-  protected onSelect(value: ValueType<T, K, false, Multiple> | null) {
+  protected onSelect(value: ValueType<V, false, Multiple> | null) {
     if (this.editable()) {
       const item = this._flatOptions().find(option => option.value === value);
       if (item) {
-        this.value.set(item.label as ValueType<T, K, Editable, Multiple>);
+        this.value.set(item.label as ValueType<V, Editable, Multiple>);
       }
     } else {
-      const v = value as ValueType<T, K, Editable, Multiple>;
+      const v = value as ValueType<V, Editable, Multiple>;
       if (this.value() !== v) {
         this.value.set(v);
       }
@@ -333,7 +332,7 @@ export class NgnSelect<
 
   protected onEditableChange(value: string | null) {
     if (this.editable()) {
-      this.value.set(value as ValueType<T, K, Editable, Multiple>);
+      this.value.set(value as ValueType<V, Editable, Multiple>);
       this._userChangedEditableInput = true;
       if (this.editableAutoFilter()) {
         this.filterTextInternal.set(value);

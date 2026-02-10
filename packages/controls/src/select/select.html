@@ -121,10 +121,10 @@
   <span [attr.data-testid]="item?.testId">
     @let label = item?.label;
     @if (label) {
-      @if (item?.translate) {
-        {{ i18n._unsafe[label]?.() }}
+      @if (typeof label === 'string') {
+        <span [attr.data-testid]="item?.testId">{{ label }}</span>
       } @else {
-        {{ label }}
+        <span [attr.data-testid]="item?.testId">{{ label() }}</span>
       }
     }
   </span>
@@ -134,10 +134,10 @@
   <span [attr.data-testid]="group?.testId">
     @let label = group?.label;
     @if (label) {
-      @if (group?.translate) {
-        {{ i18n._unsafe[label]?.() }}
+      @if (typeof label === 'string') {
+        <span [attr.data-testid]="group?.testId">{{ label }}</span>
       } @else {
-        {{ label }}
+        <span [attr.data-testid]="group?.testId">{{ label() }}</span>
       }
     }
   </span>
@@ -146,10 +146,10 @@
 <ng-template #defaultSelectedItemTemplate [ngnTemplate]="templateTypes.item" let-item>
   @let label = item?.label;
   @if (label) {
-    @if (item?.translate) {
-      <span [attr.data-testid]="item?.testId">{{ i18n._unsafe[label]?.() }}</span>
-    } @else {
+    @if (typeof label === 'string') {
       <span [attr.data-testid]="item?.testId">{{ label }}</span>
+    } @else {
+      <span [attr.data-testid]="item?.testId">{{ label() }}</span>
     }
   } @else {
     <span [attr.data-testid]="item?.testId">&ZeroWidthSpace;</span>

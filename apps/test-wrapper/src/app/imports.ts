@@ -40,6 +40,8 @@ export const IMPORTS = {
     import('@ngneers/controls/scroller').then((m) => m.NgnScrollerItem),
   ],
   select: () => import('@ngneers/controls/select').then((m) => m.NgnSelect),
+  selectButton: () =>
+    import('@ngneers/controls/select-button').then((m) => m.NgnSelectButton),
   slider: () => import('@ngneers/controls/slider').then((m) => m.NgnSlider),
   spinner: () => import('@ngneers/controls/spinner').then((m) => m.NgnSpinner),
   splitter: () =>
@@ -50,6 +52,8 @@ export const IMPORTS = {
   table: () => import('@ngneers/controls/table').then((m) => m.NgnTable),
   tag: () => import('@ngneers/controls/tag').then((m) => m.NgnTag),
   toast: () => import('@ngneers/controls/toast').then((m) => m.NgnToast),
+  toggleButton: () =>
+    import('@ngneers/controls/toggle-button').then((m) => m.NgnToggleButton),
   tooltip: () => import('@ngneers/controls/tooltip').then((m) => m.NgnTooltip),
   dummy_component: () =>
     import('./helper-components/dummy').then((m) => m.DummyComponent),

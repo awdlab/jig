@@ -5,7 +5,7 @@ import { stringMatches, type PredefinedStringMatchFunction } from './string-matc
 export type PredefinedFilterFunctions = PredefinedStringMatchFunction;
 
 export type FilterConfigInternal<T extends object> = FilterConfig<T> & {
-  filterFieldsCallback: (item: T) => string | string[];
+  filterFieldsCallback: (item: T) => string | string[] | (() => string) | (() => string[]);
   fieldItems?: keyof T;
 };
 
@@ -25,7 +25,11 @@ async function filterItem<T extends object>(
   options: FilterConfigInternal<T>
 ): Promise<T | null> {
   const text = options.caseSensitive ? filterText : filterText.toLowerCase();
-  const filterFieldsCallbackResult = options.filterFieldsCallback?.(item);
+  const filterFieldsCallbackResultRaw = options.filterFieldsCallback?.(item);
+  const filterFieldsCallbackResult =
+    typeof filterFieldsCallbackResultRaw === 'function'
+      ? filterFieldsCallbackResultRaw()
+      : filterFieldsCallbackResultRaw;
   const fields = Array.isArray(filterFieldsCallbackResult)
     ? filterFieldsCallbackResult
     : [filterFieldsCallbackResult];

@@ -43,7 +43,7 @@ type OperatorDef = {
   requiresValue: boolean;
 };
 
-function defaultOperatorsForType(dataType: NgnFilterDataType): readonly OperatorDef[] {
+function defaultOperatorsForType(dataType: NgnFilterDataType) {
   switch (dataType) {
     case 'string':
       return [
@@ -54,7 +54,7 @@ function defaultOperatorsForType(dataType: NgnFilterDataType): readonly Operator
         { id: 'endsWith', labelKey: 'filter_operators_endsWith', requiresValue: true },
         { id: 'isEmpty', labelKey: 'filter_operators_isEmpty', requiresValue: false },
         { id: 'isNotEmpty', labelKey: 'filter_operators_isNotEmpty', requiresValue: false },
-      ];
+      ] as const satisfies OperatorDef[];
     case 'number':
       return [
         { id: 'isEqual', labelKey: 'filter_operators_isEqual', requiresValue: true },
@@ -71,7 +71,7 @@ function defaultOperatorsForType(dataType: NgnFilterDataType): readonly Operator
           labelKey: 'filter_operators_lessThanOrEqual',
           requiresValue: true,
         },
-      ];
+      ] as const satisfies OperatorDef[];
     case 'date':
     case 'dateTime':
       return [
@@ -81,16 +81,20 @@ function defaultOperatorsForType(dataType: NgnFilterDataType): readonly Operator
         { id: 'greaterThanOrEqual', labelKey: 'filter_operators_onOrAfter', requiresValue: true },
         { id: 'lessThan', labelKey: 'filter_operators_before', requiresValue: true },
         { id: 'lessThanOrEqual', labelKey: 'filter_operators_onOrBefore', requiresValue: true },
-      ];
+      ] as const satisfies OperatorDef[];
     case 'boolean':
       return [
         { id: 'isTrue', labelKey: 'filter_operators_isTrue', requiresValue: false },
         { id: 'isFalse', labelKey: 'filter_operators_isFalse', requiresValue: false },
-      ];
+      ] as const satisfies OperatorDef[];
     case 'custom':
-      return [{ id: 'custom', labelKey: 'filter_operators_custom', requiresValue: true }];
+      return [
+        { id: 'custom', labelKey: 'filter_operators_custom', requiresValue: true },
+      ] as const satisfies OperatorDef[];
     case 'list':
-      return [{ id: 'in', labelKey: 'filter_operators_in', requiresValue: true }];
+      return [
+        { id: 'in', labelKey: 'filter_operators_in', requiresValue: true },
+      ] as const satisfies OperatorDef[];
   }
 }
 
@@ -119,6 +123,7 @@ function defaultOperatorsForType(dataType: NgnFilterDataType): readonly Operator
 export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilterConfig | null> {
   protected readonly theme = this.injectThemeTemplate(filterControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
+  protected readonly unsafeI18n = inject(I18n).unsafe;
 
   /** Data to filter. */
   public readonly data = input<readonly T[]>([]);
@@ -243,8 +248,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     const options = this.operatorDefs().map(
       op =>
         <NgnItem>{
-          label: op.labelKey,
-          translate: true,
+          label: this.i18n[op.labelKey],
           value: op.id,
           testId: `filter-operator-${op.id}`,
         }
@@ -265,7 +269,15 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
       items.push({ label: s, value: s, testId: `filter-list-${s}` });
     }
 
-    return items.sort((a, b) => a.label.localeCompare(b.label));
+    return items.sort((a, b) => {
+      if (typeof a.label === 'string' && typeof b.label === 'string') {
+        return a.label.localeCompare(b.label);
+      }
+      if (typeof a.label === 'function' && typeof b.label === 'function') {
+        return a.label().localeCompare(b.label());
+      }
+      return 0;
+    });
   });
 
   protected readonly resolvedListOptions = computed<readonly NgnItem[]>(() => {
@@ -282,8 +294,8 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   });
 
   protected readonly matchModeOptions: readonly NgnItem[] = [
-    { label: 'filter_match_all', translate: true, value: 'all', testId: 'filter-match-all' },
-    { label: 'filter_match_any', translate: true, value: 'any', testId: 'filter-match-any' },
+    { label: this.i18n['filter_match_all'], value: 'all', testId: 'filter-match-all' },
+    { label: this.i18n['filter_match_any'], value: 'any', testId: 'filter-match-any' },
   ];
 
   protected readonly inputType = computed(() => {

@@ -6,7 +6,6 @@ import {
   type OnDestroy,
 } from '@angular/core';
 import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
-import { type NgnItem } from '@ngneers/controls/api';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnAvatar, NgnAvatarGroup } from '@ngneers/controls/avatar';
 import { NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
@@ -38,6 +37,8 @@ import { NgnTableModule } from '@ngneers/controls/table';
 import { NgnTab, NgnTabs } from '@ngneers/controls/tabs';
 import { NgnTag } from '@ngneers/controls/tag';
 import { NgnTooltip } from '@ngneers/controls/tooltip';
+
+import type { NgnItem } from '@ngneers/controls/api';
 
 declare global {
   interface Window {
@@ -124,6 +125,7 @@ declare global {
       <div>
         <ngn-checkbox
           [value]="checkboxValue()"
+          [allowIndeterminate]="true"
           (valueChange)="checkboxValue.set($event)"
         />
         <span>Check me</span>
@@ -298,9 +300,7 @@ export class LeakTestComponent implements OnInit, OnDestroy {
     { id: 'products', label: 'Products' },
   ]);
 
-  public readonly items = signal<
-    readonly NgnItem<{ value: number }, 'value'>[]
-  >([
+  public readonly items = signal<readonly NgnItem<unknown, number>[]>([
     { label: 'Item 1', value: 1, testId: 'item-1' },
     { label: 'Item 2', value: 2, testId: 'item-2' },
     { label: 'Item 3', value: 3, testId: 'item-3' },

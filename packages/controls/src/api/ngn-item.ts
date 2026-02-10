@@ -1,13 +1,14 @@
-import { computed, type Signal } from '@angular/core';
 import { NgnError } from '@ngneers/controls/utils';
 
-export type NgnItem<T = any, K extends keyof T = any> = {
+import type { IconType } from '@ngneers/controls-custom-types';
+
+export type NgnItem<T = any, V = any> = {
   data?: T;
-  label: string;
-  value: T[K];
-  translate?: boolean;
+  label: string | (() => string);
+  icon?: IconType;
+  value: V;
   testId?: string;
-  items?: NgnItem<T, K>[];
+  items?: NgnItem<T, V>[];
 };
 
 export type NgnItemFields<T, K extends keyof T> = {
@@ -35,7 +36,7 @@ export type NgnItemsValue<Items extends readonly NgnItem[]> = Items[number] exte
 export function transformToNgnItem<T extends object, K extends keyof T>(
   item: T,
   fields: NgnItemFields<T, K>
-): NgnItem<T, K> {
+): NgnItem<T, T[K]> {
   const rawItems = fields.children ? item[fields.children] : undefined;
   if (rawItems && !Array.isArray(rawItems)) {
     throw new NgnError(
@@ -48,17 +49,16 @@ export function transformToNgnItem<T extends object, K extends keyof T>(
     : undefined;
   return {
     data: item,
-    label: item[fields.label] as string,
+    label: item[fields.label] as string | (() => string),
     value: item[fields.value],
-    translate: fields.translate ? Boolean(item[fields.translate]) : undefined,
     testId: fields.testId ? (item[fields.testId] as string) : undefined,
-    items: items,
+    items: items as NgnItem<T, T[K]>[],
   };
 }
 
 export function transformToNgnItemPrimitive<T extends string | number>(
   item: T
-): NgnItem<{ var: T }, 'var'> {
+): NgnItem<unknown, T> {
   return transformToNgnItem({ var: item }, { label: 'var', value: 'var' });
 }
 
@@ -69,17 +69,6 @@ export function transformToNgnItems<Items extends readonly object[], K extends k
   return items.map((item: Items[number]) => transformToNgnItem(item, fields)) as {
     [P in keyof Items]: NgnItem<Items[P], K>;
   } & readonly NgnItem<Items[number], K>[];
-}
-
-export function transformToNgnItemsSignal<
-  T extends object,
-  K extends keyof T,
-  Items extends readonly T[],
->(
-  items: Signal<Items>,
-  fields: NgnItemFields<T, K>
-): Signal<{ [P in keyof Items]: NgnItem<Items[P], K> } & readonly NgnItem<T, K>[]> {
-  return computed(() => transformToNgnItems(items(), fields));
 }
 
 export function mapToItems(items: readonly NgnItem[]): readonly NgnItem[] {

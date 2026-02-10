@@ -24,6 +24,7 @@ import { PopoverPage } from './popover/page';
 import { ProgressPage } from './progress/page';
 import { ScrollerPage } from './scroller/page';
 import { SelectPage } from './select/page';
+import { SelectButtonPage } from './select-button/page';
 import { SliderPage } from './slider/page';
 import { SpinnerPage } from './spinner/page';
 import { SplitterPage } from './splitter/page';
@@ -32,6 +33,7 @@ import { TablePage } from './table/page';
 import { TabsPage } from './tabs/page';
 import { TagPage } from './tag/page';
 import { ToastPage } from './toast/page';
+import { ToggleButtonPage } from './toggle-button/page';
 import { TooltipPage } from './tooltip/page';
 
 export const ALL_COMPONENT_PAGES = [
@@ -61,6 +63,7 @@ export const ALL_COMPONENT_PAGES = [
   ProgressPage,
   ScrollerPage,
   SelectPage,
+  SelectButtonPage,
   SliderPage,
   SpinnerPage,
   SplitterPage,
@@ -69,5 +72,6 @@ export const ALL_COMPONENT_PAGES = [
   TabsPage,
   TagPage,
   ToastPage,
+  ToggleButtonPage,
   TooltipPage,
 ];

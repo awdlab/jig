@@ -28,6 +28,7 @@ import { popoverStyles } from '@ngneers/controls-themes/nova/popover';
 import { progressStyles } from '@ngneers/controls-themes/nova/progress';
 import { scrollerStyles } from '@ngneers/controls-themes/nova/scroller';
 import { selectStyles } from '@ngneers/controls-themes/nova/select';
+import { selectButtonStyles } from '@ngneers/controls-themes/nova/select-button';
 import { sliderStyles } from '@ngneers/controls-themes/nova/slider';
 import { spinnerStyles } from '@ngneers/controls-themes/nova/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/nova/splitter';
@@ -36,6 +37,7 @@ import { tableStyles } from '@ngneers/controls-themes/nova/table';
 import { tabsStyles } from '@ngneers/controls-themes/nova/tabs';
 import { tagStyles } from '@ngneers/controls-themes/nova/tag';
 import { toastStyles } from '@ngneers/controls-themes/nova/toast';
+import { toggleButtonStyles } from '@ngneers/controls-themes/nova/toggle-button';
 import { tooltipStyles } from '@ngneers/controls-themes/nova/tooltip';
 
 import type {} from './theme-types';
@@ -95,6 +97,7 @@ export const novaCoral = createTheme(
     resizableStyles,
     scrollerStyles,
     selectStyles,
+    selectButtonStyles,
     sizes,
     sliderStyles,
     spinnerStyles,
@@ -104,6 +107,7 @@ export const novaCoral = createTheme(
     tabsStyles,
     tagStyles,
     toastStyles,
+    toggleButtonStyles,
     tooltipStyles,
   ],
   {

@@ -14,6 +14,8 @@ export const buttonStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c }) => css`
+      ${themedColors(c, v)}
+
       ${c('root')} {
         --padding: ${v('size.padding.md')} ${v('size.padding.lg')};
         border-radius: ${v('size.rounded.md')};
@@ -25,8 +27,6 @@ export const buttonStyles = createThemePart({
           cursor: default;
         }
       }
-
-      ${themedColors(c, v)}
 
       ${c('kind-primary')} {
         background: var(--theme-color-500);

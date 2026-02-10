@@ -28,6 +28,7 @@ import { popoverStyles } from '@ngneers/controls-themes/base/popover';
 import { progressStyles } from '@ngneers/controls-themes/base/progress';
 import { scrollerStyles } from '@ngneers/controls-themes/base/scroller';
 import { selectStyles } from '@ngneers/controls-themes/base/select';
+import { selectButtonStyles } from '@ngneers/controls-themes/base/select-button';
 import { sliderStyles } from '@ngneers/controls-themes/base/slider';
 import { spinnerStyles } from '@ngneers/controls-themes/base/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/base/splitter';
@@ -35,6 +36,7 @@ import { switchStyles } from '@ngneers/controls-themes/base/switch';
 import { tabsStyles } from '@ngneers/controls-themes/base/tabs';
 import { tagStyles } from '@ngneers/controls-themes/base/tag';
 import { toastStyles } from '@ngneers/controls-themes/base/toast';
+import { toggleButtonStyles } from '@ngneers/controls-themes/base/toggle-button';
 import { tooltipStyles } from '@ngneers/controls-themes/base/tooltip';
 
 import { tableStyles } from './table';
@@ -71,6 +73,7 @@ export const baseStyles = {
   progress: progressStyles,
   scroller: scrollerStyles,
   select: selectStyles,
+  selectButton: selectButtonStyles,
   slider: sliderStyles,
   spinner: spinnerStyles,
   splitter: splitterStyles,
@@ -79,6 +82,7 @@ export const baseStyles = {
   tabs: tabsStyles,
   tag: tagStyles,
   toast: toastStyles,
+  toggleButton: toggleButtonStyles,
   tooltip: tooltipStyles,
 };
 

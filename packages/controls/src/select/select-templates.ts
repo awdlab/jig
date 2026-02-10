@@ -11,20 +11,19 @@ import type { InputGeneric } from '@ngneers/controls/utils';
  * * If `editable` is true, the value is a `string`.
  * * If neither is true, the value is the item's value type `T[K]`.
  */
-export type ValueType<T, K extends keyof T, Editable extends boolean, Multiple extends boolean> =
+export type ValueType<V, Editable extends boolean, Multiple extends boolean> =
   InputGeneric<Multiple, false> extends true
-    ? T[K][]
+    ? V[]
     : InputGeneric<Editable, false> extends true
       ? string
-      : T[K];
+      : V;
 
 @Directive()
 export abstract class SelectTemplates<
-  T,
-  K extends keyof T,
+  V,
   Editable extends boolean,
   Multiple extends boolean,
-> extends ValueControlBase<'select', ValueType<T, K, Editable, Multiple> | null> {
+> extends ValueControlBase<'select', ValueType<V, Editable, Multiple> | null> {
   // Item template
   private readonly _defaultItemTemplate =
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');
@@ -109,10 +108,10 @@ export abstract class SelectTemplates<
    */
   public readonly templateTypes = templateTypesFn<{
     item: {
-      $implicit: NgnItem<T, K> | undefined;
+      $implicit: NgnItem<unknown, V> | undefined;
     };
     selectedItems: {
-      $implicit: NgnItem<T, K>[];
+      $implicit: NgnItem<unknown, V>[];
     };
   }>();
 }

@@ -14,7 +14,7 @@ export const buttonGroupStyles = createThemePart({
       ${c('horizontal')}, ${c('vertical')} {
         display: flex;
         width: fit-content;
-        & ${d('button', 'root')} {
+        & ${d('button', 'root')}, & ${d('toggle-button', 'root')} ${d('toggle-button', 'button')} {
           border-radius: 0;
           white-space: nowrap;
         }
