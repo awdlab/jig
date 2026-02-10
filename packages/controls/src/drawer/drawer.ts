@@ -16,6 +16,7 @@ import {
 import {
   NgnTemplate,
   type Openable,
+  Platform,
   type PopoverCloseBy,
   toPopoverCloseBy,
 } from '@ngneers/controls/api/ng';
@@ -79,7 +80,7 @@ export class NgnDrawer extends DrawerTemplates implements Openable {
    * Position of the drawer
    * @default 'left'
    */
-  public readonly position = input<'top' | 'right' | 'bottom' | 'left'>('left');
+  public readonly position = input<'top' | 'right' | 'bottom' | 'left' | 'fullscreen'>('left');
   /**
    * The width or height of the drawer depending on its position
    * @default '300px'
@@ -104,6 +105,15 @@ export class NgnDrawer extends DrawerTemplates implements Openable {
    */
   public readonly cache = input(false, { transform: booleanAttribute });
 
+  protected readonly appliedPosition = computed(() => {
+    const position = this.position();
+    if (this.platform.windowSize().height < 600 || this.platform.windowSize().width < 600) {
+      return 'fullscreen';
+    }
+    return position;
+  });
+
+  private readonly platform = inject(Platform);
   private _togglingTriggeredByInput = false;
   protected readonly isFullyClosed = signal(true);
   protected readonly closeByPopover = computed(() => toPopoverCloseBy(this.closeBy()));
@@ -125,7 +135,18 @@ export class NgnDrawer extends DrawerTemplates implements Openable {
     });
 
     effect(() => {
-      const position = this.position();
+      const position = this.appliedPosition();
+
+      if (position === 'fullscreen') {
+        this.element.nativeElement.style.top = '0';
+        this.element.nativeElement.style.bottom = '0';
+        this.element.nativeElement.style.left = '0';
+        this.element.nativeElement.style.right = '0';
+        this.element.nativeElement.style.width = '100%';
+        this.element.nativeElement.style.height = '100%';
+        return;
+      }
+
       this.element.nativeElement.style.top = position !== 'bottom' ? '0' : 'unset';
       this.element.nativeElement.style.bottom = position !== 'top' ? '0' : 'unset';
       this.element.nativeElement.style.left = position !== 'right' ? '0' : 'unset';

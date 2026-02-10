@@ -10,6 +10,7 @@ import { NgnDrawer } from '@ngneers/controls/drawer';
     <button ngnButton (click)="position.set('right')">→</button>
     <button ngnButton (click)="position.set('top')">↑</button>
     <button ngnButton (click)="position.set('bottom')">↓</button>
+    <button ngnButton (click)="position.set('fullscreen')">↔</button>
     <ngn-drawer
       [header]="'Drawer ' + position()"
       [position]="position() ?? 'left'"
@@ -21,5 +22,7 @@ import { NgnDrawer } from '@ngneers/controls/drawer';
     </ngn-drawer>`,
 })
 export class Demo_Drawer_Position {
-  protected readonly position = signal<'left' | 'right' | 'top' | 'bottom' | null>(null);
+  protected readonly position = signal<'left' | 'right' | 'top' | 'bottom' | 'fullscreen' | null>(
+    null
+  );
 }
