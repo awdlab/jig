@@ -20,7 +20,7 @@ import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnAutofocus } from '@ngneers/controls/directives';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnPopover } from '@ngneers/controls/popover';
-import { NgnError } from '@ngneers/controls/utils';
+import { maybeCallback, NgnError } from '@ngneers/controls/utils';
 import { effectWithPrevious, explicitEffect, generateElementId } from '@ngneers/controls/utils-ng';
 import { menuControlTemplate } from '@ngneers/controls-themes/templates/menu';
 
@@ -101,6 +101,8 @@ export class NgnMenu extends MenuTemplates implements Openable {
    * You probably want to react to openChange events from outside to update your variable accordingly.
    */
   public readonly open = model(false);
+
+  protected readonly maybeCallback = maybeCallback;
 
   private readonly _isTouchDevice = inject(Platform).isTouchDevice;
   private readonly _popover = viewChild(NgnPopover);

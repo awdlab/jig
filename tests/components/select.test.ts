@@ -1,8 +1,10 @@
 import { NgnSelectHarness } from '@ngneers/controls-playwright';
 import test, { expect } from '@playwright/test';
+
+import { exampleData } from '../helper/data';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
-import { exampleData } from '../helper/data';
+
 import type { PopoverOptions } from '@ngneers/controls/popover';
 
 test('base', async ({ page }, testInfo) => {
@@ -170,10 +172,8 @@ test('templates', async ({ page }, testInfo) => {
   await scroller.expectItemsCount(exampleData.items.flatPreformatted.length);
   await scroller.expectStickyItemsCount(exampleData.items.groupedPreformatted.length);
   await expectScreenshot(page, testInfo, 'opened');
-  await select.clickItemByText('👀' + (exampleData.items.flatPreformatted[0].label as string));
-  await select.expectSelectedItemText(
-    '✅' + (exampleData.items.flatPreformatted[0].label as string)
-  );
+  await select.clickItemByText(`👀${exampleData.items.flatPreformatted[0].label as string}`);
+  await select.expectSelectedItemText(`✅${exampleData.items.flatPreformatted[0].label as string}`);
 });
 
 test('filter', async ({ page }, testInfo) => {
@@ -311,8 +311,8 @@ test('multiple', async ({ page }, testInfo) => {
   await select.multipleItemView.expectItemVisibleCount(2);
   await select.multipleItemView.expectItemOverflowingCount(3);
   await select.multipleItemView.expectItemVisibleTexts([
-    exampleData.items.flatPreformatted[0].label + ', ',
-    exampleData.items.flatPreformatted[1].label + ', ',
+    `${exampleData.items.flatPreformatted[0].label}, `,
+    `${exampleData.items.flatPreformatted[1].label}, `,
   ]);
 
   await expectScreenshot(page, testInfo, 'selected-4');
@@ -323,8 +323,8 @@ test('multiple', async ({ page }, testInfo) => {
   await select.multipleItemView.expectItemVisibleCount(2);
   await select.multipleItemView.expectItemOverflowingCount(7);
   await select.multipleItemView.expectItemVisibleTexts([
-    exampleData.items.flatPreformatted[0].label + ', ',
-    exampleData.items.flatPreformatted[1].label + ', ',
+    `${exampleData.items.flatPreformatted[0].label}, `,
+    `${exampleData.items.flatPreformatted[1].label}, `,
   ]);
 
   await select.close();

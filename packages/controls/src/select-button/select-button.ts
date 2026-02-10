@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
 import { NgnButtonGroup } from '@ngneers/controls/button-group';
 import { NgnToggleButton } from '@ngneers/controls/toggle-button';
+import { maybeCallback } from '@ngneers/controls/utils';
 import { selectButtonControlTemplate } from '@ngneers/controls-themes/templates/select-button';
 
 import type { NgnActionItemFlat, NgnItem } from '@ngneers/controls/api';
@@ -40,6 +41,8 @@ export class NgnSelectButton<V> extends ValueControlBase<'selectButton', V> {
    * @default false
    */
   public readonly allowUnselect = input<boolean>(false);
+
+  protected readonly maybeCallback = maybeCallback;
 
   protected valueChange(value: V) {
     if (this.value() === value && !this.allowUnselect()) {

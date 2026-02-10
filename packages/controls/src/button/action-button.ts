@@ -2,6 +2,7 @@ import { Component, input, output, ChangeDetectionStrategy } from '@angular/core
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnTooltip } from '@ngneers/controls/tooltip';
+import { maybeCallback } from '@ngneers/controls/utils';
 
 import { NgnButton } from './button';
 
@@ -16,9 +17,11 @@ import type { NgnActionButtonConfig } from '@ngneers/controls/api';
 })
 export class NgnActionButton<T> extends NgnBase<null> {
   protected readonly theme = null;
-  public readonly config = input.required<NgnActionButtonConfig<T>>();
 
+  public readonly config = input.required<NgnActionButtonConfig<T>>();
   public readonly clicked = output<T>();
+
+  protected readonly maybeCallback = maybeCallback;
 
   protected click(event: PointerEvent): void {
     this.clicked.emit(this.config().value);

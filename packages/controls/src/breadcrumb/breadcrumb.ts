@@ -6,6 +6,7 @@ import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnItemView } from '@ngneers/controls/item-view';
 import { NgnMenu } from '@ngneers/controls/menu';
+import { maybeCallback } from '@ngneers/controls/utils';
 import { breadcrumbControlTemplate } from '@ngneers/controls-themes/templates/breadcrumb';
 
 import { BreadcrumbTemplates } from './breadcrumb-templates';
@@ -30,4 +31,6 @@ export class NgnBreadcrumb extends BreadcrumbTemplates {
   public readonly items = input.required<BreadcrumbItem[]>();
   public readonly iconItemSeparator = input<IconType>();
   public readonly iconOverflow = input<IconType>();
+
+  protected readonly maybeCallback = maybeCallback;
 }

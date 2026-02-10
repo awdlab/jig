@@ -92,7 +92,7 @@
 </ng-template>
 
 <ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
-  {{ item.label }}
+  {{ maybeCallback(item.label) }}
   @if (item.children) {
     <ngn-icon
       [ptInt]="this"

@@ -29,7 +29,7 @@
     (click)="item.callback?.()"
     [routerLink]="item.route"
   >
-    {{ item.label }}
+    {{ maybeCallback(item.label) }}
   </a>
 </ng-template>
 

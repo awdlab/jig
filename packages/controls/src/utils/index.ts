@@ -1,6 +1,7 @@
 export * from './dom';
 export * from './equality';
 export * from './error';
+export * from './functions';
 export * from './fuzzy-match';
 export * from './globals';
 export * from './logger';

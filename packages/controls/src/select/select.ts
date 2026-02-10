@@ -24,7 +24,7 @@ import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnItemView } from '@ngneers/controls/item-view';
 import { NgnListBox } from '@ngneers/controls/list-box';
 import { NgnPopover, type PopoverOptions } from '@ngneers/controls/popover';
-import { deepMerge, NgnError } from '@ngneers/controls/utils';
+import { deepMerge, maybeCallback, NgnError } from '@ngneers/controls/utils';
 import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
 
 import { SelectTemplates, type ValueType } from './select-templates';
@@ -157,6 +157,8 @@ export class NgnSelect<
    * @default multiple()
    */
   public readonly checkbox = input<boolean>();
+
+  protected readonly maybeCallback = maybeCallback;
 
   private readonly _listbox = viewChild(NgnListBox);
   private _userChangedEditableInput = false;
@@ -297,7 +299,7 @@ export class NgnSelect<
     if (this.editable()) {
       const item = this._flatOptions().find(option => option.value === value);
       if (item) {
-        this.value.set(item.label as ValueType<V, Editable, Multiple>);
+        this.value.set(maybeCallback(item.label) as ValueType<V, Editable, Multiple>);
       }
     } else {
       const v = value as ValueType<V, Editable, Multiple>;
@@ -332,7 +334,7 @@ export class NgnSelect<
 
   protected onEditableChange(value: string | null) {
     if (this.editable()) {
-      this.value.set(value as ValueType<V, Editable, Multiple>);
+      this.value.set(maybeCallback(value) as ValueType<V, Editable, Multiple>);
       this._userChangedEditableInput = true;
       if (this.editableAutoFilter()) {
         this.filterTextInternal.set(value);

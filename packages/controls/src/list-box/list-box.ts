@@ -28,6 +28,7 @@ import { NgnCheckbox } from '@ngneers/controls/checkbox';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnScroller, NgnScrollerItem } from '@ngneers/controls/scroller';
 import { createConditionalSpinner } from '@ngneers/controls/spinner';
+import { maybeCallback } from '@ngneers/controls/utils';
 import { asyncComputed } from '@ngneers/controls/utils-ng';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
 
@@ -94,6 +95,8 @@ export class NgnListBox<
   public readonly filterText = input<string | null>(null);
 
   public readonly itemClicked = output<NgnItemsValue<Items>>();
+
+  protected readonly maybeCallback = maybeCallback;
 
   public readonly displayedItems = computed(() => flatItems(this.filteredItems()));
 

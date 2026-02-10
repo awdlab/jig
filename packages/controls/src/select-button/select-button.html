@@ -1,7 +1,7 @@
 <ngn-button-group [orientation]="orientation()">
   @for (item of options(); track item.value) {
     <ngn-toggle-button
-      [label]="typeof item.label === 'string' ? item.label : item.label()"
+      [label]="maybeCallback(item.label)"
       [icon]="item.icon"
       [fixedWidth]="true"
       (valueChange)="valueChange(item.value)"
