@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { resolveWorkspaceDependencies } from '../../../tools/utils/resolve-workspace-dependencies';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
@@ -11,6 +12,7 @@ const distDir = path.join(projectRoot, 'dist');
 preparePackageJson(path.join(projectRoot, 'package.json'), path.join(distDir, 'package.json'));
 copyFile(path.join(projectRoot, 'README.md'), path.join(distDir, 'README.md'));
 copyFile(path.join(repoRoot, 'LICENSE'), path.join(distDir, 'LICENSE'));
+moveAllFilesFromDir(path.join(distDir, 'src'), path.join(distDir));
 
 function preparePackageJson(sourcePath: string, targetPath: string) {
   console.log(`Preparing package.json from ${sourcePath} to ${targetPath}`);
@@ -18,6 +20,8 @@ function preparePackageJson(sourcePath: string, targetPath: string) {
   delete packageJson.devDependencies;
   delete packageJson.scripts;
   delete packageJson.packageManager;
+
+  resolveWorkspaceDependencies(packageJson, repoRoot);
 
   // Find all package.json files to build exports
   packageJson.exports = {};
@@ -57,4 +61,23 @@ function findFilesRecursive(dir: string, fileName: string): string[] {
   }
 
   return results;
+}
+
+function moveAllFilesFromDir(sourceDir: string, targetDir: string) {
+  if (!fs.existsSync(targetDir)) {
+    fs.mkdirSync(targetDir, { recursive: true });
+  }
+  const items = fs.readdirSync(sourceDir, { withFileTypes: true });
+  for (const item of items) {
+    const sourcePath = path.join(sourceDir, item.name);
+    const targetPath = path.join(targetDir, item.name);
+    if (item.isDirectory()) {
+      moveAllFilesFromDir(sourcePath, targetPath);
+    } else if (item.isFile()) {
+      fs.renameSync(sourcePath, targetPath);
+    } else {
+      console.warn(`Skipping ${sourcePath} as it is not a file or directory`);
+    }
+  }
+  fs.rmdirSync(sourceDir);
 }

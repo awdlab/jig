@@ -1,11 +1,12 @@
 {
   "name": "@ngneers/controls",
-  "version": "0.0.1-pre1",
+  "version": "0.0.1-pre2",
   "private": false,
   "scripts": {
     "ng": "ng",
     "prebuild": "cpy package.json src/ && pnpm run icons:generate",
     "build": "ng build",
+    "postbuild": "tsx ../../tools/resolve-controls-deps.ts",
     "lint": "pnpm eslint .",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
