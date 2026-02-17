@@ -10,9 +10,7 @@ export class NgnScrollerHarness {
 
   constructor(public locator: Locator) {
     this.scrollarea = locator;
-    this.item = locator.locator(
-      `> :not(${this.classes['spacer']}):not(${this.classes['item-sticky']})`
-    );
+    this.item = locator.locator(`> :not(${this.classes['item-sticky']})`);
     this.itemSticky = locator.locator(this.classes['item-sticky']);
   }
 
