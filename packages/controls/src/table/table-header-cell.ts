@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   Directive,
   ElementRef,
   inject,
@@ -24,9 +25,13 @@ export class NgnTableTh extends NgnBase<'table'> implements OnDestroy, OnInit {
     super();
     this.prepareDom();
 
-    const element = inject(Renderer2).createElement('div');
-    element.classList.add(this.theme.class('spacer'));
-    inject<ElementRef<HTMLElement>>(ElementRef).nativeElement.appendChild(element);
+    const renderer = inject(Renderer2);
+    const elRef = inject<ElementRef<HTMLElement>>(ElementRef);
+    afterNextRender(() => {
+      const element = renderer.createElement('div');
+      element.classList.add(this.theme.class('spacer'));
+      elRef.nativeElement.appendChild(element);
+    });
   }
 
   public ngOnInit(): void {
