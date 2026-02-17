@@ -1,6 +1,6 @@
 {
   "name": "@ngneers/controls",
-  "version": "0.0.1-pre2",
+  "version": "0.0.1-pre3",
   "private": false,
   "scripts": {
     "ng": "ng",

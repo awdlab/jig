@@ -18,14 +18,22 @@ export const scrollerStyles = createThemePart({
       ${c('virtual')} {
         display: flex;
         flex-direction: column;
+        &::before,
+        &::after {
+          content: '';
+          display: block;
+          flex-shrink: 0;
+        }
+        &::before {
+          height: var(--ngn-scroller-padding-top, 0px);
+        }
+        &::after {
+          height: var(--ngn-scroller-padding-bottom, 0px);
+        }
         ${c('item')} {
           flex-shrink: 0;
           height: var(--ngn-scroller-item-height, unset);
         }
-      }
-      ${c('spacer')} {
-        flex-shrink: 0;
-        display: block;
       }
       ${c('item-sticky')} {
         z-index: 1;

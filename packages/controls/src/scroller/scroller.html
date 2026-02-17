@@ -1,5 +1,3 @@
-<div aria-hidden="true" [ptInt]="this" [ptClass]="'spacer'" [style.height.px]="paddingTop()"></div>
-
 @if (latestStickyItem(); as latestStickyItem) {
   <ng-container
     *ngTemplateOutlet="
@@ -14,10 +12,3 @@
     *ngTemplateOutlet="itemTemplate(); context: { $implicit: item.item, index: item.index }"
   ></ng-container>
 }
-
-<div
-  aria-hidden="true"
-  [ptInt]="this"
-  [ptClass]="'spacer'"
-  [style.height.px]="paddingBottom()"
-></div>

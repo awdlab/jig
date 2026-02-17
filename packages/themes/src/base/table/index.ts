@@ -29,7 +29,8 @@ export const tableStyles = createThemePart({
         > ${d('scroller', 'item')} {
           display: contents;
         }
-        > ${d('scroller', 'spacer')} {
+        &::before,
+        &::after {
           grid-column: 1 / -1;
         }
       }
