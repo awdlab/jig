@@ -79,7 +79,7 @@ export class NgnSlider extends ValueControlBase<'slider', number> {
 
   protected readonly left = computed(() => {
     const percent = ((this.value() - this.min()) / (this.max() - this.min())) * 100;
-    return percent;
+    return Math.min(100, Math.max(0, percent));
   });
 
   constructor() {
