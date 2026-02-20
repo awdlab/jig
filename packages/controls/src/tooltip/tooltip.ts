@@ -59,14 +59,6 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
     alias: 'ngnTooltip',
   });
   /**
-   * The CSS class to apply to the tooltip.
-   * This can be used to apply custom styles to the tooltip.
-   * @alias ngnTooltipStyleClass
-   */
-  public readonly styleClass = input<string | null | undefined>(null, {
-    alias: 'ngnTooltipStyleClass',
-  });
-  /**
    * If set to `true`, the tooltip will only be shown if the anchor element is truncated. `""` is equivalent to `true`.
    * @alias ngnTooltipShowOnlyIfTruncated
    * @default false
@@ -210,7 +202,6 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
       const tooltip = this._tooltip();
       if (tooltip) this.updateContent(tooltip);
     });
-    effect(() => this._tooltip()?.setInput('styleClass', this.styleClass()));
     effect(() => this._tooltip()?.setInput('showOnlyIfTruncated', this.showOnlyIfTruncated()));
     effect(() => this._tooltip()?.setInput('size', this.size()));
     effect(() => this._tooltip()?.setInput('options', this.effectiveOptions()));
@@ -267,7 +258,6 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
       tooltip = this._viewContainerRef.createComponent(TooltipComponent);
       tooltip.setInput('anchor', this.element.nativeElement);
       this.updateContent(tooltip);
-      tooltip.setInput('styleClass', this.styleClass());
       tooltip.setInput('showOnlyIfTruncated', this.showOnlyIfTruncated());
       tooltip.setInput('size', this.size());
       tooltip.setInput('options', this.effectiveOptions());

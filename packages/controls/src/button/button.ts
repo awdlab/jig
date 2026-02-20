@@ -9,6 +9,7 @@ import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button
 @Directive({
   selector: 'button[ngnButton], a[ngnButton]',
   providers: [provideSelf(NgnButton)],
+  exportAs: 'ngnButton',
 })
 export class NgnButton extends NgnBase<'button'> {
   protected readonly theme = this.injectThemeTemplate(buttonControlTemplate, {
