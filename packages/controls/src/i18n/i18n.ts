@@ -15,6 +15,6 @@ export class I18n extends BaseTranslateService<Translations> {
   }
 
   public unsafe(key: string): Signal<string> {
-    return this.translations._unsafe[key] as Signal<string>;
+    return this.translations._unsafe[key] as unknown as Signal<string>;
   }
 }

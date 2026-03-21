@@ -14,9 +14,8 @@ copyFile(path.join(projectRoot, 'README.md'), path.join(distDir, 'README.md'));
 copyFile(path.join(repoRoot, 'LICENSE'), path.join(distDir, 'LICENSE'));
 copyFile(
   path.join(projectRoot, 'src/nova/theme-types.d.ts'),
-  path.join(distDir, 'src/nova/theme-types.d.ts')
+  path.join(distDir, 'nova/theme-types.d.ts')
 );
-moveAllFilesFromDir(path.join(distDir, 'src'), path.join(distDir));
 
 function preparePackageJson(sourcePath: string, targetPath: string) {
   console.log(`Preparing package.json from ${sourcePath} to ${targetPath}`);
