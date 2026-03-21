@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "include": ["**/*.test.ts"],
   "compilerOptions": {
-    "noUncheckedIndexedAccess": false
+    "noUncheckedIndexedAccess": false,
+    "types": ["node"]
   }
 }
