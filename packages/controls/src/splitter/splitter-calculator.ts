@@ -1,30 +1,15 @@
+import { computed, EmbeddedViewRef, signal, type Signal } from '@angular/core';
 import {
-  afterRenderEffect,
-  computed,
-  EmbeddedViewRef,
-  signal,
-  type Signal,
-  untracked,
-} from '@angular/core';
-import { Logger, NgnError, throwExp } from '@ngneers/controls/utils';
+  ResizeEngine,
+  type ResizableItem,
+  type ResizeDistributionMode,
+} from '@ngneers/controls/api/resize';
+import { Logger, throwExp } from '@ngneers/controls/utils';
 
 import { NgnSplitterPanel } from './panel/splitter-panel';
 import { NgnSplitter } from './splitter';
-import {
-  type ExpandedSplitterPanelSize,
-  type ExpandedSplitterPanelSizeLimit,
-  expandSplitterPanelSize,
-  expandSplitterPanelSizeLimit,
-  getSplitterPanelSizeLimitInPx,
-  getSplitterPanelSizeLimitUnit,
-  getSplitterPanelSizeLimitValue,
-  getSplitterPanelSizeUnit,
-  getSplitterPanelSizeValue,
-} from './utils';
 
-import type { SplitterLayout, SplitterPanelSize } from './types';
-
-const LAST_CALC_SIZE_SYMBOL = Symbol('lastCalcSize');
+import type { SplitterLayout } from './types';
 
 /**
  * Type interface for the {@link SplitterCalculator} interface.
@@ -98,38 +83,6 @@ export interface SplitterCalculator {
   moveDivider(index: number, pxDelta: number): void;
 }
 
-type SplitterFractionFactors = {
-  /**
-   * The number of fraction units per pixel.
-   * This is used to convert pixel values to fraction values.
-   */
-  frPerPx: number;
-  /**
-   * The number of pixels per fraction unit.
-   * This is used to convert fraction values to pixel values.
-   */
-  pxPerFr: number;
-};
-
-type SplitterDragContextPanel = {
-  /**
-   * A reference to the panel component.
-   */
-  panel: NgnSplitterPanel;
-  /**
-   * The starting size of the panel at the beginning of the drag operation.
-   */
-  startSize: ExpandedSplitterPanelSize;
-  /**
-   * The minimum size limit of the panel.
-   */
-  minSize: ExpandedSplitterPanelSizeLimit;
-  /**
-   * The maximum size limit of the panel.
-   */
-  maxSize: ExpandedSplitterPanelSizeLimit;
-};
-
 /**
  * Represents the context of a drag operation in the splitter.
  */
@@ -146,18 +99,11 @@ export type SplitterDragContext = {
    * The starting position of the pointer when the drag operation started, in pixels.
    */
   startPosition: number;
-  /**
-   * An array of panels involved in the drag operation.
-   */
-  panels: SplitterDragContextPanel[];
-  /**
-   * The fraction factors used for calculating sizes during the drag operation.
-   */
-  fractionFactors: SplitterFractionFactors;
 };
 
 /**
  * Default implementation of the {@link SplitterCalculator} interface.
+ * Delegates all resize math to the generic {@link ResizeEngine}.
  */
 export class DefaultSplitterCalculator implements SplitterCalculator {
   protected readonly panels: Signal<readonly NgnSplitterPanel[]>;
@@ -165,6 +111,8 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
   protected readonly panelOrder: Signal<readonly string[] | null | undefined>;
   protected readonly layout: Signal<SplitterLayout>;
   protected readonly splitterSize: Signal<number>;
+
+  private readonly _engine: ResizeEngine;
 
   constructor(splitter: NgnSplitter) {
     this.panels = splitter.panels;
@@ -175,19 +123,16 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
       this.layout() === 'vertical' ? splitter.elementSize().height : splitter.elementSize().width
     );
 
-    // Signal fires when any panel size is not calculated
-    const hasUncalculatedSizesSig = computed(
-      () => this.panels().some(panel => !this.isPanelSizeCalculated(panel)),
-      { equal: (_, b) => b === false }
-    ) as Signal<void>;
-
-    // Ensure that min and max limits are handled correctly
-    afterRenderEffect(() => {
-      // Recalculate on outside changes (e.g. panel size input changes, state restore, etc.)
-      hasUncalculatedSizesSig();
-      // Recalculate on splitter size changes
-      this.splitterSize();
-      untracked(() => this.ensureMinMaxSizes());
+    // Create the resize engine with panels mapped as ResizableItems
+    this._engine = new ResizeEngine({
+      items: computed(() => this.orderedPanels() as unknown as readonly ResizableItem[]),
+      containerSize: this.splitterSize,
+      gapSizes: this.dividerSizes,
+      distributionMode: computed(
+        () => (splitter.resizeMode?.() ?? 'adjacent') as ResizeDistributionMode
+      ),
+      containerConstrained: signal(true), // Splitter is always constrained
+      lockSizes: computed(() => splitter.lockSizes?.() ?? false),
     });
   }
 
@@ -199,31 +144,14 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
           const aIndex = order.indexOf(a['gridArea']());
           const bIndex = order.indexOf(b['gridArea']());
           if (aIndex === -1 && bIndex === -1) return 0;
-          if (aIndex === -1) return 1; // a is not in order, put it at the end
-          if (bIndex === -1) return -1; // b is not in order, put it at the end
-          return aIndex - bIndex; // sort by index in panelOrder
+          if (aIndex === -1) return 1;
+          if (bIndex === -1) return -1;
+          return aIndex - bIndex;
         })
       : panels;
   });
 
-  public readonly gridTemplateSizes = computed(() => {
-    const panels = this.orderedPanels();
-    const dividerSizes = this.dividerSizes();
-
-    if (panels.length === 0) return 'none';
-    const result: string[] = [];
-    panels.forEach((panel, i) => {
-      const size = panel.size();
-      result.push(size);
-
-      if (i < dividerSizes.length) {
-        const dividerSize = dividerSizes[i] || 0;
-        result.push(`${dividerSize}px`);
-      }
-    });
-
-    return result.join(' ');
-  });
+  public readonly gridTemplateSizes = computed(() => this._engine.gridTemplateSizes());
 
   public readonly gridTemplateAreas = computed(() => {
     const panels = this.orderedPanels();
@@ -239,39 +167,9 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
     return this.layout() === 'horizontal' ? `"${result}"` : result;
   });
 
-  public readonly minSize = computed(() => {
-    const { px, '%': pc } = this.panels().reduce(
-      (acc, panel) => {
-        const size = panel.size();
-        if (getSplitterPanelSizeUnit(size) === 'px') {
-          acc.px += getSplitterPanelSizeValue(size);
-        } else {
-          const minSize = panel.minSize();
-          acc[getSplitterPanelSizeLimitUnit(minSize)] += getSplitterPanelSizeLimitValue(minSize);
-        }
-        return acc;
-      },
-      { px: 0, '%': 0 }
-    );
-    return `calc(${px + this.totalDividerSize()}px + ${pc}%)`;
-  });
+  public readonly minSize = computed(() => this._engine.minTotalSize());
 
-  public readonly maxSize = computed(() => {
-    const { px, '%': pc } = this.panels().reduce(
-      (acc, panel) => {
-        const size = panel.size();
-        if (getSplitterPanelSizeUnit(size) === 'px') {
-          acc.px += getSplitterPanelSizeValue(size);
-        } else {
-          const maxSize = panel.maxSize();
-          acc[getSplitterPanelSizeLimitUnit(maxSize)] += getSplitterPanelSizeLimitValue(maxSize);
-        }
-        return acc;
-      },
-      { px: 0, '%': 0 }
-    );
-    return `calc(${px + this.totalDividerSize()}px + ${pc}%)`;
-  });
+  public readonly maxSize = computed(() => this._engine.maxTotalSize());
 
   public readonly dragContext = signal<SplitterDragContext | null>(null);
 
@@ -281,58 +179,35 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
       return el ? (this.layout() === 'horizontal' ? el.offsetWidth : el.offsetHeight) : 0;
     })
   );
-  protected readonly totalDividerSize = computed(() =>
-    this.dividerSizes().reduce((acc, size) => acc + size, 0)
-  );
-  protected readonly totalPanelSizes = computed(() =>
-    this.panels().reduce(
-      (acc, panel) => {
-        const size = panel.size();
-        acc[getSplitterPanelSizeUnit(size)] += getSplitterPanelSizeValue(size);
-        return acc;
-      },
-      { px: 0, fr: 0 }
-    )
-  );
 
   public startDrag(index: number, event: PointerEvent) {
     const panels = this.orderedPanels();
     if (index < 0 || index >= panels.length - 1) return;
 
+    const startPosition = this.layout() === 'horizontal' ? event.clientX : event.clientY;
+
     this.dragContext.set({
       dividerIndex: index,
       pointerId: event.pointerId,
-      startPosition: this.layout() === 'horizontal' ? event.clientX : event.clientY,
-      panels: panels.map(panel => this.createContextPanel(panel)),
-      fractionFactors: this.getCurrentFractionFactors(),
+      startPosition,
     });
+
+    this._engine.startDrag(index, startPosition);
   }
 
   public drag(index: number, event: PointerEvent) {
     const ctx = this.dragContext();
     if (!ctx || ctx.dividerIndex !== index || ctx.pointerId !== event.pointerId) return;
 
-    const { startPosition } = ctx;
-
-    let pxDelta: number;
-    if (this.layout() === 'horizontal') {
-      pxDelta = event.clientX - startPosition;
-    } else {
-      pxDelta = event.clientY - startPosition;
-    }
-
-    this.applyDividerDelta(index, pxDelta, ctx.panels, ctx.fractionFactors);
+    const currentPosition = this.layout() === 'horizontal' ? event.clientX : event.clientY;
+    this._engine.drag(index, currentPosition);
   }
 
   public endDrag(index: number, event: PointerEvent, isCancel: boolean) {
     const ctx = this.dragContext();
     if (!ctx || ctx.dividerIndex !== index || ctx.pointerId !== event.pointerId) return;
 
-    if (isCancel) {
-      // Reset the panels to their original sizes
-      ctx.panels.forEach(p => p.panel.size.set(`${p.startSize.value}${p.startSize.unit}`));
-    }
-
+    this._engine.endDrag(index, isCancel);
     this.dragContext.set(null);
   }
 
@@ -347,200 +222,27 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
       panels[index + 1] ??
       throwExp('NgnSplitterCalculator', `Right panel is missing for divider at index ${index}`);
 
-    // If the size is not calculated, we cannot move the divider
-    if (!this.isPanelSizeCalculated(leftPanel) || !this.isPanelSizeCalculated(rightPanel)) {
+    if (
+      !this._engine.isItemSizeCalculated(leftPanel as unknown as ResizableItem) ||
+      !this._engine.isItemSizeCalculated(rightPanel as unknown as ResizableItem)
+    ) {
       Logger.warn('Cannot move divider, panel sizes are not calculated');
       return;
     }
 
-    this.applyDividerDelta(
-      index,
-      pxDelta,
-      panels.map(panel => this.createContextPanel(panel)),
-      this.getCurrentFractionFactors()
-    );
+    this._engine.moveDivider(index, pxDelta);
   }
 
+  /**
+   * Ensures all panels respect their min/max size constraints.
+   * Delegates to the underlying {@link ResizeEngine}.
+   */
   public ensureMinMaxSizes() {
-    const panels = this.orderedPanels();
-    if (panels.length === 0) return;
-
-    const panelSizes = panels.map(panel => {
-      return {
-        panel,
-        size: {
-          unit: getSplitterPanelSizeUnit(panel.size()),
-          value: getSplitterPanelSizeValue(panel.size()),
-        },
-        minSizePx: getSplitterPanelSizeLimitInPx(panel.minSize(), this.splitterSize()),
-        maxSizePx: getSplitterPanelSizeLimitInPx(panel.maxSize(), this.splitterSize()),
-      };
-    });
-
-    // First make sure all px sizes are in the limits
-    for (const { size, minSizePx, maxSizePx } of panelSizes) {
-      if (size.unit === 'px') {
-        if (size.value < minSizePx) {
-          size.value = minSizePx;
-        } else if (size.value > maxSizePx) {
-          size.value = maxSizePx;
-        }
-      }
-    }
-
-    // Calculate the fraction factors
-    const totalPanelSizes = panelSizes.reduce(
-      (acc, { size }) => {
-        acc[size.unit] += size.value;
-        return acc;
-      },
-      { px: 0, fr: 0 }
-    );
-    const frArea = this.splitterSize() - this.totalDividerSize() - totalPanelSizes.px;
-    const frPerPx = totalPanelSizes.fr / frArea;
-    const pxPerFr = frArea / totalPanelSizes.fr;
-
-    // Now make sure all fr sizes are in the limits
-    // We need to do this in a loop because we might need to adjust the fr sizes multiple times
-    // until all panels are within their limits while distributing the over-/underflow evenly
-    let frPanelsWithoutClamping = panelSizes.filter(p => p.size.unit === 'fr');
-    let frToDistribute: number | undefined = undefined; // Not needed initially
-    while (frPanelsWithoutClamping.length > 0 && frToDistribute !== 0) {
-      const frToAddPerPanel = frToDistribute ? frToDistribute / frPanelsWithoutClamping.length : 0;
-      const next: typeof panelSizes = []; // Track panels that are still within limits
-      let currentTotalFrSize = totalPanelSizes.fr; // Track the total fr size after clamping
-      for (const p of frPanelsWithoutClamping) {
-        const minSizeFr = p.minSizePx * frPerPx;
-        const maxSizeFr = p.maxSizePx * frPerPx;
-        p.size.value += frToAddPerPanel;
-        if (p.size.value < minSizeFr) {
-          currentTotalFrSize = currentTotalFrSize - p.size.value + minSizeFr;
-          p.size.value = minSizeFr;
-        } else if (p.size.value > maxSizeFr) {
-          currentTotalFrSize = currentTotalFrSize - p.size.value + maxSizeFr;
-          p.size.value = maxSizeFr;
-        } else {
-          next.push(p);
-        }
-      }
-      frToDistribute = totalPanelSizes.fr - currentTotalFrSize;
-      if (Math.abs(frToDistribute * pxPerFr) < 1) {
-        frToDistribute = 0; // Stop if we are close enough to zero
-      }
-      frPanelsWithoutClamping = next;
-    }
-
-    // Now set all the new sizes to the panels
-    for (const { panel, size } of panelSizes) {
-      this.setPanelSize(panel, `${size.value}${size.unit}`);
-    }
+    this._engine.ensureMinMaxSizes();
   }
 
-  private createContextPanel(panel: NgnSplitterPanel): SplitterDragContextPanel {
-    return {
-      panel,
-      startSize: expandSplitterPanelSize(panel.size()),
-      minSize: expandSplitterPanelSizeLimit(panel.minSize()),
-      maxSize: expandSplitterPanelSizeLimit(panel.maxSize()),
-    };
-  }
-
-  private getCurrentFractionFactors() {
-    const frArea = this.splitterSize() - this.totalDividerSize() - this.totalPanelSizes().px || 1; // Avoid division by zero
-    const totalFr = this.totalPanelSizes().fr || 1; // Avoid division by zero
-    return {
-      frPerPx: totalFr / frArea,
-      pxPerFr: frArea / totalFr,
-    };
-  }
-
-  private setPanelSize(panel: NgnSplitterPanel, size: SplitterPanelSize) {
-    panel.size.set(size);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (panel as any)[LAST_CALC_SIZE_SYMBOL] = size;
-  }
-
-  private isPanelSizeCalculated(panel: NgnSplitterPanel): boolean {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (panel as any)[LAST_CALC_SIZE_SYMBOL] === panel.size();
-  }
-
-  private applyDividerDelta(
-    dividerIndex: number,
-    pxDelta: number,
-    panels: SplitterDragContextPanel[],
-    fractionFactors: SplitterFractionFactors
-  ) {
-    const appliedPanelDeltas: number[] = Array(panels.length).fill(0);
-
-    const recursion = (
-      pxDelta: number,
-      panelIndex: number,
-      panelIndexIncrement: number
-    ): number => {
-      if (panelIndex >= panels.length || panelIndex < 0) return 0;
-      const panel = panels[panelIndex];
-      if (!panel) {
-        throw new NgnError('NgnSplitterCalculator', `Panel is missing at index ${panelIndex}`);
-      }
-      let unappliedDelta = 0;
-
-      const startPx =
-        panel.startSize.unit === 'px'
-          ? panel.startSize.value
-          : fractionFactors.pxPerFr * panel.startSize.value;
-      const newPx = startPx + pxDelta;
-      if (pxDelta < 0) {
-        const min =
-          panel.minSize.unit === 'px'
-            ? panel.minSize.value
-            : (panel.minSize.value / 100) * this.splitterSize();
-        if (min > newPx) {
-          unappliedDelta = -(min - newPx);
-        }
-      } else if (pxDelta > 0) {
-        const max =
-          panel.maxSize.unit === 'px'
-            ? panel.maxSize.value
-            : (panel.maxSize.value / 100) * this.splitterSize();
-        if (max < newPx) {
-          unappliedDelta = newPx - max;
-        }
-      }
-
-      const appliedDelta = pxDelta - unappliedDelta;
-      appliedPanelDeltas[panelIndex] = appliedDelta;
-
-      return unappliedDelta === 0
-        ? pxDelta
-        : appliedDelta +
-            recursion(unappliedDelta, panelIndex + panelIndexIncrement, panelIndexIncrement);
-    };
-
-    let appliedLeft = recursion(pxDelta, dividerIndex, -1);
-    let appliedRight = -recursion(-pxDelta, dividerIndex + 1, 1);
-
-    if (appliedLeft !== pxDelta || appliedRight !== pxDelta) {
-      pxDelta =
-        pxDelta < 0 ? Math.max(appliedLeft, appliedRight) : Math.min(appliedLeft, appliedRight);
-      appliedPanelDeltas.fill(0);
-      appliedLeft = recursion(pxDelta, dividerIndex, -1);
-      appliedRight = -recursion(-pxDelta, dividerIndex + 1, 1);
-
-      if (appliedLeft !== pxDelta || appliedRight !== pxDelta) {
-        return;
-      }
-    }
-
-    panels.forEach((panel, i) => {
-      const pxDelta = appliedPanelDeltas[i] || 0;
-      if (panel.startSize.unit === 'px') {
-        const size = panel.startSize.value + pxDelta;
-        this.setPanelSize(panel.panel, `${Math.max(0, size)}px`);
-      } else {
-        const size = panel.startSize.value + pxDelta * fractionFactors.frPerPx;
-        this.setPanelSize(panel.panel, `${Math.max(0, size)}fr`);
-      }
-    });
+  /** @internal — used by tests to seed panel sizes into the engine. */
+  setPanelSize(panel: NgnSplitterPanel, size: string) {
+    this._engine.setItemSize(panel as unknown as ResizableItem, size as any);
   }
 }

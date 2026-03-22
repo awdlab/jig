@@ -65,7 +65,7 @@ describe('DefaultSplitterCalculator', () => {
   });
 
   describe('Grid Template Sizes', () => {
-    it('should generate correct grid template for horizontal layout with mixed panels', () => {
+    it('should generate correct grid template for horizontal layout with mixed panels (fr resolved to px)', () => {
       const panel1 = createMockPanel('200px', '100px', '300px');
       const panel2 = createMockPanel('1fr', '100px', '500px');
       const splitter = createMockSplitter([panel1, panel2], 'horizontal', 1000, 10);
@@ -73,20 +73,20 @@ describe('DefaultSplitterCalculator', () => {
       TestBed.runInInjectionContext(() => {
         const calculator = new DefaultSplitterCalculator(splitter);
         const template = calculator.gridTemplateSizes();
-
-        expect(template).toEqual('200px 10px 1fr');
+        // frArea = 1000 - 200 - 10 = 790, totalFr = 1, pxPerFr = 790
+        expect(template).toEqual('200px 10px 790px');
       });
     });
 
-    it('should handle single panel without dividers', () => {
+    it('should handle single panel without dividers (fr resolved to px)', () => {
       const panel1 = createMockPanel('1fr', '100px', '500px');
       const splitter = createMockSplitter([panel1], 'horizontal', 1000, 0);
 
       TestBed.runInInjectionContext(() => {
         const calculator = new DefaultSplitterCalculator(splitter);
         const template = calculator.gridTemplateSizes();
-
-        expect(template).toEqual('1fr');
+        // frArea = 1000, totalFr = 1, pxPerFr = 1000
+        expect(template).toEqual('1000px');
       });
     });
 
@@ -101,7 +101,7 @@ describe('DefaultSplitterCalculator', () => {
       });
     });
 
-    it('should handle three panels with dividers', () => {
+    it('should handle three panels with dividers (fr resolved to px)', () => {
       const panel1 = createMockPanel('1fr', '100px', '500px');
       const panel2 = createMockPanel('200px', '100px', '300px');
       const panel3 = createMockPanel('1fr', '100px', '500px');
@@ -110,8 +110,8 @@ describe('DefaultSplitterCalculator', () => {
       TestBed.runInInjectionContext(() => {
         const calculator = new DefaultSplitterCalculator(splitter);
         const template = calculator.gridTemplateSizes();
-
-        expect(template).toEqual('1fr 10px 200px 10px 1fr');
+        // frArea = 1000 - 200 - 10 - 10 = 780, totalFr = 2, pxPerFr = 390
+        expect(template).toEqual('390px 10px 200px 10px 390px');
       });
     });
   });
@@ -314,7 +314,6 @@ describe('DefaultSplitterCalculator', () => {
         expect(context!.dividerIndex).toBe(0);
         expect(context!.pointerId).toBe(1);
         expect(context!.startPosition).toBe(100);
-        expect(context!.panels).toHaveLength(2);
       });
     });
 

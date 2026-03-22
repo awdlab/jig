@@ -28,7 +28,7 @@
   "packageManager": "pnpm@10.28.0",
   "devDependencies": {
     "@angular-eslint/builder": "^21.3.1",
-    "@eslint/js": "^10.0.1",
+    "@eslint/js": "^9.24.0",
     "@ngneers/eslint-config": "^2.0.1",
     "@ngneers/eslint-config-angular": "^2.0.0",
     "@ngneers/prettier-config": "^1.1.0",
@@ -39,7 +39,7 @@
     "angular-eslint": "21.3.1",
     "awesome-logging": "^2.0.3",
     "cpy-cli": "^7.0.0",
-    "eslint": "10.0.3",
+    "eslint": "^9.24.0",
     "globals": "^17.4.0",
     "jsdom": "^29.0.0",
     "json5": "^2.2.3",

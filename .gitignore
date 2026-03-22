@@ -12,5 +12,7 @@ tests/results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+.playwright-mcp
+
 .claude/worktrees
 .claude/settings.local.json

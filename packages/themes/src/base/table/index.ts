@@ -49,6 +49,7 @@ export const tableStyles = createThemePart({
       }
       ${c('cell')} {
         height: var(--ngn-table-row-height);
+        min-width: 0;
         --row-index: calc(var(--ngn-table-row-index) - var(--ngn-table-item-start-index));
         grid-row-start: var(--row-index);
         grid-column-start: var(--ngn-table-column-index);
@@ -61,7 +62,6 @@ export const tableStyles = createThemePart({
       }
       ${c('head')} ${c('cell')} {
         display: flex;
-        justify-content: flex-end;
         align-items: center;
       }
       ${c('sortable-column')} {
@@ -70,6 +70,27 @@ export const tableStyles = createThemePart({
         }
         &:hover ${c('sort-control')}, &${c('sorted-column')} ${c('sort-control')} {
           visibility: visible;
+        }
+      }
+      ${c('head')} ${c('cell')}${c('resizable')} {
+        position: relative;
+      }
+      ${c('resize-handle')} {
+        position: absolute;
+        top: 0;
+        right: -2px;
+        width: 4px;
+        height: 100%;
+        cursor: col-resize;
+        z-index: 1;
+        touch-action: none;
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -4px;
+          width: 12px;
+          height: 100%;
         }
       }
     `,

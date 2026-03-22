@@ -33,7 +33,7 @@ import { NgnSplitterPanel } from './panel/splitter-panel';
 import { DefaultSplitterCalculator, type SplitterCalculatorType } from './splitter-calculator';
 import { isSplitterPanelSize } from './utils';
 
-import type { SplitterLayout, SplitterState, SplitterStateData } from './types';
+import type { SplitterLayout, SplitterResizeMode, SplitterState, SplitterStateData } from './types';
 
 /**
  * @category control
@@ -101,6 +101,19 @@ export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
    * @default `DefaultSplitterCalculator`
    */
   public readonly calculatorType = input<SplitterCalculatorType>(DefaultSplitterCalculator);
+  /**
+   * The resize distribution mode for the splitter.
+   * - `'adjacent'` (default): Only the panels adjacent to the divider are resized.
+   * - `'proportional'`: The deficit is distributed proportionally across all panels on the other side.
+   */
+  public readonly resizeMode = input<SplitterResizeMode>('adjacent');
+  /**
+   * Whether to lock affected panels to fixed `px` values after a resize completes.
+   * When `true`, panels whose size changed are converted from their original unit to `px`.
+   * When `false`, panels keep their original units (`fr`, `px`).
+   * @default false
+   */
+  public readonly lockSizes = input<boolean>(false);
   /**
    * The step size for moving the dividers using the keyboard.
    * This can be a pixel value (e.g., '5px') or a percentage value (e.g., '5%').
@@ -239,14 +252,15 @@ export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
       }
     });
 
-    // Move dividers to the correct positions
-    panels.forEach((panel, i) => {
+    // Move dividers to the correct positions (skip first panel — no divider before it)
+    for (let i = 1; i < panels.length; i++) {
+      const panel = panels[i]!;
       const divider = this.dividers()[i - 1];
       if (!divider) {
         throw new NgnError('NgnSplitter', `Divider is missing for panel at index ${i}`);
       }
       this.moveDividerBefore(panel, divider);
-    });
+    }
   }
 
   private createDivider(index: number) {

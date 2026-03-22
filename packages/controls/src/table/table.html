@@ -1,34 +1,38 @@
-<table
-  [ptInt]="this"
-  [ptClass]="{ table: true, striped: striped() }"
-  [attr.aria-rowcount]="rows().length"
-  [style.--ngn-table-column-count]="columnCount()"
-  [style.--ngn-table-row-height.px]="rowHeight()"
->
-  <thead [ptInt]="this" [ptClass]="'head'">
-    <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
-  </thead>
-
-  <tbody
+<div [style.overflow-x]="_pushOverflowX()">
+  <table
     [ptInt]="this"
-    [ptClass]="'body'"
-    ngn-scroller
-    #scroller
-    [virtual]="virtual()"
-    [items]="pagedRows()"
-    [fieldId]="'id'"
-    [itemHeight]="rowHeight() || 0"
-    [virtualPadding]="virtualPadding()"
-    [style.--ngn-table-item-start-index]="scroller.itemStartIndex()"
+    [ptClass]="{ table: true, striped: striped() }"
+    [attr.aria-rowcount]="rows().length"
+    [style.--ngn-table-column-count]="columnCount()"
+    [style.grid-template-columns]="resizable() ? gridTemplateColumns() : null"
+    [style.width]="_pushTableWidth()"
+    [style.--ngn-table-row-height.px]="rowHeight()"
   >
-    <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item let-index="index">
-      <ng-container
-        [ngTemplateOutlet]="bodyTemplate()"
-        [ngTemplateOutletContext]="{ $implicit: item }"
-      ></ng-container>
-    </ng-template>
-  </tbody>
-</table>
+    <thead [ptInt]="this" [ptClass]="'head'">
+      <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
+    </thead>
+
+    <tbody
+      [ptInt]="this"
+      [ptClass]="'body'"
+      ngn-scroller
+      #scroller
+      [virtual]="virtual()"
+      [items]="pagedRows()"
+      [fieldId]="'id'"
+      [itemHeight]="rowHeight() || 0"
+      [virtualPadding]="virtualPadding()"
+      [style.--ngn-table-item-start-index]="scroller.itemStartIndex()"
+    >
+      <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item let-index="index">
+        <ng-container
+          [ngTemplateOutlet]="bodyTemplate()"
+          [ngTemplateOutletContext]="{ $implicit: item }"
+        ></ng-container>
+      </ng-template>
+    </tbody>
+  </table>
+</div>
 @if (paginator()) {
   <ngn-paginator [totalItems]="rows().length" (value)="pageChanged($event)" />
 }

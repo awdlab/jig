@@ -9,6 +9,9 @@ export type SplitterPanelSizeLimit<
 
 export type SplitterLayout = 'horizontal' | 'vertical';
 
+/** Splitter supports adjacent and proportional resize modes (not push). */
+export type SplitterResizeMode = 'adjacent' | 'proportional';
+
 type _SplitterState = {
   layout?: SplitterLayout;
   panelOrder?: string[] | null;

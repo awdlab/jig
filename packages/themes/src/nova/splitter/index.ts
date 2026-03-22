@@ -22,6 +22,10 @@ export const splitterStyles = createThemePart({
         }
       }
 
+      ${c('panel')} {
+        overflow: hidden;
+      }
+
       ${c('horizontal')} {
         ${c('divider')}, ${c('divider-handle')} {
           width: 0.25rem;

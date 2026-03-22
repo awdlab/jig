@@ -25,6 +25,10 @@ export const tableControlTemplate = createControlTemplate({
     'filter-control',
     'filterable-column',
     'filtered-column',
+    'resize-handle',
+    'resizable',
+    'resizing',
+    'cell-text',
   ],
   dependencies: [
     scrollerControlTemplate,

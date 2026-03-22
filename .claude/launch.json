@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "docs",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [".claude/launch-pnpm.js", "docs:serve", "--no-hmr"],
+      "port": 4200
+    },
+    {
+      "name": "test-wrapper",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [".claude/launch-pnpm.js", "test-wrapper:serve", "--no-hmr"],
+      "port": 4200
+    },
+    {
+      "name": "isolated",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [".claude/launch-pnpm.js", "isolated:serve", "--no-hmr"],
+      "port": 4200
+    }
+  ]
+}

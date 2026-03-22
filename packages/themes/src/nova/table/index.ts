@@ -32,6 +32,12 @@ export const tableStyles = createThemePart({
         font-weight: ${v('font.weight.semibold')};
         gap: ${v('size.padding.sm')};
       }
+      ${c('cell-text')} {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width: 0;
+      }
       ${c('root')}:not(${c('virtual')}) ${c('cell')} {
         padding: ${v('size.padding.md')};
       }
@@ -53,6 +59,17 @@ export const tableStyles = createThemePart({
       }
       ${c('sorted-column')} ${c('sort-control')} {
         color: ${v('color.surface.800')};
+      }
+      ${c('resize-handle')} {
+        background: transparent;
+        transition: background 0.15s;
+        &:hover,
+        &:active {
+          background: ${v('color.surface.300')};
+        }
+      }
+      ${c('resizing')} ${c('resize-handle')} {
+        background: ${v('color.surface.400')};
       }
       ${c('root')} ${d('paginator', 'root')} {
         width: 90%;
