@@ -63,6 +63,7 @@ export const tableStyles = createThemePart({
       ${c('head')} ${c('cell')} {
         display: flex;
         align-items: center;
+        grid-row-start: 1;
       }
       ${c('sortable-column')} {
         ${c('sort-control')} {
@@ -73,6 +74,26 @@ export const tableStyles = createThemePart({
         }
       }
       ${c('head')} ${c('cell')}${c('resizable')} {
+        position: relative;
+      }
+      ${c('root')}${c('reorderable')} ${c('head')} ${c('cell')} {
+        cursor: grab;
+        user-select: none;
+      }
+      ${c('root')}${c('reordering')} ${c('head')} ${c('cell')} {
+        cursor: grabbing;
+      }
+      ${c('drag-source')} {
+        opacity: 0.4;
+      }
+      ${c('drop-indicator')} {
+        position: absolute;
+        top: 0;
+        width: 3px;
+        pointer-events: none;
+        z-index: 2;
+      }
+      ${c('root')} > div {
         position: relative;
       }
       ${c('resize-handle')} {

@@ -24,6 +24,9 @@ import { NgnTableTemplates } from './table-templates';
  */
 const TABLE_MIN_COLUMN_WIDTH_PX = 50;
 
+/** Splits a CSS grid-template-columns string into individual track values, handling minmax(). */
+const GRID_TRACK_RE = /(?:minmax\([^)]+\)|[^\s]+)/g;
+
 import type { NgnTableTh } from './table-header-cell';
 import type { FormattedTableRow } from './types';
 import type { NgnFilterConfig } from '@ngneers/controls/filter';
@@ -44,6 +47,8 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
     root: true,
     virtual: () => this.virtual(),
     resizing: () => this._resizeEngine?.isDragging() ?? false,
+    reorderable: () => this.reorderable(),
+    reordering: () => this._isReordering(),
   });
   private readonly _registeredHeaderCells = signal<NgnTableTh[]>([]);
 
@@ -80,6 +85,19 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
    * @default false
    */
   public readonly lockSizes = input<boolean>(false);
+
+  /**
+   * Whether column reordering is enabled.
+   * @default false
+   */
+  public readonly reorderable = input(false, { transform: booleanAttribute });
+
+  /**
+   * The current column order as an array of column identifiers.
+   * When empty, the natural registration order (DOM order) is used.
+   * Supports two-way binding for persistence.
+   */
+  public readonly columnOrder = model<string[]>([]);
 
   protected readonly trackById = (item: T): unknown => item[this.fieldId()];
   public readonly sort = model<{
@@ -160,6 +178,58 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
 
   protected readonly columnCount = computed(() => this._registeredHeaderCells().length);
 
+  // --- Column reorder state ---
+
+  private readonly _isReordering = signal(false);
+  private readonly _reorderSourceColumnId = signal<string | null>(null);
+  protected readonly _dropIndicatorState = signal<{
+    leftPx: number;
+    heightPx: number;
+  } | null>(null);
+  private _reorderTargetIndex = -1;
+
+  /**
+   * Effective column order: merges user-provided `columnOrder` with registered header cells.
+   * If `columnOrder` is empty, falls back to registration order.
+   * Unknown keys are filtered; new columns not in the order are appended.
+   */
+  private readonly _effectiveColumnOrder = computed<string[]>(() => {
+    const cells = this._registeredHeaderCells();
+    const cellIds = cells.map(c => c.ngnTableTh());
+    const userOrder = this.columnOrder();
+
+    if (!userOrder.length) {
+      return cellIds;
+    }
+
+    // Filter to valid keys and append any new columns not in the order
+    const validOrder = userOrder.filter(id => cellIds.includes(id));
+    const missing = cellIds.filter(id => !validOrder.includes(id));
+    return [...validOrder, ...missing];
+  });
+
+  /**
+   * Maps column ID → 1-based visual position.
+   */
+  public readonly columnOrderMap = computed<ReadonlyMap<string, number>>(() => {
+    const order = this._effectiveColumnOrder();
+    const map = new Map<string, number>();
+    for (let i = 0; i < order.length; i++) {
+      map.set(order[i]!, i + 1);
+    }
+    return map;
+  });
+
+  /**
+   * Returns the 1-based visual column index for a given 0-based logical (DOM) index.
+   */
+  public getVisualColumnIndex(logicalIndex: number): number {
+    const cells = this._registeredHeaderCells();
+    const cell = cells[logicalIndex];
+    if (!cell) return logicalIndex + 1;
+    return this.columnOrderMap().get(cell.ngnTableTh()) ?? logicalIndex + 1;
+  }
+
   // --- Resize engine ---
 
   private readonly _tableElementSize = elementSizeSignal(this.element);
@@ -187,7 +257,12 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
 
     this.gridTemplateColumns = computed(() => {
       if (this.resizable()) {
-        return this._resizeEngine.gridTemplateSizes();
+        const rawSizes = this._resizeEngine.gridTemplateSizes();
+        // When reorderable, permute grid track sizes to match visual column order
+        if (this.reorderable()) {
+          return this._permuteGridSizes(rawSizes);
+        }
+        return rawSizes;
       }
       return `repeat(${this.columnCount()}, 1fr)`;
     });
@@ -256,6 +331,138 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
   public endColumnResize(columnIndex: number, cancel: boolean): void {
     if (!this.resizable()) return;
     this._resizeEngine.endDrag(columnIndex, cancel);
+  }
+
+  // --- Reorder operations (called by NgnTableReorderableColumn) ---
+
+  public startColumnReorder(columnId: string): void {
+    if (!this.reorderable()) return;
+    this._isReordering.set(true);
+    this._reorderSourceColumnId.set(columnId);
+    this._reorderTargetIndex = -1;
+  }
+
+  public dragColumnReorder(event: PointerEvent): void {
+    if (!this.reorderable() || !this._isReordering()) return;
+
+    const cells = this._registeredHeaderCells();
+    const effectiveOrder = this._effectiveColumnOrder();
+    const sourceId = this._reorderSourceColumnId();
+    if (!sourceId) return;
+
+    // Find drop target by comparing cursor X to header cell midpoints (in visual order)
+    const cursorX = event.clientX;
+    let targetIndex = effectiveOrder.length;
+
+    // Build visual-order cells with their bounding boxes
+    const visualCells = effectiveOrder
+      .map(id => cells.find(c => c.ngnTableTh() === id))
+      .filter((c): c is NgnTableTh => !!c);
+
+    for (let i = 0; i < visualCells.length; i++) {
+      const rect = visualCells[i]!.element.nativeElement.getBoundingClientRect();
+      const midX = rect.left + rect.width / 2;
+      if (cursorX < midX) {
+        targetIndex = i;
+        break;
+      }
+    }
+
+    this._reorderTargetIndex = targetIndex;
+
+    // Compute indicator position relative to the outer wrapper div
+    const wrapperEl = this.element.nativeElement.querySelector(':scope > div');
+    if (!wrapperEl) return;
+    const wrapperRect = wrapperEl.getBoundingClientRect();
+
+    // Use the first header cell's height for the indicator
+    const firstCellRect = visualCells[0]?.element.nativeElement.getBoundingClientRect();
+    const indicatorHeight = firstCellRect?.height ?? 40;
+
+    let indicatorLeftPx: number;
+    if (targetIndex === 0) {
+      const firstCell = visualCells[0];
+      if (!firstCell) return;
+      const rect = firstCell.element.nativeElement.getBoundingClientRect();
+      indicatorLeftPx = rect.left - wrapperRect.left;
+    } else if (targetIndex >= visualCells.length) {
+      const lastCell = visualCells[visualCells.length - 1];
+      if (!lastCell) return;
+      const rect = lastCell.element.nativeElement.getBoundingClientRect();
+      indicatorLeftPx = rect.right - wrapperRect.left;
+    } else {
+      const prevCell = visualCells[targetIndex - 1]!;
+      const nextCell = visualCells[targetIndex]!;
+      const prevRect = prevCell.element.nativeElement.getBoundingClientRect();
+      const nextRect = nextCell.element.nativeElement.getBoundingClientRect();
+      indicatorLeftPx = (prevRect.right + nextRect.left) / 2 - wrapperRect.left;
+    }
+
+    // Clamp so the 3px-wide indicator doesn't overflow the wrapper
+    const maxLeft = wrapperRect.width - 3;
+    indicatorLeftPx = Math.max(0, Math.min(indicatorLeftPx, maxLeft));
+
+    this._dropIndicatorState.set({
+      leftPx: indicatorLeftPx,
+      heightPx: indicatorHeight,
+    });
+  }
+
+  public endColumnReorder(cancel: boolean): void {
+    if (!this.reorderable()) return;
+
+    if (!cancel && this._reorderTargetIndex >= 0) {
+      const sourceId = this._reorderSourceColumnId();
+      if (sourceId) {
+        const effectiveOrder = [...this._effectiveColumnOrder()];
+        const sourceIndex = effectiveOrder.indexOf(sourceId);
+
+        if (sourceIndex >= 0) {
+          // Remove source from its current position
+          effectiveOrder.splice(sourceIndex, 1);
+          // Adjust target index if source was before target
+          let insertAt = this._reorderTargetIndex;
+          if (sourceIndex < this._reorderTargetIndex) {
+            insertAt--;
+          }
+          // Insert at new position
+          effectiveOrder.splice(insertAt, 0, sourceId);
+
+          this.columnOrder.set(effectiveOrder);
+        }
+      }
+    }
+
+    this._isReordering.set(false);
+    this._reorderSourceColumnId.set(null);
+    this._dropIndicatorState.set(null);
+    this._reorderTargetIndex = -1;
+  }
+
+  public getReorderSourceColumnId(): string | null {
+    return this._reorderSourceColumnId();
+  }
+
+  /**
+   * Permutes grid template sizes from logical (registration) order to visual (column order) order.
+   */
+  private _permuteGridSizes(rawSizes: string): string {
+    const tracks = rawSizes.match(GRID_TRACK_RE) ?? [];
+    const cells = this._registeredHeaderCells();
+    const effectiveOrder = this._effectiveColumnOrder();
+
+    if (tracks.length !== cells.length) {
+      return rawSizes; // Mismatch — don't permute
+    }
+
+    // Build map: column ID → track size (logical order)
+    const sizeByColumnId = new Map<string, string>();
+    for (let i = 0; i < cells.length; i++) {
+      sizeByColumnId.set(cells[i]!.ngnTableTh(), tracks[i]!);
+    }
+
+    // Emit sizes in visual order
+    return effectiveOrder.map(id => sizeByColumnId.get(id) ?? '1fr').join(' ');
   }
 
   /**

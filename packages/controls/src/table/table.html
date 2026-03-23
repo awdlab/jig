@@ -11,6 +11,14 @@
     <thead [ptInt]="this" [ptClass]="'head'">
       <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
     </thead>
+    @if (_dropIndicatorState()) {
+      <div
+        [ptInt]="this"
+        [ptClass]="'drop-indicator'"
+        [style.left.px]="_dropIndicatorState()!.leftPx"
+        [style.height.px]="_dropIndicatorState()!.heightPx"
+      ></div>
+    }
 
     <tbody
       [ptInt]="this"

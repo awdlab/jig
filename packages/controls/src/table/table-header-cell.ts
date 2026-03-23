@@ -20,7 +20,12 @@ import { NgnTable } from './table';
 
 import type { ResizableItem, ResizeLimit, ResizeSize } from '@ngneers/controls/api/resize';
 
-@Directive({ selector: '[ngnTableTh]' })
+@Directive({
+  selector: '[ngnTableTh]',
+  host: {
+    '[style.--ngn-table-column-index]': '_visualColumnIndex()',
+  },
+})
 export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDestroy, OnInit {
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate);
   private _table?: NgnTable<any, any>;
@@ -62,6 +67,16 @@ export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDes
     // Adjacent & proportional: hide handle on last column
     const cells = this._table.getRegisteredHeaderCells();
     return cells.indexOf(this) < cells.length - 1;
+  });
+
+  /**
+   * 1-based visual column index, derived from the table's column order map.
+   * Falls back to registration index + 1 when no reordering is active.
+   */
+  public readonly _visualColumnIndex = computed(() => {
+    if (!this._table) return undefined;
+    const map = this._table.columnOrderMap();
+    return map.get(this.ngnTableTh()) ?? this.getColumnIndex() + 1;
   });
 
   constructor() {

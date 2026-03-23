@@ -60,6 +60,13 @@ export const tableStyles = createThemePart({
       ${c('sorted-column')} ${c('sort-control')} {
         color: ${v('color.surface.800')};
       }
+      ${c('drop-indicator')} {
+        background: ${v('color.primary.500')};
+        box-shadow: 0 0 8px ${v('color.primary.500')}40;
+      }
+      ${c('drag-source')} {
+        transition: opacity 0.15s;
+      }
       ${c('resize-handle')} {
         background: transparent;
         transition: background 0.15s;

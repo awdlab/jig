@@ -23,3 +23,7 @@ The Table component provides a way to display data in rows and columns.
 ### Resizable Columns
 
 {{ demo: Demo_Table_Resizable }}
+
+### Reorderable Columns
+
+{{ demo: Demo_Table_Reorderable }}
