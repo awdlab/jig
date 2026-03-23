@@ -50,6 +50,10 @@ export const IMPORTS = {
   tabs: () => import('@ngneers/controls/tabs').then((m) => m.NgnTabs),
   tab: () => import('@ngneers/controls/tabs').then((m) => m.NgnTab),
   table: () => import('@ngneers/controls/table').then((m) => m.NgnTable),
+  tableModule: () =>
+    import('@ngneers/controls/table').then((m) => m.NgnTableModule),
+  ngnTemplate: () =>
+    import('@ngneers/controls/api/ng').then((m) => m.NgnTemplate),
   tag: () => import('@ngneers/controls/tag').then((m) => m.NgnTag),
   toast: () => import('@ngneers/controls/toast').then((m) => m.NgnToast),
   toggleButton: () =>
