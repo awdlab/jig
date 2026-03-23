@@ -1,5 +1,6 @@
 import { createControlTemplate } from '@ngneers/controls-themes/api';
 import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
+import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
@@ -18,9 +19,11 @@ export const filterControlTemplate = createControlTemplate({
     'row',
     'operator',
     'value',
-    'row-actions',
-    'match',
+    'remove-btn',
+    'condition-divider',
     'footer',
+    'footer-actions',
+    'active-indicator',
   ],
   dependencies: [
     popoverControlTemplate,
@@ -28,5 +31,6 @@ export const filterControlTemplate = createControlTemplate({
     inputControlTemplate,
     selectControlTemplate,
     buttonControlTemplate,
+    calendarControlTemplate,
   ],
 });

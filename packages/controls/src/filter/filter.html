@@ -8,80 +8,141 @@
           [multiple]="true"
           [options]="resolvedListOptions()"
           [value]="$any(templateListSelection())"
+          [disabled]="disabled()"
+          [readonly]="readonly()"
           (valueChange)="setListSelection($event)"
         />
       </div>
     } @else {
-      @for (c of templateConfig().conditions; track $index; let i = $index) {
+      @for (c of templateConfig().conditions; track $index; let i = $index; let last = $last) {
         <div [ptInt]="this" [ptClass]="'row'" [attr.data-testid]="'filter-row-' + i">
           <ngn-select
             [ptInt]="this"
-            [ptClass]="'operator'"
+            [ptClass]="operatorRequiresValue(c.operator) ? 'operator' : 'value'"
             [options]="operatorOptions()"
             [value]="c.operator"
+            [disabled]="disabled()"
+            [readonly]="readonly()"
             (valueChange)="setOperator(i, $event)"
           />
           @if (operatorRequiresValue(c.operator)) {
-            <ngn-input-field [ptInt]="this" [ptClass]="'value'">
-              <input
-                ngnInput
-                [type]="inputType()"
-                [value]="c.rawValue || ''"
-                (valueChange)="setRawValue(i, $event)"
+            @if (isDateType()) {
+              <ngn-calendar
+                [ptInt]="this"
+                [ptClass]="'value'"
+                [showTime]="isShowTime()"
+                [value]="parseRawDate(c.rawValue)"
+                [disabled]="disabled()"
+                [readonly]="readonly()"
+                (valueChange)="setDateValue(i, $event)"
               />
-            </ngn-input-field>
+            } @else {
+              <ngn-input-field
+                [ptInt]="this"
+                [ptClass]="'value'"
+                [disabled]="disabled()"
+                [readonly]="readonly()"
+              >
+                <input
+                  ngnInput
+                  [type]="inputType()"
+                  [value]="c.rawValue || ''"
+                  [disabled]="disabled()"
+                  [readOnly]="readonly()"
+                  (valueChange)="setRawValue(i, $event)"
+                />
+              </ngn-input-field>
+            }
           }
 
           @if (allowMultiple() && templateConfig().conditions.length > 1) {
-            <div [ptInt]="this" [ptClass]="'row-actions'">
-              <button
-                type="button"
-                ngnButton
-                [kind]="'text'"
-                [color]="'error'"
-                (click)="removeCondition(i)"
-              >
-                {{ i18n['filter_removeCondition']() + ' ' + (i + 1) }}
-              </button>
-            </div>
+            <button
+              type="button"
+              ngnButton
+              kind="icon"
+              [ptInt]="this"
+              [ptClass]="'remove-btn'"
+              [disabled]="disabled() || readonly()"
+              (click)="removeCondition(i)"
+              [attr.aria-label]="i18n['filter_removeCondition']() + ' ' + (i + 1)"
+              data-testid="filter-remove-condition"
+            >
+              <ngn-icon defaultIcon="xmark" />
+            </button>
           }
         </div>
+
+        @if (allowMultiple() && !last && templateConfig().conditions.length > 1) {
+          <div
+            [ptInt]="this"
+            [ptClass]="'condition-divider'"
+            role="button"
+            tabindex="0"
+            (click)="!disabled() && !readonly() && toggleMatchMode()"
+            (keydown.enter)="!disabled() && !readonly() && toggleMatchMode()"
+            (keydown.space)="
+              !disabled() && !readonly() && toggleMatchMode(); $event.preventDefault()
+            "
+            [attr.aria-disabled]="disabled() || readonly()"
+            data-testid="filter-match-mode"
+          >
+            {{ matchModeLabel() }}
+          </div>
+        }
       }
     }
   </div>
 </ng-template>
 
-<ng-template #matchModeTemplate>
-  @if (dataType() !== 'list' && allowMultiple()) {
-    <ngn-select
-      [ptInt]="this"
-      [ptClass]="'match'"
-      [options]="matchModeOptions"
-      [value]="templateConfig().matchMode"
-      (valueChange)="setMatchMode($event)"
-      data-testid="filter-match-mode"
-    />
-  }
-</ng-template>
-
 <ng-template #footerTemplate>
-  <div [ptInt]="this" [ptClass]="'footer'">
-    @if (dataType() !== 'list' && allowMultiple()) {
-      <button
-        type="button"
-        ngnButton
-        kind="secondary"
-        (click)="addCondition()"
-        data-testid="filter-add-rule"
-      >
-        <span aria-hidden="true">+</span>
-        {{ i18n['filter_addCondition']() }}
-      </button>
-    }
-    <button type="button" ngnButton kind="secondary" (click)="clear()" data-testid="filter-clear">
-      {{ i18n['filter_clear']() }}
-    </button>
-  </div>
+  @if (!disabled() && !readonly()) {
+    <div [ptInt]="this" [ptClass]="'footer'">
+      @if (dataType() !== 'list' && allowMultiple()) {
+        <button
+          type="button"
+          ngnButton
+          kind="secondary"
+          (click)="addCondition()"
+          data-testid="filter-add-rule"
+        >
+          <span aria-hidden="true">+</span>
+          {{ i18n['filter_addCondition']() }}
+        </button>
+      }
+      <div [ptInt]="this" [ptClass]="'footer-actions'">
+        @if (!autoApply()) {
+          <button
+            type="button"
+            ngnButton
+            kind="secondary"
+            (click)="cancelChanges()"
+            data-testid="filter-cancel"
+          >
+            {{ i18n['filter_cancel']() }}
+          </button>
+          <button
+            type="button"
+            ngnButton
+            kind="primary"
+            (click)="apply()"
+            data-testid="filter-apply"
+          >
+            {{ i18n['filter_apply']() }}
+          </button>
+        } @else {
+          <button
+            type="button"
+            ngnButton
+            kind="secondary"
+            (click)="clear()"
+            data-testid="filter-clear"
+          >
+            {{ i18n['filter_clear']() }}
+          </button>
+        }
+      </div>
+    </div>
+  }
 </ng-template>
 
 <ng-template #popoverTemplate let-anchor="anchor">
@@ -95,7 +156,6 @@
   >
     <ng-template #lazy>
       <div [ptInt]="this" [ptClass]="'popover-content'">
-        <ng-container [ngTemplateOutlet]="matchModeTemplate" />
         <ng-container [ngTemplateOutlet]="rowsTemplate" />
         <ng-container [ngTemplateOutlet]="footerTemplate" />
       </div>
@@ -105,7 +165,6 @@
 
 @if (mode() === 'inline') {
   <div [ptInt]="this" [ptClass]="'inline'">
-    <ng-container [ngTemplateOutlet]="matchModeTemplate" />
     <ng-container [ngTemplateOutlet]="rowsTemplate" />
     <ng-container [ngTemplateOutlet]="footerTemplate" />
   </div>
@@ -113,12 +172,14 @@
   <ngn-input-field
     [ptInt]="this"
     [ptClass]="'input-field'"
-    (click)="show()"
+    (click)="!disabled() && !readonly() && show()"
     (keydown)="onKeyDown($event)"
     #field
     [label]="label()"
     [inputId]="inputId()"
     [invalid]="invalid()"
+    [disabled]="disabled()"
+    [readonly]="readonly()"
   >
     <div role="button" [ptInt]="this" [ptClass]="'summary'">{{ summaryText() }}</div>
     <ngn-icon [ptInt]="this" [ptClass]="'icon'" defaultIcon="magnifying_glass" />

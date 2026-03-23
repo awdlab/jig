@@ -21,6 +21,7 @@ export default defineConfig({
   outputDir: 'tests/results',
   /* See https://playwright.dev/docs/test-reporters */
   reporter: [
+    ...(process.env['CI'] ? [['list'] as const] : []),
     ['html', { outputFile: 'tests/results/test-report.html' }],
     ['junit', { outputFile: 'tests/results/test-report.xml' }],
   ],

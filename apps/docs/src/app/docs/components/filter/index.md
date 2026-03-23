@@ -23,3 +23,9 @@ The Filter component combines an operator select + input field to filter a datas
 ### Multiple conditions
 
 {{ demo: Demo_Filter_Multiple }}
+
+### Manual Apply / Cancel
+
+When `autoApply` is `false`, changes are not applied until the user clicks "Apply". The "Cancel" button restores the previous filter state.
+
+{{ demo: Demo_Filter_ApplyMode }}

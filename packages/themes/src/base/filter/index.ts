@@ -22,17 +22,29 @@ export const filterStyles = createThemePart({
         flex-wrap: wrap;
         width: 100%;
         min-width: 0;
+        align-items: center;
       }
       ${c('operator')} {
         min-width: 0;
       }
       ${c('value')} {
         min-width: 0;
-        max-width: 100%;
+        flex: 1 1 auto;
       }
-      ${c('row-actions')} {
-        display: flex;
+      ${c('remove-btn')} {
         flex: 0 0 auto;
+      }
+      ${c('condition-divider')} {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        user-select: none;
+      }
+      ${c('condition-divider')}::before,
+      ${c('condition-divider')}::after {
+        content: '';
+        flex: 1;
+        height: 1px;
       }
       ${c('summary')} {
         width: 100%;
@@ -40,13 +52,19 @@ export const filterStyles = createThemePart({
         text-overflow: ellipsis;
         white-space: nowrap;
       }
-      ${c('match')} {
-        min-width: 0;
-      }
       ${c('footer')} {
         display: flex;
         flex-wrap: wrap;
         min-width: 0;
+        align-items: center;
+      }
+      ${c('footer-actions')} {
+        display: flex;
+        margin-left: auto;
+      }
+      ${c('active-indicator')} {
+        position: absolute;
+        pointer-events: none;
       }
     `,
   },

@@ -4,15 +4,19 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   effect,
   inject,
   input,
+  numberAttribute,
   output,
+  signal,
   viewChild,
 } from '@angular/core';
 import { executeFilter, getActiveFilterConditions, type NgnItem } from '@ngneers/controls/api';
 import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
+import { NgnCalendar } from '@ngneers/controls/calendar';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
@@ -108,6 +112,7 @@ function defaultOperatorsForType(dataType: NgnFilterDataType) {
   imports: [
     NgnPt,
     NgTemplateOutlet,
+    NgnCalendar,
     NgnInputField,
     NgnInput,
     NgnSelect,
@@ -124,6 +129,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   protected readonly theme = this.injectThemeTemplate(filterControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
   protected readonly unsafeI18n = inject(I18n).unsafe;
+  private readonly _destroyRef = inject(DestroyRef);
 
   /** Data to filter. */
   public readonly data = input<readonly T[]>([]);
@@ -158,14 +164,26 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
    */
   public readonly filterLocally = input(true, { transform: booleanAttribute });
 
+  /**
+   * When true (default), filters apply automatically as the user types/selects.
+   * When false, the user must click "Apply" to commit the filter.
+   */
+  public readonly autoApply = input(true, { transform: booleanAttribute });
+
+  /**
+   * Debounce time in milliseconds for auto-apply mode.
+   * Only relevant when {@link autoApply} is `true`.
+   */
+  public readonly autoApplyDebounce = input(300, { transform: numberAttribute });
+
   /** Options for the popover (when {@link mode} is not `inline`). */
   public readonly popoverOptions = input<PopoverOptions>({});
   protected readonly appliedPopoverOptions = computed(() =>
     deepMerge(
       <PopoverOptions>{
         sizeConstraints: {
-          width: '250px',
-          minHeight: '200px',
+          width: '360px',
+          minHeight: '120px',
           maxHeight: '500px',
         },
         placement: 'bottom-start',
@@ -181,8 +199,35 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
 
   private readonly _popover = viewChild(NgnPopover);
 
-  // Note: `value()` is the single source of truth.
-  // It can be `null` (cleared). For rendering, use `templateConfig()` which falls back to defaults.
+  /**
+   * Internal working config that the template binds to.
+   * In auto-apply mode, this syncs to value() via debounce.
+   * In manual mode, only apply() commits this to value().
+   */
+  protected readonly workingConfig = signal<NgnFilterConfig | null>(null);
+
+  /** Snapshot of value() taken when popover opens in manual mode, for cancel to restore. */
+  private _snapshotConfig: NgnFilterConfig | null = null;
+
+  /** Debounce timer handle for auto-apply. */
+  private _debounceTimer: ReturnType<typeof setTimeout> | null = null;
+
+  /** Whether there is an active filter applied. */
+  protected readonly hasActiveFilter = computed(() => {
+    const cfg = this.value();
+    if (!cfg) return false;
+    if (cfg.dataType === 'list') {
+      const raw = cfg.conditions[0]?.rawValue;
+      if (!raw) return false;
+      try {
+        const parsed: unknown = JSON.parse(raw);
+        return Array.isArray(parsed) && parsed.length > 0;
+      } catch {
+        return false;
+      }
+    }
+    return this.activeConditionConfigs().length > 0;
+  });
 
   private createCondition(operator: NgnFilterOperatorId): ConditionInternal {
     return { operator, rawValue: null };
@@ -200,7 +245,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     const firstOp = this.operatorDefs()[0]?.id ?? 'isEqual';
     return {
       dataType: this.dataType(),
-      matchMode: this.allowMultiple() ? 'all' : 'all',
+      matchMode: 'all',
       conditions: <readonly NgnFilterConditionConfig[]>[
         {
           operator: firstOp,
@@ -212,10 +257,11 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
 
   /**
    * Config used for UI rendering.
-   * Falls back to a default config when the actual {@link value} is null.
+   * Always reads from workingConfig (the live editing state).
+   * Falls back to a default config when null.
    */
   protected readonly templateConfig = computed<NgnFilterConfig>(
-    () => (this.value() ?? this.defaultConfig()) as NgnFilterConfig
+    () => (this.workingConfig() ?? this.defaultConfig()) as NgnFilterConfig
   );
 
   protected readonly templateListSelection = computed<readonly string[]>(() => {
@@ -311,6 +357,32 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     }
   });
 
+  protected readonly isDateType = computed(
+    () => this.dataType() === 'date' || this.dataType() === 'dateTime'
+  );
+
+  protected readonly isShowTime = computed(() => this.dataType() === 'dateTime');
+
+  /** Parse a rawValue string to a Date for the calendar component. */
+  protected parseRawDate(rawValue: string | null): Date | null {
+    if (!rawValue) return null;
+    const d = new Date(rawValue);
+    return Number.isNaN(d.getTime()) ? null : d;
+  }
+
+  /** Convert a Date from the calendar to a rawValue string. */
+  protected dateToRaw(date: Date | null): string | null {
+    if (!date || Number.isNaN(date.getTime())) return null;
+    if (this.dataType() === 'dateTime') {
+      // Format as YYYY-MM-DDTHH:mm for datetime-local compatibility
+      const pad = (n: number) => String(n).padStart(2, '0');
+      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    }
+    // Format as YYYY-MM-DD for date
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+  }
+
   protected readonly summaryText = computed(() => {
     const currentValue = this.value();
     if (!currentValue) {
@@ -339,7 +411,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
       const operatorLabel = def ? this.i18n._unsafe[def.labelKey]?.() : c?.operator;
       return c?.rawValue == null || c?.rawValue === ''
         ? operatorLabel
-        : `${operatorLabel} ${c.rawValue}`;
+        : `${operatorLabel} "${c.rawValue}"`;
     }
 
     const matchLabel =
@@ -380,15 +452,25 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     return executeFilter(this.data(), cfg);
   });
 
+  /** The current match mode label for the condition divider */
+  protected readonly matchModeLabel = computed(() => {
+    const cfg = this.templateConfig();
+    return cfg.matchMode === 'all'
+      ? this.i18n['filter_match_and']()
+      : this.i18n['filter_match_or']();
+  });
+
   constructor() {
     super();
+
+    // Initialize workingConfig from initial value.
+    this.workingConfig.set(this.value());
 
     effect(() => {
       this.filterChange.emit(this.value() ?? null);
     });
 
     effect(() => {
-      // When local filtering is disabled, do not emit or compute any result.
       if (!this.filterLocally()) {
         return;
       }
@@ -418,7 +500,6 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
       if (!first) {
         throw new NgnError('filter', 'No operators available.');
       }
-      // Ensure all conditions use a valid operator
       const defIds = new Set(defs.map(d => d.id));
 
       const normalizeConditions = (
@@ -446,6 +527,52 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
         this.value.set({ ...cfg, conditions: next });
       }
     });
+
+    this._destroyRef.onDestroy(() => {
+      if (this._debounceTimer != null) {
+        clearTimeout(this._debounceTimer);
+      }
+    });
+  }
+
+  /**
+   * Commits the working config to the actual value, with optional debounce.
+   * Called after every working config change.
+   */
+  private commitWorkingConfig(): void {
+    if (this.autoApply()) {
+      if (this._debounceTimer != null) {
+        clearTimeout(this._debounceTimer);
+      }
+      const debounceMs = this.autoApplyDebounce();
+      if (debounceMs > 0) {
+        this._debounceTimer = setTimeout(() => {
+          this._debounceTimer = null;
+          this.value.set(this.workingConfig());
+        }, debounceMs);
+      } else {
+        this.value.set(this.workingConfig());
+      }
+    }
+    // In manual mode, do nothing — wait for apply()
+  }
+
+  /** Updates the working config and optionally auto-applies. */
+  private updateWorkingConfig(config: NgnFilterConfig | null): void {
+    this.workingConfig.set(config);
+    this.commitWorkingConfig();
+  }
+
+  protected toggleMatchMode(): void {
+    const cfg = this.templateConfig();
+    if (cfg.dataType === 'list' || !this.allowMultiple()) {
+      return;
+    }
+    const newMode = cfg.matchMode === 'all' ? 'any' : 'all';
+    this.updateWorkingConfig({
+      ...cfg,
+      matchMode: newMode,
+    });
   }
 
   protected setMatchMode(value: unknown): void {
@@ -454,7 +581,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
       if (cfg.dataType === 'list') {
         return;
       }
-      this.value.set({
+      this.updateWorkingConfig({
         ...cfg,
         matchMode: this.allowMultiple() ? value : 'all',
       });
@@ -484,7 +611,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
       operator,
       rawValue: this.operatorRequiresValue(operator) ? existing.rawValue : null,
     };
-    this.value.set({
+    this.updateWorkingConfig({
       ...cfg,
       matchMode: this.allowMultiple() ? cfg.matchMode : 'all',
       conditions: next,
@@ -502,11 +629,15 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
       return;
     }
     next[index] = { ...existing, rawValue };
-    this.value.set({
+    this.updateWorkingConfig({
       ...cfg,
       matchMode: this.allowMultiple() ? cfg.matchMode : 'all',
       conditions: next,
     });
+  }
+
+  protected setDateValue(index: number, date: Date | null): void {
+    this.setRawValue(index, this.dateToRaw(date));
   }
 
   protected addCondition(): void {
@@ -518,9 +649,9 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
       return;
     }
     const firstOp = this.operatorDefs()[0]?.id ?? 'isEqual';
-    this.value.set({
+    this.updateWorkingConfig({
       ...cfg,
-      matchMode: 'all',
+      matchMode: cfg.matchMode,
       conditions: [...cfg.conditions, this.createCondition(firstOp)],
     });
   }
@@ -539,7 +670,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     }
     const next = current.slice();
     next.splice(index, 1);
-    this.value.set({
+    this.updateWorkingConfig({
       ...cfg,
       matchMode: cfg.matchMode,
       conditions: next,
@@ -553,7 +684,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
         ? []
         : [String(value)];
 
-    this.value.set({
+    this.updateWorkingConfig({
       dataType: 'list',
       matchMode: 'all',
       conditions: <readonly NgnFilterConditionConfig[]>[
@@ -565,8 +696,39 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     });
   }
 
+  /** Applies the working config (manual mode). */
+  protected apply(): void {
+    const cfg = this.workingConfig();
+    this.value.set(cfg);
+    // Update snapshot so next cancel restores to this applied state
+    this._snapshotConfig = cfg ? JSON.parse(JSON.stringify(cfg)) : null;
+    if (this.mode() !== 'inline') {
+      this.hide();
+    }
+  }
+
+  /** Cancels changes and restores the snapshot (manual mode). */
+  protected cancelChanges(): void {
+    // Clear any pending debounce
+    if (this._debounceTimer != null) {
+      clearTimeout(this._debounceTimer);
+      this._debounceTimer = null;
+    }
+    this.workingConfig.set(
+      this._snapshotConfig ? JSON.parse(JSON.stringify(this._snapshotConfig)) : null
+    );
+    if (this.mode() !== 'inline') {
+      this.hide();
+    }
+  }
+
   protected clear(): void {
-    this.value.set(null);
+    this.updateWorkingConfig(null);
+    if (!this.autoApply()) {
+      // In manual mode, also commit clear immediately
+      this.value.set(null);
+      this._snapshotConfig = null;
+    }
     if (this.mode() !== 'inline') {
       this.hide();
     }
@@ -584,6 +746,13 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     if (!popover) {
       throw new NgnError('filter', 'Popover is not available.');
     }
+
+    // Snapshot current value for cancel
+    const val = this.value();
+    this._snapshotConfig = val ? JSON.parse(JSON.stringify(val)) : null;
+    // Reset working config to current value
+    this.workingConfig.set(val);
+
     popover.show();
   }
 

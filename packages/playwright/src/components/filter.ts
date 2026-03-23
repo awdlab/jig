@@ -33,6 +33,11 @@ export class NgnFilterHarness {
     return new NgnSelectHarness(this.row(index).locator(this.classes['operator']));
   }
 
+  /** Select inside row using the 'value' ptClass (e.g. boolean operator or list select). */
+  public valueSelect(index: number): NgnSelectHarness {
+    return new NgnSelectHarness(this.row(index).locator(this.classes['value']));
+  }
+
   public valueInput(index: number): NgnInputHarness {
     return new NgnInputHarness(
       this.row(index).locator(`${this.classes['value']} ${NGN_CLASSES.input['root']}`)
@@ -40,18 +45,26 @@ export class NgnFilterHarness {
   }
 
   public removeButton(index: number): Locator {
-    return this.row(index).locator(`${this.classes['row-actions']} button`);
+    return this.row(index).locator(this.classes['remove-btn']);
   }
 
   public addConditionButton(): Locator {
     return this.locator.locator('[data-testid="filter-add-rule"]');
   }
 
-  public matchModeSelect(): NgnSelectHarness {
-    return new NgnSelectHarness(this.locator.locator('[data-testid="filter-match-mode"]'));
+  public matchModeDivider(): Locator {
+    return this.locator.locator('[data-testid="filter-match-mode"]');
   }
 
   public clearButton(): Locator {
     return this.locator.locator('[data-testid="filter-clear"]');
+  }
+
+  public applyButton(): Locator {
+    return this.locator.locator('[data-testid="filter-apply"]');
+  }
+
+  public cancelButton(): Locator {
+    return this.locator.locator('[data-testid="filter-cancel"]');
   }
 }
