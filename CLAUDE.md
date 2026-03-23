@@ -42,4 +42,6 @@ Always check **all** parts when making changes to a control — a rename or new 
 
 ## User Preferences
 
+- E2E tests (Playwright) auto-start the dev server via `webServer` in `playwright.config.ts` — no need to manually start a server before running tests
+
 <!-- Entries below are added automatically when the user gives general advice -->

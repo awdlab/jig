@@ -352,3 +352,55 @@ test('table column resize - no-op click does not trigger resize state', async ({
   });
   expect(overflow).toBe(false);
 });
+
+// ── Double-click auto-size ────────────────────────────────────────────────
+
+test('table column resize - double-click auto-sizes column to content', async ({ page }) => {
+  await loadTable(page);
+
+  const resizeHandles = page.locator('[class*="resize-handle"]');
+  const initialWidths = await getColumnWidths(page);
+
+  // The ID column is set to 100px, but its content ("1", "2", ..., "20") is much narrower.
+  // The Name column has "Person 1" .. "Person 20" content with a 2fr size — it's wider than needed.
+  // Double-clicking the Name column's resize handle should shrink it to fit content.
+  const nameHandle = resizeHandles.nth(1);
+  await nameHandle.dblclick();
+  await page.waitForTimeout(200);
+
+  const newWidths = await getColumnWidths(page);
+  // Name column should have changed from its initial width
+  expect(newWidths[1]).not.toBeCloseTo(initialWidths[1]!, -1);
+  // Name column should be at least 50px (min constraint)
+  expect(newWidths[1]!).toBeGreaterThanOrEqual(48);
+});
+
+test('table column resize - double-click respects min size constraint', async ({ page }) => {
+  await loadTable(page);
+
+  const resizeHandles = page.locator('[class*="resize-handle"]');
+
+  // Double-click ID column handle — content is very narrow ("1".."20")
+  // but should not go below 50px minimum
+  await resizeHandles.first().dblclick();
+  await page.waitForTimeout(200);
+
+  const widths = await getColumnWidths(page);
+  expect(widths[0]!).toBeGreaterThanOrEqual(48); // 2px tolerance for 50px min
+});
+
+test('table column resize - double-click works in push mode', async ({ page }) => {
+  await loadTable(page, { resizeMode: 'push' });
+
+  const resizeHandles = page.locator('[class*="resize-handle"]');
+  const initialWidths = await getColumnWidths(page);
+
+  // Double-click the Name column handle
+  await resizeHandles.nth(1).dblclick();
+  await page.waitForTimeout(200);
+
+  const newWidths = await getColumnWidths(page);
+  // Name column should have auto-sized
+  expect(newWidths[1]).not.toBeCloseTo(initialWidths[1]!, -1);
+  expect(newWidths[1]!).toBeGreaterThanOrEqual(48);
+});

@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { executeMultiFilter } from '@ngneers/controls/api';
 import { elementSizeSignal, NgnTemplate } from '@ngneers/controls/api/ng';
-import { ResizeEngine, type ResizableItem } from '@ngneers/controls/api/resize';
+import { ResizeEngine, getResizeLimitInPx, type ResizableItem } from '@ngneers/controls/api/resize';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnPaginator, type PaginationState } from '@ngneers/controls/paginator';
 import { NgnScroller } from '@ngneers/controls/scroller';
@@ -257,4 +257,101 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
     if (!this.resizable()) return;
     this._resizeEngine.endDrag(columnIndex, cancel);
   }
+
+  /**
+   * Auto-sizes the column at `columnIndex` to fit its visible content.
+   * Uses `Canvas.measureText()` for fast, reflow-free text measurement since
+   * grid-constrained cells (`min-width: 0`) don't report natural content width
+   * via `scrollWidth`.
+   */
+  public autoSizeColumn(columnIndex: number): void {
+    if (!this.resizable()) return;
+
+    const cells = this._registeredHeaderCells();
+    const headerCell = cells[columnIndex];
+    if (!headerCell) return;
+
+    const tableEl = this.element.nativeElement.querySelector('table');
+    if (!tableEl) return;
+
+    const headerEl = headerCell.element.nativeElement as HTMLElement;
+    const ctx = autoSizeCanvasCtx();
+
+    let maxContentWidth = 0;
+
+    // Measure header: text width + non-text siblings (icons, controls) + flex gap.
+    // The header cell is a flex container with: cell-text, spacer, filter/sort icons, resize handle.
+    const cellTextClass = this.theme.class('cell-text');
+    const headerTextEl = headerEl.querySelector<HTMLElement>(`.${cellTextClass}`);
+    let headerRequiredWidth = 0;
+    if (headerTextEl) {
+      ctx.font = getCssFont(headerEl);
+      const text = headerTextEl.textContent ?? '';
+      headerRequiredWidth = Math.ceil(ctx.measureText(text).width);
+    }
+    // Add width of visible non-text siblings (filter icon, sort icon, etc.)
+    const headerStyle = getComputedStyle(headerEl);
+    const headerGap = parseFloat(headerStyle.gap) || 0;
+    let visibleSiblingCount = 0;
+    for (let i = 0; i < headerEl.children.length; i++) {
+      const child = headerEl.children[i] as HTMLElement;
+      if (child === headerTextEl) continue;
+      // Skip spacer (zero intrinsic width) and hidden resize handle
+      if (child.offsetWidth > 0 && getComputedStyle(child).flexGrow === '0') {
+        headerRequiredWidth += child.offsetWidth;
+        visibleSiblingCount++;
+      }
+    }
+    // Add flex gaps between visible items
+    if (visibleSiblingCount > 0) {
+      headerRequiredWidth += headerGap * visibleSiblingCount;
+    }
+    maxContentWidth = headerRequiredWidth;
+
+    // Measure visible body cells (nth-child is 1-indexed)
+    const bodyCells = Array.from(
+      tableEl.querySelectorAll<HTMLElement>(`tbody tr td:nth-child(${columnIndex + 1})`)
+    );
+    if (bodyCells.length > 0) {
+      ctx.font = getCssFont(bodyCells[0]!);
+      for (let i = 0; i < bodyCells.length; i++) {
+        const text = bodyCells[i]!.textContent ?? '';
+        maxContentWidth = Math.max(maxContentWidth, Math.ceil(ctx.measureText(text).width));
+      }
+    }
+
+    // Add cell horizontal padding
+    const paddingLeft = parseFloat(headerStyle.paddingLeft) || 0;
+    const paddingRight = parseFloat(headerStyle.paddingRight) || 0;
+    const totalWidth = maxContentWidth + paddingLeft + paddingRight;
+
+    // Clamp to min/max constraints
+    const containerSize = this._tableElementSize().width;
+    const minPx = Math.max(
+      TABLE_MIN_COLUMN_WIDTH_PX,
+      getResizeLimitInPx(headerCell.minSize(), containerSize)
+    );
+    const maxPx = getResizeLimitInPx(headerCell.maxSize(), containerSize);
+    const clampedWidth = Math.max(minPx, Math.min(maxPx, totalWidth));
+
+    this._resizeEngine.setItemSize(headerCell as unknown as ResizableItem, `${clampedWidth}px`);
+    this._resizeEngine.hasBeenResized.set(true);
+  }
+}
+
+// --- Auto-size helpers ---
+
+/** Lazily created canvas context for text measurement (no DOM reflows). */
+let _autoSizeCtx: CanvasRenderingContext2D | null = null;
+function autoSizeCanvasCtx(): CanvasRenderingContext2D {
+  if (!_autoSizeCtx) {
+    _autoSizeCtx = document.createElement('canvas').getContext('2d')!;
+  }
+  return _autoSizeCtx;
+}
+
+/** Builds the CSS font shorthand from an element's computed style. */
+function getCssFont(el: HTMLElement): string {
+  const s = getComputedStyle(el);
+  return `${s.fontStyle} ${s.fontWeight} ${s.fontSize} ${s.fontFamily}`;
 }

@@ -89,6 +89,7 @@ export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDes
       this._resizeHandle = renderer.createElement('div') as HTMLDivElement;
       this._resizeHandle.classList.add(this.theme.class('resize-handle'));
       this._resizeHandle.addEventListener('pointerdown', this.onResizePointerDown);
+      this._resizeHandle.addEventListener('dblclick', this.onResizeDblClick);
       elRef.nativeElement.appendChild(this._resizeHandle);
     });
 
@@ -113,12 +114,22 @@ export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDes
   public ngOnDestroy(): void {
     this._table?.unregisterHeaderCell(this);
     this._resizeHandle?.removeEventListener('pointerdown', this.onResizePointerDown);
+    this._resizeHandle?.removeEventListener('dblclick', this.onResizeDblClick);
   }
 
   private prepareDom() {
     toggleClass(this.element.nativeElement, this.theme.class('cell'), true);
     toggleClass(this.element.nativeElement, this.theme.class('resizable'), true);
   }
+
+  private readonly onResizeDblClick = (event: MouseEvent) => {
+    if (!this._table?.resizable()) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const columnIndex = this.getColumnIndex();
+    if (columnIndex < 0) return;
+    this._table.autoSizeColumn(columnIndex);
+  };
 
   private readonly onResizePointerDown = (event: PointerEvent) => {
     if (!this._table?.resizable()) return;

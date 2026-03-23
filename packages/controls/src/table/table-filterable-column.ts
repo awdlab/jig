@@ -60,6 +60,7 @@ export class NgnTableFilterableColumn implements OnDestroy {
     this._ngnActionButton.location.nativeElement.classList.add(this.theme.class('filter-control'));
 
     setComponentInput(this._ngnActionButton, 'kind', 'icon');
+    setComponentInput(this._ngnActionButton, 'inline', true);
     setComponentInput(this._ngnFilter, 'anchor', this._ngnActionButton.location.nativeElement);
     setComponentInput(this._ngnFilter, 'mode', 'headless');
     setComponentInput(this._ngnFilter, 'allowMultiple', true);

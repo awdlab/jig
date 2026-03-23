@@ -3,6 +3,7 @@
   ngnButton
   [kind]="config().kind"
   [color]="config().color"
+  [inline]="inline()"
   [disabled]="config().disabled"
   (click)="click($event)"
   [attr.data-test-id]="config().testId"
