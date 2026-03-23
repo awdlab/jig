@@ -1,10 +1,11 @@
 import test, { expect } from '@playwright/test';
 
 import { loadComponent } from '../helper/load-component';
+import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
-const TABLE_TEMPLATE = {
+const TABLE_TEMPLATE: TemplateType = {
   template: `
     <ngn-table
       #table
@@ -32,7 +33,7 @@ const TABLE_TEMPLATE = {
         </tr>
       </ng-template>
     </ngn-table>`,
-  imports: ['tableModule', 'ngnTemplate'] as string[],
+  imports: ['tableModule', 'ngnTemplate'],
 };
 
 function generateRows(count: number) {
