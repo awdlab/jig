@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { NgnTable } from './table';
 import { NgnTableTd } from './table-cell';
+import { NgnTableGroupHeaderTr } from './table-group-header-row';
 import { NgnTableTh } from './table-header-cell';
 import { NgnTableHeadTr } from './table-header-row';
 import { NgnTableReorderableColumn } from './table-reorderable-column';
@@ -14,6 +15,7 @@ import { NgnTableBodyTr } from './table-row';
     NgnTableTd,
     NgnTableTh,
     NgnTableHeadTr,
+    NgnTableGroupHeaderTr,
     NgnTableReorderableColumn,
   ],
   exports: [
@@ -22,6 +24,7 @@ import { NgnTableBodyTr } from './table-row';
     NgnTableTd,
     NgnTableTh,
     NgnTableHeadTr,
+    NgnTableGroupHeaderTr,
     NgnTableReorderableColumn,
   ],
 })

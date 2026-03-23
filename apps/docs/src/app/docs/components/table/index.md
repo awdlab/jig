@@ -20,6 +20,10 @@ The Table component provides a way to display data in rows and columns.
 
 {{ demo: Demo_Table_Filtering }}
 
+### Row Grouping
+
+{{ demo: Demo_Table_Grouping }}
+
 ### Resizable Columns
 
 {{ demo: Demo_Table_Resizable }}

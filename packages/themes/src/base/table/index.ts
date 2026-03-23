@@ -76,6 +76,25 @@ export const tableStyles = createThemePart({
       ${c('head')} ${c('cell')}${c('resizable')} {
         position: relative;
       }
+      ${c('group-header-row')} {
+        display: contents;
+      }
+      ${c('group-header-cell')} {
+        --row-index: calc(var(--ngn-table-row-index) - var(--ngn-table-item-start-index));
+        grid-row-start: var(--row-index);
+        grid-column: 1 / -1;
+        display: flex;
+        align-items: center;
+        height: var(--ngn-table-row-height);
+        min-width: 0;
+      }
+      ${c('root')}:not(${c('virtual')}) ${c('group-header-cell')} {
+        height: auto;
+        line-height: var(--ngn-table-row-height);
+      }
+      ${c('group-toggle')} {
+        flex-shrink: 0;
+      }
       ${c('root')}${c('reorderable')} ${c('head')} ${c('cell')} {
         cursor: grab;
         user-select: none;

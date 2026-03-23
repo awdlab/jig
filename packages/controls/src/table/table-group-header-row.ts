@@ -5,18 +5,17 @@ import { toggleClass } from '@ngneers/controls/utils';
 import { setInputSignalValue } from '@ngneers/controls/utils-ng';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
-import type { FormattedTableDataRow } from './types';
+import type { FormattedTableGroupHeaderRow } from './types';
 
 @Directive({
-  selector: '[ngnTableBodyTr]',
+  selector: '[ngnTableGroupHeaderTr]',
   host: {
-    '[attr.aria-rowindex]': 'ngnTableBodyTr().index + 2',
-    '[style.--ngn-table-row-index]': 'ngnTableBodyTr().index + 2',
-    '[class]': `theme.classes({'even': ngnTableBodyTr().index % 2 === 0})`,
+    '[attr.aria-rowindex]': 'ngnTableGroupHeaderTr().index + 2',
+    '[style.--ngn-table-row-index]': 'ngnTableGroupHeaderTr().index + 2',
   },
 })
-export class NgnTableBodyTr<T> extends NgnScrollerItem {
-  public readonly ngnTableBodyTr = input.required<FormattedTableDataRow<T>>();
+export class NgnTableGroupHeaderTr extends NgnScrollerItem {
+  public readonly ngnTableGroupHeaderTr = input.required<FormattedTableGroupHeaderRow>();
   public override readonly ngnScrollerItem = input<object>({});
   private readonly _element = inject(ElementRef<HTMLElement>);
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
@@ -24,7 +23,7 @@ export class NgnTableBodyTr<T> extends NgnScrollerItem {
   constructor() {
     super();
     effect(() => {
-      const row = this.ngnTableBodyTr();
+      const row = this.ngnTableGroupHeaderTr();
       setInputSignalValue(this.ngnScrollerItem, row);
     });
     this.prepareDom();
@@ -32,5 +31,6 @@ export class NgnTableBodyTr<T> extends NgnScrollerItem {
 
   private prepareDom() {
     toggleClass(this._element.nativeElement, this.theme.class('row'), true);
+    toggleClass(this._element.nativeElement, this.theme.class('group-header-row'), true);
   }
 }

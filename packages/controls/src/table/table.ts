@@ -12,10 +12,12 @@ import { executeMultiFilter } from '@ngneers/controls/api';
 import { elementSizeSignal, NgnTemplate } from '@ngneers/controls/api/ng';
 import { ResizeEngine, getResizeLimitInPx, type ResizableItem } from '@ngneers/controls/api/resize';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
+import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnPaginator, type PaginationState } from '@ngneers/controls/paginator';
 import { NgnScroller } from '@ngneers/controls/scroller';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
+import { NgnTableGroupHeaderTr } from './table-group-header-row';
 import { NgnTableTemplates } from './table-templates';
 
 /**
@@ -28,7 +30,7 @@ const TABLE_MIN_COLUMN_WIDTH_PX = 50;
 const GRID_TRACK_RE = /(?:minmax\([^)]+\)|[^\s]+)/g;
 
 import type { NgnTableTh } from './table-header-cell';
-import type { FormattedTableRow } from './types';
+import type { FormattedTableGroupHeaderRow, FormattedTableRow } from './types';
 import type { NgnFilterConfig } from '@ngneers/controls/filter';
 import type { AllKeysOfUnion } from '@ngneers/controls/utils';
 
@@ -36,13 +38,25 @@ import type { AllKeysOfUnion } from '@ngneers/controls/utils';
   selector: 'ngn-table',
   templateUrl: './table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, NgnScroller, NgnPaginator, NgnTemplate, NgnPt],
+  imports: [
+    NgTemplateOutlet,
+    NgnScroller,
+    NgnPaginator,
+    NgnTemplate,
+    NgnPt,
+    NgnIcon,
+    NgnTableGroupHeaderTr,
+  ],
   providers: [provideSelf(NgnTable)],
   host: {
     tabindex: '0',
   },
 })
-export class NgnTable<T extends object, K extends keyof T> extends NgnTableTemplates<T> {
+export class NgnTable<
+  T extends object,
+  K extends keyof T,
+  G extends Extract<AllKeysOfUnion<T>, string> = never,
+> extends NgnTableTemplates<T> {
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate, {
     root: true,
     virtual: () => this.virtual(),
@@ -59,6 +73,23 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
   public readonly virtualPadding = input<number>(2);
   public readonly striped = input<boolean>(false);
   public readonly paginator = input<boolean>(false);
+
+  /**
+   * Column key to group rows by. Rows with the same value in this column
+   * are collected under a collapsible group header.
+   * @default null (no grouping)
+   */
+  public readonly groupBy = input<G | null>(null);
+
+  /**
+   * Two-way model tracking which groups are currently expanded, identified
+   * by their column value. Defaults to `[]` (all collapsed).
+   * Pass all group values to start with all groups expanded.
+   *
+   * Type-safe: when `groupBy` is set, this is typed as `T[G][]` where G
+   * is the groupBy column key (inferred by Angular's template type checker).
+   */
+  public readonly expandedGroups = model<Array<T[G] & (string | number)>>([]);
 
   /**
    * Whether column resizing is enabled.
@@ -113,6 +144,10 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
   protected readonly pageState = signal<PaginationState | null>(null);
 
   protected readonly formattedRows = computed<FormattedTableRow<T>[]>(() => {
+    const groupBy = this.groupBy();
+    if (groupBy) {
+      return this._groupedRows();
+    }
     const rows = this._sortedRows();
     return rows.map((data, index) => ({
       kind: 'data' as const,
@@ -120,6 +155,54 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
       data,
       index,
     }));
+  });
+
+  private readonly _groupedRows = computed<FormattedTableRow<T>[]>(() => {
+    const groupBy = this.groupBy();
+    if (!groupBy) return [];
+    const rows = this._sortedRows();
+    const expandedSet = new Set<T[G] & (string | number)>(this.expandedGroups());
+    const fieldId = this.fieldId();
+
+    // Group rows by the groupBy column value, preserving sort order
+    type GroupKey = T[G] & (string | number);
+    const groupMap = new Map<GroupKey, T[]>();
+    for (const row of rows) {
+      const key = (row as Record<string, unknown>)[groupBy] as GroupKey;
+      let group = groupMap.get(key);
+      if (!group) {
+        group = [];
+        groupMap.set(key, group);
+      }
+      group.push(row);
+    }
+
+    // Build flat list with group headers interleaved
+    const result: FormattedTableRow<T>[] = [];
+    let index = 0;
+    for (const [groupKey, groupRows] of groupMap) {
+      const expanded = expandedSet.has(groupKey);
+      result.push({
+        kind: 'group-header',
+        id: `group-${String(groupKey)}`,
+        groupKey,
+        groupValue: groupKey,
+        count: groupRows.length,
+        expanded,
+        index: index++,
+      });
+      if (expanded) {
+        for (const data of groupRows) {
+          result.push({
+            kind: 'data',
+            id: data[fieldId] as T[keyof T] & (string | number),
+            data,
+            index: index++,
+          });
+        }
+      }
+    }
+    return result;
   });
 
   protected readonly pagedRows = computed<FormattedTableRow<T>[]>(() => {
@@ -331,6 +414,29 @@ export class NgnTable<T extends object, K extends keyof T> extends NgnTableTempl
   public endColumnResize(columnIndex: number, cancel: boolean): void {
     if (!this.resizable()) return;
     this._resizeEngine.endDrag(columnIndex, cancel);
+  }
+
+  // --- Row grouping ---
+
+  /**
+   * Toggle the expanded state of a group identified by its column value.
+   */
+  public toggleGroup(groupKey: T[G] & (string | number)): void {
+    const current = this.expandedGroups();
+    if (current.includes(groupKey)) {
+      this.expandedGroups.set(current.filter(k => k !== groupKey));
+    } else {
+      this.expandedGroups.set([...current, groupKey]);
+    }
+  }
+
+  /**
+   * Toggle a group from a group-header row. Used in the template where
+   * the scroller item type cannot carry the `G` generic.
+   * @internal
+   */
+  protected toggleGroupFromRow(row: FormattedTableGroupHeaderRow): void {
+    this.toggleGroup(row.groupKey as T[G] & (string | number));
   }
 
   // --- Reorder operations (called by NgnTableReorderableColumn) ---

@@ -1,6 +1,7 @@
 import { NgnDocsTablePlayground } from './playground';
 import { Demo_Table_Base } from '../../../demos/table/base';
 import { Demo_Table_Filtering } from '../../../demos/table/filtering';
+import { Demo_Table_Grouping } from '../../../demos/table/grouping';
 import { Demo_Table_Paged } from '../../../demos/table/paged';
 import { Demo_Table_Reorderable } from '../../../demos/table/reorderable';
 import { Demo_Table_Resizable } from '../../../demos/table/resizable';
@@ -22,6 +23,7 @@ export const TablePage: NgnDocsPage = {
       components: [
         Demo_Table_Base,
         Demo_Table_Filtering,
+        Demo_Table_Grouping,
         Demo_Table_Paged,
         Demo_Table_Sorting,
         Demo_Table_Virtual,

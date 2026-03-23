@@ -60,6 +60,28 @@ export const tableStyles = createThemePart({
       ${c('sorted-column')} ${c('sort-control')} {
         color: ${v('color.surface.800')};
       }
+      ${c('group-header-cell')} {
+        gap: ${v('size.padding.sm')};
+        cursor: pointer;
+        user-select: none;
+        background: ${v('color.surface.50')};
+        font-weight: ${v('font.weight.semibold')};
+        padding: 0 ${v('size.padding.md')};
+        border-bottom: 1px solid ${v('color.surface.200')};
+        &:hover {
+          background: ${v('color.surface.100')};
+        }
+      }
+      ${c('root')}:not(${c('virtual')}) ${c('group-header-cell')} {
+        padding: ${v('size.padding.md')};
+      }
+      ${c('group-toggle')} {
+        color: ${v('color.surface.600')};
+        transition: transform 0.15s;
+      }
+      ${c('group-expanded')} ${c('group-toggle')} {
+        transform: rotate(90deg);
+      }
       ${c('drop-indicator')} {
         background: ${v('color.primary.500')};
         box-shadow: 0 0 8px ${v('color.primary.500')}40;
