@@ -343,6 +343,7 @@ export class NgnTable<
   private readonly _reorderSourceColumnId = signal<string | null>(null);
   protected readonly _dropIndicatorState = signal<{
     leftPx: number;
+    topPx: number;
     heightPx: number;
   } | null>(null);
   private _reorderTargetIndex = -1;
@@ -412,6 +413,10 @@ export class NgnTable<
       containerConstrained: computed(() => this.resizeMode() !== 'push'),
       lockSizes: computed(() => this.lockSizes()),
       minItemSizePx: TABLE_MIN_COLUMN_WIDTH_PX,
+      resolveItemSizes: () =>
+        this._registeredHeaderCells().map(
+          cell => cell.element.nativeElement.getBoundingClientRect().width
+        ),
     });
 
     this.gridTemplateColumns = computed(() => {
@@ -426,35 +431,7 @@ export class NgnTable<
       }
       return `${checkboxCol}repeat(${this.columnCount()}, 1fr)`;
     });
-
-    this._pushTableWidth = computed(() => {
-      if (!this.resizable() || this.resizeMode() !== 'push') return null;
-      // Only use max-content after a resize has occurred, so CSS grid fr units
-      // distribute properly against the full container width before any drag.
-      return this._resizeEngine.hasBeenResized() || this._resizeEngine.isDragging()
-        ? 'max-content'
-        : null;
-    });
-
-    this._pushOverflowX = computed(() => {
-      if (!this.resizable() || this.resizeMode() !== 'push') return 'hidden';
-      // Only show scrollbar after a completed drag, not during — avoids the
-      // scrollbar flashing on the instant the user starts dragging.
-      return this._resizeEngine.hasBeenResized() ? 'auto' : 'hidden';
-    });
   }
-
-  /**
-   * Computed table width style for push mode. `max-content` allows the grid to
-   * exceed the container width, but only after a drag so fr units resolve correctly initially.
-   */
-  protected readonly _pushTableWidth: ReturnType<typeof computed<string | null>>;
-
-  /**
-   * Overflow-x for the push mode scroll wrapper. Only `auto` after a completed drag
-   * (not during), so the scrollbar doesn't flash on the instant the user starts dragging.
-   */
-  protected readonly _pushOverflowX: ReturnType<typeof computed<string>>;
 
   protected pageChanged(event: PaginationState) {
     this.pageState.set(event);
@@ -683,10 +660,10 @@ export class NgnTable<
 
     this._reorderTargetIndex = targetIndex;
 
-    // Compute indicator position relative to the outer wrapper div
-    const wrapperEl = this.element.nativeElement.querySelector(':scope > div');
-    if (!wrapperEl) return;
-    const wrapperRect = wrapperEl.getBoundingClientRect();
+    // Compute indicator position relative to the table element
+    const tableEl = this.element.nativeElement.querySelector(':scope > table');
+    if (!tableEl) return;
+    const tableRect = tableEl.getBoundingClientRect();
 
     // Use the first header cell's height for the indicator
     const firstCellRect = visualCells[0]?.element.nativeElement.getBoundingClientRect();
@@ -697,26 +674,28 @@ export class NgnTable<
       const firstCell = visualCells[0];
       if (!firstCell) return;
       const rect = firstCell.element.nativeElement.getBoundingClientRect();
-      indicatorLeftPx = rect.left - wrapperRect.left;
+      indicatorLeftPx = rect.left - tableRect.left;
     } else if (targetIndex >= visualCells.length) {
       const lastCell = visualCells[visualCells.length - 1];
       if (!lastCell) return;
       const rect = lastCell.element.nativeElement.getBoundingClientRect();
-      indicatorLeftPx = rect.right - wrapperRect.left;
+      indicatorLeftPx = rect.right - tableRect.left;
     } else {
       const prevCell = visualCells[targetIndex - 1]!;
       const nextCell = visualCells[targetIndex]!;
       const prevRect = prevCell.element.nativeElement.getBoundingClientRect();
       const nextRect = nextCell.element.nativeElement.getBoundingClientRect();
-      indicatorLeftPx = (prevRect.right + nextRect.left) / 2 - wrapperRect.left;
+      indicatorLeftPx = (prevRect.right + nextRect.left) / 2 - tableRect.left;
     }
 
-    // Clamp so the 3px-wide indicator doesn't overflow the wrapper
-    const maxLeft = wrapperRect.width - 3;
+    // Clamp so the 3px-wide indicator stays within the visible content area
+    // (use clientWidth to exclude scrollbar width from the boundary)
+    const maxLeft = tableEl.clientWidth - 3;
     indicatorLeftPx = Math.max(0, Math.min(indicatorLeftPx, maxLeft));
 
     this._dropIndicatorState.set({
       leftPx: indicatorLeftPx,
+      topPx: tableEl.scrollTop,
       heightPx: indicatorHeight,
     });
   }

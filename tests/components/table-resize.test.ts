@@ -154,11 +154,10 @@ test('table column resize - push mode grows total width', async ({ page }) => {
   expect(newWidths[2]).toBeCloseTo(initialWidths[2]!, -1);
   expect(newWidths[3]).toBeCloseTo(initialWidths[3]!, -1);
 
-  // The scroll wrapper inside the table should have overflow-x: auto
+  // The table element itself should have overflow: auto
   const overflowX = await page.evaluate(() => {
-    const el = document.querySelector('ngn-table');
-    const wrapper = el?.querySelector(':scope > div');
-    return wrapper ? getComputedStyle(wrapper).overflowX : '';
+    const table = document.querySelector('ngn-table > table');
+    return table ? getComputedStyle(table).overflowX : '';
   });
   expect(overflowX).toBe('auto');
 });

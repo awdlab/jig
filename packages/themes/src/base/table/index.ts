@@ -13,19 +13,24 @@ export const tableStyles = createThemePart({
       }
       ${c('table')} {
         display: grid;
-        height: 100%;
         grid-template-rows: var(--ngn-table-row-height) auto;
         &:has(${c('foot')}) {
           grid-template-rows: var(--ngn-table-row-height) auto var(--ngn-table-row-height);
         }
         grid-template-columns: repeat(var(--ngn-table-column-count), 1fr);
         align-content: baseline;
+        position: relative;
+        overflow: auto;
+        flex: 1;
+        min-height: 0;
       }
       ${c('body')}${d('scroller', 'root')} {
         display: grid;
         grid-template-rows: repeat(auto, var(--ngn-table-row-height));
         grid-template-columns: subgrid;
         grid-column: 1 / -1;
+        overflow: visible;
+        height: auto;
         > ${d('scroller', 'item')} {
           display: contents;
         }
@@ -34,8 +39,16 @@ export const tableStyles = createThemePart({
           grid-column: 1 / -1;
         }
       }
-      ${c('row')}, ${c('head')}, ${c('foot')} {
+      ${c('row')}, ${c('foot')} {
         display: contents;
+      }
+      ${c('head')} {
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-column: 1 / -1;
+        position: sticky;
+        top: 0;
+        z-index: 2;
       }
       ${c('root')}:not(${c('virtual')}) {
         ${c('cell')} {
@@ -78,9 +91,9 @@ export const tableStyles = createThemePart({
       ${c('head')} ${c('cell')} {
         display: flex;
         align-items: center;
-        grid-row-start: 1;
+        grid-row: 1;
       }
-      ${c('selectable')} ${c('row')} {
+      ${c('selectable')} ${c('body')} ${c('row')} {
         cursor: pointer;
       }
       ${c('sortable-column')} {
@@ -125,18 +138,14 @@ export const tableStyles = createThemePart({
       }
       ${c('drop-indicator')} {
         position: absolute;
-        top: 0;
         width: 3px;
         pointer-events: none;
-        z-index: 2;
-      }
-      ${c('root')} > div {
-        position: relative;
+        z-index: 3;
       }
       ${c('resize-handle')} {
         position: absolute;
         top: 0;
-        right: -2px;
+        right: 0;
         width: 4px;
         height: 100%;
         cursor: col-resize;
@@ -146,7 +155,7 @@ export const tableStyles = createThemePart({
           content: '';
           position: absolute;
           top: 0;
-          left: -4px;
+          right: 0;
           width: 12px;
           height: 100%;
         }

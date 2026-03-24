@@ -28,6 +28,9 @@ export const tableStyles = createThemePart({
         padding: 0 ${v('size.padding.md')};
         text-align: left;
       }
+      ${c('head')} {
+        background: ${v('color.background')};
+      }
       ${c('head')} ${c('cell')} {
         font-weight: ${v('font.weight.semibold')};
         gap: ${v('size.padding.sm')};
@@ -119,10 +122,10 @@ export const tableStyles = createThemePart({
       ${c('focused-row-cell')} {
         box-shadow: inset 3px 0 0 ${v('color.primary.500')};
       }
-      ${c('selectable')} ${c('row')}:hover ${c('cell')} {
+      ${c('selectable')} ${c('body')} ${c('row')}:hover ${c('cell')} {
         background: ${v('color.surface.100')};
       }
-      ${c('selectable')} ${c('selected-row')}:hover ${c('cell')} {
+      ${c('selectable')} ${c('body')} ${c('selected-row')}:hover ${c('cell')} {
         background: color-mix(in srgb, ${v('color.primary.500')} 15%, transparent);
       }
       ${c('selection-column')} {

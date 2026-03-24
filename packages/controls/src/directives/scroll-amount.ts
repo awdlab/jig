@@ -1,4 +1,12 @@
-import { afterRenderEffect, Directive, ElementRef, inject, signal } from '@angular/core';
+import {
+  afterRenderEffect,
+  computed,
+  Directive,
+  ElementRef,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { domEventObservable } from '@ngneers/controls/api/ng';
 import { map } from 'rxjs';
 
@@ -7,9 +15,18 @@ import { map } from 'rxjs';
 })
 export class NgnScrollAmount {
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
+
+  /**
+   * Optional external scroll container. When set, scroll events and
+   * dimensions are tracked on this element instead of the host element.
+   */
+  public readonly scrollContainer = input<HTMLElement | undefined>();
+
+  public readonly scrollTarget = computed(() => this.scrollContainer() ?? this._el.nativeElement);
   public readonly scrollTop = signal(this._el.nativeElement.scrollTop);
   public readonly scrollLeft = signal(this._el.nativeElement.scrollLeft);
-  private readonly _scrollEvent = domEventObservable(this._el.nativeElement, 'scroll');
+
+  private readonly _scrollEvent = domEventObservable(this.scrollTarget, 'scroll');
 
   constructor() {
     afterRenderEffect(() => {

@@ -80,6 +80,13 @@ export interface ResizeEngineConfig {
    * @default 0
    */
   minItemSizePx?: number;
+  /**
+   * Optional callback that returns the actual rendered px sizes of all items
+   * (e.g. via `getBoundingClientRect().width`). When provided, push-mode baking
+   * uses these DOM-measured values instead of JS-computed fr→px conversions,
+   * avoiding sub-pixel rounding mismatches with CSS Grid.
+   */
+  resolveItemSizes?: () => number[];
 }
 
 // --- Internal drag state ---
@@ -109,6 +116,8 @@ export type ResizeDragContext = {
   fractionFactors: ResizeFractionFactors;
   /** Percent-per-pixel ratio captured at drag start. */
   percentPerPx: number;
+  /** Whether push-mode baking has been applied (deferred to first movement). */
+  baked: boolean;
 };
 
 export type ResizeFractionFactors = {

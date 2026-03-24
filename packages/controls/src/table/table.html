@@ -1,77 +1,77 @@
-<div [style.overflow-x]="_pushOverflowX()">
-  <table
-    [ptInt]="this"
-    [ptClass]="{ table: true, striped: striped() }"
-    [attr.aria-rowcount]="formattedRows().length"
-    [style.--ngn-table-column-count]="totalColumnCount()"
-    [style.--ngn-table-selection-offset]="showCheckboxes() ? 1 : 0"
-    [style.grid-template-columns]="gridTemplateColumns()"
-    [style.width]="_pushTableWidth()"
-    [style.--ngn-table-row-height.px]="rowHeight()"
-  >
-    <thead [ptInt]="this" [ptClass]="'head'">
-      <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
-    </thead>
-    @if (_dropIndicatorState()) {
-      <div
-        [ptInt]="this"
-        [ptClass]="'drop-indicator'"
-        [style.left.px]="_dropIndicatorState()!.leftPx"
-        [style.height.px]="_dropIndicatorState()!.heightPx"
-      ></div>
-    }
-
-    <tbody
+<table
+  #scrollContainer
+  [ptInt]="this"
+  [ptClass]="{ table: true, striped: striped() }"
+  [attr.aria-rowcount]="formattedRows().length"
+  [style.--ngn-table-column-count]="totalColumnCount()"
+  [style.--ngn-table-selection-offset]="showCheckboxes() ? 1 : 0"
+  [style.grid-template-columns]="gridTemplateColumns()"
+  [style.--ngn-table-row-height.px]="rowHeight()"
+>
+  <thead [ptInt]="this" [ptClass]="'head'">
+    <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
+  </thead>
+  @if (_dropIndicatorState()) {
+    <div
       [ptInt]="this"
-      [ptClass]="'body'"
-      ngn-scroller
-      #scroller
-      [virtual]="virtual()"
-      [items]="pagedRows()"
-      [fieldId]="'id'"
-      [itemHeight]="rowHeight() || 0"
-      [virtualPadding]="virtualPadding()"
-      [style.--ngn-table-item-start-index]="scroller.itemStartIndex()"
-    >
-      <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item let-index="index">
-        @if (item.kind === 'group-header') {
-          @if (groupHeaderTemplate(); as customGroupHeader) {
-            <ng-container
-              [ngTemplateOutlet]="customGroupHeader"
-              [ngTemplateOutletContext]="{
-                $implicit: {
-                  groupKey: item.groupKey,
-                  groupValue: item.groupValue,
-                  count: item.count,
-                  expanded: item.expanded,
-                },
-              }"
-            ></ng-container>
-          } @else {
-            <tr
-              [ngnTableGroupHeaderTr]="item"
-              [class]="theme.classes({ 'group-expanded': item.expanded })"
-              [attr.aria-expanded]="item.expanded"
-              role="row"
-              (click)="toggleGroupFromRow(item)"
-            >
-              <td [class]="theme.class('group-header-cell')" role="gridcell">
-                <ngn-icon [defaultIcon]="'chevron_right'" [class]="theme.class('group-toggle')" />
-                <span>{{ item.groupValue }}</span>
-                <span>({{ item.count }})</span>
-              </td>
-            </tr>
-          }
-        } @else {
+      [ptClass]="'drop-indicator'"
+      [style.left.px]="_dropIndicatorState()!.leftPx"
+      [style.top.px]="_dropIndicatorState()!.topPx"
+      [style.height.px]="_dropIndicatorState()!.heightPx"
+    ></div>
+  }
+
+  <tbody
+    [ptInt]="this"
+    [ptClass]="'body'"
+    ngn-scroller
+    #scroller
+    [scrollContainer]="scrollContainer"
+    [virtual]="virtual()"
+    [items]="pagedRows()"
+    [fieldId]="'id'"
+    [itemHeight]="rowHeight() || 0"
+    [virtualPadding]="virtualPadding()"
+    [style.--ngn-table-item-start-index]="scroller.itemStartIndex()"
+  >
+    <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item let-index="index">
+      @if (item.kind === 'group-header') {
+        @if (groupHeaderTemplate(); as customGroupHeader) {
           <ng-container
-            [ngTemplateOutlet]="bodyTemplate()"
-            [ngTemplateOutletContext]="{ $implicit: item }"
+            [ngTemplateOutlet]="customGroupHeader"
+            [ngTemplateOutletContext]="{
+              $implicit: {
+                groupKey: item.groupKey,
+                groupValue: item.groupValue,
+                count: item.count,
+                expanded: item.expanded,
+              },
+            }"
           ></ng-container>
+        } @else {
+          <tr
+            [ngnTableGroupHeaderTr]="item"
+            [class]="theme.classes({ 'group-expanded': item.expanded })"
+            [attr.aria-expanded]="item.expanded"
+            role="row"
+            (click)="toggleGroupFromRow(item)"
+          >
+            <td [class]="theme.class('group-header-cell')" role="gridcell">
+              <ngn-icon [defaultIcon]="'chevron_right'" [class]="theme.class('group-toggle')" />
+              <span>{{ item.groupValue }}</span>
+              <span>({{ item.count }})</span>
+            </td>
+          </tr>
         }
-      </ng-template>
-    </tbody>
-  </table>
-</div>
+      } @else {
+        <ng-container
+          [ngTemplateOutlet]="bodyTemplate()"
+          [ngTemplateOutletContext]="{ $implicit: item }"
+        ></ng-container>
+      }
+    </ng-template>
+  </tbody>
+</table>
 @if (paginator()) {
   <ngn-paginator [totalItems]="rows().length" (value)="pageChanged($event)" />
 }

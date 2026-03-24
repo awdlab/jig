@@ -27,7 +27,7 @@ import { ScrollerTemplates } from './scroller-templates';
   templateUrl: './scroller.html',
   imports: [NgTemplateOutlet],
   providers: [provideSelf(NgnScroller)],
-  hostDirectives: [{ directive: NgnScrollAmount }],
+  hostDirectives: [{ directive: NgnScrollAmount, inputs: ['scrollContainer'] }],
   host: {
     '[tabIndex]': 'focusable() ? 0 : -1',
     '[style.--ngn-scroller-item-height.px]': 'itemHeight() ?? "auto"',
@@ -82,17 +82,39 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
    */
   public readonly fieldSticky = input<AllKeysOfUnion<T> | null>(null);
 
-  private readonly _elementSize = elementSizeSignal(this._el);
+  /**
+   * Viewport size — tracks the scroll ancestor's dimensions so that virtual
+   * scrolling works when an outer element handles overflow (e.g. table wrapper).
+   */
+  private readonly _viewportSize = elementSizeSignal(
+    computed(() => this._scrollAmount.scrollTarget())
+  );
 
   private readonly _itemHeightPx = computed(() => this.itemHeight() ?? 0);
+
+  /**
+   * Vertical offset between the scroll container's top and the scroller element.
+   * Non-zero when a parent (e.g. table wrapper) owns the scroll and the scroller
+   * is positioned below other content (e.g. a sticky header row).
+   */
+  private readonly _scrollOffset = computed(() => {
+    const target = this._scrollAmount.scrollTarget();
+    if (target === this._el.nativeElement) return 0;
+    return this._el.nativeElement.offsetTop;
+  });
 
   private readonly _visibleItemCount = computed(() => {
     if (!this.virtual() || this._itemHeightPx() === 0) {
       return 0;
     }
-    return Math.ceil(this._elementSize().height / this._itemHeightPx() + this.virtualPadding() * 2);
+    return Math.ceil(
+      this._viewportSize().height / this._itemHeightPx() + this.virtualPadding() * 2
+    );
   });
-  private readonly _scrollTop = computed(() => this._scrollAmount.scrollTop());
+  private readonly _scrollTop = computed(() => {
+    const raw = this._scrollAmount.scrollTop();
+    return Math.max(0, raw - this._scrollOffset());
+  });
   /**
    * The index of the first item that is rendered in the (virtual) scroller.
    */
@@ -174,10 +196,13 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
    */
   public scrollToIndex(index: number, position: ScrollLogicalPosition = 'nearest') {
     untracked(() => {
+      const scrollEl = this._scrollAmount.scrollTarget();
+      const offset = this._scrollOffset();
+
       const getItemSize = () => {
         if (this.virtual()) {
           const itemHeight = this._itemHeightPx();
-          const itemTop = index * itemHeight;
+          const itemTop = index * itemHeight + offset;
           return { itemHeight, itemTop };
         } else {
           let itemElement = this._el.nativeElement.children[index] as HTMLElement | null;
@@ -197,14 +222,8 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
         return;
       }
       const { itemTop, itemHeight } = size;
-      this._el.nativeElement.scrollTo({
-        top: getScrollTop(
-          itemTop,
-          itemHeight,
-          this._el.nativeElement.clientHeight,
-          this._el.nativeElement.scrollTop,
-          position
-        ),
+      scrollEl.scrollTo({
+        top: getScrollTop(itemTop, itemHeight, scrollEl.clientHeight, scrollEl.scrollTop, position),
       });
     });
   }

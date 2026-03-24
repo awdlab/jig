@@ -51,6 +51,7 @@ export class ResizeEngine {
   private readonly containerConstrained: ResizeEngineConfig['containerConstrained'];
   private readonly lockSizes: Signal<boolean>;
   private readonly minItemSizePx: number;
+  private readonly resolveItemSizes?: () => number[];
 
   constructor(config: ResizeEngineConfig) {
     this.items = config.items;
@@ -60,6 +61,7 @@ export class ResizeEngine {
     this.containerConstrained = config.containerConstrained;
     this.lockSizes = config.lockSizes ?? signal(false);
     this.minItemSizePx = config.minItemSizePx ?? 0;
+    this.resolveItemSizes = config.resolveItemSizes;
 
     // Signal fires when any item size is not calculated (external change detected)
     const hasUncalculatedSizes = computed(
@@ -122,14 +124,13 @@ export class ResizeEngine {
 
     // Resolve strategy:
     // - adjacent (constrained): resolve ALL to px — CSS grid can't constrain adjacent resizing with fr.
-    // - push (unconstrained): keep original units until first resize, then resolve to px for scrolling.
+    // - push (unconstrained): keep original units until first movement bakes to px, then resolve for scrolling.
     // - proportional: NEVER resolve fr→px. Use minmax(floor, size) so CSS grid handles min widths
     //   natively, both during and after drag. This allows columns that still have room to shrink
     //   while already-at-minimum columns stay at the floor.
     const shouldResolve =
       containerSize > 0 &&
-      ((constrained && mode === 'adjacent') ||
-        (!constrained && (this.isDragging() || this.hasBeenResized())));
+      ((constrained && mode === 'adjacent') || (!constrained && this.hasBeenResized()));
     const useMinmax = mode === 'proportional' && this.minItemSizePx > 0;
     const frFactors = shouldResolve ? this.getCurrentFractionFactors() : null;
 
@@ -185,23 +186,15 @@ export class ResizeEngine {
   // --- Drag operations ---
 
   /**
-   * Begins a drag at the given divider. In push mode, all items are baked to `px`
-   * so non-dragged items keep their absolute widths. Original sizes are saved
-   * for reverting on no-op clicks or cancellation.
+   * Begins a drag at the given divider. Original sizes are saved for reverting
+   * on no-op clicks or cancellation. In push mode, baking to `px` is deferred
+   * to the first {@link drag} call to avoid a visual shift on mousedown.
    */
   public startDrag(dividerIndex: number, startPositionPx: number): void {
     const items = this.items();
     if (dividerIndex < 0 || items.length < 2 || dividerIndex >= items.length) return;
 
-    // Save original sizes before baking (needed to revert on no-op clicks)
     const preBakeSizes = items.map(item => item.size());
-
-    // In push mode (not constrained), bake all items to px first.
-    // This ensures non-dragged items keep their absolute pixel widths
-    // and don't shrink when the dragged item grows.
-    if (!this.containerConstrained()) {
-      this.bakeAllItemsToPx();
-    }
 
     this.dragContext.set({
       dividerIndex,
@@ -210,6 +203,7 @@ export class ResizeEngine {
       items: items.map(item => this.createContextItem(item)),
       fractionFactors: this.getCurrentFractionFactors(),
       percentPerPx: this.getCurrentPercentPerPx(),
+      baked: this.containerConstrained(),
     });
   }
 
@@ -217,6 +211,17 @@ export class ResizeEngine {
   public drag(dividerIndex: number, currentPositionPx: number): void {
     const ctx = this.dragContext();
     if (!ctx || ctx.dividerIndex !== dividerIndex) return;
+
+    // In push mode, bake all items to px on the first movement so non-dragged
+    // items keep their absolute widths. Deferred from startDrag to avoid a
+    // visual column shift on mousedown (CSS Grid fr→px rounding mismatch).
+    if (!ctx.baked) {
+      this.bakeAllItemsToPx();
+      ctx.items = this.items().map(item => this.createContextItem(item));
+      ctx.fractionFactors = this.getCurrentFractionFactors();
+      ctx.percentPerPx = this.getCurrentPercentPerPx();
+      ctx.baked = true;
+    }
 
     const pxDelta = currentPositionPx - ctx.startPosition;
     this.applyDelta(dividerIndex, pxDelta, ctx.items, ctx.fractionFactors, ctx.percentPerPx);
@@ -649,16 +654,26 @@ export class ResizeEngine {
   }
 
   /**
-   * Bakes all non-px items to absolute px values. Used by push mode on drag start.
+   * Bakes all non-px items to absolute px values. Used by push mode on first drag movement.
+   * Prefers DOM-measured sizes (via {@link resolveItemSizes}) over JS-computed conversions
+   * to avoid sub-pixel mismatches with CSS Grid's internal track sizing.
    */
   private bakeAllItemsToPx(): void {
     const items = this.items();
-    const frFactors = this.getCurrentFractionFactors();
-    const containerSize = this.containerSize();
-    for (const item of items) {
-      const size = expandResizeSize(item.size());
-      if (size.unit !== 'px') {
-        this.setItemSize(item, `${resolveSizeToPx(size, frFactors.pxPerFr, containerSize)}px`);
+    const measured = this.resolveItemSizes?.();
+
+    if (measured && measured.length === items.length) {
+      for (let i = 0; i < items.length; i++) {
+        this.setItemSize(items[i]!, `${measured[i]!}px`);
+      }
+    } else {
+      const frFactors = this.getCurrentFractionFactors();
+      const containerSize = this.containerSize();
+      for (const item of items) {
+        const size = expandResizeSize(item.size());
+        if (size.unit !== 'px') {
+          this.setItemSize(item, `${resolveSizeToPx(size, frFactors.pxPerFr, containerSize)}px`);
+        }
       }
     }
   }
