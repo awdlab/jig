@@ -1,12 +1,13 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 export const tableStyles = createThemePart({
   controlTemplate: tableControlTemplate,
-  dependencies: [sizesTemplate],
+  dependencies: [],
   root: {
     css: ({ v, c, d }) => css`
+      /* ── Layout ──────────────────────────────────────────────────────── */
+
       ${c('root')} {
         display: flex;
         flex-direction: column;
@@ -23,6 +24,19 @@ export const tableStyles = createThemePart({
         overflow: auto;
         flex: 1;
         min-height: 0;
+      }
+      ${c('head')} {
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-column: 1 / -1;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+      }
+      ${c('head')} ${c('cell')} {
+        display: flex;
+        align-items: center;
+        grid-row: 1;
       }
       ${c('body')}${d('scroller', 'root')} {
         display: grid;
@@ -42,13 +56,14 @@ export const tableStyles = createThemePart({
       ${c('row')}, ${c('foot')} {
         display: contents;
       }
-      ${c('head')} {
-        display: grid;
-        grid-template-columns: subgrid;
-        grid-column: 1 / -1;
-        position: sticky;
-        top: 0;
-        z-index: 2;
+      ${c('cell')} {
+        height: var(--ngn-table-row-height);
+        min-width: 0;
+        --row-index: calc(var(--ngn-table-row-index) - var(--ngn-table-item-start-index));
+        grid-row-start: var(--row-index);
+        grid-column-start: calc(
+          var(--ngn-table-column-index) + var(--ngn-table-selection-offset, 0)
+        );
       }
       ${c('root')}:not(${c('virtual')}) {
         ${c('cell')} {
@@ -60,42 +75,23 @@ export const tableStyles = createThemePart({
           }
         }
       }
-      ${c('cell')} {
-        height: var(--ngn-table-row-height);
-        min-width: 0;
-        --row-index: calc(var(--ngn-table-row-index) - var(--ngn-table-item-start-index));
-        grid-row-start: var(--row-index);
-        grid-column-start: calc(
-          var(--ngn-table-column-index) + var(--ngn-table-selection-offset, 0)
-        );
-        &:not(:has(*)) {
-          line-height: var(--ngn-table-row-height);
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
+
+      /* ── Selection ───────────────────────────────────────────────────── */
+
       ${c('selection-column')} {
         grid-column-start: 1;
         display: flex;
         align-items: center;
         justify-content: center;
         width: auto;
-        min-width: 0;
-      }
-      ${c('selection-column')} ${d('checkbox', 'root')} *,
-      ${c('selection-column')} ${d('checkbox', 'root')} *::before,
-      ${c('selection-column')} ${d('checkbox', 'root')} *::after {
-        animation: none !important;
-      }
-      ${c('head')} ${c('cell')} {
-        display: flex;
-        align-items: center;
-        grid-row: 1;
+        min-width: fit-content;
       }
       ${c('selectable')} ${c('body')} ${c('row')} {
         cursor: pointer;
       }
+
+      /* ── Sorting ─────────────────────────────────────────────────────── */
+
       ${c('sortable-column')} {
         ${c('sort-control')} {
           visibility: hidden;
@@ -104,9 +100,9 @@ export const tableStyles = createThemePart({
           visibility: visible;
         }
       }
-      ${c('head')} ${c('cell')}${c('resizable')} {
-        position: relative;
-      }
+
+      /* ── Grouping ────────────────────────────────────────────────────── */
+
       ${c('group-header-row')} {
         display: contents;
       }
@@ -126,6 +122,9 @@ export const tableStyles = createThemePart({
       ${c('group-toggle')} {
         flex-shrink: 0;
       }
+
+      /* ── Reordering ──────────────────────────────────────────────────── */
+
       ${c('root')}${c('reorderable')} ${c('head')} ${c('cell')} {
         cursor: grab;
         user-select: none;
@@ -133,32 +132,36 @@ export const tableStyles = createThemePart({
       ${c('root')}${c('reordering')} ${c('head')} ${c('cell')} {
         cursor: grabbing;
       }
-      ${c('drag-source')} {
-        opacity: 0.4;
-      }
       ${c('drop-indicator')} {
         position: absolute;
-        width: 3px;
         pointer-events: none;
         z-index: 3;
+      }
+
+      /* ── Resizing ────────────────────────────────────────────────────── */
+
+      ${c('head')} ${c('cell')}${c('resizable')} {
+        position: relative;
       }
       ${c('resize-handle')} {
         position: absolute;
         top: 0;
         right: 0;
-        width: 4px;
         height: 100%;
         cursor: col-resize;
         z-index: 1;
         touch-action: none;
-        &::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 12px;
-          height: 100%;
-        }
+      }
+
+      /* ── Sticky Columns (after resizing so sticky wins over relative) ─ */
+
+      ${c('head')} ${c('cell')}${c('sticky-column')},
+      ${c('body')} ${c('cell')}${c('sticky-column')} {
+        position: sticky;
+        z-index: 1;
+      }
+      ${c('head')} ${c('sticky-column')} {
+        z-index: 3;
       }
     `,
   },

@@ -39,3 +39,7 @@ The Table component provides a way to display data in rows and columns.
 ### Reorderable Columns
 
 {{ demo: Demo_Table_Reorderable }}
+
+### Sticky Columns
+
+{{ demo: Demo_Table_Sticky }}

@@ -45,6 +45,13 @@ export const tableControlTemplate = createControlTemplate({
     'reordering',
     'drag-source',
     'drop-indicator',
+    'sticky-column',
+    'sticky-left',
+    'sticky-right',
+    'sticky-left-last',
+    'sticky-right-first',
+    'sticky-scrolled-left',
+    'sticky-scrolled-right',
   ],
   dependencies: [
     scrollerControlTemplate,

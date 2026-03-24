@@ -17,7 +17,7 @@ export default defineConfig({
   forbidOnly: !!process.env['CI'],
   retries: process.env['CI'] ? 2 : 0,
   failOnFlakyTests: true,
-  workers: process.env['CI'] ? 1 : undefined,
+  workers: process.env['CI'] ? 2 : undefined,
   outputDir: 'tests/results',
   /* See https://playwright.dev/docs/test-reporters */
   reporter: [

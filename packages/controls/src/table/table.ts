@@ -337,6 +337,30 @@ export class NgnTable<
 
   protected readonly columnCount = computed(() => this._registeredHeaderCells().length);
 
+  // --- Sticky column registry (lightweight — directive owns the logic) ---
+
+  private readonly _stickyColumnIds = signal<ReadonlyMap<string, 'left' | 'right'>>(new Map());
+
+  public registerStickyColumnId(columnId: string, side: 'left' | 'right'): void {
+    this._stickyColumnIds.update(m => {
+      const n = new Map(m);
+      n.set(columnId, side);
+      return n;
+    });
+  }
+
+  public unregisterStickyColumnId(columnId: string): void {
+    this._stickyColumnIds.update(m => {
+      const n = new Map(m);
+      n.delete(columnId);
+      return n;
+    });
+  }
+
+  public getStickyColumnIds(): ReadonlyMap<string, 'left' | 'right'> {
+    return this._stickyColumnIds();
+  }
+
   // --- Column reorder state ---
 
   private readonly _isReordering = signal(false);
@@ -656,6 +680,27 @@ export class NgnTable<
         targetIndex = i;
         break;
       }
+    }
+
+    // Clamp target so non-sticky columns cannot land inside sticky zones
+    const stickyMap = this._stickyColumnIds();
+    if (stickyMap.size > 0) {
+      // Count sticky-left columns at the start
+      let stickyLeftCount = 0;
+      for (const id of effectiveOrder) {
+        if (stickyMap.get(id) === 'left') stickyLeftCount++;
+        else break;
+      }
+      // Count sticky-right columns at the end
+      let stickyRightCount = 0;
+      for (let i = effectiveOrder.length - 1; i >= 0; i--) {
+        if (stickyMap.get(effectiveOrder[i]!) === 'right') stickyRightCount++;
+        else break;
+      }
+      targetIndex = Math.max(
+        stickyLeftCount,
+        Math.min(targetIndex, effectiveOrder.length - stickyRightCount)
+      );
     }
 
     this._reorderTargetIndex = targetIndex;

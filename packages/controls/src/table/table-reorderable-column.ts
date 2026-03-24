@@ -60,6 +60,10 @@ export class NgnTableReorderableColumn implements OnDestroy {
     const target = event.target as HTMLElement;
     if (target.classList.contains(this.theme.class('resize-handle'))) return;
 
+    // Don't allow reordering of sticky columns
+    const stickyMap = table.getStickyColumnIds();
+    if (stickyMap.has(this._columnId())) return;
+
     event.preventDefault();
 
     this._startX = event.clientX;
