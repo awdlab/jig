@@ -43,31 +43,16 @@ export const checkboxStyles = createThemePart({
         outline: 2px solid ${v('color.text')};
       }
 
-      ${c('anim-box-icon-enter')} {
-        /* prettier-ignore */
-        animation: ${c('anim-box-icon-enter', 'animation')} ${v('anim.time.snappyFade')} ${v(
-          'anim.ease.snappyFade'
-        )};
-        pointer-events: none;
+      ${c('box-icon')} {
+        opacity: 0;
+        transform: scale(0.8);
+        transition:
+          opacity ${v('anim.time.snappyFade')} ${v('anim.ease.snappyFade')},
+          transform ${v('anim.time.snappyFade')} ${v('anim.ease.snappyFade')};
       }
-      ${c('anim-box-icon-leave')} {
-        /* prettier-ignore */
-        animation: ${c('anim-box-icon-enter', 'animation')} ${v('anim.time.snappyFade')} ${v(
-          'anim.ease.snappyFade'
-        )} reverse;
-        pointer-events: none;
-        position: absolute;
-      }
-
-      @keyframes ${c('anim-box-icon-enter', 'animation')} {
-        from {
-          opacity: 0;
-          transform: scale(0.8);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1);
-        }
+      ${c('box-icon-visible')} {
+        opacity: 1;
+        transform: scale(1);
       }
     `,
   },

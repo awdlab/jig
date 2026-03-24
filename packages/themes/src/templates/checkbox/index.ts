@@ -9,8 +9,7 @@ export const checkboxControlTemplate = createControlTemplate({
     'box-checked',
     'box-indeterminate',
     'box-icon',
-    'anim-box-icon-enter',
-    'anim-box-icon-leave',
+    'box-icon-visible',
     'invalid',
   ],
 });

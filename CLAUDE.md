@@ -47,3 +47,5 @@ Always check **all** parts when making changes to a control — a rename or new 
 <!-- Entries below are added automatically when the user gives general advice -->
 
 - When previewing the docs app, you must click "Get Started" on the startpage before the sidebar navigation becomes available. This is always the case.
+
+- Always run `pnpm prettier --write` over changed files after completing edits

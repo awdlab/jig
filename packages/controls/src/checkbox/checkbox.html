@@ -6,31 +6,32 @@
     'box-indeterminate': indeterminate(),
   }"
 >
-  @if (indeterminate()) {
+  <ngn-icon
+    [ptInt]="this"
+    [ptClass]="{
+      'box-icon': true,
+      'box-icon-visible': indeterminate(),
+    }"
+    [icon]="iconIndeterminate()"
+    [defaultIcon]="'minus'"
+  />
+  <ngn-icon
+    [ptInt]="this"
+    [ptClass]="{
+      'box-icon': true,
+      'box-icon-visible': !indeterminate() && !!value(),
+    }"
+    [icon]="iconChecked()"
+    [defaultIcon]="'check'"
+  />
+  @if (iconUnchecked()) {
     <ngn-icon
       [ptInt]="this"
-      [ptClass]="'box-icon'"
-      [icon]="iconIndeterminate()"
-      [defaultIcon]="'minus'"
-      [animate.enter]="theme.class('anim-box-icon-enter')"
-      [animate.leave]="theme.class('anim-box-icon-leave')"
-    />
-  } @else if (value()) {
-    <ngn-icon
-      [ptInt]="this"
-      [ptClass]="'box-icon'"
-      [icon]="iconChecked()"
-      [defaultIcon]="'check'"
-      [animate.enter]="theme.class('anim-box-icon-enter')"
-      [animate.leave]="theme.class('anim-box-icon-leave')"
-    />
-  } @else if (iconUnchecked()) {
-    <ngn-icon
-      [ptInt]="this"
-      [ptClass]="'box-icon'"
+      [ptClass]="{
+        'box-icon': true,
+        'box-icon-visible': !indeterminate() && !value(),
+      }"
       [icon]="iconUnchecked()"
-      [animate.enter]="theme.class('anim-box-icon-enter')"
-      [animate.leave]="theme.class('anim-box-icon-leave')"
     />
   }
 </div>

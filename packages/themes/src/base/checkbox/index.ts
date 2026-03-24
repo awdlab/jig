@@ -30,6 +30,11 @@ export const checkboxStyles = createThemePart({
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
+      }
+      ${c('box-icon')} {
+        position: absolute;
+        pointer-events: none;
       }
     `,
   },
