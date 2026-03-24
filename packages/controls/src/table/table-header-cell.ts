@@ -95,6 +95,13 @@ export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDes
       }
       el.appendChild(textWrapper);
 
+      // Move dynamically-created controls back out of the text wrapper
+      // so they participate in the header cell's flex layout (order: 2, 3)
+      const filterControl = textWrapper.querySelector('.' + this.theme.class('filter-control'));
+      if (filterControl) el.appendChild(filterControl);
+      const sortControl = textWrapper.querySelector('.' + this.theme.class('sort-control'));
+      if (sortControl) el.appendChild(sortControl);
+
       // Spacer div for flex layout
       const spacer = renderer.createElement('div');
       spacer.classList.add(this.theme.class('spacer'));
