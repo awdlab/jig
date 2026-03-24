@@ -1,4 +1,5 @@
 import { createControlTemplate } from '@ngneers/controls-themes/api';
+import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
 import { filterControlTemplate } from '@ngneers/controls-themes/templates/filter';
 import { iconControlTemplate } from '@ngneers/controls-themes/templates/icon';
 import { paginatorControlTemplate } from '@ngneers/controls-themes/templates/paginator';
@@ -29,6 +30,13 @@ export const tableControlTemplate = createControlTemplate({
     'resizable',
     'resizing',
     'cell-text',
+    'selected-row',
+    'selection-checkbox',
+    'selection-column',
+    'selectable',
+    'focused-row',
+    'selected-row-cell',
+    'focused-row-cell',
     'group-header-row',
     'group-header-cell',
     'group-toggle',
@@ -44,5 +52,6 @@ export const tableControlTemplate = createControlTemplate({
     filterControlTemplate,
     popoverControlTemplate,
     paginatorControlTemplate,
+    checkboxControlTemplate,
   ],
 });

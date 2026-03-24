@@ -100,6 +100,34 @@ export const tableStyles = createThemePart({
       ${c('resizing')} ${c('resize-handle')} {
         background: ${v('color.surface.400')};
       }
+      ${c('cell')} {
+        transition: background 0.1s ease;
+      }
+      ${c('selected-row')} ${c('cell')},
+      ${c('selected-row-cell')} {
+        background: color-mix(in srgb, ${v('color.primary.500')} 10%, transparent);
+      }
+      ${c('selected-row')}${c('even')} ${c('cell')} {
+        background: color-mix(in srgb, ${v('color.primary.500')} 14%, transparent);
+      }
+      ${c('focused-row')} ${c('cell')}:first-child {
+        box-shadow: inset 3px 0 0 ${v('color.primary.500')};
+      }
+      ${c('focused-row-cell')} ~ ${c('focused-row')} ${c('cell')}:first-child {
+        box-shadow: none;
+      }
+      ${c('focused-row-cell')} {
+        box-shadow: inset 3px 0 0 ${v('color.primary.500')};
+      }
+      ${c('selectable')} ${c('row')}:hover ${c('cell')} {
+        background: ${v('color.surface.100')};
+      }
+      ${c('selectable')} ${c('selected-row')}:hover ${c('cell')} {
+        background: color-mix(in srgb, ${v('color.primary.500')} 15%, transparent);
+      }
+      ${c('selection-column')} {
+        padding: 0 ${v('size.padding.sm')};
+      }
       ${c('root')} ${d('paginator', 'root')} {
         width: 90%;
         max-width: 800px;

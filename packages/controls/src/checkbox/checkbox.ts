@@ -1,4 +1,4 @@
-import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';

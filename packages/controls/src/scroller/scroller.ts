@@ -180,7 +180,10 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
           const itemTop = index * itemHeight;
           return { itemHeight, itemTop };
         } else {
-          const itemElement = this._el.nativeElement.children[index] as HTMLElement | null;
+          let itemElement = this._el.nativeElement.children[index] as HTMLElement | null;
+          while (!itemElement?.clientHeight && itemElement?.children.length) {
+            itemElement = itemElement?.children[0] as HTMLElement | null;
+          }
           if (itemElement) {
             const itemTop = itemElement.offsetTop;
             const itemHeight = itemElement.clientHeight;

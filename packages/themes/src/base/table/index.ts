@@ -52,7 +52,9 @@ export const tableStyles = createThemePart({
         min-width: 0;
         --row-index: calc(var(--ngn-table-row-index) - var(--ngn-table-item-start-index));
         grid-row-start: var(--row-index);
-        grid-column-start: var(--ngn-table-column-index);
+        grid-column-start: calc(
+          var(--ngn-table-column-index) + var(--ngn-table-selection-offset, 0)
+        );
         &:not(:has(*)) {
           line-height: var(--ngn-table-row-height);
           white-space: nowrap;
@@ -60,10 +62,26 @@ export const tableStyles = createThemePart({
           text-overflow: ellipsis;
         }
       }
+      ${c('selection-column')} {
+        grid-column-start: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+        min-width: 0;
+      }
+      ${c('selection-column')} ${d('checkbox', 'root')} *,
+      ${c('selection-column')} ${d('checkbox', 'root')} *::before,
+      ${c('selection-column')} ${d('checkbox', 'root')} *::after {
+        animation: none !important;
+      }
       ${c('head')} ${c('cell')} {
         display: flex;
         align-items: center;
         grid-row-start: 1;
+      }
+      ${c('selectable')} ${c('row')} {
+        cursor: pointer;
       }
       ${c('sortable-column')} {
         ${c('sort-control')} {

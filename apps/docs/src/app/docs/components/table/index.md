@@ -4,6 +4,14 @@ The Table component provides a way to display data in rows and columns.
 
 {{ demo: Demo_Table_Base }}
 
+### Single Selection
+
+{{ demo: Demo_Table_Selection_Single }}
+
+### Multi Selection
+
+{{ demo: Demo_Table_Selection_Multi }}
+
 ### Paged Table
 
 {{ demo: Demo_Table_Paged }}

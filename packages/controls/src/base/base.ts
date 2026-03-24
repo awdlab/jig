@@ -139,41 +139,72 @@ export abstract class NgnBase<T extends ControlName | null> {
       if (typeof this.element.nativeElement.getAnimations !== 'function') {
         this.afterLeaveInternal();
       } else {
-        /**
-         * Recursively searches for a leave animation on the element and its parents.
-         * @param element The element to search for leave animations.
-         * @returns The leave animation if found, otherwise null.
-         */
-        function findLeaveAnimationRecursive(element: HTMLElement): Animation | null {
-          const animations = element.getAnimations();
-          const leaveAnimation = animations.find(
-            a => a instanceof CSSAnimation && a.animationName.endsWith('-leave')
-          );
-          if (leaveAnimation) {
-            return leaveAnimation;
-          }
-          if (element.parentElement) {
-            return findLeaveAnimationRecursive(element.parentElement);
-          }
-          return null;
-        }
-
-        requestAnimationFrame(() => {
-          const leaveAnimation = findLeaveAnimationRecursive(this.element.nativeElement);
-          if (!leaveAnimation) {
-            this.afterLeaveInternal();
-          } else {
-            leaveAnimation.finished
-              .catch(() => {
-                // ignore errors from animations being cancelled
-              })
-              .finally(() => {
-                this.afterLeaveInternal();
-              });
-          }
-        });
+        NgnBase._enqueueLeaveCheck(this.element.nativeElement, () => this.afterLeaveInternal());
       }
     });
+  }
+
+  // --- Batched leave animation checking ---
+  // Collects all destroyed components in the same frame into one queue,
+  // then processes them in a single rAF to avoid layout thrashing from
+  // interleaved getAnimations() calls and DOM mutations.
+
+  private static _leaveQueue: { element: HTMLElement; callback: () => void }[] = [];
+  private static _leaveRafScheduled = false;
+
+  private static _enqueueLeaveCheck(element: HTMLElement, callback: () => void): void {
+    NgnBase._leaveQueue.push({ element, callback });
+    if (!NgnBase._leaveRafScheduled) {
+      NgnBase._leaveRafScheduled = true;
+      requestAnimationFrame(() => NgnBase._processLeaveQueue());
+    }
+  }
+
+  private static _processLeaveQueue(): void {
+    const queue = NgnBase._leaveQueue;
+    NgnBase._leaveQueue = [];
+    NgnBase._leaveRafScheduled = false;
+
+    // Phase 1: Read all animations (batched queries — no interleaved mutations)
+    const results: { animation: Animation | null; callback: () => void }[] = [];
+    for (const { element, callback } of queue) {
+      results.push({
+        animation: NgnBase._findLeaveAnimation(element),
+        callback,
+      });
+    }
+
+    // Phase 2: Process results (no more style queries needed)
+    for (const { animation, callback } of results) {
+      if (!animation) {
+        callback();
+      } else {
+        animation.finished
+          .catch(() => {
+            // ignore errors from animations being cancelled
+          })
+          .finally(() => {
+            callback();
+          });
+      }
+    }
+  }
+
+  /**
+   * Recursively searches for a leave animation on the element and its parents.
+   */
+  private static _findLeaveAnimation(element: HTMLElement): Animation | null {
+    const animations = element.getAnimations();
+    const leaveAnimation = animations.find(
+      a => a instanceof CSSAnimation && a.animationName.endsWith('-leave')
+    );
+    if (leaveAnimation) {
+      return leaveAnimation;
+    }
+    if (element.parentElement) {
+      return NgnBase._findLeaveAnimation(element.parentElement);
+    }
+    return null;
   }
 
   private afterLeaveInternal() {

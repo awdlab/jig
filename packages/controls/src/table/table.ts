@@ -7,6 +7,7 @@ import {
   model,
   signal,
   booleanAttribute,
+  viewChild,
 } from '@angular/core';
 import { executeMultiFilter } from '@ngneers/controls/api';
 import { elementSizeSignal, NgnTemplate } from '@ngneers/controls/api/ng';
@@ -30,7 +31,12 @@ const TABLE_MIN_COLUMN_WIDTH_PX = 50;
 const GRID_TRACK_RE = /(?:minmax\([^)]+\)|[^\s]+)/g;
 
 import type { NgnTableTh } from './table-header-cell';
-import type { FormattedTableGroupHeaderRow, FormattedTableRow } from './types';
+import type {
+  FormattedTableDataRow,
+  FormattedTableGroupHeaderRow,
+  FormattedTableRow,
+  TableSelectionMode,
+} from './types';
 import type { NgnFilterConfig } from '@ngneers/controls/filter';
 import type { AllKeysOfUnion } from '@ngneers/controls/utils';
 
@@ -50,6 +56,8 @@ import type { AllKeysOfUnion } from '@ngneers/controls/utils';
   providers: [provideSelf(NgnTable)],
   host: {
     tabindex: '0',
+    '[attr.aria-multiselectable]': 'selectionMode() === "multi" ? true : null',
+    '(keydown)': 'onKeyDown($event)',
   },
 })
 export class NgnTable<
@@ -61,10 +69,12 @@ export class NgnTable<
     root: true,
     virtual: () => this.virtual(),
     resizing: () => this._resizeEngine?.isDragging() ?? false,
+    selectable: () => !!this.selectionMode(),
     reorderable: () => this.reorderable(),
     reordering: () => this._isReordering(),
   });
   private readonly _registeredHeaderCells = signal<NgnTableTh[]>([]);
+  private readonly _scroller = viewChild.required(NgnScroller);
 
   public readonly rows = input.required<readonly T[]>();
   public readonly rowHeight = input<number>();
@@ -73,6 +83,27 @@ export class NgnTable<
   public readonly virtualPadding = input<number>(2);
   public readonly striped = input<boolean>(false);
   public readonly paginator = input<boolean>(false);
+
+  /**
+   * The selection mode for the table.
+   * - `'single'`: Only one row can be selected at a time.
+   * - `'multi'`: Multiple rows can be selected (with Ctrl/Shift click or checkboxes).
+   * - `null`: Selection is disabled.
+   * @default null
+   */
+  public readonly selectionMode = input<TableSelectionMode | null>(null);
+
+  /**
+   * The selected row IDs. Two-way bindable via `[(selection)]`.
+   * @default []
+   */
+  public readonly selection = model<T[K & keyof T][]>([]);
+
+  /**
+   * Whether to show a checkbox column for selection.
+   * Defaults to `true` when `selectionMode` is `'multi'`.
+   */
+  public readonly checkbox = input<boolean>();
 
   /**
    * Column key to group rows by. Rows with the same value in this column
@@ -142,6 +173,51 @@ export class NgnTable<
     | null
   >(null);
   protected readonly pageState = signal<PaginationState | null>(null);
+
+  // --- Selection state ---
+
+  public readonly showCheckboxes = computed(
+    () => this.checkbox() ?? this.selectionMode() === 'multi'
+  );
+
+  /**
+   * Set of selected row IDs for O(1) lookup.
+   */
+  protected readonly selectionSet = computed(() => new Set(this.selection()));
+
+  /**
+   * Anchor index for Shift+click range selection (index in formattedRows).
+   */
+  private readonly _selectionAnchor = signal<number | null>(null);
+
+  /**
+   * Currently focused row index for keyboard navigation (index in formattedRows).
+   */
+  public readonly focusedRowIndex = signal<number | null>(null);
+
+  protected readonly isAllSelected = computed(() => {
+    const rows = this.formattedRows();
+    const selSet = this.selectionSet();
+    return rows.length > 0 && rows.every(row => selSet.has(row.id as T[K & keyof T]));
+  });
+
+  protected readonly isIndeterminate = computed(() => {
+    const selSet = this.selectionSet();
+    return selSet.size > 0 && !this.isAllSelected();
+  });
+
+  public readonly headerCheckboxValue = computed<boolean | null>(() => {
+    if (this.isAllSelected()) return true;
+    if (this.isIndeterminate()) return null;
+    return false;
+  });
+
+  /**
+   * Total column count including the selection checkbox column.
+   */
+  protected readonly totalColumnCount = computed(
+    () => this.columnCount() + (this.showCheckboxes() ? 1 : 0)
+  );
 
   protected readonly formattedRows = computed<FormattedTableRow<T>[]>(() => {
     const groupBy = this.groupBy();
@@ -339,15 +415,16 @@ export class NgnTable<
     });
 
     this.gridTemplateColumns = computed(() => {
+      const checkboxCol = this.showCheckboxes() ? 'auto ' : '';
       if (this.resizable()) {
         const rawSizes = this._resizeEngine.gridTemplateSizes();
         // When reorderable, permute grid track sizes to match visual column order
         if (this.reorderable()) {
-          return this._permuteGridSizes(rawSizes);
+          return `${checkboxCol}${this._permuteGridSizes(rawSizes)}`;
         }
-        return rawSizes;
+        return `${checkboxCol}${rawSizes}`;
       }
-      return `repeat(${this.columnCount()}, 1fr)`;
+      return `${checkboxCol}repeat(${this.columnCount()}, 1fr)`;
     });
 
     this._pushTableWidth = computed(() => {
@@ -416,6 +493,136 @@ export class NgnTable<
     this._resizeEngine.endDrag(columnIndex, cancel);
   }
 
+  // --- Selection operations ---
+
+  public isRowSelected(id: T[keyof T] & (string | number)): boolean {
+    return this.selectionSet().has(id as T[K & keyof T]);
+  }
+
+  public handleRowClick(row: FormattedTableDataRow<T>, event: MouseEvent): void {
+    const mode = this.selectionMode();
+    if (!mode) return;
+
+    const id = row.id as T[K & keyof T];
+    const rowIndex = this.formattedRows().findIndex(r => r.id === row.id);
+
+    if (mode === 'single') {
+      this.selection.set([id]);
+      this._selectionAnchor.set(rowIndex);
+      this.focusedRowIndex.set(null);
+      return;
+    }
+
+    // Multi mode
+    if (event.shiftKey && this._selectionAnchor() !== null) {
+      this._selectRange(this._selectionAnchor()!, rowIndex);
+    } else if (event.ctrlKey || event.metaKey) {
+      this._toggleRowInSelection(id);
+    } else {
+      this._toggleRowInSelection(id);
+    }
+    this._selectionAnchor.set(rowIndex);
+    this.focusedRowIndex.set(null);
+  }
+
+  public handleCheckboxChange(row: FormattedTableDataRow<T>): void {
+    const id = row.id as T[K & keyof T];
+    this._toggleRowInSelection(id);
+    const rowIndex = this.formattedRows().findIndex(r => r.id === row.id);
+    this._selectionAnchor.set(rowIndex);
+    this.focusedRowIndex.set(null);
+  }
+
+  public toggleSelectAll(): void {
+    if (this.isAllSelected()) {
+      this.selection.set([]);
+    } else {
+      const dataRows = this.formattedRows().filter(
+        (r): r is FormattedTableDataRow<T> => r.kind === 'data'
+      );
+      this.selection.set(dataRows.map(r => r.id as T[K & keyof T]));
+    }
+  }
+
+  private _toggleRowInSelection(id: T[K & keyof T]): void {
+    const current = this.selection();
+    if (this.selectionSet().has(id)) {
+      this.selection.set(current.filter(v => v !== id));
+    } else {
+      this.selection.set([...current, id]);
+    }
+  }
+
+  private _selectRange(fromIndex: number, toIndex: number): void {
+    const rows = this.formattedRows();
+    const start = Math.min(fromIndex, toIndex);
+    const end = Math.max(fromIndex, toIndex);
+    const rangeIds = rows
+      .slice(start, end + 1)
+      .filter((r): r is FormattedTableDataRow<T> => r.kind === 'data')
+      .map(r => r.id as T[K & keyof T]);
+
+    // Merge with existing selection (union)
+    const currentSet = new Set(this.selection());
+    for (const id of rangeIds) {
+      currentSet.add(id);
+    }
+    this.selection.set([...currentSet]);
+  }
+
+  // --- Keyboard navigation ---
+
+  protected onKeyDown(event: KeyboardEvent): void {
+    const mode = this.selectionMode();
+    if (!mode) return;
+
+    const rows = this.formattedRows();
+    if (rows.length === 0) return;
+
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      event.stopPropagation();
+
+      // Start from current focus, or current selection in single mode, or -1
+      let currentIndex = this.focusedRowIndex();
+      if (currentIndex === null && mode === 'single') {
+        const sel = this.selection();
+        if (sel.length > 0) {
+          currentIndex = rows.findIndex(r => r.id === sel[0]);
+        }
+      }
+      currentIndex ??= -1;
+
+      const nextIndex =
+        event.key === 'ArrowDown'
+          ? Math.min(currentIndex + 1, rows.length - 1)
+          : Math.max(currentIndex - 1, 0);
+
+      this.focusedRowIndex.set(nextIndex);
+      this._scroller().scrollToIndex(nextIndex);
+
+      if (mode === 'single') {
+        const id = rows[nextIndex]!.id as T[K & keyof T];
+        this.selection.set([id]);
+        this._selectionAnchor.set(nextIndex);
+      } else if (event.shiftKey) {
+        // Extend range selection with Shift+Arrow
+        const anchor = this._selectionAnchor() ?? nextIndex;
+        this._selectRange(anchor, nextIndex);
+      }
+    } else if (event.key === ' ' || event.key === 'Enter') {
+      if (mode === 'multi') {
+        const focusIdx = this.focusedRowIndex();
+        if (focusIdx !== null && rows[focusIdx]) {
+          event.preventDefault();
+          event.stopPropagation();
+          const id = rows[focusIdx]!.id as T[K & keyof T];
+          this._toggleRowInSelection(id);
+          this._selectionAnchor.set(focusIdx);
+        }
+      }
+    }
+  }
   // --- Row grouping ---
 
   /**

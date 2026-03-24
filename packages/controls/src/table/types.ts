@@ -5,6 +5,8 @@ export type FormattedTableDataRow<T> = {
   index: number;
 };
 
+export type TableSelectionMode = 'single' | 'multi';
+
 export type FormattedTableGroupHeaderRow<V = unknown> = {
   kind: 'group-header';
   id: string;

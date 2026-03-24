@@ -3,8 +3,9 @@
     [ptInt]="this"
     [ptClass]="{ table: true, striped: striped() }"
     [attr.aria-rowcount]="formattedRows().length"
-    [style.--ngn-table-column-count]="columnCount()"
-    [style.grid-template-columns]="resizable() ? gridTemplateColumns() : null"
+    [style.--ngn-table-column-count]="totalColumnCount()"
+    [style.--ngn-table-selection-offset]="showCheckboxes() ? 1 : 0"
+    [style.grid-template-columns]="gridTemplateColumns()"
     [style.width]="_pushTableWidth()"
     [style.--ngn-table-row-height.px]="rowHeight()"
   >
