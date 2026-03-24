@@ -22,7 +22,7 @@ import { NgnTableTh } from './table-header-cell';
   selector: '[ngnTableSortableColumn]',
   host: {
     '[class]': `theme.classes({'sortable-column': true, 'sorted-column': !!sort() })`,
-    '(click)': `toggleSort()`,
+    '(click)': `onHostClick($event)`,
   },
 })
 export class NgnTableSortableColumn implements OnDestroy {
@@ -64,6 +64,12 @@ export class NgnTableSortableColumn implements OnDestroy {
 
   public ngOnDestroy(): void {
     this._ngnIcon.destroy();
+  }
+
+  protected onHostClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (target.classList.contains(this.theme.class('resize-handle'))) return;
+    this.toggleSort();
   }
 
   protected toggleSort(): void {
