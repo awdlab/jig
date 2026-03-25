@@ -21,7 +21,9 @@ export class NgnTableTd extends NgnBase<'table'> {
     const logicalIndex = this._logicalIndex();
     const table = this._table();
     if (table) {
-      return table.getVisualColumnIndex(logicalIndex);
+      // Subtract the selection column offset so DOM index aligns with registered header cells.
+      const offset = table.showCheckboxes() ? 1 : 0;
+      return table.getVisualColumnIndex(logicalIndex - offset);
     }
     return logicalIndex + 1;
   });

@@ -34,6 +34,33 @@ const TABLE_TEMPLATE = `
   </ngn-table>
 `;
 
+const TABLE_TEMPLATE_WITH_SELECTION = `
+  <ngn-table
+    #table
+    style="height: 400px"
+    [rows]="inputs().rows"
+    [fieldId]="'id'"
+    [selectionMode]="inputs().selectionMode"
+  >
+    <ng-template #header>
+      <tr ngnTableHeadTr>
+        <th ngnTableSelectionColumn></th>
+        <th [ngnTableTh]="table.column('id')">ID</th>
+        <th [ngnTableTh]="table.column('name')">Name</th>
+        <th [ngnTableTh]="table.column('dept')">Dept</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
+      <tr [ngnTableBodyTr]="row">
+        <td ngnTableSelectionColumn></td>
+        <td ngnTableTd>{{ row.data.id }}</td>
+        <td ngnTableTd>{{ row.data.name }}</td>
+        <td ngnTableTd>{{ row.data.dept }}</td>
+      </tr>
+    </ng-template>
+  </ngn-table>
+`;
+
 function getBodyRows(page: import('@playwright/test').Page) {
   return page.locator('tbody tr[role="row"]');
 }
@@ -80,7 +107,7 @@ test.describe('Table Selection - Single Mode', () => {
     await expect(rows.nth(0)).toHaveAttribute('aria-selected', 'false');
   });
 
-  test('no checkbox column in single mode', async ({ page }) => {
+  test('no checkbox column without selection directive', async ({ page }) => {
     await loadComponent(
       page,
       {
@@ -102,8 +129,8 @@ test.describe('Table Selection - Multi Mode', () => {
     await loadComponent(
       page,
       {
-        template: TABLE_TEMPLATE,
-        imports: ['tableModule', 'ngnTemplate'],
+        template: TABLE_TEMPLATE_WITH_SELECTION,
+        imports: ['tableModule', 'ngnTemplate', 'tableSelectionColumn'],
       },
       {
         inputs: { rows: TABLE_ROWS, selectionMode: 'multi' },
@@ -119,8 +146,8 @@ test.describe('Table Selection - Multi Mode', () => {
     await loadComponent(
       page,
       {
-        template: TABLE_TEMPLATE,
-        imports: ['tableModule', 'ngnTemplate'],
+        template: TABLE_TEMPLATE_WITH_SELECTION,
+        imports: ['tableModule', 'ngnTemplate', 'tableSelectionColumn'],
       },
       {
         inputs: { rows: TABLE_ROWS, selectionMode: 'multi' },
@@ -140,8 +167,8 @@ test.describe('Table Selection - Multi Mode', () => {
     await loadComponent(
       page,
       {
-        template: TABLE_TEMPLATE,
-        imports: ['tableModule', 'ngnTemplate'],
+        template: TABLE_TEMPLATE_WITH_SELECTION,
+        imports: ['tableModule', 'ngnTemplate', 'tableSelectionColumn'],
       },
       {
         inputs: { rows: TABLE_ROWS, selectionMode: 'multi' },
@@ -160,8 +187,8 @@ test.describe('Table Selection - Multi Mode', () => {
     await loadComponent(
       page,
       {
-        template: TABLE_TEMPLATE,
-        imports: ['tableModule', 'ngnTemplate'],
+        template: TABLE_TEMPLATE_WITH_SELECTION,
+        imports: ['tableModule', 'ngnTemplate', 'tableSelectionColumn'],
       },
       {
         inputs: { rows: TABLE_ROWS, selectionMode: 'multi' },

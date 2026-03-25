@@ -52,6 +52,8 @@ export const IMPORTS = {
   table: () => import('@ngneers/controls/table').then((m) => m.NgnTable),
   tableModule: () =>
     import('@ngneers/controls/table').then((m) => m.NgnTableModule),
+  tableSelectionColumn: () =>
+    import('@ngneers/controls/table').then((m) => m.NgnTableSelectionColumn),
   ngnTemplate: () =>
     import('@ngneers/controls/api/ng').then((m) => m.NgnTemplate),
   tag: () => import('@ngneers/controls/tag').then((m) => m.NgnTag),

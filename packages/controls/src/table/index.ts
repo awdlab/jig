@@ -6,6 +6,7 @@ export * from './table-header-cell';
 export * from './table-header-row';
 export * from './table-row';
 export * from './table-reorderable-column';
+export * from './table-selection-column';
 export * from './table-sortable-column';
 export * from './table-sticky-column';
 export * from './table';

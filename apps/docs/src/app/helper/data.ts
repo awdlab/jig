@@ -196,6 +196,31 @@ function generateTableData(count: number) {
   return data;
 }
 
+const roles = ['Manager', 'Senior', 'Junior', 'Lead', 'Director', 'Intern'];
+
+function generateRichTableData(count: number) {
+  const data = [];
+
+  for (let i = 0; i < count; i++) {
+    const firstName = firstNames[i % firstNames.length]!;
+    const lastName = lastNames[i % lastNames.length]!;
+    const department = departments[i % departments.length]!;
+    const location = locations[i % locations.length]!;
+    const role = roles[i % roles.length]!;
+
+    data.push({
+      id: i + 1,
+      name: `${firstName} ${lastName}`,
+      email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@example.com`,
+      department,
+      role,
+      location,
+      salary: 45000 + i * 1200,
+    });
+  }
+  return data;
+}
+
 export const exampleData = {
   items: {
     flat: items,
@@ -209,4 +234,5 @@ export const exampleData = {
     words100: loremIpsumFull.split(' ').slice(0, 100).join(' '),
   },
   table: generateTableData,
+  richTable: generateRichTableData,
 };

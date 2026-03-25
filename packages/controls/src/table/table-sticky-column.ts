@@ -122,6 +122,9 @@ function detachTableTracking(scrollContainer: Element, directive: NgnTableSticky
 
 // ── Directive ───────────────────────────────────────────────────────────────
 
+/**
+ * @category directive
+ */
 @Directive({
   selector: '[ngnTableStickyColumn]',
 })

@@ -1,19 +1,6 @@
-import {
-  ComponentRef,
-  computed,
-  Directive,
-  effect,
-  ElementRef,
-  inject,
-  input,
-  type OnDestroy,
-  Renderer2,
-  Type,
-  ViewContainerRef,
-} from '@angular/core';
+import { computed, Directive, effect, ElementRef, inject, input, Type } from '@angular/core';
 import { injectThemeTemplate } from '@ngneers/controls/api/ng';
 import { getNearestNgnInstanceSig } from '@ngneers/controls/base';
-import { NgnCheckbox } from '@ngneers/controls/checkbox';
 import { NgnScrollerItem } from '@ngneers/controls/scroller';
 import { toggleClass } from '@ngneers/controls/utils';
 import { setInputSignalValue } from '@ngneers/controls/utils-ng';
@@ -38,21 +25,16 @@ import type { FormattedTableDataRow } from './types';
     '(click)': 'onRowClick($event)',
   },
 })
-export class NgnTableBodyTr<T> extends NgnScrollerItem implements OnDestroy {
+export class NgnTableBodyTr<T> extends NgnScrollerItem {
   public readonly ngnTableBodyTr = input.required<FormattedTableDataRow<T>>();
   public override readonly ngnScrollerItem = input<object>({});
   private readonly _element = inject(ElementRef<HTMLElement>);
-  private readonly _renderer = inject(Renderer2);
-  private readonly _vcr = inject(ViewContainerRef);
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
 
   private readonly _table = getNearestNgnInstanceSig<Type<NgnTable<any, any>>>(
     this._element.nativeElement,
     NgnTable
   );
-
-  private _checkboxTd: HTMLElement | null = null;
-  private _checkboxRef: ComponentRef<NgnCheckbox<boolean>> | null = null;
 
   protected readonly selectable = computed(() => !!this._table()?.selectionMode());
 
@@ -77,72 +59,6 @@ export class NgnTableBodyTr<T> extends NgnScrollerItem implements OnDestroy {
       setInputSignalValue(this.ngnScrollerItem, row);
     });
     this.prepareDom();
-
-    // Reactively create/remove checkbox cell
-    effect(() => {
-      const table = this._table();
-      if (!table) return;
-      const show = table.showCheckboxes();
-
-      if (show && !this._checkboxTd) {
-        this._createRowCheckbox(table);
-      } else if (!show && this._checkboxTd) {
-        this._destroyRowCheckbox();
-      }
-    });
-
-    // Reactively update checkbox state.
-    // Read signals BEFORE null guard to establish dependencies even when checkbox
-    // hasn't been created yet — ensures the effect re-runs on selection changes.
-    effect(() => {
-      const isSelected = this.selected();
-      const isFocused = this.focused();
-      const row = this.ngnTableBodyTr();
-
-      const ref = this._checkboxRef;
-      const td = this._checkboxTd;
-      if (!ref || !td) return;
-
-      ref.setInput('value', isSelected);
-      td.style.setProperty('--ngn-table-row-index', String(row.index + 2));
-      toggleClass(td, this.theme.class('selected-row-cell'), isSelected);
-      toggleClass(td, this.theme.class('focused-row-cell'), isFocused);
-    });
-  }
-
-  public ngOnDestroy(): void {
-    this._destroyRowCheckbox();
-  }
-
-  private _createRowCheckbox(table: NgnTable<any, any>): void {
-    const td = this._renderer.createElement('td') as HTMLElement;
-    toggleClass(td, this.theme.class('cell'), true);
-    toggleClass(td, this.theme.class('selection-column'), true);
-
-    const row = this.ngnTableBodyTr();
-    td.style.setProperty('--ngn-table-row-index', String(row.index + 2));
-
-    this._checkboxRef = this._vcr.createComponent(NgnCheckbox);
-    const cbEl = this._checkboxRef.location.nativeElement;
-    cbEl.classList.add(this.theme.class('selection-checkbox'));
-    this._checkboxRef.setInput('value', table.isRowSelected(row.id as any));
-
-    td.appendChild(cbEl);
-    td.addEventListener('click', (e: MouseEvent) => {
-      e.stopPropagation();
-      table.handleCheckboxChange(this.ngnTableBodyTr());
-    });
-
-    const tr = this._element.nativeElement;
-    tr.insertBefore(td, tr.firstChild);
-    this._checkboxTd = td;
-  }
-
-  private _destroyRowCheckbox(): void {
-    this._checkboxTd?.remove();
-    this._checkboxTd = null;
-    this._checkboxRef?.destroy();
-    this._checkboxRef = null;
   }
 
   private prepareDom() {

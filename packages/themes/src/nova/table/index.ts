@@ -30,8 +30,11 @@ export const tableStyles = createThemePart({
         font-weight: ${v('font.weight.semibold')};
         gap: ${v('size.padding.sm')};
       }
+      ${c('body')} {
+        --ngn-cell-bg-base: transparent;
+      }
       ${c('cell')} {
-        --ngn-cell-bg: transparent;
+        --ngn-cell-bg: var(--ngn-cell-bg-base);
         background: var(--ngn-cell-bg);
         border-bottom: 1px solid ${v('color.surface.200')};
         padding: 0 ${v('size.padding.md')};
@@ -59,8 +62,8 @@ export const tableStyles = createThemePart({
       ${c('root')}:not(${c('virtual')}) ${c('cell')} {
         padding: ${v('size.padding.md')};
       }
-      ${c('striped')} ${c('even')} ${c('cell')} {
-        --ngn-cell-bg: ${v('color.surface.100')};
+      ${c('striped')} ${c('even')} {
+        --ngn-cell-bg-base: ${v('color.surface.100')};
       }
       ${c('root')} ${d('paginator', 'root')} {
         width: 90%;
@@ -73,21 +76,17 @@ export const tableStyles = createThemePart({
       ${c('selection-column')} {
         padding: 0 ${v('size.padding.sm')};
       }
-      ${c('selected-row')} ${c('cell')},
-      ${c('selected-row-cell')} {
-        --ngn-cell-bg: color-mix(in srgb, ${v('color.primary.500')} 10%, var(--ngn-cell-bg));
+      ${c('selected-row')} ${c('cell')} {
+        --ngn-cell-bg: color-mix(in srgb, ${v('color.primary.500')} 10%, var(--ngn-cell-bg-base));
       }
       ${c('selectable')} ${c('body')} ${c('row')}:hover ${c('cell')} {
         --ngn-cell-bg: ${v('color.surface.100')};
       }
       ${c('selectable')} ${c('body')} ${c('selected-row')}:hover ${c('cell')} {
-        --ngn-cell-bg: color-mix(in srgb, ${v('color.primary.500')} 15%, var(--ngn-cell-bg));
+        --ngn-cell-bg: color-mix(in srgb, ${v('color.primary.500')} 15%, var(--ngn-cell-bg-base));
       }
-      ${c('focused-row')} ${c('cell')}:first-child {
+      ${c('focused-row')}:not(:has(${c('focused-row-cell')})) ${c('cell')}:first-child {
         box-shadow: inset 3px 0 0 ${v('color.primary.500')};
-      }
-      ${c('focused-row-cell')} ~ ${c('focused-row')} ${c('cell')}:first-child {
-        box-shadow: none;
       }
       ${c('focused-row-cell')} {
         box-shadow: inset 3px 0 0 ${v('color.primary.500')};
@@ -154,7 +153,10 @@ export const tableStyles = createThemePart({
       /* ── Sticky Columns ──────────────────────────────────────────────── */
 
       ${c('sticky-column')} {
-        --ngn-cell-bg: ${v('color.background')};
+        --ngn-cell-bg-base: ${v('color.background')};
+      }
+      ${c('striped')} ${c('even')} ${c('sticky-column')} {
+        --ngn-cell-bg-base: ${v('color.surface.100')};
       }
       ${c('root')}${c('sticky-scrolled-left')} ${c('sticky-left-last')} {
         box-shadow: 4px 0 8px -4px rgba(0, 0, 0, 0.15);

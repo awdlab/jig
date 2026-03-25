@@ -21,6 +21,9 @@ import { NgnTableTh } from './table-header-cell';
 
 import type { NgnActionButtonConfig } from '@ngneers/controls/api';
 
+/**
+ * @category directive
+ */
 @Directive({
   selector: '[ngnTableFilterableColumn]',
   host: {

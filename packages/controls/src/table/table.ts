@@ -40,6 +40,9 @@ import type {
 import type { NgnFilterConfig } from '@ngneers/controls/filter';
 import type { AllKeysOfUnion } from '@ngneers/controls/utils';
 
+/**
+ * @category control
+ */
 @Component({
   selector: 'ngn-table',
   templateUrl: './table.html',
@@ -100,10 +103,10 @@ export class NgnTable<
   public readonly selection = model<T[K & keyof T][]>([]);
 
   /**
-   * Whether to show a checkbox column for selection.
-   * Defaults to `true` when `selectionMode` is `'multi'`.
+   * Whether a selection column directive is present in the template.
+   * Set automatically by `NgnTableSelectionColumn` — do not set manually.
    */
-  public readonly checkbox = input<boolean>();
+  private readonly _hasSelectionColumn = signal(false);
 
   /**
    * Column key to group rows by. Rows with the same value in this column
@@ -176,9 +179,7 @@ export class NgnTable<
 
   // --- Selection state ---
 
-  public readonly showCheckboxes = computed(
-    () => this.checkbox() ?? this.selectionMode() === 'multi'
-  );
+  public readonly showCheckboxes = this._hasSelectionColumn.asReadonly();
 
   /**
    * Set of selected row IDs for O(1) lookup.
@@ -431,7 +432,20 @@ export class NgnTable<
     // Create engine eagerly in constructor (outside reactive context) to avoid NG0602
     this._resizeEngine = new ResizeEngine({
       items: computed(() => this._registeredHeaderCells() as unknown as readonly ResizableItem[]),
-      containerSize: computed(() => this._tableElementSize().width),
+      containerSize: computed(() => {
+        // Subscribe to the size signal for reactivity, but use clientWidth
+        // to exclude vertical scrollbar width and avoid horizontal overflow.
+        this._tableElementSize();
+        const tableEl = this.element.nativeElement.querySelector('table');
+        const total = tableEl?.clientWidth ?? 0;
+        if (!this._hasSelectionColumn()) return total;
+        // Subtract the selection column width so the resize engine only distributes
+        // the remaining space among data columns.
+        const selCol = this.element.nativeElement.querySelector(
+          `.${this.theme.class('selection-column')}`
+        );
+        return total - (selCol?.getBoundingClientRect().width ?? 0);
+      }),
       gapSizes: signal([]),
       distributionMode: computed(() => this.resizeMode()),
       containerConstrained: computed(() => this.resizeMode() !== 'push'),
@@ -444,7 +458,7 @@ export class NgnTable<
     });
 
     this.gridTemplateColumns = computed(() => {
-      const checkboxCol = this.showCheckboxes() ? 'auto ' : '';
+      const checkboxCol = this._hasSelectionColumn() ? 'min-content ' : '';
       if (this.resizable()) {
         const rawSizes = this._resizeEngine.gridTemplateSizes();
         // When reorderable, permute grid track sizes to match visual column order
@@ -463,6 +477,14 @@ export class NgnTable<
 
   public column<V extends AllKeysOfUnion<T> & string>(column: V): V {
     return column;
+  }
+
+  public registerSelectionColumn(): void {
+    this._hasSelectionColumn.set(true);
+  }
+
+  public unregisterSelectionColumn(): void {
+    this._hasSelectionColumn.set(false);
   }
 
   public registerHeaderCell(cell: NgnTableTh): void {
@@ -852,9 +874,12 @@ export class NgnTable<
     }
     maxContentWidth = headerRequiredWidth;
 
-    // Measure visible body cells (nth-child is 1-indexed)
+    // Measure visible body cells (nth-child is 1-indexed, offset by selection column)
+    const selectionOffset = this._hasSelectionColumn() ? 1 : 0;
     const bodyCells = Array.from(
-      tableEl.querySelectorAll<HTMLElement>(`tbody tr td:nth-child(${columnIndex + 1})`)
+      tableEl.querySelectorAll<HTMLElement>(
+        `tbody tr td:nth-child(${columnIndex + selectionOffset + 1})`
+      )
     );
     if (bodyCells.length > 0) {
       ctx.font = getCssFont(bodyCells[0]!);

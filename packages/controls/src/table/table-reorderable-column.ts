@@ -17,6 +17,9 @@ import { NgnTableTh } from './table-header-cell';
 /** Minimum distance in pixels before a drag is initiated. */
 const REORDER_DEAD_ZONE_PX = 5;
 
+/**
+ * @category directive
+ */
 @Directive({
   selector: '[ngnTableReorderableColumn]',
 })

@@ -216,6 +216,7 @@ test('sticky columns with checkbox selection', async ({ page }) => {
       >
         <ng-template #header>
           <tr ngnTableHeadTr>
+            <th ngnTableSelectionColumn ngnTableStickyColumn="left"></th>
             <th [ngnTableTh]="'name'" [size]="'150px'" ngnTableStickyColumn="left">Name</th>
             <th [ngnTableTh]="'email'" [size]="'200px'">Email</th>
             <th [ngnTableTh]="'department'" [size]="'200px'">Department</th>
@@ -226,6 +227,7 @@ test('sticky columns with checkbox selection', async ({ page }) => {
         </ng-template>
         <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
           <tr [ngnTableBodyTr]="row">
+            <td ngnTableSelectionColumn ngnTableStickyColumn="left"></td>
             <td ngnTableTd ngnTableStickyColumn="left">{{ row.data.name }}</td>
             <td ngnTableTd>{{ row.data.email }}</td>
             <td ngnTableTd>{{ row.data.department }}</td>
@@ -235,7 +237,7 @@ test('sticky columns with checkbox selection', async ({ page }) => {
           </tr>
         </ng-template>
       </ngn-table>`,
-    imports: ['tableModule', 'ngnTemplate'],
+    imports: ['tableModule', 'ngnTemplate', 'tableSelectionColumn'],
   };
 
   await loadTable(page, selectionTemplate);

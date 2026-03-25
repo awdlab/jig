@@ -70,10 +70,20 @@ async function convertControl(control: DeclarationReflection) {
   const d = new Deserializer(new Logger());
   const s = new Serializer();
   const modelsOutput = models.map(m => {
-    const copy = new DeclarationReflection(m.name, m.kind, control);
-    copy.fromObject(d, m.toObject(s));
-    copy.name = `${copy.name}Change`;
-    return copy;
+    try {
+      const copy = new DeclarationReflection(m.name, m.kind, control);
+      copy.fromObject(d, m.toObject(s));
+      copy.name = `${copy.name}Change`;
+      return copy;
+    } catch {
+      // Some complex model types can't be serialized/deserialized
+      // (e.g. intersection types, mapped types). Skip the output copy.
+      const copy = new DeclarationReflection(`${m.name}Change`, m.kind, control);
+      copy.type = m.type;
+      copy.comment = m.comment;
+      copy.flags = m.flags;
+      return copy;
+    }
   });
 
   inputs.push(...models);
@@ -180,17 +190,18 @@ async function convertControl(control: DeclarationReflection) {
   });
 }
 
+function hasCategory(x: DeclarationReflection | undefined, category: string): boolean {
+  return !!x?.comment?.blockTags.some(
+    tag =>
+      tag.tag === '@category' && tag.content.some(tc => tc.kind === 'text' && tc.text === category)
+  );
+}
+
 async function convertProject(project: ProjectReflection) {
   const componentLevelReflections = project.children?.flatMap(c => c.children);
   const controlReflections =
     componentLevelReflections
-      ?.filter(x =>
-        x?.comment?.blockTags.some(
-          tag =>
-            tag.tag === '@category' &&
-            tag.content.some(tc => tc.kind === 'text' && tc.text === 'control')
-        )
-      )
+      ?.filter(x => hasCategory(x, 'control') || hasCategory(x, 'directive'))
       .filter(Boolean)
       .map(x => x as DeclarationReflection) ?? [];
 

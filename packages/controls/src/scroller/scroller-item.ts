@@ -33,6 +33,8 @@ export class NgnScrollerItem implements AfterViewInit {
   }
 
   constructor() {
+    let prevItemClass = '';
+    let prevStickyClass = '';
     effect(() => {
       const item = this.ngnScrollerItem() as Record<string, unknown> | null;
       const scroller = this._scroller();
@@ -42,8 +44,19 @@ export class NgnScrollerItem implements AfterViewInit {
       const stickyField = scroller.fieldSticky() as unknown as string | null;
       const isSticky = !!stickyField && stickyField in item ? !!item[stickyField] : false;
 
-      toggleClass(this._el.nativeElement, scroller['theme'].class('item-sticky'), isSticky);
-      toggleClass(this._el.nativeElement, scroller['theme'].class('item'), true);
+      const stickyClass = scroller['theme'].class('item-sticky');
+      if (prevStickyClass && prevStickyClass !== stickyClass) {
+        toggleClass(this._el.nativeElement, prevStickyClass, false);
+      }
+      toggleClass(this._el.nativeElement, stickyClass, isSticky);
+      prevStickyClass = stickyClass;
+
+      const itemClass = scroller['theme'].class('item');
+      if (prevItemClass && prevItemClass !== itemClass) {
+        toggleClass(this._el.nativeElement, prevItemClass, false);
+      }
+      toggleClass(this._el.nativeElement, itemClass, true);
+      prevItemClass = itemClass;
     });
   }
 }

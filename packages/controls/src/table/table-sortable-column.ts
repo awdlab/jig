@@ -18,6 +18,9 @@ import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 import { NgnTable } from './table';
 import { NgnTableTh } from './table-header-cell';
 
+/**
+ * @category directive
+ */
 @Directive({
   selector: '[ngnTableSortableColumn]',
   host: {
