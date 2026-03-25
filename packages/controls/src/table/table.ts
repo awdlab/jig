@@ -183,8 +183,12 @@ export class NgnTable<
 
   /**
    * Set of selected row IDs for O(1) lookup.
+   * Uses a content-aware equality check to avoid invalidating dependents
+   * (50+ per-row computeds) when the selection hasn't actually changed.
    */
-  protected readonly selectionSet = computed(() => new Set(this.selection()));
+  protected readonly selectionSet = computed(() => new Set(this.selection()), {
+    equal: (a, b) => a.size === b.size && [...a].every(v => b.has(v)),
+  });
 
   /**
    * Anchor index for Shift+click range selection (index in formattedRows).

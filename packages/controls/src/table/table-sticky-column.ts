@@ -20,6 +20,7 @@ import { NgnTableTh } from './table-header-cell';
 interface TableTrackingState {
   scrollListener: () => void;
   resizeObserver: ResizeObserver;
+  recalcRafId: number;
   directives: Set<NgnTableStickyColumn>;
   tableHostEl: HTMLElement;
 }
@@ -73,13 +74,33 @@ function attachTableTracking(
 
   scrollContainer.addEventListener('scroll', updateScrollClasses, { passive: true });
 
-  const resizeObserver = new ResizeObserver(() => recalcAllOffsets());
-  resizeObserver.observe(scrollContainer);
+  const directives = new Set<NgnTableStickyColumn>();
+  directives.add(directive);
+
+  // Coalesce rapid ResizeObserver callbacks (e.g. from selection class toggles)
+  // into a single recalculation per animation frame.
+  const state: TableTrackingState = {
+    scrollListener: updateScrollClasses,
+    resizeObserver: null!,
+    recalcRafId: 0,
+    directives,
+    tableHostEl,
+  };
+  const debouncedRecalc = () => {
+    if (state.recalcRafId) return;
+    state.recalcRafId = requestAnimationFrame(() => {
+      state.recalcRafId = 0;
+      recalcAllOffsets();
+    });
+  };
+
+  state.resizeObserver = new ResizeObserver(() => debouncedRecalc());
+  state.resizeObserver.observe(scrollContainer);
   // Also observe <thead> — its subgrid cells change size when grid-template-columns updates,
   // but the table container's border-box may not change (overflow: auto).
   const thead = scrollContainer.querySelector('thead');
   if (thead) {
-    resizeObserver.observe(thead);
+    state.resizeObserver.observe(thead);
   }
 
   // Initial update
@@ -88,15 +109,7 @@ function attachTableTracking(
     updateScrollClasses();
   });
 
-  const directives = new Set<NgnTableStickyColumn>();
-  directives.add(directive);
-
-  tableTracker.set(scrollContainer, {
-    scrollListener: updateScrollClasses,
-    resizeObserver,
-    directives,
-    tableHostEl,
-  });
+  tableTracker.set(scrollContainer, state);
 }
 
 function detachTableTracking(scrollContainer: Element, directive: NgnTableStickyColumn): void {
@@ -106,6 +119,7 @@ function detachTableTracking(scrollContainer: Element, directive: NgnTableSticky
   if (state.directives.size === 0) {
     scrollContainer.removeEventListener('scroll', state.scrollListener);
     state.resizeObserver.disconnect();
+    if (state.recalcRafId) cancelAnimationFrame(state.recalcRafId);
     toggleClass(
       state.tableHostEl,
       state.tableHostEl.className.split(' ').find(c => c.includes('sticky-scrolled-left')) ?? '',

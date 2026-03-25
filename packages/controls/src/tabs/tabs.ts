@@ -106,11 +106,12 @@ export class NgnTabs extends TabsTemplates implements AfterViewInit {
 
   protected readonly tabsOverflowingRight = computed(() => {
     const tabListWidth = this._tabListSize().width;
-    const tabListScrollWidth = this._tabList().nativeElement.scrollWidth - 0.5; // to avoid rounding issues
     const scrollAmount = this._tabListScroll();
-    const _totalHeadersWidth = this._totalTabsWidth(); // retrigger calculation
+    // Use the signal-tracked total width instead of reading scrollWidth
+    // directly, which would force a synchronous layout.
+    const totalHeadersWidth = this._totalTabsWidth();
 
-    return tabListScrollWidth - scrollAmount > tabListWidth;
+    return totalHeadersWidth - scrollAmount > tabListWidth + 0.5;
   });
 
   protected readonly tabsOverflowingLeft = computed(() => this._tabListScroll() > 0);
