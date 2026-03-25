@@ -35,36 +35,20 @@ export const popoverStyles = createThemePart({
         border-radius: ${v('size.rounded.md')};
         border-width: 1px;
         padding: ${v('size.padding.md')};
-        opacity: 0;
         box-shadow: ${v('shadow.md')};
-        /* We add some delay that is larger than the TRANSITION_BUFFER to not hide the content shortly during opening */
-        transition: display ${v('anim.time.fade')} allow-discrete;
-        animation: ${c('anim-in', 'animation')} ${v('anim.time.fade')} ${v('anim.ease.fade')}
-          forwards;
-        &${c('content-closing')} {
-          animation: ${c('anim-out', 'animation')} ${v('anim.time.fade')} ${v('anim.ease.fade')}
-            forwards;
-        }
+        opacity: 0;
+        transform: translateY(${MOVE_AMOUNT}px);
+        transition:
+          opacity ${v('anim.time.fade')} ${v('anim.ease.fade')},
+          transform ${v('anim.time.fade')} ${v('anim.ease.fade')},
+          display ${v('anim.time.fade')} allow-discrete;
       }
-      @keyframes ${c('anim-in', 'animation')} {
-        from {
+      ${c('root')}:popover-open > ${c('content')}:not(${c('content-closing')}) {
+        opacity: 1;
+        transform: translateY(0);
+        @starting-style {
           opacity: 0;
           transform: translateY(${MOVE_AMOUNT}px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      @keyframes ${c('anim-out', 'animation')} {
-        from {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        to {
-          opacity: 0;
-          transform: translateY(${MOVE_AMOUNT}px);
-          display: none;
         }
       }
     `,
