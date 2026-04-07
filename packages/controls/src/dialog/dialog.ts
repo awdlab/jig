@@ -214,10 +214,8 @@ export class NgnDialog<
    */
   protected onCancel(event?: ToggleEvent | KeyboardEvent): void {
     if (event instanceof KeyboardEvent) {
-      // Modal dialogs handle this on their own
+      // Modal dialogs handle Escape via the native (cancel) event
       if (this.modal()) {
-        this.cancelPrompt();
-        this.setStateToClosed();
         return;
       }
       if (event.key !== 'Escape' || (event.target as HTMLElement).tagName !== 'DIALOG') {
