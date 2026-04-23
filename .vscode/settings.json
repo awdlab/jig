@@ -34,8 +34,9 @@
     "**/coverage": true,
     "pnpm-lock.yaml": true
   },
-  "typescript.preferences.importModuleSpecifier": "project-relative",
-  "typescript.tsdk": "node_modules/typescript/lib",
+  "js/ts.preferences.importModuleSpecifier": "project-relative",
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.experimental.useTsgo": false,
   "eslint.useFlatConfig": true,
   "deno.enable": false,
   "[jsonc]": {
@@ -46,6 +47,5 @@
   // "git.branchProtection": ["main", "master"],
   // "git.branchProtectionPrompt": "alwaysPrompt",
   "tailwindCSS.experimental.configFile": "apps/docs/src/styles.scss",
-  "typescript.experimental.useTsgo": false,
   "coverage-gutters.coverageBaseDir": "**/coverage/**"
 }
