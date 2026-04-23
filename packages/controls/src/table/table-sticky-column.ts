@@ -249,15 +249,11 @@ export class NgnTableStickyColumn implements OnDestroy {
 
       // Sum widths of all following sticky-right siblings
       const stickyCells = Array.from(container.querySelectorAll(`.${stickyRightClass}`));
-      let found = false;
       for (let i = stickyCells.length - 1; i >= 0; i--) {
         if (stickyCells[i] === el) {
-          found = true;
           break;
         }
-        if (!found) {
-          offset += stickyCells[i]!.getBoundingClientRect().width;
-        }
+        offset += stickyCells[i]!.getBoundingClientRect().width;
       }
 
       el.style.right = `${offset}px`;

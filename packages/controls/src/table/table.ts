@@ -847,8 +847,6 @@ export class NgnTable<
     const headerEl = headerCell.element.nativeElement as HTMLElement;
     const ctx = autoSizeCanvasCtx();
 
-    let maxContentWidth = 0;
-
     // Measure header: text width + non-text siblings (icons, controls) + flex gap.
     // The header cell is a flex container with: cell-text, spacer, filter/sort icons, resize handle.
     const cellTextClass = this.theme.class('cell-text');
@@ -876,7 +874,7 @@ export class NgnTable<
     if (visibleSiblingCount > 0) {
       headerRequiredWidth += headerGap * visibleSiblingCount;
     }
-    maxContentWidth = headerRequiredWidth;
+    let maxContentWidth = headerRequiredWidth;
 
     // Measure visible body cells (nth-child is 1-indexed, offset by selection column)
     const selectionOffset = this._hasSelectionColumn() ? 1 : 0;
