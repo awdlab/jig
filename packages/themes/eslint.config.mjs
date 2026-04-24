@@ -1,19 +1,8 @@
-import { defineConfig, globalIgnores } from 'eslint/config';
-import ngneers from '@ngneers/eslint-config';
-import globals from 'globals';
+import { getEslintConfig } from '../../configs/eslint.common.mjs';
+import { fileURLToPath } from 'node:url';
+import path from 'path';
 
-export default defineConfig([
-  ngneers.configs.common,
-  {
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-      },
-      parserOptions: {
-        project: './tsconfig.eslint.json',
-      },
-    },
-  },
-  globalIgnores(['dist', 'node_modules', 'tools']),
-]);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default getEslintConfig(__dirname + '/tsconfig.eslint.json');

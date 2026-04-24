@@ -1,3 +1,8 @@
 import { getEslintConfig } from '../../configs/eslint.angular.mjs';
+import { fileURLToPath } from 'node:url';
+import path from 'path';
 
-export default getEslintConfig('./tsconfig.eslint.json');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default getEslintConfig(__dirname + '/tsconfig.eslint.json');
