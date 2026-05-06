@@ -1,5 +1,6 @@
 import {
   booleanAttribute,
+  ChangeDetectorRef,
   Component,
   computed,
   contentChild,
@@ -92,6 +93,7 @@ export class NgnPopover extends NgnBase<'popover'> implements Openable {
   }));
 
   private readonly _injector = inject(Injector);
+  private readonly _cdr = inject(ChangeDetectorRef);
   private readonly _popoverRef = viewChild.required<ElementRef<HTMLElement>>('popover');
   private readonly _popover = computed(() => this._popoverRef().nativeElement);
   private readonly _autoPos = computedWithPrevious<AutoPositioningHandle | undefined>(prev => {
@@ -134,8 +136,12 @@ export class NgnPopover extends NgnBase<'popover'> implements Openable {
         return;
       }
       this._triggeredByInput = false;
-      this._autoPos()?.start();
-      this._popover().togglePopover(true);
+      this.isFullyClosed.set(false);
+      this._cdr.detectChanges();
+      requestAnimationFrame(() => {
+        this._autoPos()?.start();
+        this._popover().togglePopover(true);
+      });
     });
   }
 

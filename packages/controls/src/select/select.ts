@@ -70,8 +70,8 @@ export class NgnSelect<
    * Options for the popover.
    */
   public readonly popoverOptions = input<PopoverOptions>({});
-  protected readonly appliedPopoverOptions = computed(() =>
-    deepMerge(
+  protected readonly appliedPopoverOptions = computed<PopoverOptions>(() =>
+    deepMerge<PopoverOptions, PopoverOptions>(
       {
         sizeConstraints: {
           width: 1,
@@ -79,6 +79,7 @@ export class NgnSelect<
           minHeight: '250px',
           maxHeight: '700px',
         },
+        cache: true,
       },
       this.popoverOptions()
     )
