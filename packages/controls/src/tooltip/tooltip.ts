@@ -13,6 +13,7 @@ import {
   viewChild,
   ViewContainerRef,
   ChangeDetectionStrategy,
+  afterRenderEffect,
 } from '@angular/core';
 import {
   abortSignalOnDestroy,
@@ -157,6 +158,14 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
   public readonly hideOnClick = input<boolean | '' | null | undefined>(null, {
     alias: 'ngnTooltipHideOnClick',
   });
+  /**
+   * Disables automatic ARIA label attributes for the tooltip.
+   * @alias ngnTooltipDisableAria
+   * @default false
+   */
+  public readonly disableAria = input<boolean | '' | null | undefined>(null, {
+    alias: 'ngnTooltipDisableAria',
+  });
 
   public readonly effectiveOptions = computed<TooltipOptions>(() => {
     const defaults = this._config.defaults.tooltip;
@@ -176,6 +185,8 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
           defaults.hideOnTooltipHover) !== false,
       hideOnClick:
         (this.hideOnClick() ?? this.options()?.hideOnClick ?? defaults.hideOnClick) !== false,
+      disableAria:
+        (this.disableAria() ?? this.options()?.disableAria ?? defaults.disableAria) !== false,
     };
   });
 
@@ -205,6 +216,15 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
     effect(() => this._tooltip()?.setInput('showOnlyIfTruncated', this.showOnlyIfTruncated()));
     effect(() => this._tooltip()?.setInput('size', this.size()));
     effect(() => this._tooltip()?.setInput('options', this.effectiveOptions()));
+
+    afterRenderEffect(() => {
+      const el = this.element.nativeElement;
+      const tooltip = this._tooltip();
+      const disableAria = this.effectiveOptions().disableAria;
+      if (!disableAria && tooltip) {
+        el.setAttribute('aria-description', tooltip.instance.text() ?? '');
+      }
+    });
   }
 
   public ngOnDestroy(): void {

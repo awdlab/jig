@@ -58,6 +58,7 @@ export const defaultNgnConfig: NgnConfig = {
       showOnFocus: true,
       hideOnTooltipHover: false,
       hideOnClick: true,
+      disableAria: false,
     },
   },
 };
@@ -110,6 +111,9 @@ export function provideNgnConfig(config?: NgnConfigInit): Provider {
             hideOnClick:
               config?.defaults?.tooltip?.hideOnClick ??
               defaultNgnConfig.defaults.tooltip.hideOnClick,
+            disableAria:
+              config?.defaults?.tooltip?.disableAria ??
+              defaultNgnConfig.defaults.tooltip.disableAria,
           },
         },
       } satisfies NgnConfig,
