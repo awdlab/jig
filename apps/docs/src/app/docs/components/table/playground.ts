@@ -4,7 +4,6 @@ import {
   NgnTableModule,
   NgnTableSortableColumn,
   NgnTableFilterableColumn,
-  NgnTableStickyColumn,
   NgnTableReorderableColumn,
   NgnTableSelectionColumn,
 } from '@ngneers/controls/table';
@@ -24,7 +23,6 @@ type RowType = ReturnType<typeof exampleData.richTable>[number];
     NgnDocsPlayground,
     NgnTableSortableColumn,
     NgnTableFilterableColumn,
-    NgnTableStickyColumn,
     NgnTableReorderableColumn,
     NgnTableSelectionColumn,
   ],
@@ -42,7 +40,7 @@ type RowType = ReturnType<typeof exampleData.richTable>[number];
       >
         <ng-template #header>
           <tr ngnTableHeadTr>
-            <th ngnTableSelectionColumn ngnTableStickyColumn="left"></th>
+            <th ngnTableSelectionColumn></th>
             <th [ngnTableTh]="ref.column('id')" [ngnTableSortableColumn]>ID</th>
             <th
               [ngnTableTh]="ref.column('name')"
@@ -87,25 +85,19 @@ type RowType = ReturnType<typeof exampleData.richTable>[number];
             >
               Location
             </th>
-            <th
-              [ngnTableTh]="ref.column('salary')"
-              [ngnTableSortableColumn]
-              ngnTableStickyColumn="right"
-            >
-              Salary
-            </th>
+            <th [ngnTableTh]="ref.column('salary')" [ngnTableSortableColumn]>Salary</th>
           </tr>
         </ng-template>
         <ng-template #body let-row [ngnTemplate]="ref.templateTypes.body">
           <tr [ngnTableBodyTr]="row">
-            <td ngnTableSelectionColumn ngnTableStickyColumn="left"></td>
+            <td ngnTableSelectionColumn></td>
             <td ngnTableTd>{{ row.data.id }}</td>
             <td ngnTableTd>{{ row.data.name }}</td>
             <td ngnTableTd>{{ row.data.email }}</td>
             <td ngnTableTd>{{ row.data.department }}</td>
             <td ngnTableTd>{{ row.data.role }}</td>
             <td ngnTableTd>{{ row.data.location }}</td>
-            <td ngnTableTd ngnTableStickyColumn="right">
+            <td ngnTableTd>
               {{ '$' + row.data.salary.toLocaleString() }}
             </td>
           </tr>

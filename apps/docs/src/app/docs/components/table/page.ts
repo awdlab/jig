@@ -10,7 +10,6 @@ import {
   Demo_Table_Selection_Single,
 } from '../../../demos/table/selection';
 import { Demo_Table_Sorting } from '../../../demos/table/sorting';
-import { Demo_Table_Sticky } from '../../../demos/table/sticky';
 import { Demo_Table_Virtual } from '../../../demos/table/virtual';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
@@ -36,7 +35,6 @@ export const TablePage: NgnDocsPage = {
         Demo_Table_Virtual,
         Demo_Table_Resizable,
         Demo_Table_Reorderable,
-        Demo_Table_Sticky,
       ],
     },
     {

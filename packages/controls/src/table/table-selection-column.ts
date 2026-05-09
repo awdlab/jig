@@ -129,7 +129,7 @@ export class NgnTableSelectionColumn implements OnDestroy {
     cbEl.classList.add(this.theme.class('selection-checkbox'));
 
     if (this._isHeader) {
-      this._checkboxRef.setInput('allowIndeterminate', true);
+      setComponentInput(this._checkboxRef, 'allowIndeterminate', true);
     }
 
     this._element.nativeElement.appendChild(cbEl);

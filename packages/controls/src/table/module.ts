@@ -8,7 +8,6 @@ import { NgnTableHeadTr } from './table-header-row';
 import { NgnTableReorderableColumn } from './table-reorderable-column';
 import { NgnTableBodyTr } from './table-row';
 import { NgnTableSelectionColumn } from './table-selection-column';
-import { NgnTableStickyColumn } from './table-sticky-column';
 
 @NgModule({
   imports: [
@@ -20,7 +19,6 @@ import { NgnTableStickyColumn } from './table-sticky-column';
     NgnTableGroupHeaderTr,
     NgnTableReorderableColumn,
     NgnTableSelectionColumn,
-    NgnTableStickyColumn,
   ],
   exports: [
     NgnTable,
@@ -31,7 +29,6 @@ import { NgnTableStickyColumn } from './table-sticky-column';
     NgnTableGroupHeaderTr,
     NgnTableReorderableColumn,
     NgnTableSelectionColumn,
-    NgnTableStickyColumn,
   ],
 })
 export class NgnTableModule {}
