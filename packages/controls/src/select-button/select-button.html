@@ -1,4 +1,8 @@
-<ngn-button-group [orientation]="orientation()">
+<ngn-button-group
+  [orientation]="orientation()"
+  [attr.aria-label]="label()"
+  [attr.aria-labelledby]="labelledBy()"
+>
   @for (item of options(); track item.value) {
     <ngn-toggle-button
       [label]="maybeCallback(item.label)"

@@ -3,7 +3,10 @@
   [ptClass]="'button'"
   (click)="toggle()"
   [disabled]="disabled()"
-  [ariaReadOnly]="readonly()"
+  [attr.aria-pressed]="value()"
+  [attr.aria-readonly]="readonly() || null"
+  [attr.aria-label]="label()"
+  [attr.aria-labelledby]="labelledBy()"
   (blur)="touched.set(true)"
 >
   <span [ptInt]="this" [ptClass]="'label'">
