@@ -1,4 +1,5 @@
 import { createControlTemplate } from '@ngneers/controls-themes/api';
+import { scrollShadowDirectiveTemplate } from '@ngneers/controls-themes/templates/api';
 import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
 import { filterControlTemplate } from '@ngneers/controls-themes/templates/filter';
 import { iconControlTemplate } from '@ngneers/controls-themes/templates/icon';
@@ -45,9 +46,14 @@ export const tableControlTemplate = createControlTemplate({
     'reordering',
     'drag-source',
     'drop-indicator',
+    'sticky-start',
+    'sticky-end',
+    'sticky-start-edge',
+    'sticky-end-edge',
   ],
   dependencies: [
     scrollerControlTemplate,
+    scrollShadowDirectiveTemplate,
     iconControlTemplate,
     filterControlTemplate,
     popoverControlTemplate,

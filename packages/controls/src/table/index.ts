@@ -8,6 +8,7 @@ export * from './table-row';
 export * from './table-reorderable-column';
 export * from './table-selection-column';
 export * from './table-sortable-column';
+export * from './table-sticky-column';
 export * from './table';
 export * from './table-templates';
 export * from './types';

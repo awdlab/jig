@@ -2,7 +2,11 @@ import { createTheme } from '@ngneers/controls-themes/api';
 
 import { accordionStyles } from '@ngneers/controls-themes/nova/accordion';
 import { accordionPanelStyles } from '@ngneers/controls-themes/nova/accordion-panel';
-import { movableStyles, resizableStyles } from '@ngneers/controls-themes/nova/api';
+import {
+  movableStyles,
+  resizableStyles,
+  scrollShadowStyles,
+} from '@ngneers/controls-themes/nova/api';
 import { avatarGroupStyles, avatarStyles } from '@ngneers/controls-themes/nova/avatar';
 import { animation, coral, font, sizes, shadow } from '@ngneers/controls-themes/nova/base';
 import { breadcrumbStyles } from '@ngneers/controls-themes/nova/breadcrumb';
@@ -96,6 +100,7 @@ export const novaCoral = createTheme(
     popoverStyles,
     progressStyles,
     resizableStyles,
+    scrollShadowStyles,
     scrollerStyles,
     selectStyles,
     selectButtonStyles,

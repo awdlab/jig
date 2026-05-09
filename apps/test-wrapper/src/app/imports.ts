@@ -35,6 +35,8 @@ export const IMPORTS = {
   popover: () => import('@ngneers/controls/popover').then((m) => m.NgnPopover),
   progress: () =>
     import('@ngneers/controls/progress').then((m) => m.NgnProgress),
+  scrollShadow: () =>
+    import('@ngneers/controls/scroll-shadow').then((m) => m.NgnScrollShadow),
   scroller: () => [
     import('@ngneers/controls/scroller').then((m) => m.NgnScroller),
     import('@ngneers/controls/scroller').then((m) => m.NgnScrollerItem),
@@ -54,6 +56,8 @@ export const IMPORTS = {
     import('@ngneers/controls/table').then((m) => m.NgnTableModule),
   tableSelectionColumn: () =>
     import('@ngneers/controls/table').then((m) => m.NgnTableSelectionColumn),
+  tableStickyColumn: () =>
+    import('@ngneers/controls/table').then((m) => m.NgnTableStickyColumn),
   ngnTemplate: () =>
     import('@ngneers/controls/api/ng').then((m) => m.NgnTemplate),
   tag: () => import('@ngneers/controls/tag').then((m) => m.NgnTag),

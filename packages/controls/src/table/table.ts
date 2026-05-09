@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -15,6 +16,7 @@ import { ResizeEngine, getResizeLimitInPx, type ResizableItem } from '@ngneers/c
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnPaginator, type PaginationState } from '@ngneers/controls/paginator';
+import { NgnScrollShadow } from '@ngneers/controls/scroll-shadow';
 import { NgnScroller } from '@ngneers/controls/scroller';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
@@ -55,6 +57,7 @@ import type { AllKeysOfUnion } from '@ngneers/controls/utils';
     NgnPt,
     NgnIcon,
     NgnTableGroupHeaderTr,
+    NgnScrollShadow,
   ],
   providers: [provideSelf(NgnTable)],
   host: {
@@ -77,6 +80,7 @@ export class NgnTable<
     reordering: () => this._isReordering(),
   });
   private readonly _registeredHeaderCells = signal<NgnTableTh[]>([]);
+  private readonly _stickyColumns = signal<ReadonlyMap<string, 'start' | 'end'>>(new Map());
   private readonly _scroller = viewChild.required(NgnScroller);
 
   public readonly rows = input.required<readonly T[]>();
@@ -373,6 +377,34 @@ export class NgnTable<
     return [...validOrder, ...missing];
   });
 
+  protected readonly _stickyStartColumns = computed<string[]>(() => {
+    const stickyMap = this._stickyColumns();
+    const order = this._effectiveColumnOrder();
+    const contiguous: string[] = [];
+    for (const id of order) {
+      if (stickyMap.get(id) === 'start') {
+        contiguous.push(id);
+      } else {
+        break;
+      }
+    }
+    return contiguous;
+  });
+
+  protected readonly _stickyEndColumns = computed<string[]>(() => {
+    const stickyMap = this._stickyColumns();
+    const order = this._effectiveColumnOrder();
+    const contiguous: string[] = [];
+    for (let i = order.length - 1; i >= 0; i--) {
+      if (stickyMap.get(order[i]!) === 'end') {
+        contiguous.unshift(order[i]!);
+      } else {
+        break;
+      }
+    }
+    return contiguous;
+  });
+
   /**
    * Maps column ID → 1-based visual position.
    */
@@ -449,6 +481,45 @@ export class NgnTable<
       }
       return `${checkboxCol}repeat(${this.columnCount()}, 1fr)`;
     });
+
+    afterRenderEffect(() => {
+      const startCols = this._stickyStartColumns();
+      const endCols = this._stickyEndColumns();
+      if (startCols.length === 0 && endCols.length === 0) return;
+      if (this._resizeEngine.isDragging()) return;
+      this._tableElementSize();
+
+      const tableEl = this.element.nativeElement.querySelector(':scope > table');
+      if (!tableEl) return;
+
+      const cells = this._registeredHeaderCells();
+
+      let selectionWidth = 0;
+      if (this._hasSelectionColumn()) {
+        const selCol = tableEl.querySelector(`.${this.theme.class('selection-column')}`);
+        selectionWidth = selCol?.getBoundingClientRect().width ?? 0;
+      }
+
+      let cumulativeLeft = selectionWidth;
+      for (let i = 0; i < startCols.length; i++) {
+        (tableEl as HTMLElement).style.setProperty(
+          `--ngn-sticky-start-offset-${i}`,
+          `${cumulativeLeft}px`
+        );
+        const cell = cells.find(c => c.ngnTableTh() === startCols[i]);
+        cumulativeLeft += cell?.element.nativeElement.getBoundingClientRect().width ?? 0;
+      }
+
+      let cumulativeRight = 0;
+      for (let i = endCols.length - 1; i >= 0; i--) {
+        (tableEl as HTMLElement).style.setProperty(
+          `--ngn-sticky-end-offset-${i}`,
+          `${cumulativeRight}px`
+        );
+        const cell = cells.find(c => c.ngnTableTh() === endCols[i]);
+        cumulativeRight += cell?.element.nativeElement.getBoundingClientRect().width ?? 0;
+      }
+    });
   }
 
   protected pageChanged(event: PaginationState) {
@@ -477,6 +548,38 @@ export class NgnTable<
 
   public getRegisteredHeaderCells(): readonly NgnTableTh[] {
     return this._registeredHeaderCells();
+  }
+
+  public registerStickyColumn(columnId: string, side: 'start' | 'end'): void {
+    this._stickyColumns.update(map => {
+      const next = new Map(map);
+      next.set(columnId, side);
+      return next;
+    });
+  }
+
+  public unregisterStickyColumn(columnId: string): void {
+    this._stickyColumns.update(map => {
+      const next = new Map(map);
+      next.delete(columnId);
+      return next;
+    });
+  }
+
+  public getStickyInfo(
+    columnId: string
+  ): { side: 'start' | 'end'; index: number; isEdge: boolean } | null {
+    const startCols = this._stickyStartColumns();
+    const endCols = this._stickyEndColumns();
+    const startIndex = startCols.indexOf(columnId);
+    if (startIndex >= 0) {
+      return { side: 'start', index: startIndex, isEdge: startIndex === startCols.length - 1 };
+    }
+    const endIndex = endCols.indexOf(columnId);
+    if (endIndex >= 0) {
+      return { side: 'end', index: endIndex, isEdge: endIndex === 0 };
+    }
+    return null;
   }
 
   // --- Resize operations (called by NgnTableTh) ---
@@ -651,6 +754,21 @@ export class NgnTable<
 
   // --- Reorder operations (called by NgnTableReorderableColumn) ---
 
+  public getReorderBounds(columnId: string): { min: number; max: number } {
+    const order = this._effectiveColumnOrder();
+    const startCols = this._stickyStartColumns();
+    const endCols = this._stickyEndColumns();
+    const side = this._stickyColumns().get(columnId);
+
+    if (side === 'start') {
+      return { min: 0, max: startCols.length };
+    } else if (side === 'end') {
+      return { min: order.length - endCols.length, max: order.length };
+    } else {
+      return { min: startCols.length, max: order.length - endCols.length };
+    }
+  }
+
   public startColumnReorder(columnId: string): void {
     if (!this.reorderable()) return;
     this._isReordering.set(true);
@@ -683,6 +801,9 @@ export class NgnTable<
         break;
       }
     }
+
+    const bounds = this.getReorderBounds(sourceId);
+    targetIndex = Math.max(bounds.min, Math.min(bounds.max, targetIndex));
 
     this._reorderTargetIndex = targetIndex;
 

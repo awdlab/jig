@@ -46,21 +46,31 @@ export const tableStyles = createThemePart({
         overflow: visible;
         height: auto;
         > ${d('scroller', 'item')} {
-          display: contents;
+          display: grid;
+          grid-template-columns: subgrid;
+          grid-column: 1 / -1;
         }
         &::before,
         &::after {
           grid-column: 1 / -1;
         }
       }
-      ${c('row')}, ${c('foot')} {
+      ${c('row')} {
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-column: 1 / -1;
+        --row-index: calc(var(--ngn-table-row-index) - var(--ngn-table-item-start-index));
+        grid-row-start: var(--row-index);
+      }
+      ${c('head')} ${c('row')} {
+        grid-row-start: 1;
+      }
+      ${c('foot')} {
         display: contents;
       }
       ${c('cell')} {
         height: var(--ngn-table-row-height);
         min-width: 0;
-        --row-index: calc(var(--ngn-table-row-index) - var(--ngn-table-item-start-index));
-        grid-row-start: var(--row-index);
         grid-column-start: calc(
           var(--ngn-table-column-index) + var(--ngn-table-selection-offset, 0)
         );
@@ -104,11 +114,11 @@ export const tableStyles = createThemePart({
       /* ── Grouping ────────────────────────────────────────────────────── */
 
       ${c('group-header-row')} {
-        display: contents;
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-column: 1 / -1;
       }
       ${c('group-header-cell')} {
-        --row-index: calc(var(--ngn-table-row-index) - var(--ngn-table-item-start-index));
-        grid-row-start: var(--row-index);
         grid-column: 1 / -1;
         display: flex;
         align-items: center;
@@ -151,6 +161,24 @@ export const tableStyles = createThemePart({
         cursor: col-resize;
         z-index: 1;
         touch-action: none;
+      }
+
+      /* ── Sticky Columns ──────────────────────────────────────────── */
+
+      ${c('sticky-start')}, ${c('sticky-end')} {
+        z-index: 1;
+      }
+      ${c('head')} ${c('sticky-start')},
+      ${c('head')} ${c('sticky-end')} {
+        z-index: 3;
+      }
+      ${c('selection-column')} {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+      }
+      ${c('head')} ${c('selection-column')} {
+        z-index: 3;
       }
     `,
   },

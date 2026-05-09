@@ -220,19 +220,30 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
       const el = this.element.nativeElement;
       const content = this.content();
       const autoAriaMode = this.effectiveOptions().autoAriaMode;
+
+      el.removeAttribute('aria-label');
+      el.removeAttribute('aria-description');
+      el.removeAttribute('aria-labelledby');
+      el.removeAttribute('aria-describedby');
+
       if (autoAriaMode === 'none' || !content) {
         return;
       }
+
+      const tooltip = this.tooltip();
+      const isShown = tooltip?.isShown() ?? false;
+
       if (typeof content === 'string') {
-        const attr = autoAriaMode === 'label' ? 'aria-label' : 'aria-description';
-        el.setAttribute(attr, content);
-      } else if (content instanceof TemplateRef) {
-        const attr = autoAriaMode === 'label' ? 'aria-labelledby' : 'aria-describedby';
-        const tooltip = this.tooltip();
-        if (tooltip) {
-          const id = tooltip.id;
-          el.setAttribute(attr, id);
+        if (isShown && tooltip) {
+          const attr = autoAriaMode === 'label' ? 'aria-labelledby' : 'aria-describedby';
+          el.setAttribute(attr, tooltip.id);
+        } else {
+          const attr = autoAriaMode === 'label' ? 'aria-label' : 'aria-description';
+          el.setAttribute(attr, content);
         }
+      } else if (content instanceof TemplateRef && isShown && tooltip) {
+        const attr = autoAriaMode === 'label' ? 'aria-labelledby' : 'aria-describedby';
+        el.setAttribute(attr, tooltip.id);
       }
     });
   }
@@ -328,7 +339,7 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
     '(mouseenter)': 'onMouseEnter()',
     '(mouseleave)': 'onMouseLeave()',
     '(click)': 'onClick($event)',
-    '[attr.aria-hidden]': `true`,
+    '[attr.aria-hidden]': `isShown() ? null : true`,
   },
 })
 export class TooltipComponent extends NgnBase<'tooltip'> {

@@ -2,7 +2,11 @@ import { createTheme } from '@ngneers/controls-themes/api';
 
 import { accordionStyles } from '@ngneers/controls-themes/base/accordion';
 import { accordionPanelStyles } from '@ngneers/controls-themes/base/accordion-panel';
-import { movableStyles, resizableStyles } from '@ngneers/controls-themes/base/api';
+import {
+  movableStyles,
+  resizableStyles,
+  scrollShadowStyles,
+} from '@ngneers/controls-themes/base/api';
 import { avatarGroupStyles, avatarStyles } from '@ngneers/controls-themes/base/avatar';
 import { breadcrumbStyles } from '@ngneers/controls-themes/base/breadcrumb';
 import { buttonStyles } from '@ngneers/controls-themes/base/button';
@@ -47,6 +51,7 @@ export const baseStyles = {
   accordionPanel: accordionPanelStyles,
   movable: movableStyles,
   resizable: resizableStyles,
+  scrollShadow: scrollShadowStyles,
   avatarGroup: avatarGroupStyles,
   avatar: avatarStyles,
   breadcrumb: breadcrumbStyles,

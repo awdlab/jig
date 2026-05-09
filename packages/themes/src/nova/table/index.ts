@@ -172,6 +172,54 @@ export const tableStyles = createThemePart({
       ${c('resizing')} ${c('resize-handle')} {
         background: ${v('color.surface.400')};
       }
+
+      /* ── Sticky Columns ──────────────────────────────────────────── */
+
+      ${c('sticky-start')}, ${c('sticky-end')}, ${c('selection-column')} {
+        --ngn-cell-bg-base: ${v('color.background')};
+      }
+      ${c('head')} ${c('sticky-start')},
+      ${c('head')} ${c('sticky-end')},
+      ${c('head')} ${c('selection-column')} {
+        background: ${v('color.background')};
+      }
+      ${c('sticky-start-edge')},
+      ${c('sticky-end-edge')} {
+        overflow: visible;
+      }
+      ${d('scrollShadow', 'scrolled-start')} ${c('sticky-start-edge')}::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 100%;
+        height: 100%;
+        width: 12px;
+        pointer-events: none;
+        background: linear-gradient(to right, rgba(0, 0, 0, 0.15), transparent);
+      }
+      ${d('scrollShadow', 'scrolled-end')} ${c('sticky-end-edge')}::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 100%;
+        height: 100%;
+        width: 12px;
+        pointer-events: none;
+        background: linear-gradient(to left, rgba(0, 0, 0, 0.15), transparent);
+      }
+      ${c('selection-column')} {
+        overflow: visible;
+      }
+      ${d('scrollShadow', 'scrolled-start')} ${c('selection-column')}::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 12px;
+        height: 100%;
+        pointer-events: none;
+        background: linear-gradient(to right, rgba(0, 0, 0, 0.15), transparent);
+      }
     `,
   },
 });

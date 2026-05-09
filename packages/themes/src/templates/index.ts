@@ -3,6 +3,7 @@ export type ThemeTemplate = {
   accordionPanel: Awaited<typeof import('./accordion-panel')>['accordionPanelControlTemplate'];
   movable: Awaited<typeof import('./api')>['movableDirectiveTemplate'];
   resizable: Awaited<typeof import('./api')>['resizableDirectiveTemplate'];
+  scrollShadow: Awaited<typeof import('./api')>['scrollShadowDirectiveTemplate'];
   avatar: Awaited<typeof import('./avatar')>['avatarControlTemplate'];
   avatarGroup: Awaited<typeof import('./avatar')>['avatarGroupControlTemplate'];
   breadcrumb: Awaited<typeof import('./breadcrumb')>['breadcrumbControlTemplate'];

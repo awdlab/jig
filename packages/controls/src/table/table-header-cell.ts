@@ -10,6 +10,7 @@ import {
   type OnDestroy,
   type OnInit,
   Renderer2,
+  signal,
   type Signal,
 } from '@angular/core';
 import { getNearestNgnInstance, NgnBase } from '@ngneers/controls/base';
@@ -29,6 +30,7 @@ import type { ResizableItem, ResizeLimit, ResizeSize } from '@ngneers/controls/a
 export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDestroy, OnInit {
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate);
   private _table?: NgnTable<any, any>;
+  private readonly _tableSignal = signal<NgnTable<any, any> | null>(null);
   private _resizeHandle?: HTMLDivElement;
 
   public readonly ngnTableTh = input.required<string>();
@@ -122,6 +124,33 @@ export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDes
         this._resizeHandle.style.display = show ? '' : 'none';
       }
     });
+
+    // Sticky column classes and offsets
+    afterRenderEffect(() => {
+      const table = this._tableSignal();
+      if (!table) return;
+      const info = table.getStickyInfo(this.ngnTableTh());
+      const el = this.element.nativeElement;
+      toggleClass(el, this.theme.class('sticky-start'), info?.side === 'start');
+      toggleClass(el, this.theme.class('sticky-end'), info?.side === 'end');
+      toggleClass(el, this.theme.class('sticky-start-edge'), info?.side === 'start' && info.isEdge);
+      toggleClass(el, this.theme.class('sticky-end-edge'), info?.side === 'end' && info.isEdge);
+
+      if (info) {
+        el.style.position = 'sticky';
+        if (info.side === 'start') {
+          el.style.left = `var(--ngn-sticky-start-offset-${info.index})`;
+          el.style.removeProperty('right');
+        } else {
+          el.style.right = `var(--ngn-sticky-end-offset-${info.index})`;
+          el.style.removeProperty('left');
+        }
+      } else {
+        el.style.removeProperty('position');
+        el.style.removeProperty('left');
+        el.style.removeProperty('right');
+      }
+    });
   }
 
   public ngOnInit(): void {
@@ -130,6 +159,7 @@ export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDes
       throw new NgnError('ngnTableTh', 'ngnTableTh must be used within an NgnTable component');
     }
     this._table = table;
+    this._tableSignal.set(table);
     this._table.registerHeaderCell(this);
   }
 
