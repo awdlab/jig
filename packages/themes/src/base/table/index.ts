@@ -152,17 +152,6 @@ export const tableStyles = createThemePart({
         z-index: 1;
         touch-action: none;
       }
-
-      /* ── Sticky Columns (after resizing so sticky wins over relative) ─ */
-
-      ${c('head')} ${c('cell')}${c('sticky-column')},
-      ${c('body')} ${c('cell')}${c('sticky-column')} {
-        position: sticky;
-        z-index: 1;
-      }
-      ${c('head')} ${c('sticky-column')} {
-        z-index: 3;
-      }
     `,
   },
 });

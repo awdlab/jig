@@ -150,21 +150,6 @@ export const tableStyles = createThemePart({
         box-shadow: 0 0 8px ${v('color.primary.500')}40;
       }
 
-      /* ── Sticky Columns ──────────────────────────────────────────────── */
-
-      ${c('sticky-column')} {
-        --ngn-cell-bg-base: ${v('color.background')};
-      }
-      ${c('striped')} ${c('even')} ${c('sticky-column')} {
-        --ngn-cell-bg-base: ${v('color.surface.100')};
-      }
-      ${c('root')}${c('sticky-scrolled-left')} ${c('sticky-left-last')} {
-        box-shadow: 4px 0 8px -4px rgba(0, 0, 0, 0.15);
-      }
-      ${c('root')}${c('sticky-scrolled-right')} ${c('sticky-right-first')} {
-        box-shadow: -4px 0 8px -4px rgba(0, 0, 0, 0.15);
-      }
-
       /* ── Resizing ────────────────────────────────────────────────────── */
 
       ${c('resize-handle')} {
