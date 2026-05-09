@@ -49,8 +49,8 @@ export type TooltipOptions = {
    */
   readonly hideOnClick: boolean;
   /**
-   * Disables automatic ARIA label attributes for the tooltip.
-   * @default false
+   * Whether to automatically manage ARIA attributes for the tooltip.
+   * @default 'description'
    */
-  readonly disableAria: boolean;
+  readonly autoAriaMode: 'label' | 'description' | 'none';
 };

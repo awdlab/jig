@@ -159,12 +159,12 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
     alias: 'ngnTooltipHideOnClick',
   });
   /**
-   * Disables automatic ARIA label attributes for the tooltip.
-   * @alias ngnTooltipDisableAria
-   * @default false
+   * Whether to automatically manage ARIA attributes for the tooltip.
+   * @alias ngnTooltipAutoAriaMode
+   * @default 'description'
    */
-  public readonly disableAria = input<boolean | '' | null | undefined>(null, {
-    alias: 'ngnTooltipDisableAria',
+  public readonly autoAriaMode = input<'label' | 'description' | 'none' | null | undefined>(null, {
+    alias: 'ngnTooltipAutoAriaMode',
   });
 
   public readonly effectiveOptions = computed<TooltipOptions>(() => {
@@ -185,8 +185,7 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
           defaults.hideOnTooltipHover) !== false,
       hideOnClick:
         (this.hideOnClick() ?? this.options()?.hideOnClick ?? defaults.hideOnClick) !== false,
-      disableAria:
-        (this.disableAria() ?? this.options()?.disableAria ?? defaults.disableAria) !== false,
+      autoAriaMode: this.autoAriaMode() ?? this.options()?.autoAriaMode ?? defaults.autoAriaMode,
     };
   });
 
@@ -219,10 +218,21 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
 
     afterRenderEffect(() => {
       const el = this.element.nativeElement;
-      const tooltip = this._tooltip();
-      const disableAria = this.effectiveOptions().disableAria;
-      if (!disableAria && tooltip) {
-        el.setAttribute('aria-description', tooltip.instance.text() ?? '');
+      const content = this.content();
+      const autoAriaMode = this.effectiveOptions().autoAriaMode;
+      if (autoAriaMode === 'none' || !content) {
+        return;
+      }
+      if (typeof content === 'string') {
+        const attr = autoAriaMode === 'label' ? 'aria-label' : 'aria-description';
+        el.setAttribute(attr, content);
+      } else if (content instanceof TemplateRef) {
+        const attr = autoAriaMode === 'label' ? 'aria-labelledby' : 'aria-describedby';
+        const tooltip = this.tooltip();
+        if (tooltip) {
+          const id = tooltip.id;
+          el.setAttribute(attr, id);
+        }
       }
     });
   }
@@ -318,6 +328,7 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
     '(mouseenter)': 'onMouseEnter()',
     '(mouseleave)': 'onMouseLeave()',
     '(click)': 'onClick($event)',
+    '[attr.aria-hidden]': `true`,
   },
 })
 export class TooltipComponent extends NgnBase<'tooltip'> {
