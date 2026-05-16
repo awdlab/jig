@@ -1,7 +1,9 @@
 {
   "name": "@ngneers/controls-custom-types",
-  "version": "0.0.1-pre2",
-  "private": false,
+  "version": "0.0.1-pre3",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "lint": "pnpm eslint .",
     "prebuild": "pnpm rimraf ./dist",

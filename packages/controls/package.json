@@ -1,7 +1,9 @@
 {
   "name": "@ngneers/controls",
-  "version": "0.0.1-pre6",
-  "private": false,
+  "version": "0.0.1-pre7",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "ng": "ng",
     "prebuild": "cpy package.json src/",
