@@ -5,6 +5,7 @@ import {
   type OnInit,
   type OnDestroy,
 } from '@angular/core';
+import tablerUser from '@iconify/icons-tabler/user';
 import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnAvatar, NgnAvatarGroup } from '@ngneers/controls/avatar';
@@ -160,7 +161,7 @@ declare global {
       <ngn-filter [data]="filterData()" dataType="string" />
 
       <!-- Icon -->
-      <ngn-icon icon="icon.svg" />
+      <ngn-icon [icon]="userIcon" />
 
       <!-- Inplace -->
       <ngn-inplace>
@@ -194,9 +195,7 @@ declare global {
       <ngn-list-box [items]="items()" style="display: block;" />
 
       <!-- Message -->
-      <ngn-message kind="outlined" [icon]="'icon.svg'"
-        >Test message</ngn-message
-      >
+      <ngn-message kind="outlined" [icon]="userIcon">Test message</ngn-message>
 
       <!-- Popover -->
       <button #popoverAnchor ngnButton>Toggle</button>
@@ -272,7 +271,7 @@ declare global {
       </ngn-table>
 
       <!-- Tag -->
-      <ngn-tag kind="pill" [icon]="'icon.svg'">Tag</ngn-tag>
+      <ngn-tag kind="pill" [icon]="userIcon">Tag</ngn-tag>
 
       <!-- Tooltip -->
       <div [ngnTooltip]="'Tooltip text'">Hover me</div>
@@ -280,6 +279,7 @@ declare global {
   `,
 })
 export class LeakTestComponent implements OnInit, OnDestroy {
+  protected readonly userIcon = tablerUser;
   public readonly show = signal(false);
   public readonly dialogOpen = signal(false);
   public readonly checkboxValue = signal<boolean | null>(false);

@@ -5,5 +5,3 @@ export type IconTemplateContext = {
     icon: IconType;
   };
 };
-
-export type DefaultIcon = keyof typeof import('./default-icons/ts').DEFAULT_ICONS;

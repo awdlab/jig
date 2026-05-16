@@ -3,19 +3,11 @@ import {
   ComponentRef,
   effect,
   inject,
-  type OnInit,
   signal,
-  TemplateRef,
   Type,
-  viewChild,
   ViewContainerRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { NgnTemplate, templateTypeFn } from '@ngneers/controls/api/ng';
-import {
-  GlobalIconTemplate,
-  type IconTemplateContext,
-} from '@ngneers/controls/icon';
 
 import {
   defineTestComponent,
@@ -26,23 +18,10 @@ import { isEval, WindowService } from './window';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-root',
-  imports: [NgnTemplate],
-  template: `
-    <ng-template #customIconTemplate [ngnTemplate]="iconTemplateType" let-icon>
-      <svg xmlns="http://www.w3.org/2000/svg" style="width: 1em; height: 1em">
-        <use [attr.href]="icon.icon + '#root'"></use>
-      </svg>
-    </ng-template>
-  `,
+  imports: [],
+  template: ``,
 })
-export class App implements OnInit {
-  private readonly _icon = inject(GlobalIconTemplate);
-  protected readonly iconTemplateType =
-    templateTypeFn<IconTemplateContext['$implicit']>();
-
-  private readonly _iconTemplate =
-    viewChild.required<TemplateRef<IconTemplateContext>>('customIconTemplate');
-
+export class App {
   private readonly _testComponent = signal<Type<TestComponentBase> | null>(
     null,
   );
@@ -74,10 +53,6 @@ export class App implements OnInit {
     effect(() => {
       this.setInputs();
     });
-  }
-
-  public ngOnInit() {
-    this._icon.setGlobalIconTemplate(this._iconTemplate());
   }
 
   private setInputs() {

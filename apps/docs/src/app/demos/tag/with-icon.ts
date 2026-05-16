@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import tablerCode from '@iconify/icons-tabler/code';
 import { NgnTag } from '@ngneers/controls/tag';
 
 @Component({
@@ -7,8 +8,10 @@ import { NgnTag } from '@ngneers/controls/tag';
   selector: 'ngn-demo-tag-with-icon',
   template: `
     <div class="flex flex-wrap gap-2">
-      <ngn-tag [icon]="'img/icons/code.svg'">Tag with icon</ngn-tag>
+      <ngn-tag [icon]="icon">Tag with icon</ngn-tag>
     </div>
   `,
 })
-export class Demo_Tag_WithIcon {}
+export class Demo_Tag_WithIcon {
+  protected readonly icon = tablerCode;
+}

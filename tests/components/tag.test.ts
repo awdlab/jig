@@ -28,7 +28,13 @@ test('features', async ({ page }, testInfo) => {
   });
 
   await test.step('with icon', async () => {
-    await handle.setInputs({ icon: 'icon.svg' });
+    await handle.setInputs({
+      icon: {
+        body: '<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0-8 0M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>',
+        width: 24,
+        height: 24,
+      },
+    });
     await expectScreenshot(page, testInfo, 'with-icon');
     await tag.expectIcon(true);
   });

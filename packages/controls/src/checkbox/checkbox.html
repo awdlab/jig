@@ -13,7 +13,7 @@
       'box-icon-visible': indeterminate(),
     }"
     [icon]="iconIndeterminate()"
-    [defaultIcon]="'minus'"
+    [defaultIcon]="'checkbox-indeterminate'"
   />
   <ngn-icon
     [ptInt]="this"
@@ -22,7 +22,7 @@
       'box-icon-visible': !indeterminate() && !!value(),
     }"
     [icon]="iconChecked()"
-    [defaultIcon]="'check'"
+    [defaultIcon]="'checkbox-checked'"
   />
   @if (iconUnchecked()) {
     <ngn-icon

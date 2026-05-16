@@ -1,0 +1,1 @@
+export { provideNgnDefaultIcons } from './provider';

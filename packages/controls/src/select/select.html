@@ -61,7 +61,12 @@
       }
     </div>
   }
-  <ngn-icon [ptInt]="this" [ptClass]="'icon'" [icon]="dropdownIcon()" defaultIcon="chevron_down" />
+  <ngn-icon
+    [ptInt]="this"
+    [ptClass]="'icon'"
+    [icon]="dropdownIcon()"
+    defaultIcon="dropdown-toggle"
+  />
 </ngn-input-field>
 <ngn-popover
   #popover
@@ -84,7 +89,7 @@
           <ngn-icon
             [ptInt]="this"
             [ptClass]="'filter-icon'"
-            defaultIcon="magnifying_glass"
+            defaultIcon="search"
             [icon]="filterIcon()"
           />
         </ngn-input-field>

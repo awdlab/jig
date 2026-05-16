@@ -14,7 +14,7 @@
       ngnButton
       [kind]="'icon'"
     >
-      <ngn-icon size="28px" icon="img/icons/github.svg" />
+      <ngn-icon size="28px" [icon]="iconGithub" />
     </a>
     <button
       class="hide-when-large"
@@ -23,7 +23,7 @@
       aria-label="Menu Toggle"
       (click)="toggleMenu()"
     >
-      <ngn-icon size="28px" icon="img/icons/bars.svg" />
+      <ngn-icon size="28px" [icon]="iconBars" />
     </button>
   </div>
 </header>

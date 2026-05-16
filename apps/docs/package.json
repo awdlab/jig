@@ -7,7 +7,7 @@
     "build": "ng build",
     "preserve": "pnpm run prepare-docs",
     "prebuild": "pnpm run prepare-docs",
-    "prepare-docs": "cd ../../ && pnpm icons:generate && pnpm api-docs:generate",
+    "prepare-docs": "cd ../../ && pnpm api-docs:generate",
     "serve:ssr": "node ../../dist/demo/server/server.mjs",
     "lint": "pnpm eslint ."
   },
@@ -38,6 +38,8 @@
     "@angular/build": "catalog:",
     "@angular/cli": "catalog:",
     "@angular/compiler-cli": "catalog:",
+    "@iconify/icons-tabler": "^1.2.95",
+    "@iconify/types": "^2.0.0",
     "@types/express": "^5.0.6",
     "@types/node": "^25.6.0",
     "@types/prismjs": "^1.26.6",

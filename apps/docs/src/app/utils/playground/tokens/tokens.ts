@@ -8,6 +8,8 @@ import {
   Injector,
   effect,
 } from '@angular/core';
+import tablerPalette from '@iconify/icons-tabler/palette';
+import tablerPointer from '@iconify/icons-tabler/pointer';
 import { injectTheme } from '@ngneers/controls/api/ng';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnMessage } from '@ngneers/controls/message';
@@ -35,6 +37,8 @@ export class NgnDocsPlaygroundTokens<
   N extends ControlName,
   C extends string[],
 > {
+  protected readonly iconPalette = tablerPalette;
+  protected readonly iconPointer = tablerPointer;
   private readonly _injector = inject(Injector);
   private readonly _project = signal<ProjectReflection | null>(null);
 

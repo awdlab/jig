@@ -1,3 +1,10 @@
 import { type NgnCustomTypes } from './custom-types';
 
-export type IconType = NgnCustomTypes extends { icon: infer T } ? T : string;
+import type { IconifyIcon } from '@iconify/types';
+
+export interface NgnIconEntry {
+  icon: IconifyIcon;
+  scale?: number;
+}
+
+export type IconType = NgnCustomTypes extends { icon: infer T } ? T : IconifyIcon | NgnIconEntry;

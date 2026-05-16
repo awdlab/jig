@@ -58,7 +58,10 @@
             (click)="toggleGroupFromRow(item)"
           >
             <td [class]="theme.class('group-header-cell')" role="gridcell">
-              <ngn-icon [defaultIcon]="'chevron_right'" [class]="theme.class('group-toggle')" />
+              <ngn-icon
+                [defaultIcon]="'table-group-toggle'"
+                [class]="theme.class('group-toggle')"
+              />
               <span>{{ item.groupValue }}</span>
               <span>({{ item.count }})</span>
             </td>

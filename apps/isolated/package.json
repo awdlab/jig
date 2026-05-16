@@ -33,6 +33,8 @@
     "@angular/build": "catalog:",
     "@angular/cli": "catalog:",
     "@angular/compiler-cli": "catalog:",
+    "@iconify/icons-tabler": "^1.2.95",
+    "@iconify/types": "^2.0.0",
     "typescript": "catalog:"
   }
 }

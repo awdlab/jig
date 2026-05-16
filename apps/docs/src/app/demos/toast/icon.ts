@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import tablerUser from '@iconify/icons-tabler/user';
 import { NgnButton } from '@ngneers/controls/button';
 import { injectToastCreator } from '@ngneers/controls/toast';
 
@@ -15,7 +16,7 @@ export class Demo_Toast_Icon {
     this._toastCreator.show({
       header: 'Notification',
       content: 'This is a basic toast message.',
-      icon: 'img/icons/user.svg',
+      icon: tablerUser,
     });
   }
 }

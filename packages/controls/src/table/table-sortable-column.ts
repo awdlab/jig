@@ -60,7 +60,7 @@ export class NgnTableSortableColumn implements OnDestroy {
       setComponentInput(
         this._ngnIcon,
         'defaultIcon',
-        sort === 'asc' ? 'sort_down' : sort === 'desc' ? 'sort_up' : 'sort'
+        sort === 'asc' ? 'sort-ascending' : sort === 'desc' ? 'sort-descending' : 'sort-neutral'
       );
     });
   }

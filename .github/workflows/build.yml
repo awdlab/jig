@@ -53,8 +53,6 @@ jobs:
         run: npm i -g pnpm
       - name: Install
         run: pnpm i
-      - name: Generate Icons
-        run: pnpm run icons:generate
       - name: Check for test compiler errors
         run: pnpm run test:build
       - name: Run Tests

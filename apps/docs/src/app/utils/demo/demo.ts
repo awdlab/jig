@@ -1,5 +1,7 @@
 import { NgComponentOutlet } from '@angular/common';
 import { Component, computed, input, signal, ChangeDetectionStrategy } from '@angular/core';
+import tablerCode from '@iconify/icons-tabler/code';
+import tablerCopy from '@iconify/icons-tabler/copy';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { throwExp } from '@ngneers/controls/utils';
@@ -16,6 +18,8 @@ import type { Type } from '@angular/core';
   imports: [NgComponentOutlet, NgnButton, NgnIcon],
 })
 export class NgnDocsDemo {
+  protected readonly iconCode = tablerCode;
+  protected readonly iconCopy = tablerCopy;
   public readonly component = input.required<Type<unknown>>();
 
   protected readonly codeVisible = signal(false);

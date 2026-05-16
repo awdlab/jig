@@ -74,7 +74,7 @@ export class NgnTableFilterableColumn implements OnDestroy {
           label: 'Filter',
           value: null,
           kind: 'icon',
-          defaultIcon: this.filter() ? 'filter_solid' : 'filter',
+          defaultIcon: this.filter() ? 'filter-active' : 'filter-inactive',
           action: event => {
             event.stopPropagation();
             this._ngnFilter.instance.show();

@@ -1,7 +1,9 @@
-@if (icon()) {
+@if (iconSvg(); as svg) {
+  <div [ptInt]="this" [ptClass]="'default'" [innerHtml]="svg"></div>
+} @else if (icon()) {
   <ng-container
     *ngTemplateOutlet="
-      usedIconTemplate();
+      iconTemplate();
       context: {
         $implicit: {
           icon: icon(),
@@ -10,12 +12,19 @@
     "
   >
   </ng-container>
-
-  <ng-template #defaultIconTemplate [ngnTemplate]="templateType" let-icon
-    ><i [style.--fa-display]="'block'" class="{{ icon.icon }}"></i
-  ></ng-template>
+} @else if (customDefaultIcon(); as customIcon) {
+  <ng-container
+    *ngTemplateOutlet="
+      iconTemplate();
+      context: {
+        $implicit: {
+          icon: customIcon,
+        },
+      }
+    "
+  >
+  </ng-container>
 } @else {
-  <!-- imported svg icon -->
   @if (defaultIconSvg(); as defaultIcon) {
     <div [ptInt]="this" [ptClass]="'default'" [innerHtml]="defaultIcon"></div>
   }

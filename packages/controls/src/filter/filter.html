@@ -67,7 +67,7 @@
               [attr.aria-label]="i18n['filter_removeCondition']() + ' ' + (i + 1)"
               data-testid="filter-remove-condition"
             >
-              <ngn-icon defaultIcon="xmark" />
+              <ngn-icon defaultIcon="filter-remove" />
             </button>
           }
         </div>
@@ -182,7 +182,7 @@
     [readonly]="readonly()"
   >
     <div role="button" [ptInt]="this" [ptClass]="'summary'">{{ summaryText() }}</div>
-    <ngn-icon [ptInt]="this" [ptClass]="'icon'" defaultIcon="magnifying_glass" />
+    <ngn-icon [ptInt]="this" [ptClass]="'icon'" defaultIcon="search" />
   </ngn-input-field>
 
   <ng-container

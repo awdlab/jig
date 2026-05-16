@@ -1,5 +1,5 @@
 <button ngnButton [kind]="'icon'" (click)="previousPage($event)">
-  <ngn-icon [defaultIcon]="'chevron_left'" />
+  <ngn-icon [defaultIcon]="'paginator-previous'" />
 </button>
 
 <ngn-item-view
@@ -29,7 +29,7 @@
 </ngn-item-view>
 
 <button ngnButton [kind]="'icon'" (click)="nextPage($event)">
-  <ngn-icon [defaultIcon]="'chevron_right'" />
+  <ngn-icon [defaultIcon]="'paginator-next'" />
 </button>
 
 @if (!fixedPageSize()) {

@@ -1,4 +1,6 @@
 import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import tablerAdjustments from '@iconify/icons-tabler/adjustments';
+import tablerInfoCircle from '@iconify/icons-tabler/info-circle';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnTooltip } from '@ngneers/controls/tooltip';
 
@@ -14,6 +16,8 @@ import type { AnyNgnBase } from '@ngneers/controls/base';
   host: { class: 'flex flex-col' },
 })
 export class NgnDocsPlaygroundInputs {
+  protected readonly iconSliders = tablerAdjustments;
+  protected readonly iconInfo = tablerInfoCircle;
   public readonly controls = input.required<
     {
       component: AnyNgnBase | readonly AnyNgnBase[];

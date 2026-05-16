@@ -143,9 +143,6 @@ pnpm format:check
 ### Code Generation
 
 ```bash
-# Generate icons
-pnpm icons:generate
-
 # Generate API documentation
 pnpm api-docs:generate
 ```
