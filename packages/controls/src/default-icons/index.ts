@@ -1,1 +1,1 @@
-export { provideNgnDefaultIcons } from './provider';
+export { withDefaultIcons } from './provider';

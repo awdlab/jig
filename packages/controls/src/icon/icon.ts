@@ -86,7 +86,7 @@ export class NgnIcon extends NgnBase<'icon'> {
     if (!this._registry) {
       throw new NgnError(
         'icon',
-        'No icon registry provided. Call provideNgnDefaultIcons() or provideNgnCustomIcons() in your application providers.'
+        'No icon registry provided. Add withDefaultIcons() or withCustomIcons() to your provideNgnControls() call.'
       );
     }
     const raw = (this._registry as NgnIconRegistry)[key];
@@ -102,7 +102,7 @@ export class NgnIcon extends NgnBase<'icon'> {
     if (!this._registry) {
       throw new NgnError(
         'icon',
-        'No icon registry provided. Call provideNgnDefaultIcons() or provideNgnCustomIcons() in your application providers.'
+        'No icon registry provided. Add withDefaultIcons() or withCustomIcons() to your provideNgnControls() call.'
       );
     }
     return this._registry[key] as IconType;
@@ -113,7 +113,7 @@ export class NgnIcon extends NgnBase<'icon'> {
     if (!template) {
       throw new NgnError(
         'icon',
-        'No GlobalIconTemplate registered. Required when using [icon] with non-Iconify values or provideNgnCustomIcons() with [defaultIcon]. If using Iconify, pass an IconifyIcon data object (e.g., import tablerUser from "@iconify/icons-tabler/user").'
+        'No GlobalIconTemplate registered. Required when using [icon] with non-Iconify values or withCustomIcons() with [defaultIcon]. If using Iconify, pass an IconifyIcon data object (e.g., import tablerUser from "@iconify/icons-tabler/user").'
       );
     }
     return template;

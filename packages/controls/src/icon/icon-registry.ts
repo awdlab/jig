@@ -1,6 +1,7 @@
-import { InjectionToken, type Provider } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
 import type { IconifyIcon } from '@iconify/types';
+import type { NgnFeature } from '@ngneers/controls/api/ng';
 import type { IconType, NgnIconEntry } from '@ngneers/controls-custom-types';
 
 export type { NgnIconEntry } from '@ngneers/controls-custom-types';
@@ -49,9 +50,11 @@ export const NGN_ICON_REGISTRY = new InjectionToken<NgnIconRegistry | NgnCustomI
 
 export const NGN_CUSTOM_ICONS = new InjectionToken<boolean>('NGN_CUSTOM_ICONS');
 
-export function provideNgnCustomIcons(registry: NgnCustomIconRegistry): Provider[] {
-  return [
-    { provide: NGN_ICON_REGISTRY, useValue: registry },
-    { provide: NGN_CUSTOM_ICONS, useValue: true },
-  ];
+export function withCustomIcons(registry: NgnCustomIconRegistry): NgnFeature {
+  return {
+    providers: [
+      { provide: NGN_ICON_REGISTRY, useValue: registry },
+      { provide: NGN_CUSTOM_ICONS, useValue: true },
+    ],
+  };
 }

@@ -16,7 +16,7 @@ import tablerX from '@iconify/icons-tabler/x';
 
 import { NGN_CUSTOM_ICONS, NGN_ICON_REGISTRY, type NgnIconRegistry } from '@ngneers/controls/icon';
 
-import type { Provider } from '@angular/core';
+import type { NgnFeature } from '@ngneers/controls/api/ng';
 
 const NGN_DEFAULT_ICON_REGISTRY: NgnIconRegistry = {
   'accordion-collapse': { icon: tablerChevronUp, scale: 1.71 },
@@ -50,9 +50,11 @@ const NGN_DEFAULT_ICON_REGISTRY: NgnIconRegistry = {
   'toast-close': { icon: tablerX, scale: 1.71 },
 };
 
-export function provideNgnDefaultIcons(): Provider[] {
-  return [
-    { provide: NGN_ICON_REGISTRY, useValue: NGN_DEFAULT_ICON_REGISTRY },
-    { provide: NGN_CUSTOM_ICONS, useValue: false },
-  ];
+export function withDefaultIcons(): NgnFeature {
+  return {
+    providers: [
+      { provide: NGN_ICON_REGISTRY, useValue: NGN_DEFAULT_ICON_REGISTRY },
+      { provide: NGN_CUSTOM_ICONS, useValue: false },
+    ],
+  };
 }
