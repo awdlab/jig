@@ -33,11 +33,11 @@
 </button>
 
 @if (!fixedPageSize()) {
-  <ngn-select
-    [ptInt]="this"
-    [ptClass]="'page-size-options'"
-    [options]="pageSizeOptions()"
-    [value]="appliedPageSize()"
-    (valueChange)="pageSize.set($event)"
-  />
+  <ngn-input-field [ptInt]="this" [ptClass]="'page-size-options'">
+    <ngn-select
+      [options]="pageSizeOptions()"
+      [value]="appliedPageSize()"
+      (valueChange)="pageSize.set($event)"
+    />
+  </ngn-input-field>
 }

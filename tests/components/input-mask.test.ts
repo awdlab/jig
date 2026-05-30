@@ -7,10 +7,12 @@ test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      imports: ['input', 'inputMask'],
-      template: `<ngn-input-mask [mask]="inputs().mask">
-        <input ngnInput>
-      </ngn-input-mask>`,
+      imports: ['input', 'inputMask', 'inputField'],
+      template: `<ngn-input-field>
+        <ngn-input-mask [mask]="inputs().mask">
+          <input ngnInput>
+        </ngn-input-mask>
+      </ngn-input-field>`,
     },
     {
       inputs: {

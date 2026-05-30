@@ -1,17 +1,20 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NgnInput } from '@ngneers/controls/input';
+import { NgnInputField } from '@ngneers/controls/input-field';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgnInput],
+  imports: [NgnInput, NgnInputField],
   selector: 'ngn-demo-input-textarea',
   template: `
-    <textarea
-      ngnInput
-      rows="3"
-      [value]="value()"
-      (valueChange)="value.set($event ?? '')"
-    ></textarea>
+    <ngn-input-field>
+      <textarea
+        ngnInput
+        rows="3"
+        [value]="value()"
+        (valueChange)="value.set($event ?? '')"
+      ></textarea>
+    </ngn-input-field>
     {{ value() }}
   `,
 })

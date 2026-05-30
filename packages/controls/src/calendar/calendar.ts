@@ -52,13 +52,17 @@ type MonthItemType = NgnItem<{ $: (typeof MONTHS)[number] }, '$'>;
     NgnPt,
     NgnInput,
     NgnIcon,
-    NgnInputField,
     NgnSelect,
     NgnPopover,
     CalendarDays,
     CalendarTime,
+    NgnInputField,
   ],
   providers: [provideSelf(NgnCalendar)],
+  host: {
+    '[style.display]': '"block"',
+    '[style.width]': 'inline() ? "fit-content" : "100%"',
+  },
 })
 export class NgnCalendar extends CalendarTemplates {
   /**
@@ -86,6 +90,12 @@ export class NgnCalendar extends CalendarTemplates {
   private readonly _platform = inject(Platform);
   protected readonly i18n = inject(I18n).translations;
   protected readonly theme = this.injectThemeTemplate(calendarControlTemplate);
+  protected get anchorElement(): HTMLElement {
+    return (
+      (this.element.nativeElement.closest('ngn-input-field') as HTMLElement | null) ??
+      this.element.nativeElement
+    );
+  }
   protected readonly year = linkedSignal(
     () => this.value()?.getFullYear() || new Date().getFullYear()
   );

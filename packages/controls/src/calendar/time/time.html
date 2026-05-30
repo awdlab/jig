@@ -1,21 +1,25 @@
 <div>
   @if (isTouchDevice) {
-    <input
-      type="time"
-      ngnInput
-      [step]="showSeconds() ? 1 : 60"
-      [value]="value()"
-      (valueChange)="onValueChange($event || '')"
-    />
-  } @else {
-    <ngn-input-mask [mask]="mask()">
+    <ngn-input-field>
       <input
-        #input
+        type="time"
         ngnInput
-        type="text"
+        [step]="showSeconds() ? 1 : 60"
         [value]="value()"
-        (blur)="onValueChange(input.value || '')"
+        (valueChange)="onValueChange($event || '')"
       />
-    </ngn-input-mask>
+    </ngn-input-field>
+  } @else {
+    <ngn-input-field>
+      <ngn-input-mask [mask]="mask()">
+        <input
+          #input
+          ngnInput
+          type="text"
+          [value]="value()"
+          (blur)="onValueChange(input.value || '')"
+        />
+      </ngn-input-mask>
+    </ngn-input-field>
   }
 </div>

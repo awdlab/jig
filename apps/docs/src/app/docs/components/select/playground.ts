@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
+import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnSelect } from '@ngneers/controls/select';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
@@ -7,10 +8,12 @@ import type { NgnItem } from '@ngneers/controls/api';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgnSelect, NgnDocsPlayground],
+  imports: [NgnSelect, NgnInputField, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnSelect', component: component() }]">
-      <ngn-select #ref [options]="options" />
+      <ngn-input-field>
+        <ngn-select #ref [options]="options" />
+      </ngn-input-field>
     </ngn-docs-playground>
   `,
 })

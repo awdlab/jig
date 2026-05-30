@@ -1,5 +1,6 @@
 The Select component provides a dropdown selection interface with support for
 filtering, grouping, custom templates, and editable options.
+Wrap `ngn-select` with `ngn-input-field` for field chrome.
 
 ### Basic Usage
 

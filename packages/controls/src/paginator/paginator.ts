@@ -14,6 +14,7 @@ import { NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
+import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnItemView } from '@ngneers/controls/item-view';
 import { NgnSelect } from '@ngneers/controls/select';
 import { throwExp } from '@ngneers/controls/utils';
@@ -29,7 +30,7 @@ import type { NgnItem } from '@ngneers/controls/api';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-paginator',
   templateUrl: './paginator.html',
-  imports: [NgnButton, NgnIcon, NgnItemView, NgnSelect, NgnTemplate, NgStyle, NgnPt],
+  imports: [NgnButton, NgnIcon, NgnItemView, NgnSelect, NgnTemplate, NgStyle, NgnPt, NgnInputField],
   providers: [provideSelf(NgnPaginator)],
 })
 export class NgnPaginator extends NgnBase<'paginator'> {

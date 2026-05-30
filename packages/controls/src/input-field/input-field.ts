@@ -1,7 +1,6 @@
 import {
   booleanAttribute,
   Component,
-  forwardRef,
   inject,
   input,
   ChangeDetectionStrategy,
@@ -16,8 +15,6 @@ import { NgnInput } from '@ngneers/controls/input';
 import { generateElementId } from '@ngneers/controls/utils-ng';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 
-import { INPUT_FIELD } from './token';
-
 import type { CustomKind, IconType } from '@ngneers/controls-custom-types';
 
 /**
@@ -31,19 +28,11 @@ import type { CustomKind, IconType } from '@ngneers/controls-custom-types';
   host: {
     '[inert]': 'disabled()',
   },
-  providers: [
-    {
-      provide: INPUT_FIELD,
-      useExisting: forwardRef(() => NgnInputField),
-    },
-    provideSelf(NgnInputField),
-  ],
+  providers: [provideSelf(NgnInputField)],
 })
 export class NgnInputField extends NgnBase<'inputField'> {
   protected readonly theme = this.injectThemeTemplate(inputFieldControlTemplate, 'host');
   protected readonly i18n = inject(I18n).translations;
-  private readonly _parentInputfield = inject(INPUT_FIELD, { optional: true, skipSelf: true });
-  protected readonly hasParentInputfield = !!this._parentInputfield;
 
   /**
    * Label for the input field
@@ -119,10 +108,6 @@ export class NgnInputField extends NgnBase<'inputField'> {
   }
 
   protected clicked(event: MouseEvent) {
-    // Prevent click event from propagating to parent input field
-    if (this.hasParentInputfield) {
-      return;
-    }
     if (event.target instanceof HTMLElement) {
       // Focus the input element when the input field is clicked
       const inputElement = event.target.querySelector('input, textarea');

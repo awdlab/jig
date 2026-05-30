@@ -1,14 +1,17 @@
 import { ChangeDetectionStrategy, Component, signal, viewChild } from '@angular/core';
 import { NgnInput } from '@ngneers/controls/input';
+import { NgnInputField } from '@ngneers/controls/input-field';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgnInput, NgnDocsPlayground],
+  imports: [NgnInput, NgnInputField, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnInput', component: component() }]">
-      <input #ref ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
+      <ngn-input-field>
+        <input #ref ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
+      </ngn-input-field>
     </ngn-docs-playground>
   `,
 })

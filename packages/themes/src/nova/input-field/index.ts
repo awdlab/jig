@@ -18,7 +18,8 @@ export const inputFieldStyles = createThemePart({
         ${c('invalid')}:disabled,
         .ng-invalid.ng-touched:disabled ${c('root')},
         ${c('root')}:has(.ng-invalid.ng-touched:disabled),
-        ${c('root')}:has(${d('input', 'invalid')}:disabled)
+        ${c('root')}:has(${d('input', 'invalid')}:disabled),
+        ${c('root')}:has([aria-invalid='true'][disabled])
       `;
 
       const invalidReadonlySelector = `
@@ -29,7 +30,8 @@ export const inputFieldStyles = createThemePart({
           ${c('invalid')}[aria-readonly],
           .ng-invalid.ng-touched[aria-readonly] ${c('root')},
           ${c('root')}:has(.ng-invalid.ng-touched[aria-readonly]),
-          ${c('root')}:has(${d('input', 'invalid')}[aria-readonly])
+          ${c('root')}:has(${d('input', 'invalid')}[aria-readonly]),
+          ${c('root')}:has([aria-invalid='true'][aria-readonly='true'])
         `;
 
       function getFloating(klass: string) {
@@ -63,8 +65,7 @@ export const inputFieldStyles = createThemePart({
           &:hover {
             border-color: ${v('color.surface.500')};
           }
-          &:focus-within,
-          :focus {
+          &:focus-within {
             border-color: ${v('color.primary.500')};
             outline-color: ${v('color.primary.500')};
             outline-width: 2px;
@@ -72,33 +73,31 @@ export const inputFieldStyles = createThemePart({
         }
 
         /* disabled */
-        ${c('disabled')}, ${c('root')}:has(${d('input', 'root')}:disabled), :disabled ${c(
+        ${c('disabled')}, ${c('root')}:has(${d('input', 'root')}:disabled), ${c(
           'root'
-        )}, ${c('root')}:has(${d('input', 'root')}[disabled]) {
+        )}:has([role='combobox'][disabled]), :disabled ${c('root')},
+        ${c('root')}:has(${d('input', 'root')}[disabled]) {
           background: ${v('color.disabled.background')};
           border-color: ${v('color.disabled.border')};
           color: ${v('color.disabled.text')};
           &:hover {
             border-color: ${v('color.disabled.border')};
           }
-          &:focus-within,
-          :focus {
+          &:focus-within {
             border-color: ${v('color.disabled.border')};
             outline-width: 0;
           }
         }
 
         /* read-only */
-        ${c('readonly')} ${c('root')}:has(${d('input', 'root')}:read-only), ${c('root')}:has(${d(
-          'input',
+        ${c('readonly')}, ${c('root')}:has(${d('input', 'root')}:read-only), ${c(
           'root'
-        )}[aria-readonly]) {
+        )}:has([aria-readonly='true']) {
           border-color: ${v('color.disabled.border')};
           &:hover {
             border-color: ${v('color.disabled.border')};
           }
-          &:focus-within,
-          :focus {
+          &:focus-within {
             border-color: ${v('color.disabled.border')};
             outline-color: ${v('color.disabled.border')};
           }
@@ -107,7 +106,9 @@ export const inputFieldStyles = createThemePart({
         /* invalid */
         ${c('invalid')}, .ng-invalid.ng-touched ${c('root')}, ${c(
           'root'
-        )}:has(.ng-invalid.ng-touched), ${c('root')}:has(${d('input', 'invalid')}) {
+        )}:has(.ng-invalid.ng-touched), ${c('root')}:has(${d('input', 'invalid')}), ${c(
+          'root'
+        )}:has([aria-invalid='true']) {
           border-color: ${v('color.invalid.border')};
           &:hover {
             border-color: ${v('color.invalid.border')};

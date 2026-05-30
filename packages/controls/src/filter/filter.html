@@ -2,40 +2,55 @@
   <div [ptInt]="this" [ptClass]="'rows'">
     @if (dataType() === 'list') {
       <div [ptInt]="this" [ptClass]="'row'" data-testid="filter-row-list">
-        <ngn-select
+        <ngn-input-field
           [ptInt]="this"
           [ptClass]="'value'"
-          [multiple]="true"
-          [options]="resolvedListOptions()"
-          [value]="$any(templateListSelection())"
           [disabled]="disabled()"
           [readonly]="readonly()"
-          (valueChange)="setListSelection($event)"
-        />
+        >
+          <ngn-select
+            [multiple]="true"
+            [options]="resolvedListOptions()"
+            [value]="$any(templateListSelection())"
+            [disabled]="disabled()"
+            [readonly]="readonly()"
+            (valueChange)="setListSelection($event)"
+          />
+        </ngn-input-field>
       </div>
     } @else {
       @for (c of templateConfig().conditions; track $index; let i = $index; let last = $last) {
         <div [ptInt]="this" [ptClass]="'row'" [attr.data-testid]="'filter-row-' + i">
-          <ngn-select
+          <ngn-input-field
             [ptInt]="this"
             [ptClass]="operatorRequiresValue(c.operator) ? 'operator' : 'value'"
-            [options]="operatorOptions()"
-            [value]="c.operator"
             [disabled]="disabled()"
             [readonly]="readonly()"
-            (valueChange)="setOperator(i, $event)"
-          />
+          >
+            <ngn-select
+              [options]="operatorOptions()"
+              [value]="c.operator"
+              [disabled]="disabled()"
+              [readonly]="readonly()"
+              (valueChange)="setOperator(i, $event)"
+            />
+          </ngn-input-field>
           @if (operatorRequiresValue(c.operator)) {
             @if (isDateType()) {
-              <ngn-calendar
+              <ngn-input-field
                 [ptInt]="this"
                 [ptClass]="'value'"
-                [showTime]="isShowTime()"
-                [value]="parseRawDate(c.rawValue)"
                 [disabled]="disabled()"
                 [readonly]="readonly()"
-                (valueChange)="setDateValue(i, $event)"
-              />
+              >
+                <ngn-calendar
+                  [showTime]="isShowTime()"
+                  [value]="parseRawDate(c.rawValue)"
+                  [disabled]="disabled()"
+                  [readonly]="readonly()"
+                  (valueChange)="setDateValue(i, $event)"
+                />
+              </ngn-input-field>
             } @else {
               <ngn-input-field
                 [ptInt]="this"

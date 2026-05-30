@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnSelect } from '@ngneers/controls/select';
 
 import { exampleData } from '../../helper/data';
@@ -7,21 +8,33 @@ import type { PopoverOptions } from '@ngneers/controls/popover';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgnSelect],
+  imports: [NgnSelect, NgnInputField],
   selector: 'ngn-demo-select-states',
   template: `
     Default:
-    <ngn-select [options]="options" [popoverOptions]="popoverOptions" />
+    <ngn-input-field>
+      <ngn-select [options]="options" [popoverOptions]="popoverOptions" />
+    </ngn-input-field>
     Readonly:
-    <ngn-select [options]="options" [popoverOptions]="popoverOptions" readonly />
+    <ngn-input-field>
+      <ngn-select [options]="options" [popoverOptions]="popoverOptions" readonly />
+    </ngn-input-field>
     Disabled:
-    <ngn-select [options]="options" [popoverOptions]="popoverOptions" disabled />
+    <ngn-input-field>
+      <ngn-select [options]="options" [popoverOptions]="popoverOptions" disabled />
+    </ngn-input-field>
     Invalid:
-    <ngn-select [options]="options" [popoverOptions]="popoverOptions" invalid />
+    <ngn-input-field>
+      <ngn-select [options]="options" [popoverOptions]="popoverOptions" invalid />
+    </ngn-input-field>
     Invalid + Readonly:
-    <ngn-select [options]="options" [popoverOptions]="popoverOptions" invalid readonly />
+    <ngn-input-field>
+      <ngn-select [options]="options" [popoverOptions]="popoverOptions" invalid readonly />
+    </ngn-input-field>
     Invalid + Disabled:
-    <ngn-select [options]="options" [popoverOptions]="popoverOptions" invalid disabled />
+    <ngn-input-field>
+      <ngn-select [options]="options" [popoverOptions]="popoverOptions" invalid disabled />
+    </ngn-input-field>
   `,
   host: { class: 'w-48' },
 })

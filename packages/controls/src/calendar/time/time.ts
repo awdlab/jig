@@ -2,6 +2,7 @@ import { Component, computed, inject, input, output, ChangeDetectionStrategy } f
 import { Platform } from '@ngneers/controls/api/ng';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnInput } from '@ngneers/controls/input';
+import { NgnInputField } from '@ngneers/controls/input-field';
 import { MASKS, NgnInputMask } from '@ngneers/controls/input-mask';
 
 import type { NgnBaseSafe } from '@ngneers/controls/base';
@@ -10,7 +11,7 @@ import type { NgnBaseSafe } from '@ngneers/controls/base';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-calendar-time',
   templateUrl: './time.html',
-  imports: [NgnInput, NgnInputMask],
+  imports: [NgnInput, NgnInputMask, NgnInputField],
 })
 export class CalendarTime {
   protected readonly i18n = inject(I18n).translations;

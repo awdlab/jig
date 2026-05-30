@@ -41,10 +41,10 @@ import type { IconType } from '@ngneers/controls-custom-types';
   templateUrl: './select.html',
   imports: [
     NgnPt,
-    NgnInputField,
     NgnListBox,
     NgnPopover,
     NgnInput,
+    NgnInputField,
     NgTemplateOutlet,
     NgnTemplate,
     NgnItemView,
@@ -163,6 +163,12 @@ export class NgnSelect<
 
   private readonly _listbox = viewChild(NgnListBox);
   private _userChangedEditableInput = false;
+  protected get anchorElement(): HTMLElement {
+    return (
+      (this.element.nativeElement.closest('ngn-input-field') as HTMLElement | null) ??
+      this.element.nativeElement
+    );
+  }
 
   protected readonly filterTextInternal = linkedSignal(this.filterText);
   protected readonly currentHighlightedValue = signal<V | null>(null);

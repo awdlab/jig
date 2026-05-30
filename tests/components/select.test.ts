@@ -12,9 +12,11 @@ test('base', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <ngn-select style="width: 200px;" [options]="inputs().options" [popoverOptions]="inputs().popoverOptions" />
+      <ngn-input-field style="width: 200px;">
+        <ngn-select [options]="inputs().options" [popoverOptions]="inputs().popoverOptions" />
+      </ngn-input-field>
     `,
-      imports: ['select'],
+      imports: ['select', 'inputField'],
     },
     {
       inputs: {
@@ -53,14 +55,15 @@ test('virtual', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <ngn-select
-        style="width: 200px;"
-        [virtual]="true"
-        [itemHeight]="34"
-        [options]="inputs().options"
-        [popoverOptions]="inputs().popoverOptions" />
+      <ngn-input-field style="width: 200px;">
+        <ngn-select
+          [virtual]="true"
+          [itemHeight]="34"
+          [options]="inputs().options"
+          [popoverOptions]="inputs().popoverOptions" />
+      </ngn-input-field>
     `,
-      imports: ['select'],
+      imports: ['select', 'inputField'],
     },
     {
       inputs: {
@@ -103,12 +106,13 @@ test('grouped', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <ngn-select
-        style="width: 200px;"
-        [options]="inputs().options"
-        [popoverOptions]="inputs().popoverOptions" />
+      <ngn-input-field style="width: 200px;">
+        <ngn-select
+          [options]="inputs().options"
+          [popoverOptions]="inputs().popoverOptions" />
+      </ngn-input-field>
     `,
-      imports: ['select'],
+      imports: ['select', 'inputField'],
     },
     {
       inputs: {
@@ -137,22 +141,23 @@ test('templates', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <ngn-select
-      style="width: 200px;"
-      [options]="inputs().options"
-      [popoverOptions]="inputs().popoverOptions">
-        <ng-template #item let-item>
-          👀{{ item?.label }}
-        </ng-template>
-        <ng-template #selectedItem let-item>
-          ✅{{ item?.label }}
-        </ng-template>
-        <ng-template #group let-item>
-          ⭐{{ item?.label }}
-        </ng-template>
-      </ngn-select>
+      <ngn-input-field style="width: 200px;">
+        <ngn-select
+        [options]="inputs().options"
+        [popoverOptions]="inputs().popoverOptions">
+          <ng-template #item let-item>
+            👀{{ item?.label }}
+          </ng-template>
+          <ng-template #selectedItem let-item>
+            ✅{{ item?.label }}
+          </ng-template>
+          <ng-template #group let-item>
+            ⭐{{ item?.label }}
+          </ng-template>
+        </ngn-select>
+      </ngn-input-field>
     `,
-      imports: ['select'],
+      imports: ['select', 'inputField'],
     },
     {
       inputs: {
@@ -181,14 +186,15 @@ test('filter', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <ngn-select
-        style="width: 200px;"
-        [options]="inputs().options"
-        [popoverOptions]="inputs().popoverOptions"
-        [filter]="inputs().filter"
-      />
+      <ngn-input-field style="width: 200px;">
+        <ngn-select
+          [options]="inputs().options"
+          [popoverOptions]="inputs().popoverOptions"
+          [filter]="inputs().filter"
+        />
+      </ngn-input-field>
     `,
-      imports: ['select'],
+      imports: ['select', 'inputField'],
     },
     {
       inputs: {
@@ -230,15 +236,16 @@ test('editable', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <ngn-select
-        style="width: 200px;"
-        [options]="inputs().options"
-        [popoverOptions]="inputs().popoverOptions"
-        [editable]="true"
-        (valueChange)="output('value', $event)"
-      />
+      <ngn-input-field style="width: 200px;">
+        <ngn-select
+          [options]="inputs().options"
+          [popoverOptions]="inputs().popoverOptions"
+          [editable]="true"
+          (valueChange)="output('value', $event)"
+        />
+      </ngn-input-field>
     `,
-      imports: ['select'],
+      imports: ['select', 'inputField'],
     },
     {
       inputs: {
@@ -276,13 +283,14 @@ test('multiple', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <ngn-select
-        style="width: 200px;"
-        [multiple]="true"
-        [options]="inputs().options"
-        [popoverOptions]="inputs().popoverOptions" />
+      <ngn-input-field style="width: 200px;">
+        <ngn-select
+          [multiple]="true"
+          [options]="inputs().options"
+          [popoverOptions]="inputs().popoverOptions" />
+      </ngn-input-field>
     `,
-      imports: ['select'],
+      imports: ['select', 'inputField'],
     },
     {
       inputs: {
@@ -336,9 +344,11 @@ test('invalid', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <ngn-select style="width: 200px;" [invalid]="inputs().invalid" [options]="inputs().options" [popoverOptions]="inputs().popoverOptions" />
+      <ngn-input-field style="width: 200px;">
+        <ngn-select [invalid]="inputs().invalid" [options]="inputs().options" [popoverOptions]="inputs().popoverOptions" />
+      </ngn-input-field>
     `,
-      imports: ['select'],
+      imports: ['select', 'inputField'],
     },
     {
       inputs: {

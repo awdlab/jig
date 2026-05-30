@@ -1,20 +1,23 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnSelect } from '@ngneers/controls/select';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgnSelect],
+  imports: [NgnSelect, NgnInputField],
   selector: 'ngn-demo-select-multiple',
   template: `
-    <ngn-select
-      #select
-      [multiple]="true"
-      [filter]="true"
-      [options]="options"
-      (valueChange)="log($event)"
-    />
+    <ngn-input-field>
+      <ngn-select
+        #select
+        [multiple]="true"
+        [filter]="true"
+        [options]="options"
+        (valueChange)="log($event)"
+      />
+    </ngn-input-field>
   `,
   host: { class: 'w-48' },
 })

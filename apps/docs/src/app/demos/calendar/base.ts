@@ -1,13 +1,16 @@
 import { DatePipe } from '@angular/common';
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NgnCalendar } from '@ngneers/controls/calendar';
+import { NgnInputField } from '@ngneers/controls/input-field';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-calendar-base',
-  imports: [NgnCalendar, DatePipe],
+  imports: [NgnCalendar, NgnInputField, DatePipe],
   template: `
-    <ngn-calendar [inputId]="'test-input'" [value]="value()" (valueChange)="value.set($event)" />
+    <ngn-input-field>
+      <ngn-calendar [inputId]="'test-input'" [value]="value()" (valueChange)="value.set($event)" />
+    </ngn-input-field>
     {{ value() | date: 'medium' }}
   `,
 })

@@ -1,6 +1,5 @@
 import { NgnDocsInputMaskPlayground } from './playground';
 import { Demo_InputMask_Base } from '../../../demos/input-mask/base';
-import { Demo_InputMask_InputField } from '../../../demos/input-mask/input-field';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -14,7 +13,7 @@ export const InputMaskPage: NgnDocsPage = {
 
       title: 'Examples',
       mdFile: 'components/input-mask/index.md',
-      components: [Demo_InputMask_Base, Demo_InputMask_InputField],
+      components: [Demo_InputMask_Base],
     },
     {
       kind: 'component',

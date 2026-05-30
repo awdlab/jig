@@ -9,8 +9,12 @@ export const calendarStyles = createThemePart({
       ${c('root')} {
         width: fit-content;
       }
-      ${c('input-field')} ${d('input-field', 'root')} {
+      ${c('input-field')} {
         display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        outline: none;
       }
       ${c('input')} {
         cursor: text;
@@ -18,9 +22,6 @@ export const calendarStyles = createThemePart({
       }
       ${c('input')}::-webkit-calendar-picker-indicator {
         display: none; // Hide the calendar icon in WebKit browsers
-      }
-      ${c('input')} ${d('input-field', 'root')} {
-        display: flex;
       }
       ${c('details')} {
         display: flex;

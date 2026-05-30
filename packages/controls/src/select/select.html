@@ -1,4 +1,4 @@
-<ngn-input-field
+<div
   [ptInt]="this"
   [ptClass]="{
     input: true,
@@ -7,12 +7,6 @@
   (click)="show()"
   (keydown)="onKeyDown($event)"
   #field
-  [label]="label()"
-  [labelledBy]="labelledBy()"
-  [inputId]="inputId()"
-  [invalid]="invalid()"
-  [readonly]="readonly()"
-  [disabled]="disabled()"
   [tabindex]="editable() || disabled() ? -1 : tabindex()"
   (focusout)="potentiallyBlurred()"
 >
@@ -41,6 +35,7 @@
       [attr.aria-controls]="inputId() + '_listbox'"
       [attr.aria-invalid]="invalid() ? 'true' : null"
       [attr.aria-readonly]="readonly() ? 'true' : null"
+      [attr.aria-labelledby]="labelledBy()"
       [attr.disabled]="disabled() ? '' : null"
       [id]="inputId()"
     >
@@ -67,11 +62,11 @@
     [icon]="dropdownIcon()"
     defaultIcon="dropdown-toggle"
   />
-</ngn-input-field>
+</div>
 <ngn-popover
   #popover
   [options]="appliedPopoverOptions()"
-  [anchor]="field.element.nativeElement"
+  [anchor]="anchorElement"
   (keydown)="onKeyDown($event)"
   (closed)="onPopoverClosed()"
   [id]="inputId() + '_popover'"

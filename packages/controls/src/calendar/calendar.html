@@ -1,24 +1,21 @@
 @if (inline()) {
   <ng-container *ngTemplateOutlet="calendar"></ng-container>
 } @else {
-  <ngn-input-field
+  <div
     #field
     [ptInt]="this"
     [ptClass]="'input-field'"
     (click)="show()"
     (keydown)="onKeyDown($event)"
-    [label]="label()"
-    [inputId]="inputId()"
-    [invalid]="invalid()"
-    [labelledBy]="labelledBy()"
     (focusout)="potentiallyBlurred()"
-    [disabled]="disabled()"
+    [tabindex]="disabled() ? -1 : 0"
   >
     <input
       [ptInt]="this"
       [ptClass]="'input'"
       ngnInput
       #input
+      [invalid]="invalid()"
       (valueChange)="stringValueChange($event)"
       [type]="showTime() ? 'datetime-local' : 'date'"
       [value]="valueStr()"
@@ -26,10 +23,10 @@
       [readOnly]="readonly()"
     />
     <ngn-icon defaultIcon="calendar-trigger" />
-  </ngn-input-field>
+  </div>
   <ngn-popover
     #popover
-    [anchor]="field.element.nativeElement"
+    [anchor]="anchorElement"
     [id]="inputId() + '_popover'"
     (closing)="potentiallyBlurred()"
   >
@@ -96,38 +93,42 @@
 
 <ng-template #defaultYearTemplate [ngnTemplate]="templateTypes.year" let-y>
   @defer {
-    <ngn-select
-      [editable]="true"
-      [value]="year() + ''"
-      (valueChange)="y.change(+($event || 0))"
-      [options]="yearOptions"
-      [virtual]="true"
-      [itemHeight]="40"
-      [popoverOptions]="{ sizeConstraints: { maxHeight: '300px' } }"
-      [ptInt]="this"
-      [ptClass]="'current-year'"
-      [scrollToSelectedItemOnOpen]="'center'"
-      [editableAutoFilter]="false"
-      [tabindex]="-1"
-    >
-      <input ngnInput type="number" [attr.aria-label]="i18n['calendar_selectYear']()" />
-    </ngn-select>
+    <ngn-input-field>
+      <ngn-select
+        [editable]="true"
+        [value]="year() + ''"
+        (valueChange)="y.change(+($event || 0))"
+        [options]="yearOptions"
+        [virtual]="true"
+        [itemHeight]="40"
+        [popoverOptions]="{ sizeConstraints: { maxHeight: '300px' } }"
+        [ptInt]="this"
+        [ptClass]="'current-year'"
+        [scrollToSelectedItemOnOpen]="'center'"
+        [editableAutoFilter]="false"
+        [tabindex]="-1"
+      >
+        <input ngnInput type="number" [attr.aria-label]="i18n['calendar_selectYear']()" />
+      </ngn-select>
+    </ngn-input-field>
   }
 </ng-template>
 
 <ng-template #defaultMonthTemplate [ngnTemplate]="templateTypes.month" let-m>
   @defer {
-    <ngn-select
-      [value]="m.month"
-      (valueChange)="m.change($event!)"
-      [options]="monthOptions()"
-      [popoverOptions]="{
-        sizeConstraints: { maxHeight: '300px', width: '130px', maxWidth: '130px' },
-      }"
-      [ptInt]="this"
-      [ptClass]="'current-month'"
-      [scrollToSelectedItemOnOpen]="'center'"
-      [tabindex]="-1"
-    />
+    <ngn-input-field>
+      <ngn-select
+        [value]="m.month"
+        (valueChange)="m.change($event!)"
+        [options]="monthOptions()"
+        [popoverOptions]="{
+          sizeConstraints: { maxHeight: '300px', width: '130px', maxWidth: '130px' },
+        }"
+        [ptInt]="this"
+        [ptClass]="'current-month'"
+        [scrollToSelectedItemOnOpen]="'center'"
+        [tabindex]="-1"
+      />
+    </ngn-input-field>
   }
 </ng-template>

@@ -12,7 +12,7 @@ export const selectStyles = createThemePart({
       ${c('root')} {
         --icon-size: 14px;
       }
-      ${c('input')} ${d('input-field', 'root')} {
+      ${c('input')} {
         gap: ${v('size.padding.sm')};
         &:not(:has([aria-readonly])):not(:has([disabled])) {
           cursor: pointer;
@@ -29,7 +29,7 @@ export const selectStyles = createThemePart({
       ${c('filter-icon')} {
         color: ${v('color.surface.500')};
       }
-      ${c('input-editable')} ${d('input-field', 'root')} {
+      ${c('input-editable')} {
         cursor: text;
       }
       ${c('filter')} {

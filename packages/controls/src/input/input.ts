@@ -6,33 +6,25 @@ import {
   input,
   model,
   runInInjectionContext,
-  signal,
 } from '@angular/core';
 import { domEventSignal } from '@ngneers/controls/api/ng';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
-import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 
 /**
  * @category control
  */
 @Directive({
   selector: 'input[ngnInput], textarea[ngnInput]',
-  host: {
-    '[class]': '(hasParentInputfield() ? "" : ` ${inputFieldTheme.class("root")}`)',
-  },
   providers: [provideSelf(NgnInput)],
   exportAs: 'ngnInput',
 })
 export class NgnInput extends NgnBase<'input'> implements AfterViewInit {
-  protected readonly hasParentInputfield = signal(false);
-
   protected readonly theme = this.injectThemeTemplate(inputControlTemplate, {
     root: true,
     invalid: () => this.invalid(),
     empty: () => !this.value(),
   });
-  protected readonly inputFieldTheme = this.injectThemeTemplate<true>(inputFieldControlTemplate);
   /**
    * Explicitly apply invalid state styling
    * @default false
@@ -44,7 +36,6 @@ export class NgnInput extends NgnBase<'input'> implements AfterViewInit {
   private readonly _input = this.element.nativeElement as HTMLInputElement;
 
   public ngAfterViewInit() {
-    this.hasParentInputfield.set(!!this.element.nativeElement.closest('ngn-input-field'));
     const changeEvent = domEventSignal(
       this.element.nativeElement as HTMLInputElement,
       'change',

@@ -24,18 +24,21 @@
           </div>
         }
         @case ('date') {
-          <ngn-calendar [label]="label" [value]="value()" (valueChange)="value.set($event)" />
+          <ngn-input-field [label]="label" [labelKind]="'on'">
+            <ngn-calendar [value]="value()" (valueChange)="value.set($event)" />
+          </ngn-input-field>
         }
       }
     }
     @case ('literalUnion') {
-      <ngn-select
-        [value]="value()"
-        [label]="label"
-        (valueChange)="value.set($event)"
-        [options]="dataType.values"
-        [editable]="dataType.allowCustomValue"
-      />
+      <ngn-input-field [label]="label" [labelKind]="'on'">
+        <ngn-select
+          [value]="value()"
+          (valueChange)="value.set($event)"
+          [options]="dataType.values"
+          [editable]="dataType.allowCustomValue"
+        />
+      </ngn-input-field>
     }
   }
 }
