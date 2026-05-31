@@ -104,7 +104,7 @@ export class NgnListBox<
     const v = this.value();
     return (Array.isArray(v) ? v : v ? [v] : []) as NgnItemsValue<Items>[];
   });
-  protected readonly currentHighlightedValue = signal<NgnItemsValue<Items> | null>(null);
+  public readonly currentHighlightedValue = signal<NgnItemsValue<Items> | null>(null);
   protected readonly filteredItems = asyncComputed(async () => {
     const filter = !!this.filter();
     const appliedFilterOptions = this._appliedFilterOptions();
@@ -168,33 +168,34 @@ export class NgnListBox<
       event.preventDefault();
       const flattenedItems = mapToItems(this.filteredItems());
       this.currentHighlightedValue.update(currentValue => {
-        const currentHighlightIndex = flattenedItems.findIndex(
-          option => option.value === currentValue
-        );
-        if (flattenedItems.length === 0) {
+        const enabledItems = flattenedItems.filter(item => !item.disabled);
+        if (enabledItems.length === 0) {
           return null;
         }
+        const currentHighlightIndex = enabledItems.findIndex(
+          option => option.value === currentValue
+        );
         const currentIndex =
           currentHighlightIndex >= 0
             ? currentHighlightIndex
-            : flattenedItems.findIndex(
+            : enabledItems.findIndex(
                 option => option.value === this.valueArray()[this.valueArray().length - 1]
               );
 
         if (currentIndex === -1) {
           return event.key === 'ArrowDown'
-            ? flattenedItems[0]?.value
-            : flattenedItems[flattenedItems.length - 1]?.value;
+            ? enabledItems[0]?.value
+            : enabledItems[enabledItems.length - 1]?.value;
         }
 
         const nextIndex = event.key === 'ArrowDown' ? currentIndex + 1 : currentIndex - 1;
         if (nextIndex < 0) {
-          return flattenedItems[flattenedItems.length - 1]?.value;
+          return enabledItems[enabledItems.length - 1]?.value;
         }
-        if (nextIndex >= flattenedItems.length) {
-          return flattenedItems[0]?.value;
+        if (nextIndex >= enabledItems.length) {
+          return enabledItems[0]?.value;
         }
-        return flattenedItems[nextIndex]?.value;
+        return enabledItems[nextIndex]?.value;
       });
     } else if (this.selectable() && (event.key === 'Enter' || event.key === ' ')) {
       const currentHighlightedValue = this.currentHighlightedValue();

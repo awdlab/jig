@@ -30,6 +30,13 @@ Wrap `ngn-select` with `ngn-input-field` for field chrome.
 
 {{ demo: Demo_Select_EditableCustom }}
 
+### Disabled Items
+
+Individual options can be disabled via the `disabled` property on `NgnItem`.
+Disabled items are skipped during keyboard navigation and cannot be selected.
+
+{{ demo: Demo_Select_DisabledItems }}
+
 ### States
 
 {{ demo: Demo_Select_States }}

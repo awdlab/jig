@@ -5,6 +5,7 @@ import {
   computed,
   contentChild,
   effect,
+  ElementRef,
   input,
   linkedSignal,
   type OutputRefSubscription,
@@ -63,6 +64,7 @@ export class NgnSelect<
   protected readonly theme = this.injectThemeTemplate(selectControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
   private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);
+  private readonly _field = viewChild.required<ElementRef<HTMLElement>>('field');
   private readonly _customEditableInput = contentChild(NgnInput);
   private _customEditableSub?: OutputRefSubscription;
 
@@ -260,7 +262,9 @@ export class NgnSelect<
   }
 
   protected onKeyDown(event: KeyboardEvent) {
-    this._listbox()?.onKeyDown(event);
+    if (this._popover().open()) {
+      this._listbox()?.onKeyDown(event);
+    }
     // if event is not handled by the listbox, we can handle it here
     if (!event.defaultPrevented) {
       if (event.key === 'Enter') {
@@ -271,7 +275,7 @@ export class NgnSelect<
         event.stopPropagation();
         event.preventDefault();
       }
-      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      if (this._popover().open() && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
         if (this.readonly() || this.disabled()) {
           return;
         }
@@ -292,6 +296,7 @@ export class NgnSelect<
   }
 
   protected onPopoverClosed() {
+    this._listbox()?.currentHighlightedValue.set(null);
     this.potentiallyBlurred();
     this.currentHighlightedValue.set(null);
     const filter = this.filter();

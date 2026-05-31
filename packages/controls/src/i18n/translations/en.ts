@@ -85,4 +85,10 @@ export default {
   drawer: {
     close: 'Close',
   },
+  select: {
+    filterOptions: 'Filter options',
+  },
+  listBox: {
+    noItemsFound: 'No items found',
+  },
 };

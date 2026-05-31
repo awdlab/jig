@@ -22,6 +22,12 @@ export const selectStyles = createThemePart({
           cursor: default;
         }
       }
+      ${d(
+        'input-field',
+        'root'
+      )}:has([role='combobox']:not([disabled]):not([aria-readonly='true'])) {
+        cursor: pointer;
+      }
       ${c('icon')} {
         color: ${v('color.surface.500')};
         cursor: pointer;

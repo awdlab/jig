@@ -108,12 +108,17 @@ export class NgnInputField extends NgnBase<'inputField'> {
   }
 
   protected clicked(event: MouseEvent) {
-    if (event.target instanceof HTMLElement) {
-      // Focus the input element when the input field is clicked
-      const inputElement = event.target.querySelector('input, textarea');
-      if (inputElement) {
-        (inputElement as HTMLInputElement | HTMLTextAreaElement).focus();
-      }
+    if (!(event.target instanceof HTMLElement)) return;
+
+    const inputElement = event.target.querySelector('input, textarea');
+    if (inputElement) {
+      (inputElement as HTMLInputElement | HTMLTextAreaElement).focus();
+      return;
+    }
+
+    const focusable = this.element.nativeElement.querySelector<HTMLElement>('[tabindex="0"]');
+    if (focusable && !focusable.contains(event.target)) {
+      focusable.click();
     }
   }
 

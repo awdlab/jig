@@ -1,5 +1,6 @@
 import { NgnDocsSelectPlayground } from './playground';
 import { Demo_Select_Base } from '../../../demos/select/base';
+import { Demo_Select_DisabledItems } from '../../../demos/select/disabled-items';
 import { Demo_Select_Editable } from '../../../demos/select/editable';
 import { Demo_Select_EditableCustom } from '../../../demos/select/editable-custom';
 import { Demo_Select_Filter } from '../../../demos/select/filter';
@@ -29,6 +30,7 @@ export const SelectPage: NgnDocsPage = {
         Demo_Select_EditableCustom,
         Demo_Select_Multiple,
         Demo_Select_States,
+        Demo_Select_DisabledItems,
       ],
     },
     {

@@ -15,6 +15,7 @@ export const listBoxControlTemplate = createControlTemplate({
     'scroller',
     'item-selected',
     'item-highlighted',
+    'item-disabled',
   ],
   dependencies: [checkboxControlTemplate, scrollerControlTemplate],
 });

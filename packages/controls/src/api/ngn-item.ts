@@ -8,6 +8,7 @@ export type NgnItem<T = any, V = any> = {
   icon?: IconType;
   value: V;
   testId?: string;
+  disabled?: boolean;
   items?: NgnItem<T, V>[];
 };
 

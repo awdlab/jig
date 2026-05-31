@@ -19,6 +19,10 @@ export const listBoxStyles = createThemePart({
         display: inline-block;
         width: 100%;
       }
+      ${c('item-disabled')} {
+        pointer-events: none;
+        opacity: 0.5;
+      }
       ${c('root')}:has(${c('empty')}) ${c('scroller')} {
         display: none;
       }

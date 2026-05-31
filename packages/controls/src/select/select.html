@@ -80,6 +80,7 @@
             ngnInput
             [value]="filterTextInternal()"
             (valueChange)="filterTextInternal.set($event)"
+            [attr.aria-label]="i18n['select_filterOptions']()"
           />
           <ngn-icon
             [ptInt]="this"

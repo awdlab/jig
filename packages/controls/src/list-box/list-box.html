@@ -10,9 +10,11 @@
 />
 
 @if (!displayedItems().length) {
-  <ng-container
-    *ngTemplateOutlet="emptyTemplate() || defaultEmptyTemplate; context: {}"
-  ></ng-container>
+  <div role="status">
+    <ng-container
+      *ngTemplateOutlet="emptyTemplate() || defaultEmptyTemplate; context: {}"
+    ></ng-container>
+  </div>
 }
 
 <ng-template #usedItemTemplate [ngnTemplate]="scroller.templateTypes.item" let-itemOrGroup>
@@ -20,18 +22,29 @@
   <div
     [ngnScrollerItem]="itemOrGroup"
     [id]="inputId() + '_option_' + itemOrGroup.value"
-    [attr.role]="'option'"
-    [aria-selected]="selectable() ? valueArray().includes(itemOrGroup.value) : null"
+    [attr.role]="itemOrGroup.items ? 'group' : 'option'"
+    [attr.aria-label]="itemOrGroup.items ? maybeCallback(itemOrGroup.label) : null"
+    [aria-selected]="
+      selectable() && !itemOrGroup.items ? valueArray().includes(itemOrGroup.value) : null
+    "
+    [attr.aria-disabled]="itemOrGroup.disabled ? 'true' : null"
     [ptInt]="this"
     [ptClass]="{
       item: !itemOrGroup.items,
       group: !!itemOrGroup.items,
       'item-selected': valueArray().includes(itemOrGroup.value),
       'item-highlighted': itemOrGroup.value === currentHighlightedValue(),
+      'item-disabled': !!itemOrGroup.disabled,
     }"
-    (click)="!itemOrGroup.items && selectable() && onSelect(itemOrGroup.value)"
+    (click)="
+      !itemOrGroup.items && !itemOrGroup.disabled && selectable() && onSelect(itemOrGroup.value)
+    "
     (mouseenter)="
-      !itemOrGroup.items && selectable() && selectOnHover() && onSelect(itemOrGroup.value)
+      !itemOrGroup.items &&
+        !itemOrGroup.disabled &&
+        selectable() &&
+        selectOnHover() &&
+        onSelect(itemOrGroup.value)
     "
   >
     @if (showCheckboxes() && !itemOrGroup.items) {
@@ -74,6 +87,6 @@
 
 <ng-template #defaultEmptyTemplate>
   <span [ptInt]="this" [ptClass]="'empty'" [attr.data-testid]="'empty'">{{
-    'No items found'
+    i18n['listBox_noItemsFound']()
   }}</span>
 </ng-template>
