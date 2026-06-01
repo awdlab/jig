@@ -64,7 +64,7 @@ type RenderItem<T> =
   providers: [provideSelf(NgnItemView)],
   host: {
     '[attr.role]': '"list"',
-    '[style.maxWidth.px]': 'maxWidth()',
+    '[style.--ngn-item-view-content-width]': 'contentWidthPx()',
   },
 })
 export class NgnItemView<T extends object, IdField extends keyof T>
@@ -268,11 +268,15 @@ export class NgnItemView<T extends object, IdField extends keyof T>
     return res;
   });
 
-  protected readonly maxWidth = computed<number>(() => {
-    return Math.ceil(
+  /** Full content width as `px`; `null` until measured (respects sameWidthItems optimization). */
+  protected readonly contentWidthPx = computed<string | null>(() => {
+    const allItemsWidth = Math.ceil(
       this._renderedItemWidths().reduce((sum, w) => sum + w, 0) +
         this._themeGap() * Math.max(0, this.items().length - 1)
     );
+    return Number.isFinite(allItemsWidth) && allItemsWidth > 0 && allItemsWidth < 100_000
+      ? `${allItemsWidth}px`
+      : null;
   });
 
   public ngAfterViewInit(): void {

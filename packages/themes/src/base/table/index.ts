@@ -75,15 +75,15 @@ export const tableStyles = createThemePart({
           var(--ngn-table-column-index) + var(--ngn-table-selection-offset, 0)
         );
       }
-      ${c('root')}:not(${c('virtual')}) {
-        ${c('cell')} {
-          &:not(:has(*)) {
-            height: min-content;
-          }
-          &:has(*) {
-            height: 100%;
-          }
-        }
+      /* Non-virtual rows have no fixed row height, so each cell would size to
+         its own content. Stretch every cell to the row's grid track and center
+         content vertically — this keeps all cells in a row the same height
+         regardless of whether they hold text or an element. */
+      ${c('root')}:not(${c('virtual')}) ${c('cell')} {
+        height: auto;
+        align-self: stretch;
+        display: flex;
+        align-items: center;
       }
 
       /* ── Selection ───────────────────────────────────────────────────── */

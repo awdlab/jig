@@ -11,7 +11,10 @@ export const itemViewStyles = createThemePart({
       }
       ${c('root')} {
         display: flex;
-        width: 100%;
+        /* Content width set by the component (see NgnItemView host); max-width keeps
+           overflow working when constrained. */
+        width: var(--ngn-item-view-content-width, 100%);
+        max-width: 100%;
         white-space: nowrap;
         overflow: hidden;
       }

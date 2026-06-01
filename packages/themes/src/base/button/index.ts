@@ -8,6 +8,8 @@ export const buttonStyles = createThemePart({
     css: ({ v, c }) => css`
       ${c('root')} {
         font-family: inherit;
+        display: flex;
+        align-items: center;
       }
     `,
   },

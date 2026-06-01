@@ -22,6 +22,7 @@ export const buttonStyles = createThemePart({
         border-style: none;
         font-weight: ${v('font.weight.semibold')};
         padding: var(--padding);
+        gap: ${v('size.padding.sm')};
         cursor: pointer;
         &:disabled {
           cursor: default;

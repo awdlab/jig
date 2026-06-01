@@ -1,4 +1,85 @@
-Startpage
-<br />
-<br />
-<button ngnButton [kind]="'primary'" (click)="getStarted()">Get Started</button>
+<!-- Hero -->
+<section
+  class="bg-[linear-gradient(to_bottom,var(--ngn-color-primary-50),var(--ngn-color-background))] px-(--ngn-size-padding-xl) py-16 text-center"
+>
+  <h1
+    class="mx-auto mb-(--ngn-size-padding-lg) max-w-[720px] text-[3rem] font-(--ngn-font-weight-bold) text-(--ngn-color-primary-700)"
+  >
+    Build Beautiful Apps
+    <br />
+    with ngn-controls
+  </h1>
+  <p
+    class="mx-auto mb-8 max-w-[640px] text-(length:--ngn-font-size-md) leading-relaxed text-(--ngn-color-surface-600)"
+  >
+    A professional, accessible Angular component library for modern web applications. Engineered for
+    performance and systematic scaling.
+  </p>
+  <div class="flex justify-center gap-(--ngn-size-padding-lg)">
+    <button ngnButton kind="primary" (click)="getStarted()">Get Started</button>
+    <button ngnButton kind="secondary" (click)="getStarted()">View Components</button>
+  </div>
+</section>
+
+<!-- Dashboard showcase -->
+<section class="px-8 py-8">
+  <div class="card overflow-hidden shadow-(--ngn-shadow-md)">
+    <ngn-tabs>
+      <ngn-tab tabId="sales-crm">
+        <ng-template #header>
+          <span class="flex items-center gap-(--ngn-size-padding-sm)">
+            <ngn-icon [icon]="briefcaseIcon" /> Sales CRM
+          </span>
+        </ng-template>
+        <ng-template #content>
+          <ngn-docs-sales-crm />
+        </ng-template>
+      </ngn-tab>
+
+      <ngn-tab tabId="analytics">
+        <ng-template #header>
+          <span class="flex items-center gap-(--ngn-size-padding-sm)">
+            <ngn-icon [icon]="chartIcon" /> Analytics Dashboard
+          </span>
+        </ng-template>
+        <ng-template #content>
+          <div
+            class="p-12 text-center text-(length:--ngn-font-size-md) text-(--ngn-color-surface-500)"
+          >
+            Analytics Dashboard — coming soon.
+          </div>
+        </ng-template>
+      </ngn-tab>
+
+      <ngn-tab tabId="project-board">
+        <ng-template #header>
+          <span class="flex items-center gap-(--ngn-size-padding-sm)">
+            <ngn-icon [icon]="clipboardIcon" /> Project Board
+          </span>
+        </ng-template>
+        <ng-template #content>
+          <div
+            class="p-12 text-center text-(length:--ngn-font-size-md) text-(--ngn-color-surface-500)"
+          >
+            Project Board — coming soon.
+          </div>
+        </ng-template>
+      </ngn-tab>
+    </ngn-tabs>
+  </div>
+</section>
+
+<!-- Page footer -->
+<footer
+  class="mt-auto flex flex-col gap-(--ngn-size-padding-md) border-t border-(--ngn-color-surface-200) px-8 py-6 text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600) md:flex-row md:items-center md:justify-between"
+>
+  <span class="font-(--ngn-font-weight-semibold) text-(--ngn-color-text)">
+    © 2024 ngn-controls. Built for performance.
+  </span>
+  <nav class="flex flex-wrap gap-(--ngn-size-padding-lg)">
+    <a class="cursor-pointer text-(--ngn-color-primary-500) hover:underline">Privacy Policy</a>
+    <a class="cursor-pointer text-(--ngn-color-primary-500) hover:underline">Terms of Service</a>
+    <a class="cursor-pointer text-(--ngn-color-primary-500) hover:underline">Changelog</a>
+    <a class="cursor-pointer text-(--ngn-color-primary-500) hover:underline">Contact</a>
+  </nav>
+</footer>

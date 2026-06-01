@@ -37,3 +37,12 @@ code {
   border: 1px solid var(--ngn-color-surface-200);
   border-radius: var(--ngn-size-rounded-lg);
 }
+
+// Reusable surface card. Lives in global styles so it crosses component
+// view-encapsulation boundaries (start shell + its child components).
+// Padding/shadow are applied per-instance via utilities, since they vary.
+.card {
+  background: var(--ngn-color-surface-25);
+  border: 1px solid var(--ngn-color-surface-200);
+  border-radius: var(--ngn-size-rounded-lg);
+}

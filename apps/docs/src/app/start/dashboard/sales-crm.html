@@ -1,0 +1,295 @@
+<div class="p-(--ngn-size-padding-xl)">
+  <!-- Header: breadcrumb + title + date range + search -->
+  <div
+    class="mb-(--ngn-size-padding-xl) flex flex-col gap-(--ngn-size-padding-lg) md:flex-row md:items-start md:justify-between"
+  >
+    <div>
+      <ngn-breadcrumb [items]="breadcrumbItems" />
+      <h2
+        class="mt-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xl) font-(--ngn-font-weight-bold) text-(--ngn-color-text)"
+      >
+        Sales Overview
+      </h2>
+    </div>
+    <div class="flex flex-wrap items-center gap-(--ngn-size-padding-md)">
+      <ngn-input-field class="w-56">
+        <ngn-icon [icon]="calendarIcon" class="mr-1" />
+        <ngn-select [options]="dateRangeOptions" [(value)]="dateRange" />
+      </ngn-input-field>
+      <ngn-input-field class="w-64">
+        <ngn-icon [icon]="searchIcon" />
+        <input
+          ngnInput
+          placeholder="Search accounts..."
+          [value]="search()"
+          (valueChange)="onSearch($event)"
+        />
+      </ngn-input-field>
+    </div>
+  </div>
+
+  <!-- KPI cards -->
+  <div
+    class="mb-(--ngn-size-padding-xl) grid grid-cols-1 gap-(--ngn-size-padding-lg) sm:grid-cols-2 lg:grid-cols-4"
+  >
+    @for (kpi of kpis; track kpi.label) {
+      <div class="card p-(--ngn-size-padding-xl)" [ngnTooltip]="kpi.tooltip">
+        <div class="mb-(--ngn-size-padding-md) flex items-center justify-between">
+          <span
+            class="text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-600) uppercase"
+          >
+            {{ kpi.label }}
+          </span>
+          <span [style.color]="colorVar(kpi.iconColor)">
+            <ngn-icon [icon]="kpi.icon" />
+          </span>
+        </div>
+        <div
+          class="mb-(--ngn-size-padding-sm) text-(length:--ngn-font-size-2xl) font-(--ngn-font-weight-bold) text-(--ngn-color-text)"
+        >
+          {{ kpi.value }}
+        </div>
+        <div
+          class="text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-medium)"
+          [style.color]="colorVar(kpi.trendColor, 600)"
+        >
+          {{ kpi.trend }}
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Opportunities + Lead capture -->
+  <div
+    class="mb-(--ngn-size-padding-xl) grid grid-cols-1 gap-(--ngn-size-padding-xl) lg:grid-cols-5"
+  >
+    <div class="card flex flex-col p-(--ngn-size-padding-xl) lg:col-span-3">
+      <div class="mb-(--ngn-size-padding-lg) flex items-center justify-between">
+        <h3
+          class="text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
+        >
+          Recent Opportunities
+        </h3>
+        <button ngnButton kind="icon" aria-label="Export opportunities" ngnTooltip="Export to CSV">
+          <ngn-icon [icon]="downloadIcon" />
+        </button>
+      </div>
+
+      <div class="sales-crm-table-area relative grow">
+        <ngn-table #table [rows]="pagedRows()" [fieldId]="'id'">
+          <ng-template #header>
+            <tr ngnTableHeadTr>
+              <th scope="col" [ngnTableTh]="table.column('company')">Company</th>
+              <th scope="col" [ngnTableTh]="table.column('value')">Value</th>
+              <th scope="col" [ngnTableTh]="table.column('status')">Status</th>
+              <th scope="col" [ngnTableTh]="table.column('owner')">Owner</th>
+              <th scope="col" [ngnTableTh]="'actions'">Actions</th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
+            <tr [ngnTableBodyTr]="row">
+              <td ngnTableTd>
+                <div class="flex items-center gap-(--ngn-size-padding-md)">
+                  <ngn-avatar
+                    [initials]="row.data.initials"
+                    [bgColor]="row.data.bgColor"
+                    [size]="32"
+                  />
+                  <span
+                    class="font-(--ngn-font-weight-semibold)"
+                    [ngnTooltip]="row.data.company"
+                    ngnTooltipShowOnlyIfTruncated
+                  >
+                    {{ row.data.company }}
+                  </span>
+                </div>
+              </td>
+              <td ngnTableTd>{{ currency(row.data.value) }}</td>
+              <td ngnTableTd>
+                <ngn-tag [color]="row.data.statusColor">{{ row.data.status }}</ngn-tag>
+              </td>
+              <td ngnTableTd>
+                <div class="flex items-center gap-(--ngn-size-padding-md)">
+                  <ngn-avatar
+                    [initials]="row.data.ownerInitials"
+                    [bgColor]="row.data.ownerColor"
+                    [size]="32"
+                  />
+                  <span>{{ row.data.owner }}</span>
+                </div>
+              </td>
+              <td ngnTableTd>
+                <button
+                  ngnButton
+                  kind="icon"
+                  #menuAnchor
+                  aria-label="Row actions"
+                  (click)="rowMenu.show()"
+                >
+                  <ngn-icon [icon]="dotsIcon" />
+                </button>
+                <ngn-menu
+                  #rowMenu
+                  [popover]="true"
+                  [anchor]="menuAnchor"
+                  [items]="rowMenuItems(row.data)"
+                />
+              </td>
+            </tr>
+          </ng-template>
+        </ngn-table>
+      </div>
+
+      <!-- Filter chips + pagination, directly below the table -->
+      <div
+        class="mt-(--ngn-size-padding-lg) flex flex-col gap-(--ngn-size-padding-lg) border-t border-(--ngn-color-surface-200) pt-(--ngn-size-padding-lg) md:flex-row md:items-center md:justify-between"
+      >
+        <div class="flex flex-wrap gap-(--ngn-size-padding-md)">
+          @for (chip of filterChips; track chip.value) {
+            <ngn-chip
+              [actionable]="true"
+              [color]="activeFilter() === chip.value ? 'primary' : undefined"
+              (clicked)="setFilter(chip.value)"
+            >
+              {{ chip.label }}
+            </ngn-chip>
+          }
+        </div>
+        <div class="flex items-center gap-(--ngn-size-padding-lg)">
+          <span
+            class="text-(length:--ngn-font-size-sm) whitespace-nowrap text-(--ngn-color-surface-600)"
+          >
+            {{ rowsLabel() }}
+          </span>
+          <ngn-paginator
+            [totalItems]="filtered().length"
+            [pageSize]="pageSize"
+            [fixedPageSize]="true"
+            [(page)]="page"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-(--ngn-size-padding-xl) lg:col-span-2">
+      <ngn-docs-quick-add-deal (add)="addDeal($event)" />
+    </div>
+  </div>
+
+  <!-- Campaigns + System status -->
+  <div
+    class="mb-(--ngn-size-padding-xl) grid grid-cols-1 gap-(--ngn-size-padding-xl) lg:grid-cols-2"
+  >
+    <div class="card p-(--ngn-size-padding-xl)">
+      <h3
+        class="mb-(--ngn-size-padding-lg) text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
+      >
+        Active Campaigns
+      </h3>
+      <ngn-accordion [(expandedPanels)]="expandedPanels">
+        @for (campaign of campaigns; track campaign.id) {
+          <ngn-accordion-panel [panelId]="campaign.id" [header]="campaign.header">
+            <ng-template #content>
+              <div class="flex flex-col gap-(--ngn-size-padding-lg)">
+                <!-- Status + body -->
+                <div>
+                  <ngn-tag
+                    class="mb-(--ngn-size-padding-md) inline-block"
+                    [color]="campaign.status.color"
+                  >
+                    {{ campaign.status.label }}
+                  </ngn-tag>
+                  <p
+                    class="border-l-2 border-(--ngn-color-primary-500) pl-(--ngn-size-padding-lg) text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600)"
+                  >
+                    {{ campaign.body }}
+                  </p>
+                </div>
+
+                <!-- Metrics -->
+                <div class="grid grid-cols-3 gap-(--ngn-size-padding-md)">
+                  @for (metric of campaign.metrics; track metric.label) {
+                    <div class="card p-(--ngn-size-padding-md) text-center">
+                      <div
+                        class="text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-bold) text-(--ngn-color-text)"
+                      >
+                        {{ metric.value }}
+                      </div>
+                      <div class="text-(length:--ngn-font-size-xs) text-(--ngn-color-surface-600)">
+                        {{ metric.label }}
+                      </div>
+                    </div>
+                  }
+                </div>
+
+                <!-- Audience tags -->
+                <div class="flex flex-wrap gap-(--ngn-size-padding-sm)">
+                  @for (tag of campaign.tags; track tag) {
+                    <ngn-chip>{{ tag }}</ngn-chip>
+                  }
+                </div>
+
+                <!-- Completion -->
+                <div>
+                  <div
+                    class="mb-(--ngn-size-padding-sm) flex items-center justify-between text-(length:--ngn-font-size-sm)"
+                  >
+                    <span class="font-(--ngn-font-weight-semibold) text-(--ngn-color-text)">
+                      Completion
+                    </span>
+                    <span class="text-(--ngn-color-surface-600)">{{ campaign.progress }}%</span>
+                  </div>
+                  <ngn-progress [value]="campaign.progress" />
+                </div>
+
+                <!-- Actions -->
+                <div class="flex flex-wrap gap-(--ngn-size-padding-md)">
+                  <button ngnButton kind="primary">
+                    <ngn-icon [icon]="reportIcon" /> View Report
+                  </button>
+                  <button ngnButton kind="secondary">
+                    <ngn-icon [icon]="editIcon" /> Edit Campaign
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+          </ngn-accordion-panel>
+        }
+      </ngn-accordion>
+    </div>
+
+    <div class="card p-(--ngn-size-padding-xl)">
+      <h3
+        class="mb-(--ngn-size-padding-lg) text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
+      >
+        System Status
+      </h3>
+      <ngn-message [color]="'info'" [icon]="infoIcon">
+        <span class="font-(--ngn-font-weight-semibold)">Scheduled Maintenance</span>
+        — Database sync in progress. Some reporting features may be delayed.
+      </ngn-message>
+
+      <div
+        class="mt-(--ngn-size-padding-lg) mb-(--ngn-size-padding-sm) flex items-center justify-between text-(length:--ngn-font-size-sm)"
+      >
+        <span class="font-(--ngn-font-weight-semibold) text-(--ngn-color-text)">
+          Database Sync
+        </span>
+        <span class="font-(--ngn-font-weight-semibold) text-(--ngn-color-info-500)">
+          {{ syncProgress }}%
+        </span>
+      </div>
+      <ngn-progress [value]="syncProgress" />
+
+      <div
+        class="mt-(--ngn-size-padding-lg) mb-(--ngn-size-padding-sm) flex items-center justify-between text-(length:--ngn-font-size-sm)"
+      >
+        <span class="font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"> Sync Speed </span>
+        <span class="font-(--ngn-font-weight-semibold) text-(--ngn-color-surface-600)">
+          {{ syncSpeed() }}/10
+        </span>
+      </div>
+      <ngn-slider [min]="1" [max]="10" [(value)]="syncSpeed" />
+    </div>
+  </div>
+</div>

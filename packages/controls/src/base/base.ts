@@ -24,6 +24,7 @@ import {
   injectThemeControlKinds,
   injectThemeColors,
   type AppliedThemeClassCfg,
+  Platform,
 } from '@ngneers/controls/api/ng';
 import { toggleClass } from '@ngneers/controls/utils';
 import { effectWithPrevious, setInputSignalValue } from '@ngneers/controls/utils-ng';
@@ -124,10 +125,15 @@ export abstract class NgnBase<T extends ControlName | null> {
 
     this.initializeKindAndColorClasses();
 
-    afterNextRender(() => {
+    if (inject(Platform).isBrowser) {
       // Remove the initializing class after the first render to prevent FOUC.
+      afterNextRender(() => {
+        this.element.nativeElement.classList.remove('ngn-control-initializing');
+      });
+    } else {
+      // Remove the initializing class immediately on the server to serve a complete initial HTML.
       this.element.nativeElement.classList.remove('ngn-control-initializing');
-    });
+    }
   }
 
   /**
