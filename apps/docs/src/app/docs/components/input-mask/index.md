@@ -5,3 +5,11 @@ Use it together with `ngn-input-field` for field chrome.
 ### Basic Usage
 
 {{ demo: Demo_InputMask_Base }}
+
+### Time (12h with AM/PM)
+
+{{ demo: Demo_InputMask_Time12 }}
+
+### Date
+
+{{ demo: Demo_InputMask_Date }}

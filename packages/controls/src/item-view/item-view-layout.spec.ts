@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { calculateItemViewLayout, getItemOverflowCheckOrder } from './item-view-layout';
 
 import type { OverflowStrategy } from './types';

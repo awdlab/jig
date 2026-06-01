@@ -27,6 +27,7 @@ export const calendarControlTemplate = createControlTemplate({
     'time',
     'next',
     'previous',
+    'trigger-icon',
   ],
   dependencies: [
     buttonControlTemplate,

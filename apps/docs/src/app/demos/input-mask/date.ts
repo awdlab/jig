@@ -6,9 +6,9 @@ import { DATE_TIME_MASKS, NgnInputMask, type InputMaskCfg } from '@ngneers/contr
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnInput, NgnInputMask, NgnInputField],
-  selector: 'ngn-demo-input-mask-base',
+  selector: 'ngn-demo-input-mask-date',
   template: `
-    <ngn-input-field [label]="'Label for input mask'" [labelKind]="'on'">
+    <ngn-input-field [label]="'Date'" [labelKind]="'on'">
       <ngn-input-mask [mask]="mask">
         <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
       </ngn-input-mask>
@@ -16,7 +16,7 @@ import { DATE_TIME_MASKS, NgnInputMask, type InputMaskCfg } from '@ngneers/contr
     {{ value() }}
   `,
 })
-export class Demo_InputMask_Base {
+export class Demo_InputMask_Date {
   protected readonly value = signal<string>('');
-  protected readonly mask: InputMaskCfg = DATE_TIME_MASKS.time;
+  protected readonly mask: InputMaskCfg = DATE_TIME_MASKS.date;
 }

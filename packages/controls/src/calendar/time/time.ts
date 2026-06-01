@@ -3,7 +3,7 @@ import { Platform } from '@ngneers/controls/api/ng';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
-import { MASKS, NgnInputMask } from '@ngneers/controls/input-mask';
+import { DATE_TIME_MASKS, NgnInputMask } from '@ngneers/controls/input-mask';
 
 import type { NgnBaseSafe } from '@ngneers/controls/base';
 
@@ -21,7 +21,9 @@ export class CalendarTime {
   public readonly currentValue = input.required<Date | null>();
   public readonly showSeconds = input.required<boolean>();
   public readonly timeChange = output<Date | null>();
-  public readonly mask = computed(() => (this.showSeconds() ? MASKS.timeSeconds : MASKS.time));
+  public readonly mask = computed(() =>
+    this.showSeconds() ? DATE_TIME_MASKS.time : DATE_TIME_MASKS.timeShort
+  );
 
   protected readonly value = computed(() => {
     const currentValue = this.currentValue();

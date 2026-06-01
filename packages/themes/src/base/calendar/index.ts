@@ -18,6 +18,9 @@ export const calendarStyles = createThemePart({
       }
       ${c('input')} {
         cursor: text;
+      }
+      ${c('trigger-icon')} {
+        cursor: pointer;
         appearance: textfield; // Hide the calendar icon in Firefox
       }
       ${c('input')}::-webkit-calendar-picker-indicator {

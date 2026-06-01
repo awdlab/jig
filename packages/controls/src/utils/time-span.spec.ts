@@ -1,3 +1,5 @@
+import { assertType, describe, expect, it } from 'vitest';
+
 import {
   getTimeSpan,
   getTimeSpanMilliseconds,

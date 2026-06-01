@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal, viewChild } from '@angular/core';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
-import { MASKS, NgnInputMask } from '@ngneers/controls/input-mask';
+import { DATE_TIME_MASKS, NgnInputMask } from '@ngneers/controls/input-mask';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
@@ -21,5 +21,5 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
 export class NgnDocsInputMaskPlayground {
   protected readonly component = viewChild.required('ref', { read: NgnInputMask });
   protected readonly value = signal<string>('');
-  protected readonly mask = MASKS.time;
+  protected readonly mask = DATE_TIME_MASKS.time;
 }

@@ -1,5 +1,6 @@
 import { signal, type Signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { NgnSplitterPanel } from './panel/splitter-panel';
 import { NgnSplitter } from './splitter';

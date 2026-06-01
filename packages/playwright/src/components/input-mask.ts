@@ -15,6 +15,11 @@ export class NgnInputMaskHarness {
     this.mask = locator.locator(this.classes.mask).first();
   }
 
+  public async clear(): Promise<void> {
+    await this.input.locator.press('Control+a');
+    await this.input.locator.press('Delete');
+  }
+
   public expectTextWithMask(textWithMask: string): Promise<void> {
     return expect(this.mask).toHaveText(textWithMask, { useInnerText: true });
   }

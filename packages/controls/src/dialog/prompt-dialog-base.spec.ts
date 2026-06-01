@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { assertType, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { PromptDialogBase } from './prompt-dialog-base';
 
