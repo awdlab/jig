@@ -11,6 +11,12 @@ import type { AnyNgnPassthrough, PassthroughValue } from './types';
 import type { NgnBase, NgnBaseSafe } from '../base';
 import type { ControlName, ControlTemplate } from '@ngneers/controls-themes';
 
+/** Writable, string-valued properties of `CSSStyleDeclaration` (the camelCase CSS properties). */
+type WritableStyleKey = Extract<keyof CSSStyleDeclaration, string> &
+  {
+    [K in keyof CSSStyleDeclaration]: CSSStyleDeclaration[K] extends string ? K : never;
+  }[keyof CSSStyleDeclaration];
+
 export class NgnPtEngine<T extends NgnBaseSafe<Name>, Name extends ControlName> {
   private readonly pt: Signal<NgnBase<Name>>;
   private readonly ptClass: Signal<
@@ -84,7 +90,8 @@ export class NgnPtEngine<T extends NgnBaseSafe<Name>, Name extends ControlName> 
     if (classPt.$styles) {
       const keys = objectKeys(classPt.$styles);
       keys.forEach(key => {
-        this._elementRef.nativeElement.style[key as any] = (classPt.$styles?.[key] as string) || '';
+        this._elementRef.nativeElement.style[key as WritableStyleKey] =
+          (classPt.$styles?.[key] as string) || '';
       });
     }
     if (classPt.$attributes) {
@@ -114,7 +121,7 @@ export class NgnPtEngine<T extends NgnBaseSafe<Name>, Name extends ControlName> 
     if (classPt.$styles) {
       const keys = objectKeys(classPt.$styles);
       keys.forEach(key => {
-        this._elementRef.nativeElement.style[key as any] = '';
+        this._elementRef.nativeElement.style[key as WritableStyleKey] = '';
       });
     }
     if (classPt.$attributes) {

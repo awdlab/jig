@@ -50,7 +50,7 @@ export function themeTemplateToTemplateInfo<T extends ControlTemplate<string, st
     }): string => {
       let result = '';
       for (const className in classes) {
-        if ((classes as any)[className]) {
+        if ((classes as Record<string, boolean | undefined>)[className]) {
           if (result) result += ' ';
           result += getClassName(
             config.theme.namePrefix,

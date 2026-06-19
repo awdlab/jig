@@ -68,7 +68,7 @@ export class NgnTableSelectionColumn implements OnDestroy {
     const table = this._table();
     const row = this._bodyTr?.ngnTableBodyTr();
     if (!table || !row) return false;
-    return table.isRowSelected(row.id as any);
+    return table.isRowSelected(row.id);
   });
 
   protected readonly focused = computed(() => {

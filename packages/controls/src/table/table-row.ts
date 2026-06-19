@@ -42,7 +42,7 @@ export class NgnTableBodyTr<T> extends NgnScrollerItem {
     const table = this._table();
     if (!table || !table.selectionMode()) return false;
     const row = this.ngnTableBodyTr();
-    return table.isRowSelected(row.id as any);
+    return table.isRowSelected(row.id);
   });
 
   protected readonly focused = computed(() => {

@@ -22,6 +22,9 @@ import type {
 
 const LAST_CALC_SIZE_SYMBOL = Symbol('lastCalcSize');
 
+/** A {@link ResizableItem} carrying the engine's last-written size under a private symbol. */
+type ItemWithLastCalcSize = ResizableItem & { [LAST_CALC_SIZE_SYMBOL]?: ResizeSize };
+
 /**
  * A generic, control-agnostic resize engine for CSS grid layouts.
  *
@@ -372,8 +375,7 @@ export class ResizeEngine {
    */
   public setItemSize(item: ResizableItem, size: ResizeSize): void {
     item.size.set(size);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (item as any)[LAST_CALC_SIZE_SYMBOL] = size;
+    (item as ItemWithLastCalcSize)[LAST_CALC_SIZE_SYMBOL] = size;
   }
 
   /**
@@ -381,8 +383,7 @@ export class ResizeEngine {
    * Returns `false` if the size was changed externally (e.g. by an input binding or state restore).
    */
   public isItemSizeCalculated(item: ResizableItem): boolean {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (item as any)[LAST_CALC_SIZE_SYMBOL] === item.size();
+    return (item as ItemWithLastCalcSize)[LAST_CALC_SIZE_SYMBOL] === item.size();
   }
 
   // --- Private: delta application ---

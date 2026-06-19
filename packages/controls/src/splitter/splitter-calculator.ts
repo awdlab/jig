@@ -3,6 +3,7 @@ import {
   ResizeEngine,
   type ResizableItem,
   type ResizeDistributionMode,
+  type ResizeSize,
 } from '@ngneers/controls/api/resize';
 import { Logger, throwExp } from '@ngneers/controls/utils';
 
@@ -242,7 +243,7 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
   }
 
   /** @internal — used by tests to seed panel sizes into the engine. */
-  setPanelSize(panel: NgnSplitterPanel, size: string) {
-    this._engine.setItemSize(panel as unknown as ResizableItem, size as any);
+  public setPanelSize(panel: NgnSplitterPanel, size: string) {
+    this._engine.setItemSize(panel as unknown as ResizableItem, size as ResizeSize);
   }
 }

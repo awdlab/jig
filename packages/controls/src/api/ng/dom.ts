@@ -106,6 +106,11 @@ function elementsSizesSignalInt(
 }
 
 const ABORT_SIGNAL_SYMBOL = Symbol('AbortSignal');
+type DestroyRefWithAbortSignal = DestroyRef & { [ABORT_SIGNAL_SYMBOL]?: AbortSignal };
+/**
+ * @todo use dom event functions directly and remove this function
+ * @deprecated use dom event functions instead
+ */
 export function abortSignalOnDestroy(options?: { injector?: Injector }): AbortSignal {
   const destroyRef = options?.injector?.get(DestroyRef) ?? inject(DestroyRef);
   if (ABORT_SIGNAL_SYMBOL in destroyRef) {
@@ -115,7 +120,7 @@ export function abortSignalOnDestroy(options?: { injector?: Injector }): AbortSi
   destroyRef.onDestroy(() => {
     abortController.abort();
   });
-  (destroyRef as any)[ABORT_SIGNAL_SYMBOL] = abortController.signal;
+  (destroyRef as DestroyRefWithAbortSignal)[ABORT_SIGNAL_SYMBOL] = abortController.signal;
   return abortController.signal;
 }
 
