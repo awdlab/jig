@@ -1,5 +1,5 @@
 import JSON5 from 'json5';
-import { AwesomeLogger, AwesomePromptValidator } from 'awesome-logging';
+import { AwesomeLogger, type AwesomePromptValidator } from 'awesome-logging';
 import { promiseExec } from './utils/promise-exec';
 import { readFile, stat, symlink, unlink, writeFile } from 'node:fs/promises';
 import * as yaml from 'yaml';
