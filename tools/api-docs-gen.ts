@@ -22,6 +22,7 @@ import {
 const OUT_DIR = '../../apps/docs/src/app/docs/_generated';
 
 const options: TypeDocOptions = {
+  tsconfig: './tsconfig.typedoc.json',
   entryPoints: ['./src/**/*.ts'],
   exclude: ['**/tests/**', '**/*.spec.ts', '**/*.test.ts'],
   searchInComments: true,

@@ -5,7 +5,7 @@ import {
   provideCheckNoChangesConfig,
   provideZonelessChangeDetection,
 } from '@angular/core';
-import { provideClientHydration } from '@angular/platform-browser';
+import { provideClientHydration, withNoIncrementalHydration } from '@angular/platform-browser';
 import { provideRouter, withInMemoryScrolling, withViewTransitions } from '@angular/router';
 import { provideNgnControls } from '@ngneers/controls/api/ng';
 import { withDefaultIcons } from '@ngneers/controls/default-icons';
@@ -28,7 +28,7 @@ export const appConfig: ApplicationConfig = {
       }),
       withViewTransitions()
     ),
-    provideClientHydration(),
+    provideClientHydration(withNoIncrementalHydration()),
     provideNgnControls({ theme: { preset: novaCoral } }, withToasts(), withDefaultIcons()),
     ...[environment.production ? [] : [provideCheckNoChangesConfig({ exhaustive: true })]],
   ],
