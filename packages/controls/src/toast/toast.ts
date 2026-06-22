@@ -1,12 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  ChangeDetectionStrategy,
-  input,
-  TemplateRef,
-  output,
-  type OnInit,
-} from '@angular/core';
+import { Component, input, TemplateRef, output, type OnInit } from '@angular/core';
 import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -21,7 +14,6 @@ import type { IconType } from '@ngneers/controls-custom-types';
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-toast',
   templateUrl: './toast.html',
   imports: [NgTemplateOutlet, NgnPt, NgnButton, NgnIcon],

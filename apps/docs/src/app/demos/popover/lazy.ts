@@ -1,11 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnPopover } from '@ngneers/controls/popover';
 
 import { DummyLazyComponent } from '../dummies/lazy';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnPopover, NgnButton, DummyLazyComponent],
   selector: 'ngn-demo-popover-lazy',
   template: `

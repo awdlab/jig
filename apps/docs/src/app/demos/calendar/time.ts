@@ -1,9 +1,8 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgnCalendar } from '@ngneers/controls/calendar';
 import { NgnInputField } from '@ngneers/controls/input-field';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-calendar-time',
   imports: [NgnCalendar, NgnInputField],
   template: `<ngn-input-field>

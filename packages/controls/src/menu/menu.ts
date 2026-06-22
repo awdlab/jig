@@ -1,7 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
   booleanAttribute,
-  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -37,7 +36,7 @@ import type { IconType } from '@ngneers/controls-custom-types';
   selector: 'ngn-menu',
   imports: [NgnPt, NgTemplateOutlet, NgnTemplate, NgnAutofocus, NgnPopover, NgnIcon, RouterLink],
   templateUrl: './menu.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   providers: [provideSelf(NgnMenu)],
 })
 export class NgnMenu extends MenuTemplates implements Openable {

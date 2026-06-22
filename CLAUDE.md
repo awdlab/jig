@@ -6,7 +6,7 @@
 
 - Angular 21, strict TypeScript (`strict`, `noImplicitOverride`, `noUncheckedIndexedAccess`, `verbatimModuleSyntax`)
 - pnpm monorepo — always use `pnpm` (never npm/yarn)
-- `ChangeDetectionStrategy.OnPush` on every component (ESLint-enforced)
+- Zoneless change detection (Angular 22 default) — `ChangeDetectionStrategy.OnPush` no longer ESLint-enforced
 - Modern Angular signals API: `input()`, `model()`, `computed()`, `signal()` — never legacy `@Input()` / `@Output()` decorators
 - Selector prefix: `ngn` (kebab-case for elements, camelCase for attributes)
 - All controls extend `NgnBase<T>` with `provideSelf(ClassName)` in providers

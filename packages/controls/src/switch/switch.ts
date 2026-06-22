@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
 import { switchControlTemplate } from '@ngneers/controls-themes/templates/switch';
 
@@ -6,7 +6,6 @@ import { switchControlTemplate } from '@ngneers/controls-themes/templates/switch
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-switch',
   templateUrl: './switch.html',
   imports: [NgnPt],

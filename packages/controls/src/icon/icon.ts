@@ -1,12 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import {
-  afterRenderEffect,
-  Component,
-  computed,
-  inject,
-  input,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { afterRenderEffect, Component, computed, inject, input } from '@angular/core';
 import { DomSanitizer, type SafeHtml } from '@angular/platform-browser';
 import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnError } from '@ngneers/controls/utils';
@@ -41,7 +34,6 @@ function generateIconSvg(sanitizer: DomSanitizer, iconData: IconifyIcon, scale: 
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-icon',
   templateUrl: './icon.html',
   imports: [NgnPt, NgTemplateOutlet],

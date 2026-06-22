@@ -9,7 +9,6 @@ import {
   signal,
   viewChild,
   viewChildren,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   elementSizeSignal,
@@ -57,7 +56,6 @@ type RenderItem<T> =
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-item-view',
   templateUrl: './item-view.html',
   imports: [NgnPt, NgTemplateOutlet, NgnTemplate, NgnIcon],

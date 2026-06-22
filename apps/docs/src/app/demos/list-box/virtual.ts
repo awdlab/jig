@@ -1,8 +1,7 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgnListBox } from '@ngneers/controls/list-box';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnListBox],
   selector: 'ngn-demo-list-box-virtual-demo',
   template: `

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
 import { NgnButtonGroup } from '@ngneers/controls/button-group';
 import { NgnToggleButton } from '@ngneers/controls/toggle-button';
@@ -11,7 +11,6 @@ import type { NgnActionItemFlat, NgnItem } from '@ngneers/controls/api';
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-select-button',
   templateUrl: './select-button.html',
   imports: [NgnPt, NgnButtonGroup, NgnToggleButton],

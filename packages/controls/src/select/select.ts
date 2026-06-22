@@ -12,7 +12,6 @@ import {
   type Signal,
   signal,
   viewChild,
-  ChangeDetectionStrategy,
   inject,
 } from '@angular/core';
 import { type FilterConfig, mapToItems, type NgnItem } from '@ngneers/controls/api';
@@ -37,7 +36,6 @@ import type { IconType } from '@ngneers/controls-custom-types';
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-select',
   templateUrl: './select.html',
   imports: [

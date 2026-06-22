@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, model, signal } from '@angular/core';
+import { Component, ElementRef, model, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
 
@@ -22,7 +22,6 @@ function cell(id: string): NgnTableTh {
   selector: 'test-harness',
   standalone: true,
   template: '',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class TestHarnessComponent {
   columnOrder = model<string[]>([]);

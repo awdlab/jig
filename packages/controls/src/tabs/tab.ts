@@ -1,6 +1,5 @@
 import {
   afterRenderEffect,
-  ChangeDetectionStrategy,
   Component,
   contentChild,
   input,
@@ -16,7 +15,7 @@ import { NgnBase, provideSelf } from '@ngneers/controls/base';
   selector: 'ngn-tab',
   imports: [],
   template: '',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   providers: [provideSelf(NgnTab)],
 })
 export class NgnTab extends NgnBase<'tabs'> {

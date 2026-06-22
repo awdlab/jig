@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, signal, viewChild } from '@angular/core';
+import { Component, signal, viewChild } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
 import { type MenuItem, NgnMenu } from '@ngneers/controls/menu';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnMenu, NgnButton, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnMenu', component: component() }]">

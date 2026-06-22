@@ -1,10 +1,9 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgnProgress } from '@ngneers/controls/progress';
 import { interval } from 'rxjs';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-progress-base',
   imports: [NgnProgress],
   template: `

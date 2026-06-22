@@ -1,11 +1,10 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
 import { NgnButton } from '@ngneers/controls/button';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-accordion-disabled',
   imports: [NgnAccordion, NgnButton, NgnAccordionPanel],
   template: `<ngn-accordion [multiple]="true">

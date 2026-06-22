@@ -1,9 +1,9 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Service, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class AppLocation {
   private readonly _router = inject(Router);
 

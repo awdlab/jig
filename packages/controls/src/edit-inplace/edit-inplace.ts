@@ -1,11 +1,4 @@
-import {
-  booleanAttribute,
-  Component,
-  input,
-  model,
-  ChangeDetectionStrategy,
-  inject,
-} from '@angular/core';
+import { booleanAttribute, Component, input, model, inject } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
@@ -23,7 +16,6 @@ import { EditInplaceTemplates } from './edit-inplace-templates';
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-edit-inplace',
   templateUrl: './edit-inplace.html',
   imports: [

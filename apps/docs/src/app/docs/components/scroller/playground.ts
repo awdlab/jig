@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnScroller, NgnScrollerItem } from '@ngneers/controls/scroller';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnScroller, NgnTemplate, NgnScrollerItem, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnScroller', component: component() }]">

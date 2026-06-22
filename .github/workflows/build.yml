@@ -14,10 +14,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js 22.15.0
+      - name: Use Node.js 22.22.3
         uses: actions/setup-node@v4
         with:
-          node-version: 22.15.0
+          node-version: 22.22.3
       - name: Install pnpm
         run: npm i -g pnpm
       - name: Install
@@ -48,7 +48,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.15.0
+          node-version: 22.22.3
       - name: Install pnpm
         run: npm i -g pnpm
       - name: Install

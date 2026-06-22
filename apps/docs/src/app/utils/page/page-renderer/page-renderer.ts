@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy, computed } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { type BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
@@ -10,7 +10,6 @@ import { safeRoutePath } from '../../routing';
 import type { NgnDocsCategory, NgnDocsSinglePage } from '../types';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-page-renderer',
   templateUrl: 'page-renderer.html',
   imports: [NgnDocsPageSection, NgnBreadcrumb],

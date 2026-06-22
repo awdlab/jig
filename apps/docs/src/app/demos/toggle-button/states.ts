@@ -1,8 +1,7 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { NgnToggleButton } from '@ngneers/controls/toggle-button';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnToggleButton],
   selector: 'ngn-demo-toggle-button-states',
   template: `

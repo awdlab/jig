@@ -1,8 +1,7 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { NgnSlider } from '@ngneers/controls/slider';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-slider-vertical',
   imports: [NgnSlider],
   template: `

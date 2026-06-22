@@ -1,20 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import {
-  Component,
-  effect,
-  inject,
-  input,
-  ViewContainerRef,
-  ChangeDetectionStrategy,
-  DestroyRef,
-} from '@angular/core';
+import { Component, effect, inject, input, ViewContainerRef, DestroyRef } from '@angular/core';
 
 import { renderMd } from './render-md';
 
 import type { MdCfg } from './types';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-md',
   template: '',
   styleUrl: 'md.scss',

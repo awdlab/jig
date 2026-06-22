@@ -1,13 +1,4 @@
-import {
-  Component,
-  input,
-  ChangeDetectionStrategy,
-  signal,
-  computed,
-  inject,
-  Injector,
-  effect,
-} from '@angular/core';
+import { Component, input, signal, computed, inject, Injector, effect } from '@angular/core';
 import tablerPalette from '@iconify/icons-tabler/palette';
 import tablerPointer from '@iconify/icons-tabler/pointer';
 import { injectTheme } from '@ngneers/controls/api/ng';
@@ -25,7 +16,6 @@ import type { ControlName, ControlTemplate } from '@ngneers/controls-themes';
 import type { ProjectReflection } from 'typedoc/browser';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-tokens',
   templateUrl: 'tokens.html',
   styleUrl: 'tokens.scss',

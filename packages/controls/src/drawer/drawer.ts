@@ -11,7 +11,6 @@ import {
   output,
   signal,
   untracked,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   NgnTemplate,
@@ -35,7 +34,6 @@ import type { IconType } from '@ngneers/controls-custom-types';
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-drawer',
   templateUrl: './drawer.html',
   imports: [NgnPt, NgTemplateOutlet, NgnDefer, NgnButton, NgnIcon, NgnTemplate],

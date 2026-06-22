@@ -1,4 +1,4 @@
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import {
   type ApplicationConfig,
   provideBrowserGlobalErrorListeners,
@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideHttpClient(withFetch()),
+    provideHttpClient(),
     provideRouter(
       routes,
       withInMemoryScrolling({

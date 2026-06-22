@@ -1,6 +1,6 @@
 import { firstValueFrom } from 'rxjs';
 
-import { marked } from './marked';
+import { getMarked } from './marked';
 import { parseMarkdown } from './parse-md';
 import { Api } from '../api/api';
 import { NgnDocsDemo } from '../demo/demo';
@@ -22,6 +22,8 @@ export async function renderMd(
   const res = await firstValueFrom(http.get(path, { responseType: 'text' }));
 
   const parsedMd = parseMarkdown(res);
+
+  const marked = await getMarked();
 
   function getComponent(name: string): Type<unknown> {
     const res = cfg.components?.find(c => {

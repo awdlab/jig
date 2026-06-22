@@ -1,7 +1,6 @@
 import {
   Component,
   input,
-  ChangeDetectionStrategy,
   computed,
   effect,
   linkedSignal,
@@ -48,7 +47,6 @@ type TypeDeclaration = (
 };
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-playground-input',
   templateUrl: 'input.html',
   imports: [NgnInputField, NgnInput, NgnSwitch, NgnSelect, NgnCalendar],

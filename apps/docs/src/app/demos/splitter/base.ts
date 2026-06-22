@@ -1,8 +1,7 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgnSplitterModule } from '@ngneers/controls/splitter';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnSplitterModule],
   selector: 'ngn-demo-splitter-base',
   template: `

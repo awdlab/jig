@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { assertType, beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -11,7 +11,6 @@ import type { NgnActionButtonConfig } from '@ngneers/controls/api';
 // --- Test components ---
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'test-prompt',
   template: '',
 })
@@ -26,7 +25,6 @@ class TestPrompt extends PromptDialogBase<{ name: string }, 'ok' | 'cancel'> {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'test-boolean-prompt',
   template: '',
 })
@@ -41,7 +39,6 @@ class BooleanPrompt extends PromptDialogBase<{ value: string }, true | false> {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'test-non-prompt',
   template: '',
 })

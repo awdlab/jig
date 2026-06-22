@@ -1,11 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { transformToNgnItems } from '@ngneers/controls/api';
 import { NgnListBox } from '@ngneers/controls/list-box';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnListBox],
   selector: 'ngn-demo-list-box-grouped-demo',
   template: ` <ngn-list-box [items]="items" style="display: block; height: 300px;" /> `,

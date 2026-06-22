@@ -1,12 +1,4 @@
-import {
-  afterRenderEffect,
-  Component,
-  computed,
-  contentChild,
-  input,
-  signal,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { afterRenderEffect, Component, computed, contentChild, input, signal } from '@angular/core';
 import { domEventHandler } from '@ngneers/controls/api/ng';
 import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnInput } from '@ngneers/controls/input';
@@ -20,7 +12,6 @@ import type { InputMaskCfg } from './types';
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-input-mask',
   templateUrl: './input-mask.html',
   imports: [NgnPt],

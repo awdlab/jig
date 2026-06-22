@@ -1,9 +1,8 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
 import { injectToastCreator, type NgnToastRef } from '@ngneers/controls/toast';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnButton],
   selector: 'ngn-demo-toast-persistent',
   template: `

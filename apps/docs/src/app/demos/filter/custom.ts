@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { executeFilter } from '@ngneers/controls/api';
 import { NgnFilter, type NgnFilterConfig } from '@ngneers/controls/filter';
 
@@ -8,7 +8,6 @@ type Country = {
 };
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-filter-custom',
   imports: [NgnFilter],
   template: `

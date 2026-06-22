@@ -8,7 +8,6 @@ import {
   inject,
   input,
   untracked,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { elementSizeSignal } from '@ngneers/controls/api/ng';
 import { provideSelf } from '@ngneers/controls/base';
@@ -22,7 +21,6 @@ import { ScrollerTemplates } from './scroller-templates';
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-scroller, [ngn-scroller]',
   templateUrl: './scroller.html',
   imports: [NgTemplateOutlet],

@@ -1,10 +1,4 @@
-import {
-  afterNextRender,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  inject,
-} from '@angular/core';
+import { afterNextRender, Component, ElementRef, inject } from '@angular/core';
 import { NgnBase } from '@ngneers/controls/base';
 import { toastControlTemplate } from '@ngneers/controls-themes/templates/toast';
 
@@ -15,7 +9,6 @@ import { NgnToastManager } from './toast-manager';
  * The host component that renders toasts.
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-toast-host',
   templateUrl: 'toast-host.html',
   imports: [NgnToast],

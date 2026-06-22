@@ -1,9 +1,8 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { injectThemeColors } from '@ngneers/controls/api/ng';
 import { NgnSpinner } from '@ngneers/controls/spinner';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-spinner-colors',
   imports: [NgnSpinner],
   template: `

@@ -1,19 +1,24 @@
 import { DestroyRef, inject, Injector } from '@angular/core';
-import {
-  type Alignment,
-  autoUpdate,
-  computePosition,
-  type ComputePositionReturn,
-  flip,
-  type Middleware,
-  offset,
-  type Placement,
-  type ReferenceElement,
-  shift,
-  type Side,
-  size,
-  type Strategy,
+
+import type {
+  Alignment,
+  ComputePositionReturn,
+  Middleware,
+  Placement,
+  ReferenceElement,
+  Side,
+  Strategy,
 } from '@floating-ui/dom';
+
+type FloatingUi = typeof import('@floating-ui/dom');
+let floatingPromise: Promise<FloatingUi> | undefined;
+let floating: FloatingUi | undefined;
+function loadFloating(): Promise<FloatingUi> {
+  if (!floatingPromise) {
+    floatingPromise = import('@floating-ui/dom').then(m => (floating = m));
+  }
+  return floatingPromise;
+}
 
 export type Point = {
   x: number;
@@ -96,89 +101,101 @@ export function positionElement(
 ) {
   options = mergeWithDefaults(options);
 
-  const referenceElement = toReferenceElement(anchor);
+  function run(fui: FloatingUi): void {
+    const { computePosition, flip, offset, shift, size } = fui;
 
-  const flipMiddleware = options.flip
-    ? flip(options.shift ? { crossAxis: 'alignment', fallbackAxisSideDirection: 'end' } : undefined)
-    : undefined;
-  const shiftMiddleware = options.shift ? shift() : undefined;
+    const referenceElement = toReferenceElement(anchor);
 
-  if (options.sizeConstraints) {
-    if (options.sizeConstraints.width || options.sizeConstraints.maxWidth) {
-      const refWidth = referenceElement.getBoundingClientRect().width;
-      if (options.sizeConstraints.width) {
-        if (typeof options.sizeConstraints.width === 'string') {
-          floatingEl.style.width = options.sizeConstraints.width;
-        } else {
-          const widthConstraints = options.sizeConstraints.width * refWidth;
-          floatingEl.style.width = `min(100%, ${widthConstraints}px)`;
+    const flipMiddleware = options.flip
+      ? flip(
+          options.shift ? { crossAxis: 'alignment', fallbackAxisSideDirection: 'end' } : undefined
+        )
+      : undefined;
+    const shiftMiddleware = options.shift ? shift() : undefined;
+
+    if (options.sizeConstraints) {
+      if (options.sizeConstraints.width || options.sizeConstraints.maxWidth) {
+        const refWidth = referenceElement.getBoundingClientRect().width;
+        if (options.sizeConstraints.width) {
+          if (typeof options.sizeConstraints.width === 'string') {
+            floatingEl.style.width = options.sizeConstraints.width;
+          } else {
+            const widthConstraints = options.sizeConstraints.width * refWidth;
+            floatingEl.style.width = `min(100%, ${widthConstraints}px)`;
+          }
+        }
+        if (options.sizeConstraints.maxWidth) {
+          if (typeof options.sizeConstraints.maxWidth === 'string') {
+            floatingEl.style.maxWidth = options.sizeConstraints.maxWidth;
+          } else {
+            const maxWidthConstraints = options.sizeConstraints.maxWidth * refWidth;
+            floatingEl.style.maxWidth = `min(100%, ${maxWidthConstraints}px)`;
+          }
         }
       }
-      if (options.sizeConstraints.maxWidth) {
-        if (typeof options.sizeConstraints.maxWidth === 'string') {
-          floatingEl.style.maxWidth = options.sizeConstraints.maxWidth;
-        } else {
-          const maxWidthConstraints = options.sizeConstraints.maxWidth * refWidth;
-          floatingEl.style.maxWidth = `min(100%, ${maxWidthConstraints}px)`;
+      if (options.sizeConstraints.height || options.sizeConstraints.maxHeight) {
+        if (options.sizeConstraints.height) {
+          floatingEl.style.height = options.sizeConstraints.height;
+        }
+        if (options.sizeConstraints.maxHeight) {
+          floatingEl.style.maxHeight = options.sizeConstraints.maxHeight;
         }
       }
-    }
-    if (options.sizeConstraints.height || options.sizeConstraints.maxHeight) {
-      if (options.sizeConstraints.height) {
-        floatingEl.style.height = options.sizeConstraints.height;
-      }
-      if (options.sizeConstraints.maxHeight) {
-        floatingEl.style.maxHeight = options.sizeConstraints.maxHeight;
+      if (options.sizeConstraints.minWidth) {
+        floatingEl.style.minWidth = options.sizeConstraints.minWidth;
       }
     }
-    if (options.sizeConstraints.minWidth) {
-      floatingEl.style.minWidth = options.sizeConstraints.minWidth;
-    }
+
+    computePosition(referenceElement, floatingEl, {
+      placement: options.placement,
+      strategy: options.strategy,
+      middleware: [
+        options.offset ? offset(options.offset) : undefined,
+        options.resize
+          ? size({
+              apply({ availableHeight }) {
+                const maxHeightConstraint = options.sizeConstraints?.maxHeight;
+                const maxHeightInPx = maxHeightConstraint?.replace(/px$/, '');
+                const maxHeight = maxHeightInPx
+                  ? Math.min(availableHeight, parseInt(maxHeightInPx))
+                  : availableHeight;
+                if (options.hasShrinkableContent) {
+                  Object.assign(floatingEl.style, {
+                    height: `${maxHeight - 1}px`,
+                  });
+                }
+              },
+            })
+          : undefined,
+        ...(options.placement?.includes('-')
+          ? [flipMiddleware, shiftMiddleware]
+          : [shiftMiddleware, flipMiddleware]),
+        ...(options.middleware || []),
+      ].filter(Boolean),
+    }).then(pos => {
+      if (!options.disableSettingStyles) {
+        const flipped = pos.middlewareData.flip?.index;
+        const flippedToLREnd =
+          flipped &&
+          (pos.placement.startsWith('left-') || pos.placement.startsWith('right-')) &&
+          pos.placement.endsWith('-end');
+        const flippedToTop = flipped && pos.placement.startsWith('top');
+
+        Object.assign(floatingEl.style, {
+          left: `${pos.x}px`,
+          top: `${pos.y}px`,
+          justifyContent: flippedToLREnd || flippedToTop ? 'flex-end' : 'flex-start',
+        });
+      }
+      options.onPositionChange?.(pos);
+    });
   }
 
-  computePosition(referenceElement, floatingEl, {
-    placement: options.placement,
-    strategy: options.strategy,
-    middleware: [
-      options.offset ? offset(options.offset) : undefined,
-      options.resize
-        ? size({
-            apply({ availableHeight }) {
-              const maxHeightConstraint = options.sizeConstraints?.maxHeight;
-              const maxHeightInPx = maxHeightConstraint?.replace(/px$/, '');
-              const maxHeight = maxHeightInPx
-                ? Math.min(availableHeight, parseInt(maxHeightInPx))
-                : availableHeight;
-              if (options.hasShrinkableContent) {
-                Object.assign(floatingEl.style, {
-                  height: `${maxHeight - 1}px`,
-                });
-              }
-            },
-          })
-        : undefined,
-      ...(options.placement?.includes('-')
-        ? [flipMiddleware, shiftMiddleware]
-        : [shiftMiddleware, flipMiddleware]),
-      ...(options.middleware || []),
-    ].filter(Boolean),
-  }).then(pos => {
-    if (!options.disableSettingStyles) {
-      const flipped = pos.middlewareData.flip?.index;
-      const flippedToLREnd =
-        flipped &&
-        (pos.placement.startsWith('left-') || pos.placement.startsWith('right-')) &&
-        pos.placement.endsWith('-end');
-      const flippedToTop = flipped && pos.placement.startsWith('top');
-
-      Object.assign(floatingEl.style, {
-        left: `${pos.x}px`,
-        top: `${pos.y}px`,
-        justifyContent: flippedToLREnd || flippedToTop ? 'flex-end' : 'flex-start',
-      });
-    }
-    options.onPositionChange?.(pos);
-  });
+  if (floating) {
+    run(floating);
+  } else {
+    void loadFloating().then(run);
+  }
 }
 
 function toReferenceElement(anchor: Anchor): ReferenceElement {
@@ -207,30 +224,51 @@ export function autoPositionElement(
 ): AutoPositioningHandle {
   options = mergeWithDefaults(options);
 
+  // Prefetch the floating-ui chunk as soon as a tooltip/popover directive instantiates
+  // so the first open does not flash. This is a download trigger only — it does not start.
+  void loadFloating();
+
   let cleanup: (() => void) | undefined;
+  let started = false; // intent: should be running
   const destroyRef = options.injector?.get(DestroyRef) ?? inject(DestroyRef);
 
-  function startAutoUpdate() {
-    cleanup = autoUpdate(toReferenceElement(anchor), floatingEl, () => {
+  function startAutoUpdate(fui: FloatingUi) {
+    // Defensive: a previous start may have already assigned a live cleanup
+    // (e.g. two rapid start() calls sharing the cached load promise).
+    cleanup?.();
+    cleanup = fui.autoUpdate(toReferenceElement(anchor), floatingEl, () => {
       positionElement(anchor, floatingEl, options);
     });
-    return cleanup;
   }
 
   destroyRef.onDestroy(() => {
+    started = false;
     cleanup?.();
     cleanup = undefined;
   });
   return {
     start: () => {
-      cleanup?.();
-      startAutoUpdate();
+      started = true;
+      if (floating) {
+        // Atomic teardown+reinstall, matching the original synchronous behavior.
+        startAutoUpdate(floating);
+      } else {
+        cleanup?.();
+        cleanup = undefined;
+        void loadFloating().then(fui => {
+          if (!started) {
+            return; // a stop()/destroy landed during load — bail, no leak
+          }
+          startAutoUpdate(fui);
+        });
+      }
     },
     stop: () => {
+      started = false;
       cleanup?.();
       cleanup = undefined;
     },
-    isRunning: () => !!cleanup,
+    isRunning: () => started,
   };
 }
 

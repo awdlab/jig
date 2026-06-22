@@ -1,17 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  viewChild,
-  viewChildren,
-} from '@angular/core';
+import { Component, computed, viewChild, viewChildren } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnButtonGroup } from '@ngneers/controls/button-group';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnButton, NgnButtonGroup, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnButtonGroup', component: component() }]">

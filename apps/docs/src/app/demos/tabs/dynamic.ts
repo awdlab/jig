@@ -1,9 +1,8 @@
-import { Component, computed, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnTabs, NgnTab } from '@ngneers/controls/tabs';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnTabs, NgnTab, NgnButton],
   selector: 'ngn-demo-tabs-dynamic',
   template: `

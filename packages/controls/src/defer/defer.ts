@@ -1,20 +1,11 @@
 import { NgTemplateOutlet } from '@angular/common';
-import {
-  booleanAttribute,
-  Component,
-  effect,
-  input,
-  signal,
-  TemplateRef,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { booleanAttribute, Component, effect, input, signal, TemplateRef } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 
 /**
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-defer',
   templateUrl: './defer.html',
   imports: [NgTemplateOutlet],

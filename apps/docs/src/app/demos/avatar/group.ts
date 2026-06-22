@@ -1,8 +1,7 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgnAvatar, NgnAvatarGroup } from '@ngneers/controls/avatar';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-avatar-group',
   imports: [NgnAvatar, NgnAvatarGroup],
   template: `

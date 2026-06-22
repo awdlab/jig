@@ -1,7 +1,6 @@
-import { Component, effect, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: '',
 })
 export abstract class PromptDialogBase<D, ButtonValues> {

@@ -15,7 +15,6 @@ import {
   untracked,
   viewChild,
   ViewContainerRef,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   elementSizeSignal,
@@ -39,7 +38,6 @@ import type { SplitterLayout, SplitterResizeMode, SplitterState, SplitterStateDa
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-splitter',
   templateUrl: './splitter.html',
   imports: [NgnPt, NgnTemplate],

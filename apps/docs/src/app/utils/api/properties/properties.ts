@@ -1,12 +1,4 @@
-import {
-  Component,
-  input,
-  ChangeDetectionStrategy,
-  computed,
-  inject,
-  Injector,
-  runInInjectionContext,
-} from '@angular/core';
+import { Component, input, computed, inject, Injector, runInInjectionContext } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { injectThemeColors, injectThemeControlKinds } from '@ngneers/controls/api/ng';
 import { type CommentDisplayPart, ReflectionFlag, DeclarationReflection } from 'typedoc/browser';
@@ -14,7 +6,6 @@ import { type CommentDisplayPart, ReflectionFlag, DeclarationReflection } from '
 import { NgnDocsApiComment } from './comment/comment';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-api-properties',
   templateUrl: 'properties.html',
   imports: [NgnDocsApiComment, RouterLink],

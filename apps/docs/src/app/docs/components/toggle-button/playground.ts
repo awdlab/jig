@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { NgnToggleButton } from '@ngneers/controls/toggle-button';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnToggleButton, NgnDocsPlayground],
   template: `
     <ngn-docs-playground

@@ -1,14 +1,5 @@
 import { NgStyle } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  model,
-  output,
-} from '@angular/core';
+import { Component, computed, effect, inject, input, model, output } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
@@ -27,7 +18,6 @@ import type { NgnItem } from '@ngneers/controls/api';
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-paginator',
   templateUrl: './paginator.html',
   imports: [NgnButton, NgnIcon, NgnItemView, NgnSelect, NgnTemplate, NgStyle, NgnPt, NgnInputField],

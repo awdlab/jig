@@ -1,11 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnTableFilterableColumn, NgnTableModule } from '@ngneers/controls/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnTableModule, NgnTableFilterableColumn, NgnTemplate],
   selector: 'ngn-demo-table-filtering',
   template: `<ngn-table #table style="height: 400px" [rows]="rows" [fieldId]="'id'">

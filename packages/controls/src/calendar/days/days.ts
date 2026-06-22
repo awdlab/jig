@@ -8,7 +8,6 @@ import {
   output,
   TemplateRef,
   viewChildren,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { type NgnBaseSafe, NgnPt } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
@@ -44,7 +43,6 @@ type WeekModel = {
 };
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-calendar-days',
   templateUrl: './days.html',
   imports: [NgTemplateOutlet, NgnPt, NgnButton, NgnIcon],

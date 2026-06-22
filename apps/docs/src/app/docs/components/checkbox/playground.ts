@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { NgnCheckbox } from '@ngneers/controls/checkbox';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnCheckbox, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnCheckbox', component: component() }]">

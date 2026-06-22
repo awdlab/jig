@@ -1,10 +1,10 @@
-import { Injectable, signal, TemplateRef, type OnDestroy } from '@angular/core';
+import { signal, TemplateRef, type OnDestroy, Service } from '@angular/core';
 
 import type { IconTemplateContext } from './types';
 
 export type IconTemplateType = TemplateRef<IconTemplateContext>;
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class GlobalIconTemplate implements OnDestroy {
   private readonly _globalIconTemplate = signal<IconTemplateType | null>(null);
 

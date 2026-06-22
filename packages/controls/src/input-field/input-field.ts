@@ -1,12 +1,4 @@
-import {
-  booleanAttribute,
-  Component,
-  inject,
-  input,
-  ChangeDetectionStrategy,
-  effect,
-  contentChild,
-} from '@angular/core';
+import { booleanAttribute, Component, inject, input, effect, contentChild } from '@angular/core';
 import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
@@ -21,7 +13,6 @@ import type { CustomKind, IconType } from '@ngneers/controls-custom-types';
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnPt, NgnIcon, NgnButton],
   selector: 'ngn-input-field',
   templateUrl: './input-field.html',
@@ -110,15 +101,18 @@ export class NgnInputField extends NgnBase<'inputField'> {
   protected clicked(event: MouseEvent) {
     if (!(event.target instanceof HTMLElement)) return;
 
-    const inputElement = event.target.querySelector('input, textarea');
-    if (inputElement) {
-      (inputElement as HTMLInputElement | HTMLTextAreaElement).focus();
-      return;
-    }
-
+    // Controls that open/toggle on click (select combobox, calendar field) expose
+    // their interactive host as the focusable element (tabindex="0") -> redirect click there
     const focusable = this.element.nativeElement.querySelector<HTMLElement>('[tabindex="0"]');
     if (focusable && !focusable.contains(event.target)) {
       focusable.click();
+      return;
+    }
+
+    // Plain input fields: place the caret in the input element.
+    const inputElement = event.target.querySelector('input, textarea');
+    if (inputElement) {
+      (inputElement as HTMLInputElement | HTMLTextAreaElement).focus();
     }
   }
 

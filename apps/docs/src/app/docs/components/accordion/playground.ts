@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, viewChild, viewChildren } from '@angular/core';
+import { Component, viewChild, viewChildren } from '@angular/core';
 import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnAccordion, NgnAccordionPanel, NgnDocsPlayground],
   template: `
     <ngn-docs-playground

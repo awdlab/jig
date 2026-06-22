@@ -1,11 +1,19 @@
-import { marked as originalMarked } from 'marked';
+let markedPromise: Promise<typeof import('marked').marked> | undefined;
 
-const renderer = new originalMarked.Renderer();
-renderer.code = args => {
-  let { text, lang } = args;
-  text = text.replace(/\n+$/, '').replace(/^\n+/, ''); // Remove trailing newlines
-  const langClass = lang ? ` class="language-${lang}"` : '';
-  return `<pre><code${langClass}>${originalMarked.parseInline(text)}</code></pre>`;
-};
-
-export const marked = originalMarked.use({ renderer });
+export function getMarked() {
+  if (!markedPromise) {
+    markedPromise = (async () => {
+      const { marked: originalMarked } = await import('marked');
+      const renderer = new originalMarked.Renderer();
+      renderer.code = args => {
+        let { text } = args;
+        const { lang } = args;
+        text = text.replace(/\n+$/, '').replace(/^\n+/, ''); // Remove trailing newlines
+        const langClass = lang ? ` class="language-${lang}"` : '';
+        return `<pre><code${langClass}>${originalMarked.parseInline(text)}</code></pre>`;
+      };
+      return originalMarked.use({ renderer });
+    })();
+  }
+  return markedPromise;
+}

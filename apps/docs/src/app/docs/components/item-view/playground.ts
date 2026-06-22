@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnItemView } from '@ngneers/controls/item-view';
 
@@ -7,7 +7,6 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
 type ItemType = { id: string; label: string };
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnItemView, NgnTemplate, NgnDocsPlayground],
   template: `
     <ngn-docs-playground

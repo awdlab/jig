@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnSelectButton } from '@ngneers/controls/select-button';
 import { NgnSwitch } from '@ngneers/controls/switch';
@@ -8,7 +8,6 @@ type TableResizeMode = 'adjacent' | 'proportional' | 'push';
 import { exampleData } from '../../helper/data';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnTableModule, NgnTemplate, NgnSelectButton, NgnSwitch],
   selector: 'ngn-demo-table-resizable',
   host: { style: 'display: block; width: 100%' },

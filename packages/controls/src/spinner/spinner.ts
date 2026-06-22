@@ -1,4 +1,4 @@
-import { Component, input, ChangeDetectionStrategy, computed } from '@angular/core';
+import { Component, input, computed } from '@angular/core';
 import { NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
 import { spinnerControlTemplate } from '@ngneers/controls-themes/templates/spinner';
 
@@ -6,7 +6,6 @@ import { spinnerControlTemplate } from '@ngneers/controls-themes/templates/spinn
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-spinner',
   templateUrl: './spinner.html',
   imports: [NgnPt],

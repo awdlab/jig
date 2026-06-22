@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import tablerBriefcase from '@iconify/icons-tabler/briefcase';
 import tablerChartBar from '@iconify/icons-tabler/chart-bar';
@@ -10,7 +10,6 @@ import { NgnTab, NgnTabs } from '@ngneers/controls/tabs';
 import { SalesCrm } from './dashboard/sales-crm';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-start',
   templateUrl: 'start.html',
   styleUrl: 'start.scss',

@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { booleanAttribute, Component, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { booleanAttribute, Component, input, output } from '@angular/core';
 import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { chipControlTemplate } from '@ngneers/controls-themes/templates/chip';
@@ -10,7 +10,6 @@ import type { IconType } from '@ngneers/controls-custom-types';
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-chip',
   templateUrl: './chip.html',
   imports: [NgnPt, NgnIcon, NgTemplateOutlet],

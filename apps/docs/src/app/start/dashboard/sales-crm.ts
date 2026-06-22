@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  Injector,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, Injector, signal } from '@angular/core';
 import tablerCalendar from '@iconify/icons-tabler/calendar';
 import tablerDotsVertical from '@iconify/icons-tabler/dots-vertical';
 import tablerDownload from '@iconify/icons-tabler/download';
@@ -51,7 +44,6 @@ import {
 import { QuickAddDeal } from './quick-add-deal';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-sales-crm',
   templateUrl: './sales-crm.html',
   imports: [

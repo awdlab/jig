@@ -16,7 +16,6 @@ import {
 import { isEval, WindowService } from './window';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-root',
   imports: [],
   template: ``,

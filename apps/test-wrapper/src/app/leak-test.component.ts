@@ -49,7 +49,7 @@ declare global {
 
 @Component({
   selector: 'ngn-leak-test',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [
     NgnTemplate,
     NgnAccordion,

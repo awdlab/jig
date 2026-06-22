@@ -1,10 +1,9 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
 import { DATE_TIME_MASKS, NgnInputMask, type InputMaskCfg } from '@ngneers/controls/input-mask';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnInput, NgnInputMask, NgnInputField],
   selector: 'ngn-demo-input-mask-date',
   template: `

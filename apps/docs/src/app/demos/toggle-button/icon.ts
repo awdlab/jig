@@ -1,10 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import tablerCode from '@iconify/icons-tabler/code';
 import tablerMenu2 from '@iconify/icons-tabler/menu-2';
 import { NgnToggleButton } from '@ngneers/controls/toggle-button';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-toggle-button-icon',
   imports: [NgnToggleButton],
   template: `<ngn-toggle-button [iconOn]="iconCode" [labelOn]="'Code'" [iconOff]="iconBars" />`,

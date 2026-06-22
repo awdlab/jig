@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgnTemplate, templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnDrawer } from '@ngneers/controls/drawer';
@@ -16,7 +16,6 @@ type MenuItem = {
 };
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-menu',
   templateUrl: 'menu.html',
   imports: [RouterLink, RouterOutlet, NgTemplateOutlet, NgnTemplate, NgnDrawer],

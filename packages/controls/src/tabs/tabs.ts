@@ -3,7 +3,6 @@ import {
   afterRenderEffect,
   type AfterViewInit,
   booleanAttribute,
-  ChangeDetectionStrategy,
   Component,
   computed,
   contentChildren,
@@ -38,7 +37,7 @@ const PADDING_FOR_STICKY_ELEMENTS = 15;
   selector: 'ngn-tabs',
   imports: [NgTemplateOutlet, NgnPt, NgnDefer, NgnScrollAmount, NgnDragScroll, NgnIcon],
   templateUrl: './tabs.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   providers: [provideSelf(NgnTabs)],
 })
 export class NgnTabs extends TabsTemplates implements AfterViewInit {

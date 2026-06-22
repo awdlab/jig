@@ -1,11 +1,4 @@
-import {
-  Component,
-  input,
-  ChangeDetectionStrategy,
-  viewChild,
-  ElementRef,
-  computed,
-} from '@angular/core';
+import { Component, input, viewChild, ElementRef, computed } from '@angular/core';
 import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
 import { NgnDrag, type NgnDragInfo } from '@ngneers/controls/directives';
 import { sliderControlTemplate } from '@ngneers/controls-themes/templates/slider';
@@ -14,7 +7,6 @@ import { sliderControlTemplate } from '@ngneers/controls-themes/templates/slider
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-slider',
   templateUrl: './slider.html',
   imports: [NgnPt, NgnDrag],

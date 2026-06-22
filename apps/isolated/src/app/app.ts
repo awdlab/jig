@@ -2,7 +2,6 @@ import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
 import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-root',
   imports: [NgnAccordion, NgnAccordionPanel],
   template: `

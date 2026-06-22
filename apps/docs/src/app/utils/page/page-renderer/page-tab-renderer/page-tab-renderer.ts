@@ -1,12 +1,5 @@
 import { NgComponentOutlet } from '@angular/common';
-import {
-  Component,
-  effect,
-  inject,
-  signal,
-  ChangeDetectionStrategy,
-  computed,
-} from '@angular/core';
+import { Component, effect, inject, signal, computed } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
@@ -21,7 +14,6 @@ import type { NgnDocsCategory, NgnDocsTabPage } from '../../types';
 import type { NgnPassthrough } from '@ngneers/controls/base';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-page-tab-renderer',
   templateUrl: 'page-tab-renderer.html',
   imports: [NgnDocsPageSection, NgnTabs, NgnTab, NgComponentOutlet, NgnBreadcrumb],

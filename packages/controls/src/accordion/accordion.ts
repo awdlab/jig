@@ -1,4 +1,4 @@
-import { booleanAttribute, ChangeDetectionStrategy, Component, input, model } from '@angular/core';
+import { booleanAttribute, Component, input, model } from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { accordionControlTemplate } from '@ngneers/controls-themes/templates/accordion';
 
@@ -13,7 +13,7 @@ import type { IconType } from '@ngneers/controls-custom-types';
   selector: 'ngn-accordion',
   imports: [],
   templateUrl: './accordion.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   providers: [
     provideSelf(NgnAccordion),
     {

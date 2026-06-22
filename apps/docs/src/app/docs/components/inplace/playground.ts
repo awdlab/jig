@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnInplace } from '@ngneers/controls/inplace';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnInplace, NgnTemplate, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnInplace', component: component() }]">

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import {
   NgnTableModule,
@@ -16,7 +16,6 @@ import type { NgnTable } from '@ngneers/controls/table';
 type RowType = ReturnType<typeof exampleData.richTable>[number];
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgnTableModule,
     NgnTemplate,

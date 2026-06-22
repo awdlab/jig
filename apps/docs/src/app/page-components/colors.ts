@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'ngn-docs-theme-colors',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   template: `
     <div class="main-wrapper">
       @for (color of colors; track color) {

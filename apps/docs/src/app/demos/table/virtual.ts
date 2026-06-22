@@ -1,11 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnTableModule } from '@ngneers/controls/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnTableModule, NgnTemplate],
   selector: 'ngn-demo-table-virtual',
   template: `<ngn-table

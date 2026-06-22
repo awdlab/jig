@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { NgnListBox } from '@ngneers/controls/list-box';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
@@ -6,7 +6,6 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
 import type { NgnItem } from '@ngneers/controls/api';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnListBox, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnListBox', component: component() }]">

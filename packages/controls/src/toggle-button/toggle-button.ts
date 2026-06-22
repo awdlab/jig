@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { provideSelf, ValueControlBase, NgnPt } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { toggleButtonControlTemplate } from '@ngneers/controls-themes/templates/toggle-button';
@@ -11,7 +11,7 @@ import type { IconType } from '@ngneers/controls-custom-types';
 @Component({
   selector: 'ngn-toggle-button',
   providers: [provideSelf(NgnToggleButton)],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [NgnPt, NgnIcon],
   templateUrl: './toggle-button.html',
 })

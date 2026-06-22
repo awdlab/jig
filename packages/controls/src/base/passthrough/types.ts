@@ -25,5 +25,5 @@ export type NgnPassthrough<T extends ControlName> = T extends null
     ? ThemeClassToPassthrough<ThemeClasses<ThemeTemplate[T]>> & PassthroughValue
     : never;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line ts/no-explicit-any
 export type AnyNgnPassthrough = NgnPassthrough<any>;

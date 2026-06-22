@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, signal, viewChild } from '@angular/core';
+import { Component, signal, viewChild } from '@angular/core';
 import { NgnSlider } from '@ngneers/controls/slider';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnSlider, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnSlider', component: component() }]">

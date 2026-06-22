@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, contentChild, TemplateRef } from '@angular/core';
+import { Component, contentChild, TemplateRef } from '@angular/core';
 import { templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnBase } from '@ngneers/controls/base';
 
@@ -15,7 +15,6 @@ export type GroupHeaderContext = {
 
 @Component({
   template: '',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export abstract class NgnTableTemplates<T extends object> extends NgnBase<'table'> {
   private readonly _headerTemplate = contentChild<TemplateRef<unknown>>('header');

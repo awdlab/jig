@@ -8,7 +8,6 @@ import {
   linkedSignal,
   type Signal,
   viewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { NgnTemplate, Platform } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
@@ -43,7 +42,6 @@ type MonthItemType = NgnItem<{ $: (typeof MONTHS)[number] }, '$'>;
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-calendar',
   templateUrl: './calendar.html',
   imports: [

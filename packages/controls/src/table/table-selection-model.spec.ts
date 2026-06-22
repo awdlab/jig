@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, model, signal } from '@angular/core';
+import { Component, model, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -16,7 +16,6 @@ function dataRows(ids: number[]): FormattedTableRow<Row>[] {
   selector: 'test-harness',
   standalone: true,
   template: '',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class TestHarnessComponent {
   selection = model<number[]>([]);

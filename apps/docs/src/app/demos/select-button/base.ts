@@ -1,8 +1,7 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgnSelectButton } from '@ngneers/controls/select-button';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-select-button-base',
   imports: [NgnSelectButton],
   template: `<ngn-select-button [options]="options" />`,

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
@@ -13,7 +13,6 @@ type ValueType<Indeterminate extends boolean> =
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-checkbox',
   templateUrl: './checkbox.html',
   imports: [NgnPt, NgnIcon],

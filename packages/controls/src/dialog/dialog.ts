@@ -2,7 +2,6 @@ import { NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
   booleanAttribute,
-  ChangeDetectionStrategy,
   Component,
   computed,
   ElementRef,
@@ -60,7 +59,7 @@ type TypedContent = {
     NgnResizable,
   ],
   templateUrl: './dialog.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   providers: [provideSelf(NgnDialog)],
 })
 export class NgnDialog<

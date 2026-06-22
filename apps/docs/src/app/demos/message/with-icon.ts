@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import tablerBrandGithub from '@iconify/icons-tabler/brand-github';
 import tablerCode from '@iconify/icons-tabler/code';
 import tablerCopy from '@iconify/icons-tabler/copy';
@@ -6,7 +6,6 @@ import tablerUser from '@iconify/icons-tabler/user';
 import { NgnMessage } from '@ngneers/controls/message';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnMessage],
   selector: 'ngn-demo-message-with-icon',
   template: `

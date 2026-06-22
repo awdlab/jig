@@ -1,4 +1,4 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input } from '@angular/core';
 import tablerAdjustments from '@iconify/icons-tabler/adjustments';
 import tablerInfoCircle from '@iconify/icons-tabler/info-circle';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -9,7 +9,6 @@ import { NgnDocsPlaygroundComponentInputs } from './component-inputs/component-i
 import type { AnyNgnBase } from '@ngneers/controls/base';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-playground-inputs',
   templateUrl: 'inputs.html',
   imports: [NgnDocsPlaygroundComponentInputs, NgnIcon, NgnTooltip],

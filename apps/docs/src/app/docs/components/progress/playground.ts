@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, signal, viewChild } from '@angular/core';
+import { Component, signal, viewChild } from '@angular/core';
 import { NgnProgress } from '@ngneers/controls/progress';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnProgress, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnProgress', component: component() }]">

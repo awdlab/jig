@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'ngn-root',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [RouterOutlet],
   template: `<router-outlet />`,
 })

@@ -1,9 +1,8 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnDrawer } from '@ngneers/controls/drawer';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnDrawer, NgnButton],
   selector: 'ngn-demo-drawer-position',
   template: `<button ngnButton (click)="position.set('left')">←</button>

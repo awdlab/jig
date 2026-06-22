@@ -1,9 +1,8 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { injectThemeColors, injectThemeControlKinds } from '@ngneers/controls/api/ng';
 import { NgnMessage } from '@ngneers/controls/message';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnMessage],
   selector: 'ngn-demo-message-base',
   template: `

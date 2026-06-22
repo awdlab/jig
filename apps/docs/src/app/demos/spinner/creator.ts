@@ -1,9 +1,8 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
 import { createConditionalSpinner, injectSpinnerCreator } from '@ngneers/controls/spinner';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-spinner-creator',
   imports: [NgnButton],
   template: `

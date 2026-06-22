@@ -1,6 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   input,
@@ -45,7 +44,7 @@ import type { AllKeysOfUnion } from '@ngneers/controls/utils';
 @Component({
   selector: 'ngn-table',
   templateUrl: './table.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [
     NgTemplateOutlet,
     NgnScroller,

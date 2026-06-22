@@ -1,6 +1,6 @@
 import { Pipe, type PipeTransform } from '@angular/core';
 
-import { marked } from './marked';
+import { getMarked } from './marked';
 
 @Pipe({
   name: 'markdown',
@@ -12,6 +12,7 @@ export class MarkdownPipe implements PipeTransform {
     }
 
     try {
+      const marked = await getMarked();
       const result = await marked(value);
       const cleaned = result.trim();
       return cleaned;

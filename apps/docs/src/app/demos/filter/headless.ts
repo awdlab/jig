@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnFilter, type NgnFilterConfig } from '@ngneers/controls/filter';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-filter-headless',
   imports: [NgnButton, NgnFilter],
   template: `

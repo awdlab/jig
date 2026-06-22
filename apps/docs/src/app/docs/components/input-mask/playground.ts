@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal, viewChild } from '@angular/core';
+import { Component, signal, viewChild } from '@angular/core';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
 import { DATE_TIME_MASKS, NgnInputMask } from '@ngneers/controls/input-mask';
@@ -6,7 +6,6 @@ import { DATE_TIME_MASKS, NgnInputMask } from '@ngneers/controls/input-mask';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnInput, NgnInputMask, NgnInputField, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnInputMask', component: component() }]">

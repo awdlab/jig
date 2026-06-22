@@ -1,16 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  viewChild,
-  viewChildren,
-} from '@angular/core';
+import { Component, computed, viewChild, viewChildren } from '@angular/core';
 import { NgnSplitter, NgnSplitterModule, NgnSplitterPanel } from '@ngneers/controls/splitter';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnSplitterModule, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnSplitter', component: component() }]">

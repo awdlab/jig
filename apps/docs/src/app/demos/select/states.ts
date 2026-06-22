@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnSelect } from '@ngneers/controls/select';
 
@@ -7,7 +7,6 @@ import { exampleData } from '../../helper/data';
 import type { PopoverOptions } from '@ngneers/controls/popover';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnSelect, NgnInputField],
   selector: 'ngn-demo-select-states',
   template: `

@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dummy',
   template: `<ng-content />`,
 })

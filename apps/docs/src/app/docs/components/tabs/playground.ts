@@ -1,16 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  viewChild,
-  viewChildren,
-} from '@angular/core';
+import { Component, computed, viewChild, viewChildren } from '@angular/core';
 import { NgnTabs, NgnTab } from '@ngneers/controls/tabs';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnTabs, NgnTab, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnTabs', component: component() }]">

@@ -1,11 +1,4 @@
-import {
-  Component,
-  DOCUMENT,
-  effect,
-  inject,
-  ChangeDetectionStrategy,
-  signal,
-} from '@angular/core';
+import { Component, DOCUMENT, effect, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import tablerBrandGithub from '@iconify/icons-tabler/brand-github';
 import tablerMenu2 from '@iconify/icons-tabler/menu-2';
@@ -16,7 +9,6 @@ import { toggleClass } from '@ngneers/controls/utils';
 import { FrameState } from '../frame-state';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-topbar',
   templateUrl: 'topbar.html',
   styleUrl: 'topbar.scss',

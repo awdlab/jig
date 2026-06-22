@@ -1,8 +1,7 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { NgnCheckbox } from '@ngneers/controls/checkbox';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnCheckbox],
   selector: 'ngn-demo-checkbox-states',
   template: `

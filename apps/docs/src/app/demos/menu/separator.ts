@@ -1,8 +1,7 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { type MenuItem, NgnMenu } from '@ngneers/controls/menu';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-menu-separator',
   imports: [NgnMenu],
   template: `<ngn-menu #menu [items]="items()" />`,

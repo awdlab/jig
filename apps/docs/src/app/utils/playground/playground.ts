@@ -1,4 +1,4 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { NgnDocsPlaygroundInputs } from './inputs/inputs';
 import { NgnDocsPlaygroundTokens } from './tokens/tokens';
@@ -6,7 +6,6 @@ import { NgnDocsPlaygroundTokens } from './tokens/tokens';
 import type { AnyNgnBase } from '@ngneers/controls/base';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-playground',
   templateUrl: 'playground.html',
   styleUrl: 'playground.scss',

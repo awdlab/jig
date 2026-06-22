@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
@@ -18,7 +18,6 @@ import type { IconType } from '@ngneers/controls-custom-types';
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-breadcrumb',
   templateUrl: './breadcrumb.html',
   imports: [NgnPt, RouterLink, NgTemplateOutlet, NgnTemplate, NgnIcon, NgnItemView, NgnMenu],

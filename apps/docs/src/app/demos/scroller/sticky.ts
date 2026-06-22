@@ -1,11 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnScroller, NgnScrollerItem } from '@ngneers/controls/scroller';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnScroller, NgnTemplate, NgnScrollerItem],
   selector: 'ngn-demo-scroller-sticky',
   template: `

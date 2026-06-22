@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Service, signal } from '@angular/core';
 
 import { IMPORTS } from './imports';
 
@@ -24,7 +24,7 @@ export type TemplateType = {
   imports: (keyof typeof IMPORTS)[];
 };
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class WindowService {
   public readonly template = signal<TemplateType | null>(null);
   public readonly inputs = signal<InputsType>({});

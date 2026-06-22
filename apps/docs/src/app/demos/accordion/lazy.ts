@@ -1,11 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
 
 import { exampleData } from '../../helper/data';
 import { DummyLoremIpsumComponent1, DummyLoremIpsumComponent2 } from '../dummies/lorem-ipsum';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'demo-3',
   template: `{{ loremIpsum3 }}`,
 })
@@ -17,7 +16,6 @@ export class Demo3Component {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-accordion-lazy',
   imports: [
     NgnAccordion,

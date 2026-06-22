@@ -1,9 +1,8 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnTooltip } from '@ngneers/controls/tooltip';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnButton, NgnTooltip],
   selector: 'ngn-demo-tooltip-arrow',
   template: `<button ngnButton [ngnTooltip]="'Hello World!'" [ngnTooltipShowArrow]="true">

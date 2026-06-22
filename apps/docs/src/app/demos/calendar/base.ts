@@ -1,10 +1,9 @@
 import { DatePipe } from '@angular/common';
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { NgnCalendar } from '@ngneers/controls/calendar';
 import { NgnInputField } from '@ngneers/controls/input-field';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-calendar-base',
   imports: [NgnCalendar, NgnInputField, DatePipe],
   template: `

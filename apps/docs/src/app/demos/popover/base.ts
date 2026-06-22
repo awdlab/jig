@@ -1,9 +1,8 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnPopover } from '@ngneers/controls/popover';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnPopover, NgnButton],
   selector: 'ngn-demo-popover-base',
   template: `

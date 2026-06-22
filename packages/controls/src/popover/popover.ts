@@ -14,7 +14,6 @@ import {
   TemplateRef,
   untracked,
   viewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   type PopoverCloseBy,
@@ -35,7 +34,6 @@ import type { PopoverOptions } from './types';
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-popover',
   templateUrl: './popover.html',
   imports: [NgnPt, NgnDefer],

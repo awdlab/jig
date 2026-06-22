@@ -1,12 +1,11 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 import { MarkdownPipe } from '../../../md/md-pipe';
 
 import type { CommentDisplayPart } from 'typedoc/browser';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-api-comment',
   templateUrl: 'comment.html',
   imports: [MarkdownPipe, AsyncPipe],

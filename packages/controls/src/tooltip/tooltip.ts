@@ -12,7 +12,6 @@ import {
   TemplateRef,
   viewChild,
   ViewContainerRef,
-  ChangeDetectionStrategy,
   afterRenderEffect,
 } from '@angular/core';
 import {
@@ -320,7 +319,6 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-tooltip',
   templateUrl: './tooltip.html',
   imports: [NgnPt, NgnDefer],

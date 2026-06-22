@@ -1,9 +1,8 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import tablerCode from '@iconify/icons-tabler/code';
 import { type MenuItem, NgnMenu } from '@ngneers/controls/menu';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-demo-menu-base',
   imports: [NgnMenu],
   template: `<ngn-menu #menu [items]="items()" />`,

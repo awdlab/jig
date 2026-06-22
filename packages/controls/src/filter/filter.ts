@@ -1,7 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
   booleanAttribute,
-  ChangeDetectionStrategy,
   Component,
   computed,
   DestroyRef,
@@ -106,7 +105,6 @@ function defaultOperatorsForType(dataType: NgnFilterDataType) {
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-filter',
   templateUrl: './filter.html',
   imports: [

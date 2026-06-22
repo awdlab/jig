@@ -1,12 +1,11 @@
 import { CurrencyPipe, JsonPipe } from '@angular/common';
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnTableModule } from '@ngneers/controls/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnTableModule, NgnTemplate, CurrencyPipe, JsonPipe],
   selector: 'ngn-demo-table-sticky-columns',
   host: { style: 'display: block; width: 100%' },

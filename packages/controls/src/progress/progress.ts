@@ -1,10 +1,4 @@
-import {
-  Component,
-  input,
-  ChangeDetectionStrategy,
-  computed,
-  booleanAttribute,
-} from '@angular/core';
+import { Component, input, computed, booleanAttribute } from '@angular/core';
 import { NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
 import { progressControlTemplate } from '@ngneers/controls-themes/templates/progress';
 
@@ -14,7 +8,6 @@ const TAU = Math.PI * 2;
  * @category control
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-progress',
   templateUrl: './progress.html',
   imports: [NgnPt],

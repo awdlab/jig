@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, output, signal } from '@angular/core';
+import { Component, computed, output, signal } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnCalendar } from '@ngneers/controls/calendar';
 import { NgnInput } from '@ngneers/controls/input';
@@ -17,7 +17,6 @@ import {
 } from './data';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-quick-add-deal',
   imports: [NgnButton, NgnCalendar, NgnInput, NgnInputField, NgnSelect, NgnSelectButton],
   template: `

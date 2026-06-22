@@ -1,5 +1,5 @@
 import { NgComponentOutlet } from '@angular/common';
-import { Component, computed, input, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import tablerCode from '@iconify/icons-tabler/code';
 import tablerCopy from '@iconify/icons-tabler/copy';
 import { NgnButton } from '@ngneers/controls/button';
@@ -11,7 +11,6 @@ import { style } from '../code/prism';
 import type { Type } from '@angular/core';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngn-docs-demo',
   templateUrl: 'demo.html',
   styleUrl: 'demo.scss',
@@ -24,7 +23,7 @@ export class NgnDocsDemo {
 
   protected readonly codeVisible = signal(false);
   protected readonly code = signal('');
-  protected readonly formattedCode = computed(() => style(this.code()));
+  protected readonly formattedCode = signal('');
 
   protected toggleCodeVisibility() {
     this.codeVisible.update(v => !v);
@@ -52,6 +51,7 @@ export class NgnDocsDemo {
     const res = await fetch(path);
     const text = await res.text();
     this.code.set(text);
+    this.formattedCode.set(await style(text));
   }
 
   protected copyCode() {

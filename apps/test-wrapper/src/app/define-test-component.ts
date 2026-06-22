@@ -12,7 +12,6 @@ import { type TemplateType, WindowService } from './window';
 
 @Component({
   template: '',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestComponentBase {
   public readonly inputs = input<any>({});
@@ -40,7 +39,6 @@ export async function defineTestComponent(
   @Component({
     template: template.template,
     imports,
-    changeDetection: ChangeDetectionStrategy.OnPush,
   })
   class TestComponent extends TestComponentBase {}
 

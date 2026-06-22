@@ -1,4 +1,4 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnSelect } from '@ngneers/controls/select';
@@ -6,7 +6,6 @@ import { NgnSelect } from '@ngneers/controls/select';
 import { exampleData } from '../../helper/data';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnSelect, NgnInput, NgnInputField],
   selector: 'ngn-demo-select-editable-custom',
   template: `<ngn-input-field>

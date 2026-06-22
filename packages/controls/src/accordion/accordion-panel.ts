@@ -2,7 +2,6 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
   booleanAttribute,
-  ChangeDetectionStrategy,
   Component,
   computed,
   ElementRef,
@@ -28,7 +27,7 @@ import { ACCORDION_CONTROL } from './types';
   selector: 'ngn-accordion-panel',
   imports: [NgTemplateOutlet, NgnPt, NgnDefer, NgnTemplate, NgnIcon],
   templateUrl: './accordion-panel.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   providers: [provideSelf(NgnAccordionPanel)],
 })
 export class NgnAccordionPanel extends AccordionTemplates {

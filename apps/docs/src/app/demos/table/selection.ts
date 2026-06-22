@@ -1,12 +1,11 @@
 import { JsonPipe } from '@angular/common';
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnTableModule } from '@ngneers/controls/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnTableModule, NgnTemplate, JsonPipe],
   selector: 'ngn-demo-table-selection-single',
   template: `<ngn-table
@@ -42,7 +41,6 @@ export class Demo_Table_Selection_Single {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgnTableModule, NgnTemplate, JsonPipe],
   selector: 'ngn-demo-table-selection-multi',
   template: `<ngn-table
