@@ -74,6 +74,11 @@ export const tableStyles = createThemePart({
         grid-column-start: calc(
           var(--ngn-table-column-index) + var(--ngn-table-selection-offset, 0)
         );
+        /* Pin every cell to its row's single track. Each row is its own
+           subgrid, so without an explicit row a reordered cell (DOM order no
+           longer matching visual column order) trips CSS grid auto-placement
+           onto an implicit extra row, offsetting it vertically. */
+        grid-row-start: 1;
       }
       /* Non-virtual rows have no fixed row height, so each cell would size to
          its own content. Stretch every cell to the row's grid track and center

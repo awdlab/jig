@@ -12,13 +12,13 @@
   <thead [ptInt]="this" [ptClass]="'head'">
     <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
   </thead>
-  @if (_dropIndicatorState()) {
+  @if (dropIndicatorState()) {
     <div
       [ptInt]="this"
       [ptClass]="'drop-indicator'"
-      [style.left.px]="_dropIndicatorState()!.leftPx"
-      [style.top.px]="_dropIndicatorState()!.topPx"
-      [style.height.px]="_dropIndicatorState()!.heightPx"
+      [style.left.px]="dropIndicatorState()!.leftPx"
+      [style.top.px]="dropIndicatorState()!.topPx"
+      [style.height.px]="dropIndicatorState()!.heightPx"
     ></div>
   }
 

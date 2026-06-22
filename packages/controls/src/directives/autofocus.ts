@@ -1,5 +1,5 @@
 import {
-  type AfterViewInit,
+  afterNextRender,
   booleanAttribute,
   Directive,
   effect,
@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 
 @Directive({ selector: '[ngnAutofocus]' })
-export class NgnAutofocus implements AfterViewInit {
+export class NgnAutofocus {
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
   private readonly _focused = signal(false);
   private readonly _isInitialized = signal(false);
@@ -26,20 +26,24 @@ export class NgnAutofocus implements AfterViewInit {
     effect(() => {
       this.autoFocus();
     });
-  }
 
-  public ngAfterViewInit() {
     /**
+     * `afterNextRender` only runs in the browser, never during server-side
+     * prerendering — guarding against `getClientRects`/`focus` calls on a
+     * server DOM element that lacks them.
+     *
      * The additional microtask ensures that the control is rendered and the
      * ngn-control-initializing class is removed before trying to focus the element.
      */
-    if (this._el.nativeElement.getClientRects().length === 0) {
-      queueMicrotask(() => {
+    afterNextRender(() => {
+      if (this._el.nativeElement.getClientRects().length === 0) {
+        queueMicrotask(() => {
+          this._isInitialized.set(true);
+        });
+      } else {
         this._isInitialized.set(true);
-      });
-    } else {
-      this._isInitialized.set(true);
-    }
+      }
+    });
   }
 
   private autoFocus() {

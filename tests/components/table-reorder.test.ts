@@ -281,6 +281,35 @@ test('table column reorder - body cells follow header order', async ({ page }) =
   expect(bodyCellStarts[3]).toBe(4); // location cell at visual position 4
 });
 
+test('table column reorder - body cells stay vertically aligned after reorder', async ({
+  page,
+}) => {
+  await loadTable(page);
+
+  // Move "id" (index 0) one position to the right (past "name").
+  await dragHeader(page, 0, 2);
+
+  // After a reorder the DOM order of the cells (id, name, …) no longer matches
+  // their visual column order. Each cell must still render on the same row — a
+  // missing explicit grid-row let CSS grid auto-placement push the mis-ordered
+  // cell onto an implicit extra row, offsetting it vertically.
+  const tops = await page.evaluate(() => {
+    const table = document.querySelector('ngn-table table');
+    if (!table) return [];
+    const firstRow = Array.from(table.querySelectorAll('tbody tr')).find(tr =>
+      tr.querySelector('td')
+    );
+    if (!firstRow) return [];
+    return Array.from(firstRow.querySelectorAll('td')).map(c =>
+      Math.round(c.getBoundingClientRect().top)
+    );
+  });
+
+  expect(tops.length).toBe(4);
+  // All cells of the row share a single vertical position.
+  expect(new Set(tops).size).toBe(1);
+});
+
 test('table column reorder - empty columnOrder uses natural order', async ({ page }) => {
   await loadTable(page, { columnOrder: [] });
 
