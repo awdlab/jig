@@ -41,7 +41,7 @@
     "@iconify/icons-tabler": "^1.2.95",
     "@iconify/types": "^2.0.0",
     "@types/express": "^5.0.6",
-    "@types/node": "^25.6.0",
+    "@types/node": "^26.0.0",
     "@types/prismjs": "^1.26.6",
     "typescript": "catalog:"
   }

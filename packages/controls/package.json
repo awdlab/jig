@@ -43,9 +43,9 @@
     "@angular/compiler-cli": "catalog:",
     "@iconify/icons-tabler": "^1.2.95",
     "@iconify/types": "^2.0.0",
-    "ng-packagr": "^21.2.3",
+    "ng-packagr": "^22.0.0",
     "typescript": "catalog:",
-    "vitest": "^4.1.5"
+    "vitest": "^4.1.9"
   },
   "sideEffects": false
 }
