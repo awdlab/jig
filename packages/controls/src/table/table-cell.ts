@@ -1,16 +1,33 @@
-import { afterNextRender, afterRenderEffect, computed, Directive, signal } from '@angular/core';
-import { getNearestNgnInstance, NgnBase } from '@ngneers/controls/base';
+import {
+  afterNextRender,
+  afterRenderEffect,
+  computed,
+  Directive,
+  ElementRef,
+  inject,
+  signal,
+} from '@angular/core';
+import { injectThemeTemplate } from '@ngneers/controls/api/ng';
+import { getNearestNgnInstance } from '@ngneers/controls/base';
 import { toggleClass } from '@ngneers/controls/utils';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 import { NgnTable } from './table';
 
+/**
+ * Lightweight body-cell directive. Deliberately does **not** extend `NgnBase`:
+ * a `<td>` is instantiated once per cell (thousands per table), so it avoids the
+ * per-control overhead (kind/color effects, `viewChildren` query, theme kind/color
+ * injection, leave-animation hooks). It only does what a cell needs — apply the
+ * `cell` class, expose its visual column index, and mirror sticky positioning.
+ */
 @Directive({
   selector: '[ngnTableTd]',
   host: { '[style.--ngn-table-column-index]': '_visualColumnIndex()' },
 })
-export class NgnTableTd extends NgnBase<'table'> {
-  protected readonly theme = this.injectThemeTemplate(tableControlTemplate);
+export class NgnTableTd {
+  private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected readonly theme = injectThemeTemplate(tableControlTemplate);
   private readonly _table = signal<NgnTable<any, any> | null>(null);
 
   /** 0-based logical (DOM) index of this cell within its row. */
@@ -45,25 +62,22 @@ export class NgnTableTd extends NgnBase<'table'> {
   });
 
   constructor() {
-    super();
     this.prepareDom();
-    const parent = this.element.nativeElement.parentElement?.children;
+    const el = this._element.nativeElement;
+    const parent = el.parentElement?.children;
     if (parent) {
-      const index = Array.from(parent).findIndex(child => child === this.element.nativeElement);
+      const index = Array.from(parent).findIndex(child => child === el);
       this._logicalIndex.set(index);
     }
 
     afterNextRender(() => {
-      const table = getNearestNgnInstance(this.element.nativeElement, NgnTable) as NgnTable<
-        any,
-        any
-      > | null;
+      const table = getNearestNgnInstance(el, NgnTable) as NgnTable<any, any> | null;
       this._table.set(table);
     });
 
     afterRenderEffect(() => {
       const info = this._stickyInfo();
-      const el = this.element.nativeElement;
+      const el = this._element.nativeElement;
       toggleClass(el, this.theme.class('sticky-start'), info?.side === 'start');
       toggleClass(el, this.theme.class('sticky-end'), info?.side === 'end');
       toggleClass(el, this.theme.class('sticky-start-edge'), info?.side === 'start' && info.isEdge);
@@ -87,6 +101,6 @@ export class NgnTableTd extends NgnBase<'table'> {
   }
 
   private prepareDom() {
-    toggleClass(this.element.nativeElement, this.theme.class('cell'), true);
+    toggleClass(this._element.nativeElement, this.theme.class('cell'), true);
   }
 }
