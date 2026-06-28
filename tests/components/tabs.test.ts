@@ -248,6 +248,43 @@ test('overflow scrolling', async ({ page }, testInfo) => {
   await expectScreenshot(page, testInfo, 'overflow');
 });
 
+test('dragging a header does not switch the active tab', async ({ page }) => {
+  await prepareTest(page);
+
+  const tabs = new NgnTabsHarness(page.locator('ngn-tabs'));
+  await tabs.expectTabCount(3);
+
+  const tab1 = tabs.getTabByIndex(0);
+  const tab2 = tabs.getTabByIndex(1);
+  // Tab 1 active by default; tab 2 is the drag target.
+  await tab1.expectActive(true);
+
+  const box = await tab2.header.boundingBox();
+  if (!box) {
+    throw new Error('Tab 2 header has no bounding box');
+  }
+  const cx = box.x + box.width / 2;
+  const cy = box.y + box.height / 2;
+
+  // Press on tab 2, move past the 5px drag threshold, then release back on tab 2.
+  // The browser synthesizes a click (down + up on the same element) that, without
+  // suppression, would select tab 2.
+  await page.mouse.move(cx, cy);
+  await page.mouse.down();
+  await page.mouse.move(cx + 10, cy);
+  await page.mouse.move(cx + 14, cy);
+  await page.mouse.move(cx, cy);
+  await page.mouse.up();
+
+  // The drag must not have switched the active tab.
+  await tab1.expectActive(true);
+  await tab2.expectActive(false);
+
+  // A genuine click (no drag) must still select the tab.
+  await tab2.select();
+  await tab2.expectActive(true);
+});
+
 test('custom header templates', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,

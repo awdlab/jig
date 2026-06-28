@@ -20,6 +20,7 @@ export abstract class NgnDragBase {
   private _pointerDown = false;
   private _startX?: number = undefined;
   private _startY?: number = undefined;
+  private _dragged = false;
 
   protected readonly isDragging = signal(false);
   public readonly dragStart = output<void>();
@@ -39,9 +40,26 @@ export abstract class NgnDragBase {
         e.preventDefault();
       }
     });
+    // Swallow the click that the browser synthesizes after a drag-release so it
+    // does not trigger click handlers (e.g. selecting a tab). Capture phase so
+    // it runs before bubbling handlers on descendant elements.
+    domEventHandler(
+      this.el.nativeElement,
+      'click',
+      e => {
+        if (this._dragged) {
+          this._dragged = false;
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      },
+      undefined,
+      { capture: true }
+    );
     afterRenderEffect(() => {
       this._pointerDownEvent.subscribe(event => {
         this._pointerDown = true;
+        this._dragged = false;
         this._startX = (event as PointerEvent).clientX;
         this._startY = (event as PointerEvent).clientY;
       });
@@ -85,6 +103,7 @@ export abstract class NgnDragBase {
         return;
       }
       this.isDragging.set(true);
+      this._dragged = true;
       this.dragStart.emit();
     }
     if (!this.isDragging()) {
