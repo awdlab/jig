@@ -8,16 +8,17 @@ export const inputMaskStyles = createThemePart({
   base: baseStyles.inputMask,
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
-    css: ({ v, c, d }) => css`
-      ${c('mask-text')} {
+    css: ({ v, c }) => css`
+      ${c('section-placeholder')} {
         color: ${v('color.surface.400')};
       }
-      ${c('root')}:has(${d('input', 'root')}${d('input-field', 'root')}) {
-        ${c('mask')} {
-          /* 1px for the top & left border of the input field */
-          top: calc(1px + ${v('size.padding.sm')});
-          left: calc(1px + ${v('size.padding.md')});
-        }
+      ${c('section-active')} {
+        /* Highlight via background + a same-color box-shadow halo so the
+         * highlight extends slightly beyond the text WITHOUT padding/margin —
+         * padding would change the box size and reflow the field on focus. */
+        background-color: ${v('color.accent.100')};
+        box-shadow: 0 0 0 2px ${v('color.accent.100')};
+        border-radius: ${v('size.rounded.sm')};
       }
     `,
   },

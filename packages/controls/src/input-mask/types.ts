@@ -1,15 +1,11 @@
-export type InputMaskCfgEntry = {
-  placeholder: string;
-  accepts: RegExp;
-  default: string;
-};
-
+// Public configuration (what callers pass via [mask])
 export type NumberSegment = {
   kind: 'number';
   segment: string;
   min: number;
   max: number;
-  length: number;
+  /** Omit for a variable-length (non-padded) segment; provide for a fixed, zero-padded width. */
+  length?: number;
   placeholder?: string;
 };
 
@@ -17,22 +13,37 @@ export type EnumSegment = {
   kind: 'enum';
   segment: string;
   values: string[];
-  length: number;
   placeholder?: string;
 };
 
 export type MaskSegment = NumberSegment | EnumSegment;
 
-export type InputMaskCfgInput = (InputMaskCfgEntry | MaskSegment | string)[];
-export type InputMaskCfgResolved = (InputMaskCfgEntry | string)[];
-export type InputMaskCfg = InputMaskCfgInput;
+/** A mask config is an ordered list of segments and literal separator strings. */
+export type InputMaskCfg = (MaskSegment | string)[];
 
-export type ResolvedSegment = {
-  config: MaskSegment;
-  positions: { start: number; end: number };
+// ---- Resolved model (internal) ----
+export type Separator = { kind: 'sep'; text: string };
+
+export type NumberField = {
+  kind: 'number';
+  name: string;
+  min: number;
+  max: number;
+  /** Maximum digit count. */
+  maxLen: number;
+  /** When true, render to maxLen with leading zeros once the field is no longer the active one. */
+  pad: boolean;
+  placeholder: string;
 };
 
-export type MaskResolution = {
-  entries: InputMaskCfgResolved;
-  segments: Map<string, ResolvedSegment>;
+export type EnumField = {
+  kind: 'enum';
+  name: string;
+  values: string[];
+  /** Maximum value length. */
+  maxLen: number;
+  placeholder: string;
 };
+
+export type Field = NumberField | EnumField;
+export type Part = Separator | Field;

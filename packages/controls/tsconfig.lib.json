@@ -4,10 +4,15 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../out-tsc/lib",
+    "rootDir": "./src",
     "declaration": true,
     "declarationMap": true,
     "types": []
   },
-  "include": ["**/*.ts"],
+  "references": [
+    { "path": "../themes/tsconfig.composite.json" },
+    { "path": "../custom-types/tsconfig.composite.json" }
+  ],
+  "include": ["src/**/*.ts"],
   "exclude": ["**/*.spec.ts", "**/test-setup.ts", "dist/**"]
 }

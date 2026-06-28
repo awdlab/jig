@@ -21,10 +21,6 @@ export const calendarStyles = createThemePart({
       }
       ${c('trigger-icon')} {
         cursor: pointer;
-        appearance: textfield; // Hide the calendar icon in Firefox
-      }
-      ${c('input')}::-webkit-calendar-picker-indicator {
-        display: none; // Hide the calendar icon in WebKit browsers
       }
       ${c('details')} {
         display: flex;

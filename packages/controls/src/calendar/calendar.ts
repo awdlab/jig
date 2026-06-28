@@ -7,6 +7,7 @@ import {
   input,
   linkedSignal,
   type Signal,
+  signal,
   viewChild,
 } from '@angular/core';
 import { NgnTemplate, Platform } from '@ngneers/controls/api/ng';
@@ -15,6 +16,7 @@ import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
+import { getDateOrTimeMask, NgnInputMask } from '@ngneers/controls/input-mask';
 import { NgnPopover } from '@ngneers/controls/popover';
 import { NgnSelect } from '@ngneers/controls/select';
 import { NgnError, throwExp } from '@ngneers/controls/utils';
@@ -22,6 +24,7 @@ import { calendarControlTemplate } from '@ngneers/controls-themes/templates/cale
 
 import { CalendarTemplates } from './calendar-templates';
 import { CalendarDays } from './days/days';
+import { formatDate, parseDate } from './formatter';
 import { CalendarTime } from './time/time';
 import { type DayModel, type Month, MONTHS, type WeekDay } from './types';
 
@@ -55,6 +58,7 @@ type MonthItemType = NgnItem<{ $: (typeof MONTHS)[number] }, '$'>;
     CalendarDays,
     CalendarTime,
     NgnInputField,
+    NgnInputMask,
   ],
   providers: [provideSelf(NgnCalendar)],
   host: {
@@ -83,8 +87,14 @@ export class NgnCalendar extends CalendarTemplates {
    * @default false
    */
   public readonly inline = input(false, { transform: booleanAttribute });
+  /**
+   * The format of the date displayed in the input field.
+   * @default 'MM/dd/yyyy'
+   */
+  public readonly format = input('MM/dd/yyyy');
 
   private readonly _popover = viewChild<NgnPopover>(NgnPopover);
+  private readonly _mask = viewChild(NgnInputMask);
   private readonly _platform = inject(Platform);
   protected readonly i18n = inject(I18n).translations;
   protected readonly theme = this.injectThemeTemplate(calendarControlTemplate);
@@ -116,23 +126,29 @@ export class NgnCalendar extends CalendarTemplates {
   });
   protected readonly valueStr = computed(() => {
     const value = this.value();
+    const format = this.format();
     if (!value) {
       return null;
     }
-    // Format as YYYY-MM-DD(THH:MM(:SS))
-    return `${String(value.getFullYear()).padStart(4, '0')}-${String(value.getMonth() + 1).padStart(
-      2,
-      '0'
-    )}-${String(value.getDate()).padStart(2, '0')}${
-      this.showTime()
-        ? `T${String(value.getHours()).padStart(
-            2,
-            '0'
-          )}:${String(value.getMinutes()).padStart(2, '0')}${
-            this.showSeconds() ? `:${String(value.getSeconds()).padStart(2, '0')}` : ''
-          }`
-        : ''
-    }`;
+    return formatDate(value, format);
+  });
+  protected readonly maskCfg = computed(() => {
+    const format = this.format();
+    const mask = getDateOrTimeMask(format);
+    const value = this.value();
+    if (!value) {
+      return mask;
+    }
+    // Narrow the day field's max to the current month's length (leap-aware) so
+    // the mask wraps/limits the day correctly within the month (e.g. Feb caps at
+    // 28/29, stepping up from 28 wraps to 1). The mask keeps the typed value
+    // across this change because only min/max — not the structure — differs.
+    const daysInMonth = new Date(value.getFullYear(), value.getMonth() + 1, 0).getDate();
+    return mask.map(seg =>
+      typeof seg !== 'string' && seg.kind === 'number' && seg.segment === 'day'
+        ? { ...seg, max: daysInMonth }
+        : seg
+    );
   });
 
   protected readonly previousMonth = () => {
@@ -197,6 +213,22 @@ export class NgnCalendar extends CalendarTemplates {
   }
 
   /**
+   * Places focus from a pointer event: forwards the location to the embedded
+   * mask so the section nearest the cursor is selected, then opens the popup.
+   * Implemented as the `NgnBase.focusFromPointer` hook so it also works when the
+   * calendar is wrapped in an `ngn-input-field` — the outer field delegates the
+   * click here (with the real coordinates) instead of synthesising a
+   * coordinate-less click. Invoked by the calendar's own field click too.
+   */
+  public override focusFromPointer(event: MouseEvent): boolean {
+    const handled = this._mask()?.focusFromPointer(event) ?? false;
+    if (!this.inline()) {
+      this.show();
+    }
+    return handled;
+  }
+
+  /**
    * Shows the calendar popup. Only works if `inline` is `false`.
    */
   public show() {
@@ -242,23 +274,64 @@ export class NgnCalendar extends CalendarTemplates {
     }
   }
 
-  protected stringValueChange(newValue: string | null) {
-    if (!newValue) {
-      return true;
-    }
+  /** The current (possibly partial) text in the mask field, awaiting blur. */
+  private readonly _inputString = signal<string | null>(null);
 
-    const date = new Date(newValue);
-    if (!isNaN(date.getTime())) {
-      if (!this.showTime()) {
-        date.setHours(this.value()?.getHours() || 0);
-        date.setMinutes(this.value()?.getMinutes() || 0);
-        date.setSeconds(this.value()?.getSeconds() || 0);
-      } else if (!this.showSeconds()) {
-        date.setSeconds(this.value()?.getSeconds() || 0);
+  protected stringValueChange(newValue: string | null) {
+    this._inputString.set(newValue);
+    // The mask emits null both while mid-typing and when fully cleared. Only the
+    // fully-cleared case should null out the bound value; a partially-typed entry
+    // leaves the previous value intact (one-directional sync).
+    if (!newValue) {
+      if (this._mask()?.empty()) {
+        this.value.set(null);
       }
-      this.value.set(date);
+      return;
     }
-    return true;
+    // One-directional sync: typing updates the calendar value (and thus the
+    // dropdown UI) only once the mask is COMPLETE — a fully filled, parseable
+    // date. Half-typed input never moves the calendar and is never reformatted
+    // back over the input. The calendar UI updates the value directly via
+    // selectDay / selectMonth / selectYear / changeTime (which then flow back
+    // out to the mask text via `valueStr`).
+    if (this._mask()?.complete()) {
+      this.parseInputString();
+    }
+  }
+
+  /** Parse the complete mask string into the calendar value. */
+  private parseInputString() {
+    const raw = this._inputString();
+    if (!raw) {
+      return;
+    }
+    // Format-aware parse that clamps an out-of-range day to the month's length
+    // (e.g. Feb 31 → Feb 28) instead of rolling over into the next month.
+    const date = parseDate(raw, this.format());
+    if (!date) {
+      return;
+    }
+    if (!this.showTime()) {
+      date.setHours(this.value()?.getHours() ?? 0);
+      date.setMinutes(this.value()?.getMinutes() ?? 0);
+      date.setSeconds(this.value()?.getSeconds() ?? 0);
+    } else if (!this.showSeconds()) {
+      date.setSeconds(this.value()?.getSeconds() ?? 0);
+    }
+    // Skip if unchanged — prevents an echo loop when our own valueStr→input
+    // write re-emits a (complete) valueChange for the value we just set.
+    const current = this.value();
+    if (current && current.getTime() === date.getTime()) {
+      // The value is unchanged, but the mask may be showing a non-canonical
+      // string (e.g. a clamped Feb 31 → Feb 28). Push the canonical text back so
+      // the displayed sections match the real value.
+      const canonical = formatDate(date, this.format());
+      if (canonical !== raw) {
+        this._mask()?.value.set(canonical);
+      }
+      return;
+    }
+    this.value.set(date);
   }
 
   protected potentiallyBlurred() {

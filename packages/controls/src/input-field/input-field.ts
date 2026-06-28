@@ -1,5 +1,5 @@
 import { booleanAttribute, Component, inject, input, effect, contentChild } from '@angular/core';
-import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
+import { NgnBase, NGN_CONTROL, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -77,6 +77,8 @@ export class NgnInputField extends NgnBase<'inputField'> {
   public readonly disabled = input(false, { transform: booleanAttribute });
 
   private readonly _ngnInput = contentChild(NgnInput);
+  /** The projected control (mask, input, …), used to delegate pointer focus. */
+  private readonly _control = contentChild(NGN_CONTROL);
 
   constructor() {
     super();
@@ -99,6 +101,11 @@ export class NgnInputField extends NgnBase<'inputField'> {
   }
 
   protected clicked(event: MouseEvent) {
+    // Give the projected control a chance to place focus from the pointer
+    // location (e.g. input-mask selects the section nearest the click). If it
+    // handles the event, skip the primitive focusing below.
+    if (this._control()?.focusFromPointer(event)) return;
+
     if (!(event.target instanceof HTMLElement)) return;
 
     // Controls that open/toggle on click (select combobox, calendar field) expose
@@ -118,6 +125,11 @@ export class NgnInputField extends NgnBase<'inputField'> {
 
   protected clearButtonClicked(event: MouseEvent) {
     event.stopPropagation();
+    // Controls that manage their own value (e.g. input-mask) clear via the hook;
+    // the DOM fallback below only works for plain text inputs.
+    if (this._control()?.clearValue()) {
+      return;
+    }
     const inputElement = this.element.nativeElement.querySelector('input, textarea');
     if (inputElement) {
       (inputElement as HTMLInputElement | HTMLTextAreaElement).value = '';

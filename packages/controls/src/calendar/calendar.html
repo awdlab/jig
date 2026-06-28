@@ -5,23 +5,20 @@
     #field
     [ptInt]="this"
     [ptClass]="'input-field'"
-    (click)="show()"
+    (click)="focusFromPointer($event)"
     (keydown)="onKeyDown($event)"
     (focusout)="potentiallyBlurred()"
     [tabindex]="disabled() ? -1 : 0"
   >
-    <input
+    <ngn-input-mask
       [ptInt]="this"
       [ptClass]="'input'"
-      ngnInput
-      #input
+      [mask]="maskCfg()"
       [invalid]="invalid()"
-      (valueChange)="stringValueChange($event)"
-      [type]="showTime() ? 'datetime-local' : 'date'"
       [value]="valueStr()"
+      (valueChange)="stringValueChange($event)"
       [disabled]="disabled()"
-      [readOnly]="readonly()"
-      [id]="inputId()"
+      [readonly]="readonly()"
     />
     <ngn-icon defaultIcon="calendar-trigger" [ptInt]="this" [ptClass]="'trigger-icon'" />
   </div>

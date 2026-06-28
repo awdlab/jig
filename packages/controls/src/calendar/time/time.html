@@ -11,15 +11,11 @@
     </ngn-input-field>
   } @else {
     <ngn-input-field>
-      <ngn-input-mask [mask]="mask()">
-        <input
-          #input
-          ngnInput
-          type="text"
-          [value]="value()"
-          (blur)="onValueChange(input.value || '')"
-        />
-      </ngn-input-mask>
+      <ngn-input-mask
+        [mask]="mask()"
+        [value]="value()"
+        (valueChange)="onValueChange($event ?? '')"
+      />
     </ngn-input-field>
   }
 </div>

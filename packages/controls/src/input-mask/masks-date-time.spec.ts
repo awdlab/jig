@@ -58,7 +58,6 @@ describe('getDateOrTimeMask', () => {
     expect(period).toBeDefined();
     expect(period.kind).toBe('enum');
     expect(period.values).toEqual(['AM', 'PM']);
-    expect(period.length).toBe(2);
 
     expect(separators(mask)).toEqual([':', ':', ' ']);
   });
@@ -97,13 +96,18 @@ describe('getDateOrTimeMask', () => {
     expect(findSegment(mask, 'second')).toBeUndefined();
   });
 
-  it('should handle single-char format symbols', () => {
+  it('should handle single-char format symbols as variable (no length)', () => {
     const mask = getDateOrTimeMask('H:m');
     const hour = findSegment(mask, 'hour24') as NumberSegment;
-    expect(hour.length).toBe(1);
+    expect(hour.length).toBeUndefined();
 
     const minute = findSegment(mask, 'minute') as NumberSegment;
-    expect(minute.length).toBe(1);
+    expect(minute.length).toBeUndefined();
+  });
+
+  it('doubled tokens stay fixed-length', () => {
+    const hour = findSegment(getDateOrTimeMask('HH:mm'), 'hour24') as NumberSegment;
+    expect(hour.length).toBe(2);
   });
 
   it('should handle fractional seconds', () => {

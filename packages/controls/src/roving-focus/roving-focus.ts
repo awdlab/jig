@@ -1,0 +1,253 @@
+import {
+  computed,
+  Directive,
+  effect,
+  ElementRef,
+  inject,
+  InjectionToken,
+  input,
+  output,
+  signal,
+} from '@angular/core';
+import { domEventHandler } from '@ngneers/controls/api/ng';
+import { generateElementId } from '@ngneers/controls/utils-ng';
+
+export type RovingOrientation = 'horizontal' | 'vertical';
+export type RovingMode = 'tabindex' | 'activedescendant';
+
+export interface RovingItemRef {
+  readonly id: string;
+  readonly element: HTMLElement;
+}
+
+export const ROVING_GROUP = new InjectionToken<NgnRovingGroup>('ROVING_GROUP');
+
+@Directive({
+  selector: '[ngnRovingGroup]',
+  providers: [{ provide: ROVING_GROUP, useExisting: NgnRovingGroup }],
+  exportAs: 'ngnRovingGroup',
+})
+export class NgnRovingGroup {
+  public readonly orientation = input<RovingOrientation>('horizontal');
+  public readonly rovingMode = input<RovingMode>('tabindex');
+  public readonly rovingWrap = input(false);
+
+  public readonly activeItemChange = output<number>();
+
+  private readonly _host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  private readonly _items = signal<RovingItemRef[]>([]);
+  /** Items in DOM order. */
+  public readonly items = computed(() =>
+    [...this._items()].sort((a, b) => {
+      if (a.element === b.element) return 0;
+      return a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_FOLLOWING
+        ? -1
+        : 1;
+    })
+  );
+
+  public readonly activeIndex = signal(0);
+
+  /**
+   * Tracks the previously active item's id so we can decide whether to call
+   * `.focus()`. Initialized to `null` — the first effect pass sets it without
+   * focusing; subsequent passes focus when the id actually changes.
+   */
+  private _prevActiveId: string | null = null;
+
+  constructor() {
+    domEventHandler(this._host, 'keydown', e => this._onKeydown(e));
+
+    // Apply focus-mode side effects reactively.
+    effect(() => {
+      const items = this.items();
+      const mode = this.rovingMode();
+
+      // Clamp the active index LOCALLY (do not mutate the activeIndex signal)
+      // so that attributes/focus always reference a valid item even if
+      // activeIndex is stale after the items list shrinks.
+      const active = items.length
+        ? Math.max(0, Math.min(this.activeIndex(), items.length - 1))
+        : this.activeIndex();
+
+      if (mode === 'tabindex') {
+        // Clean up activedescendant mode attributes.
+        this._host.removeAttribute('aria-activedescendant');
+        this._host.removeAttribute('aria-owns');
+
+        // Apply tabindex to all items.
+        items.forEach((it, i) => {
+          it.element.setAttribute('tabindex', i === active ? '0' : '-1');
+        });
+
+        // Move focus when the active item changes — but NOT on the first pass
+        // (where _prevActiveId is null) to avoid stealing focus on mount.
+        const activeEl = items[active]?.element;
+        const activeId = activeEl?.id ?? null;
+        if (activeEl && this._prevActiveId !== null && this._prevActiveId !== activeId) {
+          activeEl.focus();
+        }
+        this._prevActiveId = activeId;
+      } else {
+        // activedescendant mode: remove tabindex from all items.
+        items.forEach(it => it.element.removeAttribute('tabindex'));
+
+        // Guard the empty-items window (items register during effects, so the
+        // first effect pass may see an empty list).
+        if (!items.length) {
+          this._host.removeAttribute('aria-activedescendant');
+          this._host.removeAttribute('aria-owns');
+          return;
+        }
+
+        this._host.setAttribute('aria-owns', items.map(i => i.id).join(' '));
+        const activeId = items[active]?.id;
+        if (activeId) {
+          this._host.setAttribute('aria-activedescendant', activeId);
+        }
+
+        // Reset the focus guard when in activedescendant mode so that switching
+        // back to tabindex mode doesn't immediately call focus.
+        this._prevActiveId = null;
+      }
+    });
+  }
+
+  public register(item: RovingItemRef): void {
+    this._items.update(list => (list.includes(item) ? list : [...list, item]));
+  }
+
+  public unregister(item: RovingItemRef): void {
+    this._items.update(list => list.filter(i => i !== item));
+    // Normalize the stored active index so it never dangles past the end —
+    // otherwise NgnRovingItem.isActive() would be false for every item.
+    const n = this.items().length;
+    if (this.activeIndex() >= n) {
+      this.activeIndex.set(Math.max(0, n - 1));
+    }
+  }
+
+  public activate(target: RovingItemRef): void {
+    const idx = this.items().indexOf(target);
+    if (idx >= 0) this._setActive(idx);
+  }
+
+  public next(): void {
+    this._move(1);
+  }
+
+  public prev(): void {
+    this._move(-1);
+  }
+
+  public first(): void {
+    if (!this.items().length) return;
+    this._setActive(0);
+  }
+
+  public last(): void {
+    const n = this.items().length;
+    if (!n) return;
+    this._setActive(n - 1);
+  }
+
+  /** Set the active item by index (clamped to range); emits activeItemChange. */
+  public setActive(index: number): void {
+    if (index >= 0 && index < this.items().length) this._setActive(index);
+  }
+
+  private _onKeydown(e: KeyboardEvent): void {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    const horizontal = this.orientation() === 'horizontal';
+    let consumed = true;
+    switch (e.key) {
+      case 'ArrowRight':
+        if (horizontal) this.next();
+        else consumed = false;
+        break;
+      case 'ArrowLeft':
+        if (horizontal) this.prev();
+        else consumed = false;
+        break;
+      case 'ArrowDown':
+        if (!horizontal) this.next();
+        else consumed = false;
+        break;
+      case 'ArrowUp':
+        if (!horizontal) this.prev();
+        else consumed = false;
+        break;
+      case 'Home':
+        this.first();
+        break;
+      case 'End':
+        this.last();
+        break;
+      default:
+        consumed = false;
+    }
+    if (consumed) e.preventDefault();
+  }
+
+  private _move(delta: number): void {
+    const n = this.items().length;
+    if (!n) return;
+    let i = this.activeIndex() + delta;
+    if (this.rovingWrap()) i = ((i % n) + n) % n;
+    else i = Math.max(0, Math.min(n - 1, i));
+    this._setActive(i);
+  }
+
+  private _setActive(i: number): void {
+    this.activeIndex.set(i);
+    this.activeItemChange.emit(i);
+  }
+}
+
+@Directive({ selector: '[ngnRovingItem]', exportAs: 'ngnRovingItem' })
+export class NgnRovingItem implements RovingItemRef {
+  private readonly _injectedGroup = inject(ROVING_GROUP, { optional: true });
+  /** Explicit group reference for the sibling/activedescendant topology. */
+  public readonly ngnRovingItem = input<NgnRovingGroup | '' | undefined>(undefined);
+
+  public readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  public readonly id: string;
+
+  private readonly _group = computed<NgnRovingGroup>(() => {
+    const explicit = this.ngnRovingItem();
+    const group = explicit instanceof NgnRovingGroup ? explicit : this._injectedGroup;
+    if (!group) {
+      throw new Error(
+        'ngnRovingItem: no NgnRovingGroup found. Provide via [ngnRovingItem]="group" or nest inside one.'
+      );
+    }
+    return group;
+  });
+
+  /** Whether this item is currently the active item in its group. */
+  public readonly isActive = computed(() => {
+    const g = this._group();
+    return g.items()[g.activeIndex()] === this;
+  });
+
+  constructor() {
+    // generateElementId() must be called in injection context (constructor is fine).
+    this.id = this.element.id || generateElementId();
+    if (!this.element.id) this.element.id = this.id;
+
+    // Use effect() rather than afterNextRender() so that registration is
+    // guaranteed to run synchronously during detectChanges() in Vitest/TestBed.
+    // effect() reads this._group() reactively and (re)registers whenever the
+    // resolved group changes; the onCleanup callback unregisters from the
+    // previous group before re-running, and on destroy. Equivalent to
+    // afterNextRender() in a browser environment.
+    effect(onCleanup => {
+      const group = this._group();
+      group.register(this);
+      onCleanup(() => group.unregister(this));
+    });
+
+    // Activate self in the group on pointerdown.
+    domEventHandler(this.element, 'pointerdown', () => this._group().activate(this));
+  }
+}
