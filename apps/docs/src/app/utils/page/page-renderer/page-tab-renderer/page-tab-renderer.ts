@@ -3,28 +3,31 @@ import { Component, effect, inject, signal, computed } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { type BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
+import { NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
 import { NgnTab, NgnTabs } from '@ngneers/controls/tabs';
 import { filter } from 'rxjs';
 
+import { BreadcrumbService } from '../../../../frame/breadcrumb.service';
 import { safeRoutePath } from '../../../routing';
 import { NgnDocsPageSection } from '../section/section';
 
 import type { NgnDocsCategory, NgnDocsTabPage } from '../../types';
 import type { NgnPassthrough } from '@ngneers/controls/base';
+import type { BreadcrumbItem } from '@ngneers/controls/breadcrumb';
 
 @Component({
   selector: 'ngn-docs-page-tab-renderer',
   templateUrl: 'page-tab-renderer.html',
   imports: [NgnDocsPageSection, NgnTabs, NgnTab, NgComponentOutlet, NgnBreadcrumb],
   host: {
-    class: 'min-w-0 w-full h-full flex flex-col pt-2 pl-2 md:pt-8 md:pl-8',
+    class: 'min-w-0 w-full h-full flex flex-col pt-[5.5rem] pl-2 md:pl-8',
   },
 })
 export class NgnDocsPageTabRenderer {
   private readonly _title = inject(Title);
   private readonly _router = inject(Router);
   private readonly _activatedRoute = inject(ActivatedRoute);
+  private readonly _breadcrumb = inject(BreadcrumbService);
   protected readonly category = this._activatedRoute.snapshot.data['category'] as
     | NgnDocsCategory
     | undefined;
@@ -85,6 +88,10 @@ export class NgnDocsPageTabRenderer {
       .subscribe(() => {
         switchToTabFromUrl();
       });
+
+    effect(() => {
+      this._breadcrumb.set(this.breadcrumbItems());
+    });
 
     effect(() => {
       const activeTab = this.activeTab();

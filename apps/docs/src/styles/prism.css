@@ -1,3 +1,21 @@
+/*********************************************************
+* Fixed dark background for `<code class="prism">` blocks (landing page).
+* Theme-independent literal colors so the code stays dark in BOTH light and
+* dark mode (docs surface tokens invert under `.dark`, so they must NOT be used
+* here). Mirrors the look of the `language-*` blocks above.
+*/
+pre:has(> code.prism),
+code.prism {
+  background: #1e1e1e;
+  color: #d4d4d4;
+}
+
+pre:has(> code.prism) {
+  padding: 1em;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
 .prism {
   pre[class*='language-'],
   code[class*='language-'] {

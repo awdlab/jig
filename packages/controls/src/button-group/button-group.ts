@@ -1,7 +1,6 @@
 import { Component, computed, contentChildren, input } from '@angular/core';
 import { elementSizeSignal, elementsSizesSignal } from '@ngneers/controls/api/ng';
-import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
-import { NgnButton } from '@ngneers/controls/button';
+import { NgnBase, NGN_CONTROL, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { buttonGroupControlTemplate } from '@ngneers/controls-themes/templates/button-group';
 
 /**
@@ -17,7 +16,7 @@ import { buttonGroupControlTemplate } from '@ngneers/controls-themes/templates/b
 export class NgnButtonGroup extends NgnBase<'buttonGroup'> {
   protected readonly theme = this.injectThemeTemplate(buttonGroupControlTemplate, 'root');
 
-  private readonly _contentRef = contentChildren(NgnButton);
+  private readonly _contentRef = contentChildren(NGN_CONTROL);
   private readonly _content = computed(() =>
     this._contentRef().map(ref => ref.element.nativeElement)
   );

@@ -1,35 +1,39 @@
-import { Component, DOCUMENT, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import tablerBrandGithub from '@iconify/icons-tabler/brand-github';
 import tablerMenu2 from '@iconify/icons-tabler/menu-2';
+import { NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnIcon } from '@ngneers/controls/icon';
-import { toggleClass } from '@ngneers/controls/utils';
 
+import { AppLocation } from '../../helper/app-location';
+import { BreadcrumbService } from '../breadcrumb.service';
 import { FrameState } from '../frame-state';
 
 @Component({
   selector: 'ngn-docs-topbar',
   templateUrl: 'topbar.html',
   styleUrl: 'topbar.scss',
-  imports: [NgnButton, NgnIcon, RouterLink],
+  imports: [NgnButton, NgnIcon, RouterLink, NgnBreadcrumb],
 })
 export class NgnDocsTopbar {
   protected readonly iconGithub = tablerBrandGithub;
   protected readonly iconBars = tablerMenu2;
   private readonly _frameState = inject(FrameState);
-  private readonly _document = inject(DOCUMENT);
+  private readonly _appLocation = inject(AppLocation);
+  private readonly _breadcrumb = inject(BreadcrumbService);
 
-  protected readonly darkModeEnabled = signal(false);
+  protected readonly darkMode = this._frameState.darkMode;
+
+  protected readonly isDocsPage = computed(() => this._appLocation.location().length > 0);
+  protected readonly breadcrumbItems = this._breadcrumb.items;
 
   constructor() {
+    // Clear the breadcrumb off docs routes — the page renderers won't.
     effect(() => {
-      const darkModeEnabled = this.darkModeEnabled();
-      const element = this._document.body.parentElement;
-      if (!element) {
-        return;
+      if (!this.isDocsPage()) {
+        this._breadcrumb.clear();
       }
-      toggleClass(element, 'dark', darkModeEnabled);
     });
   }
 
@@ -38,6 +42,6 @@ export class NgnDocsTopbar {
   }
 
   protected toggleDarkMode() {
-    this.darkModeEnabled.update(v => !v);
+    this._frameState.toggleDarkMode();
   }
 }

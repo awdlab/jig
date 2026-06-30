@@ -1,7 +1,4 @@
-// The docs frame applies 1.5rem padding to the routed content host
-// (see app.scss). The startpage hero spans full width, so reset it here.
-// This is the only non-reusable rule kept in SCSS — the reusable .card lives
-// in global styles, everything else is Tailwind utilities on theme variables.
+// Reset the frame's content padding (app.scss) so the hero spans full width.
 :host {
   padding: 0 !important;
 }

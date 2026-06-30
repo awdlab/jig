@@ -4,11 +4,8 @@ import tablerDotsVertical from '@iconify/icons-tabler/dots-vertical';
 import tablerDownload from '@iconify/icons-tabler/download';
 import tablerEdit from '@iconify/icons-tabler/edit';
 import tablerEye from '@iconify/icons-tabler/eye';
-import tablerInfoCircle from '@iconify/icons-tabler/info-circle';
-import tablerReportAnalytics from '@iconify/icons-tabler/report-analytics';
 import tablerSearch from '@iconify/icons-tabler/search';
 import tablerTrash from '@iconify/icons-tabler/trash';
-import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnAvatar } from '@ngneers/controls/avatar';
 import { type BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
@@ -19,11 +16,8 @@ import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
 import { type MenuItem, NgnMenu } from '@ngneers/controls/menu';
-import { NgnMessage } from '@ngneers/controls/message';
 import { NgnPaginator } from '@ngneers/controls/paginator';
-import { NgnProgress } from '@ngneers/controls/progress';
 import { NgnSelect } from '@ngneers/controls/select';
-import { NgnSlider } from '@ngneers/controls/slider';
 import { createConditionalSpinner } from '@ngneers/controls/spinner';
 import { NgnTableModule } from '@ngneers/controls/table';
 import { NgnTag } from '@ngneers/controls/tag';
@@ -31,7 +25,6 @@ import { injectToastCreator } from '@ngneers/controls/toast';
 import { NgnTooltip } from '@ngneers/controls/tooltip';
 
 import {
-  CAMPAIGNS,
   createOpportunity,
   DATE_RANGE_OPTIONS,
   type DealDraft,
@@ -47,8 +40,6 @@ import { QuickAddDeal } from './quick-add-deal';
   selector: 'ngn-docs-sales-crm',
   templateUrl: './sales-crm.html',
   imports: [
-    NgnAccordion,
-    NgnAccordionPanel,
     NgnAvatar,
     NgnBreadcrumb,
     NgnButton,
@@ -57,11 +48,8 @@ import { QuickAddDeal } from './quick-add-deal';
     NgnInput,
     NgnInputField,
     NgnMenu,
-    NgnMessage,
     NgnPaginator,
-    NgnProgress,
     NgnSelect,
-    NgnSlider,
     NgnTableModule,
     NgnTag,
     NgnTemplate,
@@ -74,15 +62,11 @@ export class SalesCrm {
   private readonly _toastCreator = injectToastCreator();
 
   protected readonly kpis = KPIS;
-  protected readonly campaigns = CAMPAIGNS;
   protected readonly dateRangeOptions = DATE_RANGE_OPTIONS;
 
   protected readonly downloadIcon = tablerDownload;
   protected readonly calendarIcon = tablerCalendar;
   protected readonly searchIcon = tablerSearch;
-  protected readonly infoIcon = tablerInfoCircle;
-  protected readonly reportIcon = tablerReportAnalytics;
-  protected readonly editIcon = tablerEdit;
   protected readonly dotsIcon = tablerDotsVertical;
 
   protected readonly breadcrumbItems: BreadcrumbItem[] = [
@@ -99,13 +83,9 @@ export class SalesCrm {
   protected readonly dateRange = signal<string>('oct-2024');
   protected readonly activeFilter = signal<OpportunityFilter>('highValue');
   protected readonly search = signal('');
-  protected readonly expandedPanels = signal<string[]>(['q4-enterprise']);
 
   protected readonly pageSize = 5;
   protected readonly page = signal(0);
-
-  protected readonly syncProgress = 78;
-  protected readonly syncSpeed = signal(5);
 
   // -- Spinner: debounced search --
   private readonly _searchTerm = signal('');

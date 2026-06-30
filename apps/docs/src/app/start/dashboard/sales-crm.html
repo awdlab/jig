@@ -75,7 +75,7 @@
         </button>
       </div>
 
-      <div class="sales-crm-table-area relative grow">
+      <div class="sales-crm-table-area relative grow overflow-x-auto">
         <ngn-table #table [rows]="pagedRows()" [fieldId]="'id'">
           <ng-template #header>
             <tr ngnTableHeadTr>
@@ -83,7 +83,9 @@
               <th scope="col" [ngnTableTh]="table.column('value')">Value</th>
               <th scope="col" [ngnTableTh]="table.column('status')">Status</th>
               <th scope="col" [ngnTableTh]="table.column('owner')">Owner</th>
-              <th scope="col" [ngnTableTh]="'actions'">Actions</th>
+              <th scope="col" [ngnTableTh]="'actions'" [ngnTableStickyColumn]="'end'">
+                <span class="sr-only">Actions</span>
+              </th>
             </tr>
           </ng-template>
           <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
@@ -173,123 +175,6 @@
 
     <div class="card p-(--ngn-size-padding-xl) lg:col-span-2">
       <ngn-docs-quick-add-deal (add)="addDeal($event)" />
-    </div>
-  </div>
-
-  <!-- Campaigns + System status -->
-  <div
-    class="mb-(--ngn-size-padding-xl) grid grid-cols-1 gap-(--ngn-size-padding-xl) lg:grid-cols-2"
-  >
-    <div class="card p-(--ngn-size-padding-xl)">
-      <h3
-        class="mb-(--ngn-size-padding-lg) text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
-      >
-        Active Campaigns
-      </h3>
-      <ngn-accordion [(expandedPanels)]="expandedPanels">
-        @for (campaign of campaigns; track campaign.id) {
-          <ngn-accordion-panel [panelId]="campaign.id" [header]="campaign.header">
-            <ng-template #content>
-              <div class="flex flex-col gap-(--ngn-size-padding-lg)">
-                <!-- Status + body -->
-                <div>
-                  <ngn-tag
-                    class="mb-(--ngn-size-padding-md) inline-block"
-                    [color]="campaign.status.color"
-                  >
-                    {{ campaign.status.label }}
-                  </ngn-tag>
-                  <p
-                    class="border-l-2 border-(--ngn-color-primary-500) pl-(--ngn-size-padding-lg) text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600)"
-                  >
-                    {{ campaign.body }}
-                  </p>
-                </div>
-
-                <!-- Metrics -->
-                <div class="grid grid-cols-3 gap-(--ngn-size-padding-md)">
-                  @for (metric of campaign.metrics; track metric.label) {
-                    <div class="card p-(--ngn-size-padding-md) text-center">
-                      <div
-                        class="text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-bold) text-(--ngn-color-text)"
-                      >
-                        {{ metric.value }}
-                      </div>
-                      <div class="text-(length:--ngn-font-size-xs) text-(--ngn-color-surface-600)">
-                        {{ metric.label }}
-                      </div>
-                    </div>
-                  }
-                </div>
-
-                <!-- Audience tags -->
-                <div class="flex flex-wrap gap-(--ngn-size-padding-sm)">
-                  @for (tag of campaign.tags; track tag) {
-                    <ngn-chip>{{ tag }}</ngn-chip>
-                  }
-                </div>
-
-                <!-- Completion -->
-                <div>
-                  <div
-                    class="mb-(--ngn-size-padding-sm) flex items-center justify-between text-(length:--ngn-font-size-sm)"
-                  >
-                    <span class="font-(--ngn-font-weight-semibold) text-(--ngn-color-text)">
-                      Completion
-                    </span>
-                    <span class="text-(--ngn-color-surface-600)">{{ campaign.progress }}%</span>
-                  </div>
-                  <ngn-progress [value]="campaign.progress" />
-                </div>
-
-                <!-- Actions -->
-                <div class="flex flex-wrap gap-(--ngn-size-padding-md)">
-                  <button ngnButton kind="primary">
-                    <ngn-icon [icon]="reportIcon" /> View Report
-                  </button>
-                  <button ngnButton kind="secondary">
-                    <ngn-icon [icon]="editIcon" /> Edit Campaign
-                  </button>
-                </div>
-              </div>
-            </ng-template>
-          </ngn-accordion-panel>
-        }
-      </ngn-accordion>
-    </div>
-
-    <div class="card p-(--ngn-size-padding-xl)">
-      <h3
-        class="mb-(--ngn-size-padding-lg) text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
-      >
-        System Status
-      </h3>
-      <ngn-message [color]="'info'" [icon]="infoIcon">
-        <span class="font-(--ngn-font-weight-semibold)">Scheduled Maintenance</span>
-        — Database sync in progress. Some reporting features may be delayed.
-      </ngn-message>
-
-      <div
-        class="mt-(--ngn-size-padding-lg) mb-(--ngn-size-padding-sm) flex items-center justify-between text-(length:--ngn-font-size-sm)"
-      >
-        <span class="font-(--ngn-font-weight-semibold) text-(--ngn-color-text)">
-          Database Sync
-        </span>
-        <span class="font-(--ngn-font-weight-semibold) text-(--ngn-color-info-500)">
-          {{ syncProgress }}%
-        </span>
-      </div>
-      <ngn-progress [value]="syncProgress" />
-
-      <div
-        class="mt-(--ngn-size-padding-lg) mb-(--ngn-size-padding-sm) flex items-center justify-between text-(length:--ngn-font-size-sm)"
-      >
-        <span class="font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"> Sync Speed </span>
-        <span class="font-(--ngn-font-weight-semibold) text-(--ngn-color-surface-600)">
-          {{ syncSpeed() }}/10
-        </span>
-      </div>
-      <ngn-slider [min]="1" [max]="10" [(value)]="syncSpeed" />
     </div>
   </div>
 </div>
