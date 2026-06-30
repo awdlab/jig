@@ -1,5 +1,8 @@
+<!-- Mobile only (<=900px): breadcrumb lives in the content here since the
+     topbar hides it at this width. -->
+<ngn-breadcrumb class="nav:hidden block pt-4" [items]="breadcrumbItems()" />
+
 <div class="flex w-full flex-col justify-center">
-  <ngn-breadcrumb [items]="breadcrumbItems()" />
   <h2 class="m-0 py-6 text-3xl">{{ page.title }}</h2>
 </div>
 

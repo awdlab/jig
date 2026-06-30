@@ -185,6 +185,7 @@ export class ThemeService implements OnDestroy {
     }
 
     Logger.debug(`Active theme changed to "${newTheme.name}". Reloading scopes...`);
+    this.unloadAllScopes();
     this._loadedScopes.forEach(scope => {
       Logger.debug(`Reloading theme scope "${scope}" for active theme "${newTheme.name}".`);
       this.applyTheme(newTheme, [scope]);
@@ -192,7 +193,9 @@ export class ThemeService implements OnDestroy {
   }
 
   private unloadAllScopes(): void {
-    Logger.warn('Unloading all theme scopes is not implemented yet. This is a placeholder method.');
+    this._document.head.querySelectorAll('style[ngn-style][data-theme-scope]').forEach(el => {
+      el.remove();
+    });
   }
 
   private applyTheme(theme: Theme, scopes: string[]): void {

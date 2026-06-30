@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { provideClientHydration, withNoIncrementalHydration } from '@angular/platform-browser';
 import { provideRouter, withInMemoryScrolling, withViewTransitions } from '@angular/router';
-import { provideNgnControls } from '@ngneers/controls/api/ng';
+import { provideNgnControls, withAutoColorScheme } from '@ngneers/controls/api/ng';
 import { withDefaultIcons } from '@ngneers/controls/default-icons';
 import { withToasts } from '@ngneers/controls/toast';
 import { novaCoral } from '@ngneers/controls-themes/nova';
@@ -29,7 +29,12 @@ export const appConfig: ApplicationConfig = {
       withViewTransitions()
     ),
     provideClientHydration(withNoIncrementalHydration()),
-    provideNgnControls({ theme: { preset: novaCoral } }, withToasts(), withDefaultIcons()),
+    provideNgnControls(
+      { theme: { preset: novaCoral } },
+      withToasts(),
+      withDefaultIcons(),
+      withAutoColorScheme()
+    ),
     ...[environment.production ? [] : [provideCheckNoChangesConfig({ exhaustive: true })]],
   ],
 };

@@ -49,3 +49,5 @@ Always check **all** parts when making changes to a control — a rename or new 
 - When previewing the docs app, you must click "Get Started" on the startpage before the sidebar navigation becomes available. This is always the case.
 
 - Always run `pnpm prettier --write` over changed files after completing edits
+
+- The dev server does NOT recompile when a globally `@use`d SCSS partial (e.g. `src/styles/global.scss`) changes — the watcher misses it. To force a rebuild + reload, save the app's `styles.scss` entry (which `@use`s those partials). (Component-template/TS edits hot-reload normally; this caveat is specific to global SCSS partials.)

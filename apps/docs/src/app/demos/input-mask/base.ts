@@ -1,16 +1,13 @@
 import { Component, signal } from '@angular/core';
-import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
 import { DATE_TIME_MASKS, NgnInputMask, type InputMaskCfg } from '@ngneers/controls/input-mask';
 
 @Component({
-  imports: [NgnInput, NgnInputMask, NgnInputField],
+  imports: [NgnInputMask, NgnInputField],
   selector: 'ngn-demo-input-mask-base',
   template: `
     <ngn-input-field [label]="'Label for input mask'" [labelKind]="'on'">
-      <ngn-input-mask [mask]="mask">
-        <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
-      </ngn-input-mask>
+      <ngn-input-mask [mask]="mask" [value]="value()" (valueChange)="value.set($event ?? '')" />
     </ngn-input-field>
     {{ value() }}
   `,

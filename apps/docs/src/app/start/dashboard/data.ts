@@ -36,25 +36,6 @@ export type Kpi = {
   tooltip: string;
 };
 
-export type CampaignMetric = {
-  label: string;
-  value: string;
-};
-
-export type Campaign = {
-  id: string;
-  header: string;
-  body: string;
-  /** Completion percentage shown on the panel's progress bar. */
-  progress: number;
-  /** Status pill rendered as an `ngn-tag`. */
-  status: { label: string; color: CustomColor };
-  /** Audience/segment labels rendered as chips. */
-  tags: readonly string[];
-  /** Headline numbers rendered as a small stat row. */
-  metrics: readonly CampaignMetric[];
-};
-
 /** Filter applied to the opportunities table via the footer chips. */
 export type OpportunityFilter = 'all' | 'highValue' | 'closingSoon';
 
@@ -109,35 +90,6 @@ export const KPIS: readonly Kpi[] = [
     trend: 'Requires attention',
     trendColor: 'warning',
     tooltip: 'Issues requiring immediate action',
-  },
-];
-
-export const CAMPAIGNS: readonly Campaign[] = [
-  {
-    id: 'q4-enterprise',
-    header: 'Q4 Enterprise Push',
-    body: 'Targeting top tier clients in the finance sector with a coordinated outbound and field-marketing motion. Account executives are paired with solution engineers for every named account, and currently the campaign sits at 45% of its quarterly goal.',
-    progress: 45,
-    status: { label: 'Active', color: 'success' },
-    tags: ['Finance', 'Enterprise', 'Top Tier', 'Outbound'],
-    metrics: [
-      { label: 'Leads', value: '128' },
-      { label: 'Meetings', value: '34' },
-      { label: 'Pipeline', value: '$4.2M' },
-    ],
-  },
-  {
-    id: 'sme-onboarding',
-    header: 'SME Onboarding Flow',
-    body: 'Automated nurture sequence for small and medium businesses entering the funnel. New signups move through a six-step activation journey with in-product checklists and lifecycle emails. Conversion is tracking ahead of target this quarter.',
-    progress: 72,
-    status: { label: 'On Track', color: 'info' },
-    tags: ['SMB', 'Onboarding', 'Automated', 'Lifecycle'],
-    metrics: [
-      { label: 'Signups', value: '540' },
-      { label: 'Activated', value: '71%' },
-      { label: 'Churn', value: '3.2%' },
-    ],
   },
 ];
 

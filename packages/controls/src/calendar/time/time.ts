@@ -40,6 +40,11 @@ export class CalendarTime {
   });
 
   protected onValueChange(value: string) {
+    if (!value) {
+      this.timeChange.emit(null);
+      return;
+    }
+
     const [hours, minutes, seconds] = value.split(':').map(Number);
 
     if (hours === undefined || minutes === undefined) {
@@ -48,6 +53,7 @@ export class CalendarTime {
 
     if (isNaN(hours)) {
       this.timeChange.emit(null);
+      return;
     }
 
     const fixedMinutes = isNaN(minutes) ? 0 : minutes;

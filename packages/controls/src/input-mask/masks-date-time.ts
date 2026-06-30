@@ -54,6 +54,9 @@ export function getDateOrTimeMask(mask: string): InputMaskCfg {
       return segment.literal;
     } else {
       const { symbol, length } = segment;
+      // A single-letter token (length 1) yields a variable-length, non-padded field
+      // (`length` omitted); a doubled token (length >= 2) yields a fixed, zero-padded field.
+      const len = length >= 2 ? length : undefined;
       switch (symbol) {
         case 'day':
           return {
@@ -61,7 +64,7 @@ export function getDateOrTimeMask(mask: string): InputMaskCfg {
             kind: 'number',
             min: 1,
             max: 31,
-            length,
+            length: len,
             placeholder: 'DD',
           } as const;
         case 'month':
@@ -70,7 +73,7 @@ export function getDateOrTimeMask(mask: string): InputMaskCfg {
             kind: 'number',
             min: 1,
             max: 12,
-            length,
+            length: len,
             placeholder: 'MM',
           } as const;
         case 'year':
@@ -79,7 +82,7 @@ export function getDateOrTimeMask(mask: string): InputMaskCfg {
             kind: 'number',
             min: 0,
             max: 9999,
-            length,
+            length: len,
             placeholder: 'YYYY',
           } as const;
         case 'hour24':
@@ -88,7 +91,7 @@ export function getDateOrTimeMask(mask: string): InputMaskCfg {
             kind: 'number',
             min: 0,
             max: 23,
-            length,
+            length: len,
             placeholder: 'HH',
           } as const;
         case 'hour12':
@@ -97,7 +100,7 @@ export function getDateOrTimeMask(mask: string): InputMaskCfg {
             kind: 'number',
             min: 1,
             max: 12,
-            length,
+            length: len,
             placeholder: 'HH',
           } as const;
         case 'minute':
@@ -106,7 +109,7 @@ export function getDateOrTimeMask(mask: string): InputMaskCfg {
             kind: 'number',
             min: 0,
             max: 59,
-            length,
+            length: len,
             placeholder: 'MM',
           } as const;
         case 'second':
@@ -115,7 +118,7 @@ export function getDateOrTimeMask(mask: string): InputMaskCfg {
             kind: 'number',
             min: 0,
             max: 59,
-            length,
+            length: len,
             placeholder: 'SS',
           } as const;
         case 'period':
@@ -123,7 +126,6 @@ export function getDateOrTimeMask(mask: string): InputMaskCfg {
             segment: 'period',
             kind: 'enum',
             values: ['AM', 'PM'],
-            length: 2,
           } as const;
         case 'fractionalSecond':
           return {
@@ -131,7 +133,7 @@ export function getDateOrTimeMask(mask: string): InputMaskCfg {
             kind: 'number',
             min: 0,
             max: 999,
-            length,
+            length: len,
             placeholder: 'SSS',
           } as const;
       }

@@ -1,5 +1,7 @@
 export * from './config';
 export * from './closable';
+export * from './color-scheme';
+export * from './color-scheme-provider';
 export * from './components';
 export * from './dom';
 export * from './kinds';

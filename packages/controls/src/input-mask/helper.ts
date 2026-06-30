@@ -1,653 +1,385 @@
 import { MASKS } from './masks';
 import { DATE_TIME_MASKS } from './masks-date-time';
 
-import type {
-  InputMaskCfg,
-  InputMaskCfgResolved,
-  MaskResolution,
-  NumberSegment,
-  ResolvedSegment,
-} from './types';
+import type { EnumField, Field, InputMaskCfg, NumberField, Part } from './types';
 
-// Interface for communicating with the parent component
-type MaskData = {
-  updateValue: (element: HTMLInputElement, value: string, position: number) => void;
-  announce?: (message: string) => void;
-};
+export type RenderToken =
+  | { kind: 'sep'; text: string }
+  | { kind: 'section'; ord: number; text: string; placeholder: boolean };
 
-/**
- * Helper class for handling masked input functionality
- */
-export class MaskHelper {
-  private readonly _data: MaskData;
+export function resolveMask(input: InputMaskCfg | string | null): Part[] | null {
+  if (!input) return null;
+  const cfg: InputMaskCfg | undefined =
+    typeof input === 'string'
+      ? ((MASKS as Record<string, InputMaskCfg>)[input] ??
+        (DATE_TIME_MASKS as Record<string, InputMaskCfg>)[input])
+      : input;
+  if (!cfg) return null; // unknown raw string → unsupported
 
-  constructor(data: MaskData) {
-    this._data = data;
-  }
-
-  /**
-   * Ensure the mask is in the correct format
-   * Converts string masks to TextFieldMaskCfg format
-   * Returns null if no mask is provided
-   */
-  public ensureMask(mask: InputMaskCfg | string | null): MaskResolution | null {
-    if (!mask) return null;
-    if (typeof mask === 'string') {
-      const named =
-        MASKS[mask as keyof typeof MASKS] ?? DATE_TIME_MASKS[mask as keyof typeof DATE_TIME_MASKS];
-      if (named) return this.ensureMask(named);
-      // Convert string mask to TextFieldMaskCfg
-      // 0 => digit, A => letter, * => alphanumeric
-      const entries: InputMaskCfgResolved = mask.split('').map(char => {
-        if (char === '0') {
-          return { placeholder: char, accepts: /\d/, default: '0' };
-        } else if (char === 'A') {
-          return { placeholder: char, accepts: /[a-zA-Z]/, default: 'A' };
-        } else if (char === '*') {
-          return { placeholder: char, accepts: /[a-zA-Z0-9]/, default: 'A' };
-        }
-        return char;
-      });
-      return { entries, segments: new Map() };
+  return cfg.map<Part>(item => {
+    if (typeof item === 'string') return { kind: 'sep', text: item };
+    if (item.kind === 'number') {
+      const maxLen = item.length ?? String(item.max).length;
+      const field: NumberField = {
+        kind: 'number',
+        name: item.segment,
+        min: item.min,
+        max: item.max,
+        maxLen,
+        pad: item.length != null,
+        placeholder: item.placeholder ?? '-'.repeat(maxLen),
+      };
+      return field;
     }
-
-    // Process array mask — expand MaskSegment objects into entries
-    const entries: InputMaskCfgResolved = [];
-    const segments = new Map<string, ResolvedSegment>();
-
-    for (const item of mask) {
-      if (isMaskSegment(item)) {
-        const start = entries.length;
-        if (item.kind === 'number') {
-          const expanded = this._expandNumberSegment(item as import('./types').NumberSegment);
-          entries.push(...expanded);
-        } else if (item.kind === 'enum') {
-          const enumSeg = item as import('./types').EnumSegment;
-          this._validateEnumSegment(enumSeg);
-          const expanded = this._expandEnumSegment(enumSeg);
-          entries.push(...expanded);
-        }
-        const end = entries.length - 1;
-        segments.set(item.segment, { config: item, positions: { start, end } });
-      } else {
-        // string or InputMaskCfgEntry — pass through as-is
-        entries.push(item);
-      }
-    }
-
-    return { entries, segments };
-  }
-
-  /**
-   * Handle key down events to manage special keys like Backspace and Delete
-   */
-  public handleKeyDown(event: KeyboardEvent, resolution: MaskResolution): void {
-    const mask = resolution.entries;
-    if (!mask || this._shouldIgnoreEvent(event)) {
-      return;
-    }
-    const el = event.target as HTMLInputElement;
-    const key = event.key;
-    const currentPosition = el.selectionStart ?? 0;
-
-    // Arrow Up/Down for segment increment/decrement
-    if (key === 'ArrowUp' || key === 'ArrowDown') {
-      const seg = this.getSegmentAtPosition(currentPosition, resolution.segments, true);
-      if (seg) {
-        event.preventDefault();
-        const direction = key === 'ArrowUp' ? 1 : -1;
-        this._incrementSegment(el, seg, direction, resolution);
-        return;
-      }
-    }
-
-    const selEnd = el.selectionEnd ?? 0;
-    if (selEnd - currentPosition > 0) {
-      return;
-    }
-
-    if (this._isSpecialKey(key)) {
-      this._handleSpecialKey(event, el, key, currentPosition, mask);
-    }
-  }
-
-  /**
-   * Handle before input event to manage character input with mask validation
-   */
-  public handleBeforeInput(event: InputEvent, resolution: MaskResolution): void {
-    const mask = resolution.entries;
-    const el = event.target as HTMLInputElement;
-    const key = event.data;
-    const selStart = el.selectionStart ?? 0;
-    const selEnd = el.selectionEnd ?? 0;
-
-    // Paste, selection, and multi-character input handling for segment-based masks
-    if (resolution.segments.size > 0) {
-      if (event.inputType === 'insertFromPaste' || event.inputType === 'insertFromDrop') {
-        event.preventDefault();
-        const pastedText = key;
-        if (pastedText) {
-          this._tryPaste(el, pastedText, resolution);
-        }
-        return;
-      }
-
-      // Handle selection
-      if (selEnd - selStart > 0) {
-        const startSeg = this.getSegmentAtPosition(selStart, resolution.segments);
-        const endSeg = this.getSegmentAtPosition(selEnd - 1, resolution.segments);
-
-        // Cross-segment or no-segment selection: allow deletion, block typing
-        if (!startSeg || !endSeg || startSeg !== endSeg) {
-          if (!key) {
-            // Deletion (Backspace/Delete/clear) — let it through
-            return;
-          }
-          event.preventDefault();
-          return;
-        }
-
-        // Single-segment selection: clear segment to defaults, reset cursor to segment start
-        const seg = startSeg;
-        const { start, end } = seg.positions;
-        let defaultVal = '';
-        for (let i = start; i <= end; i++) {
-          const entry = mask[i];
-          if (entry && typeof entry !== 'string') {
-            defaultVal += entry.default;
-          } else if (typeof entry === 'string') {
-            defaultVal += entry;
-          }
-        }
-        const newVal = el.value.slice(0, start) + defaultVal + el.value.slice(end + 1);
-        el.value = newVal;
-        el.setSelectionRange(start, start);
-        // Fall through — the character input handler will process the keystroke at the new position
-        if (!key) {
-          event.preventDefault();
-          return;
-        }
-        this._handleCharacterInput(event, el, key, start, resolution);
-        return;
-      }
-    }
-
-    const currentPosition = selStart;
-
-    if (!key) {
-      // If no key data, just return
-      return;
-    }
-
-    // Route to appropriate handler based on key type
-    if (!this._isSpecialKey(key)) {
-      this._handleCharacterInput(event, el, key, currentPosition, resolution);
-    }
-  }
-
-  /**
-   * Get the resolved segment at a given cursor position, or null if not in a segment
-   */
-  public getSegmentAtPosition(
-    cursorPos: number,
-    segments: Map<string, ResolvedSegment>,
-    fuzzy = false
-  ): ResolvedSegment | null {
-    let closest: ResolvedSegment | null = null;
-    for (const seg of segments.values()) {
-      if (cursorPos >= seg.positions.start && cursorPos <= seg.positions.end) {
-        return seg;
-      }
-      if (fuzzy && cursorPos > seg.positions.end) {
-        if (!closest || seg.positions.end > closest.positions.end) {
-          closest = seg;
-        }
-      }
-    }
-    return fuzzy ? closest : null;
-  }
-
-  /**
-   * Expand a NumberSegment into positional InputMaskCfgEntry array
-   */
-  private _expandNumberSegment(seg: import('./types').NumberSegment): InputMaskCfgResolved {
-    const placeholder = seg.placeholder ?? '0'.repeat(seg.length);
-    const result: InputMaskCfgResolved = [];
-    for (let i = 0; i < seg.length; i++) {
-      result.push({
-        placeholder: placeholder[i] ?? '0',
-        accepts: /^\d$/,
-        default: '0',
-      });
-    }
-    return result;
-  }
-
-  /**
-   * Expand an EnumSegment into positional InputMaskCfgEntry array
-   */
-  private _expandEnumSegment(seg: import('./types').EnumSegment): InputMaskCfgResolved {
-    const result: InputMaskCfgResolved = [];
-    for (let i = 0; i < seg.length; i++) {
-      const validChars = new Set<string>();
-      for (const value of seg.values) {
-        const ch = value[i];
-        if (ch !== undefined) {
-          validChars.add(ch);
-        }
-      }
-      const chars = [...validChars].join('');
-      const accepts = new RegExp(`^[${chars.replace(/[\]\\^-]/g, '\\$&')}]$`, 'i');
-      const placeholder = seg.placeholder?.[i] ?? seg.values[0]?.[i] ?? '_';
-      result.push({
-        placeholder,
-        accepts,
-        default: seg.values[0]?.[i] ?? '_',
-      });
-    }
-    return result;
-  }
-
-  /**
-   * Validate an EnumSegment and warn on duplicate first chars
-   */
-  private _validateEnumSegment(seg: import('./types').EnumSegment): void {
-    const firstChars = new Set<string>();
-    for (const value of seg.values) {
-      const firstChar = value[0];
-      if (firstChar !== undefined) {
-        if (firstChars.has(firstChar)) {
-          console.warn(
-            `[NgnInputMask] EnumSegment "${seg.segment}" has duplicate first char "${firstChar}" in values: ${seg.values.join(', ')}`
-          );
-        }
-        firstChars.add(firstChar);
-      }
-    }
-  }
-
-  /**
-   * Check if the event should be ignored (modifier keys)
-   */
-  private _shouldIgnoreEvent(event: KeyboardEvent): boolean {
-    return event.ctrlKey || event.metaKey || event.altKey;
-  }
-
-  /**
-   * Check if key is a special key (Backspace/Delete)
-   */
-  private _isSpecialKey(key: string): boolean {
-    return key.length > 1;
-  }
-
-  /**
-   * Handle special keys like Backspace and Delete
-   */
-  private _handleSpecialKey(
-    event: KeyboardEvent,
-    el: HTMLInputElement,
-    key: string,
-    currentPosition: number,
-    mask: InputMaskCfgResolved
-  ): void {
-    if (key === 'Backspace' && currentPosition > 0) {
-      const maskEntry = mask[currentPosition - 1];
-      if (!maskEntry) {
-        return;
-      }
-      // Get the default character for this position
-      const defaultChar = typeof maskEntry === 'string' ? maskEntry : maskEntry.default;
-
-      if (currentPosition === el.value.length) {
-        return;
-      }
-
-      const newVal =
-        el.value.slice(0, currentPosition - 1) + defaultChar + el.value.slice(currentPosition);
-
-      this._data.updateValue(el, newVal, currentPosition - 1);
-      event.preventDefault();
-    } else if (key === 'Delete' && currentPosition < el.value.length) {
-      const maskEntry = mask[currentPosition];
-      if (!maskEntry) {
-        return;
-      }
-      // Get the default character for this position
-      const defaultChar = typeof maskEntry === 'string' ? maskEntry : maskEntry.default;
-      const newVal =
-        el.value.slice(0, currentPosition) + defaultChar + el.value.slice(currentPosition + 1);
-
-      this._data.updateValue(el, newVal, currentPosition + 1);
-      event.preventDefault();
-    }
-  }
-
-  /**
-   * Handle regular character input with mask validation
-   */
-  private _handleCharacterInput(
-    event: InputEvent,
-    el: HTMLInputElement,
-    key: string,
-    currentPosition: number,
-    resolution: MaskResolution
-  ): void {
-    const mask = resolution.entries;
-    // Skip over static characters and find the next input position
-    const { position, autoPrintChars } = this._processStaticCharacters(el, currentPosition, mask);
-    const maskEntry = mask[position];
-
-    // Check if we're at a valid input position
-    if (!maskEntry || typeof maskEntry === 'string') {
-      event.preventDefault();
-      return;
-    }
-
-    // Validate the character against the mask requirements
-    if (!maskEntry.accepts.test(key)) {
-      event.preventDefault();
-      setTimeout(() => {
-        // Ensure the cursor position is set after the value update for android compatibility
-        el.setSelectionRange(position, position);
-      });
-      return;
-    }
-
-    // --- Segment-aware validation ---
-    const seg = this.getSegmentAtPosition(position, resolution.segments);
-
-    // Smart validation for number segments
-    if (seg && seg.config.kind === 'number') {
-      const validation = this._validateNumberInput(key, position, el, seg);
-      if (validation.action === 'reject') {
-        event.preventDefault();
-        return;
-      }
-      if (validation.action === 'autocomplete' && validation.value !== undefined) {
-        const newVal =
-          el.value.slice(0, currentPosition) +
-          autoPrintChars +
-          validation.value +
-          el.value.slice(seg.positions.end + 1);
-        this._data.updateValue(el, newVal, seg.positions.end + 1);
-        event.preventDefault();
-        return;
-      }
-      // action === 'accept' — fall through to normal handling
-    }
-
-    // Enum segment typing — match first character against values
-    if (seg && seg.config.kind === 'enum') {
-      const enumConfig = seg.config as import('./types').EnumSegment;
-      const matched = enumConfig.values.find(v => v[0]?.toLowerCase() === key.toLowerCase());
-      if (!matched) {
-        event.preventDefault();
-        return;
-      }
-      // Fill entire segment with the matched value, including any preceding separators
-      const newVal =
-        el.value.slice(0, currentPosition) +
-        autoPrintChars +
-        matched +
-        el.value.slice(seg.positions.end + 1);
-      this._data.updateValue(el, newVal, seg.positions.end + 1);
-      event.preventDefault();
-      return;
-    }
-
-    // Build the new value with auto-inserted static characters
-    const newVal =
-      el.value.slice(0, position) + autoPrintChars + key + el.value.slice(position + 1);
-
-    this._data.updateValue(el, newVal, position + 1);
-    event.preventDefault();
-  }
-
-  /**
-   * Read a segment's current value from the input element
-   */
-  private _getSegmentValue(el: HTMLInputElement, seg: ResolvedSegment): string {
-    return el.value.slice(seg.positions.start, seg.positions.end + 1);
-  }
-
-  private _tryPaste(el: HTMLInputElement, text: string, resolution: MaskResolution): void {
-    const mask = resolution.entries;
-    const separators = new Set<string>();
-    for (const entry of mask) {
-      if (typeof entry === 'string') separators.add(entry);
-    }
-
-    // Strip separators from pasted text — they're optional
-    let stripped = '';
-    for (const ch of text) {
-      if (!separators.has(ch)) stripped += ch;
-    }
-
-    // Walk segments in order, consume chars from stripped text
-    let charIdx = 0;
-    let result = '';
-
-    for (let maskIdx = 0; maskIdx < mask.length; ) {
-      const entry = mask[maskIdx];
-
-      if (typeof entry === 'string') {
-        result += entry;
-        maskIdx++;
-        continue;
-      }
-
-      const seg = this.getSegmentAtPosition(maskIdx, resolution.segments);
-      if (!seg) {
-        // Legacy entry — consume one char and validate
-        if (charIdx >= stripped.length) return;
-        const ch = stripped[charIdx]!;
-        if (!entry!.accepts.test(ch)) return;
-        result += ch;
-        charIdx++;
-        maskIdx++;
-        continue;
-      }
-
-      const config = seg.config;
-      const segLen = seg.positions.end - seg.positions.start + 1;
-
-      if (config.kind === 'number') {
-        const available = stripped.slice(charIdx, charIdx + segLen);
-        if (available.length === 0) return;
-
-        let segValue: string;
-        if (available.length < segLen) {
-          // Fewer digits than segment length — left-pad
-          segValue = available.padStart(segLen, '0');
-        } else {
-          segValue = available.slice(0, segLen);
-        }
-
-        // Validate all chars are digits
-        for (const ch of segValue) {
-          if (!/^\d$/.test(ch)) return;
-        }
-
-        const numVal = parseInt(segValue, 10);
-        if (numVal < config.min || numVal > config.max) return;
-
-        result += segValue;
-        charIdx += available.length < segLen ? available.length : segLen;
-      } else if (config.kind === 'enum') {
-        const available = stripped.slice(charIdx, charIdx + segLen);
-        if (available.length === 0) return;
-
-        // Try exact match first, then first-char match
-        let matched = config.values.find(v => v.toUpperCase() === available.toUpperCase());
-        if (!matched) {
-          matched = config.values.find(v => v[0]?.toUpperCase() === available[0]?.toUpperCase());
-        }
-        if (!matched) return;
-
-        result += matched;
-        charIdx += available.length <= segLen ? available.length : segLen;
-      }
-
-      maskIdx = seg.positions.end + 1;
-    }
-
-    // All segments must be filled
-    if (result.length !== mask.length) return;
-
-    this._data.updateValue(el, result, result.length);
-  }
-
-  /**
-   * Validate a digit keystroke against a number segment's min/max bounds.
-   * Returns 'accept' to allow the keystroke, 'reject' to block it,
-   * or 'autocomplete' with a padded value when the digit only works if
-   * the remaining positions are filled with the correct padding.
-   */
-  private _validateNumberInput(
-    key: string,
-    cursorPos: number,
-    el: HTMLInputElement,
-    seg: ResolvedSegment
-  ): { action: 'accept' | 'reject' | 'autocomplete'; value?: string } {
-    const config = seg.config as NumberSegment;
-    const { start, end } = seg.positions;
-    const segLen = end - start + 1;
-
-    // Build the value-so-far with the new key inserted
-    const currentVal = this._getSegmentValue(el, seg);
-    const offsetInSeg = cursorPos - start;
-    const withKey = currentVal.slice(0, offsetInSeg) + key + currentVal.slice(offsetInSeg + 1);
-
-    const remaining = end - cursorPos; // digits still to fill after this one
-
-    if (remaining === 0) {
-      // Final digit — the value is now fully determined
-      const numVal = parseInt(withKey, 10);
-      if (numVal < config.min || numVal > config.max) {
-        return { action: 'reject' };
-      }
-      return { action: 'accept' };
-    }
-
-    // Not the final digit — check whether any valid completion exists
-    const prefix = withKey.slice(0, offsetInSeg + 1);
-    const suffixLen = segLen - prefix.length;
-    const minCompletion = parseInt(prefix + '0'.repeat(suffixLen), 10);
-    const maxCompletion = parseInt(prefix + '9'.repeat(suffixLen), 10);
-
-    // Check if the ranges overlap: [minCompletion, maxCompletion] ∩ [min, max]
-    if (minCompletion <= config.max && maxCompletion >= config.min) {
-      return { action: 'accept' };
-    }
-
-    // No natural completion works — try left-padding the entered value
-    const paddedStr = withKey.padStart(segLen, '0');
-    const paddedVal = parseInt(paddedStr, 10);
-    if (paddedVal >= config.min && paddedVal <= config.max) {
-      return { action: 'autocomplete', value: paddedStr };
-    }
-
-    return { action: 'reject' };
-  }
-
-  /**
-   * Pad el.value to full mask length using entry defaults and separator characters.
-   * This ensures the input is fully populated before performing segment operations.
-   */
-  private _ensureFullValue(el: HTMLInputElement, resolution: MaskResolution): void {
-    const mask = resolution.entries;
-    if (el.value.length >= mask.length) {
-      return;
-    }
-    let value = el.value;
-    for (let i = value.length; i < mask.length; i++) {
-      const entry = mask[i];
-      if (typeof entry === 'string') {
-        value += entry;
-      } else if (entry) {
-        value += entry.default;
-      }
-    }
-    el.value = value;
-  }
-
-  /**
-   * Increment or decrement a segment value by the given direction (+1 or -1).
-   * For number segments: parse, adjust, wrap at bounds, pad and write.
-   * For enum segments: cycle through values array with wrapping.
-   */
-  private _incrementSegment(
-    el: HTMLInputElement,
-    seg: ResolvedSegment,
-    direction: 1 | -1,
-    resolution: MaskResolution
-  ): void {
-    this._ensureFullValue(el, resolution);
-    const { start, end } = seg.positions;
-    const segLen = end - start + 1;
-
-    if (seg.config.kind === 'number') {
-      const config = seg.config as NumberSegment;
-      const raw = this._getSegmentValue(el, seg);
-      let numVal = parseInt(raw, 10);
-      if (isNaN(numVal)) {
-        numVal = direction === 1 ? config.min : config.max;
-      } else {
-        numVal += direction;
-        if (numVal > config.max) numVal = config.min;
-        if (numVal < config.min) numVal = config.max;
-      }
-      const padded = String(numVal).padStart(segLen, '0');
-      const newVal = el.value.slice(0, start) + padded + el.value.slice(end + 1);
-      this._data.updateValue(el, newVal, start);
-      this._data.announce?.(`${config.segment}: ${padded}`);
-    } else if (seg.config.kind === 'enum') {
-      const config = seg.config as import('./types').EnumSegment;
-      const raw = this._getSegmentValue(el, seg);
-      let idx = config.values.indexOf(raw);
-      if (idx === -1) {
-        idx = direction === 1 ? 0 : config.values.length - 1;
-      } else {
-        idx += direction;
-        if (idx >= config.values.length) idx = 0;
-        if (idx < 0) idx = config.values.length - 1;
-      }
-      const newValue = config.values[idx] ?? config.values[0] ?? '';
-      const newVal = el.value.slice(0, start) + newValue + el.value.slice(end + 1);
-      this._data.updateValue(el, newVal, start);
-      this._data.announce?.(`${config.segment}: ${newValue}`);
-    }
-  }
-
-  /**
-   * Process static characters in the mask and auto-insert them
-   * Returns the next input position and any static characters to insert
-   */
-  private _processStaticCharacters(
-    el: HTMLInputElement,
-    startPosition: number,
-    mask: InputMaskCfgResolved
-  ): { position: number; autoPrintChars: string } {
-    let currentPosition = startPosition;
-    let autoPrintChars = '';
-    let currentMaskEntry = mask[currentPosition];
-
-    // Skip over static characters and collect them for auto-insertion
-    while (currentMaskEntry && typeof currentMaskEntry === 'string') {
-      if (el.value.charAt(currentPosition) !== currentMaskEntry) {
-        autoPrintChars += currentMaskEntry;
-      }
-      currentPosition++;
-      currentMaskEntry = mask[currentPosition];
-    }
-
-    return { position: currentPosition, autoPrintChars };
-  }
+    // Guard an empty values array: Math.max(...[]) is -Infinity, which would
+    // throw in '-'.repeat(maxLen). An empty enum is degenerate but must not crash.
+    const maxLen = item.values.length === 0 ? 0 : Math.max(...item.values.map(v => v.length));
+    const field: EnumField = {
+      kind: 'enum',
+      name: item.segment,
+      values: [...item.values],
+      maxLen,
+      placeholder: item.placeholder ?? (maxLen > 0 ? '-'.repeat(maxLen) : ''),
+    };
+    return field;
+  });
+}
+
+export function fieldList(parts: Part[]): Field[] {
+  return parts.filter((p): p is Field => p.kind !== 'sep');
 }
 
 /**
- * Type guard to check if an entry is a MaskSegment
+ * Index of the section whose horizontal box is nearest `clientX`.
+ * - `clientX` left of the first section → 0
+ * - `clientX` right of the last section → last index
+ * - inside a section → that section
+ * - in a gap/separator between two sections → the nearer one
+ * Returns -1 for an empty list.
  */
-function isMaskSegment(entry: unknown): entry is import('./types').MaskSegment {
-  return typeof entry === 'object' && entry !== null && 'kind' in entry;
+export function nearestSectionIndex(
+  rects: readonly { left: number; right: number }[],
+  clientX: number
+): number {
+  if (rects.length === 0) return -1;
+  let best = 0;
+  let bestDist = Infinity;
+  for (let i = 0; i < rects.length; i++) {
+    const r = rects[i];
+    if (!r) continue;
+    const dist = clientX < r.left ? r.left - clientX : clientX > r.right ? clientX - r.right : 0;
+    if (dist < bestDist) {
+      bestDist = dist;
+      best = i;
+    }
+    if (dist === 0) break; // inside a section — exact hit
+  }
+  return best;
+}
+
+/**
+ * Enforce the no-gaps invariant: scanning from index 0, once the first empty
+ * field is seen, blank every field after it. A delete that empties an earlier
+ * field therefore clears the now-orphaned later fields too.
+ */
+export function truncateGaps(values: string[]): string[] {
+  let seenEmpty = false;
+  return values.map(v => {
+    if (seenEmpty) return '';
+    if (!v) {
+      seenEmpty = true;
+      return '';
+    }
+    return v;
+  });
+}
+
+// ---- New per-section pure functions ----
+
+/**
+ * Type a char into ONE section. Returns the new section value + whether focus
+ * should auto-advance to the next section, or null if the char is rejected.
+ *
+ * For number fields:
+ * - Non-digit → null.
+ * - If current is already complete (length===maxLen or value*10>max) a digit
+ *   starts a fresh value (replace).
+ * - Otherwise appending is attempted. If the appended candidate exceeds max or
+ *   maxLen, restart with the bare digit instead.
+ * - advance:true when the resulting value is isSectionComplete.
+ *
+ * For enum fields:
+ * - Match by case-insensitive first char; on match returns {value, advance:true}.
+ * - No match → null.
+ *
+ * NOTE: padding is NOT applied to the returned value — that is a display concern.
+ */
+export function typeIntoSection(
+  field: Field,
+  current: string,
+  ch: string
+): { value: string; advance: boolean } | null {
+  if (field.kind === 'enum') {
+    const match = field.values.find(val => val[0]?.toLowerCase() === ch.toLowerCase());
+    if (!match) return null;
+    return { value: match, advance: true };
+  }
+
+  // number field — a single digit only (multi-char data is rejected outright).
+  if (!/^\d$/.test(ch)) return null;
+
+  // If current section is already complete, start fresh
+  const currentComplete = current !== '' && isSectionComplete(field, current);
+  let candidate: string;
+  if (currentComplete) {
+    candidate = ch;
+  } else {
+    const appended = current + ch;
+    // If appending would exceed max or length, restart with bare digit
+    if (appended.length > field.maxLen || Number(appended) > field.max) {
+      // A single digit that is itself out of range can never be a valid value
+      // for this field (only possible for tiny fields with max < 10) → reject.
+      if (Number(ch) > field.max) return null;
+      candidate = ch;
+    } else {
+      candidate = appended;
+    }
+  }
+
+  // A full-width candidate below the field minimum (e.g. '00' for a day/month
+  // whose min is 1) is invalid — reject rather than letting it "complete".
+  if (candidate.length === field.maxLen && Number(candidate) < field.min) return null;
+
+  const advance = isSectionComplete(field, candidate);
+  return { value: candidate, advance };
+}
+
+/**
+ * Step/cycle a section value up (1) or down (-1). Empty defaults sensibly.
+ *
+ * For number fields:
+ * - empty → field.min (no extra dir step on the empty→min transition).
+ * - Non-empty: n = Number(current) + dir, wrap at >max → min, <min → max.
+ * - Returns padded (padStart maxLen '0') iff field.pad.
+ *
+ * For enum fields:
+ * - Find current (case-insensitive) in values; step by dir with wraparound.
+ * - empty/not-found → first value (dir:1) or last value (dir:-1).
+ */
+export function stepSection(field: Field, current: string, dir: 1 | -1): string {
+  if (field.kind === 'enum') {
+    const i = field.values.findIndex(v => v.toLowerCase() === current.toLowerCase());
+    if (i === -1) {
+      return (dir === 1 ? field.values[0] : field.values[field.values.length - 1]) ?? '';
+    }
+    const next = (i + dir + field.values.length) % field.values.length;
+    return field.values[next] ?? field.values[0] ?? '';
+  }
+
+  // number field
+  if (current === '') {
+    const min = field.min;
+    return field.pad ? String(min).padStart(field.maxLen, '0') : String(min);
+  }
+
+  let n = Number(current) + dir;
+  if (n > field.max) n = field.min;
+  if (n < field.min) n = field.max;
+  return field.pad ? String(n).padStart(field.maxLen, '0') : String(n);
+}
+
+/**
+ * Whether a single section value is "done" (would auto-advance or is a fully
+ * matched enum). Empty → always false.
+ *
+ * number: value.length===maxLen OR Number(value)*10 > max.
+ * enum: value is literally in the values list (case-sensitive).
+ */
+export function isSectionComplete(field: Field, value: string): boolean {
+  if (value === '') return false;
+  if (field.kind === 'enum') return field.values.includes(value);
+  if (!/^\d+$/.test(value)) return false;
+  const n = Number(value);
+  // A complete number value must be within range AND either fill the width or be
+  // unable to grow further (value*10 would exceed max).
+  return n >= field.min && n <= field.max && (value.length === field.maxLen || n * 10 > field.max);
+}
+
+/**
+ * Whether all fields in the mask have a complete value.
+ * Empty field list → false.
+ */
+export function isComplete(parts: Part[], values: string[]): boolean {
+  const fields = fieldList(parts);
+  if (fields.length === 0) return false;
+  return fields.every((field, i) => isSectionComplete(field, values[i] ?? ''));
+}
+
+/**
+ * Render each part as a RenderToken for display. No offsets.
+ *
+ * Separator → {kind:'sep', text}.
+ * Field → {kind:'section', ord, text, placeholder}:
+ *   - empty value → text=field.placeholder, placeholder=true
+ *   - filled → text=padded(number&&pad) or raw value, placeholder=false
+ *
+ * `ord` is the 0-based field ordinal (index among fields, not among all parts).
+ *
+ * When `activeOrd` is provided, a padded number field that is currently active
+ * AND not yet complete renders its raw typed digits instead of zero-padded text.
+ * This matches native date-field behaviour: padding is deferred until the section
+ * is committed (complete or navigated away from).
+ * When `activeOrd` is omitted, all non-empty padded fields are padded (preserving
+ * the "fully padded" output for callers that don't track the active section).
+ */
+export function composeDisplay(parts: Part[], values: string[], activeOrd?: number): RenderToken[] {
+  const tokens: RenderToken[] = [];
+  let fieldOrd = 0;
+  for (const part of parts) {
+    if (part.kind === 'sep') {
+      tokens.push({ kind: 'sep', text: part.text });
+    } else {
+      const o = fieldOrd;
+      const value = values[o] ?? '';
+      if (value === '') {
+        tokens.push({ kind: 'section', ord: o, text: part.placeholder, placeholder: true });
+      } else {
+        const padded =
+          part.kind === 'number' && part.pad && (o !== activeOrd || isSectionComplete(part, value));
+        const text = padded ? value.padStart(part.maxLen, '0') : value;
+        tokens.push({ kind: 'section', ord: o, text, placeholder: false });
+      }
+      fieldOrd++;
+    }
+  }
+  return tokens;
+}
+
+/**
+ * Compose the full serialized output string (padded per field definition).
+ * Separators are appended verbatim. Number fields are padded iff field.pad.
+ * Enum fields are verbatim. Empty values are included as-is (empty string).
+ */
+export function serialize(parts: Part[], values: string[]): string {
+  let result = '';
+  let fieldOrd = 0;
+  for (const part of parts) {
+    if (part.kind === 'sep') {
+      result += part.text;
+    } else {
+      const value = values[fieldOrd] ?? '';
+      if (part.kind === 'number' && part.pad) {
+        result += value.padStart(part.maxLen, '0');
+      } else {
+        result += value;
+      }
+      fieldOrd++;
+    }
+  }
+  return result;
+}
+
+// ---- Kept internals ----
+
+/**
+ * Separator-aware string parser shared by `paste` and `deserialize`. Walks the
+ * parts left→right with a cursor into `str`:
+ * - **separator**: consume `sep.text` if present at the cursor; separators are
+ *   optional (so a no-separator paste like `'1234'` still works).
+ * - **number field**: consume the maximal run of digits, capped at `maxLen`
+ *   (naturally stops at a non-digit such as a separator). Zero digits → leave
+ *   the field empty and stop. A chunk outside `[min,max]` → invalid.
+ * - **enum field**: match a value (exact case-insensitive, else first char);
+ *   no match with chars remaining → invalid; no chars remaining → stop.
+ *
+ * The result is run through `truncateGaps` so a skipped middle field never
+ * leaves a gap. `ok` is false when a field was outright invalid (out of range /
+ * unmatched), in which case `values` holds the valid prefix parsed so far.
+ */
+/** Per-field parse outcome: `stop` = nothing left to consume (partial input). */
+type FieldParse = { value: string; cursor: number; ok: boolean; stop: boolean };
+
+/** Consume the maximal in-range digit run for a number field at `cursor`. */
+function takeNumberField(field: NumberField, str: string, cursor: number): FieldParse {
+  let take = '';
+  while (take.length < field.maxLen) {
+    const c = str[cursor] ?? '';
+    if (!/\d/.test(c)) break;
+    take += c;
+    cursor++;
+  }
+  if (take === '') return { value: '', cursor, ok: true, stop: true };
+  const n = Number(take);
+  if (n < field.min || n > field.max) return { value: '', cursor, ok: false, stop: false };
+  return { value: take, cursor, ok: true, stop: false };
+}
+
+/** Match an enum value (exact case-insensitive, else first char) at `cursor`. */
+function takeEnumField(field: EnumField, str: string, cursor: number): FieldParse {
+  const rest = str.slice(cursor);
+  if (rest === '') return { value: '', cursor, ok: true, stop: true };
+  const exact = field.values.find(v => v.toUpperCase() === rest.slice(0, v.length).toUpperCase());
+  const match = exact ?? field.values.find(v => v[0]?.toUpperCase() === rest[0]?.toUpperCase());
+  if (!match) return { value: '', cursor, ok: false, stop: false };
+  return { value: match, cursor: cursor + match.length, ok: true, stop: false };
+}
+
+function feedString(parts: Part[], str: string): { values: string[]; ok: boolean } {
+  const fields = fieldList(parts);
+  const values = fields.map(() => '');
+  let cursor = 0;
+  let o = 0; // field ordinal
+  let ok = true;
+
+  for (const part of parts) {
+    if (part.kind === 'sep') {
+      if (str.startsWith(part.text, cursor)) cursor += part.text.length;
+      continue;
+    }
+    const res =
+      part.kind === 'number'
+        ? takeNumberField(part, str, cursor)
+        : takeEnumField(part, str, cursor);
+    if (!res.ok) {
+      ok = false;
+      break;
+    }
+    if (res.stop) break; // partial input — leave this and the rest empty
+    values[o] = res.value;
+    cursor = res.cursor;
+    o++;
+  }
+
+  // Any unconsumed trailing input means the string didn't fully match the mask.
+  // `paste` treats this as invalid (returns null); `deserialize` ignores `ok`
+  // and keeps the best-effort prefix.
+  if (cursor < str.length) ok = false;
+  return { values: truncateGaps(values), ok };
+}
+
+export function paste(parts: Part[], text: string): { values: string[]; offset: number } | null {
+  const { values, ok } = feedString(parts, text);
+  if (!ok) return null; // any invalid field rejects the whole paste
+  // offset: count the committed characters in a simple left-to-right walk
+  let offset = 0;
+  let fieldOrd = 0;
+  for (const part of parts) {
+    if (part.kind === 'sep') {
+      // include separator only if the next field has a value
+      const nextValue = values[fieldOrd] ?? '';
+      if (nextValue) offset += part.text.length;
+    } else {
+      const v = values[fieldOrd] ?? '';
+      if (v) offset += v.length;
+      fieldOrd++;
+    }
+  }
+  return { values, offset };
+}
+
+export function deserialize(parts: Part[], str: string): string[] {
+  // Best-effort separator-aware parse. On an invalid/out-of-range field we keep
+  // the valid prefix (feedString already stopped there, leaving the rest empty)
+  // rather than producing garbage. Never throws.
+  return feedString(parts, str).values;
 }

@@ -1,18 +1,20 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
 import { DATE_TIME_MASKS, NgnInputMask } from '@ngneers/controls/input-mask';
 
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  imports: [NgnInput, NgnInputMask, NgnInputField, NgnDocsPlayground],
+  imports: [NgnInputMask, NgnInputField, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnInputMask', component: component() }]">
       <ngn-input-field>
-        <ngn-input-mask #ref [mask]="mask">
-          <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
-        </ngn-input-mask>
+        <ngn-input-mask
+          #ref
+          [mask]="mask"
+          [value]="value()"
+          (valueChange)="value.set($event ?? '')"
+        />
       </ngn-input-field>
     </ngn-docs-playground>
   `,

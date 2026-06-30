@@ -1,11 +1,27 @@
-<header class="flex h-16 justify-between border-b border-(--ngn-color-surface-200) px-4 text-xl">
-  <a [routerLink]="'/'" class="flex h-full items-center gap-2 font-bold">
-    <img src="img/logo.png" alt="logo" class="h-10 w-10" />
-    ngn-controls
-  </a>
+<header
+  class="island mx-auto flex w-full items-center justify-between gap-2 rounded-(--ngn-size-rounded-lg) border border-(--ngn-color-surface-200) bg-[color-mix(in_srgb,var(--ngn-color-background)_72%,transparent)] px-4 text-xl shadow-(--ngn-shadow-md) backdrop-blur-sm"
+  [class]="isDocsPage() ? 'h-16 max-w-[1600px]' : 'h-14 max-w-[1200px]'"
+>
+  <div class="flex h-full min-w-0 items-center gap-3">
+    <a [routerLink]="'/'" class="flex h-full shrink-0 items-center gap-2 font-bold">
+      <img src="img/logo.png" alt="" class="h-10 w-10" />
+      ngn-controls
+    </a>
+    @if (isDocsPage()) {
+      <!-- Desktop only: on mobile (<=900px) the breadcrumb moves into the page
+           content (see page-renderer), matching the hamburger/sidebar divide. -->
+      <ngn-breadcrumb class="nav:block hidden min-w-0 text-base" [items]="breadcrumbItems()" />
+    }
+  </div>
   <div class="flex h-full items-center gap-2 text-2xl text-(--ngn-color-surface-800)">
-    <button ngnButton [kind]="'icon'" (click)="toggleDarkMode()">
-      {{ darkModeEnabled() ? '🌙' : '☀️' }}
+    <button
+      ngnButton
+      [kind]="'icon'"
+      [attr.aria-label]="colorSchemeLabel()"
+      [title]="colorSchemeLabel()"
+      (click)="cycleColorScheme()"
+    >
+      {{ colorSchemeIcon() }}
     </button>
     <a
       href="https://github.com/NGneers/controls"
