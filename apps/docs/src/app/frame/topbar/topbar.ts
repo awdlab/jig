@@ -2,6 +2,7 @@ import { Component, computed, effect, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import tablerBrandGithub from '@iconify/icons-tabler/brand-github';
 import tablerMenu2 from '@iconify/icons-tabler/menu-2';
+import { ColorSchemeService } from '@ngneers/controls/api/ng';
 import { NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnIcon } from '@ngneers/controls/icon';
@@ -22,8 +23,29 @@ export class NgnDocsTopbar {
   private readonly _frameState = inject(FrameState);
   private readonly _appLocation = inject(AppLocation);
   private readonly _breadcrumb = inject(BreadcrumbService);
+  protected readonly colorScheme = inject(ColorSchemeService);
 
-  protected readonly darkMode = this._frameState.darkMode;
+  protected readonly colorSchemeIcon = computed(() => {
+    switch (this.colorScheme.preference()) {
+      case 'light':
+        return '☀️';
+      case 'dark':
+        return '🌙';
+      default:
+        return '🖥️';
+    }
+  });
+
+  protected readonly colorSchemeLabel = computed(() => {
+    switch (this.colorScheme.preference()) {
+      case 'light':
+        return 'Color scheme: Light (click for Dark)';
+      case 'dark':
+        return 'Color scheme: Dark (click for System)';
+      default:
+        return 'Color scheme: System (click for Light)';
+    }
+  });
 
   protected readonly isDocsPage = computed(() => this._appLocation.location().length > 0);
   protected readonly breadcrumbItems = this._breadcrumb.items;
@@ -41,7 +63,7 @@ export class NgnDocsTopbar {
     this._frameState.menuOpen.update(v => !v);
   }
 
-  protected toggleDarkMode() {
-    this._frameState.toggleDarkMode();
+  protected cycleColorScheme() {
+    this.colorScheme.cycle();
   }
 }

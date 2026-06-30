@@ -51,7 +51,9 @@ interface Stats {
       <h1
         class="mx-auto mb-(--ngn-size-padding-lg) max-w-[760px] text-[3rem] font-(--ngn-font-weight-bold) text-(--ngn-color-primary-700)"
       >
-        Build beautiful Angular apps, faster
+        Build beautiful
+        <span class="ngn-angular-text">Angular</span>
+        apps, faster
       </h1>
       <p
         class="mx-auto mb-8 max-w-[640px] text-(length:--ngn-font-size-md) leading-relaxed text-(--ngn-color-surface-600)"

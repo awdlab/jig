@@ -1,9 +1,9 @@
 import { Component, DestroyRef, DOCUMENT, effect, inject, signal } from '@angular/core';
+import { ColorSchemeService } from '@ngneers/controls/api/ng';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnSwitch } from '@ngneers/controls/switch';
 
 import { NgnDocsSectionShell } from './section-shell';
-import { FrameState } from '../../frame/frame-state';
 
 // Nova primary shade levels, in the order it emits `--ngn-color-primary-<level>`.
 const PRIMARY_LEVELS = [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 975] as const;
@@ -41,7 +41,11 @@ function darkShade(baseColor: string, index: number): string {
     >
       <div class="mx-auto flex max-w-[520px] flex-col items-center gap-(--ngn-size-padding-xl)">
         <div class="flex items-center gap-(--ngn-size-padding-md)">
-          <ngn-switch #darkSwitch [(value)]="darkMode" />
+          <ngn-switch
+            #darkSwitch
+            [value]="colorScheme.isDark()"
+            (valueChange)="colorScheme.set($event ? 'dark' : 'light')"
+          />
           <label [for]="darkSwitch.inputId()" class="text-(--ngn-color-text)"
             >Dark mode (flips the whole page)</label
           >
@@ -100,11 +104,8 @@ function darkShade(baseColor: string, index: number): string {
   `,
 })
 export class NgnDocsThemingSection {
-  private readonly _frame = inject(FrameState);
+  protected readonly colorScheme = inject(ColorSchemeService);
   private readonly _document = inject(DOCUMENT);
-
-  // Shared with the topbar toggle; flipping it toggles `.dark` on <html>.
-  protected readonly darkMode = this._frame.darkMode;
 
   protected readonly presets = PRESETS;
 

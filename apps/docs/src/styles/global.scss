@@ -72,3 +72,77 @@ code {
     animation: none;
   }
 }
+
+// Angular-style multi-point gradient clipped to text (hero "Angular" word).
+// Mirrors the Angular brand style guide: blends only middle-palette shades
+// (pink → magenta → purple), never the far-end blue/red. Four radial "blobs"
+// — like the press-kit gradient blends — drift between several distinct
+// arrangements, so the text eases from one blend pattern to the next (one
+// pink-heavy, one purple-heavy, …) instead of rigidly rotating.
+// Layer order: 1=#e90464 (intense pink-red), 2=#f736e3 (magenta),
+// 3=#8514f5 (purple), 4=#5c44e4 (blue-purple). The pink-red is the most
+// dominant shade, so it is swung out toward the edges/corners in most frames
+// while magenta/purple take the center — keeps every blend distinct instead
+// of pink-red-in-the-middle each time.
+@keyframes ngn-angular-morph {
+  0%,
+  100% {
+    background-position:
+      10% 0%,
+      75% 30%,
+      45% 95%,
+      30% 55%;
+  }
+  20% {
+    background-position:
+      95% 100%,
+      35% 25%,
+      20% 80%,
+      70% 40%;
+  }
+  40% {
+    background-position:
+      85% 5%,
+      20% 70%,
+      60% 25%,
+      40% 100%;
+  }
+  60% {
+    background-position:
+      5% 95%,
+      65% 45%,
+      45% 10%,
+      80% 65%;
+  }
+  80% {
+    background-position:
+      100% 20%,
+      30% 90%,
+      55% 50%,
+      20% 0%;
+  }
+}
+
+.ngn-angular-text {
+  // Solid base so the moving blobs never leave a transparent gap in a glyph.
+  background-color: #8514f5;
+  background-image:
+    radial-gradient(circle at center, #e90464 0%, transparent 60%),
+    radial-gradient(circle at center, #f736e3 0%, transparent 60%),
+    radial-gradient(circle at center, #8514f5 0%, transparent 60%),
+    radial-gradient(circle at center, #5c44e4 0%, transparent 60%);
+  background-repeat: no-repeat;
+  // Taller than wide so the blobs' top/bottom drift actually reads inside the
+  // short text box — gives the blend a more organic, non-linear feel.
+  background-size: 170% 260%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  // ease-in-out so it settles on each blend before drifting to the next.
+  animation: ngn-angular-morph 12s ease-in-out infinite;
+
+  // Respect users who prefer reduced motion — hold the blend still.
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}

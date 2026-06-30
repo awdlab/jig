@@ -1,5 +1,5 @@
 <header
-  class="island mx-auto flex w-full items-center justify-between gap-2 rounded-(--ngn-size-rounded-lg) border border-(--ngn-color-surface-200) bg-[color-mix(in_srgb,var(--ngn-color-background)_72%,transparent)] px-4 text-xl shadow-(--ngn-shadow-md) backdrop-blur-md"
+  class="island mx-auto flex w-full items-center justify-between gap-2 rounded-(--ngn-size-rounded-lg) border border-(--ngn-color-surface-200) bg-[color-mix(in_srgb,var(--ngn-color-background)_72%,transparent)] px-4 text-xl shadow-(--ngn-shadow-md) backdrop-blur-sm"
   [class]="isDocsPage() ? 'h-16 max-w-[1600px]' : 'h-14 max-w-[1200px]'"
 >
   <div class="flex h-full min-w-0 items-center gap-3">
@@ -14,8 +14,14 @@
     }
   </div>
   <div class="flex h-full items-center gap-2 text-2xl text-(--ngn-color-surface-800)">
-    <button ngnButton [kind]="'icon'" (click)="toggleDarkMode()">
-      {{ darkMode() ? '🌙' : '☀️' }}
+    <button
+      ngnButton
+      [kind]="'icon'"
+      [attr.aria-label]="colorSchemeLabel()"
+      [title]="colorSchemeLabel()"
+      (click)="cycleColorScheme()"
+    >
+      {{ colorSchemeIcon() }}
     </button>
     <a
       href="https://github.com/NGneers/controls"

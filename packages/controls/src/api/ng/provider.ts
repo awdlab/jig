@@ -5,13 +5,16 @@ import { type NgnConfigInit, provideNgnConfig } from './config';
 import { Platform } from './platform';
 import { ThemeService } from './theme-service';
 
-import type { Provider } from '@angular/core';
+import type { EnvironmentProviders, Provider } from '@angular/core';
 
 export type NgnFeature = {
-  providers: Provider[];
+  providers: (Provider | EnvironmentProviders)[];
 };
 
-export function provideNgnControls(config?: NgnConfigInit, ...features: NgnFeature[]): Provider[] {
+export function provideNgnControls(
+  config?: NgnConfigInit,
+  ...features: NgnFeature[]
+): (Provider | EnvironmentProviders)[] {
   return [
     NgnGlobal,
     ThemeService,
