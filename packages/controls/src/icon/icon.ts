@@ -74,13 +74,7 @@ export class NgnIcon extends NgnBase<'icon'> {
 
   protected readonly defaultIconSvg = computed(() => {
     const key = this.defaultIcon();
-    if (!key || this._isCustom) return null;
-    if (!this._registry) {
-      throw new NgnError(
-        'icon',
-        'No icon registry provided. Add withDefaultIcons() or withCustomIcons() to your provideNgnControls() call.'
-      );
-    }
+    if (!key || this._isCustom || !this._registry) return null;
     const raw = (this._registry as NgnIconRegistry)[key];
     const entry: NgnIconEntry =
       'body' in raw ? { icon: raw as IconifyIcon, scale: 1 } : (raw as NgnIconEntry);
@@ -90,34 +84,45 @@ export class NgnIcon extends NgnBase<'icon'> {
 
   protected readonly customDefaultIcon = computed(() => {
     const key = this.defaultIcon();
-    if (!key || !this._isCustom) return null;
-    if (!this._registry) {
-      throw new NgnError(
-        'icon',
-        'No icon registry provided. Add withDefaultIcons() or withCustomIcons() to your provideNgnControls() call.'
-      );
-    }
+    if (!key || !this._isCustom || !this._registry) return null;
     return this._registry[key] as IconType;
   });
 
-  protected readonly iconTemplate = computed(() => {
-    const template = this._globalIconTemplate();
-    if (!template) {
-      throw new NgnError(
-        'icon',
-        'No GlobalIconTemplate registered. Required when using [icon] with non-Iconify values or withCustomIcons() with [defaultIcon]. If using Iconify, pass an IconifyIcon data object (e.g., import tablerUser from "@iconify/icons-tabler/user").'
-      );
-    }
-    return template;
-  });
+  protected readonly iconTemplate = computed(() => this._globalIconTemplate());
 
   constructor() {
     super();
+    // Invariant checks live here — NOT inside the computeds above.
+    // Throwing inside a computed() is swallowed by Angular's reactive graph:
+    // producerRecomputeValue caches the error and only re-throws on a direct
+    // getter read, so a recompute during change-detection producer polling
+    // runs the body (firing the NgnError constructor's fancy log) without ever
+    // surfacing the error. afterRenderEffect throws surface reliably.
     afterRenderEffect(() => {
-      if (!this.icon() && !this.defaultIcon()) {
+      const icon = this.icon();
+      const defaultIcon = this.defaultIcon();
+
+      if (!icon && !defaultIcon) {
         throw new NgnError(
           'icon',
           'Icon component requires either an icon or a default icon to be set.'
+        );
+      }
+
+      if (defaultIcon && !this._registry) {
+        throw new NgnError(
+          'icon',
+          'No icon registry provided. Add withDefaultIcons() or withCustomIcons() to your provideNgnControls() call.'
+        );
+      }
+
+      // The template path is used for non-Iconify [icon] values and for custom
+      // default icons; both require a registered GlobalIconTemplate.
+      const needsTemplate = (!!icon && !this.iconSvg()) || !!this.customDefaultIcon();
+      if (needsTemplate && !this._globalIconTemplate()) {
+        throw new NgnError(
+          'icon',
+          'No GlobalIconTemplate registered. Required when using [icon] with non-Iconify values or withCustomIcons() with [defaultIcon]. If using Iconify, pass an IconifyIcon data object (e.g., import tablerUser from "@iconify/icons-tabler/user").'
         );
       }
     });

@@ -31,7 +31,7 @@ export const buttonStyles = createThemePart({
 
       ${c('kind-primary')} {
         background: var(--theme-color-500);
-        color: ${v('color.text')};
+        color: var(--theme-color-500-contrast);
         &:hover:not(:disabled) {
           background: var(--theme-color-400);
         }

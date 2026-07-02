@@ -67,9 +67,10 @@ export const calendarStyles = createThemePart({
       }
       ${c('day-selected')} {
         background: ${v('color.surface.800')};
-        color: ${v('color.surface.50')};
+        color: ${v('color.surface.800-contrast')};
         &${c('day-other-month')} {
           background: ${v('color.surface.400')};
+          color: ${v('color.surface.400-contrast')};
         }
         &:not(${c('day-other-month')}):hover,
         &:not(${c('day-other-month')}):focus,

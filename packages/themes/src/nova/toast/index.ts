@@ -30,7 +30,7 @@ export const toastStyles = createThemePart({
 
       ${c('root')} {
         background: var(--theme-color-400);
-        color: ${v('color.text')};
+        color: var(--theme-color-400-contrast);
         padding: ${v('size.padding.md')} ${v('size.padding.lg')};
         border-radius: ${v('size.rounded.md')};
         font-size: ${v('font.size.sm')};

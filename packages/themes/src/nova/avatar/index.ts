@@ -1,4 +1,4 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
+import { autoContrast, createThemePart, css } from '@ngneers/controls-themes/api';
 import { baseStyles } from '@ngneers/controls-themes/base';
 import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import {
@@ -13,13 +13,15 @@ export const avatarStyles = createThemePart({
   root: {
     css: ({ v, c }) => css`
       ${c('root')} {
+        --avatar-bg: var(--color, ${v('color.primary.500')});
         border-radius: ${v('size.rounded.full')};
         &:not(:has(${c('image')})) {
-          background-color: var(--color, ${v('color.primary.500')});
+          background-color: var(--avatar-bg);
         }
       }
       ${c('initials')} {
-        color: ${v('color.text')};
+        /* Adapts to a custom --color at runtime; pure-CSS since it can't be precomputed. */
+        color: ${autoContrast('var(--avatar-bg)')};
         font-weight: ${v('font.weight.semibold')};
       }
     `,

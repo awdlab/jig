@@ -19,7 +19,7 @@ export const tagStyles = createThemePart({
       ${c('root')} {
         gap: ${v('size.padding.md')};
         background: var(--theme-color-100);
-        color: var(--theme-color-600);
+        color: var(--theme-color-600-on-100);
         padding: ${v('size.padding.sm')} ${v('size.padding.md')};
         line-height: 1;
         border-radius: ${v('size.rounded.md')};
@@ -28,7 +28,7 @@ export const tagStyles = createThemePart({
       }
 
       ${c('icon')} {
-        color: var(--theme-color-600);
+        color: var(--theme-color-600-on-100);
         font-size: inherit;
       }
 

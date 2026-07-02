@@ -26,7 +26,7 @@ export const chipStyles = createThemePart({
         font-size: ${v('font.size.sm')};
         line-height: 1.25rem;
         background: none;
-        color: ${v('color.text')};
+        color: var(--theme-color-400-contrast);
         border: none;
       }
 
@@ -34,7 +34,7 @@ export const chipStyles = createThemePart({
         cursor: pointer;
         padding: 0 ${v('size.padding.md')} 0 calc(${v('size.padding.sm')} / 2);
         background: none;
-        color: ${v('color.text')};
+        color: var(--theme-color-400-contrast);
         border: none;
         border-top-right-radius: 999rem; /* Creates a pill shape */
         border-bottom-right-radius: 999rem; /* Creates a pill shape */

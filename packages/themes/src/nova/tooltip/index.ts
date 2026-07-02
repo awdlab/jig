@@ -15,7 +15,7 @@ export const tooltipStyles = createThemePart({
     css: ({ v, c }) => css`
       ${c('content')} {
         background: ${v('color.surface.950')};
-        color: ${v('color.surface.50')};
+        color: ${v('color.surface.950-contrast')};
         border-radius: ${v('size.rounded.md')};
         padding: ${v('size.padding.md')};
         white-space: pre-line;

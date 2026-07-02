@@ -1,3 +1,4 @@
+export * from './color';
 export * from './style/apply-theme';
 export * from './style/get-class-name';
 export * from './style/style-scope';

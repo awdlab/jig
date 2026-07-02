@@ -17,6 +17,7 @@ export const inputMaskStyles = createThemePart({
          * highlight extends slightly beyond the text WITHOUT padding/margin —
          * padding would change the box size and reflow the field on focus. */
         background-color: ${v('color.accent.100')};
+        color: ${v('color.accent.100-contrast')};
         box-shadow: 0 0 0 2px ${v('color.accent.100')};
         border-radius: ${v('size.rounded.sm')};
       }
