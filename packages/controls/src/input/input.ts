@@ -20,6 +20,7 @@ import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
   exportAs: 'ngnInput',
 })
 export class NgnInput extends NgnBase<'input'> implements AfterViewInit {
+  public override readonly isFieldControl = true;
   protected readonly theme = this.injectThemeTemplate(inputControlTemplate, {
     root: true,
     invalid: () => this.invalid(),

@@ -32,6 +32,8 @@ export const NGN_ICON_KEYS = [
   'sort-neutral',
   'sort-ascending',
   'sort-descending',
+  'spin-decrement',
+  'spin-increment',
   'table-group-toggle',
   'tabs-scroll-left',
   'tabs-scroll-right',

@@ -44,6 +44,8 @@ const NGN_DEFAULT_ICON_REGISTRY: NgnIconRegistry = {
   'sort-neutral': { icon: tablerArrowsSort, scale: 1.2 },
   'sort-ascending': { icon: tablerSortAscending, scale: 1.26 },
   'sort-descending': { icon: tablerSortDescending, scale: 1.26 },
+  'spin-decrement': { icon: tablerChevronDown, scale: 1.71 },
+  'spin-increment': { icon: tablerChevronUp, scale: 1.71 },
   'table-group-toggle': { icon: tablerChevronRight, scale: 1.71 },
   'tabs-scroll-left': { icon: tablerChevronLeft, scale: 1.71 },
   'tabs-scroll-right': { icon: tablerChevronRight, scale: 1.71 },

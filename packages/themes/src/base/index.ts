@@ -35,6 +35,7 @@ import { scrollerStyles } from '@ngneers/controls-themes/base/scroller';
 import { selectStyles } from '@ngneers/controls-themes/base/select';
 import { selectButtonStyles } from '@ngneers/controls-themes/base/select-button';
 import { sliderStyles } from '@ngneers/controls-themes/base/slider';
+import { spinButtonsStyles } from '@ngneers/controls-themes/base/spin-buttons';
 import { spinnerStyles } from '@ngneers/controls-themes/base/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/base/splitter';
 import { switchStyles } from '@ngneers/controls-themes/base/switch';
@@ -81,6 +82,7 @@ export const baseStyles = {
   select: selectStyles,
   selectButton: selectButtonStyles,
   slider: sliderStyles,
+  spinButtons: spinButtonsStyles,
   spinner: spinnerStyles,
   splitter: splitterStyles,
   switch: switchStyles,

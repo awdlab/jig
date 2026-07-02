@@ -32,6 +32,8 @@ export const IMPORTS = {
     import('@ngneers/controls/item-view').then((m) => m.NgnItemView),
   listBox: () => import('@ngneers/controls/list-box').then((m) => m.NgnListBox),
   message: () => import('@ngneers/controls/message').then((m) => m.NgnMessage),
+  numberInput: () =>
+    import('@ngneers/controls/number-input').then((m) => m.NgnNumberInput),
   popover: () => import('@ngneers/controls/popover').then((m) => m.NgnPopover),
   progress: () =>
     import('@ngneers/controls/progress').then((m) => m.NgnProgress),
@@ -45,6 +47,8 @@ export const IMPORTS = {
   selectButton: () =>
     import('@ngneers/controls/select-button').then((m) => m.NgnSelectButton),
   slider: () => import('@ngneers/controls/slider').then((m) => m.NgnSlider),
+  spinButtons: () =>
+    import('@ngneers/controls/spin-buttons').then((m) => m.NgnSpinButtons),
   spinner: () => import('@ngneers/controls/spinner').then((m) => m.NgnSpinner),
   splitter: () =>
     import('@ngneers/controls/splitter').then((m) => m.NgnSplitter),

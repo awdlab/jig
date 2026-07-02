@@ -19,6 +19,7 @@ import { ItemViewPage } from './item-view/page';
 import { ListBoxPage } from './list-box/page';
 import { MenuPage } from './menu/page';
 import { MessagePage } from './message/page';
+import { NumberInputPage } from './number-input/page';
 import { PaginatorPage } from './paginator/page';
 import { PopoverPage } from './popover/page';
 import { ProgressPage } from './progress/page';
@@ -58,6 +59,7 @@ export const ALL_COMPONENT_PAGES = [
   ListBoxPage,
   MenuPage,
   MessagePage,
+  NumberInputPage,
   PaginatorPage,
   PopoverPage,
   ProgressPage,

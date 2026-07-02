@@ -26,6 +26,7 @@ export type ThemeTemplate = {
   listBox: Awaited<typeof import('./list-box')>['listBoxControlTemplate'];
   menu: Awaited<typeof import('./menu')>['menuControlTemplate'];
   message: Awaited<typeof import('./message')>['messageControlTemplate'];
+  numberInput: Awaited<typeof import('./input')>['inputControlTemplate'];
   paginator: Awaited<typeof import('./paginator')>['paginatorControlTemplate'];
   popover: Awaited<typeof import('./popover')>['popoverControlTemplate'];
   progress: Awaited<typeof import('./progress')>['progressControlTemplate'];
@@ -33,6 +34,7 @@ export type ThemeTemplate = {
   select: Awaited<typeof import('./select')>['selectControlTemplate'];
   selectButton: Awaited<typeof import('./select-button')>['selectButtonControlTemplate'];
   slider: Awaited<typeof import('./slider')>['sliderControlTemplate'];
+  spinButtons: Awaited<typeof import('./spin-buttons')>['spinButtonsControlTemplate'];
   spinner: Awaited<typeof import('./spinner')>['spinnerControlTemplate'];
   splitter: Awaited<typeof import('./splitter')>['splitterControlTemplate'];
   switch: Awaited<typeof import('./switch')>['switchControlTemplate'];

@@ -39,6 +39,7 @@ import type { InputMaskCfg } from './types';
   providers: [provideSelf(NgnInputMask)],
 })
 export class NgnInputMask extends ValueControlBase<'inputMask', string | null> {
+  public override readonly isFieldControl = true;
   protected readonly theme = this.injectThemeTemplate(inputMaskControlTemplate, 'root');
 
   /**

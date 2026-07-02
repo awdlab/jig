@@ -39,7 +39,10 @@ jobs:
 
   playwright:
     name: "Playwright Tests"
-    timeout-minutes: 20
+    # The suite already ran ~19 min on main and grows with each new control,
+    # leaving no headroom under the previous 20 min cap. Raised to 30; consider
+    # sharding across runners if it approaches this again.
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.61.0-noble

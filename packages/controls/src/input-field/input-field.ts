@@ -1,9 +1,16 @@
-import { booleanAttribute, Component, inject, input, effect, contentChild } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  computed,
+  contentChildren,
+  effect,
+  inject,
+  input,
+} from '@angular/core';
 import { NgnBase, NGN_CONTROL, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnInput } from '@ngneers/controls/input';
 import { generateElementId } from '@ngneers/controls/utils-ng';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 
@@ -76,27 +83,40 @@ export class NgnInputField extends NgnBase<'inputField'> {
    */
   public readonly disabled = input(false, { transform: booleanAttribute });
 
-  private readonly _ngnInput = contentChild(NgnInput);
-  /** The projected control (mask, input, …), used to delegate pointer focus. */
-  private readonly _control = contentChild(NGN_CONTROL);
+  private readonly _projectedControls = contentChildren(NGN_CONTROL, { descendants: true });
+  /**
+   * The projected primary control (input, mask, calendar, …), used to delegate
+   * pointer focus, clearing and stepping. Auxiliary controls inside the field
+   * (buttons, icons, spin buttons, …) are skipped via `isFieldControl`, so
+   * their placement/order never shadows the actual input.
+   */
+  public readonly control = computed(() => this._projectedControls().find(c => c.isFieldControl));
+
+  /** The primary control's element when it is a native input/textarea. */
+  private readonly _inputElement = computed(() => {
+    const el = this.control()?.element.nativeElement;
+    return el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA')
+      ? (el as HTMLInputElement | HTMLTextAreaElement)
+      : undefined;
+  });
 
   constructor() {
     super();
     this.initializeAutoThemeClasses('labelKind', this.labelKind);
     effect(() => {
-      const ngnInput = this._ngnInput();
-      if (!ngnInput) {
+      const inputElement = this._inputElement();
+      if (!inputElement) {
         return;
       }
-      ngnInput.element.nativeElement.id = this.inputId();
+      inputElement.id = this.inputId();
     });
     effect(() => {
-      const ngnInput = this._ngnInput();
-      if (!ngnInput) {
+      const inputElement = this._inputElement();
+      if (!inputElement) {
         return;
       }
       const labelledBy = this.labelledBy();
-      ngnInput.element.nativeElement.setAttribute('aria-labelledby', labelledBy ?? '');
+      inputElement.setAttribute('aria-labelledby', labelledBy ?? '');
     });
   }
 
@@ -104,7 +124,7 @@ export class NgnInputField extends NgnBase<'inputField'> {
     // Give the projected control a chance to place focus from the pointer
     // location (e.g. input-mask selects the section nearest the click). If it
     // handles the event, skip the primitive focusing below.
-    if (this._control()?.focusFromPointer(event)) return;
+    if (this.control()?.focusFromPointer(event)) return;
 
     if (!(event.target instanceof HTMLElement)) return;
 
@@ -127,7 +147,7 @@ export class NgnInputField extends NgnBase<'inputField'> {
     event.stopPropagation();
     // Controls that manage their own value (e.g. input-mask) clear via the hook;
     // the DOM fallback below only works for plain text inputs.
-    if (this._control()?.clearValue()) {
+    if (this.control()?.clearValue()) {
       return;
     }
     const inputElement = this.element.nativeElement.querySelector('input, textarea');

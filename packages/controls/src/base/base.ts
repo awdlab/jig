@@ -110,6 +110,15 @@ export abstract class NgnBase<T extends ControlName | null> {
   public readonly pt = input<T extends string ? NgnPassthrough<T> : never>();
 
   /**
+   * Marks a control as the primary value control of a surrounding field
+   * (e.g. `ngn-input-field`). Fields resolve their projected control by
+   * filtering for this flag, so auxiliary controls placed inside the field
+   * (buttons, icons, spin buttons, …) never shadow the actual input.
+   * Overridden with `true` by input, input-mask, calendar, select, ….
+   */
+  public readonly isFieldControl: boolean = false;
+
+  /**
    * Hook for placing focus/selection from a pointer event that originated in the
    * surrounding field (or the control itself). The default does nothing and
    * returns `false`, signalling the surrounding field should fall back to its
@@ -117,6 +126,28 @@ export abstract class NgnBase<T extends ControlName | null> {
    * input-mask) override this, act on the pointer location, and return `true`.
    */
   public focusFromPointer(_event: MouseEvent): boolean {
+    return false;
+  }
+
+  /**
+   * Hook for stepping the control's value (e.g. from `ngn-spin-buttons` or
+   * other external steppers). The default does nothing and returns `false`.
+   * Controls with a steppable value (e.g. number-input) override this, apply
+   * the step and return `true`.
+   * @param direction - `1` to increment, `-1` to decrement.
+   * @param big - Whether to apply the control's big step (e.g. Shift+Arrow).
+   */
+  public stepValue(_direction: 1 | -1, _big = false): boolean {
+    return false;
+  }
+
+  /**
+   * Hook telling external steppers (e.g. `ngn-spin-buttons`) whether the value
+   * can currently be stepped in the given direction. The default returns
+   * `false`; controls overriding {@link stepValue} override this as well
+   * (typically `false` at a min/max bound or while disabled/readonly).
+   */
+  public canStepValue(_direction: 1 | -1): boolean {
     return false;
   }
 

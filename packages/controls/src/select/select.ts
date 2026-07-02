@@ -59,6 +59,7 @@ export class NgnSelect<
   Editable extends boolean = false,
   Multiple extends boolean = false,
 > extends SelectTemplates<V, Editable, Multiple> {
+  public override readonly isFieldControl = true;
   protected readonly theme = this.injectThemeTemplate(selectControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
   private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);

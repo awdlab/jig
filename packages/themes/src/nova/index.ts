@@ -35,6 +35,7 @@ import { scrollerStyles } from '@ngneers/controls-themes/nova/scroller';
 import { selectStyles } from '@ngneers/controls-themes/nova/select';
 import { selectButtonStyles } from '@ngneers/controls-themes/nova/select-button';
 import { sliderStyles } from '@ngneers/controls-themes/nova/slider';
+import { spinButtonsStyles } from '@ngneers/controls-themes/nova/spin-buttons';
 import { spinnerStyles } from '@ngneers/controls-themes/nova/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/nova/splitter';
 import { switchStyles } from '@ngneers/controls-themes/nova/switch';
@@ -52,6 +53,7 @@ export const KINDS = {
   message: ['default', 'outlined', 'simple'] as const,
   tag: ['default', 'pill'] as const,
   inputFieldLabel: ['in', 'on', 'over', 'floatIn', 'floatOn', 'floatOver', 'hidden'] as const,
+  spinButtons: ['stacked', 'inline'] as const,
 };
 
 export const COLORS = [
@@ -106,6 +108,7 @@ export const novaCoral = createTheme(
     selectButtonStyles,
     sizes,
     sliderStyles,
+    spinButtonsStyles,
     spinnerStyles,
     splitterStyles,
     switchStyles,
