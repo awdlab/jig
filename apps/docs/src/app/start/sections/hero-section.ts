@@ -17,68 +17,94 @@ interface Stats {
   imports: [NgnButton, NgnIcon, RouterLink],
   template: `
     <section
-      class="bg-[linear-gradient(to_bottom,var(--ngn-color-primary-50),var(--ngn-color-background))] px-(--ngn-size-padding-xl) py-20 text-center"
+      class="relative overflow-hidden bg-[linear-gradient(to_bottom,var(--ngn-color-primary-50),var(--ngn-color-background))] px-(--ngn-size-padding-xl) py-28 text-center lg:py-36"
     >
-      <p
-        class="mb-(--ngn-size-padding-md) text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold) text-(--ngn-color-primary-600)"
-      >
-        &#64;ngneers/controls
-      </p>
-      <div
-        class="mb-(--ngn-size-padding-lg) flex flex-wrap justify-center gap-(--ngn-size-padding-sm)"
-      >
-        @if (version(); as v) {
+      <!-- Aurora backdrop — decorative only. -->
+      <div aria-hidden="true" class="absolute inset-0">
+        <div
+          class="ngn-aurora-blob top-[-20%] left-[8%] h-[36rem] w-[36rem] bg-[radial-gradient(circle,color-mix(in_srgb,var(--ngn-color-primary-400)_30%,transparent),transparent_70%)]"
+          style="--ngn-aurora-duration: 20s"
+        ></div>
+        <div
+          class="ngn-aurora-blob top-[-10%] right-[5%] h-[32rem] w-[32rem] bg-[radial-gradient(circle,color-mix(in_srgb,#f736e3_16%,transparent),transparent_70%)]"
+          style="--ngn-aurora-duration: 24s; --ngn-aurora-delay: -8s"
+        ></div>
+        <div
+          class="ngn-aurora-blob bottom-[-30%] left-[35%] h-[30rem] w-[30rem] bg-[radial-gradient(circle,color-mix(in_srgb,var(--ngn-color-primary-300)_26%,transparent),transparent_70%)]"
+          style="--ngn-aurora-duration: 16s; --ngn-aurora-delay: -4s"
+        ></div>
+      </div>
+
+      <div class="relative">
+        <p
+          class="mb-(--ngn-size-padding-md) text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold) text-(--ngn-color-primary-600)"
+        >
+          &#64;ngneers/controls
+        </p>
+        <div
+          class="mb-(--ngn-size-padding-lg) flex flex-wrap justify-center gap-(--ngn-size-padding-sm)"
+        >
+          @if (version(); as v) {
+            <a
+              href="https://www.npmjs.com/package/@ngneers/controls"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center rounded-full border border-(--ngn-color-surface-200) bg-(--ngn-color-surface-25) px-(--ngn-size-padding-md) py-(--ngn-size-padding-xs) text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold)"
+            >
+              <span class="ngn-rainbow-text">npm v{{ v }}</span>
+            </a>
+          }
+          @if (stars(); as s) {
+            <a
+              href="https://github.com/NGneers/controls"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center rounded-full border border-(--ngn-color-surface-200) bg-(--ngn-color-surface-25) px-(--ngn-size-padding-md) py-(--ngn-size-padding-xs) text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold)"
+            >
+              <span class="ngn-rainbow-text">&#9733; {{ s }}</span>
+            </a>
+          }
+        </div>
+        <h1
+          class="mx-auto mb-(--ngn-size-padding-lg) max-w-[820px] text-[3rem] leading-[1.1] font-(--ngn-font-weight-bold) tracking-tight text-(--ngn-color-primary-700) lg:text-[4rem]"
+        >
+          Build beautiful
+          <span class="ngn-angular-text">Angular</span>
+          apps, faster
+        </h1>
+        <p
+          class="mx-auto mb-8 max-w-[640px] text-(length:--ngn-font-size-md) leading-relaxed text-(--ngn-color-surface-600)"
+        >
+          A signals-native, zoneless, accessible component library — themed by design tokens and
+          built on native browser primitives.
+        </p>
+        <div class="mb-10 flex flex-wrap justify-center gap-(--ngn-size-padding-lg)">
           <a
-            href="https://www.npmjs.com/package/@ngneers/controls"
-            target="_blank"
-            rel="noopener"
-            class="inline-flex items-center rounded-full border border-(--ngn-color-surface-200) bg-(--ngn-color-surface-25) px-(--ngn-size-padding-md) py-(--ngn-size-padding-xs) text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold)"
+            ngnButton
+            kind="primary"
+            routerLink="/components"
+            class="transition-shadow hover:shadow-[0_0_24px_color-mix(in_srgb,var(--ngn-color-primary-500)_45%,transparent)]"
           >
-            <span class="ngn-rainbow-text">npm v{{ v }}</span>
+            Get Started
           </a>
-        }
-        @if (stars(); as s) {
+          <a ngnButton kind="secondary" routerLink="/components">View Components</a>
           <a
+            ngnButton
+            kind="secondary"
             href="https://github.com/NGneers/controls"
             target="_blank"
             rel="noopener"
-            class="inline-flex items-center rounded-full border border-(--ngn-color-surface-200) bg-(--ngn-color-surface-25) px-(--ngn-size-padding-md) py-(--ngn-size-padding-xs) text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold)"
           >
-            <span class="ngn-rainbow-text">&#9733; {{ s }}</span>
+            <ngn-icon [icon]="githubIcon" /> GitHub
           </a>
-        }
-      </div>
-      <h1
-        class="mx-auto mb-(--ngn-size-padding-lg) max-w-[760px] text-[3rem] font-(--ngn-font-weight-bold) text-(--ngn-color-primary-700)"
-      >
-        Build beautiful
-        <span class="ngn-angular-text">Angular</span>
-        apps, faster
-      </h1>
-      <p
-        class="mx-auto mb-8 max-w-[640px] text-(length:--ngn-font-size-md) leading-relaxed text-(--ngn-color-surface-600)"
-      >
-        A signals-native, zoneless, accessible component library — themed by design tokens and built
-        on native browser primitives.
-      </p>
-      <div class="mb-10 flex flex-wrap justify-center gap-(--ngn-size-padding-lg)">
-        <a ngnButton kind="primary" routerLink="/components">Get Started</a>
-        <a ngnButton kind="secondary" routerLink="/components">View Components</a>
-        <a
-          ngnButton
-          kind="secondary"
-          href="https://github.com/NGneers/controls"
-          target="_blank"
-          rel="noopener"
+        </div>
+
+        <div
+          class="flex flex-wrap justify-center gap-(--ngn-size-padding-xl) text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-500)"
         >
-          <ngn-icon [icon]="githubIcon" /> GitHub
-        </a>
-      </div>
-      <div
-        class="flex flex-wrap justify-center gap-(--ngn-size-padding-xl) text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-500)"
-      >
-        <span>{{ controlCount }}+ production-ready controls</span><span>Zero-zone performance</span
-        ><span>Accessible by default</span>
+          <span>{{ controlCount }}+ production-ready controls</span
+          ><span>Zero-zone performance</span><span>Accessible by default</span>
+        </div>
       </div>
     </section>
   `,

@@ -16,6 +16,7 @@ import { NgnTooltip } from '@ngneers/controls/tooltip';
 
 import { CONTROL_COUNT } from './controls-count';
 import { GALLERY } from './gallery-data';
+import { NgnDocsGlow } from './glow';
 import { NgnDocsSectionShell } from './section-shell';
 
 import type { NgnPassthrough } from '@ngneers/controls/base';
@@ -40,6 +41,7 @@ import type { CustomColor } from '@ngneers/controls-custom-types';
     NgnCheckbox,
     NgnTabs,
     NgnTab,
+    NgnDocsGlow,
   ],
   styles: `
     /* The slider has no built-in transition; glide the fill/thumb between rest and hover. */
@@ -64,7 +66,8 @@ import type { CustomColor } from '@ngneers/controls-custom-types';
           <div
             (mouseenter)="onEnter(entry.name)"
             (mouseleave)="onLeave(entry.name)"
-            class="card relative flex flex-col items-center justify-center gap-(--ngn-size-padding-md) p-(--ngn-size-padding-xl) transition-shadow hover:shadow-(--ngn-shadow-md)"
+            ngnDocsGlow
+            class="card relative flex flex-col items-center justify-center gap-(--ngn-size-padding-md) p-(--ngn-size-padding-xl)"
           >
             <a
               [routerLink]="entry.route"

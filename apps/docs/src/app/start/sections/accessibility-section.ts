@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, DestroyRef, afterNextRender, inject, signal } from '@angular/core';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnDialog } from '@ngneers/controls/dialog';
 import { NgnInput } from '@ngneers/controls/input';
@@ -9,12 +9,13 @@ import { injectToastCreator } from '@ngneers/controls/toast';
 
 import { NgnDocsSectionShell } from './section-shell';
 
-type A11yTopic = 'keyboard' | 'focus' | 'screen-reader' | 'aria';
-
-interface A11yCard {
-  id: A11yTopic;
-  title: string;
-  blurb: string;
+/** One beat of the autoplay script: which keycap flashes and where the ring lands. */
+interface TheaterStep {
+  key: string;
+  /** 0–3 = toolbar buttons, 4 = the switch. */
+  target: number;
+  /** Toggle the switch on this beat. */
+  toggles?: boolean;
 }
 
 @Component({
@@ -34,176 +35,213 @@ interface A11yCard {
       layout="split-left"
       eyebrow="Accessibility"
       heading="Accessible by default"
-      subtitle="Keyboard, focus, screen-reader, and ARIA handled for you — pick a topic to see it in action."
+      subtitle="Watch the keyboard drive real controls — focus, screen-reader announcements, and ARIA are wired in from the start, on every control."
     >
       <div primary>
-        <ul class="flex flex-col gap-(--ngn-size-padding-md)">
-          @for (card of cards; track card.id) {
-            <li>
-              <button
-                type="button"
-                [attr.aria-pressed]="selected() === card.id"
-                (click)="selected.set(card.id)"
-                class="card w-full cursor-pointer rounded-(--ngn-size-rounded-lg) border border-(--ngn-color-surface-200) p-(--ngn-size-padding-lg) text-left transition-colors"
-                [class]="
-                  selected() === card.id
-                    ? 'border-(--ngn-color-primary-500) bg-(--ngn-color-primary-50) ring-2 ring-(--ngn-color-primary-500)'
-                    : 'hover:border-(--ngn-color-surface-400)'
-                "
-              >
-                <h3 class="font-(--ngn-font-weight-semibold) text-(--ngn-color-text)">
-                  {{ card.title }}
-                </h3>
-                <p class="text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600)">
-                  {{ card.blurb }}
-                </p>
-              </button>
-            </li>
-          }
-        </ul>
+        <!-- Self-playing keyboard. -->
+        <div
+          class="card flex flex-col items-center gap-(--ngn-size-padding-lg) p-(--ngn-size-padding-xl)"
+        >
+          <div class="flex flex-wrap justify-center gap-(--ngn-size-padding-sm)">
+            @for (key of keys; track key) {
+              <span class="ngn-keycap" [class.ngn-keycap-pressed]="pressedKey() === key">
+                {{ key }}
+              </span>
+            }
+          </div>
+          <p class="text-center text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-500)">
+            No video, no mockup — the stage next to this is real library code, driven by the same
+            key handling your users get.
+          </p>
+        </div>
+
+        <!-- ARIA readout for wherever the ring currently sits. -->
+        <dl
+          class="card mt-(--ngn-size-padding-lg) grid grid-cols-[auto_1fr] gap-x-(--ngn-size-padding-xl) gap-y-(--ngn-size-padding-sm) p-(--ngn-size-padding-lg) font-mono text-(length:--ngn-font-size-sm)"
+        >
+          <dt class="text-(--ngn-color-surface-600)">element</dt>
+          <dd class="text-(--ngn-color-text)">{{ currentTargetLabel() }}</dd>
+          <dt class="text-(--ngn-color-surface-600)">role</dt>
+          <dd class="text-(--ngn-color-text)">{{ simIndex() === 4 ? 'switch' : 'button' }}</dd>
+          <dt class="text-(--ngn-color-surface-600)">
+            {{ simIndex() === 4 ? 'aria-checked' : 'tabindex' }}
+          </dt>
+          <dd class="text-(--ngn-color-primary-600)">
+            {{ simIndex() === 4 ? switchOn() : '0 — single tab stop' }}
+          </dd>
+        </dl>
       </div>
 
-      <div secondary class="card p-(--ngn-size-padding-xl)">
-        @switch (selected()) {
-          @case ('keyboard') {
-            <p class="mb-(--ngn-size-padding-lg) text-(--ngn-color-text)">
-              Arrow-key navigation with a single tab stop. Tab in, then use ←/→ and Home/End.
+      <div
+        secondary
+        class="card flex flex-col gap-(--ngn-size-padding-xl) p-(--ngn-size-padding-xl)"
+      >
+        <!-- Watch-only stage: inert so real focus never lands here — the real
+             focus styles differ from the simulated ring and would confuse. -->
+        <div
+          inert
+          class="pointer-events-none flex flex-col gap-(--ngn-size-padding-xl) select-none"
+        >
+          <div>
+            <p
+              class="mb-(--ngn-size-padding-md) text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold) text-(--ngn-color-surface-500)"
+            >
+              Toolbar — one tab stop, arrows inside
             </p>
             <div
               ngnRovingGroup
               orientation="horizontal"
               rovingMode="tabindex"
               [rovingWrap]="true"
-              (activeItemChange)="keyboardActive.set($event)"
               role="toolbar"
               aria-label="Keyboard navigation demo"
               class="flex flex-wrap gap-(--ngn-size-padding-md)"
             >
-              @for (item of items; track item) {
+              @for (item of items; track item; let i = $index) {
                 <button
                   ngnRovingItem
                   type="button"
                   class="card px-(--ngn-size-padding-lg) py-(--ngn-size-padding-md) text-(--ngn-color-text)"
+                  [class.ngn-sim-focus]="simIndex() === i"
                 >
                   {{ item }}
                 </button>
               }
             </div>
+          </div>
+
+          <div>
             <p
-              class="mt-(--ngn-size-padding-lg) text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600)"
+              class="mb-(--ngn-size-padding-md) text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold) text-(--ngn-color-surface-500)"
             >
-              Active index:
-              <strong class="text-(--ngn-color-text)">{{ keyboardActive() }}</strong>
-              ({{ items[keyboardActive()] ?? '' }})
+              Switch — ARIA state stays in sync
             </p>
-          }
-
-          @case ('focus') {
-            <p class="mb-(--ngn-size-padding-lg) text-(--ngn-color-text)">
-              Open the dialog, then press Tab — focus is trapped inside while it is open and returns
-              to the trigger on close (Esc or backdrop). All handled by the native top-layer dialog,
-              no extra code.
-            </p>
-            <button ngnButton kind="primary" (click)="dialogOpen.set(true)">Open dialog</button>
-
-            <ngn-dialog [(open)]="dialogOpen" [modal]="true" title="Edit profile">
-              <div class="flex flex-col gap-(--ngn-size-padding-lg)">
-                <ngn-input-field label="Display name">
-                  <input ngnInput placeholder="Ada Lovelace" />
-                </ngn-input-field>
-                <div class="flex justify-end gap-(--ngn-size-padding-md)">
-                  <button ngnButton kind="secondary" (click)="dialogOpen.set(false)">Cancel</button>
-                  <button ngnButton kind="primary" (click)="dialogOpen.set(false)">Save</button>
-                </div>
-              </div>
-            </ngn-dialog>
-
-            <p
-              class="mt-(--ngn-size-padding-lg) text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600)"
+            <div
+              class="flex w-fit items-center gap-(--ngn-size-padding-md) rounded-(--ngn-size-rounded-md) p-(--ngn-size-padding-xs)"
+              [class.ngn-sim-focus]="simIndex() === 4"
             >
-              Tab cycles only through the input and the two buttons — it never escapes to the page
-              behind.
-            </p>
-          }
-
-          @case ('screen-reader') {
-            <p class="mb-(--ngn-size-padding-lg) text-(--ngn-color-text)">
-              Trigger an action — the toast is announced to screen readers via the library's
-              built-in live region. No <code class="text-(--ngn-color-primary-600)">aria-live</code>
-              you write yourself.
-            </p>
-            <button ngnButton kind="primary" (click)="saveChanges()">Save changes</button>
-            <p
-              class="mt-(--ngn-size-padding-lg) text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600)"
-            >
-              The toast that appears carries its own announcement region, so assistive tech reads it
-              out without any extra wiring.
-            </p>
-          }
-
-          @case ('aria') {
-            <p class="mb-(--ngn-size-padding-lg) text-(--ngn-color-text)">
-              Toggle the switch — its ARIA contract updates live with the real control state.
-            </p>
-            <div class="flex items-center gap-(--ngn-size-padding-md)">
-              <ngn-switch #notifySwitch [(value)]="ariaOn" />
-              <label [for]="notifySwitch.inputId()" class="text-(--ngn-color-text)"
-                >Notifications</label
-              >
+              <ngn-switch #notifySwitch [(value)]="switchOn" />
+              <label [for]="notifySwitch.inputId()" class="text-(--ngn-color-text)">
+                Notifications
+              </label>
             </div>
-            <dl
-              class="mt-(--ngn-size-padding-lg) grid grid-cols-[auto_1fr] gap-x-(--ngn-size-padding-lg) gap-y-(--ngn-size-padding-sm) rounded-(--ngn-size-rounded-lg) border border-(--ngn-color-surface-200) p-(--ngn-size-padding-md) font-mono text-(length:--ngn-font-size-sm)"
-            >
-              <dt class="text-(--ngn-color-surface-600)">role</dt>
-              <dd class="text-(--ngn-color-text)">switch</dd>
-              <dt class="text-(--ngn-color-surface-600)">aria-checked</dt>
-              <dd class="text-(--ngn-color-primary-600)">{{ ariaOn() }}</dd>
-            </dl>
-          }
-        }
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-(--ngn-size-padding-md)">
+          <button ngnButton kind="secondary" (click)="dialogOpen.set(true)">
+            Focus-trapped dialog
+          </button>
+          <button ngnButton kind="secondary" (click)="announce()">Screen-reader toast</button>
+        </div>
       </div>
     </ngn-docs-section-shell>
+
+    <ngn-dialog [(open)]="dialogOpen" [modal]="true" title="Edit profile">
+      <div class="flex flex-col gap-(--ngn-size-padding-lg)">
+        <p class="max-w-[40ch] text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600)">
+          Press Tab — focus is trapped in here while open and returns to the trigger on close. All
+          native top-layer dialog, no extra code.
+        </p>
+        <ngn-input-field label="Display name">
+          <input ngnInput placeholder="Ada Lovelace" />
+        </ngn-input-field>
+        <div class="flex justify-end gap-(--ngn-size-padding-md)">
+          <button ngnButton kind="secondary" (click)="dialogOpen.set(false)">Cancel</button>
+          <button ngnButton kind="primary" (click)="dialogOpen.set(false)">Save</button>
+        </div>
+      </div>
+    </ngn-dialog>
   `,
 })
 export class NgnDocsAccessibilitySection {
   private readonly _toastCreator = injectToastCreator();
 
   protected readonly items = ['Home', 'Search', 'Profile', 'Settings'];
+  protected readonly keys = ['Tab', '←', '→', 'Home', 'End', 'Space'];
 
-  protected readonly selected = signal<A11yTopic>('keyboard');
-
-  protected readonly keyboardActive = signal(0);
+  protected readonly pressedKey = signal<string | null>(null);
+  protected readonly simIndex = signal(0);
+  protected readonly switchOn = signal(false);
   protected readonly dialogOpen = signal(false);
-  protected readonly ariaOn = signal(false);
 
-  protected readonly cards: A11yCard[] = [
-    {
-      id: 'keyboard',
-      title: 'Keyboard',
-      blurb: 'Arrow keys, Home/End, and wrapping focus — no extra wiring.',
-    },
-    {
-      id: 'focus',
-      title: 'Focus management',
-      blurb: 'A modal dialog traps focus while open and restores it on close.',
-    },
-    {
-      id: 'screen-reader',
-      title: 'Screen reader',
-      blurb: 'Toasts announce updates through a built-in live region.',
-    },
-    {
-      id: 'aria',
-      title: 'ARIA',
-      blurb: 'Roles and relationships are managed and stay in sync with state.',
-    },
+  /** Autoplay choreography — loops forever until the visitor takes over. */
+  private readonly _script: TheaterStep[] = [
+    { key: 'Tab', target: 0 },
+    { key: '→', target: 1 },
+    { key: '→', target: 2 },
+    { key: 'End', target: 3 },
+    { key: 'Home', target: 0 },
+    { key: '→', target: 1 },
+    { key: 'Tab', target: 4 },
+    { key: 'Space', target: 4, toggles: true },
+    { key: 'Space', target: 4, toggles: true },
   ];
 
-  /** Surfaces a library toast, which announces itself to screen readers via its own live region. */
-  protected saveChanges(): void {
+  private _stepIndex = 0;
+  private _stepTimer: ReturnType<typeof setInterval> | null = null;
+  private _keyTimer: ReturnType<typeof setTimeout> | null = null;
+
+  constructor() {
+    const destroyRef = inject(DestroyRef);
+
+    afterNextRender(() => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+      }
+      this._startAutoplay();
+    });
+
+    destroyRef.onDestroy(() => this._stopAutoplay());
+  }
+
+  protected currentTargetLabel(): string {
+    return this.simIndex() === 4 ? 'Notifications' : (this.items[this.simIndex()] ?? '');
+  }
+
+  protected announce(): void {
     this._toastCreator.show({
       header: 'Changes saved',
-      content: 'Your profile has been updated.',
+      content: 'Announced through the library’s built-in live region.',
     });
+  }
+
+  private _startAutoplay(): void {
+    if (this._stepTimer !== null) {
+      return;
+    }
+    this._stepTimer = setInterval(() => this._playStep(), 1100);
+  }
+
+  private _stopAutoplay(): void {
+    if (this._stepTimer !== null) {
+      clearInterval(this._stepTimer);
+      this._stepTimer = null;
+    }
+    if (this._keyTimer !== null) {
+      clearTimeout(this._keyTimer);
+      this._keyTimer = null;
+    }
+    this.pressedKey.set(null);
+  }
+
+  private _playStep(): void {
+    const step = this._script[this._stepIndex];
+    if (!step) {
+      this._stepIndex = 0;
+      return;
+    }
+    this._stepIndex = (this._stepIndex + 1) % this._script.length;
+
+    this.pressedKey.set(step.key);
+    this.simIndex.set(step.target);
+    if (step.toggles) {
+      this.switchOn.update(v => !v);
+    }
+
+    if (this._keyTimer !== null) {
+      clearTimeout(this._keyTimer);
+    }
+    this._keyTimer = setTimeout(() => this.pressedKey.set(null), 400);
   }
 }

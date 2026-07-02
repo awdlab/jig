@@ -155,11 +155,13 @@ interface Person {
   `,
 })
 export class NgnDocsCustomizationSection {
+  // Escalation order: light restyle → richer content → own design system →
+  // full visual freedom. "Unstyled" is the most radical, so it goes last.
   protected readonly modeOptions: readonly { label: string; value: Mode }[] = [
     { label: 'Passthrough', value: 'pt' },
-    { label: 'Unstyled', value: 'unstyled' },
     { label: 'Templated', value: 'templated' },
     { label: 'Custom theme', value: 'theme' },
+    { label: 'Unstyled', value: 'unstyled' },
   ];
 
   protected readonly mode = signal<Mode>('pt');

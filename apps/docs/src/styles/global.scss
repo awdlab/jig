@@ -123,6 +123,144 @@ code {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Startpage motion & flair. Lives here (not per-component) so the classes
+// cross view-encapsulation boundaries between the start shell and its
+// section components — same reason as `.card` above.
+// ---------------------------------------------------------------------------
+
+// Scroll-reveal: the `ngnDocsReveal` directive adds `.ngn-reveal` at runtime
+// (so prerendered HTML stays visible without JS) and `.ngn-reveal-in` once
+// the element intersects the viewport.
+.ngn-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--ngn-reveal-delay, 0ms);
+
+  &.ngn-reveal-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// Aurora blobs: large blurred radial gradients drifting behind the hero.
+// Color flows through theme tokens so light/dark both work.
+@keyframes ngn-aurora-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(6%, -8%, 0) scale(1.15);
+  }
+  66% {
+    transform: translate3d(-5%, 6%, 0) scale(0.92);
+  }
+}
+
+.ngn-aurora-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  pointer-events: none;
+  animation: ngn-aurora-drift var(--ngn-aurora-duration, 18s) ease-in-out infinite;
+  animation-delay: var(--ngn-aurora-delay, 0s);
+  will-change: transform;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+// Mouse-follow glow for bento tiles. The `ngnDocsGlow` directive keeps
+// --ngn-glow-x/--ngn-glow-y in sync with the pointer; the overlay fades in on
+// hover. Also lifts the tile slightly.
+.ngn-glow-card {
+  position: relative;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: radial-gradient(
+      360px circle at var(--ngn-glow-x, 50%) var(--ngn-glow-y, 50%),
+      color-mix(in srgb, var(--ngn-color-primary-400) 16%, transparent),
+      transparent 65%
+    );
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(
+      in srgb,
+      var(--ngn-color-primary-400) 45%,
+      var(--ngn-color-surface-200)
+    );
+    box-shadow: var(--ngn-shadow-md);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+// Keycaps for the accessibility "keyboard theater".
+.ngn-keycap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3rem;
+  padding: 0.625rem 0.875rem;
+  border-radius: var(--ngn-size-rounded-md);
+  border: 1px solid var(--ngn-color-surface-300);
+  border-bottom-width: 3px;
+  background: var(--ngn-color-surface-25);
+  color: var(--ngn-color-text);
+  font-family: 'Consolas', 'Menlo', monospace;
+  font-size: var(--ngn-font-size-sm);
+  font-weight: var(--ngn-font-weight-semibold);
+  transition:
+    transform 0.12s ease,
+    border-color 0.12s ease,
+    background 0.12s ease,
+    box-shadow 0.12s ease;
+
+  &.ngn-keycap-pressed {
+    transform: translateY(2px);
+    border-bottom-width: 1px;
+    border-color: var(--ngn-color-primary-500);
+    background: var(--ngn-color-primary-50);
+    color: var(--ngn-color-primary-600);
+    box-shadow: 0 0 16px color-mix(in srgb, var(--ngn-color-primary-500) 35%, transparent);
+  }
+}
+
+// Simulated focus ring that hops between targets in the keyboard theater.
+.ngn-sim-focus {
+  outline: 2px solid var(--ngn-color-primary-500);
+  outline-offset: 3px;
+  border-radius: var(--ngn-size-rounded-md);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--ngn-color-primary-500) 40%, transparent);
+  transition: box-shadow 0.2s ease;
+}
+
 .ngn-angular-text {
   // Solid base so the moving blobs never leave a transparent gap in a glyph.
   background-color: #8514f5;

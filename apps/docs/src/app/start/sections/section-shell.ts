@@ -1,20 +1,23 @@
 import { Component, computed, input } from '@angular/core';
 
+import { NgnDocsReveal } from './reveal';
+
 export type SectionLayout = 'split-left' | 'split-right' | 'centered' | 'full';
 
 @Component({
   selector: 'ngn-docs-section-shell',
-  host: { class: 'block px-(--ngn-size-padding-xl) py-16' },
+  imports: [NgnDocsReveal],
+  host: { class: 'block px-(--ngn-size-padding-xl) py-24 lg:py-32' },
   template: `
     <div class="mx-auto max-w-[1100px]">
-      <header class="mb-(--ngn-size-padding-xl)" [class]="headerClass()">
+      <header [ngnDocsReveal]="0" class="mb-12 lg:mb-16" [class]="headerClass()">
         <p
           class="mb-0.5 text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-primary-500) uppercase"
         >
           {{ eyebrow() }}
         </p>
         <h2
-          class="mb-(--ngn-size-padding-md) text-[2.25rem] font-(--ngn-font-weight-bold) text-(--ngn-color-text)"
+          class="mb-(--ngn-size-padding-md) text-[2.25rem] leading-tight font-(--ngn-font-weight-bold) text-(--ngn-color-text) lg:text-[2.75rem]"
         >
           {{ heading() }}
         </h2>
@@ -27,7 +30,10 @@ export type SectionLayout = 'split-left' | 'split-right' | 'centered' | 'full';
 
       <!-- Order via inline style (not a dynamic class) so it survives JIT. -->
       @if (isSplit()) {
-        <div class="grid grid-cols-1 items-center gap-(--ngn-size-padding-xl) lg:grid-cols-2">
+        <div
+          [ngnDocsReveal]="60"
+          class="grid grid-cols-1 items-center gap-(--ngn-size-padding-xl) lg:grid-cols-2"
+        >
           <div [style.order]="layout() === 'split-right' ? 2 : 1">
             <ng-content select="[primary]" />
           </div>
@@ -36,7 +42,9 @@ export type SectionLayout = 'split-left' | 'split-right' | 'centered' | 'full';
           </div>
         </div>
       } @else {
-        <ng-content />
+        <div [ngnDocsReveal]="60">
+          <ng-content />
+        </div>
       }
     </div>
   `,

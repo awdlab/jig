@@ -28,15 +28,17 @@ interface FeatureSection {
 export class Start {
   // Every band below the hero. Even indices are tinted; the footer matches the
   // last band's tone via `lastTinted`, so reordering stays in sync.
+  // Narrative arc: proof (demo) → easy start → make it yours (theming,
+  // customization) → built for devs → capability trio → browse everything.
   protected readonly featureSections: readonly FeatureSection[] = [
     { id: 'demo', component: NgnDocsDemoSection },
     { id: 'quick-start', component: NgnDocsQuickStartSection },
     { id: 'theming', component: NgnDocsThemingSection },
     { id: 'customization', component: NgnDocsCustomizationSection },
+    { id: 'developer-experience', component: NgnDocsDeveloperExperienceSection },
     { id: 'accessibility', component: NgnDocsAccessibilitySection },
     { id: 'native-platform', component: NgnDocsNativePlatformSection },
     { id: 'responsiveness', component: NgnDocsResponsivenessSection },
-    { id: 'developer-experience', component: NgnDocsDeveloperExperienceSection },
     { id: 'component-gallery', component: NgnDocsComponentGallerySection },
   ];
 
