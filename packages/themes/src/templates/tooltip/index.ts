@@ -12,6 +12,10 @@ export const tooltipControlTemplate = createControlTemplate({
     'with-arrow',
     'closing',
 
+    // Animations
+    'fade-in',
+    'fade-out',
+
     // Positions
     'top',
     'bottom',

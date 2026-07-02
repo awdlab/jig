@@ -1,4 +1,11 @@
-import { Component, computed, inject, Injector, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  Injector,
+  runInInjectionContext,
+  signal,
+} from '@angular/core';
 import tablerCalendar from '@iconify/icons-tabler/calendar';
 import tablerDotsVertical from '@iconify/icons-tabler/dots-vertical';
 import tablerDownload from '@iconify/icons-tabler/download';
@@ -35,6 +42,7 @@ import {
   type OpportunityFilter,
 } from './data';
 import { QuickAddDeal } from './quick-add-deal';
+import { themeColor } from '../../utils/theme-variant';
 
 @Component({
   selector: 'ngn-docs-sales-crm',
@@ -166,6 +174,13 @@ export class SalesCrm {
   }
 
   protected confirmDelete(row: Opportunity): void {
+    // Resolve the destructive color against the CURRENT theme each time the dialog opens (the live
+    // theme picker can switch themes at runtime). Delete gets the destructive color under Shade; no
+    // special color under Nova (its default). `themeColor` reads `ThemeService` via `inject`, so it
+    // must run in an injection context — this handler is invoked outside one.
+    const errorColor = runInInjectionContext(this._injector, () =>
+      themeColor({ Shade: 'destructive' })
+    );
     const dialog = createDialog(this._injector, {
       title: 'Delete Deal',
       content: `Are you sure you want to delete ${row.company}? This action cannot be undone.`,
@@ -173,7 +188,7 @@ export class SalesCrm {
       size: { width: '400px', maxWidth: '90vw' },
       footerButtons: [
         { label: 'Cancel', kind: 'secondary', value: 'cancel' as const },
-        { label: 'Delete', color: 'error', value: 'delete' as const },
+        { label: 'Delete', color: errorColor, value: 'delete' as const },
       ],
     });
     dialog.buttonClicked.subscribe(button => {

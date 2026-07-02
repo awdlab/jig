@@ -4,7 +4,22 @@ import tablerCoin from '@iconify/icons-tabler/coin';
 import tablerUsers from '@iconify/icons-tabler/users';
 
 import type { NgnItem } from '@ngneers/controls/api';
-import type { CustomColor, IconType } from '@ngneers/controls-custom-types';
+import type { IconType } from '@ngneers/controls-custom-types';
+
+/**
+ * Semantic color vocabulary this demo authors against (the nova palette). Kept independent of
+ * the active theme's `CustomColor` so the module compiles under any theme. Under a theme that
+ * lacks a given slot (e.g. shade has no `success`) the control falls back to its default color.
+ */
+export type PaletteColorName =
+  | 'primary'
+  | 'secondary'
+  | 'accent'
+  | 'surface'
+  | 'success'
+  | 'info'
+  | 'warning'
+  | 'error';
 
 export type OpportunityStatus = 'Closed Won' | 'Negotiation' | 'Discovery' | 'Proposal';
 
@@ -16,8 +31,8 @@ export type Opportunity = {
   bgColor: string;
   value: number;
   status: OpportunityStatus;
-  /** Theme color name passed to `ngn-tag [color]`. */
-  statusColor: CustomColor;
+  /** Semantic color name passed to `ngn-tag [color]`. */
+  statusColor: PaletteColorName;
   owner: string;
   ownerInitials: string;
   ownerColor: string;
@@ -27,11 +42,11 @@ export type Kpi = {
   label: string;
   value: string;
   icon: IconType;
-  /** Theme color name for the icon accent. */
-  iconColor: CustomColor;
+  /** Palette color name for the icon accent (used to build a `--ngn-color-*` CSS variable). */
+  iconColor: PaletteColorName;
   trend: string;
-  /** Theme color name for the trend text. */
-  trendColor: CustomColor;
+  /** Palette color name for the trend text (used to build a `--ngn-color-*` CSS variable). */
+  trendColor: PaletteColorName;
   /** Tooltip description shown on hover. */
   tooltip: string;
 };
@@ -108,7 +123,7 @@ export const OWNERS = [
   { owner: 'Mark R.', ownerInitials: 'MR', ownerColor: 'var(--ngn-color-accent-200)' },
 ] as const;
 
-const STATUS_COLORS: Record<OpportunityStatus, CustomColor> = {
+const STATUS_COLORS: Record<OpportunityStatus, PaletteColorName> = {
   'Closed Won': 'success',
   Negotiation: 'info',
   Discovery: 'warning',

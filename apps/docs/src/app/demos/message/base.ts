@@ -7,11 +7,11 @@ import { NgnMessage } from '@ngneers/controls/message';
   selector: 'ngn-demo-message-base',
   template: `
     <div class="flex flex-wrap gap-2">
-      @for (kind of kinds; track $index) {
-        @if (kinds.length > 1) {
+      @for (kind of kinds(); track $index) {
+        @if (kinds().length > 1) {
           <div class="mt-4 mb-2 w-full font-bold">Kind: {{ kind }}</div>
         }
-        @for (color of colors; track $index) {
+        @for (color of colors(); track $index) {
           <ngn-message [kind]="kind" [color]="color">{{ color }} message</ngn-message>
         }
       }

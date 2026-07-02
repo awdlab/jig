@@ -15,8 +15,23 @@
   </div>
   <div class="flex h-full items-center gap-2 text-2xl text-(--ngn-color-surface-800)">
     <button
+      #themePickerBtn
       ngnButton
-      [kind]="'icon'"
+      kind="icon"
+      aria-label="Pick theme and color"
+      title="Pick theme and color"
+      aria-haspopup="dialog"
+      [attr.aria-expanded]="themePickerPopover.open()"
+      (click)="themePickerPopover.toggle()"
+    >
+      <ngn-icon size="28px" [icon]="iconPalette" />
+    </button>
+    <ngn-popover #themePickerPopover [anchor]="themePickerBtn">
+      <ngn-docs-theme-picker />
+    </ngn-popover>
+    <button
+      ngnButton
+      kind="icon"
       [attr.aria-label]="colorSchemeLabel()"
       [title]="colorSchemeLabel()"
       (click)="cycleColorScheme()"
@@ -28,14 +43,14 @@
       target="_blank"
       aria-label="Project on Github"
       ngnButton
-      [kind]="'icon'"
+      kind="icon"
     >
       <ngn-icon size="28px" [icon]="iconGithub" />
     </a>
     <button
       class="hide-when-large"
       ngnButton
-      [kind]="'icon'"
+      kind="icon"
       aria-label="Menu Toggle"
       (click)="toggleMenu()"
     >

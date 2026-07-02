@@ -7,7 +7,7 @@ import { NgnChip } from '@ngneers/controls/chip';
   imports: [NgnChip],
   template: `
     <div class="flex flex-wrap gap-2">
-      @for (color of colors; track $index) {
+      @for (color of colors(); track $index) {
         <ngn-chip [color]="color">
           {{ color }}
         </ngn-chip>

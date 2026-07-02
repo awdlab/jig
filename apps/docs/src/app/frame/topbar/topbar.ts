@@ -2,12 +2,15 @@ import { Component, computed, effect, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import tablerBrandGithub from '@iconify/icons-tabler/brand-github';
 import tablerMenu2 from '@iconify/icons-tabler/menu-2';
+import tablerPalette from '@iconify/icons-tabler/palette';
 import { ColorSchemeService } from '@ngneers/controls/api/ng';
 import { NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnIcon } from '@ngneers/controls/icon';
+import { NgnPopover } from '@ngneers/controls/popover';
 
 import { AppLocation } from '../../helper/app-location';
+import { NgnDocsThemePicker } from '../../utils/theme-picker';
 import { BreadcrumbService } from '../breadcrumb.service';
 import { FrameState } from '../frame-state';
 
@@ -15,11 +18,12 @@ import { FrameState } from '../frame-state';
   selector: 'ngn-docs-topbar',
   templateUrl: 'topbar.html',
   styleUrl: 'topbar.scss',
-  imports: [NgnButton, NgnIcon, RouterLink, NgnBreadcrumb],
+  imports: [NgnButton, NgnDocsThemePicker, NgnIcon, NgnPopover, RouterLink, NgnBreadcrumb],
 })
 export class NgnDocsTopbar {
   protected readonly iconGithub = tablerBrandGithub;
   protected readonly iconBars = tablerMenu2;
+  protected readonly iconPalette = tablerPalette;
   private readonly _frameState = inject(FrameState);
   private readonly _appLocation = inject(AppLocation);
   private readonly _breadcrumb = inject(BreadcrumbService);

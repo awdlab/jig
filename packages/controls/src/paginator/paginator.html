@@ -17,7 +17,12 @@
       ngnButton
       [kind]="'icon'"
       [ngStyle]="buttonStyles"
-      [style.background]="page() === item.page ? 'var(--ngn-color-secondary-500)' : null"
+      [attr.aria-current]="page() === item.page ? 'page' : null"
+      [ngClass]="
+        theme.classes({
+          'active-page': page() === item.page,
+        })
+      "
       (click)="page.set(item.page)"
     >
       {{ item.page + 1 }}

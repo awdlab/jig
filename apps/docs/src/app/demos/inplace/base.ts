@@ -11,7 +11,7 @@ import { NgnInplace } from '@ngneers/controls/inplace';
     <ng-template #content [ngnTemplate]="inplace.templateTypes.content" let-content>
       <div class="flex items-center gap-2">
         <span>These are so many details!</span>
-        <button ngnButton [kind]="'icon'" (click)="content.close()">x</button>
+        <button ngnButton kind="icon" (click)="content.close()">x</button>
       </div>
     </ng-template>
   </ngn-inplace>`,

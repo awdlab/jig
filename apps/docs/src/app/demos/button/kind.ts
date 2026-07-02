@@ -7,9 +7,9 @@ import { NgnButton } from '@ngneers/controls/button';
   imports: [NgnButton],
   template: `
     <div class="flex flex-col gap-2">
-      @for (color of colors; track $index) {
+      @for (color of colors(); track $index) {
         <div class="flex flex-wrap items-center gap-2">
-          @for (kind of kinds; track $index) {
+          @for (kind of kinds(); track $index) {
             <button ngnButton [kind]="kind" [color]="color">
               {{ kind === 'icon' ? '👽' : kind }}
             </button>

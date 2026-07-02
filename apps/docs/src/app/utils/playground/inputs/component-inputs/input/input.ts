@@ -184,17 +184,17 @@ export class NgnDocsPlaygroundInput {
 
     if (this.input().name === 'kind') {
       const kinds = runInInjectionContext(this._injector, () =>
-        injectThemeControlKinds(this.internalControlName())
+        injectThemeControlKinds(this.internalControlName())()
       );
       return valuesToLiteralUnion(kinds);
     } else if (this.input().name === 'color') {
       const colors = runInInjectionContext(this._injector, () =>
-        injectThemeColors(this.internalControlName())
+        injectThemeColors(this.internalControlName())()
       );
       return valuesToLiteralUnion(colors);
     } else if (this.input().name === 'labelKind') {
       const colors = runInInjectionContext(this._injector, () =>
-        injectThemeControlKinds('inputFieldLabel')
+        injectThemeControlKinds('inputFieldLabel')()
       );
       return valuesToLiteralUnion(colors);
     }

@@ -8,6 +8,13 @@
       "port": 4200
     },
     {
+      "name": "docs-preview",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [".claude/launch-pnpm.js", "docs:serve", "--no-hmr", "--port", "4203"],
+      "autoPort": false,
+      "port": 4203
+    },
+    {
       "name": "test-wrapper",
       "runtimeExecutable": "node",
       "runtimeArgs": [".claude/launch-pnpm.js", "test-wrapper:serve", "--no-hmr", "--port", "4204"],

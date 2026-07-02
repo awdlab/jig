@@ -9,7 +9,7 @@ import type { CustomColor } from '@ngneers/controls-custom-types';
   imports: [NgnButton],
   selector: 'ngn-demo-toast-colors',
   template: `
-    @for (color of colors; track color) {
+    @for (color of colors(); track color) {
       <button ngnButton kind="text" [color]="color" (click)="showToast(color)">
         {{ color }}
       </button>

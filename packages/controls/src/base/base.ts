@@ -297,11 +297,11 @@ export abstract class NgnBase<T extends ControlName | null> {
     const opts = { unstyled: this.unstyled };
     const theme = injectThemeTemplate(template, opts);
 
-    const kinds = injectThemeControlKinds(theme.scope);
+    const kinds = injectThemeControlKinds(theme.scope)();
     if (kinds.length) {
       this._defaultKind.set(kinds[0] as CustomKind<T>);
     }
-    const colors = injectThemeColors(theme.scope);
+    const colors = injectThemeColors(theme.scope)();
     if (colors.length) {
       this._defaultColor.set(colors[0] as CustomColor);
     }

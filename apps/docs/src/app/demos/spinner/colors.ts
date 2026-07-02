@@ -7,7 +7,7 @@ import { NgnSpinner } from '@ngneers/controls/spinner';
   imports: [NgnSpinner],
   template: `
     <ngn-spinner />
-    @for (color of colors; track color) {
+    @for (color of colors(); track color) {
       <ngn-spinner [color]="color" />
     }
     <ngn-spinner style="color: #ff0042;" />

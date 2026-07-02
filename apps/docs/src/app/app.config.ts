@@ -10,9 +10,9 @@ import { provideRouter, withInMemoryScrolling, withViewTransitions } from '@angu
 import { provideNgnControls, withAutoColorScheme } from '@ngneers/controls/api/ng';
 import { withDefaultIcons } from '@ngneers/controls/default-icons';
 import { withToasts } from '@ngneers/controls/toast';
-import { novaCoral } from '@ngneers/controls-themes/nova';
 
 import { routes } from './app.routes';
+import { provideDocsThemeInitializer, resolveInitialTheme } from './utils/theme-picker';
 import { environment } from '../environment/environment';
 
 export const appConfig: ApplicationConfig = {
@@ -30,11 +30,12 @@ export const appConfig: ApplicationConfig = {
     ),
     provideClientHydration(withNoIncrementalHydration()),
     provideNgnControls(
-      { theme: { preset: novaCoral } },
+      { theme: { preset: resolveInitialTheme() } },
       withToasts(),
       withDefaultIcons(),
       withAutoColorScheme()
     ),
+    provideDocsThemeInitializer(),
     ...[environment.production ? [] : [provideCheckNoChangesConfig({ exhaustive: true })]],
   ],
 };

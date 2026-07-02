@@ -1,4 +1,4 @@
-import { NgStyle } from '@angular/common';
+import { NgStyle, NgClass } from '@angular/common';
 import { Component, computed, effect, inject, input, model, output } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
@@ -20,7 +20,17 @@ import type { NgnItem } from '@ngneers/controls/api';
 @Component({
   selector: 'ngn-paginator',
   templateUrl: './paginator.html',
-  imports: [NgnButton, NgnIcon, NgnItemView, NgnSelect, NgnTemplate, NgStyle, NgnPt, NgnInputField],
+  imports: [
+    NgnButton,
+    NgnIcon,
+    NgnItemView,
+    NgnSelect,
+    NgnTemplate,
+    NgStyle,
+    NgnPt,
+    NgnInputField,
+    NgClass,
+  ],
   providers: [provideSelf(NgnPaginator)],
 })
 export class NgnPaginator extends NgnBase<'paginator'> {

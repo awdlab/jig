@@ -33,9 +33,9 @@ export class NgnDocsApiProperties {
       };
     }
     const kinds = runInInjectionContext(this._injector, () =>
-      injectThemeControlKinds(internalName)
+      injectThemeControlKinds(internalName)()
     );
-    const colors = runInInjectionContext(this._injector, () => injectThemeColors(internalName));
+    const colors = runInInjectionContext(this._injector, () => injectThemeColors(internalName)());
 
     const kind = kinds.length ? `'${kinds.join("' | '")}' | 'undefined'` : null;
     const color = colors.length ? `'${colors.join("' | '")}' | 'undefined'` : null;

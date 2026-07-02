@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { injectThemeControlKinds } from '@ngneers/controls/api/ng';
 import { NgnChip } from '@ngneers/controls/chip';
 
@@ -19,7 +19,7 @@ import { NgnChip } from '@ngneers/controls/chip';
         </ngn-chip>
       </div>
       <div class="flex flex-wrap gap-2">
-        @for (kind of kinds; track $index) {
+        @for (kind of kinds(); track $index) {
           <ngn-chip [kind]="kind" [actionable]="true" (clicked)="onChipClick()">
             {{ kind ?? '*no kind*' }}
           </ngn-chip>
@@ -29,7 +29,8 @@ import { NgnChip } from '@ngneers/controls/chip';
   `,
 })
 export class Demo_Chip_Actionable {
-  protected readonly kinds = [null, ...injectThemeControlKinds('chip')];
+  private readonly _kinds = injectThemeControlKinds('chip');
+  protected readonly kinds = computed(() => [null, ...this._kinds()]);
 
   protected onChipClick() {
     alert('Chip clicked!');

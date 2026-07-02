@@ -12,7 +12,7 @@ export const popoverStyles = createThemePart({
         position: static;
         display: flex;
         flex-direction: column;
-        /* Browser-Reset: */
+        /* Browser & inheritance reset: */
         width: unset;
         height: unset;
         color: unset;
@@ -24,6 +24,8 @@ export const popoverStyles = createThemePart({
         border-color: unset;
         border-image: unset;
         padding: unset;
+        font-size: 1rem;
+        cursor: default;
 
         &:not(:popover-open) {
           display: none;

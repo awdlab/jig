@@ -8,13 +8,14 @@ import {
   contentChildren,
   effect,
   ElementRef,
+  inject,
   input,
   model,
   signal,
   viewChild,
   viewChildren,
 } from '@angular/core';
-import { elementSizeSignal, elementsSizesSignal } from '@ngneers/controls/api/ng';
+import { elementSizeSignal, elementsSizesSignal, Platform } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { NgnDragScroll, NgnScrollAmount } from '@ngneers/controls/directives';
@@ -99,8 +100,30 @@ export class NgnTabs extends TabsTemplates implements AfterViewInit {
     }))
   );
 
+  /**
+   * Inter-header gap (theme-defined — e.g. shade renders the header row as a padded tray with a
+   * `gap` between pills). Read from the resolved column-gap and re-evaluated whenever the list
+   * resizes or its header set changes (covers theme swaps). Included in the width math below so
+   * overflow detection isn't thrown off by the spacing between headers.
+   */
+  private readonly _platform = inject(Platform);
+  private readonly _headerGap = computed(() => {
+    // getComputedStyle is browser-only; on the server there is no layout, so the gap is irrelevant.
+    if (!this._platform.isBrowser) {
+      return 0;
+    }
+    this._tabListSize();
+    this._headerSizes();
+    const gap = parseFloat(getComputedStyle(this._tabList().nativeElement).columnGap);
+    return Number.isFinite(gap) ? gap : 0;
+  });
+
   private readonly _totalTabsWidth = computed(() => {
-    return this._headerSizes().reduce((sum, size) => sum + size.width, 0);
+    const sizes = this._headerSizes();
+    const totalWidth = sizes.reduce((sum, size) => sum + size.width, 0);
+    // Gaps sit between headers: N headers → N-1 gaps. Without this the summed header widths
+    // under-report the real scroll width and the right arrow hides while content still overflows.
+    return totalWidth + this._headerGap() * Math.max(0, sizes.length - 1);
   });
 
   protected readonly tabsOverflowingRight = computed(() => {
