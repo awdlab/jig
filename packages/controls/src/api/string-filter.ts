@@ -33,7 +33,7 @@ async function filterItem<T extends object>(
   const fields = Array.isArray(filterFieldsCallbackResult)
     ? filterFieldsCallbackResult
     : [filterFieldsCallbackResult];
-  const words = options.splitWords ? text.split(/\s+/) : [text];
+  const words = options.splitWords ? text.split(/\s+/).filter(x => !!x) : [text];
 
   const itemDoesMatch = (
     await Promise.all(
@@ -89,7 +89,7 @@ async function itemMatches<T extends object>(
       return await fn(word, item);
     })
   );
-  return results.some(result => result);
+  return results.every(result => result);
 }
 
 export async function filterOptions<T extends object>(

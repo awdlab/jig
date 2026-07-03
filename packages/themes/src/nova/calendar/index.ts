@@ -80,9 +80,16 @@ export const calendarStyles = createThemePart({
         }
       }
       ${c('current-month')} {
-        width: 100%;
+        flex: 1 1 0;
+        min-width: 0;
       }
-      ${c('current-year')}${d('select', 'root')} ${d('input', 'root')} {
+      ${c('current-month')} ${d('select', 'root')} {
+        min-width: 0;
+      }
+      ${c('current-year')} {
+        flex: 0 0 auto;
+      }
+      ${c('current-year')} ${d('select', 'root')} ${d('input', 'root')} {
         width: 3rem;
       }
       ${c('time')} {

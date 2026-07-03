@@ -16,7 +16,7 @@ export function expectScreenshot(
   const fullName = `${testInfo.title}${name ? '-' + name : ''}.png`;
   return expect(toScreenshot).toHaveScreenshot(fullName, {
     fullPage: 'addInitScript' in toScreenshot,
-    maxDiffPixelRatio: 0.01,
+    maxDiffPixels: 5,
     ...options,
   });
 }

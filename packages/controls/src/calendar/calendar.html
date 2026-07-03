@@ -91,7 +91,7 @@
 
 <ng-template #defaultYearTemplate [ngnTemplate]="templateTypes.year" let-y>
   @defer {
-    <ngn-input-field>
+    <ngn-input-field [ptInt]="this" [ptClass]="'current-year'">
       <ngn-select
         [editable]="true"
         [value]="year() + ''"
@@ -100,8 +100,6 @@
         [virtual]="true"
         [itemHeight]="40"
         [popoverOptions]="{ sizeConstraints: { maxHeight: '300px' } }"
-        [ptInt]="this"
-        [ptClass]="'current-year'"
         [scrollToSelectedItemOnOpen]="'center'"
         [editableAutoFilter]="false"
         [tabindex]="-1"
@@ -114,7 +112,7 @@
 
 <ng-template #defaultMonthTemplate [ngnTemplate]="templateTypes.month" let-m>
   @defer {
-    <ngn-input-field>
+    <ngn-input-field [ptInt]="this" [ptClass]="'current-month'">
       <ngn-select
         [value]="m.month"
         (valueChange)="m.change($event!)"
@@ -122,8 +120,6 @@
         [popoverOptions]="{
           sizeConstraints: { maxHeight: '300px', width: '130px', maxWidth: '130px' },
         }"
-        [ptInt]="this"
-        [ptClass]="'current-month'"
         [scrollToSelectedItemOnOpen]="'center'"
         [tabindex]="-1"
       />

@@ -58,7 +58,7 @@ export const calendarStyles = createThemePart({
         justify-content: center;
         font-size: inherit;
       }
-      ${c('current-year')}${d('select', 'root')} ${d('input', 'root')} {
+      ${c('current-year')} ${d('select', 'root')} ${d('input', 'root')} {
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
           display: none; // Chromium and WebKit
