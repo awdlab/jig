@@ -141,7 +141,6 @@ function toTemplateValues(scheme: ShadeSchemeColors, isDark: boolean) {
     border: scheme.border,
     input: scheme.input,
     ring: scheme.ring,
-    popover: { base: scheme.popover, foreground: scheme.popoverForeground },
   };
 }
 

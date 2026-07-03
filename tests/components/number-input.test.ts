@@ -74,14 +74,15 @@ test('commits on blur — clamps out-of-range, empties to null, reverts garbage'
   const { handle, input } = await loadNumberInput(page, { value: 5, min: 0, max: 100 });
 
   await input.fill('999');
+  await expect(input).toHaveValue('999'); // ensure the typed value registered before blur
   await input.blur();
   await expect(input).toHaveValue('100');
-  expect(await lastValue(handle)).toBe(100);
+  await expect.poll(() => lastValue(handle)).toBe(100);
 
   await input.fill('');
   await input.blur();
   await expect(input).toHaveValue('');
-  expect(await lastValue(handle)).toBeNull();
+  await expect.poll(() => lastValue(handle)).toBe(null);
 
   await input.fill('abc');
   await input.blur();
@@ -99,7 +100,7 @@ test('keyboard steps by step/bigStep, clamps at bounds, avoids float drift', asy
   await input.focus();
   await input.press('ArrowUp');
   await expect(input).toHaveValue('6');
-  expect(await lastValue(handle)).toBe(6);
+  await expect.poll(() => lastValue(handle)).toBe(6);
 
   await input.press('ArrowDown');
   await expect(input).toHaveValue('5');
@@ -145,7 +146,7 @@ test('spin buttons step, seed from empty, disable at bounds, stay out of tab ord
   // Empty value seeds at min on first increment.
   await increment.click();
   await expect(input).toHaveValue('5');
-  expect(await lastValue(handle)).toBe(5);
+  await expect.poll(() => lastValue(handle)).toBe(5);
 
   await increment.click();
   await increment.click();

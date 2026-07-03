@@ -69,6 +69,7 @@ export const IMPORTS = {
   toggleButton: () =>
     import('@ngneers/controls/toggle-button').then((m) => m.NgnToggleButton),
   tooltip: () => import('@ngneers/controls/tooltip').then((m) => m.NgnTooltip),
+  tree: () => import('@ngneers/controls/tree').then((m) => m.NgnTree),
   dummy_component: () =>
     import('./helper-components/dummy').then((m) => m.DummyComponent),
 };

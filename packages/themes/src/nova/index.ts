@@ -45,6 +45,7 @@ import { tagStyles } from '@ngneers/controls-themes/nova/tag';
 import { toastStyles } from '@ngneers/controls-themes/nova/toast';
 import { toggleButtonStyles } from '@ngneers/controls-themes/nova/toggle-button';
 import { tooltipStyles } from '@ngneers/controls-themes/nova/tooltip';
+import { treeStyles } from '@ngneers/controls-themes/nova/tree';
 
 import type {} from './theme-types';
 
@@ -118,6 +119,7 @@ export const novaCoral = createTheme(
     toastStyles,
     toggleButtonStyles,
     tooltipStyles,
+    treeStyles,
   ],
   {
     kinds: KINDS,

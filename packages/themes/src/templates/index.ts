@@ -44,6 +44,7 @@ export type ThemeTemplate = {
   toast: Awaited<typeof import('./toast')>['toastControlTemplate'];
   toggleButton: Awaited<typeof import('./toggle-button')>['toggleButtonControlTemplate'];
   tooltip: Awaited<typeof import('./tooltip')>['tooltipControlTemplate'];
+  tree: Awaited<typeof import('./tree')>['treeControlTemplate'];
 };
 
 export type ControlName = keyof ThemeTemplate;

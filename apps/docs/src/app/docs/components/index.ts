@@ -36,6 +36,7 @@ import { TagPage } from './tag/page';
 import { ToastPage } from './toast/page';
 import { ToggleButtonPage } from './toggle-button/page';
 import { TooltipPage } from './tooltip/page';
+import { TreePage } from './tree/page';
 
 export const ALL_COMPONENT_PAGES = [
   AccordionPage,
@@ -76,4 +77,5 @@ export const ALL_COMPONENT_PAGES = [
   ToastPage,
   ToggleButtonPage,
   TooltipPage,
+  TreePage,
 ];

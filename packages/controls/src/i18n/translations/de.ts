@@ -91,4 +91,7 @@ export default {
   listBox: {
     noItemsFound: 'Keine Einträge gefunden',
   },
+  tree: {
+    noItemsFound: 'Keine Einträge gefunden',
+  },
 };

@@ -20,6 +20,7 @@ import {
   type AutoPositioningHandle,
   NGN_CONFIG,
   type PositioningSizeConstraints,
+  roundByDpr,
   splitPlacement,
   type TooltipOptions,
 } from '@ngneers/controls/api/ng';
@@ -535,7 +536,10 @@ export class TooltipComponent extends NgnBase<'tooltip'> {
   }
 
   protected toPixels(value: number | undefined): string | undefined {
-    return value !== undefined ? `${value}px` : undefined;
+    if (value === undefined) {
+      return undefined;
+    }
+    return `${roundByDpr(this.element.nativeElement, value)}px`;
   }
 }
 

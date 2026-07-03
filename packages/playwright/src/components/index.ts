@@ -29,3 +29,4 @@ export * from './tag';
 export * from './toast';
 export * from './toggle-button';
 export * from './tooltip';
+export * from './tree';

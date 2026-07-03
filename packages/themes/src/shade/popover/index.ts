@@ -27,12 +27,12 @@ export const popoverStyles = createThemePart({
       }
       ${c('content')} {
         border-style: solid;
-        background: ${v('color.popover.base')};
-        color: ${v('color.popover.foreground')};
+        background: ${v('color.background')};
+        color: ${v('color.text')};
         border-color: ${v('color.border')};
         border-radius: ${v('size.rounded.md')};
         border-width: 1px;
-        padding: ${v('size.padding.lg')};
+        padding: ${v('size.padding.sm')};
         box-shadow: ${v('shadow.lg')};
         opacity: 0;
         transform: translateY(${MOVE_AMOUNT}px);

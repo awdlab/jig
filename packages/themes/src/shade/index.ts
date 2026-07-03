@@ -52,6 +52,7 @@ import { tagStyles } from '@ngneers/controls-themes/shade/tag';
 import { toastStyles } from '@ngneers/controls-themes/shade/toast';
 import { toggleButtonStyles } from '@ngneers/controls-themes/shade/toggle-button';
 import { tooltipStyles } from '@ngneers/controls-themes/shade/tooltip';
+import { treeStyles } from '@ngneers/controls-themes/shade/tree';
 
 import type {} from './theme-types';
 
@@ -123,6 +124,7 @@ export const shade = createTheme(
     toastStyles,
     toggleButtonStyles,
     tooltipStyles,
+    treeStyles,
     zinc,
   ],
   {

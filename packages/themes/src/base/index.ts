@@ -44,6 +44,7 @@ import { tagStyles } from '@ngneers/controls-themes/base/tag';
 import { toastStyles } from '@ngneers/controls-themes/base/toast';
 import { toggleButtonStyles } from '@ngneers/controls-themes/base/toggle-button';
 import { tooltipStyles } from '@ngneers/controls-themes/base/tooltip';
+import { treeStyles } from '@ngneers/controls-themes/base/tree';
 
 import { tableStyles } from './table';
 
@@ -92,6 +93,7 @@ export const baseStyles = {
   toast: toastStyles,
   toggleButton: toggleButtonStyles,
   tooltip: tooltipStyles,
+  tree: treeStyles,
 };
 
 export const unstyledBase = createTheme('Nova Coral', [...Object.values(baseStyles)]);

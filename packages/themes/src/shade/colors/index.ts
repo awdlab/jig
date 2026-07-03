@@ -18,8 +18,6 @@ export type ShadeSchemeColors = {
   destructiveForeground: string;
   surface: string;
   surfaceForeground: string;
-  popover: string;
-  popoverForeground: string;
 };
 
 export type ShadeColors = {
@@ -68,8 +66,6 @@ export function createShadeColors(baseColor?: string): ShadeColors {
     destructiveForeground: '#fafafa',
     surface: '#ffffff',
     surfaceForeground: '#09090b',
-    popover: '#ffffff',
-    popoverForeground: '#09090b',
   };
 
   const dark: ShadeSchemeColors = {
@@ -90,8 +86,6 @@ export function createShadeColors(baseColor?: string): ShadeColors {
     destructiveForeground: '#fafafa',
     surface: '#18181b',
     surfaceForeground: '#fafafa',
-    popover: '#18181b',
-    popoverForeground: '#fafafa',
   };
 
   if (baseColor !== undefined) {

@@ -78,6 +78,18 @@ export type AutoPositioningHandle = {
   isRunning: () => boolean;
 };
 
+/**
+ * Snap a coordinate to the device-pixel grid. floating-ui returns subpixel
+ * coordinates; setting them raw puts the floating element (and its arrow) on
+ * fractional boundaries, producing blurry, non-deterministic anti-aliasing.
+ * Rounding by DPR keeps rendering crisp and stable. Matches floating-ui's own
+ * `roundByDPR` guidance.
+ */
+export function roundByDpr(el: HTMLElement, value: number): number {
+  const dpr = el.ownerDocument.defaultView?.devicePixelRatio || 1;
+  return Math.round(value * dpr) / dpr;
+}
+
 function filterNonNullishKeys<T extends Record<string, unknown>>(obj: T): Partial<T> {
   return Object.fromEntries(Object.entries(obj).filter(([, value]) => value != null)) as Partial<T>;
 }
@@ -182,8 +194,8 @@ export function positionElement(
         const flippedToTop = flipped && pos.placement.startsWith('top');
 
         Object.assign(floatingEl.style, {
-          left: `${pos.x}px`,
-          top: `${pos.y}px`,
+          left: `${roundByDpr(floatingEl, pos.x)}px`,
+          top: `${roundByDpr(floatingEl, pos.y)}px`,
           justifyContent: flippedToLREnd || flippedToTop ? 'flex-end' : 'flex-start',
         });
       }
