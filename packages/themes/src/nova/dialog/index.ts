@@ -1,6 +1,7 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { baseStyles } from '@ngneers/controls-themes/base';
 import {
+  animationTemplate,
   colorsTemplate,
   fontTemplate,
   shadowTemplate,
@@ -8,10 +9,12 @@ import {
 } from '@ngneers/controls-themes/nova/base';
 import { dialogControlTemplate } from '@ngneers/controls-themes/templates/dialog';
 
+const SCALE_AMOUNT = 0.95;
+
 export const dialogStyles = createThemePart({
   controlTemplate: dialogControlTemplate,
   base: baseStyles.dialog,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate, animationTemplate],
   root: {
     css: ({ v, c, d }) => css`
       ${c('root')} {
@@ -20,10 +23,33 @@ export const dialogStyles = createThemePart({
         border-radius: ${v('size.rounded.md')};
         padding: ${v('size.padding.lg')};
         box-shadow: ${v('shadow.lg')};
+        opacity: 0;
+        transform: scale(${SCALE_AMOUNT});
+        transition:
+          opacity ${v('anim.time.snappyFade')} ${v('anim.ease.fade')},
+          transform ${v('anim.time.snappyFade')} ${v('anim.ease.fade')},
+          display calc(${v('anim.time.snappyFade')} + 10ms) allow-discrete,
+          overlay calc(${v('anim.time.snappyFade')} + 10ms) allow-discrete;
+      }
+      ${c('root')}[open],
+      ${c('root')}:popover-open {
+        opacity: 1;
+        transform: scale(1);
+        @starting-style {
+          opacity: 0;
+          transform: scale(${SCALE_AMOUNT});
+        }
       }
       ${c('modal')} {
         &::backdrop {
+          background-color: transparent;
+          transition: background-color ${v('anim.time.snappyFade')} ${v('anim.ease.fade')};
+        }
+        &[open]::backdrop {
           background-color: rgba(from ${v('color.text')} r g b / 0.1);
+          @starting-style {
+            background-color: transparent;
+          }
         }
       }
       ${c('header')} {
