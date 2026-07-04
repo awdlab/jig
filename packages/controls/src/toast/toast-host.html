@@ -1,5 +1,6 @@
-@for (toast of toasts(); track toast.id) {
+@for (toast of toasts(); track toast.id; let i = $index) {
   <ngn-toast
+    [attr.tabindex]="region.tabbableIndex() === i ? 0 : -1"
     [header]="toast.header"
     [content]="toast.content"
     [color]="toast.color"

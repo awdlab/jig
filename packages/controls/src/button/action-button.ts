@@ -30,7 +30,10 @@ export class NgnActionButton<T> extends NgnBase<null> {
   protected readonly maybeCallback = maybeCallback;
 
   protected click(event: PointerEvent): void {
-    this.clicked.emit(this.config().value);
+    // Run the config's action callback first, then emit `clicked` — consumers
+    // (snackbar, dialog) treat `clicked` as the dismiss signal, so the action
+    // must fire before the host tears the button down.
     this.config().action?.(event);
+    this.clicked.emit(this.config().value);
   }
 }

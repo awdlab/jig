@@ -1,5 +1,6 @@
 import { TemplateRef } from '@angular/core';
 
+import type { NgnActionButtonConfig } from '@ngneers/controls/api';
 import type { CustomColor, IconType } from '@ngneers/controls-custom-types';
 
 export type HeaderTemplateType = {
@@ -17,6 +18,10 @@ export type NgnSnackbarOptionsMeta = {
   color?: CustomColor;
   icon?: IconType;
   autoHide?: number | false;
+  actions?: NgnActionButtonConfig[];
+  showProgress?: boolean;
+  pauseOnHover?: boolean;
+  ariaLive?: 'polite' | 'assertive' | 'off';
 };
 
 export type NgnSnackbarOptions = NgnSnackbarOptionsMeta & {

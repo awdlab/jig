@@ -11,6 +11,10 @@ export const snackbarControlTemplate = createControlTemplate({
     'defaultHeader',
     'defaultHeaderText',
     'defaultContent',
+    'actions',
+    'progressBar',
+    'closeButton',
+    'sr-only',
     'color-*',
   ],
 });

@@ -1,15 +1,15 @@
 <div [ptInt]="this" [ptClass]="'main'">
-  <div
-    [ptInt]="this"
-    [ptClass]="'zone'"
-    [attr.role]="clickable() ? 'button' : null"
-    [attr.tabindex]="clickable() && !disabled() ? 0 : null"
-    [attr.aria-disabled]="disabled() ? 'true' : null"
-    (click)="onZoneClick()"
-    (keydown)="onZoneKeydown($event)"
-  >
-    <ngn-icon [ptInt]="this" [ptClass]="'icon'" [defaultIcon]="'upload-trigger'" />
-    <div [ptInt]="this" [ptClass]="'placeholder'"><ng-content /></div>
+  <div [ptInt]="this" [ptClass]="'zone'">
+    <ngn-icon
+      [ptInt]="this"
+      [ptClass]="'icon'"
+      [defaultIcon]="'upload-trigger'"
+      [icon]="iconUpload()"
+    />
+    <!-- The projected native input[type=file] is the real, focusable control:
+         it overlays the zone (see the 'native' theme part) and opens the picker
+         natively on click/Enter/Space. Keep it accessible (no aria-hidden). -->
+    <div [ptInt]="this" [ptClass]="'placeholder'" [id]="labelId"><ng-content /></div>
   </div>
 
   @if (showUploadAll()) {
@@ -23,7 +23,7 @@
         (click)="uploadAll()"
       >
         <ngn-icon [defaultIcon]="'upload-trigger'" />
-        Upload
+        {{ i18n['upload_upload']() }}
       </button>
     </div>
   }
@@ -73,23 +73,10 @@
               type="button"
               [ptInt]="this"
               [ptClass]="'action'"
-              [attr.aria-label]="i18n['upload_upload']() + ' ' + item.file.name"
+              [attr.aria-label]="i18n['upload_uploadNamed']({ name: item.file.name })"
               (click)="uploadOne(item)"
             >
               <ngn-icon [defaultIcon]="'upload-trigger'" />
-            </button>
-          }
-          @if (item.state === 'uploading') {
-            <button
-              ngnButton
-              kind="text"
-              type="button"
-              [ptInt]="this"
-              [ptClass]="'action'"
-              [attr.aria-label]="i18n['upload_cancel']() + ' ' + item.file.name"
-              (click)="cancelFile(item)"
-            >
-              <ngn-icon [defaultIcon]="'upload-cancel'" />
             </button>
           }
           @if (item.state === 'failed') {
@@ -99,22 +86,30 @@
               type="button"
               [ptInt]="this"
               [ptClass]="'action'"
-              [attr.aria-label]="i18n['upload_retry']() + ' ' + item.file.name"
+              [attr.aria-label]="i18n['upload_retryNamed']({ name: item.file.name })"
               (click)="retryFile(item)"
             >
               <ngn-icon [defaultIcon]="'upload-retry'" />
             </button>
           }
+          <!-- Single dismiss action: cancels the in-flight upload and removes the
+               item while uploading, otherwise just removes it. -->
           <button
             ngnButton
             kind="text"
             type="button"
             [ptInt]="this"
             [ptClass]="'action'"
-            [attr.aria-label]="i18n['upload_remove']() + ' ' + item.file.name"
+            [attr.aria-label]="
+              item.state === 'uploading'
+                ? i18n['upload_cancelNamed']({ name: item.file.name })
+                : i18n['upload_removeNamed']({ name: item.file.name })
+            "
             (click)="removeFile(item)"
           >
-            <ngn-icon [defaultIcon]="'upload-remove'" />
+            <ngn-icon
+              [defaultIcon]="item.state === 'uploading' ? 'upload-cancel' : 'upload-remove'"
+            />
           </button>
         </div>
       </li>

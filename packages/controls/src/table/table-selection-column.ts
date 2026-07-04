@@ -14,6 +14,7 @@ import {
 import { injectThemeTemplate, setComponentInput } from '@ngneers/controls/api/ng';
 import { getNearestNgnInstanceSig } from '@ngneers/controls/base';
 import { NgnCheckbox } from '@ngneers/controls/checkbox';
+import { I18n } from '@ngneers/controls/i18n';
 import { toggleClass } from '@ngneers/controls/utils';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
@@ -46,6 +47,7 @@ export class NgnTableSelectionColumn implements OnDestroy {
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _envInjector = inject(EnvironmentInjector);
   private readonly _appRef = inject(ApplicationRef);
+  private readonly _i18n = inject(I18n).translations;
 
   private readonly _table = getNearestNgnInstanceSig<Type<NgnTable<any, any>>>(
     this._element.nativeElement,
@@ -85,6 +87,11 @@ export class NgnTableSelectionColumn implements OnDestroy {
 
     if (this._isHeader) {
       this._setupHeaderEffects();
+      // Keep the header's accessible name in sync with the active language
+      // (translations load asynchronously, so this cannot be set once at init).
+      effect(() => {
+        this._element.nativeElement.setAttribute('aria-label', this._i18n['table_selectAllRows']());
+      });
       // Register the selection column once the table signal resolves
       effect(() => {
         const table = this._table();
@@ -109,9 +116,6 @@ export class NgnTableSelectionColumn implements OnDestroy {
     const el = this._element.nativeElement;
     toggleClass(el, this.theme.class('cell'), true);
     toggleClass(el, this.theme.class('selection-column'), true);
-    if (this._isHeader) {
-      el.setAttribute('aria-label', 'Select all rows');
-    }
   }
 
   /**

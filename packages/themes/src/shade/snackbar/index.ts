@@ -8,7 +8,15 @@ import {
   sizesTemplate,
   slotColors,
 } from '@ngneers/controls-themes/shade/base';
+import { createShadeColors } from '@ngneers/controls-themes/shade/colors';
 import { snackbarControlTemplate } from '@ngneers/controls-themes/templates/snackbar';
+
+// The snackbar surface is a fixed dark in BOTH color schemes (like the spec,
+// and like Material toasts). Shade's surface is white in light mode, so we use
+// the dark-scheme surface directly instead of the scheme-adaptive token.
+const shadeDark = createShadeColors().dark;
+const SURFACE = shadeDark.surface;
+const ON_SURFACE = shadeDark.surfaceForeground;
 
 export const snackbarStyles = createThemePart({
   controlTemplate: snackbarControlTemplate,
@@ -30,8 +38,14 @@ export const snackbarStyles = createThemePart({
       }
 
       ${c('root')} {
-        background: var(--theme-bg, ${v('color.foreground')});
-        color: var(--theme-fg, ${v('color.background')});
+        /* Fixed dark surface for every kind/scheme — the color is expressed as
+           an accent (left stripe + icon), not a full tint. */
+        background: ${SURFACE};
+        color: ${ON_SURFACE};
+        /* Icon color = the kind's accent by default; the neutral (surface) kind
+           overrides it to the text color below. Set on the host so it inherits
+           reliably, avoiding descendant-selector leaks. */
+        --snk-icon-color: var(--theme-bg, ${ON_SURFACE});
         gap: ${v('size.padding.md')};
         padding: ${v('size.padding.md')} ${v('size.padding.xl')};
         border-radius: ${v('size.rounded.lg')};
@@ -39,11 +53,33 @@ export const snackbarStyles = createThemePart({
         box-shadow: ${v('shadow.xl')};
       }
 
+      /* Colored accent stripe in the left gutter — carries the kind color via
+         the slot's base color (subtle for the default surface kind). */
+      ${c('root')}::before {
+        content: '';
+        position: absolute;
+        left: ${v('size.padding.sm')};
+        top: 50%;
+        transform: translateY(-50%);
+        height: 55%;
+        width: 4px;
+        border-radius: ${v('size.rounded.lg')};
+        background: var(--theme-bg, ${ON_SURFACE});
+      }
+
       ${c('defaultHeaderText')} {
         font-weight: ${v('font.weight.semibold')};
         display: flex;
         align-items: center;
         gap: ${v('size.padding.sm')};
+      }
+
+      /* Neutral (surface) kind: icon uses the text color instead of the accent. */
+      ${c('color-surface')} {
+        --snk-icon-color: ${ON_SURFACE};
+      }
+      ${c('defaultHeaderText')} ngn-icon {
+        color: var(--snk-icon-color);
       }
 
       ${c('anim-enter')} {
@@ -99,6 +135,28 @@ export const snackbarStyles = createThemePart({
 
       ${c('defaultContent')} {
         line-height: 1.5;
+      }
+
+      ${c('actions')} {
+        gap: ${v('size.padding.sm')};
+      }
+
+      /* The close icon button has no themed color of its own, so it would fall
+         back to the UA default (black). Pin it to the neutral surface foreground
+         (the surface is always neutral now). Scoped to our own close button so
+         caller action colors are never overridden. */
+      ${c('closeButton')} {
+        color: ${ON_SURFACE};
+      }
+
+      ${c('progressBar')} {
+        height: 3px;
+        left: ${v('size.padding.md')};
+        right: ${v('size.padding.md')};
+        width: auto;
+        bottom: 4px;
+        border-radius: ${v('size.rounded.lg')};
+        background: color-mix(in srgb, ${ON_SURFACE} 55%, transparent);
       }
     `,
   },

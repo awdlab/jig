@@ -29,7 +29,8 @@ export const uploadStyles = createThemePart({
         ${c('draggable')} ${c('zone')} {
           border-style: dashed;
         }
-        ${c('zone')}:focus-visible {
+        /* Focus lives on the projected native input; surface the ring on the zone. */
+        ${c('zone')}:has(:focus-visible) {
           outline: 2px solid ${v('color.primary.500')};
           outline-offset: 2px;
         }

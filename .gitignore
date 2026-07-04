@@ -17,3 +17,5 @@ tests/results/
 .claude/worktrees
 .claude/settings.local.json
 .superpowers
+
+**/coverage/**

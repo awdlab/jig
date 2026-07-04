@@ -1,4 +1,5 @@
 import { NgnDocsSnackbarPlayground } from './playground';
+import { Demo_Snackbar_Actions } from '../../../demos/snackbar/actions';
 import { Demo_Snackbar_Base } from '../../../demos/snackbar/base';
 import { Demo_Snackbar_Closable } from '../../../demos/snackbar/closable';
 import { Demo_Snackbar_Colors } from '../../../demos/snackbar/colors';
@@ -23,6 +24,7 @@ export const SnackbarPage: NgnDocsPage = {
         Demo_Snackbar_Closable,
         Demo_Snackbar_Persistent,
         Demo_Snackbar_Icon,
+        Demo_Snackbar_Actions,
       ],
     },
     {

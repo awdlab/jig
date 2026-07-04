@@ -3,6 +3,7 @@ import {
   computed,
   effect,
   ElementRef,
+  inject,
   input,
   signal,
   untracked,
@@ -10,6 +11,7 @@ import {
 } from '@angular/core';
 import { domEventHandler } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
+import { I18n } from '@ngneers/controls/i18n';
 import { NgnRovingGroup, NgnRovingItem } from '@ngneers/controls/roving-focus';
 import { inputMaskControlTemplate } from '@ngneers/controls-themes/templates/input-mask';
 
@@ -41,6 +43,7 @@ import type { InputMaskCfg } from './types';
 export class NgnInputMask extends ValueControlBase<'inputMask', string | null> {
   public override readonly isFieldControl = true;
   protected readonly theme = this.injectThemeTemplate(inputMaskControlTemplate, 'root');
+  protected readonly i18n = inject(I18n).translations;
 
   /**
    * The mask to apply to the input. Can be a predefined mask key or a custom mask configuration.
@@ -164,8 +167,12 @@ export class NgnInputMask extends ValueControlBase<'inputMask', string | null> {
       id: `seg-${field.name}-${this.inputId()}`,
       text:
         field.kind === 'number'
-          ? `${field.name}, ${field.min} to ${field.max}`
-          : field.values.join(' or '),
+          ? this.i18n['inputMask_segmentRange']({
+              name: field.name,
+              min: field.min,
+              max: field.max,
+            })
+          : field.values.join(this.i18n['inputMask_optionSeparator']()),
     }));
   });
 

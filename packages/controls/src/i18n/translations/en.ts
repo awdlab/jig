@@ -2,6 +2,8 @@ export default {
   calendar: {
     today: 'Today',
     selectYear: 'Select year',
+    previousMonth: 'Previous month',
+    nextMonth: 'Next month',
     weekdays: {
       monday: 'Monday',
       tuesday: 'Tuesday',
@@ -83,25 +85,50 @@ export default {
   inputField: {
     clearInput: 'Clear input',
   },
+  inputMask: {
+    roleDescription: 'formatted input',
+    segmentRange: '{{ name }}, {{ min }} to {{ max }}',
+    optionSeparator: ' or ',
+  },
   drawer: {
     close: 'Close',
   },
+  toast: {
+    close: 'Close',
+    region: 'Notifications',
+  },
   snackbar: {
     close: 'Close',
+    region: 'Notifications',
+    severity: {
+      error: 'Error:',
+      warning: 'Warning:',
+      success: 'Success:',
+      info: 'Info:',
+    },
   },
   upload: {
     upload: 'Upload',
-    cancel: 'Cancel',
-    retry: 'Retry',
-    remove: 'Remove',
+    // Per-item action labels are parameterized so locales control word order.
+    uploadNamed: 'Upload {{ name }}',
+    retryNamed: 'Retry {{ name }}',
+    cancelNamed: 'Cancel {{ name }}',
+    removeNamed: 'Remove {{ name }}',
   },
   select: {
     filterOptions: 'Filter options',
+  },
+  paginator: {
+    previousPage: 'Previous page',
+    nextPage: 'Next page',
   },
   listBox: {
     noItemsFound: 'No items found',
   },
   tree: {
     noItemsFound: 'No items found',
+  },
+  table: {
+    selectAllRows: 'Select all rows',
   },
 };

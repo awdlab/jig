@@ -18,6 +18,7 @@ import { NgnProgress } from '@ngneers/controls/progress';
 import { uploadControlTemplate } from '@ngneers/controls-themes/templates/upload';
 
 import type { NgnUploadFile } from './types';
+import type { IconType } from '@ngneers/controls-custom-types';
 
 /** How the user is allowed to add files to the drop zone. */
 export type NgnUploadInteraction = 'click' | 'drag' | 'both';
@@ -35,6 +36,7 @@ export type NgnUploadConfirmTrigger = 'all' | 'per-item' | 'both';
 export type NgnUploadListPosition = 'top' | 'bottom' | 'left' | 'right';
 
 let uploadFileIdSeq = 0;
+let uploadInstanceSeq = 0;
 
 /**
  * A file drop zone that wraps a **consumer-provided** native `input[type=file]`.
@@ -84,6 +86,9 @@ export class NgnUpload extends NgnBase<'upload'> {
 
   protected readonly i18n = inject(I18n).translations;
 
+  /** Unique id for the placeholder, referenced as the native input's a11y name. */
+  protected readonly labelId = `ngn-upload-label-${++uploadInstanceSeq}`;
+
   /**
    * How the user may add files.
    * - `click` — only clicking the zone opens the picker.
@@ -96,6 +101,10 @@ export class NgnUpload extends NgnBase<'upload'> {
    * trigger), or `manual` (only via {@link uploadAll}/{@link uploadFile}).
    */
   public readonly mode = input<NgnUploadMode>('auto');
+  /**
+   * Provide a custom upload icon
+   */
+  public readonly iconUpload = input<IconType>();
   /**
    * In `confirm` mode, which trigger(s) to render: a single "upload all" button
    * (`all`, default), a button per pending item (`per-item`), or `both`.
@@ -115,7 +124,10 @@ export class NgnUpload extends NgnBase<'upload'> {
   public readonly remove = output<NgnUploadFile>();
   /** Emitted when a `failed` file's retry is pressed (also re-emits `upload`). */
   public readonly retry = output<NgnUploadFile>();
-  /** Emitted when an in-flight file's cancel is pressed. Abort the request. */
+  /**
+   * Emitted when an in-flight file is dismissed (the item's remove/cancel
+   * action while `uploading`). Abort the request; the item is then removed.
+   */
   public readonly cancelUpload = output<NgnUploadFile>();
 
   /** The tracked files, in insertion order. */
@@ -159,26 +171,31 @@ export class NgnUpload extends NgnBase<'upload'> {
     });
 
     afterNextRender(() => {
-      const input = this.element.nativeElement.querySelector<HTMLInputElement>('input[type=file]');
+      const root = this.element.nativeElement;
+      const input = root.querySelector<HTMLInputElement>('input[type=file]');
       if (!input) {
         return;
       }
-      input.classList.add(this.theme.class('native'));
       input.addEventListener('change', () => this.onNativeChange(input));
+      // The native input is the accessible control; name it from the projected
+      // placeholder content (previously the zone's own text). Set here because
+      // the input is projected content we can't bind an attribute on directly.
+      input.setAttribute('aria-labelledby', this.labelId);
       this._nativeInput.set(input);
     });
 
-    // The zone itself is the interactive, focusable control (see the template's
-    // role="button" / tabindex). Keep the projected input out of the tab order
-    // and a11y tree so there's a single, visible focus stop on the zone.
+    // The projected native input[type=file] is itself the interactive, focusable
+    // control: it overlays the zone and opens the picker natively on
+    // click/Enter/Space. Drop it from the tab order only when clicking is
+    // disallowed (drag-only) or the control is disabled, so screen-reader users
+    // get a single, real focus stop with correct semantics.
     effect(() => {
       const input = this._nativeInput();
       if (!input) {
         return;
       }
       input.disabled = this.disabled();
-      input.tabIndex = -1;
-      input.setAttribute('aria-hidden', 'true');
+      input.tabIndex = this.clickable() && !this.disabled() ? 0 : -1;
     });
   }
 
@@ -205,26 +222,6 @@ export class NgnUpload extends NgnBase<'upload'> {
   }
 
   // --- Interaction -----------------------------------------------------------
-
-  protected onZoneClick(): void {
-    this.openPicker();
-  }
-
-  protected onZoneKeydown(event: KeyboardEvent): void {
-    // The zone is a role="button"; activate it with Enter/Space like a button.
-    if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
-      event.preventDefault();
-      this.openPicker();
-    }
-  }
-
-  /** Open the native file picker, honouring the click/disabled gates. */
-  private openPicker(): void {
-    const input = this._nativeInput();
-    if (this.clickable() && !this.disabled() && input) {
-      input.click();
-    }
-  }
 
   protected onDragOver(event: DragEvent): void {
     if (!this.draggable() || this.disabled()) {
@@ -298,12 +295,15 @@ export class NgnUpload extends NgnBase<'upload'> {
     void this.startUpload([item]);
   }
 
-  protected cancelFile(item: NgnUploadFile): void {
-    this.cancelUpload.emit(item);
-    this.patch(item.id, { state: 'pending', progress: 0 });
-  }
-
   protected removeFile(item: NgnUploadFile): void {
+    // A single dismiss action: while in-flight, aborting the upload is implied,
+    // so tell the consumer to cancel the request before we drop the item.
+    if (item.state === 'uploading') {
+      this.cancelUpload.emit(item);
+      // Move to a terminal state before settling so uploadAll()/uploadFile()
+      // don't resolve with the item still reading as `uploading`.
+      item.state = 'cancelled';
+    }
     this.files.update(files => files.filter(f => f.id !== item.id));
     this.settle(item.id);
     this.remove.emit(item);

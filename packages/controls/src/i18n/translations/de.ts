@@ -2,6 +2,8 @@ export default {
   calendar: {
     today: 'Heute',
     selectYear: 'Jahr auswählen',
+    previousMonth: 'Vorheriger Monat',
+    nextMonth: 'Nächster Monat',
     weekdays: {
       monday: 'Montag',
       tuesday: 'Dienstag',
@@ -83,25 +85,50 @@ export default {
   inputField: {
     clearInput: 'Eingabe löschen',
   },
+  inputMask: {
+    roleDescription: 'formatierte Eingabe',
+    segmentRange: '{{ name }}, {{ min }} bis {{ max }}',
+    optionSeparator: ' oder ',
+  },
   drawer: {
     close: 'Schließen',
   },
+  toast: {
+    close: 'Schließen',
+    region: 'Benachrichtigungen',
+  },
   snackbar: {
     close: 'Schließen',
+    region: 'Benachrichtigungen',
+    severity: {
+      error: 'Fehler:',
+      warning: 'Warnung:',
+      success: 'Erfolg:',
+      info: 'Info:',
+    },
   },
   upload: {
     upload: 'Hochladen',
-    cancel: 'Abbrechen',
-    retry: 'Erneut versuchen',
-    remove: 'Entfernen',
+    // Per-item action labels are parameterized so locales control word order.
+    uploadNamed: '{{ name }} hochladen',
+    retryNamed: '{{ name }} erneut versuchen',
+    cancelNamed: '{{ name }} abbrechen',
+    removeNamed: '{{ name }} entfernen',
   },
   select: {
     filterOptions: 'Optionen filtern',
+  },
+  paginator: {
+    previousPage: 'Vorherige Seite',
+    nextPage: 'Nächste Seite',
   },
   listBox: {
     noItemsFound: 'Keine Einträge gefunden',
   },
   tree: {
     noItemsFound: 'Keine Einträge gefunden',
+  },
+  table: {
+    selectAllRows: 'Alle Zeilen auswählen',
   },
 };

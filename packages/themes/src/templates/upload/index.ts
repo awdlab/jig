@@ -15,8 +15,6 @@ export const uploadControlTemplate = createControlTemplate({
     'list-bottom',
     'list-left',
     'list-right',
-    // the projected native input, hidden but kept accessible
-    'native',
     // drop zone + its column (zone + manual footer)
     'main',
     'zone',

@@ -1,5 +1,7 @@
 <div
   #content
+  ngnRovingGroup
+  [orientation]="appliedOrientation()"
   [ptInt]="this"
   [ptClass]="{
     horizontal: appliedOrientation() === 'horizontal',

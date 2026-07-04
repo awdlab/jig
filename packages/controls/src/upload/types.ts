@@ -5,8 +5,10 @@
  * - `uploading` — emitted via `(upload)`, the consumer is transferring it.
  * - `done` — the consumer reported success via `markDone`.
  * - `failed` — the consumer reported an error via `markFailed`.
+ * - `cancelled` — dismissed while in-flight; the item is removed from the list
+ *   but settles the upload promise in this terminal state.
  */
-export type NgnUploadFileState = 'pending' | 'uploading' | 'done' | 'failed';
+export type NgnUploadFileState = 'pending' | 'uploading' | 'done' | 'failed' | 'cancelled';
 
 /**
  * A file tracked by {@link NgnUpload}. Wraps the native {@link File} with the

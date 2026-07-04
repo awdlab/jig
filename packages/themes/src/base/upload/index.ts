@@ -35,19 +35,24 @@ export const uploadStyles = createThemePart({
           min-width: 0;
         }
 
-        /* Projected native input: hidden visually, kept in the a11y tree. */
-        ${c('native')} {
+        /* Projected native input: the real, focusable control. Visually hidden
+           but overlaid on the whole zone so a click anywhere opens the picker
+           and keyboard focus lands on it. */
+        ${c('root')} input[type='file'] {
           position: absolute;
-          width: 1px;
-          height: 1px;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          margin: 0;
           padding: 0;
-          margin: -1px;
-          overflow: hidden;
-          clip: rect(0, 0, 0, 0);
-          white-space: nowrap;
           border: 0;
           opacity: 0;
+          cursor: inherit;
+          /* Only accept pointer input when clicking is an allowed interaction. */
           pointer-events: none;
+        }
+        ${c('clickable')} input[type='file'] {
+          pointer-events: auto;
         }
 
         ${c('zone')} {

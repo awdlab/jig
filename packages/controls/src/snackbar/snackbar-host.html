@@ -1,10 +1,15 @@
-@for (snackbar of snackbars(); track snackbar.id) {
+@for (snackbar of snackbars(); track snackbar.id; let i = $index) {
   <ngn-snackbar
+    [attr.tabindex]="region.tabbableIndex() === i ? 0 : -1"
     [header]="snackbar.header"
     [content]="snackbar.content"
     [color]="snackbar.color"
     [icon]="snackbar.icon"
     [autoHide]="snackbar.autoHide"
+    [actions]="snackbar.actions"
+    [showProgress]="!!snackbar.showProgress"
+    [pauseOnHover]="!!snackbar.pauseOnHover"
+    [ariaLive]="snackbar.ariaLive"
     [templateContent]="snackbar.contentTemplate"
     [templateHeader]="snackbar.headerTemplate"
     [closable]="!!snackbar.closable"

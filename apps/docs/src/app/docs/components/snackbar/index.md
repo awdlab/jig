@@ -20,3 +20,7 @@ bar, keeping the user informed without interrupting their flow.
 ### Icon
 
 {{ demo: Demo_Snackbar_Icon }}
+
+### Actions
+
+{{ demo: Demo_Snackbar_Actions }}

@@ -8,7 +8,7 @@
     rovingMode="activedescendant"
     orientation="horizontal"
     [attr.inputmode]="proxyInputMode()"
-    [attr.aria-roledescription]="'formatted input'"
+    [attr.aria-roledescription]="i18n['inputMask_roleDescription']()"
     [attr.aria-label]="label()"
     [attr.aria-labelledby]="labelledBy()"
     [disabled]="disabled()"

@@ -212,6 +212,17 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
     super();
     createConditionalSpinner(this.filterIsExecuting);
 
+    // Fallback init for when the `storage` config arrives after ngOnInit (e.g.
+    // an async binding). Idempotent with the ngOnInit path. Registered before
+    // the persistence effect so the store is restored before any write; the
+    // persistence effect no-ops until `_storage` exists anyway.
+    effect(() => {
+      const cfg = this.storage();
+      if (cfg) {
+        untracked(() => this._initStorage(cfg));
+      }
+    });
+
     // Persist expansion + selection whenever they change.
     effect(() => {
       const expanded = this.expandedValues();
@@ -256,10 +267,23 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
    * Create the store and restore persisted state before the first view check
    * (so it also feeds the SSR render for the `cookie` kind without triggering
    * ExpressionChangedAfterItHasBeenChecked).
+   *
+   * This is the common path: the `storage` config is normally bound before
+   * init, so the restore happens pre-render. When the config only becomes
+   * available after init (e.g. an async binding, or a dynamic host that applies
+   * inputs after creating the component), the constructor effect below picks it
+   * up instead — `_initStorage` is idempotent, so at most one of them runs.
    */
   public ngOnInit(): void {
     const cfg = this.storage();
-    if (!cfg) {
+    if (cfg) {
+      this._initStorage(cfg);
+    }
+  }
+
+  /** Create the store and restore persisted state. Runs at most once. */
+  private _initStorage(cfg: NgnTreeStorageConfig): void {
+    if (this._storage) {
       return;
     }
     // NgnStorage reads platform/document/request tokens, so it needs an

@@ -8,7 +8,16 @@ import {
   sizesTemplate,
   themedColors,
 } from '@ngneers/controls-themes/nova/base';
+import { greyColor } from '@ngneers/controls-themes/nova/colors';
 import { snackbarControlTemplate } from '@ngneers/controls-themes/templates/snackbar';
+
+// The snackbar surface is a fixed dark slate in BOTH color schemes (like the
+// spec, and like Material toasts). We use the raw, non-reversed grey palette
+// because `color.surface.*` inverts in dark mode (dark toast on light → light
+// toast on dark), which is not what we want here.
+const SURFACE = greyColor['900'];
+const ON_SURFACE = greyColor['50'];
+const BORDER = greyColor['700'];
 
 export const snackbarStyles = createThemePart({
   controlTemplate: snackbarControlTemplate,
@@ -30,14 +39,36 @@ export const snackbarStyles = createThemePart({
       }
 
       ${c('root')} {
-        background: var(--theme-color-800);
-        color: var(--theme-color-800-contrast);
+        /* Fixed dark surface for every kind/scheme — the color is expressed as
+           an accent (left stripe + icon), not a full tint. See the ::before
+           stripe and the icon rule below. */
+        background: ${SURFACE};
+        color: ${ON_SURFACE};
+        border: 1px solid ${BORDER};
+        /* Icon color = the kind's accent by default; the neutral (surface) kind
+           overrides it to the text color below. Set on the host so it inherits
+           reliably (same approach as themedColors), avoiding descendant-selector
+           leaks. */
+        --snk-icon-color: var(--theme-color-500);
         gap: ${v('size.padding.md')};
         padding: ${v('size.padding.md')} ${v('size.padding.xl')};
-        /* Fully rounded (pill) edges */
-        border-radius: 9999px;
+        border-radius: ${v('size.rounded.lg')};
+        /* Clip the flush-left accent stripe to the rounded corners. */
+        overflow: hidden;
         font-size: ${v('font.size.sm')};
         box-shadow: ${v('shadow.lg')};
+      }
+
+      /* Colored accent stripe flush against the left edge, full height — carries
+         the kind color (vivid for success/error/…, subtle grey for default). */
+      ${c('root')}::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: var(--theme-color-500);
       }
 
       ${c('defaultHeaderText')} {
@@ -45,6 +76,14 @@ export const snackbarStyles = createThemePart({
         display: flex;
         align-items: center;
         gap: ${v('size.padding.sm')};
+      }
+
+      /* Neutral (surface) kind: icon uses the text color instead of the accent. */
+      ${c('color-surface')} {
+        --snk-icon-color: ${ON_SURFACE};
+      }
+      ${c('defaultHeaderText')} ngn-icon {
+        color: var(--snk-icon-color);
       }
 
       ${c('anim-enter')} {
@@ -100,6 +139,29 @@ export const snackbarStyles = createThemePart({
 
       ${c('defaultContent')} {
         line-height: 1.5;
+      }
+
+      ${c('actions')} {
+        gap: ${v('size.padding.sm')};
+      }
+
+      /* The close icon button has no themed color of its own, so it would fall
+         back to the UA default (black). Pin it to the neutral surface contrast
+         (the surface is always neutral now). Scoped to our own close button so
+         caller action colors (e.g. a success action) are never overridden. */
+      ${c('closeButton')} {
+        color: ${ON_SURFACE};
+      }
+
+      /* Flush along the bottom edge, full width — the root's overflow:hidden
+         clips its corners to the border radius so it touches the border. */
+      ${c('progressBar')} {
+        height: 3px;
+        left: 0;
+        right: 0;
+        width: auto;
+        bottom: 0;
+        background: color-mix(in srgb, ${ON_SURFACE} 55%, transparent);
       }
     `,
   },

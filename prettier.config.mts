@@ -1,4 +1,4 @@
-import { type Config } from "prettier";
+import { type Config } from 'prettier';
 import base from '@ngneers/prettier-config';
 
 const config: Config = {
@@ -11,7 +11,7 @@ const config: Config = {
       },
     },
   ],
-  plugins: ["prettier-plugin-tailwindcss"],
+  plugins: ['prettier-plugin-tailwindcss'],
 };
 
 export default config;

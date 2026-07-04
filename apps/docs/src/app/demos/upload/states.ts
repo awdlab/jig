@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { NgnUpload, type NgnUploadFile } from '@ngneers/controls/upload';
 
 /**
- * The list surfaces per-item actions: cancel while uploading, retry after a
- * failure, and remove at any time. This demo fails every upload on its first
- * attempt so the failed state and retry are easy to see.
+ * The list surfaces per-item actions: a single dismiss button (cancels the
+ * in-flight upload and removes the item while uploading, otherwise just
+ * removes) and retry after a failure. This demo fails every upload on its
+ * first attempt so the failed state and retry are easy to see.
  */
 @Component({
   imports: [NgnUpload],

@@ -6,17 +6,19 @@ function textFile(name: string) {
   return { name, mimeType: 'text/plain', buffer: Buffer.from(`contents of ${name}`) };
 }
 
-test('keyboard: zone is a focusable button and Enter opens the picker', async ({ page }) => {
+test('keyboard: native input is the focus stop and Enter opens the picker', async ({ page }) => {
   await loadComponent(page, {
     template: `<ngn-upload><input type="file" multiple /></ngn-upload>`,
     imports: ['upload'],
   });
 
   const upload = new NgnUploadHarness(page.locator('ngn-upload'));
-  await expect(upload.zone).toHaveAttribute('role', 'button');
-  await expect(upload.zone).toHaveAttribute('tabindex', '0');
+  // The projected native input carries the interactivity/focus — not the zone.
+  await expect(upload.input).toHaveAttribute('tabindex', '0');
+  expect(await upload.zone.getAttribute('role')).toBeNull();
+  expect(await upload.zone.getAttribute('tabindex')).toBeNull();
 
-  await upload.zone.focus();
+  await upload.input.focus();
   const [chooser] = await Promise.all([
     page.waitForEvent('filechooser'),
     page.keyboard.press('Enter'),
@@ -27,15 +29,14 @@ test('keyboard: zone is a focusable button and Enter opens the picker', async ({
   await upload.expectItemName(0, 'kb.txt');
 });
 
-test('keyboard: drag-only zone is not focusable', async ({ page }) => {
+test('keyboard: drag-only input is not focusable', async ({ page }) => {
   await loadComponent(page, {
     template: `<ngn-upload interaction="drag"><input type="file" multiple /></ngn-upload>`,
     imports: ['upload'],
   });
 
   const upload = new NgnUploadHarness(page.locator('ngn-upload'));
-  expect(await upload.zone.getAttribute('role')).toBeNull();
-  expect(await upload.zone.getAttribute('tabindex')).toBeNull();
+  await expect(upload.input).toHaveAttribute('tabindex', '-1');
 });
 
 test('auto: selecting files adds them and marks them uploading', async ({ page }) => {
@@ -108,13 +109,47 @@ test('manual: uploadAll() resolves once files settle, with their final state', a
   expect([...states].sort()).toEqual(['done', 'failed']);
 });
 
-test('remove: removing an item drops it from the list', async ({ page }) => {
+test('uploading: a single dismiss button cancels the upload and removes the item', async ({
+  page,
+}) => {
   await loadComponent(page, {
     template: `<ngn-upload><input type="file" multiple /></ngn-upload>`,
     imports: ['upload'],
   });
 
   const upload = new NgnUploadHarness(page.locator('ngn-upload'));
+  // Auto mode marks the file uploading immediately; the test never settles it.
+  await upload.selectFiles([textFile('big.bin')]);
+  await upload.expectItemState(0, 'uploading');
+
+  // Exactly one per-item action while uploading (previously cancel + remove).
+  await expect(upload.item(0).locator(upload.classes.action)).toHaveCount(1);
+
+  // Dismissing an in-flight item emits cancelUpload AND remove, then drops it.
+  await page.evaluate(() => {
+    const el = document.querySelector('ngn-upload')!;
+    const component = (window as any).ng.getComponent(el);
+    (window as any).__cancelled = false;
+    (window as any).__removed = false;
+    component.cancelUpload.subscribe(() => ((window as any).__cancelled = true));
+    component.remove.subscribe(() => ((window as any).__removed = true));
+  });
+
+  await upload.actionButton(0, 'cancel').click();
+
+  await upload.expectItemCount(0);
+  expect(await page.evaluate(() => (window as any).__cancelled)).toBe(true);
+  expect(await page.evaluate(() => (window as any).__removed)).toBe(true);
+});
+
+test('remove: removing an item drops it from the list', async ({ page }) => {
+  await loadComponent(page, {
+    template: `<ngn-upload mode="manual"><input type="file" multiple /></ngn-upload>`,
+    imports: ['upload'],
+  });
+
+  const upload = new NgnUploadHarness(page.locator('ngn-upload'));
+  // Manual mode keeps items `pending`, so the dismiss action reads as "Remove".
   await upload.selectFiles([textFile('a.txt'), textFile('b.txt')]);
   await upload.expectItemCount(2);
 

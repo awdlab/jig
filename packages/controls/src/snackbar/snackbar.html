@@ -1,4 +1,7 @@
 <div [ptInt]="this" [ptClass]="'body'">
+  @if (severityLabel(); as severityLabel) {
+    <span [ptInt]="this" [ptClass]="'sr-only'">{{ severityLabel }}</span>
+  }
   @if (templateHeader(); as headerTemplate) {
     <ng-container
       [ngTemplateOutlet]="headerTemplate"
@@ -12,7 +15,7 @@
     <div [ptInt]="this" [ptClass]="'defaultHeader'">
       <span [ptInt]="this" [ptClass]="'defaultHeaderText'">
         @if (icon(); as icon) {
-          <ngn-icon [icon]="icon" />
+          <ngn-icon [icon]="icon" [attr.aria-hidden]="true" />
         }
         {{ header() }}
       </span>
@@ -31,8 +34,31 @@
     </div>
   }
 </div>
-@if (!templateHeader() && closable()) {
-  <button ngnButton kind="icon" [attr.aria-label]="i18n['snackbar_close']()" (click)="close()">
-    <ngn-icon [defaultIcon]="'snackbar-close'" [icon]="closeIcon()" />
-  </button>
+@if (actions()?.length || (!templateHeader() && closable())) {
+  <div [ptInt]="this" [ptClass]="'actions'">
+    @for (action of actions(); track $index) {
+      <ngn-action-button [config]="action" (clicked)="close()" />
+    }
+    @if (!templateHeader() && closable()) {
+      <button
+        ngnButton
+        kind="icon"
+        [ptInt]="this"
+        [ptClass]="'closeButton'"
+        [attr.aria-label]="i18n['snackbar_close']()"
+        (click)="close()"
+      >
+        <ngn-icon [defaultIcon]="'snackbar-close'" [icon]="closeIcon()" [attr.aria-hidden]="true" />
+      </button>
+    }
+  </div>
+}
+@if (showProgress() && autoHideMs() > 0) {
+  <div
+    [ptInt]="this"
+    [ptClass]="'progressBar'"
+    aria-hidden="true"
+    [style.animationDuration.ms]="autoHideMs()"
+    [style.animationPlayState]="paused() ? 'paused' : 'running'"
+  ></div>
 }

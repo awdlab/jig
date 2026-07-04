@@ -1,4 +1,9 @@
-<button ngnButton [kind]="'icon'" (click)="previousPage($event)">
+<button
+  ngnButton
+  [kind]="'icon'"
+  [attr.aria-label]="i18n['paginator_previousPage']()"
+  (click)="previousPage($event)"
+>
   <ngn-icon [defaultIcon]="'paginator-previous'" />
 </button>
 
@@ -33,7 +38,12 @@
   </ng-template>
 </ngn-item-view>
 
-<button ngnButton [kind]="'icon'" (click)="nextPage($event)">
+<button
+  ngnButton
+  [kind]="'icon'"
+  [attr.aria-label]="i18n['paginator_nextPage']()"
+  (click)="nextPage($event)"
+>
   <ngn-icon [defaultIcon]="'paginator-next'" />
 </button>
 
