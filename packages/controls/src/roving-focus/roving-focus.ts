@@ -8,6 +8,7 @@ import {
   input,
   output,
   signal,
+  type Signal,
 } from '@angular/core';
 import { domEventHandler } from '@ngneers/controls/api/ng';
 import { generateElementId } from '@ngneers/controls/utils-ng';
@@ -18,6 +19,12 @@ export type RovingMode = 'tabindex' | 'activedescendant';
 export interface RovingItemRef {
   readonly id: string;
   readonly element: HTMLElement;
+  /**
+   * Optional reactive disabled flag. When it reads `true`, the item is skipped
+   * by keyboard navigation (`next`/`prev`/`first`/`last`) and pointer
+   * `activate()`. Absent (undefined) is treated as enabled.
+   */
+  readonly disabled?: Signal<boolean>;
 }
 
 export const ROVING_GROUP = new InjectionToken<NgnRovingGroup>('ROVING_GROUP');
@@ -55,6 +62,14 @@ export class NgnRovingGroup {
    */
   private _prevActiveId: string | null = null;
 
+  /**
+   * When set, the next focus-mode effect pass updates the tab stop / attributes
+   * but does NOT move DOM focus. Consumed (reset) by that pass. Lets consumers
+   * sync the active item to a programmatic selection (e.g. a radio group's
+   * `value` change) without stealing focus into the group.
+   */
+  private _suppressFocus = false;
+
   constructor() {
     domEventHandler(this._host, 'keydown', e => this._onKeydown(e));
 
@@ -84,10 +99,16 @@ export class NgnRovingGroup {
         // (where _prevActiveId is null) to avoid stealing focus on mount.
         const activeEl = items[active]?.element;
         const activeId = activeEl?.id ?? null;
-        if (activeEl && this._prevActiveId !== null && this._prevActiveId !== activeId) {
+        if (
+          activeEl &&
+          this._prevActiveId !== null &&
+          this._prevActiveId !== activeId &&
+          !this._suppressFocus
+        ) {
           activeEl.focus();
         }
         this._prevActiveId = activeId;
+        this._suppressFocus = false;
       } else {
         // activedescendant mode: remove tabindex from all items.
         items.forEach(it => it.element.removeAttribute('tabindex'));
@@ -128,6 +149,7 @@ export class NgnRovingGroup {
   }
 
   public activate(target: RovingItemRef): void {
+    if (target.disabled?.()) return;
     const idx = this.items().indexOf(target);
     if (idx >= 0) this._setActive(idx);
   }
@@ -141,19 +163,37 @@ export class NgnRovingGroup {
   }
 
   public first(): void {
-    if (!this.items().length) return;
-    this._setActive(0);
+    const items = this.items();
+    const idx = items.findIndex(it => !it.disabled?.());
+    if (idx >= 0) this._setActive(idx);
   }
 
   public last(): void {
-    const n = this.items().length;
-    if (!n) return;
-    this._setActive(n - 1);
+    const items = this.items();
+    for (let i = items.length - 1; i >= 0; i--) {
+      if (!items[i]?.disabled?.()) {
+        this._setActive(i);
+        return;
+      }
+    }
   }
 
   /** Set the active item by index (clamped to range); emits activeItemChange. */
   public setActive(index: number): void {
     if (index >= 0 && index < this.items().length) this._setActive(index);
+  }
+
+  /**
+   * Move the tab stop to `index` WITHOUT moving DOM focus or emitting
+   * `activeItemChange`. For syncing the roving state to a programmatic
+   * selection (e.g. a radio group's `value` changing from code) where stealing
+   * focus into the group would be wrong.
+   */
+  public syncActiveIndex(index: number): void {
+    if (index < 0 || index >= this.items().length) return;
+    if (index === this.activeIndex()) return;
+    this._suppressFocus = true;
+    this.activeIndex.set(index);
   }
 
   private _onKeydown(e: KeyboardEvent): void {
@@ -190,12 +230,29 @@ export class NgnRovingGroup {
   }
 
   private _move(delta: number): void {
-    const n = this.items().length;
+    const items = this.items();
+    const n = items.length;
     if (!n) return;
-    let i = this.activeIndex() + delta;
-    if (this.rovingWrap()) i = ((i % n) + n) % n;
-    else i = Math.max(0, Math.min(n - 1, i));
-    this._setActive(i);
+    const start = this.activeIndex();
+    let i = start;
+    // Step in `delta` direction until we land on an enabled item, skipping
+    // disabled ones. When no enabled target exists in that direction we clamp
+    // to the current index and still emit — preserving the pre-existing
+    // clamp-and-emit contract. Bounded by `n` iterations so it terminates.
+    for (let step = 0; step < n; step++) {
+      i += delta;
+      if (this.rovingWrap()) {
+        i = ((i % n) + n) % n;
+        if (i === start) break; // looped back — no other enabled item
+      } else if (i < 0 || i >= n) {
+        break; // reached an edge without finding an enabled item
+      }
+      if (!items[i]?.disabled?.()) {
+        this._setActive(i);
+        return;
+      }
+    }
+    this._setActive(start);
   }
 
   private _setActive(i: number): void {
@@ -212,6 +269,12 @@ export class NgnRovingItem implements RovingItemRef {
 
   public readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   public readonly id: string;
+
+  /**
+   * Reactive disabled flag for this item. Consumers (e.g. `ngn-radio`) set it
+   * so the group's keyboard navigation and pointer `activate()` skip the item.
+   */
+  public readonly disabled = signal(false);
 
   private readonly _group = computed<NgnRovingGroup>(() => {
     const explicit = this.ngnRovingItem();

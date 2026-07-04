@@ -25,6 +25,7 @@
       }}</span>
     } @else {
       <span>{{ display.value }}</span>
+      <span [ptInt]="this" [ptClass]="'sr-only'">{{ i18n['editInplace_placeholder']() }}</span>
     }
   </div>
 </ng-template>
@@ -57,6 +58,7 @@
         (click)="edit.close()"
         [ptInt]="this"
         [ptClass]="'default-edit-close-button'"
+        [attr.aria-label]="i18n['editInplace_confirm']()"
       >
         <ngn-icon defaultIcon="edit-confirm" />
       </button>

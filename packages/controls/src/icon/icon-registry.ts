@@ -24,6 +24,10 @@ export const NGN_ICON_KEYS = [
   'filter-active',
   'filter-inactive',
   'filter-remove',
+  'hint-info',
+  'hint-success',
+  'hint-warning',
+  'hint-error',
   'input-clear',
   'menu-submenu',
   'paginator-previous',
@@ -38,6 +42,13 @@ export const NGN_ICON_KEYS = [
   'tabs-scroll-left',
   'tabs-scroll-right',
   'toast-close',
+  'snackbar-close',
+  'upload-trigger',
+  'upload-done',
+  'upload-failed',
+  'upload-retry',
+  'upload-cancel',
+  'upload-remove',
 ] as const;
 
 export type NgnIconKey = (typeof NGN_ICON_KEYS)[number];

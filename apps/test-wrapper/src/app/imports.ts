@@ -21,6 +21,7 @@ export const IMPORTS = {
   editInplace: () =>
     import('@ngneers/controls/edit-inplace').then((m) => m.NgnEditInplace),
   filter: () => import('@ngneers/controls/filter').then((m) => m.NgnFilter),
+  hint: () => import('@ngneers/controls/hint').then((m) => m.NgnHint),
   icon: () => import('@ngneers/controls/icon').then((m) => m.NgnIcon),
   inplace: () => import('@ngneers/controls/inplace').then((m) => m.NgnInplace),
   input: () => import('@ngneers/controls/input').then((m) => m.NgnInput),
@@ -37,6 +38,9 @@ export const IMPORTS = {
   popover: () => import('@ngneers/controls/popover').then((m) => m.NgnPopover),
   progress: () =>
     import('@ngneers/controls/progress').then((m) => m.NgnProgress),
+  radioGroup: () =>
+    import('@ngneers/controls/radio').then((m) => m.NgnRadioGroup),
+  radio: () => import('@ngneers/controls/radio').then((m) => m.NgnRadio),
   scrollShadow: () =>
     import('@ngneers/controls/scroll-shadow').then((m) => m.NgnScrollShadow),
   scroller: () => [
@@ -47,6 +51,8 @@ export const IMPORTS = {
   selectButton: () =>
     import('@ngneers/controls/select-button').then((m) => m.NgnSelectButton),
   slider: () => import('@ngneers/controls/slider').then((m) => m.NgnSlider),
+  snackbar: () =>
+    import('@ngneers/controls/snackbar').then((m) => m.NgnSnackbar),
   spinButtons: () =>
     import('@ngneers/controls/spin-buttons').then((m) => m.NgnSpinButtons),
   spinner: () => import('@ngneers/controls/spinner').then((m) => m.NgnSpinner),
@@ -70,6 +76,7 @@ export const IMPORTS = {
     import('@ngneers/controls/toggle-button').then((m) => m.NgnToggleButton),
   tooltip: () => import('@ngneers/controls/tooltip').then((m) => m.NgnTooltip),
   tree: () => import('@ngneers/controls/tree').then((m) => m.NgnTree),
+  upload: () => import('@ngneers/controls/upload').then((m) => m.NgnUpload),
   dummy_component: () =>
     import('./helper-components/dummy').then((m) => m.DummyComponent),
 };

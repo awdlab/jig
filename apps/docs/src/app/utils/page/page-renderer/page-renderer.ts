@@ -25,8 +25,7 @@ export class NgnDocsPageRenderer {
   private readonly _breadcrumb = inject(BreadcrumbService);
 
   protected readonly category = this._activatedRoute.snapshot.data['category'] as
-    | NgnDocsCategory
-    | undefined;
+    NgnDocsCategory | undefined;
   protected readonly page = this._activatedRoute.snapshot.data['page'] as NgnDocsSinglePage;
 
   protected readonly breadcrumbItems = computed<BreadcrumbItem[]>(() => {

@@ -12,14 +12,7 @@ import type { IconType } from '@ngneers/controls-custom-types';
  * lacks a given slot (e.g. shade has no `success`) the control falls back to its default color.
  */
 export type PaletteColorName =
-  | 'primary'
-  | 'secondary'
-  | 'accent'
-  | 'surface'
-  | 'success'
-  | 'info'
-  | 'warning'
-  | 'error';
+  'primary' | 'secondary' | 'accent' | 'surface' | 'success' | 'info' | 'warning' | 'error';
 
 export type OpportunityStatus = 'Closed Won' | 'Negotiation' | 'Discovery' | 'Proposal';
 

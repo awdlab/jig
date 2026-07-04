@@ -26,9 +26,7 @@ export function localeNumberInfo(locale: string): LocaleNumberInfo {
 }
 
 export type ParsedNumber =
-  | { kind: 'empty' }
-  | { kind: 'invalid' }
-  | { kind: 'value'; value: number };
+  { kind: 'empty' } | { kind: 'invalid' } | { kind: 'value'; value: number };
 
 /**
  * Parses user-typed text into a number using the locale's separators:

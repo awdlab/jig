@@ -1,3 +1,5 @@
+import tablerAlertCircle from '@iconify/icons-tabler/alert-circle';
+import tablerAlertTriangle from '@iconify/icons-tabler/alert-triangle';
 import tablerArrowsSort from '@iconify/icons-tabler/arrows-sort';
 import tablerCalendar from '@iconify/icons-tabler/calendar';
 import tablerCheck from '@iconify/icons-tabler/check';
@@ -5,13 +7,17 @@ import tablerChevronDown from '@iconify/icons-tabler/chevron-down';
 import tablerChevronLeft from '@iconify/icons-tabler/chevron-left';
 import tablerChevronRight from '@iconify/icons-tabler/chevron-right';
 import tablerChevronUp from '@iconify/icons-tabler/chevron-up';
+import tablerCircleCheck from '@iconify/icons-tabler/circle-check';
 import tablerDots from '@iconify/icons-tabler/dots';
 import tablerFilter from '@iconify/icons-tabler/filter';
 import tablerFilterFilled from '@iconify/icons-tabler/filter-filled';
+import tablerInfoCircle from '@iconify/icons-tabler/info-circle';
 import tablerMinus from '@iconify/icons-tabler/minus';
+import tablerRefresh from '@iconify/icons-tabler/refresh';
 import tablerSearch from '@iconify/icons-tabler/search';
 import tablerSortAscending from '@iconify/icons-tabler/sort-ascending';
 import tablerSortDescending from '@iconify/icons-tabler/sort-descending';
+import tablerUpload from '@iconify/icons-tabler/upload';
 import tablerX from '@iconify/icons-tabler/x';
 
 import { NGN_CUSTOM_ICONS, NGN_ICON_REGISTRY, type NgnIconRegistry } from '@ngneers/controls/icon';
@@ -36,6 +42,10 @@ const NGN_DEFAULT_ICON_REGISTRY: NgnIconRegistry = {
   'filter-active': { icon: tablerFilterFilled, scale: 1 },
   'filter-inactive': { icon: tablerFilter, scale: 1.12 },
   'filter-remove': { icon: tablerX, scale: 1.71 },
+  'hint-info': { icon: tablerInfoCircle, scale: 1.14 },
+  'hint-success': { icon: tablerCircleCheck, scale: 1.14 },
+  'hint-warning': { icon: tablerAlertTriangle, scale: 1.14 },
+  'hint-error': { icon: tablerAlertCircle, scale: 1.14 },
   'input-clear': { icon: tablerX, scale: 1.71 },
   'menu-submenu': { icon: tablerChevronRight, scale: 1.71 },
   'paginator-previous': { icon: tablerChevronLeft, scale: 1.71 },
@@ -50,6 +60,13 @@ const NGN_DEFAULT_ICON_REGISTRY: NgnIconRegistry = {
   'tabs-scroll-left': { icon: tablerChevronLeft, scale: 1.71 },
   'tabs-scroll-right': { icon: tablerChevronRight, scale: 1.71 },
   'toast-close': { icon: tablerX, scale: 1.71 },
+  'snackbar-close': { icon: tablerX, scale: 1.71 },
+  'upload-trigger': { icon: tablerUpload, scale: 1.14 },
+  'upload-done': { icon: tablerCircleCheck, scale: 1.14 },
+  'upload-failed': { icon: tablerAlertCircle, scale: 1.14 },
+  'upload-retry': { icon: tablerRefresh, scale: 1.33 },
+  'upload-cancel': { icon: tablerX, scale: 1.71 },
+  'upload-remove': { icon: tablerX, scale: 1.71 },
 };
 
 export function withDefaultIcons(): NgnFeature {

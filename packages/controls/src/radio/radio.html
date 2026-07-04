@@ -1,0 +1,10 @@
+<span
+  [ptInt]="this"
+  [ptClass]="{
+    circle: true,
+    'circle-checked': checked(),
+  }"
+>
+  <span [ptInt]="this" [ptClass]="'dot'"></span>
+</span>
+<span [ptInt]="this" [ptClass]="'label'"><ng-content /></span>

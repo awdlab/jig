@@ -19,6 +19,7 @@ import { drawerStyles } from '@ngneers/controls-themes/base/drawer';
 import { editInplaceStyles } from '@ngneers/controls-themes/base/edit-inplace';
 import { filterStyles } from '@ngneers/controls-themes/base/filter';
 import { globalStyles } from '@ngneers/controls-themes/base/global';
+import { hintStyles } from '@ngneers/controls-themes/base/hint';
 import { iconStyles } from '@ngneers/controls-themes/base/icon';
 import { inplaceStyles } from '@ngneers/controls-themes/base/inplace';
 import { inputStyles } from '@ngneers/controls-themes/base/input';
@@ -31,10 +32,13 @@ import { messageStyles } from '@ngneers/controls-themes/base/message';
 import { paginatorStyles } from '@ngneers/controls-themes/base/paginator';
 import { popoverStyles } from '@ngneers/controls-themes/base/popover';
 import { progressStyles } from '@ngneers/controls-themes/base/progress';
+import { radioStyles } from '@ngneers/controls-themes/base/radio';
+import { radioGroupStyles } from '@ngneers/controls-themes/base/radio-group';
 import { scrollerStyles } from '@ngneers/controls-themes/base/scroller';
 import { selectStyles } from '@ngneers/controls-themes/base/select';
 import { selectButtonStyles } from '@ngneers/controls-themes/base/select-button';
 import { sliderStyles } from '@ngneers/controls-themes/base/slider';
+import { snackbarStyles } from '@ngneers/controls-themes/base/snackbar';
 import { spinButtonsStyles } from '@ngneers/controls-themes/base/spin-buttons';
 import { spinnerStyles } from '@ngneers/controls-themes/base/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/base/splitter';
@@ -45,6 +49,7 @@ import { toastStyles } from '@ngneers/controls-themes/base/toast';
 import { toggleButtonStyles } from '@ngneers/controls-themes/base/toggle-button';
 import { tooltipStyles } from '@ngneers/controls-themes/base/tooltip';
 import { treeStyles } from '@ngneers/controls-themes/base/tree';
+import { uploadStyles } from '@ngneers/controls-themes/base/upload';
 
 import { tableStyles } from './table';
 
@@ -67,6 +72,7 @@ export const baseStyles = {
   filter: filterStyles,
   editInplace: editInplaceStyles,
   global: globalStyles,
+  hint: hintStyles,
   icon: iconStyles,
   inplace: inplaceStyles,
   input: inputStyles,
@@ -79,10 +85,13 @@ export const baseStyles = {
   paginator: paginatorStyles,
   popover: popoverStyles,
   progress: progressStyles,
+  radioGroup: radioGroupStyles,
+  radio: radioStyles,
   scroller: scrollerStyles,
   select: selectStyles,
   selectButton: selectButtonStyles,
   slider: sliderStyles,
+  snackbar: snackbarStyles,
   spinButtons: spinButtonsStyles,
   spinner: spinnerStyles,
   splitter: splitterStyles,
@@ -94,6 +103,7 @@ export const baseStyles = {
   toggleButton: toggleButtonStyles,
   tooltip: tooltipStyles,
   tree: treeStyles,
+  upload: uploadStyles,
 };
 
 export const unstyledBase = createTheme('Nova Coral', [...Object.values(baseStyles)]);

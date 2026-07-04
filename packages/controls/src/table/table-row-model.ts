@@ -11,8 +11,7 @@ export type TableSort<T> = {
 };
 
 export type TableFilters<T> =
-  | { [key in Extract<AllKeysOfUnion<T>, string>]?: NgnFilterConfig }
-  | null;
+  { [key in Extract<AllKeysOfUnion<T>, string>]?: NgnFilterConfig } | null;
 
 export type TableSortComparator<T> = (a: T, b: T, sort: TableSort<T>) => number;
 

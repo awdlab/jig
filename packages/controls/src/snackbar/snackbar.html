@@ -1,0 +1,38 @@
+<div [ptInt]="this" [ptClass]="'body'">
+  @if (templateHeader(); as headerTemplate) {
+    <ng-container
+      [ngTemplateOutlet]="headerTemplate"
+      [ngTemplateOutletContext]="{
+        header: header(),
+        closable: !!closable(),
+        closeSnackbar: close.bind(this),
+      }"
+    ></ng-container>
+  } @else {
+    <div [ptInt]="this" [ptClass]="'defaultHeader'">
+      <span [ptInt]="this" [ptClass]="'defaultHeaderText'">
+        @if (icon(); as icon) {
+          <ngn-icon [icon]="icon" />
+        }
+        {{ header() }}
+      </span>
+    </div>
+  }
+  @if (templateContent(); as contentTemplate) {
+    <ng-container
+      [ngTemplateOutlet]="contentTemplate"
+      [ngTemplateOutletContext]="{
+        content: content(),
+      }"
+    ></ng-container>
+  } @else {
+    <div [ptInt]="this" [ptClass]="'defaultContent'">
+      {{ content() }}
+    </div>
+  }
+</div>
+@if (!templateHeader() && closable()) {
+  <button ngnButton kind="icon" [attr.aria-label]="i18n['snackbar_close']()" (click)="close()">
+    <ngn-icon [defaultIcon]="'snackbar-close'" [icon]="closeIcon()" />
+  </button>
+}

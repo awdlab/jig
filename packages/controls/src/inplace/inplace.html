@@ -9,7 +9,13 @@
     />
   </div>
 } @else {
-  <button [ptInt]="this" [ptClass]="'display'" role="button" (click)="switchToContent()">
+  <button
+    #displayTrigger
+    type="button"
+    [ptInt]="this"
+    [ptClass]="'display'"
+    (click)="switchToContent()"
+  >
     <ng-container
       [ngTemplateOutlet]="displayTemplate()"
       [ngTemplateOutletContext]="templateDisplayContext()"

@@ -13,6 +13,7 @@ export const editInplaceControlTemplate = createControlTemplate({
     'default-edit',
     'default-edit-input',
     'default-edit-close-button',
+    'sr-only',
   ],
   dependencies: [inplaceControlTemplate],
 });

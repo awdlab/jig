@@ -1,11 +1,5 @@
 export type NgnFilterDataType =
-  | 'string'
-  | 'number'
-  | 'date'
-  | 'dateTime'
-  | 'boolean'
-  | 'custom'
-  | 'list';
+  'string' | 'number' | 'date' | 'dateTime' | 'boolean' | 'custom' | 'list';
 
 export type NgnFilterMode = 'inline' | 'input' | 'headless';
 

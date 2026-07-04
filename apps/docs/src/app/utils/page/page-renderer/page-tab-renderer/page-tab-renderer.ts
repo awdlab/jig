@@ -29,8 +29,7 @@ export class NgnDocsPageTabRenderer {
   private readonly _activatedRoute = inject(ActivatedRoute);
   private readonly _breadcrumb = inject(BreadcrumbService);
   protected readonly category = this._activatedRoute.snapshot.data['category'] as
-    | NgnDocsCategory
-    | undefined;
+    NgnDocsCategory | undefined;
   protected readonly page = this._activatedRoute.snapshot.data['page'] as NgnDocsTabPage;
 
   private _first = true;

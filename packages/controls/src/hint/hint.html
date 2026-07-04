@@ -1,0 +1,12 @@
+@if (icon() || defaultIconKey()) {
+  <ngn-icon [ptInt]="this" [ptClass]="'icon'" [icon]="icon()" [defaultIcon]="defaultIconKey()" />
+}
+<div [ptInt]="this" [ptClass]="'content'">
+  @if (contentTemplate(); as tpl) {
+    <ng-container [ngTemplateOutlet]="tpl" />
+  } @else if (contentString(); as text) {
+    {{ text }}
+  } @else {
+    <ng-content />
+  }
+</div>

@@ -9,6 +9,7 @@ import { provideClientHydration, withNoIncrementalHydration } from '@angular/pla
 import { provideRouter, withInMemoryScrolling, withViewTransitions } from '@angular/router';
 import { provideNgnControls, withAutoColorScheme } from '@ngneers/controls/api/ng';
 import { withDefaultIcons } from '@ngneers/controls/default-icons';
+import { withSnackbars } from '@ngneers/controls/snackbar';
 import { withToasts } from '@ngneers/controls/toast';
 
 import { routes } from './app.routes';
@@ -32,6 +33,7 @@ export const appConfig: ApplicationConfig = {
     provideNgnControls(
       { theme: { preset: resolveInitialTheme() } },
       withToasts(),
+      withSnackbars(),
       withDefaultIcons(),
       withAutoColorScheme()
     ),

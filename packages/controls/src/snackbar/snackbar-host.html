@@ -1,0 +1,13 @@
+@for (snackbar of snackbars(); track snackbar.id) {
+  <ngn-snackbar
+    [header]="snackbar.header"
+    [content]="snackbar.content"
+    [color]="snackbar.color"
+    [icon]="snackbar.icon"
+    [autoHide]="snackbar.autoHide"
+    [templateContent]="snackbar.contentTemplate"
+    [templateHeader]="snackbar.headerTemplate"
+    [closable]="!!snackbar.closable"
+    (closeSnackbar)="removeSnackbar(snackbar.id)"
+  />
+}

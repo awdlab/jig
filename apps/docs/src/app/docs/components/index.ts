@@ -10,6 +10,7 @@ import { DialogPage } from './dialog/page';
 import { DrawerPage } from './drawer/page';
 import { EditInplacePage } from './edit-inplace/page';
 import { FilterPage } from './filter/page';
+import { HintPage } from './hint/page';
 import { IconPage } from './icon/page';
 import { InplacePage } from './inplace/page';
 import { InputPage } from './input/page';
@@ -23,10 +24,12 @@ import { NumberInputPage } from './number-input/page';
 import { PaginatorPage } from './paginator/page';
 import { PopoverPage } from './popover/page';
 import { ProgressPage } from './progress/page';
+import { RadioPage } from './radio/page';
 import { ScrollerPage } from './scroller/page';
 import { SelectPage } from './select/page';
 import { SelectButtonPage } from './select-button/page';
 import { SliderPage } from './slider/page';
+import { SnackbarPage } from './snackbar/page';
 import { SpinnerPage } from './spinner/page';
 import { SplitterPage } from './splitter/page';
 import { SwitchPage } from './switch/page';
@@ -37,6 +40,7 @@ import { ToastPage } from './toast/page';
 import { ToggleButtonPage } from './toggle-button/page';
 import { TooltipPage } from './tooltip/page';
 import { TreePage } from './tree/page';
+import { UploadPage } from './upload/page';
 
 export const ALL_COMPONENT_PAGES = [
   AccordionPage,
@@ -51,6 +55,7 @@ export const ALL_COMPONENT_PAGES = [
   DrawerPage,
   EditInplacePage,
   FilterPage,
+  HintPage,
   IconPage,
   InplacePage,
   InputPage,
@@ -64,10 +69,12 @@ export const ALL_COMPONENT_PAGES = [
   PaginatorPage,
   PopoverPage,
   ProgressPage,
+  RadioPage,
   ScrollerPage,
   SelectPage,
   SelectButtonPage,
   SliderPage,
+  SnackbarPage,
   SpinnerPage,
   SplitterPage,
   SwitchPage,
@@ -78,4 +85,5 @@ export const ALL_COMPONENT_PAGES = [
   ToggleButtonPage,
   TooltipPage,
   TreePage,
+  UploadPage,
 ];

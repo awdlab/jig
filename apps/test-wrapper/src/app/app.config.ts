@@ -7,6 +7,7 @@ import {
 import { provideRouter } from '@angular/router';
 import { provideNgnControls } from '@ngneers/controls/api/ng';
 import { withDefaultIcons } from '@ngneers/controls/default-icons';
+import { withSnackbars } from '@ngneers/controls/snackbar';
 import { withToasts } from '@ngneers/controls/toast';
 import { novaCoral } from '@ngneers/controls-themes/nova';
 
@@ -23,6 +24,7 @@ export const appConfig: ApplicationConfig = {
         disableAnimations: true,
       },
       withToasts(),
+      withSnackbars(),
       withDefaultIcons(),
     ),
     provideRouter([

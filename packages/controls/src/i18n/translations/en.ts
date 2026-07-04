@@ -37,6 +37,7 @@ export default {
   },
   editInplace: {
     placeholder: 'Click to edit',
+    confirm: 'Confirm',
   },
   filter: {
     noFilter: 'No filter',
@@ -84,6 +85,15 @@ export default {
   },
   drawer: {
     close: 'Close',
+  },
+  snackbar: {
+    close: 'Close',
+  },
+  upload: {
+    upload: 'Upload',
+    cancel: 'Cancel',
+    retry: 'Retry',
+    remove: 'Remove',
   },
   select: {
     filterOptions: 'Filter options',

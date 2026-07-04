@@ -26,6 +26,7 @@ import { dialogStyles } from '@ngneers/controls-themes/shade/dialog';
 import { drawerStyles } from '@ngneers/controls-themes/shade/drawer';
 import { editInplaceStyles } from '@ngneers/controls-themes/shade/edit-inplace';
 import { filterStyles } from '@ngneers/controls-themes/shade/filter';
+import { hintStyles } from '@ngneers/controls-themes/shade/hint';
 import { iconStyles } from '@ngneers/controls-themes/shade/icon';
 import { inplaceStyles } from '@ngneers/controls-themes/shade/inplace';
 import { inputStyles } from '@ngneers/controls-themes/shade/input';
@@ -38,10 +39,13 @@ import { messageStyles } from '@ngneers/controls-themes/shade/message';
 import { paginatorStyles } from '@ngneers/controls-themes/shade/paginator';
 import { popoverStyles } from '@ngneers/controls-themes/shade/popover';
 import { progressStyles } from '@ngneers/controls-themes/shade/progress';
+import { radioStyles } from '@ngneers/controls-themes/shade/radio';
+import { radioGroupStyles } from '@ngneers/controls-themes/shade/radio-group';
 import { scrollerStyles } from '@ngneers/controls-themes/shade/scroller';
 import { selectStyles } from '@ngneers/controls-themes/shade/select';
 import { selectButtonStyles } from '@ngneers/controls-themes/shade/select-button';
 import { sliderStyles } from '@ngneers/controls-themes/shade/slider';
+import { snackbarStyles } from '@ngneers/controls-themes/shade/snackbar';
 import { spinButtonsStyles } from '@ngneers/controls-themes/shade/spin-buttons';
 import { spinnerStyles } from '@ngneers/controls-themes/shade/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/shade/splitter';
@@ -53,6 +57,7 @@ import { toastStyles } from '@ngneers/controls-themes/shade/toast';
 import { toggleButtonStyles } from '@ngneers/controls-themes/shade/toggle-button';
 import { tooltipStyles } from '@ngneers/controls-themes/shade/tooltip';
 import { treeStyles } from '@ngneers/controls-themes/shade/tree';
+import { uploadStyles } from '@ngneers/controls-themes/shade/upload';
 
 import type {} from './theme-types';
 
@@ -64,6 +69,7 @@ import type {} from './theme-types';
 export const KINDS = {
   button: ['primary', 'secondary', 'link', 'text', 'icon'] as const,
   message: ['default', 'destructive'] as const,
+  hint: ['default', 'info', 'success', 'warning', 'error'] as const,
   tag: ['default', 'secondary', 'outline', 'destructive'] as const,
   // Functional label-placement kinds — kept identical to nova (not a visual variant).
   inputFieldLabel: ['in', 'on', 'over', 'floatIn', 'floatOn', 'floatOver', 'hidden'] as const,
@@ -93,6 +99,7 @@ export const shade = createTheme(
     editInplaceStyles,
     filterStyles,
     font,
+    hintStyles,
     iconStyles,
     inplaceStyles,
     inputStyles,
@@ -106,6 +113,8 @@ export const shade = createTheme(
     paginatorStyles,
     popoverStyles,
     progressStyles,
+    radioGroupStyles,
+    radioStyles,
     resizableStyles,
     scrollShadowStyles,
     scrollerStyles,
@@ -114,6 +123,7 @@ export const shade = createTheme(
     shadow,
     sizes,
     sliderStyles,
+    snackbarStyles,
     spinButtonsStyles,
     spinnerStyles,
     splitterStyles,
@@ -125,6 +135,7 @@ export const shade = createTheme(
     toggleButtonStyles,
     tooltipStyles,
     treeStyles,
+    uploadStyles,
     zinc,
   ],
   {

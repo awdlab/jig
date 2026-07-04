@@ -15,6 +15,7 @@ export const GALLERY: GalleryEntry[] = [
   { name: 'Progress', route: '/components/progress' },
   { name: 'Tooltip', route: '/components/tooltip' },
   { name: 'Checkbox', route: '/components/checkbox' },
+  { name: 'Radio', route: '/components/radio' },
   { name: 'Tabs', route: '/components/tabs' },
   { name: 'Input', route: '/components/input' },
 ];

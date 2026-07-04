@@ -16,8 +16,7 @@ export type FilterConfig<T extends object> = {
 };
 
 export type FilterFn<T extends object> =
-  | PredefinedFilterFunctions
-  | ((value: string, item: T) => Promise<boolean> | boolean);
+  PredefinedFilterFunctions | ((value: string, item: T) => Promise<boolean> | boolean);
 
 async function filterItem<T extends object>(
   item: T,

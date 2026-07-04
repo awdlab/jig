@@ -249,27 +249,10 @@ export const coral = createThemePart({
 });
 
 type ThemePaletteColor =
-  | 'primary'
-  | 'secondary'
-  | 'accent'
-  | 'info'
-  | 'success'
-  | 'warning'
-  | 'error'
-  | 'surface';
+  'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error' | 'surface';
 
 type ThemePaletteShade =
-  | '50'
-  | '100'
-  | '200'
-  | '300'
-  | '400'
-  | '500'
-  | '600'
-  | '700'
-  | '800'
-  | '900'
-  | '950';
+  '50' | '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900' | '950';
 
 type ThemePaletteTonal = '700-on-50' | '600-on-100';
 

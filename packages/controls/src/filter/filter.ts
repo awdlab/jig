@@ -327,13 +327,11 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   protected readonly resolvedListOptions = computed<readonly NgnItem[]>(() => {
     const listOptions = this.listOptions();
     return listOptions
-      ? listOptions.map(
-          (opt): NgnItem => ({
-            label: opt,
-            value: opt,
-            testId: `filter-list-${opt}`,
-          })
-        )
+      ? listOptions.map((opt): NgnItem => ({
+          label: opt,
+          value: opt,
+          testId: `filter-list-${opt}`,
+        }))
       : this.autoListOptions();
   });
 

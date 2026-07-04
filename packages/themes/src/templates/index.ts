@@ -17,6 +17,7 @@ export type ThemeTemplate = {
   filter: Awaited<typeof import('./filter')>['filterControlTemplate'];
   editInplace: Awaited<typeof import('./edit-inplace')>['editInplaceControlTemplate'];
   global: Awaited<typeof import('./global')>['globalControlTemplate'];
+  hint: Awaited<typeof import('./hint')>['hintControlTemplate'];
   icon: Awaited<typeof import('./icon')>['iconControlTemplate'];
   inplace: Awaited<typeof import('./inplace')>['inplaceControlTemplate'];
   input: Awaited<typeof import('./input')>['inputControlTemplate'];
@@ -30,10 +31,13 @@ export type ThemeTemplate = {
   paginator: Awaited<typeof import('./paginator')>['paginatorControlTemplate'];
   popover: Awaited<typeof import('./popover')>['popoverControlTemplate'];
   progress: Awaited<typeof import('./progress')>['progressControlTemplate'];
+  radioGroup: Awaited<typeof import('./radio-group')>['radioGroupControlTemplate'];
+  radio: Awaited<typeof import('./radio')>['radioControlTemplate'];
   scroller: Awaited<typeof import('./scroller')>['scrollerControlTemplate'];
   select: Awaited<typeof import('./select')>['selectControlTemplate'];
   selectButton: Awaited<typeof import('./select-button')>['selectButtonControlTemplate'];
   slider: Awaited<typeof import('./slider')>['sliderControlTemplate'];
+  snackbar: Awaited<typeof import('./snackbar')>['snackbarControlTemplate'];
   spinButtons: Awaited<typeof import('./spin-buttons')>['spinButtonsControlTemplate'];
   spinner: Awaited<typeof import('./spinner')>['spinnerControlTemplate'];
   splitter: Awaited<typeof import('./splitter')>['splitterControlTemplate'];
@@ -45,6 +49,7 @@ export type ThemeTemplate = {
   toggleButton: Awaited<typeof import('./toggle-button')>['toggleButtonControlTemplate'];
   tooltip: Awaited<typeof import('./tooltip')>['tooltipControlTemplate'];
   tree: Awaited<typeof import('./tree')>['treeControlTemplate'];
+  upload: Awaited<typeof import('./upload')>['uploadControlTemplate'];
 };
 
 export type ControlName = keyof ThemeTemplate;

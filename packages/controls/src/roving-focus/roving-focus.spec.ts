@@ -532,6 +532,98 @@ class ShrinkingItemsHost {
   group = viewChild.required(NgnRovingGroup);
 }
 
+// ── Disabled-skip navigation tests ───────────────────────────────────────────
+
+@Component({
+  selector: 'test-disabled-skip-host',
+  imports: [NgnRovingGroup, NgnRovingItem],
+  template: `
+    <div ngnRovingGroup [rovingWrap]="wrap()">
+      <span ngnRovingItem id="a">A</span>
+      <span ngnRovingItem id="b">B</span>
+      <span ngnRovingItem id="c">C</span>
+      <span ngnRovingItem id="d">D</span>
+    </div>
+  `,
+})
+class DisabledSkipHost {
+  wrap = signal(false);
+  group = viewChild.required(NgnRovingGroup);
+}
+
+describe('roving-focus disabled skipping', () => {
+  function setup(wrap = false) {
+    const fixture = TestBed.createComponent(DisabledSkipHost);
+    fixture.componentInstance.wrap.set(wrap);
+    fixture.detectChanges();
+    const group = fixture.componentInstance.group();
+    const items = fixture.debugElement
+      .queryAll(By.directive(NgnRovingItem))
+      .map(d => d.injector.get(NgnRovingItem));
+    return { fixture, group, items };
+  }
+
+  it('next() skips a disabled item (b disabled → 0 jumps to 2)', () => {
+    const { group, items } = setup();
+    items[1]!.disabled.set(true);
+    group.next();
+    expect(group.activeIndex()).toBe(2);
+  });
+
+  it('prev() skips a disabled item (c disabled → 3 jumps to 1)', () => {
+    const { group, items } = setup();
+    items[2]!.disabled.set(true);
+    group.last(); // index 3
+    group.prev();
+    expect(group.activeIndex()).toBe(1);
+  });
+
+  it('next() at edge with all following disabled stays put (no wrap)', () => {
+    const { group, items } = setup(false);
+    items[2]!.disabled.set(true);
+    items[3]!.disabled.set(true);
+    group.next(); // 0 -> 1
+    const emitted: number[] = [];
+    group.activeItemChange.subscribe(i => emitted.push(i));
+    group.next(); // 1 -> would need 2/3 but both disabled -> clamps to 1
+    expect(group.activeIndex()).toBe(1);
+    expect(emitted).toEqual([1]); // clamp-and-emit contract: re-emits current
+  });
+
+  it('next() with wrap skips disabled and wraps to first enabled', () => {
+    const { group, items } = setup(true);
+    items[3]!.disabled.set(true);
+    group.last(); // lands on 2 (3 is disabled)
+    expect(group.activeIndex()).toBe(2);
+    group.next(); // 3 disabled -> wrap -> 0
+    expect(group.activeIndex()).toBe(0);
+  });
+
+  it('first() lands on the first enabled item', () => {
+    const { group, items } = setup();
+    items[0]!.disabled.set(true);
+    group.first();
+    expect(group.activeIndex()).toBe(1);
+  });
+
+  it('last() lands on the last enabled item', () => {
+    const { group, items } = setup();
+    items[3]!.disabled.set(true);
+    group.last();
+    expect(group.activeIndex()).toBe(2);
+  });
+
+  it('activate() on a disabled item is a no-op', () => {
+    const { group, items } = setup();
+    items[1]!.disabled.set(true);
+    const emitted: number[] = [];
+    group.activeItemChange.subscribe(i => emitted.push(i));
+    group.activate(group.items()[1]!);
+    expect(group.activeIndex()).toBe(0);
+    expect(emitted).toEqual([]);
+  });
+});
+
 describe('roving-focus focus modes', () => {
   describe('tabindex mode', () => {
     it('active item (index 0) gets tabindex="0", others get tabindex="-1" after detectChanges', () => {
