@@ -23,6 +23,9 @@ export const calendarStyles = createThemePart({
         border: 1px solid ${v('color.border')};
         border-radius: ${v('size.rounded.lg')};
       }
+      ${c('input-field')} {
+        gap: ${v('size.padding.md')};
+      }
       ${c('details')} {
         gap: ${v('size.padding.md')};
         min-width: 300px;

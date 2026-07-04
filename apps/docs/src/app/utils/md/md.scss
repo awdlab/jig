@@ -5,12 +5,43 @@
     }
     .md {
       p,
-      code,
-      pre {
+      code {
         display: inline;
       }
       p:has(~ p) {
         display: inline-block;
+      }
+
+      // Inline code chips
+      code {
+        background: var(--ngn-color-surface-100);
+        border-radius: var(--ngn-size-rounded-sm);
+        padding: 0.12em 0.35em;
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+      }
+
+      // Fenced code blocks
+      pre {
+        display: inline-block;
+        position: relative;
+        z-index: 0;
+        padding: 0.1em 0.4em;
+        margin: 0.2em 0;
+        border-radius: var(--ngn-size-rounded-md);
+        background: var(--ngn-color-surface-100);
+        code {
+          background: none;
+          padding: 0;
+          margin: 0;
+        }
+      }
+
+      // API name/type highlights bring their own background — no inline chip.
+      .code-name-highlight code {
+        background: none;
+        padding: 0;
+        margin: 0;
       }
       a {
         color: var(--ngn-color-primary-500);

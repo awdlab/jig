@@ -1,4 +1,4 @@
-import { computed, ElementRef, inject, type Signal, signal } from '@angular/core';
+import { computed, DestroyRef, ElementRef, inject, type Signal, signal } from '@angular/core';
 import {
   type ControlTemplateInfo,
   type AppliedThemeClassCfg,
@@ -24,6 +24,10 @@ export class NgnPtEngine<T extends NgnBaseSafe<Name>, Name extends ControlName> 
   >;
 
   private readonly _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly _destroyRef = inject(DestroyRef);
+
+  /** The passthrough values currently applied to the element, for teardown on destroy. */
+  private _currentAppliedPts: ReturnType<NgnPtEngine<T, Name>['_appliedPts']>;
 
   private readonly classes = computed(() => {
     const pt = this.pt();
@@ -83,6 +87,21 @@ export class NgnPtEngine<T extends NgnBaseSafe<Name>, Name extends ControlName> 
           this.setNewPtValues(classPt);
         }
       }
+      this._currentAppliedPts = current;
+    });
+
+    // Detach applied passthrough (notably event listeners) when the element is
+    // destroyed, so nothing leaks past the control's lifetime.
+    this._destroyRef.onDestroy(() => {
+      if (!this._currentAppliedPts) {
+        return;
+      }
+      for (const classPt of this._currentAppliedPts) {
+        if (!classPt) {
+          continue;
+        }
+        this.removePreviousPtValues(classPt);
+      }
     });
   }
 
@@ -115,6 +134,15 @@ export class NgnPtEngine<T extends NgnBaseSafe<Name>, Name extends ControlName> 
         }
       });
     }
+    if (classPt.$listeners) {
+      objectKeys(classPt.$listeners).forEach(eventName => {
+        const handler = classPt.$listeners?.[eventName];
+        if (!handler) {
+          return;
+        }
+        this._elementRef.nativeElement.addEventListener(eventName, handler as any);
+      });
+    }
   }
 
   private removePreviousPtValues(classPt: PassthroughValue) {
@@ -143,6 +171,15 @@ export class NgnPtEngine<T extends NgnBaseSafe<Name>, Name extends ControlName> 
             this._elementRef.nativeElement
           );
         }
+      });
+    }
+    if (classPt.$listeners) {
+      objectKeys(classPt.$listeners).forEach(eventName => {
+        const listener = classPt.$listeners?.[eventName];
+        if (!listener) {
+          return;
+        }
+        this._elementRef.nativeElement.removeEventListener(eventName, listener as any);
       });
     }
   }

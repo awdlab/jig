@@ -5,10 +5,15 @@ import type {
   ThemeTemplate,
 } from '@ngneers/controls-themes';
 
+type EventListenerMap = {
+  [K in keyof GlobalEventHandlersEventMap]: (event: GlobalEventHandlersEventMap[K]) => void;
+};
+
 export type PassthroughValue = {
   $attributes?: Record<string, string>;
   $styles?: Partial<CSSStyleDeclaration>;
   $classes?: string | string[];
+  $listeners?: Partial<EventListenerMap>;
 };
 
 type ThemeClassToPassthrough<T> = {
