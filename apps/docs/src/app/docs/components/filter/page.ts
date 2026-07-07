@@ -6,6 +6,7 @@ import { Demo_Filter_DataTypes } from '../../../demos/filter/datatypes';
 import { Demo_Filter_Headless } from '../../../demos/filter/headless';
 import { Demo_Filter_Inline } from '../../../demos/filter/inline';
 import { Demo_Filter_Multiple } from '../../../demos/filter/multiple';
+import { Demo_Filter_Validation } from '../../../demos/filter/validation';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -21,6 +22,7 @@ export const FilterPage: NgnDocsPage = {
       mdFile: 'components/filter/index.md',
       components: [
         Demo_Filter_Base,
+        Demo_Filter_Validation,
         Demo_Filter_Inline,
         Demo_Filter_Headless,
         Demo_Filter_DataTypes,

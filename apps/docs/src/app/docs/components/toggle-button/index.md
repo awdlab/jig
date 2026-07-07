@@ -6,6 +6,10 @@ A toggle button component for toggling between active and inactive states.
 
 {{ demo: Demo_ToggleButton_Base }}
 
+### Validation
+
+{{ demo: Demo_ToggleButton_Validation }}
+
 ## Labels
 
 {{ demo: Demo_ToggleButton_Labels }}

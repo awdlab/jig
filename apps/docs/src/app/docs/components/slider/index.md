@@ -4,6 +4,10 @@ The Slider component provides a form control for selecting a numeric value withi
 
 {{ demo: Demo_Slider_Base }}
 
+### Validation
+
+{{ demo: Demo_Slider_Validation }}
+
 ### Min and Max Values
 
 You can set minimum and maximum values for the slider using the `min` and `max` inputs.

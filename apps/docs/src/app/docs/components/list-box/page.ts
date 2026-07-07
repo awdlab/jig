@@ -4,6 +4,7 @@ import { Demo_ListBox_Filter } from '../../../demos/list-box/filter';
 import { Demo_ListBox_Grouped } from '../../../demos/list-box/grouped';
 import { Demo_ListBox_Multiple } from '../../../demos/list-box/multiple';
 import { Demo_ListBox_Templates } from '../../../demos/list-box/templates';
+import { Demo_ListBox_Validation } from '../../../demos/list-box/validation';
 import { Demo_ListBox_Value } from '../../../demos/list-box/value';
 import { Demo_ListBox_Virtual } from '../../../demos/list-box/virtual';
 
@@ -21,6 +22,7 @@ export const ListBoxPage: NgnDocsPage = {
       mdFile: 'components/list-box/index.md',
       components: [
         Demo_ListBox_Base,
+        Demo_ListBox_Validation,
         Demo_ListBox_Grouped,
         Demo_ListBox_Templates,
         Demo_ListBox_Value,

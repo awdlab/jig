@@ -1,0 +1,16 @@
+@if (visible()) {
+  <span [ptInt]="this" [ptClass]="'indicator'">
+    @switch (appliedKind()) {
+      @case ('loading') {
+        @defer (on immediate) {
+          <ngn-spinner [size]="size()" [thickness]="thickness()" />
+        }
+      }
+      @default {
+        @if (icon() || defaultIcon()) {
+          <ngn-icon [defaultIcon]="defaultIcon()" [icon]="icon()" />
+        }
+      }
+    }
+  </span>
+}

@@ -41,6 +41,7 @@ export type ThemeTemplate = {
   spinButtons: Awaited<typeof import('./spin-buttons')>['spinButtonsControlTemplate'];
   spinner: Awaited<typeof import('./spinner')>['spinnerControlTemplate'];
   splitter: Awaited<typeof import('./splitter')>['splitterControlTemplate'];
+  state: Awaited<typeof import('./state')>['stateControlTemplate'];
   switch: Awaited<typeof import('./switch')>['switchControlTemplate'];
   tabs: Awaited<typeof import('./tabs')>['tabsControlTemplate'];
   table: Awaited<typeof import('./table')>['tableControlTemplate'];

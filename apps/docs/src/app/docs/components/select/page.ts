@@ -8,6 +8,7 @@ import { Demo_Select_Grouped } from '../../../demos/select/grouped';
 import { Demo_Select_Multiple } from '../../../demos/select/multiple';
 import { Demo_Select_States } from '../../../demos/select/states';
 import { Demo_Select_Templates } from '../../../demos/select/templates';
+import { Demo_Select_Validation } from '../../../demos/select/validation';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -23,6 +24,7 @@ export const SelectPage: NgnDocsPage = {
       mdFile: 'components/select/index.md',
       components: [
         Demo_Select_Base,
+        Demo_Select_Validation,
         Demo_Select_Filter,
         Demo_Select_Grouped,
         Demo_Select_Templates,

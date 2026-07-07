@@ -6,6 +6,10 @@ A select button component for choosing from a set of options.
 
 {{ demo: Demo_SelectButton_Base }}
 
+### Validation
+
+{{ demo: Demo_SelectButton_Validation }}
+
 ## States
 
 {{ demo: Demo_SelectButton_States }}

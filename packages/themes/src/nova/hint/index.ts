@@ -15,11 +15,12 @@ export const hintStyles = createThemePart({
       ${c('root')} {
         color: color-mix(in srgb, ${v('color.text')} 60%, transparent);
         font-size: ${v('font.size.xs')};
+        line-height: ${v('font.size.xs')};
       }
 
       ${c('icon')} {
         color: inherit;
-        font-size: 1rem;
+        font-size: 0.85rem;
       }
 
       ${c('kind-info')} {

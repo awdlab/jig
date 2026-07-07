@@ -4,6 +4,10 @@ The Filter component combines an operator select + input field to filter a datas
 
 {{ demo: Demo_Filter_Base }}
 
+### Validation
+
+{{ demo: Demo_Filter_Validation }}
+
 ### Inline
 
 {{ demo: Demo_Filter_Inline }}

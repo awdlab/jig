@@ -6,6 +6,10 @@ Use `ngn-input-field` as the default wrapper for field chrome.
 
 {{ demo: Demo_Input_Base }}
 
+#### Validation
+
+{{ demo: Demo_Input_Validation }}
+
 #### States
 
 {{ demo: Demo_Input_States }}

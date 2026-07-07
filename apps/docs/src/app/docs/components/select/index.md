@@ -6,6 +6,10 @@ Wrap `ngn-select` with `ngn-input-field` for field chrome.
 
 {{ demo: Demo_Select_Base }}
 
+### Validation
+
+{{ demo: Demo_Select_Validation }}
+
 ### Filtering
 
 {{ demo: Demo_Select_Filter }}

@@ -5,6 +5,10 @@ providing consistent styling and behavior across different types of inputs.
 
 {{ demo: Demo_InputField_Base }}
 
+#### Validation
+
+{{ demo: Demo_InputField_Validation }}
+
 #### Textarea
 
 {{ demo: Demo_InputField_Textarea }}

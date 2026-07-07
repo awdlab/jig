@@ -1,4 +1,4 @@
-import test from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { NgnHintHarness } from '@ngneers/controls-playwright';
 import { expectScreenshot } from '../helper/screenshot';
@@ -63,4 +63,66 @@ test('kinds', async ({ page }, testInfo) => {
   );
 
   await expectScreenshot(page, testInfo, 'kinds');
+  await expect(page.locator('ngn-hint ngn-icon')).toHaveCount(4); // default has no icon
+});
+test('iconOnly validation shows the error in a tooltip', async ({ page }) => {
+  await loadComponent(page, {
+    template: `
+      <div class="page-center" style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <input
+          ngnInput
+          name="email"
+          ngModel
+          required
+          ngnErrors
+          [ngnErrorsHint]="emailHint"
+        />
+        <ngn-hint #emailHint kind="error" iconOnly="true" />
+      </div>
+    `,
+    imports: ['input', 'hint', 'errors', 'forms'],
+  });
+
+  const input = page.locator('input[ngnInput]');
+  const hint = page.locator('ngn-hint');
+  const icon = hint.locator('ngn-icon');
+
+  await expect(hint).toHaveCount(1);
+  await expect(hint).toHaveText('');
+  await expect(icon).toHaveCount(0);
+
+  await input.focus();
+  await input.blur();
+
+  await expect(hint).toHaveText('');
+  await expect(icon).toHaveCount(1);
+  await expect(icon).toBeVisible();
+
+  await icon.hover();
+  await expect(page.getByRole('tooltip')).toContainText('Required');
+});
+
+test('iconOnly keeps the kind icon when hidden validation has normal content', async ({ page }) => {
+  await loadComponent(page, {
+    template: `
+      <ngn-hint
+        class="page-center"
+        kind="error"
+        iconOnly="true"
+        [content]="'Static help text'"
+        [validationState]="{ visible: false, pending: false, message: null }"
+      />
+    `,
+    imports: ['hint'],
+  });
+
+  const hint = page.locator('ngn-hint');
+  const icon = hint.locator('ngn-icon');
+
+  await expect(hint).toHaveText('');
+  await expect(icon).toHaveCount(1);
+  await expect(icon).toBeVisible();
+
+  await icon.hover();
+  await expect(page.getByRole('tooltip')).toContainText('Static help text');
 });

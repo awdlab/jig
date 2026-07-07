@@ -42,6 +42,7 @@ import { snackbarStyles } from '@ngneers/controls-themes/base/snackbar';
 import { spinButtonsStyles } from '@ngneers/controls-themes/base/spin-buttons';
 import { spinnerStyles } from '@ngneers/controls-themes/base/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/base/splitter';
+import { stateStyles } from '@ngneers/controls-themes/base/state';
 import { switchStyles } from '@ngneers/controls-themes/base/switch';
 import { tabsStyles } from '@ngneers/controls-themes/base/tabs';
 import { tagStyles } from '@ngneers/controls-themes/base/tag';
@@ -95,6 +96,7 @@ export const baseStyles = {
   spinButtons: spinButtonsStyles,
   spinner: spinnerStyles,
   splitter: splitterStyles,
+  state: stateStyles,
   switch: switchStyles,
   table: tableStyles,
   tabs: tabsStyles,

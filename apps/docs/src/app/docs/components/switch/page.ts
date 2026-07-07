@@ -1,6 +1,7 @@
 import { NgnDocsSwitchPlayground } from './playground';
 import { Demo_Switch_Base } from '../../../demos/switch/base';
 import { Demo_Switch_States } from '../../../demos/switch/states';
+import { Demo_Switch_Validation } from '../../../demos/switch/validation';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -14,7 +15,7 @@ export const SwitchPage: NgnDocsPage = {
 
       title: 'Examples',
       mdFile: 'components/switch/index.md',
-      components: [Demo_Switch_Base, Demo_Switch_States],
+      components: [Demo_Switch_Base, Demo_Switch_Validation, Demo_Switch_States],
     },
     {
       kind: 'component',

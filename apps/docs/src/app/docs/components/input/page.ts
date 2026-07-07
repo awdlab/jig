@@ -2,6 +2,7 @@ import { NgnDocsInputPlayground } from './playground';
 import { Demo_Input_Base } from '../../../demos/input/base';
 import { Demo_Input_States } from '../../../demos/input/states';
 import { Demo_Input_Textarea } from '../../../demos/input/textarea';
+import { Demo_Input_Validation } from '../../../demos/input/validation';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -15,7 +16,7 @@ export const InputPage: NgnDocsPage = {
 
       title: 'Examples',
       mdFile: 'components/input/index.md',
-      components: [Demo_Input_Base, Demo_Input_States, Demo_Input_Textarea],
+      components: [Demo_Input_Base, Demo_Input_Validation, Demo_Input_States, Demo_Input_Textarea],
     },
     {
       kind: 'component',

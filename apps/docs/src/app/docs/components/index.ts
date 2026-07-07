@@ -32,6 +32,7 @@ import { SliderPage } from './slider/page';
 import { SnackbarPage } from './snackbar/page';
 import { SpinnerPage } from './spinner/page';
 import { SplitterPage } from './splitter/page';
+import { StatePage } from './state/page';
 import { SwitchPage } from './switch/page';
 import { TablePage } from './table/page';
 import { TabsPage } from './tabs/page';
@@ -77,6 +78,7 @@ export const ALL_COMPONENT_PAGES = [
   SnackbarPage,
   SpinnerPage,
   SplitterPage,
+  StatePage,
   SwitchPage,
   TablePage,
   TabsPage,

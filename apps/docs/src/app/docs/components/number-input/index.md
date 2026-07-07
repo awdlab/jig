@@ -31,6 +31,10 @@ The arrangement is chosen per instance:
 
 {{ demo: Demo_NumberInput_Base }}
 
+### Validation
+
+{{ demo: Demo_NumberInput_Validation }}
+
 See the **Spin Buttons API** tab for the full `NgnSpinButtons` reference.
 
 ### Locale formatting

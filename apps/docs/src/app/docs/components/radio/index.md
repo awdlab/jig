@@ -10,6 +10,10 @@ on the checked option.
 
 {{ demo: Demo_Radio_Base }}
 
+### Validation
+
+{{ demo: Demo_Radio_Validation }}
+
 ### Orientation
 
 {{ demo: Demo_Radio_Orientation }}

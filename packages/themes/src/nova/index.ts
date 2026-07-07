@@ -42,6 +42,7 @@ import { snackbarStyles } from '@ngneers/controls-themes/nova/snackbar';
 import { spinButtonsStyles } from '@ngneers/controls-themes/nova/spin-buttons';
 import { spinnerStyles } from '@ngneers/controls-themes/nova/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/nova/splitter';
+import { stateStyles } from '@ngneers/controls-themes/nova/state';
 import { switchStyles } from '@ngneers/controls-themes/nova/switch';
 import { tableStyles } from '@ngneers/controls-themes/nova/table';
 import { tabsStyles } from '@ngneers/controls-themes/nova/tabs';
@@ -61,6 +62,7 @@ export const KINDS = {
   inputFieldLabel: ['in', 'on', 'over', 'floatIn', 'floatOn', 'floatOver', 'hidden'] as const,
   spinButtons: ['stacked', 'inline'] as const,
   hint: ['default', 'info', 'success', 'warning', 'error'] as const,
+  state: ['loading', 'cancelled', 'success', 'warning', 'error'] as const,
 };
 
 export const COLORS = [
@@ -122,6 +124,7 @@ export const novaCoral = createTheme(
     spinButtonsStyles,
     spinnerStyles,
     splitterStyles,
+    stateStyles,
     switchStyles,
     tableStyles,
     tabsStyles,

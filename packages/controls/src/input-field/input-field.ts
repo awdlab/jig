@@ -126,21 +126,30 @@ export class NgnInputField extends NgnBase<'inputField'> {
     // handles the event, skip the primitive focusing below.
     if (this.control()?.focusFromPointer(event)) return;
 
-    if (!(event.target instanceof HTMLElement)) return;
+    if (!(event.target instanceof Node)) return;
+
+    const root = this.element.nativeElement;
+    const targetElement = event.target instanceof Element ? event.target : null;
 
     // Controls that open/toggle on click (select combobox, calendar field) expose
-    // their interactive host as the focusable element (tabindex="0") -> redirect click there
-    const focusable = this.element.nativeElement.querySelector<HTMLElement>('[tabindex="0"]');
+    // their interactive host as the focusable element (tabindex="0") -> redirect click there.
+    const focusable = root.querySelector<HTMLElement>('[tabindex="0"]');
     if (focusable && !focusable.contains(event.target)) {
       focusable.click();
       return;
     }
 
-    // Plain input fields: place the caret in the input element.
-    const inputElement = event.target.querySelector('input, textarea');
-    if (inputElement) {
-      (inputElement as HTMLInputElement | HTMLTextAreaElement).focus();
+    // Keep real projected actions (buttons, links, explicit tab stops) in charge of their own click.
+    const interactiveTarget = targetElement?.closest(
+      'button, a[href], select, [role="button"], [tabindex]:not([tabindex="-1"])'
+    );
+    if (interactiveTarget && root.contains(interactiveTarget)) {
+      return;
     }
+
+    // Plain input fields: clicking the field chrome or non-interactive adornments should focus
+    // the actual input, even when the pointer target is SVG content inside an icon/state control.
+    this._inputElement()?.focus();
   }
 
   protected clearButtonClicked(event: MouseEvent) {

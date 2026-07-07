@@ -16,11 +16,12 @@ export const hintStyles = createThemePart({
       ${c('root')} {
         color: ${v('color.muted.foreground')};
         font-size: ${v('font.size.xs')};
+        line-height: ${v('font.size.xs')};
       }
 
       ${c('icon')} {
         color: inherit;
-        font-size: 1rem;
+        font-size: 0.85rem;
       }
 
       ${c('kind-info')} {

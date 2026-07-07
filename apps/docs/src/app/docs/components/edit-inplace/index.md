@@ -5,6 +5,10 @@ context of the page, providing a seamless and intuitive user experience.
 
 {{ demo: Demo_EditInplace_Base }}
 
+### Validation
+
+{{ demo: Demo_EditInplace_Validation }}
+
 ### States
 
 {{ demo: Demo_EditInplace_States }}

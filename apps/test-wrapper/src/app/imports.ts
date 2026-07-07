@@ -20,7 +20,11 @@ export const IMPORTS = {
   dialog: () => import('@ngneers/controls/dialog').then((m) => m.NgnDialog),
   editInplace: () =>
     import('@ngneers/controls/edit-inplace').then((m) => m.NgnEditInplace),
+  errors: () => import('@ngneers/controls/errors').then((m) => m.NgnErrors),
   filter: () => import('@ngneers/controls/filter').then((m) => m.NgnFilter),
+  forms: () => import('@angular/forms').then((m) => m.FormsModule),
+  reactiveForms: () =>
+    import('@angular/forms').then((m) => m.ReactiveFormsModule),
   hint: () => import('@ngneers/controls/hint').then((m) => m.NgnHint),
   icon: () => import('@ngneers/controls/icon').then((m) => m.NgnIcon),
   inplace: () => import('@ngneers/controls/inplace').then((m) => m.NgnInplace),
@@ -56,6 +60,7 @@ export const IMPORTS = {
   spinButtons: () =>
     import('@ngneers/controls/spin-buttons').then((m) => m.NgnSpinButtons),
   spinner: () => import('@ngneers/controls/spinner').then((m) => m.NgnSpinner),
+  state: () => import('@ngneers/controls/state').then((m) => m.NgnState),
   splitter: () =>
     import('@ngneers/controls/splitter').then((m) => m.NgnSplitter),
   switch: () => import('@ngneers/controls/switch').then((m) => m.NgnSwitch),
@@ -79,4 +84,8 @@ export const IMPORTS = {
   upload: () => import('@ngneers/controls/upload').then((m) => m.NgnUpload),
   dummy_component: () =>
     import('./helper-components/dummy').then((m) => m.DummyComponent),
+  testAsyncValidator: () =>
+    import('./helper-components/async-validator').then(
+      (m) => m.TestAsyncValidator,
+    ),
 };

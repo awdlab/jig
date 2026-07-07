@@ -2,6 +2,7 @@ import { NgnDocsNumberInputPlayground } from './playground';
 import { Demo_NumberInput_Base } from '../../../demos/number-input/base';
 import { Demo_NumberInput_Locale } from '../../../demos/number-input/locale';
 import { Demo_NumberInput_Steps } from '../../../demos/number-input/steps';
+import { Demo_NumberInput_Validation } from '../../../demos/number-input/validation';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -15,7 +16,12 @@ export const NumberInputPage: NgnDocsPage = {
 
       title: 'Examples',
       mdFile: 'components/number-input/index.md',
-      components: [Demo_NumberInput_Base, Demo_NumberInput_Locale, Demo_NumberInput_Steps],
+      components: [
+        Demo_NumberInput_Base,
+        Demo_NumberInput_Validation,
+        Demo_NumberInput_Locale,
+        Demo_NumberInput_Steps,
+      ],
     },
     {
       kind: 'component',

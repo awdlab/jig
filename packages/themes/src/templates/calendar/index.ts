@@ -11,6 +11,7 @@ export const calendarControlTemplate = createControlTemplate({
     'inline',
     'input',
     'input-field',
+    'invalid',
     'details',
     'header',
     'navigation',

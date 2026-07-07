@@ -1,7 +1,4 @@
-@if (icon() || defaultIconKey()) {
-  <ngn-icon [ptInt]="this" [ptClass]="'icon'" [icon]="icon()" [defaultIcon]="defaultIconKey()" />
-}
-<div [ptInt]="this" [ptClass]="'content'">
+<ng-template #renderedContent>
   @if (contentTemplate(); as tpl) {
     <ng-container [ngTemplateOutlet]="tpl" />
   } @else if (contentString(); as text) {
@@ -9,4 +6,18 @@
   } @else {
     <ng-content />
   }
-</div>
+</ng-template>
+
+@if (icon() || defaultIconKey()) {
+  <ngn-icon
+    [ptInt]="this"
+    [ptClass]="'icon'"
+    [icon]="icon()"
+    [defaultIcon]="defaultIconKey()"
+    [ngnTooltip]="iconOnly() ? renderedContent : null"
+    [ngnTooltipAutoAriaMode]="'label'"
+  />
+}
+@if (!iconOnly()) {
+  <ng-container [ngTemplateOutlet]="renderedContent" />
+}

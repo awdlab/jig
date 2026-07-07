@@ -5,6 +5,7 @@ import { Demo_Tree_Filter } from '../../../demos/tree/filter';
 import { Demo_Tree_Lazy } from '../../../demos/tree/lazy';
 import { Demo_Tree_Storage } from '../../../demos/tree/storage';
 import { Demo_Tree_Templates } from '../../../demos/tree/templates';
+import { Demo_Tree_Validation } from '../../../demos/tree/validation';
 import { Demo_Tree_Virtual } from '../../../demos/tree/virtual';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
@@ -20,6 +21,7 @@ export const TreePage: NgnDocsPage = {
       mdFile: 'components/tree/index.md',
       components: [
         Demo_Tree_Base,
+        Demo_Tree_Validation,
         Demo_Tree_Templates,
         Demo_Tree_Events,
         Demo_Tree_Filter,

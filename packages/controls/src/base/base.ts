@@ -71,6 +71,7 @@ export abstract class NgnBase<T extends ControlName | null> {
 
   private readonly _defaultKind = signal<CustomKind<T> | undefined>(undefined);
   private readonly _defaultColor = signal<CustomColor | undefined>(undefined);
+  private readonly _kindOverride = signal<CustomKind<T> | undefined>(undefined);
 
   /**
    * The element reference for the host element.
@@ -97,7 +98,7 @@ export abstract class NgnBase<T extends ControlName | null> {
   public readonly color = input<CustomColor | undefined>(undefined as never);
 
   public readonly appliedKind = computed<CustomKind<T> | undefined>(
-    () => this.kind() ?? this._defaultKind()
+    () => this._kindOverride() ?? this.kind() ?? this._defaultKind()
   );
   public readonly appliedColor = computed<CustomColor | undefined>(
     () => this.color() ?? this._defaultColor()
@@ -159,6 +160,14 @@ export abstract class NgnBase<T extends ControlName | null> {
    */
   public clearValue(): boolean {
     return false;
+  }
+
+  /**
+   * Temporarily overrides the authored kind without mutating the public input.
+   * Intended for derived control states such as validation-driven hints.
+   */
+  protected setKindOverride(kind: CustomKind<T> | undefined): void {
+    this._kindOverride.set(kind);
   }
 
   private readonly _childNgnControls = viewChildren(NGN_CONTROL);

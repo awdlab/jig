@@ -3,6 +3,7 @@ import {
   booleanAttribute,
   Component,
   computed,
+  effect,
   inject,
   input,
   linkedSignal,
@@ -64,6 +65,7 @@ type MonthItemType = NgnItem<{ $: (typeof MONTHS)[number] }, '$'>;
   host: {
     '[style.display]': '"block"',
     '[style.width]': 'inline() ? "fit-content" : "100%"',
+    '[attr.aria-invalid]': 'invalid() ? "true" : null',
   },
 })
 export class NgnCalendar extends CalendarTemplates {
@@ -277,6 +279,15 @@ export class NgnCalendar extends CalendarTemplates {
 
   /** The current (possibly partial) text in the mask field, awaiting blur. */
   private readonly _inputString = signal<string | null>(null);
+  private readonly _clearingInputMask = signal(false);
+
+  private readonly _clearValueWhenMaskBecomesEmpty = effect(() => {
+    if (!this._clearingInputMask() || !this._mask()?.empty()) {
+      return;
+    }
+    this._clearingInputMask.set(false);
+    this.value.set(null);
+  });
 
   protected stringValueChange(newValue: string | null) {
     this._inputString.set(newValue);
@@ -285,10 +296,14 @@ export class NgnCalendar extends CalendarTemplates {
     // leaves the previous value intact (one-directional sync).
     if (!newValue) {
       if (this._mask()?.empty()) {
+        this._clearingInputMask.set(false);
         this.value.set(null);
+      } else {
+        this._clearingInputMask.set(true);
       }
       return;
     }
+    this._clearingInputMask.set(false);
     // One-directional sync: typing updates the calendar value (and thus the
     // dropdown UI) only once the mask is COMPLETE — a fully filled, parseable
     // date. Half-typed input never moves the calendar and is never reformatted

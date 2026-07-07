@@ -17,6 +17,10 @@ string.
 
 {{ demo: Demo_InputMask_Base }}
 
+### Validation
+
+{{ demo: Demo_InputMask_Validation }}
+
 ### Time (12h with AM/PM)
 
 {{ demo: Demo_InputMask_Time12 }}

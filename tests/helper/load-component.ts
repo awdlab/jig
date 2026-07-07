@@ -83,13 +83,16 @@ export async function loadComponent(
       });
     }
 
-    setTemplate(template);
+    const promises: Promise<unknown>[] = [];
+    promises.push(setTemplate(template));
     if (io?.inputs) {
-      setInputs(io.inputs);
+      promises.push(setInputs(io.inputs));
     }
     if (io?.outputs) {
-      setOutputs(io.outputs);
+      promises.push(setOutputs(io.outputs));
     }
+
+    await Promise.all(promises);
 
     return {
       setInputs: (inputs: InputsType) => setInputs(inputs),

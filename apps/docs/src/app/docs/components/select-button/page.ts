@@ -1,6 +1,7 @@
 import { NgnDocsSelectButtonPlayground } from './playground';
 import { Demo_SelectButton_Base } from '../../../demos/select-button/base';
 import { Demo_SelectButton_States } from '../../../demos/select-button/states';
+import { Demo_SelectButton_Validation } from '../../../demos/select-button/validation';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -14,7 +15,7 @@ export const SelectButtonPage: NgnDocsPage = {
 
       title: 'Examples',
       mdFile: 'components/select-button/index.md',
-      components: [Demo_SelectButton_Base, Demo_SelectButton_States],
+      components: [Demo_SelectButton_Base, Demo_SelectButton_Validation, Demo_SelectButton_States],
     },
     {
       kind: 'component',

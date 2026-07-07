@@ -10,6 +10,7 @@ import { NgnHint } from '@ngneers/controls/hint';
       <ngn-hint kind="info">Automatic info icon derived from the kind</ngn-hint>
       <ngn-hint kind="error">Automatic error icon derived from the kind</ngn-hint>
       <ngn-hint [icon]="iconBulb">Custom icon override on a neutral hint</ngn-hint>
+      <ngn-hint kind="error" [iconOnly]="true">Icon-only error text shown in a tooltip</ngn-hint>
     </div>
   `,
 })

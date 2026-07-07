@@ -4,7 +4,8 @@
   <div
     #field
     [ptInt]="this"
-    [ptClass]="'input-field'"
+    [ptClass]="{ 'input-field': true, invalid: invalid() }"
+    [attr.aria-invalid]="invalid() ? 'true' : null"
     (click)="focusFromPointer($event)"
     (keydown)="onKeyDown($event)"
     (focusout)="potentiallyBlurred()"

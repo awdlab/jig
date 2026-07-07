@@ -49,6 +49,7 @@ import { snackbarStyles } from '@ngneers/controls-themes/shade/snackbar';
 import { spinButtonsStyles } from '@ngneers/controls-themes/shade/spin-buttons';
 import { spinnerStyles } from '@ngneers/controls-themes/shade/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/shade/splitter';
+import { stateStyles } from '@ngneers/controls-themes/shade/state';
 import { switchStyles } from '@ngneers/controls-themes/shade/switch';
 import { tableStyles } from '@ngneers/controls-themes/shade/table';
 import { tabsStyles } from '@ngneers/controls-themes/shade/tabs';
@@ -69,10 +70,10 @@ import type {} from './theme-types';
 export const KINDS = {
   button: ['primary', 'secondary', 'link', 'text', 'icon'] as const,
   message: ['default', 'destructive'] as const,
-  hint: ['default', 'info', 'success', 'warning', 'error'] as const,
   tag: ['default', 'secondary', 'outline', 'destructive'] as const,
-  // Functional label-placement kinds — kept identical to nova (not a visual variant).
   inputFieldLabel: ['in', 'on', 'over', 'floatIn', 'floatOn', 'floatOver', 'hidden'] as const,
+  hint: ['default', 'info', 'success', 'warning', 'error'] as const,
+  state: ['loading', 'cancelled', 'success', 'warning', 'error'] as const,
 };
 
 // Public, user-selectable colors: neutral light (surface), neutral dark (primary), destructive.
@@ -127,6 +128,7 @@ export const shade = createTheme(
     spinButtonsStyles,
     spinnerStyles,
     splitterStyles,
+    stateStyles,
     switchStyles,
     tableStyles,
     tabsStyles,

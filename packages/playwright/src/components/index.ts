@@ -26,6 +26,7 @@ export * from './select-button';
 export * from './slider';
 export * from './snackbar';
 export * from './spinner';
+export * from './state';
 export * from './switch';
 export * from './tabs';
 export * from './tag';

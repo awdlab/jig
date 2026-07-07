@@ -6,6 +6,10 @@ custom templates.
 
 {{ demo: Demo_ListBox_Base }}
 
+### Validation
+
+{{ demo: Demo_ListBox_Validation }}
+
 ### Grouped Items
 
 {{ demo: Demo_ListBox_Grouped }}

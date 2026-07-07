@@ -1,12 +1,35 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, contentChild, input, TemplateRef } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  computed,
+  contentChild,
+  effect,
+  input,
+  signal,
+  TemplateRef,
+} from '@angular/core';
 import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
+import { NgnTooltip } from '@ngneers/controls/tooltip';
 import { generateElementId } from '@ngneers/controls/utils-ng';
 import { hintControlTemplate } from '@ngneers/controls-themes/templates/hint';
 
 import type { NgnIconKey } from '@ngneers/controls/icon';
 import type { IconType } from '@ngneers/controls-custom-types';
+
+/**
+ * Validation state rendered by a hint when connected to helpers such as ngnErrors.
+ * @category types
+ */
+export interface NgnHintValidationState {
+  /** Whether the validation message should be shown. */
+  visible: boolean;
+  /** Whether validation is currently pending. */
+  pending: boolean;
+  /** Resolved validation message, if one is available. */
+  message: string | null;
+}
 
 /**
  * A small sub-text control for controls — helper text that explains a value,
@@ -18,7 +41,7 @@ import type { IconType } from '@ngneers/controls-custom-types';
 @Component({
   selector: 'ngn-hint',
   templateUrl: './hint.html',
-  imports: [NgnPt, NgnIcon, NgTemplateOutlet],
+  imports: [NgnPt, NgnIcon, NgnTooltip, NgTemplateOutlet],
   providers: [provideSelf(NgnHint)],
   host: {
     '[id]': 'controlId()',
@@ -39,6 +62,11 @@ export class NgnHint extends NgnBase<'hint'> {
    * The neutral `default` kind shows no icon unless one is set explicitly.
    */
   public readonly icon = input<IconType>();
+  /**
+   * Whether to only render the icon and show the content as tooltip.
+   * @default false
+   */
+  public readonly iconOnly = input(false, { transform: booleanAttribute });
 
   /**
    * The hint text. Can also be a `TemplateRef` for custom rendering, or set via
@@ -47,13 +75,55 @@ export class NgnHint extends NgnBase<'hint'> {
    */
   public readonly content = input<TemplateRef<unknown> | string | null>(null);
 
+  /**
+   * Validation state supplied by helpers such as ngnErrors.
+   */
+  public readonly validationState = input<NgnHintValidationState | null>(null);
+
+  private readonly _bridgedValidationState = signal<NgnHintValidationState | null>(null);
+
+  private readonly _activeValidationState = computed(
+    () => this._bridgedValidationState() ?? this.validationState()
+  );
+
   private readonly _userContentTemplate = contentChild<TemplateRef<unknown>>('content');
+
+  protected readonly hasIconOnlyTooltipContent = computed(() => {
+    const validation = this._activeValidationState();
+    if (validation?.visible && validation.message) {
+      return true;
+    }
+    return Boolean(this.content() || this._userContentTemplate());
+  });
+
+  /**
+   * Bridge validation state from a companion directive such as ngnErrors.
+   * @category methods
+   */
+  public setValidationState(state: NgnHintValidationState | null): void {
+    this._bridgedValidationState.set(state);
+  }
+
+  constructor() {
+    super();
+    effect(() => {
+      const state = this._activeValidationState();
+      let kind: 'info' | 'error' | undefined;
+      if (state?.visible && !this.iconOnly()) {
+        kind = state.pending ? 'info' : 'error';
+      }
+      this.setKindOverride(kind);
+    });
+  }
 
   /**
    * The resolved template to render, if any. A content-child `<ng-template #content>`
    * takes precedence over a `TemplateRef` passed via the {@link content} input.
    */
   protected readonly contentTemplate = computed(() => {
+    if (this._activeValidationState()?.visible) {
+      return null;
+    }
     const projected = this._userContentTemplate();
     if (projected) {
       return projected;
@@ -66,6 +136,10 @@ export class NgnHint extends NgnBase<'hint'> {
    * The resolved string content, if the {@link content} input is a plain string.
    */
   protected readonly contentString = computed(() => {
+    const validation = this._activeValidationState();
+    if (validation?.visible) {
+      return validation.message;
+    }
     const value = this.content();
     return typeof value === 'string' ? value : null;
   });
@@ -75,6 +149,13 @@ export class NgnHint extends NgnBase<'hint'> {
    * `undefined` for the neutral `default` kind.
    */
   protected readonly defaultIconKey = computed<NgnIconKey | undefined>(() => {
+    const validation = this._activeValidationState();
+    if (validation?.visible) {
+      return validation.pending ? 'hint-info' : 'hint-error';
+    }
+    if (validation && this.iconOnly() && !this.hasIconOnlyTooltipContent()) {
+      return undefined;
+    }
     switch (this.appliedKind()) {
       case 'info':
         return 'hint-info';

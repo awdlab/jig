@@ -6,6 +6,10 @@ For popup usage, wrap `ngn-calendar` with `ngn-input-field`. Inline mode remains
 
 {{ demo: Demo_Calendar_Base }}
 
+### Validation
+
+{{ demo: Demo_Calendar_Validation }}
+
 ### States
 
 {{ demo: Demo_Calendar_States }}

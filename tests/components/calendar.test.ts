@@ -122,6 +122,58 @@ test('typing a complete date updates the calendar value live, exactly once', asy
     .toBe(1);
 });
 
+test('clearing every input mask section clears the calendar value', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<ngn-calendar [inputId]="'calclear'" [format]="'MM/dd/yyyy'" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      imports: ['calendar'],
+    },
+    {
+      inputs: {
+        value: new Date(2026, 5, 15, 12, 0, 0),
+      },
+    }
+  );
+
+  const mask = new NgnInputMaskHarness(page.locator('ngn-calendar ngn-input-mask').first());
+  await mask.expectText('06/15/2026');
+
+  await mask.clear();
+  await mask.expectText('MM/DD/YYYY');
+
+  await expect
+    .poll(async () => (await handle.getOutputLog())['value'] ?? [], { timeout: 10000 })
+    .toContainEqual(null);
+});
+
+test('invalid state reaches the visible input field border', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<ngn-input-field style="width: 220px;"><ngn-calendar [inputId]="'calinvalid'" [format]="'MM/dd/yyyy'" [invalid]="inputs().invalid" /></ngn-input-field>`,
+      imports: ['calendar', 'inputField'],
+    },
+    {
+      inputs: {
+        invalid: false,
+      },
+    }
+  );
+
+  const field = page.locator('ngn-input-field .ngn-input-field-root').first();
+  const calendar = page.locator('ngn-calendar').first();
+  const calendarField = page.locator('ngn-calendar .ngn-calendar-input-field').first();
+  const normalBorderColor = await field.evaluate(el => getComputedStyle(el).borderTopColor);
+
+  await handle.setInputs({ invalid: true });
+  await expect(calendar).toHaveAttribute('aria-invalid', 'true');
+  await expect(calendarField).toHaveClass(/ngn-calendar-invalid/);
+  await expect
+    .poll(async () => field.evaluate(el => getComputedStyle(el).borderTopColor))
+    .not.toBe(normalBorderColor);
+});
+
 test('arrow-stepping an out-of-range day clamps to the month instead of rolling over', async ({
   page,
 }) => {

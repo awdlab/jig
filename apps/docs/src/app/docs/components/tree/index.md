@@ -6,6 +6,10 @@ checkboxes. It is accessible by default (WAI-ARIA `tree` pattern).
 
 {{ demo: Demo_Tree_Base }}
 
+### Validation
+
+{{ demo: Demo_Tree_Validation }}
+
 ### Custom Templates
 
 Provide a global `#item` template (or a per-node `template`). The context

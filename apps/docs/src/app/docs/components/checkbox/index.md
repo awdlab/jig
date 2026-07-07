@@ -5,6 +5,10 @@ for checked, unchecked, and indeterminate states.
 
 {{ demo: Demo_Checkbox_Base }}
 
+### Validation
+
+{{ demo: Demo_Checkbox_Validation }}
+
 ### Indeterminate State
 
 {{ demo: Demo_Checkbox_Indeterminate }}
