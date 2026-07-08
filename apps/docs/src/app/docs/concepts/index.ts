@@ -1,3 +1,4 @@
+import { KindsColorsPage } from './kinds-colors/page';
 import { PtPage } from './pt/page';
 
-export const ALL_CONCEPTS_PAGES = [PtPage];
+export const ALL_CONCEPTS_PAGES = [KindsColorsPage, PtPage];
