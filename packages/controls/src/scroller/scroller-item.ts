@@ -15,6 +15,10 @@ import { NgnScroller } from './scroller';
 @Directive({ selector: '[ngnScrollerItem]' })
 export class NgnScrollerItem implements AfterViewInit {
   private readonly _el = inject(ElementRef<HTMLElement>);
+  /**
+   * The item bound to this element. Used to resolve its sticky state and apply
+   * the scroller's item classes from the enclosing {@link NgnScroller}.
+   */
   public readonly ngnScrollerItem = input.required<object>();
   private readonly _scroller = signal<NgnScroller<unknown> | null>(null);
 

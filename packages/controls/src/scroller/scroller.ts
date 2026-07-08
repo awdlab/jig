@@ -25,7 +25,9 @@ import { ScrollerTemplates } from './scroller-templates';
   templateUrl: './scroller.html',
   imports: [NgTemplateOutlet],
   providers: [provideSelf(NgnScroller)],
-  hostDirectives: [{ directive: NgnScrollAmount, inputs: ['scrollContainer'] }],
+  hostDirectives: [
+    { directive: NgnScrollAmount, inputs: ['ngnScrollAmountContainer: scrollContainer'] },
+  ],
   host: {
     '[tabIndex]': 'focusable() ? 0 : -1',
     '[style.--ngn-scroller-item-height.px]': 'itemHeight() ?? "auto"',
@@ -58,7 +60,7 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
    * When virtual scrolling is enabled, {@link itemHeight} must be set to a non-zero value.
    * @default `false`
    */
-  public readonly virtual = input<boolean | undefined>(false);
+  public readonly virtual = input(false, { transform: booleanAttribute });
   /**
    * When {@link virtual} scrolling is enabled, this input is required to define the height of each item in pixels.
    */

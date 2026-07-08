@@ -77,12 +77,33 @@ export class NgnTable<
   });
   private readonly _scroller = viewChild.required(NgnScroller);
 
+  /** The data rows to render. */
   public readonly rows = input.required<readonly T[]>();
+  /**
+   * When {@link virtual} is enabled, this defines the height of each row in pixels.
+   */
   public readonly rowHeight = input<number>();
+  /** The key of the property that uniquely identifies each row. */
   public readonly fieldId = input.required<K>();
+  /**
+   * Whether the table is virtualized. When enabled, provide {@link rowHeight}.
+   * @default false
+   */
   public readonly virtual = input<boolean>(false);
+  /**
+   * When {@link virtual} is enabled, the number of extra rows to render above and below the viewport.
+   * @default 2
+   */
   public readonly virtualPadding = input<number>(2);
+  /**
+   * Whether to apply alternating background colors to rows.
+   * @default false
+   */
   public readonly striped = input<boolean>(false);
+  /**
+   * Whether to render a paginator and page the rows.
+   * @default false
+   */
   public readonly paginator = input<boolean>(false);
 
   /**
@@ -157,6 +178,10 @@ export class NgnTable<
   public readonly columnOrder = model<string[]>([]);
 
   protected readonly trackById = (item: T): unknown => item[this.fieldId()];
+  /**
+   * The active sort descriptor (column + direction), or `null` when unsorted. Two-way bindable.
+   * @default null
+   */
   public readonly sort = model<{
     column: Extract<AllKeysOfUnion<T>, string>;
     direction: 'asc' | 'desc';
@@ -169,6 +194,10 @@ export class NgnTable<
    */
   public readonly sortComparator = input<TableSortComparator<T> | undefined>(undefined);
 
+  /**
+   * The active per-column filter configuration, keyed by column, or `null` when unfiltered. Two-way bindable.
+   * @default null
+   */
   public readonly filters = model<
     | {
         [key in Extract<AllKeysOfUnion<T>, string>]?: NgnFilterConfig;

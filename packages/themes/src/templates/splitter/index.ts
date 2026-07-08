@@ -11,5 +11,6 @@ export const splitterControlTemplate = createControlTemplate({
     'divider-handle',
     'dragging',
     'divider-dragging',
+    'kind-*',
   ],
 });

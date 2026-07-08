@@ -39,21 +39,25 @@ export class NgnSlider extends ValueControlBase<'slider', number> {
 
   /**
    * The minimum value of the slider.
+   * @default 0
    */
   public readonly min = input<number>(0);
 
   /**
-   * Whether the slider is vertical.
+   * Whether the slider is oriented vertically instead of horizontally.
+   * @default false
    */
   public readonly vertical = input<boolean>(false);
 
   /**
    * The maximum value of the slider.
+   * @default 100
    */
   public readonly max = input<number>(100);
 
   /**
-   * The step increment value.
+   * The increment between selectable values.
+   * @default 1
    */
   public readonly step = input<number>(1);
 

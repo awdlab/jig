@@ -49,7 +49,17 @@ export class NgnIcon extends NgnBase<'icon'> {
   private readonly _registry = inject(NGN_ICON_REGISTRY, { optional: true });
   private readonly _isCustom = inject(NGN_CUSTOM_ICONS, { optional: true }) ?? false;
 
+  /**
+   * A key into the registered icon set (from `withDefaultIcons()` or `withCustomIcons()`).
+   * Used as a fallback when {@link icon} is not provided; requires an icon registry.
+   * @default undefined
+   */
   public readonly defaultIcon = input<NgnIconKey>();
+  /**
+   * The icon to render. Accepts an Iconify data object, a registered icon entry, or a
+   * custom value resolved via the {@link GlobalIconTemplate}. Takes precedence over {@link defaultIcon}.
+   * @default undefined
+   */
   public readonly icon = input<IconType>();
 
   protected readonly iconSvg = computed(() => {

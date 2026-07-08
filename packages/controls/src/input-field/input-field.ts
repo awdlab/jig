@@ -49,7 +49,7 @@ export class NgnInputField extends NgnBase<'inputField'> {
    */
   public readonly labelKind = input<CustomKind<'inputFieldLabel'>>(undefined as never);
   /**
-   * ID for the input element
+   * ID for the input element. Defaults to a generated id.
    */
   public readonly inputId = input<string>(generateElementId());
   /**
@@ -58,7 +58,8 @@ export class NgnInputField extends NgnBase<'inputField'> {
    */
   public readonly showClearButton = input(false, { transform: booleanAttribute });
   /**
-   * Custom icon for the clear button. Use with `showClearButton`.
+   * Custom icon for the clear button. Use with {@link showClearButton}.
+   * @default undefined
    */
   public readonly iconClearButton = input<IconType>();
   /**
@@ -122,7 +123,7 @@ export class NgnInputField extends NgnBase<'inputField'> {
 
   protected clicked(event: MouseEvent) {
     // Give the projected control a chance to place focus from the pointer
-    // location (e.g. input-mask selects the section nearest the click). If it
+    // location (e.g. mask-input selects the section nearest the click). If it
     // handles the event, skip the primitive focusing below.
     if (this.control()?.focusFromPointer(event)) return;
 
@@ -154,7 +155,7 @@ export class NgnInputField extends NgnBase<'inputField'> {
 
   protected clearButtonClicked(event: MouseEvent) {
     event.stopPropagation();
-    // Controls that manage their own value (e.g. input-mask) clear via the hook;
+    // Controls that manage their own value (e.g. mask-input) clear via the hook;
     // the DOM fallback below only works for plain text inputs.
     if (this.control()?.clearValue()) {
       return;

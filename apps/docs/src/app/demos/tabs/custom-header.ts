@@ -8,10 +8,10 @@ import { NgnTabs, NgnTab } from '@ngneers/controls/tabs';
   template: `
     <ngn-tabs>
       <ng-template #headerLeft>
-        <button ngnButton inline kind="icon">➕</button>
+        <button ngnButton ngnButtonInline kind="icon">➕</button>
       </ng-template>
       <ng-template #headerRight>
-        <button ngnButton inline kind="icon">🗑️</button>
+        <button ngnButton ngnButtonInline kind="icon">🗑️</button>
       </ng-template>
       @for (item of tabs; track $index) {
         <ngn-tab [tabId]="'tab' + item">

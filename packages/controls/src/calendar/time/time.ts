@@ -3,14 +3,14 @@ import { Platform } from '@ngneers/controls/api/ng';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
-import { DATE_TIME_MASKS, NgnInputMask } from '@ngneers/controls/input-mask';
+import { DATE_TIME_MASKS, NgnMaskInput } from '@ngneers/controls/mask-input';
 
 import type { NgnBaseSafe } from '@ngneers/controls/base';
 
 @Component({
   selector: 'ngn-calendar-time',
   templateUrl: './time.html',
-  imports: [NgnInput, NgnInputMask, NgnInputField],
+  imports: [NgnInput, NgnMaskInput, NgnInputField],
 })
 export class CalendarTime {
   protected readonly i18n = inject(I18n).translations;

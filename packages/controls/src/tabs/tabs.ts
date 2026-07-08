@@ -45,10 +45,12 @@ export class NgnTabs extends TabsTemplates implements AfterViewInit {
   protected readonly theme = this.injectThemeTemplate(tabsControlTemplate, 'root');
   /**
    * Whether to lazy load the tab contents when they become visible.
+   * @default false
    */
   public readonly lazy = input(false, { transform: booleanAttribute });
   /**
    * Whether to cache the tab contents. Only applies to {@link lazy} loaded tabs.
+   * @default false
    */
   public readonly cache = input(false, { transform: booleanAttribute });
   /**

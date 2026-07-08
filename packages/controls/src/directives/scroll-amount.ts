@@ -20,9 +20,11 @@ export class NgnScrollAmount {
    * Optional external scroll container. When set, scroll events and
    * dimensions are tracked on this element instead of the host element.
    */
-  public readonly scrollContainer = input<HTMLElement | undefined>();
+  public readonly container = input<HTMLElement | undefined>(undefined, {
+    alias: 'ngnScrollAmountContainer',
+  });
 
-  public readonly scrollTarget = computed(() => this.scrollContainer() ?? this._el.nativeElement);
+  public readonly scrollTarget = computed(() => this.container() ?? this._el.nativeElement);
   public readonly scrollTop = signal(this._el.nativeElement.scrollTop);
   public readonly scrollLeft = signal(this._el.nativeElement.scrollLeft);
 

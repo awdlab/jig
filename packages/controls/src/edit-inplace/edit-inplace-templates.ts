@@ -37,7 +37,7 @@ export abstract class EditInplaceTemplates extends ValueControlBase<'editInplace
   );
 
   /**
-   * Types for the drawer templates.
+   * Types for the edit-inplace templates.
    */
   public readonly templateTypes = templateTypesFn<{
     /**

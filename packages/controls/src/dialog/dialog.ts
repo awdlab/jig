@@ -77,15 +77,18 @@ export class NgnDialog<
    * Shows or hides the dialog.
    *
    * You probably want to react to openChange events from outside to update your variable accordingly.
+   * @default true
    */
   public readonly open = model(true);
   /**
    * When `true`, the content will be loaded lazily when the dialog is opened for the first time.
    * Only applies when using a template for the content.
+   * @default false
    */
   public readonly lazy = input(false, { transform: booleanAttribute });
   /**
    * When {@link lazy} is `true`, setting this to `true` will cache the content after the first load.
+   * @default false
    */
   public readonly cache = input(false, { transform: booleanAttribute });
   /**
@@ -120,10 +123,12 @@ export class NgnDialog<
   public readonly footerButtons = input<Buttons>();
   /**
    * Whether the dialog is movable by dragging its header.
+   * @default false
    */
   public readonly movable = input<boolean | null | undefined | ''>(false);
   /**
    * Whether the dialog is resizable.
+   * @default false
    */
   public readonly resizable = input<boolean | null | undefined | ''>(false);
   /**
@@ -135,6 +140,10 @@ export class NgnDialog<
    */
   public readonly closed = output();
 
+  /**
+   * Emits when a prompt dialog resolves. Carries the value produced by the prompt content
+   * and the {@link footerButtons} value that triggered it, or `null` for both when cancelled.
+   */
   public readonly promptResult = output<{
     value: (T extends PromptDialogBase<infer D, Buttons[number]['value']> ? D : never) | null;
     button: Buttons[number]['value'] | null;

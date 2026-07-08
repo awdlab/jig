@@ -17,6 +17,11 @@ import type { NgnActionButtonConfig } from '@ngneers/controls/api';
 export class NgnActionButton<T> extends NgnBase<null> {
   protected readonly theme = null;
 
+  /**
+   * The configuration describing the button: its label, icon, tooltip, value,
+   * and the action callback fired on click.
+   * @see {@link NgnActionButtonConfig}
+   */
   public readonly config = input.required<NgnActionButtonConfig<T>>();
 
   /**
@@ -25,6 +30,10 @@ export class NgnActionButton<T> extends NgnBase<null> {
    */
   public readonly inline = input(false, { transform: booleanAttribute });
 
+  /**
+   * Emits the {@link config}'s `value` when the button is clicked, after its
+   * `action` callback has run.
+   */
   public readonly clicked = output<T>();
 
   protected readonly maybeCallback = maybeCallback;

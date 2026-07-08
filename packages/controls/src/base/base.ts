@@ -115,7 +115,7 @@ export abstract class NgnBase<T extends ControlName | null> {
    * (e.g. `ngn-input-field`). Fields resolve their projected control by
    * filtering for this flag, so auxiliary controls placed inside the field
    * (buttons, icons, spin buttons, …) never shadow the actual input.
-   * Overridden with `true` by input, input-mask, calendar, select, ….
+   * Overridden with `true` by input, mask-input, calendar, select, ….
    */
   public readonly isFieldControl: boolean = false;
 
@@ -124,7 +124,7 @@ export abstract class NgnBase<T extends ControlName | null> {
    * surrounding field (or the control itself). The default does nothing and
    * returns `false`, signalling the surrounding field should fall back to its
    * primitive focusing. Controls that own internal focus placement (e.g.
-   * input-mask) override this, act on the pointer location, and return `true`.
+   * mask-input) override this, act on the pointer location, and return `true`.
    */
   public focusFromPointer(_event: MouseEvent): boolean {
     return false;
@@ -156,7 +156,7 @@ export abstract class NgnBase<T extends ControlName | null> {
    * Hook for clearing the control's own value/state (e.g. from a surrounding
    * field's clear button). The default does nothing and returns `false`, so the
    * caller falls back to clearing the underlying DOM input. Controls that manage
-   * their own value (e.g. input-mask) override this to reset and return `true`.
+   * their own value (e.g. mask-input) override this to reset and return `true`.
    */
   public clearValue(): boolean {
     return false;

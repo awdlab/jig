@@ -20,6 +20,7 @@ export class NgnTableStickyColumn implements OnDestroy {
   private readonly _headerCell = inject(NgnTableTh);
   private readonly _columnId = this._headerCell.ngnTableTh;
 
+  /** Which edge the column sticks to: `'start'` (left) or `'end'` (right). */
   public readonly ngnTableStickyColumn = input.required<'start' | 'end'>();
 
   private readonly _table = getNearestNgnInstanceSig<Type<NgnTable<any, any>>>(

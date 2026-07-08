@@ -32,6 +32,10 @@ export class NgnInput extends NgnBase<'input'> implements AfterViewInit {
    */
   public readonly invalid = input(false, { transform: booleanAttribute });
 
+  /**
+   * The current value of the input, kept in sync with the native element in both directions.
+   * @default ''
+   */
   public readonly value = model<string | null>('');
 
   private readonly _input = this.element.nativeElement as HTMLInputElement;

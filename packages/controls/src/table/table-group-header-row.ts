@@ -15,7 +15,9 @@ import type { FormattedTableGroupHeaderRow } from './types';
   },
 })
 export class NgnTableGroupHeaderTr extends NgnScrollerItem {
+  /** The group-header row this `<tr>` renders. */
   public readonly ngnTableGroupHeaderTr = input.required<FormattedTableGroupHeaderRow>();
+  /** The item bound to the underlying scroller entry; kept in sync with {@link ngnTableGroupHeaderTr}. */
   public override readonly ngnScrollerItem = input<object>({});
   private readonly _element = inject(ElementRef<HTMLElement>);
   protected readonly theme = injectThemeTemplate(tableControlTemplate);

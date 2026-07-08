@@ -129,16 +129,26 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   protected readonly unsafeI18n = inject(I18n).unsafe;
   private readonly _destroyRef = inject(DestroyRef);
 
-  /** Data to filter. */
+  /**
+   * Data to filter.
+   * @default []
+   */
   public readonly data = input<readonly T[]>([]);
-  /** Datatype of the values in {@link data}. */
+  /**
+   * Datatype of the values in {@link data}. Determines the available operators and editor UI.
+   * @default 'string'
+   */
   public readonly dataType = input<NgnFilterDataType>('string');
-  /** Allows multiple conditions and a match mode (any/all). */
+  /**
+   * Allows multiple conditions and a match mode (any/all).
+   * @default false
+   */
   public readonly allowMultiple = input(false, { transform: booleanAttribute });
 
   /**
    * Options for `dataType="list"`.
    * When provided, they are used as-is. When `null` or `undefined`, options are derived from {@link data}.
+   * @default undefined
    */
   public readonly listOptions = input<readonly string[] | null | undefined>();
 
@@ -147,34 +157,43 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
    * - `inline`: renders the filter rows directly
    * - `input`: renders an input-like trigger that opens a popover (default)
    * - `headless`: renders only the popover and can be opened programmatically via {@link show}
+   * @default 'input'
    */
   public readonly mode = input<NgnFilterMode>('input');
 
   /**
    * Popover anchor used only in `headless` mode.
    * In `input` mode the anchor is the internal input-field.
+   * @default null
    */
   public readonly anchor = input<Anchor | null>(null);
 
   /**
-   * When true, the component will filter {@link data} locally and emit the filtered result.
-   * When false, only the filter configuration is emitted (useful for server-side filtering).
+   * When true, the component will filter {@link data} locally and emit the filtered result
+   * via {@link filterResultChange}. When false, only the filter configuration is emitted
+   * (useful for server-side filtering).
+   * @default true
    */
   public readonly filterLocally = input(true, { transform: booleanAttribute });
 
   /**
-   * When true (default), filters apply automatically as the user types/selects.
+   * When true, filters apply automatically as the user types/selects.
    * When false, the user must click "Apply" to commit the filter.
+   * @default true
    */
   public readonly autoApply = input(true, { transform: booleanAttribute });
 
   /**
    * Debounce time in milliseconds for auto-apply mode.
    * Only relevant when {@link autoApply} is `true`.
+   * @default 300
    */
   public readonly autoApplyDebounce = input(300, { transform: numberAttribute });
 
-  /** Options for the popover (when {@link mode} is not `inline`). */
+  /**
+   * Options for the popover (when {@link mode} is not `inline`).
+   * @default {}
+   */
   public readonly popoverOptions = input<PopoverOptions>({});
   protected readonly appliedPopoverOptions = computed(() =>
     deepMerge(

@@ -292,10 +292,10 @@ test('custom header templates', async ({ page }, testInfo) => {
       template: `
       <ngn-tabs>
         <ng-template #headerLeft>
-          <button ngnButton inline kind="icon">➕</button>
+          <button ngnButton ngnButtonInline kind="icon">➕</button>
         </ng-template>
         <ng-template #headerRight>
-          <button ngnButton inline kind="icon">🗑️</button>
+          <button ngnButton ngnButtonInline kind="icon">🗑️</button>
         </ng-template>
         @for(tab of inputs().tabs; track tab) {
           <ngn-tab [tabId]="tab.id">

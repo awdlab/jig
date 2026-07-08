@@ -19,6 +19,9 @@ export class NgnContextMenu implements OnDestroy {
   private readonly _vcr = inject(ViewContainerRef);
   private _menu?: ComponentRef<NgnMenu>;
 
+  /**
+   * The menu items to display in the context menu opened on right-click.
+   */
   public readonly ngnContextMenu = input.required<MenuItem[]>();
 
   constructor() {

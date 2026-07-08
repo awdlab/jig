@@ -31,8 +31,8 @@ export const IMPORTS = {
   input: () => import('@ngneers/controls/input').then((m) => m.NgnInput),
   inputField: () =>
     import('@ngneers/controls/input-field').then((m) => m.NgnInputField),
-  inputMask: () =>
-    import('@ngneers/controls/input-mask').then((m) => m.NgnInputMask),
+  maskInput: () =>
+    import('@ngneers/controls/mask-input').then((m) => m.NgnMaskInput),
   itemView: () =>
     import('@ngneers/controls/item-view').then((m) => m.NgnItemView),
   listBox: () => import('@ngneers/controls/list-box').then((m) => m.NgnListBox),
@@ -63,6 +63,8 @@ export const IMPORTS = {
   state: () => import('@ngneers/controls/state').then((m) => m.NgnState),
   splitter: () =>
     import('@ngneers/controls/splitter').then((m) => m.NgnSplitter),
+  splitterPanel: () =>
+    import('@ngneers/controls/splitter').then((m) => m.NgnSplitterPanel),
   switch: () => import('@ngneers/controls/switch').then((m) => m.NgnSwitch),
   tabs: () => import('@ngneers/controls/tabs').then((m) => m.NgnTabs),
   tab: () => import('@ngneers/controls/tabs').then((m) => m.NgnTab),

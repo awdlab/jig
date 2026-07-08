@@ -17,7 +17,7 @@
     </span>
     @if (closable()) {
       <button ngnButton kind="icon" [attr.aria-label]="i18n['toast_close']()" (click)="close()">
-        <ngn-icon [defaultIcon]="'toast-close'" [icon]="closeIcon()" [attr.aria-hidden]="true" />
+        <ngn-icon [defaultIcon]="'toast-close'" [icon]="iconClose()" [attr.aria-hidden]="true" />
       </button>
     }
   </div>

@@ -1,7 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
-import { NgnCalendarHarness, NgnInputMaskHarness } from '@ngneers/controls-playwright';
+import { NgnCalendarHarness, NgnMaskInputHarness } from '@ngneers/controls-playwright';
 
 test('IO', async ({ page }, testInfo) => {
   await page.clock.setFixedTime(new Date('2025-08-18T12:13:14'));
@@ -73,9 +73,9 @@ test('typing partial input is free and does not move the calendar', async ({ pag
     { inputs: {} }
   );
 
-  // The proxy input is the hidden input inside ngn-input-mask inside ngn-calendar.
+  // The proxy input is the hidden input inside ngn-mask-input inside ngn-calendar.
   // Visible text is rendered in section/separator spans, not in input.value.
-  const maskHarness = new NgnInputMaskHarness(page.locator('ngn-calendar ngn-input-mask').first());
+  const maskHarness = new NgnMaskInputHarness(page.locator('ngn-calendar ngn-mask-input').first());
   await maskHarness.focus();
 
   // Regression: typing "1" used to auto-parse to "01/01/2001 12:00 AM" and block
@@ -103,7 +103,7 @@ test('typing a complete date updates the calendar value live, exactly once', asy
     { inputs: {} }
   );
 
-  const maskHarness = new NgnInputMaskHarness(page.locator('ngn-calendar ngn-input-mask').first());
+  const maskHarness = new NgnMaskInputHarness(page.locator('ngn-calendar ngn-mask-input').first());
   await maskHarness.focus();
 
   // Incomplete (year only partially typed) → no calendar update yet.
@@ -136,7 +136,7 @@ test('clearing every input mask section clears the calendar value', async ({ pag
     }
   );
 
-  const mask = new NgnInputMaskHarness(page.locator('ngn-calendar ngn-input-mask').first());
+  const mask = new NgnMaskInputHarness(page.locator('ngn-calendar ngn-mask-input').first());
   await mask.expectText('06/15/2026');
 
   await mask.clear();
@@ -186,7 +186,7 @@ test('arrow-stepping an out-of-range day clamps to the month instead of rolling 
     { inputs: {} }
   );
 
-  const mask = new NgnInputMaskHarness(page.locator('ngn-calendar ngn-input-mask').first());
+  const mask = new NgnMaskInputHarness(page.locator('ngn-calendar ngn-mask-input').first());
   await mask.focus();
 
   // Type February 1st 2026.
@@ -233,7 +233,7 @@ test('day field max adapts to the month: 30-day month and leap February', async 
       },
       { inputs: {} }
     );
-    const mask = new NgnInputMaskHarness(page.locator('ngn-calendar ngn-input-mask').first());
+    const mask = new NgnMaskInputHarness(page.locator('ngn-calendar ngn-mask-input').first());
     await mask.focus();
     await mask.pressSequentially(typed);
 
@@ -263,7 +263,7 @@ test('clicking the calendar field padding selects the nearest mask section', asy
     { inputs: {} }
   );
 
-  const mask = new NgnInputMaskHarness(page.locator('ngn-calendar ngn-input-mask').first());
+  const mask = new NgnMaskInputHarness(page.locator('ngn-calendar ngn-mask-input').first());
   await expect(mask.sections).toHaveCount(3);
 
   const field = page.locator('ngn-calendar .ngn-calendar-input-field').first();
@@ -314,7 +314,7 @@ test('clicking the OUTER input-field padding around a calendar selects the neare
     { inputs: {} }
   );
 
-  const mask = new NgnInputMaskHarness(page.locator('ngn-input-mask').first());
+  const mask = new NgnMaskInputHarness(page.locator('ngn-mask-input').first());
   await expect(mask.sections).toHaveCount(3);
 
   // The OUTER input-field root — its padding/border is the "topmost area".

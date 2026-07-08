@@ -3,7 +3,6 @@ import {
   ChangeDetectorRef,
   Component,
   computed,
-  contentChild,
   ElementRef,
   inject,
   Injector,
@@ -11,7 +10,6 @@ import {
   model,
   output,
   signal,
-  TemplateRef,
   untracked,
   viewChild,
 } from '@angular/core';
@@ -23,10 +21,12 @@ import {
   type Openable,
   type Anchor,
 } from '@ngneers/controls/api/ng';
-import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
+import { provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { computedWithPrevious, explicitAfterRenderEffect } from '@ngneers/controls/utils-ng';
 import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
+
+import { PopoverTemplates } from './popover-templates';
 
 import type { PopoverOptions } from './types';
 
@@ -42,7 +42,7 @@ import type { PopoverOptions } from './types';
     '(click)': '$event.stopPropagation()',
   },
 })
-export class NgnPopover extends NgnBase<'popover'> implements Openable {
+export class NgnPopover extends PopoverTemplates implements Openable {
   protected readonly theme = this.injectThemeTemplate(popoverControlTemplate);
 
   /**
@@ -72,12 +72,11 @@ export class NgnPopover extends NgnBase<'popover'> implements Openable {
    */
   public readonly hasShrinkableContent = input(false, { transform: booleanAttribute });
   /**
-   * How the drawer closes depending on user interaction.
-   * @default 'any'
+   * How the popover closes depending on user interaction.
+   * @default any
    */
   public readonly closeBy = input<PopoverCloseBy>('any');
 
-  protected readonly lazyContent = contentChild<TemplateRef<unknown>>('lazy');
   protected readonly _content = viewChild.required<ElementRef<HTMLElement>>('content');
   protected readonly closeByPopover = computed(() => toPopoverCloseBy(this.closeBy()));
   protected readonly isFullyClosed = signal(true);
@@ -126,7 +125,7 @@ export class NgnPopover extends NgnBase<'popover'> implements Openable {
   }
 
   /**
-   * Opens the drawer. Alternatively, you can also set the `open` input to `true`.
+   * Opens the popover. Alternatively, you can also set the {@link open} input to `true`.
    */
   public show() {
     untracked(() => {
@@ -144,7 +143,7 @@ export class NgnPopover extends NgnBase<'popover'> implements Openable {
   }
 
   /**
-   * Closes the drawer. Alternatively, you can also set the `open` input to `false`.
+   * Closes the popover. Alternatively, you can also set the {@link open} input to `false`.
    */
   public hide(emitCloseEvent = true) {
     untracked(() => {
@@ -159,7 +158,7 @@ export class NgnPopover extends NgnBase<'popover'> implements Openable {
   }
 
   /**
-   * Toggles the drawer open or closed. Alternatively, you can also set the `open` input accordingly.
+   * Toggles the popover open or closed. Alternatively, you can also set the {@link open} input accordingly.
    */
   public toggle() {
     if (untracked(this.open)) {

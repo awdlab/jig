@@ -1,24 +1,24 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  booleanAttribute,
   Component,
   computed,
   ElementRef,
   inject,
   input,
   signal,
-  TemplateRef,
   output,
   type OnInit,
 } from '@angular/core';
-import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
+import { provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnActionButton, NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { snackbarControlTemplate } from '@ngneers/controls-themes/templates/snackbar';
 
 import { DEFAULT_SNACKBAR_OPTIONS } from './defaults';
+import { SnackbarTemplates } from './snackbar-templates';
 
-import type { ContentTemplateType, HeaderTemplateType } from './types';
 import type { NgnActionButtonConfig } from '@ngneers/controls/api';
 import type { IconType } from '@ngneers/controls-custom-types';
 
@@ -43,22 +43,33 @@ import type { IconType } from '@ngneers/controls-custom-types';
     'aria-atomic': 'true',
   },
 })
-export class NgnSnackbar extends NgnBase<'snackbar'> implements OnInit {
+export class NgnSnackbar extends SnackbarTemplates implements OnInit {
   protected readonly theme = this.injectThemeTemplate(snackbarControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
   private readonly _host = inject<ElementRef<HTMLElement>>(ElementRef);
 
+  /** Heading text shown at the top of the snackbar. Overridden by {@link templateHeader}. */
   public readonly header = input<string>();
+  /** Body text of the snackbar. Overridden by {@link templateContent}. */
   public readonly content = input<string>();
 
+  /** Icon shown at the start of the snackbar. */
   public readonly icon = input<IconType>();
-  public readonly closeIcon = input<IconType>();
+  /** Icon used for the close button when {@link closable} is enabled. */
+  public readonly iconClose = input<IconType>();
+  /**
+   * Whether to render a close button that lets the user dismiss the snackbar.
+   * @default false
+   */
   public readonly closable = input<boolean | undefined>(DEFAULT_SNACKBAR_OPTIONS.closable);
+  /**
+   * Time in ms before the snackbar auto-dismisses, or `false` to keep it open
+   * until dismissed manually.
+   * @default 5000
+   */
   public readonly autoHide = input<number | false | undefined>(DEFAULT_SNACKBAR_OPTIONS.autoHide);
 
-  public readonly templateContent = input<TemplateRef<ContentTemplateType> | null>();
-  public readonly templateHeader = input<TemplateRef<HeaderTemplateType> | null>();
-
+  /** Emitted when the snackbar is dismissed (by the timer, close button, or an action). */
   public readonly closeSnackbar = output<void>();
 
   /**
@@ -72,13 +83,17 @@ export class NgnSnackbar extends NgnBase<'snackbar'> implements OnInit {
    * {@link autoHide} duration.
    * @default true
    */
-  public readonly showProgress = input(DEFAULT_SNACKBAR_OPTIONS.showProgress ?? true);
+  public readonly showProgress = input(DEFAULT_SNACKBAR_OPTIONS.showProgress ?? true, {
+    transform: booleanAttribute,
+  });
   /**
    * Pauses the auto-hide timer and progress bar while the snackbar is hovered,
    * resuming from the current position on mouse leave.
    * @default true
    */
-  public readonly pauseOnHover = input(DEFAULT_SNACKBAR_OPTIONS.pauseOnHover ?? true);
+  public readonly pauseOnHover = input(DEFAULT_SNACKBAR_OPTIONS.pauseOnHover ?? true, {
+    transform: booleanAttribute,
+  });
 
   /**
    * Politeness of the live region used to announce the snackbar to assistive tech.

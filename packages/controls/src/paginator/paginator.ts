@@ -1,5 +1,14 @@
 import { NgStyle, NgClass } from '@angular/common';
-import { Component, computed, effect, inject, input, model, output } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  model,
+  output,
+} from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
@@ -42,7 +51,7 @@ export class NgnPaginator extends NgnBase<'paginator'> {
    */
   public readonly totalItems = input.required<number>();
   /**
-   * Number of items per page. If not set, the first value from `possiblePageSizes` will be used.
+   * Number of items per page. If not set, the first value from {@link possiblePageSizes} is used.
    */
   public readonly pageSize = model<number>();
   /**
@@ -56,7 +65,7 @@ export class NgnPaginator extends NgnBase<'paginator'> {
    * If set to `true`, the page size selector will be hidden and the page size cannot be changed by the user.
    * @default false
    */
-  public readonly fixedPageSize = input(false);
+  public readonly fixedPageSize = input(false, { transform: booleanAttribute });
 
   protected readonly appliedPageSize = computed(
     () =>

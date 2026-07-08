@@ -22,7 +22,7 @@ export type ThemeTemplate = {
   inplace: Awaited<typeof import('./inplace')>['inplaceControlTemplate'];
   input: Awaited<typeof import('./input')>['inputControlTemplate'];
   inputField: Awaited<typeof import('./input-field')>['inputFieldControlTemplate'];
-  inputMask: Awaited<typeof import('./input-mask')>['inputMaskControlTemplate'];
+  maskInput: Awaited<typeof import('./mask-input')>['maskInputControlTemplate'];
   itemView: Awaited<typeof import('./item-view')>['itemViewControlTemplate'];
   listBox: Awaited<typeof import('./list-box')>['listBoxControlTemplate'];
   menu: Awaited<typeof import('./menu')>['menuControlTemplate'];

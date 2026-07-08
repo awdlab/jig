@@ -85,7 +85,7 @@ export default {
   inputField: {
     clearInput: 'Eingabe löschen',
   },
-  inputMask: {
+  maskInput: {
     roleDescription: 'formatierte Eingabe',
     segmentRange: '{{ name }}, {{ min }} bis {{ max }}',
     optionSeparator: ' oder ',

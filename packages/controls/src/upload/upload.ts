@@ -93,12 +93,14 @@ export class NgnUpload extends NgnBase<'upload'> {
    * How the user may add files.
    * - `click` — only clicking the zone opens the picker.
    * - `drag` — only dropping files works.
-   * - `both` — either (default).
+   * - `both` — either.
+   * @default both
    */
   public readonly interaction = input<NgnUploadInteraction>('both');
   /**
    * When uploads start: `auto` (instantly), `confirm` (user presses a rendered
    * trigger), or `manual` (only via {@link uploadAll}/{@link uploadFile}).
+   * @default auto
    */
   public readonly mode = input<NgnUploadMode>('auto');
   /**
@@ -107,12 +109,19 @@ export class NgnUpload extends NgnBase<'upload'> {
   public readonly iconUpload = input<IconType>();
   /**
    * In `confirm` mode, which trigger(s) to render: a single "upload all" button
-   * (`all`, default), a button per pending item (`per-item`), or `both`.
+   * (`all`), a button per pending item (`per-item`), or `both`.
+   * @default all
    */
   public readonly confirmTrigger = input<NgnUploadConfirmTrigger>('all');
-  /** Disables all interaction. */
+  /**
+   * Disables all interaction.
+   * @default false
+   */
   public readonly disabled = input(false, { transform: booleanAttribute });
-  /** Where the file list renders relative to the drop zone. */
+  /**
+   * Where the file list renders relative to the drop zone.
+   * @default bottom
+   */
   public readonly listPosition = input<NgnUploadListPosition>('bottom');
 
   /**

@@ -23,7 +23,7 @@ import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInplace } from '@ngneers/controls/inplace';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnInputMask } from '@ngneers/controls/input-mask';
+import { NgnMaskInput } from '@ngneers/controls/mask-input';
 import { NgnItemView } from '@ngneers/controls/item-view';
 import { NgnListBox } from '@ngneers/controls/list-box';
 import { NgnMessage } from '@ngneers/controls/message';
@@ -70,7 +70,7 @@ declare global {
     NgnInplace,
     NgnInput,
     NgnInputField,
-    NgnInputMask,
+    NgnMaskInput,
     NgnItemView,
     NgnListBox,
     NgnMessage,
@@ -181,10 +181,10 @@ declare global {
         <input ngnInput />
       </ngn-input-field>
 
-      <!-- InputMask -->
-      <ngn-input-mask [mask]="'time'">
+      <!-- MaskInput -->
+      <ngn-mask-input [mask]="'time'">
         <input ngnInput />
-      </ngn-input-mask>
+      </ngn-mask-input>
 
       <!-- ItemView -->
       <ngn-item-view [items]="items()" [idField]="'testId'">

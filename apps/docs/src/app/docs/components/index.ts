@@ -15,9 +15,9 @@ import { IconPage } from './icon/page';
 import { InplacePage } from './inplace/page';
 import { InputPage } from './input/page';
 import { InputFieldPage } from './input-field/page';
-import { InputMaskPage } from './input-mask/page';
 import { ItemViewPage } from './item-view/page';
 import { ListBoxPage } from './list-box/page';
+import { MaskInputPage } from './mask-input/page';
 import { MenuPage } from './menu/page';
 import { MessagePage } from './message/page';
 import { NumberInputPage } from './number-input/page';
@@ -61,7 +61,7 @@ export const ALL_COMPONENT_PAGES = [
   InplacePage,
   InputPage,
   InputFieldPage,
-  InputMaskPage,
+  MaskInputPage,
   ItemViewPage,
   ListBoxPage,
   MenuPage,

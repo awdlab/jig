@@ -28,25 +28,30 @@ export class NgnProgress extends NgnBase<'progress'> {
   });
 
   /**
-   * The current progress value (0-100).
+   * The current progress value, clamped to the 0-100 range.
+   * @default 0
    */
   public readonly value = input<number>(0);
   /**
-   * Whether the progress indicator is indeterminate.
+   * Whether the progress indicator is indeterminate (animated, no fixed value).
+   * @default false
    */
   public readonly indeterminate = input(false, { transform: booleanAttribute });
   /**
-   * Whether the progress indicator is circular.
+   * Whether the progress indicator renders as a circle instead of a bar.
+   * @default false
    */
   public readonly circular = input(false, { transform: booleanAttribute });
 
   /**
-   * Radius of the circular progress indicator (in px).
+   * Radius of the circular progress indicator, in px. Only applies when {@link circular} is `true`.
+   * @default 40
    */
   public readonly radius = input<number>(40);
 
   /**
-   * Thickness of the circular progress indicator stroke (in px).
+   * Thickness of the circular progress indicator stroke, in px. Only applies when {@link circular} is `true`.
+   * @default 8
    */
   public readonly thickness = input<number>(8);
 

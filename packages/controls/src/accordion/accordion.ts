@@ -33,15 +33,38 @@ import type { IconType } from '@ngneers/controls-custom-types';
 })
 export class NgnAccordion extends NgnBase<'accordion'> {
   protected readonly theme = this.injectThemeTemplate(accordionControlTemplate, 'root');
+  /**
+   * Whether to keep lazily-loaded panel content in the DOM after the panel closes.
+   * Applies as the default for every panel; individual panels can override it.
+   * @default false
+   */
   public readonly cache = input(false, { transform: booleanAttribute });
+  /**
+   * Whether to defer rendering each panel's content until it is first expanded.
+   * Applies as the default for every panel; individual panels can override it.
+   * @default false
+   */
   public readonly lazy = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether multiple panels can be expanded at once.
+   * Icon shown on a panel header when the panel is expanded.
    */
   public readonly iconExpanded = input<IconType>();
+  /**
+   * Icon shown on a panel header when the panel is collapsed.
+   */
   public readonly iconCollapsed = input<IconType>();
+  /**
+   * Whether multiple panels can be expanded at once. When `false`, expanding a
+   * panel collapses any other open panel.
+   * @default false
+   */
   public readonly multiple = input(false, { transform: booleanAttribute });
+  /**
+   * The ids of the currently expanded panels. Two-way bindable to control or
+   * observe which panels are open.
+   * @default []
+   */
   public readonly expandedPanels = model<string[]>([]);
 
   public togglePanel(panelId: string) {

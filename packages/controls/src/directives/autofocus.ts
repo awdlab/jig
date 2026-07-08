@@ -15,6 +15,11 @@ export class NgnAutofocus {
   private readonly _focused = signal(false);
   private readonly _isInitialized = signal(false);
 
+  /**
+   * Whether to focus the host element once it has rendered. Set to `false` to
+   * disable autofocus without removing the directive.
+   * @default true
+   */
   public readonly ngnAutofocus = input(true, { transform: booleanAttribute });
 
   constructor() {

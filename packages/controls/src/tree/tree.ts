@@ -105,12 +105,32 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
 
   private readonly _scroller = viewChild.required<NgnScroller<FlatTreeNode>>(NgnScroller);
 
+  /** The tree items to render, as a nested list of {@link NgnTreeItem} objects. */
   public readonly items = input.required<Items>();
 
+  /**
+   * Whether nodes can be selected/checked.
+   * @default true
+   */
   public readonly selectable = input(true, { transform: booleanAttribute });
+  /**
+   * Whether the tree is focusable and participates in keyboard navigation.
+   * @default true
+   */
   public readonly focussable = input(true, { transform: booleanAttribute });
+  /**
+   * Whether the tree is virtualized. When enabled, provide {@link itemHeight}.
+   * @default false
+   */
   public readonly virtual = input(false, { transform: booleanAttribute });
+  /**
+   * When {@link virtual} is enabled, this defines the height of each node in the list.
+   */
   public readonly itemHeight = input<number>();
+  /**
+   * Enable this to allow selecting multiple nodes. The value then becomes an array of node values.
+   * @default false
+   */
   public readonly multiple = input<Multiple>();
   /**
    * Whether to render checkboxes. Defaults to `multiple()`.
@@ -141,6 +161,7 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
   public readonly loadChildren =
     input<(item: NgnTreeItem) => readonly NgnTreeItem[] | Promise<readonly NgnTreeItem[]>>();
 
+  /** Emitted with the node's value whenever a node is clicked/selected. */
   public readonly itemClicked = output<NgnTreeItemsValue<Items>>();
   /** Emitted when a branch is expanded (fires before any lazy load resolves). */
   public readonly nodeExpand = output<NgnTreeItem>();

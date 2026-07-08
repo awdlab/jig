@@ -33,6 +33,7 @@ export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDes
   private readonly _tableSignal = signal<NgnTable<any, any> | null>(null);
   private _resizeHandle?: HTMLDivElement;
 
+  /** The unique column identifier for this header cell, used for sorting, filtering, sticky, and reorder. */
   public readonly ngnTableTh = input.required<string>();
 
   /**

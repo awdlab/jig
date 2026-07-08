@@ -1,5 +1,6 @@
 import { NgnDocsSplitterPlayground } from './playground';
 import { Demo_Splitter_Base } from '../../../demos/splitter/base';
+import { Demo_Splitter_Kinds } from '../../../demos/splitter/kinds';
 import { Demo_Splitter_MinMax } from '../../../demos/splitter/min-max';
 import { Demo_Splitter_Reorder } from '../../../demos/splitter/reorder';
 import { Demo_Splitter_State } from '../../../demos/splitter/state';
@@ -19,6 +20,7 @@ export const SplitterPage: NgnDocsPage = {
       mdFile: 'components/splitter/index.md',
       components: [
         Demo_Splitter_Base,
+        Demo_Splitter_Kinds,
         Demo_Splitter_MinMax,
         Demo_Splitter_Reorder,
         Demo_Splitter_State,

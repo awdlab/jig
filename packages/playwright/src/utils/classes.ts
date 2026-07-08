@@ -4,7 +4,7 @@ import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
 import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
-import { inputMaskControlTemplate } from '@ngneers/controls-themes/templates/input-mask';
+import { maskInputControlTemplate } from '@ngneers/controls-themes/templates/mask-input';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
 import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
@@ -21,7 +21,7 @@ export const NGN_CLASSES = {
   checkbox: themeClasses(checkboxControlTemplate),
   input: themeClasses(inputControlTemplate),
   inputField: themeClasses(inputFieldControlTemplate),
-  inputMask: themeClasses(inputMaskControlTemplate),
+  maskInput: themeClasses(maskInputControlTemplate),
   listBox: themeClasses(listBoxControlTemplate),
   popover: themeClasses(popoverControlTemplate),
   scroller: themeClasses(scrollerControlTemplate),

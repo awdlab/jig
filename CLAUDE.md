@@ -18,6 +18,34 @@
 - 2-space indentation, single quotes (enforced by `@ngneers/prettier-config`)
 - ESLint via `@ngneers/eslint-config-angular`
 
+## Naming & Style Conventions
+
+_Decided 2026-07-08 (repo-wide audit). Apply to all new/edited controls; migrate existing ones opportunistically._
+
+### Component / template structure
+
+- Extract a `{Name}Templates` base class (extending `NgnBase` / `ValueControlBase`) **only for controls that expose template or `contentChild` projection inputs**. The component then `extends {Name}Templates` so template wiring stays out of the component class. Reference: `dialog` → `DialogTemplates`.
+- Controls with **no** template inputs stay flat: component extends the base directly and calls `injectThemeTemplate` inline. Do **not** create empty template base classes.
+
+### Naming
+
+- Control folder name and `ngn-` element selector are kebab-case and identical: folder `x-y` ⇒ selector `ngn-x-y`.
+- The "input" family is **modifier-first**: `number-input`, `mask-input` (rename `input-mask` → `mask-input`). The bare `input` directive keeps its name. **Exception:** `input-field` stays input-first (`NgnInputField`, `ngn-input-field`) — it composes/projects other controls rather than being a variant of `input`, so the family rule does not apply to it.
+- Attribute directives applied to native elements (`ngnButton`, `ngnInput`) intentionally keep camelCase attribute selectors — this is **not** a violation.
+- Every control ships all 7 anatomy parts (see below), including a theme template, docs page, and demos.
+
+### Input / output properties
+
+- **Icon** inputs use an `icon` **prefix**: `iconClose`, `iconFilter`, `iconDropdown` — never `closeIcon` / `filterIcon`.
+- **Boolean** inputs always use the transform: `input(false, { transform: booleanAttribute })`.
+- **Directive** inputs expose a public alias `ngn{Directive}{Prop}`. `@angular-eslint/no-input-rename` only permits an alias that is **exactly** the selector, or the selector + `PascalCase(propertyName)` — so the alias suffix must equal the property name. Pick the property name so the alias reads well (e.g. property `container` → alias `ngnScrollAmountContainer`, not property `scrollContainer` which would force `ngnScrollAmountScrollContainer`). Reference: `tooltip` — property `size` aliased to `ngnTooltipSize`.
+
+### TSDoc (reference: `select`)
+
+- Every `input()` / `model()` / `output()` gets a snappy 1–2 sentence TSDoc.
+- Use `@default <value>` **unquoted** (e.g. `@default false`) for non-obvious defaults.
+- Use `{@link other}` to cross-reference interacting inputs; note incompatibilities inline. Complex inputs get an extra sentence or example.
+
 ## Control Anatomy
 
 When creating or modifying a control, be aware that each control spans these parts:

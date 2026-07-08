@@ -26,7 +26,9 @@ import type { FormattedTableDataRow } from './types';
   },
 })
 export class NgnTableBodyTr<T> extends NgnScrollerItem {
+  /** The formatted data row this `<tr>` renders. */
   public readonly ngnTableBodyTr = input.required<FormattedTableDataRow<T>>();
+  /** The item bound to the underlying scroller entry; kept in sync with {@link ngnTableBodyTr}. */
   public override readonly ngnScrollerItem = input<object>({});
   private readonly _element = inject(ElementRef<HTMLElement>);
   protected readonly theme = injectThemeTemplate(tableControlTemplate);

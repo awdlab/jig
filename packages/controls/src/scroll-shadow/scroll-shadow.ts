@@ -12,8 +12,17 @@ export class NgnScrollShadow {
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _injector = inject(Injector);
 
+  /**
+   * Which scroll axis to track and add shadow classes for.
+   * @default 'horizontal'
+   */
   public readonly ngnScrollShadow = input<'horizontal' | 'vertical' | 'both'>('horizontal');
 
+  /**
+   * Element that receives the shadow classes. Defaults to the host element (which
+   * is also the scroll container being observed).
+   * @default undefined
+   */
   public readonly scrollShadowTarget = input<HTMLElement | undefined>(undefined);
 
   constructor() {

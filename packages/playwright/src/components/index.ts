@@ -11,7 +11,7 @@ export * from './filter';
 export * from './hint';
 export * from './input';
 export * from './input-field';
-export * from './input-mask';
+export * from './mask-input';
 export * from './item-view';
 export * from './list-box';
 export * from './menu';

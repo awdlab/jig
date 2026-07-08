@@ -24,11 +24,14 @@ export class NgnResizable {
   private _isPointerDown = false;
 
   /**
-   * Whether the element is resizable.
+   * Whether the element is resizable. The empty string (bare attribute) enables it.
+   * @default true
    */
   public readonly ngnResizable = input<boolean | null | undefined | ''>(true);
   /**
-   * The maximum size of the resizable element.
+   * Minimum and maximum size constraints for the resizable element. Number values
+   * are treated as pixels; strings are used as-is. Any bound left `null`/`undefined`
+   * is unconstrained (the effective maximum is still clamped to the viewport).
    */
   public readonly ngnResizableSizeLimits = input<{
     minWidth: string | number | null | undefined;

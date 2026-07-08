@@ -1,4 +1,5 @@
 import {
+  booleanAttribute,
   computed,
   Directive,
   effect,
@@ -35,10 +36,30 @@ export const ROVING_GROUP = new InjectionToken<NgnRovingGroup>('ROVING_GROUP');
   exportAs: 'ngnRovingGroup',
 })
 export class NgnRovingGroup {
+  /**
+   * Which arrow keys move the active item: `'horizontal'` uses Left/Right,
+   * `'vertical'` uses Up/Down. Home/End always jump to first/last.
+   * @default 'horizontal'
+   */
   public readonly orientation = input<RovingOrientation>('horizontal');
+  /**
+   * How the active item is exposed. `'tabindex'` moves the tab stop (and DOM
+   * focus) between items; `'activedescendant'` keeps focus on the group and
+   * points `aria-activedescendant` at the active item.
+   * @default 'tabindex'
+   */
   public readonly rovingMode = input<RovingMode>('tabindex');
-  public readonly rovingWrap = input(false);
+  /**
+   * Whether keyboard navigation wraps around the ends of the list instead of
+   * stopping at the first/last item.
+   * @default false
+   */
+  public readonly rovingWrap = input(false, { transform: booleanAttribute });
 
+  /**
+   * Emits the index of the newly active item whenever it changes via keyboard,
+   * pointer, or {@link setActive}. Not emitted by {@link syncActiveIndex}.
+   */
   public readonly activeItemChange = output<number>();
 
   private readonly _host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
@@ -264,7 +285,11 @@ export class NgnRovingGroup {
 @Directive({ selector: '[ngnRovingItem]', exportAs: 'ngnRovingItem' })
 export class NgnRovingItem implements RovingItemRef {
   private readonly _injectedGroup = inject(ROVING_GROUP, { optional: true });
-  /** Explicit group reference for the sibling/activedescendant topology. */
+  /**
+   * The {@link NgnRovingGroup} this item belongs to. Pass a group reference when
+   * the item is not a DOM descendant of its group; leave empty/undefined to use
+   * the nearest ancestor group via dependency injection.
+   */
   public readonly ngnRovingItem = input<NgnRovingGroup | '' | undefined>(undefined);
 
   public readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;

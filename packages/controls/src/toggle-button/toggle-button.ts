@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { booleanAttribute, Component, input } from '@angular/core';
 import { provideSelf, ValueControlBase, NgnPt } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { toggleButtonControlTemplate } from '@ngneers/controls-themes/templates/toggle-button';
@@ -51,7 +51,7 @@ export class NgnToggleButton extends ValueControlBase<'toggleButton', boolean> {
    * If true, the button will always have the width of the longest possible content.
    * @default false
    */
-  public readonly fixedWidth = input<boolean>(false);
+  public readonly fixedWidth = input(false, { transform: booleanAttribute });
 
   public toggle() {
     if (this.disabled() || this.readonly()) {

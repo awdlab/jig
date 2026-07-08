@@ -24,7 +24,7 @@ export abstract class ItemViewTemplates<T> extends NgnBase<'itemView'> {
   private readonly _userSeparatorTemplate =
     contentChild<TemplateRef<typeof this.templateTypes.separator>>('separator');
   /**
-   * Set a custom template for the separators of the breadcrumb.
+   * Set a custom template for the separators between items.
    * Can also be set using an `<ng-template>` element with `#separator` template reference variable.
    */
   public readonly templateSeparator = input<TemplateRef<

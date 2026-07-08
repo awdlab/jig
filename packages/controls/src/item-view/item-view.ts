@@ -1,6 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
   type AfterViewInit,
+  booleanAttribute,
   Component,
   computed,
   ElementRef,
@@ -114,7 +115,7 @@ export class NgnItemView<T extends object, IdField extends keyof T>
    * need to access overflowed items directly.
    * @default false
    */
-  public readonly sameWidthItems = input<boolean>(false);
+  public readonly sameWidthItems = input(false, { transform: booleanAttribute });
 
   private readonly _themeGap = signal(0);
   private readonly _isBrowser = inject(Platform).isBrowser;

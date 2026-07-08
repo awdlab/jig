@@ -65,19 +65,50 @@ export class NgnListBox<
 
   private readonly _scroller = viewChild.required<NgnScroller<NgnItemsValue<Items>>>(NgnScroller);
 
+  /**
+   * The items to display in the list box.
+   */
   public readonly items = input.required<Items>();
 
+  /**
+   * Whether to scroll to the selected item when the list box is first rendered.
+   * Pass a `ScrollLogicalPosition` to control where the item lands in the viewport.
+   * @default false
+   */
   public readonly scrollToSelectedItemOnInit = input<boolean | ScrollLogicalPosition>(false);
+  /**
+   * Whether items can be selected by the user.
+   * @default false
+   */
   public readonly selectable = input(false, { transform: booleanAttribute });
+  /**
+   * Whether hovering an item selects it.
+   * @default false
+   */
   public readonly selectOnHover = input(false, { transform: booleanAttribute });
+  /**
+   * Whether the list box itself is focusable and participates in keyboard navigation.
+   * @default true
+   */
   public readonly focussable = input(true, { transform: booleanAttribute });
+  /**
+   * Whether the list is virtualized.
+   * @default false
+   */
   public readonly virtual = input(false, { transform: booleanAttribute });
+  /**
+   * When {@link virtual} is enabled, this defines the height of each item in the list.
+   */
   public readonly itemHeight = input<number>();
+  /**
+   * Enable this to allow the user to select multiple values.
+   * When enabled, the value of the control becomes an array of selected items.
+   */
   public readonly multiple = input<Multiple>();
   /**
    * Whether to use a checkbox to indicate selection state.
    *
-   * This option is true per default when `multiple` is `true`.
+   * This option is true per default when {@link multiple} is `true`.
    * @default multiple()
    */
   public readonly checkbox = input<boolean>();
@@ -92,6 +123,9 @@ export class NgnListBox<
    */
   public readonly filterText = input<string | null>(null);
 
+  /**
+   * Emitted when an item is clicked, carrying the value of that item.
+   */
   public readonly itemClicked = output<NgnItemsValue<Items>>();
 
   protected readonly maybeCallback = maybeCallback;

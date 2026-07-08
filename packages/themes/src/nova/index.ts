@@ -24,9 +24,9 @@ import { iconStyles } from '@ngneers/controls-themes/nova/icon';
 import { inplaceStyles } from '@ngneers/controls-themes/nova/inplace';
 import { inputStyles } from '@ngneers/controls-themes/nova/input';
 import { inputFieldStyles } from '@ngneers/controls-themes/nova/input-field';
-import { inputMaskStyles } from '@ngneers/controls-themes/nova/input-mask';
 import { itemViewStyles } from '@ngneers/controls-themes/nova/item-view';
 import { listBoxStyles } from '@ngneers/controls-themes/nova/list-box';
+import { maskInputStyles } from '@ngneers/controls-themes/nova/mask-input';
 import { menuStyles } from '@ngneers/controls-themes/nova/menu';
 import { messageStyles } from '@ngneers/controls-themes/nova/message';
 import { paginatorStyles } from '@ngneers/controls-themes/nova/paginator';
@@ -63,6 +63,7 @@ export const KINDS = {
   spinButtons: ['stacked', 'inline'] as const,
   hint: ['default', 'info', 'success', 'warning', 'error'] as const,
   state: ['loading', 'cancelled', 'success', 'warning', 'error'] as const,
+  splitter: ['default', 'thin', 'invisible'] as const,
 };
 
 export const COLORS = [
@@ -101,7 +102,7 @@ export const novaCoral = createTheme(
     shadow,
     inplaceStyles,
     inputFieldStyles,
-    inputMaskStyles,
+    maskInputStyles,
     inputStyles,
     itemViewStyles,
     listBoxStyles,

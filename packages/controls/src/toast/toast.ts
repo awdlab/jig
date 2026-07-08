@@ -1,22 +1,14 @@
 import { NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  inject,
-  input,
-  TemplateRef,
-  output,
-  type OnInit,
-} from '@angular/core';
-import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
+import { Component, ElementRef, inject, input, output, type OnInit } from '@angular/core';
+import { provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { toastControlTemplate } from '@ngneers/controls-themes/templates/toast';
 
 import { DEFAULT_TOAST_OPTIONS } from './defaults';
+import { ToastTemplates } from './toast-templates';
 
-import type { ContentTemplateType, HeaderTemplateType } from './types';
 import type { IconType } from '@ngneers/controls-custom-types';
 
 /**
@@ -39,22 +31,34 @@ import type { IconType } from '@ngneers/controls-custom-types';
     'aria-live': 'assertive',
   },
 })
-export class NgnToast extends NgnBase<'toast'> implements OnInit {
+export class NgnToast extends ToastTemplates implements OnInit {
   protected readonly theme = this.injectThemeTemplate(toastControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
   private readonly _host = inject<ElementRef<HTMLElement>>(ElementRef);
 
+  /** The toast header text. For richer markup use {@link templateHeader} instead. */
   public readonly header = input<string>();
+  /** The toast body text. For richer markup use {@link templateContent} instead. */
   public readonly content = input<string>();
 
+  /** Icon to display alongside the toast content. */
   public readonly icon = input<IconType>();
-  public readonly closeIcon = input<IconType>();
+  /** Icon for the close button. */
+  public readonly iconClose = input<IconType>();
+  /**
+   * Whether the toast renders a close button and can be dismissed by the user
+   * (e.g. via the close button or `Escape`).
+   * @default false
+   */
   public readonly closable = input<boolean | undefined>(DEFAULT_TOAST_OPTIONS.closable);
+  /**
+   * Time in milliseconds before the toast auto-hides, or `false` to disable
+   * auto-hiding. The timer pauses while the toast is hovered or focused.
+   * @default 5000
+   */
   public readonly autoHide = input<number | false | undefined>(DEFAULT_TOAST_OPTIONS.autoHide);
 
-  public readonly templateContent = input<TemplateRef<ContentTemplateType> | null>();
-  public readonly templateHeader = input<TemplateRef<HeaderTemplateType> | null>();
-
+  /** Emitted when the toast is dismissed, whether by the user or the auto-hide timer. */
   public readonly closeToast = output<void>();
 
   private _closeTimeout?: number;

@@ -40,11 +40,11 @@ export abstract class InplaceTemplates extends NgnBase<'inplace'> {
   public readonly templateContentContext = input<unknown>();
 
   /**
-   * Types for the drawer templates.
+   * Types for the inplace templates.
    */
   public readonly templateTypes = templateTypesFn<{
     /**
-     * Type of the template variable for the display template.
+     * Type of the template variable for the content template.
      */
     content: ContentTemplateType;
   }>();

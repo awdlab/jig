@@ -101,8 +101,9 @@ export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
   public readonly calculatorType = input<SplitterCalculatorType>(DefaultSplitterCalculator);
   /**
    * The resize distribution mode for the splitter.
-   * - `'adjacent'` (default): Only the panels adjacent to the divider are resized.
+   * - `'adjacent'`: Only the panels adjacent to the divider are resized.
    * - `'proportional'`: The deficit is distributed proportionally across all panels on the other side.
+   * @default adjacent
    */
   public readonly resizeMode = input<SplitterResizeMode>('adjacent');
   /**

@@ -17,7 +17,7 @@ import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
-import { getDateOrTimeMask, NgnInputMask } from '@ngneers/controls/input-mask';
+import { getDateOrTimeMask, NgnMaskInput } from '@ngneers/controls/mask-input';
 import { NgnPopover } from '@ngneers/controls/popover';
 import { NgnSelect } from '@ngneers/controls/select';
 import { NgnError, throwExp } from '@ngneers/controls/utils';
@@ -59,7 +59,7 @@ type MonthItemType = NgnItem<{ $: (typeof MONTHS)[number] }, '$'>;
     CalendarDays,
     CalendarTime,
     NgnInputField,
-    NgnInputMask,
+    NgnMaskInput,
   ],
   providers: [provideSelf(NgnCalendar)],
   host: {
@@ -96,7 +96,7 @@ export class NgnCalendar extends CalendarTemplates {
   public readonly format = input('MM/dd/yyyy');
 
   private readonly _popover = viewChild<NgnPopover>(NgnPopover);
-  private readonly _mask = viewChild(NgnInputMask);
+  private readonly _mask = viewChild(NgnMaskInput);
   private readonly _platform = inject(Platform);
   protected readonly i18n = inject(I18n).translations;
   public override readonly isFieldControl = true;
@@ -279,13 +279,13 @@ export class NgnCalendar extends CalendarTemplates {
 
   /** The current (possibly partial) text in the mask field, awaiting blur. */
   private readonly _inputString = signal<string | null>(null);
-  private readonly _clearingInputMask = signal(false);
+  private readonly _clearingMaskInput = signal(false);
 
   private readonly _clearValueWhenMaskBecomesEmpty = effect(() => {
-    if (!this._clearingInputMask() || !this._mask()?.empty()) {
+    if (!this._clearingMaskInput() || !this._mask()?.empty()) {
       return;
     }
-    this._clearingInputMask.set(false);
+    this._clearingMaskInput.set(false);
     this.value.set(null);
   });
 
@@ -296,14 +296,14 @@ export class NgnCalendar extends CalendarTemplates {
     // leaves the previous value intact (one-directional sync).
     if (!newValue) {
       if (this._mask()?.empty()) {
-        this._clearingInputMask.set(false);
+        this._clearingMaskInput.set(false);
         this.value.set(null);
       } else {
-        this._clearingInputMask.set(true);
+        this._clearingMaskInput.set(true);
       }
       return;
     }
-    this._clearingInputMask.set(false);
+    this._clearingMaskInput.set(false);
     // One-directional sync: typing updates the calendar value (and thus the
     // dropdown UI) only once the mask is COMPLETE — a fully filled, parseable
     // date. Half-typed input never moves the calendar and is never reformatted

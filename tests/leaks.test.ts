@@ -61,7 +61,7 @@ test('Memory leak detection for all components', async ({ page }) => {
     'NgnInplace',
     'NgnInput',
     'NgnInputField',
-    'NgnInputMask',
+    'NgnMaskInput',
     'NgnItemView',
     'NgnListBox',
     'NgnMessage',

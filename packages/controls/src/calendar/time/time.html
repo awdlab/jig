@@ -11,7 +11,7 @@
     </ngn-input-field>
   } @else {
     <ngn-input-field>
-      <ngn-input-mask
+      <ngn-mask-input
         [mask]="mask()"
         [value]="value()"
         (valueChange)="onValueChange($event ?? '')"

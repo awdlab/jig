@@ -104,11 +104,11 @@ export class NgnSelect<
   /**
    * The icon to display in the filter input.
    */
-  public readonly filterIcon = input<IconType>();
+  public readonly iconFilter = input<IconType>();
   /**
    * The icon to display in the dropdown.
    */
-  public readonly dropdownIcon = input<IconType>();
+  public readonly iconDropdown = input<IconType>();
   /**
    * Whether the select is virtualized.
    * @default `false`

@@ -24,9 +24,9 @@ import { iconStyles } from '@ngneers/controls-themes/base/icon';
 import { inplaceStyles } from '@ngneers/controls-themes/base/inplace';
 import { inputStyles } from '@ngneers/controls-themes/base/input';
 import { inputFieldStyles } from '@ngneers/controls-themes/base/input-field';
-import { inputMaskStyles } from '@ngneers/controls-themes/base/input-mask';
 import { itemViewStyles } from '@ngneers/controls-themes/base/item-view';
 import { listBoxStyles } from '@ngneers/controls-themes/base/list-box';
+import { maskInputStyles } from '@ngneers/controls-themes/base/mask-input';
 import { menuStyles } from '@ngneers/controls-themes/base/menu';
 import { messageStyles } from '@ngneers/controls-themes/base/message';
 import { paginatorStyles } from '@ngneers/controls-themes/base/paginator';
@@ -78,7 +78,7 @@ export const baseStyles = {
   inplace: inplaceStyles,
   input: inputStyles,
   inputField: inputFieldStyles,
-  inputMask: inputMaskStyles,
+  maskInput: maskInputStyles,
   itemView: itemViewStyles,
   listBox: listBoxStyles,
   menu: menuStyles,

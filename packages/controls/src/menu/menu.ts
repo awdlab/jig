@@ -45,7 +45,7 @@ export class NgnMenu extends MenuTemplates implements Openable {
   });
   protected readonly elementId = input(generateElementId());
   /**
-   * The element to which the menu is anchored. Required if `popover` is true.
+   * The element to which the menu is anchored. Required if {@link popover} is `true`.
    */
   public readonly anchor = input<Anchor>();
   /**
@@ -58,12 +58,13 @@ export class NgnMenu extends MenuTemplates implements Openable {
    */
   public readonly autoAnchorAria = input<boolean>();
   /**
-   * Whether the menu is a popover. Requires `anchor` to be set.
+   * Whether the menu is a popover. Requires {@link anchor} to be set.
+   * @default false
    */
   public readonly popover = input(false, { transform: booleanAttribute });
   /**
-   * The placement of the menu relative to the anchor element. Only used if `popover` is true.
-   * @default 'bottom-start'
+   * The placement of the menu relative to the anchor element. Only used when {@link popover} is `true`.
+   * @default bottom-start
    */
   public readonly placement = input<Placement>('bottom-start');
   /**

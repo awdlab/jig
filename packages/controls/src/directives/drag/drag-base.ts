@@ -23,8 +23,19 @@ export abstract class NgnDragBase {
   private _dragged = false;
 
   protected readonly isDragging = signal(false);
+  /**
+   * Emits once when a drag gesture begins, i.e. after the pointer has moved past
+   * the small activation threshold following a pointerdown.
+   */
   public readonly dragStart = output<void>();
+  /**
+   * Emits once when the drag gesture ends (pointer released).
+   */
   public readonly dragEnd = output<void>();
+  /**
+   * Emits on every pointer move while dragging, carrying the frame delta and
+   * absolute pointer position. See {@link NgnDragInfo}.
+   */
   public readonly dragged = output<NgnDragInfo>();
 
   private readonly _pointerDownEvent = domEventObservable(this.el.nativeElement, 'pointerdown');

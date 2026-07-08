@@ -32,6 +32,7 @@ export class NgnTableSortableColumn implements OnDestroy {
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
 
+  /** Enables sorting on this column. The directive selector; its value is unused. */
   public readonly ngnTableSortableColumn = input();
 
   private readonly _table = getNearestNgnInstanceSig<Type<NgnTable<any, any>>>(

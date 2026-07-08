@@ -27,8 +27,20 @@ import type { IconType } from '@ngneers/controls-custom-types';
 export class NgnBreadcrumb extends BreadcrumbTemplates {
   protected readonly theme = this.injectThemeTemplate(breadcrumbControlTemplate, 'root');
 
+  /**
+   * The breadcrumb entries to render, ordered from root to the current page.
+   * @see {@link BreadcrumbItem}
+   */
   public readonly items = input.required<BreadcrumbItem[]>();
+  /**
+   * Icon rendered between adjacent breadcrumb items.
+   * Falls back to the theme's default separator icon when unset.
+   */
   public readonly iconItemSeparator = input<IconType>();
+  /**
+   * Icon for the overflow menu trigger shown when items are collapsed to save space.
+   * Falls back to the theme's default overflow icon when unset.
+   */
   public readonly iconOverflow = input<IconType>();
 
   protected readonly maybeCallback = maybeCallback;

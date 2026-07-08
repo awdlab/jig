@@ -31,9 +31,9 @@ import { iconStyles } from '@ngneers/controls-themes/shade/icon';
 import { inplaceStyles } from '@ngneers/controls-themes/shade/inplace';
 import { inputStyles } from '@ngneers/controls-themes/shade/input';
 import { inputFieldStyles } from '@ngneers/controls-themes/shade/input-field';
-import { inputMaskStyles } from '@ngneers/controls-themes/shade/input-mask';
 import { itemViewStyles } from '@ngneers/controls-themes/shade/item-view';
 import { listBoxStyles } from '@ngneers/controls-themes/shade/list-box';
+import { maskInputStyles } from '@ngneers/controls-themes/shade/mask-input';
 import { menuStyles } from '@ngneers/controls-themes/shade/menu';
 import { messageStyles } from '@ngneers/controls-themes/shade/message';
 import { paginatorStyles } from '@ngneers/controls-themes/shade/paginator';
@@ -74,6 +74,7 @@ export const KINDS = {
   inputFieldLabel: ['in', 'on', 'over', 'floatIn', 'floatOn', 'floatOver', 'hidden'] as const,
   hint: ['default', 'info', 'success', 'warning', 'error'] as const,
   state: ['loading', 'cancelled', 'success', 'warning', 'error'] as const,
+  splitter: ['default', 'thin', 'invisible'] as const,
 };
 
 // Public, user-selectable colors: neutral light (surface), neutral dark (primary), destructive.
@@ -105,7 +106,7 @@ export const shade = createTheme(
     inplaceStyles,
     inputStyles,
     inputFieldStyles,
-    inputMaskStyles,
+    maskInputStyles,
     itemViewStyles,
     listBoxStyles,
     menuStyles,

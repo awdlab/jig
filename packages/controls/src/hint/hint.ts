@@ -60,6 +60,7 @@ export class NgnHint extends NgnBase<'hint'> {
    * Set an icon to display before the text. When omitted, a default icon is
    * derived from the current {@link kind} (e.g. `error` shows an alert icon).
    * The neutral `default` kind shows no icon unless one is set explicitly.
+   * @default undefined
    */
   public readonly icon = input<IconType>();
   /**
@@ -72,11 +73,13 @@ export class NgnHint extends NgnBase<'hint'> {
    * The hint text. Can also be a `TemplateRef` for custom rendering, or set via
    * an `<ng-template #content>` content child. Projected content (`<ng-content>`)
    * is used as a fallback when neither is provided.
+   * @default null
    */
   public readonly content = input<TemplateRef<unknown> | string | null>(null);
 
   /**
    * Validation state supplied by helpers such as ngnErrors.
+   * @default null
    */
   public readonly validationState = input<NgnHintValidationState | null>(null);
 

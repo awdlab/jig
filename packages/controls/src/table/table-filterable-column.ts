@@ -35,6 +35,7 @@ export class NgnTableFilterableColumn implements OnDestroy {
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _columnId = inject(NgnTableTh).ngnTableTh;
 
+  /** Enables filtering on this column. The directive selector; its value is unused. */
   public readonly ngnTableFilterableColumn = input();
 
   private readonly _ngnActionButton: ComponentRef<NgnActionButton<null>>;
@@ -52,7 +53,9 @@ export class NgnTableFilterableColumn implements OnDestroy {
     return tableFilter;
   });
 
+  /** The data type of the column, which determines the available filter operators and UI. */
   public readonly ngnTableFilterableColumnType = input.required<NgnFilterDataType>();
+  /** For list-based filters, the set of selectable option values to offer. */
   public readonly ngnTableFilterableColumnItems = input<string[] | null | undefined>();
 
   constructor() {

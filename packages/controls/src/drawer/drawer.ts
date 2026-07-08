@@ -61,6 +61,7 @@ export class NgnDrawer extends DrawerTemplates implements Openable {
    * Shows or hides the drawer.
    *
    * You probably want to react to openChange events from outside to update your variable accordingly.
+   * @default false
    */
   public readonly open = model<boolean>(false);
   /**
