@@ -2,7 +2,7 @@ name: Deploy to awdserver
 
 on:
   push:
-    branches: ["main-disabled"]
+    branches: ["main"]
 
 jobs:
   deploy:
