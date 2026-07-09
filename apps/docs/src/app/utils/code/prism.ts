@@ -1,8 +1,9 @@
 type PrismType = typeof import('prismjs');
 
 let prismPromise: Promise<PrismType> | undefined;
+let prismInstance: PrismType | undefined;
 
-async function loadPrism() {
+export async function loadPrism() {
   if (!prismPromise) {
     prismPromise = (async () => {
       const prismModule = await import('prismjs');
@@ -12,6 +13,9 @@ async function loadPrism() {
       Prism.manual = true;
       await import('prismjs/components/prism-markup');
       await import('prismjs/components/prism-typescript');
+      await import('prismjs/components/prism-css');
+      await import('prismjs/components/prism-bash');
+      await import('prismjs/components/prism-json');
 
       // add this after TS is loaded
       Prism.languages.insertBefore('typescript', 'string', {
@@ -80,6 +84,7 @@ async function loadPrism() {
         },
       });
 
+      prismInstance = Prism;
       return Prism;
     })();
   }
@@ -89,4 +94,35 @@ async function loadPrism() {
 export async function style(code: string): Promise<string> {
   const Prism = await loadPrism();
   return Prism.highlight(code, Prism.languages['typescript']!, 'typescript');
+}
+
+// Fenced-block language identifiers → Prism grammar keys.
+const LANG_ALIASES: Record<string, string> = {
+  ts: 'typescript',
+  html: 'markup',
+  xml: 'markup',
+  svg: 'markup',
+  shell: 'bash',
+  sh: 'bash',
+};
+
+function escapeHtml(code: string): string {
+  return code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+/**
+ * Synchronously highlight a fenced code block. Requires {@link loadPrism} to
+ * have resolved first (marked awaits it during setup). Falls back to escaped
+ * plain text when the language is unknown or omitted.
+ */
+export function highlightBlock(code: string, lang: string | undefined): string {
+  if (!prismInstance || !lang) {
+    return escapeHtml(code);
+  }
+  const grammarKey = LANG_ALIASES[lang] ?? lang;
+  const grammar = prismInstance.languages[grammarKey] ?? prismInstance.languages[lang];
+  if (!grammar) {
+    return escapeHtml(code);
+  }
+  return prismInstance.highlight(code, grammar, grammarKey);
 }

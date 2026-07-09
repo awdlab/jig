@@ -1,0 +1,93 @@
+{
+  "source": "syncfusion",
+  "label": "Syncfusion (Essential JS 2 for Angular)",
+  "notes": "STARTER MAP — covers common Syncfusion Angular components; not yet exhaustive. Syncfusion uses `ejs-*` selectors and binds with [(value)] or [(ngModel)]. Map [(value)] to ngn's [(value)] signal model. Many Syncfusion components are highly configurable; always verify the ngn target's capabilities with get_control and flag gaps rather than assuming parity.",
+  "components": [
+    {
+      "from": "ejs-dropdownlist",
+      "to": "ngn-select",
+      "props": [
+        { "from": "[(value)]", "to": "[(value)]" },
+        { "from": "dataSource", "to": "options" },
+        { "from": "allowFiltering", "to": "filter" },
+        {
+          "from": "fields",
+          "to": "templateItem",
+          "notes": "ngn-select derives label/value from the item shape or a templateItem, not a fields map."
+        }
+      ]
+    },
+    { "from": "ejs-multiselect", "to": "ngn-select", "notes": "Use ngn-select with multiple." },
+    {
+      "from": "ejs-combobox / ejs-autocomplete",
+      "to": "ngn-select",
+      "notes": "Use editable ngn-select."
+    },
+    {
+      "from": "ejs-datepicker / ejs-datetimepicker",
+      "to": "ngn-calendar",
+      "props": [
+        { "from": "[(value)]", "to": "[(value)]" },
+        { "from": "min / max", "to": "min / max" }
+      ]
+    },
+    {
+      "from": "ejs-checkbox",
+      "to": "ngn-checkbox",
+      "props": [{ "from": "[(checked)]", "to": "[(value)]" }]
+    },
+    { "from": "ejs-radiobutton", "to": "ngn-radio", "notes": "Group with ngn-radio-group." },
+    { "from": "ejs-textbox", "to": "input[ngnInput]", "notes": "Wrap in ngn-input-field." },
+    {
+      "from": "ejs-numerictextbox",
+      "to": "input[ngnNumberInput]",
+      "props": [
+        { "from": "[(value)]", "to": "[(value)]" },
+        { "from": "min", "to": "min" },
+        { "from": "max", "to": "max" },
+        { "from": "step", "to": "step" },
+        { "from": "format", "to": "formatOptions", "notes": "Use Intl formatOptions." }
+      ]
+    },
+    {
+      "from": "ejs-maskedtextbox",
+      "to": "ngn-mask-input",
+      "props": [{ "from": "mask", "to": "mask" }]
+    },
+    { "from": "ejs-switch", "to": "ngn-switch" },
+    {
+      "from": "ejs-slider",
+      "to": "ngn-slider",
+      "props": [{ "from": "min / max / step", "to": "min / max / step" }]
+    },
+    { "from": "ejs-listbox", "to": "ngn-list-box" },
+    {
+      "from": "ejs-dialog",
+      "to": "ngn-dialog",
+      "props": [{ "from": "[(visible)]", "to": "[(open)]" }],
+      "gaps": ["Service/programmatic dialog usage differs from ngn's declarative [(open)]."]
+    },
+    { "from": "ejs-sidebar", "to": "ngn-drawer" },
+    { "from": "ejs-tooltip", "to": "[ngnTooltip]" },
+    { "from": "ejs-menu / ejs-contextmenu", "to": "ngn-menu" },
+    { "from": "ejs-breadcrumb", "to": "ngn-breadcrumb" },
+    { "from": "ejs-tab", "to": "ngn-tabs" },
+    { "from": "ejs-accordion", "to": "ngn-accordion" },
+    {
+      "from": "ejs-grid",
+      "to": "ngn-table",
+      "gaps": [
+        "Syncfusion Grid is very feature-rich (grouping, editing, virtualization, export). Verify each feature against ngn-table; expect gaps."
+      ]
+    },
+    { "from": "ejs-pager", "to": "ngn-paginator" },
+    { "from": "ejs-treeview", "to": "ngn-tree" },
+    { "from": "ejs-progressbar", "to": "ngn-progress" },
+    { "from": "ejs-chip / ejs-chiplist", "to": "ngn-chip" },
+    { "from": "ejs-avatar (CSS)", "to": "ngn-avatar" },
+    { "from": "ejs-toast", "to": "ngn-toast / ngn-snackbar" },
+    { "from": "ejs-message", "to": "ngn-message" },
+    { "from": "ejs-uploader", "to": "ngn-upload" },
+    { "from": "ejs-splitter", "to": "ngn-splitter" }
+  ]
+}

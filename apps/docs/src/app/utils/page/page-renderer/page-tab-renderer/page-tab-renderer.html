@@ -1,35 +1,50 @@
 <!-- Mobile only (<=900px): breadcrumb lives in the content here since the
      topbar hides it at this width. -->
-<ngn-breadcrumb class="nav:hidden block pt-4" [items]="breadcrumbItems()" />
+<ngn-breadcrumb class="nav:hidden block px-4 pt-4" [items]="breadcrumbItems()" />
 
-<div class="flex w-full flex-col justify-center">
-  <h2 class="m-0 py-6 text-3xl">{{ page.title }}</h2>
-</div>
+<div class="flex min-h-0 w-full flex-1 justify-center">
+  <div class="mx-auto flex w-full max-w-7xl min-w-0 gap-8 px-4 md:px-8">
+    <!-- Centered content column -->
+    <div class="flex h-full min-w-0 flex-1 flex-col">
+      <h2 class="m-0 shrink-0 py-6 text-3xl">{{ page.title }}</h2>
 
-<ngn-tabs
-  class="h-full min-h-0"
-  [lazy]="true"
-  [cache]="true"
-  [activeTab]="activeTab()"
-  (activeTabChange)="activeTab.set($event)"
-  [pt]="tabPt"
->
-  @for (tab of page.tabs; track $index) {
-    <ngn-tab [tabId]="tab.title">
-      <ng-template #header> {{ tab.title }} </ng-template>
-      <ng-template #content>
-        @switch (tab.kind) {
-          @case ('single') {
-            <ngn-docs-section [section]="tab" />
-          }
-          @case ('component') {
-            <ng-container *ngComponentOutlet="tab.component" />
-          }
-          @default {
-            Unsupported tab page kind: {{ tab.kind }}
-          }
+      <ngn-tabs
+        class="min-h-0 w-full flex-1"
+        [lazy]="true"
+        [cache]="true"
+        [activeTab]="activeTab()"
+        (activeTabChange)="activeTab.set($event)"
+        [pt]="tabPt"
+      >
+        @for (tab of page.tabs; track $index) {
+          <ngn-tab [tabId]="tab.title">
+            <ng-template #header> {{ tab.title }} </ng-template>
+            <ng-template #content>
+              @switch (tab.kind) {
+                @case ('single') {
+                  <ngn-docs-section
+                    [section]="tab"
+                    (headings)="setTabHeadings(tab.title, $event)"
+                  />
+                }
+                @case ('component') {
+                  <ng-container *ngComponentOutlet="tab.component" />
+                }
+                @default {
+                  Unsupported tab page kind: {{ tab.kind }}
+                }
+              }
+            </ng-template>
+          </ngn-tab>
         }
-      </ng-template>
-    </ngn-tab>
-  }
-</ngn-tabs>
+      </ngn-tabs>
+    </div>
+
+    <!-- Auto-generated "on this page" rail for the active markdown tab -->
+    @if (activeHeadings().length) {
+      <aside class="hidden max-h-full w-56 shrink-0 self-start overflow-y-auto pt-8 xl:block">
+        <ngn-docs-toc [headings]="activeHeadings()" />
+      </aside>
+    }
+  </div>
+</div>

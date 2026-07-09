@@ -7,7 +7,7 @@ import { Demo_ItemView_Strategies } from '../../../demos/item-view/strategies';
 import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const ItemViewPage: NgnDocsPage = {
-  title: `ItemView`,
+  title: `Item View`,
   kind: 'tabs',
   tabs: [
     {

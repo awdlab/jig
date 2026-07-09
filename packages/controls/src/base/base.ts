@@ -135,8 +135,8 @@ export abstract class NgnBase<T extends ControlName | null> {
    * other external steppers). The default does nothing and returns `false`.
    * Controls with a steppable value (e.g. number-input) override this, apply
    * the step and return `true`.
-   * @param direction - `1` to increment, `-1` to decrement.
-   * @param big - Whether to apply the control's big step (e.g. Shift+Arrow).
+   * @param _direction - `1` to increment, `-1` to decrement.
+   * @param _big - Whether to apply the control's big step (e.g. Shift+Arrow).
    */
   public stepValue(_direction: 1 | -1, _big = false): boolean {
     return false;

@@ -1,0 +1,322 @@
+{
+  "source": "primeng",
+  "label": "PrimeNG",
+  "notes": "PrimeNG binds values with [(ngModel)]; ngn controls use a signal `value` model — migrate `[(ngModel)]=\"x\"` to `[(value)]=\"x\"` (or reactive forms via ngn-input-field). PrimeNG form controls are usually standalone; ngn form controls are typically wrapped in `ngn-input-field` for label/hint/error chrome. Icons are set via `icon*` inputs (e.g. `iconDropdown`) or projected `ngn-icon`, not template slots. Always verify target inputs with get_control before rewriting.",
+  "components": [
+    {
+      "from": "p-button / pButton",
+      "to": "button[ngnButton]",
+      "notes": "Attribute directive on a native <button>/<a>. Label and icon are projected content, not inputs.",
+      "props": [
+        {
+          "from": "label",
+          "to": "button text content",
+          "notes": "Project the label as the button's text content."
+        },
+        {
+          "from": "icon",
+          "to": "project <ngn-icon>",
+          "notes": "Project an ngn-icon element; use kind=\"icon\" for an icon-only button."
+        },
+        {
+          "from": "severity",
+          "to": "kind / color",
+          "notes": "Map severity onto kind + color; see the theming kinds-colors guide and get_theme_options."
+        }
+      ],
+      "gaps": [
+        "ngnButton has no `loading` or `disabled` input — use the native [disabled] attribute and render your own loading state."
+      ]
+    },
+    {
+      "from": "p-select / p-dropdown",
+      "to": "ngn-select",
+      "notes": "Options are passed via `options`; item label/value come from the item shape or `templateItem`. Placeholder/label live on the wrapping ngn-input-field.",
+      "props": [
+        { "from": "[(ngModel)]", "to": "[(value)]" },
+        { "from": "options", "to": "options" },
+        { "from": "filter", "to": "filter" },
+        { "from": "editable", "to": "editable" }
+      ],
+      "gaps": [
+        "No `optionLabel` / `optionValue` / `showClear` inputs — set the item label via `templateItem`, and clearing via ngn-input-field's `showClearButton`."
+      ]
+    },
+    {
+      "from": "p-multiSelect",
+      "to": "ngn-select",
+      "notes": "Use ngn-select with `multiple`.",
+      "props": [
+        { "from": "[(ngModel)]", "to": "[(value)]" },
+        { "from": "options", "to": "options" },
+        {
+          "from": "display=\"chip\"",
+          "to": "checkbox",
+          "notes": "ngn-select uses `checkbox` for multi-select affordance; chip display differs — verify with get_control."
+        }
+      ]
+    },
+    {
+      "from": "p-autoComplete",
+      "to": "ngn-select",
+      "notes": "Use editable ngn-select (`editable`). Server-side suggestion loading differs — verify capabilities.",
+      "props": [{ "from": "[(ngModel)]", "to": "[(value)]" }],
+      "gaps": ["Async suggestion completion works differently; may need custom filtering."]
+    },
+    {
+      "from": "p-datePicker / p-calendar",
+      "to": "ngn-calendar",
+      "props": [
+        { "from": "[(ngModel)]", "to": "[(value)]" },
+        { "from": "showTime", "to": "showTime" },
+        { "from": "dateFormat", "to": "format" }
+      ],
+      "gaps": [
+        "No `minDate`/`maxDate` or `selectionMode` inputs — verify range/min-max support with get_control before relying on it."
+      ]
+    },
+    {
+      "from": "p-checkbox",
+      "to": "ngn-checkbox",
+      "props": [
+        { "from": "[(ngModel)]", "to": "[(value)]" },
+        { "from": "indeterminate", "to": "allowIndeterminate" }
+      ]
+    },
+    {
+      "from": "p-radioButton",
+      "to": "ngn-radio",
+      "notes": "Group radios with ngn-radio-group; bind [(value)] on the group.",
+      "props": [{ "from": "[(ngModel)]", "to": "value" }]
+    },
+    {
+      "from": "p-inputText / pInputText",
+      "to": "input[ngnInput]",
+      "notes": "Attribute directive on native <input>/<textarea>; wrap in ngn-input-field for chrome.",
+      "props": [{ "from": "[(ngModel)]", "to": "[(value)]" }]
+    },
+    {
+      "from": "p-inputNumber",
+      "to": "input[ngnNumberInput]",
+      "props": [
+        { "from": "[(ngModel)]", "to": "[(value)]" },
+        { "from": "min", "to": "min" },
+        { "from": "max", "to": "max" },
+        { "from": "step", "to": "step" },
+        {
+          "from": "mode / currency",
+          "to": "formatOptions",
+          "notes": "Use Intl `formatOptions` (+ `locale`) for currency/decimal formatting."
+        }
+      ]
+    },
+    {
+      "from": "p-inputMask",
+      "to": "ngn-mask-input",
+      "props": [
+        { "from": "[(ngModel)]", "to": "[(value)]" },
+        { "from": "mask", "to": "mask" }
+      ]
+    },
+    {
+      "from": "p-password",
+      "to": "input[ngnInput] type=password",
+      "gaps": ["No dedicated password meter component; use a native password input with ngnInput."]
+    },
+    {
+      "from": "p-toggleSwitch / p-inputSwitch",
+      "to": "ngn-switch",
+      "props": [{ "from": "[(ngModel)]", "to": "[(value)]" }]
+    },
+    {
+      "from": "p-selectButton",
+      "to": "ngn-select-button",
+      "props": [
+        { "from": "[(ngModel)]", "to": "[(value)]" },
+        { "from": "options", "to": "options" }
+      ]
+    },
+    {
+      "from": "p-toggleButton",
+      "to": "ngn-toggle-button",
+      "props": [
+        { "from": "[(ngModel)]", "to": "[(value)]" },
+        { "from": "onIcon / offIcon", "to": "iconOn / iconOff" }
+      ]
+    },
+    {
+      "from": "p-slider",
+      "to": "ngn-slider",
+      "props": [
+        { "from": "[(ngModel)]", "to": "[(value)]" },
+        { "from": "min", "to": "min" },
+        { "from": "max", "to": "max" },
+        { "from": "step", "to": "step" },
+        {
+          "from": "orientation",
+          "to": "vertical",
+          "notes": "ngn-slider uses a boolean `vertical` input."
+        }
+      ],
+      "gaps": ["No dual-thumb `range` input; use two sliders or a custom control for ranges."]
+    },
+    {
+      "from": "p-listbox",
+      "to": "ngn-list-box",
+      "props": [
+        { "from": "[(ngModel)]", "to": "[(value)]" },
+        { "from": "options", "to": "items" },
+        { "from": "multiple", "to": "multiple" }
+      ]
+    },
+    {
+      "from": "p-dialog",
+      "to": "ngn-dialog",
+      "props": [
+        { "from": "[(visible)]", "to": "[(open)]" },
+        { "from": "modal", "to": "modal" },
+        {
+          "from": "header",
+          "to": "content / footerButtons",
+          "notes": "Header/footer are projected/inputs; verify with get_control."
+        }
+      ]
+    },
+    {
+      "from": "p-drawer / p-sidebar",
+      "to": "ngn-drawer",
+      "props": [
+        { "from": "[(visible)]", "to": "[(open)]" },
+        { "from": "position", "to": "position" }
+      ]
+    },
+    {
+      "from": "p-popover / p-overlayPanel",
+      "to": "ngn-popover",
+      "notes": "Trigger + content projection differs; verify with get_control."
+    },
+    {
+      "from": "pTooltip",
+      "to": "[ngnTooltip]",
+      "props": [
+        { "from": "pTooltip", "to": "ngnTooltip", "notes": "The text is the directive value." },
+        { "from": "tooltipPosition", "to": "ngnTooltipPlacement" }
+      ]
+    },
+    {
+      "from": "p-menu / p-tieredMenu",
+      "to": "ngn-menu",
+      "props": [
+        { "from": "model", "to": "items", "notes": "Verify menu item shape with get_control." }
+      ]
+    },
+    {
+      "from": "p-breadcrumb",
+      "to": "ngn-breadcrumb",
+      "props": [{ "from": "model", "to": "items" }]
+    },
+    {
+      "from": "p-tabView / p-tabs",
+      "to": "ngn-tabs",
+      "notes": "Tab panels are projected; verify structure with get_control.",
+      "props": [{ "from": "[(activeIndex)]", "to": "activeTab" }]
+    },
+    {
+      "from": "p-accordion",
+      "to": "ngn-accordion",
+      "notes": "Panels via ngn-accordion-panel.",
+      "props": [
+        { "from": "multiple", "to": "multiple" },
+        { "from": "[(activeIndex)]", "to": "expandedPanels" }
+      ]
+    },
+    {
+      "from": "p-table / p-dataTable",
+      "to": "ngn-table",
+      "notes": "Column/template model differs substantially. Migrate incrementally and verify with get_control + the table docs.",
+      "gaps": [
+        "Feature parity for advanced datatable features (row grouping, cell editing, virtual scroll) must be verified case by case."
+      ]
+    },
+    {
+      "from": "p-paginator",
+      "to": "ngn-paginator",
+      "props": [
+        { "from": "rows", "to": "pageSize" },
+        { "from": "totalRecords", "to": "totalItems" }
+      ]
+    },
+    {
+      "from": "p-tree",
+      "to": "ngn-tree",
+      "props": [
+        { "from": "[(selection)]", "to": "[(value)]" },
+        { "from": "value", "to": "items" }
+      ],
+      "notes": "Verify node model with get_control."
+    },
+    { "from": "p-progressBar", "to": "ngn-progress" },
+    { "from": "p-progressSpinner", "to": "ngn-spinner" },
+    { "from": "p-chip", "to": "ngn-chip" },
+    { "from": "p-tag / p-badge", "to": "ngn-tag" },
+    { "from": "p-avatar", "to": "ngn-avatar" },
+    {
+      "from": "p-toast",
+      "to": "ngn-toast",
+      "notes": "ngn also ships ngn-snackbar; pick per UX."
+    },
+    { "from": "p-messages / p-message", "to": "ngn-message" },
+    { "from": "p-fileUpload", "to": "ngn-upload" },
+    { "from": "p-splitter", "to": "ngn-splitter" },
+    {
+      "from": "p-textarea / pTextarea",
+      "to": "textarea[ngnInput]",
+      "notes": "Apply ngnInput to a native <textarea>; wrap in ngn-input-field.",
+      "props": [{ "from": "[(ngModel)]", "to": "[(value)]" }]
+    },
+    {
+      "from": "p-iconField / p-inputIcon",
+      "to": "ngn-input-field",
+      "notes": "ngn-input-field provides icon slots + clear button; use its iconClearButton/showClearButton rather than a separate icon-field wrapper.",
+      "props": [{ "from": "showClear", "to": "showClearButton" }]
+    },
+    {
+      "from": "p-inputGroup / p-inputGroupAddon",
+      "to": "ngn-input-field",
+      "notes": "Compose addons as projected content inside ngn-input-field."
+    },
+    {
+      "from": "p-editInPlace / p-inplace",
+      "to": "ngn-edit-inplace",
+      "notes": "ngn ships both ngn-inplace and ngn-edit-inplace; pick per behavior."
+    },
+    {
+      "from": "p-rating",
+      "to": "(no direct equivalent)",
+      "gaps": [
+        "No star-rating control in ngn; build one from icons + a form control, or keep PrimeNG for this."
+      ]
+    },
+    {
+      "from": "p-colorPicker",
+      "to": "(no direct equivalent)",
+      "gaps": [
+        "No color-picker control in ngn; use a native <input type=color> or a third-party picker."
+      ]
+    },
+    {
+      "from": "p-card / p-panel / p-fieldset",
+      "to": "(no direct equivalent)",
+      "gaps": [
+        "No card/panel container control; compose layout with plain elements + Tailwind and ngn controls for the contents."
+      ]
+    },
+    {
+      "from": "p-splitButton",
+      "to": "(no direct equivalent)",
+      "gaps": [
+        "No split-button control; compose a button[ngnButton] with an ngn-menu for the dropdown actions."
+      ]
+    }
+  ]
+}

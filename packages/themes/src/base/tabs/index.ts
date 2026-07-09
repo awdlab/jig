@@ -49,7 +49,7 @@ export const tabsStyles = createThemePart({
         }
       }
       ${c('scroll-left')} {
-        left: 0;
+        left: -0.5px; /** Not 0 to prevent small gaps due to rounding issues, I assume */
         margin-right: -1rem;
         &::after {
           left: 100%;
@@ -57,7 +57,7 @@ export const tabsStyles = createThemePart({
         }
       }
       ${c('scroll-right')} {
-        right: 0;
+        right: -0.5px; /** Not 0 to prevent small gaps due to rounding issues, I assume */
         margin-left: -1rem;
         &::after {
           right: 100%;

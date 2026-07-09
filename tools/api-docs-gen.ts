@@ -33,7 +33,7 @@ const options: TypeDocOptions = {
       options: { pretty: false },
     },
   ],
-  blockTags: [...OptionDefaults.blockTags, '@alias'],
+  blockTags: [...OptionDefaults.blockTags, '@alias', '@todo'],
 };
 
 async function parseTsDocs() {

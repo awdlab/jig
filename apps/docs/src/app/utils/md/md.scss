@@ -1,15 +1,74 @@
 :host {
+  display: block;
+
   ::ng-deep {
     .component-host {
+      display: block;
       width: 100%;
+      margin: 1.25rem 0;
     }
+
     .md {
-      p,
-      code {
-        display: inline;
+      display: block;
+      line-height: 1.7;
+
+      // Trim the outer gaps so the column starts/ends flush.
+      > :first-child {
+        margin-top: 0;
       }
-      p:has(~ p) {
-        display: inline-block;
+      > :last-child {
+        margin-bottom: 0;
+      }
+
+      p {
+        margin: 0.85rem 0;
+      }
+
+      // Lists — Tailwind's preflight strips markers/indent, so restore them.
+      ul,
+      ol {
+        margin: 0.85rem 0;
+        padding-left: 1.5rem;
+      }
+      ul {
+        list-style: disc;
+      }
+      ol {
+        list-style: decimal;
+      }
+      li {
+        margin: 0.3rem 0;
+      }
+      li::marker {
+        color: var(--ngn-color-surface-500);
+      }
+      ul ul,
+      ul ol,
+      ol ul,
+      ol ol {
+        margin: 0.25rem 0;
+      }
+
+      blockquote {
+        margin: 1.25rem 0;
+        padding: 0.5rem 1rem;
+        border-left: 3px solid var(--ngn-color-primary-400);
+        border-radius: var(--ngn-size-rounded-sm);
+        background: var(--ngn-color-surface-50);
+        color: var(--ngn-color-surface-700);
+
+        > :first-child {
+          margin-top: 0;
+        }
+        > :last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid var(--ngn-color-surface-200);
+        margin: 2rem 0;
       }
 
       // Inline code chips
@@ -21,19 +80,24 @@
         -webkit-box-decoration-break: clone;
       }
 
-      // Fenced code blocks
+      // Fenced code blocks — full width, own line, scroll on overflow.
+      // Prism-highlighted and dark/theme-independent, mirroring the demo code
+      // view; token colors come from the global `.prism` styles in prism.css.
       pre {
-        display: inline-block;
-        position: relative;
-        z-index: 0;
-        padding: 0.1em 0.4em;
-        margin: 0.2em 0;
+        display: block;
+        overflow-x: auto;
+        padding: 1rem 1.25rem;
+        margin: 1.25rem 0;
         border-radius: var(--ngn-size-rounded-md);
-        background: var(--ngn-color-surface-100);
+        background: var(--prism-bg);
         code {
+          display: block;
           background: none;
           padding: 0;
           margin: 0;
+          white-space: pre;
+          font-size: 0.85rem;
+          color: var(--prism-fg);
         }
       }
 
@@ -53,6 +117,7 @@
       .table-wrapper {
         overflow-x: auto;
         width: 100%;
+        margin: 1.25rem 0;
       }
       table {
         border-spacing: 0;

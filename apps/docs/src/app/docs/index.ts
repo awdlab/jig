@@ -1,26 +1,23 @@
-import { ALL_COMPONENT_PAGES } from './components';
-import { ALL_CONCEPTS_PAGES } from './concepts';
-import { ALL_THEME_PAGES } from './theme';
+import { COMPONENT_GROUPS } from './components';
+import { GUIDE_GROUPS } from './guides';
 
-import type { NgnDocsCategory, NgnDocsPage } from '../utils/page/types';
+import type { NgnDocsTab } from '../utils/page/types';
 
-export const ALL_DOCS_PAGES: NgnDocsPage[] = [
+/**
+ * The top-level documentation tabs, in switcher order. The first page of the
+ * first tab (Guides → Introduction) is the docs landing page.
+ */
+export const ALL_DOCS_TABS: NgnDocsTab[] = [
   {
-    kind: 'category',
-    title: 'Concepts',
-    tabTitle: 'Concepts',
-    pages: ALL_CONCEPTS_PAGES,
-  } as NgnDocsCategory,
+    title: 'Guides',
+    tabTitle: 'Guides',
+    icon: 'book',
+    groups: GUIDE_GROUPS,
+  },
   {
-    kind: 'category',
-    title: 'Theme',
-    tabTitle: 'Theme',
-    pages: ALL_THEME_PAGES,
-  } as NgnDocsCategory,
-  {
-    kind: 'category',
     title: 'Components',
     tabTitle: 'Component',
-    pages: ALL_COMPONENT_PAGES,
-  } as NgnDocsCategory,
+    icon: 'grid',
+    groups: COMPONENT_GROUPS,
+  },
 ];

@@ -5,7 +5,7 @@ import { Demo_ButtonGroup_Toggle } from '../../../demos/button-group/toggle';
 import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const ButtonGroupPage: NgnDocsPage = {
-  title: `ButtonGroup`,
+  title: `Button Group`,
   kind: 'tabs',
   tabs: [
     {

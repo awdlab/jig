@@ -1,0 +1,40 @@
+{
+  "overview": "## Authoring an ngn theme part\n\nA theme part styles one control. Author it with `createThemePart` from `@ngneers/controls-themes/api`:\n\n```ts\nimport { createThemePart, css } from '@ngneers/controls-themes/api';\nimport { selectControlTemplate } from '@ngneers/controls-themes/templates/select';\n\nexport const selectStyles = createThemePart({\n  controlTemplate: selectControlTemplate,\n  base: baseStyles.select,        // optional: build on the structural base part\n  dependencies: [colorsTemplate], // variable/part templates this css uses\n  root: {\n    css: ({ v, c, d }) => css`\n      ${c('input')} { gap: ${v('size.padding.sm')}; }\n      ${c('icon')} { color: ${v('color.surface.500')}; }\n    `,\n  },\n});\n```\n\n### The three helpers\n\n- `c('<className>')` — target one of THIS control's own class names (see `get_control_theme`).\n- `d('<depScope>', '<className>')` — target a class of a dependency control (e.g. `d('popover', 'content')`). Dependencies come from the control template.\n- `v('<token>')` — read a theme token (see the token scopes below).\n\n### Keys\n\n- `root` — styles applied always. Add a `dark` key for dark-mode overrides.\n- Each part accepts `{ css: ({v,c,d}) => css`...` }`.\n\n### Gotchas\n\n- The Nova palette **reverses shades in dark mode** (e.g. `surface.800` becomes light). For components that must stay dark in both schemes, use the raw grey color; the `500` shade is scheme-stable.\n- Style through tokens (`v('color.…')`), never hardcode colors — that is what keeps light/dark and re-theming working.\n- A brand-new theme part needs an empty `package.json` marker in its folder and a themes build before it resolves.",
+  "scopes": [
+    {
+      "scope": "color",
+      "tokens": [
+        "color.{palette}.{shade}",
+        "color.{palette}.{shade}-contrast",
+        "color.{palette}.700-on-50",
+        "color.{palette}.600-on-100",
+        "color.background",
+        "color.border",
+        "color.text",
+        "color.disabled.{text|border|background}",
+        "color.invalid.{text|border|background}"
+      ],
+      "note": "palettes: primary, secondary, accent, error, warning, info, success, surface. shades: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950. `-contrast` = best-contrast foreground for that shade; `-on-` = tonal foreground pairs."
+    },
+    {
+      "scope": "size",
+      "tokens": ["size.rounded.{sm|md|lg|full}", "size.padding.{sm|md|lg|xl}"],
+      "note": "Border radius and spacing scale."
+    },
+    {
+      "scope": "font",
+      "tokens": [
+        "font.weight.{normal|medium|semibold|bold|extrabold|black}",
+        "font.size.{xs|sm|md|lg|xl|2xl}"
+      ]
+    },
+    {
+      "scope": "shadow",
+      "tokens": ["shadow.{sm|md|lg|xl}"]
+    },
+    {
+      "scope": "anim",
+      "tokens": ["anim.time.{fade|snappyFade}", "anim.ease.{fade|snappyFade}"]
+    }
+  ]
+}

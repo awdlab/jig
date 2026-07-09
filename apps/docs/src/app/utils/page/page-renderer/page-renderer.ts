@@ -1,22 +1,24 @@
-import { Component, effect, inject, computed } from '@angular/core';
+import { Component, effect, inject, computed, signal } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
 import { notNullish } from '@ngneers/controls/utils';
 
 import { NgnDocsPageSection } from './section/section';
+import { NgnDocsToc } from './toc/toc';
 import { BreadcrumbService } from '../../../frame/breadcrumb.service';
 import { safeRoutePath } from '../../routing';
 
-import type { NgnDocsCategory, NgnDocsSinglePage } from '../types';
+import type { TocEntry } from '../../md/types';
+import type { NgnDocsSinglePage, NgnDocsTab } from '../types';
 import type { BreadcrumbItem } from '@ngneers/controls/breadcrumb';
 
 @Component({
   selector: 'ngn-docs-page-renderer',
   templateUrl: 'page-renderer.html',
-  imports: [NgnDocsPageSection, NgnBreadcrumb],
+  imports: [NgnDocsPageSection, NgnDocsToc, NgnBreadcrumb],
   host: {
-    class: 'min-w-0 w-full h-full flex flex-col pt-[5.5rem] pl-2 md:pl-8',
+    class: 'min-w-0 w-full h-full flex flex-col pt-[5.5rem]',
   },
 })
 export class NgnDocsPageRenderer {
@@ -24,16 +26,18 @@ export class NgnDocsPageRenderer {
   private readonly _activatedRoute = inject(ActivatedRoute);
   private readonly _breadcrumb = inject(BreadcrumbService);
 
-  protected readonly category = this._activatedRoute.snapshot.data['category'] as
-    NgnDocsCategory | undefined;
+  protected readonly tab = this._activatedRoute.snapshot.data['tab'] as NgnDocsTab | undefined;
   protected readonly page = this._activatedRoute.snapshot.data['page'] as NgnDocsSinglePage;
+
+  /** Content headings for the "on this page" rail, emitted by the section. */
+  protected readonly headings = signal<TocEntry[]>([]);
 
   protected readonly breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     return [
-      this.category?.title
+      this.tab?.title
         ? {
-            id: this.category ? safeRoutePath(this.category.title) : 'all',
-            label: this.category.title,
+            id: this.tab ? safeRoutePath(this.tab.title) : 'all',
+            label: this.tab.title,
           }
         : null,
       {
@@ -46,6 +50,11 @@ export class NgnDocsPageRenderer {
   constructor() {
     effect(() => {
       this._breadcrumb.set(this.breadcrumbItems());
+    });
+
+    effect(() => {
+      const tabTitle = this.tab ? ` ${this.tab.tabTitle || this.tab.title}` : '';
+      this._title.setTitle(`${this.page.title}${tabTitle} - ngn-controls`);
     });
   }
 }

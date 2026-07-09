@@ -61,7 +61,7 @@ export class NgnTableSelectionColumn implements OnDestroy {
 
   /**
    * NgnCheckbox created at the application level via `createComponent` + `EnvironmentInjector`.
-   * This keeps it outside Angular's view tree so @for reconciliation cannot destroy it.
+   * This keeps it outside Angular's view tree so `@for` reconciliation cannot destroy it.
    */
   private _checkboxRef!: ComponentRef<NgnCheckbox<boolean>>;
 
@@ -121,7 +121,7 @@ export class NgnTableSelectionColumn implements OnDestroy {
   /**
    * Creates an NgnCheckbox via `createComponent` + `EnvironmentInjector`.
    * The component is attached to `ApplicationRef` (not a ViewContainerRef),
-   * so Angular's @for block reconciliation cannot destroy it.
+   * so Angular's `@for` block reconciliation cannot destroy it.
    */
   private _createCheckbox(): void {
     this._checkboxRef = createComponent(NgnCheckbox, {

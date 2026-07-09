@@ -19,40 +19,43 @@
 
 <ng-template #menu>
   <div class="flex max-h-full w-64 shrink-0 flex-col overflow-y-auto pb-8">
-    @for (item of menuItems; track $index) {
-      @if (item.children) {
-        <ng-container *ngTemplateOutlet="menuCategory; context: { $implicit: item, level: 0 }" />
-      } @else {
-        <ng-container *ngTemplateOutlet="menuItem; context: { $implicit: item, level: 0 }" />
-      }
+    <!-- TODO: make this switcher fill the sidebar width instead of hugging its
+    widest label. Blocked: the fit-content lives in the nested button-group's
+    vertical container + the inline-grid inner button, neither of which
+    select-button exposes as a passthrough scope. Fix via [pt] once nested pt
+    (forwarding into child controls' scopes) is supported. -->
+    <ngn-select-button
+      class="m-4"
+      orientation="vertical"
+      [options]="tabOptions"
+      [value]="activeTabTitle()"
+      (valueChange)="onTabChange($event)"
+    />
+
+    @for (group of activeTab()?.groups; track group.title) {
+      <ng-container *ngTemplateOutlet="menuGroup; context: { $implicit: group }" />
     }
   </div>
 </ng-template>
 
-<ng-template #menuItem [ngnTemplate]="templateTypes.item" let-item let-level="level">
-  <a
-    [routerLink]="item.link"
-    class="menu-item pr-4"
-    [class.active-item]="item === activeMenuItem()"
-    [style.paddingLeft.rem]="0.5 + level"
-    (click)="isOpen.set(false)"
-  >
-    <span class="text-wrapper">
-      {{ item.title }}
-    </span>
-  </a>
-</ng-template>
-
-<ng-template #menuCategory [ngnTemplate]="templateTypes.item" let-item let-level="level">
-  <a
-    [routerLink]="item.link"
+<ng-template #menuGroup [ngnTemplate]="templateTypes.group" let-group>
+  <span
     class="px-4 pt-4 pb-2 text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-bold) tracking-wide text-(--ngn-color-surface-500) uppercase"
   >
-    {{ item.title }}
-  </a>
+    {{ group.title }}
+  </span>
   <div class="flex flex-col">
-    @for (child of item.children; track $index) {
-      <ng-container *ngTemplateOutlet="menuItem; context: { $implicit: child, level: level + 1 }" />
+    @for (item of group.items; track item.link) {
+      <a
+        [routerLink]="item.link"
+        class="menu-item pr-4 pl-4"
+        [class.active-item]="item.link === activeLink()"
+        (click)="isOpen.set(false)"
+      >
+        <span class="text-wrapper">
+          {{ item.title }}
+        </span>
+      </a>
     }
   </div>
 </ng-template>

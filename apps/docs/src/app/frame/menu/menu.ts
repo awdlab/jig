@@ -1,67 +1,94 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { NgnTemplate, templateTypesFn } from '@ngneers/controls/api/ng';
 import { NgnDrawer } from '@ngneers/controls/drawer';
+import { NgnSelectButton } from '@ngneers/controls/select-button';
 
-import { ALL_DOCS_PAGES } from '../../docs';
+import { ALL_DOCS_TABS } from '../../docs';
 import { AppLocation } from '../../helper/app-location';
 import { safeRoutePath } from '../../utils/routing';
 import { FrameState } from '../frame-state';
 
-type MenuItem = {
+type MenuLink = {
   title: string;
   link: string;
-  children?: MenuItem[];
+};
+
+type MenuGroup = {
+  title: string;
+  items: MenuLink[];
+};
+
+type MenuTab = {
+  title: string;
+  /** First page of the tab — where the switcher navigates on select. */
+  link: string;
+  groups: MenuGroup[];
 };
 
 @Component({
   selector: 'ngn-docs-menu',
   templateUrl: 'menu.html',
-  imports: [RouterLink, RouterOutlet, NgTemplateOutlet, NgnTemplate, NgnDrawer],
+  imports: [RouterLink, RouterOutlet, NgTemplateOutlet, NgnTemplate, NgnDrawer, NgnSelectButton],
   host: { class: 'h-full min-h-0' },
   styleUrl: 'menu.scss',
 })
 export class NgnDocsMenu {
   private readonly _frameState = inject(FrameState);
   private readonly _appLocation = inject(AppLocation);
+  private readonly _router = inject(Router);
 
   public readonly isCompact = this._frameState.isCompact;
   protected readonly isOpen = this._frameState.menuOpen;
 
   protected readonly templateTypes = templateTypesFn<{
-    item: {
-      $implicit: MenuItem;
-      level: number;
+    group: {
+      $implicit: MenuGroup;
     };
   }>();
 
-  private readonly _docsPages = ALL_DOCS_PAGES;
+  protected readonly tabs: MenuTab[] = ALL_DOCS_TABS.map(tab => {
+    const base = `/${safeRoutePath(tab.title)}`;
+    const groups = tab.groups.map(group => ({
+      title: group.title,
+      items: group.pages.map(page => ({
+        title: page.title,
+        link: `${base}/${safeRoutePath(page.title)}`,
+      })),
+    }));
+    return {
+      title: tab.title,
+      link: groups[0]?.items[0]?.link ?? base,
+      groups,
+    };
+  });
 
-  protected readonly menuItems: MenuItem[] = this._docsPages.map(page => {
-    if (page.kind === 'category') {
-      return {
-        title: page.title,
-        link: `/${safeRoutePath(page.title)}`,
-        children: page.pages.map(subpage => ({
-          title: subpage.title,
-          link: `/${safeRoutePath(page.title)}/${safeRoutePath(subpage.title)}`,
-        })),
-      };
-    } else {
-      return {
-        title: page.title,
-        link: `/${safeRoutePath(page.title)}`,
-      };
+  /** Options for the vertical tab switcher (select-button). */
+  protected readonly tabOptions = this.tabs.map(tab => ({
+    label: tab.title,
+    value: tab.title,
+  }));
+
+  /** The tab whose first URL segment matches the current location. */
+  protected readonly activeTab = computed<MenuTab | undefined>(() => {
+    const segment = this._appLocation.location()[0];
+    return this.tabs.find(tab => tab.link.startsWith(`/${segment}/`)) ?? this.tabs[0];
+  });
+
+  protected readonly activeTabTitle = computed(() => this.activeTab()?.title ?? '');
+
+  protected readonly activeLink = computed(() => `/${this._appLocation.location().join('/')}`);
+
+  protected onTabChange(title: string): void {
+    const tab = this.tabs.find(t => t.title === title);
+    if (tab) {
+      this.isOpen.set(false);
+      this._router.navigateByUrl(tab.link).catch(() => {
+        /* navigation cancelled/failed — nothing to recover */
+      });
     }
-  });
-
-  protected readonly activeMenuItem = computed(() => {
-    const location = this._appLocation.location();
-    const items = this.menuItems;
-
-    return findItem(items, location);
-  });
+  }
 
   public toggle() {
     if (!this.isCompact()) {
@@ -69,23 +96,4 @@ export class NgnDocsMenu {
     }
     this.isOpen.update(v => !v);
   }
-}
-
-function findItem(items: MenuItem[], routeParts: string[]): MenuItem | undefined {
-  const currentPath = `/${routeParts.join('/')}`;
-
-  for (const item of items) {
-    if (item.link === currentPath) return item;
-    if (item.children) {
-      const found = findItem(item.children, routeParts);
-      if (found) return found;
-    }
-  }
-
-  if (routeParts.length > 1) {
-    // try parent path to get lesser specific item instead of nothing
-    return findItem(items, routeParts.slice(0, -1));
-  }
-
-  return undefined;
 }

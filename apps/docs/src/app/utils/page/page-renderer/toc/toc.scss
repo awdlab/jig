@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+
+.toc-link {
+  position: relative;
+  margin-left: -1px;
+  color: var(--ngn-color-surface-500);
+  border-left: 2px solid transparent;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
+
+  &:hover {
+    color: var(--ngn-color-surface-800);
+  }
+
+  &.active {
+    color: var(--ngn-color-primary-500);
+    border-left-color: var(--ngn-color-primary-500);
+    font-weight: var(--ngn-font-weight-medium);
+  }
+}

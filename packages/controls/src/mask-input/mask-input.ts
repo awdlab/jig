@@ -85,7 +85,7 @@ export class NgnMaskInput extends ValueControlBase<'maskInput', string | null> {
    * highlight and "actively edited" treatment only apply while focused. */
   protected readonly focused = signal(false);
 
-  /** RenderTokens for template @for loop. While unfocused there is no active
+  /** RenderTokens for template `@for` loop. While unfocused there is no active
    * section, so padded fields render in their resting (padded) form. */
   protected readonly tokens = computed(() => {
     const p = this._parts();

@@ -1,0 +1,16 @@
+:host ::ng-deep {
+  // Default-value / example snippets in API tables keep their syntax
+  // highlighting but render compact — shrink-to-content, no block padding or
+  // margin (the generic markdown code block is sized for full-width prose).
+  pre:has(> code.prism) {
+    display: inline-block;
+    margin: 0;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--ngn-size-rounded-sm);
+    vertical-align: middle;
+  }
+
+  code.prism {
+    font-size: 0.8rem;
+  }
+}

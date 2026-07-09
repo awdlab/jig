@@ -7,9 +7,10 @@ import {
   type OnDestroy,
   ViewContainerRef,
 } from '@angular/core';
-import { domEventHandler, setComponentInput } from '@ngneers/controls/api/ng';
+import { domEventHandler } from '@ngneers/controls/api/ng';
 
 import { NgnMenu } from './menu';
+import { openMenuAt } from './open-menu-at';
 
 import type { MenuItem } from './types';
 
@@ -45,21 +46,16 @@ export class NgnContextMenu implements OnDestroy {
     return false;
   }
 
-  private createMenu() {
-    if (!this._menu) {
-      this._menu = this._vcr.createComponent(NgnMenu);
-    }
-    return this._menu;
-  }
-
   private openMenu(event: PointerEvent) {
-    const menu = this.createMenu();
+    const anchor = { x: event.clientX, y: event.clientY };
 
-    setComponentInput(menu, 'items', this.ngnContextMenu());
-    setComponentInput(menu, 'anchor', { x: event.clientX, y: event.clientY });
-    setComponentInput(menu, 'popover', true);
-    setTimeout(() => {
-      menu.instance.show();
-    });
+    if (this._menu) {
+      // Reopen the cached menu: openMenuAt only auto-shows the first instance,
+      // so a right-click after it was closed must update the anchor and re-show.
+      this._menu.setInput('anchor', anchor);
+      this._menu.instance.show();
+    } else {
+      this._menu = openMenuAt(this._vcr, this.ngnContextMenu(), anchor);
+    }
   }
 }

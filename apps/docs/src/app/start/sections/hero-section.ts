@@ -44,26 +44,22 @@ interface Stats {
         <div
           class="mb-(--ngn-size-padding-lg) flex flex-wrap justify-center gap-(--ngn-size-padding-sm)"
         >
-          @if (version(); as v) {
-            <a
-              href="https://www.npmjs.com/package/@ngneers/controls"
-              target="_blank"
-              rel="noopener"
-              class="inline-flex items-center rounded-full border border-(--ngn-color-surface-200) bg-(--ngn-color-surface-25) px-(--ngn-size-padding-md) py-(--ngn-size-padding-xs) text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold)"
-            >
-              <span class="ngn-rainbow-text">npm v{{ v }}</span>
-            </a>
-          }
-          @if (stars(); as s) {
-            <a
-              href="https://github.com/NGneers/controls"
-              target="_blank"
-              rel="noopener"
-              class="inline-flex items-center rounded-full border border-(--ngn-color-surface-200) bg-(--ngn-color-surface-25) px-(--ngn-size-padding-md) py-(--ngn-size-padding-xs) text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold)"
-            >
-              <span class="ngn-rainbow-text">&#9733; {{ s }}</span>
-            </a>
-          }
+          <a
+            href="https://www.npmjs.com/package/@ngneers/controls"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center rounded-full border border-(--ngn-color-surface-200) bg-(--ngn-color-surface-25) px-(--ngn-size-padding-md) py-(--ngn-size-padding-xs) text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold)"
+          >
+            <span class="ngn-rainbow-text">npm v{{ version() ?? '…' }}</span>
+          </a>
+          <a
+            href="https://github.com/NGneers/controls"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center rounded-full border border-(--ngn-color-surface-200) bg-(--ngn-color-surface-25) px-(--ngn-size-padding-md) py-(--ngn-size-padding-xs) text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold)"
+          >
+            <span class="ngn-rainbow-text">&#9733; {{ stars() ?? '…' }}</span>
+          </a>
         </div>
         <h1
           class="mx-auto mb-(--ngn-size-padding-lg) max-w-[820px] text-[3rem] leading-[1.1] font-(--ngn-font-weight-bold) tracking-tight text-(--ngn-color-primary-700) lg:text-[4rem]"
@@ -82,7 +78,7 @@ interface Stats {
           <a
             ngnButton
             kind="primary"
-            routerLink="/components"
+            routerLink="/guides/introduction"
             class="transition-shadow hover:shadow-[0_0_24px_color-mix(in_srgb,var(--ngn-color-primary-500)_45%,transparent)]"
           >
             Get Started
@@ -126,7 +122,7 @@ export class NgnDocsHeroSection {
           this.stars.set(stats.stars);
         },
         error: () => {
-          // Leave signals null — badges stay hidden.
+          // Leave signals null — badges keep the "…" placeholder.
         },
       });
     });

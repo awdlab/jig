@@ -43,49 +43,70 @@ import { TooltipPage } from './tooltip/page';
 import { TreePage } from './tree/page';
 import { UploadPage } from './upload/page';
 
-export const ALL_COMPONENT_PAGES = [
-  AccordionPage,
-  AvatarPage,
-  BreadcrumbPage,
-  ButtonPage,
-  ButtonGroupPage,
-  CalendarPage,
-  CheckboxPage,
-  ChipPage,
-  DialogPage,
-  DrawerPage,
-  EditInplacePage,
-  FilterPage,
-  HintPage,
-  IconPage,
-  InplacePage,
-  InputPage,
-  InputFieldPage,
-  MaskInputPage,
-  ItemViewPage,
-  ListBoxPage,
-  MenuPage,
-  MessagePage,
-  NumberInputPage,
-  PaginatorPage,
-  PopoverPage,
-  ProgressPage,
-  RadioPage,
-  ScrollerPage,
-  SelectPage,
-  SelectButtonPage,
-  SliderPage,
-  SnackbarPage,
-  SpinnerPage,
-  SplitterPage,
-  StatePage,
-  SwitchPage,
-  TablePage,
-  TabsPage,
-  TagPage,
-  ToastPage,
-  ToggleButtonPage,
-  TooltipPage,
-  TreePage,
-  UploadPage,
+import type { NgnDocsGroup } from '../../utils/page/types';
+
+/**
+ * The Components tab, sliced into visual sidebar groups. Group titles are
+ * headers only — every page still routes at `/components/{page}`.
+ */
+export const COMPONENT_GROUPS: NgnDocsGroup[] = [
+  {
+    title: 'Inputs',
+    pages: [
+      CalendarPage,
+      CheckboxPage,
+      EditInplacePage,
+      FilterPage,
+      InplacePage,
+      InputPage,
+      InputFieldPage,
+      ListBoxPage,
+      MaskInputPage,
+      NumberInputPage,
+      RadioPage,
+      SelectPage,
+      SliderPage,
+      SwitchPage,
+      UploadPage,
+    ],
+  },
+  {
+    title: 'Actions',
+    pages: [ButtonPage, ButtonGroupPage, SelectButtonPage, ToggleButtonPage],
+  },
+  {
+    title: 'Data Display',
+    pages: [
+      AvatarPage,
+      ChipPage,
+      IconPage,
+      ItemViewPage,
+      PaginatorPage,
+      ProgressPage,
+      SpinnerPage,
+      TablePage,
+      TagPage,
+      TreePage,
+    ],
+  },
+  {
+    title: 'Containers & Overlays',
+    pages: [
+      AccordionPage,
+      DialogPage,
+      DrawerPage,
+      MenuPage,
+      PopoverPage,
+      ScrollerPage,
+      SplitterPage,
+      TabsPage,
+      TooltipPage,
+    ],
+  },
+  {
+    title: 'Feedback & Navigation',
+    pages: [BreadcrumbPage, HintPage, MessagePage, SnackbarPage, StatePage, ToastPage],
+  },
 ];
+
+export const ALL_COMPONENT_PAGES = COMPONENT_GROUPS.flatMap(g => g.pages);

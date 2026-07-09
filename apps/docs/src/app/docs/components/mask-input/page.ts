@@ -7,7 +7,7 @@ import { Demo_MaskInput_Validation } from '../../../demos/mask-input/validation'
 import type { NgnDocsPage } from '../../../utils/page/types';
 
 export const MaskInputPage: NgnDocsPage = {
-  title: `Input Mask`,
+  title: `Mask Input`,
   kind: 'tabs',
   tabs: [
     {
