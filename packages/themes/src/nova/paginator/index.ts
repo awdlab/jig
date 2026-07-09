@@ -12,6 +12,11 @@ export const paginatorStyles = createThemePart({
       ${c('root')} > ${d('item-view', 'root')} {
         justify-content: center;
       }
+      /* Page cells are icon buttons (circular by default) — square them off to
+         match the rest of nova's clickable cells. */
+      ${c('root')} ${d('button', 'root')} {
+        border-radius: ${v('size.rounded.md')};
+      }
       ${c('page-size-options')} {
         min-width: 4rem;
       }

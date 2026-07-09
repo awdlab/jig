@@ -14,9 +14,11 @@ export const checkboxStyles = createThemePart({
   root: {
     css: ({ v, c, d }) => css`
       ${c('box')} {
-        width: 1.5rem;
-        height: 1.5rem;
-        border: 2px solid ${v('color.border')};
+        width: 1rem;
+        height: 1rem;
+        /* The check/indeterminate glyphs are 1em icons, so this scales them down with the box. */
+        font-size: 0.75rem;
+        border: 1px solid ${v('color.border')};
         border-radius: ${v('size.rounded.sm')};
       }
       ${c('root')}:has(${c('input')}[disabled]) ${c('box')} {

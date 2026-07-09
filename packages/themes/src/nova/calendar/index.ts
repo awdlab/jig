@@ -52,7 +52,7 @@ export const calendarStyles = createThemePart({
         height: 2rem;
         background: transparent;
         border-width: 0;
-        border-radius: ${v('size.rounded.full')};
+        border-radius: ${v('size.rounded.md')};
         &:hover {
           background: ${v('color.surface.100')};
         }

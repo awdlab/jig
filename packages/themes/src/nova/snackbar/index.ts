@@ -52,7 +52,7 @@ export const snackbarStyles = createThemePart({
         --snk-icon-color: var(--theme-color-500);
         gap: ${v('size.padding.md')};
         padding: ${v('size.padding.md')} ${v('size.padding.xl')};
-        border-radius: ${v('size.rounded.lg')};
+        border-radius: ${v('size.rounded.md')};
         /* Clip the flush-left accent stripe to the rounded corners. */
         overflow: hidden;
         font-size: ${v('font.size.sm')};

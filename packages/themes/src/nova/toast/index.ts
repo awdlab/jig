@@ -4,6 +4,7 @@ import {
   animationTemplate,
   colorsTemplate,
   fontTemplate,
+  shadowTemplate,
   sizesTemplate,
   themedColors,
 } from '@ngneers/controls-themes/nova/base';
@@ -12,7 +13,7 @@ import { toastControlTemplate } from '@ngneers/controls-themes/templates/toast';
 export const toastStyles = createThemePart({
   controlTemplate: toastControlTemplate,
   base: baseStyles.toast,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate, shadowTemplate],
   root: {
     css: ({ v, c }) => css`
       ${themedColors(c, v)}
@@ -35,6 +36,7 @@ export const toastStyles = createThemePart({
         border-radius: ${v('size.rounded.md')};
         font-size: ${v('font.size.sm')};
         border: 1px solid var(--theme-color-600);
+        box-shadow: ${v('shadow.lg')};
       }
 
       ${c('defaultHeaderText')} {

@@ -24,7 +24,7 @@ export const tagStyles = createThemePart({
         line-height: 1;
         border-radius: ${v('size.rounded.md')};
         font-weight: ${v('font.weight.semibold')};
-        font-size: ${v('font.size.sm')};
+        font-size: ${v('font.size.md')};
       }
 
       ${c('icon')} {

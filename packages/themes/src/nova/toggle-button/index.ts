@@ -19,7 +19,7 @@ export const toggleButtonStyles = createThemePart({
         border-radius: ${v('size.rounded.md')};
         background-color: ${v('color.surface.100')};
         padding: ${v('size.padding.md')} ${v('size.padding.lg')};
-        border: 1px solid ${v('color.surface.200')};
+        border: 1px solid ${v('color.surface.400')};
         position: relative;
         font-weight: ${v('font.weight.normal')};
         cursor: pointer;

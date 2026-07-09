@@ -7,6 +7,12 @@ import type { Routes } from '@angular/router';
 export const routes: Routes = [
   { path: 'test', component: TestComponent },
   {
+    // Unlinked control overview — reachable by direct URL only (not in the
+    // docs menu). Lazy so it stays out of the main bundle.
+    path: '_gallery',
+    loadComponent: () => import('./gallery/gallery').then(m => m.NgnDocsGallery),
+  },
+  {
     path: '',
     component: NgnDocsFrame,
     children: [

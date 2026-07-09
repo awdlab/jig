@@ -22,7 +22,7 @@ export const listBoxStyles = createThemePart({
       }
       ${c('item')} {
         padding: ${v('size.padding.md')};
-        border-radius: ${v('size.rounded.md')};
+        border-radius: ${v('size.rounded.sm')};
         border-width: 0;
         border-style: solid;
         user-select: none;
@@ -45,7 +45,7 @@ export const listBoxStyles = createThemePart({
         font-weight: ${v('font.weight.semibold')};
         background: ${v('color.surface.100')};
         color: ${v('color.surface.500')};
-        border-radius: ${v('size.rounded.md')};
+        border-radius: ${v('size.rounded.sm')};
         border-width: 0;
         border-style: solid;
         cursor: default;

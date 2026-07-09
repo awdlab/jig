@@ -16,7 +16,7 @@ export const radioStyles = createThemePart({
       ${c('circle')} {
         width: 1.25rem;
         height: 1.25rem;
-        border: 2px solid ${v('color.border')};
+        border: 1px solid ${v('color.border')};
         border-radius: ${v('size.rounded.full')};
         transition: border-color ${v('anim.time.snappyFade')} ${v('anim.ease.snappyFade')};
       }

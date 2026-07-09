@@ -25,12 +25,17 @@ export const treeStyles = createThemePart({
         gap: ${v('size.padding.sm')};
         min-height: 2.25rem;
         padding-inline-end: ${v('size.padding.md')};
-        border-radius: ${v('size.rounded.md')};
+        border-radius: ${v('size.rounded.sm')};
         user-select: none;
         cursor: default;
         &:hover {
           background: ${v('color.surface.200')};
         }
+      }
+      /* Extra breathing room between a row's checkbox and its label
+         (adds to the row's flex gap; leaves the toggle-arrow spacing untouched). */
+      ${c('item-checkbox')} {
+        margin-inline-end: ${v('size.padding.sm')};
       }
       ${c('item-highlighted')} {
         background: ${v('color.surface.200')};

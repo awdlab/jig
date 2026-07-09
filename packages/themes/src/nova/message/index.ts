@@ -22,7 +22,7 @@ export const messageStyles = createThemePart({
         color: var(--theme-color-700-on-50);
         padding: ${v('size.padding.md')} ${v('size.padding.lg')};
         border-radius: ${v('size.rounded.md')};
-        font-size: ${v('font.size.sm')};
+        font-size: ${v('font.size.md')};
         border: 1px solid var(--theme-color-300);
       }
 
