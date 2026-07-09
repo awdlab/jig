@@ -135,6 +135,14 @@ export class NgnNumberInput extends ValueControlBase<'numberInput', number | nul
   /** Mirror of the input element's current text (drives the `empty` class). */
   private readonly _text = signal(this._input.value ?? '');
 
+  /**
+   * The last value applied by an internal mutation (step/commit/clear) that
+   * already set the edit text itself. Lets the value→text effect ignore those
+   * changes while focused, so a deferred flush can't clobber text the user
+   * typed right after (`undefined` = nothing applied internally yet).
+   */
+  private readonly _appliedValue = signal<number | null | undefined>(undefined);
+
   /** Whether the input holds no text at all. */
   public readonly empty = computed(() => this._text() === '');
 
@@ -153,6 +161,13 @@ export class NgnNumberInput extends ValueControlBase<'numberInput', number | nul
         }
         return;
       }
+      // Only reflect EXTERNAL value changes into the edit text. Internal
+      // mutations (step/commit/clear) set the text themselves and record
+      // `_appliedValue`; skipping them here prevents a deferred effect flush
+      // from clobbering text the user typed right after such a mutation.
+      if (value === untracked(() => this._appliedValue())) {
+        return;
+      }
       const parsed = parseLocaleNumber(
         text,
         untracked(() => this._localeInfo())
@@ -161,6 +176,7 @@ export class NgnNumberInput extends ValueControlBase<'numberInput', number | nul
       if (current !== value) {
         this._setText(value === null ? '' : this._editFormat().format(value));
       }
+      this._appliedValue.set(value);
     });
 
     domEventHandler(this.element, 'input', () => {
@@ -214,6 +230,7 @@ export class NgnNumberInput extends ValueControlBase<'numberInput', number | nul
         : (this.value() ?? null);
     const amount = big ? this.appliedBigStep() : this.appliedStep();
     const next = stepNumberValue(base, direction, amount, this.min(), this.max());
+    this._appliedValue.set(next);
     this.value.set(next);
     this._setText((this.focused() ? this._editFormat() : this._displayFormat()).format(next));
     return true;
@@ -240,6 +257,7 @@ export class NgnNumberInput extends ValueControlBase<'numberInput', number | nul
     if (this.disabled() || this.readonly()) {
       return false;
     }
+    this._appliedValue.set(null);
     this.value.set(null);
     this._setText('');
     return true;
@@ -254,10 +272,12 @@ export class NgnNumberInput extends ValueControlBase<'numberInput', number | nul
     const parsed = parseLocaleNumber(this._input.value, this._localeInfo());
     if (parsed.kind === 'invalid') {
       const value = this.value() ?? null;
+      this._appliedValue.set(value);
       this._setText(value === null ? '' : format.format(value));
       return;
     }
     const next = parsed.kind === 'empty' ? null : clampValue(parsed.value, this.min(), this.max());
+    this._appliedValue.set(next);
     this.value.set(next);
     this._setText(next === null ? '' : format.format(next));
   }

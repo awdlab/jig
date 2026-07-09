@@ -5,6 +5,7 @@ import {
   inject,
   signal,
   Type,
+  untracked,
   ViewContainerRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
@@ -47,6 +48,14 @@ export class App {
         return;
       }
       const component = viewContainerRef.createComponent(com);
+      // Apply inputs synchronously, before Angular's first change detection
+      // renders the component. Otherwise the control becomes visible in the
+      // DOM with default (empty) inputs, and the real inputs land a tick later
+      // — racing any test interaction that happens in between (e.g. a fill()
+      // that then gets clobbered by the late value). Read untracked so this
+      // create effect does not re-run (and recreate the component) whenever the
+      // inputs signal changes; the effect below handles later updates.
+      untracked(() => this.setInputs(component));
       this._testComponentRef.set(component);
     });
     effect(() => {
@@ -54,8 +63,8 @@ export class App {
     });
   }
 
-  private setInputs() {
-    const component = this._testComponentRef();
+  private setInputs(componentRef?: ComponentRef<TestComponentBase>) {
+    const component = componentRef ?? this._testComponentRef();
     if (!component) {
       return;
     }

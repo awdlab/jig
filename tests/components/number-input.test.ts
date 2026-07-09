@@ -33,14 +33,6 @@ async function loadNumberInput(
   );
   const input = page.locator('input[ngnnumberinput]');
   await expect(input).toBeVisible();
-  // The test wrapper creates the component first and applies `inputs` in a
-  // later effect, so the initial value arrives asynchronously. Gate on it
-  // landing (aria-valuenow reflects value(), locale-independent) before any
-  // interaction — otherwise a fill() can race the value→text effect, which
-  // then clobbers the typed text with the initial value.
-  if (typeof inputs.value === 'number') {
-    await expect(input).toHaveAttribute('aria-valuenow', String(inputs.value));
-  }
   const decrement = page.locator('ngn-spin-buttons button').nth(0);
   const increment = page.locator('ngn-spin-buttons button').nth(1);
   return { handle, input, increment, decrement };
