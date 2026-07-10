@@ -1,6 +1,6 @@
 <ngn-scroller
   [ptInt]="this"
-  [ptClass]="'scroller'"
+  [ptDep]="'scroller'"
   [virtual]="virtual()"
   [itemHeight]="itemHeight()"
   [items]="flatNodes()"
@@ -86,7 +86,7 @@
     @if (showCheckboxes() && selectableNode) {
       <ngn-checkbox
         [ptInt]="this"
-        [ptClass]="'item-checkbox'"
+        [ptDep]="'item-checkbox'"
         [allowIndeterminate]="true"
         [value]="state === 'indeterminate' ? null : state === 'checked'"
         aria-hidden="true"
@@ -96,7 +96,7 @@
       <!-- Disabled node: show the checkbox for consistency, but disabled. -->
       <ngn-checkbox
         [ptInt]="this"
-        [ptClass]="'item-checkbox'"
+        [ptDep]="'item-checkbox'"
         [allowIndeterminate]="true"
         [value]="state === 'indeterminate' ? null : state === 'checked'"
         [disabled]="true"

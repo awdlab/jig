@@ -8,7 +8,7 @@ export const spinButtonsStyles = createThemePart({
   base: baseStyles.spinButtons,
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
-    css: ({ v, c }) => css`
+    css: ({ v, c, d }) => css`
       /* Bleed over the field's vertical padding so the buttons reach the top
        * and bottom border — the whole cell out to the edge stays clickable. */
       ${c('root')} {
@@ -25,7 +25,8 @@ export const spinButtonsStyles = createThemePart({
       /* Scoped under the root so these win over the icon-button's own
        * two-class rules (e.g. .button-kind-icon.button-inline sets a fixed
        * width/height) regardless of stylesheet order. */
-      ${c('root')} ${c('button')} {
+      ${c('root')} ${d('decrement')},
+      ${c('root')} ${d('increment')} {
         color: ${v('color.surface.500')};
         /* Reset the underlying icon-button chrome (pill radius + fixed square
          * size): these buttons bleed to the field border and fill its height. */
@@ -47,7 +48,8 @@ export const spinButtonsStyles = createThemePart({
       }
 
       /* The stacked pair: two half-height chevrons that share one field line. */
-      ${c('pair')}:not(${c('kind-inline')}) ${c('button')} {
+      ${c('pair')}:not(${c('kind-inline')}) ${d('decrement')},
+      ${c('pair')}:not(${c('kind-inline')}) ${d('increment')} {
         flex: 1 1 0;
         font-size: calc(1em * 0.6);
         padding-block: 0;

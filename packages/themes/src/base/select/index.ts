@@ -32,7 +32,7 @@ export const selectStyles = createThemePart({
       ${c('root')} ${d('popover', 'content')} {
         padding: 0;
       }
-      ${c('list-box')}${d('list-box', 'root')} {
+      ${c('root')} ${d('list-box')} {
         border-width: 0;
       }
     `,

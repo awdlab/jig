@@ -5,7 +5,7 @@ export const filterStyles = createThemePart({
   controlTemplate: filterControlTemplate,
   dependencies: [],
   root: {
-    css: ({ c }) => css`
+    css: ({ c, d }) => css`
       ${c('popover-content')} {
         display: flex;
         flex-direction: column;
@@ -24,14 +24,14 @@ export const filterStyles = createThemePart({
         min-width: 0;
         align-items: center;
       }
-      ${c('operator')} {
+      ${d('operator')} {
         min-width: 0;
       }
-      ${c('value')} {
+      ${d('value')} {
         min-width: 0;
         flex: 1 1 auto;
       }
-      ${c('remove-btn')} {
+      ${d('remove-btn')} {
         flex: 0 0 auto;
       }
       ${c('condition-divider')} {

@@ -13,5 +13,5 @@ export const dialogControlTemplate = createControlTemplate({
     'default-footer',
     'close-button',
   ],
-  dependencies: [movableDirectiveTemplate],
+  dependencies: [{ class: 'movable', template: movableDirectiveTemplate, projected: true }],
 });

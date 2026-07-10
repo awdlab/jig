@@ -1,6 +1,8 @@
 <button
   ngnButton
   [kind]="'icon'"
+  [ptInt]="this"
+  [ptDep]="'previous'"
   [attr.aria-label]="i18n['paginator_previousPage']()"
   (click)="previousPage($event)"
 >
@@ -9,6 +11,8 @@
 
 <ngn-item-view
   #itemView
+  [ptInt]="this"
+  [ptDep]="'item-view'"
   [items]="pages()"
   [idField]="'page'"
   [overflowStrategy]="'aroundIndex'"
@@ -21,6 +25,8 @@
     <button
       ngnButton
       [kind]="'icon'"
+      [ptInt]="this"
+      [ptDep]="'page-number'"
       [ngStyle]="buttonStyles"
       [attr.aria-current]="page() === item.page ? 'page' : null"
       [ngClass]="
@@ -34,13 +40,24 @@
     </button>
   </ng-template>
   <ng-template #overflow let-item [ngnTemplate]="itemView.templateTypes.overflow">
-    <button ngnButton [kind]="'icon'" style="opacity: 0.5" disabled>...</button>
+    <button
+      ngnButton
+      [kind]="'icon'"
+      [ptInt]="this"
+      [ptDep]="'overflow'"
+      style="opacity: 0.5"
+      disabled
+    >
+      ...
+    </button>
   </ng-template>
 </ngn-item-view>
 
 <button
   ngnButton
   [kind]="'icon'"
+  [ptInt]="this"
+  [ptDep]="'next'"
   [attr.aria-label]="i18n['paginator_nextPage']()"
   (click)="nextPage($event)"
 >

@@ -34,7 +34,7 @@ export const listBoxStyles = createThemePart({
         background: ${v('color.accent.base')};
         color: ${v('color.accent.foreground')};
       }
-      ${c('item-selected')}:not(:has(${d('checkbox', 'root')})) {
+      ${c('item-selected')}:not(:has(${d('checkbox')})) {
         background: ${v('color.accent.base')};
         color: ${v('color.accent.foreground')};
         &:hover {

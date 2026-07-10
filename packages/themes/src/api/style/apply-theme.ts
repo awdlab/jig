@@ -225,8 +225,38 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions, isBase = 
         const unstyledSuffix = kind === 'animation' ? '' : unstyledSelector;
         return `${prefix}${getClassName(options.namePrefix, part.scope, className)}${unstyledSuffix}`;
       },
-      d: (scope: string, className?: string) => {
-        return `.${getClassName(options.namePrefix, scope, className)}${unstyledSelector}`;
+      d: (depClass: string, arg2?: string, arg3?: string) => {
+        const dep = part.controlTemplate?.dependencies?.find(d => d.class === depClass);
+
+        // Projected dependencies (arrive via <ng-content>) have no host element the parent
+        // can mark with [ptDep] — there is no marker to anchor on. Resolve directly to the
+        // child's own raw class instead.
+        if (dep?.projected === true) {
+          // no inner class → the raw child scope class itself
+          if (arg2 === undefined) {
+            return `.${getClassName(options.namePrefix, dep.template.scope)}${unstyledSelector}`;
+          }
+          // 3-arg grandchild form: (depClass, childScope, innerClassName) — anchor under the
+          // raw child class rather than a (nonexistent) marker.
+          if (arg3 !== undefined) {
+            return `.${getClassName(options.namePrefix, dep.template.scope)}${unstyledSelector} .${getClassName(options.namePrefix, arg2, arg3)}${unstyledSelector}`;
+          }
+          // 2-arg form: (depClass, innerClassName)
+          return `.${getClassName(options.namePrefix, dep.template.scope, arg2)}${unstyledSelector}`;
+        }
+
+        const marker = `.${getClassName(options.namePrefix, part.scope, depClass)}${unstyledSelector}`;
+        // no inner class → the child host (marker element)
+        if (arg2 === undefined) {
+          return marker;
+        }
+        // 3-arg grandchild form: (depClass, childScope, innerClassName)
+        if (arg3 !== undefined) {
+          return `${marker} .${getClassName(options.namePrefix, arg2, arg3)}${unstyledSelector}`;
+        }
+        // 2-arg form: (depClass, innerClassName) — resolve child scope from the dep template
+        const childScope = dep?.template.scope ?? depClass;
+        return `${marker} .${getClassName(options.namePrefix, childScope, arg2)}${unstyledSelector}`;
       },
     };
     return {

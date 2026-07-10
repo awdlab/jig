@@ -6,7 +6,6 @@ export const treeControlTemplate = createControlTemplate({
   scope: 'tree',
   classNames: [
     'root',
-    'scroller',
     'empty',
     'invalid',
     'item',
@@ -16,7 +15,6 @@ export const treeControlTemplate = createControlTemplate({
     'toggle-placeholder',
     'toggle-icon',
     'toggle-arrow',
-    'item-checkbox',
     'item-checkbox-placeholder',
     'item-selectable',
     'item-selected',
@@ -24,5 +22,8 @@ export const treeControlTemplate = createControlTemplate({
     'item-disabled',
     'item-expanded',
   ],
-  dependencies: [checkboxControlTemplate, scrollerControlTemplate],
+  dependencies: [
+    { class: 'scroller', template: scrollerControlTemplate },
+    { class: 'item-checkbox', template: checkboxControlTemplate },
+  ],
 });

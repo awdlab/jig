@@ -32,5 +32,4 @@ task-oriented layer on top of the docs: it helps decide _what to build with_.
 
 ## Rule
 
-Prefer an existing recipe's shape over inventing a composition. Always confirm
-control inputs with `get_control` before writing template bindings.
+Prefer an existing recipe's shape over inventing a composition.

@@ -1,4 +1,6 @@
 <ngn-inplace
+  [ptInt]="this"
+  [ptDep]="'inplace'"
   [templateDisplay]="displayTemplate()"
   [templateDisplayContext]="{ $implicit: { value: value() } }"
   [templateContent]="editTemplate()"

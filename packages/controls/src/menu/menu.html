@@ -1,7 +1,7 @@
 @if (popover() && anchor(); as anchor) {
   <ngn-popover
     [ptInt]="this"
-    [ptClass]="'popover'"
+    [ptDep]="'popover'"
     [anchor]="anchor"
     [options]="{ placement: placement(), padding: isSubMenu() ? 0 : undefined }"
     (openChange)="popoverOpenChange($event)"

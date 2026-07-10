@@ -34,13 +34,13 @@ export const treeStyles = createThemePart({
       }
       /* Extra breathing room between a row's checkbox and its label
          (adds to the row's flex gap; leaves the toggle-arrow spacing untouched). */
-      ${c('item-checkbox')} {
+      ${d('item-checkbox')} {
         margin-inline-end: ${v('size.padding.sm')};
       }
       ${c('item-highlighted')} {
         background: ${v('color.surface.200')};
       }
-      ${c('item-selected')}:not(:has(${d('checkbox', 'root')})) {
+      ${c('item-selected')}:not(:has(${d('item-checkbox')})) {
         background: ${v('color.surface.300')};
         &:hover {
           background: ${v('color.surface.300')};

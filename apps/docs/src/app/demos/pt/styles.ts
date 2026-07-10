@@ -3,10 +3,6 @@ import { NgnCalendar } from '@ngneers/controls/calendar';
 
 import type { NgnPassthrough } from '@ngneers/controls/base';
 
-/**
- * A booking UI brands the selected day and enlarges the day cells for touch —
- * all via inline styles pushed into the calendar's internal scope classes.
- */
 @Component({
   selector: 'ngn-demo-pt-styles',
   imports: [NgnCalendar],

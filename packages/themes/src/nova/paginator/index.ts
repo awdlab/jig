@@ -9,12 +9,15 @@ export const paginatorStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
     css: ({ v, c, d }) => css`
-      ${c('root')} > ${d('item-view', 'root')} {
+      ${c('root')} > ${d('item-view')} {
         justify-content: center;
       }
       /* Page cells are icon buttons (circular by default) — square them off to
          match the rest of nova's clickable cells. */
-      ${c('root')} ${d('button', 'root')} {
+      ${c('root')} ${d('previous')},
+      ${c('root')} ${d('next')},
+      ${c('root')} ${d('page-number')},
+      ${c('root')} ${d('overflow')} {
         border-radius: ${v('size.rounded.md')};
       }
       ${c('page-size-options')} {

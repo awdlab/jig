@@ -31,8 +31,8 @@ export const stateStyles = createThemePart({
         height: 100%;
       }
 
-      ${c('root')} ${d('icon', 'root')},
-      ${c('root')} ${d('spinner', 'root')} {
+      ${c('root')} ${d('icon')},
+      ${c('root')} ${d('spinner')} {
         width: 100%;
         height: 100%;
         color: inherit;

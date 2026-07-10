@@ -59,7 +59,17 @@ export class NgnPtEngine<T extends NgnBaseSafe<Name>, Name extends ControlName> 
             T extends NgnBaseSafe<infer A> ? (A extends null ? never : A) : never
           >
         >
-      | AppliedThemeClassCfg<T extends NgnBaseSafe<infer A> ? (A extends null ? never : A) : never>
+      | AppliedThemeClassCfg<T extends NgnBaseSafe<infer A> ? (A extends null ? never : A) : never>,
+    options?: {
+      /**
+       * When `false`, the engine only toggles the resolved theme class(es) on the
+       * element and does NOT apply the control's `pt` slice (styles/attributes/
+       * classes/listeners) for those classes. Used for dependency-slot markers,
+       * where the forwarded passthrough is applied through the nested control's
+       * own engine rather than flatly on the host. Defaults to `true`.
+       */
+      applyPassthrough?: boolean;
+    }
   ) {
     const sigPt = typeof pt === 'function' ? pt : signal(pt);
     const sigPtClass = typeof ptClass === 'function' ? ptClass : signal(ptClass);
@@ -69,6 +79,10 @@ export class NgnPtEngine<T extends NgnBaseSafe<Name>, Name extends ControlName> 
 
     const classes = computed(() => this.classes().map(c => c.class));
     classSignal(this._elementRef.nativeElement, classes);
+
+    if (options?.applyPassthrough === false) {
+      return;
+    }
 
     effectWithPrevious(this._appliedPts, (current, previous) => {
       if (previous) {

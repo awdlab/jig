@@ -38,22 +38,28 @@ export const tableStyles = createThemePart({
         align-items: center;
         grid-row: 1;
       }
-      ${c('body')}${d('scroller', 'root')} {
+      ${c('body')}${d('scroller')} {
         display: grid;
-        grid-template-rows: repeat(auto, var(--ngn-table-row-height));
+        grid-auto-rows: var(--ngn-table-row-height);
         grid-template-columns: subgrid;
         grid-column: 1 / -1;
         overflow: visible;
         height: auto;
-        > ${d('scroller', 'item')} {
-          display: grid;
-          grid-template-columns: subgrid;
-          grid-column: 1 / -1;
-        }
         &::before,
         &::after {
           grid-column: 1 / -1;
         }
+      }
+      /* d('scroller', 'item') already resolves to a full marker-anchored selector
+         (.ngn-table-scroller .ngn-scroller-item) — nesting it under the block above via >
+         would re-require a second, separate .ngn-table-scroller-classed element between the
+         marked tbody and the item, which never exists (the marker lives on the tbody itself),
+         so the rule silently never matched and rows fell back to implicit grid auto-placement.
+         Kept as an independent top-level rule instead. */
+      ${d('scroller', 'item')} {
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-column: 1 / -1;
       }
       ${c('row')} {
         display: grid;

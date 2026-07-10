@@ -3,10 +3,6 @@ import { NgnCalendar } from '@ngneers/controls/calendar';
 
 import type { NgnPassthrough } from '@ngneers/controls/base';
 
-/**
- * Apply Tailwind utility classes to internal scopes — a rounded, tinted header
- * and a primary ring around the whole calendar — without touching the theme.
- */
 @Component({
   selector: 'ngn-demo-pt-classes',
   imports: [NgnCalendar],

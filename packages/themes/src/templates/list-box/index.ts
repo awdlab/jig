@@ -12,10 +12,12 @@ export const listBoxControlTemplate = createControlTemplate({
     'group',
     'default-item',
     'default-group',
-    'scroller',
     'item-selected',
     'item-highlighted',
     'item-disabled',
   ],
-  dependencies: [checkboxControlTemplate, scrollerControlTemplate],
+  dependencies: [
+    { class: 'checkbox', template: checkboxControlTemplate },
+    { class: 'scroller', template: scrollerControlTemplate },
+  ],
 });

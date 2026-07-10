@@ -38,12 +38,16 @@ jobs:
         run: pnpm run docs:build
 
   playwright:
-    name: "Playwright Tests"
-    # The suite already ran ~19 min on main and grows with each new control,
-    # leaving no headroom under the previous 20 min cap. Raised to 30; consider
-    # sharding across runners if it approaches this again.
-    timeout-minutes: 30
+    name: "Playwright Tests (shard ${{ matrix.shard }}/${{ strategy.job-total }})"
+    # Sharded across runners so wall-clock stays flat as the suite grows.
+    # Per-shard cap; the whole suite ran ~19 min unsharded on a single runner.
+    timeout-minutes: 15
     runs-on: ubuntu-latest
+    strategy:
+      # Don't cancel sibling shards when one fails — we want the full picture.
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
     container:
       image: mcr.microsoft.com/playwright:v1.61.0-noble
       options: --user 1001
@@ -57,16 +61,23 @@ jobs:
       - name: Install
         run: pnpm i
       - name: Check for test compiler errors
+        # Compiling the tests once is enough — gate to a single shard.
+        if: matrix.shard == 1
         run: pnpm run test:build
       - name: Run Tests
-        run: pnpm run test
+        run: pnpm exec playwright test --shard=${{ matrix.shard }}/${{ strategy.job-total }}
         env:
           FORCE_COLOR: 1
       - name: Upload Test Results
+        # Run even when tests fail — the XML is needed to diagnose failures and
+        # is what the downstream Test Results workflow publishes as the PR check.
+        if: always()
         continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
-          name: Test Results
+          # Unique per shard (upload-artifact@v4 rejects duplicate names). The
+          # downstream Test Results workflow globs artifacts/**/*.xml and merges.
+          name: test-results-${{ matrix.shard }}
           path: tests/results/test-report.xml
 
   event_file:

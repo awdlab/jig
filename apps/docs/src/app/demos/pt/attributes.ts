@@ -3,10 +3,6 @@ import { NgnCalendar } from '@ngneers/controls/calendar';
 
 import type { NgnPassthrough } from '@ngneers/controls/base';
 
-/**
- * Static attribute hooks: a `data-testid` for e2e selectors on the root, plus
- * `data-*` / `aria-*` markers on the today cell for analytics and assistive tech.
- */
 @Component({
   selector: 'ngn-demo-pt-attributes',
   imports: [NgnCalendar],

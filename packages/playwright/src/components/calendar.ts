@@ -20,10 +20,12 @@ export class NgnCalendarHarness {
   public readonly weekDay: Locator;
 
   constructor(public locator: Locator) {
-    this.backButton = locator.locator(this.classes.previous);
-    this.nextButton = locator.locator(this.classes.next);
-    this.currentMonth = new NgnSelectHarness(locator.locator(this.classes['current-month']));
-    this.currentYear = new NgnSelectHarness(locator.locator(this.classes['current-year']));
+    this.backButton = locator.locator(this.classes.previous['root']);
+    this.nextButton = locator.locator(this.classes.next['root']);
+    this.currentMonth = new NgnSelectHarness(
+      locator.locator(this.classes['current-month']['root'])
+    );
+    this.currentYear = new NgnSelectHarness(locator.locator(this.classes['current-year']['root']));
     this.days = locator.locator(this.classes.days);
     this.day = locator.locator(this.classes.day);
     this.daySameMonth = locator.locator(

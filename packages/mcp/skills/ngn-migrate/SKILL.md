@@ -1,6 +1,6 @@
 ---
 name: ngn-migrate
-description: Migrate an Angular app from PrimeNG, Angular Material, or Syncfusion to @ngneers/controls (ngn). Use when replacing another component library with ngn controls, porting components, or when the user mentions migrating p-*, mat-*, or ejs-* components.
+description: Migrate an Angular app from PrimeNG, Angular Material, or Syncfusion to @ngneers/controls (ngn). Use when replacing another component library with ngn, or when the user mentions porting/migrating p-*, mat-*, or ejs-* components.
 metadata:
   version: 1
 ---

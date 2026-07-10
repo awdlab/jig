@@ -18,17 +18,18 @@
 </ngn-drawer>
 
 <ng-template #menu>
-  <div class="flex max-h-full w-64 shrink-0 flex-col overflow-y-auto pb-8">
-    <!-- TODO: make this switcher fill the sidebar width instead of hugging its
-    widest label. Blocked: the fit-content lives in the nested button-group's
-    vertical container + the inline-grid inner button, neither of which
-    select-button exposes as a passthrough scope. Fix via [pt] once nested pt
-    (forwarding into child controls' scopes) is supported. -->
+  <div
+    class="flex max-h-full w-64 shrink-0 [scrollbar-gutter:stable] flex-col overflow-y-auto pb-8"
+  >
+    <!-- Deep passthrough fills the switcher to the sidebar width: `group` reaches
+    the nested button-group container, `button` reaches each toggle-button's host
+    and inline-grid inner button — see `switcherPt`. -->
     <ngn-select-button
       class="m-4"
       orientation="vertical"
       [options]="tabOptions"
       [value]="activeTabTitle()"
+      [pt]="switcherPt"
       (valueChange)="onTabChange($event)"
     />
 

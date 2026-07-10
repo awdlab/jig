@@ -9,7 +9,7 @@ export const filterStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
     // color.border swaps automatically between schemes, so no separate dark block is needed.
-    css: ({ v, c }) => css`
+    css: ({ v, c, d }) => css`
       ${c('icon')} {
         cursor: pointer;
       }
@@ -24,15 +24,15 @@ export const filterStyles = createThemePart({
         gap: ${v('size.padding.sm')};
         flex-wrap: nowrap;
       }
-      ${c('operator')} {
+      ${d('operator')} {
         flex: 0 1 auto;
         min-width: 0;
       }
-      ${c('value')} {
+      ${d('value')} {
         flex: 1 1 0;
         min-width: 80px;
       }
-      ${c('remove-btn')} {
+      ${d('remove-btn')} {
         flex: 0 0 auto;
       }
       ${c('condition-divider')} {

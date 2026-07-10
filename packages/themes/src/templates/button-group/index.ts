@@ -5,5 +5,8 @@ import { toggleButtonControlTemplate } from '@ngneers/controls-themes/templates/
 export const buttonGroupControlTemplate = createControlTemplate({
   scope: 'button-group',
   classNames: ['root', 'vertical', 'horizontal'],
-  dependencies: [buttonControlTemplate, toggleButtonControlTemplate],
+  dependencies: [
+    { class: 'button', template: buttonControlTemplate, projected: true },
+    { class: 'toggle-button', template: toggleButtonControlTemplate, projected: true },
+  ],
 });

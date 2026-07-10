@@ -2,6 +2,8 @@
   [orientation]="orientation()"
   [attr.aria-label]="label()"
   [attr.aria-labelledby]="labelledBy()"
+  [ptInt]="this"
+  [ptDep]="'group'"
 >
   @for (item of options(); track item.value) {
     <ngn-toggle-button
@@ -14,7 +16,7 @@
       [attr.data-testid]="item.testId"
       [disabled]="disabled()"
       [ptInt]="this"
-      [ptClass]="'button'"
+      [ptDep]="'button'"
     />
   }
 </ngn-button-group>

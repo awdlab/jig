@@ -1,5 +1,7 @@
 <ngn-item-view
   #itemView
+  [ptInt]="this"
+  [ptDep]="'item-view'"
   [items]="items()"
   [idField]="'id'"
   [templateItem]="itemTemplate()"
@@ -43,5 +45,12 @@
   <button #menuAnchor [ptInt]="this" [ptClass]="'overflow'" (click)="menu.show()">
     <ngn-icon defaultIcon="breadcrumb-overflow" [icon]="overflow.icon" />
   </button>
-  <ngn-menu #menu [popover]="true" [items]="overflow.overflowingItems" [anchor]="menuAnchor" />
+  <ngn-menu
+    #menu
+    [ptInt]="this"
+    [ptDep]="'menu'"
+    [popover]="true"
+    [items]="overflow.overflowingItems"
+    [anchor]="menuAnchor"
+  />
 </ng-template>

@@ -3,30 +3,45 @@ import { type Scoped } from './scoped';
 import { type VariableValues } from './variable';
 import { type VariableTemplate } from './variable-template';
 
-type ChildrenScopes<Deps> = Deps extends readonly (infer Child)[]
-  ? Child extends ControlTemplate
-    ? Child['scope']
+type DepClasses<Deps> = Deps extends readonly (infer Dep)[]
+  ? Dep extends { class: infer Cls extends string }
+    ? Cls
     : never
   : never;
 
-type ClassnameForChildScope<Deps, Scope> =
-  Scope extends ChildrenScopes<Deps>
-    ? Deps extends readonly (infer Child)[]
-      ? Child extends ControlTemplate<Scope>
-        ? Child['classNames'][number]
-        : never
+// Projected deps have no marker element to select via `c()` — only non-projected deps are
+// valid `c()` targets. `d()` still accepts all deps (including projected ones) via `DepClasses`.
+type NonProjectedDepClasses<Deps> = Deps extends readonly (infer Dep)[]
+  ? Dep extends { projected: true }
+    ? never
+    : Dep extends { class: infer Cls extends string }
+      ? Cls
       : never
-    : never;
+  : never;
+
+type DepTemplateFor<Deps, Cls> = Deps extends readonly (infer Dep)[]
+  ? Dep extends { class: Cls; template: infer T extends ControlTemplate }
+    ? T
+    : never
+  : never;
 
 type ThemePartContent<V, K, C, Deps> = {
   readonly values?: V;
   readonly css?: (args: {
     v: (key: K) => string;
     c: (className: C, kind?: 'class' | 'animation') => string;
-    d: <const Scope extends ChildrenScopes<Deps>>(
-      scope: Scope,
-      className: ClassnameForChildScope<Deps, Scope>
-    ) => string;
+    d: {
+      <const Cls extends DepClasses<Deps>>(depClass: Cls): string;
+      <const Cls extends DepClasses<Deps>>(
+        depClass: Cls,
+        innerClassName: DepTemplateFor<Deps, Cls>['classNames'][number]
+      ): string;
+      <const Cls extends DepClasses<Deps>>(
+        depClass: Cls,
+        childScope: string,
+        innerClassName: string
+      ): string;
+    };
   }) => string;
 };
 
@@ -38,7 +53,7 @@ type _ThemePartContent<
 > = ThemePartContent<
   VariableValues<V[number]['variables'], V[number]['__varkeys'] | D[number]['__varkeys']>,
   V[number]['__varkeys'] | D[number]['__varkeys'],
-  C['classNames'][number],
+  C['classNames'][number] | NonProjectedDepClasses<C['dependencies']>,
   C['dependencies']
 >;
 

@@ -52,14 +52,14 @@ interface Stats {
           >
             <span class="ngn-rainbow-text">npm v{{ version() ?? '…' }}</span>
           </a>
-          <a
+          <!-- <a
             href="https://github.com/NGneers/controls"
             target="_blank"
             rel="noopener"
             class="inline-flex items-center rounded-full border border-(--ngn-color-surface-200) bg-(--ngn-color-surface-25) px-(--ngn-size-padding-md) py-(--ngn-size-padding-xs) text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold)"
           >
             <span class="ngn-rainbow-text">&#9733; {{ stars() ?? '…' }}</span>
-          </a>
+          </a> -->
         </div>
         <h1
           class="mx-auto mb-(--ngn-size-padding-lg) max-w-[820px] text-[3rem] leading-[1.1] font-(--ngn-font-weight-bold) tracking-tight text-(--ngn-color-primary-700) lg:text-[4rem]"

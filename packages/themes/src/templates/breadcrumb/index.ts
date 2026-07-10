@@ -5,5 +5,8 @@ import { menuControlTemplate } from '@ngneers/controls-themes/templates/menu';
 export const breadcrumbControlTemplate = createControlTemplate({
   scope: 'breadcrumb',
   classNames: ['root', 'item', 'item-clickable', 'separator', 'overflow'],
-  dependencies: [itemViewControlTemplate, menuControlTemplate],
+  dependencies: [
+    { class: 'item-view', template: itemViewControlTemplate },
+    { class: 'menu', template: menuControlTemplate },
+  ],
 });

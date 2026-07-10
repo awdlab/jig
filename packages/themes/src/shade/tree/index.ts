@@ -37,7 +37,7 @@ export const treeStyles = createThemePart({
         background: ${v('color.accent.base')};
         color: ${v('color.accent.foreground')};
       }
-      ${c('item-selected')}:not(:has(${d('checkbox', 'root')})) {
+      ${c('item-selected')}:not(:has(${d('item-checkbox')})) {
         background: ${v('color.accent.base')};
         color: ${v('color.accent.foreground')};
         &:hover {

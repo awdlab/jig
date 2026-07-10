@@ -10,7 +10,7 @@ export const paginatorStyles = createThemePart({
   root: {
     // Page buttons are composed button controls (styled by the button part); layout only here.
     css: ({ c, d, v }) => css`
-      ${c('root')} > ${d('item-view', 'root')} {
+      ${c('root')} > ${d('item-view')} {
         justify-content: center;
       }
       ${c('page-size-options')} {

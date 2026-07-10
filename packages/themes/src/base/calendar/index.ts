@@ -16,10 +16,10 @@ export const calendarStyles = createThemePart({
         width: 100%;
         outline: none;
       }
-      ${c('input')} {
+      ${d('input')} {
         cursor: text;
       }
-      ${c('trigger-icon')} {
+      ${d('trigger-icon')} {
         cursor: pointer;
       }
       ${c('details')} {
@@ -58,7 +58,7 @@ export const calendarStyles = createThemePart({
         justify-content: center;
         font-size: inherit;
       }
-      ${c('current-year')} ${d('select', 'root')} ${d('input', 'root')} {
+      ${d('current-year', 'input', 'root')} {
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
           display: none; // Chromium and WebKit

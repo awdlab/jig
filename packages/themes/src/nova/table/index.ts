@@ -68,7 +68,7 @@ export const tableStyles = createThemePart({
       ${c('striped')} ${c('even')} {
         --ngn-cell-bg-base: ${v('color.surface.100')};
       }
-      ${c('root')} ${d('paginator', 'root')} {
+      ${c('root')} ${d('paginator')} {
         width: 90%;
         max-width: 800px;
         align-self: center;
@@ -190,7 +190,7 @@ export const tableStyles = createThemePart({
       ${c('sticky-end-edge')} {
         overflow: visible;
       }
-      ${d('scrollShadow', 'scrolled-start')} ${c('sticky-start-edge')}::after {
+      ${d('scroll-shadow', 'scrolled-start')} ${c('sticky-start-edge')}::after {
         content: '';
         position: absolute;
         top: 0;
@@ -200,7 +200,7 @@ export const tableStyles = createThemePart({
         pointer-events: none;
         background: linear-gradient(to right, rgba(0, 0, 0, 0.15), transparent);
       }
-      ${d('scrollShadow', 'scrolled-end')} ${c('sticky-end-edge')}::after {
+      ${d('scroll-shadow', 'scrolled-end')} ${c('sticky-end-edge')}::after {
         content: '';
         position: absolute;
         top: 0;
@@ -213,7 +213,7 @@ export const tableStyles = createThemePart({
       ${c('selection-column')} {
         overflow: visible;
       }
-      ${d('scrollShadow', 'scrolled-start')} ${c('selection-column')}::after {
+      ${d('scroll-shadow', 'scrolled-start')} ${c('selection-column')}::after {
         content: '';
         position: absolute;
         top: 0;

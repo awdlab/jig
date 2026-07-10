@@ -12,7 +12,7 @@ export const breadcrumbStyles = createThemePart({
       ${c('root')} {
         gap: ${v('size.padding.md')};
         font-size: ${v('font.size.sm')};
-        ${d('item-view', 'root')} {
+        ${d('item-view')} {
           gap: ${v('size.padding.md')};
         }
       }

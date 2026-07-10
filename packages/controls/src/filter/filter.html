@@ -4,11 +4,13 @@
       <div [ptInt]="this" [ptClass]="'row'" data-testid="filter-row-list">
         <ngn-input-field
           [ptInt]="this"
-          [ptClass]="'value'"
+          [ptDep]="'value'"
           [disabled]="disabled()"
           [readonly]="readonly()"
         >
           <ngn-select
+            [ptInt]="this"
+            [ptDep]="'list-select'"
             [multiple]="true"
             [options]="resolvedListOptions()"
             [value]="$any(templateListSelection())"
@@ -23,11 +25,13 @@
         <div [ptInt]="this" [ptClass]="'row'" [attr.data-testid]="'filter-row-' + i">
           <ngn-input-field
             [ptInt]="this"
-            [ptClass]="operatorRequiresValue(c.operator) ? 'operator' : 'value'"
+            [ptDep]="operatorRequiresValue(c.operator) ? 'operator' : 'value'"
             [disabled]="disabled()"
             [readonly]="readonly()"
           >
             <ngn-select
+              [ptInt]="this"
+              [ptDep]="'operator-select'"
               [options]="operatorOptions()"
               [value]="c.operator"
               [disabled]="disabled()"
@@ -39,11 +43,13 @@
             @if (isDateType()) {
               <ngn-input-field
                 [ptInt]="this"
-                [ptClass]="'value'"
+                [ptDep]="'value'"
                 [disabled]="disabled()"
                 [readonly]="readonly()"
               >
                 <ngn-calendar
+                  [ptInt]="this"
+                  [ptDep]="'calendar'"
                   [showTime]="isShowTime()"
                   [value]="parseRawDate(c.rawValue)"
                   [disabled]="disabled()"
@@ -54,12 +60,14 @@
             } @else {
               <ngn-input-field
                 [ptInt]="this"
-                [ptClass]="'value'"
+                [ptDep]="'value'"
                 [disabled]="disabled()"
                 [readonly]="readonly()"
               >
                 <input
                   ngnInput
+                  [ptInt]="this"
+                  [ptDep]="'input'"
                   [type]="inputType()"
                   [value]="c.rawValue || ''"
                   [disabled]="disabled()"
@@ -76,7 +84,7 @@
               ngnButton
               kind="icon"
               [ptInt]="this"
-              [ptClass]="'remove-btn'"
+              [ptDep]="'remove-btn'"
               [disabled]="disabled() || readonly()"
               (click)="removeCondition(i)"
               [attr.aria-label]="i18n['filter_removeCondition']() + ' ' + (i + 1)"
@@ -117,6 +125,8 @@
           type="button"
           ngnButton
           kind="secondary"
+          [ptInt]="this"
+          [ptDep]="'add-button'"
           (click)="addCondition()"
           data-testid="filter-add-rule"
         >
@@ -130,6 +140,8 @@
             type="button"
             ngnButton
             kind="secondary"
+            [ptInt]="this"
+            [ptDep]="'cancel-button'"
             (click)="cancelChanges()"
             data-testid="filter-cancel"
           >
@@ -139,6 +151,8 @@
             type="button"
             ngnButton
             kind="primary"
+            [ptInt]="this"
+            [ptDep]="'apply-button'"
             (click)="apply()"
             data-testid="filter-apply"
           >
@@ -149,6 +163,8 @@
             type="button"
             ngnButton
             kind="secondary"
+            [ptInt]="this"
+            [ptDep]="'clear-button'"
             (click)="clear()"
             data-testid="filter-clear"
           >
@@ -163,6 +179,8 @@
 <ng-template #popoverTemplate let-anchor="anchor">
   <ngn-popover
     #popover
+    [ptInt]="this"
+    [ptDep]="'popover'"
     [options]="appliedPopoverOptions()"
     [anchor]="anchor"
     [hasShrinkableContent]="true"
@@ -186,7 +204,7 @@
 } @else if (mode() === 'input') {
   <ngn-input-field
     [ptInt]="this"
-    [ptClass]="'input-field'"
+    [ptDep]="'input-field'"
     (click)="!disabled() && !readonly() && show()"
     (keydown)="onKeyDown($event)"
     #field

@@ -1,5 +1,4 @@
 import { createControlTemplate } from '@ngneers/controls-themes/api';
-import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 
 export const maskInputControlTemplate = createControlTemplate({
   scope: 'mask-input',
@@ -12,5 +11,5 @@ export const maskInputControlTemplate = createControlTemplate({
     'proxy',
     'sr-only',
   ],
-  dependencies: [inputFieldControlTemplate],
+  dependencies: [],
 });

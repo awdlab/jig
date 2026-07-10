@@ -23,13 +23,11 @@ export const menuStyles = createThemePart({
         border: 1px solid ${v('color.border')};
         box-shadow: ${v('shadow.lg')};
       }
-      ${c('popover')} {
-        ${d('popover', 'content')} {
-          border: none;
-          padding: 0;
-          min-width: 160px;
-          box-shadow: none;
-        }
+      ${d('popover', 'content')} {
+        border: none;
+        padding: 0;
+        min-width: 160px;
+        box-shadow: none;
       }
       ${c('item')} {
         border-radius: ${v('size.rounded.sm')};

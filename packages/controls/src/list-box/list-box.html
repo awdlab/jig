@@ -1,6 +1,6 @@
 <ngn-scroller
   [ptInt]="this"
-  [ptClass]="'scroller'"
+  [ptDep]="'scroller'"
   [virtual]="virtual()"
   [itemHeight]="itemHeight()"
   [items]="displayedItems()"
@@ -49,6 +49,8 @@
   >
     @if (showCheckboxes() && !itemOrGroup.items) {
       <ngn-checkbox
+        [ptInt]="this"
+        [ptDep]="'checkbox'"
         [value]="valueArray().includes(itemOrGroup.value)"
         aria-hidden="true"
         inert="true"

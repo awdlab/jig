@@ -13,7 +13,7 @@
   >
     <ngn-mask-input
       [ptInt]="this"
-      [ptClass]="'input'"
+      [ptDep]="'input'"
       [mask]="maskCfg()"
       [invalid]="invalid()"
       [value]="valueStr()"
@@ -21,10 +21,12 @@
       [disabled]="disabled()"
       [readonly]="readonly()"
     />
-    <ngn-icon defaultIcon="calendar-trigger" [ptInt]="this" [ptClass]="'trigger-icon'" />
+    <ngn-icon defaultIcon="calendar-trigger" [ptInt]="this" [ptDep]="'trigger-icon'" />
   </div>
   <ngn-popover
     #popover
+    [ptInt]="this"
+    [ptDep]="'popover'"
     [anchor]="anchorElement"
     [id]="inputId() + '_popover'"
     (closing)="potentiallyBlurred()"
@@ -92,8 +94,10 @@
 
 <ng-template #defaultYearTemplate [ngnTemplate]="templateTypes.year" let-y>
   @defer {
-    <ngn-input-field [ptInt]="this" [ptClass]="'current-year'">
+    <ngn-input-field [ptInt]="this" [ptDep]="'current-year-field'">
       <ngn-select
+        [ptInt]="this"
+        [ptDep]="'current-year'"
         [editable]="true"
         [value]="year() + ''"
         (valueChange)="y.change(+($event || 0))"
@@ -113,8 +117,10 @@
 
 <ng-template #defaultMonthTemplate [ngnTemplate]="templateTypes.month" let-m>
   @defer {
-    <ngn-input-field [ptInt]="this" [ptClass]="'current-month'">
+    <ngn-input-field [ptInt]="this" [ptDep]="'current-month-field'">
       <ngn-select
+        [ptInt]="this"
+        [ptDep]="'current-month'"
         [value]="m.month"
         (valueChange)="m.change($event!)"
         [options]="monthOptions()"

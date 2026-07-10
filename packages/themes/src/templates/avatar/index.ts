@@ -7,6 +7,6 @@ export const avatarControlTemplate = createControlTemplate({
 
 export const avatarGroupControlTemplate = createControlTemplate({
   scope: 'avatar-group',
-  dependencies: [avatarControlTemplate],
+  dependencies: [{ class: 'avatar', template: avatarControlTemplate, projected: true }],
   classNames: ['root', 'kind-*'],
 });

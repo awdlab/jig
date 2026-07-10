@@ -70,7 +70,7 @@ export const tableStyles = createThemePart({
       ${c('striped')} ${c('even')} {
         --ngn-cell-bg-base: color-mix(in srgb, ${v('color.muted.base')} 50%, transparent);
       }
-      ${c('root')} ${d('paginator', 'root')} {
+      ${c('root')} ${d('paginator')} {
         width: 90%;
         max-width: 800px;
         align-self: center;
@@ -199,7 +199,7 @@ export const tableStyles = createThemePart({
       ${c('sticky-end-edge')} {
         overflow: visible;
       }
-      ${d('scrollShadow', 'scrolled-start')} ${c('sticky-start-edge')}::after {
+      ${d('scroll-shadow', 'scrolled-start')} ${c('sticky-start-edge')}::after {
         content: '';
         position: absolute;
         top: 0;
@@ -209,7 +209,7 @@ export const tableStyles = createThemePart({
         pointer-events: none;
         background: linear-gradient(to right, rgb(0 0 0 / 0.08), transparent);
       }
-      ${d('scrollShadow', 'scrolled-end')} ${c('sticky-end-edge')}::after {
+      ${d('scroll-shadow', 'scrolled-end')} ${c('sticky-end-edge')}::after {
         content: '';
         position: absolute;
         top: 0;
@@ -222,7 +222,7 @@ export const tableStyles = createThemePart({
       ${c('selection-column')} {
         overflow: visible;
       }
-      ${d('scrollShadow', 'scrolled-start')} ${c('selection-column')}::after {
+      ${d('scroll-shadow', 'scrolled-start')} ${c('selection-column')}::after {
         content: '';
         position: absolute;
         top: 0;
@@ -237,11 +237,11 @@ export const tableStyles = createThemePart({
   dark: {
     css: ({ c, d }) => css`
       /* dark surfaces are near-black, so the sticky-edge fade needs more presence */
-      ${d('scrollShadow', 'scrolled-start')} ${c('sticky-start-edge')}::after,
-      ${d('scrollShadow', 'scrolled-start')} ${c('selection-column')}::after {
+      ${d('scroll-shadow', 'scrolled-start')} ${c('sticky-start-edge')}::after,
+      ${d('scroll-shadow', 'scrolled-start')} ${c('selection-column')}::after {
         background: linear-gradient(to right, rgb(0 0 0 / 0.4), transparent);
       }
-      ${d('scrollShadow', 'scrolled-end')} ${c('sticky-end-edge')}::after {
+      ${d('scroll-shadow', 'scrolled-end')} ${c('sticky-end-edge')}::after {
         background: linear-gradient(to left, rgb(0 0 0 / 0.4), transparent);
       }
     `,

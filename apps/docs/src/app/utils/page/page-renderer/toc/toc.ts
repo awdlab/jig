@@ -103,6 +103,13 @@ export class NgnDocsToc {
   protected scrollTo(id: string, event: Event) {
     event.preventDefault();
     resolveHeading(this._document, id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Reflect the target in the URL so it can be copied / shared / reloaded.
+    // Keep the full path/query — a bare `#id` resolves against `<base href>`
+    // and would overwrite the route.
+    const view = this._document.defaultView;
+    if (view) {
+      view.history.pushState(null, '', `${view.location.pathname}${view.location.search}#${id}`);
+    }
     this.activeId.set(id);
   }
 }

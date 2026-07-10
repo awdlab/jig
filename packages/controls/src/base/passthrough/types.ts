@@ -19,9 +19,7 @@ export type PassthroughValue = {
 type ThemeClassToPassthrough<T> = {
   [K in keyof T]?: T[K] extends string
     ? PassthroughValue
-    : K extends `$${string}`
-      ? ThemeClassToPassthrough<T[K]>
-      : ThemeClassToPassthrough<T[K]> & PassthroughValue;
+    : ThemeClassToPassthrough<T[K]> & PassthroughValue;
 };
 
 export type NgnPassthrough<T extends ControlName> = T extends null

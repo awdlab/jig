@@ -5,9 +5,6 @@ export const spinButtonsControlTemplate = createControlTemplate({
   scope: 'spinButtons',
   classNames: [
     'root',
-    'button',
-    'increment',
-    'decrement',
     // Edge the buttons bleed toward (leading = before the input, trailing = after).
     'leading',
     'trailing',
@@ -15,5 +12,8 @@ export const spinButtonsControlTemplate = createControlTemplate({
     'pair',
     'kind-*',
   ],
-  dependencies: [buttonControlTemplate],
+  dependencies: [
+    { class: 'decrement', template: buttonControlTemplate },
+    { class: 'increment', template: buttonControlTemplate },
+  ],
 });

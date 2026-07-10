@@ -20,12 +20,12 @@
     "playwright-docker": "docker run --add-host=hostmachine:host-gateway -p 3000:3000 --rm --init -it --workdir /home/pwuser --user pwuser mcr.microsoft.com/playwright:v1.61.0-noble /bin/sh -c \"npx -y playwright@1.61.0 run-server --port 3000 --host 0.0.0.0\"",
     "run-migrations": "tsx ./tools/migrate.ts",
     "test": "pnpm playwright test",
-    "test:build": "pnpm tsgo --noEmit --project tests/tsconfig.test.json",
+    "test:build": "pnpm tsc --noEmit --project tests/tsconfig.test.json",
     "test:ui": "pnpm playwright test --ui",
     "unit-test": "pnpm -r test"
   },
   "license": "MIT",
-  "packageManager": "pnpm@11.1.2+sha512.415a1cc25974731e75455c1468371be74c5aa5fb7621b50d4056d222451609f11412f23fd602e6169f1e060466641f798597e1be961a10688836a67b16569499",
+  "packageManager": "pnpm@11.10.0",
   "devDependencies": {
     "@angular-eslint/builder": "^22.0.0",
     "@eslint/js": "^10.0.1",
@@ -34,7 +34,6 @@
     "@ngneers/prettier-config": "^1.1.0",
     "@playwright/test": "^1.61.1",
     "@types/node": "^26.1.0",
-    "@typescript/native-preview": "7.0.0-dev.20260702.3",
     "@vitest/coverage-v8": "^4.1.9",
     "angular-eslint": "22.0.0",
     "awesome-logging": "^2.1.1",
@@ -46,10 +45,10 @@
     "json5": "^2.2.3",
     "prettier": "^3.9.4",
     "prettier-plugin-tailwindcss": "^0.8.0",
-    "tsx": "^4.22.5",
-    "typedoc": "^0.28.19",
+    "tsx": "^4.23.0",
+    "typedoc": "^0.28.20",
     "typescript": "catalog:",
-    "typescript-eslint": "^8.62.1",
+    "typescript-eslint": "^8.63.0",
     "yaml": "^2.9.0"
   }
 }

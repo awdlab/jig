@@ -22,10 +22,7 @@ export const selectStyles = createThemePart({
           cursor: default;
         }
       }
-      ${d(
-        'input-field',
-        'root'
-      )}:has([role='combobox']:not([disabled]):not([aria-readonly='true'])) {
+      ${c('root')}:has([role='combobox']:not([disabled]):not([aria-readonly='true'])) {
         cursor: pointer;
       }
       ${c('icon')} {
@@ -38,7 +35,7 @@ export const selectStyles = createThemePart({
       ${c('input-editable')} {
         cursor: text;
       }
-      ${c('filter')} {
+      ${d('filter')} {
         margin: ${v('size.padding.md')};
       }
     `,

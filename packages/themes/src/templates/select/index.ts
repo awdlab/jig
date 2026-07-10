@@ -12,10 +12,12 @@ export const selectControlTemplate = createControlTemplate({
     'icon',
     'input-editable',
     'popover-content',
-    'filter',
     'filter-icon',
-    'list-box',
     'list-box-empty',
   ],
-  dependencies: [popoverControlTemplate, listBoxControlTemplate, inputFieldControlTemplate],
+  dependencies: [
+    { class: 'popover', template: popoverControlTemplate },
+    { class: 'list-box', template: listBoxControlTemplate },
+    { class: 'filter', template: inputFieldControlTemplate },
+  ],
 });

@@ -13,13 +13,14 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './tests',
-  /* Maximum duration for a single test. */
-  timeout: 30 * 60 * 1000, // 30 minutes
+  /* Maximum duration for a single test. Long-running tests override via test.setTimeout(). */
+  timeout: 60 * 1000, // 60 seconds
   fullyParallel: true,
   forbidOnly: !!process.env['CI'],
   retries: process.env['CI'] ? 2 : 0,
   failOnFlakyTests: true,
-  workers: process.env['CI'] ? 2 : undefined,
+  // '50%' scales with the runner's cores (Playwright's recommended default) instead of a fixed 2.
+  workers: process.env['CI'] ? '50%' : undefined,
   outputDir: 'tests/results',
   /* See https://playwright.dev/docs/test-reporters */
   reporter: [

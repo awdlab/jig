@@ -174,7 +174,11 @@ export abstract class NgnBase<T extends ControlName | null> {
   private readonly _afterLeaveCbs: (() => void)[] = [];
 
   constructor() {
-    setNgnInstance(this.element.nativeElement, this);
+    // `pt` is typed against this control's own `T`, which makes `this`
+    // (NgnBase<T>) structurally incompatible with the type-erased AnyNgnBase
+    // alias for an unconstrained/generic T. Safe: AnyNgnBase never reads `pt`
+    // in a way that depends on the real T at the call site.
+    setNgnInstance(this.element.nativeElement, this as unknown as AnyNgnBase);
     this.prepareAfterLeaveHook();
     effect(() => {
       // Propagate unstyled state to direct child controls, does not affect
@@ -316,7 +320,11 @@ export abstract class NgnBase<T extends ControlName | null> {
     }
 
     if (hostClass !== undefined) {
-      new NgnPtEngine(this, hostClass);
+      // See constructor comment: `this` (NgnBase<T>) isn't structurally assignable
+      // to NgnBaseSafe<T & string> for a generic T because `pt`'s type still
+      // depends on T. Narrow the erasure to this control's own T & string, which
+      // matches what NgnPtEngine actually needs here.
+      new NgnPtEngine(this as unknown as NgnBaseSafe<T & string>, hostClass);
     }
 
     return theme as ControlTemplateInfo<

@@ -30,10 +30,10 @@ export class NgnTreeHarness {
     this.itemHighlighted = locator.locator(this.classes['item-highlighted']);
     this.itemDisabled = locator.locator(this.classes['item-disabled']);
     this.itemExpanded = locator.locator(this.classes['item-expanded']);
-    this.checkbox = locator.locator(this.classes['item-checkbox']);
+    this.checkbox = locator.locator(this.classes['item-checkbox']['root']);
     this.empty = locator.locator(this.classes['empty']);
     this.spinner = locator.locator('ngn-spinner');
-    this.scroller = new NgnScrollerHarness(locator.locator(this.classes['scroller']));
+    this.scroller = new NgnScrollerHarness(locator.locator(this.classes['scroller']['root']));
   }
 
   /** A single node located by its exact (trimmed, case-insensitive) label. */

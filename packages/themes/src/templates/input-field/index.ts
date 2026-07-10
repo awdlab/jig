@@ -13,5 +13,5 @@ export const inputFieldControlTemplate = createControlTemplate({
     'clear-button',
     'labelKind-*',
   ],
-  dependencies: [inputControlTemplate],
+  dependencies: [{ class: 'input', template: inputControlTemplate, projected: true }],
 });

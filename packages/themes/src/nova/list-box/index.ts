@@ -34,7 +34,7 @@ export const listBoxStyles = createThemePart({
       ${c('item-highlighted')} {
         background: ${v('color.surface.200')};
       }
-      ${c('item-selected')}:not(:has(${d('checkbox', 'root')})) {
+      ${c('item-selected')}:not(:has(${d('checkbox')})) {
         background: ${v('color.surface.300')};
         &:hover {
           background: ${v('color.surface.300')};

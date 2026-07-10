@@ -11,7 +11,7 @@ export const breadcrumbStyles = createThemePart({
     css: ({ v, c, d }) => css`
       ${c('root')} {
         gap: ${v('size.padding.md')};
-        ${d('item-view', 'root')} {
+        ${d('item-view')} {
           gap: ${v('size.padding.md')};
         }
       }

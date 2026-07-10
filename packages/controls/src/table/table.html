@@ -25,6 +25,7 @@
   <tbody
     [ptInt]="this"
     [ptClass]="'body'"
+    [ptDep]="'scroller'"
     ngn-scroller
     #scroller
     [scrollContainer]="scrollContainer"
@@ -59,8 +60,10 @@
           >
             <td [class]="theme.class('group-header-cell')" role="gridcell">
               <ngn-icon
+                [ptInt]="this"
+                [ptClass]="'group-toggle'"
+                [ptDep]="'group-toggle-icon'"
                 [defaultIcon]="'table-group-toggle'"
-                [class]="theme.class('group-toggle')"
               />
               <span>{{ item.groupValue }}</span>
               <span>({{ item.count }})</span>
@@ -77,5 +80,10 @@
   </tbody>
 </table>
 @if (paginator()) {
-  <ngn-paginator [totalItems]="rows().length" (value)="pageChanged($event)" />
+  <ngn-paginator
+    [ptInt]="this"
+    [ptDep]="'paginator'"
+    [totalItems]="rows().length"
+    (value)="pageChanged($event)"
+  />
 }

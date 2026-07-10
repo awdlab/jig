@@ -15,12 +15,10 @@ export const menuStyles = createThemePart({
         border-radius: ${v('size.rounded.md')};
         border: 1px solid ${v('color.surface.300')};
       }
-      ${c('popover')} {
-        ${d('popover', 'content')} {
-          border: none;
-          padding: 0;
-          min-width: 160px;
-        }
+      ${d('popover', 'content')} {
+        border: none;
+        padding: 0;
+        min-width: 160px;
       }
       ${c('item')} {
         border-radius: ${v('size.rounded.sm')};

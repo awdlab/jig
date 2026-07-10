@@ -16,7 +16,7 @@ export class NgnListBoxHarness {
     this.item = locator.locator(this.classes['item']);
     this.itemHighlighted = locator.locator(this.classes['item-highlighted']);
     this.itemSelected = locator.locator(this.classes['item-selected']);
-    this.scroller = new NgnScrollerHarness(locator.locator(`${this.classes['scroller']}`));
+    this.scroller = new NgnScrollerHarness(locator.locator(this.classes['scroller']['root']));
   }
 
   public expectItemsCount(count: number) {

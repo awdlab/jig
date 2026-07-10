@@ -93,3 +93,40 @@ test('pt $listeners are removed when the element carrying them is destroyed', as
   });
   expect(probe).toEqual({ added: 1, removed: 1 });
 });
+
+test('pt dependency slot forwards to ONE nested instance', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<ngn-calendar [inline]="true" [pt]="inputs().pt" />`,
+      imports: ['calendar'],
+    },
+    {
+      inputs: {
+        // The 'current-month' slot is typed NgnPassthrough<select>; its 'root'
+        // key lands on the month select host, forwarded via that select's own
+        // engine. The year select uses a different slot and stays untouched.
+        pt: { 'current-month': { root: { $classes: 'probe-month' } } },
+      },
+    }
+  );
+
+  // Only the month select carries the class; the year select does not.
+  await expect(page.locator('ngn-calendar ngn-select.probe-month')).toHaveCount(1);
+});
+
+test('dependency marker class is auto-applied without pt', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<ngn-calendar [inline]="true" />`,
+      imports: ['calendar'],
+    },
+    {}
+  );
+
+  // The current-month select host carries the calendar marker class
+  // (`{namePrefix}{scope}-{depClass}` = `ngn-calendar-current-month`) even
+  // when no pt is provided.
+  await expect(page.locator('ngn-calendar ngn-select.ngn-calendar-current-month')).toHaveCount(1);
+});

@@ -10,6 +10,8 @@ import { AppLocation } from '../../helper/app-location';
 import { safeRoutePath } from '../../utils/routing';
 import { FrameState } from '../frame-state';
 
+import type { NgnPassthrough } from '@ngneers/controls/base';
+
 type MenuLink = {
   title: string;
   link: string;
@@ -69,6 +71,24 @@ export class NgnDocsMenu {
     label: tab.title,
     value: tab.title,
   }));
+
+  /**
+   * Deep passthrough: stretch the vertical tab switcher to fill the sidebar
+   * width instead of hugging its widest label. Reaches the nested button-group
+   * container (`group`) and each toggle-button's host + inner button (`button`)
+   * via their dependency slots — stable object so the passthrough engine does
+   * not re-apply on every change detection.
+   */
+  protected readonly switcherPt: NgnPassthrough<'selectButton'> = {
+    // The button-group host is already full width; its inner vertical flex
+    // container is `width: fit-content`, so stretch that. Then stretch each
+    // toggle-button's host and its inline-grid inner button to match.
+    group: { vertical: { $styles: { width: '100%' } } },
+    button: {
+      root: { $styles: { width: '100%' } },
+      button: { $styles: { width: '100%' } },
+    },
+  };
 
   /** The tab whose first URL segment matches the current location. */
   protected readonly activeTab = computed<MenuTab | undefined>(() => {

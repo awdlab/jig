@@ -159,6 +159,11 @@ export class NgnNumberInput extends ValueControlBase<'numberInput', number | nul
         if (next !== text) {
           this._setText(next);
         }
+        // Record the reconciled value so a later focus (with no intervening
+        // external change) short-circuits below instead of re-parsing the
+        // edit text — otherwise focusing then typing can race this effect,
+        // which would clobber the freshly typed text back to `value`.
+        this._appliedValue.set(value);
         return;
       }
       // Only reflect EXTERNAL value changes into the edit text. Internal

@@ -1,5 +1,7 @@
 import { CreatingAControlPage } from './advanced/creating-a-control/page';
 import { ThemeInternalsPage } from './advanced/theme-internals/page';
+import { McpServerPage } from './ai/mcp/page';
+import { AgentSkillsPage } from './ai/skills/page';
 import { IconsPage } from './concepts/icons/page';
 import { PassthroughPage } from './concepts/passthrough/page';
 import { StateConceptPage } from './concepts/state/page';
@@ -34,5 +36,9 @@ export const GUIDE_GROUPS: NgnDocsGroup[] = [
   {
     title: 'Advanced',
     pages: [CreatingAControlPage, ThemeInternalsPage],
+  },
+  {
+    title: 'AI Tooling',
+    pages: [McpServerPage, AgentSkillsPage],
   },
 ];

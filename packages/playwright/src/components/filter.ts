@@ -12,7 +12,7 @@ export class NgnFilterHarness {
   public readonly popoverContent: Locator;
 
   constructor(public locator: Locator) {
-    this.trigger = locator.locator(this.classes['input-field']);
+    this.trigger = locator.locator(this.classes['input-field']['root']);
     this.popoverContent = locator.locator(this.classes['popover-content']);
   }
 
@@ -30,22 +30,22 @@ export class NgnFilterHarness {
   }
 
   public operatorSelect(index: number): NgnSelectHarness {
-    return new NgnSelectHarness(this.row(index).locator(this.classes['operator']));
+    return new NgnSelectHarness(this.row(index).locator(this.classes['operator']['root']));
   }
 
   /** Select inside row using the 'value' ptClass (e.g. boolean operator or list select). */
   public valueSelect(index: number): NgnSelectHarness {
-    return new NgnSelectHarness(this.row(index).locator(this.classes['value']));
+    return new NgnSelectHarness(this.row(index).locator(this.classes['value']['root']));
   }
 
   public valueInput(index: number): NgnInputHarness {
     return new NgnInputHarness(
-      this.row(index).locator(`${this.classes['value']} ${NGN_CLASSES.input['root']}`)
+      this.row(index).locator(`${this.classes['value']['root']} ${NGN_CLASSES.input['root']}`)
     );
   }
 
   public removeButton(index: number): Locator {
-    return this.row(index).locator(this.classes['remove-btn']);
+    return this.row(index).locator(this.classes['remove-btn']['root']);
   }
 
   public addConditionButton(): Locator {

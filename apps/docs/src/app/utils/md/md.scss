@@ -114,6 +114,49 @@
           text-decoration: underline;
         }
       }
+
+      // Anchored headings: reveal a "copy link" affordance on hover.
+      h1,
+      h2,
+      h3 {
+        // Offset the sticky topbar when jumping to a section.
+        scroll-margin-top: 1.5rem;
+
+        .heading-anchor {
+          display: inline-flex;
+          align-items: center;
+          margin-left: 0.4rem;
+          color: var(--ngn-color-surface-400);
+          opacity: 0;
+          transition:
+            opacity 0.15s ease,
+            color 0.15s ease;
+
+          &:hover {
+            color: var(--ngn-color-primary-500);
+            text-decoration: none;
+          }
+
+          svg {
+            width: 0.85em;
+            height: 0.85em;
+          }
+
+          // Transient "Copied!" confirmation after a click.
+          &.copied::after {
+            content: 'Copied!';
+            margin-left: 0.35rem;
+            font-size: var(--ngn-font-size-xs);
+            color: var(--ngn-color-primary-500);
+            opacity: 1;
+          }
+        }
+
+        &:hover .heading-anchor,
+        .heading-anchor:focus-visible {
+          opacity: 1;
+        }
+      }
       .table-wrapper {
         overflow-x: auto;
         width: 100%;

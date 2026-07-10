@@ -88,18 +88,19 @@ export const calendarStyles = createThemePart({
           color: ${v('color.primary.foreground')};
         }
       }
-      ${c('current-month')} {
+      ${d('current-month-field')} {
         flex: 1 1 0;
         min-width: 0;
       }
-      ${c('current-month')} ${d('select', 'root')} {
+      ${d('current-month')} {
         min-width: 0;
       }
-      ${c('current-year')} {
+      ${d('current-year-field')} {
         flex: 0 0 auto;
       }
-      ${c('current-year')} ${d('select', 'root')} ${d('input', 'root')} {
+      ${d('current-year-field')} ${d('current-year', 'input', 'root')} {
         width: 3rem;
+        min-width: 0;
       }
       ${c('time')} {
         border-top: 1px solid ${v('color.border')};

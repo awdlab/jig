@@ -5,7 +5,7 @@ export const spinButtonsStyles = createThemePart({
   controlTemplate: spinButtonsControlTemplate,
   dependencies: [],
   root: {
-    css: ({ c }) => css`
+    css: ({ c, d }) => css`
       ${c('root')} {
         display: inline-flex;
         /* stacked by default: increment on top, decrement below
@@ -25,7 +25,8 @@ export const spinButtonsStyles = createThemePart({
         /* stretch so the buttons fill the full field height, not just their content */
         align-items: stretch;
       }
-      ${c('button')} {
+      ${d('decrement')},
+      ${d('increment')} {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -36,10 +37,12 @@ export const spinButtonsStyles = createThemePart({
         border: none;
       }
       /* Lone / inline buttons fill the full field height for a large hit area. */
-      ${c('button')} {
+      ${d('decrement')},
+      ${d('increment')} {
         flex: 1 1 auto;
       }
-      ${c('button')}:disabled {
+      ${d('decrement')}:disabled,
+      ${d('increment')}:disabled {
         cursor: default;
       }
     `,

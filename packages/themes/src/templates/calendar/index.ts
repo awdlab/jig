@@ -1,7 +1,9 @@
 import { createControlTemplate } from '@ngneers/controls-themes/api';
 import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
-import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
+import { iconControlTemplate } from '@ngneers/controls-themes/templates/icon';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
+import { maskInputControlTemplate } from '@ngneers/controls-themes/templates/mask-input';
+import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
 import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
 
 export const calendarControlTemplate = createControlTemplate({
@@ -9,8 +11,6 @@ export const calendarControlTemplate = createControlTemplate({
   classNames: [
     'root',
     'inline',
-    'input',
-    'input-field',
     'invalid',
     'details',
     'header',
@@ -23,17 +23,18 @@ export const calendarControlTemplate = createControlTemplate({
     'day-other-month',
     'months',
     'month',
-    'current-month',
-    'current-year',
     'time',
-    'next',
-    'previous',
-    'trigger-icon',
+    'input-field',
   ],
   dependencies: [
-    buttonControlTemplate,
-    selectControlTemplate,
-    inputControlTemplate,
-    inputFieldControlTemplate,
+    { class: 'input', template: maskInputControlTemplate },
+    { class: 'trigger-icon', template: iconControlTemplate },
+    { class: 'popover', template: popoverControlTemplate },
+    { class: 'previous', template: buttonControlTemplate },
+    { class: 'next', template: buttonControlTemplate },
+    { class: 'current-month', template: selectControlTemplate },
+    { class: 'current-year', template: selectControlTemplate },
+    { class: 'current-month-field', template: inputFieldControlTemplate },
+    { class: 'current-year-field', template: inputFieldControlTemplate },
   ],
 });

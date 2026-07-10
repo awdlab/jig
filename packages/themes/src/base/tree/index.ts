@@ -55,7 +55,7 @@ export const treeStyles = createThemePart({
         pointer-events: none;
         opacity: 0.5;
       }
-      ${c('root')}:has(${c('empty')}) ${c('scroller')} {
+      ${c('root')}:has(${c('empty')}) ${d('scroller')} {
         display: none;
       }
       ${c('root')} ${d('scroller', 'item')} {

@@ -3,11 +3,6 @@ import { NgnCalendar } from '@ngneers/controls/calendar';
 
 import type { NgnPassthrough } from '@ngneers/controls/base';
 
-/**
- * Attach analytics listeners to the prev/next nav buttons without wrapping the
- * component. The handlers are stable field references, so the engine can detach
- * them cleanly if `pt` ever changes.
- */
 @Component({
   selector: 'ngn-demo-pt-listeners',
   imports: [NgnCalendar],

@@ -65,6 +65,8 @@
 </div>
 <ngn-popover
   #popover
+  [ptInt]="this"
+  [ptDep]="'popover'"
   [options]="appliedPopoverOptions()"
   [anchor]="anchorElement"
   (keydown)="onKeyDown($event)"
@@ -75,7 +77,7 @@
   <ng-template #lazy>
     <div [ptInt]="this" [ptClass]="'popover-content'">
       @if (filter()) {
-        <ngn-input-field [ptInt]="this" [ptClass]="'filter'">
+        <ngn-input-field [ptInt]="this" [ptDep]="'filter'">
           <input
             ngnInput
             [value]="filterTextInternal()"
@@ -92,9 +94,7 @@
       }
       <ngn-list-box
         [ptInt]="this"
-        [ptClass]="{
-          'list-box': true,
-        }"
+        [ptDep]="'list-box'"
         style="height: 100%; min-height: 0"
         [focussable]="false"
         [selectable]="true"

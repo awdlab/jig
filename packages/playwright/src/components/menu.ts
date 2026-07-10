@@ -9,7 +9,7 @@ export class NgnMenuHarness {
   public readonly item: Locator;
 
   constructor(public locator: Locator) {
-    this.popover = new NgnPopoverHarness(locator.locator(this.classes['popover']));
+    this.popover = new NgnPopoverHarness(locator.locator(this.classes['popover']['root']));
     this.item = locator.locator(this.classes['item']);
   }
 

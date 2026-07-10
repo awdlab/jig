@@ -79,13 +79,42 @@ arrow) to guarantee clean removal.
 
 {{ demo: Demo_Pt_Listeners }}
 
-### Reaching nested controls
+### Deep passthrough
 
-Controls often compose other `ngn` controls internally. The calendar renders its prev/next
-navigation as `ngn-button`s and its month/year pickers as `ngn-select`s wrapped in
-`ngn-input-field`. Rather than exposing a separate nesting API, the calendar **flattens** the
-key elements of those nested controls onto its own scope classes — so you reach them by name:
-`previous` / `next` for the nav buttons, `current-month` / `current-year` for the select
-triggers.
+**Deep passthrough** reaches the `ngn` controls a control renders internally.
+Each internal instance is exposed as a named **slot**, right at the root of `pt`
+— alongside the control's own scope classes. A slot's value is typed as that
+child control's own `NgnPassthrough`, resolved against _its own_ scope classes,
+not the parent's:
 
-{{ demo: Demo_Pt_Nested }}
+```ts
+protected readonly pt: NgnPassthrough<'calendar'> = {
+  // Only the month picker — the year select stays plain.
+  'current-month': {
+    root: {
+      $classes:
+        'text-(--ngn-color-primary-700) font-(--ngn-font-weight-semibold)',
+    },
+  },
+  // The prev / next nav buttons, each addressed by its own slot.
+  previous: { root: { $styles: { color: 'var(--ngn-color-primary-600)' } } },
+  next: { root: { $styles: { color: 'var(--ngn-color-primary-600)' } } },
+};
+```
+
+Each slot targets exactly **one** instance — `current-month` and `current-year`
+are separate slots, so you can brand the month select without touching the
+year select. Deep passthrough is also recursive: a slot's value is a full
+`NgnPassthrough`, so it can carry the child's _own_ slots to reach a
+grandchild. Assigning a slot also auto-applies the parent's marker class for
+that slot (`{parentScope}-{slot}`, e.g. `calendar-current-month`) to the child
+control's host element, so you get a stable hook even without a `pt` value.
+
+The calendar's slots are `input`, `current-month`, `current-year`,
+`current-month-field`, `current-year-field`, `previous`, `next`,
+`trigger-icon`, and `popover`. Slots are only exposed for controls the parent
+**renders** itself — a child control the parent receives via content
+projection (`<ng-content>`) has no host element for the parent to mark, so
+it's excluded from `pt` entirely.
+
+{{ demo: Demo_Pt_Deps }}

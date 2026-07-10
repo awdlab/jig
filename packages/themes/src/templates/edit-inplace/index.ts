@@ -15,5 +15,5 @@ export const editInplaceControlTemplate = createControlTemplate({
     'default-edit-close-button',
     'sr-only',
   ],
-  dependencies: [inplaceControlTemplate],
+  dependencies: [{ class: 'inplace', template: inplaceControlTemplate }],
 });

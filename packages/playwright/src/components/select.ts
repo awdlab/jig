@@ -19,7 +19,7 @@ export class NgnSelectHarness {
   public readonly multipleItemView: NgnItemViewHarness;
 
   constructor(public locator: Locator) {
-    this.filter = new NgnInputFieldHarness(locator.locator(this.classes['filter']), l => ({
+    this.filter = new NgnInputFieldHarness(locator.locator(this.classes['filter']['root']), l => ({
       input: new NgnInputHarness(l.locator(NGN_CLASSES.input['root'])),
     }));
     this.filterIcon = locator.locator(this.classes['filter-icon']);
@@ -28,7 +28,7 @@ export class NgnSelectHarness {
     this.inputEditable = new NgnInputHarness(
       locator.locator(`${this.classes['input-editable']} ${NGN_CLASSES.input['root']}`)
     );
-    this.listBox = new NgnListBoxHarness(locator.locator(this.classes['list-box']));
+    this.listBox = new NgnListBoxHarness(locator.locator(this.classes['list-box']['root']));
     this.popoverContent = locator.locator(this.classes['popover-content']);
     this.multipleItemView = new NgnItemViewHarness(locator.locator('ngn-item-view'));
   }
