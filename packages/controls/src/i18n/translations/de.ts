@@ -131,4 +131,11 @@ export default {
   table: {
     selectAllRows: 'Alle Zeilen auswählen',
   },
+  state: {
+    loading: 'Wird geladen',
+    success: 'Erfolg',
+    warning: 'Warnung',
+    error: 'Fehler',
+    cancelled: 'Abgebrochen',
+  },
 };

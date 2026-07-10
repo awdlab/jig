@@ -1,5 +1,8 @@
 @if (visible()) {
   <span [ptInt]="this" [ptClass]="'indicator'">
+    @if (resolvedLabel(); as label) {
+      <span [ptInt]="this" [ptClass]="'sr-only'">{{ label }}</span>
+    }
     @switch (appliedKind()) {
       @case ('loading') {
         @defer (on immediate) {
@@ -8,12 +11,19 @@
             [ptDep]="'spinner'"
             [size]="size()"
             [thickness]="thickness()"
+            [attr.aria-hidden]="true"
           />
         }
       }
       @default {
         @if (icon() || defaultIcon()) {
-          <ngn-icon [ptInt]="this" [ptDep]="'icon'" [defaultIcon]="defaultIcon()" [icon]="icon()" />
+          <ngn-icon
+            [ptInt]="this"
+            [ptDep]="'icon'"
+            [defaultIcon]="defaultIcon()"
+            [icon]="icon()"
+            [attr.aria-hidden]="true"
+          />
         }
       }
     }

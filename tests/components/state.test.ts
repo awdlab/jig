@@ -108,6 +108,57 @@ test('semantic states render icons and visibility removes layout', async ({ page
   await expect(state.locator).toHaveCSS('display', 'none');
 });
 
+test('announces the applied kind to assistive tech via a live region', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<ngn-state [kind]="inputs().kind" [visible]="inputs().visible" [label]="inputs().label" />`,
+      imports: ['state'],
+    },
+    {
+      inputs: {
+        kind: 'success',
+        visible: true,
+        label: undefined,
+      },
+    }
+  );
+
+  const host = page.locator('ngn-state');
+  const srOnly = host.locator('span span').first();
+
+  // Polite kinds → role="status", aria-live="polite".
+  await expect(host).toHaveAttribute('role', 'status');
+  await expect(host).toHaveAttribute('aria-live', 'polite');
+  await expect(host).toHaveAttribute('aria-atomic', 'true');
+  await expect(srOnly).toHaveText('Success');
+
+  // Error/warning escalate to an assertive alert.
+  await handle.setInputs({ kind: 'error', visible: true, label: undefined });
+  await expect(host).toHaveAttribute('role', 'alert');
+  await expect(host).toHaveAttribute('aria-live', 'assertive');
+  await expect(srOnly).toHaveText('Error');
+
+  await handle.setInputs({ kind: 'warning', visible: true, label: undefined });
+  await expect(host).toHaveAttribute('role', 'alert');
+  await expect(srOnly).toHaveText('Warning');
+
+  // Loading is announced too, and the decorative spinner is hidden from AT.
+  await handle.setInputs({ kind: 'loading', visible: true, label: undefined });
+  await expect(host).toHaveAttribute('role', 'status');
+  await expect(srOnly).toHaveText('Loading');
+  await expect(page.locator('ngn-spinner')).toHaveAttribute('aria-hidden', 'true');
+
+  // Explicit label overrides the derived one.
+  await handle.setInputs({ kind: 'loading', visible: true, label: 'Saving…' });
+  await expect(srOnly).toHaveText('Saving…');
+
+  // Hidden indicator carries no live region.
+  await handle.setInputs({ kind: 'success', visible: false, label: undefined });
+  await expect(host).not.toHaveAttribute('role', /.+/);
+  await expect(host).not.toHaveAttribute('aria-live', /.+/);
+});
+
 test('state keeps input field layout stable while toggling visibility', async ({ page }) => {
   const handle = await loadComponent(
     page,

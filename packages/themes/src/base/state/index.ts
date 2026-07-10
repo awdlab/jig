@@ -31,6 +31,19 @@ export const stateStyles = createThemePart({
         height: 100%;
       }
 
+      ${c('sr-only')} {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        pointer-events: none;
+      }
+
       ${c('root')} ${d('icon')},
       ${c('root')} ${d('spinner')} {
         width: 100%;

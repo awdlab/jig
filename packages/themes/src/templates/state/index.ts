@@ -6,7 +6,7 @@ import { spinnerControlTemplate } from '@ngneers/controls-themes/templates/spinn
 
 export const stateControlTemplate = createControlTemplate({
   scope: 'state',
-  classNames: ['root', 'visible', 'replace-content', 'indicator', 'kind-*'],
+  classNames: ['root', 'visible', 'replace-content', 'indicator', 'sr-only', 'kind-*'],
   dependencies: [
     { class: 'icon', template: iconControlTemplate },
     { class: 'spinner', template: spinnerControlTemplate },

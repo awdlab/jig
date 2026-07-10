@@ -131,4 +131,11 @@ export default {
   table: {
     selectAllRows: 'Select all rows',
   },
+  state: {
+    loading: 'Loading',
+    success: 'Success',
+    warning: 'Warning',
+    error: 'Error',
+    cancelled: 'Cancelled',
+  },
 };
