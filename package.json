@@ -15,7 +15,7 @@
     "api-docs:generate": "pnpm --filter @ngneers/controls api-docs:generate",
     "build": "pnpm -r build",
     "format": "pnpm prettier --write \"**/*.{ts,html,json,md}\" --ignore-path .gitignore",
-    "format:check": "pnpm prettier --check \"**/*.{ts,html,json,md}\"",
+    "format:check": "pnpm prettier --check \"**/*.{ts,html,json,md}\" --ignore-path .gitignore",
     "lint": "pnpm -r lint",
     "playwright-docker": "docker run --add-host=hostmachine:host-gateway -p 3000:3000 --rm --init -it --workdir /home/pwuser --user pwuser mcr.microsoft.com/playwright:v1.61.0-noble /bin/sh -c \"npx -y playwright@1.61.0 run-server --port 3000 --host 0.0.0.0\"",
     "run-migrations": "tsx ./tools/migrate.ts",
