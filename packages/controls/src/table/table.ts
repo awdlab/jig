@@ -2,6 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
+  effect,
   input,
   model,
   signal,
@@ -25,10 +26,12 @@ import {
   sortRows,
   type TableSortComparator,
 } from './table-row-model';
+import { TableRowNavigationModel } from './table-row-navigation-model';
 import { TableSelectionModel } from './table-selection-model';
 import { NgnTableTemplates } from './table-templates';
 
 import type { NgnTableTh } from './table-header-cell';
+import type { NgnTableRowActions } from './table-row-actions';
 import type {
   FormattedTableDataRow,
   FormattedTableGroupHeaderRow,
@@ -237,13 +240,23 @@ export class NgnTable<
   // --- Selection state ---
 
   /**
-   * Currently focused row index for keyboard navigation (index in formattedRows).
+   * The single current-row index (index in {@link formattedRows}) for
+   * keyboard navigation. Shared by {@link NgnTable}'s selection keyboard
+   * handling and row-actions keyboard navigation — arrows move it, and (when
+   * {@link selectionMode} is set) selection follows it. Cleared whenever
+   * {@link formattedRows} changes identity (sort/filter/rows replaced) so it
+   * never points at a stale row.
    */
   public readonly focusedRowIndex = signal<number | null>(null);
 
   private readonly _selection: TableSelectionModel<T, K>;
 
   public readonly headerCheckboxValue: ReturnType<typeof computed<boolean | null>>;
+
+  // --- Row actions registry + keyboard navigation ---
+
+  private readonly _rowActions = new Map<number, NgnTableRowActions>();
+  private readonly _rowNav: TableRowNavigationModel<T>;
 
   /**
    * Total column count including the selection checkbox column.
@@ -304,9 +317,32 @@ export class NgnTable<
       scrollToIndex: index => this._scroller().scrollToIndex(index),
     });
 
+    this._rowNav = new TableRowNavigationModel<T>({
+      viewRows: this.formattedRows,
+      hasActions: () => this._rowActions.size > 0,
+      focusedRowIndex: this.focusedRowIndex,
+      selectionMode: this.selectionMode,
+      scrollToIndex: index => this._scroller().scrollToIndex(index),
+      enterActions: index => this.getRowActions(index)?.focusFirstAction() ?? false,
+      moveAction: (index, delta) => this.getRowActions(index)?.moveAction(delta) ?? false,
+      openMenu: index => this.getRowActions(index)?.openMenuFromKeyboard() ?? false,
+      focusHost: () => this.element.nativeElement.focus(),
+    });
+
     this.headerCheckboxValue = computed<boolean | null>(() =>
       this._selection.headerCheckboxValue()
     );
+
+    // Minor #3: clear the current-row highlight whenever the underlying row
+    // set changes identity (sort/filter/rows replaced), so it never lingers
+    // on a stale index. Only reads `formattedRows` as a dependency — the
+    // writes below must not be read here, or this effect would re-run on its
+    // own writes and clobber every keyboard row move.
+    effect(() => {
+      this.formattedRows();
+      this.focusedRowIndex.set(null);
+      this._rowNav.inActions.set(false);
+    });
   }
 
   protected pageChanged(event: PaginationState) {
@@ -415,9 +451,47 @@ export class NgnTable<
     this._selection.toggleSelectAll();
   }
 
+  // --- Row actions registry ---
+
+  /**
+   * Registers a row's {@link NgnTableRowActions} directive keyed by its row
+   * index, so keyboard navigation can look up the active row's actions.
+   * Called by `NgnTableRowActions`; not intended for manual use.
+   */
+  public registerRowActions(index: number, dir: NgnTableRowActions): void {
+    this._rowActions.set(index, dir);
+  }
+
+  /**
+   * Unregisters a row's actions directive. Called by `NgnTableRowActions`.
+   * Only removes the entry if `dir` is still the registered owner for
+   * `index`, so a stale unregister (e.g. after row recycling re-registered
+   * a different instance at the same index) cannot clobber it.
+   */
+  public unregisterRowActions(index: number, dir: NgnTableRowActions): void {
+    if (this._rowActions.get(index) === dir) this._rowActions.delete(index);
+  }
+
+  /** Looks up the registered actions directive for a row index, if any. */
+  public getRowActions(index: number): NgnTableRowActions | undefined {
+    return this._rowActions.get(index);
+  }
+
+  /**
+   * Whether keyboard focus is currently inside the action bar of the row at
+   * `index` — i.e. this row is both the current row and
+   * {@link TableRowNavigationModel.inActions}. Drives the `active-row`
+   * highlight in {@link NgnTableBodyTr}.
+   */
+  public isRowInActions(index: number): boolean {
+    return this._rowNav.inActions() && this.focusedRowIndex() === index;
+  }
+
   // --- Keyboard navigation ---
 
   protected onKeyDown(event: KeyboardEvent): void {
+    if (this._rowNav.onKeyDown(event)) return;
+    if (this._rowNav.inActions()) return; // focus is in a row's action bar — selection must not handle keys
     this._selection.onKeyDown(event);
   }
 

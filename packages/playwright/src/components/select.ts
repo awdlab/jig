@@ -34,6 +34,16 @@ export class NgnSelectHarness {
   }
 
   public async expectOpened(opened = true) {
+    // Gate on the trigger's `aria-expanded` (bound to `popover.open()`), not just
+    // content visibility. `open()` is only set once the native popover has
+    // actually toggled in the top layer, whereas the content becomes CSS-visible
+    // a frame earlier — before the popover is a dismissible top-layer element.
+    // Waiting on visibility alone lets a follow-up keypress (e.g. Escape) race
+    // the open transition under load and get lost, leaving the popover stuck
+    // open. The `aria-expanded`/`aria-haspopup` attributes live on the inner
+    // combobox/input trigger, not the outer `input` wrapper.
+    const trigger = this.locator.locator('[aria-haspopup="listbox"]');
+    await expect(trigger).toHaveAttribute('aria-expanded', String(opened));
     await expect(this.popoverContent).toBeVisible({ visible: opened });
   }
 

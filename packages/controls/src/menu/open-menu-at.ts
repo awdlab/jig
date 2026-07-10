@@ -1,71 +1,40 @@
-import { ComponentRef, ViewContainerRef } from '@angular/core';
-import { setComponentInput } from '@ngneers/controls/api/ng';
+import { setComponentInput, type Anchor } from '@ngneers/controls/api/ng';
 
 import { NgnMenu } from './menu';
 
 import type { MenuItem } from './types';
+import type { ComponentRef, ViewContainerRef } from '@angular/core';
 import type { Placement } from '@floating-ui/dom';
-import type { Anchor } from '@ngneers/controls/api/ng';
-
-export interface MenuAnchorOptions {
-  /**
-   * Whether the menu is a popover. Defaults to `true`.
-   * @default true
-   */
-  popover?: boolean;
-  /**
-   * The placement of the menu relative to the anchor element.
-   * @default bottom-start
-   */
-  placement?: Placement;
-  /**
-   * Whether to automatically set ARIA attributes on the anchor element.
-   */
-  autoAnchorAria?: boolean;
-  /**
-   * Whether to automatically show the menu. Defaults to `true`.
-   * @default true
-   */
-  autoShow?: boolean;
-}
 
 /**
- * Opens an NgnMenu popover anchored to a point or element.
- *
- * Creates an NgnMenu component, configures it with the provided items and anchor,
- * and displays it. Useful for context menus, dropdown menus, and other anchored popovers.
- *
- * @param vcr The ViewContainerRef to insert the menu component into.
- * @param items The menu items to display.
- * @param anchor The element or point to anchor the menu to.
- * @param options Configuration options for the menu.
- * @returns The created NgnMenu component reference.
+ * Lazily creates (or reuses) an `NgnMenu` popover and shows it anchored either
+ * at a viewport point (context-menu style) or to an element. Returns the
+ * `ComponentRef` so callers can keep it for reuse and destroy it on teardown.
  */
 export function openMenuAt(
   vcr: ViewContainerRef,
+  existing: ComponentRef<NgnMenu> | undefined,
   items: MenuItem[],
   anchor: Anchor,
-  options: MenuAnchorOptions = {}
+  placement?: Placement
 ): ComponentRef<NgnMenu> {
-  const { popover = true, placement, autoAnchorAria, autoShow = true } = options;
-
-  const menu = vcr.createComponent(NgnMenu);
-
+  const menu = existing ?? vcr.createComponent(NgnMenu);
   setComponentInput(menu, 'items', items);
   setComponentInput(menu, 'anchor', anchor);
-  setComponentInput(menu, 'popover', popover);
-  if (placement !== undefined) {
+  setComponentInput(menu, 'popover', true);
+  if (placement) {
     setComponentInput(menu, 'placement', placement);
   }
-  if (autoAnchorAria !== undefined) {
-    setComponentInput(menu, 'autoAnchorAria', autoAnchorAria);
+  // Render the menu's own view synchronously so its `popover` viewChild
+  // resolves, then show it immediately. Deferring the show to a macrotask
+  // (setTimeout) makes the open latency depend on macrotask scheduling — under
+  // a busy host (e.g. a large table running frequent change detection) that
+  // callback is delayed noticeably, so the menu appears to open slowly. A
+  // synchronous change-detection + show opens deterministically regardless of
+  // host load. Guard against the host being torn down mid-call.
+  if (!menu.hostView.destroyed) {
+    menu.changeDetectorRef.detectChanges();
+    menu.instance.show();
   }
-
-  if (autoShow) {
-    setTimeout(() => {
-      menu.instance.show();
-    });
-  }
-
   return menu;
 }

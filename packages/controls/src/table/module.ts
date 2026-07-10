@@ -7,6 +7,8 @@ import { NgnTableTh } from './table-header-cell';
 import { NgnTableHeadTr } from './table-header-row';
 import { NgnTableReorderableColumn } from './table-reorderable-column';
 import { NgnTableBodyTr } from './table-row';
+import { NgnTableRowActions } from './table-row-actions';
+import { NgnTableRowActionsBar } from './table-row-actions-bar';
 import { NgnTableSelectionColumn } from './table-selection-column';
 import { NgnTableStickyColumn } from './table-sticky-column';
 
@@ -19,6 +21,8 @@ import { NgnTableStickyColumn } from './table-sticky-column';
     NgnTableHeadTr,
     NgnTableGroupHeaderTr,
     NgnTableReorderableColumn,
+    NgnTableRowActions,
+    NgnTableRowActionsBar,
     NgnTableSelectionColumn,
     NgnTableStickyColumn,
   ],
@@ -30,6 +34,8 @@ import { NgnTableStickyColumn } from './table-sticky-column';
     NgnTableHeadTr,
     NgnTableGroupHeaderTr,
     NgnTableReorderableColumn,
+    NgnTableRowActions,
+    NgnTableRowActionsBar,
     NgnTableSelectionColumn,
     NgnTableStickyColumn,
   ],

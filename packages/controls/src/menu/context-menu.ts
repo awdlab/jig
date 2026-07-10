@@ -42,20 +42,10 @@ export class NgnContextMenu implements OnDestroy {
     }
     event.preventDefault();
     event.stopPropagation();
-    this.openMenu(event);
+    this._menu = openMenuAt(this._vcr, this._menu, this.ngnContextMenu(), {
+      x: event.clientX,
+      y: event.clientY,
+    });
     return false;
-  }
-
-  private openMenu(event: PointerEvent) {
-    const anchor = { x: event.clientX, y: event.clientY };
-
-    if (this._menu) {
-      // Reopen the cached menu: openMenuAt only auto-shows the first instance,
-      // so a right-click after it was closed must update the anchor and re-show.
-      this._menu.setInput('anchor', anchor);
-      this._menu.instance.show();
-    } else {
-      this._menu = openMenuAt(this._vcr, this.ngnContextMenu(), anchor);
-    }
   }
 }

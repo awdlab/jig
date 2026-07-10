@@ -18,7 +18,8 @@ import type { FormattedTableDataRow } from './types';
     '[class]': `theme.classes({
       'even': ngnTableBodyTr().index % 2 === 0,
       'selected-row': selected(),
-      'focused-row': focused()
+      'focused-row': focused(),
+      'active-row': active()
     })`,
     '[attr.aria-selected]': 'selectable() ? selected() : null',
     role: 'row',
@@ -47,11 +48,24 @@ export class NgnTableBodyTr<T> extends NgnScrollerItem {
     return table.isRowSelected(row.id);
   });
 
+  /**
+   * Whether this row is the table's single current-row for keyboard
+   * navigation ({@link NgnTable.focusedRowIndex}). Tracks selection keyboard
+   * nav when {@link NgnTable.selectionMode} is set, and also tracks
+   * row-actions keyboard nav on non-selectable tables that have row actions,
+   * so a keyboard user always sees which row is current.
+   */
   protected readonly focused = computed(() => {
     const table = this._table();
-    if (!table || !table.selectionMode()) return false;
-    const row = this.ngnTableBodyTr();
-    return table.focusedRowIndex() === row.index;
+    if (!table) return false;
+    return table.focusedRowIndex() === this.ngnTableBodyTr().index;
+  });
+
+  /** Whether this row's action bar currently has DOM focus. */
+  protected readonly active = computed(() => {
+    const table = this._table();
+    if (!table) return false;
+    return table.isRowInActions(this.ngnTableBodyTr().index);
   });
 
   constructor() {

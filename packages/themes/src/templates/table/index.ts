@@ -50,6 +50,9 @@ export const tableControlTemplate = createControlTemplate({
     'sticky-end',
     'sticky-start-edge',
     'sticky-end-edge',
+    'row-actions',
+    'row-action-button',
+    'active-row',
   ],
   dependencies: [
     scrollerControlTemplate,

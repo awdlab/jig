@@ -185,6 +185,33 @@ export const tableStyles = createThemePart({
       ${c('head')} ${c('selection-column')} {
         z-index: 3;
       }
+
+      /* ── Row Actions (inline) ────────────────────────────────────────── */
+
+      ${c('row-actions')} {
+        grid-row: 1;
+        grid-column: 1 / -1;
+        justify-self: end;
+        align-self: stretch;
+        display: flex;
+        align-items: center;
+        position: sticky;
+        right: 0;
+        z-index: 2;
+      }
+      /* Hidden-until-hover only applies when the bar is mounted inline inside
+         a table row; a standalone bar (outside ${c('row')}) stays visible. */
+      ${c('row')} ${c('row-actions')} {
+        visibility: hidden;
+        pointer-events: none;
+      }
+      ${c('row')}:hover ${c('row-actions')},
+      ${c('row')}${c('active-row')} ${c('row-actions')},
+      ${c('row')}${c('focused-row')} ${c('row-actions')},
+      ${c('row')}:focus-within ${c('row-actions')} {
+        visibility: visible;
+        pointer-events: auto;
+      }
     `,
   },
 });

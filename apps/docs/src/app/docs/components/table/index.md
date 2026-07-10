@@ -43,3 +43,7 @@ The Table component provides a way to display data in rows and columns.
 ### Sticky Columns
 
 {{ demo: Demo_Table_StickyColumns }}
+
+### Row Actions
+
+{{ demo: Demo_Table_RowActions }}

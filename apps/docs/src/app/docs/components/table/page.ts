@@ -5,6 +5,7 @@ import { Demo_Table_Grouping } from '../../../demos/table/grouping';
 import { Demo_Table_Paged } from '../../../demos/table/paged';
 import { Demo_Table_Reorderable } from '../../../demos/table/reorderable';
 import { Demo_Table_Resizable } from '../../../demos/table/resizable';
+import { Demo_Table_RowActions } from '../../../demos/table/row-actions';
 import {
   Demo_Table_Selection_Multi,
   Demo_Table_Selection_Single,
@@ -37,6 +38,7 @@ export const TablePage: NgnDocsPage = {
         Demo_Table_Resizable,
         Demo_Table_Reorderable,
         Demo_Table_StickyColumns,
+        Demo_Table_RowActions,
       ],
     },
     {

@@ -83,6 +83,13 @@ export class NgnPopover extends PopoverTemplates implements Openable {
 
   private _skipEmitCloseEvent = false;
   private _triggeredByInput = false;
+  // Set by `onToggle` when the open state changed because the popover itself
+  // toggled (native show/hide). The `[open]` effect then skips re-running
+  // show()/hide() for that echo — otherwise the redundant show() schedules a
+  // second deferred `togglePopover(true)` that can re-open the popover right
+  // after a quick close (e.g. Enter then Escape). The effect still reacts to
+  // genuine external `[open]` input changes.
+  private _internalToggle = false;
 
   protected readonly appliedOptions = computed(() => ({
     cache: false,
@@ -113,6 +120,12 @@ export class NgnPopover extends PopoverTemplates implements Openable {
     super();
 
     explicitAfterRenderEffect([this.open], ([open]) => {
+      // Ignore the echo from our own onToggle-driven open change; only react to
+      // external `[open]` input changes.
+      if (this._internalToggle) {
+        this._internalToggle = false;
+        return;
+      }
       if (!open) {
         this._triggeredByInput = true;
         this.hide();
@@ -170,6 +183,9 @@ export class NgnPopover extends PopoverTemplates implements Openable {
 
   protected onToggle(event: Event) {
     const evt = event as ToggleEvent;
+    // Mark this open-state change as internal so the `[open]` effect doesn't
+    // echo it back into another show()/hide().
+    this._internalToggle = true;
     if (evt.newState === 'closed') {
       this.open.set(false);
 

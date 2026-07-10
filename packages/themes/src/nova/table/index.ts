@@ -31,7 +31,10 @@ export const tableStyles = createThemePart({
         gap: ${v('size.padding.sm')};
       }
       ${c('body')} {
-        --ngn-cell-bg-base: transparent;
+        /* Rows get the normal surface background by default (not transparent),
+           so sticky columns and the inline row-actions bar sit on a solid,
+           consistent surface rather than showing through to whatever is behind. */
+        --ngn-cell-bg-base: ${v('color.background')};
       }
       ${c('cell')} {
         --ngn-cell-bg: var(--ngn-cell-bg-base);
@@ -219,6 +222,19 @@ export const tableStyles = createThemePart({
         height: 100%;
         pointer-events: none;
         background: linear-gradient(to right, rgba(0, 0, 0, 0.15), transparent);
+      }
+
+      /* ── Row Actions (inline) ────────────────────────────────────────── */
+
+      ${c('row-actions')} {
+        gap: ${v('size.padding.sm')};
+        padding: 0 ${v('size.padding.sm')};
+        background: ${v('color.background')};
+        box-shadow: -8px 0 8px -4px ${v('color.background')};
+        /* The bar stretches the full row height and would otherwise paint over
+           the cell's bottom border. Redraw the same 1px line on the bar so the
+           row separator stays continuous underneath the actions. */
+        border-bottom: 1px solid ${v('color.surface.200')};
       }
     `,
   },

@@ -8,6 +8,7 @@
   (click)="click($event)"
   [attr.data-test-id]="config().testId"
   [ngnTooltip]="config().kind === 'icon' ? maybeCallback(config().label) : null"
+  ngnTooltipAutoAriaMode="label"
 >
   @if (config().icon || config().defaultIcon) {
     <ngn-icon [icon]="config().icon" [defaultIcon]="config().defaultIcon" />
