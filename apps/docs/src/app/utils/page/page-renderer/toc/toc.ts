@@ -78,25 +78,39 @@ export class NgnDocsToc {
         return;
       }
 
-      // Highlight the heading nearest the top of the scroll viewport.
+      // Highlight the section whose heading last crossed a "reading line" placed
+      // this fraction of the viewport height below the top edge. The active
+      // section is the lowest heading still above that line; it yields as soon as
+      // the next heading crosses. This is size-independent — a tiny section wins
+      // for the brief moment its heading owns the line — unlike a visible-px
+      // score, where large neighbours always out-cover a small section.
+      const readingLineFraction = 0.3;
       const root = scrollParent(elements[0]!);
-      const observer = new view.IntersectionObserver(
-        () => {
-          const rootTop = root?.getBoundingClientRect().top ?? 0;
-          let current = elements[0]!;
-          for (const el of elements) {
-            if (el.getBoundingClientRect().top - rootTop <= 1) {
-              current = el;
-            } else {
-              break;
-            }
+      const update = () => {
+        const rootRect = root?.getBoundingClientRect();
+        const viewTop = rootRect?.top ?? 0;
+        const viewHeight = rootRect ? root!.clientHeight : view.innerHeight;
+        const readingLine = viewTop + viewHeight * readingLineFraction;
+
+        let current = elements[0]!;
+        for (const el of elements) {
+          if (el.getBoundingClientRect().top <= readingLine) {
+            current = el;
+          } else {
+            break;
           }
-          this.activeId.set(current.id);
-        },
-        { root, rootMargin: '0px 0px -80% 0px', threshold: [0, 1] }
-      );
-      elements.forEach(el => observer.observe(el));
-      onCleanup(() => observer.disconnect());
+        }
+        this.activeId.set(current.id);
+      };
+
+      const scrollTarget: EventTarget = root ?? view;
+      scrollTarget.addEventListener('scroll', update, { passive: true });
+      view.addEventListener('resize', update, { passive: true });
+      update();
+      onCleanup(() => {
+        scrollTarget.removeEventListener('scroll', update);
+        view.removeEventListener('resize', update);
+      });
     });
   }
 

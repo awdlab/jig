@@ -1,4 +1,5 @@
 import { NgnDocsFrame } from './frame/frame';
+import { FrameState } from './frame/frame-state';
 import { Start } from './start/start';
 import { TestComponent } from './test';
 
@@ -15,6 +16,7 @@ export const routes: Routes = [
   {
     path: '',
     component: NgnDocsFrame,
+    providers: [FrameState],
     children: [
       {
         path: '',

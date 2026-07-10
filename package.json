@@ -22,7 +22,8 @@
     "test": "pnpm playwright test",
     "test:build": "pnpm tsc --noEmit --project tests/tsconfig.test.json",
     "test:ui": "pnpm playwright test --ui",
-    "unit-test": "pnpm -r test"
+    "unit-test": "pnpm -r test",
+    "prepare": "husky"
   },
   "license": "MIT",
   "packageManager": "pnpm@11.10.0",
@@ -41,6 +42,7 @@
     "eslint": "^10.6.0",
     "eslint-plugin-unused-imports": "^4.4.1",
     "globals": "^17.7.0",
+    "husky": "^9.1.7",
     "jsdom": "^29.1.1",
     "json5": "^2.2.3",
     "prettier": "^3.9.4",

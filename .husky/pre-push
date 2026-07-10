@@ -1,0 +1,13 @@
+echo "🔎 pre-push: checking formatting…"
+pnpm format:check || {
+  echo "❌ Formatting issues found. Run 'pnpm format' to fix, then re-push." >&2
+  exit 1
+}
+
+echo "🔎 pre-push: linting…"
+pnpm lint || {
+  echo "❌ Lint errors found. Fix them, then re-push." >&2
+  exit 1
+}
+
+echo "✅ pre-push checks passed."
