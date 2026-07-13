@@ -13,7 +13,7 @@ export function expectScreenshot(
   options?: PageAssertionsToHaveScreenshotOptions
 ) {
   testInfo.snapshotSuffix = '';
-  const fullName = `${testInfo.title}${name ? '-' + name : ''}.png`;
+  const fullName = `${testInfo.title}${name ? `-${name}` : ''}.png`;
   return expect(toScreenshot).toHaveScreenshot(fullName, {
     fullPage: 'addInitScript' in toScreenshot,
     maxDiffPixels: 5,

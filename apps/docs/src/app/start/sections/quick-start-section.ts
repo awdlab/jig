@@ -98,6 +98,6 @@ export class NgnDocsQuickStartSection {
   protected readonly highlighted = signal('');
 
   constructor() {
-    style(EXAMPLE_CODE).then(html => this.highlighted.set(html));
+    void style(EXAMPLE_CODE).then(html => this.highlighted.set(html));
   }
 }

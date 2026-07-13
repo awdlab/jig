@@ -20,8 +20,8 @@ This is **NGneers Controls**, an Angular component library that provides a compr
 - **Testing**:
   - Playwright for E2E tests
   - Vitest for unit tests
-- **Linting**: ESLint with @ngneers/eslint-config-angular
-- **Formatting**: Prettier with @ngneers/prettier-config
+- **Linting**: oxlint with type-aware rules (tsgolint); config in root `.oxlintrc.json`
+- **Formatting**: oxfmt for `.ts`/`.json`/`.md`; Prettier + @ngneers/prettier-config for `.html`
 - **UI Libraries**: @floating-ui/dom for positioning, @ngneers/signal-translate for i18n
 
 ## Coding Guidelines
@@ -42,8 +42,8 @@ This is **NGneers Controls**, an Angular component library that provides a compr
 - **Selector style**:
   - Element selectors: `kebab-case` (e.g., `ngn-button`)
   - Attribute selectors: `camelCase` (e.g., `ngnButton`)
-- **Change detection**: Prefer `OnPush` change detection strategy (enforced by ESLint)
-- **Component class suffix**: Not required (disabled in ESLint)
+- **Change detection**: Zoneless (Angular 22 default); `OnPush` no longer tool-enforced
+- **Component class suffix**: Not required
 - **Base class**: Extend `NgnBase<T>` for component base functionality
 - **Theme templates**: Use `injectThemeTemplate()` to inject theme templates
 - Use `input()` for component inputs (signal-based)
@@ -57,7 +57,7 @@ This is **NGneers Controls**, an Angular component library that provides a compr
   - `index.ts` - Public API exports
   - Component implementation files (e.g., `button.ts`)
   - Component-specific utilities
-- ESLint config files are placed in component directories when needed
+- Linting is configured centrally in root `.oxlintrc.json` (no per-directory config)
 - Tests are organized in:
   - `tests/` - Playwright E2E tests
   - `*.spec.ts` - Vitest unit tests (co-located with source)
@@ -201,7 +201,7 @@ describe('ComponentOrFunction', () => {
 
 - Ensure all new components follow the established patterns
 - Check that TypeScript strict mode passes
-- Verify ESLint and Prettier pass
+- Verify linting (`pnpm lint`) and formatting (`pnpm format:check`) pass
 - Ensure tests are included for new functionality
 - Check that documentation is updated
 - Verify build succeeds: `pnpm build`

@@ -28,7 +28,7 @@ export class NgnDocsDemo {
   protected toggleCodeVisibility() {
     this.codeVisible.update(v => !v);
     if (!this.code()) {
-      this.loadCode();
+      void this.loadCode();
     }
   }
 
@@ -56,7 +56,7 @@ export class NgnDocsDemo {
 
   protected copyCode() {
     if (this.code()) {
-      navigator.clipboard.writeText(this.code());
+      void navigator.clipboard.writeText(this.code());
     }
   }
 }

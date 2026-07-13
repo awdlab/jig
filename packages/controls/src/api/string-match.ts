@@ -1,7 +1,11 @@
 import { fuzzyMatch } from '@ngneers/controls/utils';
 
 export type PredefinedStringMatchFunction =
-  'contains' | 'startsWith' | 'endsWith' | 'equals' | 'fuzzy';
+  | 'contains'
+  | 'startsWith'
+  | 'endsWith'
+  | 'equals'
+  | 'fuzzy';
 
 export function stringMatches(
   value: string,

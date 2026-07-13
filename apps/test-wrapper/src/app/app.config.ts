@@ -25,7 +25,7 @@ export const appConfig: ApplicationConfig = {
       },
       withToasts(),
       withSnackbars(),
-      withDefaultIcons(),
+      withDefaultIcons()
     ),
     provideRouter([
       { path: '', pathMatch: 'full', component: App },

@@ -511,7 +511,7 @@ test('active-section highlight only shows while focused', async ({ page }, testI
 
   // BEFORE focusing: no section should carry the active class.
   await expect
-    .poll(async () => page.locator('[role="spinbutton"]' + sectionActiveSelector).count(), {
+    .poll(async () => page.locator(`[role="spinbutton"]${sectionActiveSelector}`).count(), {
       timeout: 3000,
     })
     .toBe(0);
@@ -522,14 +522,14 @@ test('active-section highlight only shows while focused', async ({ page }, testI
   await mask.focus();
 
   await expect
-    .poll(async () => page.locator('[role="spinbutton"]' + sectionActiveSelector).count(), {
+    .poll(async () => page.locator(`[role="spinbutton"]${sectionActiveSelector}`).count(), {
       timeout: 3000,
     })
     .toBe(1);
 
   // The highlighted section must be the one matching aria-activedescendant.
   const highlightedId = await page
-    .locator('[role="spinbutton"]' + sectionActiveSelector)
+    .locator(`[role="spinbutton"]${sectionActiveSelector}`)
     .getAttribute('id');
   expect(highlightedId).not.toBeNull();
   // Poll: aria-activedescendant may settle a tick after the highlight class.
@@ -539,7 +539,7 @@ test('active-section highlight only shows while focused', async ({ page }, testI
   await page.locator('body').click({ position: { x: 0, y: 0 } });
 
   await expect
-    .poll(async () => page.locator('[role="spinbutton"]' + sectionActiveSelector).count(), {
+    .poll(async () => page.locator(`[role="spinbutton"]${sectionActiveSelector}`).count(), {
       timeout: 3000,
     })
     .toBe(0);

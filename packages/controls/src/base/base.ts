@@ -38,20 +38,20 @@ import type { ControlName, ThemeTemplate } from '@ngneers/controls-themes/templa
 
 export const NGN_CONTROL = new InjectionToken<NgnBase<never>>('NGN_CONTROL');
 
-// eslint-disable-next-line ts/no-explicit-any
+// eslint-disable-next-line typescript/no-explicit-any
 export type AnyNgnBase = NgnBaseSafe<any>;
 export type NgnBaseSafe<T extends ControlName | null> = Omit<
   NgnBase<T>,
   'kind' | 'appliedKind' | 'pt'
 >;
 
-/* eslint-disable ts/no-explicit-any */
+/* eslint-disable typescript/no-explicit-any */
 export type FullAnyNgnBase = Omit<NgnBase<any>, 'kind' | 'appliedKind' | 'pt'> & {
   kind: InputSignal<CustomKind<any> | undefined>;
   appliedKind: InputSignal<CustomKind<any> | undefined>;
   pt: InputSignal<NgnPassthrough<any> | undefined>;
 };
-/* eslint-enable ts/no-explicit-any */
+/* eslint-enable typescript/no-explicit-any */
 
 /**
  * @internal

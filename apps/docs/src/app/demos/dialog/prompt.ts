@@ -54,7 +54,7 @@ export class Demo_Dialog_Prompt {
       ],
     });
 
-    res.result.then(res => {
+    void res.result.then(res => {
       if (res.button) {
         console.log('Prompt result:', res.value);
       } else {

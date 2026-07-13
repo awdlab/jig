@@ -46,7 +46,8 @@ export class NgnSnackbarManager implements OnDestroy {
       this._appRef.attachView(this._component.hostView);
       const hostEl = this._component.location.nativeElement as HTMLElement;
       const appRootEl = this._appRef.components[0]?.location.nativeElement as
-        undefined | HTMLElement;
+        | undefined
+        | HTMLElement;
       if (!appRootEl) {
         throw new NgnError(
           'NgnSnackbarManager',

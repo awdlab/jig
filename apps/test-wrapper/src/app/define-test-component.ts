@@ -1,11 +1,5 @@
 import '@angular/compiler';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  input,
-  Type,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, Type } from '@angular/core';
 
 import { IMPORTS } from './imports';
 import { type TemplateType, WindowService } from './window';
@@ -23,17 +17,17 @@ export class TestComponentBase {
 }
 
 export async function defineTestComponent(
-  template: TemplateType,
+  template: TemplateType
 ): Promise<Type<TestComponentBase>> {
   const imports = await Promise.all(
-    template.imports.flatMap((x) => {
+    template.imports.flatMap(x => {
       const imp = IMPORTS[x];
       if (Array.isArray(imp)) {
-        return imp.map((y) => y());
+        return imp.map(y => y());
       }
       const result = imp();
       return Array.isArray(result) ? result : [result];
-    }),
+    })
   );
 
   @Component({

@@ -247,7 +247,7 @@ export class NgnDocsCustomizationSection {
     effect(() => {
       const mode = this.mode();
       const snippet = CODE_BY_MODE[mode];
-      style(snippet).then(html => {
+      void style(snippet).then(html => {
         if (this.mode() === mode) {
           this.highlighted.set(html);
         }

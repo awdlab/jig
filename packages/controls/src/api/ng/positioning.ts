@@ -158,7 +158,7 @@ export function positionElement(
       }
     }
 
-    computePosition(referenceElement, floatingEl, {
+    void computePosition(referenceElement, floatingEl, {
       placement: options.placement,
       strategy: options.strategy,
       middleware: [

@@ -23,7 +23,7 @@ export class NgnButton extends NgnBase<'button'> {
    */
   public readonly inline = input(false, {
     transform: booleanAttribute,
-    // eslint-disable-next-line @angular-eslint/no-input-rename -- alias follows the ngn{Directive}{Prop} convention, but the rule can't derive the base selector from the element-qualified form `button[ngnButton], a[ngnButton]`
+    // alias follows the ngn{Directive}{Prop} convention for the `button[ngnButton], a[ngnButton]` selector
     alias: 'ngnButtonInline',
   });
 

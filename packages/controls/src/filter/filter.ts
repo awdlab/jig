@@ -125,8 +125,9 @@ function defaultOperatorsForType(dataType: NgnFilterDataType) {
 })
 export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilterConfig | null> {
   protected readonly theme = this.injectThemeTemplate(filterControlTemplate, 'root');
-  protected readonly i18n = inject(I18n).translations;
-  protected readonly unsafeI18n = inject(I18n).unsafe;
+  private readonly _i18n = inject(I18n);
+  protected readonly i18n = this._i18n.translations;
+  protected readonly unsafeI18n = this._i18n.unsafe.bind(this._i18n);
   private readonly _destroyRef = inject(DestroyRef);
 
   /**
@@ -346,11 +347,13 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   protected readonly resolvedListOptions = computed<readonly NgnItem[]>(() => {
     const listOptions = this.listOptions();
     return listOptions
-      ? listOptions.map((opt): NgnItem => ({
-          label: opt,
-          value: opt,
-          testId: `filter-list-${opt}`,
-        }))
+      ? listOptions.map(
+          (opt): NgnItem => ({
+            label: opt,
+            value: opt,
+            testId: `filter-list-${opt}`,
+          })
+        )
       : this.autoListOptions();
   });
 

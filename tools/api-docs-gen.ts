@@ -29,7 +29,7 @@ const options: TypeDocOptions = {
   outputs: [
     {
       name: 'json',
-      path: OUT_DIR + '/typedoc.json',
+      path: `${OUT_DIR}/typedoc.json`,
       options: { pretty: false },
     },
   ],
@@ -107,9 +107,9 @@ async function convertControl(control: DeclarationReflection) {
   groupPublic.children = publicProps;
 
   control.groups = [];
-  inputs.length && control.groups.push(groupInputs);
-  outputs.length && control.groups.push(groupOutputs);
-  publicProps.length && control.groups.push(groupPublic);
+  if (inputs.length) control.groups.push(groupInputs);
+  if (outputs.length) control.groups.push(groupOutputs);
+  if (publicProps.length) control.groups.push(groupPublic);
 
   // Replace names with aliases
   [...inputs, ...outputs].forEach(input => {
@@ -122,7 +122,10 @@ async function convertControl(control: DeclarationReflection) {
 
   // Remove readonly & signal/output wrapper type from inputs/outputs
   [...inputs, ...outputs].forEach(input => {
-    input.type = (input.type as ReferenceType).typeArguments?.[0]!;
+    const unwrapped = (input.type as ReferenceType).typeArguments?.[0];
+    if (unwrapped) {
+      input.type = unwrapped;
+    }
     input.flags.setFlag(ReflectionFlag.Readonly, false);
   });
 
@@ -223,4 +226,4 @@ async function run() {
   await app.generateOutputs(project);
 }
 
-run();
+void run();

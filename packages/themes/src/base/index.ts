@@ -108,4 +108,4 @@ export const baseStyles = {
   upload: uploadStyles,
 };
 
-export const unstyledBase = createTheme('Nova Coral', [...Object.values(baseStyles)]);
+export const unstyledBase = createTheme('Nova Coral', Object.values(baseStyles));

@@ -415,7 +415,7 @@ function extractStrokeWidth(body: string): number {
 async function main() {
   const { createRequire } = await import('module');
   const require = createRequire(
-    new URL('file://' + process.cwd() + '/packages/controls/src/default-icons/provider.ts')
+    new URL(`file://${process.cwd()}/packages/controls/src/default-icons/provider.ts`)
   );
 
   // Deduplicate by importPath to avoid loading same icon multiple times
@@ -430,7 +430,7 @@ async function main() {
   const scaleByPath = new Map<string, number>();
 
   for (const [importPath] of uniqueIcons) {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    // eslint-disable-next-line typescript/no-require-imports
     const mod = require(importPath) as { default: IconData };
     const iconData = mod.default;
     const strokeWidth = extractStrokeWidth(iconData.body);

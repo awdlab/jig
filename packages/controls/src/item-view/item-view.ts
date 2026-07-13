@@ -179,7 +179,9 @@ export class NgnItemView<T extends object, IdField extends keyof T>
     // - `renderedIndexSet` allows O(1) visibility checks.
     // - `locationByIndex` avoids repeatedly scanning the overflow order to find an item's location.
     const renderedIndexSet = new Set<number>(renderedItemOrders.map(x => x.index));
-    const locationByIndex: Array<ItemOverflowLocation | undefined> = new Array(count);
+    const locationByIndex: Array<ItemOverflowLocation | undefined> = Array.from({
+      length: count,
+    });
     for (const entry of overflowCheckOrder) {
       locationByIndex[entry.index] = entry.location;
     }

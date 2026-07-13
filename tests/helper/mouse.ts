@@ -1,4 +1,4 @@
-import { type Page, type Locator } from '@playwright/test';
+import type { Page, Locator } from '@playwright/test';
 
 export async function mouseDownOnElement(page: Page, element: Locator) {
   const box = await element.boundingBox();

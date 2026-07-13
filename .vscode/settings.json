@@ -2,8 +2,8 @@
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
-    "project.json": "package.json, prettier.config.mts, .eslint*, eslint.config.mjs, .npm*, jest*, nx.json, pnpm-lock.yaml, tsconfig*, angular.json, ng-package.json, playwright*",
-    "package.json": "prettier.config.mts, .eslint*, eslint.config.mjs, .npm*, jest*, nx.json, pnpm-lock.yaml, tsconfig*, angular.json, ng-package.json, playwright*, .markdownlint.jsonc",
+    "project.json": "package.json, prettier.config.mts, .oxlintrc.json, .oxfmtrc.json, .npm*, jest*, nx.json, pnpm-lock.yaml, tsconfig*, angular.json, ng-package.json, playwright*",
+    "package.json": "prettier.config.mts, .oxlintrc.json, .oxfmtrc.json, .npm*, jest*, nx.json, pnpm-lock.yaml, tsconfig*, angular.json, ng-package.json, playwright*, .markdownlint.jsonc",
     "*.ts": "$(capture).spec.ts, $(capture).test.ts, $(capture).d.ts, $(capture).js, $(capture).js.map, $(capture).ts.map",
     "*.js": "$(capture).d.ts, $(capture).js.map",
     "*.css": "$(capture).css.map"
@@ -12,18 +12,18 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
   },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "oxc.oxc-vscode",
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "search.exclude": {
     "**/node_modules": true,
@@ -36,7 +36,6 @@
   },
   "js/ts.preferences.importModuleSpecifier": "project-relative",
   "js/ts.tsdk.path": "node_modules/typescript/lib",
-  "eslint.useFlatConfig": true,
   "deno.enable": false,
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"

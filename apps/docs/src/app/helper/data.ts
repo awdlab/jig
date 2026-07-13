@@ -94,7 +94,8 @@ const itemsGrouped = [
 const items = itemsGrouped.map(group => group.items).flat();
 
 const flatGroupedItems = itemsGrouped.flatMap(group => [group, ...group.items]) as (
-  (typeof itemsGrouped)[number] | (typeof itemsGrouped)[number]['items'][number]
+  | (typeof itemsGrouped)[number]
+  | (typeof itemsGrouped)[number]['items'][number]
 )[];
 
 const itemsPreformatted = transformToNgnItems(items, {

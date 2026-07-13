@@ -10,10 +10,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import {
-  defineTestComponent,
-  TestComponentBase,
-} from './define-test-component';
+import { defineTestComponent, TestComponentBase } from './define-test-component';
 import { isEval, WindowService } from './window';
 
 @Component({
@@ -22,11 +19,8 @@ import { isEval, WindowService } from './window';
   template: ``,
 })
 export class App {
-  private readonly _testComponent = signal<Type<TestComponentBase> | null>(
-    null,
-  );
-  private readonly _testComponentRef =
-    signal<ComponentRef<TestComponentBase> | null>(null);
+  private readonly _testComponent = signal<Type<TestComponentBase> | null>(null);
+  private readonly _testComponentRef = signal<ComponentRef<TestComponentBase> | null>(null);
   private readonly _win = inject(WindowService);
 
   constructor() {
@@ -37,7 +31,7 @@ export class App {
       if (!template) {
         return;
       }
-      defineTestComponent(template).then((component) => {
+      void defineTestComponent(template).then(component => {
         this._testComponent.set(component);
       });
     });
@@ -75,7 +69,8 @@ export class App {
         const keys = Object.keys(val);
         if (keys.length === 1 && isEval(keys[0])) {
           console.log('Converting eval input', val[keys[0]]);
-          // eval case
+          // Intentional: the test harness evaluates test-supplied input expressions.
+          // eslint-disable-next-line no-eval
           return eval(val[keys[0]]);
         }
       }
@@ -89,7 +84,7 @@ export class App {
           [key]: getMappedVal(val),
         };
       },
-      {} as Record<string, any>,
+      {} as Record<string, any>
     );
     component.setInput('inputs', mappedInputs);
   }

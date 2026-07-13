@@ -140,9 +140,7 @@ declare global {
       <ng-template #deferContent>Deferred content</ng-template>
 
       <!-- Dialog -->
-      <button ngnButton kind="primary" (click)="dialogOpen.set(true)">
-        Open dialog
-      </button>
+      <button ngnButton kind="primary" (click)="dialogOpen.set(true)">Open dialog</button>
       <ngn-dialog
         title="Example dialog"
         [open]="dialogOpen()"
@@ -152,10 +150,7 @@ declare global {
       </ngn-dialog>
 
       <!-- EditInplace -->
-      <ngn-edit-inplace
-        [value]="editInplaceValue()"
-        (valueChange)="editInplaceValue.set($event)"
-      />
+      <ngn-edit-inplace [value]="editInplaceValue()" (valueChange)="editInplaceValue.set($event)" />
 
       <!-- Filter -->
       <ngn-filter [data]="filterData()" dataType="string" />
@@ -167,9 +162,7 @@ declare global {
       <ngn-inplace>
         <ng-template #display>Display</ng-template>
         <ng-template #content let-content>
-          <button ngnButton kind="primary" (click)="content.close()">
-            Close
-          </button>
+          <button ngnButton kind="primary" (click)="content.close()">Close</button>
         </ng-template>
       </ngn-inplace>
 
@@ -199,12 +192,8 @@ declare global {
 
       <!-- Popover -->
       <button #popoverAnchor ngnButton>Toggle</button>
-      <ngn-popover #popover [anchor]="popoverAnchor"
-        >Popover content</ngn-popover
-      >
-      <button ngnButton kind="primary" (click)="popover.show()">
-        Open popover
-      </button>
+      <ngn-popover #popover [anchor]="popoverAnchor">Popover content</ngn-popover>
+      <button ngnButton kind="primary" (click)="popover.show()">Open popover</button>
 
       <!-- Progress -->
       <ngn-progress [value]="50" />
@@ -250,12 +239,7 @@ declare global {
       </ngn-tabs>
 
       <!-- Table -->
-      <ngn-table
-        #table
-        [rows]="tableRows()"
-        [fieldId]="'id'"
-        style="height: 200px"
-      >
+      <ngn-table #table [rows]="tableRows()" [fieldId]="'id'" style="height: 200px">
         <ng-template #header>
           <tr ngnTableHeadTr>
             <th [ngnTableTh]="table.column('id')">ID</th>
@@ -286,9 +270,7 @@ export class LeakTestComponent implements OnInit, OnDestroy {
   public readonly calendarValue = signal<Date | null>(new Date());
   public readonly editInplaceValue = signal('Edit me');
   public readonly filterData = signal(['Alpha', 'Beta', 'Gamma']);
-  public readonly splitterLayout = signal<'horizontal' | 'vertical'>(
-    'horizontal',
-  );
+  public readonly splitterLayout = signal<'horizontal' | 'vertical'>('horizontal');
 
   public readonly tableRows = signal<readonly { id: number; name: string }[]>([
     { id: 1, name: 'Row 1' },

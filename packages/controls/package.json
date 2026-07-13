@@ -28,7 +28,6 @@
     "prebuild": "cpy package.json src/",
     "build": "ng build",
     "postbuild": "tsx ../../tools/resolve-controls-deps.ts",
-    "lint": "pnpm eslint .",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
     "api-docs:generate": "tsx ../../tools/api-docs-gen.ts"

@@ -1,8 +1,8 @@
 import { getClassName } from './get-class-name';
-import { type StyleScope } from './style-scope';
+import type { StyleScope } from './style-scope';
 import { upsertThemeStyleElement } from './upsert-theme-style-element';
-import { type Theme } from '../theme/theme';
-import { type ThemePart } from '../theme/theme-part';
+import type { Theme } from '../theme/theme';
+import type { ThemePart } from '../theme/theme-part';
 import { groupArrayUsing } from '../utils/group-array-using';
 
 export type ApplyThemeOptions = {

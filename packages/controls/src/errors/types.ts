@@ -23,7 +23,8 @@ export type NgnErrorsMode = 'first' | 'all';
  * @category types
  */
 export type NgnErrorsMessage =
-  string | ((error: NgnErrorsMessageContext) => string | null | undefined);
+  | string
+  | ((error: NgnErrorsMessageContext) => string | null | undefined);
 
 /**
  * Map of validation error keys to message resolvers.
@@ -36,7 +37,10 @@ export type NgnErrorsMessages = Record<string, NgnErrorsMessage>;
  * @category types
  */
 export type NgnErrorsCustom =
-  ValidationErrors | readonly (string | NgnErrorsCustomEntry)[] | null | undefined;
+  | ValidationErrors
+  | readonly (string | NgnErrorsCustomEntry)[]
+  | null
+  | undefined;
 
 /**
  * Custom error entry with optional value, params, and explicit message.

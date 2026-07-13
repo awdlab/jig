@@ -15,8 +15,8 @@
 - Tailwind CSS for utility classes in templates
 - Barrel exports via `index.ts` in every feature folder
 - Use `@ngneers/*` path aliases for imports, never relative cross-package imports
-- 2-space indentation, single quotes (enforced by `@ngneers/prettier-config`)
-- ESLint via `@ngneers/eslint-config-angular`
+- 2-space indentation, single quotes (oxfmt formats `.ts`/`.json`/`.md`; Prettier + `@ngneers/prettier-config` formats `.html`)
+- Linting via oxlint with type-aware rules (tsgolint, `--type-aware`); config in root `.oxlintrc.json`. No ESLint.
 
 ## Naming & Style Conventions
 
@@ -76,6 +76,6 @@ Always check **all** parts when making changes to a control — a rename or new 
 
 - When previewing the docs app, you must click "Get Started" on the startpage before the sidebar navigation becomes available. This is always the case.
 
-- Always run `pnpm prettier --write` over changed files after completing edits
+- Always run `pnpm format` over changed files after completing edits (oxfmt for `.ts`/`.json`/`.md`, Prettier for `.html`)
 
 - The dev server does NOT recompile when a globally `@use`d SCSS partial (e.g. `src/styles/global.scss`) changes — the watcher misses it. To force a rebuild + reload, save the app's `styles.scss` entry (which `@use`s those partials). (Component-template/TS edits hot-reload normally; this caveat is specific to global SCSS partials.)

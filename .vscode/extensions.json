@@ -1,8 +1,8 @@
 {
   "recommendations": [
     "esbenp.prettier-vscode",
+    "oxc.oxc-vscode",
     "firsttris.vscode-jest-runner",
-    "dbaeumer.vscode-eslint",
     "angular.ng-template"
   ]
 }

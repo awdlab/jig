@@ -18,7 +18,7 @@ export const appConfig: ApplicationConfig = {
         theme: { preset: novaCoral },
         disableAnimations: true,
       },
-      withDefaultIcons(),
+      withDefaultIcons()
     ),
     provideRouter([]),
     provideCheckNoChangesConfig({ exhaustive: true }),

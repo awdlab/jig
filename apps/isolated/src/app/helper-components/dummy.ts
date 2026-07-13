@@ -1,10 +1,4 @@
-import {
-  Component,
-  input,
-  type OnInit,
-  output,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, input, type OnInit, output, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'dummy',

@@ -22,7 +22,7 @@ export type DepClass<Name extends ControlName> = ThemeTemplate[Name] extends Con
   ? Exclude<ThemeTemplate[Name]['dependencies'][number], { projected: true }>['class']
   : never;
 
-// eslint-disable-next-line @angular-eslint/directive-selector
+// Internal passthrough directive; intentionally uses the non-prefixed `ptInt` selector.
 @Directive({ selector: '[ptInt]' })
 export class NgnPt<T extends NgnBaseSafe<Name>, Name extends ControlName> {
   /** The parent control whose theme/passthrough this element pulls from. */
@@ -78,7 +78,8 @@ export class NgnPt<T extends NgnBaseSafe<Name>, Name extends ControlName> {
       return undefined;
     }
     const parentPt = (this.ptInt() as unknown as FullAnyNgnBase).pt?.() as
-      Record<string, AnyNgnPassthrough> | undefined;
+      | Record<string, AnyNgnPassthrough>
+      | undefined;
     return parentPt?.[dep as string];
   });
 

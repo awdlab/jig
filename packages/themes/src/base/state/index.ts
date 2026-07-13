@@ -57,7 +57,7 @@ export const stateStyles = createThemePart({
       }
 
       ${d('button', 'root')}:has(> ${c('replace-content')}${c('visible')})
-        > :not(${c('root')}) {
+      > :not(${c('root')}) {
         visibility: hidden;
       }
 

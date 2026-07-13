@@ -38,11 +38,11 @@ export class WindowService {
       },
       inputs: (val: InputsType) => {
         console.log('Setting inputs', val);
-        this.inputs.update((i) => ({ ...i, ...val }));
+        this.inputs.update(i => ({ ...i, ...val }));
       },
       outputs: (val: OutputsType) => {
         console.log('Setting outputs', val);
-        this.outputs.update((o) => ({ ...o, ...val }));
+        this.outputs.update(o => ({ ...o, ...val }));
       },
       outputLog: {},
     };

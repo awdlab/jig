@@ -1,4 +1,4 @@
-import { type Config } from 'prettier';
+import type { Config } from 'prettier';
 import base from '@ngneers/prettier-config';
 
 const config: Config = {

@@ -6,16 +6,6 @@
     "serve": "ng serve",
     "build": "ng build"
   },
-  "prettier": {
-    "overrides": [
-      {
-        "files": "*.html",
-        "options": {
-          "parser": "angular"
-        }
-      }
-    ]
-  },
   "private": true,
   "dependencies": {
     "@angular/common": "catalog:",

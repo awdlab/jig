@@ -114,7 +114,7 @@ export class NgnDocsPageTabRenderer {
         return;
       }
       const tab = this.page.tabs.find(x => x.title === activeTab);
-      this._router.navigate([
+      void this._router.navigate([
         this.tab ? safeRoutePath(this.tab.title) : '',
         safeRoutePath(this.page.title),
         ...(tab?.default ? [] : [safeRoutePath(activeTab)]),

@@ -18,4 +18,5 @@ export type FormattedTableGroupHeaderRow<V = unknown> = {
 };
 
 export type FormattedTableRow<T, V = unknown> =
-  FormattedTableDataRow<T> | FormattedTableGroupHeaderRow<V>;
+  | FormattedTableDataRow<T>
+  | FormattedTableGroupHeaderRow<V>;

@@ -356,7 +356,7 @@ export class NgnDocsDeveloperExperienceSection {
   constructor() {
     for (const tile of this.tiles) {
       if (tile.snippet) {
-        style(tile.snippet).then(html => tile.highlighted.set(html));
+        void style(tile.snippet).then(html => tile.highlighted.set(html));
       }
     }
   }

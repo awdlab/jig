@@ -1,7 +1,7 @@
 import test, { type Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { type InputsType } from '../../apps/test-wrapper/src/app/window.js';
-import { type NgnActionItem } from '@ngneers/controls/api';
+import type { InputsType } from '../../apps/test-wrapper/src/app/window.js';
+import type { NgnActionItem } from '@ngneers/controls/api';
 import { NgnBreadcrumbHarness } from '@ngneers/controls-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';

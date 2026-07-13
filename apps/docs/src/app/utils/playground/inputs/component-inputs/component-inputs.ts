@@ -74,7 +74,7 @@ export class NgnDocsPlaygroundComponentInputs {
     const logger = new ConsoleLogger();
     const deserializer = new Deserializer(logger);
 
-    getTypedocProject().then(projectJson => {
+    void getTypedocProject().then(projectJson => {
       const project = deserializer.reviveProject('API Docs', projectJson as any, {
         projectRoot: '/',
         registry: new FileRegistry(),

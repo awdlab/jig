@@ -1,4 +1,4 @@
-import { type NgnCustomTypes } from './custom-types';
+import type { NgnCustomTypes } from './custom-types';
 
 import type { IconifyIcon } from '@iconify/types';
 

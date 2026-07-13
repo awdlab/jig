@@ -37,8 +37,7 @@
     "start": "tsx src/index.ts",
     "inspect": "pnpm dlx @modelcontextprotocol/inspector tsx src/index.ts",
     "test": "pnpm build && vitest run",
-    "test:watch": "vitest",
-    "lint": "pnpm eslint ."
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.0",

@@ -181,11 +181,11 @@ function logSuccess() {
 
 run()
   .then(() => {
-    restore();
+    void restore();
     logSuccess();
   })
   .catch(err => {
     console.error(err);
-    restore();
+    void restore();
     logSuccess();
   });

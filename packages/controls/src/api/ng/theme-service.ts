@@ -87,7 +87,8 @@ export function injectTheme<T extends ControlName>(
     );
   }
   const template = theme.parts.find(part => part.scope === controlName)?.controlTemplate as
-    ControlTemplate<T, string[]> | undefined;
+    | ControlTemplate<T, string[]>
+    | undefined;
   if (!template) {
     throw new Error(
       `The active theme "${theme.name}" does not contain a template for control "${controlName}".`

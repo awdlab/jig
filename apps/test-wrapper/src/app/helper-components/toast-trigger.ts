@@ -14,12 +14,8 @@ import {
 @Component({
   selector: 'toast-trigger',
   template: `
-    <button type="button" data-testid="show-toast" (click)="show()">
-      Show Toast
-    </button>
-    <button type="button" data-testid="hide-toast" (click)="hide()">
-      Hide Toast
-    </button>
+    <button type="button" data-testid="show-toast" (click)="show()">Show Toast</button>
+    <button type="button" data-testid="hide-toast" (click)="hide()">Hide Toast</button>
   `,
 })
 export class ToastTrigger {

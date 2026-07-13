@@ -14,10 +14,10 @@ export const buttonGroupStyles = createThemePart({
          its siblings so the ring renders on every side. */
       ${c('horizontal')}, ${c('vertical')} {
         &
-          > ${d('button', 'root')}:focus-visible,
-          &
-          > ${d('toggle-button', 'root')}
-          ${d('toggle-button', 'button')}:focus-visible {
+        > ${d('button', 'root')}:focus-visible,
+        &
+        > ${d('toggle-button', 'root')}
+        ${d('toggle-button', 'button')}:focus-visible {
           position: relative;
           z-index: 1;
         }

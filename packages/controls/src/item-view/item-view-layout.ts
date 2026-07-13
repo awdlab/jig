@@ -50,12 +50,12 @@ export function getItemOverflowCheckOrder(params: {
 
   switch (params.strategy) {
     case 'end': {
-      const arr = [...Array.from({ length: count - freezeCount }, (_, i) => i)];
+      const arr = Array.from({ length: count - freezeCount }, (_, i) => i);
       arr.splice(1, 0, ...Array.from({ length: freezeCount }, (_, i) => count - freezeCount + i));
       return arr.map(index => ({ index, location: 'end' }));
     }
     case 'start': {
-      const arr = [...Array.from({ length: count - freezeCount }, (_, i) => count - i - 1)];
+      const arr = Array.from({ length: count - freezeCount }, (_, i) => count - i - 1);
       arr.splice(1, 0, ...Array.from({ length: freezeCount }, (_, i) => i));
       return arr.map(index => ({ index, location: 'start' }));
     }

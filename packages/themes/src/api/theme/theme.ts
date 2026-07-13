@@ -1,4 +1,4 @@
-import { type ThemePart } from './theme-part';
+import type { ThemePart } from './theme-part';
 
 export type Theme<
   P extends ThemePart[] = ThemePart[],

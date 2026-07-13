@@ -38,6 +38,6 @@ export const appConfig: ApplicationConfig = {
       withAutoColorScheme()
     ),
     provideDocsThemeInitializer(),
-    ...[environment.production ? [] : [provideCheckNoChangesConfig({ exhaustive: true })]],
+    ...(environment.production ? [] : [provideCheckNoChangesConfig({ exhaustive: true })]),
   ],
 };

@@ -434,17 +434,23 @@ export class TooltipComponent extends NgnBase<'tooltip'> {
     });
   });
 
+  // Stable reference so addEventListener/removeEventListener target the same
+  // handler; `.bind()` returns a new function each call, which would leak
+  // listeners (remove never matches, add re-registers on every effect run).
+  private readonly onDocumentKeyDownBound = (event: KeyboardEvent): void =>
+    this.onDocumentKeyDown(event);
+
   constructor() {
     super();
     const document = inject(DOCUMENT);
     const destroyAbortSignal = abortSignalOnDestroy();
     effect(() => {
       if (this.isShown() && !this.isClosing()) {
-        document.addEventListener('keydown', this.onDocumentKeyDown.bind(this), {
+        document.addEventListener('keydown', this.onDocumentKeyDownBound, {
           signal: destroyAbortSignal,
         });
       } else {
-        document.removeEventListener('keydown', this.onDocumentKeyDown.bind(this));
+        document.removeEventListener('keydown', this.onDocumentKeyDownBound);
       }
     });
     effect(() => {

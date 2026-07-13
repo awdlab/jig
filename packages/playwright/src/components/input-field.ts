@@ -1,4 +1,4 @@
-import { type Locator } from '@playwright/test';
+import type { Locator } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 

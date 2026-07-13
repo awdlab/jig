@@ -500,7 +500,7 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
       return;
     }
     if (node.hasChildren && !node.expanded) {
-      this.toggleExpand(node.item);
+      void this.toggleExpand(node.item);
     } else if (node.hasChildren && node.expanded) {
       const idx = nodes.indexOf(node);
       for (let i = idx + 1; i < nodes.length; i++) {
@@ -522,7 +522,7 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
       return;
     }
     if (node.hasChildren && node.expanded) {
-      this.toggleExpand(node.item);
+      void this.toggleExpand(node.item);
       return;
     }
     // move to parent: previous node with a smaller level
