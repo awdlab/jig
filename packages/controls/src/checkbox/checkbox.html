@@ -46,6 +46,7 @@
   [attr.disabled]="disabled() ? '' : undefined"
   [ariaReadOnly]="readonly() ? '' : undefined"
   [ariaInvalid]="invalid() ? 'true' : undefined"
+  [attr.aria-label]="label()"
   [ariaLabelledByElements]="labelledBy()"
   (blur)="touched.set(true)"
   [id]="inputId()"

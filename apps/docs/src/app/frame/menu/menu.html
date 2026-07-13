@@ -1,6 +1,6 @@
-<div class="menu-wrapper flex h-full">
+<div class="menu-wrapper flex">
   <div
-    class="hide-when-compact mt-[5.5rem] mb-4 ml-4 h-[calc(100dvh-6.5rem)] shrink-0 self-start overflow-x-hidden overflow-y-auto rounded-(--ngn-size-rounded-lg) bg-(--ngn-color-surface-50) shadow-(--ngn-shadow-md)"
+    class="hide-when-compact sticky top-[5.5rem] mt-[5.5rem] mb-4 ml-4 max-h-[calc(100dvh-6.5rem)] shrink-0 self-start overflow-x-hidden overflow-y-auto rounded-(--ngn-size-rounded-lg) bg-(--ngn-color-surface-50) shadow-(--ngn-shadow-md)"
   >
     <ng-container *ngTemplateOutlet="menu" />
   </div>
@@ -50,7 +50,7 @@
       <a
         [routerLink]="item.link"
         class="menu-item pr-4 pl-4"
-        [class.active-item]="item.link === activeLink()"
+        [class.active-item]="isActiveLink(item.link)"
         (click)="isOpen.set(false)"
       >
         <span class="text-wrapper">

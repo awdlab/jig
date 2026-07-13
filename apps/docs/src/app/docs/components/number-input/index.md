@@ -1,18 +1,8 @@
 The Number Input directive (`ngnNumberInput`) turns a native `<input>` into a
-locale-aware number input with a `number | null` value model. Use it together
-with `ngn-input-field` for field chrome and `ngn-spin-buttons` for
+locale-aware number field with a `number | null` value model. You type freely
+while focused and the value commits on **blur** or **Enter**. Pair it with
+`ngn-input-field` for field chrome and `ngn-spin-buttons` for
 increment/decrement buttons.
-
-You can type freely while the input is focused; the value is committed on
-**blur** or **Enter** — unparseable text reverts to the last value,
-out-of-range values are clamped to `min`/`max`. While blurred the value is
-displayed formatted via `Intl.NumberFormat` (grouping separators etc.); while
-focused you edit the raw, ungrouped form.
-
-**↑/↓** steps by `step`, **Shift+↑/↓** by `bigStep` (default `step * 10`).
-Stepping never wraps and stops at the bounds; results are rounded to the
-operands' precision, so `0.1`-steps never show float drift. The input carries
-the `spinbutton` role with `aria-valuenow`/`-valuemin`/`-valuemax`.
 
 ### Spin buttons
 
@@ -33,6 +23,9 @@ The arrangement is chosen per instance:
 
 ### Validation
 
+The number input participates in validation like any value control; here a
+value outside the allowed range surfaces an error message.
+
 {{ demo: Demo_NumberInput_Validation }}
 
 See the **Spin Buttons API** tab for the full `NgnSpinButtons` reference.
@@ -41,10 +34,17 @@ See the **Spin Buttons API** tab for the full `NgnSpinButtons` reference.
 
 The locale defaults to Angular's `LOCALE_ID` and can be overridden per input.
 Parsing accepts the locale's decimal separator and ignores its grouping
-separators.
+separators. While blurred the value is displayed formatted via
+`Intl.NumberFormat`; while focused you edit the raw, ungrouped form.
 
 {{ demo: Demo_NumberInput_Locale }}
 
 ### Bounds and step precision
+
+**↑/↓** steps by `step` and **Shift+↑/↓** by `bigStep` (default `step * 10`);
+stepping never wraps and stops at the `min`/`max` bounds. On commit, unparseable
+text reverts to the last value and out-of-range values are clamped. Results are
+rounded to the operands' precision, so the `0.1` steps below never show float
+drift.
 
 {{ demo: Demo_NumberInput_Steps }}

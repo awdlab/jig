@@ -46,70 +46,70 @@
       "
     />
   </div>
-  <div class="ngn-calendar-days">
-    @for (weekDay of weekDaysSorted(); track weekDay) {
-      <span [ptInt]="component()" [ptClass]="'week-day'">
-        <ng-container
-          *ngTemplateOutlet="
-            weekDayTemplate();
-            context: {
-              $implicit: {
-                weekDay: weekDay.weekDay,
-                translation: weekDay.translation(),
-              },
-            }
-          "
-        />
-      </span>
-    }
-    @for (item of monthModel().weeks; track $index) {
-      @for (day of item.days; track $index) {
-        <button
-          #dayButton
-          [ptInt]="component()"
-          [ptClass]="{
-            day: true,
-            'day-other-month': day.monthOffset !== 0,
-            'day-today':
-              todaysMonth === month() + day.monthOffset &&
-              todaysDay === day.date &&
-              todaysYear === year(),
-            'day-selected':
-              currentValue()?.getDate() === day.date &&
-              currentValue()?.getMonth() === month() + day.monthOffset &&
-              currentValue()?.getFullYear() === year(),
-          }"
-          [tabIndex]="!day.monthOffset && tabFocusDay() === day.date ? 0 : -1"
-          type="button"
-          (click)="
-            daySelected.emit({
-              date: day.date,
-              monthOffset: day.monthOffset,
-            })
-          "
-          (keydown)="dayKeydown($event, dayButton)"
-        >
+  <div class="ngn-calendar-days" role="grid" [attr.aria-label]="gridLabel()">
+    <div role="row" style="display: contents">
+      @for (weekDay of weekDaysSorted(); track weekDay) {
+        <span role="columnheader" [ptInt]="component()" [ptClass]="'week-day'">
           <ng-container
             *ngTemplateOutlet="
-              dayTemplate();
+              weekDayTemplate();
               context: {
                 $implicit: {
-                  date: day.date,
-                  fromOtherMonth: day.monthOffset !== 0,
-                  selected:
-                    currentValue()?.getDate() === day.date &&
-                    currentValue()?.getMonth() === month() + day.monthOffset &&
-                    currentValue()?.getFullYear() === year(),
-                  today:
-                    todaysMonth === month() + day.monthOffset &&
-                    todaysDay === day.date &&
-                    todaysYear === year(),
+                  weekDay: weekDay.weekDay,
+                  translation: weekDay.translation(),
                 },
               }
             "
           />
-        </button>
+        </span>
       }
+    </div>
+    @for (item of monthModel().weeks; track $index) {
+      <div role="row" style="display: contents">
+        @for (day of item.days; track $index) {
+          <div
+            role="gridcell"
+            style="display: contents"
+            [attr.aria-selected]="isSelected(day) ? 'true' : null"
+          >
+            <button
+              #dayButton
+              [ptInt]="component()"
+              [ptClass]="{
+                day: true,
+                'day-other-month': day.monthOffset !== 0,
+                'day-today': isToday(day),
+                'day-selected': isSelected(day),
+              }"
+              [tabIndex]="!day.monthOffset && tabFocusDay() === day.date ? 0 : -1"
+              [attr.aria-current]="isToday(day) ? 'date' : null"
+              [attr.aria-label]="dayLabel(day)"
+              type="button"
+              (click)="
+                daySelected.emit({
+                  date: day.date,
+                  monthOffset: day.monthOffset,
+                })
+              "
+              (keydown)="dayKeydown($event, dayButton)"
+            >
+              <ng-container
+                *ngTemplateOutlet="
+                  dayTemplate();
+                  context: {
+                    $implicit: {
+                      date: day.date,
+                      fromOtherMonth: day.monthOffset !== 0,
+                      selected: isSelected(day),
+                      today: isToday(day),
+                    },
+                  }
+                "
+              />
+            </button>
+          </div>
+        }
+      </div>
     }
   </div>
   @if (showTime()) {

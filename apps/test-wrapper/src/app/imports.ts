@@ -18,6 +18,8 @@ export const IMPORTS = {
   chip: () => import('@ngneers/controls/chip').then((m) => m.NgnChip),
   defer: () => import('@ngneers/controls/defer').then((m) => m.NgnDefer),
   dialog: () => import('@ngneers/controls/dialog').then((m) => m.NgnDialog),
+  drawer: () => import('@ngneers/controls/drawer').then((m) => m.NgnDrawer),
+  menu: () => import('@ngneers/controls/menu').then((m) => m.NgnMenu),
   editInplace: () =>
     import('@ngneers/controls/edit-inplace').then((m) => m.NgnEditInplace),
   errors: () => import('@ngneers/controls/errors').then((m) => m.NgnErrors),
@@ -39,6 +41,8 @@ export const IMPORTS = {
   message: () => import('@ngneers/controls/message').then((m) => m.NgnMessage),
   numberInput: () =>
     import('@ngneers/controls/number-input').then((m) => m.NgnNumberInput),
+  paginator: () =>
+    import('@ngneers/controls/paginator').then((m) => m.NgnPaginator),
   popover: () => import('@ngneers/controls/popover').then((m) => m.NgnPopover),
   progress: () =>
     import('@ngneers/controls/progress').then((m) => m.NgnProgress),
@@ -73,6 +77,8 @@ export const IMPORTS = {
     import('@ngneers/controls/table').then((m) => m.NgnTableModule),
   tableSelectionColumn: () =>
     import('@ngneers/controls/table').then((m) => m.NgnTableSelectionColumn),
+  tableSortableColumn: () =>
+    import('@ngneers/controls/table').then((m) => m.NgnTableSortableColumn),
   tableStickyColumn: () =>
     import('@ngneers/controls/table').then((m) => m.NgnTableStickyColumn),
   ngnTemplate: () =>
@@ -90,4 +96,6 @@ export const IMPORTS = {
     import('./helper-components/async-validator').then(
       (m) => m.TestAsyncValidator,
     ),
+  toastTrigger: () =>
+    import('./helper-components/toast-trigger').then((m) => m.ToastTrigger),
 };

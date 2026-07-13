@@ -3,7 +3,7 @@ import { NgnBase } from '@ngneers/controls/base';
 import { toggleClass } from '@ngneers/controls/utils';
 import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
-@Directive({ selector: '[ngnTableHeadTr]', host: { '[attr.aria-rowindex]': '1' } })
+@Directive({ selector: '[ngnTableHeadTr]', host: { role: 'row', '[attr.aria-rowindex]': '1' } })
 export class NgnTableHeadTr extends NgnBase<'table'> {
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate);
   private readonly _element = inject(ElementRef<HTMLElement>);

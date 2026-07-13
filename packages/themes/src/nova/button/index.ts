@@ -87,11 +87,6 @@ export const buttonStyles = createThemePart({
         &:active:not(:disabled) {
           background: var(--theme-color-300);
         }
-
-        &${c('inline')} {
-          height: 1lh;
-          width: 1lh;
-        }
       }
       ${c('kind-link')} {
         text-decoration: underline;

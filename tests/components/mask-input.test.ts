@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { NgnMaskInputHarness } from '@ngneers/controls-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
 // ---------------------------------------------------------------------------
 // Helper: load a time-mask component and return the harness + handle.
@@ -683,4 +684,29 @@ test('clicking input-field padding selects nearest section by horizontal positio
   await expect
     .poll(async () => await mask.activeDescendantId(), { timeout: 5000 })
     .toBe(lastSectionId);
+});
+
+// ---------------------------------------------------------------------------
+// 17. Accessibility scan of a labelled time mask.
+// ---------------------------------------------------------------------------
+
+test('accessibility (axe)', async ({ page }) => {
+  // `label` names the proxy input (aria-label). Inside an input-field for a
+  // realistic, representative configuration.
+  await loadComponent(
+    page,
+    {
+      imports: ['inputField', 'maskInput'],
+      template: `<ngn-input-field>
+        <ngn-mask-input [mask]="inputs().mask" [label]="'Time'" />
+      </ngn-input-field>`,
+    },
+    { inputs: { mask: 'time' } }
+  );
+
+  const mask = new NgnMaskInputHarness(page.locator('ngn-mask-input').first());
+  await expect(mask.sections).toHaveCount(3);
+  await mask.expectText('HH:MM:SS');
+
+  await expectNoA11yViolations(page);
 });

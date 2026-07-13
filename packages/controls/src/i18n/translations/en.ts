@@ -1,7 +1,9 @@
 export default {
   calendar: {
     today: 'Today',
+    input: 'Date',
     selectYear: 'Select year',
+    selectMonth: 'Select month',
     previousMonth: 'Previous month',
     nextMonth: 'Next month',
     weekdays: {
@@ -45,6 +47,8 @@ export default {
     noFilter: 'No filter',
     addCondition: 'Add condition',
     removeCondition: 'Remove condition',
+    operator: 'Operator',
+    value: 'Value',
     clear: 'Clear',
     apply: 'Apply',
     cancel: 'Cancel',
@@ -93,6 +97,15 @@ export default {
   drawer: {
     close: 'Close',
   },
+  dialog: {
+    close: 'Close',
+  },
+  chip: {
+    close: 'Remove',
+  },
+  breadcrumb: {
+    overflow: 'Show more',
+  },
   toast: {
     close: 'Close',
     region: 'Notifications',
@@ -114,6 +127,7 @@ export default {
     retryNamed: 'Retry {{ name }}',
     cancelNamed: 'Cancel {{ name }}',
     removeNamed: 'Remove {{ name }}',
+    progressNamed: 'Upload progress for {{ name }}',
   },
   select: {
     filterOptions: 'Filter options',
@@ -130,6 +144,14 @@ export default {
   },
   table: {
     selectAllRows: 'Select all rows',
+    selectRow: 'Select row',
+    sortedBy: 'Sorted by {{ column }}, {{ direction }}',
+    sortAscending: 'ascending',
+    sortDescending: 'descending',
+    sortCleared: 'Sorting cleared',
+    selectedCount: '{{ count }} of {{ total }} selected',
+    page: 'Page {{ page }} of {{ pages }}',
+    resultCount: '{{ count }} results',
   },
   state: {
     loading: 'Loading',

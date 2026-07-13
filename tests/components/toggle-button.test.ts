@@ -1,80 +1,76 @@
 import test, { expect } from '@playwright/test';
 import { NgnToggleButtonHarness } from '@ngneers/controls-playwright';
 import { loadComponent } from '../helper/load-component';
-import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
-test.fixme('base', async ({ page }, testInfo) => {
+test('toggles value on click, reflects aria-pressed, and emits valueChange', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<button ngnToggleButton [active]="inputs().active" (activeChange)="output('active', $event)">Toggle</button>`,
+      template: `<ngn-toggle-button [value]="inputs().value" (valueChange)="output('value', $event)">Toggle</ngn-toggle-button>`,
       imports: ['toggleButton'],
     },
-    {
-      inputs: {
-        active: false,
-      },
-    }
+    { inputs: { value: false } }
   );
 
-  const toggleButton = new NgnToggleButtonHarness(page.locator('[ngnToggleButton]'));
-  await toggleButton.expectActive(false);
-  await expectScreenshot(page, testInfo, 'inactive');
+  const host = page.locator('ngn-toggle-button');
+  const button = host.locator('button');
+  const toggle = new NgnToggleButtonHarness(host);
 
-  // Click to activate
-  await toggleButton.click();
-  await toggleButton.expectActive(true);
-  await expectScreenshot(page, testInfo, 'active');
+  await toggle.expectActive(false);
+  await expect(button).toHaveAttribute('aria-pressed', 'false');
 
-  // Verify output event
-  const outputs = await handle.getOutputLog();
-  expect(outputs['active']).toEqual([true]);
+  // Click to activate.
+  await toggle.click();
+  await toggle.expectActive(true);
+  await expect(button).toHaveAttribute('aria-pressed', 'true');
+  expect((await handle.getOutputLog())['value']).toEqual([true]);
 
-  // Click to deactivate
-  await toggleButton.click();
-  await toggleButton.expectActive(false);
-
-  // Verify output event
-  const outputs2 = await handle.getOutputLog();
-  expect(outputs2['active']).toEqual([true, false]);
+  // Click to deactivate.
+  await toggle.click();
+  await toggle.expectActive(false);
+  await expect(button).toHaveAttribute('aria-pressed', 'false');
+  expect((await handle.getOutputLog())['value']).toEqual([true, false]);
 });
 
-test.fixme('states', async ({ page }, testInfo) => {
+test('disabled toggle button does not toggle and emits nothing', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<button 
-        ngnToggleButton 
-        [active]="inputs().active" 
+      template: `<ngn-toggle-button
+        [value]="inputs().value"
         [disabled]="inputs().disabled"
-        (activeChange)="output('active', $event)"
-      >Toggle</button>`,
+        (valueChange)="output('value', $event)"
+      >Toggle</ngn-toggle-button>`,
       imports: ['toggleButton'],
     },
-    {
-      inputs: {
-        active: false,
-        disabled: false,
-      },
-    }
+    { inputs: { value: false, disabled: true } }
   );
 
-  const toggleButton = new NgnToggleButtonHarness(page.locator('[ngnToggleButton]'));
+  const host = page.locator('ngn-toggle-button');
+  const button = host.locator('button');
 
-  // Test disabled state
-  await handle.setInputs({ disabled: true });
-  await toggleButton.expectDisabled(true);
-  await expectScreenshot(page, testInfo, 'disabled-inactive');
+  await expect(button).toBeDisabled();
 
-  // Try to toggle - should not work
-  await toggleButton.click(true);
-  await toggleButton.expectActive(false);
+  // Force the click past the disabled state — it must still not toggle.
+  await button.click({ force: true });
+  await new NgnToggleButtonHarness(host).expectActive(false);
+  await expect(button).toHaveAttribute('aria-pressed', 'false');
 
-  // Set active to true and test disabled with active
-  await handle.setInputs({ active: true });
-  await toggleButton.expectActive(true);
-  await expectScreenshot(page, testInfo, 'disabled-active');
-
-  // Verify no outputs were emitted during disabled test
+  // No output was emitted while disabled.
   expect(await handle.getOutputLog()).toEqual({});
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      // `label` (not projected text) drives the button's accessible name.
+      template: `<ngn-toggle-button [value]="inputs().value" [label]="'Toggle'"></ngn-toggle-button>`,
+      imports: ['toggleButton'],
+    },
+    { inputs: { value: false } }
+  );
+
+  await expectNoA11yViolations(page);
 });

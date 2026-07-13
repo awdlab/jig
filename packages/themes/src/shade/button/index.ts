@@ -47,11 +47,6 @@ export const buttonStyles = createThemePart({
           cursor: default;
           opacity: 0.5;
         }
-        &${c('inline')} {
-          height: 1lh;
-          min-width: 1lh;
-          padding: 0 ${v('size.padding.sm')};
-        }
       }
 
       /* Shared kind vocabulary across all themes: primary | secondary | text | icon | link.
@@ -124,10 +119,6 @@ export const buttonStyles = createThemePart({
         }
         &:active:not(:disabled) {
           background: color-mix(in srgb, ${v('color.accent.base')} 82%, ${v('color.foreground')});
-        }
-        &${c('inline')} {
-          height: 1lh;
-          width: 1lh;
         }
       }
 

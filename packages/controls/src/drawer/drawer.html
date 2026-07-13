@@ -2,7 +2,7 @@
   <ng-container
     *ngTemplateOutlet="
       headerTemplate();
-      context: { $implicit: { close: doClose, text: this.header() } }
+      context: { $implicit: { close: doClose, text: this.header(), headerId } }
     "
   />
 </header>
@@ -24,7 +24,9 @@
 
 <ng-template #defaultHeaderTemplate [ngnTemplate]="templateTypes.header" let-header>
   <div [ptInt]="this" [ptClass]="'default-header'">
-    <span [ptInt]="this" [ptClass]="'default-header-text'">{{ header.text }}</span>
+    <span [id]="header.headerId" [ptInt]="this" [ptClass]="'default-header-text'">{{
+      header.text
+    }}</span>
     <button
       ngnButton
       [kind]="'icon'"

@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { NgnItemViewHarness } from '@ngneers/controls-playwright';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(
@@ -68,4 +69,29 @@ test('base', async ({ page }, testInfo) => {
   await expect(itemView.overflowItem).toHaveCount(1);
 
   await expectScreenshot(page, testInfo);
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<ngn-item-view [items]="inputs().items" [idField]="'id'" style="width: 200px;">
+        <ng-template #item let-item>
+          <span>{{ item.label }}</span>
+        </ng-template>
+      </ngn-item-view>`,
+      imports: ['itemView'],
+    },
+    {
+      inputs: {
+        items: [
+          { id: 1, label: 'Item 1' },
+          { id: 2, label: 'Item 2' },
+          { id: 3, label: 'Item 3' },
+        ],
+      },
+    }
+  );
+
+  await expectNoA11yViolations(page);
 });

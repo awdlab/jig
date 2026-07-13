@@ -1,5 +1,8 @@
 import { NgnDocsIconPlayground } from './playground';
 import { Demo_Icon_Base } from '../../../demos/icon/base';
+import { Demo_Icon_DefaultIcon } from '../../../demos/icon/default-icon';
+import { Demo_Icon_Sizing } from '../../../demos/icon/sizing';
+import { i18nNone } from '../../../utils/i18n-doc';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -13,7 +16,7 @@ export const IconPage: NgnDocsPage = {
 
       title: 'Examples',
       mdFile: 'components/icon/index.md',
-      components: [Demo_Icon_Base],
+      components: [Demo_Icon_Base, Demo_Icon_DefaultIcon, Demo_Icon_Sizing],
     },
     {
       kind: 'component',
@@ -21,5 +24,7 @@ export const IconPage: NgnDocsPage = {
       component: NgnDocsIconPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/icon/api.md' },
+    { kind: 'single', title: 'Accessibility', mdFile: 'components/icon/a11y.md' },
+    i18nNone(),
   ],
 };

@@ -42,7 +42,13 @@
 </ng-template>
 
 <ng-template #defaultOverflowTemplate [ngnTemplate]="templateTypes.overflow" let-overflow>
-  <button #menuAnchor [ptInt]="this" [ptClass]="'overflow'" (click)="menu.show()">
+  <button
+    #menuAnchor
+    [ptInt]="this"
+    [ptClass]="'overflow'"
+    [attr.aria-label]="i18n['breadcrumb_overflow']()"
+    (click)="menu.show()"
+  >
     <ngn-icon defaultIcon="breadcrumb-overflow" [icon]="overflow.icon" />
   </button>
   <ngn-menu

@@ -9,6 +9,7 @@ import { Demo_Select_Multiple } from '../../../demos/select/multiple';
 import { Demo_Select_States } from '../../../demos/select/states';
 import { Demo_Select_Templates } from '../../../demos/select/templates';
 import { Demo_Select_Validation } from '../../../demos/select/validation';
+import { i18nKeys } from '../../../utils/i18n-doc';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -41,5 +42,14 @@ export const SelectPage: NgnDocsPage = {
       component: NgnDocsSelectPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/select/api.md' },
+    { kind: 'single', title: 'Accessibility', mdFile: 'components/select/a11y.md' },
+    i18nKeys(
+      'select',
+      {
+        filterOptions:
+          'Accessible label and placeholder for the input that filters the dropdown options.',
+      },
+      ['list-box']
+    ),
   ],
 };

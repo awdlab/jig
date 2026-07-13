@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { NgnRadioGroupHarness } from '@ngneers/controls-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
 const TEMPLATE = `
   <ngn-radio-group
@@ -113,4 +114,17 @@ test('states', async ({ page }, testInfo) => {
   await expectScreenshot(page, testInfo, 'invalid');
 
   expect(await handle.getOutputLog()).toEqual({});
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    { template: TEMPLATE, imports: ['radioGroup', 'radio'] },
+    { inputs: { value: 'a', disabled: false, readonly: false, invalid: false, bDisabled: false } }
+  );
+
+  const group = new NgnRadioGroupHarness(page.locator('ngn-radio-group'));
+  await group.expectSelected(0);
+
+  await expectNoA11yViolations(page);
 });

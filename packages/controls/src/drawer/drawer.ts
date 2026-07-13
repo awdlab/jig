@@ -24,6 +24,7 @@ import { NgnButton } from '@ngneers/controls/button';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
+import { FocusTrap, generateElementId } from '@ngneers/controls/utils-ng';
 import { drawerControlTemplate } from '@ngneers/controls-themes/templates/drawer';
 
 import { DrawerTemplates } from './drawer-templates';
@@ -41,8 +42,11 @@ import type { IconType } from '@ngneers/controls-custom-types';
   host: {
     '[attr.popover]': 'closeByPopover()',
     '(toggle)': 'onToggle($event)',
-    '[ariaModal]': 'modal() ? "true" : undefined',
-    role: 'complementary',
+    '[attr.aria-modal]': 'modal() ? "true" : null',
+    // A modal overlay is a dialog; a non-modal side panel is complementary
+    // landmark content. `aria-modal` is only coherent on the dialog role.
+    '[attr.role]': 'modal() ? "dialog" : "complementary"',
+    '[attr.aria-labelledby]': 'header() ? headerId : null',
     '[attr.data-position]': 'position()',
   },
 })
@@ -52,6 +56,8 @@ export class NgnDrawer extends DrawerTemplates implements Openable {
     horizontal: () => this.horizontal(),
   });
   protected readonly i18n = inject(I18n).translations;
+  protected readonly headerId = generateElementId();
+  private _focusTrap?: FocusTrap;
 
   /**
    * Emits when the drawer has fully closed.
@@ -130,6 +136,19 @@ export class NgnDrawer extends DrawerTemplates implements Openable {
       } else {
         this._togglingTriggeredByInput = true;
         this.hide();
+      }
+    });
+
+    // Trap focus inside a modal drawer while it is open. The Popover API already
+    // handles Escape/light-dismiss; the trap adds focus-in, Tab wrapping, and
+    // focus restore on close that the popover does not provide. Runs as an
+    // afterRenderEffect so the (deferred) content has rendered before we move
+    // focus onto its first focusable child — a rAF can fire before zoneless CD.
+    afterRenderEffect(() => {
+      if (this.open() && this.modal()) {
+        (this._focusTrap ??= new FocusTrap(this.element.nativeElement)).activate();
+      } else {
+        this._focusTrap?.deactivate();
       }
     });
 

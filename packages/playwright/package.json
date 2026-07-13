@@ -1,14 +1,29 @@
 {
   "name": "@ngneers/controls-playwright",
   "version": "1.0.0",
-  "description": "",
+  "description": "Playwright testing harness with page-object helpers for @ngneers/controls components.",
+  "license": "MIT",
+  "homepage": "https://ngneers.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NGneers/controls.git",
+    "directory": "packages/playwright"
+  },
+  "keywords": [
+    "angular",
+    "playwright",
+    "testing",
+    "e2e",
+    "page-object",
+    "ngneers-controls"
+  ],
   "main": "src/index.js",
   "scripts": {},
-  "keywords": [],
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "@ngneers/controls": "workspace:*",
     "@ngneers/controls-themes": "workspace:*"
-  },
-  "author": "",
-  "license": "MIT"
+  }
 }

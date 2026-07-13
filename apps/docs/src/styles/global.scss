@@ -4,7 +4,9 @@
     font-family: 'Inter', sans-serif;
     background: var(--ngn-color-background);
     color: var(--ngn-color-text);
-    @apply h-full;
+    // At least the viewport tall, but allowed to grow with content so the
+    // document itself is the scroll container (single scrollbar on the right).
+    min-height: 100dvh;
   }
   * {
     scrollbar-color: var(--ngn-color-scrollbar);

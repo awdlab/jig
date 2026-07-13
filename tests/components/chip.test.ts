@@ -3,6 +3,7 @@ import { loadComponent } from '../helper/load-component';
 import { NgnChipHarness } from '@ngneers/controls-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { mouseDownOnElement } from '../helper/mouse';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('features', async ({ page }, testInfo) => {
   const handle = await loadComponent(
@@ -102,4 +103,18 @@ test('colors', async ({ page }, testInfo) => {
   );
 
   await expectScreenshot(page, testInfo, 'colors');
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  // Actionable + closable so the icon-only close button (which has an
+  // i18n aria-label) is included in the scan.
+  await loadComponent(
+    page,
+    {
+      template: `<ngn-chip class="page-center" [actionable]="true" [closable]="true">Active</ngn-chip>`,
+      imports: ['chip'],
+    },
+    { inputs: {} }
+  );
+  await expectNoA11yViolations(page);
 });

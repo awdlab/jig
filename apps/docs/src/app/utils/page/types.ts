@@ -16,6 +16,8 @@ type SinglePage = NgnDocsMdSection & {
 type ComponentPage = {
   kind: 'component';
   component: Type<unknown>;
+  /** Inputs bound onto the rendered component via `ngComponentOutletInputs`. */
+  inputs?: Record<string, unknown>;
 };
 
 type Tabs = {

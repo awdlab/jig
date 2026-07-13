@@ -354,6 +354,29 @@ export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
     }
   }
 
+  /**
+   * The divider's current position as a percentage (0–100) of the total panel
+   * content size, used for `aria-valuenow` on the `role="separator"` handle.
+   * Reads `gridTemplateSizes()` to stay reactive to resizes, then measures the
+   * rendered panel sizes on either side of the divider.
+   */
+  protected dividerValueNow(index: number): number {
+    // ponytail: DOM-offset heuristic; one CD-frame lag during drag is fine for
+    // an aria value. Swap for an engine-reported px signal if exactness matters.
+    this.calculator().gridTemplateSizes(); // reactive trigger
+    const panels = this.calculator().orderedPanels();
+    const horizontal = this.layout() === 'horizontal';
+    let before = 0;
+    let total = 0;
+    panels.forEach((panel, i) => {
+      const el = panel.element.nativeElement;
+      const size = horizontal ? el.offsetWidth : el.offsetHeight;
+      total += size;
+      if (i <= index) before += size;
+    });
+    return total > 0 ? Math.round((before / total) * 100) : 0;
+  }
+
   private getStepInPx(): number {
     const step = this.step();
     if (step.endsWith('px')) {

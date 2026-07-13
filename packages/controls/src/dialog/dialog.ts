@@ -5,6 +5,7 @@ import {
   Component,
   computed,
   ElementRef,
+  inject,
   input,
   model,
   output,
@@ -25,6 +26,7 @@ import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnActionButton, NgnButton } from '@ngneers/controls/button';
 import { NgnDefer } from '@ngneers/controls/defer';
 import { NgnMovable, NgnResizable } from '@ngneers/controls/directives';
+import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { generateElementId } from '@ngneers/controls/utils-ng';
 import { dialogControlTemplate } from '@ngneers/controls-themes/templates/dialog';
@@ -70,6 +72,7 @@ export class NgnDialog<
   implements Openable
 {
   protected readonly theme = this.injectThemeTemplate(dialogControlTemplate);
+  protected readonly i18n = inject(I18n).translations;
   protected readonly headerId = generateElementId();
 
   private readonly _dialogElement = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');

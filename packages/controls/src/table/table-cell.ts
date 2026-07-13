@@ -23,7 +23,7 @@ import { NgnTable } from './table';
  */
 @Directive({
   selector: '[ngnTableTd]',
-  host: { '[style.--ngn-table-column-index]': '_visualColumnIndex()' },
+  host: { role: 'gridcell', '[style.--ngn-table-column-index]': '_visualColumnIndex()' },
 })
 export class NgnTableTd {
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);

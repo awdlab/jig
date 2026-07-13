@@ -24,6 +24,7 @@ import type { ResizableItem, ResizeLimit, ResizeSize } from '@ngneers/controls/a
 @Directive({
   selector: '[ngnTableTh]',
   host: {
+    role: 'columnheader',
     '[style.--ngn-table-column-index]': '_visualColumnIndex()',
   },
 })

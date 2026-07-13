@@ -5,6 +5,7 @@ import { Demo_InputField_Label } from '../../../demos/input-field/label';
 import { Demo_InputField_States } from '../../../demos/input-field/states';
 import { Demo_InputField_Textarea } from '../../../demos/input-field/textarea';
 import { Demo_InputField_Validation } from '../../../demos/input-field/validation';
+import { i18nKeys } from '../../../utils/i18n-doc';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -33,5 +34,9 @@ export const InputFieldPage: NgnDocsPage = {
       component: NgnDocsInputFieldPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/input-field/api.md' },
+    { kind: 'single', title: 'Accessibility', mdFile: 'components/input-field/a11y.md' },
+    i18nKeys('inputField', {
+      clearInput: 'Accessible label for the clear button that empties the field.',
+    }),
   ],
 };

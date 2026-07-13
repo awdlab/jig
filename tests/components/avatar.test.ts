@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { NgnAvatarHarness } from '@ngneers/controls-playwright';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('initials & image', async ({ page }) => {
   const handle = await loadComponent(
@@ -50,4 +51,16 @@ test('sizes', async ({ page }, testInfo) => {
 
   await expect(page.locator('ngn-avatar')).toHaveCount(45);
   await expectScreenshot(page, testInfo);
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<ngn-avatar [initials]="inputs().initials" />`,
+      imports: ['avatar'],
+    },
+    { inputs: { initials: 'AB' } }
+  );
+  await expectNoA11yViolations(page);
 });

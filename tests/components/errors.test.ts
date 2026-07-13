@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 import { loadComponent } from '../helper/load-component';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('input validation errors drive a normal hint', async ({ page }) => {
   await loadComponent(page, {
@@ -77,4 +78,26 @@ test('async validation shows pending and resolved messages', async ({ page }) =>
 
   await expect(hint).toContainText('Validating...');
   await expect(hint).toContainText('Server rejected the value');
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  // The input is named by the input-field label so axe can attribute the errors.
+  await loadComponent(page, {
+    template: `
+      <div class="page-center" style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <ngn-input-field label="Email">
+          <input ngnInput name="email" ngModel required email ngnErrors [ngnErrorsHint]="emailHint" />
+        </ngn-input-field>
+        <ngn-hint #emailHint />
+      </div>
+    `,
+    imports: ['input', 'hint', 'errors', 'forms', 'inputField'],
+  });
+
+  const input = page.locator('input[ngnInput]');
+  await input.focus();
+  await input.blur();
+  await expect(page.locator('ngn-hint')).toContainText('Required');
+
+  await expectNoA11yViolations(page);
 });

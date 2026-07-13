@@ -5,6 +5,7 @@ import { Demo_Dialog_CreateDialog } from '../../../demos/dialog/create-dialog';
 import { Demo_Dialog_Lazy } from '../../../demos/dialog/lazy';
 import { Demo_Dialog_Movable } from '../../../demos/dialog/movable';
 import { Demo_Dialog_Prompt } from '../../../demos/dialog/prompt';
+import { i18nKeys } from '../../../utils/i18n-doc';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -33,5 +34,9 @@ export const DialogPage: NgnDocsPage = {
       component: NgnDocsDialogPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/dialog/api.md' },
+    { kind: 'single', title: 'Accessibility', mdFile: 'components/dialog/a11y.md' },
+    i18nKeys('dialog', {
+      close: 'Accessible label for the close button in the dialog header.',
+    }),
   ],
 };

@@ -53,6 +53,7 @@ function positiveStep(value: number | undefined): number | undefined {
     '[attr.aria-valuemin]': 'min() ?? null',
     '[attr.aria-valuemax]': 'max() ?? null',
     '[attr.aria-label]': 'label()',
+    '[attr.aria-invalid]': 'invalid() ? "true" : null',
     '[disabled]': 'disabled()',
     '[readOnly]': 'readonly()',
   },

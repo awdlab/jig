@@ -4,6 +4,7 @@ import { type InputsType } from '../../apps/test-wrapper/src/app/window.js';
 import { type NgnActionItem } from '@ngneers/controls/api';
 import { NgnBreadcrumbHarness } from '@ngneers/controls-playwright';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
 const ITEMS: NgnActionItem[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => ({
   id: `item${i}`,
@@ -40,4 +41,13 @@ test('base', async ({ page }, testInfo) => {
   await breadcrumb.overflowMenu.expectItemCount(6);
 
   await expectScreenshot(page, testInfo, 'overflow-open');
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  // Overflowing breadcrumb (constrained width, all 10 items): the visible
+  // overflow toggle is a real focusable control and must not be trapped inside
+  // an aria-hidden container. item-view only marks the offscreen measurement
+  // copy aria-hidden, not the visible indicator.
+  await prepareTest(page);
+  await expectNoA11yViolations(page);
 });

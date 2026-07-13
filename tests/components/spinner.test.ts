@@ -2,6 +2,7 @@ import test, { expect, type Page } from '@playwright/test';
 import { NgnSpinnerHarness } from '@ngneers/controls-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(
@@ -109,4 +110,17 @@ test('size combinations', async ({ page }, testInfo) => {
   );
 
   await expectScreenshot(page, testInfo, 'sizes-comparison');
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<ngn-spinner />`,
+      imports: ['spinner'],
+    },
+    {}
+  );
+
+  await expectNoA11yViolations(page);
 });

@@ -4,6 +4,7 @@ import { Demo_Progress_Circular } from '../../../demos/progress/circular';
 import { Demo_Progress_CircularIndeterminate } from '../../../demos/progress/circular-indeterminate';
 import { Demo_Progress_Indeterminate } from '../../../demos/progress/indeterminate';
 import { Demo_Progress_Sizes } from '../../../demos/progress/sizes';
+import { i18nNone } from '../../../utils/i18n-doc';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -31,5 +32,7 @@ export const ProgressPage: NgnDocsPage = {
       component: NgnDocsProgressPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/progress/api.md' },
+    { kind: 'single', title: 'Accessibility', mdFile: 'components/progress/a11y.md' },
+    i18nNone(),
   ],
 };

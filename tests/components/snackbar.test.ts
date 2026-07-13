@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { NgnSnackbarHarness } from '@ngneers/controls-playwright';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('features', async ({ page }, testInfo) => {
   const handle = await loadComponent(
@@ -216,4 +217,28 @@ test('progress bar', async ({ page }) => {
     await setup(false, 100000);
     await expect(bar).toHaveCount(0);
   });
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `
+      <ngn-snackbar
+        class="page-center"
+        [header]="'Notification'"
+        [content]="'This is a basic snackbar message.'"
+        [closable]="true"
+        [autoHide]="false"
+      />
+    `,
+      imports: ['snackbar'],
+    },
+    { inputs: {} }
+  );
+
+  const snackbar = new NgnSnackbarHarness(page.locator('ngn-snackbar'));
+  await snackbar.expectClosable(true);
+
+  await expectNoA11yViolations(page);
 });

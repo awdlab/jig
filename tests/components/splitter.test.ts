@@ -1,5 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { expectNoA11yViolations } from '../helper/axe';
 
 /**
  * The `thin` and `invisible` kinds must expand the divider visually on hover
@@ -78,4 +79,24 @@ test('invisible kind has a 0px track and expands on hover', async ({ page }) => 
   // Expands on hover, still no track (0px).
   expect(await barWidth()).toBeGreaterThan(0);
   expect(await dividerWidth()).toBe(0);
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(page, {
+    template: `
+      <ngn-splitter
+        class="page-center"
+        [layout]="'horizontal'"
+        style="width: 400px; height: 120px;"
+      >
+        <ngn-splitter-panel [size]="'1fr'">Panel 1</ngn-splitter-panel>
+        <ngn-splitter-panel [size]="'1fr'">Panel 2</ngn-splitter-panel>
+      </ngn-splitter>
+    `,
+    imports: ['splitter', 'splitterPanel'],
+  });
+
+  await expect(page.locator('[role="separator"]')).toBeVisible();
+
+  await expectNoA11yViolations(page);
 });

@@ -1,5 +1,6 @@
 import test, { expect, type Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { expectNoA11yViolations } from '../helper/axe';
 
 // ---------------------------------------------------------------------------
 // Helper: load an input-field with a number input + spin buttons.
@@ -195,4 +196,33 @@ test('spin buttons placed before the input still resolve the number input', asyn
 
   const log = (await handle.getOutputLog())['value'] ?? [];
   expect(log).toContainEqual(6);
+});
+
+// ---------------------------------------------------------------------------
+// 6. Accessibility scan of a labelled number input with spin buttons.
+// ---------------------------------------------------------------------------
+
+test('accessibility (axe)', async ({ page }) => {
+  // input-field label names the input (role="spinbutton"); spin buttons are
+  // aria-hidden pointer affordances.
+  await loadComponent(
+    page,
+    {
+      imports: ['inputField', 'numberInput', 'spinButtons'],
+      template: `<ngn-input-field label="Quantity">
+        <input
+          ngnNumberInput
+          locale="en-US"
+          [value]="inputs().value ?? null"
+          [min]="0"
+          [max]="9999"
+        />
+        <ngn-spin-buttons />
+      </ngn-input-field>`,
+    },
+    { inputs: { value: 42 } }
+  );
+
+  await expect(page.locator('input[ngnnumberinput]')).toBeVisible();
+  await expectNoA11yViolations(page);
 });

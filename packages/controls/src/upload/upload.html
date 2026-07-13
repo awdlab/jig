@@ -59,6 +59,7 @@
             <ngn-progress
               [ptInt]="this"
               [ptClass]="'progress'"
+              [attr.aria-label]="i18n['upload_progressNamed']({ name: item.file.name })"
               [value]="item.progress"
               [indeterminate]="item.progress === 0"
             />

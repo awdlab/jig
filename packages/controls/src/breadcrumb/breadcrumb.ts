@@ -1,8 +1,9 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
+import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnItemView } from '@ngneers/controls/item-view';
 import { NgnMenu } from '@ngneers/controls/menu';
@@ -26,6 +27,7 @@ import type { IconType } from '@ngneers/controls-custom-types';
 })
 export class NgnBreadcrumb extends BreadcrumbTemplates {
   protected readonly theme = this.injectThemeTemplate(breadcrumbControlTemplate, 'root');
+  protected readonly i18n = inject(I18n).translations;
 
   /**
    * The breadcrumb entries to render, ordered from root to the current page.

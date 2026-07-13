@@ -4,6 +4,7 @@ import { Demo_Avatar_Group } from '../../../demos/avatar/group';
 import { Demo_Avatar_Icon } from '../../../demos/avatar/icon';
 import { Demo_Avatar_Image } from '../../../demos/avatar/image';
 import { Demo_Avatar_Size } from '../../../demos/avatar/size';
+import { i18nText } from '../../../utils/i18n-doc';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -31,5 +32,9 @@ export const AvatarPage: NgnDocsPage = {
       component: NgnDocsAvatarPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/avatar/api.md' },
+    { kind: 'single', title: 'Accessibility', mdFile: 'components/avatar/a11y.md' },
+    i18nText(
+      "Avatar has no built-in translatable strings of its own. Any text it displays — the `initials` and the image `alt` text — comes from the values you provide, so translate those in your own application's i18n layer."
+    ),
   ],
 };

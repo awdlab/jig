@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { NgnCalendarHarness, NgnMaskInputHarness } from '@ngneers/controls-playwright';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('IO', async ({ page }, testInfo) => {
   await page.clock.setFixedTime(new Date('2025-08-18T12:13:14'));
@@ -358,4 +359,16 @@ test('first day of week', async ({ page }, testInfo) => {
   });
   await calendar.expectFirstWeekday('monday');
   await expectScreenshot(page, testInfo, 'monday');
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<ngn-calendar [inline]="true" [value]="inputs().value" />`,
+      imports: ['calendar'],
+    },
+    { inputs: { value: new Date(2025, 7, 18, 12, 0, 0) } }
+  );
+  await expectNoA11yViolations(page);
 });

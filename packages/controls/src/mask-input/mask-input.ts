@@ -133,6 +133,11 @@ export class NgnMaskInput extends ValueControlBase<'maskInput', string | null> {
     return f.kind === 'number' ? f.max : f.values.length - 1;
   }
 
+  /** Accessible name for a section's `role="spinbutton"` — the field's name. */
+  protected sectionName(ord: number): string {
+    return this._fields()[ord]?.name ?? '';
+  }
+
   protected sectionValueText(ord: number): string {
     const f = this._fields()[ord];
     const v = this.values()[ord] ?? '';

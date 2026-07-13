@@ -2,6 +2,7 @@ import test from '@playwright/test';
 import { NgnInplaceHarness } from '@ngneers/controls-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
@@ -134,4 +135,34 @@ test('model binding', async ({ page }, testInfo) => {
     await inplace.expectDisplayVisible(true);
     await inplace.expectContentVisible(false);
   });
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(page, {
+    template: `
+      <ngn-inplace>
+        <ng-template #display>
+          <span>Click to edit</span>
+        </ng-template>
+        <ng-template #content let-content>
+          <div>
+            <p>Content is visible</p>
+            <button (click)="content.close()">Close</button>
+          </div>
+        </ng-template>
+      </ngn-inplace>
+    `,
+    imports: ['inplace'],
+  });
+
+  const inplace = new NgnInplaceHarness(page.locator('ngn-inplace'));
+
+  // Scan the display (collapsed) surface first.
+  await inplace.expectDisplayVisible(true);
+  await expectNoA11yViolations(page);
+
+  // Open and scan the expanded content surface.
+  await inplace.clickDisplay();
+  await inplace.expectContentVisible(true);
+  await expectNoA11yViolations(page);
 });

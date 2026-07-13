@@ -4,6 +4,7 @@ import test, { expect } from '@playwright/test';
 import { exampleData } from '../helper/data';
 import { evalValue, loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
 import type { NgnTreeItem } from '@ngneers/controls/api';
 import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
@@ -283,4 +284,19 @@ test('persists state to storage across reloads', async ({ page }) => {
   const tree2 = harness(page);
   await tree2.expectExpanded('Asia', true);
   await tree2.expectChecked('Africa', 'true');
+});
+
+// TODO(a11y): virtualization breaks tree semantics — the ngn-scroller wrapper sits
+// between role="tree" and its role="treeitem"/"group" children (aria-required-children),
+// and the scroll region isn't keyboard-focusable (scrollable-region-focusable). Needs
+// an ARIA + virtual-scroll design pass (aria-owns or role=presentation). Tracked.
+test.fixme('accessibility (axe)', async ({ page }) => {
+  await loadComponent(page, treeTmpl(`[selectable]="true"`), { inputs: { items: grouped } });
+  const tree = harness(page);
+
+  // Expand a branch so both group and leaf nodes are in the tree.
+  await tree.toggleNode('Africa');
+  await tree.expectExpanded('Africa', true);
+
+  await expectNoA11yViolations(page);
 });

@@ -1,6 +1,20 @@
 {
   "name": "@ngneers/controls-custom-types",
   "version": "0.0.1-pre3",
+  "description": "Shared TypeScript type contracts used across @ngneers/controls and its themes.",
+  "license": "MIT",
+  "homepage": "https://ngneers.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NGneers/controls.git",
+    "directory": "packages/custom-types"
+  },
+  "keywords": [
+    "angular",
+    "types",
+    "typescript",
+    "ngneers-controls"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -11,7 +25,8 @@
     "build": "pnpm prebuild && tsc -p ./tsconfig.lib.json --outDir ./dist && pnpm postbuild"
   },
   "type": "module",
-  "main": "dist/index.js",
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "dependencies": {
     "@iconify/types": "^2.0.0",
     "tslib": "^2.8.1"

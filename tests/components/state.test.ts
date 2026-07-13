@@ -1,6 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { NgnStateHarness } from '@ngneers/controls-playwright';
 import { loadComponent } from '../helper/load-component';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('loading state fits inside a button', async ({ page }) => {
   await loadComponent(
@@ -253,4 +254,25 @@ test('state keeps input field layout stable while toggling visibility', async ({
   await page.keyboard.press('Control+A');
   await page.keyboard.type('!');
   await expect(input).toHaveValue('!');
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<ngn-state [kind]="inputs().kind" [visible]="inputs().visible" />`,
+      imports: ['state'],
+    },
+    {
+      inputs: {
+        kind: 'success',
+        visible: true,
+      },
+    }
+  );
+
+  const state = new NgnStateHarness(page.locator('ngn-state'));
+  await state.expectIcon('success');
+
+  await expectNoA11yViolations(page);
 });

@@ -3,6 +3,7 @@ import { Demo_Tooltip_Arrow } from '../../../demos/tooltip/arrow';
 import { Demo_Tooltip_Base } from '../../../demos/tooltip/base';
 import { Demo_Tooltip_Placement } from '../../../demos/tooltip/placement';
 import { Demo_Tooltip_ShowOnlyIfTruncated } from '../../../demos/tooltip/show-only-if-truncated';
+import { i18nText } from '../../../utils/i18n-doc';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -29,5 +30,9 @@ export const TooltipPage: NgnDocsPage = {
       component: NgnDocsTooltipPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/tooltip/api.md' },
+    { kind: 'single', title: 'Accessibility', mdFile: 'components/tooltip/a11y.md' },
+    i18nText(
+      "Tooltip has no built-in translatable strings of its own. Any text it displays — the `ngnTooltip` content (a string or template) you supply — comes from the values you provide, so translate those in your own application's i18n layer."
+    ),
   ],
 };

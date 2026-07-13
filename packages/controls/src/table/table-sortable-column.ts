@@ -25,6 +25,7 @@ import { NgnTableTh } from './table-header-cell';
   selector: '[ngnTableSortableColumn]',
   host: {
     '[class]': `theme.classes({'sortable-column': true, 'sorted-column': !!sort() })`,
+    '[attr.aria-sort]': `sort() === 'asc' ? 'ascending' : sort() === 'desc' ? 'descending' : 'none'`,
     '(click)': `onHostClick($event)`,
   },
 })

@@ -1,6 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { booleanAttribute, Component, input, output } from '@angular/core';
+import { booleanAttribute, Component, inject, input, output } from '@angular/core';
 import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
+import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { chipControlTemplate } from '@ngneers/controls-themes/templates/chip';
 
@@ -21,6 +22,7 @@ export class NgnChip extends NgnBase<'chip'> {
     closable: () => this.closable(),
     actionable: () => this.actionable(),
   });
+  protected readonly i18n = inject(I18n).translations;
 
   /**
    * Set whether the chip can be closed (removed).

@@ -22,6 +22,7 @@
       <span
         [ngnRovingItem]="pg"
         role="spinbutton"
+        [attr.aria-label]="sectionName(tok.ord)"
         [ptInt]="this"
         [ptClass]="tok.placeholder ? 'section-placeholder' : 'section'"
         [class]="focused() && activeOrd() === tok.ord ? activeSectionClass() : ''"

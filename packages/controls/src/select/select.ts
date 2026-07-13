@@ -222,7 +222,11 @@ export class NgnSelect<
       this._customEditableSub = customEditableInput.value.subscribe(value => {
         this.onEditableChange(value);
       });
-      // Set ARIA attributes for accessibility
+      // Set ARIA attributes for accessibility. `role="combobox"` is required so
+      // the combobox attributes below are allowed even when the projected input
+      // has an implicit role that forbids them (e.g. `<input type="number">` →
+      // `spinbutton`, which disallows `aria-autocomplete`). See calendar year field.
+      customEditableInput.element.nativeElement.setAttribute('role', 'combobox');
       customEditableInput.element.nativeElement.setAttribute('aria-autocomplete', 'list');
       customEditableInput.element.nativeElement.setAttribute(
         'aria-expanded',

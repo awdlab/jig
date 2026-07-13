@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   effect,
+  inject,
   input,
   model,
   signal,
@@ -11,6 +12,7 @@ import {
 } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
+import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnPaginator, type PaginationState } from '@ngneers/controls/paginator';
 import { NgnScrollShadow } from '@ngneers/controls/scroll-shadow';
@@ -61,7 +63,6 @@ import type { AllKeysOfUnion } from '@ngneers/controls/utils';
   providers: [provideSelf(NgnTable)],
   host: {
     tabindex: '0',
-    '[attr.aria-multiselectable]': 'selectionMode() === "multi" ? true : null',
     '(keydown)': 'onKeyDown($event)',
   },
 })
@@ -209,6 +210,13 @@ export class NgnTable<
   >(null);
   protected readonly pageState = signal<PaginationState | null>(null);
 
+  protected readonly i18n = inject(I18n).translations;
+  /**
+   * Polite live-region text announcing sort / filter / pagination / selection
+   * changes to assistive tech. Populated by an effect in the constructor.
+   */
+  protected readonly liveAnnouncement = signal('');
+
   // --- Column layout (geometry, sticky, resize, reorder, auto-size) ---
 
   private readonly _columns: TableColumnLayoutModel = new TableColumnLayoutModel({
@@ -342,6 +350,68 @@ export class NgnTable<
       this.formattedRows();
       this.focusedRowIndex.set(null);
       this._rowNav.inActions.set(false);
+    });
+
+    // A11y: announce sort / filter / pagination / selection changes through a
+    // polite live region — none of these are otherwise conveyed to assistive
+    // tech. Only the aspect that actually changed is announced (checked in
+    // priority order), and the first run only seeds the baselines. Writes only
+    // `liveAnnouncement`, which it never reads, so it cannot re-trigger itself.
+    let seeded = false;
+    let prevSort = '';
+    let prevFilterCount = 0;
+    let prevPageKey = '';
+    let prevSelCount = 0;
+    effect(() => {
+      const sort = this.sort();
+      const filterCount = this._filteredRows().length;
+      const page = this.pageState();
+      const selCount = this.selection().length;
+
+      const sortKey = sort ? `${sort.column}:${sort.direction}` : '';
+      const pageKey = page ? `${page.page.current}/${page.page.size}` : '';
+
+      if (!seeded) {
+        seeded = true;
+        [prevSort, prevFilterCount, prevPageKey, prevSelCount] = [
+          sortKey,
+          filterCount,
+          pageKey,
+          selCount,
+        ];
+        return;
+      }
+
+      let message = '';
+      if (filterCount !== prevFilterCount) {
+        message = this.i18n['table_resultCount']({ count: filterCount });
+      } else if (sortKey !== prevSort) {
+        message = sort
+          ? this.i18n['table_sortedBy']({
+              column: sort.column,
+              direction:
+                this.i18n[
+                  sort.direction === 'asc' ? 'table_sortAscending' : 'table_sortDescending'
+                ](),
+            })
+          : this.i18n['table_sortCleared']();
+      } else if (pageKey !== prevPageKey) {
+        const size = page?.page.size ?? 0;
+        const pages = size > 0 ? Math.ceil(filterCount / size) : 1;
+        message = this.i18n['table_page']({ page: (page?.page.current ?? 0) + 1, pages });
+      } else if (selCount !== prevSelCount) {
+        message = this.i18n['table_selectedCount']({ count: selCount, total: this.rows().length });
+      }
+
+      [prevSort, prevFilterCount, prevPageKey, prevSelCount] = [
+        sortKey,
+        filterCount,
+        pageKey,
+        selCount,
+      ];
+      if (message) {
+        this.liveAnnouncement.set(message);
+      }
     });
   }
 

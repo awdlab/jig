@@ -7,6 +7,7 @@ import { Demo_ListBox_Templates } from '../../../demos/list-box/templates';
 import { Demo_ListBox_Validation } from '../../../demos/list-box/validation';
 import { Demo_ListBox_Value } from '../../../demos/list-box/value';
 import { Demo_ListBox_Virtual } from '../../../demos/list-box/virtual';
+import { i18nKeys } from '../../../utils/i18n-doc';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -37,5 +38,9 @@ export const ListBoxPage: NgnDocsPage = {
       component: NgnDocsListBoxPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/list-box/api.md' },
+    { kind: 'single', title: 'Accessibility', mdFile: 'components/list-box/a11y.md' },
+    i18nKeys('listBox', {
+      noItemsFound: 'Empty-state message shown when there are no items to display.',
+    }),
   ],
 };

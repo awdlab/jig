@@ -33,30 +33,33 @@ export class NgnInplace extends InplaceTemplates {
   protected readonly closeContent = this.switchToDisplay.bind(this);
 
   private readonly _displayTrigger = viewChild<ElementRef<HTMLButtonElement>>('displayTrigger');
+  private readonly _contentRef = viewChild<ElementRef<HTMLElement>>('contentRef');
 
   constructor() {
     super();
     // `contentVisible` is declared below; its field initializer has already run by
     // the time this constructor body executes, so it is safe to read here.
     const contentVisibleWithPrevious = signalWithPrevious(this.contentVisible);
-    // When returning from the content view to the display view, restore focus to
-    // the display trigger so keyboard/screen-reader users are not dropped to the
-    // document body when the content unmounts. Runs after render so the trigger
-    // button exists. Only restores focus when it was lost to the body (i.e. the
-    // previously focused content element was removed), never when focus has
-    // already moved elsewhere in the page.
+    // Keep focus with the user across the display↔content swap — the outgoing view
+    // is unmounted, which would otherwise drop focus to the document body. Both
+    // directions only act when focus WAS dropped to the body, never when the content
+    // (or something else on the page) already claimed it — so a content control that
+    // autofocuses itself (e.g. edit-inplace's input) keeps focus. Runs after render
+    // so the target element exists.
     afterRenderEffect(() => {
       const { current: visible, previous } = contentVisibleWithPrevious();
-      if (visible || previous !== true) {
+      const doc = this.element.nativeElement.ownerDocument;
+      const active = doc.activeElement;
+      const droppedToBody = active === null || active === doc.body;
+      if (!droppedToBody) {
         return;
       }
-      const trigger = this._displayTrigger()?.nativeElement;
-      if (!trigger) {
-        return;
-      }
-      const active = trigger.ownerDocument.activeElement;
-      if (active === null || active === trigger.ownerDocument.body) {
-        trigger.focus();
+      if (visible && previous === false) {
+        // Opened: move focus into the content region so it is not stranded.
+        this._contentRef()?.nativeElement.focus();
+      } else if (!visible && previous === true) {
+        // Closed: return focus to the display trigger.
+        this._displayTrigger()?.nativeElement.focus();
       }
     });
   }

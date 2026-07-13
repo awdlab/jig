@@ -3,6 +3,8 @@ The Upload component is a drop zone that wraps a **consumer-provided** native
 features there (`accept`, `multiple`, `name`, …) — the control discovers it,
 hides it, and drives it for both click-to-select and drag-and-drop.
 
+### Reporting progress
+
 The control owns the list of tracked files and their lifecycle state, but it
 cannot observe the actual transfer — your app runs the request. Report progress
 and status back through the `exportAs="ngnUpload"` handle

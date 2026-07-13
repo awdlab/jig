@@ -1,6 +1,7 @@
 import { NgnDocsMessagePlayground } from './playground';
 import { Demo_Message_Base } from '../../../demos/message/base';
 import { Demo_Message_WithIcon } from '../../../demos/message/with-icon';
+import { i18nText } from '../../../utils/i18n-doc';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -22,5 +23,9 @@ export const MessagePage: NgnDocsPage = {
       component: NgnDocsMessagePlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/message/api.md' },
+    { kind: 'single', title: 'Accessibility', mdFile: 'components/message/a11y.md' },
+    i18nText(
+      "Message has no built-in translatable strings of its own. Any text it displays — the content you project into it — comes from the values you provide, so translate those in your own application's i18n layer."
+    ),
   ],
 };

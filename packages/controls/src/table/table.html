@@ -1,15 +1,33 @@
+<span
+  aria-live="polite"
+  aria-atomic="true"
+  style="
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  "
+  >{{ liveAnnouncement() }}</span
+>
 <table
   #scrollContainer
+  role="grid"
   ngnScrollShadow="horizontal"
   [ptInt]="this"
   [ptClass]="{ table: true, striped: striped() }"
+  [attr.aria-multiselectable]="selectionMode() === 'multi' ? true : null"
   [attr.aria-rowcount]="formattedRows().length"
   [style.--ngn-table-column-count]="totalColumnCount()"
   [style.--ngn-table-selection-offset]="showCheckboxes() ? 1 : 0"
   [style.grid-template-columns]="gridTemplateColumns()"
   [style.--ngn-table-row-height.px]="rowHeight()"
 >
-  <thead [ptInt]="this" [ptClass]="'head'">
+  <thead role="rowgroup" [ptInt]="this" [ptClass]="'head'">
     <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
   </thead>
   @if (dropIndicatorState()) {
@@ -23,6 +41,7 @@
   }
 
   <tbody
+    role="rowgroup"
     [ptInt]="this"
     [ptClass]="'body'"
     [ptDep]="'scroller'"

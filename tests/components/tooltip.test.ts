@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { NgnTooltipHarness } from '@ngneers/controls-playwright';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
@@ -149,4 +150,21 @@ test('positioning on scroll', async ({ page }, testInfo) => {
     await page.evaluate(() => window.scrollTo(25, 0));
     await expectScreenshot(toScreenshot, testInfo);
   });
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(page, {
+    template: `<button class="page-center" [ngnTooltip]="'Hello World!'">Button</button>`,
+    imports: ['tooltip'],
+  });
+
+  const tooltip = new NgnTooltipHarness(page.getByRole('tooltip').first());
+  const button = page.getByRole('button').first();
+
+  // The tooltip surface only exists in the DOM once shown.
+  await button.hover();
+  await tooltip.expectRendered();
+  await tooltip.expectOpened();
+
+  await expectNoA11yViolations(page);
 });

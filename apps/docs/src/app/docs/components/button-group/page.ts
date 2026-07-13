@@ -1,6 +1,8 @@
 import { NgnDocsButtonGroupPlayground } from './playground';
 import { Demo_ButtonGroup_Base } from '../../../demos/button-group/base';
+import { Demo_ButtonGroup_Orientation } from '../../../demos/button-group/orientation';
 import { Demo_ButtonGroup_Toggle } from '../../../demos/button-group/toggle';
+import { i18nNone } from '../../../utils/i18n-doc';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -14,7 +16,7 @@ export const ButtonGroupPage: NgnDocsPage = {
 
       title: 'Examples',
       mdFile: 'components/button-group/index.md',
-      components: [Demo_ButtonGroup_Base, Demo_ButtonGroup_Toggle],
+      components: [Demo_ButtonGroup_Base, Demo_ButtonGroup_Orientation, Demo_ButtonGroup_Toggle],
     },
     {
       kind: 'component',
@@ -22,5 +24,7 @@ export const ButtonGroupPage: NgnDocsPage = {
       component: NgnDocsButtonGroupPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/button-group/api.md' },
+    { kind: 'single', title: 'Accessibility', mdFile: 'components/button-group/a11y.md' },
+    i18nNone({ projection: true }),
   ],
 };

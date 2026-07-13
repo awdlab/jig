@@ -1,12 +1,23 @@
-The Tree component displays hierarchical data with expand/collapse, virtual
-scrolling, filtering, single & multi-select, and tri-state cascading
-checkboxes. It is accessible by default (WAI-ARIA `tree` pattern).
+The Tree (`<ngn-tree>`) renders hierarchical data as an expand/collapse outline
+built from an `items` array whose nodes nest their own `items`. It supports
+virtual scrolling, filtering, single or multi-select, and tri-state cascading
+checkboxes, and binds its selection two-way through `value` for use in forms.
+Reach for it when your data is nested; for a flat, filterable list use a
+**select** instead. It is accessible by default (WAI-ARIA `tree` pattern).
 
 ### Basic Usage
+
+Pass your nodes to `items`, nesting child nodes under each node's `items`;
+branches expand and collapse on click and clicking a node selects it. This
+example enables `multiple` for multi-node selection.
 
 {{ demo: Demo_Tree_Base }}
 
 ### Validation
+
+Because the tree is a form control it plugs into validation and dirty/touched
+tracking. Here the `ngnErrors` directive surfaces a required-style message until
+a node is selected.
 
 {{ demo: Demo_Tree_Validation }}
 

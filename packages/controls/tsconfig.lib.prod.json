@@ -5,7 +5,7 @@
   "compilerOptions": {
     "declarationMap": false,
     "paths": {
-      "@ngneers/controls-custom-types": ["../custom-types/dist/src/index"],
+      "@ngneers/controls-custom-types": ["../custom-types/dist/index"],
       "@ngneers/controls-themes": ["../themes/dist/index"],
       "@ngneers/controls-themes/*": ["../themes/dist/*/index"]
     }

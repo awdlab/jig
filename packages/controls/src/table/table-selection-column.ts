@@ -87,10 +87,10 @@ export class NgnTableSelectionColumn implements OnDestroy {
 
     if (this._isHeader) {
       this._setupHeaderEffects();
-      // Keep the header's accessible name in sync with the active language
+      // Name the select-all checkbox, kept in sync with the active language
       // (translations load asynchronously, so this cannot be set once at init).
       effect(() => {
-        this._element.nativeElement.setAttribute('aria-label', this._i18n['table_selectAllRows']());
+        setComponentInput(this._checkboxRef, 'label', this._i18n['table_selectAllRows']());
       });
       // Register the selection column once the table signal resolves
       effect(() => {
@@ -101,6 +101,10 @@ export class NgnTableSelectionColumn implements OnDestroy {
       });
     } else {
       this._setupBodyEffects();
+      // Mirror the header: name the per-row checkbox, kept in sync with language.
+      effect(() => {
+        setComponentInput(this._checkboxRef, 'label', this._i18n['table_selectRow']());
+      });
     }
   }
 
@@ -114,6 +118,9 @@ export class NgnTableSelectionColumn implements OnDestroy {
 
   private _prepareDom(): void {
     const el = this._element.nativeElement;
+    // Mirror the grid roles that ngnTableTh/ngnTableTd set, so the selection column
+    // stays inside the table's `role="grid"` semantics instead of being an orphan cell.
+    el.setAttribute('role', this._isHeader ? 'columnheader' : 'gridcell');
     toggleClass(el, this.theme.class('cell'), true);
     toggleClass(el, this.theme.class('selection-column'), true);
   }

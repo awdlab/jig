@@ -5,6 +5,7 @@ import { Demo_Splitter_MinMax } from '../../../demos/splitter/min-max';
 import { Demo_Splitter_Reorder } from '../../../demos/splitter/reorder';
 import { Demo_Splitter_State } from '../../../demos/splitter/state';
 import { Demo_Splitter_Vertical } from '../../../demos/splitter/vertical';
+import { i18nKeys } from '../../../utils/i18n-doc';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -33,5 +34,9 @@ export const SplitterPage: NgnDocsPage = {
       component: NgnDocsSplitterPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/splitter/api.md' },
+    { kind: 'single', title: 'Accessibility', mdFile: 'components/splitter/a11y.md' },
+    i18nKeys('splitter', {
+      handleLabel: 'Accessible label for the draggable divider handle between panes.',
+    }),
   ],
 };

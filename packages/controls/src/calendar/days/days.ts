@@ -153,6 +153,42 @@ export class CalendarDays {
     return 1;
   });
 
+  /** Accessible name of the day grid — the visible month and year. */
+  protected readonly gridLabel = computed(() =>
+    new Date(this.year(), this.month(), 1).toLocaleDateString(undefined, {
+      month: 'long',
+      year: 'numeric',
+    })
+  );
+
+  /** Full, localized date used as each day cell's accessible name (e.g. "Thursday, 15 January 2026"). */
+  protected dayLabel(day: DayModel): string {
+    return new Date(this.year(), this.month() + day.monthOffset, day.date).toLocaleDateString(
+      undefined,
+      { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+    );
+  }
+
+  /** Whether the given day cell holds the currently selected value. */
+  protected isSelected(day: DayModel): boolean {
+    const val = this.currentValue();
+    return (
+      !!val &&
+      val.getDate() === day.date &&
+      val.getMonth() === this.month() + day.monthOffset &&
+      val.getFullYear() === this.year()
+    );
+  }
+
+  /** Whether the given day cell is today. */
+  protected isToday(day: DayModel): boolean {
+    return (
+      this.todaysMonth === this.month() + day.monthOffset &&
+      this.todaysDay === day.date &&
+      this.todaysYear === this.year()
+    );
+  }
+
   protected prev() {
     this.previousMonth.emit();
   }

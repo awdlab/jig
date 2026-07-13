@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { NgnTagHarness } from '@ngneers/controls-playwright';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('features', async ({ page }, testInfo) => {
   const handle = await loadComponent(
@@ -78,4 +79,17 @@ test('kinds and colors', async ({ page }, testInfo) => {
   );
 
   await expectScreenshot(page, testInfo, 'kinds-and-colors');
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<ngn-tag class="page-center">Tag</ngn-tag>`,
+      imports: ['tag'],
+    },
+    { inputs: {} }
+  );
+
+  await expectNoA11yViolations(page);
 });

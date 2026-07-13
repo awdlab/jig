@@ -5,6 +5,7 @@ import { Demo_Snackbar_Closable } from '../../../demos/snackbar/closable';
 import { Demo_Snackbar_Colors } from '../../../demos/snackbar/colors';
 import { Demo_Snackbar_Icon } from '../../../demos/snackbar/icon';
 import { Demo_Snackbar_Persistent } from '../../../demos/snackbar/persistent';
+import { i18nKeys } from '../../../utils/i18n-doc';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -33,5 +34,16 @@ export const SnackbarPage: NgnDocsPage = {
       component: NgnDocsSnackbarPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/snackbar/api.md' },
+    { kind: 'single', title: 'Accessibility', mdFile: 'components/snackbar/a11y.md' },
+    i18nKeys('snackbar', {
+      close: 'Accessible label for each notification’s dismiss button.',
+      region: 'Label for the live region that wraps all notifications.',
+      severity: {
+        error: 'Screen-reader prefix announced before an error notification.',
+        warning: 'Screen-reader prefix announced before a warning notification.',
+        success: 'Screen-reader prefix announced before a success notification.',
+        info: 'Screen-reader prefix announced before an info notification.',
+      },
+    }),
   ],
 };

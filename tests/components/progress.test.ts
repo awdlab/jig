@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { NgnProgressHarness } from '@ngneers/controls-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(
@@ -191,4 +192,21 @@ test('circular indeterminate mode', async ({ page }, testInfo) => {
   // In indeterminate mode, aria-valuenow should be null
   await expect(progress.locator).not.toHaveAttribute('aria-valuenow');
   await expectScreenshot(page, testInfo, 'circular-indeterminate');
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<ngn-progress aria-label="Upload progress" [value]="inputs().value" />`,
+      imports: ['progress'],
+    },
+    {
+      inputs: {
+        value: 50,
+      },
+    }
+  );
+
+  await expectNoA11yViolations(page);
 });

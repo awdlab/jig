@@ -1,6 +1,10 @@
 import { NgnDocsButtonPlayground } from './playground';
+import { Demo_Button_Action } from '../../../demos/button/action';
 import { Demo_Button_Base } from '../../../demos/button/base';
+import { Demo_Button_Disabled } from '../../../demos/button/disabled';
+import { Demo_Button_Inline } from '../../../demos/button/inline';
 import { Demo_Button_Kind } from '../../../demos/button/kind';
+import { i18nText } from '../../../utils/i18n-doc';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -14,7 +18,13 @@ export const ButtonPage: NgnDocsPage = {
 
       title: 'Examples',
       mdFile: 'components/button/index.md',
-      components: [Demo_Button_Base, Demo_Button_Kind],
+      components: [
+        Demo_Button_Base,
+        Demo_Button_Kind,
+        Demo_Button_Inline,
+        Demo_Button_Disabled,
+        Demo_Button_Action,
+      ],
     },
     {
       kind: 'component',
@@ -22,5 +32,9 @@ export const ButtonPage: NgnDocsPage = {
       component: NgnDocsButtonPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/button/api.md' },
+    { kind: 'single', title: 'Accessibility', mdFile: 'components/button/a11y.md' },
+    i18nText(
+      "Button has no built-in translatable strings of its own. Any text it displays — the label content you place inside the `<button ngnButton>` (or `<a ngnButton>`) element — comes from the values you provide, so translate those in your own application's i18n layer."
+    ),
   ],
 };

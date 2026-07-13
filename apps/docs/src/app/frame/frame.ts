@@ -7,6 +7,6 @@ import { NgnDocsTopbar } from './topbar/topbar';
   selector: 'ngn-docs-frame',
   templateUrl: 'frame.html',
   imports: [NgnDocsTopbar, RouterOutlet],
-  host: { class: 'block h-full w-full' },
+  host: { class: 'block min-h-dvh w-full' },
 })
 export class NgnDocsFrame {}

@@ -49,6 +49,8 @@ import { ListBoxTemplates, type ValueType } from './list-box-templates';
     '[attr.aria-activedescendant]':
       'currentHighlightedValue() ? inputId() + "_option_" + currentHighlightedValue() : null',
     '[aria-multiselectable]': '!!multiple()',
+    '[attr.aria-label]': 'label()',
+    '[attr.aria-labelledby]': 'labelledBy()',
     '[id]': 'inputId()',
   },
 })

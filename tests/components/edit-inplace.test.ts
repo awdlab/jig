@@ -2,6 +2,7 @@ import test from '@playwright/test';
 import { NgnEditInplaceHarness } from '@ngneers/controls-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
@@ -175,4 +176,25 @@ test('model binding', async ({ page }, testInfo) => {
     await editInplace.inplace.expectDisplayVisible(true);
     await editInplace.inplace.expectContentVisible(false);
   });
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  const handle = await loadComponent(page, {
+    template: `
+      <ngn-edit-inplace [value]="inputs().value" [label]="'Display name'" (valueChange)="output('valueChange', $event)" />
+    `,
+    imports: ['editInplace'],
+  });
+
+  const editInplace = new NgnEditInplaceHarness(page.locator('ngn-edit-inplace'));
+  await handle.setInputs({ value: 'Jane Doe' });
+
+  // Display state: the trigger is a labelled button.
+  await editInplace.inplace.expectDisplayVisible(true);
+  await expectNoA11yViolations(page);
+
+  // Edit state: the input is named via the `label`; scan the opened surface too.
+  await editInplace.inplace.clickDisplay();
+  await editInplace.inplace.expectContentVisible(true);
+  await expectNoA11yViolations(page);
 });

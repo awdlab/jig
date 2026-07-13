@@ -1,6 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { NgnUploadHarness } from '@ngneers/controls-playwright';
 import { loadComponent } from '../helper/load-component';
+import { expectNoA11yViolations } from '../helper/axe';
 
 function textFile(name: string) {
   return { name, mimeType: 'text/plain', buffer: Buffer.from(`contents of ${name}`) };
@@ -157,4 +158,20 @@ test('remove: removing an item drops it from the list', async ({ page }) => {
 
   await upload.expectItemCount(1);
   await upload.expectItemName(0, 'b.txt');
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  // The projected native input derives its accessible name from the projected
+  // placeholder text (wired via aria-labelledby by the control).
+  await loadComponent(page, {
+    template: `<ngn-upload><input type="file" multiple />Drag files here or click to browse</ngn-upload>`,
+    imports: ['upload'],
+  });
+
+  const upload = new NgnUploadHarness(page.locator('ngn-upload'));
+  // Add a pending item so the per-item action buttons are part of the scan.
+  await upload.selectFiles([textFile('a.txt')]);
+  await upload.expectItemCount(1);
+
+  await expectNoA11yViolations(page);
 });

@@ -1,7 +1,9 @@
 export default {
   calendar: {
     today: 'Heute',
+    input: 'Datum',
     selectYear: 'Jahr auswählen',
+    selectMonth: 'Monat auswählen',
     previousMonth: 'Vorheriger Monat',
     nextMonth: 'Nächster Monat',
     weekdays: {
@@ -45,6 +47,8 @@ export default {
     noFilter: 'Kein Filter',
     addCondition: 'Bedingung hinzufügen',
     removeCondition: 'Bedingung entfernen',
+    operator: 'Operator',
+    value: 'Wert',
     clear: 'Zurücksetzen',
     apply: 'Anwenden',
     cancel: 'Abbrechen',
@@ -93,6 +97,15 @@ export default {
   drawer: {
     close: 'Schließen',
   },
+  dialog: {
+    close: 'Schließen',
+  },
+  chip: {
+    close: 'Entfernen',
+  },
+  breadcrumb: {
+    overflow: 'Mehr anzeigen',
+  },
   toast: {
     close: 'Schließen',
     region: 'Benachrichtigungen',
@@ -114,6 +127,7 @@ export default {
     retryNamed: '{{ name }} erneut versuchen',
     cancelNamed: '{{ name }} abbrechen',
     removeNamed: '{{ name }} entfernen',
+    progressNamed: 'Upload-Fortschritt für {{ name }}',
   },
   select: {
     filterOptions: 'Optionen filtern',
@@ -130,6 +144,14 @@ export default {
   },
   table: {
     selectAllRows: 'Alle Zeilen auswählen',
+    selectRow: 'Zeile auswählen',
+    sortedBy: 'Sortiert nach {{ column }}, {{ direction }}',
+    sortAscending: 'aufsteigend',
+    sortDescending: 'absteigend',
+    sortCleared: 'Sortierung aufgehoben',
+    selectedCount: '{{ count }} von {{ total }} ausgewählt',
+    page: 'Seite {{ page }} von {{ pages }}',
+    resultCount: '{{ count }} Ergebnisse',
   },
   state: {
     loading: 'Wird geladen',

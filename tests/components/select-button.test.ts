@@ -1,5 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { NgnSelectButtonHarness } from '@ngneers/controls-playwright';
+import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -177,4 +178,21 @@ test('value updates via input', async ({ page }, testInfo) => {
 
   // No output emitted for programmatic changes
   expect(await handle.getOutputLog()).toEqual({});
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<ngn-select-button [label]="'Choose an option'" [options]="${options}" [value]="inputs().value" />`,
+      imports: ['selectButton'],
+    },
+    {
+      inputs: {
+        value: 1,
+      },
+    }
+  );
+
+  await expectNoA11yViolations(page);
 });

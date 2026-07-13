@@ -1,6 +1,23 @@
 {
   "name": "@ngneers/controls-themes",
   "version": "0.0.1-pre3",
+  "description": "Theme presets and the theming engine for @ngneers/controls (Nova, Shade, and base themes).",
+  "license": "MIT",
+  "homepage": "https://ngneers.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NGneers/controls.git",
+    "directory": "packages/themes"
+  },
+  "keywords": [
+    "angular",
+    "components",
+    "ui",
+    "theme",
+    "theming",
+    "design-system",
+    "ngneers-controls"
+  ],
   "publishConfig": {
     "access": "public"
   },

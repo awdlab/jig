@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, ElementRef, inject, input, output, type OnInit } from '@angular/core';
+import { Component, computed, ElementRef, inject, input, output, type OnInit } from '@angular/core';
 import { provideSelf, NgnPt } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
@@ -27,8 +27,9 @@ import type { IconType } from '@ngneers/controls-custom-types';
     '(keydown.escape)': 'onEscape()',
     '[animate.enter]': "theme.class('anim-enter')",
     '[animate.leave]': "theme.class('anim-leave')",
-    role: 'alert',
-    'aria-live': 'assertive',
+    '[attr.role]': 'role()',
+    '[attr.aria-live]': 'liveMode()',
+    'aria-atomic': 'true',
   },
 })
 export class NgnToast extends ToastTemplates implements OnInit {
@@ -40,6 +41,27 @@ export class NgnToast extends ToastTemplates implements OnInit {
   public readonly header = input<string>();
   /** The toast body text. For richer markup use {@link templateContent} instead. */
   public readonly content = input<string>();
+
+  /**
+   * Politeness of the live region used to announce the toast to assistive tech.
+   * When omitted, it is derived from {@link color}: `error`/`warning` announce as
+   * `assertive` (mapped to `role="alert"`), everything else as `polite`
+   * (`role="status"`).
+   */
+  public readonly ariaLive = input<'polite' | 'assertive' | 'off'>();
+
+  /** Resolved live-region politeness — explicit {@link ariaLive} input, else derived from color. */
+  protected readonly liveMode = computed<'polite' | 'assertive' | 'off'>(() => {
+    const explicit = this.ariaLive();
+    if (explicit) {
+      return explicit;
+    }
+    const color = this.color();
+    return color === 'error' || color === 'warning' ? 'assertive' : 'polite';
+  });
+
+  /** Landmark role paired with {@link liveMode} — `alert` when assertive, else `status`. */
+  protected readonly role = computed(() => (this.liveMode() === 'assertive' ? 'alert' : 'status'));
 
   /** Icon to display alongside the toast content. */
   public readonly icon = input<IconType>();

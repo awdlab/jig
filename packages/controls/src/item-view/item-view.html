@@ -26,9 +26,10 @@
     </span>
   } @else if (item.kind === 'overflowIndicator') {
     <div
+      role="listitem"
       [ptInt]="this"
       [ptClass]="{ 'more-items': true, 'more-items-hidden': !item.visible }"
-      aria-hidden="true"
+      [attr.aria-hidden]="item.visible ? null : 'true'"
       #overflowItem
     >
       <ng-container

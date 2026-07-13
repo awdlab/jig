@@ -13,6 +13,7 @@ import {
 import { Demo_Table_Sorting } from '../../../demos/table/sorting';
 import { Demo_Table_StickyColumns } from '../../../demos/table/sticky-columns';
 import { Demo_Table_Virtual } from '../../../demos/table/virtual';
+import { i18nKeys } from '../../../utils/i18n-doc';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -47,5 +48,27 @@ export const TablePage: NgnDocsPage = {
       component: NgnDocsTablePlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/table/api.md' },
+    { kind: 'single', title: 'Accessibility', mdFile: 'components/table/a11y.md' },
+    i18nKeys(
+      'table',
+      {
+        selectAllRows:
+          'Accessible label for the header checkbox that toggles selection of every row.',
+        selectRow: 'Accessible label for the per-row selection checkbox.',
+        sortedBy:
+          'Screen-reader announcement of the active sort; interpolates {{ column }} with the column name and {{ direction }} with the sort direction.',
+        sortAscending:
+          'Direction word interpolated into the sort announcement when sorting ascending.',
+        sortDescending:
+          'Direction word interpolated into the sort announcement when sorting descending.',
+        sortCleared: 'Screen-reader announcement when sorting is removed.',
+        selectedCount:
+          'Screen-reader announcement of selection size; interpolates {{ count }} and {{ total }} with the selected and total row counts.',
+        page: 'Screen-reader announcement of the current page; interpolates {{ page }} and {{ pages }} with the current and total page numbers.',
+        resultCount:
+          'Screen-reader announcement of the row count; interpolates {{ count }} with the number of results.',
+      },
+      ['paginator']
+    ),
   ],
 };

@@ -18,6 +18,9 @@ import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
   selector: 'input[ngnInput], textarea[ngnInput]',
   providers: [provideSelf(NgnInput)],
   exportAs: 'ngnInput',
+  host: {
+    '[attr.aria-invalid]': 'invalid() ? "true" : null',
+  },
 })
 export class NgnInput extends NgnBase<'input'> implements AfterViewInit {
   public override readonly isFieldControl = true;

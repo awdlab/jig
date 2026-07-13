@@ -1,6 +1,25 @@
 {
   "name": "@ngneers/controls",
   "version": "0.0.1-pre7",
+  "description": "Modern, signal-based Angular 22 component library — themeable, accessible, tree-shakeable controls.",
+  "license": "MIT",
+  "homepage": "https://ngneers.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NGneers/controls.git",
+    "directory": "packages/controls"
+  },
+  "keywords": [
+    "angular",
+    "components",
+    "ui",
+    "ui-library",
+    "component-library",
+    "signals",
+    "accessible",
+    "themeable",
+    "design-system"
+  ],
   "publishConfig": {
     "access": "public"
   },

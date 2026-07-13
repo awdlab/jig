@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { NgnSwitchHarness } from '@ngneers/controls-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(
@@ -164,4 +165,25 @@ test('value updates', async ({ page }, testInfo) => {
   // Verify output
   const outputs = await handle.getOutputLog();
   expect(outputs['value']).toEqual([false]);
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      // The checkbox derives its accessible name from the associated label.
+      template: `
+        <ngn-switch #sw [value]="inputs().value" />
+        <label [for]="sw.inputId()">Notifications</label>
+      `,
+      imports: ['switch'],
+    },
+    {
+      inputs: {
+        value: false,
+      },
+    }
+  );
+
+  await expectNoA11yViolations(page);
 });

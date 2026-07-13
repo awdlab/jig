@@ -4,6 +4,7 @@ import { exampleData } from '../helper/data';
 import { type InputsType } from '../../apps/test-wrapper/src/app/window.js';
 import { NgnTabsHarness } from '@ngneers/controls-playwright';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 import { deepCopy } from '@ngneers/controls/utils';
 
 const TABS = [
@@ -333,4 +334,33 @@ test('custom header templates', async ({ page }, testInfo) => {
   await tab2.expectActive(true);
 
   await expectScreenshot(page, testInfo, 'custom-headers');
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `
+      <ngn-tabs>
+        @for(tab of inputs().tabs; track tab) {
+          <ngn-tab [tabId]="tab.id">
+            <ng-template #header>{{ tab.header }}</ng-template>
+            <ng-template #content>{{ tab.content }}</ng-template>
+          </ngn-tab>
+        }
+      </ngn-tabs>
+      `,
+      imports: ['tabs', 'tab'],
+    },
+    {
+      inputs: {
+        tabs: TABS,
+      },
+    }
+  );
+
+  const tabs = new NgnTabsHarness(page.locator('ngn-tabs'));
+  await tabs.expectTabCount(3);
+
+  await expectNoA11yViolations(page);
 });

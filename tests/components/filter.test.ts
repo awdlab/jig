@@ -1,6 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { NgnFilterHarness, NgnSelectHarness } from '@ngneers/controls-playwright';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('base (string contains) emits filtered result', async ({ page }) => {
   const handle = await loadComponent(
@@ -397,4 +398,22 @@ test('list kind (multi select) filters by membership', async ({ page }) => {
 
     expect(filtered).toEqual(['Germany', 'France']);
   }).toPass();
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `
+        <ngn-filter mode="inline" [data]="inputs().data" dataType="string" style="width: 400px" />
+      `,
+      imports: ['filter'],
+    },
+    { inputs: { data: ['Apple', 'Banana', 'Cherry'] } }
+  );
+
+  const filter = new NgnFilterHarness(page.locator('ngn-filter'));
+  await expect(filter.operatorSelect(0).locator).toBeVisible();
+
+  await expectNoA11yViolations(page);
 });

@@ -2,6 +2,7 @@ import { NgnSelectHarness } from '@ngneers/controls-playwright';
 import test, { expect } from '@playwright/test';
 
 import { exampleData } from '../helper/data';
+import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -542,4 +543,38 @@ test.describe('disabled items', () => {
     await select.expectOpened(true);
     await expect(select.input).toHaveText(/^[\s​]*$/);
   });
+});
+
+// TODO(a11y): the open dropdown uses a virtualized ngn-list-box, so the scroller
+// wrapper sits between role="listbox" and its options (aria-required-children) and
+// the scroll region isn't keyboard-focusable (scrollable-region-focusable). Needs
+// the same ARIA + virtual-scroll design pass as list-box/tree. Tracked.
+test.fixme('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `
+      <ngn-input-field style="width: 200px;">
+        <label id="select-a11y-label">Country</label>
+        <ngn-select
+          [labelledBy]="'select-a11y-label'"
+          [options]="inputs().options"
+          [popoverOptions]="inputs().popoverOptions" />
+      </ngn-input-field>
+    `,
+      imports: ['select', 'inputField'],
+    },
+    {
+      inputs: {
+        options: exampleData.items.flatPreformatted,
+        popoverOptions: <PopoverOptions>{ sizeConstraints: { maxHeight: '300px' } },
+      },
+    }
+  );
+
+  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+  // The listbox surface only exists once the popover is open.
+  await select.open();
+
+  await expectNoA11yViolations(page);
 });

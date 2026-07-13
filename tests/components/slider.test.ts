@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { NgnSliderHarness } from '@ngneers/controls-playwright';
 import { evalValue, loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(
@@ -366,4 +367,22 @@ test('value text function', async ({ page }, testInfo) => {
   // Update value and check valueText updates
   await handle.setInputs({ value: 75 });
   await expect(slider.locator).toHaveAttribute('aria-valuetext', '75 units');
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<ngn-slider [value]="inputs().value" [label]="inputs().label" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: 50,
+        label: 'Volume',
+      },
+    }
+  );
+
+  await expectNoA11yViolations(page);
 });

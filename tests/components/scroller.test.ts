@@ -2,6 +2,7 @@ import { NgnScrollerHarness } from '@ngneers/controls-playwright';
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('regular scrolling with 50 elements', async ({ page }, testInfo) => {
   // Generate 50 items
@@ -497,4 +498,41 @@ test('virtual scrolling with padding of 5 and assertions', async ({ page }, test
 
   // Take screenshot
   await expectScreenshot(page, testInfo);
+});
+
+// TODO(a11y): the scroller's scrollable viewport isn't keyboard-focusable
+// (scrollable-region-focusable). A fix (tabindex on the scroll region, or documenting
+// that consumers own keyboard access) needs a design decision since the scroller is a
+// shared primitive used by list-box/select/tree/table. Tracked as a11y hardening.
+test.fixme('accessibility (axe)', async ({ page }) => {
+  const items = Array.from({ length: 50 }, (_, i) => ({
+    id: i,
+    label: `Item ${i + 1}`,
+  }));
+
+  await loadComponent(
+    page,
+    {
+      template: `
+        <ngn-scroller style="height: 300px; width: 300px;" [items]="inputs().items">
+          <ng-template #item let-item>
+            <div [ngnScrollerItem]="item" style="padding: 8px; border-bottom: 1px solid #ccc;">
+              {{ item.label }}
+            </div>
+          </ng-template>
+        </ngn-scroller>
+      `,
+      imports: ['scroller'],
+    },
+    {
+      inputs: {
+        items,
+      },
+    }
+  );
+
+  const scroller = new NgnScrollerHarness(page.locator('ngn-scroller'));
+  await scroller.expectItemsCount(50);
+
+  await expectNoA11yViolations(page);
 });

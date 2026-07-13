@@ -100,6 +100,15 @@ export class NgnDocsMenu {
 
   protected readonly activeLink = computed(() => `/${this._appLocation.location().join('/')}`);
 
+  /**
+   * A menu link is active for its own page and any sub-route of it (e.g. the
+   * `/api` / `/accessibility` tab segments) — not just the exact examples URL.
+   */
+  protected isActiveLink(link: string): boolean {
+    const current = this.activeLink();
+    return current === link || current.startsWith(`${link}/`);
+  }
+
   protected onTabChange(title: string): void {
     const tab = this.tabs.find(t => t.title === title);
     if (tab) {

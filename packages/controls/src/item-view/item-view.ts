@@ -109,10 +109,11 @@ export class NgnItemView<T extends object, IdField extends keyof T>
    * Set this to `true` for greatly improving performance when all items have the same width.
    * Especially true for large lists of items.
    *
-   * ⚠️ This reduces the accessibility of the control as screen
-   * readers will not be able to determine the number of hidden items and keyboard users cannot directly
-   * navigate to them. Use this only for potentially very large lists (with items of identical width) where users will not
-   * need to access overflowed items directly.
+   * Only the first item is measured and its width is assumed for all others, instead
+   * of measuring every rendered item. The rendered structure is unchanged — overflowed
+   * items are still emitted as `role="listitem"` and the overflow indicator still shows
+   * the hidden count — so accessibility is unaffected. The tradeoff is correctness:
+   * if items are *not* actually the same width, the visible/overflow split will be wrong.
    * @default false
    */
   public readonly sameWidthItems = input(false, { transform: booleanAttribute });

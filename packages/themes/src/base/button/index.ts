@@ -11,6 +11,10 @@ export const buttonStyles = createThemePart({
         display: flex;
         align-items: center;
       }
+      ${c('kind-icon')}${c('inline')} {
+        height: 1lh;
+        width: 1lh;
+      }
     `,
   },
 });

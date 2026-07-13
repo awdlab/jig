@@ -2,14 +2,14 @@
      topbar hides it at this width. -->
 <ngn-breadcrumb class="nav:hidden block px-4 pt-4" [items]="breadcrumbItems()" />
 
-<div class="flex min-h-0 w-full flex-1 justify-center">
+<div class="flex w-full justify-center">
   <div class="mx-auto flex w-full max-w-7xl min-w-0 gap-8 px-4 md:px-8">
-    <!-- Centered content column -->
-    <div class="flex h-full min-w-0 flex-1 flex-col">
+    <!-- Centered content column — flows in the document; the page (body) scrolls. -->
+    <div class="flex min-w-0 flex-1 flex-col">
       <h2 class="m-0 shrink-0 py-6 text-3xl">{{ page.title }}</h2>
 
       <ngn-tabs
-        class="min-h-0 w-full flex-1"
+        class="w-full"
         [lazy]="true"
         [cache]="true"
         [activeTab]="activeTab()"
@@ -28,7 +28,7 @@
                   />
                 }
                 @case ('component') {
-                  <ng-container *ngComponentOutlet="tab.component" />
+                  <ng-container *ngComponentOutlet="tab.component; inputs: tab.inputs" />
                 }
                 @default {
                   Unsupported tab page kind: {{ tab.kind }}
@@ -40,9 +40,12 @@
       </ngn-tabs>
     </div>
 
-    <!-- Auto-generated "on this page" rail for the active markdown tab -->
+    <!-- Auto-generated "on this page" rail for the active markdown tab —
+         floats (sticky) beside the content. -->
     @if (activeHeadings().length) {
-      <aside class="hidden max-h-full w-56 shrink-0 self-start overflow-y-auto pt-8 xl:block">
+      <aside
+        class="sticky top-[5.5rem] hidden max-h-[calc(100dvh-6.5rem)] w-56 shrink-0 self-start overflow-y-auto pt-8 xl:block"
+      >
         <ngn-docs-toc [headings]="activeHeadings()" />
       </aside>
     }

@@ -1,0 +1,59 @@
+<div class="md">
+  @switch (data().kind) {
+    @case ('keys') {
+      <p>
+        This control ships the following built-in strings. English (<code>en</code>, the default)
+        and German (<code>de</code>) ship with the library; override them or register additional
+        locales through <code>provideNgnConfig(&#123; customTranslations &#125;)</code>.
+      </p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>English</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of rows(); track row.key) {
+              <tr>
+                <td>
+                  <code>{{ row.key }}</code>
+                </td>
+                <td>{{ row.english }}</td>
+                <td>{{ row.description }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      @if (related().length) {
+        <p>
+          This control also surfaces strings from
+          @for (slug of related(); track slug; let last = $last) {
+            <a [routerLink]="['/components', slug, 'i18n']">{{ slug }}</a
+            >{{ last ? '' : ', ' }}
+          }
+          — see their i18n keys.
+        </p>
+      }
+    }
+    @case ('text') {
+      <div [innerHTML]="bodyHtml()"></div>
+    }
+    @case ('none') {
+      <p>
+        This control has no i18n concerns. It renders no text of its own and manages no translatable
+        strings.
+      </p>
+      @if (projection()) {
+        <p>
+          Any content you project into it is your own markup — translate it in your application.
+        </p>
+      }
+    }
+  }
+</div>

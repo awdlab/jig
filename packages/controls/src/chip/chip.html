@@ -9,7 +9,13 @@
 }
 
 @if (closable()) {
-  <button type="button" [ptInt]="this" [ptClass]="'close-button'" (click)="closed.emit($event)">
+  <button
+    type="button"
+    [ptInt]="this"
+    [ptClass]="'close-button'"
+    [attr.aria-label]="i18n['chip_close']()"
+    (click)="closed.emit($event)"
+  >
     <ngn-icon
       [ptInt]="this"
       [ptClass]="'close-icon'"

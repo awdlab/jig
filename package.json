@@ -29,6 +29,7 @@
   "packageManager": "pnpm@11.10.0",
   "devDependencies": {
     "@angular-eslint/builder": "^22.0.0",
+    "@axe-core/playwright": "^4.10.0",
     "@eslint/js": "^10.0.1",
     "@ngneers/eslint-config": "^3.1.1",
     "@ngneers/eslint-config-angular": "^3.0.0",

@@ -4,6 +4,7 @@ import { exampleData } from '../helper/data';
 import { type InputsType } from '../../apps/test-wrapper/src/app/window.js';
 import { NgnAccordionHarness } from '@ngneers/controls-playwright';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 import { deepCopy } from '@ngneers/controls/utils';
 
 const PANELS = [
@@ -184,4 +185,9 @@ test('lazy', async ({ page }, testInfo) => {
   await panel2.expectExpanded(false);
   await panel3.expectExpanded(true);
   await expectOutput(handle, 'constructorCalled', ['panel1', 'panel2', 'panel3', 'panel2']); // panel3 is cached
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await prepareTest(page, { expandedPanels: ['panel1'] });
+  await expectNoA11yViolations(page);
 });

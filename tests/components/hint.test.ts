@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { NgnHintHarness } from '@ngneers/controls-playwright';
 import { expectScreenshot } from '../helper/screenshot';
+import { expectNoA11yViolations } from '../helper/axe';
 
 test('features', async ({ page }, testInfo) => {
   const handle = await loadComponent(
@@ -125,4 +126,16 @@ test('iconOnly keeps the kind icon when hidden validation has normal content', a
 
   await icon.hover();
   await expect(page.getByRole('tooltip')).toContainText('Static help text');
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<ngn-hint class="page-center" [kind]="'info'">Hint text content</ngn-hint>`,
+      imports: ['hint'],
+    },
+    { inputs: {} }
+  );
+  await expectNoA11yViolations(page);
 });

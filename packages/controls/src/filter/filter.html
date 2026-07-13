@@ -33,6 +33,7 @@
               [ptInt]="this"
               [ptDep]="'operator-select'"
               [options]="operatorOptions()"
+              [label]="i18n['filter_operator']()"
               [value]="c.operator"
               [disabled]="disabled()"
               [readonly]="readonly()"
@@ -68,6 +69,7 @@
                   ngnInput
                   [ptInt]="this"
                   [ptDep]="'input'"
+                  [attr.aria-label]="i18n['filter_value']()"
                   [type]="inputType()"
                   [value]="c.rawValue || ''"
                   [disabled]="disabled()"

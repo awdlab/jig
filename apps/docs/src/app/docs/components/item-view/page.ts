@@ -3,6 +3,7 @@ import { Demo_ItemView_Base } from '../../../demos/item-view/base';
 import { Demo_ItemView_Freeze } from '../../../demos/item-view/freeze';
 import { Demo_ItemView_Separator } from '../../../demos/item-view/separator';
 import { Demo_ItemView_Strategies } from '../../../demos/item-view/strategies';
+import { i18nNone } from '../../../utils/i18n-doc';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
 
@@ -29,5 +30,7 @@ export const ItemViewPage: NgnDocsPage = {
       component: NgnDocsItemViewPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/item-view/api.md' },
+    { kind: 'single', title: 'Accessibility', mdFile: 'components/item-view/a11y.md' },
+    i18nNone({ projection: true }),
   ],
 };

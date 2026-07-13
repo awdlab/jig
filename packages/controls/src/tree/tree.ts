@@ -89,6 +89,8 @@ export interface NgnTreeStorageConfig {
     '[attr.aria-activedescendant]':
       'currentHighlightedValue() != null ? inputId() + "_node_" + currentHighlightedValue() : null',
     '[attr.aria-multiselectable]': '!!multiple()',
+    '[attr.aria-label]': 'label()',
+    '[attr.aria-labelledby]': 'labelledBy()',
     '[id]': 'inputId()',
   },
 })
