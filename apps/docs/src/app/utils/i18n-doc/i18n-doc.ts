@@ -38,6 +38,9 @@ function flatten(prefix: string, values: unknown, descriptions: unknown): I18nRo
   // Reuse the shared markdown content styles verbatim — the template wraps its
   // output in a `.md` div so the same `:host ::ng-deep .md …` rules apply here.
   styleUrl: '../md/md.scss',
+  host: {
+    class: 'my-8',
+  },
   imports: [RouterLink],
 })
 export class NgnDocsI18n {
