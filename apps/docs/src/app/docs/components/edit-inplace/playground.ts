@@ -4,6 +4,7 @@ import { NgnEditInplace } from '@ngneers/controls/edit-inplace';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-edit-inplace-playground',
   imports: [NgnEditInplace, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnEditInplace', component: component() }]">

@@ -5,6 +5,7 @@ import { NgnDialog } from '@ngneers/controls/dialog';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-dialog-playground',
   imports: [NgnDialog, NgnButton, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnDialog', component: component() }]">

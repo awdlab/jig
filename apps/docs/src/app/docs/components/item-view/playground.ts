@@ -7,6 +7,7 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
 type ItemType = { id: string; label: string };
 
 @Component({
+  selector: 'ngn-docs-item-view-playground',
   imports: [NgnItemView, NgnTemplate, NgnDocsPlayground],
   template: `
     <ngn-docs-playground

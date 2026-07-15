@@ -25,7 +25,7 @@ export const InputPage: NgnDocsPage = {
       component: NgnDocsInputPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/input/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/input/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/input/a11y.md' },
     i18nText(
       "Input has no built-in translatable strings of its own. Any text it displays — the value the user types and the native `placeholder` attribute you set on the element — comes from the values you provide, so translate those in your own application's i18n layer."
     ),

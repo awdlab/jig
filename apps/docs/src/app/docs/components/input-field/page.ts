@@ -34,7 +34,7 @@ export const InputFieldPage: NgnDocsPage = {
       component: NgnDocsInputFieldPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/input-field/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/input-field/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/input-field/a11y.md' },
     i18nKeys('inputField', {
       clearInput: 'Accessible label for the clear button that empties the field.',
     }),

@@ -35,6 +35,9 @@ styling:
 pnpm add @ngneers/controls @ngneers/controls-themes
 ```
 
+See the [Installation guide](https://ngneers.dev/guides/installation) for the full installation
+instructions including peer dependencies.
+
 ## Quick start
 
 Register the provider with a theme preset (the preset is a `Theme` object, not a string):

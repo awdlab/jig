@@ -5,6 +5,7 @@ import { NgnScroller, NgnScrollerItem } from '@ngneers/controls/scroller';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-scroller-playground',
   imports: [NgnScroller, NgnTemplate, NgnScrollerItem, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnScroller', component: component() }]">

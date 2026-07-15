@@ -1,11 +1,15 @@
 import { provideHttpClient } from '@angular/common/http';
+import { isPlatformBrowser } from '@angular/common';
 import {
   type ApplicationConfig,
+  inject,
+  PLATFORM_ID,
+  provideAppInitializer,
   provideBrowserGlobalErrorListeners,
   provideCheckNoChangesConfig,
   provideZonelessChangeDetection,
 } from '@angular/core';
-import { provideClientHydration, withNoIncrementalHydration } from '@angular/platform-browser';
+import { provideClientHydration } from '@angular/platform-browser';
 import { provideRouter, withInMemoryScrolling, withViewTransitions } from '@angular/router';
 import { provideNgnControls, withAutoColorScheme } from '@ngneers/controls/api/ng';
 import { withDefaultIcons } from '@ngneers/controls/default-icons';
@@ -13,6 +17,7 @@ import { withSnackbars } from '@ngneers/controls/snackbar';
 import { withToasts } from '@ngneers/controls/toast';
 
 import { routes } from './app.routes';
+import { MdSnapshot } from './utils/md/md-snapshot';
 import { provideDocsThemeInitializer, resolveInitialTheme } from './utils/theme-picker';
 import { environment } from '../environment/environment';
 
@@ -27,9 +32,18 @@ export const appConfig: ApplicationConfig = {
         scrollPositionRestoration: 'enabled',
         anchorScrolling: 'enabled',
       }),
-      withViewTransitions()
+      // Skip the transition on the first (hydration) navigation — otherwise the
+      // initial load cross-fades as SSR content is re-rendered, causing a flicker.
+      withViewTransitions({ skipInitialTransition: true })
     ),
-    provideClientHydration(withNoIncrementalHydration()),
+    provideClientHydration(),
+    // Snapshot server-rendered markdown before hydration replaces it, so `Md` can
+    // restore it synchronously and avoid a blank flash during its async re-render.
+    provideAppInitializer(() => {
+      if (isPlatformBrowser(inject(PLATFORM_ID))) {
+        inject(MdSnapshot).capture();
+      }
+    }),
     provideNgnControls(
       { theme: { preset: resolveInitialTheme() } },
       withToasts(),

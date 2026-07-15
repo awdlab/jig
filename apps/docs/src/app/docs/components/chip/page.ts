@@ -24,7 +24,7 @@ export const ChipPage: NgnDocsPage = {
       component: NgnDocsChipPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/chip/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/chip/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/chip/a11y.md' },
     i18nKeys('chip', {
       close: 'Accessible label for the close button on a closable chip.',
     }),

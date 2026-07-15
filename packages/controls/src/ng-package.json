@@ -4,5 +4,5 @@
   "lib": {
     "entryFile": "index.ts"
   },
-  "allowedNonPeerDependencies": ["@ngneers/controls-custom-types"]
+  "allowedNonPeerDependencies": ["@ngneers/controls-custom-types", "@iconify/types"]
 }

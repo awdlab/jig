@@ -6,6 +6,7 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
 import type { NgnTreeItem } from '@ngneers/controls/api';
 
 @Component({
+  selector: 'ngn-docs-tree-playground',
   imports: [NgnTree, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnTree', component: component() }]">

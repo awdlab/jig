@@ -5,6 +5,7 @@ import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-icon-playground',
   imports: [NgnIcon, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnIcon', component: component() }]">

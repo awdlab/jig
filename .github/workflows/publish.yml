@@ -1,0 +1,43 @@
+name: Publish
+
+# Manual trigger — no auto-publish on merge. awesome-publish reads changesets to
+# decide versions, builds the publishable packages (via buildCommand in
+# awesome-publish.config.ts), publishes to npm under the `next` dist-tag, tags,
+# and cuts per-package GitHub releases.
+#
+# Auth: npm Trusted Publishing (OIDC) — no NPM_TOKEN. The `id-token: write`
+# permission lets GitHub mint a short-lived identity that npm trusts (configured
+# per package on npmjs.com → Settings → Trusted Publisher). Provenance is emitted
+# automatically. Requires npm >= 11.5.1 (Node 22 ships an older npm, so upgrade).
+#
+# First-time note: a trusted publisher can only be set on a package that already
+# exists. If a brand-new package's first publish is rejected, bootstrap it once
+# (`npm login` locally, then `pnpm exec awesome-publish publish --tag next`),
+# then this workflow handles every release after.
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write # npm Trusted Publishing (OIDC) + provenance
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history + tags: the pipeline diffs commits since the last tag
+          # for changelogs/release notes and reads tags for version resolution.
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - name: Upgrade npm for OIDC trusted publishing
+        run: npm install -g npm@latest
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec awesome-publish publish --ci --tag next
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWESOME_PUBLISH_AI_KEY: ${{ secrets.AWESOME_PUBLISH_AI_KEY }}

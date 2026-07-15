@@ -34,7 +34,7 @@ export const UploadPage: NgnDocsPage = {
       component: NgnDocsUploadPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/upload/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/upload/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/upload/a11y.md' },
     i18nKeys('upload', {
       upload: 'Label for the main upload trigger button.',
       uploadNamed:

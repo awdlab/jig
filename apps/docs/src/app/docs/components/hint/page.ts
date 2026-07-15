@@ -24,7 +24,7 @@ export const HintPage: NgnDocsPage = {
       component: NgnDocsHintPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/hint/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/hint/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/hint/a11y.md' },
     i18nText(
       "Hint has no built-in translatable strings of its own. Any text it displays — the `content` text (or the template/projected content you supply, including any validation `message` fed to it) — comes from the values you provide, so translate those in your own application's i18n layer."
     ),

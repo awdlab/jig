@@ -5,6 +5,7 @@ import { type MenuItem, NgnMenu } from '@ngneers/controls/menu';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-menu-playground',
   imports: [NgnMenu, NgnButton, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnMenu', component: component() }]">

@@ -1,6 +1,6 @@
 {
   "name": "@ngneers/controls-playwright",
-  "version": "1.0.0",
+  "version": "0.0.1-pre1",
   "description": "Playwright testing harness with page-object helpers for @ngneers/controls components.",
   "license": "MIT",
   "homepage": "https://ngneers.dev",
@@ -17,13 +17,22 @@
     "page-object",
     "ngneers-controls"
   ],
-  "main": "src/index.js",
-  "scripts": {},
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "prebuild": "pnpm rimraf ./dist",
+    "build": "pnpm prebuild && tsc -p ./tsconfig.lib.json"
+  },
   "publishConfig": {
     "access": "public"
   },
   "peerDependencies": {
     "@ngneers/controls": "workspace:*",
     "@ngneers/controls-themes": "workspace:*"
+  },
+  "devDependencies": {
+    "rimraf": "^6.1.3",
+    "typescript": "catalog:"
   }
 }

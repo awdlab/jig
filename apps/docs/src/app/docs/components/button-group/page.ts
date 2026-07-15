@@ -24,7 +24,7 @@ export const ButtonGroupPage: NgnDocsPage = {
       component: NgnDocsButtonGroupPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/button-group/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/button-group/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/button-group/a11y.md' },
     i18nNone({ projection: true }),
   ],
 };

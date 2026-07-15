@@ -34,7 +34,7 @@ export const SnackbarPage: NgnDocsPage = {
       component: NgnDocsSnackbarPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/snackbar/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/snackbar/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/snackbar/a11y.md' },
     i18nKeys('snackbar', {
       close: 'Accessible label for each notification’s dismiss button.',
       region: 'Label for the live region that wraps all notifications.',

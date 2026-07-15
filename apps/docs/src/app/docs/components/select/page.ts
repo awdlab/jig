@@ -42,7 +42,7 @@ export const SelectPage: NgnDocsPage = {
       component: NgnDocsSelectPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/select/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/select/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/select/a11y.md' },
     i18nKeys(
       'select',
       {

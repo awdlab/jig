@@ -4,6 +4,7 @@ import { NgnPaginator } from '@ngneers/controls/paginator';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-paginator-playground',
   imports: [NgnPaginator, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnPaginator', component: component() }]">

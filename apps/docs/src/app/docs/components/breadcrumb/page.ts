@@ -22,7 +22,7 @@ export const BreadcrumbPage: NgnDocsPage = {
       component: NgnDocsBreadcrumbPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/breadcrumb/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/breadcrumb/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/breadcrumb/a11y.md' },
     i18nKeys('breadcrumb', {
       overflow:
         'Accessible label for the overflow button that opens the menu of collapsed breadcrumb items.',

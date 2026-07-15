@@ -38,7 +38,7 @@ export const FilterPage: NgnDocsPage = {
       component: NgnDocsFilterPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/filter/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/filter/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/filter/a11y.md' },
     i18nKeys(
       'filter',
       {

@@ -22,12 +22,12 @@ export function registerCustomLanguages(
 export async function loadLanguage(language: SupportedLanguage): Promise<Translations> {
   switch (language) {
     case 'en': {
-      const m = await import('./translations/en');
-      return m.default;
+      const m = await import('@ngneers/controls/i18n/translations/en');
+      return m.en;
     }
     case 'de': {
-      const m = await import('./translations/de');
-      return m.default;
+      const m = await import('@ngneers/controls/i18n/translations/de');
+      return m.de;
     }
     default:
       if (customLanguages[language]) {

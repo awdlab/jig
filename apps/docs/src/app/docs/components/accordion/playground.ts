@@ -4,6 +4,7 @@ import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-accordion-playground',
   imports: [NgnAccordion, NgnAccordionPanel, NgnDocsPlayground],
   template: `
     <ngn-docs-playground

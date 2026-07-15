@@ -4,6 +4,7 @@ import { NgnButton } from '@ngneers/controls/button';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-button-playground',
   imports: [NgnButton, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnButton', component: component() }]">

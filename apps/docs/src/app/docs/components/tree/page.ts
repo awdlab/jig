@@ -39,7 +39,7 @@ export const TreePage: NgnDocsPage = {
       component: NgnDocsTreePlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/tree/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/tree/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/tree/a11y.md' },
     i18nKeys('tree', {
       noItemsFound: 'Empty-state message shown when no nodes match the current filter.',
     }),

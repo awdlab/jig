@@ -24,7 +24,7 @@ export const SwitchPage: NgnDocsPage = {
       component: NgnDocsSwitchPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/switch/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/switch/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/switch/a11y.md' },
     i18nText(
       "Switch has no built-in translatable strings of its own. Any text it exposes — the accessible `label` you supply (used as the `aria-label`) — comes from the values you provide, so translate those in your own application's i18n layer."
     ),

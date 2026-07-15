@@ -16,6 +16,7 @@ import type { NgnTable } from '@ngneers/controls/table';
 type RowType = ReturnType<typeof exampleData.richTable>[number];
 
 @Component({
+  selector: 'ngn-docs-table-playground',
   imports: [
     NgnTableModule,
     NgnTemplate,

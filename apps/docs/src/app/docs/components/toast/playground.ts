@@ -4,6 +4,7 @@ import { NgnToast } from '@ngneers/controls/toast';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-toast-playground',
   imports: [NgnToast, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnToast', component: component() }]">

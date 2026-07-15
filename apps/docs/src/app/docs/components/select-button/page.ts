@@ -24,7 +24,7 @@ export const SelectButtonPage: NgnDocsPage = {
       component: NgnDocsSelectButtonPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/select-button/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/select-button/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/select-button/a11y.md' },
     i18nText(
       "Select Button has no built-in translatable strings of its own. Any text it displays — the `label` of each item in the `options` array — comes from the values you provide, so translate those in your own application's i18n layer."
     ),

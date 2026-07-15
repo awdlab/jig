@@ -6,6 +6,7 @@ import { NgnSpinButtons } from '@ngneers/controls/spin-buttons';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-number-input-playground',
   imports: [NgnNumberInput, NgnInputField, NgnSpinButtons, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnNumberInput', component: component() }]">

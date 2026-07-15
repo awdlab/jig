@@ -24,7 +24,7 @@ export const IconPage: NgnDocsPage = {
       component: NgnDocsIconPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/icon/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/icon/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/icon/a11y.md' },
     i18nNone(),
   ],
 };

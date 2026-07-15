@@ -34,7 +34,7 @@ export const CalendarPage: NgnDocsPage = {
       component: NgnDocsCalendarPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/calendar/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/calendar/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/calendar/a11y.md' },
     i18nKeys(
       'calendar',
       {

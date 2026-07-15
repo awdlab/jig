@@ -4,6 +4,7 @@ import { NgnRadio, NgnRadioGroup } from '@ngneers/controls/radio';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-radio-playground',
   imports: [NgnRadioGroup, NgnRadio, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnRadioGroup', component: component() }]">

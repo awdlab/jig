@@ -38,7 +38,7 @@ export const ListBoxPage: NgnDocsPage = {
       component: NgnDocsListBoxPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/list-box/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/list-box/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/list-box/a11y.md' },
     i18nKeys('listBox', {
       noItemsFound: 'Empty-state message shown when there are no items to display.',
     }),

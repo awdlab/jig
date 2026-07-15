@@ -24,7 +24,7 @@ export const TabsPage: NgnDocsPage = {
       component: NgnDocsTabsPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/tabs/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/tabs/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/tabs/a11y.md' },
     i18nText(
       "Tabs has no built-in translatable strings of its own. Any text it displays — the tab header labels and panel content you project through each `ngn-tab` — comes from the values you provide, so translate those in your own application's i18n layer."
     ),

@@ -23,7 +23,7 @@ export const MessagePage: NgnDocsPage = {
       component: NgnDocsMessagePlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/message/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/message/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/message/a11y.md' },
     i18nText(
       "Message has no built-in translatable strings of its own. Any text it displays — the content you project into it — comes from the values you provide, so translate those in your own application's i18n layer."
     ),

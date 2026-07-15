@@ -4,6 +4,7 @@ import { NgnChip } from '@ngneers/controls/chip';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-chip-playground',
   imports: [NgnChip, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnChip', component: component() }]">

@@ -23,7 +23,7 @@ export const DrawerPage: NgnDocsPage = {
       component: NgnDocsDrawerPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/drawer/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/drawer/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/drawer/a11y.md' },
     i18nKeys('drawer', {
       close: 'Accessible label for the close button in the drawer header.',
     }),

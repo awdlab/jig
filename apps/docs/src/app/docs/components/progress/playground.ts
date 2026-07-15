@@ -4,6 +4,7 @@ import { NgnProgress } from '@ngneers/controls/progress';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-progress-playground',
   imports: [NgnProgress, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnProgress', component: component() }]">

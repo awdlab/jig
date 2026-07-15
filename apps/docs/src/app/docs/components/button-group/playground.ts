@@ -5,6 +5,7 @@ import { NgnButtonGroup } from '@ngneers/controls/button-group';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-button-group-playground',
   imports: [NgnButton, NgnButtonGroup, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnButtonGroup', component: component() }]">

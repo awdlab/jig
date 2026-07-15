@@ -1,4 +1,4 @@
-export default {
+export const de = {
   calendar: {
     today: 'Heute',
     input: 'Datum',

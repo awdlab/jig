@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   Component,
   effect,
+  ElementRef,
   inject,
   input,
   output,
@@ -10,6 +11,7 @@ import {
   PendingTasks,
 } from '@angular/core';
 
+import { MdSnapshot } from './md-snapshot';
 import { renderMd } from './render-md';
 
 import type { MdCfg, TocEntry } from './types';
@@ -20,6 +22,8 @@ import type { MdCfg, TocEntry } from './types';
   styleUrl: 'md.scss',
   host: {
     ngSkipHydration: 'true',
+    // Keys the server-rendered content so MdSnapshot can restore it on the client.
+    '[attr.data-md-file]': 'cfg().mdFile',
   },
 })
 export class Md {
@@ -27,6 +31,8 @@ export class Md {
   private readonly _vcr = inject(ViewContainerRef);
   private readonly _destroyRef = inject(DestroyRef);
   private readonly _pendingTasks = inject(PendingTasks);
+  private readonly _snapshot = inject(MdSnapshot);
+  private readonly _host = inject(ElementRef).nativeElement as HTMLElement;
 
   public readonly cfg = input.required<MdCfg>();
 
@@ -37,6 +43,16 @@ export class Md {
     effect(onCleanup => {
       const cfg = this.cfg();
       this._vcr.clear();
+      // `ngSkipHydration` makes Angular re-create this element empty on the client,
+      // and renderMd (below) is async — so the host would paint blank for ~150ms.
+      // Restore the server-rendered HTML synchronously (this effect runs before the
+      // browser paints); renderMd swaps in the live, interactive version once ready.
+      if (this._host.innerHTML === '') {
+        const ssrHtml = this._snapshot.take(cfg.mdFile);
+        if (ssrHtml) {
+          this._host.innerHTML = ssrHtml;
+        }
+      }
       // A newer cfg() supersedes this render: mark it cancelled so a slow,
       // in-flight render neither clobbers the fresh DOM nor emits stale headings.
       let cancelled = false;

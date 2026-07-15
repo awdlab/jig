@@ -4,6 +4,7 @@ import { NgnAvatar } from '@ngneers/controls/avatar';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-avatar-playground',
   imports: [NgnAvatar, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnAvatar', component: component() }]">

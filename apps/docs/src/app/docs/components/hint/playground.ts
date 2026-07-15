@@ -4,6 +4,7 @@ import { NgnHint } from '@ngneers/controls/hint';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-hint-playground',
   imports: [NgnHint, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnHint', component: component() }]">

@@ -32,7 +32,7 @@ export const SpinnerPage: NgnDocsPage = {
       component: NgnDocsSpinnerPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/spinner/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/spinner/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/spinner/a11y.md' },
     i18nNone(),
   ],
 };

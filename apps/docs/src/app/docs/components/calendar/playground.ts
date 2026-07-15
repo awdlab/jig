@@ -5,6 +5,7 @@ import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-calendar-playground',
   imports: [NgnCalendar, NgnInputField, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnCalendar', component: component() }]">

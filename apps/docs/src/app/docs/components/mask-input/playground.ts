@@ -5,6 +5,7 @@ import { DATE_TIME_MASKS, NgnMaskInput } from '@ngneers/controls/mask-input';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-mask-input-playground',
   imports: [NgnMaskInput, NgnInputField, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnMaskInput', component: component() }]">

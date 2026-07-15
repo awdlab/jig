@@ -30,7 +30,7 @@ export const MaskInputPage: NgnDocsPage = {
       component: NgnDocsMaskInputPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/mask-input/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/mask-input/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/mask-input/a11y.md' },
     i18nKeys('maskInput', {
       roleDescription: 'Screen-reader role description announced for the composite masked input.',
       segmentRange:

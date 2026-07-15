@@ -7,6 +7,7 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
 import type { NgnItem } from '@ngneers/controls/api';
 
 @Component({
+  selector: 'ngn-docs-select-playground',
   imports: [NgnSelect, NgnInputField, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnSelect', component: component() }]">

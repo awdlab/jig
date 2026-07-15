@@ -4,6 +4,7 @@ import { NgnSpinner } from '@ngneers/controls/spinner';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-spinner-playground',
   imports: [NgnSpinner, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnSpinner', component: component() }]">

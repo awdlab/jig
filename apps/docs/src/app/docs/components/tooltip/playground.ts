@@ -5,6 +5,7 @@ import { NgnTooltip } from '@ngneers/controls/tooltip';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-tooltip-playground',
   imports: [NgnButton, NgnTooltip, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnTooltip', component: component() }]">

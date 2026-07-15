@@ -4,6 +4,7 @@ import { NgnToggleButton } from '@ngneers/controls/toggle-button';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-toggle-button-playground',
   imports: [NgnToggleButton, NgnDocsPlayground],
   template: `
     <ngn-docs-playground

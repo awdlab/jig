@@ -48,7 +48,7 @@ export const TablePage: NgnDocsPage = {
       component: NgnDocsTablePlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/table/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/table/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/table/a11y.md' },
     i18nKeys(
       'table',
       {

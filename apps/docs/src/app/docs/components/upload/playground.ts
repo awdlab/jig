@@ -4,6 +4,7 @@ import { NgnUpload, type NgnUploadFile } from '@ngneers/controls/upload';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-upload-playground',
   imports: [NgnUpload, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnUpload', component: component() }]">

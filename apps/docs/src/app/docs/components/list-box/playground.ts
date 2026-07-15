@@ -6,6 +6,7 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
 import type { NgnItem } from '@ngneers/controls/api';
 
 @Component({
+  selector: 'ngn-docs-list-box-playground',
   imports: [NgnListBox, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnListBox', component: component() }]">

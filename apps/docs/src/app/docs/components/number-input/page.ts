@@ -35,7 +35,7 @@ export const NumberInputPage: NgnDocsPage = {
       title: 'Spin Buttons API',
       mdFile: 'components/number-input/spin-buttons-api.md',
     },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/number-input/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/number-input/a11y.md' },
     i18nText(
       "Number Input has no built-in translatable strings of its own. Any text it exposes — the accessible `label` (used as the `aria-label`) and the native `placeholder` you set on the element — comes from the values you provide, so translate those in your own application's i18n layer. Its numeric display is formatted for the configured `locale` via `Intl.NumberFormat`, which is locale-aware formatting rather than string translation."
     ),

@@ -34,7 +34,7 @@ export const SplitterPage: NgnDocsPage = {
       component: NgnDocsSplitterPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/splitter/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/splitter/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/splitter/a11y.md' },
     i18nKeys('splitter', {
       handleLabel: 'Accessible label for the draggable divider handle between panes.',
     }),

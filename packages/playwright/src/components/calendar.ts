@@ -3,7 +3,7 @@ import { calendarControlTemplate } from '@ngneers/controls-themes/templates/cale
 import { themeClasses } from '../utils/theme';
 import { NgnSelectHarness } from './select';
 import type { WeekDay } from '@ngneers/controls/calendar';
-import { translations } from '../utils/i18n';
+import { en } from '@ngneers/controls/i18n/translations/en';
 
 export class NgnCalendarHarness {
   public readonly classes = themeClasses(calendarControlTemplate);
@@ -45,7 +45,7 @@ export class NgnCalendarHarness {
   }
 
   public expectFirstWeekday(weekday: WeekDay) {
-    return expect(this.weekDay.first()).toHaveText(translations.en.calendar.weekdaysShort[weekday]);
+    return expect(this.weekDay.first()).toHaveText(en.calendar.weekdaysShort[weekday]);
   }
 
   public selectDay(day: number) {

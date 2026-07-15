@@ -23,7 +23,7 @@ export const PopoverPage: NgnDocsPage = {
       component: NgnDocsPopoverPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/popover/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/popover/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/popover/a11y.md' },
     i18nNone({ projection: true }),
   ],
 };

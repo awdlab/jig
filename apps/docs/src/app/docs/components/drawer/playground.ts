@@ -5,6 +5,7 @@ import { NgnDrawer } from '@ngneers/controls/drawer';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-drawer-playground',
   imports: [NgnDrawer, NgnButton, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnDrawer', component: component() }]">

@@ -24,7 +24,7 @@ export const PaginatorPage: NgnDocsPage = {
       component: NgnDocsPaginatorPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/paginator/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/paginator/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/paginator/a11y.md' },
     i18nKeys('paginator', {
       previousPage: 'Accessible label for the control that navigates to the previous page.',
       nextPage: 'Accessible label for the control that navigates to the next page.',

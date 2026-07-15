@@ -5,6 +5,7 @@ import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-input-playground',
   imports: [NgnInput, NgnInputField, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnInput', component: component() }]">

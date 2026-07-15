@@ -5,6 +5,7 @@ import { NgnInplace } from '@ngneers/controls/inplace';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-inplace-playground',
   imports: [NgnInplace, NgnTemplate, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnInplace', component: component() }]">

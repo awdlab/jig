@@ -4,6 +4,7 @@ import { type BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-breadcrumb-playground',
   imports: [NgnBreadcrumb, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnBreadcrumb', component: component() }]">

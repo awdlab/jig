@@ -4,6 +4,7 @@ import { NgnSplitter, NgnSplitterModule, NgnSplitterPanel } from '@ngneers/contr
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-splitter-playground',
   imports: [NgnSplitterModule, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnSplitter', component: component() }]">

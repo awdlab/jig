@@ -32,7 +32,7 @@ export const ProgressPage: NgnDocsPage = {
       component: NgnDocsProgressPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/progress/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/progress/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/progress/a11y.md' },
     i18nNone(),
   ],
 };

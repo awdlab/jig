@@ -10,7 +10,8 @@
   },
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
+    "source.fixAll.oxc": "always",
+    "source.removeUnusedImports": "always"
   },
   "editor.defaultFormatter": "oxc.oxc-vscode",
   "[typescript]": {

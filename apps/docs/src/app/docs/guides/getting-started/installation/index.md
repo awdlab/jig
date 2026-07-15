@@ -15,13 +15,19 @@ if no theme preset is provided.
 The library targets **Angular 22+** and expects these peers in your app:
 
 - `@angular/common`, `@angular/core`, `@angular/forms`, `@angular/platform-browser`,
-  `@angular/router` (Angular 22)
+  `@angular/router`
 - `@floating-ui/dom` — positioning for overlays (tooltip, popover, select…)
-- `@iconify/types`, `@ngneers/signal-translate`, `rxjs`
+- `@ngneers/signal-translate`, `rxjs`
 
 `@iconify/icons-tabler` is an **optional** peer. It's only pulled in by the
 [`withDefaultIcons()`](/guides/icons) feature — if you supply your own icon set with
 `withCustomIcons()`, you don't need it.
+
+Most likely you have to add these to your app and are already using the others:
+
+```bash
+pnpm add @floating-ui/dom @ngneers/signal-translate @iconify/icons-tabler
+```
 
 > **No Tailwind, no CSS import.** Control styling is generated and injected at runtime by
 > the theme engine — there is no stylesheet to import and Tailwind is not required to

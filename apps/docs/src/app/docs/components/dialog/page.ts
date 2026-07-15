@@ -34,7 +34,7 @@ export const DialogPage: NgnDocsPage = {
       component: NgnDocsDialogPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/dialog/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/dialog/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/dialog/a11y.md' },
     i18nKeys('dialog', {
       close: 'Accessible label for the close button in the dialog header.',
     }),

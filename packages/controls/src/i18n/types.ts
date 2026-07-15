@@ -1,5 +1,5 @@
 export const supportedLanguages = ['en', 'de'] as const;
-import type En from './translations/en';
+import type { en as En } from './translations/en';
 
 export type SupportedLanguage = (typeof supportedLanguages)[number];
 

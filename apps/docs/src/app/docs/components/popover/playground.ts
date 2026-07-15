@@ -5,6 +5,7 @@ import { NgnPopover } from '@ngneers/controls/popover';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-popover-playground',
   imports: [NgnPopover, NgnButton, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnPopover', component: component() }]">

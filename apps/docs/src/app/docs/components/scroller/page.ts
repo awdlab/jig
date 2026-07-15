@@ -24,7 +24,7 @@ export const ScrollerPage: NgnDocsPage = {
       component: NgnDocsScrollerPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/scroller/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/scroller/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/scroller/a11y.md' },
     i18nNone(),
   ],
 };

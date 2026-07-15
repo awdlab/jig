@@ -4,6 +4,7 @@ import { NgnFilter } from '@ngneers/controls/filter';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-filter-playground',
   imports: [NgnFilter, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnFilter', component: component() }]">

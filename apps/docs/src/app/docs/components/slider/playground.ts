@@ -4,6 +4,7 @@ import { NgnSlider } from '@ngneers/controls/slider';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-slider-playground',
   imports: [NgnSlider, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnSlider', component: component() }]">

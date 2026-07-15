@@ -30,7 +30,7 @@ export const ItemViewPage: NgnDocsPage = {
       component: NgnDocsItemViewPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/item-view/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/item-view/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/item-view/a11y.md' },
     i18nNone({ projection: true }),
   ],
 };

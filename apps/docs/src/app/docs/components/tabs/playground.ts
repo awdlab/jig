@@ -4,6 +4,7 @@ import { NgnTabs, NgnTab } from '@ngneers/controls/tabs';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-tabs-playground',
   imports: [NgnTabs, NgnTab, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnTabs', component: component() }]">

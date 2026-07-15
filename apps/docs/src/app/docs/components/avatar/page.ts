@@ -32,7 +32,7 @@ export const AvatarPage: NgnDocsPage = {
       component: NgnDocsAvatarPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/avatar/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/avatar/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/avatar/a11y.md' },
     i18nText(
       "Avatar has no built-in translatable strings of its own. Any text it displays — the `initials` and the image `alt` text — comes from the values you provide, so translate those in your own application's i18n layer."
     ),

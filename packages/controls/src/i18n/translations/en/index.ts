@@ -1,4 +1,4 @@
-export default {
+export const en = {
   calendar: {
     today: 'Today',
     input: 'Date',

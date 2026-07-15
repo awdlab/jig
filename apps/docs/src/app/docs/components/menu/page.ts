@@ -32,7 +32,7 @@ export const MenuPage: NgnDocsPage = {
       component: NgnDocsMenuPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/menu/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/menu/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/menu/a11y.md' },
     i18nText(
       "Menu has no built-in translatable strings of its own. Any text it displays — the `label` of each item in the `items` array — comes from the values you provide, so translate those in your own application's i18n layer."
     ),

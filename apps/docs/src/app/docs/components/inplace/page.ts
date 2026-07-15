@@ -24,7 +24,7 @@ export const InplacePage: NgnDocsPage = {
       component: NgnDocsInplacePlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/inplace/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/inplace/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/inplace/a11y.md' },
     i18nNone({ projection: true }),
   ],
 };

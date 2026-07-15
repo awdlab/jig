@@ -4,6 +4,7 @@ import { NgnState } from '@ngneers/controls/state';
 import { NgnDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
+  selector: 'ngn-docs-state-playground',
   imports: [NgnState, NgnDocsPlayground],
   template: `
     <ngn-docs-playground [controls]="[{ componentName: 'NgnState', component: component() }]">

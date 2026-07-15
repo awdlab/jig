@@ -30,7 +30,7 @@ export const EditInplacePage: NgnDocsPage = {
       component: NgnDocsEditInplacePlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/edit-inplace/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/edit-inplace/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/edit-inplace/a11y.md' },
     i18nKeys('editInplace', {
       placeholder:
         'Fallback text shown in the display slot when no value is set, prompting the user to start editing.',

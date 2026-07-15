@@ -33,7 +33,7 @@ export const AccordionPage: NgnDocsPage = {
       title: 'API',
       mdFile: 'components/accordion/api.md',
     },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/accordion/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/accordion/a11y.md' },
     i18nText(
       "Accordion has no built-in translatable strings of its own. Any text it displays — the `header` text on each `ngn-accordion-panel` and the panel body you project into it — comes from the values you provide, so translate those in your own application's i18n layer."
     ),

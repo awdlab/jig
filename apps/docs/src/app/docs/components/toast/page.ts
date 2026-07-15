@@ -32,7 +32,7 @@ export const ToastPage: NgnDocsPage = {
       component: NgnDocsToastPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/toast/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/toast/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/toast/a11y.md' },
     i18nKeys('toast', {
       close: 'Accessible label for the button that dismisses a toast.',
       region: 'Accessible label for the live region that hosts the toasts.',

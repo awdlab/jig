@@ -30,7 +30,7 @@ export const RadioPage: NgnDocsPage = {
       component: NgnDocsRadioPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/radio/api.md' },
-    { kind: 'single', title: 'Accessibility', mdFile: 'components/radio/a11y.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/radio/a11y.md' },
     i18nText(
       "Radio has no built-in translatable strings of its own. Any text it displays — each option's projected label content (or its `label` fallback input) — comes from the values you provide, so translate those in your own application's i18n layer."
     ),
