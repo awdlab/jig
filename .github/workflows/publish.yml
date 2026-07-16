@@ -10,6 +10,12 @@ name: Publish
 # per package on npmjs.com → Settings → Trusted Publisher). Provenance is emitted
 # automatically. Requires npm >= 11.5.1 (Node 22 ships an older npm, so upgrade).
 #
+# Do NOT set setup-node's `registry-url`: it writes an .npmrc with
+# `_authToken=${NODE_AUTH_TOKEN}` and exports a placeholder NODE_AUTH_TOKEN, so
+# npm authenticates with that dead token and SKIPS the OIDC exchange → the
+# registry rejects it with a masked E404. Leaving it out lets OIDC engage (npm
+# defaults to registry.npmjs.org anyway).
+#
 # First-time note: a trusted publisher can only be set on a package that already
 # exists. If a brand-new package's first publish is rejected, bootstrap it once
 # (`npm login` locally, then `pnpm exec awesome-publish publish --tag next`),
@@ -33,7 +39,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: https://registry.npmjs.org
       - name: Upgrade npm for OIDC trusted publishing
         run: npm install -g npm@latest
       - run: pnpm install --frozen-lockfile
