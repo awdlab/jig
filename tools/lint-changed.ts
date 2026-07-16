@@ -162,6 +162,15 @@ if (doLint && oxlintFiles.length) {
 }
 
 // --- run with a bounded concurrency pool --------------------------------------
+
+// Tool output meaning "every file I was given is covered by an ignore rule" — a
+// no-op, not a failure. The router passes files by extension, so a batch can end
+// up entirely matched by a tool's own ignore config (oxfmt `ignorePatterns`,
+// .prettierignore, .oxlintrc); given explicit filenames those tools exit
+// non-zero. Swallow it so an all-ignored change set still passes.
+const ALL_IGNORED_RE =
+  /Expected at least one target file|excluded by ignore rules|No matching files|No files matching/i;
+
 function run(job: Job): Promise<{ label: string; ok: boolean }> {
   return new Promise(resolve => {
     // shell:true so the pnpm/node launcher resolves on Windows too. Args are
@@ -169,8 +178,21 @@ function run(job: Job): Promise<{ label: string; ok: boolean }> {
     // ponytail: with shell:true the args are concatenated, not escaped, so a
     // file path containing spaces would break. No such paths exist in this repo;
     // switch to shell:false + resolved binaries if that ever changes.
-    const child = spawn(job.cmd, job.args, { cwd: job.cwd, stdio: 'inherit', shell: true });
-    child.on('exit', code => resolve({ label: job.label, ok: code === 0 }));
+    // Output is captured (not inherited) so the all-ignored case can be detected;
+    // it's re-emitted on completion so diagnostics still surface.
+    const child = spawn(job.cmd, job.args, { cwd: job.cwd, shell: true });
+    let output = '';
+    child.stdout?.on('data', d => (output += d));
+    child.stderr?.on('data', d => (output += d));
+    child.on('exit', code => {
+      if (code !== 0 && ALL_IGNORED_RE.test(output)) {
+        console.log(`↷ ${job.label}: all files ignored — nothing to do`);
+        resolve({ label: job.label, ok: true });
+        return;
+      }
+      if (output.trim()) process.stdout.write(output.endsWith('\n') ? output : `${output}\n`);
+      resolve({ label: job.label, ok: code === 0 });
+    });
     child.on('error', () => resolve({ label: job.label, ok: false }));
   });
 }
