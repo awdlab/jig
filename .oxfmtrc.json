@@ -10,5 +10,6 @@
   "bracketSpacing": true,
   "quoteProps": "as-needed",
   "endOfLine": "lf",
-  "sortPackageJson": false
+  "sortPackageJson": false,
+  "ignorePatterns": [".changeset"]
 }

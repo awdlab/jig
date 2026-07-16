@@ -69,8 +69,8 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       awesome-publish:
-        specifier: ^0.0.4
-        version: 0.0.4(zod@4.4.2)
+        specifier: ^0.0.5
+        version: 0.0.5(zod@4.4.2)
       cpy-cli:
         specifier: ^7.0.0
         version: 7.0.0
@@ -2598,8 +2598,8 @@ packages:
   awesome-logging@3.0.0-pre2:
     resolution: {integrity: sha512-plijSDBEuyEW2t9L0GNGn1UgakFPoicNtr4tIX73SGtE/rLzivT2FICZ5Rukth/zatJ3aI5dUboQxWsTEZt3OA==}
 
-  awesome-publish@0.0.4:
-    resolution: {integrity: sha512-9XfbgQVQbWH8jghHTCtv31rFhnZ9jBrg1c4zzPaCGJMm7SaQSLUiXlSJ+gcNbC+KtEcfatzSm5bsH1culnnjPw==}
+  awesome-publish@0.0.5:
+    resolution: {integrity: sha512-/WVUfUapdAkvjOTCS82vGYTCjkno98vQvRzWO77Q328zbGFHodGUL+6vOd2zzuvW5ylxtObMRa20bJpKYkL4cw==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -6244,7 +6244,7 @@ snapshots:
       slice-ansi: 9.0.0
       strip-ansi: 7.2.0
 
-  awesome-publish@0.0.4(zod@4.4.2):
+  awesome-publish@0.0.5(zod@4.4.2):
     dependencies:
       '@anthropic-ai/sdk': 0.97.1(zod@4.4.2)
       awesome-logging: 3.0.0-pre2

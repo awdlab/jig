@@ -48,7 +48,13 @@
       }
     ]
   },
-  "ignorePatterns": ["**/dist/**", "**/.angular/**", "**/coverage/**", "**/node_modules/**"],
+  "ignorePatterns": [
+    "**/dist/**",
+    "**/.angular/**",
+    "**/coverage/**",
+    "**/node_modules/**",
+    "**/.changeset/**"
+  ],
   "overrides": [
     {
       "files": ["**/*.spec.ts", "**/*.test.ts", "**/test/**/*.ts"],
