@@ -39,8 +39,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Upgrade npm for OIDC trusted publishing
-        run: npm install -g npm@latest
+      - name: Upgrade npm for OIDC trusted publishing (needs >= 11.5.1)
+        run: |
+          npm install -g npm@latest
+          echo "node: $(node -v)  npm: $(npm -v)  ($(command -v npm))"
+          echo "id-token available: ${ACTIONS_ID_TOKEN_REQUEST_URL:+yes}"
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec awesome-publish publish --ci --tag next
         env:
