@@ -17,7 +17,9 @@ export default defineConfig({
   buildCommand:
     'pnpm --filter @ngneers/controls --filter @ngneers/controls-themes --filter @ngneers/controls-custom-types --filter @ngneers/controls-playwright --filter @ngneers/controls-mcp build',
   access: 'public',
-  provenance: true,
+  // Provenance requires a PUBLIC source repo; NGneers/controls is private, so
+  // npm rejects it with E422. Re-enable if the repo is ever made public.
+  provenance: false,
   changesets: { enabled: true, enforceInPR: true },
   github: { releases: { enabled: true, mode: 'per-package' } },
   // Gemini via its OpenAI-compatible endpoint. Key comes from
