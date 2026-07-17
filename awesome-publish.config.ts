@@ -26,7 +26,7 @@ export default defineConfig({
   // AWESOME_PUBLISH_AI_KEY. AI notes never block a release if the call fails.
   aiProvider: {
     provider: 'openai-compatible',
-    model: 'gemini-2.5-flash',
+    model: 'gemini-flash-latest',
     baseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai/',
   },
   aiReleaseNotes: true,
