@@ -13,17 +13,11 @@ import { Platform, ThemeService } from '@ngneers/controls/api/ng';
 import { NgnSelectButton } from '@ngneers/controls/select-button';
 import { createTheme, createThemePart } from '@ngneers/controls-themes/api';
 import { novaCoral } from '@ngneers/controls-themes/nova';
-import { colorsTemplate as novaColorsTemplate, coral } from '@ngneers/controls-themes/nova/base';
 import {
-  bubblegumColor,
-  crimsonFlameColor,
-  electricSkyColor,
-  forestVerdantColor,
-  getColorPalette,
-  greyColor,
-  mustardColor,
-  solarMarigoldColor,
-} from '@ngneers/controls-themes/nova/colors';
+  colorsTemplate as novaColorsTemplate,
+  coral,
+  novaColorValues,
+} from '@ngneers/controls-themes/nova/base';
 import { createShadeColorPart, shade } from '@ngneers/controls-themes/shade';
 import { zinc } from '@ngneers/controls-themes/shade/base';
 
@@ -71,61 +65,15 @@ const THEME_OPTIONS: readonly ThemeOption[] = [
   },
 ];
 
-type NovaPalette = ReturnType<typeof getColorPalette>;
-
-// Mirrors nova's internal `reversePalette` (not exported): dark mode uses the light ramp mirrored.
-function reversePalette(palette: NovaPalette): NovaPalette {
-  const keys = Object.keys(palette);
-  const values = Object.values(palette).reverse();
-  const reversed: Record<string, string> = {};
-  keys.forEach((key, i) => {
-    const value = values[i];
-    if (value != null) {
-      reversed[key] = value;
-    }
-  });
-  return reversed as NovaPalette;
-}
-
-// Mirrors nova's internal `getThemeColors` with the primary palette swapped out.
-function getNovaColorValues(primary: NovaPalette, isDark: boolean) {
-  const p = (palette: NovaPalette) => (isDark ? reversePalette(palette) : palette);
-
-  return {
-    primary: p(primary),
-    secondary: p(mustardColor),
-    accent: p(bubblegumColor),
-    error: p(crimsonFlameColor),
-    warning: p(solarMarigoldColor),
-    info: p(electricSkyColor),
-    success: p(forestVerdantColor),
-    surface: p(greyColor),
-    background: p(greyColor)[25],
-    border: p(greyColor)[400],
-    text: p(greyColor)[950],
-    disabled: {
-      text: p(greyColor)[700],
-      border: p(greyColor)[300],
-      background: p(greyColor)[200],
-    },
-    invalid: {
-      text: p(crimsonFlameColor)[500],
-      border: p(crimsonFlameColor)[400],
-      background: p(crimsonFlameColor)[50],
-    },
-  };
-}
-
 function buildNovaTheme(hex: string | null): Theme {
   if (hex == null) {
     return novaCoral;
   }
-  const primary = getColorPalette(hex);
   const colorPart = createThemePart({
     scope: 'color',
     variables: [novaColorsTemplate],
-    root: { values: getNovaColorValues(primary, false) },
-    dark: { values: getNovaColorValues(primary, true) },
+    root: { values: novaColorValues(hex, false) },
+    dark: { values: novaColorValues(hex, true) },
   });
   // Keep the theme NAME stable — the themeColor helper keys off it.
   return createTheme(

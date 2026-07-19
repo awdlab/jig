@@ -8,6 +8,11 @@ export const inputStyles = createThemePart({
   base: baseStyles.input,
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
-    css: ({ c, d }) => css``,
+    css: ({ v, c }) => css`
+      ${c('root')}::placeholder {
+        color: ${v('color.surface.400')};
+        opacity: 1;
+      }
+    `,
   },
 });

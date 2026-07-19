@@ -1,0 +1,505 @@
+<div class="h-full">
+  <ngn-splitter [layout]="'horizontal'" [kind]="'thin'" aria-label="Team chat">
+    <!-- ── Pane 1: conversations ─────────────────────────────────────────── -->
+    <ngn-splitter-panel
+      [name]="'list'"
+      [size]="'280px'"
+      [minSize]="'220px'"
+      [maxSize]="'360px'"
+      aria-label="Conversations"
+    >
+      <div class="flex h-full flex-col bg-(--ngn-color-surface-50)">
+        <div class="border-b border-(--ngn-color-surface-200) p-(--ngn-size-padding-lg)">
+          <ngn-input-field class="w-full">
+            <ngn-icon [icon]="searchIcon" />
+            <input
+              ngnInput
+              placeholder="Search conversations..."
+              [value]="search()"
+              (valueChange)="onSearch($event)"
+            />
+          </ngn-input-field>
+        </div>
+
+        <div class="team-chat-list-area relative grow overflow-y-auto">
+          <ngn-list-box
+            class="block h-full"
+            [items]="conversationItems()"
+            [value]="activeId()"
+            (valueChange)="selectConversation($event)"
+            [selectable]="true"
+          >
+            <ng-template #group let-option>
+              <span
+                class="text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-500) uppercase"
+              >
+                {{ option.label }}
+              </span>
+            </ng-template>
+
+            <ng-template #item let-option>
+              @let c = option.data;
+              <div class="flex w-full items-center gap-(--ngn-size-padding-md) py-1">
+                @if (isChannel(c)) {
+                  <span
+                    class="flex size-8 shrink-0 items-center justify-center rounded-(--ngn-size-rounded-md) bg-(--ngn-color-surface-200) text-(length:--ngn-font-size-md) font-(--ngn-font-weight-bold) text-(--ngn-color-surface-600)"
+                  >
+                    #
+                  </span>
+                } @else {
+                  <span class="relative shrink-0">
+                    <ngn-avatar
+                      [initials]="dmPartner(c).initials"
+                      [bgColor]="dmPartner(c).color"
+                      [size]="32"
+                    />
+                    <span
+                      class="absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full ring-2 ring-(--ngn-color-surface-50)"
+                      [style.background]="presenceColor[dmPartner(c).presence]"
+                    ></span>
+                  </span>
+                }
+
+                <div class="min-w-0 grow">
+                  <div class="flex items-baseline justify-between gap-(--ngn-size-padding-sm)">
+                    <span
+                      class="truncate font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
+                    >
+                      {{ isChannel(c) ? c.name : dmPartner(c).name }}
+                    </span>
+                    <span
+                      class="shrink-0 text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_50%,transparent)]"
+                    >
+                      {{ c.lastTime }}
+                    </span>
+                  </div>
+                  <div class="flex items-center justify-between gap-(--ngn-size-padding-sm)">
+                    <span
+                      class="truncate text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_65%,transparent)]"
+                    >
+                      {{ c.lastMessage }}
+                    </span>
+                    @if (unreadOf(c.id)) {
+                      <ngn-tag [color]="'primary'">{{ unreadOf(c.id) }}</ngn-tag>
+                    }
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngn-list-box>
+        </div>
+      </div>
+    </ngn-splitter-panel>
+
+    <!-- ── Pane 2: message thread ────────────────────────────────────────── -->
+    <ngn-splitter-panel [name]="'thread'" [size]="'3fr'" [minSize]="'340px'" aria-label="Messages">
+      <div class="flex h-full flex-col">
+        <!-- Thread header -->
+        <div
+          class="flex items-center gap-(--ngn-size-padding-md) border-b border-(--ngn-color-surface-200) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-md)"
+        >
+          <div class="min-w-0">
+            <h3
+              class="truncate text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
+            >
+              {{ isChannel(active()) ? active().name : dmPartner(active()).name }}
+            </h3>
+            <p
+              class="truncate text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_60%,transparent)]"
+            >
+              {{ active().topic }}
+            </p>
+          </div>
+
+          <div class="ml-auto flex items-center gap-(--ngn-size-padding-md)">
+            <ngn-avatar-group>
+              @for (m of members().slice(0, 4); track m.id) {
+                <ngn-avatar
+                  [initials]="m.initials"
+                  [bgColor]="m.color"
+                  [size]="28"
+                  [ngnTooltip]="m.name"
+                />
+              }
+            </ngn-avatar-group>
+            <button
+              ngnButton
+              kind="icon"
+              aria-label="Toggle details"
+              ngnTooltip="Toggle details"
+              (click)="toggleDetails()"
+            >
+              <ngn-icon [icon]="detailsIcon" />
+            </button>
+          </div>
+        </div>
+
+        <!-- Messages -->
+        <div
+          #threadScroll
+          class="grow space-y-1 overflow-y-auto px-(--ngn-size-padding-lg) py-(--ngn-size-padding-lg)"
+        >
+          @for (m of activeMessages(); track m.id; let i = $index) {
+            @if (showDateDivider(i)) {
+              <div class="flex items-center gap-(--ngn-size-padding-md) py-(--ngn-size-padding-md)">
+                <span class="h-px grow bg-(--ngn-color-surface-200)"></span>
+                <span
+                  class="rounded-full bg-(--ngn-color-surface-100) px-(--ngn-size-padding-md) py-0.5 text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-medium) text-(--ngn-color-surface-500)"
+                >
+                  {{ m.dateGroup }}
+                </span>
+                <span class="h-px grow bg-(--ngn-color-surface-200)"></span>
+              </div>
+            }
+            @if (isFirstUnread(m.id)) {
+              <div class="flex items-center gap-(--ngn-size-padding-md) py-1">
+                <span class="h-px grow bg-(--ngn-color-error-400)"></span>
+                <span
+                  class="text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) text-(--ngn-color-error-500) uppercase"
+                >
+                  New
+                </span>
+                <span class="h-px grow bg-(--ngn-color-error-400)"></span>
+              </div>
+            }
+
+            <div
+              class="group relative flex gap-(--ngn-size-padding-md)"
+              [class.flex-row-reverse]="m.own"
+            >
+              @if (!m.own) {
+                <ngn-avatar
+                  [initials]="user(m.authorId).initials"
+                  [bgColor]="user(m.authorId).color"
+                  [size]="36"
+                  class="mt-4 shrink-0"
+                />
+              }
+
+              <div class="flex max-w-[78%] flex-col" [class.items-end]="m.own">
+                <div
+                  class="mb-0.5 flex items-baseline gap-(--ngn-size-padding-sm)"
+                  [class.flex-row-reverse]="m.own"
+                >
+                  <span
+                    class="text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
+                  >
+                    {{ m.own ? 'You' : user(m.authorId).name }}
+                  </span>
+                  <span
+                    class="text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_50%,transparent)]"
+                  >
+                    {{ m.time }}
+                  </span>
+                </div>
+
+                <div
+                  class="rounded-(--ngn-size-rounded-lg) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-md) text-(length:--ngn-font-size-sm) leading-relaxed"
+                  [class]="
+                    m.own
+                      ? 'rounded-tr-none bg-(--ngn-color-primary-500) text-(--ngn-color-primary-contrast)'
+                      : 'rounded-tl-none bg-(--ngn-color-surface-100) text-(--ngn-color-text)'
+                  "
+                >
+                  {{ m.text }}
+                </div>
+
+                @if (m.reactions.length) {
+                  <div
+                    class="mt-1 flex flex-wrap gap-(--ngn-size-padding-sm)"
+                    [class.flex-row-reverse]="m.own"
+                  >
+                    @for (r of m.reactions; track r.emoji) {
+                      <button
+                        type="button"
+                        class="flex items-center gap-1 rounded-full border px-(--ngn-size-padding-md) py-0.5 text-(length:--ngn-font-size-xs) transition-colors"
+                        [class]="
+                          r.reacted
+                            ? 'border-(--ngn-color-primary-400) bg-(--ngn-color-primary-100) text-(--ngn-color-primary-700)'
+                            : 'border-(--ngn-color-surface-200) bg-(--ngn-color-surface-50) text-(--ngn-color-surface-600)'
+                        "
+                        (click)="toggleReaction(m, r.emoji)"
+                      >
+                        <span>{{ r.emoji }}</span>
+                        <span class="font-(--ngn-font-weight-semibold)">{{ r.count }}</span>
+                      </button>
+                    }
+                  </div>
+                }
+              </div>
+
+              <!-- Hover action toolbar: quick reactions react immediately (no popover), plus a menu.
+                   Anchored onto the bubble's top edge (overlapping, no gap) so hovering stays inside
+                   the group and the toolbar never flickers out. -->
+              <div
+                class="absolute top-0 flex -translate-y-1/2 items-center gap-0.5 rounded-(--ngn-size-rounded-md) border border-(--ngn-color-surface-200) bg-(--ngn-color-surface-0) p-0.5 opacity-0 shadow-(--ngn-shadow-sm) transition-opacity group-hover:opacity-100 focus-within:opacity-100"
+                [class]="m.own ? 'left-4' : 'right-4'"
+              >
+                @for (e of quickEmojis; track e) {
+                  <button
+                    type="button"
+                    class="rounded-(--ngn-size-rounded-sm) px-1 text-(length:--ngn-font-size-sm) hover:bg-(--ngn-color-surface-100)"
+                    [attr.aria-label]="'React ' + e"
+                    (click)="toggleReaction(m, e)"
+                  >
+                    {{ e }}
+                  </button>
+                }
+                <button
+                  ngnButton
+                  kind="icon"
+                  size="sm"
+                  #menuBtn
+                  aria-label="Message actions"
+                  (click)="msgMenu.show()"
+                >
+                  <ngn-icon [icon]="dotsIcon" />
+                </button>
+                <ngn-menu
+                  #msgMenu
+                  [popover]="true"
+                  [anchor]="menuBtn"
+                  [items]="messageMenuItems(m)"
+                />
+              </div>
+            </div>
+          }
+
+          <!-- Typing indicator -->
+          @if (typingUser(); as t) {
+            <div class="flex items-center gap-(--ngn-size-padding-md) pt-(--ngn-size-padding-md)">
+              <ngn-avatar
+                [initials]="t.initials"
+                [bgColor]="t.color"
+                [size]="36"
+                class="shrink-0"
+              />
+              <div
+                class="flex items-center gap-1 rounded-(--ngn-size-rounded-lg) rounded-tl-none bg-(--ngn-color-surface-100) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-md)"
+              >
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+              </div>
+              <span
+                class="text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_60%,transparent)]"
+              >
+                {{ t.name }} is typing…
+              </span>
+            </div>
+          }
+        </div>
+
+        <!-- Composer -->
+        <div class="border-t border-(--ngn-color-surface-200) p-(--ngn-size-padding-lg)">
+          <ngn-input-field class="w-full">
+            <button ngnButton kind="icon" aria-label="Attach file" ngnTooltip="Attach">
+              <ngn-icon [icon]="paperclipIcon" />
+            </button>
+            <input
+              ngnInput
+              [placeholder]="
+                'Message ' + (isChannel(active()) ? active().name : dmPartner(active()).name)
+              "
+              [value]="draft()"
+              (valueChange)="draft.set($event ?? '')"
+              (keydown.enter)="sendMessage()"
+            />
+            <button
+              ngnButton
+              kind="icon"
+              color="primary"
+              aria-label="Send message"
+              [disabled]="!draft().trim()"
+              (click)="sendMessage()"
+            >
+              <ngn-icon [icon]="sendIcon" />
+            </button>
+          </ngn-input-field>
+        </div>
+      </div>
+    </ngn-splitter-panel>
+
+    <!-- ── Pane 3: details (plain stacked sections, separated by rules) ──────── -->
+    @if (showDetails()) {
+      <ngn-splitter-panel
+        [name]="'details'"
+        [size]="'300px'"
+        [minSize]="'240px'"
+        [maxSize]="'380px'"
+        aria-label="Details"
+      >
+        <div class="flex h-full flex-col bg-(--ngn-color-surface-50)">
+          <div
+            class="flex items-center justify-between border-b border-(--ngn-color-surface-200) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-md)"
+          >
+            <span class="font-(--ngn-font-weight-semibold) text-(--ngn-color-text)">Details</span>
+            <label class="flex items-center gap-(--ngn-size-padding-sm)">
+              <span
+                class="text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_60%,transparent)]"
+              >
+                Notifications
+              </span>
+              <ngn-switch [(value)]="notifications" />
+            </label>
+          </div>
+
+          <div class="grow overflow-y-auto">
+            <!-- About -->
+            <section class="px-(--ngn-size-padding-lg) py-(--ngn-size-padding-lg)">
+              <h4
+                class="mb-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-500) uppercase"
+              >
+                About
+              </h4>
+              <p class="text-(length:--ngn-font-size-sm) text-(--ngn-color-text)">
+                {{ active().topic }}
+              </p>
+              <p
+                class="mt-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_55%,transparent)]"
+              >
+                {{ members().length }} members
+              </p>
+            </section>
+
+            <!-- Members -->
+            <section
+              class="border-t border-(--ngn-color-surface-200) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-lg)"
+            >
+              <h4
+                class="mb-(--ngn-size-padding-md) text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-500) uppercase"
+              >
+                Members
+              </h4>
+              <ul class="space-y-(--ngn-size-padding-md)">
+                @for (m of members(); track m.id) {
+                  <li class="flex items-center gap-(--ngn-size-padding-md)">
+                    <span class="relative shrink-0">
+                      <ngn-avatar [initials]="m.initials" [bgColor]="m.color" [size]="32" />
+                      <span
+                        class="absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full ring-2 ring-(--ngn-color-surface-50)"
+                        [style.background]="presenceColor[m.presence]"
+                      ></span>
+                    </span>
+                    <div class="min-w-0">
+                      <div
+                        class="truncate text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-medium) text-(--ngn-color-text)"
+                      >
+                        {{ m.name }}
+                      </div>
+                      <div
+                        class="truncate text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_55%,transparent)]"
+                      >
+                        {{ m.role }}
+                      </div>
+                    </div>
+                  </li>
+                }
+              </ul>
+            </section>
+
+            <!-- Pinned -->
+            <section
+              class="border-t border-(--ngn-color-surface-200) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-lg)"
+            >
+              <h4
+                class="mb-(--ngn-size-padding-md) text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-500) uppercase"
+              >
+                Pinned
+              </h4>
+              <ul class="space-y-(--ngn-size-padding-md)">
+                @for (p of pinned; track p.text) {
+                  <li
+                    class="flex gap-(--ngn-size-padding-md) rounded-(--ngn-size-rounded-md) bg-(--ngn-color-surface-0) p-(--ngn-size-padding-md)"
+                  >
+                    <ngn-icon
+                      [icon]="pinIcon"
+                      class="mt-0.5 shrink-0 text-(--ngn-color-surface-400)"
+                    />
+                    <div class="min-w-0">
+                      <div
+                        class="text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) text-[color-mix(in_oklab,var(--ngn-color-text)_60%,transparent)]"
+                      >
+                        {{ p.author }}
+                      </div>
+                      <div class="text-(length:--ngn-font-size-sm) text-(--ngn-color-text)">
+                        {{ p.text }}
+                      </div>
+                    </div>
+                  </li>
+                }
+              </ul>
+            </section>
+
+            <!-- Shared files -->
+            <section
+              class="border-t border-(--ngn-color-surface-200) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-lg)"
+            >
+              <h4
+                class="mb-(--ngn-size-padding-md) text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-500) uppercase"
+              >
+                Shared files
+              </h4>
+              <ul class="space-y-(--ngn-size-padding-md)">
+                @for (f of files; track f.name) {
+                  <li class="flex items-center gap-(--ngn-size-padding-md)">
+                    <span
+                      class="flex size-9 shrink-0 items-center justify-center rounded-(--ngn-size-rounded-md)"
+                      [style.background]="'var(--ngn-color-' + f.icon + '-100)'"
+                      [style.color]="'var(--ngn-color-' + f.icon + '-600)'"
+                    >
+                      <ngn-icon [icon]="paperclipIcon" />
+                    </span>
+                    <div class="min-w-0 grow">
+                      <div
+                        class="truncate text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-medium) text-(--ngn-color-text)"
+                      >
+                        {{ f.name }}
+                      </div>
+                      @if (f.progress !== undefined) {
+                        <ngn-progress [value]="f.progress" class="mt-1 block" />
+                      }
+                      <div
+                        class="truncate text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_55%,transparent)]"
+                      >
+                        {{ f.meta }}
+                      </div>
+                    </div>
+                  </li>
+                }
+              </ul>
+            </section>
+          </div>
+        </div>
+      </ngn-splitter-panel>
+    }
+  </ngn-splitter>
+</div>
+
+<style>
+  .typing-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--ngn-color-surface-400);
+    animation: typing-bounce 1.2s infinite ease-in-out;
+  }
+  .typing-dot:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+  .typing-dot:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  @keyframes typing-bounce {
+    0%,
+    60%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.5;
+    }
+    30% {
+      transform: translateY(-4px);
+      opacity: 1;
+    }
+  }
+</style>

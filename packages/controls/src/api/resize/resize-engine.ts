@@ -290,6 +290,13 @@ export class ResizeEngine {
     if (items.length === 0) return;
 
     const containerSize = this.containerSize();
+    // Container not measured yet (e.g. the splitter is mounted inside a hidden tab, so its
+    // ResizeObserver reports 0). The fr clamping below divides by the available fr area, which
+    // is degenerate at size 0 and would collapse fr items to `0fr` — a value then written back
+    // and persisted, so the pane stays at 0 even after the container becomes visible. Nothing
+    // meaningful to clamp until we have a real size; `gridTemplateSizes` guards the same way.
+    if (containerSize <= 0) return;
+
     const itemSizes = items.map(item => {
       const expanded = expandResizeSize(item.size());
       return {

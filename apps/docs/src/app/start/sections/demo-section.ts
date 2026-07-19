@@ -1,22 +1,21 @@
 import { Component } from '@angular/core';
 import tablerBriefcase from '@iconify/icons-tabler/briefcase';
-import tablerChartBar from '@iconify/icons-tabler/chart-bar';
 import tablerClipboardList from '@iconify/icons-tabler/clipboard-list';
 import tablerLock from '@iconify/icons-tabler/lock';
+import tablerMessageCircle from '@iconify/icons-tabler/message-circle';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnTab, NgnTabs } from '@ngneers/controls/tabs';
 
-import { SalesCrm } from '../dashboard/sales-crm';
+import { SalesCrm } from '../interactive-demo/sales-crm';
+import { TeamChat } from '../interactive-demo/team-chat';
 
 @Component({
   selector: 'ngn-docs-demo-section',
-  imports: [NgnIcon, NgnTabs, NgnTab, SalesCrm],
+  imports: [NgnIcon, NgnTabs, NgnTab, SalesCrm, TeamChat],
   template: `
     <section class="px-(--ngn-size-padding-xl) py-8">
-      <div class="mx-auto max-w-[1100px]">
+      <div class="mx-auto max-w-[1360px]">
         <div class="card overflow-hidden shadow-(--ngn-shadow-lg)">
-          <!-- Browser chrome: frames the demo as a real running app, so the live
-               controls inside read as an application — not as page settings. -->
           <div
             class="flex items-center gap-(--ngn-size-padding-md) border-b border-(--ngn-color-surface-200) bg-(--ngn-color-surface-50) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-sm)"
           >
@@ -32,6 +31,10 @@ import { SalesCrm } from '../dashboard/sales-crm';
             </span>
             <span aria-hidden="true" class="w-12"></span>
           </div>
+          <!-- 54rem min-height fits the Sales CRM at desktop width without scrolling, and keeps a
+               constant section height across tabs. It's a MIN so when the CRM reflows to a taller
+               single column at narrow widths the body grows instead of showing a scrollbar. Team
+               Chat needs a definite height for its splitter (its panes scroll internally). -->
           <ngn-tabs>
             <ngn-tab tabId="sales-crm">
               <ng-template #header>
@@ -40,21 +43,21 @@ import { SalesCrm } from '../dashboard/sales-crm';
                 </span>
               </ng-template>
               <ng-template #content>
-                <ngn-docs-sales-crm />
+                <div class="min-h-[54rem]">
+                  <ngn-docs-sales-crm />
+                </div>
               </ng-template>
             </ngn-tab>
 
-            <ngn-tab tabId="analytics">
+            <ngn-tab tabId="team-chat">
               <ng-template #header>
                 <span class="flex items-center gap-(--ngn-size-padding-sm)">
-                  <ngn-icon [icon]="chartIcon" /> Analytics Dashboard
+                  <ngn-icon [icon]="chatIcon" /> Team Chat
                 </span>
               </ng-template>
               <ng-template #content>
-                <div
-                  class="p-12 text-center text-(length:--ngn-font-size-md) text-(--ngn-color-surface-500)"
-                >
-                  Analytics Dashboard — coming soon.
+                <div class="h-[54rem]">
+                  <ngn-docs-team-chat />
                 </div>
               </ng-template>
             </ngn-tab>
@@ -67,7 +70,7 @@ import { SalesCrm } from '../dashboard/sales-crm';
               </ng-template>
               <ng-template #content>
                 <div
-                  class="p-12 text-center text-(length:--ngn-font-size-md) text-(--ngn-color-surface-500)"
+                  class="flex min-h-[54rem] items-center justify-center text-(length:--ngn-font-size-md) text-(--ngn-color-surface-500)"
                 >
                   Project Board — coming soon.
                 </div>
@@ -81,7 +84,7 @@ import { SalesCrm } from '../dashboard/sales-crm';
 })
 export class NgnDocsDemoSection {
   protected readonly briefcaseIcon = tablerBriefcase;
-  protected readonly chartIcon = tablerChartBar;
+  protected readonly chatIcon = tablerMessageCircle;
   protected readonly clipboardIcon = tablerClipboardList;
   protected readonly lockIcon = tablerLock;
 }

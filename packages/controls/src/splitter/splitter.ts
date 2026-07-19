@@ -167,6 +167,20 @@ export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
       this.updateDividers(panels);
     });
 
+    // Measure divider positions in the after-render phase (post-layout) and cache
+    // them in a signal. Reading DOM offsets directly in the template binding causes
+    // NG0100, since the grid sizes are applied in the same CD cycle and the reflow
+    // settles the measured value between the CD and verify passes.
+    afterRenderEffect(() => {
+      const values = this.measureDividerValues();
+      untracked(() => {
+        const prev = this._dividerValues();
+        if (values.length !== prev.length || values.some((v, i) => v !== prev[i])) {
+          this._dividerValues.set(values);
+        }
+      });
+    });
+
     registerState({
       storage: () => this.stateStorage(),
       key: () => this.stateKey(),
@@ -354,27 +368,46 @@ export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
     }
   }
 
+  /** Cached divider positions (percentage) measured post-layout; see the after-render effect in the constructor. */
+  private readonly _dividerValues = signal<readonly number[]>([]);
+
   /**
    * The divider's current position as a percentage (0–100) of the total panel
    * content size, used for `aria-valuenow` on the `role="separator"` handle.
-   * Reads `gridTemplateSizes()` to stay reactive to resizes, then measures the
-   * rendered panel sizes on either side of the divider.
+   * Reads the cached value measured in the after-render phase.
    */
   protected dividerValueNow(index: number): number {
+    return this._dividerValues()[index] ?? 0;
+  }
+
+  /**
+   * Measures each divider's position as a percentage (0–100) of the total panel
+   * content size. Reads `gridTemplateSizes()`, `elementSize()` and `dragContext()`
+   * as reactive triggers, then measures the rendered panel sizes.
+   */
+  private measureDividerValues(): number[] {
     // ponytail: DOM-offset heuristic; one CD-frame lag during drag is fine for
     // an aria value. Swap for an engine-reported px signal if exactness matters.
-    this.calculator().gridTemplateSizes(); // reactive trigger
-    const panels = this.calculator().orderedPanels();
+    const calculator = this.calculator();
+    calculator.gridTemplateSizes(); // reactive trigger
+    calculator.dragContext(); // reactive trigger (live update during drag)
+    this.elementSize(); // reactive trigger (container resize)
+    const panels = calculator.orderedPanels();
     const horizontal = this.layout() === 'horizontal';
-    let before = 0;
-    let total = 0;
-    panels.forEach((panel, i) => {
+    const sizes = panels.map(panel => {
       const el = panel.element.nativeElement;
-      const size = horizontal ? el.offsetWidth : el.offsetHeight;
-      total += size;
-      if (i <= index) before += size;
+      return horizontal ? el.offsetWidth : el.offsetHeight;
     });
-    return total > 0 ? Math.round((before / total) * 100) : 0;
+    const total = sizes.reduce((a, b) => a + b, 0);
+    if (total <= 0) return [];
+    // One value per divider: cumulative size up to and including panel i.
+    const values: number[] = [];
+    let before = 0;
+    for (let i = 0; i < panels.length - 1; i++) {
+      before += sizes[i]!;
+      values.push(Math.round((before / total) * 100));
+    }
+    return values;
   }
 
   private getStepInPx(): number {

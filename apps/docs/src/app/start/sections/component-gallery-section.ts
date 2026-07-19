@@ -21,6 +21,7 @@ import { NgnDocsSectionShell } from './section-shell';
 
 import type { NgnPassthrough } from '@ngneers/controls/base';
 import type { CustomColor } from '@ngneers/controls-custom-types';
+import { NgnState } from '@ngneers/controls/state';
 
 @Component({
   selector: 'ngn-docs-component-gallery-section',
@@ -42,6 +43,7 @@ import type { CustomColor } from '@ngneers/controls-custom-types';
     NgnTabs,
     NgnTab,
     NgnDocsGlow,
+    NgnState,
   ],
   styles: `
     /* The slider has no built-in transition; glide the fill/thumb between rest and hover. */
@@ -78,7 +80,12 @@ import type { CustomColor } from '@ngneers/controls-custom-types';
               @switch (entry.name) {
                 @case ('Button') {
                   <button ngnButton kind="primary">
-                    {{ buttonLabel() }}
+                    Save
+                    <ngn-state
+                      [visible]="!!buttonState()"
+                      [kind]="buttonState()"
+                      [replaceContent]="true"
+                    />
                   </button>
                 }
                 @case ('Switch') {
@@ -180,7 +187,7 @@ export class NgnDocsComponentGallerySection {
   protected readonly selectPt: NgnPassthrough<'select'> = {
     'popover-content': { $attributes: { inert: '' } },
   };
-  protected readonly buttonLabel = signal('Button');
+  protected readonly buttonState = signal<undefined | 'loading' | 'success'>(undefined);
   protected readonly chipColor = signal<CustomColor | undefined>(undefined);
   protected readonly tagColor = signal<CustomColor | undefined>(undefined);
   protected readonly avatarInitials = signal('NG');
@@ -189,6 +196,7 @@ export class NgnDocsComponentGallerySection {
   protected readonly inputValue = signal('');
 
   private readonly typeTarget = 'Hello';
+  private buttonStateTimeout: ReturnType<typeof setInterval> | null = null;
   private typeTimer: ReturnType<typeof setInterval> | null = null;
 
   constructor() {
@@ -216,7 +224,14 @@ export class NgnDocsComponentGallerySection {
         this.tooltip()?.show();
         break;
       case 'Button':
-        this.buttonLabel.set('Clicked!');
+        this.buttonState.set('loading');
+        if (this.buttonStateTimeout) {
+          clearTimeout(this.buttonStateTimeout);
+        }
+        this.buttonStateTimeout = setTimeout(() => {
+          this.buttonStateTimeout = null;
+          this.buttonState.set('success');
+        }, 600);
         break;
       case 'Chip':
         this.chipColor.set('primary');
@@ -258,7 +273,11 @@ export class NgnDocsComponentGallerySection {
         this.tooltip()?.hide();
         break;
       case 'Button':
-        this.buttonLabel.set('Button');
+        this.buttonState.set(undefined);
+        if (this.buttonStateTimeout) {
+          clearTimeout(this.buttonStateTimeout);
+          this.buttonStateTimeout = null;
+        }
         break;
       case 'Chip':
         this.chipColor.set(undefined);

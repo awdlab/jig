@@ -67,10 +67,10 @@ export const KINDS = {
 };
 
 export const COLORS = [
-  'surface',
   'primary',
   'secondary',
   'accent',
+  'surface',
   'info',
   'success',
   'warning',

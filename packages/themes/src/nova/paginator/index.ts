@@ -1,12 +1,12 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { baseStyles } from '@ngneers/controls-themes/base';
-import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
+import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
 import { paginatorControlTemplate } from '@ngneers/controls-themes/templates/paginator';
 
 export const paginatorStyles = createThemePart({
   controlTemplate: paginatorControlTemplate,
   base: baseStyles.paginator,
-  dependencies: [colorsTemplate, sizesTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c, d }) => css`
       ${c('root')} > ${d('item-view')} {
@@ -23,20 +23,20 @@ export const paginatorStyles = createThemePart({
       ${c('page-size-options')} {
         min-width: 4rem;
       }
+      /* Current page: a quiet neutral fill + weight, not a saturated accent block.
+         It marks position without competing with the page's real primary actions. */
       ${c('active-page')} {
-        background: ${v('color.secondary.500')};
-        color: ${v('color.secondary.500-contrast')};
+        background: ${v('color.surface.200')};
+        color: ${v('color.text')};
+        font-weight: ${v('font.weight.semibold')};
         &:hover:not(:disabled) {
-          background: ${v('color.secondary.600')};
-          color: ${v('color.secondary.600-contrast')};
+          background: ${v('color.surface.300')};
         }
         &:focus:not(:disabled) {
-          background: ${v('color.secondary.700')};
-          color: ${v('color.secondary.700-contrast')};
+          background: ${v('color.surface.300')};
         }
         &:active:not(:disabled) {
-          background: ${v('color.secondary.800')};
-          color: ${v('color.secondary.800-contrast')};
+          background: ${v('color.surface.400')};
         }
       }
     `,

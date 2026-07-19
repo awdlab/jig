@@ -8,6 +8,8 @@ import {
 import {
   bubblegumColor,
   bubblegumColorRgb,
+  getColorPalette,
+  getColorPaletteRgb,
   inkColor,
   inkColorRgb,
   crimsonFlameColor,
@@ -190,7 +192,11 @@ function tonalRefs(
   return refs;
 }
 
-function getThemeColors(isDark: boolean) {
+function getThemeColors(
+  isDark: boolean,
+  primaryShades: Record<string, string> = inkColor,
+  primaryRgb: Record<string, RGB> = inkColorRgb
+) {
   const p = <T extends Record<string, unknown>>(palette: T): T =>
     isDark ? reversePalette(palette) : palette;
 
@@ -213,7 +219,7 @@ function getThemeColors(isDark: boolean) {
   };
 
   return {
-    primary: palette('primary', inkColor, inkColorRgb),
+    primary: palette('primary', primaryShades, primaryRgb),
     secondary: palette('secondary', mustardColor, mustardColorRgb),
     accent: palette('accent', bubblegumColor, bubblegumColorRgb),
     error: palette('error', crimsonFlameColor, crimsonFlameColorRgb),
@@ -247,6 +253,25 @@ export const coral = createThemePart({
     values: getThemeColors(true),
   },
 });
+
+/**
+ * Full nova color-token values for a given primary base color — the same output
+ * that backs the built-in {@link coral} part, but with the primary palette
+ * swapped. Includes the computed `*-contrast` and tonal `*-on-*` refs, so a
+ * custom-primary theme built from this behaves identically to the default (e.g.
+ * neutral `surface` buttons keep their correct auto-contrast text). Pass `null`
+ * for the built-in ink default.
+ *
+ * Consumers that let users pick a primary color at runtime should build their
+ * color part from this rather than re-deriving palette values, which drops the
+ * contrast refs and breaks auto-contrast on custom colors.
+ */
+export function novaColorValues(primaryHex: string | null, isDark: boolean) {
+  if (primaryHex == null) {
+    return getThemeColors(isDark);
+  }
+  return getThemeColors(isDark, getColorPalette(primaryHex), getColorPaletteRgb(primaryHex));
+}
 
 type ThemePaletteColor =
   | 'primary'

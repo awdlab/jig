@@ -1,7 +1,8 @@
 The Toggle Button (`<ngn-toggle-button>`) is a single button that flips a
 boolean `value` on and off in place — think "bold" in a text editor. Its `value`
 is a two-way `model<boolean>` that works with `ngModel` / reactive forms, and
-the pressed state is exposed via `aria-pressed` so it reads as a toggle.
+the state is exposed via `role="switch"` + `aria-checked` so it reads as an
+on/off toggle.
 
 Prefer a **switch** when the on/off metaphor is a setting rather than an action,
 and a **select-button** when the user picks one option out of several.
@@ -49,6 +50,6 @@ different glyph when active. Icons combine with the label or stand alone.
 `disabled` and `readonly` both stop `toggle()` from changing the value.
 `disabled` removes the button from interaction via the native `disabled`
 attribute; `readonly` leaves the button focusable but makes `toggle()` a no-op
-(there is no dedicated ARIA for it).
+and reports `aria-readonly` to assistive tech.
 
 {{ demo: Demo_ToggleButton_States }}

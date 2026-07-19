@@ -22,7 +22,7 @@ export const avatarStyles = createThemePart({
       }
       ${c('initials')} {
         font-size: calc(var(--size) / -12 * var(--letterCount) + var(--size) * 0.7);
-        line-height: 1;
+        line-height: 0;
         font-family: monospace;
         user-select: none;
       }

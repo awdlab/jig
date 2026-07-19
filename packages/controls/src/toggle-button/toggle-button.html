@@ -1,9 +1,11 @@
 <button
   [ptInt]="this"
   [ptClass]="'button'"
+  role="switch"
   (click)="toggle()"
   [disabled]="disabled()"
-  [attr.aria-pressed]="value()"
+  [attr.aria-readonly]="readonly()"
+  [attr.aria-checked]="value()"
   [attr.aria-label]="label()"
   [attr.aria-labelledby]="labelledBy()"
   (blur)="touched.set(true)"

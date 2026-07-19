@@ -18,26 +18,32 @@ export const toggleButtonStyles = createThemePart({
         display: inline-grid;
         border-radius: ${v('size.rounded.md')};
         background-color: ${v('color.surface.100')};
+        color: ${v('color.surface.600')};
         padding: ${v('size.padding.md')} ${v('size.padding.lg')};
-        border: 1px solid ${v('color.surface.400')};
+        border: none;
         position: relative;
         font-weight: ${v('font.weight.normal')};
         cursor: pointer;
-        transition: background-color ${v('anim.ease.snappyFade')} ${v('anim.time.snappyFade')};
+        transition:
+          color ${v('anim.ease.snappyFade')} ${v('anim.time.snappyFade')},
+          background-color ${v('anim.ease.snappyFade')} ${v('anim.time.snappyFade')};
         &:disabled {
           cursor: default;
-          color: ${v('color.disabled.text')};
-          background-color: ${v('color.disabled.background')};
+          background-color: ${v('color.surface.50')};
+          color: ${v('color.surface.400')};
         }
         &[aria-readonly='true'] {
           cursor: default;
         }
         &:focus-visible {
           outline: 2px solid ${v('color.text')};
+          outline-offset: 2px;
         }
       }
-      ${c('root')} ${c('button')}:hover:not(:disabled):not([aria-readonly='true']) {
-        background-color: ${v('color.surface.200')};
+      ${c('root')}:not(${c('active')}) ${c(
+        'button'
+      )}:hover:not(:disabled):not([aria-readonly='true']) {
+        color: ${v('color.surface.700')};
       }
       ${c('label')}, ${c('placeholder')}, ${c('placeholder-active')} {
         align-items: center;
@@ -48,6 +54,7 @@ export const toggleButtonStyles = createThemePart({
         font-weight: ${v('font.weight.semibold')};
       }
       ${c('active')} ${c('button')} {
+        color: ${v('color.text')};
         ${c('label')} {
           font-weight: ${v('font.weight.semibold')};
         }
@@ -55,16 +62,15 @@ export const toggleButtonStyles = createThemePart({
           content: '';
           position: absolute;
           inset: ${v('size.padding.sm')};
-          background: ${v('color.background')};
-          border-radius: ${v('size.rounded.lg')};
-          transition: box-shadow ${v('anim.ease.snappyFade')} ${v('anim.time.snappyFade')};
+          background: ${v('color.surface.200')};
+          border-radius: ${v('size.rounded.md')};
         }
-        &:disabled:before {
+        &:disabled::before {
           background: ${v('color.surface.100')};
         }
       }
       ${c('invalid')} ${c('button')} {
-        border-color: ${v('color.invalid.border')};
+        outline: 1px solid ${v('color.invalid.border')};
       }
     `,
   },

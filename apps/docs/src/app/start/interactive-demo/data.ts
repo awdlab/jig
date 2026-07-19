@@ -155,14 +155,14 @@ function makeOpportunity(
 }
 
 const SEED: ReadonlyArray<[string, string, string, number, OpportunityStatus, number]> = [
-  ['Stark Tech', 'ST', 'var(--ngn-color-primary-500)', 1_250_000, 'Closed Won', 0],
-  ['Wayne Corp', 'WC', 'var(--ngn-color-secondary-500)', 840_000, 'Negotiation', 1],
-  ['TechFlow Inc', 'TF', 'var(--ngn-color-accent-500)', 12_400, 'Discovery', 2],
-  ['Globex', 'GX', 'var(--ngn-color-info-500)', 96_000, 'Proposal', 3],
-  ['Initech', 'IN', 'var(--ngn-color-success-500)', 38_500, 'Discovery', 0],
-  ['Umbrella Co', 'UC', 'var(--ngn-color-error-500)', 612_000, 'Negotiation', 1],
-  ['Soylent', 'SY', 'var(--ngn-color-warning-500)', 220_000, 'Proposal', 2],
-  ['Hooli', 'HO', 'var(--ngn-color-primary-400)', 1_010_000, 'Closed Won', 3],
+  ['Stark Tech', 'ST', 'var(--ngn-color-primary-200)', 1_250_000, 'Closed Won', 0],
+  ['Wayne Corp', 'WC', 'var(--ngn-color-secondary-200)', 840_000, 'Negotiation', 1],
+  ['TechFlow Inc', 'TF', 'var(--ngn-color-accent-200)', 12_400, 'Discovery', 2],
+  ['Globex', 'GX', 'var(--ngn-color-info-200)', 96_000, 'Proposal', 3],
+  ['Initech', 'IN', 'var(--ngn-color-success-200)', 38_500, 'Discovery', 0],
+  ['Umbrella Co', 'UC', 'var(--ngn-color-error-200)', 612_000, 'Negotiation', 1],
+  ['Soylent', 'SY', 'var(--ngn-color-warning-200)', 220_000, 'Proposal', 2],
+  ['Hooli', 'HO', 'var(--ngn-color-primary-200)', 1_010_000, 'Closed Won', 3],
 ];
 
 /** 24 opportunities — the first three match the reference screenshot exactly. */
@@ -212,13 +212,13 @@ export type DealDraft = {
   priority: DealPriority;
 };
 
-/** Avatar background colors cycled for newly added deals. */
+/** Avatar background colors cycled for newly added deals */
 const NEW_DEAL_COLORS: readonly string[] = [
-  'var(--ngn-color-primary-500)',
-  'var(--ngn-color-accent-500)',
-  'var(--ngn-color-info-500)',
-  'var(--ngn-color-success-500)',
-  'var(--ngn-color-secondary-500)',
+  'var(--ngn-color-primary-200)',
+  'var(--ngn-color-accent-200)',
+  'var(--ngn-color-info-200)',
+  'var(--ngn-color-success-200)',
+  'var(--ngn-color-secondary-200)',
 ];
 
 function initialsFrom(name: string): string {
