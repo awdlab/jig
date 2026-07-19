@@ -79,6 +79,14 @@ export class TeamChat {
   protected readonly files = SHARED_FILES;
   /** Quick one-tap reactions shown in the per-message hover toolbar. */
   protected readonly quickEmojis: readonly string[] = ['👍', '❤️', '🎉'];
+
+  /**
+   * Auto-contrasting text color for the user's own (primary-filled) bubbles. Pure-CSS relative
+   * color — black on a light primary, white on a dark one — so it stays readable for any theme or
+   * custom primary, unlike the nova-only `*-contrast` vars. Mirrors the theme's `autoContrast()`.
+   */
+  protected readonly ownBubbleTextColor =
+    'oklch(from var(--ngn-color-primary-500) clamp(0, (0.62 - l) * 1e7, 1) 0 h)';
   protected readonly presenceColor = PRESENCE_COLOR;
   protected readonly user = user;
 

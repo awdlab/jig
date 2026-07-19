@@ -197,9 +197,10 @@
                   class="rounded-(--ngn-size-rounded-lg) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-md) text-(length:--ngn-font-size-sm) leading-relaxed"
                   [class]="
                     m.own
-                      ? 'rounded-tr-none bg-(--ngn-color-primary-500) text-(--ngn-color-primary-contrast)'
+                      ? 'rounded-tr-none bg-(--ngn-color-primary-500)'
                       : 'rounded-tl-none bg-(--ngn-color-surface-100) text-(--ngn-color-text)'
                   "
+                  [style.color]="m.own ? ownBubbleTextColor : null"
                 >
                   {{ m.text }}
                 </div>

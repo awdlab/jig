@@ -249,11 +249,15 @@ export const SHARED_FILES: readonly SharedFile[] = [
   { name: 'dark-mode-spec.png', meta: 'Uploading…', icon: 'info', progress: 68 },
 ];
 
-/** Presence dot color (a `--ngn-color-*` CSS variable) per presence state. */
+/**
+ * Presence dot color per state. Uses the theme's semantic color when present, with a literal
+ * fallback so the dot still renders on monochrome themes (e.g. shade) that don't define
+ * `success`/`warning` — otherwise the fill resolves to transparent and the dot looks broken.
+ */
 export const PRESENCE_COLOR: Record<Presence, string> = {
-  online: 'var(--ngn-color-success-500)',
-  away: 'var(--ngn-color-warning-500)',
-  offline: 'var(--ngn-color-surface-400)',
+  online: 'var(--ngn-color-success-500, #22c55e)',
+  away: 'var(--ngn-color-warning-500, #f59e0b)',
+  offline: 'var(--ngn-color-surface-400, #a1a1aa)',
 };
 
 /** Build the grouped list-box items (Channels / Direct Messages) from a set of conversations. */

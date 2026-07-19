@@ -41,7 +41,9 @@ export const avatarGroupStyles = createThemePart({
         --border-width: 3px;
         border: var(--border-width) solid ${v('color.background')};
         &:not(:first-child) {
-          margin-left: -1.5rem;
+          /* Overlap scales with avatar size (half-overlap) so small stacks don't clump.
+             At the 48px default this equals the former -1.5rem. */
+          margin-left: calc(var(--size, 48px) * -0.5);
         }
         &:first-child {
           margin-left: calc(-1 * var(--border-width));
