@@ -29,6 +29,7 @@ import { listBoxStyles } from '@ngneers/controls-themes/base/list-box';
 import { maskInputStyles } from '@ngneers/controls-themes/base/mask-input';
 import { menuStyles } from '@ngneers/controls-themes/base/menu';
 import { messageStyles } from '@ngneers/controls-themes/base/message';
+import { otpStyles } from '@ngneers/controls-themes/base/otp';
 import { paginatorStyles } from '@ngneers/controls-themes/base/paginator';
 import { popoverStyles } from '@ngneers/controls-themes/base/popover';
 import { progressStyles } from '@ngneers/controls-themes/base/progress';
@@ -83,6 +84,7 @@ export const baseStyles = {
   listBox: listBoxStyles,
   menu: menuStyles,
   message: messageStyles,
+  otp: otpStyles,
   paginator: paginatorStyles,
   popover: popoverStyles,
   progress: progressStyles,

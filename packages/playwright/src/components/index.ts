@@ -16,6 +16,7 @@ export * from './item-view';
 export * from './list-box';
 export * from './menu';
 export * from './message';
+export * from './otp';
 export * from './popover';
 export * from './progress';
 export * from './radio';

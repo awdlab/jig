@@ -21,6 +21,7 @@ import { MaskInputPage } from './mask-input/page';
 import { MenuPage } from './menu/page';
 import { MessagePage } from './message/page';
 import { NumberInputPage } from './number-input/page';
+import { OtpPage } from './otp/page';
 import { PaginatorPage } from './paginator/page';
 import { PopoverPage } from './popover/page';
 import { ProgressPage } from './progress/page';
@@ -62,6 +63,7 @@ export const COMPONENT_GROUPS: NgnDocsGroup[] = [
       ListBoxPage,
       MaskInputPage,
       NumberInputPage,
+      OtpPage,
       RadioPage,
       SelectPage,
       SliderPage,

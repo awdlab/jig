@@ -36,6 +36,7 @@ import { listBoxStyles } from '@ngneers/controls-themes/shade/list-box';
 import { maskInputStyles } from '@ngneers/controls-themes/shade/mask-input';
 import { menuStyles } from '@ngneers/controls-themes/shade/menu';
 import { messageStyles } from '@ngneers/controls-themes/shade/message';
+import { otpStyles } from '@ngneers/controls-themes/shade/otp';
 import { paginatorStyles } from '@ngneers/controls-themes/shade/paginator';
 import { popoverStyles } from '@ngneers/controls-themes/shade/popover';
 import { progressStyles } from '@ngneers/controls-themes/shade/progress';
@@ -111,6 +112,7 @@ export const shade = createTheme(
     listBoxStyles,
     menuStyles,
     messageStyles,
+    otpStyles,
     movableStyles,
     paginatorStyles,
     popoverStyles,

@@ -28,6 +28,7 @@ export const IMPORTS = {
   listBox: () => import('@ngneers/controls/list-box').then(m => m.NgnListBox),
   message: () => import('@ngneers/controls/message').then(m => m.NgnMessage),
   numberInput: () => import('@ngneers/controls/number-input').then(m => m.NgnNumberInput),
+  otp: () => import('@ngneers/controls/otp').then(m => m.NgnOtp),
   paginator: () => import('@ngneers/controls/paginator').then(m => m.NgnPaginator),
   popover: () => import('@ngneers/controls/popover').then(m => m.NgnPopover),
   progress: () => import('@ngneers/controls/progress').then(m => m.NgnProgress),

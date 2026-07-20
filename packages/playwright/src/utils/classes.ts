@@ -5,6 +5,7 @@ import { calendarControlTemplate } from '@ngneers/controls-themes/templates/cale
 import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
 import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
 import { maskInputControlTemplate } from '@ngneers/controls-themes/templates/mask-input';
+import { otpControlTemplate } from '@ngneers/controls-themes/templates/otp';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
 import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
 import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
@@ -22,6 +23,7 @@ export const NGN_CLASSES = {
   input: themeClasses(inputControlTemplate),
   inputField: themeClasses(inputFieldControlTemplate),
   maskInput: themeClasses(maskInputControlTemplate),
+  otp: themeClasses(otpControlTemplate),
   listBox: themeClasses(listBoxControlTemplate),
   popover: themeClasses(popoverControlTemplate),
   scroller: themeClasses(scrollerControlTemplate),

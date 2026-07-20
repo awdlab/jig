@@ -29,6 +29,7 @@ import { listBoxStyles } from '@ngneers/controls-themes/nova/list-box';
 import { maskInputStyles } from '@ngneers/controls-themes/nova/mask-input';
 import { menuStyles } from '@ngneers/controls-themes/nova/menu';
 import { messageStyles } from '@ngneers/controls-themes/nova/message';
+import { otpStyles } from '@ngneers/controls-themes/nova/otp';
 import { paginatorStyles } from '@ngneers/controls-themes/nova/paginator';
 import { popoverStyles } from '@ngneers/controls-themes/nova/popover';
 import { progressStyles } from '@ngneers/controls-themes/nova/progress';
@@ -108,6 +109,7 @@ export const novaCoral = createTheme(
     listBoxStyles,
     menuStyles,
     messageStyles,
+    otpStyles,
     movableStyles,
     paginatorStyles,
     popoverStyles,

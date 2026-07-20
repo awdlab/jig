@@ -94,6 +94,9 @@ export const de = {
     segmentRange: '{{ name }}, {{ min }} bis {{ max }}',
     optionSeparator: ' oder ',
   },
+  otp: {
+    cellLabel: 'Zeichen {{ index }} von {{ total }}',
+  },
   drawer: {
     close: 'Schließen',
   },

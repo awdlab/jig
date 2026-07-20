@@ -28,6 +28,7 @@ export type ThemeTemplate = {
   menu: Awaited<typeof import('./menu')>['menuControlTemplate'];
   message: Awaited<typeof import('./message')>['messageControlTemplate'];
   numberInput: Awaited<typeof import('./input')>['inputControlTemplate'];
+  otp: Awaited<typeof import('./otp')>['otpControlTemplate'];
   paginator: Awaited<typeof import('./paginator')>['paginatorControlTemplate'];
   popover: Awaited<typeof import('./popover')>['popoverControlTemplate'];
   progress: Awaited<typeof import('./progress')>['progressControlTemplate'];
