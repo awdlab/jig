@@ -9,6 +9,7 @@ import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnTooltip } from '@ngneers/controls/tooltip';
 
 import { NgnDocsLoginDialog } from '../interactive-demo/login-dialog';
+import { ProjectBoard } from '../interactive-demo/project-board';
 import { SalesCrm } from '../interactive-demo/sales-crm';
 import { TeamChat } from '../interactive-demo/team-chat';
 
@@ -16,7 +17,7 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
 
 @Component({
   selector: 'ngn-docs-demo-section',
-  imports: [NgnAvatar, NgnIcon, NgnTooltip, NgnDocsLoginDialog, SalesCrm, TeamChat],
+  imports: [NgnAvatar, NgnIcon, NgnTooltip, NgnDocsLoginDialog, SalesCrm, TeamChat, ProjectBoard],
   template: `
     <section class="px-(--ngn-size-padding-xl) py-8">
       <div class="mx-auto max-w-[1360px]">
@@ -129,11 +130,13 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
                   <div class="h-[54rem]"><ngn-docs-team-chat /></div>
                 }
                 @case ('project-board') {
-                  <div
-                    class="flex min-h-[54rem] items-center justify-center text-(length:--ngn-font-size-md) text-(--ngn-color-surface-500)"
-                  >
-                    Project Board — coming soon.
-                  </div>
+                  <!-- Deferred so the board's heavier control set (tree, drawer, accordion,
+                       upload, filter, slider…) stays out of the eager startpage bundle. -->
+                  @defer (when active() === 'project-board') {
+                    <div class="h-[54rem]"><ngn-docs-project-board /></div>
+                  } @placeholder {
+                    <div class="h-[54rem]"></div>
+                  }
                 }
               }
             </div>

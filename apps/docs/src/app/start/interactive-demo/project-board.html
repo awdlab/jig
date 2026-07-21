@@ -1,0 +1,452 @@
+<div class="flex h-full min-h-0">
+  <!-- ── Project navigation (tree) ─────────────────────────────────────── -->
+  <aside
+    class="hidden w-60 shrink-0 flex-col border-r border-(--ngn-color-surface-200) bg-(--ngn-color-surface-50) lg:flex"
+  >
+    <div class="px-(--ngn-size-padding-lg) pt-(--ngn-size-padding-lg) pb-(--ngn-size-padding-sm)">
+      <span
+        class="flex items-center gap-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-500) uppercase"
+      >
+        <ngn-icon [icon]="clipboardIcon" /> Projects
+      </span>
+    </div>
+    <!-- Decorative nav: expanded by default, active board fixed-selected, not changeable.
+         pt drops the tree's own border + background so it blends into the panel. -->
+    <ngn-tree
+      [items]="projectTree"
+      [multiple]="false"
+      [value]="selectedProject"
+      [expandedValues]="expandedProjects"
+      [selectable]="false"
+      [pt]="treePt"
+      class="min-h-0 grow px-(--ngn-size-padding-sm) pb-(--ngn-size-padding-lg)"
+    />
+  </aside>
+
+  <!-- ── Board ─────────────────────────────────────────────────────────── -->
+  <div class="flex min-w-0 grow flex-col">
+    <!-- Toolbar -->
+    <header
+      class="flex flex-col gap-(--ngn-size-padding-md) border-b border-(--ngn-color-surface-200) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-md)"
+    >
+      <!-- Row 1: title + people + add -->
+      <div class="flex items-center gap-(--ngn-size-padding-md)">
+        <ngn-icon
+          [icon]="boardIcon"
+          class="shrink-0 text-(length:--ngn-font-size-xl) text-(--ngn-color-primary-500)"
+        />
+        <ngn-edit-inplace
+          class="text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-bold)"
+          [value]="boardTitle()"
+          (valueChange)="boardTitle.set($event)"
+        />
+        <span class="text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-400)">
+          {{ visibleTasks().length }} tasks
+        </span>
+
+        <span class="grow"></span>
+
+        <ngn-avatar-group>
+          @for (m of members; track m.id) {
+            <ngn-avatar
+              [initials]="m.initials"
+              [bgColor]="m.color"
+              [size]="30"
+              [ngnTooltip]="m.name"
+            />
+          }
+        </ngn-avatar-group>
+
+        <button ngnButton kind="primary" (click)="addTask()">
+          <ngn-icon [icon]="plusIcon" /> Add task
+        </button>
+      </div>
+
+      <!-- Row 2: filter + view controls -->
+      <div class="flex items-center gap-(--ngn-size-padding-md)">
+        <ngn-filter
+          mode="input"
+          dataType="string"
+          [data]="taskTitles()"
+          (filterResultChange)="filterResult.set($event)"
+        />
+
+        <span class="grow"></span>
+
+        <ngn-toggle-button
+          label="My tasks"
+          [pt]="nowrapPt"
+          [value]="myTasksOnly()"
+          (valueChange)="myTasksOnly.set($event)"
+        />
+
+        <!-- Card density -->
+        <ngn-select-button
+          [options]="densityOptions"
+          [value]="density()"
+          (valueChange)="density.set($event)"
+        />
+      </div>
+    </header>
+
+    <!-- Overdue banner -->
+    @if (overdueCount() > 0) {
+      <div class="px-(--ngn-size-padding-lg) pt-(--ngn-size-padding-md)">
+        <ngn-message kind="outlined" color="warning">
+          {{ overdueCount() }} task{{ overdueCount() === 1 ? '' : 's' }} past due — review the
+          highlighted cards.
+        </ngn-message>
+      </div>
+    }
+
+    <!-- Board / List views -->
+    <ngn-tabs [(activeTab)]="view" class="flex min-h-0 grow flex-col">
+      <ngn-tab tabId="board">
+        <ng-template #header>
+          <span class="flex items-center gap-(--ngn-size-padding-sm)">
+            <ngn-icon [icon]="boardIcon" /> Board
+          </span>
+        </ng-template>
+        <ng-template #content>
+          <!-- Horizontal column scroll -->
+          <div class="h-[42rem] overflow-x-auto p-(--ngn-size-padding-lg)">
+            <div class="flex h-full gap-(--ngn-size-padding-lg)">
+              @for (col of columns; track col.id) {
+                <section
+                  class="flex h-full w-72 shrink-0 flex-col rounded-(--ngn-size-rounded-lg) border bg-(--ngn-color-surface-100) transition-colors"
+                  [class]="
+                    dragOverCol() === col.id
+                      ? 'border-(--ngn-color-primary-400)'
+                      : 'border-(--ngn-color-surface-200)'
+                  "
+                  (dragover)="$event.preventDefault()"
+                  (dragenter)="dragOverCol.set(col.id)"
+                  (drop)="onDrop(col.id)"
+                >
+                  <header
+                    class="flex items-center gap-(--ngn-size-padding-sm) px-(--ngn-size-padding-md) py-(--ngn-size-padding-md)"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="size-2 rounded-full"
+                      [style.background]="'var(--ngn-color-' + col.color + '-500)'"
+                    ></span>
+                    <span class="font-(--ngn-font-weight-semibold)">{{ col.title }}</span>
+                    <ngn-tag [color]="col.color">{{ countIn(col.id) }}</ngn-tag>
+                    <span class="grow"></span>
+                    <button ngnButton kind="icon" ngnTooltip="Add task" (click)="addTask(col.id)">
+                      <ngn-icon [icon]="plusIcon" />
+                    </button>
+                  </header>
+
+                  <div
+                    class="flex min-h-0 grow flex-col gap-(--ngn-size-padding-md) overflow-y-auto px-(--ngn-size-padding-md) pb-(--ngn-size-padding-md)"
+                  >
+                    @for (task of tasksIn(col.id); track task.id) {
+                      <div
+                        draggable="true"
+                        class="card group relative w-full cursor-grab text-left transition-shadow ring-inset hover:shadow-(--ngn-shadow-md) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ngn-color-primary-500) active:cursor-grabbing"
+                        [class]="
+                          density() === 'compact'
+                            ? 'p-(--ngn-size-padding-sm)'
+                            : 'p-(--ngn-size-padding-md)'
+                        "
+                        [class.opacity-40]="isDragging(task.id)"
+                        [class.ring-1]="task.overdue"
+                        [class.ring-(--ngn-color-warning-400)]="task.overdue"
+                        role="button"
+                        tabindex="0"
+                        (click)="openTask(task.id)"
+                        (keydown.enter)="openTask(task.id)"
+                        (keydown.space)="$event.preventDefault(); openTask(task.id)"
+                        (dragstart)="onDragStart($event, task)"
+                        (dragend)="onDragEnd()"
+                      >
+                        <div
+                          class="mb-(--ngn-size-padding-sm) flex items-start gap-(--ngn-size-padding-sm)"
+                        >
+                          <span class="min-w-0 grow font-(--ngn-font-weight-medium)">
+                            {{ task.title }}
+                          </span>
+                          <ngn-tag [color]="priorityMeta[task.priority].color">
+                            {{ priorityMeta[task.priority].label }}
+                          </ngn-tag>
+                          <button
+                            ngnButton
+                            kind="icon"
+                            #cardMenuBtn
+                            aria-label="Card actions"
+                            class="-my-1 -mr-1 shrink-0 opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+                            (click)="$event.stopPropagation(); cardMenu.show()"
+                          >
+                            <ngn-icon [icon]="dotsIcon" />
+                          </button>
+                          <ngn-menu
+                            #cardMenu
+                            [popover]="true"
+                            [anchor]="cardMenuBtn"
+                            placement="bottom-end"
+                            [items]="cardMenuItems(task)"
+                          />
+                        </div>
+
+                        @if (density() !== 'compact' && task.labels.length) {
+                          <div
+                            class="mb-(--ngn-size-padding-sm) flex flex-wrap gap-(--ngn-size-padding-sm)"
+                          >
+                            @for (label of task.labels; track label.text) {
+                              <ngn-tag [color]="label.color">{{ label.text }}</ngn-tag>
+                            }
+                          </div>
+                        }
+
+                        <div
+                          class="flex items-center gap-(--ngn-size-padding-md) text-(length:--ngn-font-size-xs) text-(--ngn-color-surface-500)"
+                        >
+                          @if (task.subtasks.length) {
+                            <span class="flex items-center gap-1" ngnTooltip="Subtasks done">
+                              <ngn-icon [icon]="subtaskIcon" />
+                              {{ doneCount(task) }}/{{ task.subtasks.length }}
+                            </span>
+                          }
+                          @if (task.attachments.length) {
+                            <span class="flex items-center gap-1">
+                              <ngn-icon [icon]="paperclipIcon" /> {{ task.attachments.length }}
+                            </span>
+                          }
+                          <span
+                            class="flex items-center gap-1"
+                            [class.text-(--ngn-color-warning-600)]="task.overdue"
+                          >
+                            {{ task.due }}
+                          </span>
+                          <span class="grow"></span>
+                          <button
+                            type="button"
+                            #assignBtn
+                            draggable="false"
+                            class="shrink-0 rounded-full transition-transform hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--ngn-color-primary-500)"
+                            [attr.aria-label]="
+                              'Reassign — currently ' + member(task.assigneeId).name
+                            "
+                            (click)="$event.stopPropagation(); assignMenu.show()"
+                          >
+                            <ngn-avatar
+                              [initials]="member(task.assigneeId).initials"
+                              [bgColor]="member(task.assigneeId).color"
+                              [size]="24"
+                              [ngnTooltip]="member(task.assigneeId).name"
+                            />
+                          </button>
+                          <ngn-menu
+                            #assignMenu
+                            [popover]="true"
+                            [anchor]="assignBtn"
+                            placement="bottom-end"
+                            [items]="assigneeMenuItems(task)"
+                          />
+                        </div>
+                      </div>
+                    } @empty {
+                      <p
+                        class="rounded-(--ngn-size-rounded-md) border border-dashed border-(--ngn-color-surface-300) px-(--ngn-size-padding-md) py-(--ngn-size-padding-lg) text-center text-(length:--ngn-font-size-xs) text-(--ngn-color-surface-400)"
+                      >
+                        Drop cards here
+                      </p>
+                    }
+                  </div>
+                </section>
+              }
+            </div>
+          </div>
+        </ng-template>
+      </ngn-tab>
+
+      <ngn-tab tabId="list">
+        <ng-template #header>
+          <span class="flex items-center gap-(--ngn-size-padding-sm)">
+            <ngn-icon [icon]="listIcon" /> List
+          </span>
+        </ng-template>
+        <ng-template #content>
+          <div class="h-[42rem] overflow-y-auto p-(--ngn-size-padding-lg)">
+            <ul class="flex flex-col gap-(--ngn-size-padding-sm)">
+              @for (task of visibleTasks(); track task.id) {
+                <li>
+                  <button
+                    type="button"
+                    class="card flex w-full items-center gap-(--ngn-size-padding-md) p-(--ngn-size-padding-md) text-left transition-shadow hover:shadow-(--ngn-shadow-sm)"
+                    (click)="openTask(task.id)"
+                  >
+                    @if (task.labels[0]?.text === 'Bug') {
+                      <ngn-icon [icon]="bugIcon" class="text-(--ngn-color-error-500)" />
+                    }
+                    <span class="min-w-0 grow truncate font-(--ngn-font-weight-medium)">
+                      {{ task.title }}
+                    </span>
+                    <ngn-tag [color]="priorityMeta[task.priority].color">
+                      {{ priorityMeta[task.priority].label }}
+                    </ngn-tag>
+                    <span
+                      class="w-24 text-(length:--ngn-font-size-xs) text-(--ngn-color-surface-500)"
+                    >
+                      {{ columnTitle(task.columnId) }}
+                    </span>
+                    <ngn-avatar
+                      [initials]="member(task.assigneeId).initials"
+                      [bgColor]="member(task.assigneeId).color"
+                      [size]="24"
+                      [ngnTooltip]="member(task.assigneeId).name"
+                    />
+                  </button>
+                </li>
+              } @empty {
+                <li class="py-(--ngn-size-padding-xl) text-center text-(--ngn-color-surface-400)">
+                  No tasks match the current filter.
+                </li>
+              }
+            </ul>
+          </div>
+        </ng-template>
+      </ngn-tab>
+    </ngn-tabs>
+  </div>
+</div>
+
+<!-- ── Task detail drawer ──────────────────────────────────────────────── -->
+<!-- Body passed via [content] with the template declared OUTSIDE the drawer: the
+     accordion/panel `#content` templates would otherwise be caught by the drawer's
+     own `contentChild('content')` query and hijack the body. -->
+<ngn-drawer
+  header="Task details"
+  position="right"
+  size="26rem"
+  [modal]="true"
+  closeBy="any"
+  [content]="detailBody"
+  [(open)]="drawerOpen"
+/>
+
+<ng-template #detailBody>
+  @if (selectedTask(); as task) {
+    <div class="flex flex-col gap-(--ngn-size-padding-lg)">
+      <!-- Editable title -->
+      <ngn-edit-inplace
+        class="text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-bold)"
+        [value]="task.title"
+        (valueChange)="renameTask(task, $event)"
+      />
+
+      <div class="flex flex-wrap gap-(--ngn-size-padding-sm)">
+        <ngn-tag [color]="priorityMeta[task.priority].color">
+          {{ priorityMeta[task.priority].label }} priority
+        </ngn-tag>
+        @for (label of task.labels; track label.text) {
+          <ngn-tag [color]="label.color">{{ label.text }}</ngn-tag>
+        }
+      </div>
+
+      <!-- Status picker -->
+      <div class="flex flex-col gap-(--ngn-size-padding-sm)">
+        <span
+          class="text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) text-(--ngn-color-surface-500) uppercase"
+        >
+          Status
+        </span>
+        <ngn-radio-group
+          class="flex flex-wrap gap-(--ngn-size-padding-md)"
+          [value]="task.columnId"
+          (valueChange)="setStatus(task, $event)"
+        >
+          @for (opt of statusOptions; track opt.value) {
+            <ngn-radio [value]="opt.value">{{ opt.title }}</ngn-radio>
+          }
+        </ngn-radio-group>
+      </div>
+
+      <!-- Progress -->
+      <div class="flex flex-col gap-(--ngn-size-padding-sm)">
+        <span
+          class="flex items-center justify-between text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) text-(--ngn-color-surface-500) uppercase"
+        >
+          Progress <span class="text-(--ngn-color-text)">{{ task.progress }}%</span>
+        </span>
+        <ngn-slider [value]="task.progress" (valueChange)="setProgress(task, $event)" />
+      </div>
+
+      <!-- Collapsible detail sections -->
+      <ngn-accordion [multiple]="true">
+        <ngn-accordion-panel header="Description">
+          <ng-template #content>
+            <p class="text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600)">
+              {{ task.description }}
+            </p>
+          </ng-template>
+        </ngn-accordion-panel>
+
+        <ngn-accordion-panel
+          [header]="'Subtasks · ' + doneCount(task) + '/' + task.subtasks.length"
+        >
+          <ng-template #content>
+            @if (task.subtasks.length) {
+              <ul class="flex flex-col gap-(--ngn-size-padding-sm)">
+                @for (sub of task.subtasks; track sub.id) {
+                  <li class="flex items-center gap-(--ngn-size-padding-sm)">
+                    <ngn-checkbox
+                      [value]="sub.done"
+                      (valueChange)="toggleSubtask(task, sub, $event)"
+                    />
+                    <span
+                      class="text-(length:--ngn-font-size-sm)"
+                      [class.line-through]="sub.done"
+                      [class.text-(--ngn-color-surface-400)]="sub.done"
+                    >
+                      {{ sub.label }}
+                    </span>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <p class="text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-400)">
+                No subtasks yet.
+              </p>
+            }
+          </ng-template>
+        </ngn-accordion-panel>
+
+        <ngn-accordion-panel [header]="'Attachments · ' + task.attachments.length">
+          <ng-template #content>
+            <div class="flex flex-col gap-(--ngn-size-padding-md)">
+              @for (att of task.attachments; track att.id) {
+                <div
+                  class="flex items-center gap-(--ngn-size-padding-sm) rounded-(--ngn-size-rounded-md) border border-(--ngn-color-surface-200) px-(--ngn-size-padding-md) py-(--ngn-size-padding-sm) text-(length:--ngn-font-size-sm)"
+                >
+                  <ngn-icon [icon]="paperclipIcon" class="text-(--ngn-color-surface-500)" />
+                  <span class="grow truncate">{{ att.name }}</span>
+                  <span class="text-(length:--ngn-font-size-xs) text-(--ngn-color-surface-400)">
+                    {{ att.size }}
+                  </span>
+                </div>
+              }
+              <ngn-upload #up="ngnUpload" (upload)="onUpload($event, task, up)">
+                <input type="file" multiple />
+                Drop files or click to attach
+              </ngn-upload>
+            </div>
+          </ng-template>
+        </ngn-accordion-panel>
+      </ngn-accordion>
+
+      <!-- Danger zone -->
+      <button
+        ngnButton
+        kind="secondary"
+        color="error"
+        class="self-start"
+        (click)="deleteTask(task.id)"
+      >
+        <ngn-icon [icon]="trashIcon" /> Delete task
+      </button>
+    </div>
+  }
+</ng-template>
