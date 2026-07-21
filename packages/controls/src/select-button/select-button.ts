@@ -19,7 +19,7 @@ import type { NgnActionItemFlat, NgnItem } from '@ngneers/controls/api';
 export class NgnSelectButton<V> extends ValueControlBase<'selectButton', V> {
   protected readonly theme = this.injectThemeTemplate(selectButtonControlTemplate, {
     root: true,
-    invalid: () => this.invalid(),
+    invalid: () => this.invalidState(),
   });
 
   /**
@@ -48,5 +48,6 @@ export class NgnSelectButton<V> extends ValueControlBase<'selectButton', V> {
       return;
     }
     this.value.set(value);
+    this.markTouched();
   }
 }

@@ -4,8 +4,8 @@
   <div
     #field
     [ptInt]="this"
-    [ptClass]="{ 'input-field': true, invalid: invalid() }"
-    [attr.aria-invalid]="invalid() ? 'true' : null"
+    [ptClass]="{ 'input-field': true, invalid: invalidState() }"
+    [attr.aria-invalid]="invalidState() ? 'true' : null"
     (click)="focusFromPointer($event)"
     (keydown)="onKeyDown($event)"
     (focusout)="potentiallyBlurred()"
@@ -16,7 +16,8 @@
       [ptDep]="'input'"
       [label]="i18n['calendar_input']()"
       [mask]="maskCfg()"
-      [invalid]="invalid()"
+      [invalid]="invalidState()"
+      [invalidOn]="'immediate'"
       [value]="valueStr()"
       (valueChange)="stringValueChange($event)"
       [disabled]="disabled()"

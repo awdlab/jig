@@ -33,46 +33,37 @@ export function injectNgnErrorsMessages(): NgnErrorsMessages {
   return Object.assign({}, ...inject(NGN_ERRORS_MESSAGES));
 }
 
-export const defaultNgnErrorsMessages: NgnErrorsMessages = {
-  required: 'Required',
-  email: 'Enter a valid email address',
-  minlength: ({ params }) => {
-    const requiredLength = params['requiredLength'];
-    return `Use at least ${requiredLength} characters`;
-  },
-  maxlength: ({ params }) => {
-    const requiredLength = params['requiredLength'];
-    return `Use at most ${requiredLength} characters`;
-  },
-  min: ({ params }) => {
-    const min = params['min'];
-    return `Must be at least ${min}`;
-  },
-  max: ({ params }) => {
-    const max = params['max'];
-    return `Must be at most ${max}`;
-  },
-  pattern: 'Invalid format',
-};
-
-export function resolveNgnErrorMessage(
+/**
+ * Resolves a message for the context's key from a user-provided message map,
+ * or `undefined` if the map has no (non-null) entry for it. Function resolvers
+ * that return `null`/`undefined` are treated as "no message" so resolution can
+ * fall through to the next source.
+ */
+export function resolveUserMessage(
   context: NgnErrorsMessageContext,
   messages: NgnErrorsMessages
-): string {
+): string | undefined {
   const resolver = messages[context.key];
+  // Empty strings count as "no message" so resolution falls through to the next source.
   if (typeof resolver === 'function') {
-    return resolver(context) ?? context.key;
+    return resolver(context) || undefined;
   }
-  if (resolver) {
-    return resolver;
+  return resolver || undefined;
+}
+
+/**
+ * A message carried on the error itself — a plain-string error value, or a
+ * `message` field on the error object (e.g. a signal-forms validator's
+ * `{ message }`, or a group error). `undefined` when the error carries none.
+ */
+export function carriedMessage(value: unknown): string | undefined {
+  if (typeof value === 'string') {
+    return value;
   }
-  if (typeof context.value === 'string') {
-    return context.value;
+  if (isRecord(value) && typeof value['message'] === 'string') {
+    return value['message'];
   }
-  if (isRecord(context.value) && typeof context.value['message'] === 'string') {
-    return context.value['message'];
-  }
-  return context.key;
+  return undefined;
 }
 
 export function paramsFromValue(value: unknown): Record<string, unknown> {

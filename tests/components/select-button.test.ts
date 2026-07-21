@@ -112,6 +112,7 @@ test('states', async ({ page }, testInfo) => {
         [disabled]="inputs().disabled"
         [readonly]="inputs().readonly"
         [invalid]="inputs().invalid"
+        [touched]="inputs().touched"
         (valueChange)="output('value', $event)"
       />`,
       imports: ['selectButton'],
@@ -122,6 +123,7 @@ test('states', async ({ page }, testInfo) => {
         disabled: false,
         readonly: false,
         invalid: false,
+        touched: false,
       },
     }
   );
@@ -145,8 +147,8 @@ test('states', async ({ page }, testInfo) => {
   await selectButton.clickButtonAt(1, true);
   expect(await handle.getOutputLog()).toEqual({});
 
-  // Invalid state
-  await handle.setInputs({ readonly: false, invalid: true });
+  // Invalid state — touch the control so invalidOn='touched' surfaces it.
+  await handle.setInputs({ readonly: false, invalid: true, touched: true });
   await expectScreenshot(page, testInfo, 'invalid');
 });
 

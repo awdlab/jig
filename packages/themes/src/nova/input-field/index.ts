@@ -103,12 +103,14 @@ export const inputFieldStyles = createThemePart({
           }
         }
 
-        /* invalid */
-        ${c('invalid')}, .ng-invalid.ng-touched ${c('root')}, ${c(
-          'root'
-        )}:has(.ng-invalid.ng-touched), ${c('root')}:has(${d('input', 'invalid')}), ${c(
-          'root'
-        )}:has([aria-invalid='true']) {
+        /* invalid — the projected control gates its own aria-invalid (via its
+           invalidOn trigger), so it's trustworthy here; the field just reflects
+           it. Reactive/template forms use the native .ng-invalid.ng-touched. */
+        ${c('invalid')},
+        .ng-invalid.ng-touched ${c('root')},
+        ${c('root')}:has(.ng-invalid.ng-touched),
+        ${c('root')}:has(${d('input', 'invalid')}),
+        ${c('root')}:has([aria-invalid='true']) {
           border-color: ${v('color.invalid.border')};
           &:hover {
             border-color: ${v('color.invalid.border')};

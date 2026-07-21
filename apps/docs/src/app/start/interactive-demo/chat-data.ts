@@ -24,6 +24,21 @@ export interface Reaction {
   reacted: boolean;
 }
 
+/** A single option in a {@link Poll}. */
+export interface PollOption {
+  id: string;
+  label: string;
+  votes: number;
+}
+
+/** An inline poll widget rendered inside a message bubble. */
+export interface Poll {
+  question: string;
+  options: PollOption[];
+  /** Option id the current user picked, if any (drives the highlighted result). */
+  myVote?: string;
+}
+
 export interface ChatMessage {
   id: number;
   authorId: string;
@@ -35,6 +50,13 @@ export interface ChatMessage {
   reactions: Reaction[];
   /** True for the current user's own messages (right-aligned, primary bubble). */
   own: boolean;
+  /**
+   * Optional rich content rendered with the message: `palette` appends a swatch
+   * strip of the theme ramp, `poll` renders an interactive {@link poll} widget.
+   */
+  widget?: 'palette' | 'poll';
+  /** Poll data, required when {@link widget} is `poll`. */
+  poll?: Poll;
 }
 
 export type ConversationKind = 'channel' | 'dm';
@@ -128,8 +150,8 @@ export const CONVERSATIONS: readonly Conversation[] = [
     memberIds: ['me', 'alex', 'maya', 'sam'],
     unread: 3,
     firstUnreadId: 4,
-    lastMessage: 'Alex: Pushed the new tokens 🎨',
-    lastTime: '9:41 AM',
+    lastMessage: 'You: Quick poll — ship the dark-mode pass Friday?',
+    lastTime: '9:43 AM',
     topic: 'UI, UX & the design system',
   },
   {
@@ -138,7 +160,7 @@ export const CONVERSATIONS: readonly Conversation[] = [
     name: '# general',
     memberIds: ['me', 'alex', 'sam', 'maya', 'leo', 'nina'],
     unread: 0,
-    lastMessage: 'Nina: See you all at standup!',
+    lastMessage: 'Leo: Thanks Nina 🙏',
     lastTime: 'Yesterday',
     topic: 'Company-wide announcements',
   },
@@ -149,7 +171,7 @@ export const CONVERSATIONS: readonly Conversation[] = [
     memberIds: ['me', 'sam', 'leo', 'nina'],
     unread: 0,
     lastMessage: 'Leo: Deploy is green ✅',
-    lastTime: 'Tue',
+    lastTime: 'Yesterday',
     topic: 'Builds, deploys & architecture',
   },
   {
@@ -170,7 +192,7 @@ export const CONVERSATIONS: readonly Conversation[] = [
     memberIds: ['me', 'sam'],
     unread: 0,
     lastMessage: 'You: merged, thanks!',
-    lastTime: 'Mon',
+    lastTime: 'Yesterday',
     topic: 'Direct message',
   },
   {
@@ -180,7 +202,7 @@ export const CONVERSATIONS: readonly Conversation[] = [
     memberIds: ['me', 'maya'],
     unread: 0,
     lastMessage: 'Maya: 👍',
-    lastTime: 'Mon',
+    lastTime: 'Yesterday',
     topic: 'Direct message',
   },
 ];
@@ -204,14 +226,35 @@ export const MESSAGES: Record<string, ChatMessage[]> = {
       { emoji: '🎉', count: 2, reacted: false },
     ]),
     msg(3, 'me', 'Nice. I updated the docs demo to use the new tags.', '9:12 AM', 'Yesterday'),
-    msg(4, 'alex', 'Pushed the new tokens 🎨 surface + primary ramps are in.', '9:38 AM', 'Today', [
-      { emoji: '🚀', count: 3, reacted: true },
-      { emoji: '❤️', count: 1, reacted: false },
-    ]),
+    {
+      ...msg(
+        4,
+        'alex',
+        'Pushed the new tokens 🎨 surface + primary ramps are in.',
+        '9:38 AM',
+        'Today',
+        [
+          { emoji: '🚀', count: 3, reacted: true },
+          { emoji: '❤️', count: 1, reacted: false },
+        ]
+      ),
+      widget: 'palette',
+    },
     msg(5, 'maya', 'Love it. Can we get a dark-mode pass before Friday?', '9:40 AM', 'Today'),
     msg(6, 'alex', 'On it — should be quick with the new scales.', '9:41 AM', 'Today', [
       { emoji: '👍', count: 2, reacted: false },
     ]),
+    {
+      ...msg(7, 'me', 'Quick poll — ship the dark-mode pass this Friday?', '9:43 AM', 'Today'),
+      widget: 'poll',
+      poll: {
+        question: 'Ship the dark-mode pass this Friday?',
+        options: [
+          { id: 'yes', label: 'Ship it 🚀', votes: 4 },
+          { id: 'wait', label: 'Needs a bit more', votes: 1 },
+        ],
+      },
+    },
   ],
   general: [
     msg(1, 'nina', 'Reminder: standup moved to 10:30 today.', '8:30 AM', 'Yesterday'),
@@ -245,8 +288,8 @@ export const PINNED: readonly { author: string; text: string }[] = [
 
 export const SHARED_FILES: readonly SharedFile[] = [
   { name: 'palette-v2.fig', meta: '4.2 MB · Alex', icon: 'accent' },
-  { name: 'contrast-audit.pdf', meta: '820 KB · Sam', icon: 'error' },
-  { name: 'dark-mode-spec.png', meta: 'Uploading…', icon: 'info', progress: 68 },
+  { name: 'contrast-audit.pdf', meta: '820 KB · Sam', icon: 'secondary' },
+  { name: 'dark-mode-spec.png', meta: 'Uploading…', icon: 'primary', progress: 68 },
 ];
 
 /**

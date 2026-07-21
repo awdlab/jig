@@ -26,12 +26,16 @@ export const buttonStyles = createThemePart({
         cursor: pointer;
         &:disabled {
           cursor: default;
+          color: ${v('color.disabled.text')};
         }
       }
 
       ${c('kind-primary')} {
         background: var(--theme-color-500);
         color: var(--theme-color-500-contrast);
+        &:disabled {
+          background: ${v('color.disabled.background')};
+        }
         &:hover:not(:disabled) {
           background: var(--theme-color-400);
         }

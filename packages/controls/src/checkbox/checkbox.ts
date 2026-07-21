@@ -24,7 +24,7 @@ export class NgnCheckbox<Indeterminate extends boolean> extends ValueControlBase
 > {
   protected readonly theme = this.injectThemeTemplate(checkboxControlTemplate, {
     root: true,
-    invalid: () => this.invalid(),
+    invalid: () => this.invalidState(),
   });
 
   /**

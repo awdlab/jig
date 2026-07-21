@@ -357,12 +357,15 @@ export class NgnSelect<
     }
   }
 
+  // Popover panel focus lives outside the host, so a plain focusout can't tell a
+  // real blur from opening the list — mark touched from this popover-aware check
+  // instead.
   protected potentiallyBlurred() {
     setTimeout(() => {
       if (this.element.nativeElement.contains(document.activeElement) || this._popover().open()) {
         return;
       }
-      this.touched.set(true);
+      this.markTouched();
     });
   }
 }

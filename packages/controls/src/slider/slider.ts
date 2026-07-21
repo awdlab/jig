@@ -24,13 +24,13 @@ import { sliderControlTemplate } from '@ngneers/controls-themes/templates/slider
     '[attr.aria-valuetext]': 'valueTextValue()',
     '[tabindex]': 'disabled() ? -1 : 0',
     '(keydown)': 'onKeyDown($event)',
-    '(blur)': 'touched.set(true)',
+    '(blur)': 'markTouched()',
   },
 })
 export class NgnSlider extends ValueControlBase<'slider', number> {
   protected readonly theme = this.injectThemeTemplate(sliderControlTemplate, {
     root: true,
-    invalid: () => this.invalid(),
+    invalid: () => this.invalidState(),
     horizontal: () => !this.vertical(),
     vertical: () => this.vertical(),
   });

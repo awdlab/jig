@@ -3,12 +3,12 @@
   [ptClass]="'button'"
   role="switch"
   (click)="toggle()"
+  (blur)="markTouched()"
   [disabled]="disabled()"
   [attr.aria-readonly]="readonly()"
   [attr.aria-checked]="value()"
   [attr.aria-label]="label()"
   [attr.aria-labelledby]="labelledBy()"
-  (blur)="touched.set(true)"
 >
   <span [ptInt]="this" [ptClass]="'label'">
     @let renderedIcon = (value() ? iconOn() : iconOff()) ?? icon();

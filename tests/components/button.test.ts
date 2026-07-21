@@ -46,7 +46,7 @@ test('disabled button does not fire clicks', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<button ngnButton [disabled]="inputs().disabled" (click)="output('clicked', true)">Disabled</button>`,
+      template: `<button ngnButton kind="primary" [disabled]="inputs().disabled" (click)="output('clicked', true)">Disabled</button>`,
       imports: ['button'],
     },
     { inputs: { disabled: true } }
@@ -55,6 +55,9 @@ test('disabled button does not fire clicks', async ({ page }) => {
   const button = page.locator('button[ngnButton]');
   await expect(button).toBeDisabled();
 
+  // The disabled button carries a muted background distinct from its enabled state.
+  const disabledBg = await button.evaluate(el => getComputedStyle(el).backgroundColor);
+
   // Force the click past pointer-events; the disabled button must still not fire.
   await button.click({ force: true });
   expect(await handle.getOutputLog()).toEqual({});
@@ -62,6 +65,9 @@ test('disabled button does not fire clicks', async ({ page }) => {
   // Re-enabling restores click behaviour.
   await handle.setInputs({ disabled: false });
   await expect(button).not.toBeDisabled();
+  await expect
+    .poll(async () => button.evaluate(el => getComputedStyle(el).backgroundColor))
+    .not.toBe(disabledBg);
   await button.click();
   expect((await handle.getOutputLog())['clicked']).toEqual([true]);
 });

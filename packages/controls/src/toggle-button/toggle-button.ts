@@ -19,7 +19,7 @@ export class NgnToggleButton extends ValueControlBase<'toggleButton', boolean> {
   protected readonly theme = this.injectThemeTemplate(toggleButtonControlTemplate, {
     root: true,
     active: () => this.value(),
-    invalid: () => this.invalid(),
+    invalid: () => this.invalidState(),
   });
 
   /**

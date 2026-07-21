@@ -347,7 +347,7 @@ test('invalid', async ({ page }, testInfo) => {
     {
       template: `
       <ngn-input-field style="width: 200px;">
-        <ngn-select [invalid]="inputs().invalid" [options]="inputs().options" [popoverOptions]="inputs().popoverOptions" />
+        <ngn-select [invalid]="inputs().invalid" [touched]="inputs().touched" [options]="inputs().options" [popoverOptions]="inputs().popoverOptions" />
       </ngn-input-field>
     `,
       imports: ['select', 'inputField'],
@@ -357,6 +357,7 @@ test('invalid', async ({ page }, testInfo) => {
         options: exampleData.items.flatPreformatted,
         popoverOptions: <PopoverOptions>{ sizeConstraints: { maxHeight: '300px' } },
         invalid: true,
+        touched: true,
       },
     }
   );

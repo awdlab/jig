@@ -14,7 +14,7 @@ import { switchControlTemplate } from '@ngneers/controls-themes/templates/switch
 export class NgnSwitch extends ValueControlBase<'switch', boolean> {
   protected readonly theme = this.injectThemeTemplate(switchControlTemplate, {
     root: true,
-    invalid: () => this.invalid(),
+    invalid: () => this.invalidState(),
   });
 
   protected changed(event: Event) {

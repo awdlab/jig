@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  DestroyRef,
   effect,
   type ElementRef,
   inject,
@@ -12,6 +13,7 @@ import tablerCopy from '@iconify/icons-tabler/copy';
 import tablerCornerUpLeft from '@iconify/icons-tabler/corner-up-left';
 import tablerDotsVertical from '@iconify/icons-tabler/dots-vertical';
 import tablerLayoutSidebarRight from '@iconify/icons-tabler/layout-sidebar-right';
+import tablerMoodSmile from '@iconify/icons-tabler/mood-smile';
 import tablerPaperclip from '@iconify/icons-tabler/paperclip';
 import tablerPin from '@iconify/icons-tabler/pin';
 import tablerSearch from '@iconify/icons-tabler/search';
@@ -24,6 +26,7 @@ import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnListBox } from '@ngneers/controls/list-box';
 import { type MenuItem, NgnMenu } from '@ngneers/controls/menu';
+import { NgnPopover } from '@ngneers/controls/popover';
 import { NgnProgress } from '@ngneers/controls/progress';
 import { createConditionalSpinner } from '@ngneers/controls/spinner';
 import { NgnSplitterModule } from '@ngneers/controls/splitter';
@@ -57,6 +60,7 @@ import {
     NgnInputField,
     NgnListBox,
     NgnMenu,
+    NgnPopover,
     NgnProgress,
     NgnSplitterModule,
     NgnSwitch,
@@ -74,11 +78,88 @@ export class TeamChat {
   protected readonly pinIcon = tablerPin;
   protected readonly paperclipIcon = tablerPaperclip;
   protected readonly detailsIcon = tablerLayoutSidebarRight;
+  protected readonly emojiIcon = tablerMoodSmile;
+
+  /** Theme ramp preview shown by the `palette` widget (primary ramp + a couple of surfaces). */
+  protected readonly paletteSwatches: readonly string[] = [
+    'var(--ngn-color-primary-300)',
+    'var(--ngn-color-primary-400)',
+    'var(--ngn-color-primary-500)',
+    'var(--ngn-color-primary-600)',
+    'var(--ngn-color-primary-700)',
+    'var(--ngn-color-surface-200)',
+    'var(--ngn-color-surface-400)',
+  ];
 
   protected readonly pinned = PINNED;
   protected readonly files = SHARED_FILES;
   /** Quick one-tap reactions shown in the per-message hover toolbar. */
   protected readonly quickEmojis: readonly string[] = ['👍', '❤️', '🎉'];
+  /** Wider set shown in the "more emojis" picker popover. */
+  protected readonly moreEmojis: readonly string[] = [
+    '👍',
+    '❤️',
+    '🎉',
+    '🚀',
+    '😂',
+    '😍',
+    '🙌',
+    '🔥',
+    '👀',
+    '✅',
+    '🎨',
+    '💡',
+    '🙏',
+    '😅',
+    '🤔',
+    '💯',
+  ];
+
+  /**
+   * Passthrough that scales the actions menu down to the chat's own small type
+   * scale — the popover renders in the top layer, so it inherits the document
+   * font size (≈16px) and otherwise looks oversized next to the 14px thread.
+   */
+  protected readonly menuPt = { root: { $styles: { fontSize: 'var(--ngn-font-size-sm)' } } };
+
+  /** Drop the list-box's own border — it sits inside the rounded chat card and the doubled,
+   *  differently-rounded edge looked off at the corners. */
+  protected readonly listBoxPt = { root: { $styles: { borderWidth: '0' } } };
+
+  /** Compact "pill" styling for the hover-reaction bar popover (tight padding, full radius). */
+  protected readonly barPt = {
+    content: { $styles: { padding: '3px', borderRadius: '9999px' } },
+  };
+
+  /**
+   * The per-message hover-reaction bar renders in a popover (top layer) so it can't be
+   * clipped by the thread's overflow. Each message has its own bar; we drive them
+   * IMPERATIVELY (show()/hide()) rather than via an `[open]` binding — a one-way `[open]`
+   * fights the popover's internal open/close echo, which would leave the previous bar
+   * stuck open when moving between messages. Tracking the single open bar and closing it
+   * when another opens keeps exactly one visible, order-independent under fast moves.
+   */
+  private _openBar: NgnPopover | null = null;
+  private _barCloseTimer: ReturnType<typeof setTimeout> | undefined;
+
+  protected showBar(bar: NgnPopover): void {
+    clearTimeout(this._barCloseTimer);
+    if (this._openBar && this._openBar !== bar) {
+      this._openBar.hide();
+    }
+    this._openBar = bar;
+    bar.show();
+  }
+
+  protected hideBarSoon(bar: NgnPopover): void {
+    clearTimeout(this._barCloseTimer);
+    this._barCloseTimer = setTimeout(() => {
+      bar.hide();
+      if (this._openBar === bar) {
+        this._openBar = null;
+      }
+    }, 160);
+  }
 
   /**
    * Auto-contrasting text color for the user's own (primary-filled) bubbles. Pure-CSS relative
@@ -119,11 +200,25 @@ export class TeamChat {
     // Opening a conversation clears its unread badge. Do it for the initial one too.
     this._unread.update(map => ({ ...map, [this.activeId()]: 0 }));
 
-    // Keep the thread pinned to the newest message on send / conversation switch.
+    inject(DestroyRef).onDestroy(() => clearTimeout(this._barCloseTimer));
+
+    // Keep the thread pinned to the newest message on send / conversation switch —
+    // but NOT on in-place edits (reactions, poll votes) which replace the messages
+    // array with a new reference yet append nothing. Scroll only when the active
+    // conversation changes or a message is actually added.
+    let prev: { id: string; count: number } | null = null;
     effect(() => {
-      this.activeMessages();
+      const id = this.activeId();
+      const count = this.activeMessages().length;
       const el = this._threadScroll()?.nativeElement;
-      if (el) {
+      // Only advance `prev` once the scroll element exists, so a first run before
+      // the viewChild resolves doesn't swallow the initial scroll-to-bottom.
+      if (!el) {
+        return;
+      }
+      const scroll = !prev || prev.id !== id || count > prev.count;
+      prev = { id, count };
+      if (scroll) {
         queueMicrotask(() => (el.scrollTop = el.scrollHeight));
       }
     });
@@ -149,6 +244,15 @@ export class TeamChat {
   protected readonly typingUser = computed(
     () => this.members().find(m => m.id !== CURRENT_USER_ID && m.presence === 'online') ?? null
   );
+
+  /** Everyone but you — shown as tiny "seen by" avatars under your last message. */
+  protected readonly readers = computed(() => this.members().filter(m => m.id !== CURRENT_USER_ID));
+
+  /** Id of your most recent message in the active thread (anchors the read receipt). */
+  protected readonly lastOwnMessageId = computed(() => {
+    const own = this.activeMessages().filter(m => m.own);
+    return own.length ? own[own.length - 1]!.id : null;
+  });
 
   protected unreadOf(id: string): number {
     return this._unread()[id] ?? 0;
@@ -223,6 +327,44 @@ export class TeamChat {
             ? m.reactions.filter(r => r.emoji !== emoji)
             : m.reactions.map(r => (r.emoji === emoji ? { ...r, count, reacted: !r.reacted } : r));
         return { ...m, reactions };
+      }),
+    }));
+  }
+
+  /** Total votes across a poll's options. */
+  protected pollTotal(message: ChatMessage): number {
+    return (message.poll?.options ?? []).reduce((sum, o) => sum + o.votes, 0);
+  }
+
+  /** A poll option's share of the total, 0-100. */
+  protected pollPercent(message: ChatMessage, optionId: string): number {
+    const total = this.pollTotal(message);
+    const option = message.poll?.options.find(o => o.id === optionId);
+    return total > 0 && option ? Math.round((option.votes / total) * 100) : 0;
+  }
+
+  /** Cast (or move) the current user's vote in a message's poll. Re-clicking clears it. */
+  protected votePoll(message: ChatMessage, optionId: string): void {
+    const cid = this.activeId();
+    this._messages.update(map => ({
+      ...map,
+      [cid]: (map[cid] ?? []).map(m => {
+        if (m.id !== message.id || !m.poll) {
+          return m;
+        }
+        const prev = m.poll.myVote;
+        const next = prev === optionId ? undefined : optionId;
+        const options = m.poll.options.map(o => {
+          let votes = o.votes;
+          if (o.id === prev) {
+            votes -= 1;
+          }
+          if (o.id === next) {
+            votes += 1;
+          }
+          return { ...o, votes };
+        });
+        return { ...m, poll: { ...m.poll, options, myVote: next } };
       }),
     }));
   }

@@ -38,8 +38,9 @@ tabs header.
 
 Because the directive uses the underlying element, disable a `<button>` with the
 native `disabled` attribute — this also removes it from the tab order and blocks
-clicks. Native `<a>` elements have no `disabled` attribute; render them
-conditionally or intercept navigation instead.
+clicks. The theme reflects the disabled state visually across every kind: muted
+text and, for filled kinds, a muted background. Native `<a>` elements have no
+`disabled` attribute; render them conditionally or intercept navigation instead.
 
 {{ demo: Demo_Button_Disabled }}
 

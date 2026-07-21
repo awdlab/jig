@@ -195,13 +195,15 @@ function tonalRefs(
 function getThemeColors(
   isDark: boolean,
   primaryShades: Record<string, string> = inkColor,
-  primaryRgb: Record<string, RGB> = inkColorRgb
+  primaryRgb: Record<string, RGB> = inkColorRgb,
+  neutralShades: typeof greyColor = greyColor,
+  neutralRgb: typeof greyColorRgb = greyColorRgb
 ) {
   const p = <T extends Record<string, unknown>>(palette: T): T =>
     isDark ? reversePalette(palette) : palette;
 
-  const grey = p(greyColor);
-  const greyRgb = p(greyColorRgb);
+  const grey = p(neutralShades);
+  const greyRgb = p(neutralRgb);
   const backgroundRgb = greyRgb['25'];
   const textRgb = greyRgb['950'];
 
@@ -226,7 +228,7 @@ function getThemeColors(
     warning: palette('warning', solarMarigoldColor, solarMarigoldColorRgb),
     info: palette('info', electricSkyColor, electricSkyColorRgb),
     success: palette('success', forestVerdantColor, forestVerdantColorRgb),
-    surface: palette('surface', greyColor, greyColorRgb),
+    surface: palette('surface', neutralShades, neutralRgb),
     background: grey['25'],
     border: grey['400'],
     text: grey['950'],
@@ -265,12 +267,23 @@ export const coral = createThemePart({
  * Consumers that let users pick a primary color at runtime should build their
  * color part from this rather than re-deriving palette values, which drops the
  * contrast refs and breaks auto-contrast on custom colors.
+ *
+ * `surfaceHex` recolors the neutral family (the `surface` palette plus the
+ * `background`/`border`/`text`/`disabled` tokens all derived from it), so
+ * picking a neutral tints the whole chrome cohesively. Only the hue/saturation
+ * of the passed color matter — the lightness ramp is fixed. Pass `null` for the
+ * built-in slate default.
  */
-export function novaColorValues(primaryHex: string | null, isDark: boolean) {
-  if (primaryHex == null) {
-    return getThemeColors(isDark);
-  }
-  return getThemeColors(isDark, getColorPalette(primaryHex), getColorPaletteRgb(primaryHex));
+export function novaColorValues(
+  primaryHex: string | null,
+  isDark: boolean,
+  surfaceHex: string | null = null
+) {
+  const primaryShades = primaryHex == null ? inkColor : getColorPalette(primaryHex);
+  const primaryRgb = primaryHex == null ? inkColorRgb : getColorPaletteRgb(primaryHex);
+  const neutralShades = surfaceHex == null ? greyColor : getColorPalette(surfaceHex);
+  const neutralRgb = surfaceHex == null ? greyColorRgb : getColorPaletteRgb(surfaceHex);
+  return getThemeColors(isDark, primaryShades, primaryRgb, neutralShades, neutralRgb);
 }
 
 type ThemePaletteColor =

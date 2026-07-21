@@ -10,6 +10,7 @@ const TEMPLATE = `
     [disabled]="inputs().disabled"
     [readonly]="inputs().readonly"
     [invalid]="inputs().invalid"
+    [touched]="inputs().touched ?? false"
     (valueChange)="output('value', $event)"
   >
     <ngn-radio value="a">A</ngn-radio>
@@ -109,8 +110,8 @@ test('states', async ({ page }, testInfo) => {
   await group.expectSelected(0);
   await expectScreenshot(page, testInfo, 'readonly');
 
-  // Invalid styling.
-  await handle.setInputs({ readonly: false, invalid: true });
+  // Invalid styling — touch the group so invalidOn='touched' surfaces it.
+  await handle.setInputs({ readonly: false, invalid: true, touched: true });
   await expectScreenshot(page, testInfo, 'invalid');
 
   expect(await handle.getOutputLog()).toEqual({});

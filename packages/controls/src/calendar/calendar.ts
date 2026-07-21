@@ -65,7 +65,7 @@ type MonthItemType = NgnItem<{ $: (typeof MONTHS)[number] }, '$'>;
   host: {
     '[style.display]': '"block"',
     '[style.width]': 'inline() ? "fit-content" : "100%"',
-    '[attr.aria-invalid]': 'invalid() ? "true" : null',
+    '[attr.aria-invalid]': 'invalidState() ? "true" : null',
   },
 })
 export class NgnCalendar extends CalendarTemplates {
@@ -350,12 +350,15 @@ export class NgnCalendar extends CalendarTemplates {
     this.value.set(date);
   }
 
+  // Popover panel focus lives outside the host, so a plain focusout can't tell a
+  // real blur from opening the calendar — mark touched from this popover-aware
+  // check instead.
   protected potentiallyBlurred() {
     setTimeout(() => {
       if (this.element.nativeElement.contains(document.activeElement) || this._popover()?.open()) {
         return;
       }
-      this.touched.set(true);
+      this.markTouched();
     });
   }
 }

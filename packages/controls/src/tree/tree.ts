@@ -101,7 +101,7 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
   protected readonly i18n = inject(I18n).translations;
   protected readonly theme = this.injectThemeTemplate(treeControlTemplate, {
     root: true,
-    invalid: () => this.invalid(),
+    invalid: () => this.invalidState(),
     empty: () => !this.flatNodes().length,
   });
 
@@ -424,7 +424,7 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
       this.value.set(value as ValueType<Items, Multiple>);
     }
     this.itemClicked.emit(value);
-    this.touched.set(true);
+    this.markTouched();
   }
 
   public scrollToIndex(index: number): void {

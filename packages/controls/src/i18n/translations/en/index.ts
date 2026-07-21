@@ -163,4 +163,18 @@ export const en = {
     error: 'Error',
     cancelled: 'Cancelled',
   },
+  errors: {
+    pending: 'Validating...',
+    required: 'Required',
+    email: 'Enter a valid email address',
+    // classic Angular length errors expose `requiredLength`
+    minlength: 'Use at least {{ requiredLength }} characters',
+    maxlength: 'Use at most {{ requiredLength }} characters',
+    // signal-forms length errors expose the limit under its own name
+    minLength: 'Use at least {{ minLength }} characters',
+    maxLength: 'Use at most {{ maxLength }} characters',
+    min: 'Must be at least {{ min }}',
+    max: 'Must be at most {{ max }}',
+    pattern: 'Invalid format',
+  },
 };

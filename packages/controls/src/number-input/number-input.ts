@@ -53,7 +53,7 @@ function positiveStep(value: number | undefined): number | undefined {
     '[attr.aria-valuemin]': 'min() ?? null',
     '[attr.aria-valuemax]': 'max() ?? null',
     '[attr.aria-label]': 'label()',
-    '[attr.aria-invalid]': 'invalid() ? "true" : null',
+    '[attr.aria-invalid]': 'invalidState() ? "true" : null',
     '[disabled]': 'disabled()',
     '[readOnly]': 'readonly()',
   },
@@ -62,7 +62,7 @@ export class NgnNumberInput extends ValueControlBase<'numberInput', number | nul
   public override readonly isFieldControl = true;
   protected readonly theme = this.injectThemeTemplate(inputControlTemplate, {
     root: true,
-    invalid: () => this.invalid(),
+    invalid: () => this.invalidState(),
     empty: () => this.empty(),
   });
 
@@ -200,7 +200,7 @@ export class NgnNumberInput extends ValueControlBase<'numberInput', number | nul
     domEventHandler(this.element, 'blur', () => {
       this._commit();
       this.focused.set(false);
-      this.touched.set(true);
+      this.markTouched();
     });
 
     domEventHandler(this.element, 'keydown', event => {

@@ -165,9 +165,19 @@ test('invalid state reaches the visible input field border', async ({ page }) =>
   const field = page.locator('ngn-input-field .ngn-input-field-root').first();
   const calendar = page.locator('ngn-calendar').first();
   const calendarField = page.locator('ngn-calendar .ngn-calendar-input-field').first();
+  const input = page.locator('ngn-calendar input').first();
   const normalBorderColor = await field.evaluate(el => getComputedStyle(el).borderTopColor);
 
   await handle.setInputs({ invalid: true });
+  // invalidOn='touched' (default) gates the raw invalid flag: it doesn't surface
+  // before the user interacts, so nothing flashes invalid on a pristine field.
+  await expect(calendar).not.toHaveAttribute('aria-invalid', 'true');
+  await expect(calendarField).not.toHaveClass(/ngn-calendar-invalid/);
+
+  // blurring the field marks the control touched, which reveals the invalid state.
+  await input.focus();
+  await input.blur();
+
   await expect(calendar).toHaveAttribute('aria-invalid', 'true');
   await expect(calendarField).toHaveClass(/ngn-calendar-invalid/);
   await expect

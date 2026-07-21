@@ -27,7 +27,7 @@ import { NGN_RADIO_GROUP, type NgnRadioGroupApi, type NgnRadioRef } from './radi
     '[attr.aria-label]': 'label()',
     '[attr.aria-labelledby]': 'labelledBy()',
     '[attr.aria-orientation]': 'roving.orientation()',
-    '[attr.aria-invalid]': "invalid() ? 'true' : null",
+    '[attr.aria-invalid]': "invalidState() ? 'true' : null",
     '[attr.aria-disabled]': "disabled() ? 'true' : null",
   },
 })
@@ -37,7 +37,7 @@ export class NgnRadioGroup<V>
 {
   protected readonly theme = this.injectThemeTemplate(radioGroupControlTemplate, {
     root: true,
-    invalid: () => this.invalid(),
+    invalid: () => this.invalidState(),
   });
 
   /** The roving-focus host directive that drives keyboard/tab coordination. */
@@ -69,7 +69,7 @@ export class NgnRadioGroup<V>
         return;
       }
       this.value.set(radio.value());
-      this.touched.set(true);
+      this.markTouched();
     });
     inject(DestroyRef).onDestroy(() => sub.unsubscribe());
 

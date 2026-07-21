@@ -80,14 +80,23 @@ test('readonly checkbox blocks interaction but stays enabled', async ({ page }) 
   expect(await handle.getOutputLog()).toEqual({});
 });
 
-test('reflects invalid state via aria-invalid', async ({ page }) => {
+test('surfaces aria-invalid only after the control is touched', async ({ page }) => {
   await loadComponent(
     page,
     { template: TEMPLATE, imports: ['checkbox'] },
     { inputs: { value: false, disabled: false, readonly: false, invalid: true } }
   );
 
-  await expect(page.getByRole('checkbox')).toHaveAttribute('aria-invalid', 'true');
+  const checkbox = page.getByRole('checkbox');
+  // invalidOn='touched' (default) gates the raw invalid flag: nothing surfaces
+  // until the user has interacted, so the invalid never flashes on a pristine field.
+  await expect(checkbox).not.toHaveAttribute('aria-invalid', 'true');
+
+  // blurring the control marks it touched, which reveals the invalid state.
+  await checkbox.focus();
+  await checkbox.blur();
+
+  await expect(checkbox).toHaveAttribute('aria-invalid', 'true');
 });
 
 test('indeterminate state renders as mixed and resolves on click', async ({ page }) => {

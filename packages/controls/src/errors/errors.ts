@@ -1,34 +1,22 @@
-import {
-  computed,
-  DestroyRef,
-  Directive,
-  effect,
-  inject,
-  input,
-  signal,
-  type Signal,
-} from '@angular/core';
-import {
-  AbstractControl,
-  ControlContainer,
-  NgControl,
-  type ValidationErrors,
-} from '@angular/forms';
-import { NGN_CONTROL, type FullAnyNgnBase } from '@ngneers/controls/base';
+import { computed, Directive, effect, inject, input, type Signal } from '@angular/core';
+import type { ValidationErrors } from '@angular/forms';
 import { NgnHint } from '@ngneers/controls/hint';
+import { I18n } from '@ngneers/controls/i18n';
 
+import { injectNgnControlState } from './control-state';
 import {
-  defaultNgnErrorsMessages,
+  carriedMessage,
   injectNgnErrorsMessages,
   isRecord,
   paramsFromValue,
-  resolveNgnErrorMessage,
+  resolveUserMessage,
 } from './messages';
 
 import type {
   NgnError,
   NgnErrorsCustom,
   NgnErrorsCustomEntry,
+  NgnErrorsMessageContext,
   NgnErrorsMessages,
   NgnErrorsMode,
   NgnErrorsShowOn,
@@ -36,6 +24,24 @@ import type {
   NgnErrorsState,
 } from './types';
 
+/**
+ * Resolves validation errors for the control it sits on and exposes them as
+ * normalized, message-mapped signals — ready to bridge into an {@link NgnHint}
+ * via {@link NgnErrors.ngnErrorsHint}.
+ *
+ * Which form paradigm is in play is abstracted away by {@link injectNgnControlState}:
+ * template-driven (`ngModel`), reactive (`formControl` / `formControlName`) and
+ * signal forms (`[formField]`) all surface as one reactive state, including
+ * relevant parent-group errors and a no-form `touched` fallback.
+ *
+ * `ngnErrorsCustom` layers on additional errors independently of any form, and
+ * {@link NgnErrors.ngnErrorsShowOn} controls when messages surface (defaults to
+ * `touched`). Error keys map onto the shared message table; signal-forms
+ * `minLength` / `maxLength` kinds have their own table entries alongside the
+ * classic lowercase `minlength` / `maxlength`.
+ *
+ * @category control
+ */
 @Directive({
   selector: '[ngnErrors]',
   exportAs: 'ngnErrors',
@@ -71,59 +77,62 @@ export class NgnErrors {
    */
   public readonly ngnErrorsCustom = input<NgnErrorsCustom>(null);
 
-  private readonly _ngControl = inject(NgControl, { optional: true, self: true });
-  private readonly _selfContainer = inject(ControlContainer, { optional: true, self: true });
-  private readonly _parentContainer = inject(ControlContainer, { optional: true, skipSelf: true });
-  private readonly _ngnControl = inject(NGN_CONTROL, {
-    optional: true,
-    self: true,
-  }) as FullAnyNgnBase | null;
+  /** Paradigm-agnostic view of the host control (see {@link injectNgnControlState}). */
+  private readonly _state = injectNgnControlState();
+  private readonly _i18n = inject(I18n).translations;
   private readonly _globalMessages = injectNgnErrorsMessages();
-  private readonly _version = signal(0);
 
-  public readonly errors: Signal<readonly NgnError[]> = computed(() => {
-    this._version();
-
-    const messages = {
-      ...defaultNgnErrorsMessages,
-      ...this._globalMessages,
-      ...this.ngnErrorsMessages(),
-    };
-
-    return [
-      ...this._normalizeErrors(this._hostControl()?.errors, 'control', messages),
-      ...this._normalizeGroupErrors(messages),
-      ...this._normalizeCustomErrors(messages),
-    ];
-  });
+  public readonly errors: Signal<readonly NgnError[]> = computed(() => [
+    ...this._normalizeErrors(this._state.errors(), 'control'),
+    ...this._normalizeGroupErrors(),
+    ...this._normalizeCustomErrors(),
+  ]);
 
   public readonly firstError = computed(() => this.errors()[0] ?? null);
 
-  public readonly pending = computed(() => {
-    this._version();
-    return this._hostControl()?.pending ?? false;
-  });
+  public readonly pending = computed(() => this._state.pending());
+
+  /**
+   * Whether the i18n error defaults are loaded. Probes a core key that every
+   * locale defines — until the async translation import lands, `_translate`
+   * echoes the key path back, which this detects.
+   */
+  private readonly _i18nReady = computed(() => this._translate('required', {}) !== undefined);
+
+  /**
+   * Whether display should wait: some visible error depends on the i18n default
+   * (no instance / carried / global message) and translations aren't loaded yet.
+   */
+  private readonly _awaitingI18n = computed(
+    () => !this._i18nReady() && this.errors().some(error => this._dependsOnI18n(error))
+  );
 
   public readonly visible = computed(() => {
     if (!this.errors().length && !this.pending()) {
       return false;
     }
 
-    const control = this._hostControl();
-    const showOn = this.ngnErrorsShowOn();
+    // Hold error display until the i18n defaults have loaded, so a default
+    // message never flashes as its raw key ("required") before the async
+    // translation import lands. Only affects errors with no instance/carried/
+    // global message (those show immediately); pending always shows (it has a
+    // hardcoded fallback). See {@link _awaitingI18n}.
+    if (!this.pending() && this._awaitingI18n()) {
+      return false;
+    }
 
-    switch (showOn) {
+    switch (this.ngnErrorsShowOn()) {
       case 'always':
         return true;
       case 'never':
         return false;
       case 'dirty':
-        return control?.dirty ?? readNgnBoolean(this._ngnControl, 'dirty');
+        return this._state.dirty();
       case 'submitted':
-        return this._submitted();
+        return this._state.submitted();
       case 'touched':
       default:
-        return control?.touched ?? readNgnBoolean(this._ngnControl, 'touched');
+        return this._state.touched();
     }
   });
 
@@ -133,7 +142,7 @@ export class NgnErrors {
     }
 
     if (this.pending()) {
-      return 'Validating...';
+      return this._translate('pending', {}) ?? 'Validating...';
     }
 
     const errors = this.errors();
@@ -153,157 +162,112 @@ export class NgnErrors {
   }));
 
   constructor() {
-    const destroyRef = inject(DestroyRef);
-
-    queueMicrotask(() => {
-      const controls = new Set(
-        [this._hostControl(), this._parentControl(), this._rootControl()].filter(
-          (control): control is AbstractControl => !!control
-        )
-      );
-      for (const control of controls) {
-        this._watchControl(control, destroyRef);
-      }
-    });
-
+    // `ngnErrors` renders the error *message* only — it never touches invalid
+    // styling. The control owns its invalid border (via its own `invalidOn`
+    // trigger), and the input field mirrors its child. See {@link NgnErrors}.
     effect(() => {
       this.ngnErrorsHint()?.setValidationState(this.state());
     });
   }
 
-  private _watchControl(control: AbstractControl | null | undefined, destroyRef: DestroyRef): void {
-    if (!control) {
-      return;
-    }
-
-    const markChanged = () => this._version.update(value => value + 1);
-    const statusSubscription = control.statusChanges?.subscribe(markChanged);
-    const valueSubscription = control.valueChanges?.subscribe(markChanged);
-    const eventsSubscription = (control as ControlWithEvents).events?.subscribe(markChanged);
-
-    destroyRef.onDestroy(() => {
-      statusSubscription?.unsubscribe();
-      valueSubscription?.unsubscribe();
-      eventsSubscription?.unsubscribe();
-    });
-
-    markChanged();
-  }
-
-  private _hostControl(): AbstractControl | null {
-    return this._ngControl?.control ?? this._selfContainer?.control ?? null;
-  }
-
-  private _parentControl(): AbstractControl | null {
-    return this._ngControl?.control?.parent ?? this._parentContainer?.control ?? null;
-  }
-
-  private _rootControl(): AbstractControl | null {
-    return this._hostControl()?.root ?? this._parentControl()?.root ?? null;
-  }
-
-  private _submittedSource(): { submitted?: boolean } | null {
-    const formDirective =
-      this._selfContainer?.formDirective ?? this._parentContainer?.formDirective;
-    return (formDirective ?? this._selfContainer ?? this._parentContainer) as {
-      submitted?: boolean;
-    } | null;
-  }
-
-  private _submitted(): boolean {
-    return this._submittedSource()?.submitted ?? false;
-  }
-
-  private _normalizeGroupErrors(messages: NgnErrorsMessages): readonly NgnError[] {
-    const parent = this._parentControl();
-    const host = this._hostControl();
-    if (!parent || parent === host) {
-      return [];
-    }
-
-    return this._normalizeErrors(parent.errors, 'group', messages).filter(error =>
+  private _normalizeGroupErrors(): readonly NgnError[] {
+    return this._normalizeErrors(this._state.parentErrors(), 'group').filter(error =>
       this._isGroupErrorRelevant(error.value)
     );
   }
 
-  private _normalizeCustomErrors(messages: NgnErrorsMessages): readonly NgnError[] {
+  private _normalizeCustomErrors(): readonly NgnError[] {
     const errors = this.ngnErrorsCustom();
     if (!errors) {
       return [];
     }
 
     if (Array.isArray(errors)) {
-      return errors.map(error => {
-        if (typeof error === 'string') {
-          return this._createError(error, true, 'custom', messages);
-        }
-        return this._createCustomEntryError(error, messages);
-      });
+      return errors.map(error =>
+        typeof error === 'string'
+          ? this._createError(error, true, 'custom')
+          : this._createCustomEntryError(error)
+      );
     }
 
-    return this._normalizeErrors(errors, 'custom', messages);
+    return this._normalizeErrors(errors, 'custom');
   }
 
   private _normalizeErrors(
     errors: ValidationErrors | null | undefined,
-    source: NgnErrorsSource,
-    messages: NgnErrorsMessages
+    source: NgnErrorsSource
   ): readonly NgnError[] {
     if (!errors) {
       return [];
     }
 
-    return Object.entries(errors).map(([key, value]) =>
-      this._createError(key, value, source, messages)
+    return Object.entries(errors).map(([key, value]) => this._createError(key, value, source));
+  }
+
+  private _createCustomEntryError(error: NgnErrorsCustomEntry): NgnError {
+    const value = error.value ?? true;
+    const params = error.params ?? paramsFromValue(value);
+    const context: NgnErrorsMessageContext = { key: error.key, value, source: 'custom', params };
+    const message = error.message ?? this._resolveMessage(context);
+
+    return { key: error.key, value, source: 'custom', params, message };
+  }
+
+  private _createError(key: string, value: unknown, source: NgnErrorsSource): NgnError {
+    const params = paramsFromValue(value);
+    const context: NgnErrorsMessageContext = { key, value, source, params };
+
+    return { key, value, source, params, message: this._resolveMessage(context) };
+  }
+
+  /**
+   * Resolves a display message for an error, in priority order:
+   * per-instance {@link ngnErrorsMessages} → a message carried on the error
+   * itself → globally provided messages → the i18n `errors.*` default → the key.
+   */
+  private _resolveMessage(context: NgnErrorsMessageContext): string {
+    return (
+      resolveUserMessage(context, this.ngnErrorsMessages() ?? {}) ??
+      carriedMessage(context.value) ??
+      resolveUserMessage(context, this._globalMessages) ??
+      this._translate(context.key, context.params) ??
+      context.key
     );
   }
 
-  private _createCustomEntryError(
-    error: NgnErrorsCustomEntry,
-    messages: NgnErrorsMessages
-  ): NgnError {
-    const value = error.value ?? true;
-    const params = error.params ?? paramsFromValue(value);
-    const message =
-      error.message ??
-      resolveNgnErrorMessage(
-        {
-          key: error.key,
-          value,
-          source: 'custom',
-          params,
-        },
-        messages
-      );
-
-    return {
+  /**
+   * Whether an error's message can only come from the i18n default (or the raw
+   * key fallback) — i.e. no per-instance, carried, or global message applies.
+   * Such errors are held from display until translations load (see
+   * {@link _awaitingI18n}); all others show immediately.
+   */
+  private _dependsOnI18n(error: NgnError): boolean {
+    const context: NgnErrorsMessageContext = {
       key: error.key,
-      value,
-      source: 'custom',
-      params,
-      message,
+      value: error.value,
+      source: error.source,
+      params: error.params,
     };
+    return (
+      resolveUserMessage(context, this.ngnErrorsMessages() ?? {}) === undefined &&
+      carriedMessage(context.value) === undefined &&
+      resolveUserMessage(context, this._globalMessages) === undefined
+    );
   }
 
-  private _createError(
-    key: string,
-    value: unknown,
-    source: NgnErrorsSource,
-    messages: NgnErrorsMessages
-  ): NgnError {
-    const params = paramsFromValue(value);
-
-    return {
-      key,
-      value,
-      source,
-      params,
-      message: resolveNgnErrorMessage({ key, value, source, params }, messages),
-    };
+  /**
+   * Looks up the i18n `errors.<key>` default, interpolating the error params.
+   * Returns `undefined` when the key is unknown or translations aren't loaded —
+   * `signal-translate` echoes the flat path back in that case, which we detect.
+   */
+  private _translate(key: string, params: Record<string, unknown>): string | undefined {
+    const path = `errors_${key}`;
+    const message = this._i18n._unsafe[path]?.(params);
+    return message === undefined || message === path ? undefined : message;
   }
 
   private _isGroupErrorRelevant(value: unknown): boolean {
-    const name = this._ngControl?.name;
+    const name = this._state.name;
     if (name === null || name === undefined || !isRecord(value)) {
       return false;
     }
@@ -320,10 +284,6 @@ export class NgnErrors {
   }
 }
 
-interface ControlWithEvents {
-  events?: { subscribe: (next: () => void) => { unsubscribe: () => void } };
-}
-
 function hasMatchingName(value: unknown, controlName: string): boolean {
   if (Array.isArray(value)) {
     return value.some(item => hasMatchingName(item, controlName));
@@ -332,9 +292,4 @@ function hasMatchingName(value: unknown, controlName: string): boolean {
     return false;
   }
   return String(value) === controlName;
-}
-
-function readNgnBoolean(control: FullAnyNgnBase | null, key: 'dirty' | 'touched'): boolean {
-  const value = control?.[key as keyof FullAnyNgnBase];
-  return typeof value === 'function' ? Boolean((value as () => unknown)()) : Boolean(value);
 }

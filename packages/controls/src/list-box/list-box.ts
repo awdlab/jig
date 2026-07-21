@@ -61,7 +61,7 @@ export class NgnListBox<
   protected readonly i18n = inject(I18n).translations;
   protected readonly theme = this.injectThemeTemplate(listBoxControlTemplate, {
     root: true,
-    invalid: () => this.invalid(),
+    invalid: () => this.invalidState(),
     empty: () => !this.displayedItems().length,
   });
 
@@ -259,6 +259,6 @@ export class NgnListBox<
       }
     }
     this.itemClicked.emit(value);
-    this.touched.set(true);
+    this.markTouched();
   }
 }

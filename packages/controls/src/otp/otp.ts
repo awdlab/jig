@@ -52,13 +52,14 @@ function normalizeLength(value: number): number {
     role: 'group',
     '[attr.aria-label]': 'label()',
     '[attr.aria-labelledby]': 'labelledBy()',
-    '[attr.aria-invalid]': 'invalid() ? "true" : null',
+    '[attr.aria-invalid]': 'invalidState() ? "true" : null',
+    '(focusout)': 'onFocusOut($event)',
   },
 })
 export class NgnOtp extends ValueControlBase<'otp', string | null> {
   protected readonly theme = this.injectThemeTemplate(otpControlTemplate, {
     root: true,
-    invalid: () => this.invalid(),
+    invalid: () => this.invalidState(),
   });
   protected readonly i18n = inject(I18n).translations;
 
@@ -225,6 +226,18 @@ export class NgnOtp extends ValueControlBase<'otp', string | null> {
     const chars = text.split('').slice(0, len);
     this.cells.set(Array.from({ length: len }, (_, i) => chars[i] ?? ''));
     this._focusCell(chars.length >= len ? len - 1 : chars.length);
+  }
+
+  /**
+   * Mark touched once focus leaves the whole group — moving between cells keeps
+   * the host focused, so those intra-cell hops don't count as a blur.
+   */
+  protected onFocusOut(event: FocusEvent): void {
+    const next = event.relatedTarget;
+    if (next instanceof Node && this.element.nativeElement.contains(next)) {
+      return;
+    }
+    this.markTouched();
   }
 
   /** Clears every cell (also serves a surrounding field's clear button). */

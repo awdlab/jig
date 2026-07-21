@@ -37,6 +37,17 @@ export type ThemeOption = {
   id: ThemeOptionId;
   label: string;
   colors: readonly ThemeColorOption[];
+  /** Surface (neutral) color choices; omitted for themes without a tintable surface palette. */
+  surfaces?: readonly ThemeColorOption[];
+};
+
+/** A rendered swatch row (primary or surface) for the active theme. */
+type SwatchGroup = {
+  kind: 'primary' | 'surface';
+  label: string;
+  options: readonly ThemeColorOption[];
+  selected: string | null;
+  fallback: string;
 };
 
 const THEME_OPTIONS: readonly ThemeOption[] = [
@@ -49,6 +60,14 @@ const THEME_OPTIONS: readonly ThemeOption[] = [
       { name: 'Teal', hex: '#14b8a6', swatch: '#14b8a6' },
       { name: 'Rose', hex: '#f43f5e', swatch: '#f43f5e' },
       { name: 'Amber', hex: '#f59e0b', swatch: '#f59e0b' },
+    ],
+    // Only hue/saturation of these feed nova's fixed neutral ramp.
+    surfaces: [
+      { name: 'Slate (default)', hex: null, swatch: '#64748b' },
+      { name: 'Gray', hex: '#6b7280', swatch: '#6b7280' },
+      { name: 'Zinc', hex: '#71717a', swatch: '#71717a' },
+      { name: 'Stone', hex: '#78716c', swatch: '#78716c' },
+      { name: 'Neutral', hex: '#737373', swatch: '#737373' },
     ],
   },
   {
@@ -65,15 +84,15 @@ const THEME_OPTIONS: readonly ThemeOption[] = [
   },
 ];
 
-function buildNovaTheme(hex: string | null): Theme {
-  if (hex == null) {
+function buildNovaTheme(hex: string | null, surfaceHex: string | null): Theme {
+  if (hex == null && surfaceHex == null) {
     return novaCoral;
   }
   const colorPart = createThemePart({
     scope: 'color',
     variables: [novaColorsTemplate],
-    root: { values: novaColorValues(hex, false) },
-    dark: { values: novaColorValues(hex, true) },
+    root: { values: novaColorValues(hex, false, surfaceHex) },
+    dark: { values: novaColorValues(hex, true, surfaceHex) },
   });
   // Keep the theme NAME stable — the themeColor helper keys off it.
   return createTheme(
@@ -106,12 +125,18 @@ const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
 type PickerState = {
   id: ThemeOptionId;
-  /** Selected base color per theme; `null` = that theme's default. */
+  /** Selected primary base color per theme; `null` = that theme's default. */
   colors: Record<ThemeOptionId, string | null>;
+  /** Selected surface (neutral) base color per theme; `null` = that theme's default. */
+  surfaces: Record<ThemeOptionId, string | null>;
 };
 
 function fallbackState(): PickerState {
-  return { id: DEFAULT_THEME_ID, colors: { nova: null, shade: null } };
+  return {
+    id: DEFAULT_THEME_ID,
+    colors: { nova: null, shade: null },
+    surfaces: { nova: null, shade: null },
+  };
 }
 
 /** Extract a single cookie's value from a `Cookie` header / `document.cookie` string. */
@@ -152,15 +177,20 @@ function parseThemeState(rawValue: string | null): PickerState {
     if (THEME_OPTIONS.some(t => t.id === savedId)) {
       state.id = savedId as ThemeOptionId;
     }
-    const savedColors = (parsed as { colors?: Record<string, unknown> })?.colors;
-    if (savedColors && typeof savedColors === 'object') {
+    const readColors = (raw: unknown, target: Record<ThemeOptionId, string | null>): void => {
+      if (!raw || typeof raw !== 'object') {
+        return;
+      }
+      const map = raw as Record<string, unknown>;
       for (const key of ['nova', 'shade'] as const) {
-        const value = savedColors[key];
+        const value = map[key];
         if (typeof value === 'string' || value === null) {
-          state.colors[key] = value ?? null;
+          target[key] = value ?? null;
         }
       }
-    }
+    };
+    readColors((parsed as { colors?: unknown })?.colors, state.colors);
+    readColors((parsed as { surfaces?: unknown })?.surfaces, state.surfaces);
     return state;
   } catch {
     return fallbackState();
@@ -180,7 +210,7 @@ function resolveThemeStateFromContext(): PickerState {
 
 function buildThemeFromState(state: PickerState): Theme {
   const hex = state.colors[state.id];
-  return state.id === 'nova' ? buildNovaTheme(hex) : buildShadeTheme(hex);
+  return state.id === 'nova' ? buildNovaTheme(hex, state.surfaces.nova) : buildShadeTheme(hex);
 }
 
 /**
@@ -234,11 +264,53 @@ export class ThemePickerService {
     ...this._initial.colors,
   });
 
+  private readonly _surfaceByTheme = signal<Record<ThemeOptionId, string | null>>({
+    ...this._initial.surfaces,
+  });
+
   public readonly activeOption = computed(
     () => this.themes.find(t => t.id === this.themeId()) ?? this.themes[0]!
   );
 
   public readonly selectedColor = computed(() => this._colorByTheme()[this.themeId()]);
+
+  public readonly selectedSurface = computed(() => this._surfaceByTheme()[this.themeId()]);
+
+  /**
+   * The swatch rows to render, driven by the active theme: always a `primary` row, plus a
+   * `surface` row for themes that expose a tintable neutral palette. `selected` is read here so
+   * the row stays reactive; `fallback` seeds the custom-color input.
+   */
+  public readonly swatchGroups = computed(() => {
+    const option = this.activeOption();
+    const groups: SwatchGroup[] = [
+      {
+        kind: 'primary',
+        label: 'Primary',
+        options: option.colors,
+        selected: this.selectedColor(),
+        fallback: '#4557ba',
+      },
+    ];
+    if (option.surfaces) {
+      groups.push({
+        kind: 'surface',
+        label: 'Surface',
+        options: option.surfaces,
+        selected: this.selectedSurface(),
+        fallback: '#475569',
+      });
+    }
+    return groups;
+  });
+
+  public select(kind: 'primary' | 'surface', hex: string | null): void {
+    if (kind === 'primary') {
+      this.selectColor(hex);
+    } else {
+      this.selectSurface(hex);
+    }
+  }
 
   public selectTheme(id: ThemeOptionId): void {
     if (this.themeId() === id) {
@@ -255,9 +327,18 @@ export class ThemePickerService {
     this._persist();
   }
 
+  public selectSurface(hex: string | null): void {
+    this._surfaceByTheme.update(surfaces => ({ ...surfaces, [this.themeId()]: hex }));
+    this._apply();
+    this._persist();
+  }
+
   private _apply(): void {
     const hex = this.selectedColor();
-    const theme = this.themeId() === 'nova' ? buildNovaTheme(hex) : buildShadeTheme(hex);
+    const theme =
+      this.themeId() === 'nova'
+        ? buildNovaTheme(hex, this.selectedSurface())
+        : buildShadeTheme(hex);
     this._themeService.activeTheme.set(theme);
   }
 
@@ -265,7 +346,11 @@ export class ThemePickerService {
     if (!this._platform.isBrowser) {
       return;
     }
-    const state: PickerState = { id: this.themeId(), colors: this._colorByTheme() };
+    const state: PickerState = {
+      id: this.themeId(),
+      colors: this._colorByTheme(),
+      surfaces: this._surfaceByTheme(),
+    };
     const value = encodeURIComponent(JSON.stringify(state));
     this._document.cookie = `${COOKIE_NAME}=${value}; path=/; max-age=${COOKIE_MAX_AGE}; samesite=lax`;
   }
@@ -283,39 +368,44 @@ export class ThemePickerService {
         (valueChange)="picker.selectTheme($event)"
       />
 
-      <div
-        class="flex flex-wrap items-center gap-(--ngn-size-padding-sm)"
-        role="group"
-        aria-label="Theme color"
-      >
-        @for (color of picker.activeOption().colors; track color.name) {
-          <button
-            type="button"
-            class="h-7 w-7 cursor-pointer rounded-full border border-(--ngn-color-border) transition-transform hover:scale-110"
-            [style.background-color]="color.swatch"
-            [style.outline]="
-              picker.selectedColor() === color.hex ? '2px solid var(--ngn-color-text)' : 'none'
-            "
-            [style.outline-offset.px]="2"
-            [attr.aria-label]="'Use ' + color.name"
-            [attr.aria-pressed]="picker.selectedColor() === color.hex"
-            [attr.title]="color.name"
-            (click)="picker.selectColor(color.hex)"
-          ></button>
-        }
-        <label
-          class="relative h-7 w-7 cursor-pointer overflow-hidden rounded-full border border-(--ngn-color-border) bg-[conic-gradient(red,yellow,lime,cyan,blue,magenta,red)] transition-transform hover:scale-110"
-          title="Custom color"
-        >
-          <input
-            type="color"
-            class="absolute inset-0 cursor-pointer opacity-0"
-            aria-label="Custom theme color"
-            [value]="picker.selectedColor() ?? '#4557ba'"
-            (change)="onCustomColor($event)"
-          />
-        </label>
-      </div>
+      @for (group of picker.swatchGroups(); track group.kind) {
+        <div class="flex flex-col gap-(--ngn-size-padding-sm)">
+          <span class="text-xs font-medium text-(--ngn-color-surface-600)">{{ group.label }}</span>
+          <div
+            class="flex flex-wrap items-center gap-(--ngn-size-padding-sm)"
+            role="group"
+            [attr.aria-label]="group.label + ' color'"
+          >
+            @for (color of group.options; track color.name) {
+              <button
+                type="button"
+                class="h-7 w-7 cursor-pointer rounded-full border border-(--ngn-color-border) transition-transform hover:scale-110"
+                [style.background-color]="color.swatch"
+                [style.outline]="
+                  group.selected === color.hex ? '2px solid var(--ngn-color-text)' : 'none'
+                "
+                [style.outline-offset.px]="2"
+                [attr.aria-label]="'Use ' + color.name"
+                [attr.aria-pressed]="group.selected === color.hex"
+                [attr.title]="color.name"
+                (click)="picker.select(group.kind, color.hex)"
+              ></button>
+            }
+            <label
+              class="relative h-7 w-7 cursor-pointer overflow-hidden rounded-full border border-(--ngn-color-border) bg-[conic-gradient(red,yellow,lime,cyan,blue,magenta,red)] transition-transform hover:scale-110"
+              [attr.title]="'Custom ' + group.label + ' color'"
+            >
+              <input
+                type="color"
+                class="absolute inset-0 cursor-pointer opacity-0"
+                [attr.aria-label]="'Custom ' + group.label + ' color'"
+                [value]="group.selected ?? group.fallback"
+                (change)="picker.select(group.kind, $any($event.target).value)"
+              />
+            </label>
+          </div>
+        </div>
+      }
     </div>
   `,
 })
@@ -326,8 +416,4 @@ export class NgnDocsThemePicker {
     label: theme.label,
     value: theme.id,
   }));
-
-  protected onCustomColor(event: Event): void {
-    this.picker.selectColor((event.target as HTMLInputElement).value);
-  }
 }

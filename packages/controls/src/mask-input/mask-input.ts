@@ -234,7 +234,10 @@ export class NgnMaskInput extends ValueControlBase<'maskInput', string | null> {
 
     // Track focus so the active-section highlight only shows while focused.
     domEventHandler(this._proxyRef, 'focus', () => this.focused.set(true));
-    domEventHandler(this._proxyRef, 'blur', () => this.focused.set(false));
+    domEventHandler(this._proxyRef, 'blur', () => {
+      this.focused.set(false);
+      this.markTouched();
+    });
 
     // Pointer down anywhere on the control: focus the proxy and select the
     // section nearest the pointer. Shared with field-delegated clicks via

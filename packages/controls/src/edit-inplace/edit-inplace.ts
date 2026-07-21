@@ -33,13 +33,23 @@ import { EditInplaceTemplates } from './edit-inplace-templates';
 export class NgnEditInplace extends EditInplaceTemplates {
   protected readonly theme = this.injectThemeTemplate(editInplaceControlTemplate, {
     root: true,
-    invalid: this.invalid(),
-    readonly: this.readonly(),
-    disabled: this.disabled(),
+    invalid: () => this.invalidState(),
+    readonly: this.readonly,
+    disabled: this.disabled,
   });
   protected readonly i18n = inject(I18n).translations;
 
   protected readonly closeContent = this.switchToDisplay.bind(this);
+
+  /**
+   * Closes the edit view from a user confirm (Enter / confirm button). Marks the
+   * control touched first, so `ngnErrorsShowOn="touched"` reveals errors after an
+   * inline confirm — not just after blurring out of the control (see {@link focusOut}).
+   */
+  protected readonly confirmEdit = (): void => {
+    this.markTouched();
+    this.switchToDisplay();
+  };
 
   /**
    * Controls the visibility of the content.
@@ -87,6 +97,7 @@ export class NgnEditInplace extends EditInplaceTemplates {
     ) {
       return;
     }
+    this.markTouched();
     this.switchToDisplay();
   }
 }

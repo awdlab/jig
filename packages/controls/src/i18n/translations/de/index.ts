@@ -163,4 +163,16 @@ export const de = {
     error: 'Fehler',
     cancelled: 'Abgebrochen',
   },
+  errors: {
+    pending: 'Wird geprüft...',
+    required: 'Erforderlich',
+    email: 'Gültige E-Mail-Adresse eingeben',
+    minlength: 'Mindestens {{ requiredLength }} Zeichen verwenden',
+    maxlength: 'Höchstens {{ requiredLength }} Zeichen verwenden',
+    minLength: 'Mindestens {{ minLength }} Zeichen verwenden',
+    maxLength: 'Höchstens {{ maxLength }} Zeichen verwenden',
+    min: 'Mindestens {{ min }}',
+    max: 'Höchstens {{ max }}',
+    pattern: 'Ungültiges Format',
+  },
 };

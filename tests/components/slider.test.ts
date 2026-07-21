@@ -257,13 +257,14 @@ test('invalid', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-slider [value]="inputs().value" [invalid]="inputs().invalid" />`,
+      template: `<ngn-slider [value]="inputs().value" [invalid]="inputs().invalid" [touched]="inputs().touched" />`,
       imports: ['slider'],
     },
     {
       inputs: {
         value: 50,
         invalid: true,
+        touched: true,
       },
     }
   );

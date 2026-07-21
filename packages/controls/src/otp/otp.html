@@ -8,7 +8,7 @@
     [value]="cells()[i] ?? ''"
     [disabled]="disabled()"
     [attr.readonly]="readonly() || null"
-    [attr.aria-invalid]="invalid() ? 'true' : null"
+    [attr.aria-invalid]="invalidState() ? 'true' : null"
     [attr.aria-label]="cellLabel(i)"
     [attr.autocomplete]="i === 0 ? 'one-time-code' : 'off'"
     maxlength="1"

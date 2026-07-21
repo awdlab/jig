@@ -77,12 +77,13 @@ test('states', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-switch 
-        [value]="inputs().value" 
+      template: `<ngn-switch
+        [value]="inputs().value"
         [disabled]="inputs().disabled"
         [readonly]="inputs().readonly"
         [invalid]="inputs().invalid"
-        (valueChange)="output('value', $event)" 
+        [touched]="inputs().touched"
+        (valueChange)="output('value', $event)"
       />`,
       imports: ['switch'],
     },
@@ -92,6 +93,7 @@ test('states', async ({ page }, testInfo) => {
         disabled: false,
         readonly: false,
         invalid: false,
+        touched: false,
       },
     }
   );
@@ -126,8 +128,8 @@ test('states', async ({ page }, testInfo) => {
   await switchControl.expectValue(true);
   await expectScreenshot(page, testInfo, 'readonly-checked');
 
-  // Test invalid state
-  await handle.setInputs({ readonly: false, invalid: true, value: false });
+  // Test invalid state — touch the control so invalidOn='touched' surfaces it.
+  await handle.setInputs({ readonly: false, invalid: true, value: false, touched: true });
   await expectScreenshot(page, testInfo, 'invalid-unchecked');
 
   await handle.setInputs({ value: true });
