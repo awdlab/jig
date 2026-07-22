@@ -30,7 +30,7 @@
       class="flex flex-col gap-(--ngn-size-padding-md) border-b border-(--ngn-color-surface-200) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-md)"
     >
       <!-- Row 1: title + people + add -->
-      <div class="flex items-center gap-(--ngn-size-padding-md)">
+      <div class="flex flex-wrap items-center gap-(--ngn-size-padding-md)">
         <ngn-icon
           [icon]="boardIcon"
           class="shrink-0 text-(length:--ngn-font-size-xl) text-(--ngn-color-primary-500)"
@@ -63,7 +63,7 @@
       </div>
 
       <!-- Row 2: filter + view controls -->
-      <div class="flex items-center gap-(--ngn-size-padding-md)">
+      <div class="flex flex-wrap items-center gap-(--ngn-size-padding-md)">
         <ngn-filter
           mode="input"
           dataType="string"
@@ -113,7 +113,7 @@
             <div class="flex h-full gap-(--ngn-size-padding-lg)">
               @for (col of columns; track col.id) {
                 <section
-                  class="flex h-full w-72 shrink-0 flex-col rounded-(--ngn-size-rounded-lg) border bg-(--ngn-color-surface-100) transition-colors"
+                  class="flex h-full w-[min(18rem,calc(100vw-7rem))] shrink-0 flex-col rounded-(--ngn-size-rounded-lg) border bg-(--ngn-color-surface-100) transition-colors"
                   [class]="
                     dragOverCol() === col.id
                       ? 'border-(--ngn-color-primary-400)'
@@ -320,7 +320,7 @@
 <ngn-drawer
   header="Task details"
   position="right"
-  size="26rem"
+  size="min(26rem, 92vw)"
   [modal]="true"
   closeBy="any"
   [content]="detailBody"

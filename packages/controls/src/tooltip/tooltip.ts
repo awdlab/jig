@@ -414,8 +414,16 @@ export class TooltipComponent extends NgnBase<'tooltip'> {
       disableSettingStyles: true,
       strategy: 'fixed',
       onPositionChange: ({ x, y, placement, middlewareData }) => {
-        this.relativeAnchorElementPosition.set(middlewareData[relativeAnchorElementPosition.name]);
-        this.position.set({ x, y });
+        // Whole-pixel placement: sub-pixel coords jitter on resize/DPR, re-firing the RO and tripping NG0100 on the left/top/--anchor-* bindings.
+        const anchor = middlewareData[relativeAnchorElementPosition.name];
+        this.relativeAnchorElementPosition.set(
+          anchor && {
+            start: Math.round(anchor.start),
+            center: Math.round(anchor.center),
+            end: Math.round(anchor.end),
+          }
+        );
+        this.position.set({ x: Math.round(x), y: Math.round(y) });
         this.positionClass.set(
           splitPlacement(placement)
             .filter(notNullish)

@@ -1,615 +1,663 @@
 <div class="chat-backdrop h-full p-1.5">
-  <ngn-splitter class="h-full" [layout]="'horizontal'" [kind]="'invisible'" aria-label="Team chat">
-    <!-- ── Pane 1: conversations ─────────────────────────────────────────── -->
-    <ngn-splitter-panel
-      [name]="'list'"
-      [size]="'280px'"
-      [minSize]="'220px'"
-      [maxSize]="'360px'"
-      aria-label="Conversations"
+  @if (narrow()) {
+    <!-- Single-pane navigation: one pane at a time, back buttons move between them. -->
+    <div class="h-full">
+      @switch (mobileView()) {
+        @case ('list') {
+          <ng-container [ngTemplateOutlet]="listPane" />
+        }
+        @case ('thread') {
+          <ng-container [ngTemplateOutlet]="threadPane" />
+        }
+        @case ('details') {
+          <ng-container [ngTemplateOutlet]="detailsPane" />
+        }
+      }
+    </div>
+  } @else {
+    <ngn-splitter
+      class="h-full"
+      [layout]="'horizontal'"
+      [kind]="'invisible'"
+      aria-label="Team chat"
     >
-      <div class="h-full p-1">
-        <div class="chat-card flex h-full flex-col overflow-hidden rounded-2xl">
-          <div class="border-b border-(--ngn-color-surface-100) p-(--ngn-size-padding-lg)">
-            <ngn-input-field class="w-full">
-              <ngn-icon [icon]="searchIcon" />
-              <input
-                ngnInput
-                placeholder="Search conversations..."
-                [value]="search()"
-                (valueChange)="onSearch($event)"
-              />
-            </ngn-input-field>
-          </div>
+      <ngn-splitter-panel
+        [name]="'list'"
+        [size]="'280px'"
+        [minSize]="'220px'"
+        [maxSize]="'360px'"
+        aria-label="Conversations"
+      >
+        <ng-container [ngTemplateOutlet]="listPane" />
+      </ngn-splitter-panel>
 
-          <div class="team-chat-list-area chat-scroll relative grow overflow-y-auto">
-            <ngn-list-box
-              class="block h-full"
-              [items]="conversationItems()"
-              [value]="activeId()"
-              (valueChange)="selectConversation($event)"
-              [selectable]="true"
-              [pt]="listBoxPt"
+      <ngn-splitter-panel
+        [name]="'thread'"
+        [size]="'3fr'"
+        [minSize]="'340px'"
+        aria-label="Messages"
+      >
+        <ng-container [ngTemplateOutlet]="threadPane" />
+      </ngn-splitter-panel>
+
+      @if (showDetails()) {
+        <ngn-splitter-panel
+          [name]="'details'"
+          [size]="'300px'"
+          [minSize]="'240px'"
+          [maxSize]="'380px'"
+          aria-label="Details"
+        >
+          <ng-container [ngTemplateOutlet]="detailsPane" />
+        </ngn-splitter-panel>
+      }
+    </ngn-splitter>
+  }
+</div>
+
+<!-- ── Pane 1: conversations ─────────────────────────────────────────── -->
+<ng-template #listPane>
+  <div class="h-full p-1">
+    <div class="chat-card flex h-full flex-col overflow-hidden rounded-2xl">
+      <div class="border-b border-(--ngn-color-surface-100) p-(--ngn-size-padding-lg)">
+        <ngn-input-field class="w-full">
+          <ngn-icon [icon]="searchIcon" />
+          <input
+            ngnInput
+            placeholder="Search conversations..."
+            [value]="search()"
+            (valueChange)="onSearch($event)"
+          />
+        </ngn-input-field>
+      </div>
+
+      <div class="team-chat-list-area chat-scroll relative grow overflow-y-auto">
+        <ngn-list-box
+          class="block h-full"
+          [items]="conversationItems()"
+          [value]="activeId()"
+          (valueChange)="selectConversation($event)"
+          [selectable]="true"
+          [pt]="listBoxPt"
+        >
+          <ng-template #group let-option>
+            <span
+              class="text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-500) uppercase"
             >
-              <ng-template #group let-option>
+              {{ option.label }}
+            </span>
+          </ng-template>
+
+          <ng-template #item let-option>
+            @let c = option.data;
+            <div class="flex w-full items-center gap-(--ngn-size-padding-md) py-1">
+              @if (isChannel(c)) {
                 <span
-                  class="text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-500) uppercase"
+                  class="flex size-8 shrink-0 items-center justify-center rounded-(--ngn-size-rounded-md) bg-(--ngn-color-surface-200) text-(length:--ngn-font-size-md) font-(--ngn-font-weight-bold) text-(--ngn-color-surface-600)"
                 >
-                  {{ option.label }}
+                  #
                 </span>
-              </ng-template>
+              } @else {
+                <span
+                  class="inline-flex shrink-0"
+                  ngnBadgeDot
+                  ngnBadgeCircular
+                  ngnBadgePosition="bottom-end"
+                  [ngnBadgeColor]="presenceColor[dmPartner(c).presence]"
+                >
+                  <ngn-avatar
+                    [initials]="dmPartner(c).initials"
+                    [bgColor]="dmPartner(c).color"
+                    [size]="32"
+                  />
+                </span>
+              }
 
-              <ng-template #item let-option>
-                @let c = option.data;
-                <div class="flex w-full items-center gap-(--ngn-size-padding-md) py-1">
-                  @if (isChannel(c)) {
-                    <span
-                      class="flex size-8 shrink-0 items-center justify-center rounded-(--ngn-size-rounded-md) bg-(--ngn-color-surface-200) text-(length:--ngn-font-size-md) font-(--ngn-font-weight-bold) text-(--ngn-color-surface-600)"
-                    >
-                      #
-                    </span>
-                  } @else {
-                    <span
-                      class="inline-flex shrink-0"
-                      ngnBadgeDot
-                      ngnBadgeCircular
-                      ngnBadgePosition="bottom-end"
-                      [ngnBadgeColor]="presenceColor[dmPartner(c).presence]"
-                    >
-                      <ngn-avatar
-                        [initials]="dmPartner(c).initials"
-                        [bgColor]="dmPartner(c).color"
-                        [size]="32"
-                      />
-                    </span>
-                  }
-
-                  <div class="min-w-0 grow">
-                    <div class="flex items-baseline justify-between gap-(--ngn-size-padding-sm)">
-                      <span
-                        class="truncate font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
-                      >
-                        {{ isChannel(c) ? c.name : dmPartner(c).name }}
-                      </span>
-                      <span
-                        class="shrink-0 text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_50%,transparent)]"
-                      >
-                        {{ c.lastTime }}
-                      </span>
-                    </div>
-                    <div class="flex items-center justify-between gap-(--ngn-size-padding-sm)">
-                      <span
-                        class="truncate text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_65%,transparent)]"
-                      >
-                        {{ c.lastMessage }}
-                      </span>
-                      @if (unreadOf(c.id)) {
-                        <ngn-tag [color]="'primary'">{{ unreadOf(c.id) }}</ngn-tag>
-                      }
-                    </div>
-                  </div>
+              <div class="min-w-0 grow">
+                <div class="flex items-baseline justify-between gap-(--ngn-size-padding-sm)">
+                  <span class="truncate font-(--ngn-font-weight-semibold) text-(--ngn-color-text)">
+                    {{ isChannel(c) ? c.name : dmPartner(c).name }}
+                  </span>
+                  <span
+                    class="shrink-0 text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_50%,transparent)]"
+                  >
+                    {{ c.lastTime }}
+                  </span>
                 </div>
-              </ng-template>
-            </ngn-list-box>
-          </div>
+                <div class="flex items-center justify-between gap-(--ngn-size-padding-sm)">
+                  <span
+                    class="truncate text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_65%,transparent)]"
+                  >
+                    {{ c.lastMessage }}
+                  </span>
+                  @if (unreadOf(c.id)) {
+                    <ngn-tag [color]="'primary'">{{ unreadOf(c.id) }}</ngn-tag>
+                  }
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngn-list-box>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- ── Pane 2: message thread ────────────────────────────────────────── -->
+<ng-template #threadPane>
+  <div class="h-full p-1">
+    <div class="chat-card flex h-full flex-col overflow-hidden rounded-2xl">
+      <!-- Thread header -->
+      <div
+        class="flex items-center gap-(--ngn-size-padding-md) border-b border-(--ngn-color-surface-100) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-md)"
+      >
+        @if (narrow()) {
+          <button
+            ngnButton
+            kind="icon"
+            class="shrink-0"
+            aria-label="Back to conversations"
+            (click)="showMobileView('list')"
+          >
+            <ngn-icon [icon]="backIcon" />
+          </button>
+        }
+        <div class="min-w-0">
+          <h3
+            class="truncate text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
+          >
+            {{ isChannel(active()) ? active().name : dmPartner(active()).name }}
+          </h3>
+          <p
+            class="truncate text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_60%,transparent)]"
+          >
+            {{ active().topic }}
+          </p>
+        </div>
+
+        <div class="ml-auto flex items-center gap-(--ngn-size-padding-md)">
+          @if (!narrow()) {
+            <ngn-avatar-group>
+              @for (m of members().slice(0, 4); track m.id) {
+                <ngn-avatar
+                  [initials]="m.initials"
+                  [bgColor]="m.color"
+                  [size]="32"
+                  [ngnTooltip]="m.name"
+                />
+              }
+            </ngn-avatar-group>
+          }
+          <button
+            ngnButton
+            kind="icon"
+            ngnTooltip="Toggle details"
+            [ngnTooltipShowOnHover]="!narrow()"
+            [ngnTooltipShowOnFocus]="!narrow()"
+            (click)="toggleDetails()"
+          >
+            <ngn-icon [icon]="detailsIcon" />
+          </button>
         </div>
       </div>
-    </ngn-splitter-panel>
 
-    <!-- ── Pane 2: message thread ────────────────────────────────────────── -->
-    <ngn-splitter-panel [name]="'thread'" [size]="'3fr'" [minSize]="'340px'" aria-label="Messages">
-      <div class="h-full p-1">
-        <div class="chat-card flex h-full flex-col overflow-hidden rounded-2xl">
-          <!-- Thread header -->
-          <div
-            class="flex items-center gap-(--ngn-size-padding-md) border-b border-(--ngn-color-surface-100) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-md)"
-          >
-            <div class="min-w-0">
-              <h3
-                class="truncate text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
+      <!-- Messages -->
+      <div
+        #threadScroll
+        class="chat-scroll grow space-y-3 overflow-y-auto px-(--ngn-size-padding-lg) py-(--ngn-size-padding-lg)"
+      >
+        @for (m of activeMessages(); track m.id; let i = $index) {
+          @if (showDateDivider(i)) {
+            <div class="flex items-center gap-(--ngn-size-padding-md) py-(--ngn-size-padding-md)">
+              <span class="h-px grow bg-(--ngn-color-surface-200)"></span>
+              <span
+                class="rounded-full bg-(--ngn-color-surface-100) px-(--ngn-size-padding-md) py-0.5 text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-medium) text-(--ngn-color-surface-500)"
               >
-                {{ isChannel(active()) ? active().name : dmPartner(active()).name }}
-              </h3>
-              <p
-                class="truncate text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_60%,transparent)]"
-              >
-                {{ active().topic }}
-              </p>
+                {{ m.dateGroup }}
+              </span>
+              <span class="h-px grow bg-(--ngn-color-surface-200)"></span>
             </div>
-
-            <div class="ml-auto flex items-center gap-(--ngn-size-padding-md)">
-              <ngn-avatar-group>
-                @for (m of members().slice(0, 4); track m.id) {
-                  <ngn-avatar
-                    [initials]="m.initials"
-                    [bgColor]="m.color"
-                    [size]="32"
-                    [ngnTooltip]="m.name"
-                  />
-                }
-              </ngn-avatar-group>
-              <button
-                ngnButton
-                kind="icon"
-                aria-label="Toggle details"
-                ngnTooltip="Toggle details"
-                (click)="toggleDetails()"
+          }
+          @if (isFirstUnread(m.id)) {
+            <div class="flex items-center gap-(--ngn-size-padding-md) py-1">
+              <span class="h-px grow bg-(--ngn-color-primary-400)"></span>
+              <span
+                class="text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) text-(--ngn-color-primary-500) uppercase"
               >
-                <ngn-icon [icon]="detailsIcon" />
-              </button>
+                New
+              </span>
+              <span class="h-px grow bg-(--ngn-color-primary-400)"></span>
             </div>
-          </div>
+          }
 
-          <!-- Messages -->
           <div
-            #threadScroll
-            class="chat-scroll grow space-y-3 overflow-y-auto px-(--ngn-size-padding-lg) py-(--ngn-size-padding-lg)"
+            class="group relative -mx-(--ngn-size-padding-sm) flex gap-(--ngn-size-padding-md) rounded-2xl px-(--ngn-size-padding-sm) py-1 transition-colors hover:bg-[color-mix(in_oklab,var(--ngn-color-text)_5%,transparent)]"
+            [class.flex-row-reverse]="m.own"
+            (mouseenter)="showBar(bar)"
+            (mouseleave)="hideBarSoon(bar)"
           >
-            @for (m of activeMessages(); track m.id; let i = $index) {
-              @if (showDateDivider(i)) {
-                <div
-                  class="flex items-center gap-(--ngn-size-padding-md) py-(--ngn-size-padding-md)"
-                >
-                  <span class="h-px grow bg-(--ngn-color-surface-200)"></span>
-                  <span
-                    class="rounded-full bg-(--ngn-color-surface-100) px-(--ngn-size-padding-md) py-0.5 text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-medium) text-(--ngn-color-surface-500)"
-                  >
-                    {{ m.dateGroup }}
-                  </span>
-                  <span class="h-px grow bg-(--ngn-color-surface-200)"></span>
-                </div>
-              }
-              @if (isFirstUnread(m.id)) {
-                <div class="flex items-center gap-(--ngn-size-padding-md) py-1">
-                  <span class="h-px grow bg-(--ngn-color-primary-400)"></span>
-                  <span
-                    class="text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) text-(--ngn-color-primary-500) uppercase"
-                  >
-                    New
-                  </span>
-                  <span class="h-px grow bg-(--ngn-color-primary-400)"></span>
-                </div>
-              }
+            @if (!m.own) {
+              <ngn-avatar
+                [initials]="user(m.authorId).initials"
+                [bgColor]="user(m.authorId).color"
+                [size]="36"
+                class="mt-4 shrink-0"
+              />
+            }
 
+            <div class="flex max-w-[78%] flex-col" [class.items-end]="m.own">
               <div
-                class="group relative -mx-(--ngn-size-padding-sm) flex gap-(--ngn-size-padding-md) rounded-2xl px-(--ngn-size-padding-sm) py-1 transition-colors hover:bg-[color-mix(in_oklab,var(--ngn-color-text)_5%,transparent)]"
+                class="mb-0.5 flex items-baseline gap-(--ngn-size-padding-sm)"
                 [class.flex-row-reverse]="m.own"
-                (mouseenter)="showBar(bar)"
-                (mouseleave)="hideBarSoon(bar)"
               >
-                @if (!m.own) {
-                  <ngn-avatar
-                    [initials]="user(m.authorId).initials"
-                    [bgColor]="user(m.authorId).color"
-                    [size]="36"
-                    class="mt-4 shrink-0"
-                  />
+                <span
+                  class="text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
+                >
+                  {{ m.own ? 'You' : user(m.authorId).name }}
+                </span>
+                <span
+                  class="text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_50%,transparent)]"
+                >
+                  {{ m.time }}
+                </span>
+              </div>
+
+              <div class="relative w-fit" #barAnchor>
+                @if (m.widget === 'poll' && m.poll; as poll) {
+                  <!-- Interactive poll widget: tap an option to vote; bars use ngn-progress. -->
+                  <div class="chat-tile w-64 rounded-2xl p-(--ngn-size-padding-lg) text-left">
+                    <div
+                      class="mb-(--ngn-size-padding-md) text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
+                    >
+                      {{ poll.question }}
+                    </div>
+                    @for (opt of poll.options; track opt.id) {
+                      <button
+                        type="button"
+                        class="mb-(--ngn-size-padding-sm) block w-full rounded-(--ngn-size-rounded-md) px-(--ngn-size-padding-sm) py-1 text-left transition-colors hover:bg-(--ngn-color-surface-200)"
+                        (click)="votePoll(m, opt.id)"
+                      >
+                        <div
+                          class="mb-1 flex items-center justify-between text-(length:--ngn-font-size-xs)"
+                        >
+                          <span
+                            [class]="
+                              poll.myVote === opt.id
+                                ? 'font-(--ngn-font-weight-semibold) text-(--ngn-color-primary-600)'
+                                : 'text-(--ngn-color-text)'
+                            "
+                          >
+                            {{ opt.label }}
+                          </span>
+                          <span class="text-(--ngn-color-surface-500)">
+                            {{ opt.votes }} · {{ pollPercent(m, opt.id) }}%
+                          </span>
+                        </div>
+                        <ngn-progress [value]="pollPercent(m, opt.id)" class="block" />
+                      </button>
+                    }
+                    <div
+                      class="mt-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_55%,transparent)]"
+                    >
+                      {{ pollTotal(m) }} votes · tap to vote
+                    </div>
+                  </div>
+                } @else {
+                  <div
+                    class="rounded-2xl px-(--ngn-size-padding-lg) py-(--ngn-size-padding-md) text-(length:--ngn-font-size-sm) leading-relaxed"
+                    [class]="
+                      m.own ? 'chat-bubble-own' : 'chat-tile chat-bubble-in text-(--ngn-color-text)'
+                    "
+                    [style.color]="m.own ? ownBubbleTextColor : null"
+                  >
+                    {{ m.text }}
+                    @if (m.widget === 'palette') {
+                      <span class="mt-(--ngn-size-padding-md) flex gap-1">
+                        @for (sw of paletteSwatches; track $index) {
+                          <span
+                            class="size-6 rounded-(--ngn-size-rounded-md) ring-1 ring-black/10"
+                            [style.background]="sw"
+                          ></span>
+                        }
+                      </span>
+                    }
+                  </div>
                 }
 
-                <div class="flex max-w-[78%] flex-col" [class.items-end]="m.own">
-                  <div
-                    class="mb-0.5 flex items-baseline gap-(--ngn-size-padding-sm)"
-                    [class.flex-row-reverse]="m.own"
-                  >
-                    <span
-                      class="text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
-                    >
-                      {{ m.own ? 'You' : user(m.authorId).name }}
-                    </span>
-                    <span
-                      class="text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_50%,transparent)]"
-                    >
-                      {{ m.time }}
-                    </span>
-                  </div>
-
-                  <div class="relative w-fit" #barAnchor>
-                    @if (m.widget === 'poll' && m.poll; as poll) {
-                      <!-- Interactive poll widget: tap an option to vote; bars use ngn-progress. -->
-                      <div class="chat-tile w-64 rounded-2xl p-(--ngn-size-padding-lg) text-left">
-                        <div
-                          class="mb-(--ngn-size-padding-md) text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
-                        >
-                          {{ poll.question }}
-                        </div>
-                        @for (opt of poll.options; track opt.id) {
-                          <button
-                            type="button"
-                            class="mb-(--ngn-size-padding-sm) block w-full rounded-(--ngn-size-rounded-md) px-(--ngn-size-padding-sm) py-1 text-left transition-colors hover:bg-(--ngn-color-surface-200)"
-                            (click)="votePoll(m, opt.id)"
-                          >
-                            <div
-                              class="mb-1 flex items-center justify-between text-(length:--ngn-font-size-xs)"
-                            >
-                              <span
-                                [class]="
-                                  poll.myVote === opt.id
-                                    ? 'font-(--ngn-font-weight-semibold) text-(--ngn-color-primary-600)'
-                                    : 'text-(--ngn-color-text)'
-                                "
-                              >
-                                {{ opt.label }}
-                              </span>
-                              <span class="text-(--ngn-color-surface-500)">
-                                {{ opt.votes }} · {{ pollPercent(m, opt.id) }}%
-                              </span>
-                            </div>
-                            <ngn-progress [value]="pollPercent(m, opt.id)" class="block" />
-                          </button>
-                        }
-                        <div
-                          class="mt-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_55%,transparent)]"
-                        >
-                          {{ pollTotal(m) }} votes · tap to vote
-                        </div>
-                      </div>
-                    } @else {
-                      <div
-                        class="rounded-2xl px-(--ngn-size-padding-lg) py-(--ngn-size-padding-md) text-(length:--ngn-font-size-sm) leading-relaxed"
-                        [class]="
-                          m.own
-                            ? 'chat-bubble-own'
-                            : 'chat-tile chat-bubble-in text-(--ngn-color-text)'
-                        "
-                        [style.color]="m.own ? ownBubbleTextColor : null"
+                <!-- Hover reaction bar. Rendered in a popover (top layer) so it can't be
+                     clipped by the thread's overflow when a message is near an edge, and so
+                     floating-ui flips it below when there's no room above. Driven imperatively
+                     (showBar/hideBarSoon on the #bar ref); closeBy="none" keeps it a manual
+                     popover the nested emoji picker / actions menu won't light-dismiss. -->
+                <ngn-popover
+                  #bar
+                  [anchor]="barAnchor"
+                  closeBy="none"
+                  [pt]="barPt"
+                  [options]="{ placement: m.own ? 'top-start' : 'top-end', padding: 6 }"
+                >
+                  <!-- Only cancel the pending close on enter; the row owns the close
+                       (the popover is its DOM descendant, so hovering the bar keeps the row
+                       "entered"). A bar-content mouseleave here would wrongly close the bar
+                       when moving back onto the message. -->
+                  <div class="flex items-center gap-0.5" (mouseenter)="showBar(bar)">
+                    @for (e of quickEmojis; track e) {
+                      <button
+                        type="button"
+                        class="rounded-full px-1 text-(length:--ngn-font-size-sm) hover:bg-(--ngn-color-surface-200)"
+                        [attr.aria-label]="'React ' + e"
+                        (click)="toggleReaction(m, e)"
                       >
-                        {{ m.text }}
-                        @if (m.widget === 'palette') {
-                          <span class="mt-(--ngn-size-padding-md) flex gap-1">
-                            @for (sw of paletteSwatches; track $index) {
-                              <span
-                                class="size-6 rounded-(--ngn-size-rounded-md) ring-1 ring-black/10"
-                                [style.background]="sw"
-                              ></span>
-                            }
-                          </span>
-                        }
-                      </div>
+                        {{ e }}
+                      </button>
                     }
-
-                    <!-- Hover reaction bar. Rendered in a popover (top layer) so it can't be
-                         clipped by the thread's overflow when a message is near an edge, and so
-                         floating-ui flips it below when there's no room above. Driven imperatively
-                         (showBar/hideBarSoon on the #bar ref); closeBy="none" keeps it a manual
-                         popover the nested emoji picker / actions menu won't light-dismiss. -->
-                    <ngn-popover
-                      #bar
-                      [anchor]="barAnchor"
-                      closeBy="none"
-                      [pt]="barPt"
-                      [options]="{ placement: m.own ? 'top-start' : 'top-end', padding: 6 }"
+                    <button
+                      ngnButton
+                      kind="icon"
+                      size="sm"
+                      #emojiBtn
+                      aria-label="More emojis"
+                      (click)="emojiPicker.toggle()"
                     >
-                      <!-- Only cancel the pending close on enter; the row owns the close
-                           (the popover is its DOM descendant, so hovering the bar keeps the row
-                           "entered"). A bar-content mouseleave here would wrongly close the bar
-                           when moving back onto the message. -->
-                      <div class="flex items-center gap-0.5" (mouseenter)="showBar(bar)">
-                        @for (e of quickEmojis; track e) {
+                      <ngn-icon [icon]="emojiIcon" />
+                    </button>
+                    <ngn-popover #emojiPicker [anchor]="emojiBtn" [options]="{ placement: 'top' }">
+                      <div class="grid grid-cols-8 gap-0.5 p-1">
+                        @for (e of moreEmojis; track e) {
                           <button
                             type="button"
-                            class="rounded-full px-1 text-(length:--ngn-font-size-sm) hover:bg-(--ngn-color-surface-200)"
+                            class="rounded-(--ngn-size-rounded-sm) p-1 text-(length:--ngn-font-size-md) hover:bg-(--ngn-color-surface-100)"
                             [attr.aria-label]="'React ' + e"
-                            (click)="toggleReaction(m, e)"
+                            (click)="toggleReaction(m, e); emojiPicker.hide()"
                           >
                             {{ e }}
                           </button>
                         }
-                        <button
-                          ngnButton
-                          kind="icon"
-                          size="sm"
-                          #emojiBtn
-                          aria-label="More emojis"
-                          (click)="emojiPicker.toggle()"
-                        >
-                          <ngn-icon [icon]="emojiIcon" />
-                        </button>
-                        <ngn-popover
-                          #emojiPicker
-                          [anchor]="emojiBtn"
-                          [options]="{ placement: 'top' }"
-                        >
-                          <div class="grid grid-cols-8 gap-0.5 p-1">
-                            @for (e of moreEmojis; track e) {
-                              <button
-                                type="button"
-                                class="rounded-(--ngn-size-rounded-sm) p-1 text-(length:--ngn-font-size-md) hover:bg-(--ngn-color-surface-100)"
-                                [attr.aria-label]="'React ' + e"
-                                (click)="toggleReaction(m, e); emojiPicker.hide()"
-                              >
-                                {{ e }}
-                              </button>
-                            }
-                          </div>
-                        </ngn-popover>
-                        <button
-                          ngnButton
-                          kind="icon"
-                          size="sm"
-                          #menuBtn
-                          aria-label="Message actions"
-                          (click)="msgMenu.show()"
-                        >
-                          <ngn-icon [icon]="dotsIcon" />
-                        </button>
-                        <ngn-menu
-                          #msgMenu
-                          [popover]="true"
-                          [anchor]="menuBtn"
-                          [placement]="m.own ? 'bottom-start' : 'bottom-end'"
-                          [pt]="menuPt"
-                          [items]="messageMenuItems(m)"
-                        />
                       </div>
                     </ngn-popover>
-                  </div>
-
-                  @if (m.reactions.length) {
-                    <div
-                      class="mt-1 flex flex-wrap gap-(--ngn-size-padding-sm)"
-                      [class.flex-row-reverse]="m.own"
+                    <button
+                      ngnButton
+                      kind="icon"
+                      size="sm"
+                      #menuBtn
+                      aria-label="Message actions"
+                      (click)="msgMenu.show()"
                     >
-                      @for (r of m.reactions; track r.emoji) {
-                        <button
-                          type="button"
-                          class="flex items-center gap-1 rounded-full border px-(--ngn-size-padding-md) py-0.5 text-(length:--ngn-font-size-xs) transition-colors"
-                          [class]="
-                            r.reacted
-                              ? 'border-(--ngn-color-primary-400) bg-(--ngn-color-primary-100) text-(--ngn-color-primary-700)'
-                              : 'border-(--ngn-color-surface-200) bg-(--ngn-color-surface-100) text-(--ngn-color-surface-600)'
-                          "
-                          (click)="toggleReaction(m, r.emoji)"
-                        >
-                          <span>{{ r.emoji }}</span>
-                          <span class="font-(--ngn-font-weight-semibold)">{{ r.count }}</span>
-                        </button>
-                      }
-                    </div>
-                  }
-
-                  @if (m.own && m.id === lastOwnMessageId()) {
-                    <div class="mt-1 flex items-center gap-1">
-                      <span
-                        class="mr-0.5 text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_50%,transparent)]"
-                      >
-                        Seen
-                      </span>
-                      @for (r of readers(); track r.id) {
-                        <ngn-avatar
-                          [initials]="r.initials"
-                          [bgColor]="r.color"
-                          [size]="16"
-                          [ngnTooltip]="'Seen by ' + r.name"
-                        />
-                      }
-                    </div>
-                  }
-                </div>
+                      <ngn-icon [icon]="dotsIcon" />
+                    </button>
+                    <ngn-menu
+                      #msgMenu
+                      [popover]="true"
+                      [anchor]="menuBtn"
+                      [placement]="m.own ? 'bottom-start' : 'bottom-end'"
+                      [pt]="menuPt"
+                      [items]="messageMenuItems(m)"
+                    />
+                  </div>
+                </ngn-popover>
               </div>
-            }
 
-            <!-- Typing indicator -->
-            @if (typingUser(); as t) {
-              <div class="flex items-center gap-(--ngn-size-padding-md) pt-(--ngn-size-padding-md)">
-                <ngn-avatar
-                  [initials]="t.initials"
-                  [bgColor]="t.color"
-                  [size]="36"
-                  class="shrink-0"
-                />
+              @if (m.reactions.length) {
                 <div
-                  class="chat-tile chat-bubble-in flex items-center gap-1 rounded-2xl px-(--ngn-size-padding-lg) py-(--ngn-size-padding-md)"
+                  class="mt-1 flex flex-wrap gap-(--ngn-size-padding-sm)"
+                  [class.flex-row-reverse]="m.own"
                 >
-                  <span class="typing-dot"></span>
-                  <span class="typing-dot"></span>
-                  <span class="typing-dot"></span>
+                  @for (r of m.reactions; track r.emoji) {
+                    <button
+                      type="button"
+                      class="flex items-center gap-1 rounded-full border px-(--ngn-size-padding-md) py-0.5 text-(length:--ngn-font-size-xs) transition-colors"
+                      [class]="
+                        r.reacted
+                          ? 'border-(--ngn-color-primary-400) bg-(--ngn-color-primary-100) text-(--ngn-color-primary-700)'
+                          : 'border-(--ngn-color-surface-200) bg-(--ngn-color-surface-100) text-(--ngn-color-surface-600)'
+                      "
+                      (click)="toggleReaction(m, r.emoji)"
+                    >
+                      <span>{{ r.emoji }}</span>
+                      <span class="font-(--ngn-font-weight-semibold)">{{ r.count }}</span>
+                    </button>
+                  }
                 </div>
-                <span
-                  class="text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_60%,transparent)]"
-                >
-                  {{ t.name }} is typing…
-                </span>
-              </div>
-            }
-          </div>
+              }
 
-          <!-- Composer -->
-          <div class="border-t border-(--ngn-color-surface-100) p-(--ngn-size-padding-lg)">
-            <div class="flex items-center gap-(--ngn-size-padding-md)">
-              <ngn-input-field class="grow">
-                <button ngnButton kind="icon" aria-label="Attach file" ngnTooltip="Attach">
-                  <ngn-icon [icon]="paperclipIcon" />
-                </button>
-                <input
-                  ngnInput
-                  [placeholder]="
-                    'Message ' + (isChannel(active()) ? active().name : dmPartner(active()).name)
-                  "
-                  [value]="draft()"
-                  (valueChange)="draft.set($event ?? '')"
-                  (keydown.enter)="sendMessage()"
-                />
-              </ngn-input-field>
-              <button
-                ngnButton
-                color="primary"
-                class="shrink-0"
-                aria-label="Send message"
-                [disabled]="!draft().trim()"
-                (click)="sendMessage()"
-              >
-                Send
-                <ngn-icon [icon]="sendIcon" />
-              </button>
+              @if (m.own && m.id === lastOwnMessageId()) {
+                <div class="mt-1 flex items-center gap-1">
+                  <span
+                    class="mr-0.5 text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_50%,transparent)]"
+                  >
+                    Seen
+                  </span>
+                  @for (r of readers(); track r.id) {
+                    <ngn-avatar
+                      [initials]="r.initials"
+                      [bgColor]="r.color"
+                      [size]="16"
+                      [ngnTooltip]="'Seen by ' + r.name"
+                    />
+                  }
+                </div>
+              }
             </div>
           </div>
+        }
+
+        <!-- Typing indicator -->
+        @if (typingUser(); as t) {
+          <div class="flex items-center gap-(--ngn-size-padding-md) pt-(--ngn-size-padding-md)">
+            <ngn-avatar [initials]="t.initials" [bgColor]="t.color" [size]="36" class="shrink-0" />
+            <div
+              class="chat-tile chat-bubble-in flex items-center gap-1 rounded-2xl px-(--ngn-size-padding-lg) py-(--ngn-size-padding-md)"
+            >
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+            <span
+              class="text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_60%,transparent)]"
+            >
+              {{ t.name }} is typing…
+            </span>
+          </div>
+        }
+      </div>
+
+      <!-- Composer -->
+      <div class="border-t border-(--ngn-color-surface-100) p-(--ngn-size-padding-lg)">
+        <div class="flex items-center gap-(--ngn-size-padding-md)">
+          <ngn-input-field class="grow">
+            <button ngnButton kind="icon" aria-label="Attach file" ngnTooltip="Attach">
+              <ngn-icon [icon]="paperclipIcon" />
+            </button>
+            <input
+              ngnInput
+              [placeholder]="
+                'Message ' + (isChannel(active()) ? active().name : dmPartner(active()).name)
+              "
+              [value]="draft()"
+              (valueChange)="draft.set($event ?? '')"
+              (keydown.enter)="sendMessage()"
+            />
+          </ngn-input-field>
+          <button
+            ngnButton
+            color="primary"
+            class="shrink-0"
+            aria-label="Send message"
+            [disabled]="!draft().trim()"
+            (click)="sendMessage()"
+          >
+            Send
+            <ngn-icon [icon]="sendIcon" />
+          </button>
         </div>
       </div>
-    </ngn-splitter-panel>
+    </div>
+  </div>
+</ng-template>
 
-    <!-- ── Pane 3: details (plain stacked sections, separated by rules) ──────── -->
-    @if (showDetails()) {
-      <ngn-splitter-panel
-        [name]="'details'"
-        [size]="'300px'"
-        [minSize]="'240px'"
-        [maxSize]="'380px'"
-        aria-label="Details"
+<!-- ── Pane 3: details (plain stacked sections, separated by rules) ──────── -->
+<ng-template #detailsPane>
+  <div class="h-full p-1">
+    <div class="chat-card flex h-full flex-col overflow-hidden rounded-2xl">
+      <div
+        class="flex items-center justify-between border-b border-(--ngn-color-surface-100) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-md)"
       >
-        <div class="h-full p-1">
-          <div class="chat-card flex h-full flex-col overflow-hidden rounded-2xl">
-            <div
-              class="flex items-center justify-between border-b border-(--ngn-color-surface-100) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-md)"
+        <span class="flex items-center gap-(--ngn-size-padding-sm)">
+          @if (narrow()) {
+            <button
+              ngnButton
+              kind="icon"
+              class="shrink-0"
+              aria-label="Back to messages"
+              (click)="showMobileView('thread')"
             >
-              <span class="font-(--ngn-font-weight-semibold) text-(--ngn-color-text)">Details</span>
-              <label class="flex items-center gap-(--ngn-size-padding-sm)">
+              <ngn-icon [icon]="backIcon" />
+            </button>
+          }
+          <span class="font-(--ngn-font-weight-semibold) text-(--ngn-color-text)">Details</span>
+        </span>
+        <label class="flex items-center gap-(--ngn-size-padding-sm)">
+          <span
+            class="text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_60%,transparent)]"
+          >
+            Notifications
+          </span>
+          <ngn-switch [(value)]="notifications" />
+        </label>
+      </div>
+
+      <div
+        class="chat-scroll grow space-y-(--ngn-size-padding-md) overflow-y-auto p-(--ngn-size-padding-md)"
+      >
+        <!-- About -->
+        <section
+          class="chat-tile rounded-(--ngn-size-rounded-lg) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-lg)"
+        >
+          <h4
+            class="my-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-500) uppercase"
+          >
+            About
+          </h4>
+          <p class="text-(length:--ngn-font-size-sm) text-(--ngn-color-text)">
+            {{ active().topic }}
+          </p>
+          <p
+            class="mt-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_55%,transparent)]"
+          >
+            {{ members().length }} members
+          </p>
+        </section>
+
+        <!-- Members -->
+        <section
+          class="chat-tile rounded-(--ngn-size-rounded-lg) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-lg)"
+        >
+          <h4
+            class="my-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-500) uppercase"
+          >
+            Members
+          </h4>
+          <ul class="space-y-(--ngn-size-padding-md)">
+            @for (m of members(); track m.id) {
+              <li class="flex items-center gap-(--ngn-size-padding-md)">
                 <span
-                  class="text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_60%,transparent)]"
+                  class="inline-flex shrink-0"
+                  ngnBadgeDot
+                  ngnBadgeCircular
+                  ngnBadgePosition="bottom-end"
+                  [ngnBadgeColor]="presenceColor[m.presence]"
                 >
-                  Notifications
+                  <ngn-avatar [initials]="m.initials" [bgColor]="m.color" [size]="32" />
                 </span>
-                <ngn-switch [(value)]="notifications" />
-              </label>
-            </div>
+                <div class="min-w-0">
+                  <div
+                    class="truncate text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-medium) text-(--ngn-color-text)"
+                  >
+                    {{ m.name }}
+                  </div>
+                  <div
+                    class="truncate text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_55%,transparent)]"
+                  >
+                    {{ m.role }}
+                  </div>
+                </div>
+              </li>
+            }
+          </ul>
+        </section>
 
-            <div
-              class="chat-scroll grow space-y-(--ngn-size-padding-md) overflow-y-auto p-(--ngn-size-padding-md)"
-            >
-              <!-- About -->
-              <section
-                class="chat-tile rounded-(--ngn-size-rounded-lg) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-lg)"
+        <!-- Pinned -->
+        <section
+          class="chat-tile rounded-(--ngn-size-rounded-lg) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-lg)"
+        >
+          <h4
+            class="my-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-500) uppercase"
+          >
+            Pinned
+          </h4>
+          <ul class="space-y-(--ngn-size-padding-md)">
+            @for (p of pinned; track p.text) {
+              <li
+                class="flex gap-(--ngn-size-padding-md) border-(--ngn-color-surface-200) pt-(--ngn-size-padding-md) not-first:border-t first:pt-0"
               >
-                <h4
-                  class="my-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-500) uppercase"
-                >
-                  About
-                </h4>
-                <p class="text-(length:--ngn-font-size-sm) text-(--ngn-color-text)">
-                  {{ active().topic }}
-                </p>
-                <p
-                  class="mt-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_55%,transparent)]"
-                >
-                  {{ members().length }} members
-                </p>
-              </section>
+                <ngn-icon [icon]="pinIcon" class="mt-0.5 shrink-0 text-(--ngn-color-primary-500)" />
+                <div class="min-w-0">
+                  <div
+                    class="text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) text-[color-mix(in_oklab,var(--ngn-color-text)_60%,transparent)]"
+                  >
+                    {{ p.author }}
+                  </div>
+                  <div class="text-(length:--ngn-font-size-sm) text-(--ngn-color-text)">
+                    {{ p.text }}
+                  </div>
+                </div>
+              </li>
+            }
+          </ul>
+        </section>
 
-              <!-- Members -->
-              <section
-                class="chat-tile rounded-(--ngn-size-rounded-lg) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-lg)"
-              >
-                <h4
-                  class="my-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-500) uppercase"
+        <!-- Shared files -->
+        <section
+          class="chat-tile rounded-(--ngn-size-rounded-lg) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-lg)"
+        >
+          <h4
+            class="my-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-500) uppercase"
+          >
+            Shared files
+          </h4>
+          <ul class="space-y-(--ngn-size-padding-md)">
+            @for (f of files; track f.name) {
+              <li class="flex items-center gap-(--ngn-size-padding-md)">
+                <span
+                  class="flex size-9 shrink-0 items-center justify-center rounded-(--ngn-size-rounded-md)"
+                  [style.background]="'var(--ngn-color-' + f.icon + '-100)'"
+                  [style.color]="'var(--ngn-color-' + f.icon + '-600)'"
                 >
-                  Members
-                </h4>
-                <ul class="space-y-(--ngn-size-padding-md)">
-                  @for (m of members(); track m.id) {
-                    <li class="flex items-center gap-(--ngn-size-padding-md)">
-                      <span
-                        class="inline-flex shrink-0"
-                        ngnBadgeDot
-                        ngnBadgeCircular
-                        ngnBadgePosition="bottom-end"
-                        [ngnBadgeColor]="presenceColor[m.presence]"
-                      >
-                        <ngn-avatar [initials]="m.initials" [bgColor]="m.color" [size]="32" />
-                      </span>
-                      <div class="min-w-0">
-                        <div
-                          class="truncate text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-medium) text-(--ngn-color-text)"
-                        >
-                          {{ m.name }}
-                        </div>
-                        <div
-                          class="truncate text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_55%,transparent)]"
-                        >
-                          {{ m.role }}
-                        </div>
-                      </div>
-                    </li>
+                  <ngn-icon [icon]="paperclipIcon" />
+                </span>
+                <div class="min-w-0 grow">
+                  <div
+                    class="truncate text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-medium) text-(--ngn-color-text)"
+                  >
+                    {{ f.name }}
+                  </div>
+                  @if (f.progress !== undefined) {
+                    <ngn-progress [value]="f.progress" class="mt-1 block" />
                   }
-                </ul>
-              </section>
-
-              <!-- Pinned -->
-              <section
-                class="chat-tile rounded-(--ngn-size-rounded-lg) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-lg)"
-              >
-                <h4
-                  class="my-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-500) uppercase"
-                >
-                  Pinned
-                </h4>
-                <ul class="space-y-(--ngn-size-padding-md)">
-                  @for (p of pinned; track p.text) {
-                    <li
-                      class="flex gap-(--ngn-size-padding-md) border-(--ngn-color-surface-200) pt-(--ngn-size-padding-md) not-first:border-t first:pt-0"
-                    >
-                      <ngn-icon
-                        [icon]="pinIcon"
-                        class="mt-0.5 shrink-0 text-(--ngn-color-primary-500)"
-                      />
-                      <div class="min-w-0">
-                        <div
-                          class="text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) text-[color-mix(in_oklab,var(--ngn-color-text)_60%,transparent)]"
-                        >
-                          {{ p.author }}
-                        </div>
-                        <div class="text-(length:--ngn-font-size-sm) text-(--ngn-color-text)">
-                          {{ p.text }}
-                        </div>
-                      </div>
-                    </li>
-                  }
-                </ul>
-              </section>
-
-              <!-- Shared files -->
-              <section
-                class="chat-tile rounded-(--ngn-size-rounded-lg) px-(--ngn-size-padding-lg) py-(--ngn-size-padding-lg)"
-              >
-                <h4
-                  class="my-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-500) uppercase"
-                >
-                  Shared files
-                </h4>
-                <ul class="space-y-(--ngn-size-padding-md)">
-                  @for (f of files; track f.name) {
-                    <li class="flex items-center gap-(--ngn-size-padding-md)">
-                      <span
-                        class="flex size-9 shrink-0 items-center justify-center rounded-(--ngn-size-rounded-md)"
-                        [style.background]="'var(--ngn-color-' + f.icon + '-100)'"
-                        [style.color]="'var(--ngn-color-' + f.icon + '-600)'"
-                      >
-                        <ngn-icon [icon]="paperclipIcon" />
-                      </span>
-                      <div class="min-w-0 grow">
-                        <div
-                          class="truncate text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-medium) text-(--ngn-color-text)"
-                        >
-                          {{ f.name }}
-                        </div>
-                        @if (f.progress !== undefined) {
-                          <ngn-progress [value]="f.progress" class="mt-1 block" />
-                        }
-                        <div
-                          class="truncate text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_55%,transparent)]"
-                        >
-                          {{ f.meta }}
-                        </div>
-                      </div>
-                    </li>
-                  }
-                </ul>
-              </section>
-            </div>
-          </div>
-        </div>
-      </ngn-splitter-panel>
-    }
-  </ngn-splitter>
-</div>
+                  <div
+                    class="truncate text-(length:--ngn-font-size-xs) text-[color-mix(in_oklab,var(--ngn-color-text)_55%,transparent)]"
+                  >
+                    {{ f.meta }}
+                  </div>
+                </div>
+              </li>
+            }
+          </ul>
+        </section>
+      </div>
+    </div>
+  </div>
+</ng-template>
 
 <style>
   /* Layered, Claude-inspired elevation. The surface scale reverses in dark mode,

@@ -1,4 +1,6 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
+  afterNextRender,
   Component,
   computed,
   DestroyRef,
@@ -9,6 +11,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import tablerChevronLeft from '@iconify/icons-tabler/chevron-left';
 import tablerCopy from '@iconify/icons-tabler/copy';
 import tablerCornerUpLeft from '@iconify/icons-tabler/corner-up-left';
 import tablerDotsVertical from '@iconify/icons-tabler/dots-vertical';
@@ -53,6 +56,7 @@ import {
   selector: 'ngn-docs-team-chat',
   templateUrl: './team-chat.html',
   imports: [
+    NgTemplateOutlet,
     NgnAvatar,
     NgnAvatarGroup,
     NgnBadge,
@@ -81,6 +85,14 @@ export class TeamChat {
   protected readonly paperclipIcon = tablerPaperclip;
   protected readonly detailsIcon = tablerLayoutSidebarRight;
   protected readonly emojiIcon = tablerMoodSmile;
+  protected readonly backIcon = tablerChevronLeft;
+
+  /** Below `lg` the 3-pane splitter can't fit; switch to single-pane navigation. */
+  protected readonly narrow = signal(
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches
+  );
+  /** Which pane the narrow layout currently shows. */
+  protected readonly mobileView = signal<'list' | 'thread' | 'details'>('list');
 
   /** Theme ramp preview shown by the `palette` widget (primary ramp + a couple of surfaces). */
   protected readonly paletteSwatches: readonly string[] = [
@@ -204,6 +216,12 @@ export class TeamChat {
 
     inject(DestroyRef).onDestroy(() => clearTimeout(this._barCloseTimer));
 
+    afterNextRender(() => {
+      const mq = window.matchMedia('(max-width: 1023px)');
+      this.narrow.set(mq.matches);
+      mq.addEventListener('change', e => this.narrow.set(e.matches));
+    });
+
     // Keep the thread pinned to the newest message on send / conversation switch —
     // but NOT on in-place edits (reactions, poll votes) which replace the messages
     // array with a new reference yet append nothing. Scroll only when the active
@@ -272,6 +290,9 @@ export class TeamChat {
     }
     this.activeId.set(id);
     this._unread.update(map => ({ ...map, [id]: 0 }));
+    if (this.narrow()) {
+      this.showMobileView('thread');
+    }
   }
 
   protected onSearch(value: string | null): void {
@@ -285,7 +306,22 @@ export class TeamChat {
   }
 
   protected toggleDetails(): void {
+    if (this.narrow()) {
+      this.showMobileView('details');
+      return;
+    }
     this.showDetails.update(v => !v);
+  }
+
+  /**
+   * Switch the narrow-layout pane. Cancels any pending reaction-bar close first:
+   * the thread subtree unmounts on switch, so a deferred `hide()` would run on a
+   * disconnected popover.
+   */
+  protected showMobileView(view: 'list' | 'thread' | 'details'): void {
+    clearTimeout(this._barCloseTimer);
+    this._openBar = null;
+    this.mobileView.set(view);
   }
 
   protected sendMessage(): void {
