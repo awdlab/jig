@@ -21,6 +21,10 @@ copyFile(
   path.join(projectRoot, 'src/shade/theme-types.d.ts'),
   path.join(distDir, 'shade/theme-types.d.ts')
 );
+copyFile(
+  path.join(projectRoot, 'src/material/theme-types.d.ts'),
+  path.join(distDir, 'material/theme-types.d.ts')
+);
 
 function preparePackageJson(sourcePath: string, targetPath: string) {
   console.log(`Preparing package.json from ${sourcePath} to ${targetPath}`);

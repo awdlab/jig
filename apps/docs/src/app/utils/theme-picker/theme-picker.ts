@@ -20,10 +20,16 @@ import {
 } from '@ngneers/controls-themes/nova/base';
 import { createShadeColorPart, shade } from '@ngneers/controls-themes/shade';
 import { zinc } from '@ngneers/controls-themes/shade/base';
+import { material } from '@ngneers/controls-themes/material';
+import {
+  colorsTemplate as materialColorsTemplate,
+  material as materialColorPart,
+  materialColorValues,
+} from '@ngneers/controls-themes/material/base';
 
 import type { Theme } from '@ngneers/controls-themes';
 
-export type ThemeOptionId = 'nova' | 'shade';
+export type ThemeOptionId = 'nova' | 'shade' | 'material';
 
 export type ThemeColorOption = {
   name: string;
@@ -82,6 +88,28 @@ const THEME_OPTIONS: readonly ThemeOption[] = [
       { name: 'Orange', hex: '#f97316', swatch: '#f97316' },
     ],
   },
+  {
+    id: 'material',
+    label: 'Material',
+    // Material primary swatches are restricted to hues that stay DARK at the
+    // fixed L=50% ramp (getColorShade normalizes lightness, so only hue/sat
+    // matter). Blue/indigo/violet/purple/pink read well both as a filled-button
+    // background (white text) and as primary-colored text/links on a light
+    // surface. Bright hues (teal, amber, cyan, green, yellow) fail both and are
+    // deliberately omitted.
+    colors: [
+      { name: 'Indigo (default)', hex: null, swatch: '#3f51b5' },
+      { name: 'Blue', hex: '#3d5afe', swatch: '#3d5afe' },
+      { name: 'Deep Purple', hex: '#673ab7', swatch: '#673ab7' },
+      { name: 'Violet', hex: '#7c3aed', swatch: '#7c3aed' },
+      { name: 'Pink', hex: '#e91e63', swatch: '#e91e63' },
+    ],
+    surfaces: [
+      { name: 'Grey (default)', hex: null, swatch: '#5f6368' },
+      { name: 'Blue Grey', hex: '#607d8b', swatch: '#607d8b' },
+      { name: 'Brown', hex: '#795548', swatch: '#795548' },
+    ],
+  },
 ];
 
 function buildNovaTheme(hex: string | null, surfaceHex: string | null): Theme {
@@ -99,6 +127,23 @@ function buildNovaTheme(hex: string | null, surfaceHex: string | null): Theme {
     novaCoral.name,
     novaCoral.parts.map(part => (part === coral ? colorPart : part)),
     novaCoral.meta
+  );
+}
+
+function buildMaterialTheme(hex: string | null, surfaceHex: string | null): Theme {
+  if (hex == null && surfaceHex == null) {
+    return material;
+  }
+  const colorPart = createThemePart({
+    scope: 'color',
+    variables: [materialColorsTemplate],
+    root: { values: materialColorValues(hex, false, surfaceHex) },
+    dark: { values: materialColorValues(hex, true, surfaceHex) },
+  });
+  return createTheme(
+    material.name,
+    material.parts.map(part => (part === materialColorPart ? colorPart : part)),
+    material.meta
   );
 }
 
@@ -134,8 +179,8 @@ type PickerState = {
 function fallbackState(): PickerState {
   return {
     id: DEFAULT_THEME_ID,
-    colors: { nova: null, shade: null },
-    surfaces: { nova: null, shade: null },
+    colors: { nova: null, shade: null, material: null },
+    surfaces: { nova: null, shade: null, material: null },
   };
 }
 
@@ -182,7 +227,7 @@ function parseThemeState(rawValue: string | null): PickerState {
         return;
       }
       const map = raw as Record<string, unknown>;
-      for (const key of ['nova', 'shade'] as const) {
+      for (const key of ['nova', 'shade', 'material'] as const) {
         const value = map[key];
         if (typeof value === 'string' || value === null) {
           target[key] = value ?? null;
@@ -210,7 +255,13 @@ function resolveThemeStateFromContext(): PickerState {
 
 function buildThemeFromState(state: PickerState): Theme {
   const hex = state.colors[state.id];
-  return state.id === 'nova' ? buildNovaTheme(hex, state.surfaces.nova) : buildShadeTheme(hex);
+  if (state.id === 'nova') {
+    return buildNovaTheme(hex, state.surfaces.nova);
+  }
+  if (state.id === 'material') {
+    return buildMaterialTheme(hex, state.surfaces.material);
+  }
+  return buildShadeTheme(hex);
 }
 
 /**
@@ -335,10 +386,14 @@ export class ThemePickerService {
 
   private _apply(): void {
     const hex = this.selectedColor();
-    const theme =
-      this.themeId() === 'nova'
-        ? buildNovaTheme(hex, this.selectedSurface())
-        : buildShadeTheme(hex);
+    let theme: Theme;
+    if (this.themeId() === 'nova') {
+      theme = buildNovaTheme(hex, this.selectedSurface());
+    } else if (this.themeId() === 'material') {
+      theme = buildMaterialTheme(hex, this.selectedSurface());
+    } else {
+      theme = buildShadeTheme(hex);
+    }
     this._themeService.activeTheme.set(theme);
   }
 

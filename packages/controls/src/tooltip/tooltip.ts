@@ -15,9 +15,9 @@ import {
   afterRenderEffect,
 } from '@angular/core';
 import {
-  abortSignalOnDestroy,
   autoPositionElement,
   type AutoPositioningHandle,
+  domEventHandler,
   NGN_CONFIG,
   type PositioningSizeConstraints,
   roundByDpr,
@@ -194,19 +194,11 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
   constructor() {
     super();
 
-    const abortSignal = abortSignalOnDestroy();
-    this.element.nativeElement.addEventListener('mouseenter', this.onMouseEnter.bind(this), {
-      signal: abortSignal,
-    });
-    this.element.nativeElement.addEventListener('mouseleave', this.onMouseLeave.bind(this), {
-      signal: abortSignal,
-    });
-    this.element.nativeElement.addEventListener('focus', this.onFocus.bind(this), {
-      signal: abortSignal,
-    });
-    this.element.nativeElement.addEventListener('blur', this.onBlur.bind(this), {
-      signal: abortSignal,
-    });
+    const el = this.element.nativeElement;
+    domEventHandler(el, 'mouseenter', () => this.onMouseEnter());
+    domEventHandler(el, 'mouseleave', () => this.onMouseLeave());
+    domEventHandler(el, 'focus', () => this.onFocus());
+    domEventHandler(el, 'blur', () => this.onBlur());
 
     effect(() => {
       const tooltip = this._tooltip();
@@ -434,23 +426,12 @@ export class TooltipComponent extends NgnBase<'tooltip'> {
     });
   });
 
-  // Stable reference so addEventListener/removeEventListener target the same
-  // handler; `.bind()` returns a new function each call, which would leak
-  // listeners (remove never matches, add re-registers on every effect run).
-  private readonly onDocumentKeyDownBound = (event: KeyboardEvent): void =>
-    this.onDocumentKeyDown(event);
-
   constructor() {
     super();
     const document = inject(DOCUMENT);
-    const destroyAbortSignal = abortSignalOnDestroy();
-    effect(() => {
+    domEventHandler(document, 'keydown', event => {
       if (this.isShown() && !this.isClosing()) {
-        document.addEventListener('keydown', this.onDocumentKeyDownBound, {
-          signal: destroyAbortSignal,
-        });
-      } else {
-        document.removeEventListener('keydown', this.onDocumentKeyDownBound);
+        this.onDocumentKeyDown(event);
       }
     });
     effect(() => {

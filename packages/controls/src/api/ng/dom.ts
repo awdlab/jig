@@ -105,25 +105,6 @@ function elementsSizesSignalInt(
   return sizeSignal;
 }
 
-const ABORT_SIGNAL_SYMBOL = Symbol('AbortSignal');
-type DestroyRefWithAbortSignal = DestroyRef & { [ABORT_SIGNAL_SYMBOL]?: AbortSignal };
-/**
- * @todo use dom event functions directly and remove this function
- * @deprecated use dom event functions instead
- */
-export function abortSignalOnDestroy(options?: { injector?: Injector }): AbortSignal {
-  const destroyRef = options?.injector?.get(DestroyRef) ?? inject(DestroyRef);
-  if (ABORT_SIGNAL_SYMBOL in destroyRef) {
-    return destroyRef[ABORT_SIGNAL_SYMBOL] as AbortSignal;
-  }
-  const abortController = new AbortController();
-  destroyRef.onDestroy(() => {
-    abortController.abort();
-  });
-  (destroyRef as DestroyRefWithAbortSignal)[ABORT_SIGNAL_SYMBOL] = abortController.signal;
-  return abortController.signal;
-}
-
 /**
  * Creates an Observable that emits the latest event of the specified type from the given DOM element.
  *

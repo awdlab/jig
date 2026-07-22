@@ -26,6 +26,7 @@ import { PaginatorPage } from './paginator/page';
 import { PopoverPage } from './popover/page';
 import { ProgressPage } from './progress/page';
 import { RadioPage } from './radio/page';
+import { ScrollShadowPage } from './scroll-shadow/page';
 import { ScrollerPage } from './scroller/page';
 import { SelectPage } from './select/page';
 import { SelectButtonPage } from './select-button/page';
@@ -99,6 +100,7 @@ export const COMPONENT_GROUPS: NgnDocsGroup[] = [
       DrawerPage,
       MenuPage,
       PopoverPage,
+      ScrollShadowPage,
       ScrollerPage,
       SplitterPage,
       TabsPage,

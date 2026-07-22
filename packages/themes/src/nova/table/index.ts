@@ -186,42 +186,32 @@ export const tableStyles = createThemePart({
       ${c('head')} ${c('selection-column')} {
         background: ${v('color.background')};
       }
+      /* Scroll shadows anchored to the sticky-column edges (a table-specific placement the generic
+         scroll-shadow overlay can't do — it's disabled here via ngnScrollShadowUnstyled). The tint
+         is the shared --ngn-scroll-shadow-color so it stays identical to the generic overlay. */
       ${c('sticky-start-edge')},
-      ${c('sticky-end-edge')} {
+      ${c('sticky-end-edge')},
+      ${c('selection-column')} {
         overflow: visible;
       }
-      ${d('scroll-shadow', 'scrolled-start')} ${c('sticky-start-edge')}::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 100%;
-        height: 100%;
-        width: 12px;
-        pointer-events: none;
-        background: linear-gradient(to right, rgba(0, 0, 0, 0.15), transparent);
-      }
+      ${d('scroll-shadow', 'scrolled-start')} ${c('sticky-start-edge')}::after,
+      ${d('scroll-shadow', 'scrolled-start')} ${c('selection-column')}::after,
       ${d('scroll-shadow', 'scrolled-end')} ${c('sticky-end-edge')}::after {
         content: '';
         position: absolute;
         top: 0;
-        right: 100%;
         height: 100%;
         width: 12px;
         pointer-events: none;
-        background: linear-gradient(to left, rgba(0, 0, 0, 0.15), transparent);
       }
-      ${c('selection-column')} {
-        overflow: visible;
-      }
+      ${d('scroll-shadow', 'scrolled-start')} ${c('sticky-start-edge')}::after,
       ${d('scroll-shadow', 'scrolled-start')} ${c('selection-column')}::after {
-        content: '';
-        position: absolute;
-        top: 0;
         left: 100%;
-        width: 12px;
-        height: 100%;
-        pointer-events: none;
-        background: linear-gradient(to right, rgba(0, 0, 0, 0.15), transparent);
+        background: linear-gradient(to right, var(--ngn-scroll-shadow-color), transparent);
+      }
+      ${d('scroll-shadow', 'scrolled-end')} ${c('sticky-end-edge')}::after {
+        right: 100%;
+        background: linear-gradient(to left, var(--ngn-scroll-shadow-color), transparent);
       }
 
       /* ── Row Actions (inline) ────────────────────────────────────────── */

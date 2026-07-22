@@ -615,19 +615,25 @@
      layers stays subtle; the soft layered shadows do the lifting. */
   .chat-backdrop {
     background: linear-gradient(160deg, var(--ngn-color-surface-100), var(--ngn-color-surface-50));
-    /* big, soft, low-alpha panel shadow — no harsh Material drop */
-    --chat-elev-card: 0 1px 2px rgba(2, 6, 23, 0.05), 0 12px 30px -8px rgba(2, 6, 23, 0.14);
+    /* Soft panel lift. Kept tight vertically: the cards sit in a ~10px inset and
+       the window's overflow-hidden clips anything past it, so a tall downward
+       drop pooled into the bottom frame and hard-cut at the window edge. */
+    --chat-elev-card: 0 1px 2px rgba(2, 6, 23, 0.05), 0 4px 12px -6px rgba(2, 6, 23, 0.12);
     /* tighter shadow for tiles/bubbles that sit on a panel */
     --chat-elev-pop: 0 1px 2px rgba(2, 6, 23, 0.04), 0 3px 8px -2px rgba(2, 6, 23, 0.1);
   }
   .chat-card {
-    background: var(--ngn-color-surface-0);
+    background: var(--ngn-color-surface-25);
     border: 1px solid color-mix(in oklab, var(--ngn-color-surface-300) 45%, transparent);
     box-shadow: var(--chat-elev-card);
   }
   :host-context(.dark) .chat-backdrop {
-    background: linear-gradient(160deg, var(--ngn-color-surface-0), var(--ngn-color-surface-25));
-    --chat-elev-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 14px 34px -10px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(
+      160deg,
+      var(--ngn-color-surface-25),
+      color-mix(in oklab, var(--ngn-color-surface-25) 55%, var(--ngn-color-surface-50))
+    );
+    --chat-elev-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 6px 16px -8px rgba(0, 0, 0, 0.45);
     --chat-elev-pop: 0 1px 2px rgba(0, 0, 0, 0.28), 0 4px 12px -3px rgba(0, 0, 0, 0.42);
   }
   :host-context(.dark) .chat-card {

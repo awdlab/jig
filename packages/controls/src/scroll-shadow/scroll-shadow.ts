@@ -1,7 +1,17 @@
-import { afterNextRender, Directive, ElementRef, inject, Injector, input } from '@angular/core';
+import {
+  afterNextRender,
+  booleanAttribute,
+  DestroyRef,
+  Directive,
+  ElementRef,
+  inject,
+  Injector,
+  input,
+  Renderer2,
+} from '@angular/core';
 import { scrollShadowDirectiveTemplate } from '@ngneers/controls-themes/templates/api';
 
-import { abortSignalOnDestroy, injectThemeTemplate } from '@ngneers/controls/api/ng';
+import { domEventHandler, injectThemeTemplate } from '@ngneers/controls/api/ng';
 import { toggleClass } from '@ngneers/controls/utils';
 
 @Directive({
@@ -11,6 +21,7 @@ export class NgnScrollShadow {
   protected readonly theme = injectThemeTemplate(scrollShadowDirectiveTemplate);
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _injector = inject(Injector);
+  private readonly _renderer = inject(Renderer2);
 
   /**
    * Which scroll axis to track and add shadow classes for.
@@ -25,14 +36,43 @@ export class NgnScrollShadow {
    */
   public readonly scrollShadowTarget = input<HTMLElement | undefined>(undefined);
 
+  /**
+   * Suppress the built-in edge-shadow overlay's styling (the theme hides it). The overlay element
+   * is still injected but rendered inert, so it never disturbs the scroll container's layout.
+   * Set this when the consumer paints its own shadows off the `scrolled-*` classes — e.g. the
+   * table anchors them to its sticky-column edges, reusing the shared `--ngn-scroll-shadow-color`.
+   * @default false
+   */
+  public readonly unstyled = input(false, {
+    alias: 'ngnScrollShadowUnstyled',
+    transform: booleanAttribute,
+  });
+
   constructor() {
     afterNextRender(() => {
       const scrollEl = this._el.nativeElement;
-      const abort = abortSignalOnDestroy({ injector: this._injector });
+
+      // Injected overlay: a zero-size sticky layer pinned to the viewport's top-left corner, with a
+      // sized cover inside it. The cover's edge gradients (driven by the theme via the scrolled-*
+      // classes) paint over the scrolling content — painting on the container itself would sit
+      // *under* its children. When `unstyled`, the theme hides the layer (display:none), so it
+      // stays inert and never disturbs the container's layout (e.g. the table's CSS grid).
+      const layer = this._renderer.createElement('div') as HTMLElement;
+      layer.className = this.unstyled()
+        ? `${this.theme.class('overlay')} ${this.theme.class('unstyled')}`
+        : this.theme.class('overlay');
+      const surface = this._renderer.createElement('div') as HTMLElement;
+      surface.className = this.theme.class('surface');
+      this._renderer.appendChild(layer, surface);
+      this._renderer.insertBefore(scrollEl, layer, scrollEl.firstChild);
+      this._injector.get(DestroyRef).onDestroy(() => layer.remove());
 
       const update = () => {
         const target = this.scrollShadowTarget() ?? scrollEl;
         const dir = this.ngnScrollShadow();
+
+        surface.style.setProperty('--ngn-scroll-shadow-w', `${scrollEl.clientWidth}px`);
+        surface.style.setProperty('--ngn-scroll-shadow-h', `${scrollEl.clientHeight}px`);
 
         if (dir === 'horizontal' || dir === 'both') {
           const sl = scrollEl.scrollLeft;
@@ -51,8 +91,9 @@ export class NgnScrollShadow {
 
       const ro = new ResizeObserver(update);
       ro.observe(scrollEl);
-      abort.addEventListener('abort', () => ro.disconnect());
-      scrollEl.addEventListener('scroll', update, { passive: true, signal: abort });
+      this._injector.get(DestroyRef).onDestroy(() => ro.disconnect());
+      domEventHandler(scrollEl, 'scroll', update, this._injector, { passive: true });
+      update();
     });
   }
 }
