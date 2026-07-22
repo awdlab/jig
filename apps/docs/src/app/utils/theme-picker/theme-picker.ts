@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  DestroyRef,
   DOCUMENT,
   type EnvironmentProviders,
   inject,
@@ -10,6 +11,7 @@ import {
   signal,
 } from '@angular/core';
 import { Platform, ThemeService } from '@ngneers/controls/api/ng';
+import { NgnColorPicker } from '@ngneers/controls/color-picker';
 import { NgnSelectButton } from '@ngneers/controls/select-button';
 import { createTheme, createThemePart } from '@ngneers/controls-themes/api';
 import { novaCoral } from '@ngneers/controls-themes/nova';
@@ -413,7 +415,7 @@ export class ThemePickerService {
 
 @Component({
   selector: 'ngn-docs-theme-picker',
-  imports: [NgnSelectButton],
+  imports: [NgnSelectButton, NgnColorPicker],
   template: `
     <div class="flex flex-col gap-(--ngn-size-padding-xl)">
       <ngn-select-button
@@ -446,18 +448,15 @@ export class ThemePickerService {
                 (click)="picker.select(group.kind, color.hex)"
               ></button>
             }
-            <label
-              class="relative h-7 w-7 cursor-pointer overflow-hidden rounded-full border border-(--ngn-color-border) bg-[conic-gradient(red,yellow,lime,cyan,blue,magenta,red)] transition-transform hover:scale-110"
-              [attr.title]="'Custom ' + group.label + ' color'"
-            >
-              <input
-                type="color"
-                class="absolute inset-0 cursor-pointer opacity-0"
-                [attr.aria-label]="'Custom ' + group.label + ' color'"
-                [value]="group.selected ?? group.fallback"
-                (change)="picker.select(group.kind, $any($event.target).value)"
-              />
-            </label>
+            <!-- Custom color via our own color picker (opaque theme colors → hex, no alpha).
+                 The picker emits valueChange on every drag frame; debounce so a drag coalesces
+                 into one theme rebuild + cookie write instead of one per pointer move. -->
+            <ngn-color-picker
+              [alpha]="false"
+              [value]="group.selected ?? group.fallback"
+              [label]="'Custom ' + group.label + ' color'"
+              (valueChange)="onCustomColor(group.kind, $event)"
+            />
           </div>
         </div>
       }
@@ -471,4 +470,16 @@ export class NgnDocsThemePicker {
     label: theme.label,
     value: theme.id,
   }));
+
+  private _customColorTimer?: ReturnType<typeof setTimeout>;
+
+  constructor() {
+    inject(DestroyRef).onDestroy(() => clearTimeout(this._customColorTimer));
+  }
+
+  /** Trailing-debounced theme apply for the custom color picker's per-frame `valueChange`. */
+  protected onCustomColor(kind: 'primary' | 'surface', hex: string): void {
+    clearTimeout(this._customColorTimer);
+    this._customColorTimer = setTimeout(() => this.picker.select(kind, hex), 60);
+  }
 }

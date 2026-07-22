@@ -6,12 +6,14 @@ export type ThemeTemplate = {
   scrollShadow: Awaited<typeof import('./api')>['scrollShadowDirectiveTemplate'];
   avatar: Awaited<typeof import('./avatar')>['avatarControlTemplate'];
   avatarGroup: Awaited<typeof import('./avatar')>['avatarGroupControlTemplate'];
+  badge: Awaited<typeof import('./badge')>['badgeControlTemplate'];
   breadcrumb: Awaited<typeof import('./breadcrumb')>['breadcrumbControlTemplate'];
   button: Awaited<typeof import('./button')>['buttonControlTemplate'];
   buttonGroup: Awaited<typeof import('./button-group')>['buttonGroupControlTemplate'];
   calendar: Awaited<typeof import('./calendar')>['calendarControlTemplate'];
   checkbox: Awaited<typeof import('./checkbox')>['checkboxControlTemplate'];
   chip: Awaited<typeof import('./chip')>['chipControlTemplate'];
+  'color-picker': Awaited<typeof import('./color-picker')>['colorPickerControlTemplate'];
   dialog: Awaited<typeof import('./dialog')>['dialogControlTemplate'];
   drawer: Awaited<typeof import('./drawer')>['drawerControlTemplate'];
   filter: Awaited<typeof import('./filter')>['filterControlTemplate'];
@@ -34,6 +36,7 @@ export type ThemeTemplate = {
   progress: Awaited<typeof import('./progress')>['progressControlTemplate'];
   radioGroup: Awaited<typeof import('./radio-group')>['radioGroupControlTemplate'];
   radio: Awaited<typeof import('./radio')>['radioControlTemplate'];
+  rating: Awaited<typeof import('./rating')>['ratingControlTemplate'];
   scroller: Awaited<typeof import('./scroller')>['scrollerControlTemplate'];
   select: Awaited<typeof import('./select')>['selectControlTemplate'];
   selectButton: Awaited<typeof import('./select-button')>['selectButtonControlTemplate'];
@@ -43,6 +46,7 @@ export type ThemeTemplate = {
   spinner: Awaited<typeof import('./spinner')>['spinnerControlTemplate'];
   splitter: Awaited<typeof import('./splitter')>['splitterControlTemplate'];
   state: Awaited<typeof import('./state')>['stateControlTemplate'];
+  stepper: Awaited<typeof import('./stepper')>['stepperControlTemplate'];
   switch: Awaited<typeof import('./switch')>['switchControlTemplate'];
   tabs: Awaited<typeof import('./tabs')>['tabsControlTemplate'];
   table: Awaited<typeof import('./table')>['tableControlTemplate'];

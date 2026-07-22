@@ -17,6 +17,8 @@ import tablerRefresh from '@iconify/icons-tabler/refresh';
 import tablerSearch from '@iconify/icons-tabler/search';
 import tablerSortAscending from '@iconify/icons-tabler/sort-ascending';
 import tablerSortDescending from '@iconify/icons-tabler/sort-descending';
+import tablerStar from '@iconify/icons-tabler/star';
+import tablerStarFilled from '@iconify/icons-tabler/star-filled';
 import tablerUpload from '@iconify/icons-tabler/upload';
 import tablerX from '@iconify/icons-tabler/x';
 
@@ -50,12 +52,15 @@ const NGN_DEFAULT_ICON_REGISTRY: NgnIconRegistry = {
   'menu-submenu': { icon: tablerChevronRight, scale: 1.71 },
   'paginator-previous': { icon: tablerChevronLeft, scale: 1.71 },
   'paginator-next': { icon: tablerChevronRight, scale: 1.71 },
+  'rating-full': { icon: tablerStarFilled, scale: 1.14 },
+  'rating-empty': { icon: tablerStar, scale: 1.14 },
   search: { icon: tablerSearch, scale: 1.2 },
   'sort-neutral': { icon: tablerArrowsSort, scale: 1.2 },
   'sort-ascending': { icon: tablerSortAscending, scale: 1.26 },
   'sort-descending': { icon: tablerSortDescending, scale: 1.26 },
   'spin-decrement': { icon: tablerChevronDown, scale: 1.71 },
   'spin-increment': { icon: tablerChevronUp, scale: 1.71 },
+  'stepper-completed': { icon: tablerCheck, scale: 1.41 },
   'table-group-toggle': { icon: tablerChevronRight, scale: 1.71 },
   'tabs-scroll-left': { icon: tablerChevronLeft, scale: 1.71 },
   'tabs-scroll-right': { icon: tablerChevronRight, scale: 1.71 },

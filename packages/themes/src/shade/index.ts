@@ -8,6 +8,7 @@ import {
   scrollShadowStyles,
 } from '@ngneers/controls-themes/shade/api';
 import { avatarGroupStyles, avatarStyles } from '@ngneers/controls-themes/shade/avatar';
+import { badgeStyles } from '@ngneers/controls-themes/shade/badge';
 import {
   animation,
   font,
@@ -22,6 +23,7 @@ import { buttonGroupStyles } from '@ngneers/controls-themes/shade/button-group';
 import { calendarStyles } from '@ngneers/controls-themes/shade/calendar';
 import { checkboxStyles } from '@ngneers/controls-themes/shade/checkbox';
 import { chipStyles } from '@ngneers/controls-themes/shade/chip';
+import { colorPickerStyles } from '@ngneers/controls-themes/shade/color-picker';
 import { dialogStyles } from '@ngneers/controls-themes/shade/dialog';
 import { drawerStyles } from '@ngneers/controls-themes/shade/drawer';
 import { editInplaceStyles } from '@ngneers/controls-themes/shade/edit-inplace';
@@ -42,6 +44,7 @@ import { popoverStyles } from '@ngneers/controls-themes/shade/popover';
 import { progressStyles } from '@ngneers/controls-themes/shade/progress';
 import { radioStyles } from '@ngneers/controls-themes/shade/radio';
 import { radioGroupStyles } from '@ngneers/controls-themes/shade/radio-group';
+import { ratingStyles } from '@ngneers/controls-themes/shade/rating';
 import { scrollerStyles } from '@ngneers/controls-themes/shade/scroller';
 import { selectStyles } from '@ngneers/controls-themes/shade/select';
 import { selectButtonStyles } from '@ngneers/controls-themes/shade/select-button';
@@ -51,6 +54,7 @@ import { spinButtonsStyles } from '@ngneers/controls-themes/shade/spin-buttons';
 import { spinnerStyles } from '@ngneers/controls-themes/shade/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/shade/splitter';
 import { stateStyles } from '@ngneers/controls-themes/shade/state';
+import { stepperStyles } from '@ngneers/controls-themes/shade/stepper';
 import { switchStyles } from '@ngneers/controls-themes/shade/switch';
 import { tableStyles } from '@ngneers/controls-themes/shade/table';
 import { tabsStyles } from '@ngneers/controls-themes/shade/tabs';
@@ -91,12 +95,14 @@ export const shade = createTheme(
     animation,
     avatarGroupStyles,
     avatarStyles,
+    badgeStyles,
     breadcrumbStyles,
     buttonStyles,
     buttonGroupStyles,
     calendarStyles,
     checkboxStyles,
     chipStyles,
+    colorPickerStyles,
     dialogStyles,
     drawerStyles,
     editInplaceStyles,
@@ -119,6 +125,7 @@ export const shade = createTheme(
     progressStyles,
     radioGroupStyles,
     radioStyles,
+    ratingStyles,
     resizableStyles,
     scrollShadowStyles,
     scrollerStyles,
@@ -132,6 +139,7 @@ export const shade = createTheme(
     spinnerStyles,
     splitterStyles,
     stateStyles,
+    stepperStyles,
     switchStyles,
     tableStyles,
     tabsStyles,

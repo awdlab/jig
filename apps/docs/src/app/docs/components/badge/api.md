@@ -1,0 +1,1 @@
+{{ api: badge/badge NgnBadge }}

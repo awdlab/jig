@@ -1,3 +1,4 @@
+export * from './color';
 export * from './dom';
 export * from './equality';
 export * from './error';

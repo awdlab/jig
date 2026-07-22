@@ -1,0 +1,291 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+@if (inline()) {
+  <ng-container [ngTemplateOutlet]="panel" />
+} @else if (popover() && anchor(); as anchorEl) {
+  <!-- Headless: no trigger of our own; opened via show()/toggle() from an external anchor. -->
+  <ngn-popover
+    #popover
+    [ptInt]="this"
+    [ptDep]="'popover'"
+    [anchor]="anchorEl"
+    (openChange)="open.set($event)"
+    (closed)="onPopoverClosed()"
+  >
+    <ng-template #lazy>
+      <ng-container [ngTemplateOutlet]="panel" />
+    </ng-template>
+  </ngn-popover>
+} @else {
+  <button
+    #triggerBtn
+    type="button"
+    [ptInt]="this"
+    [ptClass]="'trigger'"
+    aria-haspopup="true"
+    [attr.aria-expanded]="popover.open()"
+    [attr.aria-label]="label() || 'Select color'"
+    (click)="toggleOpen()"
+  >
+    <span [ptInt]="this" [ptClass]="'preview'" [style.background]="cssColor()"></span>
+  </button>
+  <ngn-popover
+    #popover
+    [ptInt]="this"
+    [ptDep]="'popover'"
+    [anchor]="triggerBtn"
+    (openChange)="open.set($event)"
+    (closed)="onPopoverClosed()"
+  >
+    <ng-template #lazy>
+      <ng-container [ngTemplateOutlet]="panel" />
+    </ng-template>
+  </ngn-popover>
+}
+
+<ng-template #panel>
+  <div [ptInt]="this" [ptClass]="'panel'">
+    <div
+      #svArea
+      [ptInt]="this"
+      [ptClass]="'sv-area'"
+      ngnDrag
+      (dragged)="onSvDrag($event)"
+      (click)="
+        onSvDrag({ absoluteX: $event.clientX, absoluteY: $event.clientY, deltaX: 0, deltaY: 0 })
+      "
+    >
+      <span
+        [ptInt]="this"
+        [ptClass]="'sv-thumb'"
+        [style.left.%]="svThumbLeft()"
+        [style.top.%]="svThumbTop()"
+      ></span>
+    </div>
+
+    <div
+      #hueTrack
+      [ptInt]="this"
+      [ptClass]="'hue-track'"
+      ngnDrag
+      (dragged)="onHueDrag($event)"
+      (click)="
+        onHueDrag({ absoluteX: $event.clientX, absoluteY: $event.clientY, deltaX: 0, deltaY: 0 })
+      "
+    >
+      <span [ptInt]="this" [ptClass]="'hue-thumb'" [style.left.%]="hueThumbLeft()"></span>
+    </div>
+
+    @if (alpha()) {
+      <div
+        #alphaTrack
+        [ptInt]="this"
+        [ptClass]="'alpha-track'"
+        [style.background]="'linear-gradient(to right, transparent, ' + cssColor() + ')'"
+        ngnDrag
+        (dragged)="onAlphaDrag($event)"
+        (click)="
+          onAlphaDrag({
+            absoluteX: $event.clientX,
+            absoluteY: $event.clientY,
+            deltaX: 0,
+            deltaY: 0,
+          })
+        "
+      >
+        <span [ptInt]="this" [ptClass]="'alpha-thumb'" [style.left.%]="alphaThumbLeft()"></span>
+      </div>
+    }
+
+    <!-- Chrome-style per-format input boxes with channel labels; the button cycles the format. -->
+    <div [ptInt]="this" [ptClass]="'fields'">
+      <div [ptInt]="this" [ptClass]="'channels'">
+        @switch (activeFormat()) {
+          @case ('hex') {
+            <div [ptInt]="this" [ptClass]="{ channel: true, 'channel-hex': true }">
+              <!-- Color updates live per keystroke (onHexInput); the text is left as typed until
+                   commit (change/Enter/blur), when it normalizes to the canonical form. -->
+              <ngn-input-field>
+                <input
+                  ngnInput
+                  class="text-center"
+                  [value]="displayText()"
+                  [readOnly]="readonly()"
+                  [disabled]="disabled()"
+                  [attr.aria-label]="'Hex color'"
+                  (valueChange)="onHexInput($event)"
+                  (change)="onHexCommit($any($event.target).value)"
+                  (keydown.enter)="onHexCommit($any($event.target).value)"
+                  (blur)="onHexCommit($any($event.target).value)"
+                />
+              </ngn-input-field>
+              <span [ptInt]="this" [ptClass]="'channel-label'">Hex</span>
+            </div>
+          }
+          @case ('rgb') {
+            <div [ptInt]="this" [ptClass]="'channel'">
+              <ngn-input-field>
+                <input
+                  ngnNumberInput
+                  class="text-center"
+                  [min]="0"
+                  [max]="255"
+                  [value]="rgbaChannels().r"
+                  [readOnly]="readonly()"
+                  [disabled]="disabled()"
+                  aria-label="Red"
+                  (valueChange)="setRgbChannel('r', $event)"
+                />
+              </ngn-input-field>
+              <span [ptInt]="this" [ptClass]="'channel-label'">R</span>
+            </div>
+            <div [ptInt]="this" [ptClass]="'channel'">
+              <ngn-input-field>
+                <input
+                  ngnNumberInput
+                  class="text-center"
+                  [min]="0"
+                  [max]="255"
+                  [value]="rgbaChannels().g"
+                  [readOnly]="readonly()"
+                  [disabled]="disabled()"
+                  aria-label="Green"
+                  (valueChange)="setRgbChannel('g', $event)"
+                />
+              </ngn-input-field>
+              <span [ptInt]="this" [ptClass]="'channel-label'">G</span>
+            </div>
+            <div [ptInt]="this" [ptClass]="'channel'">
+              <ngn-input-field>
+                <input
+                  ngnNumberInput
+                  class="text-center"
+                  [min]="0"
+                  [max]="255"
+                  [value]="rgbaChannels().b"
+                  [readOnly]="readonly()"
+                  [disabled]="disabled()"
+                  aria-label="Blue"
+                  (valueChange)="setRgbChannel('b', $event)"
+                />
+              </ngn-input-field>
+              <span [ptInt]="this" [ptClass]="'channel-label'">B</span>
+            </div>
+            @if (alpha()) {
+              <div [ptInt]="this" [ptClass]="'channel'">
+                <ngn-input-field>
+                  <input
+                    ngnNumberInput
+                    class="text-center"
+                    [min]="0"
+                    [max]="100"
+                    [value]="alphaPercent()"
+                    [readOnly]="readonly()"
+                    [disabled]="disabled()"
+                    aria-label="Alpha percent"
+                    (valueChange)="setAlphaPercent($event)"
+                  />
+                </ngn-input-field>
+                <span [ptInt]="this" [ptClass]="'channel-label'">A</span>
+              </div>
+            }
+          }
+          @case ('hsl') {
+            <div [ptInt]="this" [ptClass]="'channel'">
+              <ngn-input-field>
+                <input
+                  ngnNumberInput
+                  class="text-center"
+                  [min]="0"
+                  [max]="360"
+                  [value]="hslChannels().h"
+                  [readOnly]="readonly()"
+                  [disabled]="disabled()"
+                  aria-label="Hue"
+                  (valueChange)="setHslChannel('h', $event)"
+                />
+              </ngn-input-field>
+              <span [ptInt]="this" [ptClass]="'channel-label'">H</span>
+            </div>
+            <div [ptInt]="this" [ptClass]="'channel'">
+              <ngn-input-field>
+                <input
+                  ngnNumberInput
+                  class="text-center"
+                  [min]="0"
+                  [max]="100"
+                  [value]="hslChannels().s"
+                  [readOnly]="readonly()"
+                  [disabled]="disabled()"
+                  aria-label="Saturation percent"
+                  (valueChange)="setHslChannel('s', $event)"
+                />
+              </ngn-input-field>
+              <span [ptInt]="this" [ptClass]="'channel-label'">S</span>
+            </div>
+            <div [ptInt]="this" [ptClass]="'channel'">
+              <ngn-input-field>
+                <input
+                  ngnNumberInput
+                  class="text-center"
+                  [min]="0"
+                  [max]="100"
+                  [value]="hslChannels().l"
+                  [readOnly]="readonly()"
+                  [disabled]="disabled()"
+                  aria-label="Lightness percent"
+                  (valueChange)="setHslChannel('l', $event)"
+                />
+              </ngn-input-field>
+              <span [ptInt]="this" [ptClass]="'channel-label'">L</span>
+            </div>
+            @if (alpha()) {
+              <div [ptInt]="this" [ptClass]="'channel'">
+                <ngn-input-field>
+                  <input
+                    ngnNumberInput
+                    class="text-center"
+                    [min]="0"
+                    [max]="100"
+                    [value]="alphaPercent()"
+                    [readOnly]="readonly()"
+                    [disabled]="disabled()"
+                    aria-label="Alpha percent"
+                    (valueChange)="setAlphaPercent($event)"
+                  />
+                </ngn-input-field>
+                <span [ptInt]="this" [ptClass]="'channel-label'">A</span>
+              </div>
+            }
+          }
+        }
+      </div>
+      <button
+        ngnButton
+        kind="secondary"
+        type="button"
+        [ptInt]="this"
+        [ptClass]="'format-toggle'"
+        [disabled]="disabled()"
+        aria-label="Color format"
+        (click)="cycleFormat()"
+      >
+        {{ activeFormat() }}
+      </button>
+    </div>
+
+    @if (swatches(); as sw) {
+      <div [ptInt]="this" [ptClass]="'swatches'">
+        @for (color of sw; track color) {
+          <button
+            type="button"
+            [ptInt]="this"
+            [ptClass]="'swatch'"
+            [style.background]="color"
+            (click)="selectSwatch(color)"
+          ></button>
+        }
+      </div>
+    }
+  </div>
+</ng-template>

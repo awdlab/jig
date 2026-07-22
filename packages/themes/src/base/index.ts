@@ -8,12 +8,14 @@ import {
   scrollShadowStyles,
 } from '@ngneers/controls-themes/base/api';
 import { avatarGroupStyles, avatarStyles } from '@ngneers/controls-themes/base/avatar';
+import { badgeStyles } from '@ngneers/controls-themes/base/badge';
 import { breadcrumbStyles } from '@ngneers/controls-themes/base/breadcrumb';
 import { buttonStyles } from '@ngneers/controls-themes/base/button';
 import { buttonGroupStyles } from '@ngneers/controls-themes/base/button-group';
 import { calendarStyles } from '@ngneers/controls-themes/base/calendar';
 import { checkboxStyles } from '@ngneers/controls-themes/base/checkbox';
 import { chipStyles } from '@ngneers/controls-themes/base/chip';
+import { colorPickerStyles } from '@ngneers/controls-themes/base/color-picker';
 import { dialogStyles } from '@ngneers/controls-themes/base/dialog';
 import { drawerStyles } from '@ngneers/controls-themes/base/drawer';
 import { editInplaceStyles } from '@ngneers/controls-themes/base/edit-inplace';
@@ -35,6 +37,7 @@ import { popoverStyles } from '@ngneers/controls-themes/base/popover';
 import { progressStyles } from '@ngneers/controls-themes/base/progress';
 import { radioStyles } from '@ngneers/controls-themes/base/radio';
 import { radioGroupStyles } from '@ngneers/controls-themes/base/radio-group';
+import { ratingStyles } from '@ngneers/controls-themes/base/rating';
 import { scrollerStyles } from '@ngneers/controls-themes/base/scroller';
 import { selectStyles } from '@ngneers/controls-themes/base/select';
 import { selectButtonStyles } from '@ngneers/controls-themes/base/select-button';
@@ -44,6 +47,7 @@ import { spinButtonsStyles } from '@ngneers/controls-themes/base/spin-buttons';
 import { spinnerStyles } from '@ngneers/controls-themes/base/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/base/splitter';
 import { stateStyles } from '@ngneers/controls-themes/base/state';
+import { stepperStyles } from '@ngneers/controls-themes/base/stepper';
 import { switchStyles } from '@ngneers/controls-themes/base/switch';
 import { tabsStyles } from '@ngneers/controls-themes/base/tabs';
 import { tagStyles } from '@ngneers/controls-themes/base/tag';
@@ -63,12 +67,14 @@ export const baseStyles = {
   scrollShadow: scrollShadowStyles,
   avatarGroup: avatarGroupStyles,
   avatar: avatarStyles,
+  badge: badgeStyles,
   breadcrumb: breadcrumbStyles,
   button: buttonStyles,
   buttonGroup: buttonGroupStyles,
   calendar: calendarStyles,
   checkbox: checkboxStyles,
   chip: chipStyles,
+  'color-picker': colorPickerStyles,
   dialog: dialogStyles,
   drawer: drawerStyles,
   filter: filterStyles,
@@ -90,6 +96,7 @@ export const baseStyles = {
   progress: progressStyles,
   radioGroup: radioGroupStyles,
   radio: radioStyles,
+  rating: ratingStyles,
   scroller: scrollerStyles,
   select: selectStyles,
   selectButton: selectButtonStyles,
@@ -99,6 +106,7 @@ export const baseStyles = {
   spinner: spinnerStyles,
   splitter: splitterStyles,
   state: stateStyles,
+  stepper: stepperStyles,
   switch: switchStyles,
   table: tableStyles,
   tabs: tabsStyles,

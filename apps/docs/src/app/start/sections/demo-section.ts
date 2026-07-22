@@ -5,6 +5,7 @@ import tablerLock from '@iconify/icons-tabler/lock';
 import tablerMessageCircle from '@iconify/icons-tabler/message-circle';
 import tablerSettings from '@iconify/icons-tabler/settings';
 import { NgnAvatar } from '@ngneers/controls/avatar';
+import { NgnBadge } from '@ngneers/controls/badge';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnTooltip } from '@ngneers/controls/tooltip';
 
@@ -17,7 +18,16 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
 
 @Component({
   selector: 'ngn-docs-demo-section',
-  imports: [NgnAvatar, NgnIcon, NgnTooltip, NgnDocsLoginDialog, SalesCrm, TeamChat, ProjectBoard],
+  imports: [
+    NgnAvatar,
+    NgnBadge,
+    NgnIcon,
+    NgnTooltip,
+    NgnDocsLoginDialog,
+    SalesCrm,
+    TeamChat,
+    ProjectBoard,
+  ],
   template: `
     <section class="px-(--ngn-size-padding-xl) py-8">
       <div class="mx-auto max-w-[1360px]">
@@ -104,11 +114,15 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
                 class="relative mt-(--ngn-size-padding-sm) rounded-full transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ngn-color-primary-500)"
                 (click)="openLogin()"
               >
-                <ngn-avatar initials="YO" bgColor="#c99a2e" [size]="34" />
                 <span
-                  aria-hidden="true"
-                  class="absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full bg-[#22c55e] ring-2 ring-(--ngn-color-surface-50)"
-                ></span>
+                  class="inline-flex"
+                  ngnBadgeDot
+                  ngnBadgeCircular
+                  ngnBadgePosition="bottom-end"
+                  ngnBadgeColor="var(--ngn-color-success-500)"
+                >
+                  <ngn-avatar initials="YO" bgColor="#c99a2e" [size]="34" />
+                </span>
               </button>
             </nav>
 

@@ -20,6 +20,7 @@ import tablerSearch from '@iconify/icons-tabler/search';
 import tablerSend from '@iconify/icons-tabler/send';
 import tablerTrash from '@iconify/icons-tabler/trash';
 import { NgnAvatar, NgnAvatarGroup } from '@ngneers/controls/avatar';
+import { NgnBadge } from '@ngneers/controls/badge';
 import { NgnButton } from '@ngneers/controls/button';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInput } from '@ngneers/controls/input';
@@ -54,6 +55,7 @@ import {
   imports: [
     NgnAvatar,
     NgnAvatarGroup,
+    NgnBadge,
     NgnButton,
     NgnIcon,
     NgnInput,

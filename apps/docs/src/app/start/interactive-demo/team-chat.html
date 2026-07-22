@@ -49,16 +49,18 @@
                       #
                     </span>
                   } @else {
-                    <span class="relative shrink-0">
+                    <span
+                      class="inline-flex shrink-0"
+                      ngnBadgeDot
+                      ngnBadgeCircular
+                      ngnBadgePosition="bottom-end"
+                      [ngnBadgeColor]="presenceColor[dmPartner(c).presence]"
+                    >
                       <ngn-avatar
                         [initials]="dmPartner(c).initials"
                         [bgColor]="dmPartner(c).color"
                         [size]="32"
                       />
-                      <span
-                        class="absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full"
-                        [style.background]="presenceColor[dmPartner(c).presence]"
-                      ></span>
                     </span>
                   }
 
@@ -504,12 +506,14 @@
                 <ul class="space-y-(--ngn-size-padding-md)">
                   @for (m of members(); track m.id) {
                     <li class="flex items-center gap-(--ngn-size-padding-md)">
-                      <span class="relative shrink-0">
+                      <span
+                        class="inline-flex shrink-0"
+                        ngnBadgeDot
+                        ngnBadgeCircular
+                        ngnBadgePosition="bottom-end"
+                        [ngnBadgeColor]="presenceColor[m.presence]"
+                      >
                         <ngn-avatar [initials]="m.initials" [bgColor]="m.color" [size]="32" />
-                        <span
-                          class="absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full"
-                          [style.background]="presenceColor[m.presence]"
-                        ></span>
                       </span>
                       <div class="min-w-0">
                         <div

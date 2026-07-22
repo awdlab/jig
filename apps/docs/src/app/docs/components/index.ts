@@ -1,11 +1,13 @@
 import { AccordionPage } from './accordion/page';
 import { AvatarPage } from './avatar/page';
+import { BadgePage } from './badge/page';
 import { BreadcrumbPage } from './breadcrumb/page';
 import { ButtonPage } from './button/page';
 import { ButtonGroupPage } from './button-group/page';
 import { CalendarPage } from './calendar/page';
 import { CheckboxPage } from './checkbox/page';
 import { ChipPage } from './chip/page';
+import { ColorPickerPage } from './color-picker/page';
 import { DialogPage } from './dialog/page';
 import { DrawerPage } from './drawer/page';
 import { EditInplacePage } from './edit-inplace/page';
@@ -26,6 +28,7 @@ import { PaginatorPage } from './paginator/page';
 import { PopoverPage } from './popover/page';
 import { ProgressPage } from './progress/page';
 import { RadioPage } from './radio/page';
+import { RatingPage } from './rating/page';
 import { ScrollShadowPage } from './scroll-shadow/page';
 import { ScrollerPage } from './scroller/page';
 import { SelectPage } from './select/page';
@@ -35,6 +38,7 @@ import { SnackbarPage } from './snackbar/page';
 import { SpinnerPage } from './spinner/page';
 import { SplitterPage } from './splitter/page';
 import { StatePage } from './state/page';
+import { StepperPage } from './stepper/page';
 import { SwitchPage } from './switch/page';
 import { TablePage } from './table/page';
 import { TabsPage } from './tabs/page';
@@ -57,6 +61,7 @@ export const COMPONENT_GROUPS: NgnDocsGroup[] = [
     pages: [
       CalendarPage,
       CheckboxPage,
+      ColorPickerPage,
       EditInplacePage,
       FilterPage,
       InputPage,
@@ -66,6 +71,7 @@ export const COMPONENT_GROUPS: NgnDocsGroup[] = [
       NumberInputPage,
       OtpPage,
       RadioPage,
+      RatingPage,
       SelectPage,
       SliderPage,
       SwitchPage,
@@ -80,6 +86,7 @@ export const COMPONENT_GROUPS: NgnDocsGroup[] = [
     title: 'Data Display',
     pages: [
       AvatarPage,
+      BadgePage,
       ChipPage,
       IconPage,
       InplacePage,
@@ -103,6 +110,7 @@ export const COMPONENT_GROUPS: NgnDocsGroup[] = [
       ScrollShadowPage,
       ScrollerPage,
       SplitterPage,
+      StepperPage,
       TabsPage,
       TooltipPage,
     ],

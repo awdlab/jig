@@ -9,12 +9,14 @@ import {
 } from '@ngneers/controls-themes/nova/api';
 import { avatarGroupStyles, avatarStyles } from '@ngneers/controls-themes/nova/avatar';
 import { animation, coral, font, sizes, shadow } from '@ngneers/controls-themes/nova/base';
+import { badgeStyles } from '@ngneers/controls-themes/nova/badge';
 import { breadcrumbStyles } from '@ngneers/controls-themes/nova/breadcrumb';
 import { buttonStyles } from '@ngneers/controls-themes/nova/button';
 import { buttonGroupStyles } from '@ngneers/controls-themes/nova/button-group';
 import { calendarStyles } from '@ngneers/controls-themes/nova/calendar';
 import { checkboxStyles } from '@ngneers/controls-themes/nova/checkbox';
 import { chipStyles } from '@ngneers/controls-themes/nova/chip';
+import { colorPickerStyles } from '@ngneers/controls-themes/nova/color-picker';
 import { dialogStyles } from '@ngneers/controls-themes/nova/dialog';
 import { drawerStyles } from '@ngneers/controls-themes/nova/drawer';
 import { editInplaceStyles } from '@ngneers/controls-themes/nova/edit-inplace';
@@ -35,6 +37,7 @@ import { popoverStyles } from '@ngneers/controls-themes/nova/popover';
 import { progressStyles } from '@ngneers/controls-themes/nova/progress';
 import { radioStyles } from '@ngneers/controls-themes/nova/radio';
 import { radioGroupStyles } from '@ngneers/controls-themes/nova/radio-group';
+import { ratingStyles } from '@ngneers/controls-themes/nova/rating';
 import { scrollerStyles } from '@ngneers/controls-themes/nova/scroller';
 import { selectStyles } from '@ngneers/controls-themes/nova/select';
 import { selectButtonStyles } from '@ngneers/controls-themes/nova/select-button';
@@ -44,6 +47,7 @@ import { spinButtonsStyles } from '@ngneers/controls-themes/nova/spin-buttons';
 import { spinnerStyles } from '@ngneers/controls-themes/nova/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/nova/splitter';
 import { stateStyles } from '@ngneers/controls-themes/nova/state';
+import { stepperStyles } from '@ngneers/controls-themes/nova/stepper';
 import { switchStyles } from '@ngneers/controls-themes/nova/switch';
 import { tableStyles } from '@ngneers/controls-themes/nova/table';
 import { tabsStyles } from '@ngneers/controls-themes/nova/tabs';
@@ -86,12 +90,14 @@ export const novaCoral = createTheme(
     animation,
     avatarGroupStyles,
     avatarStyles,
+    badgeStyles,
     breadcrumbStyles,
     buttonStyles,
     buttonGroupStyles,
     calendarStyles,
     checkboxStyles,
     chipStyles,
+    colorPickerStyles,
     coral,
     dialogStyles,
     drawerStyles,
@@ -116,6 +122,7 @@ export const novaCoral = createTheme(
     progressStyles,
     radioGroupStyles,
     radioStyles,
+    ratingStyles,
     resizableStyles,
     scrollShadowStyles,
     scrollerStyles,
@@ -128,6 +135,7 @@ export const novaCoral = createTheme(
     spinnerStyles,
     splitterStyles,
     stateStyles,
+    stepperStyles,
     switchStyles,
     tableStyles,
     tabsStyles,
