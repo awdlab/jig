@@ -8,6 +8,7 @@ import {
   scrollShadowStyles,
 } from '@ngneers/controls-themes/material/api';
 import { avatarGroupStyles, avatarStyles } from '@ngneers/controls-themes/material/avatar';
+import { badgeStyles } from '@ngneers/controls-themes/material/badge';
 import {
   animation,
   font,
@@ -21,6 +22,7 @@ import { buttonGroupStyles } from '@ngneers/controls-themes/material/button-grou
 import { calendarStyles } from '@ngneers/controls-themes/material/calendar';
 import { checkboxStyles } from '@ngneers/controls-themes/material/checkbox';
 import { chipStyles } from '@ngneers/controls-themes/material/chip';
+import { colorPickerStyles } from '@ngneers/controls-themes/material/color-picker';
 import { dialogStyles } from '@ngneers/controls-themes/material/dialog';
 import { drawerStyles } from '@ngneers/controls-themes/material/drawer';
 import { editInplaceStyles } from '@ngneers/controls-themes/material/edit-inplace';
@@ -41,6 +43,7 @@ import { popoverStyles } from '@ngneers/controls-themes/material/popover';
 import { progressStyles } from '@ngneers/controls-themes/material/progress';
 import { radioStyles } from '@ngneers/controls-themes/material/radio';
 import { radioGroupStyles } from '@ngneers/controls-themes/material/radio-group';
+import { ratingStyles } from '@ngneers/controls-themes/material/rating';
 import { scrollerStyles } from '@ngneers/controls-themes/material/scroller';
 import { selectStyles } from '@ngneers/controls-themes/material/select';
 import { selectButtonStyles } from '@ngneers/controls-themes/material/select-button';
@@ -50,6 +53,7 @@ import { spinButtonsStyles } from '@ngneers/controls-themes/material/spin-button
 import { spinnerStyles } from '@ngneers/controls-themes/material/spinner';
 import { splitterStyles } from '@ngneers/controls-themes/material/splitter';
 import { stateStyles } from '@ngneers/controls-themes/material/state';
+import { stepperStyles } from '@ngneers/controls-themes/material/stepper';
 import { switchStyles } from '@ngneers/controls-themes/material/switch';
 import { tableStyles } from '@ngneers/controls-themes/material/table';
 import { tabsStyles } from '@ngneers/controls-themes/material/tabs';
@@ -93,12 +97,14 @@ export const material = createTheme(
     animation,
     avatarGroupStyles,
     avatarStyles,
+    badgeStyles,
     breadcrumbStyles,
     buttonStyles,
     buttonGroupStyles,
     calendarStyles,
     checkboxStyles,
     chipStyles,
+    colorPickerStyles,
     materialColors,
     dialogStyles,
     drawerStyles,
@@ -123,6 +129,7 @@ export const material = createTheme(
     progressStyles,
     radioGroupStyles,
     radioStyles,
+    ratingStyles,
     resizableStyles,
     scrollShadowStyles,
     scrollerStyles,
@@ -135,6 +142,7 @@ export const material = createTheme(
     spinnerStyles,
     splitterStyles,
     stateStyles,
+    stepperStyles,
     switchStyles,
     tableStyles,
     tabsStyles,
