@@ -71,8 +71,8 @@ test('navigation clamps at the first and last page', async ({ page }) => {
   const paginator = page.locator('ngn-paginator');
   const current = paginator.locator('[aria-current="page"]');
 
-  // Already on the first page — Previous is a no-op.
-  await paginator.getByLabel('Previous page').click();
+  // Already on the first page — Previous is disabled.
+  await expect(paginator.getByLabel('Previous page')).toBeDisabled();
   await expect(current).toHaveText('1');
 
   // Walk to the last page and confirm Next stops there.
@@ -96,6 +96,64 @@ test('fixedPageSize hides the page-size selector', async ({ page }) => {
   // Re-enabling the selector renders the select control.
   await handle.setInputs({ fixedPageSize: false });
   await expect(paginator.locator('ngn-select')).toHaveCount(1);
+});
+
+const COMPACT_TEMPLATE = `<ngn-paginator
+  [mode]="'compact'"
+  [hasNext]="inputs().hasNext"
+  [pageSize]="inputs().pageSize"
+  (value)="output('value', $event)"
+/>`;
+
+test('compact mode shows only prev/next, no page numbers', async ({ page }) => {
+  await loadComponent(
+    page,
+    { template: COMPACT_TEMPLATE, imports: ['paginator'] },
+    { inputs: { hasNext: true, pageSize: 10 } }
+  );
+
+  const paginator = page.locator('ngn-paginator');
+  // No clickable page-number buttons in compact mode…
+  await expect(paginator.getByRole('button', { name: /^\d+$/ })).toHaveCount(0);
+  await expect(paginator.getByLabel('Next page')).toBeEnabled();
+  // …but the current page index is still shown between prev/next.
+  const indicator = paginator.locator('[data-compact-page]');
+  await expect(indicator).toHaveText('1');
+  await paginator.getByLabel('Next page').click();
+  await expect(indicator).toHaveText('2');
+});
+
+test('compact mode disables next when hasNext is false', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    { template: COMPACT_TEMPLATE, imports: ['paginator'] },
+    { inputs: { hasNext: false, pageSize: 10 } }
+  );
+
+  const paginator = page.locator('ngn-paginator');
+  await expect(paginator.getByLabel('Next page')).toBeDisabled();
+
+  await handle.setInputs({ hasNext: true });
+  await expect(paginator.getByLabel('Next page')).toBeEnabled();
+});
+
+test('compact mode advances a single page even with shift/ctrl held', async ({ page }) => {
+  await loadComponent(
+    page,
+    { template: COMPACT_TEMPLATE, imports: ['paginator'] },
+    { inputs: { hasNext: true, pageSize: 10 } }
+  );
+
+  const paginator = page.locator('ngn-paginator');
+  const indicator = paginator.locator('[data-compact-page]');
+  await expect(indicator).toHaveText('1');
+
+  // Compact drives cursor pagination — a modifier must not multi-jump past a
+  // page whose continuation cursor isn't known yet.
+  await paginator.getByLabel('Next page').click({ modifiers: ['Shift'] });
+  await expect(indicator).toHaveText('2');
+  await paginator.getByLabel('Previous page').click({ modifiers: ['Shift'] });
+  await expect(indicator).toHaveText('1');
 });
 
 test('accessibility (axe)', async ({ page }) => {

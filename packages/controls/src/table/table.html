@@ -97,13 +97,45 @@
         ></ng-container>
       }
     </ng-template>
+    @if (skeletonRows() > 0) {
+      @if (loadingTemplate(); as customLoading) {
+        <ng-container [ngTemplateOutlet]="customLoading"></ng-container>
+      } @else {
+        @for (i of [].constructor(skeletonRows()); track $index) {
+          <tr [class]="theme.class('skeleton-row')" role="row" aria-hidden="true">
+            <td [class]="theme.class('skeleton-cell')" role="gridcell"></td>
+          </tr>
+        }
+      }
+    }
+    @if (loadStatus() === 'error') {
+      @if (errorTemplate(); as customError) {
+        <ng-container
+          [ngTemplateOutlet]="customError"
+          [ngTemplateOutletContext]="{
+            $implicit: { error: loadError(), retry: retryLoad.bind(this) },
+          }"
+        ></ng-container>
+      } @else {
+        <tr [class]="theme.class('error-row')" role="row">
+          <td [attr.colspan]="totalColumnCount()" role="gridcell">
+            <span>{{ i18n['table_loadError']() }}</span>
+            <button ngnButton [kind]="'text'" (click)="retryLoad()">
+              {{ i18n['table_retry']() }}
+            </button>
+          </td>
+        </tr>
+      }
+    }
   </tbody>
 </table>
 @if (paginator()) {
   <ngn-paginator
     [ptInt]="this"
     [ptDep]="'paginator'"
-    [totalItems]="rows().length"
+    [mode]="lazy() && loadTotal() === undefined ? 'compact' : 'pages'"
+    [totalItems]="lazy() ? (loadTotal() ?? 0) : rows().length"
+    [hasNext]="lazyHasMore()"
     (value)="pageChanged($event)"
   />
 }

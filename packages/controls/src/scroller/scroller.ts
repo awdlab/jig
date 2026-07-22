@@ -43,6 +43,9 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _scrollAmount = inject(NgnScrollAmount);
 
+  /** Remaining vertical scroll distance to the bottom (px). Proxied from the host scroll directive. */
+  public readonly distanceFromEnd = this._scrollAmount.distanceFromEnd;
+
   /**
    * The items to be displayed in the scroller.
    * This is a required input and should be an array of items of type {@link T}.

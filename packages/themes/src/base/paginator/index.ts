@@ -12,6 +12,13 @@ export const paginatorStyles = createThemePart({
         justify-content: center;
         width: 100%;
       }
+      /* Compact-mode current-page indicator between prev/next. */
+      ${c('root')} [data-compact-page] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
     `,
   },
 });

@@ -12,3 +12,6 @@
     *ngTemplateOutlet="itemTemplate(); context: { $implicit: item.item, index: item.index }"
   ></ng-container>
 }
+
+<!-- Projects static content added alongside the scroller (e.g. table skeleton rows). -->
+<ng-content></ng-content>

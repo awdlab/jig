@@ -79,3 +79,5 @@ Always check **all** parts when making changes to a control — a rename or new 
 - Always run `pnpm format` over changed files after completing edits (oxfmt for `.ts`/`.json`/`.md`, Prettier for `.html`)
 
 - The dev server does NOT recompile when a globally `@use`d SCSS partial (e.g. `src/styles/global.scss`) changes — the watcher misses it. To force a rebuild + reload, save the app's `styles.scss` entry (which `@use`s those partials). (Component-template/TS edits hot-reload normally; this caveat is specific to global SCSS partials.)
+
+- Comments: short and precise. Code should be self-explanatory; only comment genuinely unintuitive logic. NO decision logs, NO references to earlier states / changes / effect-registration order / "pre-existing" / task or finding numbers. State what the code does now, in one line. Trim verbose comments to a single line or remove them.

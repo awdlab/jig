@@ -226,6 +226,38 @@ export const tableStyles = createThemePart({
            row separator stays continuous underneath the actions. */
         border-bottom: 1px solid ${v('color.surface.200')};
       }
+
+      /* ── Skeleton loading rows ───────────────────────────────────────── */
+
+      /* Base theme owns layout/height; nova adds token padding + a shimmer. */
+      ${c('skeleton-row')} {
+        padding: ${v('size.padding.sm')} ${v('size.padding.md')};
+      }
+      ${c('skeleton-cell')} {
+        opacity: 1;
+        background: linear-gradient(
+          90deg,
+          ${v('color.surface.200')} 25%,
+          ${v('color.surface.100')} 37%,
+          ${v('color.surface.200')} 63%
+        );
+        background-size: 400% 100%;
+        animation: ${c('skeleton-cell', 'animation')} 1.4s ease infinite;
+      }
+      @keyframes ${c('skeleton-cell', 'animation')} {
+        0% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0 50%;
+        }
+      }
+
+      /* ── Error row ───────────────────────────────────────────────────── */
+
+      ${c('error-row')} {
+        color: ${v('color.error.500')};
+      }
     `,
   },
 });

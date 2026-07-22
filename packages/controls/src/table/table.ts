@@ -7,11 +7,13 @@ import {
   input,
   model,
   signal,
+  untracked,
   booleanAttribute,
   viewChild,
 } from '@angular/core';
 import { NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
+import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnPaginator, type PaginationState } from '@ngneers/controls/paginator';
@@ -21,6 +23,7 @@ import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 import { TableColumnLayoutModel } from './table-column-layout-model';
 import { NgnTableGroupHeaderTr } from './table-group-header-row';
+import { TableLazyModel } from './table-lazy-model';
 import {
   filterRows,
   groupRows,
@@ -38,10 +41,13 @@ import type {
   FormattedTableDataRow,
   FormattedTableGroupHeaderRow,
   FormattedTableRow,
+  TableDataSource,
   TableSelectionMode,
 } from './types';
 import type { NgnFilterConfig } from '@ngneers/controls/filter';
-import type { AllKeysOfUnion } from '@ngneers/controls/utils';
+import { NgnError, type AllKeysOfUnion } from '@ngneers/controls/utils';
+
+const DEFAULT_LAZY_PAGE_SIZE = 25;
 
 /**
  * @category control
@@ -59,6 +65,7 @@ import type { AllKeysOfUnion } from '@ngneers/controls/utils';
     NgnIcon,
     NgnTableGroupHeaderTr,
     NgnScrollShadow,
+    NgnButton,
   ],
   providers: [provideSelf(NgnTable)],
   host: {
@@ -78,11 +85,12 @@ export class NgnTable<
     selectable: () => !!this.selectionMode(),
     reorderable: () => this.reorderable(),
     reordering: () => this._columns?.isReordering() ?? false,
+    loading: () => this.loadStatus() === 'loading',
   });
   private readonly _scroller = viewChild.required(NgnScroller);
 
-  /** The data rows to render. */
-  public readonly rows = input.required<readonly T[]>();
+  /** The data rows to render in client-side mode. Ignored when {@link dataSource} is set. */
+  public readonly rows = input<readonly T[]>([]);
   /**
    * When {@link virtual} is enabled, this defines the height of each row in pixels.
    */
@@ -109,6 +117,26 @@ export class NgnTable<
    * @default false
    */
   public readonly paginator = input<boolean>(false);
+
+  /**
+   * A loader callback for server-driven lazy loading. When set, the table fetches
+   * rows on demand instead of reading {@link rows}, and client-side sort/filter are
+   * delegated to the loader. With {@link paginator} it pages lazily; without, it
+   * infinite-scrolls. Incompatible with {@link groupBy} (throws).
+   *
+   * @remarks Bind to a stable reference (a class field/method), not an inline
+   * arrow — a new function identity each change-detection cycle invalidates the
+   * page cache and refetches every cycle.
+   * @default null
+   */
+  public readonly dataSource = input<TableDataSource<T> | null>(null);
+  /**
+   * Infinite scroll only: set by the header select-all checkbox to request a
+   * "select everything matching the current filters" bulk operation, since the
+   * full set is not loaded. Two-way bindable.
+   * @default false
+   */
+  public readonly selectAllMatching = model<boolean>(false);
 
   /**
    * The selection mode for the table.
@@ -210,6 +238,25 @@ export class NgnTable<
   >(null);
   protected readonly pageState = signal<PaginationState | null>(null);
 
+  // --- Lazy (server-driven) loading ---
+
+  protected readonly lazy = computed(() => !!this.dataSource());
+  protected readonly lazyMode = computed<'paginate' | 'infinite'>(() =>
+    this.paginator() ? 'paginate' : 'infinite'
+  );
+
+  private readonly _lazyModel = new TableLazyModel<T>({
+    dataSource: this.dataSource,
+    sort: this.sort,
+    filters: computed(() => this.filters() as Record<string, NgnFilterConfig> | null),
+    mode: this.lazyMode,
+  });
+
+  protected readonly loadStatus = this._lazyModel.status;
+  protected readonly loadError = this._lazyModel.error;
+  protected readonly loadTotal = this._lazyModel.total;
+  protected readonly lazyHasMore = this._lazyModel.hasMore;
+
   protected readonly i18n = inject(I18n).translations;
   /**
    * Polite live-region text announcing sort / filter / pagination / selection
@@ -273,6 +320,14 @@ export class NgnTable<
     () => this._columns.columnCount() + (this._columns.hasSelectionColumn() ? 1 : 0)
   );
 
+  /** Number of placeholder rows to show while a lazy load is in flight. */
+  protected readonly skeletonRows = computed(() => {
+    if (this.loadStatus() !== 'loading') return 0;
+    return this.paginator()
+      ? (this.pageState()?.page.size ?? DEFAULT_LAZY_PAGE_SIZE)
+      : this.virtualPadding() * 2 + 1;
+  });
+
   protected readonly formattedRows = computed<FormattedTableRow<T>[]>(() => {
     const groupBy = this.groupBy();
     if (groupBy) {
@@ -299,18 +354,32 @@ export class NgnTable<
   });
 
   protected readonly pagedRows = computed<FormattedTableRow<T>[]>(() => {
-    if (!this.paginator()) {
+    // Lazy pagination clears rows while fetching so skeletons replace the page.
+    if (this.lazy() && this.lazyMode() === 'paginate' && this.loadStatus() === 'loading') {
+      return [];
+    }
+    // Lazy loaders return exactly one page — never re-slice client-side.
+    if (!this.paginator() || this.lazy()) {
       return this.formattedRows();
     }
     return [...paginateRows(this.formattedRows(), this.pageState())];
   });
 
-  private readonly _filteredRows = computed<readonly T[]>(() =>
-    filterRows(this.rows() as readonly T[], this.filters())
+  private readonly _baseRows = computed<readonly T[]>(() =>
+    this.lazy() ? this._lazyModel.loaded() : this.rows()
   );
 
+  private readonly _filteredRows = computed<readonly T[]>(() =>
+    this.lazy() ? this._baseRows() : filterRows(this._baseRows(), this.filters())
+  );
+
+  /** Page size only — page navigation must not invalidate the per-page cache. */
+  private readonly _lazyPageSize = computed(() => this.pageState()?.page.size);
+
   private readonly _sortedRows = computed<readonly T[]>(() =>
-    sortRows(this._filteredRows(), this.sort(), this.sortComparator())
+    this.lazy()
+      ? this._baseRows()
+      : sortRows(this._filteredRows(), this.sort(), this.sortComparator())
   );
 
   constructor() {
@@ -338,7 +407,9 @@ export class NgnTable<
     });
 
     this.headerCheckboxValue = computed<boolean | null>(() =>
-      this._selection.headerCheckboxValue()
+      this.lazy() && this.lazyMode() === 'infinite'
+        ? this.selectAllMatching()
+        : this._selection.headerCheckboxValue()
     );
 
     // Minor #3: clear the current-row highlight whenever the underlying row
@@ -364,9 +435,13 @@ export class NgnTable<
     let prevSelCount = 0;
     effect(() => {
       const sort = this.sort();
-      const filterCount = this._filteredRows().length;
+      // Lazy: announce the server total; fall back to the loaded window count.
+      const filterCount = this.lazy()
+        ? (this.loadTotal() ?? this._filteredRows().length)
+        : this._filteredRows().length;
       const page = this.pageState();
       const selCount = this.selection().length;
+      const selTotal = this.lazy() ? (this.loadTotal() ?? this.rows().length) : this.rows().length;
 
       const sortKey = sort ? `${sort.column}:${sort.direction}` : '';
       const pageKey = page ? `${page.page.current}/${page.page.size}` : '';
@@ -400,7 +475,7 @@ export class NgnTable<
         const pages = size > 0 ? Math.ceil(filterCount / size) : 1;
         message = this.i18n['table_page']({ page: (page?.page.current ?? 0) + 1, pages });
       } else if (selCount !== prevSelCount) {
-        message = this.i18n['table_selectedCount']({ count: selCount, total: this.rows().length });
+        message = this.i18n['table_selectedCount']({ count: selCount, total: selTotal });
       }
 
       [prevSort, prevFilterCount, prevPageKey, prevSelCount] = [
@@ -413,6 +488,60 @@ export class NgnTable<
         this.liveAnnouncement.set(message);
       }
     });
+
+    // Lazy grouping needs the full row set, which lazy mode never has.
+    effect(() => {
+      if (this.lazy() && this.groupBy()) {
+        throw new NgnError('table', 'groupBy is not supported with a lazy dataSource (v1)');
+      }
+    });
+
+    // Reset the lazy cache when sort, filter, page size or dataSource change.
+    effect(() => {
+      this.sort();
+      this.filters();
+      this._lazyPageSize();
+      this.dataSource();
+      if (!this.lazy()) return;
+      untracked(() => this._lazyModel.invalidate());
+    });
+
+    // Lazy pagination: load the current page when it, sort, filters or dataSource change.
+    effect(() => {
+      const state = this.pageState();
+      this.sort();
+      this.filters();
+      this.dataSource();
+      if (!this.lazy() || this.lazyMode() !== 'paginate' || !state) return;
+      untracked(() => void this._lazyModel.setPage(state));
+    });
+
+    // Infinite scroll: load the next window when the viewport nears the end.
+    effect(() => {
+      if (!this.lazy() || this.lazyMode() !== 'infinite') return;
+      const distance = this._scroller().distanceFromEnd();
+      const threshold = (this.rowHeight() ?? 40) * this.virtualPadding();
+      const pageSize = this.pageState()?.page.size ?? DEFAULT_LAZY_PAGE_SIZE;
+      if (distance <= threshold) {
+        untracked(() => void this._lazyModel.loadNext(pageSize));
+      }
+    });
+  }
+
+  /** Force a lazy refetch, clearing the page cache. No-op in client-side mode. */
+  public reload(): void {
+    // Infinite scroll has no current page — restart from the first window.
+    if (this.lazy() && this.lazyMode() === 'infinite') {
+      this._lazyModel.invalidate();
+      void this._lazyModel.loadNext(this.pageState()?.page.size ?? DEFAULT_LAZY_PAGE_SIZE);
+      return;
+    }
+    void this._lazyModel.reload();
+  }
+
+  /** Retry the failed load, keeping already-loaded rows in infinite scroll. */
+  protected retryLoad(): void {
+    void this._lazyModel.retry();
   }
 
   protected pageChanged(event: PaginationState) {
@@ -518,6 +647,10 @@ export class NgnTable<
   }
 
   public toggleSelectAll(): void {
+    if (this.lazy() && this.lazyMode() === 'infinite') {
+      this.selectAllMatching.update(v => !v);
+      return;
+    }
     this._selection.toggleSelectAll();
   }
 

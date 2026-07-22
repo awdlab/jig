@@ -40,7 +40,10 @@ export const tableStyles = createThemePart({
       }
       ${c('body')}${d('scroller')} {
         display: grid;
-        grid-auto-rows: var(--ngn-table-row-height);
+        /* auto tracks let the ::before/::after padding spacers take their true
+           height (0 at top, full remainder below) so scrollHeight is correct;
+           data rows are pinned to one row height by the virtual row rule below. */
+        grid-auto-rows: auto;
         grid-template-columns: subgrid;
         grid-column: 1 / -1;
         overflow: visible;
@@ -50,12 +53,8 @@ export const tableStyles = createThemePart({
           grid-column: 1 / -1;
         }
       }
-      /* d('scroller', 'item') already resolves to a full marker-anchored selector
-         (.ngn-table-scroller .ngn-scroller-item) — nesting it under the block above via >
-         would re-require a second, separate .ngn-table-scroller-classed element between the
-         marked tbody and the item, which never exists (the marker lives on the tbody itself),
-         so the rule silently never matched and rows fell back to implicit grid auto-placement.
-         Kept as an independent top-level rule instead. */
+      /* Top-level rule: the scroller marker sits on the tbody itself, so nesting
+         this under the block above would never match. */
       ${d('scroller', 'item')} {
         display: grid;
         grid-template-columns: subgrid;
@@ -71,6 +70,11 @@ export const tableStyles = createThemePart({
       ${c('head')} ${c('row')} {
         grid-row-start: 1;
       }
+      /* Pin virtual data rows to one row height so tracks stay uniform for the
+         scroll math. Non-virtual leaves the var unset, resolving to auto. */
+      ${c('root')}${c('virtual')} ${c('body')} ${c('row')} {
+        height: var(--ngn-table-row-height);
+      }
       ${c('foot')} {
         display: contents;
       }
@@ -80,21 +84,25 @@ export const tableStyles = createThemePart({
         grid-column-start: calc(
           var(--ngn-table-column-index) + var(--ngn-table-selection-offset, 0)
         );
-        /* Pin every cell to its row's single track. Each row is its own
-           subgrid, so without an explicit row a reordered cell (DOM order no
-           longer matching visual column order) trips CSS grid auto-placement
-           onto an implicit extra row, offsetting it vertically. */
+        /* Pin cells to the row's single track; a reordered cell would otherwise
+           trip grid auto-placement onto an implicit extra row. */
         grid-row-start: 1;
       }
-      /* Non-virtual rows have no fixed row height, so each cell would size to
-         its own content. Stretch every cell to the row's grid track and center
-         content vertically — this keeps all cells in a row the same height
-         regardless of whether they hold text or an element. */
+      /* Non-virtual rows have no fixed height — stretch cells to the track and
+         center content so all cells in a row match height. */
       ${c('root')}:not(${c('virtual')}) ${c('cell')} {
         height: auto;
         align-self: stretch;
         display: flex;
         align-items: center;
+      }
+      /* Clip virtual cells so a too-tall child can't paint over rows below.
+         Sticky-edge/selection cells are excluded — their scroll-shadow ::after
+         sits outside the cell box. */
+      ${c('root')}${c('virtual')} ${c('cell')}:not(${c('sticky-start-edge')}):not(${c(
+        'sticky-end-edge'
+      )}):not(${c('selection-column')}) {
+        overflow: hidden;
       }
 
       /* ── Selection ───────────────────────────────────────────────────── */
@@ -217,6 +225,38 @@ export const tableStyles = createThemePart({
       ${c('row')}:focus-within ${c('row-actions')} {
         visibility: visible;
         pointer-events: auto;
+      }
+
+      /* ── Skeleton loading rows ───────────────────────────────────────── */
+
+      /* Single ghost bar spanning all columns. Height falls back to line-height
+         + padding when --ngn-table-row-height is absent (non-virtual). */
+      ${c('skeleton-row')} {
+        box-sizing: border-box;
+        display: flex;
+        align-items: stretch;
+        grid-column: 1 / -1;
+        height: var(--ngn-table-row-height, calc(1lh + 1rem));
+        padding: 0.25rem 0.5rem;
+      }
+      ${c('skeleton-cell')} {
+        flex: 1;
+        border-radius: 0.25rem;
+        background: currentColor;
+        opacity: 0.1;
+      }
+
+      /* ── Error row ───────────────────────────────────────────────────── */
+
+      ${c('error-row')} {
+        grid-column: 1 / -1;
+      }
+      ${c('error-row')} td {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        justify-content: center;
+        padding: var(--ngn-table-row-height) 0;
       }
     `,
   },

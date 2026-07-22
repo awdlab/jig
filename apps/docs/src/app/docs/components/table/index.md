@@ -4,11 +4,13 @@ resize/reorder/sticky, pagination, virtual scrolling, and per-row actions.
 Structure is opt-in and declarative — you enable each feature by adding a
 directive to a header cell or an input to `ngn-table`.
 
-> **Data is client-side.** Sorting, filtering, grouping and pagination all
-> operate on the in-memory `rows` array (the pipeline is filter → sort → group →
-> paginate). There is no built-in server-side/lazy data loading: fetch and
-> replace `rows` yourself if your dataset lives on a server. The `virtual` input
-> below is about _rendering_ (only visible rows hit the DOM), not about fetching.
+> **Data is client-side by default.** Sorting, filtering, grouping and
+> pagination all operate on the in-memory `rows` array (the pipeline is filter
+> → sort → group → paginate). For server-driven data, provide `dataSource`
+> instead (see "Lazy Loading" further down) — sort/filter are then delegated
+> to the loader and grouping is unsupported. The `virtual` input is about
+> _rendering_ (only visible rows hit the DOM) independent of lazy loading,
+> though the two combine for infinite scroll.
 
 ### Basic Usage
 
@@ -126,3 +128,29 @@ to open submenus. The keyboard context menu (Enter / ContextMenu / Shift+F10 on
 the current row) is always available even when the right-click affordance is off.
 
 {{ demo: Demo_Table_RowActions }}
+
+### Lazy Loading
+
+Provide a `dataSource` loader instead of `rows` to fetch rows on demand — the
+table switches into lazy mode, delegating sort/filter to the loader and
+ignoring `rows`. The loader receives a `TableLoadRequest` (page/slice
+coordinates, active sort/filters, and an abort signal for superseded requests)
+and resolves a `TableLoadResult` (`rows`, `hasMore`, and optionally
+`total`/`cursor`). Incompatible with `groupBy`.
+
+With `paginator`, the loader is called with `pagination.slice.skip`/`.take` for
+the requested page:
+
+{{ demo: Demo_Table_LazyPagination }}
+
+Without `paginator`, set `virtual` and `rowHeight` to infinite-scroll: the
+table calls the loader again as the user scrolls near the end, appending rows
+until `hasMore` is `false`.
+
+{{ demo: Demo_Table_LazyInfiniteScroll }}
+
+Omit `total` from the result and return a `cursor` instead to switch the
+paginator into compact mode (next/previous only, no page count) — useful for
+cursor-based backends where the total row count isn't known.
+
+{{ demo: Demo_Table_CompactCursorPagination }}

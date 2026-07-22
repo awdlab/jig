@@ -17,7 +17,7 @@ import { NgnIcon } from '@ngneers/controls/icon';
 import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnItemView } from '@ngneers/controls/item-view';
 import { NgnSelect } from '@ngneers/controls/select';
-import { throwExp } from '@ngneers/controls/utils';
+import { NgnError, throwExp } from '@ngneers/controls/utils';
 import { paginatorControlTemplate } from '@ngneers/controls-themes/templates/paginator';
 
 import type { PaginationState } from './types';
@@ -47,13 +47,27 @@ export class NgnPaginator extends NgnBase<'paginator'> {
   protected readonly i18n = inject(I18n).translations;
 
   /**
-   * Total number of items to paginate.
+   * Total number of items to paginate. Required in `'pages'` mode (drives the
+   * page count); ignored in `'compact'` mode.
    */
-  public readonly totalItems = input.required<number>();
+  public readonly totalItems = input<number>();
   /**
    * Number of items per page. If not set, the first value from {@link possiblePageSizes} is used.
    */
   public readonly pageSize = model<number>();
+  /**
+   * Layout mode.
+   * - `'pages'`: full paginator with numbered page buttons (needs {@link totalItems}).
+   * - `'compact'`: prev/next buttons only, no page indicators, no total required.
+   * @default 'pages'
+   */
+  public readonly mode = input<'pages' | 'compact'>('pages');
+  /**
+   * `'compact'` mode only: whether a next page exists. Disables the "next" button
+   * when `false`. Bind to a lazy data source's `hasMore`.
+   * @default true
+   */
+  public readonly hasNext = input(true, { transform: booleanAttribute });
   /**
    * Possible page sizes to choose from.
    * @default [5, 10, 25, 50]
@@ -74,7 +88,7 @@ export class NgnPaginator extends NgnBase<'paginator'> {
       throwExp('NgnPaginator', 'At least one page size must be provided')
   );
   protected readonly pageCount = computed(() =>
-    Math.ceil(this.totalItems() / this.appliedPageSize())
+    Math.ceil((this.totalItems() ?? 0) / this.appliedPageSize())
   );
   protected readonly pages = computed(() =>
     Array.from({ length: this.pageCount() }, (_, i) => ({ page: i }))
@@ -112,15 +126,26 @@ export class NgnPaginator extends NgnBase<'paginator'> {
         },
       });
     });
+    effect(() => {
+      if (this.mode() === 'pages' && this.totalItems() === undefined) {
+        throw new NgnError('paginator', "totalItems is required in 'pages' mode");
+      }
+    });
   }
 
   protected previousPage(event: PointerEvent): void {
-    const amount = event.shiftKey ? 10 : event.ctrlKey ? 100 : 1;
+    // Compact mode is cursor pagination — sequential, so no shift/ctrl multi-jump.
+    const amount = this.mode() === 'compact' ? 1 : event.shiftKey ? 10 : event.ctrlKey ? 100 : 1;
     const newPage = Math.max(this.page() - amount, 0);
     this.page.set(newPage);
   }
 
   protected nextPage(event: PointerEvent): void {
+    if (this.mode() === 'compact') {
+      if (!this.hasNext()) return;
+      this.page.set(this.page() + 1);
+      return;
+    }
     const amount = event.shiftKey ? 10 : event.ctrlKey ? 100 : 1;
     const newPage = Math.min(this.page() + amount, this.pageCount() - 1);
     this.page.set(newPage);

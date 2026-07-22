@@ -23,6 +23,16 @@ export const paginatorStyles = createThemePart({
       ${c('page-size-options')} {
         min-width: 4rem;
       }
+      /* Compact page indicator: matches the active page-button treatment. */
+      ${c('root')} [data-compact-page] {
+        min-width: calc(1rem + 2 * var(--padding));
+        height: calc(1rem + 2 * var(--padding));
+        padding: 0 ${v('size.padding.sm')};
+        border-radius: ${v('size.rounded.md')};
+        background: ${v('color.surface.200')};
+        color: ${v('color.text')};
+        font-weight: ${v('font.weight.semibold')};
+      }
       /* Current page: a quiet neutral fill + weight, not a saturated accent block.
          It marks position without competing with the page's real primary actions. */
       ${c('active-page')} {

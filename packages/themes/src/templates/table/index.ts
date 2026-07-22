@@ -53,6 +53,10 @@ export const tableControlTemplate = createControlTemplate({
     'row-actions',
     'row-action-button',
     'active-row',
+    'skeleton-row',
+    'skeleton-cell',
+    'loading',
+    'error-row',
   ],
   dependencies: [
     { class: 'scroller', template: scrollerControlTemplate },

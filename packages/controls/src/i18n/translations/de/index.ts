@@ -155,6 +155,8 @@ export const de = {
     selectedCount: '{{ count }} von {{ total }} ausgewählt',
     page: 'Seite {{ page }} von {{ pages }}',
     resultCount: '{{ count }} Ergebnisse',
+    retry: 'Erneut versuchen',
+    loadError: 'Daten konnten nicht geladen werden',
   },
   state: {
     loading: 'Wird geladen',
