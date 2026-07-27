@@ -61,18 +61,20 @@
   <ng-container [ngTemplateOutlet]="headerRightTemplate()" />
 </div>
 @for (content of contents(); track content.id; let i = $index) {
-  <div
-    role="tabpanel"
-    [ptInt]="this"
-    [ptClass]="{ content: content.id === activeTab() }"
-    [id]="elementId + '_tabpanel_' + content.id"
-    [attr.aria-labelledby]="elementId + '_tab_' + content.id"
-  >
-    <ngn-defer
-      [lazyContent]="content.template"
-      [open]="content.id === activeTab()"
-      [cache]="cache()"
-      [lazy]="lazy()"
-    />
-  </div>
+  @if (content.template) {
+    <div
+      role="tabpanel"
+      [ptInt]="this"
+      [ptClass]="{ content: content.id === activeTab() }"
+      [id]="elementId + '_tabpanel_' + content.id"
+      [attr.aria-labelledby]="elementId + '_tab_' + content.id"
+    >
+      <ngn-defer
+        [lazyContent]="content.template"
+        [open]="content.id === activeTab()"
+        [cache]="cache()"
+        [lazy]="lazy()"
+      />
+    </div>
+  }
 }

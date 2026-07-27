@@ -14,15 +14,16 @@ export const radioStyles = createThemePart({
   root: {
     css: ({ v, c }) => css`
       ${c('circle')} {
-        width: 1.25rem;
-        height: 1.25rem;
+        --box-size: 1.25rem;
+        width: var(--box-size);
+        height: var(--box-size);
         border: 1px solid ${v('color.border')};
         border-radius: ${v('size.rounded.full')};
         transition: border-color ${v('anim.time.snappyFade')} ${v('anim.ease.snappyFade')};
       }
       ${c('dot')} {
-        width: 0.625rem;
-        height: 0.625rem;
+        width: calc(var(--box-size) / 2);
+        height: calc(var(--box-size) / 2);
         background-color: ${v('color.primary.500')};
         opacity: 0;
         transform: scale(0.4);

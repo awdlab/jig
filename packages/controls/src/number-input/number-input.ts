@@ -145,7 +145,7 @@ export class NgnNumberInput extends ValueControlBase<'numberInput', number | nul
   private readonly _appliedValue = signal<number | null | undefined>(undefined);
 
   /** Whether the input holds no text at all. */
-  public readonly empty = computed(() => this._text() === '');
+  public override readonly empty = computed(() => this._text() === '');
 
   constructor() {
     super();

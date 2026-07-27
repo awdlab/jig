@@ -29,7 +29,10 @@ import type { CustomKind, IconType } from '@ngneers/controls-custom-types';
   providers: [provideSelf(NgnInputField)],
 })
 export class NgnInputField extends NgnBase<'inputField'> {
-  protected readonly theme = this.injectThemeTemplate(inputFieldControlTemplate, 'host');
+  protected readonly theme = this.injectThemeTemplate(inputFieldControlTemplate, {
+    host: true,
+    filled: () => this.filled(),
+  });
   protected readonly i18n = inject(I18n).translations;
 
   /**
@@ -95,6 +98,16 @@ export class NgnInputField extends NgnBase<'inputField'> {
    * their placement/order never shadows the actual input.
    */
   public readonly control = computed(() => this._projectedControls().find(c => c.isFieldControl));
+
+  /**
+   * Whether the projected control holds content. Drives float-label detection
+   * component-side (from the control's `empty` signal) so it works for every
+   * field control — select, calendar, mask-input — not just native inputs.
+   */
+  protected readonly filled = computed(() => {
+    const control = this.control();
+    return !!control && !control.empty();
+  });
 
   /** The primary control's element when it is a native input/textarea. */
   private readonly _inputElement = computed(() => {

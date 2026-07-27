@@ -34,9 +34,12 @@ export const inputFieldStyles = createThemePart({
           ${c('root')}:has([aria-invalid='true'][aria-readonly='true'])
         `;
 
+      // Float when the field is focused or its projected control reports content.
+      // The `filled` class is set component-side from the control's `empty` signal,
+      // so this works for select/calendar/mask-input, not just native inputs.
       function getFloating(klass: string) {
-        return `${klass}:has(${d('input', 'root')}:focus),
-          ${klass}:has(${d('input', 'root')}:not(${d('input', 'empty')}))`;
+        return `${klass}:focus-within,
+          ${klass}${c('filled')}`;
       }
 
       return css`

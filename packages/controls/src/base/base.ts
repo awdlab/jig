@@ -22,6 +22,7 @@ import {
   type ControlTemplateInfo,
   injectThemeTemplate,
   injectThemeControlKinds,
+  injectThemeControlDefaults,
   injectThemeColors,
   type AppliedThemeClassCfg,
   Platform,
@@ -118,6 +119,14 @@ export abstract class NgnBase<T extends ControlName | null> {
    * Overridden with `true` by input, mask-input, calendar, select, ….
    */
   public readonly isFieldControl: boolean = false;
+
+  /**
+   * Whether the control holds no user-entered content. Field controls override
+   * this from their eager entry state — not {@link isFieldControl}'s `value`,
+   * which can lag behind typing until the entry is valid (mask-input, calendar)
+   * — so a wrapping `ngn-input-field` can float its label reliably.
+   */
+  public readonly empty: Signal<boolean> = signal(false);
 
   /**
    * Hook for placing focus/selection from a pointer event that originated in the
@@ -310,12 +319,17 @@ export abstract class NgnBase<T extends ControlName | null> {
     const opts = { unstyled: this.unstyled };
     const theme = injectThemeTemplate(template, opts);
 
+    const defaults = injectThemeControlDefaults(theme.scope)();
     const kinds = injectThemeControlKinds(theme.scope)();
-    if (kinds.length) {
+    if (defaults.kind !== undefined) {
+      this._defaultKind.set(defaults.kind as CustomKind<T>);
+    } else if (kinds.length) {
       this._defaultKind.set(kinds[0] as CustomKind<T>);
     }
     const colors = injectThemeColors(theme.scope)();
-    if (colors.length) {
+    if (defaults.color !== undefined) {
+      this._defaultColor.set(defaults.color as CustomColor);
+    } else if (colors.length) {
       this._defaultColor.set(colors[0] as CustomColor);
     }
 

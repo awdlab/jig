@@ -20,6 +20,7 @@ export const selectStyles = createThemePart({
       }
       ${c('combobox')} {
         width: 100%;
+        min-height: 1lh;
       }
       ${c('input-editable')} {
         cursor: text;

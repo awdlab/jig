@@ -6,6 +6,7 @@ import { Demo_Select_EditableCustom } from '../../../demos/select/editable-custo
 import { Demo_Select_Filter } from '../../../demos/select/filter';
 import { Demo_Select_Grouped } from '../../../demos/select/grouped';
 import { Demo_Select_Multiple } from '../../../demos/select/multiple';
+import { Demo_Select_Placeholder } from '../../../demos/select/placeholder';
 import { Demo_Select_States } from '../../../demos/select/states';
 import { Demo_Select_Templates } from '../../../demos/select/templates';
 import { Demo_Select_Validation } from '../../../demos/select/validation';
@@ -25,6 +26,7 @@ export const SelectPage: NgnDocsPage = {
       mdFile: 'components/select/index.md',
       components: [
         Demo_Select_Base,
+        Demo_Select_Placeholder,
         Demo_Select_Validation,
         Demo_Select_Filter,
         Demo_Select_Grouped,

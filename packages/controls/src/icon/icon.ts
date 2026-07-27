@@ -2,7 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { afterRenderEffect, Component, computed, inject, input } from '@angular/core';
 import { DomSanitizer, type SafeHtml } from '@angular/platform-browser';
 import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
-import { NgnError } from '@ngneers/controls/utils';
+import { Logger, NgnError } from '@ngneers/controls/utils';
 import { iconControlTemplate } from '@ngneers/controls-themes/templates/icon';
 
 import { GlobalIconTemplate } from './global-icon-template';
@@ -12,7 +12,31 @@ import type { NgnIconEntry, NgnIconKey, NgnIconRegistry } from './icon-registry'
 import type { IconifyIcon } from '@iconify/types';
 import type { IconType } from '@ngneers/controls-custom-types';
 
-function generateIconSvg(sanitizer: DomSanitizer, iconData: IconifyIcon, scale: number): SafeHtml {
+/**
+ * CJS icon modules (e.g. `@iconify/icons-tabler/*`) bind as `{ __esModule, default: <data> }`
+ * under Node ESM interop; unwrap to the real Iconify data so `.body` is readable.
+ */
+function unwrapIcon<T>(mod: T): T {
+  return mod && typeof mod === 'object' && 'default' in mod ? (mod as { default: T }).default : mod;
+}
+
+function generateIconSvg(
+  sanitizer: DomSanitizer,
+  iconData: IconifyIcon,
+  scale: number
+): SafeHtml | null {
+  iconData = unwrapIcon(iconData);
+  if (typeof iconData?.body !== 'string') {
+    Logger.error(
+      new NgnError(
+        'icon',
+        'Icon data has no string "body". If importing from a CommonJS icon package, the module default may need unwrapping.',
+        iconData
+      )
+    );
+    return null;
+  }
+
   // Note: @iconify/types documents default as 16, but we default to 24 to match Tabler.
   // All Tabler icons provide explicit dimensions, so this fallback rarely triggers.
   const width = iconData.width ?? 24;
@@ -63,7 +87,7 @@ export class NgnIcon extends NgnBase<'icon'> {
   public readonly icon = input<IconType>();
 
   protected readonly iconSvg = computed(() => {
-    const value = this.icon();
+    const value = unwrapIcon(this.icon());
     if (!value || typeof value !== 'object') return null;
 
     let iconData: IconifyIcon;
@@ -71,9 +95,13 @@ export class NgnIcon extends NgnBase<'icon'> {
 
     if ('body' in value) {
       iconData = value as IconifyIcon;
-    } else if ('icon' in value && typeof value.icon === 'object' && 'body' in value.icon) {
+    } else if (
+      'icon' in value &&
+      typeof value.icon === 'object' &&
+      'body' in unwrapIcon(value.icon)
+    ) {
       const entry = value as NgnIconEntry;
-      iconData = entry.icon;
+      iconData = unwrapIcon(entry.icon);
       scale = entry.scale ?? 1;
     } else {
       return null;
@@ -85,11 +113,11 @@ export class NgnIcon extends NgnBase<'icon'> {
   protected readonly defaultIconSvg = computed(() => {
     const key = this.defaultIcon();
     if (!key || this._isCustom || !this._registry) return null;
-    const raw = (this._registry as NgnIconRegistry)[key];
+    const raw = unwrapIcon((this._registry as NgnIconRegistry)[key]);
     const entry: NgnIconEntry =
       'body' in raw ? { icon: raw as IconifyIcon, scale: 1 } : (raw as NgnIconEntry);
 
-    return generateIconSvg(this._sanitizer, entry.icon, entry.scale ?? 1);
+    return generateIconSvg(this._sanitizer, unwrapIcon(entry.icon), entry.scale ?? 1);
   });
 
   protected readonly customDefaultIcon = computed(() => {

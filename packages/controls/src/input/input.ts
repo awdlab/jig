@@ -34,8 +34,10 @@ export class NgnInput extends NgnBase<'input'> implements AfterViewInit {
   protected readonly theme = this.injectThemeTemplate(inputControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),
-    empty: () => !this.value(),
+    empty: () => this.empty(),
   });
+
+  public override readonly empty = computed(() => !this.value());
   /**
    * The raw invalid flag (bound from a signal-forms field's validity, or set
    * explicitly). Whether it *shows* is gated by {@link invalidOn} — read

@@ -155,7 +155,7 @@ export class NgnMaskInput extends ValueControlBase<'maskInput', string | null> {
   /** Whether no section holds any value (the whole field is blank). Lets a host
    * (e.g. calendar) distinguish a fully-cleared field from mid-typing, both of
    * which emit a `null` value. */
-  public readonly empty = computed(() => this.values().every(v => v === ''));
+  public override readonly empty = computed(() => this.values().every(v => v === ''));
 
   /**
    * Returns the resolved CSS class string for `section-active` from the theme,

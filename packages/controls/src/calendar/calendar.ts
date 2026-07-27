@@ -101,6 +101,10 @@ export class NgnCalendar extends CalendarTemplates {
   protected readonly i18n = inject(I18n).translations;
   public override readonly isFieldControl = true;
   protected readonly theme = this.injectThemeTemplate(calendarControlTemplate);
+
+  // Mask emits emptiness per keystroke; `value` only lands once the date is
+  // complete, so float detection must read the mask, not `value`.
+  public override readonly empty = computed(() => this._mask()?.empty() ?? this.value() == null);
   protected get anchorElement(): HTMLElement {
     return (
       (this.element.nativeElement.closest('ngn-input-field') as HTMLElement | null) ??

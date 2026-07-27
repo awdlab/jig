@@ -38,6 +38,25 @@ export function injectThemeControlKinds<T extends string>(controlName: T): Signa
  * `NgnCustomTypes`.
  * @returns A signal of the available colors.
  */
+/**
+ * Reads the explicit per-control default `color`/`kind` from the active theme's
+ * `meta.defaults`, as a reactive signal. Empty object when none is configured —
+ * callers then fall back to the positional (first-array-entry) default.
+ * @param controlName The name of the control to get defaults for.
+ */
+export function injectThemeControlDefaults<T extends string>(
+  controlName: T
+): Signal<{ color?: CustomColor; kind?: CustomKind<T> }> {
+  const activeTheme = injectActiveTheme();
+  return computed(
+    () =>
+      (activeTheme()?.meta.defaults?.[controlName] ?? {}) as {
+        color?: CustomColor;
+        kind?: CustomKind<T>;
+      }
+  );
+}
+
 export function injectThemeColors(controlName?: string): Signal<CustomColor[]> {
   const activeTheme = injectActiveTheme();
   return computed(() => {

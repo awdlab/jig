@@ -10,6 +10,7 @@ export const buttonStyles = createThemePart({
         font-family: inherit;
         display: flex;
         align-items: center;
+        justify-content: center;
       }
       ${c('kind-icon')}${c('inline')} {
         height: 1lh;

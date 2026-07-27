@@ -29,7 +29,7 @@
     <div
       role="combobox"
       [ptInt]="this"
-      [ptClass]="'combobox'"
+      [ptClass]="{ combobox: true, empty: empty() }"
       [aria-expanded]="popover.open()"
       aria-haspopup="listbox"
       [attr.aria-controls]="inputId() + '_listbox'"
@@ -41,19 +41,27 @@
       [id]="inputId()"
     >
       @if (multiple()) {
-        <ng-container
-          [ngTemplateOutlet]="selectedItemsTemplate()"
-          [ngTemplateOutletContext]="{
-            $implicit: selectedItems(),
-          }"
-        />
+        @if (selectedItems().length) {
+          <ng-container
+            [ngTemplateOutlet]="selectedItemsTemplate()"
+            [ngTemplateOutletContext]="{
+              $implicit: selectedItems(),
+            }"
+          />
+        } @else if (placeholder()) {
+          <span [ptInt]="this" [ptClass]="'placeholder'">{{ placeholder() }}</span>
+        }
       } @else {
-        <ng-container
-          [ngTemplateOutlet]="selectedItemTemplate()"
-          [ngTemplateOutletContext]="{
-            $implicit: selectedItems()[0],
-          }"
-        />
+        @if (selectedItems()[0]) {
+          <ng-container
+            [ngTemplateOutlet]="selectedItemTemplate()"
+            [ngTemplateOutletContext]="{
+              $implicit: selectedItems()[0],
+            }"
+          />
+        } @else if (placeholder()) {
+          <span [ptInt]="this" [ptClass]="'placeholder'">{{ placeholder() }}</span>
+        }
       }
     </div>
   }
@@ -141,8 +149,6 @@
   @let label = item?.label;
   @if (label) {
     <span [attr.data-testid]="item?.testId">{{ maybeCallback(label) }}</span>
-  } @else {
-    <span [attr.data-testid]="item?.testId">&ZeroWidthSpace;</span>
   }
 </ng-template>
 
@@ -160,7 +166,4 @@
       ></ng-container>
     </ng-template>
   </ngn-item-view>
-  @if (items.length < 1) {
-    &ZeroWidthSpace;
-  }
 </ng-template>

@@ -13,6 +13,13 @@ array of values, and `editable` stores a string. Bind it with `[(value)]`.
 
 {{ demo: Demo_Select_Base }}
 
+### Placeholder
+
+Set `placeholder` to show hint text in the trigger while no value is selected.
+It is replaced by the selected item's label once a value is chosen.
+
+{{ demo: Demo_Select_Placeholder }}
+
 ### Forms integration
 
 `ngn-select` is a form value control: it exposes a two-way `[(value)]` model,

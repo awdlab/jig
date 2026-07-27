@@ -21,13 +21,12 @@ export type ControlTemplate<
 type _ResolveWildcards<C extends string> = C extends `${infer Prefix}*${infer Suffix}`
   ? `${Prefix}${string}${Suffix}`
   : C;
-type ResolveWildcards<C extends readonly string[]> = C extends readonly [infer Head, ...infer Tail]
-  ? Head extends string
-    ? Tail extends readonly string[]
-      ? [_ResolveWildcards<Head>, ...ResolveWildcards<Tail>]
-      : never
-    : never
-  : C;
+// Mapped (not head/tail-recursive) so instantiation depth stays O(1) in the
+// number of class names — recursive tuple walking compounded across a control's
+// dependency templates and tipped TS's depth limit (TS2589) on large controls.
+type ResolveWildcards<C extends readonly string[]> = {
+  -readonly [K in keyof C]: C[K] extends string ? _ResolveWildcards<C[K]> : C[K];
+};
 
 export function createControlTemplate<
   S extends string,

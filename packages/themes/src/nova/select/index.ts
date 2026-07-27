@@ -32,6 +32,9 @@ export const selectStyles = createThemePart({
       ${c('filter-icon')} {
         color: ${v('color.surface.500')};
       }
+      ${c('placeholder')} {
+        color: ${v('color.surface.500')};
+      }
       ${c('input-editable')} {
         cursor: text;
       }

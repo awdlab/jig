@@ -14,8 +14,9 @@ export const stepperStyles = createThemePart({
         padding: ${v('size.padding.md')} 0;
       }
       ${c('marker')} {
-        width: 1.75rem;
-        height: 1.75rem;
+        --box-size: 1.75rem;
+        width: var(--box-size);
+        height: var(--box-size);
         border-radius: ${v('size.rounded.full')};
         /* Upcoming step: an outlined marker so it reads as a reachable to-do, not a
            disabled (opacity-dimmed) step. Active/completed override background+border below. */

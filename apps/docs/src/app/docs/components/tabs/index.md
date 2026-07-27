@@ -34,6 +34,16 @@ Set `lazy` to defer rendering each panel's content until its tab is first
 activated, and `cache` to keep already-rendered panels in the DOM afterward
 rather than recreating them on every switch.
 
+### Navigation (router) tabs
+
+A tab may omit its `#content` template — `<ngn-tabs>` then renders the header
+strip alone with no panel below it, so the component works as a navigation bar.
+Drive the active tab from your route via `[activeTab]` and handle clicks with
+`(activeTabChange)` (e.g. `router.navigate(...)`), placing a `<router-outlet />`
+below the tabs. Selection stays in sync with the URL.
+
+{{ demo: Demo_Tabs_Navigation }}
+
 ### Custom Tab Headers
 
 Beyond per-tab `#header` templates, the tab strip itself has leading and trailing

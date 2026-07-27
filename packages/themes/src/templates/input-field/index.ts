@@ -6,6 +6,7 @@ export const inputFieldControlTemplate = createControlTemplate({
   classNames: [
     'root',
     'host',
+    'filled',
     'disabled',
     'readonly',
     'invalid',

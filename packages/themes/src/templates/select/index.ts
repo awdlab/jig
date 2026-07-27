@@ -8,6 +8,8 @@ export const selectControlTemplate = createControlTemplate({
   classNames: [
     'root',
     'combobox',
+    'empty',
+    'placeholder',
     'input',
     'icon',
     'input-editable',

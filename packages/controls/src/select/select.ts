@@ -159,8 +159,23 @@ export class NgnSelect<
    * @default multiple()
    */
   public readonly checkbox = input<boolean>();
+  /**
+   * Text shown in the trigger when no value is selected.
+   * @default undefined
+   */
+  public readonly placeholder = input<string>();
 
   protected readonly maybeCallback = maybeCallback;
+
+  /**
+   * Whether the control holds no value. Drives the empty status class and lets a
+   * wrapping {@link NgnInputField} float its label. See {@link value}.
+   */
+  public override readonly empty = computed(() => {
+    const v = this.value();
+    if (Array.isArray(v)) return v.length === 0;
+    return v == null || v === '';
+  });
 
   private readonly _listbox = viewChild(NgnListBox);
   private _userChangedEditableInput = false;
