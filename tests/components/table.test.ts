@@ -120,8 +120,10 @@ test.describe('Table Selection - Single Mode', () => {
       }
     );
 
-    const checkboxes = page.locator('ngn-checkbox');
-    await expect(checkboxes).toHaveCount(0);
+    // Anchor on the rendered rows first so the negative assertion runs against a
+    // fully-rendered table, not a not-yet-mounted one (which would pass trivially).
+    await expect(getBodyRows(page)).toHaveCount(TABLE_ROWS.length);
+    await expect(page.locator('ngn-checkbox')).toHaveCount(0);
   });
 });
 
@@ -777,7 +779,10 @@ test.describe('Table Lazy - infinite scroll', () => {
     // Virtual keeps only a window in the DOM, so read counts off the lazy model.
     const lazyState = () =>
       page.evaluate(() => {
-        const comp = (window as any).ng.getComponent(document.querySelector('ngn-table'));
+        const el = document.querySelector('ngn-table');
+        const comp = el && (window as any).ng.getComponent(el);
+        // Poll may fire before the component mounts; return null so expect.poll retries.
+        if (!comp?._lazyModel) return null;
         return { loaded: comp._lazyModel.loaded().length, hasMore: comp._lazyModel.hasMore() };
       });
 
@@ -839,7 +844,10 @@ test.describe('Table Lazy - infinite scroll', () => {
       });
     const lazyState = () =>
       page.evaluate(() => {
-        const comp = (window as any).ng.getComponent(document.querySelector('ngn-table'));
+        const el = document.querySelector('ngn-table');
+        const comp = el && (window as any).ng.getComponent(el);
+        // Poll may fire before the component mounts; return null so expect.poll retries.
+        if (!comp?._lazyModel) return null;
         return { loaded: comp._lazyModel.loaded().length, hasMore: comp._lazyModel.hasMore() };
       });
 
@@ -948,7 +956,10 @@ test.describe('Table Selection - infinite lazy mode (select-all-matching)', () =
 
     const tableState = () =>
       page.evaluate(() => {
-        const comp = (window as any).ng.getComponent(document.querySelector('ngn-table'));
+        const el = document.querySelector('ngn-table');
+        const comp = el && (window as any).ng.getComponent(el);
+        // Poll may fire before the component mounts; return null so expect.poll retries.
+        if (!comp?._lazyModel) return null;
         return {
           selectAllMatching: comp.selectAllMatching(),
           selection: comp.selection(),

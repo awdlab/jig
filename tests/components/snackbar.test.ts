@@ -199,6 +199,8 @@ test('progress bar', async ({ page }) => {
     expect(await playState()).toBe('running');
 
     // Hovering freezes the progress bar (and the underlying auto-hide timer).
+    // Park the pointer away first so hover() always crosses the boundary and fires mouseenter.
+    await page.mouse.move(0, 0);
     await snackbar.hover();
     await expect.poll(playState).toBe('paused');
 
