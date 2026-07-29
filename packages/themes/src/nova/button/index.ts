@@ -26,9 +26,10 @@ export const buttonStyles = createThemePart({
         padding: var(--padding);
         gap: ${v('size.padding.md')};
         cursor: pointer;
-        /* Colour is deliberately not transitioned: crossfading text against a moving
+        /* Colour only transitions for kinds that opt in: crossfading text against a moving
            background passes through a low-contrast midpoint and reads as muddy. */
         transition:
+          color var(--color-transition, 0s) ease,
           background 0.18s ease,
           border-color 0.18s ease,
           box-shadow 0.18s ease;
@@ -72,6 +73,7 @@ export const buttonStyles = createThemePart({
         }
       }
       ${c('kind-secondary')} {
+        --color-transition: 0.18s;
         background: ${v('color.surface.50')};
         border-color: ${v('color.border')};
         color: ${v('color.text')};
@@ -140,6 +142,7 @@ export const buttonStyles = createThemePart({
         padding: 0;
       }
       ${c('kind-link')} {
+        --color-transition: 0.18s;
         text-decoration: underline;
         text-underline-offset: 3px;
         color: var(--theme-color-600);

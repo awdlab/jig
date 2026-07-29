@@ -22,6 +22,7 @@ import tablerPin from '@iconify/icons-tabler/pin';
 import tablerSearch from '@iconify/icons-tabler/search';
 import tablerSend from '@iconify/icons-tabler/send';
 import tablerTrash from '@iconify/icons-tabler/trash';
+import type { Openable } from '@ngneers/controls/api/ng';
 import { NgnAvatar, NgnAvatarGroup } from '@ngneers/controls/avatar';
 import { NgnBadge } from '@ngneers/controls/badge';
 import { NgnButton } from '@ngneers/controls/button';
@@ -153,26 +154,47 @@ export class TeamChat {
    * stuck open when moving between messages. Tracking the single open bar and closing it
    * when another opens keeps exactly one visible, order-independent under fast moves.
    */
-  private _openBar: NgnPopover | null = null;
+  private _openBar: { bar: NgnPopover; nested: readonly Openable[] } | null = null;
   private _barCloseTimer: ReturnType<typeof setTimeout> | undefined;
 
-  protected showBar(bar: NgnPopover): void {
-    clearTimeout(this._barCloseTimer);
-    if (this._openBar && this._openBar !== bar) {
-      this._openBar.hide();
+  protected showBar(bar: NgnPopover, ...nested: Openable[]): void {
+    // The picker/menu float over neighbouring rows, so the gap between them hovers a
+    // sibling message: a pinned bar wins over another row's hover.
+    if (this._openBar?.bar !== bar && this._pinned()) {
+      return;
     }
-    this._openBar = bar;
+    clearTimeout(this._barCloseTimer);
+    if (this._openBar && this._openBar.bar !== bar) {
+      this._hideBar(this._openBar);
+    }
+    this._openBar = { bar, nested };
     bar.show();
   }
 
-  protected hideBarSoon(bar: NgnPopover): void {
+  /** An open emoji picker / actions menu pins the bar, so the gap between them is crossable. */
+  private _pinned(): boolean {
+    return this._openBar?.nested.some(n => n.open()) ?? false;
+  }
+
+  protected hideBarSoon(bar: NgnPopover, ...nested: Openable[]): void {
     clearTimeout(this._barCloseTimer);
-    this._barCloseTimer = setTimeout(() => {
-      bar.hide();
-      if (this._openBar === bar) {
-        this._openBar = null;
+    if (nested.some(n => n.open())) {
+      return;
+    }
+    this._barCloseTimer = setTimeout(() => this._hideBar({ bar, nested }), 160);
+  }
+
+  /** Nested popovers outlive the bar's own close (their content isn't torn down), so close them too. */
+  private _hideBar(entry: { bar: NgnPopover; nested: readonly Openable[] }): void {
+    for (const nested of entry.nested) {
+      if (nested.open()) {
+        nested.hide();
       }
-    }, 160);
+    }
+    entry.bar.hide();
+    if (this._openBar?.bar === entry.bar) {
+      this._openBar = null;
+    }
   }
 
   /**

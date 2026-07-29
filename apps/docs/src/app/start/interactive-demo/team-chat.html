@@ -233,8 +233,8 @@
           <div
             class="group relative -mx-(--ngn-size-padding-sm) flex gap-(--ngn-size-padding-md) rounded-2xl px-(--ngn-size-padding-sm) py-1 transition-colors hover:bg-[color-mix(in_oklab,var(--ngn-color-text)_5%,transparent)]"
             [class.flex-row-reverse]="m.own"
-            (mouseenter)="showBar(bar)"
-            (mouseleave)="hideBarSoon(bar)"
+            (mouseenter)="showBar(bar, emojiPicker, msgMenu)"
+            (mouseleave)="hideBarSoon(bar, emojiPicker, msgMenu)"
           >
             @if (!m.own) {
               <ngn-avatar
@@ -340,7 +340,10 @@
                        (the popover is its DOM descendant, so hovering the bar keeps the row
                        "entered"). A bar-content mouseleave here would wrongly close the bar
                        when moving back onto the message. -->
-                  <div class="flex items-center gap-0.5" (mouseenter)="showBar(bar)">
+                  <div
+                    class="flex items-center gap-0.5"
+                    (mouseenter)="showBar(bar, emojiPicker, msgMenu)"
+                  >
                     @for (e of quickEmojis; track e) {
                       <button
                         type="button"
@@ -361,7 +364,13 @@
                     >
                       <ngn-icon [icon]="emojiIcon" />
                     </button>
-                    <ngn-popover #emojiPicker [anchor]="emojiBtn" [options]="{ placement: 'top' }">
+                    <!-- The picker pinned the bar open, so its close hands the bar back to hover. -->
+                    <ngn-popover
+                      #emojiPicker
+                      [anchor]="emojiBtn"
+                      [options]="{ placement: 'top' }"
+                      (closing)="hideBarSoon(bar)"
+                    >
                       <div class="grid grid-cols-8 gap-0.5 p-1">
                         @for (e of moreEmojis; track e) {
                           <button
@@ -392,6 +401,7 @@
                       [placement]="m.own ? 'bottom-start' : 'bottom-end'"
                       [pt]="menuPt"
                       [items]="messageMenuItems(m)"
+                      (closing)="hideBarSoon(bar)"
                     />
                   </div>
                 </ngn-popover>
