@@ -123,19 +123,18 @@ export const buttonStyles = createThemePart({
           background: color-mix(in srgb, var(--theme-color-500) 12%, transparent);
         }
       }
+      /* Inline text link: no background chrome — a tint behind wrapped lines reads as a broken
+         box. The root's offset focus outline already clears the text. */
       ${c('kind-link')} {
         text-decoration: none;
-        background: transparent;
-        color: var(--theme-color-foreground);
-        &:hover:not(:disabled) {
-          text-decoration: underline;
-          background: color-mix(in srgb, var(--theme-color-500) 8%, transparent);
-        }
+        text-underline-offset: 3px;
+        color: var(--theme-color-500);
+        &:hover:not(:disabled),
         &:focus-visible:not(:disabled) {
-          background: color-mix(in srgb, var(--theme-color-500) 12%, transparent);
+          text-decoration: underline;
         }
         &:active:not(:disabled) {
-          background: color-mix(in srgb, var(--theme-color-500) 12%, transparent);
+          color: color-mix(in srgb, var(--theme-color-500) 80%, var(--theme-color-foreground));
         }
       }
     `,

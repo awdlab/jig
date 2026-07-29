@@ -17,7 +17,7 @@ export const dialogStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate, animationTemplate],
   root: {
     css: ({ v, c }) => css`
-      ${c('root')} {
+      ${c('wrapper')} {
         background-color: ${v('color.background')};
         color: ${v('color.foreground')};
         border: 1px solid ${v('color.border')};
@@ -32,8 +32,8 @@ export const dialogStyles = createThemePart({
           display calc(${v('anim.time.snappyFade')} + 10ms) allow-discrete,
           overlay calc(${v('anim.time.snappyFade')} + 10ms) allow-discrete;
       }
-      ${c('root')}[open],
-      ${c('root')}:popover-open {
+      ${c('wrapper')}[open],
+      ${c('wrapper')}:popover-open {
         opacity: 1;
         transform: scale(1);
         @starting-style {

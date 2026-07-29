@@ -8,7 +8,7 @@ import {
   scrollShadowStyles,
 } from '@ngneers/controls-themes/nova/api';
 import { avatarGroupStyles, avatarStyles } from '@ngneers/controls-themes/nova/avatar';
-import { animation, coral, font, sizes, shadow } from '@ngneers/controls-themes/nova/base';
+import { animation, coral, font, ring, sizes, shadow } from '@ngneers/controls-themes/nova/base';
 import { badgeStyles } from '@ngneers/controls-themes/nova/badge';
 import { breadcrumbStyles } from '@ngneers/controls-themes/nova/breadcrumb';
 import { buttonStyles } from '@ngneers/controls-themes/nova/button';
@@ -21,6 +21,7 @@ import { dialogStyles } from '@ngneers/controls-themes/nova/dialog';
 import { drawerStyles } from '@ngneers/controls-themes/nova/drawer';
 import { editInplaceStyles } from '@ngneers/controls-themes/nova/edit-inplace';
 import { filterStyles } from '@ngneers/controls-themes/nova/filter';
+import { globalStyles } from '@ngneers/controls-themes/nova/global';
 import { hintStyles } from '@ngneers/controls-themes/nova/hint';
 import { iconStyles } from '@ngneers/controls-themes/nova/icon';
 import { inplaceStyles } from '@ngneers/controls-themes/nova/inplace';
@@ -104,6 +105,7 @@ export const novaCoral = createTheme(
     filterStyles,
     editInplaceStyles,
     font,
+    globalStyles,
     hintStyles,
     iconStyles,
     shadow,
@@ -124,6 +126,7 @@ export const novaCoral = createTheme(
     radioStyles,
     ratingStyles,
     resizableStyles,
+    ring,
     scrollShadowStyles,
     scrollerStyles,
     selectStyles,

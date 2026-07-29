@@ -20,15 +20,15 @@ import { NgnInputField } from '@ngneers/controls/input-field';
     </ngn-input-field>
     Invalid:
     <ngn-input-field>
-      <input ngnInput value="Some Text" invalid />
+      <input ngnInput value="Some Text" [invalidOn]="'immediate'" invalid />
     </ngn-input-field>
     Invalid + Readonly:
     <ngn-input-field>
-      <input ngnInput value="Some Text" invalid readonly />
+      <input ngnInput value="Some Text" [invalidOn]="'immediate'" invalid readonly />
     </ngn-input-field>
     Invalid + Disabled:
     <ngn-input-field>
-      <input ngnInput value="Some Text" invalid disabled />
+      <input ngnInput value="Some Text" [invalidOn]="'immediate'" invalid disabled />
     </ngn-input-field>
   `,
   host: { class: 'w-48' },

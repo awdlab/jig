@@ -27,7 +27,7 @@ export const sizes = createThemePart({
         sm: '0.125rem',
         md: '0.25rem',
         lg: '0.5rem',
-        full: '50%',
+        full: '9999px',
       },
       padding: {
         sm: '0.25rem',

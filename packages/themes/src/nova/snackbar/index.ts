@@ -149,8 +149,17 @@ export const snackbarStyles = createThemePart({
          back to the UA default (black). Pin it to the neutral surface contrast
          (the surface is always neutral now). Scoped to our own close button so
          caller action colors (e.g. a success action) are never overridden. */
-      ${c('closeButton')} {
+      /* Scoped under the root so it wins over the icon-button's resting fill,
+         which is a light surface and would sit wrong on the dark snackbar. */
+      ${c('root')} ${c('closeButton')} {
         color: ${ON_SURFACE};
+        background: transparent;
+        &:hover:not(:disabled) {
+          background: color-mix(in srgb, ${ON_SURFACE} 16%, transparent);
+        }
+        &:active:not(:disabled) {
+          background: color-mix(in srgb, ${ON_SURFACE} 24%, transparent);
+        }
       }
 
       /* Flush along the bottom edge, full width — the root's overflow:hidden

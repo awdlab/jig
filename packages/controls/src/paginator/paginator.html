@@ -11,8 +11,10 @@
 </button>
 
 @if (mode() === 'pages') {
+  <!-- Roving focus: the current page is the only tab stop, the arrow keys move along the row. -->
   <ngn-item-view
     #itemView
+    (keydown)="onPagesKeydown($event)"
     [ptInt]="this"
     [ptDep]="'item-view'"
     [items]="pages()"
@@ -30,6 +32,7 @@
         [ptInt]="this"
         [ptDep]="'page-number'"
         [ngStyle]="buttonStyles"
+        [tabindex]="page() === item.page ? 0 : -1"
         [attr.aria-current]="page() === item.page ? 'page' : null"
         [ngClass]="
           theme.classes({

@@ -9,16 +9,23 @@ export const paginatorStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c, d }) => css`
+      ${c('root')} {
+        gap: ${v('size.padding.md')};
+      }
       ${c('root')} > ${d('item-view')} {
         justify-content: center;
+        /* item-view clips overflow; pad so the page buttons' focus ring is not cut off. */
+        padding-block: 4px;
       }
-      /* Page cells are icon buttons (circular by default) — square them off to
-         match the rest of nova's clickable cells. */
+      /* Page cells are icon buttons; let them grow past the square icon size so
+         multi-digit page numbers fit. */
       ${c('root')} ${d('previous')},
       ${c('root')} ${d('next')},
       ${c('root')} ${d('page-number')},
       ${c('root')} ${d('overflow')} {
-        border-radius: ${v('size.rounded.md')};
+        min-width: ${v('size.height.control')};
+        height: ${v('size.height.control')};
+        width: auto;
       }
       ${c('page-size-options')} {
         min-width: 4rem;
@@ -29,24 +36,23 @@ export const paginatorStyles = createThemePart({
         height: calc(1rem + 2 * var(--padding));
         padding: 0 ${v('size.padding.sm')};
         border-radius: ${v('size.rounded.md')};
-        background: ${v('color.surface.200')};
-        color: ${v('color.text')};
+        background: ${v('color.primary.500')};
+        color: ${v('color.primary.500-contrast')};
         font-weight: ${v('font.weight.semibold')};
       }
-      /* Current page: a quiet neutral fill + weight, not a saturated accent block.
-         It marks position without competing with the page's real primary actions. */
+      /* Current page: accent fill marking position, matching the theme's selection language. */
       ${c('active-page')} {
-        background: ${v('color.surface.200')};
-        color: ${v('color.text')};
+        background: ${v('color.primary.500')};
+        color: ${v('color.primary.500-contrast')};
         font-weight: ${v('font.weight.semibold')};
         &:hover:not(:disabled) {
-          background: ${v('color.surface.300')};
+          background: ${v('color.primary.600')};
         }
         &:focus:not(:disabled) {
-          background: ${v('color.surface.300')};
+          background: ${v('color.primary.600')};
         }
         &:active:not(:disabled) {
-          background: ${v('color.surface.400')};
+          background: ${v('color.primary.700')};
         }
       }
     `,

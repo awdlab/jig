@@ -25,12 +25,32 @@ visible text for assistive tech to read.
 
 {{ demo: Demo_Button_Kind }}
 
+### Link buttons
+
+The `link` kind is the one text-level kind: instead of the theme's button chrome
+it renders as an inline control that inherits the surrounding font, wraps with
+the paragraph and puts its focus ring outside the text. Every theme ships it —
+the inline behavior comes from the base theme, so each theme only supplies the
+colour, the underline and the ring.
+
+Reach for it inside prose, in hint or empty-state text, and in dense footers
+where a full button would be too loud. Use `<a ngnButton kind="link">` when the
+click navigates and `<button ngnButton kind="link">` when it triggers an action;
+both look identical.
+
+{{ demo: Demo_Button_Link }}
+
 ### Inline buttons
 
-Set `inline` (aliased `ngnButtonInline`) to size the button to the current line
-height instead of the default control height. This is meant for buttons that sit
-inside flowing text or dense adornment slots — for example the icon buttons in a
-tabs header.
+Set `inline` (aliased `ngnButtonInline`) to size an icon button to the current
+line height (`1lh`) instead of the default control height, and to make it
+inline-level so it can sit in a line of text. It is the companion of
+`kind="icon"` — the other kinds keep their normal box — and it is what the
+built-in adornments use: the input field's clear button and edit-inplace's
+confirm button are `kind="icon"` + `inline`.
+
+Inline only changes the size, never the chrome. For an action that should read as
+text, use `kind="link"` (see above).
 
 {{ demo: Demo_Button_Inline }}
 

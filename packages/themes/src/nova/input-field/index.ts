@@ -3,7 +3,11 @@ import { baseStyles } from '@ngneers/controls-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
+  fieldInvalidRing,
+  fieldNeutralRing,
+  fieldRing,
   fontTemplate,
+  ringTemplate,
   sizesTemplate,
 } from '@ngneers/controls-themes/nova/base';
 import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
@@ -11,7 +15,7 @@ import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/in
 export const inputFieldStyles = createThemePart({
   controlTemplate: inputFieldControlTemplate,
   base: baseStyles.inputField,
-  dependencies: [colorsTemplate, sizesTemplate, animationTemplate, fontTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, animationTemplate, fontTemplate, ringTemplate],
   root: {
     css: ({ v, c, d }) => {
       const invalidDisabledSelector = `
@@ -22,11 +26,13 @@ export const inputFieldStyles = createThemePart({
         ${c('root')}:has([aria-invalid='true'][disabled])
       `;
 
+      // `:read-only` also matches disabled inputs, so every use excludes them — the
+      // disabled rules come first and must not be overridden by the read-only ones.
       const invalidReadonlySelector = `
-          ${c('invalid')}:read-only,
-          .ng-invalid.ng-touched:read-only ${c('root')},
-          ${c('root')}:has(.ng-invalid.ng-touched:read-only),
-          ${c('root')}:has(${d('input', 'invalid')}:read-only),
+          ${c('invalid')}:read-only:not(:disabled),
+          .ng-invalid.ng-touched:read-only:not(:disabled) ${c('root')},
+          ${c('root')}:has(.ng-invalid.ng-touched:read-only:not(:disabled)),
+          ${c('root')}:has(${d('input', 'invalid')}:read-only:not(:disabled)),
           ${c('invalid')}[aria-readonly],
           .ng-invalid.ng-touched[aria-readonly] ${c('root')},
           ${c('root')}:has(.ng-invalid.ng-touched[aria-readonly]),
@@ -48,30 +54,33 @@ export const inputFieldStyles = createThemePart({
           border-color: ${v('color.border')};
           border-width: 1px;
           border-style: solid;
-          padding: ${v('size.padding.sm')} ${v('size.padding.md')};
-          background: ${v('color.background')};
+          /* Published for the base theme, which hands this padding to the projected input. */
+          --fieldPadY: ${v('size.padding.sm')};
+          --fieldPadX: ${v('size.padding.lg')};
+          padding: var(--fieldPadY) var(--fieldPadX);
+          background: ${v('color.surface.50')};
           color: ${v('color.text')};
           transition:
-            border-color 0.1s ease-in-out,
-            color 0.1s ease-in-out,
-            outline-color 0.1s ease-in-out;
+            border-color 0.15s ease,
+            color 0.15s ease,
+            outline-color 0.15s ease;
           outline-color: transparent;
-          outline-width: 0;
+          outline-width: 3px;
           outline-style: solid;
-          outline-offset: -1px;
+          outline-offset: 0;
           overflow: auto;
-          /** line-height + vertical padding + border */
-          --baseHeight: calc(1lh + 2 * ${v('size.padding.sm')} + 2px);
-          height: max(var(--baseHeight), fit-content);
+          /** The shared control height as a floor; content (textarea, chips) still grows it.
+              Must be min-height — height: max(..., fit-content) is invalid CSS and gets dropped. */
+          --baseHeight: ${v('size.height.control')};
+          min-height: var(--baseHeight);
 
           /* regular */
           &:hover {
-            border-color: ${v('color.surface.500')};
+            border-color: ${v('color.primary.500')};
           }
           &:focus-within {
             border-color: ${v('color.primary.500')};
-            outline-color: ${v('color.primary.500')};
-            outline-width: 2px;
+            outline-color: ${fieldRing(v)};
           }
         }
 
@@ -86,23 +95,27 @@ export const inputFieldStyles = createThemePart({
           &:hover {
             border-color: ${v('color.disabled.border')};
           }
+          /* The root carries tabindex="-1", so a click focuses it even when the
+             input is disabled — keep the ring fully transparent so nothing fades
+             in or out. */
           &:focus-within {
             border-color: ${v('color.disabled.border')};
-            outline-width: 0;
+            outline-color: transparent;
           }
         }
 
         /* read-only */
-        ${c('readonly')}, ${c('root')}:has(${d('input', 'root')}:read-only), ${c(
+        ${c('readonly')}:not(${c('disabled')}), ${c('root')}:has(${d(
+          'input',
           'root'
-        )}:has([aria-readonly='true']) {
+        )}:read-only:not(:disabled)), ${c('root')}:has([aria-readonly='true']:not([disabled])) {
           border-color: ${v('color.disabled.border')};
           &:hover {
             border-color: ${v('color.disabled.border')};
           }
           &:focus-within {
             border-color: ${v('color.disabled.border')};
-            outline-color: ${v('color.disabled.border')};
+            outline-color: ${fieldNeutralRing(v)};
           }
         }
 
@@ -120,11 +133,11 @@ export const inputFieldStyles = createThemePart({
           }
           &:focus-within {
             border-color: ${v('color.invalid.border')};
-            outline-color: ${v('color.invalid.border')};
+            outline-color: ${fieldInvalidRing(v)};
           }
         }
 
-        /* invalid & disabled */
+        /* invalid & disabled — red border stays, but no focus ring (see disabled). */
         ${invalidDisabledSelector} {
           border-color: ${v('color.invalid.border')};
           &:hover {
@@ -132,7 +145,7 @@ export const inputFieldStyles = createThemePart({
           }
           &:focus-within {
             border-color: ${v('color.invalid.border')};
-            outline-color: ${v('color.invalid.border')};
+            outline-color: transparent;
           }
         }
 
@@ -144,7 +157,7 @@ export const inputFieldStyles = createThemePart({
           }
           &:focus-within {
             border-color: ${v('color.invalid.border')};
-            outline-color: ${v('color.invalid.border')};
+            outline-color: ${fieldInvalidRing(v)};
           }
         }
 
@@ -159,7 +172,7 @@ export const inputFieldStyles = createThemePart({
         /* Label Styles */
         ${c('label')} {
           color: ${v('color.surface.600')};
-          font-size: ${v('font.size.xs')};
+          font-size: ${v('font.size.sm')};
           font-weight: ${v('font.weight.medium')};
 
           max-width: 100%;
@@ -197,8 +210,10 @@ export const inputFieldStyles = createThemePart({
         ${c('labelKind-in')}, ${c('labelKind-floatIn')} {
           position: relative;
           ${c('root')} {
-            padding-top: 1.2rem;
-            height: max(calc(var(--baseHeight) + 1.2rem), fit-content);
+            /* Published for the base theme, so the input claims the label strip too. */
+            --fieldPadTop: 1.2rem;
+            padding-top: var(--fieldPadTop);
+            min-height: calc(var(--baseHeight) + 1.2rem);
           }
           ${c('label')} {
             position: absolute;
@@ -225,8 +240,8 @@ export const inputFieldStyles = createThemePart({
             position: absolute;
             padding: ${v('size.padding.sm')} 4px;
             top: 0;
-            left: ${v('size.padding.md')};
-            max-width: calc(100% - ${v('size.padding.md')} * 2);
+            left: ${v('size.padding.lg')};
+            max-width: calc(100% - ${v('size.padding.lg')} * 2);
             transform: translateY(-55%);
             transition-property: top, left, font-size, transform, padding;
 
@@ -234,12 +249,12 @@ export const inputFieldStyles = createThemePart({
               content: '';
               z-index: -1;
               position: absolute;
-              top: 55%;
+              top: 50%;
               transform: translateY(-50%) scale(1);
               left: 0;
               width: 100%;
-              height: 5px;
-              background: ${v('color.background')};
+              height: 6px;
+              background: ${v('color.surface.50')};
               transition: transform ${v('anim.time.fade')} ${v('anim.ease.fade')};
             }
           }

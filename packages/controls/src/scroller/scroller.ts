@@ -56,6 +56,12 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
    */
   public readonly fieldId = input<keyof T>();
   /**
+   * Returns a stable identity for an item. Takes precedence over {@link fieldId}.
+   * Without either, items track by index, so rendered rows are recycled across
+   * different items and CSS transitions on their content replay.
+   */
+  public readonly trackBy = input<(item: T) => unknown>();
+  /**
    * Whether the scroller should use virtual scrolling.
    * When set to true, the scroller will only render the items that are currently visible
    * on the screen, improving performance for large lists.
@@ -232,6 +238,10 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
   }
 
   protected track(item: { item: T; index: number }): unknown {
+    const trackBy = this.trackBy();
+    if (trackBy) {
+      return trackBy(item.item);
+    }
     const fieldId = this.fieldId();
     if (fieldId) {
       return item.item[fieldId];

@@ -15,7 +15,10 @@ export const hintStyles = createThemePart({
       ${c('root')} {
         color: color-mix(in srgb, ${v('color.text')} 60%, transparent);
         font-size: ${v('font.size.xs')};
-        line-height: ${v('font.size.xs')};
+        /* Hints sit under the control they describe: a small gap plus a normal line box keeps
+           them from hugging the field (a line-height equal to the font size clamps to the glyphs). */
+        line-height: 1.4;
+        margin-top: ${v('size.padding.sm')};
       }
 
       ${c('icon')} {

@@ -1,4 +1,4 @@
-import test from '@playwright/test';
+import test, { expect } from '@playwright/test';
 import { NgnInputHarness } from '@ngneers/controls-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
@@ -18,6 +18,50 @@ test('base', async ({ page }, testInfo) => {
   await textField.fill('123');
   await textField.expectValue('123');
   await expectScreenshot(page, testInfo);
+});
+
+test('field padding belongs to the input', async ({ page }) => {
+  await loadComponent(page, {
+    template: `
+      <ngn-input-field showClearButton>
+        <input ngnInput value="Hello world" />
+      </ngn-input-field>
+    `,
+    imports: ['input', 'inputField'],
+  });
+
+  const input = page.locator('input[ngnInput]').first();
+  const box = (await page.locator('ngn-input-field > div').first().boundingBox())!;
+  const midY = box.y + box.height / 2;
+  const caret = () => input.evaluate((el: HTMLInputElement) => el.selectionStart);
+
+  // Clicking the padding places the caret at the nearest text position instead of
+  // focusing with whatever selection the browser happens to restore.
+  await page.mouse.click(box.x + 3, midY);
+  expect(await input.evaluate(el => document.activeElement === el)).toBe(true);
+  expect(await caret()).toBe(0);
+
+  await page.mouse.click(box.x + box.width - 60, midY);
+  expect(await caret()).toBe(11);
+
+  // Vertical padding follows the browser's line-relative hit testing:
+  // above the text line -> start, below it -> end.
+  await page.mouse.click(box.x + box.width - 60, box.y + 2);
+  expect(await caret()).toBe(0);
+  await page.mouse.click(box.x + 60, box.y + box.height - 2);
+  expect(await caret()).toBe(11);
+
+  // Selection drags start in the padding, natively.
+  await page.mouse.move(box.x + 3, midY);
+  await page.mouse.down();
+  await page.mouse.move(box.x + 45, midY, { steps: 5 });
+  await page.mouse.up();
+  const [start, end] = await input.evaluate((el: HTMLInputElement) => [
+    el.selectionStart,
+    el.selectionEnd,
+  ]);
+  expect(start).toBe(0);
+  expect(end).toBeGreaterThan(0);
 });
 
 test('accessibility (axe)', async ({ page }) => {

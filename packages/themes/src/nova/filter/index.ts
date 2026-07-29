@@ -53,7 +53,7 @@ export const filterStyles = createThemePart({
       }
       ${c('footer')} {
         padding-top: ${v('size.padding.md')};
-        border-top: 1px solid ${v('color.surface.200')};
+        border-top: 1px solid ${v('color.border')};
         gap: ${v('size.padding.sm')};
       }
       ${c('footer-actions')} {

@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   computed,
+  DestroyRef,
   ElementRef,
   inject,
   Injector,
@@ -43,7 +44,7 @@ import type { PopoverOptions } from './types';
   },
 })
 export class NgnPopover extends PopoverTemplates implements Openable {
-  protected readonly theme = this.injectThemeTemplate(popoverControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(popoverControlTemplate, 'root');
 
   /**
    * Emits when the popover has fully closed.
@@ -90,6 +91,7 @@ export class NgnPopover extends PopoverTemplates implements Openable {
   // after a quick close (e.g. Enter then Escape). The effect still reacts to
   // genuine external `[open]` input changes.
   private _internalToggle = false;
+  private _destroyed = false;
 
   protected readonly appliedOptions = computed(() => ({
     cache: false,
@@ -119,6 +121,8 @@ export class NgnPopover extends PopoverTemplates implements Openable {
   constructor() {
     super();
 
+    inject(DestroyRef).onDestroy(() => (this._destroyed = true));
+
     explicitAfterRenderEffect([this.open], ([open]) => {
       // Ignore the echo from our own onToggle-driven open change; only react to
       // external `[open]` input changes.
@@ -142,13 +146,16 @@ export class NgnPopover extends PopoverTemplates implements Openable {
    */
   public show() {
     untracked(() => {
-      if (this.open() && !this._triggeredByInput) {
+      if (this._destroyed || (this.open() && !this._triggeredByInput)) {
         return;
       }
       this._triggeredByInput = false;
       this.isFullyClosed.set(false);
       this._cdr.detectChanges();
       requestAnimationFrame(() => {
+        if (!this.isAttached()) {
+          return;
+        }
         this._autoPos()?.start();
         this._popover().togglePopover(true);
       });
@@ -160,7 +167,7 @@ export class NgnPopover extends PopoverTemplates implements Openable {
    */
   public hide(emitCloseEvent = true) {
     untracked(() => {
-      if (!this.open() && !this._triggeredByInput) {
+      if (!this.isAttached() || (!this.open() && !this._triggeredByInput)) {
         return;
       }
       this._triggeredByInput = false;
@@ -168,6 +175,11 @@ export class NgnPopover extends PopoverTemplates implements Openable {
       this._autoPos()?.stop();
       this._popover().togglePopover(false);
     });
+  }
+
+  /** Native popover APIs throw on disconnected elements, so callers holding a stale reference no-op. */
+  private isAttached() {
+    return !this._destroyed && this._popover().isConnected;
   }
 
   /**
@@ -197,6 +209,9 @@ export class NgnPopover extends PopoverTemplates implements Openable {
       this._autoPos()?.stop();
 
       requestAnimationFrame(() => {
+        if (this._destroyed) {
+          return;
+        }
         const allAnimationsDone = Promise.all(
           this._content()
             .nativeElement.getAnimations()
@@ -204,6 +219,9 @@ export class NgnPopover extends PopoverTemplates implements Openable {
         );
         allAnimationsDone
           .then(() => {
+            if (this._destroyed) {
+              return;
+            }
             this.isFullyClosed.set(true);
             this.closed.emit();
           })

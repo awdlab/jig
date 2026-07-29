@@ -1,16 +1,23 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { baseStyles } from '@ngneers/controls-themes/base';
-import { colorsTemplate } from '@ngneers/controls-themes/nova/base';
+import { colorsTemplate, controlRing, ringTemplate } from '@ngneers/controls-themes/nova/base';
 import { splitterControlTemplate } from '@ngneers/controls-themes/templates/splitter';
 
 export const splitterStyles = createThemePart({
   controlTemplate: splitterControlTemplate,
   base: baseStyles.splitter,
-  dependencies: [colorsTemplate],
+  dependencies: [colorsTemplate, ringTemplate],
   root: {
     css: ({ v, c }) => css`
       ${c('panel')} {
         overflow: hidden;
+      }
+
+      /* One ring for every kind: the thin/invisible kinds only paint their bar on hover, so
+         without it a keyboard-focused divider would be invisible. */
+      ${c('divider-handle')}:focus-visible {
+        outline: 3px solid ${controlRing(v)};
+        outline-offset: 0;
       }
 
       /* Default kind: the handle itself is the visible divider. */

@@ -24,15 +24,32 @@ import type { PopoverOptions } from '@ngneers/controls/popover';
     </ngn-input-field>
     Invalid:
     <ngn-input-field>
-      <ngn-select [options]="options" [popoverOptions]="popoverOptions" invalid />
+      <ngn-select
+        [options]="options"
+        [popoverOptions]="popoverOptions"
+        [invalidOn]="'immediate'"
+        invalid
+      />
     </ngn-input-field>
     Invalid + Readonly:
     <ngn-input-field>
-      <ngn-select [options]="options" [popoverOptions]="popoverOptions" invalid readonly />
+      <ngn-select
+        [options]="options"
+        [popoverOptions]="popoverOptions"
+        [invalidOn]="'immediate'"
+        invalid
+        readonly
+      />
     </ngn-input-field>
     Invalid + Disabled:
     <ngn-input-field>
-      <ngn-select [options]="options" [popoverOptions]="popoverOptions" invalid disabled />
+      <ngn-select
+        [options]="options"
+        [popoverOptions]="popoverOptions"
+        [invalidOn]="'immediate'"
+        invalid
+        disabled
+      />
     </ngn-input-field>
   `,
   host: { class: 'w-48' },

@@ -39,6 +39,9 @@ export const colorPickerStyles = createThemePart({
         pointer-events: none;
         transform: translate(-50%, -50%);
       }
+      ${c('hue-track')}, ${c('alpha-track')} {
+        margin-inline: 0.5rem;
+      }
       ${c('hue-track')} {
         position: relative;
         height: 0.75rem;

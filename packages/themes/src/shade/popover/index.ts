@@ -17,7 +17,7 @@ export const popoverStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, animationTemplate, shadowTemplate],
   root: {
     css: ({ v, c }) => css`
-      ${c('root')} {
+      ${c('wrapper')} {
         /** to make space for the animation (prevent overflow) */
         padding-bottom: ${MOVE_AMOUNT + 1}px;
         overflow: visible; /** so that box-shadow is not clipped */
@@ -41,7 +41,7 @@ export const popoverStyles = createThemePart({
           transform ${v('anim.time.fade')} ${v('anim.ease.fade')},
           display ${v('anim.time.fade')} allow-discrete;
       }
-      ${c('root')}:popover-open > ${c('content')}:not(${c('content-closing')}) {
+      ${c('wrapper')}:popover-open > ${c('content')}:not(${c('content-closing')}) {
         opacity: 1;
         transform: translateY(0);
         @starting-style {

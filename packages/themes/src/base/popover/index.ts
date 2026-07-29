@@ -7,6 +7,10 @@ export const popoverStyles = createThemePart({
   root: {
     css: ({ v, c }) => css`
       ${c('root')} {
+        display: contents;
+      }
+
+      ${c('wrapper')} {
         background: transparent;
         pointer-events: none;
         position: static;

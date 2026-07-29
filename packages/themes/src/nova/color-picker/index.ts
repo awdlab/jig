@@ -13,7 +13,7 @@ export const colorPickerStyles = createThemePart({
         width: 2.25rem;
         height: 2.25rem;
         border-radius: ${v('size.rounded.md')};
-        border: 1px solid ${v('color.surface.300')};
+        border: 1px solid ${v('color.border')};
         cursor: pointer;
         padding: 0.25rem;
       }
@@ -28,10 +28,10 @@ export const colorPickerStyles = createThemePart({
       ${c('inline')} ${c('panel')} {
         padding: ${v('size.padding.md')};
         background: ${v('color.background')};
-        border: 1px solid ${v('color.surface.300')};
-        border-radius: ${v('size.rounded.md')};
+        border: 1px solid ${v('color.border')};
+        border-radius: ${v('size.rounded.lg')};
       }
-      ${c('sv-area')}, ${c('hue-track')}, ${c('alpha-track')} {
+      ${c('hue-track')}, ${c('alpha-track')} {
         border-radius: ${v('size.rounded.sm')};
       }
       ${c('sv-thumb')} {
@@ -52,7 +52,7 @@ export const colorPickerStyles = createThemePart({
         width: 1.25rem;
         height: 1.25rem;
         border-radius: ${v('size.rounded.sm')};
-        border: 1px solid ${v('color.surface.300')};
+        border: 1px solid ${v('color.border')};
         cursor: pointer;
         padding: 0;
       }

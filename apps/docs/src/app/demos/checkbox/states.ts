@@ -12,11 +12,28 @@ import { NgnCheckbox } from '@ngneers/controls/checkbox';
     Readonly:
     <ngn-checkbox [value]="value()" (valueChange)="value.set($event)" readonly />
     Invalid:
-    <ngn-checkbox [value]="value()" (valueChange)="value.set($event)" invalid />
+    <ngn-checkbox
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      [invalidOn]="'immediate'"
+      invalid
+    />
     Invalid + Disabled:
-    <ngn-checkbox [value]="value()" (valueChange)="value.set($event)" invalid disabled />
+    <ngn-checkbox
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      [invalidOn]="'immediate'"
+      invalid
+      disabled
+    />
     Invalid + Readonly:
-    <ngn-checkbox [value]="value()" (valueChange)="value.set($event)" invalid readonly />
+    <ngn-checkbox
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      [invalidOn]="'immediate'"
+      invalid
+      readonly
+    />
   `,
   styles: `
     :host {

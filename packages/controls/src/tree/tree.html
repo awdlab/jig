@@ -4,6 +4,7 @@
   [virtual]="virtual()"
   [itemHeight]="itemHeight()"
   [items]="flatNodes()"
+  [trackBy]="trackNode"
   [templateItem]="usedItemTemplate"
   #scroller
 />
@@ -64,6 +65,9 @@
   >
     @if (node.hasChildren) {
       <button
+        ngnButton
+        kind="icon"
+        [ngnButtonInline]="true"
         type="button"
         tabindex="-1"
         aria-hidden="true"

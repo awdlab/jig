@@ -24,7 +24,7 @@ export const tagStyles = createThemePart({
         line-height: 1;
         border-radius: ${v('size.rounded.md')};
         font-weight: ${v('font.weight.semibold')};
-        font-size: ${v('font.size.md')};
+        font-size: ${v('font.size.xs')};
       }
 
       ${c('icon')} {
@@ -33,7 +33,7 @@ export const tagStyles = createThemePart({
       }
 
       ${c('kind-pill')} {
-        border-radius: 999rem;
+        border-radius: ${v('size.rounded.full')};
       }
     `,
   },

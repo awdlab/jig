@@ -16,7 +16,10 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
     page,
     {
       template: `
-        <ngn-breadcrumb style="width: 350px;" [items]="inputs().items" />
+        <ngn-breadcrumb
+          style="width: 420px; outline: 1px solid red;"
+          [items]="inputs().items"
+        />
       `,
       imports: ['breadcrumb'],
     },
@@ -35,10 +38,12 @@ test('base', async ({ page }, testInfo) => {
 
   const breadcrumb = new NgnBreadcrumbHarness(page.locator('ngn-breadcrumb'));
   await breadcrumb.itemView.expectItemCount(10);
-  await breadcrumb.itemView.expectItemVisibleCount(4);
+  // 420px fits five of the ten crumbs at the theme's control font size; the rest move
+  // into the overflow menu. Outline marks the constraining box in the screenshot.
+  await breadcrumb.itemView.expectItemVisibleCount(5);
 
   await breadcrumb.itemView.overflowItem.locator(breadcrumb.classes['overflow']).click();
-  await breadcrumb.overflowMenu.expectItemCount(6);
+  await breadcrumb.overflowMenu.expectItemCount(5);
 
   await expectScreenshot(page, testInfo, 'overflow-open');
 });

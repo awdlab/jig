@@ -25,6 +25,7 @@ import {
 } from '@ngneers/controls/api';
 import { NgnStorage, type NgnStorageKind, NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
+import { NgnButton } from '@ngneers/controls/button';
 import { NgnCheckbox } from '@ngneers/controls/checkbox';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnScroller, NgnScrollerItem } from '@ngneers/controls/scroller';
@@ -73,6 +74,7 @@ export interface NgnTreeStorageConfig {
   templateUrl: './tree.html',
   imports: [
     NgTemplateOutlet,
+    NgnButton,
     NgnScroller,
     NgnScrollerItem,
     NgnCheckbox,
@@ -220,6 +222,9 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
   public readonly flatNodes = computed(() =>
     flattenTree(this._effectiveItems(), this._expandedSet())
   );
+
+  /** Keeps a rendered row bound to its node when the flat list shifts (expand/collapse/scroll). */
+  protected readonly trackNode = (node: FlatTreeNode): unknown => node.item.value;
 
   protected readonly valueArray = computed(() => {
     const v = this.value();

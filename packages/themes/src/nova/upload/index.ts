@@ -2,6 +2,8 @@ import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { baseStyles } from '@ngneers/controls-themes/base';
 import {
   colorsTemplate,
+  controlRing,
+  ringTemplate,
   sizesTemplate,
   animationTemplate,
   fontTemplate,
@@ -11,7 +13,7 @@ import { uploadControlTemplate } from '@ngneers/controls-themes/templates/upload
 export const uploadStyles = createThemePart({
   controlTemplate: uploadControlTemplate,
   base: baseStyles.upload,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate, ringTemplate],
   root: {
     css: ({ v, c }) => {
       return css`
@@ -31,7 +33,7 @@ export const uploadStyles = createThemePart({
         }
         /* Focus lives on the projected native input; surface the ring on the zone. */
         ${c('zone')}:has(:focus-visible) {
-          outline: 2px solid ${v('color.primary.500')};
+          outline: 3px solid ${controlRing(v)};
           outline-offset: 2px;
         }
         ${c('clickable')} ${c('zone')}:hover {

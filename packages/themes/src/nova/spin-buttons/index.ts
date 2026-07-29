@@ -14,12 +14,21 @@ export const spinButtonsStyles = createThemePart({
       ${c('root')} {
         margin-block: calc(-1 * ${v('size.padding.sm')});
       }
-      /* Bleed over the field's horizontal padding on the border-facing side. */
+      /* Bleed over the field's horizontal padding on the border-facing side so the buttons sit
+         flush against the border. Must match the field's own inline padding or a gap is left. */
       ${c('trailing')} {
-        margin-inline-end: calc(-1 * ${v('size.padding.md')});
+        margin-inline-end: calc(-1 * ${v('size.padding.lg')});
+        border-inline-start: 1px solid ${v('color.border')};
+        background: ${v('color.surface.100')};
+        border-start-end-radius: calc(${v('size.rounded.md')} - 1px);
+        border-end-end-radius: calc(${v('size.rounded.md')} - 1px);
       }
       ${c('leading')} {
-        margin-inline-start: calc(-1 * ${v('size.padding.md')});
+        margin-inline-start: calc(-1 * ${v('size.padding.lg')});
+        border-inline-end: 1px solid ${v('color.border')};
+        background: ${v('color.surface.100')};
+        border-start-start-radius: calc(${v('size.rounded.md')} - 1px);
+        border-end-start-radius: calc(${v('size.rounded.md')} - 1px);
       }
 
       /* Scoped under the root so these win over the icon-button's own
@@ -28,7 +37,7 @@ export const spinButtonsStyles = createThemePart({
       ${c('root')} ${d('decrement')},
       ${c('root')} ${d('increment')} {
         color: ${v('color.surface.500')};
-        /* Reset the underlying icon-button chrome (pill radius + fixed square
+        /* Reset the underlying icon-button chrome (rounded corners + fixed square
          * size): these buttons bleed to the field border and fill its height. */
         border-radius: 0;
         width: auto;
@@ -40,7 +49,7 @@ export const spinButtonsStyles = createThemePart({
         font-size: calc(1em * 0.9);
         &:hover:not(:disabled) {
           color: ${v('color.surface.700')};
-          background: ${v('color.surface.100')};
+          background: ${v('color.surface.200')};
         }
         &:disabled {
           color: ${v('color.disabled.text')};

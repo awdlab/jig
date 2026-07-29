@@ -5,7 +5,11 @@ export const editInplaceStyles = createThemePart({
   controlTemplate: editInplaceControlTemplate,
   dependencies: [],
   root: {
-    css: ({ c }) => css`
+    css: ({ c, d }) => css`
+      /* The display swaps into a text input, so signal editing rather than navigation. */
+      ${d('inplace', 'display')} {
+        cursor: text;
+      }
       ${c('sr-only')} {
         position: absolute;
         width: 1px;

@@ -17,10 +17,10 @@ export const dialogStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate, animationTemplate],
   root: {
     css: ({ v, c, d }) => css`
-      ${c('root')} {
+      ${c('wrapper')} {
         background-color: ${v('color.background')};
-        border: 1px solid ${v('color.surface.300')};
-        border-radius: ${v('size.rounded.md')};
+        border: 1px solid ${v('color.border')};
+        border-radius: ${v('size.rounded.xl')};
         padding: ${v('size.padding.lg')};
         box-shadow: ${v('shadow.lg')};
         opacity: 0;
@@ -31,8 +31,8 @@ export const dialogStyles = createThemePart({
           display calc(${v('anim.time.snappyFade')} + 10ms) allow-discrete,
           overlay calc(${v('anim.time.snappyFade')} + 10ms) allow-discrete;
       }
-      ${c('root')}[open],
-      ${c('root')}:popover-open {
+      ${c('wrapper')}[open],
+      ${c('wrapper')}:popover-open {
         opacity: 1;
         transform: scale(1);
         @starting-style {

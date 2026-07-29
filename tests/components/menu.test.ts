@@ -141,6 +141,47 @@ test('submenu: parent item advertises a submenu and opens it on click', async ({
   await expect(page.getByRole('menuitem', { name: 'Child 1' })).toBeVisible();
 });
 
+test('item callback that destroys the menu does not warn', async ({ page }) => {
+  const logs: string[] = [];
+  page.on('console', msg => logs.push(msg.text()));
+
+  await loadComponent(
+    page,
+    {
+      template: `
+        @if (inputs().visible) {
+          <button #anchor (click)="menu.show()">Open Menu</button>
+          <ngn-menu #menu [popover]="true" [anchor]="anchor" [items]="inputs().items" />
+        }
+      `,
+      imports: ['menu'],
+    },
+    {
+      inputs: {
+        visible: true,
+        // The callback drops the menu synchronously, as a "delete this row" action does.
+        items: evalValue(`[{
+          id: '1',
+          label: 'Item 1',
+          callback: () => {
+            window.__ngn_test_wrapper.inputs({ visible: false });
+            const anchor = document.querySelector('button');
+            window.ng.applyChanges(window.ng.getOwningComponent(anchor));
+          },
+        }]`),
+      },
+    }
+  );
+
+  await page.locator('button').first().click();
+  await page.getByRole('menuitem', { name: 'Item 1' }).click();
+  await expect(page.locator('ngn-menu')).toHaveCount(0);
+
+  // Let the deferred closeAll frame run — the warning would land there.
+  await page.waitForTimeout(150);
+  expect(logs.filter(l => l.includes('NG0953'))).toEqual([]);
+});
+
 test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,

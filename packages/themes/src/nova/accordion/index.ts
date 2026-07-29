@@ -11,9 +11,11 @@ export const accordionStyles = createThemePart({
     css: ({ v, c }) => css`
       ${c('root')} {
         background: ${v('color.background')};
-        border: 1px solid ${v('color.surface.300')};
+        border: 1px solid ${v('color.border')};
         border-radius: ${v('size.rounded.lg')};
         display: block;
+        /* Clips the expanded header's fill to the rounded corners. */
+        overflow: hidden;
       }
     `,
   },

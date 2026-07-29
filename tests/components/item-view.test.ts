@@ -8,7 +8,11 @@ test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-item-view [items]="inputs().items" [idField]="'id'" style="width: {{inputs().width}};">
+      template: `<ngn-item-view
+        [items]="inputs().items"
+        [idField]="'id'"
+        style="width: {{inputs().width}}; outline: 1px solid red;"
+      >
         <ng-template #item let-item>
           <span style="padding: 8px; background: {{item.color}}">{{item.label}}</span>
         </ng-template>
@@ -22,7 +26,7 @@ test('base', async ({ page }, testInfo) => {
           { id: 2, label: 'Item 2', color: 'green' },
           { id: 3, label: 'Item 3', color: 'blue' },
         ],
-        width: '200px',
+        width: '220px',
       },
     }
   );
@@ -35,6 +39,9 @@ test('base', async ({ page }, testInfo) => {
   await itemView.expectItemVisibleTexts(['Item 1', 'Item 2', 'Item 3']);
   await itemView.expectItemOverflowingCount(0);
 
+  // The widths are chosen around the rendered item width (~57px at the theme's control
+  // font size), so each step below crosses one overflow threshold. The outline marks the
+  // constraining box in the screenshot.
   handle.setInputs({
     items: [
       { id: 1, label: 'Item 1', color: 'red' },
@@ -42,6 +49,7 @@ test('base', async ({ page }, testInfo) => {
       { id: 3, label: 'Item 3', color: 'blue' },
       { id: 4, label: 'Item 4', color: 'yellow' },
     ],
+    width: '180px',
   });
 
   await itemView.expectItemCount(4);
@@ -60,7 +68,7 @@ test('base', async ({ page }, testInfo) => {
   await itemView.expectItemOverflowingCount(0);
 
   handle.setInputs({
-    width: '220px',
+    width: '225px',
   });
 
   await itemView.expectItemVisibleCount(3);

@@ -20,15 +20,25 @@ import { NgnInputField } from '@ngneers/controls/input-field';
     </ngn-input-field>
     Invalid:
     <ngn-input-field>
-      <ngn-calendar [inputId]="'calendar-states-invalid'" invalid />
+      <ngn-calendar [inputId]="'calendar-states-invalid'" [invalidOn]="'immediate'" invalid />
     </ngn-input-field>
     Invalid + Readonly:
     <ngn-input-field>
-      <ngn-calendar [inputId]="'calendar-states-invalid-readonly'" invalid readonly />
+      <ngn-calendar
+        [inputId]="'calendar-states-invalid-readonly'"
+        [invalidOn]="'immediate'"
+        invalid
+        readonly
+      />
     </ngn-input-field>
     Invalid + Disabled:
     <ngn-input-field>
-      <ngn-calendar [inputId]="'calendar-states-invalid-disabled'" invalid disabled />
+      <ngn-calendar
+        [inputId]="'calendar-states-invalid-disabled'"
+        [invalidOn]="'immediate'"
+        invalid
+        disabled
+      />
     </ngn-input-field>
   `,
   host: { class: 'w-48' },

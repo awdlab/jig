@@ -346,6 +346,28 @@ export class NgnSelect<
   }
 
   /**
+   * Opens the list from a pointer click anywhere on a wrapping `ngn-input-field`
+   * (its padding included), matching a click on the trigger itself. Delegated by
+   * the field so it works regardless of the select's `tabindex`.
+   */
+  public override focusFromPointer(event: MouseEvent): boolean {
+    if (this.disabled()) {
+      return false;
+    }
+    // Adornments projected next to the select (buttons, links) stay in charge of their own click.
+    const target = event.target instanceof Element ? event.target : null;
+    if (target?.closest('button, a[href], [tabindex]:not([tabindex="-1"])')) {
+      return false;
+    }
+    const field = this._field().nativeElement;
+    // Non-editable selects render a combobox div instead of an input — focus the field itself
+    // there, otherwise the click would open the list with focus left on the document.
+    (field.querySelector('input') ?? field).focus();
+    this.show();
+    return true;
+  }
+
+  /**
    * Shows the select dropdown.
    */
   public show() {

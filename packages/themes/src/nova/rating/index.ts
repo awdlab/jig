@@ -1,12 +1,17 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { baseStyles } from '@ngneers/controls-themes/base';
-import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
+import {
+  colorsTemplate,
+  controlRing,
+  ringTemplate,
+  sizesTemplate,
+} from '@ngneers/controls-themes/nova/base';
 import { ratingControlTemplate } from '@ngneers/controls-themes/templates/rating';
 
 export const ratingStyles = createThemePart({
   controlTemplate: ratingControlTemplate,
   base: baseStyles.rating,
-  dependencies: [colorsTemplate, sizesTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, ringTemplate],
   root: {
     css: ({ v, c }) => css`
       ${c('root')} {
@@ -16,12 +21,12 @@ export const ratingStyles = createThemePart({
         cursor: pointer;
       }
       ${c('full')} {
-        color: ${v('color.primary.500')};
+        color: ${v('color.secondary.500')};
       }
       ${c('root')}:focus-visible {
         outline: none;
         ${c('symbol')} {
-          outline: 2px solid ${v('color.surface.900')};
+          outline: 3px solid ${controlRing(v)};
           outline-offset: 2px;
           border-radius: ${v('size.rounded.sm')};
         }

@@ -9,6 +9,39 @@ import { expectScreenshot } from '../helper/screenshot';
 import type { NgnItem } from '@ngneers/controls/api';
 import type { PopoverOptions } from '@ngneers/controls/popover';
 
+test('editable: field padding belongs to the input', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `
+      <ngn-input-field style="width: 300px;">
+        <ngn-select [options]="inputs().options" [editable]="true" />
+      </ngn-input-field>
+    `,
+      imports: ['select', 'inputField'],
+    },
+    { inputs: { options: ['Alpha', 'Bravo', 'Charlie'] } }
+  );
+
+  const input = page.locator('input').first();
+  await input.evaluate((el: HTMLInputElement) => (el.value = 'Alpha'));
+  const box = (await page.locator('ngn-input-field > div').first().boundingBox())!;
+  const midY = box.y + box.height / 2;
+  const caret = () => input.evaluate((el: HTMLInputElement) => el.selectionStart);
+
+  // The input is nested two levels down (ngn-select > .select-input > input) and
+  // still claims the field's padding; the dropdown icon keeps the trailing strip.
+  await page.mouse.click(box.x + 3, midY);
+  expect(await input.evaluate(el => document.activeElement === el)).toBe(true);
+  expect(await caret()).toBe(0);
+
+  await page.mouse.click(box.x + box.width - 60, midY);
+  expect(await caret()).toBe(5);
+
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height - 2);
+  expect(await caret()).toBe(5);
+});
+
 test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
@@ -544,6 +577,42 @@ test.describe('disabled items', () => {
     await select.expectOpened(true);
     await expect(select.input).toHaveText(/^[\s​]*$/);
   });
+});
+
+// A select whose trigger is taken out of the tab order (tabindex="-1", as an editable
+// select does internally) still has to open from a click on the wrapping field, so the
+// field can't rely on a focusable trigger to delegate to.
+test('opens from the wrapping field padding with tabindex -1', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `
+      <ngn-input-field style="width: 200px;">
+        <ngn-select [tabindex]="-1" [options]="inputs().options" />
+      </ngn-input-field>
+    `,
+      imports: ['select', 'inputField'],
+    },
+    {
+      inputs: {
+        options: exampleData.items.flatPreformatted,
+      },
+    }
+  );
+
+  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+  const field = page.locator('ngn-input-field > div').first();
+
+  await expect(field).toHaveCSS('cursor', 'pointer');
+  await select.expectOpened(false);
+
+  const box = (await field.boundingBox())!;
+  await page.mouse.click(box.x + 3, box.y + box.height / 2);
+  await select.expectOpened(true);
+  // Focus must land on the select's own field, so keyboard navigation continues from the click.
+  expect(await page.evaluate(() => document.activeElement?.closest('ngn-select') !== null)).toBe(
+    true
+  );
 });
 
 // TODO(a11y): the open dropdown uses a virtualized ngn-list-box, so the scroller

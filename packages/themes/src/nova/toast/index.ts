@@ -30,12 +30,12 @@ export const toastStyles = createThemePart({
       }
 
       ${c('root')} {
-        background: var(--theme-color-400);
-        color: var(--theme-color-400-contrast);
+        background: ${v('color.background')};
+        color: ${v('color.text')};
         padding: ${v('size.padding.md')} ${v('size.padding.lg')};
-        border-radius: ${v('size.rounded.md')};
+        border-radius: ${v('size.rounded.xl')};
         font-size: ${v('font.size.sm')};
-        border: 1px solid var(--theme-color-600);
+        border: 1px solid ${v('color.border')};
         box-shadow: ${v('shadow.lg')};
       }
 
@@ -44,6 +44,9 @@ export const toastStyles = createThemePart({
         display: flex;
         align-items: center;
         gap: ${v('size.padding.sm')};
+      }
+      ${c('defaultHeaderText')} ngn-icon {
+        color: var(--theme-color-500);
       }
 
       ${c('anim-enter')} {

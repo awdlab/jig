@@ -12,8 +12,13 @@ export const menuStyles = createThemePart({
       ${c('root')} {
         background: ${v('color.background')};
         padding: 4px;
-        border-radius: ${v('size.rounded.md')};
-        border: 1px solid ${v('color.surface.300')};
+        border-radius: ${v('size.rounded.lg')};
+        border: 1px solid ${v('color.border')};
+        /* The items own the focus treatment; the container is only focused programmatically
+           and must not paint a ring of its own. */
+        &:focus {
+          outline: none;
+        }
       }
       ${d('popover', 'content')} {
         border: none;
@@ -33,18 +38,26 @@ export const menuStyles = createThemePart({
           }
           &:focus {
             outline: none;
-            background: ${v('color.surface.200')};
+            background: color-mix(
+              in oklab,
+              ${v('color.primary.500')} 12%,
+              ${v('color.background')}
+            );
           }
           &:active {
-            background: ${v('color.surface.300')};
+            background: color-mix(
+              in oklab,
+              ${v('color.primary.500')} 20%,
+              ${v('color.background')}
+            );
           }
         }
         &:disabled {
-          background: ${v('color.surface.200')};
+          opacity: 0.5;
         }
       }
       ${c('item-opened')} {
-        background: ${v('color.surface.100')};
+        background: color-mix(in oklab, ${v('color.primary.500')} 12%, ${v('color.background')});
       }
       ${c('icon-children')} {
         --icon-size: 8px;
@@ -53,7 +66,7 @@ export const menuStyles = createThemePart({
       ${c('separator')} {
         width: 100%;
         border: none;
-        border-bottom: 1px solid var(--ngn-color-surface-300);
+        border-bottom: 1px solid ${v('color.border')};
         margin: ${v('size.padding.sm')} 0;
       }
     `,

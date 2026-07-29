@@ -4,6 +4,7 @@ import { Demo_Button_Base } from '../../../demos/button/base';
 import { Demo_Button_Disabled } from '../../../demos/button/disabled';
 import { Demo_Button_Inline } from '../../../demos/button/inline';
 import { Demo_Button_Kind } from '../../../demos/button/kind';
+import { Demo_Button_Link } from '../../../demos/button/link';
 import { i18nText } from '../../../utils/i18n-doc';
 
 import type { NgnDocsPage } from '../../../utils/page/types';
@@ -21,6 +22,7 @@ export const ButtonPage: NgnDocsPage = {
       components: [
         Demo_Button_Base,
         Demo_Button_Kind,
+        Demo_Button_Link,
         Demo_Button_Inline,
         Demo_Button_Disabled,
         Demo_Button_Action,

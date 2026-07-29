@@ -9,9 +9,9 @@ export const buttonGroupStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c, d }) => css`
-      /* Buttons sit flush against each other, so a focused button's outline is
-         otherwise painted over by its neighbors. Lift the focused item above
-         its siblings so the ring renders on every side. */
+      /* Buttons sit flush against each other, so a focused button's ring is otherwise
+         painted over by its neighbors. Lift the focused item above its siblings so the
+         ring renders on every side. */
       ${c('horizontal')}, ${c('vertical')} {
         &
         > ${d('button', 'root')}:focus-visible,

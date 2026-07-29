@@ -21,8 +21,8 @@ export const messageStyles = createThemePart({
         background: var(--theme-color-50);
         color: var(--theme-color-700-on-50);
         padding: ${v('size.padding.md')} ${v('size.padding.lg')};
-        border-radius: ${v('size.rounded.md')};
-        font-size: ${v('font.size.md')};
+        border-radius: ${v('size.rounded.lg')};
+        font-size: ${v('font.size.sm')};
         border: 1px solid var(--theme-color-300);
       }
 

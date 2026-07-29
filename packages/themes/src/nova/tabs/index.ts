@@ -1,66 +1,78 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { baseStyles } from '@ngneers/controls-themes/base';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
+import {
+  colorsTemplate,
+  controlRing,
+  fontTemplate,
+  ringTemplate,
+  shadowTemplate,
+  sizesTemplate,
+} from '@ngneers/controls-themes/nova/base';
 import { tabsControlTemplate } from '@ngneers/controls-themes/templates/tabs';
 
 export const tabsStyles = createThemePart({
   controlTemplate: tabsControlTemplate,
   base: baseStyles.tabs,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate, ringTemplate],
   root: {
     css: ({ v, c }) => css`
-      ${c('headers')} {
-        border-top-left-radius: ${v('size.rounded.sm')};
-        border-top-right-radius: ${v('size.rounded.sm')};
-      }
       ${c('headers-container')} {
-        border-bottom: 1px solid ${v('color.surface.300')};
+        background: ${v('color.surface.50')};
+        border-radius: ${v('size.rounded.md')};
+        padding: 1px ${v('size.padding.sm')};
+      }
+      /* The headers strip is the scroll container (overflow-y: hidden), so without vertical
+         padding it clips the active pill's shadow. Vertical only — horizontal padding would
+         shift the sticky scroll buttons. */
+      ${c('headers')} {
+        gap: ${v('size.padding.sm')};
+        padding: 3px 0;
       }
       ${c('header')} {
-        background: ${v('color.background')};
+        background: transparent;
         border: none;
         cursor: pointer;
+        color: ${v('color.surface.600')};
         font-weight: ${v('font.weight.semibold')};
-        padding: ${v('size.padding.md')} ${v('size.padding.xl')};
+        border-radius: calc(${v('size.rounded.md')} - 3px);
+        padding: ${v('size.padding.sm')} ${v('size.padding.lg')};
+        transition:
+          background 0.15s ease,
+          color 0.15s ease;
         &:hover {
-          background: ${v('color.surface.50')};
+          color: ${v('color.text')};
         }
+        /* Inset: the headers strip is the scroll container, so a ring around the first tab
+           would be clipped at its edge. Inset also leaves the active pill's shadow intact. */
         &:focus-visible {
-          outline: none;
-          background: ${v('color.surface.100')};
+          outline: 3px solid ${controlRing(v)};
+          outline-offset: -3px;
         }
-        &:active {
-          background: ${v('color.surface.100')};
-        }
+      }
+      ${c('header-active')} {
+        background: ${v('color.background')};
+        color: ${v('color.primary.600')};
+        box-shadow: ${v('shadow.sm')};
       }
       ${c('header-active-indicator')} {
-        border-bottom: 2px solid ${v('color.primary.500')};
-        transition:
-          left 0.2s ease-in-out,
-          width 0.2s ease-in-out;
+        display: none;
       }
       ${c('scroll-left')}, ${c('scroll-right')} {
-        background: ${v('color.background')};
+        background: ${v('color.surface.50')};
         padding: 0;
-        color: ${v('color.surface.400')};
+        color: ${v('color.surface.500')};
         --icon-size: 0.625rem;
         cursor: pointer;
-        --blurColor: ${v('color.background')};
+        --blurColor: ${v('color.surface.50')};
         &:hover {
-          background: ${v('color.surface.100')};
-          color: ${v('color.surface.500')};
-          --blurColor: ${v('color.surface.100')};
-        }
-        &:focus-visible {
-          background: ${v('color.surface.200')};
-          color: ${v('color.surface.600')};
-          --blurColor: ${v('color.surface.200')};
-          outline: none;
-        }
-        &:active {
-          background: ${v('color.surface.300')};
           color: ${v('color.surface.700')};
-          --blurColor: ${v('color.surface.300')};
+        }
+        /* Inset: these sit sticky inside the headers strip, which hides its vertical
+           overflow and would clip an offset ring. */
+        &:focus-visible {
+          color: ${v('color.surface.700')};
+          outline: 3px solid ${controlRing(v)};
+          outline-offset: -3px;
         }
       }
       ${c('scroll-left')} {
@@ -75,6 +87,7 @@ export const tabsStyles = createThemePart({
       }
       ${c('content')} {
         background: ${v('color.background')};
+        padding-top: ${v('size.padding.md')};
       }
     `,
   },

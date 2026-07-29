@@ -9,9 +9,12 @@
     />
   </div>
 } @else {
+  <!-- Disabled natively, not just visually: the trigger has nothing to activate, so it must
+       leave the tab order instead of being a focus stop with no effect. -->
   <button
     #displayTrigger
     type="button"
+    [disabled]="disabled()"
     [ptInt]="this"
     [ptClass]="'display'"
     (click)="switchToContent()"

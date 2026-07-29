@@ -17,7 +17,8 @@
 }
 
 <ng-template #menu>
-  <div [ptInt]="this" [ptClass]="'root'" role="menu" [tabIndex]="0" [id]="elementId() + '_menu'">
+  <!-- The items carry the tab stop (roving), so the container is only focusable programmatically. -->
+  <div [ptInt]="this" [ptClass]="'root'" role="menu" [tabIndex]="-1" [id]="elementId() + '_menu'">
     @for (item of items(); track 'id' in item ? item.id : item) {
       @if ('separator' in item) {
         <ng-container *ngTemplateOutlet="separatorTemplate" />
@@ -46,7 +47,9 @@
       role="menuitem"
       aria-haspopup="menu"
       [aria-expanded]="childMenu.open()"
-      [tabindex]="-1"
+      tabindex="-1"
+      [attr.tabindex]="index === tabStopIndex() ? 0 : -1"
+      (focus)="focusedIndex.set(index)"
       [ngnAutofocus]="open() && autofocus() && index === 0"
       [ptInt]="this"
       [ptClass]="{
@@ -73,10 +76,14 @@
       [openSubmenuOnHover]="openSubmenuOnHover()"
     />
   } @else {
+    <!-- The static tabindex keeps routerLink from managing this button's tab stop itself (it
+         bails out when the element already declares one); the binding is the roving value. -->
     <button
       #menuItem
       role="menuitem"
-      [tabindex]="-1"
+      tabindex="-1"
+      [attr.tabindex]="index === tabStopIndex() ? 0 : -1"
+      (focus)="focusedIndex.set(index)"
       [ngnAutofocus]="open() && autofocus() && index === 0"
       [ptInt]="this"
       [ptClass]="'item'"

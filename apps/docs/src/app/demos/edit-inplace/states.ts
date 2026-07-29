@@ -12,11 +12,28 @@ import { NgnEditInplace } from '@ngneers/controls/edit-inplace';
     Disabled:
     <ngn-edit-inplace [value]="value()" (valueChange)="value.set($event)" disabled /><br />
     Invalid:
-    <ngn-edit-inplace [value]="value()" (valueChange)="value.set($event)" invalid /><br />
+    <ngn-edit-inplace
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      [invalidOn]="'immediate'"
+      invalid
+    /><br />
     Invalid + Readonly:
-    <ngn-edit-inplace [value]="value()" (valueChange)="value.set($event)" invalid readonly /><br />
+    <ngn-edit-inplace
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      [invalidOn]="'immediate'"
+      invalid
+      readonly
+    /><br />
     Invalid + Disabled:
-    <ngn-edit-inplace [value]="value()" (valueChange)="value.set($event)" invalid disabled /><br />
+    <ngn-edit-inplace
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      [invalidOn]="'immediate'"
+      invalid
+      disabled
+    /><br />
   `,
   host: { style: 'display: block; width: 400px;' },
 })

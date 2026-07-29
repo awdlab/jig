@@ -71,7 +71,7 @@ export class NgnDialog<
   extends DialogTemplates<T>
   implements Openable
 {
-  protected readonly theme = this.injectThemeTemplate(dialogControlTemplate);
+  protected readonly theme = this.injectThemeTemplate(dialogControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
   protected readonly headerId = generateElementId();
 

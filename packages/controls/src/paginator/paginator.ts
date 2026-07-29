@@ -151,6 +151,25 @@ export class NgnPaginator extends NgnBase<'paginator'> {
     this.page.set(newPage);
   }
 
+  /** Moves focus along the page buttons without selecting; Enter/Space activates natively. */
+  protected onPagesKeydown(event: KeyboardEvent): void {
+    const step = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
+    if (!step) {
+      return;
+    }
+    const buttons = Array.from(
+      (event.currentTarget as HTMLElement).querySelectorAll<HTMLButtonElement>(
+        'button:not([disabled])'
+      )
+    );
+    const next = buttons[buttons.indexOf(document.activeElement as HTMLButtonElement) + step];
+    if (!next) {
+      return;
+    }
+    event.preventDefault();
+    next.focus();
+  }
+
   protected getButtonFontStyles(page: number): {
     [klass: string]: string;
   } {

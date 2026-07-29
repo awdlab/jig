@@ -230,7 +230,9 @@ function getThemeColors(
     success: palette('success', forestVerdantColor, forestVerdantColorRgb),
     surface: palette('surface', neutralShades, neutralRgb),
     background: grey['25'],
-    border: grey['400'],
+    /* The palette reverses in dark mode, so a single level can't serve both: `100`
+       is the right hairline on light but collapses into the background on dark. */
+    border: isDark ? grey['200'] : grey['100'],
     text: grey['950'],
     disabled: {
       text: grey['700'],
@@ -239,7 +241,7 @@ function getThemeColors(
     },
     invalid: {
       text: p(crimsonFlameColor)['500'],
-      border: p(crimsonFlameColor)['400'],
+      border: p(crimsonFlameColor)['300'],
       background: p(crimsonFlameColor)['50'],
     },
   };

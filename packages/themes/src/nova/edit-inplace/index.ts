@@ -10,7 +10,9 @@ export const editInplaceStyles = createThemePart({
   root: {
     css: ({ c, d, v }) => css`
       ${c('default-display')} {
-        padding: 1px; /* To avoid layout shift when switching to edit mode */
+        /* No border compensation needed: the inplace display carries a transparent border
+           matching the field's, so both modes already share a box model. */
+        padding: 0;
       }
       ${c('root')} {
         display: inline-block;

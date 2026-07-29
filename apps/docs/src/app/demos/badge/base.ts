@@ -14,6 +14,9 @@ import { NgnIcon } from '@ngneers/controls/icon';
         <ngn-icon [icon]="bell" />
       </button>
       <button ngnButton [ngnBadge]="3">Inbox</button>
+      <button ngnButton kind="icon" [ngnBadge]="120" [ngnBadgeMax]="99" aria-label="Notifications">
+        <ngn-icon [icon]="bell" />
+      </button>
       <!-- ngn-avatar clips its content (overflow: hidden), so anchor the badge on a
            thin wrapper around it rather than on the avatar element itself. -->
       <span class="inline-flex" [ngnBadge]="5" ngnBadgeCircular><ngn-avatar initials="JD" /></span>

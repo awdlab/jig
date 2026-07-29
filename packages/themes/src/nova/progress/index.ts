@@ -17,12 +17,12 @@ export const progressStyles = createThemePart({
       return css`
         ${c('track')} {
           background: ${v('color.surface.200')};
-          border-radius: ${v('size.rounded.md')};
-          height: 0.5rem;
+          border-radius: ${v('size.rounded.full')};
+          height: 0.375rem;
         }
         ${c('fill')}, ${c('fill2')} {
           background: ${v('color.primary.500')};
-          border-radius: ${v('size.rounded.md')};
+          border-radius: ${v('size.rounded.full')};
           transition: width ${v('anim.time.fade')} ${v('anim.ease.fade')};
           height: 100%;
         }

@@ -7,6 +7,9 @@ export const dialogStyles = createThemePart({
   root: {
     css: ({ v, c, d }) => css`
       ${c('root')} {
+        display: contents;
+      }
+      ${c('wrapper')} {
         color: inherit;
         margin: auto;
         flex-direction: column;
@@ -29,7 +32,7 @@ export const dialogStyles = createThemePart({
         align-items: center;
         justify-content: flex-end;
       }
-      ${c('root')}${d('movable', 'moved')} {
+      ${c('wrapper')}${d('movable', 'moved')} {
         margin: unset;
       }
     `,

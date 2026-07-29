@@ -22,13 +22,20 @@ import { NgnToggleButton } from '@ngneers/controls/toggle-button';
       readonly
     />
     Invalid:
-    <ngn-toggle-button [value]="value()" (valueChange)="value.set($event)" label="Toggle" invalid />
+    <ngn-toggle-button
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      label="Toggle"
+      [invalidOn]="'immediate'"
+      invalid
+    />
     Invalid + Disabled:
     <ngn-toggle-button
       [value]="value()"
       (valueChange)="value.set($event)"
       label="Toggle"
       disabled
+      [invalidOn]="'immediate'"
       invalid
     />
     Invalid + Readonly:
@@ -37,6 +44,7 @@ import { NgnToggleButton } from '@ngneers/controls/toggle-button';
       (valueChange)="value.set($event)"
       label="Toggle"
       readonly
+      [invalidOn]="'immediate'"
       invalid
     />
   `,

@@ -1,16 +1,37 @@
 import { Component } from '@angular/core';
+import tablerCopy from '@iconify/icons-tabler/copy';
 import { NgnButton } from '@ngneers/controls/button';
+import { NgnIcon } from '@ngneers/controls/icon';
+import { NgnInput } from '@ngneers/controls/input';
+import { NgnInputField } from '@ngneers/controls/input-field';
 
 @Component({
   selector: 'ngn-demo-button-inline',
-  imports: [NgnButton],
+  imports: [NgnButton, NgnIcon, NgnInput, NgnInputField],
   template: `
-    <p class="max-w-prose">
-      Inline buttons sit inside running text and match the line height, so a
-      <button ngnButton ngnButtonInline>tiny action</button> reads as part of the sentence instead
-      of breaking the flow. Compare that to a <button ngnButton>default button</button> on the same
-      line, which uses the full control height.
-    </p>
+    <div class="flex flex-col items-start gap-4">
+      <p class="max-w-prose">
+        An inline icon button is one line-height tall, so it fits a line of text or a dense
+        adornment slot:
+        <button ngnButton kind="icon" ngnButtonInline aria-label="Copy">
+          <ngn-icon [icon]="copy" />
+        </button>
+        sits inside the line, while the same button without <code>inline</code>
+        <button ngnButton kind="icon" aria-label="Copy">
+          <ngn-icon [icon]="copy" />
+        </button>
+        drops out of the sentence onto its own line, because a full-size button is a block-level box
+        at the control height. For a text-level action, reach for <code>kind="link"</code>
+        instead — inline changes the size and flow, never the chrome.
+      </p>
+      <!-- The clear button an ngn-input-field renders is exactly this: kind="icon" + inline,
+           so it fits the field's line box instead of stretching it. -->
+      <ngn-input-field label="Adornments use it too" showClearButton class="w-64">
+        <input ngnInput value="Clear me" />
+      </ngn-input-field>
+    </div>
   `,
 })
-export class Demo_Button_Inline {}
+export class Demo_Button_Inline {
+  protected readonly copy = tablerCopy;
+}

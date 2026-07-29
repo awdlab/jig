@@ -50,7 +50,10 @@ export const inputFieldStyles = createThemePart({
           border-color: ${v('color.input')};
           border-width: 1px;
           border-style: solid;
-          padding: ${v('size.padding.sm')} ${v('size.padding.md')};
+          /* Published for the base theme, which hands this padding to the projected input. */
+          --fieldPadY: ${v('size.padding.sm')};
+          --fieldPadX: ${v('size.padding.md')};
+          padding: var(--fieldPadY) var(--fieldPadX);
           background: ${v('color.background')};
           color: ${v('color.foreground')};
           box-shadow: none;
@@ -183,7 +186,9 @@ export const inputFieldStyles = createThemePart({
         ${c('labelKind-in')}, ${c('labelKind-floatIn')} {
           position: relative;
           ${c('root')} {
-            padding-top: 1.2rem;
+            /* Published for the base theme, so the input claims the label strip too. */
+            --fieldPadTop: 1.2rem;
+            padding-top: var(--fieldPadTop);
             height: max(calc(var(--baseHeight) + 1.2rem), fit-content);
           }
           ${c('label')} {

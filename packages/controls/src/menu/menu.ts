@@ -3,6 +3,7 @@ import {
   booleanAttribute,
   Component,
   computed,
+  DestroyRef,
   effect,
   ElementRef,
   inject,
@@ -104,6 +105,17 @@ export class NgnMenu extends MenuTemplates implements Openable {
 
   protected readonly maybeCallback = maybeCallback;
 
+  /**
+   * Roving focus: exactly one item is a tab stop, the arrow keys move focus between them.
+   * Defaults to the first enabled item and follows the focused one from there.
+   */
+  protected readonly focusedIndex = signal<number | null>(null);
+  protected readonly tabStopIndex = computed(
+    () =>
+      this.focusedIndex() ??
+      this.items().findIndex(item => !('separator' in item) && !item.disabled)
+  );
+
   private readonly _isTouchDevice = inject(Platform).isTouchDevice;
   private readonly _popover = viewChild(NgnPopover);
   private readonly _menuItems = viewChildren<ElementRef<HTMLElement>>('menuItem');
@@ -112,9 +124,11 @@ export class NgnMenu extends MenuTemplates implements Openable {
     () => this.openSubmenuOnHover() ?? this.popover()
   );
   protected readonly autofocus = signal(false);
+  private _destroyed = false;
 
   constructor() {
     super();
+    inject(DestroyRef).onDestroy(() => (this._destroyed = true));
     effect(() => {
       if (this.popover() && !this.anchor()) {
         throw new NgnError(
@@ -242,6 +256,10 @@ export class NgnMenu extends MenuTemplates implements Openable {
     this.hide();
     // Delay the closing of the parents to ensure the children close first (for animation purposes)
     requestAnimationFrame(() => {
+      // An item callback may have destroyed this menu (e.g. removing the row it lives in).
+      if (this._destroyed) {
+        return;
+      }
       this.closeAll.emit();
     });
   }

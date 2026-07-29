@@ -12,11 +12,28 @@ import { NgnSwitch } from '@ngneers/controls/switch';
     Readonly:
     <ngn-switch [value]="value()" (valueChange)="value.set($event)" readonly />
     Invalid:
-    <ngn-switch [value]="value()" (valueChange)="value.set($event)" invalid />
+    <ngn-switch
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      [invalidOn]="'immediate'"
+      invalid
+    />
     Invalid + Disabled:
-    <ngn-switch [value]="value()" (valueChange)="value.set($event)" invalid disabled />
+    <ngn-switch
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      [invalidOn]="'immediate'"
+      invalid
+      disabled
+    />
     Invalid + Readonly:
-    <ngn-switch [value]="value()" (valueChange)="value.set($event)" invalid readonly />
+    <ngn-switch
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      [invalidOn]="'immediate'"
+      invalid
+      readonly
+    />
   `,
   styles: `
     :host {

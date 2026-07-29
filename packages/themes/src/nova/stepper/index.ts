@@ -14,7 +14,7 @@ export const stepperStyles = createThemePart({
         padding: ${v('size.padding.md')} 0;
       }
       ${c('marker')} {
-        --box-size: 1.75rem;
+        --box-size: 1.5rem;
         width: var(--box-size);
         height: var(--box-size);
         border-radius: ${v('size.rounded.full')};
@@ -22,7 +22,7 @@ export const stepperStyles = createThemePart({
            disabled (opacity-dimmed) step. Active/completed override background+border below. */
         background: ${v('color.background')};
         color: ${v('color.surface.600')};
-        border: 2px solid ${v('color.surface.300')};
+        border: 1px solid ${v('color.border')};
         font-weight: ${v('font.weight.semibold')};
         font-size: ${v('font.size.sm')};
       }
@@ -35,7 +35,7 @@ export const stepperStyles = createThemePart({
         color: ${v('color.surface.400')};
       }
       ${c('connector')} {
-        background: ${v('color.surface.300')};
+        background: ${v('color.border')};
       }
       ${c('content')} {
         padding: ${v('size.padding.lg')} 0;
@@ -44,7 +44,7 @@ export const stepperStyles = createThemePart({
         ${c('marker')} {
           background: ${v('color.primary.500')};
           border-color: ${v('color.primary.500')};
-          color: #fff;
+          color: ${v('color.primary.500-contrast')};
         }
       }
       /* Declared after 'completed' so a revisited step that is both active and completed
@@ -54,7 +54,9 @@ export const stepperStyles = createThemePart({
         ${c('marker')} {
           background: ${v('color.background')};
           border-color: ${v('color.primary.500')};
+          border-width: 2px;
           color: ${v('color.primary.500')};
+          box-shadow: 0 0 0 3px color-mix(in oklab, ${v('color.primary.500')} 18%, transparent);
         }
         ${c('label')} {
           color: ${v('color.surface.900')};
@@ -64,7 +66,7 @@ export const stepperStyles = createThemePart({
         ${c('marker')} {
           background: ${v('color.error.500')};
           border-color: ${v('color.error.500')};
-          color: #fff;
+          color: ${v('color.error.500-contrast')};
         }
         ${c('label')} {
           color: ${v('color.error.500')};

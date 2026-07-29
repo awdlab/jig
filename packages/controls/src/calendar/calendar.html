@@ -109,7 +109,6 @@
         [popoverOptions]="{ sizeConstraints: { maxHeight: '300px' } }"
         [scrollToSelectedItemOnOpen]="'center'"
         [editableAutoFilter]="false"
-        [tabindex]="-1"
       >
         <input ngnInput type="number" [attr.aria-label]="i18n['calendar_selectYear']()" />
       </ngn-select>
@@ -131,7 +130,6 @@
           sizeConstraints: { maxHeight: '300px', width: '130px', maxWidth: '130px' },
         }"
         [scrollToSelectedItemOnOpen]="'center'"
-        [tabindex]="-1"
       />
     </ngn-input-field>
   }

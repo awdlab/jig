@@ -199,13 +199,18 @@ export class ThemeService implements OnDestroy {
   }
 
   private applyTheme(theme: Theme, scopes: string[]): void {
-    applyTheme(theme, scopes, {
+    // A theme may ship its own global part (e.g. base typography); fall back to the base one.
+    const global = theme.parts.find(part => part.scope === globalStyles.scope) ?? globalStyles;
+    // A themed global part is applied through the theme too, so its dependencies (font sizes,
+    // colors) are resolved — applyGlobalStyles alone only emits the part's own variables.
+    const themeScopes = global === globalStyles ? scopes : [...scopes, global.scope];
+    applyTheme(theme, themeScopes, {
       document: this._document,
       layer: this._config.theme.cssLayer ?? undefined,
       styleScope: this._config.theme.styleScope ?? undefined,
       namePrefix: this._config.theme.namePrefix,
     });
-    applyGlobalStyles(globalStyles, {
+    applyGlobalStyles(global, {
       document: this._document,
       layer: this._config.theme.cssLayer ?? undefined,
       styleScope: this._config.theme.styleScope ?? undefined,

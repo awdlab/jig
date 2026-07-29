@@ -19,6 +19,7 @@ import { NgnCheckbox } from '@ngneers/controls/checkbox';
             [disabled]="state.disabled"
             [readonly]="state.readonly"
             [invalid]="state.invalid"
+            [invalidOn]="'immediate'"
           />
           <label [for]="checkbox.inputId()">
             {{ state.label }}

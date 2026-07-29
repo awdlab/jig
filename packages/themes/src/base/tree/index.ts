@@ -15,8 +15,9 @@ export const treeStyles = createThemePart({
       ${c('group')} {
         display: inline-flex;
         align-items: center;
-        width: 100%;
-        padding-inline-start: calc(var(--ngn-tree-level, 0) * 1.5rem);
+        /* Margin, not padding: the indent gutter stays outside the row box so row
+           backgrounds (hover/selected) start at the item instead of at the row edge. */
+        margin-inline-start: calc(var(--ngn-tree-level, 0) * 1.5rem);
       }
       ${c('toggle')},
       ${c('toggle-placeholder')},
@@ -25,24 +26,16 @@ export const treeStyles = createThemePart({
         width: 1.5rem;
       }
       ${c('toggle')} {
-        /* Full item height so the whole column expands/collapses instead of selecting. */
-        align-self: stretch;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border: 0;
-        background: transparent;
         cursor: pointer;
-        padding: 0;
+        font-size: inherit;
       }
       ${c('toggle-icon')} {
-        /* Icon-button visual: a centred, fixed square that gets the hover affordance. */
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 1.5rem;
-        height: 1.5rem;
-        transition: background 0.15s ease;
       }
       ${c('toggle-arrow')} {
         display: inline-block;

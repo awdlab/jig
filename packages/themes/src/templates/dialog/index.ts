@@ -5,6 +5,7 @@ export const dialogControlTemplate = createControlTemplate({
   scope: 'dialog',
   classNames: [
     'root',
+    'wrapper',
     'modal',
     'header',
     'default-header',

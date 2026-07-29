@@ -5,6 +5,7 @@ export const accordionPanelControlTemplate = createControlTemplate({
   classNames: [
     'root',
     'header',
+    'header-expanded',
     'header-disabled',
     'header-text',
     'content-expander',

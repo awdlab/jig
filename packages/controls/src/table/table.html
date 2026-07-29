@@ -14,9 +14,14 @@
   "
   >{{ liveAnnouncement() }}</span
 >
+
+<!-- tabindex opts the grid out of the browser's focusable-scroll-container behaviour: it has no
+     focusable children, so it would otherwise be a second tab stop with a UA focus ring. The host
+     is the single stop and its keydown scrolls by moving the cell focus. -->
 <table
   #scrollContainer
   role="grid"
+  tabindex="-1"
   ngnScrollShadow="horizontal"
   ngnScrollShadowUnstyled
   [ptInt]="this"

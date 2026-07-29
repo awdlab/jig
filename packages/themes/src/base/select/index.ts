@@ -14,9 +14,13 @@ export const selectStyles = createThemePart({
         user-select: none;
         width: 100%;
         outline: none;
+        /* Fill the host so an editable select's input can stretch across the
+           surrounding field's full height and claim its padding. */
+        height: 100%;
       }
       ${c('root')} {
         width: 100%;
+        align-self: stretch;
       }
       ${c('combobox')} {
         width: 100%;

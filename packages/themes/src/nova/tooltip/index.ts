@@ -3,6 +3,7 @@ import { baseStyles } from '@ngneers/controls-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
+  fontTemplate,
   sizesTemplate,
 } from '@ngneers/controls-themes/nova/base';
 import { tooltipControlTemplate } from '@ngneers/controls-themes/templates/tooltip';
@@ -10,19 +11,20 @@ import { tooltipControlTemplate } from '@ngneers/controls-themes/templates/toolt
 export const tooltipStyles = createThemePart({
   controlTemplate: tooltipControlTemplate,
   base: baseStyles.tooltip,
-  dependencies: [animationTemplate, colorsTemplate, sizesTemplate],
+  dependencies: [animationTemplate, colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c }) => css`
       ${c('content')} {
         background: ${v('color.surface.950')};
         color: ${v('color.surface.950-contrast')};
-        border-radius: ${v('size.rounded.md')};
-        padding: ${v('size.padding.md')};
+        border-radius: ${v('size.rounded.sm')};
+        padding: ${v('size.padding.sm')} ${v('size.padding.md')};
+        font-size: ${v('font.size.xs')};
         white-space: pre-line;
       }
 
       ${c('with-arrow')} {
-        --arrow-width: 16px;
+        --arrow-width: 10px;
         &::before {
           background: ${v('color.surface.950')};
         }

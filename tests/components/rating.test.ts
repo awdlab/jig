@@ -53,6 +53,58 @@ test('whole-step: entering a symbol area fills it (click anywhere in the symbol)
   await rating.expectValue(1);
 });
 
+test('gap between symbols is clickable and previews the same value', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<ngn-rating [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      imports: ['rating'],
+    },
+    { inputs: { value: null } }
+  );
+
+  const rating = new NgnRatingHarness(page.locator('ngn-rating'));
+  const first = await rating.symbols.nth(0).boundingBox();
+  const second = await rating.symbols.nth(1).boundingBox();
+  if (!first || !second) {
+    throw new Error('symbols not laid out');
+  }
+  // Midpoint of the flex gap: cursor is pointer there, so it must hover-preview and click alike.
+  const x = (first.x + first.width + second.x) / 2;
+  const y = first.y + first.height / 2;
+
+  await page.mouse.move(x, y);
+  await expect(rating.symbols.nth(1)).toHaveCSS('--fillRatio', '1');
+  await page.mouse.click(x, y);
+  await rating.expectValue(2);
+});
+
+test('dead space right of the last symbol sets nothing', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<ngn-rating
+        style="width: 400px"
+        [value]="inputs().value"
+        (valueChange)="output('value', $event)"
+      />`,
+      imports: ['rating'],
+    },
+    { inputs: { value: null } }
+  );
+
+  const rating = new NgnRatingHarness(page.locator('ngn-rating'));
+  const root = (await rating.locator.boundingBox())!;
+  const last = (await rating.symbols.last().boundingBox())!;
+  const y = last.y + last.height / 2;
+  expect(root.x + root.width).toBeGreaterThan(last.x + last.width + 10);
+
+  await page.mouse.move(root.x + root.width - 5, y);
+  await expect(rating.symbols.last()).toHaveCSS('--fillRatio', '0');
+  await page.mouse.click(root.x + root.width - 5, y);
+  await expect(rating.locator).not.toHaveAttribute('aria-valuenow');
+});
+
 test('half-step: left half sets .5, right half sets whole', async ({ page }) => {
   const handle = await loadComponent(
     page,

@@ -29,6 +29,8 @@ import type { IconType } from '@ngneers/controls-custom-types';
     '[attr.aria-valuetext]': 'valueTextValue()',
     '[tabindex]': 'disabled() ? -1 : 0',
     '(keydown)': 'onKeyDown($event)',
+    '(pointermove)': 'onPointerMove($event)',
+    '(click)': 'onClick($event)',
     '(pointerleave)': 'clearHover()',
     '(blur)': 'markTouched()',
   },
@@ -113,23 +115,25 @@ export class NgnRating extends RatingTemplates {
     }
   }
 
-  /** Pointer moved over symbol `index` at fractional `offset` (0..1 within the symbol). */
-  protected onPointerMove(event: PointerEvent, index: number) {
+  protected onPointerMove(event: PointerEvent) {
     if (this.readonly() || this.disabled()) {
       return;
     }
-    this._hover.set(this.valueAt(event, index));
+    this._hover.set(this.valueAt(event));
   }
 
   protected clearHover() {
     this._hover.set(null);
   }
 
-  protected onClick(event: PointerEvent, index: number) {
+  protected onClick(event: MouseEvent) {
     if (this.readonly() || this.disabled()) {
       return;
     }
-    const next = this.valueAt(event, index);
+    const next = this.valueAt(event);
+    if (next === null) {
+      return;
+    }
     if (this.clearable() && next === this.value()) {
       this.value.set(null);
     } else {
@@ -137,11 +141,25 @@ export class NgnRating extends RatingTemplates {
     }
   }
 
-  /** Resolve the stepped value for a pointer position within symbol `index`. */
-  private valueAt(event: PointerEvent, index: number): number {
-    const target = event.currentTarget as HTMLElement;
-    const rect = target.getBoundingClientRect();
-    const ratio = rect.width ? (event.clientX - rect.left) / rect.width : 1;
+  /**
+   * Resolve the stepped value for a pointer position anywhere in the root, so hover, cursor and
+   * click share the same bounds — positions in the gaps snap to the symbol they precede.
+   */
+  private valueAt(event: MouseEvent): number | null {
+    const rects = this.symbolRects(event.currentTarget as HTMLElement);
+    // Flex reverses the symbols in RTL, so the inline direction is read off the rects
+    // instead of assuming DOM order runs left to right.
+    const [first, second] = rects;
+    const rtl = !!first && !!second && second.left < first.left;
+    const index = rects.findIndex(r => (rtl ? event.clientX >= r.left : event.clientX <= r.right));
+    const rect = rects[index];
+    // index -1 means the pointer is past the last symbol: the root can be wider than its
+    // symbols, and that trailing dead space must not read as the maximum value.
+    if (!rect) {
+      return null;
+    }
+    const offset = rtl ? rect.right - event.clientX : event.clientX - rect.left;
+    const ratio = rect.width ? offset / rect.width : 1;
     const clamped = Math.min(1, Math.max(0, ratio));
     // Fill on area-entry: within symbol `index`, snap UP to the nearest `step`
     // sub-division. Entering the symbol anywhere (ratio > 0) selects at least its
@@ -154,6 +172,14 @@ export class NgnRating extends RatingTemplates {
       Math.max(1, Math.ceil(clamped * subStepsPerSymbol))
     );
     return this.clamp(index + subIndex * step);
+  }
+
+  /** Only the symbol spans: a host directive (e.g. tooltip) can inject sibling elements. */
+  private symbolRects(root: HTMLElement): DOMRect[] {
+    const [symbolClass] = this.theme.class('symbol').split(' ');
+    return Array.from(root.children)
+      .filter(el => !!symbolClass && el.classList.contains(symbolClass))
+      .map(el => el.getBoundingClientRect());
   }
 
   private clamp(value: number): number {

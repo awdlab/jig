@@ -1,13 +1,5 @@
-<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
-<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 @for (index of symbols(); track index) {
-  <span
-    [ptInt]="this"
-    [ptClass]="'symbol'"
-    [style.--fillRatio]="fillRatio(index)"
-    (pointermove)="onPointerMove($event, index)"
-    (click)="onClick($event, index)"
-  >
+  <span [ptInt]="this" [ptClass]="'symbol'" [style.--fillRatio]="fillRatio(index)">
     @if (resolvedIndicatorTemplate(); as tpl) {
       <ng-container
         [ngTemplateOutlet]="tpl"

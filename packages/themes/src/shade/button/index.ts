@@ -123,13 +123,24 @@ export const buttonStyles = createThemePart({
       }
 
       ${c('kind-link')} {
-        background: transparent;
         /* slot base color doubles as link text color */
         color: var(--theme-bg, ${v('color.primary.base')});
         text-decoration: none;
         text-underline-offset: 4px;
         &:hover:not(:disabled) {
           text-decoration: underline;
+        }
+        /* No press-scale on text: transform on an inline box shifts the line around it. */
+        &:active:not(:disabled) {
+          transform: none;
+        }
+        /* An inline ring must clear the text it wraps, so the link trades the boxed kinds'
+           hugging shadow for an offset outline. */
+        &:focus-visible {
+          box-shadow: none;
+          outline: 2px solid var(--shade-ring);
+          outline-offset: 3px;
+          border-radius: 2px;
         }
       }
     `,

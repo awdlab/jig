@@ -31,7 +31,7 @@ export const colorPickerStyles = createThemePart({
         border: 1px solid ${v('color.border')};
         border-radius: ${v('size.rounded.md')};
       }
-      ${c('sv-area')}, ${c('hue-track')}, ${c('alpha-track')} {
+      ${c('hue-track')}, ${c('alpha-track')} {
         border-radius: ${v('size.rounded.sm')};
       }
       ${c('sv-thumb')} {

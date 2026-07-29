@@ -28,6 +28,7 @@ import type { NgnItem } from '@ngneers/controls/api';
       [options]="options"
       [value]="value()"
       (valueChange)="value.set($event)"
+      [invalidOn]="'immediate'"
       invalid
     />
   `,

@@ -2,7 +2,9 @@ import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { baseStyles } from '@ngneers/controls-themes/base';
 import {
   colorsTemplate,
+  controlRing,
   fontTemplate,
+  ringTemplate,
   shadowTemplate,
   sizesTemplate,
 } from '@ngneers/controls-themes/nova/base';
@@ -11,7 +13,7 @@ import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 export const tableStyles = createThemePart({
   controlTemplate: tableControlTemplate,
   base: baseStyles.table,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate, ringTemplate],
   root: {
     css: ({ v, c, d }) => css`
       /* ── Layout ──────────────────────────────────────────────────────── */
@@ -23,12 +25,29 @@ export const tableStyles = createThemePart({
           cursor: default;
         }
       }
+      /* The grid is the bordered card; the root also holds the paginator, which stays outside it. */
+      ${c('table')} {
+        border: 1px solid ${v('color.border')};
+        border-radius: ${v('size.rounded.lg')};
+      }
+      /* The table is one tab stop and moves the cell focus with the arrow keys, so the ring goes
+         on the grid rather than the root — the root also wraps the paginator. */
+      ${c('root')}:focus-visible {
+        outline: none;
+        ${c('table')} {
+          outline: 3px solid ${controlRing(v)};
+          outline-offset: 0;
+        }
+      }
       ${c('head')} {
-        background: ${v('color.background')};
+        background: ${v('color.surface.50')};
       }
       ${c('head')} ${c('cell')} {
         font-weight: ${v('font.weight.semibold')};
+        font-size: ${v('font.size.sm')};
+        color: ${v('color.surface.500')};
         gap: ${v('size.padding.sm')};
+        border-bottom: 1px solid ${v('color.border')};
       }
       ${c('body')} {
         /* Rows get the normal surface background by default (not transparent),
@@ -39,7 +58,7 @@ export const tableStyles = createThemePart({
       ${c('cell')} {
         --ngn-cell-bg: var(--ngn-cell-bg-base);
         background: var(--ngn-cell-bg);
-        border-bottom: 1px solid ${v('color.surface.200')};
+        border-bottom: 1px solid ${v('color.border')};
         padding: 0 ${v('size.padding.md')};
         text-align: left;
         transition:
@@ -83,7 +102,7 @@ export const tableStyles = createThemePart({
         --ngn-cell-bg: color-mix(in srgb, ${v('color.primary.500')} 10%, var(--ngn-cell-bg-base));
       }
       ${c('selectable')} ${c('body')} ${c('row')}:hover ${c('cell')} {
-        --ngn-cell-bg: ${v('color.surface.100')};
+        --ngn-cell-bg: ${v('color.surface.50')};
       }
       ${c('selectable')} ${c('body')} ${c('selected-row')}:hover ${c('cell')} {
         --ngn-cell-bg: color-mix(in srgb, ${v('color.primary.500')} 15%, var(--ngn-cell-bg-base));
@@ -125,7 +144,7 @@ export const tableStyles = createThemePart({
         background: ${v('color.surface.50')};
         font-weight: ${v('font.weight.semibold')};
         padding: 0 ${v('size.padding.md')};
-        border-bottom: 1px solid ${v('color.surface.200')};
+        border-bottom: 1px solid ${v('color.border')};
         &:hover {
           background: ${v('color.surface.100')};
         }
@@ -184,7 +203,7 @@ export const tableStyles = createThemePart({
       ${c('head')} ${c('sticky-start')},
       ${c('head')} ${c('sticky-end')},
       ${c('head')} ${c('selection-column')} {
-        background: ${v('color.background')};
+        background: ${v('color.surface.50')};
       }
       /* Scroll shadows anchored to the sticky-column edges (a table-specific placement the generic
          scroll-shadow overlay can't do — it's disabled here via ngnScrollShadowUnstyled). The tint
@@ -224,7 +243,7 @@ export const tableStyles = createThemePart({
         /* The bar stretches the full row height and would otherwise paint over
            the cell's bottom border. Redraw the same 1px line on the bar so the
            row separator stays continuous underneath the actions. */
-        border-bottom: 1px solid ${v('color.surface.200')};
+        border-bottom: 1px solid ${v('color.border')};
       }
 
       /* ── Skeleton loading rows ───────────────────────────────────────── */

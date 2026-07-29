@@ -3,7 +3,9 @@ import { baseStyles } from '@ngneers/controls-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
+  controlRing,
   fontTemplate,
+  ringTemplate,
   sizesTemplate,
 } from '@ngneers/controls-themes/nova/base';
 import { toggleButtonControlTemplate } from '@ngneers/controls-themes/templates/toggle-button';
@@ -11,32 +13,33 @@ import { toggleButtonControlTemplate } from '@ngneers/controls-themes/templates/
 export const toggleButtonStyles = createThemePart({
   controlTemplate: toggleButtonControlTemplate,
   base: baseStyles.toggleButton,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate, ringTemplate],
   root: {
     css: ({ v, c, d }) => css`
       ${c('root')} ${c('button')} {
         display: inline-grid;
         border-radius: ${v('size.rounded.md')};
-        background-color: ${v('color.surface.100')};
+        background-color: ${v('color.surface.50')};
         color: ${v('color.surface.600')};
-        padding: ${v('size.padding.md')} ${v('size.padding.lg')};
+        height: ${v('size.height.control')};
+        align-content: center;
+        padding: 0 ${v('size.padding.lg')};
         border: none;
         position: relative;
         font-weight: ${v('font.weight.normal')};
         cursor: pointer;
-        transition:
-          color ${v('anim.ease.snappyFade')} ${v('anim.time.snappyFade')},
-          background-color ${v('anim.ease.snappyFade')} ${v('anim.time.snappyFade')};
+        /* Background only — see the button theme: transitioning colour with it looks muddy. */
+        transition: background-color ${v('anim.time.snappyFade')} ${v('anim.ease.snappyFade')};
         &:disabled {
           cursor: default;
-          background-color: ${v('color.surface.50')};
-          color: ${v('color.surface.400')};
+          background-color: ${v('color.disabled.background')};
+          color: ${v('color.disabled.text')};
         }
         &[aria-readonly='true'] {
           cursor: default;
         }
         &:focus-visible {
-          outline: 2px solid ${v('color.text')};
+          outline: 3px solid ${controlRing(v)};
           outline-offset: 2px;
         }
       }
@@ -54,7 +57,7 @@ export const toggleButtonStyles = createThemePart({
         font-weight: ${v('font.weight.semibold')};
       }
       ${c('active')} ${c('button')} {
-        color: ${v('color.text')};
+        color: ${v('color.primary.500-contrast')};
         ${c('label')} {
           font-weight: ${v('font.weight.semibold')};
         }
@@ -62,11 +65,14 @@ export const toggleButtonStyles = createThemePart({
           content: '';
           position: absolute;
           inset: ${v('size.padding.sm')};
-          background: ${v('color.surface.200')};
-          border-radius: ${v('size.rounded.md')};
+          background: ${v('color.primary.500')};
+          border-radius: calc(${v('size.rounded.md')} - 3px);
+        }
+        &:disabled {
+          color: ${v('color.disabled.text')};
         }
         &:disabled::before {
-          background: ${v('color.surface.100')};
+          background: ${v('color.surface.200')};
         }
       }
       ${c('invalid')} ${c('button')} {

@@ -12,11 +12,16 @@ import { NgnSlider } from '@ngneers/controls/slider';
     Disabled:
     <ngn-slider [value]="value()" disabled />
     Invalid:
-    <ngn-slider [value]="value()" invalid (valueChange)="value.set($event)" />
+    <ngn-slider
+      [value]="value()"
+      [invalidOn]="'immediate'"
+      invalid
+      (valueChange)="value.set($event)"
+    />
     Invalid + Readonly:
-    <ngn-slider [value]="value()" invalid readonly />
+    <ngn-slider [value]="value()" [invalidOn]="'immediate'" invalid readonly />
     Invalid + Disabled:
-    <ngn-slider [value]="value()" invalid disabled />
+    <ngn-slider [value]="value()" [invalidOn]="'immediate'" invalid disabled />
   `,
   host: { class: 'flex-1 max-w-100' },
 })

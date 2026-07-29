@@ -1,12 +1,18 @@
 import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { baseStyles } from '@ngneers/controls-themes/base';
-import { colorsTemplate, sizesTemplate, fontTemplate } from '@ngneers/controls-themes/nova/base';
+import {
+  colorsTemplate,
+  controlRing,
+  fontTemplate,
+  ringTemplate,
+  sizesTemplate,
+} from '@ngneers/controls-themes/nova/base';
 import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
 
 export const calendarStyles = createThemePart({
   controlTemplate: calendarControlTemplate,
   base: baseStyles.calendar,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, ringTemplate],
   root: {
     css: ({ v, c, d }) => css`
       ${c('root')} {
@@ -15,8 +21,8 @@ export const calendarStyles = createThemePart({
       }
       ${c('inline')} {
         padding: ${v('size.padding.md')};
-        border: 1px solid ${v('color.surface.300')};
-        border-radius: ${v('size.rounded.md')};
+        border: 1px solid ${v('color.border')};
+        border-radius: ${v('size.rounded.lg')};
       }
       ${c('input-field')} {
         gap: ${v('size.padding.md')};
@@ -29,7 +35,7 @@ export const calendarStyles = createThemePart({
         gap: ${v('size.padding.sm')};
         padding: ${v('size.padding.md')};
         padding-top: 0;
-        border-bottom: 1px solid ${v('color.surface.300')};
+        border-bottom: 1px solid ${v('color.border')};
         justify-content: space-between;
       }
       ${c('navigation')} {
@@ -56,8 +62,10 @@ export const calendarStyles = createThemePart({
         &:hover {
           background: ${v('color.surface.100')};
         }
+        /* The day grid moves focus programmatically, so the ring is on :focus. */
         &:focus {
-          background: ${v('color.surface.200')};
+          outline: 3px solid ${controlRing(v)};
+          outline-offset: 0;
         }
         &:active {
           background: ${v('color.surface.300')};
@@ -65,21 +73,24 @@ export const calendarStyles = createThemePart({
       }
       ${c('day-today')} {
         font-weight: ${v('font.weight.bold')};
+        color: ${v('color.primary.600')};
+        box-shadow: inset 0 0 0 1px ${v('color.primary.500')};
       }
       ${c('day-other-month')} {
         color: ${v('color.surface.400')};
       }
       ${c('day-selected')} {
-        background: ${v('color.surface.800')};
-        color: ${v('color.surface.800-contrast')};
+        background: ${v('color.primary.500')};
+        color: ${v('color.primary.500-contrast')};
+        box-shadow: none;
         &${c('day-other-month')} {
-          background: ${v('color.surface.400')};
-          color: ${v('color.surface.400-contrast')};
+          background: ${v('color.primary.300')};
+          color: ${v('color.primary.300-contrast')};
         }
         &:not(${c('day-other-month')}):hover,
         &:not(${c('day-other-month')}):focus,
         &:not(${c('day-other-month')}):active {
-          background: ${v('color.surface.800')};
+          background: ${v('color.primary.600')};
         }
       }
       ${d('current-month-field')} {
@@ -93,11 +104,11 @@ export const calendarStyles = createThemePart({
         flex: 0 0 auto;
       }
       ${d('current-year-field')} ${d('current-year', 'input', 'root')} {
-        width: 3rem;
+        width: 3.5rem;
         min-width: 0;
       }
       ${c('time')} {
-        border-top: 1px solid ${v('color.surface.300')};
+        border-top: 1px solid ${v('color.border')};
         width: 100%;
         padding-top: ${v('size.padding.md')};
         display: flex;
