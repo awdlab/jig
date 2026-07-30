@@ -58,9 +58,9 @@ const STATS = [
 const HOLD_MS = 3400;
 
 const EGG_PACKAGES = [
-  '@ngneers/controls-themes',
-  '@ngneers/controls-playwright',
-  '@ngneers/controls-mcp',
+  '@NGNEERS/CONTROLS-THEMES',
+  '@NGNEERS/CONTROLS-PLAYWRIGHT',
+  '@NGNEERS/CONTROLS-MCP',
 ] as const;
 
 @Component({
@@ -104,8 +104,8 @@ const EGG_PACKAGES = [
          the drift keeps the soft ease-out. */
       .hero-line-out {
         animation:
-          hero-fade-out 780ms cubic-bezier(0.6, 0, 1, 1) forwards,
-          hero-drift-out 780ms cubic-bezier(0.2, 0, 0.4, 1) forwards;
+          hero-fade-out 600ms cubic-bezier(0.4, 0, 0.2, 1) forwards,
+          hero-drift-out 600ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
       }
 
       @keyframes hero-rise {
@@ -133,7 +133,7 @@ const EGG_PACKAGES = [
           transform: translateY(0);
         }
         to {
-          transform: translateY(-14px);
+          transform: translateY(-26px);
         }
       }
 
@@ -199,6 +199,14 @@ const EGG_PACKAGES = [
         transform: translateY(0);
       }
 
+      /* No hover to reveal it on touch devices, so keep it visible. */
+      @media (hover: none) {
+        .hero-stat-proof {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
       .hero-link {
         color: inherit;
         text-decoration: none;
@@ -216,22 +224,15 @@ const EGG_PACKAGES = [
 
       .hero-rule {
         position: relative;
-        height: 3px;
-        background: linear-gradient(90deg, #e90464, #f736e3 30%, #5c44e4 70%, transparent);
-      }
-
-      /* Follows --hero-glow-x, set straight on the element from mousemove. */
-      .hero-rule::after {
-        content: '';
-        position: absolute;
-        inset: -7px 0;
-        pointer-events: none;
-        background: radial-gradient(
-          140px 14px at var(--hero-glow-x, -300px) 50%,
-          color-mix(in srgb, #f736e3 65%, transparent),
-          transparent 70%
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          #e90464 30%,
+          #f736e3 50%,
+          #5c44e4 70%,
+          transparent
         );
-        transition: opacity 0.3s ease;
       }
 
       .hero-cta {
@@ -295,7 +296,13 @@ const EGG_PACKAGES = [
               class="hero-egg absolute bottom-full left-0 flex flex-col gap-[7px] pb-(--ngn-size-padding-md)"
             >
               @for (pkg of eggPackages; track pkg) {
-                <span class="whitespace-nowrap text-(--ngn-color-surface-400)">{{ pkg }}</span>
+                <a
+                  href="https://www.npmjs.com/package/{{ pkg.toLowerCase() }}"
+                  target="_blank"
+                  rel="noopener"
+                  class="whitespace-nowrap text-inherit no-underline hover:text-(--ngn-color-text)"
+                  >{{ pkg }}
+                </a>
               }
             </span>
             <a
@@ -397,7 +404,7 @@ const EGG_PACKAGES = [
         </div>
 
         <div
-          class="grid items-end gap-(--ngn-size-padding-xl) pb-(--ngn-size-padding-xl) lg:grid-cols-[1fr_auto] lg:gap-14"
+          class="grid items-end gap-(--ngn-size-padding-xl) pb-8 lg:grid-cols-[1fr_auto] lg:gap-14"
         >
           <p
             class="m-0 max-w-[520px] text-(length:--ngn-font-size-lg) leading-relaxed text-(--ngn-color-surface-600)"
@@ -465,15 +472,10 @@ const EGG_PACKAGES = [
         </div>
       </div>
 
-      <!-- The rule picks up a glow under the pointer. -->
-      <div
-        class="hero-rule"
-        (mousemove)="onRuleMove($event)"
-        (mouseleave)="onRuleLeave($event)"
-      ></div>
+      <div class="hero-rule"></div>
 
       <div
-        class="mono mx-auto grid max-w-[1240px] grid-cols-2 gap-x-(--ngn-size-padding-lg) gap-y-(--ngn-size-padding-lg) pt-(--ngn-size-padding-lg) pb-20 text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-500) sm:grid-cols-4 lg:pb-28"
+        class="mono mx-auto grid max-w-[1240px] grid-cols-2 gap-x-(--ngn-size-padding-lg) gap-y-(--ngn-size-padding-lg) pt-8 pb-20 text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-500) sm:grid-cols-4 lg:pb-28"
       >
         <!-- The proof line stays in the a11y tree; hovering just fades it in. -->
         @for (stat of stats; track stat.label) {
@@ -565,14 +567,5 @@ export class NgnDocsHeroSection {
     }
     event.preventDefault();
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  /** Written straight to the DOM: a mousemove has no business in change detection. */
-  protected onRuleMove(event: MouseEvent) {
-    (event.currentTarget as HTMLElement).style.setProperty('--hero-glow-x', `${event.offsetX}px`);
-  }
-
-  protected onRuleLeave(event: MouseEvent) {
-    (event.currentTarget as HTMLElement).style.removeProperty('--hero-glow-x');
   }
 }
