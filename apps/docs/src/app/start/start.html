@@ -1,13 +1,8 @@
+<!-- Scroll-driven, so it costs no JS where the browser supports it. -->
+<div class="scroll-progress" aria-hidden="true"></div>
 <ngn-docs-hero-section />
-@for (s of featureSections; track s.id; let i = $index) {
-  <div
-    [class]="
-      i % 2 === 0
-        ? 'block border-y border-(--ngn-color-surface-100) bg-(--ngn-color-surface-50)'
-        : 'block'
-    "
-  >
-    <ng-container *ngComponentOutlet="s.component" />
-  </div>
+@for (s of featureSections; track s.id) {
+  <!-- id doubles as the in-page anchor target for the hero's headline links. -->
+  <div [id]="s.id" class="scroll-mt-24"><ng-container *ngComponentOutlet="s.component" /></div>
 }
-<ngn-docs-site-footer [tinted]="lastTinted" />
+<ngn-docs-site-footer />

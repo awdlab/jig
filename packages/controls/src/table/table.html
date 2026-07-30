@@ -15,29 +15,34 @@
   >{{ liveAnnouncement() }}</span
 >
 
-<!-- tabindex opts the grid out of the browser's focusable-scroll-container behaviour: it has no
-     focusable children, so it would otherwise be a second tab stop with a UA focus ring. The host
-     is the single stop and its keydown scrolls by moving the cell focus. -->
+<!-- The grid is the single tab stop: it carries the accessible name, the virtual current-row focus
+     (aria-activedescendant) and the keyboard row navigation. -->
 <table
   #scrollContainer
   role="grid"
-  tabindex="-1"
+  tabindex="0"
   ngnScrollShadow="horizontal"
   ngnScrollShadowUnstyled
   [ptInt]="this"
   [ptClass]="{ table: true, striped: striped() }"
+  [attr.aria-label]="label()"
+  [attr.aria-labelledby]="labelledBy()"
+  [attr.aria-activedescendant]="activeRowId()"
+  [attr.aria-busy]="loadStatus() === 'loading' ? true : null"
   [attr.aria-multiselectable]="selectionMode() === 'multi' ? true : null"
-  [attr.aria-rowcount]="formattedRows().length"
+  [attr.aria-colcount]="totalColumnCount()"
+  [attr.aria-rowcount]="ariaRowCount()"
   [style.--ngn-table-column-count]="totalColumnCount()"
   [style.--ngn-table-selection-offset]="showCheckboxes() ? 1 : 0"
   [style.grid-template-columns]="gridTemplateColumns()"
   [style.--ngn-table-row-height.px]="rowHeight()"
 >
-  <thead role="rowgroup" [ptInt]="this" [ptClass]="'head'">
+  <thead #head role="rowgroup" [ptInt]="this" [ptClass]="'head'">
     <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
   </thead>
   @if (dropIndicatorState()) {
     <div
+      aria-hidden="true"
       [ptInt]="this"
       [ptClass]="'drop-indicator'"
       [style.left.px]="dropIndicatorState()!.leftPx"
@@ -59,6 +64,7 @@
     [fieldId]="'id'"
     [itemHeight]="rowHeight() || 0"
     [virtualPadding]="virtualPadding()"
+    [stickyOffset]="headerHeight()"
     [style.--ngn-table-item-start-index]="scroller.itemStartIndex()"
   >
     <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item let-index="index">
@@ -78,12 +84,23 @@
         } @else {
           <tr
             [ngnTableGroupHeaderTr]="item"
-            [class]="theme.classes({ 'group-expanded': item.expanded })"
+            [class]="
+              theme.classes({
+                'group-expanded': item.expanded,
+                'focused-row': focusedRowIndex() === item.index,
+              })
+            "
             [attr.aria-expanded]="item.expanded"
+            [attr.id]="rowElementId(item.index)"
             role="row"
             (click)="toggleGroupFromRow(item)"
           >
-            <td [class]="theme.class('group-header-cell')" role="gridcell">
+            <td
+              [class]="theme.class('group-header-cell')"
+              role="gridcell"
+              aria-colindex="1"
+              [attr.colspan]="totalColumnCount()"
+            >
               <ngn-icon
                 [ptInt]="this"
                 [ptClass]="'group-toggle'"

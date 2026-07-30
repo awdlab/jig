@@ -30,14 +30,10 @@ export const tableStyles = createThemePart({
         border: 1px solid ${v('color.border')};
         border-radius: ${v('size.rounded.lg')};
       }
-      /* The table is one tab stop and moves the cell focus with the arrow keys, so the ring goes
-         on the grid rather than the root — the root also wraps the paginator. */
-      ${c('root')}:focus-visible {
-        outline: none;
-        ${c('table')} {
-          outline: 3px solid ${controlRing(v)};
-          outline-offset: 0;
-        }
+      /* The grid itself is the tab stop and moves the current row with the arrow keys. */
+      ${c('table')}:focus-visible {
+        outline: 3px solid ${controlRing(v)};
+        outline-offset: 0;
       }
       ${c('head')} {
         background: ${v('color.surface.50')};
@@ -110,7 +106,8 @@ export const tableStyles = createThemePart({
       ${c('focused-row')}:not(:has(${c('focused-row-cell')})) ${c('cell')}:first-child {
         box-shadow: inset 3px 0 0 ${v('color.primary.500')};
       }
-      ${c('focused-row-cell')} {
+      ${c('focused-row-cell')},
+      ${c('focused-row')} ${c('group-header-cell')} {
         box-shadow: inset 3px 0 0 ${v('color.primary.500')};
       }
 
@@ -119,6 +116,12 @@ export const tableStyles = createThemePart({
       ${c('sortable-column')} {
         cursor: pointer;
         user-select: none;
+        /* The text span is the sort button (role=button, tabbable). */
+        ${c('cell-text')}:focus-visible {
+          outline: 2px solid ${controlRing(v)};
+          outline-offset: 2px;
+          border-radius: ${v('size.rounded.sm')};
+        }
       }
       ${c('sort-control')} {
         order: 3;

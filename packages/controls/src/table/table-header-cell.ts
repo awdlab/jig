@@ -26,6 +26,7 @@ import type { ResizableItem, ResizeLimit, ResizeSize } from '@ngneers/controls/a
   host: {
     role: 'columnheader',
     '[style.--ngn-table-column-index]': '_visualColumnIndex()',
+    '[attr.aria-colindex]': '_ariaColIndex()',
   },
 })
 export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDestroy, OnInit {
@@ -81,6 +82,13 @@ export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDes
     if (!this._table) return undefined;
     const map = this._table.columnOrderMap();
     return map.get(this.ngnTableTh()) ?? this.getColumnIndex() + 1;
+  });
+
+  /** `aria-colindex` — visual index plus the selection column the theme offsets in CSS. */
+  protected readonly _ariaColIndex = computed(() => {
+    const index = this._visualColumnIndex();
+    if (index === undefined) return null;
+    return index + (this._tableSignal()?.showCheckboxes() ? 1 : 0);
   });
 
   constructor() {

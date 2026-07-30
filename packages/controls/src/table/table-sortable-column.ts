@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   ComponentRef,
   computed,
   Directive,
@@ -51,8 +52,29 @@ export class NgnTableSortableColumn implements OnDestroy {
   private readonly columnId = inject(NgnTableTh).ngnTableTh;
 
   private readonly _ngnIcon: ComponentRef<NgnIcon>;
+  private _sortButton?: HTMLElement;
+
+  private readonly onSortKeyDown = (event: KeyboardEvent) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    event.stopPropagation();
+    this.toggleSort();
+  };
 
   constructor() {
+    // Runs after NgnTableTh's own hook, which wraps the header content in the
+    // `cell-text` span — that span becomes the sort button.
+    afterNextRender(() => {
+      const text = this._element.nativeElement.querySelector<HTMLElement>(
+        `.${this.theme.class('cell-text')}`
+      );
+      if (!text) return;
+      text.setAttribute('role', 'button');
+      text.setAttribute('tabindex', '0');
+      text.addEventListener('keydown', this.onSortKeyDown);
+      this._sortButton = text;
+    });
+
     this._ngnIcon = inject(ViewContainerRef).createComponent(NgnIcon);
     this._element.nativeElement.appendChild(this._ngnIcon.location.nativeElement);
     this._ngnIcon.location.nativeElement.classList.add(this.theme.class('sort-control'));
@@ -68,6 +90,7 @@ export class NgnTableSortableColumn implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this._sortButton?.removeEventListener('keydown', this.onSortKeyDown);
     this._ngnIcon.destroy();
   }
 

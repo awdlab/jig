@@ -111,32 +111,60 @@ describe('TableSelectionModel', () => {
     });
   });
 
-  it('ArrowDown moves focus, scrolls, and selects in single mode', () => {
+  it('moveTo moves focus, scrolls, and selects in single mode', () => {
     TestBed.runInInjectionContext(() => {
       const harness = new TestHarnessComponent();
       const { m, focusedRowIndex, scrollToIndex } = harness.make('single');
-      m.onKeyDown({
-        key: 'ArrowDown',
-        preventDefault() {},
-        stopPropagation() {},
-      } as unknown as KeyboardEvent);
+      m.moveTo(0);
       expect(focusedRowIndex()).toBe(0);
       expect(harness.selection()).toEqual([1]);
       expect(scrollToIndex).toHaveBeenCalledWith(0);
     });
   });
 
-  it('ArrowUp clamps at the top', () => {
+  it('resolveCurrentIndex falls back to the anchor, then the selected row', () => {
     TestBed.runInInjectionContext(() => {
       const harness = new TestHarnessComponent();
       const { m, focusedRowIndex } = harness.make('single');
-      focusedRowIndex.set(0);
-      m.onKeyDown({
-        key: 'ArrowUp',
+      expect(m.resolveCurrentIndex()).toBe(-1);
+
+      harness.selection.set([3]);
+      expect(m.resolveCurrentIndex()).toBe(2);
+
+      // A click sets the anchor, so navigation continues from the clicked row.
+      m.handleRowClick(
+        { kind: 'data', id: 2, data: { id: 2, name: 'r2' }, index: 1 },
+        {} as MouseEvent
+      );
+      expect(focusedRowIndex()).toBe(null);
+      expect(m.resolveCurrentIndex()).toBe(1);
+
+      focusedRowIndex.set(3);
+      expect(m.resolveCurrentIndex()).toBe(3);
+    });
+  });
+
+  it('Space selects in single mode and toggles in multi mode', () => {
+    TestBed.runInInjectionContext(() => {
+      const harness = new TestHarnessComponent();
+      const space = {
+        key: ' ',
         preventDefault() {},
         stopPropagation() {},
-      } as unknown as KeyboardEvent);
-      expect(focusedRowIndex()).toBe(0);
+      } as unknown as KeyboardEvent;
+
+      const single = harness.make('single');
+      single.focusedRowIndex.set(1);
+      single.m.onKeyDown(space);
+      expect(harness.selection()).toEqual([2]);
+
+      harness.selection.set([]);
+      const multi = harness.make('multi');
+      multi.focusedRowIndex.set(1);
+      multi.m.onKeyDown(space);
+      expect(harness.selection()).toEqual([2]);
+      multi.m.onKeyDown(space);
+      expect(harness.selection()).toEqual([]);
     });
   });
 

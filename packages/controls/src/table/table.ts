@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   effect,
+  type ElementRef,
   inject,
   input,
   model,
@@ -11,7 +12,7 @@ import {
   booleanAttribute,
   viewChild,
 } from '@angular/core';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
+import { elementSizeSignal, NgnTemplate } from '@ngneers/controls/api/ng';
 import { NgnPt, provideSelf } from '@ngneers/controls/base';
 import { NgnButton } from '@ngneers/controls/button';
 import { I18n } from '@ngneers/controls/i18n';
@@ -46,6 +47,7 @@ import type {
 } from './types';
 import type { NgnFilterConfig } from '@ngneers/controls/filter';
 import { NgnError, type AllKeysOfUnion } from '@ngneers/controls/utils';
+import { generateElementId } from '@ngneers/controls/utils-ng';
 
 const DEFAULT_LAZY_PAGE_SIZE = 25;
 
@@ -68,9 +70,11 @@ const DEFAULT_LAZY_PAGE_SIZE = 25;
     NgnButton,
   ],
   providers: [provideSelf(NgnTable)],
+  // Keydown is bound on the host so it also catches keys from the grid's tab stop.
   host: {
-    tabindex: '0',
     '(keydown)': 'onKeyDown($event)',
+    '(focusin)': 'onFocusIn($event)',
+    '(focusout)': 'onFocusOut($event)',
   },
 })
 export class NgnTable<
@@ -88,9 +92,27 @@ export class NgnTable<
     loading: () => this.loadStatus() === 'loading',
   });
   private readonly _scroller = viewChild.required(NgnScroller);
+  private readonly _grid = viewChild.required<ElementRef<HTMLElement>>('scrollContainer');
+  private readonly _gridId = generateElementId();
+  private readonly _head = viewChild<ElementRef<HTMLElement>>('head');
+  /** Sticky header height — the band at the top of the grid that rows must stay clear of. */
+  protected readonly headerHeight = computed(() => Math.ceil(this._headSize().height));
+  private readonly _headSize = elementSizeSignal(this._head);
 
   /** The data rows to render in client-side mode. Ignored when {@link dataSource} is set. */
   public readonly rows = input<readonly T[]>([]);
+  /**
+   * Accessible name for the grid. Set this or {@link labelledBy} — a grid
+   * without a name is announced unlabelled.
+   * @default null
+   */
+  public readonly label = input<string | null>(null);
+  /**
+   * Id of an element that labels the grid (e.g. a heading above it).
+   * Alternative to {@link label}.
+   * @default null
+   */
+  public readonly labelledBy = input<string | null>(null);
   /**
    * When {@link virtual} is enabled, this defines the height of each row in pixels.
    */
@@ -320,6 +342,32 @@ export class NgnTable<
     () => this._columns.columnCount() + (this._columns.hasSelectionColumn() ? 1 : 0)
   );
 
+  /** `aria-rowcount` — includes the header row; `-1` when a lazy total is unknown. */
+  protected readonly ariaRowCount = computed(() => {
+    const total = this.lazy() ? this.loadTotal() : this.formattedRows().length;
+    return total === undefined ? -1 : total + 1;
+  });
+
+  /** Identity of the current row, used to detect when the index goes stale. */
+  private readonly _focusedRowId = computed(() => {
+    const index = this.focusedRowIndex();
+    return index === null ? null : (this.formattedRows()[index]?.id ?? null);
+  });
+
+  /** The DOM id of the current row, for `aria-activedescendant`. */
+  protected readonly activeRowId = computed(() => {
+    const index = this.focusedRowIndex();
+    return index === null ? null : this.rowElementId(index);
+  });
+
+  /**
+   * The DOM id of the row at `index`. Set on every row so the grid can point
+   * `aria-activedescendant` at the current one.
+   */
+  public rowElementId(index: number): string {
+    return `${this._gridId}_row_${index}`;
+  }
+
   /** Number of placeholder rows to show while a lazy load is in flight. */
   protected readonly skeletonRows = computed(() => {
     if (this.loadStatus() !== 'loading') return 0;
@@ -399,11 +447,18 @@ export class NgnTable<
       hasActions: () => this._rowActions.size > 0,
       focusedRowIndex: this.focusedRowIndex,
       selectionMode: this.selectionMode,
-      scrollToIndex: index => this._scroller().scrollToIndex(index),
+      resolveCurrentIndex: () => this._selection.resolveCurrentIndex(),
+      moveTo: (index, shiftKey) => this._selection.moveTo(index, shiftKey),
+      toggleGroup: index => {
+        const row = this.formattedRows()[index];
+        if (row?.kind !== 'group-header') return false;
+        this.toggleGroupFromRow(row);
+        return true;
+      },
       enterActions: index => this.getRowActions(index)?.focusFirstAction() ?? false,
       moveAction: (index, delta) => this.getRowActions(index)?.moveAction(delta) ?? false,
       openMenu: index => this.getRowActions(index)?.openMenuFromKeyboard() ?? false,
-      focusHost: () => this.element.nativeElement.focus(),
+      focusHost: () => this._grid().nativeElement.focus(),
     });
 
     this.headerCheckboxValue = computed<boolean | null>(() =>
@@ -412,15 +467,22 @@ export class NgnTable<
         : this._selection.headerCheckboxValue()
     );
 
-    // Minor #3: clear the current-row highlight whenever the underlying row
-    // set changes identity (sort/filter/rows replaced), so it never lingers
-    // on a stale index. Only reads `formattedRows` as a dependency — the
-    // writes below must not be read here, or this effect would re-run on its
-    // own writes and clobber every keyboard row move.
+    // Drop the current-row highlight once a different row occupies that index
+    // (sort/filter/rows replaced), but keep it when the same row is still there
+    // — expanding a group must not lose the row the user is standing on.
+    let previousRows: readonly FormattedTableRow<T>[] | null = null;
+    let previousRowId: unknown = null;
     effect(() => {
-      this.formattedRows();
-      this.focusedRowIndex.set(null);
-      this._rowNav.inActions.set(false);
+      const rows = this.formattedRows();
+      const rowId = this._focusedRowId();
+      if (rows !== previousRows && previousRowId !== null && rowId !== previousRowId) {
+        untracked(() => {
+          this.focusedRowIndex.set(null);
+          this._rowNav.inActions.set(false);
+        });
+      }
+      previousRows = rows;
+      previousRowId = rowId;
     });
 
     // A11y: announce sort / filter / pagination / selection changes through a
@@ -486,6 +548,13 @@ export class NgnTable<
       ];
       if (message) {
         this.liveAnnouncement.set(message);
+      }
+    });
+
+    // The error row carries no live semantics of its own — announce it here.
+    effect(() => {
+      if (this.loadStatus() === 'error') {
+        this.liveAnnouncement.set(this.i18n['table_loadError']());
       }
     });
 
@@ -692,7 +761,34 @@ export class NgnTable<
 
   // --- Keyboard navigation ---
 
+  /**
+   * Keeps the "focus is in a row's action bar" state tied to where focus
+   * actually is. Without this, tabbing out of a bar leaves the flag set and
+   * the arrow keys stay swallowed for good.
+   */
+  protected onFocusIn(event: FocusEvent): void {
+    const target = event.target as HTMLElement | null;
+    const bar = target?.closest('ngn-table-row-actions-bar') ?? null;
+    this._rowNav.inActions.set(!!bar);
+    if (!bar) return;
+    // Tabbing straight into a bar makes its row the current one, so leaving the
+    // bar again returns to a row the user can navigate from.
+    const rowIndex = bar.closest('tr')?.getAttribute('aria-rowindex');
+    if (rowIndex) this.focusedRowIndex.set(Number(rowIndex) - 2);
+  }
+
+  /** Focus left the table entirely — the action bar is no longer where focus is. */
+  protected onFocusOut(event: FocusEvent): void {
+    const next = event.relatedTarget as Node | null;
+    if (next && this.element.nativeElement.contains(next)) return;
+    this._rowNav.inActions.set(false);
+  }
+
   protected onKeyDown(event: KeyboardEvent): void {
+    // Only keys from the grid's tab stop and the body's roving action bar drive row
+    // navigation — header controls (sort, filter popover) and the paginator keep theirs.
+    const target = event.target as HTMLElement | null;
+    if (!target || !this._grid().nativeElement.contains(target) || target.closest('thead')) return;
     if (this._rowNav.onKeyDown(event)) return;
     if (this._rowNav.inActions()) return; // focus is in a row's action bar — selection must not handle keys
     this._selection.onKeyDown(event);

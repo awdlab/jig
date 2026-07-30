@@ -94,8 +94,15 @@ export const tableStyles = createThemePart({
       ${c('focused-row')}:not(:has(${c('focused-row-cell')})) ${c('cell')}:first-child {
         box-shadow: inset 3px 0 0 ${v('color.primary.500')};
       }
-      ${c('focused-row-cell')} {
+      ${c('focused-row-cell')},
+      ${c('focused-row')} ${c('group-header-cell')} {
         box-shadow: inset 3px 0 0 ${v('color.primary.500')};
+      }
+      /* The grid is the tab stop; sortable header text is a button. */
+      ${c('table')}:focus-visible,
+      ${c('sortable-column')} ${c('cell-text')}:focus-visible {
+        outline: 2px solid color-mix(in srgb, ${v('color.primary.500')} 50%, transparent);
+        outline-offset: 2px;
       }
 
       /* ── Sorting ─────────────────────────────────────────────────────── */

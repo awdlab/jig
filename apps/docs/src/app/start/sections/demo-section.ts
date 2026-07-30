@@ -49,10 +49,12 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
             <span aria-hidden="true" class="w-12"></span>
           </div>
 
-          <!-- App body: left icon rail switches the demo, panel renders the active one. -->
-          <div class="flex min-h-[54rem]">
+          <!-- App body: left icon rail switches the demo, panel renders the active one.
+               On mobile the rail collapses to a horizontal strip on top so the panel gets the
+               full viewport width instead of a 279px squeeze. -->
+          <div class="flex min-h-[54rem] max-md:min-h-[36rem] max-md:flex-col">
             <nav
-              class="flex w-16 shrink-0 flex-col items-center gap-(--ngn-size-padding-sm) border-r border-(--ngn-color-surface-200) bg-(--ngn-color-surface-50) py-(--ngn-size-padding-lg)"
+              class="flex w-16 shrink-0 flex-col items-center gap-(--ngn-size-padding-sm) border-r border-(--ngn-color-surface-200) bg-(--ngn-color-surface-50) py-(--ngn-size-padding-lg) max-md:w-full max-md:flex-row max-md:justify-start max-md:gap-(--ngn-size-padding-xs) max-md:overflow-x-auto max-md:border-r-0 max-md:border-b max-md:px-(--ngn-size-padding-md) max-md:py-(--ngn-size-padding-sm)"
               role="tablist"
               aria-orientation="vertical"
               aria-label="Demo app"
@@ -86,7 +88,7 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
                   @if (active() === d.id) {
                     <span
                       aria-hidden="true"
-                      class="absolute top-1/2 left-[-0.625rem] h-6 w-1 -translate-y-1/2 rounded-r-full bg-(--ngn-color-primary-500)"
+                      class="absolute top-1/2 left-[-0.625rem] h-6 w-1 -translate-y-1/2 rounded-r-full bg-(--ngn-color-primary-500) max-md:hidden"
                     ></span>
                   }
                   <ngn-icon [icon]="d.icon" />
@@ -138,18 +140,22 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
             >
               @switch (active()) {
                 @case ('sales-crm') {
-                  <div class="min-h-[54rem]"><ngn-docs-sales-crm /></div>
+                  <div class="min-h-[54rem] max-md:min-h-[36rem]">
+                    <ngn-docs-sales-crm />
+                  </div>
                 }
                 @case ('team-chat') {
-                  <div class="h-[54rem]"><ngn-docs-team-chat /></div>
+                  <div class="h-[54rem] max-md:h-[36rem]"><ngn-docs-team-chat /></div>
                 }
                 @case ('project-board') {
                   <!-- Deferred so the board's heavier control set (tree, drawer, accordion,
                        upload, filter, slider…) stays out of the eager startpage bundle. -->
                   @defer (when active() === 'project-board') {
-                    <div class="h-[54rem]"><ngn-docs-project-board /></div>
+                    <div class="h-[54rem] max-md:h-[36rem]">
+                      <ngn-docs-project-board />
+                    </div>
                   } @placeholder {
-                    <div class="h-[54rem]"></div>
+                    <div class="h-[54rem] max-md:h-[36rem]"></div>
                   }
                 }
               }

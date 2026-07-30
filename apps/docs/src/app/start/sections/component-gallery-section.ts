@@ -57,10 +57,10 @@ import { NgnState } from '@ngneers/controls/state';
   `,
   template: `
     <ngn-docs-section-shell
-      layout="centered"
+      layout="full"
       eyebrow="Components"
-      [heading]="controlCount + '+ controls and counting'"
-      subtitle="A growing library of accessible, themeable building blocks. Click any control to read its docs."
+      [heading]="'A taste of ' + controlCount + '+ controls'"
+      subtitle="Twelve interactive samples below. Every control ships with a full documentation page — hover for a preview, click through for the docs."
     >
       <div class="grid grid-cols-2 gap-(--ngn-size-padding-lg) sm:grid-cols-3 lg:grid-cols-4">
         @for (entry of gallery; track entry.name) {
@@ -161,6 +161,11 @@ import { NgnState } from '@ngneers/controls/state';
             </span>
           </div>
         }
+      </div>
+      <div class="mt-(--ngn-size-padding-xl) flex justify-center">
+        <a ngnButton kind="secondary" routerLink="/components">
+          See all {{ controlCount }}+ controls
+        </a>
       </div>
     </ngn-docs-section-shell>
   `,

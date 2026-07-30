@@ -120,64 +120,64 @@ export class TableSelectionModel<T extends object, K extends keyof T> {
     this._deps.selection.set([...currentSet]);
   }
 
+  /**
+   * The index row navigation should move from: the current row when set,
+   * otherwise the last clicked/selected row (the anchor), otherwise `-1` so
+   * the first ArrowDown lands on row 0.
+   */
+  public resolveCurrentIndex(): number {
+    const focused = this._deps.focusedRowIndex();
+    if (focused !== null) return focused;
+    const anchor = this._selectionAnchor();
+    if (anchor !== null) return anchor;
+    const sel = this._deps.selection();
+    if (this._deps.selectionMode() === 'single' && sel.length > 0) {
+      return this._deps.viewRows().findIndex(r => r.id === sel[0]);
+    }
+    return -1;
+  }
+
+  /**
+   * Moves the current row to `index`, scrolls it into view and applies the
+   * selection side-effects for the active mode. The single mover for every
+   * row-navigation key — {@link TableRowNavigationModel} calls it rather than
+   * recomputing the move itself.
+   */
+  public moveTo(index: number, shiftKey = false): void {
+    this._deps.focusedRowIndex.set(index);
+    this._deps.scrollToIndex(index);
+    this.applyArrowMove(index, shiftKey);
+  }
+
   public onKeyDown(event: KeyboardEvent): void {
     const mode = this._deps.selectionMode();
     if (!mode) return;
+    if (event.key !== ' ' && event.key !== 'Enter') return;
 
     const rows = this._deps.viewRows();
-    if (rows.length === 0) return;
-
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-      event.preventDefault();
-      event.stopPropagation();
-
-      let currentIndex = this._deps.focusedRowIndex();
-      if (currentIndex === null && mode === 'single') {
-        const sel = this._deps.selection();
-        if (sel.length > 0) {
-          currentIndex = rows.findIndex(r => r.id === sel[0]);
-        }
-      }
-      currentIndex ??= -1;
-
-      const nextIndex =
-        event.key === 'ArrowDown'
-          ? Math.min(currentIndex + 1, rows.length - 1)
-          : Math.max(currentIndex - 1, 0);
-
-      this._deps.focusedRowIndex.set(nextIndex);
-      this._deps.scrollToIndex(nextIndex);
-      this.applyArrowMove(nextIndex, event.shiftKey);
-    } else if (event.key === ' ' || event.key === 'Enter') {
-      if (mode === 'multi') {
-        const focusIdx = this._deps.focusedRowIndex();
-        if (focusIdx !== null && rows[focusIdx]) {
-          event.preventDefault();
-          event.stopPropagation();
-          this.toggleCurrentRow(focusIdx);
-        }
-      }
+    const focusIdx = this._deps.focusedRowIndex();
+    if (focusIdx === null || !rows[focusIdx]) return;
+    event.preventDefault();
+    event.stopPropagation();
+    if (mode === 'single') {
+      this.selectCurrentRow(focusIdx);
+    } else {
+      this.toggleCurrentRow(focusIdx);
     }
   }
 
   /**
-   * Applies the selection side-effects of an arrow-key move that already set
+   * Applies the selection side-effects of a row move that already set
    * `focusedRowIndex` to `nextIndex` — single mode selects the row and resets
    * the anchor, multi mode with `shiftKey` extends the range from the anchor,
-   * multi mode alone only moves focus (a no-op here). No-ops when
-   * {@link TableSelectionModelDeps.selectionMode} is `null`. Only called from
-   * {@link onKeyDown} — {@link TableRowNavigationModel} deliberately does not
-   * recompute or replicate this (it would risk diverging from this model's
-   * null-`focusedRowIndex` start-index resolution), and instead defers
-   * ArrowUp/Down entirely to {@link onKeyDown} when a row-actions table also
-   * has a `selectionMode`.
+   * multi mode alone only moves focus. No-ops without a selection mode.
    */
   private applyArrowMove(nextIndex: number, shiftKey: boolean): void {
     const mode = this._deps.selectionMode();
     if (!mode) return;
     const rows = this._deps.viewRows();
     const row = rows[nextIndex];
-    if (!row) return;
+    if (!row || row.kind === 'group-header') return;
 
     if (mode === 'single') {
       this._deps.selection.set([row.id as T[K & keyof T]]);
@@ -188,17 +188,19 @@ export class TableSelectionModel<T extends object, K extends keyof T> {
     }
   }
 
-  /**
-   * Toggles selection of the row at `index` and sets it as the new anchor —
-   * the multi-mode Enter/Space behavior. Only called from {@link onKeyDown};
-   * {@link TableRowNavigationModel} defers Enter/Space to it for the same
-   * reason as {@link applyArrowMove}.
-   */
+  /** Toggles selection of the row at `index` and makes it the new anchor (multi-mode Enter/Space). */
   public toggleCurrentRow(index: number): void {
-    const rows = this._deps.viewRows();
-    const row = rows[index];
-    if (!row) return;
+    const row = this._deps.viewRows()[index];
+    if (!row || row.kind === 'group-header') return;
     this._toggleRowInSelection(row.id as T[K & keyof T]);
+    this._selectionAnchor.set(index);
+  }
+
+  /** Makes the row at `index` the sole selection (single-mode Enter/Space). */
+  public selectCurrentRow(index: number): void {
+    const row = this._deps.viewRows()[index];
+    if (!row || row.kind === 'group-header') return;
+    this._deps.selection.set([row.id as T[K & keyof T]]);
     this._selectionAnchor.set(index);
   }
 }

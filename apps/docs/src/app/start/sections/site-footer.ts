@@ -1,37 +1,44 @@
-import { Component, input } from '@angular/core';
-import tablerBrandGithub from '@iconify/icons-tabler/brand-github';
-import { NgnIcon } from '@ngneers/controls/icon';
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'ngn-docs-site-footer',
-  imports: [NgnIcon],
+  imports: [RouterLink],
   template: `
-    <!-- Full-width band carries the last segment's tone; padding lives here (not
-         the card) so the tint has no gap above the footer. -->
-    <div
-      class="mt-auto w-full py-(--ngn-size-padding-xl)"
-      [class]="tinted() ? 'bg-(--ngn-color-surface-50)' : ''"
-    >
+    <!-- Full-width band so the divider spans the viewport, not just the content. -->
+    <div class="mt-auto w-full border-t border-(--ngn-color-surface-200)">
       <footer
-        class="card mx-(--ngn-size-padding-xl) flex w-auto max-w-[1200px] flex-col items-center gap-(--ngn-size-padding-md) rounded-(--ngn-size-rounded-lg) border border-(--ngn-color-surface-200) px-8 py-8 text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600) shadow-(--ngn-shadow-md) md:flex-row md:justify-between xl:mx-auto"
+        class="mx-auto flex max-w-[1200px] flex-col items-center gap-(--ngn-size-padding-lg) px-(--ngn-size-padding-xl) py-(--ngn-size-padding-xl) text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600) md:flex-row md:justify-between"
       >
-        <span class="font-(--ngn-font-weight-semibold) text-(--ngn-color-text)">
-          &#64;ngneers/controls
-        </span>
         <a
-          class="flex items-center gap-(--ngn-size-padding-sm) text-(--ngn-color-primary-500) no-underline hover:underline"
-          href="https://github.com/NGneers/controls"
-          target="_blank"
-          rel="noopener"
+          routerLink="/"
+          class="flex items-center gap-(--ngn-size-padding-md) text-(--ngn-color-text) no-underline"
         >
-          <ngn-icon [icon]="githubIcon" /> GitHub
+          <img src="img/logo.png" alt="" class="h-7 w-7" />
+          &#64;ngneers/controls
         </a>
+        <nav class="flex flex-wrap justify-center gap-(--ngn-size-padding-xl)">
+          <a routerLink="/guides/introduction" class="no-underline hover:underline">Docs</a>
+          <a routerLink="/components" class="no-underline hover:underline">Components</a>
+          <a
+            href="https://github.com/NGneers/controls"
+            target="_blank"
+            rel="noopener"
+            class="no-underline hover:underline"
+          >
+            GitHub
+          </a>
+          <a
+            href="https://www.npmjs.com/package/@ngneers/controls"
+            target="_blank"
+            rel="noopener"
+            class="no-underline hover:underline"
+          >
+            npm
+          </a>
+        </nav>
       </footer>
     </div>
   `,
 })
-export class NgnDocsSiteFooter {
-  public readonly tinted = input(false);
-
-  protected readonly githubIcon = tablerBrandGithub;
-}
+export class NgnDocsSiteFooter {}

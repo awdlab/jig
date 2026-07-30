@@ -90,6 +90,12 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
    * If set, the scroller will stick the items with a truthy value for the specified field to the top of the scroller.
    */
   public readonly fieldSticky = input<AllKeysOfUnion<T> | null>(null);
+  /**
+   * Height in px of content pinned to the top of the scroll container (e.g. a
+   * table's sticky header row). {@link scrollToIndex} keeps items clear of it.
+   * @default 0
+   */
+  public readonly stickyOffset = input<number>(0);
 
   /**
    * Viewport size — tracks the scroll ancestor's dimensions so that virtual
@@ -206,7 +212,9 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
   public scrollToIndex(index: number, position: ScrollLogicalPosition = 'nearest') {
     untracked(() => {
       const scrollEl = this._scrollAmount.scrollTarget();
-      const offset = this._scrollOffset();
+      // How far down the scroll content the items start — either the scroller's own
+      // position or the sticky content pinned over it.
+      const offset = Math.max(this._scrollOffset(), this.stickyOffset());
 
       const getItemSize = () => {
         if (this.virtual()) {
@@ -218,12 +226,13 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
           while (!itemElement?.clientHeight && itemElement?.children.length) {
             itemElement = itemElement?.children[0] as HTMLElement | null;
           }
-          if (itemElement) {
-            const itemTop = itemElement.offsetTop;
-            const itemHeight = itemElement.clientHeight;
-            return { itemTop, itemHeight };
-          }
-          return null;
+          if (!itemElement) return null;
+          // Measured against the scroll container rather than via offsetTop, which
+          // is relative to whatever the offsetParent happens to be (a rowgroup may
+          // be positioned or display:contents, dropping the leading offset).
+          const rect = itemElement.getBoundingClientRect();
+          const containerTop = scrollEl.getBoundingClientRect().top + scrollEl.clientTop;
+          return { itemTop: rect.top - containerTop + scrollEl.scrollTop, itemHeight: rect.height };
         }
       };
       const size = getItemSize();
@@ -231,8 +240,17 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
         return;
       }
       const { itemTop, itemHeight } = size;
+      // Sticky content covers the top of the viewport, so align inside the band
+      // below it — otherwise a top-aligned item ends up behind it.
+      const sticky = this.stickyOffset();
       scrollEl.scrollTo({
-        top: getScrollTop(itemTop, itemHeight, scrollEl.clientHeight, scrollEl.scrollTop, position),
+        top: getScrollTop(
+          itemTop - sticky,
+          itemHeight,
+          scrollEl.clientHeight - sticky,
+          scrollEl.scrollTop,
+          position
+        ),
       });
     });
   }

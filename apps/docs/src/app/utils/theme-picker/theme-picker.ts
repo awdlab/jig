@@ -436,12 +436,11 @@ export class ThemePickerService {
             @for (color of group.options; track color.name) {
               <button
                 type="button"
-                class="h-7 w-7 cursor-pointer rounded-full border border-(--ngn-color-border) transition-transform hover:scale-110"
+                class="size-8 cursor-pointer rounded-(--ngn-size-rounded-md) border-2 transition-transform hover:scale-110"
                 [style.background-color]="color.swatch"
-                [style.outline]="
-                  group.selected === color.hex ? '2px solid var(--ngn-color-text)' : 'none'
+                [style.border-color]="
+                  group.selected === color.hex ? 'var(--ngn-color-text)' : 'var(--ngn-color-border)'
                 "
-                [style.outline-offset.px]="2"
                 [attr.aria-label]="'Use ' + color.name"
                 [attr.aria-pressed]="group.selected === color.hex"
                 [attr.title]="color.name"

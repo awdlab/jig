@@ -23,7 +23,11 @@ import { NgnTable } from './table';
  */
 @Directive({
   selector: '[ngnTableTd]',
-  host: { role: 'gridcell', '[style.--ngn-table-column-index]': '_visualColumnIndex()' },
+  host: {
+    role: 'gridcell',
+    '[style.--ngn-table-column-index]': '_visualColumnIndex()',
+    '[attr.aria-colindex]': '_ariaColIndex()',
+  },
 })
 export class NgnTableTd {
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -44,6 +48,16 @@ export class NgnTableTd {
     }
     return logicalIndex + 1;
   });
+
+  /**
+   * `aria-colindex` — the visual index plus the selection column, which the
+   * theme adds in CSS but the ARIA index has to spell out. Reordering only
+   * changes the visual index, so without this the reading order would keep
+   * following the DOM order.
+   */
+  protected readonly _ariaColIndex = computed(
+    () => this._visualColumnIndex() + (this._table()?.showCheckboxes() ? 1 : 0)
+  );
 
   private readonly _columnId = computed(() => {
     const table = this._table();

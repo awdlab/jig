@@ -6,24 +6,18 @@ import type { Signal, WritableSignal } from '@angular/core';
 export interface RowNavigationDeps<T extends object> {
   /** The currently rendered/formatted rows, in view order. */
   viewRows: Signal<readonly FormattedTableRow<T>[]>;
-  /**
-   * Whether any row currently has a registered row-actions directive. Gates
-   * the whole model — when `false` the model consumes nothing, so tables
-   * without row actions keep byte-for-byte selection keyboard behavior.
-   */
+  /** Whether any row currently has a registered row-actions directive. Gates the action-bar keys only. */
   hasActions: () => boolean;
-  /**
-   * The table's single current-row index, shared with (and driven by)
-   * {@link import('./table-selection-model').TableSelectionModel}. This model
-   * reads and writes it directly instead of owning a separate index, so
-   * row-actions navigation and selection navigation always agree on which
-   * row is current.
-   */
+  /** The table's single current-row index, shared with the selection model. */
   focusedRowIndex: WritableSignal<number | null>;
   /** The table's active selection mode, or `null` when selection is disabled. */
   selectionMode: Signal<TableSelectionMode | null>;
-  /** Scrolls the row at `index` into view (used when the current row moves). */
-  scrollToIndex: (index: number) => void;
+  /** The index a move starts from, resolved by the selection model. */
+  resolveCurrentIndex: () => number;
+  /** Moves the current row to `index`, scrolls it into view and applies selection side-effects. */
+  moveTo: (index: number, shiftKey: boolean) => void;
+  /** Toggles the row at `index` when it is a group header; returns whether it was one. */
+  toggleGroup: (index: number) => boolean;
   /** Enter the current row's action bar; returns true if a bar exists + focus moved in. */
   enterActions: (rowIndex: number) => boolean;
   /** Move within the bar; returns true while focus stays in the bar. */
@@ -34,28 +28,20 @@ export interface RowNavigationDeps<T extends object> {
   focusHost: () => void;
 }
 
+/** Rows moved per PageUp/PageDown. */
+const PAGE_STEP = 10;
+
 /**
- * Roving keyboard model for row actions, reconciled onto the table's single
- * current-row index ({@link RowNavigationDeps.focusedRowIndex}). The single
- * tab stop lives on the table host; ArrowRight enters the action bar and
- * ArrowLeft/Right move between actions, ArrowLeft off the first action
- * returns to row navigation. ContextMenu and Shift+F10 always open the
- * context menu on the current row, regardless of selection mode.
+ * Keyboard model for the grid's single tab stop. Owns row movement in every
+ * mode (ArrowUp/Down, Home/End, PageUp/PageDown) by delegating the move to
+ * {@link RowNavigationDeps.moveTo}, so selection follows the current row
+ * without this model recomputing selection semantics. Enter/Space toggles a
+ * group header, otherwise falls through to the selection model.
  *
- * When {@link RowNavigationDeps.selectionMode} is set and focus is not in
- * the action bar, this model deliberately does **not** handle
- * ArrowUp/Down/Enter/Space itself — it returns `false` so the table's own
- * `onKeyDown` falls through to
- * {@link import('./table-selection-model').TableSelectionModel#onKeyDown},
- * which already resolves the start row correctly (including the
- * null-`focusedRowIndex` → currently-selected-row fallback after a mouse
- * click). Recomputing that start index here would silently diverge from the
- * selection model's resolution — that's exactly the bug this delegation
- * avoids. When `selectionMode` is `null`, this model owns ArrowUp/Down
- * itself (moves `focusedRowIndex`) and Enter opens the context menu. Only
- * claims keys when at least one row has registered actions (see
- * {@link RowNavigationDeps.hasActions}), so tables without row actions keep
- * selection's keyboard behavior untouched.
+ * The action-bar keys are gated on {@link RowNavigationDeps.hasActions}:
+ * ArrowRight enters the current row's bar and ArrowLeft/Right move between
+ * actions, ArrowLeft off the first action (or Escape) returns to row
+ * navigation. ContextMenu and Shift+F10 open the current row's context menu.
  */
 export class TableRowNavigationModel<T extends object> {
   /** Whether DOM focus is currently inside the current row's action bar (as opposed to on the row itself). */
@@ -65,31 +51,32 @@ export class TableRowNavigationModel<T extends object> {
 
   /** Returns true when the event was handled (caller should stop propagation to other handlers). */
   public onKeyDown(event: KeyboardEvent): boolean {
-    if (!this._deps.hasActions()) return false;
-
     const rows = this._deps.viewRows();
     if (rows.length === 0) return false;
     const current = this._deps.focusedRowIndex();
-    const mode = this._deps.selectionMode();
+    const actions = this._deps.hasActions();
 
     switch (event.key) {
       case 'ArrowDown':
       case 'ArrowUp':
-        return this._moveRow(event, rows.length, current, mode);
+      case 'Home':
+      case 'End':
+      case 'PageDown':
+      case 'PageUp':
+        return this._moveRow(event, rows.length);
       case 'ArrowRight':
-        return this._moveRight(event, current);
+        return actions ? this._moveRight(event, current) : false;
       case 'ArrowLeft':
-        return this._moveLeft(event, current);
+        return actions ? this._moveLeft(event, current) : false;
       case 'Enter':
       case ' ':
-        return this._activate(event, current, mode);
+        return this._activate(event, current, actions);
       case 'ContextMenu':
-        return this._openMenu(event, current);
+        return actions ? this._openMenu(event, current) : false;
       case 'F10':
-        return event.shiftKey ? this._openMenu(event, current) : false;
+        return actions && event.shiftKey ? this._openMenu(event, current) : false;
       case 'Escape':
-        // Back out of the action bar to the row (standard roving-toolbar exit),
-        // mirroring ArrowLeft off the first action.
+        // Back out of the action bar to the row, mirroring ArrowLeft off the first action.
         if (!this.inActions()) return false;
         this.inActions.set(false);
         this._deps.focusHost();
@@ -100,34 +87,39 @@ export class TableRowNavigationModel<T extends object> {
     }
   }
 
-  private _moveRow(
-    event: KeyboardEvent,
-    rowCount: number,
-    current: number | null,
-    mode: TableSelectionMode | null
-  ): boolean {
-    // While focus is inside the action bar, ArrowUp/Down must not move the
+  private _moveRow(event: KeyboardEvent, rowCount: number): boolean {
+    // While focus is inside the action bar, row-movement keys must not move the
     // current row (and must not fall through to selection) — swallow them.
     if (this.inActions()) {
       event.preventDefault();
       return true;
     }
-    if (mode) {
-      // Delegate entirely to TableSelectionModel.onKeyDown — it already
-      // resolves the start index (including the null-focus → selected-row
-      // fallback) and applies the move/select/scroll side-effects. Returning
-      // `false` here lets the table's onKeyDown fall through to it, so the
-      // combined single/multi-select + actions behavior stays byte-identical
-      // to the no-actions case.
-      return false;
-    }
-    const start = current ?? -1;
-    const next =
-      event.key === 'ArrowDown' ? Math.min(start + 1, rowCount - 1) : Math.max(start - 1, 0);
-    this._deps.focusedRowIndex.set(next);
-    this._deps.scrollToIndex(next);
+    const target = this._targetIndex(event.key, rowCount);
+    if (target === null) return false;
+    this._deps.moveTo(target, event.shiftKey);
     event.preventDefault();
     return true;
+  }
+
+  private _targetIndex(key: string, rowCount: number): number | null {
+    const current = this._deps.resolveCurrentIndex();
+    const last = rowCount - 1;
+    switch (key) {
+      case 'ArrowDown':
+        return Math.min(current + 1, last);
+      case 'ArrowUp':
+        return Math.max(current - 1, 0);
+      case 'Home':
+        return 0;
+      case 'End':
+        return last;
+      case 'PageDown':
+        return Math.min(current + PAGE_STEP, last);
+      case 'PageUp':
+        return Math.max(current - PAGE_STEP, 0);
+      default:
+        return null;
+    }
   }
 
   private _moveRight(event: KeyboardEvent, current: number | null): boolean {
@@ -154,20 +146,17 @@ export class TableRowNavigationModel<T extends object> {
     return true;
   }
 
-  private _activate(
-    event: KeyboardEvent,
-    current: number | null,
-    mode: TableSelectionMode | null
-  ): boolean {
-    // Let the focused native <button> handle Enter/Space itself — do not
-    // preventDefault, do not open the menu.
+  private _activate(event: KeyboardEvent, current: number | null, actions: boolean): boolean {
+    // Let the focused native <button> handle Enter/Space itself.
     if (this.inActions()) return false;
-    // Delegate entirely to TableSelectionModel.onKeyDown when selection is
-    // active — same rationale as the ArrowUp/Down case in `_moveRow`: it
-    // reads the same `focusedRowIndex`, but keeping a single handler avoids
-    // this model silently drifting from the selection model's semantics.
-    if (mode) return false;
     if (current === null) return false;
+    if (this._deps.toggleGroup(current)) {
+      event.preventDefault();
+      return true;
+    }
+    // Selection owns Enter/Space on data rows when a mode is active.
+    if (this._deps.selectionMode()) return false;
+    if (!actions) return false;
     if (event.key !== 'Enter') return false; // Space is a no-op without selection
     return this._openMenu(event, current);
   }

@@ -200,3 +200,26 @@ test('sorting applies within groups', async ({ page }) => {
   await expect(cells.nth(0)).toContainText('2'); // Bob's id
   await expect(cells.nth(1)).toContainText('Bob');
 });
+
+test('group headers expand/collapse from the keyboard', async ({ page }) => {
+  const handle = await loadTable(page, { expandedGroups: [] });
+  const grid = page.locator('table[role="grid"]');
+  await grid.focus();
+
+  // First row is the Engineering group header; Space expands it.
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press(' ');
+  await expect(page.locator('tr[aria-expanded="true"]')).toHaveCount(1);
+  await expect(async () => {
+    const log = await handle.getOutputLog();
+    expect(log['expandedGroups']?.at(-1)).toEqual(['Engineering']);
+  }).toPass();
+
+  // Enter collapses it again.
+  await page.keyboard.press('Enter');
+  await expect(page.locator('tr[aria-expanded="true"]')).toHaveCount(0);
+  await expect(async () => {
+    const log = await handle.getOutputLog();
+    expect(log['expandedGroups']?.at(-1)).toEqual([]);
+  }).toPass();
+});

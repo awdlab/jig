@@ -6,12 +6,12 @@ import { NgnDocsComponentGallerySection } from './sections/component-gallery-sec
 import { NgnDocsCustomizationSection } from './sections/customization-section';
 import { NgnDocsDemoSection } from './sections/demo-section';
 import { NgnDocsDeveloperExperienceSection } from './sections/developer-experience-section';
+import { NgnDocsFinalCtaSection } from './sections/final-cta-section';
 import { NgnDocsHeroSection } from './sections/hero-section';
-import { NgnDocsNativePlatformSection } from './sections/native-platform-section';
 import { NgnDocsQuickStartSection } from './sections/quick-start-section';
-import { NgnDocsResponsivenessSection } from './sections/responsiveness-section';
 import { NgnDocsSiteFooter } from './sections/site-footer';
 import { NgnDocsThemingSection } from './sections/theming-section';
+import { NgnDocsUnderTheHoodSection } from './sections/under-the-hood-section';
 
 interface FeatureSection {
   readonly id: string;
@@ -26,10 +26,10 @@ interface FeatureSection {
   host: { class: 'flex min-h-full flex-col' },
 })
 export class Start {
-  // Every band below the hero. Even indices are tinted; the footer matches the
-  // last band's tone via `lastTinted`, so reordering stays in sync.
+  // Every section below the hero, in order.
   // Narrative arc: proof (demo) → easy start → make it yours (theming,
-  // customization) → built for devs → capability trio → browse everything.
+  // customization) → typed DX → accessibility → platform internals → browse
+  // everything → closing call to action.
   protected readonly featureSections: readonly FeatureSection[] = [
     { id: 'demo', component: NgnDocsDemoSection },
     { id: 'quick-start', component: NgnDocsQuickStartSection },
@@ -37,11 +37,8 @@ export class Start {
     { id: 'customization', component: NgnDocsCustomizationSection },
     { id: 'developer-experience', component: NgnDocsDeveloperExperienceSection },
     { id: 'accessibility', component: NgnDocsAccessibilitySection },
-    { id: 'native-platform', component: NgnDocsNativePlatformSection },
-    { id: 'responsiveness', component: NgnDocsResponsivenessSection },
+    { id: 'under-the-hood', component: NgnDocsUnderTheHoodSection },
     { id: 'component-gallery', component: NgnDocsComponentGallerySection },
+    { id: 'final-cta', component: NgnDocsFinalCtaSection },
   ];
-
-  // The footer is tinted exactly when the last band is tinted (even index).
-  protected readonly lastTinted = (this.featureSections.length - 1) % 2 === 0;
 }

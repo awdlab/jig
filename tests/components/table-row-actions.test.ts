@@ -187,7 +187,7 @@ test('keyboard: roving focus, activation, and menu triggers (no selection mode)'
       { inputs: { rows: ROWS, actions: twoActions } }
     );
 
-    const table = page.locator('ngn-table');
+    const table = page.locator('ngn-table table[role="grid"]');
     const firstRow = page.locator('tbody tr[role="row"]').nth(0);
     await table.focus();
 
@@ -231,7 +231,7 @@ test('keyboard: roving focus, activation, and menu triggers (no selection mode)'
       }
     );
 
-    const table = page.locator('ngn-table');
+    const table = page.locator('ngn-table table[role="grid"]');
     const firstRow = page.locator('tbody tr[role="row"]').nth(0);
     await table.focus();
     await page.keyboard.press('ArrowDown');
@@ -255,7 +255,7 @@ test('keyboard: roving focus, activation, and menu triggers (no selection mode)'
         { template: TEMPLATE, imports: ['tableModule', 'ngnTemplate'] },
         { inputs: { rows: ROWS, actions: [{ id: 'edit', label: 'Edit', testId: 'kb-menu' }] } }
       );
-      await page.locator('ngn-table').focus();
+      await page.locator('ngn-table table[role="grid"]').focus();
       await page.keyboard.press('ArrowDown');
       await page.keyboard.press(key);
       await expect(page.getByText('Edit').first()).toBeVisible();
@@ -274,7 +274,7 @@ test('keyboard: roving focus, activation, and menu triggers (no selection mode)'
       },
       { inputs: { rows: ROWS, actions: [{ id: 'edit', label: 'Edit', testId: 'kb-ctx-off' }] } }
     );
-    await page.locator('ngn-table').focus();
+    await page.locator('ngn-table table[role="grid"]').focus();
     await page.keyboard.press('ArrowDown');
     await page.keyboard.press('ContextMenu');
     await expect(page.getByText('Edit').first()).toBeVisible();
@@ -291,7 +291,7 @@ test('keyboard: row actions coexist with selection mode', async ({ page }) => {
       { inputs: { rows: ROWS, selectionMode: 'single', actions: oneAction } }
     );
 
-    const table = page.locator('ngn-table');
+    const table = page.locator('ngn-table table[role="grid"]');
     const rows = page.locator('tbody tr[role="row"]');
     await table.focus();
 
@@ -364,7 +364,7 @@ test('keyboard: row actions coexist with selection mode', async ({ page }) => {
       { inputs: { rows: ROWS, selectionMode: 'multi', actions: oneAction } }
     );
 
-    const table = page.locator('ngn-table');
+    const table = page.locator('ngn-table table[role="grid"]');
     const rows = page.locator('tbody tr[role="row"]');
     await table.focus();
 
@@ -432,4 +432,81 @@ test('inline actions bound to a fresh array each change-detection do not trigger
 
   await expect(page.locator('tbody tr[role="row"]')).toHaveCount(ROWS.length);
   expect(errors.join('\n')).not.toContain('NG0103');
+});
+
+test('keyboard: tabbing out of the action bar does not freeze row navigation', async ({ page }) => {
+  await loadComponent(
+    page,
+    { template: INLINE_TEMPLATE, imports: ['tableModule', 'ngnTemplate'] },
+    { inputs: { rows: ROWS, actions: [{ id: 'edit', label: 'Edit', icon: 'edit' }] } }
+  );
+
+  const grid = page.locator('ngn-table table[role="grid"]');
+  const rows = page.locator('tbody tr[role="row"]');
+  await grid.focus();
+
+  // Enter the first row's action bar, then leave it with Tab instead of Escape.
+  await page.keyboard.press('ArrowDown');
+  await expect(rows.nth(0)).toHaveClass(/focused-row/);
+  await page.keyboard.press('ArrowRight');
+  await expect(rows.nth(0)).toHaveClass(/active-row/);
+  // Same reason as above: Tab must start from the action button, not the grid.
+  await expect(rows.nth(0).locator('ngn-table-row-actions-bar button').first()).toBeFocused();
+  await page.keyboard.press('Tab');
+
+  // Back on the grid, the arrows must still move the current row.
+  await grid.focus();
+  await expect(rows.nth(0)).not.toHaveClass(/active-row/);
+  await page.keyboard.press('ArrowDown');
+  await expect(rows.nth(1)).toHaveClass(/focused-row/);
+  await expect(rows.nth(0)).not.toHaveClass(/focused-row/);
+});
+
+test('keyboard: tabbing into an action bar adopts its row as the current one', async ({ page }) => {
+  await loadComponent(
+    page,
+    { template: INLINE_TEMPLATE, imports: ['tableModule', 'ngnTemplate'] },
+    { inputs: { rows: ROWS, actions: [{ id: 'edit', label: 'Edit', icon: 'edit' }] } }
+  );
+
+  const rows = page.locator('tbody tr[role="row"]');
+  // Hover reveals the second row's bar, then focus its button directly.
+  await rows.nth(1).hover();
+  await rows.nth(1).locator('button').first().focus();
+  await expect(rows.nth(1)).toHaveClass(/active-row/);
+
+  // Escape leaves the bar and navigation continues from that row.
+  await page.keyboard.press('Escape');
+  await page.keyboard.press('ArrowUp');
+  await expect(rows.nth(0)).toHaveClass(/focused-row/);
+});
+
+test('keyboard: leaving the table forward hides the action bar', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      // A focusable element after the table, so Tab has somewhere to go.
+      template: `${INLINE_TEMPLATE}<button type="button" data-testid="after">after</button>`,
+      imports: ['tableModule', 'ngnTemplate'],
+    },
+    { inputs: { rows: ROWS, actions: [{ id: 'edit', label: 'Edit', icon: 'edit' }] } }
+  );
+
+  const rows = page.locator('tbody tr[role="row"]');
+  const bar = rows.nth(0).locator('ngn-table-row-actions-bar');
+  await page.locator('ngn-table table[role="grid"]').focus();
+  await page.keyboard.press('ArrowDown');
+  await expect(rows.nth(0)).toHaveClass(/focused-row/);
+  await page.keyboard.press('ArrowRight');
+  await expect(bar).toBeVisible();
+  // Focus has to be inside the bar before tabbing: a visible bar alone does not
+  // mean focusFirst() has run, and Tab from the grid would land on the action
+  // button instead of leaving the table.
+  await expect(bar.locator('button').first()).toBeFocused();
+
+  // Tab forward past the bar and out of the table.
+  await page.keyboard.press('Tab');
+  await expect(page.getByTestId('after')).toBeFocused();
+  await expect(bar).toBeHidden();
+  await expect(rows.nth(0)).not.toHaveClass(/active-row/);
 });

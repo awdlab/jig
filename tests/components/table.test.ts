@@ -2,6 +2,8 @@ import test, { expect } from '@playwright/test';
 import { loadComponent, evalValue } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
 
+import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
+
 const TABLE_ROWS = [
   { id: 1, name: 'Alice', dept: 'Engineering' },
   { id: 2, name: 'Bob', dept: 'Design' },
@@ -1095,4 +1097,249 @@ test.describe('Table Virtual - content-independent row tracks', () => {
       .evaluate(el => getComputedStyle(el).overflow);
     expect(cellOverflow).toBe('hidden');
   });
+});
+
+test.describe('Table Accessibility', () => {
+  const A11Y_TEMPLATE = `
+    <ngn-table
+      #table
+      style="height: 400px"
+      [label]="'Employees'"
+      [rows]="inputs().rows"
+      [fieldId]="'id'"
+      [selectionMode]="inputs().selectionMode"
+    >
+      <ng-template #header>
+        <tr ngnTableHeadTr>
+          <th [ngnTableTh]="table.column('id')">ID</th>
+          <th [ngnTableTh]="table.column('name')" [ngnTableSortableColumn]>Name</th>
+          <th [ngnTableTh]="table.column('dept')">Dept</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
+        <tr [ngnTableBodyTr]="row">
+          <td ngnTableTd>{{ row.data.id }}</td>
+          <td ngnTableTd>{{ row.data.name }}</td>
+          <td ngnTableTd>{{ row.data.dept }}</td>
+        </tr>
+      </ng-template>
+    </ngn-table>
+  `;
+  const A11Y_IMPORTS: TemplateType['imports'] = [
+    'tableModule',
+    'ngnTemplate',
+    'tableSortableColumn',
+  ];
+
+  test('the grid is the single tab stop and carries its name and counts', async ({ page }) => {
+    await loadComponent(
+      page,
+      { template: A11Y_TEMPLATE, imports: A11Y_IMPORTS },
+      { inputs: { rows: TABLE_ROWS, selectionMode: null } }
+    );
+
+    const grid = page.locator('table[role="grid"]');
+    await expect(grid).toHaveAttribute('tabindex', '0');
+    await expect(grid).toHaveAttribute('aria-label', 'Employees');
+    await expect(grid).toHaveAttribute('aria-colcount', '3');
+    // Header row included.
+    await expect(grid).toHaveAttribute('aria-rowcount', String(TABLE_ROWS.length + 1));
+    await expect(page.locator('ngn-table')).not.toHaveAttribute('tabindex');
+
+    const cells = getBodyRows(page).first().locator('td');
+    await expect(cells.nth(0)).toHaveAttribute('aria-colindex', '1');
+    await expect(cells.nth(2)).toHaveAttribute('aria-colindex', '3');
+  });
+
+  test('arrow keys move the current row without selection or row actions', async ({ page }) => {
+    await loadComponent(
+      page,
+      { template: A11Y_TEMPLATE, imports: A11Y_IMPORTS },
+      { inputs: { rows: TABLE_ROWS, selectionMode: null } }
+    );
+
+    const grid = page.locator('table[role="grid"]');
+    const rows = getBodyRows(page);
+    await grid.focus();
+
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('ArrowDown');
+    await expect(rows.nth(1)).toHaveClass(/focused-row/);
+
+    // The current row is exposed to AT through aria-activedescendant.
+    const activeId = await grid.getAttribute('aria-activedescendant');
+    expect(activeId).toBeTruthy();
+    await expect(rows.nth(1)).toHaveAttribute('id', activeId!);
+
+    await page.keyboard.press('End');
+    await expect(rows.nth(TABLE_ROWS.length - 1)).toHaveClass(/focused-row/);
+
+    await page.keyboard.press('Home');
+    await expect(rows.nth(0)).toHaveClass(/focused-row/);
+
+    await page.keyboard.press('PageDown');
+    await expect(rows.nth(TABLE_ROWS.length - 1)).toHaveClass(/focused-row/);
+  });
+
+  test('sortable headers sort from the keyboard', async ({ page }) => {
+    await loadComponent(
+      page,
+      { template: A11Y_TEMPLATE, imports: A11Y_IMPORTS },
+      { inputs: { rows: TABLE_ROWS, selectionMode: null } }
+    );
+
+    const nameHeader = page.locator('th[role="columnheader"]').nth(1);
+    const sortButton = nameHeader.locator('[role="button"]');
+    await sortButton.focus();
+
+    await page.keyboard.press('Enter');
+    await expect(nameHeader).toHaveAttribute('aria-sort', 'ascending');
+    await page.keyboard.press(' ');
+    await expect(nameHeader).toHaveAttribute('aria-sort', 'descending');
+    await page.keyboard.press('Enter');
+    await expect(nameHeader).toHaveAttribute('aria-sort', 'none');
+
+    // Sorting from the header must not also move the current row.
+    await expect(getBodyRows(page).first()).not.toHaveClass(/focused-row/);
+  });
+
+  test('Space toggles the current row and row checkboxes stay out of the tab order', async ({
+    page,
+  }) => {
+    await loadComponent(
+      page,
+      {
+        template: TABLE_TEMPLATE_WITH_SELECTION,
+        imports: ['tableModule', 'ngnTemplate', 'tableSelectionColumn'],
+      },
+      { inputs: { rows: TABLE_ROWS, selectionMode: 'multi' } }
+    );
+
+    const rows = getBodyRows(page);
+    await page.locator('table[role="grid"]').focus();
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press(' ');
+    await expect(rows.nth(0)).toHaveAttribute('aria-selected', 'true');
+
+    const tabIndexes = await page
+      .locator('tbody input[type="checkbox"]')
+      .evaluateAll(els => els.map(el => el.getAttribute('tabindex')));
+    expect(tabIndexes.length).toBe(TABLE_ROWS.length);
+    expect(tabIndexes.every(t => t === '-1')).toBe(true);
+    // The header select-all checkbox keeps its tab stop.
+    await expect(page.locator('thead input[type="checkbox"]')).not.toHaveAttribute('tabindex');
+  });
+
+  test('no axe violations with selection, sorting and a named grid', async ({ page }) => {
+    await loadComponent(
+      page,
+      { template: A11Y_TEMPLATE, imports: A11Y_IMPORTS },
+      { inputs: { rows: TABLE_ROWS, selectionMode: 'multi' } }
+    );
+
+    await expect(getBodyRows(page)).toHaveCount(TABLE_ROWS.length);
+    await expectNoA11yViolations(page);
+  });
+});
+
+test.describe('Table Keyboard Scrolling', () => {
+  const SCROLL_ROWS = Array.from({ length: 40 }, (_, i) => ({
+    id: i + 1,
+    name: `Row ${i + 1}`,
+    dept: 'D',
+  }));
+
+  function scrollTemplate(virtual: boolean) {
+    return `
+      <ngn-table
+        #table
+        style="height: 300px"
+        [label]="'Rows'"
+        [rows]="inputs().rows"
+        [fieldId]="'id'"
+        [virtual]="${virtual}"
+        ${virtual ? '[rowHeight]="40"' : ''}
+      >
+        <ng-template #header>
+          <tr ngnTableHeadTr>
+            <th [ngnTableTh]="table.column('id')">ID</th>
+            <th [ngnTableTh]="table.column('name')">Name</th>
+          </tr>
+        </ng-template>
+        <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
+          <tr [ngnTableBodyTr]="row">
+            <td ngnTableTd>{{ row.data.id }}</td>
+            <td ngnTableTd>{{ row.data.name }}</td>
+          </tr>
+        </ng-template>
+      </ngn-table>
+    `;
+  }
+
+  /** Geometry of the current row against the scrollable band below the sticky header. */
+  async function currentRowBox(page: import('@playwright/test').Page) {
+    return await page.evaluate(() => {
+      const grid = document.querySelector('table[role="grid"]') as HTMLElement;
+      const head = document.querySelector('thead') as HTMLElement;
+      const id = grid.getAttribute('aria-activedescendant');
+      const row = id ? document.getElementById(id) : null;
+      if (!row) return null;
+      const origin = grid.getBoundingClientRect().top + grid.clientTop;
+      const rowRect = row.getBoundingClientRect();
+      return {
+        id,
+        top: rowRect.top - origin,
+        bottom: rowRect.bottom - origin,
+        bandTop: head.getBoundingClientRect().bottom - origin,
+        bandBottom: grid.clientHeight,
+      };
+    });
+  }
+
+  for (const virtual of [false, true]) {
+    test(`arrow keys keep the current row fully visible (virtual=${virtual})`, async ({ page }) => {
+      await loadComponent(
+        page,
+        { template: scrollTemplate(virtual), imports: ['tableModule', 'ngnTemplate'] },
+        { inputs: { rows: SCROLL_ROWS } }
+      );
+      await expect(getBodyRows(page).first()).toBeVisible();
+      await page.locator('table[role="grid"]').focus();
+
+      // Walking down past the fold must not leave the row clipped by the bottom edge.
+      for (let i = 0; i < 20; i++) {
+        await page.keyboard.press('ArrowDown');
+      }
+      await expect(async () => {
+        const box = await currentRowBox(page);
+        expect(box).not.toBeNull();
+        expect(box!.bottom).toBeLessThanOrEqual(box!.bandBottom + 1);
+        expect(box!.top).toBeGreaterThanOrEqual(box!.bandTop - 1);
+      }).toPass();
+
+      // Walking back up must not park the row behind the sticky header.
+      for (let i = 0; i < 20; i++) {
+        await page.keyboard.press('ArrowUp');
+      }
+      await expect(async () => {
+        const box = await currentRowBox(page);
+        expect(box!.top).toBeGreaterThanOrEqual(box!.bandTop - 1);
+        expect(box!.bottom).toBeLessThanOrEqual(box!.bandBottom + 1);
+      }).toPass();
+
+      // End/Home are the explicit start/end alignments.
+      await page.keyboard.press('End');
+      await expect(async () => {
+        const box = await currentRowBox(page);
+        expect(box!.bottom).toBeLessThanOrEqual(box!.bandBottom + 1);
+        expect(box!.top).toBeGreaterThanOrEqual(box!.bandTop - 1);
+      }).toPass();
+
+      await page.keyboard.press('Home');
+      await expect(async () => {
+        const box = await currentRowBox(page);
+        expect(box!.top).toBeGreaterThanOrEqual(box!.bandTop - 1);
+      }).toPass();
+    });
+  }
 });

@@ -1,100 +1,105 @@
 import { Component, signal } from '@angular/core';
 import { NgnSlider } from '@ngneers/controls/slider';
+import { NgnSwitch } from '@ngneers/controls/switch';
 
-import { NgnDocsSectionShell } from './section-shell';
+import { NgnDocsReveal } from './reveal';
+import { NgnDocsSectionHeader } from './section-header';
 import { style } from '../../utils/code/prism';
 
 const EXAMPLE_CODE = `import { Component, signal } from '@angular/core';
 import { NgnSlider } from '@ngneers/controls/slider';
+import { NgnSwitch } from '@ngneers/controls/switch';
 
 @Component({
   selector: 'app-volume',
-  imports: [NgnSlider],
+  imports: [NgnSlider, NgnSwitch],
   template: \`
     <ngn-slider [min]="0" [max]="100" [(value)]="volume" />
-    <p>volume = {{ volume() }}</p>
+    <ngn-switch [(value)]="muted" />
   \`,
 })
 export class VolumeComponent {
-  protected readonly volume = signal(50);
+  protected readonly volume = signal(57);
+  protected readonly muted = signal(true);
 }`;
 
 @Component({
   selector: 'ngn-docs-quick-start-section',
-  imports: [NgnDocsSectionShell, NgnSlider],
+  imports: [NgnSlider, NgnSwitch, NgnDocsReveal, NgnDocsSectionHeader],
+  host: { class: 'block px-(--ngn-size-padding-xl) py-12 lg:py-16' },
   template: `
-    <ngn-docs-section-shell
-      layout="split-left"
-      eyebrow="Quick start"
-      heading="So simple to use"
-      subtitle="Import a control, bind your signal, ship. No boilerplate, no ceremony."
-    >
-      <div primary>
-        <p
-          class="mb-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-primary-500) uppercase"
-        >
-          <span
-            class="mr-1 inline-flex size-5 items-center justify-center rounded-full bg-(--ngn-color-primary-100) text-(--ngn-color-primary-700)"
-            >1</span
-          >
-          Install
-        </p>
-        <div
-          class="mb-(--ngn-size-padding-lg) rounded-lg bg-(--ngn-color-surface-800) p-(--ngn-size-padding-lg) font-mono text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-50)"
-        >
-          <span class="text-(--ngn-color-surface-400)">$</span> pnpm add &#64;ngneers/controls
-        </div>
-        <p
-          class="mb-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-primary-500) uppercase"
-        >
-          <span
-            class="mr-1 inline-flex size-5 items-center justify-center rounded-full bg-(--ngn-color-primary-100) text-(--ngn-color-primary-700)"
-            >2</span
-          >
-          Drop it in
-        </p>
-        <pre
-          class="overflow-x-auto rounded-lg p-(--ngn-size-padding-lg) text-(length:--ngn-font-size-sm)"
-        ><code class="prism" [innerHTML]="highlighted()"></code></pre>
-      </div>
-      <div secondary>
-        <p
-          class="mb-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-primary-500) uppercase"
-        >
-          <span
-            class="mr-1 inline-flex size-5 items-center justify-center rounded-full bg-(--ngn-color-primary-100) text-(--ngn-color-primary-700)"
-            >3</span
-          >
-          Ship it — this one is live
-        </p>
-        <div class="card overflow-hidden shadow-(--ngn-shadow-md)">
+    <div [ngnDocsReveal]="0" class="mx-auto max-w-[1100px]">
+      <ngn-docs-section-header
+        class="mb-8 lg:mb-12"
+        eyebrow="Quick start"
+        heading="So simple to use"
+        subtitle="Import a control, bind your signal, ship. No boilerplate, no ceremony."
+      />
+
+      <div
+        class="overflow-hidden rounded-(--ngn-size-rounded-lg) border border-(--ngn-color-surface-200) bg-(--ngn-color-surface-25)"
+      >
+        <div class="grid grid-cols-1 lg:grid-cols-2">
           <div
-            class="flex items-center gap-1.5 border-b border-(--ngn-color-surface-200) bg-(--ngn-color-surface-50) px-(--ngn-size-padding-md) py-(--ngn-size-padding-sm)"
+            class="border-b border-(--ngn-color-surface-200) p-(--ngn-size-padding-xl) lg:border-r lg:border-b-0"
           >
-            <span class="size-2.5 rounded-full bg-[#f87171]"></span>
-            <span class="size-2.5 rounded-full bg-[#fbbf24]"></span>
-            <span class="size-2.5 rounded-full bg-[#34d399]"></span>
-            <span
-              class="mx-auto rounded-(--ngn-size-rounded-sm) bg-(--ngn-color-surface-100) px-3 py-0.5 font-mono text-(length:--ngn-font-size-xs) text-(--ngn-color-surface-500)"
-            >
-              localhost:4200
-            </span>
-          </div>
-          <div class="p-(--ngn-size-padding-xl)">
-            <ngn-slider [min]="0" [max]="100" [(value)]="volume" />
             <p
-              class="mt-(--ngn-size-padding-lg) font-mono text-(length:--ngn-font-size-lg) text-(--ngn-color-text)"
+              class="mono mb-(--ngn-size-padding-lg) text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-500)"
             >
-              volume = <strong class="text-(--ngn-color-primary-600)">{{ volume() }}</strong>
+              volume.component.ts
+            </p>
+            <pre
+              class="overflow-x-auto text-(length:--ngn-font-size-sm)"
+            ><code class="prism" [innerHTML]="highlighted()"></code></pre>
+          </div>
+
+          <div
+            class="flex flex-col justify-center gap-(--ngn-size-padding-lg) bg-[color-mix(in_srgb,var(--ngn-color-primary-500)_5%,transparent)] p-(--ngn-size-padding-xl)"
+          >
+            <div class="mono flex items-center justify-between">
+              <span class="text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-500)">
+                running here, zoneless
+              </span>
+              <span
+                class="flex items-center gap-(--ngn-size-padding-sm) text-(length:--ngn-font-size-sm) text-(--ngn-color-success-600)"
+              >
+                <span class="size-1.5 rounded-full bg-(--ngn-color-success-500)"></span>
+                live
+              </span>
+            </div>
+
+            <div>
+              <div class="mb-(--ngn-size-padding-md) flex items-baseline justify-between">
+                <label [for]="volumeSlider.inputId()" class="text-(--ngn-color-text)">Volume</label>
+                <span
+                  class="text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-bold) text-(--ngn-color-text)"
+                >
+                  {{ volume() }}
+                </span>
+              </div>
+              <ngn-slider #volumeSlider [min]="0" [max]="100" [(value)]="volume" />
+            </div>
+
+            <div class="flex items-center justify-between">
+              <label [for]="mutedSwitch.inputId()" class="text-(--ngn-color-text)">Muted</label>
+              <ngn-switch #mutedSwitch [(value)]="muted" />
+            </div>
+
+            <p
+              class="border-t border-(--ngn-color-surface-200) pt-(--ngn-size-padding-lg) text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600)"
+            >
+              No <code>ngModel</code>, no subscriptions, no change-detection calls — the signal
+              <em>is</em> the binding.
             </p>
           </div>
         </div>
       </div>
-    </ngn-docs-section-shell>
+    </div>
   `,
 })
 export class NgnDocsQuickStartSection {
-  protected readonly volume = signal(50);
+  protected readonly volume = signal(57);
+  protected readonly muted = signal(true);
   protected readonly highlighted = signal('');
 
   constructor() {

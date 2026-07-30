@@ -1,4 +1,7 @@
 @layer global {
+  html {
+    scrollbar-gutter: stable;
+  }
   html,
   body {
     font-family: 'Inter', sans-serif;
@@ -7,6 +10,9 @@
     // At least the viewport tall, but allowed to grow with content so the
     // document itself is the scroll container (single scrollbar on the right).
     min-height: 100dvh;
+    // Smooth in-page anchor scrolling. Modern browsers gate this on
+    // `prefers-reduced-motion` automatically.
+    scroll-behavior: smooth;
   }
   * {
     scrollbar-color: var(--ngn-color-scrollbar);
@@ -47,32 +53,6 @@ code {
   background: var(--ngn-color-surface-25);
   border: 1px solid var(--ngn-color-surface-200);
   border-radius: var(--ngn-size-rounded-lg);
-}
-
-// Decorative animated rainbow gradient clipped to text (hero badges).
-// Hardcoded gradient stops are intentional here — this is rainbow art, not a
-// theme color, so it does not flow through the design-token system.
-@keyframes ngn-rainbow {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
-}
-
-.ngn-rainbow-text {
-  background: linear-gradient(90deg, #f43f5e, #f59e0b, #10b981, #6366f1, #f43f5e);
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: ngn-rainbow 6s linear infinite;
-
-  // Respect users who prefer reduced motion — keep the gradient, drop the scroll.
-  @media (prefers-reduced-motion: reduce) {
-    animation: none;
-  }
 }
 
 // Angular-style multi-point gradient clipped to text (hero "Angular" word).
@@ -145,35 +125,6 @@ code {
   &.ngn-reveal-in {
     opacity: 1;
     transform: none;
-  }
-}
-
-// Aurora blobs: large blurred radial gradients drifting behind the hero.
-// Color flows through theme tokens so light/dark both work.
-@keyframes ngn-aurora-drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  33% {
-    transform: translate3d(6%, -8%, 0) scale(1.15);
-  }
-  66% {
-    transform: translate3d(-5%, 6%, 0) scale(0.92);
-  }
-}
-
-.ngn-aurora-blob {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(80px);
-  pointer-events: none;
-  animation: ngn-aurora-drift var(--ngn-aurora-duration, 18s) ease-in-out infinite;
-  animation-delay: var(--ngn-aurora-delay, 0s);
-  will-change: transform;
-
-  @media (prefers-reduced-motion: reduce) {
-    animation: none;
   }
 }
 

@@ -219,9 +219,11 @@ export const tableStyles = createThemePart({
         visibility: hidden;
         pointer-events: none;
       }
+      /* The current row shows its bar only while the grid has focus — otherwise a
+         blurred table would keep one row's bar hanging open. */
       ${c('row')}:hover ${c('row-actions')},
       ${c('row')}${c('active-row')} ${c('row-actions')},
-      ${c('row')}${c('focused-row')} ${c('row-actions')},
+      ${c('table')}:focus-within ${c('row')}${c('focused-row')} ${c('row-actions')},
       ${c('row')}:focus-within ${c('row-actions')} {
         visibility: visible;
         pointer-events: auto;

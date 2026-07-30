@@ -13,6 +13,7 @@ import type { FormattedTableDataRow } from './types';
 @Directive({
   selector: '[ngnTableBodyTr]',
   host: {
+    '[attr.id]': 'rowElementId()',
     '[attr.aria-rowindex]': 'ngnTableBodyTr().index + 2',
     '[style.--ngn-table-row-index]': 'ngnTableBodyTr().index + 2',
     '[class]': `theme.classes({
@@ -40,6 +41,11 @@ export class NgnTableBodyTr<T> extends NgnScrollerItem {
   );
 
   protected readonly selectable = computed(() => !!this._table()?.selectionMode());
+
+  /** Row id targeted by the grid's `aria-activedescendant`. */
+  protected readonly rowElementId = computed(
+    () => this._table()?.rowElementId(this.ngnTableBodyTr().index) ?? null
+  );
 
   protected readonly selected = computed(() => {
     const table = this._table();

@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   ApplicationRef,
   type ComponentRef,
   computed,
@@ -121,6 +122,8 @@ export class NgnTableSelectionColumn implements OnDestroy {
     // Mirror the grid roles that ngnTableTh/ngnTableTd set, so the selection column
     // stays inside the table's `role="grid"` semantics instead of being an orphan cell.
     el.setAttribute('role', this._isHeader ? 'columnheader' : 'gridcell');
+    // The selection column is always the first visual column.
+    el.setAttribute('aria-colindex', '1');
     toggleClass(el, this.theme.class('cell'), true);
     toggleClass(el, this.theme.class('selection-column'), true);
   }
@@ -141,6 +144,10 @@ export class NgnTableSelectionColumn implements OnDestroy {
 
     if (this._isHeader) {
       setComponentInput(this._checkboxRef, 'allowIndeterminate', true);
+    } else {
+      // One tab stop per row would swamp the grid's single stop; Space/Enter on
+      // the current row toggles it instead.
+      afterNextRender(() => cbEl.querySelector('input')?.setAttribute('tabindex', '-1'));
     }
 
     this._element.nativeElement.appendChild(cbEl);
