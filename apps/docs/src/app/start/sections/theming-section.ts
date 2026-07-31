@@ -1,4 +1,12 @@
-import { Component, ElementRef, afterRenderEffect, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  afterRenderEffect,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import tablerLock from '@iconify/icons-tabler/lock';
 import tablerUser from '@iconify/icons-tabler/user';
 import { ColorSchemeService } from '@ngneers/controls/api/ng';
@@ -22,6 +30,12 @@ const HUES = {
 } as const;
 
 type Hue = keyof typeof HUES;
+
+/** Theme-styled but outside the animated subtree, so it always reads the target. */
+const FONT_PROBE = '[data-probe="font"]';
+
+/** Scoped to the card — the dark-mode switch renders a checkbox earlier in the host. */
+const USERNAME_INPUT = '.token-preview input:not([type="password"])';
 
 type Pill = { id: string; hue: Hue; label: string; value: string; position: string };
 
@@ -77,6 +91,7 @@ function toHex(color: string): string {
         width 500ms ease,
         height 500ms ease,
         top 500ms ease,
+        left 500ms ease,
         right 500ms ease;
     }
 
@@ -127,6 +142,14 @@ function toHex(color: string): string {
           data-probe="surface"
           class="absolute size-0 text-(--ngn-color-surface-500)"
         ></span>
+        <!-- A real field carrying the theme's input styling, but outside
+             .token-preview so none of it transitions. Reads here return the
+             incoming value immediately instead of a frame of the ease. -->
+        <div aria-hidden="true" inert class="absolute size-0 overflow-hidden opacity-0">
+          <ngn-input-field>
+            <input ngnInput data-probe="font" tabindex="-1" />
+          </ngn-input-field>
+        </div>
 
         <div class="card token-preview relative p-(--ngn-size-padding-xl)">
           <!-- Card radius: square nested in the corner with the card's own radius, so
@@ -183,15 +206,24 @@ function toHex(color: string): string {
             <div class="relative">
               <ngn-input-field #usernameField class="w-full">
                 <ngn-icon [icon]="userIcon" />
-                <input ngnInput autocomplete="off" placeholder="jane.doe" />
+                <input ngnInput autocomplete="off" [placeholder]="username" />
               </ngn-input-field>
-              <!-- Font size: rule under real text, not the password's masking dots.
-                   Hidden below lg with its pill — an unlabelled marker is just noise. -->
+              <!-- Font size: ruler under real text, not the password's masking dots.
+                   Width comes from a hidden copy of the placeholder wearing the input's
+                   own font, so it measures the actual glyphs (themes differ in size AND
+                   family, so inheriting would be wrong). Hidden below lg with its pill. -->
               <div
                 aria-hidden="true"
-                class="absolute bottom-1.5 left-3 hidden h-px w-20 lg:block"
-                [style.background-color]="hue('fontSize')"
-              ></div>
+                class="token-marker absolute bottom-1 hidden h-2 overflow-hidden border-x lg:block"
+                [style.left.px]="rulerLeft()"
+                [style.border-color]="hue('fontSize')"
+              >
+                <span class="invisible" [style]="rulerFont()">{{ username }}</span>
+                <div
+                  class="absolute top-1/2 left-0 h-px w-full"
+                  [style.background-color]="hue('fontSize')"
+                ></div>
+              </div>
             </div>
           </div>
 
@@ -231,7 +263,7 @@ function toHex(color: string): string {
                    enough in to clear the corner arc at every theme's radius. -->
               <div
                 aria-hidden="true"
-                class="absolute bottom-2 left-2 size-2 rounded-full"
+                class="absolute bottom-2 left-2 size-2 rounded-full border border-solid border-black"
                 [style.background-color]="hue('primary')"
               ></div>
             </div>
@@ -277,7 +309,20 @@ export class NgnDocsThemingSection {
   protected readonly userIcon = tablerUser;
   protected readonly lockIcon = tablerLock;
 
+  /** Shared by the field and the hidden copy the font-size ruler measures. */
+  protected readonly username = 'jane.doe';
+
   private readonly _values = signal<Record<string, string>>({});
+
+  private readonly _rulerLeft = signal(12);
+
+  private readonly _rulerFont = signal<Record<string, string>>({});
+
+  /** Left edge of the font-size ruler, tracking the input's theme-owned padding. */
+  protected readonly rulerLeft = this._rulerLeft.asReadonly();
+
+  /** The input's own font, copied onto the hidden string the ruler measures. */
+  protected readonly rulerFont = this._rulerFont.asReadonly();
 
   /**
    * Each pill sits in the gutter beside the indicator it names. The two side
@@ -343,6 +388,8 @@ export class NgnDocsThemingSection {
 
   constructor() {
     const host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+    // font-size and padding are transitioned, so reading them when the theme
+    // changes returns the OUTGOING value. Applying a theme is itself async, so a
     // Computed values only exist in the browser, so re-read them after render
     // whenever the selection changes.
     afterRenderEffect(() => {
@@ -350,21 +397,42 @@ export class NgnDocsThemingSection {
       this.picker.selectedColor();
       this.picker.selectedSurface();
       this.colorScheme.isDark();
-      const styles = getComputedStyle(host);
-      const read = (selector: string, prop: 'color' | 'fontSize'): string | undefined => {
-        const el = host.querySelector(selector);
-        return el ? getComputedStyle(el)[prop] : undefined;
-      };
-      // Color custom properties hold an unresolved `hsl(from …)`, so read the
-      // resolved color off a probe element that consumes them.
-      this._values.set({
-        radiusCard: styles.getPropertyValue('--ngn-size-rounded-lg').trim() || '…',
-        radiusField: styles.getPropertyValue('--ngn-size-rounded-md').trim() || '…',
-        padding: styles.getPropertyValue('--ngn-size-padding-xl').trim() || '…',
-        primary: toHex(read('[data-probe="primary"]', 'color') ?? '…'),
-        surface: toHex(read('[data-probe="surface"]', 'color') ?? '…'),
-        fontSize: read('input[type="password"]', 'fontSize') ?? '…',
-      });
+      this._measure(host);
     });
+  }
+
+  private _measure(host: HTMLElement): void {
+    const styles = getComputedStyle(host);
+    const read = (selector: string, prop: 'color' | 'fontSize'): string | undefined => {
+      const el = host.querySelector(selector);
+      return el ? getComputedStyle(el)[prop] : undefined;
+    };
+    // Color custom properties hold an unresolved `hsl(from …)`, so read the
+    // resolved color off a probe element that consumes them.
+    this._values.set({
+      radiusCard: styles.getPropertyValue('--ngn-size-rounded-lg').trim() || '…',
+      radiusField: styles.getPropertyValue('--ngn-size-rounded-md').trim() || '…',
+      padding: styles.getPropertyValue('--ngn-size-padding-xl').trim() || '…',
+      primary: toHex(read('[data-probe="primary"]', 'color') ?? '…'),
+      surface: toHex(read('[data-probe="surface"]', 'color') ?? '…'),
+      fontSize: read(FONT_PROBE, 'fontSize') ?? '…',
+    });
+
+    // The ruler starts where the glyphs do. The inset is the field's border plus
+    // the input's own padding — the latter theme-owned, so take it off the probe.
+    const probe = host.querySelector(FONT_PROBE);
+    const input = host.querySelector(USERNAME_INPUT);
+    const wrapper = input?.closest('.relative');
+    if (probe && input && wrapper) {
+      const style = getComputedStyle(probe);
+      const border = input.getBoundingClientRect().x - wrapper.getBoundingClientRect().x;
+      this._rulerLeft.set(border + (parseFloat(style.paddingLeft) || 0));
+      this._rulerFont.set({
+        'font-family': style.fontFamily,
+        'font-size': style.fontSize,
+        'font-weight': style.fontWeight,
+        'letter-spacing': style.letterSpacing,
+      });
+    }
   }
 }
