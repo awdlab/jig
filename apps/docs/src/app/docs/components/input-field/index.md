@@ -15,6 +15,10 @@ external label via `labelledBy`. Content placed before or after the projected
 control becomes a prefix or suffix — icons, `<ngn-state>` indicators, tooltips,
 or `ngnButton` actions.
 
+Because the field owns that wiring, it also owns the projected input's `id`: pass
+`inputId` on the field rather than setting `id` on the `<input>`, which the field
+overwrites. The **A11y** tab shows the external-label pattern.
+
 {{ demo: Demo_InputField_Base }}
 
 ### Validation

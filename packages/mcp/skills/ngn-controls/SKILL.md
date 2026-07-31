@@ -34,6 +34,12 @@ use its tools as the source of truth.
   Bind values two-way with the signal model, e.g. `[(value)]="mySignal"`.
 - **Field chrome** — wrap form controls (`ngn-select`, `input[ngnInput]`,
   `input[ngnNumberInput]`, …) in `ngn-input-field` for label/hint/error.
+- **The field owns the input's `id`** — `ngn-input-field` writes `inputId()` onto
+  the projected input, replacing an `id` set on the `<input>` itself. Put the id
+  on the field (`<ngn-input-field [inputId]="'x'">`) when an external
+  `<label for>` references it, or read it back via a template ref
+  (`[for]="field.inputId()"`). Grouped controls without a single focusable
+  element (`ngn-otp`) take `labelledBy` instead of `for`/`id`.
 - **Selectors are exact** — some controls are elements (`ngn-select`), others are
   attribute directives (`button[ngnButton]`, `[ngnTooltip]`). Copy the selector
   from `get_control`; never invent it.

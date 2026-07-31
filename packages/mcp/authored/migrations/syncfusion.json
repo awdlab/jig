@@ -37,7 +37,11 @@
       "props": [{ "from": "[(checked)]", "to": "[(value)]" }]
     },
     { "from": "ejs-radiobutton", "to": "ngn-radio", "notes": "Group with ngn-radio-group." },
-    { "from": "ejs-textbox", "to": "input[ngnInput]", "notes": "Wrap in ngn-input-field." },
+    {
+      "from": "ejs-textbox",
+      "to": "input[ngnInput]",
+      "notes": "Wrap in ngn-input-field. Move any `id` off the input onto the wrapper: `<ngn-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references."
+    },
     {
       "from": "ejs-numerictextbox",
       "to": "input[ngnNumberInput]",

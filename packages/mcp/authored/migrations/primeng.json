@@ -92,7 +92,7 @@
     {
       "from": "p-inputText / pInputText",
       "to": "input[ngnInput]",
-      "notes": "Attribute directive on native <input>/<textarea>; wrap in ngn-input-field for chrome.",
+      "notes": "Attribute directive on native <input>/<textarea>; wrap in ngn-input-field for chrome. Move any `id` off the input onto the wrapper: `<ngn-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references.",
       "props": [{ "from": "[(ngModel)]", "to": "[(value)]" }]
     },
     {

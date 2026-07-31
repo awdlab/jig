@@ -24,6 +24,7 @@
     {
       "from": "input[matInput]",
       "to": "input[ngnInput]",
+      "notes": "Move any `id` off the input onto the wrapper: `<ngn-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references.",
       "props": [{ "from": "[(ngModel)]", "to": "[(value)] or formControl" }]
     },
     {

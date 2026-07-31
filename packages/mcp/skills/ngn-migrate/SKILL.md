@@ -28,6 +28,11 @@ guess ngn equivalents or their inputs — the maps and control APIs are exact.
    - `[(ngModel)]="x"` → the signal model, usually `[(value)]="x"` (or reactive
      forms via `ngn-input-field`).
    - Wrap standalone form controls in `ngn-input-field` for label/hint/error.
+   - Move an `id` from the source input onto the wrapper's `inputId`
+     (`<ngn-input-field [inputId]="'old-id'">`) — the field overwrites an `id`
+     left on the projected `<input>`, silently breaking every external
+     `<label for>`, `aria-describedby`, and `document.getElementById` that
+     referenced it.
    - Map `severity` / `color` onto ngn `kind` + `color` (see `get_theme_options`).
 6. **Flag gaps** — where a map lists a gap or a feature has no equivalent, surface
    it to the user rather than fabricating an input that doesn't exist.

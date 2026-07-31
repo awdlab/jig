@@ -1,8 +1,5 @@
 import { createThemePart, createVariableTemplate } from '@ngneers/controls-themes/api';
 
-/** Single radius design token the whole rounded scale derives from. */
-export const RADIUS = '0.625rem';
-
 export const sizesTemplate = createVariableTemplate({
   scope: 'size',
   variables: {
@@ -27,9 +24,9 @@ export const sizes = createThemePart({
   root: {
     values: {
       rounded: {
-        sm: `calc(${RADIUS} - 4px)`,
-        md: `calc(${RADIUS} - 2px)`,
-        lg: RADIUS,
+        sm: '0.375rem',
+        md: '0.5rem',
+        lg: '0.625rem',
         full: '9999px',
       },
       padding: {

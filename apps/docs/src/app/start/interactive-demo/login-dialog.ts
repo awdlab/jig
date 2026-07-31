@@ -59,10 +59,9 @@ import { NgnState } from '@ngneers/controls/state';
           >
             Username
           </label>
-          <ngn-input-field class="w-full">
+          <ngn-input-field class="w-full" [inputId]="'login-username'">
             <ngn-icon [icon]="userIcon" />
             <input
-              id="login-username"
               ngnInput
               autocomplete="username"
               placeholder="jane.doe"
@@ -81,10 +80,9 @@ import { NgnState } from '@ngneers/controls/state';
           >
             Password
           </label>
-          <ngn-input-field class="w-full">
+          <ngn-input-field class="w-full" [inputId]="'login-password'">
             <ngn-icon [icon]="lockIcon" />
             <input
-              id="login-password"
               ngnInput
               type="password"
               autocomplete="current-password"
@@ -99,11 +97,13 @@ import { NgnState } from '@ngneers/controls/state';
 
         <div class="flex flex-col gap-(--ngn-size-padding-sm)">
           <label
+            id="login-otp-label"
             class="text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-medium) text-(--ngn-color-text)"
           >
             Verification code
           </label>
           <ngn-otp
+            labelledBy="login-otp-label"
             [length]="6"
             [integerOnly]="true"
             [formField]="loginForm.otp"

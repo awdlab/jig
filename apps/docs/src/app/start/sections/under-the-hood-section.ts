@@ -31,7 +31,7 @@ import { NgnDocsSectionHeader } from './section-header';
         subtitle="Native where the platform is strong. Ours where it isn't — so you never wire it yourself."
       />
 
-      <div class="grid gap-(--ngn-size-padding-lg) lg:grid-cols-2">
+      <div class="grid grid-cols-1 gap-(--ngn-size-padding-lg) lg:grid-cols-2">
         <div
           class="rounded-(--ngn-size-rounded-lg) border border-(--ngn-color-surface-200) bg-(--ngn-color-surface-25) p-(--ngn-size-padding-xl)"
         >

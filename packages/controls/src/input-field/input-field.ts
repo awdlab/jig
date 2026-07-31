@@ -52,7 +52,9 @@ export class NgnInputField extends NgnBase<'inputField'> {
    */
   public readonly labelKind = input<CustomKind<'inputFieldLabel'>>(undefined as never);
   /**
-   * ID for the input element. Defaults to a generated id.
+   * ID for the projected input element. Defaults to a generated id. The field
+   * writes this onto the element, replacing any `id` set on the input itself —
+   * set the id here when an external `<label for>` must reference it.
    */
   public readonly inputId = input<string>(generateElementId());
   /**

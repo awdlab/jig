@@ -61,14 +61,16 @@ const CODE_SINGLE = `type StageId = 'discovery' | 'proposal' | 'won';
   imports: [NgnInputField, NgnSelect],
   template: \`
     <ngn-input-field label="Stage" labelKind="on">
-      <ngn-select [options]="stages" [(value)]="stage" />
+      <ngn-select
+        [options]="stages"
+        [(value)]="stage"
+      />
     </ngn-input-field>
   \`,
 })
 export class DealFormComponent {
-  protected readonly stages: NgnItem<unknown, StageId>[] = STAGES;
-  protected readonly stage = signal<StageId | null>(null);
-  protected readonly select = viewChild.required<NgnSelect<StageId>>(NgnSelect);
+  stages: NgnItem<unknown, StageId>[] = STAGES;
+  stage = signal<StageId | null>(null);
 }`;
 
 const CODE_MULTIPLE = `type StageId = 'discovery' | 'proposal' | 'won';
@@ -77,14 +79,17 @@ const CODE_MULTIPLE = `type StageId = 'discovery' | 'proposal' | 'won';
   imports: [NgnInputField, NgnSelect],
   template: \`
     <ngn-input-field label="Stages" labelKind="on">
-      <ngn-select [multiple]="true" [options]="stages" [(value)]="stage" />
+      <ngn-select
+        [multiple]="true"
+        [options]="stages"
+        [(value)]="stage"
+      />
     </ngn-input-field>
   \`,
 })
 export class DealFormComponent {
-  protected readonly stages: NgnItem<unknown, StageId>[] = STAGES;
-  protected readonly stage = signal<StageId[] | null>(null);
-  protected readonly select = viewChild.required<NgnSelect<StageId, false, true>>(NgnSelect);
+  stages: NgnItem<unknown, StageId>[] = STAGES;
+  stage = signal<StageId[] | null>(null);
 }`;
 
 interface Fact {
