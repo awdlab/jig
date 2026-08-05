@@ -248,7 +248,12 @@ export class NgnDialog<
      * we need to wait for the next animation frame to avoid a stuck state where the outside thinks it's opened
      * but inside `open` is set to false.
      */
+    const wasOpen = this.open();
     requestAnimationFrame(() => {
+      // Reopened while the close was deferred — discard the stale close.
+      if (!wasOpen && this.open()) {
+        return;
+      }
       this.setStateToClosed();
     });
   }

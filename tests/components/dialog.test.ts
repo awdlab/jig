@@ -45,6 +45,24 @@ test('opens/closes via the open model and labels itself from the title', async (
   await expect(dialog).toBeHidden();
 });
 
+test('survives a reopen that happens before the deferred close lands', async ({ page }) => {
+  const handle = await loadModal(page, 'any', true);
+  const dialog = page.locator('dialog');
+  await expect(dialog).toBeVisible();
+
+  await handle.setInputs({ title: 'My Dialog', open: false, closeBy: 'any' });
+  await handle.setInputs({ title: 'My Dialog', open: true, closeBy: 'any' });
+
+  // Give the rAF-deferred close a chance to clobber the reopen.
+  await page.evaluate(
+    () =>
+      new Promise<void>(resolve =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+      )
+  );
+  await expect(dialog).toBeVisible();
+});
+
 test('a modal dialog traps focus inside itself when opened', async ({ page }) => {
   const handle = await loadModal(page, 'any', false);
   await handle.setInputs({ title: 'My Dialog', open: true, closeBy: 'any' });
