@@ -1,5 +1,9 @@
 # Changelog
 
+## @ngneers/controls-themes 0.0.1-next.3 (2026-08-06)
+
+- Nova theme redesign + various fixes
+
 ## @ngneers/controls-themes 0.0.1-next.2 (2026-07-27)
 
 - Validity State fixes
