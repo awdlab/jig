@@ -9,7 +9,14 @@ export const listBoxStyles = createThemePart({
       ${c('root')} {
         width: 100%;
         height: 100%;
-        display: block;
+        /* a column flex box gives the scroller a definite height to fill, which a percentage
+           cannot resolve when the list box itself is sized by its own flex parent */
+        display: flex;
+        flex-direction: column;
+      }
+      ${c('root')} ${d('scroller')} {
+        flex: 1;
+        min-height: 0;
       }
       ${c('item')} {
         display: inline-block;

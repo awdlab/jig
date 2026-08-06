@@ -11,6 +11,7 @@ import { avatarGroupStyles, avatarStyles } from '@ngneers/controls-themes/shade/
 import { badgeStyles } from '@ngneers/controls-themes/shade/badge';
 import {
   animation,
+  backdrop,
   font,
   PUBLIC_COLOR_SLOTS,
   shadow,
@@ -24,6 +25,7 @@ import { calendarStyles } from '@ngneers/controls-themes/shade/calendar';
 import { checkboxStyles } from '@ngneers/controls-themes/shade/checkbox';
 import { chipStyles } from '@ngneers/controls-themes/shade/chip';
 import { colorPickerStyles } from '@ngneers/controls-themes/shade/color-picker';
+import { commandStyles } from '@ngneers/controls-themes/shade/command';
 import { dialogStyles } from '@ngneers/controls-themes/shade/dialog';
 import { drawerStyles } from '@ngneers/controls-themes/shade/drawer';
 import { editInplaceStyles } from '@ngneers/controls-themes/shade/edit-inplace';
@@ -34,6 +36,7 @@ import { inplaceStyles } from '@ngneers/controls-themes/shade/inplace';
 import { inputStyles } from '@ngneers/controls-themes/shade/input';
 import { inputFieldStyles } from '@ngneers/controls-themes/shade/input-field';
 import { itemViewStyles } from '@ngneers/controls-themes/shade/item-view';
+import { kbdStyles } from '@ngneers/controls-themes/shade/kbd';
 import { listBoxStyles } from '@ngneers/controls-themes/shade/list-box';
 import { maskInputStyles } from '@ngneers/controls-themes/shade/mask-input';
 import { menuStyles } from '@ngneers/controls-themes/shade/menu';
@@ -95,6 +98,7 @@ export const shade = createTheme(
     animation,
     avatarGroupStyles,
     avatarStyles,
+    backdrop,
     badgeStyles,
     breadcrumbStyles,
     buttonStyles,
@@ -103,6 +107,7 @@ export const shade = createTheme(
     checkboxStyles,
     chipStyles,
     colorPickerStyles,
+    commandStyles,
     dialogStyles,
     drawerStyles,
     editInplaceStyles,
@@ -115,6 +120,7 @@ export const shade = createTheme(
     inputFieldStyles,
     maskInputStyles,
     itemViewStyles,
+    kbdStyles,
     listBoxStyles,
     menuStyles,
     messageStyles,

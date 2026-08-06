@@ -2,6 +2,7 @@ import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { baseStyles } from '@ngneers/controls-themes/base';
 import {
   animationTemplate,
+  backdropTemplate,
   colorsTemplate,
   fontTemplate,
   shadowTemplate,
@@ -12,7 +13,14 @@ import { drawerControlTemplate } from '@ngneers/controls-themes/templates/drawer
 export const drawerStyles = createThemePart({
   controlTemplate: drawerControlTemplate,
   base: baseStyles.drawer,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate, shadowTemplate],
+  dependencies: [
+    colorsTemplate,
+    sizesTemplate,
+    fontTemplate,
+    animationTemplate,
+    shadowTemplate,
+    backdropTemplate,
+  ],
   root: {
     css: ({ v, c }) => css`
       ${c('root')} {
@@ -26,12 +34,17 @@ export const drawerStyles = createThemePart({
         background: ${v('color.background')};
         color: ${v('color.foreground')};
         &::backdrop {
-          transition: background-color ${v('anim.time.fade')};
+          backdrop-filter: blur(0);
+          transition:
+            background-color ${v('anim.time.fade')},
+            backdrop-filter ${v('anim.time.fade')};
         }
         &:popover-open::backdrop {
-          background-color: color-mix(in srgb, #000 50%, transparent);
+          background-color: ${v('backdrop.scrim')};
+          backdrop-filter: ${v('backdrop.blur.md')};
           @starting-style {
             background-color: transparent;
+            backdrop-filter: blur(0);
           }
         }
         &:not(:popover-open) {

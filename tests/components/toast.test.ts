@@ -2,6 +2,7 @@ import test, { expect, type Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { NgnToastHostHarness } from '@ngneers/controls-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
+import { expectScreenshot } from '../helper/screenshot';
 
 // Toasts are created imperatively via `injectToastCreator()`. The `toastTrigger`
 // helper component (apps/test-wrapper) wraps that call behind buttons so we can
@@ -136,4 +137,19 @@ test('accessibility (axe)', async ({ page }) => {
   await host.expectToastCount(1);
 
   await expectNoA11yViolations(page);
+});
+
+test('visual', async ({ page }, testInfo) => {
+  const { show, host } = await loadToastTrigger(page, {
+    header: 'Notification',
+    content: 'This is a basic toast message.',
+    autoHide: false,
+    closable: true,
+  });
+
+  await show.click();
+  await host.expectToastCount(1);
+  await host.getToast(0).expectVisible();
+
+  await expectScreenshot(page, testInfo, 'toast');
 });

@@ -8,6 +8,7 @@
     "test-wrapper:serve": "pnpm --filter @ngneers/test-wrapper serve",
     "isolated:serve": "pnpm --filter @ngneers/isolated serve",
     "docs:build": "pnpm --filter @ngneers/controls-docs build",
+    "search:check": "pnpm --filter @ngneers/controls-docs search:check",
     "controls:build": "pnpm --filter @ngneers/controls build",
     "themes:build": "pnpm --filter @ngneers/controls-themes build",
     "types:build": "pnpm --filter @ngneers/controls-custom-types build",

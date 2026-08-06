@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { NgnUploadHarness } from '@ngneers/controls-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
+import { expectScreenshot } from '../helper/screenshot';
 
 function textFile(name: string) {
   return { name, mimeType: 'text/plain', buffer: Buffer.from(`contents of ${name}`) };
@@ -174,4 +175,20 @@ test('accessibility (axe)', async ({ page }) => {
   await upload.expectItemCount(1);
 
   await expectNoA11yViolations(page);
+});
+
+test('visual', async ({ page }, testInfo) => {
+  await loadComponent(page, {
+    template: `
+      <ngn-upload class="page-center" style="width: 420px; display: block;">
+        <input type="file" multiple />Drag files here or click to browse
+      </ngn-upload>
+    `,
+    imports: ['upload'],
+  });
+
+  const upload = new NgnUploadHarness(page.locator('ngn-upload'));
+  await expect(upload.zone).toBeVisible();
+
+  await expectScreenshot(page, testInfo, 'dropzone');
 });

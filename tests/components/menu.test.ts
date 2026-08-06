@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 
 import { loadComponent, evalValue } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
+import { expectScreenshot } from '../helper/screenshot';
 
 const ITEMS = [
   { id: '1', label: 'Item 1' },
@@ -194,4 +195,15 @@ test('accessibility (axe)', async ({ page }) => {
   await expect(page.locator('[role="menu"]')).toBeVisible();
 
   await expectNoA11yViolations(page);
+});
+
+test('visual', async ({ page }, testInfo) => {
+  await loadComponent(
+    page,
+    { template: `<ngn-menu class="page-center" [items]="inputs().items" />`, imports: ['menu'] },
+    { inputs: { items: ITEMS } }
+  );
+
+  await expect(page.locator('[role="menu"]')).toBeVisible();
+  await expectScreenshot(page, testInfo, 'inline');
 });

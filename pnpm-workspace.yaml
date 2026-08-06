@@ -8,6 +8,11 @@ allowBuilds:
   esbuild: true
   lmdb: false
   msgpackr-extract: false
+  # Pulled in by @huggingface/transformers, which the docs use for its tokenizer
+  # only — no ONNX inference, no image pipeline.
+  onnxruntime-node: false
+  protobufjs: false
+  sharp: false
   unrs-resolver: false
 
 catalog:

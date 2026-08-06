@@ -2,6 +2,7 @@ import { createThemePart, css } from '@ngneers/controls-themes/api';
 import { baseStyles } from '@ngneers/controls-themes/base';
 import {
   animationTemplate,
+  backdropTemplate,
   colorsTemplate,
   fontTemplate,
   shadowTemplate,
@@ -14,7 +15,14 @@ const SCALE_AMOUNT = 0.95;
 export const dialogStyles = createThemePart({
   controlTemplate: dialogControlTemplate,
   base: baseStyles.dialog,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate, animationTemplate],
+  dependencies: [
+    colorsTemplate,
+    sizesTemplate,
+    fontTemplate,
+    shadowTemplate,
+    animationTemplate,
+    backdropTemplate,
+  ],
   root: {
     css: ({ v, c }) => css`
       ${c('wrapper')} {
@@ -50,8 +58,8 @@ export const dialogStyles = createThemePart({
             backdrop-filter ${v('anim.time.snappyFade')} ${v('anim.ease.fade')};
         }
         &[open]::backdrop {
-          background-color: color-mix(in srgb, #000 50%, transparent);
-          backdrop-filter: blur(8px);
+          background-color: ${v('backdrop.scrim')};
+          backdrop-filter: ${v('backdrop.blur.md')};
           @starting-style {
             background-color: transparent;
             backdrop-filter: blur(0);

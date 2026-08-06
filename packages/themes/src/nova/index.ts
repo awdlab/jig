@@ -8,7 +8,15 @@ import {
   scrollShadowStyles,
 } from '@ngneers/controls-themes/nova/api';
 import { avatarGroupStyles, avatarStyles } from '@ngneers/controls-themes/nova/avatar';
-import { animation, coral, font, ring, sizes, shadow } from '@ngneers/controls-themes/nova/base';
+import {
+  animation,
+  backdrop,
+  coral,
+  font,
+  ring,
+  shadow,
+  sizes,
+} from '@ngneers/controls-themes/nova/base';
 import { badgeStyles } from '@ngneers/controls-themes/nova/badge';
 import { breadcrumbStyles } from '@ngneers/controls-themes/nova/breadcrumb';
 import { buttonStyles } from '@ngneers/controls-themes/nova/button';
@@ -17,6 +25,7 @@ import { calendarStyles } from '@ngneers/controls-themes/nova/calendar';
 import { checkboxStyles } from '@ngneers/controls-themes/nova/checkbox';
 import { chipStyles } from '@ngneers/controls-themes/nova/chip';
 import { colorPickerStyles } from '@ngneers/controls-themes/nova/color-picker';
+import { commandStyles } from '@ngneers/controls-themes/nova/command';
 import { dialogStyles } from '@ngneers/controls-themes/nova/dialog';
 import { drawerStyles } from '@ngneers/controls-themes/nova/drawer';
 import { editInplaceStyles } from '@ngneers/controls-themes/nova/edit-inplace';
@@ -28,6 +37,7 @@ import { inplaceStyles } from '@ngneers/controls-themes/nova/inplace';
 import { inputStyles } from '@ngneers/controls-themes/nova/input';
 import { inputFieldStyles } from '@ngneers/controls-themes/nova/input-field';
 import { itemViewStyles } from '@ngneers/controls-themes/nova/item-view';
+import { kbdStyles } from '@ngneers/controls-themes/nova/kbd';
 import { listBoxStyles } from '@ngneers/controls-themes/nova/list-box';
 import { maskInputStyles } from '@ngneers/controls-themes/nova/mask-input';
 import { menuStyles } from '@ngneers/controls-themes/nova/menu';
@@ -91,6 +101,7 @@ export const novaCoral = createTheme(
     animation,
     avatarGroupStyles,
     avatarStyles,
+    backdrop,
     badgeStyles,
     breadcrumbStyles,
     buttonStyles,
@@ -99,6 +110,7 @@ export const novaCoral = createTheme(
     checkboxStyles,
     chipStyles,
     colorPickerStyles,
+    commandStyles,
     coral,
     dialogStyles,
     drawerStyles,
@@ -114,6 +126,7 @@ export const novaCoral = createTheme(
     maskInputStyles,
     inputStyles,
     itemViewStyles,
+    kbdStyles,
     listBoxStyles,
     menuStyles,
     messageStyles,

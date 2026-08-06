@@ -71,6 +71,13 @@ export const listBoxStyles = createThemePart({
           background: ${v('color.surface.100')};
         }
       }
+      /* every group but the first opens a new section with a divider above it */
+      ${c('separator')} ${c('group')}:not(:first-of-type) {
+        border-radius: 0;
+        border-top: 1px solid ${v('color.border')};
+        margin-top: ${v('size.padding.sm')};
+        padding-top: ${v('size.padding.md')};
+      }
       ${c('default-group')}, ${c('default-item')} {
         max-width: 100%;
         overflow: hidden;

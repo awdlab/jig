@@ -15,6 +15,7 @@ export * from './input';
 export * from './input-field';
 export * from './mask-input';
 export * from './item-view';
+export * from './kbd';
 export * from './list-box';
 export * from './menu';
 export * from './message';

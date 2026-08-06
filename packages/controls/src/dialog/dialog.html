@@ -5,7 +5,8 @@
   [ptClass]="{ wrapper: true, modal: modal() }"
   [attr.closedby]="modalClosedBy()"
   [autofocus]="autofocus()"
-  [attr.aria-labelledby]="headerId"
+  [attr.aria-labelledby]="labelledBy()"
+  [attr.aria-label]="ariaLabel()"
   (cancel)="onCancel()"
   (toggle)="onCancel($event)"
   (keydown)="onCancel($event)"
@@ -22,25 +23,29 @@
     maxWidth: size().maxWidth,
     maxHeight: size().maxHeight,
   }"
-  [ngnMovableDragHandle]="header"
+  [ngnMovableDragHandle]="headerElement()?.nativeElement ?? null"
   [attr.popover]="popoverClosedBy()"
+  [ngnKeyboardShortcut]="[]"
 >
-  <header #header [ptInt]="this" [ptClass]="'header'">
-    <ng-template
-      [ngTemplateOutlet]="headerTemplate()"
-      [ngTemplateOutletContext]="{ headerId, title: title() }"
-    ></ng-template>
-    <button
-      ngnButton
-      [kind]="'icon'"
-      [attr.aria-label]="i18n['dialog_close']()"
-      (click)="closeWithButton()"
-      tabindex="-1"
-    >
-      <ngn-icon [defaultIcon]="'dialog-close'"></ngn-icon>
-    </button>
-  </header>
-
+  @if (showHeader()) {
+    <header #header [ptInt]="this" [ptClass]="'header'">
+      <ng-template
+        [ngTemplateOutlet]="headerTemplate()"
+        [ngTemplateOutletContext]="{ headerId, title: title() }"
+      ></ng-template>
+      @if (closeButton()) {
+        <button
+          ngnButton
+          [kind]="'icon'"
+          [attr.aria-label]="i18n['dialog_close']()"
+          (click)="closeWithButton()"
+          tabindex="-1"
+        >
+          <ngn-icon [defaultIcon]="'dialog-close'"></ngn-icon>
+        </button>
+      }
+    </header>
+  }
   @if (typedContent().template; as template) {
     <ngn-defer
       [lazyContent]="template"
@@ -51,9 +56,7 @@
       [ptClass]="'content'"
     />
   } @else if (typedContent().string; as string) {
-    <div [ptInt]="this" [ptClass]="'content'">
-      {{ string }}
-    </div>
+    <div [ptInt]="this" [ptClass]="'content'">{{ string }}</div>
   } @else if (typedContent().component; as component) {
     <div [ptInt]="this" [ptClass]="'content'">
       <ng-container *ngComponentOutlet="component; inputs: contentComponentInputs()" />
@@ -61,10 +64,11 @@
   } @else {
     <ng-content />
   }
-
-  <footer [ptInt]="this" [ptClass]="'footer'">
-    <ng-template [ngTemplateOutlet]="footerTemplate()"></ng-template>
-  </footer>
+  @if (showFooter()) {
+    <footer [ptInt]="this" [ptClass]="'footer'">
+      <ng-template [ngTemplateOutlet]="footerTemplate()"></ng-template>
+    </footer>
+  }
 </dialog>
 
 <ng-template

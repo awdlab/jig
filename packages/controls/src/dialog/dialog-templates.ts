@@ -34,6 +34,12 @@ export abstract class DialogTemplates<T> extends NgnBase<'dialog'> {
   protected readonly headerTemplate = computed(
     () => this._userHeaderTemplate() ?? this.templateHeader() ?? this._defaultHeaderTemplate()
   );
+  /**
+   * Whether the consumer supplied header content of their own.
+   */
+  protected readonly hasHeaderTemplate = computed(
+    () => !!(this._userHeaderTemplate() ?? this.templateHeader())
+  );
 
   private readonly _defaultFooterTemplate =
     viewChild.required<TemplateRef<unknown>>('defaultFooterTemplate');
@@ -45,6 +51,12 @@ export abstract class DialogTemplates<T> extends NgnBase<'dialog'> {
   public readonly templateFooter = input<TemplateRef<unknown> | null>(null);
   protected readonly footerTemplate = computed(
     () => this._userFooterTemplate() ?? this.templateFooter() ?? this._defaultFooterTemplate()
+  );
+  /**
+   * Whether the consumer supplied footer content of their own.
+   */
+  protected readonly hasFooterTemplate = computed(
+    () => !!(this._userFooterTemplate() ?? this.templateFooter())
   );
 
   /**

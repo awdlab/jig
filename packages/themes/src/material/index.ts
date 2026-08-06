@@ -23,6 +23,7 @@ import { calendarStyles } from '@ngneers/controls-themes/material/calendar';
 import { checkboxStyles } from '@ngneers/controls-themes/material/checkbox';
 import { chipStyles } from '@ngneers/controls-themes/material/chip';
 import { colorPickerStyles } from '@ngneers/controls-themes/material/color-picker';
+import { commandStyles } from '@ngneers/controls-themes/material/command';
 import { dialogStyles } from '@ngneers/controls-themes/material/dialog';
 import { drawerStyles } from '@ngneers/controls-themes/material/drawer';
 import { editInplaceStyles } from '@ngneers/controls-themes/material/edit-inplace';
@@ -33,6 +34,7 @@ import { inplaceStyles } from '@ngneers/controls-themes/material/inplace';
 import { inputStyles } from '@ngneers/controls-themes/material/input';
 import { inputFieldStyles } from '@ngneers/controls-themes/material/input-field';
 import { itemViewStyles } from '@ngneers/controls-themes/material/item-view';
+import { kbdStyles } from '@ngneers/controls-themes/material/kbd';
 import { listBoxStyles } from '@ngneers/controls-themes/material/list-box';
 import { maskInputStyles } from '@ngneers/controls-themes/material/mask-input';
 import { menuStyles } from '@ngneers/controls-themes/material/menu';
@@ -105,6 +107,7 @@ export const material = createTheme(
     checkboxStyles,
     chipStyles,
     colorPickerStyles,
+    commandStyles,
     materialColors,
     dialogStyles,
     drawerStyles,
@@ -119,6 +122,7 @@ export const material = createTheme(
     maskInputStyles,
     inputStyles,
     itemViewStyles,
+    kbdStyles,
     listBoxStyles,
     menuStyles,
     messageStyles,

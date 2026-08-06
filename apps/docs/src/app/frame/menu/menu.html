@@ -14,7 +14,12 @@
   [open]="isOpen()"
   (openChange)="!$event && isOpen.set(false)"
 >
-  <ng-container *ngTemplateOutlet="menu" />
+  <div class="flex h-full min-h-0 flex-col">
+    <ngn-docs-topbar-actions
+      class="flex shrink-0 border-b border-(--ngn-color-surface-200) px-4 py-3"
+    />
+    <ng-container *ngTemplateOutlet="menu" />
+  </div>
 </ngn-drawer>
 
 <ng-template #menu>

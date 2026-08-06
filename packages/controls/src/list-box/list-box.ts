@@ -5,6 +5,7 @@ import {
   Component,
   computed,
   effect,
+  ElementRef,
   input,
   signal,
   untracked,
@@ -33,6 +34,23 @@ import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-
 
 import { ListBoxTemplates, type ValueType } from './list-box-templates';
 
+/** Keys that move the highlight. */
+const NAVIGATION_KEYS = ['ArrowDown', 'ArrowUp', 'Home', 'End', 'PageDown', 'PageUp'];
+
+/** Paging step when no row has been rendered yet, so no row height can be measured. */
+const DEFAULT_PAGE_SIZE = 10;
+
+/** Home and End belong to the caret whenever they arrive from a text field the user has typed in. */
+function movesCaret(event: KeyboardEvent): boolean {
+  if (event.key !== 'Home' && event.key !== 'End') {
+    return false;
+  }
+  const target = event.target;
+  return (
+    (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) && !!target.value
+  );
+}
+
 /**
  * @category control
  */
@@ -46,8 +64,7 @@ import { ListBoxTemplates, type ValueType } from './list-box-templates';
     '(keydown)': 'onKeyDown($event)',
     '(focusout)': 'currentHighlightedValue.set(null)',
     role: 'listbox',
-    '[attr.aria-activedescendant]':
-      'currentHighlightedValue() ? inputId() + "_option_" + currentHighlightedValue() : null',
+    '[attr.aria-activedescendant]': 'highlightedOptionId()',
     '[aria-multiselectable]': '!!multiple()',
     '[attr.aria-label]': 'label()',
     '[attr.aria-labelledby]': 'labelledBy()',
@@ -63,9 +80,14 @@ export class NgnListBox<
     root: true,
     invalid: () => this.invalidState(),
     empty: () => !this.displayedItems().length,
+    separator: () => this.separator(),
   });
 
   private readonly _scroller = viewChild.required<NgnScroller<NgnItemsValue<Items>>>(NgnScroller);
+  private readonly _scrollerElement = viewChild.required<
+    NgnScroller<NgnItemsValue<Items>>,
+    ElementRef<HTMLElement>
+  >(NgnScroller, { read: ElementRef });
 
   /**
    * The items to display in the list box.
@@ -88,6 +110,12 @@ export class NgnListBox<
    * @default false
    */
   public readonly selectOnHover = input(false, { transform: booleanAttribute });
+  /**
+   * Whether a divider is drawn above each group, separating it from what precedes it.
+   * Only affects grouped items; the first entry in the list never gets one.
+   * @default false
+   */
+  public readonly separator = input(false, { transform: booleanAttribute });
   /**
    * Whether the list box itself is focusable and participates in keyboard navigation.
    * @default true
@@ -139,6 +167,22 @@ export class NgnListBox<
     return (Array.isArray(v) ? v : v ? [v] : []) as NgnItemsValue<Items>[];
   });
   public readonly currentHighlightedValue = signal<NgnItemsValue<Items> | null>(null);
+
+  /** DOM id of an option row. */
+  public optionId(value: NgnItemsValue<Items>): string {
+    return `${this.inputId()}_option_${value}`;
+  }
+
+  /**
+   * The option id the highlight currently sits on, or `null`. A host that owns focus
+   * itself — a combobox input driving this list box — points its own
+   * `aria-activedescendant` at this rather than rebuilding the id.
+   */
+  public readonly highlightedOptionId = computed(() => {
+    const value = this.currentHighlightedValue();
+    return value == null ? null : this.optionId(value);
+  });
+
   protected readonly filteredItems = asyncComputed(async () => {
     const filter = !!this.filter();
     const appliedFilterOptions = this._appliedFilterOptions();
@@ -197,15 +241,26 @@ export class NgnListBox<
   }
 
   public onKeyDown(event: KeyboardEvent) {
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+    if (NAVIGATION_KEYS.includes(event.key) && !movesCaret(event)) {
       event.stopPropagation();
       event.preventDefault();
       const flattenedItems = mapToItems(this.filteredItems());
+      const paging = event.key === 'PageDown' || event.key === 'PageUp';
+      // Measured outside the update callback, which must stay free of DOM reads.
+      const step = paging ? this.pageSize() : 0;
       this.currentHighlightedValue.update(currentValue => {
         const enabledItems = flattenedItems.filter(item => !item.disabled);
         if (enabledItems.length === 0) {
           return null;
         }
+        const lastIndex = enabledItems.length - 1;
+        if (event.key === 'Home') {
+          return enabledItems[0]?.value;
+        }
+        if (event.key === 'End') {
+          return enabledItems[lastIndex]?.value;
+        }
+
         const currentHighlightIndex = enabledItems.findIndex(
           option => option.value === currentValue
         );
@@ -216,17 +271,21 @@ export class NgnListBox<
                 option => option.value === this.valueArray()[this.valueArray().length - 1]
               );
 
+        const forwards = event.key === 'ArrowDown' || event.key === 'PageDown';
         if (currentIndex === -1) {
-          return event.key === 'ArrowDown'
-            ? enabledItems[0]?.value
-            : enabledItems[enabledItems.length - 1]?.value;
+          return forwards ? enabledItems[0]?.value : enabledItems[lastIndex]?.value;
         }
 
-        const nextIndex = event.key === 'ArrowDown' ? currentIndex + 1 : currentIndex - 1;
-        if (nextIndex < 0) {
-          return enabledItems[enabledItems.length - 1]?.value;
+        // Arrows wrap around the ends; paging stops there, as a listbox is expected to.
+        if (paging) {
+          const paged = currentIndex + (forwards ? step : -step);
+          return enabledItems[Math.min(lastIndex, Math.max(0, paged))]?.value;
         }
-        if (nextIndex >= enabledItems.length) {
+        const nextIndex = forwards ? currentIndex + 1 : currentIndex - 1;
+        if (nextIndex < 0) {
+          return enabledItems[lastIndex]?.value;
+        }
+        if (nextIndex > lastIndex) {
           return enabledItems[0]?.value;
         }
         return enabledItems[nextIndex]?.value;
@@ -243,6 +302,14 @@ export class NgnListBox<
 
   public scrollToIndex(index: number) {
     this._scroller().scrollToIndex(index);
+  }
+
+  /** Rows that fit the scroll port, the step `PageUp`/`PageDown` moves by. */
+  private pageSize(): number {
+    const port = this._scrollerElement().nativeElement;
+    const row = port.querySelector<HTMLElement>('[role="option"]')?.offsetHeight ?? 0;
+    // A measured port that fits a single row pages by one; only an unmeasurable one guesses.
+    return row ? Math.max(1, Math.floor(port.clientHeight / row)) : DEFAULT_PAGE_SIZE;
   }
 
   protected onSelect(value: NgnItemsValue<Items>) {

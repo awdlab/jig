@@ -77,6 +77,7 @@ export class NgnSnackbar extends SnackbarTemplates implements OnInit {
    * dismisses the snackbar; its `action` callback fires first. Import the config
    * type from `@ngneers/controls/api`.
    */
+  // ponytail: snackbar has no [ngnKeyboardShortcut] scope, so a config `shortcut` is inert here; add a scope host if needed.
   public readonly actions = input<NgnActionButtonConfig[]>();
   /**
    * Shows a thin progress bar at the bottom of the snackbar that depletes over the

@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { NgnFilterHarness, NgnSelectHarness } from '@ngneers/controls-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
+import { expectScreenshot } from '../helper/screenshot';
 
 test('base (string contains) emits filtered result', async ({ page }) => {
   const handle = await loadComponent(
@@ -416,4 +417,28 @@ test('accessibility (axe)', async ({ page }) => {
   await expect(filter.operatorSelect(0).locator).toBeVisible();
 
   await expectNoA11yViolations(page);
+});
+
+test('visual', async ({ page }, testInfo) => {
+  await loadComponent(
+    page,
+    {
+      template: `
+        <ngn-filter
+          class="page-center"
+          mode="inline"
+          [data]="inputs().data"
+          dataType="string"
+          style="width: 400px"
+        />
+      `,
+      imports: ['filter'],
+    },
+    { inputs: { data: ['Apple', 'Banana', 'Cherry'] } }
+  );
+
+  const filter = new NgnFilterHarness(page.locator('ngn-filter'));
+  await expect(filter.operatorSelect(0).locator).toBeVisible();
+
+  await expectScreenshot(page, testInfo, 'inline');
 });

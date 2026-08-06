@@ -1,0 +1,47 @@
+<!-- The palette owns the field, list, keyboard handling and empty state; this
+     component only supplies ranked items for the current query. `filter` is off
+     because `items` is already the result of matching. -->
+<ngn-command
+  [(open)]="open"
+  [(filterText)]="query"
+  [filter]="false"
+  [items]="items()"
+  [iconSearch]="iconSearch"
+  [placeholder]="'Describe what you need, or type a name'"
+  [label]="'Search the documentation'"
+  [size]="{ width: '42rem', maxWidth: '94vw', maxHeight: '70vh' }"
+>
+  <ng-template #item let-item>
+    @let detail = details()[item?.value];
+    <span class="flex min-w-0 flex-col gap-0.5">
+      <span class="flex flex-wrap items-baseline gap-x-2">
+        <span class="truncate">{{ item?.label }}</span>
+        @if (detail?.breadcrumb) {
+          <span class="text-(length:--ngn-font-size-xs) text-(--ngn-color-surface-600)">
+            {{ detail.breadcrumb }}
+          </span>
+        }
+        @if (detail?.badge) {
+          <span
+            class="ml-auto shrink-0 rounded-(--ngn-size-rounded-sm) bg-(--ngn-color-surface-100) px-1.5 py-0.5 text-(length:--ngn-font-size-xs) text-(--ngn-color-surface-600)"
+          >
+            {{ detail.badge }}
+          </span>
+        }
+      </span>
+      @if (detail?.snippet) {
+        <span class="line-clamp-2 text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-700)">
+          {{ detail.snippet }}
+        </span>
+      }
+    </span>
+  </ng-template>
+
+  <ng-template #empty>
+    <span
+      class="block p-(--ngn-size-padding-xl) text-center text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-500)"
+    >
+      {{ emptyMessage() }}
+    </span>
+  </ng-template>
+</ngn-command>

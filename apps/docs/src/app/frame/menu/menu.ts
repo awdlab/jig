@@ -9,6 +9,7 @@ import { ALL_DOCS_TABS } from '../../docs';
 import { AppLocation } from '../../helper/app-location';
 import { safeRoutePath } from '../../utils/routing';
 import { FrameState } from '../frame-state';
+import { NgnDocsTopbarActions } from '../topbar/actions';
 
 import type { NgnPassthrough } from '@ngneers/controls/base';
 
@@ -32,7 +33,15 @@ type MenuTab = {
 @Component({
   selector: 'ngn-docs-menu',
   templateUrl: 'menu.html',
-  imports: [RouterLink, RouterOutlet, NgTemplateOutlet, NgnTemplate, NgnDrawer, NgnSelectButton],
+  imports: [
+    RouterLink,
+    RouterOutlet,
+    NgTemplateOutlet,
+    NgnTemplate,
+    NgnDrawer,
+    NgnSelectButton,
+    NgnDocsTopbarActions,
+  ],
   host: { class: 'h-full min-h-0' },
   styleUrl: 'menu.scss',
 })

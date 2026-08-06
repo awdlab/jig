@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 
 import { expectOutput, loadComponent } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
+import { expectScreenshot } from '../helper/screenshot';
 
 const MODAL_TEMPLATE = `
   <ngn-dialog
@@ -184,4 +185,58 @@ test('accessibility (axe)', async ({ page }) => {
   await loadModal(page, 'any', true);
   await expect(page.locator('dialog')).toBeVisible();
   await expectNoA11yViolations(page);
+});
+
+const CHROMELESS_TEMPLATE = `
+  <ngn-dialog
+    [open]="inputs().open"
+    [modal]="true"
+    [closeButton]="inputs().closeButton"
+    [label]="inputs().label"
+  >
+    <p id="chromeless-body">Body</p>
+  </ngn-dialog>
+`;
+
+test('drops header, footer and close button when nothing fills them', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    { template: CHROMELESS_TEMPLATE, imports: ['dialog'] },
+    { inputs: { open: true, closeButton: false, label: 'Palette' } }
+  );
+
+  const dialog = page.locator('dialog');
+  await expect(dialog).toBeVisible();
+  await expect(dialog.locator('header')).toHaveCount(0);
+  await expect(dialog.locator('footer')).toHaveCount(0);
+  await expect(dialog.locator('button')).toHaveCount(0);
+  await expect(dialog).toHaveAttribute('aria-label', 'Palette');
+  expect(await dialog.getAttribute('aria-labelledby')).toBeNull();
+
+  await handle.setInputs({ open: true, closeButton: true, label: 'Palette' });
+  await expect(dialog.locator('header')).toHaveCount(1);
+  await expect(dialog.locator('header button')).toHaveCount(1);
+  await expect(dialog.locator('footer')).toHaveCount(0);
+});
+
+test('a titled dialog still renders its header, and keeps no dangling labelledby without one', async ({
+  page,
+}) => {
+  const handle = await loadModal(page, 'any', true);
+  const dialog = page.locator('dialog');
+
+  const labelId = await dialog.getAttribute('aria-labelledby');
+  expect(labelId).toBeTruthy();
+  await expect(page.locator(`#${labelId}`)).toHaveText('My Dialog');
+
+  await handle.setInputs({ title: null, open: true, closeBy: 'any' });
+  expect(await dialog.getAttribute('aria-labelledby')).toBeNull();
+  await expect(dialog.locator('header')).toHaveCount(1);
+});
+
+test('visual', async ({ page }, testInfo) => {
+  await loadModal(page, 'any', true);
+  await expect(page.locator('dialog')).toBeVisible();
+
+  await expectScreenshot(page, testInfo, 'modal');
 });

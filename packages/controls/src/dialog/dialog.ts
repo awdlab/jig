@@ -28,6 +28,7 @@ import { NgnDefer } from '@ngneers/controls/defer';
 import { NgnMovable, NgnResizable } from '@ngneers/controls/directives';
 import { I18n } from '@ngneers/controls/i18n';
 import { NgnIcon } from '@ngneers/controls/icon';
+import { NgnKeyboardShortcut } from '@ngneers/controls/kbd';
 import { generateElementId } from '@ngneers/controls/utils-ng';
 import { dialogControlTemplate } from '@ngneers/controls-themes/templates/dialog';
 
@@ -59,6 +60,7 @@ type TypedContent = {
     NgComponentOutlet,
     NgnIcon,
     NgnResizable,
+    NgnKeyboardShortcut,
   ],
   templateUrl: './dialog.html',
 
@@ -76,6 +78,7 @@ export class NgnDialog<
   protected readonly headerId = generateElementId();
 
   private readonly _dialogElement = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
+  protected readonly headerElement = viewChild<ElementRef<HTMLElement>>('header');
   /**
    * Shows or hides the dialog.
    *
@@ -108,6 +111,18 @@ export class NgnDialog<
    * The title of the dialog. Displayed in the default header template.
    */
   public readonly title = input<string | null | undefined>(null);
+  /**
+   * Whether the close (X) button is rendered in the header.
+   * Set to `false` for chromeless dialogs — with no title and no header template
+   * the header is then dropped entirely.
+   * @default true
+   */
+  public readonly closeButton = input(true, { transform: booleanAttribute });
+  /**
+   * Accessible name for the dialog. Use it when the dialog has no visible title,
+   * for example a chromeless dialog. Ignored when {@link title} is set.
+   */
+  public readonly label = input<string>();
   /**
    * Determines how the dialog can be closed by the user.
    * - `'any'` - The dialog can be closed by clicking outside the dialog or pressing the Escape key.
@@ -188,6 +203,22 @@ export class NgnDialog<
    * How a popover dialog can be closed by the user.
    */
   protected readonly popoverClosedBy = computed(() => toPopoverCloseBy(this.closeBy()));
+  protected readonly showHeader = computed(
+    () => this.hasHeaderTemplate() || !!this.title() || this.closeButton()
+  );
+  protected readonly showFooter = computed(
+    () => this.hasFooterTemplate() || !!this.footerButtons()?.length
+  );
+  /**
+   * Only reference the header id when something actually renders it, so the dialog
+   * never points `aria-labelledby` at a missing element.
+   */
+  protected readonly labelledBy = computed(() =>
+    this.title() || this.hasHeaderTemplate() ? this.headerId : null
+  );
+  protected readonly ariaLabel = computed(() =>
+    this.labelledBy() ? null : (this.label() ?? null)
+  );
   protected readonly isFullyClosed = signal(true);
 
   protected readonly typedContent = computed<TypedContent>(() => {

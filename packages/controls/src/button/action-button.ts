@@ -1,8 +1,19 @@
-import { booleanAttribute, Component, input, output } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { NgnBase, provideSelf } from '@ngneers/controls/base';
 import { NgnIcon } from '@ngneers/controls/icon';
+import { ariaKeyShortcuts, closestShortcutScope, NgnKbd } from '@ngneers/controls/kbd';
 import { NgnTooltip } from '@ngneers/controls/tooltip';
-import { maybeCallback } from '@ngneers/controls/utils';
+import { Logger, maybeCallback } from '@ngneers/controls/utils';
 
 import { NgnButton } from './button';
 
@@ -11,7 +22,7 @@ import type { NgnActionButtonConfig } from '@ngneers/controls/api';
 @Component({
   selector: 'ngn-action-button',
   templateUrl: 'action-button.html',
-  imports: [NgnButton, NgnIcon, NgnTooltip],
+  imports: [NgnButton, NgnIcon, NgnKbd, NgnTooltip],
   providers: [provideSelf(NgnActionButton)],
 })
 export class NgnActionButton<T> extends NgnBase<null> {
@@ -19,7 +30,7 @@ export class NgnActionButton<T> extends NgnBase<null> {
 
   /**
    * The configuration describing the button: its label, icon, tooltip, value,
-   * and the action callback fired on click.
+   * shortcut, and the action callback fired on click.
    * @see {@link NgnActionButtonConfig}
    */
   public readonly config = input.required<NgnActionButtonConfig<T>>();
@@ -36,9 +47,59 @@ export class NgnActionButton<T> extends NgnBase<null> {
    */
   public readonly clicked = output<T>();
 
+  private readonly _host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+
   protected readonly maybeCallback = maybeCallback;
 
-  protected click(event: PointerEvent): void {
+  /** Whether the button renders an icon in place of its label — drives icon/tooltip layout. */
+  private readonly _hasIcon = computed(() => !!(this.config().icon || this.config().defaultIcon));
+
+  /** The shortcut rendered as a hidden keycap inside the button, for every kind. */
+  protected readonly shortcutHint = computed(() => this.config().shortcut ?? null);
+
+  /** Icon-only buttons get a tooltip carrying the plain label as their accessible name. */
+  protected readonly tooltip = computed(() =>
+    this._hasIcon() ? maybeCallback(this.config().label) : null
+  );
+
+  /** Live shortcut, i.e. one that actually resolved an ancestor scope — drives `aria-keyshortcuts`. */
+  private readonly _activeShortcut = signal<string | null>(null);
+
+  protected readonly ariaShortcut = computed(() => {
+    const shortcut = this._activeShortcut();
+    return shortcut ? ariaKeyShortcuts(shortcut) : null;
+  });
+
+  private readonly _shortcutConfig = computed(() => this.config().shortcut);
+
+  constructor() {
+    super();
+    effect(onCleanup => {
+      const shortcut = this._shortcutConfig();
+      if (!shortcut) {
+        this._activeShortcut.set(null);
+        return;
+      }
+      const scope = closestShortcutScope(this._host);
+      if (!scope) {
+        this._activeShortcut.set(null);
+        Logger.warn(
+          `[ngn-action-button] shortcut "${shortcut}" is ignored: no ancestor [ngnKeyboardShortcut] scope.`
+        );
+        return;
+      }
+      this._activeShortcut.set(shortcut);
+      onCleanup(
+        scope.register(() => ({
+          shortcut,
+          callback: () => this.click(),
+          disabled: this.config().disabled,
+        }))
+      );
+    });
+  }
+
+  protected click(event?: PointerEvent): void {
     // Run the config's action callback first, then emit `clicked` — consumers
     // (snackbar, dialog) treat `clicked` as the dismiss signal, so the action
     // must fire before the host tears the button down.

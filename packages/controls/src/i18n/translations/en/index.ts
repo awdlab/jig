@@ -142,6 +142,14 @@ export const en = {
   listBox: {
     noItemsFound: 'No items found',
   },
+  command: {
+    placeholder: 'Type a command or search…',
+    noResults: 'No results found',
+    label: 'Command palette',
+    hintClose: 'Close',
+    hintSelect: 'Select',
+    hintConfirm: 'Confirm',
+  },
   tree: {
     noItemsFound: 'No items found',
   },

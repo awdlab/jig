@@ -648,3 +648,30 @@ test.fixme('accessibility (axe)', async ({ page }) => {
 
   await expectNoA11yViolations(page);
 });
+
+test('filter input keeps Home and End for the caret', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `
+      <ngn-input-field style="width: 200px;">
+        <ngn-select [options]="inputs().options" [filter]="true" />
+      </ngn-input-field>
+    `,
+      imports: ['select', 'inputField'],
+    },
+    { inputs: { options: exampleData.items.groupedPreformatted } }
+  );
+
+  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+  await select.open();
+
+  const input = select.filter.children.input;
+  await input.fill('ger');
+  const caret = () => input.locator.evaluate((el: HTMLInputElement) => el.selectionStart);
+
+  await input.press('Home');
+  expect(await caret()).toBe(0);
+  await input.press('End');
+  expect(await caret()).toBe(3);
+});

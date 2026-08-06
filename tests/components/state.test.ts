@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { NgnStateHarness } from '@ngneers/controls-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
+import { expectScreenshot } from '../helper/screenshot';
 
 test('loading state fits inside a button', async ({ page }) => {
   await loadComponent(
@@ -275,4 +276,24 @@ test('accessibility (axe)', async ({ page }) => {
   await state.expectIcon('success');
 
   await expectNoA11yViolations(page);
+});
+
+test('visual', async ({ page }, testInfo) => {
+  await loadComponent(
+    page,
+    {
+      template: `
+        <div class="page-center flex items-center gap-4">
+          @for (kind of inputs().kinds; track $index) {
+            <ngn-state [kind]="kind" />
+          }
+        </div>
+      `,
+      imports: ['state'],
+    },
+    // `loading` is left out: its spinner animates.
+    { inputs: { kinds: ['success', 'warning', 'error', 'cancelled'] } }
+  );
+
+  await expectScreenshot(page, testInfo, 'kinds');
 });

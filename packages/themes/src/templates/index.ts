@@ -14,6 +14,7 @@ export type ThemeTemplate = {
   checkbox: Awaited<typeof import('./checkbox')>['checkboxControlTemplate'];
   chip: Awaited<typeof import('./chip')>['chipControlTemplate'];
   'color-picker': Awaited<typeof import('./color-picker')>['colorPickerControlTemplate'];
+  command: Awaited<typeof import('./command')>['commandControlTemplate'];
   dialog: Awaited<typeof import('./dialog')>['dialogControlTemplate'];
   drawer: Awaited<typeof import('./drawer')>['drawerControlTemplate'];
   filter: Awaited<typeof import('./filter')>['filterControlTemplate'];
@@ -26,6 +27,7 @@ export type ThemeTemplate = {
   inputField: Awaited<typeof import('./input-field')>['inputFieldControlTemplate'];
   maskInput: Awaited<typeof import('./mask-input')>['maskInputControlTemplate'];
   itemView: Awaited<typeof import('./item-view')>['itemViewControlTemplate'];
+  kbd: Awaited<typeof import('./kbd')>['kbdControlTemplate'];
   listBox: Awaited<typeof import('./list-box')>['listBoxControlTemplate'];
   menu: Awaited<typeof import('./menu')>['menuControlTemplate'];
   message: Awaited<typeof import('./message')>['messageControlTemplate'];

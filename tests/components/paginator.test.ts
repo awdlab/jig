@@ -1,6 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
+import { expectScreenshot } from '../helper/screenshot';
 
 // 30 items at 10 per page => 3 pages, few enough to render without overflow.
 const TEMPLATE = `<ngn-paginator
@@ -169,4 +170,15 @@ test('accessibility (axe)', async ({ page }) => {
   await expect(paginator.getByLabel('Next page')).toBeVisible();
 
   await expectNoA11yViolations(page);
+});
+
+test('visual', async ({ page }, testInfo) => {
+  await loadComponent(
+    page,
+    { template: `<div class="page-center">${TEMPLATE}</div>`, imports: ['paginator'] },
+    { inputs: baseInputs }
+  );
+
+  await expect(page.locator('ngn-paginator [aria-current="page"]')).toHaveText('1');
+  await expectScreenshot(page, testInfo, 'pages');
 });

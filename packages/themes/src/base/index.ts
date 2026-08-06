@@ -16,6 +16,7 @@ import { calendarStyles } from '@ngneers/controls-themes/base/calendar';
 import { checkboxStyles } from '@ngneers/controls-themes/base/checkbox';
 import { chipStyles } from '@ngneers/controls-themes/base/chip';
 import { colorPickerStyles } from '@ngneers/controls-themes/base/color-picker';
+import { commandStyles } from '@ngneers/controls-themes/base/command';
 import { dialogStyles } from '@ngneers/controls-themes/base/dialog';
 import { drawerStyles } from '@ngneers/controls-themes/base/drawer';
 import { editInplaceStyles } from '@ngneers/controls-themes/base/edit-inplace';
@@ -27,6 +28,7 @@ import { inplaceStyles } from '@ngneers/controls-themes/base/inplace';
 import { inputStyles } from '@ngneers/controls-themes/base/input';
 import { inputFieldStyles } from '@ngneers/controls-themes/base/input-field';
 import { itemViewStyles } from '@ngneers/controls-themes/base/item-view';
+import { kbdStyles } from '@ngneers/controls-themes/base/kbd';
 import { listBoxStyles } from '@ngneers/controls-themes/base/list-box';
 import { maskInputStyles } from '@ngneers/controls-themes/base/mask-input';
 import { menuStyles } from '@ngneers/controls-themes/base/menu';
@@ -75,6 +77,7 @@ export const baseStyles = {
   checkbox: checkboxStyles,
   chip: chipStyles,
   'color-picker': colorPickerStyles,
+  command: commandStyles,
   dialog: dialogStyles,
   drawer: drawerStyles,
   filter: filterStyles,
@@ -87,6 +90,7 @@ export const baseStyles = {
   inputField: inputFieldStyles,
   maskInput: maskInputStyles,
   itemView: itemViewStyles,
+  kbd: kbdStyles,
   listBox: listBoxStyles,
   menu: menuStyles,
   message: messageStyles,

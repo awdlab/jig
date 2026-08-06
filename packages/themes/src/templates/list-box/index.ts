@@ -15,6 +15,7 @@ export const listBoxControlTemplate = createControlTemplate({
     'item-selected',
     'item-highlighted',
     'item-disabled',
+    'separator',
   ],
   dependencies: [
     { class: 'checkbox', template: checkboxControlTemplate },

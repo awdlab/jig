@@ -142,6 +142,14 @@ export const de = {
   listBox: {
     noItemsFound: 'Keine Einträge gefunden',
   },
+  command: {
+    placeholder: 'Befehl eingeben oder suchen…',
+    noResults: 'Keine Ergebnisse gefunden',
+    label: 'Befehlspalette',
+    hintClose: 'Schließen',
+    hintSelect: 'Auswählen',
+    hintConfirm: 'Bestätigen',
+  },
   tree: {
     noItemsFound: 'Keine Einträge gefunden',
   },

@@ -1,6 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent, evalValue } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
+import { expectScreenshot } from '../helper/screenshot';
 
 import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 
@@ -1342,4 +1343,28 @@ test.describe('Table Keyboard Scrolling', () => {
       }).toPass();
     });
   }
+});
+
+test('visual', async ({ page }, testInfo) => {
+  await loadComponent(
+    page,
+    {
+      template: TABLE_TEMPLATE_WITH_SELECTION,
+      imports: ['tableModule', 'ngnTemplate', 'tableSelectionColumn'],
+    },
+    { inputs: { rows: TABLE_ROWS, selectionMode: 'multi' } }
+  );
+
+  const rows = getBodyRows(page);
+  await expect(rows).toHaveCount(TABLE_ROWS.length);
+
+  await test.step('default', async () => {
+    await expectScreenshot(page, testInfo, 'default');
+  });
+
+  await test.step('row selected', async () => {
+    await rows.nth(1).click();
+    await expect(rows.nth(1)).toHaveAttribute('aria-selected', 'true');
+    await expectScreenshot(page, testInfo, 'selected');
+  });
 });

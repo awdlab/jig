@@ -1,6 +1,7 @@
 import test, { expect, type Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
+import { expectScreenshot } from '../helper/screenshot';
 
 // ---------------------------------------------------------------------------
 // Helper: load a labelled ngn-otp and expose its composed value on the output
@@ -132,4 +133,19 @@ test('accessibility (axe)', async ({ page }) => {
   await expect(otp).toHaveAttribute('role', 'group');
   await expect(otp).toHaveAttribute('aria-label', 'Verification code');
   await expectNoA11yViolations(page);
+});
+
+test('visual', async ({ page }, testInfo) => {
+  const { cells } = await loadOtp(page, { length: 4, integerOnly: true });
+
+  await test.step('empty', async () => {
+    await expectScreenshot(page, testInfo, 'empty');
+  });
+
+  await test.step('filled', async () => {
+    await cells.first().focus();
+    await page.keyboard.type('1234');
+    await expect(cells.nth(3)).toHaveValue('4');
+    await expectScreenshot(page, testInfo, 'filled');
+  });
 });

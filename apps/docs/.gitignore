@@ -44,3 +44,9 @@ Thumbs.db
 
 # Generated TypeDoc files
 /src/app/docs/_generated
+
+# Generated search assets — all rebuilt by prepare-docs. The model blob is
+# quantized from the pinned upstream weights (tools/quantize-potion.ts), whose
+# 30MB download is cached in .potion-cache.
+/public/search
+/.potion-cache

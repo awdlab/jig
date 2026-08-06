@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { NgnToggleButtonHarness } from '@ngneers/controls-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
+import { expectScreenshot } from '../helper/screenshot';
 
 test('toggles value on click, reflects aria-checked, and emits valueChange', async ({ page }) => {
   const handle = await loadComponent(
@@ -73,4 +74,19 @@ test('accessibility (axe)', async ({ page }) => {
   );
 
   await expectNoA11yViolations(page);
+});
+
+test('visual', async ({ page }, testInfo) => {
+  await loadComponent(page, {
+    template: `
+      <div class="page-center flex items-center gap-2">
+        <ngn-toggle-button [value]="false">Off</ngn-toggle-button>
+        <ngn-toggle-button [value]="true">On</ngn-toggle-button>
+        <ngn-toggle-button [value]="true" disabled>Disabled</ngn-toggle-button>
+      </div>
+    `,
+    imports: ['toggleButton'],
+  });
+
+  await expectScreenshot(page, testInfo, 'states');
 });

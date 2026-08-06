@@ -1,6 +1,7 @@
 import test, { expect, type Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
+import { expectScreenshot } from '../helper/screenshot';
 
 // ---------------------------------------------------------------------------
 // Helper: load an input-field with a number input + spin buttons.
@@ -225,4 +226,11 @@ test('accessibility (axe)', async ({ page }) => {
 
   await expect(page.locator('input[ngnnumberinput]')).toBeVisible();
   await expectNoA11yViolations(page);
+});
+
+test('visual', async ({ page }, testInfo) => {
+  const { input } = await loadNumberInput(page, { value: 1234.5, min: 0, max: 10000 });
+  await expect(input).toHaveValue(/1.234.5/);
+
+  await expectScreenshot(page, testInfo, 'with-spin-buttons');
 });

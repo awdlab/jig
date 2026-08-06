@@ -1,6 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
+import { expectScreenshot } from '../helper/screenshot';
 
 const TEMPLATE = `<ngn-checkbox
   [value]="inputs().value"
@@ -136,4 +137,35 @@ test('accessibility (axe)', async ({ page }) => {
     { inputs: { value: false } }
   );
   await expectNoA11yViolations(page);
+});
+
+test('visual', async ({ page }, testInfo) => {
+  const handle = await loadComponent(
+    page,
+    { template: `<div class="page-center">${TEMPLATE}</div>`, imports: ['checkbox'] },
+    { inputs: { value: false, disabled: false, readonly: false, invalid: false } }
+  );
+
+  await test.step('unchecked', async () => {
+    await expectScreenshot(page, testInfo, 'unchecked');
+  });
+
+  await test.step('checked', async () => {
+    await handle.setInputs({ value: true, disabled: false, readonly: false, invalid: false });
+    await expectScreenshot(page, testInfo, 'checked');
+  });
+
+  await test.step('disabled', async () => {
+    await handle.setInputs({ value: true, disabled: true, readonly: false, invalid: false });
+    await expectScreenshot(page, testInfo, 'disabled');
+  });
+
+  await test.step('invalid', async () => {
+    await handle.setInputs({ value: false, disabled: false, readonly: false, invalid: true });
+    // invalidOn='touched' gates the styling, so touch the control first.
+    await page.getByRole('checkbox').focus();
+    await page.getByRole('checkbox').blur();
+    await expect(page.getByRole('checkbox')).toHaveAttribute('aria-invalid', 'true');
+    await expectScreenshot(page, testInfo, 'invalid');
+  });
 });

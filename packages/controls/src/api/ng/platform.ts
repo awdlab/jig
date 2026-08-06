@@ -14,6 +14,18 @@ import { elementSizeSignal, type Size } from './dom';
 
 export type DeviceType = 'mobile' | 'desktop' | 'tablet';
 
+/** Whether the current platform is macOS. Non-browser environments report `false`. */
+export function isMacPlatform(): boolean {
+  if (typeof navigator === 'undefined') {
+    return false;
+  }
+  const platform =
+    (navigator as Navigator & { userAgentData?: { platform?: string } }).userAgentData?.platform ??
+    navigator.platform ??
+    '';
+  return /mac/i.test(platform);
+}
+
 @Injectable()
 export class Platform {
   private readonly _deviceType = signal<DeviceType>('desktop');

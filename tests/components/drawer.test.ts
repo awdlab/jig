@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 
 import { expectOutput, loadComponent } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
+import { expectScreenshot } from '../helper/screenshot';
 
 const MODEL_TEMPLATE = `
   <ngn-drawer
@@ -145,4 +146,22 @@ test('accessibility (axe)', async ({ page }) => {
   );
   await expect(page.locator('ngn-drawer')).toBeVisible();
   await expectNoA11yViolations(page);
+});
+
+test('visual', async ({ page }, testInfo) => {
+  const handle = await loadComponent(
+    page,
+    { template: MODEL_TEMPLATE, imports: ['drawer'] },
+    { inputs: { open: true, modal: true, header: 'Filters', position: 'left' } }
+  );
+
+  await test.step('left', async () => {
+    await expect(page.locator('ngn-drawer')).toBeVisible();
+    await expectScreenshot(page, testInfo, 'left');
+  });
+
+  await test.step('right', async () => {
+    await handle.setInputs({ open: true, modal: true, header: 'Filters', position: 'right' });
+    await expectScreenshot(page, testInfo, 'right');
+  });
 });

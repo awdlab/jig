@@ -8,6 +8,7 @@ import { CalendarPage } from './calendar/page';
 import { CheckboxPage } from './checkbox/page';
 import { ChipPage } from './chip/page';
 import { ColorPickerPage } from './color-picker/page';
+import { CommandPage } from './command/page';
 import { DialogPage } from './dialog/page';
 import { DrawerPage } from './drawer/page';
 import { EditInplacePage } from './edit-inplace/page';
@@ -18,6 +19,7 @@ import { InplacePage } from './inplace/page';
 import { InputPage } from './input/page';
 import { InputFieldPage } from './input-field/page';
 import { ItemViewPage } from './item-view/page';
+import { KbdPage } from './kbd/page';
 import { ListBoxPage } from './list-box/page';
 import { MaskInputPage } from './mask-input/page';
 import { MenuPage } from './menu/page';
@@ -80,7 +82,7 @@ export const COMPONENT_GROUPS: NgnDocsGroup[] = [
   },
   {
     title: 'Actions',
-    pages: [ButtonPage, ButtonGroupPage, SelectButtonPage, ToggleButtonPage],
+    pages: [ButtonPage, ButtonGroupPage, CommandPage, SelectButtonPage, ToggleButtonPage],
   },
   {
     title: 'Data Display',
@@ -91,6 +93,7 @@ export const COMPONENT_GROUPS: NgnDocsGroup[] = [
       IconPage,
       InplacePage,
       ItemViewPage,
+      KbdPage,
       PaginatorPage,
       ProgressPage,
       SpinnerPage,
