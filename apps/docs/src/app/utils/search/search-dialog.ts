@@ -19,6 +19,11 @@ type ResultDetail = { breadcrumb: string; snippet: string; badge: string };
 @Component({
   selector: 'ngn-docs-search-dialog',
   templateUrl: './search-dialog.html',
+  styles: `
+    :host {
+      display: contents;
+    }
+  `,
   imports: [NgnCommand],
 })
 export class NgnDocsSearchDialog {

@@ -65,6 +65,7 @@ export class NgnMovable extends NgnBase<'movable'> {
   private readonly _pointerDownSignal = domEventSignal(this._eventElement, 'pointerdown');
   private readonly _pointerMoveSignal = domEventSignal(this._document, 'pointermove');
   private readonly _pointerUpSignal = domEventSignal(this._document, 'pointerup');
+  private readonly _pointerCancelSignal = domEventSignal(this._document, 'pointercancel');
 
   private readonly _isDragging = signal(false);
   private _startX = 0;
@@ -135,8 +136,9 @@ export class NgnMovable extends NgnBase<'movable'> {
       if (!this.ngnMovable()) {
         return;
       }
-      const pointerUp = this._pointerUpSignal();
-      if (pointerUp && untracked(this._isDragging)) {
+      // touch scrolling takes the pointer over and fires pointercancel instead of pointerup
+      const pointerEnd = this._pointerUpSignal() ?? this._pointerCancelSignal();
+      if (pointerEnd && untracked(this._isDragging)) {
         this._isDragging.set(false);
       }
     });

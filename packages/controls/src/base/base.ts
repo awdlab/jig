@@ -201,8 +201,13 @@ export abstract class NgnBase<T extends ControlName | null> {
 
     if (inject(Platform).isBrowser) {
       // Remove the initializing class after the first render to prevent FOUC.
-      afterNextRender(() => {
-        this.element.nativeElement.classList.remove('ngn-control-initializing');
+      // The `write` phase runs before any `mixedReadWrite` hook, so a control that
+      // reveals others on first render (a dialog calling `showModal()`) never sees
+      // its children still hidden — native `autofocus` would skip them.
+      afterNextRender({
+        write: () => {
+          this.element.nativeElement.classList.remove('ngn-control-initializing');
+        },
       });
     } else {
       // Remove the initializing class immediately on the server to serve a complete initial HTML.

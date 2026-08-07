@@ -44,6 +44,7 @@ export class NgnResizable {
 
   private readonly _pointerDownSignal = domEventSignal(this._el, 'pointerdown');
   private readonly _pointerUpSignal = domEventSignal(this._document, 'pointerup');
+  private readonly _pointerCancelSignal = domEventSignal(this._document, 'pointercancel');
 
   private readonly _resizeEvent = elementSizeSignal(this._el);
 
@@ -61,19 +62,20 @@ export class NgnResizable {
 
   constructor() {
     effect(() => {
-      if (this._pointerDownSignal()) {
+      if (this._pointerDownSignal() && !!this.ngnResizable()) {
         this._isPointerDown = true;
       }
     });
 
+    // touch scrolling takes the pointer over and fires pointercancel instead of pointerup
     effect(() => {
-      if (this._pointerUpSignal()) {
+      if (this._pointerUpSignal() || this._pointerCancelSignal()) {
         this._isPointerDown = false;
       }
     });
 
     effect(() => {
-      if (!this._isBrowser) {
+      if (!this._isBrowser || !this.ngnResizable()) {
         return;
       }
       const _size = this._resizeEvent(); // just as the trigger

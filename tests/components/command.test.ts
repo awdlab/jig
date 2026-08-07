@@ -242,6 +242,25 @@ test('the search field takes focus again on every opening', async ({ page }) => 
   await expect(page.locator('dialog input')).toBeFocused();
 });
 
+// Touch-scrolling the backdrop cancels the pointer instead of releasing it. The
+// resizable directive must not read that as an ongoing user resize and bake
+// position/size onto the dialog when the filter changes its height.
+test('a cancelled pointer does not bake the dialog position on the next filter change', async ({
+  page,
+}) => {
+  await loadCommand(page);
+  const dialog = page.locator('dialog');
+
+  await dialog.dispatchEvent('pointerdown', { pointerType: 'touch' });
+  await dialog.dispatchEvent('pointercancel', { pointerType: 'touch' });
+  await dialog.locator('input').fill('new');
+  await expect(dialog.locator('[role="option"]')).toHaveCount(1);
+
+  expect(
+    await dialog.evaluate(el => [el.style.top, el.style.left, el.style.height, el.style.maxHeight])
+  ).toEqual(['', '', '', '60vh']);
+});
+
 test('visual', async ({ page }, testInfo) => {
   await loadCommand(page);
   const dialog = page.locator('dialog');

@@ -46,5 +46,6 @@
   // "git.branchProtection": ["main", "master"],
   // "git.branchProtectionPrompt": "alwaysPrompt",
   "tailwindCSS.experimental.configFile": "apps/docs/src/styles.scss",
-  "coverage-gutters.coverageBaseDir": "**/coverage/**"
+  "coverage-gutters.coverageBaseDir": "**/coverage/**",
+  "js/ts.experimental.useTsgo": false
 }
