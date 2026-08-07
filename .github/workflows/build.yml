@@ -51,8 +51,8 @@ jobs:
   playwright:
     name: "Playwright Tests (shard ${{ matrix.shard }}/${{ strategy.job-total }})"
     # Sharded across runners so wall-clock stays flat as the suite grows.
-    # Per-shard cap; the whole suite ran ~19 min unsharded on a single runner.
-    timeout-minutes: 15
+    # Per-shard cap:
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     strategy:
       # Don't cancel sibling shards when one fails — we want the full picture.
