@@ -30,7 +30,7 @@ import { NgnChip } from '@ngneers/controls/chip';
 })
 export class Demo_Chip_Actionable {
   private readonly _kinds = injectThemeControlKinds('chip');
-  protected readonly kinds = computed(() => [null, ...this._kinds()]);
+  protected readonly kinds = computed(() => [undefined, ...this._kinds()]);
 
   protected onChipClick() {
     alert('Chip clicked!');

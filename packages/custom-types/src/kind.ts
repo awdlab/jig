@@ -6,11 +6,20 @@ type GetCustomType<Group, K> = K extends string
     : never
   : never;
 
-type CustomKindInt<K> =
-  GetCustomType<NgnCustomTypes, K> extends never
-    ? GetCustomType<NgnThemeTypes, K>
-    : GetCustomType<NgnCustomTypes, K>;
+type CustomKindInt<K> = [GetCustomType<NgnCustomTypes, K>] extends [never]
+  ? GetCustomType<NgnThemeTypes, K>
+  : GetCustomType<NgnCustomTypes, K>;
 
-type UnionCustomKind<K> = CustomKindInt<K> extends readonly (infer A)[] ? A : never;
+// The [never] wrapper is required: a bare `never extends readonly (infer A)[]` matches with
+// no inference candidate for A, which silently yields `unknown` and disables type checking.
+type UnionCustomKind<K> = [CustomKindInt<K>] extends [never]
+  ? never
+  : CustomKindInt<K> extends readonly (infer A)[]
+    ? A
+    : never;
 
-export type CustomKind<K> = UnionCustomKind<K> extends never ? never : UnionCustomKind<K>;
+/**
+ * Falls back to `string` when no theme or app type augmentation is loaded, so bindings keep
+ * working (unchecked) instead of failing outright.
+ */
+export type CustomKind<K> = [UnionCustomKind<K>] extends [never] ? string : UnionCustomKind<K>;

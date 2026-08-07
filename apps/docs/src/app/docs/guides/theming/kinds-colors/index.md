@@ -53,3 +53,38 @@ uses the theme's first entry as the default (for nova that's the `primary` color
 
 Not every control is recolorable — a control only exposes `color-*` classes if its theme
 part defines them.
+
+### Type safety
+
+`kind` and `color` are typed as the active theme's literal unions, so `kind="pill"` on a
+nova button is a compile error. This works automatically: importing a theme from its
+default entry point also loads that theme's type augmentation.
+
+```ts
+import { novaCoral } from '@ngneers/controls-themes/nova';
+// kind: 'primary' | 'secondary' | 'link' | 'text' | 'icon'
+```
+
+Only one theme can contribute types to a project — two augmentations would clash and the
+first one loaded would silently win. If an app pulls in more than one theme, import the
+extra ones from their `/untyped` entry point:
+
+```ts
+import { novaCoral } from '@ngneers/controls-themes/nova';
+import { shade } from '@ngneers/controls-themes/shade/untyped';
+```
+
+Both entry points resolve to the same runtime module — only the types differ. With no
+typed theme loaded at all, `kind` and `color` fall back to `string`.
+
+To type kinds yourself (for a custom theme, or to override the theme's), augment
+`NgnCustomTypes`, which takes precedence over the theme's:
+
+```ts
+declare module '@ngneers/controls-custom-types' {
+  export interface NgnCustomTypes {
+    kind: { button: readonly ['primary', 'ghost'] };
+    color: readonly ['primary', 'danger'];
+  }
+}
+```

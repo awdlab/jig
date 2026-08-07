@@ -10,21 +10,22 @@ const projectRoot = path.join(__dirname, '..');
 const repoRoot = path.join(projectRoot, '../..');
 const distDir = path.join(projectRoot, 'dist');
 
+const THEMES = ['nova', 'shade', 'material'];
+
 preparePackageJson(path.join(projectRoot, 'package.json'), path.join(distDir, 'package.json'));
 copyFile(path.join(projectRoot, 'README.md'), path.join(distDir, 'README.md'));
 copyFile(path.join(repoRoot, 'LICENSE'), path.join(distDir, 'LICENSE'));
-copyFile(
-  path.join(projectRoot, 'src/nova/theme-types.d.ts'),
-  path.join(distDir, 'nova/theme-types.d.ts')
-);
-copyFile(
-  path.join(projectRoot, 'src/shade/theme-types.d.ts'),
-  path.join(distDir, 'shade/theme-types.d.ts')
-);
-copyFile(
-  path.join(projectRoot, 'src/material/theme-types.d.ts'),
-  path.join(distDir, 'material/theme-types.d.ts')
-);
+for (const theme of THEMES) {
+  // Declaration-only files are not emitted by tsc, so they have to be copied over.
+  copyFile(
+    path.join(projectRoot, `src/${theme}/theme-types.d.ts`),
+    path.join(distDir, `${theme}/theme-types.d.ts`)
+  );
+  copyFile(
+    path.join(projectRoot, `src/${theme}/typed.d.ts`),
+    path.join(distDir, `${theme}/typed.d.ts`)
+  );
+}
 
 function preparePackageJson(sourcePath: string, targetPath: string) {
   console.log(`Preparing package.json from ${sourcePath} to ${targetPath}`);
@@ -48,6 +49,21 @@ function preparePackageJson(sourcePath: string, targetPath: string) {
     packageJson.exports[dir] = {
       import: `${dir}/index.js`,
       types: `${dir}/index.d.ts`,
+    };
+  }
+
+  // A theme's default entry points at typed.d.ts, which pulls in the theme's type
+  // augmentation. Both entries share the same runtime file — only the types differ.
+  // "types" must be listed first — conditions are matched in declaration order, and a leading
+  // "import" would make TypeScript derive the types from index.js and ignore typed.d.ts.
+  for (const theme of THEMES) {
+    packageJson.exports[`./${theme}`] = {
+      types: `./${theme}/typed.d.ts`,
+      import: `./${theme}/index.js`,
+    };
+    packageJson.exports[`./${theme}/untyped`] = {
+      types: `./${theme}/index.d.ts`,
+      import: `./${theme}/index.js`,
     };
   }
 
