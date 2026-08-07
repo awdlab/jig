@@ -90,15 +90,17 @@
                 'focused-row': focusedRowIndex() === item.index,
               })
             "
-            [attr.aria-expanded]="item.expanded"
             [attr.id]="rowElementId(item.index)"
             role="row"
             (click)="toggleGroupFromRow(item)"
           >
+            <!-- aria-expanded sits on the cell: on a row it is only valid inside a
+                 treegrid, and this is a grid. -->
             <td
               [class]="theme.class('group-header-cell')"
               role="gridcell"
               aria-colindex="1"
+              [attr.aria-expanded]="item.expanded"
               [attr.colspan]="totalColumnCount()"
             >
               <ngn-icon

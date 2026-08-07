@@ -16,12 +16,17 @@ export const listBoxStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate, ringTemplate],
   root: {
     css: ({ v, c, d }) => css`
+      /* The root is the scroll port, so its padding sits inside the clip. A stuck
+         group would otherwise let rows show in the band above it. */
+      ${c('root')} ${d('scroller', 'item-sticky')} {
+        box-shadow: 0 calc(-1 * ${v('size.padding.sm')}) 0 ${v('color.background')};
+      }
       ${c('root')} {
+        padding: ${v('size.padding.sm')};
         border-radius: ${v('size.rounded.lg')};
         border-color: ${v('color.border')};
         border-width: 1px;
         border-style: solid;
-        padding: ${v('size.padding.sm')};
         background: ${v('color.background')};
         box-shadow: ${v('shadow.sm')};
         /* The list is one tab stop and moves the highlight with the arrow keys, so the ring
@@ -62,7 +67,7 @@ export const listBoxStyles = createThemePart({
         padding: ${v('size.padding.md')};
         font-weight: ${v('font.weight.semibold')};
         background: ${v('color.surface.100')};
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
         border-radius: ${v('size.rounded.sm')};
         border-width: 0;
         border-style: solid;

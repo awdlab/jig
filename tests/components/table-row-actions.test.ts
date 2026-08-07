@@ -1,4 +1,5 @@
 import test, { expect } from '@playwright/test';
+import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent, evalValue } from '../helper/load-component';
 
 const ROWS = [
@@ -509,4 +510,22 @@ test('keyboard: leaving the table forward hides the action bar', async ({ page }
   await expect(page.getByTestId('after')).toBeFocused();
   await expect(bar).toBeHidden();
   await expect(rows.nth(0)).not.toHaveClass(/active-row/);
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    { template: INLINE_TEMPLATE, imports: ['tableModule', 'ngnTemplate'] },
+    {
+      inputs: {
+        rows: ROWS,
+        actions: evalValue(
+          "[{ id: 'edit', label: 'Edit', testId: 'act-edit', callback: () => {} }]"
+        ),
+      },
+    }
+  );
+
+  await expect(page.locator('tbody tr[role="row"]')).toHaveCount(ROWS.length);
+  await expectNoA11yViolations(page);
 });

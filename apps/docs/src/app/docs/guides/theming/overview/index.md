@@ -13,13 +13,14 @@ A theme is assembled from three kinds of part:
 - **Theme parts** — the actual styling for one scope, split into two layers:
   - **base** — minimal, token-free structural CSS (layout, positioning) shared by every
     theme.
-  - **nova / shade** — the full visual layer: colors, radii, shadows, transitions, built
-    on design tokens.
+  - **nova / shade / material** — the full visual layer: colors, radii, shadows,
+    transitions, built on design tokens.
 - **Token parts** — design tokens (colors, sizes, shadows, fonts, motion) emitted as
   `--ngn-*` CSS custom properties.
 
-A complete theme is just `createTheme(name, parts, meta)`. The library ships two ready
-presets: **nova** (`novaCoral`) and **shade**.
+A complete theme is just `createTheme(name, parts, meta)`. The library ships three ready
+presets: **nova** (`novaCoral`), **shade**, and **material** (`material`, a Material
+Design 3 theme).
 
 ### Choosing a theme
 

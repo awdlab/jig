@@ -1,5 +1,6 @@
 import test, { expect } from '@playwright/test';
 
+import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
 import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 
@@ -182,11 +183,12 @@ test('pre-set expandedGroups controls initial state', async ({ page }) => {
 test('aria-expanded reflects group state', async ({ page }) => {
   await loadTable(page, { expandedGroups: ['Engineering'] });
 
-  const rows = page.locator('tr[class*="group-header-row"]');
+  // aria-expanded lives on the group cell — on a row it is treegrid-only.
+  const cells = groupHeaders(page);
   // Engineering expanded
-  await expect(rows.nth(0)).toHaveAttribute('aria-expanded', 'true');
+  await expect(cells.nth(0)).toHaveAttribute('aria-expanded', 'true');
   // Sales collapsed
-  await expect(rows.nth(1)).toHaveAttribute('aria-expanded', 'false');
+  await expect(cells.nth(1)).toHaveAttribute('aria-expanded', 'false');
 });
 
 test('sorting applies within groups', async ({ page }) => {
@@ -209,7 +211,7 @@ test('group headers expand/collapse from the keyboard', async ({ page }) => {
   // First row is the Engineering group header; Space expands it.
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press(' ');
-  await expect(page.locator('tr[aria-expanded="true"]')).toHaveCount(1);
+  await expect(groupHeaders(page).and(page.locator('[aria-expanded="true"]'))).toHaveCount(1);
   await expect(async () => {
     const log = await handle.getOutputLog();
     expect(log['expandedGroups']?.at(-1)).toEqual(['Engineering']);
@@ -217,9 +219,15 @@ test('group headers expand/collapse from the keyboard', async ({ page }) => {
 
   // Enter collapses it again.
   await page.keyboard.press('Enter');
-  await expect(page.locator('tr[aria-expanded="true"]')).toHaveCount(0);
+  await expect(groupHeaders(page).and(page.locator('[aria-expanded="true"]'))).toHaveCount(0);
   await expect(async () => {
     const log = await handle.getOutputLog();
     expect(log['expandedGroups']?.at(-1)).toEqual([]);
   }).toPass();
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadTable(page);
+  await expect(groupHeaders(page)).toHaveCount(ALL_GROUPS.length);
+  await expectNoA11yViolations(page);
 });

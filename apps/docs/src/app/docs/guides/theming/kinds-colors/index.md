@@ -42,12 +42,14 @@ re-points the variables and every kind recolors for free.
 
 ### Kinds are per-control
 
-There is no single global list of kinds — each control declares its own. For example the
+There is no single global list of kinds — each control declares its own. In nova the
 button offers `primary`, `secondary`, `link`, `text`, and `icon`; the message control
 offers `default`, `outlined`, `simple`; the tag offers `default`, `pill`. The available
-kinds and colors come from the active theme's metadata, so they're typed per control. If
-you don't set `kind`/`color`, the control uses the theme's first entry as the default
-(for nova that's the `surface` color).
+kinds and colors come from the **active theme's** metadata, so they're typed per control
+and differ per theme — shade, for instance, gives the message `default` / `destructive`
+and the tag `default` / `secondary` / `outline` / `destructive`, and material adds an
+`input-field` kind (`outlined` / `filled`). If you don't set `kind`/`color`, the control
+uses the theme's first entry as the default (for nova that's the `primary` color).
 
 Not every control is recolorable — a control only exposes `color-*` classes if its theme
 part defines them.

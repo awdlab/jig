@@ -26,14 +26,14 @@ export const selectStyles = createThemePart({
         cursor: pointer;
       }
       ${c('icon')} {
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
         cursor: pointer;
       }
       ${c('filter-icon')} {
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
       }
       ${c('placeholder')} {
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
       }
       ${c('input-editable')} {
         cursor: text;

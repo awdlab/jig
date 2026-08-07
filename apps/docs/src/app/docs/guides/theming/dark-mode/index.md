@@ -61,5 +61,5 @@ export class ThemeToggle {
 ### Dark mode needs a dark-aware theme
 
 The `dark` class does nothing on its own — it only activates rules the theme emits from
-its `dark` block. `novaCoral` and `shade` both define one. A theme with no dark block looks
-identical in both schemes.
+its `dark` block. `novaCoral`, `shade`, and `material` all define one. A theme with no dark
+block looks identical in both schemes.

@@ -12,7 +12,7 @@ heading: signals everywhere, zoneless, standalone. No `NgModule`s, no
 
 ## Why
 
-- **40+ controls** — inputs, actions, overlays, data display (incl. a full-featured
+- **50+ controls** — inputs, actions, overlays, data display (incl. a full-featured
   table), layout, feedback, and navigation.
 - **Headless behavior, swappable skin.** Controls ship **zero component CSS**. Behavior,
   accessibility, and named style scopes live in the control; all styling lives in a
@@ -20,8 +20,9 @@ heading: signals everywhere, zoneless, standalone. No `NgModule`s, no
   import, no Tailwind required.
 - **Accessible by default.** WAI-ARIA roles, keyboard interaction, and focus management
   are built in.
-- **Two theme presets** — `nova` (fully themed, dark-mode aware) and `shade` (a
-  shadcn-style theme) — plus a token-driven engine for authoring your own.
+- **Three theme presets** — `nova` (fully themed, dark-mode aware), `shade` (a
+  shadcn-style theme), and `material` (Material Design 3) — plus a token-driven engine for
+  authoring your own.
 - **Tree-shakeable.** Every control has its own import subpath; you bundle only what you
   use.
 
@@ -81,7 +82,7 @@ per-control documentation.
 | Package                                                   | Description                                           |
 | --------------------------------------------------------- | ----------------------------------------------------- |
 | [`@ngneers/controls`](packages/controls)                  | The control components and directives.                |
-| [`@ngneers/controls-themes`](packages/themes)             | Theme presets (Nova, Shade) and the theming engine.   |
+| [`@ngneers/controls-themes`](packages/themes)             | Theme presets (Nova, Shade, Material) and the engine. |
 | [`@ngneers/controls-custom-types`](packages/custom-types) | Shared TypeScript type contracts.                     |
 | [`@ngneers/controls-mcp`](packages/mcp)                   | MCP server exposing the docs/API to AI coding agents. |
 | [`@ngneers/controls-playwright`](packages/playwright)     | Playwright testing harness with page-object helpers.  |

@@ -36,7 +36,7 @@ export const spinButtonsStyles = createThemePart({
        * width/height) regardless of stylesheet order. */
       ${c('root')} ${d('decrement')},
       ${c('root')} ${d('increment')} {
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
         /* Reset the underlying icon-button chrome (rounded corners + fixed square
          * size): these buttons bleed to the field border and fill its height. */
         border-radius: 0;

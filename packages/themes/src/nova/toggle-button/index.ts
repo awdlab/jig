@@ -20,7 +20,7 @@ export const toggleButtonStyles = createThemePart({
         display: inline-grid;
         border-radius: ${v('size.rounded.md')};
         background-color: ${v('color.surface.50')};
-        color: ${v('color.surface.600')};
+        color: ${v('color.surface.700')};
         height: ${v('size.height.control')};
         align-content: center;
         padding: 0 ${v('size.padding.lg')};

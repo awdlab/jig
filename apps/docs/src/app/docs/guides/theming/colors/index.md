@@ -1,5 +1,5 @@
-The nova theme exposes **eight semantic color families**, each rendered as a ramp of
-**eleven tones** from `50` (lightest) to `950` (darkest). Every tone is a CSS custom
+The nova and material themes expose **eight semantic color families**, each rendered as a
+ramp of **eleven tones** from `50` (lightest) to `950` (darkest). Every tone is a CSS custom
 property you can use anywhere:
 
 ```
@@ -9,6 +9,10 @@ property you can use anywhere:
 The families are `surface`, `primary`, `secondary`, `accent`, `info`, `success`,
 `warning`, and `error`. `surface` is the neutral/grey family used for backgrounds,
 borders, and text; the rest are accent hues.
+
+The shade theme is slot-based instead: it defines `surface`, `primary`, `secondary`,
+`muted`, `accent`, and `destructive`, and offers `surface` / `primary` / `destructive` as
+`color` values. It emits the numeric ramp too, so token references keep resolving.
 
 {{ component: NgnThemeColorsDemo }}
 
@@ -32,7 +36,7 @@ tokens for shared states.
 
 ### Dark mode reverses the ramp
 
-In dark mode the engine **reverses each family's ramp** — `50` and `950` swap, `100` and
+In dark mode nova and material **reverse each family's ramp** — `50` and `950` swap, `100` and
 `900` swap, and so on — so the same token name self-adjusts to the scheme without you
 changing anything. The **`500` tone is the fixed point**: it sits at the exact center of
 the ramp and renders identically in light and dark. Reach for `500` when a color must look

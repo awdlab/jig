@@ -50,3 +50,11 @@ readonly pagedRows = computed(() =>
 - `ngn-table`'s column/template model is specific — read its docs with
   `get_control` before laying out columns.
 - Reset `page` to 0 whenever the filter query changes.
+- The table can also sort/filter/paginate the `rows` array itself via its own
+  `ngnTableSortableColumn` / `ngnTableFilterableColumn` directives and
+  `paginator` input — reach for the manual pipeline above only when you need the
+  derived view elsewhere.
+- For server-driven data pass `dataSource` instead of `rows`: sorting, filtering
+  and paging are delegated to the loader (offset or cursor, plus infinite
+  scroll), and grouping is unsupported. `virtual` is about rendering only and
+  combines with it.

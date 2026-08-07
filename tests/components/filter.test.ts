@@ -354,7 +354,6 @@ test('popover mode summary text shows quoted value', async ({ page }) => {
 });
 
 test('list kind (multi select) filters by membership', async ({ page }) => {
-  test.skip();
   const handle = await loadComponent(
     page,
     {

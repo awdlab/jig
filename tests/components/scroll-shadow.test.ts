@@ -1,5 +1,6 @@
 import test, { expect, type Page } from '@playwright/test';
 
+import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -195,4 +196,26 @@ test('visual - theme overlay shadows on all four edges (both axes, mid-scroll)',
   await scrollTo(page, '#sc', { left: 200, top: 200 });
 
   await expectScreenshot(page.locator('#sc'), testInfo);
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  // The scroll container is author-owned, so the author supplies the keyboard access
+  // (WCAG 2.1.1); the check covers the overlay the directive injects into it.
+  await loadComponent(page, {
+    template: `
+      <div
+        id="sc"
+        ngnScrollShadow="both"
+        tabindex="0"
+        role="region"
+        aria-label="Scrollable content"
+        style="width: 200px; height: 100px; overflow: auto;">
+        <div style="width: 800px; height: 800px;"></div>
+      </div>`,
+    imports: ['scrollShadow'],
+  });
+  await expect(page.locator('#sc')).toBeVisible();
+  await waitReady(page, '#sc');
+
+  await expectNoA11yViolations(page);
 });

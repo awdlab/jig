@@ -284,13 +284,7 @@ test('visual', async ({ page }, testInfo) => {
   });
 });
 
-// TODO(a11y): aria-required-children — ngn-list-box's ngn-scroller wrapper is a
-// disallowed child of role="listbox" (it must contain only role="option"/"group").
-// Same pre-existing gap tracked fixme in listbox.test.ts:27-31 and
-// select.test.ts:618-621; needs the same ARIA + virtual-scroll design pass on
-// ngn-list-box/ngn-scroller. Not specific to command, and (unlike those two)
-// scrollable-region-focusable does not fire here.
-test.fixme('has no accessibility violations while open', async ({ page }) => {
+test('has no accessibility violations while open', async ({ page }) => {
   await loadCommand(page);
   await expect(page.locator('dialog')).toBeVisible();
   await expectNoA11yViolations(page);

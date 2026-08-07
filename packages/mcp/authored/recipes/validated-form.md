@@ -45,4 +45,8 @@ value. Verify each control's exact inputs with `get_control` before wiring.
 - Prefer signals for form state (`signal()` / `model()`); ngn controls are
   signal-first.
 - For grouped choices use `ngn-radio-group` + `ngn-radio` or `ngn-select-button`.
+- Render validation messages with the `[ngnErrors]` directive inside the field —
+  it reads the bound control's `errors`/`touched`/`dirty`. Controls implement signal forms'
+  `FormValueControl`, so `[formField]` works directly; there is no
+  `ControlValueAccessor`.
 - See the `getting-started-usage` and control docs for exact input names.

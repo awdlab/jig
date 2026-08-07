@@ -500,11 +500,10 @@ test('virtual scrolling with padding of 5 and assertions', async ({ page }, test
   await expectScreenshot(page, testInfo);
 });
 
-// TODO(a11y): the scroller's scrollable viewport isn't keyboard-focusable
-// (scrollable-region-focusable). A fix (tabindex on the scroll region, or documenting
-// that consumers own keyboard access) needs a design decision since the scroller is a
-// shared primitive used by list-box/select/tree/table. Tracked as a11y hardening.
-test.fixme('accessibility (axe)', async ({ page }) => {
+// A scroll port whose content holds no focusable element needs `focusable` so the
+// region is reachable by keyboard (WCAG 2.1.1). Hosts that own focus themselves
+// (list-box, select, tree, table) leave it off.
+test('accessibility (axe)', async ({ page }) => {
   const items = Array.from({ length: 50 }, (_, i) => ({
     id: i,
     label: `Item ${i + 1}`,
@@ -514,7 +513,11 @@ test.fixme('accessibility (axe)', async ({ page }) => {
     page,
     {
       template: `
-        <ngn-scroller style="height: 300px; width: 300px;" [items]="inputs().items">
+        <ngn-scroller
+          style="height: 300px; width: 300px;"
+          [focusable]="true"
+          aria-label="Items"
+          [items]="inputs().items">
           <ng-template #item let-item>
             <div [ngnScrollerItem]="item" style="padding: 8px; border-bottom: 1px solid #ccc;">
               {{ item.label }}

@@ -37,16 +37,17 @@ A part's `root`/`dark` block is a function returning a CSS string, given three h
   nested control from its parent. The allowed `(scope, className)` pairs are constrained by
   the template's declared `dependencies`.
 
-### Layering: base then nova, source order wins
+### Layering: base then the themed layer, source order wins
 
-For a part with a `base`, the base CSS is emitted **first**, then the nova rules. Both are
-given a selector suffix that adds exactly one pseudo-class of specificity — base uses
-`:not(.ngn-css-specificity)` (a class that never exists), nova uses `:not(.ngn-unstyled)`.
-Equal specificity means **source order decides, so nova wins**. Two consequences:
+For a part with a `base`, the base CSS is emitted **first**, then the theme's rules (nova,
+shade, or material). Both are given a selector suffix that adds exactly one pseudo-class of
+specificity — base uses `:not(.ngn-css-specificity)` (a class that never exists), the themed
+layer uses `:not(.ngn-unstyled)`. Equal specificity means **source order decides, so the
+theme wins**. Two consequences:
 
-- Adding the `ngn-unstyled` class to a control makes it fail nova's `:not(.ngn-unstyled)`
-  match, dropping the themed layer while the structural base rules remain — that's how
-  `unstyled` controls work.
+- Adding the `ngn-unstyled` class to a control makes it fail the themed layer's
+  `:not(.ngn-unstyled)` match, dropping it while the structural base rules remain — that's
+  how `unstyled` controls work.
 - Dark values are emitted under `&.dark { … }` on the scope root, activated by the `dark`
   class on `<html>` (see [Dark Mode](/guides/dark-mode)).
 

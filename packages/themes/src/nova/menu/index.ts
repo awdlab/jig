@@ -61,7 +61,7 @@ export const menuStyles = createThemePart({
       }
       ${c('icon-children')} {
         --icon-size: 8px;
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
       }
       ${c('separator')} {
         width: 100%;

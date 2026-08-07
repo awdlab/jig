@@ -23,9 +23,9 @@ That split buys you three things:
 
 ### What's in the box
 
-- **40+ controls** — inputs, actions, overlays, data display, layout, feedback, navigation.
-- **Two presets** — `nova` (fully themed, dark-mode aware) and `shade` (a shadcn-style
-  theme) — both from `@ngneers/controls-themes`.
+- **50+ controls** — inputs, actions, overlays, data display, layout, feedback, navigation.
+- **Three presets** — `nova` (fully themed, dark-mode aware), `shade` (a shadcn-style
+  theme), and `material` (Material Design 3) — all from `@ngneers/controls-themes`.
 - **Opt-in features** — toasts, snackbars, default icons, and automatic dark mode are each
   enabled by a `with*()` feature you pass to the provider. You only ship what you use.
 

@@ -19,19 +19,19 @@ test('scrolls when a flex parent bounds its height', async ({ page }) => {
     { inputs: { items: exampleData.items.flatPreformatted } }
   );
 
+  // The list box itself is the scroll port — role="listbox" has to be both the
+  // scrollable region and the direct parent of its options.
   const metrics = await page.locator('ngn-list-box').evaluate(el => {
-    const scroller = el.querySelector('[class*="scroller-root"]') as HTMLElement;
-    scroller.scrollTop = 80;
+    el.scrollTop = 80;
     return {
-      scrollerHeight: scroller.clientHeight,
-      listHeight: el.clientHeight,
-      contentHeight: scroller.scrollHeight,
-      scrollTop: scroller.scrollTop,
+      portHeight: el.clientHeight,
+      contentHeight: el.scrollHeight,
+      scrollTop: el.scrollTop,
     };
   });
 
-  expect(metrics.contentHeight).toBeGreaterThan(metrics.scrollerHeight);
-  expect(metrics.scrollerHeight).toBeLessThanOrEqual(metrics.listHeight);
+  expect(metrics.contentHeight).toBeGreaterThan(metrics.portHeight);
+  expect(metrics.portHeight).toBeLessThanOrEqual(200);
   expect(metrics.scrollTop).toBe(80);
 });
 
@@ -128,19 +128,16 @@ test('base', async ({ page }, testInfo) => {
   await listbox.expectItemsCount(exampleData.items.flatPreformatted.length);
 });
 
-// TODO(a11y): virtualization breaks listbox semantics — the ngn-scroller wrapper
-// sits between role="listbox" and its role="option" children (aria-required-children),
-// and the scroll region isn't keyboard-focusable (scrollable-region-focusable).
-// Fixing needs an ARIA + virtual-scroll design pass (aria-owns or role=presentation
-// on the scroller wrapper). Tracked as a11y hardening.
-test.fixme('accessibility (axe)', async ({ page }) => {
-  // role="listbox" requires an accessible name (aria-input-field-name).
+test('accessibility (axe)', async ({ page }) => {
+  // role="listbox" requires an accessible name (aria-input-field-name). It comes from
+  // `label`, which drives the host's aria-label — a bare aria-label attribute is
+  // overwritten by that binding.
   await loadComponent(
     page,
     {
       template: `
       <ngn-list-box
-        aria-label="Options"
+        [label]="'Options'"
         style="width: 200px; height: 400px; display: block;"
         [items]="inputs().items"
       />

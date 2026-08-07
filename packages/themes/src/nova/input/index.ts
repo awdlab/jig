@@ -10,7 +10,7 @@ export const inputStyles = createThemePart({
   root: {
     css: ({ v, c }) => css`
       ${c('root')}::placeholder {
-        color: ${v('color.surface.400')};
+        color: ${v('color.surface.500')};
         opacity: 1;
       }
     `,

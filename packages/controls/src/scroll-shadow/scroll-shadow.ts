@@ -14,6 +14,11 @@ import { scrollShadowDirectiveTemplate } from '@ngneers/controls-themes/template
 import { domEventHandler, injectThemeTemplate } from '@ngneers/controls/api/ng';
 import { toggleClass } from '@ngneers/controls/utils';
 
+/**
+ * Fades a scroll edge in and out as its host scrolls, signalling more content.
+ *
+ * @category directive
+ */
 @Directive({
   selector: '[ngnScrollShadow]',
 })

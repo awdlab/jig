@@ -21,18 +21,18 @@ export const stepperStyles = createThemePart({
         /* Upcoming step: an outlined marker so it reads as a reachable to-do, not a
            disabled (opacity-dimmed) step. Active/completed override background+border below. */
         background: ${v('color.background')};
-        color: ${v('color.surface.600')};
+        color: ${v('color.surface.700')};
         border: 1px solid ${v('color.border')};
         font-weight: ${v('font.weight.semibold')};
         font-size: ${v('font.size.sm')};
       }
       ${c('label')} {
         font-weight: ${v('font.weight.medium')};
-        color: ${v('color.surface.600')};
+        color: ${v('color.surface.700')};
       }
       ${c('optional')} {
         font-size: ${v('font.size.sm')};
-        color: ${v('color.surface.400')};
+        color: ${v('color.surface.500')};
       }
       ${c('connector')} {
         background: ${v('color.border')};

@@ -26,7 +26,7 @@ export const accordionPanelStyles = createThemePart({
         transition: grid-template-rows 0.2s ease-in-out;
       }
       ${c('content')} {
-        color: ${v('color.surface.600')};
+        color: ${v('color.surface.700')};
         ngn-defer {
           padding: ${v('size.padding.md')} ${v('size.padding.lg')};
         }
@@ -39,7 +39,7 @@ export const accordionPanelStyles = createThemePart({
         user-select: none;
         transition: background-color 0.2s ease-in-out;
         ngn-icon {
-          color: ${v('color.surface.500')};
+          color: ${v('color.surface.600')};
           margin: 0 ${v('size.padding.md')};
           transition: color 0.2s ease-in-out;
         }

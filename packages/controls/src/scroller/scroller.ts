@@ -29,7 +29,9 @@ import { ScrollerTemplates } from './scroller-templates';
     { directive: NgnScrollAmount, inputs: ['ngnScrollAmountContainer: scrollContainer'] },
   ],
   host: {
-    '[tabIndex]': 'focusable() ? 0 : -1',
+    // No attribute at all when not focusable: a tabindex (even -1) makes the element
+    // focusable to axe, which then rejects it as a child of role="listbox"/"tree".
+    '[attr.tabindex]': 'focusable() ? 0 : null',
     '[style.--ngn-scroller-item-height.px]': 'itemHeight() ?? "auto"',
     '[style.--ngn-scroller-padding-top.px]': 'paddingTop()',
     '[style.--ngn-scroller-padding-bottom.px]': 'paddingBottom()',

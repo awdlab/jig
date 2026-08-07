@@ -111,7 +111,17 @@
     { "from": "mat-progress-bar", "to": "ngn-progress" },
     { "from": "mat-progress-spinner / mat-spinner", "to": "ngn-spinner" },
     { "from": "mat-chip-set / mat-chip", "to": "ngn-chip" },
-    { "from": "mat-badge", "to": "ngn-tag" },
+    {
+      "from": "matBadge",
+      "to": "[ngnBadge]",
+      "notes": "Attribute directive overlaying a counter/dot on its host, like matBadge; ngn-badge-indicator is the standalone element form. Use ngn-tag for a standalone label chip.",
+      "props": [
+        { "from": "matBadge", "to": "[ngnBadge]" },
+        { "from": "matBadgePosition", "to": "[ngnBadgePosition]" },
+        { "from": "matBadgeHidden", "to": "[ngnBadgeHidden]" },
+        { "from": "matBadgeColor", "to": "kind / color" }
+      ]
+    },
     {
       "from": "mat-icon",
       "to": "ngn-icon",
@@ -141,10 +151,19 @@
       ]
     },
     {
-      "from": "mat-stepper",
-      "to": "(no direct equivalent)",
+      "from": "mat-stepper / mat-horizontal-stepper / mat-vertical-stepper",
+      "to": "ngn-stepper / ngn-step",
+      "notes": "Steps are <ngn-step> children; the active index is a signal model. Step content is lazy and cached by default ([lazy], [cache]).",
+      "props": [
+        { "from": "[(selectedIndex)]", "to": "[(active)]" },
+        { "from": "linear", "to": "linear" },
+        { "from": "mat-step label", "to": "label" },
+        { "from": "optional", "to": "optional" },
+        { "from": "completed", "to": "[(completed)]" },
+        { "from": "hasError", "to": "error" }
+      ],
       "gaps": [
-        "No stepper/wizard control; drive steps with a signal and conditionally render ngn controls (see the build_feature workflow)."
+        "No stepper-scoped form validation — ngn-step exposes [completed]/[error] that you drive from your own form state."
       ]
     }
   ]

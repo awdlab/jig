@@ -258,7 +258,18 @@
     { "from": "p-progressBar", "to": "ngn-progress" },
     { "from": "p-progressSpinner", "to": "ngn-spinner" },
     { "from": "p-chip", "to": "ngn-chip" },
-    { "from": "p-tag / p-badge", "to": "ngn-tag" },
+    { "from": "p-tag", "to": "ngn-tag" },
+    {
+      "from": "p-badge / p-overlayBadge / pBadge",
+      "to": "[ngnBadge]",
+      "notes": "Attribute directive that overlays a counter/dot on the host element; ngn-badge-indicator is the standalone element form. Directive inputs are ngn-prefixed aliases.",
+      "props": [
+        { "from": "value", "to": "[ngnBadge]" },
+        { "from": "severity", "to": "kind / color" },
+        { "from": "badgeSize / size", "to": "[ngnBadgeCircular] + theme sizing" },
+        { "from": "(dot badge)", "to": "[ngnBadgeDot]" }
+      ]
+    },
     { "from": "p-avatar", "to": "ngn-avatar" },
     {
       "from": "p-toast",
@@ -292,16 +303,75 @@
     },
     {
       "from": "p-rating",
-      "to": "(no direct equivalent)",
-      "gaps": [
-        "No star-rating control in ngn; build one from icons + a form control, or keep PrimeNG for this."
+      "to": "ngn-rating",
+      "notes": "Value is a signal model ([(value)]); half stars come from step=0.5 rather than a separate input.",
+      "props": [
+        { "from": "stars", "to": "count" },
+        { "from": "[(ngModel)]", "to": "[(value)]" },
+        {
+          "from": "cancel",
+          "to": "clearable",
+          "notes": "ngn-rating is clearable by default (re-click the active value); set [clearable]=\"false\" to disable."
+        },
+        { "from": "onRate / onCancel", "to": "(valueChange)" },
+        { "from": "iconOnClass / iconOffClass", "to": "iconFull / iconEmpty" }
       ]
     },
     {
       "from": "p-colorPicker",
-      "to": "(no direct equivalent)",
-      "gaps": [
-        "No color-picker control in ngn; use a native <input type=color> or a third-party picker."
+      "to": "ngn-color-picker",
+      "notes": "Renders inline or as a popover trigger; the value is a signal model in the chosen format.",
+      "props": [
+        { "from": "[(ngModel)]", "to": "[(value)]" },
+        { "from": "format", "to": "format", "notes": "'hex' | 'rgb' | 'hsl'." },
+        {
+          "from": "inline",
+          "to": "inline",
+          "notes": "ngn also has [popover] for a trigger + overlay variant with [(open)]."
+        },
+        { "from": "onChange", "to": "(valueChange)" }
+      ],
+      "gaps": ["No appendTo — overlay placement is controlled with [anchor]."]
+    },
+    {
+      "from": "p-inputOtp",
+      "to": "ngn-otp",
+      "notes": "Grouped control with no single focusable element — label it with [labelledBy], not <label for>.",
+      "props": [
+        { "from": "[(ngModel)]", "to": "[(value)]" },
+        { "from": "length", "to": "length" },
+        { "from": "mask", "to": "mask" },
+        { "from": "integerOnly", "to": "integerOnly" },
+        {
+          "from": "onChange",
+          "to": "(valueChange)",
+          "notes": "(completed) fires once every slot is filled."
+        }
+      ]
+    },
+    {
+      "from": "p-stepper / p-steps",
+      "to": "ngn-stepper / ngn-step",
+      "notes": "Each step is an <ngn-step> child; the active index is a signal model on ngn-stepper.",
+      "props": [
+        { "from": "[(activeStep)]", "to": "[(active)]" },
+        { "from": "linear", "to": "linear" },
+        { "from": "model (MenuItem[])", "to": "<ngn-step [label]=\"…\"> children" }
+      ]
+    },
+    {
+      "from": "p-scroller / p-virtualScroller",
+      "to": "ngn-scroller",
+      "notes": "Virtualization is opt-in — set [virtual] together with [itemHeight]; the item template is projected with [ngnScrollerItem].",
+      "props": [
+        { "from": "items", "to": "items" },
+        { "from": "itemSize", "to": "itemHeight" },
+        { "from": "(always virtual)", "to": "virtual" },
+        {
+          "from": "lazy / onLazyLoad",
+          "to": "(no equivalent)",
+          "notes": "For server-driven data use ngn-table's dataSource, or load into `items` yourself."
+        }
       ]
     },
     {

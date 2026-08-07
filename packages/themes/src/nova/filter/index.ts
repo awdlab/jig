@@ -41,7 +41,7 @@ export const filterStyles = createThemePart({
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        color: ${v('color.surface.400')};
+        color: ${v('color.surface.500')};
         cursor: pointer;
         transition: color 0.15s ease;
       }
@@ -83,7 +83,7 @@ export const filterStyles = createThemePart({
         background: ${v('color.surface.600')};
       }
       ${c('footer')} {
-        border-top-color: ${v('color.surface.600')};
+        border-top-color: ${v('color.surface.700')};
       }
     `,
   },

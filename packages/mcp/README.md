@@ -106,7 +106,7 @@ procedure, MCP carries the data):
 
 ```bash
 # From the repo (the skills CLI resolves git repos / subpaths / local paths):
-npx skills@latest add https://github.com/<owner>/<repo>/tree/main/packages/mcp/skills
+npx skills@latest add https://github.com/NGneers/controls/tree/main/packages/mcp/skills
 
 # ...or point at a local checkout / the installed package folder:
 npx skills@latest add ./node_modules/@ngneers/controls-mcp/skills
@@ -168,7 +168,7 @@ authored/               Hand-authored knowledge (merged into the pack)
   recipes/*.md            Composition recipes (frontmatter + walkthrough)
 skills/                 Agent skills (SKILL.md per task) for the skills CLI
 scripts/build-pack.ts   Monorepo-only pack generator (typedoc + md + authored → JSON)
-data/knowledge-pack.json Generated, committed, shipped artifact
+data/knowledge-pack.json Generated at build time (gitignored), shipped in the package
 src/pack.ts             Pack schema + runtime loader
 src/render.ts           Markdown rendering + search helpers
 src/resources.ts        ngn://control, ngn://concept, ngn://recipe resources

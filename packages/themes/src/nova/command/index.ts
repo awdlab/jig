@@ -26,7 +26,7 @@ export const commandStyles = createThemePart({
       }
       ${c('search-icon')} {
         --icon-size: 1.125rem;
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
       }
       ${c('root')} ${d('list-box')} {
         padding: ${v('size.padding.sm')};
@@ -35,7 +35,7 @@ export const commandStyles = createThemePart({
       /* group labels stick while the list scrolls, so they need the palette surface behind them */
       ${c('root')} ${d('list-box', 'group')} {
         background: ${v('color.background')};
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
         padding: ${v('size.padding.md')} ${v('size.padding.lg')} ${v('size.padding.sm')};
         font-size: ${v('font.size.xs')};
         font-weight: ${v('font.weight.semibold')};
@@ -60,7 +60,7 @@ export const commandStyles = createThemePart({
       }
       ${c('item-icon')} {
         --icon-size: 1rem;
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
       }
       /* the hint bar reads as a quiet legend under the list */
       ${c('root')} ${d('dialog', 'footer')} {
@@ -73,12 +73,12 @@ export const commandStyles = createThemePart({
       }
       ${c('hint')} {
         gap: ${v('size.padding.sm')};
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
         font-size: ${v('font.size.xs')};
       }
       ${c('empty')} {
         padding: ${v('size.padding.xl')};
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
         font-size: ${v('font.size.sm')};
       }
     `,

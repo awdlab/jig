@@ -11,8 +11,9 @@ injects it into `<head>` at runtime (no stylesheet import, no Tailwind required)
 - **`nova`** — a fully themed, dark-mode-aware preset (import `novaCoral` from
   `@ngneers/controls-themes/nova`).
 - **`shade`** — a shadcn-style preset (`@ngneers/controls-themes/shade`).
+- **`material`** — a Material Design 3 preset (`@ngneers/controls-themes/material`).
 
-Both are `Theme` objects you pass to `provideNgnControls({ theme: { preset } })`. You can
+All three are `Theme` objects you pass to `provideNgnControls({ theme: { preset } })`. You can
 also author your own theme with the `createTheme` / `createThemePart` /
 `createControlTemplate` API.
 

@@ -29,7 +29,7 @@ icon value to replace just that one:
 ### Registering a default set
 
 Controls with `defaultIcon` slots need a registry. The quickest path is
-`withDefaultIcons()`, which registers the built-in **Tabler** set covering all ~42 semantic
+`withDefaultIcons()`, which registers the built-in **Tabler** set covering all 45 semantic
 slots (`dialog-close`, `dropdown-toggle`, `checkbox-checked`, `sort-ascending`, …):
 
 ```ts

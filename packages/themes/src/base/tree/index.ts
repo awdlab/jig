@@ -6,10 +6,20 @@ export const treeStyles = createThemePart({
   dependencies: [],
   root: {
     css: ({ c, d }) => css`
+      /* The role host owns the scroll port: role="tree" must be both the scrollable
+         region (so the keyboard reaches it) and the direct parent of its treeitems. */
       ${c('root')} {
         width: 100%;
         height: 100%;
         display: block;
+        overflow-y: auto;
+        overflow-x: hidden;
+        position: relative;
+        overflow-anchor: none;
+      }
+      ${c('root')} ${d('scroller')} {
+        overflow: visible;
+        height: auto;
       }
       ${c('item')},
       ${c('group')} {

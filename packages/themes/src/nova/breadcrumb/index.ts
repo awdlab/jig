@@ -16,7 +16,7 @@ export const breadcrumbStyles = createThemePart({
         }
       }
       ${c('separator')} {
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
         ngn-icon {
           margin-left: 0.5rem;
           font-size: ${v('font.size.xs')};
@@ -24,7 +24,7 @@ export const breadcrumbStyles = createThemePart({
       }
       ${c('item')}, ${c('overflow')} {
         cursor: default;
-        color: ${v('color.surface.600')};
+        color: ${v('color.surface.700')};
         transition: color 0.2s;
         background: transparent;
         border: none;

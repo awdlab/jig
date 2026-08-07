@@ -163,7 +163,7 @@ export const inputFieldStyles = createThemePart({
 
         ${c('clear-button')} {
           font-size: calc(1em * 0.9);
-          color: ${v('color.surface.500')};
+          color: ${v('color.surface.600')};
           &:hover {
             color: ${v('color.surface.700')};
           }
@@ -171,7 +171,7 @@ export const inputFieldStyles = createThemePart({
 
         /* Label Styles */
         ${c('label')} {
-          color: ${v('color.surface.600')};
+          color: ${v('color.surface.700')};
           font-size: ${v('font.size.sm')};
           font-weight: ${v('font.weight.medium')};
 

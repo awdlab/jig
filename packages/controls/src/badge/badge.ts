@@ -18,6 +18,8 @@ import { NgnBadgeIndicator, type BadgePosition } from './badge-indicator';
  * Overlays a small badge (count, text, or dot) onto its host element — an icon,
  * button, or avatar. The badge is injected as an absolutely-positioned overlay,
  * so the host is made `position: relative` when it is currently static.
+ *
+ * @category directive
  */
 @Directive({
   // Also match `[ngnBadgeDot]` so dot mode works standalone (no value/`ngnBadge` needed).

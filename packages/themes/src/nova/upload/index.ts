@@ -53,11 +53,11 @@ export const uploadStyles = createThemePart({
 
         ${c('icon')} {
           font-size: ${v('font.size.2xl')};
-          color: ${v('color.surface.500')};
+          color: ${v('color.surface.600')};
         }
         ${c('placeholder')} {
           font-size: ${v('font.size.sm')};
-          color: ${v('color.surface.600')};
+          color: ${v('color.surface.700')};
         }
 
         ${c('list')} {
@@ -78,7 +78,7 @@ export const uploadStyles = createThemePart({
         }
         ${c('size')} {
           font-size: ${v('font.size.xs')};
-          color: ${v('color.surface.500')};
+          color: ${v('color.surface.600')};
         }
 
         ${c('item-done')} ${c('status')} {

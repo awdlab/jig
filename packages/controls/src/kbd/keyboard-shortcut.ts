@@ -67,6 +67,8 @@ export function closestShortcutScope(element: Element | null): NgnKeyboardShortc
  * Runs shortcut callbacks while focus is inside the host element — or anywhere on the page for
  * a binding marked {@link NgnShortcutBinding.global}. A handled shortcut stops propagating, so a
  * nested scope wins over an outer one.
+ *
+ * @category directive
  */
 @Directive({
   selector: '[ngnKeyboardShortcut]',

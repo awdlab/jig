@@ -14,8 +14,8 @@ if no theme preset is provided.
 
 The library targets **Angular 22+** and expects these peers in your app:
 
-- `@angular/common`, `@angular/core`, `@angular/forms`, `@angular/platform-browser`,
-  `@angular/router`
+- `@angular/common`, `@angular/compiler`, `@angular/core`, `@angular/forms`,
+  `@angular/platform-browser`, `@angular/router`
 - `@floating-ui/dom` — positioning for overlays (tooltip, popover, select…)
 - `@ngneers/signal-translate`, `rxjs`
 

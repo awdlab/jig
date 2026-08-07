@@ -16,11 +16,11 @@ export const treeStyles = createThemePart({
   root: {
     css: ({ v, c, d }) => css`
       ${c('root')} {
+        padding: ${v('size.padding.sm')};
         border-radius: ${v('size.rounded.lg')};
         border-color: ${v('color.border')};
         border-width: 1px;
         border-style: solid;
-        padding: ${v('size.padding.sm')};
         background: ${v('color.background')};
         /* The tree is one tab stop and moves the highlight with the arrow keys, so the ring
            goes on the container. */
@@ -92,7 +92,7 @@ export const treeStyles = createThemePart({
         }
       }
       ${c('toggle')} {
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
         &:hover {
           color: ${v('color.surface.700')};
         }

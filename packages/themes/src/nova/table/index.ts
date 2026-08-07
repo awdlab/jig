@@ -41,7 +41,7 @@ export const tableStyles = createThemePart({
       ${c('head')} ${c('cell')} {
         font-weight: ${v('font.weight.semibold')};
         font-size: ${v('font.size.sm')};
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
         gap: ${v('size.padding.sm')};
         border-bottom: 1px solid ${v('color.border')};
       }
@@ -125,7 +125,7 @@ export const tableStyles = createThemePart({
       }
       ${c('sort-control')} {
         order: 3;
-        color: ${v('color.surface.600')};
+        color: ${v('color.surface.700')};
       }
       ${c('sorted-column')} ${c('sort-control')} {
         color: ${v('color.surface.800')};
@@ -135,7 +135,7 @@ export const tableStyles = createThemePart({
 
       ${c('filter-control')} {
         order: 2;
-        color: ${v('color.surface.600')};
+        color: ${v('color.surface.700')};
       }
 
       /* ── Grouping ────────────────────────────────────────────────────── */
@@ -156,7 +156,7 @@ export const tableStyles = createThemePart({
         padding: ${v('size.padding.md')};
       }
       ${c('group-toggle')} {
-        color: ${v('color.surface.600')};
+        color: ${v('color.surface.700')};
         transition: transform 0.15s;
       }
       ${c('group-expanded')} ${c('group-toggle')} {

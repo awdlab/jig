@@ -1,5 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { NgnBadgeHarness } from '@ngneers/controls-playwright';
+import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -132,4 +133,19 @@ test('anchors correctly on a wrapper around a clipping host (avatar)', async ({
   expect(badgeCy).toBeLessThan(avatarBox.y + avatarBox.height);
 
   await expectScreenshot(page, testInfo, 'on-avatar');
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<button type="button" style="width:48px;height:48px" [ngnBadge]="inputs().value">Inbox</button>`,
+      imports: ['badge'],
+    },
+    { inputs: { value: 5 } }
+  );
+
+  const badge = new NgnBadgeHarness(page.locator('button'));
+  await badge.expectText('5');
+  await expectNoA11yViolations(page);
 });

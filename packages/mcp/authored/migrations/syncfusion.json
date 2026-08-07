@@ -92,6 +92,59 @@
     { "from": "ejs-toast", "to": "ngn-toast / ngn-snackbar" },
     { "from": "ejs-message", "to": "ngn-message" },
     { "from": "ejs-uploader", "to": "ngn-upload" },
-    { "from": "ejs-splitter", "to": "ngn-splitter" }
+    { "from": "ejs-splitter", "to": "ngn-splitter" },
+    {
+      "from": "ejs-rating",
+      "to": "ngn-rating",
+      "props": [
+        { "from": "[(value)]", "to": "[(value)]" },
+        { "from": "itemsCount", "to": "count" },
+        { "from": "precision", "to": "step", "notes": "Half stars = step 0.5." },
+        { "from": "allowReset", "to": "clearable" }
+      ]
+    },
+    {
+      "from": "ejs-stepper",
+      "to": "ngn-stepper / ngn-step",
+      "notes": "Steps are <ngn-step> children, not a `steps` array input.",
+      "props": [
+        { "from": "[(activeStep)]", "to": "[(active)]" },
+        { "from": "linear", "to": "linear" },
+        { "from": "steps[].label", "to": "label" },
+        { "from": "steps[].optional", "to": "optional" }
+      ]
+    },
+    {
+      "from": "ejs-colorpicker",
+      "to": "ngn-color-picker",
+      "props": [
+        { "from": "[(value)]", "to": "[(value)]" },
+        { "from": "mode / modeSwitcher", "to": "format" },
+        { "from": "inline", "to": "inline" },
+        { "from": "presetColors", "to": "swatches" },
+        { "from": "noColor / enableOpacity", "to": "alpha" }
+      ]
+    },
+    {
+      "from": "ejs-otpinput",
+      "to": "ngn-otp",
+      "notes": "Grouped control with no single focusable element — label it with [labelledBy].",
+      "props": [
+        { "from": "[(value)]", "to": "[(value)]" },
+        { "from": "length", "to": "length" },
+        { "from": "type='password'", "to": "mask" },
+        { "from": "type='number'", "to": "integerOnly" }
+      ]
+    },
+    {
+      "from": "ejs-inplaceeditor",
+      "to": "ngn-edit-inplace",
+      "notes": "Wraps the editor control you project; ngn-inplace is the lower-level display/edit swap."
+    },
+    {
+      "from": "ejs-keyboard",
+      "to": "[ngnKeyboardShortcut]",
+      "notes": "Scope directive: shortcuts fire while focus is inside the host (or globally per binding). ngn-kbd renders the shortcut glyphs."
+    }
   ]
 }

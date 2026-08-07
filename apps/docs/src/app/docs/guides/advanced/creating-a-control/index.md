@@ -6,7 +6,7 @@ propagated across all of them.
 | 1   | Control source | `packages/controls/src/{name}/` — `.ts`, `.html`, `index.ts`, `ng-package.json` |
 | 2   | Theme template | `packages/themes/src/templates/{name}/index.ts`                                 |
 | 3   | Base theme     | `packages/themes/src/base/{name}/index.ts`                                      |
-| 4   | Nova theme     | `packages/themes/src/nova/{name}/index.ts`                                      |
+| 4   | Themed parts   | `packages/themes/src/{nova,shade,material}/{name}/index.ts`                     |
 | 5   | Tests          | `tests/components/{name}.test.ts`                                               |
 | 6   | Docs page      | `apps/docs/src/app/docs/components/{name}/`                                     |
 | 7   | Demos          | `apps/docs/src/app/demos/{name}/`                                               |
@@ -65,10 +65,12 @@ consumers pass through to it).
 **5. Barrel + package.** `index.ts` re-exports the class; `ng-package.json` is
 `{ "lib": { "entryFile": "index.ts" } }`.
 
-**6. Base + nova parts.** `createThemePart` for both layers (see
-[Authoring a Theme](/guides/authoring-a-theme)), then register each in
-`base/index.ts` / `nova/index.ts` and add to the theme's part array. Register any `kind`s
-in the nova `KINDS` metadata.
+**6. Base + themed parts.** `createThemePart` for the structural base and for every shipped
+theme — nova, shade, and material (see [Authoring a Theme](/guides/authoring-a-theme)) —
+then register each in `base/index.ts`, `nova/index.ts`, `shade/index.ts`,
+`material/index.ts` and add it to that theme's part array. Register any `kind`s in each
+theme's `KINDS` metadata. A new part folder also needs an empty `package.json` marker and a
+themes build before it resolves.
 
 **7. Docs, demos, tests** for parts 5–7 above.
 
@@ -80,7 +82,7 @@ in the nova `KINDS` metadata.
 - **Booleans:** `input(false, { transform: booleanAttribute })`.
 - **Icon inputs:** `icon`-prefixed (`iconClose`, not `closeIcon`).
 - **Directive input aliases:** `ngn{Directive}{Prop}`, where the alias suffix equals the
-  property name (ESLint `no-input-rename`).
+  property name (the `no-input-rename` convention).
 - **No component CSS** — styling only through theme parts.
 - Controls with template/projection inputs extract a `{Name}Templates` base class; flat
   controls extend the base directly.

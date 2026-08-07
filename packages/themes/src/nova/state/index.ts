@@ -10,7 +10,7 @@ export const stateStyles = createThemePart({
   root: {
     css: ({ v, c }) => css`
       ${c('kind-cancelled')} {
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
       }
 
       ${c('kind-success')} {

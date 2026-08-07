@@ -57,7 +57,7 @@ export const colorPickerStyles = createThemePart({
         padding: 0;
       }
       ${c('channel-label')} {
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
       }
       ${c('disabled')} {
         opacity: 0.5;

@@ -15,6 +15,11 @@ export const chipStyles = createThemePart({
         flex-grow: 1;
         font-family: inherit;
       }
+
+      /* WCAG 2.5.8 — the remove target stays at least 24 CSS px wide. */
+      ${c('close-button')} {
+        min-width: 24px;
+      }
     `,
   },
 });

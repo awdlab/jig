@@ -77,7 +77,7 @@ export const calendarStyles = createThemePart({
         box-shadow: inset 0 0 0 1px ${v('color.primary.500')};
       }
       ${c('day-other-month')} {
-        color: ${v('color.surface.400')};
+        color: ${v('color.surface.500')};
       }
       ${c('day-selected')} {
         background: ${v('color.primary.500')};

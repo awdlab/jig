@@ -615,11 +615,7 @@ test('opens from the wrapping field padding with tabindex -1', async ({ page }) 
   );
 });
 
-// TODO(a11y): the open dropdown uses a virtualized ngn-list-box, so the scroller
-// wrapper sits between role="listbox" and its options (aria-required-children) and
-// the scroll region isn't keyboard-focusable (scrollable-region-focusable). Needs
-// the same ARIA + virtual-scroll design pass as list-box/tree. Tracked.
-test.fixme('accessibility (axe)', async ({ page }) => {
+test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {

@@ -32,7 +32,7 @@ export const tabsStyles = createThemePart({
         background: transparent;
         border: none;
         cursor: pointer;
-        color: ${v('color.surface.600')};
+        color: ${v('color.surface.700')};
         font-weight: ${v('font.weight.semibold')};
         border-radius: calc(${v('size.rounded.md')} - 3px);
         padding: ${v('size.padding.sm')} ${v('size.padding.lg')};
@@ -60,7 +60,7 @@ export const tabsStyles = createThemePart({
       ${c('scroll-left')}, ${c('scroll-right')} {
         background: ${v('color.surface.50')};
         padding: 0;
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
         --icon-size: 0.625rem;
         cursor: pointer;
         --blurColor: ${v('color.surface.50')};

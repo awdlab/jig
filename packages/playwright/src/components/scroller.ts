@@ -62,7 +62,13 @@ export class NgnScrollerHarness {
     }
     const scrollAmount = index * itemHeight;
     await this.scrollarea.evaluate((el, amount) => {
-      el.scrollTo({ top: amount });
+      // The scroll port may be the scroller itself or an ancestor that owns the
+      // overflow (list-box, tree, table).
+      let port: Element | null = el;
+      while (port && getComputedStyle(port).overflowY === 'visible') {
+        port = port.parentElement;
+      }
+      (port ?? el).scrollTo({ top: amount });
     }, scrollAmount);
   }
 }

@@ -13,7 +13,8 @@ Content is projected, so a message can hold plain text or richer markup:
 ```
 
 The severity is set with **`color`** (`info`, `success`, `warning`, `error`),
-and the visual treatment with **`kind`** (e.g. `filled`, `outlined`, `simple`) —
+and the visual treatment with **`kind`** (nova/material: `default`, `outlined`,
+`simple`; shade: `default`, `destructive`) —
 both driven by the theme. The demo below renders every available kind/color
 combination the current theme provides.
 

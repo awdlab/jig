@@ -5,7 +5,6 @@ import {
   Component,
   computed,
   effect,
-  ElementRef,
   input,
   signal,
   untracked,
@@ -84,10 +83,6 @@ export class NgnListBox<
   });
 
   private readonly _scroller = viewChild.required<NgnScroller<NgnItemsValue<Items>>>(NgnScroller);
-  private readonly _scrollerElement = viewChild.required<
-    NgnScroller<NgnItemsValue<Items>>,
-    ElementRef<HTMLElement>
-  >(NgnScroller, { read: ElementRef });
 
   /**
    * The items to display in the list box.
@@ -306,7 +301,7 @@ export class NgnListBox<
 
   /** Rows that fit the scroll port, the step `PageUp`/`PageDown` moves by. */
   private pageSize(): number {
-    const port = this._scrollerElement().nativeElement;
+    const port = this.element.nativeElement;
     const row = port.querySelector<HTMLElement>('[role="option"]')?.offsetHeight ?? 0;
     // A measured port that fits a single row pages by one; only an unmeasurable one guesses.
     return row ? Math.max(1, Math.floor(port.clientHeight / row)) : DEFAULT_PAGE_SIZE;

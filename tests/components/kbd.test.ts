@@ -1,6 +1,7 @@
 import { NgnKbdHarness } from '@ngneers/controls-playwright';
 import test, { expect } from '@playwright/test';
 
+import { expectNoA11yViolations } from '../helper/axe';
 import { expectOutput, loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -154,4 +155,19 @@ test('escape and ctrl+enter reach footer buttons from the autofocused field', as
   await expect(page.locator('#field')).toBeFocused();
   await page.keyboard.press('Control+Enter');
   await expectOutput(handle, 'button', ['cancel', 'confirm']);
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<ngn-kbd [shortcut]="inputs().shortcut" />`,
+      imports: ['kbd'],
+    },
+    { inputs: { shortcut: 'ctrl+shift+a' } }
+  );
+
+  const kbd = new NgnKbdHarness(page.locator('ngn-kbd'));
+  await kbd.expectText('⌃⇧A');
+  await expectNoA11yViolations(page);
 });
