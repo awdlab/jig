@@ -29,7 +29,13 @@ export function resolveWorkspaceDependencies(
           console.warn(`Could not find workspace package for ${name}`);
         }
       } else if (typeof version === 'string' && version.startsWith('catalog:')) {
-        const resolved = resolveCatalogProtocol(name, catalog);
+        let resolved = resolveCatalogProtocol(name, catalog);
+        // The catalog pins exact versions so workspace installs stay reproducible. A published
+        // peer range must not: an exact pin makes every consumer on a later patch of the same
+        // major hit a peer conflict. Widen bare versions, leave existing ranges (~, ^, …) alone.
+        if (resolved && depType === 'peerDependencies' && /^\d/.test(resolved)) {
+          resolved = `^${resolved}`;
+        }
         if (resolved) {
           deps[name] = resolved;
           console.log(`Resolved ${name}: ${version} -> ${resolved}`);
