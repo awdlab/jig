@@ -1,5 +1,22 @@
 # Changelog
 
+## @ngneers/controls-mcp 0.0.1 (2026-08-08)
+
+- Document the directive API and fix two i18n gaps.
+
+- Every public directive and the remaining table structure directives now carry
+  `@category`, so they appear in the generated API tables and in the MCP
+  knowledge pack: `ngnAutofocus`, `ngnMovable`, `ngnResizable`, `ngnScrollAmount`,
+  `ngnDrag`, `ngnDragScroll`, `ngnRovingGroup`/`ngnRovingItem`, `ngnContextMenu`,
+  `ngn-action-button`, `ngnScrollerItem`, and the table's `th`/`td`/`tr`,
+  sticky-column and row-actions directives.
+- `customTranslations` languages are now selectable. They were registered but
+  never added to `availableLanguages`, so `setLanguage('fr')` silently fell back
+  to English.
+- Translation loading is tracked with `PendingTasks`, so server-side rendering
+  waits for the locale instead of serializing raw key paths that were then
+  swapped out on hydration.
+
 ## @ngneers/controls-mcp 0.0.1-next.1 (2026-08-07)
 
 - The axe helper now scans the `wcag22aa` rule set with `color-contrast` enabled, and the four controls that carried `test.fixme` a11y checks pass it. Only `region` stays globally disabled (a test-wrapper artifact).

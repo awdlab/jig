@@ -1,6 +1,6 @@
 {
   "name": "@ngneers/controls",
-  "version": "0.0.1-next.6",
+  "version": "0.0.1",
   "description": "Modern, signal-based Angular 22 component library — themeable, accessible, tree-shakeable controls.",
   "license": "MIT",
   "homepage": "https://ngneers.dev",

@@ -1,5 +1,23 @@
 # Changelog
 
+## @ngneers/controls 0.0.1 (2026-08-08)
+
+- Angular peer dependencies are published as `^22.0.5` instead of the exact `22.0.5`. The peers are declared as `catalog:`, and the catalog pins exact versions to keep workspace installs reproducible — that pin was being copied verbatim into the published package, so every consumer on any later Angular patch hit a peer conflict and `ng update` refused to run without `--force`. Only bare versions are widened; ranges already written as `~` or `^` are left as-is.
+- Document the directive API and fix two i18n gaps.
+
+- Every public directive and the remaining table structure directives now carry
+  `@category`, so they appear in the generated API tables and in the MCP
+  knowledge pack: `ngnAutofocus`, `ngnMovable`, `ngnResizable`, `ngnScrollAmount`,
+  `ngnDrag`, `ngnDragScroll`, `ngnRovingGroup`/`ngnRovingItem`, `ngnContextMenu`,
+  `ngn-action-button`, `ngnScrollerItem`, and the table's `th`/`td`/`tr`,
+  sticky-column and row-actions directives.
+- `customTranslations` languages are now selectable. They were registered but
+  never added to `availableLanguages`, so `setLanguage('fr')` silently fell back
+  to English.
+- Translation loading is tracked with `PendingTasks`, so server-side rendering
+  waits for the locale instead of serializing raw key paths that were then
+  swapped out on hydration.
+
 ## @ngneers/controls 0.0.1-next.6 (2026-08-07)
 
 - `kind` and `color` resolve to the active theme's literal unions again, and importing a theme is all it takes to get there. Two separate defects kept the custom-type mechanic from ever working.
