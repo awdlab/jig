@@ -66,6 +66,12 @@
         "typescript/unbound-method": "off",
         "no-unused-vars": "off"
       }
+    },
+    {
+      "files": ["apps/docs/src/app/demos/**/*.ts"],
+      "rules": {
+        "typescript/unbound-method": "off"
+      }
     }
   ]
 }

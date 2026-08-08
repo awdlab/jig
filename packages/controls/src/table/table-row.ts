@@ -10,6 +10,13 @@ import { NgnTable } from './table';
 
 import type { FormattedTableDataRow } from './types';
 
+/**
+ * A table body `<tr>`. Bind it to the row object the `#body` template receives —
+ * it drives selection, focus and active state, striping, and the row's place in
+ * the virtual scroller.
+ *
+ * @category directive
+ */
 @Directive({
   selector: '[ngnTableBodyTr]',
   host: {

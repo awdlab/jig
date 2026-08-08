@@ -1,4 +1,5 @@
 import { AccordionPage } from './accordion/page';
+import { AutofocusPage } from './autofocus/page';
 import { AvatarPage } from './avatar/page';
 import { BadgePage } from './badge/page';
 import { BreadcrumbPage } from './breadcrumb/page';
@@ -9,9 +10,12 @@ import { CheckboxPage } from './checkbox/page';
 import { ChipPage } from './chip/page';
 import { ColorPickerPage } from './color-picker/page';
 import { CommandPage } from './command/page';
+import { DeferPage } from './defer/page';
 import { DialogPage } from './dialog/page';
+import { DragPage } from './drag/page';
 import { DrawerPage } from './drawer/page';
 import { EditInplacePage } from './edit-inplace/page';
+import { ErrorsPage } from './errors/page';
 import { FilterPage } from './filter/page';
 import { HintPage } from './hint/page';
 import { IconPage } from './icon/page';
@@ -24,6 +28,7 @@ import { ListBoxPage } from './list-box/page';
 import { MaskInputPage } from './mask-input/page';
 import { MenuPage } from './menu/page';
 import { MessagePage } from './message/page';
+import { MovablePage } from './movable/page';
 import { NumberInputPage } from './number-input/page';
 import { OtpPage } from './otp/page';
 import { PaginatorPage } from './paginator/page';
@@ -31,6 +36,9 @@ import { PopoverPage } from './popover/page';
 import { ProgressPage } from './progress/page';
 import { RadioPage } from './radio/page';
 import { RatingPage } from './rating/page';
+import { ResizablePage } from './resizable/page';
+import { RovingFocusPage } from './roving-focus/page';
+import { ScrollAmountPage } from './scroll-amount/page';
 import { ScrollShadowPage } from './scroll-shadow/page';
 import { ScrollerPage } from './scroller/page';
 import { SelectPage } from './select/page';
@@ -106,6 +114,7 @@ export const COMPONENT_GROUPS: NgnDocsGroup[] = [
     title: 'Containers & Overlays',
     pages: [
       AccordionPage,
+      DeferPage,
       DialogPage,
       DrawerPage,
       MenuPage,
@@ -120,7 +129,11 @@ export const COMPONENT_GROUPS: NgnDocsGroup[] = [
   },
   {
     title: 'Feedback & Navigation',
-    pages: [BreadcrumbPage, HintPage, MessagePage, SnackbarPage, StatePage, ToastPage],
+    pages: [BreadcrumbPage, ErrorsPage, HintPage, MessagePage, SnackbarPage, StatePage, ToastPage],
+  },
+  {
+    title: 'Directives',
+    pages: [AutofocusPage, DragPage, MovablePage, ResizablePage, RovingFocusPage, ScrollAmountPage],
   },
 ];
 

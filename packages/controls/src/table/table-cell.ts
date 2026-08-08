@@ -15,11 +15,14 @@ import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 import { NgnTable } from './table';
 
 /**
- * Lightweight body-cell directive. Deliberately does **not** extend `NgnBase`:
- * a `<td>` is instantiated once per cell (thousands per table), so it avoids the
- * per-control overhead (kind/color effects, `viewChildren` query, theme kind/color
- * injection, leave-animation hooks). It only does what a cell needs — apply the
- * `cell` class, expose its visual column index, and mirror sticky positioning.
+ * A table body cell. Applies the theme's cell class, exposes its visual column
+ * index and mirrors the column's sticky positioning.
+ *
+ * Deliberately does not extend `NgnBase` — one instance exists per cell, so it
+ * skips the per-control overhead (kind/color effects, view queries, leave
+ * animations).
+ *
+ * @category directive
  */
 @Directive({
   selector: '[ngnTableTd]',

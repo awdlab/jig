@@ -50,3 +50,7 @@ Thumbs.db
 # 30MB download is cached in .potion-cache.
 /public/search
 /.potion-cache
+
+# Generated SEO artefacts — rebuilt by prepare-docs (tools/seo-gen.ts)
+/public/sitemap.xml
+/public/llms.txt

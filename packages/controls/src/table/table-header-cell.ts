@@ -21,6 +21,13 @@ import { NgnTable } from './table';
 
 import type { ResizableItem, ResizeLimit, ResizeSize } from '@ngneers/controls/api/resize';
 
+/**
+ * A table header cell. Declares the column's id — the key every other column
+ * feature (sort, filter, sticky, reorder, resize) is addressed by — and owns
+ * the column's size and resize handle.
+ *
+ * @category directive
+ */
 @Directive({
   selector: '[ngnTableTh]',
   host: {

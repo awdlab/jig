@@ -1,5 +1,4 @@
 import { Component, effect, inject, computed, signal } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
 import { notNullish } from '@ngneers/controls/utils';
@@ -8,6 +7,7 @@ import { NgnDocsPageSection } from './section/section';
 import { NgnDocsToc } from './toc/toc';
 import { BreadcrumbService } from '../../../frame/breadcrumb.service';
 import { safeRoutePath } from '../../routing';
+import { Seo } from '../../seo';
 
 import type { TocEntry } from '../../md/types';
 import type { NgnDocsSinglePage, NgnDocsTab } from '../types';
@@ -22,7 +22,7 @@ import type { BreadcrumbItem } from '@ngneers/controls/breadcrumb';
   },
 })
 export class NgnDocsPageRenderer {
-  private readonly _title = inject(Title);
+  private readonly _seo = inject(Seo);
   private readonly _activatedRoute = inject(ActivatedRoute);
   private readonly _breadcrumb = inject(BreadcrumbService);
 
@@ -54,7 +54,7 @@ export class NgnDocsPageRenderer {
 
     effect(() => {
       const tabTitle = this.tab ? ` ${this.tab.tabTitle || this.tab.title}` : '';
-      this._title.setTitle(`${this.page.title}${tabTitle} - ngn-controls`);
+      this._seo.set({ title: `${this.page.title}${tabTitle}` });
     });
   }
 }

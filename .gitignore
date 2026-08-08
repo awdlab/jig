@@ -1,21 +1,37 @@
+# Dependencies & build output
 node_modules
 dist
-test-report.xml
-_generated
 .angular
+_generated
+**/coverage/**
 
 # Linked tsconfig files
 **/tsconfig.symlink.json
 
-# Playwright
+# Tests
+test-report.xml
 tests/results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-.playwright-mcp
 
+# Agent & editor tooling (local working state, never committed)
 .claude/worktrees
 .claude/settings.local.json
+.playwright-mcp
 .superpowers
+.impeccable
+.aider*
+.cursor/
+.windsurf/
 
-**/coverage/**
+# OS & editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Local environment
+.env
+.env.*
+!.env.example

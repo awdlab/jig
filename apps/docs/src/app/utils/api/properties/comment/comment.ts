@@ -13,7 +13,6 @@ import type { CommentDisplayPart } from 'typedoc/browser';
 })
 export class NgnDocsApiComment {
   public readonly comment = input<CommentDisplayPart[] | undefined>();
-  public readonly propKind = input.required<string>();
 
   protected readonly commentString = computed(() => {
     return (this.comment() ?? [])
@@ -30,7 +29,11 @@ export class NgnDocsApiComment {
             return `<span class="code-name-highlight">${part.text}</span>`;
           }
         } else if (part.kind === 'inline-tag') {
-          return `[${part.text}](#${`${this.propKind()}_${part.text}`})`;
+          // `api-links-gen` rewrote resolvable targets to docs URLs; anything
+          // still pointing at a reflection has no page to link to.
+          return typeof part.target === 'string'
+            ? `[${part.text}](${part.target})`
+            : `<span class="code-name-highlight">${part.text}</span>`;
         } else {
           console.warn('Unknown comment part kind:', part.kind);
           return '';

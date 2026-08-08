@@ -18,10 +18,25 @@ interface StatsData {
   stars: number | null;
 }
 
-// Request-driven cache for the stats endpoint (no timer).
+interface ReleaseData {
+  tag: string;
+  name: string;
+  package: string | null;
+  version: string | null;
+  publishedAt: string | null;
+  prerelease: boolean;
+  url: string;
+  body: string;
+}
+
+// Request-driven caches (no timers). Both upstreams are rate-limited, so a
+// cache miss is the only thing that ever reaches them.
 let statsCache: { data: StatsData; timestamp: number } | null = null;
+let releasesCache: { data: ReleaseData[]; timestamp: number } | null = null;
 const CACHE_TTL = 30 * 60 * 1000; // 30 minutes
 const UPSTREAM_TIMEOUT_MS = 5000;
+/** Releases pulled per refresh — enough for a changelog page without paging. */
+const RELEASE_COUNT = 30;
 
 async function fetchNpmVersion(): Promise<string | null> {
   // Note: %2F encodes the scope slash in `@ngneers/controls`.
@@ -51,6 +66,73 @@ async function fetchGithubStars(): Promise<number | null> {
   const json = (await res.json()) as { stargazers_count?: number };
   return json.stargazers_count ?? null;
 }
+
+/**
+ * GitHub releases, normalized for the changelog page. Releases are cut
+ * per-package, so the tag carries both the package and its version
+ * (`@ngneers/controls@0.0.1-next.6`).
+ */
+async function fetchReleases(): Promise<ReleaseData[]> {
+  // TODO: repo is private, so this 404s (the changelog stays empty) until it
+  // goes public. User-Agent is required by the GitHub API (403 without it).
+  const res = await fetch(
+    `https://api.github.com/repos/NGneers/controls/releases?per_page=${RELEASE_COUNT}`,
+    {
+      headers: {
+        'User-Agent': 'ngneers-controls-docs',
+        Accept: 'application/vnd.github+json',
+      },
+      signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
+    }
+  );
+  if (!res.ok) {
+    throw new Error(`GitHub API responded ${res.status}`);
+  }
+
+  const json = (await res.json()) as {
+    tag_name?: string;
+    name?: string | null;
+    published_at?: string | null;
+    prerelease?: boolean;
+    draft?: boolean;
+    html_url?: string;
+    body?: string | null;
+  }[];
+
+  return json
+    .filter(release => !release.draft && !!release.tag_name)
+    .map(release => {
+      const tag = release.tag_name!;
+      // Split on the LAST `@` so the scope's own `@` stays with the package.
+      const at = tag.lastIndexOf('@');
+      return {
+        tag,
+        name: release.name || tag,
+        package: at > 0 ? tag.slice(0, at) : null,
+        version: at > 0 ? tag.slice(at + 1) : null,
+        publishedAt: release.published_at ?? null,
+        prerelease: release.prerelease ?? false,
+        url: release.html_url ?? `https://github.com/NGneers/controls/releases/tag/${tag}`,
+        body: release.body ?? '',
+      } satisfies ReleaseData;
+    });
+}
+
+app.get('/api/changelog', async (_req, res) => {
+  if (releasesCache && Date.now() - releasesCache.timestamp < CACHE_TTL) {
+    res.json(releasesCache.data);
+    return;
+  }
+
+  try {
+    const data = await fetchReleases();
+    releasesCache = { data, timestamp: Date.now() };
+    res.json(data);
+  } catch {
+    // Serve the last known good list rather than an error page.
+    res.json(releasesCache?.data ?? []);
+  }
+});
 
 app.get('/api/stats', async (_req, res) => {
   if (statsCache && Date.now() - statsCache.timestamp < CACHE_TTL) {

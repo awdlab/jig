@@ -14,6 +14,15 @@ import { openMenuAt } from './open-menu-at';
 
 import type { MenuItem } from './types';
 
+/**
+ * Opens an {@link NgnMenu} at the pointer on right-click, replacing the native
+ * browser context menu for its host element.
+ *
+ * The menu is created lazily on first use and reused afterwards; right-clicking
+ * again while it is open is ignored rather than reopening it.
+ *
+ * @category directive
+ */
 @Directive({ selector: '[ngnContextMenu]' })
 export class NgnContextMenu implements OnDestroy {
   private readonly _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);

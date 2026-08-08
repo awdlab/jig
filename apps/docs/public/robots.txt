@@ -1,0 +1,9 @@
+# https://ngneers.dev
+User-agent: *
+Allow: /
+
+# Internal/unlinked routes with no standalone value in search results.
+Disallow: /_gallery
+Disallow: /test
+
+Sitemap: https://ngneers.dev/sitemap.xml

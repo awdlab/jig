@@ -7,6 +7,13 @@ import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
 
 import type { FormattedTableGroupHeaderRow } from './types';
 
+/**
+ * The `<tr>` that renders a group header when the table is grouped via
+ * `groupBy`. Bind it to the group-header row the `#groupHeader` template
+ * receives.
+ *
+ * @category directive
+ */
 @Directive({
   selector: '[ngnTableGroupHeaderTr]',
   host: {

@@ -9,6 +9,16 @@ import {
   signal,
 } from '@angular/core';
 
+/**
+ * Focuses its host element once, after the first browser render.
+ *
+ * The focus is latched: it fires on the first render where the host is
+ * displayed and never again, so re-showing the element does not re-focus it.
+ * Setting {@link NgnAutofocus.ngnAutofocus} to `false` releases the latch, so
+ * toggling it back to `true` focuses again.
+ *
+ * @category directive
+ */
 @Directive({ selector: '[ngnAutofocus]' })
 export class NgnAutofocus {
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);

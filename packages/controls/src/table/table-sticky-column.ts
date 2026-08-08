@@ -12,6 +12,14 @@ import { getNearestNgnInstanceSig } from '@ngneers/controls/base';
 import { NgnTable } from './table';
 import { NgnTableTh } from './table-header-cell';
 
+/**
+ * Pins the column of its {@link NgnTableTh} to the start or end edge of the
+ * table so it stays visible while the body scrolls horizontally.
+ *
+ * Goes on the header cell; the matching body cells follow automatically.
+ *
+ * @category directive
+ */
 @Directive({
   selector: '[ngnTableStickyColumn]',
 })

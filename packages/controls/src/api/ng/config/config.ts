@@ -12,6 +12,8 @@ export type NgnConfig = {
   readonly logLevel: LogLevel;
   readonly customTranslations?: Record<string, () => Promise<Translations>>;
   readonly disableAnimations: boolean;
+  /** Collapse control animations to a near-zero duration while `prefers-reduced-motion: reduce` is set. */
+  readonly respectReducedMotion: boolean;
   readonly theme: {
     readonly preset: Theme | null;
     readonly lazyLoaded: boolean;
@@ -36,6 +38,7 @@ export type NgnConfigInit = DeepPartial<
 export const defaultNgnConfig: NgnConfig = {
   logLevel: 'info',
   disableAnimations: false,
+  respectReducedMotion: true,
   theme: {
     preset: null,
     lazyLoaded: false,
@@ -71,6 +74,7 @@ export function provideNgnConfig(config?: NgnConfigInit): Provider {
         logLevel: config?.logLevel ?? defaultNgnConfig.logLevel,
         customTranslations: config?.customTranslations,
         disableAnimations: config?.disableAnimations ?? defaultNgnConfig.disableAnimations,
+        respectReducedMotion: config?.respectReducedMotion ?? defaultNgnConfig.respectReducedMotion,
         theme: {
           preset: config?.theme?.preset ?? defaultNgnConfig.theme.preset,
           lazyLoaded: config?.theme?.lazyLoaded ?? defaultNgnConfig.theme.lazyLoaded,

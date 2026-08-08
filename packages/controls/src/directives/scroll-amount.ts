@@ -26,6 +26,16 @@ export function isWithinEndZone(distanceFromEnd: number, threshold: number): boo
   return distanceFromEnd <= threshold;
 }
 
+/**
+ * Exposes live scroll geometry of its host (or of an external
+ * {@link NgnScrollAmount.container}) as signals, and fires
+ * {@link NgnScrollAmount.endReached} when the user scrolls near the bottom.
+ *
+ * Geometry is resynced whenever the container resizes or the host's content
+ * grows, so `distanceFromEnd` stays correct after the list changes.
+ *
+ * @category directive
+ */
 @Directive({
   selector: '[ngnScrollAmount]',
 })
@@ -35,6 +45,7 @@ export class NgnScrollAmount {
   /**
    * Optional external scroll container. When set, scroll events and
    * dimensions are tracked on this element instead of the host element.
+   * @alias ngnScrollAmountContainer
    */
   public readonly container = input<HTMLElement | undefined>(undefined, {
     alias: 'ngnScrollAmountContainer',
@@ -43,6 +54,7 @@ export class NgnScrollAmount {
   /**
    * Distance (px) from the end at which {@link endReached} fires.
    * @default 0
+   * @alias ngnScrollAmountEndThreshold
    */
   public readonly endThreshold = input(0, { alias: 'ngnScrollAmountEndThreshold' });
 
@@ -53,16 +65,23 @@ export class NgnScrollAmount {
    */
   public readonly endReached = output<void>();
 
+  /** The element actually being observed — {@link container} when set, otherwise the host. */
   public readonly scrollTarget = computed(() => this.container() ?? this._el.nativeElement);
+  /** Current vertical scroll offset (px) of the {@link scrollTarget}. */
   public readonly scrollTop = signal(this._el.nativeElement.scrollTop);
+  /** Current horizontal scroll offset (px) of the {@link scrollTarget}. */
   public readonly scrollLeft = signal(this._el.nativeElement.scrollLeft);
 
   private readonly _containerSize = elementSizeSignal(this.scrollTarget);
   private readonly _hostSize = elementSizeSignal(this._el);
 
+  /** Total scrollable height (px) of the {@link scrollTarget}. */
   public readonly scrollHeight = signal(this._el.nativeElement.scrollHeight);
+  /** Visible height (px) of the {@link scrollTarget}. */
   public readonly clientHeight = signal(this._el.nativeElement.clientHeight);
+  /** Total scrollable width (px) of the {@link scrollTarget}. */
   public readonly scrollWidth = signal(this._el.nativeElement.scrollWidth);
+  /** Visible width (px) of the {@link scrollTarget}. */
   public readonly clientWidth = signal(this._el.nativeElement.clientWidth);
 
   /** Remaining vertical scroll distance to the bottom (px), clamped at 0. */

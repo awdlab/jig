@@ -1,17 +1,23 @@
-import { Injectable, type Signal } from '@angular/core';
+import { inject, Injectable, PendingTasks, type Signal } from '@angular/core';
 import { BaseTranslateService } from '@ngneers/signal-translate';
 
-import { loadLanguage } from './load-language';
+import { customLanguageTags, loadLanguage } from './load-language';
 import { type SupportedLanguage, supportedLanguages, type Translations } from './types';
 
 @Injectable()
 export class I18n extends BaseTranslateService<Translations> {
+  private readonly _pendingTasks = inject(PendingTasks);
+
   constructor() {
-    super(supportedLanguages, 'en');
+    // Custom tags registered through `customTranslations` count as available,
+    // otherwise the base service falls back to the first built-in language.
+    super([...supportedLanguages, ...customLanguageTags()], 'en');
   }
 
   protected loadTranslations(lang: string): Promise<Translations> {
-    return loadLanguage(lang as SupportedLanguage);
+    // Tracked, so SSR waits for the locale instead of serializing raw key paths.
+    const done = this._pendingTasks.add();
+    return loadLanguage(lang as SupportedLanguage).finally(done);
   }
 
   public unsafe(key: string): Signal<string> {

@@ -15,6 +15,16 @@ import { NgnBase } from '@ngneers/controls/base';
 import { signalWithPrevious } from '@ngneers/controls/utils-ng';
 import { movableDirectiveTemplate } from '@ngneers/controls-themes/templates/api';
 
+/**
+ * Makes its host element draggable with the pointer by writing `left`/`top`
+ * inline styles (and switching the host to `position: fixed` when it is not
+ * already positioned).
+ *
+ * Combine with {@link NgnResizable} — the resize logic calls
+ * {@link NgnMovable.bakePosition} so a resized element keeps its place.
+ *
+ * @category directive
+ */
 @Directive({
   selector: '[ngnMovable]',
 })
@@ -70,6 +80,7 @@ export class NgnMovable extends NgnBase<'movable'> {
   private readonly _isDragging = signal(false);
   private _startX = 0;
   private _startY = 0;
+  private _gestureBlocked = false;
 
   constructor() {
     super();
@@ -102,6 +113,11 @@ export class NgnMovable extends NgnBase<'movable'> {
       }
       const pointerMove = this._pointerMoveSignal();
       if (pointerMove && untracked(this._isDragging)) {
+        // read here, not on pointerdown: the claim is settled by the time a move arrives
+        if (this._gestureBlocked) {
+          this._isDragging.set(false);
+          return;
+        }
         this.dragged.set(true);
         const newLeft = pointerMove.clientX - this._startX;
         const newTop = pointerMove.clientY - this._startY;
@@ -152,6 +168,14 @@ export class NgnMovable extends NgnBase<'movable'> {
     effect(() => {
       this.refreshCursor();
     });
+  }
+
+  /**
+   * Hands the current gesture to another directive on the same host, so it does not
+   * double as a move. {@link NgnResizable} calls this while its grip owns the pointer.
+   */
+  public blockGesture(blocked: boolean): void {
+    this._gestureBlocked = blocked;
   }
 
   public bakePosition() {

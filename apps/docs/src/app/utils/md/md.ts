@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
   Component,
@@ -10,6 +11,7 @@ import {
   DestroyRef,
   PendingTasks,
 } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { MdSnapshot } from './md-snapshot';
 import { renderMd } from './render-md';
@@ -33,13 +35,48 @@ export class Md {
   private readonly _pendingTasks = inject(PendingTasks);
   private readonly _snapshot = inject(MdSnapshot);
   private readonly _host = inject(ElementRef).nativeElement as HTMLElement;
+  private readonly _router = inject(Router);
+  private readonly _location = inject(Location);
 
   public readonly cfg = input.required<MdCfg>();
 
   /** Content headings collected after each render, in document order. */
   public readonly headings = output<TocEntry[]>();
 
+  /**
+   * Routes clicks on in-app links inside the rendered markdown — they are plain
+   * `<a href>`, which would otherwise reload the whole app. Same-page anchors
+   * keep the browser's native scroll.
+   */
+  private routeLinkClick(event: MouseEvent): void {
+    const link = (event.target as HTMLElement | null)?.closest('a');
+    if (
+      !link ||
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey ||
+      link.target
+    ) {
+      return;
+    }
+    const href = link.getAttribute('href');
+    if (!href?.startsWith('/')) {
+      return;
+    }
+    const [path, fragment] = href.split('#');
+    if (path === this._location.path().split('?')[0]) {
+      return;
+    }
+    event.preventDefault();
+    void this._router.navigate([path], { fragment: fragment || undefined });
+  }
+
   constructor() {
+    this._host.addEventListener('click', event => this.routeLinkClick(event));
+
     effect(onCleanup => {
       const cfg = this.cfg();
       this._vcr.clear();

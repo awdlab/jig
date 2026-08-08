@@ -10,6 +10,10 @@ heading: signals everywhere, zoneless, standalone. No `NgModule`s, no
 
 📚 **[Documentation → ngneers.dev](https://ngneers.dev)**
 
+> **Beta.** Published under the `next` dist-tag. The API is close to stable, but inputs
+> may still be renamed between pre-releases — every change ships with a changelog entry.
+> Feedback and bug reports are very welcome.
+
 ## Why
 
 - **50+ controls** — inputs, actions, overlays, data display (incl. a full-featured
@@ -77,6 +81,33 @@ export class ExampleComponent {}
 See the [Getting Started guide](https://ngneers.dev) for the full setup, theming, and
 per-control documentation.
 
+## Documentation map
+
+| Guide                                                               | What it covers                                           |
+| ------------------------------------------------------------------- | -------------------------------------------------------- |
+| [Configuration](https://ngneers.dev/guides/configuration)           | Every provider option and opt-in feature.                |
+| [Forms & Validation](https://ngneers.dev/guides/forms-validation)   | Signal forms, reactive forms, `ngModel`, error messages. |
+| [Theming](https://ngneers.dev/guides/overview)                      | Tokens, kinds, colors, dark mode, custom themes.         |
+| [Styling & Overrides](https://ngneers.dev/guides/styling-overrides) | Cascade layers, passthrough, `unstyled`, Tailwind.       |
+| [Accessibility](https://ngneers.dev/guides/accessibility)           | What is built in, and what stays your responsibility.    |
+| [SSR & Hydration](https://ngneers.dev/guides/ssr-hydration)         | What renders on the server, and what settles after.      |
+| [Testing](https://ngneers.dev/guides/testing)                       | Playwright harnesses and unit-test setup.                |
+| [Migration](https://ngneers.dev/guides/migration)                   | Porting from PrimeNG, Angular Material or Syncfusion.    |
+| [Browser Support](https://ngneers.dev/guides/browser-support)       | Supported browsers, Angular and TypeScript floors.       |
+
+## Requirements
+
+| Requirement       | Version                                      |
+| ----------------- | -------------------------------------------- |
+| Angular           | 22.0+                                        |
+| TypeScript        | 6.0+                                         |
+| Node (build only) | 22+                                          |
+| Browsers          | Chrome/Edge 120+, Firefox 129+, Safari 17.5+ |
+
+The browser floors come from the platform features the controls use directly — the popover
+API, `@starting-style`, cascade layers and CSS nesting. See
+[Browser Support](https://ngneers.dev/guides/browser-support) for the full matrix.
+
 ## Packages
 
 | Package                                                   | Description                                           |
@@ -86,6 +117,16 @@ per-control documentation.
 | [`@ngneers/controls-custom-types`](packages/custom-types) | Shared TypeScript type contracts.                     |
 | [`@ngneers/controls-mcp`](packages/mcp)                   | MCP server exposing the docs/API to AI coding agents. |
 | [`@ngneers/controls-playwright`](packages/playwright)     | Playwright testing harness with page-object helpers.  |
+
+## Contributing
+
+Issues and pull requests are welcome. [CONTRIBUTING.md](CONTRIBUTING.md) covers the repo
+layout, the seven parts a control spans, and the conventions we enforce.
+
+- 🐛 [Report a bug](https://github.com/NGneers/controls/issues/new?template=bug_report.yml)
+- 💡 [Request a feature](https://github.com/NGneers/controls/issues/new?template=feature_request.yml)
+- 🔒 [Security policy](SECURITY.md) — please report vulnerabilities privately
+- 🤝 [Code of Conduct](CODE_OF_CONDUCT.md)
 
 ## License
 

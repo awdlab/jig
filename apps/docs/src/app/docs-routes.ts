@@ -29,6 +29,14 @@ function getPageRoute(page: NgnDocsPage, tab: NgnDocsTab): Route {
       component: NgnDocsPageRenderer,
       data: { page, tab },
     };
+  } else if (page.kind === 'component') {
+    // A page that renders itself — used where the content is not markdown
+    // (e.g. the changelog, which is fetched at runtime).
+    return {
+      path: safeRoutePath(page.title),
+      component: page.component,
+      data: { page, tab },
+    };
   }
   throw new Error(`Unroutable page kind: ${(page as { kind: string }).kind}`);
 }
@@ -69,6 +77,12 @@ export const docsChildRoutes: Routes = [
         path: '',
         pathMatch: 'full',
         redirectTo: safeRoutePath(ALL_DOCS_TABS[0]?.title || ''),
+      },
+      // Anything else under the docs shell: render the 404 in place, so the
+      // sidebar, search and theme picker stay available.
+      {
+        path: '**',
+        loadComponent: () => import('./not-found/not-found').then(m => m.NgnDocsNotFound),
       },
     ],
   },

@@ -1,7 +1,6 @@
 import { NgComponentOutlet } from '@angular/common';
 import { Component, effect, inject, signal, computed } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
 import { NgnTab, NgnTabs } from '@ngneers/controls/tabs';
@@ -9,6 +8,7 @@ import { filter } from 'rxjs';
 
 import { BreadcrumbService } from '../../../../frame/breadcrumb.service';
 import { safeRoutePath } from '../../../routing';
+import { Seo } from '../../../seo';
 import { NgnDocsPageSection } from '../section/section';
 import { NgnDocsToc } from '../toc/toc';
 
@@ -26,7 +26,7 @@ import type { BreadcrumbItem } from '@ngneers/controls/breadcrumb';
   },
 })
 export class NgnDocsPageTabRenderer {
-  private readonly _title = inject(Title);
+  private readonly _seo = inject(Seo);
   private readonly _router = inject(Router);
   private readonly _activatedRoute = inject(ActivatedRoute);
   private readonly _breadcrumb = inject(BreadcrumbService);
@@ -107,7 +107,7 @@ export class NgnDocsPageTabRenderer {
       const activeTab = this.activeTab();
 
       const tabTitle = this.tab ? ` ${this.tab.tabTitle || this.tab.title}` : '';
-      this._title.setTitle(`${this.page.title}${tabTitle} - ngn-controls`);
+      this._seo.set({ title: `${this.page.title}${tabTitle}` });
 
       if (this._first) {
         this._first = false;

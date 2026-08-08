@@ -33,6 +33,8 @@ export const IMPORTS = {
   keyboardShortcut: () => import('@ngneers/controls/kbd').then(m => m.NgnKeyboardShortcut),
   listBox: () => import('@ngneers/controls/list-box').then(m => m.NgnListBox),
   message: () => import('@ngneers/controls/message').then(m => m.NgnMessage),
+  movable: () => import('@ngneers/controls/directives').then(m => m.NgnMovable),
+  resizable: () => import('@ngneers/controls/directives').then(m => m.NgnResizable),
   numberInput: () => import('@ngneers/controls/number-input').then(m => m.NgnNumberInput),
   otp: () => import('@ngneers/controls/otp').then(m => m.NgnOtp),
   paginator: () => import('@ngneers/controls/paginator').then(m => m.NgnPaginator),

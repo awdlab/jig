@@ -134,21 +134,45 @@ export class ThemeService implements OnDestroy {
     }
 
     if (this._config.disableAnimations) {
-      const style = this._document.createElement('style');
-      style.setAttribute('ngn-style', '');
       // we set the durations instead of setting animation/transition to none,
       // so that the animation starts/ends are still applied & the events are still fired
-      style.innerHTML = `.ngn-control, .ngn-control * {
-        animation-duration: 0s !important;
-        transition-duration: 0s !important;
-      }`;
-      this._document.head.appendChild(style);
+      this.upsertMotionStyle(
+        'no-animations',
+        `.ngn-control, .ngn-control * {
+          animation-duration: 0s !important;
+          transition-duration: 0s !important;
+        }`
+      );
       Logger.debug('Animations have been disabled via configuration.');
+    }
+
+    if (this._config.respectReducedMotion) {
+      // near-zero instead of 0s/none, so animationend still fires and leave logic completes
+      this.upsertMotionStyle(
+        'reduced-motion',
+        `@media (prefers-reduced-motion: reduce) {
+          .ngn-control, .ngn-control * {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+          }
+        }`
+      );
     }
 
     toObservable(this.activeTheme)
       .pipe(takeUntilDestroyed(), skip(1))
       .subscribe(this.onThemeChange.bind(this));
+  }
+
+  /** Adds a motion stylesheet once — hydration re-runs this over server-rendered markup. */
+  private upsertMotionStyle(kind: string, css: string): void {
+    if (this._document.head.querySelector(`style[ngn-style="${kind}"]`)) {
+      return;
+    }
+    const style = this._document.createElement('style');
+    style.setAttribute('ngn-style', kind);
+    style.innerHTML = css;
+    this._document.head.appendChild(style);
   }
 
   public loadScope(scope: string): void {

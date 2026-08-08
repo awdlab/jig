@@ -30,6 +30,17 @@ export interface RovingItemRef {
 
 export const ROVING_GROUP = new InjectionToken<NgnRovingGroup>('ROVING_GROUP');
 
+/**
+ * Turns a set of {@link NgnRovingItem}s into a single tab stop with arrow-key
+ * navigation — the roving tabindex pattern that tabs, radio groups, menus and
+ * toolbars are built on.
+ *
+ * Arrow keys move along {@link NgnRovingGroup.orientation}, Home/End jump to
+ * the ends, and disabled items are skipped. Items register themselves through
+ * DI and are ordered by DOM position, so the group never needs a static list.
+ *
+ * @category directive
+ */
 @Directive({
   selector: '[ngnRovingGroup]',
   providers: [{ provide: ROVING_GROUP, useExisting: NgnRovingGroup }],
@@ -282,6 +293,13 @@ export class NgnRovingGroup {
   }
 }
 
+/**
+ * One navigable item inside an {@link NgnRovingGroup}. It registers with the
+ * nearest group (or the one passed to {@link NgnRovingItem.ngnRovingItem}),
+ * gets an `id` if the element has none, and activates itself on pointerdown.
+ *
+ * @category directive
+ */
 @Directive({ selector: '[ngnRovingItem]', exportAs: 'ngnRovingItem' })
 export class NgnRovingItem implements RovingItemRef {
   private readonly _injectedGroup = inject(ROVING_GROUP, { optional: true });

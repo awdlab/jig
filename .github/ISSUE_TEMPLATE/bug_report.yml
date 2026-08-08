@@ -1,0 +1,91 @@
+name: Bug report
+description: Something in a control does not behave as documented.
+labels: ['bug', 'triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. A minimal reproduction is worth more than a long
+        description — a StackBlitz or a small repo gets a fix much faster.
+
+  - type: input
+    id: control
+    attributes:
+      label: Control or package
+      description: e.g. `ngn-select`, `ngnTableTh`, `@ngneers/controls-themes`
+      placeholder: ngn-select
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you see, and what did you expect instead?
+    validations:
+      required: true
+
+  - type: input
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Link to a StackBlitz or repository that reproduces it.
+      placeholder: https://stackblitz.com/edit/...
+    validations:
+      required: false
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Render `<ngn-select [items]="items" />`
+        2. Open the dropdown with the keyboard
+        3. …
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: '@ngneers/controls version'
+      placeholder: 0.0.1-next.6
+    validations:
+      required: true
+
+  - type: input
+    id: angular
+    attributes:
+      label: Angular version
+      placeholder: 22.0.5
+    validations:
+      required: true
+
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Theme
+      options:
+        - nova
+        - shade
+        - material
+        - custom
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      placeholder: Chrome 131 / Safari 18.1 / Firefox 133
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: environment
+    attributes:
+      label: Environment
+      options:
+        - label: Happens with server-side rendering
+        - label: Happens with zoneless change detection
+        - label: Happens in the docs site at https://ngneers.dev

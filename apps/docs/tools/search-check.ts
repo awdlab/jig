@@ -48,6 +48,18 @@ const CASES: { query: string; route: string; topN?: number }[] = [
   { query: 'split a panel the user can resize', route: 'components/splitter' },
   { query: 'one time password code entry', route: 'components/otp' },
   { query: 'tooltip on hover', route: 'components/tooltip' },
+  { query: 'show validation error messages under a field', route: 'components/errors' },
+  { query: 'bind a control to a reactive form', route: 'guides/forms-validation' },
+  { query: 'set application wide defaults in the provider', route: 'guides/configuration' },
+  { query: 'translate the built in labels to german', route: 'guides/i18n' },
+  { query: 'test my components with playwright', route: 'guides/testing' },
+  { query: 'what renders on the server before hydration', route: 'guides/ssr-hydration' },
+  { query: 'make an element draggable with the mouse', route: 'components/movable' },
+  // "tab" in the query pulls the tabs control in on the lexical pass, and the
+  // concept is unavoidably named "roving tabindex" — guard that it stays found.
+  { query: 'roving tabindex single tab stop', route: 'components/roving-focus', topN: 8 },
+  { query: 'load more rows when scrolling to the bottom', route: 'components/scroll-amount' },
+  { query: 'which browsers are supported', route: 'guides/browser-support' },
   // Partial words: embeddings cannot match a prefix, so these ride entirely on
   // the lexical pass. Typing a control name must work before the word is done.
   { query: 'accordio', route: 'components/accordion' },

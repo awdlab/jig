@@ -1,4 +1,13 @@
-import { Directive, DOCUMENT, effect, ElementRef, inject, input, signal } from '@angular/core';
+import {
+  booleanAttribute,
+  Directive,
+  DOCUMENT,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import {
   domEventSignal,
   elementSizeSignal,
@@ -9,10 +18,25 @@ import { resizableDirectiveTemplate } from '@ngneers/controls-themes/templates/a
 
 import { NgnMovable } from './movable';
 
+/** Side length (px) of the browser's native resize grip. */
+const GRIP_SIZE = 16;
+
+/**
+ * Clamps a natively resizable element (one with CSS `resize`) so it can never
+ * be dragged past the viewport, and applies optional min/max size limits.
+ *
+ * It does not implement the resize gesture itself — the theme's `resizable`
+ * part supplies the CSS `resize` handle; this directive observes the resulting
+ * size changes while the pointer is down and writes the clamped
+ * `min-*`/`max-*` styles. On a host that is also {@link NgnMovable}, the
+ * position is baked first so the element does not jump.
+ *
+ * @category directive
+ */
 @Directive({
   selector: '[ngnResizable]',
   host: {
-    '[class]': 'theme.classes({ resizable: !!ngnResizable(), resized: resized()})',
+    '[class]': 'theme.classes({ resizable: ngnResizable(), resized: resized()})',
   },
 })
 export class NgnResizable {
@@ -27,7 +51,7 @@ export class NgnResizable {
    * Whether the element is resizable. The empty string (bare attribute) enables it.
    * @default true
    */
-  public readonly ngnResizable = input<boolean | null | undefined | ''>(true);
+  public readonly ngnResizable = input(true, { transform: booleanAttribute });
   /**
    * Minimum and maximum size constraints for the resizable element. Number values
    * are treated as pixels; strings are used as-is. Any bound left `null`/`undefined`
@@ -60,10 +84,26 @@ export class NgnResizable {
     return typeof value === 'number' ? `${value}px` : value;
   }
 
+  /**
+   * Whether the pointer landed on the host's native resize grip (bottom-right corner).
+   * The grip is drawn on the element itself, so a hit on a child is never one.
+   */
+  private isOnGrip(event: PointerEvent): boolean {
+    const el = this._el.nativeElement;
+    if (event.target !== el || getComputedStyle(el).resize === 'none') {
+      return false;
+    }
+    const rect = el.getBoundingClientRect();
+    return rect.right - event.clientX <= GRIP_SIZE && rect.bottom - event.clientY <= GRIP_SIZE;
+  }
+
   constructor() {
     effect(() => {
-      if (this._pointerDownSignal() && !!this.ngnResizable()) {
+      const pointerDown = this._pointerDownSignal();
+      if (pointerDown && this.ngnResizable()) {
         this._isPointerDown = true;
+        // the grip owns this gesture — a co-hosted NgnMovable must not also move the element
+        this._ngnMovable?.blockGesture(this.isOnGrip(pointerDown));
       }
     });
 
@@ -71,6 +111,7 @@ export class NgnResizable {
     effect(() => {
       if (this._pointerUpSignal() || this._pointerCancelSignal()) {
         this._isPointerDown = false;
+        this._ngnMovable?.blockGesture(false);
       }
     });
 

@@ -12,6 +12,15 @@ import { NgnError, toggleClass } from '@ngneers/controls/utils';
 
 import { NgnScroller } from './scroller';
 
+/**
+ * Binds a rendered element to the item it represents inside an enclosing
+ * {@link NgnScroller}, so the scroller can apply its per-item classes and
+ * resolve the item's sticky state.
+ *
+ * Throws if used outside an `NgnScroller`.
+ *
+ * @category directive
+ */
 @Directive({ selector: '[ngnScrollerItem]' })
 export class NgnScrollerItem implements AfterViewInit {
   private readonly _el = inject(ElementRef<HTMLElement>);

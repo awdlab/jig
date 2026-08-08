@@ -19,12 +19,33 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
+
+    <!-- Baseline metadata. Per-route title, description, canonical and social
+         cards are set by the Seo service and are present in the SSR response. -->
+    <meta
+      name="description"
+      content="A signal-based component library for Angular 22+ — 50+ accessible, themeable, tree-shakeable controls. Zoneless, standalone, no ControlValueAccessor."
     />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0b0f" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="author" content="NGneers" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareSourceCode",
+        "name": "@ngneers/controls",
+        "description": "A signal-based component library for Angular 22+ — accessible, themeable, tree-shakeable controls.",
+        "url": "https://ngneers.dev",
+        "codeRepository": "https://github.com/NGneers/controls",
+        "programmingLanguage": "TypeScript",
+        "runtimePlatform": "Angular",
+        "license": "https://opensource.org/licenses/MIT",
+        "author": { "@type": "Organization", "name": "NGneers" }
+      }
+    </script>
   </head>
   <body>
     <ngn-root></ngn-root>

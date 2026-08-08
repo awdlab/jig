@@ -19,6 +19,11 @@ export function registerCustomLanguages(
   });
 }
 
+/** Registered custom language tags, so {@link I18n} can offer them alongside the built-ins. */
+export function customLanguageTags(): string[] {
+  return Object.keys(customLanguages);
+}
+
 export async function loadLanguage(language: SupportedLanguage): Promise<Translations> {
   switch (language) {
     case 'en': {

@@ -1,6 +1,7 @@
 import { NgComponentOutlet } from '@angular/common';
-import { Component, type Type } from '@angular/core';
+import { Component, inject, type Type } from '@angular/core';
 
+import { Seo } from '../utils/seo';
 import { NgnDocsAccessibilitySection } from './sections/accessibility-section';
 import { NgnDocsComponentGallerySection } from './sections/component-gallery-section';
 import { NgnDocsCustomizationSection } from './sections/customization-section';
@@ -41,4 +42,10 @@ export class Start {
     { id: 'component-gallery', component: NgnDocsComponentGallerySection },
     { id: 'final-cta', component: NgnDocsFinalCtaSection },
   ];
+
+  constructor() {
+    // The landing page keeps the bare site name as its title — the suffix the
+    // docs pages carry would read as "ngn-controls - ngn-controls".
+    inject(Seo).set({ title: '' });
+  }
 }

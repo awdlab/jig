@@ -1,0 +1,32 @@
+<div class="nf-wrap">
+  <div class="nf-block">
+    <p class="nf-path" aria-label="Requested address">
+      <span class="nf-path-host">ngneers.dev</span>
+      @for (segment of segments(); track $index; let last = $last) {
+        <span class="nf-path-sep">/</span>
+        @if (last) {
+          <span class="nf-path-miss">{{ segment }}</span>
+        } @else {
+          <span>{{ segment }}</span>
+        }
+      }
+    </p>
+
+    <h1 class="nf-title">There is no page here.</h1>
+
+    <p class="nf-lede">
+      The address resolved to nothing — most often a renamed page or a typo in the last segment.
+      Everything is still one search away.
+    </p>
+
+    <div class="nf-actions">
+      <button ngnButton kind="primary" routerLink="/components">Browse components</button>
+      <button ngnButton kind="secondary" routerLink="/guides">Read the guides</button>
+    </div>
+
+    <p class="nf-hint">
+      Or press <ngn-kbd [shortcut]="searchShortcut" /> to search every page, or
+      <a class="nf-link" routerLink="/">go back to the start</a>.
+    </p>
+  </div>
+</div>

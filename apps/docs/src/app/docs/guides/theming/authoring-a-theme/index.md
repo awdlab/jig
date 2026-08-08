@@ -1,6 +1,9 @@
+This is how you write your own theme — either from scratch, or by taking a shipped preset
+and replacing the parts you want to own.
+
 A theme is just a named array of parts: `createTheme(name, parts, meta)`. You rarely start
-from nothing — the common cases are **overriding one part** of an existing preset or
-**assembling** a theme from the shared base + token parts plus your own visual parts.
+from nothing; the common cases are **overriding one part** of an existing preset or
+**assembling** a new theme from the shared base and token parts plus your own visual parts.
 
 ### Override a single part
 

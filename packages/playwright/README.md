@@ -11,9 +11,11 @@ import { NgnSelectHarness } from '@ngneers/controls-playwright';
 
 const select = new NgnSelectHarness(page.locator('ngn-select'));
 await select.open();
-await select.selectOption('Option 2');
-await select.expectValue('Option 2');
+await select.clickItemByText('Option 2');
+await select.expectSelectedItemText('Option 2');
 ```
+
+Full guide: [Testing](https://ngneers.dev/guides/testing).
 
 ## License
 

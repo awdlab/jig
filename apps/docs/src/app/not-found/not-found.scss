@@ -1,0 +1,108 @@
+.nf-wrap {
+  display: grid;
+  flex: 1;
+  place-items: center;
+  padding: 3rem 1.5rem 6rem;
+}
+
+/* One authored entrance for the whole block, rather than a stagger of effects. */
+.nf-block {
+  max-width: 46rem;
+  animation: nf-rise 560ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes nf-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nf-block {
+    animation-duration: 0.01ms;
+  }
+}
+
+/* The requested address, in the same monospace treatment the docs use for code —
+   here it is genuinely an address, not decoration. */
+.nf-path {
+  margin: 0 0 1.75rem;
+  font-family: 'Consolas', 'Menlo', 'Monaco', monospace;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--ngn-color-surface-500);
+  overflow-wrap: anywhere;
+}
+
+.nf-path-host {
+  color: var(--ngn-color-surface-400);
+}
+
+.nf-path-sep {
+  padding: 0 0.15em;
+  color: var(--ngn-color-surface-400);
+}
+
+/* The segment that failed to resolve. The accent lives in the underline rather
+   than the text, so the word keeps full body contrast in both schemes and the
+   distinction never rests on color alone. */
+.nf-path-miss {
+  color: var(--ngn-color-text);
+  text-decoration: underline wavy var(--ngn-color-error-500);
+  text-underline-offset: 0.28em;
+  text-decoration-thickness: 1px;
+}
+
+.nf-title {
+  margin: 0;
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  font-weight: var(--ngn-font-weight-bold);
+  text-wrap: balance;
+}
+
+.nf-lede {
+  margin: 1.25rem 0 0;
+  max-width: 42ch;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--ngn-color-surface-500);
+  text-wrap: pretty;
+}
+
+.nf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2.25rem;
+}
+
+.nf-hint {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 2.5rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--ngn-color-border);
+  font-size: 0.9375rem;
+  color: var(--ngn-color-surface-500);
+}
+
+.nf-link {
+  color: var(--ngn-color-text);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--ngn-color-surface-400);
+  transition: text-decoration-color 160ms ease;
+}
+
+.nf-link:hover {
+  text-decoration-color: currentColor;
+}

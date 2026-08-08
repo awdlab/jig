@@ -51,13 +51,15 @@ export class NameField {
 }
 ```
 
-Controls implement Angular's signal-forms `FormValueControl` contract, so they bind
-directly to signal forms. For reactive/template-driven forms, validation errors are
-surfaced through the dedicated error/hint controls rather than a `ControlValueAccessor` —
-see [State](/guides/state).
+Controls implement Angular's signal-forms `FormValueControl` contract, so the same markup
+binds to signal forms, reactive forms and `ngModel` alike — no `ControlValueAccessor`
+anywhere. Validation messages are surfaced through the dedicated error/hint controls; see
+[Forms & Validation](/guides/forms-validation).
 
 ### Next steps
 
 - [Components](/components/button) — browse the full catalog.
+- [Configuration](/guides/configuration) — every provider option in one place.
+- [Forms & Validation](/guides/forms-validation) — binding values and showing errors.
 - [Passthrough](/guides/passthrough) — customize a control's internals.
 - [Icons](/guides/icons) — the icon system.

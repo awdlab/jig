@@ -1,0 +1,144 @@
+.cl-wrap {
+  width: 100%;
+  max-width: 52rem;
+  padding: 0 1.5rem 6rem;
+}
+
+.cl-head {
+  margin-bottom: 3rem;
+}
+
+.cl-title {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-weight: var(--ngn-font-weight-bold);
+}
+
+.cl-lede {
+  margin: 1rem 0 0;
+  max-width: 62ch;
+  line-height: 1.65;
+  color: var(--ngn-color-surface-500);
+  text-wrap: pretty;
+}
+
+.cl-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--ngn-color-surface-500);
+}
+
+.cl-package + .cl-package {
+  margin-top: 4rem;
+}
+
+/* Package heading doubles as the section anchor while scrolling a long list. */
+.cl-package-name {
+  position: sticky;
+  top: 4.5rem;
+  z-index: 1;
+  margin: 0 0 1.5rem;
+  padding: 0.5rem 0;
+  background: var(--ngn-color-background);
+  font-family: 'Consolas', 'Menlo', 'Monaco', monospace;
+  font-size: 0.9375rem;
+  font-weight: var(--ngn-font-weight-semibold);
+  color: var(--ngn-color-surface-500);
+}
+
+.cl-release {
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--ngn-color-border);
+}
+
+.cl-release-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.cl-version {
+  margin: 0;
+  font-size: 1.375rem;
+  letter-spacing: -0.015em;
+  font-weight: var(--ngn-font-weight-semibold);
+}
+
+.cl-date {
+  margin-left: auto;
+  font-size: 0.875rem;
+  color: var(--ngn-color-surface-500);
+  white-space: nowrap;
+}
+
+.cl-notes {
+  margin-top: 1rem;
+  line-height: 1.7;
+}
+
+.cl-notes-empty {
+  color: var(--ngn-color-surface-400);
+}
+
+/* Release notes are upstream markdown: keep the vertical rhythm predictable
+   rather than inheriting whatever the body happens to contain. */
+.cl-notes :is(h1, h2, h3, h4) {
+  margin: 1.5rem 0 0.5rem;
+  font-size: 1rem;
+  font-weight: var(--ngn-font-weight-semibold);
+}
+
+.cl-notes :is(ul, ol) {
+  margin: 0.5rem 0;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.cl-notes ol {
+  list-style: decimal;
+}
+
+.cl-notes li {
+  margin: 0.25rem 0;
+}
+
+.cl-notes p {
+  margin: 0.5rem 0;
+}
+
+.cl-notes code {
+  padding: 0.1em 0.35em;
+  border-radius: var(--ngn-size-radius-sm);
+  background: var(--ngn-color-surface-100);
+  font-family: 'Consolas', 'Menlo', 'Monaco', monospace;
+  font-size: 0.9em;
+}
+
+.cl-notes pre {
+  overflow-x: auto;
+  margin: 0.75rem 0;
+  padding: 0.875rem 1rem;
+  border-radius: var(--ngn-size-radius-md);
+  background: var(--ngn-color-surface-100);
+}
+
+.cl-notes pre code {
+  padding: 0;
+  background: none;
+}
+
+.cl-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--ngn-color-surface-400);
+  transition: text-decoration-color 160ms ease;
+}
+
+.cl-link:hover {
+  text-decoration-color: currentColor;
+}

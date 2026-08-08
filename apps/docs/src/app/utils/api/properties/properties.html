@@ -29,8 +29,8 @@
                 </code>
               } @else if (prop.name === 'pt') {
                 <div>
-                  Visit the <a [routerLink]="['/passthrough']">passthrough docs</a> or switch to the
-                  <a [routerLink]="['./playground']">playground tab</a> to explore available
+                  Visit the <a [routerLink]="['/guides/passthrough']">passthrough docs</a> or switch
+                  to the <a [routerLink]="['./playground']">playground tab</a> to explore available
                   Passthrough properties.
                 </div>
               } @else {
@@ -40,11 +40,11 @@
               }
             </td>
             <td>
-              <ngn-docs-api-comment [comment]="getDefaultValue(prop)" [propKind]="kind()" />
+              <ngn-docs-api-comment [comment]="getDefaultValue(prop)" />
             </td>
             <td>
               @if (prop.comment) {
-                <ngn-docs-api-comment [comment]="prop.comment.summary" [propKind]="kind()" />
+                <ngn-docs-api-comment [comment]="prop.comment.summary" />
               }
             </td>
           </tr>

@@ -25,6 +25,8 @@ import type { NgnActionItem } from '@ngneers/controls/api';
  * Per-row actions for the table body `<tr>`. Exposes the same `NgnActionItem[]`
  * as a right-click context menu ({@link context}) and/or an inline hover
  * button-bar ({@link inline}). Both modes are on by default and independent.
+ *
+ * @category directive
  */
 @Directive({ selector: '[ngnTableRowActions]' })
 export class NgnTableRowActions implements OnDestroy {
@@ -39,12 +41,16 @@ export class NgnTableRowActions implements OnDestroy {
   private _menu?: ComponentRef<NgnMenu>;
   private _bar?: ComponentRef<NgnTableRowActionsBar>;
 
-  /** The actions available on this row. */
+  /**
+   * The actions available on this row.
+   * @alias ngnTableRowActions
+   */
   public readonly actions = input.required<NgnActionItem[]>({ alias: 'ngnTableRowActions' });
 
   /**
    * Whether right-clicking the row opens a context menu of the actions.
    * @default true
+   * @alias ngnTableRowActionsContext
    */
   public readonly context = input(true, {
     transform: booleanAttribute,
@@ -55,6 +61,7 @@ export class NgnTableRowActions implements OnDestroy {
    * Whether an inline button-bar is rendered at the row's right edge, revealed
    * on hover or keyboard focus.
    * @default true
+   * @alias ngnTableRowActionsInline
    */
   public readonly inline = input(true, {
     transform: booleanAttribute,

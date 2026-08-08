@@ -4,6 +4,8 @@
 
 Selector: `ngn-table`
 
+{{ api: table/table NgnTable }}
+
 ### Lazy Loading
 
 Setting `dataSource` switches the table into lazy (server-driven) mode: `rows`
@@ -46,18 +48,90 @@ The loader has the shape `(req: TableLoadRequest) => Promise<TableLoadResult<T>>
 | `hasMore`            | `boolean`            | Explicit end-of-data flag, never inferred from a short page.                                                        |
 | `cursor`             | `unknown` (optional) | Opaque continuation token for the next page. Compact/cursor mode only.                                              |
 
+## Structure directives
+
+These build the grid itself. `ngnTableTh` declares the column id that every
+other feature is addressed by.
+
+### NgnTableHeadTr
+
+Selector: `[ngnTableHeadTr]` — the header `<tr>`.
+
+{{ api: table/table-header-row NgnTableHeadTr }}
+
+### NgnTableTh
+
+Selector: `[ngnTableTh]` — a header cell. The bound value is the column id.
+
+{{ api: table/table-header-cell NgnTableTh }}
+
+### NgnTableBodyTr
+
+Selector: `[ngnTableBodyTr]` — a body `<tr>`; bind the row object from the
+`#body` template.
+
+{{ api: table/table-row NgnTableBodyTr }}
+
+### NgnTableTd
+
+Selector: `[ngnTableTd]` — a body cell. It has no inputs; it applies the cell
+class, exposes the visual column index and mirrors sticky positioning.
+
+### NgnTableGroupHeaderTr
+
+Selector: `[ngnTableGroupHeaderTr]` — the `<tr>` for a group header when
+`groupBy` is set; bind the group-header row from the `#groupHeader` template.
+
+{{ api: table/table-group-header-row NgnTableGroupHeaderTr }}
+
+## Column feature directives
+
+Each goes on a header cell, except selection which is used on both header and
+body cells.
+
+### NgnTableSortableColumn
+
+Selector: `[ngnTableSortableColumn]`
+
+{{ api: table/table-sortable-column NgnTableSortableColumn }}
+
+### NgnTableFilterableColumn
+
+Selector: `[ngnTableFilterableColumn]`
+
+{{ api: table/table-filterable-column NgnTableFilterableColumn }}
+
+### NgnTableSelectionColumn
+
+Selector: `[ngnTableSelectionColumn]`
+
+{{ api: table/table-selection-column NgnTableSelectionColumn }}
+
+### NgnTableReorderableColumn
+
+Selector: `[ngnTableReorderableColumn]`
+
+{{ api: table/table-reorderable-column NgnTableReorderableColumn }}
+
+### NgnTableStickyColumn
+
+Selector: `[ngnTableStickyColumn]` — on a header cell; the body cells follow.
+
+{{ api: table/table-sticky-column NgnTableStickyColumn }}
+
 ## NgnTableRowActions
 
 Selector: `[ngnTableRowActions]` (apply to a body `<tr>`)
 
-| Input                       | Type              | Default | Description                                                 |
-| --------------------------- | ----------------- | ------- | ----------------------------------------------------------- |
-| `ngnTableRowActions`        | `NgnActionItem[]` | —       | Actions for this row.                                       |
-| `ngnTableRowActionsContext` | `boolean`         | `true`  | Right-click opens a context menu of the actions.            |
-| `ngnTableRowActionsInline`  | `boolean`         | `true`  | Renders an inline hover button-bar at the row's right edge. |
+{{ api: table/table-row-actions NgnTableRowActions }}
 
 Keyboard: the grid is a single tab stop. ↑/↓/Home/End/PageUp/PageDown move the
 current row, → enters the row's actions, ←/→ move between them (← off the first
 returns to the row), Enter/Space trigger an action, and
 Enter/ContextMenu/Shift+F10 open the menu. See the Accessibility tab for the
 full key map.
+
+## NgnTableModule
+
+An `NgModule` that imports and exports every table directive at once, for
+convenience. All of them are standalone — importing the module is optional.

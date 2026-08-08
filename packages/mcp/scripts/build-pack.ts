@@ -200,8 +200,13 @@ function buildControls(): PackControl[] {
 
       const kind = controlKind(cls);
       // Internal control name = last segment of the module path (e.g.
-      // `select/select` -> `select`).
-      const name = String(mod.name).split('/').pop()!;
+      // `select/select` -> `select`). One module can export several controls
+      // (roving group + item); the later ones fall back to their own class name
+      // so every entry stays individually addressable by `get_control`.
+      const moduleName = String(mod.name).split('/').pop()!;
+      const name = controls.some(c => c.name === moduleName)
+        ? identToScope(cls.name.replace(/^Ngn/, ''))
+        : moduleName;
 
       const byId = new Map<number, Any>((cls.children ?? []).map((c: Any) => [c.id, c]));
       const inputs = groupProps(cls, 'Inputs', byId);

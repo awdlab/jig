@@ -33,4 +33,7 @@ That split buys you three things:
 
 - [Installation](/guides/installation) — add the packages and register the provider.
 - [Usage](/guides/usage) — render your first control.
+- [Configuration](/guides/configuration) — every option the provider takes.
 - [Theming › Overview](/guides/overview) — understand the theme system.
+- [Browser Support](/guides/browser-support) — the Angular and browser floors.
+- [Migration](/guides/migration) — coming from PrimeNG, Material or Syncfusion.

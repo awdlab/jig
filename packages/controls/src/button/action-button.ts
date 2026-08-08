@@ -19,6 +19,17 @@ import { NgnButton } from './button';
 
 import type { NgnActionButtonConfig } from '@ngneers/controls/api';
 
+/**
+ * Renders a single {@link NgnActionButtonConfig} as a button — label or icon,
+ * tooltip, keyboard shortcut and the action callback — so action lists can be
+ * driven by data instead of markup.
+ *
+ * An icon-only button takes its accessible name from the config's label via a
+ * tooltip, and a configured `shortcut` is registered against the nearest
+ * shortcut scope and mirrored into `aria-keyshortcuts`.
+ *
+ * @category control
+ */
 @Component({
   selector: 'ngn-action-button',
   templateUrl: 'action-button.html',

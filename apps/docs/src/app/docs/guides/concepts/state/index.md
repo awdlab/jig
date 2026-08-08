@@ -29,10 +29,15 @@ transform, so `<ngn-checkbox disabled>` works):
 Setting `[invalid]` is an explicit choice — the control does not flip it automatically from
 form validation. There is **no `ControlValueAccessor`**. Instead:
 
-- **Signal forms** — controls implement `FormValueControl`, so they bind directly.
+- **Signal forms** — controls implement `FormValueControl`, so they bind directly and a
+  bound field writes `invalid` in for you.
 - **Reactive/template forms** — a dedicated error directive reads the Angular
   `AbstractControl`'s `errors`/`touched`/`dirty` and drives a hint control, rather than
   mutating the control's own `invalid`.
+
+When the invalid styling actually appears is a separate decision, owned by `invalidOn`
+(`touched` by default, or `dirty` / `immediate` / `never`). The full picture is in
+[Forms & Validation](/guides/forms-validation).
 
 ### State drives theming
 
