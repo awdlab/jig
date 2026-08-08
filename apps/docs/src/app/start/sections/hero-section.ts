@@ -86,9 +86,19 @@ const EGG_PACKAGES = [
         pointer-events: none;
       }
 
+      :host {
+        --hero-font-size: clamp(2.75rem, 8vw, 6.5rem);
+      }
+
+      /* Two headline lines tall: 2 × line-height(0.9) × font-size. */
+      .hero-logo {
+        height: calc(var(--hero-font-size) * 1.8);
+        width: auto;
+      }
+
       .hero-line {
         margin: 0;
-        font-size: clamp(2.75rem, 8vw, 6.5rem);
+        font-size: var(--hero-font-size);
         line-height: 0.9;
         font-weight: var(--ngn-font-weight-bold);
         letter-spacing: -0.025em;
@@ -160,8 +170,7 @@ const EGG_PACKAGES = [
       }
 
       /* Let a reader finish the line they are on. */
-      .hero-cycle:hover .hero-dot-fill,
-      .hero-cycle:focus-within .hero-dot-fill {
+      .hero-cycle:hover .hero-dot-fill {
         animation-play-state: paused;
       }
 
@@ -333,35 +342,44 @@ const EGG_PACKAGES = [
         </div>
 
         <div class="hero-cycle flex flex-col gap-7">
-          <div class="hero-stack max-w-[1000px] text-(--ngn-color-text)">
-            <div class="hero-sizer" aria-hidden="true">
-              @for (phrase of phrases; track phrase.hl) {
-                <span class="hero-line">{{ phrase.pre }}{{ phrase.hl }}{{ phrase.post }}</span>
+          <div class="flex items-center gap-(--ngn-size-padding-xl)">
+            <img
+              src="img/logo.png"
+              alt=""
+              width="512"
+              height="512"
+              class="hero-logo hidden shrink-0 sm:block"
+            />
+            <div class="hero-stack max-w-[1000px] text-(--ngn-color-text)">
+              <div class="hero-sizer" aria-hidden="true">
+                @for (phrase of phrases; track phrase.hl) {
+                  <span class="hero-line">{{ phrase.pre }}{{ phrase.hl }}{{ phrase.post }}</span>
+                }
+              </div>
+              <!-- The outgoing line sinks out while the next one rises in. -->
+              @for (gone of leavingPhrase(); track gone.hl) {
+                <div
+                  class="hero-line hero-line-out"
+                  aria-hidden="true"
+                  (animationend)="clearLeaving()"
+                >
+                  {{ gone.pre }}<span class="ngn-angular-text">{{ gone.hl }}</span
+                  >{{ gone.post }}
+                </div>
+              }
+              <!-- Keyed on the phrase so each swap creates a fresh node and replays the rise. -->
+              @for (phrase of activePhrase(); track phrase.hl) {
+                <h1 class="hero-line hero-line-in">
+                  {{ phrase.pre
+                  }}<a
+                    class="hero-link"
+                    [href]="'#' + phrase.target"
+                    (click)="jumpTo($event, phrase.target)"
+                    ><span class="ngn-angular-text">{{ phrase.hl }}</span></a
+                  >{{ phrase.post }}
+                </h1>
               }
             </div>
-            <!-- The outgoing line sinks out while the next one rises in. -->
-            @for (gone of leavingPhrase(); track gone.hl) {
-              <div
-                class="hero-line hero-line-out"
-                aria-hidden="true"
-                (animationend)="clearLeaving()"
-              >
-                {{ gone.pre }}<span class="ngn-angular-text">{{ gone.hl }}</span
-                >{{ gone.post }}
-              </div>
-            }
-            <!-- Keyed on the phrase so each swap creates a fresh node and replays the rise. -->
-            @for (phrase of activePhrase(); track phrase.hl) {
-              <h1 class="hero-line hero-line-in">
-                {{ phrase.pre
-                }}<a
-                  class="hero-link"
-                  [href]="'#' + phrase.target"
-                  (click)="jumpTo($event, phrase.target)"
-                  ><span class="ngn-angular-text">{{ phrase.hl }}</span></a
-                >{{ phrase.post }}
-              </h1>
-            }
           </div>
 
           <div class="flex items-center gap-(--ngn-size-padding-md)">
