@@ -20,6 +20,7 @@ tests/results/
 .claude/settings.local.json
 .playwright-mcp
 .superpowers
+docs/superpowers
 .impeccable
 .aider*
 .cursor/

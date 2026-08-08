@@ -2,6 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
 
 import { MarkdownPipe } from '../../../md/md-pipe';
+import { RouteLinks } from '../../../route-links';
 
 import type { CommentDisplayPart } from 'typedoc/browser';
 
@@ -10,6 +11,8 @@ import type { CommentDisplayPart } from 'typedoc/browser';
   templateUrl: 'comment.html',
   styleUrl: 'comment.scss',
   imports: [MarkdownPipe, AsyncPipe],
+  // `{@link}` targets render as plain `<a href>` inside `[innerHTML]`.
+  hostDirectives: [RouteLinks],
 })
 export class NgnDocsApiComment {
   public readonly comment = input<CommentDisplayPart[] | undefined>();

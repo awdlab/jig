@@ -34,6 +34,9 @@ interface ReleaseData {
 let statsCache: { data: StatsData; timestamp: number } | null = null;
 let releasesCache: { data: ReleaseData[]; timestamp: number } | null = null;
 const CACHE_TTL = 30 * 60 * 1000; // 30 minutes
+// A failure is cached too, just briefly: GitHub allows 60 unauthenticated
+// requests per hour, and without this every visitor re-hits a failing upstream.
+const FAILURE_TTL = 5 * 60 * 1000; // 5 minutes
 const UPSTREAM_TIMEOUT_MS = 5000;
 /** Releases pulled per refresh — enough for a changelog page without paging. */
 const RELEASE_COUNT = 30;
@@ -129,8 +132,13 @@ app.get('/api/changelog', async (_req, res) => {
     releasesCache = { data, timestamp: Date.now() };
     res.json(data);
   } catch {
-    // Serve the last known good list rather than an error page.
-    res.json(releasesCache?.data ?? []);
+    // Serve the last known good list rather than an error page, and hold it for
+    // FAILURE_TTL so a failing upstream is not retried on every request.
+    releasesCache = {
+      data: releasesCache?.data ?? [],
+      timestamp: Date.now() - CACHE_TTL + FAILURE_TTL,
+    };
+    res.json(releasesCache.data);
   }
 });
 

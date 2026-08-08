@@ -1,13 +1,25 @@
 import { NgnError } from '@ngneers/controls/utils';
 
+import { supportedLanguages } from './types';
+
 import type { SupportedLanguage, Translations } from './types';
 
 const customLanguages: Record<string, (() => Promise<Translations>) | undefined> = {};
+
+/**
+ * Built-ins plus every registered custom tag. Mutated in place — {@link I18n}
+ * holds this exact array as its `availableLanguages`, so a language registered
+ * after the service was created is still selectable.
+ */
+const languageTags: string[] = [...supportedLanguages];
 
 export function registerCustomLanguage(
   language: string,
   translations: () => Promise<Translations>
 ): void {
+  if (!customLanguages[language]) {
+    languageTags.push(language);
+  }
   customLanguages[language] = translations;
 }
 
@@ -19,9 +31,9 @@ export function registerCustomLanguages(
   });
 }
 
-/** Registered custom language tags, so {@link I18n} can offer them alongside the built-ins. */
-export function customLanguageTags(): string[] {
-  return Object.keys(customLanguages);
+/** Every selectable language tag: the built-ins plus anything registered since. */
+export function availableLanguageTags(): readonly string[] {
+  return languageTags;
 }
 
 export async function loadLanguage(language: SupportedLanguage): Promise<Translations> {

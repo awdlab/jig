@@ -235,6 +235,20 @@ function buildControls(): PackControl[] {
   }
 
   controls.sort((a, b) => a.name.localeCompare(b.name));
+
+  // `get_control` addresses controls by name, so a collision silently hides one.
+  const seen = new Map<string, string>();
+  for (const control of controls) {
+    const other = seen.get(control.name);
+    if (other) {
+      throw new Error(
+        `Duplicate control name "${control.name}" (${other} and ${control.className}). ` +
+          `Rename the module or the class so each control is addressable.`
+      );
+    }
+    seen.set(control.name, control.className);
+  }
+
   return controls;
 }
 

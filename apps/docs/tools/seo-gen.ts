@@ -5,19 +5,19 @@
  *   public/sitemap.xml               every canonical URL
  *   public/llms.txt                  the docs index, for AI agents
  *
- * Routes are read from `page.ts` titles — never from folder names, which
- * disagree (`guides/mcp` renders at `/guides/mcp-server`). Descriptions come
- * from the first prose paragraph of the page's default markdown tab, so they
- * stay in sync with the content without a second place to maintain.
+ * Routes, titles and tabs come from `docs-pages.ts` — the same reader the search
+ * index and API links use, so a page cannot be routed two different ways.
+ * Descriptions come from the first prose paragraph of the page's default
+ * markdown tab, so they stay in sync with the content without a second place to
+ * maintain.
  *
  * Runs from `prepare-docs`, before the build. Outputs are gitignored.
  */
-import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
-import { safeRoutePath } from '../src/app/utils/routing';
+import { DOCS_DIR, readPageMeta, readTabSlugs, tabRoutes, walk } from './docs-pages';
 
-const DOCS_DIR = join(import.meta.dirname, '../src/app/docs');
 const GENERATED_DIR = join(DOCS_DIR, '_generated');
 const PUBLIC_DIR = join(import.meta.dirname, '../public');
 
@@ -34,37 +34,6 @@ type Page = {
   area: string;
   description: string;
 };
-
-async function walk(dir: string, match: (path: string) => boolean): Promise<string[]> {
-  const found: string[] = [];
-  for (const item of await readdir(dir, { withFileTypes: true })) {
-    const path = join(dir, item.name);
-    if (item.isDirectory()) {
-      found.push(...(await walk(path, match)));
-    } else if (match(path)) {
-      found.push(path);
-    }
-  }
-  return found;
-}
-
-/** Title and default markdown file of a `page.ts`. */
-function readPage(source: string): { title: string; mdFile?: string } | null {
-  const title = /:\s*NgnDocsPage\s*=\s*\{[\s\S]*?title:\s*[`'"](.+?)[`'"]/.exec(source)?.[1];
-  if (!title) {
-    return null;
-  }
-  // The default tab is the one carrying `default: true`, or — on an untabbed
-  // page — the single `mdFile` on the page object itself.
-  for (const match of source.matchAll(/mdFile:\s*[`'"]([^`'"]+)[`'"]/g)) {
-    const object = source.slice(source.lastIndexOf('{', match.index), match.index);
-    const tabTitle = /title:\s*[`'"](.+?)[`'"]/.exec(object)?.[1];
-    if (!tabTitle || tabTitle === title || /default:\s*true/.test(object)) {
-      return { title, mdFile: match[1] };
-    }
-  }
-  return { title };
-}
 
 /**
  * First real paragraph of a markdown file, flattened to a single sentence-ish
@@ -108,25 +77,24 @@ function extractDescription(md: string): string {
 
 async function collectPages(): Promise<Page[]> {
   const pageFiles = (await walk(DOCS_DIR, p => p.endsWith('page.ts'))).sort();
+  const tabSlugs = await readTabSlugs();
   const pages: Page[] = [];
 
   for (const file of pageFiles) {
-    const page = readPage(await readFile(file, 'utf8'));
-    if (!page) {
+    const { pageTitle, tabs } = await readPageMeta(file);
+    // Only the default tab has a canonical URL of its own. A page that renders
+    // itself (the changelog) has no markdown, and so no prose to describe it.
+    const tab = tabs.find(t => t.isDefault);
+    if (!tab) {
       continue;
     }
-    // `guides/concepts/forms/index.md` → area `guides`. A page with no markdown
-    // (the changelog renders itself) has no prose to describe it.
-    const mdFile = page.mdFile;
-    const area = mdFile?.split('/')[0];
-    if (!mdFile || !area) {
-      continue;
-    }
-    const md = await readFile(join(DOCS_DIR, mdFile), 'utf8');
+    const { pageRoute } = tabRoutes(pageTitle, tab, tabSlugs);
+    const md = await readFile(join(DOCS_DIR, tab.mdFile), 'utf8');
     pages.push({
-      route: `${area}/${safeRoutePath(page.title)}`,
-      title: page.title,
-      area: area === 'guides' ? 'Guides' : 'Components',
+      route: pageRoute,
+      title: pageTitle,
+      // `components/select` → `Components`, the llms.txt section it belongs to.
+      area: pageRoute.split('/')[0]?.replace(/^./, c => c.toUpperCase()) ?? '',
       description: extractDescription(md),
     });
   }
@@ -194,11 +162,6 @@ Every page below is also available as raw markdown by prefixing the path with
 \`/md/\` — for example ${SITE_URL}/md/components/select/index.md.
 
 ${sections}
-
-## Optional
-
-- [MCP server](${SITE_URL}/guides/mcp-server): exposes these docs and the full API surface to coding agents.
-- [Agent skills](${SITE_URL}/guides/agent-skills): packaged workflows for building and migrating with the library.
 `;
 }
 
