@@ -193,6 +193,17 @@ export const tableStyles = createThemePart({
         &:active {
           background: ${v('color.surface.300')};
         }
+        /* nothing hovers on touch, so the grip needs to be visible to be findable at all —
+           drawn as a pill on ::after so the ::before hit area keeps its full height */
+        @media (hover: none) {
+          &::after {
+            content: '';
+            position: absolute;
+            inset: 25% 0;
+            border-radius: 999px;
+            background: ${v('color.surface.300')};
+          }
+        }
       }
       ${c('resizing')} ${c('resize-handle')} {
         background: ${v('color.surface.400')};

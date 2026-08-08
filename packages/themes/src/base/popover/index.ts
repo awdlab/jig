@@ -13,7 +13,10 @@ export const popoverStyles = createThemePart({
       ${c('wrapper')} {
         background: transparent;
         pointer-events: none;
-        position: static;
+        /* Never in flow: Safari drops the element out of the top layer before the closing
+           transition ends, and a static popover would then resize its anchor's layout.
+           absolute matches the top-layer containing block floating-ui positions against. */
+        position: absolute;
         display: flex;
         flex-direction: column;
         /* Browser & inheritance reset: */

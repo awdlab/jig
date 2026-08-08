@@ -85,6 +85,42 @@ test('stale reference after removal', async ({ page }) => {
   expect(error).toBeNull();
 });
 
+test('a popover left visible outside the top layer does not reflow its anchor', async ({
+  page,
+}) => {
+  await loadComponent(page, {
+    template: `
+      <div>
+        <button #anchor (click)="popover.show()">Open</button>
+        <ngn-popover #popover [anchor]="anchor">
+          <div style="width: 200px; height: 300px">Content</div>
+        </ngn-popover>
+      </div>
+      <div id="after" style="height: 20px"></div>
+    `,
+    imports: ['popover'],
+  });
+
+  const popover = new NgnPopoverHarness(page.locator('ngn-popover').first());
+  await page.locator('button').first().click();
+  await popover.expectOpened();
+
+  const after = page.locator('#after');
+  const before = (await after.boundingBox())!.y;
+
+  // Safari drops a closing popover out of the top layer while it is still displayed. Force that
+  // state: in flow the 300px content would push everything below it down.
+  await page
+    .locator('ngn-popover > div')
+    .first()
+    .evaluate((el: HTMLElement) => {
+      el.hidePopover();
+      el.style.display = 'flex';
+    });
+
+  expect((await after.boundingBox())!.y).toBe(before);
+});
+
 test('accessibility (axe)', async ({ page }) => {
   await loadComponent(page, {
     template: `

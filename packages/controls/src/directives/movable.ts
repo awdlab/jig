@@ -80,7 +80,7 @@ export class NgnMovable extends NgnBase<'movable'> {
   private readonly _isDragging = signal(false);
   private _startX = 0;
   private _startY = 0;
-  private _gestureBlocked = false;
+  private _blockedDown: PointerEvent | null = null;
 
   constructor() {
     super();
@@ -101,6 +101,9 @@ export class NgnMovable extends NgnBase<'movable'> {
       const pointerDown = this._pointerDownSignal();
       // check if primary button or touch
       if (pointerDown && (pointerDown.button === 0 || pointerDown.pointerType === 'touch')) {
+        if (pointerDown === this._blockedDown) {
+          return;
+        }
         this._isDragging.set(true);
         this._startX = pointerDown.clientX - this._el.nativeElement.offsetLeft;
         this._startY = pointerDown.clientY - this._el.nativeElement.offsetTop;
@@ -113,11 +116,6 @@ export class NgnMovable extends NgnBase<'movable'> {
       }
       const pointerMove = this._pointerMoveSignal();
       if (pointerMove && untracked(this._isDragging)) {
-        // read here, not on pointerdown: the claim is settled by the time a move arrives
-        if (this._gestureBlocked) {
-          this._isDragging.set(false);
-          return;
-        }
         this.dragged.set(true);
         const newLeft = pointerMove.clientX - this._startX;
         const newTop = pointerMove.clientY - this._startY;
@@ -171,11 +169,11 @@ export class NgnMovable extends NgnBase<'movable'> {
   }
 
   /**
-   * Hands the current gesture to another directive on the same host, so it does not
-   * double as a move. {@link NgnResizable} calls this while its grip owns the pointer.
+   * Hands a gesture to another directive on the same host, so it does not double as a
+   * move. {@link NgnResizable} passes the `pointerdown` its grip owns, `null` otherwise.
    */
-  public blockGesture(blocked: boolean): void {
-    this._gestureBlocked = blocked;
+  public blockGesture(pointerDown: PointerEvent | null): void {
+    this._blockedDown = pointerDown;
   }
 
   public bakePosition() {

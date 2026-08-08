@@ -252,6 +252,33 @@ export class NgnDialog<
   }
 
   /**
+   * Backdrop taps of a modal dialog. Safari has no `closedby` support, so the light dismiss has to
+   * be done here, and the gesture must never reach the page behind: the browser hit-tests the
+   * synthesized click after the dialog has already left the top layer.
+   */
+  protected onBackdropPointer(event: MouseEvent | TouchEvent): void {
+    const element = this._dialogElement().nativeElement;
+    if (!this.modal() || event.target !== element) {
+      return;
+    }
+    const point = 'changedTouches' in event ? event.changedTouches[0] : event;
+    const rect = element.getBoundingClientRect();
+    if (
+      !point ||
+      (point.clientX >= rect.left &&
+        point.clientX <= rect.right &&
+        point.clientY >= rect.top &&
+        point.clientY <= rect.bottom)
+    ) {
+      return;
+    }
+    event.preventDefault();
+    if (this.closeBy() === 'any') {
+      this.onCancel();
+    }
+  }
+
+  /**
    * Different cancel handlers for different event types. Required for modal and popover dialogs.
    */
   protected onCancel(event?: ToggleEvent | KeyboardEvent): void {

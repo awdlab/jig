@@ -56,6 +56,33 @@ test('resizable host: dragging the resize grip does not move the element', async
   expect(Math.abs(after.y - before.y)).toBeLessThanOrEqual(1);
 });
 
+test('resizable host: the grip claim holds when down and move land in one task', async ({
+  page,
+}) => {
+  await loadComponent(page, movableTemplate('ngnResizable'));
+  await expect(panel(page)).toHaveCSS('resize', 'both');
+
+  // Synthetic dispatch leaves no gap for a change-detection flush between the events —
+  // the same batching a loaded CI machine produces.
+  const moved = await page.evaluate(() => {
+    const el = document.querySelector('.panel') as HTMLElement;
+    const rect = el.getBoundingClientRect();
+    const opts = { bubbles: true, pointerId: 1, pointerType: 'mouse', button: 0, buttons: 1 };
+    const grip = { clientX: rect.right - 3, clientY: rect.bottom - 3 };
+    const target = { clientX: grip.clientX + 60, clientY: grip.clientY + 40 };
+    el.dispatchEvent(new PointerEvent('pointerdown', { ...opts, ...grip }));
+    document.dispatchEvent(new PointerEvent('pointermove', { ...opts, ...target }));
+    document.dispatchEvent(new PointerEvent('pointerup', { ...opts, ...target }));
+    return new Promise<number>(resolve =>
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => resolve(el.getBoundingClientRect().left - rect.left))
+      )
+    );
+  });
+
+  expect(moved).toBe(0);
+});
+
 test('resizable host: dragging the body still moves the element', async ({ page }) => {
   await loadComponent(page, movableTemplate('ngnResizable'));
 

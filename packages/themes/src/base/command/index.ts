@@ -23,8 +23,11 @@ export const commandStyles = createThemePart({
         /* the palette clips its overflow, so the field's focus ring is inset to stay visible */
         outline-offset: -3px;
       }
+      /* flex-basis auto and no percentage height: the dialog is sized by fit-content, and
+         Safari resolves both against that circular height as zero, collapsing the list away. */
       ${c('root')} ${d('list-box')} {
-        flex: 1;
+        flex: 1 1 auto;
+        height: auto;
         min-height: 0;
         border: none;
         border-radius: 0;
@@ -66,6 +69,12 @@ export const commandStyles = createThemePart({
       ${c('empty')} {
         display: block;
         text-align: center;
+      }
+      /* a coarse pointer has no hardware keyboard, so the shortcut legend is dead weight */
+      @media (hover: none) and (pointer: coarse) {
+        ${c('root')} ${d('dialog', 'footer')} {
+          display: none;
+        }
       }
     `,
   },

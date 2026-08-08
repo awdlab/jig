@@ -9,6 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import {
+  domEventHandler,
   domEventSignal,
   elementSizeSignal,
   injectThemeTemplate,
@@ -66,7 +67,6 @@ export class NgnResizable {
 
   protected readonly resized = signal(false);
 
-  private readonly _pointerDownSignal = domEventSignal(this._el, 'pointerdown');
   private readonly _pointerUpSignal = domEventSignal(this._document, 'pointerup');
   private readonly _pointerCancelSignal = domEventSignal(this._document, 'pointercancel');
 
@@ -98,20 +98,21 @@ export class NgnResizable {
   }
 
   constructor() {
-    effect(() => {
-      const pointerDown = this._pointerDownSignal();
-      if (pointerDown && this.ngnResizable()) {
-        this._isPointerDown = true;
-        // the grip owns this gesture — a co-hosted NgnMovable must not also move the element
-        this._ngnMovable?.blockGesture(this.isOnGrip(pointerDown));
+    // claimed during dispatch, not in an effect: a batched flush would run NgnMovable's
+    // pointermove handling before the claim and move the element
+    domEventHandler(this._el, 'pointerdown', pointerDown => {
+      if (!this.ngnResizable()) {
+        return;
       }
+      this._isPointerDown = true;
+      // the grip owns this gesture — a co-hosted NgnMovable must not also move the element
+      this._ngnMovable?.blockGesture(this.isOnGrip(pointerDown) ? pointerDown : null);
     });
 
     // touch scrolling takes the pointer over and fires pointercancel instead of pointerup
     effect(() => {
       if (this._pointerUpSignal() || this._pointerCancelSignal()) {
         this._isPointerDown = false;
-        this._ngnMovable?.blockGesture(false);
       }
     });
 

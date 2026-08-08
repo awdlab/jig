@@ -10,6 +10,8 @@
   (cancel)="onCancel()"
   (toggle)="onCancel($event)"
   (keydown)="onCancel($event)"
+  (click)="onBackdropPointer($event)"
+  (touchend)="onBackdropPointer($event)"
   [style.minWidth]="size().minWidth"
   [style.maxWidth]="size().maxWidth"
   [style.width]="size().width"

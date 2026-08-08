@@ -100,10 +100,7 @@ test('closeBy any closes on Escape, closeBy none ignores it', async ({ page, bro
   await expect(dialogNone).toBeVisible();
 });
 
-test('closeBy any closes on a backdrop click', async ({ page, browserName }) => {
-  // Backdrop light-dismiss requires the native `<dialog closedby="any">`, absent in
-  // the WebKit build Playwright bundles (see the closeBy/Escape test above).
-  test.skip(browserName === 'webkit', '<dialog closedby> unsupported in this WebKit build');
+test('closeBy any closes on a backdrop click', async ({ page }) => {
   const handle = await loadModal(page, 'any', true);
   const dialog = page.locator('dialog');
   await expect(dialog).toBeVisible();
@@ -113,6 +110,34 @@ test('closeBy any closes on a backdrop click', async ({ page, browserName }) => 
   await page.mouse.click(3, 3);
   await expect(dialog).toBeHidden();
   await expectOutput(handle, 'open', [false]);
+});
+
+test.describe('touch', () => {
+  test.use({ hasTouch: true, isMobile: true });
+
+  test('a backdrop tap closes the modal and never reaches the page behind', async ({ page }) => {
+    const handle = await loadComponent(
+      page,
+      {
+        template: `
+          <button style="position:fixed;bottom:20px;left:20px;width:200px;height:60px"
+                  (click)="output('behind', true)">Behind</button>
+          ${MODAL_TEMPLATE}
+        `,
+        imports: ['dialog'],
+      },
+      { inputs: { title: 'My Dialog', open: true, closeBy: 'any' } }
+    );
+    const dialog = page.locator('dialog');
+    await expect(dialog).toBeVisible();
+
+    const box = (await page.locator('button', { hasText: 'Behind' }).boundingBox())!;
+    await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
+
+    await expect(dialog).toBeHidden();
+    await expectOutput(handle, 'open', [false]);
+    expect((await handle.getOutputLog())['behind']).toBeUndefined();
+  });
 });
 
 test('non-modal (popover) dialog opens and closes via the open model', async ({ page }) => {
