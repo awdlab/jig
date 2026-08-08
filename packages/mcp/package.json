@@ -1,6 +1,6 @@
 {
   "name": "@ngneers/controls-mcp",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Model Context Protocol server exposing @ngneers/controls docs, API and concepts to AI coding agents.",
   "type": "module",
   "license": "MIT",

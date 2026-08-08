@@ -1,5 +1,9 @@
 # Changelog
 
+## @ngneers/controls 0.0.2 (2026-08-08)
+
+- Readme adjustments
+
 ## @ngneers/controls 0.0.1 (2026-08-08)
 
 - Angular peer dependencies are published as `^22.0.5` instead of the exact `22.0.5`. The peers are declared as `catalog:`, and the catalog pins exact versions to keep workspace installs reproducible — that pin was being copied verbatim into the published package, so every consumer on any later Angular patch hit a peer conflict and `ng update` refused to run without `--force`. Only bare versions are widened; ranges already written as `~` or `^` are left as-is.

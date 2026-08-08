@@ -1,5 +1,9 @@
 # Changelog
 
+## @ngneers/controls-mcp 0.0.2 (2026-08-08)
+
+- Readme adjustments
+
 ## @ngneers/controls-mcp 0.0.1 (2026-08-08)
 
 - Document the directive API and fix two i18n gaps.

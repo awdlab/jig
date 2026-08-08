@@ -1,5 +1,9 @@
 # Changelog
 
+## @ngneers/controls-playwright 0.0.1 (2026-08-08)
+
+- Readme adjustments
+
 ## @ngneers/controls-playwright 0.0.1-next.2 (2026-08-07)
 
 - The axe helper now scans the `wcag22aa` rule set with `color-contrast` enabled, and the four controls that carried `test.fixme` a11y checks pass it. Only `region` stays globally disabled (a test-wrapper artifact).

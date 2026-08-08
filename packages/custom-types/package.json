@@ -1,6 +1,6 @@
 {
   "name": "@ngneers/controls-custom-types",
-  "version": "0.0.1-next.1",
+  "version": "0.0.1",
   "description": "Shared TypeScript type contracts used across @ngneers/controls and its themes.",
   "license": "MIT",
   "homepage": "https://ngneers.dev",
