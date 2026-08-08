@@ -1,5 +1,9 @@
 # Changelog
 
+## @ngneers/controls-themes 0.0.1 (2026-08-08)
+
+- Readme adjustments
+
 ## @ngneers/controls-themes 0.0.1-next.5 (2026-08-07)
 
 - `kind` and `color` resolve to the active theme's literal unions again, and importing a theme is all it takes to get there. Two separate defects kept the custom-type mechanic from ever working.

@@ -1,6 +1,6 @@
 {
   "name": "@ngneers/controls-themes",
-  "version": "0.0.1-next.5",
+  "version": "0.0.1",
   "description": "Theme presets and the theming engine for @ngneers/controls (Nova, Shade, Material, and base themes).",
   "license": "MIT",
   "homepage": "https://ngneers.dev",
