@@ -152,7 +152,12 @@ API, `@starting-style`, cascade layers and CSS nesting. See
 
 ### Ten minutes on the site beats ten minutes in this README
 
-<a href="https://ngneers.dev"><img src=".github/assets/site-hero.jpg" alt="ngneers.dev" width="880" /></a>
+<a href="https://ngneers.dev">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/site-hero-dark.jpg" />
+    <img src=".github/assets/site-hero-light.jpg" alt="ngneers.dev" width="880" />
+  </picture>
+</a>
 
 [![Open ngneers.dev](https://img.shields.io/badge/Open-ngneers.dev-8514f5?style=for-the-badge)](https://ngneers.dev)
 

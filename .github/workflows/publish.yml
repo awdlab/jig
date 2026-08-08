@@ -2,8 +2,15 @@ name: Publish
 
 # Manual trigger — no auto-publish on merge. awesome-publish reads changesets to
 # decide versions, builds the publishable packages (via buildCommand in
-# awesome-publish.config.ts), publishes to npm under the `next` dist-tag, tags,
-# and cuts per-package GitHub releases.
+# awesome-publish.config.ts), publishes to npm, tags, and cuts per-package
+# GitHub releases.
+#
+# The `channel` input picks the release mode:
+#   next   — `--pre next`: 0.1.0 + minor changeset → 0.2.0-next.0 under the
+#            `next` dist-tag. Changesets are KEPT so the same intent rolls into
+#            the eventual stable release.
+#   latest — no flag: 0.2.0-next.0 → 0.2.0 under `latest`. Changesets are
+#            consumed and deleted.
 #
 # Auth: npm Trusted Publishing (OIDC) — no NPM_TOKEN. The `id-token: write`
 # permission lets GitHub mint a short-lived identity that npm trusts (configured
@@ -18,10 +25,16 @@ name: Publish
 #
 # First-time note: a trusted publisher can only be set on a package that already
 # exists. If a brand-new package's first publish is rejected, bootstrap it once
-# (`npm login` locally, then `pnpm exec awesome-publish publish --tag next`),
+# (`npm login` locally, then `pnpm exec awesome-publish publish --pre next`),
 # then this workflow handles every release after.
 on:
   workflow_dispatch:
+    inputs:
+      channel:
+        description: 'next = prerelease (changesets kept) · latest = stable release (changesets consumed)'
+        type: choice
+        options: [next, latest]
+        default: next
 
 jobs:
   publish:
@@ -45,7 +58,7 @@ jobs:
           echo "node: $(node -v)  npm: $(npm -v)  ($(command -v npm))"
           echo "id-token available: ${ACTIONS_ID_TOKEN_REQUEST_URL:+yes}"
       - run: pnpm install --frozen-lockfile
-      - run: pnpm exec awesome-publish publish --ci --tag next
+      - run: pnpm exec awesome-publish publish --ci ${{ inputs.channel == 'next' && '--pre next' || '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWESOME_PUBLISH_AI_KEY: ${{ secrets.AWESOME_PUBLISH_AI_KEY }}
