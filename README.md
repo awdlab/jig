@@ -1,14 +1,37 @@
-[![npm](https://img.shields.io/npm/v/@ngneers/controls?color=%2300d26a&style=for-the-badge)](https://www.npmjs.com/package/@ngneers/controls)
-[![CI](https://img.shields.io/github/actions/workflow/status/NGneers/controls/build.yml?branch=main&style=for-the-badge)](https://github.com/NGneers/controls/actions/workflows/build.yml)
-[![bundle size](https://img.shields.io/bundlephobia/minzip/@ngneers/controls?color=%23FF006F&label=Bundle%20Size&style=for-the-badge)](https://bundlephobia.com/package/@ngneers/controls)
+<div align="center">
+
+<img src="apps/docs/public/img/logo.png" alt="@ngneers/controls" width="132" />
 
 # @ngneers/controls
 
-A modern, **signal-based component library for Angular 22+** — built the way Angular is
-heading: signals everywhere, zoneless, standalone. No `NgModule`s, no
-`@Input()`/`@Output()` decorators, no `ControlValueAccessor` boilerplate.
+**A signal-based component library for Angular 22+**
 
-📚 **[Documentation → ngneers.dev](https://ngneers.dev)**
+60+ accessible, themeable, tree-shakeable controls — built the way Angular is heading:
+signals everywhere, zoneless, standalone. No `NgModule`s, no `@Input()`/`@Output()`
+decorators, no `ControlValueAccessor` boilerplate.
+
+[![npm](https://img.shields.io/npm/v/@ngneers/controls?color=%2300d26a&style=for-the-badge)](https://www.npmjs.com/package/@ngneers/controls)
+[![CI](https://img.shields.io/github/actions/workflow/status/NGneers/controls/build.yml?branch=main&style=for-the-badge)](https://github.com/NGneers/controls/actions/workflows/build.yml)
+[![Angular](https://img.shields.io/badge/Angular-22%2B-%23dd0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev)
+[![License](https://img.shields.io/badge/License-MIT-%235c44e4?style=for-the-badge)](LICENSE)
+
+### [📚 &nbsp;Everything is on **ngneers.dev** — live demos for every control](https://ngneers.dev)
+
+[![Get Started](https://img.shields.io/badge/Get%20Started-e90464?style=for-the-badge&logoColor=white)](https://ngneers.dev/guides/introduction)
+[![Browse 60+ Components](https://img.shields.io/badge/Browse%2060%2B%20Components-f736e3?style=for-the-badge)](https://ngneers.dev/components)
+[![Theming](https://img.shields.io/badge/Theming-8514f5?style=for-the-badge)](https://ngneers.dev/guides/overview)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-5c44e4?style=for-the-badge)](https://ngneers.dev/#demo)
+
+<a href="https://ngneers.dev/#component-gallery">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/components-dark.png" />
+    <img src=".github/assets/components-light.png" alt="Button, switch, slider, select, chip, tag, avatar, progress, tooltip, checkbox, tabs and input" width="880" />
+  </picture>
+</a>
+
+<sub>Twelve of them. <a href="https://ngneers.dev/components">All 60+ are interactive on the site.</a></sub>
+
+</div>
 
 > **Beta.** Published under the `next` dist-tag. The API is close to stable, but inputs
 > may still be renamed between pre-releases — every change ships with a changelog entry.
@@ -16,7 +39,7 @@ heading: signals everywhere, zoneless, standalone. No `NgModule`s, no
 
 ## Why
 
-- **50+ controls** — inputs, actions, overlays, data display (incl. a full-featured
+- **60+ controls** — inputs, actions, overlays, data display (incl. a full-featured
   table), layout, feedback, and navigation.
 - **Headless behavior, swappable skin.** Controls ship **zero component CSS**. Behavior,
   accessibility, and named style scopes live in the control; all styling lives in a
@@ -29,6 +52,20 @@ heading: signals everywhere, zoneless, standalone. No `NgModule`s, no
   authoring your own.
 - **Tree-shakeable.** Every control has its own import subpath; you bundle only what you
   use.
+
+## One app, both schemes
+
+<div align="center">
+  <a href="https://ngneers.dev/#demo">
+    <img src=".github/assets/chat-light.png" alt="A team chat app built from @ngneers/controls, light scheme" width="49%" />
+    <img src=".github/assets/chat-dark.png" alt="The same app in the dark scheme" width="49%" />
+  </a>
+</div>
+
+The same chat app, same markup — list box, avatars, badges, progress, switch, tooltip,
+input, buttons. Dark mode is a theme concern, not a per-control one: no `dark:` variants in
+your templates, no per-control branching.
+[**Drive it yourself →**](https://ngneers.dev/#demo)
 
 ## Install
 
@@ -50,12 +87,12 @@ Register the provider with a theme preset (the preset is a `Theme` object, not a
 import { ApplicationConfig } from '@angular/core';
 import { provideNgnControls, withAutoColorScheme } from '@ngneers/controls/api/ng';
 import { withDefaultIcons } from '@ngneers/controls/default-icons';
-import { novaCoral } from '@ngneers/controls-themes/nova';
+import { nova } from '@ngneers/controls-themes/nova';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideNgnControls(
-      { theme: { preset: novaCoral } },
+      { theme: { preset: nova } },
       withDefaultIcons(), // opt-in built-in Tabler icon set
       withAutoColorScheme() // opt-in automatic light/dark mode
     ),
@@ -78,22 +115,15 @@ import { NgnButton } from '@ngneers/controls/button';
 export class ExampleComponent {}
 ```
 
-See the [Getting Started guide](https://ngneers.dev) for the full setup, theming, and
-per-control documentation.
+[![Full setup guide](https://img.shields.io/badge/Full%20setup%20guide-ngneers.dev-e90464?style=for-the-badge)](https://ngneers.dev/guides/introduction)
 
-## Documentation map
+## Documentation
 
-| Guide                                                               | What it covers                                           |
-| ------------------------------------------------------------------- | -------------------------------------------------------- |
-| [Configuration](https://ngneers.dev/guides/configuration)           | Every provider option and opt-in feature.                |
-| [Forms & Validation](https://ngneers.dev/guides/forms-validation)   | Signal forms, reactive forms, `ngModel`, error messages. |
-| [Theming](https://ngneers.dev/guides/overview)                      | Tokens, kinds, colors, dark mode, custom themes.         |
-| [Styling & Overrides](https://ngneers.dev/guides/styling-overrides) | Cascade layers, passthrough, `unstyled`, Tailwind.       |
-| [Accessibility](https://ngneers.dev/guides/accessibility)           | What is built in, and what stays your responsibility.    |
-| [SSR & Hydration](https://ngneers.dev/guides/ssr-hydration)         | What renders on the server, and what settles after.      |
-| [Testing](https://ngneers.dev/guides/testing)                       | Playwright harnesses and unit-test setup.                |
-| [Migration](https://ngneers.dev/guides/migration)                   | Porting from PrimeNG, Angular Material or Syncfusion.    |
-| [Browser Support](https://ngneers.dev/guides/browser-support)       | Supported browsers, Angular and TypeScript floors.       |
+Configuration, forms, theming, styling, accessibility, SSR, testing and migration guides
+all live on the site, next to a runnable example and a props table for every control —
+always matching the released version.
+
+[![Read the docs](https://img.shields.io/badge/Read%20the%20docs-ngneers.dev-8514f5?style=for-the-badge)](https://ngneers.dev/guides/introduction)
 
 ## Requirements
 
@@ -117,6 +147,16 @@ API, `@starting-style`, cascade layers and CSS nesting. See
 | [`@ngneers/controls-custom-types`](packages/custom-types) | Shared TypeScript type contracts.                     |
 | [`@ngneers/controls-mcp`](packages/mcp)                   | MCP server exposing the docs/API to AI coding agents. |
 | [`@ngneers/controls-playwright`](packages/playwright)     | Playwright testing harness with page-object helpers.  |
+
+<div align="center">
+
+### Ten minutes on the site beats ten minutes in this README
+
+<a href="https://ngneers.dev"><img src=".github/assets/site-hero.jpg" alt="ngneers.dev" width="880" /></a>
+
+[![Open ngneers.dev](https://img.shields.io/badge/Open-ngneers.dev-8514f5?style=for-the-badge)](https://ngneers.dev)
+
+</div>
 
 ## Contributing
 

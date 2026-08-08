@@ -9,7 +9,7 @@ import { provideNgnControls } from '@ngneers/controls/api/ng';
 import { withDefaultIcons } from '@ngneers/controls/default-icons';
 import { withSnackbars } from '@ngneers/controls/snackbar';
 import { withToasts } from '@ngneers/controls/toast';
-import { novaCoral } from '@ngneers/controls-themes/nova';
+import { nova } from '@ngneers/controls-themes/nova';
 
 import { App } from './app';
 import { LeakTestComponent } from './leak-test.component';
@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideNgnControls(
       {
-        theme: { preset: novaCoral },
+        theme: { preset: nova },
         disableAnimations: true,
       },
       withToasts(),

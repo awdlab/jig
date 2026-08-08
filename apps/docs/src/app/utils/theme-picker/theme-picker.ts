@@ -14,7 +14,7 @@ import { Platform, ThemeService } from '@ngneers/controls/api/ng';
 import { NgnColorPicker } from '@ngneers/controls/color-picker';
 import { NgnSelectButton } from '@ngneers/controls/select-button';
 import { createTheme, createThemePart } from '@ngneers/controls-themes/api';
-import { novaCoral } from '@ngneers/controls-themes/nova';
+import { nova } from '@ngneers/controls-themes/nova';
 import {
   colorsTemplate as novaColorsTemplate,
   coral,
@@ -116,7 +116,7 @@ const THEME_OPTIONS: readonly ThemeOption[] = [
 
 function buildNovaTheme(hex: string | null, surfaceHex: string | null): Theme {
   if (hex == null && surfaceHex == null) {
-    return novaCoral;
+    return nova;
   }
   const colorPart = createThemePart({
     scope: 'color',
@@ -126,9 +126,9 @@ function buildNovaTheme(hex: string | null, surfaceHex: string | null): Theme {
   });
   // Keep the theme NAME stable — the themeColor helper keys off it.
   return createTheme(
-    novaCoral.name,
-    novaCoral.parts.map(part => (part === coral ? colorPart : part)),
-    novaCoral.meta
+    nova.name,
+    nova.parts.map(part => (part === coral ? colorPart : part)),
+    nova.meta
   );
 }
 

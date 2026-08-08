@@ -19,7 +19,7 @@ import { NgnInput } from '@ngneers/controls/input';
 import { NgnInputField } from '@ngneers/controls/input-field';
 import { NgnNumberInput } from '@ngneers/controls/number-input';
 import { NgnOtp } from '@ngneers/controls/otp';
-import { novaCoral } from '@ngneers/controls-themes/nova';
+import { nova } from '@ngneers/controls-themes/nova';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { NgnErrors } from './errors';
@@ -385,7 +385,7 @@ beforeEach(() => {
   TestBed.configureTestingModule({
     providers: [
       provideNgnControls(
-        { theme: { preset: novaCoral }, disableAnimations: true },
+        { theme: { preset: nova }, disableAnimations: true },
         withDefaultIcons()
       ),
       provideNgnErrorsMessages({ server: 'Server rejected the value' }),

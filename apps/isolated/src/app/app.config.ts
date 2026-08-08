@@ -7,7 +7,7 @@ import {
 import { provideRouter } from '@angular/router';
 import { provideNgnControls } from '@ngneers/controls/api/ng';
 import { withDefaultIcons } from '@ngneers/controls/default-icons';
-import { novaCoral } from '@ngneers/controls-themes/nova';
+import { nova } from '@ngneers/controls-themes/nova';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,7 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideNgnControls(
       {
-        theme: { preset: novaCoral },
+        theme: { preset: nova },
         disableAnimations: true,
       },
       withDefaultIcons()

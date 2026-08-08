@@ -1,9 +1,18 @@
+<div align="center">
+
+<img src="https://raw.githubusercontent.com/NGneers/controls/main/apps/docs/public/img/logo-mark.png" alt="" width="88" />
+
 # @ngneers/controls-mcp
 
-A [Model Context Protocol](https://modelcontextprotocol.io) server that gives AI
-coding agents accurate, first-hand knowledge of
-[`@ngneers/controls`](../controls) — every control's API, selector, and usage,
-plus the concept guides (theming, colors, passthrough, state, …).
+**[Model Context Protocol](https://modelcontextprotocol.io) server that teaches AI coding
+agents [@ngneers/controls](https://www.npmjs.com/package/@ngneers/controls)** — every
+control's API, selector and usage, plus the concept guides (theming, colors, passthrough,
+state, …).
+
+[![Main package](https://img.shields.io/badge/Main%20package-%40ngneers%2Fcontrols-e90464?style=for-the-badge)](https://www.npmjs.com/package/@ngneers/controls)
+[![Documentation](https://img.shields.io/badge/Documentation-ngneers.dev-8514f5?style=for-the-badge)](https://ngneers.dev)
+
+</div>
 
 Point Claude Code, Cursor, Windsurf, or any MCP client at it and the agent stops
 guessing component names and input signatures.

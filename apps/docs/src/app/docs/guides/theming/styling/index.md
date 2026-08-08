@@ -103,7 +103,7 @@ page you do not own, scope them:
 
 ```ts
 provideNgnControls({
-  theme: { preset: novaCoral, styleScope: { kind: 'class', name: 'my-app' } },
+  theme: { preset: nova, styleScope: { kind: 'class', name: 'my-app' } },
 });
 ```
 

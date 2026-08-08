@@ -61,7 +61,7 @@ locale is a separate chunk:
 
 ```ts
 provideNgnControls({
-  theme: { preset: novaCoral },
+  theme: { preset: nova },
   customTranslations: {
     fr: () => import('./i18n/fr').then(m => m.fr),
     'pt-BR': () => import('./i18n/pt-br').then(m => m.ptBR),

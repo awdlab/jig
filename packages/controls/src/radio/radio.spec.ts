@@ -1,7 +1,7 @@
 import { Component, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideNgnControls } from '@ngneers/controls/api/ng';
-import { novaCoral } from '@ngneers/controls-themes/nova';
+import { nova } from '@ngneers/controls-themes/nova';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { NgnRadio } from './radio';
@@ -38,7 +38,7 @@ function press(host: HTMLElement, key: string): KeyboardEvent {
 
 beforeEach(() => {
   TestBed.configureTestingModule({
-    providers: [provideNgnControls({ theme: { preset: novaCoral }, disableAnimations: true })],
+    providers: [provideNgnControls({ theme: { preset: nova }, disableAnimations: true })],
   });
 });
 

@@ -5,7 +5,7 @@ import { provideNgnControls } from '@ngneers/controls/api/ng';
 import { withDefaultIcons } from '@ngneers/controls/default-icons';
 import { NgnSelect } from '@ngneers/controls/select';
 import { NgnSwitch } from '@ngneers/controls/switch';
-import { novaCoral } from '@ngneers/controls-themes/nova';
+import { nova } from '@ngneers/controls-themes/nova';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 // These controls implement Angular's Signal-Forms `FormValueControl` (via
@@ -62,7 +62,7 @@ describe('classic forms interop (FormValueControl, no CVA)', () => {
     TestBed.configureTestingModule({
       providers: [
         provideNgnControls(
-          { theme: { preset: novaCoral }, disableAnimations: true },
+          { theme: { preset: nova }, disableAnimations: true },
           withDefaultIcons()
         ),
       ],

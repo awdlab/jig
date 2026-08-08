@@ -51,6 +51,7 @@ export class App {
       // inputs signal changes; the effect below handles later updates.
       untracked(() => this.setInputs(component));
       this._testComponentRef.set(component);
+      (window as any).__ngn_test_wrapper.ready = true;
     });
     effect(() => {
       this.setInputs();

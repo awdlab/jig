@@ -57,7 +57,7 @@ at any particular moment.
 Globally, through the [configuration](/guides/configuration):
 
 ```ts
-provideNgnControls({ theme: { preset: novaCoral }, disableAnimations: true });
+provideNgnControls({ theme: { preset: nova }, disableAnimations: true });
 ```
 
 This injects a stylesheet setting `animation-duration` and `transition-duration`
@@ -85,7 +85,7 @@ Opt out through the [configuration](/guides/configuration) if your app already
 handles reduced motion itself:
 
 ```ts
-provideNgnControls({ theme: { preset: novaCoral }, respectReducedMotion: false });
+provideNgnControls({ theme: { preset: nova }, respectReducedMotion: false });
 ```
 
 `disableAnimations` is the unconditional app-level switch; this one follows the

@@ -35,7 +35,7 @@ slots (`dialog-close`, `dropdown-toggle`, `checkbox-checked`, `sort-ascending`, 
 ```ts
 import { withDefaultIcons } from '@ngneers/controls/default-icons';
 
-provideNgnControls({ theme: { preset: novaCoral } }, withDefaultIcons());
+provideNgnControls({ theme: { preset: nova } }, withDefaultIcons());
 ```
 
 This is why `@iconify/icons-tabler` is an _optional_ peer — it's only pulled in by this
@@ -55,7 +55,7 @@ const icons: NgnCustomIconRegistry = {
   /* …all slots… */
 };
 
-provideNgnControls({ theme: { preset: novaCoral } }, withCustomIcons(icons));
+provideNgnControls({ theme: { preset: nova } }, withCustomIcons(icons));
 ```
 
 Include either `withDefaultIcons()` or `withCustomIcons()` — a `defaultIcon` slot with no

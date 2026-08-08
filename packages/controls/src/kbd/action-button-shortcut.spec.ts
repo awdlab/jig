@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideNgnControls } from '@ngneers/controls/api/ng';
 import { NgnActionButton } from '@ngneers/controls/button';
 import { withDefaultIcons } from '@ngneers/controls/default-icons';
-import { novaCoral } from '@ngneers/controls-themes/nova';
+import { nova } from '@ngneers/controls-themes/nova';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { NgnKeyboardShortcut } from './keyboard-shortcut';
@@ -66,7 +66,7 @@ beforeEach(() => {
   TestBed.configureTestingModule({
     providers: [
       provideNgnControls(
-        { theme: { preset: novaCoral }, disableAnimations: true },
+        { theme: { preset: nova }, disableAnimations: true },
         withDefaultIcons()
       ),
     ],

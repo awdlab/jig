@@ -66,10 +66,10 @@ theme preset, or controls throw:
 ```ts
 import { TestBed } from '@angular/core/testing';
 import { provideNgnControls } from '@ngneers/controls/api/ng';
-import { novaCoral } from '@ngneers/controls-themes/nova';
+import { nova } from '@ngneers/controls-themes/nova';
 
 TestBed.configureTestingModule({
-  providers: [provideNgnControls({ theme: { preset: novaCoral }, disableAnimations: true })],
+  providers: [provideNgnControls({ theme: { preset: nova }, disableAnimations: true })],
 });
 ```
 

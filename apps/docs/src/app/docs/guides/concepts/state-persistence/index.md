@@ -32,7 +32,7 @@ Set the default once instead of per control:
 
 ```ts
 provideNgnControls({
-  theme: { preset: novaCoral },
+  theme: { preset: nova },
   defaults: {
     stateStorage: 'local',
     splitter: { stateStorage: 'session' }, // per-control override

@@ -17,7 +17,7 @@ provideNgnControls({
   respectReducedMotion: true,
   customTranslations: { fr: () => import('./i18n/fr').then(m => m.fr) },
   theme: {
-    preset: novaCoral,
+    preset: nova,
     lazyLoaded: false,
     styleScope: null,
     cssLayer: 'ngn-controls',
@@ -116,14 +116,14 @@ import { withDefaultIcons } from '@ngneers/controls/default-icons';
 import { withSnackbars } from '@ngneers/controls/snackbar';
 import { withToasts } from '@ngneers/controls/toast';
 import { provideNgnErrorsMessages } from '@ngneers/controls/errors';
-import { novaCoral } from '@ngneers/controls-themes/nova';
+import { nova } from '@ngneers/controls-themes/nova';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideNgnControls(
       {
         logLevel: 'warn',
-        theme: { preset: novaCoral, cssLayer: 'ngn-controls' },
+        theme: { preset: nova, cssLayer: 'ngn-controls' },
         defaults: { stateStorage: 'local' },
       },
       withDefaultIcons(),

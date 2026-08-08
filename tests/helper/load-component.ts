@@ -94,6 +94,14 @@ export async function loadComponent(
 
     await Promise.all(promises);
 
+    // The wrapper imports the control chunk and JIT-compiles the template before it can create
+    // the component; on a cold, loaded CI run that outlasts a per-assertion timeout.
+    await expect
+      .poll(() => page.evaluate(() => (window as any).__ngn_test_wrapper.ready), {
+        timeout: 30000,
+      })
+      .toBe(true);
+
     return {
       setInputs: (inputs: InputsType) => setInputs(inputs),
       setOutputs: (outputs: OutputsType) => setOutputs(outputs),

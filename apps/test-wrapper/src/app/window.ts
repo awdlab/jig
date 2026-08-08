@@ -45,6 +45,9 @@ export class WindowService {
         this.outputs.update(o => ({ ...o, ...val }));
       },
       outputLog: {},
+      // Flipped once the test component is created; the harness waits on it so a cold
+      // chunk import + JIT compile does not eat into per-assertion timeouts.
+      ready: false,
     };
     document.body.setAttribute('data-ngn-test-wrapper', 'initialized');
   }

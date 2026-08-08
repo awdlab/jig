@@ -13,7 +13,7 @@ name and metadata:
 
 ```ts
 import { createTheme, createThemePart } from '@ngneers/controls-themes';
-import { novaCoral, novaColorsTemplate } from '@ngneers/controls-themes/nova';
+import { nova, novaColorsTemplate } from '@ngneers/controls-themes/nova';
 
 const colorPart = createThemePart({
   scope: 'color',
@@ -23,9 +23,9 @@ const colorPart = createThemePart({
 });
 
 export const myTheme = createTheme(
-  novaCoral.name, // keep the name — color helpers key off it
-  novaCoral.parts.map(part => (part.scope === 'color' ? colorPart : part)),
-  novaCoral.meta
+  nova.name, // keep the name — color helpers key off it
+  nova.parts.map(part => (part.scope === 'color' ? colorPart : part)),
+  nova.meta
 );
 ```
 

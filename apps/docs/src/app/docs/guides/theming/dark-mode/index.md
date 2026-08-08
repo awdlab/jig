@@ -18,10 +18,10 @@ registers the service and eagerly instantiates it so the class actually toggles:
 
 ```ts
 import { provideNgnControls, withAutoColorScheme } from '@ngneers/controls/api/ng';
-import { novaCoral } from '@ngneers/controls-themes/nova';
+import { nova } from '@ngneers/controls-themes/nova';
 
 provideNgnControls(
-  { theme: { preset: novaCoral } },
+  { theme: { preset: nova } },
   withAutoColorScheme() // persists to localStorage by default
 );
 ```
@@ -61,5 +61,5 @@ export class ThemeToggle {
 ### Dark mode needs a dark-aware theme
 
 The `dark` class does nothing on its own — it only activates rules the theme emits from
-its `dark` block. `novaCoral`, `shade`, and `material` all define one. A theme with no dark
+its `dark` block. `nova`, `shade`, and `material` all define one. A theme with no dark
 block looks identical in both schemes.

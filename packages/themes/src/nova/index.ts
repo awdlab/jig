@@ -93,8 +93,8 @@ export const COLORS = [
   'error',
 ] as const;
 
-export const novaCoral = createTheme(
-  'Nova Coral',
+export const nova = createTheme(
+  'Nova',
   [
     accordionStyles,
     accordionPanelStyles,

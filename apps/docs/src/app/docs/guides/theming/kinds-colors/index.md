@@ -61,7 +61,7 @@ nova button is a compile error. This works automatically: importing a theme from
 default entry point also loads that theme's type augmentation.
 
 ```ts
-import { novaCoral } from '@ngneers/controls-themes/nova';
+import { nova } from '@ngneers/controls-themes/nova';
 // kind: 'primary' | 'secondary' | 'link' | 'text' | 'icon'
 ```
 
@@ -70,7 +70,7 @@ first one loaded would silently win. If an app pulls in more than one theme, imp
 extra ones from their `/untyped` entry point:
 
 ```ts
-import { novaCoral } from '@ngneers/controls-themes/nova';
+import { nova } from '@ngneers/controls-themes/nova';
 import { shade } from '@ngneers/controls-themes/shade/untyped';
 ```
 

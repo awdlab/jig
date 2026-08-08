@@ -19,7 +19,7 @@ A theme is assembled from three kinds of part:
   `--ngn-*` CSS custom properties.
 
 A complete theme is just `createTheme(name, parts, meta)`. The library ships three ready
-presets: **nova** (`novaCoral`), **shade**, and **material** (`material`, a Material
+presets: **nova** (`nova`), **shade**, and **material** (`material`, a Material
 Design 3 theme).
 
 ### Choosing a theme
@@ -29,9 +29,9 @@ You select a theme by passing it as `theme.preset` to the provider. The preset i
 
 ```ts
 import { provideNgnControls } from '@ngneers/controls/api/ng';
-import { novaCoral } from '@ngneers/controls-themes/nova';
+import { nova } from '@ngneers/controls-themes/nova';
 
-provideNgnControls({ theme: { preset: novaCoral } });
+provideNgnControls({ theme: { preset: nova } });
 ```
 
 Without a preset (and with `lazyLoaded: false`), the theme service logs a warning and

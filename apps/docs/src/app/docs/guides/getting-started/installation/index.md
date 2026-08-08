@@ -44,12 +44,12 @@ import { provideNgnControls, withAutoColorScheme } from '@ngneers/controls/api/n
 import { withDefaultIcons } from '@ngneers/controls/default-icons';
 import { withToasts } from '@ngneers/controls/toast';
 import { withSnackbars } from '@ngneers/controls/snackbar';
-import { novaCoral } from '@ngneers/controls-themes/nova';
+import { nova } from '@ngneers/controls-themes/nova';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideNgnControls(
-      { theme: { preset: novaCoral } }, // the preset is a Theme object, not a string
+      { theme: { preset: nova } }, // the preset is a Theme object, not a string
       withDefaultIcons(), // register the built-in Tabler icon set
       withAutoColorScheme(), // enable automatic light/dark mode
       withToasts(),

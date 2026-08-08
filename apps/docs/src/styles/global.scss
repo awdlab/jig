@@ -55,53 +55,24 @@ code {
   border-radius: var(--ngn-size-rounded-lg);
 }
 
-// Angular-style multi-point gradient clipped to text (hero "Angular" word).
-// Mirrors the Angular brand style guide: blends only middle-palette shades
-// (pink → magenta → purple), never the far-end blue/red. Four radial "blobs"
-// — like the press-kit gradient blends — drift between several distinct
-// arrangements, so the text eases from one blend pattern to the next (one
-// pink-heavy, one purple-heavy, …) instead of rigidly rotating.
-// Layer order: 1=#e90464 (intense pink-red), 2=#f736e3 (magenta),
-// 3=#8514f5 (purple), 4=#5c44e4 (blue-purple). The pink-red is the most
-// dominant shade, so it is swung out toward the edges/corners in most frames
-// while magenta/purple take the center — keeps every blend distinct instead
-// of pink-red-in-the-middle each time.
+// Angular-style gradient clipped to text (hero "Angular" word). Mirrors the
+// Angular brand style guide: blends only middle-palette shades (pink →
+// magenta → purple), never the far-end blue/red. The band is far larger than
+// the text box and drifts across it, so the word eases from one blend to the
+// next (pink-heavy, purple-heavy, …) instead of rigidly rotating.
 @keyframes ngn-angular-morph {
   0%,
   100% {
-    background-position:
-      10% 0%,
-      75% 30%,
-      45% 95%,
-      30% 55%;
+    background-position: 0% 20%;
   }
-  20% {
-    background-position:
-      95% 100%,
-      35% 25%,
-      20% 80%,
-      70% 40%;
+  25% {
+    background-position: 100% 0%;
   }
-  40% {
-    background-position:
-      85% 5%,
-      20% 70%,
-      60% 25%,
-      40% 100%;
+  50% {
+    background-position: 60% 100%;
   }
-  60% {
-    background-position:
-      5% 95%,
-      65% 45%,
-      45% 10%,
-      80% 65%;
-  }
-  80% {
-    background-position:
-      100% 20%,
-      30% 90%,
-      55% 50%,
-      20% 0%;
+  75% {
+    background-position: 0% 80%;
   }
 }
 
@@ -215,17 +186,22 @@ code {
 }
 
 .ngn-angular-text {
-  // Solid base so the moving blobs never leave a transparent gap in a glyph.
-  background-color: #8514f5;
-  background-image:
-    radial-gradient(circle at center, #e90464 0%, transparent 60%),
-    radial-gradient(circle at center, #f736e3 0%, transparent 60%),
-    radial-gradient(circle at center, #8514f5 0%, transparent 60%),
-    radial-gradient(circle at center, #5c44e4 0%, transparent 60%);
+  // One linear layer, no background-color: Firefox rasterizes text-clipped
+  // radial/conic gradients through a lower-quality path and the glyph edges
+  // lose most of their antialiasing.
+  background-image: linear-gradient(
+    115deg,
+    #e90464 0%,
+    #f736e3 22%,
+    #8514f5 46%,
+    #5c44e4 64%,
+    #8514f5 80%,
+    #f736e3 100%
+  );
   background-repeat: no-repeat;
-  // Taller than wide so the blobs' top/bottom drift actually reads inside the
-  // short text box — gives the blend a more organic, non-linear feel.
-  background-size: 170% 260%;
+  // Much larger than the text box, so drifting the position swings the blend
+  // between distinct shades instead of nudging one.
+  background-size: 300% 300%;
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;

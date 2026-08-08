@@ -12,6 +12,12 @@ import { expectScreenshot } from '../helper/screenshot';
 const classesOf = (page: Page, selector: string) =>
   page.locator(selector).evaluate(el => el.className);
 
+// The scroll event that drives update() is dispatched asynchronously, so read the classes
+// through a poll rather than once. Assert the expected classes before the absent ones — a
+// negative check passes trivially while the update is still pending.
+const expectClasses = (page: Page, selector: string) =>
+  expect.poll(() => classesOf(page, selector));
+
 const scrollTo = async (page: Page, selector: string, pos: { left?: number; top?: number }) => {
   await page.locator(selector).evaluate((el, p) => {
     if (p.left !== undefined) el.scrollLeft = p.left;
@@ -56,19 +62,18 @@ test('horizontal - toggles scrolled-start / scrolled-end on horizontal scroll', 
   await waitReady(page, '#sc');
 
   // At the start: end shadow only.
-  expect(await classesOf(page, '#sc')).not.toContain('scrolled-start');
-  expect(await classesOf(page, '#sc')).toContain('scrolled-end');
+  await expectClasses(page, '#sc').toContain('scrolled-end');
+  await expectClasses(page, '#sc').not.toContain('scrolled-start');
 
   // Fully scrolled right: start shadow only.
   await scrollTo(page, '#sc', { left: 9999 });
-  expect(await classesOf(page, '#sc')).toContain('scrolled-start');
-  expect(await classesOf(page, '#sc')).not.toContain('scrolled-end');
+  await expectClasses(page, '#sc').toContain('scrolled-start');
+  await expectClasses(page, '#sc').not.toContain('scrolled-end');
 
   // Mid-scroll: both.
   await scrollTo(page, '#sc', { left: 200 });
-  const mid = await classesOf(page, '#sc');
-  expect(mid).toContain('scrolled-start');
-  expect(mid).toContain('scrolled-end');
+  await expectClasses(page, '#sc').toContain('scrolled-start');
+  await expectClasses(page, '#sc').toContain('scrolled-end');
 });
 
 test('horizontal - does not add vertical classes', async ({ page }) => {
@@ -83,6 +88,7 @@ test('horizontal - does not add vertical classes', async ({ page }) => {
   await waitReady(page, '#sc');
 
   await scrollTo(page, '#sc', { left: 100, top: 100 });
+  await expectClasses(page, '#sc').toContain('scrolled-start');
   const cls = await classesOf(page, '#sc');
   expect(cls).not.toContain('scrolled-top');
   expect(cls).not.toContain('scrolled-bottom');
@@ -99,12 +105,12 @@ test('vertical - toggles scrolled-top / scrolled-bottom on vertical scroll', asy
   await expect(page.locator('#sc')).toBeVisible();
   await waitReady(page, '#sc');
 
-  expect(await classesOf(page, '#sc')).not.toContain('scrolled-top');
-  expect(await classesOf(page, '#sc')).toContain('scrolled-bottom');
+  await expectClasses(page, '#sc').toContain('scrolled-bottom');
+  await expectClasses(page, '#sc').not.toContain('scrolled-top');
 
   await scrollTo(page, '#sc', { top: 9999 });
-  expect(await classesOf(page, '#sc')).toContain('scrolled-top');
-  expect(await classesOf(page, '#sc')).not.toContain('scrolled-bottom');
+  await expectClasses(page, '#sc').toContain('scrolled-top');
+  await expectClasses(page, '#sc').not.toContain('scrolled-bottom');
 });
 
 test('both - tracks both axes simultaneously', async ({ page }) => {
@@ -119,11 +125,10 @@ test('both - tracks both axes simultaneously', async ({ page }) => {
   await waitReady(page, '#sc');
 
   await scrollTo(page, '#sc', { left: 200, top: 200 });
-  const cls = await classesOf(page, '#sc');
-  expect(cls).toContain('scrolled-start');
-  expect(cls).toContain('scrolled-end');
-  expect(cls).toContain('scrolled-top');
-  expect(cls).toContain('scrolled-bottom');
+  await expectClasses(page, '#sc').toContain('scrolled-start');
+  await expectClasses(page, '#sc').toContain('scrolled-end');
+  await expectClasses(page, '#sc').toContain('scrolled-top');
+  await expectClasses(page, '#sc').toContain('scrolled-bottom');
 });
 
 test('scrollShadowTarget - applies classes to target, not the scroll container', async ({
@@ -143,9 +148,8 @@ test('scrollShadowTarget - applies classes to target, not the scroll container',
 
   await scrollTo(page, '#sc', { left: 100 });
 
-  const target = await classesOf(page, '#target');
-  expect(target).toContain('scrolled-start');
-  expect(target).toContain('scrolled-end');
+  await expectClasses(page, '#target').toContain('scrolled-start');
+  await expectClasses(page, '#target').toContain('scrolled-end');
 
   const container = await classesOf(page, '#sc');
   expect(container).not.toContain('scrolled-start');
@@ -194,6 +198,7 @@ test('visual - theme overlay shadows on all four edges (both axes, mid-scroll)',
   // No custom CSS: the shadows come from the directive's injected overlay styled by the real theme.
   await waitReady(page, '#sc');
   await scrollTo(page, '#sc', { left: 200, top: 200 });
+  await expectClasses(page, '#sc').toContain('scrolled-start');
 
   await expectScreenshot(page.locator('#sc'), testInfo);
 });
