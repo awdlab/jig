@@ -65,10 +65,7 @@ class ReResolvingScopeHost {
 beforeEach(() => {
   TestBed.configureTestingModule({
     providers: [
-      provideNgnControls(
-        { theme: { preset: nova }, disableAnimations: true },
-        withDefaultIcons()
-      ),
+      provideNgnControls({ theme: { preset: nova }, disableAnimations: true }, withDefaultIcons()),
     ],
   });
 });

@@ -384,10 +384,7 @@ class FieldAutoInvalidHost {
 beforeEach(() => {
   TestBed.configureTestingModule({
     providers: [
-      provideNgnControls(
-        { theme: { preset: nova }, disableAnimations: true },
-        withDefaultIcons()
-      ),
+      provideNgnControls({ theme: { preset: nova }, disableAnimations: true }, withDefaultIcons()),
       provideNgnErrorsMessages({ server: 'Server rejected the value' }),
     ],
   });
