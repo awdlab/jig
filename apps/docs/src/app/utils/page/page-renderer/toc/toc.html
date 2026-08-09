@@ -1,0 +1,19 @@
+<span
+  class="mb-3 block text-(length:--awd-font-size-xs) font-(--awd-font-weight-bold) tracking-wide text-(--awd-color-surface-500) uppercase"
+>
+  On this page
+</span>
+
+<nav class="flex flex-col gap-0.5 border-l border-(--awd-color-surface-200)">
+  @for (heading of headings(); track heading.id) {
+    <a
+      class="toc-link py-1 pr-2 text-(length:--awd-font-size-sm) leading-snug"
+      [class.active]="heading.id === activeId()"
+      [style.padding-left.rem]="0.75 + (heading.level - minLevel()) * 0.75"
+      [href]="'#' + heading.id"
+      (click)="scrollTo(heading.id, $event)"
+    >
+      {{ heading.text }}
+    </a>
+  }
+</nav>

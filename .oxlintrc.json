@@ -1,0 +1,77 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "import"],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2022": true
+  },
+  "categories": {
+    "correctness": "error"
+  },
+  "rules": {
+    "prefer-template": "error",
+    "no-unused-vars": [
+      "warn",
+      {
+        "args": "after-used",
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
+    "import/no-duplicates": "error",
+    "typescript/no-explicit-any": "warn",
+    "typescript/no-non-null-assertion": "warn",
+    "typescript/no-inferrable-types": "off",
+    "typescript/no-import-type-side-effects": "error",
+    "typescript/parameter-properties": "warn",
+    "typescript/prefer-readonly": "error",
+    "typescript/no-floating-promises": "error",
+    "typescript/unbound-method": "error",
+    "typescript/restrict-template-expressions": "off",
+    "typescript/no-base-to-string": "off",
+    "typescript/no-redundant-type-constituents": "off",
+    "typescript/require-array-sort-compare": "off",
+    "typescript/no-implied-eval": "off",
+    "typescript/explicit-member-accessibility": [
+      "warn",
+      {
+        "accessibility": "explicit",
+        "overrides": {
+          "accessors": "explicit",
+          "constructors": "off",
+          "methods": "explicit",
+          "properties": "explicit",
+          "parameterProperties": "off"
+        }
+      }
+    ]
+  },
+  "ignorePatterns": [
+    "**/dist/**",
+    "**/.angular/**",
+    "**/coverage/**",
+    "**/node_modules/**",
+    "**/.changeset/**"
+  ],
+  "overrides": [
+    {
+      "files": ["**/*.spec.ts", "**/*.test.ts", "**/test/**/*.ts"],
+      "rules": {
+        "typescript/no-explicit-any": "off",
+        "typescript/no-non-null-assertion": "off",
+        "typescript/no-empty-function": "off",
+        "typescript/no-floating-promises": "off",
+        "typescript/unbound-method": "off",
+        "no-unused-vars": "off"
+      }
+    },
+    {
+      "files": ["apps/docs/src/app/demos/**/*.ts"],
+      "rules": {
+        "typescript/unbound-method": "off"
+      }
+    }
+  ]
+}

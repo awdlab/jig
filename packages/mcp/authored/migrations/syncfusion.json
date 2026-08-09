@@ -1,0 +1,150 @@
+{
+  "source": "syncfusion",
+  "label": "Syncfusion (Essential JS 2 for Angular)",
+  "notes": "STARTER MAP — covers common Syncfusion Angular components; not yet exhaustive. Syncfusion uses `ejs-*` selectors and binds with [(value)] or [(ngModel)]. Map [(value)] to awd's [(value)] signal model. Many Syncfusion components are highly configurable; always verify the awd target's capabilities with get_control and flag gaps rather than assuming parity.",
+  "components": [
+    {
+      "from": "ejs-dropdownlist",
+      "to": "awd-select",
+      "props": [
+        { "from": "[(value)]", "to": "[(value)]" },
+        { "from": "dataSource", "to": "options" },
+        { "from": "allowFiltering", "to": "filter" },
+        {
+          "from": "fields",
+          "to": "templateItem",
+          "notes": "awd-select derives label/value from the item shape or a templateItem, not a fields map."
+        }
+      ]
+    },
+    { "from": "ejs-multiselect", "to": "awd-select", "notes": "Use awd-select with multiple." },
+    {
+      "from": "ejs-combobox / ejs-autocomplete",
+      "to": "awd-select",
+      "notes": "Use editable awd-select."
+    },
+    {
+      "from": "ejs-datepicker / ejs-datetimepicker",
+      "to": "awd-calendar",
+      "props": [
+        { "from": "[(value)]", "to": "[(value)]" },
+        { "from": "min / max", "to": "min / max" }
+      ]
+    },
+    {
+      "from": "ejs-checkbox",
+      "to": "awd-checkbox",
+      "props": [{ "from": "[(checked)]", "to": "[(value)]" }]
+    },
+    { "from": "ejs-radiobutton", "to": "awd-radio", "notes": "Group with awd-radio-group." },
+    {
+      "from": "ejs-textbox",
+      "to": "input[ngnInput]",
+      "notes": "Wrap in awd-input-field. Move any `id` off the input onto the wrapper: `<awd-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references."
+    },
+    {
+      "from": "ejs-numerictextbox",
+      "to": "input[ngnNumberInput]",
+      "props": [
+        { "from": "[(value)]", "to": "[(value)]" },
+        { "from": "min", "to": "min" },
+        { "from": "max", "to": "max" },
+        { "from": "step", "to": "step" },
+        { "from": "format", "to": "formatOptions", "notes": "Use Intl formatOptions." }
+      ]
+    },
+    {
+      "from": "ejs-maskedtextbox",
+      "to": "awd-mask-input",
+      "props": [{ "from": "mask", "to": "mask" }]
+    },
+    { "from": "ejs-switch", "to": "awd-switch" },
+    {
+      "from": "ejs-slider",
+      "to": "awd-slider",
+      "props": [{ "from": "min / max / step", "to": "min / max / step" }]
+    },
+    { "from": "ejs-listbox", "to": "awd-list-box" },
+    {
+      "from": "ejs-dialog",
+      "to": "awd-dialog",
+      "props": [{ "from": "[(visible)]", "to": "[(open)]" }],
+      "gaps": ["Service/programmatic dialog usage differs from awd's declarative [(open)]."]
+    },
+    { "from": "ejs-sidebar", "to": "awd-drawer" },
+    { "from": "ejs-tooltip", "to": "[ngnTooltip]" },
+    { "from": "ejs-menu / ejs-contextmenu", "to": "awd-menu" },
+    { "from": "ejs-breadcrumb", "to": "awd-breadcrumb" },
+    { "from": "ejs-tab", "to": "awd-tabs" },
+    { "from": "ejs-accordion", "to": "awd-accordion" },
+    {
+      "from": "ejs-grid",
+      "to": "awd-table",
+      "gaps": [
+        "Syncfusion Grid is very feature-rich (grouping, editing, virtualization, export). Verify each feature against awd-table; expect gaps."
+      ]
+    },
+    { "from": "ejs-pager", "to": "awd-paginator" },
+    { "from": "ejs-treeview", "to": "awd-tree" },
+    { "from": "ejs-progressbar", "to": "awd-progress" },
+    { "from": "ejs-chip / ejs-chiplist", "to": "awd-chip" },
+    { "from": "ejs-avatar (CSS)", "to": "awd-avatar" },
+    { "from": "ejs-toast", "to": "awd-toast / awd-snackbar" },
+    { "from": "ejs-message", "to": "awd-message" },
+    { "from": "ejs-uploader", "to": "awd-upload" },
+    { "from": "ejs-splitter", "to": "awd-splitter" },
+    {
+      "from": "ejs-rating",
+      "to": "awd-rating",
+      "props": [
+        { "from": "[(value)]", "to": "[(value)]" },
+        { "from": "itemsCount", "to": "count" },
+        { "from": "precision", "to": "step", "notes": "Half stars = step 0.5." },
+        { "from": "allowReset", "to": "clearable" }
+      ]
+    },
+    {
+      "from": "ejs-stepper",
+      "to": "awd-stepper / awd-step",
+      "notes": "Steps are <awd-step> children, not a `steps` array input.",
+      "props": [
+        { "from": "[(activeStep)]", "to": "[(active)]" },
+        { "from": "linear", "to": "linear" },
+        { "from": "steps[].label", "to": "label" },
+        { "from": "steps[].optional", "to": "optional" }
+      ]
+    },
+    {
+      "from": "ejs-colorpicker",
+      "to": "awd-color-picker",
+      "props": [
+        { "from": "[(value)]", "to": "[(value)]" },
+        { "from": "mode / modeSwitcher", "to": "format" },
+        { "from": "inline", "to": "inline" },
+        { "from": "presetColors", "to": "swatches" },
+        { "from": "noColor / enableOpacity", "to": "alpha" }
+      ]
+    },
+    {
+      "from": "ejs-otpinput",
+      "to": "awd-otp",
+      "notes": "Grouped control with no single focusable element — label it with [labelledBy].",
+      "props": [
+        { "from": "[(value)]", "to": "[(value)]" },
+        { "from": "length", "to": "length" },
+        { "from": "type='password'", "to": "mask" },
+        { "from": "type='number'", "to": "integerOnly" }
+      ]
+    },
+    {
+      "from": "ejs-inplaceeditor",
+      "to": "awd-edit-inplace",
+      "notes": "Wraps the editor control you project; awd-inplace is the lower-level display/edit swap."
+    },
+    {
+      "from": "ejs-keyboard",
+      "to": "[ngnKeyboardShortcut]",
+      "notes": "Scope directive: shortcuts fire while focus is inside the host (or globally per binding). awd-kbd renders the shortcut glyphs."
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+<!-- Scroll-driven, so it costs no JS where the browser supports it. -->
+<div class="scroll-progress" aria-hidden="true"></div>
+<awd-docs-hero-section />
+@for (s of featureSections; track s.id) {
+  <!-- id doubles as the in-page anchor target for the hero's headline links. -->
+  <div [id]="s.id" class="scroll-mt-24"><ng-container *ngComponentOutlet="s.component" /></div>
+}
+<awd-docs-site-footer />

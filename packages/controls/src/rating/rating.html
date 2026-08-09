@@ -1,0 +1,17 @@
+@for (index of symbols(); track index) {
+  <span [ptInt]="this" [ptClass]="'symbol'" [style.--fillRatio]="fillRatio(index)">
+    @if (resolvedIndicatorTemplate(); as tpl) {
+      <ng-container
+        [ngTemplateOutlet]="tpl"
+        [ngTemplateOutletContext]="{ $implicit: fillRatio(index), index: index }"
+      />
+    } @else {
+      <span [ptInt]="this" [ptClass]="'empty'">
+        <awd-icon [icon]="iconEmpty()" defaultIcon="rating-empty" />
+      </span>
+      <span [ptInt]="this" [ptClass]="'full'">
+        <awd-icon [icon]="iconFull()" defaultIcon="rating-full" />
+      </span>
+    }
+  </span>
+}

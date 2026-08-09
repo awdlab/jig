@@ -1,0 +1,234 @@
+<ng-template #rowsTemplate>
+  <div [ptInt]="this" [ptClass]="'rows'">
+    @if (dataType() === 'list') {
+      <div [ptInt]="this" [ptClass]="'row'" data-testid="filter-row-list">
+        <awd-input-field
+          [ptInt]="this"
+          [ptDep]="'value'"
+          [disabled]="disabled()"
+          [readonly]="readonly()"
+        >
+          <awd-select
+            [ptInt]="this"
+            [ptDep]="'list-select'"
+            [multiple]="true"
+            [options]="resolvedListOptions()"
+            [value]="$any(templateListSelection())"
+            [disabled]="disabled()"
+            [readonly]="readonly()"
+            (valueChange)="setListSelection($event)"
+          />
+        </awd-input-field>
+      </div>
+    } @else {
+      @for (c of templateConfig().conditions; track $index; let i = $index; let last = $last) {
+        <div [ptInt]="this" [ptClass]="'row'" [attr.data-testid]="'filter-row-' + i">
+          <awd-input-field
+            [ptInt]="this"
+            [ptDep]="operatorRequiresValue(c.operator) ? 'operator' : 'value'"
+            [disabled]="disabled()"
+            [readonly]="readonly()"
+          >
+            <awd-select
+              [ptInt]="this"
+              [ptDep]="'operator-select'"
+              [options]="operatorOptions()"
+              [label]="i18n['filter_operator']()"
+              [value]="c.operator"
+              [disabled]="disabled()"
+              [readonly]="readonly()"
+              (valueChange)="setOperator(i, $event)"
+            />
+          </awd-input-field>
+          @if (operatorRequiresValue(c.operator)) {
+            @if (isDateType()) {
+              <awd-input-field
+                [ptInt]="this"
+                [ptDep]="'value'"
+                [disabled]="disabled()"
+                [readonly]="readonly()"
+              >
+                <awd-calendar
+                  [ptInt]="this"
+                  [ptDep]="'calendar'"
+                  [showTime]="isShowTime()"
+                  [value]="parseRawDate(c.rawValue)"
+                  [disabled]="disabled()"
+                  [readonly]="readonly()"
+                  (valueChange)="setDateValue(i, $event)"
+                />
+              </awd-input-field>
+            } @else {
+              <awd-input-field
+                [ptInt]="this"
+                [ptDep]="'value'"
+                [disabled]="disabled()"
+                [readonly]="readonly()"
+              >
+                <input
+                  ngnInput
+                  [ptInt]="this"
+                  [ptDep]="'input'"
+                  [attr.aria-label]="i18n['filter_value']()"
+                  [type]="inputType()"
+                  [value]="c.rawValue || ''"
+                  [disabled]="disabled()"
+                  [readOnly]="readonly()"
+                  (valueChange)="setRawValue(i, $event)"
+                />
+              </awd-input-field>
+            }
+          }
+
+          @if (allowMultiple() && templateConfig().conditions.length > 1) {
+            <button
+              type="button"
+              ngnButton
+              kind="icon"
+              [ptInt]="this"
+              [ptDep]="'remove-btn'"
+              [disabled]="disabled() || readonly()"
+              (click)="removeCondition(i)"
+              [attr.aria-label]="i18n['filter_removeCondition']() + ' ' + (i + 1)"
+              data-testid="filter-remove-condition"
+            >
+              <awd-icon defaultIcon="filter-remove" />
+            </button>
+          }
+        </div>
+
+        @if (allowMultiple() && !last && templateConfig().conditions.length > 1) {
+          <div
+            [ptInt]="this"
+            [ptClass]="'condition-divider'"
+            role="button"
+            tabindex="0"
+            (click)="!disabled() && !readonly() && toggleMatchMode()"
+            (keydown.enter)="!disabled() && !readonly() && toggleMatchMode()"
+            (keydown.space)="
+              !disabled() && !readonly() && toggleMatchMode(); $event.preventDefault()
+            "
+            [attr.aria-disabled]="disabled() || readonly()"
+            data-testid="filter-match-mode"
+          >
+            {{ matchModeLabel() }}
+          </div>
+        }
+      }
+    }
+  </div>
+</ng-template>
+
+<ng-template #footerTemplate>
+  @if (!disabled() && !readonly()) {
+    <div [ptInt]="this" [ptClass]="'footer'">
+      @if (dataType() !== 'list' && allowMultiple()) {
+        <button
+          type="button"
+          ngnButton
+          kind="secondary"
+          [ptInt]="this"
+          [ptDep]="'add-button'"
+          (click)="addCondition()"
+          data-testid="filter-add-rule"
+        >
+          <span aria-hidden="true">+</span>
+          {{ i18n['filter_addCondition']() }}
+        </button>
+      }
+      <div [ptInt]="this" [ptClass]="'footer-actions'">
+        @if (!autoApply()) {
+          <button
+            type="button"
+            ngnButton
+            kind="secondary"
+            [ptInt]="this"
+            [ptDep]="'cancel-button'"
+            (click)="cancelChanges()"
+            data-testid="filter-cancel"
+          >
+            {{ i18n['filter_cancel']() }}
+          </button>
+          <button
+            type="button"
+            ngnButton
+            kind="primary"
+            [ptInt]="this"
+            [ptDep]="'apply-button'"
+            (click)="apply()"
+            data-testid="filter-apply"
+          >
+            {{ i18n['filter_apply']() }}
+          </button>
+        } @else {
+          <button
+            type="button"
+            ngnButton
+            kind="secondary"
+            [ptInt]="this"
+            [ptDep]="'clear-button'"
+            (click)="clear()"
+            data-testid="filter-clear"
+          >
+            {{ i18n['filter_clear']() }}
+          </button>
+        }
+      </div>
+    </div>
+  }
+</ng-template>
+
+<ng-template #popoverTemplate let-anchor="anchor">
+  <awd-popover
+    #popover
+    [ptInt]="this"
+    [ptDep]="'popover'"
+    [options]="appliedPopoverOptions()"
+    [anchor]="anchor"
+    [hasShrinkableContent]="true"
+    (keydown)="onKeyDown($event)"
+    [id]="inputId() + '_popover'"
+  >
+    <ng-template #lazy>
+      <div [ptInt]="this" [ptClass]="'popover-content'">
+        <ng-container [ngTemplateOutlet]="rowsTemplate" />
+        <ng-container [ngTemplateOutlet]="footerTemplate" />
+      </div>
+    </ng-template>
+  </awd-popover>
+</ng-template>
+
+@if (mode() === 'inline') {
+  <div [ptInt]="this" [ptClass]="'inline'">
+    <ng-container [ngTemplateOutlet]="rowsTemplate" />
+    <ng-container [ngTemplateOutlet]="footerTemplate" />
+  </div>
+} @else if (mode() === 'input') {
+  <awd-input-field
+    [ptInt]="this"
+    [ptDep]="'input-field'"
+    (click)="!disabled() && !readonly() && show()"
+    (keydown)="onKeyDown($event)"
+    #field
+    [label]="label()"
+    [inputId]="inputId()"
+    [invalid]="invalidState()"
+    [disabled]="disabled()"
+    [readonly]="readonly()"
+  >
+    <div role="button" [ptInt]="this" [ptClass]="'summary'">{{ summaryText() }}</div>
+    <awd-icon [ptInt]="this" [ptClass]="'icon'" defaultIcon="search" />
+  </awd-input-field>
+
+  <ng-container
+    [ngTemplateOutlet]="popoverTemplate"
+    [ngTemplateOutletContext]="{ anchor: field.element.nativeElement }"
+  />
+} @else {
+  @if (anchor()) {
+    <ng-container
+      [ngTemplateOutlet]="popoverTemplate"
+      [ngTemplateOutletContext]="{ anchor: anchor() }"
+    />
+  }
+}

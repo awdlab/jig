@@ -1,0 +1,113 @@
+@if (popover() && anchor(); as anchor) {
+  <awd-popover
+    [ptInt]="this"
+    [ptDep]="'popover'"
+    [anchor]="anchor"
+    [options]="{ placement: placement(), padding: isSubMenu() ? 0 : undefined }"
+    (openChange)="popoverOpenChange($event)"
+    (closed)="popoverClosed()"
+    (closing)="closing.emit()"
+  >
+    <ng-template #lazy>
+      <ng-container *ngTemplateOutlet="menu" />
+    </ng-template>
+  </awd-popover>
+} @else {
+  <ng-container *ngTemplateOutlet="menu" />
+}
+
+<ng-template #menu>
+  <!-- The items carry the tab stop (roving), so the container is only focusable programmatically. -->
+  <div [ptInt]="this" [ptClass]="'root'" role="menu" [tabIndex]="-1" [id]="elementId() + '_menu'">
+    @for (item of items(); track 'id' in item ? item.id : item) {
+      @if ('separator' in item) {
+        <ng-container *ngTemplateOutlet="separatorTemplate" />
+      } @else {
+        <ng-container
+          *ngTemplateOutlet="regularItemTemplate; context: { $implicit: item, index: $index }"
+        />
+      }
+    }
+  </div>
+</ng-template>
+
+<ng-template #separatorTemplate>
+  <hr [ptInt]="this" [ptClass]="'separator'" />
+</ng-template>
+
+<ng-template
+  #regularItemTemplate
+  [ngnTemplate]="internalTemplateTypes.regularItem"
+  let-item
+  let-index="index"
+>
+  @if (item.children) {
+    <button
+      #menuItem
+      role="menuitem"
+      aria-haspopup="menu"
+      [aria-expanded]="childMenu.open()"
+      tabindex="-1"
+      [attr.tabindex]="index === tabStopIndex() ? 0 : -1"
+      (focus)="focusedIndex.set(index)"
+      [ngnAutofocus]="open() && autofocus() && index === 0"
+      [ptInt]="this"
+      [ptClass]="{
+        item: true,
+        'item-opened': childMenu.open(),
+      }"
+      [disabled]="item.disabled"
+      (click)="openChildMenu(childMenu, menuItem, 'click')"
+      (mouseenter)="openChildMenu(childMenu, menuItem, 'hover')"
+      (keydown)="handleKeydown($event, childMenu)"
+    >
+      <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item }" />
+    </button>
+    <awd-menu
+      #childMenu
+      [anchor]="menuItem"
+      [items]="item.children"
+      [placement]="'right-start'"
+      [popover]="true"
+      [isSubMenu]="true"
+      (closing)="menuItem.focus()"
+      (closeAll)="doCloseAll()"
+      [elementId]="elementId() + '_submenu_' + item.id"
+      [openSubmenuOnHover]="openSubmenuOnHover()"
+    />
+  } @else {
+    <!-- The static tabindex keeps routerLink from managing this button's tab stop itself (it
+         bails out when the element already declares one); the binding is the roving value. -->
+    <button
+      #menuItem
+      role="menuitem"
+      tabindex="-1"
+      [attr.tabindex]="index === tabStopIndex() ? 0 : -1"
+      (focus)="focusedIndex.set(index)"
+      [ngnAutofocus]="open() && autofocus() && index === 0"
+      [ptInt]="this"
+      [ptClass]="'item'"
+      [disabled]="item.disabled"
+      (keydown)="handleKeydown($event)"
+      (click)="itemClicked(item)"
+      (mouseenter)="closeChildMenus('hover', menuItem)"
+      [routerLink]="item.route"
+    >
+      <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item }" />
+    </button>
+  }
+</ng-template>
+
+<ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
+  {{ maybeCallback(item.label) }}
+  @if (item.children) {
+    <awd-icon
+      [ptInt]="this"
+      [ptClass]="'icon-children'"
+      defaultIcon="menu-submenu"
+      [icon]="iconSubmenuIndicator()"
+    />
+  }
+</ng-template>
+
+<ng-template #defaultGroupTemplate></ng-template>

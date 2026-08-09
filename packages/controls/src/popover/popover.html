@@ -1,0 +1,30 @@
+<div
+  [ptInt]="this"
+  [ptClass]="'wrapper'"
+  #popover
+  [attr.popover]="closeByPopover()"
+  (toggle)="onToggle($event)"
+  [style.min-height]="
+    hasShrinkableContent()
+      ? (this.appliedOptions().sizeConstraints?.minHeight ?? null)
+      : 'fit-content'
+  "
+>
+  <div
+    #content
+    [ptInt]="this"
+    [ptClass]="{
+      content: true,
+      'content-closing': !this.open() && !this.isFullyClosed(),
+    }"
+    [style.min-height]="hasShrinkableContent() ? null : 'fit-content'"
+  >
+    <awd-defer
+      [lazyContent]="lazyContent()"
+      [open]="open() || !isFullyClosed()"
+      [cache]="appliedOptions().cache"
+    >
+      <ng-content></ng-content>
+    </awd-defer>
+  </div>
+</div>

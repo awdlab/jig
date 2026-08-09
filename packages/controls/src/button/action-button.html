@@ -1,0 +1,22 @@
+<button
+  type="button"
+  ngnButton
+  [kind]="config().kind"
+  [color]="config().color"
+  [ngnButtonInline]="inline()"
+  [disabled]="config().disabled"
+  (click)="click($event)"
+  [attr.data-test-id]="config().testId"
+  [attr.aria-keyshortcuts]="ariaShortcut()"
+  [ngnTooltip]="tooltip()"
+  ngnTooltipAutoAriaMode="label"
+>
+  @if (config().icon || config().defaultIcon) {
+    <awd-icon [icon]="config().icon" [defaultIcon]="config().defaultIcon" />
+  } @else {
+    {{ maybeCallback(config().label) }}
+  }
+  @if (shortcutHint(); as shortcut) {
+    <awd-kbd [shortcut]="shortcut" aria-hidden="true" />
+  }
+</button>

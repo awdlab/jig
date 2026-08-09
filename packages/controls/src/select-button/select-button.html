@@ -1,0 +1,22 @@
+<awd-button-group
+  [orientation]="orientation()"
+  [attr.aria-label]="label()"
+  [attr.aria-labelledby]="labelledBy()"
+  [ptInt]="this"
+  [ptDep]="'group'"
+>
+  @for (item of options(); track item.value) {
+    <awd-toggle-button
+      [label]="maybeCallback(item.label)"
+      [icon]="item.icon"
+      [fixedWidth]="true"
+      (valueChange)="valueChange(item.value)"
+      [value]="value() === item.value"
+      [readonly]="readonly() || (value() === item.value && !allowUnselect())"
+      [attr.data-testid]="item.testId"
+      [disabled]="disabled()"
+      [ptInt]="this"
+      [ptDep]="'button'"
+    />
+  }
+</awd-button-group>

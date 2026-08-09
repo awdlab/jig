@@ -1,0 +1,115 @@
+import {
+  ComponentRef,
+  computed,
+  Directive,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  type OnDestroy,
+  Type,
+  ViewContainerRef,
+} from '@angular/core';
+import { injectThemeTemplate, setComponentInput } from '@awdlab/jig/api/ng';
+import { getNearestNgnInstanceSig } from '@awdlab/jig/base';
+import { NgnActionButton } from '@awdlab/jig/button';
+import { NgnFilter, type NgnFilterDataType } from '@awdlab/jig/filter';
+import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
+
+import { NgnTable } from './table';
+import { NgnTableTh } from './table-header-cell';
+
+import type { NgnActionButtonConfig } from '@awdlab/jig/api';
+
+/**
+ * @category directive
+ */
+@Directive({
+  selector: '[ngnTableFilterableColumn]',
+  host: {
+    '[class]': `theme.classes({'filterable-column': true, 'filtered-column': !!filter() })`,
+  },
+})
+export class NgnTableFilterableColumn implements OnDestroy {
+  protected readonly theme = injectThemeTemplate(tableControlTemplate);
+  private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly _columnId = inject(NgnTableTh).ngnTableTh;
+
+  /** Enables filtering on this column. The directive selector; its value is unused. */
+  public readonly ngnTableFilterableColumn = input();
+
+  private readonly _ngnActionButton: ComponentRef<NgnActionButton<null>>;
+  private readonly _ngnFilter: ComponentRef<NgnFilter>;
+
+  private readonly _table = getNearestNgnInstanceSig<Type<NgnTable<any, any>>>(
+    this._element.nativeElement,
+    NgnTable
+  );
+  private readonly _rows = computed(() => {
+    return this._table()?.rows() || [];
+  });
+  protected readonly filter = computed(() => {
+    const tableFilter = this._table()?.filters()?.[this._columnId()];
+    return tableFilter;
+  });
+
+  /** The data type of the column, which determines the available filter operators and UI. */
+  public readonly ngnTableFilterableColumnType = input.required<NgnFilterDataType>();
+  /** For list-based filters, the set of selectable option values to offer. */
+  public readonly ngnTableFilterableColumnItems = input<string[] | null | undefined>();
+
+  constructor() {
+    this._ngnActionButton = inject(ViewContainerRef).createComponent(NgnActionButton<null>);
+    this._ngnFilter = inject(ViewContainerRef).createComponent(NgnFilter);
+    this._element.nativeElement.appendChild(this._ngnActionButton.location.nativeElement);
+    this._element.nativeElement.appendChild(this._ngnFilter.location.nativeElement);
+    this._ngnActionButton.location.nativeElement.classList.add(this.theme.class('filter-control'));
+
+    setComponentInput(this._ngnActionButton, 'kind', 'icon');
+    setComponentInput(this._ngnActionButton, 'inline', true);
+    setComponentInput(this._ngnFilter, 'anchor', this._ngnActionButton.location.nativeElement);
+    setComponentInput(this._ngnFilter, 'mode', 'headless');
+    setComponentInput(this._ngnFilter, 'allowMultiple', true);
+
+    const cfg = computed(
+      () =>
+        <NgnActionButtonConfig<null>>{
+          label: 'Filter',
+          value: null,
+          kind: 'icon',
+          defaultIcon: this.filter() ? 'filter-active' : 'filter-inactive',
+          action: event => {
+            event?.stopPropagation();
+            this._ngnFilter.instance.show();
+          },
+        }
+    );
+
+    effect(() => {
+      setComponentInput(this._ngnActionButton, 'config', cfg());
+    });
+    effect(() => {
+      setComponentInput(
+        this._ngnFilter,
+        'data',
+        this._rows().map(row => row[this._columnId()])
+      );
+    });
+    effect(() => {
+      setComponentInput(this._ngnFilter, 'dataType', this.ngnTableFilterableColumnType());
+    });
+    effect(() => {
+      setComponentInput(this._ngnFilter, 'listOptions', this.ngnTableFilterableColumnItems());
+    });
+    this._ngnFilter.instance.filterChange.subscribe(cfg => {
+      const table = this._table();
+      const currentFilters = table?.filters() || {};
+      table?.filters.set({ ...currentFilters, [this._columnId()]: cfg ?? undefined });
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this._ngnActionButton.destroy();
+    this._ngnFilter.destroy();
+  }
+}

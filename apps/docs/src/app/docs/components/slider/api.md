@@ -1,0 +1,1 @@
+{{ api: slider/slider NgnSlider }}

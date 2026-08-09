@@ -1,0 +1,125 @@
+<div [ptInt]="component()" [ptClass]="'details'">
+  <div [ptInt]="component()" [ptClass]="'header'">
+    <div [ptInt]="component()" [ptClass]="'navigation'">
+      <button
+        ngnButton
+        [kind]="'icon'"
+        [ptInt]="component()"
+        [ptDep]="'previous'"
+        [attr.aria-label]="i18n['calendar_previousMonth']()"
+        (click)="prev()"
+      >
+        <awd-icon [defaultIcon]="'calendar-previous-month'" />
+      </button>
+      <button
+        ngnButton
+        [kind]="'icon'"
+        [ptInt]="component()"
+        [ptDep]="'next'"
+        [attr.aria-label]="i18n['calendar_nextMonth']()"
+        (click)="next()"
+      >
+        <awd-icon [defaultIcon]="'calendar-next-month'" />
+      </button>
+    </div>
+    <ng-container
+      *ngTemplateOutlet="
+        monthTemplate();
+        context: {
+          $implicit: {
+            month: MONTHS[month()],
+            change: doMonthChange,
+          },
+        }
+      "
+    />
+
+    <ng-container
+      *ngTemplateOutlet="
+        yearTemplate();
+        context: {
+          $implicit: {
+            year: year(),
+            change: doYearChange,
+          },
+        }
+      "
+    />
+  </div>
+  <div class="awd-calendar-days" role="grid" [attr.aria-label]="gridLabel()">
+    <div role="row" style="display: contents">
+      @for (weekDay of weekDaysSorted(); track weekDay) {
+        <span role="columnheader" [ptInt]="component()" [ptClass]="'week-day'">
+          <ng-container
+            *ngTemplateOutlet="
+              weekDayTemplate();
+              context: {
+                $implicit: {
+                  weekDay: weekDay.weekDay,
+                  translation: weekDay.translation(),
+                },
+              }
+            "
+          />
+        </span>
+      }
+    </div>
+    @for (item of monthModel().weeks; track $index) {
+      <div role="row" style="display: contents">
+        @for (day of item.days; track $index) {
+          <div
+            role="gridcell"
+            style="display: contents"
+            [attr.aria-selected]="isSelected(day) ? 'true' : null"
+          >
+            <button
+              #dayButton
+              [ptInt]="component()"
+              [ptClass]="{
+                day: true,
+                'day-other-month': day.monthOffset !== 0,
+                'day-today': isToday(day),
+                'day-selected': isSelected(day),
+              }"
+              [tabIndex]="!day.monthOffset && tabFocusDay() === day.date ? 0 : -1"
+              [attr.aria-current]="isToday(day) ? 'date' : null"
+              [attr.aria-label]="dayLabel(day)"
+              type="button"
+              (click)="
+                daySelected.emit({
+                  date: day.date,
+                  monthOffset: day.monthOffset,
+                })
+              "
+              (keydown)="dayKeydown($event, dayButton)"
+            >
+              <ng-container
+                *ngTemplateOutlet="
+                  dayTemplate();
+                  context: {
+                    $implicit: {
+                      date: day.date,
+                      fromOtherMonth: day.monthOffset !== 0,
+                      selected: isSelected(day),
+                      today: isToday(day),
+                    },
+                  }
+                "
+              />
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+  @if (showTime()) {
+    <ng-container
+      *ngTemplateOutlet="
+        timeTemplate();
+        context: {
+          $implicit: { time: currentValue(), showSeconds: showSeconds(), change: doTimeChange },
+        }
+      "
+    />
+  }
+</div>

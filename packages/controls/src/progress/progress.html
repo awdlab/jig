@@ -1,0 +1,37 @@
+@if (circular()) {
+  <svg
+    [attr.width]="svgSize()"
+    [attr.height]="svgSize()"
+    [attr.viewBox]="'0 0 ' + svgSize() + ' ' + svgSize()"
+    [ptInt]="this"
+    [ptClass]="'svg'"
+  >
+    <circle
+      [attr.cx]="svgCenter()"
+      [attr.cy]="svgCenter()"
+      [attr.r]="safeRadius()"
+      [attr.stroke-width]="safeThickness()"
+      fill="none"
+      [ptInt]="this"
+      [ptClass]="'track'"
+    />
+    <circle
+      [attr.cx]="svgCenter()"
+      [attr.cy]="svgCenter()"
+      [attr.r]="safeRadius()"
+      [attr.stroke-width]="safeThickness()"
+      fill="none"
+      [attr.stroke-dasharray]="strokeDasharray()"
+      [attr.stroke-dashoffset]="strokeDashoffset()"
+      [ptInt]="this"
+      [ptClass]="'fill'"
+    />
+  </svg>
+} @else {
+  <div [ptInt]="this" [ptClass]="'track'" [style.height.px]="safeThickness()">
+    <div [ptInt]="this" [ptClass]="'fill'"></div>
+    @if (indeterminate()) {
+      <div [ptInt]="this" [ptClass]="'fill2'"></div>
+    }
+  </div>
+}

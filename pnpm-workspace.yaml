@@ -1,0 +1,44 @@
+packages:
+  - packages/*
+  - apps/*
+
+allowBuilds:
+  '@parcel/watcher': true
+  awesome-logging: false
+  esbuild: true
+  lmdb: false
+  msgpackr-extract: false
+  # Pulled in by @huggingface/transformers, which the docs use for its tokenizer
+  # only — no ONNX inference, no image pipeline.
+  onnxruntime-node: false
+  protobufjs: false
+  sharp: false
+  unrs-resolver: false
+
+catalog:
+  '@angular/animations': 22.0.5
+  '@angular/build': 22.0.5
+  '@angular/cli': 22.0.5
+  '@angular/common': 22.0.5
+  '@angular/compiler': 22.0.5
+  '@angular/compiler-cli': 22.0.5
+  '@angular/core': 22.0.5
+  '@angular/forms': 22.0.5
+  '@angular/platform-browser': 22.0.5
+  '@angular/platform-server': 22.0.5
+  '@angular/router': 22.0.5
+  '@angular/ssr': 22.0.5
+  typescript: ~6.0.3
+
+ignoredBuiltDependencies:
+  - '@parcel/watcher'
+  - awesome-logging
+  - less
+  - lmdb
+  - msgpackr-extract
+
+minimumReleaseAgeExclude:
+  - awesome-publish@0.0.7
+
+onlyBuiltDependencies:
+  - esbuild

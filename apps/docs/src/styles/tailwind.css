@@ -1,0 +1,8 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Navigation breakpoint: matches the topbar hamburger / sidebar divide
+     (sidebar + topbar breadcrumb >= 901px, hamburger + in-content breadcrumb
+     <= 900px). Use `nav:` for >=901px and `max-nav:` / `nav:hidden` for mobile. */
+  --breakpoint-nav: 901px;
+}

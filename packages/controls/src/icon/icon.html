@@ -1,0 +1,31 @@
+@if (iconSvg(); as svg) {
+  <div [ptInt]="this" [ptClass]="'default'" [innerHtml]="svg"></div>
+} @else if (icon()) {
+  <ng-container
+    *ngTemplateOutlet="
+      iconTemplate();
+      context: {
+        $implicit: {
+          icon: icon(),
+        },
+      }
+    "
+  >
+  </ng-container>
+} @else if (customDefaultIcon(); as customIcon) {
+  <ng-container
+    *ngTemplateOutlet="
+      iconTemplate();
+      context: {
+        $implicit: {
+          icon: customIcon,
+        },
+      }
+    "
+  >
+  </ng-container>
+} @else {
+  @if (defaultIconSvg(); as defaultIcon) {
+    <div [ptInt]="this" [ptClass]="'default'" [innerHtml]="defaultIcon"></div>
+  }
+}

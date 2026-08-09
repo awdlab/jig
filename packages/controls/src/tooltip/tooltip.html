@@ -1,0 +1,7 @@
+<div [ptInt]="this" [ptClass]="'content'">
+  <awd-defer [lazyContent]="contentTemplate()" [open]="isShown()" [cache]="false"></awd-defer>
+</div>
+
+<ng-template #defaultContentTemplate>
+  <span [ptInt]="this" [ptClass]="'text'">{{ text() }}</span>
+</ng-template>

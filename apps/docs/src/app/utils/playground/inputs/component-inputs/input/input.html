@@ -1,0 +1,44 @@
+@let label = input().name + (dataType()?.optional ? '' : '*');
+
+@if (dataType(); as dataType) {
+  @switch (dataType.kind) {
+    @case ('primitive') {
+      @switch (dataType.type) {
+        @case ('string') {
+          <awd-input-field [label]="label" [labelKind]="'on'">
+            <input type="text" ngnInput [value]="value()" (valueChange)="value.set($event)" />
+          </awd-input-field>
+        }
+        @case ('number') {
+          <awd-input-field [label]="label" [labelKind]="'on'">
+            <input type="number" ngnInput [value]="value()" (valueChange)="value.set($event)" />
+          </awd-input-field>
+        }
+        @case ('boolean') {
+          <div class="flex items-center justify-between gap-2">
+            <label [for]="switch.inputId()">
+              <!-- We intentionally do not use the label variable here to avoid showing the asterisk for required boolean inputs -->
+              {{ input().name }}
+            </label>
+            <awd-switch #switch [value]="value()" (valueChange)="value.set($event)" />
+          </div>
+        }
+        @case ('date') {
+          <awd-input-field [label]="label" [labelKind]="'on'">
+            <awd-calendar [value]="value()" (valueChange)="value.set($event)" />
+          </awd-input-field>
+        }
+      }
+    }
+    @case ('literalUnion') {
+      <awd-input-field [label]="label" [labelKind]="'on'">
+        <awd-select
+          [value]="value()"
+          (valueChange)="value.set($event)"
+          [options]="dataType.values"
+          [editable]="dataType.allowCustomValue"
+        />
+      </awd-input-field>
+    }
+  }
+}

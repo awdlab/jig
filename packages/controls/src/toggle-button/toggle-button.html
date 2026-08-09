@@ -1,0 +1,36 @@
+<button
+  [ptInt]="this"
+  [ptClass]="'button'"
+  role="switch"
+  (click)="toggle()"
+  (blur)="markTouched()"
+  [disabled]="disabled()"
+  [attr.aria-readonly]="readonly()"
+  [attr.aria-checked]="value()"
+  [attr.aria-label]="label()"
+  [attr.aria-labelledby]="labelledBy()"
+>
+  <span [ptInt]="this" [ptClass]="'label'">
+    @let renderedIcon = (value() ? iconOn() : iconOff()) ?? icon();
+    @if (renderedIcon) {
+      <awd-icon [icon]="renderedIcon" />
+    }
+    {{ (value() ? labelOn() : labelOff()) ?? label() }}
+  </span>
+  @if (fixedWidth()) {
+    <span inert [ptInt]="this" [ptClass]="'placeholder-active'">
+      @let renderedIconOn = iconOn() ?? icon();
+      @if (renderedIconOn) {
+        <awd-icon [icon]="renderedIconOn" />
+      }
+      {{ labelOn() ?? label() }}
+    </span>
+    <span inert [ptInt]="this" [ptClass]="'placeholder'">
+      @let renderedIconOff = iconOff() ?? icon();
+      @if (renderedIconOff) {
+        <awd-icon [icon]="renderedIconOff" />
+      }
+      {{ labelOff() ?? label() }}
+    </span>
+  }
+</button>

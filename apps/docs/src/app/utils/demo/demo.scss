@@ -1,0 +1,4 @@
+// Styles for dynamically rendered components via ngComponentOutlet
+:host ::ng-deep .component-wrapper > *:first-child {
+  min-width: 0;
+}

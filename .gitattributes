@@ -1,0 +1,21 @@
+# Normalize line endings: LF in the repo and on checkout for all platforms.
+# Overrides per-user core.autocrlf so oxfmt's endOfLine:lf is consistent everywhere.
+* text=auto eol=lf
+
+# Binary assets — never normalize
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.avif binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.otf binary
+*.pdf binary
+*.zip binary
+*.mp4 binary
+*.webm binary

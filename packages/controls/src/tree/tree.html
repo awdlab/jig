@@ -1,0 +1,147 @@
+<awd-scroller
+  [ptInt]="this"
+  [ptDep]="'scroller'"
+  [scrollContainer]="element.nativeElement"
+  [virtual]="virtual()"
+  [itemHeight]="itemHeight()"
+  [items]="flatNodes()"
+  [trackBy]="trackNode"
+  [templateItem]="usedItemTemplate"
+  #scroller
+/>
+
+@if (!flatNodes().length) {
+  <div role="status">
+    <ng-container
+      *ngTemplateOutlet="emptyTemplate() || defaultEmptyTemplate; context: {}"
+    ></ng-container>
+  </div>
+}
+
+<ng-template #usedItemTemplate [ngnTemplate]="scroller.templateTypes.item" let-node>
+  @let item = node.item;
+  @let disabled = node.parentDisabled || item.disabled;
+  @let state = nodeState(item);
+  @let selectableNode = isSelectable(node);
+  <!--
+    Virtual scrolling renders a flat list, so treeitems are not DOM-nested in
+    role="group" containers. Per WAI-ARIA, aria-level + aria-setsize +
+    aria-posinset are the sanctioned substitute that convey the hierarchy to
+    assistive tech. (The `group` CSS class below is visual styling only.)
+  -->
+  <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+  <div
+    [ngnScrollerItem]="node"
+    [id]="inputId() + '_node_' + item.value"
+    role="treeitem"
+    [attr.aria-level]="node.level + 1"
+    [attr.aria-setsize]="node.setSize"
+    [attr.aria-posinset]="node.posInSet"
+    [attr.aria-expanded]="node.hasChildren ? node.expanded : null"
+    [attr.aria-selected]="
+      !showCheckboxes() && selectableNode ? valueArray().includes(item.value) : null
+    "
+    [attr.aria-checked]="
+      showCheckboxes() && selectableNode
+        ? state === 'indeterminate'
+          ? 'mixed'
+          : state === 'checked'
+            ? 'true'
+            : 'false'
+        : null
+    "
+    [attr.aria-disabled]="disabled ? 'true' : null"
+    [style.--awd-tree-level]="node.level"
+    [ptInt]="this"
+    [ptClass]="{
+      item: !item.items,
+      group: !!item.items,
+      'item-selectable': selectableNode,
+      'item-selected': valueArray().includes(item.value),
+      'item-highlighted': item.value === currentHighlightedValue(),
+      'item-disabled': !!disabled,
+      'item-expanded': node.expanded,
+    }"
+    (click)="onRowClick(node)"
+  >
+    @if (node.hasChildren) {
+      <button
+        ngnButton
+        kind="icon"
+        [ngnButtonInline]="true"
+        type="button"
+        tabindex="-1"
+        aria-hidden="true"
+        [ptInt]="this"
+        [ptClass]="'toggle'"
+        (mousedown)="$event.preventDefault()"
+        (click)="toggleExpand(item); $event.stopPropagation()"
+      >
+        <span [ptInt]="this" [ptClass]="'toggle-icon'">
+          @if (isLoading(item)) {
+            <awd-spinner [size]="14" />
+          } @else {
+            <span [ptInt]="this" [ptClass]="'toggle-arrow'"></span>
+          }
+        </span>
+      </button>
+    } @else {
+      <span [ptInt]="this" [ptClass]="'toggle-placeholder'" aria-hidden="true"></span>
+    }
+    @if (showCheckboxes() && selectableNode) {
+      <awd-checkbox
+        [ptInt]="this"
+        [ptDep]="'item-checkbox'"
+        [allowIndeterminate]="true"
+        [value]="state === 'indeterminate' ? null : state === 'checked'"
+        aria-hidden="true"
+        inert="true"
+      />
+    } @else if (showCheckboxes() && selectable() && item.selectable !== false) {
+      <!-- Disabled node: show the checkbox for consistency, but disabled. -->
+      <awd-checkbox
+        [ptInt]="this"
+        [ptDep]="'item-checkbox'"
+        [allowIndeterminate]="true"
+        [value]="state === 'indeterminate' ? null : state === 'checked'"
+        [disabled]="true"
+        aria-hidden="true"
+        inert="true"
+      />
+    } @else if (showCheckboxes()) {
+      <span [ptInt]="this" [ptClass]="'item-checkbox-placeholder'" aria-hidden="true"></span>
+    }
+    @if (item.template) {
+      <ng-container *ngTemplateOutlet="item.template; context: { $implicit: item }"></ng-container>
+    } @else {
+      <ng-container
+        *ngTemplateOutlet="
+          itemTemplate();
+          context: {
+            $implicit: item,
+            level: node.level,
+            expanded: node.expanded,
+            hasChildren: node.hasChildren,
+          }
+        "
+      ></ng-container>
+    }
+  </div>
+</ng-template>
+
+<ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
+  <span [attr.data-testid]="item?.testId" [ptInt]="this" [ptClass]="'default-item'">
+    @let label = item?.label;
+    @if (label) {
+      <span>{{ maybeCallback(label) }}</span>
+    } @else {
+      <span>&ZeroWidthSpace;</span>
+    }
+  </span>
+</ng-template>
+
+<ng-template #defaultEmptyTemplate>
+  <span [ptInt]="this" [ptClass]="'empty'" [attr.data-testid]="'empty'">{{
+    i18n['tree_noItemsFound']()
+  }}</span>
+</ng-template>

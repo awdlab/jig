@@ -1,0 +1,1 @@
+{{ api: directives/resizable NgnResizable }}

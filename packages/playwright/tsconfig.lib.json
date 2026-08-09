@@ -1,0 +1,20 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationMap": true,
+    "types": ["node"],
+    // Resolve workspace peers to their built declarations (not source) so tsc treats
+    // them as external and emits only this package. Requires themes + controls built first.
+    "paths": {
+      "@awdlab/jig-themes": ["../themes/dist/index.d.ts"],
+      "@awdlab/jig-themes/*": ["../themes/dist/*"],
+      "@awdlab/jig/*": ["../controls/dist/*"]
+    }
+  },
+  "include": ["./src/**/*.ts"],
+  "exclude": ["**/*.spec.ts", "dist/**"]
+}

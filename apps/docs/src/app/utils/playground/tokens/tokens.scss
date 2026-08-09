@@ -1,0 +1,9 @@
+:host {
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
+  background: var(--awd-color-surface-50);
+}
+
+.selected {
+  color: var(--awd-color-primary-600);
+  background-color: var(--awd-color-primary-100);
+}

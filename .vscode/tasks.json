@@ -1,0 +1,97 @@
+{
+  // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "▶️ Serve docs",
+      "command": "pnpm docs:serve",
+      "group": "build",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🧰 Generate API docs",
+      "command": "pnpm api-docs:generate",
+      "group": "build",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🧰 Build docs",
+      "command": "pnpm docs:build",
+      "group": "build",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🧰 Build controls",
+      "command": "pnpm controls:build",
+      "group": "build",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🧰 Build themes",
+      "command": "pnpm themes:build",
+      "group": "build",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🧰 Build control-types",
+      "command": "pnpm types:build",
+      "group": "build",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🧰 Build all",
+      "command": "pnpm build",
+      "group": "build",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "✏️ Format",
+      "command": "pnpm format",
+      "group": "test",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "✅ Lint",
+      "command": "pnpm lint",
+      "group": "test",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🐋 Playwright: docker",
+      "command": "pnpm playwright-docker",
+      "group": "test",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🎭 Playwright",
+      "command": "pnpm test",
+      "group": "test",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🎭 Playwright UI",
+      "command": "pnpm test:ui",
+      "group": "test",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "🧪 Unit tests",
+      "command": "pnpm unit-test",
+      "group": "test",
+      "type": "shell",
+      "problemMatcher": []
+    }
+  ]
+}

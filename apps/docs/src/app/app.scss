@@ -1,0 +1,12 @@
+awd-docs-frame {
+  ::ng-deep {
+    // The routed layout/page fills the width and flows in the normal document
+    // flow — the document (body) is the scroll container, not these elements.
+    // The menu and "on this page" rails inside them are position: sticky.
+    router-outlet + * {
+      width: 100%;
+      min-width: 0;
+      padding: 1.5rem;
+    }
+  }
+}

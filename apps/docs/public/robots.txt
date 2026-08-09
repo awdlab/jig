@@ -1,0 +1,9 @@
+# https://jig.awdlab.dev
+User-agent: *
+Allow: /
+
+# Internal/unlinked routes with no standalone value in search results.
+Disallow: /_gallery
+Disallow: /test
+
+Sitemap: https://jig.awdlab.dev/sitemap.xml

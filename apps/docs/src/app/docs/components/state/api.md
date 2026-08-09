@@ -1,0 +1,1 @@
+{{ api: state/state NgnState }}

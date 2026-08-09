@@ -1,0 +1,13 @@
+<div class="flex flex-col gap-4">
+  @if (singleComponent(); as component) {
+    @if (internalControlName(); as internalControlName) {
+      @for (input of componentInputs(); track $index) {
+        <awd-docs-playground-input
+          [internalControlName]="internalControlName"
+          [input]="input"
+          [instance]="component"
+        />
+      }
+    }
+  }
+</div>

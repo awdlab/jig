@@ -1,0 +1,119 @@
+<div [ptInt]="this" [ptClass]="'main'">
+  <div [ptInt]="this" [ptClass]="'zone'">
+    <awd-icon
+      [ptInt]="this"
+      [ptClass]="'icon'"
+      [defaultIcon]="'upload-trigger'"
+      [icon]="iconUpload()"
+    />
+    <!-- The projected native input[type=file] is the real, focusable control:
+         it overlays the zone (see the 'native' theme part) and opens the picker
+         natively on click/Enter/Space. Keep it accessible (no aria-hidden). -->
+    <div [ptInt]="this" [ptClass]="'placeholder'" [id]="labelId"><ng-content /></div>
+  </div>
+
+  @if (showUploadAll()) {
+    <div [ptInt]="this" [ptClass]="'footer'">
+      <button
+        ngnButton
+        kind="primary"
+        type="button"
+        [ptInt]="this"
+        [ptClass]="'trigger'"
+        (click)="uploadAll()"
+      >
+        <awd-icon [defaultIcon]="'upload-trigger'" />
+        {{ i18n['upload_upload']() }}
+      </button>
+    </div>
+  }
+</div>
+
+@if (files().length) {
+  <ul [ptInt]="this" [ptClass]="'list'">
+    @for (item of files(); track item.id) {
+      <li
+        [ptInt]="this"
+        [ptClass]="{
+          item: true,
+          'item-pending': item.state === 'pending',
+          'item-uploading': item.state === 'uploading',
+          'item-done': item.state === 'done',
+          'item-failed': item.state === 'failed',
+        }"
+      >
+        @if (item.state === 'done' || item.state === 'failed') {
+          <awd-icon
+            [ptInt]="this"
+            [ptClass]="'status'"
+            [defaultIcon]="item.state === 'failed' ? 'upload-failed' : 'upload-done'"
+          />
+        }
+
+        <div [ptInt]="this" [ptClass]="'file'">
+          <span [ptInt]="this" [ptClass]="'name'" [title]="item.file.name">{{
+            item.file.name
+          }}</span>
+          <span [ptInt]="this" [ptClass]="'size'">{{ formatSize(item.file.size) }}</span>
+          @if (item.state === 'uploading') {
+            <awd-progress
+              [ptInt]="this"
+              [ptClass]="'progress'"
+              [attr.aria-label]="i18n['upload_progressNamed']({ name: item.file.name })"
+              [value]="item.progress"
+              [indeterminate]="item.progress === 0"
+            />
+          }
+        </div>
+
+        <div [ptInt]="this" [ptClass]="'actions'">
+          @if (showPerItem() && item.state === 'pending') {
+            <button
+              ngnButton
+              kind="text"
+              type="button"
+              [ptInt]="this"
+              [ptClass]="'action'"
+              [attr.aria-label]="i18n['upload_uploadNamed']({ name: item.file.name })"
+              (click)="uploadOne(item)"
+            >
+              <awd-icon [defaultIcon]="'upload-trigger'" />
+            </button>
+          }
+          @if (item.state === 'failed') {
+            <button
+              ngnButton
+              kind="text"
+              type="button"
+              [ptInt]="this"
+              [ptClass]="'action'"
+              [attr.aria-label]="i18n['upload_retryNamed']({ name: item.file.name })"
+              (click)="retryFile(item)"
+            >
+              <awd-icon [defaultIcon]="'upload-retry'" />
+            </button>
+          }
+          <!-- Single dismiss action: cancels the in-flight upload and removes the
+               item while uploading, otherwise just removes it. -->
+          <button
+            ngnButton
+            kind="text"
+            type="button"
+            [ptInt]="this"
+            [ptClass]="'action'"
+            [attr.aria-label]="
+              item.state === 'uploading'
+                ? i18n['upload_cancelNamed']({ name: item.file.name })
+                : i18n['upload_removeNamed']({ name: item.file.name })
+            "
+            (click)="removeFile(item)"
+          >
+            <awd-icon
+              [defaultIcon]="item.state === 'uploading' ? 'upload-cancel' : 'upload-remove'"
+            />
+          </button>
+        </div>
+      </li>
+    }
+  </ul>
+}

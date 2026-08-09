@@ -1,0 +1,42 @@
+<div [ptInt]="this" [ptClass]="'root'">
+  <input
+    #proxy
+    #pg="ngnRovingGroup"
+    [ptInt]="this"
+    [ptClass]="'proxy'"
+    ngnRovingGroup
+    rovingMode="activedescendant"
+    orientation="horizontal"
+    [attr.inputmode]="proxyInputMode()"
+    [attr.aria-roledescription]="i18n['maskInput_roleDescription']()"
+    [attr.aria-label]="label()"
+    [attr.aria-labelledby]="labelledBy()"
+    [disabled]="disabled()"
+    [attr.readonly]="readonly() || null"
+    tabindex="0"
+  />
+  @for (tok of tokens(); track $index) {
+    @if (tok.kind === 'sep') {
+      <span [ptInt]="this" [ptClass]="'separator'" aria-hidden="true">{{ tok.text }}</span>
+    } @else {
+      <span
+        [ngnRovingItem]="pg"
+        role="spinbutton"
+        [attr.aria-label]="sectionName(tok.ord)"
+        [ptInt]="this"
+        [ptClass]="tok.placeholder ? 'section-placeholder' : 'section'"
+        [class]="focused() && activeOrd() === tok.ord ? activeSectionClass() : ''"
+        [attr.aria-valuenow]="sectionValueNow(tok.ord)"
+        [attr.aria-valuemin]="sectionMin(tok.ord)"
+        [attr.aria-valuemax]="sectionMax(tok.ord)"
+        [attr.aria-valuetext]="sectionValueText(tok.ord)"
+        [attr.aria-describedby]="sectionDescId(tok.ord)"
+        >{{ tok.text }}</span
+      >
+    }
+  }
+  @for (seg of segmentDescriptions(); track seg.id) {
+    <span [id]="seg.id" [ptInt]="this" [ptClass]="'sr-only'">{{ seg.text }}</span>
+  }
+  <span aria-live="polite" [ptInt]="this" [ptClass]="'sr-only'">{{ liveAnnouncement() }}</span>
+</div>

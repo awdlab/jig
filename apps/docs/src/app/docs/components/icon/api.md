@@ -1,0 +1,1 @@
+{{ api: icon/icon NgnIcon }}

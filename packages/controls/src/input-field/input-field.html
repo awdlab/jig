@@ -1,0 +1,33 @@
+@if (label(); as label) {
+  <label [ptInt]="this" [ptClass]="'label'" [for]="inputId()">{{ label }}</label>
+}
+<!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
+<div
+  [ptInt]="this"
+  [ptClass]="{
+    root: true,
+    invalid: invalid(),
+    readonly: readonly(),
+    disabled: disabled(),
+  }"
+  (click)="clicked($event)"
+  [tabindex]="tabindex()"
+>
+  <ng-content select="input, textarea" />
+  @if (showClearButton()) {
+    <button
+      tabindex="-1"
+      [ptInt]="this"
+      [ptClass]="'clear-button'"
+      ngnButton
+      type="button"
+      [kind]="'icon'"
+      ngnButtonInline
+      (click)="clearButtonClicked($event)"
+      [attr.aria-label]="i18n['inputField_clearInput']()"
+    >
+      <awd-icon defaultIcon="input-clear" [icon]="iconClearButton()" />
+    </button>
+  }
+  <ng-content />
+</div>

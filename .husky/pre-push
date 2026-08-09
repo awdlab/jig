@@ -1,0 +1,13 @@
+echo "🔎 pre-push: format-checking changed files…"
+pnpm check:changed --format-check || {
+  echo "❌ Formatting issues in changed files. Run 'pnpm check:changed --format-fix' (or 'pnpm format') to fix, then re-push." >&2
+  exit 1
+}
+
+echo "🔎 pre-push: linting changed files…"
+pnpm check:changed --lint-check || {
+  echo "❌ Lint errors in changed files. Run 'pnpm check:changed --lint-fix', fix the rest, then re-push." >&2
+  exit 1
+}
+
+echo "✅ pre-push checks passed."

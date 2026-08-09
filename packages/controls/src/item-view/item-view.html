@@ -1,0 +1,74 @@
+@for (item of renderedItems(); track item.id; let i = $index) {
+  @if (item.kind === 'visibleItem' || item.kind === 'overflowItem') {
+    <span
+      role="listitem"
+      #itemRef
+      [ptInt]="this"
+      [ptClass]="{
+        item: true,
+        'item-overflowing': item.kind === 'overflowItem',
+      }"
+    >
+      <ng-container
+        *ngTemplateOutlet="
+          itemTemplate();
+          context: { $implicit: item.item, index: i, last: $last, first: $first }
+        "
+      />
+      @if (!$last) {
+        <ng-container
+          *ngTemplateOutlet="
+            separatorTemplate();
+            context: { $implicit: { character: separatorChar(), icon: iconItemSeparator() } }
+          "
+        />
+      }
+    </span>
+  } @else if (item.kind === 'overflowIndicator') {
+    <div
+      role="listitem"
+      [ptInt]="this"
+      [ptClass]="{ 'more-items': true, 'more-items-hidden': !item.visible }"
+      [attr.aria-hidden]="item.visible ? null : 'true'"
+      #overflowItem
+    >
+      <ng-container
+        *ngTemplateOutlet="
+          overflowTemplate();
+          context: {
+            $implicit: {
+              totalCount: items().length,
+              overflowCount: item.items.length,
+              overflowItems: item.items,
+            },
+          }
+        "
+      />
+      @if (!$last) {
+        <span
+          [style.visibility]="item.hasSeparator ? 'visible' : 'hidden'"
+          style="display: contents"
+        >
+          <ng-container
+            *ngTemplateOutlet="
+              separatorTemplate();
+              context: { $implicit: { character: separatorChar(), icon: iconItemSeparator() } }
+            "
+          />
+        </span>
+      }
+    </div>
+  }
+}
+
+<ng-template #defaultSeparatorTemplate [ngnTemplate]="templateTypes.separator" let-separator>
+  @if (separator.character) {
+    <span>{{ separator.character }}</span>
+  } @else if (separator.icon) {
+    <awd-icon [icon]="separator.icon" />
+  }
+</ng-template>
+
+<ng-template #defaultOverflowItemTemplate [ngnTemplate]="templateTypes.overflow" let-overflow>
+  <span [ptInt]="this" [ptClass]="'more-items-default'">+{{ overflow.overflowCount }}</span>
+</ng-template>

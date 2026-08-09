@@ -1,0 +1,80 @@
+<div [ptInt]="this" [ptClass]="'headers-container'">
+  <ng-container [ngTemplateOutlet]="headerLeftTemplate()" />
+  <div
+    ngnScrollAmount
+    ngnDragScroll
+    #tabList
+    role="tablist"
+    [ptInt]="this"
+    [ptClass]="'headers'"
+    [id]="elementId + '_tablist'"
+  >
+    @if (tabsOverflowingLeft()) {
+      <button
+        tabindex="-1"
+        [ptInt]="this"
+        [ptClass]="'scroll-left'"
+        (click)="scrollHeaders('left')"
+      >
+        <awd-icon [icon]="iconScrollLeft()" [defaultIcon]="'tabs-scroll-left'" />
+      </button>
+    }
+
+    @for (header of headers(); track header.id; let i = $index) {
+      <button
+        type="button"
+        role="tab"
+        [aria-selected]="header.id === activeTab()"
+        [id]="elementId + '_tab_' + header.id"
+        [attr.aria-controls]="elementId + '_tabpanel_' + header.id"
+        [tabindex]="header.id === activeTab() ? 0 : -1"
+        (keydown)="handleTabKeyPress($event, header.id)"
+        #tabHeader
+        [ptInt]="this"
+        [ptClass]="{
+          header: true,
+          'header-active': header.id === activeTab(),
+        }"
+        (click)="selectTab(header.id)"
+      >
+        <ng-container *ngTemplateOutlet="header.template"></ng-container>
+      </button>
+    }
+    @if (tabsOverflowingRight()) {
+      <button
+        tabindex="-1"
+        [ptInt]="this"
+        [ptClass]="'scroll-right'"
+        (click)="scrollHeaders('right')"
+      >
+        <awd-icon [icon]="iconScrollRight()" [defaultIcon]="'tabs-scroll-right'" />
+      </button>
+    }
+    <div
+      [ptInt]="this"
+      [ptClass]="'header-active-indicator'"
+      [style.width.px]="indicatorWidth()"
+      [style.left.px]="indicatorLeft()"
+      [style.transitionDuration.ms]="isFirstRender() ? 0 : undefined"
+    ></div>
+  </div>
+  <ng-container [ngTemplateOutlet]="headerRightTemplate()" />
+</div>
+@for (content of contents(); track content.id; let i = $index) {
+  @if (content.template) {
+    <div
+      role="tabpanel"
+      [ptInt]="this"
+      [ptClass]="{ content: content.id === activeTab() }"
+      [id]="elementId + '_tabpanel_' + content.id"
+      [attr.aria-labelledby]="elementId + '_tab_' + content.id"
+    >
+      <awd-defer
+        [lazyContent]="content.template"
+        [open]="content.id === activeTab()"
+        [cache]="cache()"
+        [lazy]="lazy()"
+      />
+    </div>
+  }
+}

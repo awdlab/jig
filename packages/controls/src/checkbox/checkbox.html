@@ -1,0 +1,53 @@
+<div
+  [ptInt]="this"
+  [ptClass]="{
+    box: true,
+    'box-checked': !!value(),
+    'box-indeterminate': indeterminate(),
+  }"
+>
+  <awd-icon
+    [ptInt]="this"
+    [ptClass]="{
+      'box-icon': true,
+      'box-icon-visible': indeterminate(),
+    }"
+    [icon]="iconIndeterminate()"
+    [defaultIcon]="'checkbox-indeterminate'"
+  />
+  <awd-icon
+    [ptInt]="this"
+    [ptClass]="{
+      'box-icon': true,
+      'box-icon-visible': !indeterminate() && !!value(),
+    }"
+    [icon]="iconChecked()"
+    [defaultIcon]="'checkbox-checked'"
+  />
+  @if (iconUnchecked()) {
+    <awd-icon
+      [ptInt]="this"
+      [ptClass]="{
+        'box-icon': true,
+        'box-icon-visible': !indeterminate() && !value(),
+      }"
+      [icon]="iconUnchecked()"
+    />
+  }
+</div>
+<input
+  type="checkbox"
+  [checked]="value()"
+  (change)="changed($event)"
+  (click)="onClick($event)"
+  [indeterminate]="indeterminate()"
+  [ptInt]="this"
+  [ptClass]="'input'"
+  [attr.disabled]="disabled() ? '' : undefined"
+  [ariaReadOnly]="readonly() ? '' : undefined"
+  [ariaInvalid]="invalidState() ? 'true' : undefined"
+  [attr.aria-label]="label()"
+  [ariaLabelledByElements]="labelledBy()"
+  [id]="inputId()"
+  (blur)="markTouched()"
+/>

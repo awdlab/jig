@@ -1,0 +1,51 @@
+<header
+  class="w-full border-b border-(--awd-color-surface-200) bg-[color-mix(in_srgb,var(--awd-color-background)_72%,transparent)] backdrop-blur-md"
+  [ngnKeyboardShortcut]="searchShortcut()"
+>
+  <div
+    class="mx-auto flex h-16 w-full items-center justify-between gap-2 px-4 text-xl"
+    [class]="isDocsPage() ? 'max-w-[1600px]' : 'max-w-[1200px]'"
+  >
+    <div class="flex h-full min-w-0 items-center gap-3">
+      <a [routerLink]="'/'" class="flex h-full shrink-0 items-center gap-2 font-bold">
+        <img src="img/logo.png" alt="" class="h-10 w-10" />
+        awd-controls
+      </a>
+      @if (isDocsPage()) {
+        <!-- Desktop only: on mobile (<=900px) the breadcrumb moves into the page
+             content (see page-renderer), matching the hamburger/sidebar divide. -->
+        <awd-breadcrumb class="nav:block hidden min-w-0 text-base" [items]="breadcrumbItems()" />
+      }
+    </div>
+    <div class="flex h-full items-center gap-2 text-2xl text-(--awd-color-surface-800)">
+      <button
+        ngnButton
+        kind="icon"
+        [attr.aria-label]="searchLabel()"
+        [title]="searchLabel()"
+        [attr.aria-keyshortcuts]="searchAriaShortcut"
+        aria-haspopup="dialog"
+        (pointerenter)="warmSearch()"
+        (focus)="warmSearch()"
+        (click)="searchOpen.set(true)"
+      >
+        <awd-icon size="28px" [icon]="iconSearch" />
+      </button>
+      <awd-docs-search-dialog [(open)]="searchOpen" />
+      <!-- On docs pages the actions live in the menu drawer below 901px; the
+           landing page has no drawer, so they stay in the topbar there. -->
+      <awd-docs-topbar-actions [class]="isDocsPage() ? 'nav:flex hidden' : 'flex'" />
+      @if (isDocsPage()) {
+        <button
+          class="hide-when-large"
+          ngnButton
+          kind="icon"
+          aria-label="Menu Toggle"
+          (click)="toggleMenu()"
+        >
+          <awd-icon size="28px" [icon]="iconBars" />
+        </button>
+      }
+    </div>
+  </div>
+</header>

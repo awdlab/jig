@@ -1,0 +1,64 @@
+name: Publish
+
+# Manual trigger — no auto-publish on merge. awesome-publish reads changesets to
+# decide versions, builds the publishable packages (via buildCommand in
+# awesome-publish.config.ts), publishes to npm, tags, and cuts per-package
+# GitHub releases.
+#
+# The `channel` input picks the release mode:
+#   next   — `--pre next`: 0.1.0 + minor changeset → 0.2.0-next.0 under the
+#            `next` dist-tag. Changesets are KEPT so the same intent rolls into
+#            the eventual stable release.
+#   latest — no flag: 0.2.0-next.0 → 0.2.0 under `latest`. Changesets are
+#            consumed and deleted.
+#
+# Auth: npm Trusted Publishing (OIDC) — no NPM_TOKEN. The `id-token: write`
+# permission lets GitHub mint a short-lived identity that npm trusts (configured
+# per package on npmjs.com → Settings → Trusted Publisher). Provenance is emitted
+# automatically. Requires npm >= 11.5.1 (Node 22 ships an older npm, so upgrade).
+#
+# Do NOT set setup-node's `registry-url`: it writes an .npmrc with
+# `_authToken=${NODE_AUTH_TOKEN}` and exports a placeholder NODE_AUTH_TOKEN, so
+# npm authenticates with that dead token and SKIPS the OIDC exchange → the
+# registry rejects it with a masked E404. Leaving it out lets OIDC engage (npm
+# defaults to registry.npmjs.org anyway).
+#
+# First-time note: a trusted publisher can only be set on a package that already
+# exists. If a brand-new package's first publish is rejected, bootstrap it once
+# (`npm login` locally, then `pnpm exec awesome-publish publish --pre next`),
+# then this workflow handles every release after.
+on:
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: 'next = prerelease (changesets kept) · latest = stable release (changesets consumed)'
+        type: choice
+        options: [next, latest]
+        default: next
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write # npm Trusted Publishing (OIDC) + provenance
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history + tags: the pipeline diffs commits since the last tag
+          # for changelogs/release notes and reads tags for version resolution.
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Upgrade npm for OIDC trusted publishing (needs >= 11.5.1)
+        run: |
+          npm install -g npm@latest
+          echo "node: $(node -v)  npm: $(npm -v)  ($(command -v npm))"
+          echo "id-token available: ${ACTIONS_ID_TOKEN_REQUEST_URL:+yes}"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec awesome-publish publish --ci ${{ inputs.channel == 'next' && '--pre next' || '' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWESOME_PUBLISH_AI_KEY: ${{ secrets.AWESOME_PUBLISH_AI_KEY }}

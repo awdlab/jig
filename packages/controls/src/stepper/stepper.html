@@ -1,0 +1,56 @@
+<div ngnRovingGroup [ptInt]="this" [ptClass]="'header'" role="tablist">
+  @for (step of steps(); track $index; let i = $index; let last = $last) {
+    <button
+      type="button"
+      ngnRovingItem
+      role="tab"
+      [attr.aria-selected]="i === active()"
+      [attr.aria-disabled]="!canGoTo(i) ? 'true' : null"
+      [disabled]="step.disabled()"
+      [ptInt]="this"
+      [ptClass]="{
+        step: true,
+        active: i === active(),
+        completed: !!step.completed(),
+        error: !!step.error(),
+        disabled: step.disabled() || !canGoTo(i),
+      }"
+      (click)="onHeaderActivate(i)"
+    >
+      <span [ptInt]="this" [ptClass]="'marker'">
+        @if (step.iconStep(); as icon) {
+          <awd-icon [ptInt]="this" [ptClass]="'marker-icon'" [icon]="icon" />
+        } @else if (step.completed() && i !== active()) {
+          <awd-icon [ptInt]="this" [ptClass]="'marker-icon'" [defaultIcon]="'stepper-completed'" />
+        } @else {
+          <span [ptInt]="this" [ptClass]="'marker-index'">{{ i + 1 }}</span>
+        }
+      </span>
+      <span [ptInt]="this" [ptClass]="'label'">
+        {{ step.label() }}
+        @if (step.optional()) {
+          <span [ptInt]="this" [ptClass]="'optional'">(optional)</span>
+        }
+      </span>
+    </button>
+    @if (!last) {
+      <span [ptInt]="this" [ptClass]="'connector'"></span>
+    }
+  }
+</div>
+
+@for (step of steps(); track $index; let i = $index) {
+  <div
+    role="tabpanel"
+    [ptInt]="this"
+    [ptClass]="{ content: i === active() }"
+    [hidden]="i !== active()"
+  >
+    <awd-defer
+      [lazyContent]="step.content()"
+      [open]="i === active()"
+      [lazy]="lazy()"
+      [cache]="cache()"
+    />
+  </div>
+}

@@ -1,0 +1,103 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    # The docs build downloads and quantizes the search model, then embeds the index.
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 22.22.3
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.3
+      - name: Install pnpm
+        run: npm i -g pnpm
+      - name: Install
+        run: pnpm i
+      - name: Format Check
+        run: pnpm run format:check
+      - name: Lint
+        run: pnpm run lint
+      - name: Build themes
+        run: pnpm run types:build
+      - name: Build themes
+        run: pnpm run themes:build
+      - name: Build controls
+        run: pnpm run controls:build
+      - name: Unit Tests
+        run: pnpm run unit-test
+      - name: Cache embedding model download
+        # The docs build quantizes the search model from the pinned upstream weights;
+        # the key carries that pin, so bumping it re-downloads the 30MB once.
+        uses: actions/cache@v4
+        with:
+          path: apps/docs/.potion-cache
+          key: potion-${{ hashFiles('apps/docs/tools/quantize-potion.ts') }}
+      - name: Build docs
+        run: pnpm run docs:build
+      - name: Search relevance check
+        # Runs against the index the docs build just generated.
+        run: pnpm run search:check
+
+  playwright:
+    name: "Playwright Tests (shard ${{ matrix.shard }}/${{ strategy.job-total }})"
+    # Sharded across runners so wall-clock stays flat as the suite grows.
+    # Per-shard cap:
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    strategy:
+      # Don't cancel sibling shards when one fails — we want the full picture.
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.0-noble
+      options: --user 1001
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.3
+      - name: Install pnpm
+        run: npm i -g pnpm
+      - name: Install
+        run: pnpm i
+      - name: Check for test compiler errors
+        # Compiling the tests once is enough — gate to a single shard.
+        if: matrix.shard == 1
+        run: pnpm run test:build
+      - name: Run Tests
+        run: pnpm exec playwright test --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+        env:
+          FORCE_COLOR: 1
+      - name: Upload Test Results
+        # Run even when tests fail — the XML is needed to diagnose failures and
+        # is what the downstream Test Results workflow publishes as the PR check.
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          # Unique per shard (upload-artifact@v4 rejects duplicate names). The
+          # downstream Test Results workflow globs artifacts/**/*.xml and merges.
+          name: test-results-${{ matrix.shard }}
+          path: tests/results/test-report.xml
+
+  event_file:
+    name: "Event File"
+    timeout-minutes: 1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: Event File
+          path: ${{ github.event_path }}

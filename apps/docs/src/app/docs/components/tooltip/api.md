@@ -1,0 +1,1 @@
+{{ api: tooltip/tooltip NgnTooltip }}

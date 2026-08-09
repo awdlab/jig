@@ -1,0 +1,1 @@
+{{ api: checkbox/checkbox NgnCheckbox }}

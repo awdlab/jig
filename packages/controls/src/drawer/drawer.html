@@ -1,0 +1,39 @@
+<header [ptInt]="this" [ptClass]="'header'">
+  <ng-container
+    *ngTemplateOutlet="
+      headerTemplate();
+      context: { $implicit: { close: doClose, text: this.header(), headerId } }
+    "
+  />
+</header>
+<awd-defer
+  [lazyContent]="contentTemplate()"
+  [open]="open() || !isFullyClosed()"
+  [lazy]="lazy()"
+  [cache]="cache()"
+  [ptInt]="this"
+  [ptClass]="'content'"
+>
+  <ng-content />
+</awd-defer>
+@if (footerTemplate(); as footerTemplate) {
+  <footer [ptInt]="this" [ptClass]="'footer'">
+    <ng-container *ngTemplateOutlet="footerTemplate" />
+  </footer>
+}
+
+<ng-template #defaultHeaderTemplate [ngnTemplate]="templateTypes.header" let-header>
+  <div [ptInt]="this" [ptClass]="'default-header'">
+    <span [id]="header.headerId" [ptInt]="this" [ptClass]="'default-header-text'">{{
+      header.text
+    }}</span>
+    <button
+      ngnButton
+      [kind]="'icon'"
+      [attr.aria-label]="i18n['drawer_close']()"
+      (click)="header.close()"
+    >
+      <awd-icon defaultIcon="drawer-close" [icon]="iconClose()" />
+    </button>
+  </div>
+</ng-template>

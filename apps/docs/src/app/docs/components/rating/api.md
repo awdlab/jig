@@ -1,0 +1,1 @@
+{{ api: rating/rating NgnRating }}

@@ -1,0 +1,38 @@
+# Dependencies & build output
+node_modules
+dist
+.angular
+_generated
+**/coverage/**
+
+# Linked tsconfig files
+**/tsconfig.symlink.json
+
+# Tests
+test-report.xml
+tests/results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Agent & editor tooling (local working state, never committed)
+.claude/worktrees
+.claude/settings.local.json
+.playwright-mcp
+.superpowers
+docs/superpowers
+.impeccable
+.aider*
+.cursor/
+.windsurf/
+
+# OS & editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Local environment
+.env
+.env.*
+!.env.example

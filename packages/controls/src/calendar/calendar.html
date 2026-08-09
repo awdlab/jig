@@ -1,0 +1,136 @@
+@if (inline()) {
+  <ng-container *ngTemplateOutlet="calendar"></ng-container>
+} @else {
+  <div
+    #field
+    [ptInt]="this"
+    [ptClass]="{ 'input-field': true, invalid: invalidState() }"
+    [attr.aria-invalid]="invalidState() ? 'true' : null"
+    (click)="focusFromPointer($event)"
+    (keydown)="onKeyDown($event)"
+    (focusout)="potentiallyBlurred()"
+    [tabindex]="disabled() ? -1 : 0"
+  >
+    <awd-mask-input
+      [ptInt]="this"
+      [ptDep]="'input'"
+      [label]="i18n['calendar_input']()"
+      [mask]="maskCfg()"
+      [invalid]="invalidState()"
+      [invalidOn]="'immediate'"
+      [value]="valueStr()"
+      (valueChange)="stringValueChange($event)"
+      [disabled]="disabled()"
+      [readonly]="readonly()"
+    />
+    <awd-icon defaultIcon="calendar-trigger" [ptInt]="this" [ptDep]="'trigger-icon'" />
+  </div>
+  <awd-popover
+    #popover
+    [ptInt]="this"
+    [ptDep]="'popover'"
+    [anchor]="anchorElement"
+    [id]="inputId() + '_popover'"
+    (closing)="potentiallyBlurred()"
+  >
+    <ng-template #lazy>
+      <ng-container *ngTemplateOutlet="calendar"></ng-container>
+    </ng-template>
+  </awd-popover>
+}
+
+<ng-template #calendar>
+  <div
+    [ptInt]="this"
+    [ptClass]="{
+      root: true,
+      inline: inline(),
+    }"
+  >
+    <awd-calendar-days
+      [component]="this"
+      [theme]="theme"
+      [year]="year()"
+      [month]="month()"
+      [currentValue]="value()"
+      [firstDayOfWeek]="firstDayOfWeek()"
+      (previousMonth)="previousMonth()"
+      (nextMonth)="nextMonth()"
+      (daySelected)="selectDay($event)"
+      (monthSelected)="selectMonth($event)"
+      (yearSelected)="selectYear($event)"
+      (timeChanged)="changeTime($event)"
+      [dayTemplate]="dayTemplate()"
+      [weekDayTemplate]="weekDayTemplate()"
+      [timeTemplate]="timeTemplate()"
+      [yearTemplate]="yearTemplate()"
+      [monthTemplate]="monthTemplate()"
+      [showTime]="showTime()"
+      [showSeconds]="showSeconds()"
+      (focusout)="potentiallyBlurred()"
+    />
+  </div>
+</ng-template>
+<ng-template #defaultDayTemplate [ngnTemplate]="templateTypes.day" let-day>
+  {{ day.date }}
+</ng-template>
+
+<ng-template #defaultWeekDayTemplate [ngnTemplate]="templateTypes.weekDay" let-weekDay>
+  <span>
+    {{ weekDay.translation }}
+  </span>
+</ng-template>
+
+<ng-template #defaultTimeTemplate [ngnTemplate]="templateTypes.time" let-time>
+  @defer {
+    <div [ptInt]="this" [ptClass]="'time'">
+      <awd-calendar-time
+        [component]="this"
+        [currentValue]="time.time"
+        [showSeconds]="time.showSeconds"
+        (timeChange)="time.change($event)"
+      />
+    </div>
+  }
+</ng-template>
+
+<ng-template #defaultYearTemplate [ngnTemplate]="templateTypes.year" let-y>
+  @defer {
+    <awd-input-field [ptInt]="this" [ptDep]="'current-year-field'">
+      <awd-select
+        [ptInt]="this"
+        [ptDep]="'current-year'"
+        [editable]="true"
+        [value]="year() + ''"
+        (valueChange)="y.change(+($event || 0))"
+        [options]="yearOptions"
+        [virtual]="true"
+        [itemHeight]="40"
+        [popoverOptions]="{ sizeConstraints: { maxHeight: '300px' } }"
+        [scrollToSelectedItemOnOpen]="'center'"
+        [editableAutoFilter]="false"
+      >
+        <input ngnInput type="number" [attr.aria-label]="i18n['calendar_selectYear']()" />
+      </awd-select>
+    </awd-input-field>
+  }
+</ng-template>
+
+<ng-template #defaultMonthTemplate [ngnTemplate]="templateTypes.month" let-m>
+  @defer {
+    <awd-input-field [ptInt]="this" [ptDep]="'current-month-field'">
+      <awd-select
+        [ptInt]="this"
+        [ptDep]="'current-month'"
+        [label]="i18n['calendar_selectMonth']()"
+        [value]="m.month"
+        (valueChange)="m.change($event!)"
+        [options]="monthOptions()"
+        [popoverOptions]="{
+          sizeConstraints: { maxHeight: '300px', width: '130px', maxWidth: '130px' },
+        }"
+        [scrollToSelectedItemOnOpen]="'center'"
+      />
+    </awd-input-field>
+  }
+</ng-template>

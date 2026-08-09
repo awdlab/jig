@@ -1,0 +1,62 @@
+<header>
+  <button
+    [ptInt]="this"
+    [ptClass]="{
+      header: true,
+      'header-expanded': expanded(),
+      'header-disabled': disabled(),
+    }"
+    [id]="headerId()"
+    [disabled]="disabled()"
+    [aria-expanded]="expanded()"
+    (click)="toggle()"
+    [attr.aria-controls]="contentId()"
+  >
+    @if (headerTemplate()) {
+      <ng-container
+        *ngTemplateOutlet="
+          headerTemplate();
+          context: { $implicit: { panelId: panelId(), text: header(), expanded: expanded() } }
+        "
+      ></ng-container>
+    }
+    <awd-icon
+      [defaultIcon]="expanded() ? 'accordion-collapse' : 'accordion-expand'"
+      [icon]="expanded() ? iconExpanded() : iconCollapsed()"
+    />
+  </button>
+</header>
+
+<div
+  [ptInt]="this"
+  [ptClass]="{
+    'content-expander': true,
+    'content-expander-collapsed': !expanded(),
+  }"
+  #content
+>
+  <div
+    [ptInt]="this"
+    [ptClass]="'content'"
+    [id]="contentId()"
+    [attr.aria-labelledby]="headerId()"
+    [aria-hidden]="!expanded()"
+    role="region"
+  >
+    <awd-defer
+      [lazyContent]="contentTemplate()"
+      [open]="lazyInt() && !cacheInt() ? afterTransitionExpanded() : expanded()"
+      [hiddenOnClosed]="false"
+      [cache]="cacheInt()"
+      [lazy]="lazyInt()"
+    >
+      <ng-content />
+    </awd-defer>
+  </div>
+</div>
+
+<ng-template #defaultHeaderTemplate let-header [ngnTemplate]="templateTypes.header">
+  <span [ptInt]="this" [ptClass]="'header-text'">
+    {{ header.text }}
+  </span>
+</ng-template>

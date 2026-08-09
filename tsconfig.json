@@ -1,0 +1,35 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "experimentalDecorators": true,
+    "noUncheckedIndexedAccess": true,
+    "resolveJsonModule": true,
+    "importHelpers": true,
+    "target": "ES2023",
+    "lib": ["es2024", "DOM"],
+    "module": "preserve",
+    "paths": {
+      "@awdlab/jig/i18n/translations/*": ["./packages/controls/src/i18n/translations/*"],
+      "@awdlab/jig/*": ["./packages/controls/src/*/index"],
+      "@awdlab/jig-custom-types": ["./packages/custom-types/src/index"],
+      "@awdlab/jig-themes": ["./packages/themes/src/index"],
+      "@awdlab/jig-themes/*": ["./packages/themes/src/*/index"],
+      "@awdlab/jig-playwright": ["./packages/playwright/src/index"]
+    }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "typeCheckHostBindings": true,
+    "strictTemplates": true
+  }
+}

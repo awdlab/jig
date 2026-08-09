@@ -1,0 +1,17 @@
+@if (latestStickyItem(); as latestStickyItem) {
+  <ng-container
+    *ngTemplateOutlet="
+      itemTemplate();
+      context: { $implicit: latestStickyItem.item, index: latestStickyItem.index }
+    "
+  ></ng-container>
+}
+
+@for (item of visibleItems(); track track(item)) {
+  <ng-container
+    *ngTemplateOutlet="itemTemplate(); context: { $implicit: item.item, index: item.index }"
+  ></ng-container>
+}
+
+<!-- Projects static content added alongside the scroller (e.g. table skeleton rows). -->
+<ng-content></ng-content>

@@ -1,0 +1,1 @@
+{{ api: select/select NgnSelect }}

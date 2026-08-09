@@ -1,0 +1,22 @@
+@for (i of indices(); track i) {
+  <input
+    #box
+    [ptInt]="this"
+    [ptClass]="'box'"
+    [type]="boxType()"
+    [attr.inputmode]="boxInputMode()"
+    [value]="cells()[i] ?? ''"
+    [disabled]="disabled()"
+    [attr.readonly]="readonly() || null"
+    [attr.aria-invalid]="invalidState() ? 'true' : null"
+    [attr.aria-label]="cellLabel(i)"
+    [attr.autocomplete]="i === 0 ? 'one-time-code' : 'off'"
+    maxlength="1"
+    autocapitalize="off"
+    autocorrect="off"
+    spellcheck="false"
+    (beforeinput)="onBeforeInput(i, $event)"
+    (keydown)="onKeyDown(i, $event)"
+    (paste)="onPaste($event)"
+  />
+}

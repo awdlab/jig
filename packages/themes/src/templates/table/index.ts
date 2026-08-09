@@ -1,0 +1,71 @@
+import { createControlTemplate } from '@awdlab/jig-themes/api';
+import { scrollShadowDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
+import { checkboxControlTemplate } from '@awdlab/jig-themes/templates/checkbox';
+import { filterControlTemplate } from '@awdlab/jig-themes/templates/filter';
+import { iconControlTemplate } from '@awdlab/jig-themes/templates/icon';
+import { paginatorControlTemplate } from '@awdlab/jig-themes/templates/paginator';
+import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
+import { scrollerControlTemplate } from '@awdlab/jig-themes/templates/scroller';
+
+export const tableControlTemplate = createControlTemplate({
+  scope: 'table',
+  classNames: [
+    'root',
+    'table',
+    'virtual',
+    'head',
+    'body',
+    'cell',
+    'row',
+    'foot',
+    'even',
+    'striped',
+    'spacer',
+    'sort-control',
+    'sortable-column',
+    'sorted-column',
+    'filter-control',
+    'filterable-column',
+    'filtered-column',
+    'resize-handle',
+    'resizable',
+    'resizing',
+    'cell-text',
+    'selected-row',
+    'selection-checkbox',
+    'selection-column',
+    'selectable',
+    'focused-row',
+    'selected-row-cell',
+    'focused-row-cell',
+    'group-header-row',
+    'group-header-cell',
+    'group-toggle',
+    'group-expanded',
+    'reorderable',
+    'reordering',
+    'drag-source',
+    'drop-indicator',
+    'sticky-start',
+    'sticky-end',
+    'sticky-start-edge',
+    'sticky-end-edge',
+    'row-actions',
+    'row-action-button',
+    'active-row',
+    'skeleton-row',
+    'skeleton-cell',
+    'loading',
+    'error-row',
+  ],
+  dependencies: [
+    { class: 'scroller', template: scrollerControlTemplate },
+    { class: 'scroll-shadow', template: scrollShadowDirectiveTemplate, projected: true },
+    { class: 'group-toggle-icon', template: iconControlTemplate },
+    { class: 'sort-icon', template: iconControlTemplate, projected: true },
+    { class: 'filter', template: filterControlTemplate, projected: true },
+    { class: 'popover', template: popoverControlTemplate, projected: true },
+    { class: 'paginator', template: paginatorControlTemplate },
+    { class: 'checkbox', template: checkboxControlTemplate, projected: true },
+  ],
+});

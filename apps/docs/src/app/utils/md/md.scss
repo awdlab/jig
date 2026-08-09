@@ -1,0 +1,203 @@
+:host {
+  display: block;
+
+  ::ng-deep {
+    .component-host {
+      display: block;
+      width: 100%;
+      margin: 1.25rem 0;
+    }
+
+    .md {
+      display: block;
+      line-height: 1.7;
+
+      // Trim the outer gaps so the column starts/ends flush.
+      > :first-child {
+        margin-top: 0;
+      }
+      > :last-child {
+        margin-bottom: 0;
+      }
+
+      p {
+        margin: 0.85rem 0;
+      }
+
+      // Lists — Tailwind's preflight strips markers/indent, so restore them.
+      ul,
+      ol {
+        margin: 0.85rem 0;
+        padding-left: 1.5rem;
+      }
+      ul {
+        list-style: disc;
+      }
+      ol {
+        list-style: decimal;
+      }
+      li {
+        margin: 0.3rem 0;
+      }
+      li::marker {
+        color: var(--awd-color-surface-500);
+      }
+      ul ul,
+      ul ol,
+      ol ul,
+      ol ol {
+        margin: 0.25rem 0;
+      }
+
+      blockquote {
+        margin: 1.25rem 0;
+        padding: 0.5rem 1rem;
+        border-left: 3px solid var(--awd-color-primary-400);
+        border-radius: var(--awd-size-rounded-sm);
+        background: var(--awd-color-surface-50);
+        color: var(--awd-color-surface-700);
+
+        > :first-child {
+          margin-top: 0;
+        }
+        > :last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid var(--awd-color-surface-200);
+        margin: 2rem 0;
+      }
+
+      // Inline code chips
+      code {
+        background: var(--awd-color-surface-100);
+        border-radius: var(--awd-size-rounded-sm);
+        padding: 0.12em 0.35em;
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+      }
+
+      // Fenced code blocks — full width, own line, scroll on overflow.
+      // Prism-highlighted and dark/theme-independent, mirroring the demo code
+      // view; token colors come from the global `.prism` styles in prism.css.
+      pre {
+        display: block;
+        overflow-x: auto;
+        padding: 1rem 1.25rem;
+        margin: 1.25rem 0;
+        border-radius: var(--awd-size-rounded-md);
+        background: var(--prism-bg);
+        code {
+          display: block;
+          background: none;
+          padding: 0;
+          margin: 0;
+          white-space: pre;
+          font-size: 0.85rem;
+          color: var(--prism-fg);
+        }
+      }
+
+      // API name/type highlights bring their own background — no inline chip.
+      .code-name-highlight code {
+        background: none;
+        padding: 0;
+        margin: 0;
+      }
+      a {
+        color: var(--awd-color-secondary-500);
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      // Anchored headings: reveal a "copy link" affordance on hover.
+      h1,
+      h2,
+      h3 {
+        // Offset the sticky topbar when jumping to a section.
+        scroll-margin-top: 1.5rem;
+
+        .heading-anchor {
+          display: inline-flex;
+          align-items: center;
+          margin-left: 0.4rem;
+          color: var(--awd-color-surface-400);
+          opacity: 0;
+          transition:
+            opacity 0.15s ease,
+            color 0.15s ease;
+
+          &:hover {
+            color: var(--awd-color-primary-500);
+            text-decoration: none;
+          }
+
+          svg {
+            width: 0.85em;
+            height: 0.85em;
+          }
+
+          // Transient "Copied!" confirmation after a click.
+          &.copied::after {
+            content: 'Copied!';
+            margin-left: 0.35rem;
+            font-size: var(--awd-font-size-xs);
+            color: var(--awd-color-primary-500);
+            opacity: 1;
+          }
+        }
+
+        &:hover .heading-anchor,
+        .heading-anchor:focus-visible {
+          opacity: 1;
+        }
+      }
+      .table-wrapper {
+        overflow-x: auto;
+        width: 100%;
+        margin: 1.25rem 0;
+      }
+      table {
+        border-spacing: 0;
+        min-width: 100%;
+        padding-left: 8px;
+        outline: 1px solid var(--awd-color-surface-200);
+        outline-offset: -1px;
+        border-radius: var(--awd-size-rounded-lg);
+        overflow: hidden;
+        box-sizing: border-box;
+        thead tr th {
+          text-align: left;
+          background-color: var(--awd-color-surface-50);
+          color: var(--awd-color-surface-600);
+          padding: 1rem 1.5rem;
+          text-transform: uppercase;
+        }
+        tbody tr td {
+          padding: 1rem 1.5rem;
+          vertical-align: top;
+          border-bottom: 1px solid var(--awd-color-surface-200);
+        }
+      }
+      .code-name-highlight {
+        background: var(--awd-color-surface-50);
+        border-radius: var(--awd-size-rounded-md);
+        padding: 2px 6px;
+        margin: 1px 0;
+        display: inline;
+        code {
+          white-space: pre-wrap;
+        }
+      }
+      .code-type-highlight {
+        color: var(--awd-color-accent-700);
+        font-weight: 500;
+      }
+    }
+  }
+}

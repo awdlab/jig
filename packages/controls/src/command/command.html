@@ -1,0 +1,88 @@
+<awd-dialog
+  [ptInt]="this"
+  [ptDep]="'dialog'"
+  [modal]="true"
+  [closeButton]="false"
+  [label]="labelText()"
+  [(open)]="open"
+  [closeBy]="closeBy()"
+  [size]="size()"
+  [ngnKeyboardShortcut]="shortcutBindings()"
+>
+  <awd-input-field [ptInt]="this" [ptDep]="'search'">
+    <awd-icon [ptInt]="this" [ptClass]="'search-icon'" [icon]="iconSearch()" defaultIcon="search" />
+    <input
+      #searchInput
+      ngnInput
+      role="combobox"
+      aria-haspopup="listbox"
+      aria-expanded="true"
+      autocomplete="off"
+      [attr.aria-controls]="listBoxId"
+      [attr.aria-activedescendant]="activeDescendantId()"
+      [attr.aria-label]="placeholderText()"
+      [placeholder]="placeholderText()"
+      [value]="filterText()"
+      (valueChange)="filterText.set($event ?? '')"
+      (keydown)="onKeyDown($event)"
+    />
+  </awd-input-field>
+
+  <awd-list-box
+    [ptInt]="this"
+    [ptDep]="'list-box'"
+    [inputId]="listBoxId"
+    [label]="labelText()"
+    [focussable]="false"
+    [selectable]="true"
+    [separator]="true"
+    [items]="mappedItems()"
+    [filter]="filter()"
+    [filterText]="filterText()"
+    [templateItem]="itemTemplate()"
+    [templateGroup]="groupTemplate()"
+    [templateEmpty]="emptyTemplate()"
+    (itemClicked)="onItemClicked($event)"
+  />
+
+  <ng-template #footer>
+    <div [ptInt]="this" [ptClass]="'hints'">
+      <span [ptInt]="this" [ptClass]="'hint'">
+        <awd-kbd shortcut="escape" aria-hidden="true" />
+        {{ i18n['command_hintClose']() }}
+      </span>
+      <span [ptInt]="this" [ptClass]="'hint'">
+        <awd-kbd shortcut="arrowup" aria-hidden="true" />
+        <awd-kbd shortcut="arrowdown" aria-hidden="true" />
+        {{ i18n['command_hintSelect']() }}
+      </span>
+      <span [ptInt]="this" [ptClass]="'hint'">
+        <awd-kbd shortcut="enter" aria-hidden="true" />
+        {{ i18n['command_hintConfirm']() }}
+      </span>
+    </div>
+  </ng-template>
+</awd-dialog>
+
+<ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
+  <span [ptInt]="this" [ptClass]="'item'" [attr.data-testid]="item?.testId">
+    @if (item?.icon; as icon) {
+      <awd-icon [ptInt]="this" [ptClass]="'item-icon'" [icon]="icon" />
+    }
+    <span [ptInt]="this" [ptClass]="'item-label'">{{ maybeCallback(item?.label) }}</span>
+    @if (item?.data?.shortcut; as shortcut) {
+      <awd-kbd
+        [ptInt]="this"
+        [ptClass]="'item-shortcut'"
+        [shortcut]="shortcut"
+        aria-hidden="true"
+      />
+    }
+  </span>
+</ng-template>
+
+<ng-template #defaultEmptyTemplate>
+  <span [ptInt]="this" [ptClass]="'empty'" [attr.data-testid]="'empty'">{{
+    i18n['command_noResults']()
+  }}</span>
+</ng-template>

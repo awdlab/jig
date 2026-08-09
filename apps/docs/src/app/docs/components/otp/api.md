@@ -1,0 +1,1 @@
+{{ api: otp/otp NgnOtp }}

@@ -1,0 +1,56 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+__screenshots__/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Generated TypeDoc files
+/src/app/docs/_generated
+
+# Generated search assets — all rebuilt by prepare-docs. The model blob is
+# quantized from the pinned upstream weights (tools/quantize-potion.ts), whose
+# 30MB download is cached in .potion-cache.
+/public/search
+/.potion-cache
+
+# Generated SEO artefacts — rebuilt by prepare-docs (tools/seo-gen.ts)
+/public/sitemap.xml
+/public/llms.txt

@@ -1,0 +1,67 @@
+<awd-inplace
+  [ptInt]="this"
+  [ptDep]="'inplace'"
+  [templateDisplay]="displayTemplate()"
+  [templateDisplayContext]="{ $implicit: { value: value() } }"
+  [templateContent]="editTemplate()"
+  [templateContentContext]="{
+    $implicit: {
+      value: value(),
+      update: value.set.bind(value),
+      close: confirmEdit,
+    },
+  }"
+  [contentVisible]="editVisible()"
+  (contentVisibleChange)="editVisible.set($event)"
+  [lazy]="lazy()"
+  [cache]="cache()"
+  [disabled]="disabled() || readonly()"
+/>
+
+<ng-template #defaultDisplayTemplate [ngnTemplate]="templateTypes.display" let-display>
+  <div [ptInt]="this" [ptClass]="'default-display'">
+    @if (!display.value) {
+      <span [ptInt]="this" [ptClass]="'default-fallback-display'">{{
+        i18n['editInplace_placeholder']()
+      }}</span>
+    } @else {
+      <span>{{ display.value }}</span>
+      <span [ptInt]="this" [ptClass]="'sr-only'">{{ i18n['editInplace_placeholder']() }}</span>
+    }
+  </div>
+</ng-template>
+
+<ng-template #defaultEditTemplate [ngnTemplate]="templateTypes.edit" let-edit>
+  <div [ptInt]="this" [ptClass]="'default-edit'">
+    <awd-input-field
+      (focusout)="focusOut($event)"
+      [label]="label()"
+      [inputId]="inputId()"
+      [invalid]="invalidState()"
+      [labelledBy]="labelledBy()"
+    >
+      <input
+        type="text"
+        ngnInput
+        ngnAutofocus
+        [value]="edit.value"
+        (valueChange)="edit.update($event ?? '')"
+        (keydown.enter)="edit.close()"
+        [ptInt]="this"
+        [ptClass]="'default-edit-input'"
+      />
+      <button
+        ngnButton
+        type="button"
+        kind="icon"
+        [ngnButtonInline]="true"
+        (click)="edit.close()"
+        [ptInt]="this"
+        [ptClass]="'default-edit-close-button'"
+        [attr.aria-label]="i18n['editInplace_confirm']()"
+      >
+        <awd-icon defaultIcon="edit-confirm" />
+      </button>
+    </awd-input-field>
+  </div>
+</ng-template>

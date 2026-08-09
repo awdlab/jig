@@ -1,0 +1,54 @@
+<div class="cl-wrap">
+  <header class="cl-head">
+    <h1 class="cl-title">Changelog</h1>
+    <p class="cl-lede">
+      Every published release, straight from the repository. Each entry lists what changed in that
+      package — the packages version independently, so they move at different speeds.
+    </p>
+  </header>
+
+  @if (failed()) {
+    <awd-hint kind="error">
+      The release list could not be loaded. See
+      <a class="cl-link" href="https://github.com/awdlab/jig/releases">the releases on GitHub</a>.
+    </awd-hint>
+  } @else if (releases() === null) {
+    <p class="cl-loading"><awd-spinner /> Loading releases…</p>
+  } @else if (packages().length === 0) {
+    <awd-hint kind="info">
+      No releases published yet. Follow
+      <a class="cl-link" href="https://github.com/awdlab/jig/releases">the repository</a>
+      to be notified of the first one.
+    </awd-hint>
+  } @else {
+    @for (group of packages(); track group.name) {
+      <section class="cl-package">
+        <h2 class="cl-package-name">{{ group.name }}</h2>
+
+        @for (release of group.releases; track release.tag) {
+          <article class="cl-release">
+            <div class="cl-release-head">
+              <h3 class="cl-version">
+                <a class="cl-link" [href]="release.url">{{ release.version ?? release.name }}</a>
+              </h3>
+              @if (release.prerelease) {
+                <awd-tag color="warning">pre-release</awd-tag>
+              }
+              @if (release.publishedAt) {
+                <time class="cl-date" [attr.datetime]="release.publishedAt">
+                  {{ formatDate(release.publishedAt) }}
+                </time>
+              }
+            </div>
+
+            @if (release.html) {
+              <div class="cl-notes" [innerHTML]="release.html"></div>
+            } @else {
+              <p class="cl-notes cl-notes-empty">No notes for this release.</p>
+            }
+          </article>
+        }
+      </section>
+    }
+  }
+</div>

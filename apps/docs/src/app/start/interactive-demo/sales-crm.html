@@ -1,0 +1,180 @@
+<div class="p-(--awd-size-padding-xl)">
+  <!-- Header: breadcrumb + title + date range + search -->
+  <div
+    class="mb-(--awd-size-padding-xl) flex flex-col gap-(--awd-size-padding-lg) md:flex-row md:items-start md:justify-between"
+  >
+    <div>
+      <awd-breadcrumb [items]="breadcrumbItems" />
+      <h3
+        class="mt-(--awd-size-padding-sm) text-(length:--awd-font-size-xl) font-(--awd-font-weight-bold) text-(--awd-color-text)"
+      >
+        Sales Overview
+      </h3>
+    </div>
+    <div class="flex flex-wrap items-center gap-(--awd-size-padding-md)">
+      <awd-input-field class="w-56">
+        <awd-icon [icon]="calendarIcon" class="mr-1" />
+        <awd-select [options]="dateRangeOptions" [(value)]="dateRange" />
+      </awd-input-field>
+      <awd-input-field class="w-64">
+        <awd-icon [icon]="searchIcon" />
+        <input
+          ngnInput
+          placeholder="Search accounts..."
+          [value]="search()"
+          (valueChange)="onSearch($event)"
+        />
+      </awd-input-field>
+    </div>
+  </div>
+
+  <!-- KPI cards -->
+  <div
+    class="mb-(--awd-size-padding-xl) grid grid-cols-1 gap-(--awd-size-padding-lg) sm:grid-cols-2 lg:grid-cols-4"
+  >
+    @for (kpi of kpis; track kpi.label) {
+      <div class="card p-(--awd-size-padding-xl)" [ngnTooltip]="kpi.tooltip">
+        <div class="mb-(--awd-size-padding-md) flex items-center justify-between">
+          <span
+            class="text-(length:--awd-font-size-xs) font-(--awd-font-weight-semibold) tracking-wide text-(--awd-color-surface-600) uppercase"
+          >
+            {{ kpi.label }}
+          </span>
+          <span [style.color]="colorVar(kpi.iconColor)">
+            <awd-icon [icon]="kpi.icon" />
+          </span>
+        </div>
+        <div
+          class="mb-(--awd-size-padding-sm) text-(length:--awd-font-size-2xl) font-(--awd-font-weight-bold) text-(--awd-color-text)"
+        >
+          {{ kpi.value }}
+        </div>
+        <div
+          class="text-(length:--awd-font-size-xs) font-(--awd-font-weight-medium)"
+          [style.color]="colorVar(kpi.trendColor, 600)"
+        >
+          {{ kpi.trend }}
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Opportunities + Lead capture -->
+  <div
+    class="mb-(--awd-size-padding-xl) grid grid-cols-1 gap-(--awd-size-padding-xl) lg:grid-cols-6"
+  >
+    <div class="card flex flex-col p-(--awd-size-padding-xl) lg:col-span-4">
+      <div class="mb-(--awd-size-padding-lg) flex items-center justify-between">
+        <h3
+          class="text-(length:--awd-font-size-lg) font-(--awd-font-weight-semibold) text-(--awd-color-text)"
+        >
+          Recent Opportunities
+        </h3>
+        <button ngnButton kind="icon" aria-label="Export opportunities" ngnTooltip="Export to CSV">
+          <awd-icon [icon]="downloadIcon" />
+        </button>
+      </div>
+
+      <div class="sales-crm-table-area relative grow overflow-x-auto">
+        <awd-table #table [rows]="pagedRows()" [fieldId]="'id'">
+          <ng-template #header>
+            <tr ngnTableHeadTr>
+              <th scope="col" [ngnTableTh]="table.column('company')">Company</th>
+              <th scope="col" [ngnTableTh]="table.column('value')">Value</th>
+              <th scope="col" [ngnTableTh]="table.column('status')">Status</th>
+              <th scope="col" [ngnTableTh]="table.column('owner')">Owner</th>
+              <th scope="col" [ngnTableTh]="'actions'" [ngnTableStickyColumn]="'end'">
+                <span class="sr-only">Actions</span>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
+            <tr [ngnTableBodyTr]="row">
+              <td ngnTableTd>
+                <div class="flex items-center gap-(--awd-size-padding-md)">
+                  <awd-avatar
+                    [initials]="row.data.initials"
+                    [bgColor]="row.data.bgColor"
+                    [size]="32"
+                  />
+                  <span
+                    class="font-(--awd-font-weight-semibold)"
+                    [ngnTooltip]="row.data.company"
+                    ngnTooltipShowOnlyIfTruncated
+                  >
+                    {{ row.data.company }}
+                  </span>
+                </div>
+              </td>
+              <td ngnTableTd>{{ currency(row.data.value) }}</td>
+              <td ngnTableTd>
+                <awd-tag [color]="row.data.statusColor">{{ row.data.status }}</awd-tag>
+              </td>
+              <td ngnTableTd>
+                <div class="flex items-center gap-(--awd-size-padding-md)">
+                  <awd-avatar
+                    [initials]="row.data.ownerInitials"
+                    [bgColor]="row.data.ownerColor"
+                    [size]="32"
+                  />
+                  <span>{{ row.data.owner }}</span>
+                </div>
+              </td>
+              <td ngnTableTd>
+                <button
+                  ngnButton
+                  kind="icon"
+                  #menuAnchor
+                  aria-label="Row actions"
+                  (click)="rowMenu.show()"
+                >
+                  <awd-icon [icon]="dotsIcon" />
+                </button>
+                <awd-menu
+                  #rowMenu
+                  [popover]="true"
+                  [anchor]="menuAnchor"
+                  [items]="rowMenuItems(row.data)"
+                />
+              </td>
+            </tr>
+          </ng-template>
+        </awd-table>
+      </div>
+
+      <!-- Filter chips + pagination, directly below the table -->
+      <div
+        class="mt-(--awd-size-padding-lg) flex flex-col gap-(--awd-size-padding-lg) border-t border-(--awd-color-surface-200) pt-(--awd-size-padding-lg) md:flex-row md:items-center md:justify-between"
+      >
+        <div class="flex flex-wrap gap-(--awd-size-padding-md)">
+          @for (chip of filterChips; track chip.value) {
+            <awd-chip
+              [actionable]="true"
+              [color]="activeFilter() === chip.value ? 'primary' : undefined"
+              (clicked)="setFilter(chip.value)"
+            >
+              {{ chip.label }}
+            </awd-chip>
+          }
+        </div>
+        <div class="flex items-center gap-(--awd-size-padding-lg)">
+          <span
+            class="text-(length:--awd-font-size-sm) whitespace-nowrap text-(--awd-color-surface-600)"
+          >
+            {{ rowsLabel() }}
+          </span>
+          <awd-paginator
+            [totalItems]="filtered().length"
+            [pageSize]="pageSize"
+            [fixedPageSize]="true"
+            [(page)]="page"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-(--awd-size-padding-xl) lg:col-span-2">
+      <awd-docs-quick-add-deal (add)="addDeal($event)" />
+    </div>
+  </div>
+</div>

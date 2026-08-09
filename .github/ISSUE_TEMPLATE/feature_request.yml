@@ -1,0 +1,44 @@
+name: Feature request
+description: Suggest a new control, input, or capability.
+labels: ['enhancement', 'triage']
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: |
+        What are you trying to build, and where does the library get in the way?
+        Describe the situation rather than the solution — it often has a
+        different answer than expected.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like
+      description: The API you have in mind, if you have one.
+      placeholder: |
+        ```html
+        <awd-select [groupBy]="'region'" />
+        ```
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you tried instead
+      description: Passthrough, a custom theme part, a wrapper component…
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I checked the docs at https://jig.awdlab.dev
+          required: true
+        - label: I searched existing issues
+          required: true

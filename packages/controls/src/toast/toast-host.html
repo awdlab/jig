@@ -1,0 +1,14 @@
+@for (toast of toasts(); track toast.id; let i = $index) {
+  <awd-toast
+    [attr.tabindex]="region.tabbableIndex() === i ? 0 : -1"
+    [header]="toast.header"
+    [content]="toast.content"
+    [color]="toast.color"
+    [icon]="toast.icon"
+    [autoHide]="toast.autoHide"
+    [templateContent]="toast.contentTemplate"
+    [templateHeader]="toast.headerTemplate"
+    [closable]="!!toast.closable"
+    (closeToast)="removeToast(toast.id)"
+  />
+}

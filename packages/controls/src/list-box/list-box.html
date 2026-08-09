@@ -1,0 +1,95 @@
+<awd-scroller
+  [ptInt]="this"
+  [ptDep]="'scroller'"
+  [scrollContainer]="element.nativeElement"
+  [virtual]="virtual()"
+  [itemHeight]="itemHeight()"
+  [items]="displayedItems()"
+  [templateItem]="usedItemTemplate"
+  [fieldSticky]="'items'"
+  #scroller
+/>
+
+@if (!displayedItems().length) {
+  <div role="status">
+    <ng-container
+      *ngTemplateOutlet="emptyTemplate() || defaultEmptyTemplate; context: {}"
+    ></ng-container>
+  </div>
+}
+
+<ng-template #usedItemTemplate [ngnTemplate]="scroller.templateTypes.item" let-itemOrGroup>
+  <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+  <div
+    [ngnScrollerItem]="itemOrGroup"
+    [id]="optionId(itemOrGroup.value)"
+    [attr.role]="itemOrGroup.items ? 'group' : 'option'"
+    [attr.aria-label]="itemOrGroup.items ? maybeCallback(itemOrGroup.label) : null"
+    [aria-selected]="
+      selectable() && !itemOrGroup.items ? valueArray().includes(itemOrGroup.value) : null
+    "
+    [attr.aria-disabled]="itemOrGroup.disabled ? 'true' : null"
+    [ptInt]="this"
+    [ptClass]="{
+      item: !itemOrGroup.items,
+      group: !!itemOrGroup.items,
+      'item-selected': valueArray().includes(itemOrGroup.value),
+      'item-highlighted': itemOrGroup.value === currentHighlightedValue(),
+      'item-disabled': !!itemOrGroup.disabled,
+    }"
+    (click)="
+      !itemOrGroup.items && !itemOrGroup.disabled && selectable() && onSelect(itemOrGroup.value)
+    "
+    (mouseenter)="
+      !itemOrGroup.items &&
+        !itemOrGroup.disabled &&
+        selectable() &&
+        selectOnHover() &&
+        onSelect(itemOrGroup.value)
+    "
+  >
+    @if (showCheckboxes() && !itemOrGroup.items) {
+      <awd-checkbox
+        [ptInt]="this"
+        [ptDep]="'checkbox'"
+        [value]="valueArray().includes(itemOrGroup.value)"
+        aria-hidden="true"
+        inert="true"
+      />
+    }
+    <ng-container
+      *ngTemplateOutlet="
+        itemOrGroup.items ? groupTemplate() : itemTemplate();
+        context: { $implicit: itemOrGroup }
+      "
+    ></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
+  <span [attr.data-testid]="item?.testId" [ptInt]="this" [ptClass]="'default-item'">
+    @let label = item?.label;
+    @if (label) {
+      <span [attr.data-testid]="item?.testId">{{ maybeCallback(label) }}</span>
+    } @else {
+      <span [attr.data-testid]="item?.testId">&ZeroWidthSpace;</span>
+    }
+  </span>
+</ng-template>
+
+<ng-template #defaultGroupTemplate [ngnTemplate]="templateTypes.item" let-group>
+  <span [attr.data-testid]="group?.testId" [ptInt]="this" [ptClass]="'default-group'">
+    @let label = group?.label;
+    @if (label) {
+      <span [attr.data-testid]="group?.testId">{{ maybeCallback(label) }}</span>
+    } @else {
+      <span [attr.data-testid]="group?.testId">&ZeroWidthSpace;</span>
+    }
+  </span>
+</ng-template>
+
+<ng-template #defaultEmptyTemplate>
+  <span [ptInt]="this" [ptClass]="'empty'" [attr.data-testid]="'empty'">{{
+    i18n['listBox_noItemsFound']()
+  }}</span>
+</ng-template>

@@ -1,0 +1,16 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "extends": "./tsconfig.lib.json",
+  "compilerOptions": {
+    "declarationMap": false,
+    "paths": {
+      "@awdlab/jig-custom-types": ["../custom-types/dist/index"],
+      "@awdlab/jig-themes": ["../themes/dist/index"],
+      "@awdlab/jig-themes/*": ["../themes/dist/*/index"]
+    }
+  },
+  "angularCompilerOptions": {
+    "compilationMode": "partial"
+  }
+}

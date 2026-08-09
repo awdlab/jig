@@ -1,0 +1,31 @@
+@if (visible()) {
+  <span [ptInt]="this" [ptClass]="'indicator'">
+    @if (resolvedLabel(); as label) {
+      <span [ptInt]="this" [ptClass]="'sr-only'">{{ label }}</span>
+    }
+    @switch (appliedKind()) {
+      @case ('loading') {
+        @defer (on immediate) {
+          <awd-spinner
+            [ptInt]="this"
+            [ptDep]="'spinner'"
+            [size]="size()"
+            [thickness]="thickness()"
+            [attr.aria-hidden]="true"
+          />
+        }
+      }
+      @default {
+        @if (icon() || defaultIcon()) {
+          <awd-icon
+            [ptInt]="this"
+            [ptDep]="'icon'"
+            [defaultIcon]="defaultIcon()"
+            [icon]="icon()"
+            [attr.aria-hidden]="true"
+          />
+        }
+      }
+    }
+  </span>
+}

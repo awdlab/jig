@@ -1,0 +1,62 @@
+<awd-item-view
+  #itemView
+  [ptInt]="this"
+  [ptDep]="'item-view'"
+  [items]="items()"
+  [idField]="'id'"
+  [templateItem]="itemTemplate()"
+  [templateSeparator]="separatorTemplate()"
+  [templateOverflow]="usedOverflowTemplate"
+  [iconItemSeparator]="iconItemSeparator()"
+  [overflowStrategy]="'start'"
+  [overflowStrategyFreezeCount]="1"
+/>
+
+<ng-template #usedOverflowTemplate [ngnTemplate]="itemView.templateTypes.overflow" let-overflow>
+  <ng-container
+    *ngTemplateOutlet="
+      overflowTemplate();
+      context: { $implicit: { icon: iconOverflow(), overflowingItems: overflow.overflowItems } }
+    "
+  ></ng-container>
+</ng-template>
+
+<ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
+  <a
+    [ptInt]="this"
+    [ptClass]="{
+      item: true,
+      'item-clickable': !!item.callback || !!item.route,
+    }"
+    (click)="item.callback?.()"
+    [routerLink]="item.route"
+  >
+    {{ maybeCallback(item.label) }}
+  </a>
+</ng-template>
+
+<ng-template #defaultSeparatorTemplate [ngnTemplate]="templateTypes.separator" let-separator>
+  <span [ptInt]="this" [ptClass]="'separator'">
+    <awd-icon defaultIcon="breadcrumb-separator" [icon]="separator.icon" />
+  </span>
+</ng-template>
+
+<ng-template #defaultOverflowTemplate [ngnTemplate]="templateTypes.overflow" let-overflow>
+  <button
+    #menuAnchor
+    [ptInt]="this"
+    [ptClass]="'overflow'"
+    [attr.aria-label]="i18n['breadcrumb_overflow']()"
+    (click)="menu.show()"
+  >
+    <awd-icon defaultIcon="breadcrumb-overflow" [icon]="overflow.icon" />
+  </button>
+  <awd-menu
+    #menu
+    [ptInt]="this"
+    [ptDep]="'menu'"
+    [popover]="true"
+    [items]="overflow.overflowingItems"
+    [anchor]="menuAnchor"
+  />
+</ng-template>

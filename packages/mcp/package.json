@@ -1,0 +1,55 @@
+{
+  "name": "@awdlab/jig-mcp",
+  "version": "0.0.2",
+  "description": "Model Context Protocol server exposing @awdlab/jig docs, API and concepts to AI coding agents.",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://jig.awdlab.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awdlab/jig.git",
+    "directory": "packages/mcp"
+  },
+  "keywords": [
+    "angular",
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "awdlab",
+    "jig"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "awdlab-controls-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "data",
+    "skills",
+    "README.md"
+  ],
+  "scripts": {
+    "prebuild:pack": "pnpm --filter @awdlab/jig api-docs:generate",
+    "build:pack": "tsx scripts/build-pack.ts",
+    "build:server": "tsc -p tsconfig.json",
+    "build": "pnpm build:pack && pnpm build:server",
+    "start": "tsx src/index.ts",
+    "inspect": "pnpm dlx @modelcontextprotocol/inspector tsx src/index.ts",
+    "test": "pnpm build && vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "awesome-logging": "^2.1.1",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.0",
+    "tsx": "^4.22.5",
+    "typedoc": "^0.28.19",
+    "typescript": "~6.0.0",
+    "vitest": "^4.1.9"
+  }
+}

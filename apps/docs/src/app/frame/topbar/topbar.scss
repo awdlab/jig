@@ -1,0 +1,15 @@
+:host {
+  // Fixed full-width band; content scrolls underneath so the header blur shows.
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: block;
+}
+
+.hide-when-large {
+  @media (min-width: 901px) {
+    display: none;
+  }
+}

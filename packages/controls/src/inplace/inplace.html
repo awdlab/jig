@@ -1,0 +1,27 @@
+@if (contentVisible()) {
+  <div #contentRef tabindex="-1" [ptInt]="this" [ptClass]="'content'">
+    <awd-defer
+      [open]="contentVisible()"
+      [lazyContent]="contentTemplate()"
+      [lazyContentContext]="templateContentContext() ?? { $implicit: { close: closeContent } }"
+      [lazy]="lazy()"
+      [cache]="cache()"
+    />
+  </div>
+} @else {
+  <!-- Disabled natively, not just visually: the trigger has nothing to activate, so it must
+       leave the tab order instead of being a focus stop with no effect. -->
+  <button
+    #displayTrigger
+    type="button"
+    [disabled]="disabled()"
+    [ptInt]="this"
+    [ptClass]="'display'"
+    (click)="switchToContent()"
+  >
+    <ng-container
+      [ngTemplateOutlet]="displayTemplate()"
+      [ngTemplateOutletContext]="templateDisplayContext()"
+    />
+  </button>
+}

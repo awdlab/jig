@@ -1,0 +1,1 @@
+{{ api: avatar/avatar NgnAvatar }}

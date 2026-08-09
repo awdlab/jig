@@ -1,0 +1,38 @@
+@if (buttons() !== 'increment') {
+  <button
+    ngnButton
+    type="button"
+    [kind]="'icon'"
+    tabindex="-1"
+    aria-hidden="true"
+    [ptInt]="this"
+    [ptDep]="'decrement'"
+    [disabled]="!canStep(-1)"
+    (pointerdown)="pressStart($event, -1)"
+    (pointerup)="pressEnd()"
+    (pointerleave)="pressEnd()"
+    (pointercancel)="pressEnd()"
+    (click)="clicked($event)"
+  >
+    <awd-icon defaultIcon="spin-decrement" [icon]="iconDecrement()" />
+  </button>
+}
+@if (buttons() !== 'decrement') {
+  <button
+    ngnButton
+    type="button"
+    [kind]="'icon'"
+    tabindex="-1"
+    aria-hidden="true"
+    [ptInt]="this"
+    [ptDep]="'increment'"
+    [disabled]="!canStep(1)"
+    (pointerdown)="pressStart($event, 1)"
+    (pointerup)="pressEnd()"
+    (pointerleave)="pressEnd()"
+    (pointercancel)="pressEnd()"
+    (click)="clicked($event)"
+  >
+    <awd-icon defaultIcon="spin-increment" [icon]="iconIncrement()" />
+  </button>
+}

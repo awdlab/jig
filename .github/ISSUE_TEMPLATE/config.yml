@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://jig.awdlab.dev
+    about: Guides, per-control API, accessibility notes and demos.
+  - name: Question or discussion
+    url: https://github.com/awdlab/jig/discussions
+    about: Usage questions, ideas and anything not yet a bug report.
+  - name: Report a security vulnerability
+    url: https://github.com/awdlab/jig/security/advisories/new
+    about: Please report privately, never as a public issue.

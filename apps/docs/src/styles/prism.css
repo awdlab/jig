@@ -1,0 +1,333 @@
+/*********************************************************
+* Prism palette — scheme-aware. Light values by default; the dark ramp kicks in
+* under `:root.dark` (the docs' dark-mode switch, see index.html). Kept on its
+* own token set (not the docs surface tokens) so code styling stays a stable,
+* VSCode-style pairing — Light+ in light mode, Dark+ in dark mode.
+*/
+:root {
+  --prism-bg: #f6f8fa;
+  --prism-fg: #24292e;
+  --prism-inline: #cf222e;
+  --prism-selection: #add6ff;
+  --prism-comment: #008000;
+  --prism-number: #098658;
+  --prism-string: #a31515;
+  --prism-keyword: #0000ff;
+  --prism-control: #af00db;
+  --prism-function: #795e26;
+  --prism-regex: #811f3f;
+  --prism-variable: #001080;
+  --prism-class: #267f99;
+  --prism-muted: #6e7781;
+  --prism-gold: #b58900;
+  /* Delineates the (near-page-colored) light block from the page. */
+  --prism-border: #d0d7de;
+}
+
+:root.dark {
+  --prism-bg: #1e1e1e;
+  --prism-fg: #d4d4d4;
+  --prism-inline: #db4c69;
+  --prism-selection: #264f78;
+  --prism-comment: #6a9955;
+  --prism-number: #b5cea8;
+  --prism-string: #ce9178;
+  --prism-keyword: #569cd6;
+  --prism-control: #c586c0;
+  --prism-function: #dcdcaa;
+  --prism-regex: #d16969;
+  --prism-variable: #9cdcfe;
+  --prism-class: #4ec9b0;
+  --prism-muted: #808080;
+  --prism-gold: #d7ba7d;
+  /* Dark block already contrasts with the dark page — no border needed. */
+  --prism-border: transparent;
+}
+
+/*********************************************************
+* Background for `<code class="prism">` blocks (landing page, API, demos).
+* Colors flow from the scheme-aware palette above.
+*/
+pre:has(> code.prism),
+code.prism {
+  background: var(--prism-bg);
+  color: var(--prism-fg);
+}
+
+pre:has(> code.prism) {
+  padding: 1em;
+  border-radius: 0.5rem;
+  border: 1px solid var(--prism-border);
+  overflow-x: auto;
+}
+
+.prism {
+  pre[class*='language-'],
+  code[class*='language-'] {
+    color: var(--prism-fg);
+    font-size: 0.8rem;
+    text-shadow: none;
+    font-family: Menlo, Monaco, Consolas, 'Andale Mono', 'Ubuntu Mono', 'Courier New', monospace;
+    direction: ltr;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    line-height: 1.5;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  pre[class*='language-']::selection,
+  code[class*='language-']::selection,
+  pre[class*='language-'] *::selection,
+  code[class*='language-'] *::selection {
+    text-shadow: none;
+    background: var(--prism-selection);
+  }
+
+  pre[class*='language-'] {
+    padding: 1em;
+    margin: 0.5em 0;
+    overflow: auto;
+    background: var(--prism-bg);
+  }
+
+  :not(pre) > code[class*='language-'] {
+    padding: 0.1em 0.3em;
+    border-radius: 0.3em;
+    color: var(--prism-inline);
+    background: var(--prism-bg);
+  }
+  /*********************************************************
+* Tokens
+*/
+  .namespace {
+    opacity: 0.7;
+  }
+
+  .token.doctype .token.doctype-tag {
+    color: var(--prism-keyword);
+  }
+
+  .token.doctype .token.name {
+    color: var(--prism-variable);
+  }
+
+  .token.comment,
+  .token.prolog {
+    color: var(--prism-comment);
+  }
+
+  .token.punctuation,
+  .language-html .language-css .token.punctuation,
+  .language-html .language-javascript .token.punctuation {
+    color: var(--prism-fg);
+  }
+
+  .token.property,
+  .token.tag,
+  .token.boolean,
+  .token.number,
+  .token.constant,
+  .token.symbol,
+  .token.inserted,
+  .token.unit {
+    color: var(--prism-number);
+  }
+
+  .token.selector,
+  .token.attr-name,
+  .token.string,
+  .token.char,
+  .token.deleted {
+    color: var(--prism-string);
+  }
+
+  .language-css .token.string.url {
+    text-decoration: underline;
+  }
+
+  .token.operator,
+  .token.entity {
+    color: var(--prism-fg);
+  }
+
+  .token.operator.arrow {
+    color: var(--prism-keyword);
+  }
+
+  .token.atrule {
+    color: var(--prism-string);
+  }
+
+  .token.atrule .token.rule {
+    color: var(--prism-control);
+  }
+
+  .token.atrule .token.url {
+    color: var(--prism-variable);
+  }
+
+  .token.atrule .token.url .token.function {
+    color: var(--prism-function);
+  }
+
+  .token.atrule .token.url .token.punctuation {
+    color: var(--prism-fg);
+  }
+
+  .token.keyword {
+    color: var(--prism-keyword);
+  }
+
+  .token.keyword.module,
+  .token.keyword.control-flow {
+    color: var(--prism-control);
+  }
+
+  .token.function,
+  .token.function .token.maybe-class-name {
+    color: var(--prism-function);
+  }
+
+  .token.regex {
+    color: var(--prism-regex);
+  }
+
+  .token.important {
+    color: var(--prism-keyword);
+  }
+
+  .token.italic {
+    font-style: italic;
+  }
+
+  .token.constant {
+    color: var(--prism-variable);
+  }
+
+  .token.class-name,
+  .token.builtin,
+  .token.maybe-class-name {
+    color: var(--prism-class);
+  }
+
+  .token.console {
+    color: var(--prism-variable);
+  }
+
+  .token.parameter {
+    color: var(--prism-variable);
+  }
+
+  .token.interpolation {
+    color: var(--prism-variable);
+  }
+
+  .token.punctuation.interpolation-punctuation {
+    color: var(--prism-keyword);
+  }
+
+  .token.boolean {
+    color: var(--prism-keyword);
+  }
+
+  .token.property,
+  .token.variable,
+  .token.imports .token.maybe-class-name,
+  .token.exports .token.maybe-class-name {
+    color: var(--prism-variable);
+  }
+
+  .token.selector {
+    color: var(--prism-gold);
+  }
+
+  .token.escape {
+    color: var(--prism-gold);
+  }
+
+  .token.tag {
+    color: var(--prism-keyword);
+  }
+
+  .token.tag .token.punctuation {
+    color: var(--prism-muted);
+  }
+
+  .token.cdata {
+    color: var(--prism-muted);
+  }
+
+  .token.attr-name {
+    color: var(--prism-variable);
+  }
+
+  .token.attr-value,
+  .token.attr-value .token.punctuation {
+    color: var(--prism-string);
+  }
+
+  .token.attr-value .token.punctuation.attr-equals {
+    color: var(--prism-fg);
+  }
+
+  .token.entity {
+    color: var(--prism-keyword);
+  }
+
+  .token.namespace {
+    color: var(--prism-class);
+  }
+  /*********************************************************
+* Language Specific
+*/
+
+  pre[class*='language-javascript'],
+  code[class*='language-javascript'],
+  pre[class*='language-jsx'],
+  code[class*='language-jsx'],
+  pre[class*='language-typescript'],
+  code[class*='language-typescript'],
+  pre[class*='language-tsx'],
+  code[class*='language-tsx'] {
+    color: var(--prism-variable);
+  }
+
+  pre[class*='language-css'],
+  code[class*='language-css'] {
+    color: var(--prism-string);
+  }
+
+  pre[class*='language-html'],
+  code[class*='language-html'] {
+    color: var(--prism-fg);
+  }
+
+  .language-regex .token.anchor {
+    color: var(--prism-function);
+  }
+
+  .language-html .token.punctuation {
+    color: var(--prism-muted);
+  }
+  /*********************************************************
+* Line highlighting
+*/
+  pre[class*='language-'] > code[class*='language-'] {
+    position: relative;
+    z-index: 1;
+  }
+
+  .line-highlight.line-highlight {
+    background: #f7ebc6;
+    box-shadow: inset 5px 0 0 #f7d87c;
+    z-index: 0;
+  }
+}

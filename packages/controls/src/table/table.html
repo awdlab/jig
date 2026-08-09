@@ -1,0 +1,165 @@
+<span
+  aria-live="polite"
+  aria-atomic="true"
+  style="
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  "
+  >{{ liveAnnouncement() }}</span
+>
+
+<!-- The grid is the single tab stop: it carries the accessible name, the virtual current-row focus
+     (aria-activedescendant) and the keyboard row navigation. -->
+<table
+  #scrollContainer
+  role="grid"
+  tabindex="0"
+  ngnScrollShadow="horizontal"
+  ngnScrollShadowUnstyled
+  [ptInt]="this"
+  [ptClass]="{ table: true, striped: striped() }"
+  [attr.aria-label]="label()"
+  [attr.aria-labelledby]="labelledBy()"
+  [attr.aria-activedescendant]="activeRowId()"
+  [attr.aria-busy]="loadStatus() === 'loading' ? true : null"
+  [attr.aria-multiselectable]="selectionMode() === 'multi' ? true : null"
+  [attr.aria-colcount]="totalColumnCount()"
+  [attr.aria-rowcount]="ariaRowCount()"
+  [style.--awd-table-column-count]="totalColumnCount()"
+  [style.--awd-table-selection-offset]="showCheckboxes() ? 1 : 0"
+  [style.grid-template-columns]="gridTemplateColumns()"
+  [style.--awd-table-row-height.px]="rowHeight()"
+>
+  <thead #head role="rowgroup" [ptInt]="this" [ptClass]="'head'">
+    <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
+  </thead>
+  @if (dropIndicatorState()) {
+    <div
+      aria-hidden="true"
+      [ptInt]="this"
+      [ptClass]="'drop-indicator'"
+      [style.left.px]="dropIndicatorState()!.leftPx"
+      [style.top.px]="dropIndicatorState()!.topPx"
+      [style.height.px]="dropIndicatorState()!.heightPx"
+    ></div>
+  }
+
+  <tbody
+    role="rowgroup"
+    [ptInt]="this"
+    [ptClass]="'body'"
+    [ptDep]="'scroller'"
+    awd-scroller
+    #scroller
+    [scrollContainer]="scrollContainer"
+    [virtual]="virtual()"
+    [items]="pagedRows()"
+    [fieldId]="'id'"
+    [itemHeight]="rowHeight() || 0"
+    [virtualPadding]="virtualPadding()"
+    [stickyOffset]="headerHeight()"
+    [style.--awd-table-item-start-index]="scroller.itemStartIndex()"
+  >
+    <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item let-index="index">
+      @if (item.kind === 'group-header') {
+        @if (groupHeaderTemplate(); as customGroupHeader) {
+          <ng-container
+            [ngTemplateOutlet]="customGroupHeader"
+            [ngTemplateOutletContext]="{
+              $implicit: {
+                groupKey: item.groupKey,
+                groupValue: item.groupValue,
+                count: item.count,
+                expanded: item.expanded,
+              },
+            }"
+          ></ng-container>
+        } @else {
+          <tr
+            [ngnTableGroupHeaderTr]="item"
+            [class]="
+              theme.classes({
+                'group-expanded': item.expanded,
+                'focused-row': focusedRowIndex() === item.index,
+              })
+            "
+            [attr.id]="rowElementId(item.index)"
+            role="row"
+            (click)="toggleGroupFromRow(item)"
+          >
+            <!-- aria-expanded sits on the cell: on a row it is only valid inside a
+                 treegrid, and this is a grid. -->
+            <td
+              [class]="theme.class('group-header-cell')"
+              role="gridcell"
+              aria-colindex="1"
+              [attr.aria-expanded]="item.expanded"
+              [attr.colspan]="totalColumnCount()"
+            >
+              <awd-icon
+                [ptInt]="this"
+                [ptClass]="'group-toggle'"
+                [ptDep]="'group-toggle-icon'"
+                [defaultIcon]="'table-group-toggle'"
+              />
+              <span>{{ item.groupValue }}</span>
+              <span>({{ item.count }})</span>
+            </td>
+          </tr>
+        }
+      } @else {
+        <ng-container
+          [ngTemplateOutlet]="bodyTemplate()"
+          [ngTemplateOutletContext]="{ $implicit: item }"
+        ></ng-container>
+      }
+    </ng-template>
+    @if (skeletonRows() > 0) {
+      @if (loadingTemplate(); as customLoading) {
+        <ng-container [ngTemplateOutlet]="customLoading"></ng-container>
+      } @else {
+        @for (i of [].constructor(skeletonRows()); track $index) {
+          <tr [class]="theme.class('skeleton-row')" role="row" aria-hidden="true">
+            <td [class]="theme.class('skeleton-cell')" role="gridcell"></td>
+          </tr>
+        }
+      }
+    }
+    @if (loadStatus() === 'error') {
+      @if (errorTemplate(); as customError) {
+        <ng-container
+          [ngTemplateOutlet]="customError"
+          [ngTemplateOutletContext]="{
+            $implicit: { error: loadError(), retry: retryLoad.bind(this) },
+          }"
+        ></ng-container>
+      } @else {
+        <tr [class]="theme.class('error-row')" role="row">
+          <td [attr.colspan]="totalColumnCount()" role="gridcell">
+            <span>{{ i18n['table_loadError']() }}</span>
+            <button ngnButton [kind]="'text'" (click)="retryLoad()">
+              {{ i18n['table_retry']() }}
+            </button>
+          </td>
+        </tr>
+      }
+    }
+  </tbody>
+</table>
+@if (paginator()) {
+  <awd-paginator
+    [ptInt]="this"
+    [ptDep]="'paginator'"
+    [mode]="lazy() && loadTotal() === undefined ? 'compact' : 'pages'"
+    [totalItems]="lazy() ? (loadTotal() ?? 0) : rows().length"
+    [hasNext]="lazyHasMore()"
+    (value)="pageChanged($event)"
+  />
+}

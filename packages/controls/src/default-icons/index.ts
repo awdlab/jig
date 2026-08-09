@@ -1,0 +1,1 @@
+export { withDefaultIcons } from './provider';

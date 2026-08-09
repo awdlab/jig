@@ -1,0 +1,30 @@
+@if (actionable()) {
+  <button type="button" [ptInt]="this" [ptClass]="'content'" (click)="clicked.emit($event)">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </button>
+} @else {
+  <div [ptInt]="this" [ptClass]="'content'">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </div>
+}
+
+@if (closable()) {
+  <button
+    type="button"
+    [ptInt]="this"
+    [ptClass]="'close-button'"
+    [attr.aria-label]="i18n['chip_close']()"
+    (click)="closed.emit($event)"
+  >
+    <awd-icon
+      [ptInt]="this"
+      [ptClass]="'close-icon'"
+      [icon]="iconClose()"
+      [defaultIcon]="'chip-remove'"
+    />
+  </button>
+}
+
+<ng-template #content>
+  <ng-content />
+</ng-template>

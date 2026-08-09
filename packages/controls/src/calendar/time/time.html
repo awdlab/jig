@@ -1,0 +1,21 @@
+<div>
+  @if (isTouchDevice) {
+    <awd-input-field>
+      <input
+        type="time"
+        ngnInput
+        [step]="showSeconds() ? 1 : 60"
+        [value]="value()"
+        (valueChange)="onValueChange($event || '')"
+      />
+    </awd-input-field>
+  } @else {
+    <awd-input-field>
+      <awd-mask-input
+        [mask]="mask()"
+        [value]="value()"
+        (valueChange)="onValueChange($event ?? '')"
+      />
+    </awd-input-field>
+  }
+</div>

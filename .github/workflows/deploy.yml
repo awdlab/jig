@@ -1,0 +1,27 @@
+name: Deploy to awdserver
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: awdserver
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy with GITHUB_TOKEN
+        uses: appleboy/ssh-action@v1.2.5
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          host: ${{ secrets.ADDRESS }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: GITHUB_TOKEN # Forwards to remote
+          script: |
+            cd ${{ secrets.UPDATE_PATH }}
+            pwsh update.ps1
