@@ -37,7 +37,7 @@
     "@ngneers/prettier-config": "^1.1.0",
     "@playwright/test": "^1.61.1",
     "@types/node": "^26.1.0",
-    "@vitest/coverage-v8": "^4.1.9",
+    "@vitest/coverage-v8": "^4.1.10",
     "awesome-logging": "^2.1.1",
     "awesome-publish": "^0.0.7",
     "cpy-cli": "^7.0.0",
