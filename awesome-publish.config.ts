@@ -21,7 +21,7 @@ export default defineConfig({
   // npm rejects it with E422. Re-enable if the repo is ever made public.
   provenance: false,
   changesets: { enabled: true, enforceInPR: true },
-  github: { releases: { enabled: true, mode: 'per-package' } },
+  github: { releases: { enabled: false, mode: 'per-package' } },
   // Gemini via its OpenAI-compatible endpoint. Key comes from
   // AWESOME_PUBLISH_AI_KEY. AI notes never block a release if the call fails.
   aiProvider: {
@@ -29,5 +29,5 @@ export default defineConfig({
     model: 'gemini-flash-latest',
     baseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai/',
   },
-  aiReleaseNotes: true,
+  aiReleaseNotes: false,
 });
