@@ -60,19 +60,39 @@ code {
 // magenta → purple), never the far-end blue/red. The band is far larger than
 // the text box and drifts across it, so the word eases from one blend to the
 // next (pink-heavy, purple-heavy, …) instead of rigidly rotating.
+// Animated as two inherited custom properties rather than `background-position`
+// directly: the clock runs on a stable ancestor (`.jig-angular-clock`), so text
+// nodes created mid-cycle inherit the phase already in progress instead of
+// restarting the loop. Registration is what makes them interpolate.
+@property --jig-angular-x {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 0%;
+}
+
+@property --jig-angular-y {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 20%;
+}
+
 @keyframes jig-angular-morph {
   0%,
   100% {
-    background-position: 0% 20%;
+    --jig-angular-x: 0%;
+    --jig-angular-y: 20%;
   }
   25% {
-    background-position: 100% 0%;
+    --jig-angular-x: 100%;
+    --jig-angular-y: 0%;
   }
   50% {
-    background-position: 60% 100%;
+    --jig-angular-x: 60%;
+    --jig-angular-y: 100%;
   }
   75% {
-    background-position: 0% 80%;
+    --jig-angular-x: 0%;
+    --jig-angular-y: 80%;
   }
 }
 
@@ -199,14 +219,23 @@ code {
     #f736e3 100%
   );
   background-repeat: no-repeat;
-  // Much larger than the text box, so drifting the position swings the blend
-  // between distinct shades instead of nudging one.
-  background-size: 300% 300%;
+  // The box shows 1/S of the band at a time, so a bigger S both narrows the
+  // slice (less averaging, more saturated) and widens the span the same drift
+  // covers — more colour travel per cycle without speeding the drift up.
+  background-size: 500% 500%;
+  background-position: var(--jig-angular-x) var(--jig-angular-y);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  // ease-in-out so it settles on each blend before drifting to the next.
-  animation: jig-angular-morph 12s ease-in-out infinite;
+}
+
+// Drives the blend for every `.jig-angular-text` beneath it. Belongs on an
+// element that outlives the text it wraps.
+.jig-angular-clock {
+  // Linear, not ease-in-out: easing stalls to zero velocity at all four
+  // waypoints, and playing continuously that reads as a stalled gradient. Same
+  // 12s and same travel, so the peak speed is lower — it just never sits still.
+  animation: jig-angular-morph 12s linear infinite;
 
   // Respect users who prefer reduced motion — hold the blend still.
   @media (prefers-reduced-motion: reduce) {

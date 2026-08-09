@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="apps/docs/public/img/logo.png" alt="@awdlab/jig" width="132" />
+<img src="apps/docs/public/img/logo.png?v=3" alt="@awdlab/jig" width="132" />
 
 # @awdlab/jig
 

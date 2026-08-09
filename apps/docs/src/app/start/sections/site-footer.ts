@@ -11,8 +11,12 @@ import { RouterLink } from '@angular/router';
         class="mx-auto flex max-w-[1200px] flex-col items-center gap-(--jig-size-padding-lg) px-(--jig-size-padding-xl) py-(--jig-size-padding-xl) text-(length:--jig-font-size-sm) text-(--jig-color-surface-600) md:flex-row md:justify-between"
       >
         <div class="flex items-center gap-(--jig-size-padding-md)">
-          <a routerLink="/" class="flex items-center no-underline">
-            <img src="img/logo.png" alt="jig" class="h-7 w-7" />
+          <a
+            routerLink="/"
+            class="flex items-center gap-(--jig-size-padding-sm) font-(--jig-font-weight-bold) text-(--jig-color-text) no-underline"
+          >
+            <img src="img/logo.png?v=4" alt="" class="h-7 w-7" />
+            jig
           </a>
           <a
             href="https://github.com/awdlab"

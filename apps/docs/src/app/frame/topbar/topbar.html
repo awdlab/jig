@@ -7,9 +7,19 @@
     [class]="isDocsPage() ? 'max-w-[1600px]' : 'max-w-[1200px]'"
   >
     <div class="flex h-full min-w-0 items-center gap-3">
-      <!-- The logo is the wordmark, so it carries the name on its own. -->
-      <a [routerLink]="'/'" class="flex h-full shrink-0 items-center">
-        <img src="img/logo.png" alt="jig" class="h-9 w-9" />
+      <!-- The mark is a glyph, not a wordmark, so the name is spelled out beside it.
+           The byline is a sibling link — nesting it in the home link is invalid. -->
+      <a [routerLink]="'/'" class="flex h-full shrink-0 items-center gap-2 font-bold">
+        <img src="img/logo.png?v=4" alt="" class="h-9 w-9" />
+        jig
+      </a>
+      <a
+        href="https://github.com/awdlab"
+        target="_blank"
+        rel="noopener"
+        class="mono hidden shrink-0 self-end pb-5 text-[0.66rem] tracking-[0.14em] text-(--jig-color-surface-500) uppercase no-underline hover:text-(--jig-color-text) sm:block"
+      >
+        by awdlab
       </a>
       @if (isDocsPage()) {
         <!-- Desktop only: on mobile (<=900px) the breadcrumb moves into the page

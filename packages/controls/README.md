@@ -1,6 +1,4 @@
-<div align="center">
-
-<img src="https://raw.githubusercontent.com/awdlab/jig/main/apps/docs/public/img/logo.png" alt="@awdlab/jig" width="132" />
+<img src="https://raw.githubusercontent.com/awdlab/jig/main/apps/docs/public/img/logo.png?v=3" alt="@awdlab/jig" width="132" />
 
 # @awdlab/jig
 
@@ -15,8 +13,6 @@ no `@Input()`/`@Output()` decorators, no `ControlValueAccessor` boilerplate.
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-5c44e4?style=for-the-badge)](https://jig.awdlab.dev/#demo)
 
 <a href="https://jig.awdlab.dev/#component-gallery"><img src="https://raw.githubusercontent.com/awdlab/jig/main/.github/assets/components-light.png" alt="Button, switch, slider, select, chip, tag, avatar, progress, tooltip, checkbox, tabs and input" width="880" /></a>
-
-</div>
 
 Controls ship **zero component CSS**: behavior, accessibility, and named style scopes live
 here; styling comes from

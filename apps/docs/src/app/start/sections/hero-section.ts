@@ -92,6 +92,14 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
         width: auto;
       }
 
+      /* Optically matched to the mark: the glyph fills ~84% of its padded box. */
+      .hero-wordmark {
+        font-size: clamp(2.25rem, 3.4vw, 3.4rem);
+        font-weight: var(--jig-font-weight-bold);
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+
       .hero-line {
         margin: 0;
         font-size: var(--hero-font-size);
@@ -339,19 +347,21 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
 
         <div class="hero-cycle flex flex-col gap-7">
           <div class="flex flex-col gap-(--jig-size-padding-lg)">
-            <!-- The logo is the wordmark; the byline turns it into a lockup. -->
+            <!-- Mark, spelled-out name, byline: the mark is a glyph and doesn't
+                 read as "jig" on its own. -->
             <div class="flex items-center gap-(--jig-size-padding-md)">
-              <img src="img/logo.png" alt="jig" width="512" height="512" class="hero-logo" />
+              <img src="img/logo.png?v=4" alt="" width="512" height="512" class="hero-logo" />
+              <span class="hero-wordmark text-(--jig-color-text)">jig</span>
               <a
                 href="https://github.com/awdlab"
                 target="_blank"
                 rel="noopener"
-                class="mono self-end pb-1 text-[0.72rem] tracking-[0.16em] text-(--jig-color-surface-500) uppercase no-underline hover:text-(--jig-color-text)"
+                class="mono self-end pb-2 text-[0.72rem] tracking-[0.16em] text-(--jig-color-surface-500) uppercase no-underline hover:text-(--jig-color-text)"
               >
                 by awdlab
               </a>
             </div>
-            <div class="hero-stack max-w-[1000px] text-(--jig-color-text)">
+            <div class="hero-stack jig-angular-clock max-w-[1000px] text-(--jig-color-text)">
               <div class="hero-sizer" aria-hidden="true">
                 @for (phrase of phrases; track phrase.hl) {
                   <span class="hero-line">{{ phrase.pre }}{{ phrase.hl }}{{ phrase.post }}</span>

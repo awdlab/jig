@@ -11,7 +11,7 @@ const SITE_NAME = 'jig - Angular Control Library by awdlab';
 const DEFAULT_DESCRIPTION =
   'A signal-based component library for Angular 22+ — 50+ accessible, themeable, ' +
   'tree-shakeable controls. Zoneless, standalone, no ControlValueAccessor.';
-const SOCIAL_IMAGE = `${SITE_URL}/img/logo.png`;
+const SOCIAL_IMAGE = `${SITE_URL}/img/logo.png?v=4`;
 
 export type SeoInput = {
   /** Page title, without the site suffix. */
