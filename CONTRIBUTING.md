@@ -119,7 +119,7 @@ the source from that path to render the code view.
 - Every user-facing change needs a **changeset**; CI fails the PR without one:
 
   ```bash
-  pnpm exec awesome-publish changeset
+  pnpm changeset
   ```
 
   Pick the affected packages and a bump level, and describe the change from a
@@ -135,7 +135,7 @@ Before opening one:
 3. Tests for the behaviour you changed, and the e2e spec for that control.
 4. A changeset, if the change is user-facing.
 
-Keep PRs focused. A rename that touches all seven parts of one control is a
+Keep PRs focused. A rename that touches all eight parts of one control is a
 good PR; a rename across twelve controls plus a refactor is three PRs.
 
 ## Reporting bugs and requesting features

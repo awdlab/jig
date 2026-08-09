@@ -1,0 +1,152 @@
+<meta charset="utf-8" />
+<style>
+  @font-face {
+    font-family: 'Inter Variable';
+    src: url('../../apps/docs/node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2')
+      format('woff2-variations');
+    font-weight: 100 900;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    width: 1280px;
+    height: 640px;
+    overflow: hidden;
+    background: #08080f;
+    color: #fff;
+    font-family: 'Inter Variable', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .glow {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(60% 55% at 18% 22%, rgb(233 4 100 / 22%), transparent 70%),
+      radial-gradient(55% 60% at 82% 88%, rgb(133 20 245 / 22%), transparent 70%);
+  }
+
+  .grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.5;
+    background-image:
+      linear-gradient(rgb(255 255 255 / 3%) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(255 255 255 / 3%) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(70% 70% at 50% 40%, #000, transparent);
+  }
+
+  main {
+    position: relative;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    padding: 76px 80px;
+  }
+
+  .eyebrow {
+    font-family: Consolas, Menlo, monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: #8b8ba7;
+    letter-spacing: 0.22em;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 44px;
+    margin-top: 26px;
+  }
+
+  img {
+    width: 196px;
+    height: 196px;
+    filter: drop-shadow(0 0 44px rgb(233 4 100 / 35%));
+  }
+
+  h1 {
+    white-space: nowrap;
+    font-size: 76px;
+    font-weight: 800;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+  }
+
+  h1 span {
+    background: linear-gradient(100deg, #e90464, #f736e3 45%, #8514f5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  p {
+    max-width: 780px;
+    margin-top: 22px;
+    font-size: 27px;
+    font-weight: 400;
+    line-height: 1.45;
+    color: #b6b6cc;
+  }
+
+  footer {
+    position: absolute;
+    right: 80px;
+    bottom: 0;
+    left: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 26px 0 46px;
+    border-top: 1px solid rgb(255 255 255 / 8%);
+  }
+
+  .stats {
+    display: flex;
+    gap: 46px;
+    font-family: Consolas, Menlo, monospace;
+    font-size: 20px;
+    color: #8b8ba7;
+  }
+
+  .stats b {
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .site {
+    font-size: 23px;
+    font-weight: 600;
+    color: #fff;
+  }
+</style>
+
+<div class="glow"></div>
+<div class="grid"></div>
+
+<main>
+  <div class="eyebrow">@AWDLAB/JIG</div>
+  <div class="row">
+    <img src="../../apps/docs/public/img/logo.png" alt="" />
+    <div>
+      <h1>60+ Angular controls,<br /><span>signals-native</span></h1>
+      <p>Zoneless, accessible, themeable — zero component CSS.</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="stats">
+    <div><b>60+</b> controls</div>
+    <div><b>0</b> zones</div>
+    <div><b>AA</b> wcag 2.2</div>
+    <div><b>100%</b> typed</div>
+  </div>
+  <div class="site">jig.awdlab.dev</div>
+</footer>

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "prettier": "node --experimental-strip-types node_modules/prettier/bin/prettier.cjs",
+    "changeset": "pnpm exec awesome-publish changeset",
     "docs:serve": "pnpm --filter @awdlab/jig-docs serve",
     "test-wrapper:serve": "pnpm --filter @awdlab/test-wrapper serve",
     "isolated:serve": "pnpm --filter @awdlab/isolated serve",

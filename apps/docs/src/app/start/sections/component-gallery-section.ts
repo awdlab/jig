@@ -195,7 +195,7 @@ export class JigDocsComponentGallerySection {
   protected readonly buttonState = signal<undefined | 'loading' | 'success'>(undefined);
   protected readonly chipColor = signal<CustomColor | undefined>(undefined);
   protected readonly tagColor = signal<CustomColor | undefined>(undefined);
-  protected readonly avatarInitials = signal('NG');
+  protected readonly avatarInitials = signal('JG');
   protected readonly avatarColor = signal<string | undefined>(undefined);
   protected readonly activeTab = signal('a');
   protected readonly inputValue = signal('');
@@ -291,7 +291,7 @@ export class JigDocsComponentGallerySection {
         this.tagColor.set(undefined);
         break;
       case 'Avatar':
-        this.avatarInitials.set('NG');
+        this.avatarInitials.set('JG');
         this.avatarColor.set(undefined);
         break;
       case 'Tabs':

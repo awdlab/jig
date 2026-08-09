@@ -11,7 +11,7 @@ Closes #
 
 ## Control parts touched
 
-<!-- A control spans seven parts. Tick what this PR updates, and delete the ones
+<!-- A control spans eight parts. Tick what this PR updates, and delete the ones
      that genuinely do not apply. -->
 
 - [ ] Control source (`packages/controls/src/…`)
@@ -19,6 +19,7 @@ Closes #
 - [ ] Base theme part
 - [ ] Themed parts (nova / shade / material)
 - [ ] Tests (`tests/components/…`)
+- [ ] Playwright harnesses (`packages/playwright/src/components/…`)
 - [ ] Docs page (`index.md`, `api.md`, `a11y.md`, i18n tab)
 - [ ] Demos
 
@@ -29,7 +30,7 @@ Closes #
 - [ ] Tests cover the changed behaviour
 - [ ] Keyboard interaction verified, and `a11y.md` updated if it changed
 - [ ] Public classes carry `@category control` / `@category directive`
-- [ ] Changeset added (`pnpm exec awesome-publish changeset`) for user-facing changes
+- [ ] Changeset added (`pnpm changeset`) for user-facing changes
 
 ## Breaking changes
 
@@ -39,4 +40,5 @@ None.
 
 ## Screenshots
 
-<!-- For anything visual, before/after in both light and dark mode. -->
+<!-- For anything visual, before/after in addition to the
+     changed / new visual regression test snapshots -->
