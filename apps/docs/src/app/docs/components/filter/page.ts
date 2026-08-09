@@ -1,4 +1,4 @@
-import { NgnDocsFilterPlayground } from './playground';
+import { JigDocsFilterPlayground } from './playground';
 import { Demo_Filter_ApplyMode } from '../../../demos/filter/apply-mode';
 import { Demo_Filter_Base } from '../../../demos/filter/base';
 import { Demo_Filter_Custom } from '../../../demos/filter/custom';
@@ -9,9 +9,9 @@ import { Demo_Filter_Multiple } from '../../../demos/filter/multiple';
 import { Demo_Filter_Validation } from '../../../demos/filter/validation';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const FilterPage: NgnDocsPage = {
+export const FilterPage: JigDocsPage = {
   title: `Filter`,
   kind: 'tabs',
   tabs: [
@@ -35,7 +35,7 @@ export const FilterPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsFilterPlayground,
+      component: JigDocsFilterPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/filter/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/filter/a11y.md' },

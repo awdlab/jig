@@ -21,8 +21,8 @@
   #scrollContainer
   role="grid"
   tabindex="0"
-  ngnScrollShadow="horizontal"
-  ngnScrollShadowUnstyled
+  jigScrollShadow="horizontal"
+  jigScrollShadowUnstyled
   [ptInt]="this"
   [ptClass]="{ table: true, striped: striped() }"
   [attr.aria-label]="label()"
@@ -32,10 +32,10 @@
   [attr.aria-multiselectable]="selectionMode() === 'multi' ? true : null"
   [attr.aria-colcount]="totalColumnCount()"
   [attr.aria-rowcount]="ariaRowCount()"
-  [style.--ngn-table-column-count]="totalColumnCount()"
-  [style.--ngn-table-selection-offset]="showCheckboxes() ? 1 : 0"
+  [style.--jig-table-column-count]="totalColumnCount()"
+  [style.--jig-table-selection-offset]="showCheckboxes() ? 1 : 0"
   [style.grid-template-columns]="gridTemplateColumns()"
-  [style.--ngn-table-row-height.px]="rowHeight()"
+  [style.--jig-table-row-height.px]="rowHeight()"
 >
   <thead #head role="rowgroup" [ptInt]="this" [ptClass]="'head'">
     <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
@@ -56,7 +56,7 @@
     [ptInt]="this"
     [ptClass]="'body'"
     [ptDep]="'scroller'"
-    ngn-scroller
+    jig-scroller
     #scroller
     [scrollContainer]="scrollContainer"
     [virtual]="virtual()"
@@ -65,9 +65,9 @@
     [itemHeight]="rowHeight() || 0"
     [virtualPadding]="virtualPadding()"
     [stickyOffset]="headerHeight()"
-    [style.--ngn-table-item-start-index]="scroller.itemStartIndex()"
+    [style.--jig-table-item-start-index]="scroller.itemStartIndex()"
   >
-    <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item let-index="index">
+    <ng-template #item [jigTemplate]="scroller.templateTypes.item" let-item let-index="index">
       @if (item.kind === 'group-header') {
         @if (groupHeaderTemplate(); as customGroupHeader) {
           <ng-container
@@ -83,7 +83,7 @@
           ></ng-container>
         } @else {
           <tr
-            [ngnTableGroupHeaderTr]="item"
+            [jigTableGroupHeaderTr]="item"
             [class]="
               theme.classes({
                 'group-expanded': item.expanded,
@@ -103,7 +103,7 @@
               [attr.aria-expanded]="item.expanded"
               [attr.colspan]="totalColumnCount()"
             >
-              <ngn-icon
+              <jig-icon
                 [ptInt]="this"
                 [ptClass]="'group-toggle'"
                 [ptDep]="'group-toggle-icon'"
@@ -144,7 +144,7 @@
         <tr [class]="theme.class('error-row')" role="row">
           <td [attr.colspan]="totalColumnCount()" role="gridcell">
             <span>{{ i18n['table_loadError']() }}</span>
-            <button ngnButton [kind]="'text'" (click)="retryLoad()">
+            <button jigButton [kind]="'text'" (click)="retryLoad()">
               {{ i18n['table_retry']() }}
             </button>
           </td>
@@ -154,7 +154,7 @@
   </tbody>
 </table>
 @if (paginator()) {
-  <ngn-paginator
+  <jig-paginator
     [ptInt]="this"
     [ptDep]="'paginator'"
     [mode]="lazy() && loadTotal() === undefined ? 'compact' : 'pages'"

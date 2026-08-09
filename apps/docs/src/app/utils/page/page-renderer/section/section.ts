@@ -3,10 +3,10 @@ import { Component, input, output } from '@angular/core';
 import { Md } from '../../../md/md';
 
 import type { TocEntry } from '../../../md/types';
-import type { NgnDocsMdSection } from '../../types';
+import type { JigDocsMdSection } from '../../types';
 
 @Component({
-  selector: 'ngn-docs-section',
+  selector: 'jig-docs-section',
   templateUrl: 'section.html',
   imports: [Md],
   // Flows in the normal document; the page (body) is the scroll container. No
@@ -14,8 +14,8 @@ import type { NgnDocsMdSection } from '../../types';
   // scroll target and freeze the "on this page" indicator (it never scrolls).
   host: { class: 'w-full block py-8 pr-2 md:pr-8' },
 })
-export class NgnDocsPageSection {
-  public readonly section = input.required<NgnDocsMdSection>();
+export class JigDocsPageSection {
+  public readonly section = input.required<JigDocsMdSection>();
 
   /** Forwards the content headings emitted by the underlying markdown render. */
   public readonly headings = output<TocEntry[]>();

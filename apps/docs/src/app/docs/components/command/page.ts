@@ -1,13 +1,13 @@
-import { NgnDocsCommandPlayground } from './playground';
+import { JigDocsCommandPlayground } from './playground';
 import { Demo_Command_Base } from '../../../demos/command/base';
 import { Demo_Command_Grouped } from '../../../demos/command/grouped';
 import { Demo_Command_Routes } from '../../../demos/command/routes';
 import { Demo_Command_Shortcuts } from '../../../demos/command/shortcuts';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const CommandPage: NgnDocsPage = {
+export const CommandPage: JigDocsPage = {
   title: `Command`,
   kind: 'tabs',
   tabs: [
@@ -26,7 +26,7 @@ export const CommandPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsCommandPlayground,
+      component: JigDocsCommandPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/command/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/command/a11y.md' },

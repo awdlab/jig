@@ -6,7 +6,7 @@
         Every control with realistic data, on one page — for eyeballing theme consistency.
       </p>
     </div>
-    <ngn-docs-theme-picker />
+    <jig-docs-theme-picker />
   </header>
 
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -17,7 +17,7 @@
         @for (color of buttonColors(); track color) {
           <div class="flex flex-wrap items-center gap-2">
             @for (kind of buttonKinds(); track kind) {
-              <button ngnButton [kind]="kind" [color]="color">
+              <button jigButton [kind]="kind" [color]="color">
                 {{ kind === 'icon' ? '★' : kind }}
               </button>
             }
@@ -29,43 +29,43 @@
     <!-- Button group -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Button group</span>
-      <ngn-button-group>
-        <button ngnButton kind="primary">Day</button>
-        <button ngnButton kind="primary">Week</button>
-        <button ngnButton kind="primary">Month</button>
-      </ngn-button-group>
+      <jig-button-group>
+        <button jigButton kind="primary">Day</button>
+        <button jigButton kind="primary">Week</button>
+        <button jigButton kind="primary">Month</button>
+      </jig-button-group>
     </section>
 
     <!-- Select button -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Select button</span>
-      <ngn-select-button [options]="selectButtonOptions" [value]="'grid'" />
+      <jig-select-button [options]="selectButtonOptions" [value]="'grid'" />
     </section>
 
     <!-- Toggle / switch / checkbox / radio -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Toggle button</span>
-      <ngn-toggle-button label="Notifications" />
+      <jig-toggle-button label="Notifications" />
     </section>
 
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Switch</span>
-      <ngn-switch [(value)]="switchValue" />
+      <jig-switch [(value)]="switchValue" />
     </section>
 
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Checkbox</span>
       <div class="flex flex-col gap-2">
         <div class="flex items-center gap-2">
-          <ngn-checkbox [(value)]="checkboxValue" />
+          <jig-checkbox [(value)]="checkboxValue" />
           <span>Subscribe</span>
         </div>
         <div class="flex items-center gap-2">
-          <ngn-checkbox [value]="false" />
+          <jig-checkbox [value]="false" />
           <span>Remember me</span>
         </div>
         <div class="flex items-center gap-2">
-          <ngn-checkbox [allowIndeterminate]="true" [value]="null" />
+          <jig-checkbox [allowIndeterminate]="true" [value]="null" />
           <span>Select all</span>
         </div>
       </div>
@@ -73,18 +73,18 @@
 
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Radio</span>
-      <ngn-radio-group [(value)]="radioValue">
-        <ngn-radio value="small">Small</ngn-radio>
-        <ngn-radio value="medium">Medium</ngn-radio>
-        <ngn-radio value="large">Large</ngn-radio>
-      </ngn-radio-group>
+      <jig-radio-group [(value)]="radioValue">
+        <jig-radio value="small">Small</jig-radio>
+        <jig-radio value="medium">Medium</jig-radio>
+        <jig-radio value="large">Large</jig-radio>
+      </jig-radio-group>
     </section>
 
     <!-- Slider -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Slider</span>
       <div class="flex items-center gap-4">
-        <ngn-slider class="flex-1" [(value)]="sliderValue" />
+        <jig-slider class="flex-1" [(value)]="sliderValue" />
         <span class="w-10 text-right text-sm tabular-nums opacity-70">{{ sliderValue() }}</span>
       </div>
     </section>
@@ -92,16 +92,16 @@
     <!-- Progress -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Progress</span>
-      <ngn-progress [value]="progressValue()" />
-      <ngn-progress [value]="30" />
+      <jig-progress [value]="progressValue()" />
+      <jig-progress [value]="30" />
     </section>
 
     <!-- Spinner -->
     <section class="card flex flex-col items-start gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Spinner</span>
       <div class="flex items-center gap-4">
-        <ngn-spinner [color]="'primary'" />
-        <ngn-spinner [color]="'secondary'" />
+        <jig-spinner [color]="'primary'" />
+        <jig-spinner [color]="'secondary'" />
       </div>
     </section>
 
@@ -109,19 +109,19 @@
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Icon</span>
       <div class="flex items-center gap-3 text-2xl">
-        <ngn-icon [icon]="icons.user" />
+        <jig-icon [icon]="icons.user" />
       </div>
     </section>
 
     <!-- Avatar -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Avatar</span>
-      <ngn-avatar-group>
-        <ngn-avatar initials="JC" />
-        <ngn-avatar initials="AB" bgColor="var(--ngn-color-secondary-default)" />
-        <ngn-avatar initials="MK" bgColor="var(--ngn-color-accent-default)" />
-        <ngn-avatar initials="+3" bgColor="var(--ngn-color-surface-400)" />
-      </ngn-avatar-group>
+      <jig-avatar-group>
+        <jig-avatar initials="JC" />
+        <jig-avatar initials="AB" bgColor="var(--jig-color-secondary-default)" />
+        <jig-avatar initials="MK" bgColor="var(--jig-color-accent-default)" />
+        <jig-avatar initials="+3" bgColor="var(--jig-color-surface-400)" />
+      </jig-avatar-group>
     </section>
 
     <!-- Chip -->
@@ -129,7 +129,7 @@
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Chip</span>
       <div class="flex flex-wrap gap-2">
         @for (color of chipColors(); track color) {
-          <ngn-chip [color]="color">{{ color }}</ngn-chip>
+          <jig-chip [color]="color">{{ color }}</jig-chip>
         }
       </div>
     </section>
@@ -141,7 +141,7 @@
         @for (kind of tagKinds(); track kind) {
           <div class="flex flex-wrap items-center gap-2">
             @for (color of tagColors(); track color) {
-              <ngn-tag [kind]="kind" [color]="color">{{ color }}</ngn-tag>
+              <jig-tag [kind]="kind" [color]="color">{{ color }}</jig-tag>
             }
           </div>
         }
@@ -153,7 +153,7 @@
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Hint</span>
       <div class="flex flex-col gap-2">
         @for (kind of hintKinds(); track kind) {
-          <ngn-hint [kind]="kind">{{ kind ?? 'default' }} hint</ngn-hint>
+          <jig-hint [kind]="kind">{{ kind ?? 'default' }} hint</jig-hint>
         }
       </div>
     </section>
@@ -163,7 +163,7 @@
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Message</span>
       <div class="flex flex-wrap gap-2">
         @for (color of messageColors(); track color) {
-          <ngn-message [kind]="messageKinds()[0]" [color]="color">{{ color }} message</ngn-message>
+          <jig-message [kind]="messageKinds()[0]" [color]="color">{{ color }} message</jig-message>
         }
       </div>
     </section>
@@ -172,78 +172,78 @@
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Input field</span>
       <div class="flex flex-col gap-4">
-        <ngn-input-field [label]="'Full name'" [labelKind]="'on'">
-          <input ngnInput [value]="textValue()" (valueChange)="textValue.set($event ?? '')" />
-        </ngn-input-field>
-        <ngn-input-field [label]="'Bio'" [labelKind]="'floatOn'">
-          <input ngnInput value="Frontend engineer" />
-        </ngn-input-field>
+        <jig-input-field [label]="'Full name'" [labelKind]="'on'">
+          <input jigInput [value]="textValue()" (valueChange)="textValue.set($event ?? '')" />
+        </jig-input-field>
+        <jig-input-field [label]="'Bio'" [labelKind]="'floatOn'">
+          <input jigInput value="Frontend engineer" />
+        </jig-input-field>
       </div>
     </section>
 
     <!-- Number input -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Number input</span>
-      <ngn-input-field [label]="'Quantity'" [labelKind]="'on'">
-        <input ngnNumberInput [min]="0" [max]="100" [(value)]="numberValue" />
-        <ngn-spin-buttons />
-      </ngn-input-field>
+      <jig-input-field [label]="'Quantity'" [labelKind]="'on'">
+        <input jigNumberInput [min]="0" [max]="100" [(value)]="numberValue" />
+        <jig-spin-buttons />
+      </jig-input-field>
     </section>
 
     <!-- Mask input -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Mask input</span>
-      <ngn-input-field [label]="'Date'" [labelKind]="'on'">
-        <ngn-mask-input
+      <jig-input-field [label]="'Date'" [labelKind]="'on'">
+        <jig-mask-input
           [mask]="mask"
           [value]="maskValue()"
           (valueChange)="maskValue.set($event ?? '')"
         />
-      </ngn-input-field>
+      </jig-input-field>
     </section>
 
     <!-- Edit inplace -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Edit inplace</span>
-      <ngn-edit-inplace [value]="editValue()" (valueChange)="editValue.set($event)" />
+      <jig-edit-inplace [value]="editValue()" (valueChange)="editValue.set($event)" />
     </section>
 
     <!-- Inplace -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Inplace</span>
-      <ngn-inplace #inplace>
+      <jig-inplace #inplace>
         <ng-template #display>Show details</ng-template>
-        <ng-template #content [ngnTemplate]="inplace.templateTypes.content" let-content>
+        <ng-template #content [jigTemplate]="inplace.templateTypes.content" let-content>
           <div class="flex items-center gap-2">
             <span>Order #4021 · shipped</span>
-            <button ngnButton kind="icon" (click)="content.close()">✕</button>
+            <button jigButton kind="icon" (click)="content.close()">✕</button>
           </div>
         </ng-template>
-      </ngn-inplace>
+      </jig-inplace>
     </section>
 
     <!-- Select (force-open) -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Select</span>
-      <ngn-input-field>
-        <ngn-select
+      <jig-input-field>
+        <jig-select
           #gallerySelect
           [options]="items"
           [popoverOptions]="{ sizeConstraints: { minHeight: '0px', maxHeight: '220px' } }"
         />
-      </ngn-input-field>
+      </jig-input-field>
     </section>
 
     <!-- List box -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">List box</span>
-      <ngn-list-box [items]="items" class="h-[240px]" />
+      <jig-list-box [items]="items" class="h-[240px]" />
     </section>
 
     <!-- Calendar -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Calendar</span>
-      <ngn-calendar
+      <jig-calendar
         [inputId]="'gallery-cal'"
         [inline]="true"
         [value]="calendarValue()"
@@ -254,13 +254,13 @@
     <!-- Menu (inline) -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Menu</span>
-      <ngn-menu [items]="menuItems()" />
+      <jig-menu [items]="menuItems()" />
     </section>
 
     <!-- Item view -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Item view</span>
-      <ngn-item-view
+      <jig-item-view
         #itemView
         [items]="itemViewItems"
         [idField]="'id'"
@@ -268,134 +268,134 @@
         [overflowStrategyIndex]="2"
         [overflowStrategyFreezeCount]="1"
       >
-        <ng-template #item [ngnTemplate]="itemView.templateTypes.item" let-item>
-          <span class="rounded bg-(--ngn-color-surface-200) px-2 py-1">
+        <ng-template #item [jigTemplate]="itemView.templateTypes.item" let-item>
+          <span class="rounded bg-(--jig-color-surface-200) px-2 py-1">
             {{ item.label }}
           </span>
         </ng-template>
-      </ngn-item-view>
+      </jig-item-view>
     </section>
 
     <!-- Paginator -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Paginator</span>
-      <ngn-paginator [totalItems]="240" />
+      <jig-paginator [totalItems]="240" />
     </section>
 
     <!-- Breadcrumb -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Breadcrumb</span>
-      <ngn-breadcrumb [items]="breadcrumbItems()" />
+      <jig-breadcrumb [items]="breadcrumbItems()" />
     </section>
 
     <!-- Filter (inline) -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Filter</span>
-      <ngn-filter mode="inline" [data]="filterData" />
+      <jig-filter mode="inline" [data]="filterData" />
     </section>
 
     <!-- Tree -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Tree</span>
-      <ngn-tree [items]="tree" [multiple]="true" class="h-[240px]" />
+      <jig-tree [items]="tree" [multiple]="true" class="h-[240px]" />
     </section>
 
     <!-- Accordion -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Accordion</span>
-      <ngn-accordion>
-        <ngn-accordion-panel [header]="'Overview'">
+      <jig-accordion>
+        <jig-accordion-panel [header]="'Overview'">
           <ng-template #content>{{ loremShort }}</ng-template>
-        </ngn-accordion-panel>
-        <ngn-accordion-panel [header]="'Details'">
+        </jig-accordion-panel>
+        <jig-accordion-panel [header]="'Details'">
           <ng-template #content>{{ loremShort }}</ng-template>
-        </ngn-accordion-panel>
-        <ngn-accordion-panel [header]="'Settings'">
+        </jig-accordion-panel>
+        <jig-accordion-panel [header]="'Settings'">
           <ng-template #content>{{ loremShort }}</ng-template>
-        </ngn-accordion-panel>
-      </ngn-accordion>
+        </jig-accordion-panel>
+      </jig-accordion>
     </section>
 
     <!-- Tabs -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Tabs</span>
-      <ngn-tabs>
-        <ngn-tab tabId="account">
+      <jig-tabs>
+        <jig-tab tabId="account">
           <ng-template #header>Account</ng-template>
           <ng-template #content>{{ loremShort }}</ng-template>
-        </ngn-tab>
-        <ngn-tab tabId="security">
+        </jig-tab>
+        <jig-tab tabId="security">
           <ng-template #header>Security</ng-template>
           <ng-template #content>{{ loremShort }}</ng-template>
-        </ngn-tab>
-      </ngn-tabs>
+        </jig-tab>
+      </jig-tabs>
     </section>
 
     <!-- Splitter -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Splitter</span>
       <div class="h-[140px]">
-        <ngn-splitter [layout]="'horizontal'" [aria-label]="'Gallery splitter'">
-          <ngn-splitter-panel [size]="'2fr'" [aria-label]="'Navigation'">
+        <jig-splitter [layout]="'horizontal'" [aria-label]="'Gallery splitter'">
+          <jig-splitter-panel [size]="'2fr'" [aria-label]="'Navigation'">
             <div class="p-2 text-sm opacity-70">Navigation</div>
-          </ngn-splitter-panel>
-          <ngn-splitter-panel [size]="'5fr'" [aria-label]="'Content'">
+          </jig-splitter-panel>
+          <jig-splitter-panel [size]="'5fr'" [aria-label]="'Content'">
             <div class="p-2 text-sm opacity-70">Content</div>
-          </ngn-splitter-panel>
-        </ngn-splitter>
+          </jig-splitter-panel>
+        </jig-splitter>
       </div>
     </section>
 
     <!-- Table -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Table</span>
-      <ngn-table #table class="h-[320px]" [rows]="tableRows" [fieldId]="'id'">
+      <jig-table #table class="h-[320px]" [rows]="tableRows" [fieldId]="'id'">
         <ng-template #header>
-          <tr ngnTableHeadTr>
-            <th scope="col" [ngnTableTh]="table.column('name')">Name</th>
-            <th scope="col" [ngnTableTh]="table.column('department')">Department</th>
-            <th scope="col" [ngnTableTh]="table.column('location')">Location</th>
+          <tr jigTableHeadTr>
+            <th scope="col" [jigTableTh]="table.column('name')">Name</th>
+            <th scope="col" [jigTableTh]="table.column('department')">Department</th>
+            <th scope="col" [jigTableTh]="table.column('location')">Location</th>
           </tr>
         </ng-template>
-        <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-          <tr [ngnTableBodyTr]="row">
-            <td ngnTableTd>{{ row.data.name }}</td>
-            <td ngnTableTd>{{ row.data.department }}</td>
-            <td ngnTableTd>{{ row.data.location }}</td>
+        <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+          <tr [jigTableBodyTr]="row">
+            <td jigTableTd>{{ row.data.name }}</td>
+            <td jigTableTd>{{ row.data.department }}</td>
+            <td jigTableTd>{{ row.data.location }}</td>
           </tr>
         </ng-template>
-      </ngn-table>
+      </jig-table>
     </section>
 
     <!-- Upload -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Upload</span>
-      <ngn-upload #up="ngnUpload" (upload)="onUpload($event, up)">
+      <jig-upload #up="jigUpload" (upload)="onUpload($event, up)">
         <input type="file" multiple />
         Drag files here or click to browse
-      </ngn-upload>
+      </jig-upload>
     </section>
 
     <!-- Tooltip (force-open) -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Tooltip</span>
-      <button ngnButton [ngnTooltip]="'Saved to your workspace'">Hover me</button>
+      <button jigButton [jigTooltip]="'Saved to your workspace'">Hover me</button>
     </section>
 
     <!-- Popover (force-open) -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Popover</span>
-      <button ngnButton #popoverAnchor>Anchor</button>
-      <ngn-popover [anchor]="popoverAnchor" [open]="true" [closeBy]="'none'">
+      <button jigButton #popoverAnchor>Anchor</button>
+      <jig-popover [anchor]="popoverAnchor" [open]="true" [closeBy]="'none'">
         <div class="p-1">Popover content</div>
-      </ngn-popover>
+      </jig-popover>
     </section>
 
     <!-- Drawer (trigger) -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Drawer</span>
-      <button ngnButton (click)="drawerOpen.set(true)">Open drawer</button>
-      <ngn-drawer
+      <button jigButton (click)="drawerOpen.set(true)">Open drawer</button>
+      <jig-drawer
         [header]="'Filters'"
         [modal]="true"
         [open]="drawerOpen()"
@@ -403,7 +403,7 @@
         (openChange)="drawerOpen.set($event)"
       >
         {{ loremShort }}
-      </ngn-drawer>
+      </jig-drawer>
     </section>
 
     <!-- Toast / snackbar (shown persistently on load) -->
@@ -415,8 +415,8 @@
     <!-- Dialog (force-open, pinned bottom-right) -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Dialog</span>
-      <button ngnButton (click)="dialogOpen.set(true)">Reopen dialog</button>
-      <ngn-dialog
+      <button jigButton (click)="dialogOpen.set(true)">Reopen dialog</button>
+      <jig-dialog
         class="gallery-dialog"
         [title]="'Confirm changes'"
         [open]="dialogOpen()"
@@ -426,8 +426,8 @@
         [size]="{ width: '320px' }"
       >
         Apply these changes to your project?
-        <button ngnButton kind="primary" (click)="dialogOpen.set(false)">Apply</button>
-      </ngn-dialog>
+        <button jigButton kind="primary" (click)="dialogOpen.set(false)">Apply</button>
+      </jig-dialog>
     </section>
   </div>
 </div>

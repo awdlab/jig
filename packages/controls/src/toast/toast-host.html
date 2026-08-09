@@ -1,5 +1,5 @@
 @for (toast of toasts(); track toast.id; let i = $index) {
-  <ngn-toast
+  <jig-toast
     [attr.tabindex]="region.tabbableIndex() === i ? 0 : -1"
     [header]="toast.header"
     [content]="toast.content"

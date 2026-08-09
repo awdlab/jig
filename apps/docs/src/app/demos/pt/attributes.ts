@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { NgnCalendar } from '@ngneers/controls/calendar';
+import { JigCalendar } from '@awdlab/jig/calendar';
 
-import type { NgnPassthrough } from '@ngneers/controls/base';
+import type { JigPassthrough } from '@awdlab/jig/base';
 
 @Component({
-  selector: 'ngn-demo-pt-attributes',
-  imports: [NgnCalendar],
-  template: `<ngn-calendar [inputId]="'pt-attributes'" [inline]="true" [pt]="pt" />`,
+  selector: 'jig-demo-pt-attributes',
+  imports: [JigCalendar],
+  template: `<jig-calendar [inputId]="'pt-attributes'" [inline]="true" [pt]="pt" />`,
 })
 export class Demo_Pt_Attributes {
-  protected readonly pt: NgnPassthrough<'calendar'> = {
+  protected readonly pt: JigPassthrough<'calendar'> = {
     root: {
       $attributes: {
         'data-testid': 'booking-calendar',

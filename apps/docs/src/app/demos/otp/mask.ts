@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { NgnOtp } from '@ngneers/controls/otp';
+import { JigOtp } from '@awdlab/jig/otp';
 
 @Component({
-  imports: [NgnOtp],
-  selector: 'ngn-demo-otp-mask',
+  imports: [JigOtp],
+  selector: 'jig-demo-otp-mask',
   template: `
-    <ngn-otp [length]="4" mask integerOnly label="PIN" [(value)]="value" />
+    <jig-otp [length]="4" mask integerOnly label="PIN" [(value)]="value" />
     <p class="mt-3">value: {{ value() ?? '—' }}</p>
   `,
 })

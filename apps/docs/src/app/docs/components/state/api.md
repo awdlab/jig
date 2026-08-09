@@ -1,1 +1,1 @@
-{{ api: state/state NgnState }}
+{{ api: state/state JigState }}

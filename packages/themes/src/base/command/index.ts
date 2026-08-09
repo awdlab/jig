@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { commandControlTemplate } from '@ngneers/controls-themes/templates/command';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { commandControlTemplate } from '@awdlab/jig-themes/templates/command';
 
 export const commandStyles = createThemePart({
   controlTemplate: commandControlTemplate,

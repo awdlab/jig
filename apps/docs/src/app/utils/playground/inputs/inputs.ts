@@ -1,25 +1,25 @@
 import { Component, input } from '@angular/core';
 import tablerAdjustments from '@iconify/icons-tabler/adjustments';
 import tablerInfoCircle from '@iconify/icons-tabler/info-circle';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnTooltip } from '@ngneers/controls/tooltip';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 
-import { NgnDocsPlaygroundComponentInputs } from './component-inputs/component-inputs';
+import { JigDocsPlaygroundComponentInputs } from './component-inputs/component-inputs';
 
-import type { AnyNgnBase } from '@ngneers/controls/base';
+import type { AnyJigBase } from '@awdlab/jig/base';
 
 @Component({
-  selector: 'ngn-docs-playground-inputs',
+  selector: 'jig-docs-playground-inputs',
   templateUrl: 'inputs.html',
-  imports: [NgnDocsPlaygroundComponentInputs, NgnIcon, NgnTooltip],
+  imports: [JigDocsPlaygroundComponentInputs, JigIcon, JigTooltip],
   host: { class: 'flex flex-col' },
 })
-export class NgnDocsPlaygroundInputs {
+export class JigDocsPlaygroundInputs {
   protected readonly iconSliders = tablerAdjustments;
   protected readonly iconInfo = tablerInfoCircle;
   public readonly controls = input.required<
     {
-      component: AnyNgnBase | readonly AnyNgnBase[];
+      component: AnyJigBase | readonly AnyJigBase[];
       componentName: string;
     }[]
   >();

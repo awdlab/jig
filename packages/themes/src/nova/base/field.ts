@@ -1,12 +1,12 @@
 /**
  * Focus-ring values shared by controls that draw their own field chrome.
  *
- * Most inputs get their chrome from `ngn-input-field`, but controls that render several boxes
+ * Most inputs get their chrome from `jig-input-field`, but controls that render several boxes
  * (otp) can't be wrapped by it and must repeat the treatment. Keeping the values here stops the
  * two from drifting apart.
  */
 
-import { createThemePart, createVariableTemplate } from '@ngneers/controls-themes/api';
+import { createThemePart, createVariableTemplate } from '@awdlab/jig-themes/api';
 
 export const ringTemplate = createVariableTemplate({
   scope: 'ring',

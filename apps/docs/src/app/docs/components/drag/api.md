@@ -1,19 +1,19 @@
-## NgnDrag
+## JigDrag
 
-Selector: `[ngnDrag]`
+Selector: `[jigDrag]`
 
-{{ api: directives/drag/drag NgnDrag }}
+{{ api: directives/drag/drag JigDrag }}
 
-## NgnDragScroll
+## JigDragScroll
 
-Selector: `[ngnDragScroll]`
+Selector: `[jigDragScroll]`
 
-Same outputs as `ngnDrag`; each move additionally scrolls the host by the
+Same outputs as `jigDrag`; each move additionally scrolls the host by the
 inverse delta.
 
-{{ api: directives/drag/drag-scroll NgnDragScroll }}
+{{ api: directives/drag/drag-scroll JigDragScroll }}
 
-## NgnDragInfo
+## JigDragInfo
 
 | Field       | Type     | Description                                      |
 | ----------- | -------- | ------------------------------------------------ |
@@ -22,8 +22,8 @@ inverse delta.
 | `absoluteX` | `number` | The pointer's current `clientX`.                 |
 | `absoluteY` | `number` | The pointer's current `clientY`.                 |
 
-## NgnDragBase
+## JigDragBase
 
 Abstract base for both directives. Extend it and implement
-`protected onDragged(info: NgnDragInfo): void` to build a directive that
+`protected onDragged(info: JigDragInfo): void` to build a directive that
 handles the gesture itself. The `isDragging` signal is available to subclasses.

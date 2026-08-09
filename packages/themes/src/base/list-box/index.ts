@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { listBoxControlTemplate } from '@awdlab/jig-themes/templates/list-box';
 
 export const listBoxStyles = createThemePart({
   controlTemplate: listBoxControlTemplate,

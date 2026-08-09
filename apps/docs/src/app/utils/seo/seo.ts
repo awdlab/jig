@@ -5,9 +5,9 @@ import { Router } from '@angular/router';
 import { PAGE_DESCRIPTIONS } from '../../docs/_generated/seo';
 
 /** Canonical origin. Every absolute URL in head metadata is built from it. */
-export const SITE_URL = 'https://ngneers.dev';
+export const SITE_URL = 'https://jig.awdlab.dev';
 
-const SITE_NAME = 'ngn-controls';
+const SITE_NAME = 'jig - Angular Control Library by awdlab';
 const DEFAULT_DESCRIPTION =
   'A signal-based component library for Angular 22+ — 50+ accessible, themeable, ' +
   'tree-shakeable controls. Zoneless, standalone, no ControlValueAccessor.';
@@ -61,12 +61,16 @@ export class Seo {
       ['og:description', description],
       ['og:url', canonical],
       ['og:image', SOCIAL_IMAGE],
+      ['og:image:width', '512'],
+      ['og:image:height', '512'],
+      ['og:image:alt', `${SITE_NAME} logo`],
     ] as const) {
       this._meta.updateTag({ property, content });
     }
 
     for (const [name, content] of [
-      ['twitter:card', 'summary_large_image'],
+      // Square logo — a wide card would crop it to a band.
+      ['twitter:card', 'summary'],
       ['twitter:title', title],
       ['twitter:description', description],
       ['twitter:image', SOCIAL_IMAGE],

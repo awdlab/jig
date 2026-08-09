@@ -8,12 +8,12 @@ import {
   type Signal,
   ViewContainerRef,
 } from '@angular/core';
-import { setComponentInput } from '@ngneers/controls/api/ng';
-import { debounceSignal } from '@ngneers/controls/utils-ng';
+import { setComponentInput } from '@awdlab/jig/api/ng';
+import { debounceSignal } from '@awdlab/jig/utils-ng';
 
-import { NgnSpinner } from './spinner';
+import { JigSpinner } from './spinner';
 
-import type { CustomColor } from '@ngneers/controls-custom-types';
+import type { CustomColor } from '@awdlab/jig-custom-types';
 
 /**
  * Creates an instance of the spinner creator.
@@ -21,11 +21,11 @@ import type { CustomColor } from '@ngneers/controls-custom-types';
  * @param injector The injector to use. Defaults to the current injector.
  * @returns The spinner creator.
  */
-export function injectSpinnerCreator(injector?: Injector): NgnSpinnerCreator {
+export function injectSpinnerCreator(injector?: Injector): JigSpinnerCreator {
   if (injector) {
     return runInInjectionContext(injector, () => injectSpinnerCreator());
   }
-  return new NgnSpinnerCreator();
+  return new JigSpinnerCreator();
 }
 
 /**
@@ -140,7 +140,7 @@ const DEFAULT_OPTIONS: SpinnerOptions = {
   ariaBusy: true,
 };
 
-class NgnSpinnerCreator {
+class JigSpinnerCreator {
   private readonly _vcr = inject(ViewContainerRef);
   private readonly _destroyRef = inject(DestroyRef);
   private _destroyed = false;
@@ -185,7 +185,7 @@ class NgnSpinnerCreator {
       }, 10);
       return;
     }
-    const componentRef = this._vcr.createComponent(NgnSpinner);
+    const componentRef = this._vcr.createComponent(JigSpinner);
 
     const doHide = () => {
       componentRef.destroy();

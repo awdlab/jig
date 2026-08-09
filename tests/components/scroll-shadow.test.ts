@@ -5,7 +5,7 @@ import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 
 // The directive toggles `scrolled-{start,end,top,bottom}` classes on the target and injects a
-// theme-styled edge-shadow overlay into the scroll container. `ngnScrollShadowUnstyled` marks the
+// theme-styled edge-shadow overlay into the scroll container. `jigScrollShadowUnstyled` marks the
 // overlay so the theme hides it (display:none). Class names are `{prefix}{scope}-{className}`, so
 // we match the stable `scrolled-*` / `overlay` substrings and stay agnostic to the name prefix.
 
@@ -53,7 +53,7 @@ test('horizontal - toggles scrolled-start / scrolled-end on horizontal scroll', 
 }) => {
   await loadComponent(page, {
     template: `
-      <div id="sc" ngnScrollShadow="horizontal" style="width: 200px; height: 100px; overflow: auto;">
+      <div id="sc" jigScrollShadow="horizontal" style="width: 200px; height: 100px; overflow: auto;">
         <div style="width: 800px; height: 40px;"></div>
       </div>`,
     imports: ['scrollShadow'],
@@ -79,7 +79,7 @@ test('horizontal - toggles scrolled-start / scrolled-end on horizontal scroll', 
 test('horizontal - does not add vertical classes', async ({ page }) => {
   await loadComponent(page, {
     template: `
-      <div id="sc" ngnScrollShadow="horizontal" style="width: 200px; height: 100px; overflow: auto;">
+      <div id="sc" jigScrollShadow="horizontal" style="width: 200px; height: 100px; overflow: auto;">
         <div style="width: 800px; height: 400px;"></div>
       </div>`,
     imports: ['scrollShadow'],
@@ -97,7 +97,7 @@ test('horizontal - does not add vertical classes', async ({ page }) => {
 test('vertical - toggles scrolled-top / scrolled-bottom on vertical scroll', async ({ page }) => {
   await loadComponent(page, {
     template: `
-      <div id="sc" ngnScrollShadow="vertical" style="width: 200px; height: 100px; overflow: auto;">
+      <div id="sc" jigScrollShadow="vertical" style="width: 200px; height: 100px; overflow: auto;">
         <div style="width: 40px; height: 800px;"></div>
       </div>`,
     imports: ['scrollShadow'],
@@ -116,7 +116,7 @@ test('vertical - toggles scrolled-top / scrolled-bottom on vertical scroll', asy
 test('both - tracks both axes simultaneously', async ({ page }) => {
   await loadComponent(page, {
     template: `
-      <div id="sc" ngnScrollShadow="both" style="width: 200px; height: 100px; overflow: auto;">
+      <div id="sc" jigScrollShadow="both" style="width: 200px; height: 100px; overflow: auto;">
         <div style="width: 800px; height: 800px;"></div>
       </div>`,
     imports: ['scrollShadow'],
@@ -136,7 +136,7 @@ test('scrollShadowTarget - applies classes to target, not the scroll container',
 }) => {
   await loadComponent(page, {
     template: `
-      <div id="sc" ngnScrollShadow="horizontal" [scrollShadowTarget]="target"
+      <div id="sc" jigScrollShadow="horizontal" [scrollShadowTarget]="target"
            style="width: 200px; height: 100px; overflow: auto;">
         <div style="width: 800px; height: 40px;"></div>
       </div>
@@ -161,10 +161,10 @@ test('unstyled - overlay is injected but hidden (display:none) so it never distu
 }) => {
   await loadComponent(page, {
     template: `
-      <div id="on" ngnScrollShadow="both" style="width: 120px; height: 120px; overflow: auto;">
+      <div id="on" jigScrollShadow="both" style="width: 120px; height: 120px; overflow: auto;">
         <div style="width: 400px; height: 400px;"></div>
       </div>
-      <div id="off" ngnScrollShadow="both" ngnScrollShadowUnstyled style="width: 120px; height: 120px; overflow: auto;">
+      <div id="off" jigScrollShadow="both" jigScrollShadowUnstyled style="width: 120px; height: 120px; overflow: auto;">
         <div style="width: 400px; height: 400px;"></div>
       </div>`,
     imports: ['scrollShadow'],
@@ -187,7 +187,7 @@ test('visual - theme overlay shadows on all four edges (both axes, mid-scroll)',
 }, testInfo) => {
   await loadComponent(page, {
     template: `
-      <div id="sc" ngnScrollShadow="both" style="width: 200px; height: 120px; overflow: auto; background: #fff;">
+      <div id="sc" jigScrollShadow="both" style="width: 200px; height: 120px; overflow: auto; background: #fff;">
         <div style="width: 800px; height: 800px;
                     background: repeating-linear-gradient(45deg, #eee 0 10px, #f7f7f7 10px 20px);"></div>
       </div>`,
@@ -210,7 +210,7 @@ test('accessibility (axe)', async ({ page }) => {
     template: `
       <div
         id="sc"
-        ngnScrollShadow="both"
+        jigScrollShadow="both"
         tabindex="0"
         role="region"
         aria-label="Scrollable content"

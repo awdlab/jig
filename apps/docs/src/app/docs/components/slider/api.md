@@ -1,1 +1,1 @@
-{{ api: slider/slider NgnSlider }}
+{{ api: slider/slider JigSlider }}

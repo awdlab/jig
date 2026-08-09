@@ -1,13 +1,13 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
   fontTemplate,
   shadowTemplate,
   sizesTemplate,
-} from '@ngneers/controls-themes/shade/base';
-import { menuControlTemplate } from '@ngneers/controls-themes/templates/menu';
+} from '@awdlab/jig-themes/shade/base';
+import { menuControlTemplate } from '@awdlab/jig-themes/templates/menu';
 
 export const menuStyles = createThemePart({
   controlTemplate: menuControlTemplate,

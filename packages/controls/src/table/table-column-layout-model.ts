@@ -1,10 +1,10 @@
 import { afterRenderEffect, computed, signal } from '@angular/core';
-import { elementSizeSignal } from '@ngneers/controls/api/ng';
-import { getResizeLimitInPx, ResizeEngine } from '@ngneers/controls/api/resize';
+import { elementSizeSignal } from '@awdlab/jig/api/ng';
+import { getResizeLimitInPx, ResizeEngine } from '@awdlab/jig/api/resize';
 
-import type { NgnTableTh } from './table-header-cell';
+import type { JigTableTh } from './table-header-cell';
 import type { ElementRef, ModelSignal, Signal } from '@angular/core';
-import type { ResizableItem } from '@ngneers/controls/api/resize';
+import type { ResizableItem } from '@awdlab/jig/api/resize';
 
 /**
  * Default minimum column width in pixels for table columns.
@@ -26,13 +26,13 @@ export interface TableColumnLayoutModelDeps {
 }
 
 /**
- * Owns all column geometry for {@link NgnTable}: effective order, widths (via the wrapped
+ * Owns all column geometry for {@link JigTable}: effective order, widths (via the wrapped
  * {@link ResizeEngine}), sticky columns, reorder gestures, auto-sizing, and the composed
  * `grid-template-columns`. Reads table flags through injected signals; writes only its own
  * state and the injected `columnOrder` model.
  */
 export class TableColumnLayoutModel {
-  private readonly _registeredHeaderCells = signal<NgnTableTh[]>([]);
+  private readonly _registeredHeaderCells = signal<JigTableTh[]>([]);
   private readonly _stickyColumns = signal<ReadonlyMap<string, 'start' | 'end'>>(new Map());
   private readonly _hasSelectionColumn = signal(false);
   private readonly _isReordering = signal(false);
@@ -61,7 +61,7 @@ export class TableColumnLayoutModel {
    */
   private readonly _effectiveColumnOrder = computed<string[]>(() => {
     const cells = this._registeredHeaderCells();
-    const cellIds = cells.map(c => c.ngnTableTh());
+    const cellIds = cells.map(c => c.jigTableTh());
     const userOrder = this._deps.columnOrder();
 
     if (!userOrder.length) {
@@ -185,20 +185,20 @@ export class TableColumnLayoutModel {
       let cumulativeLeft = selectionWidth;
       for (let i = 0; i < startCols.length; i++) {
         (tableEl as HTMLElement).style.setProperty(
-          `--ngn-sticky-start-offset-${i}`,
+          `--jig-sticky-start-offset-${i}`,
           `${cumulativeLeft}px`
         );
-        const cell = cells.find(c => c.ngnTableTh() === startCols[i]);
+        const cell = cells.find(c => c.jigTableTh() === startCols[i]);
         cumulativeLeft += cell?.element.nativeElement.getBoundingClientRect().width ?? 0;
       }
 
       let cumulativeRight = 0;
       for (let i = endCols.length - 1; i >= 0; i--) {
         (tableEl as HTMLElement).style.setProperty(
-          `--ngn-sticky-end-offset-${i}`,
+          `--jig-sticky-end-offset-${i}`,
           `${cumulativeRight}px`
         );
-        const cell = cells.find(c => c.ngnTableTh() === endCols[i]);
+        const cell = cells.find(c => c.jigTableTh() === endCols[i]);
         cumulativeRight += cell?.element.nativeElement.getBoundingClientRect().width ?? 0;
       }
     });
@@ -211,7 +211,7 @@ export class TableColumnLayoutModel {
     const cells = this._registeredHeaderCells();
     const cell = cells[logicalIndex];
     if (!cell) return logicalIndex + 1;
-    return this.columnOrderMap().get(cell.ngnTableTh()) ?? logicalIndex + 1;
+    return this.columnOrderMap().get(cell.jigTableTh()) ?? logicalIndex + 1;
   }
 
   public registerSelectionColumn(): void {
@@ -222,15 +222,15 @@ export class TableColumnLayoutModel {
     this._hasSelectionColumn.set(false);
   }
 
-  public registerHeaderCell(cell: NgnTableTh): void {
+  public registerHeaderCell(cell: JigTableTh): void {
     this._registeredHeaderCells.update(cells => [...cells, cell]);
   }
 
-  public unregisterHeaderCell(cell: NgnTableTh): void {
+  public unregisterHeaderCell(cell: JigTableTh): void {
     this._registeredHeaderCells.update(cells => cells.filter(c => c !== cell));
   }
 
-  public getRegisteredHeaderCells(): readonly NgnTableTh[] {
+  public getRegisteredHeaderCells(): readonly JigTableTh[] {
     return this._registeredHeaderCells();
   }
 
@@ -266,7 +266,7 @@ export class TableColumnLayoutModel {
     return null;
   }
 
-  // --- Resize operations (called by NgnTableTh) ---
+  // --- Resize operations (called by JigTableTh) ---
 
   public startColumnResize(columnIndex: number, event: PointerEvent): void {
     if (!this._deps.resizable()) return;
@@ -283,7 +283,7 @@ export class TableColumnLayoutModel {
     this._resizeEngine.endDrag(columnIndex, cancel);
   }
 
-  // --- Reorder operations (called by NgnTableReorderableColumn) ---
+  // --- Reorder operations (called by JigTableReorderableColumn) ---
 
   public getReorderBounds(columnId: string): { min: number; max: number } {
     const order = this._effectiveColumnOrder();
@@ -321,8 +321,8 @@ export class TableColumnLayoutModel {
 
     // Build visual-order cells with their bounding boxes
     const visualCells = effectiveOrder
-      .map(id => cells.find(c => c.ngnTableTh() === id))
-      .filter((c): c is NgnTableTh => !!c);
+      .map(id => cells.find(c => c.jigTableTh() === id))
+      .filter((c): c is JigTableTh => !!c);
 
     for (let i = 0; i < visualCells.length; i++) {
       const rect = visualCells[i]!.element.nativeElement.getBoundingClientRect();
@@ -428,7 +428,7 @@ export class TableColumnLayoutModel {
     // Build map: column ID → track size (logical order)
     const sizeByColumnId = new Map<string, string>();
     for (let i = 0; i < cells.length; i++) {
-      sizeByColumnId.set(cells[i]!.ngnTableTh(), tracks[i]!);
+      sizeByColumnId.set(cells[i]!.jigTableTh(), tracks[i]!);
     }
 
     // Emit sizes in visual order

@@ -1,8 +1,8 @@
-import { uploadControlTemplate } from '@ngneers/controls-themes/templates/upload';
+import { uploadControlTemplate } from '@awdlab/jig-themes/templates/upload';
 import { themeClasses } from '../utils/theme';
 import { expect, type Locator } from '@playwright/test';
 
-export class NgnUploadHarness {
+export class JigUploadHarness {
   public readonly classes = themeClasses(uploadControlTemplate);
 
   public readonly locator: Locator;

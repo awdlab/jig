@@ -1,12 +1,12 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   colorsTemplate,
   fontTemplate,
   shadowTemplate,
   sizesTemplate,
-} from '@ngneers/controls-themes/material/base';
-import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
+} from '@awdlab/jig-themes/material/base';
+import { listBoxControlTemplate } from '@awdlab/jig-themes/templates/list-box';
 
 export const listBoxStyles = createThemePart({
   controlTemplate: listBoxControlTemplate,

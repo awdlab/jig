@@ -7,11 +7,11 @@ import {
   Type,
   viewChild,
 } from '@angular/core';
-import { templateTypesFn } from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
+import { templateTypesFn } from '@awdlab/jig/api/ng';
+import { JigBase } from '@awdlab/jig/base';
 
 @Directive()
-export abstract class DialogTemplates<T> extends NgnBase<'dialog'> {
+export abstract class DialogTemplates<T> extends JigBase<'dialog'> {
   private readonly _userContentTemplate = contentChild<TemplateRef<unknown>>('content');
   /**
    * The content of the dialog.

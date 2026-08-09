@@ -13,23 +13,23 @@ import tablerEdit from '@iconify/icons-tabler/edit';
 import tablerEye from '@iconify/icons-tabler/eye';
 import tablerSearch from '@iconify/icons-tabler/search';
 import tablerTrash from '@iconify/icons-tabler/trash';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnAvatar } from '@ngneers/controls/avatar';
-import { type BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnChip } from '@ngneers/controls/chip';
-import { createDialog } from '@ngneers/controls/dialog';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { type MenuItem, NgnMenu } from '@ngneers/controls/menu';
-import { NgnPaginator } from '@ngneers/controls/paginator';
-import { NgnSelect } from '@ngneers/controls/select';
-import { createConditionalSpinner } from '@ngneers/controls/spinner';
-import { NgnTableModule } from '@ngneers/controls/table';
-import { NgnTag } from '@ngneers/controls/tag';
-import { injectToastCreator } from '@ngneers/controls/toast';
-import { NgnTooltip } from '@ngneers/controls/tooltip';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigAvatar } from '@awdlab/jig/avatar';
+import { type BreadcrumbItem, JigBreadcrumb } from '@awdlab/jig/breadcrumb';
+import { JigButton } from '@awdlab/jig/button';
+import { JigChip } from '@awdlab/jig/chip';
+import { createDialog } from '@awdlab/jig/dialog';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
+import { JigPaginator } from '@awdlab/jig/paginator';
+import { JigSelect } from '@awdlab/jig/select';
+import { createConditionalSpinner } from '@awdlab/jig/spinner';
+import { JigTableModule } from '@awdlab/jig/table';
+import { JigTag } from '@awdlab/jig/tag';
+import { injectToastCreator } from '@awdlab/jig/toast';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 
 import {
   createOpportunity,
@@ -45,23 +45,23 @@ import { QuickAddDeal } from './quick-add-deal';
 import { themeColor } from '../../utils/theme-variant';
 
 @Component({
-  selector: 'ngn-docs-sales-crm',
+  selector: 'jig-docs-sales-crm',
   templateUrl: './sales-crm.html',
   imports: [
-    NgnAvatar,
-    NgnBreadcrumb,
-    NgnButton,
-    NgnChip,
-    NgnIcon,
-    NgnInput,
-    NgnInputField,
-    NgnMenu,
-    NgnPaginator,
-    NgnSelect,
-    NgnTableModule,
-    NgnTag,
-    NgnTemplate,
-    NgnTooltip,
+    JigAvatar,
+    JigBreadcrumb,
+    JigButton,
+    JigChip,
+    JigIcon,
+    JigInput,
+    JigInputField,
+    JigMenu,
+    JigPaginator,
+    JigSelect,
+    JigTableModule,
+    JigTag,
+    JigTemplate,
+    JigTooltip,
     QuickAddDeal,
   ],
 })
@@ -209,6 +209,6 @@ export class SalesCrm {
 
   /** Build a theme color CSS variable from a color name + shade. */
   protected colorVar(name: string, shade = 500): string {
-    return `var(--ngn-color-${name}-${shade})`;
+    return `var(--jig-color-${name}-${shade})`;
   }
 }

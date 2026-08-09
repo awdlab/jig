@@ -1,12 +1,12 @@
 The Select is a dropdown/listbox control for choosing from a list of options. It
 supports single and multiple selection, an editable free-text mode, optional
 filtering, grouped options, custom option templates, and virtual scrolling for
-long lists. Wrap `ngn-select` in an `ngn-input-field` for field chrome (label,
+long lists. Wrap `jig-select` in a `jig-input-field` for field chrome (label,
 border, states).
 
 ### Basic Usage
 
-Options come from the `options` input, either as `NgnItem` objects
+Options come from the `options` input, either as `JigItem` objects
 (`{ label, value }`) or as plain objects mapped to items. The value type follows
 the mode: single selection stores the chosen item's `value`, `multiple` stores an
 array of values, and `editable` stores a string. Bind it with `[(value)]`.
@@ -22,7 +22,7 @@ It is replaced by the selected item's label once a value is chosen.
 
 ### Forms integration
 
-`ngn-select` is a form value control: it exposes a two-way `[(value)]` model,
+`jig-select` is a form value control: it exposes a two-way `[(value)]` model,
 participates in signal forms, and reflects `disabled`, `readonly`, `invalid`,
 and `touched`. The next demo shows it inside a validated form.
 
@@ -74,7 +74,7 @@ to `false` to disable that.
 
 ### Custom Editable
 
-Project your own `ngnInput` as the editable field to fully control its markup;
+Project your own `jigInput` as the editable field to fully control its markup;
 the select wires up its value and the listbox ARIA attributes (`aria-autocomplete`,
 `aria-expanded`, `aria-controls`, `aria-haspopup`) automatically.
 
@@ -82,7 +82,7 @@ the select wires up its value and the listbox ARIA attributes (`aria-autocomplet
 
 ### Disabled Items
 
-Individual options can be disabled via the `disabled` property on `NgnItem`.
+Individual options can be disabled via the `disabled` property on `JigItem`.
 Disabled items are skipped during keyboard navigation and cannot be selected.
 
 {{ demo: Demo_Select_DisabledItems }}

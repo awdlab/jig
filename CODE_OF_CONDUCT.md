@@ -57,7 +57,7 @@ an individual is officially representing the community in public spaces.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement through
-[GitHub's private report form](https://github.com/NGneers/controls/security/advisories/new)
+[GitHub's private report form](https://github.com/awdlab/jig/security/advisories/new)
 or by opening a confidential conversation with a maintainer.
 
 All complaints will be reviewed and investigated promptly and fairly. All

@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { filterControlTemplate } from '@ngneers/controls-themes/templates/filter';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { filterControlTemplate } from '@awdlab/jig-themes/templates/filter';
 
 export const filterStyles = createThemePart({
   controlTemplate: filterControlTemplate,

@@ -1,13 +1,13 @@
 <span
-  class="mb-3 block text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-bold) tracking-wide text-(--ngn-color-surface-500) uppercase"
+  class="mb-3 block text-(length:--jig-font-size-xs) font-(--jig-font-weight-bold) tracking-wide text-(--jig-color-surface-500) uppercase"
 >
   On this page
 </span>
 
-<nav class="flex flex-col gap-0.5 border-l border-(--ngn-color-surface-200)">
+<nav class="flex flex-col gap-0.5 border-l border-(--jig-color-surface-200)">
   @for (heading of headings(); track heading.id) {
     <a
-      class="toc-link py-1 pr-2 text-(length:--ngn-font-size-sm) leading-snug"
+      class="toc-link py-1 pr-2 text-(length:--jig-font-size-sm) leading-snug"
       [class.active]="heading.id === activeId()"
       [style.padding-left.rem]="0.75 + (heading.level - minLevel()) * 0.75"
       [href]="'#' + heading.id"

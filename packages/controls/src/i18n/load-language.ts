@@ -1,4 +1,4 @@
-import { NgnError } from '@ngneers/controls/utils';
+import { JigError } from '@awdlab/jig/utils';
 
 import { supportedLanguages } from './types';
 
@@ -39,17 +39,17 @@ export function availableLanguageTags(): readonly string[] {
 export async function loadLanguage(language: SupportedLanguage): Promise<Translations> {
   switch (language) {
     case 'en': {
-      const m = await import('@ngneers/controls/i18n/translations/en');
+      const m = await import('@awdlab/jig/i18n/translations/en');
       return m.en;
     }
     case 'de': {
-      const m = await import('@ngneers/controls/i18n/translations/de');
+      const m = await import('@awdlab/jig/i18n/translations/de');
       return m.de;
     }
     default:
       if (customLanguages[language]) {
         return customLanguages[language]();
       }
-      return Promise.reject(new NgnError('i18n', `Unsupported language: ${language}`));
+      return Promise.reject(new JigError('i18n', `Unsupported language: ${language}`));
   }
 }

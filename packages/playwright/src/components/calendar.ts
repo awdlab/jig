@@ -1,17 +1,17 @@
 import { type Locator, expect } from '@playwright/test';
-import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
+import { calendarControlTemplate } from '@awdlab/jig-themes/templates/calendar';
 import { themeClasses } from '../utils/theme';
-import { NgnSelectHarness } from './select';
-import type { WeekDay } from '@ngneers/controls/calendar';
-import { en } from '@ngneers/controls/i18n/translations/en';
+import { JigSelectHarness } from './select';
+import type { WeekDay } from '@awdlab/jig/calendar';
+import { en } from '@awdlab/jig/i18n/translations/en';
 
-export class NgnCalendarHarness {
+export class JigCalendarHarness {
   public readonly classes = themeClasses(calendarControlTemplate);
 
   public readonly backButton: Locator;
   public readonly nextButton: Locator;
-  public readonly currentMonth: NgnSelectHarness;
-  public readonly currentYear: NgnSelectHarness;
+  public readonly currentMonth: JigSelectHarness;
+  public readonly currentYear: JigSelectHarness;
   public readonly days: Locator;
   public readonly day: Locator;
   public readonly daySameMonth: Locator;
@@ -22,10 +22,10 @@ export class NgnCalendarHarness {
   constructor(public locator: Locator) {
     this.backButton = locator.locator(this.classes.previous['root']);
     this.nextButton = locator.locator(this.classes.next['root']);
-    this.currentMonth = new NgnSelectHarness(
+    this.currentMonth = new JigSelectHarness(
       locator.locator(this.classes['current-month']['root'])
     );
-    this.currentYear = new NgnSelectHarness(locator.locator(this.classes['current-year']['root']));
+    this.currentYear = new JigSelectHarness(locator.locator(this.classes['current-year']['root']));
     this.days = locator.locator(this.classes.days);
     this.day = locator.locator(this.classes.day);
     this.daySameMonth = locator.locator(

@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { NgnSlider } from '@ngneers/controls/slider';
+import { JigSlider } from '@awdlab/jig/slider';
 
 @Component({
-  selector: 'ngn-demo-slider-min-max',
-  imports: [NgnSlider],
+  selector: 'jig-demo-slider-min-max',
+  imports: [JigSlider],
   template: `
-    <ngn-slider [value]="value()" (valueChange)="value.set($event)" [min]="0" [max]="5" />
+    <jig-slider [value]="value()" (valueChange)="value.set($event)" [min]="0" [max]="5" />
     <br />
     {{ value() }}
   `,

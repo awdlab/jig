@@ -1,21 +1,21 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
-import { templateTypesFn } from '@ngneers/controls/api/ng';
-import { ValueControlBase } from '@ngneers/controls/base';
+import { templateTypesFn } from '@awdlab/jig/api/ng';
+import { ValueControlBase } from '@awdlab/jig/base';
 
-import type { NgnItem, NgnItemsValue } from '@ngneers/controls/api';
-import type { InputGeneric } from '@ngneers/controls/utils';
+import type { JigItem, JigItemsValue } from '@awdlab/jig/api';
+import type { InputGeneric } from '@awdlab/jig/utils';
 
 /**
  * This type determines the value type for the select control.
  * * If `multiple` is `true`, the value is an array of items: `T[K][]`.
  * * Else it is the item's value type `T[K]`.
  */
-export type ValueType<Items extends readonly NgnItem[], Multiple extends boolean> =
-  InputGeneric<Multiple, false> extends true ? NgnItemsValue<Items>[] : NgnItemsValue<Items>;
+export type ValueType<Items extends readonly JigItem[], Multiple extends boolean> =
+  InputGeneric<Multiple, false> extends true ? JigItemsValue<Items>[] : JigItemsValue<Items>;
 
 @Directive()
 export abstract class ListBoxTemplates<
-  Items extends readonly NgnItem[],
+  Items extends readonly JigItem[],
   Multiple extends boolean,
 > extends ValueControlBase<'listBox', ValueType<Items, Multiple> | null> {
   // Item template

@@ -1,7 +1,7 @@
 ### Splitter API
 
-{{ api: splitter/splitter NgnSplitter }}
+{{ api: splitter/splitter JigSplitter }}
 
 ### Splitter Panel
 
-{{ api: splitter/panel/splitter-panel NgnSplitterPanel }}
+{{ api: splitter/panel/splitter-panel JigSplitterPanel }}

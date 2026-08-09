@@ -1,4 +1,4 @@
-import { NgnDocsListBoxPlayground } from './playground';
+import { JigDocsListBoxPlayground } from './playground';
 import { Demo_ListBox_Base } from '../../../demos/list-box/base';
 import { Demo_ListBox_Filter } from '../../../demos/list-box/filter';
 import { Demo_ListBox_Grouped } from '../../../demos/list-box/grouped';
@@ -9,9 +9,9 @@ import { Demo_ListBox_Value } from '../../../demos/list-box/value';
 import { Demo_ListBox_Virtual } from '../../../demos/list-box/virtual';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const ListBoxPage: NgnDocsPage = {
+export const ListBoxPage: JigDocsPage = {
   title: `List Box`,
   kind: 'tabs',
   tabs: [
@@ -35,7 +35,7 @@ export const ListBoxPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsListBoxPlayground,
+      component: JigDocsListBoxPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/list-box/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/list-box/a11y.md' },

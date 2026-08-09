@@ -1,1 +1,1 @@
-{{ api: mask-input/mask-input NgnMaskInput }}
+{{ api: mask-input/mask-input JigMaskInput }}

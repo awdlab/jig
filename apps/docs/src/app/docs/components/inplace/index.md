@@ -1,4 +1,4 @@
-The Inplace component (`ngn-inplace`) shows a compact **display** view that,
+The Inplace component (`jig-inplace`) shows a compact **display** view that,
 when clicked, swaps to a richer **content** view in the same spot. Use it to
 keep a page dense by default while letting a region expand on demand — an inline
 "show details", an editable label, a lazy-loaded panel — without opening a

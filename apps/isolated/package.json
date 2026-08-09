@@ -1,5 +1,5 @@
 {
-  "name": "@ngneers/isolated",
+  "name": "@awdlab/isolated",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",

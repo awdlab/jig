@@ -1,11 +1,11 @@
 import { Component, computed, DestroyRef, inject, input } from '@angular/core';
-import { type AnyNgnBase, NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { spinButtonsControlTemplate } from '@ngneers/controls-themes/templates/spin-buttons';
+import { type AnyJigBase, JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigButton } from '@awdlab/jig/button';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { spinButtonsControlTemplate } from '@awdlab/jig-themes/templates/spin-buttons';
 
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 /** Delay before press-and-hold starts auto-repeating (ms). */
 const HOLD_DELAY = 400;
@@ -13,11 +13,11 @@ const HOLD_DELAY = 400;
 const HOLD_INTERVAL = 60;
 
 /**
- * Increment/decrement buttons for a steppable control (e.g. `ngnNumberInput`).
+ * Increment/decrement buttons for a steppable control (e.g. `jigNumberInput`).
  *
- * Inside an `ngn-input-field` the buttons find the field's primary control
+ * Inside a `jig-input-field` the buttons find the field's primary control
  * automatically; outside (or to target a specific control) bind `[for]` to a
- * control instance (e.g. a `#num="ngnNumberInput"` template reference).
+ * control instance (e.g. a `#num="jigNumberInput"` template reference).
  *
  * The buttons are a pointer affordance only (`tabindex="-1"`, `aria-hidden`):
  * keyboard users step via `ArrowUp`/`ArrowDown` on the control itself, which
@@ -31,12 +31,12 @@ const HOLD_INTERVAL = 60;
  * @category control
  */
 @Component({
-  selector: 'ngn-spin-buttons',
+  selector: 'jig-spin-buttons',
   templateUrl: './spin-buttons.html',
-  imports: [NgnPt, NgnButton, NgnIcon],
-  providers: [provideSelf(NgnSpinButtons)],
+  imports: [JigPt, JigButton, JigIcon],
+  providers: [provideSelf(JigSpinButtons)],
 })
-export class NgnSpinButtons extends NgnBase<'spinButtons'> {
+export class JigSpinButtons extends JigBase<'spinButtons'> {
   protected readonly theme = this.injectThemeTemplate(spinButtonsControlTemplate, {
     root: true,
     // A lone decrement button flanks the input's leading edge; everything else
@@ -54,15 +54,15 @@ export class NgnSpinButtons extends NgnBase<'spinButtons'> {
   public readonly buttons = input<'both' | 'increment' | 'decrement'>('both');
   /**
    * The control to step. Falls back to the primary control of a surrounding
-   * `ngn-input-field`.
+   * `jig-input-field`.
    */
-  public readonly for = input<AnyNgnBase | undefined>(undefined);
+  public readonly for = input<AnyJigBase | undefined>(undefined);
   /** Custom icon for the increment button. */
   public readonly iconIncrement = input<IconType>();
   /** Custom icon for the decrement button. */
   public readonly iconDecrement = input<IconType>();
 
-  private readonly _field = inject(NgnInputField, { optional: true });
+  private readonly _field = inject(JigInputField, { optional: true });
 
   /** The resolved step target: explicit `for` wins over the surrounding field. */
   protected readonly target = computed(() => this.for() ?? this._field?.control());

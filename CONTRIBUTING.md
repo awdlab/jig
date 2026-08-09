@@ -1,4 +1,4 @@
-# Contributing to @ngneers/controls
+# Contributing to @awdlab/jig
 
 Thanks for taking the time. This document covers how to get the repo running,
 what a change to a control actually involves, and what we look for in a PR.
@@ -62,7 +62,7 @@ folder — a rename or a new input touches all of these:
 | 6   | Docs page      | `apps/docs/src/app/docs/components/{name}/`                 |
 | 7   | Demos          | `apps/docs/src/app/demos/{name}/`                           |
 
-The [Creating a Control](https://ngneers.dev/guides/creating-a-control) guide
+The [Creating a Control](https://jig.awdlab.dev/guides/creating-a-control) guide
 walks through building one end to end.
 
 A new theme part folder also needs an empty `package.json` marker and a themes
@@ -75,8 +75,8 @@ These are enforced by review, and mostly by lint:
 - **Signals only** — `input()`, `model()`, `output()`. Never `@Input()` /
   `@Output()` decorators.
 - **Booleans** — `input(false, { transform: booleanAttribute })`.
-- **Selectors** — `ngn-{name}` for elements (folder name and selector match),
-  camelCase attributes (`ngnButton`) for directives on native elements.
+- **Selectors** — `jig-{name}` for elements (folder name and selector match),
+  camelCase attributes (`jigButton`) for directives on native elements.
 - **Icon inputs** are `icon`-prefixed: `iconClose`, never `closeIcon`. A new
   default icon slot must be registered in the icon registry, the default icon
   set, and the provider.
@@ -88,7 +88,7 @@ These are enforced by review, and mostly by lint:
   from the MCP knowledge pack.
 - **Comments** are short and factual. No decision logs, no references to how
   the code used to be.
-- Import via `@ngneers/*` path aliases, never relative cross-package paths.
+- Import via `@awdlab/*` path aliases, never relative cross-package paths.
 
 ## Accessibility
 

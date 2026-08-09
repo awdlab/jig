@@ -1,4 +1,4 @@
-`ngnRovingGroup` and `ngnRovingItem` implement the **roving tabindex** pattern:
+`jigRovingGroup` and `jigRovingItem` implement the **roving tabindex** pattern:
 a set of related widgets becomes a single tab stop, and the arrow keys move
 between the members.
 
@@ -9,7 +9,7 @@ so you can build your own.
 
 ### Basic Usage
 
-Put `ngnRovingGroup` on the container and `ngnRovingItem` on each member. Items
+Put `jigRovingGroup` on the container and `jigRovingItem` on each member. Items
 register themselves through DI and are ordered by their position in the DOM, so
 nothing has to be listed twice.
 
@@ -26,7 +26,7 @@ Meta or Alt is ignored so browser shortcuts keep working.
 stopping there.
 
 ```html
-<div ngnRovingGroup orientation="vertical" rovingWrap>…</div>
+<div jigRovingGroup orientation="vertical" rovingWrap>…</div>
 ```
 
 ### Focus Modes
@@ -73,17 +73,17 @@ stop.
 
 ### Disabled Items
 
-`NgnRovingItem.disabled` is a writable signal, not an input — the host control
-sets it, which is how `ngn-radio` keeps a disabled radio out of the keyboard
+`JigRovingItem.disabled` is a writable signal, not an input — the host control
+sets it, which is how `jig-radio` keeps a disabled radio out of the keyboard
 order. A disabled item is skipped by `next`/`prev`/`first`/`last` and ignores
 pointer activation.
 
 ```ts
-const item = viewChild.required(NgnRovingItem);
+const item = viewChild.required(JigRovingItem);
 effect(() => item().disabled.set(this.disabled()));
 ```
 
-Note that a native `disabled` attribute on a `<button ngnRovingItem>` does not
+Note that a native `disabled` attribute on a `<button jigRovingItem>` does not
 feed this signal — set it explicitly.
 
 ### Items Outside the Group
@@ -92,8 +92,8 @@ An item that is not a DOM descendant of its group cannot find it by injection.
 Pass the group in instead:
 
 ```html
-<div ngnRovingGroup #group="ngnRovingGroup"></div>
-<button [ngnRovingItem]="group">Detached</button>
+<div jigRovingGroup #group="jigRovingGroup"></div>
+<button [jigRovingItem]="group">Detached</button>
 ```
 
 Without either a wrapping group or an explicit reference the item throws.

@@ -1,26 +1,26 @@
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnGlobal } from '@ngneers/controls/utils-ng';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigGlobal } from '@awdlab/jig/utils-ng';
 
-import { type NgnConfigInit, provideNgnConfig } from './config';
+import { type JigConfigInit, provideJigConfig } from './config';
 import { Platform } from './platform';
 import { ThemeService } from './theme-service';
 
 import type { EnvironmentProviders, Provider } from '@angular/core';
 
-export type NgnFeature = {
+export type JigFeature = {
   providers: (Provider | EnvironmentProviders)[];
 };
 
-export function provideNgnControls(
-  config?: NgnConfigInit,
-  ...features: NgnFeature[]
+export function provideJigControls(
+  config?: JigConfigInit,
+  ...features: JigFeature[]
 ): (Provider | EnvironmentProviders)[] {
   return [
-    NgnGlobal,
+    JigGlobal,
     ThemeService,
     I18n,
     Platform,
-    provideNgnConfig(config),
+    provideJigConfig(config),
     ...features.map(f => f.providers).flat(),
   ];
 }

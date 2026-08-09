@@ -4,15 +4,15 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { TableColumnLayoutModel } from './table-column-layout-model';
 
-import type { NgnTableTh } from './table-header-cell';
+import type { JigTableTh } from './table-header-cell';
 
-function cell(id: string): NgnTableTh {
+function cell(id: string): JigTableTh {
   return {
-    ngnTableTh: signal(id),
+    jigTableTh: signal(id),
     element: new ElementRef(document.createElement('th')),
     minSize: signal('0px'),
     maxSize: signal('100%'),
-  } as unknown as NgnTableTh;
+  } as unknown as JigTableTh;
 }
 
 // `model()` may only be called in a class-member initializer, so the two-way
@@ -35,7 +35,7 @@ class TestHarnessComponent {
       resizeMode: signal('adjacent'),
       lockSizes: signal(false),
       columnOrder: this.columnOrder,
-      themeClass: (name: string) => `ngn-table-${name}`,
+      themeClass: (name: string) => `jig-table-${name}`,
     });
     return { m, order: this.columnOrder };
   }

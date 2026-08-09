@@ -1,9 +1,9 @@
 import { computed, contentChild, Directive, input, TemplateRef } from '@angular/core';
-import { templateTypesFn } from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
+import { templateTypesFn } from '@awdlab/jig/api/ng';
+import { JigBase } from '@awdlab/jig/base';
 
 @Directive()
-export abstract class ScrollerTemplates<T> extends NgnBase<'scroller'> {
+export abstract class ScrollerTemplates<T> extends JigBase<'scroller'> {
   /**
    * The template to be used for rendering each item in the scroller.
    * Can also be set using the `item` content child.
@@ -15,7 +15,7 @@ export abstract class ScrollerTemplates<T> extends NgnBase<'scroller'> {
 
   /**
    * Template types for the scroller.
-   * Can be used with the {@link NgnTemplate} directive for type safe ng-templates.
+   * Can be used with the {@link JigTemplate} directive for type safe ng-templates.
    */
   public readonly templateTypes = templateTypesFn<{
     item: {

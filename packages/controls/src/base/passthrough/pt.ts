@@ -1,16 +1,16 @@
 import { computed, Directive, effect, inject, input, isDevMode } from '@angular/core';
-import { setInputSignalValue } from '@ngneers/controls/utils-ng';
+import { setInputSignalValue } from '@awdlab/jig/utils-ng';
 
-import { NGN_CONTROL } from '../base';
-import { NgnPtEngine } from './pt-engine';
+import { JIG_CONTROL } from '../base';
+import { JigPtEngine } from './pt-engine';
 
-import type { AnyNgnPassthrough } from './types';
-import type { FullAnyNgnBase, NgnBaseSafe } from '../base';
-import type { AppliedThemeClassCfg } from '@ngneers/controls/api/ng';
-import type { ControlName, ControlTemplate, ThemeTemplate } from '@ngneers/controls-themes';
+import type { AnyJigPassthrough } from './types';
+import type { FullAnyJigBase, JigBaseSafe } from '../base';
+import type { AppliedThemeClassCfg } from '@awdlab/jig/api/ng';
+import type { ControlName, ControlTemplate, ThemeTemplate } from '@awdlab/jig-themes';
 
-/** The control name backing a parent `NgnBaseSafe`, or `never` for a nameless base. */
-type ParentName<T> = T extends NgnBaseSafe<infer A> ? (A extends null ? never : A) : never;
+/** The control name backing a parent `JigBaseSafe`, or `never` for a nameless base. */
+type ParentName<T> = T extends JigBaseSafe<infer A> ? (A extends null ? never : A) : never;
 
 /**
  * Union of the NON-projected dependency-slot class tokens declared on a control's
@@ -24,7 +24,7 @@ export type DepClass<Name extends ControlName> = ThemeTemplate[Name] extends Con
 
 // Internal passthrough directive; intentionally uses the non-prefixed `ptInt` selector.
 @Directive({ selector: '[ptInt]' })
-export class NgnPt<T extends NgnBaseSafe<Name>, Name extends ControlName> {
+export class JigPt<T extends JigBaseSafe<Name>, Name extends ControlName> {
   /** The parent control whose theme/passthrough this element pulls from. */
   public readonly ptInt = input.required<T>();
   /**
@@ -46,16 +46,16 @@ export class NgnPt<T extends NgnBaseSafe<Name>, Name extends ControlName> {
    * ancestor control (e.g. the parent that owns `[ptInt]`), and the forwarding
    * effect would then overwrite the ancestor's `pt` instead of the child's.
    */
-  private readonly _self = inject(NGN_CONTROL, {
+  private readonly _self = inject(JIG_CONTROL, {
     optional: true,
     self: true,
-  }) as unknown as FullAnyNgnBase | null;
+  }) as unknown as FullAnyJigBase | null;
 
   /**
    * Flat class engine for `ptClass`: applies the parent's scope class(es) and the
    * matching `pt` slice to this element. A missing `ptClass` resolves to a no-op.
    */
-  private readonly _classEngine = new NgnPtEngine(
+  private readonly _classEngine = new JigPtEngine(
     this.ptInt,
     computed(() => this.ptClass() ?? ({} as AppliedThemeClassCfg<ParentName<T>>))
   );
@@ -65,20 +65,20 @@ export class NgnPt<T extends NgnBaseSafe<Name>, Name extends ControlName> {
    * class to this element (`applyPassthrough: false`). The forwarded slice is
    * applied separately, through the nested control's own engine.
    */
-  private readonly _markerEngine = new NgnPtEngine(
+  private readonly _markerEngine = new JigPtEngine(
     this.ptInt,
     computed(() => (this.ptDep() ?? {}) as AppliedThemeClassCfg<ParentName<T>>),
     { applyPassthrough: false }
   );
 
   /** The parent's `pt` slice for the current `ptDep` slot, or `undefined`. */
-  private readonly _depSlice = computed<AnyNgnPassthrough | undefined>(() => {
+  private readonly _depSlice = computed<AnyJigPassthrough | undefined>(() => {
     const dep = this.ptDep();
     if (!dep) {
       return undefined;
     }
-    const parentPt = (this.ptInt() as unknown as FullAnyNgnBase).pt?.() as
-      | Record<string, AnyNgnPassthrough>
+    const parentPt = (this.ptInt() as unknown as FullAnyJigBase).pt?.() as
+      | Record<string, AnyJigPassthrough>
       | undefined;
     return parentPt?.[dep as string];
   });

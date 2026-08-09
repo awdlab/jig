@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnItemView } from '@ngneers/controls/item-view';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigItemView } from '@awdlab/jig/item-view';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnItemView, NgnTemplate],
-  selector: 'ngn-demo-item-view-separator',
+  imports: [JigItemView, JigTemplate],
+  selector: 'jig-demo-item-view-separator',
   template: `
-    <ngn-item-view
+    <jig-item-view
       #itemView
       [items]="items"
       [idField]="'id'"
@@ -16,19 +16,19 @@ import { exampleData } from '../../helper/data';
       [overflowStrategy]="'end'"
       [overflowStrategyFreezeCount]="1"
       [overflowStrategyIndex]="2"
-      style="background: var(--ngn-color-surface-200);"
+      style="background: var(--jig-color-surface-200);"
     >
-      <ng-template #item [ngnTemplate]="itemView.templateTypes.item" let-item>
-        <span style="padding: 4px; background: var(--ngn-color-surface-400);">
+      <ng-template #item [jigTemplate]="itemView.templateTypes.item" let-item>
+        <span style="padding: 4px; background: var(--jig-color-surface-400);">
           {{ item.label }}
         </span>
       </ng-template>
-      <ng-template #separator [ngnTemplate]="itemView.templateTypes.separator" let-separator>
-        <span style="padding: 4px; background: var(--ngn-color-surface-300);">
+      <ng-template #separator [jigTemplate]="itemView.templateTypes.separator" let-separator>
+        <span style="padding: 4px; background: var(--jig-color-surface-300);">
           {{ separator.character }}
         </span>
       </ng-template>
-    </ngn-item-view>
+    </jig-item-view>
   `,
   host: { class: 'contents' },
 })

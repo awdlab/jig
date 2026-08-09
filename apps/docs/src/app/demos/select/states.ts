@@ -1,56 +1,56 @@
 import { Component } from '@angular/core';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnSelect } from '@ngneers/controls/select';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigSelect } from '@awdlab/jig/select';
 
 import { exampleData } from '../../helper/data';
 
-import type { PopoverOptions } from '@ngneers/controls/popover';
+import type { PopoverOptions } from '@awdlab/jig/popover';
 
 @Component({
-  imports: [NgnSelect, NgnInputField],
-  selector: 'ngn-demo-select-states',
+  imports: [JigSelect, JigInputField],
+  selector: 'jig-demo-select-states',
   template: `
     Default:
-    <ngn-input-field>
-      <ngn-select [options]="options" [popoverOptions]="popoverOptions" />
-    </ngn-input-field>
+    <jig-input-field>
+      <jig-select [options]="options" [popoverOptions]="popoverOptions" />
+    </jig-input-field>
     Readonly:
-    <ngn-input-field>
-      <ngn-select [options]="options" [popoverOptions]="popoverOptions" readonly />
-    </ngn-input-field>
+    <jig-input-field>
+      <jig-select [options]="options" [popoverOptions]="popoverOptions" readonly />
+    </jig-input-field>
     Disabled:
-    <ngn-input-field>
-      <ngn-select [options]="options" [popoverOptions]="popoverOptions" disabled />
-    </ngn-input-field>
+    <jig-input-field>
+      <jig-select [options]="options" [popoverOptions]="popoverOptions" disabled />
+    </jig-input-field>
     Invalid:
-    <ngn-input-field>
-      <ngn-select
+    <jig-input-field>
+      <jig-select
         [options]="options"
         [popoverOptions]="popoverOptions"
         [invalidOn]="'immediate'"
         invalid
       />
-    </ngn-input-field>
+    </jig-input-field>
     Invalid + Readonly:
-    <ngn-input-field>
-      <ngn-select
+    <jig-input-field>
+      <jig-select
         [options]="options"
         [popoverOptions]="popoverOptions"
         [invalidOn]="'immediate'"
         invalid
         readonly
       />
-    </ngn-input-field>
+    </jig-input-field>
     Invalid + Disabled:
-    <ngn-input-field>
-      <ngn-select
+    <jig-input-field>
+      <jig-select
         [options]="options"
         [popoverOptions]="popoverOptions"
         [invalidOn]="'immediate'"
         invalid
         disabled
       />
-    </ngn-input-field>
+    </jig-input-field>
   `,
   host: { class: 'w-48' },
 })

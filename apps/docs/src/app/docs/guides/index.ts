@@ -30,13 +30,13 @@ import { KindsColorsPage } from './theming/kinds-colors/page';
 import { ThemingOverviewPage } from './theming/overview/page';
 import { StylingPage } from './theming/styling/page';
 
-import type { NgnDocsGroup } from '../../utils/page/types';
+import type { JigDocsGroup } from '../../utils/page/types';
 
 /**
  * The Guides tab, sliced into visual sidebar groups. Group titles are headers
  * only — every page routes at `/guides/{page}`.
  */
-export const GUIDE_GROUPS: NgnDocsGroup[] = [
+export const GUIDE_GROUPS: JigDocsGroup[] = [
   {
     title: 'Getting Started',
     pages: [

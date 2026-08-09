@@ -9,7 +9,7 @@ test.skip(({ browserName }) => browserName !== 'chromium', 'CDP only available i
 /**
  * Memory leak detection test for all components.
  *
- * This test loads and destroys all NGneers components multiple times, then uses
+ * This test loads and destroys all jig components multiple times, then uses
  * Chrome DevTools Protocol to force garbage collection and check for memory leaks.
  *
  * Implementation:
@@ -37,47 +37,47 @@ test('Memory leak detection for all components', async ({ page }) => {
   await page.goto(url);
 
   // Wait for the page to be ready
-  await expect(page.locator('ngn-leak-test')).toBeAttached();
+  await expect(page.locator('jig-leak-test')).toBeAttached();
 
   const client = await enableHeapProfiler(page);
 
   // Component class names to check for leaks
   const componentClassNames = [
-    'NgnAccordion',
-    'NgnAccordionPanel',
-    'NgnAvatar',
-    'NgnAvatarGroup',
-    'NgnBreadcrumb',
-    'NgnButton',
-    'NgnButtonGroup',
-    'NgnCalendar',
-    'NgnCheckbox',
-    'NgnChip',
-    'NgnDefer',
-    'NgnDialog',
-    'NgnEditInplace',
-    'NgnFilter',
-    'NgnIcon',
-    'NgnInplace',
-    'NgnInput',
-    'NgnInputField',
-    'NgnMaskInput',
-    'NgnItemView',
-    'NgnListBox',
-    'NgnMessage',
-    'NgnPopover',
-    'NgnProgress',
-    'NgnScroller',
-    'NgnScrollerItem',
-    'NgnSelect',
-    'NgnSlider',
-    'NgnSpinner',
-    'NgnSplitter',
-    'NgnTab',
-    'NgnTabs',
-    'NgnTable',
-    'NgnTag',
-    'NgnTooltip',
+    'JigAccordion',
+    'JigAccordionPanel',
+    'JigAvatar',
+    'JigAvatarGroup',
+    'JigBreadcrumb',
+    'JigButton',
+    'JigButtonGroup',
+    'JigCalendar',
+    'JigCheckbox',
+    'JigChip',
+    'JigDefer',
+    'JigDialog',
+    'JigEditInplace',
+    'JigFilter',
+    'JigIcon',
+    'JigInplace',
+    'JigInput',
+    'JigInputField',
+    'JigMaskInput',
+    'JigItemView',
+    'JigListBox',
+    'JigMessage',
+    'JigPopover',
+    'JigProgress',
+    'JigScroller',
+    'JigScrollerItem',
+    'JigSelect',
+    'JigSlider',
+    'JigSpinner',
+    'JigSplitter',
+    'JigTab',
+    'JigTabs',
+    'JigTable',
+    'JigTag',
+    'JigTooltip',
   ];
 
   // Load and destroy components multiple times

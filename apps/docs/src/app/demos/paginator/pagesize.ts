@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { NgnPaginator } from '@ngneers/controls/paginator';
+import { JigPaginator } from '@awdlab/jig/paginator';
 
 @Component({
-  selector: 'ngn-demo-paginator-pagesize',
-  imports: [NgnPaginator],
+  selector: 'jig-demo-paginator-pagesize',
+  imports: [JigPaginator],
   template: `
-    <ngn-paginator [totalItems]="500" [pageSize]="20" [possiblePageSizes]="[10, 20, 30, 40]" />
+    <jig-paginator [totalItems]="500" [pageSize]="20" [possiblePageSizes]="[10, 20, 30, 40]" />
   `,
   host: { class: 'flex-1' },
 })

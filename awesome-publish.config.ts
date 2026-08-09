@@ -15,13 +15,13 @@ export default defineConfig({
   // Build the 5 publishable packages (in dependency order) — not the docs app,
   // test-wrapper or isolated. Runs at the repo root before packing.
   buildCommand:
-    'pnpm --filter @ngneers/controls --filter @ngneers/controls-themes --filter @ngneers/controls-custom-types --filter @ngneers/controls-playwright --filter @ngneers/controls-mcp build',
+    'pnpm --filter @awdlab/jig --filter @awdlab/jig-themes --filter @awdlab/jig-custom-types --filter @awdlab/jig-playwright --filter @awdlab/jig-mcp build',
   access: 'public',
-  // Provenance requires a PUBLIC source repo; NGneers/controls is private, so
+  // Provenance requires a PUBLIC source repo; awdlab/jig is private, so
   // npm rejects it with E422. Re-enable if the repo is ever made public.
   provenance: false,
   changesets: { enabled: true, enforceInPR: true },
-  github: { releases: { enabled: true, mode: 'per-package' } },
+  github: { releases: { enabled: false, mode: 'per-package' } },
   // Gemini via its OpenAI-compatible endpoint. Key comes from
   // AWESOME_PUBLISH_AI_KEY. AI notes never block a release if the call fails.
   aiProvider: {
@@ -29,5 +29,5 @@ export default defineConfig({
     model: 'gemini-flash-latest',
     baseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai/',
   },
-  aiReleaseNotes: true,
+  aiReleaseNotes: false,
 });

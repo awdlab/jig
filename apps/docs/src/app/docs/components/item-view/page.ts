@@ -1,13 +1,13 @@
-import { NgnDocsItemViewPlayground } from './playground';
+import { JigDocsItemViewPlayground } from './playground';
 import { Demo_ItemView_Base } from '../../../demos/item-view/base';
 import { Demo_ItemView_Freeze } from '../../../demos/item-view/freeze';
 import { Demo_ItemView_Separator } from '../../../demos/item-view/separator';
 import { Demo_ItemView_Strategies } from '../../../demos/item-view/strategies';
 import { i18nNone } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const ItemViewPage: NgnDocsPage = {
+export const ItemViewPage: JigDocsPage = {
   title: `Item View`,
   kind: 'tabs',
   tabs: [
@@ -27,7 +27,7 @@ export const ItemViewPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsItemViewPlayground,
+      component: JigDocsItemViewPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/item-view/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/item-view/a11y.md' },

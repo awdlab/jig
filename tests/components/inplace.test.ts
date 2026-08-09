@@ -1,5 +1,5 @@
 import test from '@playwright/test';
-import { NgnInplaceHarness } from '@ngneers/controls-playwright';
+import { JigInplaceHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -7,7 +7,7 @@ import { expectNoA11yViolations } from '../helper/axe';
 test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `
-      <ngn-inplace>
+      <jig-inplace>
         <ng-template #display>
           <span>Click to edit</span>
         </ng-template>
@@ -17,12 +17,12 @@ test('base', async ({ page }, testInfo) => {
             <button (click)="content.close()">Close</button>
           </div>
         </ng-template>
-      </ngn-inplace>
+      </jig-inplace>
     `,
     imports: ['inplace'],
   });
 
-  const inplace = new NgnInplaceHarness(page.locator('ngn-inplace'));
+  const inplace = new JigInplaceHarness(page.locator('jig-inplace'));
 
   await inplace.expectDisplayVisible(true);
   await inplace.expectContentVisible(false);
@@ -42,7 +42,7 @@ test('base', async ({ page }, testInfo) => {
 test('lazy loading', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `
-      <ngn-inplace [lazy]="inputs().lazy" [cache]="inputs().cache">
+      <jig-inplace [lazy]="inputs().lazy" [cache]="inputs().cache">
         <ng-template #display>
           <span>Click to edit</span>
         </ng-template>
@@ -52,12 +52,12 @@ test('lazy loading', async ({ page }, testInfo) => {
             <button (click)="content.close()">Close</button>
           </dummy>
         </ng-template>
-      </ngn-inplace>
+      </jig-inplace>
     `,
     imports: ['inplace', 'dummy_component'],
   });
 
-  const inplace = new NgnInplaceHarness(page.locator('ngn-inplace'));
+  const inplace = new JigInplaceHarness(page.locator('jig-inplace'));
 
   await test.step('lazy=true (default)', async () => {
     await handle.setInputs({ lazy: true, cache: false });
@@ -101,7 +101,7 @@ test('lazy loading', async ({ page }, testInfo) => {
 test('model binding', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `
-      <ngn-inplace [(contentVisible)]="inputs().contentVisible">
+      <jig-inplace [(contentVisible)]="inputs().contentVisible">
         <ng-template #display>
           <span>Display view</span>
         </ng-template>
@@ -111,12 +111,12 @@ test('model binding', async ({ page }, testInfo) => {
             <button (click)="content.close()">Close</button>
           </div>
         </ng-template>
-      </ngn-inplace>
+      </jig-inplace>
     `,
     imports: ['inplace'],
   });
 
-  const inplace = new NgnInplaceHarness(page.locator('ngn-inplace'));
+  const inplace = new JigInplaceHarness(page.locator('jig-inplace'));
 
   await test.step('initially closed', async () => {
     await handle.setInputs({ contentVisible: false });
@@ -140,7 +140,7 @@ test('model binding', async ({ page }, testInfo) => {
 test('accessibility (axe)', async ({ page }) => {
   await loadComponent(page, {
     template: `
-      <ngn-inplace>
+      <jig-inplace>
         <ng-template #display>
           <span>Click to edit</span>
         </ng-template>
@@ -150,12 +150,12 @@ test('accessibility (axe)', async ({ page }) => {
             <button (click)="content.close()">Close</button>
           </div>
         </ng-template>
-      </ngn-inplace>
+      </jig-inplace>
     `,
     imports: ['inplace'],
   });
 
-  const inplace = new NgnInplaceHarness(page.locator('ngn-inplace'));
+  const inplace = new JigInplaceHarness(page.locator('jig-inplace'));
 
   // Scan the display (collapsed) surface first.
   await inplace.expectDisplayVisible(true);

@@ -1,6 +1,6 @@
 import { Component, input, computed, booleanAttribute } from '@angular/core';
-import { NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
-import { progressControlTemplate } from '@ngneers/controls-themes/templates/progress';
+import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
+import { progressControlTemplate } from '@awdlab/jig-themes/templates/progress';
 
 const TAU = Math.PI * 2;
 
@@ -8,10 +8,10 @@ const TAU = Math.PI * 2;
  * @category control
  */
 @Component({
-  selector: 'ngn-progress',
+  selector: 'jig-progress',
   templateUrl: './progress.html',
-  imports: [NgnPt],
-  providers: [provideSelf(NgnProgress)],
+  imports: [JigPt],
+  providers: [provideSelf(JigProgress)],
   host: {
     role: 'progressbar',
     '[attr.aria-valuemin]': '0',
@@ -20,7 +20,7 @@ const TAU = Math.PI * 2;
     '[style.--progress.%]': 'indeterminate() ? null : safeValue()',
   },
 })
-export class NgnProgress extends NgnBase<'progress'> {
+export class JigProgress extends JigBase<'progress'> {
   protected readonly theme = this.injectThemeTemplate(progressControlTemplate, {
     root: true,
     indeterminate: () => this.indeterminate(),

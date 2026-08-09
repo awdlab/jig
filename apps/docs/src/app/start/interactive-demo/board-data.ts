@@ -1,6 +1,6 @@
 import tablerBug from '@iconify/icons-tabler/bug';
 
-import type { NgnTreeItem } from '@ngneers/controls/api';
+import type { JigTreeItem } from '@awdlab/jig/api';
 
 import type { PaletteColorName } from './data';
 
@@ -65,11 +65,11 @@ export const COLUMNS: readonly Column[] = [
 
 // Soft pastel (200) backgrounds keep dark avatar initials readable across themes.
 export const MEMBERS: readonly Member[] = [
-  { id: 'yo', name: 'You', initials: 'YO', color: 'var(--ngn-color-primary-200)' },
-  { id: 'jc', name: 'Jane Cooper', initials: 'JC', color: 'var(--ngn-color-info-200)' },
-  { id: 'bw', name: 'Bruce W.', initials: 'BW', color: 'var(--ngn-color-accent-200)' },
-  { id: 'as', name: 'Alice S.', initials: 'AS', color: 'var(--ngn-color-success-200)' },
-  { id: 'mr', name: 'Mark R.', initials: 'MR', color: 'var(--ngn-color-secondary-200)' },
+  { id: 'yo', name: 'You', initials: 'YO', color: 'var(--jig-color-primary-200)' },
+  { id: 'jc', name: 'Jane Cooper', initials: 'JC', color: 'var(--jig-color-info-200)' },
+  { id: 'bw', name: 'Bruce W.', initials: 'BW', color: 'var(--jig-color-accent-200)' },
+  { id: 'as', name: 'Alice S.', initials: 'AS', color: 'var(--jig-color-success-200)' },
+  { id: 'mr', name: 'Mark R.', initials: 'MR', color: 'var(--jig-color-secondary-200)' },
 ];
 
 export const CURRENT_USER_ID = 'yo';
@@ -85,7 +85,7 @@ export const PRIORITY_META: Record<TaskPriority, { label: string; color: Palette
 };
 
 /** Left-rail project navigation — plain hierarchy the tree renders. */
-export const PROJECT_TREE: NgnTreeItem[] = [
+export const PROJECT_TREE: JigTreeItem[] = [
   {
     label: 'Mobile App',
     value: 'mobile',

@@ -1,20 +1,20 @@
 import { Component, input } from '@angular/core';
-import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { messageControlTemplate } from '@ngneers/controls-themes/templates/message';
+import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
+import { JigIcon } from '@awdlab/jig/icon';
+import { messageControlTemplate } from '@awdlab/jig-themes/templates/message';
 
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'ngn-message',
+  selector: 'jig-message',
   templateUrl: './message.html',
-  imports: [NgnPt, NgnIcon],
-  providers: [provideSelf(NgnMessage)],
+  imports: [JigPt, JigIcon],
+  providers: [provideSelf(JigMessage)],
 })
-export class NgnMessage extends NgnBase<'message'> {
+export class JigMessage extends JigBase<'message'> {
   protected readonly theme = this.injectThemeTemplate(messageControlTemplate, 'root');
 
   /**

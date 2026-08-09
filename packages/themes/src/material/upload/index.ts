@@ -1,12 +1,12 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   colorsTemplate,
   sizesTemplate,
   animationTemplate,
   fontTemplate,
-} from '@ngneers/controls-themes/material/base';
-import { uploadControlTemplate } from '@ngneers/controls-themes/templates/upload';
+} from '@awdlab/jig-themes/material/base';
+import { uploadControlTemplate } from '@awdlab/jig-themes/templates/upload';
 
 export const uploadStyles = createThemePart({
   controlTemplate: uploadControlTemplate,

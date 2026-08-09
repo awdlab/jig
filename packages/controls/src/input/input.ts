@@ -9,27 +9,27 @@ import {
   output,
   runInInjectionContext,
 } from '@angular/core';
-import { domEventHandler, domEventSignal } from '@ngneers/controls/api/ng';
+import { domEventHandler, domEventSignal } from '@awdlab/jig/api/ng';
 import {
-  NgnBase,
-  type NgnInvalidTrigger,
+  JigBase,
+  type JigInvalidTrigger,
   provideSelf,
   resolveInvalidState,
-} from '@ngneers/controls/base';
-import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
+} from '@awdlab/jig/base';
+import { inputControlTemplate } from '@awdlab/jig-themes/templates/input';
 
 /**
  * @category control
  */
 @Directive({
-  selector: 'input[ngnInput], textarea[ngnInput]',
-  providers: [provideSelf(NgnInput)],
-  exportAs: 'ngnInput',
+  selector: 'input[jigInput], textarea[jigInput]',
+  providers: [provideSelf(JigInput)],
+  exportAs: 'jigInput',
   host: {
     '[attr.aria-invalid]': 'invalidState() ? "true" : null',
   },
 })
-export class NgnInput extends NgnBase<'input'> implements AfterViewInit {
+export class JigInput extends JigBase<'input'> implements AfterViewInit {
   public override readonly isFieldControl = true;
   protected readonly theme = this.injectThemeTemplate(inputControlTemplate, {
     root: true,
@@ -50,7 +50,7 @@ export class NgnInput extends NgnBase<'input'> implements AfterViewInit {
    * When the input surfaces its invalid styling.
    * @default touched
    */
-  public readonly invalidOn = input<NgnInvalidTrigger>('touched');
+  public readonly invalidOn = input<JigInvalidTrigger>('touched');
 
   /**
    * Touched state. A bound signal-forms field writes it in (`FormUiControl`
@@ -76,7 +76,7 @@ export class NgnInput extends NgnBase<'input'> implements AfterViewInit {
 
   /**
    * Emits on blur so a bound signal-forms field is marked touched (the
-   * `FormUiControl` `touch` contract) — enables `ngnErrorsShowOn="touched"`.
+   * `FormUiControl` `touch` contract) — enables `jigErrorsShowOn="touched"`.
    */
   public readonly touch = output<void>();
 
@@ -119,9 +119,9 @@ export class NgnInput extends NgnBase<'input'> implements AfterViewInit {
 
   /**
    * Marks the input touched on blur: flips {@link touched} for local consumers
-   * (e.g. `ngnErrors`) and emits {@link touch} so a bound signal-forms field is
+   * (e.g. `jigErrors`) and emits {@link touch} so a bound signal-forms field is
    * marked too. Mirrors `ValueControlBase.markTouched`, which this directive
-   * can't inherit (it extends {@link NgnBase} as a native-element directive).
+   * can't inherit (it extends {@link JigBase} as a native-element directive).
    */
   private markTouched(): void {
     this.touched.set(true);

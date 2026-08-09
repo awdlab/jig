@@ -1,12 +1,12 @@
 import { Component, inject, Injector, signal } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { createDialog, PromptDialogBase } from '@ngneers/controls/dialog';
-import { NgnInput } from '@ngneers/controls/input';
+import { JigButton } from '@awdlab/jig/button';
+import { createDialog, PromptDialogBase } from '@awdlab/jig/dialog';
+import { JigInput } from '@awdlab/jig/input';
 
 @Component({
-  selector: 'ngn-demo-dialog-prompt',
-  imports: [NgnInput],
-  template: `<input ngnInput [(value)]="value" />`,
+  selector: 'jig-demo-dialog-prompt',
+  imports: [JigInput],
+  template: `<input jigInput [(value)]="value" />`,
 })
 // TODO: figure out how to make the button values type safe here
 export class DialogPromptDemo extends PromptDialogBase<{ value: string }, true | false> {
@@ -27,9 +27,9 @@ export class DialogPromptDemo extends PromptDialogBase<{ value: string }, true |
 }
 
 @Component({
-  selector: 'ngn-demo-dialog-prompt',
-  imports: [NgnButton],
-  template: `<button ngnButton (click)="prompt()">Show Prompt</button>`,
+  selector: 'jig-demo-dialog-prompt',
+  imports: [JigButton],
+  template: `<button jigButton (click)="prompt()">Show Prompt</button>`,
 })
 export class Demo_Dialog_Prompt {
   private readonly _injector = inject(Injector);

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { NgnCalendar } from '@ngneers/controls/calendar';
-import { NgnInputField } from '@ngneers/controls/input-field';
+import { JigCalendar } from '@awdlab/jig/calendar';
+import { JigInputField } from '@awdlab/jig/input-field';
 
 @Component({
-  selector: 'ngn-demo-calendar-time',
-  imports: [NgnCalendar, NgnInputField],
-  template: `<ngn-input-field>
-    <ngn-calendar [inputId]="'test-input'" [showTime]="true" [format]="'MM/dd/yyyy h:mm a'" />
-  </ngn-input-field>`,
+  selector: 'jig-demo-calendar-time',
+  imports: [JigCalendar, JigInputField],
+  template: `<jig-input-field>
+    <jig-calendar [inputId]="'test-input'" [showTime]="true" [format]="'MM/dd/yyyy h:mm a'" />
+  </jig-input-field>`,
 })
 export class Demo_Calendar_Time {}

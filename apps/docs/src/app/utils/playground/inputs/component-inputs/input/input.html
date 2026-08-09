@@ -5,14 +5,14 @@
     @case ('primitive') {
       @switch (dataType.type) {
         @case ('string') {
-          <ngn-input-field [label]="label" [labelKind]="'on'">
-            <input type="text" ngnInput [value]="value()" (valueChange)="value.set($event)" />
-          </ngn-input-field>
+          <jig-input-field [label]="label" [labelKind]="'on'">
+            <input type="text" jigInput [value]="value()" (valueChange)="value.set($event)" />
+          </jig-input-field>
         }
         @case ('number') {
-          <ngn-input-field [label]="label" [labelKind]="'on'">
-            <input type="number" ngnInput [value]="value()" (valueChange)="value.set($event)" />
-          </ngn-input-field>
+          <jig-input-field [label]="label" [labelKind]="'on'">
+            <input type="number" jigInput [value]="value()" (valueChange)="value.set($event)" />
+          </jig-input-field>
         }
         @case ('boolean') {
           <div class="flex items-center justify-between gap-2">
@@ -20,25 +20,25 @@
               <!-- We intentionally do not use the label variable here to avoid showing the asterisk for required boolean inputs -->
               {{ input().name }}
             </label>
-            <ngn-switch #switch [value]="value()" (valueChange)="value.set($event)" />
+            <jig-switch #switch [value]="value()" (valueChange)="value.set($event)" />
           </div>
         }
         @case ('date') {
-          <ngn-input-field [label]="label" [labelKind]="'on'">
-            <ngn-calendar [value]="value()" (valueChange)="value.set($event)" />
-          </ngn-input-field>
+          <jig-input-field [label]="label" [labelKind]="'on'">
+            <jig-calendar [value]="value()" (valueChange)="value.set($event)" />
+          </jig-input-field>
         }
       }
     }
     @case ('literalUnion') {
-      <ngn-input-field [label]="label" [labelKind]="'on'">
-        <ngn-select
+      <jig-input-field [label]="label" [labelKind]="'on'">
+        <jig-select
           [value]="value()"
           (valueChange)="value.set($event)"
           [options]="dataType.values"
           [editable]="dataType.allowCustomValue"
         />
-      </ngn-input-field>
+      </jig-input-field>
     }
   }
 }

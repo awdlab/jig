@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { buttonGroupControlTemplate } from '@ngneers/controls-themes/templates/button-group';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { buttonGroupControlTemplate } from '@awdlab/jig-themes/templates/button-group';
 
 export const buttonGroupStyles = createThemePart({
   controlTemplate: buttonGroupControlTemplate,

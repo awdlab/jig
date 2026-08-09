@@ -1,5 +1,5 @@
-`ngnErrors` resolves a control's validation errors into a human-readable
-message and hands it to an [`ngn-hint`](/components/hint). It is the bridge
+`jigErrors` resolves a control's validation errors into a human-readable
+message and hands it to an [`jig-hint`](/components/hint). It is the bridge
 between Angular's form validation and what the user actually sees.
 
 It works the same way on **all three** form paradigms — template-driven
@@ -9,7 +9,7 @@ It works the same way on **all three** form paradigms — template-driven
 
 ### Basic Usage
 
-Put `ngnErrors` on the same element as the form binding and point it at a hint:
+Put `jigErrors` on the same element as the form binding and point it at a hint:
 
 {{ demo: Demo_Errors_Reactive }}
 
@@ -29,13 +29,13 @@ forms `minLength`/`maxLength`.
 
 ### It Renders Messages, Not Styling
 
-`ngnErrors` never touches the control's appearance. The red border and
+`jigErrors` never touches the control's appearance. The red border and
 `aria-invalid` are the **control's** job, driven by its own `invalid` and
 `invalidOn` inputs, so the two can be timed independently:
 
 ```html
 <!-- border as soon as it is invalid, message only after blur -->
-<input ngnInput invalidOn="immediate" ngnErrors ngnErrorsShowOn="touched" />
+<input jigInput invalidOn="immediate" jigErrors jigErrorsShowOn="touched" />
 ```
 
 A signal-forms binding writes `invalid` in for you; with reactive forms you set
@@ -43,7 +43,7 @@ it yourself. See [State](/guides/state).
 
 ### When Messages Appear
 
-`ngnErrorsShowOn` decides the trigger:
+`jigErrorsShowOn` decides the trigger:
 
 | Value       | Messages appear                                  |
 | ----------- | ------------------------------------------------ |
@@ -58,21 +58,21 @@ signal and its `touch` (blur) output, so it still behaves correctly.
 
 ### Custom Messages
 
-`ngnErrorsMessages` overrides messages for one control. A value can be a string
+`jigErrorsMessages` overrides messages for one control. A value can be a string
 or a resolver that receives the error's `params`:
 
 {{ demo: Demo_Errors_Messages }}
 
-`ngnErrorsMode="all"` shows every failing rule, joined by newlines, instead of
+`jigErrorsMode="all"` shows every failing rule, joined by newlines, instead of
 just the first.
 
 To change messages application-wide, provide them once instead:
 
 ```ts
-import { provideNgnErrorsMessages } from '@ngneers/controls/errors';
+import { provideJigErrorsMessages } from '@awdlab/jig/errors';
 
 providers: [
-  provideNgnErrorsMessages({
+  provideJigErrorsMessages({
     required: 'This field is required.',
     email: 'That does not look like an email address.',
   }),
@@ -86,10 +86,10 @@ add its own keys without replacing yours.
 
 For each error key, the first source that yields a non-empty message wins:
 
-1. `ngnErrorsMessages` on this control
+1. `jigErrorsMessages` on this control
 2. a message carried on the error value itself — a `message` field
    (`{ tooShort: { message: '…' } }`) or a plain-string error value
-3. messages from `provideNgnErrorsMessages`
+3. messages from `provideJigErrorsMessages`
 4. the built-in translation for `errors.<key>` (see [i18n](/guides/i18n))
 5. the raw error key, as a last resort
 
@@ -102,7 +102,7 @@ you can blank out a single key without losing the rest.
 
 ### Errors From Outside the Form
 
-`ngnErrorsCustom` layers errors on top of validation — server responses,
+`jigErrorsCustom` layers errors on top of validation — server responses,
 cross-field rules, anything Angular does not know about:
 
 {{ demo: Demo_Errors_Custom }}
@@ -125,7 +125,7 @@ It accepts three shapes:
 ### Group Errors
 
 Validators on a `FormGroup` produce errors on the group, not on any one field.
-`ngnErrors` surfaces a parent error on a child control when the error value
+`jigErrors` surfaces a parent error on a child control when the error value
 names that control — under `control`, `controlName`, `field`, `controls`,
 `controlNames` or `fields`, as a string or an array of them:
 
@@ -145,14 +145,14 @@ every field.
 
 While a validator is pending the state is `pending`, and the hint shows the
 translated "validating" message. Pending always displays, regardless of
-`ngnErrorsShowOn`, so a slow check never looks like nothing is happening.
+`jigErrorsShowOn`, so a slow check never looks like nothing is happening.
 
 ### Reading the State Directly
 
 Export the directive to build your own UI instead of using a hint:
 
 ```html
-<input ngnInput [formControl]="email" ngnErrors #errors="ngnErrors" />
+<input jigInput [formControl]="email" jigErrors #errors="jigErrors" />
 
 @if (errors.visible()) {
 <ul>

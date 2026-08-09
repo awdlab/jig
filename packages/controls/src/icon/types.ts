@@ -1,4 +1,4 @@
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 export type IconTemplateContext = {
   $implicit: {

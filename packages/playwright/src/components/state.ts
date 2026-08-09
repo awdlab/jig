@@ -1,19 +1,19 @@
-import { stateControlTemplate } from '@ngneers/controls-themes/templates/state';
+import { stateControlTemplate } from '@awdlab/jig-themes/templates/state';
 import { expect, type Locator } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
-import { NgnSpinnerHarness } from './spinner';
+import { JigSpinnerHarness } from './spinner';
 
-export class NgnStateHarness {
+export class JigStateHarness {
   public readonly classes = themeClasses(stateControlTemplate);
 
   public readonly indicator: Locator;
   public readonly icon: Locator;
-  public readonly spinner: NgnSpinnerHarness;
+  public readonly spinner: JigSpinnerHarness;
 
   constructor(public readonly locator: Locator) {
     this.indicator = locator.locator(this.classes.indicator);
-    this.icon = locator.locator('ngn-icon');
-    this.spinner = new NgnSpinnerHarness(locator.locator('ngn-spinner'));
+    this.icon = locator.locator('jig-icon');
+    this.spinner = new JigSpinnerHarness(locator.locator('jig-spinner'));
   }
 
   public async expectLoading() {
@@ -25,7 +25,7 @@ export class NgnStateHarness {
   public async expectIcon(kind: string) {
     await expect(this.locator).toBeVisible();
     await expect(this.locator).toHaveClass(
-      new RegExp(`(^|\\s)ngn-state-kind-${escapeRegExp(kind)}(\\s|$)`)
+      new RegExp(`(^|\\s)jig-state-kind-${escapeRegExp(kind)}(\\s|$)`)
     );
     await expect(this.icon).toBeVisible();
     await expect(this.spinner.locator).toHaveCount(0);

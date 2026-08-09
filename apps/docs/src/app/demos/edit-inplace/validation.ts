@@ -1,23 +1,23 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnEditInplace } from '@ngneers/controls/edit-inplace';
-import { NgnErrors } from '@ngneers/controls/errors';
-import { NgnHint } from '@ngneers/controls/hint';
+import { JigEditInplace } from '@awdlab/jig/edit-inplace';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
 
 @Component({
-  selector: 'ngn-demo-edit-inplace-validation',
-  imports: [NgnEditInplace, NgnErrors, NgnHint],
+  selector: 'jig-demo-edit-inplace-validation',
+  imports: [JigEditInplace, JigErrors, JigHint],
   template: `
     <div class="flex flex-col gap-2">
-      <ngn-edit-inplace
+      <jig-edit-inplace
         [value]="value()"
         (valueChange)="value.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="nameHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="nameHint"
       />
     </div>
-    <ngn-hint #nameHint />
+    <jig-hint #nameHint />
   `,
   host: { style: 'display: block; width: 220px;' },
 })

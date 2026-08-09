@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { injectThemeColors } from '@ngneers/controls/api/ng';
-import { NgnSpinner } from '@ngneers/controls/spinner';
+import { injectThemeColors } from '@awdlab/jig/api/ng';
+import { JigSpinner } from '@awdlab/jig/spinner';
 
 @Component({
-  selector: 'ngn-demo-spinner-colors',
-  imports: [NgnSpinner],
+  selector: 'jig-demo-spinner-colors',
+  imports: [JigSpinner],
   template: `
-    <ngn-spinner />
+    <jig-spinner />
     @for (color of colors(); track color) {
-      <ngn-spinner [color]="color" />
+      <jig-spinner [color]="color" />
     }
-    <ngn-spinner style="color: #ff0042;" />
+    <jig-spinner style="color: #ff0042;" />
   `,
 })
 export class Demo_Spinner_Colors {

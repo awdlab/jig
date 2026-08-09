@@ -1,5 +1,5 @@
 {
-  "name": "@ngneers/controls-docs",
+  "name": "@awdlab/jig-docs",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "preserve": "pnpm run prepare-docs",
     "prebuild": "pnpm run prepare-docs",
-    "prepare-docs": "pnpm --filter @ngneers/controls api-docs:generate && pnpm api:links && pnpm seo:gen && pnpm search:model && pnpm search:index",
+    "prepare-docs": "pnpm --filter @awdlab/jig api-docs:generate && pnpm api:links && pnpm seo:gen && pnpm search:model && pnpm search:index",
     "api:links": "tsx tools/api-links-gen.ts",
     "seo:gen": "tsx tools/seo-gen.ts",
     "search:index": "tsx tools/search-index-gen.ts",

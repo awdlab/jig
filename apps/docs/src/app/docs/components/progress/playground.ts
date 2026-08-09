@@ -1,18 +1,18 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnProgress } from '@ngneers/controls/progress';
+import { JigProgress } from '@awdlab/jig/progress';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-progress-playground',
-  imports: [NgnProgress, NgnDocsPlayground],
+  selector: 'jig-docs-progress-playground',
+  imports: [JigProgress, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnProgress', component: component() }]">
-      <ngn-progress class="flex-1" #ref [value]="value()" />
-    </ngn-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'JigProgress', component: component() }]">
+      <jig-progress class="flex-1" #ref [value]="value()" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsProgressPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnProgress });
+export class JigDocsProgressPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigProgress });
   protected readonly value = signal(50);
 }

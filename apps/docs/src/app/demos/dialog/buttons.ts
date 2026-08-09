@@ -1,14 +1,14 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnDialog } from '@ngneers/controls/dialog';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDialog } from '@awdlab/jig/dialog';
 
-import type { NgnActionButtonConfig } from '@ngneers/controls/api';
+import type { JigActionButtonConfig } from '@awdlab/jig/api';
 
 @Component({
-  selector: 'ngn-demo-dialog-buttons',
-  imports: [NgnDialog, NgnButton],
-  template: `<button ngnButton (click)="open.set(true)">Open Dialog</button>
-    <ngn-dialog
+  selector: 'jig-demo-dialog-buttons',
+  imports: [JigDialog, JigButton],
+  template: `<button jigButton (click)="open.set(true)">Open Dialog</button>
+    <jig-dialog
       [title]="'Buttons'"
       content="Check the console for button click results"
       [open]="open()"
@@ -19,7 +19,7 @@ import type { NgnActionButtonConfig } from '@ngneers/controls/api';
       (buttonClicked)="onButtonClicked($event)"
     >
       Content
-    </ngn-dialog>`,
+    </jig-dialog>`,
 })
 export class Demo_Dialog_Buttons {
   protected readonly open = signal(false);
@@ -42,7 +42,7 @@ export class Demo_Dialog_Buttons {
       },
       value: true,
     },
-  ] satisfies NgnActionButtonConfig<unknown>[];
+  ] satisfies JigActionButtonConfig<unknown>[];
 
   protected onButtonClicked(value: boolean | null): void {
     console.log('Dialog button clicked with value:', value);

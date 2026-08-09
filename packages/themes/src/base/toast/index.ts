@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { toastControlTemplate } from '@ngneers/controls-themes/templates/toast';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { toastControlTemplate } from '@awdlab/jig-themes/templates/toast';
 
 export const toastStyles = createThemePart({
   controlTemplate: toastControlTemplate,

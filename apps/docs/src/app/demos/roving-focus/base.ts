@@ -1,14 +1,14 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnRovingGroup, NgnRovingItem } from '@ngneers/controls/roving-focus';
+import { JigButton } from '@awdlab/jig/button';
+import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
 
 @Component({
-  selector: 'ngn-demo-roving-focus-base',
-  imports: [NgnButton, NgnRovingGroup, NgnRovingItem],
+  selector: 'jig-demo-roving-focus-base',
+  imports: [JigButton, JigRovingGroup, JigRovingItem],
   template: `
     <div class="flex flex-col items-start gap-3">
       <div
-        ngnRovingGroup
+        jigRovingGroup
         rovingWrap
         orientation="horizontal"
         role="toolbar"
@@ -17,7 +17,7 @@ import { NgnRovingGroup, NgnRovingItem } from '@ngneers/controls/roving-focus';
         (activeItemChange)="active.set($event)"
       >
         @for (tool of tools; track tool) {
-          <button ngnButton ngnRovingItem kind="secondary">{{ tool }}</button>
+          <button jigButton jigRovingItem kind="secondary">{{ tool }}</button>
         }
       </div>
 

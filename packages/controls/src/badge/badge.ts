@@ -10,9 +10,9 @@ import {
   input,
   ViewContainerRef,
 } from '@angular/core';
-import { Platform, setComponentInput } from '@ngneers/controls/api/ng';
+import { Platform, setComponentInput } from '@awdlab/jig/api/ng';
 
-import { NgnBadgeIndicator, type BadgePosition } from './badge-indicator';
+import { JigBadgeIndicator, type BadgePosition } from './badge-indicator';
 
 /**
  * Overlays a small badge (count, text, or dot) onto its host element — an icon,
@@ -22,36 +22,36 @@ import { NgnBadgeIndicator, type BadgePosition } from './badge-indicator';
  * @category directive
  */
 @Directive({
-  // Also match `[ngnBadgeDot]` so dot mode works standalone (no value/`ngnBadge` needed).
-  selector: '[ngnBadge], [ngnBadgeDot]',
+  // Also match `[jigBadgeDot]` so dot mode works standalone (no value/`jigBadge` needed).
+  selector: '[jigBadge], [jigBadgeDot]',
 })
-export class NgnBadge {
+export class JigBadge {
   private readonly _vcr = inject(ViewContainerRef);
   private readonly _host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly _destroyRef = inject(DestroyRef);
-  private _ref?: ComponentRef<NgnBadgeIndicator>;
+  private _ref?: ComponentRef<JigBadgeIndicator>;
 
   /** Badge content. A number is clamped by {@link max}; empty hides the badge unless {@link dot}. */
-  public readonly value = input<number | string | undefined>(undefined, { alias: 'ngnBadge' });
+  public readonly value = input<number | string | undefined>(undefined, { alias: 'jigBadge' });
   /** Clamp a numeric {@link value} to `"{max}+"` when it exceeds this. */
-  public readonly max = input<number | undefined>(undefined, { alias: 'ngnBadgeMax' });
+  public readonly max = input<number | undefined>(undefined, { alias: 'jigBadgeMax' });
   /** Render a dot with no text, ignoring {@link value}. @default false */
-  public readonly dot = input(false, { transform: booleanAttribute, alias: 'ngnBadgeDot' });
+  public readonly dot = input(false, { transform: booleanAttribute, alias: 'jigBadgeDot' });
   /** Show the badge even when {@link value} is `0`. @default false */
   public readonly showZero = input(false, {
     transform: booleanAttribute,
-    alias: 'ngnBadgeShowZero',
+    alias: 'jigBadgeShowZero',
   });
   /** Which corner the badge sits in. @default top-end */
-  public readonly position = input<BadgePosition>('top-end', { alias: 'ngnBadgePosition' });
+  public readonly position = input<BadgePosition>('top-end', { alias: 'jigBadgePosition' });
   /** CSS color value (hex/rgb) or `var(...)` reference for the badge fill. */
-  public readonly color = input<string | undefined>(undefined, { alias: 'ngnBadgeColor' });
+  public readonly color = input<string | undefined>(undefined, { alias: 'jigBadgeColor' });
   /** Hide the badge without removing the host. @default false */
-  public readonly hidden = input(false, { transform: booleanAttribute, alias: 'ngnBadgeHidden' });
+  public readonly hidden = input(false, { transform: booleanAttribute, alias: 'jigBadgeHidden' });
   /** Anchor on a circular host's edge (~45°) instead of the box corner (e.g. avatars). @default false */
   public readonly circular = input(false, {
     transform: booleanAttribute,
-    alias: 'ngnBadgeCircular',
+    alias: 'jigBadgeCircular',
   });
 
   private readonly _platform = inject(Platform);
@@ -84,7 +84,7 @@ export class NgnBadge {
         return;
       }
       if (!this._ref) {
-        this._ref = this._vcr.createComponent(NgnBadgeIndicator);
+        this._ref = this._vcr.createComponent(JigBadgeIndicator);
         this._host.appendChild(this._ref.location.nativeElement);
       }
       setComponentInput(this._ref, 'text', text ?? '');

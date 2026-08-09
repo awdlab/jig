@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { toggleButtonControlTemplate } from '@ngneers/controls-themes/templates/toggle-button';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { toggleButtonControlTemplate } from '@awdlab/jig-themes/templates/toggle-button';
 
 export const toggleButtonStyles = createThemePart({
   controlTemplate: toggleButtonControlTemplate,

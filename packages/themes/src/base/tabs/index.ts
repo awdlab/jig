@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { tabsControlTemplate } from '@ngneers/controls-themes/templates/tabs';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { tabsControlTemplate } from '@awdlab/jig-themes/templates/tabs';
 
 export const tabsStyles = createThemePart({
   controlTemplate: tabsControlTemplate,

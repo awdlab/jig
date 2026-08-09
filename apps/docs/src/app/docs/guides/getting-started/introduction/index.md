@@ -1,4 +1,4 @@
-**@ngneers/controls** is a component library for **Angular 22+** built the way Angular
+**@awdlab/jig** is a component library for **Angular 22+** built the way Angular
 is heading: **signals everywhere, zoneless, standalone**. There are no `NgModule`s, no
 `@Input()`/`@Output()` decorators, and no `ControlValueAccessor` boilerplate — every
 control is a standalone component or directive whose inputs are `input()`/`model()`
@@ -25,7 +25,7 @@ That split buys you three things:
 
 - **50+ controls** — inputs, actions, overlays, data display, layout, feedback, navigation.
 - **Three presets** — `nova` (fully themed, dark-mode aware), `shade` (a shadcn-style
-  theme), and `material` (Material Design 3) — all from `@ngneers/controls-themes`.
+  theme), and `material` (Material Design 3) — all from `@awdlab/jig-themes`.
 - **Opt-in features** — toasts, snackbars, default icons, and automatic dark mode are each
   enabled by a `with*()` feature you pass to the provider. You only ship what you use.
 

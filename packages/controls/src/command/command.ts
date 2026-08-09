@@ -11,30 +11,30 @@ import {
   viewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgnPt, provideSelf } from '@ngneers/controls/base';
-import { NgnDialog } from '@ngneers/controls/dialog';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnKbd, NgnKeyboardShortcut, type NgnShortcutBinding } from '@ngneers/controls/kbd';
-import { NgnListBox } from '@ngneers/controls/list-box';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { maybeCallback } from '@ngneers/controls/utils';
-import { generateElementId } from '@ngneers/controls/utils-ng';
-import { commandControlTemplate } from '@ngneers/controls-themes/templates/command';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigDialog } from '@awdlab/jig/dialog';
+import { JigIcon } from '@awdlab/jig/icon';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigKbd, JigKeyboardShortcut, type JigShortcutBinding } from '@awdlab/jig/kbd';
+import { JigListBox } from '@awdlab/jig/list-box';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { maybeCallback } from '@awdlab/jig/utils';
+import { generateElementId } from '@awdlab/jig/utils-ng';
+import { commandControlTemplate } from '@awdlab/jig-themes/templates/command';
 
 import { type CommandItem, CommandTemplates } from './command-templates';
 
-import type { FilterConfig, NgnActionItem } from '@ngneers/controls/api';
-import type { CloseBy } from '@ngneers/controls/api/ng';
-import type { DialogSize } from '@ngneers/controls/dialog';
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { FilterConfig, JigActionItem } from '@awdlab/jig/api';
+import type { CloseBy } from '@awdlab/jig/api/ng';
+import type { DialogSize } from '@awdlab/jig/dialog';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 /** Keys handed to the list box; the search field keeps everything else. */
 const FORWARDED_KEYS = ['ArrowDown', 'ArrowUp', 'Home', 'End', 'PageDown', 'PageUp', 'Enter'];
 
-function toCommandItem(item: NgnActionItem): CommandItem {
+function toCommandItem(item: JigActionItem): CommandItem {
   return {
     label: item.label,
     value: item.id,
@@ -46,7 +46,7 @@ function toCommandItem(item: NgnActionItem): CommandItem {
   };
 }
 
-function collectById(items: readonly NgnActionItem[], into: Map<string, NgnActionItem>) {
+function collectById(items: readonly JigActionItem[], into: Map<string, JigActionItem>) {
   for (const item of items) {
     into.set(item.id, item);
     if (item.children?.length) {
@@ -60,26 +60,26 @@ function collectById(items: readonly NgnActionItem[], into: Map<string, NgnActio
  * @category control
  */
 @Component({
-  selector: 'ngn-command',
+  selector: 'jig-command',
   templateUrl: './command.html',
   imports: [
-    NgnPt,
-    NgnDialog,
-    NgnListBox,
-    NgnInput,
-    NgnInputField,
-    NgnIcon,
-    NgnTemplate,
-    NgnKbd,
-    NgnKeyboardShortcut,
+    JigPt,
+    JigDialog,
+    JigListBox,
+    JigInput,
+    JigInputField,
+    JigIcon,
+    JigTemplate,
+    JigKbd,
+    JigKeyboardShortcut,
   ],
-  providers: [provideSelf(NgnCommand)],
+  providers: [provideSelf(JigCommand)],
 })
-export class NgnCommand extends CommandTemplates {
+export class JigCommand extends CommandTemplates {
   protected readonly theme = this.injectThemeTemplate(commandControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
   private readonly _router = inject(Router, { optional: true });
-  private readonly _listBox = viewChild<NgnListBox<CommandItem[], false>>(NgnListBox);
+  private readonly _listBox = viewChild<JigListBox<CommandItem[], false>>(JigListBox);
   private readonly _searchInput = viewChild<ElementRef<HTMLInputElement>>('searchInput');
 
   protected readonly listBoxId = generateElementId();
@@ -96,7 +96,7 @@ export class NgnCommand extends CommandTemplates {
    * The commands to offer. A top-level entry with `children` renders as a labelled
    * group; leaf entries are the runnable commands.
    */
-  public readonly items = input.required<readonly NgnActionItem[]>();
+  public readonly items = input.required<readonly JigActionItem[]>();
   /**
    * Shows or hides the palette. Bind two-way, or use {@link show} / {@link hide} / {@link toggle}.
    * @default false
@@ -133,7 +133,7 @@ export class NgnCommand extends CommandTemplates {
     maxHeight: '60vh',
   });
   /**
-   * Determines how the palette can be dismissed. See {@link NgnDialog.closeBy}.
+   * Determines how the palette can be dismissed. See {@link JigDialog.closeBy}.
    * @default 'any'
    */
   public readonly closeBy = input<CloseBy>('any');
@@ -142,7 +142,7 @@ export class NgnCommand extends CommandTemplates {
    * Emitted when a command is picked, carrying the original item. The item's
    * `callback` has already run and its `route` has already been navigated.
    */
-  public readonly commandSelected = output<NgnActionItem>();
+  public readonly commandSelected = output<JigActionItem>();
 
   protected readonly placeholderText = computed(
     () => this.placeholder() ?? this.i18n['command_placeholder']()
@@ -156,7 +156,7 @@ export class NgnCommand extends CommandTemplates {
   private readonly _itemsById = computed(() => collectById(this.items(), new Map()));
 
   /** Bindings for every command that configured a shortcut, live page-wide whether the palette is open or not. */
-  protected readonly shortcutBindings = computed<NgnShortcutBinding[]>(() =>
+  protected readonly shortcutBindings = computed<JigShortcutBinding[]>(() =>
     [...this._itemsById().values()].flatMap(item =>
       item.shortcut && !item.children?.length
         ? [

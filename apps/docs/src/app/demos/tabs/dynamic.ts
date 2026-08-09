@@ -1,21 +1,21 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnTabs, NgnTab } from '@ngneers/controls/tabs';
+import { JigButton } from '@awdlab/jig/button';
+import { JigTabs, JigTab } from '@awdlab/jig/tabs';
 
 @Component({
-  imports: [NgnTabs, NgnTab, NgnButton],
-  selector: 'ngn-demo-tabs-dynamic',
+  imports: [JigTabs, JigTab, JigButton],
+  selector: 'jig-demo-tabs-dynamic',
   template: `
-    <ngn-tabs>
+    <jig-tabs>
       @for (tab of tabs(); track tab; let index = $index) {
-        <ngn-tab [tabId]="'tab' + index">
+        <jig-tab [tabId]="'tab' + index">
           <ng-template #header> {{ tab }} </ng-template>
           <ng-template #content> Content for {{ tab }} </ng-template>
-        </ngn-tab>
+        </jig-tab>
       }
-    </ngn-tabs>
-    <button ngnButton (click)="count.set(count() + 1)">Add Tab</button>
-    <button ngnButton (click)="count.set(count() - 1)">Remove Tab</button>
+    </jig-tabs>
+    <button jigButton (click)="count.set(count() + 1)">Add Tab</button>
+    <button jigButton (click)="count.set(count() - 1)">Remove Tab</button>
   `,
 })
 export class Demo_Tabs_Dynamic {

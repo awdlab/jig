@@ -1,18 +1,18 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnEditInplace } from '@ngneers/controls/edit-inplace';
+import { JigEditInplace } from '@awdlab/jig/edit-inplace';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-edit-inplace-playground',
-  imports: [NgnEditInplace, NgnDocsPlayground],
+  selector: 'jig-docs-edit-inplace-playground',
+  imports: [JigEditInplace, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnEditInplace', component: component() }]">
-      <ngn-edit-inplace #ref [value]="value()" (valueChange)="value.set($event)" />
-    </ngn-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'JigEditInplace', component: component() }]">
+      <jig-edit-inplace #ref [value]="value()" (valueChange)="value.set($event)" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsEditInplacePlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnEditInplace });
+export class JigDocsEditInplacePlayground {
+  protected readonly component = viewChild.required('ref', { read: JigEditInplace });
   protected readonly value = signal('Edit me');
 }

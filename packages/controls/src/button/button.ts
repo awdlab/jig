@@ -1,17 +1,17 @@
 import { booleanAttribute, Directive, input } from '@angular/core';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
-import { toggleClass } from '@ngneers/controls/utils';
-import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
+import { JigBase, provideSelf } from '@awdlab/jig/base';
+import { toggleClass } from '@awdlab/jig/utils';
+import { buttonControlTemplate } from '@awdlab/jig-themes/templates/button';
 
 /**
  * @category control
  */
 @Directive({
-  selector: 'button[ngnButton], a[ngnButton]',
-  providers: [provideSelf(NgnButton)],
-  exportAs: 'ngnButton',
+  selector: 'button[jigButton], a[jigButton]',
+  providers: [provideSelf(JigButton)],
+  exportAs: 'jigButton',
 })
-export class NgnButton extends NgnBase<'button'> {
+export class JigButton extends JigBase<'button'> {
   protected readonly theme = this.injectThemeTemplate(buttonControlTemplate, {
     root: true,
     inline: () => this.inline(),
@@ -23,8 +23,8 @@ export class NgnButton extends NgnBase<'button'> {
    */
   public readonly inline = input(false, {
     transform: booleanAttribute,
-    // alias follows the ngn{Directive}{Prop} convention for the `button[ngnButton], a[ngnButton]` selector
-    alias: 'ngnButtonInline',
+    // alias follows the jig{Directive}{Prop} convention for the `button[jigButton], a[jigButton]` selector
+    alias: 'jigButtonInline',
   });
 
   constructor() {

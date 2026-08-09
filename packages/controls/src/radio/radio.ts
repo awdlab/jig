@@ -7,27 +7,27 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
-import { NgnRovingItem } from '@ngneers/controls/roving-focus';
-import { radioControlTemplate } from '@ngneers/controls-themes/templates/radio';
+import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigRovingItem } from '@awdlab/jig/roving-focus';
+import { radioControlTemplate } from '@awdlab/jig-themes/templates/radio';
 
-import { NGN_RADIO_GROUP } from './radio-group.token';
+import { JIG_RADIO_GROUP } from './radio-group.token';
 
 /**
- * A single radio option. Must be projected inside an `ngn-radio-group`, which
+ * A single radio option. Must be projected inside a `jig-radio-group`, which
  * owns the selected value — this control only contributes its {@link value}
  * payload and renders the themed dot. The label is authored via content
- * projection (`<ngn-radio [value]="…">Label</ngn-radio>`) with an optional
+ * projection (`<jig-radio [value]="…">Label</jig-radio>`) with an optional
  * {@link label} input fallback.
  *
  * @category control
  */
 @Component({
-  selector: 'ngn-radio',
+  selector: 'jig-radio',
   templateUrl: './radio.html',
-  imports: [NgnPt],
-  hostDirectives: [NgnRovingItem],
-  providers: [provideSelf(NgnRadio)],
+  imports: [JigPt],
+  hostDirectives: [JigRovingItem],
+  providers: [provideSelf(JigRadio)],
   host: {
     role: 'radio',
     '[attr.aria-checked]': 'checked()',
@@ -35,7 +35,7 @@ import { NGN_RADIO_GROUP } from './radio-group.token';
     '[attr.aria-label]': 'label()',
   },
 })
-export class NgnRadio<V> extends NgnBase<'radio'> {
+export class JigRadio<V> extends JigBase<'radio'> {
   protected readonly theme = this.injectThemeTemplate(radioControlTemplate, {
     root: true,
   });
@@ -47,8 +47,8 @@ export class NgnRadio<V> extends NgnBase<'radio'> {
   /** Optional accessible label; overrides projected content for the a11y name. */
   public readonly label = input<string | null>(null);
 
-  private readonly _group = inject(NGN_RADIO_GROUP);
-  private readonly _rovingItem = inject(NgnRovingItem);
+  private readonly _group = inject(JIG_RADIO_GROUP);
+  private readonly _rovingItem = inject(JigRovingItem);
 
   /** Whether this radio is the currently selected option in its group. */
   protected readonly checked = computed(() => this._group.value() === this.value());

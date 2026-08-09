@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { NgnRovingGroup, NgnRovingItem } from '@ngneers/controls/roving-focus';
+import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
 
 @Component({
-  selector: 'ngn-demo-roving-focus-activedescendant',
-  imports: [NgnRovingGroup, NgnRovingItem],
+  selector: 'jig-demo-roving-focus-activedescendant',
+  imports: [JigRovingGroup, JigRovingItem],
   template: `
     <div
-      ngnRovingGroup
+      jigRovingGroup
       rovingMode="activedescendant"
       orientation="vertical"
       role="listbox"
@@ -16,8 +16,8 @@ import { NgnRovingGroup, NgnRovingItem } from '@ngneers/controls/roving-focus';
     >
       @for (fruit of fruits; track fruit) {
         <div
-          ngnRovingItem
-          #item="ngnRovingItem"
+          jigRovingItem
+          #item="jigRovingItem"
           role="option"
           [attr.aria-selected]="item.isActive()"
           class="option"
@@ -31,17 +31,17 @@ import { NgnRovingGroup, NgnRovingItem } from '@ngneers/controls/roving-focus';
     .listbox {
       width: 220px;
       padding: 4px;
-      border: 1px solid var(--ngn-color-surface-300);
-      border-radius: var(--ngn-size-radius-md);
+      border: 1px solid var(--jig-color-surface-300);
+      border-radius: var(--jig-size-radius-md);
     }
     .option {
       padding: 6px 10px;
-      border-radius: var(--ngn-size-radius-sm);
+      border-radius: var(--jig-size-radius-sm);
       cursor: pointer;
     }
     .option[aria-selected='true'] {
-      background: var(--ngn-color-primary-500);
-      color: var(--ngn-color-primary-500-contrast);
+      background: var(--jig-color-primary-500);
+      color: var(--jig-color-primary-500-contrast);
     }
   `,
 })

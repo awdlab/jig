@@ -1,8 +1,8 @@
-Everything `provideNgnControls` accepts, in one place. The first argument is a
+Everything `provideJigControls` accepts, in one place. The first argument is a
 config object; every following argument is an opt-in feature.
 
 ```ts
-provideNgnControls(config, ...features);
+provideJigControls(config, ...features);
 ```
 
 Only the config is required, and within it only `theme.preset` really matters —
@@ -11,7 +11,7 @@ everything else has a working default.
 ### Config reference
 
 ```ts
-provideNgnControls({
+provideJigControls({
   logLevel: 'info',
   disableAnimations: false,
   respectReducedMotion: true,
@@ -20,8 +20,8 @@ provideNgnControls({
     preset: nova,
     lazyLoaded: false,
     styleScope: null,
-    cssLayer: 'ngn-controls',
-    namePrefix: 'ngn-',
+    cssLayer: 'jig',
+    namePrefix: 'jig-',
   },
   defaults: {
     stateStorage: 'session',
@@ -42,13 +42,13 @@ provideNgnControls({
 
 #### `theme`
 
-| Option       | Type                 | Default          | Description                                                                                                                |
-| ------------ | -------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `preset`     | `Theme \| null`      | `null`           | The theme object (not a name). Required unless `lazyLoaded` is `true` — without one, controls throw.                       |
-| `lazyLoaded` | `boolean`            | `false`          | Suppresses the "no theme" error, for apps that install a theme later at runtime.                                           |
-| `styleScope` | `StyleScope \| null` | `null`           | Selector the token declarations are scoped to. `null` means `:root`. See [Styling & Overrides](/guides/styling-overrides). |
-| `cssLayer`   | `string \| null`     | `'ngn-controls'` | Wraps all generated CSS in a `@layer` of this name. Set to `null` to emit unlayered CSS.                                   |
-| `namePrefix` | `string`             | `'ngn-'`         | Prefix for generated class names and CSS custom properties.                                                                |
+| Option       | Type                 | Default  | Description                                                                                                                |
+| ------------ | -------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `preset`     | `Theme \| null`      | `null`   | The theme object (not a name). Required unless `lazyLoaded` is `true` — without one, controls throw.                       |
+| `lazyLoaded` | `boolean`            | `false`  | Suppresses the "no theme" error, for apps that install a theme later at runtime.                                           |
+| `styleScope` | `StyleScope \| null` | `null`   | Selector the token declarations are scoped to. `null` means `:root`. See [Styling & Overrides](/guides/styling-overrides). |
+| `cssLayer`   | `string \| null`     | `'jig'`  | Wraps all generated CSS in a `@layer` of this name. Set to `null` to emit unlayered CSS.                                   |
+| `namePrefix` | `string`             | `'jig-'` | Prefix for generated class names and CSS custom properties.                                                                |
 
 > `cssLayer` is the lever for specificity. Everything the theme emits sits in
 > one cascade layer, so **any** unlayered CSS of yours wins over it regardless
@@ -57,8 +57,8 @@ provideNgnControls({
 `styleScope` takes a selector descriptor rather than a raw string:
 
 ```ts
-styleScope: { kind: 'class', name: 'my-app' } // .my-app { --ngn-…: … }
-styleScope: { kind: 'attribute', name: 'data-ngn', value: 'on' }
+styleScope: { kind: 'class', name: 'my-app' } // .my-app { --jig-…: … }
+styleScope: { kind: 'attribute', name: 'data-jig', value: 'on' }
 styleScope: { kind: 'id', name: 'app-root' }
 styleScope: { kind: 'tag', name: 'my-app' }
 ```
@@ -72,7 +72,7 @@ larger page you do not own.
 | ----------------------- | ---------------------- | ----------------------- | ------------------------------------------------------------------------------------ |
 | `stateStorage`          | `'local' \| 'session'` | `'session'`             | Where controls persist UI state. See [State Persistence](/guides/state-persistence). |
 | `splitter.stateStorage` | `'local' \| 'session'` | inherits `stateStorage` | Per-control override for the splitter.                                               |
-| `tooltip`               | `TooltipOptions`       | see below               | Default options for every `ngnTooltip`.                                              |
+| `tooltip`               | `TooltipOptions`       | see below               | Default options for every `jigTooltip`.                                              |
 
 Tooltip defaults:
 
@@ -95,13 +95,13 @@ Any of these can still be overridden per tooltip.
 
 Each `with*()` is opt-in — leave it out and none of its code ships.
 
-| Feature                         | From                              | Enables                                                             |
-| ------------------------------- | --------------------------------- | ------------------------------------------------------------------- |
-| `withDefaultIcons()`            | `@ngneers/controls/default-icons` | The built-in Tabler icon set for all semantic slots.                |
-| `withCustomIcons(registry)`     | `@ngneers/controls/icon`          | Your own icon set. See [Icons](/guides/icons).                      |
-| `withAutoColorScheme(options?)` | `@ngneers/controls/api/ng`        | Automatic light/dark switching. See [Dark Mode](/guides/dark-mode). |
-| `withToasts(defaults?)`         | `@ngneers/controls/toast`         | The toast service and host.                                         |
-| `withSnackbars(defaults?)`      | `@ngneers/controls/snackbar`      | The snackbar service and host.                                      |
+| Feature                         | From                        | Enables                                                             |
+| ------------------------------- | --------------------------- | ------------------------------------------------------------------- |
+| `withDefaultIcons()`            | `@awdlab/jig/default-icons` | The built-in Tabler icon set for all semantic slots.                |
+| `withCustomIcons(registry)`     | `@awdlab/jig/icon`          | Your own icon set. See [Icons](/guides/icons).                      |
+| `withAutoColorScheme(options?)` | `@awdlab/jig/api/ng`        | Automatic light/dark switching. See [Dark Mode](/guides/dark-mode). |
+| `withToasts(defaults?)`         | `@awdlab/jig/toast`         | The toast service and host.                                         |
+| `withSnackbars(defaults?)`      | `@awdlab/jig/snackbar`      | The snackbar service and host.                                      |
 
 A control that needs a feature you did not register fails loudly — an icon slot
 with no registry throws at render, and the toast/snackbar managers throw when
@@ -111,19 +111,19 @@ injected without their feature.
 
 ```ts
 import { ApplicationConfig } from '@angular/core';
-import { provideNgnControls, withAutoColorScheme } from '@ngneers/controls/api/ng';
-import { withDefaultIcons } from '@ngneers/controls/default-icons';
-import { withSnackbars } from '@ngneers/controls/snackbar';
-import { withToasts } from '@ngneers/controls/toast';
-import { provideNgnErrorsMessages } from '@ngneers/controls/errors';
-import { nova } from '@ngneers/controls-themes/nova';
+import { provideJigControls, withAutoColorScheme } from '@awdlab/jig/api/ng';
+import { withDefaultIcons } from '@awdlab/jig/default-icons';
+import { withSnackbars } from '@awdlab/jig/snackbar';
+import { withToasts } from '@awdlab/jig/toast';
+import { provideJigErrorsMessages } from '@awdlab/jig/errors';
+import { nova } from '@awdlab/jig-themes/nova';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideNgnControls(
+    provideJigControls(
       {
         logLevel: 'warn',
-        theme: { preset: nova, cssLayer: 'ngn-controls' },
+        theme: { preset: nova, cssLayer: 'jig' },
         defaults: { stateStorage: 'local' },
       },
       withDefaultIcons(),
@@ -131,17 +131,17 @@ export const appConfig: ApplicationConfig = {
       withToasts(),
       withSnackbars()
     ),
-    provideNgnErrorsMessages({ required: 'This field is required.' }),
+    provideJigErrorsMessages({ required: 'This field is required.' }),
   ],
 };
 ```
 
 ### Reading the config
 
-`NGN_CONFIG` is an injection token holding the resolved config, useful when you
+`JIG_CONFIG` is an injection token holding the resolved config, useful when you
 build your own control on top of the library:
 
 ```ts
-const config = inject(NGN_CONFIG);
-config.theme.namePrefix; // 'ngn-'
+const config = inject(JIG_CONFIG);
+config.theme.namePrefix; // 'jig-'
 ```

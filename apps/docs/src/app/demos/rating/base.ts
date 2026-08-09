@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { NgnRating } from '@ngneers/controls/rating';
+import { JigRating } from '@awdlab/jig/rating';
 
 @Component({
-  selector: 'ngn-demo-rating-base',
-  imports: [NgnRating],
+  selector: 'jig-demo-rating-base',
+  imports: [JigRating],
   template: `
-    <ngn-rating [value]="value()" (valueChange)="value.set($event)" />
+    <jig-rating [value]="value()" (valueChange)="value.set($event)" />
     <br />
     {{ value() }}
   `,

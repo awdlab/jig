@@ -7,7 +7,7 @@ import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 
 const TABLE_TEMPLATE: TemplateType = {
   template: `
-    <ngn-table
+    <jig-table
       #table
       style="height: 400px; width: 100%"
       [rows]="inputs().rows"
@@ -16,23 +16,23 @@ const TABLE_TEMPLATE: TemplateType = {
       [(columnOrder)]="inputs().columnOrder"
     >
       <ng-template #header>
-        <tr ngnTableHeadTr>
-          <th [ngnTableTh]="table.column('id')" ngnTableReorderableColumn>ID</th>
-          <th [ngnTableTh]="table.column('name')" ngnTableReorderableColumn>Name</th>
-          <th [ngnTableTh]="table.column('department')" ngnTableReorderableColumn>Department</th>
-          <th [ngnTableTh]="table.column('location')" ngnTableReorderableColumn>Location</th>
+        <tr jigTableHeadTr>
+          <th [jigTableTh]="table.column('id')" jigTableReorderableColumn>ID</th>
+          <th [jigTableTh]="table.column('name')" jigTableReorderableColumn>Name</th>
+          <th [jigTableTh]="table.column('department')" jigTableReorderableColumn>Department</th>
+          <th [jigTableTh]="table.column('location')" jigTableReorderableColumn>Location</th>
         </tr>
       </ng-template>
-      <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-        <tr [ngnTableBodyTr]="row">
-          <td ngnTableTd>{{ row.data.id }}</td>
-          <td ngnTableTd>{{ row.data.name }}</td>
-          <td ngnTableTd>{{ row.data.department }}</td>
-          <td ngnTableTd>{{ row.data.location }}</td>
+      <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+        <tr [jigTableBodyTr]="row">
+          <td jigTableTd>{{ row.data.id }}</td>
+          <td jigTableTd>{{ row.data.name }}</td>
+          <td jigTableTd>{{ row.data.department }}</td>
+          <td jigTableTd>{{ row.data.location }}</td>
         </tr>
       </ng-template>
-    </ngn-table>`,
-  imports: ['tableModule', 'ngnTemplate'],
+    </jig-table>`,
+  imports: ['tableModule', 'jigTemplate'],
 };
 
 function generateRows(count: number) {
@@ -59,20 +59,20 @@ async function loadTable(
   const handle = await loadComponent(page, TABLE_TEMPLATE, {
     inputs: { ...DEFAULT_INPUTS, ...inputOverrides },
   });
-  await expect(page.locator('ngn-table')).toBeVisible({ timeout: 10000 });
+  await expect(page.locator('jig-table')).toBeVisible({ timeout: 10000 });
   await page.waitForTimeout(200);
   return handle;
 }
 
 async function getHeaderTexts(page: import('@playwright/test').Page) {
   return page.evaluate(() => {
-    const table = document.querySelector('ngn-table table');
+    const table = document.querySelector('jig-table table');
     if (!table) return [];
     const headers = table.querySelectorAll('th');
     // Sort by computed grid-column-start to get visual order
     const headerData = Array.from(headers).map(h => ({
       text: h.textContent?.trim() || '',
-      colStart: parseInt(getComputedStyle(h).getPropertyValue('--ngn-table-column-index') || '0'),
+      colStart: parseInt(getComputedStyle(h).getPropertyValue('--jig-table-column-index') || '0'),
     }));
     headerData.sort((a, b) => a.colStart - b.colStart);
     return headerData.map(h => h.text);
@@ -81,11 +81,11 @@ async function getHeaderTexts(page: import('@playwright/test').Page) {
 
 async function getColumnStarts(page: import('@playwright/test').Page) {
   return page.evaluate(() => {
-    const table = document.querySelector('ngn-table table');
+    const table = document.querySelector('jig-table table');
     if (!table) return [];
     const headers = table.querySelectorAll('th');
     return Array.from(headers).map(h => {
-      const style = h.style.getPropertyValue('--ngn-table-column-index');
+      const style = h.style.getPropertyValue('--jig-table-column-index');
       return parseInt(style || '0');
     });
   });
@@ -96,7 +96,7 @@ async function dragHeader(
   fromIndex: number,
   toIndex: number
 ) {
-  const headers = page.locator('ngn-table th');
+  const headers = page.locator('jig-table th');
   const fromHeader = headers.nth(fromIndex);
   const toHeader = headers.nth(toIndex);
 
@@ -152,7 +152,7 @@ test('table column reorder - basic drag reorders columns', async ({ page }) => {
 test('table column reorder - drop indicator visible during drag', async ({ page }) => {
   await loadTable(page);
 
-  const headers = page.locator('ngn-table th');
+  const headers = page.locator('jig-table th');
   const fromHeader = headers.nth(2); // Department
 
   const fromBox = await fromHeader.boundingBox();
@@ -186,7 +186,7 @@ test('table column reorder - cancel via Escape', async ({ page }) => {
 
   const initialColStarts = await getColumnStarts(page);
 
-  const headers = page.locator('ngn-table th');
+  const headers = page.locator('jig-table th');
   const fromHeader = headers.nth(2); // Department
 
   const fromBox = await fromHeader.boundingBox();
@@ -231,7 +231,7 @@ test('table column reorder - dead zone prevents accidental drag', async ({ page 
 
   const initialColStarts = await getColumnStarts(page);
 
-  const headers = page.locator('ngn-table th');
+  const headers = page.locator('jig-table th');
   const fromHeader = headers.nth(1);
 
   const fromBox = await fromHeader.boundingBox();
@@ -262,13 +262,13 @@ test('table column reorder - body cells follow header order', async ({ page }) =
 
   // Check that body cells also have reordered column indices
   const bodyCellStarts = await page.evaluate(() => {
-    const table = document.querySelector('ngn-table table');
+    const table = document.querySelector('jig-table table');
     if (!table) return [];
     const firstRow = table.querySelector('tbody tr');
     if (!firstRow) return [];
     const cells = firstRow.querySelectorAll('td');
     return Array.from(cells).map(c => {
-      const style = c.style.getPropertyValue('--ngn-table-column-index');
+      const style = c.style.getPropertyValue('--jig-table-column-index');
       return parseInt(style || '0');
     });
   });
@@ -294,7 +294,7 @@ test('table column reorder - body cells stay vertically aligned after reorder', 
   // missing explicit grid-row let CSS grid auto-placement push the mis-ordered
   // cell onto an implicit extra row, offsetting it vertically.
   const tops = await page.evaluate(() => {
-    const table = document.querySelector('ngn-table table');
+    const table = document.querySelector('jig-table table');
     if (!table) return [];
     const firstRow = Array.from(table.querySelectorAll('tbody tr')).find(tr =>
       tr.querySelector('td')

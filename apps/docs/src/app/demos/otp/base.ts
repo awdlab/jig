@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { NgnOtp } from '@ngneers/controls/otp';
+import { JigOtp } from '@awdlab/jig/otp';
 
 @Component({
-  imports: [NgnOtp],
-  selector: 'ngn-demo-otp-base',
+  imports: [JigOtp],
+  selector: 'jig-demo-otp-base',
   template: `
-    <ngn-otp
+    <jig-otp
       [length]="6"
       integerOnly
       label="One-time password"

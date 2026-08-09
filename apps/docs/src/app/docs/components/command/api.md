@@ -1,1 +1,1 @@
-{{ api: command/command NgnCommand }}
+{{ api: command/command JigCommand }}

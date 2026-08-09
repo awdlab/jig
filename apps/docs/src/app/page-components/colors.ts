@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'ngn-docs-theme-colors',
+  selector: 'jig-docs-theme-colors',
 
   template: `
     <div class="main-wrapper">
@@ -11,7 +11,7 @@ import { Component } from '@angular/core';
           @for (shade of shades; track shade; let i = $index) {
             <span
               class="color-block"
-              style="background: var(--ngn-color-{{ color }}-{{ shade }})"
+              style="background: var(--jig-color-{{ color }}-{{ shade }})"
               [class.dark]="i > colors.length / 2"
             >
               {{ shade }}
@@ -41,12 +41,12 @@ import { Component } from '@angular/core';
       width: 50px;
       height: 50px;
       &.dark {
-        color: var(--ngn-color-background);
+        color: var(--jig-color-background);
       }
     }
   `,
 })
-export class NgnThemeColorsDemo {
+export class JigThemeColorsDemo {
   constructor() {}
 
   protected readonly colors = [

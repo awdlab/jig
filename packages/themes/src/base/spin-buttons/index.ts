@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { spinButtonsControlTemplate } from '@ngneers/controls-themes/templates/spin-buttons';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { spinButtonsControlTemplate } from '@awdlab/jig-themes/templates/spin-buttons';
 
 export const spinButtonsStyles = createThemePart({
   controlTemplate: spinButtonsControlTemplate,

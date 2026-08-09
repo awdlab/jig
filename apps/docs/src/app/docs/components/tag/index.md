@@ -1,6 +1,6 @@
 The Tag is a small, **non-interactive** label for a piece of metadata — a
 category, a status, a keyword. Put the label between the tags
-(`<ngn-tag>Draft</ngn-tag>`), optionally set a leading `icon`, and use the
+(`<jig-tag>Draft</jig-tag>`), optionally set a leading `icon`, and use the
 shared `kind` and `color` inputs to select a themed variant.
 
 A tag carries no click, close, or focus behaviour — it is display only. When the

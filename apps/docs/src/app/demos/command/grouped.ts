@@ -27,22 +27,22 @@ import tablerUpload from '@iconify/icons-tabler/upload';
 import tablerUser from '@iconify/icons-tabler/user';
 import tablerUsers from '@iconify/icons-tabler/users';
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnCommand } from '@ngneers/controls/command';
+import { JigButton } from '@awdlab/jig/button';
+import { JigCommand } from '@awdlab/jig/command';
 
-import type { NgnActionItem } from '@ngneers/controls/api';
+import type { JigActionItem } from '@awdlab/jig/api';
 
 @Component({
-  imports: [NgnCommand, NgnButton],
-  selector: 'ngn-demo-command-grouped-demo',
+  imports: [JigCommand, JigButton],
+  selector: 'jig-demo-command-grouped-demo',
   template: `
-    <button ngnButton (click)="open.set(true)">Open palette</button>
-    <ngn-command [items]="items" [(open)]="open" />
+    <button jigButton (click)="open.set(true)">Open palette</button>
+    <jig-command [items]="items" [(open)]="open" />
   `,
 })
 export class Demo_Command_Grouped {
   protected readonly open = signal(false);
-  protected readonly items: NgnActionItem[] = [
+  protected readonly items: JigActionItem[] = [
     {
       id: 'navigation',
       label: 'Navigation',

@@ -1,8 +1,8 @@
 import { expect, type Locator } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
-import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scroller';
+import { scrollerControlTemplate } from '@awdlab/jig-themes/templates/scroller';
 
-export class NgnScrollerHarness {
+export class JigScrollerHarness {
   public readonly classes = themeClasses(scrollerControlTemplate);
   public readonly scrollarea: Locator;
   public readonly item: Locator;

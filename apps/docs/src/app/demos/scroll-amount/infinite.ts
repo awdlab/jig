@@ -1,17 +1,17 @@
 import { Component, signal } from '@angular/core';
-import { NgnScrollAmount } from '@ngneers/controls/directives';
-import { NgnSpinner } from '@ngneers/controls/spinner';
+import { JigScrollAmount } from '@awdlab/jig/directives';
+import { JigSpinner } from '@awdlab/jig/spinner';
 
 @Component({
-  selector: 'ngn-demo-scroll-amount-infinite',
-  imports: [NgnScrollAmount, NgnSpinner],
+  selector: 'jig-demo-scroll-amount-infinite',
+  imports: [JigScrollAmount, JigSpinner],
   template: `
-    <div ngnScrollAmount [ngnScrollAmountEndThreshold]="120" (endReached)="loadMore()" class="list">
+    <div jigScrollAmount [jigScrollAmountEndThreshold]="120" (endReached)="loadMore()" class="list">
       @for (row of rows(); track row) {
         <div class="row">Row {{ row }}</div>
       }
       @if (loading()) {
-        <div class="row loading"><ngn-spinner /> Loading…</div>
+        <div class="row loading"><jig-spinner /> Loading…</div>
       }
     </div>
   `,
@@ -19,12 +19,12 @@ import { NgnSpinner } from '@ngneers/controls/spinner';
     .list {
       height: 220px;
       overflow: auto;
-      border: 1px solid var(--ngn-color-surface-300);
-      border-radius: var(--ngn-size-radius-md);
+      border: 1px solid var(--jig-color-surface-300);
+      border-radius: var(--jig-size-radius-md);
     }
     .row {
       padding: 10px 14px;
-      border-bottom: 1px solid var(--ngn-color-surface-200);
+      border-bottom: 1px solid var(--jig-color-surface-200);
     }
     .loading {
       display: flex;

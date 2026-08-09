@@ -14,7 +14,7 @@ const TABLE_ROWS = [
 ];
 
 const TABLE_TEMPLATE = `
-  <ngn-table
+  <jig-table
     #table
     style="height: 400px"
     [rows]="inputs().rows"
@@ -22,24 +22,24 @@ const TABLE_TEMPLATE = `
     [selectionMode]="inputs().selectionMode"
   >
     <ng-template #header>
-      <tr ngnTableHeadTr>
-        <th [ngnTableTh]="table.column('id')">ID</th>
-        <th [ngnTableTh]="table.column('name')">Name</th>
-        <th [ngnTableTh]="table.column('dept')">Dept</th>
+      <tr jigTableHeadTr>
+        <th [jigTableTh]="table.column('id')">ID</th>
+        <th [jigTableTh]="table.column('name')">Name</th>
+        <th [jigTableTh]="table.column('dept')">Dept</th>
       </tr>
     </ng-template>
-    <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-      <tr [ngnTableBodyTr]="row">
-        <td ngnTableTd>{{ row.data.id }}</td>
-        <td ngnTableTd>{{ row.data.name }}</td>
-        <td ngnTableTd>{{ row.data.dept }}</td>
+    <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+      <tr [jigTableBodyTr]="row">
+        <td jigTableTd>{{ row.data.id }}</td>
+        <td jigTableTd>{{ row.data.name }}</td>
+        <td jigTableTd>{{ row.data.dept }}</td>
       </tr>
     </ng-template>
-  </ngn-table>
+  </jig-table>
 `;
 
 const TABLE_TEMPLATE_WITH_SELECTION = `
-  <ngn-table
+  <jig-table
     #table
     style="height: 400px"
     [rows]="inputs().rows"
@@ -47,22 +47,22 @@ const TABLE_TEMPLATE_WITH_SELECTION = `
     [selectionMode]="inputs().selectionMode"
   >
     <ng-template #header>
-      <tr ngnTableHeadTr>
-        <th ngnTableSelectionColumn></th>
-        <th [ngnTableTh]="table.column('id')">ID</th>
-        <th [ngnTableTh]="table.column('name')">Name</th>
-        <th [ngnTableTh]="table.column('dept')">Dept</th>
+      <tr jigTableHeadTr>
+        <th jigTableSelectionColumn></th>
+        <th [jigTableTh]="table.column('id')">ID</th>
+        <th [jigTableTh]="table.column('name')">Name</th>
+        <th [jigTableTh]="table.column('dept')">Dept</th>
       </tr>
     </ng-template>
-    <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-      <tr [ngnTableBodyTr]="row">
-        <td ngnTableSelectionColumn></td>
-        <td ngnTableTd>{{ row.data.id }}</td>
-        <td ngnTableTd>{{ row.data.name }}</td>
-        <td ngnTableTd>{{ row.data.dept }}</td>
+    <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+      <tr [jigTableBodyTr]="row">
+        <td jigTableSelectionColumn></td>
+        <td jigTableTd>{{ row.data.id }}</td>
+        <td jigTableTd>{{ row.data.name }}</td>
+        <td jigTableTd>{{ row.data.dept }}</td>
       </tr>
     </ng-template>
-  </ngn-table>
+  </jig-table>
 `;
 
 function getBodyRows(page: import('@playwright/test').Page) {
@@ -75,7 +75,7 @@ test.describe('Table Selection - Single Mode', () => {
       page,
       {
         template: TABLE_TEMPLATE,
-        imports: ['tableModule', 'ngnTemplate'],
+        imports: ['tableModule', 'jigTemplate'],
       },
       {
         inputs: { rows: TABLE_ROWS, selectionMode: 'single' },
@@ -95,7 +95,7 @@ test.describe('Table Selection - Single Mode', () => {
       page,
       {
         template: TABLE_TEMPLATE,
-        imports: ['tableModule', 'ngnTemplate'],
+        imports: ['tableModule', 'jigTemplate'],
       },
       {
         inputs: { rows: TABLE_ROWS, selectionMode: 'single' },
@@ -116,7 +116,7 @@ test.describe('Table Selection - Single Mode', () => {
       page,
       {
         template: TABLE_TEMPLATE,
-        imports: ['tableModule', 'ngnTemplate'],
+        imports: ['tableModule', 'jigTemplate'],
       },
       {
         inputs: { rows: TABLE_ROWS, selectionMode: 'single' },
@@ -126,7 +126,7 @@ test.describe('Table Selection - Single Mode', () => {
     // Anchor on the rendered rows first so the negative assertion runs against a
     // fully-rendered table, not a not-yet-mounted one (which would pass trivially).
     await expect(getBodyRows(page)).toHaveCount(TABLE_ROWS.length);
-    await expect(page.locator('ngn-checkbox')).toHaveCount(0);
+    await expect(page.locator('jig-checkbox')).toHaveCount(0);
   });
 });
 
@@ -136,7 +136,7 @@ test.describe('Table Selection - Multi Mode', () => {
       page,
       {
         template: TABLE_TEMPLATE_WITH_SELECTION,
-        imports: ['tableModule', 'ngnTemplate', 'tableSelectionColumn'],
+        imports: ['tableModule', 'jigTemplate', 'tableSelectionColumn'],
       },
       {
         inputs: { rows: TABLE_ROWS, selectionMode: 'multi' },
@@ -144,7 +144,7 @@ test.describe('Table Selection - Multi Mode', () => {
     );
 
     // Header checkbox + 5 row checkboxes
-    const checkboxes = page.locator('ngn-checkbox');
+    const checkboxes = page.locator('jig-checkbox');
     await expect(checkboxes).toHaveCount(6);
   });
 
@@ -153,7 +153,7 @@ test.describe('Table Selection - Multi Mode', () => {
       page,
       {
         template: TABLE_TEMPLATE_WITH_SELECTION,
-        imports: ['tableModule', 'ngnTemplate', 'tableSelectionColumn'],
+        imports: ['tableModule', 'jigTemplate', 'tableSelectionColumn'],
       },
       {
         inputs: { rows: TABLE_ROWS, selectionMode: 'multi' },
@@ -174,7 +174,7 @@ test.describe('Table Selection - Multi Mode', () => {
       page,
       {
         template: TABLE_TEMPLATE_WITH_SELECTION,
-        imports: ['tableModule', 'ngnTemplate', 'tableSelectionColumn'],
+        imports: ['tableModule', 'jigTemplate', 'tableSelectionColumn'],
       },
       {
         inputs: { rows: TABLE_ROWS, selectionMode: 'multi' },
@@ -194,7 +194,7 @@ test.describe('Table Selection - Multi Mode', () => {
       page,
       {
         template: TABLE_TEMPLATE_WITH_SELECTION,
-        imports: ['tableModule', 'ngnTemplate', 'tableSelectionColumn'],
+        imports: ['tableModule', 'jigTemplate', 'tableSelectionColumn'],
       },
       {
         inputs: { rows: TABLE_ROWS, selectionMode: 'multi' },
@@ -216,14 +216,14 @@ test.describe('Table Selection - No Selection Mode', () => {
       page,
       {
         template: TABLE_TEMPLATE,
-        imports: ['tableModule', 'ngnTemplate'],
+        imports: ['tableModule', 'jigTemplate'],
       },
       {
         inputs: { rows: TABLE_ROWS, selectionMode: null },
       }
     );
 
-    await expect(page.locator('ngn-table')).toBeVisible();
+    await expect(page.locator('jig-table')).toBeVisible();
     const firstRow = page.locator('tbody tr').first();
     await expect(firstRow).toBeVisible();
     await expect(firstRow).not.toHaveAttribute('aria-selected');
@@ -234,7 +234,7 @@ test.describe('Table Selection - No Selection Mode', () => {
       page,
       {
         template: TABLE_TEMPLATE,
-        imports: ['tableModule', 'ngnTemplate'],
+        imports: ['tableModule', 'jigTemplate'],
       },
       {
         inputs: { rows: TABLE_ROWS, selectionMode: null },
@@ -246,27 +246,27 @@ test.describe('Table Selection - No Selection Mode', () => {
 });
 
 const TABLE_TEMPLATE_SORTABLE = `
-  <ngn-table
+  <jig-table
     #table
     style="height: 400px"
     [rows]="inputs().rows"
     [fieldId]="'id'"
   >
     <ng-template #header>
-      <tr ngnTableHeadTr>
-        <th [ngnTableTh]="table.column('id')">ID</th>
-        <th [ngnTableTh]="table.column('name')" [ngnTableSortableColumn]>Name</th>
-        <th [ngnTableTh]="table.column('dept')">Dept</th>
+      <tr jigTableHeadTr>
+        <th [jigTableTh]="table.column('id')">ID</th>
+        <th [jigTableTh]="table.column('name')" [jigTableSortableColumn]>Name</th>
+        <th [jigTableTh]="table.column('dept')">Dept</th>
       </tr>
     </ng-template>
-    <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-      <tr [ngnTableBodyTr]="row">
-        <td ngnTableTd>{{ row.data.id }}</td>
-        <td ngnTableTd>{{ row.data.name }}</td>
-        <td ngnTableTd>{{ row.data.dept }}</td>
+    <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+      <tr [jigTableBodyTr]="row">
+        <td jigTableTd>{{ row.data.id }}</td>
+        <td jigTableTd>{{ row.data.name }}</td>
+        <td jigTableTd>{{ row.data.dept }}</td>
       </tr>
     </ng-template>
-  </ngn-table>
+  </jig-table>
 `;
 
 test.describe('Table Accessibility - grid roles', () => {
@@ -275,7 +275,7 @@ test.describe('Table Accessibility - grid roles', () => {
     // these explicit roles restore them for assistive tech.
     await loadComponent(
       page,
-      { template: TABLE_TEMPLATE, imports: ['tableModule', 'ngnTemplate'] },
+      { template: TABLE_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
       { inputs: { rows: TABLE_ROWS, selectionMode: null } }
     );
 
@@ -298,13 +298,13 @@ test.describe('Table Accessibility - aria-sort', () => {
       page,
       {
         template: TABLE_TEMPLATE_SORTABLE,
-        imports: ['tableModule', 'ngnTemplate', 'tableSortableColumn'],
+        imports: ['tableModule', 'jigTemplate', 'tableSortableColumn'],
       },
       { inputs: { rows: TABLE_ROWS } }
     );
 
     // The sortable column is the only header carrying aria-sort. (The
-    // `[ngnTableSortableColumn]` binding is a property, not a DOM attribute, so
+    // `[jigTableSortableColumn]` binding is a property, not a DOM attribute, so
     // it can't be used as a selector.)
     const sortable = page.locator('th[aria-sort]');
     await expect(sortable).toHaveAttribute('aria-sort', 'none');
@@ -324,7 +324,7 @@ test.describe('Table Accessibility - aria-sort', () => {
       page,
       {
         template: TABLE_TEMPLATE_SORTABLE,
-        imports: ['tableModule', 'ngnTemplate', 'tableSortableColumn'],
+        imports: ['tableModule', 'jigTemplate', 'tableSortableColumn'],
       },
       { inputs: { rows: TABLE_ROWS } }
     );
@@ -340,7 +340,7 @@ test.describe('Table Accessibility - axe', () => {
       page,
       {
         template: TABLE_TEMPLATE_WITH_SELECTION,
-        imports: ['tableModule', 'ngnTemplate', 'tableSelectionColumn'],
+        imports: ['tableModule', 'jigTemplate', 'tableSelectionColumn'],
       },
       { inputs: { rows: TABLE_ROWS, selectionMode: 'multi' } }
     );
@@ -349,7 +349,7 @@ test.describe('Table Accessibility - axe', () => {
 });
 
 const LAZY_TABLE_TEMPLATE = `
-  <ngn-table
+  <jig-table
     #table
     style="height: 300px"
     [fieldId]="'id'"
@@ -357,20 +357,20 @@ const LAZY_TABLE_TEMPLATE = `
     [dataSource]="inputs().dataSource"
   >
     <ng-template #header>
-      <tr ngnTableHeadTr>
-        <th [ngnTableTh]="table.column('id')">ID</th>
+      <tr jigTableHeadTr>
+        <th [jigTableTh]="table.column('id')">ID</th>
       </tr>
     </ng-template>
-    <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-      <tr [ngnTableBodyTr]="row">
-        <td ngnTableTd>{{ row.data.id }}</td>
+    <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+      <tr [jigTableBodyTr]="row">
+        <td jigTableTd>{{ row.data.id }}</td>
       </tr>
     </ng-template>
-  </ngn-table>
+  </jig-table>
 `;
 
 const LAZY_TABLE_TEMPLATE_SORT = `
-  <ngn-table
+  <jig-table
     #table
     style="height: 300px"
     [fieldId]="'id'"
@@ -379,16 +379,16 @@ const LAZY_TABLE_TEMPLATE_SORT = `
     [sort]="inputs().sort"
   >
     <ng-template #header>
-      <tr ngnTableHeadTr>
-        <th [ngnTableTh]="table.column('id')">ID</th>
+      <tr jigTableHeadTr>
+        <th [jigTableTh]="table.column('id')">ID</th>
       </tr>
     </ng-template>
-    <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-      <tr [ngnTableBodyTr]="row">
-        <td ngnTableTd>{{ row.data.id }}</td>
+    <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+      <tr [jigTableBodyTr]="row">
+        <td jigTableTd>{{ row.data.id }}</td>
       </tr>
     </ng-template>
-  </ngn-table>
+  </jig-table>
 `;
 
 test.describe('Table Lazy - pagination', () => {
@@ -397,7 +397,7 @@ test.describe('Table Lazy - pagination', () => {
       page,
       {
         template: LAZY_TABLE_TEMPLATE,
-        imports: ['tableModule', 'ngnTemplate'],
+        imports: ['tableModule', 'jigTemplate'],
       },
       {
         inputs: {
@@ -425,7 +425,7 @@ test.describe('Table Lazy - pagination', () => {
       page,
       {
         template: LAZY_TABLE_TEMPLATE_SORT,
-        imports: ['tableModule', 'ngnTemplate'],
+        imports: ['tableModule', 'jigTemplate'],
       },
       {
         inputs: {
@@ -476,7 +476,7 @@ test.describe('Table Lazy - pagination', () => {
       page,
       {
         template: LAZY_TABLE_TEMPLATE,
-        imports: ['tableModule', 'ngnTemplate'],
+        imports: ['tableModule', 'jigTemplate'],
       },
       {
         inputs: {
@@ -510,7 +510,7 @@ test.describe('Table Lazy - pagination', () => {
       page,
       {
         template: LAZY_TABLE_TEMPLATE,
-        imports: ['tableModule', 'ngnTemplate'],
+        imports: ['tableModule', 'jigTemplate'],
       },
       {
         inputs: {
@@ -534,7 +534,7 @@ test.describe('Table Lazy - pagination', () => {
     }
 
     // The ghost bar must have a real, non-zero height in non-virtual mode
-    // (regression: it previously collapsed because --ngn-table-row-height is
+    // (regression: it previously collapsed because --jig-table-row-height is
     // unset without [virtual], and the row height now falls back to
     // line-height + padding).
     const ghostBox = await skeletonRows.first().locator('td[class*="skeleton-cell"]').boundingBox();
@@ -557,7 +557,7 @@ test.describe('Table Lazy - pagination', () => {
       page,
       {
         template: LAZY_TABLE_TEMPLATE,
-        imports: ['tableModule', 'ngnTemplate'],
+        imports: ['tableModule', 'jigTemplate'],
       },
       {
         inputs: {
@@ -601,7 +601,7 @@ test.describe('Table Lazy - pagination', () => {
 });
 
 const LAZY_TABLE_TEMPLATE_CUSTOM_ERROR = `
-  <ngn-table
+  <jig-table
     #table
     style="height: 300px"
     [fieldId]="'id'"
@@ -609,13 +609,13 @@ const LAZY_TABLE_TEMPLATE_CUSTOM_ERROR = `
     [dataSource]="inputs().dataSource"
   >
     <ng-template #header>
-      <tr ngnTableHeadTr>
-        <th [ngnTableTh]="table.column('id')">ID</th>
+      <tr jigTableHeadTr>
+        <th [jigTableTh]="table.column('id')">ID</th>
       </tr>
     </ng-template>
-    <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-      <tr [ngnTableBodyTr]="row">
-        <td ngnTableTd>{{ row.data.id }}</td>
+    <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+      <tr [jigTableBodyTr]="row">
+        <td jigTableTd>{{ row.data.id }}</td>
       </tr>
     </ng-template>
     <ng-template #error let-ctx>
@@ -626,7 +626,7 @@ const LAZY_TABLE_TEMPLATE_CUSTOM_ERROR = `
         </td>
       </tr>
     </ng-template>
-  </ngn-table>
+  </jig-table>
 `;
 
 // A rejecting dataSource renders an error row; Retry re-issues the loader.
@@ -638,7 +638,7 @@ test.describe('Table Lazy - error + retry', () => {
       page,
       {
         template: LAZY_TABLE_TEMPLATE,
-        imports: ['tableModule', 'ngnTemplate'],
+        imports: ['tableModule', 'jigTemplate'],
       },
       {
         inputs: {
@@ -684,7 +684,7 @@ test.describe('Table Lazy - error + retry', () => {
       page,
       {
         template: LAZY_TABLE_TEMPLATE_CUSTOM_ERROR,
-        imports: ['tableModule', 'ngnTemplate'],
+        imports: ['tableModule', 'jigTemplate'],
       },
       {
         inputs: {
@@ -721,7 +721,7 @@ test.describe('Table Lazy - error + retry', () => {
 });
 
 const INFINITE_TABLE_TEMPLATE = `
-  <ngn-table
+  <jig-table
     #table
     style="height: 300px"
     [fieldId]="'id'"
@@ -730,16 +730,16 @@ const INFINITE_TABLE_TEMPLATE = `
     [dataSource]="inputs().dataSource"
   >
     <ng-template #header>
-      <tr ngnTableHeadTr>
-        <th [ngnTableTh]="table.column('id')">ID</th>
+      <tr jigTableHeadTr>
+        <th [jigTableTh]="table.column('id')">ID</th>
       </tr>
     </ng-template>
-    <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-      <tr [ngnTableBodyTr]="row">
-        <td ngnTableTd>{{ row.data.id }}</td>
+    <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+      <tr [jigTableBodyTr]="row">
+        <td jigTableTd>{{ row.data.id }}</td>
       </tr>
     </ng-template>
-  </ngn-table>
+  </jig-table>
 `;
 
 test.describe('Table Lazy - infinite scroll', () => {
@@ -751,7 +751,7 @@ test.describe('Table Lazy - infinite scroll', () => {
       page,
       {
         template: INFINITE_TABLE_TEMPLATE,
-        imports: ['tableModule', 'ngnTemplate'],
+        imports: ['tableModule', 'jigTemplate'],
       },
       {
         inputs: {
@@ -774,7 +774,7 @@ test.describe('Table Lazy - infinite scroll', () => {
 
     const callCount = () =>
       page.evaluate(() => ((window as any).__infCalls ?? []).length as number);
-    const scrollContainer = page.locator('ngn-table table');
+    const scrollContainer = page.locator('jig-table table');
     const scrollToBottom = () =>
       scrollContainer.evaluate(el => {
         el.scrollTop = el.scrollHeight;
@@ -782,7 +782,7 @@ test.describe('Table Lazy - infinite scroll', () => {
     // Virtual keeps only a window in the DOM, so read counts off the lazy model.
     const lazyState = () =>
       page.evaluate(() => {
-        const el = document.querySelector('ngn-table');
+        const el = document.querySelector('jig-table');
         const comp = el && (window as any).ng.getComponent(el);
         // Poll may fire before the component mounts; return null so expect.poll retries.
         if (!comp?._lazyModel) return null;
@@ -817,7 +817,7 @@ test.describe('Table Lazy - infinite scroll', () => {
       page,
       {
         template: INFINITE_TABLE_TEMPLATE,
-        imports: ['tableModule', 'ngnTemplate'],
+        imports: ['tableModule', 'jigTemplate'],
       },
       {
         inputs: {
@@ -840,14 +840,14 @@ test.describe('Table Lazy - infinite scroll', () => {
 
     const callCount = () =>
       page.evaluate(() => ((window as any).__infCalls ?? []).length as number);
-    const scrollContainer = page.locator('ngn-table table');
+    const scrollContainer = page.locator('jig-table table');
     const scrollToBottom = () =>
       scrollContainer.evaluate(el => {
         el.scrollTop = el.scrollHeight;
       });
     const lazyState = () =>
       page.evaluate(() => {
-        const el = document.querySelector('ngn-table');
+        const el = document.querySelector('jig-table');
         const comp = el && (window as any).ng.getComponent(el);
         // Poll may fire before the component mounts; return null so expect.poll retries.
         if (!comp?._lazyModel) return null;
@@ -878,7 +878,7 @@ test.describe('Table Lazy - infinite scroll', () => {
 });
 
 const INFINITE_TABLE_TEMPLATE_WITH_SELECTION = `
-  <ngn-table
+  <jig-table
     #table
     style="height: 300px"
     [fieldId]="'id'"
@@ -888,22 +888,22 @@ const INFINITE_TABLE_TEMPLATE_WITH_SELECTION = `
     [selectionMode]="inputs().selectionMode"
   >
     <ng-template #header>
-      <tr ngnTableHeadTr>
-        <th ngnTableSelectionColumn></th>
-        <th [ngnTableTh]="table.column('id')">ID</th>
+      <tr jigTableHeadTr>
+        <th jigTableSelectionColumn></th>
+        <th [jigTableTh]="table.column('id')">ID</th>
       </tr>
     </ng-template>
-    <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-      <tr [ngnTableBodyTr]="row">
-        <td ngnTableSelectionColumn></td>
-        <td ngnTableTd>{{ row.data.id }}</td>
+    <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+      <tr [jigTableBodyTr]="row">
+        <td jigTableSelectionColumn></td>
+        <td jigTableTd>{{ row.data.id }}</td>
       </tr>
     </ng-template>
-  </ngn-table>
+  </jig-table>
 `;
 
 const LAZY_TABLE_TEMPLATE_WITH_SELECTION = `
-  <ngn-table
+  <jig-table
     #table
     style="height: 300px"
     [fieldId]="'id'"
@@ -912,18 +912,18 @@ const LAZY_TABLE_TEMPLATE_WITH_SELECTION = `
     [selectionMode]="inputs().selectionMode"
   >
     <ng-template #header>
-      <tr ngnTableHeadTr>
-        <th ngnTableSelectionColumn></th>
-        <th [ngnTableTh]="table.column('id')">ID</th>
+      <tr jigTableHeadTr>
+        <th jigTableSelectionColumn></th>
+        <th [jigTableTh]="table.column('id')">ID</th>
       </tr>
     </ng-template>
-    <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-      <tr [ngnTableBodyTr]="row">
-        <td ngnTableSelectionColumn></td>
-        <td ngnTableTd>{{ row.data.id }}</td>
+    <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+      <tr [jigTableBodyTr]="row">
+        <td jigTableSelectionColumn></td>
+        <td jigTableTd>{{ row.data.id }}</td>
       </tr>
     </ng-template>
-  </ngn-table>
+  </jig-table>
 `;
 
 // Infinite mode never loads the full set, so the header checkbox flips
@@ -936,7 +936,7 @@ test.describe('Table Selection - infinite lazy mode (select-all-matching)', () =
       page,
       {
         template: INFINITE_TABLE_TEMPLATE_WITH_SELECTION,
-        imports: ['tableModule', 'ngnTemplate', 'tableSelectionColumn'],
+        imports: ['tableModule', 'jigTemplate', 'tableSelectionColumn'],
       },
       {
         inputs: {
@@ -959,7 +959,7 @@ test.describe('Table Selection - infinite lazy mode (select-all-matching)', () =
 
     const tableState = () =>
       page.evaluate(() => {
-        const el = document.querySelector('ngn-table');
+        const el = document.querySelector('jig-table');
         const comp = el && (window as any).ng.getComponent(el);
         // Poll may fire before the component mounts; return null so expect.poll retries.
         if (!comp?._lazyModel) return null;
@@ -974,8 +974,8 @@ test.describe('Table Selection - infinite lazy mode (select-all-matching)', () =
     const rows = getBodyRows(page);
     await expect.poll(tableState).toEqual({ selectAllMatching: false, selection: [], loaded: 25 });
 
-    // Header checkbox is the first ngn-checkbox.
-    const headerCheckbox = page.locator('ngn-checkbox').first();
+    // Header checkbox is the first jig-checkbox.
+    const headerCheckbox = page.locator('jig-checkbox').first();
     await headerCheckbox.click();
 
     await expect.poll(tableState).toEqual({ selectAllMatching: true, selection: [], loaded: 25 });
@@ -997,7 +997,7 @@ test.describe('Table Selection - pagination lazy mode (unchanged)', () => {
       page,
       {
         template: LAZY_TABLE_TEMPLATE_WITH_SELECTION,
-        imports: ['tableModule', 'ngnTemplate', 'tableSelectionColumn'],
+        imports: ['tableModule', 'jigTemplate', 'tableSelectionColumn'],
       },
       {
         inputs: {
@@ -1012,13 +1012,13 @@ test.describe('Table Selection - pagination lazy mode (unchanged)', () => {
     const rows = getBodyRows(page);
     await expect(rows).toHaveCount(2);
 
-    await page.locator('ngn-checkbox').first().click();
+    await page.locator('jig-checkbox').first().click();
 
     await expect(rows.nth(0)).toHaveAttribute('aria-selected', 'true');
     await expect(rows.nth(1)).toHaveAttribute('aria-selected', 'true');
 
     const selectAllMatching = await page.evaluate(() => {
-      const comp = (window as any).ng.getComponent(document.querySelector('ngn-table'));
+      const comp = (window as any).ng.getComponent(document.querySelector('jig-table'));
       return comp.selectAllMatching();
     });
     expect(selectAllMatching).toBe(false);
@@ -1026,7 +1026,7 @@ test.describe('Table Selection - pagination lazy mode (unchanged)', () => {
 });
 
 const TALL_CELL_TABLE_TEMPLATE = `
-  <ngn-table
+  <jig-table
     #table
     style="height: 300px"
     [rows]="inputs().rows"
@@ -1035,18 +1035,18 @@ const TALL_CELL_TABLE_TEMPLATE = `
     [rowHeight]="40"
   >
     <ng-template #header>
-      <tr ngnTableHeadTr>
-        <th [ngnTableTh]="table.column('id')">ID</th>
-        <th [ngnTableTh]="table.column('name')">Name</th>
+      <tr jigTableHeadTr>
+        <th [jigTableTh]="table.column('id')">ID</th>
+        <th [jigTableTh]="table.column('name')">Name</th>
       </tr>
     </ng-template>
-    <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-      <tr [ngnTableBodyTr]="row">
-        <td ngnTableTd>{{ row.data.id }}</td>
-        <td ngnTableTd><div style="height: 120px; width: 20px; background: red;"></div></td>
+    <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+      <tr [jigTableBodyTr]="row">
+        <td jigTableTd>{{ row.data.id }}</td>
+        <td jigTableTd><div style="height: 120px; width: 20px; background: red;"></div></td>
       </tr>
     </ng-template>
-  </ngn-table>
+  </jig-table>
 `;
 
 test.describe('Table Virtual - content-independent row tracks', () => {
@@ -1059,7 +1059,7 @@ test.describe('Table Virtual - content-independent row tracks', () => {
       page,
       {
         template: TALL_CELL_TABLE_TEMPLATE,
-        imports: ['tableModule', 'ngnTemplate'],
+        imports: ['tableModule', 'jigTemplate'],
       },
       {
         inputs: {
@@ -1102,7 +1102,7 @@ test.describe('Table Virtual - content-independent row tracks', () => {
 
 test.describe('Table Accessibility', () => {
   const A11Y_TEMPLATE = `
-    <ngn-table
+    <jig-table
       #table
       style="height: 400px"
       [label]="'Employees'"
@@ -1111,24 +1111,24 @@ test.describe('Table Accessibility', () => {
       [selectionMode]="inputs().selectionMode"
     >
       <ng-template #header>
-        <tr ngnTableHeadTr>
-          <th [ngnTableTh]="table.column('id')">ID</th>
-          <th [ngnTableTh]="table.column('name')" [ngnTableSortableColumn]>Name</th>
-          <th [ngnTableTh]="table.column('dept')">Dept</th>
+        <tr jigTableHeadTr>
+          <th [jigTableTh]="table.column('id')">ID</th>
+          <th [jigTableTh]="table.column('name')" [jigTableSortableColumn]>Name</th>
+          <th [jigTableTh]="table.column('dept')">Dept</th>
         </tr>
       </ng-template>
-      <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-        <tr [ngnTableBodyTr]="row">
-          <td ngnTableTd>{{ row.data.id }}</td>
-          <td ngnTableTd>{{ row.data.name }}</td>
-          <td ngnTableTd>{{ row.data.dept }}</td>
+      <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+        <tr [jigTableBodyTr]="row">
+          <td jigTableTd>{{ row.data.id }}</td>
+          <td jigTableTd>{{ row.data.name }}</td>
+          <td jigTableTd>{{ row.data.dept }}</td>
         </tr>
       </ng-template>
-    </ngn-table>
+    </jig-table>
   `;
   const A11Y_IMPORTS: TemplateType['imports'] = [
     'tableModule',
-    'ngnTemplate',
+    'jigTemplate',
     'tableSortableColumn',
   ];
 
@@ -1145,7 +1145,7 @@ test.describe('Table Accessibility', () => {
     await expect(grid).toHaveAttribute('aria-colcount', '3');
     // Header row included.
     await expect(grid).toHaveAttribute('aria-rowcount', String(TABLE_ROWS.length + 1));
-    await expect(page.locator('ngn-table')).not.toHaveAttribute('tabindex');
+    await expect(page.locator('jig-table')).not.toHaveAttribute('tabindex');
 
     const cells = getBodyRows(page).first().locator('td');
     await expect(cells.nth(0)).toHaveAttribute('aria-colindex', '1');
@@ -1211,7 +1211,7 @@ test.describe('Table Accessibility', () => {
       page,
       {
         template: TABLE_TEMPLATE_WITH_SELECTION,
-        imports: ['tableModule', 'ngnTemplate', 'tableSelectionColumn'],
+        imports: ['tableModule', 'jigTemplate', 'tableSelectionColumn'],
       },
       { inputs: { rows: TABLE_ROWS, selectionMode: 'multi' } }
     );
@@ -1252,7 +1252,7 @@ test.describe('Table Keyboard Scrolling', () => {
 
   function scrollTemplate(virtual: boolean) {
     return `
-      <ngn-table
+      <jig-table
         #table
         style="height: 300px"
         [label]="'Rows'"
@@ -1262,18 +1262,18 @@ test.describe('Table Keyboard Scrolling', () => {
         ${virtual ? '[rowHeight]="40"' : ''}
       >
         <ng-template #header>
-          <tr ngnTableHeadTr>
-            <th [ngnTableTh]="table.column('id')">ID</th>
-            <th [ngnTableTh]="table.column('name')">Name</th>
+          <tr jigTableHeadTr>
+            <th [jigTableTh]="table.column('id')">ID</th>
+            <th [jigTableTh]="table.column('name')">Name</th>
           </tr>
         </ng-template>
-        <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-          <tr [ngnTableBodyTr]="row">
-            <td ngnTableTd>{{ row.data.id }}</td>
-            <td ngnTableTd>{{ row.data.name }}</td>
+        <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+          <tr [jigTableBodyTr]="row">
+            <td jigTableTd>{{ row.data.id }}</td>
+            <td jigTableTd>{{ row.data.name }}</td>
           </tr>
         </ng-template>
-      </ngn-table>
+      </jig-table>
     `;
   }
 
@@ -1301,7 +1301,7 @@ test.describe('Table Keyboard Scrolling', () => {
     test(`arrow keys keep the current row fully visible (virtual=${virtual})`, async ({ page }) => {
       await loadComponent(
         page,
-        { template: scrollTemplate(virtual), imports: ['tableModule', 'ngnTemplate'] },
+        { template: scrollTemplate(virtual), imports: ['tableModule', 'jigTemplate'] },
         { inputs: { rows: SCROLL_ROWS } }
       );
       await expect(getBodyRows(page).first()).toBeVisible();
@@ -1350,7 +1350,7 @@ test('visual', async ({ page }, testInfo) => {
     page,
     {
       template: TABLE_TEMPLATE_WITH_SELECTION,
-      imports: ['tableModule', 'ngnTemplate', 'tableSelectionColumn'],
+      imports: ['tableModule', 'jigTemplate', 'tableSelectionColumn'],
     },
     { inputs: { rows: TABLE_ROWS, selectionMode: 'multi' } }
   );

@@ -1,19 +1,19 @@
 import { Component, viewChild } from '@angular/core';
 import tablerUser from '@iconify/icons-tabler/user';
-import { NgnIcon } from '@ngneers/controls/icon';
+import { JigIcon } from '@awdlab/jig/icon';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-icon-playground',
-  imports: [NgnIcon, NgnDocsPlayground],
+  selector: 'jig-docs-icon-playground',
+  imports: [JigIcon, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnIcon', component: component() }]">
-      <ngn-icon #ref [icon]="icon" />
-    </ngn-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'JigIcon', component: component() }]">
+      <jig-icon #ref [icon]="icon" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsIconPlayground {
+export class JigDocsIconPlayground {
   protected readonly icon = tablerUser;
-  protected readonly component = viewChild.required('ref', { read: NgnIcon });
+  protected readonly component = viewChild.required('ref', { read: JigIcon });
 }

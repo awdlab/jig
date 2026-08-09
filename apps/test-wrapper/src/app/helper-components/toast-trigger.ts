@@ -1,9 +1,5 @@
 import { Component, input } from '@angular/core';
-import {
-  injectToastCreator,
-  type NgnToastOptions,
-  type NgnToastRef,
-} from '@ngneers/controls/toast';
+import { injectToastCreator, type JigToastOptions, type JigToastRef } from '@awdlab/jig/toast';
 
 /**
  * Test-only trigger for the toast service. Toasts can only be created
@@ -20,10 +16,10 @@ import {
 })
 export class ToastTrigger {
   /** Options forwarded to `show()`; drive these from the test's `inputs()`. */
-  public readonly options = input<NgnToastOptions>({});
+  public readonly options = input<JigToastOptions>({});
 
   private readonly _creator = injectToastCreator();
-  private _ref?: NgnToastRef;
+  private _ref?: JigToastRef;
 
   protected show(): void {
     this._ref = this._creator.show(this.options());

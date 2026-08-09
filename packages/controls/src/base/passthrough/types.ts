@@ -1,9 +1,4 @@
-import type {
-  ControlName,
-  ControlTemplate,
-  ThemeClasses,
-  ThemeTemplate,
-} from '@ngneers/controls-themes';
+import type { ControlName, ControlTemplate, ThemeClasses, ThemeTemplate } from '@awdlab/jig-themes';
 
 type EventListenerMap = {
   [K in keyof GlobalEventHandlersEventMap]: (event: GlobalEventHandlersEventMap[K]) => void;
@@ -22,11 +17,11 @@ type ThemeClassToPassthrough<T> = {
     : ThemeClassToPassthrough<T[K]> & PassthroughValue;
 };
 
-export type NgnPassthrough<T extends ControlName> = T extends null
+export type JigPassthrough<T extends ControlName> = T extends null
   ? never
   : ThemeTemplate[T] extends ControlTemplate
     ? ThemeClassToPassthrough<ThemeClasses<ThemeTemplate[T]>> & PassthroughValue
     : never;
 
 // eslint-disable-next-line typescript/no-explicit-any
-export type AnyNgnPassthrough = NgnPassthrough<any>;
+export type AnyJigPassthrough = JigPassthrough<any>;

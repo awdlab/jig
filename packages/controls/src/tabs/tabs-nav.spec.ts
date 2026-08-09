@@ -1,26 +1,26 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { provideNgnControls } from '@ngneers/controls/api/ng';
-import { withDefaultIcons } from '@ngneers/controls/default-icons';
-import { nova } from '@ngneers/controls-themes/nova';
+import { provideJigControls } from '@awdlab/jig/api/ng';
+import { withDefaultIcons } from '@awdlab/jig/default-icons';
+import { nova } from '@awdlab/jig-themes/nova';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { NgnTab } from './tab';
-import { NgnTabs } from './tabs';
+import { JigTab } from './tab';
+import { JigTabs } from './tabs';
 
 // Tabs used as a pure navigation bar: headers only, no projected `#content`.
 // A consumer drives routing off `(activeTabChange)` and reflects the URL back
 // via `[activeTab]`. No empty tabpanel stubs must be emitted.
 @Component({
-  imports: [NgnTabs, NgnTab],
+  imports: [JigTabs, JigTab],
   template: `
-    <ngn-tabs [activeTab]="active()" (activeTabChange)="active.set($event)">
+    <jig-tabs [activeTab]="active()" (activeTabChange)="active.set($event)">
       @for (t of items; track t.id) {
-        <ngn-tab [tabId]="t.id">
+        <jig-tab [tabId]="t.id">
           <ng-template #header>{{ t.label }}</ng-template>
-        </ngn-tab>
+        </jig-tab>
       }
-    </ngn-tabs>
+    </jig-tabs>
   `,
 })
 class NavTabsHost {
@@ -35,7 +35,7 @@ describe('tabs as navigation (no tab content)', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        provideNgnControls(
+        provideJigControls(
           { theme: { preset: nova }, disableAnimations: true },
           withDefaultIcons()
         ),

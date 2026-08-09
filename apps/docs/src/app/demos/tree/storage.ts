@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
-import { NgnTree } from '@ngneers/controls/tree';
+import { JigTree } from '@awdlab/jig/tree';
 
 import { fileTree } from './sample-data';
 
-import type { NgnTreeStorageConfig } from '@ngneers/controls/tree';
+import type { JigTreeStorageConfig } from '@awdlab/jig/tree';
 
 @Component({
-  imports: [NgnTree],
-  selector: 'ngn-demo-tree-storage',
+  imports: [JigTree],
+  selector: 'jig-demo-tree-storage',
   template: `
     <p style="margin-bottom: 0.5rem; font-size: 0.875rem;">
       Expand and check some nodes, then reload the page — the state is restored from localStorage.
     </p>
-    <ngn-tree
+    <jig-tree
       [items]="items"
       [multiple]="true"
       [storage]="storage"
@@ -23,9 +23,9 @@ import type { NgnTreeStorageConfig } from '@ngneers/controls/tree';
 export class Demo_Tree_Storage {
   protected readonly items = fileTree;
 
-  // Stable reference; key + optional NgnStorageKind (defaults to 'localstorage').
-  protected readonly storage: NgnTreeStorageConfig = {
-    key: 'ngn-demo-tree-state',
+  // Stable reference; key + optional JigStorageKind (defaults to 'localstorage').
+  protected readonly storage: JigTreeStorageConfig = {
+    key: 'jig-demo-tree-state',
     kind: 'localstorage',
   };
 }

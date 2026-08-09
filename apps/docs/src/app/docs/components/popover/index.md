@@ -1,4 +1,4 @@
-The Popover (`ngn-popover`) floats arbitrary content next to a trigger element.
+The Popover (`jig-popover`) floats arbitrary content next to a trigger element.
 It renders in the browser's top layer via the native Popover API — so it escapes
 `overflow` clipping and stacking contexts — and is positioned against its
 `anchor` with floating-ui, which flips and shifts the content to keep it in view.

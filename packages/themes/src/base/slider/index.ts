@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { sliderControlTemplate } from '@ngneers/controls-themes/templates/slider';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
 
 export const sliderStyles = createThemePart({
   controlTemplate: sliderControlTemplate,

@@ -1,8 +1,8 @@
-import { messageControlTemplate } from '@ngneers/controls-themes/templates/message';
+import { messageControlTemplate } from '@awdlab/jig-themes/templates/message';
 import { themeClasses } from '../utils/theme';
 import test, { expect, type Locator } from '@playwright/test';
 
-export class NgnMessageHarness {
+export class JigMessageHarness {
   public readonly classes = themeClasses(messageControlTemplate);
 
   public readonly locator: Locator;

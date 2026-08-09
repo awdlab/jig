@@ -1,7 +1,7 @@
-import { createControlTemplate } from '@ngneers/controls-themes/api';
-import { dialogControlTemplate } from '@ngneers/controls-themes/templates/dialog';
-import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
-import { listBoxControlTemplate } from '@ngneers/controls-themes/templates/list-box';
+import { createControlTemplate } from '@awdlab/jig-themes/api';
+import { dialogControlTemplate } from '@awdlab/jig-themes/templates/dialog';
+import { inputFieldControlTemplate } from '@awdlab/jig-themes/templates/input-field';
+import { listBoxControlTemplate } from '@awdlab/jig-themes/templates/list-box';
 
 export const commandControlTemplate = createControlTemplate({
   scope: 'command',

@@ -3,17 +3,17 @@ import tablerBrandGithub from '@iconify/icons-tabler/brand-github';
 import tablerCode from '@iconify/icons-tabler/code';
 import tablerCopy from '@iconify/icons-tabler/copy';
 import tablerUser from '@iconify/icons-tabler/user';
-import { NgnMessage } from '@ngneers/controls/message';
+import { JigMessage } from '@awdlab/jig/message';
 
 @Component({
-  imports: [NgnMessage],
-  selector: 'ngn-demo-message-with-icon',
+  imports: [JigMessage],
+  selector: 'jig-demo-message-with-icon',
   template: `
     <div class="flex flex-col gap-2">
-      <ngn-message [icon]="iconCode" color="success"> Success message with icon </ngn-message>
-      <ngn-message [icon]="iconUser" color="info"> Info message with icon </ngn-message>
-      <ngn-message [icon]="iconCopy" color="warning"> Warning message with icon </ngn-message>
-      <ngn-message [icon]="iconGithub" color="error"> Error message with icon </ngn-message>
+      <jig-message [icon]="iconCode" color="success"> Success message with icon </jig-message>
+      <jig-message [icon]="iconUser" color="info"> Info message with icon </jig-message>
+      <jig-message [icon]="iconCopy" color="warning"> Warning message with icon </jig-message>
+      <jig-message [icon]="iconGithub" color="error"> Error message with icon </jig-message>
     </div>
   `,
 })

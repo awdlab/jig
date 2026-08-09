@@ -1,1 +1,1 @@
-{{ api: rating/rating NgnRating }}
+{{ api: rating/rating JigRating }}

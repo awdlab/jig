@@ -1,34 +1,34 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
+import { JigTemplate } from '@awdlab/jig/api/ng';
 import {
-  NgnTableModule,
-  NgnTableSortableColumn,
-  NgnTableFilterableColumn,
-  NgnTableReorderableColumn,
-  NgnTableSelectionColumn,
-} from '@ngneers/controls/table';
+  JigTableModule,
+  JigTableSortableColumn,
+  JigTableFilterableColumn,
+  JigTableReorderableColumn,
+  JigTableSelectionColumn,
+} from '@awdlab/jig/table';
 
 import { exampleData } from '../../../helper/data';
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
-import type { NgnTable } from '@ngneers/controls/table';
+import type { JigTable } from '@awdlab/jig/table';
 
 type RowType = ReturnType<typeof exampleData.richTable>[number];
 
 @Component({
-  selector: 'ngn-docs-table-playground',
+  selector: 'jig-docs-table-playground',
   imports: [
-    NgnTableModule,
-    NgnTemplate,
-    NgnDocsPlayground,
-    NgnTableSortableColumn,
-    NgnTableFilterableColumn,
-    NgnTableReorderableColumn,
-    NgnTableSelectionColumn,
+    JigTableModule,
+    JigTemplate,
+    JigDocsPlayground,
+    JigTableSortableColumn,
+    JigTableFilterableColumn,
+    JigTableReorderableColumn,
+    JigTableSelectionColumn,
   ],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnTable', component: component() }]">
-      <ngn-table
+    <jig-docs-playground [controls]="[{ componentName: 'JigTable', component: component() }]">
+      <jig-table
         #ref
         style="height: 400px; max-height: 100%; width: 100%"
         class="flex-1"
@@ -39,74 +39,74 @@ type RowType = ReturnType<typeof exampleData.richTable>[number];
         [selectionMode]="'multi'"
       >
         <ng-template #header>
-          <tr ngnTableHeadTr>
-            <th ngnTableSelectionColumn></th>
-            <th [ngnTableTh]="ref.column('id')" [ngnTableSortableColumn]>ID</th>
+          <tr jigTableHeadTr>
+            <th jigTableSelectionColumn></th>
+            <th [jigTableTh]="ref.column('id')" [jigTableSortableColumn]>ID</th>
             <th
-              [ngnTableTh]="ref.column('name')"
-              [ngnTableSortableColumn]
-              [ngnTableFilterableColumn]
-              [ngnTableFilterableColumnType]="'string'"
-              ngnTableReorderableColumn
+              [jigTableTh]="ref.column('name')"
+              [jigTableSortableColumn]
+              [jigTableFilterableColumn]
+              [jigTableFilterableColumnType]="'string'"
+              jigTableReorderableColumn
             >
               Name
             </th>
             <th
-              [ngnTableTh]="ref.column('email')"
-              [ngnTableSortableColumn]
-              ngnTableReorderableColumn
+              [jigTableTh]="ref.column('email')"
+              [jigTableSortableColumn]
+              jigTableReorderableColumn
             >
               Email
             </th>
             <th
-              [ngnTableTh]="ref.column('department')"
-              [ngnTableSortableColumn]
-              [ngnTableFilterableColumn]
-              [ngnTableFilterableColumnType]="'list'"
-              ngnTableReorderableColumn
+              [jigTableTh]="ref.column('department')"
+              [jigTableSortableColumn]
+              [jigTableFilterableColumn]
+              [jigTableFilterableColumnType]="'list'"
+              jigTableReorderableColumn
             >
               Department
             </th>
             <th
-              [ngnTableTh]="ref.column('role')"
-              [ngnTableSortableColumn]
-              [ngnTableFilterableColumn]
-              [ngnTableFilterableColumnType]="'list'"
-              ngnTableReorderableColumn
+              [jigTableTh]="ref.column('role')"
+              [jigTableSortableColumn]
+              [jigTableFilterableColumn]
+              [jigTableFilterableColumnType]="'list'"
+              jigTableReorderableColumn
             >
               Role
             </th>
             <th
-              [ngnTableTh]="ref.column('location')"
-              [ngnTableSortableColumn]
-              [ngnTableFilterableColumn]
-              [ngnTableFilterableColumnType]="'list'"
-              ngnTableReorderableColumn
+              [jigTableTh]="ref.column('location')"
+              [jigTableSortableColumn]
+              [jigTableFilterableColumn]
+              [jigTableFilterableColumnType]="'list'"
+              jigTableReorderableColumn
             >
               Location
             </th>
-            <th [ngnTableTh]="ref.column('salary')" [ngnTableSortableColumn]>Salary</th>
+            <th [jigTableTh]="ref.column('salary')" [jigTableSortableColumn]>Salary</th>
           </tr>
         </ng-template>
-        <ng-template #body let-row [ngnTemplate]="ref.templateTypes.body">
-          <tr [ngnTableBodyTr]="row">
-            <td ngnTableSelectionColumn></td>
-            <td ngnTableTd>{{ row.data.id }}</td>
-            <td ngnTableTd>{{ row.data.name }}</td>
-            <td ngnTableTd>{{ row.data.email }}</td>
-            <td ngnTableTd>{{ row.data.department }}</td>
-            <td ngnTableTd>{{ row.data.role }}</td>
-            <td ngnTableTd>{{ row.data.location }}</td>
-            <td ngnTableTd>
+        <ng-template #body let-row [jigTemplate]="ref.templateTypes.body">
+          <tr [jigTableBodyTr]="row">
+            <td jigTableSelectionColumn></td>
+            <td jigTableTd>{{ row.data.id }}</td>
+            <td jigTableTd>{{ row.data.name }}</td>
+            <td jigTableTd>{{ row.data.email }}</td>
+            <td jigTableTd>{{ row.data.department }}</td>
+            <td jigTableTd>{{ row.data.role }}</td>
+            <td jigTableTd>{{ row.data.location }}</td>
+            <td jigTableTd>
               {{ '$' + row.data.salary.toLocaleString() }}
             </td>
           </tr>
         </ng-template>
-      </ngn-table>
-    </ngn-docs-playground>
+      </jig-table>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsTablePlayground {
-  protected readonly component = viewChild.required<NgnTable<RowType, 'id'>>('ref');
+export class JigDocsTablePlayground {
+  protected readonly component = viewChild.required<JigTable<RowType, 'id'>>('ref');
   protected readonly rows = exampleData.richTable(50);
 }

@@ -9,11 +9,11 @@ import {
   input,
   untracked,
 } from '@angular/core';
-import { elementSizeSignal } from '@ngneers/controls/api/ng';
-import { provideSelf } from '@ngneers/controls/base';
-import { NgnScrollAmount } from '@ngneers/controls/directives';
-import { type AllKeysOfUnion, getScrollTop, NgnError } from '@ngneers/controls/utils';
-import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scroller';
+import { elementSizeSignal } from '@awdlab/jig/api/ng';
+import { provideSelf } from '@awdlab/jig/base';
+import { JigScrollAmount } from '@awdlab/jig/directives';
+import { type AllKeysOfUnion, getScrollTop, JigError } from '@awdlab/jig/utils';
+import { scrollerControlTemplate } from '@awdlab/jig-themes/templates/scroller';
 
 import { ScrollerTemplates } from './scroller-templates';
 
@@ -21,29 +21,29 @@ import { ScrollerTemplates } from './scroller-templates';
  * @category control
  */
 @Component({
-  selector: 'ngn-scroller, [ngn-scroller]',
+  selector: 'jig-scroller, [jig-scroller]',
   templateUrl: './scroller.html',
   imports: [NgTemplateOutlet],
-  providers: [provideSelf(NgnScroller)],
+  providers: [provideSelf(JigScroller)],
   hostDirectives: [
-    { directive: NgnScrollAmount, inputs: ['ngnScrollAmountContainer: scrollContainer'] },
+    { directive: JigScrollAmount, inputs: ['jigScrollAmountContainer: scrollContainer'] },
   ],
   host: {
     // No attribute at all when not focusable: a tabindex (even -1) makes the element
     // focusable to axe, which then rejects it as a child of role="listbox"/"tree".
     '[attr.tabindex]': 'focusable() ? 0 : null',
-    '[style.--ngn-scroller-item-height.px]': 'itemHeight() ?? "auto"',
-    '[style.--ngn-scroller-padding-top.px]': 'paddingTop()',
-    '[style.--ngn-scroller-padding-bottom.px]': 'paddingBottom()',
+    '[style.--jig-scroller-item-height.px]': 'itemHeight() ?? "auto"',
+    '[style.--jig-scroller-padding-top.px]': 'paddingTop()',
+    '[style.--jig-scroller-padding-bottom.px]': 'paddingBottom()',
   },
 })
-export class NgnScroller<T> extends ScrollerTemplates<T> {
+export class JigScroller<T> extends ScrollerTemplates<T> {
   protected readonly theme = this.injectThemeTemplate(scrollerControlTemplate, {
     root: true,
     virtual: () => !!this.virtual(),
   });
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly _scrollAmount = inject(NgnScrollAmount);
+  private readonly _scrollAmount = inject(JigScrollAmount);
 
   /** Remaining vertical scroll distance to the bottom (px). Proxied from the host scroll directive. */
   public readonly distanceFromEnd = this._scrollAmount.distanceFromEnd;
@@ -202,7 +202,7 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
     super();
     effect(() => {
       if (this.virtual() && !this.itemHeight()) {
-        throw new NgnError('scroller', 'itemHeight must be set when virtual is true');
+        throw new JigError('scroller', 'itemHeight must be set when virtual is true');
       }
     });
   }

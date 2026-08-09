@@ -1,28 +1,28 @@
 import { Component, input, signal, computed, inject, Injector, effect } from '@angular/core';
 import tablerPalette from '@iconify/icons-tabler/palette';
 import tablerPointer from '@iconify/icons-tabler/pointer';
-import { injectTheme } from '@ngneers/controls/api/ng';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnMessage } from '@ngneers/controls/message';
-import { notNullish } from '@ngneers/controls/utils';
-import { setInputSignalValue } from '@ngneers/controls/utils-ng';
+import { injectTheme } from '@awdlab/jig/api/ng';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigMessage } from '@awdlab/jig/message';
+import { notNullish } from '@awdlab/jig/utils';
+import { setInputSignalValue } from '@awdlab/jig/utils-ng';
 import { ConsoleLogger, Deserializer, FileRegistry } from 'typedoc/browser';
 
 import { getInternalControlName } from '../../api/api-docs-helper';
 import { getTypedocProject } from '../../typedoc';
 
-import type { AnyNgnBase, FullAnyNgnBase, NgnPassthrough } from '@ngneers/controls/base';
-import type { ControlName, ControlTemplate } from '@ngneers/controls-themes';
+import type { AnyJigBase, FullAnyJigBase, JigPassthrough } from '@awdlab/jig/base';
+import type { ControlName, ControlTemplate } from '@awdlab/jig-themes';
 import type { ProjectReflection } from 'typedoc/browser';
 
 @Component({
-  selector: 'ngn-docs-tokens',
+  selector: 'jig-docs-tokens',
   templateUrl: 'tokens.html',
   styleUrl: 'tokens.scss',
-  imports: [NgnMessage, NgnIcon],
+  imports: [JigMessage, JigIcon],
   host: { class: 'flex flex-col' },
 })
-export class NgnDocsPlaygroundTokens<
+export class JigDocsPlaygroundTokens<
   T extends ControlTemplate<N, C>,
   N extends ControlName,
   C extends string[],
@@ -34,7 +34,7 @@ export class NgnDocsPlaygroundTokens<
 
   public readonly controls = input.required<
     {
-      component: AnyNgnBase | readonly AnyNgnBase[];
+      component: AnyJigBase | readonly AnyJigBase[];
       componentName: string;
     }[]
   >();
@@ -76,7 +76,7 @@ export class NgnDocsPlaygroundTokens<
 
   protected readonly activeToken = signal<{
     name: string;
-    component: AnyNgnBase | readonly AnyNgnBase[];
+    component: AnyJigBase | readonly AnyJigBase[];
   } | null>(null);
 
   protected readonly pt = computed(() => {
@@ -93,7 +93,7 @@ export class NgnDocsPlaygroundTokens<
         [activeToken.name]: {
           $classes: ['token-highlight'],
         },
-      } as NgnPassthrough<T['scope']>,
+      } as JigPassthrough<T['scope']>,
     };
   });
 
@@ -110,7 +110,7 @@ export class NgnDocsPlaygroundTokens<
     });
 
     effect(() => {
-      const components = this.controls().flatMap(x => x.component) as FullAnyNgnBase[];
+      const components = this.controls().flatMap(x => x.component) as FullAnyJigBase[];
       const pt = this.pt();
       components.forEach(comp => {
         if (pt?.components.includes(comp)) {

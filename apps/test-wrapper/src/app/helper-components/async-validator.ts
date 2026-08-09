@@ -2,7 +2,7 @@ import { Directive, forwardRef } from '@angular/core';
 import { NG_ASYNC_VALIDATORS, type AsyncValidator, type ValidationErrors } from '@angular/forms';
 
 @Directive({
-  selector: '[ngnTestAsyncValidator]',
+  selector: '[jigTestAsyncValidator]',
   providers: [
     {
       provide: NG_ASYNC_VALIDATORS,

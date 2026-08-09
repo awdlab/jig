@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { NgnTree } from '@ngneers/controls/tree';
+import { JigTree } from '@awdlab/jig/tree';
 
 import { fileTree } from './sample-data';
 
 @Component({
-  imports: [NgnTree],
-  selector: 'ngn-demo-tree-filter',
+  imports: [JigTree],
+  selector: 'jig-demo-tree-filter',
   template: `
     <input
       #filterInput
@@ -14,7 +14,7 @@ import { fileTree } from './sample-data';
       (input)="filterText.set(filterInput.value)"
       style="display: block; margin-bottom: 0.5rem;"
     />
-    <ngn-tree
+    <jig-tree
       [items]="items"
       [filter]="true"
       [filterText]="filterText()"

@@ -1,17 +1,17 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnChip } from '@ngneers/controls/chip';
+import { JigChip } from '@awdlab/jig/chip';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-chip-playground',
-  imports: [NgnChip, NgnDocsPlayground],
+  selector: 'jig-docs-chip-playground',
+  imports: [JigChip, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnChip', component: component() }]">
-      <ngn-chip #ref>Chip</ngn-chip>
-    </ngn-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'JigChip', component: component() }]">
+      <jig-chip #ref>Chip</jig-chip>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsChipPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnChip });
+export class JigDocsChipPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigChip });
 }

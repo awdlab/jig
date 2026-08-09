@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { dialogControlTemplate } from '@ngneers/controls-themes/templates/dialog';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { dialogControlTemplate } from '@awdlab/jig-themes/templates/dialog';
 
 export const dialogStyles = createThemePart({
   controlTemplate: dialogControlTemplate,

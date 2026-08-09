@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { spinnerControlTemplate } from '@ngneers/controls-themes/templates/spinner';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { spinnerControlTemplate } from '@awdlab/jig-themes/templates/spinner';
 
 export const spinnerStyles = createThemePart({
   controlTemplate: spinnerControlTemplate,

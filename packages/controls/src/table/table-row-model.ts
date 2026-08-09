@@ -1,9 +1,9 @@
-import { executeMultiFilter } from '@ngneers/controls/api';
+import { executeMultiFilter } from '@awdlab/jig/api';
 
 import type { FormattedTableRow } from './types';
-import type { NgnFilterConfig } from '@ngneers/controls/filter';
-import type { PaginationState } from '@ngneers/controls/paginator';
-import type { AllKeysOfUnion } from '@ngneers/controls/utils';
+import type { JigFilterConfig } from '@awdlab/jig/filter';
+import type { PaginationState } from '@awdlab/jig/paginator';
+import type { AllKeysOfUnion } from '@awdlab/jig/utils';
 
 export type TableSort<T> = {
   column: Extract<AllKeysOfUnion<T>, string>;
@@ -11,7 +11,7 @@ export type TableSort<T> = {
 };
 
 export type TableFilters<T> =
-  | { [key in Extract<AllKeysOfUnion<T>, string>]?: NgnFilterConfig }
+  | { [key in Extract<AllKeysOfUnion<T>, string>]?: JigFilterConfig }
   | null;
 
 export type TableSortComparator<T> = (a: T, b: T, sort: TableSort<T>) => number;

@@ -2,15 +2,15 @@ import { Component, computed, effect, model, signal } from '@angular/core';
 import { form, FormField, pattern, required, submit } from '@angular/forms/signals';
 import tablerLock from '@iconify/icons-tabler/lock';
 import tablerUser from '@iconify/icons-tabler/user';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnDialog } from '@ngneers/controls/dialog';
-import { NgnErrors } from '@ngneers/controls/errors';
-import { NgnHint } from '@ngneers/controls/hint';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnOtp } from '@ngneers/controls/otp';
-import { NgnState } from '@ngneers/controls/state';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDialog } from '@awdlab/jig/dialog';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigOtp } from '@awdlab/jig/otp';
+import { JigState } from '@awdlab/jig/state';
 
 /**
  * Fake login modal for the startpage demo — pure UI showcase, no real auth.
@@ -19,27 +19,27 @@ import { NgnState } from '@ngneers/controls/state';
  * validators, the `[formField]` directive for two-way control binding, and
  * `submit()` for the faked async round-trip (loading state + a server-side
  * "wrong code" error that attaches straight onto the OTP field). Validation
- * messages are rendered by `ngnErrors` → `ngn-hint`, which reads the interop
+ * messages are rendered by `jigErrors` → `jig-hint`, which reads the interop
  * `NgControl` that `[formField]` provides — no manual error wiring. Kept in its
  * own component so it can be `@defer`-loaded, keeping the form controls out of
  * the eager startpage bundle.
  */
 @Component({
-  selector: 'ngn-docs-login-dialog',
+  selector: 'jig-docs-login-dialog',
   imports: [
     FormField,
-    NgnButton,
-    NgnDialog,
-    NgnErrors,
-    NgnHint,
-    NgnIcon,
-    NgnInput,
-    NgnInputField,
-    NgnOtp,
-    NgnState,
+    JigButton,
+    JigDialog,
+    JigErrors,
+    JigHint,
+    JigIcon,
+    JigInput,
+    JigInputField,
+    JigOtp,
+    JigState,
   ],
   template: `
-    <ngn-dialog
+    <jig-dialog
       title="Sign in"
       [modal]="true"
       [open]="open()"
@@ -49,90 +49,90 @@ import { NgnState } from '@ngneers/controls/state';
     >
       <form
         novalidate
-        class="flex flex-col gap-(--ngn-size-padding-lg)"
+        class="flex flex-col gap-(--jig-size-padding-lg)"
         (submit)="onSubmit($event)"
       >
-        <div class="flex flex-col gap-(--ngn-size-padding-sm)">
+        <div class="flex flex-col gap-(--jig-size-padding-sm)">
           <label
-            class="text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-medium) text-(--ngn-color-text)"
+            class="text-(length:--jig-font-size-sm) font-(--jig-font-weight-medium) text-(--jig-color-text)"
             for="login-username"
           >
             Username
           </label>
-          <ngn-input-field class="w-full" [inputId]="'login-username'">
-            <ngn-icon [icon]="userIcon" />
+          <jig-input-field class="w-full" [inputId]="'login-username'">
+            <jig-icon [icon]="userIcon" />
             <input
-              ngnInput
+              jigInput
               autocomplete="username"
               placeholder="jane.doe"
               [formField]="loginForm.username"
-              ngnErrors
-              [ngnErrorsHint]="usernameHint"
+              jigErrors
+              [jigErrorsHint]="usernameHint"
             />
-          </ngn-input-field>
-          <ngn-hint #usernameHint />
+          </jig-input-field>
+          <jig-hint #usernameHint />
         </div>
 
-        <div class="flex flex-col gap-(--ngn-size-padding-sm)">
+        <div class="flex flex-col gap-(--jig-size-padding-sm)">
           <label
-            class="text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-medium) text-(--ngn-color-text)"
+            class="text-(length:--jig-font-size-sm) font-(--jig-font-weight-medium) text-(--jig-color-text)"
             for="login-password"
           >
             Password
           </label>
-          <ngn-input-field class="w-full" [inputId]="'login-password'">
-            <ngn-icon [icon]="lockIcon" />
+          <jig-input-field class="w-full" [inputId]="'login-password'">
+            <jig-icon [icon]="lockIcon" />
             <input
-              ngnInput
+              jigInput
               type="password"
               autocomplete="current-password"
               placeholder="••••••••"
               [formField]="loginForm.password"
-              ngnErrors
-              [ngnErrorsHint]="passwordHint"
+              jigErrors
+              [jigErrorsHint]="passwordHint"
             />
-          </ngn-input-field>
-          <ngn-hint #passwordHint />
+          </jig-input-field>
+          <jig-hint #passwordHint />
         </div>
 
-        <div class="flex flex-col gap-(--ngn-size-padding-sm)">
+        <div class="flex flex-col gap-(--jig-size-padding-sm)">
           <label
             id="login-otp-label"
-            class="text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-medium) text-(--ngn-color-text)"
+            class="text-(length:--jig-font-size-sm) font-(--jig-font-weight-medium) text-(--jig-color-text)"
           >
             Verification code
           </label>
-          <ngn-otp
+          <jig-otp
             labelledBy="login-otp-label"
             [length]="6"
             [integerOnly]="true"
             [formField]="loginForm.otp"
-            ngnErrorsShowOn="touched"
-            ngnErrors
-            [ngnErrorsHint]="otpHint"
+            jigErrorsShowOn="touched"
+            jigErrors
+            [jigErrorsHint]="otpHint"
           />
-          <ngn-hint #otpHint [content]="demoCodeTpl" />
+          <jig-hint #otpHint [content]="demoCodeTpl" />
           <ng-template #demoCodeTpl>
             Demo code:
-            <span class="font-mono font-(--ngn-font-weight-semibold)">123456</span>
+            <span class="font-mono font-(--jig-font-weight-semibold)">123456</span>
           </ng-template>
         </div>
 
         <button
-          ngnButton
+          jigButton
           type="submit"
           color="primary"
           class="w-full justify-center"
           [disabled]="!!buttonState()"
         >
           {{ buttonLabel() }}
-          <ngn-state [kind]="buttonState() ?? undefined" [visible]="!!buttonState()" />
+          <jig-state [kind]="buttonState() ?? undefined" [visible]="!!buttonState()" />
         </button>
       </form>
-    </ngn-dialog>
+    </jig-dialog>
   `,
 })
-export class NgnDocsLoginDialog {
+export class JigDocsLoginDialog {
   protected readonly userIcon = tablerUser;
   protected readonly lockIcon = tablerLock;
 
@@ -154,7 +154,7 @@ export class NgnDocsLoginDialog {
   /** Latches once the faked server accepts the credentials, until the dialog closes. */
   protected readonly succeeded = signal(false);
 
-  /** ngn-state kind for the submit button — loading during the round-trip, success once accepted. */
+  /** jig-state kind for the submit button — loading during the round-trip, success once accepted. */
   protected readonly buttonState = computed<'loading' | 'success' | null>(() =>
     this.loginForm().submitting() ? 'loading' : this.succeeded() ? 'success' : null
   );
@@ -181,7 +181,7 @@ export class NgnDocsLoginDialog {
       return;
     }
     // submit() only runs the action when the form is valid. On an invalid
-    // attempt, mark every field touched so the ngnErrors messages surface.
+    // attempt, mark every field touched so the jigErrors messages surface.
     const ok = await submit(this.loginForm, {
       onInvalid: () => this.loginForm().markAsTouched(),
       action: async () => {

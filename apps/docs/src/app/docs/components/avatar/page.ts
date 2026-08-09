@@ -1,4 +1,4 @@
-import { NgnDocsAvatarPlayground } from './playground';
+import { JigDocsAvatarPlayground } from './playground';
 import { Demo_Avatar_Base } from '../../../demos/avatar/base';
 import { Demo_Avatar_Group } from '../../../demos/avatar/group';
 import { Demo_Avatar_Icon } from '../../../demos/avatar/icon';
@@ -6,9 +6,9 @@ import { Demo_Avatar_Image } from '../../../demos/avatar/image';
 import { Demo_Avatar_Size } from '../../../demos/avatar/size';
 import { i18nText } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const AvatarPage: NgnDocsPage = {
+export const AvatarPage: JigDocsPage = {
   title: `Avatar`,
   kind: 'tabs',
   tabs: [
@@ -29,7 +29,7 @@ export const AvatarPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsAvatarPlayground,
+      component: JigDocsAvatarPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/avatar/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/avatar/a11y.md' },

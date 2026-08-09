@@ -28,12 +28,12 @@ export async function loadComponent(
 ) {
   return await test.step('Load Component', async () => {
     await page.goto(process.env['CI'] ? 'http://localhost:4222' : 'http://hostmachine:4222');
-    await expect(page.locator('body')).toHaveAttribute('data-ngn-test-wrapper');
+    await expect(page.locator('body')).toHaveAttribute('data-jig-test-wrapper');
 
     async function setTemplate(template: TemplateType) {
       await page.evaluate(
         ([param]) => {
-          const t = (window as any).__ngn_test_wrapper.template as (val: TemplateType) => void;
+          const t = (window as any).__jig_test_wrapper.template as (val: TemplateType) => void;
           t(param);
         },
         [template]
@@ -44,7 +44,7 @@ export async function loadComponent(
       await test.step('Set inputs', async () => {
         await page.evaluate(
           ([param]) => {
-            const i = (window as any).__ngn_test_wrapper.inputs as (val: InputsType) => void;
+            const i = (window as any).__jig_test_wrapper.inputs as (val: InputsType) => void;
             i(param);
           },
           [inputs]
@@ -56,7 +56,7 @@ export async function loadComponent(
       await test.step('Set outputs', async () => {
         await page.evaluate(
           ([param]) => {
-            const o = (window as any).__ngn_test_wrapper.outputs as (val: OutputsType) => void;
+            const o = (window as any).__jig_test_wrapper.outputs as (val: OutputsType) => void;
             o(param);
           },
           [outputs]
@@ -67,7 +67,7 @@ export async function loadComponent(
     async function getOutputLog() {
       return await test.step('Get output log', async () => {
         return await page.evaluate(() => {
-          const o = (window as any).__ngn_test_wrapper.outputLog as Record<string, any[]>;
+          const o = (window as any).__jig_test_wrapper.outputLog as Record<string, any[]>;
           return o;
         });
       });
@@ -76,8 +76,8 @@ export async function loadComponent(
     async function getOutputLogAndClear() {
       return await test.step('Get and clear output log', async () => {
         return await page.evaluate(() => {
-          const o = (window as any).__ngn_test_wrapper.outputLog as Record<string, any[]>;
-          (window as any).__ngn_test_wrapper.outputLog = {};
+          const o = (window as any).__jig_test_wrapper.outputLog as Record<string, any[]>;
+          (window as any).__jig_test_wrapper.outputLog = {};
           return o;
         });
       });
@@ -97,7 +97,7 @@ export async function loadComponent(
     // The wrapper imports the control chunk and JIT-compiles the template before it can create
     // the component; on a cold, loaded CI run that outlasts a per-assertion timeout.
     await expect
-      .poll(() => page.evaluate(() => (window as any).__ngn_test_wrapper.ready), {
+      .poll(() => page.evaluate(() => (window as any).__jig_test_wrapper.ready), {
         timeout: 30000,
       })
       .toBe(true);

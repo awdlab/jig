@@ -13,32 +13,32 @@ import {
   untracked,
 } from '@angular/core';
 import {
-  NgnTemplate,
+  JigTemplate,
   type Openable,
   Platform,
   type PopoverCloseBy,
   toPopoverCloseBy,
-} from '@ngneers/controls/api/ng';
-import { NgnPt, provideSelf } from '@ngneers/controls/base';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnDefer } from '@ngneers/controls/defer';
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { FocusTrap, generateElementId } from '@ngneers/controls/utils-ng';
-import { drawerControlTemplate } from '@ngneers/controls-themes/templates/drawer';
+} from '@awdlab/jig/api/ng';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDefer } from '@awdlab/jig/defer';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigIcon } from '@awdlab/jig/icon';
+import { FocusTrap, generateElementId } from '@awdlab/jig/utils-ng';
+import { drawerControlTemplate } from '@awdlab/jig-themes/templates/drawer';
 
 import { DrawerTemplates } from './drawer-templates';
 
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'ngn-drawer',
+  selector: 'jig-drawer',
   templateUrl: './drawer.html',
-  imports: [NgnPt, NgTemplateOutlet, NgnDefer, NgnButton, NgnIcon, NgnTemplate],
-  providers: [provideSelf(NgnDrawer)],
+  imports: [JigPt, NgTemplateOutlet, JigDefer, JigButton, JigIcon, JigTemplate],
+  providers: [provideSelf(JigDrawer)],
   host: {
     '[attr.popover]': 'closeByPopover()',
     '(toggle)': 'onToggle($event)',
@@ -50,7 +50,7 @@ import type { IconType } from '@ngneers/controls-custom-types';
     '[attr.data-position]': 'position()',
   },
 })
-export class NgnDrawer extends DrawerTemplates implements Openable {
+export class JigDrawer extends DrawerTemplates implements Openable {
   protected readonly theme = this.injectThemeTemplate(drawerControlTemplate, {
     root: true,
     horizontal: () => this.horizontal(),

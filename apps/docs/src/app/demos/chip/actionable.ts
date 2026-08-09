@@ -1,28 +1,28 @@
 import { Component, computed } from '@angular/core';
-import { injectThemeControlKinds } from '@ngneers/controls/api/ng';
-import { NgnChip } from '@ngneers/controls/chip';
+import { injectThemeControlKinds } from '@awdlab/jig/api/ng';
+import { JigChip } from '@awdlab/jig/chip';
 
 @Component({
-  selector: 'ngn-demo-chip-actionable',
-  imports: [NgnChip],
+  selector: 'jig-demo-chip-actionable',
+  imports: [JigChip],
   template: `
     <div class="flex flex-col flex-wrap gap-2">
       <div class="flex flex-wrap gap-2">
-        <ngn-chip [actionable]="true" (clicked)="onChipClick()">Click me!</ngn-chip>
-        <ngn-chip
+        <jig-chip [actionable]="true" (clicked)="onChipClick()">Click me!</jig-chip>
+        <jig-chip
           [actionable]="true"
           [closable]="true"
           (clicked)="onChipClick()"
           (closed)="onChipClose()"
         >
           Click or close me!
-        </ngn-chip>
+        </jig-chip>
       </div>
       <div class="flex flex-wrap gap-2">
         @for (kind of kinds(); track $index) {
-          <ngn-chip [kind]="kind" [actionable]="true" (clicked)="onChipClick()">
+          <jig-chip [kind]="kind" [actionable]="true" (clicked)="onChipClick()">
             {{ kind ?? '*no kind*' }}
-          </ngn-chip>
+          </jig-chip>
         }
       </div>
     </div>

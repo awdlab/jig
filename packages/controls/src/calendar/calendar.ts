@@ -11,17 +11,17 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { NgnTemplate, Platform } from '@ngneers/controls/api/ng';
-import { NgnPt, provideSelf } from '@ngneers/controls/base';
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { getDateOrTimeMask, NgnMaskInput } from '@ngneers/controls/mask-input';
-import { NgnPopover } from '@ngneers/controls/popover';
-import { NgnSelect } from '@ngneers/controls/select';
-import { NgnError, throwExp } from '@ngneers/controls/utils';
-import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
+import { JigTemplate, Platform } from '@awdlab/jig/api/ng';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { getDateOrTimeMask, JigMaskInput } from '@awdlab/jig/mask-input';
+import { JigPopover } from '@awdlab/jig/popover';
+import { JigSelect } from '@awdlab/jig/select';
+import { JigError, throwExp } from '@awdlab/jig/utils';
+import { calendarControlTemplate } from '@awdlab/jig-themes/templates/calendar';
 
 import { CalendarTemplates } from './calendar-templates';
 import { CalendarDays } from './days/days';
@@ -29,9 +29,9 @@ import { formatDate, parseDate } from './formatter';
 import { CalendarTime } from './time/time';
 import { type DayModel, type Month, MONTHS, type WeekDay } from './types';
 
-import type { NgnItem } from '@ngneers/controls/api';
+import type { JigItem } from '@awdlab/jig/api';
 
-function generateYearOptions(): NgnItem[] {
+function generateYearOptions(): JigItem[] {
   const MAX_ITEMS = 200;
   const currentYear = new Date().getFullYear();
   return Array.from({ length: MAX_ITEMS }, (_, i) => ({
@@ -40,35 +40,35 @@ function generateYearOptions(): NgnItem[] {
   }));
 }
 
-type MonthItemType = NgnItem<{ $: (typeof MONTHS)[number] }, '$'>;
+type MonthItemType = JigItem<{ $: (typeof MONTHS)[number] }, '$'>;
 
 /**
  * @category control
  */
 @Component({
-  selector: 'ngn-calendar',
+  selector: 'jig-calendar',
   templateUrl: './calendar.html',
   imports: [
     NgTemplateOutlet,
-    NgnTemplate,
-    NgnPt,
-    NgnInput,
-    NgnIcon,
-    NgnSelect,
-    NgnPopover,
+    JigTemplate,
+    JigPt,
+    JigInput,
+    JigIcon,
+    JigSelect,
+    JigPopover,
     CalendarDays,
     CalendarTime,
-    NgnInputField,
-    NgnMaskInput,
+    JigInputField,
+    JigMaskInput,
   ],
-  providers: [provideSelf(NgnCalendar)],
+  providers: [provideSelf(JigCalendar)],
   host: {
     '[style.display]': '"block"',
     '[style.width]': 'inline() ? "fit-content" : "100%"',
     '[attr.aria-invalid]': 'invalidState() ? "true" : null',
   },
 })
-export class NgnCalendar extends CalendarTemplates {
+export class JigCalendar extends CalendarTemplates {
   /**
    * Set the first day of the week.
    * @default 'monday'
@@ -95,8 +95,8 @@ export class NgnCalendar extends CalendarTemplates {
    */
   public readonly format = input('MM/dd/yyyy');
 
-  private readonly _popover = viewChild<NgnPopover>(NgnPopover);
-  private readonly _mask = viewChild(NgnMaskInput);
+  private readonly _popover = viewChild<JigPopover>(JigPopover);
+  private readonly _mask = viewChild(JigMaskInput);
   private readonly _platform = inject(Platform);
   protected readonly i18n = inject(I18n).translations;
   public override readonly isFieldControl = true;
@@ -107,7 +107,7 @@ export class NgnCalendar extends CalendarTemplates {
   public override readonly empty = computed(() => this._mask()?.empty() ?? this.value() == null);
   protected get anchorElement(): HTMLElement {
     return (
-      (this.element.nativeElement.closest('ngn-input-field') as HTMLElement | null) ??
+      (this.element.nativeElement.closest('jig-input-field') as HTMLElement | null) ??
       this.element.nativeElement
     );
   }
@@ -116,11 +116,11 @@ export class NgnCalendar extends CalendarTemplates {
   );
   protected readonly month = linkedSignal(() => this.value()?.getMonth() ?? new Date().getMonth());
   protected readonly yearOptions = generateYearOptions();
-  protected readonly monthOptions: Signal<NgnItem<MonthItemType>[]> = computed(() => {
+  protected readonly monthOptions: Signal<JigItem<MonthItemType>[]> = computed(() => {
     const months = Array.from(
       { length: 12 },
       (_, i) =>
-        <NgnItem>{
+        <JigItem>{
           label:
             this.i18n[
               `calendar_months_${MONTHS[i] ?? throwExp('calendar', 'invalid month index')}`
@@ -222,8 +222,8 @@ export class NgnCalendar extends CalendarTemplates {
   /**
    * Places focus from a pointer event: forwards the location to the embedded
    * mask so the section nearest the cursor is selected, then opens the popup.
-   * Implemented as the `NgnBase.focusFromPointer` hook so it also works when the
-   * calendar is wrapped in an `ngn-input-field` — the outer field delegates the
+   * Implemented as the `JigBase.focusFromPointer` hook so it also works when the
+   * calendar is wrapped in a `jig-input-field` — the outer field delegates the
    * click here (with the real coordinates) instead of synthesising a
    * coordinate-less click. Invoked by the calendar's own field click too.
    */
@@ -240,14 +240,14 @@ export class NgnCalendar extends CalendarTemplates {
    */
   public show() {
     if (this.inline()) {
-      throw new NgnError('calendar', 'cannot open inline calendar');
+      throw new JigError('calendar', 'cannot open inline calendar');
     }
     if (this._platform.isTouchDevice() || this.disabled() || this.readonly()) {
       return;
     }
     const popover = this._popover();
     if (!popover) {
-      throw new NgnError('calendar', 'popover not found despite inline being false');
+      throw new JigError('calendar', 'popover not found despite inline being false');
     }
     popover.show();
   }
@@ -257,11 +257,11 @@ export class NgnCalendar extends CalendarTemplates {
    */
   public hide() {
     if (this.inline()) {
-      throw new NgnError('calendar', 'cannot close inline calendar');
+      throw new JigError('calendar', 'cannot close inline calendar');
     }
     const popover = this._popover();
     if (!popover) {
-      throw new NgnError('calendar', 'popover not found despite inline being false');
+      throw new JigError('calendar', 'popover not found despite inline being false');
     }
     popover.hide();
   }
@@ -273,7 +273,7 @@ export class NgnCalendar extends CalendarTemplates {
     if (event.key === 'Enter' && !this.inline()) {
       const popover = this._popover();
       if (!popover) {
-        throw new NgnError('calendar', 'popover not found despite inline being false');
+        throw new JigError('calendar', 'popover not found despite inline being false');
       }
       popover.toggle();
       event.stopPropagation();

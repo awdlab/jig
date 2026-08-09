@@ -1,6 +1,6 @@
-import { createControlTemplate } from '@ngneers/controls-themes/api';
-import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
-import { itemViewControlTemplate } from '@ngneers/controls-themes/templates/item-view';
+import { createControlTemplate } from '@awdlab/jig-themes/api';
+import { buttonControlTemplate } from '@awdlab/jig-themes/templates/button';
+import { itemViewControlTemplate } from '@awdlab/jig-themes/templates/item-view';
 
 export const paginatorControlTemplate = createControlTemplate({
   scope: 'paginator',

@@ -1,21 +1,21 @@
 import { booleanAttribute, Component, input } from '@angular/core';
-import { provideSelf, ValueControlBase, NgnPt } from '@ngneers/controls/base';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { toggleButtonControlTemplate } from '@ngneers/controls-themes/templates/toggle-button';
+import { provideSelf, ValueControlBase, JigPt } from '@awdlab/jig/base';
+import { JigIcon } from '@awdlab/jig/icon';
+import { toggleButtonControlTemplate } from '@awdlab/jig-themes/templates/toggle-button';
 
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'ngn-toggle-button',
-  providers: [provideSelf(NgnToggleButton)],
+  selector: 'jig-toggle-button',
+  providers: [provideSelf(JigToggleButton)],
 
-  imports: [NgnPt, NgnIcon],
+  imports: [JigPt, JigIcon],
   templateUrl: './toggle-button.html',
 })
-export class NgnToggleButton extends ValueControlBase<'toggleButton', boolean> {
+export class JigToggleButton extends ValueControlBase<'toggleButton', boolean> {
   protected readonly theme = this.injectThemeTemplate(toggleButtonControlTemplate, {
     root: true,
     active: () => this.value(),

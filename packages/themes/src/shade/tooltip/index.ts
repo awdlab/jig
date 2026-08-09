@@ -1,12 +1,12 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
   fontTemplate,
   sizesTemplate,
-} from '@ngneers/controls-themes/shade/base';
-import { tooltipControlTemplate } from '@ngneers/controls-themes/templates/tooltip';
+} from '@awdlab/jig-themes/shade/base';
+import { tooltipControlTemplate } from '@awdlab/jig-themes/templates/tooltip';
 
 export const tooltipStyles = createThemePart({
   controlTemplate: tooltipControlTemplate,

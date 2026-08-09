@@ -1,4 +1,4 @@
-The Menu (`<ngn-menu>`) renders a list of actions from a data array (`items`)
+The Menu (`<jig-menu>`) renders a list of actions from a data array (`items`)
 rather than markup, carrying `role="menu"` with each item a `role="menuitem"`
 button. Use it inline as a static list, as a popover next to a trigger, or as a
 right-click context menu.
@@ -25,7 +25,7 @@ ARIA automatically — setting `aria-haspopup="menu"`, `aria-controls`, and
 
 ### Context Menu
 
-Apply the `ngnContextMenu` directive to any element and pass it an items array to
+Apply the `jigContextMenu` directive to any element and pass it an items array to
 open that menu at the pointer on right-click.
 
 {{ demo: Demo_Menu_ContextMenu }}

@@ -1,1 +1,1 @@
-{{ api: chip/chip NgnChip }}
+{{ api: chip/chip JigChip }}

@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { treeControlTemplate } from '@ngneers/controls-themes/templates/tree';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { treeControlTemplate } from '@awdlab/jig-themes/templates/tree';
 
 export const treeStyles = createThemePart({
   controlTemplate: treeControlTemplate,
@@ -27,7 +27,7 @@ export const treeStyles = createThemePart({
         align-items: center;
         /* Margin, not padding: the indent gutter stays outside the row box so row
            backgrounds (hover/selected) start at the item instead of at the row edge. */
-        margin-inline-start: calc(var(--ngn-tree-level, 0) * 1.5rem);
+        margin-inline-start: calc(var(--jig-tree-level, 0) * 1.5rem);
       }
       ${c('toggle')},
       ${c('toggle-placeholder')},

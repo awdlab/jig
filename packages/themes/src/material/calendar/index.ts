@@ -1,11 +1,7 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import {
-  colorsTemplate,
-  sizesTemplate,
-  fontTemplate,
-} from '@ngneers/controls-themes/material/base';
-import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { colorsTemplate, sizesTemplate, fontTemplate } from '@awdlab/jig-themes/material/base';
+import { calendarControlTemplate } from '@awdlab/jig-themes/templates/calendar';
 
 export const calendarStyles = createThemePart({
   controlTemplate: calendarControlTemplate,

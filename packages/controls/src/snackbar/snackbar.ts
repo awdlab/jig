@@ -10,26 +10,26 @@ import {
   output,
   type OnInit,
 } from '@angular/core';
-import { provideSelf, NgnPt } from '@ngneers/controls/base';
-import { NgnActionButton, NgnButton } from '@ngneers/controls/button';
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { snackbarControlTemplate } from '@ngneers/controls-themes/templates/snackbar';
+import { provideSelf, JigPt } from '@awdlab/jig/base';
+import { JigActionButton, JigButton } from '@awdlab/jig/button';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigIcon } from '@awdlab/jig/icon';
+import { snackbarControlTemplate } from '@awdlab/jig-themes/templates/snackbar';
 
 import { DEFAULT_SNACKBAR_OPTIONS } from './defaults';
 import { SnackbarTemplates } from './snackbar-templates';
 
-import type { NgnActionButtonConfig } from '@ngneers/controls/api';
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { JigActionButtonConfig } from '@awdlab/jig/api';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'ngn-snackbar',
+  selector: 'jig-snackbar',
   templateUrl: './snackbar.html',
-  imports: [NgTemplateOutlet, NgnPt, NgnButton, NgnIcon, NgnActionButton],
-  providers: [provideSelf(NgnSnackbar)],
+  imports: [NgTemplateOutlet, JigPt, JigButton, JigIcon, JigActionButton],
+  providers: [provideSelf(JigSnackbar)],
   host: {
     '(mouseenter)': 'mouseEnter()',
     '(mouseleave)': 'mouseLeave()',
@@ -43,7 +43,7 @@ import type { IconType } from '@ngneers/controls-custom-types';
     'aria-atomic': 'true',
   },
 })
-export class NgnSnackbar extends SnackbarTemplates implements OnInit {
+export class JigSnackbar extends SnackbarTemplates implements OnInit {
   protected readonly theme = this.injectThemeTemplate(snackbarControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
   private readonly _host = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -75,10 +75,10 @@ export class NgnSnackbar extends SnackbarTemplates implements OnInit {
   /**
    * Action buttons rendered at the end of the snackbar. Clicking any action always
    * dismisses the snackbar; its `action` callback fires first. Import the config
-   * type from `@ngneers/controls/api`.
+   * type from `@awdlab/jig/api`.
    */
-  // ponytail: snackbar has no [ngnKeyboardShortcut] scope, so a config `shortcut` is inert here; add a scope host if needed.
-  public readonly actions = input<NgnActionButtonConfig[]>();
+  // ponytail: snackbar has no [jigKeyboardShortcut] scope, so a config `shortcut` is inert here; add a scope host if needed.
+  public readonly actions = input<JigActionButtonConfig[]>();
   /**
    * Shows a thin progress bar at the bottom of the snackbar that depletes over the
    * {@link autoHide} duration.

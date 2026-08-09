@@ -46,7 +46,7 @@ export type PageMeta = { pageTitle: string; tabs: MdTab[] };
  */
 export async function readPageMeta(pageTs: string): Promise<PageMeta> {
   const source = await readFile(pageTs, 'utf8');
-  const pageTitle = /:\s*NgnDocsPage\s*=\s*\{[\s\S]*?title:\s*[`'"](.+?)[`'"]/.exec(source)?.[1];
+  const pageTitle = /:\s*JigDocsPage\s*=\s*\{[\s\S]*?title:\s*[`'"](.+?)[`'"]/.exec(source)?.[1];
   if (!pageTitle) {
     throw new Error(`No page title found in ${pageTs}`);
   }

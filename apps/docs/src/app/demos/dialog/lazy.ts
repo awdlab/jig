@@ -1,18 +1,18 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnDialog } from '@ngneers/controls/dialog';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDialog } from '@awdlab/jig/dialog';
 
 import { DummyLazyComponent } from '../dummies/lazy';
 
 @Component({
-  selector: 'ngn-demo-dialog-lazy',
-  imports: [NgnDialog, NgnButton, DummyLazyComponent],
-  template: `<button ngnButton (click)="open.set(true)">Open Dialog</button>
-    <ngn-dialog [open]="open()" (openChange)="open.set($event)">
+  selector: 'jig-demo-dialog-lazy',
+  imports: [JigDialog, JigButton, DummyLazyComponent],
+  template: `<button jigButton (click)="open.set(true)">Open Dialog</button>
+    <jig-dialog [open]="open()" (openChange)="open.set($event)">
       <ng-template #content>
         <dummy-lazy-test />
       </ng-template>
-    </ngn-dialog>`,
+    </jig-dialog>`,
 })
 export class Demo_Dialog_Lazy {
   protected readonly open = signal(false);

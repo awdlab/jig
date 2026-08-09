@@ -3,8 +3,8 @@ import tablerCircleCheck from '@iconify/icons-tabler/circle-check';
 import tablerCoin from '@iconify/icons-tabler/coin';
 import tablerUsers from '@iconify/icons-tabler/users';
 
-import type { NgnItem } from '@ngneers/controls/api';
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { JigItem } from '@awdlab/jig/api';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 /**
  * Semantic color vocabulary this demo authors against (the nova palette). Kept independent of
@@ -27,11 +27,11 @@ export type Opportunity = {
   id: number;
   company: string;
   initials: string;
-  /** Theme CSS variable string, e.g. `var(--ngn-color-primary-500)`. */
+  /** Theme CSS variable string, e.g. `var(--jig-color-primary-500)`. */
   bgColor: string;
   value: number;
   status: OpportunityStatus;
-  /** Semantic color name passed to `ngn-tag [color]`. */
+  /** Semantic color name passed to `jig-tag [color]`. */
   statusColor: PaletteColorName;
   owner: string;
   ownerInitials: string;
@@ -42,10 +42,10 @@ export type Kpi = {
   label: string;
   value: string;
   icon: IconType;
-  /** Palette color name for the icon accent (used to build a `--ngn-color-*` CSS variable). */
+  /** Palette color name for the icon accent (used to build a `--jig-color-*` CSS variable). */
   iconColor: PaletteColorName;
   trend: string;
-  /** Palette color name for the trend text (used to build a `--ngn-color-*` CSS variable). */
+  /** Palette color name for the trend text (used to build a `--jig-color-*` CSS variable). */
   trendColor: PaletteColorName;
   /** Tooltip description shown on hover. */
   tooltip: string;
@@ -108,19 +108,19 @@ export const KPIS: readonly Kpi[] = [
   },
 ];
 
-export const DATE_RANGE_OPTIONS: readonly NgnItem<unknown, string>[] = [
+export const DATE_RANGE_OPTIONS: readonly JigItem<unknown, string>[] = [
   { label: 'Oct 1 - Oct 31, 2024', value: 'oct-2024' },
   { label: 'Sep 1 - Sep 30, 2024', value: 'sep-2024' },
   { label: 'Q3 2024', value: 'q3-2024' },
 ];
 
-// Soft pastel (200) shades — avatar initials use dark text (--ngn-color-text),
+// Soft pastel (200) shades — avatar initials use dark text (--jig-color-text),
 // so light backgrounds keep them readable and look consistent across people.
 export const OWNERS = [
-  { owner: 'Jane Cooper', ownerInitials: 'JC', ownerColor: 'var(--ngn-color-primary-200)' },
-  { owner: 'Bruce W.', ownerInitials: 'BW', ownerColor: 'var(--ngn-color-info-200)' },
-  { owner: 'Alice S.', ownerInitials: 'AS', ownerColor: 'var(--ngn-color-success-200)' },
-  { owner: 'Mark R.', ownerInitials: 'MR', ownerColor: 'var(--ngn-color-accent-200)' },
+  { owner: 'Jane Cooper', ownerInitials: 'JC', ownerColor: 'var(--jig-color-primary-200)' },
+  { owner: 'Bruce W.', ownerInitials: 'BW', ownerColor: 'var(--jig-color-info-200)' },
+  { owner: 'Alice S.', ownerInitials: 'AS', ownerColor: 'var(--jig-color-success-200)' },
+  { owner: 'Mark R.', ownerInitials: 'MR', ownerColor: 'var(--jig-color-accent-200)' },
 ] as const;
 
 const STATUS_COLORS: Record<OpportunityStatus, PaletteColorName> = {
@@ -155,14 +155,14 @@ function makeOpportunity(
 }
 
 const SEED: ReadonlyArray<[string, string, string, number, OpportunityStatus, number]> = [
-  ['Stark Tech', 'ST', 'var(--ngn-color-primary-200)', 1_250_000, 'Closed Won', 0],
-  ['Wayne Corp', 'WC', 'var(--ngn-color-secondary-200)', 840_000, 'Negotiation', 1],
-  ['TechFlow Inc', 'TF', 'var(--ngn-color-accent-200)', 12_400, 'Discovery', 2],
-  ['Globex', 'GX', 'var(--ngn-color-info-200)', 96_000, 'Proposal', 3],
-  ['Initech', 'IN', 'var(--ngn-color-success-200)', 38_500, 'Discovery', 0],
-  ['Umbrella Co', 'UC', 'var(--ngn-color-error-200)', 612_000, 'Negotiation', 1],
-  ['Soylent', 'SY', 'var(--ngn-color-warning-200)', 220_000, 'Proposal', 2],
-  ['Hooli', 'HO', 'var(--ngn-color-primary-200)', 1_010_000, 'Closed Won', 3],
+  ['Stark Tech', 'ST', 'var(--jig-color-primary-200)', 1_250_000, 'Closed Won', 0],
+  ['Wayne Corp', 'WC', 'var(--jig-color-secondary-200)', 840_000, 'Negotiation', 1],
+  ['TechFlow Inc', 'TF', 'var(--jig-color-accent-200)', 12_400, 'Discovery', 2],
+  ['Globex', 'GX', 'var(--jig-color-info-200)', 96_000, 'Proposal', 3],
+  ['Initech', 'IN', 'var(--jig-color-success-200)', 38_500, 'Discovery', 0],
+  ['Umbrella Co', 'UC', 'var(--jig-color-error-200)', 612_000, 'Negotiation', 1],
+  ['Soylent', 'SY', 'var(--jig-color-warning-200)', 220_000, 'Proposal', 2],
+  ['Hooli', 'HO', 'var(--jig-color-primary-200)', 1_010_000, 'Closed Won', 3],
 ];
 
 /** 24 opportunities — the first three match the reference screenshot exactly. */
@@ -186,12 +186,12 @@ export type DealPriority = 'low' | 'medium' | 'high';
 
 const STAGES: readonly OpportunityStatus[] = ['Discovery', 'Proposal', 'Negotiation', 'Closed Won'];
 
-export const STAGE_OPTIONS: readonly NgnItem<unknown, OpportunityStatus>[] = STAGES.map(stage => ({
+export const STAGE_OPTIONS: readonly JigItem<unknown, OpportunityStatus>[] = STAGES.map(stage => ({
   label: stage,
   value: stage,
 }));
 
-export const OWNER_OPTIONS: readonly NgnItem<unknown, string>[] = OWNERS.map(owner => ({
+export const OWNER_OPTIONS: readonly JigItem<unknown, string>[] = OWNERS.map(owner => ({
   label: owner.owner,
   value: owner.owner,
 }));
@@ -214,11 +214,11 @@ export type DealDraft = {
 
 /** Avatar background colors cycled for newly added deals */
 const NEW_DEAL_COLORS: readonly string[] = [
-  'var(--ngn-color-primary-200)',
-  'var(--ngn-color-accent-200)',
-  'var(--ngn-color-info-200)',
-  'var(--ngn-color-success-200)',
-  'var(--ngn-color-secondary-200)',
+  'var(--jig-color-primary-200)',
+  'var(--jig-color-accent-200)',
+  'var(--jig-color-info-200)',
+  'var(--jig-color-success-200)',
+  'var(--jig-color-secondary-200)',
 ];
 
 function initialsFrom(name: string): string {

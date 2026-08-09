@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NgnAvatar } from '@ngneers/controls/avatar';
+import { JigAvatar } from '@awdlab/jig/avatar';
 
 @Component({
-  selector: 'ngn-demo-avatar-image',
-  imports: [NgnAvatar],
-  template: `<ngn-avatar image="img/avatar/1.png" />`,
+  selector: 'jig-demo-avatar-image',
+  imports: [JigAvatar],
+  template: `<jig-avatar image="img/avatar/1.png" />`,
 })
 export class Demo_Avatar_Image {}

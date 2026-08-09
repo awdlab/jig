@@ -1,44 +1,40 @@
 import { Component, signal } from '@angular/core';
-import { NgnSelectButton } from '@ngneers/controls/select-button';
-import {
-  NgnUpload,
-  type NgnUploadFile,
-  type NgnUploadListPosition,
-} from '@ngneers/controls/upload';
+import { JigSelectButton } from '@awdlab/jig/select-button';
+import { JigUpload, type JigUploadFile, type JigUploadListPosition } from '@awdlab/jig/upload';
 
 /**
  * `listPosition` places the file list `top`, `bottom` (default), `left`, or
  * `right` of the drop zone.
  */
 @Component({
-  imports: [NgnUpload, NgnSelectButton],
-  selector: 'ngn-demo-upload-position',
+  imports: [JigUpload, JigSelectButton],
+  selector: 'jig-demo-upload-position',
   template: `
     <div style="display: flex; flex-direction: column; gap: 1rem;">
-      <ngn-select-button
+      <jig-select-button
         [options]="options"
         [value]="position()"
         (valueChange)="position.set($event)"
       />
 
-      <ngn-upload #up="ngnUpload" [listPosition]="position()" (upload)="onUpload($event, up)">
+      <jig-upload #up="jigUpload" [listPosition]="position()" (upload)="onUpload($event, up)">
         <input type="file" multiple />
         Drag files here or click to browse
-      </ngn-upload>
+      </jig-upload>
     </div>
   `,
 })
 export class Demo_Upload_Position {
-  protected readonly position = signal<NgnUploadListPosition>('right');
+  protected readonly position = signal<JigUploadListPosition>('right');
 
-  protected readonly options: { label: string; value: NgnUploadListPosition }[] = [
+  protected readonly options: { label: string; value: JigUploadListPosition }[] = [
     { label: 'Top', value: 'top' },
     { label: 'Bottom', value: 'bottom' },
     { label: 'Left', value: 'left' },
     { label: 'Right', value: 'right' },
   ];
 
-  protected onUpload(files: NgnUploadFile[], up: NgnUpload): void {
+  protected onUpload(files: JigUploadFile[], up: JigUpload): void {
     for (const item of files) {
       let progress = 0;
       const tick = setInterval(() => {

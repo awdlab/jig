@@ -1,6 +1,6 @@
-import { notNullish } from '@ngneers/controls/utils';
+import { notNullish } from '@awdlab/jig/utils';
 
-import type { ControlName } from '@ngneers/controls-themes';
+import type { ControlName } from '@awdlab/jig-themes';
 import type { DeclarationReflection, ProjectReflection } from 'typedoc/browser';
 
 export function getProjectControl(

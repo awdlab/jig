@@ -1,14 +1,14 @@
 import { Component, signal } from '@angular/core';
-import { NgnCalendar } from '@ngneers/controls/calendar';
+import { JigCalendar } from '@awdlab/jig/calendar';
 
-import type { NgnPassthrough } from '@ngneers/controls/base';
+import type { JigPassthrough } from '@awdlab/jig/base';
 
 @Component({
-  selector: 'ngn-demo-pt-listeners',
-  imports: [NgnCalendar],
+  selector: 'jig-demo-pt-listeners',
+  imports: [JigCalendar],
   template: `
-    <ngn-calendar [inputId]="'pt-listeners'" [inline]="true" [pt]="pt" />
-    <p class="mt-2 text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600)">
+    <jig-calendar [inputId]="'pt-listeners'" [inline]="true" [pt]="pt" />
+    <p class="mt-2 text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)">
       Month changes tracked: {{ navCount() }}
     </p>
   `,
@@ -18,7 +18,7 @@ export class Demo_Pt_Listeners {
 
   private readonly trackNav = () => this.navCount.update(count => count + 1);
 
-  protected readonly pt: NgnPassthrough<'calendar'> = {
+  protected readonly pt: JigPassthrough<'calendar'> = {
     previous: {
       $listeners: { click: this.trackNav },
     },

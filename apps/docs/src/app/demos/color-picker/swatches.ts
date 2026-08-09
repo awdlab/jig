@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { NgnColorPicker } from '@ngneers/controls/color-picker';
+import { JigColorPicker } from '@awdlab/jig/color-picker';
 
 @Component({
-  selector: 'ngn-demo-color-picker-swatches',
-  imports: [NgnColorPicker],
+  selector: 'jig-demo-color-picker-swatches',
+  imports: [JigColorPicker],
   template: `
-    <ngn-color-picker
+    <jig-color-picker
       [inline]="true"
       [swatches]="['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6']"
       [value]="value()"

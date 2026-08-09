@@ -1,23 +1,23 @@
 import { Component } from '@angular/core';
-import { NgnCalendar } from '@ngneers/controls/calendar';
+import { JigCalendar } from '@awdlab/jig/calendar';
 
-import type { NgnPassthrough } from '@ngneers/controls/base';
+import type { JigPassthrough } from '@awdlab/jig/base';
 
 @Component({
-  selector: 'ngn-demo-pt-deps',
-  imports: [NgnCalendar],
-  template: `<ngn-calendar [inputId]="'pt-deps'" [inline]="true" [pt]="pt" />`,
+  selector: 'jig-demo-pt-deps',
+  imports: [JigCalendar],
+  template: `<jig-calendar [inputId]="'pt-deps'" [inline]="true" [pt]="pt" />`,
 })
 export class Demo_Pt_Deps {
-  protected readonly pt: NgnPassthrough<'calendar'> = {
+  protected readonly pt: JigPassthrough<'calendar'> = {
     // Only the month picker — the year select is left untouched.
     'current-month': {
       root: {
-        $classes: 'text-(--ngn-color-primary-700) font-(--ngn-font-weight-semibold)',
+        $classes: 'text-(--jig-color-primary-700) font-(--jig-font-weight-semibold)',
       },
     },
     // The prev / next nav buttons, each addressed by its own slot.
-    previous: { root: { $styles: { color: 'var(--ngn-color-primary-600)' } } },
-    next: { root: { $styles: { color: 'var(--ngn-color-primary-600)' } } },
+    previous: { root: { $styles: { color: 'var(--jig-color-primary-600)' } } },
+    next: { root: { $styles: { color: 'var(--jig-color-primary-600)' } } },
   };
 }

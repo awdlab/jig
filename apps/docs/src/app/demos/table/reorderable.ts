@@ -1,16 +1,16 @@
 import { JsonPipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnTableModule } from '@ngneers/controls/table';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigTableModule } from '@awdlab/jig/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnTableModule, NgnTemplate, JsonPipe],
-  selector: 'ngn-demo-table-reorderable',
+  imports: [JigTableModule, JigTemplate, JsonPipe],
+  selector: 'jig-demo-table-reorderable',
   host: { style: 'display: block; width: 100%' },
   template: `
-    <ngn-table
+    <jig-table
       #table
       style="height: 400px; width: 100%"
       [rows]="rows"
@@ -19,22 +19,22 @@ import { exampleData } from '../../helper/data';
       [(columnOrder)]="columnOrder"
     >
       <ng-template #header>
-        <tr ngnTableHeadTr>
-          <th [ngnTableTh]="table.column('id')" ngnTableReorderableColumn>ID</th>
-          <th [ngnTableTh]="table.column('name')" ngnTableReorderableColumn>Name</th>
-          <th [ngnTableTh]="table.column('department')" ngnTableReorderableColumn>Department</th>
-          <th [ngnTableTh]="table.column('location')" ngnTableReorderableColumn>Location</th>
+        <tr jigTableHeadTr>
+          <th [jigTableTh]="table.column('id')" jigTableReorderableColumn>ID</th>
+          <th [jigTableTh]="table.column('name')" jigTableReorderableColumn>Name</th>
+          <th [jigTableTh]="table.column('department')" jigTableReorderableColumn>Department</th>
+          <th [jigTableTh]="table.column('location')" jigTableReorderableColumn>Location</th>
         </tr>
       </ng-template>
-      <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-        <tr [ngnTableBodyTr]="row">
-          <td ngnTableTd>{{ row.data.id }}</td>
-          <td ngnTableTd>{{ row.data.name }}</td>
-          <td ngnTableTd>{{ row.data.department }}</td>
-          <td ngnTableTd>{{ row.data.location }}</td>
+      <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+        <tr [jigTableBodyTr]="row">
+          <td jigTableTd>{{ row.data.id }}</td>
+          <td jigTableTd>{{ row.data.name }}</td>
+          <td jigTableTd>{{ row.data.department }}</td>
+          <td jigTableTd>{{ row.data.location }}</td>
         </tr>
       </ng-template>
-    </ngn-table>
+    </jig-table>
     <p style="margin-top: 8px; font-size: 14px; color: #666;">
       Column order: {{ columnOrder() | json }}
     </p>

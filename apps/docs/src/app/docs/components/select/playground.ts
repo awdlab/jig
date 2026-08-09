@@ -1,25 +1,25 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnSelect } from '@ngneers/controls/select';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigSelect } from '@awdlab/jig/select';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
-import type { NgnItem } from '@ngneers/controls/api';
+import type { JigItem } from '@awdlab/jig/api';
 
 @Component({
-  selector: 'ngn-docs-select-playground',
-  imports: [NgnSelect, NgnInputField, NgnDocsPlayground],
+  selector: 'jig-docs-select-playground',
+  imports: [JigSelect, JigInputField, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnSelect', component: component() }]">
-      <ngn-input-field>
-        <ngn-select #ref [options]="options" />
-      </ngn-input-field>
-    </ngn-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'JigSelect', component: component() }]">
+      <jig-input-field>
+        <jig-select #ref [options]="options" />
+      </jig-input-field>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsSelectPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnSelect });
-  protected readonly options: NgnItem[] = [
+export class JigDocsSelectPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigSelect });
+  protected readonly options: JigItem[] = [
     { label: 'Option 1', value: '1' },
     { label: 'Option 2', value: '2' },
     { label: 'Option 3', value: '3' },

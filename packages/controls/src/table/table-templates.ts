@@ -1,6 +1,6 @@
 import { Component, contentChild, TemplateRef } from '@angular/core';
-import { templateTypesFn } from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
+import { templateTypesFn } from '@awdlab/jig/api/ng';
+import { JigBase } from '@awdlab/jig/base';
 
 import type { FormattedTableDataRow } from './types';
 
@@ -16,7 +16,7 @@ export type GroupHeaderContext = {
 @Component({
   template: '',
 })
-export abstract class NgnTableTemplates<T extends object> extends NgnBase<'table'> {
+export abstract class JigTableTemplates<T extends object> extends JigBase<'table'> {
   private readonly _headerTemplate = contentChild<TemplateRef<unknown>>('header');
   private readonly _bodyTemplate =
     contentChild<TemplateRef<typeof this.templateTypes.body>>('body');

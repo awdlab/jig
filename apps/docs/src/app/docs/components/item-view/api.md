@@ -1,1 +1,1 @@
-{{ api: item-view/item-view NgnItemView }}
+{{ api: item-view/item-view JigItemView }}

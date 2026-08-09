@@ -3,55 +3,55 @@ import tablerCode from '@iconify/icons-tabler/code';
 import tablerCopy from '@iconify/icons-tabler/copy';
 import tablerTrash from '@iconify/icons-tabler/trash';
 import tablerUser from '@iconify/icons-tabler/user';
-import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
-import { injectThemeColors, injectThemeControlKinds, NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnAvatar, NgnAvatarGroup } from '@ngneers/controls/avatar';
-import { type BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnButtonGroup } from '@ngneers/controls/button-group';
-import { NgnCalendar } from '@ngneers/controls/calendar';
-import { NgnCheckbox } from '@ngneers/controls/checkbox';
-import { NgnChip } from '@ngneers/controls/chip';
-import { NgnDialog } from '@ngneers/controls/dialog';
-import { NgnDrawer } from '@ngneers/controls/drawer';
-import { NgnEditInplace } from '@ngneers/controls/edit-inplace';
-import { NgnFilter } from '@ngneers/controls/filter';
-import { NgnHint } from '@ngneers/controls/hint';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnInplace } from '@ngneers/controls/inplace';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnItemView } from '@ngneers/controls/item-view';
-import { NgnListBox } from '@ngneers/controls/list-box';
-import { DATE_TIME_MASKS, type MaskInputCfg, NgnMaskInput } from '@ngneers/controls/mask-input';
-import { type MenuItem, NgnMenu } from '@ngneers/controls/menu';
-import { NgnMessage } from '@ngneers/controls/message';
-import { NgnNumberInput } from '@ngneers/controls/number-input';
-import { NgnPaginator } from '@ngneers/controls/paginator';
-import { NgnPopover } from '@ngneers/controls/popover';
-import { NgnProgress } from '@ngneers/controls/progress';
-import { NgnRadio, NgnRadioGroup } from '@ngneers/controls/radio';
-import { NgnSelect } from '@ngneers/controls/select';
-import { NgnSelectButton } from '@ngneers/controls/select-button';
-import { NgnSlider } from '@ngneers/controls/slider';
-import { injectSnackbarCreator } from '@ngneers/controls/snackbar';
-import { NgnSpinButtons } from '@ngneers/controls/spin-buttons';
-import { NgnSpinner } from '@ngneers/controls/spinner';
-import { NgnSplitterModule } from '@ngneers/controls/splitter';
-import { NgnSwitch } from '@ngneers/controls/switch';
-import { NgnTableModule } from '@ngneers/controls/table';
-import { NgnTab, NgnTabs } from '@ngneers/controls/tabs';
-import { NgnTag } from '@ngneers/controls/tag';
-import { injectToastCreator } from '@ngneers/controls/toast';
-import { NgnToggleButton } from '@ngneers/controls/toggle-button';
-import { NgnTooltip } from '@ngneers/controls/tooltip';
-import { NgnTree } from '@ngneers/controls/tree';
-import { NgnUpload, type NgnUploadFile } from '@ngneers/controls/upload';
+import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
+import { injectThemeColors, injectThemeControlKinds, JigTemplate } from '@awdlab/jig/api/ng';
+import { JigAvatar, JigAvatarGroup } from '@awdlab/jig/avatar';
+import { type BreadcrumbItem, JigBreadcrumb } from '@awdlab/jig/breadcrumb';
+import { JigButton } from '@awdlab/jig/button';
+import { JigButtonGroup } from '@awdlab/jig/button-group';
+import { JigCalendar } from '@awdlab/jig/calendar';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
+import { JigChip } from '@awdlab/jig/chip';
+import { JigDialog } from '@awdlab/jig/dialog';
+import { JigDrawer } from '@awdlab/jig/drawer';
+import { JigEditInplace } from '@awdlab/jig/edit-inplace';
+import { JigFilter } from '@awdlab/jig/filter';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInplace } from '@awdlab/jig/inplace';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigItemView } from '@awdlab/jig/item-view';
+import { JigListBox } from '@awdlab/jig/list-box';
+import { DATE_TIME_MASKS, type MaskInputCfg, JigMaskInput } from '@awdlab/jig/mask-input';
+import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
+import { JigMessage } from '@awdlab/jig/message';
+import { JigNumberInput } from '@awdlab/jig/number-input';
+import { JigPaginator } from '@awdlab/jig/paginator';
+import { JigPopover } from '@awdlab/jig/popover';
+import { JigProgress } from '@awdlab/jig/progress';
+import { JigRadio, JigRadioGroup } from '@awdlab/jig/radio';
+import { JigSelect } from '@awdlab/jig/select';
+import { JigSelectButton } from '@awdlab/jig/select-button';
+import { JigSlider } from '@awdlab/jig/slider';
+import { injectSnackbarCreator } from '@awdlab/jig/snackbar';
+import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
+import { JigSpinner } from '@awdlab/jig/spinner';
+import { JigSplitterModule } from '@awdlab/jig/splitter';
+import { JigSwitch } from '@awdlab/jig/switch';
+import { JigTableModule } from '@awdlab/jig/table';
+import { JigTab, JigTabs } from '@awdlab/jig/tabs';
+import { JigTag } from '@awdlab/jig/tag';
+import { injectToastCreator } from '@awdlab/jig/toast';
+import { JigToggleButton } from '@awdlab/jig/toggle-button';
+import { JigTooltip } from '@awdlab/jig/tooltip';
+import { JigTree } from '@awdlab/jig/tree';
+import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
 
 import { exampleData } from '../helper/data';
-import { NgnDocsThemePicker } from '../utils/theme-picker/theme-picker';
+import { JigDocsThemePicker } from '../utils/theme-picker/theme-picker';
 
-import type { NgnTreeItem } from '@ngneers/controls/api';
+import type { JigTreeItem } from '@awdlab/jig/api';
 
 /**
  * Unlinked overview page (`/_gallery`) rendering every visual control with
@@ -59,56 +59,56 @@ import type { NgnTreeItem } from '@ngneers/controls/api';
  * across the whole control set at a glance — not part of the docs navigation.
  */
 @Component({
-  selector: 'ngn-docs-gallery',
+  selector: 'jig-docs-gallery',
   templateUrl: './gallery.html',
   imports: [
-    NgnTemplate,
-    NgnDocsThemePicker,
-    NgnAccordion,
-    NgnAccordionPanel,
-    NgnAvatar,
-    NgnAvatarGroup,
-    NgnBreadcrumb,
-    NgnButton,
-    NgnButtonGroup,
-    NgnCalendar,
-    NgnCheckbox,
-    NgnChip,
-    NgnDialog,
-    NgnDrawer,
-    NgnEditInplace,
-    NgnFilter,
-    NgnHint,
-    NgnIcon,
-    NgnInplace,
-    NgnInput,
-    NgnInputField,
-    NgnItemView,
-    NgnListBox,
-    NgnMaskInput,
-    NgnMenu,
-    NgnMessage,
-    NgnNumberInput,
-    NgnPaginator,
-    NgnPopover,
-    NgnProgress,
-    NgnRadio,
-    NgnRadioGroup,
-    NgnSelect,
-    NgnSelectButton,
-    NgnSlider,
-    NgnSpinButtons,
-    NgnSpinner,
-    NgnSplitterModule,
-    NgnSwitch,
-    NgnTableModule,
-    NgnTab,
-    NgnTabs,
-    NgnTag,
-    NgnToggleButton,
-    NgnTooltip,
-    NgnTree,
-    NgnUpload,
+    JigTemplate,
+    JigDocsThemePicker,
+    JigAccordion,
+    JigAccordionPanel,
+    JigAvatar,
+    JigAvatarGroup,
+    JigBreadcrumb,
+    JigButton,
+    JigButtonGroup,
+    JigCalendar,
+    JigCheckbox,
+    JigChip,
+    JigDialog,
+    JigDrawer,
+    JigEditInplace,
+    JigFilter,
+    JigHint,
+    JigIcon,
+    JigInplace,
+    JigInput,
+    JigInputField,
+    JigItemView,
+    JigListBox,
+    JigMaskInput,
+    JigMenu,
+    JigMessage,
+    JigNumberInput,
+    JigPaginator,
+    JigPopover,
+    JigProgress,
+    JigRadio,
+    JigRadioGroup,
+    JigSelect,
+    JigSelectButton,
+    JigSlider,
+    JigSpinButtons,
+    JigSpinner,
+    JigSplitterModule,
+    JigSwitch,
+    JigTableModule,
+    JigTab,
+    JigTabs,
+    JigTag,
+    JigToggleButton,
+    JigTooltip,
+    JigTree,
+    JigUpload,
   ],
   // Scoped positioning for the always-open, top-layer overlays so they sit in
   // grid gaps instead of covering the content being compared. Purely layout —
@@ -125,7 +125,7 @@ import type { NgnTreeItem } from '@ngneers/controls/api';
     }
   `,
 })
-export class NgnDocsGallery {
+export class JigDocsGallery {
   // ---- palettes driven by the active theme (kinds × colors matrices) --------
   protected readonly buttonKinds = injectThemeControlKinds('button');
   protected readonly buttonColors = injectThemeColors('button');
@@ -158,11 +158,11 @@ export class NgnDocsGallery {
   protected readonly breadcrumbItems = signal<BreadcrumbItem[]>([
     { label: 'Home', id: 'home', callback: () => {} },
     { label: 'Projects', id: 'projects', callback: () => {} },
-    { label: 'ngneers', id: 'ngneers', callback: () => {} },
-    { label: 'controls', id: 'controls' },
+    { label: 'awdlab', id: 'awdlab', callback: () => {} },
+    { label: 'jig', id: 'jig' },
   ]);
 
-  protected readonly tree: NgnTreeItem[] = [
+  protected readonly tree: JigTreeItem[] = [
     {
       label: 'src',
       value: 'src',
@@ -211,8 +211,8 @@ export class NgnDocsGallery {
   protected readonly icons = { user: tablerUser };
 
   // ---- force-open overlays (see class doc + scoped styles) -----------------
-  private readonly _select = viewChild.required<NgnSelect<unknown>>('gallerySelect');
-  private readonly _tooltip = viewChild.required(NgnTooltip);
+  private readonly _select = viewChild.required<JigSelect<unknown>>('gallerySelect');
+  private readonly _tooltip = viewChild.required(JigTooltip);
 
   private readonly _toasts = injectToastCreator();
   private readonly _snackbars = injectSnackbarCreator();
@@ -240,7 +240,7 @@ export class NgnDocsGallery {
     });
   }
 
-  protected onUpload(files: NgnUploadFile[], up: NgnUpload): void {
+  protected onUpload(files: JigUploadFile[], up: JigUpload): void {
     for (const file of files) {
       let progress = 0;
       const tick = setInterval(() => {

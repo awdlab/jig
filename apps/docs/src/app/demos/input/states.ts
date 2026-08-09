@@ -1,35 +1,35 @@
 import { Component } from '@angular/core';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 
 @Component({
-  selector: 'ngn-demo-input-states',
-  imports: [NgnInput, NgnInputField],
+  selector: 'jig-demo-input-states',
+  imports: [JigInput, JigInputField],
   template: `
     Default:
-    <ngn-input-field>
-      <input ngnInput value="Some Text" />
-    </ngn-input-field>
+    <jig-input-field>
+      <input jigInput value="Some Text" />
+    </jig-input-field>
     Readonly:
-    <ngn-input-field>
-      <input ngnInput value="Some Text" readonly />
-    </ngn-input-field>
+    <jig-input-field>
+      <input jigInput value="Some Text" readonly />
+    </jig-input-field>
     Disabled:
-    <ngn-input-field>
-      <input ngnInput value="Some Text" disabled />
-    </ngn-input-field>
+    <jig-input-field>
+      <input jigInput value="Some Text" disabled />
+    </jig-input-field>
     Invalid:
-    <ngn-input-field>
-      <input ngnInput value="Some Text" [invalidOn]="'immediate'" invalid />
-    </ngn-input-field>
+    <jig-input-field>
+      <input jigInput value="Some Text" [invalidOn]="'immediate'" invalid />
+    </jig-input-field>
     Invalid + Readonly:
-    <ngn-input-field>
-      <input ngnInput value="Some Text" [invalidOn]="'immediate'" invalid readonly />
-    </ngn-input-field>
+    <jig-input-field>
+      <input jigInput value="Some Text" [invalidOn]="'immediate'" invalid readonly />
+    </jig-input-field>
     Invalid + Disabled:
-    <ngn-input-field>
-      <input ngnInput value="Some Text" [invalidOn]="'immediate'" invalid disabled />
-    </ngn-input-field>
+    <jig-input-field>
+      <input jigInput value="Some Text" [invalidOn]="'immediate'" invalid disabled />
+    </jig-input-field>
   `,
   host: { class: 'w-48' },
 })

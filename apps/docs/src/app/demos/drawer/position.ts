@@ -1,16 +1,16 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnDrawer } from '@ngneers/controls/drawer';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDrawer } from '@awdlab/jig/drawer';
 
 @Component({
-  imports: [NgnDrawer, NgnButton],
-  selector: 'ngn-demo-drawer-position',
-  template: `<button ngnButton (click)="position.set('left')">←</button>
-    <button ngnButton (click)="position.set('right')">→</button>
-    <button ngnButton (click)="position.set('top')">↑</button>
-    <button ngnButton (click)="position.set('bottom')">↓</button>
-    <button ngnButton (click)="position.set('fullscreen')">↔</button>
-    <ngn-drawer
+  imports: [JigDrawer, JigButton],
+  selector: 'jig-demo-drawer-position',
+  template: `<button jigButton (click)="position.set('left')">←</button>
+    <button jigButton (click)="position.set('right')">→</button>
+    <button jigButton (click)="position.set('top')">↑</button>
+    <button jigButton (click)="position.set('bottom')">↓</button>
+    <button jigButton (click)="position.set('fullscreen')">↔</button>
+    <jig-drawer
       [header]="'Drawer ' + position()"
       [position]="position() ?? 'left'"
       [open]="!!position()"
@@ -18,7 +18,7 @@ import { NgnDrawer } from '@ngneers/controls/drawer';
       (closed)="position.set(null)"
     >
       Content
-    </ngn-drawer>`,
+    </jig-drawer>`,
 })
 export class Demo_Drawer_Position {
   protected readonly position = signal<'left' | 'right' | 'top' | 'bottom' | 'fullscreen' | null>(

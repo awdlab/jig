@@ -6,30 +6,30 @@ controls: dialog, button, input-field, input, snackbar, toast
 
 # Confirm / edit dialog flow
 
-`ngn-dialog` is declarative: drive it from an `open` signal via `[(open)]`, not a
+`jig-dialog` is declarative: drive it from an `open` signal via `[(open)]`, not a
 service call. Open it from a trigger, edit inside, confirm/cancel to close, then
-surface the outcome with `ngn-snackbar` or `ngn-toast`.
+surface the outcome with `jig-snackbar` or `jig-toast`.
 
 ## Shape
 
 - Keep dialog visibility in a `signal(false)` bound with `[(open)]`.
-- Put form controls inside the dialog (wrapped in `ngn-input-field`).
+- Put form controls inside the dialog (wrapped in `jig-input-field`).
 - Confirm action validates, applies, closes (`open.set(false)`), and notifies.
 - Cancel just closes.
 
 ## Skeleton
 
 ```html
-<button ngnButton (click)="open.set(true)">Edit</button>
+<button jigButton (click)="open.set(true)">Edit</button>
 
-<ngn-dialog [(open)]="open" [modal]="true">
-  <ngn-input-field label="Title">
-    <input ngnInput [(value)]="draft" />
-  </ngn-input-field>
+<jig-dialog [(open)]="open" [modal]="true">
+  <jig-input-field label="Title">
+    <input jigInput [(value)]="draft" />
+  </jig-input-field>
 
-  <button ngnButton (click)="open.set(false)">Cancel</button>
-  <button ngnButton (click)="confirm()">Save</button>
-</ngn-dialog>
+  <button jigButton (click)="open.set(false)">Cancel</button>
+  <button jigButton (click)="confirm()">Save</button>
+</jig-dialog>
 ```
 
 ```ts

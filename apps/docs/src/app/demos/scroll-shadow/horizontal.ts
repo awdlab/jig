@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { NgnScrollShadow } from '@ngneers/controls/scroll-shadow';
+import { JigScrollShadow } from '@awdlab/jig/scroll-shadow';
 
 @Component({
-  imports: [NgnScrollShadow],
-  selector: 'ngn-demo-scroll-shadow-horizontal',
+  imports: [JigScrollShadow],
+  selector: 'jig-demo-scroll-shadow-horizontal',
   template: `
-    <div ngnScrollShadow="horizontal" class="box">
+    <div jigScrollShadow="horizontal" class="box">
       <div class="row">
         @for (n of cards; track n) {
           <div class="card">Card {{ n }}</div>
@@ -17,8 +17,8 @@ import { NgnScrollShadow } from '@ngneers/controls/scroll-shadow';
     .box {
       max-width: 100%;
       overflow: auto;
-      border: 1px solid var(--ngn-color-surface-200);
-      border-radius: var(--ngn-size-radius-md);
+      border: 1px solid var(--jig-color-surface-200);
+      border-radius: var(--jig-size-radius-md);
     }
     .row {
       display: flex;
@@ -31,8 +31,8 @@ import { NgnScrollShadow } from '@ngneers/controls/scroll-shadow';
       height: 90px;
       display: grid;
       place-items: center;
-      background: var(--ngn-color-surface-100);
-      border-radius: var(--ngn-size-radius-sm);
+      background: var(--jig-color-surface-100);
+      border-radius: var(--jig-size-radius-sm);
     }
   `,
 })

@@ -1,32 +1,32 @@
 import { Component, computed, viewChild, viewChildren } from '@angular/core';
-import { NgnTabs, NgnTab } from '@ngneers/controls/tabs';
+import { JigTabs, JigTab } from '@awdlab/jig/tabs';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-tabs-playground',
-  imports: [NgnTabs, NgnTab, NgnDocsPlayground],
+  selector: 'jig-docs-tabs-playground',
+  imports: [JigTabs, JigTab, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnTabs', component: component() }]">
-      <ngn-tabs class="flex-1" #ref>
-        <ngn-tab #ref2 tabId="tab1">
+    <jig-docs-playground [controls]="[{ componentName: 'JigTabs', component: component() }]">
+      <jig-tabs class="flex-1" #ref>
+        <jig-tab #ref2 tabId="tab1">
           <ng-template #header>Tab 1</ng-template>
           <ng-template #content>Content 1</ng-template>
-        </ngn-tab>
-        <ngn-tab #ref2 tabId="tab2">
+        </jig-tab>
+        <jig-tab #ref2 tabId="tab2">
           <ng-template #header>Tab 2</ng-template>
           <ng-template #content>Content 2</ng-template>
-        </ngn-tab>
-        <ngn-tab #ref2 tabId="tab3">
+        </jig-tab>
+        <jig-tab #ref2 tabId="tab3">
           <ng-template #header>Tab 3</ng-template>
           <ng-template #content>Content 3</ng-template>
-        </ngn-tab>
-      </ngn-tabs>
-    </ngn-docs-playground>
+        </jig-tab>
+      </jig-tabs>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsTabsPlayground {
-  private readonly _componentTabs = viewChild.required('ref', { read: NgnTabs });
-  private readonly _componentTab = viewChildren('ref2', { read: NgnTab });
+export class JigDocsTabsPlayground {
+  private readonly _componentTabs = viewChild.required('ref', { read: JigTabs });
+  private readonly _componentTab = viewChildren('ref2', { read: JigTab });
   protected readonly component = computed(() => [this._componentTabs(), ...this._componentTab()]);
 }

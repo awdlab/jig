@@ -220,7 +220,7 @@ async function collectSelectors(apiRefs: ApiRef[]): Promise<SearchName[]> {
       for (const [, selector] of code.matchAll(/^\s*selector:\s*'([^']+)'/gm)) {
         for (const single of selector!.split(',')) {
           // Attribute directives are written against their host element
-          // (`button[ngnButton]`); people search for the attribute, not the host.
+          // (`button[jigButton]`); people search for the attribute, not the host.
           const attribute = /\[([^\]]+)\]/.exec(single);
           const name = (attribute?.[1] ?? single).trim();
           if (name && !names.some(existing => existing.name === name)) {

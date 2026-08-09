@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { chipControlTemplate } from '@ngneers/controls-themes/templates/chip';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { chipControlTemplate } from '@awdlab/jig-themes/templates/chip';
 
 export const chipStyles = createThemePart({
   controlTemplate: chipControlTemplate,

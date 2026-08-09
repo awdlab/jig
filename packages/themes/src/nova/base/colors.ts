@@ -4,7 +4,7 @@ import {
   repeatVariables,
   bestContrast,
   type RGB,
-} from '@ngneers/controls-themes/api';
+} from '@awdlab/jig-themes/api';
 import {
   bubblegumColor,
   bubblegumColorRgb,
@@ -24,7 +24,7 @@ import {
   solarMarigoldColorRgb,
   greyColor,
   greyColorRgb,
-} from '@ngneers/controls-themes/nova/colors';
+} from '@awdlab/jig-themes/nova/colors';
 
 const CONTRAST_SHADES = [
   '50',

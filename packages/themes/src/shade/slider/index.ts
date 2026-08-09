@@ -1,7 +1,7 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import { colorsTemplate, shadowTemplate, sizesTemplate } from '@ngneers/controls-themes/shade/base';
-import { sliderControlTemplate } from '@ngneers/controls-themes/templates/slider';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { colorsTemplate, shadowTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
+import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
 
 export const sliderStyles = createThemePart({
   controlTemplate: sliderControlTemplate,

@@ -1,29 +1,29 @@
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgnErrors } from '@ngneers/controls/errors';
-import { NgnHint } from '@ngneers/controls/hint';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 
-import type { NgnErrorsMessages } from '@ngneers/controls/errors';
+import type { JigErrorsMessages } from '@awdlab/jig/errors';
 
 @Component({
-  selector: 'ngn-demo-errors-messages',
-  imports: [ReactiveFormsModule, NgnErrors, NgnHint, NgnInput, NgnInputField],
+  selector: 'jig-demo-errors-messages',
+  imports: [ReactiveFormsModule, JigErrors, JigHint, JigInput, JigInputField],
   template: `
     <div class="flex flex-col gap-1">
-      <ngn-input-field [label]="'Coupon code'" [labelKind]="'on'" class="w-72">
+      <jig-input-field [label]="'Coupon code'" [labelKind]="'on'" class="w-72">
         <input
-          ngnInput
+          jigInput
           [formControl]="code"
-          ngnErrors
-          ngnErrorsMode="all"
-          ngnErrorsShowOn="dirty"
-          [ngnErrorsMessages]="messages"
-          [ngnErrorsHint]="codeHint"
+          jigErrors
+          jigErrorsMode="all"
+          jigErrorsShowOn="dirty"
+          [jigErrorsMessages]="messages"
+          [jigErrorsHint]="codeHint"
         />
-      </ngn-input-field>
-      <ngn-hint #codeHint />
+      </jig-input-field>
+      <jig-hint #codeHint />
     </div>
   `,
 })
@@ -34,7 +34,7 @@ export class Demo_Errors_Messages {
   });
 
   /** Static strings and resolvers that read the error's params. */
-  protected readonly messages: NgnErrorsMessages = {
+  protected readonly messages: JigErrorsMessages = {
     required: 'Enter the code from your invoice.',
     minlength: ({ params }) => `${params['requiredLength']} characters, please.`,
     pattern: 'Uppercase letters, digits and dashes only.',

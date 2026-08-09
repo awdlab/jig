@@ -9,14 +9,14 @@ export abstract class PromptDialogBase<D, ButtonValues> {
    * triggered the prompt and the callback used to report the result back to the dialog.
    * You typically do not set this yourself; call `fulfilPrompt` from your subclass instead.
    */
-  public readonly ngnPromptDialogResolveFn = input<{
+  public readonly jigPromptDialogResolveFn = input<{
     fn: (value: D | null) => void;
     button: ButtonValues;
   }>();
 
   constructor() {
     effect(() => {
-      const fn = this.ngnPromptDialogResolveFn(); // trigger
+      const fn = this.jigPromptDialogResolveFn(); // trigger
       if (fn) {
         this.onDialogButtonClicked(fn.button);
       }
@@ -24,7 +24,7 @@ export abstract class PromptDialogBase<D, ButtonValues> {
   }
 
   protected fulfilPrompt(data?: D) {
-    this.ngnPromptDialogResolveFn()?.fn(data ?? null);
+    this.jigPromptDialogResolveFn()?.fn(data ?? null);
   }
 
   protected abstract onDialogButtonClicked(button: ButtonValues): void;

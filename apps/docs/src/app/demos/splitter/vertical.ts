@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
-import { NgnSplitterModule } from '@ngneers/controls/splitter';
+import { JigSplitterModule } from '@awdlab/jig/splitter';
 
 @Component({
-  imports: [NgnSplitterModule],
-  selector: 'ngn-demo-splitter-vertical',
+  imports: [JigSplitterModule],
+  selector: 'jig-demo-splitter-vertical',
   template: `
-    <ngn-splitter [layout]="'vertical'" [aria-label]="'Vertical Splitter Example'">
-      <ngn-splitter-panel [size]="'70px'" [aria-label]="'First Panel'">
+    <jig-splitter [layout]="'vertical'" [aria-label]="'Vertical Splitter Example'">
+      <jig-splitter-panel [size]="'70px'" [aria-label]="'First Panel'">
         Panel 1
-      </ngn-splitter-panel>
-      <ngn-splitter-panel [size]="'3fr'" [aria-label]="'Second Panel'">
+      </jig-splitter-panel>
+      <jig-splitter-panel [size]="'3fr'" [aria-label]="'Second Panel'">
         Panel 2
-      </ngn-splitter-panel>
-      <ngn-splitter-panel [size]="'5fr'" [aria-label]="'Third Panel'"> Panel 3 </ngn-splitter-panel>
-    </ngn-splitter>
+      </jig-splitter-panel>
+      <jig-splitter-panel [size]="'5fr'" [aria-label]="'Third Panel'"> Panel 3 </jig-splitter-panel>
+    </jig-splitter>
   `,
   styles: `
     :host {

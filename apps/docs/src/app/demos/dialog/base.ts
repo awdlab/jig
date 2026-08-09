@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnDialog } from '@ngneers/controls/dialog';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDialog } from '@awdlab/jig/dialog';
 
 @Component({
-  selector: 'ngn-demo-dialog-base',
-  imports: [NgnDialog, NgnButton],
-  template: `<button ngnButton (click)="open.set(true)">Open Dialog</button>
-    <ngn-dialog
+  selector: 'jig-demo-dialog-base',
+  imports: [JigDialog, JigButton],
+  template: `<button jigButton (click)="open.set(true)">Open Dialog</button>
+    <jig-dialog
       [title]="'test'"
       [open]="open()"
       [closeBy]="'any'"
@@ -15,8 +15,8 @@ import { NgnDialog } from '@ngneers/controls/dialog';
       [size]="{ width: '400px', maxWidth: '90vw' }"
     >
       Content
-      <button ngnButton autofocus>awd</button>
-    </ngn-dialog>`,
+      <button jigButton autofocus>jig</button>
+    </jig-dialog>`,
 })
 export class Demo_Dialog_Base {
   protected readonly open = signal(false);

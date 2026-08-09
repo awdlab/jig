@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { selectButtonControlTemplate } from '@ngneers/controls-themes/templates/select-button';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { selectButtonControlTemplate } from '@awdlab/jig-themes/templates/select-button';
 
 export const selectButtonStyles = createThemePart({
   controlTemplate: selectButtonControlTemplate,

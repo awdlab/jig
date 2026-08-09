@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
-import { injectThemeControlKinds } from '@ngneers/controls/api/ng';
-import { NgnButton } from '@ngneers/controls/button';
+import { injectThemeControlKinds } from '@awdlab/jig/api/ng';
+import { JigButton } from '@awdlab/jig/button';
 
 @Component({
-  selector: 'ngn-demo-button-disabled',
-  imports: [NgnButton],
+  selector: 'jig-demo-button-disabled',
+  imports: [JigButton],
   template: `
     <div class="flex flex-col gap-2">
       @for (kind of kinds(); track $index) {
         <div class="flex flex-wrap items-center gap-2">
-          <button ngnButton [kind]="kind">
+          <button jigButton [kind]="kind">
             {{ kind === 'icon' ? '👽' : kind }}
           </button>
-          <button ngnButton [kind]="kind" disabled>
+          <button jigButton [kind]="kind" disabled>
             {{ kind === 'icon' ? '👽' : kind }}
           </button>
         </div>

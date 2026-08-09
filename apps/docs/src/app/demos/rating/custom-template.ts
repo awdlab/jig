@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { NgnRating } from '@ngneers/controls/rating';
+import { JigRating } from '@awdlab/jig/rating';
 
 @Component({
-  selector: 'ngn-demo-rating-custom-template',
-  imports: [NgnRating],
+  selector: 'jig-demo-rating-custom-template',
+  imports: [JigRating],
   template: `
-    <ngn-rating [step]="0.5" [value]="value()" (valueChange)="value.set($event)">
+    <jig-rating [step]="0.5" [value]="value()" (valueChange)="value.set($event)">
       <!-- The template receives the per-symbol fill ratio (0..1), so it can render
            partial fills — here a filled star clipped to the ratio over an empty one,
            which shows half stars when step is 0.5. -->
@@ -19,7 +19,7 @@ import { NgnRating } from '@ngneers/controls/rating';
           >
         </span>
       </ng-template>
-    </ngn-rating>
+    </jig-rating>
     <br />
     {{ value() }}
   `,

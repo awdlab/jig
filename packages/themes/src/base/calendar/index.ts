@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { calendarControlTemplate } from '@awdlab/jig-themes/templates/calendar';
 
 export const calendarStyles = createThemePart({
   controlTemplate: calendarControlTemplate,

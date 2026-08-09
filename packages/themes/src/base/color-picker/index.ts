@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { colorPickerControlTemplate } from '@ngneers/controls-themes/templates/color-picker';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { colorPickerControlTemplate } from '@awdlab/jig-themes/templates/color-picker';
 
 export const colorPickerStyles = createThemePart({
   controlTemplate: colorPickerControlTemplate,
@@ -95,7 +95,7 @@ export const colorPickerStyles = createThemePart({
       ${c('channel-hex')} {
         flex: 3;
       }
-      ${c('channel')} ngn-input-field {
+      ${c('channel')} jig-input-field {
         width: 100%;
       }
       /* Compact horizontal padding so 3-digit channel values (e.g. 246) aren't clipped. */

@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { editInplaceControlTemplate } from '@ngneers/controls-themes/templates/edit-inplace';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { editInplaceControlTemplate } from '@awdlab/jig-themes/templates/edit-inplace';
 
 export const editInplaceStyles = createThemePart({
   controlTemplate: editInplaceControlTemplate,

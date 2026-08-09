@@ -1,14 +1,14 @@
 import { booleanAttribute, Component, input, model, inject } from '@angular/core';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnPt, provideSelf } from '@ngneers/controls/base';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnAutofocus } from '@ngneers/controls/directives';
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnInplace } from '@ngneers/controls/inplace';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { editInplaceControlTemplate } from '@ngneers/controls-themes/templates/edit-inplace';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigButton } from '@awdlab/jig/button';
+import { JigAutofocus } from '@awdlab/jig/directives';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInplace } from '@awdlab/jig/inplace';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { editInplaceControlTemplate } from '@awdlab/jig-themes/templates/edit-inplace';
 
 import { EditInplaceTemplates } from './edit-inplace-templates';
 
@@ -16,21 +16,21 @@ import { EditInplaceTemplates } from './edit-inplace-templates';
  * @category control
  */
 @Component({
-  selector: 'ngn-edit-inplace',
+  selector: 'jig-edit-inplace',
   templateUrl: './edit-inplace.html',
   imports: [
-    NgnPt,
-    NgnInplace,
-    NgnTemplate,
-    NgnInput,
-    NgnAutofocus,
-    NgnButton,
-    NgnIcon,
-    NgnInputField,
+    JigPt,
+    JigInplace,
+    JigTemplate,
+    JigInput,
+    JigAutofocus,
+    JigButton,
+    JigIcon,
+    JigInputField,
   ],
-  providers: [provideSelf(NgnEditInplace)],
+  providers: [provideSelf(JigEditInplace)],
 })
-export class NgnEditInplace extends EditInplaceTemplates {
+export class JigEditInplace extends EditInplaceTemplates {
   protected readonly theme = this.injectThemeTemplate(editInplaceControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),
@@ -43,7 +43,7 @@ export class NgnEditInplace extends EditInplaceTemplates {
 
   /**
    * Closes the edit view from a user confirm (Enter / confirm button). Marks the
-   * control touched first, so `ngnErrorsShowOn="touched"` reveals errors after an
+   * control touched first, so `jigErrorsShowOn="touched"` reveals errors after an
    * inline confirm — not just after blurring out of the control (see {@link focusOut}).
    */
   protected readonly confirmEdit = (): void => {

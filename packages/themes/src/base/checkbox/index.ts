@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { checkboxControlTemplate } from '@awdlab/jig-themes/templates/checkbox';
 
 export const checkboxStyles = createThemePart({
   controlTemplate: checkboxControlTemplate,

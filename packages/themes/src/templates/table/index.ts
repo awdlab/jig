@@ -1,11 +1,11 @@
-import { createControlTemplate } from '@ngneers/controls-themes/api';
-import { scrollShadowDirectiveTemplate } from '@ngneers/controls-themes/templates/api';
-import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
-import { filterControlTemplate } from '@ngneers/controls-themes/templates/filter';
-import { iconControlTemplate } from '@ngneers/controls-themes/templates/icon';
-import { paginatorControlTemplate } from '@ngneers/controls-themes/templates/paginator';
-import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
-import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scroller';
+import { createControlTemplate } from '@awdlab/jig-themes/api';
+import { scrollShadowDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
+import { checkboxControlTemplate } from '@awdlab/jig-themes/templates/checkbox';
+import { filterControlTemplate } from '@awdlab/jig-themes/templates/filter';
+import { iconControlTemplate } from '@awdlab/jig-themes/templates/icon';
+import { paginatorControlTemplate } from '@awdlab/jig-themes/templates/paginator';
+import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
+import { scrollerControlTemplate } from '@awdlab/jig-themes/templates/scroller';
 
 export const tableControlTemplate = createControlTemplate({
   scope: 'table',

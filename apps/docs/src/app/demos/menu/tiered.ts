@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { type MenuItem, NgnMenu } from '@ngneers/controls/menu';
+import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
 
 @Component({
-  selector: 'ngn-demo-menu-tiered',
-  imports: [NgnMenu],
-  template: `<ngn-menu class="block w-40" #menu [items]="items()" />`,
+  selector: 'jig-demo-menu-tiered',
+  imports: [JigMenu],
+  template: `<jig-menu class="block w-40" #menu [items]="items()" />`,
 })
 export class Demo_Menu_Tiered {
   public readonly items = signal<MenuItem[]>([

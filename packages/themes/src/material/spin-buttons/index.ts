@@ -1,7 +1,7 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/material/base';
-import { spinButtonsControlTemplate } from '@ngneers/controls-themes/templates/spin-buttons';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/material/base';
+import { spinButtonsControlTemplate } from '@awdlab/jig-themes/templates/spin-buttons';
 
 export const spinButtonsStyles = createThemePart({
   controlTemplate: spinButtonsControlTemplate,

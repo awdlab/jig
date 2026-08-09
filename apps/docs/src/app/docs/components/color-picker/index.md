@@ -1,4 +1,4 @@
-The Color Picker (`ngn-color-picker`) is a form control for choosing a color
+The Color Picker (`jig-color-picker`) is a form control for choosing a color
 via a saturation/value area, a hue track, and an optional alpha track. Bind
 `value` to a CSS color string (hex, `rgb()`/`rgba()`, or `hsl()`/`hsla()`) and
 toggle the displayed format by clicking the format label next to the text

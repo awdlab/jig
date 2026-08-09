@@ -28,7 +28,7 @@ export type ApplyThemeOptions = {
   /**
    * A prefix to add to the class names and CSS variables of the theme parts.
    * This is useful for avoiding name collisions in the global scope.
-   * @default `'ngn-'`
+   * @default `'jig-'`
    */
   namePrefix: string;
 };
@@ -42,7 +42,7 @@ export function applyTheme<T extends Theme>(
     document: options.document ?? window.document,
     layer: options.layer,
     scope: options.styleScope,
-    namePrefix: options.namePrefix ?? 'ngn-',
+    namePrefix: options.namePrefix ?? 'jig-',
   };
   const parts = groupArrayUsing(getThemePartsByScopes(theme, scopes), x => x.scope);
 
@@ -85,7 +85,7 @@ export function applyGlobalStyles(globalStyles: ThemePart, options: ApplyThemeOp
     document: options.document ?? window.document,
     layer: options.layer,
     scope: options.styleScope,
-    namePrefix: options.namePrefix ?? 'ngn-',
+    namePrefix: options.namePrefix ?? 'jig-',
   };
   const cssVariables = buildVariablesCss([globalStyles], opt);
   upsertThemeStyleElement(
@@ -216,7 +216,7 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions, isBase = 
 
     // Create a selector for unstyled mode. To avoid specificity issues, we use a always-true selector
     // for when unstyled mode is active.
-    const unstyledSelector = `:not(${isBase ? '.ngn-css-specificity' : '.ngn-unstyled'})`;
+    const unstyledSelector = `:not(${isBase ? '.jig-css-specificity' : '.jig-unstyled'})`;
 
     const args = {
       v: (key: string) => varKeySelector(key),

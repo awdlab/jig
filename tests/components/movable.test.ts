@@ -3,7 +3,7 @@ import { loadComponent } from '../helper/load-component';
 
 import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 
-// NgnMovable writes left/top on pointer drag. On a shared host NgnResizable claims the
+// JigMovable writes left/top on pointer drag. On a shared host JigResizable claims the
 // gesture that starts on its grip, so a resize never doubles as a move.
 const panel = (page: Page) => page.locator('.panel');
 
@@ -31,8 +31,8 @@ const movableTemplate = (extra: string): TemplateType => ({
   template: `
     <div style="position: relative; height: 320px;">
       <div
-        ngnMovable
-        [ngnMovableLimitToViewport]="false"
+        jigMovable
+        [jigMovableLimitToViewport]="false"
         ${extra}
         class="panel"
         style="position: absolute; top: 24px; left: 24px; width: 200px; height: 120px; overflow: auto;"
@@ -43,14 +43,14 @@ const movableTemplate = (extra: string): TemplateType => ({
 });
 
 test('resizable host: dragging the resize grip does not move the element', async ({ page }) => {
-  await loadComponent(page, movableTemplate('ngnResizable'));
+  await loadComponent(page, movableTemplate('jigResizable'));
 
   await expect(panel(page)).toHaveCSS('resize', 'both');
   const before = await box(panel(page));
   await dragFrom(page, panel(page), 'grip');
   const after = await box(panel(page));
 
-  // The top-left corner stays put — NgnResizable claimed the gesture.
+  // The top-left corner stays put — JigResizable claimed the gesture.
   // Size is not asserted: whether a synthetic drag drives the native grip is browser-dependent.
   expect(Math.abs(after.x - before.x)).toBeLessThanOrEqual(1);
   expect(Math.abs(after.y - before.y)).toBeLessThanOrEqual(1);
@@ -59,7 +59,7 @@ test('resizable host: dragging the resize grip does not move the element', async
 test('resizable host: the grip claim holds when down and move land in one task', async ({
   page,
 }) => {
-  await loadComponent(page, movableTemplate('ngnResizable'));
+  await loadComponent(page, movableTemplate('jigResizable'));
   await expect(panel(page)).toHaveCSS('resize', 'both');
 
   // Synthetic dispatch leaves no gap for a change-detection flush between the events —
@@ -84,7 +84,7 @@ test('resizable host: the grip claim holds when down and move land in one task',
 });
 
 test('resizable host: dragging the body still moves the element', async ({ page }) => {
-  await loadComponent(page, movableTemplate('ngnResizable'));
+  await loadComponent(page, movableTemplate('jigResizable'));
 
   const before = await box(panel(page));
   await dragFrom(page, panel(page), 'body');

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { NgnListBox } from '@ngneers/controls/list-box';
+import { JigListBox } from '@awdlab/jig/list-box';
 
 @Component({
-  imports: [NgnListBox],
-  selector: 'ngn-demo-list-box-virtual-demo',
+  imports: [JigListBox],
+  selector: 'jig-demo-list-box-virtual-demo',
   template: `
-    <ngn-list-box
+    <jig-list-box
       [items]="items"
       [virtual]="true"
       [itemHeight]="40"

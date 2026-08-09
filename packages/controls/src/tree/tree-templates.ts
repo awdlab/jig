@@ -1,27 +1,27 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 
-import { templateTypesFn } from '@ngneers/controls/api/ng';
-import { ValueControlBase } from '@ngneers/controls/base';
+import { templateTypesFn } from '@awdlab/jig/api/ng';
+import { ValueControlBase } from '@awdlab/jig/base';
 
-import type { NgnTreeItem, NgnTreeItemsValue } from '@ngneers/controls/api';
-import type { InputGeneric } from '@ngneers/controls/utils';
+import type { JigTreeItem, JigTreeItemsValue } from '@awdlab/jig/api';
+import type { InputGeneric } from '@awdlab/jig/utils';
 
 /**
  * Value type for the tree control.
  * * When `multiple` is `true`, the value is an array of node values.
  * * Otherwise it is a single node value.
  *
- * Uses {@link NgnTreeItemsValue} (branch + leaf values) rather than the
- * leaf-only `NgnItemsValue`, since a branch node can be selected too.
+ * Uses {@link JigTreeItemsValue} (branch + leaf values) rather than the
+ * leaf-only `JigItemsValue`, since a branch node can be selected too.
  */
-export type ValueType<Items extends readonly NgnTreeItem[], Multiple extends boolean> =
+export type ValueType<Items extends readonly JigTreeItem[], Multiple extends boolean> =
   InputGeneric<Multiple, false> extends true
-    ? NgnTreeItemsValue<Items>[]
-    : NgnTreeItemsValue<Items>;
+    ? JigTreeItemsValue<Items>[]
+    : JigTreeItemsValue<Items>;
 
 @Directive()
 export abstract class TreeTemplates<
-  Items extends readonly NgnTreeItem[],
+  Items extends readonly JigTreeItem[],
   Multiple extends boolean,
 > extends ValueControlBase<'tree', ValueType<Items, Multiple> | null> {
   // Item template

@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { drawerControlTemplate } from '@ngneers/controls-themes/templates/drawer';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { drawerControlTemplate } from '@awdlab/jig-themes/templates/drawer';
 
 export const drawerStyles = createThemePart({
   controlTemplate: drawerControlTemplate,

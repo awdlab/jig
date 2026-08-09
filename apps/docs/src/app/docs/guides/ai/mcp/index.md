@@ -1,6 +1,6 @@
-The **`@ngneers/controls-mcp`** package is a
+The **`@awdlab/jig-mcp`** package is a
 [Model Context Protocol](https://modelcontextprotocol.io) server that gives AI
-coding agents accurate, first-hand knowledge of `@ngneers/controls` — every
+coding agents accurate, first-hand knowledge of `@awdlab/jig` — every
 control's API, selector, and usage, plus the concept guides (theming, colors,
 passthrough, state, …).
 
@@ -11,7 +11,7 @@ It provides four capabilities:
 
 1. **Docs / explain** — control APIs, selectors, usage, concept guides.
 2. **Theming** — token schema + per-control anatomy + theme-part scaffolds.
-3. **Migration** — PrimeNG / Angular Material / Syncfusion → ngn component maps.
+3. **Migration** — PrimeNG / Angular Material / Syncfusion → jig component maps.
 4. **Feature dev** — control recommendations + composition recipes.
 
 All layers are **advisory / knowledge-only**: the server returns knowledge and
@@ -48,12 +48,12 @@ change, it can never silently drift from the library.
 | `scaffold_theme_part`    | Ready-to-edit `createThemePart` skeleton for a control.            |
 | `get_theme_options`      | Theme-dependent `kind` / `color` values (per built-in theme).      |
 | `list_migration_sources` | Source libraries with a migration map + coverage.                  |
-| `map_component`          | One source component → ngn target, with prop/event maps + gaps.    |
-| `search_migration`       | Find the ngn equivalent for a source component / feature.          |
+| `map_component`          | One source component → jig target, with prop/event maps + gaps.    |
+| `search_migration`       | Find the jig equivalent for a source component / feature.          |
 | `recommend_controls`     | Suggest controls + recipes for a feature goal.                     |
 
-**Resources** (browsable, addressable): `ngn://control/<name>`,
-`ngn://concept/<slug>`, `ngn://recipe/<slug>`, and `ngn://example/<slug>` (real,
+**Resources** (browsable, addressable): `jig://control/<name>`,
+`jig://concept/<slug>`, `jig://recipe/<slug>`, and `jig://example/<slug>` (real,
 compiled usage snippets auto-derived from the docs demos).
 
 **Prompts** (surfaced as slash-commands / quick actions where supported):
@@ -70,9 +70,9 @@ No install step is needed — clients run the server via `npx`.
 ```json
 {
   "mcpServers": {
-    "ngn-controls": {
+    "jig": {
       "command": "npx",
-      "args": ["-y", "@ngneers/controls-mcp"]
+      "args": ["-y", "@awdlab/jig-mcp"]
     }
   }
 }

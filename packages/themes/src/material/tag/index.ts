@@ -1,12 +1,12 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   colorsTemplate,
   fontTemplate,
   sizesTemplate,
   themedColors,
-} from '@ngneers/controls-themes/material/base';
-import { tagControlTemplate } from '@ngneers/controls-themes/templates/tag';
+} from '@awdlab/jig-themes/material/base';
+import { tagControlTemplate } from '@awdlab/jig-themes/templates/tag';
 
 export const tagStyles = createThemePart({
   controlTemplate: tagControlTemplate,

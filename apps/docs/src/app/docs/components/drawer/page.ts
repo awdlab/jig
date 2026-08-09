@@ -1,11 +1,11 @@
-import { NgnDocsDrawerPlayground } from './playground';
+import { JigDocsDrawerPlayground } from './playground';
 import { Demo_Drawer_Base } from '../../../demos/drawer/base';
 import { Demo_Drawer_Position } from '../../../demos/drawer/position';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const DrawerPage: NgnDocsPage = {
+export const DrawerPage: JigDocsPage = {
   title: `Drawer`,
   kind: 'tabs',
   tabs: [
@@ -20,7 +20,7 @@ export const DrawerPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsDrawerPlayground,
+      component: JigDocsDrawerPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/drawer/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/drawer/a11y.md' },

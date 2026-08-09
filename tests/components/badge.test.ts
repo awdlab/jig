@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { NgnBadgeHarness } from '@ngneers/controls-playwright';
+import { JigBadgeHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
@@ -8,13 +8,13 @@ test('renders count and clamps to max', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<button style="width:48px;height:48px" [ngnBadge]="inputs().value" [ngnBadgeMax]="inputs().max">A</button>`,
+      template: `<button style="width:48px;height:48px" [jigBadge]="inputs().value" [jigBadgeMax]="inputs().max">A</button>`,
       imports: ['badge'],
     },
     { inputs: { value: 3, max: 99 } }
   );
 
-  const badge = new NgnBadgeHarness(page.locator('button'));
+  const badge = new JigBadgeHarness(page.locator('button'));
   await badge.expectText('3');
   await expectScreenshot(page, testInfo, 'count-3');
 
@@ -26,13 +26,13 @@ test('hides on zero unless showZero', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<button [ngnBadge]="inputs().value" [ngnBadgeShowZero]="inputs().showZero">A</button>`,
+      template: `<button [jigBadge]="inputs().value" [jigBadgeShowZero]="inputs().showZero">A</button>`,
       imports: ['badge'],
     },
     { inputs: { value: 0, showZero: false } }
   );
 
-  const badge = new NgnBadgeHarness(page.locator('button'));
+  const badge = new JigBadgeHarness(page.locator('button'));
   await badge.expectVisible(false);
 
   await handle.setInputs({ showZero: true });
@@ -44,26 +44,26 @@ test('dot mode ignores value', async ({ page }, testInfo) => {
   await loadComponent(
     page,
     {
-      template: `<button style="width:48px;height:48px" [ngnBadge]="5" ngnBadgeDot>A</button>`,
+      template: `<button style="width:48px;height:48px" [jigBadge]="5" jigBadgeDot>A</button>`,
       imports: ['badge'],
     },
     { inputs: {} }
   );
-  const badge = new NgnBadgeHarness(page.locator('button'));
+  const badge = new JigBadgeHarness(page.locator('button'));
   await badge.expectVisible(true);
   await badge.expectText('');
 });
 
-test('dot mode works standalone (ngnBadgeDot without ngnBadge)', async ({ page }) => {
+test('dot mode works standalone (jigBadgeDot without jigBadge)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<button style="width:48px;height:48px" ngnBadgeDot>A</button>`,
+      template: `<button style="width:48px;height:48px" jigBadgeDot>A</button>`,
       imports: ['badge'],
     },
     { inputs: {} }
   );
-  const badge = new NgnBadgeHarness(page.locator('button'));
+  const badge = new JigBadgeHarness(page.locator('button'));
   await badge.expectVisible(true);
   await badge.expectText('');
 });
@@ -72,13 +72,13 @@ test('hiding a visible badge destroys the indicator', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<button [ngnBadge]="5" [ngnBadgeHidden]="inputs().hidden">A</button>`,
+      template: `<button [jigBadge]="5" [jigBadgeHidden]="inputs().hidden">A</button>`,
       imports: ['badge'],
     },
     { inputs: { hidden: false } }
   );
 
-  const badge = new NgnBadgeHarness(page.locator('button'));
+  const badge = new JigBadgeHarness(page.locator('button'));
   await badge.expectVisible(true);
 
   await handle.setInputs({ hidden: true });
@@ -89,32 +89,32 @@ test('custom color applies as css variable', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<button [ngnBadge]="1" ngnBadgeColor="rgb(10, 20, 30)">A</button>`,
+      template: `<button [jigBadge]="1" jigBadgeColor="rgb(10, 20, 30)">A</button>`,
       imports: ['badge'],
     },
     { inputs: {} }
   );
-  const badge = new NgnBadgeHarness(page.locator('button'));
+  const badge = new JigBadgeHarness(page.locator('button'));
   await expect(badge.badge).toHaveCSS('background-color', 'rgb(10, 20, 30)');
 });
 
 test('anchors correctly on a wrapper around a clipping host (avatar)', async ({
   page,
 }, testInfo) => {
-  // ngn-avatar has overflow:hidden, so a badge placed directly on it would be
+  // jig-avatar has overflow:hidden, so a badge placed directly on it would be
   // clipped. The documented pattern is to anchor the badge on a thin wrapper.
   await loadComponent(
     page,
     {
-      template: `<div style="padding: 20px; width: max-content;"><span class="inline-flex" [ngnBadge]="5" ngnBadgePosition="top-end"><ngn-avatar initials="JD" /></span></div>`,
+      template: `<div style="padding: 20px; width: max-content;"><span class="inline-flex" [jigBadge]="5" jigBadgePosition="top-end"><jig-avatar initials="JD" /></span></div>`,
       imports: ['badge', 'avatar'],
     },
     { inputs: {} }
   );
 
-  const wrapper = page.locator('span', { has: page.locator('ngn-avatar') });
-  const avatar = page.locator('ngn-avatar');
-  const badge = new NgnBadgeHarness(wrapper);
+  const wrapper = page.locator('span', { has: page.locator('jig-avatar') });
+  const avatar = page.locator('jig-avatar');
+  const badge = new JigBadgeHarness(wrapper);
   await badge.expectVisible(true);
   await badge.expectText('5');
 
@@ -139,13 +139,13 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<button type="button" style="width:48px;height:48px" [ngnBadge]="inputs().value">Inbox</button>`,
+      template: `<button type="button" style="width:48px;height:48px" [jigBadge]="inputs().value">Inbox</button>`,
       imports: ['badge'],
     },
     { inputs: { value: 5 } }
   );
 
-  const badge = new NgnBadgeHarness(page.locator('button'));
+  const badge = new JigBadgeHarness(page.locator('button'));
   await badge.expectText('5');
   await expectNoA11yViolations(page);
 });

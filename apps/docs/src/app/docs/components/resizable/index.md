@@ -1,4 +1,4 @@
-`ngnResizable` turns the browser's own resize grip into a controlled one: it
+`jigResizable` turns the browser's own resize grip into a controlled one: it
 applies the CSS `resize` handle through the theme, then clamps the resulting
 size to your limits **and** to the space left between the element and the
 viewport edge.
@@ -16,13 +16,13 @@ the pointer is down and writes the `min-*`/`max-*` styles that bound them.
 
 ### Size Limits
 
-`ngnResizableSizeLimits` takes all four bounds; numbers are pixels, strings are
+`jigResizableSizeLimits` takes all four bounds; numbers are pixels, strings are
 used verbatim as CSS, and `null`/`undefined` means unconstrained:
 
 ```html
 <div
-  ngnResizable
-  [ngnResizableSizeLimits]="{
+  jigResizable
+  [jigResizableSizeLimits]="{
     minWidth: 180,
     minHeight: '6rem',
     maxWidth: null,
@@ -38,11 +38,11 @@ that clamp via CSS `min()`, so whichever is smaller wins.
 
 ### With Movable
 
-Put `ngnMovable` and `ngnResizable` on the same element and the two cooperate:
+Put `jigMovable` and `jigResizable` on the same element and the two cooperate:
 before each resize the movable position is baked into `left`/`top`, so the
 element grows from where it sits instead of jumping back.
 
-A gesture that starts on the resize grip belongs to `ngnResizable` alone —
+A gesture that starts on the resize grip belongs to `jigResizable` alone —
 it claims the pointer so the element resizes without also being dragged.
 Anywhere else on the element still starts a move.
 
@@ -50,12 +50,12 @@ Anywhere else on the element still starts a move.
 
 ### Disabling
 
-`ngnResizable` is the enable flag. It accepts the empty string, so the bare
+`jigResizable` is the enable flag. It accepts the empty string, so the bare
 attribute enables it; bind it to turn resizing on and off:
 
 ```html
-<div ngnResizable></div>
-<div [ngnResizable]="canResize()"></div>
+<div jigResizable></div>
+<div [jigResizable]="canResize()"></div>
 ```
 
 ### Theme State

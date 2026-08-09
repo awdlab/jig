@@ -5,41 +5,41 @@ import tablerDots from '@iconify/icons-tabler/dots';
 import tablerEdit from '@iconify/icons-tabler/edit';
 import tablerShare from '@iconify/icons-tabler/share';
 import tablerTrash from '@iconify/icons-tabler/trash';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnTableModule } from '@ngneers/controls/table';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigTableModule } from '@awdlab/jig/table';
 
 import { exampleData } from '../../helper/data';
 
-import type { NgnActionItem } from '@ngneers/controls/api';
+import type { JigActionItem } from '@awdlab/jig/api';
 
 @Component({
-  imports: [NgnTableModule, NgnTemplate],
-  selector: 'ngn-demo-table-row-actions',
-  template: `<ngn-table #table style="height: 400px" [rows]="rows" [fieldId]="'id'">
+  imports: [JigTableModule, JigTemplate],
+  selector: 'jig-demo-table-row-actions',
+  template: `<jig-table #table style="height: 400px" [rows]="rows" [fieldId]="'id'">
     <ng-template #header>
-      <tr ngnTableHeadTr>
-        <th [ngnTableTh]="table.column('id')">ID</th>
-        <th [ngnTableTh]="table.column('name')">Name</th>
-        <th [ngnTableTh]="table.column('department')">Department</th>
-        <th [ngnTableTh]="table.column('location')">Location</th>
+      <tr jigTableHeadTr>
+        <th [jigTableTh]="table.column('id')">ID</th>
+        <th [jigTableTh]="table.column('name')">Name</th>
+        <th [jigTableTh]="table.column('department')">Department</th>
+        <th [jigTableTh]="table.column('location')">Location</th>
       </tr>
     </ng-template>
-    <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-      <tr [ngnTableBodyTr]="row" [ngnTableRowActions]="actionsFor(row)">
-        <td ngnTableTd>{{ row.data.id }}</td>
-        <td ngnTableTd>{{ row.data.name }}</td>
-        <td ngnTableTd>{{ row.data.department }}</td>
-        <td ngnTableTd>{{ row.data.location }}</td>
+    <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+      <tr [jigTableBodyTr]="row" [jigTableRowActions]="actionsFor(row)">
+        <td jigTableTd>{{ row.data.id }}</td>
+        <td jigTableTd>{{ row.data.name }}</td>
+        <td jigTableTd>{{ row.data.department }}</td>
+        <td jigTableTd>{{ row.data.location }}</td>
       </tr>
     </ng-template>
-  </ngn-table>`,
+  </jig-table>`,
 })
 export class Demo_Table_RowActions {
   protected readonly rows = exampleData.table(100);
 
-  protected actionsFor(row: { index: number; data: { name: string } }): NgnActionItem[] {
+  protected actionsFor(row: { index: number; data: { name: string } }): JigActionItem[] {
     const name = row.data.name;
-    const actions: NgnActionItem[] = [
+    const actions: JigActionItem[] = [
       { id: 'edit', label: 'Edit', icon: tablerEdit, callback: () => alert(`Edit ${name}`) },
       { id: 'delete', label: 'Delete', icon: tablerTrash, callback: () => alert(`Delete ${name}`) },
     ];

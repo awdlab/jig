@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { NgnMovable } from '@ngneers/controls/directives';
+import { JigMovable } from '@awdlab/jig/directives';
 
 @Component({
-  selector: 'ngn-demo-movable-handle',
-  imports: [NgnMovable],
+  selector: 'jig-demo-movable-handle',
+  imports: [JigMovable],
   template: `
     <div class="board">
       <div
-        ngnMovable
-        [ngnMovableDragHandle]="handle"
-        [ngnMovableLimitToViewport]="false"
+        jigMovable
+        [jigMovableDragHandle]="handle"
+        [jigMovableLimitToViewport]="false"
         class="card"
       >
         <div #handle class="handle">Drag here</div>
@@ -26,22 +26,22 @@ import { NgnMovable } from '@ngneers/controls/directives';
       position: relative;
       height: 260px;
       overflow: hidden;
-      border: 1px dashed var(--ngn-color-surface-300);
-      border-radius: var(--ngn-size-radius-md);
+      border: 1px dashed var(--jig-color-surface-300);
+      border-radius: var(--jig-size-radius-md);
     }
     .card {
       position: absolute;
       top: 24px;
       left: 24px;
       width: 260px;
-      background: var(--ngn-color-surface-100);
-      border: 1px solid var(--ngn-color-surface-300);
-      border-radius: var(--ngn-size-radius-md);
+      background: var(--jig-color-surface-100);
+      border: 1px solid var(--jig-color-surface-300);
+      border-radius: var(--jig-size-radius-md);
       overflow: hidden;
     }
     .handle {
       padding: 8px 12px;
-      background: var(--ngn-color-surface-200);
+      background: var(--jig-color-surface-200);
       font-weight: 600;
     }
     .body {

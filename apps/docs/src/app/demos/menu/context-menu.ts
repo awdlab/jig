@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { type MenuItem, NgnContextMenu } from '@ngneers/controls/menu';
+import { type MenuItem, JigContextMenu } from '@awdlab/jig/menu';
 
 @Component({
-  selector: 'ngn-demo-menu-context-menu',
-  imports: [NgnContextMenu],
+  selector: 'jig-demo-menu-context-menu',
+  imports: [JigContextMenu],
   template: `<div
     class="flex cursor-context-menu items-center justify-center rounded-md border border-dashed border-gray-400 p-4"
-    [ngnContextMenu]="items()"
+    [jigContextMenu]="items()"
   >
     Right click me
   </div>`,

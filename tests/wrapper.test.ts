@@ -5,7 +5,7 @@ test('Component Test Wrapper Works', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<input ngnInput [invalid]="inputs().invalid" (beforeinput)="output('input', $event.data)" />`,
+      template: `<input jigInput [invalid]="inputs().invalid" (beforeinput)="output('input', $event.data)" />`,
       imports: ['input'],
     },
     {
@@ -19,14 +19,14 @@ test('Component Test Wrapper Works', async ({ page }) => {
   );
 
   const input = page.locator('input');
-  await expect(input).not.toContainClass('ngn-input-invalid');
+  await expect(input).not.toContainClass('jig-input-invalid');
   await handle.setInputs({ invalid: true });
   // invalidOn='touched' (default) gates the raw invalid flag: it doesn't surface
   // until the input is blurred (touched), so it never flashes on a pristine field.
-  await expect(input).not.toContainClass('ngn-input-invalid');
+  await expect(input).not.toContainClass('jig-input-invalid');
   await input.focus();
   await input.blur();
-  await expect(input).toContainClass('ngn-input-invalid');
+  await expect(input).toContainClass('jig-input-invalid');
   await input.pressSequentially('test');
   await expect(input).toHaveValue('test');
   await input.clear();

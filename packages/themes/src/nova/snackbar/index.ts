@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
@@ -7,9 +7,9 @@ import {
   shadowTemplate,
   sizesTemplate,
   themedColors,
-} from '@ngneers/controls-themes/nova/base';
-import { greyColor } from '@ngneers/controls-themes/nova/colors';
-import { snackbarControlTemplate } from '@ngneers/controls-themes/templates/snackbar';
+} from '@awdlab/jig-themes/nova/base';
+import { greyColor } from '@awdlab/jig-themes/nova/colors';
+import { snackbarControlTemplate } from '@awdlab/jig-themes/templates/snackbar';
 
 // The snackbar surface is a fixed dark slate in BOTH color schemes (like the
 // spec, and like Material toasts). We use the raw, non-reversed grey palette
@@ -82,7 +82,7 @@ export const snackbarStyles = createThemePart({
       ${c('color-surface')} {
         --snk-icon-color: ${ON_SURFACE};
       }
-      ${c('defaultHeaderText')} ngn-icon {
+      ${c('defaultHeaderText')} jig-icon {
         color: var(--snk-icon-color);
       }
 

@@ -1,11 +1,11 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
-import { templateTypesFn } from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
+import { templateTypesFn } from '@awdlab/jig/api/ng';
+import { JigBase } from '@awdlab/jig/base';
 
 import type { HeaderTemplateType } from './types';
 
 @Directive()
-export abstract class AccordionTemplates extends NgnBase<'accordionPanel'> {
+export abstract class AccordionTemplates extends JigBase<'accordionPanel'> {
   private readonly _defaultHeaderTemplate =
     viewChild.required<TemplateRef<HeaderTemplateType>>('defaultHeaderTemplate');
   private readonly _userHeaderTemplate = contentChild<TemplateRef<HeaderTemplateType>>('header');

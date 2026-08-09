@@ -1,4 +1,4 @@
-# https://ngneers.dev
+# https://jig.awdlab.dev
 User-agent: *
 Allow: /
 
@@ -6,4 +6,4 @@ Allow: /
 Disallow: /_gallery
 Disallow: /test
 
-Sitemap: https://ngneers.dev/sitemap.xml
+Sitemap: https://jig.awdlab.dev/sitemap.xml

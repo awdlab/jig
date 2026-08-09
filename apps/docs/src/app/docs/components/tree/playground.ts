@@ -1,22 +1,22 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnTree } from '@ngneers/controls/tree';
+import { JigTree } from '@awdlab/jig/tree';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
-import type { NgnTreeItem } from '@ngneers/controls/api';
+import type { JigTreeItem } from '@awdlab/jig/api';
 
 @Component({
-  selector: 'ngn-docs-tree-playground',
-  imports: [NgnTree, NgnDocsPlayground],
+  selector: 'jig-docs-tree-playground',
+  imports: [JigTree, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnTree', component: component() }]">
-      <ngn-tree #ref class="flex-1" [items]="items" [multiple]="true" style="height: 300px;" />
-    </ngn-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'JigTree', component: component() }]">
+      <jig-tree #ref class="flex-1" [items]="items" [multiple]="true" style="height: 300px;" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsTreePlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnTree });
-  protected readonly items: NgnTreeItem[] = [
+export class JigDocsTreePlayground {
+  protected readonly component = viewChild.required('ref', { read: JigTree });
+  protected readonly items: JigTreeItem[] = [
     {
       label: 'Documents',
       value: 'documents',

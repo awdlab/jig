@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
@@ -7,9 +7,9 @@ import {
   shadowTemplate,
   sizesTemplate,
   slotColors,
-} from '@ngneers/controls-themes/shade/base';
-import { createShadeColors } from '@ngneers/controls-themes/shade/colors';
-import { snackbarControlTemplate } from '@ngneers/controls-themes/templates/snackbar';
+} from '@awdlab/jig-themes/shade/base';
+import { createShadeColors } from '@awdlab/jig-themes/shade/colors';
+import { snackbarControlTemplate } from '@awdlab/jig-themes/templates/snackbar';
 
 // The snackbar surface is a fixed dark in BOTH color schemes (like the spec,
 // and like Material toasts). Shade's surface is white in light mode, so we use
@@ -78,7 +78,7 @@ export const snackbarStyles = createThemePart({
       ${c('color-surface')} {
         --snk-icon-color: ${ON_SURFACE};
       }
-      ${c('defaultHeaderText')} ngn-icon {
+      ${c('defaultHeaderText')} jig-icon {
         color: var(--snk-icon-color);
       }
 

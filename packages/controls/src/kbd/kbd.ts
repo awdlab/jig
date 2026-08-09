@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core';
-import { NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
-import { kbdControlTemplate } from '@ngneers/controls-themes/templates/kbd';
+import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
+import { kbdControlTemplate } from '@awdlab/jig-themes/templates/kbd';
 
 import { formatShortcut } from './shortcut';
 
@@ -9,12 +9,12 @@ import { formatShortcut } from './shortcut';
  * @category control
  */
 @Component({
-  selector: 'ngn-kbd',
+  selector: 'jig-kbd',
   templateUrl: './kbd.html',
-  imports: [NgnPt],
-  providers: [provideSelf(NgnKbd)],
+  imports: [JigPt],
+  providers: [provideSelf(JigKbd)],
 })
-export class NgnKbd extends NgnBase<'kbd'> {
+export class JigKbd extends JigBase<'kbd'> {
   protected readonly theme = this.injectThemeTemplate(kbdControlTemplate, 'root');
 
   /**

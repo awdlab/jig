@@ -1,28 +1,28 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@ngneers/controls/errors';
-import { NgnHint } from '@ngneers/controls/hint';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnNumberInput } from '@ngneers/controls/number-input';
-import { NgnSpinButtons } from '@ngneers/controls/spin-buttons';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigNumberInput } from '@awdlab/jig/number-input';
+import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
 
 @Component({
-  selector: 'ngn-demo-number-input-validation',
-  imports: [NgnErrors, NgnHint, NgnInputField, NgnNumberInput, NgnSpinButtons],
+  selector: 'jig-demo-number-input-validation',
+  imports: [JigErrors, JigHint, JigInputField, JigNumberInput, JigSpinButtons],
   template: `
-    <ngn-input-field [label]="'Quantity'" [labelKind]="'on'" class="w-44">
+    <jig-input-field [label]="'Quantity'" [labelKind]="'on'" class="w-44">
       <input
-        ngnNumberInput
+        jigNumberInput
         [min]="1"
         [value]="value()"
         (valueChange)="value.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="quantityHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="quantityHint"
       />
-      <ngn-spin-buttons />
-    </ngn-input-field>
-    <ngn-hint #quantityHint />
+      <jig-spin-buttons />
+    </jig-input-field>
+    <jig-hint #quantityHint />
   `,
 })
 export class Demo_NumberInput_Validation {

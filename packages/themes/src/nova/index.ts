@@ -1,13 +1,9 @@
-import { createTheme } from '@ngneers/controls-themes/api';
+import { createTheme } from '@awdlab/jig-themes/api';
 
-import { accordionStyles } from '@ngneers/controls-themes/nova/accordion';
-import { accordionPanelStyles } from '@ngneers/controls-themes/nova/accordion-panel';
-import {
-  movableStyles,
-  resizableStyles,
-  scrollShadowStyles,
-} from '@ngneers/controls-themes/nova/api';
-import { avatarGroupStyles, avatarStyles } from '@ngneers/controls-themes/nova/avatar';
+import { accordionStyles } from '@awdlab/jig-themes/nova/accordion';
+import { accordionPanelStyles } from '@awdlab/jig-themes/nova/accordion-panel';
+import { movableStyles, resizableStyles, scrollShadowStyles } from '@awdlab/jig-themes/nova/api';
+import { avatarGroupStyles, avatarStyles } from '@awdlab/jig-themes/nova/avatar';
 import {
   animation,
   backdrop,
@@ -16,58 +12,58 @@ import {
   ring,
   shadow,
   sizes,
-} from '@ngneers/controls-themes/nova/base';
-import { badgeStyles } from '@ngneers/controls-themes/nova/badge';
-import { breadcrumbStyles } from '@ngneers/controls-themes/nova/breadcrumb';
-import { buttonStyles } from '@ngneers/controls-themes/nova/button';
-import { buttonGroupStyles } from '@ngneers/controls-themes/nova/button-group';
-import { calendarStyles } from '@ngneers/controls-themes/nova/calendar';
-import { checkboxStyles } from '@ngneers/controls-themes/nova/checkbox';
-import { chipStyles } from '@ngneers/controls-themes/nova/chip';
-import { colorPickerStyles } from '@ngneers/controls-themes/nova/color-picker';
-import { commandStyles } from '@ngneers/controls-themes/nova/command';
-import { dialogStyles } from '@ngneers/controls-themes/nova/dialog';
-import { drawerStyles } from '@ngneers/controls-themes/nova/drawer';
-import { editInplaceStyles } from '@ngneers/controls-themes/nova/edit-inplace';
-import { filterStyles } from '@ngneers/controls-themes/nova/filter';
-import { globalStyles } from '@ngneers/controls-themes/nova/global';
-import { hintStyles } from '@ngneers/controls-themes/nova/hint';
-import { iconStyles } from '@ngneers/controls-themes/nova/icon';
-import { inplaceStyles } from '@ngneers/controls-themes/nova/inplace';
-import { inputStyles } from '@ngneers/controls-themes/nova/input';
-import { inputFieldStyles } from '@ngneers/controls-themes/nova/input-field';
-import { itemViewStyles } from '@ngneers/controls-themes/nova/item-view';
-import { kbdStyles } from '@ngneers/controls-themes/nova/kbd';
-import { listBoxStyles } from '@ngneers/controls-themes/nova/list-box';
-import { maskInputStyles } from '@ngneers/controls-themes/nova/mask-input';
-import { menuStyles } from '@ngneers/controls-themes/nova/menu';
-import { messageStyles } from '@ngneers/controls-themes/nova/message';
-import { otpStyles } from '@ngneers/controls-themes/nova/otp';
-import { paginatorStyles } from '@ngneers/controls-themes/nova/paginator';
-import { popoverStyles } from '@ngneers/controls-themes/nova/popover';
-import { progressStyles } from '@ngneers/controls-themes/nova/progress';
-import { radioStyles } from '@ngneers/controls-themes/nova/radio';
-import { radioGroupStyles } from '@ngneers/controls-themes/nova/radio-group';
-import { ratingStyles } from '@ngneers/controls-themes/nova/rating';
-import { scrollerStyles } from '@ngneers/controls-themes/nova/scroller';
-import { selectStyles } from '@ngneers/controls-themes/nova/select';
-import { selectButtonStyles } from '@ngneers/controls-themes/nova/select-button';
-import { sliderStyles } from '@ngneers/controls-themes/nova/slider';
-import { snackbarStyles } from '@ngneers/controls-themes/nova/snackbar';
-import { spinButtonsStyles } from '@ngneers/controls-themes/nova/spin-buttons';
-import { spinnerStyles } from '@ngneers/controls-themes/nova/spinner';
-import { splitterStyles } from '@ngneers/controls-themes/nova/splitter';
-import { stateStyles } from '@ngneers/controls-themes/nova/state';
-import { stepperStyles } from '@ngneers/controls-themes/nova/stepper';
-import { switchStyles } from '@ngneers/controls-themes/nova/switch';
-import { tableStyles } from '@ngneers/controls-themes/nova/table';
-import { tabsStyles } from '@ngneers/controls-themes/nova/tabs';
-import { tagStyles } from '@ngneers/controls-themes/nova/tag';
-import { toastStyles } from '@ngneers/controls-themes/nova/toast';
-import { toggleButtonStyles } from '@ngneers/controls-themes/nova/toggle-button';
-import { tooltipStyles } from '@ngneers/controls-themes/nova/tooltip';
-import { treeStyles } from '@ngneers/controls-themes/nova/tree';
-import { uploadStyles } from '@ngneers/controls-themes/nova/upload';
+} from '@awdlab/jig-themes/nova/base';
+import { badgeStyles } from '@awdlab/jig-themes/nova/badge';
+import { breadcrumbStyles } from '@awdlab/jig-themes/nova/breadcrumb';
+import { buttonStyles } from '@awdlab/jig-themes/nova/button';
+import { buttonGroupStyles } from '@awdlab/jig-themes/nova/button-group';
+import { calendarStyles } from '@awdlab/jig-themes/nova/calendar';
+import { checkboxStyles } from '@awdlab/jig-themes/nova/checkbox';
+import { chipStyles } from '@awdlab/jig-themes/nova/chip';
+import { colorPickerStyles } from '@awdlab/jig-themes/nova/color-picker';
+import { commandStyles } from '@awdlab/jig-themes/nova/command';
+import { dialogStyles } from '@awdlab/jig-themes/nova/dialog';
+import { drawerStyles } from '@awdlab/jig-themes/nova/drawer';
+import { editInplaceStyles } from '@awdlab/jig-themes/nova/edit-inplace';
+import { filterStyles } from '@awdlab/jig-themes/nova/filter';
+import { globalStyles } from '@awdlab/jig-themes/nova/global';
+import { hintStyles } from '@awdlab/jig-themes/nova/hint';
+import { iconStyles } from '@awdlab/jig-themes/nova/icon';
+import { inplaceStyles } from '@awdlab/jig-themes/nova/inplace';
+import { inputStyles } from '@awdlab/jig-themes/nova/input';
+import { inputFieldStyles } from '@awdlab/jig-themes/nova/input-field';
+import { itemViewStyles } from '@awdlab/jig-themes/nova/item-view';
+import { kbdStyles } from '@awdlab/jig-themes/nova/kbd';
+import { listBoxStyles } from '@awdlab/jig-themes/nova/list-box';
+import { maskInputStyles } from '@awdlab/jig-themes/nova/mask-input';
+import { menuStyles } from '@awdlab/jig-themes/nova/menu';
+import { messageStyles } from '@awdlab/jig-themes/nova/message';
+import { otpStyles } from '@awdlab/jig-themes/nova/otp';
+import { paginatorStyles } from '@awdlab/jig-themes/nova/paginator';
+import { popoverStyles } from '@awdlab/jig-themes/nova/popover';
+import { progressStyles } from '@awdlab/jig-themes/nova/progress';
+import { radioStyles } from '@awdlab/jig-themes/nova/radio';
+import { radioGroupStyles } from '@awdlab/jig-themes/nova/radio-group';
+import { ratingStyles } from '@awdlab/jig-themes/nova/rating';
+import { scrollerStyles } from '@awdlab/jig-themes/nova/scroller';
+import { selectStyles } from '@awdlab/jig-themes/nova/select';
+import { selectButtonStyles } from '@awdlab/jig-themes/nova/select-button';
+import { sliderStyles } from '@awdlab/jig-themes/nova/slider';
+import { snackbarStyles } from '@awdlab/jig-themes/nova/snackbar';
+import { spinButtonsStyles } from '@awdlab/jig-themes/nova/spin-buttons';
+import { spinnerStyles } from '@awdlab/jig-themes/nova/spinner';
+import { splitterStyles } from '@awdlab/jig-themes/nova/splitter';
+import { stateStyles } from '@awdlab/jig-themes/nova/state';
+import { stepperStyles } from '@awdlab/jig-themes/nova/stepper';
+import { switchStyles } from '@awdlab/jig-themes/nova/switch';
+import { tableStyles } from '@awdlab/jig-themes/nova/table';
+import { tabsStyles } from '@awdlab/jig-themes/nova/tabs';
+import { tagStyles } from '@awdlab/jig-themes/nova/tag';
+import { toastStyles } from '@awdlab/jig-themes/nova/toast';
+import { toggleButtonStyles } from '@awdlab/jig-themes/nova/toggle-button';
+import { tooltipStyles } from '@awdlab/jig-themes/nova/tooltip';
+import { treeStyles } from '@awdlab/jig-themes/nova/tree';
+import { uploadStyles } from '@awdlab/jig-themes/nova/upload';
 
 import type {} from './theme-types';
 

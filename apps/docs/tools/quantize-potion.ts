@@ -2,7 +2,7 @@
  * Turns the published fp32 `potion-base-8M` weights into the int8 blob the docs
  * search ships (~30MB → ~7.7MB), so the blob stays out of the repository.
  *
- *   pnpm --filter @ngneers/controls-docs search:model
+ *   pnpm --filter @awdlab/jig-docs search:model
  *
  * Runs from `prepare-docs` and returns immediately once {@link REVISION}'s blob is
  * on disk; `--force` regenerates anyway. Downloads are cached under
@@ -99,13 +99,13 @@ function cosine(a: Float32Array | number[], b: Float32Array | number[]): number 
 const PROBES = [
   'How do I disable a select?',
   'dark mode theming tokens',
-  'ngn-input-field label',
+  'jig-input-field label',
   'booleanAttribute transform on inputs',
   'virtual scrolling long option lists',
   // Tokenizer edge cases: accents, mixed case, punctuation runs, unknown
   // subwords, CJK, digits, and a word past WordPiece's length cap.
   'Größe für Überschrift — naïve café',
-  '[(value)]="foo" @if (bar) { <ngn-select/> }',
+  '[(value)]="foo" @if (bar) { <jig-select/> }',
   'ITEM_TEMPLATE vs itemTemplate vs item-template',
   'zzzqqqxxx unpronounceable gibberish',
   '日本語のテキストと English mixed',

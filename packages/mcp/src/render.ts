@@ -71,8 +71,8 @@ export function kindsColorsSection(control: PackControl, pack: KnowledgePack): s
     `The \`kind\` / \`color\` inputs accept values defined by the **active theme**, not a fixed ` +
     `type. The built-in themes offer:\n\n${lines.join('\n')}\n\n` +
     `If the app uses a **custom theme**, read that theme's \`createTheme({ …, kinds, colors })\` ` +
-    `or the app's \`NgnCustomTypes\` interface (\`CustomKind\` / \`CustomColor\` from ` +
-    `\`@ngneers/controls-custom-types\`) for the allowed values. See get_theme_options.\n`
+    `or the app's \`JigCustomTypes\` interface (\`CustomKind\` / \`CustomColor\` from ` +
+    `\`@awdlab/jig-custom-types\`) for the allowed values. See get_theme_options.\n`
   );
 }
 
@@ -80,7 +80,7 @@ export function kindsColorsSection(control: PackControl, pack: KnowledgePack): s
 export function exampleBlock(example: PackExample, maxLen = 700): string {
   const truncated =
     example.template.length > maxLen
-      ? `${example.template.slice(0, maxLen)}\n… (truncated — see ngn://example/${example.slug})`
+      ? `${example.template.slice(0, maxLen)}\n… (truncated — see jig://example/${example.slug})`
       : example.template;
   return `**${example.scenario}** _(imports: ${example.controls.join(', ')})_\n\n\`\`\`html\n${truncated}\n\`\`\``;
 }
@@ -102,7 +102,7 @@ function examplesSection(control: PackControl, pack: KnowledgePack, limit = 3): 
   const total = primary.length + secondary.length;
   const more =
     total > chosen.length
-      ? `\n_${total - chosen.length} more example(s) — see the \`ngn://example/…\` resources._\n`
+      ? `\n_${total - chosen.length} more example(s) — see the \`jig://example/…\` resources._\n`
       : '';
   return `\n## Examples (from docs demos)\n\n${chosen
     .map(e => exampleBlock(e))
@@ -115,7 +115,7 @@ export function controlMarkdown(control: PackControl, pack?: KnowledgePack): str
     `# ${control.className}\n\n` +
     `- **Selector:** \`${control.selector}\`\n` +
     `- **Kind:** ${control.kind}\n` +
-    `- **Import:** \`@ngneers/controls\`\n\n` +
+    `- **Import:** \`@awdlab/jig\`\n\n` +
     `${control.summary}\n`;
 
   const api = propTable('Inputs', control.inputs) + propTable('Outputs', control.outputs);
@@ -197,7 +197,7 @@ export function queryTerms(query: string): string[] {
 /**
  * Weighted relevance of a control to query terms. An identity hit (the control
  * name / class / selector token) counts far more than a prose hit, so
- * "filterable table" ranks `ngn-table` above controls that merely mention
+ * "filterable table" ranks `jig-table` above controls that merely mention
  * filtering in their description.
  */
 export function scoreControl(control: PackControl, terms: string[]): number {
@@ -244,9 +244,9 @@ export function themeOptionsMarkdown(
       .join(', ')}.`;
   }
 
-  const key = controlName ? camel(controlName.replace(/^ngn-?/, '')) : null;
+  const key = controlName ? camel(controlName.replace(/^jig-?/, '')) : null;
   const supportsColor = controlName
-    ? (pack.themeParts.find(p => p.name === controlName.replace(/^ngn-?/, ''))?.supportsColor ??
+    ? (pack.themeParts.find(p => p.name === controlName.replace(/^jig-?/, ''))?.supportsColor ??
       false)
     : true;
 
@@ -278,9 +278,9 @@ export function themeOptionsMarkdown(
   return (
     `# Theme kind & color options\n\n${blocks.join('\n\n')}\n\n` +
     `> These are the **built-in** themes. Determine which theme the app configures ` +
-    `(the \`preset\` in its ngn config / \`provideNgnControls\`, or an active \`ThemeService\` theme). ` +
+    `(the \`preset\` in its jig config / \`provideJigControls\`, or an active \`ThemeService\` theme). ` +
     `For a **custom theme**, the allowed values come from that theme's \`createTheme({ …, kinds, colors })\` ` +
-    `and the app's \`NgnCustomTypes\` (\`CustomKind\` / \`CustomColor\`) — read those instead.`
+    `and the app's \`JigCustomTypes\` (\`CustomKind\` / \`CustomColor\`) — read those instead.`
   );
 }
 
@@ -296,7 +296,7 @@ export function themeSchemaMarkdown(schema: ThemeSchema): string {
           .join('\n')}${s.note ? `\n\n${s.note}` : ''}`
     )
     .join('\n\n');
-  return `# ngn theme token schema\n\n${schema.overview}\n\n## Token scopes\n\n${scopes}`;
+  return `# jig theme token schema\n\n${schema.overview}\n\n## Token scopes\n\n${scopes}`;
 }
 
 /** A control's themeable anatomy: own classes + dependency scopes. */
@@ -319,8 +319,8 @@ export function scaffoldThemePart(part: ThemePart): string {
   const stubs = part.classNames.map(c => `      \${c('${c}')} {\n      }`).join('\n');
   return (
     `\`\`\`ts\n` +
-    `import { createThemePart, css } from '@ngneers/controls-themes/api';\n` +
-    `import { ${camel}ControlTemplate } from '@ngneers/controls-themes/templates/${part.name}';\n\n` +
+    `import { createThemePart, css } from '@awdlab/jig-themes/api';\n` +
+    `import { ${camel}ControlTemplate } from '@awdlab/jig-themes/templates/${part.name}';\n\n` +
     `export const ${camel}Styles = createThemePart({\n` +
     `  controlTemplate: ${camel}ControlTemplate,\n` +
     `  dependencies: [],\n` +

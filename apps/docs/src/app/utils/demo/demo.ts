@@ -2,21 +2,21 @@ import { NgComponentOutlet } from '@angular/common';
 import { Component, input, signal } from '@angular/core';
 import tablerCode from '@iconify/icons-tabler/code';
 import tablerCopy from '@iconify/icons-tabler/copy';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { throwExp } from '@ngneers/controls/utils';
+import { JigButton } from '@awdlab/jig/button';
+import { JigIcon } from '@awdlab/jig/icon';
+import { throwExp } from '@awdlab/jig/utils';
 
 import { style } from '../code/prism';
 
 import type { Type } from '@angular/core';
 
 @Component({
-  selector: 'ngn-docs-demo',
+  selector: 'jig-docs-demo',
   templateUrl: 'demo.html',
   styleUrl: 'demo.scss',
-  imports: [NgComponentOutlet, NgnButton, NgnIcon],
+  imports: [NgComponentOutlet, JigButton, JigIcon],
 })
-export class NgnDocsDemo {
+export class JigDocsDemo {
   protected readonly iconCode = tablerCode;
   protected readonly iconCopy = tablerCopy;
   public readonly component = input.required<Type<unknown>>();

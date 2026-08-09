@@ -6,7 +6,7 @@ import { evalValue, loadComponent } from '../helper/load-component';
  * listener is destroyed, the engine has to detach it with `removeEventListener`.
  *
  * We probe this by patching `add/removeEventListener` for a custom event type
- * (`ngnleakprobe`) that nothing else in the app uses, so the counts are fully
+ * (`jigleakprobe`) that nothing else in the app uses, so the counts are fully
  * isolated. The handler lives on `window` as a stable reference, so re-setting
  * inputs never re-registers it.
  */
@@ -19,7 +19,7 @@ const PROBE_INIT = () => {
   w.__ptFixture = {
     root: {
       $listeners: {
-        ngnleakprobe: () => {
+        jigleakprobe: () => {
           w.__ptProbe.fired++;
         },
       },
@@ -30,14 +30,14 @@ const PROBE_INIT = () => {
   const origAdd = proto.addEventListener;
   const origRemove = proto.removeEventListener;
   proto.addEventListener = function (type, handler, opts) {
-    if (type === 'ngnleakprobe') {
+    if (type === 'jigleakprobe') {
       w.__ptProbe.added++;
       w.__ptProbe.el = this;
     }
     return origAdd.call(this, type, handler as EventListener, opts);
   };
   proto.removeEventListener = function (type, handler, opts) {
-    if (type === 'ngnleakprobe') {
+    if (type === 'jigleakprobe') {
       w.__ptProbe.removed++;
     }
     return origRemove.call(this, type, handler as EventListener, opts);
@@ -54,7 +54,7 @@ test('pt $listeners are removed when the element carrying them is destroyed', as
       // The calendar sits behind an @if so we can destroy *part* of the component
       // (the element with the listener) without tearing down the whole test host.
       template: `@if (inputs().show) {
-        <ngn-calendar [inline]="true" [pt]="inputs().pt" />
+        <jig-calendar [inline]="true" [pt]="inputs().pt" />
       }`,
       imports: ['calendar'],
     },
@@ -66,7 +66,7 @@ test('pt $listeners are removed when the element carrying them is destroyed', as
     }
   );
 
-  const calendar = page.locator('ngn-calendar');
+  const calendar = page.locator('jig-calendar');
   await expect(calendar).toBeAttached();
 
   // The listener is attached exactly once, and nothing has been removed yet.
@@ -75,7 +75,7 @@ test('pt $listeners are removed when the element carrying them is destroyed', as
 
   // The listener is genuinely live: dispatching the event on its element fires it.
   await page.evaluate(() => {
-    (window as any).__ptProbe.el?.dispatchEvent(new Event('ngnleakprobe'));
+    (window as any).__ptProbe.el?.dispatchEvent(new Event('jigleakprobe'));
   });
   expect(await page.evaluate(() => (window as any).__ptProbe.fired)).toBe(1);
 
@@ -98,12 +98,12 @@ test('pt dependency slot forwards to ONE nested instance', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<ngn-calendar [inline]="true" [pt]="inputs().pt" />`,
+      template: `<jig-calendar [inline]="true" [pt]="inputs().pt" />`,
       imports: ['calendar'],
     },
     {
       inputs: {
-        // The 'current-month' slot is typed NgnPassthrough<select>; its 'root'
+        // The 'current-month' slot is typed JigPassthrough<select>; its 'root'
         // key lands on the month select host, forwarded via that select's own
         // engine. The year select uses a different slot and stays untouched.
         pt: { 'current-month': { root: { $classes: 'probe-month' } } },
@@ -112,21 +112,21 @@ test('pt dependency slot forwards to ONE nested instance', async ({ page }) => {
   );
 
   // Only the month select carries the class; the year select does not.
-  await expect(page.locator('ngn-calendar ngn-select.probe-month')).toHaveCount(1);
+  await expect(page.locator('jig-calendar jig-select.probe-month')).toHaveCount(1);
 });
 
 test('dependency marker class is auto-applied without pt', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<ngn-calendar [inline]="true" />`,
+      template: `<jig-calendar [inline]="true" />`,
       imports: ['calendar'],
     },
     {}
   );
 
   // The current-month select host carries the calendar marker class
-  // (`{namePrefix}{scope}-{depClass}` = `ngn-calendar-current-month`) even
+  // (`{namePrefix}{scope}-{depClass}` = `jig-calendar-current-month`) even
   // when no pt is provided.
-  await expect(page.locator('ngn-calendar ngn-select.ngn-calendar-current-month')).toHaveCount(1);
+  await expect(page.locator('jig-calendar jig-select.jig-calendar-current-month')).toHaveCount(1);
 });

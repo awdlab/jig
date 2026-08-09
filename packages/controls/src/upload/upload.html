@@ -1,6 +1,6 @@
 <div [ptInt]="this" [ptClass]="'main'">
   <div [ptInt]="this" [ptClass]="'zone'">
-    <ngn-icon
+    <jig-icon
       [ptInt]="this"
       [ptClass]="'icon'"
       [defaultIcon]="'upload-trigger'"
@@ -15,14 +15,14 @@
   @if (showUploadAll()) {
     <div [ptInt]="this" [ptClass]="'footer'">
       <button
-        ngnButton
+        jigButton
         kind="primary"
         type="button"
         [ptInt]="this"
         [ptClass]="'trigger'"
         (click)="uploadAll()"
       >
-        <ngn-icon [defaultIcon]="'upload-trigger'" />
+        <jig-icon [defaultIcon]="'upload-trigger'" />
         {{ i18n['upload_upload']() }}
       </button>
     </div>
@@ -43,7 +43,7 @@
         }"
       >
         @if (item.state === 'done' || item.state === 'failed') {
-          <ngn-icon
+          <jig-icon
             [ptInt]="this"
             [ptClass]="'status'"
             [defaultIcon]="item.state === 'failed' ? 'upload-failed' : 'upload-done'"
@@ -56,7 +56,7 @@
           }}</span>
           <span [ptInt]="this" [ptClass]="'size'">{{ formatSize(item.file.size) }}</span>
           @if (item.state === 'uploading') {
-            <ngn-progress
+            <jig-progress
               [ptInt]="this"
               [ptClass]="'progress'"
               [attr.aria-label]="i18n['upload_progressNamed']({ name: item.file.name })"
@@ -69,7 +69,7 @@
         <div [ptInt]="this" [ptClass]="'actions'">
           @if (showPerItem() && item.state === 'pending') {
             <button
-              ngnButton
+              jigButton
               kind="text"
               type="button"
               [ptInt]="this"
@@ -77,12 +77,12 @@
               [attr.aria-label]="i18n['upload_uploadNamed']({ name: item.file.name })"
               (click)="uploadOne(item)"
             >
-              <ngn-icon [defaultIcon]="'upload-trigger'" />
+              <jig-icon [defaultIcon]="'upload-trigger'" />
             </button>
           }
           @if (item.state === 'failed') {
             <button
-              ngnButton
+              jigButton
               kind="text"
               type="button"
               [ptInt]="this"
@@ -90,13 +90,13 @@
               [attr.aria-label]="i18n['upload_retryNamed']({ name: item.file.name })"
               (click)="retryFile(item)"
             >
-              <ngn-icon [defaultIcon]="'upload-retry'" />
+              <jig-icon [defaultIcon]="'upload-retry'" />
             </button>
           }
           <!-- Single dismiss action: cancels the in-flight upload and removes the
                item while uploading, otherwise just removes it. -->
           <button
-            ngnButton
+            jigButton
             kind="text"
             type="button"
             [ptInt]="this"
@@ -108,7 +108,7 @@
             "
             (click)="removeFile(item)"
           >
-            <ngn-icon
+            <jig-icon
               [defaultIcon]="item.state === 'uploading' ? 'upload-cancel' : 'upload-remove'"
             />
           </button>

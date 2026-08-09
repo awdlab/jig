@@ -2,9 +2,9 @@ import { Demo_Resizable_Base } from '../../../demos/resizable/base';
 import { Demo_Resizable_Movable } from '../../../demos/resizable/movable';
 import { i18nNone } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const ResizablePage: NgnDocsPage = {
+export const ResizablePage: JigDocsPage = {
   title: `Resizable`,
   kind: 'tabs',
   tabs: [

@@ -19,22 +19,22 @@ export function registerTools(server: McpServer, pack: KnowledgePack): void {
   server.registerTool(
     'list_controls',
     {
-      title: 'List ngn controls',
+      title: 'List jig controls',
       description:
-        'List every @ngneers/controls control and directive with its selector and a ' +
+        'List every @awdlab/jig control and directive with its selector and a ' +
         'one-line summary. Call this first to discover what exists before asking for details.',
       inputSchema: {},
     },
     async () => {
       const lines = pack.controls.map(controlListLine).join('\n');
-      return text(`# @ngneers/controls — ${pack.controls.length} controls\n\n${lines}`);
+      return text(`# @awdlab/jig — ${pack.controls.length} controls\n\n${lines}`);
     }
   );
 
   server.registerTool(
     'get_control',
     {
-      title: 'Get an ngn control',
+      title: 'Get a jig control',
       description:
         'Full reference for one control: selector, all inputs/outputs with types, defaults ' +
         'and descriptions, plus prose usage docs. Use before writing code that uses the control.',
@@ -48,10 +48,10 @@ export function registerTools(server: McpServer, pack: KnowledgePack): void {
       const key = name
         .trim()
         .toLowerCase()
-        .replace(/^ngn-?/, '');
+        .replace(/^jig-?/, '');
       const control =
         pack.controls.find(c => c.name === key) ??
-        pack.controls.find(c => c.className.toLowerCase() === `ngn${key}`) ??
+        pack.controls.find(c => c.className.toLowerCase() === `jig${key}`) ??
         pack.controls.find(c => c.name.replace(/-/g, '') === key.replace(/-/g, ''));
       if (!control) {
         return text(`No control named "${name}". Available controls: ${controlNames(pack)}.`);
@@ -63,7 +63,7 @@ export function registerTools(server: McpServer, pack: KnowledgePack): void {
   server.registerTool(
     'search_docs',
     {
-      title: 'Search ngn docs',
+      title: 'Search jig docs',
       description:
         'Keyword search across all controls and concept guides (theming, colors, passthrough, ' +
         'state, getting started, …). Returns ranked matches. Use when you know what you want to ' +
@@ -95,7 +95,7 @@ export function registerTools(server: McpServer, pack: KnowledgePack): void {
         if (s > 0) {
           hits.push({
             label: `${c.className} — ${c.summary}`,
-            ref: `control "${c.name}" (get_control) · ngn://control/${c.name}`,
+            ref: `control "${c.name}" (get_control) · jig://control/${c.name}`,
             score: s,
           });
         }
@@ -105,7 +105,7 @@ export function registerTools(server: McpServer, pack: KnowledgePack): void {
         if (s > 0) {
           hits.push({
             label: `Guide: ${g.title}`,
-            ref: `explain_concept "${g.slug}" · ngn://concept/${g.slug}`,
+            ref: `explain_concept "${g.slug}" · jig://concept/${g.slug}`,
             score: s,
           });
         }

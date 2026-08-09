@@ -1,48 +1,48 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { provideNgnControls } from '@ngneers/controls/api/ng';
-import { NgnActionButton } from '@ngneers/controls/button';
-import { NgnDialog } from '@ngneers/controls/dialog';
-import { nova } from '@ngneers/controls-themes/nova';
+import { provideJigControls } from '@awdlab/jig/api/ng';
+import { JigActionButton } from '@awdlab/jig/button';
+import { JigDialog } from '@awdlab/jig/dialog';
+import { nova } from '@awdlab/jig-themes/nova';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import type { NgnActionButtonConfig } from '@ngneers/controls/api';
+import type { JigActionButtonConfig } from '@awdlab/jig/api';
 
 @Component({
-  imports: [NgnDialog],
+  imports: [JigDialog],
   template: `
-    <ngn-dialog
+    <jig-dialog
       title="Confirm"
       [open]="true"
       [footerButtons]="buttons()"
       (buttonClicked)="clicked.push($event)"
     >
       <input id="text" />
-    </ngn-dialog>
+    </jig-dialog>
   `,
 })
 class DialogHost {
   // buttonClicked emits `value | null`, so the collector must admit null.
   public readonly clicked: (string | null)[] = [];
-  public readonly buttons = signal<NgnActionButtonConfig<string>[]>([
+  public readonly buttons = signal<JigActionButtonConfig<string>[]>([
     { label: 'Save', value: 'save', shortcut: 'ctrl+s' },
   ]);
 }
 
 @Component({
-  imports: [NgnDialog, NgnActionButton],
+  imports: [JigDialog, JigActionButton],
   template: `
-    <ngn-dialog title="Rename" [open]="true">
+    <jig-dialog title="Rename" [open]="true">
       <input id="field" />
       <ng-template #footer>
-        <ngn-action-button [config]="button" (clicked)="clicked.push($event)" />
+        <jig-action-button [config]="button" (clicked)="clicked.push($event)" />
       </ng-template>
-    </ngn-dialog>
+    </jig-dialog>
   `,
 })
 class CustomFooterHost {
   public readonly clicked: string[] = [];
-  public readonly button: NgnActionButtonConfig<string> = {
+  public readonly button: JigActionButtonConfig<string> = {
     label: 'Save',
     value: 'save',
     shortcut: 'ctrl+s',
@@ -51,7 +51,7 @@ class CustomFooterHost {
 
 beforeEach(() => {
   TestBed.configureTestingModule({
-    providers: [provideNgnControls({ theme: { preset: nova }, disableAnimations: true })],
+    providers: [provideJigControls({ theme: { preset: nova }, disableAnimations: true })],
   });
 });
 

@@ -2,36 +2,36 @@ import { NgComponentOutlet } from '@angular/common';
 import { Component, effect, inject, signal, computed } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
-import { NgnTab, NgnTabs } from '@ngneers/controls/tabs';
+import { JigBreadcrumb } from '@awdlab/jig/breadcrumb';
+import { JigTab, JigTabs } from '@awdlab/jig/tabs';
 import { filter } from 'rxjs';
 
 import { BreadcrumbService } from '../../../../frame/breadcrumb.service';
 import { safeRoutePath } from '../../../routing';
 import { Seo } from '../../../seo';
-import { NgnDocsPageSection } from '../section/section';
-import { NgnDocsToc } from '../toc/toc';
+import { JigDocsPageSection } from '../section/section';
+import { JigDocsToc } from '../toc/toc';
 
 import type { TocEntry } from '../../../md/types';
-import type { NgnDocsTab, NgnDocsTabPage } from '../../types';
-import type { NgnPassthrough } from '@ngneers/controls/base';
-import type { BreadcrumbItem } from '@ngneers/controls/breadcrumb';
+import type { JigDocsTab, JigDocsTabPage } from '../../types';
+import type { JigPassthrough } from '@awdlab/jig/base';
+import type { BreadcrumbItem } from '@awdlab/jig/breadcrumb';
 
 @Component({
-  selector: 'ngn-docs-page-tab-renderer',
+  selector: 'jig-docs-page-tab-renderer',
   templateUrl: 'page-tab-renderer.html',
-  imports: [NgnDocsPageSection, NgnDocsToc, NgnTabs, NgnTab, NgComponentOutlet, NgnBreadcrumb],
+  imports: [JigDocsPageSection, JigDocsToc, JigTabs, JigTab, NgComponentOutlet, JigBreadcrumb],
   host: {
     class: 'min-w-0 w-full h-full flex flex-col pt-[5.5rem]',
   },
 })
-export class NgnDocsPageTabRenderer {
+export class JigDocsPageTabRenderer {
   private readonly _seo = inject(Seo);
   private readonly _router = inject(Router);
   private readonly _activatedRoute = inject(ActivatedRoute);
   private readonly _breadcrumb = inject(BreadcrumbService);
-  protected readonly tab = this._activatedRoute.snapshot.data['tab'] as NgnDocsTab | undefined;
-  protected readonly page = this._activatedRoute.snapshot.data['page'] as NgnDocsTabPage;
+  protected readonly tab = this._activatedRoute.snapshot.data['tab'] as JigDocsTab | undefined;
+  protected readonly page = this._activatedRoute.snapshot.data['page'] as JigDocsTabPage;
 
   private _first = true;
 
@@ -49,7 +49,7 @@ export class NgnDocsPageTabRenderer {
     this._headingsByTab.update(map => ({ ...map, [title]: headings }));
   }
 
-  protected readonly tabPt: NgnPassthrough<'tabs'> = {
+  protected readonly tabPt: JigPassthrough<'tabs'> = {
     'headers-container': {
       $classes: 'mr-2 md:mr-8',
     },

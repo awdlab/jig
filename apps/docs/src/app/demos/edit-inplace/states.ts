@@ -1,25 +1,25 @@
 import { Component, signal } from '@angular/core';
-import { NgnEditInplace } from '@ngneers/controls/edit-inplace';
+import { JigEditInplace } from '@awdlab/jig/edit-inplace';
 
 @Component({
-  imports: [NgnEditInplace],
-  selector: 'ngn-demo-inplace-states',
+  imports: [JigEditInplace],
+  selector: 'jig-demo-inplace-states',
   template: `
     Default:
-    <ngn-edit-inplace [value]="value()" (valueChange)="value.set($event)" /><br />
+    <jig-edit-inplace [value]="value()" (valueChange)="value.set($event)" /><br />
     Readonly:
-    <ngn-edit-inplace [value]="value()" (valueChange)="value.set($event)" readonly /><br />
+    <jig-edit-inplace [value]="value()" (valueChange)="value.set($event)" readonly /><br />
     Disabled:
-    <ngn-edit-inplace [value]="value()" (valueChange)="value.set($event)" disabled /><br />
+    <jig-edit-inplace [value]="value()" (valueChange)="value.set($event)" disabled /><br />
     Invalid:
-    <ngn-edit-inplace
+    <jig-edit-inplace
       [value]="value()"
       (valueChange)="value.set($event)"
       [invalidOn]="'immediate'"
       invalid
     /><br />
     Invalid + Readonly:
-    <ngn-edit-inplace
+    <jig-edit-inplace
       [value]="value()"
       (valueChange)="value.set($event)"
       [invalidOn]="'immediate'"
@@ -27,7 +27,7 @@ import { NgnEditInplace } from '@ngneers/controls/edit-inplace';
       readonly
     /><br />
     Invalid + Disabled:
-    <ngn-edit-inplace
+    <jig-edit-inplace
       [value]="value()"
       (valueChange)="value.set($event)"
       [invalidOn]="'immediate'"

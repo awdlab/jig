@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { radioGroupControlTemplate } from '@ngneers/controls-themes/templates/radio-group';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { radioGroupControlTemplate } from '@awdlab/jig-themes/templates/radio-group';
 
 export const radioGroupStyles = createThemePart({
   controlTemplate: radioGroupControlTemplate,

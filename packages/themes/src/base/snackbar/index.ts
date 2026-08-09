@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { snackbarControlTemplate } from '@ngneers/controls-themes/templates/snackbar';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { snackbarControlTemplate } from '@awdlab/jig-themes/templates/snackbar';
 
 export const snackbarStyles = createThemePart({
   controlTemplate: snackbarControlTemplate,

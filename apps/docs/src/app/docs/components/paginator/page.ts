@@ -1,12 +1,12 @@
-import { NgnDocsPaginatorPlayground } from './playground';
+import { JigDocsPaginatorPlayground } from './playground';
 import { Demo_Paginator_Base } from '../../../demos/paginator/base';
 import { Demo_Paginator_Overflow } from '../../../demos/paginator/overflow';
 import { Demo_Paginator_Pagesize } from '../../../demos/paginator/pagesize';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const PaginatorPage: NgnDocsPage = {
+export const PaginatorPage: JigDocsPage = {
   title: `Paginator`,
   kind: 'tabs',
   tabs: [
@@ -21,7 +21,7 @@ export const PaginatorPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsPaginatorPlayground,
+      component: JigDocsPaginatorPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/paginator/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/paginator/a11y.md' },

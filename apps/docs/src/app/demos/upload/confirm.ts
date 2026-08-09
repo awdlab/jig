@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgnUpload, type NgnUploadFile } from '@ngneers/controls/upload';
+import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
 
 /**
  * Confirm mode: selected files queue up as `pending`. Nothing is uploaded until
@@ -7,17 +7,17 @@ import { NgnUpload, type NgnUploadFile } from '@ngneers/controls/upload';
  * pending file.
  */
 @Component({
-  imports: [NgnUpload],
-  selector: 'ngn-demo-upload-confirm',
+  imports: [JigUpload],
+  selector: 'jig-demo-upload-confirm',
   template: `
-    <ngn-upload #up="ngnUpload" mode="confirm" confirmTrigger="all" (upload)="onUpload($event, up)">
+    <jig-upload #up="jigUpload" mode="confirm" confirmTrigger="all" (upload)="onUpload($event, up)">
       <input type="file" multiple />
       Add files, then press Upload
-    </ngn-upload>
+    </jig-upload>
   `,
 })
 export class Demo_Upload_Confirm {
-  protected onUpload(files: NgnUploadFile[], up: NgnUpload): void {
+  protected onUpload(files: JigUploadFile[], up: JigUpload): void {
     for (const item of files) {
       let progress = 0;
       const tick = setInterval(() => {

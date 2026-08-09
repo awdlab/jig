@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { NgnSwitchHarness } from '@ngneers/controls-playwright';
+import { JigSwitchHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -8,7 +8,7 @@ test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-switch [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-switch [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['switch'],
     },
     {
@@ -18,7 +18,7 @@ test('base', async ({ page }, testInfo) => {
     }
   );
 
-  const switchControl = new NgnSwitchHarness(page.locator('ngn-switch'));
+  const switchControl = new JigSwitchHarness(page.locator('jig-switch'));
   await switchControl.expectValue(false);
   await expectScreenshot(page, testInfo, 'unchecked');
 
@@ -44,7 +44,7 @@ test('keyboard navigation', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-switch [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-switch [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['switch'],
     },
     {
@@ -54,7 +54,7 @@ test('keyboard navigation', async ({ page }, testInfo) => {
     }
   );
 
-  const switchControl = new NgnSwitchHarness(page.locator('ngn-switch'));
+  const switchControl = new JigSwitchHarness(page.locator('jig-switch'));
   await switchControl.expectValue(false);
 
   // Focus the switch
@@ -77,7 +77,7 @@ test('states', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-switch
+      template: `<jig-switch
         [value]="inputs().value"
         [disabled]="inputs().disabled"
         [readonly]="inputs().readonly"
@@ -98,7 +98,7 @@ test('states', async ({ page }, testInfo) => {
     }
   );
 
-  const switchControl = new NgnSwitchHarness(page.locator('ngn-switch'));
+  const switchControl = new JigSwitchHarness(page.locator('jig-switch'));
 
   // Test disabled state
   await handle.setInputs({ disabled: true });
@@ -143,7 +143,7 @@ test('value updates', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-switch [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-switch [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['switch'],
     },
     {
@@ -153,7 +153,7 @@ test('value updates', async ({ page }, testInfo) => {
     }
   );
 
-  const switchControl = new NgnSwitchHarness(page.locator('ngn-switch'));
+  const switchControl = new JigSwitchHarness(page.locator('jig-switch'));
   await switchControl.expectValue(false);
 
   // Update value via input
@@ -175,7 +175,7 @@ test('accessibility (axe)', async ({ page }) => {
     {
       // The checkbox derives its accessible name from the associated label.
       template: `
-        <ngn-switch #sw [value]="inputs().value" />
+        <jig-switch #sw [value]="inputs().value" />
         <label [for]="sw.inputId()">Notifications</label>
       `,
       imports: ['switch'],

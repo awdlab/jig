@@ -1,18 +1,18 @@
-Selector: `[ngnErrors]` · `exportAs: ngnErrors`
+Selector: `[jigErrors]` · `exportAs: jigErrors`
 
-{{ api: errors/errors NgnErrors }}
+{{ api: errors/errors JigErrors }}
 
 ## Providers
 
 | Function                             | Description                                                                           |
 | ------------------------------------ | ------------------------------------------------------------------------------------- |
-| `provideNgnErrorsMessages(messages)` | Registers a message map application- or feature-wide. `multi`, so several maps merge. |
-| `injectNgnErrorsMessages()`          | Returns all provided maps merged into one object. For building your own error UI.     |
-| `NGN_ERRORS_MESSAGES`                | The underlying multi-provider token.                                                  |
+| `provideJigErrorsMessages(messages)` | Registers a message map application- or feature-wide. `multi`, so several maps merge. |
+| `injectJigErrorsMessages()`          | Returns all provided maps merged into one object. For building your own error UI.     |
+| `JIG_ERRORS_MESSAGES`                | The underlying multi-provider token.                                                  |
 
 ## Types
 
-### NgnError
+### JigError
 
 The normalized shape of one resolved error.
 
@@ -20,11 +20,11 @@ The normalized shape of one resolved error.
 | --------- | ------------------------- | --------------------------------------------------- |
 | `key`     | `string`                  | Validation error key, e.g. `required`.              |
 | `value`   | `unknown`                 | The raw error value Angular reported.               |
-| `source`  | `NgnErrorsSource`         | `'control'`, `'group'` or `'custom'`.               |
+| `source`  | `JigErrorsSource`         | `'control'`, `'group'` or `'custom'`.               |
 | `message` | `string`                  | The resolved, display-ready message.                |
 | `params`  | `Record<string, unknown>` | Interpolation params, derived from the error value. |
 
-### NgnErrorsState
+### JigErrorsState
 
 What `state()` returns, and what is pushed into the bound hint.
 
@@ -32,19 +32,19 @@ What `state()` returns, and what is pushed into the bound hint.
 | ------------ | --------------------- | -------------------------------------------------- |
 | `visible`    | `boolean`             | Whether messages should currently show.            |
 | `pending`    | `boolean`             | An async validator is running.                     |
-| `errors`     | `readonly NgnError[]` | All resolved errors.                               |
-| `firstError` | `NgnError \| null`    | The first one, or `null`.                          |
-| `message`    | `string \| null`      | The message to display, honouring `ngnErrorsMode`. |
+| `errors`     | `readonly JigError[]` | All resolved errors.                               |
+| `firstError` | `JigError \| null`    | The first one, or `null`.                          |
+| `message`    | `string \| null`      | The message to display, honouring `jigErrorsMode`. |
 
 ### Other types
 
 | Type                      | Shape                                                                         |
 | ------------------------- | ----------------------------------------------------------------------------- |
-| `NgnErrorsShowOn`         | `'touched' \| 'dirty' \| 'submitted' \| 'always' \| 'never'`                  |
-| `NgnErrorsMode`           | `'first' \| 'all'`                                                            |
-| `NgnErrorsSource`         | `'control' \| 'group' \| 'custom'`                                            |
-| `NgnErrorsMessage`        | `string \| ((error: NgnErrorsMessageContext) => string \| null \| undefined)` |
-| `NgnErrorsMessages`       | `Record<string, NgnErrorsMessage>`                                            |
-| `NgnErrorsCustom`         | `ValidationErrors \| readonly (string \| NgnErrorsCustomEntry)[] \| null`     |
-| `NgnErrorsCustomEntry`    | `{ key: string; value?: unknown; message?: string; params?: object }`         |
-| `NgnErrorsMessageContext` | `{ key: string; value: unknown; source: NgnErrorsSource; params: object }`    |
+| `JigErrorsShowOn`         | `'touched' \| 'dirty' \| 'submitted' \| 'always' \| 'never'`                  |
+| `JigErrorsMode`           | `'first' \| 'all'`                                                            |
+| `JigErrorsSource`         | `'control' \| 'group' \| 'custom'`                                            |
+| `JigErrorsMessage`        | `string \| ((error: JigErrorsMessageContext) => string \| null \| undefined)` |
+| `JigErrorsMessages`       | `Record<string, JigErrorsMessage>`                                            |
+| `JigErrorsCustom`         | `ValidationErrors \| readonly (string \| JigErrorsCustomEntry)[] \| null`     |
+| `JigErrorsCustomEntry`    | `{ key: string; value?: unknown; message?: string; params?: object }`         |
+| `JigErrorsMessageContext` | `{ key: string; value: unknown; source: JigErrorsSource; params: object }`    |

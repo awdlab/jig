@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   backdropTemplate,
@@ -7,8 +7,8 @@ import {
   fontTemplate,
   shadowTemplate,
   sizesTemplate,
-} from '@ngneers/controls-themes/nova/base';
-import { drawerControlTemplate } from '@ngneers/controls-themes/templates/drawer';
+} from '@awdlab/jig-themes/nova/base';
+import { drawerControlTemplate } from '@awdlab/jig-themes/templates/drawer';
 
 export const drawerStyles = createThemePart({
   controlTemplate: drawerControlTemplate,

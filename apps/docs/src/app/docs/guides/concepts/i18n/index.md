@@ -22,7 +22,7 @@ never drift.
 Inject the service and set the tag:
 
 ```ts
-import { I18n } from '@ngneers/controls/i18n';
+import { I18n } from '@awdlab/jig/i18n';
 
 export class LanguageSwitcher {
   private readonly _i18n = inject(I18n);
@@ -60,7 +60,7 @@ Supply a loader through `customTranslations`. It is called lazily, so the
 locale is a separate chunk:
 
 ```ts
-provideNgnControls({
+provideJigControls({
   theme: { preset: nova },
   customTranslations: {
     fr: () => import('./i18n/fr').then(m => m.fr),
@@ -77,7 +77,7 @@ the source so a new key in a library release becomes a compile error rather
 than a missing string at runtime:
 
 ```ts
-import type { Translations } from '@ngneers/controls/i18n';
+import type { Translations } from '@awdlab/jig/i18n';
 
 export const fr: Translations = {/* … every group … */};
 ```
@@ -104,11 +104,11 @@ minlength: 'Use at least {{ requiredLength }} characters';
 Error text lives in the same translation table under `errors.*`, so the
 defaults are localized. Overriding one message app-wide does not require a
 translation file — use
-[`provideNgnErrorsMessages()`](/components/errors), whose resolvers can read
+[`provideJigErrorsMessages()`](/components/errors), whose resolvers can read
 your own i18n:
 
 ```ts
-provideNgnErrorsMessages({
+provideJigErrorsMessages({
   required: () => inject(TranslateService).instant('validation.required'),
 });
 ```
@@ -123,7 +123,7 @@ Dates and numbers are formatted through `Intl`, driven by the control's own
 must agree:
 
 ```html
-<input ngnNumberInput [locale]="i18n.language()" />
+<input jigNumberInput [locale]="i18n.language()" />
 ```
 
 ### Server-side rendering

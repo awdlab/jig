@@ -1,22 +1,22 @@
 import { Injector, runInInjectionContext } from '@angular/core';
-import { injectOrThrow } from '@ngneers/controls/utils-ng';
+import { injectOrThrow } from '@awdlab/jig/utils-ng';
 
-import { NgnSnackbarManager } from './snackbar-manager';
+import { JigSnackbarManager } from './snackbar-manager';
 
-import type { NgnSnackbarOptions, NgnSnackbarRef } from './types';
+import type { JigSnackbarOptions, JigSnackbarRef } from './types';
 
 export class SnackbarCreator {
-  private readonly _manager: NgnSnackbarManager;
+  private readonly _manager: JigSnackbarManager;
 
   constructor() {
     this._manager = injectOrThrow(
-      NgnSnackbarManager,
+      JigSnackbarManager,
       'injectSnackbarCreator',
-      'NgnSnackbarManager not found. Make sure to use withSnackbars() to provide ngn snackbars!'
+      'JigSnackbarManager not found. Make sure to use withSnackbars() to provide jig snackbars!'
     );
   }
 
-  public show(options: NgnSnackbarOptions): NgnSnackbarRef {
+  public show(options: JigSnackbarOptions): JigSnackbarRef {
     const id = this._manager.addSnackbar(options);
     return {
       hide: () => this._manager.removeSnackbar(id),

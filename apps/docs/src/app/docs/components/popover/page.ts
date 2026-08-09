@@ -1,11 +1,11 @@
-import { NgnDocsPopoverPlayground } from './playground';
+import { JigDocsPopoverPlayground } from './playground';
 import { Demo_Popover_Base } from '../../../demos/popover/base';
 import { Demo_Popover_Lazy } from '../../../demos/popover/lazy';
 import { i18nNone } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const PopoverPage: NgnDocsPage = {
+export const PopoverPage: JigDocsPage = {
   title: `Popover`,
   kind: 'tabs',
   tabs: [
@@ -20,7 +20,7 @@ export const PopoverPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsPopoverPlayground,
+      component: JigDocsPopoverPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/popover/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/popover/a11y.md' },

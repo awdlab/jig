@@ -1,12 +1,12 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
   fontTemplate,
   sizesTemplate,
-} from '@ngneers/controls-themes/material/base';
-import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
+} from '@awdlab/jig-themes/material/base';
+import { inputFieldControlTemplate } from '@awdlab/jig-themes/templates/input-field';
 
 // MD3 label float variants that show a visible, positionable label (all but 'hidden').
 const FLOATABLE_LABEL_KINDS = ['over', 'floatOver', 'in', 'floatIn', 'on', 'floatOn'] as const;
@@ -50,7 +50,7 @@ export const inputFieldStyles = createThemePart({
 
       return css`
         /* Base root == MD3 outlined text field (the DEFAULT look). Applied to c('root')
-           directly — not gated behind c('kind-outlined') — so a bare <ngn-input-field>
+           directly — not gated behind c('kind-outlined') — so a bare <jig-input-field>
            with no kind still renders the outlined chrome. kind=filled overrides below. */
         ${c('root')} {
           border-radius: ${v('size.rounded.md')};

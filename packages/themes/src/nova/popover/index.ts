@@ -1,12 +1,12 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
   shadowTemplate,
   sizesTemplate,
-} from '@ngneers/controls-themes/nova/base';
-import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
+} from '@awdlab/jig-themes/nova/base';
+import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
 
 const TRANSITION_BUFFER = '50ms';
 const MOVE_AMOUNT = 6; // in px

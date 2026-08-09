@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnButtonGroup } from '@ngneers/controls/button-group';
+import { JigButton } from '@awdlab/jig/button';
+import { JigButtonGroup } from '@awdlab/jig/button-group';
 
 @Component({
-  selector: 'ngn-demo-button-group-base',
-  imports: [NgnButton, NgnButtonGroup],
-  template: `<ngn-button-group>
-    <button ngnButton kind="primary">Button A</button>
-    <button ngnButton kind="primary">Button B</button>
-    <button ngnButton kind="primary">Button C123</button>
-  </ngn-button-group>`,
+  selector: 'jig-demo-button-group-base',
+  imports: [JigButton, JigButtonGroup],
+  template: `<jig-button-group>
+    <button jigButton kind="primary">Button A</button>
+    <button jigButton kind="primary">Button B</button>
+    <button jigButton kind="primary">Button C123</button>
+  </jig-button-group>`,
 })
 export class Demo_ButtonGroup_Base {}

@@ -1,12 +1,12 @@
 import test, { type Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import type { InputsType } from '../../apps/test-wrapper/src/app/window.js';
-import type { NgnActionItem } from '@ngneers/controls/api';
-import { NgnBreadcrumbHarness } from '@ngneers/controls-playwright';
+import type { JigActionItem } from '@awdlab/jig/api';
+import { JigBreadcrumbHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
-const ITEMS: NgnActionItem[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => ({
+const ITEMS: JigActionItem[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => ({
   id: `item${i}`,
   label: `Item ${i}`,
 }));
@@ -16,7 +16,7 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
     page,
     {
       template: `
-        <ngn-breadcrumb
+        <jig-breadcrumb
           style="width: 420px; outline: 1px solid red;"
           [items]="inputs().items"
         />
@@ -36,7 +36,7 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
 test('base', async ({ page }, testInfo) => {
   const handle = await prepareTest(page);
 
-  const breadcrumb = new NgnBreadcrumbHarness(page.locator('ngn-breadcrumb'));
+  const breadcrumb = new JigBreadcrumbHarness(page.locator('jig-breadcrumb'));
   await breadcrumb.itemView.expectItemCount(10);
   // 420px fits five of the ten crumbs at the theme's control font size; the rest move
   // into the overflow menu. Outline marks the constraining box in the screenshot.

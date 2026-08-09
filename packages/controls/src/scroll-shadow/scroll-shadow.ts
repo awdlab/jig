@@ -9,10 +9,10 @@ import {
   input,
   Renderer2,
 } from '@angular/core';
-import { scrollShadowDirectiveTemplate } from '@ngneers/controls-themes/templates/api';
+import { scrollShadowDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
 
-import { domEventHandler, injectThemeTemplate } from '@ngneers/controls/api/ng';
-import { toggleClass } from '@ngneers/controls/utils';
+import { domEventHandler, injectThemeTemplate } from '@awdlab/jig/api/ng';
+import { toggleClass } from '@awdlab/jig/utils';
 
 /**
  * Fades a scroll edge in and out as its host scrolls, signalling more content.
@@ -20,9 +20,9 @@ import { toggleClass } from '@ngneers/controls/utils';
  * @category directive
  */
 @Directive({
-  selector: '[ngnScrollShadow]',
+  selector: '[jigScrollShadow]',
 })
-export class NgnScrollShadow {
+export class JigScrollShadow {
   protected readonly theme = injectThemeTemplate(scrollShadowDirectiveTemplate);
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _injector = inject(Injector);
@@ -32,7 +32,7 @@ export class NgnScrollShadow {
    * Which scroll axis to track and add shadow classes for.
    * @default 'horizontal'
    */
-  public readonly ngnScrollShadow = input<'horizontal' | 'vertical' | 'both'>('horizontal');
+  public readonly jigScrollShadow = input<'horizontal' | 'vertical' | 'both'>('horizontal');
 
   /**
    * Element that receives the shadow classes. Defaults to the host element (which
@@ -45,11 +45,11 @@ export class NgnScrollShadow {
    * Suppress the built-in edge-shadow overlay's styling (the theme hides it). The overlay element
    * is still injected but rendered inert, so it never disturbs the scroll container's layout.
    * Set this when the consumer paints its own shadows off the `scrolled-*` classes — e.g. the
-   * table anchors them to its sticky-column edges, reusing the shared `--ngn-scroll-shadow-color`.
+   * table anchors them to its sticky-column edges, reusing the shared `--jig-scroll-shadow-color`.
    * @default false
    */
   public readonly unstyled = input(false, {
-    alias: 'ngnScrollShadowUnstyled',
+    alias: 'jigScrollShadowUnstyled',
     transform: booleanAttribute,
   });
 
@@ -74,10 +74,10 @@ export class NgnScrollShadow {
 
       const update = () => {
         const target = this.scrollShadowTarget() ?? scrollEl;
-        const dir = this.ngnScrollShadow();
+        const dir = this.jigScrollShadow();
 
-        surface.style.setProperty('--ngn-scroll-shadow-w', `${scrollEl.clientWidth}px`);
-        surface.style.setProperty('--ngn-scroll-shadow-h', `${scrollEl.clientHeight}px`);
+        surface.style.setProperty('--jig-scroll-shadow-w', `${scrollEl.clientWidth}px`);
+        surface.style.setProperty('--jig-scroll-shadow-h', `${scrollEl.clientHeight}px`);
 
         if (dir === 'horizontal' || dir === 'both') {
           const sl = scrollEl.scrollLeft;

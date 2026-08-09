@@ -1,12 +1,12 @@
 {
-  "name": "@ngneers/controls",
-  "version": "0.0.2",
+  "name": "@awdlab/jig",
+  "version": "0.0.1-next.1",
   "description": "Modern, signal-based Angular 22 component library — themeable, accessible, tree-shakeable controls.",
   "license": "MIT",
-  "homepage": "https://ngneers.dev",
+  "homepage": "https://jig.awdlab.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NGneers/controls.git",
+    "url": "git+https://github.com/awdlab/jig.git",
     "directory": "packages/controls"
   },
   "keywords": [
@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@iconify/types": "^2.0.0",
-    "@ngneers/controls-custom-types": "workspace:*",
+    "@awdlab/jig-custom-types": "workspace:*",
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
@@ -46,7 +46,7 @@
     "@angular/router": "catalog:",
     "@floating-ui/dom": "^1.7.1",
     "@iconify/icons-tabler": "^1.0.0",
-    "@ngneers/controls-themes": "workspace:",
+    "@awdlab/jig-themes": "workspace:",
     "@ngneers/signal-translate": "^20.0.0",
     "rxjs": "~7.8.0"
   },

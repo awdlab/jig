@@ -13,14 +13,14 @@
   font-size: clamp(2rem, 5vw, 3rem);
   line-height: 1.05;
   letter-spacing: -0.025em;
-  font-weight: var(--ngn-font-weight-bold);
+  font-weight: var(--jig-font-weight-bold);
 }
 
 .cl-lede {
   margin: 1rem 0 0;
   max-width: 62ch;
   line-height: 1.65;
-  color: var(--ngn-color-surface-500);
+  color: var(--jig-color-surface-500);
   text-wrap: pretty;
 }
 
@@ -28,7 +28,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  color: var(--ngn-color-surface-500);
+  color: var(--jig-color-surface-500);
 }
 
 .cl-package + .cl-package {
@@ -42,16 +42,16 @@
   z-index: 1;
   margin: 0 0 1.5rem;
   padding: 0.5rem 0;
-  background: var(--ngn-color-background);
+  background: var(--jig-color-background);
   font-family: 'Consolas', 'Menlo', 'Monaco', monospace;
   font-size: 0.9375rem;
-  font-weight: var(--ngn-font-weight-semibold);
-  color: var(--ngn-color-surface-500);
+  font-weight: var(--jig-font-weight-semibold);
+  color: var(--jig-color-surface-500);
 }
 
 .cl-release {
   padding: 1.75rem 0;
-  border-top: 1px solid var(--ngn-color-border);
+  border-top: 1px solid var(--jig-color-border);
 }
 
 .cl-release-head {
@@ -65,13 +65,13 @@
   margin: 0;
   font-size: 1.375rem;
   letter-spacing: -0.015em;
-  font-weight: var(--ngn-font-weight-semibold);
+  font-weight: var(--jig-font-weight-semibold);
 }
 
 .cl-date {
   margin-left: auto;
   font-size: 0.875rem;
-  color: var(--ngn-color-surface-500);
+  color: var(--jig-color-surface-500);
   white-space: nowrap;
 }
 
@@ -81,7 +81,7 @@
 }
 
 .cl-notes-empty {
-  color: var(--ngn-color-surface-400);
+  color: var(--jig-color-surface-400);
 }
 
 /* Release notes are upstream markdown: keep the vertical rhythm predictable
@@ -89,7 +89,7 @@
 .cl-notes :is(h1, h2, h3, h4) {
   margin: 1.5rem 0 0.5rem;
   font-size: 1rem;
-  font-weight: var(--ngn-font-weight-semibold);
+  font-weight: var(--jig-font-weight-semibold);
 }
 
 .cl-notes :is(ul, ol) {
@@ -112,8 +112,8 @@
 
 .cl-notes code {
   padding: 0.1em 0.35em;
-  border-radius: var(--ngn-size-radius-sm);
-  background: var(--ngn-color-surface-100);
+  border-radius: var(--jig-size-radius-sm);
+  background: var(--jig-color-surface-100);
   font-family: 'Consolas', 'Menlo', 'Monaco', monospace;
   font-size: 0.9em;
 }
@@ -122,8 +122,8 @@
   overflow-x: auto;
   margin: 0.75rem 0;
   padding: 0.875rem 1rem;
-  border-radius: var(--ngn-size-radius-md);
-  background: var(--ngn-color-surface-100);
+  border-radius: var(--jig-size-radius-md);
+  background: var(--jig-color-surface-100);
 }
 
 .cl-notes pre code {
@@ -135,7 +135,7 @@
   color: inherit;
   text-decoration: underline;
   text-underline-offset: 0.2em;
-  text-decoration-color: var(--ngn-color-surface-400);
+  text-decoration-color: var(--jig-color-surface-400);
   transition: text-decoration-color 160ms ease;
 }
 

@@ -8,7 +8,7 @@ import {
   untracked,
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { Logger } from '@ngneers/controls/utils';
+import { Logger } from '@awdlab/jig/utils';
 import {
   applyGlobalStyles,
   applyTheme,
@@ -18,11 +18,11 @@ import {
   type Theme,
   type ThemeClasses,
   type ThemeTemplate,
-} from '@ngneers/controls-themes';
-import { globalStyles } from '@ngneers/controls-themes/base/global';
+} from '@awdlab/jig-themes';
+import { globalStyles } from '@awdlab/jig-themes/base/global';
 import { skip } from 'rxjs';
 
-import { NGN_CONFIG, type NgnConfig } from './config';
+import { JIG_CONFIG, type JigConfig } from './config';
 
 export type AppliedThemeClassCfg<T extends ControlName> =
   | keyof ThemeClasses<ThemeTemplate[T]>
@@ -37,7 +37,7 @@ export type ControlTemplateInfo<T extends ControlTemplate<string, string[]>> = {
 };
 
 export function themeTemplateToTemplateInfo<T extends ControlTemplate<string, string[]>>(
-  config: NgnConfig,
+  config: JigConfig,
   template: T,
   options?: { unstyled?: () => boolean }
 ): ControlTemplateInfo<T> {
@@ -69,7 +69,7 @@ export function injectThemeTemplate<T extends ControlTemplate<string, string[]>>
   template: T,
   options?: { injector?: Injector; unstyled?: () => boolean }
 ): ControlTemplateInfo<T> {
-  const config = options?.injector?.get(NGN_CONFIG) ?? inject(NGN_CONFIG);
+  const config = options?.injector?.get(JIG_CONFIG) ?? inject(JIG_CONFIG);
   const themeService = options?.injector?.get(ThemeService) ?? inject(ThemeService);
   themeService.loadScope(template.scope);
   return themeTemplateToTemplateInfo(config, template, { unstyled: options?.unstyled });
@@ -120,7 +120,7 @@ export function getAppliedClasses<T extends ControlName>(
 
 @Injectable()
 export class ThemeService implements OnDestroy {
-  private readonly _config = inject(NGN_CONFIG);
+  private readonly _config = inject(JIG_CONFIG);
   private readonly _loadedScopes = new Set<string>();
   private readonly _document = inject(DOCUMENT);
 
@@ -138,7 +138,7 @@ export class ThemeService implements OnDestroy {
       // so that the animation starts/ends are still applied & the events are still fired
       this.upsertMotionStyle(
         'no-animations',
-        `.ngn-control, .ngn-control * {
+        `.jig-control, .jig-control * {
           animation-duration: 0s !important;
           transition-duration: 0s !important;
         }`
@@ -151,7 +151,7 @@ export class ThemeService implements OnDestroy {
       this.upsertMotionStyle(
         'reduced-motion',
         `@media (prefers-reduced-motion: reduce) {
-          .ngn-control, .ngn-control * {
+          .jig-control, .jig-control * {
             animation-duration: 0.01ms !important;
             transition-duration: 0.01ms !important;
           }
@@ -166,11 +166,11 @@ export class ThemeService implements OnDestroy {
 
   /** Adds a motion stylesheet once — hydration re-runs this over server-rendered markup. */
   private upsertMotionStyle(kind: string, css: string): void {
-    if (this._document.head.querySelector(`style[ngn-style="${kind}"]`)) {
+    if (this._document.head.querySelector(`style[jig-style="${kind}"]`)) {
       return;
     }
     const style = this._document.createElement('style');
-    style.setAttribute('ngn-style', kind);
+    style.setAttribute('jig-style', kind);
     style.innerHTML = css;
     this._document.head.appendChild(style);
   }
@@ -217,7 +217,7 @@ export class ThemeService implements OnDestroy {
   }
 
   private unloadAllScopes(): void {
-    this._document.head.querySelectorAll('style[ngn-style][data-theme-scope]').forEach(el => {
+    this._document.head.querySelectorAll('style[jig-style][data-theme-scope]').forEach(el => {
       el.remove();
     });
   }

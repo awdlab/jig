@@ -1,16 +1,16 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { type SplitterLayout, NgnSplitterModule } from '@ngneers/controls/splitter';
+import { JigButton } from '@awdlab/jig/button';
+import { type SplitterLayout, JigSplitterModule } from '@awdlab/jig/splitter';
 
 @Component({
-  imports: [NgnSplitterModule, NgnButton],
-  selector: 'ngn-demo-splitter-state',
+  imports: [JigSplitterModule, JigButton],
+  selector: 'jig-demo-splitter-state',
   template: `
     <div style="display: flex; gap: 8px;">
-      <button ngnButton (click)="toggleLayout()">Toggle Layout</button>
-      <button ngnButton (click)="shufflePanels()">Shuffle Panels</button>
+      <button jigButton (click)="toggleLayout()">Toggle Layout</button>
+      <button jigButton (click)="shufflePanels()">Shuffle Panels</button>
     </div>
-    <ngn-splitter
+    <jig-splitter
       [layout]="layout()"
       [panelOrder]="panelOrder()"
       [stateStorage]="'local'"
@@ -18,22 +18,22 @@ import { type SplitterLayout, NgnSplitterModule } from '@ngneers/controls/splitt
       (layoutChange)="layout.set($event)"
       [aria-label]="'Stateful Splitter Demo'"
     >
-      <ngn-splitter-panel [name]="'first-panel'" [size]="'70px'" [aria-label]="'First Panel'">
+      <jig-splitter-panel [name]="'first-panel'" [size]="'70px'" [aria-label]="'First Panel'">
         Panel 1
-      </ngn-splitter-panel>
-      <ngn-splitter-panel [name]="'second-panel'" [size]="'3fr'" [aria-label]="'Second Panel'">
+      </jig-splitter-panel>
+      <jig-splitter-panel [name]="'second-panel'" [size]="'3fr'" [aria-label]="'Second Panel'">
         Panel 2
-      </ngn-splitter-panel>
-      <ngn-splitter-panel [name]="'third-panel'" [size]="'5fr'" [aria-label]="'Third Panel'">
+      </jig-splitter-panel>
+      <jig-splitter-panel [name]="'third-panel'" [size]="'5fr'" [aria-label]="'Third Panel'">
         Panel 3
-      </ngn-splitter-panel>
-      <ngn-splitter-panel [name]="'fourth-panel'" [size]="'1fr'" [aria-label]="'Fourth Panel'">
+      </jig-splitter-panel>
+      <jig-splitter-panel [name]="'fourth-panel'" [size]="'1fr'" [aria-label]="'Fourth Panel'">
         Panel 4
-      </ngn-splitter-panel>
-      <ngn-splitter-panel [name]="'fifth-panel'" [size]="'50px'" [aria-label]="'Fifth Panel'">
+      </jig-splitter-panel>
+      <jig-splitter-panel [name]="'fifth-panel'" [size]="'50px'" [aria-label]="'Fifth Panel'">
         Panel 5
-      </ngn-splitter-panel>
-    </ngn-splitter>
+      </jig-splitter-panel>
+    </jig-splitter>
   `,
   styles: `
     :host {

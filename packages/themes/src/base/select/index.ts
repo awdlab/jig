@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { selectControlTemplate } from '@awdlab/jig-themes/templates/select';
 
 export const selectStyles = createThemePart({
   controlTemplate: selectControlTemplate,

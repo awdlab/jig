@@ -18,7 +18,7 @@ import { RouteLinks } from '../route-links';
 import type { MdCfg, TocEntry } from './types';
 
 @Component({
-  selector: 'ngn-md',
+  selector: 'jig-md',
   template: '',
   styleUrl: 'md.scss',
   hostDirectives: [RouteLinks],

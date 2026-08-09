@@ -1,22 +1,22 @@
 import { Component, input } from '@angular/core';
-import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
-import { NgnButtonGroup } from '@ngneers/controls/button-group';
-import { NgnToggleButton } from '@ngneers/controls/toggle-button';
-import { maybeCallback } from '@ngneers/controls/utils';
-import { selectButtonControlTemplate } from '@ngneers/controls-themes/templates/select-button';
+import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { JigButtonGroup } from '@awdlab/jig/button-group';
+import { JigToggleButton } from '@awdlab/jig/toggle-button';
+import { maybeCallback } from '@awdlab/jig/utils';
+import { selectButtonControlTemplate } from '@awdlab/jig-themes/templates/select-button';
 
-import type { NgnActionItemFlat, NgnItem } from '@ngneers/controls/api';
+import type { JigActionItemFlat, JigItem } from '@awdlab/jig/api';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'ngn-select-button',
+  selector: 'jig-select-button',
   templateUrl: './select-button.html',
-  imports: [NgnPt, NgnButtonGroup, NgnToggleButton],
-  providers: [provideSelf(NgnSelectButton)],
+  imports: [JigPt, JigButtonGroup, JigToggleButton],
+  providers: [provideSelf(JigSelectButton)],
 })
-export class NgnSelectButton<V> extends ValueControlBase<'selectButton', V> {
+export class JigSelectButton<V> extends ValueControlBase<'selectButton', V> {
   protected readonly theme = this.injectThemeTemplate(selectButtonControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),
@@ -33,7 +33,7 @@ export class NgnSelectButton<V> extends ValueControlBase<'selectButton', V> {
   /**
    * Defines the options for the select button.
    */
-  public readonly options = input.required<readonly NgnActionItemFlat<NgnItem<unknown, V>>[]>();
+  public readonly options = input.required<readonly JigActionItemFlat<JigItem<unknown, V>>[]>();
   /**
    * When `true`, allows unselecting the currently selected option by clicking on it again.
    * If `false`, clicking on the selected option will not change the selection.

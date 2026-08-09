@@ -1,6 +1,6 @@
-import type { NgnDocsPage } from '../../../../utils/page/types';
+import type { JigDocsPage } from '../../../../utils/page/types';
 
-export const AgentSkillsPage: NgnDocsPage = {
+export const AgentSkillsPage: JigDocsPage = {
   kind: 'single',
   title: `Agent Skills`,
   mdFile: 'guides/ai/skills/index.md',

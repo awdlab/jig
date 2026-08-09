@@ -10,27 +10,27 @@ import {
   signal,
   untracked,
 } from '@angular/core';
-import { domEventHandler, domEventSignal } from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
-import { signalWithPrevious } from '@ngneers/controls/utils-ng';
-import { movableDirectiveTemplate } from '@ngneers/controls-themes/templates/api';
+import { domEventHandler, domEventSignal } from '@awdlab/jig/api/ng';
+import { JigBase } from '@awdlab/jig/base';
+import { signalWithPrevious } from '@awdlab/jig/utils-ng';
+import { movableDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
 
 /**
  * Makes its host element draggable with the pointer by writing `left`/`top`
  * inline styles (and switching the host to `position: fixed` when it is not
  * already positioned).
  *
- * Combine with {@link NgnResizable} — the resize logic calls
- * {@link NgnMovable.bakePosition} so a resized element keeps its place.
+ * Combine with {@link JigResizable} — the resize logic calls
+ * {@link JigMovable.bakePosition} so a resized element keeps its place.
  *
  * @category directive
  */
 @Directive({
-  selector: '[ngnMovable]',
+  selector: '[jigMovable]',
 })
-export class NgnMovable extends NgnBase<'movable'> {
+export class JigMovable extends JigBase<'movable'> {
   protected readonly theme = this.injectThemeTemplate(movableDirectiveTemplate, {
-    movable: () => this.ngnMovable(),
+    movable: () => this.jigMovable(),
     moved: () => this.dragged(),
   });
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
@@ -40,33 +40,33 @@ export class NgnMovable extends NgnBase<'movable'> {
    * Whether the element is movable.
    * @default true
    */
-  public readonly ngnMovable = input(true, { transform: booleanAttribute });
+  public readonly jigMovable = input(true, { transform: booleanAttribute });
 
   /**
    * The handle element used to drag the element. If omitted, the entire element will be used as the drag handle.
    * @default null
    */
-  public readonly ngnMovableDragHandle = input<HTMLElement | null>(null);
+  public readonly jigMovableDragHandle = input<HTMLElement | null>(null);
 
   /**
    * When `true`, the cursor will change to indicate that the element / drag handle is movable.
    * @default true
    */
-  public readonly ngnMovableChangeCursor = input(true, { transform: booleanAttribute });
+  public readonly jigMovableChangeCursor = input(true, { transform: booleanAttribute });
 
   /**
    * When `true`, the movement will be limited to the viewport.
    * @default true
    */
-  public readonly ngnMovableLimitToViewport = input(true, { transform: booleanAttribute });
+  public readonly jigMovableLimitToViewport = input(true, { transform: booleanAttribute });
 
-  private readonly _ngnMovableDragHandleWithPrevious = signalWithPrevious(
-    this.ngnMovableDragHandle,
+  private readonly _jigMovableDragHandleWithPrevious = signalWithPrevious(
+    this.jigMovableDragHandle,
     null
   );
 
   private readonly _eventElement = computed(() => {
-    const handle = this.ngnMovableDragHandle();
+    const handle = this.jigMovableDragHandle();
     return handle ?? this._el.nativeElement;
   });
 
@@ -86,7 +86,7 @@ export class NgnMovable extends NgnBase<'movable'> {
     super();
 
     domEventHandler(this._el.nativeElement, 'touchmove', e => {
-      if (!this.ngnMovable()) {
+      if (!this.jigMovable()) {
         return;
       }
       if (e.cancelable) {
@@ -95,7 +95,7 @@ export class NgnMovable extends NgnBase<'movable'> {
     });
 
     effect(() => {
-      if (!this.ngnMovable()) {
+      if (!this.jigMovable()) {
         return;
       }
       const pointerDown = this._pointerDownSignal();
@@ -111,7 +111,7 @@ export class NgnMovable extends NgnBase<'movable'> {
     });
 
     effect(() => {
-      if (!this.ngnMovable()) {
+      if (!this.jigMovable()) {
         return;
       }
       const pointerMove = this._pointerMoveSignal();
@@ -120,7 +120,7 @@ export class NgnMovable extends NgnBase<'movable'> {
         const newLeft = pointerMove.clientX - this._startX;
         const newTop = pointerMove.clientY - this._startY;
 
-        if (this.ngnMovableLimitToViewport()) {
+        if (this.jigMovableLimitToViewport()) {
           const documentRect = this._document.documentElement.getBoundingClientRect();
           const elRect = this._el.nativeElement.getBoundingClientRect();
 
@@ -147,7 +147,7 @@ export class NgnMovable extends NgnBase<'movable'> {
     });
 
     effect(() => {
-      if (!this.ngnMovable()) {
+      if (!this.jigMovable()) {
         return;
       }
       // touch scrolling takes the pointer over and fires pointercancel instead of pointerup
@@ -158,7 +158,7 @@ export class NgnMovable extends NgnBase<'movable'> {
     });
 
     effect(() => {
-      if (!this.ngnMovable()) {
+      if (!this.jigMovable()) {
         this._isDragging.set(false);
       }
     });
@@ -170,7 +170,7 @@ export class NgnMovable extends NgnBase<'movable'> {
 
   /**
    * Hands a gesture to another directive on the same host, so it does not double as a
-   * move. {@link NgnResizable} passes the `pointerdown` its grip owns, `null` otherwise.
+   * move. {@link JigResizable} passes the `pointerdown` its grip owns, `null` otherwise.
    */
   public blockGesture(pointerDown: PointerEvent | null): void {
     this._blockedDown = pointerDown;
@@ -188,14 +188,14 @@ export class NgnMovable extends NgnBase<'movable'> {
   }
 
   private refreshCursor() {
-    const handle = this._ngnMovableDragHandleWithPrevious();
+    const handle = this._jigMovableDragHandleWithPrevious();
     if (handle.previous && handle.previous !== handle.current) {
       handle.previous.classList.remove(
         this.theme.class('drag-handle-grab'),
         this.theme.class('drag-handle-grabbing')
       );
     }
-    if (!this.ngnMovable() || !this.ngnMovableChangeCursor()) {
+    if (!this.jigMovable() || !this.jigMovableChangeCursor()) {
       handle.current?.classList.remove(
         this.theme.class('drag-handle-grab'),
         this.theme.class('drag-handle-grabbing')

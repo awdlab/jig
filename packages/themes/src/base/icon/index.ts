@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { iconControlTemplate } from '@ngneers/controls-themes/templates/icon';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { iconControlTemplate } from '@awdlab/jig-themes/templates/icon';
 
 export const iconStyles = createThemePart({
   controlTemplate: iconControlTemplate,

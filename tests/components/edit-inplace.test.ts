@@ -1,5 +1,5 @@
 import test from '@playwright/test';
-import { NgnEditInplaceHarness } from '@ngneers/controls-playwright';
+import { JigEditInplaceHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -7,12 +7,12 @@ import { expectNoA11yViolations } from '../helper/axe';
 test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `
-      <ngn-edit-inplace [value]="inputs().value" (valueChange)="output('valueChange', $event)" />
+      <jig-edit-inplace [value]="inputs().value" (valueChange)="output('valueChange', $event)" />
     `,
     imports: ['editInplace'],
   });
 
-  const editInplace = new NgnEditInplaceHarness(page.locator('ngn-edit-inplace'));
+  const editInplace = new JigEditInplaceHarness(page.locator('jig-edit-inplace'));
 
   await test.step('initial display', async () => {
     await handle.setInputs({ value: 'Initial value' });
@@ -42,12 +42,12 @@ test('base', async ({ page }, testInfo) => {
 test('close with enter key', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `
-      <ngn-edit-inplace [value]="inputs().value" (valueChange)="output('valueChange', $event)" />
+      <jig-edit-inplace [value]="inputs().value" (valueChange)="output('valueChange', $event)" />
     `,
     imports: ['editInplace'],
   });
 
-  const editInplace = new NgnEditInplaceHarness(page.locator('ngn-edit-inplace'));
+  const editInplace = new JigEditInplaceHarness(page.locator('jig-edit-inplace'));
 
   await handle.setInputs({ value: 'Test value' });
   await editInplace.inplace.clickDisplay();
@@ -62,7 +62,7 @@ test('close with enter key', async ({ page }, testInfo) => {
 test('custom templates', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `
-      <ngn-edit-inplace [value]="inputs().value" (valueChange)="output('valueChange', $event)">
+      <jig-edit-inplace [value]="inputs().value" (valueChange)="output('valueChange', $event)">
         <ng-template #display let-display>
           <div class="custom-display">
             <strong>Value:</strong> {{ display.value }}
@@ -74,12 +74,12 @@ test('custom templates', async ({ page }, testInfo) => {
             <button (click)="edit.close()">Save</button>
           </div>
         </ng-template>
-      </ngn-edit-inplace>
+      </jig-edit-inplace>
     `,
     imports: ['editInplace'],
   });
 
-  const editInplace = new NgnEditInplaceHarness(page.locator('ngn-edit-inplace'));
+  const editInplace = new JigEditInplaceHarness(page.locator('jig-edit-inplace'));
   const customDisplay = page.locator('.custom-display');
   const customEdit = page.locator('.custom-edit');
 
@@ -107,7 +107,7 @@ test('custom templates', async ({ page }, testInfo) => {
 test('lazy loading', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `
-      <ngn-edit-inplace 
+      <jig-edit-inplace 
         [value]="inputs().value" 
         [lazy]="inputs().lazy" 
         [cache]="inputs().cache"
@@ -117,7 +117,7 @@ test('lazy loading', async ({ page }, testInfo) => {
     imports: ['editInplace'],
   });
 
-  const editInplace = new NgnEditInplaceHarness(page.locator('ngn-edit-inplace'));
+  const editInplace = new JigEditInplaceHarness(page.locator('jig-edit-inplace'));
 
   await test.step('lazy=true (default)', async () => {
     await handle.setInputs({ value: 'Lazy value', lazy: true, cache: false });
@@ -148,7 +148,7 @@ test('lazy loading', async ({ page }, testInfo) => {
 test('model binding', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `
-      <ngn-edit-inplace 
+      <jig-edit-inplace 
         [value]="inputs().value" 
         [(editVisible)]="inputs().editVisible"
         (valueChange)="output('valueChange', $event)"
@@ -157,7 +157,7 @@ test('model binding', async ({ page }, testInfo) => {
     imports: ['editInplace'],
   });
 
-  const editInplace = new NgnEditInplaceHarness(page.locator('ngn-edit-inplace'));
+  const editInplace = new JigEditInplaceHarness(page.locator('jig-edit-inplace'));
 
   await test.step('initially closed', async () => {
     await handle.setInputs({ value: 'Test', editVisible: false });
@@ -181,12 +181,12 @@ test('model binding', async ({ page }, testInfo) => {
 test('accessibility (axe)', async ({ page }) => {
   const handle = await loadComponent(page, {
     template: `
-      <ngn-edit-inplace [value]="inputs().value" [label]="'Display name'" (valueChange)="output('valueChange', $event)" />
+      <jig-edit-inplace [value]="inputs().value" [label]="'Display name'" (valueChange)="output('valueChange', $event)" />
     `,
     imports: ['editInplace'],
   });
 
-  const editInplace = new NgnEditInplaceHarness(page.locator('ngn-edit-inplace'));
+  const editInplace = new JigEditInplaceHarness(page.locator('jig-edit-inplace'));
   await handle.setInputs({ value: 'Jane Doe' });
 
   // Display state: the trigger is a labelled button.

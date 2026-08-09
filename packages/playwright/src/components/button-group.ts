@@ -1,18 +1,18 @@
 import { expect, type Locator } from '@playwright/test';
-import { NgnButtonHarness } from './button';
+import { JigButtonHarness } from './button';
 
-export class NgnButtonGroupHarness {
+export class JigButtonGroupHarness {
   public readonly buttons: Locator;
 
   constructor(public locator: Locator) {
-    this.buttons = locator.locator('button[ngnButton]');
+    this.buttons = locator.locator('button[jigButton]');
   }
 
   public async expectItemCount(count: number) {
     await expect(this.buttons).toHaveCount(count);
   }
 
-  public getButtonAt(index: number): NgnButtonHarness {
-    return new NgnButtonHarness(this.buttons.nth(index));
+  public getButtonAt(index: number): JigButtonHarness {
+    return new JigButtonHarness(this.buttons.nth(index));
   }
 }

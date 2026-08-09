@@ -1,13 +1,13 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   colorsTemplate,
   controlRing,
   fontTemplate,
   ringTemplate,
   sizesTemplate,
-} from '@ngneers/controls-themes/nova/base';
-import { accordionPanelControlTemplate } from '@ngneers/controls-themes/templates/accordion-panel';
+} from '@awdlab/jig-themes/nova/base';
+import { accordionPanelControlTemplate } from '@awdlab/jig-themes/templates/accordion-panel';
 
 export const accordionPanelStyles = createThemePart({
   controlTemplate: accordionPanelControlTemplate,
@@ -27,7 +27,7 @@ export const accordionPanelStyles = createThemePart({
       }
       ${c('content')} {
         color: ${v('color.surface.700')};
-        ngn-defer {
+        jig-defer {
           padding: ${v('size.padding.md')} ${v('size.padding.lg')};
         }
       }
@@ -38,7 +38,7 @@ export const accordionPanelStyles = createThemePart({
         cursor: pointer;
         user-select: none;
         transition: background-color 0.2s ease-in-out;
-        ngn-icon {
+        jig-icon {
           color: ${v('color.surface.600')};
           margin: 0 ${v('size.padding.md')};
           transition: color 0.2s ease-in-out;
@@ -63,7 +63,7 @@ export const accordionPanelStyles = createThemePart({
       /* Expanded panels get a tinted, accent-coloured header. */
       ${c('header-expanded')} {
         background: ${v('color.surface.50')};
-        ${c('header-text')}, ngn-icon {
+        ${c('header-text')}, jig-icon {
           color: ${v('color.primary.600')};
         }
       }
@@ -77,7 +77,7 @@ export const accordionPanelStyles = createThemePart({
         ${c('header-text')} {
           color: ${v('color.surface.300')};
         }
-        ngn-icon {
+        jig-icon {
           color: ${v('color.surface.300')};
         }
       }

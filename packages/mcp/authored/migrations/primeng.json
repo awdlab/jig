@@ -1,11 +1,11 @@
 {
   "source": "primeng",
   "label": "PrimeNG",
-  "notes": "PrimeNG binds values with [(ngModel)]; ngn controls use a signal `value` model — migrate `[(ngModel)]=\"x\"` to `[(value)]=\"x\"` (or reactive forms via ngn-input-field). PrimeNG form controls are usually standalone; ngn form controls are typically wrapped in `ngn-input-field` for label/hint/error chrome. Icons are set via `icon*` inputs (e.g. `iconDropdown`) or projected `ngn-icon`, not template slots. Always verify target inputs with get_control before rewriting.",
+  "notes": "PrimeNG binds values with [(ngModel)]; jig controls use a signal `value` model — migrate `[(ngModel)]=\"x\"` to `[(value)]=\"x\"` (or reactive forms via jig-input-field). PrimeNG form controls are usually standalone; jig form controls are typically wrapped in `jig-input-field` for label/hint/error chrome. Icons are set via `icon*` inputs (e.g. `iconDropdown`) or projected `jig-icon`, not template slots. Always verify target inputs with get_control before rewriting.",
   "components": [
     {
       "from": "p-button / pButton",
-      "to": "button[ngnButton]",
+      "to": "button[jigButton]",
       "notes": "Attribute directive on a native <button>/<a>. Label and icon are projected content, not inputs.",
       "props": [
         {
@@ -15,8 +15,8 @@
         },
         {
           "from": "icon",
-          "to": "project <ngn-icon>",
-          "notes": "Project an ngn-icon element; use kind=\"icon\" for an icon-only button."
+          "to": "project <jig-icon>",
+          "notes": "Project a jig-icon element; use kind=\"icon\" for an icon-only button."
         },
         {
           "from": "severity",
@@ -25,13 +25,13 @@
         }
       ],
       "gaps": [
-        "ngnButton has no `loading` or `disabled` input — use the native [disabled] attribute and render your own loading state."
+        "jigButton has no `loading` or `disabled` input — use the native [disabled] attribute and render your own loading state."
       ]
     },
     {
       "from": "p-select / p-dropdown",
-      "to": "ngn-select",
-      "notes": "Options are passed via `options`; item label/value come from the item shape or `templateItem`. Placeholder/label live on the wrapping ngn-input-field.",
+      "to": "jig-select",
+      "notes": "Options are passed via `options`; item label/value come from the item shape or `templateItem`. Placeholder/label live on the wrapping jig-input-field.",
       "props": [
         { "from": "[(ngModel)]", "to": "[(value)]" },
         { "from": "options", "to": "options" },
@@ -39,33 +39,33 @@
         { "from": "editable", "to": "editable" }
       ],
       "gaps": [
-        "No `optionLabel` / `optionValue` / `showClear` inputs — set the item label via `templateItem`, and clearing via ngn-input-field's `showClearButton`."
+        "No `optionLabel` / `optionValue` / `showClear` inputs — set the item label via `templateItem`, and clearing via jig-input-field's `showClearButton`."
       ]
     },
     {
       "from": "p-multiSelect",
-      "to": "ngn-select",
-      "notes": "Use ngn-select with `multiple`.",
+      "to": "jig-select",
+      "notes": "Use jig-select with `multiple`.",
       "props": [
         { "from": "[(ngModel)]", "to": "[(value)]" },
         { "from": "options", "to": "options" },
         {
           "from": "display=\"chip\"",
           "to": "checkbox",
-          "notes": "ngn-select uses `checkbox` for multi-select affordance; chip display differs — verify with get_control."
+          "notes": "jig-select uses `checkbox` for multi-select affordance; chip display differs — verify with get_control."
         }
       ]
     },
     {
       "from": "p-autoComplete",
-      "to": "ngn-select",
-      "notes": "Use editable ngn-select (`editable`). Server-side suggestion loading differs — verify capabilities.",
+      "to": "jig-select",
+      "notes": "Use editable jig-select (`editable`). Server-side suggestion loading differs — verify capabilities.",
       "props": [{ "from": "[(ngModel)]", "to": "[(value)]" }],
       "gaps": ["Async suggestion completion works differently; may need custom filtering."]
     },
     {
       "from": "p-datePicker / p-calendar",
-      "to": "ngn-calendar",
+      "to": "jig-calendar",
       "props": [
         { "from": "[(ngModel)]", "to": "[(value)]" },
         { "from": "showTime", "to": "showTime" },
@@ -77,7 +77,7 @@
     },
     {
       "from": "p-checkbox",
-      "to": "ngn-checkbox",
+      "to": "jig-checkbox",
       "props": [
         { "from": "[(ngModel)]", "to": "[(value)]" },
         { "from": "indeterminate", "to": "allowIndeterminate" }
@@ -85,19 +85,19 @@
     },
     {
       "from": "p-radioButton",
-      "to": "ngn-radio",
-      "notes": "Group radios with ngn-radio-group; bind [(value)] on the group.",
+      "to": "jig-radio",
+      "notes": "Group radios with jig-radio-group; bind [(value)] on the group.",
       "props": [{ "from": "[(ngModel)]", "to": "value" }]
     },
     {
       "from": "p-inputText / pInputText",
-      "to": "input[ngnInput]",
-      "notes": "Attribute directive on native <input>/<textarea>; wrap in ngn-input-field for chrome. Move any `id` off the input onto the wrapper: `<ngn-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references.",
+      "to": "input[jigInput]",
+      "notes": "Attribute directive on native <input>/<textarea>; wrap in jig-input-field for chrome. Move any `id` off the input onto the wrapper: `<jig-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references.",
       "props": [{ "from": "[(ngModel)]", "to": "[(value)]" }]
     },
     {
       "from": "p-inputNumber",
-      "to": "input[ngnNumberInput]",
+      "to": "input[jigNumberInput]",
       "props": [
         { "from": "[(ngModel)]", "to": "[(value)]" },
         { "from": "min", "to": "min" },
@@ -112,7 +112,7 @@
     },
     {
       "from": "p-inputMask",
-      "to": "ngn-mask-input",
+      "to": "jig-mask-input",
       "props": [
         { "from": "[(ngModel)]", "to": "[(value)]" },
         { "from": "mask", "to": "mask" }
@@ -120,17 +120,17 @@
     },
     {
       "from": "p-password",
-      "to": "input[ngnInput] type=password",
-      "gaps": ["No dedicated password meter component; use a native password input with ngnInput."]
+      "to": "input[jigInput] type=password",
+      "gaps": ["No dedicated password meter component; use a native password input with jigInput."]
     },
     {
       "from": "p-toggleSwitch / p-inputSwitch",
-      "to": "ngn-switch",
+      "to": "jig-switch",
       "props": [{ "from": "[(ngModel)]", "to": "[(value)]" }]
     },
     {
       "from": "p-selectButton",
-      "to": "ngn-select-button",
+      "to": "jig-select-button",
       "props": [
         { "from": "[(ngModel)]", "to": "[(value)]" },
         { "from": "options", "to": "options" }
@@ -138,7 +138,7 @@
     },
     {
       "from": "p-toggleButton",
-      "to": "ngn-toggle-button",
+      "to": "jig-toggle-button",
       "props": [
         { "from": "[(ngModel)]", "to": "[(value)]" },
         { "from": "onIcon / offIcon", "to": "iconOn / iconOff" }
@@ -146,7 +146,7 @@
     },
     {
       "from": "p-slider",
-      "to": "ngn-slider",
+      "to": "jig-slider",
       "props": [
         { "from": "[(ngModel)]", "to": "[(value)]" },
         { "from": "min", "to": "min" },
@@ -155,14 +155,14 @@
         {
           "from": "orientation",
           "to": "vertical",
-          "notes": "ngn-slider uses a boolean `vertical` input."
+          "notes": "jig-slider uses a boolean `vertical` input."
         }
       ],
       "gaps": ["No dual-thumb `range` input; use two sliders or a custom control for ranges."]
     },
     {
       "from": "p-listbox",
-      "to": "ngn-list-box",
+      "to": "jig-list-box",
       "props": [
         { "from": "[(ngModel)]", "to": "[(value)]" },
         { "from": "options", "to": "items" },
@@ -171,7 +171,7 @@
     },
     {
       "from": "p-dialog",
-      "to": "ngn-dialog",
+      "to": "jig-dialog",
       "props": [
         { "from": "[(visible)]", "to": "[(open)]" },
         { "from": "modal", "to": "modal" },
@@ -184,7 +184,7 @@
     },
     {
       "from": "p-drawer / p-sidebar",
-      "to": "ngn-drawer",
+      "to": "jig-drawer",
       "props": [
         { "from": "[(visible)]", "to": "[(open)]" },
         { "from": "position", "to": "position" }
@@ -192,39 +192,39 @@
     },
     {
       "from": "p-popover / p-overlayPanel",
-      "to": "ngn-popover",
+      "to": "jig-popover",
       "notes": "Trigger + content projection differs; verify with get_control."
     },
     {
       "from": "pTooltip",
-      "to": "[ngnTooltip]",
+      "to": "[jigTooltip]",
       "props": [
-        { "from": "pTooltip", "to": "ngnTooltip", "notes": "The text is the directive value." },
-        { "from": "tooltipPosition", "to": "ngnTooltipPlacement" }
+        { "from": "pTooltip", "to": "jigTooltip", "notes": "The text is the directive value." },
+        { "from": "tooltipPosition", "to": "jigTooltipPlacement" }
       ]
     },
     {
       "from": "p-menu / p-tieredMenu",
-      "to": "ngn-menu",
+      "to": "jig-menu",
       "props": [
         { "from": "model", "to": "items", "notes": "Verify menu item shape with get_control." }
       ]
     },
     {
       "from": "p-breadcrumb",
-      "to": "ngn-breadcrumb",
+      "to": "jig-breadcrumb",
       "props": [{ "from": "model", "to": "items" }]
     },
     {
       "from": "p-tabView / p-tabs",
-      "to": "ngn-tabs",
+      "to": "jig-tabs",
       "notes": "Tab panels are projected; verify structure with get_control.",
       "props": [{ "from": "[(activeIndex)]", "to": "activeTab" }]
     },
     {
       "from": "p-accordion",
-      "to": "ngn-accordion",
-      "notes": "Panels via ngn-accordion-panel.",
+      "to": "jig-accordion",
+      "notes": "Panels via jig-accordion-panel.",
       "props": [
         { "from": "multiple", "to": "multiple" },
         { "from": "[(activeIndex)]", "to": "expandedPanels" }
@@ -232,7 +232,7 @@
     },
     {
       "from": "p-table / p-dataTable",
-      "to": "ngn-table",
+      "to": "jig-table",
       "notes": "Column/template model differs substantially. Migrate incrementally and verify with get_control + the table docs.",
       "gaps": [
         "Feature parity for advanced datatable features (row grouping, cell editing, virtual scroll) must be verified case by case."
@@ -240,7 +240,7 @@
     },
     {
       "from": "p-paginator",
-      "to": "ngn-paginator",
+      "to": "jig-paginator",
       "props": [
         { "from": "rows", "to": "pageSize" },
         { "from": "totalRecords", "to": "totalItems" }
@@ -248,62 +248,62 @@
     },
     {
       "from": "p-tree",
-      "to": "ngn-tree",
+      "to": "jig-tree",
       "props": [
         { "from": "[(selection)]", "to": "[(value)]" },
         { "from": "value", "to": "items" }
       ],
       "notes": "Verify node model with get_control."
     },
-    { "from": "p-progressBar", "to": "ngn-progress" },
-    { "from": "p-progressSpinner", "to": "ngn-spinner" },
-    { "from": "p-chip", "to": "ngn-chip" },
-    { "from": "p-tag", "to": "ngn-tag" },
+    { "from": "p-progressBar", "to": "jig-progress" },
+    { "from": "p-progressSpinner", "to": "jig-spinner" },
+    { "from": "p-chip", "to": "jig-chip" },
+    { "from": "p-tag", "to": "jig-tag" },
     {
       "from": "p-badge / p-overlayBadge / pBadge",
-      "to": "[ngnBadge]",
-      "notes": "Attribute directive that overlays a counter/dot on the host element; ngn-badge-indicator is the standalone element form. Directive inputs are ngn-prefixed aliases.",
+      "to": "[jigBadge]",
+      "notes": "Attribute directive that overlays a counter/dot on the host element; jig-badge-indicator is the standalone element form. Directive inputs are jig-prefixed aliases.",
       "props": [
-        { "from": "value", "to": "[ngnBadge]" },
+        { "from": "value", "to": "[jigBadge]" },
         { "from": "severity", "to": "kind / color" },
-        { "from": "badgeSize / size", "to": "[ngnBadgeCircular] + theme sizing" },
-        { "from": "(dot badge)", "to": "[ngnBadgeDot]" }
+        { "from": "badgeSize / size", "to": "[jigBadgeCircular] + theme sizing" },
+        { "from": "(dot badge)", "to": "[jigBadgeDot]" }
       ]
     },
-    { "from": "p-avatar", "to": "ngn-avatar" },
+    { "from": "p-avatar", "to": "jig-avatar" },
     {
       "from": "p-toast",
-      "to": "ngn-toast",
-      "notes": "ngn also ships ngn-snackbar; pick per UX."
+      "to": "jig-toast",
+      "notes": "jig also ships jig-snackbar; pick per UX."
     },
-    { "from": "p-messages / p-message", "to": "ngn-message" },
-    { "from": "p-fileUpload", "to": "ngn-upload" },
-    { "from": "p-splitter", "to": "ngn-splitter" },
+    { "from": "p-messages / p-message", "to": "jig-message" },
+    { "from": "p-fileUpload", "to": "jig-upload" },
+    { "from": "p-splitter", "to": "jig-splitter" },
     {
       "from": "p-textarea / pTextarea",
-      "to": "textarea[ngnInput]",
-      "notes": "Apply ngnInput to a native <textarea>; wrap in ngn-input-field.",
+      "to": "textarea[jigInput]",
+      "notes": "Apply jigInput to a native <textarea>; wrap in jig-input-field.",
       "props": [{ "from": "[(ngModel)]", "to": "[(value)]" }]
     },
     {
       "from": "p-iconField / p-inputIcon",
-      "to": "ngn-input-field",
-      "notes": "ngn-input-field provides icon slots + clear button; use its iconClearButton/showClearButton rather than a separate icon-field wrapper.",
+      "to": "jig-input-field",
+      "notes": "jig-input-field provides icon slots + clear button; use its iconClearButton/showClearButton rather than a separate icon-field wrapper.",
       "props": [{ "from": "showClear", "to": "showClearButton" }]
     },
     {
       "from": "p-inputGroup / p-inputGroupAddon",
-      "to": "ngn-input-field",
-      "notes": "Compose addons as projected content inside ngn-input-field."
+      "to": "jig-input-field",
+      "notes": "Compose addons as projected content inside jig-input-field."
     },
     {
       "from": "p-editInPlace / p-inplace",
-      "to": "ngn-edit-inplace",
-      "notes": "ngn ships both ngn-inplace and ngn-edit-inplace; pick per behavior."
+      "to": "jig-edit-inplace",
+      "notes": "jig ships both jig-inplace and jig-edit-inplace; pick per behavior."
     },
     {
       "from": "p-rating",
-      "to": "ngn-rating",
+      "to": "jig-rating",
       "notes": "Value is a signal model ([(value)]); half stars come from step=0.5 rather than a separate input.",
       "props": [
         { "from": "stars", "to": "count" },
@@ -311,7 +311,7 @@
         {
           "from": "cancel",
           "to": "clearable",
-          "notes": "ngn-rating is clearable by default (re-click the active value); set [clearable]=\"false\" to disable."
+          "notes": "jig-rating is clearable by default (re-click the active value); set [clearable]=\"false\" to disable."
         },
         { "from": "onRate / onCancel", "to": "(valueChange)" },
         { "from": "iconOnClass / iconOffClass", "to": "iconFull / iconEmpty" }
@@ -319,7 +319,7 @@
     },
     {
       "from": "p-colorPicker",
-      "to": "ngn-color-picker",
+      "to": "jig-color-picker",
       "notes": "Renders inline or as a popover trigger; the value is a signal model in the chosen format.",
       "props": [
         { "from": "[(ngModel)]", "to": "[(value)]" },
@@ -327,7 +327,7 @@
         {
           "from": "inline",
           "to": "inline",
-          "notes": "ngn also has [popover] for a trigger + overlay variant with [(open)]."
+          "notes": "jig also has [popover] for a trigger + overlay variant with [(open)]."
         },
         { "from": "onChange", "to": "(valueChange)" }
       ],
@@ -335,7 +335,7 @@
     },
     {
       "from": "p-inputOtp",
-      "to": "ngn-otp",
+      "to": "jig-otp",
       "notes": "Grouped control with no single focusable element — label it with [labelledBy], not <label for>.",
       "props": [
         { "from": "[(ngModel)]", "to": "[(value)]" },
@@ -351,18 +351,18 @@
     },
     {
       "from": "p-stepper / p-steps",
-      "to": "ngn-stepper / ngn-step",
-      "notes": "Each step is an <ngn-step> child; the active index is a signal model on ngn-stepper.",
+      "to": "jig-stepper / jig-step",
+      "notes": "Each step is a <jig-step> child; the active index is a signal model on jig-stepper.",
       "props": [
         { "from": "[(activeStep)]", "to": "[(active)]" },
         { "from": "linear", "to": "linear" },
-        { "from": "model (MenuItem[])", "to": "<ngn-step [label]=\"…\"> children" }
+        { "from": "model (MenuItem[])", "to": "<jig-step [label]=\"…\"> children" }
       ]
     },
     {
       "from": "p-scroller / p-virtualScroller",
-      "to": "ngn-scroller",
-      "notes": "Virtualization is opt-in — set [virtual] together with [itemHeight]; the item template is projected with [ngnScrollerItem].",
+      "to": "jig-scroller",
+      "notes": "Virtualization is opt-in — set [virtual] together with [itemHeight]; the item template is projected with [jigScrollerItem].",
       "props": [
         { "from": "items", "to": "items" },
         { "from": "itemSize", "to": "itemHeight" },
@@ -370,7 +370,7 @@
         {
           "from": "lazy / onLazyLoad",
           "to": "(no equivalent)",
-          "notes": "For server-driven data use ngn-table's dataSource, or load into `items` yourself."
+          "notes": "For server-driven data use jig-table's dataSource, or load into `items` yourself."
         }
       ]
     },
@@ -378,14 +378,14 @@
       "from": "p-card / p-panel / p-fieldset",
       "to": "(no direct equivalent)",
       "gaps": [
-        "No card/panel container control; compose layout with plain elements + Tailwind and ngn controls for the contents."
+        "No card/panel container control; compose layout with plain elements + Tailwind and jig controls for the contents."
       ]
     },
     {
       "from": "p-splitButton",
       "to": "(no direct equivalent)",
       "gaps": [
-        "No split-button control; compose a button[ngnButton] with an ngn-menu for the dropdown actions."
+        "No split-button control; compose a button[jigButton] with a jig-menu for the dropdown actions."
       ]
     }
   ]

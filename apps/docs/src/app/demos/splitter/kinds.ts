@@ -1,44 +1,44 @@
 import { Component } from '@angular/core';
-import { NgnSplitterModule } from '@ngneers/controls/splitter';
+import { JigSplitterModule } from '@awdlab/jig/splitter';
 
 @Component({
-  imports: [NgnSplitterModule],
-  selector: 'ngn-demo-splitter-kinds',
+  imports: [JigSplitterModule],
+  selector: 'jig-demo-splitter-kinds',
   template: `
     <div class="grid">
       <span>default</span>
-      <ngn-splitter [layout]="'horizontal'" [kind]="'default'" [aria-label]="'Default Kind'">
-        <ngn-splitter-panel [size]="'1fr'" [aria-label]="'First Panel'">
+      <jig-splitter [layout]="'horizontal'" [kind]="'default'" [aria-label]="'Default Kind'">
+        <jig-splitter-panel [size]="'1fr'" [aria-label]="'First Panel'">
           Panel 1
-        </ngn-splitter-panel>
-        <ngn-splitter-panel [size]="'1fr'" [aria-label]="'Second Panel'">
+        </jig-splitter-panel>
+        <jig-splitter-panel [size]="'1fr'" [aria-label]="'Second Panel'">
           Panel 2
-        </ngn-splitter-panel>
-      </ngn-splitter>
+        </jig-splitter-panel>
+      </jig-splitter>
 
       <span>thin</span>
-      <ngn-splitter [layout]="'horizontal'" [kind]="'thin'" [aria-label]="'Thin Kind'">
-        <ngn-splitter-panel [size]="'1fr'" [aria-label]="'First Panel'">
+      <jig-splitter [layout]="'horizontal'" [kind]="'thin'" [aria-label]="'Thin Kind'">
+        <jig-splitter-panel [size]="'1fr'" [aria-label]="'First Panel'">
           Panel 1
-        </ngn-splitter-panel>
-        <ngn-splitter-panel [size]="'1fr'" [aria-label]="'Second Panel'">
+        </jig-splitter-panel>
+        <jig-splitter-panel [size]="'1fr'" [aria-label]="'Second Panel'">
           Panel 2
-        </ngn-splitter-panel>
-      </ngn-splitter>
+        </jig-splitter-panel>
+      </jig-splitter>
 
       <span>invisible</span>
       <!--
         The 'invisible' kind draws no line at rest — style your own seam between
         panels. Here each panel gets a right border to act as the separator.
       -->
-      <ngn-splitter [layout]="'horizontal'" [kind]="'invisible'" [aria-label]="'Invisible Kind'">
-        <ngn-splitter-panel [size]="'1fr'" [aria-label]="'First Panel'" class="seam">
+      <jig-splitter [layout]="'horizontal'" [kind]="'invisible'" [aria-label]="'Invisible Kind'">
+        <jig-splitter-panel [size]="'1fr'" [aria-label]="'First Panel'" class="seam">
           Panel 1
-        </ngn-splitter-panel>
-        <ngn-splitter-panel [size]="'1fr'" [aria-label]="'Second Panel'">
+        </jig-splitter-panel>
+        <jig-splitter-panel [size]="'1fr'" [aria-label]="'Second Panel'">
           Panel 2
-        </ngn-splitter-panel>
-      </ngn-splitter>
+        </jig-splitter-panel>
+      </jig-splitter>
     </div>
   `,
   styles: `
@@ -52,11 +52,11 @@ import { NgnSplitterModule } from '@ngneers/controls/splitter';
       align-items: center;
       gap: 0.5rem 1rem;
     }
-    ngn-splitter {
+    jig-splitter {
       height: 80px;
     }
     .seam {
-      border-right: 1px solid var(--ngn-color-surface-200, #e5e7eb);
+      border-right: 1px solid var(--jig-color-surface-200, #e5e7eb);
     }
   `,
 })

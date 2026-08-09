@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { resizableDirectiveTemplate } from '@ngneers/controls-themes/templates/api';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { resizableDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
 
 export const resizableStyles = createThemePart({
   controlTemplate: resizableDirectiveTemplate,

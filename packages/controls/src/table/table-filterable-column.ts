@@ -10,40 +10,40 @@ import {
   Type,
   ViewContainerRef,
 } from '@angular/core';
-import { injectThemeTemplate, setComponentInput } from '@ngneers/controls/api/ng';
-import { getNearestNgnInstanceSig } from '@ngneers/controls/base';
-import { NgnActionButton } from '@ngneers/controls/button';
-import { NgnFilter, type NgnFilterDataType } from '@ngneers/controls/filter';
-import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
+import { injectThemeTemplate, setComponentInput } from '@awdlab/jig/api/ng';
+import { getNearestJigInstanceSig } from '@awdlab/jig/base';
+import { JigActionButton } from '@awdlab/jig/button';
+import { JigFilter, type JigFilterDataType } from '@awdlab/jig/filter';
+import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
-import { NgnTable } from './table';
-import { NgnTableTh } from './table-header-cell';
+import { JigTable } from './table';
+import { JigTableTh } from './table-header-cell';
 
-import type { NgnActionButtonConfig } from '@ngneers/controls/api';
+import type { JigActionButtonConfig } from '@awdlab/jig/api';
 
 /**
  * @category directive
  */
 @Directive({
-  selector: '[ngnTableFilterableColumn]',
+  selector: '[jigTableFilterableColumn]',
   host: {
     '[class]': `theme.classes({'filterable-column': true, 'filtered-column': !!filter() })`,
   },
 })
-export class NgnTableFilterableColumn implements OnDestroy {
+export class JigTableFilterableColumn implements OnDestroy {
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly _columnId = inject(NgnTableTh).ngnTableTh;
+  private readonly _columnId = inject(JigTableTh).jigTableTh;
 
   /** Enables filtering on this column. The directive selector; its value is unused. */
-  public readonly ngnTableFilterableColumn = input();
+  public readonly jigTableFilterableColumn = input();
 
-  private readonly _ngnActionButton: ComponentRef<NgnActionButton<null>>;
-  private readonly _ngnFilter: ComponentRef<NgnFilter>;
+  private readonly _jigActionButton: ComponentRef<JigActionButton<null>>;
+  private readonly _jigFilter: ComponentRef<JigFilter>;
 
-  private readonly _table = getNearestNgnInstanceSig<Type<NgnTable<any, any>>>(
+  private readonly _table = getNearestJigInstanceSig<Type<JigTable<any, any>>>(
     this._element.nativeElement,
-    NgnTable
+    JigTable
   );
   private readonly _rows = computed(() => {
     return this._table()?.rows() || [];
@@ -54,54 +54,54 @@ export class NgnTableFilterableColumn implements OnDestroy {
   });
 
   /** The data type of the column, which determines the available filter operators and UI. */
-  public readonly ngnTableFilterableColumnType = input.required<NgnFilterDataType>();
+  public readonly jigTableFilterableColumnType = input.required<JigFilterDataType>();
   /** For list-based filters, the set of selectable option values to offer. */
-  public readonly ngnTableFilterableColumnItems = input<string[] | null | undefined>();
+  public readonly jigTableFilterableColumnItems = input<string[] | null | undefined>();
 
   constructor() {
-    this._ngnActionButton = inject(ViewContainerRef).createComponent(NgnActionButton<null>);
-    this._ngnFilter = inject(ViewContainerRef).createComponent(NgnFilter);
-    this._element.nativeElement.appendChild(this._ngnActionButton.location.nativeElement);
-    this._element.nativeElement.appendChild(this._ngnFilter.location.nativeElement);
-    this._ngnActionButton.location.nativeElement.classList.add(this.theme.class('filter-control'));
+    this._jigActionButton = inject(ViewContainerRef).createComponent(JigActionButton<null>);
+    this._jigFilter = inject(ViewContainerRef).createComponent(JigFilter);
+    this._element.nativeElement.appendChild(this._jigActionButton.location.nativeElement);
+    this._element.nativeElement.appendChild(this._jigFilter.location.nativeElement);
+    this._jigActionButton.location.nativeElement.classList.add(this.theme.class('filter-control'));
 
-    setComponentInput(this._ngnActionButton, 'kind', 'icon');
-    setComponentInput(this._ngnActionButton, 'inline', true);
-    setComponentInput(this._ngnFilter, 'anchor', this._ngnActionButton.location.nativeElement);
-    setComponentInput(this._ngnFilter, 'mode', 'headless');
-    setComponentInput(this._ngnFilter, 'allowMultiple', true);
+    setComponentInput(this._jigActionButton, 'kind', 'icon');
+    setComponentInput(this._jigActionButton, 'inline', true);
+    setComponentInput(this._jigFilter, 'anchor', this._jigActionButton.location.nativeElement);
+    setComponentInput(this._jigFilter, 'mode', 'headless');
+    setComponentInput(this._jigFilter, 'allowMultiple', true);
 
     const cfg = computed(
       () =>
-        <NgnActionButtonConfig<null>>{
+        <JigActionButtonConfig<null>>{
           label: 'Filter',
           value: null,
           kind: 'icon',
           defaultIcon: this.filter() ? 'filter-active' : 'filter-inactive',
           action: event => {
             event?.stopPropagation();
-            this._ngnFilter.instance.show();
+            this._jigFilter.instance.show();
           },
         }
     );
 
     effect(() => {
-      setComponentInput(this._ngnActionButton, 'config', cfg());
+      setComponentInput(this._jigActionButton, 'config', cfg());
     });
     effect(() => {
       setComponentInput(
-        this._ngnFilter,
+        this._jigFilter,
         'data',
         this._rows().map(row => row[this._columnId()])
       );
     });
     effect(() => {
-      setComponentInput(this._ngnFilter, 'dataType', this.ngnTableFilterableColumnType());
+      setComponentInput(this._jigFilter, 'dataType', this.jigTableFilterableColumnType());
     });
     effect(() => {
-      setComponentInput(this._ngnFilter, 'listOptions', this.ngnTableFilterableColumnItems());
+      setComponentInput(this._jigFilter, 'listOptions', this.jigTableFilterableColumnItems());
     });
-    this._ngnFilter.instance.filterChange.subscribe(cfg => {
+    this._jigFilter.instance.filterChange.subscribe(cfg => {
       const table = this._table();
       const currentFilters = table?.filters() || {};
       table?.filters.set({ ...currentFilters, [this._columnId()]: cfg ?? undefined });
@@ -109,7 +109,7 @@ export class NgnTableFilterableColumn implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this._ngnActionButton.destroy();
-    this._ngnFilter.destroy();
+    this._jigActionButton.destroy();
+    this._jigFilter.destroy();
   }
 }

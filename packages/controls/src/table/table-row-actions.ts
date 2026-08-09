@@ -11,61 +11,61 @@ import {
   Type,
   ViewContainerRef,
 } from '@angular/core';
-import { domEventHandler, setComponentInput } from '@ngneers/controls/api/ng';
-import { getNearestNgnInstanceSig } from '@ngneers/controls/base';
-import { NgnMenu, openMenuAt } from '@ngneers/controls/menu';
+import { domEventHandler, setComponentInput } from '@awdlab/jig/api/ng';
+import { getNearestJigInstanceSig } from '@awdlab/jig/base';
+import { JigMenu, openMenuAt } from '@awdlab/jig/menu';
 
-import { NgnTable } from './table';
-import { NgnTableBodyTr } from './table-row';
-import { NgnTableRowActionsBar } from './table-row-actions-bar';
+import { JigTable } from './table';
+import { JigTableBodyTr } from './table-row';
+import { JigTableRowActionsBar } from './table-row-actions-bar';
 
-import type { NgnActionItem } from '@ngneers/controls/api';
+import type { JigActionItem } from '@awdlab/jig/api';
 
 /**
- * Per-row actions for the table body `<tr>`. Exposes the same `NgnActionItem[]`
+ * Per-row actions for the table body `<tr>`. Exposes the same `JigActionItem[]`
  * as a right-click context menu ({@link context}) and/or an inline hover
  * button-bar ({@link inline}). Both modes are on by default and independent.
  *
  * @category directive
  */
-@Directive({ selector: '[ngnTableRowActions]' })
-export class NgnTableRowActions implements OnDestroy {
+@Directive({ selector: '[jigTableRowActions]' })
+export class JigTableRowActions implements OnDestroy {
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _vcr = inject(ViewContainerRef);
   private readonly _renderer = inject(Renderer2);
-  private readonly _row = inject(NgnTableBodyTr, { optional: true });
-  private readonly _table = getNearestNgnInstanceSig<Type<NgnTable<any, any>>>(
+  private readonly _row = inject(JigTableBodyTr, { optional: true });
+  private readonly _table = getNearestJigInstanceSig<Type<JigTable<any, any>>>(
     this._element.nativeElement,
-    NgnTable
+    JigTable
   );
-  private _menu?: ComponentRef<NgnMenu>;
-  private _bar?: ComponentRef<NgnTableRowActionsBar>;
+  private _menu?: ComponentRef<JigMenu>;
+  private _bar?: ComponentRef<JigTableRowActionsBar>;
 
   /**
    * The actions available on this row.
-   * @alias ngnTableRowActions
+   * @alias jigTableRowActions
    */
-  public readonly actions = input.required<NgnActionItem[]>({ alias: 'ngnTableRowActions' });
+  public readonly actions = input.required<JigActionItem[]>({ alias: 'jigTableRowActions' });
 
   /**
    * Whether right-clicking the row opens a context menu of the actions.
    * @default true
-   * @alias ngnTableRowActionsContext
+   * @alias jigTableRowActionsContext
    */
   public readonly context = input(true, {
     transform: booleanAttribute,
-    alias: 'ngnTableRowActionsContext',
+    alias: 'jigTableRowActionsContext',
   });
 
   /**
    * Whether an inline button-bar is rendered at the row's right edge, revealed
    * on hover or keyboard focus.
    * @default true
-   * @alias ngnTableRowActionsInline
+   * @alias jigTableRowActionsInline
    */
   public readonly inline = input(true, {
     transform: booleanAttribute,
-    alias: 'ngnTableRowActionsInline',
+    alias: 'jigTableRowActionsInline',
   });
 
   constructor() {
@@ -85,7 +85,7 @@ export class NgnTableRowActions implements OnDestroy {
       const table = this._table();
       const row = this._row;
       if (!table || !row) return;
-      const index = row.ngnTableBodyTr().index;
+      const index = row.jigTableBodyTr().index;
       table.registerRowActions(index, this);
       onCleanup(() => table.unregisterRowActions(index, this));
     });
@@ -140,7 +140,7 @@ export class NgnTableRowActions implements OnDestroy {
 
   private _mountBar(): void {
     if (this._bar) return;
-    this._bar = this._vcr.createComponent(NgnTableRowActionsBar);
+    this._bar = this._vcr.createComponent(JigTableRowActionsBar);
     // Move the bar's host element inside the <tr> so it joins the row's
     // subgrid and the table's horizontal scroll container. Use Renderer2 so the
     // move stays platform-agnostic (SSR / non-DOM renderers).

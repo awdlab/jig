@@ -1,18 +1,18 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnTooltip } from '@ngneers/controls/tooltip';
+import { JigButton } from '@awdlab/jig/button';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-tooltip-playground',
-  imports: [NgnButton, NgnTooltip, NgnDocsPlayground],
+  selector: 'jig-docs-tooltip-playground',
+  imports: [JigButton, JigTooltip, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnTooltip', component: component() }]">
-      <button #ref ngnButton [ngnTooltip]="'Tooltip text'">Hover me</button>
-    </ngn-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'JigTooltip', component: component() }]">
+      <button #ref jigButton [jigTooltip]="'Tooltip text'">Hover me</button>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsTooltipPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnTooltip });
+export class JigDocsTooltipPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigTooltip });
 }

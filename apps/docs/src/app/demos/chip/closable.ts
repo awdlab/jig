@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NgnChip } from '@ngneers/controls/chip';
+import { JigChip } from '@awdlab/jig/chip';
 
 @Component({
-  imports: [NgnChip],
-  selector: 'ngn-demo-chip-closable',
-  template: `<ngn-chip [closable]="true" (closed)="onChipClose()">Close me!</ngn-chip>`,
+  imports: [JigChip],
+  selector: 'jig-demo-chip-closable',
+  template: `<jig-chip [closable]="true" (closed)="onChipClose()">Close me!</jig-chip>`,
 })
 export class Demo_Chip_Closable {
   protected onChipClose() {

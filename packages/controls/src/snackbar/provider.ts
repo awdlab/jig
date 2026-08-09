@@ -1,23 +1,23 @@
 import { InjectionToken, type Provider } from '@angular/core';
 
-import { NgnSnackbarManager } from './snackbar-manager';
+import { JigSnackbarManager } from './snackbar-manager';
 
-import type { NgnSnackbarOptionsMeta } from './types';
+import type { JigSnackbarOptionsMeta } from './types';
 
-export type NgnSnackbarFeature = {
+export type JigSnackbarFeature = {
   providers: Provider[];
 };
 
-export const NGN_SNACKBAR_USER_DEFAULTS = new InjectionToken<NgnSnackbarOptionsMeta>(
-  'NGN_SNACKBAR_USER_DEFAULTS'
+export const JIG_SNACKBAR_USER_DEFAULTS = new InjectionToken<JigSnackbarOptionsMeta>(
+  'JIG_SNACKBAR_USER_DEFAULTS'
 );
 
-export function withSnackbars(defaultOptions?: NgnSnackbarOptionsMeta): NgnSnackbarFeature {
+export function withSnackbars(defaultOptions?: JigSnackbarOptionsMeta): JigSnackbarFeature {
   return {
     providers: [
-      NgnSnackbarManager,
+      JigSnackbarManager,
       {
-        provide: NGN_SNACKBAR_USER_DEFAULTS,
+        provide: JIG_SNACKBAR_USER_DEFAULTS,
         useValue: defaultOptions || {},
       },
     ],

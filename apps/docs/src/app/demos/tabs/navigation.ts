@@ -1,25 +1,25 @@
 import { Component, signal } from '@angular/core';
-import { NgnTabs, NgnTab } from '@ngneers/controls/tabs';
+import { JigTabs, JigTab } from '@awdlab/jig/tabs';
 
 @Component({
-  imports: [NgnTabs, NgnTab],
-  selector: 'ngn-demo-tabs-navigation',
+  imports: [JigTabs, JigTab],
+  selector: 'jig-demo-tabs-navigation',
   template: `
     <!-- Contentless tabs act as a navigation bar. Drive selection off the URL
          via [activeTab] and react to clicks via (activeTabChange). In a real app
          you'd bind (activeTabChange) to router.navigate() and place a
          <router-outlet /> below instead of the panel here. -->
-    <ngn-tabs [activeTab]="active()" (activeTabChange)="active.set($event)">
-      <ngn-tab tabId="overview">
+    <jig-tabs [activeTab]="active()" (activeTabChange)="active.set($event)">
+      <jig-tab tabId="overview">
         <ng-template #header> Overview </ng-template>
-      </ngn-tab>
-      <ngn-tab tabId="settings">
+      </jig-tab>
+      <jig-tab tabId="settings">
         <ng-template #header> Settings </ng-template>
-      </ngn-tab>
-      <ngn-tab tabId="billing">
+      </jig-tab>
+      <jig-tab tabId="billing">
         <ng-template #header> Billing </ng-template>
-      </ngn-tab>
-    </ngn-tabs>
+      </jig-tab>
+    </jig-tabs>
 
     <p>
       Active route: <code>/{{ active() }}</code>

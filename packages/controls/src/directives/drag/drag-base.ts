@@ -7,12 +7,12 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { domEventHandler, domEventObservable, Platform } from '@ngneers/controls/api/ng';
+import { domEventHandler, domEventObservable, Platform } from '@awdlab/jig/api/ng';
 
-import type { NgnDragInfo } from './types';
+import type { JigDragInfo } from './types';
 
 @Directive()
-export abstract class NgnDragBase {
+export abstract class JigDragBase {
   protected readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _document = inject(DOCUMENT);
   private readonly _isBrowser = inject(Platform).isBrowser;
@@ -34,9 +34,9 @@ export abstract class NgnDragBase {
   public readonly dragEnd = output<void>();
   /**
    * Emits on every pointer move while dragging, carrying the frame delta and
-   * absolute pointer position. See {@link NgnDragInfo}.
+   * absolute pointer position. See {@link JigDragInfo}.
    */
-  public readonly dragged = output<NgnDragInfo>();
+  public readonly dragged = output<JigDragInfo>();
 
   private readonly _pointerDownEvent = domEventObservable(this.el.nativeElement, 'pointerdown');
   private readonly _pointerMoveEvent = domEventObservable(this._document, 'pointermove');
@@ -94,9 +94,9 @@ export abstract class NgnDragBase {
     });
   }
 
-  protected abstract onDragged(delta: NgnDragInfo): void;
+  protected abstract onDragged(delta: JigDragInfo): void;
 
-  private onDraggedInt(delta: NgnDragInfo) {
+  private onDraggedInt(delta: JigDragInfo) {
     this.dragged.emit(delta);
     this.onDragged(delta);
   }

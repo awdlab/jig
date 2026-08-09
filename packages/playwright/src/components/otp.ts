@@ -1,15 +1,15 @@
 import { type Locator, expect } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
-import { otpControlTemplate } from '@ngneers/controls-themes/templates/otp';
+import { otpControlTemplate } from '@awdlab/jig-themes/templates/otp';
 
 /**
- * Playwright harness for `ngn-otp`.
+ * Playwright harness for `jig-otp`.
  *
  * The control renders one `<input maxlength="1">` per character cell; the
  * composed `value` model is not written to the DOM, so assert it via a bound
  * echo element in the test component.
  */
-export class NgnOtpHarness {
+export class JigOtpHarness {
   public readonly classes = themeClasses(otpControlTemplate);
 
   /** All character-cell inputs, in order. */

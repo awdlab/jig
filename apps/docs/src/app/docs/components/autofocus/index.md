@@ -1,4 +1,4 @@
-`ngnAutofocus` focuses its host element once, after the first browser render.
+`jigAutofocus` focuses its host element once, after the first browser render.
 
 It exists because the native `autofocus` attribute only applies on initial page
 load — it does nothing for an element that appears later, which is the common
@@ -29,7 +29,7 @@ the directive is inert during SSR and hydration. See
 
 ### Inside a dialog
 
-Do **not** use `ngnAutofocus` on a control inside a closed `<ngn-dialog>`. The
+Do **not** use `jigAutofocus` on a control inside a closed `<jig-dialog>`. The
 directive latches on the first render — which happens while the dialog is still
 closed and its content not focusable — so the focus is spent and nothing is
 focused when the dialog opens.
@@ -38,11 +38,11 @@ Use the native `autofocus` attribute on the projected element instead; the
 browser applies it when the dialog is shown:
 
 ```html
-<ngn-dialog [(open)]="open">
-  <ngn-input-field [label]="'Name'">
-    <input ngnInput autofocus />
-  </ngn-input-field>
-</ngn-dialog>
+<jig-dialog [(open)]="open">
+  <jig-input-field [label]="'Name'">
+    <input jigInput autofocus />
+  </jig-input-field>
+</jig-dialog>
 ```
 
 For a dialog that is already open on first render, neither mechanism fires.

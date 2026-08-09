@@ -1,6 +1,6 @@
-import { createControlTemplate } from '@ngneers/controls-themes/api';
-import { itemViewControlTemplate } from '@ngneers/controls-themes/templates/item-view';
-import { menuControlTemplate } from '@ngneers/controls-themes/templates/menu';
+import { createControlTemplate } from '@awdlab/jig-themes/api';
+import { itemViewControlTemplate } from '@awdlab/jig-themes/templates/item-view';
+import { menuControlTemplate } from '@awdlab/jig-themes/templates/menu';
 
 export const breadcrumbControlTemplate = createControlTemplate({
   scope: 'breadcrumb',

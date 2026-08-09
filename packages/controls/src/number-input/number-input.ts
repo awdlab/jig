@@ -9,9 +9,9 @@ import {
   signal,
   untracked,
 } from '@angular/core';
-import { domEventHandler } from '@ngneers/controls/api/ng';
-import { provideSelf, ValueControlBase } from '@ngneers/controls/base';
-import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
+import { domEventHandler } from '@awdlab/jig/api/ng';
+import { provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { inputControlTemplate } from '@awdlab/jig-themes/templates/input';
 
 import { clampValue, localeNumberInfo, parseLocaleNumber, stepNumberValue } from './helper';
 
@@ -35,15 +35,15 @@ function positiveStep(value: number | undefined): number | undefined {
  *   the text is the raw, ungrouped edit form.
  * - `ArrowUp`/`ArrowDown` step by `step`, with `Shift` by `bigStep`.
  *   Results are rounded to the operands' precision so float drift never shows.
- * - Exposes the {@link NgnBase.stepValue}/{@link NgnBase.canStepValue} hooks,
- *   so `ngn-spin-buttons` (or a surrounding field) can step the value.
+ * - Exposes the {@link JigBase.stepValue}/{@link JigBase.canStepValue} hooks,
+ *   so `jig-spin-buttons` (or a surrounding field) can step the value.
  *
  * @category control
  */
 @Directive({
-  selector: 'input[ngnNumberInput]',
-  providers: [provideSelf(NgnNumberInput)],
-  exportAs: 'ngnNumberInput',
+  selector: 'input[jigNumberInput]',
+  providers: [provideSelf(JigNumberInput)],
+  exportAs: 'jigNumberInput',
   host: {
     type: 'text',
     role: 'spinbutton',
@@ -58,7 +58,7 @@ function positiveStep(value: number | undefined): number | undefined {
     '[readOnly]': 'readonly()',
   },
 })
-export class NgnNumberInput extends ValueControlBase<'numberInput', number | null> {
+export class JigNumberInput extends ValueControlBase<'numberInput', number | null> {
   public override readonly isFieldControl = true;
   protected readonly theme = this.injectThemeTemplate(inputControlTemplate, {
     root: true,

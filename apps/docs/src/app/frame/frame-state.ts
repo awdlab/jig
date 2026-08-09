@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { Platform } from '@ngneers/controls/api/ng';
+import { Platform } from '@awdlab/jig/api/ng';
 
 @Injectable()
 export class FrameState {

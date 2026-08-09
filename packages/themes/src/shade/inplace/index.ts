@@ -1,7 +1,7 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/shade/base';
-import { inplaceControlTemplate } from '@ngneers/controls-themes/templates/inplace';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
+import { inplaceControlTemplate } from '@awdlab/jig-themes/templates/inplace';
 
 export const inplaceStyles = createThemePart({
   controlTemplate: inplaceControlTemplate,

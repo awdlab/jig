@@ -18,8 +18,8 @@ export function registerPrompts(server: McpServer, pack: KnowledgePack): void {
   server.registerPrompt(
     'explain_control',
     {
-      title: 'Explain an ngn control',
-      description: 'Explain how to use a specific @ngneers/controls control, with its full API.',
+      title: 'Explain a jig control',
+      description: 'Explain how to use a specific @awdlab/jig control, with its full API.',
       argsSchema: {
         name: completable(z.string(), value =>
           controlNames.filter(n => n.startsWith(value.toLowerCase()))
@@ -30,7 +30,7 @@ export function registerPrompts(server: McpServer, pack: KnowledgePack): void {
       const key = name
         .trim()
         .toLowerCase()
-        .replace(/^ngn-?/, '');
+        .replace(/^jig-?/, '');
       const control = pack.controls.find(c => c.name === key);
       const reference = control
         ? controlMarkdown(control, pack)
@@ -42,9 +42,9 @@ export function registerPrompts(server: McpServer, pack: KnowledgePack): void {
             content: {
               type: 'text',
               text:
-                `Explain how to use the ${name} control from @ngneers/controls. Cover its ` +
+                `Explain how to use the ${name} control from @awdlab/jig. Cover its ` +
                 `purpose, a minimal Angular template + component example, the most important ` +
-                `inputs/outputs, and common pitfalls. Use idiomatic ngn conventions (signal ` +
+                `inputs/outputs, and common pitfalls. Use idiomatic jig conventions (signal ` +
                 `inputs, theme system). Reference:\n\n${reference}`,
             },
           },
@@ -56,9 +56,9 @@ export function registerPrompts(server: McpServer, pack: KnowledgePack): void {
   server.registerPrompt(
     'explain_concept',
     {
-      title: 'Explain an ngn concept',
+      title: 'Explain a jig concept',
       description:
-        'Explain an @ngneers/controls concept or guide (theming, colors, passthrough, state, …).',
+        'Explain an @awdlab/jig concept or guide (theming, colors, passthrough, state, …).',
       argsSchema: {
         topic: completable(z.string(), value =>
           conceptSlugs.filter(s => s.includes(value.toLowerCase()))
@@ -80,7 +80,7 @@ export function registerPrompts(server: McpServer, pack: KnowledgePack): void {
             content: {
               type: 'text',
               text:
-                `Explain the "${topic}" concept in @ngneers/controls to a developer using the ` +
+                `Explain the "${topic}" concept in @awdlab/jig to a developer using the ` +
                 `library. Be concrete and practical, with code where useful. ` +
                 `Source guide:\n\n${reference}`,
             },

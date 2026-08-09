@@ -5,11 +5,11 @@ import {
   NgControl,
   type ValidationErrors,
 } from '@angular/forms';
-import { NGN_CONTROL, type FullAnyNgnBase } from '@ngneers/controls/base';
+import { JIG_CONTROL, type FullAnyJigBase } from '@awdlab/jig/base';
 
 /**
  * A paradigm-agnostic, reactive view of the form control sitting on the host
- * element — the compatibility layer `ngnErrors` reads so it never has to branch
+ * element — the compatibility layer `jigErrors` reads so it never has to branch
  * on which form paradigm is in play.
  *
  * Angular 22 has no single signal API spanning the three paradigms, so this
@@ -27,7 +27,7 @@ import { NGN_CONTROL, type FullAnyNgnBase } from '@ngneers/controls/base';
  * status / touched / pristine) is the one subscription that keeps these signals
  * live — replacing separate `valueChanges` + `statusChanges` watches.
  */
-export interface NgnControlState {
+export interface JigControlState {
   /** Host control name, used to match relevant parent/group errors. */
   readonly name: string | number | null;
   /** Validation errors of the host control (all paradigms), or `null`. */
@@ -45,14 +45,14 @@ interface ControlWithEvents {
 }
 
 /**
- * Resolves and reactively tracks the {@link NgnControlState} of the host
+ * Resolves and reactively tracks the {@link JigControlState} of the host
  * element. Must be called in an injection context (field/directive constructor).
  */
-export function injectNgnControlState(): NgnControlState {
+export function injectJigControlState(): JigControlState {
   const ngControl = inject(NgControl, { optional: true, self: true });
   const selfContainer = inject(ControlContainer, { optional: true, self: true });
   const parentContainer = inject(ControlContainer, { optional: true, skipSelf: true });
-  const ngnControl = inject(NGN_CONTROL, { optional: true, self: true }) as FullAnyNgnBase | null;
+  const jigControl = inject(JIG_CONTROL, { optional: true, self: true }) as FullAnyJigBase | null;
   const destroyRef = inject(DestroyRef);
 
   const revision = signal(0);
@@ -67,13 +67,13 @@ export function injectNgnControlState(): NgnControlState {
   // external `[touched]` binding), and honor a `touch` output emission (blur) for
   // controls that report blur only that way.
   const touchedFromOutput = signal(false);
-  const touch = (ngnControl as { touch?: OutputRef<void> } | null)?.touch;
+  const touch = (jigControl as { touch?: OutputRef<void> } | null)?.touch;
   const touchSubscription = touch?.subscribe(() => touchedFromOutput.set(true));
   if (touchSubscription) {
     destroyRef.onDestroy(() => touchSubscription.unsubscribe());
   }
   const touchedFallback = (): boolean => {
-    const value = (ngnControl as { touched?: unknown } | null)?.touched;
+    const value = (jigControl as { touched?: unknown } | null)?.touched;
     const fromSignal =
       typeof value === 'function' ? Boolean((value as () => unknown)()) : Boolean(value);
     return fromSignal || touchedFromOutput();
@@ -103,7 +103,7 @@ export function injectNgnControlState(): NgnControlState {
   };
 
   const dirtyFallback = (): boolean => {
-    const value = (ngnControl as { dirty?: unknown } | null)?.dirty;
+    const value = (jigControl as { dirty?: unknown } | null)?.dirty;
     return typeof value === 'function' ? Boolean((value as () => unknown)()) : Boolean(value);
   };
 

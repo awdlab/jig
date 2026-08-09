@@ -1,21 +1,21 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-input-field-playground',
-  imports: [NgnInput, NgnInputField, NgnDocsPlayground],
+  selector: 'jig-docs-input-field-playground',
+  imports: [JigInput, JigInputField, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnInputField', component: component() }]">
-      <ngn-input-field #ref>
-        <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
-      </ngn-input-field>
-    </ngn-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'JigInputField', component: component() }]">
+      <jig-input-field #ref>
+        <input jigInput [value]="value()" (valueChange)="value.set($event ?? '')" />
+      </jig-input-field>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsInputFieldPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnInputField });
+export class JigDocsInputFieldPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigInputField });
   protected readonly value = signal<string>('');
 }

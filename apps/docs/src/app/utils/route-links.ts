@@ -14,7 +14,7 @@ const ASSET_PATH = /\.[a-z0-9]+$/i;
  * keep native browser behaviour.
  */
 @Directive({
-  selector: '[ngnRouteLinks]',
+  selector: '[jigRouteLinks]',
   host: { '(click)': 'onClick($event)' },
 })
 export class RouteLinks {

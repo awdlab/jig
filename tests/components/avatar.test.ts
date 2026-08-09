@@ -1,6 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { NgnAvatarHarness } from '@ngneers/controls-playwright';
+import { JigAvatarHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -8,7 +8,7 @@ test('initials & image', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-avatar [initials]="inputs().initials" [image]="inputs().image" />`,
+      template: `<jig-avatar [initials]="inputs().initials" [image]="inputs().image" />`,
       imports: ['avatar'],
     },
     {
@@ -18,7 +18,7 @@ test('initials & image', async ({ page }) => {
     }
   );
 
-  const avatar = new NgnAvatarHarness(page.locator('ngn-avatar'));
+  const avatar = new JigAvatarHarness(page.locator('jig-avatar'));
   await avatar.expectInitials('AB');
   handle.setInputs({ initials: 'CD' });
   await avatar.expectInitials('CD');
@@ -35,7 +35,7 @@ test('sizes', async ({ page }, testInfo) => {
     {
       template: `@for(size of inputs().sizes; track size) {
         @for(initial of inputs().initials; track initial) {
-          <ngn-avatar [initials]="initial ? initial : undefined" [image]="initial ? undefined : 'example.png'" [size]="size" />
+          <jig-avatar [initials]="initial ? initial : undefined" [image]="initial ? undefined : 'example.png'" [size]="size" />
         }
           <br />
       }`,
@@ -49,7 +49,7 @@ test('sizes', async ({ page }, testInfo) => {
     }
   );
 
-  await expect(page.locator('ngn-avatar')).toHaveCount(45);
+  await expect(page.locator('jig-avatar')).toHaveCount(45);
   await expectScreenshot(page, testInfo);
 });
 
@@ -57,7 +57,7 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<ngn-avatar [initials]="inputs().initials" />`,
+      template: `<jig-avatar [initials]="inputs().initials" />`,
       imports: ['avatar'],
     },
     { inputs: { initials: 'AB' } }

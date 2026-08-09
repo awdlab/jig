@@ -3,7 +3,7 @@ import type { ThemePart } from './theme-part';
 /**
  * Explicit per-control default `color`/`kind`, keyed by control name. When set,
  * these win over the implicit "first entry of the colors/kinds array" default,
- * so a bare `<button ngnButton>` doesn't silently depend on array ordering.
+ * so a bare `<button jigButton>` doesn't silently depend on array ordering.
  */
 export type ThemeDefaults = Record<string, { color?: string; kind?: string }>;
 

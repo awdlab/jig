@@ -1,26 +1,26 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@ngneers/controls/errors';
-import { NgnHint } from '@ngneers/controls/hint';
-import { NgnRadio, NgnRadioGroup } from '@ngneers/controls/radio';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigRadio, JigRadioGroup } from '@awdlab/jig/radio';
 
 @Component({
-  selector: 'ngn-demo-radio-validation',
-  imports: [NgnErrors, NgnHint, NgnRadioGroup, NgnRadio],
+  selector: 'jig-demo-radio-validation',
+  imports: [JigErrors, JigHint, JigRadioGroup, JigRadio],
   template: `
     <div class="flex flex-col gap-2">
-      <ngn-radio-group
+      <jig-radio-group
         [value]="value()"
         (valueChange)="value.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="sizeHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="sizeHint"
       >
-        <ngn-radio value="small">Small</ngn-radio>
-        <ngn-radio value="medium">Medium</ngn-radio>
-        <ngn-radio value="large">Large</ngn-radio>
-      </ngn-radio-group>
-      <ngn-hint #sizeHint />
+        <jig-radio value="small">Small</jig-radio>
+        <jig-radio value="medium">Medium</jig-radio>
+        <jig-radio value="large">Large</jig-radio>
+      </jig-radio-group>
+      <jig-hint #sizeHint />
     </div>
   `,
 })

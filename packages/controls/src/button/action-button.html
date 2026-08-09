@@ -1,22 +1,22 @@
 <button
   type="button"
-  ngnButton
+  jigButton
   [kind]="config().kind"
   [color]="config().color"
-  [ngnButtonInline]="inline()"
+  [jigButtonInline]="inline()"
   [disabled]="config().disabled"
   (click)="click($event)"
   [attr.data-test-id]="config().testId"
   [attr.aria-keyshortcuts]="ariaShortcut()"
-  [ngnTooltip]="tooltip()"
-  ngnTooltipAutoAriaMode="label"
+  [jigTooltip]="tooltip()"
+  jigTooltipAutoAriaMode="label"
 >
   @if (config().icon || config().defaultIcon) {
-    <ngn-icon [icon]="config().icon" [defaultIcon]="config().defaultIcon" />
+    <jig-icon [icon]="config().icon" [defaultIcon]="config().defaultIcon" />
   } @else {
     {{ maybeCallback(config().label) }}
   }
   @if (shortcutHint(); as shortcut) {
-    <ngn-kbd [shortcut]="shortcut" aria-hidden="true" />
+    <jig-kbd [shortcut]="shortcut" aria-hidden="true" />
   }
 </button>

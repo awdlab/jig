@@ -3,13 +3,13 @@ export function throwExp(
   errorMsg: string,
   ...additionalContext: unknown[]
 ): never {
-  throw new NgnError(moduleName, errorMsg, ...additionalContext);
+  throw new JigError(moduleName, errorMsg, ...additionalContext);
 }
 
-export class NgnError extends Error {
+export class JigError extends Error {
   public readonly additionalContext?: unknown[];
   constructor(area: string, errorMsg: string, ...additionalContext: unknown[]) {
-    if (typeof window !== 'undefined' && window['__ngn-controls-global__']?.fancyLogging) {
+    if (typeof window !== 'undefined' && window['__jig-global__']?.fancyLogging) {
       console.log(
         `%c💥%c[${area}]`,
         'font-size: 24px;',
@@ -19,7 +19,7 @@ export class NgnError extends Error {
     }
 
     super(`[${area}] ${errorMsg}`);
-    this.name = 'NgnError';
+    this.name = 'JigError';
     this.additionalContext = additionalContext;
   }
 }

@@ -26,14 +26,14 @@ export function registerTheming(server: McpServer, pack: KnowledgePack): void {
     const key = name
       .trim()
       .toLowerCase()
-      .replace(/^ngn-?/, '');
+      .replace(/^jig-?/, '');
     return pack.themeParts.find(p => p.name === key || p.scope === key);
   };
 
   server.registerTool(
     'get_theme_schema',
     {
-      title: 'Get the ngn theme schema',
+      title: 'Get the jig theme schema',
       description:
         'The theme token vocabulary (color/size/font/shadow/anim) plus the createThemePart ' +
         'authoring API (c/d/v helpers) and gotchas. Read this before authoring a product theme.',
@@ -90,7 +90,7 @@ export function registerTheming(server: McpServer, pack: KnowledgePack): void {
         'The allowed `kind` and `color` values for controls — these are theme-dependent, not ' +
         'static types. Returns values for the built-in themes (nova, shade); pass `theme` and/or ' +
         '`control` to narrow. For a CUSTOM theme, this explains where to read the values instead ' +
-        "(the app's createTheme + NgnCustomTypes). Use this to resolve a control's kind/color input.",
+        "(the app's createTheme + JigCustomTypes). Use this to resolve a control's kind/color input.",
       inputSchema: {
         theme: z
           .string()
@@ -105,8 +105,8 @@ export function registerTheming(server: McpServer, pack: KnowledgePack): void {
   server.registerPrompt(
     'author_theme',
     {
-      title: 'Author an ngn product theme',
-      description: 'Guided workflow to create or modify a product-specific ngn theme.',
+      title: 'Author a jig product theme',
+      description: 'Guided workflow to create or modify a product-specific jig theme.',
       argsSchema: {
         control: completable(z.string().optional(), value =>
           partNames.filter(n => n.startsWith((value ?? '').toLowerCase()))
@@ -125,7 +125,7 @@ export function registerTheming(server: McpServer, pack: KnowledgePack): void {
             content: {
               type: 'text',
               text:
-                `Help me author a product-specific theme for @ngneers/controls. ` +
+                `Help me author a product-specific theme for @awdlab/jig. ` +
                 `First call get_theme_schema to load the token vocabulary and the c()/d()/v() ` +
                 `authoring rules. ${target} Style exclusively through theme tokens (never ` +
                 `hardcode colors), and account for dark-mode palette reversal. Produce theme ` +

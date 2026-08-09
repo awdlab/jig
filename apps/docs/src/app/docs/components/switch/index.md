@@ -1,4 +1,4 @@
-The Switch (`<ngn-switch>`) toggles a single boolean that takes effect
+The Switch (`<jig-switch>`) toggles a single boolean that takes effect
 immediately — think "Notifications on/off" or "Dark mode", where flipping it
 applies the change at once with no separate save step. Its state is a plain
 `boolean` exposed through the two-way `value` model.
@@ -17,7 +17,7 @@ thumb, so it participates in the page like any checkbox — bind the two-way
 ## Validation
 
 The switch implements the signal-forms value-control contract, so it binds to a
-form field directly and works with the `ngnErrors` directive for validation
+form field directly and works with the `jigErrors` directive for validation
 messages. Its invalid state is reflected as `aria-invalid` on the input.
 
 {{ demo: Demo_Switch_Validation }}

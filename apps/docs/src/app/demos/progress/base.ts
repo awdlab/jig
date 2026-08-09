@@ -1,13 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NgnProgress } from '@ngneers/controls/progress';
+import { JigProgress } from '@awdlab/jig/progress';
 import { interval } from 'rxjs';
 
 @Component({
-  selector: 'ngn-demo-progress-base',
-  imports: [NgnProgress],
+  selector: 'jig-demo-progress-base',
+  imports: [JigProgress],
   template: `
-    <ngn-progress [value]="value()" />
+    <jig-progress [value]="value()" />
     {{ value() }}%
   `,
   host: { class: 'flex-1 max-w-100' },

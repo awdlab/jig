@@ -1,10 +1,10 @@
 <div [ptInt]="this" [ptClass]="'root'">
   <input
     #proxy
-    #pg="ngnRovingGroup"
+    #pg="jigRovingGroup"
     [ptInt]="this"
     [ptClass]="'proxy'"
-    ngnRovingGroup
+    jigRovingGroup
     rovingMode="activedescendant"
     orientation="horizontal"
     [attr.inputmode]="proxyInputMode()"
@@ -20,7 +20,7 @@
       <span [ptInt]="this" [ptClass]="'separator'" aria-hidden="true">{{ tok.text }}</span>
     } @else {
       <span
-        [ngnRovingItem]="pg"
+        [jigRovingItem]="pg"
         role="spinbutton"
         [attr.aria-label]="sectionName(tok.ord)"
         [ptInt]="this"

@@ -11,19 +11,19 @@ import {
   viewChild,
   type Signal,
 } from '@angular/core';
-import { elementSizeSignal, elementsSizesSignal } from '@ngneers/controls/api/ng';
-import { NgnBase, NGN_CONTROL, provideSelf, NgnPt } from '@ngneers/controls/base';
-import { NgnRovingGroup } from '@ngneers/controls/roving-focus';
-import { generateElementId } from '@ngneers/controls/utils-ng';
-import { buttonGroupControlTemplate } from '@ngneers/controls-themes/templates/button-group';
+import { elementSizeSignal, elementsSizesSignal } from '@awdlab/jig/api/ng';
+import { JigBase, JIG_CONTROL, provideSelf, JigPt } from '@awdlab/jig/base';
+import { JigRovingGroup } from '@awdlab/jig/roving-focus';
+import { generateElementId } from '@awdlab/jig/utils-ng';
+import { buttonGroupControlTemplate } from '@awdlab/jig-themes/templates/button-group';
 
 const FOCUSABLE_SELECTOR = 'button, a[href], input, select, textarea, [tabindex]';
 
 /**
  * Resolve the element that should own the roving tab stop for a projected
  * control. The control's host is the focusable element for a native
- * `button[ngnButton]`/`a[ngnButton]`; for wrapper controls like
- * `ngn-toggle-button` the real tab stop is a focusable descendant.
+ * `button[jigButton]`/`a[jigButton]`; for wrapper controls like
+ * `jig-toggle-button` the real tab stop is a focusable descendant.
  */
 function resolveFocusable(host: HTMLElement): HTMLElement {
   if (host.matches(FOCUSABLE_SELECTOR)) return host;
@@ -32,9 +32,9 @@ function resolveFocusable(host: HTMLElement): HTMLElement {
 
 /**
  * Reactive disabled flag for a projected control so roving navigation skips it.
- * Prefer the control's own `disabled` signal (e.g. `ngn-toggle-button`); fall
+ * Prefer the control's own `disabled` signal (e.g. `jig-toggle-button`); fall
  * back to reflecting the focusable element's native `disabled`/`aria-disabled`
- * for plain `button[ngnButton]`, which has no such signal.
+ * for plain `button[jigButton]`, which has no such signal.
  */
 function resolveDisabled(ref: object, element: HTMLElement): Signal<boolean> {
   const controlDisabled = (ref as { disabled?: unknown }).disabled;
@@ -50,16 +50,16 @@ function resolveDisabled(ref: object, element: HTMLElement): Signal<boolean> {
  * @category control
  */
 @Component({
-  selector: 'ngn-button-group',
+  selector: 'jig-button-group',
   templateUrl: './button-group.html',
-  imports: [NgnPt, NgnRovingGroup],
+  imports: [JigPt, JigRovingGroup],
 
-  providers: [provideSelf(NgnButtonGroup)],
+  providers: [provideSelf(JigButtonGroup)],
 })
-export class NgnButtonGroup extends NgnBase<'buttonGroup'> {
+export class JigButtonGroup extends JigBase<'buttonGroup'> {
   protected readonly theme = this.injectThemeTemplate(buttonGroupControlTemplate, 'root');
 
-  private readonly _contentRef = contentChildren(NGN_CONTROL);
+  private readonly _contentRef = contentChildren(JIG_CONTROL);
   private readonly _content = computed(() =>
     this._contentRef().map(ref => ref.element.nativeElement)
   );
@@ -69,7 +69,7 @@ export class NgnButtonGroup extends NgnBase<'buttonGroup'> {
    * stop across the projected buttons: the active button gets `tabindex="0"`,
    * the rest `-1`, and arrow keys move focus between them.
    */
-  private readonly _roving = viewChild.required(NgnRovingGroup);
+  private readonly _roving = viewChild.required(JigRovingGroup);
   private readonly _parentSize = elementSizeSignal(this.element.nativeElement);
   private readonly _contentSizes = elementsSizesSignal(this._content);
   private readonly _contentWidth = computed(() => {
@@ -106,7 +106,7 @@ export class NgnButtonGroup extends NgnBase<'buttonGroup'> {
       const group = this._roving();
       const items = this._contentRef().map(ref => {
         // The projected control's host is not always the focusable element:
-        // `button[ngnButton]` is itself the button, but `ngn-toggle-button`
+        // `button[jigButton]` is itself the button, but `jig-toggle-button`
         // wraps a native `<button>`. Roving must own the real tab stop.
         const host = ref.element.nativeElement;
         const element = resolveFocusable(host);

@@ -1,4 +1,4 @@
-<ngn-button-group
+<jig-button-group
   [orientation]="orientation()"
   [attr.aria-label]="label()"
   [attr.aria-labelledby]="labelledBy()"
@@ -6,7 +6,7 @@
   [ptDep]="'group'"
 >
   @for (item of options(); track item.value) {
-    <ngn-toggle-button
+    <jig-toggle-button
       [label]="maybeCallback(item.label)"
       [icon]="item.icon"
       [fixedWidth]="true"
@@ -19,4 +19,4 @@
       [ptDep]="'button'"
     />
   }
-</ngn-button-group>
+</jig-button-group>

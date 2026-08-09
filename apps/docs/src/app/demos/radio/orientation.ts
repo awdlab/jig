@@ -1,15 +1,15 @@
 import { Component, signal } from '@angular/core';
-import { NgnRadio, NgnRadioGroup } from '@ngneers/controls/radio';
+import { JigRadio, JigRadioGroup } from '@awdlab/jig/radio';
 
 @Component({
-  selector: 'ngn-demo-radio-orientation',
-  imports: [NgnRadioGroup, NgnRadio],
+  selector: 'jig-demo-radio-orientation',
+  imports: [JigRadioGroup, JigRadio],
   template: `
-    <ngn-radio-group [(value)]="value" orientation="vertical">
-      <ngn-radio value="card">Credit card</ngn-radio>
-      <ngn-radio value="paypal">PayPal</ngn-radio>
-      <ngn-radio value="transfer">Bank transfer</ngn-radio>
-    </ngn-radio-group>
+    <jig-radio-group [(value)]="value" orientation="vertical">
+      <jig-radio value="card">Credit card</jig-radio>
+      <jig-radio value="paypal">PayPal</jig-radio>
+      <jig-radio value="transfer">Bank transfer</jig-radio>
+    </jig-radio-group>
   `,
 })
 export class Demo_Radio_Orientation {

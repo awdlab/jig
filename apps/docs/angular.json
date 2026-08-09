@@ -16,7 +16,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "ngn",
+      "prefix": "jig",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
@@ -52,7 +52,7 @@
               "entry": "src/server.ts"
             },
             "security": {
-              "allowedHosts": ["ngneers.dev"]
+              "allowedHosts": ["jig.awdlab.dev"]
             },
             "optimization": {
               "scripts": false

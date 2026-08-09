@@ -1,3 +1,3 @@
 ## API
 
-{{ api: upload/upload NgnUpload }}
+{{ api: upload/upload JigUpload }}

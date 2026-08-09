@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnScroller, NgnScrollerItem } from '@ngneers/controls/scroller';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigScroller, JigScrollerItem } from '@awdlab/jig/scroller';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnScroller, NgnTemplate, NgnScrollerItem],
-  selector: 'ngn-demo-scroller-sticky',
+  imports: [JigScroller, JigTemplate, JigScrollerItem],
+  selector: 'jig-demo-scroller-sticky',
   template: `
-    <ngn-scroller #scroller style="height: 300px" [items]="items" [fieldSticky]="'items'">
-      <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item>
-        <span [ngnScrollerItem]="item">
+    <jig-scroller #scroller style="height: 300px" [items]="items" [fieldSticky]="'items'">
+      <ng-template #item [jigTemplate]="scroller.templateTypes.item" let-item>
+        <span [jigScrollerItem]="item">
           {{ item.label }}
         </span>
       </ng-template>
-    </ngn-scroller>
+    </jig-scroller>
   `,
 })
 export class Demo_Scroller_Sticky {

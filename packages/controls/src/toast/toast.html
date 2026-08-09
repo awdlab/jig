@@ -11,13 +11,13 @@
   <div [ptInt]="this" [ptClass]="'defaultHeader'">
     <span [ptInt]="this" [ptClass]="'defaultHeaderText'">
       @if (icon(); as icon) {
-        <ngn-icon [icon]="icon" />
+        <jig-icon [icon]="icon" />
       }
       {{ header() }}
     </span>
     @if (closable()) {
-      <button ngnButton kind="icon" [attr.aria-label]="i18n['toast_close']()" (click)="close()">
-        <ngn-icon [defaultIcon]="'toast-close'" [icon]="iconClose()" [attr.aria-hidden]="true" />
+      <button jigButton kind="icon" [attr.aria-label]="i18n['toast_close']()" (click)="close()">
+        <jig-icon [defaultIcon]="'toast-close'" [icon]="iconClose()" [attr.aria-hidden]="true" />
       </button>
     }
   </div>

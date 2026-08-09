@@ -1,13 +1,13 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   colorsTemplate,
   controlRing,
   ringTemplate,
   shadowTemplate,
   sizesTemplate,
-} from '@ngneers/controls-themes/nova/base';
-import { sliderControlTemplate } from '@ngneers/controls-themes/templates/slider';
+} from '@awdlab/jig-themes/nova/base';
+import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
 
 export const sliderStyles = createThemePart({
   controlTemplate: sliderControlTemplate,

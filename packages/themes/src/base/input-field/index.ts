@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { inputFieldControlTemplate } from '@awdlab/jig-themes/templates/input-field';
 
 export const inputFieldStyles = createThemePart({
   controlTemplate: inputFieldControlTemplate,

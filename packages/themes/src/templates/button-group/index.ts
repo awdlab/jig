@@ -1,6 +1,6 @@
-import { createControlTemplate } from '@ngneers/controls-themes/api';
-import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
-import { toggleButtonControlTemplate } from '@ngneers/controls-themes/templates/toggle-button';
+import { createControlTemplate } from '@awdlab/jig-themes/api';
+import { buttonControlTemplate } from '@awdlab/jig-themes/templates/button';
+import { toggleButtonControlTemplate } from '@awdlab/jig-themes/templates/toggle-button';
 
 export const buttonGroupControlTemplate = createControlTemplate({
   scope: 'button-group',

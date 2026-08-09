@@ -1,7 +1,7 @@
 <div class="nf-wrap">
   <div class="nf-block">
     <p class="nf-path" aria-label="Requested address">
-      <span class="nf-path-host">ngneers.dev</span>
+      <span class="nf-path-host">jig.awdlab.dev</span>
       @for (segment of segments(); track $index; let last = $last) {
         <span class="nf-path-sep">/</span>
         @if (last) {
@@ -20,12 +20,12 @@
     </p>
 
     <div class="nf-actions">
-      <button ngnButton kind="primary" routerLink="/components">Browse components</button>
-      <button ngnButton kind="secondary" routerLink="/guides">Read the guides</button>
+      <button jigButton kind="primary" routerLink="/components">Browse components</button>
+      <button jigButton kind="secondary" routerLink="/guides">Read the guides</button>
     </div>
 
     <p class="nf-hint">
-      Or press <ngn-kbd [shortcut]="searchShortcut" /> to search every page, or
+      Or press <jig-kbd [shortcut]="searchShortcut" /> to search every page, or
       <a class="nf-link" routerLink="/">go back to the start</a>.
     </p>
   </div>

@@ -1,29 +1,29 @@
 import { Component } from '@angular/core';
-import { NgnUpload, type NgnUploadFile } from '@ngneers/controls/upload';
+import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
 
 /**
  * Auto mode: files upload the moment they are selected or dropped. The consumer
  * runs the (here simulated) transfer and reports progress back through the
- * `exportAs="ngnUpload"` handle.
+ * `exportAs="jigUpload"` handle.
  */
 @Component({
-  imports: [NgnUpload],
-  selector: 'ngn-demo-upload-base',
+  imports: [JigUpload],
+  selector: 'jig-demo-upload-base',
   template: `
-    <ngn-upload #up="ngnUpload" (upload)="onUpload($event, up)">
+    <jig-upload #up="jigUpload" (upload)="onUpload($event, up)">
       <input type="file" multiple />
       Drag files here or click to browse
-    </ngn-upload>
+    </jig-upload>
   `,
 })
 export class Demo_Upload_Base {
-  protected onUpload(files: NgnUploadFile[], up: NgnUpload): void {
+  protected onUpload(files: JigUploadFile[], up: JigUpload): void {
     for (const item of files) {
       this.simulate(item, up);
     }
   }
 
-  private simulate(item: NgnUploadFile, up: NgnUpload): void {
+  private simulate(item: JigUploadFile, up: JigUpload): void {
     let progress = 0;
     const tick = setInterval(() => {
       progress += 20;

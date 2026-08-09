@@ -1,25 +1,25 @@
 import { Component } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnTabs, NgnTab } from '@ngneers/controls/tabs';
+import { JigButton } from '@awdlab/jig/button';
+import { JigTabs, JigTab } from '@awdlab/jig/tabs';
 
 @Component({
-  imports: [NgnTabs, NgnTab, NgnButton],
-  selector: 'ngn-demo-tabs-base',
+  imports: [JigTabs, JigTab, JigButton],
+  selector: 'jig-demo-tabs-base',
   template: `
-    <ngn-tabs>
+    <jig-tabs>
       <ng-template #headerLeft>
-        <button ngnButton ngnButtonInline kind="icon">➕</button>
+        <button jigButton jigButtonInline kind="icon">➕</button>
       </ng-template>
       <ng-template #headerRight>
-        <button ngnButton ngnButtonInline kind="icon">🗑️</button>
+        <button jigButton jigButtonInline kind="icon">🗑️</button>
       </ng-template>
       @for (item of tabs; track $index) {
-        <ngn-tab [tabId]="'tab' + item">
+        <jig-tab [tabId]="'tab' + item">
           <ng-template #header> Tab {{ item }} </ng-template>
           <ng-template #content> Content {{ item }} </ng-template>
-        </ngn-tab>
+        </jig-tab>
       }
-    </ngn-tabs>
+    </jig-tabs>
   `,
 })
 export class Demo_Tabs_CustomHeader {

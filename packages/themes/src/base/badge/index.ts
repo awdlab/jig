@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { badgeControlTemplate } from '@ngneers/controls-themes/templates/badge';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { badgeControlTemplate } from '@awdlab/jig-themes/templates/badge';
 
 export const badgeStyles = createThemePart({
   controlTemplate: badgeControlTemplate,

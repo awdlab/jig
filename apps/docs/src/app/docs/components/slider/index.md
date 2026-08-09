@@ -1,4 +1,4 @@
-The Slider (`ngn-slider`) is a form control for picking a numeric value within a
+The Slider (`jig-slider`) is a form control for picking a numeric value within a
 range by dragging the thumb, clicking the track, or using the keyboard. Bind the
 two-way `value` and set `min`, `max`, and `step` to define the range and its
 granularity. It participates in signal forms and exposes the `slider` role with
@@ -14,7 +14,7 @@ set it; arrow keys nudge by `step`, and Home/End jump to `min`/`max`.
 ### Validation
 
 The slider implements the signal-forms value-control contract, so it binds
-straight to a form field and works with `ngnErrors`. Here any value below 50 is
+straight to a form field and works with `jigErrors`. Here any value below 50 is
 flagged invalid.
 
 {{ demo: Demo_Slider_Validation }}

@@ -1,10 +1,10 @@
-import { NgnDocsChangelog } from './changelog';
+import { JigDocsChangelog } from './changelog';
 
-import type { NgnDocsPage } from '../../../../utils/page/types';
+import type { JigDocsPage } from '../../../../utils/page/types';
 
-export const ChangelogPage: NgnDocsPage = {
+export const ChangelogPage: JigDocsPage = {
   kind: 'component',
   title: `Changelog`,
 
-  component: NgnDocsChangelog,
+  component: JigDocsChangelog,
 };

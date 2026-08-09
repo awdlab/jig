@@ -61,14 +61,14 @@
   }
 }
 
-<ng-template #defaultSeparatorTemplate [ngnTemplate]="templateTypes.separator" let-separator>
+<ng-template #defaultSeparatorTemplate [jigTemplate]="templateTypes.separator" let-separator>
   @if (separator.character) {
     <span>{{ separator.character }}</span>
   } @else if (separator.icon) {
-    <ngn-icon [icon]="separator.icon" />
+    <jig-icon [icon]="separator.icon" />
   }
 </ng-template>
 
-<ng-template #defaultOverflowItemTemplate [ngnTemplate]="templateTypes.overflow" let-overflow>
+<ng-template #defaultOverflowItemTemplate [jigTemplate]="templateTypes.overflow" let-overflow>
   <span [ptInt]="this" [ptClass]="'more-items-default'">+{{ overflow.overflowCount }}</span>
 </ng-template>

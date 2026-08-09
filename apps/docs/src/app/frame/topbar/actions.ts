@@ -1,12 +1,12 @@
 import { Component, computed, inject } from '@angular/core';
 import tablerBrandGithub from '@iconify/icons-tabler/brand-github';
 import tablerPalette from '@iconify/icons-tabler/palette';
-import { ColorSchemeService } from '@ngneers/controls/api/ng';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnPopover } from '@ngneers/controls/popover';
+import { ColorSchemeService } from '@awdlab/jig/api/ng';
+import { JigButton } from '@awdlab/jig/button';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigPopover } from '@awdlab/jig/popover';
 
-import { NgnDocsThemePicker } from '../../utils/theme-picker';
+import { JigDocsThemePicker } from '../../utils/theme-picker';
 
 /**
  * Theme, color-scheme and repo actions. Rendered in the topbar on wide viewports
@@ -14,13 +14,13 @@ import { NgnDocsThemePicker } from '../../utils/theme-picker';
  * Callers supply the display class (`flex` / `hidden nav:flex`).
  */
 @Component({
-  selector: 'ngn-docs-topbar-actions',
-  imports: [NgnButton, NgnIcon, NgnPopover, NgnDocsThemePicker],
-  host: { class: 'items-center gap-2 text-2xl text-(--ngn-color-surface-800)' },
+  selector: 'jig-docs-topbar-actions',
+  imports: [JigButton, JigIcon, JigPopover, JigDocsThemePicker],
+  host: { class: 'items-center gap-2 text-2xl text-(--jig-color-surface-800)' },
   template: `
     <button
       #themePickerBtn
-      ngnButton
+      jigButton
       kind="icon"
       aria-label="Pick theme and color"
       title="Pick theme and color"
@@ -28,13 +28,13 @@ import { NgnDocsThemePicker } from '../../utils/theme-picker';
       [attr.aria-expanded]="themePickerPopover.open()"
       (click)="themePickerPopover.toggle()"
     >
-      <ngn-icon size="28px" [icon]="iconPalette" />
+      <jig-icon size="28px" [icon]="iconPalette" />
     </button>
-    <ngn-popover #themePickerPopover [anchor]="themePickerBtn">
-      <ngn-docs-theme-picker />
-    </ngn-popover>
+    <jig-popover #themePickerPopover [anchor]="themePickerBtn">
+      <jig-docs-theme-picker />
+    </jig-popover>
     <button
-      ngnButton
+      jigButton
       kind="icon"
       [attr.aria-label]="colorSchemeLabel()"
       [title]="colorSchemeLabel()"
@@ -43,17 +43,17 @@ import { NgnDocsThemePicker } from '../../utils/theme-picker';
       {{ colorSchemeIcon() }}
     </button>
     <a
-      href="https://github.com/NGneers/controls"
+      href="https://github.com/awdlab/jig"
       target="_blank"
       aria-label="Project on Github"
-      ngnButton
+      jigButton
       kind="icon"
     >
-      <ngn-icon size="28px" [icon]="iconGithub" />
+      <jig-icon size="28px" [icon]="iconGithub" />
     </a>
   `,
 })
-export class NgnDocsTopbarActions {
+export class JigDocsTopbarActions {
   protected readonly iconGithub = tablerBrandGithub;
   protected readonly iconPalette = tablerPalette;
   protected readonly colorScheme = inject(ColorSchemeService);

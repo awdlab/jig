@@ -1,4 +1,4 @@
-import { throwExp } from '@ngneers/controls/utils';
+import { throwExp } from '@awdlab/jig/utils';
 
 // Base block types
 export type MarkdownBlock = {

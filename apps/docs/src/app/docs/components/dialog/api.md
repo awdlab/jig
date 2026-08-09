@@ -1,1 +1,1 @@
-{{ api: dialog/dialog NgnDialog }}
+{{ api: dialog/dialog JigDialog }}

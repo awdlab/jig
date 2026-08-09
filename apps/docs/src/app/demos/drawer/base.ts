@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnDrawer } from '@ngneers/controls/drawer';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDrawer } from '@awdlab/jig/drawer';
 
 @Component({
-  imports: [NgnDrawer, NgnButton],
-  selector: 'ngn-demo-drawer-base',
-  template: `<button ngnButton (click)="open.set(true)">Open Drawer</button>
-    <ngn-drawer
+  imports: [JigDrawer, JigButton],
+  selector: 'jig-demo-drawer-base',
+  template: `<button jigButton (click)="open.set(true)">Open Drawer</button>
+    <jig-drawer
       [header]="'Drawer Header'"
       [modal]="true"
       [open]="open()"
@@ -14,7 +14,7 @@ import { NgnDrawer } from '@ngneers/controls/drawer';
       (openChange)="open.set($event)"
     >
       Content
-    </ngn-drawer>`,
+    </jig-drawer>`,
 })
 export class Demo_Drawer_Base {
   protected readonly open = signal(false);

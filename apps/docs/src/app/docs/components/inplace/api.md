@@ -1,1 +1,1 @@
-{{ api: inplace/inplace NgnInplace }}
+{{ api: inplace/inplace JigInplace }}

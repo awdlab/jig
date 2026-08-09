@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { injectThemeColors } from '@ngneers/controls/api/ng';
-import { NgnButton } from '@ngneers/controls/button';
-import { injectToastCreator } from '@ngneers/controls/toast';
+import { injectThemeColors } from '@awdlab/jig/api/ng';
+import { JigButton } from '@awdlab/jig/button';
+import { injectToastCreator } from '@awdlab/jig/toast';
 
-import type { CustomColor } from '@ngneers/controls-custom-types';
+import type { CustomColor } from '@awdlab/jig-custom-types';
 
 @Component({
-  imports: [NgnButton],
-  selector: 'ngn-demo-toast-colors',
+  imports: [JigButton],
+  selector: 'jig-demo-toast-colors',
   template: `
     @for (color of colors(); track color) {
-      <button ngnButton kind="text" [color]="color" (click)="showToast(color)">
+      <button jigButton kind="text" [color]="color" (click)="showToast(color)">
         {{ color }}
       </button>
     }

@@ -1,25 +1,25 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@ngneers/controls/errors';
-import { NgnHint } from '@ngneers/controls/hint';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { DATE_TIME_MASKS, NgnMaskInput, type MaskInputCfg } from '@ngneers/controls/mask-input';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { DATE_TIME_MASKS, JigMaskInput, type MaskInputCfg } from '@awdlab/jig/mask-input';
 
 @Component({
-  selector: 'ngn-demo-mask-input-validation',
-  imports: [NgnErrors, NgnHint, NgnInputField, NgnMaskInput],
+  selector: 'jig-demo-mask-input-validation',
+  imports: [JigErrors, JigHint, JigInputField, JigMaskInput],
   template: `
-    <ngn-input-field [label]="'Start time'" [labelKind]="'on'" class="w-56">
-      <ngn-mask-input
+    <jig-input-field [label]="'Start time'" [labelKind]="'on'" class="w-56">
+      <jig-mask-input
         [mask]="mask"
         [value]="value()"
         (valueChange)="value.set($event ?? '')"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="timeHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="timeHint"
       />
-    </ngn-input-field>
-    <ngn-hint #timeHint />
+    </jig-input-field>
+    <jig-hint #timeHint />
   `,
 })
 export class Demo_MaskInput_Validation {

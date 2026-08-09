@@ -1,7 +1,7 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
-import { breadcrumbControlTemplate } from '@ngneers/controls-themes/templates/breadcrumb';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/nova/base';
+import { breadcrumbControlTemplate } from '@awdlab/jig-themes/templates/breadcrumb';
 
 export const breadcrumbStyles = createThemePart({
   controlTemplate: breadcrumbControlTemplate,
@@ -17,7 +17,7 @@ export const breadcrumbStyles = createThemePart({
       }
       ${c('separator')} {
         color: ${v('color.surface.600')};
-        ngn-icon {
+        jig-icon {
           margin-left: 0.5rem;
           font-size: ${v('font.size.xs')};
         }

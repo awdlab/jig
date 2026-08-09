@@ -6,7 +6,7 @@ scope at a time, as controls appear on the page.
 
 A theme is assembled from three kinds of part:
 
-- **Control templates** (`@ngneers/controls-themes/templates/*`) — the style-free
+- **Control templates** (`@awdlab/jig-themes/templates/*`) — the style-free
   _contract_. Each declares a control's `scope` (e.g. `'switch'`) and its named class
   slots (`root`, `track`, `thumb`, …). Controls and themes both import the template, so
   their class names always line up.
@@ -16,7 +16,7 @@ A theme is assembled from three kinds of part:
   - **nova / shade / material** — the full visual layer: colors, radii, shadows,
     transitions, built on design tokens.
 - **Token parts** — design tokens (colors, sizes, shadows, fonts, motion) emitted as
-  `--ngn-*` CSS custom properties.
+  `--jig-*` CSS custom properties.
 
 A complete theme is just `createTheme(name, parts, meta)`. The library ships three ready
 presets: **nova** (`nova`), **shade**, and **material** (`material`, a Material
@@ -28,10 +28,10 @@ You select a theme by passing it as `theme.preset` to the provider. The preset i
 `Theme` **object**, not a name:
 
 ```ts
-import { provideNgnControls } from '@ngneers/controls/api/ng';
-import { nova } from '@ngneers/controls-themes/nova';
+import { provideJigControls } from '@awdlab/jig/api/ng';
+import { nova } from '@awdlab/jig-themes/nova';
 
-provideNgnControls({ theme: { preset: nova } });
+provideJigControls({ theme: { preset: nova } });
 ```
 
 Without a preset (and with `lazyLoaded: false`), the theme service logs a warning and

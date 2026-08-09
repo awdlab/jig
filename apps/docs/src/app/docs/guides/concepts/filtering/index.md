@@ -5,7 +5,7 @@ Two different things are called filtering, and they do not overlap.
 | **Text search**        | "which items match what I typed?"               | select, list box, tree, command palette |
 | **Structured filters** | "which rows satisfy these operator conditions?" | the filter control, table columns       |
 
-Both live in `@ngneers/controls/api`, and both are exported so you can run them
+Both live in `@awdlab/jig/api`, and both are exported so you can run them
 over your own data.
 
 ## Text search
@@ -22,7 +22,7 @@ type FilterConfig<T> = {
 ```
 
 ```html
-<ngn-select [items]="items" [filter]="{ filterFn: 'fuzzy', splitWords: true }" />
+<jig-select [items]="items" [filter]="{ filterFn: 'fuzzy', splitWords: true }" />
 ```
 
 `filterFn` is either the name of a built-in matcher or your own predicate:
@@ -53,7 +53,7 @@ fields.
 Run it yourself with `filterOptions`:
 
 ```ts
-import { filterOptions } from '@ngneers/controls/api';
+import { filterOptions } from '@awdlab/jig/api';
 
 const visible = await filterOptions(items, query, {
   filterFieldsCallback: item => [item.label, item.data.city],
@@ -69,15 +69,15 @@ array.
 ## Structured filters
 
 The [Filter](/components/filter) control and each filterable table column
-produce an `NgnFilterConfig` — a **serializable** description of the conditions,
+produce a `jigFilterConfig` — a **serializable** description of the conditions,
 with no data in it. That is deliberate: the same object can be evaluated
 locally or sent to a server.
 
 ```ts
-type NgnFilterConfig = {
+type JigFilterConfig = {
   dataType: 'string' | 'number' | 'date' | 'dateTime' | 'boolean' | 'custom' | 'list';
   matchMode: 'all' | 'any';
-  conditions: readonly { operator: NgnFilterOperatorId; rawValue: string | null }[];
+  conditions: readonly { operator: JigFilterOperatorId; rawValue: string | null }[];
 };
 ```
 
@@ -100,7 +100,7 @@ turns it into a typed value.
 ### Evaluating locally
 
 ```ts
-import { executeFilter, executeMultiFilter } from '@ngneers/controls/api';
+import { executeFilter, executeMultiFilter } from '@awdlab/jig/api';
 
 // one filter over one field — the selector picks the value to test
 const rows = executeFilter(allRows, config, row => row.city);

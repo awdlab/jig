@@ -18,17 +18,17 @@ import {
   autoPositionElement,
   type AutoPositioningHandle,
   domEventHandler,
-  NGN_CONFIG,
+  JIG_CONFIG,
   type PositioningSizeConstraints,
   roundByDpr,
   splitPlacement,
   type TooltipOptions,
-} from '@ngneers/controls/api/ng';
-import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
-import { NgnDefer } from '@ngneers/controls/defer';
-import { getTimeSpanMilliseconds, notNullish, type TimeSpan } from '@ngneers/controls/utils';
-import { computedWithPrevious, generateElementId } from '@ngneers/controls/utils-ng';
-import { tooltipControlTemplate } from '@ngneers/controls-themes/templates/tooltip';
+} from '@awdlab/jig/api/ng';
+import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
+import { JigDefer } from '@awdlab/jig/defer';
+import { getTimeSpanMilliseconds, notNullish, type TimeSpan } from '@awdlab/jig/utils';
+import { computedWithPrevious, generateElementId } from '@awdlab/jig/utils-ng';
+import { tooltipControlTemplate } from '@awdlab/jig-themes/templates/tooltip';
 
 import {
   relativeAnchorElementPosition,
@@ -41,130 +41,130 @@ import type { Placement } from '@floating-ui/dom';
  * @category control
  */
 @Directive({
-  selector: '[ngnTooltip]',
-  exportAs: 'ngnTooltip',
-  providers: [provideSelf(NgnTooltip)],
+  selector: '[jigTooltip]',
+  exportAs: 'jigTooltip',
+  providers: [provideSelf(JigTooltip)],
 })
-export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
+export class JigTooltip extends JigBase<'tooltip'> implements OnDestroy {
   protected readonly theme = null;
   private readonly _viewContainerRef = inject(ViewContainerRef);
-  private readonly _config = inject(NGN_CONFIG);
+  private readonly _config = inject(JIG_CONFIG);
   private readonly _tooltip = signal<ComponentRef<TooltipComponent> | null>(null);
 
   /**
    * The content of the tooltip, can be a string or a TemplateRef.
    * If the value is falsy, the tooltip will not be shown.
-   * @alias ngnTooltip
+   * @alias jigTooltip
    */
   public readonly content = input<TemplateRef<unknown> | string | null | undefined>(null, {
-    alias: 'ngnTooltip',
+    alias: 'jigTooltip',
   });
   /**
    * If set to `true`, the tooltip will only be shown if the anchor element is truncated. `""` is equivalent to `true`.
-   * @alias ngnTooltipShowOnlyIfTruncated
+   * @alias jigTooltipShowOnlyIfTruncated
    * @default false
    */
   public readonly showOnlyIfTruncated = input<boolean | ''>(false, {
-    alias: 'ngnTooltipShowOnlyIfTruncated',
+    alias: 'jigTooltipShowOnlyIfTruncated',
   });
   /**
    * The size constraints for the tooltip.
    * This can be used to limit the width and height of the tooltip.
    * If not provided, the tooltip is only constrained by the size of the screen.
-   * @alias ngnTooltipSize
+   * @alias jigTooltipSize
    */
   public readonly size = input<PositioningSizeConstraints | null | undefined>(null, {
-    alias: 'ngnTooltipSize',
+    alias: 'jigTooltipSize',
   });
 
   /**
    * The options for the tooltip.
    * This is a shorthand for setting multiple options at once.
    * The individual options take precedence over the options set here.
-   * @alias ngnTooltipOptions
+   * @alias jigTooltipOptions
    */
   public readonly options = input<Partial<TooltipOptions> | null | undefined>(null, {
-    alias: 'ngnTooltipOptions',
+    alias: 'jigTooltipOptions',
   });
   /**
    * The placement of the tooltip relative to the anchor element.
-   * @alias ngnTooltipPlacement
+   * @alias jigTooltipPlacement
    * @default 'bottom'
    */
   public readonly placement = input<Placement | null | undefined>(null, {
-    alias: 'ngnTooltipPlacement',
+    alias: 'jigTooltipPlacement',
   });
   /**
    * The offset in Pixels of the tooltip from the anchor element.
-   * @alias ngnTooltipOffset
+   * @alias jigTooltipOffset
    * @default 4
    */
   public readonly offset = input<number | null | undefined>(null, {
-    alias: 'ngnTooltipOffset',
+    alias: 'jigTooltipOffset',
   });
   /**
    * The delay before the tooltip is shown. If a number is provided, it is interpreted as milliseconds.
-   * @alias ngnTooltipShowDelay
+   * @alias jigTooltipShowDelay
    * @default '0.5s'
    */
   public readonly showDelay = input<TimeSpan | null | undefined>(null, {
-    alias: 'ngnTooltipShowDelay',
+    alias: 'jigTooltipShowDelay',
   });
   /**
    * The delay before the tooltip is hidden. If a number is provided, it is interpreted as milliseconds.
-   * @alias ngnTooltipHideDelay
+   * @alias jigTooltipHideDelay
    * @default '0.1s'
    */
   public readonly hideDelay = input<TimeSpan | null | undefined>(null, {
-    alias: 'ngnTooltipHideDelay',
+    alias: 'jigTooltipHideDelay',
   });
   /**
    * Whether to show an arrow pointing to the anchor element. `""` is equivalent to `true`.
-   * @alias ngnTooltipShowArrow
+   * @alias jigTooltipShowArrow
    * @default true
    */
   public readonly showArrow = input<boolean | '' | null | undefined>(null, {
-    alias: 'ngnTooltipShowArrow',
+    alias: 'jigTooltipShowArrow',
   });
   /**
    * Shows the tooltip on hover.
-   * @alias ngnTooltipShowOnHover
+   * @alias jigTooltipShowOnHover
    * @default true
    */
   public readonly showOnHover = input<boolean | '' | null | undefined>(null, {
-    alias: 'ngnTooltipShowOnHover',
+    alias: 'jigTooltipShowOnHover',
   });
   /**
    * Shows the tooltip on focus.
-   * @alias ngnTooltipShowOnFocus
+   * @alias jigTooltipShowOnFocus
    * @default true
    */
   public readonly showOnFocus = input<boolean | '' | null | undefined>(null, {
-    alias: 'ngnTooltipShowOnFocus',
+    alias: 'jigTooltipShowOnFocus',
   });
   /**
    * Hides the tooltip (without delay) when the mouse hovers over the tooltip.
-   * @alias ngnTooltipHideOnTooltipHover
+   * @alias jigTooltipHideOnTooltipHover
    * @default false
    */
   public readonly hideOnTooltipHover = input<boolean | '' | null | undefined>(null, {
-    alias: 'ngnTooltipHideOnTooltipHover',
+    alias: 'jigTooltipHideOnTooltipHover',
   });
   /**
    * Hides the tooltip (without delay) when the user clicks on the tooltip.
-   * @alias ngnTooltipHideOnClick
+   * @alias jigTooltipHideOnClick
    * @default true
    */
   public readonly hideOnClick = input<boolean | '' | null | undefined>(null, {
-    alias: 'ngnTooltipHideOnClick',
+    alias: 'jigTooltipHideOnClick',
   });
   /**
    * Whether to automatically manage ARIA attributes for the tooltip.
-   * @alias ngnTooltipAutoAriaMode
+   * @alias jigTooltipAutoAriaMode
    * @default 'description'
    */
   public readonly autoAriaMode = input<'label' | 'description' | 'none' | null | undefined>(null, {
-    alias: 'ngnTooltipAutoAriaMode',
+    alias: 'jigTooltipAutoAriaMode',
   });
 
   public readonly effectiveOptions = computed<TooltipOptions>(() => {
@@ -312,9 +312,9 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
 }
 
 @Component({
-  selector: 'ngn-tooltip',
+  selector: 'jig-tooltip',
   templateUrl: './tooltip.html',
-  imports: [NgnPt, NgnDefer],
+  imports: [JigPt, JigDefer],
   providers: [provideSelf(TooltipComponent)],
   host: {
     '[class]': `positionClass()`,
@@ -333,14 +333,14 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
     '[attr.aria-hidden]': `isShown() ? null : true`,
   },
 })
-export class TooltipComponent extends NgnBase<'tooltip'> {
+export class TooltipComponent extends JigBase<'tooltip'> {
   private _showHideTimeout?: ReturnType<typeof setTimeout>;
   protected readonly theme = this.injectThemeTemplate(tooltipControlTemplate, {
     root: true,
     closing: () => this.isClosing(),
     'with-arrow': () => this.options().showArrow !== false,
   });
-  private readonly _config = inject(NGN_CONFIG);
+  private readonly _config = inject(JIG_CONFIG);
 
   /**
    * The anchor element to which the tooltip is attached.

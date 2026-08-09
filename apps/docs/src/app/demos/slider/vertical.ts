@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { NgnSlider } from '@ngneers/controls/slider';
+import { JigSlider } from '@awdlab/jig/slider';
 
 @Component({
-  selector: 'ngn-demo-slider-vertical',
-  imports: [NgnSlider],
+  selector: 'jig-demo-slider-vertical',
+  imports: [JigSlider],
   template: `
-    <ngn-slider
+    <jig-slider
       class="h-34"
       [vertical]="true"
       [value]="value()"

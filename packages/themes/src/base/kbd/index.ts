@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { kbdControlTemplate } from '@ngneers/controls-themes/templates/kbd';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { kbdControlTemplate } from '@awdlab/jig-themes/templates/kbd';
 
 export const kbdStyles = createThemePart({
   controlTemplate: kbdControlTemplate,

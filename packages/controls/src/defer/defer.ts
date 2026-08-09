@@ -1,15 +1,15 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { booleanAttribute, Component, effect, input, signal, TemplateRef } from '@angular/core';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { JigBase, provideSelf } from '@awdlab/jig/base';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'ngn-defer',
+  selector: 'jig-defer',
   templateUrl: './defer.html',
   imports: [NgTemplateOutlet],
-  providers: [provideSelf(NgnDefer)],
+  providers: [provideSelf(JigDefer)],
   host: {
     '[class.open]': 'open()',
     '[class.hidden]': '!open() && hiddenOnClosed()',
@@ -26,7 +26,7 @@ import { NgnBase, provideSelf } from '@ngneers/controls/base';
     `,
   ],
 })
-export class NgnDefer<T> extends NgnBase<null> {
+export class JigDefer<T> extends JigBase<null> {
   protected readonly theme = null;
   /**
    * Template to render lazily. When omitted, the projected content

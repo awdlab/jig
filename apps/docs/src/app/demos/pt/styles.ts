@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { NgnCalendar } from '@ngneers/controls/calendar';
+import { JigCalendar } from '@awdlab/jig/calendar';
 
-import type { NgnPassthrough } from '@ngneers/controls/base';
+import type { JigPassthrough } from '@awdlab/jig/base';
 
 @Component({
-  selector: 'ngn-demo-pt-styles',
-  imports: [NgnCalendar],
-  template: `<ngn-calendar [inputId]="'pt-styles'" [inline]="true" [pt]="pt" />`,
+  selector: 'jig-demo-pt-styles',
+  imports: [JigCalendar],
+  template: `<jig-calendar [inputId]="'pt-styles'" [inline]="true" [pt]="pt" />`,
 })
 export class Demo_Pt_Styles {
-  protected readonly pt: NgnPassthrough<'calendar'> = {
+  protected readonly pt: JigPassthrough<'calendar'> = {
     day: {
       $styles: {
         width: '2.75rem',
@@ -18,15 +18,15 @@ export class Demo_Pt_Styles {
     },
     'day-selected': {
       $styles: {
-        background: 'var(--ngn-color-primary-600)',
-        color: 'var(--ngn-color-primary-50)',
+        background: 'var(--jig-color-primary-600)',
+        color: 'var(--jig-color-primary-50)',
         borderRadius: '999px',
-        fontWeight: 'var(--ngn-font-weight-bold)',
+        fontWeight: 'var(--jig-font-weight-bold)',
       },
     },
     'day-today': {
       $styles: {
-        outline: '2px solid var(--ngn-color-primary-300)',
+        outline: '2px solid var(--jig-color-primary-300)',
         outlineOffset: '-2px',
         borderRadius: '999px',
       },

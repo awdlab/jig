@@ -1,14 +1,14 @@
-import { autoContrast, createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
-import { badgeControlTemplate } from '@ngneers/controls-themes/templates/badge';
+import { autoContrast, createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/nova/base';
+import { badgeControlTemplate } from '@awdlab/jig-themes/templates/badge';
 
 export const badgeStyles = createThemePart({
   controlTemplate: badgeControlTemplate,
   base: baseStyles.badge,
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
-    // --ngn-badge-color is set by the directive; falls back to the primary color.
+    // --jig-badge-color is set by the directive; falls back to the primary color.
     css: ({ v, c }) => css`
       ${c('root')} {
         min-width: 1.0625rem;
@@ -17,9 +17,9 @@ export const badgeStyles = createThemePart({
         border-radius: ${v('size.rounded.full')};
         /* Background-colored ring so the badge reads on any anchor (icon, button, avatar). */
         box-shadow: 0 0 0 2px ${v('color.background')};
-        background: var(--ngn-badge-color, ${v('color.primary.500')});
-        /* Adapts to a caller-supplied --ngn-badge-color, which can be light. */
-        color: ${autoContrast(`var(--ngn-badge-color, ${v('color.primary.500')})`)};
+        background: var(--jig-badge-color, ${v('color.primary.500')});
+        /* Adapts to a caller-supplied --jig-badge-color, which can be light. */
+        color: ${autoContrast(`var(--jig-badge-color, ${v('color.primary.500')})`)};
         font-size: ${v('font.size.xs')};
         font-weight: ${v('font.weight.bold')};
         line-height: 1;

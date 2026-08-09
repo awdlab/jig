@@ -1,11 +1,11 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
-import { templateTypesFn } from '@ngneers/controls/api/ng';
-import { NgnBase } from '@ngneers/controls/base';
+import { templateTypesFn } from '@awdlab/jig/api/ng';
+import { JigBase } from '@awdlab/jig/base';
 
 import type { MenuItemDefault } from './types';
 
 @Directive()
-export abstract class MenuTemplates extends NgnBase<'menu'> {
+export abstract class MenuTemplates extends JigBase<'menu'> {
   // Item template
   private readonly _defaultItemTemplate =
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');

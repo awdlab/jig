@@ -10,9 +10,9 @@
     // Resolve workspace peers to their built declarations (not source) so tsc treats
     // them as external and emits only this package. Requires themes + controls built first.
     "paths": {
-      "@ngneers/controls-themes": ["../themes/dist/index.d.ts"],
-      "@ngneers/controls-themes/*": ["../themes/dist/*"],
-      "@ngneers/controls/*": ["../controls/dist/*"]
+      "@awdlab/jig-themes": ["../themes/dist/index.d.ts"],
+      "@awdlab/jig-themes/*": ["../themes/dist/*"],
+      "@awdlab/jig/*": ["../controls/dist/*"]
     }
   },
   "include": ["./src/**/*.ts"],

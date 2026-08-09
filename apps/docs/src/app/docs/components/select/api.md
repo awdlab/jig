@@ -1,1 +1,1 @@
-{{ api: select/select NgnSelect }}
+{{ api: select/select JigSelect }}

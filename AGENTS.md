@@ -1,4 +1,4 @@
-# AGENTS.md — Behavioral Guidelines for @ngneers/controls
+# AGENTS.md — Behavioral Guidelines for @awdlab/jig
 
 > **Self-updating instruction:** When the user provides general advice, workflow preferences, or coding guidelines during conversation, add them to the **User Preferences** section below. Keep entries concise (one bullet per concept). Do not ask for confirmation — just update the file.
 
@@ -8,13 +8,13 @@
 - pnpm monorepo — always use `pnpm` (never npm/yarn)
 - Zoneless change detection (Angular 22 default) — `ChangeDetectionStrategy.OnPush` no longer lint-enforced
 - Modern Angular signals API: `input()`, `model()`, `computed()`, `signal()` — never legacy `@Input()` / `@Output()` decorators
-- Selector prefix: `ngn` (kebab-case for elements, camelCase for attributes)
-- All controls extend `NgnBase<T>` with `provideSelf(ClassName)` in providers
+- Selector prefix: `jig` (kebab-case for elements, camelCase for attributes)
+- All controls extend `JigBase<T>` with `provideSelf(ClassName)` in providers
 - Theme injection via `this.injectThemeTemplate(controlTemplate, classMapping)`
 - No component-level CSS/SCSS — all styling flows through the theme system
 - Tailwind CSS for utility classes in templates
 - Barrel exports via `index.ts` in every feature folder
-- Use `@ngneers/*` path aliases for imports, never relative cross-package imports
+- Use `@awdlab/*` path aliases for imports, never relative cross-package imports
 - 2-space indentation, single quotes (oxfmt formats `.ts`/`.json`/`.md`; Prettier + `@ngneers/prettier-config` formats `.html`)
 - Linting via oxlint with type-aware rules (tsgolint, `--type-aware`); config in root `.oxlintrc.json`. No ESLint.
 
@@ -24,21 +24,21 @@ _Decided 2026-07-08 (repo-wide audit). Apply to all new/edited controls; migrate
 
 ### Component / template structure
 
-- Extract a `{Name}Templates` base class (extending `NgnBase` / `ValueControlBase`) **only for controls that expose template or `contentChild` projection inputs**. The component then `extends {Name}Templates` so template wiring stays out of the component class. Reference: `dialog` → `DialogTemplates`.
+- Extract a `{Name}Templates` base class (extending `JigBase` / `ValueControlBase`) **only for controls that expose template or `contentChild` projection inputs**. The component then `extends {Name}Templates` so template wiring stays out of the component class. Reference: `dialog` → `DialogTemplates`.
 - Controls with **no** template inputs stay flat: component extends the base directly and calls `injectThemeTemplate` inline. Do **not** create empty template base classes.
 
 ### Naming
 
-- Control folder name and `ngn-` element selector are kebab-case and identical: folder `x-y` ⇒ selector `ngn-x-y`.
-- The "input" family is **modifier-first**: `number-input`, `mask-input` (rename `input-mask` → `mask-input`). The bare `input` directive keeps its name. **Exception:** `input-field` stays input-first (`NgnInputField`, `ngn-input-field`) — it composes/projects other controls rather than being a variant of `input`, so the family rule does not apply to it.
-- Attribute directives applied to native elements (`ngnButton`, `ngnInput`) intentionally keep camelCase attribute selectors — this is **not** a violation.
+- Control folder name and `jig-` element selector are kebab-case and identical: folder `x-y` ⇒ selector `jig-x-y`.
+- The "input" family is **modifier-first**: `number-input`, `mask-input` (rename `input-mask` → `mask-input`). The bare `input` directive keeps its name. **Exception:** `input-field` stays input-first (`JigInputField`, `jig-input-field`) — it composes/projects other controls rather than being a variant of `input`, so the family rule does not apply to it.
+- Attribute directives applied to native elements (`jigButton`, `jigInput`) intentionally keep camelCase attribute selectors — this is **not** a violation.
 - Every control ships all 7 anatomy parts (see below), including a theme template, docs page, and demos.
 
 ### Input / output properties
 
 - **Icon** inputs use an `icon` **prefix**: `iconClose`, `iconFilter`, `iconDropdown` — never `closeIcon` / `filterIcon`.
 - **Boolean** inputs always use the transform: `input(false, { transform: booleanAttribute })`.
-- **Directive** inputs expose a public alias `ngn{Directive}{Prop}`. `@angular-eslint/no-input-rename` only permits an alias that is **exactly** the selector, or the selector + `PascalCase(propertyName)` — so the alias suffix must equal the property name. Pick the property name so the alias reads well (e.g. property `container` → alias `ngnScrollAmountContainer`, not property `scrollContainer` which would force `ngnScrollAmountScrollContainer`). Reference: `tooltip` — property `size` aliased to `ngnTooltipSize`.
+- **Directive** inputs expose a public alias `jig{Directive}{Prop}`. `@angular-eslint/no-input-rename` only permits an alias that is **exactly** the selector, or the selector + `PascalCase(propertyName)` — so the alias suffix must equal the property name. Pick the property name so the alias reads well (e.g. property `container` → alias `jigScrollAmountContainer`, not property `scrollContainer` which would force `jigScrollAmountScrollContainer`). Reference: `tooltip` — property `size` aliased to `jigTooltipSize`.
 
 ### TSDoc (reference: `select`)
 

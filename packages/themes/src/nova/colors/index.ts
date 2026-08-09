@@ -1,4 +1,4 @@
-import { type RGB, shadeRgb } from '@ngneers/controls-themes/api';
+import { type RGB, shadeRgb } from '@awdlab/jig-themes/api';
 
 type ColorShades = {
   '25': string;

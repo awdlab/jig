@@ -35,25 +35,25 @@
   font-family: 'Consolas', 'Menlo', 'Monaco', monospace;
   font-size: 0.9375rem;
   line-height: 1.6;
-  color: var(--ngn-color-surface-500);
+  color: var(--jig-color-surface-500);
   overflow-wrap: anywhere;
 }
 
 .nf-path-host {
-  color: var(--ngn-color-surface-400);
+  color: var(--jig-color-surface-400);
 }
 
 .nf-path-sep {
   padding: 0 0.15em;
-  color: var(--ngn-color-surface-400);
+  color: var(--jig-color-surface-400);
 }
 
 /* The segment that failed to resolve. The accent lives in the underline rather
    than the text, so the word keeps full body contrast in both schemes and the
    distinction never rests on color alone. */
 .nf-path-miss {
-  color: var(--ngn-color-text);
-  text-decoration: underline wavy var(--ngn-color-error-500);
+  color: var(--jig-color-text);
+  text-decoration: underline wavy var(--jig-color-error-500);
   text-underline-offset: 0.28em;
   text-decoration-thickness: 1px;
 }
@@ -63,7 +63,7 @@
   font-size: clamp(2.25rem, 6vw, 4rem);
   line-height: 0.98;
   letter-spacing: -0.03em;
-  font-weight: var(--ngn-font-weight-bold);
+  font-weight: var(--jig-font-weight-bold);
   text-wrap: balance;
 }
 
@@ -72,7 +72,7 @@
   max-width: 42ch;
   font-size: 1.0625rem;
   line-height: 1.6;
-  color: var(--ngn-color-surface-500);
+  color: var(--jig-color-surface-500);
   text-wrap: pretty;
 }
 
@@ -90,16 +90,16 @@
   gap: 0.4rem;
   margin: 2.5rem 0 0;
   padding-top: 1.5rem;
-  border-top: 1px solid var(--ngn-color-border);
+  border-top: 1px solid var(--jig-color-border);
   font-size: 0.9375rem;
-  color: var(--ngn-color-surface-500);
+  color: var(--jig-color-surface-500);
 }
 
 .nf-link {
-  color: var(--ngn-color-text);
+  color: var(--jig-color-text);
   text-decoration: underline;
   text-underline-offset: 0.2em;
-  text-decoration-color: var(--ngn-color-surface-400);
+  text-decoration-color: var(--jig-color-surface-400);
   transition: text-decoration-color 160ms ease;
 }
 

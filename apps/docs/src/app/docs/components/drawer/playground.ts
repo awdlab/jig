@@ -1,16 +1,16 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnDrawer } from '@ngneers/controls/drawer';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDrawer } from '@awdlab/jig/drawer';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-drawer-playground',
-  imports: [NgnDrawer, NgnButton, NgnDocsPlayground],
+  selector: 'jig-docs-drawer-playground',
+  imports: [JigDrawer, JigButton, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnDrawer', component: component() }]">
-      <button ngnButton (click)="open.set(true)">Open Drawer</button>
-      <ngn-drawer
+    <jig-docs-playground [controls]="[{ componentName: 'JigDrawer', component: component() }]">
+      <button jigButton (click)="open.set(true)">Open Drawer</button>
+      <jig-drawer
         #ref
         [header]="'Drawer Header'"
         [modal]="true"
@@ -18,11 +18,11 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
         (openChange)="open.set($event)"
       >
         Drawer Content
-      </ngn-drawer>
-    </ngn-docs-playground>
+      </jig-drawer>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsDrawerPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnDrawer });
+export class JigDocsDrawerPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigDrawer });
   protected readonly open = signal(false);
 }

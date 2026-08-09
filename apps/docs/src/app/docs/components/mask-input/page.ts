@@ -1,13 +1,13 @@
-import { NgnDocsMaskInputPlayground } from './playground';
+import { JigDocsMaskInputPlayground } from './playground';
 import { Demo_MaskInput_Base } from '../../../demos/mask-input/base';
 import { Demo_MaskInput_Date } from '../../../demos/mask-input/date';
 import { Demo_MaskInput_Time12 } from '../../../demos/mask-input/time12';
 import { Demo_MaskInput_Validation } from '../../../demos/mask-input/validation';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const MaskInputPage: NgnDocsPage = {
+export const MaskInputPage: JigDocsPage = {
   title: `Mask Input`,
   kind: 'tabs',
   tabs: [
@@ -27,7 +27,7 @@ export const MaskInputPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsMaskInputPlayground,
+      component: JigDocsMaskInputPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/mask-input/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/mask-input/a11y.md' },

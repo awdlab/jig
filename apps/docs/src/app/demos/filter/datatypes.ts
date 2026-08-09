@@ -1,14 +1,14 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnFilter } from '@ngneers/controls/filter';
+import { JigFilter } from '@awdlab/jig/filter';
 
 @Component({
-  selector: 'ngn-demo-filter-datatypes',
-  imports: [NgnFilter],
+  selector: 'jig-demo-filter-datatypes',
+  imports: [JigFilter],
   template: `
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-2">
         <div class="text-sm font-medium">List</div>
-        <ngn-filter
+        <jig-filter
           mode="inline"
           dataType="list"
           [data]="listData"
@@ -21,7 +21,7 @@ import { NgnFilter } from '@ngneers/controls/filter';
 
       <div class="flex flex-col gap-2">
         <div class="text-sm font-medium">String</div>
-        <ngn-filter
+        <jig-filter
           mode="inline"
           [dataType]="'string'"
           [data]="stringData"
@@ -34,7 +34,7 @@ import { NgnFilter } from '@ngneers/controls/filter';
 
       <div class="flex flex-col gap-2">
         <div class="text-sm font-medium">Number</div>
-        <ngn-filter
+        <jig-filter
           mode="inline"
           [dataType]="'number'"
           [data]="numberData"
@@ -47,7 +47,7 @@ import { NgnFilter } from '@ngneers/controls/filter';
 
       <div class="flex flex-col gap-2">
         <div class="text-sm font-medium">Date</div>
-        <ngn-filter
+        <jig-filter
           mode="inline"
           [dataType]="'date'"
           [data]="dateData"
@@ -60,7 +60,7 @@ import { NgnFilter } from '@ngneers/controls/filter';
 
       <div class="flex flex-col gap-2">
         <div class="text-sm font-medium">DateTime</div>
-        <ngn-filter
+        <jig-filter
           mode="inline"
           [dataType]="'dateTime'"
           [data]="dateTimeData"
@@ -73,7 +73,7 @@ import { NgnFilter } from '@ngneers/controls/filter';
 
       <div class="flex flex-col gap-2">
         <div class="text-sm font-medium">Boolean</div>
-        <ngn-filter
+        <jig-filter
           mode="inline"
           [dataType]="'boolean'"
           [data]="booleanData"

@@ -1,6 +1,6 @@
 <div class="flex flex-col gap-4 p-4">
   <div class="flex items-center gap-2 pb-2 font-semibold">
-    <ngn-icon style="color: var(--ngn-color-primary-500)" [icon]="iconSliders" />
+    <jig-icon style="color: var(--jig-color-primary-500)" [icon]="iconSliders" />
     INPUTS
   </div>
   @for (control of controls(); track $index) {
@@ -8,14 +8,14 @@
       <h4 class="flex items-center gap-2 text-base font-semibold">
         {{ control.componentName }}
         @if (isArray(control.component)) {
-          <ngn-icon
-            style="color: var(--ngn-color-info-500)"
+          <jig-icon
+            style="color: var(--jig-color-info-500)"
             [icon]="iconInfo"
-            [ngnTooltip]="'The playground contains multiple instances of this component.\nOnly the first is affected by the changes you make here!'"
+            [jigTooltip]="'The playground contains multiple instances of this component.\nOnly the first is affected by the changes you make here!'"
           />
         }
       </h4>
-      <ngn-docs-playground-component-inputs
+      <jig-docs-playground-component-inputs
         [component]="control.component"
         [componentName]="control.componentName"
       />

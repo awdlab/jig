@@ -1,4 +1,4 @@
-import { autoContrast } from '@ngneers/controls-themes/api';
+import { autoContrast } from '@awdlab/jig-themes/api';
 
 export type ShadeSchemeColors = {
   background: string;

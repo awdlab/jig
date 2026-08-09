@@ -1,9 +1,9 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/nova/base';
 import {
   avatarControlTemplate,
   avatarGroupControlTemplate,
-} from '@ngneers/controls-themes/templates/avatar';
+} from '@awdlab/jig-themes/templates/avatar';
 
 export const avatarStyles = createThemePart({
   controlTemplate: avatarControlTemplate,

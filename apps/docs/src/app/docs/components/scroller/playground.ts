@@ -1,24 +1,24 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnScroller, NgnScrollerItem } from '@ngneers/controls/scroller';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigScroller, JigScrollerItem } from '@awdlab/jig/scroller';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-scroller-playground',
-  imports: [NgnScroller, NgnTemplate, NgnScrollerItem, NgnDocsPlayground],
+  selector: 'jig-docs-scroller-playground',
+  imports: [JigScroller, JigTemplate, JigScrollerItem, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnScroller', component: component() }]">
-      <ngn-scroller class="flex-1" #ref style="height: 200px" [items]="items">
-        <ng-template #item [ngnTemplate]="component().templateTypes.item" let-item>
-          <span [ngnScrollerItem]="item">{{ item.label }}</span>
+    <jig-docs-playground [controls]="[{ componentName: 'JigScroller', component: component() }]">
+      <jig-scroller class="flex-1" #ref style="height: 200px" [items]="items">
+        <ng-template #item [jigTemplate]="component().templateTypes.item" let-item>
+          <span [jigScrollerItem]="item">{{ item.label }}</span>
         </ng-template>
-      </ngn-scroller>
-    </ngn-docs-playground>
+      </jig-scroller>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsScrollerPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnScroller });
+export class JigDocsScrollerPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigScroller });
   protected readonly items = [
     { id: '1', label: 'Item 1' },
     { id: '2', label: 'Item 2' },

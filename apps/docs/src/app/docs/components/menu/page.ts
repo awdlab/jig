@@ -1,4 +1,4 @@
-import { NgnDocsMenuPlayground } from './playground';
+import { JigDocsMenuPlayground } from './playground';
 import { Demo_Menu_Base } from '../../../demos/menu/base';
 import { Demo_Menu_ContextMenu } from '../../../demos/menu/context-menu';
 import { Demo_Menu_Popover } from '../../../demos/menu/popover';
@@ -6,9 +6,9 @@ import { Demo_Menu_Separator } from '../../../demos/menu/separator';
 import { Demo_Menu_Tiered } from '../../../demos/menu/tiered';
 import { i18nText } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const MenuPage: NgnDocsPage = {
+export const MenuPage: JigDocsPage = {
   title: `Menu`,
   kind: 'tabs',
   tabs: [
@@ -29,7 +29,7 @@ export const MenuPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsMenuPlayground,
+      component: JigDocsMenuPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/menu/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/menu/a11y.md' },

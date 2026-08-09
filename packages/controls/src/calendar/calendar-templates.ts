@@ -1,6 +1,6 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
-import { templateTypesFn } from '@ngneers/controls/api/ng';
-import { ValueControlBase } from '@ngneers/controls/base';
+import { templateTypesFn } from '@awdlab/jig/api/ng';
+import { ValueControlBase } from '@awdlab/jig/base';
 
 import type {
   DayTemplateType,

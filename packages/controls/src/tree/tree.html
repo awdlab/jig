@@ -1,4 +1,4 @@
-<ngn-scroller
+<jig-scroller
   [ptInt]="this"
   [ptDep]="'scroller'"
   [scrollContainer]="element.nativeElement"
@@ -18,7 +18,7 @@
   </div>
 }
 
-<ng-template #usedItemTemplate [ngnTemplate]="scroller.templateTypes.item" let-node>
+<ng-template #usedItemTemplate [jigTemplate]="scroller.templateTypes.item" let-node>
   @let item = node.item;
   @let disabled = node.parentDisabled || item.disabled;
   @let state = nodeState(item);
@@ -31,7 +31,7 @@
   -->
   <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
   <div
-    [ngnScrollerItem]="node"
+    [jigScrollerItem]="node"
     [id]="inputId() + '_node_' + item.value"
     role="treeitem"
     [attr.aria-level]="node.level + 1"
@@ -51,7 +51,7 @@
         : null
     "
     [attr.aria-disabled]="disabled ? 'true' : null"
-    [style.--ngn-tree-level]="node.level"
+    [style.--jig-tree-level]="node.level"
     [ptInt]="this"
     [ptClass]="{
       item: !item.items,
@@ -66,9 +66,9 @@
   >
     @if (node.hasChildren) {
       <button
-        ngnButton
+        jigButton
         kind="icon"
-        [ngnButtonInline]="true"
+        [jigButtonInline]="true"
         type="button"
         tabindex="-1"
         aria-hidden="true"
@@ -79,7 +79,7 @@
       >
         <span [ptInt]="this" [ptClass]="'toggle-icon'">
           @if (isLoading(item)) {
-            <ngn-spinner [size]="14" />
+            <jig-spinner [size]="14" />
           } @else {
             <span [ptInt]="this" [ptClass]="'toggle-arrow'"></span>
           }
@@ -89,7 +89,7 @@
       <span [ptInt]="this" [ptClass]="'toggle-placeholder'" aria-hidden="true"></span>
     }
     @if (showCheckboxes() && selectableNode) {
-      <ngn-checkbox
+      <jig-checkbox
         [ptInt]="this"
         [ptDep]="'item-checkbox'"
         [allowIndeterminate]="true"
@@ -99,7 +99,7 @@
       />
     } @else if (showCheckboxes() && selectable() && item.selectable !== false) {
       <!-- Disabled node: show the checkbox for consistency, but disabled. -->
-      <ngn-checkbox
+      <jig-checkbox
         [ptInt]="this"
         [ptDep]="'item-checkbox'"
         [allowIndeterminate]="true"
@@ -129,7 +129,7 @@
   </div>
 </ng-template>
 
-<ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
+<ng-template #defaultItemTemplate [jigTemplate]="templateTypes.item" let-item>
   <span [attr.data-testid]="item?.testId" [ptInt]="this" [ptClass]="'default-item'">
     @let label = item?.label;
     @if (label) {

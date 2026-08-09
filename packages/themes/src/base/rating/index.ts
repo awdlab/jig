@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { ratingControlTemplate } from '@ngneers/controls-themes/templates/rating';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { ratingControlTemplate } from '@awdlab/jig-themes/templates/rating';
 
 export const ratingStyles = createThemePart({
   controlTemplate: ratingControlTemplate,

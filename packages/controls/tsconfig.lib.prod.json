@@ -5,9 +5,9 @@
   "compilerOptions": {
     "declarationMap": false,
     "paths": {
-      "@ngneers/controls-custom-types": ["../custom-types/dist/index"],
-      "@ngneers/controls-themes": ["../themes/dist/index"],
-      "@ngneers/controls-themes/*": ["../themes/dist/*/index"]
+      "@awdlab/jig-custom-types": ["../custom-types/dist/index"],
+      "@awdlab/jig-themes": ["../themes/dist/index"],
+      "@awdlab/jig-themes/*": ["../themes/dist/*/index"]
     }
   },
   "angularCompilerOptions": {

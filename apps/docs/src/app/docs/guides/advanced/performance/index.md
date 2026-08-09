@@ -3,13 +3,13 @@ nothing else. Most of that is automatic; a few things are yours to get right.
 
 ### Import from subpaths
 
-The root `@ngneers/controls` entry point is intentionally empty. Every control
+The root `@awdlab/jig` entry point is intentionally empty. Every control
 has its own subpath, and the package is marked `sideEffects: false`, so a
 bundler drops everything you do not import:
 
 ```ts
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnSelect } from '@ngneers/controls/select';
+import { JigButton } from '@awdlab/jig/button';
+import { JigSelect } from '@awdlab/jig/select';
 ```
 
 There is no barrel to accidentally pull the whole library through — but do not
@@ -71,7 +71,7 @@ end to end. See [Accessibility](/guides/accessibility).
 - `fieldId` is used for row tracking, so give it a genuinely unique property —
   a duplicated id causes rows to be re-created rather than reused.
 - Body cells deliberately avoid the full control machinery, which is why
-  `ngnTableTd` is a thin directive. Keep cell templates cheap: a component per
+  `jigTableTd` is a thin directive. Keep cell templates cheap: a component per
   cell in a virtualized table is the usual cause of scroll jank.
 
 ### Passthrough objects

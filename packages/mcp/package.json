@@ -1,13 +1,13 @@
 {
-  "name": "@ngneers/controls-mcp",
-  "version": "0.0.2",
-  "description": "Model Context Protocol server exposing @ngneers/controls docs, API and concepts to AI coding agents.",
+  "name": "@awdlab/jig-mcp",
+  "version": "0.0.1-next.1",
+  "description": "Model Context Protocol server exposing @awdlab/jig docs, API and concepts to AI coding agents.",
   "type": "module",
   "license": "MIT",
-  "homepage": "https://ngneers.dev",
+  "homepage": "https://jig.awdlab.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NGneers/controls.git",
+    "url": "git+https://github.com/awdlab/jig.git",
     "directory": "packages/mcp"
   },
   "keywords": [
@@ -15,13 +15,14 @@
     "mcp",
     "model-context-protocol",
     "ai",
-    "ngneers-controls"
+    "awdlab",
+    "jig"
   ],
   "publishConfig": {
     "access": "public"
   },
   "bin": {
-    "ngneers-controls-mcp": "dist/index.js"
+    "jig-mcp": "dist/index.js"
   },
   "files": [
     "dist",
@@ -30,7 +31,7 @@
     "README.md"
   ],
   "scripts": {
-    "prebuild:pack": "pnpm --filter @ngneers/controls api-docs:generate",
+    "prebuild:pack": "pnpm --filter @awdlab/jig api-docs:generate",
     "build:pack": "tsx scripts/build-pack.ts",
     "build:server": "tsc -p tsconfig.json",
     "build": "pnpm build:pack && pnpm build:server",

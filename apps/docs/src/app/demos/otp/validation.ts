@@ -1,13 +1,13 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnOtp } from '@ngneers/controls/otp';
+import { JigOtp } from '@awdlab/jig/otp';
 
 const EXPECTED = '123456';
 
 @Component({
-  imports: [NgnOtp],
-  selector: 'ngn-demo-otp-validation',
+  imports: [JigOtp],
+  selector: 'jig-demo-otp-validation',
   template: `
-    <ngn-otp
+    <jig-otp
       [length]="6"
       integerOnly
       label="Verification code"

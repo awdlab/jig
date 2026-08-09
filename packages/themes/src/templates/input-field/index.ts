@@ -1,5 +1,5 @@
-import { createControlTemplate } from '@ngneers/controls-themes/api';
-import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
+import { createControlTemplate } from '@awdlab/jig-themes/api';
+import { inputControlTemplate } from '@awdlab/jig-themes/templates/input';
 
 export const inputFieldControlTemplate = createControlTemplate({
   scope: 'input-field',

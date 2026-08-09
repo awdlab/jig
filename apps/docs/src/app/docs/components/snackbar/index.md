@@ -1,7 +1,7 @@
 The Snackbar shows brief, transient notifications in a stack, keeping the user
 informed of the result of an action without interrupting their flow. It is the
 sibling of the toast — same idea, different placement and defaults. Snackbars are
-created imperatively, so you rarely place `<ngn-snackbar>` in a template
+created imperatively, so you rarely place `<jig-snackbar>` in a template
 yourself.
 
 ### Creating snackbars

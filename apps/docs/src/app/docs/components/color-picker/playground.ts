@@ -1,18 +1,18 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnColorPicker } from '@ngneers/controls/color-picker';
+import { JigColorPicker } from '@awdlab/jig/color-picker';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-color-picker-playground',
-  imports: [NgnColorPicker, NgnDocsPlayground],
+  selector: 'jig-docs-color-picker-playground',
+  imports: [JigColorPicker, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnColorPicker', component: component() }]">
-      <ngn-color-picker #ref [value]="value()" (valueChange)="value.set($event)" />
-    </ngn-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'JigColorPicker', component: component() }]">
+      <jig-color-picker #ref [value]="value()" (valueChange)="value.set($event)" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsColorPickerPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnColorPicker });
+export class JigDocsColorPickerPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigColorPicker });
   protected readonly value = signal('#3b82f6');
 }

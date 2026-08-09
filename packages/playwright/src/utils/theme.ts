@@ -1,14 +1,14 @@
-import type { ControlTemplate, ThemeClasses } from '@ngneers/controls-themes';
+import type { ControlTemplate, ThemeClasses } from '@awdlab/jig-themes';
 
 export function themeClasses<CT extends ControlTemplate>(template: CT): ThemeClasses<CT> {
   const result = {} as Record<string, unknown>;
   for (const className of template.classNames) {
-    result[className] = `.ngn-${template.scope}-${className}`;
+    result[className] = `.jig-${template.scope}-${className}`;
   }
   for (const dep of template.dependencies ?? []) {
     const childClasses = themeClasses(dep.template);
-    // Non-projected deps get a `[ptDep]` marker class (`.ngn-{scope}-{depClass}`) applied to
-    // the child's host element (see `NgnPt`/`apply-theme.ts`'s `d()`). Whether a given child
+    // Non-projected deps get a `[ptDep]` marker class (`.jig-{scope}-{depClass}`) applied to
+    // the child's host element (see `JigPt`/`apply-theme.ts`'s `d()`). Whether a given child
     // class then lives on that SAME host element or on an element nested inside the child's own
     // template depends on which classNames the child passes as `hostClass` to
     // `injectThemeTemplate` (e.g. list-box binds its own 'root' straight to its host, so marker
@@ -21,7 +21,7 @@ export function themeClasses<CT extends ControlTemplate>(template: CT): ThemeCla
     // scope.
     result[dep.class] = dep.projected
       ? childClasses
-      : scopeByMarker(childClasses, `.ngn-${template.scope}-${dep.class}`);
+      : scopeByMarker(childClasses, `.jig-${template.scope}-${dep.class}`);
   }
   return result as ThemeClasses<CT>;
 }

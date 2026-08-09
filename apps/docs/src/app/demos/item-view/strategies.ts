@@ -1,29 +1,29 @@
 import { Component } from '@angular/core';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnItemView } from '@ngneers/controls/item-view';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigItemView } from '@awdlab/jig/item-view';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnItemView, NgnTemplate],
-  selector: 'ngn-demo-item-view-strategies',
+  imports: [JigItemView, JigTemplate],
+  selector: 'jig-demo-item-view-strategies',
   template: `
     @for (strategy of strategies; track $index) {
       {{ strategy }}:
-      <ngn-item-view
+      <jig-item-view
         #itemView
         [items]="items"
         [idField]="'id'"
-        style="background: var(--ngn-color-surface-200);"
+        style="background: var(--jig-color-surface-200);"
         [overflowStrategy]="strategy"
         [overflowStrategyIndex]="2"
       >
-        <ng-template #item [ngnTemplate]="itemView.templateTypes.item" let-item>
-          <span style="padding: 4px; background: var(--ngn-color-surface-400);">
+        <ng-template #item [jigTemplate]="itemView.templateTypes.item" let-item>
+          <span style="padding: 4px; background: var(--jig-color-surface-400);">
             {{ item.label }}
           </span>
         </ng-template>
-      </ngn-item-view>
+      </jig-item-view>
     }
   `,
   host: { class: 'flex-1' },

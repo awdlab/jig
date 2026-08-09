@@ -1,19 +1,19 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { createConditionalSpinner, injectSpinnerCreator } from '@ngneers/controls/spinner';
+import { JigButton } from '@awdlab/jig/button';
+import { createConditionalSpinner, injectSpinnerCreator } from '@awdlab/jig/spinner';
 
 @Component({
-  selector: 'ngn-demo-spinner-creator',
-  imports: [NgnButton],
+  selector: 'jig-demo-spinner-creator',
+  imports: [JigButton],
   template: `
     <div
       id="some-area"
-      style="width: 450px; height: 200px; background: var(--ngn-color-surface-100); padding: 30px;"
+      style="width: 450px; height: 200px; background: var(--jig-color-surface-100); padding: 30px;"
     >
       Some content
     </div>
-    <button ngnButton kind="secondary" (click)="show()">Show Spinner</button>
-    <button ngnButton kind="secondary" (click)="toggleVisible()">Toggle Conditional Spinner</button>
+    <button jigButton kind="secondary" (click)="show()">Show Spinner</button>
+    <button jigButton kind="secondary" (click)="toggleVisible()">Toggle Conditional Spinner</button>
   `,
 })
 export class Demo_Spinner_Creator {

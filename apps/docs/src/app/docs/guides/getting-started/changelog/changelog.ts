@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { afterNextRender, Component, computed, inject, signal } from '@angular/core';
-import { NgnHint } from '@ngneers/controls/hint';
-import { NgnSpinner } from '@ngneers/controls/spinner';
-import { NgnTag } from '@ngneers/controls/tag';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigSpinner } from '@awdlab/jig/spinner';
+import { JigTag } from '@awdlab/jig/tag';
 
 import { getMarked } from '../../../../utils/md/marked';
 import { Seo } from '../../../../utils/seo';
@@ -22,15 +22,15 @@ type Release = {
 type RenderedRelease = Release & { html: string };
 
 @Component({
-  selector: 'ngn-docs-changelog',
+  selector: 'jig-docs-changelog',
   templateUrl: 'changelog.html',
   styleUrl: 'changelog.scss',
-  imports: [NgnHint, NgnSpinner, NgnTag],
+  imports: [JigHint, JigSpinner, JigTag],
   host: {
     class: 'min-w-0 w-full h-full flex flex-col pt-[5.5rem]',
   },
 })
-export class NgnDocsChangelog {
+export class JigDocsChangelog {
   private readonly _http = inject(HttpClient);
 
   protected readonly releases = signal<RenderedRelease[] | null>(null);
@@ -50,7 +50,7 @@ export class NgnDocsChangelog {
     inject(Seo).set({
       title: 'Changelog',
       description:
-        'Every released version of @ngneers/controls and its companion packages, with the ' +
+        'Every released version of @awdlab/jig and its companion packages, with the ' +
         'notes from each GitHub release.',
     });
 

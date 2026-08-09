@@ -1,41 +1,41 @@
 import { computed, Directive, effect, inject, input, type Signal } from '@angular/core';
 import type { ValidationErrors } from '@angular/forms';
-import { NgnHint } from '@ngneers/controls/hint';
-import { I18n } from '@ngneers/controls/i18n';
+import { JigHint } from '@awdlab/jig/hint';
+import { I18n } from '@awdlab/jig/i18n';
 
-import { injectNgnControlState } from './control-state';
+import { injectJigControlState } from './control-state';
 import {
   carriedMessage,
-  injectNgnErrorsMessages,
+  injectJigErrorsMessages,
   isRecord,
   paramsFromValue,
   resolveUserMessage,
 } from './messages';
 
 import type {
-  NgnError,
-  NgnErrorsCustom,
-  NgnErrorsCustomEntry,
-  NgnErrorsMessageContext,
-  NgnErrorsMessages,
-  NgnErrorsMode,
-  NgnErrorsShowOn,
-  NgnErrorsSource,
-  NgnErrorsState,
+  JigError,
+  JigErrorsCustom,
+  JigErrorsCustomEntry,
+  JigErrorsMessageContext,
+  JigErrorsMessages,
+  JigErrorsMode,
+  JigErrorsShowOn,
+  JigErrorsSource,
+  JigErrorsState,
 } from './types';
 
 /**
  * Resolves validation errors for the control it sits on and exposes them as
- * normalized, message-mapped signals — ready to bridge into an {@link NgnHint}
- * via {@link NgnErrors.ngnErrorsHint}.
+ * normalized, message-mapped signals — ready to bridge into a {@link JigHint}
+ * via {@link JigErrors.jigErrorsHint}.
  *
- * Which form paradigm is in play is abstracted away by {@link injectNgnControlState}:
+ * Which form paradigm is in play is abstracted away by {@link injectJigControlState}:
  * template-driven (`ngModel`), reactive (`formControl` / `formControlName`) and
  * signal forms (`[formField]`) all surface as one reactive state, including
  * relevant parent-group errors and a no-form `touched` fallback.
  *
- * `ngnErrorsCustom` layers on additional errors independently of any form, and
- * {@link NgnErrors.ngnErrorsShowOn} controls when messages surface (defaults to
+ * `jigErrorsCustom` layers on additional errors independently of any form, and
+ * {@link JigErrors.jigErrorsShowOn} controls when messages surface (defaults to
  * `touched`). Error keys map onto the shared message table; signal-forms
  * `minLength` / `maxLength` kinds have their own table entries alongside the
  * classic lowercase `minlength` / `maxlength`.
@@ -43,46 +43,46 @@ import type {
  * @category control
  */
 @Directive({
-  selector: '[ngnErrors]',
-  exportAs: 'ngnErrors',
+  selector: '[jigErrors]',
+  exportAs: 'jigErrors',
 })
-export class NgnErrors {
+export class JigErrors {
   /**
    * Hint instance that receives the resolved validation state.
    * @category inputs
    */
-  public readonly ngnErrorsHint = input<NgnHint | undefined>();
+  public readonly jigErrorsHint = input<JigHint | undefined>();
 
   /**
    * Interaction state that controls when errors become visible.
    * @category inputs
    */
-  public readonly ngnErrorsShowOn = input<NgnErrorsShowOn>('touched');
+  public readonly jigErrorsShowOn = input<JigErrorsShowOn>('touched');
 
   /**
    * Whether to show the first matching error or all messages.
    * @category inputs
    */
-  public readonly ngnErrorsMode = input<NgnErrorsMode>('first');
+  public readonly jigErrorsMode = input<JigErrorsMode>('first');
 
   /**
    * Per-instance messages that override globally provided defaults.
    * @category inputs
    */
-  public readonly ngnErrorsMessages = input<NgnErrorsMessages | null>(null);
+  public readonly jigErrorsMessages = input<JigErrorsMessages | null>(null);
 
   /**
    * Additional errors supplied independently of Angular form validation.
    * @category inputs
    */
-  public readonly ngnErrorsCustom = input<NgnErrorsCustom>(null);
+  public readonly jigErrorsCustom = input<JigErrorsCustom>(null);
 
-  /** Paradigm-agnostic view of the host control (see {@link injectNgnControlState}). */
-  private readonly _state = injectNgnControlState();
+  /** Paradigm-agnostic view of the host control (see {@link injectJigControlState}). */
+  private readonly _state = injectJigControlState();
   private readonly _i18n = inject(I18n).translations;
-  private readonly _globalMessages = injectNgnErrorsMessages();
+  private readonly _globalMessages = injectJigErrorsMessages();
 
-  public readonly errors: Signal<readonly NgnError[]> = computed(() => [
+  public readonly errors: Signal<readonly JigError[]> = computed(() => [
     ...this._normalizeErrors(this._state.errors(), 'control'),
     ...this._normalizeGroupErrors(),
     ...this._normalizeCustomErrors(),
@@ -121,7 +121,7 @@ export class NgnErrors {
       return false;
     }
 
-    switch (this.ngnErrorsShowOn()) {
+    switch (this.jigErrorsShowOn()) {
       case 'always':
         return true;
       case 'never':
@@ -146,14 +146,14 @@ export class NgnErrors {
     }
 
     const errors = this.errors();
-    if (this.ngnErrorsMode() === 'all') {
+    if (this.jigErrorsMode() === 'all') {
       return errors.map(error => error.message).join('\n') || null;
     }
 
     return errors[0]?.message ?? null;
   });
 
-  public readonly state: Signal<NgnErrorsState> = computed(() => ({
+  public readonly state: Signal<JigErrorsState> = computed(() => ({
     visible: this.visible(),
     pending: this.pending(),
     errors: this.errors(),
@@ -162,22 +162,22 @@ export class NgnErrors {
   }));
 
   constructor() {
-    // `ngnErrors` renders the error *message* only — it never touches invalid
+    // `jigErrors` renders the error *message* only — it never touches invalid
     // styling. The control owns its invalid border (via its own `invalidOn`
-    // trigger), and the input field mirrors its child. See {@link NgnErrors}.
+    // trigger), and the input field mirrors its child. See {@link JigErrors}.
     effect(() => {
-      this.ngnErrorsHint()?.setValidationState(this.state());
+      this.jigErrorsHint()?.setValidationState(this.state());
     });
   }
 
-  private _normalizeGroupErrors(): readonly NgnError[] {
+  private _normalizeGroupErrors(): readonly JigError[] {
     return this._normalizeErrors(this._state.parentErrors(), 'group').filter(error =>
       this._isGroupErrorRelevant(error.value)
     );
   }
 
-  private _normalizeCustomErrors(): readonly NgnError[] {
-    const errors = this.ngnErrorsCustom();
+  private _normalizeCustomErrors(): readonly JigError[] {
+    const errors = this.jigErrorsCustom();
     if (!errors) {
       return [];
     }
@@ -195,8 +195,8 @@ export class NgnErrors {
 
   private _normalizeErrors(
     errors: ValidationErrors | null | undefined,
-    source: NgnErrorsSource
-  ): readonly NgnError[] {
+    source: JigErrorsSource
+  ): readonly JigError[] {
     if (!errors) {
       return [];
     }
@@ -204,30 +204,30 @@ export class NgnErrors {
     return Object.entries(errors).map(([key, value]) => this._createError(key, value, source));
   }
 
-  private _createCustomEntryError(error: NgnErrorsCustomEntry): NgnError {
+  private _createCustomEntryError(error: JigErrorsCustomEntry): JigError {
     const value = error.value ?? true;
     const params = error.params ?? paramsFromValue(value);
-    const context: NgnErrorsMessageContext = { key: error.key, value, source: 'custom', params };
+    const context: JigErrorsMessageContext = { key: error.key, value, source: 'custom', params };
     const message = error.message ?? this._resolveMessage(context);
 
     return { key: error.key, value, source: 'custom', params, message };
   }
 
-  private _createError(key: string, value: unknown, source: NgnErrorsSource): NgnError {
+  private _createError(key: string, value: unknown, source: JigErrorsSource): JigError {
     const params = paramsFromValue(value);
-    const context: NgnErrorsMessageContext = { key, value, source, params };
+    const context: JigErrorsMessageContext = { key, value, source, params };
 
     return { key, value, source, params, message: this._resolveMessage(context) };
   }
 
   /**
    * Resolves a display message for an error, in priority order:
-   * per-instance {@link ngnErrorsMessages} → a message carried on the error
+   * per-instance {@link jigErrorsMessages} → a message carried on the error
    * itself → globally provided messages → the i18n `errors.*` default → the key.
    */
-  private _resolveMessage(context: NgnErrorsMessageContext): string {
+  private _resolveMessage(context: JigErrorsMessageContext): string {
     return (
-      resolveUserMessage(context, this.ngnErrorsMessages() ?? {}) ??
+      resolveUserMessage(context, this.jigErrorsMessages() ?? {}) ??
       carriedMessage(context.value) ??
       resolveUserMessage(context, this._globalMessages) ??
       this._translate(context.key, context.params) ??
@@ -241,15 +241,15 @@ export class NgnErrors {
    * Such errors are held from display until translations load (see
    * {@link _awaitingI18n}); all others show immediately.
    */
-  private _dependsOnI18n(error: NgnError): boolean {
-    const context: NgnErrorsMessageContext = {
+  private _dependsOnI18n(error: JigError): boolean {
+    const context: JigErrorsMessageContext = {
       key: error.key,
       value: error.value,
       source: error.source,
       params: error.params,
     };
     return (
-      resolveUserMessage(context, this.ngnErrorsMessages() ?? {}) === undefined &&
+      resolveUserMessage(context, this.jigErrorsMessages() ?? {}) === undefined &&
       carriedMessage(context.value) === undefined &&
       resolveUserMessage(context, this._globalMessages) === undefined
     );

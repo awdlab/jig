@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { splitterControlTemplate } from '@ngneers/controls-themes/templates/splitter';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { splitterControlTemplate } from '@awdlab/jig-themes/templates/splitter';
 
 export const splitterStyles = createThemePart({
   controlTemplate: splitterControlTemplate,

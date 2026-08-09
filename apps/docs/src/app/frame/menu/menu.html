@@ -1,6 +1,6 @@
 <div class="menu-wrapper flex">
   <div
-    class="hide-when-compact sticky top-[5.5rem] mt-[5.5rem] mb-4 ml-4 max-h-[calc(100dvh-6.5rem)] shrink-0 self-start overflow-x-hidden overflow-y-auto rounded-(--ngn-size-rounded-lg) bg-(--ngn-color-surface-50) shadow-(--ngn-shadow-md)"
+    class="hide-when-compact sticky top-[5.5rem] mt-[5.5rem] mb-4 ml-4 max-h-[calc(100dvh-6.5rem)] shrink-0 self-start overflow-x-hidden overflow-y-auto rounded-(--jig-size-rounded-lg) bg-(--jig-color-surface-50) shadow-(--jig-shadow-md)"
   >
     <ng-container *ngTemplateOutlet="menu" />
   </div>
@@ -8,19 +8,19 @@
   <router-outlet />
 </div>
 
-<ngn-drawer
+<jig-drawer
   class="hide-when-large"
   position="left"
   [open]="isOpen()"
   (openChange)="!$event && isOpen.set(false)"
 >
   <div class="flex h-full min-h-0 flex-col">
-    <ngn-docs-topbar-actions
-      class="flex shrink-0 border-b border-(--ngn-color-surface-200) px-4 py-3"
+    <jig-docs-topbar-actions
+      class="flex shrink-0 border-b border-(--jig-color-surface-200) px-4 py-3"
     />
     <ng-container *ngTemplateOutlet="menu" />
   </div>
-</ngn-drawer>
+</jig-drawer>
 
 <ng-template #menu>
   <div
@@ -29,7 +29,7 @@
     <!-- Deep passthrough fills the switcher to the sidebar width: `group` reaches
     the nested button-group container, `button` reaches each toggle-button's host
     and inline-grid inner button — see `switcherPt`. -->
-    <ngn-select-button
+    <jig-select-button
       class="m-4"
       orientation="vertical"
       [options]="tabOptions"
@@ -44,9 +44,9 @@
   </div>
 </ng-template>
 
-<ng-template #menuGroup [ngnTemplate]="templateTypes.group" let-group>
+<ng-template #menuGroup [jigTemplate]="templateTypes.group" let-group>
   <span
-    class="px-4 pt-4 pb-2 text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-bold) tracking-wide text-(--ngn-color-surface-500) uppercase"
+    class="px-4 pt-4 pb-2 text-(length:--jig-font-size-xs) font-(--jig-font-weight-bold) tracking-wide text-(--jig-color-surface-500) uppercase"
   >
     {{ group.title }}
   </span>

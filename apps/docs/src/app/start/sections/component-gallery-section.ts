@@ -1,49 +1,49 @@
 import { Component, DestroyRef, inject, signal, viewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgnAvatar } from '@ngneers/controls/avatar';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnCheckbox } from '@ngneers/controls/checkbox';
-import { NgnChip } from '@ngneers/controls/chip';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnProgress } from '@ngneers/controls/progress';
-import { NgnSelect } from '@ngneers/controls/select';
-import { NgnSlider } from '@ngneers/controls/slider';
-import { NgnSwitch } from '@ngneers/controls/switch';
-import { NgnTab, NgnTabs } from '@ngneers/controls/tabs';
-import { NgnTag } from '@ngneers/controls/tag';
-import { NgnTooltip } from '@ngneers/controls/tooltip';
+import { JigAvatar } from '@awdlab/jig/avatar';
+import { JigButton } from '@awdlab/jig/button';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
+import { JigChip } from '@awdlab/jig/chip';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigProgress } from '@awdlab/jig/progress';
+import { JigSelect } from '@awdlab/jig/select';
+import { JigSlider } from '@awdlab/jig/slider';
+import { JigSwitch } from '@awdlab/jig/switch';
+import { JigTab, JigTabs } from '@awdlab/jig/tabs';
+import { JigTag } from '@awdlab/jig/tag';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 
 import { CONTROL_COUNT } from './controls-count';
 import { GALLERY } from './gallery-data';
-import { NgnDocsGlow } from './glow';
-import { NgnDocsSectionShell } from './section-shell';
+import { JigDocsGlow } from './glow';
+import { JigDocsSectionShell } from './section-shell';
 
-import type { NgnPassthrough } from '@ngneers/controls/base';
-import type { CustomColor } from '@ngneers/controls-custom-types';
-import { NgnState } from '@ngneers/controls/state';
+import type { JigPassthrough } from '@awdlab/jig/base';
+import type { CustomColor } from '@awdlab/jig-custom-types';
+import { JigState } from '@awdlab/jig/state';
 
 @Component({
-  selector: 'ngn-docs-component-gallery-section',
+  selector: 'jig-docs-component-gallery-section',
   imports: [
-    NgnDocsSectionShell,
+    JigDocsSectionShell,
     RouterLink,
-    NgnButton,
-    NgnSwitch,
-    NgnSlider,
-    NgnSelect,
-    NgnInputField,
-    NgnInput,
-    NgnChip,
-    NgnTag,
-    NgnAvatar,
-    NgnProgress,
-    NgnTooltip,
-    NgnCheckbox,
-    NgnTabs,
-    NgnTab,
-    NgnDocsGlow,
-    NgnState,
+    JigButton,
+    JigSwitch,
+    JigSlider,
+    JigSelect,
+    JigInputField,
+    JigInput,
+    JigChip,
+    JigTag,
+    JigAvatar,
+    JigProgress,
+    JigTooltip,
+    JigCheckbox,
+    JigTabs,
+    JigTab,
+    JigDocsGlow,
+    JigState,
   ],
   styles: `
     /* The slider has no built-in transition; glide the fill/thumb between rest and hover. */
@@ -56,32 +56,32 @@ import { NgnState } from '@ngneers/controls/state';
     }
   `,
   template: `
-    <ngn-docs-section-shell
+    <jig-docs-section-shell
       layout="full"
       eyebrow="Components"
       [heading]="'A taste of ' + controlCount + '+ controls'"
       subtitle="Twelve interactive samples below. Every control ships with a full documentation page — hover for a preview, click through for the docs."
     >
-      <div class="grid grid-cols-2 gap-(--ngn-size-padding-lg) sm:grid-cols-3 lg:grid-cols-4">
+      <div class="grid grid-cols-2 gap-(--jig-size-padding-lg) sm:grid-cols-3 lg:grid-cols-4">
         @for (entry of gallery; track entry.name) {
           <!-- Link is an overlay sibling so the demo controls aren't <a> descendants. -->
           <div
             (mouseenter)="onEnter(entry.name)"
             (mouseleave)="onLeave(entry.name)"
-            ngnDocsGlow
-            class="card relative flex flex-col items-center justify-center gap-(--ngn-size-padding-md) p-(--ngn-size-padding-xl)"
+            jigDocsGlow
+            class="card relative flex flex-col items-center justify-center gap-(--jig-size-padding-md) p-(--jig-size-padding-xl)"
           >
             <a
               [routerLink]="entry.route"
               [attr.aria-label]="entry.name"
-              class="absolute inset-0 z-10 rounded-(--ngn-size-rounded-lg) no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-(--ngn-color-primary-500)"
+              class="absolute inset-0 z-10 rounded-(--jig-size-rounded-lg) no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-(--jig-color-primary-500)"
             ></a>
             <div inert class="pointer-events-none flex min-h-12 w-full items-center justify-center">
               @switch (entry.name) {
                 @case ('Button') {
-                  <button ngnButton kind="primary">
+                  <button jigButton kind="primary">
                     Save
-                    <ngn-state
+                    <jig-state
                       [visible]="!!buttonState()"
                       [kind]="buttonState()"
                       [replaceContent]="true"
@@ -89,10 +89,10 @@ import { NgnState } from '@ngneers/controls/state';
                   </button>
                 }
                 @case ('Switch') {
-                  <ngn-switch [(value)]="switchValue" />
+                  <jig-switch [(value)]="switchValue" />
                 }
                 @case ('Slider') {
-                  <ngn-slider
+                  <jig-slider
                     [min]="0"
                     [max]="100"
                     [(value)]="sliderValue"
@@ -100,83 +100,83 @@ import { NgnState } from '@ngneers/controls/state';
                   />
                 }
                 @case ('Select') {
-                  <ngn-input-field>
-                    <ngn-select
+                  <jig-input-field>
+                    <jig-select
                       #sel
                       [pt]="selectPt"
                       [options]="selectOptions"
                       [(value)]="selectValue"
                     />
-                  </ngn-input-field>
+                  </jig-input-field>
                 }
                 @case ('Chip') {
-                  <ngn-chip [color]="chipColor()">Chip</ngn-chip>
+                  <jig-chip [color]="chipColor()">Chip</jig-chip>
                 }
                 @case ('Tag') {
-                  <ngn-tag [color]="tagColor()">Tag</ngn-tag>
+                  <jig-tag [color]="tagColor()">Tag</jig-tag>
                 }
                 @case ('Avatar') {
-                  <ngn-avatar [initials]="avatarInitials()" [bgColor]="avatarColor()" />
+                  <jig-avatar [initials]="avatarInitials()" [bgColor]="avatarColor()" />
                 }
                 @case ('Progress') {
-                  <ngn-progress [value]="progressValue()" class="w-full" />
+                  <jig-progress [value]="progressValue()" class="w-full" />
                 }
                 @case ('Tooltip') {
                   <button
-                    ngnButton
+                    jigButton
                     kind="secondary"
-                    #tip="ngnTooltip"
-                    [ngnTooltip]="'A tooltip'"
-                    [ngnTooltipShowOnHover]="false"
-                    [ngnTooltipShowDelay]="0"
-                    [ngnTooltipHideDelay]="0"
+                    #tip="jigTooltip"
+                    [jigTooltip]="'A tooltip'"
+                    [jigTooltipShowOnHover]="false"
+                    [jigTooltipShowDelay]="0"
+                    [jigTooltipHideDelay]="0"
                   >
                     Hover
                   </button>
                 }
                 @case ('Checkbox') {
-                  <ngn-checkbox [(value)]="checkboxValue" />
+                  <jig-checkbox [(value)]="checkboxValue" />
                 }
                 @case ('Tabs') {
-                  <ngn-tabs [(activeTab)]="activeTab">
-                    <ngn-tab tabId="a">
+                  <jig-tabs [(activeTab)]="activeTab">
+                    <jig-tab tabId="a">
                       <ng-template #header>One</ng-template>
-                    </ngn-tab>
-                    <ngn-tab tabId="b">
+                    </jig-tab>
+                    <jig-tab tabId="b">
                       <ng-template #header>Two</ng-template>
-                    </ngn-tab>
-                  </ngn-tabs>
+                    </jig-tab>
+                  </jig-tabs>
                 }
                 @case ('Input') {
-                  <ngn-input-field>
-                    <input ngnInput [value]="inputValue()" />
-                  </ngn-input-field>
+                  <jig-input-field>
+                    <input jigInput [value]="inputValue()" />
+                  </jig-input-field>
                 }
               }
             </div>
             <span
-              class="text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
+              class="text-(length:--jig-font-size-sm) font-(--jig-font-weight-semibold) text-(--jig-color-text)"
             >
               {{ entry.name }}
             </span>
           </div>
         }
       </div>
-      <div class="mt-(--ngn-size-padding-xl) flex justify-center">
-        <a ngnButton kind="secondary" routerLink="/components">
+      <div class="mt-(--jig-size-padding-xl) flex justify-center">
+        <a jigButton kind="secondary" routerLink="/components">
           See all {{ controlCount }}+ controls
         </a>
       </div>
-    </ngn-docs-section-shell>
+    </jig-docs-section-shell>
   `,
 })
-export class NgnDocsComponentGallerySection {
+export class JigDocsComponentGallerySection {
   protected readonly gallery = GALLERY;
   protected readonly controlCount = CONTROL_COUNT;
 
   // Programmatic refs for controls without a pure-value rest/hover model.
-  private readonly select = viewChild<NgnSelect<string>>('sel');
-  private readonly tooltip = viewChild<NgnTooltip>('tip');
+  private readonly select = viewChild<JigSelect<string>>('sel');
+  private readonly tooltip = viewChild<JigTooltip>('tip');
 
   // Per-control state — each signal animates from its rest value to a hover value.
   protected readonly switchValue = signal(false);
@@ -189,7 +189,7 @@ export class NgnDocsComponentGallerySection {
     { value: 'b', label: 'Option B' },
   ];
   // Keep the hover-opened dropdown inert so it can't be interacted with mid-demo.
-  protected readonly selectPt: NgnPassthrough<'select'> = {
+  protected readonly selectPt: JigPassthrough<'select'> = {
     'popover-content': { $attributes: { inert: '' } },
   };
   protected readonly buttonState = signal<undefined | 'loading' | 'success'>(undefined);
@@ -245,8 +245,8 @@ export class NgnDocsComponentGallerySection {
         this.tagColor.set('success');
         break;
       case 'Avatar':
-        this.avatarInitials.set('NGN');
-        this.avatarColor.set('var(--ngn-color-primary)');
+        this.avatarInitials.set('JIG');
+        this.avatarColor.set('var(--jig-color-primary)');
         break;
       case 'Tabs':
         this.activeTab.set('b');

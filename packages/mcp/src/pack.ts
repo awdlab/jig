@@ -30,11 +30,11 @@ export interface PackProp {
 export interface PackControl {
   /** Internal control name / docs folder, e.g. `select`. */
   name: string;
-  /** Exported class name, e.g. `NgnSelect`. */
+  /** Exported class name, e.g. `JigSelect`. */
   className: string;
   /** `control` or `directive`. */
   kind: 'control' | 'directive';
-  /** Best-effort selector, e.g. `ngn-select` or `[ngnTooltip]`. */
+  /** Best-effort selector, e.g. `jig-select` or `[jigTooltip]`. */
   selector: string;
   /** One-line summary (first sentence of the docs prose). */
   summary: string;
@@ -102,16 +102,16 @@ export interface MigrationMap {
   notes?: string;
 }
 
-/** How one source-library component maps onto ngn control(s). */
+/** How one source-library component maps onto jig control(s). */
 export interface MigrationComponent {
   /** Source selector/name, e.g. `p-dropdown`. */
   from: string;
-  /** Target ngn selector(s), e.g. `ngn-select`. */
+  /** Target jig selector(s), e.g. `jig-select`. */
   to: string | string[];
   notes?: string;
   props?: MigrationMap[];
   events?: MigrationMap[];
-  /** Source features with no direct ngn equivalent — flag, don't fabricate. */
+  /** Source features with no direct jig equivalent — flag, don't fabricate. */
   gaps?: string[];
 }
 
@@ -133,7 +133,7 @@ export interface Recipe {
   title: string;
   /** One-line description of what it builds. */
   summary: string;
-  /** ngn control names this recipe composes. */
+  /** jig control names this recipe composes. */
   controls: string[];
   /** Full markdown walkthrough. */
   body: string;
@@ -145,7 +145,7 @@ export interface PackExample {
   slug: string;
   /** Primary control (demo folder), e.g. `select`. */
   control: string;
-  /** All ngn controls the demo imports. */
+  /** All jig controls the demo imports. */
   controls: string[];
   /** Human scenario name, e.g. `Filter`. */
   scenario: string;

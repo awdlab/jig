@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { NgnKbd } from '@ngneers/controls/kbd';
+import { JigKbd } from '@awdlab/jig/kbd';
 
 @Component({
-  selector: 'ngn-demo-kbd-base',
-  imports: [NgnKbd],
+  selector: 'jig-demo-kbd-base',
+  imports: [JigKbd],
   template: `
     <div class="flex flex-wrap items-center gap-4 p-4">
-      <ngn-kbd shortcut="mod+shift+a" />
-      <ngn-kbd shortcut="ctrl+alt+delete" />
-      <ngn-kbd shortcut="escape" />
-      <ngn-kbd shortcut="mod+arrowup" />
-      <ngn-kbd shortcut="f2" />
+      <jig-kbd shortcut="mod+shift+a" />
+      <jig-kbd shortcut="ctrl+alt+delete" />
+      <jig-kbd shortcut="escape" />
+      <jig-kbd shortcut="mod+arrowup" />
+      <jig-kbd shortcut="f2" />
     </div>
   `,
 })

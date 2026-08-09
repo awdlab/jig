@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { stepperControlTemplate } from '@ngneers/controls-themes/templates/stepper';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { stepperControlTemplate } from '@awdlab/jig-themes/templates/stepper';
 
 export const stepperStyles = createThemePart({
   controlTemplate: stepperControlTemplate,

@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { progressControlTemplate } from '@ngneers/controls-themes/templates/progress';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { progressControlTemplate } from '@awdlab/jig-themes/templates/progress';
 
 export const progressStyles = createThemePart({
   controlTemplate: progressControlTemplate,

@@ -4,7 +4,7 @@ import {
   repeatVariables,
   bestContrast,
   type RGB,
-} from '@ngneers/controls-themes/api';
+} from '@awdlab/jig-themes/api';
 import {
   blueColor,
   blueColorRgb,
@@ -22,7 +22,7 @@ import {
   pinkColorRgb,
   redColor,
   redColorRgb,
-} from '@ngneers/controls-themes/material/colors';
+} from '@awdlab/jig-themes/material/colors';
 
 const CONTRAST_SHADES = [
   '50',

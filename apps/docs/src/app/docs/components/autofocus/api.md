@@ -1,1 +1,1 @@
-{{ api: directives/autofocus NgnAutofocus }}
+{{ api: directives/autofocus JigAutofocus }}

@@ -1,15 +1,15 @@
 import type { Type } from '@angular/core';
 
-export type NgnDocsMdSection = {
+export type JigDocsMdSection = {
   mdFile: string;
   components?: Type<unknown>[];
 };
 
 type Tab = {
   default?: boolean;
-} & NgnDocsPage;
+} & JigDocsPage;
 
-type SinglePage = NgnDocsMdSection & {
+type SinglePage = JigDocsMdSection & {
   kind: 'single';
 };
 
@@ -26,41 +26,41 @@ type Tabs = {
 };
 
 /**
- * A single, routable documentation page. Lives inside a {@link NgnDocsGroup}.
+ * A single, routable documentation page. Lives inside a {@link JigDocsGroup}.
  * Its URL is `/{tab}/{page}` — groups never appear in the path.
  */
-export type NgnDocsPage = {
+export type JigDocsPage = {
   title: string;
 } & (SinglePage | Tabs | ComponentPage);
 
 /**
- * A visual section within a {@link NgnDocsTab}. Renders as a labeled header in
+ * A visual section within a {@link JigDocsTab}. Renders as a labeled header in
  * the sidebar but is **not** a route segment — its pages route directly under
  * the tab.
  */
-export type NgnDocsGroup = {
+export type JigDocsGroup = {
   title: string;
-  pages: NgnDocsPage[];
+  pages: JigDocsPage[];
 };
 
 /**
  * A top-level documentation area (e.g. Guides, Components). Becomes the first
- * URL segment and an entry in the sidebar tab switcher. Its {@link NgnDocsGroup}s
+ * URL segment and an entry in the sidebar tab switcher. Its {@link JigDocsGroup}s
  * organize the menu below the switcher.
  */
-export type NgnDocsTab = {
+export type JigDocsTab = {
   title: string;
   /** Overrides {@link title} in the browser tab / breadcrumb (e.g. "Component" vs "Components"). */
   tabTitle?: string;
   /** Optional icon shown next to the switcher entry. */
   icon?: string;
-  groups: NgnDocsGroup[];
+  groups: JigDocsGroup[];
 };
 
-export type NgnDocsTabPage = NgnDocsPage & {
+export type JigDocsTabPage = JigDocsPage & {
   kind: 'tabs';
 };
 
-export type NgnDocsSinglePage = NgnDocsPage & {
+export type JigDocsSinglePage = JigDocsPage & {
   kind: 'single';
 };

@@ -17,12 +17,12 @@
     "lib": ["es2024", "DOM"],
     "module": "preserve",
     "paths": {
-      "@ngneers/controls/i18n/translations/*": ["./packages/controls/src/i18n/translations/*"],
-      "@ngneers/controls/*": ["./packages/controls/src/*/index"],
-      "@ngneers/controls-custom-types": ["./packages/custom-types/src/index"],
-      "@ngneers/controls-themes": ["./packages/themes/src/index"],
-      "@ngneers/controls-themes/*": ["./packages/themes/src/*/index"],
-      "@ngneers/controls-playwright": ["./packages/playwright/src/index"]
+      "@awdlab/jig/i18n/translations/*": ["./packages/controls/src/i18n/translations/*"],
+      "@awdlab/jig/*": ["./packages/controls/src/*/index"],
+      "@awdlab/jig-custom-types": ["./packages/custom-types/src/index"],
+      "@awdlab/jig-themes": ["./packages/themes/src/index"],
+      "@awdlab/jig-themes/*": ["./packages/themes/src/*/index"],
+      "@awdlab/jig-playwright": ["./packages/playwright/src/index"]
     }
   },
   "angularCompilerOptions": {

@@ -1,24 +1,24 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@ngneers/controls/errors';
-import { NgnHint } from '@ngneers/controls/hint';
-import { NgnSelectButton } from '@ngneers/controls/select-button';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigSelectButton } from '@awdlab/jig/select-button';
 
 @Component({
-  selector: 'ngn-demo-select-button-validation',
-  imports: [NgnErrors, NgnHint, NgnSelectButton],
+  selector: 'jig-demo-select-button-validation',
+  imports: [JigErrors, JigHint, JigSelectButton],
   template: `
     <div class="flex flex-col gap-2">
-      <ngn-select-button
+      <jig-select-button
         [options]="options"
         [value]="value()"
         (valueChange)="value.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="priorityHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="priorityHint"
       />
     </div>
-    <ngn-hint #priorityHint />
+    <jig-hint #priorityHint />
   `,
 })
 export class Demo_SelectButton_Validation {

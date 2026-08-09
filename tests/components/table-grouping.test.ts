@@ -8,7 +8,7 @@ import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 
 const TABLE_TEMPLATE: TemplateType = {
   template: `
-    <ngn-table
+    <jig-table
       #table
       style="height: 400px; width: 100%"
       [rows]="inputs().rows"
@@ -20,21 +20,21 @@ const TABLE_TEMPLATE: TemplateType = {
       (expandedGroupsChange)="output('expandedGroups', $event)"
     >
       <ng-template #header>
-        <tr ngnTableHeadTr>
-          <th [ngnTableTh]="table.column('id')">ID</th>
-          <th [ngnTableTh]="table.column('name')">Name</th>
-          <th [ngnTableTh]="table.column('department')">Department</th>
+        <tr jigTableHeadTr>
+          <th [jigTableTh]="table.column('id')">ID</th>
+          <th [jigTableTh]="table.column('name')">Name</th>
+          <th [jigTableTh]="table.column('department')">Department</th>
         </tr>
       </ng-template>
-      <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-        <tr [ngnTableBodyTr]="row">
-          <td ngnTableTd>{{ row.data.id }}</td>
-          <td ngnTableTd>{{ row.data.name }}</td>
-          <td ngnTableTd>{{ row.data.department }}</td>
+      <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+        <tr [jigTableBodyTr]="row">
+          <td jigTableTd>{{ row.data.id }}</td>
+          <td jigTableTd>{{ row.data.name }}</td>
+          <td jigTableTd>{{ row.data.department }}</td>
         </tr>
       </ng-template>
-    </ngn-table>`,
-  imports: ['tableModule', 'ngnTemplate'],
+    </jig-table>`,
+  imports: ['tableModule', 'jigTemplate'],
 };
 
 const ROWS = [
@@ -61,7 +61,7 @@ async function loadTable(
   const handle = await loadComponent(page, TABLE_TEMPLATE, {
     inputs: { ...DEFAULT_INPUTS, ...inputOverrides },
   });
-  await expect(page.locator('ngn-table')).toBeVisible({ timeout: 10000 });
+  await expect(page.locator('jig-table')).toBeVisible({ timeout: 10000 });
   return handle;
 }
 
@@ -70,7 +70,7 @@ function groupHeaders(page: import('@playwright/test').Page) {
 }
 
 function dataCells(page: import('@playwright/test').Page) {
-  return page.locator('td[class*="ngn-table-cell"]:not([class*="group-header"])');
+  return page.locator('td[class*="jig-table-cell"]:not([class*="group-header"])');
 }
 
 // ── Tests ────────────────────────────────────────────────────────────────────
@@ -144,7 +144,7 @@ test('groupBy null disables grouping (passthrough)', async ({ page }) => {
   await loadTable(page, { groupBy: null });
 
   await expect(groupHeaders(page)).toHaveCount(0);
-  await expect(page.locator('td[class*="ngn-table-cell"]')).toHaveCount(15);
+  await expect(page.locator('td[class*="jig-table-cell"]')).toHaveCount(15);
 });
 
 test('group headers span all columns', async ({ page }) => {
@@ -153,7 +153,7 @@ test('group headers span all columns', async ({ page }) => {
   const headerCell = groupHeaders(page).first();
   const headerWidth = await headerCell.evaluate(el => el.getBoundingClientRect().width);
   const tableWidth = await page
-    .locator('ngn-table table')
+    .locator('jig-table table')
     .evaluate(el => el.getBoundingClientRect().width);
 
   expect(headerWidth).toBeGreaterThan(tableWidth - 10);

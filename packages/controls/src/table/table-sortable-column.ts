@@ -11,35 +11,35 @@ import {
   Type,
   ViewContainerRef,
 } from '@angular/core';
-import { injectThemeTemplate, setComponentInput } from '@ngneers/controls/api/ng';
-import { getNearestNgnInstanceSig } from '@ngneers/controls/base';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
+import { injectThemeTemplate, setComponentInput } from '@awdlab/jig/api/ng';
+import { getNearestJigInstanceSig } from '@awdlab/jig/base';
+import { JigIcon } from '@awdlab/jig/icon';
+import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
-import { NgnTable } from './table';
-import { NgnTableTh } from './table-header-cell';
+import { JigTable } from './table';
+import { JigTableTh } from './table-header-cell';
 
 /**
  * @category directive
  */
 @Directive({
-  selector: '[ngnTableSortableColumn]',
+  selector: '[jigTableSortableColumn]',
   host: {
     '[class]': `theme.classes({'sortable-column': true, 'sorted-column': !!sort() })`,
     '[attr.aria-sort]': `sort() === 'asc' ? 'ascending' : sort() === 'desc' ? 'descending' : 'none'`,
     '(click)': `onHostClick($event)`,
   },
 })
-export class NgnTableSortableColumn implements OnDestroy {
+export class JigTableSortableColumn implements OnDestroy {
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /** Enables sorting on this column. The directive selector; its value is unused. */
-  public readonly ngnTableSortableColumn = input();
+  public readonly jigTableSortableColumn = input();
 
-  private readonly _table = getNearestNgnInstanceSig<Type<NgnTable<any, any>>>(
+  private readonly _table = getNearestJigInstanceSig<Type<JigTable<any, any>>>(
     this._element.nativeElement,
-    NgnTable
+    JigTable
   );
   protected readonly sort = computed(() => {
     const tableSort = this._table()?.sort();
@@ -49,9 +49,9 @@ export class NgnTableSortableColumn implements OnDestroy {
     return null;
   });
 
-  private readonly columnId = inject(NgnTableTh).ngnTableTh;
+  private readonly columnId = inject(JigTableTh).jigTableTh;
 
-  private readonly _ngnIcon: ComponentRef<NgnIcon>;
+  private readonly _jigIcon: ComponentRef<JigIcon>;
   private _sortButton?: HTMLElement;
 
   private readonly onSortKeyDown = (event: KeyboardEvent) => {
@@ -62,7 +62,7 @@ export class NgnTableSortableColumn implements OnDestroy {
   };
 
   constructor() {
-    // Runs after NgnTableTh's own hook, which wraps the header content in the
+    // Runs after JigTableTh's own hook, which wraps the header content in the
     // `cell-text` span — that span becomes the sort button.
     afterNextRender(() => {
       const text = this._element.nativeElement.querySelector<HTMLElement>(
@@ -75,14 +75,14 @@ export class NgnTableSortableColumn implements OnDestroy {
       this._sortButton = text;
     });
 
-    this._ngnIcon = inject(ViewContainerRef).createComponent(NgnIcon);
-    this._element.nativeElement.appendChild(this._ngnIcon.location.nativeElement);
-    this._ngnIcon.location.nativeElement.classList.add(this.theme.class('sort-control'));
+    this._jigIcon = inject(ViewContainerRef).createComponent(JigIcon);
+    this._element.nativeElement.appendChild(this._jigIcon.location.nativeElement);
+    this._jigIcon.location.nativeElement.classList.add(this.theme.class('sort-control'));
 
     effect(() => {
       const sort = this.sort();
       setComponentInput(
-        this._ngnIcon,
+        this._jigIcon,
         'defaultIcon',
         sort === 'asc' ? 'sort-ascending' : sort === 'desc' ? 'sort-descending' : 'sort-neutral'
       );
@@ -91,7 +91,7 @@ export class NgnTableSortableColumn implements OnDestroy {
 
   public ngOnDestroy(): void {
     this._sortButton?.removeEventListener('keydown', this.onSortKeyDown);
-    this._ngnIcon.destroy();
+    this._jigIcon.destroy();
   }
 
   protected onHostClick(event: MouseEvent): void {

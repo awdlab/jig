@@ -4,7 +4,7 @@
   <ng-container [ngTemplateOutlet]="panel" />
 } @else if (popover() && anchor(); as anchorEl) {
   <!-- Headless: no trigger of our own; opened via show()/toggle() from an external anchor. -->
-  <ngn-popover
+  <jig-popover
     #popover
     [ptInt]="this"
     [ptDep]="'popover'"
@@ -15,7 +15,7 @@
     <ng-template #lazy>
       <ng-container [ngTemplateOutlet]="panel" />
     </ng-template>
-  </ngn-popover>
+  </jig-popover>
 } @else {
   <button
     #triggerBtn
@@ -29,7 +29,7 @@
   >
     <span [ptInt]="this" [ptClass]="'preview'" [style.background]="cssColor()"></span>
   </button>
-  <ngn-popover
+  <jig-popover
     #popover
     [ptInt]="this"
     [ptDep]="'popover'"
@@ -40,7 +40,7 @@
     <ng-template #lazy>
       <ng-container [ngTemplateOutlet]="panel" />
     </ng-template>
-  </ngn-popover>
+  </jig-popover>
 }
 
 <ng-template #panel>
@@ -49,7 +49,7 @@
       #svArea
       [ptInt]="this"
       [ptClass]="'sv-area'"
-      ngnDrag
+      jigDrag
       (dragged)="onSvDrag($event)"
       (click)="
         onSvDrag({ absoluteX: $event.clientX, absoluteY: $event.clientY, deltaX: 0, deltaY: 0 })
@@ -67,7 +67,7 @@
       #hueTrack
       [ptInt]="this"
       [ptClass]="'hue-track'"
-      ngnDrag
+      jigDrag
       (dragged)="onHueDrag($event)"
       (click)="
         onHueDrag({ absoluteX: $event.clientX, absoluteY: $event.clientY, deltaX: 0, deltaY: 0 })
@@ -82,7 +82,7 @@
         [ptInt]="this"
         [ptClass]="'alpha-track'"
         [style.background]="'linear-gradient(to right, transparent, ' + cssColor() + ')'"
-        ngnDrag
+        jigDrag
         (dragged)="onAlphaDrag($event)"
         (click)="
           onAlphaDrag({
@@ -105,9 +105,9 @@
             <div [ptInt]="this" [ptClass]="{ channel: true, 'channel-hex': true }">
               <!-- Color updates live per keystroke (onHexInput); the text is left as typed until
                    commit (change/Enter/blur), when it normalizes to the canonical form. -->
-              <ngn-input-field>
+              <jig-input-field>
                 <input
-                  ngnInput
+                  jigInput
                   class="text-center"
                   [value]="displayText()"
                   [readOnly]="readonly()"
@@ -118,15 +118,15 @@
                   (keydown.enter)="onHexCommit($any($event.target).value)"
                   (blur)="onHexCommit($any($event.target).value)"
                 />
-              </ngn-input-field>
+              </jig-input-field>
               <span [ptInt]="this" [ptClass]="'channel-label'">Hex</span>
             </div>
           }
           @case ('rgb') {
             <div [ptInt]="this" [ptClass]="'channel'">
-              <ngn-input-field>
+              <jig-input-field>
                 <input
-                  ngnNumberInput
+                  jigNumberInput
                   class="text-center"
                   [min]="0"
                   [max]="255"
@@ -136,13 +136,13 @@
                   aria-label="Red"
                   (valueChange)="setRgbChannel('r', $event)"
                 />
-              </ngn-input-field>
+              </jig-input-field>
               <span [ptInt]="this" [ptClass]="'channel-label'">R</span>
             </div>
             <div [ptInt]="this" [ptClass]="'channel'">
-              <ngn-input-field>
+              <jig-input-field>
                 <input
-                  ngnNumberInput
+                  jigNumberInput
                   class="text-center"
                   [min]="0"
                   [max]="255"
@@ -152,13 +152,13 @@
                   aria-label="Green"
                   (valueChange)="setRgbChannel('g', $event)"
                 />
-              </ngn-input-field>
+              </jig-input-field>
               <span [ptInt]="this" [ptClass]="'channel-label'">G</span>
             </div>
             <div [ptInt]="this" [ptClass]="'channel'">
-              <ngn-input-field>
+              <jig-input-field>
                 <input
-                  ngnNumberInput
+                  jigNumberInput
                   class="text-center"
                   [min]="0"
                   [max]="255"
@@ -168,14 +168,14 @@
                   aria-label="Blue"
                   (valueChange)="setRgbChannel('b', $event)"
                 />
-              </ngn-input-field>
+              </jig-input-field>
               <span [ptInt]="this" [ptClass]="'channel-label'">B</span>
             </div>
             @if (alpha()) {
               <div [ptInt]="this" [ptClass]="'channel'">
-                <ngn-input-field>
+                <jig-input-field>
                   <input
-                    ngnNumberInput
+                    jigNumberInput
                     class="text-center"
                     [min]="0"
                     [max]="100"
@@ -185,16 +185,16 @@
                     aria-label="Alpha percent"
                     (valueChange)="setAlphaPercent($event)"
                   />
-                </ngn-input-field>
+                </jig-input-field>
                 <span [ptInt]="this" [ptClass]="'channel-label'">A</span>
               </div>
             }
           }
           @case ('hsl') {
             <div [ptInt]="this" [ptClass]="'channel'">
-              <ngn-input-field>
+              <jig-input-field>
                 <input
-                  ngnNumberInput
+                  jigNumberInput
                   class="text-center"
                   [min]="0"
                   [max]="360"
@@ -204,13 +204,13 @@
                   aria-label="Hue"
                   (valueChange)="setHslChannel('h', $event)"
                 />
-              </ngn-input-field>
+              </jig-input-field>
               <span [ptInt]="this" [ptClass]="'channel-label'">H</span>
             </div>
             <div [ptInt]="this" [ptClass]="'channel'">
-              <ngn-input-field>
+              <jig-input-field>
                 <input
-                  ngnNumberInput
+                  jigNumberInput
                   class="text-center"
                   [min]="0"
                   [max]="100"
@@ -220,13 +220,13 @@
                   aria-label="Saturation percent"
                   (valueChange)="setHslChannel('s', $event)"
                 />
-              </ngn-input-field>
+              </jig-input-field>
               <span [ptInt]="this" [ptClass]="'channel-label'">S</span>
             </div>
             <div [ptInt]="this" [ptClass]="'channel'">
-              <ngn-input-field>
+              <jig-input-field>
                 <input
-                  ngnNumberInput
+                  jigNumberInput
                   class="text-center"
                   [min]="0"
                   [max]="100"
@@ -236,14 +236,14 @@
                   aria-label="Lightness percent"
                   (valueChange)="setHslChannel('l', $event)"
                 />
-              </ngn-input-field>
+              </jig-input-field>
               <span [ptInt]="this" [ptClass]="'channel-label'">L</span>
             </div>
             @if (alpha()) {
               <div [ptInt]="this" [ptClass]="'channel'">
-                <ngn-input-field>
+                <jig-input-field>
                   <input
-                    ngnNumberInput
+                    jigNumberInput
                     class="text-center"
                     [min]="0"
                     [max]="100"
@@ -253,7 +253,7 @@
                     aria-label="Alpha percent"
                     (valueChange)="setAlphaPercent($event)"
                   />
-                </ngn-input-field>
+                </jig-input-field>
                 <span [ptInt]="this" [ptClass]="'channel-label'">A</span>
               </div>
             }
@@ -261,7 +261,7 @@
         }
       </div>
       <button
-        ngnButton
+        jigButton
         kind="secondary"
         type="button"
         [ptInt]="this"

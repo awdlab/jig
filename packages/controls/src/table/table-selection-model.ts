@@ -11,13 +11,13 @@ export interface TableSelectionModelDeps<T extends object, K extends keyof T> {
   selection: ModelSignal<T[K & keyof T][]>;
   /** The table's public `focusedRowIndex` signal, by reference. */
   focusedRowIndex: WritableSignal<number | null>;
-  /** Scrolls the row at the given index into view (delegates to the table's NgnScroller). */
+  /** Scrolls the row at the given index into view (delegates to the table's JigScroller). */
   scrollToIndex: (index: number) => void;
 }
 
 /**
  * Owns row selection, the selection anchor, keyboard navigation, and the derived
- * select-all / indeterminate state for {@link NgnTable}. Reads the view rows through an
+ * select-all / indeterminate state for {@link JigTable}. Reads the view rows through an
  * injected signal and writes only the selection + focus state passed in.
  */
 export class TableSelectionModel<T extends object, K extends keyof T> {

@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
-import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
+import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  selector: 'ngn-demo-accordion-multiple',
-  imports: [NgnAccordion, NgnAccordionPanel],
-  template: `<ngn-accordion [multiple]="true">
-    <ngn-accordion-panel [header]="'Panel 1'">
+  selector: 'jig-demo-accordion-multiple',
+  imports: [JigAccordion, JigAccordionPanel],
+  template: `<jig-accordion [multiple]="true">
+    <jig-accordion-panel [header]="'Panel 1'">
       <ng-template #content> {{ loremIpsum1 }} </ng-template>
-    </ngn-accordion-panel>
-    <ngn-accordion-panel [header]="'Panel 2'">
+    </jig-accordion-panel>
+    <jig-accordion-panel [header]="'Panel 2'">
       <ng-template #content> {{ loremIpsum2 }} </ng-template>
-    </ngn-accordion-panel>
-    <ngn-accordion-panel [header]="'Panel 3'">
+    </jig-accordion-panel>
+    <jig-accordion-panel [header]="'Panel 3'">
       <ng-template #content> {{ loremIpsum3 }} </ng-template>
-    </ngn-accordion-panel>
-  </ngn-accordion>`,
+    </jig-accordion-panel>
+  </jig-accordion>`,
 })
 export class Demo_Accordion_Multiple {
   protected readonly loremIpsum1 = exampleData.loremIpsum.full.split(' ').slice(0, 100).join(' ');

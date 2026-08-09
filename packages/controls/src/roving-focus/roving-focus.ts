@@ -11,8 +11,8 @@ import {
   signal,
   type Signal,
 } from '@angular/core';
-import { domEventHandler } from '@ngneers/controls/api/ng';
-import { generateElementId } from '@ngneers/controls/utils-ng';
+import { domEventHandler } from '@awdlab/jig/api/ng';
+import { generateElementId } from '@awdlab/jig/utils-ng';
 
 export type RovingOrientation = 'horizontal' | 'vertical';
 export type RovingMode = 'tabindex' | 'activedescendant';
@@ -28,25 +28,25 @@ export interface RovingItemRef {
   readonly disabled?: Signal<boolean>;
 }
 
-export const ROVING_GROUP = new InjectionToken<NgnRovingGroup>('ROVING_GROUP');
+export const ROVING_GROUP = new InjectionToken<JigRovingGroup>('ROVING_GROUP');
 
 /**
- * Turns a set of {@link NgnRovingItem}s into a single tab stop with arrow-key
+ * Turns a set of {@link JigRovingItem}s into a single tab stop with arrow-key
  * navigation — the roving tabindex pattern that tabs, radio groups, menus and
  * toolbars are built on.
  *
- * Arrow keys move along {@link NgnRovingGroup.orientation}, Home/End jump to
+ * Arrow keys move along {@link JigRovingGroup.orientation}, Home/End jump to
  * the ends, and disabled items are skipped. Items register themselves through
  * DI and are ordered by DOM position, so the group never needs a static list.
  *
  * @category directive
  */
 @Directive({
-  selector: '[ngnRovingGroup]',
-  providers: [{ provide: ROVING_GROUP, useExisting: NgnRovingGroup }],
-  exportAs: 'ngnRovingGroup',
+  selector: '[jigRovingGroup]',
+  providers: [{ provide: ROVING_GROUP, useExisting: JigRovingGroup }],
+  exportAs: 'jigRovingGroup',
 })
-export class NgnRovingGroup {
+export class JigRovingGroup {
   /**
    * Which arrow keys move the active item: `'horizontal'` uses Left/Right,
    * `'vertical'` uses Up/Down. Home/End always jump to first/last.
@@ -173,7 +173,7 @@ export class NgnRovingGroup {
   public unregister(item: RovingItemRef): void {
     this._items.update(list => list.filter(i => i !== item));
     // Normalize the stored active index so it never dangles past the end —
-    // otherwise NgnRovingItem.isActive() would be false for every item.
+    // otherwise JigRovingItem.isActive() would be false for every item.
     const n = this.items().length;
     if (this.activeIndex() >= n) {
       this.activeIndex.set(Math.max(0, n - 1));
@@ -294,37 +294,37 @@ export class NgnRovingGroup {
 }
 
 /**
- * One navigable item inside an {@link NgnRovingGroup}. It registers with the
- * nearest group (or the one passed to {@link NgnRovingItem.ngnRovingItem}),
+ * One navigable item inside a {@link JigRovingGroup}. It registers with the
+ * nearest group (or the one passed to {@link JigRovingItem.jigRovingItem}),
  * gets an `id` if the element has none, and activates itself on pointerdown.
  *
  * @category directive
  */
-@Directive({ selector: '[ngnRovingItem]', exportAs: 'ngnRovingItem' })
-export class NgnRovingItem implements RovingItemRef {
+@Directive({ selector: '[jigRovingItem]', exportAs: 'jigRovingItem' })
+export class JigRovingItem implements RovingItemRef {
   private readonly _injectedGroup = inject(ROVING_GROUP, { optional: true });
   /**
-   * The {@link NgnRovingGroup} this item belongs to. Pass a group reference when
+   * The {@link JigRovingGroup} this item belongs to. Pass a group reference when
    * the item is not a DOM descendant of its group; leave empty/undefined to use
    * the nearest ancestor group via dependency injection.
    */
-  public readonly ngnRovingItem = input<NgnRovingGroup | '' | undefined>(undefined);
+  public readonly jigRovingItem = input<JigRovingGroup | '' | undefined>(undefined);
 
   public readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   public readonly id: string;
 
   /**
-   * Reactive disabled flag for this item. Consumers (e.g. `ngn-radio`) set it
+   * Reactive disabled flag for this item. Consumers (e.g. `jig-radio`) set it
    * so the group's keyboard navigation and pointer `activate()` skip the item.
    */
   public readonly disabled = signal(false);
 
-  private readonly _group = computed<NgnRovingGroup>(() => {
-    const explicit = this.ngnRovingItem();
-    const group = explicit instanceof NgnRovingGroup ? explicit : this._injectedGroup;
+  private readonly _group = computed<JigRovingGroup>(() => {
+    const explicit = this.jigRovingItem();
+    const group = explicit instanceof JigRovingGroup ? explicit : this._injectedGroup;
     if (!group) {
       throw new Error(
-        'ngnRovingItem: no NgnRovingGroup found. Provide via [ngnRovingItem]="group" or nest inside one.'
+        'jigRovingItem: no JigRovingGroup found. Provide via [jigRovingItem]="group" or nest inside one.'
       );
     }
     return group;

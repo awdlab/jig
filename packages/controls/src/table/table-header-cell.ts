@@ -13,13 +13,13 @@ import {
   signal,
   type Signal,
 } from '@angular/core';
-import { getNearestNgnInstance, NgnBase } from '@ngneers/controls/base';
-import { NgnError, toggleClass } from '@ngneers/controls/utils';
-import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
+import { getNearestJigInstance, JigBase } from '@awdlab/jig/base';
+import { JigError, toggleClass } from '@awdlab/jig/utils';
+import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
-import { NgnTable } from './table';
+import { JigTable } from './table';
 
-import type { ResizableItem, ResizeLimit, ResizeSize } from '@ngneers/controls/api/resize';
+import type { ResizableItem, ResizeLimit, ResizeSize } from '@awdlab/jig/api/resize';
 
 /**
  * A table header cell. Declares the column's id — the key every other column
@@ -29,21 +29,21 @@ import type { ResizableItem, ResizeLimit, ResizeSize } from '@ngneers/controls/a
  * @category directive
  */
 @Directive({
-  selector: '[ngnTableTh]',
+  selector: '[jigTableTh]',
   host: {
     role: 'columnheader',
-    '[style.--ngn-table-column-index]': '_visualColumnIndex()',
+    '[style.--jig-table-column-index]': '_visualColumnIndex()',
     '[attr.aria-colindex]': '_ariaColIndex()',
   },
 })
-export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDestroy, OnInit {
+export class JigTableTh extends JigBase<'table'> implements ResizableItem, OnDestroy, OnInit {
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate);
-  private _table?: NgnTable<any, any>;
-  private readonly _tableSignal = signal<NgnTable<any, any> | null>(null);
+  private _table?: JigTable<any, any>;
+  private readonly _tableSignal = signal<JigTable<any, any> | null>(null);
   private _resizeHandle?: HTMLDivElement;
 
   /** The unique column identifier for this header cell, used for sorting, filtering, sticky, and reorder. */
-  public readonly ngnTableTh = input.required<string>();
+  public readonly jigTableTh = input.required<string>();
 
   /**
    * The size of this column (e.g. '1fr', '200px', '25%').
@@ -88,7 +88,7 @@ export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDes
   public readonly _visualColumnIndex = computed(() => {
     if (!this._table) return undefined;
     const map = this._table.columnOrderMap();
-    return map.get(this.ngnTableTh()) ?? this.getColumnIndex() + 1;
+    return map.get(this.jigTableTh()) ?? this.getColumnIndex() + 1;
   });
 
   /** `aria-colindex` — visual index plus the selection column the theme offsets in CSS. */
@@ -146,7 +146,7 @@ export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDes
     afterRenderEffect(() => {
       const table = this._tableSignal();
       if (!table) return;
-      const info = table.getStickyInfo(this.ngnTableTh());
+      const info = table.getStickyInfo(this.jigTableTh());
       const el = this.element.nativeElement;
       toggleClass(el, this.theme.class('sticky-start'), info?.side === 'start');
       toggleClass(el, this.theme.class('sticky-end'), info?.side === 'end');
@@ -156,10 +156,10 @@ export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDes
       if (info) {
         el.style.position = 'sticky';
         if (info.side === 'start') {
-          el.style.left = `var(--ngn-sticky-start-offset-${info.index})`;
+          el.style.left = `var(--jig-sticky-start-offset-${info.index})`;
           el.style.removeProperty('right');
         } else {
-          el.style.right = `var(--ngn-sticky-end-offset-${info.index})`;
+          el.style.right = `var(--jig-sticky-end-offset-${info.index})`;
           el.style.removeProperty('left');
         }
       } else {
@@ -171,9 +171,9 @@ export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDes
   }
 
   public ngOnInit(): void {
-    const table = getNearestNgnInstance(this.element.nativeElement, NgnTable<any, any>);
+    const table = getNearestJigInstance(this.element.nativeElement, JigTable<any, any>);
     if (!table) {
-      throw new NgnError('ngnTableTh', 'ngnTableTh must be used within an NgnTable component');
+      throw new JigError('jigTableTh', 'jigTableTh must be used within an JigTable component');
     }
     this._table = table;
     this._tableSignal.set(table);

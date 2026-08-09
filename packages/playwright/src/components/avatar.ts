@@ -1,8 +1,8 @@
 import { type Locator, expect } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
-import { avatarControlTemplate } from '@ngneers/controls-themes/templates/avatar';
+import { avatarControlTemplate } from '@awdlab/jig-themes/templates/avatar';
 
-export class NgnAvatarHarness {
+export class JigAvatarHarness {
   public readonly classes = themeClasses(avatarControlTemplate);
 
   constructor(public locator: Locator) {}

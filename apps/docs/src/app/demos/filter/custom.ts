@@ -1,6 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
-import { executeFilter } from '@ngneers/controls/api';
-import { NgnFilter, type NgnFilterConfig } from '@ngneers/controls/filter';
+import { executeFilter } from '@awdlab/jig/api';
+import { JigFilter, type JigFilterConfig } from '@awdlab/jig/filter';
 
 type Country = {
   name: string;
@@ -8,11 +8,11 @@ type Country = {
 };
 
 @Component({
-  selector: 'ngn-demo-filter-custom',
-  imports: [NgnFilter],
+  selector: 'jig-demo-filter-custom',
+  imports: [JigFilter],
   template: `
     <div class="flex flex-col gap-2">
-      <ngn-filter
+      <jig-filter
         mode="inline"
         dataType="custom"
         [filterLocally]="false"
@@ -39,7 +39,7 @@ export class Demo_Filter_Custom {
     { name: 'Sweden', code: 'SE' },
   ];
 
-  protected readonly config = signal<NgnFilterConfig | null>(null);
+  protected readonly config = signal<JigFilterConfig | null>(null);
 
   protected readonly filtered = computed(() => {
     const cfg = this.config();

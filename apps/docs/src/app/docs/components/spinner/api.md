@@ -1,1 +1,1 @@
-{{ api: spinner/spinner NgnSpinner }}
+{{ api: spinner/spinner JigSpinner }}

@@ -1,4 +1,4 @@
-The Message component (`ngn-message`) displays a persistent, inline block of
+The Message component (`jig-message`) displays a persistent, inline block of
 important information — a validation summary, a contextual note, a status
 banner. Unlike a toast it stays in the layout where you place it and is not
 dismissible; use it for information that belongs with the surrounding content
@@ -9,7 +9,7 @@ rather than transient feedback.
 Content is projected, so a message can hold plain text or richer markup:
 
 ```html
-<ngn-message color="warning">Your trial ends in 3 days.</ngn-message>
+<jig-message color="warning">Your trial ends in 3 days.</jig-message>
 ```
 
 The severity is set with **`color`** (`info`, `success`, `warning`, `error`),
@@ -23,6 +23,6 @@ combination the current theme provides.
 ### Icon
 
 Set the **`icon`** input to render a leading icon before the content, reinforcing
-the severity at a glance. It accepts the same icon values as `ngn-icon`.
+the severity at a glance. It accepts the same icon values as `jig-icon`.
 
 {{ demo: Demo_Message_WithIcon }}

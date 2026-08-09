@@ -1,21 +1,21 @@
 import { Component, computed, input, linkedSignal } from '@angular/core';
-import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
-import { avatarControlTemplate } from '@ngneers/controls-themes/templates/avatar';
+import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
+import { avatarControlTemplate } from '@awdlab/jig-themes/templates/avatar';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'ngn-avatar',
+  selector: 'jig-avatar',
   templateUrl: './avatar.html',
-  imports: [NgnPt],
+  imports: [JigPt],
   host: {
     '[style.--size.px]': 'size()',
     '[style.--color]': 'bgColor()',
   },
-  providers: [provideSelf(NgnAvatar)],
+  providers: [provideSelf(JigAvatar)],
 })
-export class NgnAvatar extends NgnBase<'avatar'> {
+export class JigAvatar extends JigBase<'avatar'> {
   protected readonly theme = this.injectThemeTemplate(avatarControlTemplate, 'root');
 
   /**

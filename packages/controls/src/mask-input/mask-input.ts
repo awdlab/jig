@@ -9,11 +9,11 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { domEventHandler } from '@ngneers/controls/api/ng';
-import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnRovingGroup, NgnRovingItem } from '@ngneers/controls/roving-focus';
-import { maskInputControlTemplate } from '@ngneers/controls-themes/templates/mask-input';
+import { domEventHandler } from '@awdlab/jig/api/ng';
+import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
+import { maskInputControlTemplate } from '@awdlab/jig-themes/templates/mask-input';
 
 import {
   composeDisplay,
@@ -35,12 +35,12 @@ import type { MaskInputCfg } from './types';
  * @category control
  */
 @Component({
-  selector: 'ngn-mask-input',
+  selector: 'jig-mask-input',
   templateUrl: './mask-input.html',
-  imports: [NgnPt, NgnRovingGroup, NgnRovingItem],
-  providers: [provideSelf(NgnMaskInput)],
+  imports: [JigPt, JigRovingGroup, JigRovingItem],
+  providers: [provideSelf(JigMaskInput)],
 })
-export class NgnMaskInput extends ValueControlBase<'maskInput', string | null> {
+export class JigMaskInput extends ValueControlBase<'maskInput', string | null> {
   public override readonly isFieldControl = true;
   protected readonly theme = this.injectThemeTemplate(maskInputControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
@@ -94,7 +94,7 @@ export class NgnMaskInput extends ValueControlBase<'maskInput', string | null> {
   });
 
   /** The roving group on the proxy input element. */
-  protected readonly rovingGroup = viewChild.required(NgnRovingGroup);
+  protected readonly rovingGroup = viewChild.required(JigRovingGroup);
 
   /** The proxy input element reference. */
   private readonly _proxyRef = viewChild.required<ElementRef<HTMLInputElement>>('proxy');
@@ -252,7 +252,7 @@ export class NgnMaskInput extends ValueControlBase<'maskInput', string | null> {
   /**
    * Places focus on the proxy input and selects the section nearest the
    * pointer's horizontal position. Invoked both by the control's own
-   * `pointerdown` and by a surrounding `ngn-input-field` when its padding is
+   * `pointerdown` and by a surrounding `jig-input-field` when its padding is
    * clicked (so a click "above" a section selects that section). Returns `true`
    * to signal the field it handled focus.
    */

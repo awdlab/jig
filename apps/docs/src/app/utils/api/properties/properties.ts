@@ -1,17 +1,17 @@
 import { Component, input, computed, inject, Injector, runInInjectionContext } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { injectThemeColors, injectThemeControlKinds } from '@ngneers/controls/api/ng';
+import { injectThemeColors, injectThemeControlKinds } from '@awdlab/jig/api/ng';
 import { type CommentDisplayPart, ReflectionFlag, DeclarationReflection } from 'typedoc/browser';
 
-import { NgnDocsApiComment } from './comment/comment';
+import { JigDocsApiComment } from './comment/comment';
 
 @Component({
-  selector: 'ngn-docs-api-properties',
+  selector: 'jig-docs-api-properties',
   templateUrl: 'properties.html',
-  imports: [NgnDocsApiComment, RouterLink],
+  imports: [JigDocsApiComment, RouterLink],
   host: { class: 'block md' },
 })
-export class NgnDocsApiProperties {
+export class JigDocsApiProperties {
   public readonly kind = input.required<'Inputs' | 'Outputs' | 'Properties'>();
   public readonly properties = input.required<DeclarationReflection[]>();
   public readonly internalControlName = input.required<string | null>();

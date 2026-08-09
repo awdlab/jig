@@ -1,17 +1,17 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnTag } from '@ngneers/controls/tag';
+import { JigTag } from '@awdlab/jig/tag';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-tag-playground',
-  imports: [NgnTag, NgnDocsPlayground],
+  selector: 'jig-docs-tag-playground',
+  imports: [JigTag, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnTag', component: component() }]">
-      <ngn-tag #ref>Tag</ngn-tag>
-    </ngn-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'JigTag', component: component() }]">
+      <jig-tag #ref>Tag</jig-tag>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsTagPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnTag });
+export class JigDocsTagPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigTag });
 }

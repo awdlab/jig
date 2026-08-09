@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { paginatorControlTemplate } from '@ngneers/controls-themes/templates/paginator';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { paginatorControlTemplate } from '@awdlab/jig-themes/templates/paginator';
 
 export const paginatorStyles = createThemePart({
   controlTemplate: paginatorControlTemplate,

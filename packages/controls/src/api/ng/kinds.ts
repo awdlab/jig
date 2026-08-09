@@ -1,10 +1,10 @@
 import { computed, inject, type Signal } from '@angular/core';
 
-import { NGN_CONFIG } from './config';
+import { JIG_CONFIG } from './config';
 import { ThemeService } from './theme-service';
 
-import type { CustomColor, CustomKind } from '@ngneers/controls-custom-types';
-import type { Theme } from '@ngneers/controls-themes';
+import type { CustomColor, CustomKind } from '@awdlab/jig-custom-types';
+import type { Theme } from '@awdlab/jig-themes';
 
 /**
  * Reactively reads the currently active theme (which may be switched at runtime via
@@ -13,7 +13,7 @@ import type { Theme } from '@ngneers/controls-themes';
  */
 function injectActiveTheme(): Signal<Theme | null | undefined> {
   const themeService = inject(ThemeService, { optional: true });
-  const config = inject(NGN_CONFIG);
+  const config = inject(JIG_CONFIG);
   // Only fall back to the configured preset when there is no `ThemeService`. When the service is
   // present, `activeTheme()` — including its valid `null` (cleared) state — is authoritative and
   // must be preserved rather than reintroducing the preset.
@@ -23,7 +23,7 @@ function injectActiveTheme(): Signal<Theme | null | undefined> {
 /**
  * Retrieves the available kinds for a given control from the active theme, as a reactive signal
  * that updates when the active theme changes. Does **not** return custom kinds defined by the
- * user in `NgnCustomTypes`.
+ * user in `JigCustomTypes`.
  * @param controlName The name of the control to get kinds for.
  * @returns A signal of the available kinds for the specified control.
  */
@@ -35,7 +35,7 @@ export function injectThemeControlKinds<T extends string>(controlName: T): Signa
 /**
  * Retrieves the available colors from the active theme, as a reactive signal that updates when
  * the active theme changes. Does **not** return custom colors defined by the user in
- * `NgnCustomTypes`.
+ * `JigCustomTypes`.
  * @returns A signal of the available colors.
  */
 /**

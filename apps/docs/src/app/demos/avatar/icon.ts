@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import tablerUser from '@iconify/icons-tabler/user';
-import { NgnAvatar } from '@ngneers/controls/avatar';
-import { NgnIcon } from '@ngneers/controls/icon';
+import { JigAvatar } from '@awdlab/jig/avatar';
+import { JigIcon } from '@awdlab/jig/icon';
 
 @Component({
-  selector: 'ngn-demo-avatar-icon',
-  imports: [NgnAvatar, NgnIcon],
+  selector: 'jig-demo-avatar-icon',
+  imports: [JigAvatar, JigIcon],
   template: `
-    <ngn-avatar>
-      <ngn-icon [icon]="icon" />
-    </ngn-avatar>
+    <jig-avatar>
+      <jig-icon [icon]="icon" />
+    </jig-avatar>
   `,
 })
 export class Demo_Avatar_Icon {

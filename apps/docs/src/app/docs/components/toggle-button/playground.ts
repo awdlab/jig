@@ -1,19 +1,19 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnToggleButton } from '@ngneers/controls/toggle-button';
+import { JigToggleButton } from '@awdlab/jig/toggle-button';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-toggle-button-playground',
-  imports: [NgnToggleButton, NgnDocsPlayground],
+  selector: 'jig-docs-toggle-button-playground',
+  imports: [JigToggleButton, JigDocsPlayground],
   template: `
-    <ngn-docs-playground
-      [controls]="[{ componentName: 'NgnToggleButton', component: component() }]"
+    <jig-docs-playground
+      [controls]="[{ componentName: 'JigToggleButton', component: component() }]"
     >
-      <ngn-toggle-button #ref>Toggle Me</ngn-toggle-button>
-    </ngn-docs-playground>
+      <jig-toggle-button #ref>Toggle Me</jig-toggle-button>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsToggleButtonPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnToggleButton });
+export class JigDocsToggleButtonPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigToggleButton });
 }

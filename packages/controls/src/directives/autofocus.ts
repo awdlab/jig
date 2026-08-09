@@ -14,13 +14,13 @@ import {
  *
  * The focus is latched: it fires on the first render where the host is
  * displayed and never again, so re-showing the element does not re-focus it.
- * Setting {@link NgnAutofocus.ngnAutofocus} to `false` releases the latch, so
+ * Setting {@link JigAutofocus.jigAutofocus} to `false` releases the latch, so
  * toggling it back to `true` focuses again.
  *
  * @category directive
  */
-@Directive({ selector: '[ngnAutofocus]' })
-export class NgnAutofocus {
+@Directive({ selector: '[jigAutofocus]' })
+export class JigAutofocus {
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
   private readonly _focused = signal(false);
   private readonly _isInitialized = signal(false);
@@ -30,11 +30,11 @@ export class NgnAutofocus {
    * disable autofocus without removing the directive.
    * @default true
    */
-  public readonly ngnAutofocus = input(true, { transform: booleanAttribute });
+  public readonly jigAutofocus = input(true, { transform: booleanAttribute });
 
   constructor() {
     effect(() => {
-      if (!this.ngnAutofocus()) {
+      if (!this.jigAutofocus()) {
         this._focused.set(false);
       }
     });
@@ -48,7 +48,7 @@ export class NgnAutofocus {
      * server DOM element that lacks them.
      *
      * The additional microtask ensures that the control is rendered and the
-     * ngn-control-initializing class is removed before trying to focus the element.
+     * jig-control-initializing class is removed before trying to focus the element.
      */
     afterNextRender(() => {
       if (this._el.nativeElement.getClientRects().length === 0) {
@@ -65,7 +65,7 @@ export class NgnAutofocus {
     if (!this._isInitialized()) {
       return;
     }
-    if (!this.ngnAutofocus()) {
+    if (!this.jigAutofocus()) {
       return;
     }
     if (this._focused()) {

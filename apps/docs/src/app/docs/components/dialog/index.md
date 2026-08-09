@@ -83,7 +83,7 @@ and the button that triggered it, so the caller can tell confirm from cancel.
 ### Custom header, footer & content
 
 Beyond `title` and `footerButtons`, every region is overridable. Project an
-`<ng-template #header>`, `#footer`, or `#content` inside `ngn-dialog`, or bind
+`<ng-template #header>`, `#footer`, or `#content` inside `jig-dialog`, or bind
 the `templateHeader` / `templateFooter` / `content` inputs. The header template
 receives `headerId` and `title` in its context so custom headers stay wired to
 the dialog's accessible name.

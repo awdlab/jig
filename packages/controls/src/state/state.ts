@@ -1,23 +1,23 @@
 import { booleanAttribute, Component, computed, inject, input } from '@angular/core';
-import { NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnSpinner } from '@ngneers/controls/spinner';
-import { stateControlTemplate } from '@ngneers/controls-themes/templates/state';
+import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigSpinner } from '@awdlab/jig/spinner';
+import { stateControlTemplate } from '@awdlab/jig-themes/templates/state';
 
-import type { NgnIconKey } from '@ngneers/controls/icon';
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { JigIconKey } from '@awdlab/jig/icon';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'ngn-state',
+  selector: 'jig-state',
   templateUrl: './state.html',
-  imports: [NgnIcon, NgnPt, NgnSpinner],
-  providers: [provideSelf(NgnState)],
+  imports: [JigIcon, JigPt, JigSpinner],
+  providers: [provideSelf(JigState)],
   host: {
-    '[style.--ngn-state-size.px]': 'size()',
+    '[style.--jig-state-size.px]': 'size()',
     // The kind is conveyed to sighted users purely by icon shape + color, so
     // announce it to assistive tech via a live region. Only set when there is a
     // label (a known kind is applied and the indicator is visible), otherwise
@@ -27,7 +27,7 @@ import type { IconType } from '@ngneers/controls-custom-types';
     '[attr.aria-atomic]': "role() ? 'true' : null",
   },
 })
-export class NgnState extends NgnBase<'state'> {
+export class JigState extends JigBase<'state'> {
   private readonly i18n = inject(I18n).translations;
   /**
    * Whether the indicator is rendered and occupies layout space.
@@ -48,7 +48,7 @@ export class NgnState extends NgnBase<'state'> {
   public readonly size = input(16);
 
   /**
-   * Optional spinner stroke thickness. Passed through to ngn-spinner for loading state.
+   * Optional spinner stroke thickness. Passed through to jig-spinner for loading state.
    */
   public readonly thickness = input<string>();
 
@@ -113,7 +113,7 @@ export class NgnState extends NgnBase<'state'> {
     }
   });
 
-  protected readonly defaultIcon = computed<NgnIconKey | undefined>(() => {
+  protected readonly defaultIcon = computed<JigIconKey | undefined>(() => {
     switch (this.appliedKind()) {
       case 'cancelled':
         return 'upload-cancel';

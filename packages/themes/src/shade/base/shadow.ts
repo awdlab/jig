@@ -1,4 +1,4 @@
-import { createThemePart, createVariableTemplate } from '@ngneers/controls-themes/api';
+import { createThemePart, createVariableTemplate } from '@awdlab/jig-themes/api';
 
 export const shadowTemplate = createVariableTemplate({
   scope: 'shadow',

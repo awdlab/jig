@@ -6,8 +6,8 @@ controls: table, filter, paginator, input, select, tag
 
 # Filterable, paginated table
 
-Combine `ngn-table` for the grid, `ngn-filter` (or plain inputs) for filtering,
-and `ngn-paginator` for paging. Keep the source data and the derived view in
+Combine `jig-table` for the grid, `jig-filter` (or plain inputs) for filtering,
+and `jig-paginator` for paging. Keep the source data and the derived view in
 signals so filtering + paging are pure `computed()` transforms.
 
 ## Shape
@@ -15,20 +15,20 @@ signals so filtering + paging are pure `computed()` transforms.
 - Hold raw rows in a `signal()`; derive the filtered + paged view with
   `computed()`.
 - Drive the paginator's `pageSize` / `total` from the derived view.
-- Use `ngn-filter` for operator-based column filtering, or bind simple
-  `input[ngnInput]` / `ngn-select` controls to filter signals.
-- Render status/labels inside cells with `ngn-tag`.
+- Use `jig-filter` for operator-based column filtering, or bind simple
+  `input[jigInput]` / `jig-select` controls to filter signals.
+- Render status/labels inside cells with `jig-tag`.
 
 ## Skeleton
 
 ```html
-<ngn-filter [(value)]="query" />
+<jig-filter [(value)]="query" />
 
-<ngn-table [rows]="pagedRows()">
-  <!-- columns per ngn-table docs; verify with get_control -->
-</ngn-table>
+<jig-table [rows]="pagedRows()">
+  <!-- columns per jig-table docs; verify with get_control -->
+</jig-table>
 
-<ngn-paginator [(page)]="page" [pageSize]="pageSize()" [total]="filtered().length" />
+<jig-paginator [(page)]="page" [pageSize]="pageSize()" [total]="filtered().length" />
 ```
 
 ```ts
@@ -47,11 +47,11 @@ readonly pagedRows = computed(() =>
 
 ## Notes
 
-- `ngn-table`'s column/template model is specific — read its docs with
+- `jig-table`'s column/template model is specific — read its docs with
   `get_control` before laying out columns.
 - Reset `page` to 0 whenever the filter query changes.
 - The table can also sort/filter/paginate the `rows` array itself via its own
-  `ngnTableSortableColumn` / `ngnTableFilterableColumn` directives and
+  `jigTableSortableColumn` / `jigTableFilterableColumn` directives and
   `paginator` input — reach for the manual pipeline above only when you need the
   derived view elsewhere.
 - For server-driven data pass `dataSource` instead of `rows`: sorting, filtering

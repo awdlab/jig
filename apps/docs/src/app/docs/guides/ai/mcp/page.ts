@@ -1,6 +1,6 @@
-import type { NgnDocsPage } from '../../../../utils/page/types';
+import type { JigDocsPage } from '../../../../utils/page/types';
 
-export const McpServerPage: NgnDocsPage = {
+export const McpServerPage: JigDocsPage = {
   kind: 'single',
   title: `MCP Server`,
   mdFile: 'guides/ai/mcp/index.md',

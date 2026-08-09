@@ -1,4 +1,4 @@
-The Breadcrumb component (`ngn-breadcrumb`) is a navigation aid that shows where
+The Breadcrumb component (`jig-breadcrumb`) is a navigation aid that shows where
 the current page sits within a hierarchy and lets users jump back to any
 ancestor. Use it for deep, hierarchical structures (nested folders, catalog
 categories, multi-level settings) — not as a substitute for primary navigation

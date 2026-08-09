@@ -1,8 +1,8 @@
-import { stepperControlTemplate } from '@ngneers/controls-themes/templates/stepper';
+import { stepperControlTemplate } from '@awdlab/jig-themes/templates/stepper';
 import { themeClasses } from '../utils/theme';
 import { expect, type Locator } from '@playwright/test';
 
-export class NgnStepperHarness {
+export class JigStepperHarness {
   public readonly classes = themeClasses(stepperControlTemplate);
   public readonly locator: Locator;
   public readonly steps: Locator;

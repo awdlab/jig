@@ -7,7 +7,7 @@ hides it, and drives it for both click-to-select and drag-and-drop.
 
 The control owns the list of tracked files and their lifecycle state, but it
 cannot observe the actual transfer — your app runs the request. Report progress
-and status back through the `exportAs="ngnUpload"` handle
+and status back through the `exportAs="jigUpload"` handle
 (`setProgress`, `markDone`, `markFailed`).
 
 ### Auto Upload

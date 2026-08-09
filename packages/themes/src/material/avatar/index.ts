@@ -1,14 +1,10 @@
-import { autoContrast, createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import {
-  colorsTemplate,
-  fontTemplate,
-  sizesTemplate,
-} from '@ngneers/controls-themes/material/base';
+import { autoContrast, createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/material/base';
 import {
   avatarControlTemplate,
   avatarGroupControlTemplate,
-} from '@ngneers/controls-themes/templates/avatar';
+} from '@awdlab/jig-themes/templates/avatar';
 
 export const avatarStyles = createThemePart({
   controlTemplate: avatarControlTemplate,
@@ -46,7 +42,7 @@ export const avatarGroupStyles = createThemePart({
       ${c('root')} ${d('avatar', 'root')} {
         --border-width: 3px;
         border: var(--border-width) solid ${v('color.background')};
-        /* Use :*-of-type (keyed on the ngn-avatar element) rather than :*-child so
+        /* Use :*-of-type (keyed on the jig-avatar element) rather than :*-child so
            a non-avatar sibling injected into the group at runtime — e.g. a tooltip
            anchor when an avatar is hovered — doesn't steal first/last position and
            shift the stack. */

@@ -1,7 +1,7 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/shade/base';
-import { treeControlTemplate } from '@ngneers/controls-themes/templates/tree';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
+import { treeControlTemplate } from '@awdlab/jig-themes/templates/tree';
 
 export const treeStyles = createThemePart({
   controlTemplate: treeControlTemplate,

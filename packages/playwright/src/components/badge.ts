@@ -1,8 +1,8 @@
-import { badgeControlTemplate } from '@ngneers/controls-themes/templates/badge';
+import { badgeControlTemplate } from '@awdlab/jig-themes/templates/badge';
 import { themeClasses } from '../utils/theme';
 import { expect, type Locator } from '@playwright/test';
 
-export class NgnBadgeHarness {
+export class JigBadgeHarness {
   public readonly classes = themeClasses(badgeControlTemplate);
   public readonly locator: Locator;
   public readonly badge: Locator;

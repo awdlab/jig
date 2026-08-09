@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
@@ -7,8 +7,8 @@ import {
   ringTemplate,
   shadowTemplate,
   sizesTemplate,
-} from '@ngneers/controls-themes/nova/base';
-import { switchControlTemplate } from '@ngneers/controls-themes/templates/switch';
+} from '@awdlab/jig-themes/nova/base';
+import { switchControlTemplate } from '@awdlab/jig-themes/templates/switch';
 
 export const switchStyles = createThemePart({
   controlTemplate: switchControlTemplate,

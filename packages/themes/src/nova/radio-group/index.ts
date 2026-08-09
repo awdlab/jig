@@ -1,7 +1,7 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
-import { radioGroupControlTemplate } from '@ngneers/controls-themes/templates/radio-group';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/nova/base';
+import { radioGroupControlTemplate } from '@awdlab/jig-themes/templates/radio-group';
 
 export const radioGroupStyles = createThemePart({
   controlTemplate: radioGroupControlTemplate,

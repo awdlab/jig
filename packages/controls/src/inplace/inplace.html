@@ -1,6 +1,6 @@
 @if (contentVisible()) {
   <div #contentRef tabindex="-1" [ptInt]="this" [ptClass]="'content'">
-    <ngn-defer
+    <jig-defer
       [open]="contentVisible()"
       [lazyContent]="contentTemplate()"
       [lazyContentContext]="templateContentContext() ?? { $implicit: { close: closeContent } }"

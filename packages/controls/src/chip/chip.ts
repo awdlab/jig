@@ -1,22 +1,22 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { booleanAttribute, Component, inject, input, output } from '@angular/core';
-import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { chipControlTemplate } from '@ngneers/controls-themes/templates/chip';
+import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigIcon } from '@awdlab/jig/icon';
+import { chipControlTemplate } from '@awdlab/jig-themes/templates/chip';
 
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'ngn-chip',
+  selector: 'jig-chip',
   templateUrl: './chip.html',
-  imports: [NgnPt, NgnIcon, NgTemplateOutlet],
-  providers: [provideSelf(NgnChip)],
+  imports: [JigPt, JigIcon, NgTemplateOutlet],
+  providers: [provideSelf(JigChip)],
 })
-export class NgnChip extends NgnBase<'chip'> {
+export class JigChip extends JigBase<'chip'> {
   protected readonly theme = this.injectThemeTemplate(chipControlTemplate, {
     root: true,
     closable: () => this.closable(),

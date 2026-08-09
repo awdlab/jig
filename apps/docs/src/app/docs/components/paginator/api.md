@@ -1,1 +1,1 @@
-{{ api: paginator/paginator NgnPaginator }}
+{{ api: paginator/paginator JigPaginator }}

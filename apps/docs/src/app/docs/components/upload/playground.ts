@@ -1,24 +1,24 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnUpload, type NgnUploadFile } from '@ngneers/controls/upload';
+import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-upload-playground',
-  imports: [NgnUpload, NgnDocsPlayground],
+  selector: 'jig-docs-upload-playground',
+  imports: [JigUpload, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnUpload', component: component() }]">
-      <ngn-upload #ref="ngnUpload" (upload)="onUpload($event)">
+    <jig-docs-playground [controls]="[{ componentName: 'JigUpload', component: component() }]">
+      <jig-upload #ref="jigUpload" (upload)="onUpload($event)">
         <input type="file" multiple />
         Drag files here or click to browse
-      </ngn-upload>
-    </ngn-docs-playground>
+      </jig-upload>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsUploadPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnUpload });
+export class JigDocsUploadPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigUpload });
 
-  protected onUpload(files: NgnUploadFile[]): void {
+  protected onUpload(files: JigUploadFile[]): void {
     const up = this.component();
     for (const item of files) {
       let progress = 0;

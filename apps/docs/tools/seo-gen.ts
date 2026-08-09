@@ -21,7 +21,7 @@ import { DOCS_DIR, readPageMeta, readTabSlugs, tabRoutes, walk } from './docs-pa
 const GENERATED_DIR = join(DOCS_DIR, '_generated');
 const PUBLIC_DIR = join(import.meta.dirname, '../public');
 
-export const SITE_URL = 'https://ngneers.dev';
+export const SITE_URL = 'https://jig.awdlab.dev';
 
 /** Longest a meta description should get before search engines truncate it. */
 const DESCRIPTION_LENGTH = 155;
@@ -148,15 +148,15 @@ function renderLlmsTxt(pages: Page[]): string {
     })
     .join('\n\n');
 
-  return `# @ngneers/controls
+  return `# @awdlab/jig
 
 > A signal-based component library for Angular 22+. Controls ship no CSS of their
 > own: behaviour, accessibility and named style scopes live in the control, while
 > all styling comes from a swappable theme that the engine injects at runtime.
 
 Angular 22+, zoneless, standalone, no NgModules, no ControlValueAccessor.
-Packages: \`@ngneers/controls\` (controls), \`@ngneers/controls-themes\` (theming),
-\`@ngneers/controls-playwright\` (test harnesses), \`@ngneers/controls-mcp\` (MCP server).
+Packages: \`@awdlab/jig\` (controls), \`@awdlab/jig-themes\` (theming),
+\`@awdlab/jig-playwright\` (test harnesses), \`@awdlab/jig-mcp\` (MCP server).
 
 Every page below is also available as raw markdown by prefixing the path with
 \`/md/\` — for example ${SITE_URL}/md/components/select/index.md.

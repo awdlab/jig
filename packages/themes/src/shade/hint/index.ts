@@ -1,7 +1,7 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@ngneers/controls-themes/shade/base';
-import { hintControlTemplate } from '@ngneers/controls-themes/templates/hint';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
+import { hintControlTemplate } from '@awdlab/jig-themes/templates/hint';
 
 export const hintStyles = createThemePart({
   controlTemplate: hintControlTemplate,

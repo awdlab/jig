@@ -1,11 +1,7 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import {
-  colorsTemplate,
-  fontTemplate,
-  sizesTemplate,
-} from '@ngneers/controls-themes/material/base';
-import { accordionPanelControlTemplate } from '@ngneers/controls-themes/templates/accordion-panel';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/material/base';
+import { accordionPanelControlTemplate } from '@awdlab/jig-themes/templates/accordion-panel';
 
 export const accordionPanelStyles = createThemePart({
   controlTemplate: accordionPanelControlTemplate,
@@ -24,7 +20,7 @@ export const accordionPanelStyles = createThemePart({
         transition: grid-template-rows 0.2s ease-in-out;
       }
       ${c('content')} {
-        ngn-defer {
+        jig-defer {
           padding-top: 0;
           padding-bottom: ${v('size.padding.md')};
           padding-left: ${v('size.padding.xl')};
@@ -38,7 +34,7 @@ export const accordionPanelStyles = createThemePart({
         cursor: pointer;
         user-select: none;
         transition: background 0.2s ease-in-out;
-        ngn-icon {
+        jig-icon {
           color: ${v('color.surface.500')};
           margin: 0 ${v('size.padding.md')};
           transition: color 0.2s ease-in-out;
@@ -48,7 +44,7 @@ export const accordionPanelStyles = createThemePart({
           ${c('header-text')} {
             color: ${v('color.text')};
           }
-          ngn-icon {
+          jig-icon {
             color: ${v('color.surface.600')};
           }
         }
@@ -58,7 +54,7 @@ export const accordionPanelStyles = createThemePart({
           ${c('header-text')} {
             color: ${v('color.text')};
           }
-          ngn-icon {
+          jig-icon {
             color: ${v('color.text')};
           }
         }
@@ -68,7 +64,7 @@ export const accordionPanelStyles = createThemePart({
         ${c('header-text')} {
           color: ${v('color.surface.300')};
         }
-        ngn-icon {
+        jig-icon {
           color: ${v('color.surface.300')};
         }
       }

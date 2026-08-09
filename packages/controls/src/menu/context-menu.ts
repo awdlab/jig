@@ -7,15 +7,15 @@ import {
   type OnDestroy,
   ViewContainerRef,
 } from '@angular/core';
-import { domEventHandler } from '@ngneers/controls/api/ng';
+import { domEventHandler } from '@awdlab/jig/api/ng';
 
-import { NgnMenu } from './menu';
+import { JigMenu } from './menu';
 import { openMenuAt } from './open-menu-at';
 
 import type { MenuItem } from './types';
 
 /**
- * Opens an {@link NgnMenu} at the pointer on right-click, replacing the native
+ * Opens a {@link JigMenu} at the pointer on right-click, replacing the native
  * browser context menu for its host element.
  *
  * The menu is created lazily on first use and reused afterwards; right-clicking
@@ -23,16 +23,16 @@ import type { MenuItem } from './types';
  *
  * @category directive
  */
-@Directive({ selector: '[ngnContextMenu]' })
-export class NgnContextMenu implements OnDestroy {
+@Directive({ selector: '[jigContextMenu]' })
+export class JigContextMenu implements OnDestroy {
   private readonly _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _vcr = inject(ViewContainerRef);
-  private _menu?: ComponentRef<NgnMenu>;
+  private _menu?: ComponentRef<JigMenu>;
 
   /**
    * The menu items to display in the context menu opened on right-click.
    */
-  public readonly ngnContextMenu = input.required<MenuItem[]>();
+  public readonly jigContextMenu = input.required<MenuItem[]>();
 
   constructor() {
     domEventHandler(this._elementRef, 'contextmenu', this.handleClick.bind(this));
@@ -51,7 +51,7 @@ export class NgnContextMenu implements OnDestroy {
     }
     event.preventDefault();
     event.stopPropagation();
-    this._menu = openMenuAt(this._vcr, this._menu, this.ngnContextMenu(), {
+    this._menu = openMenuAt(this._vcr, this._menu, this.jigContextMenu(), {
       x: event.clientX,
       y: event.clientY,
     });

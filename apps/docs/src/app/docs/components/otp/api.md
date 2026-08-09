@@ -1,1 +1,1 @@
-{{ api: otp/otp NgnOtp }}
+{{ api: otp/otp JigOtp }}

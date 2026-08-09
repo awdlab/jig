@@ -1,23 +1,23 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
-import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
+import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
 
 @Component({
-  selector: 'ngn-root',
-  imports: [NgnAccordion, NgnAccordionPanel],
+  selector: 'jig-root',
+  imports: [JigAccordion, JigAccordionPanel],
   template: `
     <button (click)="visible.set(!visible())">Toggle Tabs</button>
     @if (visible()) {
-      <ngn-accordion>
-        <ngn-accordion-panel [header]="'Panel 1'">
+      <jig-accordion>
+        <jig-accordion-panel [header]="'Panel 1'">
           <ng-template #content> 123 </ng-template>
-        </ngn-accordion-panel>
-        <ngn-accordion-panel [header]="'Panel 2'">
+        </jig-accordion-panel>
+        <jig-accordion-panel [header]="'Panel 2'">
           <ng-template #content> 456 </ng-template>
-        </ngn-accordion-panel>
-        <ngn-accordion-panel [header]="'Panel 3'">
+        </jig-accordion-panel>
+        <jig-accordion-panel [header]="'Panel 3'">
           <ng-template #content> 789 </ng-template>
-        </ngn-accordion-panel>
-      </ngn-accordion>
+        </jig-accordion-panel>
+      </jig-accordion>
     }
   `,
 })

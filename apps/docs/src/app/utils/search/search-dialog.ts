@@ -4,11 +4,11 @@ import tablerFileText from '@iconify/icons-tabler/file-text';
 import tablerPuzzle from '@iconify/icons-tabler/puzzle';
 import tablerSearch from '@iconify/icons-tabler/search';
 import tablerTag from '@iconify/icons-tabler/tag';
-import { NgnCommand } from '@ngneers/controls/command';
+import { JigCommand } from '@awdlab/jig/command';
 
 import { DocsSearch } from './search';
 
-import type { NgnActionItem } from '@ngneers/controls/api';
+import type { JigActionItem } from '@awdlab/jig/api';
 
 /** Below this there is nothing worth matching on. */
 const MIN_QUERY_LENGTH = 2;
@@ -17,16 +17,16 @@ const MIN_QUERY_LENGTH = 2;
 type ResultDetail = { breadcrumb: string; snippet: string; badge: string };
 
 @Component({
-  selector: 'ngn-docs-search-dialog',
+  selector: 'jig-docs-search-dialog',
   templateUrl: './search-dialog.html',
   styles: `
     :host {
       display: contents;
     }
   `,
-  imports: [NgnCommand],
+  imports: [JigCommand],
 })
-export class NgnDocsSearchDialog {
+export class JigDocsSearchDialog {
   public readonly open = model(false);
 
   protected readonly iconSearch = tablerSearch;
@@ -55,9 +55,9 @@ export class NgnDocsSearchDialog {
    * `callback` rather than `route` so it can carry the heading anchor — `route`
    * navigation drops the fragment.
    */
-  protected readonly items = computed<NgnActionItem[]>(() => {
+  protected readonly items = computed<JigActionItem[]>(() => {
     const { results, names } = this._ranked();
-    const groups: NgnActionItem[] = [];
+    const groups: JigActionItem[] = [];
 
     if (names.length > 0) {
       groups.push({
@@ -95,7 +95,7 @@ export class NgnDocsSearchDialog {
     return groups;
   });
 
-  /** Keyed by item id — `NgnActionItem` has no room for this, the template reads it. */
+  /** Keyed by item id — `JigActionItem` has no room for this, the template reads it. */
   protected readonly details = computed<Record<string, ResultDetail>>(() => {
     const { results, names } = this._ranked();
     const detail: Record<string, ResultDetail> = {};

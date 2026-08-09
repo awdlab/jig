@@ -9,13 +9,13 @@
 </ng-template>
 
 @if (icon() || defaultIconKey()) {
-  <ngn-icon
+  <jig-icon
     [ptInt]="this"
     [ptClass]="'icon'"
     [icon]="icon()"
     [defaultIcon]="defaultIconKey()"
-    [ngnTooltip]="iconOnly() ? renderedContent : null"
-    [ngnTooltipAutoAriaMode]="'label'"
+    [jigTooltip]="iconOnly() ? renderedContent : null"
+    [jigTooltipAutoAriaMode]="'label'"
   />
 }
 @if (!iconOnly()) {

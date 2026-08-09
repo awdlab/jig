@@ -1,21 +1,21 @@
 <div>
   @if (isTouchDevice) {
-    <ngn-input-field>
+    <jig-input-field>
       <input
         type="time"
-        ngnInput
+        jigInput
         [step]="showSeconds() ? 1 : 60"
         [value]="value()"
         (valueChange)="onValueChange($event || '')"
       />
-    </ngn-input-field>
+    </jig-input-field>
   } @else {
-    <ngn-input-field>
-      <ngn-mask-input
+    <jig-input-field>
+      <jig-mask-input
         [mask]="mask()"
         [value]="value()"
         (valueChange)="onValueChange($event ?? '')"
       />
-    </ngn-input-field>
+    </jig-input-field>
   }
 </div>

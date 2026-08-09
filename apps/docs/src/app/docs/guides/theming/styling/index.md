@@ -10,13 +10,13 @@ Pick the smallest one that does the job.
 
 ### Why your CSS wins
 
-All generated CSS is emitted inside a single cascade layer, `ngn-controls` by
+All generated CSS is emitted inside a single cascade layer, `jig` by
 default. Unlayered CSS beats layered CSS **regardless of specificity**, so a
 plain class selector of yours overrides the theme without `!important` and
 without `::ng-deep`:
 
 ```css
-/* wins over the theme's .ngn-button rules */
+/* wins over the theme's .jig-button rules */
 .checkout-button {
   border-radius: 0;
 }
@@ -34,11 +34,11 @@ token restyles everything that uses it — including your own components:
 
 ```css
 :root {
-  --ngn-size-radius-md: 2px;
+  --jig-size-radius-md: 2px;
 }
 
 .dashboard {
-  --ngn-color-primary-500: #7c3aed;
+  --jig-color-primary-500: #7c3aed;
 }
 ```
 
@@ -49,8 +49,8 @@ to a subtree restyles only the controls inside it. See
 
 ### Targeting generated classes
 
-Class names follow `{prefix}{scope}-{part}` — `ngn-button-root`,
-`ngn-select-popover-content`. They are stable, and the
+Class names follow `{prefix}{scope}-{part}` — `jig-button-root`,
+`jig-select-popover-content`. They are stable, and the
 [Playwright harnesses](/guides/testing) derive selectors from the same
 templates, so they are safe to target.
 
@@ -64,7 +64,7 @@ silently stops applying.
 base rules — layout and positioning stay, colours and decoration go:
 
 ```html
-<ngn-select unstyled class="my-own-select" />
+<jig-select unstyled class="my-own-select" />
 ```
 
 It cascades to nested controls, so an unstyled composite does not have styled
@@ -80,20 +80,20 @@ utilities are unlayered by default and therefore win over the theme.
 Utilities on a control's host work as expected:
 
 ```html
-<button ngnButton class="w-full sm:w-auto">Save</button>
+<button jigButton class="w-full sm:w-auto">Save</button>
 ```
 
 For anything inside, go through `pt` — it accepts class strings, so Tailwind
 utilities reach internal parts without a global stylesheet:
 
 ```ts
-protected readonly pt: NgnPassthrough<'select'> = {
+protected readonly pt: JigPassthrough<'select'> = {
   'popover-content': { $classes: 'max-h-64' },
 };
 ```
 
 ```html
-<ngn-select [pt]="pt" />
+<jig-select [pt]="pt" />
 ```
 
 ### Scoping the tokens
@@ -102,7 +102,7 @@ By default token declarations land on `:root`. When the library runs inside a
 page you do not own, scope them:
 
 ```ts
-provideNgnControls({
+provideJigControls({
   theme: { preset: nova, styleScope: { kind: 'class', name: 'my-app' } },
 });
 ```

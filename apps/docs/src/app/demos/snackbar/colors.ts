@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { injectThemeColors } from '@ngneers/controls/api/ng';
-import { NgnButton } from '@ngneers/controls/button';
-import { injectSnackbarCreator } from '@ngneers/controls/snackbar';
+import { injectThemeColors } from '@awdlab/jig/api/ng';
+import { JigButton } from '@awdlab/jig/button';
+import { injectSnackbarCreator } from '@awdlab/jig/snackbar';
 
-import type { CustomColor } from '@ngneers/controls-custom-types';
+import type { CustomColor } from '@awdlab/jig-custom-types';
 
 @Component({
-  imports: [NgnButton],
-  selector: 'ngn-demo-snackbar-colors',
+  imports: [JigButton],
+  selector: 'jig-demo-snackbar-colors',
   template: `
     @for (color of colors(); track color) {
-      <button ngnButton kind="text" [color]="color" (click)="showSnackbar(color)">
+      <button jigButton kind="text" [color]="color" (click)="showSnackbar(color)">
         {{ color }}
       </button>
     }

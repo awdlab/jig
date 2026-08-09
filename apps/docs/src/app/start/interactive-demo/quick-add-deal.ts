@@ -1,14 +1,14 @@
 import { Component, output, signal } from '@angular/core';
 import { form, FormField, min, required } from '@angular/forms/signals';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnCalendar } from '@ngneers/controls/calendar';
-import { NgnErrors } from '@ngneers/controls/errors';
-import { NgnHint } from '@ngneers/controls/hint';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnNumberInput } from '@ngneers/controls/number-input';
-import { NgnSelect } from '@ngneers/controls/select';
-import { NgnSelectButton } from '@ngneers/controls/select-button';
+import { JigButton } from '@awdlab/jig/button';
+import { JigCalendar } from '@awdlab/jig/calendar';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigNumberInput } from '@awdlab/jig/number-input';
+import { JigSelect } from '@awdlab/jig/select';
+import { JigSelectButton } from '@awdlab/jig/select-button';
 
 import {
   type DealDraft,
@@ -31,89 +31,89 @@ interface DealForm {
 }
 
 @Component({
-  selector: 'ngn-docs-quick-add-deal',
+  selector: 'jig-docs-quick-add-deal',
   imports: [
     FormField,
-    NgnButton,
-    NgnCalendar,
-    NgnErrors,
-    NgnHint,
-    NgnInput,
-    NgnInputField,
-    NgnNumberInput,
-    NgnSelect,
-    NgnSelectButton,
+    JigButton,
+    JigCalendar,
+    JigErrors,
+    JigHint,
+    JigInput,
+    JigInputField,
+    JigNumberInput,
+    JigSelect,
+    JigSelectButton,
   ],
   template: `
     <h3
-      class="mb-(--ngn-size-padding-lg) text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
+      class="mb-(--jig-size-padding-lg) text-(length:--jig-font-size-lg) font-(--jig-font-weight-semibold) text-(--jig-color-text)"
     >
       Quick Add Deal
     </h3>
 
     <div>
-      <ngn-input-field class="block" label="Account Name">
+      <jig-input-field class="block" label="Account Name">
         <input
-          ngnInput
+          jigInput
           [formField]="dealForm.account"
-          ngnErrors
-          [ngnErrorsHint]="accountHint"
-          ngnErrorsShowOn="touched"
+          jigErrors
+          [jigErrorsHint]="accountHint"
+          jigErrorsShowOn="touched"
           placeholder="Acme Inc."
         />
-      </ngn-input-field>
-      <ngn-hint #accountHint class="mt-(--ngn-size-padding-sm)" />
+      </jig-input-field>
+      <jig-hint #accountHint class="mt-(--jig-size-padding-sm)" />
     </div>
 
     <div>
-      <ngn-input-field class="block" label="Deal Value">
+      <jig-input-field class="block" label="Deal Value">
         <input
-          ngnNumberInput
+          jigNumberInput
           [formField]="dealForm.value"
-          ngnErrors
-          [ngnErrorsHint]="valueHint"
-          ngnErrorsShowOn="touched"
+          jigErrors
+          [jigErrorsHint]="valueHint"
+          jigErrorsShowOn="touched"
           [formatOptions]="currencyFormat"
           placeholder="50000"
         />
-      </ngn-input-field>
-      <ngn-hint #valueHint class="mt-(--ngn-size-padding-sm)" />
+      </jig-input-field>
+      <jig-hint #valueHint class="mt-(--jig-size-padding-sm)" />
     </div>
 
-    <ngn-input-field class="block" label="Stage">
-      <ngn-select [options]="stageOptions" [formField]="dealForm.stage" />
-    </ngn-input-field>
+    <jig-input-field class="block" label="Stage">
+      <jig-select [options]="stageOptions" [formField]="dealForm.stage" />
+    </jig-input-field>
 
-    <ngn-input-field class="block" label="Owner">
-      <ngn-select [options]="ownerOptions" [formField]="dealForm.owner" />
-    </ngn-input-field>
+    <jig-input-field class="block" label="Owner">
+      <jig-select [options]="ownerOptions" [formField]="dealForm.owner" />
+    </jig-input-field>
 
-    <div class="mb-(--ngn-size-padding-lg)">
-      <ngn-input-field class="block" label="Close Date">
-        <ngn-calendar
+    <div class="mb-(--jig-size-padding-lg)">
+      <jig-input-field class="block" label="Close Date">
+        <jig-calendar
           [formField]="dealForm.closeDate"
-          ngnErrors
-          [ngnErrorsHint]="closeDateHint"
-          ngnErrorsShowOn="touched"
+          jigErrors
+          [jigErrorsHint]="closeDateHint"
+          jigErrorsShowOn="touched"
         />
-      </ngn-input-field>
-      <ngn-hint #closeDateHint class="mt-(--ngn-size-padding-sm)" />
+      </jig-input-field>
+      <jig-hint #closeDateHint class="mt-(--jig-size-padding-sm)" />
     </div>
 
     <label
       [for]="priorityBtn.inputId()"
-      class="mb-(--ngn-size-padding-sm) block text-(length:--ngn-font-size-sm) font-(--ngn-font-weight-semibold) text-(--ngn-color-surface-600)"
+      class="mb-(--jig-size-padding-sm) block text-(length:--jig-font-size-sm) font-(--jig-font-weight-semibold) text-(--jig-color-surface-600)"
     >
       Priority
     </label>
-    <ngn-select-button
+    <jig-select-button
       #priorityBtn
-      class="mb-(--ngn-size-padding-lg) block"
+      class="mb-(--jig-size-padding-lg) block"
       [options]="priorityOptions"
       [formField]="dealForm.priority"
     />
 
-    <button ngnButton kind="primary" class="w-full justify-center" (click)="submit()">
+    <button jigButton kind="primary" class="w-full justify-center" (click)="submit()">
       Add Deal
     </button>
   `,

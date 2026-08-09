@@ -1,4 +1,4 @@
-The Avatar (`<ngn-avatar>`) is a compact, square-ish badge that represents a
+The Avatar (`<jig-avatar>`) is a compact, square-ish badge that represents a
 user or entity. It shows one of three things, in order of preference: projected
 content (e.g. an icon), an `image`, or `initials`. If an `image` fails to load
 it automatically falls back to the initials, so a broken URL never leaves an
@@ -30,14 +30,14 @@ uniformly, keeping the image or initials centered.
 ### Icon
 
 Projected content wins over both image and initials, so you can drop an
-`<ngn-icon>` (or any element) inside the avatar for a generic or role-based
+`<jig-icon>` (or any element) inside the avatar for a generic or role-based
 placeholder.
 
 {{ demo: Demo_Avatar_Icon }}
 
 ### Group
 
-Wrap several avatars in `<ngn-avatar-group>` to render them as an overlapping,
+Wrap several avatars in `<jig-avatar-group>` to render them as an overlapping,
 stacked cluster — the common pattern for showing the members of a team or the
 participants in a thread, often ending with a `+N` initials avatar for the
 overflow.

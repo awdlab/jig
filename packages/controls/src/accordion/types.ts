@@ -1,6 +1,6 @@
 import { InjectionToken, type Signal } from '@angular/core';
 
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 export type HeaderTemplateType = {
   $implicit: {

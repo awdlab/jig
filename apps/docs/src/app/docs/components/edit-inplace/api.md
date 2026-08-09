@@ -1,1 +1,1 @@
-{{ api: edit-inplace/edit-inplace NgnEditInplace }}
+{{ api: edit-inplace/edit-inplace JigEditInplace }}

@@ -14,47 +14,47 @@ import {
   viewChild,
   inject,
 } from '@angular/core';
-import { type FilterConfig, mapToItems, type NgnItem } from '@ngneers/controls/api';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnPt, provideSelf } from '@ngneers/controls/base';
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnItemView } from '@ngneers/controls/item-view';
-import { NgnListBox } from '@ngneers/controls/list-box';
-import { NgnPopover, type PopoverOptions } from '@ngneers/controls/popover';
-import { deepMerge, maybeCallback, NgnError } from '@ngneers/controls/utils';
-import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
+import { type FilterConfig, mapToItems, type JigItem } from '@awdlab/jig/api';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigItemView } from '@awdlab/jig/item-view';
+import { JigListBox } from '@awdlab/jig/list-box';
+import { JigPopover, type PopoverOptions } from '@awdlab/jig/popover';
+import { deepMerge, maybeCallback, JigError } from '@awdlab/jig/utils';
+import { selectControlTemplate } from '@awdlab/jig-themes/templates/select';
 
 import { SelectTemplates, type ValueType } from './select-templates';
 
 import type { SelectFilterOptions } from './types';
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'ngn-select',
+  selector: 'jig-select',
   templateUrl: './select.html',
   imports: [
-    NgnPt,
-    NgnListBox,
-    NgnPopover,
-    NgnInput,
-    NgnInputField,
+    JigPt,
+    JigListBox,
+    JigPopover,
+    JigInput,
+    JigInputField,
     NgTemplateOutlet,
-    NgnTemplate,
-    NgnItemView,
-    NgnIcon,
+    JigTemplate,
+    JigItemView,
+    JigIcon,
   ],
-  providers: [provideSelf(NgnSelect)],
+  providers: [provideSelf(JigSelect)],
   host: {
     style: 'display: block;',
   },
 })
-export class NgnSelect<
+export class JigSelect<
   V,
   Editable extends boolean = false,
   Multiple extends boolean = false,
@@ -62,9 +62,9 @@ export class NgnSelect<
   public override readonly isFieldControl = true;
   protected readonly theme = this.injectThemeTemplate(selectControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
-  private readonly _popover = viewChild.required<NgnPopover>(NgnPopover);
+  private readonly _popover = viewChild.required<JigPopover>(JigPopover);
   private readonly _field = viewChild.required<ElementRef<HTMLElement>>('field');
-  private readonly _customEditableInput = contentChild(NgnInput);
+  private readonly _customEditableInput = contentChild(JigInput);
   private _customEditableSub?: OutputRefSubscription;
 
   /**
@@ -87,16 +87,16 @@ export class NgnSelect<
   );
   /**
    * The available options to choose from. They can either be
-   * * A list of {@link NgnItem} objects
-   * * A list of plain objects. You'll have to provide a {@link fields} input to specify how to map the plain objects to {@link NgnItem} objects.
+   * * A list of {@link JigItem} objects
+   * * A list of plain objects. You'll have to provide a {@link fields} input to specify how to map the plain objects to {@link JigItem} objects.
    */
-  public readonly options = input<readonly NgnItem<unknown, V>[]>([]);
+  public readonly options = input<readonly JigItem<unknown, V>[]>([]);
   /**
    * Accepts a boolean value that determines whether the filter is enabled.
    * Alternatively, you can provide `SelectFilterOptions` to customize the filter behavior.
    * @default `false`
    */
-  public readonly filter = input<SelectFilterOptions<NgnItem<unknown, V>> | boolean>(false);
+  public readonly filter = input<SelectFilterOptions<JigItem<unknown, V>> | boolean>(false);
   /**
    * Manually set the filter text.
    */
@@ -169,7 +169,7 @@ export class NgnSelect<
 
   /**
    * Whether the control holds no value. Drives the empty status class and lets a
-   * wrapping {@link NgnInputField} float its label. See {@link value}.
+   * wrapping {@link JigInputField} float its label. See {@link value}.
    */
   public override readonly empty = computed(() => {
     const v = this.value();
@@ -177,11 +177,11 @@ export class NgnSelect<
     return v == null || v === '';
   });
 
-  private readonly _listbox = viewChild(NgnListBox);
+  private readonly _listbox = viewChild(JigListBox);
   private _userChangedEditableInput = false;
   protected get anchorElement(): HTMLElement {
     return (
-      (this.element.nativeElement.closest('ngn-input-field') as HTMLElement | null) ??
+      (this.element.nativeElement.closest('jig-input-field') as HTMLElement | null) ??
       this.element.nativeElement
     );
   }
@@ -197,7 +197,7 @@ export class NgnSelect<
     return Array.isArray(v) ? v : v ? [v] : [];
   });
 
-  protected readonly appliedFilter: Signal<FilterConfig<NgnItem> | boolean> = computed(
+  protected readonly appliedFilter: Signal<FilterConfig<JigItem> | boolean> = computed(
     () => this.filter() || this.editable() || false
   );
 
@@ -220,10 +220,10 @@ export class NgnSelect<
     super();
     effect(() => {
       if (this.editable() && this.multiple()) {
-        throw new NgnError('select', 'Editable and multiple selection cannot be used together');
+        throw new JigError('select', 'Editable and multiple selection cannot be used together');
       }
       if (this.editable() && this.filter()) {
-        throw new NgnError('select', 'Editable and filtering cannot be used together');
+        throw new JigError('select', 'Editable and filtering cannot be used together');
       }
     });
     effect(() => {
@@ -346,7 +346,7 @@ export class NgnSelect<
   }
 
   /**
-   * Opens the list from a pointer click anywhere on a wrapping `ngn-input-field`
+   * Opens the list from a pointer click anywhere on a wrapping `jig-input-field`
    * (its padding included), matching a click on the trigger itself. Delegated by
    * the field so it works regardless of the select's `tabindex`.
    */

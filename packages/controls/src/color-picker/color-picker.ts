@@ -11,25 +11,25 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import type { Anchor, Openable } from '@ngneers/controls/api/ng';
-import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnDrag, type NgnDragInfo } from '@ngneers/controls/directives';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnNumberInput } from '@ngneers/controls/number-input';
-import { NgnPopover } from '@ngneers/controls/popover';
+import type { Anchor, Openable } from '@awdlab/jig/api/ng';
+import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDrag, type JigDragInfo } from '@awdlab/jig/directives';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigNumberInput } from '@awdlab/jig/number-input';
+import { JigPopover } from '@awdlab/jig/popover';
 import {
   type ColorFormat,
   formatColor,
   hsvaToRgba,
   type HSVA,
-  NgnError,
+  JigError,
   parseColor,
   type RGBA,
   rgbaToHsva,
-} from '@ngneers/controls/utils';
-import { colorPickerControlTemplate } from '@ngneers/controls-themes/templates/color-picker';
+} from '@awdlab/jig/utils';
+import { colorPickerControlTemplate } from '@awdlab/jig-themes/templates/color-picker';
 
 const DEFAULT_HSVA: HSVA = { h: 0, s: 0, v: 0, a: 1 };
 
@@ -37,25 +37,25 @@ const DEFAULT_HSVA: HSVA = { h: 0, s: 0, v: 0, a: 1 };
  * @category control
  */
 @Component({
-  selector: 'ngn-color-picker',
+  selector: 'jig-color-picker',
   templateUrl: './color-picker.html',
   imports: [
     NgTemplateOutlet,
-    NgnPt,
-    NgnDrag,
-    NgnPopover,
-    NgnInput,
-    NgnButton,
-    NgnInputField,
-    NgnNumberInput,
+    JigPt,
+    JigDrag,
+    JigPopover,
+    JigInput,
+    JigButton,
+    JigInputField,
+    JigNumberInput,
   ],
-  providers: [provideSelf(NgnColorPicker)],
+  providers: [provideSelf(JigColorPicker)],
   host: {
     '[style.--hue]': 'hsva().h',
     '(focusout)': 'potentiallyBlurred()',
   },
 })
-export class NgnColorPicker extends ValueControlBase<'color-picker', string> implements Openable {
+export class JigColorPicker extends ValueControlBase<'color-picker', string> implements Openable {
   protected readonly theme = this.injectThemeTemplate(colorPickerControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),
@@ -67,7 +67,7 @@ export class NgnColorPicker extends ValueControlBase<'color-picker', string> imp
   private readonly _hueTrack = viewChild<ElementRef<HTMLElement>>('hueTrack');
   private readonly _alphaTrack = viewChild<ElementRef<HTMLElement>>('alphaTrack');
   // Only rendered (non-`inline()`) behind the trigger — absent while inline.
-  private readonly _popover = viewChild(NgnPopover);
+  private readonly _popover = viewChild(JigPopover);
 
   /** Output/display format. @default hex */
   public readonly format = input<ColorFormat>('hex');
@@ -80,7 +80,7 @@ export class NgnColorPicker extends ValueControlBase<'color-picker', string> imp
   /**
    * Headless mode: render no trigger of its own and open in a popover anchored to
    * {@link anchor}, driven imperatively via {@link show}/{@link hide}/{@link toggle}
-   * (like `ngn-menu`). Requires {@link anchor}. @default false
+   * (like `jig-menu`). Requires {@link anchor}. @default false
    */
   public readonly popover = input(false, { transform: booleanAttribute });
   /** The external element the headless popover anchors to. Required when {@link popover} is set. */
@@ -130,10 +130,10 @@ export class NgnColorPicker extends ValueControlBase<'color-picker', string> imp
     });
     effect(() => this.activeFormat.set(this.format()));
 
-    // Headless popover requires an anchor (mirrors ngn-menu).
+    // Headless popover requires an anchor (mirrors jig-menu).
     effect(() => {
       if (this.popover() && !this.anchor()) {
-        throw new NgnError('NgnColorPicker', 'popover mode requires the anchor input to be set.');
+        throw new JigError('JigColorPicker', 'popover mode requires the anchor input to be set.');
       }
     });
     // Two-way bridge between the `open` model and the actual popover state.
@@ -181,7 +181,7 @@ export class NgnColorPicker extends ValueControlBase<'color-picker', string> imp
     this.commit();
   }
 
-  protected onSvDrag(info: NgnDragInfo): void {
+  protected onSvDrag(info: JigDragInfo): void {
     if (this.readonly() || this.disabled()) return;
     const el = this._svArea()?.nativeElement;
     if (!el) return;
@@ -192,7 +192,7 @@ export class NgnColorPicker extends ValueControlBase<'color-picker', string> imp
     this.commit();
   }
 
-  protected onHueDrag(info: NgnDragInfo): void {
+  protected onHueDrag(info: JigDragInfo): void {
     if (this.readonly() || this.disabled()) return;
     const el = this._hueTrack()?.nativeElement;
     if (!el) return;
@@ -202,7 +202,7 @@ export class NgnColorPicker extends ValueControlBase<'color-picker', string> imp
     this.commit();
   }
 
-  protected onAlphaDrag(info: NgnDragInfo): void {
+  protected onAlphaDrag(info: JigDragInfo): void {
     if (this.readonly() || this.disabled()) return;
     const el = this._alphaTrack()?.nativeElement;
     if (!el) return;

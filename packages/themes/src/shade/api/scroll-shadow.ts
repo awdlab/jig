@@ -1,6 +1,6 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import { scrollShadowDirectiveTemplate } from '@ngneers/controls-themes/templates/api';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { scrollShadowDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
 
 // The scroll-shadow tint is the single source of truth for the shadow color. It is defined on the
 // scroll container's scrolled-* classes so both the generic overlay surface and any consumer
@@ -16,7 +16,7 @@ export const scrollShadowStyles = createThemePart({
       ${c('scrolled-end')},
       ${c('scrolled-top')},
       ${c('scrolled-bottom')} {
-        --ngn-scroll-shadow-color: rgb(0 0 0 / 0.08);
+        --jig-scroll-shadow-color: rgb(0 0 0 / 0.08);
       }
     `,
   },
@@ -28,7 +28,7 @@ export const scrollShadowStyles = createThemePart({
       ${c('scrolled-end')},
       ${c('scrolled-top')},
       ${c('scrolled-bottom')} {
-        --ngn-scroll-shadow-color: rgb(255 255 255 / 0.35);
+        --jig-scroll-shadow-color: rgb(255 255 255 / 0.35);
       }
     `,
   },

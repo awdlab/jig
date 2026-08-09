@@ -1,23 +1,23 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
+import { JigButton } from '@awdlab/jig/button';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-button-playground',
-  imports: [NgnButton, NgnDocsPlayground],
+  selector: 'jig-docs-button-playground',
+  imports: [JigButton, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnButton', component: component() }]">
-      <button #ref ngnButton>
+    <jig-docs-playground [controls]="[{ componentName: 'JigButton', component: component() }]">
+      <button #ref jigButton>
         @if (component().appliedKind() === 'icon') {
           👽
         } @else {
           A button
         }
       </button>
-    </ngn-docs-playground>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsButtonPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnButton });
+export class JigDocsButtonPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigButton });
 }

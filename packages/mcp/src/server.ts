@@ -17,10 +17,10 @@ export function createServer(): McpServer {
   const pack = loadPack();
 
   const server = new McpServer(
-    { name: '@ngneers/controls-mcp', version: pack.controlsVersion },
+    { name: '@awdlab/jig-mcp', version: pack.controlsVersion },
     {
       instructions:
-        'Knowledge server for @ngneers/controls, an Angular UI component library. Capabilities: ' +
+        'Knowledge server for @awdlab/jig, an Angular UI component library. Capabilities: ' +
         '(docs) list_controls / get_control / search_docs; ' +
         '(theming) get_theme_schema / get_control_theme / scaffold_theme_part; ' +
         '(migration) list_migration_sources / map_component / search_migration; ' +

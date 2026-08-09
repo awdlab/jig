@@ -1,26 +1,26 @@
 import { Component, computed, input } from '@angular/core';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
-import { badgeControlTemplate } from '@ngneers/controls-themes/templates/badge';
+import { JigBase, provideSelf } from '@awdlab/jig/base';
+import { badgeControlTemplate } from '@awdlab/jig-themes/templates/badge';
 
 /** One of the four corners the badge indicator can sit in. */
 export type BadgePosition = 'top-end' | 'top-start' | 'bottom-end' | 'bottom-start';
 
 /**
  * @internal
- * The overlay element rendered by the {@link NgnBadge} directive. Not intended
+ * The overlay element rendered by the {@link JigBadge} directive. Not intended
  * to be used directly in templates.
  * @category control
  */
 @Component({
-  selector: 'ngn-badge-indicator',
+  selector: 'jig-badge-indicator',
   templateUrl: './badge-indicator.html',
-  providers: [provideSelf(NgnBadgeIndicator)],
+  providers: [provideSelf(JigBadgeIndicator)],
   host: {
     'aria-hidden': 'true',
-    '[style.--ngn-badge-color]': 'bgColor() || null',
+    '[style.--jig-badge-color]': 'bgColor() || null',
   },
 })
-export class NgnBadgeIndicator extends NgnBase<'badge'> {
+export class JigBadgeIndicator extends JigBase<'badge'> {
   protected readonly theme = this.injectThemeTemplate(badgeControlTemplate, {
     root: true,
     dot: () => this.dot(),

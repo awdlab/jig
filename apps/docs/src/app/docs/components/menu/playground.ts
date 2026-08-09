@@ -1,29 +1,29 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { type MenuItem, NgnMenu } from '@ngneers/controls/menu';
+import { JigButton } from '@awdlab/jig/button';
+import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-menu-playground',
-  imports: [NgnMenu, NgnButton, NgnDocsPlayground],
+  selector: 'jig-docs-menu-playground',
+  imports: [JigMenu, JigButton, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnMenu', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'JigMenu', component: component() }]">
       <button
         [style.display]="component().popover() ? 'unset' : 'none'"
-        ngnButton
+        jigButton
         #anchor
         (click)="ref.show()"
       >
         Open Menu
       </button>
 
-      <ngn-menu #ref [items]="items()" [anchor]="anchor" />
-    </ngn-docs-playground>
+      <jig-menu #ref [items]="items()" [anchor]="anchor" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsMenuPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnMenu });
+export class JigDocsMenuPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigMenu });
   protected readonly items = signal<MenuItem[]>([
     { id: '1', label: 'Item 1' },
     { id: '2', label: 'Item 2' },

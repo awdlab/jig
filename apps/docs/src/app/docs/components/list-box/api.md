@@ -1,1 +1,1 @@
-{{ api: list-box/list-box NgnListBox }}
+{{ api: list-box/list-box JigListBox }}

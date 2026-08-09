@@ -9,11 +9,11 @@ import {
   TemplateRef,
   viewChildren,
 } from '@angular/core';
-import { type NgnBaseSafe, NgnPt } from '@ngneers/controls/base';
-import { NgnButton } from '@ngneers/controls/button';
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
+import { type JigBaseSafe, JigPt } from '@awdlab/jig/base';
+import { JigButton } from '@awdlab/jig/button';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigIcon } from '@awdlab/jig/icon';
+import { calendarControlTemplate } from '@awdlab/jig-themes/templates/calendar';
 
 import {
   type DayModel,
@@ -28,7 +28,7 @@ import {
   type YearTemplateType,
 } from '../types';
 
-import type { ControlTemplateInfo } from '@ngneers/controls/api/ng';
+import type { ControlTemplateInfo } from '@awdlab/jig/api/ng';
 
 // Configuration: Number of weeks to show before and after the current month
 const WEEKS_BEFORE = 1;
@@ -43,12 +43,12 @@ type WeekModel = {
 };
 
 @Component({
-  selector: 'ngn-calendar-days',
+  selector: 'jig-calendar-days',
   templateUrl: './days.html',
-  imports: [NgTemplateOutlet, NgnPt, NgnButton, NgnIcon],
+  imports: [NgTemplateOutlet, JigPt, JigButton, JigIcon],
 })
 export class CalendarDays {
-  public readonly component = input.required<NgnBaseSafe<'calendar'>>();
+  public readonly component = input.required<JigBaseSafe<'calendar'>>();
   public readonly theme = input.required<ControlTemplateInfo<typeof calendarControlTemplate>>();
   public readonly year = input.required<number>();
   public readonly month = input.required<number>();

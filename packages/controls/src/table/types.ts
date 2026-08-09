@@ -1,5 +1,5 @@
-import type { PaginationState } from '@ngneers/controls/paginator';
-import type { NgnFilterConfig } from '@ngneers/controls/filter';
+import type { PaginationState } from '@awdlab/jig/paginator';
+import type { JigFilterConfig } from '@awdlab/jig/filter';
 
 export type FormattedTableDataRow<T> = {
   kind: 'data' | 'header' | 'footer';
@@ -35,7 +35,7 @@ export type TableLoadRequest = {
   /** Active sort descriptor, or `null` when unsorted. */
   sort: { column: string; direction: 'asc' | 'desc' } | null;
   /** Active per-column filter config, or `null` when unfiltered. */
-  filters: Record<string, NgnFilterConfig> | null;
+  filters: Record<string, JigFilterConfig> | null;
   /**
    * Continuation token from the previous page's {@link TableLoadResult.cursor},
    * when navigating forward in compact/cursor pagination. `undefined` on the first
@@ -68,7 +68,7 @@ export type TableLoadResult<T> = {
 };
 
 /**
- * A loader callback. Its presence on {@link NgnTable} switches the table into
+ * A loader callback. Its presence on {@link JigTable} switches the table into
  * lazy mode. Called with a {@link TableLoadRequest}, resolves a {@link TableLoadResult}.
  */
 export type TableDataSource<T> = (req: TableLoadRequest) => Promise<TableLoadResult<T>>;

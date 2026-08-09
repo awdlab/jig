@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NgnSwitch } from '@ngneers/controls/switch';
+import { JigSwitch } from '@awdlab/jig/switch';
 
 @Component({
-  selector: 'ngn-demo-switch-base',
-  imports: [NgnSwitch],
-  template: `<ngn-switch />`,
+  selector: 'jig-demo-switch-base',
+  imports: [JigSwitch],
+  template: `<jig-switch />`,
 })
 export class Demo_Switch_Base {}

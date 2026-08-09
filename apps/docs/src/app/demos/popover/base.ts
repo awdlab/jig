@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnPopover } from '@ngneers/controls/popover';
+import { JigButton } from '@awdlab/jig/button';
+import { JigPopover } from '@awdlab/jig/popover';
 
 @Component({
-  imports: [NgnPopover, NgnButton],
-  selector: 'ngn-demo-popover-base',
+  imports: [JigPopover, JigButton],
+  selector: 'jig-demo-popover-base',
   template: `
-    <button ngnButton #anchor (click)="popover.show()">Open</button>
-    <ngn-popover #popover [anchor]="anchor"> Content </ngn-popover>
+    <button jigButton #anchor (click)="popover.show()">Open</button>
+    <jig-popover #popover [anchor]="anchor"> Content </jig-popover>
   `,
 })
 export class Demo_Popover_Base {}

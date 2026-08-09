@@ -1,28 +1,28 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@ngneers/controls/errors';
-import { NgnFilter, type NgnFilterConfig } from '@ngneers/controls/filter';
-import { NgnHint } from '@ngneers/controls/hint';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigFilter, type JigFilterConfig } from '@awdlab/jig/filter';
+import { JigHint } from '@awdlab/jig/hint';
 
 @Component({
-  selector: 'ngn-demo-filter-validation',
-  imports: [NgnErrors, NgnFilter, NgnHint],
+  selector: 'jig-demo-filter-validation',
+  imports: [JigErrors, JigFilter, JigHint],
   template: `
     <div class="flex flex-col gap-2">
-      <ngn-filter
+      <jig-filter
         [data]="data"
         (filterChange)="filter.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="filterHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="filterHint"
       />
     </div>
-    <ngn-hint #filterHint />
+    <jig-hint #filterHint />
   `,
 })
 export class Demo_Filter_Validation {
   protected readonly data = ['Germany', 'France', 'Italy', 'Spain'];
-  protected readonly filter = signal<NgnFilterConfig | null>(null);
+  protected readonly filter = signal<JigFilterConfig | null>(null);
   protected readonly errors = computed(() =>
     this.filter() ? null : { required: 'Add at least one filter rule' }
   );

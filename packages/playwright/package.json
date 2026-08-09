@@ -1,12 +1,12 @@
 {
-  "name": "@ngneers/controls-playwright",
-  "version": "0.0.1",
-  "description": "Playwright testing harness with page-object helpers for @ngneers/controls components.",
+  "name": "@awdlab/jig-playwright",
+  "version": "0.0.1-next.1",
+  "description": "Playwright testing harness with page-object helpers for @awdlab/jig components.",
   "license": "MIT",
-  "homepage": "https://ngneers.dev",
+  "homepage": "https://jig.awdlab.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NGneers/controls.git",
+    "url": "git+https://github.com/awdlab/jig.git",
     "directory": "packages/playwright"
   },
   "keywords": [
@@ -15,7 +15,8 @@
     "testing",
     "e2e",
     "page-object",
-    "ngneers-controls"
+    "awdlab",
+    "jig"
   ],
   "type": "module",
   "main": "./dist/index.js",
@@ -28,8 +29,8 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@ngneers/controls": "workspace:*",
-    "@ngneers/controls-themes": "workspace:*"
+    "@awdlab/jig": "workspace:*",
+    "@awdlab/jig-themes": "workspace:*"
   },
   "devDependencies": {
     "rimraf": "^6.1.3",

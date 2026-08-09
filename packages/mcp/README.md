@@ -1,16 +1,16 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/NGneers/controls/main/apps/docs/public/img/logo-mark.png" alt="" width="88" />
+<img src="https://raw.githubusercontent.com/awdlab/jig/main/apps/docs/public/img/logo-mark.png" alt="" width="88" />
 
-# @ngneers/controls-mcp
+# @awdlab/jig-mcp
 
 **[Model Context Protocol](https://modelcontextprotocol.io) server that teaches AI coding
-agents [@ngneers/controls](https://www.npmjs.com/package/@ngneers/controls)** — every
+agents [@awdlab/jig](https://www.npmjs.com/package/@awdlab/jig)** — every
 control's API, selector and usage, plus the concept guides (theming, colors, passthrough,
 state, …).
 
-[![Main package](https://img.shields.io/badge/Main%20package-%40ngneers%2Fcontrols-e90464?style=for-the-badge)](https://www.npmjs.com/package/@ngneers/controls)
-[![Documentation](https://img.shields.io/badge/Documentation-ngneers.dev-8514f5?style=for-the-badge)](https://ngneers.dev)
+[![Main package](https://img.shields.io/badge/Main%20package-%40awdlab%2Fjig-e90464?style=for-the-badge)](https://www.npmjs.com/package/@awdlab/jig)
+[![Documentation](https://img.shields.io/badge/Documentation-jig.awdlab.dev-8514f5?style=for-the-badge)](https://jig.awdlab.dev)
 
 </div>
 
@@ -21,7 +21,7 @@ Four capabilities:
 
 1. **Docs / explain** — control APIs, selectors, usage, concept guides.
 2. **Theming** — token schema + per-control anatomy + theme-part scaffolds.
-3. **Migration** — PrimeNG / Angular Material / Syncfusion → ngn component maps.
+3. **Migration** — PrimeNG / Angular Material / Syncfusion → jig component maps.
 4. **Feature dev** — control recommendations + composition recipes.
 
 All layers are **advisory / knowledge-only**: the server returns knowledge and
@@ -36,7 +36,7 @@ network. That makes it safe to `npx` inside any project.
 ```
 build time (in this monorepo, at publish)      runtime (in a consumer's repo)
 ┌────────────────────────────────────────┐     ┌──────────────────────────────┐
-│ api-docs-gen typedoc.json ─┐            │     │ npx @ngneers/controls-mcp    │
+│ api-docs-gen typedoc.json ─┐            │     │ npx @awdlab/jig-mcp    │
 │ components/**/index.md    ─┼─► build-   │ ──► │  (stdio JSON-RPC)            │
 │ guides/**/index.md        ─┘   pack.ts  │     │  reads data/knowledge-pack   │
 │                              → data/*.json     │  serves resources/tools/     │
@@ -69,12 +69,12 @@ Rebuild the pack whenever controls, docs, or authored knowledge change
 | `scaffold_theme_part`    | Ready-to-edit `createThemePart` skeleton for a control.            |
 | `get_theme_options`      | Theme-dependent `kind`/`color` values (per built-in theme).        |
 | `list_migration_sources` | Source libraries with a migration map + coverage.                  |
-| `map_component`          | One source component → ngn target, with prop/event maps + gaps.    |
-| `search_migration`       | Find the ngn equivalent for a source component/feature.            |
+| `map_component`          | One source component → jig target, with prop/event maps + gaps.    |
+| `search_migration`       | Find the jig equivalent for a source component/feature.            |
 | `recommend_controls`     | Suggest controls + recipes for a feature goal.                     |
 
-**Resources** (browsable, addressable): `ngn://control/<name>`,
-`ngn://concept/<slug>`, `ngn://recipe/<slug>`, `ngn://example/<slug>` (real,
+**Resources** (browsable, addressable): `jig://control/<name>`,
+`jig://concept/<slug>`, `jig://recipe/<slug>`, `jig://example/<slug>` (real,
 compiled usage snippets auto-derived from the docs demos).
 
 **Prompts** (surfaced as slash-commands / quick actions where supported):
@@ -91,9 +91,9 @@ Once published, no install step is needed — clients run it via `npx`.
 ```json
 {
   "mcpServers": {
-    "ngn-controls": {
+    "jig": {
       "command": "npx",
-      "args": ["-y", "@ngneers/controls-mcp"]
+      "args": ["-y", "@awdlab/jig-mcp"]
     }
   }
 }
@@ -105,8 +105,8 @@ shape. Any MCP-capable client works — the server is client-agnostic.
 ## Skills
 
 The package also ships agent **skills** under [`skills/`](./skills) — procedural
-guides that tell an agent _how_ to use the MCP tools for a task (`ngn-controls`,
-`ngn-migrate`, `ngn-theme`, `ngn-build-feature`). Each is a `SKILL.md` with
+guides that tell an agent _how_ to use the MCP tools for a task (`jig`,
+`jig-migrate`, `jig-theme`, `jig-build-feature`). Each is a `SKILL.md` with
 `name` + `description` frontmatter, the convention used by the
 [`skills`](https://github.com/vercel-labs/skills) CLI and compatible installers.
 
@@ -115,10 +115,10 @@ procedure, MCP carries the data):
 
 ```bash
 # From the repo (the skills CLI resolves git repos / subpaths / local paths):
-npx skills@latest add https://github.com/NGneers/controls/tree/main/packages/mcp/skills
+npx skills@latest add https://github.com/awdlab/jig/tree/main/packages/mcp/skills
 
 # ...or point at a local checkout / the installed package folder:
-npx skills@latest add ./node_modules/@ngneers/controls-mcp/skills
+npx skills@latest add ./node_modules/@awdlab/jig-mcp/skills
 ```
 
 The CLI detects your agent and installs to `.claude/skills/`, `.cursor/rules/`,
@@ -132,17 +132,17 @@ bundled skills into your project and interactively (via `awesome-logging`) asks
 before overwriting an existing skill, comparing versions:
 
 ```bash
-npx @ngneers/controls-mcp init              # → ./.claude/skills, prompts on conflicts
-npx @ngneers/controls-mcp init --dir .cursor/rules
-npx @ngneers/controls-mcp init --skill ngn-migrate --yes
-npx @ngneers/controls-mcp init --list       # list bundled skills and exit
+npx @awdlab/jig-mcp init              # → ./.claude/skills, prompts on conflicts
+npx @awdlab/jig-mcp init --dir .cursor/rules
+npx @awdlab/jig-mcp init --skill jig-migrate --yes
+npx @awdlab/jig-mcp init --list       # list bundled skills and exit
 ```
 
 An up-to-date skill (same version) is left untouched; an older one prompts to
 update (auto-yes with `--yes` or when there is no TTY).
 
 > Note: the `skills` CLI's sources are git repos, git URLs, and local paths — an
-> npm spec like `@ngneers/controls-mcp` is not itself a source, so install from
+> npm spec like `@awdlab/jig-mcp` is not itself a source, so install from
 > the repo subpath or the package's `skills/` folder on disk (shown above). The
 > skills are published with the package, so the local-path form works after a
 > plain `npm install`. The **MCP prompts** (`author_theme`, `migrate_library`,
@@ -153,19 +153,19 @@ update (auto-yes with `--yes` or when there is no TTY).
 
 ```bash
 # 1. Make sure the docs API data is fresh (produces typedoc.json)
-pnpm --filter @ngneers/controls api-docs:generate
+pnpm --filter @awdlab/jig api-docs:generate
 
 # 2. Rebuild the bundled knowledge pack from typedoc + docs markdown
-pnpm --filter @ngneers/controls-mcp build:pack
+pnpm --filter @awdlab/jig-mcp build:pack
 
 # 3. Compile the server
-pnpm --filter @ngneers/controls-mcp build:server
+pnpm --filter @awdlab/jig-mcp build:server
 
 # Run against source without building (stdio):
-pnpm --filter @ngneers/controls-mcp start
+pnpm --filter @awdlab/jig-mcp start
 
 # Explore interactively with the MCP Inspector:
-pnpm --filter @ngneers/controls-mcp inspect
+pnpm --filter @awdlab/jig-mcp inspect
 ```
 
 ## Layout
@@ -180,7 +180,7 @@ scripts/build-pack.ts   Monorepo-only pack generator (typedoc + md + authored �
 data/knowledge-pack.json Generated at build time (gitignored), shipped in the package
 src/pack.ts             Pack schema + runtime loader
 src/render.ts           Markdown rendering + search helpers
-src/resources.ts        ngn://control, ngn://concept, ngn://recipe resources
+src/resources.ts        jig://control, jig://concept, jig://recipe resources
 src/tools.ts            list_controls, get_control, search_docs
 src/prompts.ts          explain_control, explain_concept
 src/theming.ts          get_theme_schema, get_control_theme, scaffold_theme_part, get_theme_options, author_theme

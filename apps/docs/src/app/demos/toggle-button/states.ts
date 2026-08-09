@@ -1,28 +1,28 @@
 import { Component, signal } from '@angular/core';
-import { NgnToggleButton } from '@ngneers/controls/toggle-button';
+import { JigToggleButton } from '@awdlab/jig/toggle-button';
 
 @Component({
-  imports: [NgnToggleButton],
-  selector: 'ngn-demo-toggle-button-states',
+  imports: [JigToggleButton],
+  selector: 'jig-demo-toggle-button-states',
   template: `
     Default:
-    <ngn-toggle-button [value]="value()" (valueChange)="value.set($event)" label="Toggle" />
+    <jig-toggle-button [value]="value()" (valueChange)="value.set($event)" label="Toggle" />
     Disabled:
-    <ngn-toggle-button
+    <jig-toggle-button
       [value]="value()"
       (valueChange)="value.set($event)"
       label="Toggle"
       disabled
     />
     Readonly:
-    <ngn-toggle-button
+    <jig-toggle-button
       [value]="value()"
       (valueChange)="value.set($event)"
       label="Toggle"
       readonly
     />
     Invalid:
-    <ngn-toggle-button
+    <jig-toggle-button
       [value]="value()"
       (valueChange)="value.set($event)"
       label="Toggle"
@@ -30,7 +30,7 @@ import { NgnToggleButton } from '@ngneers/controls/toggle-button';
       invalid
     />
     Invalid + Disabled:
-    <ngn-toggle-button
+    <jig-toggle-button
       [value]="value()"
       (valueChange)="value.set($event)"
       label="Toggle"
@@ -39,7 +39,7 @@ import { NgnToggleButton } from '@ngneers/controls/toggle-button';
       invalid
     />
     Invalid + Readonly:
-    <ngn-toggle-button
+    <jig-toggle-button
       [value]="value()"
       (valueChange)="value.set($event)"
       label="Toggle"

@@ -1,4 +1,4 @@
-`ngn-kbd` renders a keyboard shortcut, and `[ngnKeyboardShortcut]` runs callbacks
+`jig-kbd` renders a keyboard shortcut, and `[jigKeyboardShortcut]` runs callbacks
 for one. Both read the same config string: lowercase tokens joined by `+`, in any
 order — `mod+shift+a`, `escape`, `alt+arrowup`, `mod+/`.
 
@@ -19,7 +19,7 @@ everywhere else — so the keycap never names a key the combo does not use.
 
 ### Handling a shortcut
 
-`[ngnKeyboardShortcut]` takes an array of `{ shortcut, callback }` and fires only
+`[jigKeyboardShortcut]` takes an array of `{ shortcut, callback }` and fires only
 while focus is inside its host element. A handled shortcut stops propagating, so
 a nested scope wins over an outer one.
 
@@ -36,9 +36,9 @@ a nested scope wins over an outer one.
 
 ### Action buttons and dialogs
 
-An `NgnActionButtonConfig` can carry a `shortcut`. The button registers it with the
+A `JigActionButtonConfig` can carry a `shortcut`. The button registers it with the
 nearest ancestor scope and renders the glyphs inline next to its label or icon, for
-every kind — an icon-only button shows icon + keycap. `ngn-dialog` is a scope, so
+every kind — an icon-only button shows icon + keycap. `jig-dialog` is a scope, so
 footer buttons work with no extra wiring.
 
 A footer button only emits `buttonClicked`, whether it was clicked or triggered by its

@@ -1,10 +1,10 @@
-import { createControlTemplate } from '@ngneers/controls-themes/api';
-import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
-import { calendarControlTemplate } from '@ngneers/controls-themes/templates/calendar';
-import { inputControlTemplate } from '@ngneers/controls-themes/templates/input';
-import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
-import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
-import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
+import { createControlTemplate } from '@awdlab/jig-themes/api';
+import { buttonControlTemplate } from '@awdlab/jig-themes/templates/button';
+import { calendarControlTemplate } from '@awdlab/jig-themes/templates/calendar';
+import { inputControlTemplate } from '@awdlab/jig-themes/templates/input';
+import { inputFieldControlTemplate } from '@awdlab/jig-themes/templates/input-field';
+import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
+import { selectControlTemplate } from '@awdlab/jig-themes/templates/select';
 
 export const filterControlTemplate = createControlTemplate({
   scope: 'filter',

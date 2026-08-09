@@ -1,13 +1,13 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
   fontTemplate,
   shadowTemplate,
   sizesTemplate,
-} from '@ngneers/controls-themes/material/base';
-import { dialogControlTemplate } from '@ngneers/controls-themes/templates/dialog';
+} from '@awdlab/jig-themes/material/base';
+import { dialogControlTemplate } from '@awdlab/jig-themes/templates/dialog';
 
 const SCALE_AMOUNT = 0.95;
 

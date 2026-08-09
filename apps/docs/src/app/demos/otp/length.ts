@@ -1,18 +1,18 @@
 import { Component, signal } from '@angular/core';
-import { NgnOtp } from '@ngneers/controls/otp';
+import { JigOtp } from '@awdlab/jig/otp';
 
 @Component({
-  imports: [NgnOtp],
-  selector: 'ngn-demo-otp-length',
+  imports: [JigOtp],
+  selector: 'jig-demo-otp-length',
   template: `
     <div class="flex flex-col gap-6">
       <div>
         <p class="mb-2">4 cells</p>
-        <ngn-otp [length]="4" integerOnly [(value)]="short" />
+        <jig-otp [length]="4" integerOnly [(value)]="short" />
       </div>
       <div>
         <p class="mb-2">8 cells, alphanumeric</p>
-        <ngn-otp [length]="8" [(value)]="long" />
+        <jig-otp [length]="8" [(value)]="long" />
       </div>
     </div>
   `,

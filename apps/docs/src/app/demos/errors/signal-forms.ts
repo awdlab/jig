@@ -1,33 +1,33 @@
 import { Component, signal } from '@angular/core';
 import { email, FormField, form, minLength, required } from '@angular/forms/signals';
-import { NgnErrors } from '@ngneers/controls/errors';
-import { NgnHint } from '@ngneers/controls/hint';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 
 @Component({
-  selector: 'ngn-demo-errors-signal-forms',
-  imports: [FormField, NgnErrors, NgnHint, NgnInput, NgnInputField],
+  selector: 'jig-demo-errors-signal-forms',
+  imports: [FormField, JigErrors, JigHint, JigInput, JigInputField],
   template: `
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-1">
-        <ngn-input-field [label]="'Email'" [labelKind]="'on'" class="w-72">
-          <input ngnInput [formField]="userForm.email" ngnErrors [ngnErrorsHint]="emailHint" />
-        </ngn-input-field>
-        <ngn-hint #emailHint />
+        <jig-input-field [label]="'Email'" [labelKind]="'on'" class="w-72">
+          <input jigInput [formField]="userForm.email" jigErrors [jigErrorsHint]="emailHint" />
+        </jig-input-field>
+        <jig-hint #emailHint />
       </div>
 
       <div class="flex flex-col gap-1">
-        <ngn-input-field [label]="'Password'" [labelKind]="'on'" class="w-72">
+        <jig-input-field [label]="'Password'" [labelKind]="'on'" class="w-72">
           <input
-            ngnInput
+            jigInput
             type="password"
             [formField]="userForm.password"
-            ngnErrors
-            [ngnErrorsHint]="passwordHint"
+            jigErrors
+            [jigErrorsHint]="passwordHint"
           />
-        </ngn-input-field>
-        <ngn-hint #passwordHint />
+        </jig-input-field>
+        <jig-hint #passwordHint />
       </div>
     </div>
   `,

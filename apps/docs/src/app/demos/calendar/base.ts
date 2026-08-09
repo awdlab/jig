@@ -1,15 +1,15 @@
 import { DatePipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { NgnCalendar } from '@ngneers/controls/calendar';
-import { NgnInputField } from '@ngneers/controls/input-field';
+import { JigCalendar } from '@awdlab/jig/calendar';
+import { JigInputField } from '@awdlab/jig/input-field';
 
 @Component({
-  selector: 'ngn-demo-calendar-base',
-  imports: [NgnCalendar, NgnInputField, DatePipe],
+  selector: 'jig-demo-calendar-base',
+  imports: [JigCalendar, JigInputField, DatePipe],
   template: `
-    <ngn-input-field>
-      <ngn-calendar [inputId]="'test-input'" [value]="value()" (valueChange)="value.set($event)" />
-    </ngn-input-field>
+    <jig-input-field>
+      <jig-calendar [inputId]="'test-input'" [value]="value()" (valueChange)="value.set($event)" />
+    </jig-input-field>
     {{ value() | date: 'medium' }}
   `,
 })

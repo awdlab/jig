@@ -14,10 +14,10 @@ import {
   elementSizeSignal,
   injectThemeTemplate,
   Platform,
-} from '@ngneers/controls/api/ng';
-import { resizableDirectiveTemplate } from '@ngneers/controls-themes/templates/api';
+} from '@awdlab/jig/api/ng';
+import { resizableDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
 
-import { NgnMovable } from './movable';
+import { JigMovable } from './movable';
 
 /** Side length (px) of the browser's native resize grip. */
 const GRIP_SIZE = 16;
@@ -29,36 +29,36 @@ const GRIP_SIZE = 16;
  * It does not implement the resize gesture itself — the theme's `resizable`
  * part supplies the CSS `resize` handle; this directive observes the resulting
  * size changes while the pointer is down and writes the clamped
- * `min-*`/`max-*` styles. On a host that is also {@link NgnMovable}, the
+ * `min-*`/`max-*` styles. On a host that is also {@link JigMovable}, the
  * position is baked first so the element does not jump.
  *
  * @category directive
  */
 @Directive({
-  selector: '[ngnResizable]',
+  selector: '[jigResizable]',
   host: {
-    '[class]': 'theme.classes({ resizable: ngnResizable(), resized: resized()})',
+    '[class]': 'theme.classes({ resizable: jigResizable(), resized: resized()})',
   },
 })
-export class NgnResizable {
+export class JigResizable {
   protected readonly theme = injectThemeTemplate(resizableDirectiveTemplate);
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
   private readonly _isBrowser = inject(Platform).isBrowser;
   private readonly _document = inject(DOCUMENT);
-  private readonly _ngnMovable = inject(NgnMovable, { optional: true });
+  private readonly _jigMovable = inject(JigMovable, { optional: true });
   private _isPointerDown = false;
 
   /**
    * Whether the element is resizable. The empty string (bare attribute) enables it.
    * @default true
    */
-  public readonly ngnResizable = input(true, { transform: booleanAttribute });
+  public readonly jigResizable = input(true, { transform: booleanAttribute });
   /**
    * Minimum and maximum size constraints for the resizable element. Number values
    * are treated as pixels; strings are used as-is. Any bound left `null`/`undefined`
    * is unconstrained (the effective maximum is still clamped to the viewport).
    */
-  public readonly ngnResizableSizeLimits = input<{
+  public readonly jigResizableSizeLimits = input<{
     minWidth: string | number | null | undefined;
     minHeight: string | number | null | undefined;
     maxWidth: string | number | null | undefined;
@@ -98,15 +98,15 @@ export class NgnResizable {
   }
 
   constructor() {
-    // claimed during dispatch, not in an effect: a batched flush would run NgnMovable's
+    // claimed during dispatch, not in an effect: a batched flush would run JigMovable's
     // pointermove handling before the claim and move the element
     domEventHandler(this._el, 'pointerdown', pointerDown => {
-      if (!this.ngnResizable()) {
+      if (!this.jigResizable()) {
         return;
       }
       this._isPointerDown = true;
-      // the grip owns this gesture — a co-hosted NgnMovable must not also move the element
-      this._ngnMovable?.blockGesture(this.isOnGrip(pointerDown) ? pointerDown : null);
+      // the grip owns this gesture — a co-hosted JigMovable must not also move the element
+      this._jigMovable?.blockGesture(this.isOnGrip(pointerDown) ? pointerDown : null);
     });
 
     // touch scrolling takes the pointer over and fires pointercancel instead of pointerup
@@ -117,7 +117,7 @@ export class NgnResizable {
     });
 
     effect(() => {
-      if (!this._isBrowser || !this.ngnResizable()) {
+      if (!this._isBrowser || !this.jigResizable()) {
         return;
       }
       const _size = this._resizeEvent(); // just as the trigger
@@ -127,7 +127,7 @@ export class NgnResizable {
       }
 
       // If the element is also movable, bake its position to avoid misplacement after resizing
-      this._ngnMovable?.bakePosition();
+      this._jigMovable?.bakePosition();
 
       // calculate the max width & height of the element based on the size, position & body
 
@@ -139,8 +139,8 @@ export class NgnResizable {
       const maxWidth = bodyWidth - elRect.left;
       const maxHeight = bodyHeight - elRect.top;
 
-      const inputMaxWidth = this.ngnResizableSizeLimits()?.maxWidth;
-      const inputMaxHeight = this.ngnResizableSizeLimits()?.maxHeight;
+      const inputMaxWidth = this.jigResizableSizeLimits()?.maxWidth;
+      const inputMaxHeight = this.jigResizableSizeLimits()?.maxHeight;
       const formattedMaxWidth = this.formatSizeValue(inputMaxWidth);
       const formattedMaxHeight = this.formatSizeValue(inputMaxHeight);
 
@@ -151,8 +151,8 @@ export class NgnResizable {
         ? `min(${formattedMaxHeight}, ${maxHeight}px)`
         : `${maxHeight}px`;
 
-      const inputMinWidth = this.ngnResizableSizeLimits()?.minWidth;
-      const inputMinHeight = this.ngnResizableSizeLimits()?.minHeight;
+      const inputMinWidth = this.jigResizableSizeLimits()?.minWidth;
+      const inputMinHeight = this.jigResizableSizeLimits()?.minHeight;
       const formattedMinWidth = this.formatSizeValue(inputMinWidth);
       const formattedMinHeight = this.formatSizeValue(inputMinHeight);
 

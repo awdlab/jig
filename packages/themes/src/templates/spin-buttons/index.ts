@@ -1,5 +1,5 @@
-import { createControlTemplate } from '@ngneers/controls-themes/api';
-import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
+import { createControlTemplate } from '@awdlab/jig-themes/api';
+import { buttonControlTemplate } from '@awdlab/jig-themes/templates/button';
 
 export const spinButtonsControlTemplate = createControlTemplate({
   scope: 'spinButtons',

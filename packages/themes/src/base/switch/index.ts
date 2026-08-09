@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { switchControlTemplate } from '@ngneers/controls-themes/templates/switch';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { switchControlTemplate } from '@awdlab/jig-themes/templates/switch';
 
 export const switchStyles = createThemePart({
   controlTemplate: switchControlTemplate,

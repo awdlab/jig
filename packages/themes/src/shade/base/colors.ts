@@ -1,9 +1,5 @@
-import {
-  createThemePart,
-  createVariableTemplate,
-  repeatVariables,
-} from '@ngneers/controls-themes/api';
-import { createShadeColors, type ShadeSchemeColors } from '@ngneers/controls-themes/shade/colors';
+import { createThemePart, createVariableTemplate, repeatVariables } from '@awdlab/jig-themes/api';
+import { createShadeColors, type ShadeSchemeColors } from '@awdlab/jig-themes/shade/colors';
 
 // All color slots that get `.base`/`.foreground`/ramp CSS variables emitted. This is the set of
 // tokens the theme PARTS read internally — `accent` (every hover state), `muted` (muted text +
@@ -26,10 +22,10 @@ export const COLOR_SLOTS = [
 // emits `color-*` remap classes for these three alone.
 export const PUBLIC_COLOR_SLOTS = ['surface', 'primary', 'destructive'] as const;
 
-// Numeric ramp levels, matching nova's `--ngn-color-<slot>-<level>` contract. Shade is
+// Numeric ramp levels, matching nova's `--jig-color-<slot>-<level>` contract. Shade is
 // slot-based (its own parts read `.base`/`.foreground`), but the ramp is emitted too so that
 // consumers and built-in controls that reference a specific level — e.g. the paginator's
-// `var(--ngn-color-secondary-500)` — resolve to a real tone instead of an undefined variable.
+// `var(--jig-color-secondary-500)` — resolve to a real tone instead of an undefined variable.
 const RAMP_LEVELS = [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 975] as const;
 
 type RampKey = `${(typeof RAMP_LEVELS)[number]}`;
@@ -88,7 +84,7 @@ export const colorsTemplate = createVariableTemplate({
     background: null,
     foreground: null,
     // Alias of `foreground`. Nova exposes `color.text`; docs components authored against nova
-    // reference `--ngn-color-text`, so shade emits it too (otherwise that text is unstyled →
+    // reference `--jig-color-text`, so shade emits it too (otherwise that text is unstyled →
     // black-on-dark in dark mode).
     text: null,
     border: null,

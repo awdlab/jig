@@ -8,38 +8,38 @@ import {
   model,
   viewChildren,
 } from '@angular/core';
-import { NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
-import { NgnDefer } from '@ngneers/controls/defer';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnRovingGroup, NgnRovingItem } from '@ngneers/controls/roving-focus';
-import { stepperControlTemplate } from '@ngneers/controls-themes/templates/stepper';
+import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigDefer } from '@awdlab/jig/defer';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
+import { stepperControlTemplate } from '@awdlab/jig-themes/templates/stepper';
 
-import { NgnStep } from './step';
+import { JigStep } from './step';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'ngn-stepper',
+  selector: 'jig-stepper',
   templateUrl: './stepper.html',
-  imports: [NgnPt, NgnDefer, NgnIcon, NgnRovingGroup, NgnRovingItem],
-  providers: [provideSelf(NgnStepper)],
+  imports: [JigPt, JigDefer, JigIcon, JigRovingGroup, JigRovingItem],
+  providers: [provideSelf(JigStepper)],
 })
-export class NgnStepper extends NgnBase<'stepper'> {
+export class JigStepper extends JigBase<'stepper'> {
   protected readonly theme = this.injectThemeTemplate(stepperControlTemplate, 'root');
 
-  protected readonly steps = contentChildren(NgnStep);
+  protected readonly steps = contentChildren(JigStep);
 
   /** The header buttons' roving items, in step order (one per step; connectors are plain spans). */
-  private readonly _rovingItems = viewChildren(NgnRovingItem);
+  private readonly _rovingItems = viewChildren(JigRovingItem);
 
   /** The active step index (zero-based). @default 0 */
   public readonly active = model<number>(0);
   /** Gate forward navigation on prior steps being `completed`. @default false */
   public readonly linear = input(false, { transform: booleanAttribute });
-  /** Lazily render step content (forwarded to `ngn-defer`). @default true */
+  /** Lazily render step content (forwarded to `jig-defer`). @default true */
   public readonly lazy = input(true, { transform: booleanAttribute });
-  /** Keep opened step content in the DOM to preserve state (forwarded to `ngn-defer`). @default true */
+  /** Keep opened step content in the DOM to preserve state (forwarded to `jig-defer`). @default true */
   public readonly cache = input(true, { transform: booleanAttribute });
 
   /**
@@ -70,7 +70,7 @@ export class NgnStepper extends NgnBase<'stepper'> {
 
     // Keep each header's roving item in sync with its step's NATIVE `disabled` input (not
     // `canGoTo()` gating) — a merely gated step stays arrow-focusable, only a truly disabled
-    // step is skipped by keyboard navigation. Mirrors NgnButtonGroup's roving-disabled sync.
+    // step is skipped by keyboard navigation. Mirrors JigButtonGroup's roving-disabled sync.
     effect(() => {
       const items = this._rovingItems();
       const steps = this.steps();

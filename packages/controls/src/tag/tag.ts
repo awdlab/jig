@@ -1,20 +1,20 @@
 import { Component, input } from '@angular/core';
-import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { tagControlTemplate } from '@ngneers/controls-themes/templates/tag';
+import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
+import { JigIcon } from '@awdlab/jig/icon';
+import { tagControlTemplate } from '@awdlab/jig-themes/templates/tag';
 
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'ngn-tag',
+  selector: 'jig-tag',
   templateUrl: './tag.html',
-  imports: [NgnPt, NgnIcon],
-  providers: [provideSelf(NgnTag)],
+  imports: [JigPt, JigIcon],
+  providers: [provideSelf(JigTag)],
 })
-export class NgnTag extends NgnBase<'tag'> {
+export class JigTag extends JigBase<'tag'> {
   protected readonly theme = this.injectThemeTemplate(tagControlTemplate, 'root');
 
   /**

@@ -1,12 +1,12 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   colorsTemplate,
   controlRing,
   ringTemplate,
   sizesTemplate,
-} from '@ngneers/controls-themes/nova/base';
-import { inplaceControlTemplate } from '@ngneers/controls-themes/templates/inplace';
+} from '@awdlab/jig-themes/nova/base';
+import { inplaceControlTemplate } from '@awdlab/jig-themes/templates/inplace';
 
 export const inplaceStyles = createThemePart({
   controlTemplate: inplaceControlTemplate,

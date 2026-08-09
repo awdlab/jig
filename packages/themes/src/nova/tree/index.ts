@@ -1,13 +1,13 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   colorsTemplate,
   controlRing,
   fontTemplate,
   ringTemplate,
   sizesTemplate,
-} from '@ngneers/controls-themes/nova/base';
-import { treeControlTemplate } from '@ngneers/controls-themes/templates/tree';
+} from '@awdlab/jig-themes/nova/base';
+import { treeControlTemplate } from '@awdlab/jig-themes/templates/tree';
 
 export const treeStyles = createThemePart({
   controlTemplate: treeControlTemplate,
@@ -52,7 +52,7 @@ export const treeStyles = createThemePart({
           position: absolute;
           inset-block: 0;
           inset-inline-end: 100%;
-          width: calc(var(--ngn-tree-level, 0) * 1.5rem);
+          width: calc(var(--jig-tree-level, 0) * 1.5rem);
           background-image: repeating-linear-gradient(
             to right,
             transparent 0 0.6875rem,

@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { stateControlTemplate } from '@ngneers/controls-themes/templates/state';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { stateControlTemplate } from '@awdlab/jig-themes/templates/state';
 
 export const stateStyles = createThemePart({
   controlTemplate: stateControlTemplate,
@@ -9,10 +9,10 @@ export const stateStyles = createThemePart({
       ${c('root')} {
         display: none;
         flex: 0 0 auto;
-        width: var(--ngn-state-size, 1em);
-        height: var(--ngn-state-size, 1em);
+        width: var(--jig-state-size, 1em);
+        height: var(--jig-state-size, 1em);
         color: currentColor;
-        font-size: var(--ngn-state-size, 1em);
+        font-size: var(--jig-state-size, 1em);
         line-height: 1;
         vertical-align: -0.125em;
       }
@@ -66,24 +66,24 @@ export const stateStyles = createThemePart({
         top: 50%;
         left: 50%;
         margin: 0;
-        font-size: var(--ngn-state-size, 1em);
+        font-size: var(--jig-state-size, 1em);
         transform: translate(-50%, -50%);
         -webkit-text-fill-color: currentColor;
       }
 
       ${d('input-field', 'root')} > ${c('root')} {
-        --ngn-state-hit-padding: 0.25rem;
+        --jig-state-hit-padding: 0.25rem;
         box-sizing: border-box;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         visibility: hidden;
-        width: calc(var(--ngn-state-size, 1em) + var(--ngn-state-hit-padding) * 2);
-        height: calc(var(--ngn-state-size, 1em) + var(--ngn-state-hit-padding) * 2);
-        padding: var(--ngn-state-hit-padding);
-        margin-block: calc(var(--ngn-state-hit-padding) * -1);
-        margin-inline-start: calc(0.375em - var(--ngn-state-hit-padding));
-        margin-inline-end: calc(var(--ngn-state-hit-padding) * -1);
+        width: calc(var(--jig-state-size, 1em) + var(--jig-state-hit-padding) * 2);
+        height: calc(var(--jig-state-size, 1em) + var(--jig-state-hit-padding) * 2);
+        padding: var(--jig-state-hit-padding);
+        margin-block: calc(var(--jig-state-hit-padding) * -1);
+        margin-inline-start: calc(0.375em - var(--jig-state-hit-padding));
+        margin-inline-end: calc(var(--jig-state-hit-padding) * -1);
       }
 
       ${d('input-field', 'root')} > ${c('visible')} {

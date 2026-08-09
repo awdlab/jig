@@ -1,22 +1,22 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnListBox } from '@ngneers/controls/list-box';
+import { JigListBox } from '@awdlab/jig/list-box';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
-import type { NgnItem } from '@ngneers/controls/api';
+import type { JigItem } from '@awdlab/jig/api';
 
 @Component({
-  selector: 'ngn-docs-list-box-playground',
-  imports: [NgnListBox, NgnDocsPlayground],
+  selector: 'jig-docs-list-box-playground',
+  imports: [JigListBox, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnListBox', component: component() }]">
-      <ngn-list-box #ref class="flex-1" [items]="items" style="display: block; height: 200px;" />
-    </ngn-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'JigListBox', component: component() }]">
+      <jig-list-box #ref class="flex-1" [items]="items" style="display: block; height: 200px;" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsListBoxPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnListBox });
-  protected readonly items: NgnItem[] = [
+export class JigDocsListBoxPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigListBox });
+  protected readonly items: JigItem[] = [
     { label: 'Item 1', value: '1' },
     { label: 'Item 2', value: '2' },
     { label: 'Item 3', value: '3' },

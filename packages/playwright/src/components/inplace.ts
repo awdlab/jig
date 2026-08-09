@@ -1,8 +1,8 @@
 import { type Locator, expect } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
-import { inplaceControlTemplate } from '@ngneers/controls-themes/templates/inplace';
+import { inplaceControlTemplate } from '@awdlab/jig-themes/templates/inplace';
 
-export class NgnInplaceHarness {
+export class JigInplaceHarness {
   public readonly classes = themeClasses(inplaceControlTemplate);
 
   public readonly display: Locator;

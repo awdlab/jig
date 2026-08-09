@@ -1,20 +1,20 @@
 import { afterNextRender, Component, ElementRef, inject, viewChildren } from '@angular/core';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
-import { I18n } from '@ngneers/controls/i18n';
-import { NotificationRegionController } from '@ngneers/controls/utils-ng';
-import { snackbarControlTemplate } from '@ngneers/controls-themes/templates/snackbar';
+import { JigBase, provideSelf } from '@awdlab/jig/base';
+import { I18n } from '@awdlab/jig/i18n';
+import { NotificationRegionController } from '@awdlab/jig/utils-ng';
+import { snackbarControlTemplate } from '@awdlab/jig-themes/templates/snackbar';
 
-import { NgnSnackbar } from './snackbar';
-import { NgnSnackbarManager } from './snackbar-manager';
+import { JigSnackbar } from './snackbar';
+import { JigSnackbarManager } from './snackbar-manager';
 
 /**
  * The host component that renders snackbars.
  */
 @Component({
-  selector: 'ngn-snackbar-host',
+  selector: 'jig-snackbar-host',
   templateUrl: 'snackbar-host.html',
-  imports: [NgnSnackbar],
-  providers: [provideSelf(NgnSnackbarHost)],
+  imports: [JigSnackbar],
+  providers: [provideSelf(JigSnackbarHost)],
   host: {
     '[attr.popover]': '"manual"',
     role: 'region',
@@ -25,13 +25,13 @@ import { NgnSnackbarManager } from './snackbar-manager';
     '(focusout)': 'region.handleFocusOut($event)',
   },
 })
-export class NgnSnackbarHost extends NgnBase<'snackbar'> {
+export class JigSnackbarHost extends JigBase<'snackbar'> {
   protected readonly theme = this.injectThemeTemplate(snackbarControlTemplate, 'host');
   protected readonly i18n = inject(I18n).translations;
-  private readonly _snackbarManager = inject(NgnSnackbarManager);
+  private readonly _snackbarManager = inject(JigSnackbarManager);
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  private readonly _items = viewChildren(NgnSnackbar);
+  private readonly _items = viewChildren(JigSnackbar);
 
   // The first snackbar is anchored at the bottom; each new one stacks above it (mirroring how a
   // second toast appears below the first). Paired with the host's `column-reverse`, the first item

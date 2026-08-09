@@ -1,1 +1,1 @@
-{{ api: tree/tree NgnTree }}
+{{ api: tree/tree JigTree }}

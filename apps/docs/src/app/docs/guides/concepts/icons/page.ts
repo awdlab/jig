@@ -1,8 +1,8 @@
 import { Demo_Icon_Base } from '../../../../demos/icon/base';
 
-import type { NgnDocsPage } from '../../../../utils/page/types';
+import type { JigDocsPage } from '../../../../utils/page/types';
 
-export const IconsPage: NgnDocsPage = {
+export const IconsPage: JigDocsPage = {
   kind: 'single',
   title: `Icons`,
 

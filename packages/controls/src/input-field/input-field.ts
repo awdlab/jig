@@ -7,28 +7,28 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { NgnBase, NGN_CONTROL, provideSelf, NgnPt } from '@ngneers/controls/base';
-import { NgnButton } from '@ngneers/controls/button';
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { generateElementId } from '@ngneers/controls/utils-ng';
-import { inputFieldControlTemplate } from '@ngneers/controls-themes/templates/input-field';
+import { JigBase, JIG_CONTROL, provideSelf, JigPt } from '@awdlab/jig/base';
+import { JigButton } from '@awdlab/jig/button';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigIcon } from '@awdlab/jig/icon';
+import { generateElementId } from '@awdlab/jig/utils-ng';
+import { inputFieldControlTemplate } from '@awdlab/jig-themes/templates/input-field';
 
-import type { CustomKind, IconType } from '@ngneers/controls-custom-types';
+import type { CustomKind, IconType } from '@awdlab/jig-custom-types';
 
 /**
  * @category control
  */
 @Component({
-  imports: [NgnPt, NgnIcon, NgnButton],
-  selector: 'ngn-input-field',
+  imports: [JigPt, JigIcon, JigButton],
+  selector: 'jig-input-field',
   templateUrl: './input-field.html',
   host: {
     '[inert]': 'disabled()',
   },
-  providers: [provideSelf(NgnInputField)],
+  providers: [provideSelf(JigInputField)],
 })
-export class NgnInputField extends NgnBase<'inputField'> {
+export class JigInputField extends JigBase<'inputField'> {
   protected readonly theme = this.injectThemeTemplate(inputFieldControlTemplate, {
     host: true,
     filled: () => this.filled(),
@@ -92,7 +92,7 @@ export class NgnInputField extends NgnBase<'inputField'> {
    */
   public readonly disabled = input(false, { transform: booleanAttribute });
 
-  private readonly _projectedControls = contentChildren(NGN_CONTROL, { descendants: true });
+  private readonly _projectedControls = contentChildren(JIG_CONTROL, { descendants: true });
   /**
    * The projected primary control (input, mask, calendar, …), used to delegate
    * pointer focus, clearing and stepping. Auxiliary controls inside the field

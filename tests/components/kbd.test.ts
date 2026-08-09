@@ -1,4 +1,4 @@
-import { NgnKbdHarness } from '@ngneers/controls-playwright';
+import { JigKbdHarness } from '@awdlab/jig-playwright';
 import test, { expect } from '@playwright/test';
 
 import { expectNoA11yViolations } from '../helper/axe';
@@ -9,7 +9,7 @@ test('renders shortcut glyphs', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<ngn-kbd [shortcut]="inputs().shortcut" />`,
+      template: `<jig-kbd [shortcut]="inputs().shortcut" />`,
       imports: ['kbd'],
     },
     // Literal modifiers, so the expectation holds on every platform — `mod` renders
@@ -17,7 +17,7 @@ test('renders shortcut glyphs', async ({ page }) => {
     { inputs: { shortcut: 'ctrl+shift+a' } }
   );
 
-  const kbd = new NgnKbdHarness(page.locator('ngn-kbd'));
+  const kbd = new JigKbdHarness(page.locator('jig-kbd'));
   await kbd.expectText('⌃⇧A');
 });
 
@@ -28,7 +28,7 @@ test('visual', async ({ page }, testInfo) => {
       template: `
         <div class="page-center flex items-center gap-4">
           @for (shortcut of inputs().shortcuts; track $index) {
-            <ngn-kbd [shortcut]="shortcut" />
+            <jig-kbd [shortcut]="shortcut" />
           }
         </div>
       `,
@@ -46,10 +46,10 @@ test('nested scope binds an action button shortcut to the nearest ancestor', asy
     page,
     {
       template: `
-        <div [ngnKeyboardShortcut]="inputs().outer">
+        <div [jigKeyboardShortcut]="inputs().outer">
           <input id="outer-field" />
-          <div [ngnKeyboardShortcut]="inputs().inner">
-            <ngn-action-button [config]="inputs().buttons[0]" (clicked)="output('button', $event)" />
+          <div [jigKeyboardShortcut]="inputs().inner">
+            <jig-action-button [config]="inputs().buttons[0]" (clicked)="output('button', $event)" />
             <input id="inner-field" />
           </div>
         </div>
@@ -81,7 +81,7 @@ test('dialog footer button fires on its shortcut', async ({ page }) => {
     page,
     {
       template: `
-        <ngn-dialog
+        <jig-dialog
           title="Confirm"
           [open]="true"
           [modal]="true"
@@ -89,7 +89,7 @@ test('dialog footer button fires on its shortcut', async ({ page }) => {
           (buttonClicked)="output('button', $event)"
         >
           <input id="field" />
-        </ngn-dialog>
+        </jig-dialog>
       `,
       imports: ['dialog'],
     },
@@ -106,17 +106,17 @@ test('dialog footer button fires on its shortcut', async ({ page }) => {
 // Mirrors the docs demo: the dialog starts closed and opens later, which is where a
 // once-only autofocus latches on a hidden element and never retries.
 const RENAME_DIALOG = `
-  <ngn-dialog
+  <jig-dialog
     title="Rename"
     [open]="inputs().open"
     [modal]="true"
     [footerButtons]="inputs().buttons"
     (buttonClicked)="output('button', $event)"
   >
-    <ngn-input-field label="New name" inputId="field">
-      <input ngnInput autofocus />
-    </ngn-input-field>
-  </ngn-dialog>
+    <jig-input-field label="New name" inputId="field">
+      <input jigInput autofocus />
+    </jig-input-field>
+  </jig-dialog>
 `;
 
 const RENAME_BUTTONS = [
@@ -161,13 +161,13 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<ngn-kbd [shortcut]="inputs().shortcut" />`,
+      template: `<jig-kbd [shortcut]="inputs().shortcut" />`,
       imports: ['kbd'],
     },
     { inputs: { shortcut: 'ctrl+shift+a' } }
   );
 
-  const kbd = new NgnKbdHarness(page.locator('ngn-kbd'));
+  const kbd = new JigKbdHarness(page.locator('jig-kbd'));
   await kbd.expectText('⌃⇧A');
   await expectNoA11yViolations(page);
 });

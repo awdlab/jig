@@ -42,8 +42,8 @@ const UPSTREAM_TIMEOUT_MS = 5000;
 const RELEASE_COUNT = 30;
 
 async function fetchNpmVersion(): Promise<string | null> {
-  // Note: %2F encodes the scope slash in `@ngneers/controls`.
-  const res = await fetch('https://registry.npmjs.org/@ngneers%2Fcontrols', {
+  // Note: %2F encodes the scope slash in `@awdlab/jig`.
+  const res = await fetch('https://registry.npmjs.org/@awdlab%2Fjig', {
     signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
   });
   if (!res.ok) {
@@ -56,9 +56,9 @@ async function fetchNpmVersion(): Promise<string | null> {
 async function fetchGithubStars(): Promise<number | null> {
   // TODO: repo is private, so this 404s (stars stay null) until it goes public.
   // User-Agent is required by the GitHub API (403 without it).
-  const res = await fetch('https://api.github.com/repos/NGneers/controls', {
+  const res = await fetch('https://api.github.com/repos/awdlab/jig', {
     headers: {
-      'User-Agent': 'ngneers-controls-docs',
+      'User-Agent': 'awdlab-jig-docs',
       Accept: 'application/vnd.github+json',
     },
     signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
@@ -73,16 +73,16 @@ async function fetchGithubStars(): Promise<number | null> {
 /**
  * GitHub releases, normalized for the changelog page. Releases are cut
  * per-package, so the tag carries both the package and its version
- * (`@ngneers/controls@0.0.1-next.6`).
+ * (`@awdlab/jig@0.0.1-next.6`).
  */
 async function fetchReleases(): Promise<ReleaseData[]> {
   // TODO: repo is private, so this 404s (the changelog stays empty) until it
   // goes public. User-Agent is required by the GitHub API (403 without it).
   const res = await fetch(
-    `https://api.github.com/repos/NGneers/controls/releases?per_page=${RELEASE_COUNT}`,
+    `https://api.github.com/repos/awdlab/jig/releases?per_page=${RELEASE_COUNT}`,
     {
       headers: {
-        'User-Agent': 'ngneers-controls-docs',
+        'User-Agent': 'awdlab-jig-docs',
         Accept: 'application/vnd.github+json',
       },
       signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
@@ -115,7 +115,7 @@ async function fetchReleases(): Promise<ReleaseData[]> {
         version: at > 0 ? tag.slice(at + 1) : null,
         publishedAt: release.published_at ?? null,
         prerelease: release.prerelease ?? false,
-        url: release.html_url ?? `https://github.com/NGneers/controls/releases/tag/${tag}`,
+        url: release.html_url ?? `https://github.com/awdlab/jig/releases/tag/${tag}`,
         body: release.body ?? '',
       } satisfies ReleaseData;
     });

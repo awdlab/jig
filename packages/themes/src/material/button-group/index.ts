@@ -1,11 +1,7 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import {
-  colorsTemplate,
-  fontTemplate,
-  sizesTemplate,
-} from '@ngneers/controls-themes/material/base';
-import { buttonGroupControlTemplate } from '@ngneers/controls-themes/templates/button-group';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/material/base';
+import { buttonGroupControlTemplate } from '@awdlab/jig-themes/templates/button-group';
 
 export const buttonGroupStyles = createThemePart({
   controlTemplate: buttonGroupControlTemplate,

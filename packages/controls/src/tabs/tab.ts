@@ -6,19 +6,19 @@ import {
   signal,
   TemplateRef,
 } from '@angular/core';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { JigBase, provideSelf } from '@awdlab/jig/base';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'ngn-tab',
+  selector: 'jig-tab',
   imports: [],
   template: '',
 
-  providers: [provideSelf(NgnTab)],
+  providers: [provideSelf(JigTab)],
 })
-export class NgnTab extends NgnBase<'tabs'> {
+export class JigTab extends JigBase<'tabs'> {
   protected readonly theme = null;
   /**
    * The unique identifier for the tab.

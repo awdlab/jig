@@ -1,1 +1,1 @@
-{{ api: input-field/input-field NgnInputField }}
+{{ api: input-field/input-field JigInputField }}

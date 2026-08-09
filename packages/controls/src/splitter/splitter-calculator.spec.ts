@@ -2,8 +2,8 @@ import { signal, type Signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { NgnSplitterPanel } from './panel/splitter-panel';
-import { NgnSplitter } from './splitter';
+import { JigSplitterPanel } from './panel/splitter-panel';
+import { JigSplitter } from './splitter';
 import { DefaultSplitterCalculator } from './splitter-calculator';
 
 import type { SplitterLayout } from './types';
@@ -14,7 +14,7 @@ function createMockPanel(
   minSize: string,
   maxSize: string,
   gridArea = 'panel'
-): NgnSplitterPanel {
+): JigSplitterPanel {
   return {
     size: signal(size),
     minSize: signal(minSize),
@@ -25,12 +25,12 @@ function createMockPanel(
 
 // Mock splitter helper
 function createMockSplitter(
-  panels: NgnSplitterPanel[],
+  panels: JigSplitterPanel[],
   layout: SplitterLayout = 'horizontal',
   splitterSize = 1000,
   dividerSize = 10,
   panelOrder: string[] | null = null
-): NgnSplitter {
+): JigSplitter {
   const mockDivider = {
     rootNodes: [
       Object.setPrototypeOf(
@@ -46,7 +46,7 @@ function createMockSplitter(
   const elementSizeSignal = signal({ width: splitterSize, height: splitterSize });
 
   return {
-    panels: signal(panels) as Signal<readonly NgnSplitterPanel[]>,
+    panels: signal(panels) as Signal<readonly JigSplitterPanel[]>,
     dividers: signal(
       panels.length > 1
         ? Array(panels.length - 1)
@@ -127,7 +127,7 @@ describe('DefaultSplitterCalculator', () => {
         const calculator = new DefaultSplitterCalculator(splitter);
         const areas = calculator.gridTemplateAreas();
 
-        expect(areas).toEqual('"left ngn-divider-0 right"');
+        expect(areas).toEqual('"left jig-divider-0 right"');
       });
     });
 
@@ -140,7 +140,7 @@ describe('DefaultSplitterCalculator', () => {
         const calculator = new DefaultSplitterCalculator(splitter);
         const areas = calculator.gridTemplateAreas();
 
-        expect(areas).toEqual('"top" "ngn-divider-0" "bottom"');
+        expect(areas).toEqual('"top" "jig-divider-0" "bottom"');
       });
     });
 
@@ -154,7 +154,7 @@ describe('DefaultSplitterCalculator', () => {
         const calculator = new DefaultSplitterCalculator(splitter);
         const areas = calculator.gridTemplateAreas();
 
-        expect(areas).toEqual('"a ngn-divider-0 b ngn-divider-1 c"');
+        expect(areas).toEqual('"a jig-divider-0 b jig-divider-1 c"');
       });
     });
 

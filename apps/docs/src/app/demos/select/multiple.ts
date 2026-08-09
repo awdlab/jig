@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnSelect } from '@ngneers/controls/select';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigSelect } from '@awdlab/jig/select';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnSelect, NgnInputField],
-  selector: 'ngn-demo-select-multiple',
+  imports: [JigSelect, JigInputField],
+  selector: 'jig-demo-select-multiple',
   template: `
-    <ngn-input-field>
-      <ngn-select
+    <jig-input-field>
+      <jig-select
         #select
         [multiple]="true"
         [filter]="true"
         [options]="options"
         (valueChange)="log($event)"
       />
-    </ngn-input-field>
+    </jig-input-field>
   `,
   host: { class: 'w-48' },
 })

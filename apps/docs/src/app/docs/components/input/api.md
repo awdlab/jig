@@ -1,1 +1,1 @@
-{{ api: input/input NgnInput }}
+{{ api: input/input JigInput }}

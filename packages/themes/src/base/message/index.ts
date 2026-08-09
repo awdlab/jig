@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { messageControlTemplate } from '@ngneers/controls-themes/templates/message';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { messageControlTemplate } from '@awdlab/jig-themes/templates/message';
 
 export const messageStyles = createThemePart({
   controlTemplate: messageControlTemplate,

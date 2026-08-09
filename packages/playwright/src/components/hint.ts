@@ -1,8 +1,8 @@
-import { hintControlTemplate } from '@ngneers/controls-themes/templates/hint';
+import { hintControlTemplate } from '@awdlab/jig-themes/templates/hint';
 import { themeClasses } from '../utils/theme';
 import { expect, type Locator } from '@playwright/test';
 
-export class NgnHintHarness {
+export class JigHintHarness {
   public readonly classes = themeClasses(hintControlTemplate);
 
   public readonly locator: Locator;

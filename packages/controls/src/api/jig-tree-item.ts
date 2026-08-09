@@ -1,14 +1,14 @@
-import type { NgnItem } from './ngn-item';
+import type { JigItem } from './jig-item';
 import type { TemplateRef } from '@angular/core';
 
 /**
- * Item model for the tree control. Extends {@link NgnItem} and reuses its
+ * Item model for the tree control. Extends {@link JigItem} and reuses its
  * `items` field for child nodes. A node with a non-empty `items` array is a
  * branch; otherwise it is a leaf.
  */
-export interface NgnTreeItem<T = any, V = any> extends NgnItem<T, V> {
+export interface JigTreeItem<T = any, V = any> extends JigItem<T, V> {
   /** Child nodes. */
-  items?: NgnTreeItem<T, V>[];
+  items?: JigTreeItem<T, V>[];
   /**
    * Whether this node participates in selection/checking. Default `true`.
    * When `false`: no checkbox is rendered, the node is excluded from `value`,
@@ -25,21 +25,21 @@ export interface NgnTreeItem<T = any, V = any> extends NgnItem<T, V> {
   /**
    * Per-node template override. Takes precedence over the global item template.
    */
-  template?: TemplateRef<{ $implicit: NgnTreeItem<T, V> }>;
+  template?: TemplateRef<{ $implicit: JigTreeItem<T, V> }>;
 }
 
 /**
  * The value of a single tree node, including branch values.
  *
- * Unlike {@link NgnItemValue} (which yields leaf values only), this unions a
+ * Unlike {@link JigItemValue} (which yields leaf values only), this unions a
  * branch node's own `value` with the values of all its descendants — because
  * in a tree a branch node can itself be selected/expanded.
  */
-export type NgnTreeItemValue<Item extends NgnTreeItem> = Item extends {
+export type JigTreeItemValue<Item extends JigTreeItem> = Item extends {
   items: readonly (infer A)[];
 }
-  ? A extends NgnTreeItem
-    ? Item['value'] | NgnTreeItemValue<A>
+  ? A extends JigTreeItem
+    ? Item['value'] | JigTreeItemValue<A>
     : Item['value']
   : Item['value'];
 
@@ -47,8 +47,8 @@ export type NgnTreeItemValue<Item extends NgnTreeItem> = Item extends {
  * The union of every node value (branches and leaves) in a tree item list.
  * This is the type-safe value space for selection, expansion, and highlight.
  */
-export type NgnTreeItemsValue<Items extends readonly NgnTreeItem[]> = Items[number] extends infer A
-  ? A extends NgnTreeItem
-    ? NgnTreeItemValue<A>
+export type JigTreeItemsValue<Items extends readonly JigTreeItem[]> = Items[number] extends infer A
+  ? A extends JigTreeItem
+    ? JigTreeItemValue<A>
     : never
   : never;

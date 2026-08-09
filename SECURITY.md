@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-`@ngneers/controls` is currently in **beta** and published under the `next`
+`@awdlab/jig` is currently in **beta** and published under the `next`
 dist-tag. Only the latest published version receives security fixes; there are
 no backports to earlier pre-releases.
 
@@ -16,7 +16,7 @@ no backports to earlier pre-releases.
 **Do not open a public issue.**
 
 Report privately through
-[GitHub Security Advisories](https://github.com/NGneers/controls/security/advisories/new),
+[GitHub Security Advisories](https://github.com/awdlab/jig/security/advisories/new),
 which lets us discuss and fix the issue before it becomes public.
 
 Please include:

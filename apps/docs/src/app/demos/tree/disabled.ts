@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { NgnTree } from '@ngneers/controls/tree';
+import { JigTree } from '@awdlab/jig/tree';
 
-import type { NgnTreeItem } from '@ngneers/controls/api';
+import type { JigTreeItem } from '@awdlab/jig/api';
 
 @Component({
-  imports: [NgnTree],
-  selector: 'ngn-demo-tree-disabled',
-  template: `<ngn-tree [items]="items" [multiple]="true" style="display: block; height: 300px;" />`,
+  imports: [JigTree],
+  selector: 'jig-demo-tree-disabled',
+  template: `<jig-tree [items]="items" [multiple]="true" style="display: block; height: 300px;" />`,
 })
 export class Demo_Tree_Disabled {
-  protected readonly items: NgnTreeItem[] = [
+  protected readonly items: JigTreeItem[] = [
     {
       label: 'Active project',
       value: 'project',

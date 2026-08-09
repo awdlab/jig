@@ -31,7 +31,7 @@ export class WindowService {
   public readonly outputs = signal<OutputsType>({});
 
   constructor() {
-    (window as any).__ngn_test_wrapper = {
+    (window as any).__jig_test_wrapper = {
       template: (val: TemplateType) => {
         console.log('Setting template', val);
         this.template.set(val);
@@ -49,7 +49,7 @@ export class WindowService {
       // chunk import + JIT compile does not eat into per-assertion timeouts.
       ready: false,
     };
-    document.body.setAttribute('data-ngn-test-wrapper', 'initialized');
+    document.body.setAttribute('data-jig-test-wrapper', 'initialized');
   }
 
   public handleOutput(key: string, value: any) {
@@ -66,7 +66,7 @@ export class WindowService {
   }
 
   public logOutput(key: string, value: any) {
-    (window as any).__ngn_test_wrapper.outputLog[key] ??= [];
-    (window as any).__ngn_test_wrapper.outputLog[key].push(value);
+    (window as any).__jig_test_wrapper.outputLog[key] ??= [];
+    (window as any).__jig_test_wrapper.outputLog[key].push(value);
   }
 }

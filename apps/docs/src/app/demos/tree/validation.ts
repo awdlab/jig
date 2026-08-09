@@ -1,27 +1,27 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@ngneers/controls/errors';
-import { NgnHint } from '@ngneers/controls/hint';
-import { NgnTree } from '@ngneers/controls/tree';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigTree } from '@awdlab/jig/tree';
 
 import { fileTree } from './sample-data';
 
 @Component({
-  selector: 'ngn-demo-tree-validation',
-  imports: [NgnErrors, NgnHint, NgnTree],
+  selector: 'jig-demo-tree-validation',
+  imports: [JigErrors, JigHint, JigTree],
   template: `
     <div class="flex flex-col gap-2">
-      <ngn-tree
+      <jig-tree
         class="block h-[260px]"
         [items]="items"
         [selectable]="true"
         [value]="value()"
         (valueChange)="value.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="treeHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="treeHint"
       />
-      <ngn-hint #treeHint />
+      <jig-hint #treeHint />
     </div>
   `,
 })

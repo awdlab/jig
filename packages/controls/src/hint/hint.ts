@@ -9,20 +9,20 @@ import {
   signal,
   TemplateRef,
 } from '@angular/core';
-import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnTooltip } from '@ngneers/controls/tooltip';
-import { generateElementId } from '@ngneers/controls/utils-ng';
-import { hintControlTemplate } from '@ngneers/controls-themes/templates/hint';
+import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigTooltip } from '@awdlab/jig/tooltip';
+import { generateElementId } from '@awdlab/jig/utils-ng';
+import { hintControlTemplate } from '@awdlab/jig-themes/templates/hint';
 
-import type { NgnIconKey } from '@ngneers/controls/icon';
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { JigIconKey } from '@awdlab/jig/icon';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 /**
- * Validation state rendered by a hint when connected to helpers such as ngnErrors.
+ * Validation state rendered by a hint when connected to helpers such as jigErrors.
  * @category types
  */
-export interface NgnHintValidationState {
+export interface JigHintValidationState {
   /** Whether the validation message should be shown. */
   visible: boolean;
   /** Whether validation is currently pending. */
@@ -39,10 +39,10 @@ export interface NgnHintValidationState {
  * @category control
  */
 @Component({
-  selector: 'ngn-hint',
+  selector: 'jig-hint',
   templateUrl: './hint.html',
-  imports: [NgnPt, NgnIcon, NgnTooltip, NgTemplateOutlet],
-  providers: [provideSelf(NgnHint)],
+  imports: [JigPt, JigIcon, JigTooltip, NgTemplateOutlet],
+  providers: [provideSelf(JigHint)],
   host: {
     '[id]': 'controlId()',
     // Collapse the element when acting as a validation hint with nothing to show,
@@ -50,7 +50,7 @@ export interface NgnHintValidationState {
     '[style.display]': "isHidden() ? 'none' : null",
   },
 })
-export class NgnHint extends NgnBase<'hint'> {
+export class JigHint extends JigBase<'hint'> {
   protected readonly theme = this.injectThemeTemplate(hintControlTemplate, 'root');
 
   /**
@@ -81,12 +81,12 @@ export class NgnHint extends NgnBase<'hint'> {
   public readonly content = input<TemplateRef<unknown> | string | null>(null);
 
   /**
-   * Validation state supplied by helpers such as ngnErrors.
+   * Validation state supplied by helpers such as jigErrors.
    * @default null
    */
-  public readonly validationState = input<NgnHintValidationState | null>(null);
+  public readonly validationState = input<JigHintValidationState | null>(null);
 
-  private readonly _bridgedValidationState = signal<NgnHintValidationState | null>(null);
+  private readonly _bridgedValidationState = signal<JigHintValidationState | null>(null);
 
   private readonly _activeValidationState = computed(
     () => this._bridgedValidationState() ?? this.validationState()
@@ -117,10 +117,10 @@ export class NgnHint extends NgnBase<'hint'> {
   });
 
   /**
-   * Bridge validation state from a companion directive such as ngnErrors.
+   * Bridge validation state from a companion directive such as jigErrors.
    * @category methods
    */
-  public setValidationState(state: NgnHintValidationState | null): void {
+  public setValidationState(state: JigHintValidationState | null): void {
     this._bridgedValidationState.set(state);
   }
 
@@ -168,7 +168,7 @@ export class NgnHint extends NgnBase<'hint'> {
    * The icon registry key of the default icon for the current kind, or
    * `undefined` for the neutral `default` kind.
    */
-  protected readonly defaultIconKey = computed<NgnIconKey | undefined>(() => {
+  protected readonly defaultIconKey = computed<JigIconKey | undefined>(() => {
     const validation = this._activeValidationState();
     if (validation?.visible) {
       return validation.pending ? 'hint-info' : 'hint-error';

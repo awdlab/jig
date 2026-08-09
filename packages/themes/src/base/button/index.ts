@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { buttonControlTemplate } from '@awdlab/jig-themes/templates/button';
 
 export const buttonStyles = createThemePart({
   controlTemplate: buttonControlTemplate,
@@ -41,7 +41,7 @@ export const buttonStyles = createThemePart({
         width: auto;
         height: auto;
         /* A block-level icon would break the link's line box. */
-        ngn-icon {
+        jig-icon {
           display: inline-flex;
           vertical-align: -0.15em;
         }

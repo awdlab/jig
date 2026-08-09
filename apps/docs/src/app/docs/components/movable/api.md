@@ -1,4 +1,4 @@
-{{ api: directives/movable NgnMovable }}
+{{ api: directives/movable JigMovable }}
 
 | Method           | Description                                                                                                                   |
 | ---------------- | ----------------------------------------------------------------------------------------------------------------------------- |

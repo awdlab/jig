@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { accordionPanelControlTemplate } from '@ngneers/controls-themes/templates/accordion-panel';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { accordionPanelControlTemplate } from '@awdlab/jig-themes/templates/accordion-panel';
 
 export const accordionPanelStyles = createThemePart({
   controlTemplate: accordionPanelControlTemplate,
@@ -22,7 +22,7 @@ export const accordionPanelStyles = createThemePart({
       }
       ${c('content')} {
         min-height: 0;
-        ngn-defer {
+        jig-defer {
           display: block;
         }
       }

@@ -1,8 +1,8 @@
 import { expect, type Locator } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
-import { itemViewControlTemplate } from '@ngneers/controls-themes/templates/item-view';
+import { itemViewControlTemplate } from '@awdlab/jig-themes/templates/item-view';
 
-export class NgnItemViewHarness {
+export class JigItemViewHarness {
   public readonly classes = themeClasses(itemViewControlTemplate);
   public readonly item: Locator;
   public readonly itemVisible: Locator;

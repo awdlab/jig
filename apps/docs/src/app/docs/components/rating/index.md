@@ -1,4 +1,4 @@
-The Rating (`ngn-rating`) is a form control for picking a numeric score by
+The Rating (`jig-rating`) is a form control for picking a numeric score by
 clicking a row of symbols, dragging across them, or using the keyboard. Bind
 `value` and set `count` for the number of symbols and `step` for the granularity
 (use `0.5` for half symbols). It exposes the `slider` role.

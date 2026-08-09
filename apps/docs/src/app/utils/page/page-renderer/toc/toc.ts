@@ -43,12 +43,12 @@ function scrollParent(el: HTMLElement): HTMLElement | null {
  * headings the markdown renderer collects.
  */
 @Component({
-  selector: 'ngn-docs-toc',
+  selector: 'jig-docs-toc',
   templateUrl: 'toc.html',
   styleUrl: 'toc.scss',
   host: { class: 'block' },
 })
-export class NgnDocsToc {
+export class JigDocsToc {
   private readonly _document = inject(DOCUMENT);
   private readonly _isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 

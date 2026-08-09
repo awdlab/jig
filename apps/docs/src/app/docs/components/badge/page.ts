@@ -3,9 +3,9 @@ import { Demo_Badge_Positions } from '../../../demos/badge/positions';
 import { Demo_Badge_Dot } from '../../../demos/badge/dot';
 import { Demo_Badge_Color } from '../../../demos/badge/color';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const BadgePage: NgnDocsPage = {
+export const BadgePage: JigDocsPage = {
   title: `Badge`,
   kind: 'tabs',
   tabs: [

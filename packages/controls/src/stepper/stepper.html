@@ -1,8 +1,8 @@
-<div ngnRovingGroup [ptInt]="this" [ptClass]="'header'" role="tablist">
+<div jigRovingGroup [ptInt]="this" [ptClass]="'header'" role="tablist">
   @for (step of steps(); track $index; let i = $index; let last = $last) {
     <button
       type="button"
-      ngnRovingItem
+      jigRovingItem
       role="tab"
       [attr.aria-selected]="i === active()"
       [attr.aria-disabled]="!canGoTo(i) ? 'true' : null"
@@ -19,9 +19,9 @@
     >
       <span [ptInt]="this" [ptClass]="'marker'">
         @if (step.iconStep(); as icon) {
-          <ngn-icon [ptInt]="this" [ptClass]="'marker-icon'" [icon]="icon" />
+          <jig-icon [ptInt]="this" [ptClass]="'marker-icon'" [icon]="icon" />
         } @else if (step.completed() && i !== active()) {
-          <ngn-icon [ptInt]="this" [ptClass]="'marker-icon'" [defaultIcon]="'stepper-completed'" />
+          <jig-icon [ptInt]="this" [ptClass]="'marker-icon'" [defaultIcon]="'stepper-completed'" />
         } @else {
           <span [ptInt]="this" [ptClass]="'marker-index'">{{ i + 1 }}</span>
         }
@@ -46,7 +46,7 @@
     [ptClass]="{ content: i === active() }"
     [hidden]="i !== active()"
   >
-    <ngn-defer
+    <jig-defer
       [lazyContent]="step.content()"
       [open]="i === active()"
       [lazy]="lazy()"

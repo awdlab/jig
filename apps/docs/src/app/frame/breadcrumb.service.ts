@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
-import type { BreadcrumbItem } from '@ngneers/controls/breadcrumb';
+import type { BreadcrumbItem } from '@awdlab/jig/breadcrumb';
 
 @Injectable({ providedIn: 'root' })
 export class BreadcrumbService {

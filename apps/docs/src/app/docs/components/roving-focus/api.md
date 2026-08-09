@@ -1,8 +1,8 @@
-## NgnRovingGroup
+## JigRovingGroup
 
-Selector: `[ngnRovingGroup]` · `exportAs: ngnRovingGroup`
+Selector: `[jigRovingGroup]` · `exportAs: jigRovingGroup`
 
-{{ api: roving-focus/roving-focus NgnRovingGroup }}
+{{ api: roving-focus/roving-focus JigRovingGroup }}
 
 | Method                    | Description                                                                         |
 | ------------------------- | ----------------------------------------------------------------------------------- |
@@ -11,13 +11,13 @@ Selector: `[ngnRovingGroup]` · `exportAs: ngnRovingGroup`
 | `setActive(index)`        | Activate by index (ignored when out of range); emits `activeItemChange`.            |
 | `syncActiveIndex(index)`  | Move the tab stop without moving DOM focus and without emitting `activeItemChange`. |
 | `activate(item)`          | Activate a registered item reference; ignored when the item is disabled.            |
-| `register` / `unregister` | Called by `ngnRovingItem` itself — only needed for a custom item implementation.    |
+| `register` / `unregister` | Called by `jigRovingItem` itself — only needed for a custom item implementation.    |
 
-## NgnRovingItem
+## JigRovingItem
 
-Selector: `[ngnRovingItem]` · `exportAs: ngnRovingItem`
+Selector: `[jigRovingItem]` · `exportAs: jigRovingItem`
 
-{{ api: roving-focus/roving-focus NgnRovingItem }}
+{{ api: roving-focus/roving-focus JigRovingItem }}
 
 The `disabled` property is a writable `signal<boolean>` (not an input) — call
 `.set(true)` on it from the host control. `isActive()` is a computed signal you
@@ -26,7 +26,7 @@ can bind to for styling.
 ## RovingItemRef
 
 The shape the group stores for each item. Implement it to register something
-that is not an `ngnRovingItem`.
+that is not a `jigRovingItem`.
 
 | Field      | Type                         | Description                                                  |
 | ---------- | ---------------------------- | ------------------------------------------------------------ |
@@ -36,5 +36,5 @@ that is not an `ngnRovingItem`.
 
 ## ROVING_GROUP
 
-`InjectionToken<NgnRovingGroup>` that `ngnRovingGroup` provides. Inject it to
+`InjectionToken<JigRovingGroup>` that `jigRovingGroup` provides. Inject it to
 reach the enclosing group from a custom item.

@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { hintControlTemplate } from '@ngneers/controls-themes/templates/hint';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { hintControlTemplate } from '@awdlab/jig-themes/templates/hint';
 
 export const hintStyles = createThemePart({
   controlTemplate: hintControlTemplate,

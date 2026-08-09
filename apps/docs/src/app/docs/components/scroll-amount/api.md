@@ -1,1 +1,1 @@
-{{ api: directives/scroll-amount NgnScrollAmount }}
+{{ api: directives/scroll-amount JigScrollAmount }}

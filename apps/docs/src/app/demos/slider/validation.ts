@@ -1,23 +1,23 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@ngneers/controls/errors';
-import { NgnHint } from '@ngneers/controls/hint';
-import { NgnSlider } from '@ngneers/controls/slider';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigSlider } from '@awdlab/jig/slider';
 
 @Component({
-  selector: 'ngn-demo-slider-validation',
-  imports: [NgnErrors, NgnHint, NgnSlider],
+  selector: 'jig-demo-slider-validation',
+  imports: [JigErrors, JigHint, JigSlider],
   template: `
     <div class="flex flex-col gap-2">
-      <ngn-slider
+      <jig-slider
         [value]="value()"
         (valueChange)="value.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="sliderHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="sliderHint"
       />
     </div>
-    <ngn-hint #sliderHint />
+    <jig-hint #sliderHint />
   `,
   host: { class: 'block w-80 max-w-full' },
 })

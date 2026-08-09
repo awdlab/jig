@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnDialog } from '@ngneers/controls/dialog';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDialog } from '@awdlab/jig/dialog';
 
 @Component({
-  selector: 'ngn-demo-dialog-movable',
-  imports: [NgnDialog, NgnButton],
-  template: `<button ngnButton (click)="open.set(true)">Open Dialog</button>
-    <ngn-dialog
+  selector: 'jig-demo-dialog-movable',
+  imports: [JigDialog, JigButton],
+  template: `<button jigButton (click)="open.set(true)">Open Dialog</button>
+    <jig-dialog
       [title]="'test'"
       [open]="open()"
       [closeBy]="'any'"
@@ -17,7 +17,7 @@ import { NgnDialog } from '@ngneers/controls/dialog';
       [resizable]="true"
     >
       Content
-    </ngn-dialog>`,
+    </jig-dialog>`,
 })
 export class Demo_Dialog_Movable {
   protected readonly open = signal(false);

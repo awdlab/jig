@@ -4,5 +4,5 @@
   "lib": {
     "entryFile": "index.ts"
   },
-  "allowedNonPeerDependencies": ["@ngneers/controls-custom-types", "@iconify/types"]
+  "allowedNonPeerDependencies": ["@awdlab/jig-custom-types", "@iconify/types"]
 }

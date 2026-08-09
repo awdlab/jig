@@ -22,11 +22,11 @@ import tablerStarFilled from '@iconify/icons-tabler/star-filled';
 import tablerUpload from '@iconify/icons-tabler/upload';
 import tablerX from '@iconify/icons-tabler/x';
 
-import { NGN_CUSTOM_ICONS, NGN_ICON_REGISTRY, type NgnIconRegistry } from '@ngneers/controls/icon';
+import { JIG_CUSTOM_ICONS, JIG_ICON_REGISTRY, type JigIconRegistry } from '@awdlab/jig/icon';
 
-import type { NgnFeature } from '@ngneers/controls/api/ng';
+import type { JigFeature } from '@awdlab/jig/api/ng';
 
-const NGN_DEFAULT_ICON_REGISTRY: NgnIconRegistry = {
+const JIG_DEFAULT_ICON_REGISTRY: JigIconRegistry = {
   'accordion-collapse': { icon: tablerChevronUp, scale: 1.71 },
   'accordion-expand': { icon: tablerChevronDown, scale: 1.71 },
   'breadcrumb-separator': { icon: tablerChevronRight, scale: 1.71 },
@@ -74,11 +74,11 @@ const NGN_DEFAULT_ICON_REGISTRY: NgnIconRegistry = {
   'upload-remove': { icon: tablerX, scale: 1.71 },
 };
 
-export function withDefaultIcons(): NgnFeature {
+export function withDefaultIcons(): JigFeature {
   return {
     providers: [
-      { provide: NGN_ICON_REGISTRY, useValue: NGN_DEFAULT_ICON_REGISTRY },
-      { provide: NGN_CUSTOM_ICONS, useValue: false },
+      { provide: JIG_ICON_REGISTRY, useValue: JIG_DEFAULT_ICON_REGISTRY },
+      { provide: JIG_CUSTOM_ICONS, useValue: false },
     ],
   };
 }

@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { type BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
+import { type BreadcrumbItem, JigBreadcrumb } from '@awdlab/jig/breadcrumb';
 
 @Component({
-  selector: 'ngn-demo-breadcrumb-base',
-  imports: [NgnBreadcrumb],
-  template: `<ngn-breadcrumb [items]="items()" />`,
+  selector: 'jig-demo-breadcrumb-base',
+  imports: [JigBreadcrumb],
+  template: `<jig-breadcrumb [items]="items()" />`,
   host: { class: 'flex-1' },
 })
 export class Demo_Breadcrumb_Base {

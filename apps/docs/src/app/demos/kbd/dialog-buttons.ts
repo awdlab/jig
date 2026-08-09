@@ -1,30 +1,30 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnDialog } from '@ngneers/controls/dialog';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDialog } from '@awdlab/jig/dialog';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 
-import type { NgnActionButtonConfig } from '@ngneers/controls/api';
+import type { JigActionButtonConfig } from '@awdlab/jig/api';
 
 @Component({
-  selector: 'ngn-demo-kbd-dialog-buttons',
-  imports: [NgnButton, NgnDialog, NgnInput, NgnInputField],
+  selector: 'jig-demo-kbd-dialog-buttons',
+  imports: [JigButton, JigDialog, JigInput, JigInputField],
   template: `
     <div class="flex flex-col gap-4 p-4">
-      <button ngnButton (click)="open.set(true)">Open dialog</button>
+      <button jigButton (click)="open.set(true)">Open dialog</button>
       <span class="text-sm">Last button: {{ last() ?? '—' }}</span>
 
-      <ngn-dialog
+      <jig-dialog
         title="Rename"
         [(open)]="open"
         [modal]="true"
         [footerButtons]="buttons"
         (buttonClicked)="resolve($event)"
       >
-        <ngn-input-field label="New name">
-          <input ngnInput autofocus />
-        </ngn-input-field>
-      </ngn-dialog>
+        <jig-input-field label="New name">
+          <input jigInput autofocus />
+        </jig-input-field>
+      </jig-dialog>
     </div>
   `,
 })
@@ -32,7 +32,7 @@ export class Demo_Kbd_DialogButtons {
   protected readonly open = signal(false);
   protected readonly last = signal<string | null>(null);
 
-  protected readonly buttons: NgnActionButtonConfig<string>[] = [
+  protected readonly buttons: JigActionButtonConfig<string>[] = [
     { label: 'Cancel', value: 'cancel', kind: 'secondary', shortcut: 'escape' },
     { label: 'Confirm', value: 'confirm', kind: 'primary', shortcut: 'ctrl+enter' },
   ];

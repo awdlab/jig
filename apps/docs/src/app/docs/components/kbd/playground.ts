@@ -1,17 +1,17 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnKbd } from '@ngneers/controls/kbd';
+import { JigKbd } from '@awdlab/jig/kbd';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-kbd-playground',
-  imports: [NgnKbd, NgnDocsPlayground],
+  selector: 'jig-docs-kbd-playground',
+  imports: [JigKbd, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnKbd', component: component() }]">
-      <ngn-kbd #ref shortcut="mod+shift+a" />
-    </ngn-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'JigKbd', component: component() }]">
+      <jig-kbd #ref shortcut="mod+shift+a" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsKbdPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnKbd });
+export class JigDocsKbdPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigKbd });
 }

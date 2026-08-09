@@ -1,13 +1,13 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
   controlRing,
   ringTemplate,
   sizesTemplate,
-} from '@ngneers/controls-themes/nova/base';
-import { radioControlTemplate } from '@ngneers/controls-themes/templates/radio';
+} from '@awdlab/jig-themes/nova/base';
+import { radioControlTemplate } from '@awdlab/jig-themes/templates/radio';
 
 export const radioStyles = createThemePart({
   controlTemplate: radioControlTemplate,

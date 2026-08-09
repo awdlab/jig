@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { injectThemeColors } from '@ngneers/controls/api/ng';
-import { NgnChip } from '@ngneers/controls/chip';
+import { injectThemeColors } from '@awdlab/jig/api/ng';
+import { JigChip } from '@awdlab/jig/chip';
 
 @Component({
-  selector: 'ngn-demo-chip-base',
-  imports: [NgnChip],
+  selector: 'jig-demo-chip-base',
+  imports: [JigChip],
   template: `
     <div class="flex flex-wrap gap-2">
       @for (color of colors(); track $index) {
-        <ngn-chip [color]="color">
+        <jig-chip [color]="color">
           {{ color }}
-        </ngn-chip>
+        </jig-chip>
       }
     </div>
   `,

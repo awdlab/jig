@@ -6,7 +6,7 @@
     @switch (appliedKind()) {
       @case ('loading') {
         @defer (on immediate) {
-          <ngn-spinner
+          <jig-spinner
             [ptInt]="this"
             [ptDep]="'spinner'"
             [size]="size()"
@@ -17,7 +17,7 @@
       }
       @default {
         @if (icon() || defaultIcon()) {
-          <ngn-icon
+          <jig-icon
             [ptInt]="this"
             [ptDep]="'icon'"
             [defaultIcon]="defaultIcon()"

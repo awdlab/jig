@@ -1,23 +1,23 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnCheckbox } from '@ngneers/controls/checkbox';
-import { NgnErrors } from '@ngneers/controls/errors';
-import { NgnHint } from '@ngneers/controls/hint';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
 
 @Component({
-  selector: 'ngn-demo-checkbox-validation',
-  imports: [NgnCheckbox, NgnErrors, NgnHint],
+  selector: 'jig-demo-checkbox-validation',
+  imports: [JigCheckbox, JigErrors, JigHint],
   template: `
     <div class="flex flex-col gap-2">
-      <ngn-checkbox
+      <jig-checkbox
         [value]="accepted()"
         (valueChange)="accepted.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="termsHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="termsHint"
       />
     </div>
-    <ngn-hint #termsHint />
+    <jig-hint #termsHint />
   `,
 })
 export class Demo_Checkbox_Validation {

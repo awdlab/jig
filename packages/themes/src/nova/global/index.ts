@@ -1,6 +1,6 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import { globalControlTemplate } from '@ngneers/controls-themes/templates/global';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { globalControlTemplate } from '@awdlab/jig-themes/templates/global';
 
 export const globalStyles = createThemePart({
   controlTemplate: globalControlTemplate,

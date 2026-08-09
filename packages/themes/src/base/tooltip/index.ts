@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { tooltipControlTemplate } from '@ngneers/controls-themes/templates/tooltip';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { tooltipControlTemplate } from '@awdlab/jig-themes/templates/tooltip';
 
 export const tooltipStyles = createThemePart({
   controlTemplate: tooltipControlTemplate,

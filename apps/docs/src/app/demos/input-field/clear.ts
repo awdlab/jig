@@ -1,15 +1,15 @@
 import { Component, signal } from '@angular/core';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 
 @Component({
-  imports: [NgnInput, NgnInputField],
-  selector: 'ngn-demo-input-field-clear',
+  imports: [JigInput, JigInputField],
+  selector: 'jig-demo-input-field-clear',
   template: `
-    <ngn-input-field [showClearButton]="true">
-      <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
+    <jig-input-field [showClearButton]="true">
+      <input jigInput [value]="value()" (valueChange)="value.set($event ?? '')" />
       🥳
-    </ngn-input-field>
+    </jig-input-field>
     {{ value() }}
   `,
 })

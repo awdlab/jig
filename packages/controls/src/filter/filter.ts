@@ -12,41 +12,41 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { executeFilter, getActiveFilterConditions, type NgnItem } from '@ngneers/controls/api';
-import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnCalendar } from '@ngneers/controls/calendar';
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnPopover, type PopoverOptions } from '@ngneers/controls/popover';
-import { NgnSelect } from '@ngneers/controls/select';
-import { deepMerge, NgnError } from '@ngneers/controls/utils';
-import { filterControlTemplate } from '@ngneers/controls-themes/templates/filter';
+import { executeFilter, getActiveFilterConditions, type JigItem } from '@awdlab/jig/api';
+import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { JigButton } from '@awdlab/jig/button';
+import { JigCalendar } from '@awdlab/jig/calendar';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigPopover, type PopoverOptions } from '@awdlab/jig/popover';
+import { JigSelect } from '@awdlab/jig/select';
+import { deepMerge, JigError } from '@awdlab/jig/utils';
+import { filterControlTemplate } from '@awdlab/jig-themes/templates/filter';
 
 import type {
-  NgnFilterCondition,
-  NgnFilterConditionConfig,
-  NgnFilterConfig,
-  NgnFilterDataType,
-  NgnFilterMode,
-  NgnFilterOperatorId,
+  JigFilterCondition,
+  JigFilterConditionConfig,
+  JigFilterConfig,
+  JigFilterDataType,
+  JigFilterMode,
+  JigFilterOperatorId,
 } from './types';
-import type { Anchor } from '@ngneers/controls/api/ng';
+import type { Anchor } from '@awdlab/jig/api/ng';
 
 type ConditionInternal = {
-  operator: NgnFilterOperatorId;
+  operator: JigFilterOperatorId;
   rawValue: string | null;
 };
 
 type OperatorDef = {
-  id: NgnFilterOperatorId;
+  id: JigFilterOperatorId;
   labelKey: string;
   requiresValue: boolean;
 };
 
-function defaultOperatorsForType(dataType: NgnFilterDataType) {
+function defaultOperatorsForType(dataType: JigFilterDataType) {
   switch (dataType) {
     case 'string':
       return [
@@ -105,25 +105,25 @@ function defaultOperatorsForType(dataType: NgnFilterDataType) {
  * @category control
  */
 @Component({
-  selector: 'ngn-filter',
+  selector: 'jig-filter',
   templateUrl: './filter.html',
   imports: [
-    NgnPt,
+    JigPt,
     NgTemplateOutlet,
-    NgnCalendar,
-    NgnInputField,
-    NgnInput,
-    NgnSelect,
-    NgnPopover,
-    NgnIcon,
-    NgnButton,
+    JigCalendar,
+    JigInputField,
+    JigInput,
+    JigSelect,
+    JigPopover,
+    JigIcon,
+    JigButton,
   ],
-  providers: [provideSelf(NgnFilter)],
+  providers: [provideSelf(JigFilter)],
   host: {
     style: 'display: block;',
   },
 })
-export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilterConfig | null> {
+export class JigFilter<T = unknown> extends ValueControlBase<'filter', JigFilterConfig | null> {
   protected readonly theme = this.injectThemeTemplate(filterControlTemplate, 'root');
   private readonly _i18n = inject(I18n);
   protected readonly i18n = this._i18n.translations;
@@ -139,7 +139,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
    * Datatype of the values in {@link data}. Determines the available operators and editor UI.
    * @default 'string'
    */
-  public readonly dataType = input<NgnFilterDataType>('string');
+  public readonly dataType = input<JigFilterDataType>('string');
   /**
    * Allows multiple conditions and a match mode (any/all).
    * @default false
@@ -160,7 +160,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
    * - `headless`: renders only the popover and can be opened programmatically via {@link show}
    * @default 'input'
    */
-  public readonly mode = input<NgnFilterMode>('input');
+  public readonly mode = input<JigFilterMode>('input');
 
   /**
    * Popover anchor used only in `headless` mode.
@@ -211,21 +211,21 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   );
 
   /** Emits whenever the filter configuration changes. */
-  public readonly filterChange = output<NgnFilterConfig | null>();
+  public readonly filterChange = output<JigFilterConfig | null>();
   /** Emits the filtered data whenever local filtering is enabled. */
   public readonly filterResultChange = output<readonly T[]>();
 
-  private readonly _popover = viewChild(NgnPopover);
+  private readonly _popover = viewChild(JigPopover);
 
   /**
    * Internal working config that the template binds to.
    * In auto-apply mode, this syncs to value() via debounce.
    * In manual mode, only apply() commits this to value().
    */
-  protected readonly workingConfig = signal<NgnFilterConfig | null>(null);
+  protected readonly workingConfig = signal<JigFilterConfig | null>(null);
 
   /** Snapshot of value() taken when popover opens in manual mode, for cancel to restore. */
-  private _snapshotConfig: NgnFilterConfig | null = null;
+  private _snapshotConfig: JigFilterConfig | null = null;
 
   /** Debounce timer handle for auto-apply. */
   private _debounceTimer: ReturnType<typeof setTimeout> | null = null;
@@ -247,16 +247,16 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     return this.activeConditionConfigs().length > 0;
   });
 
-  private createCondition(operator: NgnFilterOperatorId): ConditionInternal {
+  private createCondition(operator: JigFilterOperatorId): ConditionInternal {
     return { operator, rawValue: null };
   }
 
-  private defaultConfig(): NgnFilterConfig {
+  private defaultConfig(): JigFilterConfig {
     if (this.dataType() === 'list') {
       return {
         dataType: 'list',
         matchMode: 'all',
-        conditions: <readonly NgnFilterConditionConfig[]>[{ operator: 'in', rawValue: null }],
+        conditions: <readonly JigFilterConditionConfig[]>[{ operator: 'in', rawValue: null }],
       };
     }
 
@@ -264,7 +264,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     return {
       dataType: this.dataType(),
       matchMode: 'all',
-      conditions: <readonly NgnFilterConditionConfig[]>[
+      conditions: <readonly JigFilterConditionConfig[]>[
         {
           operator: firstOp,
           rawValue: null,
@@ -278,8 +278,8 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
    * Always reads from workingConfig (the live editing state).
    * Falls back to a default config when null.
    */
-  protected readonly templateConfig = computed<NgnFilterConfig>(
-    () => (this.workingConfig() ?? this.defaultConfig()) as NgnFilterConfig
+  protected readonly templateConfig = computed<JigFilterConfig>(
+    () => (this.workingConfig() ?? this.defaultConfig()) as JigFilterConfig
   );
 
   protected readonly templateListSelection = computed<readonly string[]>(() => {
@@ -311,7 +311,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   protected readonly operatorOptions = computed(() => {
     const options = this.operatorDefs().map(
       op =>
-        <NgnItem>{
+        <JigItem>{
           label: this.i18n[op.labelKey],
           value: op.id,
           testId: `filter-operator-${op.id}`,
@@ -320,9 +320,9 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     return options;
   });
 
-  protected readonly autoListOptions = computed<readonly NgnItem[]>(() => {
+  protected readonly autoListOptions = computed<readonly JigItem[]>(() => {
     const seen = new Set<string>();
-    const items: Array<NgnItem> = [];
+    const items: Array<JigItem> = [];
 
     for (const raw of this.data()) {
       const s = String(raw);
@@ -344,11 +344,11 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     });
   });
 
-  protected readonly resolvedListOptions = computed<readonly NgnItem[]>(() => {
+  protected readonly resolvedListOptions = computed<readonly JigItem[]>(() => {
     const listOptions = this.listOptions();
     return listOptions
       ? listOptions.map(
-          (opt): NgnItem => ({
+          (opt): JigItem => ({
             label: opt,
             value: opt,
             testId: `filter-list-${opt}`,
@@ -357,7 +357,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
       : this.autoListOptions();
   });
 
-  protected readonly matchModeOptions: readonly NgnItem[] = [
+  protected readonly matchModeOptions: readonly JigItem[] = [
     { label: this.i18n['filter_match_all'], value: 'all', testId: 'filter-match-all' },
     { label: this.i18n['filter_match_any'], value: 'any', testId: 'filter-match-any' },
   ];
@@ -439,7 +439,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     return `${active.length} ${this.i18n['filter_conditions']()} (${matchLabel})`;
   });
 
-  protected readonly activeConditionConfigs = computed<readonly NgnFilterConditionConfig[]>(() => {
+  protected readonly activeConditionConfigs = computed<readonly JigFilterConditionConfig[]>(() => {
     const cfg = this.value();
     if (!cfg || cfg.dataType === 'list') {
       return [];
@@ -454,7 +454,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     });
   });
 
-  protected readonly activeConditions = computed<readonly NgnFilterCondition[]>(() => {
+  protected readonly activeConditions = computed<readonly JigFilterCondition[]>(() => {
     const cfg = this.value();
     return cfg ? getActiveFilterConditions(cfg) : [];
   });
@@ -516,7 +516,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
       const defs = this.operatorDefs();
       const first = defs[0];
       if (!first) {
-        throw new NgnError('filter', 'No operators available.');
+        throw new JigError('filter', 'No operators available.');
       }
       const defIds = new Set(defs.map(d => d.id));
 
@@ -576,7 +576,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   }
 
   /** Updates the working config and optionally auto-applies. */
-  private updateWorkingConfig(config: NgnFilterConfig | null): void {
+  private updateWorkingConfig(config: JigFilterConfig | null): void {
     this.workingConfig.set(config);
     this.commitWorkingConfig();
   }
@@ -606,12 +606,12 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     }
   }
 
-  protected operatorRequiresValue(operator: NgnFilterOperatorId): boolean {
+  protected operatorRequiresValue(operator: JigFilterOperatorId): boolean {
     const def = this.operatorDefs().find(d => d.id === operator);
     return def?.requiresValue ?? true;
   }
 
-  protected setOperator(index: number, operator: NgnFilterOperatorId | null): void {
+  protected setOperator(index: number, operator: JigFilterOperatorId | null): void {
     if (!operator) {
       return;
     }
@@ -705,7 +705,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
     this.updateWorkingConfig({
       dataType: 'list',
       matchMode: 'all',
-      conditions: <readonly NgnFilterConditionConfig[]>[
+      conditions: <readonly JigFilterConditionConfig[]>[
         {
           operator: 'in',
           rawValue: arr.length > 0 ? JSON.stringify(arr) : null,
@@ -755,14 +755,14 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   /** Shows the filter popup. Only works when {@link mode} is not `inline`. */
   public show(): void {
     if (this.mode() === 'inline') {
-      throw new NgnError('filter', 'Cannot open an inline filter.');
+      throw new JigError('filter', 'Cannot open an inline filter.');
     }
     if (this.mode() === 'headless' && !this.anchor()) {
-      throw new NgnError('filter', 'Headless mode requires an [anchor] input.');
+      throw new JigError('filter', 'Headless mode requires an [anchor] input.');
     }
     const popover = this._popover();
     if (!popover) {
-      throw new NgnError('filter', 'Popover is not available.');
+      throw new JigError('filter', 'Popover is not available.');
     }
 
     // Snapshot current value for cancel
@@ -777,7 +777,7 @@ export class NgnFilter<T = unknown> extends ValueControlBase<'filter', NgnFilter
   /** Hides the filter popup. Only works when {@link mode} is not `inline`. */
   public hide(): void {
     if (this.mode() === 'inline') {
-      throw new NgnError('filter', 'Cannot close an inline filter.');
+      throw new JigError('filter', 'Cannot close an inline filter.');
     }
     this._popover()?.hide();
   }

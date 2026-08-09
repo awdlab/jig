@@ -1,6 +1,6 @@
-import type { NgnDocsPage } from '../../../../utils/page/types';
+import type { JigDocsPage } from '../../../../utils/page/types';
 
-export const StylingPage: NgnDocsPage = {
+export const StylingPage: JigDocsPage = {
   kind: 'single',
   title: `Styling & Overrides`,
 

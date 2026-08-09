@@ -1,6 +1,6 @@
 import { TemplateRef } from '@angular/core';
 
-import type { CustomColor, IconType } from '@ngneers/controls-custom-types';
+import type { CustomColor, IconType } from '@awdlab/jig-custom-types';
 
 export type HeaderTemplateType = {
   header?: string;
@@ -12,20 +12,20 @@ export type ContentTemplateType = {
   content?: string;
 };
 
-export type NgnToastOptionsMeta = {
+export type JigToastOptionsMeta = {
   closable?: boolean;
   color?: CustomColor;
   icon?: IconType;
   autoHide?: number | false;
 };
 
-export type NgnToastOptions = NgnToastOptionsMeta & {
+export type JigToastOptions = JigToastOptionsMeta & {
   header?: string;
   content?: string;
   headerTemplate?: TemplateRef<HeaderTemplateType>;
   contentTemplate?: TemplateRef<ContentTemplateType>;
 };
 
-export type NgnToastRef = {
+export type JigToastRef = {
   hide: () => void;
 };

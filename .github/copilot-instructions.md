@@ -1,8 +1,8 @@
-# GitHub Copilot Instructions for NGneers Controls
+# GitHub Copilot Instructions for awdlab Controls
 
 ## Project Overview
 
-This is **NGneers Controls**, an Angular component library that provides a comprehensive set of UI controls and components. The project is organized as a pnpm monorepo workspace containing:
+This is **awdlab Controls**, an Angular component library that provides a comprehensive set of UI controls and components. The project is organized as a pnpm monorepo workspace containing:
 
 - `packages/controls` - Core Angular component library
 - `packages/themes` - Theme templates and styling
@@ -38,13 +38,13 @@ This is **NGneers Controls**, an Angular component library that provides a compr
 
 ### Angular Components
 
-- **Component prefix**: `ngn` (e.g., `ngnButton`, `ngnInput`)
+- **Component prefix**: `jig` (e.g., `jigButton`, `jigInput`)
 - **Selector style**:
-  - Element selectors: `kebab-case` (e.g., `ngn-button`)
-  - Attribute selectors: `camelCase` (e.g., `ngnButton`)
+  - Element selectors: `kebab-case` (e.g., `jig-button`)
+  - Attribute selectors: `camelCase` (e.g., `jigButton`)
 - **Change detection**: Zoneless (Angular 22 default); `OnPush` no longer tool-enforced
 - **Component class suffix**: Not required
-- **Base class**: Extend `NgnBase<T>` for component base functionality
+- **Base class**: Extend `JigBase<T>` for component base functionality
 - **Theme templates**: Use `injectThemeTemplate()` to inject theme templates
 - Use `input()` for component inputs (signal-based)
 - Use `output()` for component outputs (signal-based)
@@ -64,8 +64,8 @@ This is **NGneers Controls**, an Angular component library that provides a compr
 
 ### Naming Conventions
 
-- **Components**: PascalCase with `Ngn` prefix (e.g., `NgnButton`, `NgnInput`)
-- **Directives**: PascalCase with `Ngn` prefix
+- **Components**: PascalCase with `Jig` prefix (e.g., `JigButton`, `JigInput`)
+- **Directives**: PascalCase with `Jig` prefix
 - **Types/Interfaces**: PascalCase
 - **Functions**: camelCase
 - **Constants**: UPPER_SNAKE_CASE or camelCase depending on context
@@ -108,7 +108,7 @@ pnpm test              # Run Playwright E2E tests
 pnpm unit-test         # Run all unit tests in packages
 
 # Run tests for specific package
-pnpm --filter @ngneers/controls test
+pnpm --filter @awdlab/jig test
 
 # Test with UI
 pnpm test:ui          # Run Playwright with UI mode
@@ -213,7 +213,7 @@ describe('ComponentOrFunction', () => {
 - **No NgModules** - all components are standalone
 - Use **RxJS** sparingly, prefer signals for state management
 - The library is **side-effect free** (`"sideEffects": false` in package.json)
-- Theme system is based on class-based templates from `@ngneers/controls-themes`
+- Theme system is based on class-based templates from `@awdlab/jig-themes`
 - Use `toggleClass` utility instead of renderer for better performance
 - i18n is handled via `@ngneers/signal-translate`
 - Components should be tree-shakeable
@@ -224,16 +224,16 @@ describe('ComponentOrFunction', () => {
 
 ```typescript
 import { Directive, input } from '@angular/core';
-import { NgnBase, provideSelf } from '@ngneers/controls/base';
+import { JigBase, provideSelf } from '@awdlab/jig/base';
 
 @Directive({
-  selector: '[ngnExample]',
-  providers: [provideSelf(NgnExample)],
+  selector: '[jigExample]',
+  providers: [provideSelf(JigExample)],
   host: {
     '[class]': 'theme.classes({ /* ... */ })',
   },
 })
-export class NgnExample extends NgnBase<'example'> {
+export class JigExample extends JigBase<'example'> {
   protected readonly theme = this.injectThemeTemplate(exampleTemplate);
 
   public readonly someInput = input<string>();

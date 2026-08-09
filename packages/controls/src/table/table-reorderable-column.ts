@@ -6,13 +6,13 @@ import {
   type OnDestroy,
   Type,
 } from '@angular/core';
-import { injectThemeTemplate } from '@ngneers/controls/api/ng';
-import { getNearestNgnInstanceSig } from '@ngneers/controls/base';
-import { toggleClass } from '@ngneers/controls/utils';
-import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
+import { injectThemeTemplate } from '@awdlab/jig/api/ng';
+import { getNearestJigInstanceSig } from '@awdlab/jig/base';
+import { toggleClass } from '@awdlab/jig/utils';
+import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
-import { NgnTable } from './table';
-import { NgnTableTh } from './table-header-cell';
+import { JigTable } from './table';
+import { JigTableTh } from './table-header-cell';
 
 /** Minimum distance in pixels before a drag is initiated. */
 const REORDER_DEAD_ZONE_PX = 5;
@@ -21,17 +21,17 @@ const REORDER_DEAD_ZONE_PX = 5;
  * @category directive
  */
 @Directive({
-  selector: '[ngnTableReorderableColumn]',
+  selector: '[jigTableReorderableColumn]',
 })
-export class NgnTableReorderableColumn implements OnDestroy {
+export class JigTableReorderableColumn implements OnDestroy {
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly _headerCell = inject(NgnTableTh);
-  private readonly _columnId = this._headerCell.ngnTableTh;
+  private readonly _headerCell = inject(JigTableTh);
+  private readonly _columnId = this._headerCell.jigTableTh;
 
-  private readonly _table = getNearestNgnInstanceSig<Type<NgnTable<any, any>>>(
+  private readonly _table = getNearestJigInstanceSig<Type<JigTable<any, any>>>(
     this._element.nativeElement,
-    NgnTable
+    JigTable
   );
 
   private _isDragging = false;

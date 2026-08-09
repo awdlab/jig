@@ -10,17 +10,17 @@ template-driven forms, or nothing at all.
 
 ```html
 <!-- signal forms -->
-<input ngnInput [formField]="userForm.email" />
+<input jigInput [formField]="userForm.email" />
 
 <!-- reactive forms -->
-<input ngnInput [formControl]="email" />
-<input ngnInput [formGroup]="form" formControlName="email" />
+<input jigInput [formControl]="email" />
+<input jigInput [formGroup]="form" formControlName="email" />
 
 <!-- template-driven -->
-<input ngnInput name="email" [(ngModel)]="email" />
+<input jigInput name="email" [(ngModel)]="email" />
 
 <!-- no form at all -->
-<input ngnInput [value]="email()" (valueChange)="email.set($event ?? '')" />
+<input jigInput [value]="email()" (valueChange)="email.set($event ?? '')" />
 ```
 
 > **Never add a `ControlValueAccessor` bridge of your own.** Angular's
@@ -36,12 +36,12 @@ Define the shape with `form()` and bind each field:
 import { form, required, email, minLength, FormField } from '@angular/forms/signals';
 
 @Component({
-  imports: [FormField, NgnInput, NgnInputField, NgnErrors, NgnHint],
+  imports: [FormField, JigInput, JigInputField, JigErrors, JigHint],
   template: `
-    <ngn-input-field [label]="'Email'">
-      <input ngnInput [formField]="userForm.email" ngnErrors [ngnErrorsHint]="hint" />
-    </ngn-input-field>
-    <ngn-hint #hint />
+    <jig-input-field [label]="'Email'">
+      <input jigInput [formField]="userForm.email" jigErrors [jigErrorsHint]="hint" />
+    </jig-input-field>
+    <jig-hint #hint />
   `,
 })
 export class SignUp {
@@ -64,11 +64,11 @@ Nothing special is required — the control behaves like a native input:
 
 ```ts
 @Component({
-  imports: [ReactiveFormsModule, NgnInput, NgnErrors, NgnHint],
+  imports: [ReactiveFormsModule, JigInput, JigErrors, JigHint],
   template: `
     <form [formGroup]="form">
-      <input ngnInput formControlName="email" ngnErrors [ngnErrorsHint]="hint" />
-      <ngn-hint #hint />
+      <input jigInput formControlName="email" jigErrors [jigErrorsHint]="hint" />
+      <jig-hint #hint />
     </form>
   `,
 })
@@ -84,17 +84,17 @@ input is **not** written for you — see "Who owns invalid" below.
 
 ### Validation messages
 
-Messages come from the [`ngnErrors`](/components/errors) directive, which reads
+Messages come from the [`jigErrors`](/components/errors) directive, which reads
 the host's validation state whatever paradigm produced it and pushes a message
-into an [`ngn-hint`](/components/hint):
+into an [`jig-hint`](/components/hint):
 
 ```html
-<input ngnInput [formControl]="email" ngnErrors [ngnErrorsHint]="hint" /> <ngn-hint #hint />
+<input jigInput [formControl]="email" jigErrors [jigErrorsHint]="hint" /> <jig-hint #hint />
 ```
 
-It resolves messages from — in order — the control's own `ngnErrorsMessages`,
+It resolves messages from — in order — the control's own `jigErrorsMessages`,
 a message carried on the error, app-wide messages from
-`provideNgnErrorsMessages()`, and finally the built-in translations. Full
+`provideJigErrorsMessages()`, and finally the built-in translations. Full
 detail on the [Errors](/components/errors) page.
 
 ### Who owns `invalid`
@@ -105,13 +105,13 @@ Two separate decisions, deliberately kept apart:
 | --------------------------------- | ----------------- | ----------------- |
 | Is the value invalid?             | `invalid`         | the form (or you) |
 | When does the invalid style show? | `invalidOn`       | the control       |
-| When does the message show?       | `ngnErrorsShowOn` | `ngnErrors`       |
+| When does the message show?       | `jigErrorsShowOn` | `jigErrors`       |
 
 `invalid` is the raw flag. A signal-forms binding sets it; with reactive forms
 you bind it yourself:
 
 ```html
-<input ngnInput [formControl]="email" [invalid]="email.invalid" />
+<input jigInput [formControl]="email" [invalid]="email.invalid" />
 ```
 
 `invalidOn` gates when that flag is actually rendered — the control never
@@ -127,7 +127,7 @@ paints itself red before the user has had a chance:
 Because the two triggers are independent you can show the border immediately
 but hold the message until blur, or vice versa.
 
-`ngn-input-field` reflects its projected control's gated state, so the wrapper
+`jig-input-field` reflects its projected control's gated state, so the wrapper
 and the input never disagree.
 
 ### Touched and blur
@@ -175,10 +175,10 @@ never runs.
 ### Errors that are not validation
 
 Server-side rejections, cross-field rules, anything Angular does not know
-about — pass them in through `ngnErrorsCustom`:
+about — pass them in through `jigErrorsCustom`:
 
 ```html
-<input ngnInput [formField]="userForm.name" ngnErrors [ngnErrorsCustom]="serverErrors()" />
+<input jigInput [formField]="userForm.name" jigErrors [jigErrorsCustom]="serverErrors()" />
 ```
 
 ### Which controls are form controls

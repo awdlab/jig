@@ -9,7 +9,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { domEventObservable, elementSizeSignal } from '@ngneers/controls/api/ng';
+import { domEventObservable, elementSizeSignal } from '@awdlab/jig/api/ng';
 import { map } from 'rxjs';
 
 /** Remaining scrollable distance to the end, clamped at 0. Pure for testing. */
@@ -28,8 +28,8 @@ export function isWithinEndZone(distanceFromEnd: number, threshold: number): boo
 
 /**
  * Exposes live scroll geometry of its host (or of an external
- * {@link NgnScrollAmount.container}) as signals, and fires
- * {@link NgnScrollAmount.endReached} when the user scrolls near the bottom.
+ * {@link JigScrollAmount.container}) as signals, and fires
+ * {@link JigScrollAmount.endReached} when the user scrolls near the bottom.
  *
  * Geometry is resynced whenever the container resizes or the host's content
  * grows, so `distanceFromEnd` stays correct after the list changes.
@@ -37,26 +37,26 @@ export function isWithinEndZone(distanceFromEnd: number, threshold: number): boo
  * @category directive
  */
 @Directive({
-  selector: '[ngnScrollAmount]',
+  selector: '[jigScrollAmount]',
 })
-export class NgnScrollAmount {
+export class JigScrollAmount {
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /**
    * Optional external scroll container. When set, scroll events and
    * dimensions are tracked on this element instead of the host element.
-   * @alias ngnScrollAmountContainer
+   * @alias jigScrollAmountContainer
    */
   public readonly container = input<HTMLElement | undefined>(undefined, {
-    alias: 'ngnScrollAmountContainer',
+    alias: 'jigScrollAmountContainer',
   });
 
   /**
    * Distance (px) from the end at which {@link endReached} fires.
    * @default 0
-   * @alias ngnScrollAmountEndThreshold
+   * @alias jigScrollAmountEndThreshold
    */
-  public readonly endThreshold = input(0, { alias: 'ngnScrollAmountEndThreshold' });
+  public readonly endThreshold = input(0, { alias: 'jigScrollAmountEndThreshold' });
 
   /**
    * Fires once when scrolling crosses within {@link endThreshold} of the bottom

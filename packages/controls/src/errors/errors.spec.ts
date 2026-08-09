@@ -10,53 +10,53 @@ import {
   type ValidationErrors,
 } from '@angular/forms';
 import { email, form, FormField, min, minLength, required, validate } from '@angular/forms/signals';
-import { provideNgnControls } from '@ngneers/controls/api/ng';
-import { NgnCheckbox } from '@ngneers/controls/checkbox';
-import { withDefaultIcons } from '@ngneers/controls/default-icons';
-import { NgnHint } from '@ngneers/controls/hint';
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnNumberInput } from '@ngneers/controls/number-input';
-import { NgnOtp } from '@ngneers/controls/otp';
-import { nova } from '@ngneers/controls-themes/nova';
+import { provideJigControls } from '@awdlab/jig/api/ng';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
+import { withDefaultIcons } from '@awdlab/jig/default-icons';
+import { JigHint } from '@awdlab/jig/hint';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigNumberInput } from '@awdlab/jig/number-input';
+import { JigOtp } from '@awdlab/jig/otp';
+import { nova } from '@awdlab/jig-themes/nova';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { NgnErrors } from './errors';
-import { provideNgnErrorsMessages } from './messages';
+import { JigErrors } from './errors';
+import { provideJigErrorsMessages } from './messages';
 
 // ── template-driven ────────────────────────────────────────────────────────
 @Component({
-  imports: [FormsModule, NgnInput, NgnErrors],
+  imports: [FormsModule, JigInput, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       required
       [(ngModel)]="value"
-      ngnErrors
-      ngnErrorsShowOn="always"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      #errors="jigErrors"
     />
   `,
 })
 class TemplateDrivenHost {
   value = '';
-  errors = viewChild.required<NgnErrors>('errors');
+  errors = viewChild.required<JigErrors>('errors');
 }
 
 // ── reactive ─────────────────────────────────────────────────────────────────
 @Component({
-  imports: [ReactiveFormsModule, NgnInput, NgnHint, NgnErrors],
+  imports: [ReactiveFormsModule, JigInput, JigHint, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       [formControl]="control"
-      ngnErrors
-      [ngnErrorsHint]="hint"
-      [ngnErrorsMessages]="{ required: 'Email is required' }"
-      #errors="ngnErrors"
+      jigErrors
+      [jigErrorsHint]="hint"
+      [jigErrorsMessages]="{ required: 'Email is required' }"
+      #errors="jigErrors"
     />
-    <ngn-hint #hint />
+    <jig-hint #hint />
   `,
 })
 class ReactiveHost {
@@ -64,20 +64,20 @@ class ReactiveHost {
     nonNullable: true,
     validators: [Validators.required, Validators.email],
   });
-  errors = viewChild.required<NgnErrors>('errors');
+  errors = viewChild.required<JigErrors>('errors');
 }
 
 @Component({
-  imports: [ReactiveFormsModule, NgnInput, NgnErrors],
+  imports: [ReactiveFormsModule, JigInput, JigErrors],
   template: `
     <form [formGroup]="form">
-      <input ngnInput formControlName="password" />
+      <input jigInput formControlName="password" />
       <input
-        ngnInput
+        jigInput
         formControlName="confirm"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        #errors="ngnErrors"
+        jigErrors
+        jigErrorsShowOn="always"
+        #errors="jigErrors"
       />
     </form>
   `,
@@ -92,18 +92,18 @@ class GroupHost {
       validators: () => ({ mismatch: { controlNames: ['confirm'], message: 'Passwords differ' } }),
     }
   );
-  errors = viewChild.required<NgnErrors>('errors');
+  errors = viewChild.required<JigErrors>('errors');
 }
 
 @Component({
-  imports: [ReactiveFormsModule, NgnInput, NgnErrors],
+  imports: [ReactiveFormsModule, JigInput, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       [formControl]="control"
-      ngnErrors
-      ngnErrorsShowOn="always"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      #errors="jigErrors"
     />
   `,
 })
@@ -116,7 +116,7 @@ class AsyncHost {
     });
 
   control = new FormControl('', { nonNullable: true, asyncValidators: [this.validator] });
-  errors = viewChild.required<NgnErrors>('errors');
+  errors = viewChild.required<JigErrors>('errors');
 
   resolve(errors: ValidationErrors | null): void {
     this._resolve?.(errors);
@@ -125,58 +125,58 @@ class AsyncHost {
 
 // carried message vs a globally-provided one for the same key
 @Component({
-  imports: [ReactiveFormsModule, NgnInput, NgnErrors],
+  imports: [ReactiveFormsModule, JigInput, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       [formControl]="control"
-      ngnErrors
-      ngnErrorsShowOn="always"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      #errors="jigErrors"
     />
   `,
 })
 class CarriedVsGlobalHost {
-  // `server` is also provided globally (see provideNgnErrorsMessages in beforeEach);
+  // `server` is also provided globally (see provideJigErrorsMessages in beforeEach);
   // the error carries its own message, which must win.
   control = new FormControl('x', {
     nonNullable: true,
     validators: [() => ({ server: { message: 'Carried server message' } })],
   });
-  errors = viewChild.required<NgnErrors>('errors');
+  errors = viewChild.required<JigErrors>('errors');
 }
 
 // classic Validators.min → `{ min, actual }`, resolved via the i18n `min` default
 @Component({
-  imports: [ReactiveFormsModule, NgnInput, NgnErrors],
+  imports: [ReactiveFormsModule, JigInput, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       [formControl]="control"
-      ngnErrors
-      ngnErrorsShowOn="always"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      #errors="jigErrors"
     />
   `,
 })
 class ClassicMinHost {
   control = new FormControl(5, { nonNullable: true, validators: [Validators.min(18)] });
-  errors = viewChild.required<NgnErrors>('errors');
+  errors = viewChild.required<JigErrors>('errors');
 }
 
 // ── signal forms ─────────────────────────────────────────────────────────────
 @Component({
-  imports: [FormField, NgnInput, NgnHint, NgnErrors],
+  imports: [FormField, JigInput, JigHint, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       [formField]="signalForm.email"
-      ngnErrors
-      [ngnErrorsHint]="hint"
-      [ngnErrorsMessages]="{ required: 'Email is required' }"
-      #errors="ngnErrors"
+      jigErrors
+      [jigErrorsHint]="hint"
+      [jigErrorsMessages]="{ required: 'Email is required' }"
+      #errors="jigErrors"
     />
-    <ngn-hint #hint />
+    <jig-hint #hint />
   `,
 })
 class SignalInputHost {
@@ -185,18 +185,18 @@ class SignalInputHost {
     required(path.email);
     email(path.email);
   });
-  errors = viewChild.required<NgnErrors>('errors');
+  errors = viewChild.required<JigErrors>('errors');
 }
 
 @Component({
-  imports: [FormField, NgnInput, NgnErrors],
+  imports: [FormField, JigInput, JigErrors],
   template: `
     <input
       type="number"
       [formField]="signalForm.age"
-      ngnErrors
-      ngnErrorsShowOn="always"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      #errors="jigErrors"
     />
   `,
 })
@@ -205,28 +205,28 @@ class SignalMinHost {
   signalForm = form(this.model, path => {
     min(path.age, 18);
   });
-  errors = viewChild.required<NgnErrors>('errors');
+  errors = viewChild.required<JigErrors>('errors');
 }
 
 @Component({
-  imports: [FormField, NgnNumberInput, NgnErrors],
-  template: ` <input ngnNumberInput [formField]="signalForm.age" ngnErrors #errors="ngnErrors" /> `,
+  imports: [FormField, JigNumberInput, JigErrors],
+  template: ` <input jigNumberInput [formField]="signalForm.age" jigErrors #errors="jigErrors" /> `,
 })
 class SignalNumberFieldHost {
   model = signal({ age: null as number | null });
   signalForm = form(this.model, path => required(path.age));
-  errors = viewChild.required<NgnErrors>('errors');
+  errors = viewChild.required<JigErrors>('errors');
 }
 
 @Component({
-  imports: [FormField, NgnInput, NgnErrors],
+  imports: [FormField, JigInput, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       [formField]="signalForm.code"
-      ngnErrors
-      ngnErrorsShowOn="always"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      #errors="jigErrors"
     />
   `,
 })
@@ -235,19 +235,19 @@ class SignalMinLengthHost {
   signalForm = form(this.model, path => {
     minLength(path.code, 5);
   });
-  errors = viewChild.required<NgnErrors>('errors');
+  errors = viewChild.required<JigErrors>('errors');
 }
 
 @Component({
-  imports: [FormField, NgnInput, NgnErrors],
+  imports: [FormField, JigInput, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       [formField]="signalForm.code"
-      ngnErrors
-      ngnErrorsShowOn="always"
-      [ngnErrorsMessages]="{ tooShort: resolveTooShort }"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      [jigErrorsMessages]="{ tooShort: resolveTooShort }"
+      #errors="jigErrors"
     />
   `,
 })
@@ -260,121 +260,121 @@ class SignalCustomHost {
   });
   resolveTooShort = ({ params }: { params: Record<string, unknown> }) =>
     `too short: ${params['hint']}`;
-  errors = viewChild.required<NgnErrors>('errors');
+  errors = viewChild.required<JigErrors>('errors');
 }
 
 // ── manually-supplied custom errors ──────────────────────────────────────────
 @Component({
-  imports: [NgnCheckbox, NgnHint, NgnErrors],
+  imports: [JigCheckbox, JigHint, JigErrors],
   template: `
-    <ngn-checkbox
-      ngnErrors
-      ngnErrorsShowOn="always"
-      [ngnErrorsHint]="hint"
-      [ngnErrorsCustom]="customErrors()"
-      #errors="ngnErrors"
+    <jig-checkbox
+      jigErrors
+      jigErrorsShowOn="always"
+      [jigErrorsHint]="hint"
+      [jigErrorsCustom]="customErrors()"
+      #errors="jigErrors"
     />
-    <ngn-hint #hint />
+    <jig-hint #hint />
   `,
 })
 class CustomRecordHost {
   customErrors = signal<ValidationErrors | null>({ terms: 'Accept the terms' });
-  errors = viewChild.required<NgnErrors>('errors');
+  errors = viewChild.required<JigErrors>('errors');
 }
 
 @Component({
-  imports: [NgnCheckbox, NgnErrors],
+  imports: [JigCheckbox, JigErrors],
   template: `
-    <ngn-checkbox
-      ngnErrors
-      ngnErrorsShowOn="always"
-      ngnErrorsMode="all"
-      [ngnErrorsCustom]="['tooWeak', { key: 'expired', message: 'Session expired' }]"
-      [ngnErrorsMessages]="{ tooWeak: 'Password too weak' }"
-      #errors="ngnErrors"
+    <jig-checkbox
+      jigErrors
+      jigErrorsShowOn="always"
+      jigErrorsMode="all"
+      [jigErrorsCustom]="['tooWeak', { key: 'expired', message: 'Session expired' }]"
+      [jigErrorsMessages]="{ tooWeak: 'Password too weak' }"
+      #errors="jigErrors"
     />
   `,
 })
 class CustomArrayHost {
-  errors = viewChild.required<NgnErrors>('errors');
+  errors = viewChild.required<JigErrors>('errors');
 }
 
 // ── no form at all: custom errors gated on the control's own blur ────────────
 @Component({
-  imports: [NgnInput, NgnErrors],
+  imports: [JigInput, JigErrors],
   template: `
     <input
-      ngnInput
-      ngnErrors
-      ngnErrorsShowOn="touched"
-      [ngnErrorsCustom]="['bad']"
-      #errors="ngnErrors"
+      jigInput
+      jigErrors
+      jigErrorsShowOn="touched"
+      [jigErrorsCustom]="['bad']"
+      #errors="jigErrors"
     />
   `,
 })
 class NoFormTouchedHost {
-  errors = viewChild.required<NgnErrors>('errors');
+  errors = viewChild.required<JigErrors>('errors');
 }
 
 // ── i18n default messages / language switch ──────────────────────────────────
 @Component({
-  imports: [ReactiveFormsModule, NgnInput, NgnErrors],
+  imports: [ReactiveFormsModule, JigInput, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       [formControl]="control"
-      ngnErrors
-      ngnErrorsShowOn="always"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      #errors="jigErrors"
     />
   `,
 })
 class I18nHost {
   control = new FormControl('', { nonNullable: true, validators: [Validators.required] });
-  errors = viewChild.required<NgnErrors>('errors');
+  errors = viewChild.required<JigErrors>('errors');
 }
 
 // ── input-field auto-invalid wiring ──────────────────────────────────────────
 @Component({
-  imports: [FormField, NgnInput, NgnInputField, NgnErrors],
+  imports: [FormField, JigInput, JigInputField, JigErrors],
   template: `
-    <ngn-input-field>
-      <input ngnInput [formField]="signalForm.name" ngnErrors #errors="ngnErrors" />
-    </ngn-input-field>
+    <jig-input-field>
+      <input jigInput [formField]="signalForm.name" jigErrors #errors="jigErrors" />
+    </jig-input-field>
   `,
 })
 class SignalFieldHost {
   model = signal({ name: '' });
   signalForm = form(this.model, path => required(path.name));
-  errors = viewChild.required<NgnErrors>('errors');
+  errors = viewChild.required<JigErrors>('errors');
 }
 
-// A bare control (no ngn-input-field wrapper) drives its own invalid styling
-// from the companion ngnErrors' touched-gated visibility.
+// A bare control (no jig-input-field wrapper) drives its own invalid styling
+// from the companion jigErrors' touched-gated visibility.
 @Component({
-  imports: [FormField, NgnOtp, NgnErrors],
+  imports: [FormField, JigOtp, JigErrors],
   template: `
-    <ngn-otp
+    <jig-otp
       [length]="6"
       [formField]="signalForm.code"
-      ngnErrorsShowOn="touched"
-      ngnErrors
-      #errors="ngnErrors"
+      jigErrorsShowOn="touched"
+      jigErrors
+      #errors="jigErrors"
     />
   `,
 })
 class BareControlInvalidHost {
   model = signal({ code: '' });
   signalForm = form(this.model, path => required(path.code));
-  errors = viewChild.required<NgnErrors>('errors');
+  errors = viewChild.required<JigErrors>('errors');
 }
 
 @Component({
-  imports: [ReactiveFormsModule, NgnInput, NgnInputField, NgnErrors],
+  imports: [ReactiveFormsModule, JigInput, JigInputField, JigErrors],
   template: `
-    <ngn-input-field>
-      <input ngnInput [formControl]="control" ngnErrors ngnErrorsShowOn="always" />
-    </ngn-input-field>
+    <jig-input-field>
+      <input jigInput [formControl]="control" jigErrors jigErrorsShowOn="always" />
+    </jig-input-field>
   `,
 })
 class FieldAutoInvalidHost {
@@ -384,8 +384,8 @@ class FieldAutoInvalidHost {
 beforeEach(() => {
   TestBed.configureTestingModule({
     providers: [
-      provideNgnControls({ theme: { preset: nova }, disableAnimations: true }, withDefaultIcons()),
-      provideNgnErrorsMessages({ server: 'Server rejected the value' }),
+      provideJigControls({ theme: { preset: nova }, disableAnimations: true }, withDefaultIcons()),
+      provideJigErrorsMessages({ server: 'Server rejected the value' }),
     ],
   });
 });
@@ -416,7 +416,7 @@ async function flush(fixture: Fixture) {
   fixture.detectChanges();
 }
 
-describe('ngnErrors', () => {
+describe('jigErrors', () => {
   describe('template-driven forms', () => {
     it('reads ngModel errors and resolves the i18n default message', async () => {
       const fixture = TestBed.createComponent(TemplateDrivenHost);
@@ -439,7 +439,7 @@ describe('ngnErrors', () => {
       expect(errors.visible()).toBe(false);
 
       // the hint slot collapses while there is nothing to show
-      const hint = fixture.nativeElement.querySelector('ngn-hint') as HTMLElement;
+      const hint = fixture.nativeElement.querySelector('jig-hint') as HTMLElement;
       expect(hint.style.display).toBe('none');
 
       fixture.componentInstance.control.markAsTouched();
@@ -534,7 +534,7 @@ describe('ngnErrors', () => {
       const errors = fixture.componentInstance.errors();
       expect(errors.visible()).toBe(false);
 
-      // blur on the ngn control emits the `touch` output signal forms listens for
+      // blur on the jig control emits the `touch` output signal forms listens for
       const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
       input.dispatchEvent(new Event('blur'));
       await flush(fixture);
@@ -543,7 +543,7 @@ describe('ngnErrors', () => {
       expect(errors.visible()).toBe(true);
     });
 
-    it('marks touched on blur for ngnNumberInput too (markTouched from its own blur)', async () => {
+    it('marks touched on blur for jigNumberInput too (markTouched from its own blur)', async () => {
       const fixture = TestBed.createComponent(SignalNumberFieldHost);
       await flush(fixture);
 
@@ -596,7 +596,7 @@ describe('ngnErrors', () => {
       expect(errors.visible()).toBe(true);
       expect(errors.firstError()?.source).toBe('custom');
       expect(errors.message()).toBe('Accept the terms');
-      expect(fixture.nativeElement.querySelector('ngn-hint')?.textContent).toContain(
+      expect(fixture.nativeElement.querySelector('jig-hint')?.textContent).toContain(
         'Accept the terms'
       );
     });
@@ -642,7 +642,7 @@ describe('ngnErrors', () => {
     });
   });
 
-  describe('invalid styling ownership (control-owned, decoupled from ngnErrors)', () => {
+  describe('invalid styling ownership (control-owned, decoupled from jigErrors)', () => {
     it('gates the projected input aria-invalid on touched, though signal forms sets invalid eagerly', async () => {
       const fixture = TestBed.createComponent(SignalFieldHost);
       await flush(fixture);
@@ -662,7 +662,7 @@ describe('ngnErrors', () => {
       const fixture = TestBed.createComponent(BareControlInvalidHost);
       await flush(fixture);
 
-      const otp = fixture.nativeElement.querySelector('ngn-otp');
+      const otp = fixture.nativeElement.querySelector('jig-otp');
       // invalid value is set immediately, but the control gates its own display.
       expect(otp?.getAttribute('aria-invalid')).toBeNull();
 
@@ -671,15 +671,15 @@ describe('ngnErrors', () => {
       expect(otp?.getAttribute('aria-invalid')).toBe('true');
     });
 
-    it('does not couple the field invalid class to ngnErrors visibility', async () => {
+    it('does not couple the field invalid class to jigErrors visibility', async () => {
       const fixture = TestBed.createComponent(FieldAutoInvalidHost);
       await flush(fixture);
 
       const input = fixture.nativeElement.querySelector('input');
-      // ngnErrors renders the message (showOn="always") but no longer drives the
+      // jigErrors renders the message (showOn="always") but no longer drives the
       // field's invalid class — the reactive control's invalid rides the native
       // ng-invalid class, which the field theme reflects via :has().
-      expect(fixture.nativeElement.querySelector('.ngn-input-field-invalid')).toBeNull();
+      expect(fixture.nativeElement.querySelector('.jig-input-field-invalid')).toBeNull();
       expect(input?.classList.contains('ng-invalid')).toBe(true);
     });
   });

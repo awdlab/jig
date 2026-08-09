@@ -1,23 +1,23 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnInplace } from '@ngneers/controls/inplace';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigInplace } from '@awdlab/jig/inplace';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-inplace-playground',
-  imports: [NgnInplace, NgnTemplate, NgnDocsPlayground],
+  selector: 'jig-docs-inplace-playground',
+  imports: [JigInplace, JigTemplate, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnInplace', component: component() }]">
-      <ngn-inplace #ref>
+    <jig-docs-playground [controls]="[{ componentName: 'JigInplace', component: component() }]">
+      <jig-inplace #ref>
         <ng-template #display>Show Details</ng-template>
-        <ng-template #content [ngnTemplate]="component().templateTypes.content">
+        <ng-template #content [jigTemplate]="component().templateTypes.content">
           <div>Content details here</div>
         </ng-template>
-      </ngn-inplace>
-    </ngn-docs-playground>
+      </jig-inplace>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsInplacePlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnInplace });
+export class JigDocsInplacePlayground {
+  protected readonly component = viewChild.required('ref', { read: JigInplace });
 }

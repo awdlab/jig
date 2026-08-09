@@ -1,8 +1,8 @@
 import { DOCUMENT, inject, Injectable } from '@angular/core';
-import { globalPropertyName, type NgnGlobalType } from '@ngneers/controls/utils';
+import { globalPropertyName, type JigGlobalType } from '@awdlab/jig/utils';
 
 @Injectable()
-export class NgnGlobal implements NgnGlobalType {
+export class JigGlobal implements JigGlobalType {
   private readonly _window = inject(DOCUMENT).defaultView || window;
   constructor() {
     this._window[globalPropertyName] ??= {

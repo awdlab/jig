@@ -10,17 +10,17 @@ import {
   runInInjectionContext,
   type Signal,
 } from '@angular/core';
-import { injectThemeColors, injectThemeControlKinds } from '@ngneers/controls/api/ng';
-import { NgnCalendar } from '@ngneers/controls/calendar';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnSelect } from '@ngneers/controls/select';
-import { NgnSwitch } from '@ngneers/controls/switch';
-import { notNullish } from '@ngneers/controls/utils';
-import { setInputSignalValue } from '@ngneers/controls/utils-ng';
+import { injectThemeColors, injectThemeControlKinds } from '@awdlab/jig/api/ng';
+import { JigCalendar } from '@awdlab/jig/calendar';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigSelect } from '@awdlab/jig/select';
+import { JigSwitch } from '@awdlab/jig/switch';
+import { notNullish } from '@awdlab/jig/utils';
+import { setInputSignalValue } from '@awdlab/jig/utils-ng';
 
-import type { NgnItem } from '@ngneers/controls/api';
-import type { AnyNgnBase } from '@ngneers/controls/base';
+import type { JigItem } from '@awdlab/jig/api';
+import type { AnyJigBase } from '@awdlab/jig/base';
 import type { SomeType, DeclarationReflection } from 'typedoc/browser';
 
 type TypeDeclaration = (
@@ -40,24 +40,24 @@ type TypeDeclaration = (
       kind: 'literalUnion';
       primitiveType: string;
       allowCustomValue: boolean;
-      values: NgnItem[];
+      values: JigItem[];
     }
 ) & {
   optional?: boolean;
 };
 
 @Component({
-  selector: 'ngn-docs-playground-input',
+  selector: 'jig-docs-playground-input',
   templateUrl: 'input.html',
-  imports: [NgnInputField, NgnInput, NgnSwitch, NgnSelect, NgnCalendar],
+  imports: [JigInputField, JigInput, JigSwitch, JigSelect, JigCalendar],
   host: {
     '[style.display]': 'isKnownType() ? "block" : "none"',
   },
 })
-export class NgnDocsPlaygroundInput {
+export class JigDocsPlaygroundInput {
   private readonly _injector = inject(Injector);
   public readonly input = input.required<DeclarationReflection>();
-  public readonly instance = input<AnyNgnBase>();
+  public readonly instance = input<AnyJigBase>();
   public readonly internalControlName = input.required<string>();
 
   protected readonly dataType = computed(() => this.buildTypeModel(this.input().type));
@@ -233,7 +233,7 @@ export class NgnDocsPlaygroundInput {
             primitiveType: typeof literalTypes[0]?.value,
             values: literalTypes.map(
               x =>
-                <NgnItem>{
+                <JigItem>{
                   label: x.value,
                   value: x.value,
                 }

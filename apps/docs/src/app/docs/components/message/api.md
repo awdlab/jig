@@ -1,1 +1,1 @@
-{{ api: message/message NgnMessage }}
+{{ api: message/message JigMessage }}

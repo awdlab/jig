@@ -1,10 +1,10 @@
 import { Component, computed, input } from '@angular/core';
-import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
+import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { JigIcon } from '@awdlab/jig/icon';
+import { checkboxControlTemplate } from '@awdlab/jig-themes/templates/checkbox';
 
-import type { InputGeneric } from '@ngneers/controls/utils';
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { InputGeneric } from '@awdlab/jig/utils';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 type ValueType<Indeterminate extends boolean> =
   InputGeneric<Indeterminate, false> extends false ? boolean : boolean | null;
@@ -13,12 +13,12 @@ type ValueType<Indeterminate extends boolean> =
  * @category control
  */
 @Component({
-  selector: 'ngn-checkbox',
+  selector: 'jig-checkbox',
   templateUrl: './checkbox.html',
-  imports: [NgnPt, NgnIcon],
-  providers: [provideSelf(NgnCheckbox)],
+  imports: [JigPt, JigIcon],
+  providers: [provideSelf(JigCheckbox)],
 })
-export class NgnCheckbox<Indeterminate extends boolean> extends ValueControlBase<
+export class JigCheckbox<Indeterminate extends boolean> extends ValueControlBase<
   'checkbox',
   ValueType<Indeterminate>
 > {

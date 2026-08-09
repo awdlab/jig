@@ -12,7 +12,7 @@ Today the [Splitter](/components/splitter) is the control that ships with
 persistence. Give it a `stateKey` and it remembers:
 
 ```html
-<ngn-splitter [(layout)]="layout" stateKey="editor-panes" stateStorage="local"> … </ngn-splitter>
+<jig-splitter [(layout)]="layout" stateKey="editor-panes" stateStorage="local"> … </jig-splitter>
 ```
 
 | Input          | Purpose                                                                |
@@ -31,7 +31,7 @@ persistence. Give it a `stateKey` and it remembers:
 Set the default once instead of per control:
 
 ```ts
-provideNgnControls({
+provideJigControls({
   theme: { preset: nova },
   defaults: {
     stateStorage: 'local',
@@ -49,7 +49,7 @@ collides with your own storage will be overwritten.
 Namespace them, and include anything that makes the state instance-specific:
 
 ```html
-<ngn-splitter [stateKey]="'workspace/' + workspaceId() + '/panes'" />
+<jig-splitter [stateKey]="'workspace/' + workspaceId() + '/panes'" />
 ```
 
 Changing the key at runtime loads the state for the new key — which is how you
@@ -58,10 +58,10 @@ get per-user or per-document layouts.
 ### Persisting your own state
 
 `registerState` is the primitive behind it, exported from
-`@ngneers/controls/utils-ng`. Call it in an injection context:
+`@awdlab/jig/utils-ng`. Call it in an injection context:
 
 ```ts
-import { registerState } from '@ngneers/controls/utils-ng';
+import { registerState } from '@awdlab/jig/utils-ng';
 
 registerState<Layout>({
   storage: () => this.stateStorage(),

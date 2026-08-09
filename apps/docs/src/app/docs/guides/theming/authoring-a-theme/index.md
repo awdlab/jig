@@ -12,8 +12,8 @@ preset and re-wrapping. Map over the preset's `parts`, swap the one you want, ke
 name and metadata:
 
 ```ts
-import { createTheme, createThemePart } from '@ngneers/controls-themes';
-import { nova, novaColorsTemplate } from '@ngneers/controls-themes/nova';
+import { createTheme, createThemePart } from '@awdlab/jig-themes';
+import { nova, novaColorsTemplate } from '@awdlab/jig-themes/nova';
 
 const colorPart = createThemePart({
   scope: 'color',
@@ -37,11 +37,11 @@ matches the control.
 Each control part is created with `createThemePart({ controlTemplate, base, dependencies,
 root, dark })`:
 
-- `controlTemplate` — the scope contract from `@ngneers/controls-themes/templates/*`.
+- `controlTemplate` — the scope contract from `@awdlab/jig-themes/templates/*`.
 - `base` — the base-layer part to sit on top of (usually reuse the shipped one).
 - `dependencies` — the token templates this part reads (`colorsTemplate`, `sizesTemplate`, …).
 - `root` / `dark` — the styling, as a `css` function that receives helpers `v` (token →
-  `var(--ngn-*)`), `c` (own class selector), and `d` (a dependency control's class).
+  `var(--jig-*)`), `c` (own class selector), and `d` (a dependency control's class).
 
 ```ts
 export const widgetStyles = createThemePart({
@@ -64,7 +64,7 @@ export const widgetStyles = createThemePart({
 Provide it exactly like a preset:
 
 ```ts
-provideNgnControls({ theme: { preset: myTheme } });
+provideJigControls({ theme: { preset: myTheme } });
 ```
 
 > **Two caveats.** `createTheme` does **not** validate that every required part is present

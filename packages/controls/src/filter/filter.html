@@ -2,13 +2,13 @@
   <div [ptInt]="this" [ptClass]="'rows'">
     @if (dataType() === 'list') {
       <div [ptInt]="this" [ptClass]="'row'" data-testid="filter-row-list">
-        <ngn-input-field
+        <jig-input-field
           [ptInt]="this"
           [ptDep]="'value'"
           [disabled]="disabled()"
           [readonly]="readonly()"
         >
-          <ngn-select
+          <jig-select
             [ptInt]="this"
             [ptDep]="'list-select'"
             [multiple]="true"
@@ -18,18 +18,18 @@
             [readonly]="readonly()"
             (valueChange)="setListSelection($event)"
           />
-        </ngn-input-field>
+        </jig-input-field>
       </div>
     } @else {
       @for (c of templateConfig().conditions; track $index; let i = $index; let last = $last) {
         <div [ptInt]="this" [ptClass]="'row'" [attr.data-testid]="'filter-row-' + i">
-          <ngn-input-field
+          <jig-input-field
             [ptInt]="this"
             [ptDep]="operatorRequiresValue(c.operator) ? 'operator' : 'value'"
             [disabled]="disabled()"
             [readonly]="readonly()"
           >
-            <ngn-select
+            <jig-select
               [ptInt]="this"
               [ptDep]="'operator-select'"
               [options]="operatorOptions()"
@@ -39,16 +39,16 @@
               [readonly]="readonly()"
               (valueChange)="setOperator(i, $event)"
             />
-          </ngn-input-field>
+          </jig-input-field>
           @if (operatorRequiresValue(c.operator)) {
             @if (isDateType()) {
-              <ngn-input-field
+              <jig-input-field
                 [ptInt]="this"
                 [ptDep]="'value'"
                 [disabled]="disabled()"
                 [readonly]="readonly()"
               >
-                <ngn-calendar
+                <jig-calendar
                   [ptInt]="this"
                   [ptDep]="'calendar'"
                   [showTime]="isShowTime()"
@@ -57,16 +57,16 @@
                   [readonly]="readonly()"
                   (valueChange)="setDateValue(i, $event)"
                 />
-              </ngn-input-field>
+              </jig-input-field>
             } @else {
-              <ngn-input-field
+              <jig-input-field
                 [ptInt]="this"
                 [ptDep]="'value'"
                 [disabled]="disabled()"
                 [readonly]="readonly()"
               >
                 <input
-                  ngnInput
+                  jigInput
                   [ptInt]="this"
                   [ptDep]="'input'"
                   [attr.aria-label]="i18n['filter_value']()"
@@ -76,14 +76,14 @@
                   [readOnly]="readonly()"
                   (valueChange)="setRawValue(i, $event)"
                 />
-              </ngn-input-field>
+              </jig-input-field>
             }
           }
 
           @if (allowMultiple() && templateConfig().conditions.length > 1) {
             <button
               type="button"
-              ngnButton
+              jigButton
               kind="icon"
               [ptInt]="this"
               [ptDep]="'remove-btn'"
@@ -92,7 +92,7 @@
               [attr.aria-label]="i18n['filter_removeCondition']() + ' ' + (i + 1)"
               data-testid="filter-remove-condition"
             >
-              <ngn-icon defaultIcon="filter-remove" />
+              <jig-icon defaultIcon="filter-remove" />
             </button>
           }
         </div>
@@ -125,7 +125,7 @@
       @if (dataType() !== 'list' && allowMultiple()) {
         <button
           type="button"
-          ngnButton
+          jigButton
           kind="secondary"
           [ptInt]="this"
           [ptDep]="'add-button'"
@@ -140,7 +140,7 @@
         @if (!autoApply()) {
           <button
             type="button"
-            ngnButton
+            jigButton
             kind="secondary"
             [ptInt]="this"
             [ptDep]="'cancel-button'"
@@ -151,7 +151,7 @@
           </button>
           <button
             type="button"
-            ngnButton
+            jigButton
             kind="primary"
             [ptInt]="this"
             [ptDep]="'apply-button'"
@@ -163,7 +163,7 @@
         } @else {
           <button
             type="button"
-            ngnButton
+            jigButton
             kind="secondary"
             [ptInt]="this"
             [ptDep]="'clear-button'"
@@ -179,7 +179,7 @@
 </ng-template>
 
 <ng-template #popoverTemplate let-anchor="anchor">
-  <ngn-popover
+  <jig-popover
     #popover
     [ptInt]="this"
     [ptDep]="'popover'"
@@ -195,7 +195,7 @@
         <ng-container [ngTemplateOutlet]="footerTemplate" />
       </div>
     </ng-template>
-  </ngn-popover>
+  </jig-popover>
 </ng-template>
 
 @if (mode() === 'inline') {
@@ -204,7 +204,7 @@
     <ng-container [ngTemplateOutlet]="footerTemplate" />
   </div>
 } @else if (mode() === 'input') {
-  <ngn-input-field
+  <jig-input-field
     [ptInt]="this"
     [ptDep]="'input-field'"
     (click)="!disabled() && !readonly() && show()"
@@ -217,8 +217,8 @@
     [readonly]="readonly()"
   >
     <div role="button" [ptInt]="this" [ptClass]="'summary'">{{ summaryText() }}</div>
-    <ngn-icon [ptInt]="this" [ptClass]="'icon'" defaultIcon="search" />
-  </ngn-input-field>
+    <jig-icon [ptInt]="this" [ptClass]="'icon'" defaultIcon="search" />
+  </jig-input-field>
 
   <ng-container
     [ngTemplateOutlet]="popoverTemplate"

@@ -1,8 +1,8 @@
 import { Directive } from '@angular/core';
 
-import { NgnDragBase } from './drag-base';
+import { JigDragBase } from './drag-base';
 
-import type { NgnDragInfo } from './types';
+import type { JigDragInfo } from './types';
 
 /**
  * Reports pointer drag gestures on its host without moving anything: it emits
@@ -16,10 +16,10 @@ import type { NgnDragInfo } from './types';
  * @category directive
  */
 @Directive({
-  selector: '[ngnDrag]',
+  selector: '[jigDrag]',
 })
-export class NgnDrag extends NgnDragBase {
-  protected onDragged(delta: NgnDragInfo): void {
+export class JigDrag extends JigDragBase {
+  protected onDragged(delta: JigDragInfo): void {
     // do nothing
   }
 }

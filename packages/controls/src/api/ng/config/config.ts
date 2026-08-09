@@ -1,14 +1,14 @@
 import { inject, InjectionToken, provideAppInitializer, type Provider } from '@angular/core';
-import { registerCustomLanguages, type Translations } from '@ngneers/controls/i18n';
-import { type DeepPartial, Logger, type LogLevel } from '@ngneers/controls/utils';
+import { registerCustomLanguages, type Translations } from '@awdlab/jig/i18n';
+import { type DeepPartial, Logger, type LogLevel } from '@awdlab/jig/utils';
 
 import type { TooltipOptions } from './tooltip';
-import type { NgnStateStorage } from '@ngneers/controls/utils-ng';
-import type { StyleScope, Theme } from '@ngneers/controls-themes';
+import type { JigStateStorage } from '@awdlab/jig/utils-ng';
+import type { StyleScope, Theme } from '@awdlab/jig-themes';
 
-export const NGN_CONFIG = new InjectionToken<NgnConfig>('NGN_CONFIG');
+export const JIG_CONFIG = new InjectionToken<JigConfig>('JIG_CONFIG');
 
-export type NgnConfig = {
+export type JigConfig = {
   readonly logLevel: LogLevel;
   readonly customTranslations?: Record<string, () => Promise<Translations>>;
   readonly disableAnimations: boolean;
@@ -22,20 +22,20 @@ export type NgnConfig = {
     readonly namePrefix: string;
   };
   readonly defaults: {
-    readonly stateStorage: NgnStateStorage;
+    readonly stateStorage: JigStateStorage;
     readonly splitter: {
-      readonly stateStorage: NgnStateStorage;
+      readonly stateStorage: JigStateStorage;
     };
     readonly tooltip: TooltipOptions;
   };
 };
 
-export type NgnConfigInit = DeepPartial<
-  NgnConfig,
+export type JigConfigInit = DeepPartial<
+  JigConfig,
   'theme.preset.*' | 'theme.styleScope.*' | 'customTranslations.*'
 >;
 
-export const defaultNgnConfig: NgnConfig = {
+export const defaultJigConfig: JigConfig = {
   logLevel: 'info',
   disableAnimations: false,
   respectReducedMotion: true,
@@ -43,8 +43,8 @@ export const defaultNgnConfig: NgnConfig = {
     preset: null,
     lazyLoaded: false,
     styleScope: null,
-    cssLayer: 'ngn-controls',
-    namePrefix: 'ngn-',
+    cssLayer: 'jig',
+    namePrefix: 'jig-',
   },
   defaults: {
     stateStorage: 'session',
@@ -66,64 +66,64 @@ export const defaultNgnConfig: NgnConfig = {
   },
 };
 
-export function provideNgnConfig(config?: NgnConfigInit): Provider {
+export function provideJigConfig(config?: JigConfigInit): Provider {
   return [
     {
-      provide: NGN_CONFIG,
+      provide: JIG_CONFIG,
       useValue: {
-        logLevel: config?.logLevel ?? defaultNgnConfig.logLevel,
+        logLevel: config?.logLevel ?? defaultJigConfig.logLevel,
         customTranslations: config?.customTranslations,
-        disableAnimations: config?.disableAnimations ?? defaultNgnConfig.disableAnimations,
-        respectReducedMotion: config?.respectReducedMotion ?? defaultNgnConfig.respectReducedMotion,
+        disableAnimations: config?.disableAnimations ?? defaultJigConfig.disableAnimations,
+        respectReducedMotion: config?.respectReducedMotion ?? defaultJigConfig.respectReducedMotion,
         theme: {
-          preset: config?.theme?.preset ?? defaultNgnConfig.theme.preset,
-          lazyLoaded: config?.theme?.lazyLoaded ?? defaultNgnConfig.theme.lazyLoaded,
-          styleScope: config?.theme?.styleScope ?? defaultNgnConfig.theme.styleScope,
+          preset: config?.theme?.preset ?? defaultJigConfig.theme.preset,
+          lazyLoaded: config?.theme?.lazyLoaded ?? defaultJigConfig.theme.lazyLoaded,
+          styleScope: config?.theme?.styleScope ?? defaultJigConfig.theme.styleScope,
           cssLayer:
             config?.theme?.cssLayer === undefined
-              ? defaultNgnConfig.theme.cssLayer
+              ? defaultJigConfig.theme.cssLayer
               : config?.theme?.cssLayer,
-          namePrefix: config?.theme?.namePrefix ?? defaultNgnConfig.theme.namePrefix,
+          namePrefix: config?.theme?.namePrefix ?? defaultJigConfig.theme.namePrefix,
         },
         defaults: {
-          stateStorage: config?.defaults?.stateStorage ?? defaultNgnConfig.defaults.stateStorage,
+          stateStorage: config?.defaults?.stateStorage ?? defaultJigConfig.defaults.stateStorage,
           splitter: {
             stateStorage:
               config?.defaults?.splitter?.stateStorage ??
               config?.defaults?.stateStorage ??
-              defaultNgnConfig.defaults.splitter.stateStorage,
+              defaultJigConfig.defaults.splitter.stateStorage,
           },
           tooltip: {
             placement:
-              config?.defaults?.tooltip?.placement ?? defaultNgnConfig.defaults.tooltip.placement,
-            offset: config?.defaults?.tooltip?.offset ?? defaultNgnConfig.defaults.tooltip.offset,
+              config?.defaults?.tooltip?.placement ?? defaultJigConfig.defaults.tooltip.placement,
+            offset: config?.defaults?.tooltip?.offset ?? defaultJigConfig.defaults.tooltip.offset,
             showDelay:
-              config?.defaults?.tooltip?.showDelay ?? defaultNgnConfig.defaults.tooltip.showDelay,
+              config?.defaults?.tooltip?.showDelay ?? defaultJigConfig.defaults.tooltip.showDelay,
             hideDelay:
-              config?.defaults?.tooltip?.hideDelay ?? defaultNgnConfig.defaults.tooltip.hideDelay,
+              config?.defaults?.tooltip?.hideDelay ?? defaultJigConfig.defaults.tooltip.hideDelay,
             showArrow:
-              config?.defaults?.tooltip?.showArrow ?? defaultNgnConfig.defaults.tooltip.showArrow,
+              config?.defaults?.tooltip?.showArrow ?? defaultJigConfig.defaults.tooltip.showArrow,
             showOnHover:
               config?.defaults?.tooltip?.showOnHover ??
-              defaultNgnConfig.defaults.tooltip.showOnHover,
+              defaultJigConfig.defaults.tooltip.showOnHover,
             showOnFocus:
               config?.defaults?.tooltip?.showOnFocus ??
-              defaultNgnConfig.defaults.tooltip.showOnFocus,
+              defaultJigConfig.defaults.tooltip.showOnFocus,
             hideOnTooltipHover:
               config?.defaults?.tooltip?.hideOnTooltipHover ??
-              defaultNgnConfig.defaults.tooltip.hideOnTooltipHover,
+              defaultJigConfig.defaults.tooltip.hideOnTooltipHover,
             hideOnClick:
               config?.defaults?.tooltip?.hideOnClick ??
-              defaultNgnConfig.defaults.tooltip.hideOnClick,
+              defaultJigConfig.defaults.tooltip.hideOnClick,
             autoAriaMode:
               config?.defaults?.tooltip?.autoAriaMode ??
-              defaultNgnConfig.defaults.tooltip.autoAriaMode,
+              defaultJigConfig.defaults.tooltip.autoAriaMode,
           },
         },
-      } satisfies NgnConfig,
+      } satisfies JigConfig,
     },
     provideAppInitializer(() => {
-      const config = inject(NGN_CONFIG);
+      const config = inject(JIG_CONFIG);
       if (config?.customTranslations) {
         registerCustomLanguages(config.customTranslations);
       }

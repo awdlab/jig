@@ -1,11 +1,11 @@
 {
   "source": "angular-material",
   "label": "Angular Material",
-  "notes": "Material wraps most form controls in <mat-form-field>; the ngn equivalent is ngn-input-field. Material uses [(ngModel)] or formControlName; ngn controls expose a signal `value` model ([(value)]) and also integrate with reactive forms. Material's `matX` attribute directives map to ngn attribute directives (e.g. matInput -> ngnInput). Verify target inputs with get_control before rewriting.",
+  "notes": "Material wraps most form controls in <mat-form-field>; the jig equivalent is jig-input-field. Material uses [(ngModel)] or formControlName; jig controls expose a signal `value` model ([(value)]) and also integrate with reactive forms. Material's `matX` attribute directives map to jig attribute directives (e.g. matInput -> jigInput). Verify target inputs with get_control before rewriting.",
   "components": [
     {
       "from": "button[mat-button] / mat-raised-button",
-      "to": "button[ngnButton]",
+      "to": "button[jigButton]",
       "props": [
         { "from": "color", "to": "kind / color" },
         { "from": "disabled", "to": "[disabled] (native attribute)" }
@@ -13,131 +13,131 @@
     },
     {
       "from": "mat-form-field",
-      "to": "ngn-input-field",
+      "to": "jig-input-field",
       "notes": "Wraps a form control and provides label/hint/error chrome.",
       "props": [
         { "from": "mat-label", "to": "label" },
-        { "from": "mat-hint", "to": "hint (ngn-hint)" },
+        { "from": "mat-hint", "to": "hint (jig-hint)" },
         { "from": "mat-error", "to": "error / validation" }
       ]
     },
     {
       "from": "input[matInput]",
-      "to": "input[ngnInput]",
-      "notes": "Move any `id` off the input onto the wrapper: `<ngn-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references.",
+      "to": "input[jigInput]",
+      "notes": "Move any `id` off the input onto the wrapper: `<jig-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references.",
       "props": [{ "from": "[(ngModel)]", "to": "[(value)] or formControl" }]
     },
     {
       "from": "mat-select",
-      "to": "ngn-select",
+      "to": "jig-select",
       "props": [
         { "from": "[(ngModel)] / value", "to": "[(value)]" },
         { "from": "multiple", "to": "multiple" },
         {
           "from": "mat-option",
           "to": "options input",
-          "notes": "ngn-select takes an options array; verify template projection with get_control."
+          "notes": "jig-select takes an options array; verify template projection with get_control."
         }
       ]
     },
     {
       "from": "mat-checkbox",
-      "to": "ngn-checkbox",
+      "to": "jig-checkbox",
       "props": [{ "from": "[(ngModel)] / checked", "to": "[(value)]" }]
     },
     {
       "from": "mat-radio-group / mat-radio-button",
-      "to": "ngn-radio-group / ngn-radio",
+      "to": "jig-radio-group / jig-radio",
       "props": [{ "from": "[(ngModel)]", "to": "[(value)] on the group" }]
     },
     {
       "from": "mat-slide-toggle",
-      "to": "ngn-switch",
+      "to": "jig-switch",
       "props": [{ "from": "[(ngModel)] / checked", "to": "[(value)]" }]
     },
     {
       "from": "mat-slider",
-      "to": "ngn-slider",
+      "to": "jig-slider",
       "props": [{ "from": "min / max / step", "to": "min / max / step" }]
     },
     {
       "from": "mat-datepicker + matDatepicker",
-      "to": "ngn-calendar",
-      "notes": "Single-component picker in ngn; no separate toggle/panel wiring.",
+      "to": "jig-calendar",
+      "notes": "Single-component picker in jig; no separate toggle/panel wiring.",
       "props": [{ "from": "[(ngModel)]", "to": "[(value)]" }]
     },
     {
       "from": "mat-dialog (MatDialog service)",
-      "to": "ngn-dialog",
-      "notes": "ngn-dialog is a declarative component with an [(open)] model, not primarily a service-opened overlay. Migrate imperatively-opened dialogs to declarative open state where possible.",
+      "to": "jig-dialog",
+      "notes": "jig-dialog is a declarative component with an [(open)] model, not primarily a service-opened overlay. Migrate imperatively-opened dialogs to declarative open state where possible.",
       "gaps": [
         "Service-based programmatic dialog opening differs from Material's MatDialog.open()."
       ]
     },
     {
       "from": "mat-sidenav / mat-drawer",
-      "to": "ngn-drawer",
+      "to": "jig-drawer",
       "props": [{ "from": "[(opened)]", "to": "[(open)]" }]
     },
     {
       "from": "matTooltip",
-      "to": "[ngnTooltip]",
+      "to": "[jigTooltip]",
       "props": [
-        { "from": "matTooltip", "to": "ngnTooltip" },
-        { "from": "matTooltipPosition", "to": "ngnTooltipPlacement" }
+        { "from": "matTooltip", "to": "jigTooltip" },
+        { "from": "matTooltipPosition", "to": "jigTooltipPlacement" }
       ]
     },
     {
       "from": "mat-menu / matMenuTriggerFor",
-      "to": "ngn-menu",
+      "to": "jig-menu",
       "notes": "Verify trigger + item model with get_control."
     },
-    { "from": "mat-tab-group", "to": "ngn-tabs" },
-    { "from": "mat-accordion / mat-expansion-panel", "to": "ngn-accordion / ngn-accordion-panel" },
+    { "from": "mat-tab-group", "to": "jig-tabs" },
+    { "from": "mat-accordion / mat-expansion-panel", "to": "jig-accordion / jig-accordion-panel" },
     {
       "from": "mat-table",
-      "to": "ngn-table",
+      "to": "jig-table",
       "gaps": ["Column/template model differs; migrate incrementally."]
     },
     {
       "from": "mat-paginator",
-      "to": "ngn-paginator",
+      "to": "jig-paginator",
       "props": [
         { "from": "pageSize", "to": "pageSize" },
         { "from": "length", "to": "totalItems" }
       ]
     },
-    { "from": "mat-tree", "to": "ngn-tree" },
-    { "from": "mat-progress-bar", "to": "ngn-progress" },
-    { "from": "mat-progress-spinner / mat-spinner", "to": "ngn-spinner" },
-    { "from": "mat-chip-set / mat-chip", "to": "ngn-chip" },
+    { "from": "mat-tree", "to": "jig-tree" },
+    { "from": "mat-progress-bar", "to": "jig-progress" },
+    { "from": "mat-progress-spinner / mat-spinner", "to": "jig-spinner" },
+    { "from": "mat-chip-set / mat-chip", "to": "jig-chip" },
     {
       "from": "matBadge",
-      "to": "[ngnBadge]",
-      "notes": "Attribute directive overlaying a counter/dot on its host, like matBadge; ngn-badge-indicator is the standalone element form. Use ngn-tag for a standalone label chip.",
+      "to": "[jigBadge]",
+      "notes": "Attribute directive overlaying a counter/dot on its host, like matBadge; jig-badge-indicator is the standalone element form. Use jig-tag for a standalone label chip.",
       "props": [
-        { "from": "matBadge", "to": "[ngnBadge]" },
-        { "from": "matBadgePosition", "to": "[ngnBadgePosition]" },
-        { "from": "matBadgeHidden", "to": "[ngnBadgeHidden]" },
+        { "from": "matBadge", "to": "[jigBadge]" },
+        { "from": "matBadgePosition", "to": "[jigBadgePosition]" },
+        { "from": "matBadgeHidden", "to": "[jigBadgeHidden]" },
         { "from": "matBadgeColor", "to": "kind / color" }
       ]
     },
     {
       "from": "mat-icon",
-      "to": "ngn-icon",
-      "notes": "ngn uses iconify (tabler) icons; see the icons concept guide."
+      "to": "jig-icon",
+      "notes": "jig uses iconify (tabler) icons; see the icons concept guide."
     },
-    { "from": "mat-snack-bar", "to": "ngn-snackbar / ngn-toast" },
-    { "from": "mat-breadcrumb (community)", "to": "ngn-breadcrumb" },
+    { "from": "mat-snack-bar", "to": "jig-snackbar / jig-toast" },
+    { "from": "mat-breadcrumb (community)", "to": "jig-breadcrumb" },
     {
       "from": "mat-button-toggle-group",
-      "to": "ngn-select-button",
-      "notes": "Use ngn-toggle-button for a single toggle.",
+      "to": "jig-select-button",
+      "notes": "Use jig-toggle-button for a single toggle.",
       "props": [{ "from": "[(value)]", "to": "[(value)]" }]
     },
     {
       "from": "mat-list / mat-selection-list",
-      "to": "ngn-list-box",
+      "to": "jig-list-box",
       "props": [
         { "from": "[(ngModel)]", "to": "[(value)]" },
         { "from": "multiple", "to": "multiple" }
@@ -147,13 +147,13 @@
       "from": "mat-card",
       "to": "(no direct equivalent)",
       "gaps": [
-        "No card container control; compose with plain elements + Tailwind and ngn controls inside."
+        "No card container control; compose with plain elements + Tailwind and jig controls inside."
       ]
     },
     {
       "from": "mat-stepper / mat-horizontal-stepper / mat-vertical-stepper",
-      "to": "ngn-stepper / ngn-step",
-      "notes": "Steps are <ngn-step> children; the active index is a signal model. Step content is lazy and cached by default ([lazy], [cache]).",
+      "to": "jig-stepper / jig-step",
+      "notes": "Steps are <jig-step> children; the active index is a signal model. Step content is lazy and cached by default ([lazy], [cache]).",
       "props": [
         { "from": "[(selectedIndex)]", "to": "[(active)]" },
         { "from": "linear", "to": "linear" },
@@ -163,7 +163,7 @@
         { "from": "hasError", "to": "error" }
       ],
       "gaps": [
-        "No stepper-scoped form validation — ngn-step exposes [completed]/[error] that you drive from your own form state."
+        "No stepper-scoped form validation — jig-step exposes [completed]/[error] that you drive from your own form state."
       ]
     }
   ]

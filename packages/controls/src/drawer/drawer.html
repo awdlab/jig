@@ -6,7 +6,7 @@
     "
   />
 </header>
-<ngn-defer
+<jig-defer
   [lazyContent]="contentTemplate()"
   [open]="open() || !isFullyClosed()"
   [lazy]="lazy()"
@@ -15,25 +15,25 @@
   [ptClass]="'content'"
 >
   <ng-content />
-</ngn-defer>
+</jig-defer>
 @if (footerTemplate(); as footerTemplate) {
   <footer [ptInt]="this" [ptClass]="'footer'">
     <ng-container *ngTemplateOutlet="footerTemplate" />
   </footer>
 }
 
-<ng-template #defaultHeaderTemplate [ngnTemplate]="templateTypes.header" let-header>
+<ng-template #defaultHeaderTemplate [jigTemplate]="templateTypes.header" let-header>
   <div [ptInt]="this" [ptClass]="'default-header'">
     <span [id]="header.headerId" [ptInt]="this" [ptClass]="'default-header-text'">{{
       header.text
     }}</span>
     <button
-      ngnButton
+      jigButton
       [kind]="'icon'"
       [attr.aria-label]="i18n['drawer_close']()"
       (click)="header.close()"
     >
-      <ngn-icon defaultIcon="drawer-close" [icon]="iconClose()" />
+      <jig-icon defaultIcon="drawer-close" [icon]="iconClose()" />
     </button>
   </div>
 </ng-template>

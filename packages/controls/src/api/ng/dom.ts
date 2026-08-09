@@ -11,8 +11,8 @@ import {
   type Signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { deepCopy } from '@ngneers/controls/utils';
-import { signalWithPrevious } from '@ngneers/controls/utils-ng';
+import { deepCopy } from '@awdlab/jig/utils';
+import { signalWithPrevious } from '@awdlab/jig/utils-ng';
 import { fromEvent, Observable, Subject, Subscription } from 'rxjs';
 
 export type Size = { width: number; height: number };

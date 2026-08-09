@@ -1,11 +1,11 @@
-import { NgnDocsMessagePlayground } from './playground';
+import { JigDocsMessagePlayground } from './playground';
 import { Demo_Message_Base } from '../../../demos/message/base';
 import { Demo_Message_WithIcon } from '../../../demos/message/with-icon';
 import { i18nText } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const MessagePage: NgnDocsPage = {
+export const MessagePage: JigDocsPage = {
   title: `Message`,
   kind: 'tabs',
   tabs: [
@@ -20,7 +20,7 @@ export const MessagePage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsMessagePlayground,
+      component: JigDocsMessagePlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/message/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/message/a11y.md' },

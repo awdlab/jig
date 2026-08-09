@@ -1,7 +1,7 @@
-The Hint component (`ngn-hint`) displays helper or sub-text for a control — an
+The Hint component (`jig-hint`) displays helper or sub-text for a control — an
 explanatory note about a value, or a validation, warning, or informational
 message. The semantic intent is set through the `kind` input, and it can bridge
-validation state from a companion helper such as `ngnErrors` to show pending or
+validation state from a companion helper such as `jigErrors` to show pending or
 error messages beneath a field.
 
 ### Kinds

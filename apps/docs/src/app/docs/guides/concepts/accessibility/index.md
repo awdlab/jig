@@ -34,7 +34,7 @@ importantly — what remains **your** responsibility.
 
 A component library cannot make an application accessible. These stay with you:
 
-**Names.** Most controls need a label you provide: `<ngn-input-field [label]>`,
+**Names.** Most controls need a label you provide: `<jig-input-field [label]>`,
 an `aria-label`, or `labelledBy`. A control with no accessible name is a
 failure of [4.1.2](https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html)
 no matter how correct its role is.
@@ -74,7 +74,7 @@ afterRenderEffect({
 });
 ```
 
-[`ngnAutofocus`](/components/autofocus) covers the simple case (an element that
+[`jigAutofocus`](/components/autofocus) covers the simple case (an element that
 appears in response to a user action), but it latches on first render — which
 is why it is the wrong tool inside a dialog that starts closed. Use the native
 `autofocus` attribute there.

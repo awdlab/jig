@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { injectSnackbarCreator, type NgnSnackbarRef } from '@ngneers/controls/snackbar';
+import { JigButton } from '@awdlab/jig/button';
+import { injectSnackbarCreator, type JigSnackbarRef } from '@awdlab/jig/snackbar';
 
 @Component({
-  imports: [NgnButton],
-  selector: 'ngn-demo-snackbar-persistent',
+  imports: [JigButton],
+  selector: 'jig-demo-snackbar-persistent',
   template: `
-    <button ngnButton kind="text" (click)="showSnackbar()">Show Snackbar</button>
-    <button ngnButton kind="text" (click)="hideSnackbar()">Hide Snackbar</button>
+    <button jigButton kind="text" (click)="showSnackbar()">Show Snackbar</button>
+    <button jigButton kind="text" (click)="hideSnackbar()">Hide Snackbar</button>
   `,
 })
 export class Demo_Snackbar_Persistent {
   private readonly _snackbarCreator = injectSnackbarCreator();
 
-  private _snackbarRef?: NgnSnackbarRef;
+  private _snackbarRef?: JigSnackbarRef;
 
   protected hideSnackbar() {
     this._snackbarRef?.hide();

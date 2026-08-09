@@ -8,10 +8,10 @@ import {
   model,
   viewChild,
 } from '@angular/core';
-import { NgnPt, provideSelf } from '@ngneers/controls/base';
-import { NgnDefer } from '@ngneers/controls/defer';
-import { signalWithPrevious } from '@ngneers/controls/utils-ng';
-import { inplaceControlTemplate } from '@ngneers/controls-themes/templates/inplace';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigDefer } from '@awdlab/jig/defer';
+import { signalWithPrevious } from '@awdlab/jig/utils-ng';
+import { inplaceControlTemplate } from '@awdlab/jig-themes/templates/inplace';
 
 import { InplaceTemplates } from './inplace-templates';
 
@@ -19,12 +19,12 @@ import { InplaceTemplates } from './inplace-templates';
  * @category control
  */
 @Component({
-  selector: 'ngn-inplace',
+  selector: 'jig-inplace',
   templateUrl: './inplace.html',
-  imports: [NgnPt, NgTemplateOutlet, NgnDefer],
-  providers: [provideSelf(NgnInplace)],
+  imports: [JigPt, NgTemplateOutlet, JigDefer],
+  providers: [provideSelf(JigInplace)],
 })
-export class NgnInplace extends InplaceTemplates {
+export class JigInplace extends InplaceTemplates {
   protected readonly theme = this.injectThemeTemplate(inplaceControlTemplate, {
     root: true,
     disabled: () => this.disabled(),

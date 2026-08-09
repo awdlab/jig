@@ -1,14 +1,10 @@
-import { createTheme } from '@ngneers/controls-themes/api';
+import { createTheme } from '@awdlab/jig-themes/api';
 
-import { accordionStyles } from '@ngneers/controls-themes/shade/accordion';
-import { accordionPanelStyles } from '@ngneers/controls-themes/shade/accordion-panel';
-import {
-  movableStyles,
-  resizableStyles,
-  scrollShadowStyles,
-} from '@ngneers/controls-themes/shade/api';
-import { avatarGroupStyles, avatarStyles } from '@ngneers/controls-themes/shade/avatar';
-import { badgeStyles } from '@ngneers/controls-themes/shade/badge';
+import { accordionStyles } from '@awdlab/jig-themes/shade/accordion';
+import { accordionPanelStyles } from '@awdlab/jig-themes/shade/accordion-panel';
+import { movableStyles, resizableStyles, scrollShadowStyles } from '@awdlab/jig-themes/shade/api';
+import { avatarGroupStyles, avatarStyles } from '@awdlab/jig-themes/shade/avatar';
+import { badgeStyles } from '@awdlab/jig-themes/shade/badge';
 import {
   animation,
   backdrop,
@@ -17,56 +13,56 @@ import {
   shadow,
   sizes,
   zinc,
-} from '@ngneers/controls-themes/shade/base';
-import { breadcrumbStyles } from '@ngneers/controls-themes/shade/breadcrumb';
-import { buttonStyles } from '@ngneers/controls-themes/shade/button';
-import { buttonGroupStyles } from '@ngneers/controls-themes/shade/button-group';
-import { calendarStyles } from '@ngneers/controls-themes/shade/calendar';
-import { checkboxStyles } from '@ngneers/controls-themes/shade/checkbox';
-import { chipStyles } from '@ngneers/controls-themes/shade/chip';
-import { colorPickerStyles } from '@ngneers/controls-themes/shade/color-picker';
-import { commandStyles } from '@ngneers/controls-themes/shade/command';
-import { dialogStyles } from '@ngneers/controls-themes/shade/dialog';
-import { drawerStyles } from '@ngneers/controls-themes/shade/drawer';
-import { editInplaceStyles } from '@ngneers/controls-themes/shade/edit-inplace';
-import { filterStyles } from '@ngneers/controls-themes/shade/filter';
-import { hintStyles } from '@ngneers/controls-themes/shade/hint';
-import { iconStyles } from '@ngneers/controls-themes/shade/icon';
-import { inplaceStyles } from '@ngneers/controls-themes/shade/inplace';
-import { inputStyles } from '@ngneers/controls-themes/shade/input';
-import { inputFieldStyles } from '@ngneers/controls-themes/shade/input-field';
-import { itemViewStyles } from '@ngneers/controls-themes/shade/item-view';
-import { kbdStyles } from '@ngneers/controls-themes/shade/kbd';
-import { listBoxStyles } from '@ngneers/controls-themes/shade/list-box';
-import { maskInputStyles } from '@ngneers/controls-themes/shade/mask-input';
-import { menuStyles } from '@ngneers/controls-themes/shade/menu';
-import { messageStyles } from '@ngneers/controls-themes/shade/message';
-import { otpStyles } from '@ngneers/controls-themes/shade/otp';
-import { paginatorStyles } from '@ngneers/controls-themes/shade/paginator';
-import { popoverStyles } from '@ngneers/controls-themes/shade/popover';
-import { progressStyles } from '@ngneers/controls-themes/shade/progress';
-import { radioStyles } from '@ngneers/controls-themes/shade/radio';
-import { radioGroupStyles } from '@ngneers/controls-themes/shade/radio-group';
-import { ratingStyles } from '@ngneers/controls-themes/shade/rating';
-import { scrollerStyles } from '@ngneers/controls-themes/shade/scroller';
-import { selectStyles } from '@ngneers/controls-themes/shade/select';
-import { selectButtonStyles } from '@ngneers/controls-themes/shade/select-button';
-import { sliderStyles } from '@ngneers/controls-themes/shade/slider';
-import { snackbarStyles } from '@ngneers/controls-themes/shade/snackbar';
-import { spinButtonsStyles } from '@ngneers/controls-themes/shade/spin-buttons';
-import { spinnerStyles } from '@ngneers/controls-themes/shade/spinner';
-import { splitterStyles } from '@ngneers/controls-themes/shade/splitter';
-import { stateStyles } from '@ngneers/controls-themes/shade/state';
-import { stepperStyles } from '@ngneers/controls-themes/shade/stepper';
-import { switchStyles } from '@ngneers/controls-themes/shade/switch';
-import { tableStyles } from '@ngneers/controls-themes/shade/table';
-import { tabsStyles } from '@ngneers/controls-themes/shade/tabs';
-import { tagStyles } from '@ngneers/controls-themes/shade/tag';
-import { toastStyles } from '@ngneers/controls-themes/shade/toast';
-import { toggleButtonStyles } from '@ngneers/controls-themes/shade/toggle-button';
-import { tooltipStyles } from '@ngneers/controls-themes/shade/tooltip';
-import { treeStyles } from '@ngneers/controls-themes/shade/tree';
-import { uploadStyles } from '@ngneers/controls-themes/shade/upload';
+} from '@awdlab/jig-themes/shade/base';
+import { breadcrumbStyles } from '@awdlab/jig-themes/shade/breadcrumb';
+import { buttonStyles } from '@awdlab/jig-themes/shade/button';
+import { buttonGroupStyles } from '@awdlab/jig-themes/shade/button-group';
+import { calendarStyles } from '@awdlab/jig-themes/shade/calendar';
+import { checkboxStyles } from '@awdlab/jig-themes/shade/checkbox';
+import { chipStyles } from '@awdlab/jig-themes/shade/chip';
+import { colorPickerStyles } from '@awdlab/jig-themes/shade/color-picker';
+import { commandStyles } from '@awdlab/jig-themes/shade/command';
+import { dialogStyles } from '@awdlab/jig-themes/shade/dialog';
+import { drawerStyles } from '@awdlab/jig-themes/shade/drawer';
+import { editInplaceStyles } from '@awdlab/jig-themes/shade/edit-inplace';
+import { filterStyles } from '@awdlab/jig-themes/shade/filter';
+import { hintStyles } from '@awdlab/jig-themes/shade/hint';
+import { iconStyles } from '@awdlab/jig-themes/shade/icon';
+import { inplaceStyles } from '@awdlab/jig-themes/shade/inplace';
+import { inputStyles } from '@awdlab/jig-themes/shade/input';
+import { inputFieldStyles } from '@awdlab/jig-themes/shade/input-field';
+import { itemViewStyles } from '@awdlab/jig-themes/shade/item-view';
+import { kbdStyles } from '@awdlab/jig-themes/shade/kbd';
+import { listBoxStyles } from '@awdlab/jig-themes/shade/list-box';
+import { maskInputStyles } from '@awdlab/jig-themes/shade/mask-input';
+import { menuStyles } from '@awdlab/jig-themes/shade/menu';
+import { messageStyles } from '@awdlab/jig-themes/shade/message';
+import { otpStyles } from '@awdlab/jig-themes/shade/otp';
+import { paginatorStyles } from '@awdlab/jig-themes/shade/paginator';
+import { popoverStyles } from '@awdlab/jig-themes/shade/popover';
+import { progressStyles } from '@awdlab/jig-themes/shade/progress';
+import { radioStyles } from '@awdlab/jig-themes/shade/radio';
+import { radioGroupStyles } from '@awdlab/jig-themes/shade/radio-group';
+import { ratingStyles } from '@awdlab/jig-themes/shade/rating';
+import { scrollerStyles } from '@awdlab/jig-themes/shade/scroller';
+import { selectStyles } from '@awdlab/jig-themes/shade/select';
+import { selectButtonStyles } from '@awdlab/jig-themes/shade/select-button';
+import { sliderStyles } from '@awdlab/jig-themes/shade/slider';
+import { snackbarStyles } from '@awdlab/jig-themes/shade/snackbar';
+import { spinButtonsStyles } from '@awdlab/jig-themes/shade/spin-buttons';
+import { spinnerStyles } from '@awdlab/jig-themes/shade/spinner';
+import { splitterStyles } from '@awdlab/jig-themes/shade/splitter';
+import { stateStyles } from '@awdlab/jig-themes/shade/state';
+import { stepperStyles } from '@awdlab/jig-themes/shade/stepper';
+import { switchStyles } from '@awdlab/jig-themes/shade/switch';
+import { tableStyles } from '@awdlab/jig-themes/shade/table';
+import { tabsStyles } from '@awdlab/jig-themes/shade/tabs';
+import { tagStyles } from '@awdlab/jig-themes/shade/tag';
+import { toastStyles } from '@awdlab/jig-themes/shade/toast';
+import { toggleButtonStyles } from '@awdlab/jig-themes/shade/toggle-button';
+import { tooltipStyles } from '@awdlab/jig-themes/shade/tooltip';
+import { treeStyles } from '@awdlab/jig-themes/shade/tree';
+import { uploadStyles } from '@awdlab/jig-themes/shade/upload';
 
 import type {} from './theme-types';
 
@@ -164,4 +160,4 @@ export const shade = createTheme(
 );
 
 // Re-export the color-part factory so consumers can theme shade from any base color.
-export { createShadeColorPart } from '@ngneers/controls-themes/shade/base';
+export { createShadeColorPart } from '@awdlab/jig-themes/shade/base';

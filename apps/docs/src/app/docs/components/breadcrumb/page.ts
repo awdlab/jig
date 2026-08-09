@@ -1,10 +1,10 @@
-import { NgnDocsBreadcrumbPlayground } from './playground';
+import { JigDocsBreadcrumbPlayground } from './playground';
 import { Demo_Breadcrumb_Base } from '../../../demos/breadcrumb/base';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const BreadcrumbPage: NgnDocsPage = {
+export const BreadcrumbPage: JigDocsPage = {
   title: `Breadcrumb`,
   kind: 'tabs',
   tabs: [
@@ -19,7 +19,7 @@ export const BreadcrumbPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsBreadcrumbPlayground,
+      component: JigDocsBreadcrumbPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/breadcrumb/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/breadcrumb/a11y.md' },

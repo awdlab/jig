@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { NgnListBox } from '@ngneers/controls/list-box';
+import { JigListBox } from '@awdlab/jig/list-box';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnListBox],
-  selector: 'ngn-demo-list-box-multiple',
-  template: `<ngn-list-box
+  imports: [JigListBox],
+  selector: 'jig-demo-list-box-multiple',
+  template: `<jig-list-box
     [items]="items"
     [selectable]="true"
     [multiple]="true"

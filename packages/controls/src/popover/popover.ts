@@ -21,11 +21,11 @@ import {
   type AutoPositioningHandle,
   type Openable,
   type Anchor,
-} from '@ngneers/controls/api/ng';
-import { provideSelf, NgnPt } from '@ngneers/controls/base';
-import { NgnDefer } from '@ngneers/controls/defer';
-import { computedWithPrevious, explicitAfterRenderEffect } from '@ngneers/controls/utils-ng';
-import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
+} from '@awdlab/jig/api/ng';
+import { provideSelf, JigPt } from '@awdlab/jig/base';
+import { JigDefer } from '@awdlab/jig/defer';
+import { computedWithPrevious, explicitAfterRenderEffect } from '@awdlab/jig/utils-ng';
+import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
 
 import { PopoverTemplates } from './popover-templates';
 
@@ -35,15 +35,15 @@ import type { PopoverOptions } from './types';
  * @category control
  */
 @Component({
-  selector: 'ngn-popover',
+  selector: 'jig-popover',
   templateUrl: './popover.html',
-  imports: [NgnPt, NgnDefer],
-  providers: [provideSelf(NgnPopover)],
+  imports: [JigPt, JigDefer],
+  providers: [provideSelf(JigPopover)],
   host: {
     '(click)': '$event.stopPropagation()',
   },
 })
-export class NgnPopover extends PopoverTemplates implements Openable {
+export class JigPopover extends PopoverTemplates implements Openable {
   protected readonly theme = this.injectThemeTemplate(popoverControlTemplate, 'root');
 
   /**

@@ -17,9 +17,9 @@ At runtime the control toggles two classes on its host element: `color-<value>` 
 generic `--theme-color-*` variables** onto the chosen family's ramp:
 
 ```css
-.ngn-button.color-success {
-  --theme-color-500: var(--ngn-color-success-500);
-  --theme-color-500-contrast: var(--ngn-color-success-500-contrast);
+.jig-button.color-success {
+  --theme-color-500: var(--jig-color-success-500);
+  --theme-color-500-contrast: var(--jig-color-success-500-contrast);
   /* …the rest of the ramp… */
 }
 ```
@@ -27,11 +27,11 @@ generic `--theme-color-*` variables** onto the chosen family's ramp:
 Each `kind-*` block is then authored purely against those `--theme-color-*` variables:
 
 ```css
-.ngn-button.kind-primary {
+.jig-button.kind-primary {
   background: var(--theme-color-500);
   color: var(--theme-color-500-contrast);
 }
-.ngn-button.kind-text {
+.jig-button.kind-text {
   background: transparent;
   color: var(--theme-color-500);
 }
@@ -61,7 +61,7 @@ nova button is a compile error. This works automatically: importing a theme from
 default entry point also loads that theme's type augmentation.
 
 ```ts
-import { nova } from '@ngneers/controls-themes/nova';
+import { nova } from '@awdlab/jig-themes/nova';
 // kind: 'primary' | 'secondary' | 'link' | 'text' | 'icon'
 ```
 
@@ -70,19 +70,19 @@ first one loaded would silently win. If an app pulls in more than one theme, imp
 extra ones from their `/untyped` entry point:
 
 ```ts
-import { nova } from '@ngneers/controls-themes/nova';
-import { shade } from '@ngneers/controls-themes/shade/untyped';
+import { nova } from '@awdlab/jig-themes/nova';
+import { shade } from '@awdlab/jig-themes/shade/untyped';
 ```
 
 Both entry points resolve to the same runtime module — only the types differ. With no
 typed theme loaded at all, `kind` and `color` fall back to `string`.
 
 To type kinds yourself (for a custom theme, or to override the theme's), augment
-`NgnCustomTypes`, which takes precedence over the theme's:
+`JigCustomTypes`, which takes precedence over the theme's:
 
 ```ts
-declare module '@ngneers/controls-custom-types' {
-  export interface NgnCustomTypes {
+declare module '@awdlab/jig-custom-types' {
+  export interface JigCustomTypes {
     kind: { button: readonly ['primary', 'ghost'] };
     color: readonly ['primary', 'danger'];
   }

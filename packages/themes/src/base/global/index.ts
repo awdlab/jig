@@ -1,23 +1,23 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { globalControlTemplate } from '@ngneers/controls-themes/templates/global';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { globalControlTemplate } from '@awdlab/jig-themes/templates/global';
 
 export const globalStyles = createThemePart({
   controlTemplate: globalControlTemplate,
   root: {
     css: ({ v, c }) => css`
-      --ngn-color-scrollbar-thumb: var(--ngn-color-surface-300);
-      --ngn-color-scrollbar-track: transparent;
-      --ngn-color-scrollbar: var(--ngn-color-scrollbar-thumb) var(--ngn-color-scrollbar-track);
+      --jig-color-scrollbar-thumb: var(--jig-color-surface-300);
+      --jig-color-scrollbar-track: transparent;
+      --jig-color-scrollbar: var(--jig-color-scrollbar-thumb) var(--jig-color-scrollbar-track);
       ${c('root')} {
-        /* styles for all ngn controls go here */
+        /* styles for all jig controls go here */
         * {
-          scrollbar-color: var(--ngn-color-scrollbar);
+          scrollbar-color: var(--jig-color-scrollbar);
         }
       }
-      .ngn-control.ngn-control-initializing {
+      .jig-control.jig-control-initializing {
         /*
          * Hide controls until they are fully initialized to prevent FOUC
-         * The 'ngn-control-initialized' class is added in a afterNextRender callback in NgnBase.
+         * The 'jig-control-initialized' class is added in a afterNextRender callback in JigBase.
          */
         display: none !important;
       }

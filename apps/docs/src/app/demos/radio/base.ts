@@ -1,15 +1,15 @@
 import { Component, signal } from '@angular/core';
-import { NgnRadio, NgnRadioGroup } from '@ngneers/controls/radio';
+import { JigRadio, JigRadioGroup } from '@awdlab/jig/radio';
 
 @Component({
-  selector: 'ngn-demo-radio-base',
-  imports: [NgnRadioGroup, NgnRadio],
+  selector: 'jig-demo-radio-base',
+  imports: [JigRadioGroup, JigRadio],
   template: `
-    <ngn-radio-group [(value)]="value">
-      <ngn-radio value="small">Small</ngn-radio>
-      <ngn-radio value="medium">Medium</ngn-radio>
-      <ngn-radio value="large">Large</ngn-radio>
-    </ngn-radio-group>
+    <jig-radio-group [(value)]="value">
+      <jig-radio value="small">Small</jig-radio>
+      <jig-radio value="medium">Medium</jig-radio>
+      <jig-radio value="large">Large</jig-radio>
+    </jig-radio-group>
   `,
 })
 export class Demo_Radio_Base {

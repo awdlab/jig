@@ -1,8 +1,8 @@
-import { snackbarControlTemplate } from '@ngneers/controls-themes/templates/snackbar';
+import { snackbarControlTemplate } from '@awdlab/jig-themes/templates/snackbar';
 import { themeClasses } from '../utils/theme';
 import { expect, type Locator, type Page } from '@playwright/test';
 
-export class NgnSnackbarHarness {
+export class JigSnackbarHarness {
   public readonly classes = themeClasses(snackbarControlTemplate);
 
   public readonly locator: Locator;
@@ -15,7 +15,7 @@ export class NgnSnackbarHarness {
     this.locator = locator;
     this.header = locator.locator(this.classes.defaultHeader);
     this.content = locator.locator(this.classes.defaultContent);
-    this.icon = this.header.locator('ngn-icon').first();
+    this.icon = this.header.locator('jig-icon').first();
     // The close button is a direct child of the snackbar root (sibling of the body), not inside
     // the header. It is the only <button> in the snackbar, so match it directly.
     this.closeButton = locator.locator('button');
@@ -58,20 +58,20 @@ export class NgnSnackbarHarness {
   }
 }
 
-export class NgnSnackbarHostHarness {
+export class JigSnackbarHostHarness {
   public readonly classes = themeClasses(snackbarControlTemplate);
   public readonly locator: Locator;
 
   constructor(page: Page) {
-    this.locator = page.locator('ngn-snackbar-host');
+    this.locator = page.locator('jig-snackbar-host');
   }
 
-  public getSnackbar(index: number = 0): NgnSnackbarHarness {
-    return new NgnSnackbarHarness(this.locator.locator('ngn-snackbar').nth(index));
+  public getSnackbar(index: number = 0): JigSnackbarHarness {
+    return new JigSnackbarHarness(this.locator.locator('jig-snackbar').nth(index));
   }
 
   public getAllSnackbars(): Locator {
-    return this.locator.locator('ngn-snackbar');
+    return this.locator.locator('jig-snackbar');
   }
 
   public async expectSnackbarCount(count: number) {

@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { accordionControlTemplate } from '@ngneers/controls-themes/templates/accordion';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { accordionControlTemplate } from '@awdlab/jig-themes/templates/accordion';
 
 export const accordionStyles = createThemePart({
   controlTemplate: accordionControlTemplate,

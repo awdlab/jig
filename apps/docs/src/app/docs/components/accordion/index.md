@@ -1,4 +1,4 @@
-A stack of `<ngn-accordion-panel>` children inside an `<ngn-accordion>`, each
+A stack of `<jig-accordion-panel>` children inside an `<jig-accordion>`, each
 with a clickable header that expands or collapses its own content region. Use it
 to group long or optional content into collapsible sections that keep a page
 scannable, and bind the two-way `expandedPanels` model when you need to control
@@ -25,7 +25,7 @@ panel then leaves the others untouched.
 
 Set `lazy` on the accordion to defer each panel's content until it is first
 expanded, and `cache` to keep that content in the DOM after the panel closes.
-Both act as defaults that an individual `<ngn-accordion-panel>` can override with
+Both act as defaults that an individual `<jig-accordion-panel>` can override with
 its own `lazy` / `cache` inputs.
 
 {{ demo: Demo_Accordion_Lazy }}

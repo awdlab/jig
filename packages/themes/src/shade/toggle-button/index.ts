@@ -1,13 +1,13 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
   fontTemplate,
   shadowTemplate,
   sizesTemplate,
-} from '@ngneers/controls-themes/shade/base';
-import { toggleButtonControlTemplate } from '@ngneers/controls-themes/templates/toggle-button';
+} from '@awdlab/jig-themes/shade/base';
+import { toggleButtonControlTemplate } from '@awdlab/jig-themes/templates/toggle-button';
 
 export const toggleButtonStyles = createThemePart({
   controlTemplate: toggleButtonControlTemplate,

@@ -1,32 +1,32 @@
 import { Component } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnTooltip } from '@ngneers/controls/tooltip';
+import { JigButton } from '@awdlab/jig/button';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 
 @Component({
-  imports: [NgnButton, NgnTooltip],
-  selector: 'ngn-demo-tooltip-placement',
+  imports: [JigButton, JigTooltip],
+  selector: 'jig-demo-tooltip-placement',
   template: `
-    <button ngnButton [ngnTooltip]="content" [ngnTooltipPlacement]="'left-start'">
+    <button jigButton [jigTooltip]="content" [jigTooltipPlacement]="'left-start'">
       Left Start
     </button>
-    <button ngnButton [ngnTooltip]="content" [ngnTooltipPlacement]="'left'">Left</button>
-    <button ngnButton [ngnTooltip]="content" [ngnTooltipPlacement]="'left-end'">Left End</button>
+    <button jigButton [jigTooltip]="content" [jigTooltipPlacement]="'left'">Left</button>
+    <button jigButton [jigTooltip]="content" [jigTooltipPlacement]="'left-end'">Left End</button>
 
-    <button ngnButton [ngnTooltip]="content" [ngnTooltipPlacement]="'top-start'">Top Start</button>
-    <button ngnButton [ngnTooltip]="content" [ngnTooltipPlacement]="'top'">Top</button>
-    <button ngnButton [ngnTooltip]="content" [ngnTooltipPlacement]="'top-end'">Top End</button>
+    <button jigButton [jigTooltip]="content" [jigTooltipPlacement]="'top-start'">Top Start</button>
+    <button jigButton [jigTooltip]="content" [jigTooltipPlacement]="'top'">Top</button>
+    <button jigButton [jigTooltip]="content" [jigTooltipPlacement]="'top-end'">Top End</button>
 
-    <button ngnButton [ngnTooltip]="content" [ngnTooltipPlacement]="'right-start'">
+    <button jigButton [jigTooltip]="content" [jigTooltipPlacement]="'right-start'">
       Right Start
     </button>
-    <button ngnButton [ngnTooltip]="content" [ngnTooltipPlacement]="'right'">Right</button>
-    <button ngnButton [ngnTooltip]="content" [ngnTooltipPlacement]="'right-end'">Right End</button>
+    <button jigButton [jigTooltip]="content" [jigTooltipPlacement]="'right'">Right</button>
+    <button jigButton [jigTooltip]="content" [jigTooltipPlacement]="'right-end'">Right End</button>
 
-    <button ngnButton [ngnTooltip]="content" [ngnTooltipPlacement]="'bottom-start'">
+    <button jigButton [jigTooltip]="content" [jigTooltipPlacement]="'bottom-start'">
       Bottom Start
     </button>
-    <button ngnButton [ngnTooltip]="content" [ngnTooltipPlacement]="'bottom'">Bottom</button>
-    <button ngnButton [ngnTooltip]="content" [ngnTooltipPlacement]="'bottom-end'">
+    <button jigButton [jigTooltip]="content" [jigTooltipPlacement]="'bottom'">Bottom</button>
+    <button jigButton [jigTooltip]="content" [jigTooltipPlacement]="'bottom-end'">
       Bottom End
     </button>
   `,

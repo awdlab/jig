@@ -1,3 +1,3 @@
 ## API
 
-{{ api: snackbar/snackbar NgnSnackbar }}
+{{ api: snackbar/snackbar JigSnackbar }}

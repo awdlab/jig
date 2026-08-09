@@ -8,20 +8,18 @@
   </header>
 
   @if (failed()) {
-    <ngn-hint kind="error">
+    <jig-hint kind="error">
       The release list could not be loaded. See
-      <a class="cl-link" href="https://github.com/NGneers/controls/releases"
-        >the releases on GitHub</a
-      >.
-    </ngn-hint>
+      <a class="cl-link" href="https://github.com/awdlab/jig/releases">the releases on GitHub</a>.
+    </jig-hint>
   } @else if (releases() === null) {
-    <p class="cl-loading"><ngn-spinner /> Loading releases…</p>
+    <p class="cl-loading"><jig-spinner /> Loading releases…</p>
   } @else if (packages().length === 0) {
-    <ngn-hint kind="info">
+    <jig-hint kind="info">
       No releases published yet. Follow
-      <a class="cl-link" href="https://github.com/NGneers/controls/releases">the repository</a>
+      <a class="cl-link" href="https://github.com/awdlab/jig/releases">the repository</a>
       to be notified of the first one.
-    </ngn-hint>
+    </jig-hint>
   } @else {
     @for (group of packages(); track group.name) {
       <section class="cl-package">
@@ -34,7 +32,7 @@
                 <a class="cl-link" [href]="release.url">{{ release.version ?? release.name }}</a>
               </h3>
               @if (release.prerelease) {
-                <ngn-tag color="warning">pre-release</ngn-tag>
+                <jig-tag color="warning">pre-release</jig-tag>
               }
               @if (release.publishedAt) {
                 <time class="cl-date" [attr.datetime]="release.publishedAt">

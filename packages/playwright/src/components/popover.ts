@@ -1,18 +1,18 @@
 import { type Locator, expect } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
-import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
+import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
 
-export class NgnPopoverHarness {
+export class JigPopoverHarness {
   public readonly classes = themeClasses(popoverControlTemplate);
 
-  private readonly _ngnLazyCacher: Locator;
+  private readonly _jigLazyCacher: Locator;
   private readonly _contentWrapper: Locator;
   private readonly _content: Locator;
 
   constructor(locator: Locator) {
-    this._ngnLazyCacher = locator.locator('ngn-defer');
+    this._jigLazyCacher = locator.locator('jig-defer');
     this._contentWrapper = locator.locator(this.classes.content);
-    this._content = this._ngnLazyCacher.locator('> *');
+    this._content = this._jigLazyCacher.locator('> *');
   }
 
   public get content(): Locator {
@@ -24,9 +24,9 @@ export class NgnPopoverHarness {
   }
 
   public async expectRendered(rendered = true): Promise<void> {
-    await expect(this._ngnLazyCacher).toBeAttached();
+    await expect(this._jigLazyCacher).toBeAttached();
     await expect(async () => {
-      const el = await this._ngnLazyCacher.elementHandle();
+      const el = await this._jigLazyCacher.elementHandle();
       const hasContent =
         !!(await el?.innerText()) || !!(await el?.evaluate(e => e.childElementCount));
       if (rendered) {

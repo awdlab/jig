@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { itemViewControlTemplate } from '@ngneers/controls-themes/templates/item-view';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { itemViewControlTemplate } from '@awdlab/jig-themes/templates/item-view';
 
 export const itemViewStyles = createThemePart({
   controlTemplate: itemViewControlTemplate,
@@ -11,9 +11,9 @@ export const itemViewStyles = createThemePart({
       }
       ${c('root')} {
         display: flex;
-        /* Content width set by the component (see NgnItemView host); max-width keeps
+        /* Content width set by the component (see JigItemView host); max-width keeps
            overflow working when constrained. */
-        width: var(--ngn-item-view-content-width, 100%);
+        width: var(--jig-item-view-content-width, 100%);
         max-width: 100%;
         white-space: nowrap;
         overflow: hidden;

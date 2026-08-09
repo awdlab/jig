@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { popoverControlTemplate } from '@ngneers/controls-themes/templates/popover';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
 
 export const popoverStyles = createThemePart({
   controlTemplate: popoverControlTemplate,

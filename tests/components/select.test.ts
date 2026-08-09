@@ -1,4 +1,4 @@
-import { NgnSelectHarness } from '@ngneers/controls-playwright';
+import { JigSelectHarness } from '@awdlab/jig-playwright';
 import test, { expect } from '@playwright/test';
 
 import { exampleData } from '../helper/data';
@@ -6,17 +6,17 @@ import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 
-import type { NgnItem } from '@ngneers/controls/api';
-import type { PopoverOptions } from '@ngneers/controls/popover';
+import type { JigItem } from '@awdlab/jig/api';
+import type { PopoverOptions } from '@awdlab/jig/popover';
 
 test('editable: field padding belongs to the input', async ({ page }) => {
   await loadComponent(
     page,
     {
       template: `
-      <ngn-input-field style="width: 300px;">
-        <ngn-select [options]="inputs().options" [editable]="true" />
-      </ngn-input-field>
+      <jig-input-field style="width: 300px;">
+        <jig-select [options]="inputs().options" [editable]="true" />
+      </jig-input-field>
     `,
       imports: ['select', 'inputField'],
     },
@@ -25,11 +25,11 @@ test('editable: field padding belongs to the input', async ({ page }) => {
 
   const input = page.locator('input').first();
   await input.evaluate((el: HTMLInputElement) => (el.value = 'Alpha'));
-  const box = (await page.locator('ngn-input-field > div').first().boundingBox())!;
+  const box = (await page.locator('jig-input-field > div').first().boundingBox())!;
   const midY = box.y + box.height / 2;
   const caret = () => input.evaluate((el: HTMLInputElement) => el.selectionStart);
 
-  // The input is nested two levels down (ngn-select > .select-input > input) and
+  // The input is nested two levels down (jig-select > .select-input > input) and
   // still claims the field's padding; the dropdown icon keeps the trailing strip.
   await page.mouse.click(box.x + 3, midY);
   expect(await input.evaluate(el => document.activeElement === el)).toBe(true);
@@ -47,9 +47,9 @@ test('base', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <ngn-input-field style="width: 200px;">
-        <ngn-select [options]="inputs().options" [popoverOptions]="inputs().popoverOptions" />
-      </ngn-input-field>
+      <jig-input-field style="width: 200px;">
+        <jig-select [options]="inputs().options" [popoverOptions]="inputs().popoverOptions" />
+      </jig-input-field>
     `,
       imports: ['select', 'inputField'],
     },
@@ -61,7 +61,7 @@ test('base', async ({ page }, testInfo) => {
     }
   );
 
-  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
   await select.expectOpened(false);
   await select.open();
@@ -90,13 +90,13 @@ test('virtual', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <ngn-input-field style="width: 200px;">
-        <ngn-select
+      <jig-input-field style="width: 200px;">
+        <jig-select
           [virtual]="true"
           [itemHeight]="34"
           [options]="inputs().options"
           [popoverOptions]="inputs().popoverOptions" />
-      </ngn-input-field>
+      </jig-input-field>
     `,
       imports: ['select', 'inputField'],
     },
@@ -108,7 +108,7 @@ test('virtual', async ({ page }, testInfo) => {
     }
   );
 
-  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
   await select.expectOpened(false);
   await select.open();
@@ -141,11 +141,11 @@ test('grouped', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <ngn-input-field style="width: 200px;">
-        <ngn-select
+      <jig-input-field style="width: 200px;">
+        <jig-select
           [options]="inputs().options"
           [popoverOptions]="inputs().popoverOptions" />
-      </ngn-input-field>
+      </jig-input-field>
     `,
       imports: ['select', 'inputField'],
     },
@@ -157,7 +157,7 @@ test('grouped', async ({ page }, testInfo) => {
     }
   );
 
-  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
   await select.expectOpened(false);
   await select.open();
@@ -176,8 +176,8 @@ test('templates', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <ngn-input-field style="width: 200px;">
-        <ngn-select
+      <jig-input-field style="width: 200px;">
+        <jig-select
         [options]="inputs().options"
         [popoverOptions]="inputs().popoverOptions">
           <ng-template #item let-item>
@@ -189,8 +189,8 @@ test('templates', async ({ page }, testInfo) => {
           <ng-template #group let-item>
             ⭐{{ item?.label }}
           </ng-template>
-        </ngn-select>
-      </ngn-input-field>
+        </jig-select>
+      </jig-input-field>
     `,
       imports: ['select', 'inputField'],
     },
@@ -202,7 +202,7 @@ test('templates', async ({ page }, testInfo) => {
     }
   );
 
-  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
   await select.expectOpened(false);
   await select.open();
@@ -221,13 +221,13 @@ test('filter', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <ngn-input-field style="width: 200px;">
-        <ngn-select
+      <jig-input-field style="width: 200px;">
+        <jig-select
           [options]="inputs().options"
           [popoverOptions]="inputs().popoverOptions"
           [filter]="inputs().filter"
         />
-      </ngn-input-field>
+      </jig-input-field>
     `,
       imports: ['select', 'inputField'],
     },
@@ -240,7 +240,7 @@ test('filter', async ({ page }, testInfo) => {
     }
   );
 
-  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
   await select.expectOpened(false);
   await select.open();
@@ -271,14 +271,14 @@ test('editable', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <ngn-input-field style="width: 200px;">
-        <ngn-select
+      <jig-input-field style="width: 200px;">
+        <jig-select
           [options]="inputs().options"
           [popoverOptions]="inputs().popoverOptions"
           [editable]="true"
           (valueChange)="output('value', $event)"
         />
-      </ngn-input-field>
+      </jig-input-field>
     `,
       imports: ['select', 'inputField'],
     },
@@ -290,7 +290,7 @@ test('editable', async ({ page }, testInfo) => {
     }
   );
 
-  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
   await select.expectOpened(false);
   await select.open();
@@ -318,12 +318,12 @@ test('multiple', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <ngn-input-field style="width: 200px;">
-        <ngn-select
+      <jig-input-field style="width: 200px;">
+        <jig-select
           [multiple]="true"
           [options]="inputs().options"
           [popoverOptions]="inputs().popoverOptions" />
-      </ngn-input-field>
+      </jig-input-field>
     `,
       imports: ['select', 'inputField'],
     },
@@ -335,7 +335,7 @@ test('multiple', async ({ page }, testInfo) => {
     }
   );
 
-  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
   await select.expectOpened(false);
   await select.open();
@@ -379,9 +379,9 @@ test('invalid', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <ngn-input-field style="width: 200px;">
-        <ngn-select [invalid]="inputs().invalid" [touched]="inputs().touched" [options]="inputs().options" [popoverOptions]="inputs().popoverOptions" />
-      </ngn-input-field>
+      <jig-input-field style="width: 200px;">
+        <jig-select [invalid]="inputs().invalid" [touched]="inputs().touched" [options]="inputs().options" [popoverOptions]="inputs().popoverOptions" />
+      </jig-input-field>
     `,
       imports: ['select', 'inputField'],
     },
@@ -395,7 +395,7 @@ test('invalid', async ({ page }, testInfo) => {
     }
   );
 
-  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
   await select.expectOpened(false);
   await expectScreenshot(page, testInfo, 'invalid');
@@ -416,13 +416,13 @@ test.describe('keyboard navigation', () => {
       page,
       {
         template: `
-        <ngn-input-field style="width: 200px;">
-          <ngn-select
+        <jig-input-field style="width: 200px;">
+          <jig-select
             [options]="inputs().options"
             [popoverOptions]="inputs().popoverOptions"
             (valueChange)="output('value', $event)"
           />
-        </ngn-input-field>
+        </jig-input-field>
       `,
         imports: ['select', 'inputField'],
       },
@@ -437,7 +437,7 @@ test.describe('keyboard navigation', () => {
 
   test('Enter opens and closes popover', async ({ page }) => {
     await setupKeyboard(page);
-    const select = new NgnSelectHarness(page.locator('ngn-select').first());
+    const select = new JigSelectHarness(page.locator('jig-select').first());
 
     await select.input.focus();
     await select.expectOpened(false);
@@ -451,7 +451,7 @@ test.describe('keyboard navigation', () => {
 
   test('arrow keys do not change value when popover is closed', async ({ page }) => {
     await setupKeyboard(page);
-    const select = new NgnSelectHarness(page.locator('ngn-select').first());
+    const select = new JigSelectHarness(page.locator('jig-select').first());
 
     await select.input.focus();
     await page.keyboard.press('ArrowDown');
@@ -464,7 +464,7 @@ test.describe('keyboard navigation', () => {
 
   test('arrow keys navigate and Enter selects when popover is open', async ({ page }) => {
     const handle = await setupKeyboard(page);
-    const select = new NgnSelectHarness(page.locator('ngn-select').first());
+    const select = new JigSelectHarness(page.locator('jig-select').first());
 
     await select.input.focus();
     await page.keyboard.press('Enter');
@@ -480,7 +480,7 @@ test.describe('keyboard navigation', () => {
 
   test('Enter re-opens popover after selecting an item', async ({ page }) => {
     await setupKeyboard(page);
-    const select = new NgnSelectHarness(page.locator('ngn-select').first());
+    const select = new JigSelectHarness(page.locator('jig-select').first());
 
     await select.input.focus();
     await page.keyboard.press('Enter');
@@ -497,7 +497,7 @@ test.describe('keyboard navigation', () => {
     page,
   }) => {
     await setupKeyboard(page);
-    const select = new NgnSelectHarness(page.locator('ngn-select').first());
+    const select = new JigSelectHarness(page.locator('jig-select').first());
 
     await select.input.focus();
     await page.keyboard.press('Enter');
@@ -513,7 +513,7 @@ test.describe('keyboard navigation', () => {
 });
 
 test.describe('disabled items', () => {
-  const disabledOptions: NgnItem<unknown, string>[] = [
+  const disabledOptions: JigItem<unknown, string>[] = [
     { label: 'Alpha', value: 'a' },
     { label: 'Bravo', value: 'b', disabled: true },
     { label: 'Charlie', value: 'c' },
@@ -526,13 +526,13 @@ test.describe('disabled items', () => {
       page,
       {
         template: `
-        <ngn-input-field style="width: 200px;">
-          <ngn-select
+        <jig-input-field style="width: 200px;">
+          <jig-select
             [options]="inputs().options"
             [popoverOptions]="inputs().popoverOptions"
             (valueChange)="output('value', $event)"
           />
-        </ngn-input-field>
+        </jig-input-field>
       `,
         imports: ['select', 'inputField'],
       },
@@ -547,7 +547,7 @@ test.describe('disabled items', () => {
 
   test('keyboard navigation skips disabled items', async ({ page }) => {
     const handle = await setupDisabled(page);
-    const select = new NgnSelectHarness(page.locator('ngn-select').first());
+    const select = new JigSelectHarness(page.locator('jig-select').first());
 
     await select.input.focus();
     await page.keyboard.press('Enter');
@@ -568,7 +568,7 @@ test.describe('disabled items', () => {
 
   test('clicking disabled item does not select it', async ({ page }) => {
     await setupDisabled(page);
-    const select = new NgnSelectHarness(page.locator('ngn-select').first());
+    const select = new JigSelectHarness(page.locator('jig-select').first());
 
     await select.open();
     const disabledItem = select.listBox.scroller.getItemByText('Bravo');
@@ -587,9 +587,9 @@ test('opens from the wrapping field padding with tabindex -1', async ({ page }) 
     page,
     {
       template: `
-      <ngn-input-field style="width: 200px;">
-        <ngn-select [tabindex]="-1" [options]="inputs().options" />
-      </ngn-input-field>
+      <jig-input-field style="width: 200px;">
+        <jig-select [tabindex]="-1" [options]="inputs().options" />
+      </jig-input-field>
     `,
       imports: ['select', 'inputField'],
     },
@@ -600,8 +600,8 @@ test('opens from the wrapping field padding with tabindex -1', async ({ page }) 
     }
   );
 
-  const select = new NgnSelectHarness(page.locator('ngn-select').first());
-  const field = page.locator('ngn-input-field > div').first();
+  const select = new JigSelectHarness(page.locator('jig-select').first());
+  const field = page.locator('jig-input-field > div').first();
 
   await expect(field).toHaveCSS('cursor', 'pointer');
   await select.expectOpened(false);
@@ -610,7 +610,7 @@ test('opens from the wrapping field padding with tabindex -1', async ({ page }) 
   await page.mouse.click(box.x + 3, box.y + box.height / 2);
   await select.expectOpened(true);
   // Focus must land on the select's own field, so keyboard navigation continues from the click.
-  expect(await page.evaluate(() => document.activeElement?.closest('ngn-select') !== null)).toBe(
+  expect(await page.evaluate(() => document.activeElement?.closest('jig-select') !== null)).toBe(
     true
   );
 });
@@ -620,13 +620,13 @@ test('accessibility (axe)', async ({ page }) => {
     page,
     {
       template: `
-      <ngn-input-field style="width: 200px;">
+      <jig-input-field style="width: 200px;">
         <label id="select-a11y-label">Country</label>
-        <ngn-select
+        <jig-select
           [labelledBy]="'select-a11y-label'"
           [options]="inputs().options"
           [popoverOptions]="inputs().popoverOptions" />
-      </ngn-input-field>
+      </jig-input-field>
     `,
       imports: ['select', 'inputField'],
     },
@@ -638,7 +638,7 @@ test('accessibility (axe)', async ({ page }) => {
     }
   );
 
-  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
   // The listbox surface only exists once the popover is open.
   await select.open();
 
@@ -650,16 +650,16 @@ test('filter input keeps Home and End for the caret', async ({ page }) => {
     page,
     {
       template: `
-      <ngn-input-field style="width: 200px;">
-        <ngn-select [options]="inputs().options" [filter]="true" />
-      </ngn-input-field>
+      <jig-input-field style="width: 200px;">
+        <jig-select [options]="inputs().options" [filter]="true" />
+      </jig-input-field>
     `,
       imports: ['select', 'inputField'],
     },
     { inputs: { options: exampleData.items.groupedPreformatted } }
   );
 
-  const select = new NgnSelectHarness(page.locator('ngn-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
   await select.open();
 
   const input = select.filter.children.input;

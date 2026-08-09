@@ -1,27 +1,27 @@
 import { Component } from '@angular/core';
-import { NgnTooltip } from '@ngneers/controls/tooltip';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 
-import type { PositioningSizeConstraints } from '@ngneers/controls/api/ng';
+import type { PositioningSizeConstraints } from '@awdlab/jig/api/ng';
 
 @Component({
-  imports: [NgnTooltip],
-  selector: 'ngn-demo-tooltip-show-only-if-truncated',
+  imports: [JigTooltip],
+  selector: 'jig-demo-tooltip-show-only-if-truncated',
   template: `
     <h1>Truncated</h1>
     <p
       class="truncated"
-      [ngnTooltip]="content"
-      ngnTooltipShowOnlyIfTruncated
-      [ngnTooltipSize]="size"
+      [jigTooltip]="content"
+      jigTooltipShowOnlyIfTruncated
+      [jigTooltipSize]="size"
     >
       {{ content }}
     </p>
     <h1>Clamped</h1>
-    <p class="clamped" [ngnTooltip]="content" ngnTooltipShowOnlyIfTruncated [ngnTooltipSize]="size">
+    <p class="clamped" [jigTooltip]="content" jigTooltipShowOnlyIfTruncated [jigTooltipSize]="size">
       {{ content }}
     </p>
     <h1>Not truncated</h1>
-    <p [ngnTooltip]="content" ngnTooltipShowOnlyIfTruncated [ngnTooltipSize]="size">
+    <p [jigTooltip]="content" jigTooltipShowOnlyIfTruncated [jigTooltipSize]="size">
       {{ content }}
     </p>
   `,

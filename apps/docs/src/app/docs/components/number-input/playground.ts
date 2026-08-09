@@ -1,28 +1,28 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnNumberInput } from '@ngneers/controls/number-input';
-import { NgnSpinButtons } from '@ngneers/controls/spin-buttons';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigNumberInput } from '@awdlab/jig/number-input';
+import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-number-input-playground',
-  imports: [NgnNumberInput, NgnInputField, NgnSpinButtons, NgnDocsPlayground],
+  selector: 'jig-docs-number-input-playground',
+  imports: [JigNumberInput, JigInputField, JigSpinButtons, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnNumberInput', component: component() }]">
-      <ngn-input-field>
+    <jig-docs-playground [controls]="[{ componentName: 'JigNumberInput', component: component() }]">
+      <jig-input-field>
         <input
-          ngnNumberInput
-          #ref="ngnNumberInput"
+          jigNumberInput
+          #ref="jigNumberInput"
           [value]="value()"
           (valueChange)="value.set($event)"
         />
-        <ngn-spin-buttons />
-      </ngn-input-field>
-    </ngn-docs-playground>
+        <jig-spin-buttons />
+      </jig-input-field>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsNumberInputPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnNumberInput });
+export class JigDocsNumberInputPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigNumberInput });
   protected readonly value = signal<number | null>(42);
 }

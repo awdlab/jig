@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { menuControlTemplate } from '@ngneers/controls-themes/templates/menu';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { menuControlTemplate } from '@awdlab/jig-themes/templates/menu';
 
 export const menuStyles = createThemePart({
   controlTemplate: menuControlTemplate,

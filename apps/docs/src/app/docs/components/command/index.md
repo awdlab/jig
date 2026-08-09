@@ -1,12 +1,12 @@
-The Command palette (`<ngn-command>`) is a chromeless modal dialog holding a search
+The Command palette (`<jig-command>`) is a chromeless modal dialog holding a search
 field over a filtered list of actions — the `⌘K` pattern. Pass the same
-`NgnActionItem[]` you would give a menu: leaf entries are runnable commands, and a
+`JigActionItem[]` you would give a menu: leaf entries are runnable commands, and a
 top-level entry with `children` renders as a labelled group. Picking a command runs
 its `callback`, navigates its `route`, emits `commandSelected`, and closes the palette.
 
 ### Basic Usage
 
-Bind `[(open)]` and open the palette however you like — `ngn-command` deliberately
+Bind `[(open)]` and open the palette however you like — `jig-command` deliberately
 registers no global hotkey, so the shortcut stays yours to own.
 
 {{ demo: Demo_Command_Base }}
@@ -33,8 +33,8 @@ renders it as a keycap on the row and runs the command whenever the combo is
 pressed, open or closed. A footer legend spells out the keys that drive the palette
 itself.
 
-Opening the palette stays with you — `ngn-command` registers no hotkey of its own.
-Wrap the surface in `[ngnKeyboardShortcut]` and pass the binding you want.
+Opening the palette stays with you — `jig-command` registers no hotkey of its own.
+Wrap the surface in `[jigKeyboardShortcut]` and pass the binding you want.
 
 {{ demo: Demo_Command_Shortcuts }}
 

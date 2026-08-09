@@ -1,6 +1,6 @@
-Selector: `ngn-defer`
+Selector: `jig-defer`
 
-{{ api: defer/defer NgnDefer }}
+{{ api: defer/defer JigDefer }}
 
 ## Host classes
 
@@ -9,5 +9,5 @@ Selector: `ngn-defer`
 | `open`   | `open()` is `true`.                      |
 | `hidden` | Closed and `hiddenOnClosed()` is `true`. |
 
-`aria-hidden` mirrors the closed state. `ngn-defer` has no theme part — the
+`aria-hidden` mirrors the closed state. `jig-defer` has no theme part — the
 `hidden` class is implemented by the component's own minimal style.

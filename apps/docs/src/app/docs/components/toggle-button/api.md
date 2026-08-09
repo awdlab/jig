@@ -1,1 +1,1 @@
-{{ api: toggle-button/toggle-button NgnToggleButton }}
+{{ api: toggle-button/toggle-button JigToggleButton }}

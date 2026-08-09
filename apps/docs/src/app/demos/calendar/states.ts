@@ -1,45 +1,45 @@
 import { Component } from '@angular/core';
-import { NgnCalendar } from '@ngneers/controls/calendar';
-import { NgnInputField } from '@ngneers/controls/input-field';
+import { JigCalendar } from '@awdlab/jig/calendar';
+import { JigInputField } from '@awdlab/jig/input-field';
 
 @Component({
-  selector: 'ngn-demo-calendar-states',
-  imports: [NgnCalendar, NgnInputField],
+  selector: 'jig-demo-calendar-states',
+  imports: [JigCalendar, JigInputField],
   template: `
     Default:
-    <ngn-input-field>
-      <ngn-calendar [inputId]="'calendar-states-default'" />
-    </ngn-input-field>
+    <jig-input-field>
+      <jig-calendar [inputId]="'calendar-states-default'" />
+    </jig-input-field>
     Readonly:
-    <ngn-input-field>
-      <ngn-calendar [inputId]="'calendar-states-readonly'" readonly />
-    </ngn-input-field>
+    <jig-input-field>
+      <jig-calendar [inputId]="'calendar-states-readonly'" readonly />
+    </jig-input-field>
     Disabled:
-    <ngn-input-field>
-      <ngn-calendar [inputId]="'calendar-states-disabled'" disabled />
-    </ngn-input-field>
+    <jig-input-field>
+      <jig-calendar [inputId]="'calendar-states-disabled'" disabled />
+    </jig-input-field>
     Invalid:
-    <ngn-input-field>
-      <ngn-calendar [inputId]="'calendar-states-invalid'" [invalidOn]="'immediate'" invalid />
-    </ngn-input-field>
+    <jig-input-field>
+      <jig-calendar [inputId]="'calendar-states-invalid'" [invalidOn]="'immediate'" invalid />
+    </jig-input-field>
     Invalid + Readonly:
-    <ngn-input-field>
-      <ngn-calendar
+    <jig-input-field>
+      <jig-calendar
         [inputId]="'calendar-states-invalid-readonly'"
         [invalidOn]="'immediate'"
         invalid
         readonly
       />
-    </ngn-input-field>
+    </jig-input-field>
     Invalid + Disabled:
-    <ngn-input-field>
-      <ngn-calendar
+    <jig-input-field>
+      <jig-calendar
         [inputId]="'calendar-states-invalid-disabled'"
         [invalidOn]="'immediate'"
         invalid
         disabled
       />
-    </ngn-input-field>
+    </jig-input-field>
   `,
   host: { class: 'w-48' },
 })

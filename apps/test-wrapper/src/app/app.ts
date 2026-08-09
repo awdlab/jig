@@ -14,7 +14,7 @@ import { defineTestComponent, TestComponentBase } from './define-test-component'
 import { isEval, WindowService } from './window';
 
 @Component({
-  selector: 'ngn-root',
+  selector: 'jig-root',
   imports: [],
   template: ``,
 })
@@ -51,7 +51,7 @@ export class App {
       // inputs signal changes; the effect below handles later updates.
       untracked(() => this.setInputs(component));
       this._testComponentRef.set(component);
-      (window as any).__ngn_test_wrapper.ready = true;
+      (window as any).__jig_test_wrapper.ready = true;
     });
     effect(() => {
       this.setInputs();

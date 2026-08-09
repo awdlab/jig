@@ -1,18 +1,18 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnOtp } from '@ngneers/controls/otp';
+import { JigOtp } from '@awdlab/jig/otp';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-otp-playground',
-  imports: [NgnOtp, NgnDocsPlayground],
+  selector: 'jig-docs-otp-playground',
+  imports: [JigOtp, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnOtp', component: component() }]">
-      <ngn-otp #ref [value]="value()" (valueChange)="value.set($event)" />
-    </ngn-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'JigOtp', component: component() }]">
+      <jig-otp #ref [value]="value()" (valueChange)="value.set($event)" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsOtpPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnOtp });
+export class JigDocsOtpPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigOtp });
   protected readonly value = signal<string | null>(null);
 }

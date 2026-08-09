@@ -1,7 +1,7 @@
 import { TemplateRef } from '@angular/core';
 
-import type { NgnActionButtonConfig } from '@ngneers/controls/api';
-import type { CustomColor, IconType } from '@ngneers/controls-custom-types';
+import type { JigActionButtonConfig } from '@awdlab/jig/api';
+import type { CustomColor, IconType } from '@awdlab/jig-custom-types';
 
 export type HeaderTemplateType = {
   header?: string;
@@ -13,24 +13,24 @@ export type ContentTemplateType = {
   content?: string;
 };
 
-export type NgnSnackbarOptionsMeta = {
+export type JigSnackbarOptionsMeta = {
   closable?: boolean;
   color?: CustomColor;
   icon?: IconType;
   autoHide?: number | false;
-  actions?: NgnActionButtonConfig[];
+  actions?: JigActionButtonConfig[];
   showProgress?: boolean;
   pauseOnHover?: boolean;
   ariaLive?: 'polite' | 'assertive' | 'off';
 };
 
-export type NgnSnackbarOptions = NgnSnackbarOptionsMeta & {
+export type JigSnackbarOptions = JigSnackbarOptionsMeta & {
   header?: string;
   content?: string;
   headerTemplate?: TemplateRef<HeaderTemplateType>;
   contentTemplate?: TemplateRef<ContentTemplateType>;
 };
 
-export type NgnSnackbarRef = {
+export type JigSnackbarRef = {
   hide: () => void;
 };

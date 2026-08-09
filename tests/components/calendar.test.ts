@@ -1,7 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
-import { NgnCalendarHarness, NgnMaskInputHarness } from '@ngneers/controls-playwright';
+import { JigCalendarHarness, JigMaskInputHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 
 test('IO', async ({ page }, testInfo) => {
@@ -10,7 +10,7 @@ test('IO', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-calendar [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-calendar [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['calendar'],
     },
     {
@@ -28,7 +28,7 @@ test('IO', async ({ page }, testInfo) => {
     expect(await handle.getOutputLog()).toEqual({ value: expectedOutputs });
   }
 
-  const calendar = new NgnCalendarHarness(page.locator('ngn-calendar'));
+  const calendar = new JigCalendarHarness(page.locator('jig-calendar'));
   await calendar.expectDate('2025', 'August', '18');
   await expectScreenshot(page, testInfo, 'initial value');
   await handle.setInputs({
@@ -68,15 +68,15 @@ test('typing partial input is free and does not move the calendar', async ({ pag
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-calendar [inputId]="'cal'" [showTime]="true" [format]="'MM/dd/yyyy h:mm a'" (valueChange)="output('value', $event)" />`,
+      template: `<jig-calendar [inputId]="'cal'" [showTime]="true" [format]="'MM/dd/yyyy h:mm a'" (valueChange)="output('value', $event)" />`,
       imports: ['calendar'],
     },
     { inputs: {} }
   );
 
-  // The proxy input is the hidden input inside ngn-mask-input inside ngn-calendar.
+  // The proxy input is the hidden input inside jig-mask-input inside jig-calendar.
   // Visible text is rendered in section/separator spans, not in input.value.
-  const maskHarness = new NgnMaskInputHarness(page.locator('ngn-calendar ngn-mask-input').first());
+  const maskHarness = new JigMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
   await maskHarness.focus();
 
   // Regression: typing "1" used to auto-parse to "01/01/2001 12:00 AM" and block
@@ -98,13 +98,13 @@ test('typing a complete date updates the calendar value live, exactly once', asy
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-calendar [inputId]="'cal2'" [format]="'MM/dd/yyyy'" (valueChange)="output('value', $event)" />`,
+      template: `<jig-calendar [inputId]="'cal2'" [format]="'MM/dd/yyyy'" (valueChange)="output('value', $event)" />`,
       imports: ['calendar'],
     },
     { inputs: {} }
   );
 
-  const maskHarness = new NgnMaskInputHarness(page.locator('ngn-calendar ngn-mask-input').first());
+  const maskHarness = new JigMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
   await maskHarness.focus();
 
   // Incomplete (year only partially typed) → no calendar update yet.
@@ -127,7 +127,7 @@ test('clearing every input mask section clears the calendar value', async ({ pag
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-calendar [inputId]="'calclear'" [format]="'MM/dd/yyyy'" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-calendar [inputId]="'calclear'" [format]="'MM/dd/yyyy'" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['calendar'],
     },
     {
@@ -137,7 +137,7 @@ test('clearing every input mask section clears the calendar value', async ({ pag
     }
   );
 
-  const mask = new NgnMaskInputHarness(page.locator('ngn-calendar ngn-mask-input').first());
+  const mask = new JigMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
   await mask.expectText('06/15/2026');
 
   await mask.clear();
@@ -152,7 +152,7 @@ test('invalid state reaches the visible input field border', async ({ page }) =>
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-input-field style="width: 220px;"><ngn-calendar [inputId]="'calinvalid'" [format]="'MM/dd/yyyy'" [invalid]="inputs().invalid" /></ngn-input-field>`,
+      template: `<jig-input-field style="width: 220px;"><jig-calendar [inputId]="'calinvalid'" [format]="'MM/dd/yyyy'" [invalid]="inputs().invalid" /></jig-input-field>`,
       imports: ['calendar', 'inputField'],
     },
     {
@@ -162,24 +162,24 @@ test('invalid state reaches the visible input field border', async ({ page }) =>
     }
   );
 
-  const field = page.locator('ngn-input-field .ngn-input-field-root').first();
-  const calendar = page.locator('ngn-calendar').first();
-  const calendarField = page.locator('ngn-calendar .ngn-calendar-input-field').first();
-  const input = page.locator('ngn-calendar input').first();
+  const field = page.locator('jig-input-field .jig-input-field-root').first();
+  const calendar = page.locator('jig-calendar').first();
+  const calendarField = page.locator('jig-calendar .jig-calendar-input-field').first();
+  const input = page.locator('jig-calendar input').first();
   const normalBorderColor = await field.evaluate(el => getComputedStyle(el).borderTopColor);
 
   await handle.setInputs({ invalid: true });
   // invalidOn='touched' (default) gates the raw invalid flag: it doesn't surface
   // before the user interacts, so nothing flashes invalid on a pristine field.
   await expect(calendar).not.toHaveAttribute('aria-invalid', 'true');
-  await expect(calendarField).not.toHaveClass(/ngn-calendar-invalid/);
+  await expect(calendarField).not.toHaveClass(/jig-calendar-invalid/);
 
   // blurring the field marks the control touched, which reveals the invalid state.
   await input.focus();
   await input.blur();
 
   await expect(calendar).toHaveAttribute('aria-invalid', 'true');
-  await expect(calendarField).toHaveClass(/ngn-calendar-invalid/);
+  await expect(calendarField).toHaveClass(/jig-calendar-invalid/);
   await expect
     .poll(async () => field.evaluate(el => getComputedStyle(el).borderTopColor))
     .not.toBe(normalBorderColor);
@@ -191,13 +191,13 @@ test('arrow-stepping an out-of-range day clamps to the month instead of rolling 
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-calendar [inputId]="'calclamp'" [format]="'MM/dd/yyyy'" (valueChange)="output('value', $event)" />`,
+      template: `<jig-calendar [inputId]="'calclamp'" [format]="'MM/dd/yyyy'" (valueChange)="output('value', $event)" />`,
       imports: ['calendar'],
     },
     { inputs: {} }
   );
 
-  const mask = new NgnMaskInputHarness(page.locator('ngn-calendar ngn-mask-input').first());
+  const mask = new JigMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
   await mask.focus();
 
   // Type February 1st 2026.
@@ -239,12 +239,12 @@ test('day field max adapts to the month: 30-day month and leap February', async 
     await loadComponent(
       page,
       {
-        template: `<ngn-calendar [inputId]="'caldim'" [format]="'MM/dd/yyyy'" />`,
+        template: `<jig-calendar [inputId]="'caldim'" [format]="'MM/dd/yyyy'" />`,
         imports: ['calendar'],
       },
       { inputs: {} }
     );
-    const mask = new NgnMaskInputHarness(page.locator('ngn-calendar ngn-mask-input').first());
+    const mask = new JigMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
     await mask.focus();
     await mask.pressSequentially(typed);
 
@@ -262,22 +262,22 @@ test('day field max adapts to the month: 30-day month and leap February', async 
 });
 
 test('clicking the calendar field padding selects the nearest mask section', async ({ page }) => {
-  // The calendar uses its own field wrapper (not ngn-input-field); this verifies
+  // The calendar uses its own field wrapper (not jig-input-field); this verifies
   // the wrapper forwards the pointer location to the embedded mask so a click in
   // the field padding selects the section nearest the cursor.
   await loadComponent(
     page,
     {
-      template: `<ngn-calendar [inputId]="'calpad'" [format]="'MM/dd/yyyy'" />`,
+      template: `<jig-calendar [inputId]="'calpad'" [format]="'MM/dd/yyyy'" />`,
       imports: ['calendar'],
     },
     { inputs: {} }
   );
 
-  const mask = new NgnMaskInputHarness(page.locator('ngn-calendar ngn-mask-input').first());
+  const mask = new JigMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
   await expect(mask.sections).toHaveCount(3);
 
-  const field = page.locator('ngn-calendar .ngn-calendar-input-field').first();
+  const field = page.locator('jig-calendar .jig-calendar-input-field').first();
 
   // Per-section: click at each section's horizontal centre, near the field's top
   // edge (its padding row). Reverse order so each assertion is a real change.
@@ -311,7 +311,7 @@ test('clicking the calendar field padding selects the nearest mask section', asy
 test('clicking the OUTER input-field padding around a calendar selects the nearest section', async ({
   page,
 }) => {
-  // Matches the docs demo: the calendar is wrapped in an ngn-input-field. The
+  // Matches the docs demo: the calendar is wrapped in a jig-input-field. The
   // outer field delegates the click to the calendar's focusFromPointer hook
   // (with real coordinates), which forwards to the mask — so clicking the outer
   // field's topmost border/padding selects the section under the cursor instead
@@ -319,17 +319,17 @@ test('clicking the OUTER input-field padding around a calendar selects the neare
   await loadComponent(
     page,
     {
-      template: `<ngn-input-field><ngn-calendar [inputId]="'calwrap'" [format]="'MM/dd/yyyy'" /></ngn-input-field>`,
+      template: `<jig-input-field><jig-calendar [inputId]="'calwrap'" [format]="'MM/dd/yyyy'" /></jig-input-field>`,
       imports: ['inputField', 'calendar'],
     },
     { inputs: {} }
   );
 
-  const mask = new NgnMaskInputHarness(page.locator('ngn-mask-input').first());
+  const mask = new JigMaskInputHarness(page.locator('jig-mask-input').first());
   await expect(mask.sections).toHaveCount(3);
 
   // The OUTER input-field root — its padding/border is the "topmost area".
-  const outer = page.locator('ngn-input-field .ngn-input-field-root').first();
+  const outer = page.locator('jig-input-field .jig-input-field-root').first();
 
   for (const i of [2, 1, 0]) {
     const ob = await outer.boundingBox();
@@ -349,7 +349,7 @@ test('first day of week', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<ngn-calendar [inline]="true" [value]="inputs().value" [firstDayOfWeek]="inputs().firstDayOfWeek" (valueChange)="output('value', $event)" />`,
+      template: `<jig-calendar [inline]="true" [value]="inputs().value" [firstDayOfWeek]="inputs().firstDayOfWeek" (valueChange)="output('value', $event)" />`,
       imports: ['calendar'],
     },
     {
@@ -360,7 +360,7 @@ test('first day of week', async ({ page }, testInfo) => {
     }
   );
 
-  const calendar = new NgnCalendarHarness(page.locator('ngn-calendar'));
+  const calendar = new JigCalendarHarness(page.locator('jig-calendar'));
   await calendar.expectDate('2025', 'August', '18');
   await calendar.expectFirstWeekday('sunday');
   await expectScreenshot(page, testInfo, 'sunday');
@@ -375,7 +375,7 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<ngn-calendar [inline]="true" [value]="inputs().value" />`,
+      template: `<jig-calendar [inline]="true" [value]="inputs().value" />`,
       imports: ['calendar'],
     },
     { inputs: { value: new Date(2025, 7, 18, 12, 0, 0) } }

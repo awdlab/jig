@@ -5,7 +5,7 @@ import { evalValue, loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 
 const TEMPLATE = `
-  <ngn-command
+  <jig-command
     [items]="inputs().items"
     [open]="inputs().open"
     (openChange)="output('open', $event)"
@@ -145,14 +145,14 @@ test('clicking an item runs its callback', async ({ page }) => {
       inputs: {
         open: true,
         items: evalValue(`[
-          { id: 'ping', label: 'Ping', callback: () => ((window).__ngnPing = 'pong') },
+          { id: 'ping', label: 'Ping', callback: () => ((window).__jigPing = 'pong') },
         ]`),
       },
     }
   );
 
   await page.getByRole('option', { name: 'Ping' }).click();
-  await expect.poll(() => page.evaluate(() => (window as any).__ngnPing)).toBe('pong');
+  await expect.poll(() => page.evaluate(() => (window as any).__jigPing)).toBe('pong');
 });
 
 test('the filter text resets between openings', async ({ page }) => {
@@ -164,7 +164,7 @@ test('the filter text resets between openings', async ({ page }) => {
 
   await handle.setInputs({ items: ITEMS, open: false });
   await expect(page.locator('dialog')).toBeHidden();
-  // see the reopen note above: NgnDialog's deferred close would overwrite an immediate reopen
+  // see the reopen note above: JigDialog's deferred close would overwrite an immediate reopen
   await page.waitForTimeout(50);
 
   await handle.setInputs({ items: ITEMS, open: true });
@@ -185,7 +185,7 @@ test('renders a keycap for a command that configured a shortcut', async ({ page 
 
   // the keycap trails the label at the row's end rather than sitting next to it
   const rowBox = (await row.boundingBox())!;
-  const keycapBox = (await row.locator('ngn-kbd').boundingBox())!;
+  const keycapBox = (await row.locator('jig-kbd').boundingBox())!;
   const labelBox = (await row.locator('[class*="item-label"]').boundingBox())!;
   expect(rowBox.x + rowBox.width - (keycapBox.x + keycapBox.width)).toBeLessThan(20);
   expect(keycapBox.x - (labelBox.x + labelBox.width)).toBeGreaterThan(100);
@@ -232,7 +232,7 @@ test('the search field takes focus again on every opening', async ({ page }) => 
 
   await handle.setInputs({ items: ITEMS, open: false });
   await expect(page.locator('dialog')).toBeHidden();
-  // NgnDialog finishes closing in a requestAnimationFrame that sets `open` to false; reopening
+  // JigDialog finishes closing in a requestAnimationFrame that sets `open` to false; reopening
   // before it lands is overwritten by it, so let the frame pass first.
   await page.waitForTimeout(50);
 

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { NgnBadge } from '@ngneers/controls/badge';
-import { NgnButton } from '@ngneers/controls/button';
+import { JigBadge } from '@awdlab/jig/badge';
+import { JigButton } from '@awdlab/jig/button';
 
 @Component({
-  selector: 'ngn-demo-badge-color',
-  imports: [NgnBadge, NgnButton],
+  selector: 'jig-demo-badge-color',
+  imports: [JigBadge, JigButton],
   template: `
     <div class="flex gap-8 p-6">
-      <button ngnButton [ngnBadge]="3" ngnBadgeColor="#e11d48">Alerts</button>
-      <button ngnButton [ngnBadge]="7" ngnBadgeColor="var(--ngn-color-success-500)">Done</button>
+      <button jigButton [jigBadge]="3" jigBadgeColor="#e11d48">Alerts</button>
+      <button jigButton [jigBadge]="7" jigBadgeColor="var(--jig-color-success-500)">Done</button>
     </div>
   `,
 })

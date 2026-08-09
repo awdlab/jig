@@ -1,7 +1,7 @@
 /**
  * Relevance check for the generated search index.
  *
- *   pnpm --filter @ngneers/controls-docs search:check
+ *   pnpm --filter @awdlab/jig-docs search:check
  *
  * Runs real queries through the real ranking code and asserts the expected page
  * lands in the top few results. This is what catches a broken encode, wrong
@@ -72,9 +72,9 @@ const CASES: { query: string; route: string; topN?: number }[] = [
 /** Identifier lookups, which never go through the model. */
 const NAME_CASES: { query: string; name: string }[] = [
   { query: 'iconClose', name: 'iconClose' },
-  { query: 'ngn-select', name: 'ngn-select' },
-  { query: 'ngnButton', name: 'ngnButton' },
-  { query: 'NgnInputField', name: 'NgnInputField' },
+  { query: 'jig-select', name: 'jig-select' },
+  { query: 'jigButton', name: 'jigButton' },
+  { query: 'JigInputField', name: 'JigInputField' },
   { query: 'closeBy', name: 'closeBy' },
 ];
 

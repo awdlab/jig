@@ -1,9 +1,9 @@
 import { Directive, effect, ElementRef, inject, input } from '@angular/core';
-import { injectThemeTemplate } from '@ngneers/controls/api/ng';
-import { NgnScrollerItem } from '@ngneers/controls/scroller';
-import { toggleClass } from '@ngneers/controls/utils';
-import { setInputSignalValue } from '@ngneers/controls/utils-ng';
-import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
+import { injectThemeTemplate } from '@awdlab/jig/api/ng';
+import { JigScrollerItem } from '@awdlab/jig/scroller';
+import { toggleClass } from '@awdlab/jig/utils';
+import { setInputSignalValue } from '@awdlab/jig/utils-ng';
+import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
 import type { FormattedTableGroupHeaderRow } from './types';
 
@@ -15,25 +15,25 @@ import type { FormattedTableGroupHeaderRow } from './types';
  * @category directive
  */
 @Directive({
-  selector: '[ngnTableGroupHeaderTr]',
+  selector: '[jigTableGroupHeaderTr]',
   host: {
-    '[attr.aria-rowindex]': 'ngnTableGroupHeaderTr().index + 2',
-    '[style.--ngn-table-row-index]': 'ngnTableGroupHeaderTr().index + 2',
+    '[attr.aria-rowindex]': 'jigTableGroupHeaderTr().index + 2',
+    '[style.--jig-table-row-index]': 'jigTableGroupHeaderTr().index + 2',
   },
 })
-export class NgnTableGroupHeaderTr extends NgnScrollerItem {
+export class JigTableGroupHeaderTr extends JigScrollerItem {
   /** The group-header row this `<tr>` renders. */
-  public readonly ngnTableGroupHeaderTr = input.required<FormattedTableGroupHeaderRow>();
-  /** The item bound to the underlying scroller entry; kept in sync with {@link ngnTableGroupHeaderTr}. */
-  public override readonly ngnScrollerItem = input<object>({});
+  public readonly jigTableGroupHeaderTr = input.required<FormattedTableGroupHeaderRow>();
+  /** The item bound to the underlying scroller entry; kept in sync with {@link jigTableGroupHeaderTr}. */
+  public override readonly jigScrollerItem = input<object>({});
   private readonly _element = inject(ElementRef<HTMLElement>);
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
 
   constructor() {
     super();
     effect(() => {
-      const row = this.ngnTableGroupHeaderTr();
-      setInputSignalValue(this.ngnScrollerItem, row);
+      const row = this.jigTableGroupHeaderTr();
+      setInputSignalValue(this.jigScrollerItem, row);
     });
     this.prepareDom();
   }

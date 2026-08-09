@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NgnPaginator } from '@ngneers/controls/paginator';
+import { JigPaginator } from '@awdlab/jig/paginator';
 
 @Component({
-  selector: 'ngn-demo-paginator-overflow',
-  imports: [NgnPaginator],
-  template: ` <ngn-paginator [totalItems]="4500" /> `,
+  selector: 'jig-demo-paginator-overflow',
+  imports: [JigPaginator],
+  template: ` <jig-paginator [totalItems]="4500" /> `,
   host: { class: 'flex-1' },
 })
 export class Demo_Paginator_Overflow {}

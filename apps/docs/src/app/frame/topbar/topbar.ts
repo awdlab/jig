@@ -2,39 +2,39 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import tablerMenu2 from '@iconify/icons-tabler/menu-2';
 import tablerSearch from '@iconify/icons-tabler/search';
-import { NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnIcon } from '@ngneers/controls/icon';
+import { JigBreadcrumb } from '@awdlab/jig/breadcrumb';
+import { JigButton } from '@awdlab/jig/button';
+import { JigIcon } from '@awdlab/jig/icon';
 import {
   ariaKeyShortcuts,
   formatShortcut,
-  NgnKeyboardShortcut,
-  type NgnShortcutBinding,
-} from '@ngneers/controls/kbd';
+  JigKeyboardShortcut,
+  type JigShortcutBinding,
+} from '@awdlab/jig/kbd';
 
 import { AppLocation } from '../../helper/app-location';
-import { DocsSearch, NgnDocsSearchDialog } from '../../utils/search';
+import { DocsSearch, JigDocsSearchDialog } from '../../utils/search';
 import { BreadcrumbService } from '../breadcrumb.service';
 import { FrameState } from '../frame-state';
-import { NgnDocsTopbarActions } from './actions';
+import { JigDocsTopbarActions } from './actions';
 
 const SEARCH_SHORTCUT = 'mod+k';
 
 @Component({
-  selector: 'ngn-docs-topbar',
+  selector: 'jig-docs-topbar',
   templateUrl: 'topbar.html',
   styleUrl: 'topbar.scss',
   imports: [
-    NgnButton,
-    NgnDocsSearchDialog,
-    NgnDocsTopbarActions,
-    NgnIcon,
-    NgnKeyboardShortcut,
+    JigButton,
+    JigDocsSearchDialog,
+    JigDocsTopbarActions,
+    JigIcon,
+    JigKeyboardShortcut,
     RouterLink,
-    NgnBreadcrumb,
+    JigBreadcrumb,
   ],
 })
-export class NgnDocsTopbar {
+export class JigDocsTopbar {
   protected readonly iconBars = tablerMenu2;
   protected readonly iconSearch = tablerSearch;
   protected readonly searchOpen = signal(false);
@@ -47,7 +47,7 @@ export class NgnDocsTopbar {
   protected readonly breadcrumbItems = this._breadcrumb.items;
 
   /** Page-wide, so the palette opens from anywhere and not just from the topbar. */
-  protected readonly searchShortcut = computed<NgnShortcutBinding[]>(() => [
+  protected readonly searchShortcut = computed<JigShortcutBinding[]>(() => [
     { shortcut: SEARCH_SHORTCUT, callback: () => this.searchOpen.set(true), global: true },
   ]);
   protected readonly searchLabel = computed(

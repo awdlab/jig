@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgnCheckbox } from '@ngneers/controls/checkbox';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
 
 /**
  * The same control rendered in each of the shared state flags. Every flag is a
@@ -7,13 +7,13 @@ import { NgnCheckbox } from '@ngneers/controls/checkbox';
  * class on the host automatically.
  */
 @Component({
-  selector: 'ngn-demo-control-state-flags',
-  imports: [NgnCheckbox],
+  selector: 'jig-demo-control-state-flags',
+  imports: [JigCheckbox],
   template: `
     <div class="flex flex-col gap-3">
       @for (state of states; track state.label) {
         <div class="flex items-center gap-2">
-          <ngn-checkbox
+          <jig-checkbox
             #checkbox
             [value]="true"
             [disabled]="state.disabled"

@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { breadcrumbControlTemplate } from '@ngneers/controls-themes/templates/breadcrumb';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { breadcrumbControlTemplate } from '@awdlab/jig-themes/templates/breadcrumb';
 
 export const breadcrumbStyles = createThemePart({
   controlTemplate: breadcrumbControlTemplate,
@@ -15,7 +15,7 @@ export const breadcrumbStyles = createThemePart({
       ${c('separator')} {
         display: inline-flex;
         align-items: center;
-        ngn-icon {
+        jig-icon {
           display: flex;
         }
       }

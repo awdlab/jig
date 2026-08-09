@@ -1,9 +1,9 @@
 import { type Locator, expect } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
-import { selectButtonControlTemplate } from '@ngneers/controls-themes/templates/select-button';
-import { NgnToggleButtonHarness } from './toggle-button';
+import { selectButtonControlTemplate } from '@awdlab/jig-themes/templates/select-button';
+import { JigToggleButtonHarness } from './toggle-button';
 
-export class NgnSelectButtonHarness {
+export class JigSelectButtonHarness {
   public readonly classes = themeClasses(selectButtonControlTemplate);
 
   public readonly locator: Locator;
@@ -11,16 +11,16 @@ export class NgnSelectButtonHarness {
 
   constructor(locator: Locator) {
     this.locator = locator;
-    this.buttons = locator.locator('ngn-toggle-button');
+    this.buttons = locator.locator('jig-toggle-button');
   }
 
-  public getButtonAt(index: number): NgnToggleButtonHarness {
-    return new NgnToggleButtonHarness(this.buttons.nth(index));
+  public getButtonAt(index: number): JigToggleButtonHarness {
+    return new JigToggleButtonHarness(this.buttons.nth(index));
   }
 
-  public getButtonByTestId(testId: string): NgnToggleButtonHarness {
-    return new NgnToggleButtonHarness(
-      this.locator.locator(`ngn-toggle-button[data-testid="${testId}"]`)
+  public getButtonByTestId(testId: string): JigToggleButtonHarness {
+    return new JigToggleButtonHarness(
+      this.locator.locator(`jig-toggle-button[data-testid="${testId}"]`)
     );
   }
 

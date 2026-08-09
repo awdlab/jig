@@ -13,11 +13,11 @@
     transform: scaleX(0);
     transform-origin: 0 50%;
     background: linear-gradient(90deg, #e90464, #f736e3 30%, #5c44e4);
-    animation: ngn-scroll-progress linear;
+    animation: jig-scroll-progress linear;
     animation-timeline: scroll(root block);
   }
 
-  @keyframes ngn-scroll-progress {
+  @keyframes jig-scroll-progress {
     from {
       transform: scaleX(0);
     }
@@ -37,9 +37,9 @@
   // Primary tint at the top and bottom of the page, neutral through the middle.
   background: linear-gradient(
     168deg,
-    color-mix(in srgb, var(--ngn-color-primary-500) 12%, var(--ngn-color-background)) 0%,
-    var(--ngn-color-background) 30%,
-    var(--ngn-color-background) 62%,
-    color-mix(in srgb, var(--ngn-color-primary-500) 10%, var(--ngn-color-background)) 100%
+    color-mix(in srgb, var(--jig-color-primary-500) 12%, var(--jig-color-background)) 0%,
+    var(--jig-color-background) 30%,
+    var(--jig-color-background) 62%,
+    color-mix(in srgb, var(--jig-color-primary-500) 10%, var(--jig-color-background)) 100%
   );
 }

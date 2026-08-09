@@ -6,40 +6,40 @@ import {
   type OnDestroy,
 } from '@angular/core';
 import tablerUser from '@iconify/icons-tabler/user';
-import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnAvatar, NgnAvatarGroup } from '@ngneers/controls/avatar';
-import { NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnButtonGroup } from '@ngneers/controls/button-group';
-import { NgnCalendar } from '@ngneers/controls/calendar';
-import { NgnCheckbox } from '@ngneers/controls/checkbox';
-import { NgnChip } from '@ngneers/controls/chip';
-import { NgnDefer } from '@ngneers/controls/defer';
-import { NgnDialog } from '@ngneers/controls/dialog';
-import { NgnEditInplace } from '@ngneers/controls/edit-inplace';
-import { NgnFilter } from '@ngneers/controls/filter';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnInplace } from '@ngneers/controls/inplace';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnMaskInput } from '@ngneers/controls/mask-input';
-import { NgnItemView } from '@ngneers/controls/item-view';
-import { NgnListBox } from '@ngneers/controls/list-box';
-import { NgnMessage } from '@ngneers/controls/message';
-import { NgnPopover } from '@ngneers/controls/popover';
-import { NgnProgress } from '@ngneers/controls/progress';
-import { NgnScroller, NgnScrollerItem } from '@ngneers/controls/scroller';
-import { NgnSelect } from '@ngneers/controls/select';
-import { NgnSlider } from '@ngneers/controls/slider';
-import { NgnSpinner } from '@ngneers/controls/spinner';
-import { NgnSplitter, NgnSplitterPanel } from '@ngneers/controls/splitter';
-import { NgnTableModule } from '@ngneers/controls/table';
-import { NgnTab, NgnTabs } from '@ngneers/controls/tabs';
-import { NgnTag } from '@ngneers/controls/tag';
-import { NgnTooltip } from '@ngneers/controls/tooltip';
+import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigAvatar, JigAvatarGroup } from '@awdlab/jig/avatar';
+import { JigBreadcrumb } from '@awdlab/jig/breadcrumb';
+import { JigButton } from '@awdlab/jig/button';
+import { JigButtonGroup } from '@awdlab/jig/button-group';
+import { JigCalendar } from '@awdlab/jig/calendar';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
+import { JigChip } from '@awdlab/jig/chip';
+import { JigDefer } from '@awdlab/jig/defer';
+import { JigDialog } from '@awdlab/jig/dialog';
+import { JigEditInplace } from '@awdlab/jig/edit-inplace';
+import { JigFilter } from '@awdlab/jig/filter';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInplace } from '@awdlab/jig/inplace';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigMaskInput } from '@awdlab/jig/mask-input';
+import { JigItemView } from '@awdlab/jig/item-view';
+import { JigListBox } from '@awdlab/jig/list-box';
+import { JigMessage } from '@awdlab/jig/message';
+import { JigPopover } from '@awdlab/jig/popover';
+import { JigProgress } from '@awdlab/jig/progress';
+import { JigScroller, JigScrollerItem } from '@awdlab/jig/scroller';
+import { JigSelect } from '@awdlab/jig/select';
+import { JigSlider } from '@awdlab/jig/slider';
+import { JigSpinner } from '@awdlab/jig/spinner';
+import { JigSplitter, JigSplitterPanel } from '@awdlab/jig/splitter';
+import { JigTableModule } from '@awdlab/jig/table';
+import { JigTab, JigTabs } from '@awdlab/jig/tabs';
+import { JigTag } from '@awdlab/jig/tag';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 
-import type { NgnItem } from '@ngneers/controls/api';
+import type { JigItem } from '@awdlab/jig/api';
 
 declare global {
   interface Window {
@@ -48,75 +48,75 @@ declare global {
 }
 
 @Component({
-  selector: 'ngn-leak-test',
+  selector: 'jig-leak-test',
 
   imports: [
-    NgnTemplate,
-    NgnAccordion,
-    NgnAccordionPanel,
-    NgnAvatar,
-    NgnAvatarGroup,
-    NgnBreadcrumb,
-    NgnButton,
-    NgnButtonGroup,
-    NgnCalendar,
-    NgnCheckbox,
-    NgnChip,
-    NgnDefer,
-    NgnDialog,
-    NgnEditInplace,
-    NgnFilter,
-    NgnIcon,
-    NgnInplace,
-    NgnInput,
-    NgnInputField,
-    NgnMaskInput,
-    NgnItemView,
-    NgnListBox,
-    NgnMessage,
-    NgnPopover,
-    NgnProgress,
-    NgnScroller,
-    NgnScrollerItem,
-    NgnSelect,
-    NgnSlider,
-    NgnSpinner,
-    NgnSplitter,
-    NgnSplitterPanel,
-    NgnTab,
-    NgnTabs,
-    NgnTableModule,
-    NgnTag,
-    NgnTooltip,
+    JigTemplate,
+    JigAccordion,
+    JigAccordionPanel,
+    JigAvatar,
+    JigAvatarGroup,
+    JigBreadcrumb,
+    JigButton,
+    JigButtonGroup,
+    JigCalendar,
+    JigCheckbox,
+    JigChip,
+    JigDefer,
+    JigDialog,
+    JigEditInplace,
+    JigFilter,
+    JigIcon,
+    JigInplace,
+    JigInput,
+    JigInputField,
+    JigMaskInput,
+    JigItemView,
+    JigListBox,
+    JigMessage,
+    JigPopover,
+    JigProgress,
+    JigScroller,
+    JigScrollerItem,
+    JigSelect,
+    JigSlider,
+    JigSpinner,
+    JigSplitter,
+    JigSplitterPanel,
+    JigTab,
+    JigTabs,
+    JigTableModule,
+    JigTag,
+    JigTooltip,
   ],
   template: `
     @if (show()) {
       <!-- Accordion with panels -->
-      <ngn-accordion>
-        <ngn-accordion-panel panelId="panel1" header="Panel 1">
+      <jig-accordion>
+        <jig-accordion-panel panelId="panel1" header="Panel 1">
           <ng-template #content>Content 1</ng-template>
-        </ngn-accordion-panel>
-      </ngn-accordion>
+        </jig-accordion-panel>
+      </jig-accordion>
 
       <!-- Avatar & AvatarGroup -->
-      <ngn-avatar initials="AB" />
-      <ngn-avatar-group>
-        <ngn-avatar initials="A1" />
-        <ngn-avatar initials="A2" />
-      </ngn-avatar-group>
+      <jig-avatar initials="AB" />
+      <jig-avatar-group>
+        <jig-avatar initials="A1" />
+        <jig-avatar initials="A2" />
+      </jig-avatar-group>
 
       <!-- Breadcrumb -->
-      <ngn-breadcrumb [items]="breadcrumbItems()" />
+      <jig-breadcrumb [items]="breadcrumbItems()" />
 
       <!-- Button & ButtonGroup -->
-      <button ngnButton kind="primary">Click me</button>
-      <ngn-button-group>
-        <button ngnButton kind="primary">Button 1</button>
-        <button ngnButton kind="primary">Button 2</button>
-      </ngn-button-group>
+      <button jigButton kind="primary">Click me</button>
+      <jig-button-group>
+        <button jigButton kind="primary">Button 1</button>
+        <button jigButton kind="primary">Button 2</button>
+      </jig-button-group>
 
       <!-- Calendar -->
-      <ngn-calendar
+      <jig-calendar
         [inline]="true"
         [value]="calendarValue()"
         (valueChange)="calendarValue.set($event)"
@@ -124,7 +124,7 @@ declare global {
 
       <!-- Checkbox -->
       <div>
-        <ngn-checkbox
+        <jig-checkbox
           [value]="checkboxValue()"
           [allowIndeterminate]="true"
           (valueChange)="checkboxValue.set($event)"
@@ -133,132 +133,132 @@ declare global {
       </div>
 
       <!-- Chip -->
-      <ngn-chip [closable]="true">Chip</ngn-chip>
+      <jig-chip [closable]="true">Chip</jig-chip>
 
       <!-- Defer -->
-      <ngn-defer [open]="true" [lazyContent]="deferContent" />
+      <jig-defer [open]="true" [lazyContent]="deferContent" />
       <ng-template #deferContent>Deferred content</ng-template>
 
       <!-- Dialog -->
-      <button ngnButton kind="primary" (click)="dialogOpen.set(true)">Open dialog</button>
-      <ngn-dialog
+      <button jigButton kind="primary" (click)="dialogOpen.set(true)">Open dialog</button>
+      <jig-dialog
         title="Example dialog"
         [open]="dialogOpen()"
         (openChange)="dialogOpen.set($event)"
       >
         <ng-template #content>Dialog content</ng-template>
-      </ngn-dialog>
+      </jig-dialog>
 
       <!-- EditInplace -->
-      <ngn-edit-inplace [value]="editInplaceValue()" (valueChange)="editInplaceValue.set($event)" />
+      <jig-edit-inplace [value]="editInplaceValue()" (valueChange)="editInplaceValue.set($event)" />
 
       <!-- Filter -->
-      <ngn-filter [data]="filterData()" dataType="string" />
+      <jig-filter [data]="filterData()" dataType="string" />
 
       <!-- Icon -->
-      <ngn-icon [icon]="userIcon" />
+      <jig-icon [icon]="userIcon" />
 
       <!-- Inplace -->
-      <ngn-inplace>
+      <jig-inplace>
         <ng-template #display>Display</ng-template>
         <ng-template #content let-content>
-          <button ngnButton kind="primary" (click)="content.close()">Close</button>
+          <button jigButton kind="primary" (click)="content.close()">Close</button>
         </ng-template>
-      </ngn-inplace>
+      </jig-inplace>
 
       <!-- Input -->
-      <input ngnInput />
+      <input jigInput />
 
       <!-- InputField -->
-      <ngn-input-field label="Label">
-        <input ngnInput />
-      </ngn-input-field>
+      <jig-input-field label="Label">
+        <input jigInput />
+      </jig-input-field>
 
       <!-- MaskInput -->
-      <ngn-mask-input [mask]="'time'">
-        <input ngnInput />
-      </ngn-mask-input>
+      <jig-mask-input [mask]="'time'">
+        <input jigInput />
+      </jig-mask-input>
 
       <!-- ItemView -->
-      <ngn-item-view [items]="items()" [idField]="'testId'">
+      <jig-item-view [items]="items()" [idField]="'testId'">
         <ng-template #item let-item>{{ item.label }}</ng-template>
-      </ngn-item-view>
+      </jig-item-view>
 
       <!-- ListBox -->
-      <ngn-list-box [items]="items()" style="display: block;" />
+      <jig-list-box [items]="items()" style="display: block;" />
 
       <!-- Message -->
-      <ngn-message kind="outlined" [icon]="userIcon">Test message</ngn-message>
+      <jig-message kind="outlined" [icon]="userIcon">Test message</jig-message>
 
       <!-- Popover -->
-      <button #popoverAnchor ngnButton>Toggle</button>
-      <ngn-popover #popover [anchor]="popoverAnchor">Popover content</ngn-popover>
-      <button ngnButton kind="primary" (click)="popover.show()">Open popover</button>
+      <button #popoverAnchor jigButton>Toggle</button>
+      <jig-popover #popover [anchor]="popoverAnchor">Popover content</jig-popover>
+      <button jigButton kind="primary" (click)="popover.show()">Open popover</button>
 
       <!-- Progress -->
-      <ngn-progress [value]="50" />
+      <jig-progress [value]="50" />
 
       <!-- Scroller -->
-      <ngn-scroller [items]="items()" style="height: 100px;">
+      <jig-scroller [items]="items()" style="height: 100px;">
         <ng-template #item let-item>
-          <div [ngnScrollerItem]="item" style="height: 30px;">
+          <div [jigScrollerItem]="item" style="height: 30px;">
             {{ item.label }}
           </div>
         </ng-template>
-      </ngn-scroller>
+      </jig-scroller>
 
       <!-- Select -->
-      <ngn-select [options]="items()" />
+      <jig-select [options]="items()" />
 
       <!-- Slider -->
-      <ngn-slider />
+      <jig-slider />
 
       <!-- Spinner -->
-      <ngn-spinner [size]="48" [thickness]="'4px'" [centered]="true" />
+      <jig-spinner [size]="48" [thickness]="'4px'" [centered]="true" />
 
       <!-- Splitter -->
-      <ngn-splitter
+      <jig-splitter
         [layout]="splitterLayout()"
         (layoutChange)="splitterLayout.set($event)"
         style="height: 200px; display: block;"
       >
-        <ngn-splitter-panel>Panel 1</ngn-splitter-panel>
-        <ngn-splitter-panel>Panel 2</ngn-splitter-panel>
-      </ngn-splitter>
+        <jig-splitter-panel>Panel 1</jig-splitter-panel>
+        <jig-splitter-panel>Panel 2</jig-splitter-panel>
+      </jig-splitter>
 
       <!-- Tabs -->
-      <ngn-tabs>
-        <ngn-tab tabId="tab1">
+      <jig-tabs>
+        <jig-tab tabId="tab1">
           <ng-template #header>Tab 1</ng-template>
           <ng-template #content>Tab Content 1</ng-template>
-        </ngn-tab>
-        <ngn-tab tabId="tab2">
+        </jig-tab>
+        <jig-tab tabId="tab2">
           <ng-template #header>Tab 2</ng-template>
           <ng-template #content>Tab Content 2</ng-template>
-        </ngn-tab>
-      </ngn-tabs>
+        </jig-tab>
+      </jig-tabs>
 
       <!-- Table -->
-      <ngn-table #table [rows]="tableRows()" [fieldId]="'id'" style="height: 200px">
+      <jig-table #table [rows]="tableRows()" [fieldId]="'id'" style="height: 200px">
         <ng-template #header>
-          <tr ngnTableHeadTr>
-            <th [ngnTableTh]="table.column('id')">ID</th>
-            <th [ngnTableTh]="table.column('name')">Name</th>
+          <tr jigTableHeadTr>
+            <th [jigTableTh]="table.column('id')">ID</th>
+            <th [jigTableTh]="table.column('name')">Name</th>
           </tr>
         </ng-template>
-        <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-          <tr [ngnTableBodyTr]="row">
-            <td ngnTableTd>{{ row.data.id }}</td>
-            <td ngnTableTd>{{ row.data.name }}</td>
+        <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+          <tr [jigTableBodyTr]="row">
+            <td jigTableTd>{{ row.data.id }}</td>
+            <td jigTableTd>{{ row.data.name }}</td>
           </tr>
         </ng-template>
-      </ngn-table>
+      </jig-table>
 
       <!-- Tag -->
-      <ngn-tag kind="pill" [icon]="userIcon">Tag</ngn-tag>
+      <jig-tag kind="pill" [icon]="userIcon">Tag</jig-tag>
 
       <!-- Tooltip -->
-      <div [ngnTooltip]="'Tooltip text'">Hover me</div>
+      <div [jigTooltip]="'Tooltip text'">Hover me</div>
     }
   `,
 })
@@ -282,7 +282,7 @@ export class LeakTestComponent implements OnInit, OnDestroy {
     { id: 'products', label: 'Products' },
   ]);
 
-  public readonly items = signal<readonly NgnItem<unknown, number>[]>([
+  public readonly items = signal<readonly JigItem<unknown, number>[]>([
     { label: 'Item 1', value: 1, testId: 'item-1' },
     { label: 'Item 2', value: 2, testId: 'item-2' },
     { label: 'Item 3', value: 3, testId: 'item-3' },

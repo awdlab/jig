@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
@@ -7,9 +7,9 @@ import {
   shadowTemplate,
   sizesTemplate,
   themedColors,
-} from '@ngneers/controls-themes/material/base';
-import { neutralColor as greyColor } from '@ngneers/controls-themes/material/colors';
-import { toastControlTemplate } from '@ngneers/controls-themes/templates/toast';
+} from '@awdlab/jig-themes/material/base';
+import { neutralColor as greyColor } from '@awdlab/jig-themes/material/colors';
+import { toastControlTemplate } from '@awdlab/jig-themes/templates/toast';
 
 // MD3 toasts (like snackbars) use a fixed dark "inverse surface" regardless of kind —
 // the kind color is expressed as an accent (header icon), not a full-surface tint. We
@@ -56,7 +56,7 @@ export const toastStyles = createThemePart({
       ${c('color-surface')} {
         --tst-icon-color: ${ON_SURFACE};
       }
-      ${c('defaultHeaderText')} ngn-icon {
+      ${c('defaultHeaderText')} jig-icon {
         color: var(--tst-icon-color);
       }
 

@@ -22,23 +22,23 @@ import tablerPin from '@iconify/icons-tabler/pin';
 import tablerSearch from '@iconify/icons-tabler/search';
 import tablerSend from '@iconify/icons-tabler/send';
 import tablerTrash from '@iconify/icons-tabler/trash';
-import type { Openable } from '@ngneers/controls/api/ng';
-import { NgnAvatar, NgnAvatarGroup } from '@ngneers/controls/avatar';
-import { NgnBadge } from '@ngneers/controls/badge';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnListBox } from '@ngneers/controls/list-box';
-import { type MenuItem, NgnMenu } from '@ngneers/controls/menu';
-import { NgnPopover } from '@ngneers/controls/popover';
-import { NgnProgress } from '@ngneers/controls/progress';
-import { createConditionalSpinner } from '@ngneers/controls/spinner';
-import { NgnSplitterModule } from '@ngneers/controls/splitter';
-import { NgnSwitch } from '@ngneers/controls/switch';
-import { NgnTag } from '@ngneers/controls/tag';
-import { injectToastCreator } from '@ngneers/controls/toast';
-import { NgnTooltip } from '@ngneers/controls/tooltip';
+import type { Openable } from '@awdlab/jig/api/ng';
+import { JigAvatar, JigAvatarGroup } from '@awdlab/jig/avatar';
+import { JigBadge } from '@awdlab/jig/badge';
+import { JigButton } from '@awdlab/jig/button';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigListBox } from '@awdlab/jig/list-box';
+import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
+import { JigPopover } from '@awdlab/jig/popover';
+import { JigProgress } from '@awdlab/jig/progress';
+import { createConditionalSpinner } from '@awdlab/jig/spinner';
+import { JigSplitterModule } from '@awdlab/jig/splitter';
+import { JigSwitch } from '@awdlab/jig/switch';
+import { JigTag } from '@awdlab/jig/tag';
+import { injectToastCreator } from '@awdlab/jig/toast';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 
 import {
   type ChatMessage,
@@ -54,25 +54,25 @@ import {
 } from './chat-data';
 
 @Component({
-  selector: 'ngn-docs-team-chat',
+  selector: 'jig-docs-team-chat',
   templateUrl: './team-chat.html',
   imports: [
     NgTemplateOutlet,
-    NgnAvatar,
-    NgnAvatarGroup,
-    NgnBadge,
-    NgnButton,
-    NgnIcon,
-    NgnInput,
-    NgnInputField,
-    NgnListBox,
-    NgnMenu,
-    NgnPopover,
-    NgnProgress,
-    NgnSplitterModule,
-    NgnSwitch,
-    NgnTag,
-    NgnTooltip,
+    JigAvatar,
+    JigAvatarGroup,
+    JigBadge,
+    JigButton,
+    JigIcon,
+    JigInput,
+    JigInputField,
+    JigListBox,
+    JigMenu,
+    JigPopover,
+    JigProgress,
+    JigSplitterModule,
+    JigSwitch,
+    JigTag,
+    JigTooltip,
   ],
 })
 export class TeamChat {
@@ -97,13 +97,13 @@ export class TeamChat {
 
   /** Theme ramp preview shown by the `palette` widget (primary ramp + a couple of surfaces). */
   protected readonly paletteSwatches: readonly string[] = [
-    'var(--ngn-color-primary-300)',
-    'var(--ngn-color-primary-400)',
-    'var(--ngn-color-primary-500)',
-    'var(--ngn-color-primary-600)',
-    'var(--ngn-color-primary-700)',
-    'var(--ngn-color-surface-200)',
-    'var(--ngn-color-surface-400)',
+    'var(--jig-color-primary-300)',
+    'var(--jig-color-primary-400)',
+    'var(--jig-color-primary-500)',
+    'var(--jig-color-primary-600)',
+    'var(--jig-color-primary-700)',
+    'var(--jig-color-surface-200)',
+    'var(--jig-color-surface-400)',
   ];
 
   protected readonly pinned = PINNED;
@@ -135,7 +135,7 @@ export class TeamChat {
    * scale — the popover renders in the top layer, so it inherits the document
    * font size (≈16px) and otherwise looks oversized next to the 14px thread.
    */
-  protected readonly menuPt = { root: { $styles: { fontSize: 'var(--ngn-font-size-sm)' } } };
+  protected readonly menuPt = { root: { $styles: { fontSize: 'var(--jig-font-size-sm)' } } };
 
   /** Drop the list-box's own border — it sits inside the rounded chat card and the doubled,
    *  differently-rounded edge looked off at the corners. */
@@ -154,10 +154,10 @@ export class TeamChat {
    * stuck open when moving between messages. Tracking the single open bar and closing it
    * when another opens keeps exactly one visible, order-independent under fast moves.
    */
-  private _openBar: { bar: NgnPopover; nested: readonly Openable[] } | null = null;
+  private _openBar: { bar: JigPopover; nested: readonly Openable[] } | null = null;
   private _barCloseTimer: ReturnType<typeof setTimeout> | undefined;
 
-  protected showBar(bar: NgnPopover, ...nested: Openable[]): void {
+  protected showBar(bar: JigPopover, ...nested: Openable[]): void {
     // The picker/menu float over neighbouring rows, so the gap between them hovers a
     // sibling message: a pinned bar wins over another row's hover.
     if (this._openBar?.bar !== bar && this._pinned()) {
@@ -176,7 +176,7 @@ export class TeamChat {
     return this._openBar?.nested.some(n => n.open()) ?? false;
   }
 
-  protected hideBarSoon(bar: NgnPopover, ...nested: Openable[]): void {
+  protected hideBarSoon(bar: JigPopover, ...nested: Openable[]): void {
     clearTimeout(this._barCloseTimer);
     if (nested.some(n => n.open())) {
       return;
@@ -185,7 +185,7 @@ export class TeamChat {
   }
 
   /** Nested popovers outlive the bar's own close (their content isn't torn down), so close them too. */
-  private _hideBar(entry: { bar: NgnPopover; nested: readonly Openable[] }): void {
+  private _hideBar(entry: { bar: JigPopover; nested: readonly Openable[] }): void {
     for (const nested of entry.nested) {
       if (nested.open()) {
         nested.hide();
@@ -203,7 +203,7 @@ export class TeamChat {
    * custom primary, unlike the nova-only `*-contrast` vars. Mirrors the theme's `autoContrast()`.
    */
   protected readonly ownBubbleTextColor =
-    'oklch(from var(--ngn-color-primary-500) clamp(0, (0.62 - l) * 1e7, 1) 0 h)';
+    'oklch(from var(--jig-color-primary-500) clamp(0, (0.62 - l) * 1e7, 1) 0 h)';
   protected readonly presenceColor = PRESENCE_COLOR;
   protected readonly user = user;
 

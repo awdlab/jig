@@ -12,64 +12,64 @@ import {
   type OnDestroy,
   Type,
 } from '@angular/core';
-import { injectThemeTemplate, setComponentInput } from '@ngneers/controls/api/ng';
-import { getNearestNgnInstanceSig } from '@ngneers/controls/base';
-import { NgnCheckbox } from '@ngneers/controls/checkbox';
-import { I18n } from '@ngneers/controls/i18n';
-import { toggleClass } from '@ngneers/controls/utils';
-import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
+import { injectThemeTemplate, setComponentInput } from '@awdlab/jig/api/ng';
+import { getNearestJigInstanceSig } from '@awdlab/jig/base';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
+import { I18n } from '@awdlab/jig/i18n';
+import { toggleClass } from '@awdlab/jig/utils';
+import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
-import { NgnTable } from './table';
-import { NgnTableBodyTr } from './table-row';
+import { JigTable } from './table';
+import { JigTableBodyTr } from './table-row';
 
 /**
  * Directive that turns a `<th>` or `<td>` into a selection checkbox column.
  *
  * **Header usage** — renders a "select all / none" checkbox:
  * ```html
- * <th ngnTableSelectionColumn></th>
+ * <th jigTableSelectionColumn></th>
  * ```
  *
- * **Body usage** — renders a per-row checkbox (must be inside a `[ngnTableBodyTr]`):
+ * **Body usage** — renders a per-row checkbox (must be inside a `[jigTableBodyTr]`):
  * ```html
- * <td ngnTableSelectionColumn></td>
+ * <td jigTableSelectionColumn></td>
  * ```
  *
  * @category directive
  */
 @Directive({
-  selector: '[ngnTableSelectionColumn]',
+  selector: '[jigTableSelectionColumn]',
   host: {
     '(click)': 'onClick($event)',
   },
 })
-export class NgnTableSelectionColumn implements OnDestroy {
+export class JigTableSelectionColumn implements OnDestroy {
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _envInjector = inject(EnvironmentInjector);
   private readonly _appRef = inject(ApplicationRef);
   private readonly _i18n = inject(I18n).translations;
 
-  private readonly _table = getNearestNgnInstanceSig<Type<NgnTable<any, any>>>(
+  private readonly _table = getNearestJigInstanceSig<Type<JigTable<any, any>>>(
     this._element.nativeElement,
-    NgnTable
+    JigTable
   );
 
   /** Non-null only when used inside a body row (`<td>`). */
-  private readonly _bodyTr = inject(NgnTableBodyTr, { optional: true });
+  private readonly _bodyTr = inject(JigTableBodyTr, { optional: true });
 
   private readonly _isHeader = this._element.nativeElement.tagName === 'TH';
 
   /**
-   * NgnCheckbox created at the application level via `createComponent` + `EnvironmentInjector`.
+   * JigCheckbox created at the application level via `createComponent` + `EnvironmentInjector`.
    * This keeps it outside Angular's view tree so `@for` reconciliation cannot destroy it.
    */
-  private _checkboxRef!: ComponentRef<NgnCheckbox<boolean>>;
+  private _checkboxRef!: ComponentRef<JigCheckbox<boolean>>;
 
   protected readonly selected = computed(() => {
     if (this._isHeader) return false;
     const table = this._table();
-    const row = this._bodyTr?.ngnTableBodyTr();
+    const row = this._bodyTr?.jigTableBodyTr();
     if (!table || !row) return false;
     return table.isRowSelected(row.id);
   });
@@ -77,7 +77,7 @@ export class NgnTableSelectionColumn implements OnDestroy {
   protected readonly focused = computed(() => {
     if (this._isHeader) return false;
     const table = this._table();
-    const row = this._bodyTr?.ngnTableBodyTr();
+    const row = this._bodyTr?.jigTableBodyTr();
     if (!table || !row) return false;
     return table.focusedRowIndex() === row.index;
   });
@@ -119,7 +119,7 @@ export class NgnTableSelectionColumn implements OnDestroy {
 
   private _prepareDom(): void {
     const el = this._element.nativeElement;
-    // Mirror the grid roles that ngnTableTh/ngnTableTd set, so the selection column
+    // Mirror the grid roles that jigTableTh/jigTableTd set, so the selection column
     // stays inside the table's `role="grid"` semantics instead of being an orphan cell.
     el.setAttribute('role', this._isHeader ? 'columnheader' : 'gridcell');
     // The selection column is always the first visual column.
@@ -129,12 +129,12 @@ export class NgnTableSelectionColumn implements OnDestroy {
   }
 
   /**
-   * Creates an NgnCheckbox via `createComponent` + `EnvironmentInjector`.
+   * Creates an JigCheckbox via `createComponent` + `EnvironmentInjector`.
    * The component is attached to `ApplicationRef` (not a ViewContainerRef),
    * so Angular's `@for` block reconciliation cannot destroy it.
    */
   private _createCheckbox(): void {
-    this._checkboxRef = createComponent(NgnCheckbox, {
+    this._checkboxRef = createComponent(JigCheckbox, {
       environmentInjector: this._envInjector,
     });
     this._appRef.attachView(this._checkboxRef.hostView);
@@ -169,12 +169,12 @@ export class NgnTableSelectionColumn implements OnDestroy {
     effect(() => {
       const isSelected = this.selected();
       const isFocused = this.focused();
-      const row = this._bodyTr?.ngnTableBodyTr();
+      const row = this._bodyTr?.jigTableBodyTr();
       const el = this._element.nativeElement;
 
       setComponentInput(this._checkboxRef, 'value', isSelected);
       if (row) {
-        el.style.setProperty('--ngn-table-row-index', String(row.index + 2));
+        el.style.setProperty('--jig-table-row-index', String(row.index + 2));
       }
       toggleClass(el, this.theme.class('selected-row-cell'), isSelected);
       toggleClass(el, this.theme.class('focused-row-cell'), isFocused);
@@ -191,7 +191,7 @@ export class NgnTableSelectionColumn implements OnDestroy {
     if (this._isHeader) {
       table.toggleSelectAll();
     } else {
-      const row = this._bodyTr?.ngnTableBodyTr();
+      const row = this._bodyTr?.jigTableBodyTr();
       if (row) {
         table.handleCheckboxChange(row);
       }

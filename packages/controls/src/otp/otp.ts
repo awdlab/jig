@@ -12,9 +12,9 @@ import {
   untracked,
   viewChildren,
 } from '@angular/core';
-import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
-import { I18n } from '@ngneers/controls/i18n';
-import { otpControlTemplate } from '@ngneers/controls-themes/templates/otp';
+import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { I18n } from '@awdlab/jig/i18n';
+import { otpControlTemplate } from '@awdlab/jig-themes/templates/otp';
 
 /**
  * Coerce a requested length to a sane cell count (at least one). Coerces
@@ -37,17 +37,17 @@ function normalizeLength(value: number): number {
  * - Pasting a code distributes its characters across the cells.
  *
  * It is a self-contained value control — bind `[value]`/`(valueChange)` (or
- * `[(value)]`) directly on `<ngn-otp>`. The value is the composed string
+ * `[(value)]`) directly on `<jig-otp>`. The value is the composed string
  * (`null` while every cell is empty); {@link completed} fires once the whole
  * code is filled.
  *
  * @category control
  */
 @Component({
-  selector: 'ngn-otp',
+  selector: 'jig-otp',
   templateUrl: './otp.html',
-  imports: [NgnPt],
-  providers: [provideSelf(NgnOtp)],
+  imports: [JigPt],
+  providers: [provideSelf(JigOtp)],
   host: {
     role: 'group',
     '[attr.aria-label]': 'label()',
@@ -56,7 +56,7 @@ function normalizeLength(value: number): number {
     '(focusout)': 'onFocusOut($event)',
   },
 })
-export class NgnOtp extends ValueControlBase<'otp', string | null> {
+export class JigOtp extends ValueControlBase<'otp', string | null> {
   protected readonly theme = this.injectThemeTemplate(otpControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),

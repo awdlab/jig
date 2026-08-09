@@ -1,13 +1,13 @@
 import { Component, signal, ViewEncapsulation } from '@angular/core';
-import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnAvatar } from '@ngneers/controls/avatar';
-import { NgnListBox } from '@ngneers/controls/list-box';
+import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigAvatar } from '@awdlab/jig/avatar';
+import { JigListBox } from '@awdlab/jig/list-box';
 
-import { NgnDocsSectionShell } from './section-shell';
+import { JigDocsSectionShell } from './section-shell';
 import { style } from '../../utils/code/prism';
 
-import type { NgnPassthrough } from '@ngneers/controls/base';
+import type { JigPassthrough } from '@awdlab/jig/base';
 
 type Mode = 'pt' | 'templated' | 'theme' | 'unstyled';
 
@@ -20,27 +20,27 @@ interface Person {
 
 /** One list-box, four customization levels — one accordion panel each. */
 @Component({
-  selector: 'ngn-docs-customization-section',
+  selector: 'jig-docs-customization-section',
   imports: [
-    NgnDocsSectionShell,
-    NgnListBox,
-    NgnTemplate,
-    NgnAvatar,
-    NgnAccordion,
-    NgnAccordionPanel,
+    JigDocsSectionShell,
+    JigListBox,
+    JigTemplate,
+    JigAvatar,
+    JigAccordion,
+    JigAccordionPanel,
   ],
   // None so the #unstyled-demo rules emit as global CSS, scoped by the id.
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
       /* Demo CSS for the "Unstyled" mode — id-scoped to this one control. */
-      #unstyled-demo .ngn-list-box-root {
+      #unstyled-demo .jig-list-box-root {
         display: flex;
         flex-direction: column;
         gap: 0.625rem;
       }
 
-      #unstyled-demo .ngn-list-box-item {
+      #unstyled-demo .jig-list-box-item {
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -57,12 +57,12 @@ interface Person {
           transform 0.15s ease;
       }
 
-      #unstyled-demo .ngn-list-box-item:hover {
+      #unstyled-demo .jig-list-box-item:hover {
         border-color: #b59a3f;
         transform: translateX(2px);
       }
 
-      #unstyled-demo .ngn-list-box-item-selected {
+      #unstyled-demo .jig-list-box-item-selected {
         background: #fbf2cf;
         border-color: #b59a3f;
         border-left-color: #8a6d12;
@@ -71,16 +71,16 @@ interface Person {
 
       /* Shared per-level layout: description, demo card, code pane. */
       .level-lead {
-        margin-bottom: var(--ngn-size-padding-xl);
+        margin-bottom: var(--jig-size-padding-xl);
         max-width: 70ch;
-        font-size: var(--ngn-font-size-md);
-        color: var(--ngn-color-surface-600);
+        font-size: var(--jig-font-size-md);
+        color: var(--jig-color-surface-600);
       }
 
       .level-grid {
         display: grid;
         align-items: stretch;
-        gap: var(--ngn-size-padding-xl);
+        gap: var(--jig-size-padding-xl);
       }
 
       @media (width >= 64rem) {
@@ -93,19 +93,19 @@ interface Person {
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: var(--ngn-size-padding-xl);
+        padding: var(--jig-size-padding-xl);
       }
 
       .level-code {
         overflow-x: auto;
-        border-radius: var(--ngn-size-rounded-lg);
-        padding: var(--ngn-size-padding-lg);
-        font-size: var(--ngn-font-size-sm);
+        border-radius: var(--jig-size-rounded-lg);
+        padding: var(--jig-size-padding-lg);
+        font-size: var(--jig-font-size-sm);
       }
     `,
   ],
   template: `
-    <ngn-docs-section-shell
+    <jig-docs-section-shell
       layout="full"
       eyebrow="Customization"
       heading="Total control over every control"
@@ -113,8 +113,8 @@ interface Person {
     >
       <!-- Escalation order: light restyle → richer content → own design system →
            full visual freedom. "Unstyled" is the most radical, so it goes last. -->
-      <ngn-accordion [lazy]="true" [(expandedPanels)]="expandedPanels">
-        <ngn-accordion-panel panelId="pt" header="Passthrough">
+      <jig-accordion [lazy]="true" [(expandedPanels)]="expandedPanels">
+        <jig-accordion-panel panelId="pt" header="Passthrough">
           <ng-template #content>
             <p class="level-lead">
               Passthrough reaches into any internal scope of a control — apply classes, inline
@@ -123,7 +123,7 @@ interface Person {
             </p>
             <div class="level-grid">
               <div class="card level-demo">
-                <ngn-list-box
+                <jig-list-box
                   class="w-full"
                   selectable
                   [items]="people"
@@ -134,9 +134,9 @@ interface Person {
               <pre class="level-code"><code class="prism" [innerHTML]="code().pt"></code></pre>
             </div>
           </ng-template>
-        </ngn-accordion-panel>
+        </jig-accordion-panel>
 
-        <ngn-accordion-panel panelId="templated" header="Templated">
+        <jig-accordion-panel panelId="templated" header="Templated">
           <ng-template #content>
             <p class="level-lead">
               Replace the content of any slot with your own markup. Templates are fully type-safe
@@ -145,37 +145,37 @@ interface Person {
             </p>
             <div class="level-grid">
               <div class="card level-demo">
-                <ngn-list-box
+                <jig-list-box
                   #tplBox
                   class="w-full"
                   selectable
                   [items]="people"
                   [(value)]="selected"
                 >
-                  <ng-template #item [ngnTemplate]="tplBox.templateTypes.item" let-item>
-                    <span class="flex w-full items-center gap-(--ngn-size-padding-md)">
-                      <ngn-avatar [initials]="item?.initials" [size]="32" />
+                  <ng-template #item [jigTemplate]="tplBox.templateTypes.item" let-item>
+                    <span class="flex w-full items-center gap-(--jig-size-padding-md)">
+                      <jig-avatar [initials]="item?.initials" [size]="32" />
                       <span class="flex flex-col">
-                        <span class="font-(--ngn-font-weight-semibold) text-(--ngn-color-text)">{{
+                        <span class="font-(--jig-font-weight-semibold) text-(--jig-color-text)">{{
                           item?.label
                         }}</span>
                         <span
-                          class="text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-500)"
+                          class="text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)"
                           >{{ item?.role }}</span
                         >
                       </span>
                     </span>
                   </ng-template>
-                </ngn-list-box>
+                </jig-list-box>
               </div>
               <pre
                 class="level-code"
               ><code class="prism" [innerHTML]="code().templated"></code></pre>
             </div>
           </ng-template>
-        </ngn-accordion-panel>
+        </jig-accordion-panel>
 
-        <ngn-accordion-panel panelId="theme" header="Custom theme">
+        <jig-accordion-panel panelId="theme" header="Custom theme">
           <ng-template #content>
             <p class="level-lead">
               Extend the functional base theme once and every instance updates automatically —
@@ -183,7 +183,7 @@ interface Person {
             </p>
             <div class="level-grid">
               <div class="card level-demo">
-                <ngn-list-box
+                <jig-list-box
                   class="w-full"
                   selectable
                   [items]="people"
@@ -194,9 +194,9 @@ interface Person {
               <pre class="level-code"><code class="prism" [innerHTML]="code().theme"></code></pre>
             </div>
           </ng-template>
-        </ngn-accordion-panel>
+        </jig-accordion-panel>
 
-        <ngn-accordion-panel panelId="unstyled" header="Unstyled">
+        <jig-accordion-panel panelId="unstyled" header="Unstyled">
           <ng-template #content>
             <p class="level-lead">
               Strip every bit of theme styling while keeping all accessibility and behaviour intact,
@@ -206,7 +206,7 @@ interface Person {
             <div class="level-grid">
               <div class="card level-demo">
                 <div id="unstyled-demo" class="w-full">
-                  <ngn-list-box
+                  <jig-list-box
                     class="w-full"
                     [unstyled]="true"
                     selectable
@@ -220,12 +220,12 @@ interface Person {
               ><code class="prism" [innerHTML]="code().unstyled"></code></pre>
             </div>
           </ng-template>
-        </ngn-accordion-panel>
-      </ngn-accordion>
-    </ngn-docs-section-shell>
+        </jig-accordion-panel>
+      </jig-accordion>
+    </jig-docs-section-shell>
   `,
 })
-export class NgnDocsCustomizationSection {
+export class JigDocsCustomizationSection {
   protected readonly expandedPanels = signal<string[]>(['pt']);
 
   protected readonly people: readonly Person[] = [
@@ -237,54 +237,54 @@ export class NgnDocsCustomizationSection {
 
   protected readonly selected = signal<string | null>('ada');
 
-  protected readonly ptOverrides: NgnPassthrough<'listBox'> = {
+  protected readonly ptOverrides: JigPassthrough<'listBox'> = {
     root: {
       $styles: {
         borderRadius: '0',
-        borderColor: 'var(--ngn-color-primary-300)',
+        borderColor: 'var(--jig-color-primary-300)',
         borderWidth: '1px',
-        padding: 'var(--ngn-size-padding-sm)',
+        padding: 'var(--jig-size-padding-sm)',
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--ngn-size-padding-sm)',
+        gap: 'var(--jig-size-padding-sm)',
       },
     },
     item: {
       $styles: {
         borderRadius: '0',
-        padding: 'var(--ngn-size-padding-md)',
+        padding: 'var(--jig-size-padding-md)',
         transition: 'background 0.15s ease, color 0.15s ease',
       },
     },
     'item-selected': {
       $styles: {
-        background: 'var(--ngn-color-primary-500)',
-        color: 'var(--ngn-color-primary-50)',
-        fontWeight: 'var(--ngn-font-weight-semibold)',
+        background: 'var(--jig-color-primary-500)',
+        color: 'var(--jig-color-primary-50)',
+        fontWeight: 'var(--jig-font-weight-semibold)',
       },
     },
   };
 
-  protected readonly themeOverrides: NgnPassthrough<'listBox'> = {
+  protected readonly themeOverrides: JigPassthrough<'listBox'> = {
     root: {
       $styles: {
-        borderRadius: 'var(--ngn-size-rounded-lg)',
-        borderColor: 'var(--ngn-color-primary-500)',
+        borderRadius: 'var(--jig-size-rounded-lg)',
+        borderColor: 'var(--jig-color-primary-500)',
         borderWidth: '2px',
-        background: 'var(--ngn-color-surface-50)',
-        padding: 'var(--ngn-size-padding-md)',
+        background: 'var(--jig-color-surface-50)',
+        padding: 'var(--jig-size-padding-md)',
       },
     },
     item: {
       $styles: {
-        borderRadius: 'var(--ngn-size-rounded-lg)',
-        fontWeight: 'var(--ngn-font-weight-semibold)',
+        borderRadius: 'var(--jig-size-rounded-lg)',
+        fontWeight: 'var(--jig-font-weight-semibold)',
       },
     },
     'item-selected': {
       $styles: {
-        background: 'var(--ngn-color-primary-600)',
-        color: 'var(--ngn-color-primary-50)',
+        background: 'var(--jig-color-primary-600)',
+        color: 'var(--jig-color-primary-50)',
       },
     },
   };
@@ -304,30 +304,30 @@ export class NgnDocsCustomizationSection {
 }
 
 const CODE_BY_MODE: Record<Mode, string> = {
-  pt: `<ngn-list-box
+  pt: `<jig-list-box
   [items]="people"
   [pt]="{
     root: { $styles: { borderRadius: '0' } },
     item: { $styles: { borderRadius: '0' } },
     'item-selected': {
-      $styles: { background: 'var(--ngn-color-primary-500)' },
+      $styles: { background: 'var(--jig-color-primary-500)' },
     },
   }"
 />`,
-  templated: `<ngn-list-box #listBox [items]="people">
+  templated: `<jig-list-box #listBox [items]="people">
   <ng-template
-    [ngnTemplate]="listBox.templateTypes.item"
+    [jigTemplate]="listBox.templateTypes.item"
     let-item
   >
-    <ngn-avatar [initials]="item.initials" />
+    <jig-avatar [initials]="item.initials" />
     <span>
       <strong>{{ item.label }}</strong>
       <small>{{ item.role }}</small>
     </span>
   </ng-template>
-</ngn-list-box>`,
-  theme: `import { createTheme, createThemePart } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+</jig-list-box>`,
+  theme: `import { createTheme, createThemePart } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 
 const listBox = createThemePart({
   base: baseStyles.listBox, // extend the functional base
@@ -337,19 +337,19 @@ const listBox = createThemePart({
   \` },
 });
 
-provideNgnControls({ theme: { preset: createTheme({ listBox }) } });`,
+provideJigControls({ theme: { preset: createTheme({ listBox }) } });`,
   unstyled: `<!-- base theme only — bring your own CSS -->
 <div id="unstyled-demo">
-  <ngn-list-box [items]="people" [unstyled]="true" selectable />
+  <jig-list-box [items]="people" [unstyled]="true" selectable />
 </div>
 
 /* global styles or a <style> tag — no ::ng-deep needed */
-#unstyled-demo .ngn-list-box-item {
+#unstyled-demo .jig-list-box-item {
   border-left: 4px solid #d8d2c4;
   border-radius: 0.5rem;
   background: #faf8f2;
 }
-#unstyled-demo .ngn-list-box-item-selected {
+#unstyled-demo .jig-list-box-item-selected {
   background: #fbf2cf;
   border-left-color: #8a6d12;
 }`,

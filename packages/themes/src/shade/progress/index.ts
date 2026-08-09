@@ -1,11 +1,7 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import {
-  animationTemplate,
-  colorsTemplate,
-  sizesTemplate,
-} from '@ngneers/controls-themes/shade/base';
-import { progressControlTemplate } from '@ngneers/controls-themes/templates/progress';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { animationTemplate, colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
+import { progressControlTemplate } from '@awdlab/jig-themes/templates/progress';
 
 export const progressStyles = createThemePart({
   controlTemplate: progressControlTemplate,

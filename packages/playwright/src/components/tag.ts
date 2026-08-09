@@ -1,8 +1,8 @@
-import { tagControlTemplate } from '@ngneers/controls-themes/templates/tag';
+import { tagControlTemplate } from '@awdlab/jig-themes/templates/tag';
 import { themeClasses } from '../utils/theme';
 import test, { expect, type Locator } from '@playwright/test';
 
-export class NgnTagHarness {
+export class JigTagHarness {
   public readonly classes = themeClasses(tagControlTemplate);
 
   public readonly locator: Locator;

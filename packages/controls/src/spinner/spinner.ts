@@ -1,22 +1,22 @@
 import { booleanAttribute, Component, input, computed } from '@angular/core';
-import { NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
-import { spinnerControlTemplate } from '@ngneers/controls-themes/templates/spinner';
+import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
+import { spinnerControlTemplate } from '@awdlab/jig-themes/templates/spinner';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'ngn-spinner',
+  selector: 'jig-spinner',
   templateUrl: './spinner.html',
-  imports: [NgnPt],
-  providers: [provideSelf(NgnSpinner)],
+  imports: [JigPt],
+  providers: [provideSelf(JigSpinner)],
   host: {
     role: 'status',
     '[style.--size]': 'size()',
     '[style.--thickness]': 'thickness() || null',
   },
 })
-export class NgnSpinner extends NgnBase<'spinner'> {
+export class JigSpinner extends JigBase<'spinner'> {
   protected readonly theme = this.injectThemeTemplate(spinnerControlTemplate, {
     root: true,
     centered: () => !!this.centered(),

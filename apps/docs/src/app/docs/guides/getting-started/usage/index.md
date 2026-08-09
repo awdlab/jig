@@ -2,29 +2,29 @@ With the [provider registered](/guides/installation), you're ready to render con
 
 ### Import from subpaths
 
-The root `@ngneers/controls` entry point is intentionally empty — every control has its
+The root `@awdlab/jig` entry point is intentionally empty — every control has its
 own subpath, so you only bundle what you import:
 
 ```ts
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnSelect } from '@ngneers/controls/select';
-import { provideNgnControls } from '@ngneers/controls/api/ng';
+import { JigButton } from '@awdlab/jig/button';
+import { JigSelect } from '@awdlab/jig/select';
+import { provideJigControls } from '@awdlab/jig/api/ng';
 ```
 
 ### Render a control
 
 Controls are standalone — add them to a component's `imports` and use them in the
-template. Some are elements (`ngn-select`), some are attribute directives on native
-elements (`button[ngnButton]`, `input[ngnInput]`):
+template. Some are elements (`jig-select`), some are attribute directives on native
+elements (`button[jigButton]`, `input[jigInput]`):
 
 ```ts
 import { Component } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
+import { JigButton } from '@awdlab/jig/button';
 
 @Component({
   selector: 'app-example',
-  imports: [NgnButton],
-  template: `<button ngnButton kind="primary">Save</button>`,
+  imports: [JigButton],
+  template: `<button jigButton kind="primary">Save</button>`,
 })
 export class ExampleComponent {}
 ```
@@ -39,11 +39,11 @@ without `ControlValueAccessor`:
 
 ```ts
 @Component({
-  imports: [NgnInput, NgnInputField],
+  imports: [JigInput, JigInputField],
   template: `
-    <ngn-input-field>
-      <input ngnInput [value]="name()" (valueChange)="name.set($event ?? '')" />
-    </ngn-input-field>
+    <jig-input-field>
+      <input jigInput [value]="name()" (valueChange)="name.set($event ?? '')" />
+    </jig-input-field>
   `,
 })
 export class NameField {

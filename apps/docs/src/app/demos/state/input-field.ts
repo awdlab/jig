@@ -1,26 +1,26 @@
 import { Component } from '@angular/core';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnState } from '@ngneers/controls/state';
-import { NgnTooltip } from '@ngneers/controls/tooltip';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigState } from '@awdlab/jig/state';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 
 @Component({
-  imports: [NgnState, NgnInput, NgnInputField, NgnTooltip],
-  selector: 'ngn-demo-state-input-field',
+  imports: [JigState, JigInput, JigInputField, JigTooltip],
+  selector: 'jig-demo-state-input-field',
   template: `
     <div class="grid max-w-lg gap-4">
-      <ngn-input-field label="Repository">
-        <input ngnInput value="@ngneers/controls" />
-        <ngn-state kind="success" />
-      </ngn-input-field>
-      <ngn-input-field label="Package name">
-        <input ngnInput value="controls" />
-        <ngn-state kind="warning" ngnTooltip="Unknown package name." />
-      </ngn-input-field>
-      <ngn-input-field label="Publish target">
-        <input ngnInput value="production" />
-        <ngn-state kind="loading" />
-      </ngn-input-field>
+      <jig-input-field label="Repository">
+        <input jigInput value="@awdlab/jig" />
+        <jig-state kind="success" />
+      </jig-input-field>
+      <jig-input-field label="Package name">
+        <input jigInput value="controls" />
+        <jig-state kind="warning" jigTooltip="Unknown package name." />
+      </jig-input-field>
+      <jig-input-field label="Publish target">
+        <input jigInput value="production" />
+        <jig-state kind="loading" />
+      </jig-input-field>
     </div>
   `,
 })

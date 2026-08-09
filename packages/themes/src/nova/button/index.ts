@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   colorsTemplate,
   fontTemplate,
@@ -7,8 +7,8 @@ import {
   shadowTemplate,
   sizesTemplate,
   themedColors,
-} from '@ngneers/controls-themes/nova/base';
-import { buttonControlTemplate } from '@ngneers/controls-themes/templates/button';
+} from '@awdlab/jig-themes/nova/base';
+import { buttonControlTemplate } from '@awdlab/jig-themes/templates/button';
 
 export const buttonStyles = createThemePart({
   controlTemplate: buttonControlTemplate,

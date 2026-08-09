@@ -1,7 +1,7 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
-import { editInplaceControlTemplate } from '@ngneers/controls-themes/templates/edit-inplace';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/nova/base';
+import { editInplaceControlTemplate } from '@awdlab/jig-themes/templates/edit-inplace';
 
 export const editInplaceStyles = createThemePart({
   controlTemplate: editInplaceControlTemplate,

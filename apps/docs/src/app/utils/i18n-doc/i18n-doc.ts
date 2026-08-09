@@ -1,6 +1,6 @@
 import { Component, computed, effect, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { loadLanguage, type Translations } from '@ngneers/controls/i18n';
+import { loadLanguage, type Translations } from '@awdlab/jig/i18n';
 
 import { getMarked } from '../md/marked';
 
@@ -33,7 +33,7 @@ function flatten(prefix: string, values: unknown, descriptions: unknown): I18nRo
  * library's `en` translations, so it can never drift from the source.
  */
 @Component({
-  selector: 'ngn-docs-i18n',
+  selector: 'jig-docs-i18n',
   templateUrl: './i18n-doc.html',
   // Reuse the shared markdown content styles verbatim — the template wraps its
   // output in a `.md` div so the same `:host ::ng-deep .md …` rules apply here.
@@ -43,7 +43,7 @@ function flatten(prefix: string, values: unknown, descriptions: unknown): I18nRo
   },
   imports: [RouterLink],
 })
-export class NgnDocsI18n {
+export class JigDocsI18n {
   readonly data = input.required<I18nDoc>();
 
   private readonly _en = signal<Translations | null>(null);

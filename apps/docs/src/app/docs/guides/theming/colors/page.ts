@@ -1,11 +1,11 @@
-import { NgnThemeColorsDemo } from '../../../../page-components/colors';
+import { JigThemeColorsDemo } from '../../../../page-components/colors';
 
-import type { NgnDocsPage } from '../../../../utils/page/types';
+import type { JigDocsPage } from '../../../../utils/page/types';
 
-export const ColorsPage: NgnDocsPage = {
+export const ColorsPage: JigDocsPage = {
   kind: 'single',
   title: `Colors`,
 
   mdFile: 'guides/theming/colors/index.md',
-  components: [NgnThemeColorsDemo],
+  components: [JigThemeColorsDemo],
 };

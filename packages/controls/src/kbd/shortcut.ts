@@ -1,6 +1,6 @@
-import { notNullish } from '@ngneers/controls/utils';
+import { notNullish } from '@awdlab/jig/utils';
 
-import { isMacPlatform } from '@ngneers/controls/api/ng';
+import { isMacPlatform } from '@awdlab/jig/api/ng';
 
 /** A shortcut with `mod` already resolved to the platform's primary modifier. */
 export type ParsedShortcut = {

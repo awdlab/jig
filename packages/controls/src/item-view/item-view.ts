@@ -11,16 +11,11 @@ import {
   viewChild,
   viewChildren,
 } from '@angular/core';
-import {
-  elementSizeSignal,
-  elementsSizesSignal,
-  NgnTemplate,
-  Platform,
-} from '@ngneers/controls/api/ng';
-import { NgnPt, provideSelf } from '@ngneers/controls/base';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { areArraysDeepEqual, throwExp } from '@ngneers/controls/utils';
-import { itemViewControlTemplate } from '@ngneers/controls-themes/templates/item-view';
+import { elementSizeSignal, elementsSizesSignal, JigTemplate, Platform } from '@awdlab/jig/api/ng';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigIcon } from '@awdlab/jig/icon';
+import { areArraysDeepEqual, throwExp } from '@awdlab/jig/utils';
+import { itemViewControlTemplate } from '@awdlab/jig-themes/templates/item-view';
 
 import {
   calculateItemViewLayout,
@@ -31,7 +26,7 @@ import {
 import { ItemViewTemplates } from './item-view-templates';
 
 import type { OverflowStrategy } from './types';
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 type RenderItem<T> =
   | {
@@ -57,16 +52,16 @@ type RenderItem<T> =
  * @category control
  */
 @Component({
-  selector: 'ngn-item-view',
+  selector: 'jig-item-view',
   templateUrl: './item-view.html',
-  imports: [NgnPt, NgTemplateOutlet, NgnTemplate, NgnIcon],
-  providers: [provideSelf(NgnItemView)],
+  imports: [JigPt, NgTemplateOutlet, JigTemplate, JigIcon],
+  providers: [provideSelf(JigItemView)],
   host: {
     '[attr.role]': '"list"',
-    '[style.--ngn-item-view-content-width]': 'contentWidthPx()',
+    '[style.--jig-item-view-content-width]': 'contentWidthPx()',
   },
 })
-export class NgnItemView<T extends object, IdField extends keyof T>
+export class JigItemView<T extends object, IdField extends keyof T>
   extends ItemViewTemplates<T>
   implements AfterViewInit
 {
@@ -212,7 +207,7 @@ export class NgnItemView<T extends object, IdField extends keyof T>
         return 0;
       }
       const lastItem = overflowCheckOrder[overflowCheckOrder.length - 1];
-      return (lastItem ?? throwExp('NgnItemView', 'Unexpected empty entry in overflowCheckOrder'))
+      return (lastItem ?? throwExp('JigItemView', 'Unexpected empty entry in overflowCheckOrder'))
         .index;
     };
 

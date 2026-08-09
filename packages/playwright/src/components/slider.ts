@@ -1,8 +1,8 @@
-import { sliderControlTemplate } from '@ngneers/controls-themes/templates/slider';
+import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
 import { themeClasses } from '../utils/theme';
 import test, { expect, type Locator } from '@playwright/test';
 
-export class NgnSliderHarness {
+export class JigSliderHarness {
   public readonly classes = themeClasses(sliderControlTemplate);
 
   public readonly locator: Locator;

@@ -1,5 +1,5 @@
 import type { Placement } from '@floating-ui/dom';
-import type { TimeSpan } from '@ngneers/controls/utils';
+import type { TimeSpan } from '@awdlab/jig/utils';
 
 export type TooltipOptions = {
   /**

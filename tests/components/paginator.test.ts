@@ -4,7 +4,7 @@ import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
 // 30 items at 10 per page => 3 pages, few enough to render without overflow.
-const TEMPLATE = `<ngn-paginator
+const TEMPLATE = `<jig-paginator
   [totalItems]="inputs().totalItems"
   [pageSize]="inputs().pageSize"
   [fixedPageSize]="inputs().fixedPageSize"
@@ -16,7 +16,7 @@ const baseInputs = { totalItems: 30, pageSize: 10, fixedPageSize: false };
 test('renders a page button per page and marks the current one', async ({ page }) => {
   await loadComponent(page, { template: TEMPLATE, imports: ['paginator'] }, { inputs: baseInputs });
 
-  const paginator = page.locator('ngn-paginator');
+  const paginator = page.locator('jig-paginator');
   await expect(paginator.getByLabel('Previous page')).toBeVisible();
   await expect(paginator.getByLabel('Next page')).toBeVisible();
 
@@ -33,7 +33,7 @@ test('next / previous navigation moves the current page and emits state', async 
     { inputs: baseInputs }
   );
 
-  const paginator = page.locator('ngn-paginator');
+  const paginator = page.locator('jig-paginator');
   const current = paginator.locator('[aria-current="page"]');
 
   await paginator.getByLabel('Next page').click();
@@ -59,7 +59,7 @@ test('clicking a page number jumps directly to that page', async ({ page }) => {
     { inputs: baseInputs }
   );
 
-  const paginator = page.locator('ngn-paginator');
+  const paginator = page.locator('jig-paginator');
   await paginator.getByRole('button', { name: '3', exact: true }).click();
 
   await expect(paginator.locator('[aria-current="page"]')).toHaveText('3');
@@ -69,7 +69,7 @@ test('clicking a page number jumps directly to that page', async ({ page }) => {
 test('navigation clamps at the first and last page', async ({ page }) => {
   await loadComponent(page, { template: TEMPLATE, imports: ['paginator'] }, { inputs: baseInputs });
 
-  const paginator = page.locator('ngn-paginator');
+  const paginator = page.locator('jig-paginator');
   const current = paginator.locator('[aria-current="page"]');
 
   // Already on the first page — Previous is disabled.
@@ -91,15 +91,15 @@ test('fixedPageSize hides the page-size selector', async ({ page }) => {
     { inputs: { ...baseInputs, fixedPageSize: true } }
   );
 
-  const paginator = page.locator('ngn-paginator');
-  await expect(paginator.locator('ngn-select')).toHaveCount(0);
+  const paginator = page.locator('jig-paginator');
+  await expect(paginator.locator('jig-select')).toHaveCount(0);
 
   // Re-enabling the selector renders the select control.
   await handle.setInputs({ fixedPageSize: false });
-  await expect(paginator.locator('ngn-select')).toHaveCount(1);
+  await expect(paginator.locator('jig-select')).toHaveCount(1);
 });
 
-const COMPACT_TEMPLATE = `<ngn-paginator
+const COMPACT_TEMPLATE = `<jig-paginator
   [mode]="'compact'"
   [hasNext]="inputs().hasNext"
   [pageSize]="inputs().pageSize"
@@ -113,7 +113,7 @@ test('compact mode shows only prev/next, no page numbers', async ({ page }) => {
     { inputs: { hasNext: true, pageSize: 10 } }
   );
 
-  const paginator = page.locator('ngn-paginator');
+  const paginator = page.locator('jig-paginator');
   // No clickable page-number buttons in compact mode…
   await expect(paginator.getByRole('button', { name: /^\d+$/ })).toHaveCount(0);
   await expect(paginator.getByLabel('Next page')).toBeEnabled();
@@ -131,7 +131,7 @@ test('compact mode disables next when hasNext is false', async ({ page }) => {
     { inputs: { hasNext: false, pageSize: 10 } }
   );
 
-  const paginator = page.locator('ngn-paginator');
+  const paginator = page.locator('jig-paginator');
   await expect(paginator.getByLabel('Next page')).toBeDisabled();
 
   await handle.setInputs({ hasNext: true });
@@ -145,7 +145,7 @@ test('compact mode advances a single page even with shift/ctrl held', async ({ p
     { inputs: { hasNext: true, pageSize: 10 } }
   );
 
-  const paginator = page.locator('ngn-paginator');
+  const paginator = page.locator('jig-paginator');
   const indicator = paginator.locator('[data-compact-page]');
   await expect(indicator).toHaveText('1');
 
@@ -166,7 +166,7 @@ test('accessibility (axe)', async ({ page }) => {
     { inputs: { ...baseInputs, fixedPageSize: true } }
   );
 
-  const paginator = page.locator('ngn-paginator');
+  const paginator = page.locator('jig-paginator');
   await expect(paginator.getByLabel('Next page')).toBeVisible();
 
   await expectNoA11yViolations(page);
@@ -179,6 +179,6 @@ test('visual', async ({ page }, testInfo) => {
     { inputs: baseInputs }
   );
 
-  await expect(page.locator('ngn-paginator [aria-current="page"]')).toHaveText('1');
+  await expect(page.locator('jig-paginator [aria-current="page"]')).toHaveText('1');
   await expectScreenshot(page, testInfo, 'pages');
 });

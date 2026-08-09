@@ -1,20 +1,20 @@
 import { Component, signal } from '@angular/core';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnSelectButton } from '@ngneers/controls/select-button';
-import { NgnSwitch } from '@ngneers/controls/switch';
-import { NgnTableModule } from '@ngneers/controls/table';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigSelectButton } from '@awdlab/jig/select-button';
+import { JigSwitch } from '@awdlab/jig/switch';
+import { JigTableModule } from '@awdlab/jig/table';
 type TableResizeMode = 'adjacent' | 'proportional' | 'push';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnTableModule, NgnTemplate, NgnSelectButton, NgnSwitch],
-  selector: 'ngn-demo-table-resizable',
+  imports: [JigTableModule, JigTemplate, JigSelectButton, JigSwitch],
+  selector: 'jig-demo-table-resizable',
   host: { style: 'display: block; width: 100%' },
   template: ` <div
       style="margin-bottom: 8px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;"
     >
-      <ngn-select-button [options]="modeOptions" [(value)]="resizeMode" />
+      <jig-select-button [options]="modeOptions" [(value)]="resizeMode" />
       @if (resizeMode() === 'proportional') {
         <label
           [for]="switch.inputId()"
@@ -22,10 +22,10 @@ import { exampleData } from '../../helper/data';
         >
           Lock resized
         </label>
-        <ngn-switch #switch [(value)]="lockSizes" />
+        <jig-switch #switch [(value)]="lockSizes" />
       }
     </div>
-    <ngn-table
+    <jig-table
       #table
       style="height: 400px; width: 100%"
       [rows]="rows"
@@ -35,22 +35,22 @@ import { exampleData } from '../../helper/data';
       [lockSizes]="lockSizes()"
     >
       <ng-template #header>
-        <tr ngnTableHeadTr>
-          <th [ngnTableTh]="table.column('id')" [size]="'100px'">ID</th>
-          <th [ngnTableTh]="table.column('name')" [size]="'2fr'">Name</th>
-          <th [ngnTableTh]="table.column('department')" [size]="'1fr'">Department</th>
-          <th [ngnTableTh]="table.column('location')" [size]="'1fr'">Location</th>
+        <tr jigTableHeadTr>
+          <th [jigTableTh]="table.column('id')" [size]="'100px'">ID</th>
+          <th [jigTableTh]="table.column('name')" [size]="'2fr'">Name</th>
+          <th [jigTableTh]="table.column('department')" [size]="'1fr'">Department</th>
+          <th [jigTableTh]="table.column('location')" [size]="'1fr'">Location</th>
         </tr>
       </ng-template>
-      <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-        <tr [ngnTableBodyTr]="row">
-          <td ngnTableTd>{{ row.data.id }}</td>
-          <td ngnTableTd>{{ row.data.name }}</td>
-          <td ngnTableTd>{{ row.data.department }}</td>
-          <td ngnTableTd>{{ row.data.location }}</td>
+      <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+        <tr [jigTableBodyTr]="row">
+          <td jigTableTd>{{ row.data.id }}</td>
+          <td jigTableTd>{{ row.data.name }}</td>
+          <td jigTableTd>{{ row.data.department }}</td>
+          <td jigTableTd>{{ row.data.location }}</td>
         </tr>
       </ng-template>
-    </ngn-table>`,
+    </jig-table>`,
 })
 export class Demo_Table_Resizable {
   protected readonly rows = exampleData.table(100);

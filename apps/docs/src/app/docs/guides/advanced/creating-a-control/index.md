@@ -18,7 +18,7 @@ control and theme share.
 
 ```ts
 // packages/themes/src/templates/widget/index.ts
-import { createControlTemplate } from '@ngneers/controls-themes/api';
+import { createControlTemplate } from '@awdlab/jig-themes/api';
 
 export const widgetControlTemplate = createControlTemplate({
   scope: 'widget',
@@ -29,7 +29,7 @@ export const widgetControlTemplate = createControlTemplate({
 **2. Register the scope** by adding it to the `ThemeTemplate` map in
 `packages/themes/src/templates/index.ts` — this makes `'widget'` a valid `ControlName`.
 
-**3. Write the component.** Extend `NgnBase<'scope'>` (presentational/attribute) or
+**3. Write the component.** Extend `JigBase<'scope'>` (presentational/attribute) or
 `ValueControlBase<'scope', V>` (form value). Add `provideSelf(Class)` so ancestors can find
 it via DI. Assign `injectThemeTemplate(...)` to the `theme` field; the optional second
 argument maps host classes to state.
@@ -37,16 +37,16 @@ argument maps host classes to state.
 ```ts
 // packages/controls/src/widget/widget.ts
 import { Component, input } from '@angular/core';
-import { NgnBase, provideSelf, NgnPt } from '@ngneers/controls/base';
-import { widgetControlTemplate } from '@ngneers/controls-themes/templates/widget';
+import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
+import { widgetControlTemplate } from '@awdlab/jig-themes/templates/widget';
 
 @Component({
-  selector: 'ngn-widget', // ngn- prefix, kebab === folder name
+  selector: 'jig-widget', // jig- prefix, kebab === folder name
   templateUrl: './widget.html',
-  imports: [NgnPt],
-  providers: [provideSelf(NgnWidget)],
+  imports: [JigPt],
+  providers: [provideSelf(JigWidget)],
 })
-export class NgnWidget extends NgnBase<'widget'> {
+export class JigWidget extends JigBase<'widget'> {
   protected readonly theme = this.injectThemeTemplate(widgetControlTemplate, 'root');
 
   /** Text shown after the icon. */
@@ -76,12 +76,12 @@ themes build before it resolves.
 
 ### Conventions (enforced)
 
-- **Selector:** `ngn-{name}` element, or a camelCase attribute (`ngnButton`, `ngnInput`)
+- **Selector:** `jig-{name}` element, or a camelCase attribute (`jigButton`, `jigInput`)
   for directives on native elements. Folder name and selector are the same kebab-case.
 - **Signals only:** `input()` / `model()` / `output()` — never `@Input()`/`@Output()`.
 - **Booleans:** `input(false, { transform: booleanAttribute })`.
 - **Icon inputs:** `icon`-prefixed (`iconClose`, not `closeIcon`).
-- **Directive input aliases:** `ngn{Directive}{Prop}`, where the alias suffix equals the
+- **Directive input aliases:** `jig{Directive}{Prop}`, where the alias suffix equals the
   property name (the `no-input-rename` convention).
 - **No component CSS** — styling only through theme parts.
 - Controls with template/projection inputs extract a `{Name}Templates` base class; flat

@@ -1,17 +1,17 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnSwitch } from '@ngneers/controls/switch';
+import { JigSwitch } from '@awdlab/jig/switch';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-switch-playground',
-  imports: [NgnSwitch, NgnDocsPlayground],
+  selector: 'jig-docs-switch-playground',
+  imports: [JigSwitch, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnSwitch', component: component() }]">
-      <ngn-switch #ref />
-    </ngn-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'JigSwitch', component: component() }]">
+      <jig-switch #ref />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsSwitchPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnSwitch });
+export class JigDocsSwitchPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigSwitch });
 }

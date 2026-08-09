@@ -9,26 +9,26 @@ import tablerPlus from '@iconify/icons-tabler/plus';
 import tablerSubtask from '@iconify/icons-tabler/subtask';
 import tablerSwitchHorizontal from '@iconify/icons-tabler/switch-horizontal';
 import tablerTrash from '@iconify/icons-tabler/trash';
-import { NgnAvatar, NgnAvatarGroup } from '@ngneers/controls/avatar';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnCheckbox } from '@ngneers/controls/checkbox';
-import { NgnDrawer } from '@ngneers/controls/drawer';
-import { NgnEditInplace } from '@ngneers/controls/edit-inplace';
-import { NgnFilter } from '@ngneers/controls/filter';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { type MenuItem, NgnMenu } from '@ngneers/controls/menu';
-import { NgnMessage } from '@ngneers/controls/message';
-import { NgnRadio, NgnRadioGroup } from '@ngneers/controls/radio';
-import { NgnSelectButton } from '@ngneers/controls/select-button';
-import { NgnSlider } from '@ngneers/controls/slider';
-import { injectSnackbarCreator } from '@ngneers/controls/snackbar';
-import { NgnTab, NgnTabs } from '@ngneers/controls/tabs';
-import { NgnTag } from '@ngneers/controls/tag';
-import { NgnTree } from '@ngneers/controls/tree';
-import { NgnToggleButton } from '@ngneers/controls/toggle-button';
-import { NgnTooltip } from '@ngneers/controls/tooltip';
-import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
-import { NgnUpload, type NgnUploadFile } from '@ngneers/controls/upload';
+import { JigAvatar, JigAvatarGroup } from '@awdlab/jig/avatar';
+import { JigButton } from '@awdlab/jig/button';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
+import { JigDrawer } from '@awdlab/jig/drawer';
+import { JigEditInplace } from '@awdlab/jig/edit-inplace';
+import { JigFilter } from '@awdlab/jig/filter';
+import { JigIcon } from '@awdlab/jig/icon';
+import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
+import { JigMessage } from '@awdlab/jig/message';
+import { JigRadio, JigRadioGroup } from '@awdlab/jig/radio';
+import { JigSelectButton } from '@awdlab/jig/select-button';
+import { JigSlider } from '@awdlab/jig/slider';
+import { injectSnackbarCreator } from '@awdlab/jig/snackbar';
+import { JigTab, JigTabs } from '@awdlab/jig/tabs';
+import { JigTag } from '@awdlab/jig/tag';
+import { JigTree } from '@awdlab/jig/tree';
+import { JigToggleButton } from '@awdlab/jig/toggle-button';
+import { JigTooltip } from '@awdlab/jig/tooltip';
+import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
+import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
 
 import {
   BUG_ICON,
@@ -48,32 +48,32 @@ import {
 type Density = 'comfortable' | 'compact';
 
 @Component({
-  selector: 'ngn-docs-project-board',
+  selector: 'jig-docs-project-board',
   templateUrl: './project-board.html',
   imports: [
-    NgnAccordion,
-    NgnAccordionPanel,
-    NgnAvatar,
-    NgnAvatarGroup,
-    NgnButton,
-    NgnCheckbox,
-    NgnDrawer,
-    NgnEditInplace,
-    NgnFilter,
-    NgnIcon,
-    NgnMenu,
-    NgnMessage,
-    NgnRadio,
-    NgnRadioGroup,
-    NgnSelectButton,
-    NgnSlider,
-    NgnTab,
-    NgnTabs,
-    NgnTag,
-    NgnToggleButton,
-    NgnTree,
-    NgnTooltip,
-    NgnUpload,
+    JigAccordion,
+    JigAccordionPanel,
+    JigAvatar,
+    JigAvatarGroup,
+    JigButton,
+    JigCheckbox,
+    JigDrawer,
+    JigEditInplace,
+    JigFilter,
+    JigIcon,
+    JigMenu,
+    JigMessage,
+    JigRadio,
+    JigRadioGroup,
+    JigSelectButton,
+    JigSlider,
+    JigTab,
+    JigTabs,
+    JigTag,
+    JigToggleButton,
+    JigTree,
+    JigTooltip,
+    JigUpload,
   ],
 })
 export class ProjectBoard {
@@ -125,7 +125,7 @@ export class ProjectBoard {
   /** Show only cards assigned to the current user. */
   protected readonly myTasksOnly = signal(false);
 
-  // -- Quick filter (ngn-filter over task titles) --
+  // -- Quick filter (jig-filter over task titles) --
   protected readonly filterResult = signal<readonly string[] | null>(null);
   protected readonly taskTitles = computed(() => this._tasks().map(t => t.title));
 
@@ -358,7 +358,7 @@ export class ProjectBoard {
   }
 
   /** Simulated attachment upload — appends the file and reports fake progress. */
-  protected onUpload(files: NgnUploadFile[], task: Task, up: NgnUpload): void {
+  protected onUpload(files: JigUploadFile[], task: Task, up: JigUpload): void {
     for (const file of files) {
       let progress = 0;
       const tick = setInterval(() => {

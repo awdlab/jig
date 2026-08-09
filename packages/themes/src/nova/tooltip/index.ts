@@ -1,12 +1,12 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
   fontTemplate,
   sizesTemplate,
-} from '@ngneers/controls-themes/nova/base';
-import { tooltipControlTemplate } from '@ngneers/controls-themes/templates/tooltip';
+} from '@awdlab/jig-themes/nova/base';
+import { tooltipControlTemplate } from '@awdlab/jig-themes/templates/tooltip';
 
 export const tooltipStyles = createThemePart({
   controlTemplate: tooltipControlTemplate,
@@ -31,14 +31,14 @@ export const tooltipStyles = createThemePart({
       }
 
       ${c('root')}:popover-open {
-        animation: ngn-tooltip-fade-in ${v('anim.time.fade')} ${v('anim.ease.fade')} forwards;
+        animation: jig-tooltip-fade-in ${v('anim.time.fade')} ${v('anim.ease.fade')} forwards;
       }
 
       ${c('closing')}:popover-open {
-        animation: ngn-tooltip-fade-out ${v('anim.time.fade')} ${v('anim.ease.fade')} forwards;
+        animation: jig-tooltip-fade-out ${v('anim.time.fade')} ${v('anim.ease.fade')} forwards;
       }
 
-      @keyframes ngn-tooltip-fade-in {
+      @keyframes jig-tooltip-fade-in {
         from {
           opacity: 0;
         }
@@ -47,7 +47,7 @@ export const tooltipStyles = createThemePart({
         }
       }
 
-      @keyframes ngn-tooltip-fade-out {
+      @keyframes jig-tooltip-fade-out {
         from {
           opacity: 1;
         }

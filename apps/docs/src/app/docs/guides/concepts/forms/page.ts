@@ -1,6 +1,6 @@
-import type { NgnDocsPage } from '../../../../utils/page/types';
+import type { JigDocsPage } from '../../../../utils/page/types';
 
-export const FormsPage: NgnDocsPage = {
+export const FormsPage: JigDocsPage = {
   kind: 'single',
   title: `Forms & Validation`,
 

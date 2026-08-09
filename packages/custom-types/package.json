@@ -1,19 +1,20 @@
 {
-  "name": "@ngneers/controls-custom-types",
-  "version": "0.0.1",
-  "description": "Shared TypeScript type contracts used across @ngneers/controls and its themes.",
+  "name": "@awdlab/jig-custom-types",
+  "version": "0.0.1-next.1",
+  "description": "Shared TypeScript type contracts used across @awdlab/jig and its themes.",
   "license": "MIT",
-  "homepage": "https://ngneers.dev",
+  "homepage": "https://jig.awdlab.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NGneers/controls.git",
+    "url": "git+https://github.com/awdlab/jig.git",
     "directory": "packages/custom-types"
   },
   "keywords": [
     "angular",
     "types",
     "typescript",
-    "ngneers-controls"
+    "awdlab",
+    "jig"
   ],
   "publishConfig": {
     "access": "public"

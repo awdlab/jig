@@ -12,7 +12,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "ngn",
+      "prefix": "jig",
       "architect": {
         "build": {
           "builder": "@angular/build:application",

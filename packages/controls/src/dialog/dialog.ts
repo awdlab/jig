@@ -19,24 +19,24 @@ import {
   type CloseBy,
   toModalCloseBy,
   toPopoverCloseBy,
-  NgnTemplate,
+  JigTemplate,
   type Openable,
-} from '@ngneers/controls/api/ng';
-import { NgnPt, provideSelf } from '@ngneers/controls/base';
-import { NgnActionButton, NgnButton } from '@ngneers/controls/button';
-import { NgnDefer } from '@ngneers/controls/defer';
-import { NgnMovable, NgnResizable } from '@ngneers/controls/directives';
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnKeyboardShortcut } from '@ngneers/controls/kbd';
-import { generateElementId } from '@ngneers/controls/utils-ng';
-import { dialogControlTemplate } from '@ngneers/controls-themes/templates/dialog';
+} from '@awdlab/jig/api/ng';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigActionButton, JigButton } from '@awdlab/jig/button';
+import { JigDefer } from '@awdlab/jig/defer';
+import { JigMovable, JigResizable } from '@awdlab/jig/directives';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigKeyboardShortcut } from '@awdlab/jig/kbd';
+import { generateElementId } from '@awdlab/jig/utils-ng';
+import { dialogControlTemplate } from '@awdlab/jig-themes/templates/dialog';
 
 import { DialogTemplates } from './dialog-templates';
 import { PromptDialogBase } from './prompt-dialog-base';
 
 import type { DialogSize } from './types';
-import type { NgnActionButtonConfig } from '@ngneers/controls/api';
+import type { JigActionButtonConfig } from '@awdlab/jig/api';
 
 type TypedContent = {
   template?: TemplateRef<unknown>;
@@ -48,27 +48,27 @@ type TypedContent = {
  * @category control
  */
 @Component({
-  selector: 'ngn-dialog',
+  selector: 'jig-dialog',
   imports: [
     NgTemplateOutlet,
-    NgnTemplate,
-    NgnMovable,
-    NgnDefer,
-    NgnPt,
-    NgnButton,
-    NgnActionButton,
+    JigTemplate,
+    JigMovable,
+    JigDefer,
+    JigPt,
+    JigButton,
+    JigActionButton,
     NgComponentOutlet,
-    NgnIcon,
-    NgnResizable,
-    NgnKeyboardShortcut,
+    JigIcon,
+    JigResizable,
+    JigKeyboardShortcut,
   ],
   templateUrl: './dialog.html',
 
-  providers: [provideSelf(NgnDialog)],
+  providers: [provideSelf(JigDialog)],
 })
-export class NgnDialog<
+export class JigDialog<
   T,
-  Buttons extends NgnActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
+  Buttons extends JigActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
 >
   extends DialogTemplates<T>
   implements Openable
@@ -181,7 +181,7 @@ export class NgnDialog<
       return {};
     }
     return {
-      ngnPromptDialogResolveFn: {
+      jigPromptDialogResolveFn: {
         button: latestButton.button,
         fn: (result: T extends PromptDialogBase<infer D, Buttons[number]['value']> ? D : never) => {
           this.promptResult.emit({

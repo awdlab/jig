@@ -19,7 +19,7 @@ const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
 /**
  * Library migration (capability 1). Knowledge-only: serves hand-authored
  * component + prop/event maps from source libraries (PrimeNG, Angular Material,
- * Syncfusion) onto ngn controls. The agent does the rewrites, verifying targets
+ * Syncfusion) onto jig controls. The agent does the rewrites, verifying targets
  * against get_control.
  */
 export function registerMigration(server: McpServer, pack: KnowledgePack): void {
@@ -39,7 +39,7 @@ export function registerMigration(server: McpServer, pack: KnowledgePack): void 
     {
       title: 'List migration sources',
       description:
-        'List the source component libraries with a migration map to ngn controls, and how ' +
+        'List the source component libraries with a migration map to jig controls, and how ' +
         'many components each covers. Call first when migrating from another library.',
       inputSchema: {},
     },
@@ -54,9 +54,9 @@ export function registerMigration(server: McpServer, pack: KnowledgePack): void 
   server.registerTool(
     'map_component',
     {
-      title: 'Map a component to ngn',
+      title: 'Map a component to jig',
       description:
-        'Map one source-library component onto its ngn equivalent, with prop/event mappings ' +
+        'Map one source-library component onto its jig equivalent, with prop/event mappings ' +
         'and gaps. Omit `component` to get the whole migration overview for a source.',
       inputSchema: {
         source: z.string().describe(`Source library slug: ${sources.join(', ')}.`),
@@ -88,7 +88,7 @@ export function registerMigration(server: McpServer, pack: KnowledgePack): void 
     {
       title: 'Search migration maps',
       description:
-        'Find the ngn equivalent for a source component or feature by keyword, across one ' +
+        'Find the jig equivalent for a source component or feature by keyword, across one ' +
         'source (if given) or all of them.',
       inputSchema: {
         query: z.string().describe('e.g. "dropdown", "date", "table pagination".'),
@@ -136,9 +136,9 @@ export function registerMigration(server: McpServer, pack: KnowledgePack): void 
   server.registerPrompt(
     'migrate_library',
     {
-      title: 'Migrate a library to ngn controls',
+      title: 'Migrate a library to jig controls',
       description:
-        'Guided workflow to migrate from PrimeNG / Angular Material / Syncfusion to ngn.',
+        'Guided workflow to migrate from PrimeNG / Angular Material / Syncfusion to jig.',
       argsSchema: {
         source: completable(z.string(), value =>
           sources.filter(s => s.startsWith((value ?? '').toLowerCase()))
@@ -155,11 +155,11 @@ export function registerMigration(server: McpServer, pack: KnowledgePack): void 
             content: {
               type: 'text',
               text:
-                `Help me migrate this project from ${label} to @ngneers/controls. Workflow:\n` +
+                `Help me migrate this project from ${label} to @awdlab/jig. Workflow:\n` +
                 `1. Inventory the ${label} components in use (grep the templates).\n` +
                 `2. For each, call map_component("${m?.source ?? source}", "<component>") to get ` +
-                `the ngn target + prop/event mapping. Use search_migration when unsure.\n` +
-                `3. Before rewriting, confirm the ngn target's real inputs with get_control.\n` +
+                `the jig target + prop/event mapping. Use search_migration when unsure.\n` +
+                `3. Before rewriting, confirm the jig target's real inputs with get_control.\n` +
                 `4. Rewrite templates + component code, honoring the [(ngModel)] → [(value)] and ` +
                 `input-field wrapping conventions. Flag any gaps rather than fabricating features.\n` +
                 `5. Build and visually verify each migrated screen.`,

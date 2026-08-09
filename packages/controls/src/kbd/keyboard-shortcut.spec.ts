@@ -2,47 +2,47 @@ import { Component, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
-import { NgnKeyboardShortcut, type NgnShortcutBinding } from './keyboard-shortcut';
+import { JigKeyboardShortcut, type JigShortcutBinding } from './keyboard-shortcut';
 
 @Component({
-  imports: [NgnKeyboardShortcut],
+  imports: [JigKeyboardShortcut],
   template: `
-    <div [ngnKeyboardShortcut]="bindings()">
+    <div [jigKeyboardShortcut]="bindings()">
       <button id="inner">Inner</button>
       <input id="text" />
     </div>
   `,
 })
 class ScopeHost {
-  public readonly bindings = signal<NgnShortcutBinding[]>([]);
-  public readonly directive = viewChild.required(NgnKeyboardShortcut);
+  public readonly bindings = signal<JigShortcutBinding[]>([]);
+  public readonly directive = viewChild.required(JigKeyboardShortcut);
 }
 
 @Component({
-  imports: [NgnKeyboardShortcut],
+  imports: [JigKeyboardShortcut],
   template: `
-    <div [ngnKeyboardShortcut]="outer()">
-      <div [ngnKeyboardShortcut]="inner()">
+    <div [jigKeyboardShortcut]="outer()">
+      <div [jigKeyboardShortcut]="inner()">
         <button id="deep">Deep</button>
       </div>
     </div>
   `,
 })
 class NestedHost {
-  public readonly outer = signal<NgnShortcutBinding[]>([]);
-  public readonly inner = signal<NgnShortcutBinding[]>([]);
+  public readonly outer = signal<JigShortcutBinding[]>([]);
+  public readonly inner = signal<JigShortcutBinding[]>([]);
 }
 
 @Component({
-  imports: [NgnKeyboardShortcut],
+  imports: [JigKeyboardShortcut],
   template: `
-    <div [ngnKeyboardShortcut]="bindings()">
+    <div [jigKeyboardShortcut]="bindings()">
       <button id="inner">Inner</button>
     </div>
   `,
 })
 class GlobalHost {
-  public readonly bindings = signal<NgnShortcutBinding[]>([]);
+  public readonly bindings = signal<JigShortcutBinding[]>([]);
 }
 
 /** Dispatches a bubbling keydown from outside every scope. */
@@ -75,7 +75,7 @@ function press(
   return event;
 }
 
-describe('NgnKeyboardShortcut', () => {
+describe('JigKeyboardShortcut', () => {
   it('fires the callback for a keydown from a focused descendant', () => {
     const fixture = TestBed.createComponent(ScopeHost);
     const calls: string[] = [];

@@ -2,19 +2,19 @@ import test, { type Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import type { InputsType } from '../../apps/test-wrapper/src/app/window.js';
 import { expectScreenshot } from '../helper/screenshot';
-import { NgnButtonGroupHarness } from '@ngneers/controls-playwright';
+import { JigButtonGroupHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 
 async function prepareTest(page: Page, inputs: InputsType = {}) {
   const handle = await loadComponent(page, {
     template: `
-        <ngn-button-group>
-          <button ngnButton kind="primary">Button 1</button>
-          <button ngnButton kind="primary">Button 2</button>
-          <button ngnButton kind="primary">Button 3</button>
-          <button ngnButton kind="primary">Button 4</button>
-          <button ngnButton kind="primary">Button 5</button>
-        </ngn-button-group>
+        <jig-button-group>
+          <button jigButton kind="primary">Button 1</button>
+          <button jigButton kind="primary">Button 2</button>
+          <button jigButton kind="primary">Button 3</button>
+          <button jigButton kind="primary">Button 4</button>
+          <button jigButton kind="primary">Button 5</button>
+        </jig-button-group>
       `,
     imports: ['buttonGroup', 'button'],
   });
@@ -24,7 +24,7 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
 test('base', async ({ page }, testInfo) => {
   const handle = await prepareTest(page);
 
-  const buttonGroup = new NgnButtonGroupHarness(page.locator('ngn-button-group'));
+  const buttonGroup = new JigButtonGroupHarness(page.locator('jig-button-group'));
   await buttonGroup.expectItemCount(5);
 
   await expectScreenshot(page, testInfo, 'horizontal');

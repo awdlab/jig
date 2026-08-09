@@ -1,25 +1,25 @@
 import { Component, signal } from '@angular/core';
-import { NgnCheckbox } from '@ngneers/controls/checkbox';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
 
 @Component({
-  imports: [NgnCheckbox],
-  selector: 'ngn-demo-checkbox-states',
+  imports: [JigCheckbox],
+  selector: 'jig-demo-checkbox-states',
   template: `
     Default:
-    <ngn-checkbox [value]="value()" (valueChange)="value.set($event)" />
+    <jig-checkbox [value]="value()" (valueChange)="value.set($event)" />
     Disabled:
-    <ngn-checkbox [value]="value()" (valueChange)="value.set($event)" disabled />
+    <jig-checkbox [value]="value()" (valueChange)="value.set($event)" disabled />
     Readonly:
-    <ngn-checkbox [value]="value()" (valueChange)="value.set($event)" readonly />
+    <jig-checkbox [value]="value()" (valueChange)="value.set($event)" readonly />
     Invalid:
-    <ngn-checkbox
+    <jig-checkbox
       [value]="value()"
       (valueChange)="value.set($event)"
       [invalidOn]="'immediate'"
       invalid
     />
     Invalid + Disabled:
-    <ngn-checkbox
+    <jig-checkbox
       [value]="value()"
       (valueChange)="value.set($event)"
       [invalidOn]="'immediate'"
@@ -27,7 +27,7 @@ import { NgnCheckbox } from '@ngneers/controls/checkbox';
       disabled
     />
     Invalid + Readonly:
-    <ngn-checkbox
+    <jig-checkbox
       [value]="value()"
       (valueChange)="value.set($event)"
       [invalidOn]="'immediate'"

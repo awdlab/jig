@@ -10,30 +10,30 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { NgnBase, NgnPt, provideSelf } from '@ngneers/controls/base';
-import { NgnButton } from '@ngneers/controls/button';
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnProgress } from '@ngneers/controls/progress';
-import { uploadControlTemplate } from '@ngneers/controls-themes/templates/upload';
+import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigButton } from '@awdlab/jig/button';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigProgress } from '@awdlab/jig/progress';
+import { uploadControlTemplate } from '@awdlab/jig-themes/templates/upload';
 
-import type { NgnUploadFile } from './types';
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { JigUploadFile } from './types';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 /** How the user is allowed to add files to the drop zone. */
-export type NgnUploadInteraction = 'click' | 'drag' | 'both';
+export type JigUploadInteraction = 'click' | 'drag' | 'both';
 /**
  * When selected/dropped files start uploading.
  * - `auto` — instantly.
  * - `confirm` — queued as `pending`; the user presses a rendered trigger.
  * - `manual` — queued as `pending`; no trigger is rendered, upload starts only
- *   via {@link NgnUpload.uploadAll}/{@link NgnUpload.uploadFile} from code.
+ *   via {@link JigUpload.uploadAll}/{@link JigUpload.uploadFile} from code.
  */
-export type NgnUploadMode = 'auto' | 'confirm' | 'manual';
+export type JigUploadMode = 'auto' | 'confirm' | 'manual';
 /** Which trigger(s) are rendered in `confirm` mode. */
-export type NgnUploadConfirmTrigger = 'all' | 'per-item' | 'both';
+export type JigUploadConfirmTrigger = 'all' | 'per-item' | 'both';
 /** Where the file list renders relative to the drop zone. */
-export type NgnUploadListPosition = 'top' | 'bottom' | 'left' | 'right';
+export type JigUploadListPosition = 'top' | 'bottom' | 'left' | 'right';
 
 let uploadFileIdSeq = 0;
 let uploadInstanceSeq = 0;
@@ -45,24 +45,24 @@ let uploadInstanceSeq = 0;
  * hides it, and drives it:
  *
  * ```html
- * <ngn-upload #up="ngnUpload" mode="auto" (upload)="send($event, up)">
+ * <jig-upload #up="jigUpload" mode="auto" (upload)="send($event, up)">
  *   <input type="file" multiple accept="image/*" />
- * </ngn-upload>
+ * </jig-upload>
  * ```
  *
- * The control owns the list of {@link NgnUploadFile}s and their lifecycle
+ * The control owns the list of {@link JigUploadFile}s and their lifecycle
  * state, but it **cannot** observe the actual transfer (the consumer runs the
- * request). Report progress/status back through the `exportAs="ngnUpload"`
+ * request). Report progress/status back through the `exportAs="jigUpload"`
  * handle: {@link setProgress}, {@link markDone}, {@link markFailed}.
  *
  * @category control
  */
 @Component({
-  selector: 'ngn-upload',
-  exportAs: 'ngnUpload',
+  selector: 'jig-upload',
+  exportAs: 'jigUpload',
   templateUrl: './upload.html',
-  imports: [NgnPt, NgnIcon, NgnButton, NgnProgress],
-  providers: [provideSelf(NgnUpload)],
+  imports: [JigPt, JigIcon, JigButton, JigProgress],
+  providers: [provideSelf(JigUpload)],
   host: {
     '(dragenter)': 'onDragOver($event)',
     '(dragover)': 'onDragOver($event)',
@@ -70,7 +70,7 @@ let uploadInstanceSeq = 0;
     '(drop)': 'onDrop($event)',
   },
 })
-export class NgnUpload extends NgnBase<'upload'> {
+export class JigUpload extends JigBase<'upload'> {
   protected readonly theme = this.injectThemeTemplate(uploadControlTemplate, {
     root: true,
     dragover: () => this.dragover(),
@@ -87,7 +87,7 @@ export class NgnUpload extends NgnBase<'upload'> {
   protected readonly i18n = inject(I18n).translations;
 
   /** Unique id for the placeholder, referenced as the native input's a11y name. */
-  protected readonly labelId = `ngn-upload-label-${++uploadInstanceSeq}`;
+  protected readonly labelId = `jig-upload-label-${++uploadInstanceSeq}`;
 
   /**
    * How the user may add files.
@@ -96,13 +96,13 @@ export class NgnUpload extends NgnBase<'upload'> {
    * - `both` — either.
    * @default both
    */
-  public readonly interaction = input<NgnUploadInteraction>('both');
+  public readonly interaction = input<JigUploadInteraction>('both');
   /**
    * When uploads start: `auto` (instantly), `confirm` (user presses a rendered
    * trigger), or `manual` (only via {@link uploadAll}/{@link uploadFile}).
    * @default auto
    */
-  public readonly mode = input<NgnUploadMode>('auto');
+  public readonly mode = input<JigUploadMode>('auto');
   /**
    * Provide a custom upload icon
    */
@@ -112,7 +112,7 @@ export class NgnUpload extends NgnBase<'upload'> {
    * (`all`), a button per pending item (`per-item`), or `both`.
    * @default all
    */
-  public readonly confirmTrigger = input<NgnUploadConfirmTrigger>('all');
+  public readonly confirmTrigger = input<JigUploadConfirmTrigger>('all');
   /**
    * Disables all interaction.
    * @default false
@@ -122,25 +122,25 @@ export class NgnUpload extends NgnBase<'upload'> {
    * Where the file list renders relative to the drop zone.
    * @default bottom
    */
-  public readonly listPosition = input<NgnUploadListPosition>('bottom');
+  public readonly listPosition = input<JigUploadListPosition>('bottom');
 
   /**
    * Emitted with the files to upload: on select/drop in `auto` mode, or when a
    * manual trigger fires. The emitted items are already marked `uploading`.
    */
-  public readonly upload = output<NgnUploadFile[]>();
+  public readonly upload = output<JigUploadFile[]>();
   /** Emitted when a file is removed from the list. */
-  public readonly remove = output<NgnUploadFile>();
+  public readonly remove = output<JigUploadFile>();
   /** Emitted when a `failed` file's retry is pressed (also re-emits `upload`). */
-  public readonly retry = output<NgnUploadFile>();
+  public readonly retry = output<JigUploadFile>();
   /**
    * Emitted when an in-flight file is dismissed (the item's remove/cancel
    * action while `uploading`). Abort the request; the item is then removed.
    */
-  public readonly cancelUpload = output<NgnUploadFile>();
+  public readonly cancelUpload = output<JigUploadFile>();
 
   /** The tracked files, in insertion order. */
-  public readonly files = signal<NgnUploadFile[]>([]);
+  public readonly files = signal<JigUploadFile[]>([]);
 
   protected readonly dragover = signal(false);
 
@@ -208,7 +208,7 @@ export class NgnUpload extends NgnBase<'upload'> {
     });
   }
 
-  // --- Public handle (exportAs="ngnUpload") ----------------------------------
+  // --- Public handle (exportAs="jigUpload") ----------------------------------
 
   /** Report transfer progress (`0`–`100`) for a file; marks it `uploading`. */
   public setProgress(id: string, progress: number): void {
@@ -277,34 +277,34 @@ export class NgnUpload extends NgnBase<'upload'> {
    *
    * Returns a promise that resolves once every started file has settled — i.e.
    * reached `done`, `failed`, or been cancelled/removed. It resolves with the
-   * same items handed to `(upload)`, so their final {@link NgnUploadFile.state}
+   * same items handed to `(upload)`, so their final {@link JigUploadFile.state}
    * tells you which succeeded and which failed. Resolves with `[]` if there was
    * nothing pending.
    */
-  public uploadAll(): Promise<NgnUploadFile[]> {
+  public uploadAll(): Promise<JigUploadFile[]> {
     const pending = this.files().filter(f => f.state === 'pending');
     return pending.length ? this.startUpload(pending) : Promise.resolve([]);
   }
 
   /**
-   * Start uploading a single `pending` file by its {@link NgnUploadFile.id}.
+   * Start uploading a single `pending` file by its {@link JigUploadFile.id}.
    * Returns the same settle-promise as {@link uploadAll}.
    */
-  public uploadFile(id: string): Promise<NgnUploadFile[]> {
+  public uploadFile(id: string): Promise<JigUploadFile[]> {
     const item = this.files().find(f => f.id === id && f.state === 'pending');
     return item ? this.startUpload([item]) : Promise.resolve([]);
   }
 
-  protected uploadOne(item: NgnUploadFile): void {
+  protected uploadOne(item: JigUploadFile): void {
     void this.startUpload([item]);
   }
 
-  protected retryFile(item: NgnUploadFile): void {
+  protected retryFile(item: JigUploadFile): void {
     this.retry.emit(item);
     void this.startUpload([item]);
   }
 
-  protected removeFile(item: NgnUploadFile): void {
+  protected removeFile(item: JigUploadFile): void {
     // A single dismiss action: while in-flight, aborting the upload is implied,
     // so tell the consumer to cancel the request before we drop the item.
     if (item.state === 'uploading') {
@@ -353,8 +353,8 @@ export class NgnUpload extends NgnBase<'upload'> {
       return;
     }
 
-    const added = accepted.map<NgnUploadFile>(file => ({
-      id: `ngn-upload-${++uploadFileIdSeq}`,
+    const added = accepted.map<JigUploadFile>(file => ({
+      id: `jig-upload-${++uploadFileIdSeq}`,
       file,
       state: 'pending',
       progress: 0,
@@ -366,7 +366,7 @@ export class NgnUpload extends NgnBase<'upload'> {
     }
   }
 
-  private startUpload(items: NgnUploadFile[]): Promise<NgnUploadFile[]> {
+  private startUpload(items: JigUploadFile[]): Promise<JigUploadFile[]> {
     for (const item of items) {
       item.state = 'uploading';
     }
@@ -399,7 +399,7 @@ export class NgnUpload extends NgnBase<'upload'> {
     }
   }
 
-  private patch(id: string, changes: Partial<NgnUploadFile>): void {
+  private patch(id: string, changes: Partial<JigUploadFile>): void {
     this.files.update(files => {
       const item = files.find(f => f.id === id);
       if (item) {

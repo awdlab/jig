@@ -1,35 +1,35 @@
 import { Component } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnState } from '@ngneers/controls/state';
+import { JigButton } from '@awdlab/jig/button';
+import { JigState } from '@awdlab/jig/state';
 
 @Component({
-  imports: [NgnState, NgnButton],
-  selector: 'ngn-demo-state-button',
+  imports: [JigState, JigButton],
+  selector: 'jig-demo-state-button',
   template: `
     <div class="flex flex-wrap items-center gap-3">
-      <button ngnButton>
+      <button jigButton>
         Save
-        <ngn-state kind="loading" />
+        <jig-state kind="loading" />
       </button>
-      <button ngnButton>
+      <button jigButton>
         Publishing
-        <ngn-state kind="loading" replaceContent />
+        <jig-state kind="loading" replaceContent />
       </button>
-      <button ngnButton kind="secondary">
+      <button jigButton kind="secondary">
         Saved
-        <ngn-state kind="success" />
+        <jig-state kind="success" />
       </button>
-      <button ngnButton kind="secondary">
+      <button jigButton kind="secondary">
         Review
-        <ngn-state kind="warning" />
+        <jig-state kind="warning" />
       </button>
-      <button ngnButton kind="secondary">
+      <button jigButton kind="secondary">
         Failed
-        <ngn-state kind="error" />
+        <jig-state kind="error" />
       </button>
-      <button ngnButton kind="secondary">
+      <button jigButton kind="secondary">
         Cancelled
-        <ngn-state kind="cancelled" />
+        <jig-state kind="cancelled" />
       </button>
     </div>
   `,

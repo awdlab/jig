@@ -1,16 +1,16 @@
 import { Component, input, viewChild, ElementRef, computed } from '@angular/core';
-import { NgnPt, provideSelf, ValueControlBase } from '@ngneers/controls/base';
-import { NgnDrag, type NgnDragInfo } from '@ngneers/controls/directives';
-import { sliderControlTemplate } from '@ngneers/controls-themes/templates/slider';
+import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { JigDrag, type JigDragInfo } from '@awdlab/jig/directives';
+import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'ngn-slider',
+  selector: 'jig-slider',
   templateUrl: './slider.html',
-  imports: [NgnPt, NgnDrag],
-  providers: [provideSelf(NgnSlider)],
+  imports: [JigPt, JigDrag],
+  providers: [provideSelf(JigSlider)],
   host: {
     role: 'slider',
     '[attr.aria-valuemin]': 'min()',
@@ -27,7 +27,7 @@ import { sliderControlTemplate } from '@ngneers/controls-themes/templates/slider
     '(blur)': 'markTouched()',
   },
 })
-export class NgnSlider extends ValueControlBase<'slider', number> {
+export class JigSlider extends ValueControlBase<'slider', number> {
   protected readonly theme = this.injectThemeTemplate(sliderControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),
@@ -94,7 +94,7 @@ export class NgnSlider extends ValueControlBase<'slider', number> {
     return null;
   });
 
-  protected onDragged(delta: NgnDragInfo) {
+  protected onDragged(delta: JigDragInfo) {
     if (this.readonly() || this.disabled()) {
       return;
     }

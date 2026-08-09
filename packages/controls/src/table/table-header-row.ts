@@ -1,7 +1,7 @@
 import { Directive, ElementRef, inject } from '@angular/core';
-import { NgnBase } from '@ngneers/controls/base';
-import { toggleClass } from '@ngneers/controls/utils';
-import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
+import { JigBase } from '@awdlab/jig/base';
+import { toggleClass } from '@awdlab/jig/utils';
+import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
 /**
  * The table's header `<tr>`. Marks the row for the grid's ARIA wiring and
@@ -9,8 +9,8 @@ import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
  *
  * @category directive
  */
-@Directive({ selector: '[ngnTableHeadTr]', host: { role: 'row', '[attr.aria-rowindex]': '1' } })
-export class NgnTableHeadTr extends NgnBase<'table'> {
+@Directive({ selector: '[jigTableHeadTr]', host: { role: 'row', '[attr.aria-rowindex]': '1' } })
+export class JigTableHeadTr extends JigBase<'table'> {
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate);
   private readonly _element = inject(ElementRef<HTMLElement>);
 

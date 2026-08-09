@@ -1,27 +1,27 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { DATE_TIME_MASKS, NgnMaskInput } from '@ngneers/controls/mask-input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { DATE_TIME_MASKS, JigMaskInput } from '@awdlab/jig/mask-input';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-mask-input-playground',
-  imports: [NgnMaskInput, NgnInputField, NgnDocsPlayground],
+  selector: 'jig-docs-mask-input-playground',
+  imports: [JigMaskInput, JigInputField, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnMaskInput', component: component() }]">
-      <ngn-input-field>
-        <ngn-mask-input
+    <jig-docs-playground [controls]="[{ componentName: 'JigMaskInput', component: component() }]">
+      <jig-input-field>
+        <jig-mask-input
           #ref
           [mask]="mask"
           [value]="value()"
           (valueChange)="value.set($event ?? '')"
         />
-      </ngn-input-field>
-    </ngn-docs-playground>
+      </jig-input-field>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsMaskInputPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnMaskInput });
+export class JigDocsMaskInputPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigMaskInput });
   protected readonly value = signal<string>('');
   protected readonly mask = DATE_TIME_MASKS.time;
 }

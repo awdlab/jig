@@ -1,25 +1,25 @@
 import { Component, signal } from '@angular/core';
-import { NgnStepper, NgnStep } from '@ngneers/controls/stepper';
-import { NgnButton } from '@ngneers/controls/button';
+import { JigStepper, JigStep } from '@awdlab/jig/stepper';
+import { JigButton } from '@awdlab/jig/button';
 
 @Component({
-  selector: 'ngn-demo-stepper-base',
-  imports: [NgnStepper, NgnStep, NgnButton],
+  selector: 'jig-demo-stepper-base',
+  imports: [JigStepper, JigStep, JigButton],
   template: `
-    <ngn-stepper [active]="active()" (activeChange)="active.set($event)">
-      <ngn-step [label]="'Account'" [completed]="active() > 0">
+    <jig-stepper [active]="active()" (activeChange)="active.set($event)">
+      <jig-step [label]="'Account'" [completed]="active() > 0">
         <ng-template #content>Create your account.</ng-template>
-      </ngn-step>
-      <ngn-step [label]="'Profile'" [completed]="active() > 1">
+      </jig-step>
+      <jig-step [label]="'Profile'" [completed]="active() > 1">
         <ng-template #content>Fill in your profile.</ng-template>
-      </ngn-step>
-      <ngn-step [label]="'Done'" [completed]="active() > 2">
+      </jig-step>
+      <jig-step [label]="'Done'" [completed]="active() > 2">
         <ng-template #content>All set!</ng-template>
-      </ngn-step>
-    </ngn-stepper>
+      </jig-step>
+    </jig-stepper>
     <div class="mt-4 flex justify-between gap-2">
       <button
-        ngnButton
+        jigButton
         kind="secondary"
         (click)="active.set(active() - 1)"
         [disabled]="active() === 0"
@@ -27,7 +27,7 @@ import { NgnButton } from '@ngneers/controls/button';
         Back
       </button>
       <button
-        ngnButton
+        jigButton
         kind="primary"
         (click)="active.set(active() + 1)"
         [disabled]="active() === 2"

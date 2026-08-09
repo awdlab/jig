@@ -1,10 +1,10 @@
 import { booleanAttribute, computed, Directive, input, model, output } from '@angular/core';
-import { generateElementId } from '@ngneers/controls/utils-ng';
+import { generateElementId } from '@awdlab/jig/utils-ng';
 
-import { NgnBase } from './base';
+import { JigBase } from './base';
 
 import type { FormValueControl } from '@angular/forms/signals';
-import type { ControlName } from '@ngneers/controls-themes/templates';
+import type { ControlName } from '@awdlab/jig-themes/templates';
 
 /**
  * When a control surfaces its invalid styling (border / `aria-invalid`):
@@ -13,15 +13,15 @@ import type { ControlName } from '@ngneers/controls-themes/templates';
  * - `immediate` — as soon as it is invalid (e.g. explicit `[invalid]`).
  * - `never` — never style invalid.
  */
-export type NgnInvalidTrigger = 'touched' | 'dirty' | 'immediate' | 'never';
+export type JigInvalidTrigger = 'touched' | 'dirty' | 'immediate' | 'never';
 
 /**
- * Gates a raw invalid flag by an {@link NgnInvalidTrigger} against the given
- * interaction state. Shared by {@link ValueControlBase} and `NgnInput`.
+ * Gates a raw invalid flag by a {@link JigInvalidTrigger} against the given
+ * interaction state. Shared by {@link ValueControlBase} and `JigInput`.
  */
 export function resolveInvalidState(
   invalid: boolean,
-  trigger: NgnInvalidTrigger,
+  trigger: JigInvalidTrigger,
   touched: boolean,
   dirty: boolean
 ): boolean {
@@ -43,7 +43,7 @@ export function resolveInvalidState(
 
 @Directive()
 export abstract class ValueControlBase<C extends ControlName, T>
-  extends NgnBase<C>
+  extends JigBase<C>
   implements FormValueControl<T>
 {
   /**
@@ -72,10 +72,10 @@ export abstract class ValueControlBase<C extends ControlName, T>
 
   /**
    * When the control surfaces its invalid styling. The control owns this timing
-   * (independent of `ngnErrors`, which governs only the error *message*).
+   * (independent of `jigErrors`, which governs only the error *message*).
    * @default touched
    */
-  public readonly invalidOn = input<NgnInvalidTrigger>('touched');
+  public readonly invalidOn = input<JigInvalidTrigger>('touched');
 
   /**
    * The invalid state the theme should render: {@link invalid} gated by
@@ -115,7 +115,7 @@ export abstract class ValueControlBase<C extends ControlName, T>
 
   /**
    * Marks the control touched: flips {@link touched} for local / no-form
-   * consumers (e.g. `ngnErrors`) and emits {@link touch} so a bound signal-forms
+   * consumers (e.g. `jigErrors`) and emits {@link touch} so a bound signal-forms
    * field is marked touched too. Each control calls this from its own blur/close
    * logic — composite controls with an out-of-DOM overlay (select, calendar)
    * call it from their popover-aware blur, so opening the overlay isn't mistaken

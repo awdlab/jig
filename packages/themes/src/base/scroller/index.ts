@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { scrollerControlTemplate } from '@ngneers/controls-themes/templates/scroller';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { scrollerControlTemplate } from '@awdlab/jig-themes/templates/scroller';
 
 export const scrollerStyles = createThemePart({
   controlTemplate: scrollerControlTemplate,
@@ -25,14 +25,14 @@ export const scrollerStyles = createThemePart({
           flex-shrink: 0;
         }
         &::before {
-          height: var(--ngn-scroller-padding-top, 0px);
+          height: var(--jig-scroller-padding-top, 0px);
         }
         &::after {
-          height: var(--ngn-scroller-padding-bottom, 0px);
+          height: var(--jig-scroller-padding-bottom, 0px);
         }
         ${c('item')} {
           flex-shrink: 0;
-          height: var(--ngn-scroller-item-height, unset);
+          height: var(--jig-scroller-item-height, unset);
         }
       }
       ${c('item-sticky')} {

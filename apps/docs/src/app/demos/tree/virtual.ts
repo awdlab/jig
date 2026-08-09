@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { NgnTree } from '@ngneers/controls/tree';
+import { JigTree } from '@awdlab/jig/tree';
 
-import type { NgnTreeItem } from '@ngneers/controls/api';
+import type { JigTreeItem } from '@awdlab/jig/api';
 
 @Component({
-  imports: [NgnTree],
-  selector: 'ngn-demo-tree-virtual',
+  imports: [JigTree],
+  selector: 'jig-demo-tree-virtual',
   template: `
-    <ngn-tree
+    <jig-tree
       [items]="items"
       [virtual]="true"
       [itemHeight]="36"
@@ -18,7 +18,7 @@ import type { NgnTreeItem } from '@ngneers/controls/api';
 })
 export class Demo_Tree_Virtual {
   // 50 folders x 100 files = 5050 nodes; only the visible rows are rendered.
-  protected readonly items: NgnTreeItem[] = Array.from({ length: 50 }, (_, g) => ({
+  protected readonly items: JigTreeItem[] = Array.from({ length: 50 }, (_, g) => ({
     label: `Folder ${g + 1}`,
     value: `folder-${g}`,
     items: Array.from({ length: 100 }, (_, i) => ({

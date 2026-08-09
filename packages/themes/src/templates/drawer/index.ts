@@ -1,4 +1,4 @@
-import { createControlTemplate } from '@ngneers/controls-themes/api';
+import { createControlTemplate } from '@awdlab/jig-themes/api';
 
 export const drawerControlTemplate = createControlTemplate({
   scope: 'drawer',

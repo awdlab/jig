@@ -8,22 +8,22 @@ test('input validation errors drive a normal hint', async ({ page }) => {
     template: `
         <div class="page-center" style="display: flex; flex-direction: column; gap: 0.5rem;">
           <input
-            ngnInput
+            jigInput
             name="email"
             ngModel
             required
             email
-            ngnErrors
-            [ngnErrorsHint]="emailHint"
+            jigErrors
+            [jigErrorsHint]="emailHint"
           />
-          <ngn-hint #emailHint />
+          <jig-hint #emailHint />
         </div>
       `,
     imports: ['input', 'hint', 'errors', 'forms'],
   });
 
-  const input = page.locator('input[ngnInput]');
-  const hint = page.locator('ngn-hint');
+  const input = page.locator('input[jigInput]');
+  const hint = page.locator('jig-hint');
 
   await expect(hint).toHaveText('');
 
@@ -39,19 +39,19 @@ test('custom checkbox errors drive a normal hint', async ({ page }) => {
   await loadComponent(page, {
     template: `
         <div class="page-center" style="display: flex; flex-direction: column; gap: 0.5rem;">
-          <ngn-checkbox
-            ngnErrors
-            ngnErrorsShowOn="always"
-            [ngnErrorsHint]="termsHint"
-            [ngnErrorsCustom]="{ terms: 'Accept the terms' }"
+          <jig-checkbox
+            jigErrors
+            jigErrorsShowOn="always"
+            [jigErrorsHint]="termsHint"
+            [jigErrorsCustom]="{ terms: 'Accept the terms' }"
           />
-          <ngn-hint #termsHint />
+          <jig-hint #termsHint />
         </div>
       `,
     imports: ['checkbox', 'hint', 'errors'],
   });
 
-  await expect(page.locator('ngn-hint')).toContainText('Accept the terms');
+  await expect(page.locator('jig-hint')).toContainText('Accept the terms');
 });
 
 test('async validation shows pending and resolved messages', async ({ page }) => {
@@ -59,22 +59,22 @@ test('async validation shows pending and resolved messages', async ({ page }) =>
     template: `
         <div class="page-center" style="display: flex; flex-direction: column; gap: 0.5rem;">
           <input
-            ngnInput
+            jigInput
             name="server"
             ngModel
-            ngnTestAsyncValidator
-            ngnErrors
-            ngnErrorsShowOn="always"
-            [ngnErrorsHint]="serverHint"
-            [ngnErrorsMessages]="{ server: 'Server rejected the value' }"
+            jigTestAsyncValidator
+            jigErrors
+            jigErrorsShowOn="always"
+            [jigErrorsHint]="serverHint"
+            [jigErrorsMessages]="{ server: 'Server rejected the value' }"
           />
-          <ngn-hint #serverHint />
+          <jig-hint #serverHint />
         </div>
       `,
     imports: ['input', 'hint', 'errors', 'forms', 'testAsyncValidator'],
   });
 
-  const hint = page.locator('ngn-hint');
+  const hint = page.locator('jig-hint');
 
   await expect(hint).toContainText('Validating...');
   await expect(hint).toContainText('Server rejected the value');
@@ -85,19 +85,19 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(page, {
     template: `
       <div class="page-center" style="display: flex; flex-direction: column; gap: 0.5rem;">
-        <ngn-input-field label="Email">
-          <input ngnInput name="email" ngModel required email ngnErrors [ngnErrorsHint]="emailHint" />
-        </ngn-input-field>
-        <ngn-hint #emailHint />
+        <jig-input-field label="Email">
+          <input jigInput name="email" ngModel required email jigErrors [jigErrorsHint]="emailHint" />
+        </jig-input-field>
+        <jig-hint #emailHint />
       </div>
     `,
     imports: ['input', 'hint', 'errors', 'forms', 'inputField'],
   });
 
-  const input = page.locator('input[ngnInput]');
+  const input = page.locator('input[jigInput]');
   await input.focus();
   await input.blur();
-  await expect(page.locator('ngn-hint')).toContainText('Required');
+  await expect(page.locator('jig-hint')).toContainText('Required');
 
   await expectNoA11yViolations(page);
 });

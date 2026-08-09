@@ -1,16 +1,16 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { NgnTooltipHarness } from '@ngneers/controls-playwright';
+import { JigTooltipHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
 test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
-    template: `<button class="page-center" [ngnTooltip]="'Hello World!'">Button</button>`,
+    template: `<button class="page-center" [jigTooltip]="'Hello World!'">Button</button>`,
     imports: ['tooltip'],
   });
 
-  const tooltip = new NgnTooltipHarness(page.getByRole('tooltip').first());
+  const tooltip = new JigTooltipHarness(page.getByRole('tooltip').first());
   const button = page.getByRole('button').first();
   await expectScreenshot(page, testInfo, 'closed');
 
@@ -46,9 +46,9 @@ test('position change', async ({ page }, testInfo) => {
       template: `
         <button
           class="page-center"
-          [ngnTooltip]="'Hello World!'"
-          [ngnTooltipOptions]="inputs()"
-          [ngnTooltipShowDelay]="0"
+          [jigTooltip]="'Hello World!'"
+          [jigTooltipOptions]="inputs()"
+          [jigTooltipShowDelay]="0"
         >
           Button
         </button>
@@ -60,7 +60,7 @@ test('position change', async ({ page }, testInfo) => {
     }
   );
 
-  const tooltip = new NgnTooltipHarness(page.getByRole('tooltip').first());
+  const tooltip = new JigTooltipHarness(page.getByRole('tooltip').first());
   const button = page.getByRole('button').first();
   await button.hover();
   await tooltip.expectRendered();
@@ -113,9 +113,9 @@ test('positioning on scroll', async ({ page }, testInfo) => {
           <div id="toScreenshot" style="position: absolute; top: 50vh; left: 50vw; width: 200px; height: 200px;">
             <button
               style="margin: 50px;"
-              [ngnTooltip]="'Hello World!'"
-              [ngnTooltipShowDelay]="0"
-              [ngnTooltipHideDelay]="'1m'"
+              [jigTooltip]="'Hello World!'"
+              [jigTooltipShowDelay]="0"
+              [jigTooltipHideDelay]="'1m'"
             >
               Button
             </button>
@@ -125,7 +125,7 @@ test('positioning on scroll', async ({ page }, testInfo) => {
     imports: ['tooltip'],
   });
 
-  const tooltip = new NgnTooltipHarness(page.getByRole('tooltip').first());
+  const tooltip = new JigTooltipHarness(page.getByRole('tooltip').first());
   const button = page.getByRole('button').first();
   const toScreenshot = page.locator('#toScreenshot');
   await button.hover();
@@ -154,11 +154,11 @@ test('positioning on scroll', async ({ page }, testInfo) => {
 
 test('accessibility (axe)', async ({ page }) => {
   await loadComponent(page, {
-    template: `<button class="page-center" [ngnTooltip]="'Hello World!'">Button</button>`,
+    template: `<button class="page-center" [jigTooltip]="'Hello World!'">Button</button>`,
     imports: ['tooltip'],
   });
 
-  const tooltip = new NgnTooltipHarness(page.getByRole('tooltip').first());
+  const tooltip = new JigTooltipHarness(page.getByRole('tooltip').first());
   const button = page.getByRole('button').first();
 
   // The tooltip surface only exists in the DOM once shown.

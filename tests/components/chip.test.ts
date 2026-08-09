@@ -1,6 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { NgnChipHarness } from '@ngneers/controls-playwright';
+import { JigChipHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { mouseDownOnElement } from '../helper/mouse';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -10,13 +10,13 @@ test('features', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <ngn-chip
+      <jig-chip
         class="page-center"
         [actionable]="inputs().actionable"
         [closable]="inputs().closable"
         (clicked)="output('clicked', $event)"
         (closed)="output('closed', $event)"
-      >Chip</ngn-chip>
+      >Chip</jig-chip>
     `,
       imports: ['chip'],
     },
@@ -25,7 +25,7 @@ test('features', async ({ page }, testInfo) => {
     }
   );
 
-  const chip = new NgnChipHarness(page.locator('ngn-chip'));
+  const chip = new JigChipHarness(page.locator('jig-chip'));
 
   await test.step('default', async () => {
     await expectScreenshot(page, testInfo, 'default');
@@ -79,7 +79,7 @@ test('colors', async ({ page }, testInfo) => {
       <div class="page-center">
         <div class="flex gap-2 flex-wrap">
           @for (color of inputs().colors; track $index) {
-            <ngn-chip [color]="color">{{ color ?? 'default' }}</ngn-chip>
+            <jig-chip [color]="color">{{ color ?? 'default' }}</jig-chip>
           }
         </div>
       </div>
@@ -111,7 +111,7 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<ngn-chip class="page-center" [actionable]="true" [closable]="true">Active</ngn-chip>`,
+      template: `<jig-chip class="page-center" [actionable]="true" [closable]="true">Active</jig-chip>`,
       imports: ['chip'],
     },
     { inputs: {} }

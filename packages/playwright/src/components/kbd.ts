@@ -1,9 +1,9 @@
-import { kbdControlTemplate } from '@ngneers/controls-themes/templates/kbd';
+import { kbdControlTemplate } from '@awdlab/jig-themes/templates/kbd';
 import { expect, type Locator } from '@playwright/test';
 
 import { themeClasses } from '../utils/theme';
 
-export class NgnKbdHarness {
+export class JigKbdHarness {
   public readonly classes = themeClasses(kbdControlTemplate);
   public readonly locator: Locator;
   public readonly key: Locator;

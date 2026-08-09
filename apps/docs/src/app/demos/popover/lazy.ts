@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnPopover } from '@ngneers/controls/popover';
+import { JigButton } from '@awdlab/jig/button';
+import { JigPopover } from '@awdlab/jig/popover';
 
 import { DummyLazyComponent } from '../dummies/lazy';
 
 @Component({
-  imports: [NgnPopover, NgnButton, DummyLazyComponent],
-  selector: 'ngn-demo-popover-lazy',
+  imports: [JigPopover, JigButton, DummyLazyComponent],
+  selector: 'jig-demo-popover-lazy',
   template: `
-    <button ngnButton #anchor (click)="popover.show()">Open</button>
-    <ngn-popover #popover [anchor]="anchor" [options]="{ cache: true }">
+    <button jigButton #anchor (click)="popover.show()">Open</button>
+    <jig-popover #popover [anchor]="anchor" [options]="{ cache: true }">
       <ng-template #lazy>
         <dummy-lazy-test />
       </ng-template>
-    </ngn-popover>
+    </jig-popover>
   `,
 })
 export class Demo_Popover_Lazy {}

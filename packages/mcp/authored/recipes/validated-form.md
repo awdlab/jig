@@ -1,51 +1,51 @@
 ---
 title: Validated form
-summary: A labelled, validated form built from ngn-input-field wrapping form controls.
+summary: A labelled, validated form built from jig-input-field wrapping form controls.
 controls: input-field, input, select, checkbox, number-input, button, hint, message
 ---
 
 # Validated form
 
-Compose a form from `ngn-input-field` wrappers around individual controls. The
+Compose a form from `jig-input-field` wrappers around individual controls. The
 field provides the label / hint / error chrome; the inner control owns the
 value. Verify each control's exact inputs with `get_control` before wiring.
 
 ## Shape
 
-- Wrap every control in `ngn-input-field` for consistent label + validation UI.
+- Wrap every control in `jig-input-field` for consistent label + validation UI.
 - Bind values with the control's signal model (`[(value)]`) or reactive-forms.
-- Show validation state through the field; use `ngn-hint` for helper text and the
+- Show validation state through the field; use `jig-hint` for helper text and the
   field's error surface for messages.
-- Submit with a `button[ngnButton]`; drive `disabled` / `loading` from form state.
+- Submit with a `button[jigButton]`; drive `disabled` / `loading` from form state.
 
 ## Skeleton
 
 ```html
 <form (submit)="save()">
-  <ngn-input-field label="Name">
-    <input ngnInput [(value)]="name" required />
-  </ngn-input-field>
+  <jig-input-field label="Name">
+    <input jigInput [(value)]="name" required />
+  </jig-input-field>
 
-  <ngn-input-field label="Role">
-    <ngn-select [(value)]="role" [options]="roles" />
-  </ngn-input-field>
+  <jig-input-field label="Role">
+    <jig-select [(value)]="role" [options]="roles" />
+  </jig-input-field>
 
-  <ngn-input-field label="Seats">
-    <input ngnNumberInput [(value)]="seats" [min]="1" />
-  </ngn-input-field>
+  <jig-input-field label="Seats">
+    <input jigNumberInput [(value)]="seats" [min]="1" />
+  </jig-input-field>
 
-  <ngn-checkbox [(value)]="agreed">I agree</ngn-checkbox>
+  <jig-checkbox [(value)]="agreed">I agree</jig-checkbox>
 
-  <button ngnButton [disabled]="!agreed()">Save</button>
+  <button jigButton [disabled]="!agreed()">Save</button>
 </form>
 ```
 
 ## Notes
 
-- Prefer signals for form state (`signal()` / `model()`); ngn controls are
+- Prefer signals for form state (`signal()` / `model()`); jig controls are
   signal-first.
-- For grouped choices use `ngn-radio-group` + `ngn-radio` or `ngn-select-button`.
-- Render validation messages with the `[ngnErrors]` directive inside the field —
+- For grouped choices use `jig-radio-group` + `jig-radio` or `jig-select-button`.
+- Render validation messages with the `[jigErrors]` directive inside the field —
   it reads the bound control's `errors`/`touched`/`dirty`. Controls implement signal forms'
   `FormValueControl`, so `[formField]` works directly; there is no
   `ControlValueAccessor`.

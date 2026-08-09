@@ -20,7 +20,7 @@
         "
       ></ng-container>
     }
-    <ngn-icon
+    <jig-icon
       [defaultIcon]="expanded() ? 'accordion-collapse' : 'accordion-expand'"
       [icon]="expanded() ? iconExpanded() : iconCollapsed()"
     />
@@ -43,7 +43,7 @@
     [aria-hidden]="!expanded()"
     role="region"
   >
-    <ngn-defer
+    <jig-defer
       [lazyContent]="contentTemplate()"
       [open]="lazyInt() && !cacheInt() ? afterTransitionExpanded() : expanded()"
       [hiddenOnClosed]="false"
@@ -51,11 +51,11 @@
       [lazy]="lazyInt()"
     >
       <ng-content />
-    </ngn-defer>
+    </jig-defer>
   </div>
 </div>
 
-<ng-template #defaultHeaderTemplate let-header [ngnTemplate]="templateTypes.header">
+<ng-template #defaultHeaderTemplate let-header [jigTemplate]="templateTypes.header">
   <span [ptInt]="this" [ptClass]="'header-text'">
     {{ header.text }}
   </span>

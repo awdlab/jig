@@ -1,8 +1,8 @@
-The List Box (`<ngn-list-box>`) renders a scrollable, keyboard-navigable list of
+The List Box (`<jig-list-box>`) renders a scrollable, keyboard-navigable list of
 items from an `items` array, with optional grouping, filtering, and
 virtualization for large datasets. It is a value control — enable `selectable`
 to let users pick items and `multiple` for multi-select. Reach for it when you
-need a persistently visible list rather than a dropdown like `ngn-select`.
+need a persistently visible list rather than a dropdown like `jig-select`.
 
 ### Basic Usage
 
@@ -13,7 +13,7 @@ height so it scrolls. Without `selectable` the list is purely for display.
 
 ### Validation
 
-Wired with the `ngnErrors` directive, the list box surfaces validation like any
+Wired with the `jigErrors` directive, the list box surfaces validation like any
 other value control. Here a `required` error shows until an item is selected.
 
 {{ demo: Demo_ListBox_Validation }}
@@ -21,7 +21,7 @@ other value control. Here a `required` error shows until an item is selected.
 ### Grouped Items
 
 Nested items (a `children` array) render as labelled groups with their entries
-beneath. `transformToNgnItems` maps arbitrary objects onto the expected
+beneath. `transformToJigItems` maps arbitrary objects onto the expected
 `value`/`label`/`children` shape.
 
 {{ demo: Demo_ListBox_Grouped }}

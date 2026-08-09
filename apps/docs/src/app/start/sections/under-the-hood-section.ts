@@ -1,152 +1,152 @@
 import { Component, signal } from '@angular/core';
-import { type BreadcrumbItem, NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnDialog } from '@ngneers/controls/dialog';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnSelect } from '@ngneers/controls/select';
-import { NgnSelectButton } from '@ngneers/controls/select-button';
+import { type BreadcrumbItem, JigBreadcrumb } from '@awdlab/jig/breadcrumb';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDialog } from '@awdlab/jig/dialog';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigSelect } from '@awdlab/jig/select';
+import { JigSelectButton } from '@awdlab/jig/select-button';
 
-import { NgnDocsReveal } from './reveal';
-import { NgnDocsSectionHeader } from './section-header';
+import { JigDocsReveal } from './reveal';
+import { JigDocsSectionHeader } from './section-header';
 
 @Component({
-  selector: 'ngn-docs-under-the-hood-section',
+  selector: 'jig-docs-under-the-hood-section',
   imports: [
-    NgnBreadcrumb,
-    NgnButton,
-    NgnDialog,
-    NgnInputField,
-    NgnSelect,
-    NgnSelectButton,
-    NgnDocsReveal,
-    NgnDocsSectionHeader,
+    JigBreadcrumb,
+    JigButton,
+    JigDialog,
+    JigInputField,
+    JigSelect,
+    JigSelectButton,
+    JigDocsReveal,
+    JigDocsSectionHeader,
   ],
-  host: { class: 'block px-(--ngn-size-padding-xl) py-12 lg:py-16' },
+  host: { class: 'block px-(--jig-size-padding-xl) py-12 lg:py-16' },
   template: `
-    <div [ngnDocsReveal]="0" class="mx-auto max-w-[1100px]">
-      <ngn-docs-section-header
+    <div [jigDocsReveal]="0" class="mx-auto max-w-[1100px]">
+      <jig-docs-section-header
         class="mb-8 lg:mb-12"
         eyebrow="Under the hood"
         heading="Let the browser do it"
         subtitle="Native where the platform is strong. Ours where it isn't — so you never wire it yourself."
       />
 
-      <div class="grid grid-cols-1 gap-(--ngn-size-padding-lg) lg:grid-cols-2">
+      <div class="grid grid-cols-1 gap-(--jig-size-padding-lg) lg:grid-cols-2">
         <div
-          class="rounded-(--ngn-size-rounded-lg) border border-(--ngn-color-surface-200) bg-(--ngn-color-surface-25) p-(--ngn-size-padding-xl)"
+          class="rounded-(--jig-size-rounded-lg) border border-(--jig-color-surface-200) bg-(--jig-color-surface-25) p-(--jig-size-padding-xl)"
         >
           <p
-            class="mono flex items-center gap-(--ngn-size-padding-sm) text-(length:--ngn-font-size-sm) text-(--ngn-color-success-600)"
+            class="mono flex items-center gap-(--jig-size-padding-sm) text-(length:--jig-font-size-sm) text-(--jig-color-success-600)"
           >
-            <span class="size-1.5 rounded-full bg-(--ngn-color-success-500)"></span>
+            <span class="size-1.5 rounded-full bg-(--jig-color-success-500)"></span>
             platform native
           </p>
           <h3
-            class="mt-(--ngn-size-padding-md) mb-(--ngn-size-padding-sm) text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-bold) text-(--ngn-color-text)"
+            class="mt-(--jig-size-padding-md) mb-(--jig-size-padding-sm) text-(length:--jig-font-size-lg) font-(--jig-font-weight-bold) text-(--jig-color-text)"
           >
             Dialogs in the top layer
           </h3>
           <p
-            class="mb-(--ngn-size-padding-xl) text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600)"
+            class="mb-(--jig-size-padding-xl) text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)"
           >
             Opened with <code>showModal()</code>: focus trap, <code>::backdrop</code>, Esc to close
             and correct stacking all come from the browser. No z-index wars, no portals.
           </p>
-          <button ngnButton kind="primary" (click)="dialogOpen.set(true)">Open dialog</button>
+          <button jigButton kind="primary" (click)="dialogOpen.set(true)">Open dialog</button>
         </div>
 
         <div
-          class="rounded-(--ngn-size-rounded-lg) border border-(--ngn-color-surface-200) bg-(--ngn-color-surface-25) p-(--ngn-size-padding-xl)"
+          class="rounded-(--jig-size-rounded-lg) border border-(--jig-color-surface-200) bg-(--jig-color-surface-25) p-(--jig-size-padding-xl)"
         >
           <p
-            class="mono flex items-center gap-(--ngn-size-padding-sm) text-(length:--ngn-font-size-sm) text-(--ngn-color-success-600)"
+            class="mono flex items-center gap-(--jig-size-padding-sm) text-(length:--jig-font-size-sm) text-(--jig-color-success-600)"
           >
-            <span class="size-1.5 rounded-full bg-(--ngn-color-success-500)"></span>
+            <span class="size-1.5 rounded-full bg-(--jig-color-success-500)"></span>
             platform native
           </p>
           <h3
-            class="mt-(--ngn-size-padding-md) mb-(--ngn-size-padding-sm) text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-bold) text-(--ngn-color-text)"
+            class="mt-(--jig-size-padding-md) mb-(--jig-size-padding-sm) text-(length:--jig-font-size-lg) font-(--jig-font-weight-bold) text-(--jig-color-text)"
           >
             Popovers, natively
           </h3>
           <p
-            class="mb-(--ngn-size-padding-xl) text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600)"
+            class="mb-(--jig-size-padding-xl) text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)"
           >
             Selects, menus and tooltips ride the Popover API — light dismiss, top-layer stacking and
             Shadow DOM support without an overlay engine.
           </p>
-          <ngn-input-field label="Owner" class="max-w-[16rem]">
-            <ngn-select [options]="owners" [(value)]="owner" />
-          </ngn-input-field>
+          <jig-input-field label="Owner" class="max-w-[16rem]">
+            <jig-select [options]="owners" [(value)]="owner" />
+          </jig-input-field>
         </div>
 
         <div
-          class="rounded-(--ngn-size-rounded-lg) border border-(--ngn-color-surface-200) bg-(--ngn-color-surface-25) p-(--ngn-size-padding-xl)"
+          class="rounded-(--jig-size-rounded-lg) border border-(--jig-color-surface-200) bg-(--jig-color-surface-25) p-(--jig-size-padding-xl)"
         >
           <p
-            class="mono flex items-center gap-(--ngn-size-padding-sm) text-(length:--ngn-font-size-sm) text-(--ngn-color-primary-500)"
+            class="mono flex items-center gap-(--jig-size-padding-sm) text-(length:--jig-font-size-sm) text-(--jig-color-primary-500)"
           >
-            <span class="size-1.5 rounded-full bg-(--ngn-color-primary-500)"></span>
+            <span class="size-1.5 rounded-full bg-(--jig-color-primary-500)"></span>
             we built it for you
           </p>
           <h3
-            class="mt-(--ngn-size-padding-md) mb-(--ngn-size-padding-sm) text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-bold) text-(--ngn-color-text)"
+            class="mt-(--jig-size-padding-md) mb-(--jig-size-padding-sm) text-(length:--jig-font-size-lg) font-(--jig-font-weight-bold) text-(--jig-color-text)"
           >
             Overflow that handles itself
           </h3>
           <p
-            class="mb-(--ngn-size-padding-lg) text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600)"
+            class="mb-(--jig-size-padding-lg) text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)"
           >
             Chips collapse into a counter and breadcrumbs fold into a menu — measured per container,
             not per viewport. No media queries. Drag the width down and watch.
           </p>
-          <ngn-select-button
+          <jig-select-button
             aria-label="Container width"
             [options]="widths"
             [value]="widthPct()"
             (valueChange)="widthPct.set($event)"
           />
           <div
-            class="mt-(--ngn-size-padding-lg) flex flex-col gap-(--ngn-size-padding-md) rounded-(--ngn-size-rounded-md) border border-dashed border-(--ngn-color-surface-300) p-(--ngn-size-padding-md) transition-[width] duration-300"
+            class="mt-(--jig-size-padding-lg) flex flex-col gap-(--jig-size-padding-md) rounded-(--jig-size-rounded-md) border border-dashed border-(--jig-color-surface-300) p-(--jig-size-padding-md) transition-[width] duration-300"
             [style.width.%]="widthPct()"
           >
-            <ngn-input-field>
-              <ngn-select
+            <jig-input-field>
+              <jig-select
                 aria-label="Teams"
                 [multiple]="true"
                 [options]="teams"
                 [(value)]="selectedTeams"
               />
-            </ngn-input-field>
-            <ngn-breadcrumb [items]="crumbs" />
+            </jig-input-field>
+            <jig-breadcrumb [items]="crumbs" />
           </div>
         </div>
 
         <div
-          class="rounded-(--ngn-size-rounded-lg) border border-(--ngn-color-surface-200) bg-(--ngn-color-surface-25) p-(--ngn-size-padding-xl)"
+          class="rounded-(--jig-size-rounded-lg) border border-(--jig-color-surface-200) bg-(--jig-color-surface-25) p-(--jig-size-padding-xl)"
         >
           <p
-            class="mono flex items-center gap-(--ngn-size-padding-sm) text-(length:--ngn-font-size-sm) text-(--ngn-color-primary-500)"
+            class="mono flex items-center gap-(--jig-size-padding-sm) text-(length:--jig-font-size-sm) text-(--jig-color-primary-500)"
           >
-            <span class="size-1.5 rounded-full bg-(--ngn-color-primary-500)"></span>
+            <span class="size-1.5 rounded-full bg-(--jig-color-primary-500)"></span>
             we built it for you
           </p>
           <h3
-            class="mt-(--ngn-size-padding-md) mb-(--ngn-size-padding-sm) text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-bold) text-(--ngn-color-text)"
+            class="mt-(--jig-size-padding-md) mb-(--jig-size-padding-sm) text-(length:--jig-font-size-lg) font-(--jig-font-weight-bold) text-(--jig-color-text)"
           >
             Server-rendered, flash-free
           </h3>
           <p
-            class="mb-(--ngn-size-padding-lg) text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600)"
+            class="mb-(--jig-size-padding-lg) text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)"
           >
             Controls render fully styled on the server — your theme's colors and control styles are
             in the first byte, so there is no unstyled flash and no client round-trip. This page
             arrived that way.
           </p>
           <div
-            class="mono rounded-(--ngn-size-rounded-md) border border-(--ngn-color-surface-200) bg-(--ngn-color-surface-50) p-(--ngn-size-padding-lg) text-(length:--ngn-font-size-sm) text-(--ngn-color-surface-600)"
+            class="mono rounded-(--jig-size-rounded-md) border border-(--jig-color-surface-200) bg-(--jig-color-surface-50) p-(--jig-size-padding-lg) text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)"
           >
-            <p class="text-(--ngn-color-text)">&lt;html&gt; from the server</p>
+            <p class="text-(--jig-color-text)">&lt;html&gt; from the server</p>
             <p>├ theme variables + control styles</p>
             <p>├ real content, real ARIA, no JS</p>
             <p>└ hydrates into the same DOM</p>
@@ -155,15 +155,15 @@ import { NgnDocsSectionHeader } from './section-header';
       </div>
     </div>
 
-    <ngn-dialog [(open)]="dialogOpen" [modal]="true" title="Native dialog">
-      <p class="max-w-[42ch] text-(--ngn-color-text)">
+    <jig-dialog [(open)]="dialogOpen" [modal]="true" title="Native dialog">
+      <p class="max-w-[42ch] text-(--jig-color-text)">
         This is a real <code>&lt;dialog&gt;</code> in the browser's top layer. Tab stays inside, Esc
         closes it, and focus returns to the button you came from.
       </p>
-    </ngn-dialog>
+    </jig-dialog>
   `,
 })
-export class NgnDocsUnderTheHoodSection {
+export class JigDocsUnderTheHoodSection {
   protected readonly dialogOpen = signal(false);
 
   protected readonly owners = [

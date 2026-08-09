@@ -1,23 +1,23 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@ngneers/controls/errors';
-import { NgnHint } from '@ngneers/controls/hint';
-import { NgnToggleButton } from '@ngneers/controls/toggle-button';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigToggleButton } from '@awdlab/jig/toggle-button';
 
 @Component({
-  selector: 'ngn-demo-toggle-button-validation',
-  imports: [NgnErrors, NgnHint, NgnToggleButton],
+  selector: 'jig-demo-toggle-button-validation',
+  imports: [JigErrors, JigHint, JigToggleButton],
   template: `
     <div class="flex flex-col items-start gap-2">
-      <ngn-toggle-button
+      <jig-toggle-button
         label="Confirmed"
         [value]="confirmed()"
         (valueChange)="confirmed.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="confirmHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="confirmHint"
       />
-      <ngn-hint #confirmHint />
+      <jig-hint #confirmHint />
     </div>
   `,
 })

@@ -1,4 +1,4 @@
-export type NgnDragInfo = {
+export type JigDragInfo = {
   deltaX: number;
   deltaY: number;
   absoluteX: number;

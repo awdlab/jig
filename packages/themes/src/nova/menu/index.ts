@@ -1,7 +1,7 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import { colorsTemplate, sizesTemplate } from '@ngneers/controls-themes/nova/base';
-import { menuControlTemplate } from '@ngneers/controls-themes/templates/menu';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/nova/base';
+import { menuControlTemplate } from '@awdlab/jig-themes/templates/menu';
 
 export const menuStyles = createThemePart({
   controlTemplate: menuControlTemplate,

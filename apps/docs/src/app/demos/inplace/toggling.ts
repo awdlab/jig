@@ -1,28 +1,28 @@
 import { Component, signal } from '@angular/core';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnInplace } from '@ngneers/controls/inplace';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigButton } from '@awdlab/jig/button';
+import { JigInplace } from '@awdlab/jig/inplace';
 
 @Component({
-  imports: [NgnInplace, NgnTemplate, NgnButton],
-  selector: 'ngn-demo-inplace-toggling',
+  imports: [JigInplace, JigTemplate, JigButton],
+  selector: 'jig-demo-inplace-toggling',
   template: `
     <div class="flex flex-col gap-3">
       <div class="flex flex-wrap gap-2">
-        <button ngnButton (click)="inplace.switchToContent()">Show</button>
-        <button ngnButton (click)="inplace.switchToDisplay()">Hide</button>
-        <button ngnButton (click)="inplace.toggle()">Toggle</button>
+        <button jigButton (click)="inplace.switchToContent()">Show</button>
+        <button jigButton (click)="inplace.switchToDisplay()">Hide</button>
+        <button jigButton (click)="inplace.toggle()">Toggle</button>
       </div>
 
-      <ngn-inplace #inplace [(contentVisible)]="visible">
+      <jig-inplace #inplace [(contentVisible)]="visible">
         <ng-template #display>Show Details</ng-template>
-        <ng-template #content [ngnTemplate]="inplace.templateTypes.content" let-content>
+        <ng-template #content [jigTemplate]="inplace.templateTypes.content" let-content>
           <div class="flex items-center gap-2">
             <span>These are so many details!</span>
-            <button ngnButton kind="icon" (click)="content.close()">x</button>
+            <button jigButton kind="icon" (click)="content.close()">x</button>
           </div>
         </ng-template>
-      </ngn-inplace>
+      </jig-inplace>
 
       <span class="text-sm opacity-70">contentVisible = {{ visible() }}</span>
     </div>

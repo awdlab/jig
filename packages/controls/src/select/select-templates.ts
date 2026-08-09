@@ -1,9 +1,9 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
-import { templateTypesFn } from '@ngneers/controls/api/ng';
-import { ValueControlBase } from '@ngneers/controls/base';
+import { templateTypesFn } from '@awdlab/jig/api/ng';
+import { ValueControlBase } from '@awdlab/jig/base';
 
-import type { NgnItem } from '@ngneers/controls/api';
-import type { InputGeneric } from '@ngneers/controls/utils';
+import type { JigItem } from '@awdlab/jig/api';
+import type { InputGeneric } from '@awdlab/jig/utils';
 
 /**
  * This type determines the value type for the select control.
@@ -108,10 +108,10 @@ export abstract class SelectTemplates<
    */
   public readonly templateTypes = templateTypesFn<{
     item: {
-      $implicit: NgnItem<unknown, V> | undefined;
+      $implicit: JigItem<unknown, V> | undefined;
     };
     selectedItems: {
-      $implicit: NgnItem<unknown, V>[];
+      $implicit: JigItem<unknown, V>[];
     };
   }>();
 }

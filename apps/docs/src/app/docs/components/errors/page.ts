@@ -4,9 +4,9 @@ import { Demo_Errors_Reactive } from '../../../demos/errors/reactive';
 import { Demo_Errors_SignalForms } from '../../../demos/errors/signal-forms';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const ErrorsPage: NgnDocsPage = {
+export const ErrorsPage: JigDocsPage = {
   title: `Errors`,
   kind: 'tabs',
   tabs: [
@@ -28,7 +28,7 @@ export const ErrorsPage: NgnDocsPage = {
     i18nKeys(
       'errors',
       {
-        pending: 'Shown while an async validator is running, regardless of `ngnErrorsShowOn`.',
+        pending: 'Shown while an async validator is running, regardless of `jigErrorsShowOn`.',
         required: 'Default message for the `required` error.',
         email: 'Default message for the `email` error.',
         minlength:

@@ -1,4 +1,4 @@
-import { getColorPalette, getColorPaletteRgb } from '@ngneers/controls-themes/nova/colors';
+import { getColorPalette, getColorPaletteRgb } from '@awdlab/jig-themes/nova/colors';
 
 // Material Design base colors (the "500" tone of each MD palette). Shades are derived by nova's
 // lightness-sweep ramp (getColorPalette) rather than the exact MD tonal hexes.

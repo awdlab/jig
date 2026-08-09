@@ -1,4 +1,4 @@
-import { fuzzyMatch } from '@ngneers/controls/utils';
+import { fuzzyMatch } from '@awdlab/jig/utils';
 
 export type PredefinedStringMatchFunction =
   | 'contains'

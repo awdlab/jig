@@ -1,4 +1,4 @@
-import { NgnDocsSplitterPlayground } from './playground';
+import { JigDocsSplitterPlayground } from './playground';
 import { Demo_Splitter_Base } from '../../../demos/splitter/base';
 import { Demo_Splitter_Kinds } from '../../../demos/splitter/kinds';
 import { Demo_Splitter_MinMax } from '../../../demos/splitter/min-max';
@@ -7,9 +7,9 @@ import { Demo_Splitter_State } from '../../../demos/splitter/state';
 import { Demo_Splitter_Vertical } from '../../../demos/splitter/vertical';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const SplitterPage: NgnDocsPage = {
+export const SplitterPage: JigDocsPage = {
   title: `Splitter`,
   kind: 'tabs',
   tabs: [
@@ -31,7 +31,7 @@ export const SplitterPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsSplitterPlayground,
+      component: JigDocsSplitterPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/splitter/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/splitter/a11y.md' },

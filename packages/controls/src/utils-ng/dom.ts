@@ -1,4 +1,4 @@
-import { toggleClass } from '@ngneers/controls/utils';
+import { toggleClass } from '@awdlab/jig/utils';
 
 import { effectWithPrevious } from './signals';
 

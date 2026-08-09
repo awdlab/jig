@@ -4,41 +4,41 @@ import type { ValidationErrors } from '@angular/forms';
  * Origin of a normalized validation error.
  * @category types
  */
-export type NgnErrorsSource = 'control' | 'group' | 'custom';
+export type JigErrorsSource = 'control' | 'group' | 'custom';
 
 /**
  * Interaction state that controls when validation messages are visible.
  * @category types
  */
-export type NgnErrorsShowOn = 'touched' | 'dirty' | 'submitted' | 'always' | 'never';
+export type JigErrorsShowOn = 'touched' | 'dirty' | 'submitted' | 'always' | 'never';
 
 /**
  * Message aggregation mode for visible errors.
  * @category types
  */
-export type NgnErrorsMode = 'first' | 'all';
+export type JigErrorsMode = 'first' | 'all';
 
 /**
  * Static or computed message for a validation error key.
  * @category types
  */
-export type NgnErrorsMessage =
+export type JigErrorsMessage =
   | string
-  | ((error: NgnErrorsMessageContext) => string | null | undefined);
+  | ((error: JigErrorsMessageContext) => string | null | undefined);
 
 /**
  * Map of validation error keys to message resolvers.
  * @category types
  */
-export type NgnErrorsMessages = Record<string, NgnErrorsMessage>;
+export type JigErrorsMessages = Record<string, JigErrorsMessage>;
 
 /**
- * Custom errors supplied directly to ngnErrors.
+ * Custom errors supplied directly to jigErrors.
  * @category types
  */
-export type NgnErrorsCustom =
+export type JigErrorsCustom =
   | ValidationErrors
-  | readonly (string | NgnErrorsCustomEntry)[]
+  | readonly (string | JigErrorsCustomEntry)[]
   | null
   | undefined;
 
@@ -46,7 +46,7 @@ export type NgnErrorsCustom =
  * Custom error entry with optional value, params, and explicit message.
  * @category types
  */
-export interface NgnErrorsCustomEntry {
+export interface JigErrorsCustomEntry {
   key: string;
   value?: unknown;
   message?: string;
@@ -54,13 +54,13 @@ export interface NgnErrorsCustomEntry {
 }
 
 /**
- * Normalized validation error exposed by ngnErrors.
+ * Normalized validation error exposed by jigErrors.
  * @category types
  */
-export interface NgnError {
+export interface JigError {
   key: string;
   value: unknown;
-  source: NgnErrorsSource;
+  source: JigErrorsSource;
   message: string;
   params: Record<string, unknown>;
 }
@@ -69,10 +69,10 @@ export interface NgnError {
  * Context passed to computed validation message resolvers.
  * @category types
  */
-export interface NgnErrorsMessageContext {
+export interface JigErrorsMessageContext {
   key: string;
   value: unknown;
-  source: NgnErrorsSource;
+  source: JigErrorsSource;
   params: Record<string, unknown>;
 }
 
@@ -80,10 +80,10 @@ export interface NgnErrorsMessageContext {
  * Current validation state that can be bridged into hint controls.
  * @category types
  */
-export interface NgnErrorsState {
+export interface JigErrorsState {
   visible: boolean;
   pending: boolean;
-  errors: readonly NgnError[];
-  firstError: NgnError | null;
+  errors: readonly JigError[];
+  firstError: JigError | null;
   message: string | null;
 }

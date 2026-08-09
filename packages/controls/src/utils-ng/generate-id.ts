@@ -1,9 +1,9 @@
 import { inject } from '@angular/core';
 
-import { NgnGlobal } from './globals';
+import { JigGlobal } from './globals';
 
-const idPrefix = 'ngn-id-';
+const idPrefix = 'jig-id-';
 
 export function generateElementId() {
-  return idPrefix + inject(NgnGlobal).nextElementId++;
+  return idPrefix + inject(JigGlobal).nextElementId++;
 }

@@ -1,11 +1,7 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import {
-  animationTemplate,
-  colorsTemplate,
-  sizesTemplate,
-} from '@ngneers/controls-themes/material/base';
-import { checkboxControlTemplate } from '@ngneers/controls-themes/templates/checkbox';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { animationTemplate, colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/material/base';
+import { checkboxControlTemplate } from '@awdlab/jig-themes/templates/checkbox';
 
 export const checkboxStyles = createThemePart({
   controlTemplate: checkboxControlTemplate,

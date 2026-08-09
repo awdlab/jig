@@ -7,14 +7,14 @@ import { RouteLinks } from '../../../route-links';
 import type { CommentDisplayPart } from 'typedoc/browser';
 
 @Component({
-  selector: 'ngn-docs-api-comment',
+  selector: 'jig-docs-api-comment',
   templateUrl: 'comment.html',
   styleUrl: 'comment.scss',
   imports: [MarkdownPipe, AsyncPipe],
   // `{@link}` targets render as plain `<a href>` inside `[innerHTML]`.
   hostDirectives: [RouteLinks],
 })
-export class NgnDocsApiComment {
+export class JigDocsApiComment {
   public readonly comment = input<CommentDisplayPart[] | undefined>();
 
   protected readonly commentString = computed(() => {

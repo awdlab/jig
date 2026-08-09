@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { uploadControlTemplate } from '@ngneers/controls-themes/templates/upload';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { uploadControlTemplate } from '@awdlab/jig-themes/templates/upload';
 
 export const uploadStyles = createThemePart({
   controlTemplate: uploadControlTemplate,

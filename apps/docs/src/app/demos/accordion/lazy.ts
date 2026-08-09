@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgnAccordion, NgnAccordionPanel } from '@ngneers/controls/accordion';
+import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
 
 import { exampleData } from '../../helper/data';
 import { DummyLoremIpsumComponent1, DummyLoremIpsumComponent2 } from '../dummies/lorem-ipsum';
@@ -16,30 +16,30 @@ export class Demo3Component {
 }
 
 @Component({
-  selector: 'ngn-demo-accordion-lazy',
+  selector: 'jig-demo-accordion-lazy',
   imports: [
-    NgnAccordion,
-    NgnAccordionPanel,
+    JigAccordion,
+    JigAccordionPanel,
     DummyLoremIpsumComponent1,
     DummyLoremIpsumComponent2,
     Demo3Component,
   ],
-  template: `<ngn-accordion [lazy]="true">
-    <ngn-accordion-panel [header]="'Panel 1'">
+  template: `<jig-accordion [lazy]="true">
+    <jig-accordion-panel [header]="'Panel 1'">
       <ng-template #content>
         <dummy-lorem-ipsum-1 />
       </ng-template>
-    </ngn-accordion-panel>
-    <ngn-accordion-panel [header]="'Panel 2'" [lazy]="false">
+    </jig-accordion-panel>
+    <jig-accordion-panel [header]="'Panel 2'" [lazy]="false">
       <ng-template #content>
         <dummy-lorem-ipsum-2 />
       </ng-template>
-    </ngn-accordion-panel>
-    <ngn-accordion-panel [header]="'Panel 3'" [cache]="true">
+    </jig-accordion-panel>
+    <jig-accordion-panel [header]="'Panel 3'" [cache]="true">
       <ng-template #content>
         <demo-3 />
       </ng-template>
-    </ngn-accordion-panel>
-  </ngn-accordion>`,
+    </jig-accordion-panel>
+  </jig-accordion>`,
 })
 export class Demo_Accordion_Lazy {}

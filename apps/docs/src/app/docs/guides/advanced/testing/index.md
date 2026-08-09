@@ -1,22 +1,22 @@
 Because a control ships no CSS of its own and renders through a theme, the DOM
 you assert against is generated — hand-written selectors break the moment a
-theme part changes. `@ngneers/controls-playwright` exists so you never write
+theme part changes. `@awdlab/jig-playwright` exists so you never write
 one.
 
 ```bash
-pnpm add -D @ngneers/controls-playwright
+pnpm add -D @awdlab/jig-playwright
 ```
 
 ### Harnesses
 
-Each control has an `Ngn*Harness` that wraps its DOM and speaks in terms of the
+Each control has a `jig*Harness` that wraps its DOM and speaks in terms of the
 control's behaviour:
 
 ```ts
-import { NgnSelectHarness } from '@ngneers/controls-playwright';
+import { JigSelectHarness } from '@awdlab/jig-playwright';
 
 test('picks an option', async ({ page }) => {
-  const select = new NgnSelectHarness(page.locator('ngn-select'));
+  const select = new JigSelectHarness(page.locator('jig-select'));
 
   await select.open();
   await select.clickItemByText('Option 2');
@@ -33,21 +33,21 @@ A harness takes a `Locator` for the control's host element and exposes:
   `select.popoverContent` — for the cases the shorthand does not cover.
 
 The assertions encode the timing rules the DOM alone does not tell you. For
-example `NgnSelectHarness.expectOpened()` waits for the trigger's
+example `JigSelectHarness.expectOpened()` waits for the trigger's
 `aria-expanded`, not merely for the panel to be visible — the panel is painted
 a frame before the popover actually enters the top layer, and asserting on
 visibility alone lets a following Escape keypress get lost.
 
 ### Selectors, when you need them
 
-`NGN_CLASSES` holds the generated class selectors for the common controls, and
+`JIG_CLASSES` holds the generated class selectors for the common controls, and
 `themeClasses(template)` derives them for any control template:
 
 ```ts
-import { NGN_CLASSES, themeClasses } from '@ngneers/controls-playwright';
-import { tagControlTemplate } from '@ngneers/controls-themes/templates/tag';
+import { JIG_CLASSES, themeClasses } from '@awdlab/jig-playwright';
+import { tagControlTemplate } from '@awdlab/jig-themes/templates/tag';
 
-page.locator(NGN_CLASSES.button.root);
+page.locator(JIG_CLASSES.button.root);
 page.locator(themeClasses(tagControlTemplate).label);
 ```
 
@@ -60,16 +60,16 @@ and it doubles as an accessibility check.
 
 ### Unit tests
 
-For component tests, `provideNgnControls` is all the setup needed — with a
+For component tests, `provideJigControls` is all the setup needed — with a
 theme preset, or controls throw:
 
 ```ts
 import { TestBed } from '@angular/core/testing';
-import { provideNgnControls } from '@ngneers/controls/api/ng';
-import { nova } from '@ngneers/controls-themes/nova';
+import { provideJigControls } from '@awdlab/jig/api/ng';
+import { nova } from '@awdlab/jig-themes/nova';
 
 TestBed.configureTestingModule({
-  providers: [provideNgnControls({ theme: { preset: nova }, disableAnimations: true })],
+  providers: [provideJigControls({ theme: { preset: nova }, disableAnimations: true })],
 });
 ```
 

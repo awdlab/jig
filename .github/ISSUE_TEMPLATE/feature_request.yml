@@ -20,7 +20,7 @@ body:
       description: The API you have in mind, if you have one.
       placeholder: |
         ```html
-        <ngn-select [groupBy]="'region'" />
+        <jig-select [groupBy]="'region'" />
         ```
     validations:
       required: false
@@ -38,7 +38,7 @@ body:
     attributes:
       label: Checks
       options:
-        - label: I checked the docs at https://ngneers.dev
+        - label: I checked the docs at https://jig.awdlab.dev
           required: true
         - label: I searched existing issues
           required: true

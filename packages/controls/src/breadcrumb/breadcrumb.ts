@@ -1,31 +1,31 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnPt, provideSelf } from '@ngneers/controls/base';
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnItemView } from '@ngneers/controls/item-view';
-import { NgnMenu } from '@ngneers/controls/menu';
-import { maybeCallback } from '@ngneers/controls/utils';
-import { breadcrumbControlTemplate } from '@ngneers/controls-themes/templates/breadcrumb';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigItemView } from '@awdlab/jig/item-view';
+import { JigMenu } from '@awdlab/jig/menu';
+import { maybeCallback } from '@awdlab/jig/utils';
+import { breadcrumbControlTemplate } from '@awdlab/jig-themes/templates/breadcrumb';
 
 import { BreadcrumbTemplates } from './breadcrumb-templates';
 
 import type { BreadcrumbItem } from './types';
-import type { IconType } from '@ngneers/controls-custom-types';
+import type { IconType } from '@awdlab/jig-custom-types';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'ngn-breadcrumb',
+  selector: 'jig-breadcrumb',
   templateUrl: './breadcrumb.html',
-  imports: [NgnPt, RouterLink, NgTemplateOutlet, NgnTemplate, NgnIcon, NgnItemView, NgnMenu],
+  imports: [JigPt, RouterLink, NgTemplateOutlet, JigTemplate, JigIcon, JigItemView, JigMenu],
 
-  providers: [provideSelf(NgnBreadcrumb)],
+  providers: [provideSelf(JigBreadcrumb)],
 })
-export class NgnBreadcrumb extends BreadcrumbTemplates {
+export class JigBreadcrumb extends BreadcrumbTemplates {
   protected readonly theme = this.injectThemeTemplate(breadcrumbControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
 

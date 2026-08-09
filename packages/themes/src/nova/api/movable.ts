@@ -1,6 +1,6 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { baseStyles } from '@ngneers/controls-themes/base';
-import { movableDirectiveTemplate } from '@ngneers/controls-themes/templates/api';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
+import { movableDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
 
 export const movableStyles = createThemePart({
   controlTemplate: movableDirectiveTemplate,

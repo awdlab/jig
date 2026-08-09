@@ -1,1 +1,1 @@
-{{ api: number-input/number-input NgnNumberInput }}
+{{ api: number-input/number-input JigNumberInput }}

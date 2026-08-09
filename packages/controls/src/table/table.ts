@@ -12,18 +12,18 @@ import {
   booleanAttribute,
   viewChild,
 } from '@angular/core';
-import { elementSizeSignal, NgnTemplate } from '@ngneers/controls/api/ng';
-import { NgnPt, provideSelf } from '@ngneers/controls/base';
-import { NgnButton } from '@ngneers/controls/button';
-import { I18n } from '@ngneers/controls/i18n';
-import { NgnIcon } from '@ngneers/controls/icon';
-import { NgnPaginator, type PaginationState } from '@ngneers/controls/paginator';
-import { NgnScrollShadow } from '@ngneers/controls/scroll-shadow';
-import { NgnScroller } from '@ngneers/controls/scroller';
-import { tableControlTemplate } from '@ngneers/controls-themes/templates/table';
+import { elementSizeSignal, JigTemplate } from '@awdlab/jig/api/ng';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigButton } from '@awdlab/jig/button';
+import { I18n } from '@awdlab/jig/i18n';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigPaginator, type PaginationState } from '@awdlab/jig/paginator';
+import { JigScrollShadow } from '@awdlab/jig/scroll-shadow';
+import { JigScroller } from '@awdlab/jig/scroller';
+import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
 import { TableColumnLayoutModel } from './table-column-layout-model';
-import { NgnTableGroupHeaderTr } from './table-group-header-row';
+import { JigTableGroupHeaderTr } from './table-group-header-row';
 import { TableLazyModel } from './table-lazy-model';
 import {
   filterRows,
@@ -34,10 +34,10 @@ import {
 } from './table-row-model';
 import { TableRowNavigationModel } from './table-row-navigation-model';
 import { TableSelectionModel } from './table-selection-model';
-import { NgnTableTemplates } from './table-templates';
+import { JigTableTemplates } from './table-templates';
 
-import type { NgnTableTh } from './table-header-cell';
-import type { NgnTableRowActions } from './table-row-actions';
+import type { JigTableTh } from './table-header-cell';
+import type { JigTableRowActions } from './table-row-actions';
 import type {
   FormattedTableDataRow,
   FormattedTableGroupHeaderRow,
@@ -45,9 +45,9 @@ import type {
   TableDataSource,
   TableSelectionMode,
 } from './types';
-import type { NgnFilterConfig } from '@ngneers/controls/filter';
-import { NgnError, type AllKeysOfUnion } from '@ngneers/controls/utils';
-import { generateElementId } from '@ngneers/controls/utils-ng';
+import type { JigFilterConfig } from '@awdlab/jig/filter';
+import { JigError, type AllKeysOfUnion } from '@awdlab/jig/utils';
+import { generateElementId } from '@awdlab/jig/utils-ng';
 
 const DEFAULT_LAZY_PAGE_SIZE = 25;
 
@@ -55,21 +55,21 @@ const DEFAULT_LAZY_PAGE_SIZE = 25;
  * @category control
  */
 @Component({
-  selector: 'ngn-table',
+  selector: 'jig-table',
   templateUrl: './table.html',
 
   imports: [
     NgTemplateOutlet,
-    NgnScroller,
-    NgnPaginator,
-    NgnTemplate,
-    NgnPt,
-    NgnIcon,
-    NgnTableGroupHeaderTr,
-    NgnScrollShadow,
-    NgnButton,
+    JigScroller,
+    JigPaginator,
+    JigTemplate,
+    JigPt,
+    JigIcon,
+    JigTableGroupHeaderTr,
+    JigScrollShadow,
+    JigButton,
   ],
-  providers: [provideSelf(NgnTable)],
+  providers: [provideSelf(JigTable)],
   // Keydown is bound on the host so it also catches keys from the grid's tab stop.
   host: {
     '(keydown)': 'onKeyDown($event)',
@@ -77,11 +77,11 @@ const DEFAULT_LAZY_PAGE_SIZE = 25;
     '(focusout)': 'onFocusOut($event)',
   },
 })
-export class NgnTable<
+export class JigTable<
   T extends object,
   K extends keyof T,
   G extends Extract<AllKeysOfUnion<T>, string> = never,
-> extends NgnTableTemplates<T> {
+> extends JigTableTemplates<T> {
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate, {
     root: true,
     virtual: () => this.virtual(),
@@ -91,7 +91,7 @@ export class NgnTable<
     reordering: () => this._columns?.isReordering() ?? false,
     loading: () => this.loadStatus() === 'loading',
   });
-  private readonly _scroller = viewChild.required(NgnScroller);
+  private readonly _scroller = viewChild.required(JigScroller);
   private readonly _grid = viewChild.required<ElementRef<HTMLElement>>('scrollContainer');
   private readonly _gridId = generateElementId();
   private readonly _head = viewChild<ElementRef<HTMLElement>>('head');
@@ -254,7 +254,7 @@ export class NgnTable<
    */
   public readonly filters = model<
     | {
-        [key in Extract<AllKeysOfUnion<T>, string>]?: NgnFilterConfig;
+        [key in Extract<AllKeysOfUnion<T>, string>]?: JigFilterConfig;
       }
     | null
   >(null);
@@ -270,7 +270,7 @@ export class NgnTable<
   private readonly _lazyModel = new TableLazyModel<T>({
     dataSource: this.dataSource,
     sort: this.sort,
-    filters: computed(() => this.filters() as Record<string, NgnFilterConfig> | null),
+    filters: computed(() => this.filters() as Record<string, JigFilterConfig> | null),
     mode: this.lazyMode,
   });
 
@@ -300,7 +300,7 @@ export class NgnTable<
 
   /**
    * Whether a selection column directive is present in the template.
-   * Set automatically by `NgnTableSelectionColumn` — do not set manually.
+   * Set automatically by `JigTableSelectionColumn` — do not set manually.
    */
   public readonly showCheckboxes = this._columns.hasSelectionColumn;
   protected readonly dropIndicatorState = this._columns.dropIndicatorState;
@@ -318,7 +318,7 @@ export class NgnTable<
 
   /**
    * The single current-row index (index in {@link formattedRows}) for
-   * keyboard navigation. Shared by {@link NgnTable}'s selection keyboard
+   * keyboard navigation. Shared by {@link JigTable}'s selection keyboard
    * handling and row-actions keyboard navigation — arrows move it, and (when
    * {@link selectionMode} is set) selection follows it. Cleared whenever
    * {@link formattedRows} changes identity (sort/filter/rows replaced) so it
@@ -332,7 +332,7 @@ export class NgnTable<
 
   // --- Row actions registry + keyboard navigation ---
 
-  private readonly _rowActions = new Map<number, NgnTableRowActions>();
+  private readonly _rowActions = new Map<number, JigTableRowActions>();
   private readonly _rowNav: TableRowNavigationModel<T>;
 
   /**
@@ -561,7 +561,7 @@ export class NgnTable<
     // Lazy grouping needs the full row set, which lazy mode never has.
     effect(() => {
       if (this.lazy() && this.groupBy()) {
-        throw new NgnError('table', 'groupBy is not supported with a lazy dataSource (v1)');
+        throw new JigError('table', 'groupBy is not supported with a lazy dataSource (v1)');
       }
     });
 
@@ -627,7 +627,7 @@ export class NgnTable<
     return this._columns.getVisualColumnIndex(logicalIndex);
   }
 
-  public getRegisteredHeaderCells(): readonly NgnTableTh[] {
+  public getRegisteredHeaderCells(): readonly JigTableTh[] {
     return this._columns.getRegisteredHeaderCells();
   }
 
@@ -637,11 +637,11 @@ export class NgnTable<
     return this._columns.getStickyInfo(columnId);
   }
 
-  public registerHeaderCell(cell: NgnTableTh): void {
+  public registerHeaderCell(cell: JigTableTh): void {
     this._columns.registerHeaderCell(cell);
   }
 
-  public unregisterHeaderCell(cell: NgnTableTh): void {
+  public unregisterHeaderCell(cell: JigTableTh): void {
     this._columns.unregisterHeaderCell(cell);
   }
 
@@ -661,7 +661,7 @@ export class NgnTable<
     this._columns.unregisterStickyColumn(columnId);
   }
 
-  // --- Resize operations (called by NgnTableTh) ---
+  // --- Resize operations (called by JigTableTh) ---
 
   public startColumnResize(columnIndex: number, event: PointerEvent): void {
     this._columns.startColumnResize(columnIndex, event);
@@ -679,7 +679,7 @@ export class NgnTable<
     this._columns.autoSizeColumn(columnIndex);
   }
 
-  // --- Reorder operations (called by NgnTableReorderableColumn) ---
+  // --- Reorder operations (called by JigTableReorderableColumn) ---
 
   public getReorderBounds(columnId: string): { min: number; max: number } {
     return this._columns.getReorderBounds(columnId);
@@ -726,26 +726,26 @@ export class NgnTable<
   // --- Row actions registry ---
 
   /**
-   * Registers a row's {@link NgnTableRowActions} directive keyed by its row
+   * Registers a row's {@link JigTableRowActions} directive keyed by its row
    * index, so keyboard navigation can look up the active row's actions.
-   * Called by `NgnTableRowActions`; not intended for manual use.
+   * Called by `JigTableRowActions`; not intended for manual use.
    */
-  public registerRowActions(index: number, dir: NgnTableRowActions): void {
+  public registerRowActions(index: number, dir: JigTableRowActions): void {
     this._rowActions.set(index, dir);
   }
 
   /**
-   * Unregisters a row's actions directive. Called by `NgnTableRowActions`.
+   * Unregisters a row's actions directive. Called by `JigTableRowActions`.
    * Only removes the entry if `dir` is still the registered owner for
    * `index`, so a stale unregister (e.g. after row recycling re-registered
    * a different instance at the same index) cannot clobber it.
    */
-  public unregisterRowActions(index: number, dir: NgnTableRowActions): void {
+  public unregisterRowActions(index: number, dir: JigTableRowActions): void {
     if (this._rowActions.get(index) === dir) this._rowActions.delete(index);
   }
 
   /** Looks up the registered actions directive for a row index, if any. */
-  public getRowActions(index: number): NgnTableRowActions | undefined {
+  public getRowActions(index: number): JigTableRowActions | undefined {
     return this._rowActions.get(index);
   }
 
@@ -753,7 +753,7 @@ export class NgnTable<
    * Whether keyboard focus is currently inside the action bar of the row at
    * `index` — i.e. this row is both the current row and
    * {@link TableRowNavigationModel.inActions}. Drives the `active-row`
-   * highlight in {@link NgnTableBodyTr}.
+   * highlight in {@link JigTableBodyTr}.
    */
   public isRowInActions(index: number): boolean {
     return this._rowNav.inActions() && this.focusedRowIndex() === index;
@@ -768,7 +768,7 @@ export class NgnTable<
    */
   protected onFocusIn(event: FocusEvent): void {
     const target = event.target as HTMLElement | null;
-    const bar = target?.closest('ngn-table-row-actions-bar') ?? null;
+    const bar = target?.closest('jig-table-row-actions-bar') ?? null;
     this._rowNav.inActions.set(!!bar);
     if (!bar) return;
     // Tabbing straight into a bar makes its row the current one, so leaving the

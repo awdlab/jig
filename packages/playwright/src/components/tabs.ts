@@ -1,8 +1,8 @@
 import { type Locator, expect } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
-import { tabsControlTemplate } from '@ngneers/controls-themes/templates/tabs';
+import { tabsControlTemplate } from '@awdlab/jig-themes/templates/tabs';
 
-export class NgnTabsHarness {
+export class JigTabsHarness {
   public readonly classes = themeClasses(tabsControlTemplate);
 
   public readonly headers: Locator;
@@ -13,8 +13,8 @@ export class NgnTabsHarness {
     this.contents = this.locator.locator(this.classes['content']);
   }
 
-  public getTabByIndex(index: number): NgnTabHarness {
-    return new NgnTabHarness(this, index);
+  public getTabByIndex(index: number): JigTabHarness {
+    return new JigTabHarness(this, index);
   }
 
   public expectTabCount(count: number) {
@@ -22,14 +22,14 @@ export class NgnTabsHarness {
   }
 }
 
-export class NgnTabHarness {
+export class JigTabHarness {
   public readonly classes = themeClasses(tabsControlTemplate);
 
   public readonly header: Locator;
   public readonly content: Locator;
 
   constructor(
-    public tabs: NgnTabsHarness,
+    public tabs: JigTabsHarness,
     public index: number
   ) {
     this.header = this.tabs.headers.nth(index);

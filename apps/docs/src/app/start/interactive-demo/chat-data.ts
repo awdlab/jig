@@ -1,4 +1,4 @@
-import type { NgnItem } from '@ngneers/controls/api';
+import type { JigItem } from '@awdlab/jig/api';
 
 import type { PaletteColorName } from './data';
 
@@ -9,7 +9,7 @@ export interface ChatUser {
   id: string;
   name: string;
   initials: string;
-  /** Avatar background — a soft `--ngn-color-*-200` CSS variable (dark initials stay readable). */
+  /** Avatar background — a soft `--jig-color-*-200` CSS variable (dark initials stay readable). */
   color: string;
   presence: Presence;
   /** Role shown in the channel members list. */
@@ -92,7 +92,7 @@ export const USERS: Record<string, ChatUser> = {
     id: 'me',
     name: 'You',
     initials: 'YO',
-    color: 'var(--ngn-color-primary-200)',
+    color: 'var(--jig-color-primary-200)',
     presence: 'online',
     role: 'You',
   },
@@ -100,7 +100,7 @@ export const USERS: Record<string, ChatUser> = {
     id: 'alex',
     name: 'Alex Rivera',
     initials: 'AR',
-    color: 'var(--ngn-color-info-200)',
+    color: 'var(--jig-color-info-200)',
     presence: 'online',
     role: 'Product Designer',
   },
@@ -108,7 +108,7 @@ export const USERS: Record<string, ChatUser> = {
     id: 'sam',
     name: 'Sam Chen',
     initials: 'SC',
-    color: 'var(--ngn-color-success-200)',
+    color: 'var(--jig-color-success-200)',
     presence: 'online',
     role: 'Frontend Engineer',
   },
@@ -116,7 +116,7 @@ export const USERS: Record<string, ChatUser> = {
     id: 'maya',
     name: 'Maya Patel',
     initials: 'MP',
-    color: 'var(--ngn-color-accent-200)',
+    color: 'var(--jig-color-accent-200)',
     presence: 'away',
     role: 'Product Manager',
   },
@@ -124,7 +124,7 @@ export const USERS: Record<string, ChatUser> = {
     id: 'leo',
     name: 'Leo Novak',
     initials: 'LN',
-    color: 'var(--ngn-color-warning-200)',
+    color: 'var(--jig-color-warning-200)',
     presence: 'offline',
     role: 'Backend Engineer',
   },
@@ -132,7 +132,7 @@ export const USERS: Record<string, ChatUser> = {
     id: 'nina',
     name: 'Nina Berg',
     initials: 'NB',
-    color: 'var(--ngn-color-secondary-200)',
+    color: 'var(--jig-color-secondary-200)',
     presence: 'online',
     role: 'QA Engineer',
   },
@@ -282,7 +282,7 @@ export const MESSAGES: Record<string, ChatMessage[]> = {
 
 /** Pinned message snippets shown in the details panel (kept generic across channels). */
 export const PINNED: readonly { author: string; text: string }[] = [
-  { author: 'Maya Patel', text: 'Design review notes → figma.com/ngneers/v2' },
+  { author: 'Maya Patel', text: 'Design review notes → figma.com/awdlab/v2' },
   { author: 'Alex Rivera', text: 'Token naming convention doc (please read before PRs)' },
 ];
 
@@ -298,16 +298,16 @@ export const SHARED_FILES: readonly SharedFile[] = [
  * `success`/`warning` — otherwise the fill resolves to transparent and the dot looks broken.
  */
 export const PRESENCE_COLOR: Record<Presence, string> = {
-  online: 'var(--ngn-color-success-500, #22c55e)',
-  away: 'var(--ngn-color-warning-500, #f59e0b)',
-  offline: 'var(--ngn-color-surface-400, #a1a1aa)',
+  online: 'var(--jig-color-success-500, #22c55e)',
+  away: 'var(--jig-color-warning-500, #f59e0b)',
+  offline: 'var(--jig-color-surface-400, #a1a1aa)',
 };
 
 /** Build the grouped list-box items (Channels / Direct Messages) from a set of conversations. */
 export function toConversationItems(
   conversations: readonly Conversation[]
-): NgnItem<Conversation, string>[] {
-  const group = (label: string, kind: ConversationKind): NgnItem<Conversation, string> => ({
+): JigItem<Conversation, string>[] {
+  const group = (label: string, kind: ConversationKind): JigItem<Conversation, string> => ({
     label,
     value: `grp-${kind}`,
     items: conversations

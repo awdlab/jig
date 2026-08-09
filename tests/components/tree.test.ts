@@ -1,4 +1,4 @@
-import { NgnTreeHarness } from '@ngneers/controls-playwright';
+import { JigTreeHarness } from '@awdlab/jig-playwright';
 import test, { expect } from '@playwright/test';
 
 import { exampleData } from '../helper/data';
@@ -6,7 +6,7 @@ import { evalValue, loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
-import type { NgnTreeItem } from '@ngneers/controls/api';
+import type { JigTreeItem } from '@awdlab/jig/api';
 import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 
 const grouped = exampleData.items.groupedPreformatted;
@@ -14,13 +14,13 @@ const STYLE = 'width: 300px; height: 400px; display: block;';
 
 function treeTmpl(attrs = ''): TemplateType {
   return {
-    template: `<ngn-tree style="${STYLE}" [items]="inputs().items" ${attrs} />`,
+    template: `<jig-tree style="${STYLE}" [items]="inputs().items" ${attrs} />`,
     imports: ['tree'],
   };
 }
 
 function harness(page: import('@playwright/test').Page) {
-  return new NgnTreeHarness(page.locator('ngn-tree').first());
+  return new JigTreeHarness(page.locator('jig-tree').first());
 }
 
 test('base', async ({ page }, testInfo) => {
@@ -106,7 +106,7 @@ test('multiselect cascade checkboxes', async ({ page }, testInfo) => {
 });
 
 test.describe('disabled nodes', () => {
-  const disabledTree: NgnTreeItem[] = [
+  const disabledTree: JigTreeItem[] = [
     {
       label: 'Fruit',
       value: 'fruit',
@@ -141,7 +141,7 @@ test.describe('disabled nodes', () => {
     await tree.expectDisabled('Apple', false);
     await tree.expectDisabled('Banana', true);
     // A disabled node keeps its checkbox (disabled) for column alignment.
-    await expect(tree.getNode('Banana').locator('ngn-checkbox')).toHaveCount(1);
+    await expect(tree.getNode('Banana').locator('jig-checkbox')).toHaveCount(1);
 
     // Clicking a disabled leaf does not select it.
     await tree.getNode('Banana').click({ force: true });
@@ -169,11 +169,11 @@ test('custom item template', async ({ page }, testInfo) => {
     page,
     {
       template: `
-        <ngn-tree style="${STYLE}" [items]="inputs().items">
+        <jig-tree style="${STYLE}" [items]="inputs().items">
           <ng-template #item let-item let-hasChildren="hasChildren">
             <span>{{ hasChildren ? '📁' : '📄' }} {{ item.label }}</span>
           </ng-template>
-        </ngn-tree>
+        </jig-tree>
       `,
       imports: ['tree'],
     },
@@ -188,7 +188,7 @@ test('custom item template', async ({ page }, testInfo) => {
 });
 
 test('virtual scrolling renders only a window of nodes', async ({ page }, testInfo) => {
-  const many: NgnTreeItem[] = Array.from({ length: 200 }, (_, i) => ({
+  const many: JigTreeItem[] = Array.from({ length: 200 }, (_, i) => ({
     label: `Item ${i}`,
     value: `i${i}`,
   }));
@@ -262,7 +262,7 @@ test('persists state to storage across reloads', async ({ page }) => {
   // collapsed regardless of any pre-existing storage (the flag keeps the
   // remount navigation from wiping the state we just persisted).
   await page.addInitScript(k => {
-    const flag = `__ngn_cleared_${k}`;
+    const flag = `__jig_cleared_${k}`;
     if (!sessionStorage.getItem(flag)) {
       localStorage.removeItem(k);
       sessionStorage.setItem(flag, '1');

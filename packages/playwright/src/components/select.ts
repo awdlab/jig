@@ -1,36 +1,36 @@
 import { expect, type Locator } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
-import { selectControlTemplate } from '@ngneers/controls-themes/templates/select';
-import { NgnInputHarness } from './input';
-import { NGN_CLASSES } from '../utils/classes';
-import { NgnListBoxHarness } from './list-box';
-import { NgnInputFieldHarness } from './input-field';
-import { NgnItemViewHarness } from './item-view';
+import { selectControlTemplate } from '@awdlab/jig-themes/templates/select';
+import { JigInputHarness } from './input';
+import { JIG_CLASSES } from '../utils/classes';
+import { JigListBoxHarness } from './list-box';
+import { JigInputFieldHarness } from './input-field';
+import { JigItemViewHarness } from './item-view';
 
-export class NgnSelectHarness {
+export class JigSelectHarness {
   public readonly classes = themeClasses(selectControlTemplate);
-  public readonly filter: NgnInputFieldHarness<{ input: NgnInputHarness }>;
+  public readonly filter: JigInputFieldHarness<{ input: JigInputHarness }>;
   public readonly filterIcon: Locator;
   public readonly icon: Locator;
   public readonly input: Locator;
-  public readonly inputEditable: NgnInputHarness;
-  public readonly listBox: NgnListBoxHarness;
+  public readonly inputEditable: JigInputHarness;
+  public readonly listBox: JigListBoxHarness;
   public readonly popoverContent: Locator;
-  public readonly multipleItemView: NgnItemViewHarness;
+  public readonly multipleItemView: JigItemViewHarness;
 
   constructor(public locator: Locator) {
-    this.filter = new NgnInputFieldHarness(locator.locator(this.classes['filter']['root']), l => ({
-      input: new NgnInputHarness(l.locator(NGN_CLASSES.input['root'])),
+    this.filter = new JigInputFieldHarness(locator.locator(this.classes['filter']['root']), l => ({
+      input: new JigInputHarness(l.locator(JIG_CLASSES.input['root'])),
     }));
     this.filterIcon = locator.locator(this.classes['filter-icon']);
     this.icon = locator.locator(this.classes['icon']);
     this.input = locator.locator(this.classes['input']);
-    this.inputEditable = new NgnInputHarness(
-      locator.locator(`${this.classes['input-editable']} ${NGN_CLASSES.input['root']}`)
+    this.inputEditable = new JigInputHarness(
+      locator.locator(`${this.classes['input-editable']} ${JIG_CLASSES.input['root']}`)
     );
-    this.listBox = new NgnListBoxHarness(locator.locator(this.classes['list-box']['root']));
+    this.listBox = new JigListBoxHarness(locator.locator(this.classes['list-box']['root']));
     this.popoverContent = locator.locator(this.classes['popover-content']);
-    this.multipleItemView = new NgnItemViewHarness(locator.locator('ngn-item-view'));
+    this.multipleItemView = new JigItemViewHarness(locator.locator('jig-item-view'));
   }
 
   public async expectOpened(opened = true) {

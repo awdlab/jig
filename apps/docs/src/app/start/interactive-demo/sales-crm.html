@@ -1,56 +1,56 @@
-<div class="p-(--ngn-size-padding-xl)">
+<div class="p-(--jig-size-padding-xl)">
   <!-- Header: breadcrumb + title + date range + search -->
   <div
-    class="mb-(--ngn-size-padding-xl) flex flex-col gap-(--ngn-size-padding-lg) md:flex-row md:items-start md:justify-between"
+    class="mb-(--jig-size-padding-xl) flex flex-col gap-(--jig-size-padding-lg) md:flex-row md:items-start md:justify-between"
   >
     <div>
-      <ngn-breadcrumb [items]="breadcrumbItems" />
+      <jig-breadcrumb [items]="breadcrumbItems" />
       <h3
-        class="mt-(--ngn-size-padding-sm) text-(length:--ngn-font-size-xl) font-(--ngn-font-weight-bold) text-(--ngn-color-text)"
+        class="mt-(--jig-size-padding-sm) text-(length:--jig-font-size-xl) font-(--jig-font-weight-bold) text-(--jig-color-text)"
       >
         Sales Overview
       </h3>
     </div>
-    <div class="flex flex-wrap items-center gap-(--ngn-size-padding-md)">
-      <ngn-input-field class="w-56">
-        <ngn-icon [icon]="calendarIcon" class="mr-1" />
-        <ngn-select [options]="dateRangeOptions" [(value)]="dateRange" />
-      </ngn-input-field>
-      <ngn-input-field class="w-64">
-        <ngn-icon [icon]="searchIcon" />
+    <div class="flex flex-wrap items-center gap-(--jig-size-padding-md)">
+      <jig-input-field class="w-56">
+        <jig-icon [icon]="calendarIcon" class="mr-1" />
+        <jig-select [options]="dateRangeOptions" [(value)]="dateRange" />
+      </jig-input-field>
+      <jig-input-field class="w-64">
+        <jig-icon [icon]="searchIcon" />
         <input
-          ngnInput
+          jigInput
           placeholder="Search accounts..."
           [value]="search()"
           (valueChange)="onSearch($event)"
         />
-      </ngn-input-field>
+      </jig-input-field>
     </div>
   </div>
 
   <!-- KPI cards -->
   <div
-    class="mb-(--ngn-size-padding-xl) grid grid-cols-1 gap-(--ngn-size-padding-lg) sm:grid-cols-2 lg:grid-cols-4"
+    class="mb-(--jig-size-padding-xl) grid grid-cols-1 gap-(--jig-size-padding-lg) sm:grid-cols-2 lg:grid-cols-4"
   >
     @for (kpi of kpis; track kpi.label) {
-      <div class="card p-(--ngn-size-padding-xl)" [ngnTooltip]="kpi.tooltip">
-        <div class="mb-(--ngn-size-padding-md) flex items-center justify-between">
+      <div class="card p-(--jig-size-padding-xl)" [jigTooltip]="kpi.tooltip">
+        <div class="mb-(--jig-size-padding-md) flex items-center justify-between">
           <span
-            class="text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-semibold) tracking-wide text-(--ngn-color-surface-600) uppercase"
+            class="text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-600) uppercase"
           >
             {{ kpi.label }}
           </span>
           <span [style.color]="colorVar(kpi.iconColor)">
-            <ngn-icon [icon]="kpi.icon" />
+            <jig-icon [icon]="kpi.icon" />
           </span>
         </div>
         <div
-          class="mb-(--ngn-size-padding-sm) text-(length:--ngn-font-size-2xl) font-(--ngn-font-weight-bold) text-(--ngn-color-text)"
+          class="mb-(--jig-size-padding-sm) text-(length:--jig-font-size-2xl) font-(--jig-font-weight-bold) text-(--jig-color-text)"
         >
           {{ kpi.value }}
         </div>
         <div
-          class="text-(length:--ngn-font-size-xs) font-(--ngn-font-weight-medium)"
+          class="text-(length:--jig-font-size-xs) font-(--jig-font-weight-medium)"
           [style.color]="colorVar(kpi.trendColor, 600)"
         >
           {{ kpi.trend }}
@@ -61,58 +61,58 @@
 
   <!-- Opportunities + Lead capture -->
   <div
-    class="mb-(--ngn-size-padding-xl) grid grid-cols-1 gap-(--ngn-size-padding-xl) lg:grid-cols-6"
+    class="mb-(--jig-size-padding-xl) grid grid-cols-1 gap-(--jig-size-padding-xl) lg:grid-cols-6"
   >
-    <div class="card flex flex-col p-(--ngn-size-padding-xl) lg:col-span-4">
-      <div class="mb-(--ngn-size-padding-lg) flex items-center justify-between">
+    <div class="card flex flex-col p-(--jig-size-padding-xl) lg:col-span-4">
+      <div class="mb-(--jig-size-padding-lg) flex items-center justify-between">
         <h3
-          class="text-(length:--ngn-font-size-lg) font-(--ngn-font-weight-semibold) text-(--ngn-color-text)"
+          class="text-(length:--jig-font-size-lg) font-(--jig-font-weight-semibold) text-(--jig-color-text)"
         >
           Recent Opportunities
         </h3>
-        <button ngnButton kind="icon" aria-label="Export opportunities" ngnTooltip="Export to CSV">
-          <ngn-icon [icon]="downloadIcon" />
+        <button jigButton kind="icon" aria-label="Export opportunities" jigTooltip="Export to CSV">
+          <jig-icon [icon]="downloadIcon" />
         </button>
       </div>
 
       <div class="sales-crm-table-area relative grow overflow-x-auto">
-        <ngn-table #table [rows]="pagedRows()" [fieldId]="'id'">
+        <jig-table #table [rows]="pagedRows()" [fieldId]="'id'">
           <ng-template #header>
-            <tr ngnTableHeadTr>
-              <th scope="col" [ngnTableTh]="table.column('company')">Company</th>
-              <th scope="col" [ngnTableTh]="table.column('value')">Value</th>
-              <th scope="col" [ngnTableTh]="table.column('status')">Status</th>
-              <th scope="col" [ngnTableTh]="table.column('owner')">Owner</th>
-              <th scope="col" [ngnTableTh]="'actions'" [ngnTableStickyColumn]="'end'">
+            <tr jigTableHeadTr>
+              <th scope="col" [jigTableTh]="table.column('company')">Company</th>
+              <th scope="col" [jigTableTh]="table.column('value')">Value</th>
+              <th scope="col" [jigTableTh]="table.column('status')">Status</th>
+              <th scope="col" [jigTableTh]="table.column('owner')">Owner</th>
+              <th scope="col" [jigTableTh]="'actions'" [jigTableStickyColumn]="'end'">
                 <span class="sr-only">Actions</span>
               </th>
             </tr>
           </ng-template>
-          <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-            <tr [ngnTableBodyTr]="row">
-              <td ngnTableTd>
-                <div class="flex items-center gap-(--ngn-size-padding-md)">
-                  <ngn-avatar
+          <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+            <tr [jigTableBodyTr]="row">
+              <td jigTableTd>
+                <div class="flex items-center gap-(--jig-size-padding-md)">
+                  <jig-avatar
                     [initials]="row.data.initials"
                     [bgColor]="row.data.bgColor"
                     [size]="32"
                   />
                   <span
-                    class="font-(--ngn-font-weight-semibold)"
-                    [ngnTooltip]="row.data.company"
-                    ngnTooltipShowOnlyIfTruncated
+                    class="font-(--jig-font-weight-semibold)"
+                    [jigTooltip]="row.data.company"
+                    jigTooltipShowOnlyIfTruncated
                   >
                     {{ row.data.company }}
                   </span>
                 </div>
               </td>
-              <td ngnTableTd>{{ currency(row.data.value) }}</td>
-              <td ngnTableTd>
-                <ngn-tag [color]="row.data.statusColor">{{ row.data.status }}</ngn-tag>
+              <td jigTableTd>{{ currency(row.data.value) }}</td>
+              <td jigTableTd>
+                <jig-tag [color]="row.data.statusColor">{{ row.data.status }}</jig-tag>
               </td>
-              <td ngnTableTd>
-                <div class="flex items-center gap-(--ngn-size-padding-md)">
-                  <ngn-avatar
+              <td jigTableTd>
+                <div class="flex items-center gap-(--jig-size-padding-md)">
+                  <jig-avatar
                     [initials]="row.data.ownerInitials"
                     [bgColor]="row.data.ownerColor"
                     [size]="32"
@@ -120,17 +120,17 @@
                   <span>{{ row.data.owner }}</span>
                 </div>
               </td>
-              <td ngnTableTd>
+              <td jigTableTd>
                 <button
-                  ngnButton
+                  jigButton
                   kind="icon"
                   #menuAnchor
                   aria-label="Row actions"
                   (click)="rowMenu.show()"
                 >
-                  <ngn-icon [icon]="dotsIcon" />
+                  <jig-icon [icon]="dotsIcon" />
                 </button>
-                <ngn-menu
+                <jig-menu
                   #rowMenu
                   [popover]="true"
                   [anchor]="menuAnchor"
@@ -139,31 +139,31 @@
               </td>
             </tr>
           </ng-template>
-        </ngn-table>
+        </jig-table>
       </div>
 
       <!-- Filter chips + pagination, directly below the table -->
       <div
-        class="mt-(--ngn-size-padding-lg) flex flex-col gap-(--ngn-size-padding-lg) border-t border-(--ngn-color-surface-200) pt-(--ngn-size-padding-lg) md:flex-row md:items-center md:justify-between"
+        class="mt-(--jig-size-padding-lg) flex flex-col gap-(--jig-size-padding-lg) border-t border-(--jig-color-surface-200) pt-(--jig-size-padding-lg) md:flex-row md:items-center md:justify-between"
       >
-        <div class="flex flex-wrap gap-(--ngn-size-padding-md)">
+        <div class="flex flex-wrap gap-(--jig-size-padding-md)">
           @for (chip of filterChips; track chip.value) {
-            <ngn-chip
+            <jig-chip
               [actionable]="true"
               [color]="activeFilter() === chip.value ? 'primary' : undefined"
               (clicked)="setFilter(chip.value)"
             >
               {{ chip.label }}
-            </ngn-chip>
+            </jig-chip>
           }
         </div>
-        <div class="flex items-center gap-(--ngn-size-padding-lg)">
+        <div class="flex items-center gap-(--jig-size-padding-lg)">
           <span
-            class="text-(length:--ngn-font-size-sm) whitespace-nowrap text-(--ngn-color-surface-600)"
+            class="text-(length:--jig-font-size-sm) whitespace-nowrap text-(--jig-color-surface-600)"
           >
             {{ rowsLabel() }}
           </span>
-          <ngn-paginator
+          <jig-paginator
             [totalItems]="filtered().length"
             [pageSize]="pageSize"
             [fixedPageSize]="true"
@@ -173,8 +173,8 @@
       </div>
     </div>
 
-    <div class="card p-(--ngn-size-padding-xl) lg:col-span-2">
-      <ngn-docs-quick-add-deal (add)="addDeal($event)" />
+    <div class="card p-(--jig-size-padding-xl) lg:col-span-2">
+      <jig-docs-quick-add-deal (add)="addDeal($event)" />
     </div>
   </div>
 </div>

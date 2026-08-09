@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { NgnInputHarness } from '@ngneers/controls-playwright';
+import { JigInputHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -7,13 +7,13 @@ import { expectNoA11yViolations } from '../helper/axe';
 test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `
-      <ngn-input-field>
-        <input ngnInput />
-      </ngn-input-field>
+      <jig-input-field>
+        <input jigInput />
+      </jig-input-field>
     `,
     imports: ['input', 'inputField'],
   });
-  const textField = new NgnInputHarness(page.locator('input[ngnInput]').first());
+  const textField = new JigInputHarness(page.locator('input[jigInput]').first());
   await textField.expectValue('');
   await textField.fill('123');
   await textField.expectValue('123');
@@ -23,15 +23,15 @@ test('base', async ({ page }, testInfo) => {
 test('field padding belongs to the input', async ({ page }) => {
   await loadComponent(page, {
     template: `
-      <ngn-input-field showClearButton>
-        <input ngnInput value="Hello world" />
-      </ngn-input-field>
+      <jig-input-field showClearButton>
+        <input jigInput value="Hello world" />
+      </jig-input-field>
     `,
     imports: ['input', 'inputField'],
   });
 
-  const input = page.locator('input[ngnInput]').first();
-  const box = (await page.locator('ngn-input-field > div').first().boundingBox())!;
+  const input = page.locator('input[jigInput]').first();
+  const box = (await page.locator('jig-input-field > div').first().boundingBox())!;
   const midY = box.y + box.height / 2;
   const caret = () => input.evaluate((el: HTMLInputElement) => el.selectionStart);
 
@@ -68,9 +68,9 @@ test('accessibility (axe)', async ({ page }) => {
   // input-field label provides the accessible name (wired to the input's id).
   await loadComponent(page, {
     template: `
-      <ngn-input-field label="Full name">
-        <input ngnInput />
-      </ngn-input-field>
+      <jig-input-field label="Full name">
+        <input jigInput />
+      </jig-input-field>
     `,
     imports: ['input', 'inputField'],
   });

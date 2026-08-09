@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { type MenuItem, NgnMenu } from '@ngneers/controls/menu';
+import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
 
 @Component({
-  selector: 'ngn-demo-menu-separator',
-  imports: [NgnMenu],
-  template: `<ngn-menu #menu [items]="items()" />`,
+  selector: 'jig-demo-menu-separator',
+  imports: [JigMenu],
+  template: `<jig-menu #menu [items]="items()" />`,
 })
 export class Demo_Menu_Separator {
   public readonly items = signal<MenuItem[]>([

@@ -9,10 +9,10 @@ The mappings are exposed through the
 real mapping table instead of guessing:
 
 ```bash
-npx -y @ngneers/controls-mcp
+npx -y @awdlab/jig-mcp
 ```
 
-The bundled `ngn-migrate` skill drives the workflow: inventory the source
+The bundled `jig-migrate` skill drives the workflow: inventory the source
 selectors, map each component, confirm the target's real inputs, rewrite, and
 surface anything with no equivalent rather than inventing an input.
 
@@ -34,16 +34,16 @@ Whatever the source library, the same four things change.
 <mat-select [(ngModel)]="city"></mat-select>
 
 <!-- after -->
-<ngn-select [(value)]="city" [items]="cities" />
+<jig-select [(value)]="city" [items]="cities" />
 ```
 
 **2. Field wrappers.** `mat-form-field` and PrimeNG's float-label wrappers
-become [`ngn-input-field`](/components/input-field), which owns the label,
+become [`jig-input-field`](/components/input-field), which owns the label,
 the id and the layout.
 
 > **Watch the `id`.** The field writes its own `inputId` onto the projected
 > input, replacing an `id` you set there. Move an existing id onto the wrapper —
-> `<ngn-input-field [inputId]="'user-email'">` — or every external
+> `<jig-input-field [inputId]="'user-email'">` — or every external
 > `<label for>`, `aria-describedby` and `getElementById` that referenced it
 > breaks silently.
 
@@ -58,13 +58,13 @@ change goes into the theme. See [Styling & Overrides](/guides/styling-overrides)
 ### Items instead of options
 
 Where the source library used content children (`<mat-option>`, `<p-dropdown>`
-templates), the ngn equivalents take **data**:
+templates), the jig equivalents take **data**:
 
 ```html
-<ngn-select [items]="items" [(value)]="value" />
+<jig-select [items]="items" [(value)]="value" />
 ```
 
-`transformToNgnItem` converts your existing objects without hand-mapping — see
+`transformToJigItem` converts your existing objects without hand-mapping — see
 [Items & Data](/guides/items-data).
 
 ### Practical advice
@@ -83,7 +83,7 @@ templates), the ngn equivalents take **data**:
 
 Two things to watch:
 
-- **CSS.** Theme CSS lives in the `ngn-controls` cascade layer, so the other
+- **CSS.** Theme CSS lives in the `jig` cascade layer, so the other
   library's unlayered CSS will win where selectors collide. Scope the other
   library's styles, or use `styleScope` to keep tokens off `:root`. See
   [Configuration](/guides/configuration).

@@ -1,5 +1,5 @@
-import { createThemePart, css } from '@ngneers/controls-themes/api';
-import { otpControlTemplate } from '@ngneers/controls-themes/templates/otp';
+import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { otpControlTemplate } from '@awdlab/jig-themes/templates/otp';
 
 export const otpStyles = createThemePart({
   controlTemplate: otpControlTemplate,

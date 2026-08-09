@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { NgnMovable, NgnResizable } from '@ngneers/controls/directives';
+import { JigMovable, JigResizable } from '@awdlab/jig/directives';
 
 @Component({
-  selector: 'ngn-demo-resizable-movable',
-  imports: [NgnMovable, NgnResizable],
+  selector: 'jig-demo-resizable-movable',
+  imports: [JigMovable, JigResizable],
   template: `
     <div class="board">
       <div
-        ngnMovable
-        ngnResizable
-        [ngnMovableLimitToViewport]="false"
-        [ngnResizableSizeLimits]="{
+        jigMovable
+        jigResizable
+        [jigMovableLimitToViewport]="false"
+        [jigResizableSizeLimits]="{
           minWidth: 160,
           minHeight: 90,
           maxWidth: null,
@@ -31,8 +31,8 @@ import { NgnMovable, NgnResizable } from '@ngneers/controls/directives';
       position: relative;
       height: 300px;
       overflow: hidden;
-      border: 1px dashed var(--ngn-color-surface-300);
-      border-radius: var(--ngn-size-radius-md);
+      border: 1px dashed var(--jig-color-surface-300);
+      border-radius: var(--jig-size-radius-md);
     }
     .panel {
       position: absolute;
@@ -42,9 +42,9 @@ import { NgnMovable, NgnResizable } from '@ngneers/controls/directives';
       height: 120px;
       overflow: auto;
       padding: 12px 16px;
-      background: var(--ngn-color-surface-100);
-      border: 1px solid var(--ngn-color-surface-300);
-      border-radius: var(--ngn-size-radius-md);
+      background: var(--jig-color-surface-100);
+      border: 1px solid var(--jig-color-surface-300);
+      border-radius: var(--jig-size-radius-md);
     }
   `,
 })

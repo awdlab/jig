@@ -1,16 +1,16 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnButton } from '@ngneers/controls/button';
-import { NgnDialog } from '@ngneers/controls/dialog';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDialog } from '@awdlab/jig/dialog';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-dialog-playground',
-  imports: [NgnDialog, NgnButton, NgnDocsPlayground],
+  selector: 'jig-docs-dialog-playground',
+  imports: [JigDialog, JigButton, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnDialog', component: component() }]">
-      <button ngnButton (click)="open.set(true)">Open Dialog</button>
-      <ngn-dialog
+    <jig-docs-playground [controls]="[{ componentName: 'JigDialog', component: component() }]">
+      <button jigButton (click)="open.set(true)">Open Dialog</button>
+      <jig-dialog
         #ref
         [title]="'Dialog Title'"
         [open]="open()"
@@ -18,11 +18,11 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
         (openChange)="open.set($event)"
       >
         Dialog Content
-      </ngn-dialog>
-    </ngn-docs-playground>
+      </jig-dialog>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsDialogPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnDialog });
+export class JigDocsDialogPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigDialog });
   protected readonly open = signal(false);
 }

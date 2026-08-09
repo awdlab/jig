@@ -1,22 +1,22 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@ngneers/controls/errors';
-import { NgnHint } from '@ngneers/controls/hint';
-import { NgnSwitch } from '@ngneers/controls/switch';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigSwitch } from '@awdlab/jig/switch';
 
 @Component({
-  selector: 'ngn-demo-switch-validation',
-  imports: [NgnErrors, NgnHint, NgnSwitch],
+  selector: 'jig-demo-switch-validation',
+  imports: [JigErrors, JigHint, JigSwitch],
   template: `
     <div class="flex flex-col gap-2">
-      <ngn-switch
+      <jig-switch
         [value]="enabled()"
         (valueChange)="enabled.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="switchHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="switchHint"
       />
-      <ngn-hint #switchHint />
+      <jig-hint #switchHint />
     </div>
   `,
 })

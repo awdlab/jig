@@ -11,10 +11,10 @@ import {
 } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideRouter, withInMemoryScrolling, withViewTransitions } from '@angular/router';
-import { provideNgnControls, withAutoColorScheme } from '@ngneers/controls/api/ng';
-import { withDefaultIcons } from '@ngneers/controls/default-icons';
-import { withSnackbars } from '@ngneers/controls/snackbar';
-import { withToasts } from '@ngneers/controls/toast';
+import { provideJigControls, withAutoColorScheme } from '@awdlab/jig/api/ng';
+import { withDefaultIcons } from '@awdlab/jig/default-icons';
+import { withSnackbars } from '@awdlab/jig/snackbar';
+import { withToasts } from '@awdlab/jig/toast';
 
 import { routes } from './app.routes';
 import { MdSnapshot } from './utils/md/md-snapshot';
@@ -44,7 +44,7 @@ export const appConfig: ApplicationConfig = {
         inject(MdSnapshot).capture();
       }
     }),
-    provideNgnControls(
+    provideJigControls(
       { theme: { preset: resolveInitialTheme() } },
       withToasts(),
       withSnackbars(),

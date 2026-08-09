@@ -1,11 +1,11 @@
 {
   "source": "syncfusion",
   "label": "Syncfusion (Essential JS 2 for Angular)",
-  "notes": "STARTER MAP — covers common Syncfusion Angular components; not yet exhaustive. Syncfusion uses `ejs-*` selectors and binds with [(value)] or [(ngModel)]. Map [(value)] to ngn's [(value)] signal model. Many Syncfusion components are highly configurable; always verify the ngn target's capabilities with get_control and flag gaps rather than assuming parity.",
+  "notes": "STARTER MAP — covers common Syncfusion Angular components; not yet exhaustive. Syncfusion uses `ejs-*` selectors and binds with [(value)] or [(ngModel)]. Map [(value)] to jig's [(value)] signal model. Many Syncfusion components are highly configurable; always verify the jig target's capabilities with get_control and flag gaps rather than assuming parity.",
   "components": [
     {
       "from": "ejs-dropdownlist",
-      "to": "ngn-select",
+      "to": "jig-select",
       "props": [
         { "from": "[(value)]", "to": "[(value)]" },
         { "from": "dataSource", "to": "options" },
@@ -13,19 +13,19 @@
         {
           "from": "fields",
           "to": "templateItem",
-          "notes": "ngn-select derives label/value from the item shape or a templateItem, not a fields map."
+          "notes": "jig-select derives label/value from the item shape or a templateItem, not a fields map."
         }
       ]
     },
-    { "from": "ejs-multiselect", "to": "ngn-select", "notes": "Use ngn-select with multiple." },
+    { "from": "ejs-multiselect", "to": "jig-select", "notes": "Use jig-select with multiple." },
     {
       "from": "ejs-combobox / ejs-autocomplete",
-      "to": "ngn-select",
-      "notes": "Use editable ngn-select."
+      "to": "jig-select",
+      "notes": "Use editable jig-select."
     },
     {
       "from": "ejs-datepicker / ejs-datetimepicker",
-      "to": "ngn-calendar",
+      "to": "jig-calendar",
       "props": [
         { "from": "[(value)]", "to": "[(value)]" },
         { "from": "min / max", "to": "min / max" }
@@ -33,18 +33,18 @@
     },
     {
       "from": "ejs-checkbox",
-      "to": "ngn-checkbox",
+      "to": "jig-checkbox",
       "props": [{ "from": "[(checked)]", "to": "[(value)]" }]
     },
-    { "from": "ejs-radiobutton", "to": "ngn-radio", "notes": "Group with ngn-radio-group." },
+    { "from": "ejs-radiobutton", "to": "jig-radio", "notes": "Group with jig-radio-group." },
     {
       "from": "ejs-textbox",
-      "to": "input[ngnInput]",
-      "notes": "Wrap in ngn-input-field. Move any `id` off the input onto the wrapper: `<ngn-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references."
+      "to": "input[jigInput]",
+      "notes": "Wrap in jig-input-field. Move any `id` off the input onto the wrapper: `<jig-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references."
     },
     {
       "from": "ejs-numerictextbox",
-      "to": "input[ngnNumberInput]",
+      "to": "input[jigNumberInput]",
       "props": [
         { "from": "[(value)]", "to": "[(value)]" },
         { "from": "min", "to": "min" },
@@ -55,47 +55,47 @@
     },
     {
       "from": "ejs-maskedtextbox",
-      "to": "ngn-mask-input",
+      "to": "jig-mask-input",
       "props": [{ "from": "mask", "to": "mask" }]
     },
-    { "from": "ejs-switch", "to": "ngn-switch" },
+    { "from": "ejs-switch", "to": "jig-switch" },
     {
       "from": "ejs-slider",
-      "to": "ngn-slider",
+      "to": "jig-slider",
       "props": [{ "from": "min / max / step", "to": "min / max / step" }]
     },
-    { "from": "ejs-listbox", "to": "ngn-list-box" },
+    { "from": "ejs-listbox", "to": "jig-list-box" },
     {
       "from": "ejs-dialog",
-      "to": "ngn-dialog",
+      "to": "jig-dialog",
       "props": [{ "from": "[(visible)]", "to": "[(open)]" }],
-      "gaps": ["Service/programmatic dialog usage differs from ngn's declarative [(open)]."]
+      "gaps": ["Service/programmatic dialog usage differs from jig's declarative [(open)]."]
     },
-    { "from": "ejs-sidebar", "to": "ngn-drawer" },
-    { "from": "ejs-tooltip", "to": "[ngnTooltip]" },
-    { "from": "ejs-menu / ejs-contextmenu", "to": "ngn-menu" },
-    { "from": "ejs-breadcrumb", "to": "ngn-breadcrumb" },
-    { "from": "ejs-tab", "to": "ngn-tabs" },
-    { "from": "ejs-accordion", "to": "ngn-accordion" },
+    { "from": "ejs-sidebar", "to": "jig-drawer" },
+    { "from": "ejs-tooltip", "to": "[jigTooltip]" },
+    { "from": "ejs-menu / ejs-contextmenu", "to": "jig-menu" },
+    { "from": "ejs-breadcrumb", "to": "jig-breadcrumb" },
+    { "from": "ejs-tab", "to": "jig-tabs" },
+    { "from": "ejs-accordion", "to": "jig-accordion" },
     {
       "from": "ejs-grid",
-      "to": "ngn-table",
+      "to": "jig-table",
       "gaps": [
-        "Syncfusion Grid is very feature-rich (grouping, editing, virtualization, export). Verify each feature against ngn-table; expect gaps."
+        "Syncfusion Grid is very feature-rich (grouping, editing, virtualization, export). Verify each feature against jig-table; expect gaps."
       ]
     },
-    { "from": "ejs-pager", "to": "ngn-paginator" },
-    { "from": "ejs-treeview", "to": "ngn-tree" },
-    { "from": "ejs-progressbar", "to": "ngn-progress" },
-    { "from": "ejs-chip / ejs-chiplist", "to": "ngn-chip" },
-    { "from": "ejs-avatar (CSS)", "to": "ngn-avatar" },
-    { "from": "ejs-toast", "to": "ngn-toast / ngn-snackbar" },
-    { "from": "ejs-message", "to": "ngn-message" },
-    { "from": "ejs-uploader", "to": "ngn-upload" },
-    { "from": "ejs-splitter", "to": "ngn-splitter" },
+    { "from": "ejs-pager", "to": "jig-paginator" },
+    { "from": "ejs-treeview", "to": "jig-tree" },
+    { "from": "ejs-progressbar", "to": "jig-progress" },
+    { "from": "ejs-chip / ejs-chiplist", "to": "jig-chip" },
+    { "from": "ejs-avatar (CSS)", "to": "jig-avatar" },
+    { "from": "ejs-toast", "to": "jig-toast / jig-snackbar" },
+    { "from": "ejs-message", "to": "jig-message" },
+    { "from": "ejs-uploader", "to": "jig-upload" },
+    { "from": "ejs-splitter", "to": "jig-splitter" },
     {
       "from": "ejs-rating",
-      "to": "ngn-rating",
+      "to": "jig-rating",
       "props": [
         { "from": "[(value)]", "to": "[(value)]" },
         { "from": "itemsCount", "to": "count" },
@@ -105,8 +105,8 @@
     },
     {
       "from": "ejs-stepper",
-      "to": "ngn-stepper / ngn-step",
-      "notes": "Steps are <ngn-step> children, not a `steps` array input.",
+      "to": "jig-stepper / jig-step",
+      "notes": "Steps are <jig-step> children, not a `steps` array input.",
       "props": [
         { "from": "[(activeStep)]", "to": "[(active)]" },
         { "from": "linear", "to": "linear" },
@@ -116,7 +116,7 @@
     },
     {
       "from": "ejs-colorpicker",
-      "to": "ngn-color-picker",
+      "to": "jig-color-picker",
       "props": [
         { "from": "[(value)]", "to": "[(value)]" },
         { "from": "mode / modeSwitcher", "to": "format" },
@@ -127,7 +127,7 @@
     },
     {
       "from": "ejs-otpinput",
-      "to": "ngn-otp",
+      "to": "jig-otp",
       "notes": "Grouped control with no single focusable element — label it with [labelledBy].",
       "props": [
         { "from": "[(value)]", "to": "[(value)]" },
@@ -138,13 +138,13 @@
     },
     {
       "from": "ejs-inplaceeditor",
-      "to": "ngn-edit-inplace",
-      "notes": "Wraps the editor control you project; ngn-inplace is the lower-level display/edit swap."
+      "to": "jig-edit-inplace",
+      "notes": "Wraps the editor control you project; jig-inplace is the lower-level display/edit swap."
     },
     {
       "from": "ejs-keyboard",
-      "to": "[ngnKeyboardShortcut]",
-      "notes": "Scope directive: shortcuts fire while focus is inside the host (or globally per binding). ngn-kbd renders the shortcut glyphs."
+      "to": "[jigKeyboardShortcut]",
+      "notes": "Scope directive: shortcuts fire while focus is inside the host (or globally per binding). jig-kbd renders the shortcut glyphs."
     }
   ]
 }

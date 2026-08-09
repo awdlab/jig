@@ -1,12 +1,12 @@
 {
-  "name": "@ngneers/controls-themes",
-  "version": "0.0.1",
-  "description": "Theme presets and the theming engine for @ngneers/controls (Nova, Shade, Material, and base themes).",
+  "name": "@awdlab/jig-themes",
+  "version": "0.0.1-next.1",
+  "description": "Theme presets and the theming engine for @awdlab/jig (Nova, Shade, Material, and base themes).",
   "license": "MIT",
-  "homepage": "https://ngneers.dev",
+  "homepage": "https://jig.awdlab.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NGneers/controls.git",
+    "url": "git+https://github.com/awdlab/jig.git",
     "directory": "packages/themes"
   },
   "keywords": [
@@ -16,7 +16,7 @@
     "theme",
     "theming",
     "design-system",
-    "ngneers-controls"
+    "jig"
   ],
   "publishConfig": {
     "access": "public"
@@ -28,7 +28,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@ngneers/controls-custom-types": "workspace:*",
+    "@awdlab/jig-custom-types": "workspace:*",
     "tslib": "^2.8.1"
   },
   "devDependencies": {

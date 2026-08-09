@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { AwesomeLogger } from 'awesome-logging';
 
 /**
- * `ngneers-controls-mcp init` — install the package's bundled skills into a
+ * `jig-mcp init` — install the package's bundled skills into a
  * consumer project. Interactive (via awesome-logging): on an already-installed
  * skill it compares versions and asks before overwriting. Non-interactive
  * environments (no TTY) or `--yes` overwrite outdated skills automatically and
@@ -79,7 +79,7 @@ export async function runInit(argv: string[]): Promise<void> {
   }
 
   if (opts.list) {
-    AwesomeLogger.log('Available @ngneers/controls skills:');
+    AwesomeLogger.log('Available @awdlab/jig skills:');
     for (const s of shipped) AwesomeLogger.log(`  • ${s.name} (v${s.version}) — ${s.description}`);
     return;
   }

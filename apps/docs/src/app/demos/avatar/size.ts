@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
-import { NgnAvatar } from '@ngneers/controls/avatar';
+import { JigAvatar } from '@awdlab/jig/avatar';
 
 @Component({
-  selector: 'ngn-demo-avatar-size',
-  imports: [NgnAvatar],
+  selector: 'jig-demo-avatar-size',
+  imports: [JigAvatar],
   template: `
-    <ngn-avatar initials="AB" [size]="14" />
-    <ngn-avatar initials="AB" [size]="18" />
-    <ngn-avatar initials="AB" [size]="24" />
-    <ngn-avatar initials="AB" [size]="32" />
-    <ngn-avatar initials="AB" [size]="48" />
-    <ngn-avatar initials="AB" [size]="64" />
-    <ngn-avatar initials="AB" [size]="128" />
+    <jig-avatar initials="AB" [size]="14" />
+    <jig-avatar initials="AB" [size]="18" />
+    <jig-avatar initials="AB" [size]="24" />
+    <jig-avatar initials="AB" [size]="32" />
+    <jig-avatar initials="AB" [size]="48" />
+    <jig-avatar initials="AB" [size]="64" />
+    <jig-avatar initials="AB" [size]="128" />
   `,
 })
 export class Demo_Avatar_Size {}

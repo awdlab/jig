@@ -1,17 +1,17 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnPaginator } from '@ngneers/controls/paginator';
+import { JigPaginator } from '@awdlab/jig/paginator';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'ngn-docs-paginator-playground',
-  imports: [NgnPaginator, NgnDocsPlayground],
+  selector: 'jig-docs-paginator-playground',
+  imports: [JigPaginator, JigDocsPlayground],
   template: `
-    <ngn-docs-playground [controls]="[{ componentName: 'NgnPaginator', component: component() }]">
-      <ngn-paginator class="flex-1" #ref [totalItems]="50" />
-    </ngn-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'JigPaginator', component: component() }]">
+      <jig-paginator class="flex-1" #ref [totalItems]="50" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsPaginatorPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnPaginator });
+export class JigDocsPaginatorPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigPaginator });
 }

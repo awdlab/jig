@@ -12,7 +12,7 @@ const ITEMS = [
 
 const POPOVER_TEMPLATE = `
   <button #anchor (click)="menu.show()">Open Menu</button>
-  <ngn-menu
+  <jig-menu
     #menu
     [popover]="true"
     [anchor]="anchor"
@@ -24,7 +24,7 @@ const POPOVER_TEMPLATE = `
 test('inline menu renders role=menu with a menuitem per item', async ({ page }) => {
   await loadComponent(
     page,
-    { template: `<ngn-menu [items]="inputs().items" />`, imports: ['menu'] },
+    { template: `<jig-menu [items]="inputs().items" />`, imports: ['menu'] },
     { inputs: { items: ITEMS } }
   );
 
@@ -115,7 +115,7 @@ test('keyboard: arrows move focus, Enter activates, Escape closes', async ({ pag
 test('submenu: parent item advertises a submenu and opens it on click', async ({ page }) => {
   await loadComponent(
     page,
-    { template: `<ngn-menu class="block w-40" [items]="inputs().items" />`, imports: ['menu'] },
+    { template: `<jig-menu class="block w-40" [items]="inputs().items" />`, imports: ['menu'] },
     {
       inputs: {
         items: [
@@ -152,7 +152,7 @@ test('item callback that destroys the menu does not warn', async ({ page }) => {
       template: `
         @if (inputs().visible) {
           <button #anchor (click)="menu.show()">Open Menu</button>
-          <ngn-menu #menu [popover]="true" [anchor]="anchor" [items]="inputs().items" />
+          <jig-menu #menu [popover]="true" [anchor]="anchor" [items]="inputs().items" />
         }
       `,
       imports: ['menu'],
@@ -165,7 +165,7 @@ test('item callback that destroys the menu does not warn', async ({ page }) => {
           id: '1',
           label: 'Item 1',
           callback: () => {
-            window.__ngn_test_wrapper.inputs({ visible: false });
+            window.__jig_test_wrapper.inputs({ visible: false });
             const anchor = document.querySelector('button');
             window.ng.applyChanges(window.ng.getOwningComponent(anchor));
           },
@@ -176,7 +176,7 @@ test('item callback that destroys the menu does not warn', async ({ page }) => {
 
   await page.locator('button').first().click();
   await page.getByRole('menuitem', { name: 'Item 1' }).click();
-  await expect(page.locator('ngn-menu')).toHaveCount(0);
+  await expect(page.locator('jig-menu')).toHaveCount(0);
 
   // Let the deferred closeAll frame run — the warning would land there.
   await page.waitForTimeout(150);
@@ -200,7 +200,7 @@ test('accessibility (axe)', async ({ page }) => {
 test('visual', async ({ page }, testInfo) => {
   await loadComponent(
     page,
-    { template: `<ngn-menu class="page-center" [items]="inputs().items" />`, imports: ['menu'] },
+    { template: `<jig-menu class="page-center" [items]="inputs().items" />`, imports: ['menu'] },
     { inputs: { items: ITEMS } }
   );
 

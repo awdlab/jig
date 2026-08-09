@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { NgnEditInplace } from '@ngneers/controls/edit-inplace';
+import { JigEditInplace } from '@awdlab/jig/edit-inplace';
 
 @Component({
-  imports: [NgnEditInplace],
-  selector: 'ngn-demo-inplace-base',
-  template: ` <ngn-edit-inplace #inplace [value]="value()" (valueChange)="value.set($event)" />`,
+  imports: [JigEditInplace],
+  selector: 'jig-demo-inplace-base',
+  template: ` <jig-edit-inplace #inplace [value]="value()" (valueChange)="value.set($event)" />`,
   host: { style: 'display: block; width: 200px;' },
 })
 export class Demo_EditInplace_Base {

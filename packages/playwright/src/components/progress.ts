@@ -1,8 +1,8 @@
-import { progressControlTemplate } from '@ngneers/controls-themes/templates/progress';
+import { progressControlTemplate } from '@awdlab/jig-themes/templates/progress';
 import { themeClasses } from '../utils/theme';
 import test, { expect, type Locator } from '@playwright/test';
 
-export class NgnProgressHarness {
+export class JigProgressHarness {
   public readonly classes = themeClasses(progressControlTemplate);
 
   public readonly locator: Locator;

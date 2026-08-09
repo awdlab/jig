@@ -1,5 +1,5 @@
-import { createControlTemplate } from '@ngneers/controls-themes/api';
-import { movableDirectiveTemplate } from '@ngneers/controls-themes/templates/api';
+import { createControlTemplate } from '@awdlab/jig-themes/api';
+import { movableDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
 
 export const dialogControlTemplate = createControlTemplate({
   scope: 'dialog',

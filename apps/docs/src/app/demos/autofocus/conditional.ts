@@ -1,23 +1,23 @@
 import { Component, signal } from '@angular/core';
-import { NgnAutofocus } from '@ngneers/controls/directives';
-import { NgnInput } from '@ngneers/controls/input';
-import { NgnInputField } from '@ngneers/controls/input-field';
-import { NgnSwitch } from '@ngneers/controls/switch';
+import { JigAutofocus } from '@awdlab/jig/directives';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigSwitch } from '@awdlab/jig/switch';
 
 @Component({
-  selector: 'ngn-demo-autofocus-conditional',
-  imports: [NgnAutofocus, NgnInput, NgnInputField, NgnSwitch],
+  selector: 'jig-demo-autofocus-conditional',
+  imports: [JigAutofocus, JigInput, JigInputField, JigSwitch],
   template: `
     <div class="flex flex-col items-start gap-3">
-      <ngn-switch [(value)]="autofocus" [label]="'Autofocus the second field'" />
+      <jig-switch [(value)]="autofocus" [label]="'Autofocus the second field'" />
 
-      <ngn-input-field [label]="'First'" class="w-72">
-        <input ngnInput />
-      </ngn-input-field>
+      <jig-input-field [label]="'First'" class="w-72">
+        <input jigInput />
+      </jig-input-field>
 
-      <ngn-input-field [label]="'Second'" class="w-72">
-        <input ngnInput [ngnAutofocus]="autofocus()" />
-      </ngn-input-field>
+      <jig-input-field [label]="'Second'" class="w-72">
+        <input jigInput [jigAutofocus]="autofocus()" />
+      </jig-input-field>
     </div>
   `,
 })

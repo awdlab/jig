@@ -11,7 +11,7 @@ Theme CSS is generated and injected into `<head>` as each control scope first
 appears — on the server too. The HTML you serve therefore already carries the
 CSS for the controls it contains, and there is no unstyled flash on load.
 
-Every control also starts with an `ngn-control-initializing` class that hides
+Every control also starts with a `jig-control-initializing` class that hides
 it until it has laid out. On the **server** that class is removed immediately,
 so the served markup is complete and visible; in the browser it is removed
 after the first render. Do not target that class in your own CSS — it exists
@@ -28,10 +28,10 @@ during bootstrap; see [i18n](/guides/i18n).
 
 ### What does not run on the server
 
-- **Focus.** `ngnAutofocus` and every control's focus management are
+- **Focus.** `jigAutofocus` and every control's focus management are
   `afterNextRender`-based and inert on the server.
-- **Pointer gestures.** `ngnDrag`, `ngnDragScroll`, `ngnMovable` and
-  `ngnResizable` do nothing until hydration.
+- **Pointer gestures.** `jigDrag`, `jigDragScroll`, `jigMovable` and
+  `jigResizable` do nothing until hydration.
 - **Measurement.** Anything driven by `ResizeObserver` or `getBoundingClientRect`
   — virtual scrolling window size, overlay positioning, scroll geometry —
   reports its initial value until the client measures. Virtualized lists
@@ -86,7 +86,7 @@ constructor() {
 }
 ```
 
-`Platform` is exported from `@ngneers/controls/api/ng` and is the idiomatic
+`Platform` is exported from `@awdlab/jig/api/ng` and is the idiomatic
 check inside this library.
 
 ### Hydration

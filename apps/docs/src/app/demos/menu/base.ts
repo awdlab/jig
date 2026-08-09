@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 import tablerCode from '@iconify/icons-tabler/code';
-import { type MenuItem, NgnMenu } from '@ngneers/controls/menu';
+import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
 
 @Component({
-  selector: 'ngn-demo-menu-base',
-  imports: [NgnMenu],
-  template: `<ngn-menu #menu [items]="items()" />`,
+  selector: 'jig-demo-menu-base',
+  imports: [JigMenu],
+  template: `<jig-menu #menu [items]="items()" />`,
 })
 export class Demo_Menu_Base {
   public readonly items = signal<MenuItem[]>([

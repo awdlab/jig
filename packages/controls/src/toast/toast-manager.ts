@@ -7,31 +7,31 @@ import {
   type OnDestroy,
   signal,
 } from '@angular/core';
-import { Platform } from '@ngneers/controls/api/ng';
-import { NgnError } from '@ngneers/controls/utils';
-import { injectOrThrow } from '@ngneers/controls/utils-ng';
+import { Platform } from '@awdlab/jig/api/ng';
+import { JigError } from '@awdlab/jig/utils';
+import { injectOrThrow } from '@awdlab/jig/utils-ng';
 
 import { DEFAULT_TOAST_OPTIONS } from './defaults';
-import { NGN_TOAST_USER_DEFAULTS } from './provider';
-import { NgnToastHost } from './toast-host';
+import { JIG_TOAST_USER_DEFAULTS } from './provider';
+import { JigToastHost } from './toast-host';
 
-import type { NgnToastOptions } from './types';
+import type { JigToastOptions } from './types';
 
-type ToastFull = NgnToastOptions & { id: number };
+type ToastFull = JigToastOptions & { id: number };
 
 @Injectable()
-export class NgnToastManager implements OnDestroy {
+export class JigToastManager implements OnDestroy {
   private readonly _toasts = signal<ToastFull[]>([]);
   private readonly _appRef = inject(ApplicationRef);
   private readonly _userDefaults = injectOrThrow(
-    NGN_TOAST_USER_DEFAULTS,
-    'NgnToastManager',
-    'Failed to inject NGN_TOAST_USER_DEFAULTS, make sure to use withToasts() to provide ngn toasts!'
+    JIG_TOAST_USER_DEFAULTS,
+    'JigToastManager',
+    'Failed to inject JIG_TOAST_USER_DEFAULTS, make sure to use withToasts() to provide jig toasts!'
   );
   private _nextId = 0;
 
   public readonly toasts = this._toasts.asReadonly();
-  private _component?: ComponentRef<NgnToastHost>;
+  private _component?: ComponentRef<JigToastHost>;
 
   constructor() {
     if (!inject(Platform).isBrowser) {
@@ -40,7 +40,7 @@ export class NgnToastManager implements OnDestroy {
     // Defer creation to avoid issues with Angular's injection tree during app initialization
     queueMicrotask(() => {
       // Create and attach the toast host component to the application's root
-      this._component = createComponent(NgnToastHost, {
+      this._component = createComponent(JigToastHost, {
         environmentInjector: this._appRef.injector,
       });
       this._appRef.attachView(this._component.hostView);
@@ -49,8 +49,8 @@ export class NgnToastManager implements OnDestroy {
         | undefined
         | HTMLElement;
       if (!appRootEl) {
-        throw new NgnError(
-          'NgnToastManager',
+        throw new JigError(
+          'JigToastManager',
           'Failed to find application root element to attach toast host!'
         );
       }
@@ -70,7 +70,7 @@ export class NgnToastManager implements OnDestroy {
     this._toasts.update(toasts => toasts.filter(t => t.id !== id));
   }
 
-  public addToast(options: NgnToastOptions): number {
+  public addToast(options: JigToastOptions): number {
     const id = this._nextId++;
     const toast: ToastFull = { ...DEFAULT_TOAST_OPTIONS, ...this._userDefaults, ...options, id };
     this._toasts.update(toasts => [...toasts, toast]);

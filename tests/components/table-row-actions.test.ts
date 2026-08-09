@@ -8,34 +8,34 @@ const ROWS = [
 ];
 
 const TEMPLATE = `
-  <ngn-table #table style="height: 300px" [rows]="inputs().rows" [fieldId]="'id'">
+  <jig-table #table style="height: 300px" [rows]="inputs().rows" [fieldId]="'id'">
     <ng-template #header>
-      <tr ngnTableHeadTr>
-        <th [ngnTableTh]="table.column('id')">ID</th>
-        <th [ngnTableTh]="table.column('name')">Name</th>
+      <tr jigTableHeadTr>
+        <th [jigTableTh]="table.column('id')">ID</th>
+        <th [jigTableTh]="table.column('name')">Name</th>
       </tr>
     </ng-template>
-    <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
+    <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
       <tr
-        [ngnTableBodyTr]="row"
-        [ngnTableRowActions]="inputs().actions"
-        [ngnTableRowActionsInline]="false"
+        [jigTableBodyTr]="row"
+        [jigTableRowActions]="inputs().actions"
+        [jigTableRowActionsInline]="false"
       >
-        <td ngnTableTd>{{ row.data.id }}</td>
-        <td ngnTableTd>{{ row.data.name }}</td>
+        <td jigTableTd>{{ row.data.id }}</td>
+        <td jigTableTd>{{ row.data.name }}</td>
       </tr>
     </ng-template>
-  </ngn-table>
+  </jig-table>
 `;
 
-const INLINE_TEMPLATE = TEMPLATE.replace('[ngnTableRowActionsInline]="false"', '');
+const INLINE_TEMPLATE = TEMPLATE.replace('[jigTableRowActionsInline]="false"', '');
 
 const BAR_TEMPLATE = `
-  <ngn-table-row-actions-bar [actions]="inputs().actions" />
+  <jig-table-row-actions-bar [actions]="inputs().actions" />
 `;
 
 const SELECTION_TEMPLATE = `
-  <ngn-table
+  <jig-table
     #table
     style="height: 300px"
     [rows]="inputs().rows"
@@ -43,18 +43,18 @@ const SELECTION_TEMPLATE = `
     [selectionMode]="inputs().selectionMode"
   >
     <ng-template #header>
-      <tr ngnTableHeadTr>
-        <th [ngnTableTh]="table.column('id')">ID</th>
-        <th [ngnTableTh]="table.column('name')">Name</th>
+      <tr jigTableHeadTr>
+        <th [jigTableTh]="table.column('id')">ID</th>
+        <th [jigTableTh]="table.column('name')">Name</th>
       </tr>
     </ng-template>
-    <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-      <tr [ngnTableBodyTr]="row" [ngnTableRowActions]="inputs().actions">
-        <td ngnTableTd>{{ row.data.id }}</td>
-        <td ngnTableTd>{{ row.data.name }}</td>
+    <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+      <tr [jigTableBodyTr]="row" [jigTableRowActions]="inputs().actions">
+        <td jigTableTd>{{ row.data.id }}</td>
+        <td jigTableTd>{{ row.data.name }}</td>
       </tr>
     </ng-template>
-  </ngn-table>
+  </jig-table>
 `;
 
 /** Reads the callback log recorded by action callbacks in the page. */
@@ -66,7 +66,7 @@ test('mouse: context menu, inline bar, and disabling inline', async ({ page }) =
   await test.step('right-click opens the menu and activating an item runs its callback', async () => {
     await loadComponent(
       page,
-      { template: TEMPLATE, imports: ['tableModule', 'ngnTemplate'] },
+      { template: TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
       {
         inputs: {
           rows: ROWS,
@@ -94,7 +94,7 @@ test('mouse: context menu, inline bar, and disabling inline', async ({ page }) =
   await test.step('inline bar renders, reveals on hover, and clicking an action runs its callback', async () => {
     await loadComponent(
       page,
-      { template: INLINE_TEMPLATE, imports: ['tableModule', 'ngnTemplate'] },
+      { template: INLINE_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
       {
         inputs: {
           rows: ROWS,
@@ -113,16 +113,16 @@ test('mouse: context menu, inline bar, and disabling inline', async ({ page }) =
 
     // Callback ran and the bar stays mounted after the action.
     expect(await calls(page)).toContain('edit');
-    await expect(firstRow.locator('ngn-table-row-actions-bar')).toHaveCount(1);
+    await expect(firstRow.locator('jig-table-row-actions-bar')).toHaveCount(1);
   });
 
   await test.step('inline can be disabled without affecting the context menu', async () => {
     await loadComponent(
       page,
-      { template: TEMPLATE, imports: ['tableModule', 'ngnTemplate'] },
+      { template: TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
       { inputs: { rows: ROWS, actions: [{ id: 'edit', label: 'Edit', testId: 'x' }] } }
     );
-    await expect(page.locator('ngn-table-row-actions-bar')).toHaveCount(0);
+    await expect(page.locator('jig-table-row-actions-bar')).toHaveCount(0);
   });
 });
 
@@ -141,7 +141,7 @@ test('inline bar component: rendering, accessible names, and submenus', async ({
       }
     );
 
-    await expect(page.locator('ngn-table-row-actions-bar button')).toHaveCount(2);
+    await expect(page.locator('jig-table-row-actions-bar button')).toHaveCount(2);
     await expect(page.locator('[data-test-id="bar-edit"]')).toHaveAttribute('aria-label', 'Edit');
   });
 
@@ -184,11 +184,11 @@ test('keyboard: roving focus, activation, and menu triggers (no selection mode)'
   await test.step('arrows enter/move/exit the action bar and Escape backs out', async () => {
     await loadComponent(
       page,
-      { template: INLINE_TEMPLATE, imports: ['tableModule', 'ngnTemplate'] },
+      { template: INLINE_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
       { inputs: { rows: ROWS, actions: twoActions } }
     );
 
-    const table = page.locator('ngn-table table[role="grid"]');
+    const table = page.locator('jig-table table[role="grid"]');
     const firstRow = page.locator('tbody tr[role="row"]').nth(0);
     await table.focus();
 
@@ -223,7 +223,7 @@ test('keyboard: roving focus, activation, and menu triggers (no selection mode)'
   await test.step('Enter on a focused action activates it without opening the context menu', async () => {
     await loadComponent(
       page,
-      { template: INLINE_TEMPLATE, imports: ['tableModule', 'ngnTemplate'] },
+      { template: INLINE_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
       {
         inputs: {
           rows: ROWS,
@@ -232,7 +232,7 @@ test('keyboard: roving focus, activation, and menu triggers (no selection mode)'
       }
     );
 
-    const table = page.locator('ngn-table table[role="grid"]');
+    const table = page.locator('jig-table table[role="grid"]');
     const firstRow = page.locator('tbody tr[role="row"]').nth(0);
     await table.focus();
     await page.keyboard.press('ArrowDown');
@@ -253,10 +253,10 @@ test('keyboard: roving focus, activation, and menu triggers (no selection mode)'
     for (const key of ['ContextMenu', 'Shift+F10']) {
       await loadComponent(
         page,
-        { template: TEMPLATE, imports: ['tableModule', 'ngnTemplate'] },
+        { template: TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
         { inputs: { rows: ROWS, actions: [{ id: 'edit', label: 'Edit', testId: 'kb-menu' }] } }
       );
-      await page.locator('ngn-table table[role="grid"]').focus();
+      await page.locator('jig-table table[role="grid"]').focus();
       await page.keyboard.press('ArrowDown');
       await page.keyboard.press(key);
       await expect(page.getByText('Edit').first()).toBeVisible();
@@ -268,14 +268,14 @@ test('keyboard: roving focus, activation, and menu triggers (no selection mode)'
       page,
       {
         template: TEMPLATE.replace(
-          '[ngnTableRowActionsInline]="false"',
-          '[ngnTableRowActionsInline]="false" [ngnTableRowActionsContext]="false"'
+          '[jigTableRowActionsInline]="false"',
+          '[jigTableRowActionsInline]="false" [jigTableRowActionsContext]="false"'
         ),
-        imports: ['tableModule', 'ngnTemplate'],
+        imports: ['tableModule', 'jigTemplate'],
       },
       { inputs: { rows: ROWS, actions: [{ id: 'edit', label: 'Edit', testId: 'kb-ctx-off' }] } }
     );
-    await page.locator('ngn-table table[role="grid"]').focus();
+    await page.locator('jig-table table[role="grid"]').focus();
     await page.keyboard.press('ArrowDown');
     await page.keyboard.press('ContextMenu');
     await expect(page.getByText('Edit').first()).toBeVisible();
@@ -288,11 +288,11 @@ test('keyboard: row actions coexist with selection mode', async ({ page }) => {
   await test.step('single mode — arrows select + move rows, and entering the bar never corrupts selection', async () => {
     await loadComponent(
       page,
-      { template: SELECTION_TEMPLATE, imports: ['tableModule', 'ngnTemplate'] },
+      { template: SELECTION_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
       { inputs: { rows: ROWS, selectionMode: 'single', actions: oneAction } }
     );
 
-    const table = page.locator('ngn-table table[role="grid"]');
+    const table = page.locator('jig-table table[role="grid"]');
     const rows = page.locator('tbody tr[role="row"]');
     await table.focus();
 
@@ -338,7 +338,7 @@ test('keyboard: row actions coexist with selection mode', async ({ page }) => {
     ];
     await loadComponent(
       page,
-      { template: SELECTION_TEMPLATE, imports: ['tableModule', 'ngnTemplate'] },
+      { template: SELECTION_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
       {
         inputs: {
           rows: fourRows,
@@ -361,11 +361,11 @@ test('keyboard: row actions coexist with selection mode', async ({ page }) => {
   await test.step('multi mode — ArrowDown moves focus only, Space toggles, and Space inside the bar activates the action instead of toggling', async () => {
     await loadComponent(
       page,
-      { template: SELECTION_TEMPLATE, imports: ['tableModule', 'ngnTemplate'] },
+      { template: SELECTION_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
       { inputs: { rows: ROWS, selectionMode: 'multi', actions: oneAction } }
     );
 
-    const table = page.locator('ngn-table table[role="grid"]');
+    const table = page.locator('jig-table table[role="grid"]');
     const rows = page.locator('tbody tr[role="row"]');
     await table.focus();
 
@@ -400,29 +400,29 @@ test('inline actions bound to a fresh array each change-detection do not trigger
   // A METHOD CALL in the template returns a NEW array on every change-detection
   // pass (unlike an inline `[...]` literal, which Angular memoizes via
   // pureFunction). This mirrors a real consumer binding
-  // `[ngnTableRowActions]="actionsFor(row.data)"`. Inline bar is ON (default),
+  // `[jigTableRowActions]="actionsFor(row.data)"`. Inline bar is ON (default),
   // so the directive reacts to actions() changes. `mk` is an eval-provided
   // function that returns a fresh array each call.
   const template = `
-    <ngn-table #table style="height: 300px" [rows]="inputs().rows" [fieldId]="'id'">
+    <jig-table #table style="height: 300px" [rows]="inputs().rows" [fieldId]="'id'">
       <ng-template #header>
-        <tr ngnTableHeadTr>
-          <th [ngnTableTh]="table.column('id')">ID</th>
-          <th [ngnTableTh]="table.column('name')">Name</th>
+        <tr jigTableHeadTr>
+          <th [jigTableTh]="table.column('id')">ID</th>
+          <th [jigTableTh]="table.column('name')">Name</th>
         </tr>
       </ng-template>
-      <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-        <tr [ngnTableBodyTr]="row" [ngnTableRowActions]="inputs().mk(row.data)">
-          <td ngnTableTd>{{ row.data.id }}</td>
-          <td ngnTableTd>{{ row.data.name }}</td>
+      <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+        <tr [jigTableBodyTr]="row" [jigTableRowActions]="inputs().mk(row.data)">
+          <td jigTableTd>{{ row.data.id }}</td>
+          <td jigTableTd>{{ row.data.name }}</td>
         </tr>
       </ng-template>
-    </ngn-table>
+    </jig-table>
   `;
 
   await loadComponent(
     page,
-    { template, imports: ['tableModule', 'ngnTemplate'] },
+    { template, imports: ['tableModule', 'jigTemplate'] },
     {
       inputs: {
         rows: ROWS,
@@ -438,11 +438,11 @@ test('inline actions bound to a fresh array each change-detection do not trigger
 test('keyboard: tabbing out of the action bar does not freeze row navigation', async ({ page }) => {
   await loadComponent(
     page,
-    { template: INLINE_TEMPLATE, imports: ['tableModule', 'ngnTemplate'] },
+    { template: INLINE_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
     { inputs: { rows: ROWS, actions: [{ id: 'edit', label: 'Edit', icon: 'edit' }] } }
   );
 
-  const grid = page.locator('ngn-table table[role="grid"]');
+  const grid = page.locator('jig-table table[role="grid"]');
   const rows = page.locator('tbody tr[role="row"]');
   await grid.focus();
 
@@ -452,7 +452,7 @@ test('keyboard: tabbing out of the action bar does not freeze row navigation', a
   await page.keyboard.press('ArrowRight');
   await expect(rows.nth(0)).toHaveClass(/active-row/);
   // Same reason as above: Tab must start from the action button, not the grid.
-  await expect(rows.nth(0).locator('ngn-table-row-actions-bar button').first()).toBeFocused();
+  await expect(rows.nth(0).locator('jig-table-row-actions-bar button').first()).toBeFocused();
   await page.keyboard.press('Tab');
 
   // Back on the grid, the arrows must still move the current row.
@@ -466,7 +466,7 @@ test('keyboard: tabbing out of the action bar does not freeze row navigation', a
 test('keyboard: tabbing into an action bar adopts its row as the current one', async ({ page }) => {
   await loadComponent(
     page,
-    { template: INLINE_TEMPLATE, imports: ['tableModule', 'ngnTemplate'] },
+    { template: INLINE_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
     { inputs: { rows: ROWS, actions: [{ id: 'edit', label: 'Edit', icon: 'edit' }] } }
   );
 
@@ -488,14 +488,14 @@ test('keyboard: leaving the table forward hides the action bar', async ({ page }
     {
       // A focusable element after the table, so Tab has somewhere to go.
       template: `${INLINE_TEMPLATE}<button type="button" data-testid="after">after</button>`,
-      imports: ['tableModule', 'ngnTemplate'],
+      imports: ['tableModule', 'jigTemplate'],
     },
     { inputs: { rows: ROWS, actions: [{ id: 'edit', label: 'Edit', icon: 'edit' }] } }
   );
 
   const rows = page.locator('tbody tr[role="row"]');
-  const bar = rows.nth(0).locator('ngn-table-row-actions-bar');
-  await page.locator('ngn-table table[role="grid"]').focus();
+  const bar = rows.nth(0).locator('jig-table-row-actions-bar');
+  await page.locator('jig-table table[role="grid"]').focus();
   await page.keyboard.press('ArrowDown');
   await expect(rows.nth(0)).toHaveClass(/focused-row/);
   await page.keyboard.press('ArrowRight');
@@ -515,7 +515,7 @@ test('keyboard: leaving the table forward hides the action bar', async ({ page }
 test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
-    { template: INLINE_TEMPLATE, imports: ['tableModule', 'ngnTemplate'] },
+    { template: INLINE_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
     {
       inputs: {
         rows: ROWS,

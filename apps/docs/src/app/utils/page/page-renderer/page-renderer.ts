@@ -1,33 +1,33 @@
 import { Component, effect, inject, computed, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgnBreadcrumb } from '@ngneers/controls/breadcrumb';
-import { notNullish } from '@ngneers/controls/utils';
+import { JigBreadcrumb } from '@awdlab/jig/breadcrumb';
+import { notNullish } from '@awdlab/jig/utils';
 
-import { NgnDocsPageSection } from './section/section';
-import { NgnDocsToc } from './toc/toc';
+import { JigDocsPageSection } from './section/section';
+import { JigDocsToc } from './toc/toc';
 import { BreadcrumbService } from '../../../frame/breadcrumb.service';
 import { safeRoutePath } from '../../routing';
 import { Seo } from '../../seo';
 
 import type { TocEntry } from '../../md/types';
-import type { NgnDocsSinglePage, NgnDocsTab } from '../types';
-import type { BreadcrumbItem } from '@ngneers/controls/breadcrumb';
+import type { JigDocsSinglePage, JigDocsTab } from '../types';
+import type { BreadcrumbItem } from '@awdlab/jig/breadcrumb';
 
 @Component({
-  selector: 'ngn-docs-page-renderer',
+  selector: 'jig-docs-page-renderer',
   templateUrl: 'page-renderer.html',
-  imports: [NgnDocsPageSection, NgnDocsToc, NgnBreadcrumb],
+  imports: [JigDocsPageSection, JigDocsToc, JigBreadcrumb],
   host: {
     class: 'min-w-0 w-full h-full flex flex-col pt-[5.5rem]',
   },
 })
-export class NgnDocsPageRenderer {
+export class JigDocsPageRenderer {
   private readonly _seo = inject(Seo);
   private readonly _activatedRoute = inject(ActivatedRoute);
   private readonly _breadcrumb = inject(BreadcrumbService);
 
-  protected readonly tab = this._activatedRoute.snapshot.data['tab'] as NgnDocsTab | undefined;
-  protected readonly page = this._activatedRoute.snapshot.data['page'] as NgnDocsSinglePage;
+  protected readonly tab = this._activatedRoute.snapshot.data['tab'] as JigDocsTab | undefined;
+  protected readonly page = this._activatedRoute.snapshot.data['page'] as JigDocsSinglePage;
 
   /** Content headings for the "on this page" rail, emitted by the section. */
   protected readonly headings = signal<TocEntry[]>([]);
