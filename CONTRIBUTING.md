@@ -52,15 +52,16 @@ tests/components           the e2e tests
 This is the thing to internalise before changing anything. A control is not one
 folder — a rename or a new input touches all of these:
 
-| #   | Part           | Location                                                    |
-| --- | -------------- | ----------------------------------------------------------- |
-| 1   | Control source | `packages/controls/src/{name}/`                             |
-| 2   | Theme template | `packages/themes/src/templates/{name}/index.ts`             |
-| 3   | Base theme     | `packages/themes/src/base/{name}/index.ts`                  |
-| 4   | Themed parts   | `packages/themes/src/{nova,shade,material}/{name}/index.ts` |
-| 5   | Tests          | `tests/components/{name}.test.ts`                           |
-| 6   | Docs page      | `apps/docs/src/app/docs/components/{name}/`                 |
-| 7   | Demos          | `apps/docs/src/app/demos/{name}/`                           |
+| #   | Part               | Location                                                    |
+| --- | ------------------ | ----------------------------------------------------------- |
+| 1   | Control source     | `packages/controls/src/{name}/`                             |
+| 2   | Theme template     | `packages/themes/src/templates/{name}/index.ts`             |
+| 3   | Base theme         | `packages/themes/src/base/{name}/index.ts`                  |
+| 4   | Themed parts       | `packages/themes/src/{nova,shade,material}/{name}/index.ts` |
+| 5   | Tests              | `tests/components/{name}.test.ts`                           |
+| 6   | Playwright harness | `packages/playwright/src/components/{name}.ts`              |
+| 7   | Docs page          | `apps/docs/src/app/docs/components/{name}/`                 |
+| 8   | Demos              | `apps/docs/src/app/demos/{name}/`                           |
 
 The [Creating a Control](https://jig.awdlab.dev/guides/creating-a-control) guide
 walks through building one end to end.
