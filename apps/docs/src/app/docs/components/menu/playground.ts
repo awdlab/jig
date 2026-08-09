@@ -11,7 +11,7 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
     <jig-docs-playground [controls]="[{ componentName: 'JigMenu', component: component() }]">
       <button
         [style.display]="component().popover() ? 'unset' : 'none'"
-        ngnButton
+        jigButton
         #anchor
         (click)="ref.show()"
       >

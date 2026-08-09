@@ -16,7 +16,7 @@ example enables `multiple` for multi-node selection.
 ### Validation
 
 Because the tree is a form control it plugs into validation and dirty/touched
-tracking. Here the `ngnErrors` directive surfaces a required-style message until
+tracking. Here the `jigErrors` directive surfaces a required-style message until
 a node is selected.
 
 {{ demo: Demo_Tree_Validation }}

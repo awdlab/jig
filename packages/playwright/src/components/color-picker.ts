@@ -1,6 +1,6 @@
 import { colorPickerControlTemplate } from '@awdlab/jig-themes/templates/color-picker';
 import { themeClasses } from '../utils/theme';
-import { NGN_CLASSES } from '../utils/classes';
+import { JIG_CLASSES } from '../utils/classes';
 import { JigInputHarness } from './input';
 import { expect, type Locator } from '@playwright/test';
 
@@ -30,7 +30,7 @@ export class JigColorPickerHarness {
     this.swatches = locator.locator(this.classes.swatch);
     this.formatToggle = locator.locator(this.classes['format-toggle']);
     this.hexInput = new JigInputHarness(
-      locator.locator(this.classes['fields']).locator(NGN_CLASSES.input['root'])
+      locator.locator(this.classes['fields']).locator(JIG_CLASSES.input['root'])
     );
   }
 

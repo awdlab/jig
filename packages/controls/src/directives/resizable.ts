@@ -35,9 +35,9 @@ const GRIP_SIZE = 16;
  * @category directive
  */
 @Directive({
-  selector: '[ngnResizable]',
+  selector: '[jigResizable]',
   host: {
-    '[class]': 'theme.classes({ resizable: ngnResizable(), resized: resized()})',
+    '[class]': 'theme.classes({ resizable: jigResizable(), resized: resized()})',
   },
 })
 export class JigResizable {
@@ -45,20 +45,20 @@ export class JigResizable {
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
   private readonly _isBrowser = inject(Platform).isBrowser;
   private readonly _document = inject(DOCUMENT);
-  private readonly _ngnMovable = inject(JigMovable, { optional: true });
+  private readonly _jigMovable = inject(JigMovable, { optional: true });
   private _isPointerDown = false;
 
   /**
    * Whether the element is resizable. The empty string (bare attribute) enables it.
    * @default true
    */
-  public readonly ngnResizable = input(true, { transform: booleanAttribute });
+  public readonly jigResizable = input(true, { transform: booleanAttribute });
   /**
    * Minimum and maximum size constraints for the resizable element. Number values
    * are treated as pixels; strings are used as-is. Any bound left `null`/`undefined`
    * is unconstrained (the effective maximum is still clamped to the viewport).
    */
-  public readonly ngnResizableSizeLimits = input<{
+  public readonly jigResizableSizeLimits = input<{
     minWidth: string | number | null | undefined;
     minHeight: string | number | null | undefined;
     maxWidth: string | number | null | undefined;
@@ -101,12 +101,12 @@ export class JigResizable {
     // claimed during dispatch, not in an effect: a batched flush would run JigMovable's
     // pointermove handling before the claim and move the element
     domEventHandler(this._el, 'pointerdown', pointerDown => {
-      if (!this.ngnResizable()) {
+      if (!this.jigResizable()) {
         return;
       }
       this._isPointerDown = true;
       // the grip owns this gesture — a co-hosted JigMovable must not also move the element
-      this._ngnMovable?.blockGesture(this.isOnGrip(pointerDown) ? pointerDown : null);
+      this._jigMovable?.blockGesture(this.isOnGrip(pointerDown) ? pointerDown : null);
     });
 
     // touch scrolling takes the pointer over and fires pointercancel instead of pointerup
@@ -117,7 +117,7 @@ export class JigResizable {
     });
 
     effect(() => {
-      if (!this._isBrowser || !this.ngnResizable()) {
+      if (!this._isBrowser || !this.jigResizable()) {
         return;
       }
       const _size = this._resizeEvent(); // just as the trigger
@@ -127,7 +127,7 @@ export class JigResizable {
       }
 
       // If the element is also movable, bake its position to avoid misplacement after resizing
-      this._ngnMovable?.bakePosition();
+      this._jigMovable?.bakePosition();
 
       // calculate the max width & height of the element based on the size, position & body
 
@@ -139,8 +139,8 @@ export class JigResizable {
       const maxWidth = bodyWidth - elRect.left;
       const maxHeight = bodyHeight - elRect.top;
 
-      const inputMaxWidth = this.ngnResizableSizeLimits()?.maxWidth;
-      const inputMaxHeight = this.ngnResizableSizeLimits()?.maxHeight;
+      const inputMaxWidth = this.jigResizableSizeLimits()?.maxWidth;
+      const inputMaxHeight = this.jigResizableSizeLimits()?.maxHeight;
       const formattedMaxWidth = this.formatSizeValue(inputMaxWidth);
       const formattedMaxHeight = this.formatSizeValue(inputMaxHeight);
 
@@ -151,8 +151,8 @@ export class JigResizable {
         ? `min(${formattedMaxHeight}, ${maxHeight}px)`
         : `${maxHeight}px`;
 
-      const inputMinWidth = this.ngnResizableSizeLimits()?.minWidth;
-      const inputMinHeight = this.ngnResizableSizeLimits()?.minHeight;
+      const inputMinWidth = this.jigResizableSizeLimits()?.minWidth;
+      const inputMinHeight = this.jigResizableSizeLimits()?.minHeight;
       const formattedMinWidth = this.formatSizeValue(inputMinWidth);
       const formattedMinHeight = this.formatSizeValue(inputMinHeight);
 

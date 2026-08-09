@@ -15,7 +15,7 @@ import type { JigDragInfo } from './types';
  * @category directive
  */
 @Directive({
-  selector: '[ngnDragScroll]',
+  selector: '[jigDragScroll]',
 })
 export class JigDragScroll extends JigDragBase {
   protected onDragged(delta: JigDragInfo): void {

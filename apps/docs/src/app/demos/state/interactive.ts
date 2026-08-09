@@ -9,11 +9,11 @@ import { JigState } from '@awdlab/jig/state';
   selector: 'jig-demo-state-button',
   template: `
     <jig-input-field label="Type to test">
-      <input ngnInput value="" (input)="onInput()" />
+      <input jigInput value="" (input)="onInput()" />
       <jig-state [kind]="inputState() ?? undefined" [visible]="!!inputState()" />
     </jig-input-field>
     <br />
-    <button ngnButton (click)="onButton()">
+    <button jigButton (click)="onButton()">
       Click to test
       <jig-state [kind]="buttonState() ?? undefined" replaceContent [visible]="!!buttonState()" />
     </button>

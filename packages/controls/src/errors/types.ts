@@ -33,7 +33,7 @@ export type JigErrorsMessage =
 export type JigErrorsMessages = Record<string, JigErrorsMessage>;
 
 /**
- * Custom errors supplied directly to ngnErrors.
+ * Custom errors supplied directly to jigErrors.
  * @category types
  */
 export type JigErrorsCustom =
@@ -54,7 +54,7 @@ export interface JigErrorsCustomEntry {
 }
 
 /**
- * Normalized validation error exposed by ngnErrors.
+ * Normalized validation error exposed by jigErrors.
  * @category types
  */
 export interface JigError {

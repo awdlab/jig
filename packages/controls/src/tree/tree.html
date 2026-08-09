@@ -18,7 +18,7 @@
   </div>
 }
 
-<ng-template #usedItemTemplate [ngnTemplate]="scroller.templateTypes.item" let-node>
+<ng-template #usedItemTemplate [jigTemplate]="scroller.templateTypes.item" let-node>
   @let item = node.item;
   @let disabled = node.parentDisabled || item.disabled;
   @let state = nodeState(item);
@@ -31,7 +31,7 @@
   -->
   <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
   <div
-    [ngnScrollerItem]="node"
+    [jigScrollerItem]="node"
     [id]="inputId() + '_node_' + item.value"
     role="treeitem"
     [attr.aria-level]="node.level + 1"
@@ -66,9 +66,9 @@
   >
     @if (node.hasChildren) {
       <button
-        ngnButton
+        jigButton
         kind="icon"
-        [ngnButtonInline]="true"
+        [jigButtonInline]="true"
         type="button"
         tabindex="-1"
         aria-hidden="true"
@@ -129,7 +129,7 @@
   </div>
 </ng-template>
 
-<ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
+<ng-template #defaultItemTemplate [jigTemplate]="templateTypes.item" let-item>
   <span [attr.data-testid]="item?.testId" [ptInt]="this" [ptClass]="'default-item'">
     @let label = item?.label;
     @if (label) {

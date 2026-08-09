@@ -1,4 +1,4 @@
-export const globalPropertyName = '__ngn-controls-global__';
+export const globalPropertyName = '__jig-global__';
 
 export interface JigGlobalType {
   nextElementId: number;

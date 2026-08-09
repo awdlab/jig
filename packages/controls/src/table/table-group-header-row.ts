@@ -15,25 +15,25 @@ import type { FormattedTableGroupHeaderRow } from './types';
  * @category directive
  */
 @Directive({
-  selector: '[ngnTableGroupHeaderTr]',
+  selector: '[jigTableGroupHeaderTr]',
   host: {
-    '[attr.aria-rowindex]': 'ngnTableGroupHeaderTr().index + 2',
-    '[style.--jig-table-row-index]': 'ngnTableGroupHeaderTr().index + 2',
+    '[attr.aria-rowindex]': 'jigTableGroupHeaderTr().index + 2',
+    '[style.--jig-table-row-index]': 'jigTableGroupHeaderTr().index + 2',
   },
 })
 export class JigTableGroupHeaderTr extends JigScrollerItem {
   /** The group-header row this `<tr>` renders. */
-  public readonly ngnTableGroupHeaderTr = input.required<FormattedTableGroupHeaderRow>();
-  /** The item bound to the underlying scroller entry; kept in sync with {@link ngnTableGroupHeaderTr}. */
-  public override readonly ngnScrollerItem = input<object>({});
+  public readonly jigTableGroupHeaderTr = input.required<FormattedTableGroupHeaderRow>();
+  /** The item bound to the underlying scroller entry; kept in sync with {@link jigTableGroupHeaderTr}. */
+  public override readonly jigScrollerItem = input<object>({});
   private readonly _element = inject(ElementRef<HTMLElement>);
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
 
   constructor() {
     super();
     effect(() => {
-      const row = this.ngnTableGroupHeaderTr();
-      setInputSignalValue(this.ngnScrollerItem, row);
+      const row = this.jigTableGroupHeaderTr();
+      setInputSignalValue(this.jigScrollerItem, row);
     });
     this.prepareDom();
   }

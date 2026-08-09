@@ -18,10 +18,10 @@ import type { JigItemsValue } from '@awdlab/jig/api';
         [value]="value()"
         (valueChange)="value.set($event)"
         [popoverOptions]="{ sizeConstraints: { height: '200px' } }"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="assigneeHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="assigneeHint"
       />
     </jig-input-field>
     <jig-hint #assigneeHint />

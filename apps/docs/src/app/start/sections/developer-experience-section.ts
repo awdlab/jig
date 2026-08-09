@@ -155,7 +155,7 @@ const FACTS: readonly Fact[] = [
     `,
   ],
   template: `
-    <div [ngnDocsReveal]="0" class="mx-auto max-w-[1100px]">
+    <div [jigDocsReveal]="0" class="mx-auto max-w-[1100px]">
       <jig-docs-section-header
         class="mb-8 lg:mb-12"
         eyebrow="Developer experience"

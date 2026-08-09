@@ -12,11 +12,11 @@ import { JigSwitch } from '@awdlab/jig/switch';
       <jig-switch [(value)]="autofocus" [label]="'Autofocus the second field'" />
 
       <jig-input-field [label]="'First'" class="w-72">
-        <input ngnInput />
+        <input jigInput />
       </jig-input-field>
 
       <jig-input-field [label]="'Second'" class="w-72">
-        <input ngnInput [ngnAutofocus]="autofocus()" />
+        <input jigInput [jigAutofocus]="autofocus()" />
       </jig-input-field>
     </div>
   `,

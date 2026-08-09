@@ -11,7 +11,7 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
     <jig-docs-playground [controls]="[{ componentName: 'JigInplace', component: component() }]">
       <jig-inplace #ref>
         <ng-template #display>Show Details</ng-template>
-        <ng-template #content [ngnTemplate]="component().templateTypes.content">
+        <ng-template #content [jigTemplate]="component().templateTypes.content">
           <div>Content details here</div>
         </ng-template>
       </jig-inplace>

@@ -22,13 +22,13 @@
   </footer>
 }
 
-<ng-template #defaultHeaderTemplate [ngnTemplate]="templateTypes.header" let-header>
+<ng-template #defaultHeaderTemplate [jigTemplate]="templateTypes.header" let-header>
   <div [ptInt]="this" [ptClass]="'default-header'">
     <span [id]="header.headerId" [ptInt]="this" [ptClass]="'default-header-text'">{{
       header.text
     }}</span>
     <button
-      ngnButton
+      jigButton
       [kind]="'icon'"
       [attr.aria-label]="i18n['drawer_close']()"
       (click)="header.close()"

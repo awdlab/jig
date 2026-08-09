@@ -10,15 +10,15 @@ import { JigTooltip } from '@awdlab/jig/tooltip';
   template: `
     <div class="grid max-w-lg gap-4">
       <jig-input-field label="Repository">
-        <input ngnInput value="@awdlab/jig" />
+        <input jigInput value="@awdlab/jig" />
         <jig-state kind="success" />
       </jig-input-field>
       <jig-input-field label="Package name">
-        <input ngnInput value="controls" />
-        <jig-state kind="warning" ngnTooltip="Unknown package name." />
+        <input jigInput value="controls" />
+        <jig-state kind="warning" jigTooltip="Unknown package name." />
       </jig-input-field>
       <jig-input-field label="Publish target">
-        <input ngnInput value="production" />
+        <input jigInput value="production" />
         <jig-state kind="loading" />
       </jig-input-field>
     </div>

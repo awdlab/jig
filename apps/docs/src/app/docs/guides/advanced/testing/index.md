@@ -40,14 +40,14 @@ visibility alone lets a following Escape keypress get lost.
 
 ### Selectors, when you need them
 
-`NGN_CLASSES` holds the generated class selectors for the common controls, and
+`JIG_CLASSES` holds the generated class selectors for the common controls, and
 `themeClasses(template)` derives them for any control template:
 
 ```ts
-import { NGN_CLASSES, themeClasses } from '@awdlab/jig-playwright';
+import { JIG_CLASSES, themeClasses } from '@awdlab/jig-playwright';
 import { tagControlTemplate } from '@awdlab/jig-themes/templates/tag';
 
-page.locator(NGN_CLASSES.button.root);
+page.locator(JIG_CLASSES.button.root);
 page.locator(themeClasses(tagControlTemplate).label);
 ```
 

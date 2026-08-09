@@ -17,19 +17,19 @@ import type { TableDataSource } from '@awdlab/jig/table';
     [dataSource]="load"
   >
     <ng-template #header>
-      <tr ngnTableHeadTr>
-        <th [ngnTableTh]="table.column('id')">ID</th>
-        <th [ngnTableTh]="table.column('name')">Name</th>
-        <th [ngnTableTh]="table.column('email')">Email</th>
-        <th [ngnTableTh]="table.column('age')">Age</th>
+      <tr jigTableHeadTr>
+        <th [jigTableTh]="table.column('id')">ID</th>
+        <th [jigTableTh]="table.column('name')">Name</th>
+        <th [jigTableTh]="table.column('email')">Email</th>
+        <th [jigTableTh]="table.column('age')">Age</th>
       </tr>
     </ng-template>
-    <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-      <tr [ngnTableBodyTr]="row">
-        <td ngnTableTd>{{ row.data.id }}</td>
-        <td ngnTableTd>{{ row.data.name }}</td>
-        <td ngnTableTd>{{ row.data.email }}</td>
-        <td ngnTableTd>{{ row.data.age }}</td>
+    <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+      <tr [jigTableBodyTr]="row">
+        <td jigTableTd>{{ row.data.id }}</td>
+        <td jigTableTd>{{ row.data.name }}</td>
+        <td jigTableTd>{{ row.data.email }}</td>
+        <td jigTableTd>{{ row.data.age }}</td>
       </tr>
     </ng-template>
   </jig-table>`,

@@ -12,7 +12,7 @@ import { JigError } from '@awdlab/jig/utils';
 import { injectOrThrow } from '@awdlab/jig/utils-ng';
 
 import { DEFAULT_TOAST_OPTIONS } from './defaults';
-import { NGN_TOAST_USER_DEFAULTS } from './provider';
+import { JIG_TOAST_USER_DEFAULTS } from './provider';
 import { JigToastHost } from './toast-host';
 
 import type { JigToastOptions } from './types';
@@ -24,9 +24,9 @@ export class JigToastManager implements OnDestroy {
   private readonly _toasts = signal<ToastFull[]>([]);
   private readonly _appRef = inject(ApplicationRef);
   private readonly _userDefaults = injectOrThrow(
-    NGN_TOAST_USER_DEFAULTS,
+    JIG_TOAST_USER_DEFAULTS,
     'JigToastManager',
-    'Failed to inject NGN_TOAST_USER_DEFAULTS, make sure to use withToasts() to provide jig toasts!'
+    'Failed to inject JIG_TOAST_USER_DEFAULTS, make sure to use withToasts() to provide jig toasts!'
   );
   private _nextId = 0;
 

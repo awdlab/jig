@@ -6,7 +6,7 @@ import type { TooltipOptions } from './tooltip';
 import type { JigStateStorage } from '@awdlab/jig/utils-ng';
 import type { StyleScope, Theme } from '@awdlab/jig-themes';
 
-export const NGN_CONFIG = new InjectionToken<JigConfig>('NGN_CONFIG');
+export const JIG_CONFIG = new InjectionToken<JigConfig>('JIG_CONFIG');
 
 export type JigConfig = {
   readonly logLevel: LogLevel;
@@ -69,7 +69,7 @@ export const defaultJigConfig: JigConfig = {
 export function provideJigConfig(config?: JigConfigInit): Provider {
   return [
     {
-      provide: NGN_CONFIG,
+      provide: JIG_CONFIG,
       useValue: {
         logLevel: config?.logLevel ?? defaultJigConfig.logLevel,
         customTranslations: config?.customTranslations,
@@ -123,7 +123,7 @@ export function provideJigConfig(config?: JigConfigInit): Provider {
       } satisfies JigConfig,
     },
     provideAppInitializer(() => {
-      const config = inject(NGN_CONFIG);
+      const config = inject(JIG_CONFIG);
       if (config?.customTranslations) {
         registerCustomLanguages(config.customTranslations);
       }

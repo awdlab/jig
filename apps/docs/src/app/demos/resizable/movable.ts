@@ -7,10 +7,10 @@ import { JigMovable, JigResizable } from '@awdlab/jig/directives';
   template: `
     <div class="board">
       <div
-        ngnMovable
-        ngnResizable
-        [ngnMovableLimitToViewport]="false"
-        [ngnResizableSizeLimits]="{
+        jigMovable
+        jigResizable
+        [jigMovableLimitToViewport]="false"
+        [jigResizableSizeLimits]="{
           minWidth: 160,
           minHeight: 90,
           maxWidth: null,

@@ -12,10 +12,10 @@ import { JigSelectButton } from '@awdlab/jig/select-button';
         [options]="options"
         [value]="value()"
         (valueChange)="value.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="priorityHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="priorityHint"
       />
     </div>
     <jig-hint #priorityHint />

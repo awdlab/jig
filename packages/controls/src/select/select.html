@@ -11,9 +11,9 @@
   (focusout)="potentiallyBlurred()"
 >
   @if (editable()) {
-    <ng-content select="[ngnInput]">
+    <ng-content select="[jigInput]">
       <input
-        ngnInput
+        jigInput
         autocomplete="list"
         [aria-expanded]="popover.open()"
         aria-haspopup="listbox"
@@ -88,7 +88,7 @@
       @if (filter()) {
         <jig-input-field [ptInt]="this" [ptDep]="'filter'">
           <input
-            ngnInput
+            jigInput
             [value]="filterTextInternal()"
             (valueChange)="filterTextInternal.set($event)"
             [attr.aria-label]="i18n['select_filterOptions']()"
@@ -127,7 +127,7 @@
   </ng-template>
 </jig-popover>
 
-<ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
+<ng-template #defaultItemTemplate [jigTemplate]="templateTypes.item" let-item>
   <span [attr.data-testid]="item?.testId">
     @let label = item?.label;
     @if (label) {
@@ -136,7 +136,7 @@
   </span>
 </ng-template>
 
-<ng-template #defaultGroupTemplate [ngnTemplate]="templateTypes.item" let-group>
+<ng-template #defaultGroupTemplate [jigTemplate]="templateTypes.item" let-group>
   <span [attr.data-testid]="group?.testId">
     @let label = group?.label;
     @if (label) {
@@ -145,14 +145,14 @@
   </span>
 </ng-template>
 
-<ng-template #defaultSelectedItemTemplate [ngnTemplate]="templateTypes.item" let-item>
+<ng-template #defaultSelectedItemTemplate [jigTemplate]="templateTypes.item" let-item>
   @let label = item?.label;
   @if (label) {
     <span [attr.data-testid]="item?.testId">{{ maybeCallback(label) }}</span>
   }
 </ng-template>
 
-<ng-template #defaultSelectedItemsTemplate [ngnTemplate]="templateTypes.selectedItems" let-items>
+<ng-template #defaultSelectedItemsTemplate [jigTemplate]="templateTypes.selectedItems" let-items>
   <jig-item-view
     #itemView
     [items]="items"
@@ -160,7 +160,7 @@
     [separator]="true"
     style="margin-right: 8px"
   >
-    <ng-template #item let-item [ngnTemplate]="itemView.templateTypes.item">
+    <ng-template #item let-item [jigTemplate]="itemView.templateTypes.item">
       <ng-container
         *ngTemplateOutlet="selectedItemTemplate(); context: { $implicit: item }"
       ></ng-container>

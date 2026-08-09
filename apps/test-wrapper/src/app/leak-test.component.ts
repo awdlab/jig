@@ -109,10 +109,10 @@ declare global {
       <jig-breadcrumb [items]="breadcrumbItems()" />
 
       <!-- Button & ButtonGroup -->
-      <button ngnButton kind="primary">Click me</button>
+      <button jigButton kind="primary">Click me</button>
       <jig-button-group>
-        <button ngnButton kind="primary">Button 1</button>
-        <button ngnButton kind="primary">Button 2</button>
+        <button jigButton kind="primary">Button 1</button>
+        <button jigButton kind="primary">Button 2</button>
       </jig-button-group>
 
       <!-- Calendar -->
@@ -140,7 +140,7 @@ declare global {
       <ng-template #deferContent>Deferred content</ng-template>
 
       <!-- Dialog -->
-      <button ngnButton kind="primary" (click)="dialogOpen.set(true)">Open dialog</button>
+      <button jigButton kind="primary" (click)="dialogOpen.set(true)">Open dialog</button>
       <jig-dialog
         title="Example dialog"
         [open]="dialogOpen()"
@@ -162,21 +162,21 @@ declare global {
       <jig-inplace>
         <ng-template #display>Display</ng-template>
         <ng-template #content let-content>
-          <button ngnButton kind="primary" (click)="content.close()">Close</button>
+          <button jigButton kind="primary" (click)="content.close()">Close</button>
         </ng-template>
       </jig-inplace>
 
       <!-- Input -->
-      <input ngnInput />
+      <input jigInput />
 
       <!-- InputField -->
       <jig-input-field label="Label">
-        <input ngnInput />
+        <input jigInput />
       </jig-input-field>
 
       <!-- MaskInput -->
       <jig-mask-input [mask]="'time'">
-        <input ngnInput />
+        <input jigInput />
       </jig-mask-input>
 
       <!-- ItemView -->
@@ -191,9 +191,9 @@ declare global {
       <jig-message kind="outlined" [icon]="userIcon">Test message</jig-message>
 
       <!-- Popover -->
-      <button #popoverAnchor ngnButton>Toggle</button>
+      <button #popoverAnchor jigButton>Toggle</button>
       <jig-popover #popover [anchor]="popoverAnchor">Popover content</jig-popover>
-      <button ngnButton kind="primary" (click)="popover.show()">Open popover</button>
+      <button jigButton kind="primary" (click)="popover.show()">Open popover</button>
 
       <!-- Progress -->
       <jig-progress [value]="50" />
@@ -201,7 +201,7 @@ declare global {
       <!-- Scroller -->
       <jig-scroller [items]="items()" style="height: 100px;">
         <ng-template #item let-item>
-          <div [ngnScrollerItem]="item" style="height: 30px;">
+          <div [jigScrollerItem]="item" style="height: 30px;">
             {{ item.label }}
           </div>
         </ng-template>
@@ -241,15 +241,15 @@ declare global {
       <!-- Table -->
       <jig-table #table [rows]="tableRows()" [fieldId]="'id'" style="height: 200px">
         <ng-template #header>
-          <tr ngnTableHeadTr>
-            <th [ngnTableTh]="table.column('id')">ID</th>
-            <th [ngnTableTh]="table.column('name')">Name</th>
+          <tr jigTableHeadTr>
+            <th [jigTableTh]="table.column('id')">ID</th>
+            <th [jigTableTh]="table.column('name')">Name</th>
           </tr>
         </ng-template>
-        <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-          <tr [ngnTableBodyTr]="row">
-            <td ngnTableTd>{{ row.data.id }}</td>
-            <td ngnTableTd>{{ row.data.name }}</td>
+        <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+          <tr [jigTableBodyTr]="row">
+            <td jigTableTd>{{ row.data.id }}</td>
+            <td jigTableTd>{{ row.data.name }}</td>
           </tr>
         </ng-template>
       </jig-table>
@@ -258,7 +258,7 @@ declare global {
       <jig-tag kind="pill" [icon]="userIcon">Tag</jig-tag>
 
       <!-- Tooltip -->
-      <div [ngnTooltip]="'Tooltip text'">Hover me</div>
+      <div [jigTooltip]="'Tooltip text'">Hover me</div>
     }
   `,
 })

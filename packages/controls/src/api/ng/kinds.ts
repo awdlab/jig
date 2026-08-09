@@ -1,6 +1,6 @@
 import { computed, inject, type Signal } from '@angular/core';
 
-import { NGN_CONFIG } from './config';
+import { JIG_CONFIG } from './config';
 import { ThemeService } from './theme-service';
 
 import type { CustomColor, CustomKind } from '@awdlab/jig-custom-types';
@@ -13,7 +13,7 @@ import type { Theme } from '@awdlab/jig-themes';
  */
 function injectActiveTheme(): Signal<Theme | null | undefined> {
   const themeService = inject(ThemeService, { optional: true });
-  const config = inject(NGN_CONFIG);
+  const config = inject(JIG_CONFIG);
   // Only fall back to the configured preset when there is no `ThemeService`. When the service is
   // present, `activeTheme()` — including its valid `null` (cleared) state — is authoritative and
   // must be preserved rather than reintroducing the preset.

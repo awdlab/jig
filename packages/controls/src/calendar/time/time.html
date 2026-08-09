@@ -3,7 +3,7 @@
     <jig-input-field>
       <input
         type="time"
-        ngnInput
+        jigInput
         [step]="showSeconds() ? 1 : 60"
         [value]="value()"
         (valueChange)="onValueChange($event || '')"

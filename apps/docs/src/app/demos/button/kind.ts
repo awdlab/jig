@@ -10,7 +10,7 @@ import { JigButton } from '@awdlab/jig/button';
       @for (color of colors(); track $index) {
         <div class="flex flex-wrap items-center gap-2">
           @for (kind of kinds(); track $index) {
-            <button ngnButton [kind]="kind" [color]="color">
+            <button jigButton [kind]="kind" [color]="color">
               {{ kind === 'icon' ? '👽' : kind }}
             </button>
           }

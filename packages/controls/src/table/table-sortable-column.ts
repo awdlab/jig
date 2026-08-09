@@ -23,7 +23,7 @@ import { JigTableTh } from './table-header-cell';
  * @category directive
  */
 @Directive({
-  selector: '[ngnTableSortableColumn]',
+  selector: '[jigTableSortableColumn]',
   host: {
     '[class]': `theme.classes({'sortable-column': true, 'sorted-column': !!sort() })`,
     '[attr.aria-sort]': `sort() === 'asc' ? 'ascending' : sort() === 'desc' ? 'descending' : 'none'`,
@@ -35,7 +35,7 @@ export class JigTableSortableColumn implements OnDestroy {
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /** Enables sorting on this column. The directive selector; its value is unused. */
-  public readonly ngnTableSortableColumn = input();
+  public readonly jigTableSortableColumn = input();
 
   private readonly _table = getNearestJigInstanceSig<Type<JigTable<any, any>>>(
     this._element.nativeElement,
@@ -49,9 +49,9 @@ export class JigTableSortableColumn implements OnDestroy {
     return null;
   });
 
-  private readonly columnId = inject(JigTableTh).ngnTableTh;
+  private readonly columnId = inject(JigTableTh).jigTableTh;
 
-  private readonly _ngnIcon: ComponentRef<JigIcon>;
+  private readonly _jigIcon: ComponentRef<JigIcon>;
   private _sortButton?: HTMLElement;
 
   private readonly onSortKeyDown = (event: KeyboardEvent) => {
@@ -75,14 +75,14 @@ export class JigTableSortableColumn implements OnDestroy {
       this._sortButton = text;
     });
 
-    this._ngnIcon = inject(ViewContainerRef).createComponent(JigIcon);
-    this._element.nativeElement.appendChild(this._ngnIcon.location.nativeElement);
-    this._ngnIcon.location.nativeElement.classList.add(this.theme.class('sort-control'));
+    this._jigIcon = inject(ViewContainerRef).createComponent(JigIcon);
+    this._element.nativeElement.appendChild(this._jigIcon.location.nativeElement);
+    this._jigIcon.location.nativeElement.classList.add(this.theme.class('sort-control'));
 
     effect(() => {
       const sort = this.sort();
       setComponentInput(
-        this._ngnIcon,
+        this._jigIcon,
         'defaultIcon',
         sort === 'asc' ? 'sort-ascending' : sort === 'desc' ? 'sort-descending' : 'sort-neutral'
       );
@@ -91,7 +91,7 @@ export class JigTableSortableColumn implements OnDestroy {
 
   public ngOnDestroy(): void {
     this._sortButton?.removeEventListener('keydown', this.onSortKeyDown);
-    this._ngnIcon.destroy();
+    this._jigIcon.destroy();
   }
 
   protected onHostClick(event: MouseEvent): void {

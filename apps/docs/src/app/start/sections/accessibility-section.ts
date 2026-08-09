@@ -43,7 +43,7 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
   template: `
     <div class="mx-auto max-w-[1100px]">
       <jig-docs-section-header
-        [ngnDocsReveal]="0"
+        [jigDocsReveal]="0"
         class="mb-8 lg:mb-12"
         eyebrow="Accessibility"
         heading="Drive it with the keyboard"
@@ -51,7 +51,7 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
       />
 
       <div
-        [ngnDocsReveal]="60"
+        [jigDocsReveal]="60"
         class="overflow-hidden rounded-(--jig-size-rounded-lg) border border-(--jig-color-surface-200) bg-(--jig-color-surface-25)"
       >
         <div class="grid grid-cols-1 lg:grid-cols-2">
@@ -100,7 +100,7 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
                 toolbar — one tab stop, arrows inside
               </p>
               <div
-                ngnRovingGroup
+                jigRovingGroup
                 orientation="horizontal"
                 rovingMode="tabindex"
                 [rovingWrap]="true"
@@ -110,7 +110,7 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
               >
                 @for (item of items; track item; let i = $index) {
                   <button
-                    ngnRovingItem
+                    jigRovingItem
                     type="button"
                     class="rounded-(--jig-size-rounded-md) px-(--jig-size-padding-lg) py-(--jig-size-padding-md) text-(--jig-color-text)"
                     [class.jig-sim-focus]="simIndex() === i"

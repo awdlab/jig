@@ -9,7 +9,7 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
   imports: [JigDialog, JigButton, JigDocsPlayground],
   template: `
     <jig-docs-playground [controls]="[{ componentName: 'JigDialog', component: component() }]">
-      <button ngnButton (click)="open.set(true)">Open Dialog</button>
+      <button jigButton (click)="open.set(true)">Open Dialog</button>
       <jig-dialog
         #ref
         [title]="'Dialog Title'"

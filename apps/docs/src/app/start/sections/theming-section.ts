@@ -147,7 +147,7 @@ function toHex(color: string): string {
              incoming value immediately instead of a frame of the ease. -->
         <div aria-hidden="true" inert class="absolute size-0 overflow-hidden opacity-0">
           <jig-input-field>
-            <input ngnInput data-probe="font" tabindex="-1" />
+            <input jigInput data-probe="font" tabindex="-1" />
           </jig-input-field>
         </div>
 
@@ -206,7 +206,7 @@ function toHex(color: string): string {
             <div class="relative">
               <jig-input-field #usernameField class="w-full">
                 <jig-icon [icon]="userIcon" />
-                <input ngnInput autocomplete="off" [placeholder]="username" />
+                <input jigInput autocomplete="off" [placeholder]="username" />
               </jig-input-field>
               <!-- Font size: ruler under real text, not the password's masking dots.
                    Width comes from a hidden copy of the placeholder wearing the input's
@@ -239,7 +239,7 @@ function toHex(color: string): string {
                 <jig-icon [icon]="lockIcon" />
                 <!-- Indent clears the corner marker. -->
                 <input
-                  ngnInput
+                  jigInput
                   type="password"
                   autocomplete="off"
                   placeholder="••••••••"
@@ -258,7 +258,7 @@ function toHex(color: string): string {
 
           <div class="mt-(--jig-size-padding-xl) flex gap-(--jig-size-padding-md)">
             <div class="relative flex-1">
-              <button ngnButton kind="primary" class="w-full justify-center">Sign in</button>
+              <button jigButton kind="primary" class="w-full justify-center">Sign in</button>
               <!-- Primary: dot inside the button on the side its pill sits — far
                    enough in to clear the corner arc at every theme's radius. -->
               <div
@@ -268,7 +268,7 @@ function toHex(color: string): string {
               ></div>
             </div>
             <div class="relative">
-              <button ngnButton kind="secondary">Cancel</button>
+              <button jigButton kind="secondary">Cancel</button>
               <!-- Padding again, vertically: the gap under the button IS the card's
                    bottom padding, so top-full measures it with no magic number. -->
               <div

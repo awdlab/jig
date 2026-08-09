@@ -71,7 +71,7 @@ export function closestShortcutScope(element: Element | null): JigKeyboardShortc
  * @category directive
  */
 @Directive({
-  selector: '[ngnKeyboardShortcut]',
+  selector: '[jigKeyboardShortcut]',
   host: {
     '(keydown)': 'onKeydown($event)',
   },
@@ -81,7 +81,7 @@ export class JigKeyboardShortcut {
    * Shortcuts owned by this scope. Descendant registrations (e.g. an
    * {@link JigActionButton} config's `shortcut`) are checked before these.
    */
-  public readonly bindings = input<JigShortcutBinding[]>([], { alias: 'ngnKeyboardShortcut' });
+  public readonly bindings = input<JigShortcutBinding[]>([], { alias: 'jigKeyboardShortcut' });
 
   private readonly _host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly _document = inject(DOCUMENT);

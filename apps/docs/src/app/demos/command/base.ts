@@ -11,7 +11,7 @@ import type { JigActionItem } from '@awdlab/jig/api';
   imports: [JigCommand, JigButton],
   selector: 'jig-demo-command-base-demo',
   template: `
-    <button ngnButton (click)="open.set(true)">Open palette</button>
+    <button jigButton (click)="open.set(true)">Open palette</button>
     <jig-command [items]="items" [(open)]="open" (commandSelected)="last.set($event.id)" />
     @if (last()) {
       <p>Ran: {{ last() }}</p>

@@ -37,7 +37,7 @@ export function isWithinEndZone(distanceFromEnd: number, threshold: number): boo
  * @category directive
  */
 @Directive({
-  selector: '[ngnScrollAmount]',
+  selector: '[jigScrollAmount]',
 })
 export class JigScrollAmount {
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -45,18 +45,18 @@ export class JigScrollAmount {
   /**
    * Optional external scroll container. When set, scroll events and
    * dimensions are tracked on this element instead of the host element.
-   * @alias ngnScrollAmountContainer
+   * @alias jigScrollAmountContainer
    */
   public readonly container = input<HTMLElement | undefined>(undefined, {
-    alias: 'ngnScrollAmountContainer',
+    alias: 'jigScrollAmountContainer',
   });
 
   /**
    * Distance (px) from the end at which {@link endReached} fires.
    * @default 0
-   * @alias ngnScrollAmountEndThreshold
+   * @alias jigScrollAmountEndThreshold
    */
-  public readonly endThreshold = input(0, { alias: 'ngnScrollAmountEndThreshold' });
+  public readonly endThreshold = input(0, { alias: 'jigScrollAmountEndThreshold' });
 
   /**
    * Fires once when scrolling crosses within {@link endThreshold} of the bottom

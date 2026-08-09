@@ -20,7 +20,7 @@ async function loadNumberInput(
       imports: ['inputField', 'numberInput', 'spinButtons'],
       template: `<jig-input-field>
         <input
-          ngnNumberInput
+          jigNumberInput
           locale="en-US"
           [value]="inputs().value ?? null"
           [min]="inputs().min"
@@ -33,7 +33,7 @@ async function loadNumberInput(
     },
     { inputs }
   );
-  const input = page.locator('input[ngnnumberinput]');
+  const input = page.locator('input[jignumberinput]');
   await expect(input).toBeVisible();
   const decrement = page.locator('jig-spin-buttons button').nth(0);
   const increment = page.locator('jig-spin-buttons button').nth(1);
@@ -173,7 +173,7 @@ test('spin buttons placed before the input still resolve the number input', asyn
       template: `<jig-input-field>
         <jig-spin-buttons buttons="decrement" />
         <input
-          ngnNumberInput
+          jigNumberInput
           locale="en-US"
           [value]="inputs().value ?? null"
           (valueChange)="output('value', $event)"
@@ -183,7 +183,7 @@ test('spin buttons placed before the input still resolve the number input', asyn
     },
     { inputs: { value: 5 } }
   );
-  const input = page.locator('input[ngnnumberinput]');
+  const input = page.locator('input[jignumberinput]');
   await expect(input).toBeVisible();
 
   // Each flanking instance renders exactly one button.
@@ -212,7 +212,7 @@ test('accessibility (axe)', async ({ page }) => {
       imports: ['inputField', 'numberInput', 'spinButtons'],
       template: `<jig-input-field label="Quantity">
         <input
-          ngnNumberInput
+          jigNumberInput
           locale="en-US"
           [value]="inputs().value ?? null"
           [min]="0"
@@ -224,7 +224,7 @@ test('accessibility (axe)', async ({ page }) => {
     { inputs: { value: 42 } }
   );
 
-  await expect(page.locator('input[ngnnumberinput]')).toBeVisible();
+  await expect(page.locator('input[jignumberinput]')).toBeVisible();
   await expectNoA11yViolations(page);
 });
 

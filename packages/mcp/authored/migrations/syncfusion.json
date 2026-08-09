@@ -39,12 +39,12 @@
     { "from": "ejs-radiobutton", "to": "jig-radio", "notes": "Group with jig-radio-group." },
     {
       "from": "ejs-textbox",
-      "to": "input[ngnInput]",
+      "to": "input[jigInput]",
       "notes": "Wrap in jig-input-field. Move any `id` off the input onto the wrapper: `<jig-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references."
     },
     {
       "from": "ejs-numerictextbox",
-      "to": "input[ngnNumberInput]",
+      "to": "input[jigNumberInput]",
       "props": [
         { "from": "[(value)]", "to": "[(value)]" },
         { "from": "min", "to": "min" },
@@ -72,7 +72,7 @@
       "gaps": ["Service/programmatic dialog usage differs from jig's declarative [(open)]."]
     },
     { "from": "ejs-sidebar", "to": "jig-drawer" },
-    { "from": "ejs-tooltip", "to": "[ngnTooltip]" },
+    { "from": "ejs-tooltip", "to": "[jigTooltip]" },
     { "from": "ejs-menu / ejs-contextmenu", "to": "jig-menu" },
     { "from": "ejs-breadcrumb", "to": "jig-breadcrumb" },
     { "from": "ejs-tab", "to": "jig-tabs" },
@@ -143,7 +143,7 @@
     },
     {
       "from": "ejs-keyboard",
-      "to": "[ngnKeyboardShortcut]",
+      "to": "[jigKeyboardShortcut]",
       "notes": "Scope directive: shortcuts fire while focus is inside the host (or globally per binding). jig-kbd renders the shortcut glyphs."
     }
   ]

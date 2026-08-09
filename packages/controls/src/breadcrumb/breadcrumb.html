@@ -12,7 +12,7 @@
   [overflowStrategyFreezeCount]="1"
 />
 
-<ng-template #usedOverflowTemplate [ngnTemplate]="itemView.templateTypes.overflow" let-overflow>
+<ng-template #usedOverflowTemplate [jigTemplate]="itemView.templateTypes.overflow" let-overflow>
   <ng-container
     *ngTemplateOutlet="
       overflowTemplate();
@@ -21,7 +21,7 @@
   ></ng-container>
 </ng-template>
 
-<ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
+<ng-template #defaultItemTemplate [jigTemplate]="templateTypes.item" let-item>
   <a
     [ptInt]="this"
     [ptClass]="{
@@ -35,13 +35,13 @@
   </a>
 </ng-template>
 
-<ng-template #defaultSeparatorTemplate [ngnTemplate]="templateTypes.separator" let-separator>
+<ng-template #defaultSeparatorTemplate [jigTemplate]="templateTypes.separator" let-separator>
   <span [ptInt]="this" [ptClass]="'separator'">
     <jig-icon defaultIcon="breadcrumb-separator" [icon]="separator.icon" />
   </span>
 </ng-template>
 
-<ng-template #defaultOverflowTemplate [ngnTemplate]="templateTypes.overflow" let-overflow>
+<ng-template #defaultOverflowTemplate [jigTemplate]="templateTypes.overflow" let-overflow>
   <button
     #menuAnchor
     [ptInt]="this"

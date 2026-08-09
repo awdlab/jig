@@ -18,13 +18,13 @@ import type { FormattedTableDataRow } from './types';
  * @category directive
  */
 @Directive({
-  selector: '[ngnTableBodyTr]',
+  selector: '[jigTableBodyTr]',
   host: {
     '[attr.id]': 'rowElementId()',
-    '[attr.aria-rowindex]': 'ngnTableBodyTr().index + 2',
-    '[style.--jig-table-row-index]': 'ngnTableBodyTr().index + 2',
+    '[attr.aria-rowindex]': 'jigTableBodyTr().index + 2',
+    '[style.--jig-table-row-index]': 'jigTableBodyTr().index + 2',
     '[class]': `theme.classes({
-      'even': ngnTableBodyTr().index % 2 === 0,
+      'even': jigTableBodyTr().index % 2 === 0,
       'selected-row': selected(),
       'focused-row': focused(),
       'active-row': active()
@@ -36,9 +36,9 @@ import type { FormattedTableDataRow } from './types';
 })
 export class JigTableBodyTr<T> extends JigScrollerItem {
   /** The formatted data row this `<tr>` renders. */
-  public readonly ngnTableBodyTr = input.required<FormattedTableDataRow<T>>();
-  /** The item bound to the underlying scroller entry; kept in sync with {@link ngnTableBodyTr}. */
-  public override readonly ngnScrollerItem = input<object>({});
+  public readonly jigTableBodyTr = input.required<FormattedTableDataRow<T>>();
+  /** The item bound to the underlying scroller entry; kept in sync with {@link jigTableBodyTr}. */
+  public override readonly jigScrollerItem = input<object>({});
   private readonly _element = inject(ElementRef<HTMLElement>);
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
 
@@ -51,13 +51,13 @@ export class JigTableBodyTr<T> extends JigScrollerItem {
 
   /** Row id targeted by the grid's `aria-activedescendant`. */
   protected readonly rowElementId = computed(
-    () => this._table()?.rowElementId(this.ngnTableBodyTr().index) ?? null
+    () => this._table()?.rowElementId(this.jigTableBodyTr().index) ?? null
   );
 
   protected readonly selected = computed(() => {
     const table = this._table();
     if (!table || !table.selectionMode()) return false;
-    const row = this.ngnTableBodyTr();
+    const row = this.jigTableBodyTr();
     return table.isRowSelected(row.id);
   });
 
@@ -71,21 +71,21 @@ export class JigTableBodyTr<T> extends JigScrollerItem {
   protected readonly focused = computed(() => {
     const table = this._table();
     if (!table) return false;
-    return table.focusedRowIndex() === this.ngnTableBodyTr().index;
+    return table.focusedRowIndex() === this.jigTableBodyTr().index;
   });
 
   /** Whether this row's action bar currently has DOM focus. */
   protected readonly active = computed(() => {
     const table = this._table();
     if (!table) return false;
-    return table.isRowInActions(this.ngnTableBodyTr().index);
+    return table.isRowInActions(this.jigTableBodyTr().index);
   });
 
   constructor() {
     super();
     effect(() => {
-      const row = this.ngnTableBodyTr();
-      setInputSignalValue(this.ngnScrollerItem, row);
+      const row = this.jigTableBodyTr();
+      setInputSignalValue(this.jigScrollerItem, row);
     });
     this.prepareDom();
   }
@@ -97,6 +97,6 @@ export class JigTableBodyTr<T> extends JigScrollerItem {
   protected onRowClick(event: MouseEvent): void {
     const table = this._table();
     if (!table || !table.selectionMode()) return;
-    table.handleRowClick(this.ngnTableBodyTr(), event);
+    table.handleRowClick(this.jigTableBodyTr(), event);
   }
 }

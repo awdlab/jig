@@ -80,7 +80,7 @@ utilities are unlayered by default and therefore win over the theme.
 Utilities on a control's host work as expected:
 
 ```html
-<button ngnButton class="w-full sm:w-auto">Save</button>
+<button jigButton class="w-full sm:w-auto">Save</button>
 ```
 
 For anything inside, go through `pt` — it accepts class strings, so Tailwind

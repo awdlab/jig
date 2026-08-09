@@ -9,7 +9,7 @@ import type { JigDragInfo } from '@awdlab/jig/directives';
   template: `
     <div class="flex flex-col gap-3">
       <div
-        ngnDrag
+        jigDrag
         class="pad"
         (dragStart)="dragging.set(true)"
         (dragEnd)="dragging.set(false)"

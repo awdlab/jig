@@ -61,7 +61,7 @@ export class TableColumnLayoutModel {
    */
   private readonly _effectiveColumnOrder = computed<string[]>(() => {
     const cells = this._registeredHeaderCells();
-    const cellIds = cells.map(c => c.ngnTableTh());
+    const cellIds = cells.map(c => c.jigTableTh());
     const userOrder = this._deps.columnOrder();
 
     if (!userOrder.length) {
@@ -188,7 +188,7 @@ export class TableColumnLayoutModel {
           `--jig-sticky-start-offset-${i}`,
           `${cumulativeLeft}px`
         );
-        const cell = cells.find(c => c.ngnTableTh() === startCols[i]);
+        const cell = cells.find(c => c.jigTableTh() === startCols[i]);
         cumulativeLeft += cell?.element.nativeElement.getBoundingClientRect().width ?? 0;
       }
 
@@ -198,7 +198,7 @@ export class TableColumnLayoutModel {
           `--jig-sticky-end-offset-${i}`,
           `${cumulativeRight}px`
         );
-        const cell = cells.find(c => c.ngnTableTh() === endCols[i]);
+        const cell = cells.find(c => c.jigTableTh() === endCols[i]);
         cumulativeRight += cell?.element.nativeElement.getBoundingClientRect().width ?? 0;
       }
     });
@@ -211,7 +211,7 @@ export class TableColumnLayoutModel {
     const cells = this._registeredHeaderCells();
     const cell = cells[logicalIndex];
     if (!cell) return logicalIndex + 1;
-    return this.columnOrderMap().get(cell.ngnTableTh()) ?? logicalIndex + 1;
+    return this.columnOrderMap().get(cell.jigTableTh()) ?? logicalIndex + 1;
   }
 
   public registerSelectionColumn(): void {
@@ -321,7 +321,7 @@ export class TableColumnLayoutModel {
 
     // Build visual-order cells with their bounding boxes
     const visualCells = effectiveOrder
-      .map(id => cells.find(c => c.ngnTableTh() === id))
+      .map(id => cells.find(c => c.jigTableTh() === id))
       .filter((c): c is JigTableTh => !!c);
 
     for (let i = 0; i < visualCells.length; i++) {
@@ -428,7 +428,7 @@ export class TableColumnLayoutModel {
     // Build map: column ID → track size (logical order)
     const sizeByColumnId = new Map<string, string>();
     for (let i = 0; i < cells.length; i++) {
-      sizeByColumnId.set(cells[i]!.ngnTableTh(), tracks[i]!);
+      sizeByColumnId.set(cells[i]!.jigTableTh(), tracks[i]!);
     }
 
     // Emit sizes in visual order

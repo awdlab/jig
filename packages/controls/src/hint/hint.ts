@@ -19,7 +19,7 @@ import type { JigIconKey } from '@awdlab/jig/icon';
 import type { IconType } from '@awdlab/jig-custom-types';
 
 /**
- * Validation state rendered by a hint when connected to helpers such as ngnErrors.
+ * Validation state rendered by a hint when connected to helpers such as jigErrors.
  * @category types
  */
 export interface JigHintValidationState {
@@ -81,7 +81,7 @@ export class JigHint extends JigBase<'hint'> {
   public readonly content = input<TemplateRef<unknown> | string | null>(null);
 
   /**
-   * Validation state supplied by helpers such as ngnErrors.
+   * Validation state supplied by helpers such as jigErrors.
    * @default null
    */
   public readonly validationState = input<JigHintValidationState | null>(null);
@@ -117,7 +117,7 @@ export class JigHint extends JigBase<'hint'> {
   });
 
   /**
-   * Bridge validation state from a companion directive such as ngnErrors.
+   * Bridge validation state from a companion directive such as jigErrors.
    * @category methods
    */
   public setValidationState(state: JigHintValidationState | null): void {

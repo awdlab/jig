@@ -49,7 +49,7 @@
       #svArea
       [ptInt]="this"
       [ptClass]="'sv-area'"
-      ngnDrag
+      jigDrag
       (dragged)="onSvDrag($event)"
       (click)="
         onSvDrag({ absoluteX: $event.clientX, absoluteY: $event.clientY, deltaX: 0, deltaY: 0 })
@@ -67,7 +67,7 @@
       #hueTrack
       [ptInt]="this"
       [ptClass]="'hue-track'"
-      ngnDrag
+      jigDrag
       (dragged)="onHueDrag($event)"
       (click)="
         onHueDrag({ absoluteX: $event.clientX, absoluteY: $event.clientY, deltaX: 0, deltaY: 0 })
@@ -82,7 +82,7 @@
         [ptInt]="this"
         [ptClass]="'alpha-track'"
         [style.background]="'linear-gradient(to right, transparent, ' + cssColor() + ')'"
-        ngnDrag
+        jigDrag
         (dragged)="onAlphaDrag($event)"
         (click)="
           onAlphaDrag({
@@ -107,7 +107,7 @@
                    commit (change/Enter/blur), when it normalizes to the canonical form. -->
               <jig-input-field>
                 <input
-                  ngnInput
+                  jigInput
                   class="text-center"
                   [value]="displayText()"
                   [readOnly]="readonly()"
@@ -126,7 +126,7 @@
             <div [ptInt]="this" [ptClass]="'channel'">
               <jig-input-field>
                 <input
-                  ngnNumberInput
+                  jigNumberInput
                   class="text-center"
                   [min]="0"
                   [max]="255"
@@ -142,7 +142,7 @@
             <div [ptInt]="this" [ptClass]="'channel'">
               <jig-input-field>
                 <input
-                  ngnNumberInput
+                  jigNumberInput
                   class="text-center"
                   [min]="0"
                   [max]="255"
@@ -158,7 +158,7 @@
             <div [ptInt]="this" [ptClass]="'channel'">
               <jig-input-field>
                 <input
-                  ngnNumberInput
+                  jigNumberInput
                   class="text-center"
                   [min]="0"
                   [max]="255"
@@ -175,7 +175,7 @@
               <div [ptInt]="this" [ptClass]="'channel'">
                 <jig-input-field>
                   <input
-                    ngnNumberInput
+                    jigNumberInput
                     class="text-center"
                     [min]="0"
                     [max]="100"
@@ -194,7 +194,7 @@
             <div [ptInt]="this" [ptClass]="'channel'">
               <jig-input-field>
                 <input
-                  ngnNumberInput
+                  jigNumberInput
                   class="text-center"
                   [min]="0"
                   [max]="360"
@@ -210,7 +210,7 @@
             <div [ptInt]="this" [ptClass]="'channel'">
               <jig-input-field>
                 <input
-                  ngnNumberInput
+                  jigNumberInput
                   class="text-center"
                   [min]="0"
                   [max]="100"
@@ -226,7 +226,7 @@
             <div [ptInt]="this" [ptClass]="'channel'">
               <jig-input-field>
                 <input
-                  ngnNumberInput
+                  jigNumberInput
                   class="text-center"
                   [min]="0"
                   [max]="100"
@@ -243,7 +243,7 @@
               <div [ptInt]="this" [ptClass]="'channel'">
                 <jig-input-field>
                   <input
-                    ngnNumberInput
+                    jigNumberInput
                     class="text-center"
                     [min]="0"
                     [max]="100"
@@ -261,7 +261,7 @@
         }
       </div>
       <button
-        ngnButton
+        jigButton
         kind="secondary"
         type="button"
         [ptInt]="this"

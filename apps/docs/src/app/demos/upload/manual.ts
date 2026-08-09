@@ -14,12 +14,12 @@ import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
   selector: 'jig-demo-upload-manual',
   template: `
     <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
-      <jig-upload #up="ngnUpload" mode="manual" (upload)="onUpload($event, up)">
+      <jig-upload #up="jigUpload" mode="manual" (upload)="onUpload($event, up)">
         <input type="file" multiple />
         Add files — upload is triggered from code
       </jig-upload>
 
-      <button ngnButton kind="primary" (click)="start(up)">Start upload from code</button>
+      <button jigButton kind="primary" (click)="start(up)">Start upload from code</button>
 
       @if (summary()) {
         <span>{{ summary() }}</span>

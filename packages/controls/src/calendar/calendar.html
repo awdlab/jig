@@ -71,17 +71,17 @@
     />
   </div>
 </ng-template>
-<ng-template #defaultDayTemplate [ngnTemplate]="templateTypes.day" let-day>
+<ng-template #defaultDayTemplate [jigTemplate]="templateTypes.day" let-day>
   {{ day.date }}
 </ng-template>
 
-<ng-template #defaultWeekDayTemplate [ngnTemplate]="templateTypes.weekDay" let-weekDay>
+<ng-template #defaultWeekDayTemplate [jigTemplate]="templateTypes.weekDay" let-weekDay>
   <span>
     {{ weekDay.translation }}
   </span>
 </ng-template>
 
-<ng-template #defaultTimeTemplate [ngnTemplate]="templateTypes.time" let-time>
+<ng-template #defaultTimeTemplate [jigTemplate]="templateTypes.time" let-time>
   @defer {
     <div [ptInt]="this" [ptClass]="'time'">
       <jig-calendar-time
@@ -94,7 +94,7 @@
   }
 </ng-template>
 
-<ng-template #defaultYearTemplate [ngnTemplate]="templateTypes.year" let-y>
+<ng-template #defaultYearTemplate [jigTemplate]="templateTypes.year" let-y>
   @defer {
     <jig-input-field [ptInt]="this" [ptDep]="'current-year-field'">
       <jig-select
@@ -110,13 +110,13 @@
         [scrollToSelectedItemOnOpen]="'center'"
         [editableAutoFilter]="false"
       >
-        <input ngnInput type="number" [attr.aria-label]="i18n['calendar_selectYear']()" />
+        <input jigInput type="number" [attr.aria-label]="i18n['calendar_selectYear']()" />
       </jig-select>
     </jig-input-field>
   }
 </ng-template>
 
-<ng-template #defaultMonthTemplate [ngnTemplate]="templateTypes.month" let-m>
+<ng-template #defaultMonthTemplate [jigTemplate]="templateTypes.month" let-m>
   @defer {
     <jig-input-field [ptInt]="this" [ptDep]="'current-month-field'">
       <jig-select

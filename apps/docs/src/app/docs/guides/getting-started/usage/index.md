@@ -15,7 +15,7 @@ import { provideJigControls } from '@awdlab/jig/api/ng';
 
 Controls are standalone — add them to a component's `imports` and use them in the
 template. Some are elements (`jig-select`), some are attribute directives on native
-elements (`button[ngnButton]`, `input[ngnInput]`):
+elements (`button[jigButton]`, `input[jigInput]`):
 
 ```ts
 import { Component } from '@angular/core';
@@ -24,7 +24,7 @@ import { JigButton } from '@awdlab/jig/button';
 @Component({
   selector: 'app-example',
   imports: [JigButton],
-  template: `<button ngnButton kind="primary">Save</button>`,
+  template: `<button jigButton kind="primary">Save</button>`,
 })
 export class ExampleComponent {}
 ```
@@ -42,7 +42,7 @@ without `ControlValueAccessor`:
   imports: [JigInput, JigInputField],
   template: `
     <jig-input-field>
-      <input ngnInput [value]="name()" (valueChange)="name.set($event ?? '')" />
+      <input jigInput [value]="name()" (valueChange)="name.set($event ?? '')" />
     </jig-input-field>
   `,
 })

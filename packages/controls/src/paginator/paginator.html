@@ -1,5 +1,5 @@
 <button
-  ngnButton
+  jigButton
   [kind]="'icon'"
   [ptInt]="this"
   [ptDep]="'previous'"
@@ -24,10 +24,10 @@
     [overflowStrategyIndex]="page()"
     [sameWidthItems]="true"
   >
-    <ng-template #item let-item [ngnTemplate]="itemView.templateTypes.item">
+    <ng-template #item let-item [jigTemplate]="itemView.templateTypes.item">
       @let buttonStyles = getButtonFontStyles(item.page);
       <button
-        ngnButton
+        jigButton
         [kind]="'icon'"
         [ptInt]="this"
         [ptDep]="'page-number'"
@@ -44,9 +44,9 @@
         {{ item.page + 1 }}
       </button>
     </ng-template>
-    <ng-template #overflow let-item [ngnTemplate]="itemView.templateTypes.overflow">
+    <ng-template #overflow let-item [jigTemplate]="itemView.templateTypes.overflow">
       <button
-        ngnButton
+        jigButton
         [kind]="'icon'"
         [ptInt]="this"
         [ptDep]="'overflow'"
@@ -64,7 +64,7 @@
 }
 
 <button
-  ngnButton
+  jigButton
   [kind]="'icon'"
   [ptInt]="this"
   [ptDep]="'next'"

@@ -9,7 +9,7 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
   imports: [JigButton, JigTooltip, JigDocsPlayground],
   template: `
     <jig-docs-playground [controls]="[{ componentName: 'JigTooltip', component: component() }]">
-      <button #ref ngnButton [ngnTooltip]="'Tooltip text'">Hover me</button>
+      <button #ref jigButton [jigTooltip]="'Tooltip text'">Hover me</button>
     </jig-docs-playground>
   `,
 })

@@ -7,7 +7,7 @@ import { JigInputField } from '@awdlab/jig/input-field';
   selector: 'jig-demo-input-field-textarea',
   template: `<jig-input-field>
       <textarea
-        ngnInput
+        jigInput
         rows="3"
         [value]="value()"
         (valueChange)="value.set($event ?? '')"

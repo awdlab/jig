@@ -6,7 +6,7 @@ import { JigMovable } from '@awdlab/jig/directives';
   imports: [JigMovable],
   template: `
     <div class="board">
-      <div ngnMovable [ngnMovableLimitToViewport]="false" class="card">Drag me anywhere</div>
+      <div jigMovable [jigMovableLimitToViewport]="false" class="card">Drag me anywhere</div>
     </div>
   `,
   styles: `

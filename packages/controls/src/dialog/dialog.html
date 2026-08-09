@@ -17,17 +17,17 @@
   [style.width]="size().width"
   [style.minHeight]="size().minHeight"
   [style.maxHeight]="size().maxHeight"
-  [ngnMovable]="movable()"
-  [ngnResizable]="resizable()"
-  [ngnResizableSizeLimits]="{
+  [jigMovable]="movable()"
+  [jigResizable]="resizable()"
+  [jigResizableSizeLimits]="{
     minWidth: size().minWidth,
     minHeight: size().minHeight,
     maxWidth: size().maxWidth,
     maxHeight: size().maxHeight,
   }"
-  [ngnMovableDragHandle]="headerElement()?.nativeElement ?? null"
+  [jigMovableDragHandle]="headerElement()?.nativeElement ?? null"
   [attr.popover]="popoverClosedBy()"
-  [ngnKeyboardShortcut]="[]"
+  [jigKeyboardShortcut]="[]"
 >
   @if (showHeader()) {
     <header #header [ptInt]="this" [ptClass]="'header'">
@@ -37,7 +37,7 @@
       ></ng-template>
       @if (closeButton()) {
         <button
-          ngnButton
+          jigButton
           [kind]="'icon'"
           [attr.aria-label]="i18n['dialog_close']()"
           (click)="closeWithButton()"
@@ -75,7 +75,7 @@
 
 <ng-template
   #defaultHeaderTemplate
-  [ngnTemplate]="templateTypes.header"
+  [jigTemplate]="templateTypes.header"
   let-headerId="headerId"
   let-title="title"
 >

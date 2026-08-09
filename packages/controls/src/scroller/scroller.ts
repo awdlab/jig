@@ -26,7 +26,7 @@ import { ScrollerTemplates } from './scroller-templates';
   imports: [NgTemplateOutlet],
   providers: [provideSelf(JigScroller)],
   hostDirectives: [
-    { directive: JigScrollAmount, inputs: ['ngnScrollAmountContainer: scrollContainer'] },
+    { directive: JigScrollAmount, inputs: ['jigScrollAmountContainer: scrollContainer'] },
   ],
   host: {
     // No attribute at all when not focusable: a tabindex (even -1) makes the element

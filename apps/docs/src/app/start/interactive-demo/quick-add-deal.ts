@@ -54,11 +54,11 @@ interface DealForm {
     <div>
       <jig-input-field class="block" label="Account Name">
         <input
-          ngnInput
+          jigInput
           [formField]="dealForm.account"
-          ngnErrors
-          [ngnErrorsHint]="accountHint"
-          ngnErrorsShowOn="touched"
+          jigErrors
+          [jigErrorsHint]="accountHint"
+          jigErrorsShowOn="touched"
           placeholder="Acme Inc."
         />
       </jig-input-field>
@@ -68,11 +68,11 @@ interface DealForm {
     <div>
       <jig-input-field class="block" label="Deal Value">
         <input
-          ngnNumberInput
+          jigNumberInput
           [formField]="dealForm.value"
-          ngnErrors
-          [ngnErrorsHint]="valueHint"
-          ngnErrorsShowOn="touched"
+          jigErrors
+          [jigErrorsHint]="valueHint"
+          jigErrorsShowOn="touched"
           [formatOptions]="currencyFormat"
           placeholder="50000"
         />
@@ -92,9 +92,9 @@ interface DealForm {
       <jig-input-field class="block" label="Close Date">
         <jig-calendar
           [formField]="dealForm.closeDate"
-          ngnErrors
-          [ngnErrorsHint]="closeDateHint"
-          ngnErrorsShowOn="touched"
+          jigErrors
+          [jigErrorsHint]="closeDateHint"
+          jigErrorsShowOn="touched"
         />
       </jig-input-field>
       <jig-hint #closeDateHint class="mt-(--jig-size-padding-sm)" />
@@ -113,7 +113,7 @@ interface DealForm {
       [formField]="dealForm.priority"
     />
 
-    <button ngnButton kind="primary" class="w-full justify-center" (click)="submit()">
+    <button jigButton kind="primary" class="w-full justify-center" (click)="submit()">
       Add Deal
     </button>
   `,

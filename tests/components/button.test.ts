@@ -7,13 +7,13 @@ test('applies the root theme class and emits clicks', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<button ngnButton (click)="output('clicked', 'hit')">Click Me</button>`,
+      template: `<button jigButton (click)="output('clicked', 'hit')">Click Me</button>`,
       imports: ['button'],
     },
     { inputs: {} }
   );
 
-  const button = page.locator('button[ngnButton]');
+  const button = page.locator('button[jigButton]');
   await expect(button).toHaveClass(/jig-button-root/);
 
   await button.click();
@@ -27,13 +27,13 @@ test('toggles kind theme classes reactively', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<button ngnButton [kind]="inputs().kind">Kinded</button>`,
+      template: `<button jigButton [kind]="inputs().kind">Kinded</button>`,
       imports: ['button'],
     },
     { inputs: { kind: 'secondary' } }
   );
 
-  const button = page.locator('button[ngnButton]');
+  const button = page.locator('button[jigButton]');
   await expect(button).toHaveClass(/jig-button-kind-secondary/);
   await expect(button).not.toHaveClass(/jig-button-kind-icon/);
 
@@ -47,13 +47,13 @@ test('disabled button does not fire clicks', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<button ngnButton kind="primary" [disabled]="inputs().disabled" (click)="output('clicked', true)">Disabled</button>`,
+      template: `<button jigButton kind="primary" [disabled]="inputs().disabled" (click)="output('clicked', true)">Disabled</button>`,
       imports: ['button'],
     },
     { inputs: { disabled: true } }
   );
 
-  const button = page.locator('button[ngnButton]');
+  const button = page.locator('button[jigButton]');
   await expect(button).toBeDisabled();
 
   // The disabled button carries a muted background distinct from its enabled state.
@@ -77,13 +77,13 @@ test('directive works on anchor elements', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<a ngnButton href="#link">Link Button</a>`,
+      template: `<a jigButton href="#link">Link Button</a>`,
       imports: ['button'],
     },
     { inputs: {} }
   );
 
-  const anchor = page.locator('a[ngnButton]');
+  const anchor = page.locator('a[jigButton]');
   await expect(anchor).toHaveClass(/jig-button-root/);
   await expect(anchor).toHaveAttribute('href', '#link');
 });
@@ -92,7 +92,7 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<button ngnButton [kind]="inputs().kind">Save changes</button>`,
+      template: `<button jigButton [kind]="inputs().kind">Save changes</button>`,
       imports: ['button'],
     },
     { inputs: { kind: 'primary' } }
@@ -108,8 +108,8 @@ test('visual', async ({ page }, testInfo) => {
         <div class="page-center flex flex-col gap-2">
           @for (kind of inputs().kinds; track $index) {
             <div class="flex items-center gap-2">
-              <button ngnButton [kind]="kind">{{ kind }}</button>
-              <button ngnButton [kind]="kind" disabled>disabled</button>
+              <button jigButton [kind]="kind">{{ kind }}</button>
+              <button jigButton [kind]="kind" disabled>disabled</button>
             </div>
           }
         </div>

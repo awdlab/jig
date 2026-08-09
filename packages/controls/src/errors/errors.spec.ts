@@ -30,12 +30,12 @@ import { provideJigErrorsMessages } from './messages';
   imports: [FormsModule, JigInput, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       required
       [(ngModel)]="value"
-      ngnErrors
-      ngnErrorsShowOn="always"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      #errors="jigErrors"
     />
   `,
 })
@@ -49,12 +49,12 @@ class TemplateDrivenHost {
   imports: [ReactiveFormsModule, JigInput, JigHint, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       [formControl]="control"
-      ngnErrors
-      [ngnErrorsHint]="hint"
-      [ngnErrorsMessages]="{ required: 'Email is required' }"
-      #errors="ngnErrors"
+      jigErrors
+      [jigErrorsHint]="hint"
+      [jigErrorsMessages]="{ required: 'Email is required' }"
+      #errors="jigErrors"
     />
     <jig-hint #hint />
   `,
@@ -71,13 +71,13 @@ class ReactiveHost {
   imports: [ReactiveFormsModule, JigInput, JigErrors],
   template: `
     <form [formGroup]="form">
-      <input ngnInput formControlName="password" />
+      <input jigInput formControlName="password" />
       <input
-        ngnInput
+        jigInput
         formControlName="confirm"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        #errors="ngnErrors"
+        jigErrors
+        jigErrorsShowOn="always"
+        #errors="jigErrors"
       />
     </form>
   `,
@@ -99,11 +99,11 @@ class GroupHost {
   imports: [ReactiveFormsModule, JigInput, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       [formControl]="control"
-      ngnErrors
-      ngnErrorsShowOn="always"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      #errors="jigErrors"
     />
   `,
 })
@@ -128,11 +128,11 @@ class AsyncHost {
   imports: [ReactiveFormsModule, JigInput, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       [formControl]="control"
-      ngnErrors
-      ngnErrorsShowOn="always"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      #errors="jigErrors"
     />
   `,
 })
@@ -151,11 +151,11 @@ class CarriedVsGlobalHost {
   imports: [ReactiveFormsModule, JigInput, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       [formControl]="control"
-      ngnErrors
-      ngnErrorsShowOn="always"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      #errors="jigErrors"
     />
   `,
 })
@@ -169,12 +169,12 @@ class ClassicMinHost {
   imports: [FormField, JigInput, JigHint, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       [formField]="signalForm.email"
-      ngnErrors
-      [ngnErrorsHint]="hint"
-      [ngnErrorsMessages]="{ required: 'Email is required' }"
-      #errors="ngnErrors"
+      jigErrors
+      [jigErrorsHint]="hint"
+      [jigErrorsMessages]="{ required: 'Email is required' }"
+      #errors="jigErrors"
     />
     <jig-hint #hint />
   `,
@@ -194,9 +194,9 @@ class SignalInputHost {
     <input
       type="number"
       [formField]="signalForm.age"
-      ngnErrors
-      ngnErrorsShowOn="always"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      #errors="jigErrors"
     />
   `,
 })
@@ -210,7 +210,7 @@ class SignalMinHost {
 
 @Component({
   imports: [FormField, JigNumberInput, JigErrors],
-  template: ` <input ngnNumberInput [formField]="signalForm.age" ngnErrors #errors="ngnErrors" /> `,
+  template: ` <input jigNumberInput [formField]="signalForm.age" jigErrors #errors="jigErrors" /> `,
 })
 class SignalNumberFieldHost {
   model = signal({ age: null as number | null });
@@ -222,11 +222,11 @@ class SignalNumberFieldHost {
   imports: [FormField, JigInput, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       [formField]="signalForm.code"
-      ngnErrors
-      ngnErrorsShowOn="always"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      #errors="jigErrors"
     />
   `,
 })
@@ -242,12 +242,12 @@ class SignalMinLengthHost {
   imports: [FormField, JigInput, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       [formField]="signalForm.code"
-      ngnErrors
-      ngnErrorsShowOn="always"
-      [ngnErrorsMessages]="{ tooShort: resolveTooShort }"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      [jigErrorsMessages]="{ tooShort: resolveTooShort }"
+      #errors="jigErrors"
     />
   `,
 })
@@ -268,11 +268,11 @@ class SignalCustomHost {
   imports: [JigCheckbox, JigHint, JigErrors],
   template: `
     <jig-checkbox
-      ngnErrors
-      ngnErrorsShowOn="always"
-      [ngnErrorsHint]="hint"
-      [ngnErrorsCustom]="customErrors()"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      [jigErrorsHint]="hint"
+      [jigErrorsCustom]="customErrors()"
+      #errors="jigErrors"
     />
     <jig-hint #hint />
   `,
@@ -286,12 +286,12 @@ class CustomRecordHost {
   imports: [JigCheckbox, JigErrors],
   template: `
     <jig-checkbox
-      ngnErrors
-      ngnErrorsShowOn="always"
-      ngnErrorsMode="all"
-      [ngnErrorsCustom]="['tooWeak', { key: 'expired', message: 'Session expired' }]"
-      [ngnErrorsMessages]="{ tooWeak: 'Password too weak' }"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      jigErrorsMode="all"
+      [jigErrorsCustom]="['tooWeak', { key: 'expired', message: 'Session expired' }]"
+      [jigErrorsMessages]="{ tooWeak: 'Password too weak' }"
+      #errors="jigErrors"
     />
   `,
 })
@@ -304,11 +304,11 @@ class CustomArrayHost {
   imports: [JigInput, JigErrors],
   template: `
     <input
-      ngnInput
-      ngnErrors
-      ngnErrorsShowOn="touched"
-      [ngnErrorsCustom]="['bad']"
-      #errors="ngnErrors"
+      jigInput
+      jigErrors
+      jigErrorsShowOn="touched"
+      [jigErrorsCustom]="['bad']"
+      #errors="jigErrors"
     />
   `,
 })
@@ -321,11 +321,11 @@ class NoFormTouchedHost {
   imports: [ReactiveFormsModule, JigInput, JigErrors],
   template: `
     <input
-      ngnInput
+      jigInput
       [formControl]="control"
-      ngnErrors
-      ngnErrorsShowOn="always"
-      #errors="ngnErrors"
+      jigErrors
+      jigErrorsShowOn="always"
+      #errors="jigErrors"
     />
   `,
 })
@@ -339,7 +339,7 @@ class I18nHost {
   imports: [FormField, JigInput, JigInputField, JigErrors],
   template: `
     <jig-input-field>
-      <input ngnInput [formField]="signalForm.name" ngnErrors #errors="ngnErrors" />
+      <input jigInput [formField]="signalForm.name" jigErrors #errors="jigErrors" />
     </jig-input-field>
   `,
 })
@@ -350,16 +350,16 @@ class SignalFieldHost {
 }
 
 // A bare control (no jig-input-field wrapper) drives its own invalid styling
-// from the companion ngnErrors' touched-gated visibility.
+// from the companion jigErrors' touched-gated visibility.
 @Component({
   imports: [FormField, JigOtp, JigErrors],
   template: `
     <jig-otp
       [length]="6"
       [formField]="signalForm.code"
-      ngnErrorsShowOn="touched"
-      ngnErrors
-      #errors="ngnErrors"
+      jigErrorsShowOn="touched"
+      jigErrors
+      #errors="jigErrors"
     />
   `,
 })
@@ -373,7 +373,7 @@ class BareControlInvalidHost {
   imports: [ReactiveFormsModule, JigInput, JigInputField, JigErrors],
   template: `
     <jig-input-field>
-      <input ngnInput [formControl]="control" ngnErrors ngnErrorsShowOn="always" />
+      <input jigInput [formControl]="control" jigErrors jigErrorsShowOn="always" />
     </jig-input-field>
   `,
 })
@@ -416,7 +416,7 @@ async function flush(fixture: Fixture) {
   fixture.detectChanges();
 }
 
-describe('ngnErrors', () => {
+describe('jigErrors', () => {
   describe('template-driven forms', () => {
     it('reads ngModel errors and resolves the i18n default message', async () => {
       const fixture = TestBed.createComponent(TemplateDrivenHost);
@@ -543,7 +543,7 @@ describe('ngnErrors', () => {
       expect(errors.visible()).toBe(true);
     });
 
-    it('marks touched on blur for ngnNumberInput too (markTouched from its own blur)', async () => {
+    it('marks touched on blur for jigNumberInput too (markTouched from its own blur)', async () => {
       const fixture = TestBed.createComponent(SignalNumberFieldHost);
       await flush(fixture);
 
@@ -642,7 +642,7 @@ describe('ngnErrors', () => {
     });
   });
 
-  describe('invalid styling ownership (control-owned, decoupled from ngnErrors)', () => {
+  describe('invalid styling ownership (control-owned, decoupled from jigErrors)', () => {
     it('gates the projected input aria-invalid on touched, though signal forms sets invalid eagerly', async () => {
       const fixture = TestBed.createComponent(SignalFieldHost);
       await flush(fixture);
@@ -671,12 +671,12 @@ describe('ngnErrors', () => {
       expect(otp?.getAttribute('aria-invalid')).toBe('true');
     });
 
-    it('does not couple the field invalid class to ngnErrors visibility', async () => {
+    it('does not couple the field invalid class to jigErrors visibility', async () => {
       const fixture = TestBed.createComponent(FieldAutoInvalidHost);
       await flush(fixture);
 
       const input = fixture.nativeElement.querySelector('input');
-      // ngnErrors renders the message (showOn="always") but no longer drives the
+      // jigErrors renders the message (showOn="always") but no longer drives the
       // field's invalid class — the reactive control's invalid rides the native
       // ng-invalid class, which the field theme reflects via :has().
       expect(fixture.nativeElement.querySelector('.jig-input-field-invalid')).toBeNull();

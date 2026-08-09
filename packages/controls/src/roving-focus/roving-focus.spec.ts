@@ -9,10 +9,10 @@ import { JigRovingGroup, JigRovingItem } from './roving-focus';
 @Component({
   imports: [JigRovingGroup, JigRovingItem],
   template: `
-    <div ngnRovingGroup>
-      <span ngnRovingItem id="a">A</span>
-      <span ngnRovingItem id="b">B</span>
-      <span ngnRovingItem id="c">C</span>
+    <div jigRovingGroup>
+      <span jigRovingItem id="a">A</span>
+      <span jigRovingItem id="b">B</span>
+      <span jigRovingItem id="c">C</span>
     </div>
   `,
 })
@@ -21,16 +21,16 @@ class NestedHost {
 }
 
 // Sibling (activedescendant) topology — group host is a leaf <input>, items are
-// SIBLINGS and must receive the group via the [ngnRovingItem] reference. This is
+// SIBLINGS and must receive the group via the [jigRovingItem] reference. This is
 // the topology the mask actually uses; it proves the DI fallback works.
 @Component({
   imports: [JigRovingGroup, JigRovingItem],
   template: `
     <div>
-      <input #g="ngnRovingGroup" ngnRovingGroup rovingMode="activedescendant" />
-      <span [ngnRovingItem]="g" id="a">A</span>
-      <span [ngnRovingItem]="g" id="b">B</span>
-      <span [ngnRovingItem]="g" id="c">C</span>
+      <input #g="jigRovingGroup" jigRovingGroup rovingMode="activedescendant" />
+      <span [jigRovingItem]="g" id="a">A</span>
+      <span [jigRovingItem]="g" id="b">B</span>
+      <span [jigRovingItem]="g" id="c">C</span>
     </div>
   `,
 })
@@ -69,10 +69,10 @@ describe('roving-focus registration', () => {
 @Component({
   imports: [JigRovingGroup, JigRovingItem],
   template: `
-    <div ngnRovingGroup [rovingWrap]="true">
-      <span ngnRovingItem id="a">A</span>
-      <span ngnRovingItem id="b">B</span>
-      <span ngnRovingItem id="c">C</span>
+    <div jigRovingGroup [rovingWrap]="true">
+      <span jigRovingItem id="a">A</span>
+      <span jigRovingItem id="b">B</span>
+      <span jigRovingItem id="c">C</span>
     </div>
   `,
 })
@@ -199,7 +199,7 @@ describe('roving-focus navigation methods', () => {
       // Empty host — verify no throw
       @Component({
         imports: [JigRovingGroup],
-        template: `<div ngnRovingGroup></div>`,
+        template: `<div jigRovingGroup></div>`,
       })
       class EmptyHost {
         group = viewChild.required(JigRovingGroup);
@@ -213,7 +213,7 @@ describe('roving-focus navigation methods', () => {
     it('last() is a no-op when items list is empty', () => {
       @Component({
         imports: [JigRovingGroup],
-        template: `<div ngnRovingGroup></div>`,
+        template: `<div jigRovingGroup></div>`,
       })
       class EmptyHost2 {
         group = viewChild.required(JigRovingGroup);
@@ -256,10 +256,10 @@ describe('roving-focus navigation methods', () => {
   selector: 'test-keyboard-horizontal-host',
   imports: [JigRovingGroup, JigRovingItem],
   template: `
-    <div ngnRovingGroup>
-      <span ngnRovingItem id="a">A</span>
-      <span ngnRovingItem id="b">B</span>
-      <span ngnRovingItem id="c">C</span>
+    <div jigRovingGroup>
+      <span jigRovingItem id="a">A</span>
+      <span jigRovingItem id="b">B</span>
+      <span jigRovingItem id="c">C</span>
     </div>
   `,
 })
@@ -271,10 +271,10 @@ class KeyboardHorizontalHost {
   selector: 'test-keyboard-vertical-host',
   imports: [JigRovingGroup, JigRovingItem],
   template: `
-    <div ngnRovingGroup orientation="vertical">
-      <span ngnRovingItem id="a">A</span>
-      <span ngnRovingItem id="b">B</span>
-      <span ngnRovingItem id="c">C</span>
+    <div jigRovingGroup orientation="vertical">
+      <span jigRovingItem id="a">A</span>
+      <span jigRovingItem id="b">B</span>
+      <span jigRovingItem id="c">C</span>
     </div>
   `,
 })
@@ -294,7 +294,7 @@ describe('roving-focus keyboard', () => {
       const fixture = TestBed.createComponent(KeyboardHorizontalHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
       const ev = press(host, 'ArrowRight');
       expect(group.activeIndex()).toBe(1);
       expect(ev.defaultPrevented).toBe(true);
@@ -304,7 +304,7 @@ describe('roving-focus keyboard', () => {
       const fixture = TestBed.createComponent(KeyboardHorizontalHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
       press(host, 'ArrowRight'); // go to 1
       const ev = press(host, 'ArrowLeft');
       expect(group.activeIndex()).toBe(0);
@@ -315,7 +315,7 @@ describe('roving-focus keyboard', () => {
       const fixture = TestBed.createComponent(KeyboardHorizontalHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
       const ev = press(host, 'ArrowUp');
       expect(group.activeIndex()).toBe(0);
       expect(ev.defaultPrevented).toBe(false);
@@ -325,7 +325,7 @@ describe('roving-focus keyboard', () => {
       const fixture = TestBed.createComponent(KeyboardHorizontalHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
       const ev = press(host, 'ArrowDown');
       expect(group.activeIndex()).toBe(0);
       expect(ev.defaultPrevented).toBe(false);
@@ -335,7 +335,7 @@ describe('roving-focus keyboard', () => {
       const fixture = TestBed.createComponent(KeyboardHorizontalHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
       press(host, 'ArrowRight');
       press(host, 'ArrowRight'); // go to 2
       const ev = press(host, 'Home');
@@ -347,7 +347,7 @@ describe('roving-focus keyboard', () => {
       const fixture = TestBed.createComponent(KeyboardHorizontalHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
       const ev = press(host, 'End');
       expect(group.activeIndex()).toBe(2);
       expect(ev.defaultPrevented).toBe(true);
@@ -357,7 +357,7 @@ describe('roving-focus keyboard', () => {
       const fixture = TestBed.createComponent(KeyboardHorizontalHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
       const ev = press(host, 'ArrowRight', { ctrlKey: true });
       expect(group.activeIndex()).toBe(0);
       expect(ev.defaultPrevented).toBe(false);
@@ -367,7 +367,7 @@ describe('roving-focus keyboard', () => {
       const fixture = TestBed.createComponent(KeyboardHorizontalHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
       const ev = press(host, 'ArrowRight', { metaKey: true });
       expect(group.activeIndex()).toBe(0);
       expect(ev.defaultPrevented).toBe(false);
@@ -377,7 +377,7 @@ describe('roving-focus keyboard', () => {
       const fixture = TestBed.createComponent(KeyboardHorizontalHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
       const ev = press(host, 'ArrowRight', { altKey: true });
       expect(group.activeIndex()).toBe(0);
       expect(ev.defaultPrevented).toBe(false);
@@ -389,7 +389,7 @@ describe('roving-focus keyboard', () => {
       const fixture = TestBed.createComponent(KeyboardVerticalHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
       const ev = press(host, 'ArrowDown');
       expect(group.activeIndex()).toBe(1);
       expect(ev.defaultPrevented).toBe(true);
@@ -399,7 +399,7 @@ describe('roving-focus keyboard', () => {
       const fixture = TestBed.createComponent(KeyboardVerticalHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
       press(host, 'ArrowDown'); // go to 1
       const ev = press(host, 'ArrowUp');
       expect(group.activeIndex()).toBe(0);
@@ -410,7 +410,7 @@ describe('roving-focus keyboard', () => {
       const fixture = TestBed.createComponent(KeyboardVerticalHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
       const ev = press(host, 'ArrowLeft');
       expect(group.activeIndex()).toBe(0);
       expect(ev.defaultPrevented).toBe(false);
@@ -420,7 +420,7 @@ describe('roving-focus keyboard', () => {
       const fixture = TestBed.createComponent(KeyboardVerticalHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
       const ev = press(host, 'ArrowRight');
       expect(group.activeIndex()).toBe(0);
       expect(ev.defaultPrevented).toBe(false);
@@ -430,7 +430,7 @@ describe('roving-focus keyboard', () => {
       const fixture = TestBed.createComponent(KeyboardVerticalHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
       press(host, 'ArrowDown');
       press(host, 'ArrowDown'); // go to 2
       const ev = press(host, 'Home');
@@ -442,7 +442,7 @@ describe('roving-focus keyboard', () => {
       const fixture = TestBed.createComponent(KeyboardVerticalHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
       const ev = press(host, 'End');
       expect(group.activeIndex()).toBe(2);
       expect(ev.defaultPrevented).toBe(true);
@@ -456,10 +456,10 @@ describe('roving-focus keyboard', () => {
   selector: 'test-tabindex-mode-host',
   imports: [JigRovingGroup, JigRovingItem],
   template: `
-    <div ngnRovingGroup>
-      <span ngnRovingItem id="a">A</span>
-      <span ngnRovingItem id="b">B</span>
-      <span ngnRovingItem id="c">C</span>
+    <div jigRovingGroup>
+      <span jigRovingItem id="a">A</span>
+      <span jigRovingItem id="b">B</span>
+      <span jigRovingItem id="c">C</span>
     </div>
   `,
 })
@@ -472,10 +472,10 @@ class TabindexModeHost {
   imports: [JigRovingGroup, JigRovingItem],
   template: `
     <div>
-      <input #g="ngnRovingGroup" ngnRovingGroup rovingMode="activedescendant" />
-      <span [ngnRovingItem]="g" id="a">A</span>
-      <span [ngnRovingItem]="g" id="b">B</span>
-      <span [ngnRovingItem]="g" id="c">C</span>
+      <input #g="jigRovingGroup" jigRovingGroup rovingMode="activedescendant" />
+      <span [jigRovingItem]="g" id="a">A</span>
+      <span [jigRovingItem]="g" id="b">B</span>
+      <span [jigRovingItem]="g" id="c">C</span>
     </div>
   `,
 })
@@ -486,7 +486,7 @@ class ActiveDescendantModeHost {
 @Component({
   selector: 'test-empty-activedescendant-host',
   imports: [JigRovingGroup],
-  template: `<input ngnRovingGroup rovingMode="activedescendant" />`,
+  template: `<input jigRovingGroup rovingMode="activedescendant" />`,
 })
 class EmptyActivedescendantHost {
   group = viewChild.required(JigRovingGroup);
@@ -498,10 +498,10 @@ class EmptyActivedescendantHost {
   selector: 'test-dynamic-mode-host',
   imports: [JigRovingGroup, JigRovingItem],
   template: `
-    <div #g="ngnRovingGroup" ngnRovingGroup [rovingMode]="mode()">
-      <span [ngnRovingItem]="g" id="a">A</span>
-      <span [ngnRovingItem]="g" id="b">B</span>
-      <span [ngnRovingItem]="g" id="c">C</span>
+    <div #g="jigRovingGroup" jigRovingGroup [rovingMode]="mode()">
+      <span [jigRovingItem]="g" id="a">A</span>
+      <span [jigRovingItem]="g" id="b">B</span>
+      <span [jigRovingItem]="g" id="c">C</span>
     </div>
   `,
 })
@@ -518,11 +518,11 @@ class DynamicModeHost {
   selector: 'test-shrinking-items-host',
   imports: [JigRovingGroup, JigRovingItem],
   template: `
-    <div #g="ngnRovingGroup" ngnRovingGroup rovingMode="activedescendant">
-      <span [ngnRovingItem]="g" id="a">A</span>
+    <div #g="jigRovingGroup" jigRovingGroup rovingMode="activedescendant">
+      <span [jigRovingItem]="g" id="a">A</span>
       @if (showRest()) {
-        <span [ngnRovingItem]="g" id="b">B</span>
-        <span [ngnRovingItem]="g" id="c">C</span>
+        <span [jigRovingItem]="g" id="b">B</span>
+        <span [jigRovingItem]="g" id="c">C</span>
       }
     </div>
   `,
@@ -538,11 +538,11 @@ class ShrinkingItemsHost {
   selector: 'test-disabled-skip-host',
   imports: [JigRovingGroup, JigRovingItem],
   template: `
-    <div ngnRovingGroup [rovingWrap]="wrap()">
-      <span ngnRovingItem id="a">A</span>
-      <span ngnRovingItem id="b">B</span>
-      <span ngnRovingItem id="c">C</span>
-      <span ngnRovingItem id="d">D</span>
+    <div jigRovingGroup [rovingWrap]="wrap()">
+      <span jigRovingItem id="a">A</span>
+      <span jigRovingItem id="b">B</span>
+      <span jigRovingItem id="c">C</span>
+      <span jigRovingItem id="d">D</span>
     </div>
   `,
 })
@@ -670,7 +670,7 @@ describe('roving-focus focus modes', () => {
     it('group host does NOT have aria-activedescendant or aria-owns in tabindex mode', () => {
       const fixture = TestBed.createComponent(TabindexModeHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
       expect(host.getAttribute('aria-activedescendant')).toBeNull();
       expect(host.getAttribute('aria-owns')).toBeNull();
     });
@@ -788,7 +788,7 @@ describe('roving-focus focus modes', () => {
     it('switching activedescendant -> tabindex removes group aria and sets item tabindexes', () => {
       const fixture = TestBed.createComponent(DynamicModeHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
       const group = fixture.componentInstance.group();
 
       // Sanity: activedescendant attributes are present initially.
@@ -816,7 +816,7 @@ describe('roving-focus focus modes', () => {
       const fixture = TestBed.createComponent(ShrinkingItemsHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
-      const host = fixture.nativeElement.querySelector('[ngnRovingGroup]') as HTMLElement;
+      const host = fixture.nativeElement.querySelector('[jigRovingGroup]') as HTMLElement;
 
       // Move active to the last item (index 2 -> id "c").
       group.last();

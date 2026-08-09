@@ -13,7 +13,7 @@ import type { JigActionButtonConfig } from '@awdlab/jig/api';
 @Component({
   imports: [JigActionButton, JigKeyboardShortcut],
   template: `
-    <div [ngnKeyboardShortcut]="[]">
+    <div [jigKeyboardShortcut]="[]">
       <jig-action-button [config]="config()" (clicked)="clicked.push($event)" />
       <input id="text" />
     </div>
@@ -36,7 +36,7 @@ class ScopedActionButtonHost {
   imports: [JigKeyboardShortcut],
   template: `
     @if (enabled()) {
-      <div [ngnKeyboardShortcut]="[]"><ng-content /></div>
+      <div [jigKeyboardShortcut]="[]"><ng-content /></div>
     }
   `,
 })
@@ -148,7 +148,7 @@ describe('action button shortcut', () => {
     @Component({
       imports: [JigActionButton, JigKeyboardShortcut],
       template: `
-        <div [ngnKeyboardShortcut]="[]">
+        <div [jigKeyboardShortcut]="[]">
           <jig-action-button [config]="config()" />
         </div>
       `,

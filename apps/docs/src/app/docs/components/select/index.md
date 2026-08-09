@@ -74,7 +74,7 @@ to `false` to disable that.
 
 ### Custom Editable
 
-Project your own `ngnInput` as the editable field to fully control its markup;
+Project your own `jigInput` as the editable field to fully control its markup;
 the select wires up its value and the listbox ARIA attributes (`aria-autocomplete`,
 `aria-expanded`, `aria-controls`, `aria-haspopup`) automatically.
 

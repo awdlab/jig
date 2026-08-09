@@ -5,7 +5,7 @@ import { injectToastCreator } from '@awdlab/jig/toast';
 @Component({
   imports: [JigButton],
   selector: 'jig-demo-toast-closable',
-  template: ` <button ngnButton kind="text" (click)="showToast()">Show Toast</button> `,
+  template: ` <button jigButton kind="text" (click)="showToast()">Show Toast</button> `,
 })
 export class Demo_Toast_Closable {
   private readonly _toastCreator = injectToastCreator();

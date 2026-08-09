@@ -14,15 +14,15 @@ import { JigIcon } from '@awdlab/jig/icon';
            is anchored on a thin wrapper around it. -->
       <span
         class="inline-flex"
-        ngnBadgeDot
-        ngnBadgeCircular
-        ngnBadgePosition="bottom-end"
-        ngnBadgeColor="var(--jig-color-success-500)"
+        jigBadgeDot
+        jigBadgeCircular
+        jigBadgePosition="bottom-end"
+        jigBadgeColor="var(--jig-color-success-500)"
       >
         <jig-avatar initials="JD" />
       </span>
       <!-- Unread indicator on an icon button -->
-      <button ngnButton kind="icon" ngnBadgeDot aria-label="Messages">
+      <button jigButton kind="icon" jigBadgeDot aria-label="Messages">
         <jig-icon [icon]="mail" />
       </button>
     </div>

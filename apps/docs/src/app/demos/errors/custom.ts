@@ -15,19 +15,19 @@ import type { JigErrorsCustom } from '@awdlab/jig/errors';
       <div class="flex flex-col gap-1">
         <jig-input-field [label]="'Username'" [labelKind]="'on'" class="w-72">
           <input
-            ngnInput
+            jigInput
             [value]="username()"
             (valueChange)="onChange($event)"
-            ngnErrors
-            ngnErrorsShowOn="always"
-            [ngnErrorsCustom]="serverErrors()"
-            [ngnErrorsHint]="hint"
+            jigErrors
+            jigErrorsShowOn="always"
+            [jigErrorsCustom]="serverErrors()"
+            [jigErrorsHint]="hint"
           />
         </jig-input-field>
         <jig-hint #hint />
       </div>
 
-      <button ngnButton (click)="submit()">Check availability</button>
+      <button jigButton (click)="submit()">Check availability</button>
     </div>
   `,
 })

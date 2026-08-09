@@ -71,12 +71,12 @@ test('iconOnly validation shows the error in a tooltip', async ({ page }) => {
     template: `
       <div class="page-center" style="display: flex; flex-direction: column; gap: 0.5rem;">
         <input
-          ngnInput
+          jigInput
           name="email"
           ngModel
           required
-          ngnErrors
-          [ngnErrorsHint]="emailHint"
+          jigErrors
+          [jigErrorsHint]="emailHint"
         />
         <jig-hint #emailHint kind="error" iconOnly="true" />
       </div>
@@ -84,7 +84,7 @@ test('iconOnly validation shows the error in a tooltip', async ({ page }) => {
     imports: ['input', 'hint', 'errors', 'forms'],
   });
 
-  const input = page.locator('input[ngnInput]');
+  const input = page.locator('input[jigInput]');
   const hint = page.locator('jig-hint');
   const icon = hint.locator('jig-icon');
 

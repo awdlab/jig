@@ -6,7 +6,7 @@ to a button or form field.
 
 ### Button
 
-Drop an `<jig-state>` inside an `ngnButton` to show progress in place. By default
+Drop an `<jig-state>` inside an `jigButton` to show progress in place. By default
 the indicator sits alongside the button's label; set `replaceContent` to hide the
 label and show only the indicator while it is visible — useful for a submit
 button that should collapse to a spinner while the request is in flight.
@@ -16,7 +16,7 @@ button that should collapse to a spinner while the request is in flight.
 ### Input Field
 
 Placed inside an `jig-input-field`, the indicator acts as a trailing status
-adornment — pairing well with `ngnTooltip` to explain a warning or error.
+adornment — pairing well with `jigTooltip` to explain a warning or error.
 
 {{ demo: Demo_State_InputField }}
 

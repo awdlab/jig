@@ -9,7 +9,7 @@ export function throwExp(
 export class JigError extends Error {
   public readonly additionalContext?: unknown[];
   constructor(area: string, errorMsg: string, ...additionalContext: unknown[]) {
-    if (typeof window !== 'undefined' && window['__ngn-controls-global__']?.fancyLogging) {
+    if (typeof window !== 'undefined' && window['__jig-global__']?.fancyLogging) {
       console.log(
         `%c💥%c[${area}]`,
         'font-size: 24px;',

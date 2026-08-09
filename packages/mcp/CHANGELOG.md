@@ -10,9 +10,9 @@
 
 - Every public directive and the remaining table structure directives now carry
   `@category`, so they appear in the generated API tables and in the MCP
-  knowledge pack: `ngnAutofocus`, `ngnMovable`, `ngnResizable`, `ngnScrollAmount`,
-  `ngnDrag`, `ngnDragScroll`, `ngnRovingGroup`/`ngnRovingItem`, `ngnContextMenu`,
-  `jig-action-button`, `ngnScrollerItem`, and the table's `th`/`td`/`tr`,
+  knowledge pack: `jigAutofocus`, `jigMovable`, `jigResizable`, `jigScrollAmount`,
+  `jigDrag`, `jigDragScroll`, `jigRovingGroup`/`jigRovingItem`, `jigContextMenu`,
+  `jig-action-button`, `jigScrollerItem`, and the table's `th`/`td`/`tr`,
   sticky-column and row-actions directives.
 - `customTranslations` languages are now selectable. They were registered but
   never added to `availableLanguages`, so `setLanguage('fr')` silently fell back
@@ -33,7 +33,7 @@ Virtualized `role="listbox"` / `role="tree"` hosts now own the scroll port, so t
 
 `JigBadge`, `JigScrollShadow` and `JigKeyboardShortcut` were missing the `@category` tag the API-docs generator keys off, so their documented API tables rendered empty and the MCP knowledge pack skipped them entirely. All three are now generated (65 controls in the pack, up from 62).
 
-`@awdlab/jig-mcp` migration maps catch up with the controls added since they were written: `p-rating`, `p-colorPicker` and `mat-stepper` no longer claim "no direct equivalent" (they map to `jig-rating`, `jig-color-picker` and `jig-stepper`/`jig-step`), badges map to the `[ngnBadge]` directive instead of `jig-tag`, and `p-inputOtp`, `p-stepper`, `p-scroller`, `ejs-rating`, `ejs-stepper`, `ejs-colorpicker`, `ejs-otpinput`, `ejs-inplaceeditor` and `ejs-keyboard` are new entries. The table recipe documents `dataSource` lazy loading and the form recipe documents `[ngnErrors]` with signal forms.
+`@awdlab/jig-mcp` migration maps catch up with the controls added since they were written: `p-rating`, `p-colorPicker` and `mat-stepper` no longer claim "no direct equivalent" (they map to `jig-rating`, `jig-color-picker` and `jig-stepper`/`jig-step`), badges map to the `[jigBadge]` directive instead of `jig-tag`, and `p-inputOtp`, `p-stepper`, `p-scroller`, `ejs-rating`, `ejs-stepper`, `ejs-colorpicker`, `ejs-otpinput`, `ejs-inplaceeditor` and `ejs-keyboard` are new entries. The table recipe documents `dataSource` lazy loading and the form recipe documents `[jigErrors]` with signal forms.
 
 Docs corrections: the material theme was missing wherever the library's presets were counted (introduction, theming overview, dark mode, READMEs, the themes package description). The default `color` is the theme's first entry — `primary` for nova, not `surface`. `jig-message` has no `filled` kind. The icon registry covers 45 slots, not ~42. The control anatomy and theme-internals guides described a nova-only theme layer, and the installation guide omitted the `@angular/compiler` peer.
 

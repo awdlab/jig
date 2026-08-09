@@ -13,10 +13,10 @@ import { DATE_TIME_MASKS, JigMaskInput, type MaskInputCfg } from '@awdlab/jig/ma
         [mask]="mask"
         [value]="value()"
         (valueChange)="value.set($event ?? '')"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="timeHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="timeHint"
       />
     </jig-input-field>
     <jig-hint #timeHint />

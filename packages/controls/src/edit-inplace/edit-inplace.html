@@ -18,7 +18,7 @@
   [disabled]="disabled() || readonly()"
 />
 
-<ng-template #defaultDisplayTemplate [ngnTemplate]="templateTypes.display" let-display>
+<ng-template #defaultDisplayTemplate [jigTemplate]="templateTypes.display" let-display>
   <div [ptInt]="this" [ptClass]="'default-display'">
     @if (!display.value) {
       <span [ptInt]="this" [ptClass]="'default-fallback-display'">{{
@@ -31,7 +31,7 @@
   </div>
 </ng-template>
 
-<ng-template #defaultEditTemplate [ngnTemplate]="templateTypes.edit" let-edit>
+<ng-template #defaultEditTemplate [jigTemplate]="templateTypes.edit" let-edit>
   <div [ptInt]="this" [ptClass]="'default-edit'">
     <jig-input-field
       (focusout)="focusOut($event)"
@@ -42,8 +42,8 @@
     >
       <input
         type="text"
-        ngnInput
-        ngnAutofocus
+        jigInput
+        jigAutofocus
         [value]="edit.value"
         (valueChange)="edit.update($event ?? '')"
         (keydown.enter)="edit.close()"
@@ -51,10 +51,10 @@
         [ptClass]="'default-edit-input'"
       />
       <button
-        ngnButton
+        jigButton
         type="button"
         kind="icon"
-        [ngnButtonInline]="true"
+        [jigButtonInline]="true"
         (click)="edit.close()"
         [ptInt]="this"
         [ptClass]="'default-edit-close-button'"

@@ -52,12 +52,12 @@
               [initials]="m.initials"
               [bgColor]="m.color"
               [size]="30"
-              [ngnTooltip]="m.name"
+              [jigTooltip]="m.name"
             />
           }
         </jig-avatar-group>
 
-        <button ngnButton kind="primary" (click)="addTask()">
+        <button jigButton kind="primary" (click)="addTask()">
           <jig-icon [icon]="plusIcon" /> Add task
         </button>
       </div>
@@ -134,7 +134,7 @@
                     <span class="font-(--jig-font-weight-semibold)">{{ col.title }}</span>
                     <jig-tag [color]="col.color">{{ countIn(col.id) }}</jig-tag>
                     <span class="grow"></span>
-                    <button ngnButton kind="icon" ngnTooltip="Add task" (click)="addTask(col.id)">
+                    <button jigButton kind="icon" jigTooltip="Add task" (click)="addTask(col.id)">
                       <jig-icon [icon]="plusIcon" />
                     </button>
                   </header>
@@ -172,7 +172,7 @@
                             {{ priorityMeta[task.priority].label }}
                           </jig-tag>
                           <button
-                            ngnButton
+                            jigButton
                             kind="icon"
                             #cardMenuBtn
                             aria-label="Card actions"
@@ -204,7 +204,7 @@
                           class="flex items-center gap-(--jig-size-padding-md) text-(length:--jig-font-size-xs) text-(--jig-color-surface-500)"
                         >
                           @if (task.subtasks.length) {
-                            <span class="flex items-center gap-1" ngnTooltip="Subtasks done">
+                            <span class="flex items-center gap-1" jigTooltip="Subtasks done">
                               <jig-icon [icon]="subtaskIcon" />
                               {{ doneCount(task) }}/{{ task.subtasks.length }}
                             </span>
@@ -235,7 +235,7 @@
                               [initials]="member(task.assigneeId).initials"
                               [bgColor]="member(task.assigneeId).color"
                               [size]="24"
-                              [ngnTooltip]="member(task.assigneeId).name"
+                              [jigTooltip]="member(task.assigneeId).name"
                             />
                           </button>
                           <jig-menu
@@ -296,7 +296,7 @@
                       [initials]="member(task.assigneeId).initials"
                       [bgColor]="member(task.assigneeId).color"
                       [size]="24"
-                      [ngnTooltip]="member(task.assigneeId).name"
+                      [jigTooltip]="member(task.assigneeId).name"
                     />
                   </button>
                 </li>
@@ -428,7 +428,7 @@
                   </span>
                 </div>
               }
-              <jig-upload #up="ngnUpload" (upload)="onUpload($event, task, up)">
+              <jig-upload #up="jigUpload" (upload)="onUpload($event, task, up)">
                 <input type="file" multiple />
                 Drop files or click to attach
               </jig-upload>
@@ -439,7 +439,7 @@
 
       <!-- Danger zone -->
       <button
-        ngnButton
+        jigButton
         kind="secondary"
         color="error"
         class="self-start"

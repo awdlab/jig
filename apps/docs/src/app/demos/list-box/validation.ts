@@ -18,10 +18,10 @@ import type { JigItemsValue } from '@awdlab/jig/api';
         [value]="value()"
         (valueChange)="value.set($event)"
         style="display: block; height: 260px;"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="listHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="listHint"
       />
     </div>
     <jig-hint #listHint />

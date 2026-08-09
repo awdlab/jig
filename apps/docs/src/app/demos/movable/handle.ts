@@ -7,9 +7,9 @@ import { JigMovable } from '@awdlab/jig/directives';
   template: `
     <div class="board">
       <div
-        ngnMovable
-        [ngnMovableDragHandle]="handle"
-        [ngnMovableLimitToViewport]="false"
+        jigMovable
+        [jigMovableDragHandle]="handle"
+        [jigMovableLimitToViewport]="false"
         class="card"
       >
         <div #handle class="handle">Drag here</div>

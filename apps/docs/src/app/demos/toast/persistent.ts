@@ -6,8 +6,8 @@ import { injectToastCreator, type JigToastRef } from '@awdlab/jig/toast';
   imports: [JigButton],
   selector: 'jig-demo-toast-persistent',
   template: `
-    <button ngnButton kind="text" (click)="showToast()">Show Toast</button>
-    <button ngnButton kind="text" (click)="hideToast()">Hide Toast</button>
+    <button jigButton kind="text" (click)="showToast()">Show Toast</button>
+    <button jigButton kind="text" (click)="hideToast()">Hide Toast</button>
   `,
 })
 export class Demo_Toast_Persistent {

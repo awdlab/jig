@@ -6,8 +6,8 @@ import type { JigErrorsMessageContext, JigErrorsMessages } from './types';
  * Multi-provider token for validation error message maps.
  * @category providers
  */
-export const NGN_ERRORS_MESSAGES = new InjectionToken<readonly JigErrorsMessages[]>(
-  'NGN_ERRORS_MESSAGES',
+export const JIG_ERRORS_MESSAGES = new InjectionToken<readonly JigErrorsMessages[]>(
+  'JIG_ERRORS_MESSAGES',
   {
     factory: () => [],
   }
@@ -19,7 +19,7 @@ export const NGN_ERRORS_MESSAGES = new InjectionToken<readonly JigErrorsMessages
  */
 export function provideJigErrorsMessages(messages: JigErrorsMessages): Provider {
   return {
-    provide: NGN_ERRORS_MESSAGES,
+    provide: JIG_ERRORS_MESSAGES,
     useValue: messages,
     multi: true,
   };
@@ -30,7 +30,7 @@ export function provideJigErrorsMessages(messages: JigErrorsMessages): Provider 
  * @category providers
  */
 export function injectJigErrorsMessages(): JigErrorsMessages {
-  return Object.assign({}, ...inject(NGN_ERRORS_MESSAGES));
+  return Object.assign({}, ...inject(JIG_ERRORS_MESSAGES));
 }
 
 /**

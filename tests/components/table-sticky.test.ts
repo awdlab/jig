@@ -17,27 +17,27 @@ const STICKY_TABLE_TEMPLATE: TemplateType = {
       [(columnOrder)]="inputs().columnOrder"
     >
       <ng-template #header>
-        <tr ngnTableHeadTr>
-          <th [ngnTableTh]="table.column('id')" [ngnTableStickyColumn]="'start'" ngnTableReorderableColumn [size]="'80px'">ID</th>
-          <th [ngnTableTh]="table.column('name')" [ngnTableStickyColumn]="'start'" ngnTableReorderableColumn [size]="'150px'">Name</th>
-          <th [ngnTableTh]="table.column('email')" ngnTableReorderableColumn [size]="'200px'">Email</th>
-          <th [ngnTableTh]="table.column('department')" ngnTableReorderableColumn [size]="'150px'">Department</th>
-          <th [ngnTableTh]="table.column('role')" ngnTableReorderableColumn [size]="'130px'">Role</th>
-          <th [ngnTableTh]="table.column('salary')" [ngnTableStickyColumn]="'end'" ngnTableReorderableColumn [size]="'120px'">Salary</th>
+        <tr jigTableHeadTr>
+          <th [jigTableTh]="table.column('id')" [jigTableStickyColumn]="'start'" jigTableReorderableColumn [size]="'80px'">ID</th>
+          <th [jigTableTh]="table.column('name')" [jigTableStickyColumn]="'start'" jigTableReorderableColumn [size]="'150px'">Name</th>
+          <th [jigTableTh]="table.column('email')" jigTableReorderableColumn [size]="'200px'">Email</th>
+          <th [jigTableTh]="table.column('department')" jigTableReorderableColumn [size]="'150px'">Department</th>
+          <th [jigTableTh]="table.column('role')" jigTableReorderableColumn [size]="'130px'">Role</th>
+          <th [jigTableTh]="table.column('salary')" [jigTableStickyColumn]="'end'" jigTableReorderableColumn [size]="'120px'">Salary</th>
         </tr>
       </ng-template>
-      <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-        <tr [ngnTableBodyTr]="row">
-          <td ngnTableTd>{{ row.data.id }}</td>
-          <td ngnTableTd>{{ row.data.name }}</td>
-          <td ngnTableTd>{{ row.data.email }}</td>
-          <td ngnTableTd>{{ row.data.department }}</td>
-          <td ngnTableTd>{{ row.data.role }}</td>
-          <td ngnTableTd>{{ row.data.salary }}</td>
+      <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+        <tr [jigTableBodyTr]="row">
+          <td jigTableTd>{{ row.data.id }}</td>
+          <td jigTableTd>{{ row.data.name }}</td>
+          <td jigTableTd>{{ row.data.email }}</td>
+          <td jigTableTd>{{ row.data.department }}</td>
+          <td jigTableTd>{{ row.data.role }}</td>
+          <td jigTableTd>{{ row.data.salary }}</td>
         </tr>
       </ng-template>
     </jig-table>`,
-  imports: ['tableModule', 'tableStickyColumn', 'ngnTemplate'],
+  imports: ['tableModule', 'tableStickyColumn', 'jigTemplate'],
 };
 
 function generateRows(count: number) {

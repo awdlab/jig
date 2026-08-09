@@ -5,7 +5,7 @@ import { JigDialog } from '@awdlab/jig/dialog';
 @Component({
   selector: 'jig-demo-dialog-movable',
   imports: [JigDialog, JigButton],
-  template: `<button ngnButton (click)="open.set(true)">Open Dialog</button>
+  template: `<button jigButton (click)="open.set(true)">Open Dialog</button>
     <jig-dialog
       [title]="'test'"
       [open]="open()"

@@ -11,10 +11,10 @@ import { JigSlider } from '@awdlab/jig/slider';
       <jig-slider
         [value]="value()"
         (valueChange)="value.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="sliderHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="sliderHint"
       />
     </div>
     <jig-hint #sliderHint />

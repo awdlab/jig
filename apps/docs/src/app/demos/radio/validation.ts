@@ -11,10 +11,10 @@ import { JigRadio, JigRadioGroup } from '@awdlab/jig/radio';
       <jig-radio-group
         [value]="value()"
         (valueChange)="value.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="sizeHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="sizeHint"
       >
         <jig-radio value="small">Small</jig-radio>
         <jig-radio value="medium">Medium</jig-radio>

@@ -9,7 +9,7 @@ import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
  *
  * @category directive
  */
-@Directive({ selector: '[ngnTableHeadTr]', host: { role: 'row', '[attr.aria-rowindex]': '1' } })
+@Directive({ selector: '[jigTableHeadTr]', host: { role: 'row', '[attr.aria-rowindex]': '1' } })
 export class JigTableHeadTr extends JigBase<'table'> {
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate);
   private readonly _element = inject(ElementRef<HTMLElement>);

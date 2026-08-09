@@ -11,7 +11,7 @@ import { JigInputField } from '@awdlab/jig/input-field';
   template: `
     <div class="flex flex-col gap-1">
       <jig-input-field [label]="'Email'" [labelKind]="'on'" class="w-72">
-        <input ngnInput [formControl]="email" ngnErrors [ngnErrorsHint]="emailHint" />
+        <input jigInput [formControl]="email" jigErrors [jigErrorsHint]="emailHint" />
       </jig-input-field>
       <jig-hint #emailHint />
     </div>

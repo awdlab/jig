@@ -18,10 +18,10 @@
   </div>
 }
 
-<ng-template #usedItemTemplate [ngnTemplate]="scroller.templateTypes.item" let-itemOrGroup>
+<ng-template #usedItemTemplate [jigTemplate]="scroller.templateTypes.item" let-itemOrGroup>
   <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
   <div
-    [ngnScrollerItem]="itemOrGroup"
+    [jigScrollerItem]="itemOrGroup"
     [id]="optionId(itemOrGroup.value)"
     [attr.role]="itemOrGroup.items ? 'group' : 'option'"
     [attr.aria-label]="itemOrGroup.items ? maybeCallback(itemOrGroup.label) : null"
@@ -66,7 +66,7 @@
   </div>
 </ng-template>
 
-<ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
+<ng-template #defaultItemTemplate [jigTemplate]="templateTypes.item" let-item>
   <span [attr.data-testid]="item?.testId" [ptInt]="this" [ptClass]="'default-item'">
     @let label = item?.label;
     @if (label) {
@@ -77,7 +77,7 @@
   </span>
 </ng-template>
 
-<ng-template #defaultGroupTemplate [ngnTemplate]="templateTypes.item" let-group>
+<ng-template #defaultGroupTemplate [jigTemplate]="templateTypes.item" let-group>
   <span [attr.data-testid]="group?.testId" [ptInt]="this" [ptClass]="'default-group'">
     @let label = group?.label;
     @if (label) {

@@ -20,7 +20,7 @@ import { JigDocsThemePicker } from '../../utils/theme-picker';
   template: `
     <button
       #themePickerBtn
-      ngnButton
+      jigButton
       kind="icon"
       aria-label="Pick theme and color"
       title="Pick theme and color"
@@ -34,7 +34,7 @@ import { JigDocsThemePicker } from '../../utils/theme-picker';
       <jig-docs-theme-picker />
     </jig-popover>
     <button
-      ngnButton
+      jigButton
       kind="icon"
       [attr.aria-label]="colorSchemeLabel()"
       [title]="colorSchemeLabel()"
@@ -46,7 +46,7 @@ import { JigDocsThemePicker } from '../../utils/theme-picker';
       href="https://github.com/awdlab/jig"
       target="_blank"
       aria-label="Project on Github"
-      ngnButton
+      jigButton
       kind="icon"
     >
       <jig-icon size="28px" [icon]="iconGithub" />

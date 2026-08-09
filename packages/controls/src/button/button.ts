@@ -7,9 +7,9 @@ import { buttonControlTemplate } from '@awdlab/jig-themes/templates/button';
  * @category control
  */
 @Directive({
-  selector: 'button[ngnButton], a[ngnButton]',
+  selector: 'button[jigButton], a[jigButton]',
   providers: [provideSelf(JigButton)],
-  exportAs: 'ngnButton',
+  exportAs: 'jigButton',
 })
 export class JigButton extends JigBase<'button'> {
   protected readonly theme = this.injectThemeTemplate(buttonControlTemplate, {
@@ -23,8 +23,8 @@ export class JigButton extends JigBase<'button'> {
    */
   public readonly inline = input(false, {
     transform: booleanAttribute,
-    // alias follows the jig{Directive}{Prop} convention for the `button[ngnButton], a[ngnButton]` selector
-    alias: 'ngnButtonInline',
+    // alias follows the jig{Directive}{Prop} convention for the `button[jigButton], a[jigButton]` selector
+    alias: 'jigButtonInline',
   });
 
   constructor() {

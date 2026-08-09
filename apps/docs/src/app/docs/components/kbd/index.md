@@ -1,4 +1,4 @@
-`jig-kbd` renders a keyboard shortcut, and `[ngnKeyboardShortcut]` runs callbacks
+`jig-kbd` renders a keyboard shortcut, and `[jigKeyboardShortcut]` runs callbacks
 for one. Both read the same config string: lowercase tokens joined by `+`, in any
 order — `mod+shift+a`, `escape`, `alt+arrowup`, `mod+/`.
 
@@ -19,7 +19,7 @@ everywhere else — so the keycap never names a key the combo does not use.
 
 ### Handling a shortcut
 
-`[ngnKeyboardShortcut]` takes an array of `{ shortcut, callback }` and fires only
+`[jigKeyboardShortcut]` takes an array of `{ shortcut, callback }` and fires only
 while focus is inside its host element. A handled shortcut stops propagating, so
 a nested scope wins over an outer one.
 

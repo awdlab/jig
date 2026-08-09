@@ -34,7 +34,7 @@ pressed, open or closed. A footer legend spells out the keys that drive the pale
 itself.
 
 Opening the palette stays with you — `jig-command` registers no hotkey of its own.
-Wrap the surface in `[ngnKeyboardShortcut]` and pass the binding you want.
+Wrap the surface in `[jigKeyboardShortcut]` and pass the binding you want.
 
 {{ demo: Demo_Command_Shortcuts }}
 

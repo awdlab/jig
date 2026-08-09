@@ -10,7 +10,7 @@ import type { CustomColor } from '@awdlab/jig-custom-types';
   selector: 'jig-demo-snackbar-colors',
   template: `
     @for (color of colors(); track color) {
-      <button ngnButton kind="text" [color]="color" (click)="showSnackbar(color)">
+      <button jigButton kind="text" [color]="color" (click)="showSnackbar(color)">
         {{ color }}
       </button>
     }

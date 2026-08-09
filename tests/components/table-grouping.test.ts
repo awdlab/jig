@@ -20,21 +20,21 @@ const TABLE_TEMPLATE: TemplateType = {
       (expandedGroupsChange)="output('expandedGroups', $event)"
     >
       <ng-template #header>
-        <tr ngnTableHeadTr>
-          <th [ngnTableTh]="table.column('id')">ID</th>
-          <th [ngnTableTh]="table.column('name')">Name</th>
-          <th [ngnTableTh]="table.column('department')">Department</th>
+        <tr jigTableHeadTr>
+          <th [jigTableTh]="table.column('id')">ID</th>
+          <th [jigTableTh]="table.column('name')">Name</th>
+          <th [jigTableTh]="table.column('department')">Department</th>
         </tr>
       </ng-template>
-      <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-        <tr [ngnTableBodyTr]="row">
-          <td ngnTableTd>{{ row.data.id }}</td>
-          <td ngnTableTd>{{ row.data.name }}</td>
-          <td ngnTableTd>{{ row.data.department }}</td>
+      <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+        <tr [jigTableBodyTr]="row">
+          <td jigTableTd>{{ row.data.id }}</td>
+          <td jigTableTd>{{ row.data.name }}</td>
+          <td jigTableTd>{{ row.data.department }}</td>
         </tr>
       </ng-template>
     </jig-table>`,
-  imports: ['tableModule', 'ngnTemplate'],
+  imports: ['tableModule', 'jigTemplate'],
 };
 
 const ROWS = [

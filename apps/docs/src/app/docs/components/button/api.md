@@ -1,6 +1,6 @@
 ## JigButton
 
-Selector: `button[ngnButton]`, `a[ngnButton]`
+Selector: `button[jigButton]`, `a[jigButton]`
 
 {{ api: button/button JigButton }}
 

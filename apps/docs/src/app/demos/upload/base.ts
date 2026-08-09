@@ -4,13 +4,13 @@ import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
 /**
  * Auto mode: files upload the moment they are selected or dropped. The consumer
  * runs the (here simulated) transfer and reports progress back through the
- * `exportAs="ngnUpload"` handle.
+ * `exportAs="jigUpload"` handle.
  */
 @Component({
   imports: [JigUpload],
   selector: 'jig-demo-upload-base',
   template: `
-    <jig-upload #up="ngnUpload" (upload)="onUpload($event, up)">
+    <jig-upload #up="jigUpload" (upload)="onUpload($event, up)">
       <input type="file" multiple />
       Drag files here or click to browse
     </jig-upload>

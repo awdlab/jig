@@ -7,7 +7,7 @@ test('label names the projected input and clicking it focuses the input', async 
   await loadComponent(page, {
     template: `
       <jig-input-field style="width: 240px" [label]="'Full name'">
-        <input ngnInput />
+        <input jigInput />
       </jig-input-field>`,
     imports: ['inputField', 'input'],
   });
@@ -24,7 +24,7 @@ test('clear button empties the projected input and keeps an accessible name', as
   await loadComponent(page, {
     template: `
       <jig-input-field style="width: 240px" [label]="'Search'" [showClearButton]="true">
-        <input ngnInput value="hello" />
+        <input jigInput value="hello" />
       </jig-input-field>`,
     imports: ['inputField', 'input'],
   });
@@ -44,7 +44,7 @@ test('invalid forces the invalid look on the field chrome', async ({ page }) => 
     {
       template: `
       <jig-input-field style="width: 240px" [label]="'Email'" [invalid]="inputs().invalid">
-        <input ngnInput />
+        <input jigInput />
       </jig-input-field>`,
       imports: ['inputField', 'input'],
     },
@@ -62,7 +62,7 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(page, {
     template: `
       <jig-input-field style="width: 240px" [label]="'Full name'" [showClearButton]="true">
-        <input ngnInput value="Ada" />
+        <input jigInput value="Ada" />
       </jig-input-field>`,
     imports: ['inputField', 'input'],
   });

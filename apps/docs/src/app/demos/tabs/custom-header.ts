@@ -8,10 +8,10 @@ import { JigTabs, JigTab } from '@awdlab/jig/tabs';
   template: `
     <jig-tabs>
       <ng-template #headerLeft>
-        <button ngnButton ngnButtonInline kind="icon">➕</button>
+        <button jigButton jigButtonInline kind="icon">➕</button>
       </ng-template>
       <ng-template #headerRight>
-        <button ngnButton ngnButtonInline kind="icon">🗑️</button>
+        <button jigButton jigButtonInline kind="icon">🗑️</button>
       </ng-template>
       @for (item of tabs; track $index) {
         <jig-tab [tabId]="'tab' + item">

@@ -72,7 +72,7 @@ larger page you do not own.
 | ----------------------- | ---------------------- | ----------------------- | ------------------------------------------------------------------------------------ |
 | `stateStorage`          | `'local' \| 'session'` | `'session'`             | Where controls persist UI state. See [State Persistence](/guides/state-persistence). |
 | `splitter.stateStorage` | `'local' \| 'session'` | inherits `stateStorage` | Per-control override for the splitter.                                               |
-| `tooltip`               | `TooltipOptions`       | see below               | Default options for every `ngnTooltip`.                                              |
+| `tooltip`               | `TooltipOptions`       | see below               | Default options for every `jigTooltip`.                                              |
 
 Tooltip defaults:
 
@@ -138,10 +138,10 @@ export const appConfig: ApplicationConfig = {
 
 ### Reading the config
 
-`NGN_CONFIG` is an injection token holding the resolved config, useful when you
+`JIG_CONFIG` is an injection token holding the resolved config, useful when you
 build your own control on top of the library:
 
 ```ts
-const config = inject(NGN_CONFIG);
+const config = inject(JIG_CONFIG);
 config.theme.namePrefix; // 'jig-'
 ```

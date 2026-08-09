@@ -1,7 +1,7 @@
 The Input Field (`<jig-input-field>`) is the standard chrome around a form
 control — label, border, focus ring, adornments, and states. It is a
 **composition wrapper**, not a variant of the input: it projects whatever control
-you place inside it (`ngnInput`, `ngnNumberInput`, `ngnMaskInput`, a calendar or
+you place inside it (`jigInput`, `jigNumberInput`, `jigMaskInput`, a calendar or
 select, …) and wires the field to it.
 
 ### Basic Usage
@@ -13,7 +13,7 @@ control, and it manages the `id` / `aria-labelledby` wiring between the label an
 the input. Set a `label` (with optional `labelKind` for placement) or wire an
 external label via `labelledBy`. Content placed before or after the projected
 control becomes a prefix or suffix — icons, `<jig-state>` indicators, tooltips,
-or `ngnButton` actions.
+or `jigButton` actions.
 
 Because the field owns that wiring, it also owns the projected input's `id`: pass
 `inputId` on the field rather than setting `id` on the `<input>`, which the field
@@ -24,7 +24,7 @@ overwrites. The **A11y** tab shows the external-label pattern.
 ### Validation
 
 The field mirrors the projected control's validity for styling; pair it with
-`ngnErrors` / `jig-hint` to surface messages beneath the field.
+`jigErrors` / `jig-hint` to surface messages beneath the field.
 
 {{ demo: Demo_InputField_Validation }}
 

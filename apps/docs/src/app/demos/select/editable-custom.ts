@@ -17,7 +17,7 @@ import { exampleData } from '../../helper/data';
       (valueChange)="changed($event)"
       [value]="value()"
     >
-      <input ngnInput title="Custom Editable Input" type="text" />
+      <input jigInput title="Custom Editable Input" type="text" />
     </jig-select>
   </jig-input-field>`,
   host: { class: 'w-48' },

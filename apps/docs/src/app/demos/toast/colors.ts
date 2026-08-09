@@ -10,7 +10,7 @@ import type { CustomColor } from '@awdlab/jig-custom-types';
   selector: 'jig-demo-toast-colors',
   template: `
     @for (color of colors(); track color) {
-      <button ngnButton kind="text" [color]="color" (click)="showToast(color)">
+      <button jigButton kind="text" [color]="color" (click)="showToast(color)">
         {{ color }}
       </button>
     }

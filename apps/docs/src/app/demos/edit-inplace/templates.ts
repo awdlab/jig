@@ -6,7 +6,7 @@ import { JigEditInplace } from '@awdlab/jig/edit-inplace';
   imports: [JigEditInplace, JigTemplate],
   selector: 'jig-demo-inplace-templates',
   template: ` <jig-edit-inplace #inplace [value]="value()" (valueChange)="value.set($event)">
-    <ng-template #display [ngnTemplate]="inplace.templateTypes.display" let-display>
+    <ng-template #display [jigTemplate]="inplace.templateTypes.display" let-display>
       <span
         class="bg-primary-100 text-primary-800 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium"
       >
@@ -14,7 +14,7 @@ import { JigEditInplace } from '@awdlab/jig/edit-inplace';
       </span>
     </ng-template>
 
-    <ng-template #edit [ngnTemplate]="inplace.templateTypes.edit" let-edit>
+    <ng-template #edit [jigTemplate]="inplace.templateTypes.edit" let-edit>
       <div class="flex items-center gap-2">
         <input
           class="border-surface-300 rounded border px-2 py-1 text-sm"

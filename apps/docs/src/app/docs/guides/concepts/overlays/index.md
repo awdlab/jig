@@ -65,7 +65,7 @@ yourself.
 ### Anchoring to a point
 
 An anchor is either an element or a `{ x, y }` point — which is what
-`[ngnContextMenu]` uses to open at the pointer.
+`[jigContextMenu]` uses to open at the pointer.
 
 ### Repositioning
 

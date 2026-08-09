@@ -12,7 +12,7 @@ import { JigInputField } from '@awdlab/jig/input-field';
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-1">
         <jig-input-field [label]="'Email'" [labelKind]="'on'" class="w-72">
-          <input ngnInput [formField]="userForm.email" ngnErrors [ngnErrorsHint]="emailHint" />
+          <input jigInput [formField]="userForm.email" jigErrors [jigErrorsHint]="emailHint" />
         </jig-input-field>
         <jig-hint #emailHint />
       </div>
@@ -20,11 +20,11 @@ import { JigInputField } from '@awdlab/jig/input-field';
       <div class="flex flex-col gap-1">
         <jig-input-field [label]="'Password'" [labelKind]="'on'" class="w-72">
           <input
-            ngnInput
+            jigInput
             type="password"
             [formField]="userForm.password"
-            ngnErrors
-            [ngnErrorsHint]="passwordHint"
+            jigErrors
+            [jigErrorsHint]="passwordHint"
           />
         </jig-input-field>
         <jig-hint #passwordHint />

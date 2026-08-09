@@ -11,10 +11,10 @@ import { JigHint } from '@awdlab/jig/hint';
       <jig-edit-inplace
         [value]="value()"
         (valueChange)="value.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="nameHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="nameHint"
       />
     </div>
     <jig-hint #nameHint />

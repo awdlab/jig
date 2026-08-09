@@ -5,7 +5,7 @@ import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
 @Component({
   selector: 'jig-demo-menu-popover',
   imports: [JigMenu, JigButton],
-  template: ` <button ngnButton #anchor (click)="menu.show()">Open Menu</button>
+  template: ` <button jigButton #anchor (click)="menu.show()">Open Menu</button>
     <jig-menu #menu [popover]="true" [anchor]="anchor" [items]="items()" />`,
 })
 export class Demo_Menu_Popover {

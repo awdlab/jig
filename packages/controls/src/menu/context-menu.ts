@@ -23,7 +23,7 @@ import type { MenuItem } from './types';
  *
  * @category directive
  */
-@Directive({ selector: '[ngnContextMenu]' })
+@Directive({ selector: '[jigContextMenu]' })
 export class JigContextMenu implements OnDestroy {
   private readonly _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _vcr = inject(ViewContainerRef);
@@ -32,7 +32,7 @@ export class JigContextMenu implements OnDestroy {
   /**
    * The menu items to display in the context menu opened on right-click.
    */
-  public readonly ngnContextMenu = input.required<MenuItem[]>();
+  public readonly jigContextMenu = input.required<MenuItem[]>();
 
   constructor() {
     domEventHandler(this._elementRef, 'contextmenu', this.handleClick.bind(this));
@@ -51,7 +51,7 @@ export class JigContextMenu implements OnDestroy {
     }
     event.preventDefault();
     event.stopPropagation();
-    this._menu = openMenuAt(this._vcr, this._menu, this.ngnContextMenu(), {
+    this._menu = openMenuAt(this._vcr, this._menu, this.jigContextMenu(), {
       x: event.clientX,
       y: event.clientY,
     });

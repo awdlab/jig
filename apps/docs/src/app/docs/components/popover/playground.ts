@@ -9,7 +9,7 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
   imports: [JigPopover, JigButton, JigDocsPlayground],
   template: `
     <jig-docs-playground [controls]="[{ componentName: 'JigPopover', component: component() }]">
-      <button ngnButton #anchor (click)="component().show()">Open Popover</button>
+      <button jigButton #anchor (click)="component().show()">Open Popover</button>
       <jig-popover #ref [anchor]="anchor">Popover Content</jig-popover>
     </jig-docs-playground>
   `,

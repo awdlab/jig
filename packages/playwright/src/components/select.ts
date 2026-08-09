@@ -2,7 +2,7 @@ import { expect, type Locator } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { selectControlTemplate } from '@awdlab/jig-themes/templates/select';
 import { JigInputHarness } from './input';
-import { NGN_CLASSES } from '../utils/classes';
+import { JIG_CLASSES } from '../utils/classes';
 import { JigListBoxHarness } from './list-box';
 import { JigInputFieldHarness } from './input-field';
 import { JigItemViewHarness } from './item-view';
@@ -20,13 +20,13 @@ export class JigSelectHarness {
 
   constructor(public locator: Locator) {
     this.filter = new JigInputFieldHarness(locator.locator(this.classes['filter']['root']), l => ({
-      input: new JigInputHarness(l.locator(NGN_CLASSES.input['root'])),
+      input: new JigInputHarness(l.locator(JIG_CLASSES.input['root'])),
     }));
     this.filterIcon = locator.locator(this.classes['filter-icon']);
     this.icon = locator.locator(this.classes['icon']);
     this.input = locator.locator(this.classes['input']);
     this.inputEditable = new JigInputHarness(
-      locator.locator(`${this.classes['input-editable']} ${NGN_CLASSES.input['root']}`)
+      locator.locator(`${this.classes['input-editable']} ${JIG_CLASSES.input['root']}`)
     );
     this.listBox = new JigListBoxHarness(locator.locator(this.classes['list-box']['root']));
     this.popoverContent = locator.locator(this.classes['popover-content']);

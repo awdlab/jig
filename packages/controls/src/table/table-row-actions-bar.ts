@@ -63,7 +63,7 @@ export class JigTableRowActionsBar implements OnDestroy {
   // as `barActions()`. Reading the native `<button>` off these refs is the
   // robust anchor for the submenu popover — it doesn't depend on the action
   // having a `testId`. The accessible name itself is owned by `JigTooltip`
-  // (via `ngnTooltipAutoAriaMode="label"` on `action-button.html`), not this
+  // (via `jigTooltipAutoAriaMode="label"` on `action-button.html`), not this
   // component.
   private readonly _buttonHosts = viewChildren(JigActionButton, { read: ElementRef });
 

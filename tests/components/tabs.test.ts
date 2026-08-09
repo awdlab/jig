@@ -293,10 +293,10 @@ test('custom header templates', async ({ page }, testInfo) => {
       template: `
       <jig-tabs>
         <ng-template #headerLeft>
-          <button ngnButton ngnButtonInline kind="icon">➕</button>
+          <button jigButton jigButtonInline kind="icon">➕</button>
         </ng-template>
         <ng-template #headerRight>
-          <button ngnButton ngnButtonInline kind="icon">🗑️</button>
+          <button jigButton jigButtonInline kind="icon">🗑️</button>
         </ng-template>
         @for(tab of inputs().tabs; track tab) {
           <jig-tab [tabId]="tab.id">

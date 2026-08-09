@@ -1,8 +1,8 @@
-<div ngnRovingGroup [ptInt]="this" [ptClass]="'header'" role="tablist">
+<div jigRovingGroup [ptInt]="this" [ptClass]="'header'" role="tablist">
   @for (step of steps(); track $index; let i = $index; let last = $last) {
     <button
       type="button"
-      ngnRovingItem
+      jigRovingItem
       role="tab"
       [attr.aria-selected]="i === active()"
       [attr.aria-disabled]="!canGoTo(i) ? 'true' : null"

@@ -8,7 +8,7 @@ test('renders count and clamps to max', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<button style="width:48px;height:48px" [ngnBadge]="inputs().value" [ngnBadgeMax]="inputs().max">A</button>`,
+      template: `<button style="width:48px;height:48px" [jigBadge]="inputs().value" [jigBadgeMax]="inputs().max">A</button>`,
       imports: ['badge'],
     },
     { inputs: { value: 3, max: 99 } }
@@ -26,7 +26,7 @@ test('hides on zero unless showZero', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<button [ngnBadge]="inputs().value" [ngnBadgeShowZero]="inputs().showZero">A</button>`,
+      template: `<button [jigBadge]="inputs().value" [jigBadgeShowZero]="inputs().showZero">A</button>`,
       imports: ['badge'],
     },
     { inputs: { value: 0, showZero: false } }
@@ -44,7 +44,7 @@ test('dot mode ignores value', async ({ page }, testInfo) => {
   await loadComponent(
     page,
     {
-      template: `<button style="width:48px;height:48px" [ngnBadge]="5" ngnBadgeDot>A</button>`,
+      template: `<button style="width:48px;height:48px" [jigBadge]="5" jigBadgeDot>A</button>`,
       imports: ['badge'],
     },
     { inputs: {} }
@@ -54,11 +54,11 @@ test('dot mode ignores value', async ({ page }, testInfo) => {
   await badge.expectText('');
 });
 
-test('dot mode works standalone (ngnBadgeDot without ngnBadge)', async ({ page }) => {
+test('dot mode works standalone (jigBadgeDot without jigBadge)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<button style="width:48px;height:48px" ngnBadgeDot>A</button>`,
+      template: `<button style="width:48px;height:48px" jigBadgeDot>A</button>`,
       imports: ['badge'],
     },
     { inputs: {} }
@@ -72,7 +72,7 @@ test('hiding a visible badge destroys the indicator', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<button [ngnBadge]="5" [ngnBadgeHidden]="inputs().hidden">A</button>`,
+      template: `<button [jigBadge]="5" [jigBadgeHidden]="inputs().hidden">A</button>`,
       imports: ['badge'],
     },
     { inputs: { hidden: false } }
@@ -89,7 +89,7 @@ test('custom color applies as css variable', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<button [ngnBadge]="1" ngnBadgeColor="rgb(10, 20, 30)">A</button>`,
+      template: `<button [jigBadge]="1" jigBadgeColor="rgb(10, 20, 30)">A</button>`,
       imports: ['badge'],
     },
     { inputs: {} }
@@ -106,7 +106,7 @@ test('anchors correctly on a wrapper around a clipping host (avatar)', async ({
   await loadComponent(
     page,
     {
-      template: `<div style="padding: 20px; width: max-content;"><span class="inline-flex" [ngnBadge]="5" ngnBadgePosition="top-end"><jig-avatar initials="JD" /></span></div>`,
+      template: `<div style="padding: 20px; width: max-content;"><span class="inline-flex" [jigBadge]="5" jigBadgePosition="top-end"><jig-avatar initials="JD" /></span></div>`,
       imports: ['badge', 'avatar'],
     },
     { inputs: {} }
@@ -139,7 +139,7 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<button type="button" style="width:48px;height:48px" [ngnBadge]="inputs().value">Inbox</button>`,
+      template: `<button type="button" style="width:48px;height:48px" [jigBadge]="inputs().value">Inbox</button>`,
       imports: ['badge'],
     },
     { inputs: { value: 5 } }

@@ -14,10 +14,10 @@ directive to a header cell or an input to `jig-table`.
 
 ### Basic Usage
 
-You provide a `#header` template of `<th ngnTableTh>` cells and a `#body`
-template of `<td ngnTableTd>` cells, then turn features on with directives such
-as `ngnTableSortableColumn`, `ngnTableFilterableColumn`, or
-`ngnTableStickyColumn`. `rows` and `fieldId` are required — `fieldId` names the
+You provide a `#header` template of `<th jigTableTh>` cells and a `#body`
+template of `<td jigTableTd>` cells, then turn features on with directives such
+as `jigTableSortableColumn`, `jigTableFilterableColumn`, or
+`jigTableStickyColumn`. `rows` and `fieldId` are required — `fieldId` names the
 property that uniquely identifies each row and is used for selection keys and row
 tracking. Give the table a fixed height, as it scrolls its body internally.
 
@@ -28,7 +28,7 @@ tracking. Give the table a fixed height, as it scrolls its body internally.
 Set `selectionMode` to `'single'` or `'multi'` (or leave it `null` to disable
 selection) and two-way bind `[(selection)]`, an array of row IDs (the `fieldId`
 values). In `multi` mode use Ctrl-click to toggle individual rows and Shift-click
-to extend a range; add a `<th ngnTableSelectionColumn>` / `<td ngnTableSelectionColumn>`
+to extend a range; add a `<th jigTableSelectionColumn>` / `<td jigTableSelectionColumn>`
 pair to get per-row checkboxes plus a header select-all checkbox (which shows an
 indeterminate state on a partial selection).
 
@@ -42,7 +42,7 @@ indeterminate state on a partial selection).
 
 ### Sorting Columns
 
-Add `ngnTableSortableColumn` to a header cell. Clicking the header cycles the
+Add `jigTableSortableColumn` to a header cell. Clicking the header cycles the
 sort ascending → descending → unsorted, reflected in the two-way `[(sort)]`
 model (`{ column, direction }` or `null`). The default comparator handles
 numbers numerically and everything else via `localeCompare`, with nulls first
@@ -53,7 +53,7 @@ on ascending; pass a `sortComparator` to override it. The active header carries
 
 ### Filtering Columns
 
-Add `ngnTableFilterableColumn` with a `…Type` (the column's data type, which
+Add `jigTableFilterableColumn` with a `…Type` (the column's data type, which
 picks the available operators and UI) and, for list filters, a `…Items` option
 set. A filter button appears in the header and opens a filter popover; applied
 filters live in the two-way `[(filters)]` model, keyed by column. Multiple
@@ -92,7 +92,7 @@ control's own machinery.
 ### Resizable Columns
 
 Set `resizable` to add drag handles to header cells; double-clicking a handle
-auto-sizes the column to its content. Each `ngnTableTh` accepts a `size`
+auto-sizes the column to its content. Each `jigTableTh` accepts a `size`
 (e.g. `'1fr'`, `'200px'`, `'25%'`), `minSize`, and `maxSize`. `resizeMode`
 chooses how the drag distributes width: `'adjacent'` (default) keeps the total
 width constant by shrinking the neighbour, while `'push'` lets the column grow
@@ -112,7 +112,7 @@ restore. An empty array means natural DOM order.
 
 ### Sticky Columns
 
-Add `ngnTableStickyColumn="start"` or `="end"` to a header cell to pin that
+Add `jigTableStickyColumn="start"` or `="end"` to a header cell to pin that
 column to the left or right edge while the rest of the grid scrolls
 horizontally. Multiple sticky columns stack against their edge.
 
@@ -120,7 +120,7 @@ horizontally. Multiple sticky columns stack against their edge.
 
 ### Row Actions
 
-Add `ngnTableRowActions` to a body `<tr>` with an `JigActionItem[]`. By default
+Add `jigTableRowActions` to a body `<tr>` with an `JigActionItem[]`. By default
 the same actions are exposed two ways (both independently toggleable): a
 right-click context menu (`…Context`) and an inline button-bar at the row's edge
 revealed on hover or keyboard focus (`…Inline`). Actions may nest via `children`

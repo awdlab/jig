@@ -74,7 +74,7 @@ afterRenderEffect({
 });
 ```
 
-[`ngnAutofocus`](/components/autofocus) covers the simple case (an element that
+[`jigAutofocus`](/components/autofocus) covers the simple case (an element that
 appears in response to a user action), but it latches on first render — which
 is why it is the wrong tool inside a dialog that starts closed. Use the native
 `autofocus` attribute there.

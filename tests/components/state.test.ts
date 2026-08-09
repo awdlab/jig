@@ -9,7 +9,7 @@ test('loading state fits inside a button', async ({ page }) => {
     page,
     {
       template: `
-        <button ngnButton>
+        <button jigButton>
           Save
           <jig-state kind="loading" />
         </button>
@@ -35,11 +35,11 @@ test('replace content mode preserves button size and centers the state', async (
     {
       template: `
         <div style="display: flex; gap: 1rem; align-items: flex-start;">
-          <button ngnButton data-testid="reference">
+          <button jigButton data-testid="reference">
             Save
             <span>Label</span>
           </button>
-          <button ngnButton data-testid="replace">
+          <button jigButton data-testid="replace">
             Save
             <span data-testid="label">Label</span>
             <jig-state kind="loading" replaceContent />
@@ -167,11 +167,11 @@ test('state keeps input field layout stable while toggling visibility', async ({
     {
       template: `
         <jig-input-field style="display: block; width: 240px;">
-          <input ngnInput value="@awdlab/jig" />
+          <input jigInput value="@awdlab/jig" />
           <jig-state
             kind="success"
             [visible]="inputs().visible"
-            ngnTooltip="Package is available."
+            jigTooltip="Package is available."
           />
         </jig-input-field>
       `,

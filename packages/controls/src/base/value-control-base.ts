@@ -72,7 +72,7 @@ export abstract class ValueControlBase<C extends ControlName, T>
 
   /**
    * When the control surfaces its invalid styling. The control owns this timing
-   * (independent of `ngnErrors`, which governs only the error *message*).
+   * (independent of `jigErrors`, which governs only the error *message*).
    * @default touched
    */
   public readonly invalidOn = input<JigInvalidTrigger>('touched');
@@ -115,7 +115,7 @@ export abstract class ValueControlBase<C extends ControlName, T>
 
   /**
    * Marks the control touched: flips {@link touched} for local / no-form
-   * consumers (e.g. `ngnErrors`) and emits {@link touch} so a bound signal-forms
+   * consumers (e.g. `jigErrors`) and emits {@link touch} so a bound signal-forms
    * field is marked touched too. Each control calls this from its own blur/close
    * logic — composite controls with an out-of-DOM overlay (select, calendar)
    * call it from their popover-aware blur, so opening the overlay isn't mistaken

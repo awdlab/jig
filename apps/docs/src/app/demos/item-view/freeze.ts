@@ -15,7 +15,7 @@ import { exampleData } from '../../helper/data';
       [overflowStrategyFreezeCount]="1"
       style="background: var(--jig-color-surface-200);"
     >
-      <ng-template #item [ngnTemplate]="itemView.templateTypes.item" let-item>
+      <ng-template #item [jigTemplate]="itemView.templateTypes.item" let-item>
         <span style="padding: 4px; background: var(--jig-color-surface-400);">
           {{ item.label }}
         </span>

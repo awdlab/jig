@@ -1,7 +1,7 @@
 import { expect, type Locator } from '@playwright/test';
 import { filterControlTemplate } from '@awdlab/jig-themes/templates/filter';
 import { themeClasses } from '../utils/theme';
-import { NGN_CLASSES } from '../utils/classes';
+import { JIG_CLASSES } from '../utils/classes';
 import { JigInputHarness } from './input';
 import { JigSelectHarness } from './select';
 
@@ -40,7 +40,7 @@ export class JigFilterHarness {
 
   public valueInput(index: number): JigInputHarness {
     return new JigInputHarness(
-      this.row(index).locator(`${this.classes['value']['root']} ${NGN_CLASSES.input['root']}`)
+      this.row(index).locator(`${this.classes['value']['root']} ${JIG_CLASSES.input['root']}`)
     );
   }
 

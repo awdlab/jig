@@ -11,9 +11,9 @@
 
 - Every public directive and the remaining table structure directives now carry
   `@category`, so they appear in the generated API tables and in the MCP
-  knowledge pack: `ngnAutofocus`, `ngnMovable`, `ngnResizable`, `ngnScrollAmount`,
-  `ngnDrag`, `ngnDragScroll`, `ngnRovingGroup`/`ngnRovingItem`, `ngnContextMenu`,
-  `jig-action-button`, `ngnScrollerItem`, and the table's `th`/`td`/`tr`,
+  knowledge pack: `jigAutofocus`, `jigMovable`, `jigResizable`, `jigScrollAmount`,
+  `jigDrag`, `jigDragScroll`, `jigRovingGroup`/`jigRovingItem`, `jigContextMenu`,
+  `jig-action-button`, `jigScrollerItem`, and the table's `th`/`td`/`tr`,
   sticky-column and row-actions directives.
 - `customTranslations` languages are now selectable. They were registered but
   never added to `availableLanguages`, so `setLanguage('fr')` silently fell back
@@ -46,7 +46,7 @@ Virtualized `role="listbox"` / `role="tree"` hosts now own the scroll port, so t
 
 `JigBadge`, `JigScrollShadow` and `JigKeyboardShortcut` were missing the `@category` tag the API-docs generator keys off, so their documented API tables rendered empty and the MCP knowledge pack skipped them entirely. All three are now generated (65 controls in the pack, up from 62).
 
-`@awdlab/jig-mcp` migration maps catch up with the controls added since they were written: `p-rating`, `p-colorPicker` and `mat-stepper` no longer claim "no direct equivalent" (they map to `jig-rating`, `jig-color-picker` and `jig-stepper`/`jig-step`), badges map to the `[ngnBadge]` directive instead of `jig-tag`, and `p-inputOtp`, `p-stepper`, `p-scroller`, `ejs-rating`, `ejs-stepper`, `ejs-colorpicker`, `ejs-otpinput`, `ejs-inplaceeditor` and `ejs-keyboard` are new entries. The table recipe documents `dataSource` lazy loading and the form recipe documents `[ngnErrors]` with signal forms.
+`@awdlab/jig-mcp` migration maps catch up with the controls added since they were written: `p-rating`, `p-colorPicker` and `mat-stepper` no longer claim "no direct equivalent" (they map to `jig-rating`, `jig-color-picker` and `jig-stepper`/`jig-step`), badges map to the `[jigBadge]` directive instead of `jig-tag`, and `p-inputOtp`, `p-stepper`, `p-scroller`, `ejs-rating`, `ejs-stepper`, `ejs-colorpicker`, `ejs-otpinput`, `ejs-inplaceeditor` and `ejs-keyboard` are new entries. The table recipe documents `dataSource` lazy loading and the form recipe documents `[jigErrors]` with signal forms.
 
 Docs corrections: the material theme was missing wherever the library's presets were counted (introduction, theming overview, dark mode, READMEs, the themes package description). The default `color` is the theme's first entry — `primary` for nova, not `surface`. `jig-message` has no `filled` kind. The icon registry covers 45 slots, not ~42. The control anatomy and theme-internals guides described a nova-only theme layer, and the installation guide omitted the `@angular/compiler` peer.
 
@@ -54,16 +54,16 @@ Docs corrections: the material theme was missing wherever the library's presets 
 
 - A control that renders already open no longer hides its own content from the browser. Every control starts out with `jig-control-initializing` (`display: none`) to avoid a flash of unstyled content, and dropped that class in the same after-render phase that `jig-dialog` uses to call `showModal()` — so a dialog created with `open` set to `true` ran its native focusing steps while the controls inside it were still hidden. Anything carrying `autofocus` was skipped as unfocusable and focus fell through to the header close button. The class now lifts in the earlier `write` phase, ahead of any `mixedReadWrite` hook.
 
-`[ngnMovable]` and `[ngnResizable]` now end an interaction on `pointercancel`, not just `pointerup`. Touch scrolling takes the pointer away and only fires `pointercancel`, which left both directives believing a drag or resize was still running — on the command palette that baked the dialog's position and size in place the next time the filter changed its height. `[ngnResizable]` also stops observing size and ignores pointer presses while its binding is falsy.
+`[jigMovable]` and `[jigResizable]` now end an interaction on `pointercancel`, not just `pointerup`. Touch scrolling takes the pointer away and only fires `pointercancel`, which left both directives believing a drag or resize was still running — on the command palette that baked the dialog's position and size in place the next time the filter changed its height. `[jigResizable]` also stops observing size and ignores pointer presses while its binding is falsy.
 
 ## @awdlab/jig 0.0.1-next.3 (2026-08-06)
 
 - Nova theme redesign + various fixes
-- New `@awdlab/jig/kbd` entry point: `jig-kbd` displays a keyboard shortcut, `[ngnKeyboardShortcut]` runs shortcut callbacks scoped to focus within an element (a binding marked `global` fires page-wide instead), and the exported helpers `parseShortcut`, `matchesShortcut`, `formatShortcut`, `ariaKeyShortcuts` and `closestShortcutScope` are the Angular-free building blocks underneath. `mod` renders ⌘ on macOS and ⌃ elsewhere, matching the key it resolves to. `@awdlab/jig/api/ng` gains the `isMacPlatform()` helper the `mod` resolution is built on.
+- New `@awdlab/jig/kbd` entry point: `jig-kbd` displays a keyboard shortcut, `[jigKeyboardShortcut]` runs shortcut callbacks scoped to focus within an element (a binding marked `global` fires page-wide instead), and the exported helpers `parseShortcut`, `matchesShortcut`, `formatShortcut`, `ariaKeyShortcuts` and `closestShortcutScope` are the Angular-free building blocks underneath. `mod` renders ⌘ on macOS and ⌃ elsewhere, matching the key it resolves to. `@awdlab/jig/api/ng` gains the `isMacPlatform()` helper the `mod` resolution is built on.
 
 New `@awdlab/jig/command` entry point: `jig-command` is a command palette — a modal dialog wrapping a search field and a list box, with grouped items, per-command shortcuts, `route` navigation, and templates for items, groups and the empty state. Ships `command_*` translations (en, de) and theme parts for base, nova, material and shade.
 
-`JigActionButtonConfig` gains `shortcut`: the button registers it with the nearest ancestor `[ngnKeyboardShortcut]` scope, renders the glyphs inline as a hidden keycap, and sets `aria-keyshortcuts`. `JigActionItem` gains `shortcut` for the same purpose in item-driven hosts. `jig-dialog` is itself a scope, so footer buttons need no extra wiring.
+`JigActionButtonConfig` gains `shortcut`: the button registers it with the nearest ancestor `[jigKeyboardShortcut]` scope, renders the glyphs inline as a hidden keycap, and sets `aria-keyshortcuts`. `JigActionItem` gains `shortcut` for the same purpose in item-driven hosts. `jig-dialog` is itself a scope, so footer buttons need no extra wiring.
 
 `jig-dialog` gains `closeButton` (default `true`) and `label`. With `closeButton` set to `false` and neither a title nor a header template the header is dropped entirely, and the footer is likewise dropped when nothing fills it. `aria-labelledby` is only emitted when a header actually renders; `label` supplies `aria-label` for a dialog with no visible title.
 

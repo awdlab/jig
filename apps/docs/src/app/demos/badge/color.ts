@@ -7,8 +7,8 @@ import { JigButton } from '@awdlab/jig/button';
   imports: [JigBadge, JigButton],
   template: `
     <div class="flex gap-8 p-6">
-      <button ngnButton [ngnBadge]="3" ngnBadgeColor="#e11d48">Alerts</button>
-      <button ngnButton [ngnBadge]="7" ngnBadgeColor="var(--jig-color-success-500)">Done</button>
+      <button jigButton [jigBadge]="3" jigBadgeColor="#e11d48">Alerts</button>
+      <button jigButton [jigBadge]="7" jigBadgeColor="var(--jig-color-success-500)">Done</button>
     </div>
   `,
 })

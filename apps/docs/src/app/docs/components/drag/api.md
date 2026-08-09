@@ -1,14 +1,14 @@
 ## JigDrag
 
-Selector: `[ngnDrag]`
+Selector: `[jigDrag]`
 
 {{ api: directives/drag/drag JigDrag }}
 
 ## JigDragScroll
 
-Selector: `[ngnDragScroll]`
+Selector: `[jigDragScroll]`
 
-Same outputs as `ngnDrag`; each move additionally scrolls the host by the
+Same outputs as `jigDrag`; each move additionally scrolls the host by the
 inverse delta.
 
 {{ api: directives/drag/drag-scroll JigDragScroll }}

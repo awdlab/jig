@@ -7,8 +7,8 @@ import { DummyLoremIpsumComponent1 } from '../dummies/lorem-ipsum';
 @Component({
   selector: 'jig-demo-dialog-create-dialog',
   imports: [JigButton],
-  template: `<button ngnButton (click)="showDialog()">Open Dialog</button>
-    <button ngnButton (click)="showComponentDialog()">Open Component Dialog</button>`,
+  template: `<button jigButton (click)="showDialog()">Open Dialog</button>
+    <button jigButton (click)="showComponentDialog()">Open Component Dialog</button>`,
 })
 export class Demo_Dialog_CreateDialog {
   private readonly _injector = inject(Injector);

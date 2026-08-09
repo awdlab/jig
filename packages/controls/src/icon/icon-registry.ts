@@ -6,7 +6,7 @@ import type { IconType, JigIconEntry } from '@awdlab/jig-custom-types';
 
 export type { JigIconEntry } from '@awdlab/jig-custom-types';
 
-export const NGN_ICON_KEYS = [
+export const JIG_ICON_KEYS = [
   'accordion-collapse',
   'accordion-expand',
   'breadcrumb-separator',
@@ -54,23 +54,23 @@ export const NGN_ICON_KEYS = [
   'upload-remove',
 ] as const;
 
-export type JigIconKey = (typeof NGN_ICON_KEYS)[number];
+export type JigIconKey = (typeof JIG_ICON_KEYS)[number];
 
 export type JigIconRegistry = Record<JigIconKey, IconifyIcon | JigIconEntry>;
 
 export type JigCustomIconRegistry = Record<JigIconKey, IconType>;
 
-export const NGN_ICON_REGISTRY = new InjectionToken<JigIconRegistry | JigCustomIconRegistry>(
-  'NGN_ICON_REGISTRY'
+export const JIG_ICON_REGISTRY = new InjectionToken<JigIconRegistry | JigCustomIconRegistry>(
+  'JIG_ICON_REGISTRY'
 );
 
-export const NGN_CUSTOM_ICONS = new InjectionToken<boolean>('NGN_CUSTOM_ICONS');
+export const JIG_CUSTOM_ICONS = new InjectionToken<boolean>('JIG_CUSTOM_ICONS');
 
 export function withCustomIcons(registry: JigCustomIconRegistry): JigFeature {
   return {
     providers: [
-      { provide: NGN_ICON_REGISTRY, useValue: registry },
-      { provide: NGN_CUSTOM_ICONS, useValue: true },
+      { provide: JIG_ICON_REGISTRY, useValue: registry },
+      { provide: JIG_CUSTOM_ICONS, useValue: true },
     ],
   };
 }

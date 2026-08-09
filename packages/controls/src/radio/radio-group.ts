@@ -3,7 +3,7 @@ import { provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { JigRovingGroup } from '@awdlab/jig/roving-focus';
 import { radioGroupControlTemplate } from '@awdlab/jig-themes/templates/radio-group';
 
-import { NGN_RADIO_GROUP, type JigRadioGroupApi, type JigRadioRef } from './radio-group.token';
+import { JIG_RADIO_GROUP, type JigRadioGroupApi, type JigRadioRef } from './radio-group.token';
 
 /**
  * A themed radio group. Owns the selected {@link value}; the individual
@@ -21,7 +21,7 @@ import { NGN_RADIO_GROUP, type JigRadioGroupApi, type JigRadioRef } from './radi
   selector: 'jig-radio-group',
   templateUrl: './radio-group.html',
   hostDirectives: [{ directive: JigRovingGroup, inputs: ['orientation', 'rovingWrap'] }],
-  providers: [provideSelf(JigRadioGroup), { provide: NGN_RADIO_GROUP, useExisting: JigRadioGroup }],
+  providers: [provideSelf(JigRadioGroup), { provide: JIG_RADIO_GROUP, useExisting: JigRadioGroup }],
   host: {
     role: 'radiogroup',
     '[attr.aria-label]': 'label()',

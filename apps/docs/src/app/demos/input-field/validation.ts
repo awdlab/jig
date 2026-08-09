@@ -10,7 +10,7 @@ import { JigInputField } from '@awdlab/jig/input-field';
   imports: [FormsModule, JigErrors, JigHint, JigInput, JigInputField],
   template: `
     <jig-input-field [label]="'Project name'" [labelKind]="'on'" class="w-72">
-      <input ngnInput name="project" ngModel required ngnErrors [ngnErrorsHint]="projectHint" />
+      <input jigInput name="project" ngModel required jigErrors [jigErrorsHint]="projectHint" />
     </jig-input-field>
     <jig-hint #projectHint />
   `,

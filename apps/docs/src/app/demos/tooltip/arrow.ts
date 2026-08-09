@@ -5,10 +5,10 @@ import { JigTooltip } from '@awdlab/jig/tooltip';
 @Component({
   imports: [JigButton, JigTooltip],
   selector: 'jig-demo-tooltip-arrow',
-  template: `<button ngnButton [ngnTooltip]="'Hello World!'" [ngnTooltipShowArrow]="true">
+  template: `<button jigButton [jigTooltip]="'Hello World!'" [jigTooltipShowArrow]="true">
       With Arrow
     </button>
-    <button ngnButton [ngnTooltip]="'Hello World!'" [ngnTooltipShowArrow]="false">
+    <button jigButton [jigTooltip]="'Hello World!'" [jigTooltipShowArrow]="false">
       Without Arrow
     </button>`,
   styles: `

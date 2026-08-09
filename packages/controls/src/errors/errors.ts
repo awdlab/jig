@@ -27,15 +27,15 @@ import type {
 /**
  * Resolves validation errors for the control it sits on and exposes them as
  * normalized, message-mapped signals — ready to bridge into an {@link JigHint}
- * via {@link JigErrors.ngnErrorsHint}.
+ * via {@link JigErrors.jigErrorsHint}.
  *
  * Which form paradigm is in play is abstracted away by {@link injectJigControlState}:
  * template-driven (`ngModel`), reactive (`formControl` / `formControlName`) and
  * signal forms (`[formField]`) all surface as one reactive state, including
  * relevant parent-group errors and a no-form `touched` fallback.
  *
- * `ngnErrorsCustom` layers on additional errors independently of any form, and
- * {@link JigErrors.ngnErrorsShowOn} controls when messages surface (defaults to
+ * `jigErrorsCustom` layers on additional errors independently of any form, and
+ * {@link JigErrors.jigErrorsShowOn} controls when messages surface (defaults to
  * `touched`). Error keys map onto the shared message table; signal-forms
  * `minLength` / `maxLength` kinds have their own table entries alongside the
  * classic lowercase `minlength` / `maxlength`.
@@ -43,39 +43,39 @@ import type {
  * @category control
  */
 @Directive({
-  selector: '[ngnErrors]',
-  exportAs: 'ngnErrors',
+  selector: '[jigErrors]',
+  exportAs: 'jigErrors',
 })
 export class JigErrors {
   /**
    * Hint instance that receives the resolved validation state.
    * @category inputs
    */
-  public readonly ngnErrorsHint = input<JigHint | undefined>();
+  public readonly jigErrorsHint = input<JigHint | undefined>();
 
   /**
    * Interaction state that controls when errors become visible.
    * @category inputs
    */
-  public readonly ngnErrorsShowOn = input<JigErrorsShowOn>('touched');
+  public readonly jigErrorsShowOn = input<JigErrorsShowOn>('touched');
 
   /**
    * Whether to show the first matching error or all messages.
    * @category inputs
    */
-  public readonly ngnErrorsMode = input<JigErrorsMode>('first');
+  public readonly jigErrorsMode = input<JigErrorsMode>('first');
 
   /**
    * Per-instance messages that override globally provided defaults.
    * @category inputs
    */
-  public readonly ngnErrorsMessages = input<JigErrorsMessages | null>(null);
+  public readonly jigErrorsMessages = input<JigErrorsMessages | null>(null);
 
   /**
    * Additional errors supplied independently of Angular form validation.
    * @category inputs
    */
-  public readonly ngnErrorsCustom = input<JigErrorsCustom>(null);
+  public readonly jigErrorsCustom = input<JigErrorsCustom>(null);
 
   /** Paradigm-agnostic view of the host control (see {@link injectJigControlState}). */
   private readonly _state = injectJigControlState();
@@ -121,7 +121,7 @@ export class JigErrors {
       return false;
     }
 
-    switch (this.ngnErrorsShowOn()) {
+    switch (this.jigErrorsShowOn()) {
       case 'always':
         return true;
       case 'never':
@@ -146,7 +146,7 @@ export class JigErrors {
     }
 
     const errors = this.errors();
-    if (this.ngnErrorsMode() === 'all') {
+    if (this.jigErrorsMode() === 'all') {
       return errors.map(error => error.message).join('\n') || null;
     }
 
@@ -162,11 +162,11 @@ export class JigErrors {
   }));
 
   constructor() {
-    // `ngnErrors` renders the error *message* only — it never touches invalid
+    // `jigErrors` renders the error *message* only — it never touches invalid
     // styling. The control owns its invalid border (via its own `invalidOn`
     // trigger), and the input field mirrors its child. See {@link JigErrors}.
     effect(() => {
-      this.ngnErrorsHint()?.setValidationState(this.state());
+      this.jigErrorsHint()?.setValidationState(this.state());
     });
   }
 
@@ -177,7 +177,7 @@ export class JigErrors {
   }
 
   private _normalizeCustomErrors(): readonly JigError[] {
-    const errors = this.ngnErrorsCustom();
+    const errors = this.jigErrorsCustom();
     if (!errors) {
       return [];
     }
@@ -222,12 +222,12 @@ export class JigErrors {
 
   /**
    * Resolves a display message for an error, in priority order:
-   * per-instance {@link ngnErrorsMessages} → a message carried on the error
+   * per-instance {@link jigErrorsMessages} → a message carried on the error
    * itself → globally provided messages → the i18n `errors.*` default → the key.
    */
   private _resolveMessage(context: JigErrorsMessageContext): string {
     return (
-      resolveUserMessage(context, this.ngnErrorsMessages() ?? {}) ??
+      resolveUserMessage(context, this.jigErrorsMessages() ?? {}) ??
       carriedMessage(context.value) ??
       resolveUserMessage(context, this._globalMessages) ??
       this._translate(context.key, context.params) ??
@@ -249,7 +249,7 @@ export class JigErrors {
       params: error.params,
     };
     return (
-      resolveUserMessage(context, this.ngnErrorsMessages() ?? {}) === undefined &&
+      resolveUserMessage(context, this.jigErrorsMessages() ?? {}) === undefined &&
       carriedMessage(context.value) === undefined &&
       resolveUserMessage(context, this._globalMessages) === undefined
     );

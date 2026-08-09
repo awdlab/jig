@@ -7,27 +7,27 @@ import { JigState } from '@awdlab/jig/state';
   selector: 'jig-demo-state-button',
   template: `
     <div class="flex flex-wrap items-center gap-3">
-      <button ngnButton>
+      <button jigButton>
         Save
         <jig-state kind="loading" />
       </button>
-      <button ngnButton>
+      <button jigButton>
         Publishing
         <jig-state kind="loading" replaceContent />
       </button>
-      <button ngnButton kind="secondary">
+      <button jigButton kind="secondary">
         Saved
         <jig-state kind="success" />
       </button>
-      <button ngnButton kind="secondary">
+      <button jigButton kind="secondary">
         Review
         <jig-state kind="warning" />
       </button>
-      <button ngnButton kind="secondary">
+      <button jigButton kind="secondary">
         Failed
         <jig-state kind="error" />
       </button>
-      <button ngnButton kind="secondary">
+      <button jigButton kind="secondary">
         Cancelled
         <jig-state kind="cancelled" />
       </button>

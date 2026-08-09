@@ -11,7 +11,7 @@ import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigRovingItem } from '@awdlab/jig/roving-focus';
 import { radioControlTemplate } from '@awdlab/jig-themes/templates/radio';
 
-import { NGN_RADIO_GROUP } from './radio-group.token';
+import { JIG_RADIO_GROUP } from './radio-group.token';
 
 /**
  * A single radio option. Must be projected inside an `jig-radio-group`, which
@@ -47,7 +47,7 @@ export class JigRadio<V> extends JigBase<'radio'> {
   /** Optional accessible label; overrides projected content for the a11y name. */
   public readonly label = input<string | null>(null);
 
-  private readonly _group = inject(NGN_RADIO_GROUP);
+  private readonly _group = inject(JIG_RADIO_GROUP);
   private readonly _rovingItem = inject(JigRovingItem);
 
   /** Whether this radio is the currently selected option in its group. */

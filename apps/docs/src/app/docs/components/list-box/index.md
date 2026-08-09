@@ -13,7 +13,7 @@ height so it scrolls. Without `selectable` the list is purely for display.
 
 ### Validation
 
-Wired with the `ngnErrors` directive, the list box surfaces validation like any
+Wired with the `jigErrors` directive, the list box surfaces validation like any
 other value control. Here a `required` error shows until an item is selected.
 
 {{ demo: Demo_ListBox_Validation }}

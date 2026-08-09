@@ -6,9 +6,9 @@ import { JigButtonGroup } from '@awdlab/jig/button-group';
   selector: 'jig-demo-button-group-base',
   imports: [JigButton, JigButtonGroup],
   template: `<jig-button-group>
-    <button ngnButton kind="primary">Button A</button>
-    <button ngnButton kind="primary">Button B</button>
-    <button ngnButton kind="primary">Button C123</button>
+    <button jigButton kind="primary">Button A</button>
+    <button jigButton kind="primary">Button B</button>
+    <button jigButton kind="primary">Button C123</button>
   </jig-button-group>`,
 })
 export class Demo_ButtonGroup_Base {}

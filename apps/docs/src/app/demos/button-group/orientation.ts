@@ -7,14 +7,14 @@ import { JigButtonGroup } from '@awdlab/jig/button-group';
   imports: [JigButton, JigButtonGroup],
   template: `<div class="flex flex-wrap items-start gap-8">
     <jig-button-group orientation="horizontal">
-      <button ngnButton kind="primary">Button A</button>
-      <button ngnButton kind="primary">Button B</button>
-      <button ngnButton kind="primary">Button C123</button>
+      <button jigButton kind="primary">Button A</button>
+      <button jigButton kind="primary">Button B</button>
+      <button jigButton kind="primary">Button C123</button>
     </jig-button-group>
     <jig-button-group orientation="vertical">
-      <button ngnButton kind="primary">Button A</button>
-      <button ngnButton kind="primary">Button B</button>
-      <button ngnButton kind="primary">Button C123</button>
+      <button jigButton kind="primary">Button A</button>
+      <button jigButton kind="primary">Button B</button>
+      <button jigButton kind="primary">Button C123</button>
     </jig-button-group>
   </div>`,
 })

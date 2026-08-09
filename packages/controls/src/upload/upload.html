@@ -15,7 +15,7 @@
   @if (showUploadAll()) {
     <div [ptInt]="this" [ptClass]="'footer'">
       <button
-        ngnButton
+        jigButton
         kind="primary"
         type="button"
         [ptInt]="this"
@@ -69,7 +69,7 @@
         <div [ptInt]="this" [ptClass]="'actions'">
           @if (showPerItem() && item.state === 'pending') {
             <button
-              ngnButton
+              jigButton
               kind="text"
               type="button"
               [ptInt]="this"
@@ -82,7 +82,7 @@
           }
           @if (item.state === 'failed') {
             <button
-              ngnButton
+              jigButton
               kind="text"
               type="button"
               [ptInt]="this"
@@ -96,7 +96,7 @@
           <!-- Single dismiss action: cancels the in-flight upload and removes the
                item while uploading, otherwise just removes it. -->
           <button
-            ngnButton
+            jigButton
             kind="text"
             type="button"
             [ptInt]="this"

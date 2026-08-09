@@ -18,7 +18,7 @@ import { exampleData } from '../../helper/data';
         <ng-template #content> {{ loremIpsum3 }} </ng-template>
       </jig-accordion-panel>
     </jig-accordion>
-    <button ngnButton (click)="toggleDisabled()">Toggle Disabled</button> `,
+    <button jigButton (click)="toggleDisabled()">Toggle Disabled</button> `,
 })
 export class Demo_Accordion_Disabled {
   protected readonly loremIpsum1 = exampleData.loremIpsum.full.split(' ').slice(0, 100).join(' ');

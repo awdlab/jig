@@ -8,13 +8,13 @@ test('input validation errors drive a normal hint', async ({ page }) => {
     template: `
         <div class="page-center" style="display: flex; flex-direction: column; gap: 0.5rem;">
           <input
-            ngnInput
+            jigInput
             name="email"
             ngModel
             required
             email
-            ngnErrors
-            [ngnErrorsHint]="emailHint"
+            jigErrors
+            [jigErrorsHint]="emailHint"
           />
           <jig-hint #emailHint />
         </div>
@@ -22,7 +22,7 @@ test('input validation errors drive a normal hint', async ({ page }) => {
     imports: ['input', 'hint', 'errors', 'forms'],
   });
 
-  const input = page.locator('input[ngnInput]');
+  const input = page.locator('input[jigInput]');
   const hint = page.locator('jig-hint');
 
   await expect(hint).toHaveText('');
@@ -40,10 +40,10 @@ test('custom checkbox errors drive a normal hint', async ({ page }) => {
     template: `
         <div class="page-center" style="display: flex; flex-direction: column; gap: 0.5rem;">
           <jig-checkbox
-            ngnErrors
-            ngnErrorsShowOn="always"
-            [ngnErrorsHint]="termsHint"
-            [ngnErrorsCustom]="{ terms: 'Accept the terms' }"
+            jigErrors
+            jigErrorsShowOn="always"
+            [jigErrorsHint]="termsHint"
+            [jigErrorsCustom]="{ terms: 'Accept the terms' }"
           />
           <jig-hint #termsHint />
         </div>
@@ -59,14 +59,14 @@ test('async validation shows pending and resolved messages', async ({ page }) =>
     template: `
         <div class="page-center" style="display: flex; flex-direction: column; gap: 0.5rem;">
           <input
-            ngnInput
+            jigInput
             name="server"
             ngModel
-            ngnTestAsyncValidator
-            ngnErrors
-            ngnErrorsShowOn="always"
-            [ngnErrorsHint]="serverHint"
-            [ngnErrorsMessages]="{ server: 'Server rejected the value' }"
+            jigTestAsyncValidator
+            jigErrors
+            jigErrorsShowOn="always"
+            [jigErrorsHint]="serverHint"
+            [jigErrorsMessages]="{ server: 'Server rejected the value' }"
           />
           <jig-hint #serverHint />
         </div>
@@ -86,7 +86,7 @@ test('accessibility (axe)', async ({ page }) => {
     template: `
       <div class="page-center" style="display: flex; flex-direction: column; gap: 0.5rem;">
         <jig-input-field label="Email">
-          <input ngnInput name="email" ngModel required email ngnErrors [ngnErrorsHint]="emailHint" />
+          <input jigInput name="email" ngModel required email jigErrors [jigErrorsHint]="emailHint" />
         </jig-input-field>
         <jig-hint #emailHint />
       </div>
@@ -94,7 +94,7 @@ test('accessibility (axe)', async ({ page }) => {
     imports: ['input', 'hint', 'errors', 'forms', 'inputField'],
   });
 
-  const input = page.locator('input[ngnInput]');
+  const input = page.locator('input[jigInput]');
   await input.focus();
   await input.blur();
   await expect(page.locator('jig-hint')).toContainText('Required');

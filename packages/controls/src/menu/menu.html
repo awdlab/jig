@@ -37,7 +37,7 @@
 
 <ng-template
   #regularItemTemplate
-  [ngnTemplate]="internalTemplateTypes.regularItem"
+  [jigTemplate]="internalTemplateTypes.regularItem"
   let-item
   let-index="index"
 >
@@ -50,7 +50,7 @@
       tabindex="-1"
       [attr.tabindex]="index === tabStopIndex() ? 0 : -1"
       (focus)="focusedIndex.set(index)"
-      [ngnAutofocus]="open() && autofocus() && index === 0"
+      [jigAutofocus]="open() && autofocus() && index === 0"
       [ptInt]="this"
       [ptClass]="{
         item: true,
@@ -84,7 +84,7 @@
       tabindex="-1"
       [attr.tabindex]="index === tabStopIndex() ? 0 : -1"
       (focus)="focusedIndex.set(index)"
-      [ngnAutofocus]="open() && autofocus() && index === 0"
+      [jigAutofocus]="open() && autofocus() && index === 0"
       [ptInt]="this"
       [ptClass]="'item'"
       [disabled]="item.disabled"
@@ -98,7 +98,7 @@
   }
 </ng-template>
 
-<ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
+<ng-template #defaultItemTemplate [jigTemplate]="templateTypes.item" let-item>
   {{ maybeCallback(item.label) }}
   @if (item.children) {
     <jig-icon

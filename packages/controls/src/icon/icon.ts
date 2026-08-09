@@ -6,7 +6,7 @@ import { Logger, JigError } from '@awdlab/jig/utils';
 import { iconControlTemplate } from '@awdlab/jig-themes/templates/icon';
 
 import { GlobalIconTemplate } from './global-icon-template';
-import { NGN_CUSTOM_ICONS, NGN_ICON_REGISTRY } from './icon-registry';
+import { JIG_CUSTOM_ICONS, JIG_ICON_REGISTRY } from './icon-registry';
 
 import type { JigIconEntry, JigIconKey, JigIconRegistry } from './icon-registry';
 import type { IconifyIcon } from '@iconify/types';
@@ -70,8 +70,8 @@ export class JigIcon extends JigBase<'icon'> {
   protected readonly theme = this.injectThemeTemplate(iconControlTemplate, 'root');
   private readonly _globalIconTemplate = inject(GlobalIconTemplate).globalIconTemplate;
   private readonly _sanitizer = inject(DomSanitizer);
-  private readonly _registry = inject(NGN_ICON_REGISTRY, { optional: true });
-  private readonly _isCustom = inject(NGN_CUSTOM_ICONS, { optional: true }) ?? false;
+  private readonly _registry = inject(JIG_ICON_REGISTRY, { optional: true });
+  private readonly _isCustom = inject(JIG_CUSTOM_ICONS, { optional: true }) ?? false;
 
   /**
    * A key into the registered icon set (from `withDefaultIcons()` or `withCustomIcons()`).

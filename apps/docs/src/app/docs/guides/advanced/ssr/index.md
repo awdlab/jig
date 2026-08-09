@@ -28,10 +28,10 @@ during bootstrap; see [i18n](/guides/i18n).
 
 ### What does not run on the server
 
-- **Focus.** `ngnAutofocus` and every control's focus management are
+- **Focus.** `jigAutofocus` and every control's focus management are
   `afterNextRender`-based and inert on the server.
-- **Pointer gestures.** `ngnDrag`, `ngnDragScroll`, `ngnMovable` and
-  `ngnResizable` do nothing until hydration.
+- **Pointer gestures.** `jigDrag`, `jigDragScroll`, `jigMovable` and
+  `jigResizable` do nothing until hydration.
 - **Measurement.** Anything driven by `ResizeObserver` or `getBoundingClientRect`
   — virtual scrolling window size, overlay positioning, scroll geometry —
   reports its initial value until the client measures. Virtualized lists

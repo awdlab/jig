@@ -17,7 +17,7 @@ as they go — and the group is a single tab stop that lands on the checked opti
 ### Validation
 
 The group is a signal-forms value control, so it binds to a form field and works
-with `ngnErrors`. Here leaving it unselected raises a required error.
+with `jigErrors`. Here leaving it unselected raises a required error.
 
 {{ demo: Demo_Radio_Validation }}
 

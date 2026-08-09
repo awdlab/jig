@@ -110,7 +110,7 @@ import { JigButton } from '@awdlab/jig/button';
 @Component({
   selector: 'app-example',
   imports: [JigButton],
-  template: `<button ngnButton kind="primary">Save</button>`,
+  template: `<button jigButton kind="primary">Save</button>`,
 })
 export class ExampleComponent {}
 ```

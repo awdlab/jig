@@ -20,15 +20,15 @@ surface the outcome with `jig-snackbar` or `jig-toast`.
 ## Skeleton
 
 ```html
-<button ngnButton (click)="open.set(true)">Edit</button>
+<button jigButton (click)="open.set(true)">Edit</button>
 
 <jig-dialog [(open)]="open" [modal]="true">
   <jig-input-field label="Title">
-    <input ngnInput [(value)]="draft" />
+    <input jigInput [(value)]="draft" />
   </jig-input-field>
 
-  <button ngnButton (click)="open.set(false)">Cancel</button>
-  <button ngnButton (click)="confirm()">Save</button>
+  <button jigButton (click)="open.set(false)">Cancel</button>
+  <button jigButton (click)="confirm()">Save</button>
 </jig-dialog>
 ```
 

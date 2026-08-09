@@ -63,7 +63,7 @@
         <jig-input-field class="w-full">
           <jig-icon [icon]="searchIcon" />
           <input
-            ngnInput
+            jigInput
             placeholder="Search conversations..."
             [value]="search()"
             (valueChange)="onSearch($event)"
@@ -100,10 +100,10 @@
               } @else {
                 <span
                   class="inline-flex shrink-0"
-                  ngnBadgeDot
-                  ngnBadgeCircular
-                  ngnBadgePosition="bottom-end"
-                  [ngnBadgeColor]="presenceColor[dmPartner(c).presence]"
+                  jigBadgeDot
+                  jigBadgeCircular
+                  jigBadgePosition="bottom-end"
+                  [jigBadgeColor]="presenceColor[dmPartner(c).presence]"
                 >
                   <jig-avatar
                     [initials]="dmPartner(c).initials"
@@ -153,7 +153,7 @@
       >
         @if (narrow()) {
           <button
-            ngnButton
+            jigButton
             kind="icon"
             class="shrink-0"
             aria-label="Back to conversations"
@@ -183,17 +183,17 @@
                   [initials]="m.initials"
                   [bgColor]="m.color"
                   [size]="32"
-                  [ngnTooltip]="m.name"
+                  [jigTooltip]="m.name"
                 />
               }
             </jig-avatar-group>
           }
           <button
-            ngnButton
+            jigButton
             kind="icon"
-            ngnTooltip="Toggle details"
-            [ngnTooltipShowOnHover]="!narrow()"
-            [ngnTooltipShowOnFocus]="!narrow()"
+            jigTooltip="Toggle details"
+            [jigTooltipShowOnHover]="!narrow()"
+            [jigTooltipShowOnFocus]="!narrow()"
             (click)="toggleDetails()"
           >
             <jig-icon [icon]="detailsIcon" />
@@ -355,7 +355,7 @@
                       </button>
                     }
                     <button
-                      ngnButton
+                      jigButton
                       kind="icon"
                       size="sm"
                       #emojiBtn
@@ -385,7 +385,7 @@
                       </div>
                     </jig-popover>
                     <button
-                      ngnButton
+                      jigButton
                       kind="icon"
                       size="sm"
                       #menuBtn
@@ -442,7 +442,7 @@
                       [initials]="r.initials"
                       [bgColor]="r.color"
                       [size]="16"
-                      [ngnTooltip]="'Seen by ' + r.name"
+                      [jigTooltip]="'Seen by ' + r.name"
                     />
                   }
                 </div>
@@ -475,11 +475,11 @@
       <div class="border-t border-(--jig-color-surface-100) p-(--jig-size-padding-lg)">
         <div class="flex items-center gap-(--jig-size-padding-md)">
           <jig-input-field class="grow">
-            <button ngnButton kind="icon" aria-label="Attach file" ngnTooltip="Attach">
+            <button jigButton kind="icon" aria-label="Attach file" jigTooltip="Attach">
               <jig-icon [icon]="paperclipIcon" />
             </button>
             <input
-              ngnInput
+              jigInput
               [placeholder]="
                 'Message ' + (isChannel(active()) ? active().name : dmPartner(active()).name)
               "
@@ -489,7 +489,7 @@
             />
           </jig-input-field>
           <button
-            ngnButton
+            jigButton
             color="primary"
             class="shrink-0"
             aria-label="Send message"
@@ -515,7 +515,7 @@
         <span class="flex items-center gap-(--jig-size-padding-sm)">
           @if (narrow()) {
             <button
-              ngnButton
+              jigButton
               kind="icon"
               class="shrink-0"
               aria-label="Back to messages"
@@ -572,10 +572,10 @@
               <li class="flex items-center gap-(--jig-size-padding-md)">
                 <span
                   class="inline-flex shrink-0"
-                  ngnBadgeDot
-                  ngnBadgeCircular
-                  ngnBadgePosition="bottom-end"
-                  [ngnBadgeColor]="presenceColor[m.presence]"
+                  jigBadgeDot
+                  jigBadgeCircular
+                  jigBadgePosition="bottom-end"
+                  [jigBadgeColor]="presenceColor[m.presence]"
                 >
                   <jig-avatar [initials]="m.initials" [bgColor]="m.color" [size]="32" />
                 </span>

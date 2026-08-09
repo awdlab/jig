@@ -23,7 +23,7 @@ import { JigDocsSectionHeader } from './section-header';
   ],
   host: { class: 'block px-(--jig-size-padding-xl) py-12 lg:py-16' },
   template: `
-    <div [ngnDocsReveal]="0" class="mx-auto max-w-[1100px]">
+    <div [jigDocsReveal]="0" class="mx-auto max-w-[1100px]">
       <jig-docs-section-header
         class="mb-8 lg:mb-12"
         eyebrow="Under the hood"
@@ -52,7 +52,7 @@ import { JigDocsSectionHeader } from './section-header';
             Opened with <code>showModal()</code>: focus trap, <code>::backdrop</code>, Esc to close
             and correct stacking all come from the browser. No z-index wars, no portals.
           </p>
-          <button ngnButton kind="primary" (click)="dialogOpen.set(true)">Open dialog</button>
+          <button jigButton kind="primary" (click)="dialogOpen.set(true)">Open dialog</button>
         </div>
 
         <div

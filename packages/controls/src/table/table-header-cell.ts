@@ -29,7 +29,7 @@ import type { ResizableItem, ResizeLimit, ResizeSize } from '@awdlab/jig/api/res
  * @category directive
  */
 @Directive({
-  selector: '[ngnTableTh]',
+  selector: '[jigTableTh]',
   host: {
     role: 'columnheader',
     '[style.--jig-table-column-index]': '_visualColumnIndex()',
@@ -43,7 +43,7 @@ export class JigTableTh extends JigBase<'table'> implements ResizableItem, OnDes
   private _resizeHandle?: HTMLDivElement;
 
   /** The unique column identifier for this header cell, used for sorting, filtering, sticky, and reorder. */
-  public readonly ngnTableTh = input.required<string>();
+  public readonly jigTableTh = input.required<string>();
 
   /**
    * The size of this column (e.g. '1fr', '200px', '25%').
@@ -88,7 +88,7 @@ export class JigTableTh extends JigBase<'table'> implements ResizableItem, OnDes
   public readonly _visualColumnIndex = computed(() => {
     if (!this._table) return undefined;
     const map = this._table.columnOrderMap();
-    return map.get(this.ngnTableTh()) ?? this.getColumnIndex() + 1;
+    return map.get(this.jigTableTh()) ?? this.getColumnIndex() + 1;
   });
 
   /** `aria-colindex` — visual index plus the selection column the theme offsets in CSS. */
@@ -146,7 +146,7 @@ export class JigTableTh extends JigBase<'table'> implements ResizableItem, OnDes
     afterRenderEffect(() => {
       const table = this._tableSignal();
       if (!table) return;
-      const info = table.getStickyInfo(this.ngnTableTh());
+      const info = table.getStickyInfo(this.jigTableTh());
       const el = this.element.nativeElement;
       toggleClass(el, this.theme.class('sticky-start'), info?.side === 'start');
       toggleClass(el, this.theme.class('sticky-end'), info?.side === 'end');
@@ -173,7 +173,7 @@ export class JigTableTh extends JigBase<'table'> implements ResizableItem, OnDes
   public ngOnInit(): void {
     const table = getNearestJigInstance(this.element.nativeElement, JigTable<any, any>);
     if (!table) {
-      throw new JigError('ngnTableTh', 'ngnTableTh must be used within an JigTable component');
+      throw new JigError('jigTableTh', 'jigTableTh must be used within an JigTable component');
     }
     this._table = table;
     this._tableSignal.set(table);

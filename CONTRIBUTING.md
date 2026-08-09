@@ -76,7 +76,7 @@ These are enforced by review, and mostly by lint:
   `@Output()` decorators.
 - **Booleans** — `input(false, { transform: booleanAttribute })`.
 - **Selectors** — `jig-{name}` for elements (folder name and selector match),
-  camelCase attributes (`ngnButton`) for directives on native elements.
+  camelCase attributes (`jigButton`) for directives on native elements.
 - **Icon inputs** are `icon`-prefixed: `iconClose`, never `closeIcon`. A new
   default icon slot must be registered in the icon registry, the default icon
   set, and the provider.

@@ -8,8 +8,8 @@ export type JigSnackbarFeature = {
   providers: Provider[];
 };
 
-export const NGN_SNACKBAR_USER_DEFAULTS = new InjectionToken<JigSnackbarOptionsMeta>(
-  'NGN_SNACKBAR_USER_DEFAULTS'
+export const JIG_SNACKBAR_USER_DEFAULTS = new InjectionToken<JigSnackbarOptionsMeta>(
+  'JIG_SNACKBAR_USER_DEFAULTS'
 );
 
 export function withSnackbars(defaultOptions?: JigSnackbarOptionsMeta): JigSnackbarFeature {
@@ -17,7 +17,7 @@ export function withSnackbars(defaultOptions?: JigSnackbarOptionsMeta): JigSnack
     providers: [
       JigSnackbarManager,
       {
-        provide: NGN_SNACKBAR_USER_DEFAULTS,
+        provide: JIG_SNACKBAR_USER_DEFAULTS,
         useValue: defaultOptions || {},
       },
     ],

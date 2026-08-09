@@ -7,13 +7,13 @@
   [(open)]="open"
   [closeBy]="closeBy()"
   [size]="size()"
-  [ngnKeyboardShortcut]="shortcutBindings()"
+  [jigKeyboardShortcut]="shortcutBindings()"
 >
   <jig-input-field [ptInt]="this" [ptDep]="'search'">
     <jig-icon [ptInt]="this" [ptClass]="'search-icon'" [icon]="iconSearch()" defaultIcon="search" />
     <input
       #searchInput
-      ngnInput
+      jigInput
       role="combobox"
       aria-haspopup="listbox"
       aria-expanded="true"
@@ -64,7 +64,7 @@
   </ng-template>
 </jig-dialog>
 
-<ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
+<ng-template #defaultItemTemplate [jigTemplate]="templateTypes.item" let-item>
   <span [ptInt]="this" [ptClass]="'item'" [attr.data-testid]="item?.testId">
     @if (item?.icon; as icon) {
       <jig-icon [ptInt]="this" [ptClass]="'item-icon'" [icon]="icon" />

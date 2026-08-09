@@ -76,7 +76,7 @@ themes build before it resolves.
 
 ### Conventions (enforced)
 
-- **Selector:** `jig-{name}` element, or a camelCase attribute (`ngnButton`, `ngnInput`)
+- **Selector:** `jig-{name}` element, or a camelCase attribute (`jigButton`, `jigInput`)
   for directives on native elements. Folder name and selector are the same kebab-case.
 - **Signals only:** `input()` / `model()` / `output()` — never `@Input()`/`@Output()`.
 - **Booleans:** `input(false, { transform: booleanAttribute })`.

@@ -1,10 +1,10 @@
 import { Directive, input } from '@angular/core';
 
 @Directive({
-  selector: 'ng-template[ngnTemplate]',
+  selector: 'ng-template[jigTemplate]',
 })
 export class JigTemplate<T> {
-  public readonly ngnTemplate = input.required<T>();
+  public readonly jigTemplate = input.required<T>();
 
   public static ngTemplateContextGuard<T>(dir: JigTemplate<T>, ctx: unknown): ctx is T {
     return true;

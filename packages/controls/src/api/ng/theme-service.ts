@@ -22,7 +22,7 @@ import {
 import { globalStyles } from '@awdlab/jig-themes/base/global';
 import { skip } from 'rxjs';
 
-import { NGN_CONFIG, type JigConfig } from './config';
+import { JIG_CONFIG, type JigConfig } from './config';
 
 export type AppliedThemeClassCfg<T extends ControlName> =
   | keyof ThemeClasses<ThemeTemplate[T]>
@@ -69,7 +69,7 @@ export function injectThemeTemplate<T extends ControlTemplate<string, string[]>>
   template: T,
   options?: { injector?: Injector; unstyled?: () => boolean }
 ): ControlTemplateInfo<T> {
-  const config = options?.injector?.get(NGN_CONFIG) ?? inject(NGN_CONFIG);
+  const config = options?.injector?.get(JIG_CONFIG) ?? inject(JIG_CONFIG);
   const themeService = options?.injector?.get(ThemeService) ?? inject(ThemeService);
   themeService.loadScope(template.scope);
   return themeTemplateToTemplateInfo(config, template, { unstyled: options?.unstyled });
@@ -120,7 +120,7 @@ export function getAppliedClasses<T extends ControlName>(
 
 @Injectable()
 export class ThemeService implements OnDestroy {
-  private readonly _config = inject(NGN_CONFIG);
+  private readonly _config = inject(JIG_CONFIG);
   private readonly _loadedScopes = new Set<string>();
   private readonly _document = inject(DOCUMENT);
 

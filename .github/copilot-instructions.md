@@ -38,10 +38,10 @@ This is **awdlab Controls**, an Angular component library that provides a compre
 
 ### Angular Components
 
-- **Component prefix**: `jig` (e.g., `ngnButton`, `ngnInput`)
+- **Component prefix**: `jig` (e.g., `jigButton`, `jigInput`)
 - **Selector style**:
   - Element selectors: `kebab-case` (e.g., `jig-button`)
-  - Attribute selectors: `camelCase` (e.g., `ngnButton`)
+  - Attribute selectors: `camelCase` (e.g., `jigButton`)
 - **Change detection**: Zoneless (Angular 22 default); `OnPush` no longer tool-enforced
 - **Component class suffix**: Not required
 - **Base class**: Extend `JigBase<T>` for component base functionality
@@ -227,7 +227,7 @@ import { Directive, input } from '@angular/core';
 import { JigBase, provideSelf } from '@awdlab/jig/base';
 
 @Directive({
-  selector: '[ngnExample]',
+  selector: '[jigExample]',
   providers: [provideSelf(JigExample)],
   host: {
     '[class]': 'theme.classes({ /* ... */ })',

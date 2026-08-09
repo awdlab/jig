@@ -14,7 +14,7 @@ import { JigButton } from '@awdlab/jig/button';
             the header; in linear mode you still can't jump past an incomplete step.
           </p>
           <button
-            ngnButton
+            jigButton
             kind="secondary"
             (click)="termsAccepted.set(true)"
             [disabled]="termsAccepted()"
@@ -33,7 +33,7 @@ import { JigButton } from '@awdlab/jig/button';
 
     <div class="flex gap-2">
       <button
-        ngnButton
+        jigButton
         kind="secondary"
         (click)="active.set(active() - 1)"
         [disabled]="active() === 0"
@@ -41,7 +41,7 @@ import { JigButton } from '@awdlab/jig/button';
         Back
       </button>
       <button
-        ngnButton
+        jigButton
         kind="primary"
         (click)="active.set(active() + 1)"
         [disabled]="active() === 2 || !canAdvance()"

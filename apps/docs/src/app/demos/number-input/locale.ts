@@ -10,7 +10,7 @@ import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
     <div class="flex flex-col gap-4">
       <jig-input-field [label]="'Amount (de-DE)'" [labelKind]="'on'">
         <input
-          ngnNumberInput
+          jigNumberInput
           locale="de-DE"
           [step]="0.5"
           [formatOptions]="{ minimumFractionDigits: 2 }"
@@ -21,7 +21,7 @@ import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
       </jig-input-field>
       <jig-input-field [label]="'Amount (en-US)'" [labelKind]="'on'">
         <input
-          ngnNumberInput
+          jigNumberInput
           locale="en-US"
           [step]="0.5"
           [formatOptions]="{ minimumFractionDigits: 2 }"

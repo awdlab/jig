@@ -8,7 +8,7 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
   imports: [JigButton, JigDocsPlayground],
   template: `
     <jig-docs-playground [controls]="[{ componentName: 'JigButton', component: component() }]">
-      <button #ref ngnButton>
+      <button #ref jigButton>
         @if (component().appliedKind() === 'icon') {
           👽
         } @else {

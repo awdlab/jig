@@ -7,7 +7,7 @@ import { JigKeyboardShortcut, type JigShortcutBinding } from './keyboard-shortcu
 @Component({
   imports: [JigKeyboardShortcut],
   template: `
-    <div [ngnKeyboardShortcut]="bindings()">
+    <div [jigKeyboardShortcut]="bindings()">
       <button id="inner">Inner</button>
       <input id="text" />
     </div>
@@ -21,8 +21,8 @@ class ScopeHost {
 @Component({
   imports: [JigKeyboardShortcut],
   template: `
-    <div [ngnKeyboardShortcut]="outer()">
-      <div [ngnKeyboardShortcut]="inner()">
+    <div [jigKeyboardShortcut]="outer()">
+      <div [jigKeyboardShortcut]="inner()">
         <button id="deep">Deep</button>
       </div>
     </div>
@@ -36,7 +36,7 @@ class NestedHost {
 @Component({
   imports: [JigKeyboardShortcut],
   template: `
-    <div [ngnKeyboardShortcut]="bindings()">
+    <div [jigKeyboardShortcut]="bindings()">
       <button id="inner">Inner</button>
     </div>
   `,

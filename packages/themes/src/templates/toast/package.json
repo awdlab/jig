@@ -1,14 +1,1 @@
-{
-  "name": "@awdlab/jig-themes/templates/toast",
-  "version": "0.0.0-PLACEHOLDER",
-  "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "esm2022": "./esm2022/templates/toast/index.mjs",
-      "esm": "./esm/templates/toast/index.mjs",
-      "default": "./fesm2022/awdlab-controls-themes-templates-toast.mjs"
-    }
-  },
-  "module": "./fesm2022/awdlab-controls-themes-templates-toast.mjs",
-  "typings": "./index.d.ts"
-}
+{}

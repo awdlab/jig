@@ -12,7 +12,7 @@ import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
   selector: 'jig-demo-upload-states',
   template: `
     <jig-upload
-      #up="ngnUpload"
+      #up="jigUpload"
       (upload)="onUpload($event, up)"
       (cancelUpload)="onCancel($event)"
       (remove)="onRemove($event)"

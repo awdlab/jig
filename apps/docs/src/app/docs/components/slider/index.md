@@ -14,7 +14,7 @@ set it; arrow keys nudge by `step`, and Home/End jump to `min`/`max`.
 ### Validation
 
 The slider implements the signal-forms value-control contract, so it binds
-straight to a form field and works with `ngnErrors`. Here any value below 50 is
+straight to a form field and works with `jigErrors`. Here any value below 50 is
 flagged invalid.
 
 {{ demo: Demo_Slider_Validation }}

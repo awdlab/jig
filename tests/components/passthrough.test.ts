@@ -6,7 +6,7 @@ import { evalValue, loadComponent } from '../helper/load-component';
  * listener is destroyed, the engine has to detach it with `removeEventListener`.
  *
  * We probe this by patching `add/removeEventListener` for a custom event type
- * (`ngnleakprobe`) that nothing else in the app uses, so the counts are fully
+ * (`jigleakprobe`) that nothing else in the app uses, so the counts are fully
  * isolated. The handler lives on `window` as a stable reference, so re-setting
  * inputs never re-registers it.
  */
@@ -19,7 +19,7 @@ const PROBE_INIT = () => {
   w.__ptFixture = {
     root: {
       $listeners: {
-        ngnleakprobe: () => {
+        jigleakprobe: () => {
           w.__ptProbe.fired++;
         },
       },
@@ -30,14 +30,14 @@ const PROBE_INIT = () => {
   const origAdd = proto.addEventListener;
   const origRemove = proto.removeEventListener;
   proto.addEventListener = function (type, handler, opts) {
-    if (type === 'ngnleakprobe') {
+    if (type === 'jigleakprobe') {
       w.__ptProbe.added++;
       w.__ptProbe.el = this;
     }
     return origAdd.call(this, type, handler as EventListener, opts);
   };
   proto.removeEventListener = function (type, handler, opts) {
-    if (type === 'ngnleakprobe') {
+    if (type === 'jigleakprobe') {
       w.__ptProbe.removed++;
     }
     return origRemove.call(this, type, handler as EventListener, opts);
@@ -75,7 +75,7 @@ test('pt $listeners are removed when the element carrying them is destroyed', as
 
   // The listener is genuinely live: dispatching the event on its element fires it.
   await page.evaluate(() => {
-    (window as any).__ptProbe.el?.dispatchEvent(new Event('ngnleakprobe'));
+    (window as any).__ptProbe.el?.dispatchEvent(new Event('jigleakprobe'));
   });
   expect(await page.evaluate(() => (window as any).__ptProbe.fired)).toBe(1);
 

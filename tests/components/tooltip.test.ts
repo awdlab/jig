@@ -6,7 +6,7 @@ import { expectNoA11yViolations } from '../helper/axe';
 
 test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
-    template: `<button class="page-center" [ngnTooltip]="'Hello World!'">Button</button>`,
+    template: `<button class="page-center" [jigTooltip]="'Hello World!'">Button</button>`,
     imports: ['tooltip'],
   });
 
@@ -46,9 +46,9 @@ test('position change', async ({ page }, testInfo) => {
       template: `
         <button
           class="page-center"
-          [ngnTooltip]="'Hello World!'"
-          [ngnTooltipOptions]="inputs()"
-          [ngnTooltipShowDelay]="0"
+          [jigTooltip]="'Hello World!'"
+          [jigTooltipOptions]="inputs()"
+          [jigTooltipShowDelay]="0"
         >
           Button
         </button>
@@ -113,9 +113,9 @@ test('positioning on scroll', async ({ page }, testInfo) => {
           <div id="toScreenshot" style="position: absolute; top: 50vh; left: 50vw; width: 200px; height: 200px;">
             <button
               style="margin: 50px;"
-              [ngnTooltip]="'Hello World!'"
-              [ngnTooltipShowDelay]="0"
-              [ngnTooltipHideDelay]="'1m'"
+              [jigTooltip]="'Hello World!'"
+              [jigTooltipShowDelay]="0"
+              [jigTooltipHideDelay]="'1m'"
             >
               Button
             </button>
@@ -154,7 +154,7 @@ test('positioning on scroll', async ({ page }, testInfo) => {
 
 test('accessibility (axe)', async ({ page }) => {
   await loadComponent(page, {
-    template: `<button class="page-center" [ngnTooltip]="'Hello World!'">Button</button>`,
+    template: `<button class="page-center" [jigTooltip]="'Hello World!'">Button</button>`,
     imports: ['tooltip'],
   });
 

@@ -8,7 +8,7 @@ import type { JigTableTh } from './table-header-cell';
 
 function cell(id: string): JigTableTh {
   return {
-    ngnTableTh: signal(id),
+    jigTableTh: signal(id),
     element: new ElementRef(document.createElement('th')),
     minSize: signal('0px'),
     maxSize: signal('100%'),

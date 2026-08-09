@@ -66,7 +66,7 @@
                 [readonly]="readonly()"
               >
                 <input
-                  ngnInput
+                  jigInput
                   [ptInt]="this"
                   [ptDep]="'input'"
                   [attr.aria-label]="i18n['filter_value']()"
@@ -83,7 +83,7 @@
           @if (allowMultiple() && templateConfig().conditions.length > 1) {
             <button
               type="button"
-              ngnButton
+              jigButton
               kind="icon"
               [ptInt]="this"
               [ptDep]="'remove-btn'"
@@ -125,7 +125,7 @@
       @if (dataType() !== 'list' && allowMultiple()) {
         <button
           type="button"
-          ngnButton
+          jigButton
           kind="secondary"
           [ptInt]="this"
           [ptDep]="'add-button'"
@@ -140,7 +140,7 @@
         @if (!autoApply()) {
           <button
             type="button"
-            ngnButton
+            jigButton
             kind="secondary"
             [ptInt]="this"
             [ptDep]="'cancel-button'"
@@ -151,7 +151,7 @@
           </button>
           <button
             type="button"
-            ngnButton
+            jigButton
             kind="primary"
             [ptInt]="this"
             [ptDep]="'apply-button'"
@@ -163,7 +163,7 @@
         } @else {
           <button
             type="button"
-            ngnButton
+            jigButton
             kind="secondary"
             [ptInt]="this"
             [ptDep]="'clear-button'"

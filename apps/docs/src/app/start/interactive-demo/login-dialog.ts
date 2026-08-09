@@ -19,7 +19,7 @@ import { JigState } from '@awdlab/jig/state';
  * validators, the `[formField]` directive for two-way control binding, and
  * `submit()` for the faked async round-trip (loading state + a server-side
  * "wrong code" error that attaches straight onto the OTP field). Validation
- * messages are rendered by `ngnErrors` → `jig-hint`, which reads the interop
+ * messages are rendered by `jigErrors` → `jig-hint`, which reads the interop
  * `NgControl` that `[formField]` provides — no manual error wiring. Kept in its
  * own component so it can be `@defer`-loaded, keeping the form controls out of
  * the eager startpage bundle.
@@ -62,12 +62,12 @@ import { JigState } from '@awdlab/jig/state';
           <jig-input-field class="w-full" [inputId]="'login-username'">
             <jig-icon [icon]="userIcon" />
             <input
-              ngnInput
+              jigInput
               autocomplete="username"
               placeholder="jane.doe"
               [formField]="loginForm.username"
-              ngnErrors
-              [ngnErrorsHint]="usernameHint"
+              jigErrors
+              [jigErrorsHint]="usernameHint"
             />
           </jig-input-field>
           <jig-hint #usernameHint />
@@ -83,13 +83,13 @@ import { JigState } from '@awdlab/jig/state';
           <jig-input-field class="w-full" [inputId]="'login-password'">
             <jig-icon [icon]="lockIcon" />
             <input
-              ngnInput
+              jigInput
               type="password"
               autocomplete="current-password"
               placeholder="••••••••"
               [formField]="loginForm.password"
-              ngnErrors
-              [ngnErrorsHint]="passwordHint"
+              jigErrors
+              [jigErrorsHint]="passwordHint"
             />
           </jig-input-field>
           <jig-hint #passwordHint />
@@ -107,9 +107,9 @@ import { JigState } from '@awdlab/jig/state';
             [length]="6"
             [integerOnly]="true"
             [formField]="loginForm.otp"
-            ngnErrorsShowOn="touched"
-            ngnErrors
-            [ngnErrorsHint]="otpHint"
+            jigErrorsShowOn="touched"
+            jigErrors
+            [jigErrorsHint]="otpHint"
           />
           <jig-hint #otpHint [content]="demoCodeTpl" />
           <ng-template #demoCodeTpl>
@@ -119,7 +119,7 @@ import { JigState } from '@awdlab/jig/state';
         </div>
 
         <button
-          ngnButton
+          jigButton
           type="submit"
           color="primary"
           class="w-full justify-center"
@@ -181,7 +181,7 @@ export class JigDocsLoginDialog {
       return;
     }
     // submit() only runs the action when the form is valid. On an invalid
-    // attempt, mark every field touched so the ngnErrors messages surface.
+    // attempt, mark every field touched so the jigErrors messages surface.
     const ok = await submit(this.loginForm, {
       onInvalid: () => this.loginForm().markAsTouched(),
       action: async () => {

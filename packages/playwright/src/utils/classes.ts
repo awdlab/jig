@@ -15,7 +15,7 @@ import { splitterControlTemplate } from '@awdlab/jig-themes/templates/splitter';
 import { tabsControlTemplate } from '@awdlab/jig-themes/templates/tabs';
 import { tooltipControlTemplate } from '@awdlab/jig-themes/templates/tooltip';
 
-export const NGN_CLASSES = {
+export const JIG_CLASSES = {
   avatar: themeClasses(avatarControlTemplate),
   button: themeClasses(buttonControlTemplate),
   calendar: themeClasses(calendarControlTemplate),

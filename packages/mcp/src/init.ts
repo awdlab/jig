@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { AwesomeLogger } from 'awesome-logging';
 
 /**
- * `awdlab-controls-mcp init` — install the package's bundled skills into a
+ * `jig-mcp init` — install the package's bundled skills into a
  * consumer project. Interactive (via awesome-logging): on an already-installed
  * skill it compares versions and asks before overwriting. Non-interactive
  * environments (no TTY) or `--yes` overwrite outdated skills automatically and

@@ -5,7 +5,7 @@ import { expect, type Locator } from '@playwright/test';
 export class JigTooltipHarness {
   public readonly classes = themeClasses(tooltipControlTemplate);
 
-  private readonly _ngnDefer: Locator;
+  private readonly _jigDefer: Locator;
   private readonly _contentWrapper: Locator;
 
   public readonly locator: Locator;
@@ -13,9 +13,9 @@ export class JigTooltipHarness {
 
   constructor(locator: Locator) {
     this.locator = locator;
-    this._ngnDefer = locator.locator('jig-defer');
+    this._jigDefer = locator.locator('jig-defer');
     this._contentWrapper = locator.locator(this.classes.content);
-    this.content = this._ngnDefer.locator('> *');
+    this.content = this._jigDefer.locator('> *');
   }
 
   public async expectOpened(opened = true) {
@@ -23,9 +23,9 @@ export class JigTooltipHarness {
   }
 
   public async expectRendered(rendered = true): Promise<void> {
-    await expect(this._ngnDefer).toBeAttached();
+    await expect(this._jigDefer).toBeAttached();
     await expect(async () => {
-      const el = await this._ngnDefer.elementHandle();
+      const el = await this._jigDefer.elementHandle();
       const hasContent =
         !!(await el?.innerText()) || !!(await el?.evaluate(e => e.childElementCount));
       if (rendered) {

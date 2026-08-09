@@ -7,7 +7,7 @@ import type { JigActionButtonConfig } from '@awdlab/jig/api';
 @Component({
   selector: 'jig-demo-dialog-buttons',
   imports: [JigDialog, JigButton],
-  template: `<button ngnButton (click)="open.set(true)">Open Dialog</button>
+  template: `<button jigButton (click)="open.set(true)">Open Dialog</button>
     <jig-dialog
       [title]="'Buttons'"
       content="Check the console for button click results"

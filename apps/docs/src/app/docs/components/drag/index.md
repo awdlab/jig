@@ -1,15 +1,15 @@
 Two directives share one gesture engine:
 
-- **`ngnDrag`** reports the gesture and changes nothing — you decide what a drag
+- **`jigDrag`** reports the gesture and changes nothing — you decide what a drag
   means.
-- **`ngnDragScroll`** consumes the same gesture to pan its host, giving you
+- **`jigDragScroll`** consumes the same gesture to pan its host, giving you
   grab-and-drag scrolling.
 
-Unlike [`ngnMovable`](/components/movable), neither one repositions the element.
+Unlike [`jigMovable`](/components/movable), neither one repositions the element.
 
 ### Reporting a Drag
 
-`ngnDrag` emits three outputs: `dragStart` once the gesture begins, `dragged`
+`jigDrag` emits three outputs: `dragStart` once the gesture begins, `dragged`
 on every pointer move, and `dragEnd` on release.
 
 {{ demo: Demo_Drag_Base }}
@@ -28,7 +28,7 @@ started — accumulate them yourself if you need a total offset.
 
 ### Drag to Scroll
 
-`ngnDragScroll` scrolls its host by the inverse of each delta, so the content
+`jigDragScroll` scrolls its host by the inverse of each delta, so the content
 follows the pointer. Put it on the scrolling element itself.
 
 {{ demo: Demo_Drag_Scroll }}
@@ -46,7 +46,7 @@ registering as a drag.
 the `click` the browser synthesizes on release is cancelled in the capture
 phase. A draggable element that is also clickable therefore does not fire its
 click handler at the end of a drag — and neither do its children, which is what
-makes `ngnDragScroll` usable over interactive content.
+makes `jigDragScroll` usable over interactive content.
 
 **Touch scrolling is suppressed.** `touchmove` is prevented over the host, so a
 drag does not scroll the page behind it. Add `touch-action: none` to the host so

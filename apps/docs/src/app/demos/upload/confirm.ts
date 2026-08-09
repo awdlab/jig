@@ -10,7 +10,7 @@ import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
   imports: [JigUpload],
   selector: 'jig-demo-upload-confirm',
   template: `
-    <jig-upload #up="ngnUpload" mode="confirm" confirmTrigger="all" (upload)="onUpload($event, up)">
+    <jig-upload #up="jigUpload" mode="confirm" confirmTrigger="all" (upload)="onUpload($event, up)">
       <input type="file" multiple />
       Add files, then press Upload
     </jig-upload>

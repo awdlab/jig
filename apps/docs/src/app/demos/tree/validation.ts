@@ -16,10 +16,10 @@ import { fileTree } from './sample-data';
         [selectable]="true"
         [value]="value()"
         (valueChange)="value.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="treeHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="treeHint"
       />
       <jig-hint #treeHint />
     </div>

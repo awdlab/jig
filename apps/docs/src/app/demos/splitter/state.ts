@@ -7,8 +7,8 @@ import { type SplitterLayout, JigSplitterModule } from '@awdlab/jig/splitter';
   selector: 'jig-demo-splitter-state',
   template: `
     <div style="display: flex; gap: 8px;">
-      <button ngnButton (click)="toggleLayout()">Toggle Layout</button>
-      <button ngnButton (click)="shufflePanels()">Shuffle Panels</button>
+      <button jigButton (click)="toggleLayout()">Toggle Layout</button>
+      <button jigButton (click)="shufflePanels()">Shuffle Panels</button>
     </div>
     <jig-splitter
       [layout]="layout()"

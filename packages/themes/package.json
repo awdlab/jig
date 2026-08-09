@@ -16,7 +16,7 @@
     "theme",
     "theming",
     "design-system",
-    "awdlab-controls"
+    "jig"
   ],
   "publishConfig": {
     "access": "public"

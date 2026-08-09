@@ -12,7 +12,7 @@ import { JigError } from '@awdlab/jig/utils';
 import { injectOrThrow } from '@awdlab/jig/utils-ng';
 
 import { DEFAULT_SNACKBAR_OPTIONS } from './defaults';
-import { NGN_SNACKBAR_USER_DEFAULTS } from './provider';
+import { JIG_SNACKBAR_USER_DEFAULTS } from './provider';
 import { JigSnackbarHost } from './snackbar-host';
 
 import type { JigSnackbarOptions } from './types';
@@ -24,9 +24,9 @@ export class JigSnackbarManager implements OnDestroy {
   private readonly _snackbars = signal<SnackbarFull[]>([]);
   private readonly _appRef = inject(ApplicationRef);
   private readonly _userDefaults = injectOrThrow(
-    NGN_SNACKBAR_USER_DEFAULTS,
+    JIG_SNACKBAR_USER_DEFAULTS,
     'JigSnackbarManager',
-    'Failed to inject NGN_SNACKBAR_USER_DEFAULTS, make sure to use withSnackbars() to provide jig snackbars!'
+    'Failed to inject JIG_SNACKBAR_USER_DEFAULTS, make sure to use withSnackbars() to provide jig snackbars!'
   );
   private _nextId = 0;
 

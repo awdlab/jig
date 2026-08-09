@@ -6,7 +6,7 @@ import { JigPopover } from '@awdlab/jig/popover';
   imports: [JigPopover, JigButton],
   selector: 'jig-demo-popover-base',
   template: `
-    <button ngnButton #anchor (click)="popover.show()">Open</button>
+    <button jigButton #anchor (click)="popover.show()">Open</button>
     <jig-popover #popover [anchor]="anchor"> Content </jig-popover>
   `,
 })

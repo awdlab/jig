@@ -28,7 +28,7 @@ export class VolumeComponent {
   imports: [JigSlider, JigSwitch, JigDocsReveal, JigDocsSectionHeader],
   host: { class: 'block px-(--jig-size-padding-xl) py-12 lg:py-16' },
   template: `
-    <div [ngnDocsReveal]="0" class="mx-auto max-w-[1100px]">
+    <div [jigDocsReveal]="0" class="mx-auto max-w-[1100px]">
       <jig-docs-section-header
         class="mb-8 lg:mb-12"
         eyebrow="Quick start"

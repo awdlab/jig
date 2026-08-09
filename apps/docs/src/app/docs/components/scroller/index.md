@@ -8,7 +8,7 @@ list grows large enough that rendering every row hurts.
 Draw each row with a template you provide — the `item` content child
 (`<ng-template #item>`) or the `templateItem` input — which receives the item and
 its index. Give the scroller a bounded height (it owns the scroll) and mark each
-row element with the `ngnScrollerItem` directive so it picks up the theme's item
+row element with the `jigScrollerItem` directive so it picks up the theme's item
 and sticky classes. Use `fieldId` for a stable track-by key and `focusable` to
 put the scroller in the tab order. Without `virtual`, every item is rendered — the
 scroller just provides the scrollable viewport and per-item theming.

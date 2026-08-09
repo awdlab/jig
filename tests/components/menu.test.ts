@@ -165,7 +165,7 @@ test('item callback that destroys the menu does not warn', async ({ page }) => {
           id: '1',
           label: 'Item 1',
           callback: () => {
-            window.__ngn_test_wrapper.inputs({ visible: false });
+            window.__jig_test_wrapper.inputs({ visible: false });
             const anchor = document.querySelector('button');
             window.ng.applyChanges(window.ng.getOwningComponent(anchor));
           },

@@ -11,7 +11,7 @@ import type { JigActionButtonConfig } from '@awdlab/jig/api';
   imports: [JigButton, JigDialog, JigInput, JigInputField],
   template: `
     <div class="flex flex-col gap-4 p-4">
-      <button ngnButton (click)="open.set(true)">Open dialog</button>
+      <button jigButton (click)="open.set(true)">Open dialog</button>
       <span class="text-sm">Last button: {{ last() ?? '—' }}</span>
 
       <jig-dialog
@@ -22,7 +22,7 @@ import type { JigActionButtonConfig } from '@awdlab/jig/api';
         (buttonClicked)="resolve($event)"
       >
         <jig-input-field label="New name">
-          <input ngnInput autofocus />
+          <input jigInput autofocus />
         </jig-input-field>
       </jig-dialog>
     </div>

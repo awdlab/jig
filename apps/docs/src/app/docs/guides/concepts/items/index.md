@@ -124,7 +124,7 @@ const actions: JigActionItem[] = [
 `mod` maps to ⌘ on Apple platforms and Ctrl elsewhere. The **scope** of a
 shortcut is the host's decision: `jig-command` registers its items page-wide,
 so a palette command fires whether or not the palette is open, while other
-hosts register against the nearest `[ngnKeyboardShortcut]` container.
+hosts register against the nearest `[jigKeyboardShortcut]` container.
 
 ### `JigActionButtonConfig`
 
@@ -137,7 +137,7 @@ the visual knobs a button needs:
 | `action`             | Runs on click or shortcut, before `clicked` emits.           |
 | `icon`/`defaultIcon` | An explicit icon, or a semantic slot from the icon registry. |
 | `kind`, `color`      | Typed against the active theme.                              |
-| `shortcut`           | Registered with the nearest `[ngnKeyboardShortcut]` scope.   |
+| `shortcut`           | Registered with the nearest `[jigKeyboardShortcut]` scope.   |
 | `disabled`, `testId` | As above.                                                    |
 
 This is the shape dialog footers, snackbars and table row actions all build

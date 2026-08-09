@@ -16,7 +16,7 @@ import {
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { elementSizeSignal, NGN_CONFIG, JigTemplate, templateTypeFn } from '@awdlab/jig/api/ng';
+import { elementSizeSignal, JIG_CONFIG, JigTemplate, templateTypeFn } from '@awdlab/jig/api/ng';
 import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
 import { Logger, JigError } from '@awdlab/jig/utils';
@@ -50,7 +50,7 @@ import type { SplitterLayout, SplitterResizeMode, SplitterState, SplitterStateDa
 })
 export class JigSplitter extends JigBase<'splitter'> implements OnDestroy {
   private readonly _viewContainer = inject(ViewContainerRef);
-  private readonly _config = inject(NGN_CONFIG);
+  private readonly _config = inject(JIG_CONFIG);
   protected readonly theme = this.injectThemeTemplate(splitterControlTemplate, {
     root: true,
     dragging: () => this.isDragging(),

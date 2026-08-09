@@ -8,7 +8,7 @@ export type JigActionButtonConfig<T = unknown> = {
   action?: (event?: PointerEvent) => void;
   /**
    * Shortcut config string, e.g. `mod+s`. Registered with the nearest ancestor
-   * `[ngnKeyboardShortcut]` scope, so it fires only while focus is inside that container.
+   * `[jigKeyboardShortcut]` scope, so it fires only while focus is inside that container.
    */
   shortcut?: string;
   icon?: IconType;

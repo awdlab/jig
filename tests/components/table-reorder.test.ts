@@ -16,23 +16,23 @@ const TABLE_TEMPLATE: TemplateType = {
       [(columnOrder)]="inputs().columnOrder"
     >
       <ng-template #header>
-        <tr ngnTableHeadTr>
-          <th [ngnTableTh]="table.column('id')" ngnTableReorderableColumn>ID</th>
-          <th [ngnTableTh]="table.column('name')" ngnTableReorderableColumn>Name</th>
-          <th [ngnTableTh]="table.column('department')" ngnTableReorderableColumn>Department</th>
-          <th [ngnTableTh]="table.column('location')" ngnTableReorderableColumn>Location</th>
+        <tr jigTableHeadTr>
+          <th [jigTableTh]="table.column('id')" jigTableReorderableColumn>ID</th>
+          <th [jigTableTh]="table.column('name')" jigTableReorderableColumn>Name</th>
+          <th [jigTableTh]="table.column('department')" jigTableReorderableColumn>Department</th>
+          <th [jigTableTh]="table.column('location')" jigTableReorderableColumn>Location</th>
         </tr>
       </ng-template>
-      <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-        <tr [ngnTableBodyTr]="row">
-          <td ngnTableTd>{{ row.data.id }}</td>
-          <td ngnTableTd>{{ row.data.name }}</td>
-          <td ngnTableTd>{{ row.data.department }}</td>
-          <td ngnTableTd>{{ row.data.location }}</td>
+      <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+        <tr [jigTableBodyTr]="row">
+          <td jigTableTd>{{ row.data.id }}</td>
+          <td jigTableTd>{{ row.data.name }}</td>
+          <td jigTableTd>{{ row.data.department }}</td>
+          <td jigTableTd>{{ row.data.location }}</td>
         </tr>
       </ng-template>
     </jig-table>`,
-  imports: ['tableModule', 'ngnTemplate'],
+  imports: ['tableModule', 'jigTemplate'],
 };
 
 function generateRows(count: number) {

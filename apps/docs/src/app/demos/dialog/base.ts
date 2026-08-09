@@ -5,7 +5,7 @@ import { JigDialog } from '@awdlab/jig/dialog';
 @Component({
   selector: 'jig-demo-dialog-base',
   imports: [JigDialog, JigButton],
-  template: `<button ngnButton (click)="open.set(true)">Open Dialog</button>
+  template: `<button jigButton (click)="open.set(true)">Open Dialog</button>
     <jig-dialog
       [title]="'test'"
       [open]="open()"
@@ -15,7 +15,7 @@ import { JigDialog } from '@awdlab/jig/dialog';
       [size]="{ width: '400px', maxWidth: '90vw' }"
     >
       Content
-      <button ngnButton autofocus>jig</button>
+      <button jigButton autofocus>jig</button>
     </jig-dialog>`,
 })
 export class Demo_Dialog_Base {

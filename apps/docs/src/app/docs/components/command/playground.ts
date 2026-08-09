@@ -14,7 +14,7 @@ import type { JigActionItem } from '@awdlab/jig/api';
   imports: [JigCommand, JigButton, JigDocsPlayground],
   template: `
     <jig-docs-playground [controls]="[{ componentName: 'JigCommand', component: component() }]">
-      <button ngnButton (click)="open.set(true)">Open palette</button>
+      <button jigButton (click)="open.set(true)">Open palette</button>
       <jig-command #ref [items]="items" [(open)]="open" />
     </jig-docs-playground>
   `,

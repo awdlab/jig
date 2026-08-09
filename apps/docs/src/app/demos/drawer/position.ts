@@ -5,11 +5,11 @@ import { JigDrawer } from '@awdlab/jig/drawer';
 @Component({
   imports: [JigDrawer, JigButton],
   selector: 'jig-demo-drawer-position',
-  template: `<button ngnButton (click)="position.set('left')">←</button>
-    <button ngnButton (click)="position.set('right')">→</button>
-    <button ngnButton (click)="position.set('top')">↑</button>
-    <button ngnButton (click)="position.set('bottom')">↓</button>
-    <button ngnButton (click)="position.set('fullscreen')">↔</button>
+  template: `<button jigButton (click)="position.set('left')">←</button>
+    <button jigButton (click)="position.set('right')">→</button>
+    <button jigButton (click)="position.set('top')">↑</button>
+    <button jigButton (click)="position.set('bottom')">↓</button>
+    <button jigButton (click)="position.set('fullscreen')">↔</button>
     <jig-drawer
       [header]="'Drawer ' + position()"
       [position]="position() ?? 'left'"

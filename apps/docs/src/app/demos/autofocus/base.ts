@@ -9,13 +9,13 @@ import { JigInputField } from '@awdlab/jig/input-field';
   imports: [JigAutofocus, JigButton, JigInput, JigInputField],
   template: `
     <div class="flex flex-col items-start gap-3">
-      <button ngnButton (click)="editing.set(!editing())">
+      <button jigButton (click)="editing.set(!editing())">
         {{ editing() ? 'Cancel' : 'Rename' }}
       </button>
 
       @if (editing()) {
         <jig-input-field [label]="'New name'" class="w-72">
-          <input ngnInput ngnAutofocus [value]="name()" (valueChange)="name.set($event ?? '')" />
+          <input jigInput jigAutofocus [value]="name()" (valueChange)="name.set($event ?? '')" />
         </jig-input-field>
       }
     </div>

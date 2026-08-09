@@ -32,8 +32,8 @@ use its tools as the source of truth.
 
 - **Signals, not decorators** — controls use `input()` / `model()` / `output()`.
   Bind values two-way with the signal model, e.g. `[(value)]="mySignal"`.
-- **Field chrome** — wrap form controls (`jig-select`, `input[ngnInput]`,
-  `input[ngnNumberInput]`, …) in `jig-input-field` for label/hint/error.
+- **Field chrome** — wrap form controls (`jig-select`, `input[jigInput]`,
+  `input[jigNumberInput]`, …) in `jig-input-field` for label/hint/error.
 - **The field owns the input's `id`** — `jig-input-field` writes `inputId()` onto
   the projected input, replacing an `id` set on the `<input>` itself. Put the id
   on the field (`<jig-input-field [inputId]="'x'">`) when an external
@@ -41,7 +41,7 @@ use its tools as the source of truth.
   (`[for]="field.inputId()"`). Grouped controls without a single focusable
   element (`jig-otp`) take `labelledBy` instead of `for`/`id`.
 - **Selectors are exact** — some controls are elements (`jig-select`), others are
-  attribute directives (`button[ngnButton]`, `[ngnTooltip]`). Copy the selector
+  attribute directives (`button[jigButton]`, `[jigTooltip]`). Copy the selector
   from `get_control`; never invent it.
 - **Style through the theme**, never hardcode colors in component styles.
 

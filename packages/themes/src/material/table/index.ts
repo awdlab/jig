@@ -197,7 +197,7 @@ export const tableStyles = createThemePart({
         background: ${v('color.background')};
       }
       /* Scroll shadows anchored to the sticky-column edges (a table-specific placement the generic
-         scroll-shadow overlay can't do — it's disabled here via ngnScrollShadowUnstyled). The tint
+         scroll-shadow overlay can't do — it's disabled here via jigScrollShadowUnstyled). The tint
          is the shared --jig-scroll-shadow-color so it stays identical to the generic overlay. */
       ${c('sticky-start-edge')},
       ${c('sticky-end-edge')},

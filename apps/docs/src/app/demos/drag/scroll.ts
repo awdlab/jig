@@ -5,7 +5,7 @@ import { JigDragScroll } from '@awdlab/jig/directives';
   selector: 'jig-demo-drag-scroll',
   imports: [JigDragScroll],
   template: `
-    <div ngnDragScroll class="canvas">
+    <div jigDragScroll class="canvas">
       <div class="grid">
         @for (cell of cells; track cell) {
           <div class="cell">{{ cell }}</div>

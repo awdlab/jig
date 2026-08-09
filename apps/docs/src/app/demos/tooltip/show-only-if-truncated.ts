@@ -10,18 +10,18 @@ import type { PositioningSizeConstraints } from '@awdlab/jig/api/ng';
     <h1>Truncated</h1>
     <p
       class="truncated"
-      [ngnTooltip]="content"
-      ngnTooltipShowOnlyIfTruncated
-      [ngnTooltipSize]="size"
+      [jigTooltip]="content"
+      jigTooltipShowOnlyIfTruncated
+      [jigTooltipSize]="size"
     >
       {{ content }}
     </p>
     <h1>Clamped</h1>
-    <p class="clamped" [ngnTooltip]="content" ngnTooltipShowOnlyIfTruncated [ngnTooltipSize]="size">
+    <p class="clamped" [jigTooltip]="content" jigTooltipShowOnlyIfTruncated [jigTooltipSize]="size">
       {{ content }}
     </p>
     <h1>Not truncated</h1>
-    <p [ngnTooltip]="content" ngnTooltipShowOnlyIfTruncated [ngnTooltipSize]="size">
+    <p [jigTooltip]="content" jigTooltipShowOnlyIfTruncated [jigTooltipSize]="size">
       {{ content }}
     </p>
   `,

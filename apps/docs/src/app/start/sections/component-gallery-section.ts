@@ -68,7 +68,7 @@ import { JigState } from '@awdlab/jig/state';
           <div
             (mouseenter)="onEnter(entry.name)"
             (mouseleave)="onLeave(entry.name)"
-            ngnDocsGlow
+            jigDocsGlow
             class="card relative flex flex-col items-center justify-center gap-(--jig-size-padding-md) p-(--jig-size-padding-xl)"
           >
             <a
@@ -79,7 +79,7 @@ import { JigState } from '@awdlab/jig/state';
             <div inert class="pointer-events-none flex min-h-12 w-full items-center justify-center">
               @switch (entry.name) {
                 @case ('Button') {
-                  <button ngnButton kind="primary">
+                  <button jigButton kind="primary">
                     Save
                     <jig-state
                       [visible]="!!buttonState()"
@@ -123,13 +123,13 @@ import { JigState } from '@awdlab/jig/state';
                 }
                 @case ('Tooltip') {
                   <button
-                    ngnButton
+                    jigButton
                     kind="secondary"
-                    #tip="ngnTooltip"
-                    [ngnTooltip]="'A tooltip'"
-                    [ngnTooltipShowOnHover]="false"
-                    [ngnTooltipShowDelay]="0"
-                    [ngnTooltipHideDelay]="0"
+                    #tip="jigTooltip"
+                    [jigTooltip]="'A tooltip'"
+                    [jigTooltipShowOnHover]="false"
+                    [jigTooltipShowDelay]="0"
+                    [jigTooltipHideDelay]="0"
                   >
                     Hover
                   </button>
@@ -149,7 +149,7 @@ import { JigState } from '@awdlab/jig/state';
                 }
                 @case ('Input') {
                   <jig-input-field>
-                    <input ngnInput [value]="inputValue()" />
+                    <input jigInput [value]="inputValue()" />
                   </jig-input-field>
                 }
               }
@@ -163,7 +163,7 @@ import { JigState } from '@awdlab/jig/state';
         }
       </div>
       <div class="mt-(--jig-size-padding-xl) flex justify-center">
-        <a ngnButton kind="secondary" routerLink="/components">
+        <a jigButton kind="secondary" routerLink="/components">
           See all {{ controlCount }}+ controls
         </a>
       </div>

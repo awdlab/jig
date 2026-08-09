@@ -50,36 +50,36 @@ The loader has the shape `(req: TableLoadRequest) => Promise<TableLoadResult<T>>
 
 ## Structure directives
 
-These build the grid itself. `ngnTableTh` declares the column id that every
+These build the grid itself. `jigTableTh` declares the column id that every
 other feature is addressed by.
 
 ### JigTableHeadTr
 
-Selector: `[ngnTableHeadTr]` — the header `<tr>`.
+Selector: `[jigTableHeadTr]` — the header `<tr>`.
 
 {{ api: table/table-header-row JigTableHeadTr }}
 
 ### JigTableTh
 
-Selector: `[ngnTableTh]` — a header cell. The bound value is the column id.
+Selector: `[jigTableTh]` — a header cell. The bound value is the column id.
 
 {{ api: table/table-header-cell JigTableTh }}
 
 ### JigTableBodyTr
 
-Selector: `[ngnTableBodyTr]` — a body `<tr>`; bind the row object from the
+Selector: `[jigTableBodyTr]` — a body `<tr>`; bind the row object from the
 `#body` template.
 
 {{ api: table/table-row JigTableBodyTr }}
 
 ### JigTableTd
 
-Selector: `[ngnTableTd]` — a body cell. It has no inputs; it applies the cell
+Selector: `[jigTableTd]` — a body cell. It has no inputs; it applies the cell
 class, exposes the visual column index and mirrors sticky positioning.
 
 ### JigTableGroupHeaderTr
 
-Selector: `[ngnTableGroupHeaderTr]` — the `<tr>` for a group header when
+Selector: `[jigTableGroupHeaderTr]` — the `<tr>` for a group header when
 `groupBy` is set; bind the group-header row from the `#groupHeader` template.
 
 {{ api: table/table-group-header-row JigTableGroupHeaderTr }}
@@ -91,37 +91,37 @@ body cells.
 
 ### JigTableSortableColumn
 
-Selector: `[ngnTableSortableColumn]`
+Selector: `[jigTableSortableColumn]`
 
 {{ api: table/table-sortable-column JigTableSortableColumn }}
 
 ### JigTableFilterableColumn
 
-Selector: `[ngnTableFilterableColumn]`
+Selector: `[jigTableFilterableColumn]`
 
 {{ api: table/table-filterable-column JigTableFilterableColumn }}
 
 ### JigTableSelectionColumn
 
-Selector: `[ngnTableSelectionColumn]`
+Selector: `[jigTableSelectionColumn]`
 
 {{ api: table/table-selection-column JigTableSelectionColumn }}
 
 ### JigTableReorderableColumn
 
-Selector: `[ngnTableReorderableColumn]`
+Selector: `[jigTableReorderableColumn]`
 
 {{ api: table/table-reorderable-column JigTableReorderableColumn }}
 
 ### JigTableStickyColumn
 
-Selector: `[ngnTableStickyColumn]` — on a header cell; the body cells follow.
+Selector: `[jigTableStickyColumn]` — on a header cell; the body cells follow.
 
 {{ api: table/table-sticky-column JigTableStickyColumn }}
 
 ## JigTableRowActions
 
-Selector: `[ngnTableRowActions]` (apply to a body `<tr>`)
+Selector: `[jigTableRowActions]` (apply to a body `<tr>`)
 
 {{ api: table/table-row-actions JigTableRowActions }}
 

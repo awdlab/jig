@@ -5,7 +5,7 @@ test('Component Test Wrapper Works', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<input ngnInput [invalid]="inputs().invalid" (beforeinput)="output('input', $event.data)" />`,
+      template: `<input jigInput [invalid]="inputs().invalid" (beforeinput)="output('input', $event.data)" />`,
       imports: ['input'],
     },
     {

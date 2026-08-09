@@ -11,7 +11,7 @@ import type { JigActionItem } from '@awdlab/jig/api';
   imports: [JigCommand, JigButton],
   selector: 'jig-demo-command-routes-demo',
   template: `
-    <button ngnButton (click)="open.set(true)">Jump to a page</button>
+    <button jigButton (click)="open.set(true)">Jump to a page</button>
     <jig-command [items]="items" [(open)]="open" />
   `,
 })

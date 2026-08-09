@@ -145,14 +145,14 @@ test('clicking an item runs its callback', async ({ page }) => {
       inputs: {
         open: true,
         items: evalValue(`[
-          { id: 'ping', label: 'Ping', callback: () => ((window).__ngnPing = 'pong') },
+          { id: 'ping', label: 'Ping', callback: () => ((window).__jigPing = 'pong') },
         ]`),
       },
     }
   );
 
   await page.getByRole('option', { name: 'Ping' }).click();
-  await expect.poll(() => page.evaluate(() => (window as any).__ngnPing)).toBe('pong');
+  await expect.poll(() => page.evaluate(() => (window as any).__jigPing)).toBe('pong');
 });
 
 test('the filter text resets between openings', async ({ page }) => {

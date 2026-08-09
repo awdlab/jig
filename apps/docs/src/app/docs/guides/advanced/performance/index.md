@@ -71,7 +71,7 @@ end to end. See [Accessibility](/guides/accessibility).
 - `fieldId` is used for row tracking, so give it a genuinely unique property —
   a duplicated id causes rows to be re-created rather than reused.
 - Body cells deliberately avoid the full control machinery, which is why
-  `ngnTableTd` is a thin directive. Keep cell templates cheap: a component per
+  `jigTableTd` is a thin directive. Keep cell templates cheap: a component per
   cell in a virtualized table is the usual cause of scroll jank.
 
 ### Passthrough objects

@@ -11,7 +11,7 @@ export const stateControlTemplate = createControlTemplate({
     { class: 'icon', template: iconControlTemplate },
     { class: 'spinner', template: spinnerControlTemplate },
     // state never renders a button/input-field — it is placed INSIDE one by the
-    // consumer (e.g. `<button ngnButton><jig-state/></button>`), so there is no
+    // consumer (e.g. `<button jigButton><jig-state/></button>`), so there is no
     // host element here to mark with [ptDep]. These slots exist purely so `d()`
     // can produce the ancestor's raw class for `:has()`/child-combinator
     // selectors below; `projected: true` gives raw (unmarked) classes, matching

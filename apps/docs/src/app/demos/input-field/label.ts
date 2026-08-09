@@ -10,22 +10,22 @@ import { JigInputField } from '@awdlab/jig/input-field';
   },
   template: `
     <jig-input-field [label]="'Label over'" [labelKind]="'over'">
-      <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
+      <input jigInput [value]="value()" (valueChange)="value.set($event ?? '')" />
     </jig-input-field>
     <jig-input-field [label]="'Label in'" [labelKind]="'in'">
-      <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
+      <input jigInput [value]="value()" (valueChange)="value.set($event ?? '')" />
     </jig-input-field>
     <jig-input-field [label]="'Label on'" [labelKind]="'on'">
-      <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
+      <input jigInput [value]="value()" (valueChange)="value.set($event ?? '')" />
     </jig-input-field>
     <jig-input-field [label]="'FloatLabel over'" [labelKind]="'floatOver'">
-      <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
+      <input jigInput [value]="value()" (valueChange)="value.set($event ?? '')" />
     </jig-input-field>
     <jig-input-field [label]="'FloatLabel in'" [labelKind]="'floatIn'">
-      <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
+      <input jigInput [value]="value()" (valueChange)="value.set($event ?? '')" />
     </jig-input-field>
     <jig-input-field [label]="'FloatLabel on'" [labelKind]="'floatOn'">
-      <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
+      <input jigInput [value]="value()" (valueChange)="value.set($event ?? '')" />
     </jig-input-field>
   `,
 })

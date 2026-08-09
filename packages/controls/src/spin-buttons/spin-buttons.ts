@@ -13,11 +13,11 @@ const HOLD_DELAY = 400;
 const HOLD_INTERVAL = 60;
 
 /**
- * Increment/decrement buttons for a steppable control (e.g. `ngnNumberInput`).
+ * Increment/decrement buttons for a steppable control (e.g. `jigNumberInput`).
  *
  * Inside an `jig-input-field` the buttons find the field's primary control
  * automatically; outside (or to target a specific control) bind `[for]` to a
- * control instance (e.g. a `#num="ngnNumberInput"` template reference).
+ * control instance (e.g. a `#num="jigNumberInput"` template reference).
  *
  * The buttons are a pointer affordance only (`tabindex="-1"`, `aria-hidden`):
  * keyboard users step via `ArrowUp`/`ArrowDown` on the control itself, which

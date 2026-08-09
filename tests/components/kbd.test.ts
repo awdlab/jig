@@ -46,9 +46,9 @@ test('nested scope binds an action button shortcut to the nearest ancestor', asy
     page,
     {
       template: `
-        <div [ngnKeyboardShortcut]="inputs().outer">
+        <div [jigKeyboardShortcut]="inputs().outer">
           <input id="outer-field" />
-          <div [ngnKeyboardShortcut]="inputs().inner">
+          <div [jigKeyboardShortcut]="inputs().inner">
             <jig-action-button [config]="inputs().buttons[0]" (clicked)="output('button', $event)" />
             <input id="inner-field" />
           </div>
@@ -114,7 +114,7 @@ const RENAME_DIALOG = `
     (buttonClicked)="output('button', $event)"
   >
     <jig-input-field label="New name" inputId="field">
-      <input ngnInput autofocus />
+      <input jigInput autofocus />
     </jig-input-field>
   </jig-dialog>
 `;

@@ -9,43 +9,43 @@ import { exampleData } from '../../helper/data';
   selector: 'jig-demo-table-filtering',
   template: `<jig-table #table style="height: 400px" [rows]="rows" [fieldId]="'id'">
     <ng-template #header>
-      <tr ngnTableHeadTr>
+      <tr jigTableHeadTr>
         <th
-          [ngnTableTh]="table.column('id')"
-          [ngnTableFilterableColumn]
-          [ngnTableFilterableColumnType]="'string'"
+          [jigTableTh]="table.column('id')"
+          [jigTableFilterableColumn]
+          [jigTableFilterableColumnType]="'string'"
         >
           ID
         </th>
         <th
-          [ngnTableTh]="table.column('name')"
-          [ngnTableFilterableColumn]
-          [ngnTableFilterableColumnType]="'string'"
+          [jigTableTh]="table.column('name')"
+          [jigTableFilterableColumn]
+          [jigTableFilterableColumnType]="'string'"
         >
           Name
         </th>
         <th
-          [ngnTableTh]="table.column('department')"
-          [ngnTableFilterableColumn]
-          [ngnTableFilterableColumnType]="'list'"
+          [jigTableTh]="table.column('department')"
+          [jigTableFilterableColumn]
+          [jigTableFilterableColumnType]="'list'"
         >
           Department
         </th>
         <th
-          [ngnTableTh]="table.column('location')"
-          [ngnTableFilterableColumn]
-          [ngnTableFilterableColumnType]="'list'"
+          [jigTableTh]="table.column('location')"
+          [jigTableFilterableColumn]
+          [jigTableFilterableColumnType]="'list'"
         >
           Location
         </th>
       </tr>
     </ng-template>
-    <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-      <tr [ngnTableBodyTr]="row">
-        <td ngnTableTd>{{ row.data.id }}</td>
-        <td ngnTableTd>{{ row.data.name }}</td>
-        <td ngnTableTd>{{ row.data.department }}</td>
-        <td ngnTableTd>{{ row.data.location }}</td>
+    <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+      <tr [jigTableBodyTr]="row">
+        <td jigTableTd>{{ row.data.id }}</td>
+        <td jigTableTd>{{ row.data.name }}</td>
+        <td jigTableTd>{{ row.data.department }}</td>
+        <td jigTableTd>{{ row.data.location }}</td>
       </tr>
     </ng-template>
   </jig-table>`,

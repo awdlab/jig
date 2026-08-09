@@ -19,7 +19,7 @@ import { JigButton } from '@awdlab/jig/button';
     </jig-stepper>
     <div class="mt-4 flex justify-between gap-2">
       <button
-        ngnButton
+        jigButton
         kind="secondary"
         (click)="active.set(active() - 1)"
         [disabled]="active() === 0"
@@ -27,7 +27,7 @@ import { JigButton } from '@awdlab/jig/button';
         Back
       </button>
       <button
-        ngnButton
+        jigButton
         kind="primary"
         (click)="active.set(active() + 1)"
         [disabled]="active() === 2"

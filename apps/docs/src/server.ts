@@ -58,7 +58,7 @@ async function fetchGithubStars(): Promise<number | null> {
   // User-Agent is required by the GitHub API (403 without it).
   const res = await fetch('https://api.github.com/repos/awdlab/jig', {
     headers: {
-      'User-Agent': 'awdlab-controls-docs',
+      'User-Agent': 'awdlab-jig-docs',
       Accept: 'application/vnd.github+json',
     },
     signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
@@ -82,7 +82,7 @@ async function fetchReleases(): Promise<ReleaseData[]> {
     `https://api.github.com/repos/awdlab/jig/releases?per_page=${RELEASE_COUNT}`,
     {
       headers: {
-        'User-Agent': 'awdlab-controls-docs',
+        'User-Agent': 'awdlab-jig-docs',
         Accept: 'application/vnd.github+json',
       },
       signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),

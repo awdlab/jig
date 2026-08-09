@@ -8,12 +8,12 @@ test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `
       <jig-input-field>
-        <input ngnInput />
+        <input jigInput />
       </jig-input-field>
     `,
     imports: ['input', 'inputField'],
   });
-  const textField = new JigInputHarness(page.locator('input[ngnInput]').first());
+  const textField = new JigInputHarness(page.locator('input[jigInput]').first());
   await textField.expectValue('');
   await textField.fill('123');
   await textField.expectValue('123');
@@ -24,13 +24,13 @@ test('field padding belongs to the input', async ({ page }) => {
   await loadComponent(page, {
     template: `
       <jig-input-field showClearButton>
-        <input ngnInput value="Hello world" />
+        <input jigInput value="Hello world" />
       </jig-input-field>
     `,
     imports: ['input', 'inputField'],
   });
 
-  const input = page.locator('input[ngnInput]').first();
+  const input = page.locator('input[jigInput]').first();
   const box = (await page.locator('jig-input-field > div').first().boundingBox())!;
   const midY = box.y + box.height / 2;
   const caret = () => input.evaluate((el: HTMLInputElement) => el.selectionStart);
@@ -69,7 +69,7 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(page, {
     template: `
       <jig-input-field label="Full name">
-        <input ngnInput />
+        <input jigInput />
       </jig-input-field>
     `,
     imports: ['input', 'inputField'],

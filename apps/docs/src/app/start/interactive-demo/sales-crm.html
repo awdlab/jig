@@ -19,7 +19,7 @@
       <jig-input-field class="w-64">
         <jig-icon [icon]="searchIcon" />
         <input
-          ngnInput
+          jigInput
           placeholder="Search accounts..."
           [value]="search()"
           (valueChange)="onSearch($event)"
@@ -33,7 +33,7 @@
     class="mb-(--jig-size-padding-xl) grid grid-cols-1 gap-(--jig-size-padding-lg) sm:grid-cols-2 lg:grid-cols-4"
   >
     @for (kpi of kpis; track kpi.label) {
-      <div class="card p-(--jig-size-padding-xl)" [ngnTooltip]="kpi.tooltip">
+      <div class="card p-(--jig-size-padding-xl)" [jigTooltip]="kpi.tooltip">
         <div class="mb-(--jig-size-padding-md) flex items-center justify-between">
           <span
             class="text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-600) uppercase"
@@ -70,7 +70,7 @@
         >
           Recent Opportunities
         </h3>
-        <button ngnButton kind="icon" aria-label="Export opportunities" ngnTooltip="Export to CSV">
+        <button jigButton kind="icon" aria-label="Export opportunities" jigTooltip="Export to CSV">
           <jig-icon [icon]="downloadIcon" />
         </button>
       </div>
@@ -78,19 +78,19 @@
       <div class="sales-crm-table-area relative grow overflow-x-auto">
         <jig-table #table [rows]="pagedRows()" [fieldId]="'id'">
           <ng-template #header>
-            <tr ngnTableHeadTr>
-              <th scope="col" [ngnTableTh]="table.column('company')">Company</th>
-              <th scope="col" [ngnTableTh]="table.column('value')">Value</th>
-              <th scope="col" [ngnTableTh]="table.column('status')">Status</th>
-              <th scope="col" [ngnTableTh]="table.column('owner')">Owner</th>
-              <th scope="col" [ngnTableTh]="'actions'" [ngnTableStickyColumn]="'end'">
+            <tr jigTableHeadTr>
+              <th scope="col" [jigTableTh]="table.column('company')">Company</th>
+              <th scope="col" [jigTableTh]="table.column('value')">Value</th>
+              <th scope="col" [jigTableTh]="table.column('status')">Status</th>
+              <th scope="col" [jigTableTh]="table.column('owner')">Owner</th>
+              <th scope="col" [jigTableTh]="'actions'" [jigTableStickyColumn]="'end'">
                 <span class="sr-only">Actions</span>
               </th>
             </tr>
           </ng-template>
-          <ng-template #body let-row [ngnTemplate]="table.templateTypes.body">
-            <tr [ngnTableBodyTr]="row">
-              <td ngnTableTd>
+          <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+            <tr [jigTableBodyTr]="row">
+              <td jigTableTd>
                 <div class="flex items-center gap-(--jig-size-padding-md)">
                   <jig-avatar
                     [initials]="row.data.initials"
@@ -99,18 +99,18 @@
                   />
                   <span
                     class="font-(--jig-font-weight-semibold)"
-                    [ngnTooltip]="row.data.company"
-                    ngnTooltipShowOnlyIfTruncated
+                    [jigTooltip]="row.data.company"
+                    jigTooltipShowOnlyIfTruncated
                   >
                     {{ row.data.company }}
                   </span>
                 </div>
               </td>
-              <td ngnTableTd>{{ currency(row.data.value) }}</td>
-              <td ngnTableTd>
+              <td jigTableTd>{{ currency(row.data.value) }}</td>
+              <td jigTableTd>
                 <jig-tag [color]="row.data.statusColor">{{ row.data.status }}</jig-tag>
               </td>
-              <td ngnTableTd>
+              <td jigTableTd>
                 <div class="flex items-center gap-(--jig-size-padding-md)">
                   <jig-avatar
                     [initials]="row.data.ownerInitials"
@@ -120,9 +120,9 @@
                   <span>{{ row.data.owner }}</span>
                 </div>
               </td>
-              <td ngnTableTd>
+              <td jigTableTd>
                 <button
-                  ngnButton
+                  jigButton
                   kind="icon"
                   #menuAnchor
                   aria-label="Row actions"

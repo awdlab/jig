@@ -8,27 +8,27 @@ import { JigInputField } from '@awdlab/jig/input-field';
   template: `
     Default:
     <jig-input-field>
-      <input ngnInput value="Some Text" />
+      <input jigInput value="Some Text" />
     </jig-input-field>
     Disabled:
     <jig-input-field>
-      <input ngnInput value="Some Text" disabled />
+      <input jigInput value="Some Text" disabled />
     </jig-input-field>
     Readonly:
     <jig-input-field>
-      <input ngnInput value="Some Text" readonly />
+      <input jigInput value="Some Text" readonly />
     </jig-input-field>
     Invalid:
     <jig-input-field>
-      <input ngnInput value="Some Text" [invalidOn]="'immediate'" invalid />
+      <input jigInput value="Some Text" [invalidOn]="'immediate'" invalid />
     </jig-input-field>
     Invalid + Disabled:
     <jig-input-field>
-      <input ngnInput value="Some Text" [invalidOn]="'immediate'" invalid disabled />
+      <input jigInput value="Some Text" [invalidOn]="'immediate'" invalid disabled />
     </jig-input-field>
     Invalid + Readonly:
     <jig-input-field>
-      <input ngnInput value="Some Text" [invalidOn]="'immediate'" invalid readonly />
+      <input jigInput value="Some Text" [invalidOn]="'immediate'" invalid readonly />
     </jig-input-field>
   `,
   styles: `

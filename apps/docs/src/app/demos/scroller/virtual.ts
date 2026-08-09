@@ -16,8 +16,8 @@ import { exampleData } from '../../helper/data';
       [itemHeight]="35"
       [virtualPadding]="2"
     >
-      <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item>
-        <span [ngnScrollerItem]="item">
+      <ng-template #item [jigTemplate]="scroller.templateTypes.item" let-item>
+        <span [jigScrollerItem]="item">
           {{ item.label }}
         </span>
       </ng-template>

@@ -5,7 +5,7 @@ import { Directive } from '@angular/core';
  * pointer so the `.jig-glow-card` overlay's radial highlight tracks it.
  */
 @Directive({
-  selector: '[ngnDocsGlow]',
+  selector: '[jigDocsGlow]',
   host: {
     class: 'jig-glow-card',
     '(mousemove)': 'onMove($event)',

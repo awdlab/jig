@@ -1,14 +1,1 @@
-{
-  "name": "@awdlab/jig-themes/nova/toast",
-  "version": "0.0.0-PLACEHOLDER",
-  "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "esm2022": "./esm2022/nova/toast/index.mjs",
-      "esm": "./esm/nova/toast/index.mjs",
-      "default": "./fesm2022/awdlab-controls-themes-nova-toast.mjs"
-    }
-  },
-  "module": "./fesm2022/awdlab-controls-themes-nova-toast.mjs",
-  "typings": "./index.d.ts"
-}
+{}

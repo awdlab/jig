@@ -6,7 +6,7 @@ import { JigScrollAmount } from '@awdlab/jig/directives';
   imports: [JigScrollAmount],
   template: `
     <div class="flex flex-col gap-3">
-      <div ngnScrollAmount class="list">
+      <div jigScrollAmount class="list">
         @for (row of rows; track row) {
           <div class="row">Row {{ row }}</div>
         }

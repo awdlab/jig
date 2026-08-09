@@ -262,7 +262,7 @@ test('persists state to storage across reloads', async ({ page }) => {
   // collapsed regardless of any pre-existing storage (the flag keeps the
   // remount navigation from wiping the state we just persisted).
   await page.addInitScript(k => {
-    const flag = `__ngn_cleared_${k}`;
+    const flag = `__jig_cleared_${k}`;
     if (!sessionStorage.getItem(flag)) {
       localStorage.removeItem(k);
       sessionStorage.setItem(flag, '1');

@@ -39,65 +39,65 @@ type RowType = ReturnType<typeof exampleData.richTable>[number];
         [selectionMode]="'multi'"
       >
         <ng-template #header>
-          <tr ngnTableHeadTr>
-            <th ngnTableSelectionColumn></th>
-            <th [ngnTableTh]="ref.column('id')" [ngnTableSortableColumn]>ID</th>
+          <tr jigTableHeadTr>
+            <th jigTableSelectionColumn></th>
+            <th [jigTableTh]="ref.column('id')" [jigTableSortableColumn]>ID</th>
             <th
-              [ngnTableTh]="ref.column('name')"
-              [ngnTableSortableColumn]
-              [ngnTableFilterableColumn]
-              [ngnTableFilterableColumnType]="'string'"
-              ngnTableReorderableColumn
+              [jigTableTh]="ref.column('name')"
+              [jigTableSortableColumn]
+              [jigTableFilterableColumn]
+              [jigTableFilterableColumnType]="'string'"
+              jigTableReorderableColumn
             >
               Name
             </th>
             <th
-              [ngnTableTh]="ref.column('email')"
-              [ngnTableSortableColumn]
-              ngnTableReorderableColumn
+              [jigTableTh]="ref.column('email')"
+              [jigTableSortableColumn]
+              jigTableReorderableColumn
             >
               Email
             </th>
             <th
-              [ngnTableTh]="ref.column('department')"
-              [ngnTableSortableColumn]
-              [ngnTableFilterableColumn]
-              [ngnTableFilterableColumnType]="'list'"
-              ngnTableReorderableColumn
+              [jigTableTh]="ref.column('department')"
+              [jigTableSortableColumn]
+              [jigTableFilterableColumn]
+              [jigTableFilterableColumnType]="'list'"
+              jigTableReorderableColumn
             >
               Department
             </th>
             <th
-              [ngnTableTh]="ref.column('role')"
-              [ngnTableSortableColumn]
-              [ngnTableFilterableColumn]
-              [ngnTableFilterableColumnType]="'list'"
-              ngnTableReorderableColumn
+              [jigTableTh]="ref.column('role')"
+              [jigTableSortableColumn]
+              [jigTableFilterableColumn]
+              [jigTableFilterableColumnType]="'list'"
+              jigTableReorderableColumn
             >
               Role
             </th>
             <th
-              [ngnTableTh]="ref.column('location')"
-              [ngnTableSortableColumn]
-              [ngnTableFilterableColumn]
-              [ngnTableFilterableColumnType]="'list'"
-              ngnTableReorderableColumn
+              [jigTableTh]="ref.column('location')"
+              [jigTableSortableColumn]
+              [jigTableFilterableColumn]
+              [jigTableFilterableColumnType]="'list'"
+              jigTableReorderableColumn
             >
               Location
             </th>
-            <th [ngnTableTh]="ref.column('salary')" [ngnTableSortableColumn]>Salary</th>
+            <th [jigTableTh]="ref.column('salary')" [jigTableSortableColumn]>Salary</th>
           </tr>
         </ng-template>
-        <ng-template #body let-row [ngnTemplate]="ref.templateTypes.body">
-          <tr [ngnTableBodyTr]="row">
-            <td ngnTableSelectionColumn></td>
-            <td ngnTableTd>{{ row.data.id }}</td>
-            <td ngnTableTd>{{ row.data.name }}</td>
-            <td ngnTableTd>{{ row.data.email }}</td>
-            <td ngnTableTd>{{ row.data.department }}</td>
-            <td ngnTableTd>{{ row.data.role }}</td>
-            <td ngnTableTd>{{ row.data.location }}</td>
-            <td ngnTableTd>
+        <ng-template #body let-row [jigTemplate]="ref.templateTypes.body">
+          <tr [jigTableBodyTr]="row">
+            <td jigTableSelectionColumn></td>
+            <td jigTableTd>{{ row.data.id }}</td>
+            <td jigTableTd>{{ row.data.name }}</td>
+            <td jigTableTd>{{ row.data.email }}</td>
+            <td jigTableTd>{{ row.data.department }}</td>
+            <td jigTableTd>{{ row.data.role }}</td>
+            <td jigTableTd>{{ row.data.location }}</td>
+            <td jigTableTd>
               {{ '$' + row.data.salary.toLocaleString() }}
             </td>
           </tr>

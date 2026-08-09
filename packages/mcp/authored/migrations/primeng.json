@@ -5,7 +5,7 @@
   "components": [
     {
       "from": "p-button / pButton",
-      "to": "button[ngnButton]",
+      "to": "button[jigButton]",
       "notes": "Attribute directive on a native <button>/<a>. Label and icon are projected content, not inputs.",
       "props": [
         {
@@ -25,7 +25,7 @@
         }
       ],
       "gaps": [
-        "ngnButton has no `loading` or `disabled` input — use the native [disabled] attribute and render your own loading state."
+        "jigButton has no `loading` or `disabled` input — use the native [disabled] attribute and render your own loading state."
       ]
     },
     {
@@ -91,13 +91,13 @@
     },
     {
       "from": "p-inputText / pInputText",
-      "to": "input[ngnInput]",
+      "to": "input[jigInput]",
       "notes": "Attribute directive on native <input>/<textarea>; wrap in jig-input-field for chrome. Move any `id` off the input onto the wrapper: `<jig-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references.",
       "props": [{ "from": "[(ngModel)]", "to": "[(value)]" }]
     },
     {
       "from": "p-inputNumber",
-      "to": "input[ngnNumberInput]",
+      "to": "input[jigNumberInput]",
       "props": [
         { "from": "[(ngModel)]", "to": "[(value)]" },
         { "from": "min", "to": "min" },
@@ -120,8 +120,8 @@
     },
     {
       "from": "p-password",
-      "to": "input[ngnInput] type=password",
-      "gaps": ["No dedicated password meter component; use a native password input with ngnInput."]
+      "to": "input[jigInput] type=password",
+      "gaps": ["No dedicated password meter component; use a native password input with jigInput."]
     },
     {
       "from": "p-toggleSwitch / p-inputSwitch",
@@ -197,10 +197,10 @@
     },
     {
       "from": "pTooltip",
-      "to": "[ngnTooltip]",
+      "to": "[jigTooltip]",
       "props": [
-        { "from": "pTooltip", "to": "ngnTooltip", "notes": "The text is the directive value." },
-        { "from": "tooltipPosition", "to": "ngnTooltipPlacement" }
+        { "from": "pTooltip", "to": "jigTooltip", "notes": "The text is the directive value." },
+        { "from": "tooltipPosition", "to": "jigTooltipPlacement" }
       ]
     },
     {
@@ -261,13 +261,13 @@
     { "from": "p-tag", "to": "jig-tag" },
     {
       "from": "p-badge / p-overlayBadge / pBadge",
-      "to": "[ngnBadge]",
+      "to": "[jigBadge]",
       "notes": "Attribute directive that overlays a counter/dot on the host element; jig-badge-indicator is the standalone element form. Directive inputs are jig-prefixed aliases.",
       "props": [
-        { "from": "value", "to": "[ngnBadge]" },
+        { "from": "value", "to": "[jigBadge]" },
         { "from": "severity", "to": "kind / color" },
-        { "from": "badgeSize / size", "to": "[ngnBadgeCircular] + theme sizing" },
-        { "from": "(dot badge)", "to": "[ngnBadgeDot]" }
+        { "from": "badgeSize / size", "to": "[jigBadgeCircular] + theme sizing" },
+        { "from": "(dot badge)", "to": "[jigBadgeDot]" }
       ]
     },
     { "from": "p-avatar", "to": "jig-avatar" },
@@ -281,8 +281,8 @@
     { "from": "p-splitter", "to": "jig-splitter" },
     {
       "from": "p-textarea / pTextarea",
-      "to": "textarea[ngnInput]",
-      "notes": "Apply ngnInput to a native <textarea>; wrap in jig-input-field.",
+      "to": "textarea[jigInput]",
+      "notes": "Apply jigInput to a native <textarea>; wrap in jig-input-field.",
       "props": [{ "from": "[(ngModel)]", "to": "[(value)]" }]
     },
     {
@@ -362,7 +362,7 @@
     {
       "from": "p-scroller / p-virtualScroller",
       "to": "jig-scroller",
-      "notes": "Virtualization is opt-in — set [virtual] together with [itemHeight]; the item template is projected with [ngnScrollerItem].",
+      "notes": "Virtualization is opt-in — set [virtual] together with [itemHeight]; the item template is projected with [jigScrollerItem].",
       "props": [
         { "from": "items", "to": "items" },
         { "from": "itemSize", "to": "itemHeight" },
@@ -385,7 +385,7 @@
       "from": "p-splitButton",
       "to": "(no direct equivalent)",
       "gaps": [
-        "No split-button control; compose a button[ngnButton] with an jig-menu for the dropdown actions."
+        "No split-button control; compose a button[jigButton] with an jig-menu for the dropdown actions."
       ]
     }
   ]

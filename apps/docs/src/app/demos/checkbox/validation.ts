@@ -11,10 +11,10 @@ import { JigHint } from '@awdlab/jig/hint';
       <jig-checkbox
         [value]="accepted()"
         (valueChange)="accepted.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="termsHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="termsHint"
       />
     </div>
     <jig-hint #termsHint />

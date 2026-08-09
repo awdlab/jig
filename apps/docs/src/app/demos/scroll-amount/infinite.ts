@@ -6,7 +6,7 @@ import { JigSpinner } from '@awdlab/jig/spinner';
   selector: 'jig-demo-scroll-amount-infinite',
   imports: [JigScrollAmount, JigSpinner],
   template: `
-    <div ngnScrollAmount [ngnScrollAmountEndThreshold]="120" (endReached)="loadMore()" class="list">
+    <div jigScrollAmount [jigScrollAmountEndThreshold]="120" (endReached)="loadMore()" class="list">
       @for (row of rows(); track row) {
         <div class="row">Row {{ row }}</div>
       }

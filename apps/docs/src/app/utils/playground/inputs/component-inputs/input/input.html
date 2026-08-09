@@ -6,12 +6,12 @@
       @switch (dataType.type) {
         @case ('string') {
           <jig-input-field [label]="label" [labelKind]="'on'">
-            <input type="text" ngnInput [value]="value()" (valueChange)="value.set($event)" />
+            <input type="text" jigInput [value]="value()" (valueChange)="value.set($event)" />
           </jig-input-field>
         }
         @case ('number') {
           <jig-input-field [label]="label" [labelKind]="'on'">
-            <input type="number" ngnInput [value]="value()" (valueChange)="value.set($event)" />
+            <input type="number" jigInput [value]="value()" (valueChange)="value.set($event)" />
           </jig-input-field>
         }
         @case ('boolean') {

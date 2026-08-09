@@ -12,7 +12,7 @@ export type SectionLayout = 'split-left' | 'split-right' | 'full';
   template: `
     <div class="mx-auto max-w-[1100px]">
       <jig-docs-section-header
-        [ngnDocsReveal]="0"
+        [jigDocsReveal]="0"
         class="mb-8 lg:mb-12"
         [eyebrow]="eyebrow()"
         [heading]="heading()"
@@ -22,7 +22,7 @@ export type SectionLayout = 'split-left' | 'split-right' | 'full';
       <!-- Order via inline style (not a dynamic class) so it survives JIT. -->
       @if (isSplit()) {
         <div
-          [ngnDocsReveal]="60"
+          [jigDocsReveal]="60"
           class="grid grid-cols-1 items-center gap-(--jig-size-padding-xl) lg:grid-cols-2"
         >
           <div [style.order]="layout() === 'split-right' ? 2 : 1">
@@ -33,7 +33,7 @@ export type SectionLayout = 'split-left' | 'split-right' | 'full';
           </div>
         </div>
       } @else {
-        <div [ngnDocsReveal]="60">
+        <div [jigDocsReveal]="60">
           <ng-content />
         </div>
       }

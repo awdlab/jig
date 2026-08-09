@@ -27,18 +27,18 @@ import { JigTableBodyTr } from './table-row';
  *
  * **Header usage** — renders a "select all / none" checkbox:
  * ```html
- * <th ngnTableSelectionColumn></th>
+ * <th jigTableSelectionColumn></th>
  * ```
  *
- * **Body usage** — renders a per-row checkbox (must be inside a `[ngnTableBodyTr]`):
+ * **Body usage** — renders a per-row checkbox (must be inside a `[jigTableBodyTr]`):
  * ```html
- * <td ngnTableSelectionColumn></td>
+ * <td jigTableSelectionColumn></td>
  * ```
  *
  * @category directive
  */
 @Directive({
-  selector: '[ngnTableSelectionColumn]',
+  selector: '[jigTableSelectionColumn]',
   host: {
     '(click)': 'onClick($event)',
   },
@@ -69,7 +69,7 @@ export class JigTableSelectionColumn implements OnDestroy {
   protected readonly selected = computed(() => {
     if (this._isHeader) return false;
     const table = this._table();
-    const row = this._bodyTr?.ngnTableBodyTr();
+    const row = this._bodyTr?.jigTableBodyTr();
     if (!table || !row) return false;
     return table.isRowSelected(row.id);
   });
@@ -77,7 +77,7 @@ export class JigTableSelectionColumn implements OnDestroy {
   protected readonly focused = computed(() => {
     if (this._isHeader) return false;
     const table = this._table();
-    const row = this._bodyTr?.ngnTableBodyTr();
+    const row = this._bodyTr?.jigTableBodyTr();
     if (!table || !row) return false;
     return table.focusedRowIndex() === row.index;
   });
@@ -119,7 +119,7 @@ export class JigTableSelectionColumn implements OnDestroy {
 
   private _prepareDom(): void {
     const el = this._element.nativeElement;
-    // Mirror the grid roles that ngnTableTh/ngnTableTd set, so the selection column
+    // Mirror the grid roles that jigTableTh/jigTableTd set, so the selection column
     // stays inside the table's `role="grid"` semantics instead of being an orphan cell.
     el.setAttribute('role', this._isHeader ? 'columnheader' : 'gridcell');
     // The selection column is always the first visual column.
@@ -169,7 +169,7 @@ export class JigTableSelectionColumn implements OnDestroy {
     effect(() => {
       const isSelected = this.selected();
       const isFocused = this.focused();
-      const row = this._bodyTr?.ngnTableBodyTr();
+      const row = this._bodyTr?.jigTableBodyTr();
       const el = this._element.nativeElement;
 
       setComponentInput(this._checkboxRef, 'value', isSelected);
@@ -191,7 +191,7 @@ export class JigTableSelectionColumn implements OnDestroy {
     if (this._isHeader) {
       table.toggleSelectAll();
     } else {
-      const row = this._bodyTr?.ngnTableBodyTr();
+      const row = this._bodyTr?.jigTableBodyTr();
       if (row) {
         table.handleCheckboxChange(row);
       }

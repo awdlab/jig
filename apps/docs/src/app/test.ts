@@ -16,7 +16,7 @@ import { JigDialog } from '@awdlab/jig/dialog';
     >
       <ng-template #content>
         Content
-        <button autofocus ngnButton>jig</button>
+        <button autofocus jigButton>jig</button>
       </ng-template>
     </jig-dialog>`,
 })

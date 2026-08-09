@@ -13,11 +13,11 @@ import { JigInputField } from '@awdlab/jig/input-field';
       <p class="max-w-prose">
         An inline icon button is one line-height tall, so it fits a line of text or a dense
         adornment slot:
-        <button ngnButton kind="icon" ngnButtonInline aria-label="Copy">
+        <button jigButton kind="icon" jigButtonInline aria-label="Copy">
           <jig-icon [icon]="copy" />
         </button>
         sits inside the line, while the same button without <code>inline</code>
-        <button ngnButton kind="icon" aria-label="Copy">
+        <button jigButton kind="icon" aria-label="Copy">
           <jig-icon [icon]="copy" />
         </button>
         drops out of the sentence onto its own line, because a full-size button is a block-level box
@@ -27,7 +27,7 @@ import { JigInputField } from '@awdlab/jig/input-field';
       <!-- The clear button an jig-input-field renders is exactly this: kind="icon" + inline,
            so it fits the field's line box instead of stretching it. -->
       <jig-input-field label="Adornments use it too" showClearButton class="w-64">
-        <input ngnInput value="Clear me" />
+        <input jigInput value="Clear me" />
       </jig-input-field>
     </div>
   `,

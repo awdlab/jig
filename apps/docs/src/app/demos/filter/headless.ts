@@ -7,7 +7,7 @@ import { JigFilter, type JigFilterConfig } from '@awdlab/jig/filter';
   imports: [JigButton, JigFilter],
   template: `
     <div class="flex flex-col gap-2">
-      <button type="button" ngnButton #btn (click)="filter.show()">Open filter</button>
+      <button type="button" jigButton #btn (click)="filter.show()">Open filter</button>
 
       <jig-filter
         #filter

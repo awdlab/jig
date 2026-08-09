@@ -21,15 +21,15 @@ import { JigTableTh } from './table-header-cell';
  * @category directive
  */
 @Directive({
-  selector: '[ngnTableStickyColumn]',
+  selector: '[jigTableStickyColumn]',
 })
 export class JigTableStickyColumn implements OnDestroy {
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _headerCell = inject(JigTableTh);
-  private readonly _columnId = this._headerCell.ngnTableTh;
+  private readonly _columnId = this._headerCell.jigTableTh;
 
   /** Which edge the column sticks to: `'start'` (left) or `'end'` (right). */
-  public readonly ngnTableStickyColumn = input.required<'start' | 'end'>();
+  public readonly jigTableStickyColumn = input.required<'start' | 'end'>();
 
   private readonly _table = getNearestJigInstanceSig<Type<JigTable<any, any>>>(
     this._element.nativeElement,
@@ -40,7 +40,7 @@ export class JigTableStickyColumn implements OnDestroy {
     afterNextRender(() => {
       const table = this._table();
       if (table) {
-        table.registerStickyColumn(this._columnId(), this.ngnTableStickyColumn());
+        table.registerStickyColumn(this._columnId(), this.jigTableStickyColumn());
       }
     });
   }

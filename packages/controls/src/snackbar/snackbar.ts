@@ -77,7 +77,7 @@ export class JigSnackbar extends SnackbarTemplates implements OnInit {
    * dismisses the snackbar; its `action` callback fires first. Import the config
    * type from `@awdlab/jig/api`.
    */
-  // ponytail: snackbar has no [ngnKeyboardShortcut] scope, so a config `shortcut` is inert here; add a scope host if needed.
+  // ponytail: snackbar has no [jigKeyboardShortcut] scope, so a config `shortcut` is inert here; add a scope host if needed.
   public readonly actions = input<JigActionButtonConfig[]>();
   /**
    * Shows a thin progress bar at the bottom of the snackbar that depletes over the

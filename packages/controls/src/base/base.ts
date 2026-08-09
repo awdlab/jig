@@ -37,7 +37,7 @@ import type { CustomColor, CustomKind } from '@awdlab/jig-custom-types';
 import type { ControlTemplate } from '@awdlab/jig-themes';
 import type { ControlName, ThemeTemplate } from '@awdlab/jig-themes/templates';
 
-export const NGN_CONTROL = new InjectionToken<JigBase<never>>('NGN_CONTROL');
+export const JIG_CONTROL = new InjectionToken<JigBase<never>>('JIG_CONTROL');
 
 // eslint-disable-next-line typescript/no-explicit-any
 export type AnyJigBase = JigBaseSafe<any>;
@@ -61,7 +61,7 @@ export type FullAnyJigBase = Omit<JigBase<any>, 'kind' | 'appliedKind' | 'pt'> &
  * @returns A provider for the control itself.
  */
 export function provideSelf(control: Type<unknown>): Provider {
-  return { provide: NGN_CONTROL, useExisting: forwardRef(() => control) };
+  return { provide: JIG_CONTROL, useExisting: forwardRef(() => control) };
 }
 
 @Directive({
@@ -179,7 +179,7 @@ export abstract class JigBase<T extends ControlName | null> {
     this._kindOverride.set(kind);
   }
 
-  private readonly _childJigControls = viewChildren(NGN_CONTROL);
+  private readonly _childJigControls = viewChildren(JIG_CONTROL);
   private readonly _afterLeaveCbs: (() => void)[] = [];
 
   constructor() {

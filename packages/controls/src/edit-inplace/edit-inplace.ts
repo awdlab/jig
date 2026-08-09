@@ -43,7 +43,7 @@ export class JigEditInplace extends EditInplaceTemplates {
 
   /**
    * Closes the edit view from a user confirm (Enter / confirm button). Marks the
-   * control touched first, so `ngnErrorsShowOn="touched"` reveals errors after an
+   * control touched first, so `jigErrorsShowOn="touched"` reveals errors after an
    * inline confirm — not just after blurring out of the control (see {@link focusOut}).
    */
   protected readonly confirmEdit = (): void => {

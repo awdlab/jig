@@ -7,7 +7,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { JigBase, NGN_CONTROL, provideSelf, JigPt } from '@awdlab/jig/base';
+import { JigBase, JIG_CONTROL, provideSelf, JigPt } from '@awdlab/jig/base';
 import { JigButton } from '@awdlab/jig/button';
 import { I18n } from '@awdlab/jig/i18n';
 import { JigIcon } from '@awdlab/jig/icon';
@@ -92,7 +92,7 @@ export class JigInputField extends JigBase<'inputField'> {
    */
   public readonly disabled = input(false, { transform: booleanAttribute });
 
-  private readonly _projectedControls = contentChildren(NGN_CONTROL, { descendants: true });
+  private readonly _projectedControls = contentChildren(JIG_CONTROL, { descendants: true });
   /**
    * The projected primary control (input, mask, calendar, …), used to delegate
    * pointer focus, clearing and stepping. Auxiliary controls inside the field

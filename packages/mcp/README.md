@@ -9,7 +9,7 @@ agents [@awdlab/jig](https://www.npmjs.com/package/@awdlab/jig)** — every
 control's API, selector and usage, plus the concept guides (theming, colors, passthrough,
 state, …).
 
-[![Main package](https://img.shields.io/badge/Main%20package-%40ngneers%2Fcontrols-e90464?style=for-the-badge)](https://www.npmjs.com/package/@awdlab/jig)
+[![Main package](https://img.shields.io/badge/Main%20package-%40awdlab%2Fjig-e90464?style=for-the-badge)](https://www.npmjs.com/package/@awdlab/jig)
 [![Documentation](https://img.shields.io/badge/Documentation-jig.awdlab.dev-8514f5?style=for-the-badge)](https://jig.awdlab.dev)
 
 </div>

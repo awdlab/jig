@@ -41,7 +41,7 @@ protected readonly pt: JigPassthrough<'calendar'> = {
 
 - Reach for **`pt`** for targeted, per-instance tweaks: brand a few scopes, add test hooks,
   attach a listener.
-- Use a **template** (`ngnTemplate`) when you need to replace the _content_ of a slot with
+- Use a **template** (`jigTemplate`) when you need to replace the _content_ of a slot with
   your own markup.
 - Extend a **custom theme** when the change should apply to every instance across your app.
 - Go **`unstyled`** when you want to strip all theme styling and start from scratch.

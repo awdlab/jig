@@ -5,7 +5,7 @@ export class JigButtonGroupHarness {
   public readonly buttons: Locator;
 
   constructor(public locator: Locator) {
-    this.buttons = locator.locator('button[ngnButton]');
+    this.buttons = locator.locator('button[jigButton]');
   }
 
   public async expectItemCount(count: number) {

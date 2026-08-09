@@ -21,13 +21,13 @@ const REORDER_DEAD_ZONE_PX = 5;
  * @category directive
  */
 @Directive({
-  selector: '[ngnTableReorderableColumn]',
+  selector: '[jigTableReorderableColumn]',
 })
 export class JigTableReorderableColumn implements OnDestroy {
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _headerCell = inject(JigTableTh);
-  private readonly _columnId = this._headerCell.ngnTableTh;
+  private readonly _columnId = this._headerCell.jigTableTh;
 
   private readonly _table = getNearestJigInstanceSig<Type<JigTable<any, any>>>(
     this._element.nativeElement,

@@ -14,13 +14,13 @@ import type { JigErrorsMessages } from '@awdlab/jig/errors';
     <div class="flex flex-col gap-1">
       <jig-input-field [label]="'Coupon code'" [labelKind]="'on'" class="w-72">
         <input
-          ngnInput
+          jigInput
           [formControl]="code"
-          ngnErrors
-          ngnErrorsMode="all"
-          ngnErrorsShowOn="dirty"
-          [ngnErrorsMessages]="messages"
-          [ngnErrorsHint]="codeHint"
+          jigErrors
+          jigErrorsMode="all"
+          jigErrorsShowOn="dirty"
+          [jigErrorsMessages]="messages"
+          [jigErrorsHint]="codeHint"
         />
       </jig-input-field>
       <jig-hint #codeHint />

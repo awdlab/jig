@@ -21,14 +21,14 @@ import { JigScroller } from './scroller';
  *
  * @category directive
  */
-@Directive({ selector: '[ngnScrollerItem]' })
+@Directive({ selector: '[jigScrollerItem]' })
 export class JigScrollerItem implements AfterViewInit {
   private readonly _el = inject(ElementRef<HTMLElement>);
   /**
    * The item bound to this element. Used to resolve its sticky state and apply
    * the scroller's item classes from the enclosing {@link JigScroller}.
    */
-  public readonly ngnScrollerItem = input.required<object>();
+  public readonly jigScrollerItem = input.required<object>();
   private readonly _scroller = signal<JigScroller<unknown> | null>(null);
 
   public ngAfterViewInit() {
@@ -39,7 +39,7 @@ export class JigScrollerItem implements AfterViewInit {
     if (!parentInstance) {
       throw new JigError(
         'scroller',
-        'ngnScrollerItem must be used within an JigScroller component'
+        'jigScrollerItem must be used within an JigScroller component'
       );
     }
     this._scroller.set(parentInstance);
@@ -49,7 +49,7 @@ export class JigScrollerItem implements AfterViewInit {
     let prevItemClass = '';
     let prevStickyClass = '';
     effect(() => {
-      const item = this.ngnScrollerItem() as Record<string, unknown> | null;
+      const item = this.jigScrollerItem() as Record<string, unknown> | null;
       const scroller = this._scroller();
       if (!item || !scroller) {
         return;

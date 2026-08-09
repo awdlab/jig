@@ -6,8 +6,8 @@ import { injectSnackbarCreator, type JigSnackbarRef } from '@awdlab/jig/snackbar
   imports: [JigButton],
   selector: 'jig-demo-snackbar-persistent',
   template: `
-    <button ngnButton kind="text" (click)="showSnackbar()">Show Snackbar</button>
-    <button ngnButton kind="text" (click)="hideSnackbar()">Hide Snackbar</button>
+    <button jigButton kind="text" (click)="showSnackbar()">Show Snackbar</button>
+    <button jigButton kind="text" (click)="hideSnackbar()">Hide Snackbar</button>
   `,
 })
 export class Demo_Snackbar_Persistent {

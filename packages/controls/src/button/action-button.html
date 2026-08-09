@@ -1,15 +1,15 @@
 <button
   type="button"
-  ngnButton
+  jigButton
   [kind]="config().kind"
   [color]="config().color"
-  [ngnButtonInline]="inline()"
+  [jigButtonInline]="inline()"
   [disabled]="config().disabled"
   (click)="click($event)"
   [attr.data-test-id]="config().testId"
   [attr.aria-keyshortcuts]="ariaShortcut()"
-  [ngnTooltip]="tooltip()"
-  ngnTooltipAutoAriaMode="label"
+  [jigTooltip]="tooltip()"
+  jigTooltipAutoAriaMode="label"
 >
   @if (config().icon || config().defaultIcon) {
     <jig-icon [icon]="config().icon" [defaultIcon]="config().defaultIcon" />

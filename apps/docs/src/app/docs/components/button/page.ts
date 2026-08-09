@@ -36,7 +36,7 @@ export const ButtonPage: JigDocsPage = {
     { kind: 'single', title: 'API', mdFile: 'components/button/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/button/a11y.md' },
     i18nText(
-      "Button has no built-in translatable strings of its own. Any text it displays — the label content you place inside the `<button ngnButton>` (or `<a ngnButton>`) element — comes from the values you provide, so translate those in your own application's i18n layer."
+      "Button has no built-in translatable strings of its own. Any text it displays — the label content you place inside the `<button jigButton>` (or `<a jigButton>`) element — comes from the values you provide, so translate those in your own application's i18n layer."
     ),
   ],
 };

@@ -12,10 +12,10 @@ import { JigInputField } from '@awdlab/jig/input-field';
       <jig-calendar
         [value]="value()"
         (valueChange)="value.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="dateHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="dateHint"
       />
     </jig-input-field>
     <jig-hint #dateHint />

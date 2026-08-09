@@ -12,8 +12,8 @@ import { createConditionalSpinner, injectSpinnerCreator } from '@awdlab/jig/spin
     >
       Some content
     </div>
-    <button ngnButton kind="secondary" (click)="show()">Show Spinner</button>
-    <button ngnButton kind="secondary" (click)="toggleVisible()">Toggle Conditional Spinner</button>
+    <button jigButton kind="secondary" (click)="show()">Show Spinner</button>
+    <button jigButton kind="secondary" (click)="toggleVisible()">Toggle Conditional Spinner</button>
   `,
 })
 export class Demo_Spinner_Creator {

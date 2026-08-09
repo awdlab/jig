@@ -8,7 +8,7 @@ import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
   template: `
     <div class="flex flex-col items-start gap-3">
       <div
-        ngnRovingGroup
+        jigRovingGroup
         rovingWrap
         orientation="horizontal"
         role="toolbar"
@@ -17,7 +17,7 @@ import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
         (activeItemChange)="active.set($event)"
       >
         @for (tool of tools; track tool) {
-          <button ngnButton ngnRovingItem kind="secondary">{{ tool }}</button>
+          <button jigButton jigRovingItem kind="secondary">{{ tool }}</button>
         }
       </div>
 

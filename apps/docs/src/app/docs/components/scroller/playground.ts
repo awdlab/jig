@@ -10,8 +10,8 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
   template: `
     <jig-docs-playground [controls]="[{ componentName: 'JigScroller', component: component() }]">
       <jig-scroller class="flex-1" #ref style="height: 200px" [items]="items">
-        <ng-template #item [ngnTemplate]="component().templateTypes.item" let-item>
-          <span [ngnScrollerItem]="item">{{ item.label }}</span>
+        <ng-template #item [jigTemplate]="component().templateTypes.item" let-item>
+          <span [jigScrollerItem]="item">{{ item.label }}</span>
         </ng-template>
       </jig-scroller>
     </jig-docs-playground>

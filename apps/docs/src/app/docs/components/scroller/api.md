@@ -6,7 +6,7 @@ Selector: `jig-scroller`, `[jig-scroller]`
 
 ## JigScrollerItem
 
-Selector: `[ngnScrollerItem]`
+Selector: `[jigScrollerItem]`
 
 Binds a rendered element to the item it represents, so the scroller can apply
 its per-item classes and resolve sticky state. Throws when used outside an

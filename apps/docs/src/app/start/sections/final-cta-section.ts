@@ -21,10 +21,10 @@ import { JigDocsSectionHeader } from './section-header';
         subtitle="Install, import, bind a signal — that is the whole learning curve. Swap in a single control where you need it and leave the rest of your app untouched, or point your coding agent at our MCP server and let it migrate the whole app in one pass. Your call."
       />
       <div class="flex flex-wrap gap-(--jig-size-padding-lg)">
-        <a ngnButton kind="primary" routerLink="/guides/introduction">Read the docs</a>
-        <a ngnButton kind="secondary" routerLink="/guides/mcp-server">Migrate with the MCP</a>
+        <a jigButton kind="primary" routerLink="/guides/introduction">Read the docs</a>
+        <a jigButton kind="secondary" routerLink="/guides/mcp-server">Migrate with the MCP</a>
         <a
-          ngnButton
+          jigButton
           kind="secondary"
           href="https://github.com/awdlab/jig"
           target="_blank"

@@ -11,14 +11,14 @@ import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
   template: `
     <jig-input-field [label]="'Quantity'" [labelKind]="'on'" class="w-44">
       <input
-        ngnNumberInput
+        jigNumberInput
         [min]="1"
         [value]="value()"
         (valueChange)="value.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="quantityHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="quantityHint"
       />
       <jig-spin-buttons />
     </jig-input-field>

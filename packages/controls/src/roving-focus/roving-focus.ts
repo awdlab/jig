@@ -42,9 +42,9 @@ export const ROVING_GROUP = new InjectionToken<JigRovingGroup>('ROVING_GROUP');
  * @category directive
  */
 @Directive({
-  selector: '[ngnRovingGroup]',
+  selector: '[jigRovingGroup]',
   providers: [{ provide: ROVING_GROUP, useExisting: JigRovingGroup }],
-  exportAs: 'ngnRovingGroup',
+  exportAs: 'jigRovingGroup',
 })
 export class JigRovingGroup {
   /**
@@ -295,12 +295,12 @@ export class JigRovingGroup {
 
 /**
  * One navigable item inside an {@link JigRovingGroup}. It registers with the
- * nearest group (or the one passed to {@link JigRovingItem.ngnRovingItem}),
+ * nearest group (or the one passed to {@link JigRovingItem.jigRovingItem}),
  * gets an `id` if the element has none, and activates itself on pointerdown.
  *
  * @category directive
  */
-@Directive({ selector: '[ngnRovingItem]', exportAs: 'ngnRovingItem' })
+@Directive({ selector: '[jigRovingItem]', exportAs: 'jigRovingItem' })
 export class JigRovingItem implements RovingItemRef {
   private readonly _injectedGroup = inject(ROVING_GROUP, { optional: true });
   /**
@@ -308,7 +308,7 @@ export class JigRovingItem implements RovingItemRef {
    * the item is not a DOM descendant of its group; leave empty/undefined to use
    * the nearest ancestor group via dependency injection.
    */
-  public readonly ngnRovingItem = input<JigRovingGroup | '' | undefined>(undefined);
+  public readonly jigRovingItem = input<JigRovingGroup | '' | undefined>(undefined);
 
   public readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   public readonly id: string;
@@ -320,11 +320,11 @@ export class JigRovingItem implements RovingItemRef {
   public readonly disabled = signal(false);
 
   private readonly _group = computed<JigRovingGroup>(() => {
-    const explicit = this.ngnRovingItem();
+    const explicit = this.jigRovingItem();
     const group = explicit instanceof JigRovingGroup ? explicit : this._injectedGroup;
     if (!group) {
       throw new Error(
-        'ngnRovingItem: no JigRovingGroup found. Provide via [ngnRovingItem]="group" or nest inside one.'
+        'jigRovingItem: no JigRovingGroup found. Provide via [jigRovingItem]="group" or nest inside one.'
       );
     }
     return group;

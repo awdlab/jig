@@ -7,7 +7,7 @@ import { JigInputField } from '@awdlab/jig/input-field';
   selector: 'jig-demo-input-field-clear',
   template: `
     <jig-input-field [showClearButton]="true">
-      <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
+      <input jigInput [value]="value()" (valueChange)="value.set($event ?? '')" />
       🥳
     </jig-input-field>
     {{ value() }}

@@ -7,10 +7,10 @@ import { DestroyRef, Directive, ElementRef, afterNextRender, inject, input } fro
  * prerendered HTML stays fully visible without JS and there is no flash of
  * hidden content. Respects `prefers-reduced-motion`.
  */
-@Directive({ selector: '[ngnDocsReveal]' })
+@Directive({ selector: '[jigDocsReveal]' })
 export class JigDocsReveal {
   /** Extra transition delay in ms — use to stagger siblings. */
-  public readonly revealDelay = input(0, { alias: 'ngnDocsReveal' });
+  public readonly revealDelay = input(0, { alias: 'jigDocsReveal' });
 
   constructor() {
     const el = inject(ElementRef).nativeElement as HTMLElement;

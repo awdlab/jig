@@ -1,4 +1,4 @@
-The Input is an attribute directive (`ngnInput`) on a native `<input>` or
+The Input is an attribute directive (`jigInput`) on a native `<input>` or
 `<textarea>` that keeps a `value` model (`string | null`) in sync with the
 element in both directions. Because it is a plain directive on a real form
 element, `ngModel`, `formControl`, or `formControlName` work alongside it out of
@@ -11,14 +11,14 @@ the element itself.
 
 ### Basic Usage
 
-A bare `ngnInput` on an `<input>`, projected into an `jig-input-field`, with its
+A bare `jigInput` on an `<input>`, projected into an `jig-input-field`, with its
 `value` bound two-way through `value` / `valueChange`.
 
 {{ demo: Demo_Input_Base }}
 
 ### Validation
 
-Combine `ngnInput` with `ngModel` and Angular validators; `ngnErrors` plus an
+Combine `jigInput` with `ngModel` and Angular validators; `jigErrors` plus an
 `jig-hint` surfaces the messages under the field.
 
 {{ demo: Demo_Input_Validation }}
@@ -36,7 +36,7 @@ Angular forms. States compose — a field can be invalid and readonly at once.
 
 `jig-input-field` projects arbitrary content, so prefixes and suffixes are just
 elements placed before or after the input — icons, `<jig-state>` indicators,
-tooltips, or `ngnButton` actions. Auxiliary controls are skipped when the field
+tooltips, or `jigButton` actions. Auxiliary controls are skipped when the field
 picks its primary control, so their placement never shadows the real input.
 Provide a `label` (with an optional `labelKind` for placement) or wire
 `labelledBy`/`inputId` to an external label; enable `showClearButton` for a

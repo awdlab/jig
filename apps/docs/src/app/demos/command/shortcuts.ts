@@ -17,13 +17,13 @@ import type { JigActionItem } from '@awdlab/jig/api';
     <div
       tabindex="0"
       class="flex flex-col items-start gap-3 rounded border border-dashed p-4"
-      [ngnKeyboardShortcut]="[{ shortcut: 'mod+alt+k', callback: () => open.set(true) }]"
+      [jigKeyboardShortcut]="[{ shortcut: 'mod+alt+k', callback: () => open.set(true) }]"
     >
       <span class="text-sm">
         Click inside this box, then press <jig-kbd shortcut="mod+alt+k" /> to open the palette. The
         per-item shortcuts below run their command from anywhere — open or closed.
       </span>
-      <button ngnButton (click)="open.set(true)">Open palette</button>
+      <button jigButton (click)="open.set(true)">Open palette</button>
       <jig-command [items]="items" [(open)]="open" (commandSelected)="last.set($event.id)" />
       @if (last()) {
         <p>Ran: {{ last() }}</p>

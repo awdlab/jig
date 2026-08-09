@@ -41,9 +41,9 @@ function positiveStep(value: number | undefined): number | undefined {
  * @category control
  */
 @Directive({
-  selector: 'input[ngnNumberInput]',
+  selector: 'input[jigNumberInput]',
   providers: [provideSelf(JigNumberInput)],
-  exportAs: 'ngnNumberInput',
+  exportAs: 'jigNumberInput',
   host: {
     type: 'text',
     role: 'spinbutton',

@@ -12,7 +12,7 @@ body:
     id: control
     attributes:
       label: Control or package
-      description: e.g. `jig-select`, `ngnTableTh`, `@awdlab/jig-themes`
+      description: e.g. `jig-select`, `jigTableTh`, `@awdlab/jig-themes`
       placeholder: jig-select
     validations:
       required: true

@@ -8,7 +8,7 @@ import { DummyLazyComponent } from '../dummies/lazy';
   imports: [JigPopover, JigButton, DummyLazyComponent],
   selector: 'jig-demo-popover-lazy',
   template: `
-    <button ngnButton #anchor (click)="popover.show()">Open</button>
+    <button jigButton #anchor (click)="popover.show()">Open</button>
     <jig-popover #popover [anchor]="anchor" [options]="{ cache: true }">
       <ng-template #lazy>
         <dummy-lazy-test />

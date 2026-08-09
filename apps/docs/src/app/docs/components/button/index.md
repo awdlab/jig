@@ -1,4 +1,4 @@
-The Button is an attribute directive (`ngnButton`) rather than a wrapper
+The Button is an attribute directive (`jigButton`) rather than a wrapper
 component — you apply it to a native `<button>` or `<a>` element, so the element
 keeps its native semantics, form behavior, and keyboard handling. Use it on a
 `<button>` for actions and on an `<a>` for navigation; the theme makes them look
@@ -6,7 +6,7 @@ identical.
 
 ### Basic Usage
 
-Applying `ngnButton` to a native `<button>` gives it the theme's default styling
+Applying `jigButton` to a native `<button>` gives it the theme's default styling
 while its own `click` handler keeps working.
 
 {{ demo: Demo_Button_Base }}
@@ -34,15 +34,15 @@ the inline behavior comes from the base theme, so each theme only supplies the
 colour, the underline and the ring.
 
 Reach for it inside prose, in hint or empty-state text, and in dense footers
-where a full button would be too loud. Use `<a ngnButton kind="link">` when the
-click navigates and `<button ngnButton kind="link">` when it triggers an action;
+where a full button would be too loud. Use `<a jigButton kind="link">` when the
+click navigates and `<button jigButton kind="link">` when it triggers an action;
 both look identical.
 
 {{ demo: Demo_Button_Link }}
 
 ### Inline buttons
 
-Set `inline` (aliased `ngnButtonInline`) to size an icon button to the current
+Set `inline` (aliased `jigButtonInline`) to size an icon button to the current
 line height (`1lh`) instead of the default control height, and to make it
 inline-level so it can sit in a line of text. It is the companion of
 `kind="icon"` — the other kinds keep their normal box — and it is what the

@@ -21,8 +21,8 @@
   #scrollContainer
   role="grid"
   tabindex="0"
-  ngnScrollShadow="horizontal"
-  ngnScrollShadowUnstyled
+  jigScrollShadow="horizontal"
+  jigScrollShadowUnstyled
   [ptInt]="this"
   [ptClass]="{ table: true, striped: striped() }"
   [attr.aria-label]="label()"
@@ -67,7 +67,7 @@
     [stickyOffset]="headerHeight()"
     [style.--jig-table-item-start-index]="scroller.itemStartIndex()"
   >
-    <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item let-index="index">
+    <ng-template #item [jigTemplate]="scroller.templateTypes.item" let-item let-index="index">
       @if (item.kind === 'group-header') {
         @if (groupHeaderTemplate(); as customGroupHeader) {
           <ng-container
@@ -83,7 +83,7 @@
           ></ng-container>
         } @else {
           <tr
-            [ngnTableGroupHeaderTr]="item"
+            [jigTableGroupHeaderTr]="item"
             [class]="
               theme.classes({
                 'group-expanded': item.expanded,
@@ -144,7 +144,7 @@
         <tr [class]="theme.class('error-row')" role="row">
           <td [attr.colspan]="totalColumnCount()" role="gridcell">
             <span>{{ i18n['table_loadError']() }}</span>
-            <button ngnButton [kind]="'text'" (click)="retryLoad()">
+            <button jigButton [kind]="'text'" (click)="retryLoad()">
               {{ i18n['table_retry']() }}
             </button>
           </td>

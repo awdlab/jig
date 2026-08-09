@@ -1,7 +1,7 @@
 import { computed, Directive, effect, inject, input, isDevMode } from '@angular/core';
 import { setInputSignalValue } from '@awdlab/jig/utils-ng';
 
-import { NGN_CONTROL } from '../base';
+import { JIG_CONTROL } from '../base';
 import { JigPtEngine } from './pt-engine';
 
 import type { AnyJigPassthrough } from './types';
@@ -46,7 +46,7 @@ export class JigPt<T extends JigBaseSafe<Name>, Name extends ControlName> {
    * ancestor control (e.g. the parent that owns `[ptInt]`), and the forwarding
    * effect would then overwrite the ancestor's `pt` instead of the child's.
    */
-  private readonly _self = inject(NGN_CONTROL, {
+  private readonly _self = inject(JIG_CONTROL, {
     optional: true,
     self: true,
   }) as unknown as FullAnyJigBase | null;

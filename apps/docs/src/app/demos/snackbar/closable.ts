@@ -5,7 +5,7 @@ import { injectSnackbarCreator } from '@awdlab/jig/snackbar';
 @Component({
   imports: [JigButton],
   selector: 'jig-demo-snackbar-closable',
-  template: ` <button ngnButton kind="text" (click)="showSnackbar()">Show Snackbar</button> `,
+  template: ` <button jigButton kind="text" (click)="showSnackbar()">Show Snackbar</button> `,
 })
 export class Demo_Snackbar_Closable {
   private readonly _snackbarCreator = injectSnackbarCreator();

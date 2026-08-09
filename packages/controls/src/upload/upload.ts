@@ -45,21 +45,21 @@ let uploadInstanceSeq = 0;
  * hides it, and drives it:
  *
  * ```html
- * <jig-upload #up="ngnUpload" mode="auto" (upload)="send($event, up)">
+ * <jig-upload #up="jigUpload" mode="auto" (upload)="send($event, up)">
  *   <input type="file" multiple accept="image/*" />
  * </jig-upload>
  * ```
  *
  * The control owns the list of {@link JigUploadFile}s and their lifecycle
  * state, but it **cannot** observe the actual transfer (the consumer runs the
- * request). Report progress/status back through the `exportAs="ngnUpload"`
+ * request). Report progress/status back through the `exportAs="jigUpload"`
  * handle: {@link setProgress}, {@link markDone}, {@link markFailed}.
  *
  * @category control
  */
 @Component({
   selector: 'jig-upload',
-  exportAs: 'ngnUpload',
+  exportAs: 'jigUpload',
   templateUrl: './upload.html',
   imports: [JigPt, JigIcon, JigButton, JigProgress],
   providers: [provideSelf(JigUpload)],
@@ -208,7 +208,7 @@ export class JigUpload extends JigBase<'upload'> {
     });
   }
 
-  // --- Public handle (exportAs="ngnUpload") ----------------------------------
+  // --- Public handle (exportAs="jigUpload") ----------------------------------
 
   /** Report transfer progress (`0`–`100`) for a file; marks it `uploading`. */
   public setProgress(id: string, progress: number): void {

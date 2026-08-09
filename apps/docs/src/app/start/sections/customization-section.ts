@@ -152,7 +152,7 @@ interface Person {
                   [items]="people"
                   [(value)]="selected"
                 >
-                  <ng-template #item [ngnTemplate]="tplBox.templateTypes.item" let-item>
+                  <ng-template #item [jigTemplate]="tplBox.templateTypes.item" let-item>
                     <span class="flex w-full items-center gap-(--jig-size-padding-md)">
                       <jig-avatar [initials]="item?.initials" [size]="32" />
                       <span class="flex flex-col">
@@ -316,7 +316,7 @@ const CODE_BY_MODE: Record<Mode, string> = {
 />`,
   templated: `<jig-list-box #listBox [items]="people">
   <ng-template
-    [ngnTemplate]="listBox.templateTypes.item"
+    [jigTemplate]="listBox.templateTypes.item"
     let-item
   >
     <jig-avatar [initials]="item.initials" />

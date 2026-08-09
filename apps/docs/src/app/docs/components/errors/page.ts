@@ -28,7 +28,7 @@ export const ErrorsPage: JigDocsPage = {
     i18nKeys(
       'errors',
       {
-        pending: 'Shown while an async validator is running, regardless of `ngnErrorsShowOn`.',
+        pending: 'Shown while an async validator is running, regardless of `jigErrorsShowOn`.',
         required: 'Default message for the `required` error.',
         email: 'Default message for the `email` error.',
         minlength:

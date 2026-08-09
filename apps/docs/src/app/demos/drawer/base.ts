@@ -5,7 +5,7 @@ import { JigDrawer } from '@awdlab/jig/drawer';
 @Component({
   imports: [JigDrawer, JigButton],
   selector: 'jig-demo-drawer-base',
-  template: `<button ngnButton (click)="open.set(true)">Open Drawer</button>
+  template: `<button jigButton (click)="open.set(true)">Open Drawer</button>
     <jig-drawer
       [header]="'Drawer Header'"
       [modal]="true"

@@ -15,7 +15,7 @@ condition.
 
 ### Validation
 
-The filter plugs into the shared `ngnErrors` + `jig-hint` validation flow like
+The filter plugs into the shared `jigErrors` + `jig-hint` validation flow like
 any other control — here a custom error requires at least one filter rule.
 
 {{ demo: Demo_Filter_Validation }}

@@ -425,35 +425,35 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
           >
             A
             <a
-              ngnButton
+              jigButton
               kind="link"
-              ngnButtonInline
+              jigButtonInline
               href="#developer-experience"
               (click)="jumpTo($event, 'developer-experience')"
               >signals-native</a
             >, zoneless,
             <a
-              ngnButton
+              jigButton
               kind="link"
-              ngnButtonInline
+              jigButtonInline
               href="#accessibility"
               (click)="jumpTo($event, 'accessibility')"
               >accessible</a
             >
             component library — themed by
             <a
-              ngnButton
+              jigButton
               kind="link"
-              ngnButtonInline
+              jigButtonInline
               href="#theming"
               (click)="jumpTo($event, 'theming')"
               >design tokens</a
             >
             and built on
             <a
-              ngnButton
+              jigButton
               kind="link"
-              ngnButtonInline
+              jigButtonInline
               href="#under-the-hood"
               (click)="jumpTo($event, 'under-the-hood')"
               >native browser primitives</a
@@ -461,7 +461,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
           </p>
           <div class="flex flex-wrap items-center gap-(--jig-size-padding-md)">
             <a
-              ngnButton
+              jigButton
               kind="primary"
               routerLink="/guides/introduction"
               class="hero-cta group rounded-full px-(--jig-size-padding-xl) text-(length:--jig-font-size-md) font-(--jig-font-weight-bold)"
@@ -475,7 +475,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
               </span>
             </a>
             <a
-              ngnButton
+              jigButton
               kind="secondary"
               routerLink="/components"
               class="hero-cta-ghost rounded-full px-(--jig-size-padding-xl) text-(length:--jig-font-size-md) font-(--jig-font-weight-bold)"

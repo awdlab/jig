@@ -181,7 +181,7 @@ export class JigDialog<
       return {};
     }
     return {
-      ngnPromptDialogResolveFn: {
+      jigPromptDialogResolveFn: {
         button: latestButton.button,
         fn: (result: T extends PromptDialogBase<infer D, Buttons[number]['value']> ? D : never) => {
           this.promptResult.emit({

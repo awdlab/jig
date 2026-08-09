@@ -60,7 +60,7 @@ describe('PromptDialogBase', () => {
     it('should call resolve fn with data when fulfilPrompt is called with data', () => {
       const resolveFn = vi.fn();
 
-      fixture.componentRef.setInput('ngnPromptDialogResolveFn', {
+      fixture.componentRef.setInput('jigPromptDialogResolveFn', {
         fn: resolveFn,
         button: 'ok',
       });
@@ -72,7 +72,7 @@ describe('PromptDialogBase', () => {
     it('should call resolve fn with null when fulfilPrompt is called without data', () => {
       const resolveFn = vi.fn();
 
-      fixture.componentRef.setInput('ngnPromptDialogResolveFn', {
+      fixture.componentRef.setInput('jigPromptDialogResolveFn', {
         fn: resolveFn,
         button: 'cancel',
       });
@@ -87,7 +87,7 @@ describe('PromptDialogBase', () => {
       const spy = vi.spyOn(fixture.componentInstance as any, 'onDialogButtonClicked');
       const resolveFn = vi.fn();
 
-      fixture.componentRef.setInput('ngnPromptDialogResolveFn', {
+      fixture.componentRef.setInput('jigPromptDialogResolveFn', {
         fn: resolveFn,
         button: 'ok',
       });
@@ -95,7 +95,7 @@ describe('PromptDialogBase', () => {
 
       expect(spy).toHaveBeenCalledWith('ok');
 
-      fixture.componentRef.setInput('ngnPromptDialogResolveFn', {
+      fixture.componentRef.setInput('jigPromptDialogResolveFn', {
         fn: resolveFn,
         button: 'cancel',
       });

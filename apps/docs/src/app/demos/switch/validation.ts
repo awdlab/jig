@@ -11,10 +11,10 @@ import { JigSwitch } from '@awdlab/jig/switch';
       <jig-switch
         [value]="enabled()"
         (valueChange)="enabled.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="switchHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="switchHint"
       />
       <jig-hint #switchHint />
     </div>

@@ -10,7 +10,7 @@ import { JigKbd, JigKeyboardShortcut } from '@awdlab/jig/kbd';
     <div class="flex flex-col gap-4 p-4">
       <div
         class="flex flex-col gap-2 rounded border border-dashed p-4"
-        [ngnKeyboardShortcut]="[
+        [jigKeyboardShortcut]="[
           { shortcut: 'mod+s', callback: () => log('outer: save') },
           { shortcut: 'escape', callback: () => log('outer: escape') },
         ]"
@@ -19,22 +19,22 @@ import { JigKbd, JigKeyboardShortcut } from '@awdlab/jig/kbd';
           Outer scope — focus a field below, then press <jig-kbd shortcut="mod+s" /> or
           <jig-kbd shortcut="escape" />
         </span>
-        <input ngnInput placeholder="Outer field" />
+        <input jigInput placeholder="Outer field" />
 
         <div
           class="flex flex-col gap-2 rounded border border-dashed p-4"
-          [ngnKeyboardShortcut]="[{ shortcut: 'mod+s', callback: () => log('inner: save') }]"
+          [jigKeyboardShortcut]="[{ shortcut: 'mod+s', callback: () => log('inner: save') }]"
         >
           <span class="text-sm">
             Inner scope — handles <jig-kbd shortcut="mod+s" /> itself, so the outer scope never sees
             it. <jig-kbd shortcut="escape" /> still bubbles out.
           </span>
-          <input ngnInput placeholder="Inner field" />
+          <input jigInput placeholder="Inner field" />
         </div>
       </div>
 
       <div class="flex items-center gap-2">
-        <button ngnButton (click)="entries.set([])">Clear log</button>
+        <button jigButton (click)="entries.set([])">Clear log</button>
         <span class="text-sm">{{ entries().join(' · ') || 'nothing yet' }}</span>
       </div>
     </div>

@@ -26,11 +26,11 @@ import { movableDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
  * @category directive
  */
 @Directive({
-  selector: '[ngnMovable]',
+  selector: '[jigMovable]',
 })
 export class JigMovable extends JigBase<'movable'> {
   protected readonly theme = this.injectThemeTemplate(movableDirectiveTemplate, {
-    movable: () => this.ngnMovable(),
+    movable: () => this.jigMovable(),
     moved: () => this.dragged(),
   });
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
@@ -40,33 +40,33 @@ export class JigMovable extends JigBase<'movable'> {
    * Whether the element is movable.
    * @default true
    */
-  public readonly ngnMovable = input(true, { transform: booleanAttribute });
+  public readonly jigMovable = input(true, { transform: booleanAttribute });
 
   /**
    * The handle element used to drag the element. If omitted, the entire element will be used as the drag handle.
    * @default null
    */
-  public readonly ngnMovableDragHandle = input<HTMLElement | null>(null);
+  public readonly jigMovableDragHandle = input<HTMLElement | null>(null);
 
   /**
    * When `true`, the cursor will change to indicate that the element / drag handle is movable.
    * @default true
    */
-  public readonly ngnMovableChangeCursor = input(true, { transform: booleanAttribute });
+  public readonly jigMovableChangeCursor = input(true, { transform: booleanAttribute });
 
   /**
    * When `true`, the movement will be limited to the viewport.
    * @default true
    */
-  public readonly ngnMovableLimitToViewport = input(true, { transform: booleanAttribute });
+  public readonly jigMovableLimitToViewport = input(true, { transform: booleanAttribute });
 
-  private readonly _ngnMovableDragHandleWithPrevious = signalWithPrevious(
-    this.ngnMovableDragHandle,
+  private readonly _jigMovableDragHandleWithPrevious = signalWithPrevious(
+    this.jigMovableDragHandle,
     null
   );
 
   private readonly _eventElement = computed(() => {
-    const handle = this.ngnMovableDragHandle();
+    const handle = this.jigMovableDragHandle();
     return handle ?? this._el.nativeElement;
   });
 
@@ -86,7 +86,7 @@ export class JigMovable extends JigBase<'movable'> {
     super();
 
     domEventHandler(this._el.nativeElement, 'touchmove', e => {
-      if (!this.ngnMovable()) {
+      if (!this.jigMovable()) {
         return;
       }
       if (e.cancelable) {
@@ -95,7 +95,7 @@ export class JigMovable extends JigBase<'movable'> {
     });
 
     effect(() => {
-      if (!this.ngnMovable()) {
+      if (!this.jigMovable()) {
         return;
       }
       const pointerDown = this._pointerDownSignal();
@@ -111,7 +111,7 @@ export class JigMovable extends JigBase<'movable'> {
     });
 
     effect(() => {
-      if (!this.ngnMovable()) {
+      if (!this.jigMovable()) {
         return;
       }
       const pointerMove = this._pointerMoveSignal();
@@ -120,7 +120,7 @@ export class JigMovable extends JigBase<'movable'> {
         const newLeft = pointerMove.clientX - this._startX;
         const newTop = pointerMove.clientY - this._startY;
 
-        if (this.ngnMovableLimitToViewport()) {
+        if (this.jigMovableLimitToViewport()) {
           const documentRect = this._document.documentElement.getBoundingClientRect();
           const elRect = this._el.nativeElement.getBoundingClientRect();
 
@@ -147,7 +147,7 @@ export class JigMovable extends JigBase<'movable'> {
     });
 
     effect(() => {
-      if (!this.ngnMovable()) {
+      if (!this.jigMovable()) {
         return;
       }
       // touch scrolling takes the pointer over and fires pointercancel instead of pointerup
@@ -158,7 +158,7 @@ export class JigMovable extends JigBase<'movable'> {
     });
 
     effect(() => {
-      if (!this.ngnMovable()) {
+      if (!this.jigMovable()) {
         this._isDragging.set(false);
       }
     });
@@ -188,14 +188,14 @@ export class JigMovable extends JigBase<'movable'> {
   }
 
   private refreshCursor() {
-    const handle = this._ngnMovableDragHandleWithPrevious();
+    const handle = this._jigMovableDragHandleWithPrevious();
     if (handle.previous && handle.previous !== handle.current) {
       handle.previous.classList.remove(
         this.theme.class('drag-handle-grab'),
         this.theme.class('drag-handle-grabbing')
       );
     }
-    if (!this.ngnMovable() || !this.ngnMovableChangeCursor()) {
+    if (!this.jigMovable() || !this.jigMovableChangeCursor()) {
       handle.current?.classList.remove(
         this.theme.class('drag-handle-grab'),
         this.theme.class('drag-handle-grabbing')

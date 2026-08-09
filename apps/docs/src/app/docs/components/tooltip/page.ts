@@ -32,7 +32,7 @@ export const TooltipPage: JigDocsPage = {
     { kind: 'single', title: 'API', mdFile: 'components/tooltip/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/tooltip/a11y.md' },
     i18nText(
-      "Tooltip has no built-in translatable strings of its own. Any text it displays — the `ngnTooltip` content (a string or template) you supply — comes from the values you provide, so translate those in your own application's i18n layer."
+      "Tooltip has no built-in translatable strings of its own. Any text it displays — the `jigTooltip` content (a string or template) you supply — comes from the values you provide, so translate those in your own application's i18n layer."
     ),
   ],
 };

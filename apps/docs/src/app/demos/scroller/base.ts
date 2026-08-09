@@ -9,8 +9,8 @@ import { exampleData } from '../../helper/data';
   selector: 'jig-demo-scroller-base',
   template: `
     <jig-scroller #scroller style="height: 300px" [items]="items">
-      <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item>
-        <span [ngnScrollerItem]="item">
+      <ng-template #item [jigTemplate]="scroller.templateTypes.item" let-item>
+        <span [jigScrollerItem]="item">
           {{ item.label }}
         </span>
       </ng-template>

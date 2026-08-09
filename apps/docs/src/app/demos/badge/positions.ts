@@ -10,31 +10,31 @@ import { JigIcon } from '@awdlab/jig/icon';
   template: `
     <div class="flex gap-10 p-8">
       <button
-        ngnButton
+        jigButton
         kind="icon"
-        [ngnBadge]="1"
-        ngnBadgePosition="top-start"
+        [jigBadge]="1"
+        jigBadgePosition="top-start"
         aria-label="Top start"
       >
         <jig-icon [icon]="bell" />
       </button>
-      <button ngnButton kind="icon" [ngnBadge]="2" ngnBadgePosition="top-end" aria-label="Top end">
+      <button jigButton kind="icon" [jigBadge]="2" jigBadgePosition="top-end" aria-label="Top end">
         <jig-icon [icon]="bell" />
       </button>
       <button
-        ngnButton
+        jigButton
         kind="icon"
-        [ngnBadge]="3"
-        ngnBadgePosition="bottom-start"
+        [jigBadge]="3"
+        jigBadgePosition="bottom-start"
         aria-label="Bottom start"
       >
         <jig-icon [icon]="bell" />
       </button>
       <button
-        ngnButton
+        jigButton
         kind="icon"
-        [ngnBadge]="4"
-        ngnBadgePosition="bottom-end"
+        [jigBadge]="4"
+        jigBadgePosition="bottom-end"
         aria-label="Bottom end"
       >
         <jig-icon [icon]="bell" />

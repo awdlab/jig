@@ -75,8 +75,8 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
                   [attr.aria-selected]="active() === d.id"
                   aria-controls="demo-panel"
                   [tabindex]="active() === d.id ? 0 : -1"
-                  [ngnTooltip]="d.label"
-                  ngnTooltipPlacement="right"
+                  [jigTooltip]="d.label"
+                  jigTooltipPlacement="right"
                   class="relative flex size-11 items-center justify-center rounded-(--jig-size-rounded-lg) text-(length:--jig-font-size-lg) transition-colors"
                   [class]="
                     active() === d.id
@@ -100,8 +100,8 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
               <button
                 type="button"
                 aria-label="Settings"
-                ngnTooltip="Settings"
-                ngnTooltipPlacement="right"
+                jigTooltip="Settings"
+                jigTooltipPlacement="right"
                 tabindex="-1"
                 class="flex size-11 items-center justify-center rounded-(--jig-size-rounded-lg) text-(length:--jig-font-size-lg) text-(--jig-color-surface-500) transition-colors hover:bg-(--jig-color-surface-100) hover:text-(--jig-color-text)"
               >
@@ -110,18 +110,18 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
               <button
                 type="button"
                 aria-label="Account"
-                ngnTooltip="Account"
-                ngnTooltipPlacement="right"
+                jigTooltip="Account"
+                jigTooltipPlacement="right"
                 tabindex="-1"
                 class="relative mt-(--jig-size-padding-sm) rounded-full transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--jig-color-primary-500)"
                 (click)="openLogin()"
               >
                 <span
                   class="inline-flex"
-                  ngnBadgeDot
-                  ngnBadgeCircular
-                  ngnBadgePosition="bottom-end"
-                  ngnBadgeColor="var(--jig-color-success-500)"
+                  jigBadgeDot
+                  jigBadgeCircular
+                  jigBadgePosition="bottom-end"
+                  jigBadgeColor="var(--jig-color-success-500)"
                 >
                   <jig-avatar initials="YO" bgColor="#c99a2e" [size]="34" />
                 </span>

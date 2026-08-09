@@ -67,7 +67,7 @@ export const IMPORTS = {
   tableSelectionColumn: () => import('@awdlab/jig/table').then(m => m.JigTableSelectionColumn),
   tableSortableColumn: () => import('@awdlab/jig/table').then(m => m.JigTableSortableColumn),
   tableStickyColumn: () => import('@awdlab/jig/table').then(m => m.JigTableStickyColumn),
-  ngnTemplate: () => import('@awdlab/jig/api/ng').then(m => m.JigTemplate),
+  jigTemplate: () => import('@awdlab/jig/api/ng').then(m => m.JigTemplate),
   tag: () => import('@awdlab/jig/tag').then(m => m.JigTag),
   toast: () => import('@awdlab/jig/toast').then(m => m.JigToast),
   toggleButton: () => import('@awdlab/jig/toggle-button').then(m => m.JigToggleButton),

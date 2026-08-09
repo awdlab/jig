@@ -14,8 +14,8 @@ import { JigTabs, JigTab } from '@awdlab/jig/tabs';
         </jig-tab>
       }
     </jig-tabs>
-    <button ngnButton (click)="count.set(count() + 1)">Add Tab</button>
-    <button ngnButton (click)="count.set(count() - 1)">Remove Tab</button>
+    <button jigButton (click)="count.set(count() + 1)">Add Tab</button>
+    <button jigButton (click)="count.set(count() - 1)">Remove Tab</button>
   `,
 })
 export class Demo_Tabs_Dynamic {

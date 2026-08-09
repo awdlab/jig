@@ -1,11 +1,11 @@
 {
   "source": "angular-material",
   "label": "Angular Material",
-  "notes": "Material wraps most form controls in <mat-form-field>; the jig equivalent is jig-input-field. Material uses [(ngModel)] or formControlName; jig controls expose a signal `value` model ([(value)]) and also integrate with reactive forms. Material's `matX` attribute directives map to jig attribute directives (e.g. matInput -> ngnInput). Verify target inputs with get_control before rewriting.",
+  "notes": "Material wraps most form controls in <mat-form-field>; the jig equivalent is jig-input-field. Material uses [(ngModel)] or formControlName; jig controls expose a signal `value` model ([(value)]) and also integrate with reactive forms. Material's `matX` attribute directives map to jig attribute directives (e.g. matInput -> jigInput). Verify target inputs with get_control before rewriting.",
   "components": [
     {
       "from": "button[mat-button] / mat-raised-button",
-      "to": "button[ngnButton]",
+      "to": "button[jigButton]",
       "props": [
         { "from": "color", "to": "kind / color" },
         { "from": "disabled", "to": "[disabled] (native attribute)" }
@@ -23,7 +23,7 @@
     },
     {
       "from": "input[matInput]",
-      "to": "input[ngnInput]",
+      "to": "input[jigInput]",
       "notes": "Move any `id` off the input onto the wrapper: `<jig-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references.",
       "props": [{ "from": "[(ngModel)]", "to": "[(value)] or formControl" }]
     },
@@ -81,10 +81,10 @@
     },
     {
       "from": "matTooltip",
-      "to": "[ngnTooltip]",
+      "to": "[jigTooltip]",
       "props": [
-        { "from": "matTooltip", "to": "ngnTooltip" },
-        { "from": "matTooltipPosition", "to": "ngnTooltipPlacement" }
+        { "from": "matTooltip", "to": "jigTooltip" },
+        { "from": "matTooltipPosition", "to": "jigTooltipPlacement" }
       ]
     },
     {
@@ -113,12 +113,12 @@
     { "from": "mat-chip-set / mat-chip", "to": "jig-chip" },
     {
       "from": "matBadge",
-      "to": "[ngnBadge]",
+      "to": "[jigBadge]",
       "notes": "Attribute directive overlaying a counter/dot on its host, like matBadge; jig-badge-indicator is the standalone element form. Use jig-tag for a standalone label chip.",
       "props": [
-        { "from": "matBadge", "to": "[ngnBadge]" },
-        { "from": "matBadgePosition", "to": "[ngnBadgePosition]" },
-        { "from": "matBadgeHidden", "to": "[ngnBadgeHidden]" },
+        { "from": "matBadge", "to": "[jigBadge]" },
+        { "from": "matBadgePosition", "to": "[jigBadgePosition]" },
+        { "from": "matBadgeHidden", "to": "[jigBadgeHidden]" },
         { "from": "matBadgeColor", "to": "kind / color" }
       ]
     },

@@ -6,7 +6,7 @@ import { injectSnackbarCreator } from '@awdlab/jig/snackbar';
 @Component({
   imports: [JigButton],
   selector: 'jig-demo-snackbar-icon',
-  template: ` <button ngnButton kind="text" (click)="showSnackbar()">Show Snackbar</button> `,
+  template: ` <button jigButton kind="text" (click)="showSnackbar()">Show Snackbar</button> `,
 })
 export class Demo_Snackbar_Icon {
   private readonly _snackbarCreator = injectSnackbarCreator();

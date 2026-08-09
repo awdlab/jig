@@ -15,7 +15,7 @@ type ItemType = { id: string; label: string };
       [controls]="[{ componentName: 'JigItemView', component: component() }]"
     >
       <jig-item-view #ref [items]="items" [idField]="'id'">
-        <ng-template #item [ngnTemplate]="ref.templateTypes.item" let-item>
+        <ng-template #item [jigTemplate]="ref.templateTypes.item" let-item>
           <span style="padding: 4px;">{{ item.label }}</span>
         </ng-template>
       </jig-item-view>

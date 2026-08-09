@@ -10,9 +10,9 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
   template: `
     <jig-docs-playground [controls]="[{ componentName: 'JigButtonGroup', component: component() }]">
       <jig-button-group #ref class="flex-1">
-        <button #ref2 kind="primary" ngnButton>Button 1</button>
-        <button #ref2 kind="primary" ngnButton>Button 2</button>
-        <button #ref2 kind="primary" ngnButton>Button 3</button>
+        <button #ref2 kind="primary" jigButton>Button 1</button>
+        <button #ref2 kind="primary" jigButton>Button 2</button>
+        <button #ref2 kind="primary" jigButton>Button 3</button>
       </jig-button-group>
     </jig-docs-playground>
   `,

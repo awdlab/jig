@@ -123,7 +123,7 @@ Dates and numbers are formatted through `Intl`, driven by the control's own
 must agree:
 
 ```html
-<input ngnNumberInput [locale]="i18n.language()" />
+<input jigNumberInput [locale]="i18n.language()" />
 ```
 
 ### Server-side rendering

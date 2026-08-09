@@ -22,9 +22,9 @@ import { inputControlTemplate } from '@awdlab/jig-themes/templates/input';
  * @category control
  */
 @Directive({
-  selector: 'input[ngnInput], textarea[ngnInput]',
+  selector: 'input[jigInput], textarea[jigInput]',
   providers: [provideSelf(JigInput)],
-  exportAs: 'ngnInput',
+  exportAs: 'jigInput',
   host: {
     '[attr.aria-invalid]': 'invalidState() ? "true" : null',
   },
@@ -76,7 +76,7 @@ export class JigInput extends JigBase<'input'> implements AfterViewInit {
 
   /**
    * Emits on blur so a bound signal-forms field is marked touched (the
-   * `FormUiControl` `touch` contract) — enables `ngnErrorsShowOn="touched"`.
+   * `FormUiControl` `touch` contract) — enables `jigErrorsShowOn="touched"`.
    */
   public readonly touch = output<void>();
 
@@ -119,7 +119,7 @@ export class JigInput extends JigBase<'input'> implements AfterViewInit {
 
   /**
    * Marks the input touched on blur: flips {@link touched} for local consumers
-   * (e.g. `ngnErrors`) and emits {@link touch} so a bound signal-forms field is
+   * (e.g. `jigErrors`) and emits {@link touch} so a bound signal-forms field is
    * marked too. Mirrors `ValueControlBase.markTouched`, which this directive
    * can't inherit (it extends {@link JigBase} as a native-element directive).
    */

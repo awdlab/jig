@@ -1,4 +1,4 @@
-Selector: `[ngnErrors]` · `exportAs: ngnErrors`
+Selector: `[jigErrors]` · `exportAs: jigErrors`
 
 {{ api: errors/errors JigErrors }}
 
@@ -8,7 +8,7 @@ Selector: `[ngnErrors]` · `exportAs: ngnErrors`
 | ------------------------------------ | ------------------------------------------------------------------------------------- |
 | `provideJigErrorsMessages(messages)` | Registers a message map application- or feature-wide. `multi`, so several maps merge. |
 | `injectJigErrorsMessages()`          | Returns all provided maps merged into one object. For building your own error UI.     |
-| `NGN_ERRORS_MESSAGES`                | The underlying multi-provider token.                                                  |
+| `JIG_ERRORS_MESSAGES`                | The underlying multi-provider token.                                                  |
 
 ## Types
 
@@ -34,7 +34,7 @@ What `state()` returns, and what is pushed into the bound hint.
 | `pending`    | `boolean`             | An async validator is running.                     |
 | `errors`     | `readonly JigError[]` | All resolved errors.                               |
 | `firstError` | `JigError \| null`    | The first one, or `null`.                          |
-| `message`    | `string \| null`      | The message to display, honouring `ngnErrorsMode`. |
+| `message`    | `string \| null`      | The message to display, honouring `jigErrorsMode`. |
 
 ### Other types
 

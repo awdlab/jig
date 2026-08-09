@@ -9,7 +9,7 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
   imports: [JigDrawer, JigButton, JigDocsPlayground],
   template: `
     <jig-docs-playground [controls]="[{ componentName: 'JigDrawer', component: component() }]">
-      <button ngnButton (click)="open.set(true)">Open Drawer</button>
+      <button jigButton (click)="open.set(true)">Open Drawer</button>
       <jig-drawer
         #ref
         [header]="'Drawer Header'"

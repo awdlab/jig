@@ -16,14 +16,14 @@ value. Verify each control's exact inputs with `get_control` before wiring.
 - Bind values with the control's signal model (`[(value)]`) or reactive-forms.
 - Show validation state through the field; use `jig-hint` for helper text and the
   field's error surface for messages.
-- Submit with a `button[ngnButton]`; drive `disabled` / `loading` from form state.
+- Submit with a `button[jigButton]`; drive `disabled` / `loading` from form state.
 
 ## Skeleton
 
 ```html
 <form (submit)="save()">
   <jig-input-field label="Name">
-    <input ngnInput [(value)]="name" required />
+    <input jigInput [(value)]="name" required />
   </jig-input-field>
 
   <jig-input-field label="Role">
@@ -31,12 +31,12 @@ value. Verify each control's exact inputs with `get_control` before wiring.
   </jig-input-field>
 
   <jig-input-field label="Seats">
-    <input ngnNumberInput [(value)]="seats" [min]="1" />
+    <input jigNumberInput [(value)]="seats" [min]="1" />
   </jig-input-field>
 
   <jig-checkbox [(value)]="agreed">I agree</jig-checkbox>
 
-  <button ngnButton [disabled]="!agreed()">Save</button>
+  <button jigButton [disabled]="!agreed()">Save</button>
 </form>
 ```
 
@@ -45,7 +45,7 @@ value. Verify each control's exact inputs with `get_control` before wiring.
 - Prefer signals for form state (`signal()` / `model()`); jig controls are
   signal-first.
 - For grouped choices use `jig-radio-group` + `jig-radio` or `jig-select-button`.
-- Render validation messages with the `[ngnErrors]` directive inside the field —
+- Render validation messages with the `[jigErrors]` directive inside the field —
   it reads the bound control's `errors`/`touched`/`dirty`. Controls implement signal forms'
   `FormValueControl`, so `[formField]` works directly; there is no
   `ControlValueAccessor`.

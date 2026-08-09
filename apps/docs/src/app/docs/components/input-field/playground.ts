@@ -10,7 +10,7 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
   template: `
     <jig-docs-playground [controls]="[{ componentName: 'JigInputField', component: component() }]">
       <jig-input-field #ref>
-        <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
+        <input jigInput [value]="value()" (valueChange)="value.set($event ?? '')" />
       </jig-input-field>
     </jig-docs-playground>
   `,

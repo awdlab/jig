@@ -8,8 +8,8 @@ export type JigToastFeature = {
   providers: Provider[];
 };
 
-export const NGN_TOAST_USER_DEFAULTS = new InjectionToken<JigToastOptionsMeta>(
-  'NGN_TOAST_USER_DEFAULTS'
+export const JIG_TOAST_USER_DEFAULTS = new InjectionToken<JigToastOptionsMeta>(
+  'JIG_TOAST_USER_DEFAULTS'
 );
 
 export function withToasts(defaultOptions?: JigToastOptionsMeta): JigToastFeature {
@@ -17,7 +17,7 @@ export function withToasts(defaultOptions?: JigToastOptionsMeta): JigToastFeatur
     providers: [
       JigToastManager,
       {
-        provide: NGN_TOAST_USER_DEFAULTS,
+        provide: JIG_TOAST_USER_DEFAULTS,
         useValue: defaultOptions || {},
       },
     ],

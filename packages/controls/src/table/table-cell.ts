@@ -25,7 +25,7 @@ import { JigTable } from './table';
  * @category directive
  */
 @Directive({
-  selector: '[ngnTableTd]',
+  selector: '[jigTableTd]',
   host: {
     role: 'gridcell',
     '[style.--jig-table-column-index]': '_visualColumnIndex()',
@@ -68,7 +68,7 @@ export class JigTableTd {
     const offset = table.showCheckboxes() ? 1 : 0;
     const logicalIndex = this._logicalIndex() - offset;
     const cells = table.getRegisteredHeaderCells();
-    return cells[logicalIndex]?.ngnTableTh() ?? null;
+    return cells[logicalIndex]?.jigTableTh() ?? null;
   });
 
   private readonly _stickyInfo = computed(() => {

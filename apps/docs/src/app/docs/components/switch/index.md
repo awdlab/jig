@@ -17,7 +17,7 @@ thumb, so it participates in the page like any checkbox — bind the two-way
 ## Validation
 
 The switch implements the signal-forms value-control contract, so it binds to a
-form field directly and works with the `ngnErrors` directive for validation
+form field directly and works with the `jigErrors` directive for validation
 messages. Its invalid state is reflected as `aria-invalid` on the input.
 
 {{ demo: Demo_Switch_Validation }}

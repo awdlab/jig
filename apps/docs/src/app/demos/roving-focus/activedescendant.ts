@@ -6,7 +6,7 @@ import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
   imports: [JigRovingGroup, JigRovingItem],
   template: `
     <div
-      ngnRovingGroup
+      jigRovingGroup
       rovingMode="activedescendant"
       orientation="vertical"
       role="listbox"
@@ -16,8 +16,8 @@ import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
     >
       @for (fruit of fruits; track fruit) {
         <div
-          ngnRovingItem
-          #item="ngnRovingItem"
+          jigRovingItem
+          #item="jigRovingItem"
           role="option"
           [attr.aria-selected]="item.isActive()"
           class="option"

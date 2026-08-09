@@ -73,7 +73,7 @@ const CASES: { query: string; route: string; topN?: number }[] = [
 const NAME_CASES: { query: string; name: string }[] = [
   { query: 'iconClose', name: 'iconClose' },
   { query: 'jig-select', name: 'jig-select' },
-  { query: 'ngnButton', name: 'ngnButton' },
+  { query: 'jigButton', name: 'jigButton' },
   { query: 'JigInputField', name: 'JigInputField' },
   { query: 'closeBy', name: 'closeBy' },
 ];

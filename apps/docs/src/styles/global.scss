@@ -82,7 +82,7 @@ code {
 // section components — same reason as `.card` above.
 // ---------------------------------------------------------------------------
 
-// Scroll-reveal: the `ngnDocsReveal` directive adds `.jig-reveal` at runtime
+// Scroll-reveal: the `jigDocsReveal` directive adds `.jig-reveal` at runtime
 // (so prerendered HTML stays visible without JS) and `.jig-reveal-in` once
 // the element intersects the viewport.
 .jig-reveal {
@@ -99,7 +99,7 @@ code {
   }
 }
 
-// Mouse-follow glow for bento tiles. The `ngnDocsGlow` directive keeps
+// Mouse-follow glow for bento tiles. The `jigDocsGlow` directive keeps
 // --jig-glow-x/--jig-glow-y in sync with the pointer; the overlay fades in on
 // hover. Also lifts the tile slightly.
 .jig-glow-card {

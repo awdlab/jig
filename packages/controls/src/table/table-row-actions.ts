@@ -28,7 +28,7 @@ import type { JigActionItem } from '@awdlab/jig/api';
  *
  * @category directive
  */
-@Directive({ selector: '[ngnTableRowActions]' })
+@Directive({ selector: '[jigTableRowActions]' })
 export class JigTableRowActions implements OnDestroy {
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _vcr = inject(ViewContainerRef);
@@ -43,29 +43,29 @@ export class JigTableRowActions implements OnDestroy {
 
   /**
    * The actions available on this row.
-   * @alias ngnTableRowActions
+   * @alias jigTableRowActions
    */
-  public readonly actions = input.required<JigActionItem[]>({ alias: 'ngnTableRowActions' });
+  public readonly actions = input.required<JigActionItem[]>({ alias: 'jigTableRowActions' });
 
   /**
    * Whether right-clicking the row opens a context menu of the actions.
    * @default true
-   * @alias ngnTableRowActionsContext
+   * @alias jigTableRowActionsContext
    */
   public readonly context = input(true, {
     transform: booleanAttribute,
-    alias: 'ngnTableRowActionsContext',
+    alias: 'jigTableRowActionsContext',
   });
 
   /**
    * Whether an inline button-bar is rendered at the row's right edge, revealed
    * on hover or keyboard focus.
    * @default true
-   * @alias ngnTableRowActionsInline
+   * @alias jigTableRowActionsInline
    */
   public readonly inline = input(true, {
     transform: booleanAttribute,
-    alias: 'ngnTableRowActionsInline',
+    alias: 'jigTableRowActionsInline',
   });
 
   constructor() {
@@ -85,7 +85,7 @@ export class JigTableRowActions implements OnDestroy {
       const table = this._table();
       const row = this._row;
       if (!table || !row) return;
-      const index = row.ngnTableBodyTr().index;
+      const index = row.jigTableBodyTr().index;
       table.registerRowActions(index, this);
       onCleanup(() => table.unregisterRowActions(index, this));
     });

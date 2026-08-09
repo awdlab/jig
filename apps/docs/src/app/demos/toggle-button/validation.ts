@@ -12,10 +12,10 @@ import { JigToggleButton } from '@awdlab/jig/toggle-button';
         label="Confirmed"
         [value]="confirmed()"
         (valueChange)="confirmed.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="confirmHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="confirmHint"
       />
       <jig-hint #confirmHint />
     </div>

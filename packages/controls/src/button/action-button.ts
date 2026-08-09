@@ -95,7 +95,7 @@ export class JigActionButton<T> extends JigBase<null> {
       if (!scope) {
         this._activeShortcut.set(null);
         Logger.warn(
-          `[jig-action-button] shortcut "${shortcut}" is ignored: no ancestor [ngnKeyboardShortcut] scope.`
+          `[jig-action-button] shortcut "${shortcut}" is ignored: no ancestor [jigKeyboardShortcut] scope.`
         );
         return;
       }

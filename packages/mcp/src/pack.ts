@@ -34,7 +34,7 @@ export interface PackControl {
   className: string;
   /** `control` or `directive`. */
   kind: 'control' | 'directive';
-  /** Best-effort selector, e.g. `jig-select` or `[ngnTooltip]`. */
+  /** Best-effort selector, e.g. `jig-select` or `[jigTooltip]`. */
   selector: string;
   /** One-line summary (first sentence of the docs prose). */
   summary: string;

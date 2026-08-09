@@ -5,7 +5,7 @@ import { JigScrollShadow } from '@awdlab/jig/scroll-shadow';
   imports: [JigScrollShadow],
   selector: 'jig-demo-scroll-shadow-vertical',
   template: `
-    <div ngnScrollShadow="vertical" class="box">
+    <div jigScrollShadow="vertical" class="box">
       @for (n of rows; track n) {
         <div class="row">Row {{ n }}</div>
       }

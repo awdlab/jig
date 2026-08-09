@@ -20,7 +20,7 @@ import { toggleClass } from '@awdlab/jig/utils';
  * @category directive
  */
 @Directive({
-  selector: '[ngnScrollShadow]',
+  selector: '[jigScrollShadow]',
 })
 export class JigScrollShadow {
   protected readonly theme = injectThemeTemplate(scrollShadowDirectiveTemplate);
@@ -32,7 +32,7 @@ export class JigScrollShadow {
    * Which scroll axis to track and add shadow classes for.
    * @default 'horizontal'
    */
-  public readonly ngnScrollShadow = input<'horizontal' | 'vertical' | 'both'>('horizontal');
+  public readonly jigScrollShadow = input<'horizontal' | 'vertical' | 'both'>('horizontal');
 
   /**
    * Element that receives the shadow classes. Defaults to the host element (which
@@ -49,7 +49,7 @@ export class JigScrollShadow {
    * @default false
    */
   public readonly unstyled = input(false, {
-    alias: 'ngnScrollShadowUnstyled',
+    alias: 'jigScrollShadowUnstyled',
     transform: booleanAttribute,
   });
 
@@ -74,7 +74,7 @@ export class JigScrollShadow {
 
       const update = () => {
         const target = this.scrollShadowTarget() ?? scrollEl;
-        const dir = this.ngnScrollShadow();
+        const dir = this.jigScrollShadow();
 
         surface.style.setProperty('--jig-scroll-shadow-w', `${scrollEl.clientWidth}px`);
         surface.style.setProperty('--jig-scroll-shadow-h', `${scrollEl.clientHeight}px`);

@@ -9,7 +9,7 @@ import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
   template: `
     <jig-input-field [label]="'Opacity (0 – 1, step 0.1)'" [labelKind]="'on'">
       <input
-        ngnNumberInput
+        jigNumberInput
         [min]="0"
         [max]="1"
         [step]="0.1"

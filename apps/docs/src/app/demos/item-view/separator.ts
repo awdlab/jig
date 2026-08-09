@@ -18,12 +18,12 @@ import { exampleData } from '../../helper/data';
       [overflowStrategyIndex]="2"
       style="background: var(--jig-color-surface-200);"
     >
-      <ng-template #item [ngnTemplate]="itemView.templateTypes.item" let-item>
+      <ng-template #item [jigTemplate]="itemView.templateTypes.item" let-item>
         <span style="padding: 4px; background: var(--jig-color-surface-400);">
           {{ item.label }}
         </span>
       </ng-template>
-      <ng-template #separator [ngnTemplate]="itemView.templateTypes.separator" let-separator>
+      <ng-template #separator [jigTemplate]="itemView.templateTypes.separator" let-separator>
         <span style="padding: 4px; background: var(--jig-color-surface-300);">
           {{ separator.character }}
         </span>

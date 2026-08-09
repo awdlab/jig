@@ -31,8 +31,8 @@ if (command === 'init') {
 } else if (command === '--help' || command === '-h') {
   console.log(
     'Usage:\n' +
-      '  awdlab-controls-mcp            Start the MCP server (stdio).\n' +
-      '  awdlab-controls-mcp init       Install the bundled agent skills into ./.claude/skills.\n' +
+      '  jig-mcp                         Start the MCP server (stdio).\n' +
+      '  jig-mcp init                    Install the bundled agent skills into ./.claude/skills.\n' +
       '    --dir <path>                  Target directory (default .claude/skills).\n' +
       '    --skill <name>                Install only this skill (repeatable).\n' +
       '    --list                        List the bundled skills and exit.\n' +

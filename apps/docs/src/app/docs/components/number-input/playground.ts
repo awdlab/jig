@@ -12,8 +12,8 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
     <jig-docs-playground [controls]="[{ componentName: 'JigNumberInput', component: component() }]">
       <jig-input-field>
         <input
-          ngnNumberInput
-          #ref="ngnNumberInput"
+          jigNumberInput
+          #ref="jigNumberInput"
           [value]="value()"
           (valueChange)="value.set($event)"
         />

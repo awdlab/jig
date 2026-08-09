@@ -1,4 +1,4 @@
-`ngnScrollAmount` publishes an element's scroll geometry as signals and fires
+`jigScrollAmount` publishes an element's scroll geometry as signals and fires
 `endReached` when the user scrolls near the bottom. It is the primitive behind
 "load more" lists and scroll-linked UI.
 
@@ -25,7 +25,7 @@ re-arms it.
 
 {{ demo: Demo_ScrollAmount_Infinite }}
 
-`ngnScrollAmountEndThreshold` is the distance in pixels at which it fires —
+`jigScrollAmountEndThreshold` is the distance in pixels at which it fires —
 `0` means "at the very bottom", a larger value prefetches earlier.
 
 > Still guard your loader against overlapping loads. Edge-triggering removes
@@ -43,7 +43,7 @@ scroller elsewhere in the page — point the directive at it:
 
 ```html
 <div #outer class="scroll-area">
-  <ul ngnScrollAmount [ngnScrollAmountContainer]="outer" (endReached)="loadMore()">
+  <ul jigScrollAmount [jigScrollAmountContainer]="outer" (endReached)="loadMore()">
     …
   </ul>
 </div>
@@ -62,4 +62,4 @@ observed on the server. The signals start at the element's initial values
 
 The [Scroller](/components/scroller) control builds virtual scrolling on top of
 this idea, and the [Table](/components/table) uses it for lazy infinite scroll.
-Reach for `ngnScrollAmount` when you want the raw numbers instead.
+Reach for `jigScrollAmount` when you want the raw numbers instead.

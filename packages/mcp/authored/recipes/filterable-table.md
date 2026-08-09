@@ -16,7 +16,7 @@ signals so filtering + paging are pure `computed()` transforms.
   `computed()`.
 - Drive the paginator's `pageSize` / `total` from the derived view.
 - Use `jig-filter` for operator-based column filtering, or bind simple
-  `input[ngnInput]` / `jig-select` controls to filter signals.
+  `input[jigInput]` / `jig-select` controls to filter signals.
 - Render status/labels inside cells with `jig-tag`.
 
 ## Skeleton
@@ -51,7 +51,7 @@ readonly pagedRows = computed(() =>
   `get_control` before laying out columns.
 - Reset `page` to 0 whenever the filter query changes.
 - The table can also sort/filter/paginate the `rows` array itself via its own
-  `ngnTableSortableColumn` / `ngnTableFilterableColumn` directives and
+  `jigTableSortableColumn` / `jigTableFilterableColumn` directives and
   `paginator` input — reach for the manual pipeline above only when you need the
   derived view elsewhere.
 - For server-driven data pass `dataSource` instead of `rows`: sorting, filtering

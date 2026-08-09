@@ -1,4 +1,4 @@
-The Number Input directive (`ngnNumberInput`) turns a native `<input>` into a
+The Number Input directive (`jigNumberInput`) turns a native `<input>` into a
 locale-aware number field with a `number | null` value model. You type freely
 while focused and the value commits on **blur** or **Enter**. Pair it with
 `jig-input-field` for field chrome and `jig-spin-buttons` for

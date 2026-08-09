@@ -21,7 +21,7 @@ code.
 
 ### Validation
 
-Wire the standard `ngnErrors` / hint machinery to the control to surface
+Wire the standard `jigErrors` / hint machinery to the control to surface
 validation messages; the `invalid` state is reflected on both the display and
 edit views.
 

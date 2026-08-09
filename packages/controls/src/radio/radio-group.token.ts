@@ -29,4 +29,4 @@ export interface JigRadioGroupApi<V> {
   unregister(ref: JigRadioRef<V>): void;
 }
 
-export const NGN_RADIO_GROUP = new InjectionToken<JigRadioGroupApi<unknown>>('NGN_RADIO_GROUP');
+export const JIG_RADIO_GROUP = new InjectionToken<JigRadioGroupApi<unknown>>('JIG_RADIO_GROUP');

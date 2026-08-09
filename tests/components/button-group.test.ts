@@ -9,11 +9,11 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
   const handle = await loadComponent(page, {
     template: `
         <jig-button-group>
-          <button ngnButton kind="primary">Button 1</button>
-          <button ngnButton kind="primary">Button 2</button>
-          <button ngnButton kind="primary">Button 3</button>
-          <button ngnButton kind="primary">Button 4</button>
-          <button ngnButton kind="primary">Button 5</button>
+          <button jigButton kind="primary">Button 1</button>
+          <button jigButton kind="primary">Button 2</button>
+          <button jigButton kind="primary">Button 3</button>
+          <button jigButton kind="primary">Button 4</button>
+          <button jigButton kind="primary">Button 5</button>
         </jig-button-group>
       `,
     imports: ['buttonGroup', 'button'],

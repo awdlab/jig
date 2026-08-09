@@ -7,7 +7,7 @@
 **Theme presets and the theming engine for
 [@awdlab/jig](https://www.npmjs.com/package/@awdlab/jig).**
 
-[![Main package](https://img.shields.io/badge/Main%20package-%40ngneers%2Fcontrols-e90464?style=for-the-badge)](https://www.npmjs.com/package/@awdlab/jig)
+[![Main package](https://img.shields.io/badge/Main%20package-%40awdlab%2Fjig-e90464?style=for-the-badge)](https://www.npmjs.com/package/@awdlab/jig)
 [![Theming guide](https://img.shields.io/badge/Theming%20guide-jig.awdlab.dev-8514f5?style=for-the-badge)](https://jig.awdlab.dev/guides/overview)
 
 </div>

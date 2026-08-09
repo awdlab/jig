@@ -11,10 +11,10 @@ import { JigHint } from '@awdlab/jig/hint';
       <jig-filter
         [data]="data"
         (filterChange)="filter.set($event)"
-        ngnErrors
-        ngnErrorsShowOn="always"
-        [ngnErrorsCustom]="errors()"
-        [ngnErrorsHint]="filterHint"
+        jigErrors
+        jigErrorsShowOn="always"
+        [jigErrorsCustom]="errors()"
+        [jigErrorsHint]="filterHint"
       />
     </div>
     <jig-hint #filterHint />

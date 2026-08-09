@@ -6,7 +6,7 @@ import { JigSplitterModule } from '@awdlab/jig/splitter';
   imports: [JigSplitterModule, JigButton],
   selector: 'jig-demo-splitter-reorder',
   template: `
-    <button ngnButton (click)="shufflePanels()">Shuffle panel order</button>
+    <button jigButton (click)="shufflePanels()">Shuffle panel order</button>
     <jig-splitter
       [layout]="'horizontal'"
       [panelOrder]="panelOrder()"

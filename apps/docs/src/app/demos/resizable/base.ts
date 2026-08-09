@@ -6,8 +6,8 @@ import { JigResizable } from '@awdlab/jig/directives';
   imports: [JigResizable],
   template: `
     <div
-      ngnResizable
-      [ngnResizableSizeLimits]="{ minWidth: 180, minHeight: 100, maxWidth: 520, maxHeight: 320 }"
+      jigResizable
+      [jigResizableSizeLimits]="{ minWidth: 180, minHeight: 100, maxWidth: 520, maxHeight: 320 }"
       class="panel"
     >
       Drag the bottom-right corner. The size stays between 180×100 and 520×320, and can never extend

@@ -27,7 +27,7 @@ export class DeferDemoPanel {
   template: `
     <div class="flex flex-col items-start gap-3">
       <div class="flex items-center gap-4">
-        <button ngnButton (click)="open.set(!open())">{{ open() ? 'Hide' : 'Show' }}</button>
+        <button jigButton (click)="open.set(!open())">{{ open() ? 'Hide' : 'Show' }}</button>
         <label [for]="cacheSwitch.inputId()" class="flex items-center gap-2">
           Keep rendered once opened
         </label>

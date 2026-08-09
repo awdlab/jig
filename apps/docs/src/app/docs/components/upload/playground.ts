@@ -8,7 +8,7 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
   imports: [JigUpload, JigDocsPlayground],
   template: `
     <jig-docs-playground [controls]="[{ componentName: 'JigUpload', component: component() }]">
-      <jig-upload #ref="ngnUpload" (upload)="onUpload($event)">
+      <jig-upload #ref="jigUpload" (upload)="onUpload($event)">
         <input type="file" multiple />
         Drag files here or click to browse
       </jig-upload>
