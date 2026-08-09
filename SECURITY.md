@@ -8,8 +8,8 @@ no backports to earlier pre-releases.
 
 | Version        | Supported |
 | -------------- | --------- |
-| latest `next`  | ✅         |
-| anything older | ❌         |
+| latest `next`  | ✅        |
+| anything older | ❌        |
 
 ## Reporting a vulnerability
 
