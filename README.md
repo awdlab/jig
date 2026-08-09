@@ -166,7 +166,7 @@ API, `@starting-style`, cascade layers and CSS nesting. See
 ## Contributing
 
 Issues and pull requests are welcome. [CONTRIBUTING.md](CONTRIBUTING.md) covers the repo
-layout, the seven parts a control spans, and the conventions we enforce.
+layout, the eight parts a control spans, and the conventions we enforce.
 
 - 🐛 [Report a bug](https://github.com/awdlab/jig/issues/new?template=bug_report.yml)
 - 💡 [Request a feature](https://github.com/awdlab/jig/issues/new?template=feature_request.yml)
