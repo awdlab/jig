@@ -346,13 +346,13 @@ describe('init command', () => {
 
     await runInit(['--dir', tmp, '--yes']);
     const installed = readdirSync(tmp);
-    expect(installed).toContain('jig-controls');
-    const md = readFileSync(join(tmp, 'jig-controls', 'SKILL.md'), 'utf-8');
-    expect(md).toMatch(/^name:\s*jig-controls/m);
+    expect(installed).toContain('jig');
+    const md = readFileSync(join(tmp, 'jig', 'SKILL.md'), 'utf-8');
+    expect(md).toMatch(/^name:\s*jig/m);
 
     // Second run: same versions → nothing rewritten (idempotent).
     await runInit(['--dir', tmp, '--yes']);
-    expect(readdirSync(join(tmp, 'jig-controls'))).toContain('SKILL.md');
+    expect(readdirSync(join(tmp, 'jig'))).toContain('SKILL.md');
 
     rmSync(tmp, { recursive: true, force: true });
   });

@@ -1,5 +1,5 @@
 ---
-name: jig-controls
+name: jig
 description: Use @awdlab/jig (jig) Angular UI components correctly — discover controls, look up their real API, selectors, and theme-dependent kind/color values before writing template or component code. Use whenever building or editing Angular UI in a project that depends on @awdlab/jig.
 metadata:
   version: 1

@@ -70,7 +70,7 @@ No install step is needed — clients run the server via `npx`.
 ```json
 {
   "mcpServers": {
-    "jig-controls": {
+    "jig": {
       "command": "npx",
       "args": ["-y", "@awdlab/jig-mcp"]
     }

@@ -91,7 +91,7 @@ Once published, no install step is needed — clients run it via `npx`.
 ```json
 {
   "mcpServers": {
-    "jig-controls": {
+    "jig": {
       "command": "npx",
       "args": ["-y", "@awdlab/jig-mcp"]
     }
@@ -105,7 +105,7 @@ shape. Any MCP-capable client works — the server is client-agnostic.
 ## Skills
 
 The package also ships agent **skills** under [`skills/`](./skills) — procedural
-guides that tell an agent _how_ to use the MCP tools for a task (`jig-controls`,
+guides that tell an agent _how_ to use the MCP tools for a task (`jig`,
 `jig-migrate`, `jig-theme`, `jig-build-feature`). Each is a `SKILL.md` with
 `name` + `description` frontmatter, the convention used by the
 [`skills`](https://github.com/vercel-labs/skills) CLI and compatible installers.

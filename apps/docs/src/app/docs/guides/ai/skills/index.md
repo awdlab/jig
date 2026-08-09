@@ -11,7 +11,7 @@ compatible installers.
 
 | Skill               | What it teaches the agent to do                                                                |
 | ------------------- | ---------------------------------------------------------------------------------------------- |
-| `jig-controls`      | Discover controls, look up the real API via `get_control`, honor signal conventions.           |
+| `jig`               | Discover controls, look up the real API via `get_control`, honor signal conventions.           |
 | `jig-migrate`       | Inventory `p-*` / `mat-*` / `ejs-*` usage, map each to its jig target, rewrite, and flag gaps. |
 | `jig-theme`         | Author a product theme with tokens only — schema → anatomy → `scaffold_theme_part`.            |
 | `jig-build-feature` | Compose controls into a feature: `recommend_controls` → recipe → `get_control` → scaffold.     |

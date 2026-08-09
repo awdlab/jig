@@ -20,7 +20,7 @@ provideJigControls({
     preset: nova,
     lazyLoaded: false,
     styleScope: null,
-    cssLayer: 'jig-controls',
+    cssLayer: 'jig',
     namePrefix: 'jig-',
   },
   defaults: {
@@ -42,13 +42,13 @@ provideJigControls({
 
 #### `theme`
 
-| Option       | Type                 | Default          | Description                                                                                                                |
-| ------------ | -------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `preset`     | `Theme \| null`      | `null`           | The theme object (not a name). Required unless `lazyLoaded` is `true` — without one, controls throw.                       |
-| `lazyLoaded` | `boolean`            | `false`          | Suppresses the "no theme" error, for apps that install a theme later at runtime.                                           |
-| `styleScope` | `StyleScope \| null` | `null`           | Selector the token declarations are scoped to. `null` means `:root`. See [Styling & Overrides](/guides/styling-overrides). |
-| `cssLayer`   | `string \| null`     | `'jig-controls'` | Wraps all generated CSS in a `@layer` of this name. Set to `null` to emit unlayered CSS.                                   |
-| `namePrefix` | `string`             | `'jig-'`         | Prefix for generated class names and CSS custom properties.                                                                |
+| Option       | Type                 | Default  | Description                                                                                                                |
+| ------------ | -------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `preset`     | `Theme \| null`      | `null`   | The theme object (not a name). Required unless `lazyLoaded` is `true` — without one, controls throw.                       |
+| `lazyLoaded` | `boolean`            | `false`  | Suppresses the "no theme" error, for apps that install a theme later at runtime.                                           |
+| `styleScope` | `StyleScope \| null` | `null`   | Selector the token declarations are scoped to. `null` means `:root`. See [Styling & Overrides](/guides/styling-overrides). |
+| `cssLayer`   | `string \| null`     | `'jig'`  | Wraps all generated CSS in a `@layer` of this name. Set to `null` to emit unlayered CSS.                                   |
+| `namePrefix` | `string`             | `'jig-'` | Prefix for generated class names and CSS custom properties.                                                                |
 
 > `cssLayer` is the lever for specificity. Everything the theme emits sits in
 > one cascade layer, so **any** unlayered CSS of yours wins over it regardless
@@ -123,7 +123,7 @@ export const appConfig: ApplicationConfig = {
     provideJigControls(
       {
         logLevel: 'warn',
-        theme: { preset: nova, cssLayer: 'jig-controls' },
+        theme: { preset: nova, cssLayer: 'jig' },
         defaults: { stateStorage: 'local' },
       },
       withDefaultIcons(),

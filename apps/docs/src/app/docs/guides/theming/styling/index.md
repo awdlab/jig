@@ -10,7 +10,7 @@ Pick the smallest one that does the job.
 
 ### Why your CSS wins
 
-All generated CSS is emitted inside a single cascade layer, `jig-controls` by
+All generated CSS is emitted inside a single cascade layer, `jig` by
 default. Unlayered CSS beats layered CSS **regardless of specificity**, so a
 plain class selector of yours overrides the theme without `!important` and
 without `::ng-deep`:

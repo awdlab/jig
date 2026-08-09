@@ -83,7 +83,7 @@ templates), the jig equivalents take **data**:
 
 Two things to watch:
 
-- **CSS.** Theme CSS lives in the `jig-controls` cascade layer, so the other
+- **CSS.** Theme CSS lives in the `jig` cascade layer, so the other
   library's unlayered CSS will win where selectors collide. Scope the other
   library's styles, or use `styleScope` to keep tokens off `:root`. See
   [Configuration](/guides/configuration).

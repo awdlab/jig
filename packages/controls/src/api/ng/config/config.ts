@@ -43,7 +43,7 @@ export const defaultJigConfig: JigConfig = {
     preset: null,
     lazyLoaded: false,
     styleScope: null,
-    cssLayer: 'jig-controls',
+    cssLayer: 'jig',
     namePrefix: 'jig-',
   },
   defaults: {

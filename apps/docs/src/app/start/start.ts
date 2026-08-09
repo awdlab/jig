@@ -45,7 +45,7 @@ export class Start {
 
   constructor() {
     // The landing page keeps the bare site name as its title — the suffix the
-    // docs pages carry would read as "jig-controls - jig-controls".
+    // docs pages carry would read as "jig - jig".
     inject(Seo).set({ title: '' });
   }
 }

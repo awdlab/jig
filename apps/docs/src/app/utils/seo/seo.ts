@@ -7,7 +7,7 @@ import { PAGE_DESCRIPTIONS } from '../../docs/_generated/seo';
 /** Canonical origin. Every absolute URL in head metadata is built from it. */
 export const SITE_URL = 'https://jig.awdlab.dev';
 
-const SITE_NAME = 'jig-controls';
+const SITE_NAME = 'jig';
 const DEFAULT_DESCRIPTION =
   'A signal-based component library for Angular 22+ — 50+ accessible, themeable, ' +
   'tree-shakeable controls. Zoneless, standalone, no ControlValueAccessor.';
