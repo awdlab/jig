@@ -47,7 +47,7 @@ apps/test-wrapper          host app the e2e tests mount controls into
 tests/components           the e2e tests
 ```
 
-## A control is seven parts
+## A control is eight parts
 
 This is the thing to internalise before changing anything. A control is not one
 folder — a rename or a new input touches all of these:
