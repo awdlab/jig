@@ -1,4 +1,4 @@
-The Tree (`<awd-tree>`) renders hierarchical data as an expand/collapse outline
+The Tree (`<jig-tree>`) renders hierarchical data as an expand/collapse outline
 built from an `items` array whose nodes nest their own `items`. It supports
 virtual scrolling, filtering, single or multi-select, and tri-state cascading
 checkboxes, and binds its selection two-way through `value` for use in forms.
@@ -57,8 +57,8 @@ you prefer to load them yourself.
 
 ### Persisting State
 
-Pass a `storage` config (`key` + optional `NgnStorageKind`) to save expansion
-and selection across reloads via `NgnStorage`. Use `states` to persist only
+Pass a `storage` config (`key` + optional `AwdStorageKind`) to save expansion
+and selection across reloads via `AwdStorage`. Use `states` to persist only
 some of them, e.g. `{ key: 'my-tree', states: ['expanded'] }`. The `kind`
 accepts `'localstorage'` (default), `'sessionstorage'`, or `'cookie'` — the
 `cookie` kind is SSR-safe and restores state during server rendering.

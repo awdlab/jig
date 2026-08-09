@@ -1,14 +1,14 @@
 import { Component, signal } from '@angular/core';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { DATE_TIME_MASKS, NgnMaskInput, type MaskInputCfg } from '@awdlab/jig/mask-input';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { DATE_TIME_MASKS, AwdMaskInput, type MaskInputCfg } from '@awdlab/jig/mask-input';
 
 @Component({
-  imports: [NgnMaskInput, NgnInputField],
-  selector: 'awd-demo-mask-input-date',
+  imports: [AwdMaskInput, AwdInputField],
+  selector: 'jig-demo-mask-input-date',
   template: `
-    <awd-input-field [label]="'Date'" [labelKind]="'on'">
-      <awd-mask-input [mask]="mask" [value]="value()" (valueChange)="value.set($event ?? '')" />
-    </awd-input-field>
+    <jig-input-field [label]="'Date'" [labelKind]="'on'">
+      <jig-mask-input [mask]="mask" [value]="value()" (valueChange)="value.set($event ?? '')" />
+    </jig-input-field>
     {{ value() }}
   `,
 })

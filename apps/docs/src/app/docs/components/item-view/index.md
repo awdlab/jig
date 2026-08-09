@@ -1,4 +1,4 @@
-The Item View (`awd-item-view`) lays a data array (`items`) out in a single row
+The Item View (`jig-item-view`) lays a data array (`items`) out in a single row
 and **collapses whatever does not fit** into an overflow indicator, remeasuring
 as the container resizes. Use it for horizontal lists of chips, tags, avatars,
 or breadcrumbs that must degrade gracefully in tight space. It carries

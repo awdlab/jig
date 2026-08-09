@@ -9,26 +9,26 @@ import tablerPlus from '@iconify/icons-tabler/plus';
 import tablerSubtask from '@iconify/icons-tabler/subtask';
 import tablerSwitchHorizontal from '@iconify/icons-tabler/switch-horizontal';
 import tablerTrash from '@iconify/icons-tabler/trash';
-import { NgnAvatar, NgnAvatarGroup } from '@awdlab/jig/avatar';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnCheckbox } from '@awdlab/jig/checkbox';
-import { NgnDrawer } from '@awdlab/jig/drawer';
-import { NgnEditInplace } from '@awdlab/jig/edit-inplace';
-import { NgnFilter } from '@awdlab/jig/filter';
-import { NgnIcon } from '@awdlab/jig/icon';
-import { type MenuItem, NgnMenu } from '@awdlab/jig/menu';
-import { NgnMessage } from '@awdlab/jig/message';
-import { NgnRadio, NgnRadioGroup } from '@awdlab/jig/radio';
-import { NgnSelectButton } from '@awdlab/jig/select-button';
-import { NgnSlider } from '@awdlab/jig/slider';
+import { AwdAvatar, AwdAvatarGroup } from '@awdlab/jig/avatar';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdCheckbox } from '@awdlab/jig/checkbox';
+import { AwdDrawer } from '@awdlab/jig/drawer';
+import { AwdEditInplace } from '@awdlab/jig/edit-inplace';
+import { AwdFilter } from '@awdlab/jig/filter';
+import { AwdIcon } from '@awdlab/jig/icon';
+import { type MenuItem, AwdMenu } from '@awdlab/jig/menu';
+import { AwdMessage } from '@awdlab/jig/message';
+import { AwdRadio, AwdRadioGroup } from '@awdlab/jig/radio';
+import { AwdSelectButton } from '@awdlab/jig/select-button';
+import { AwdSlider } from '@awdlab/jig/slider';
 import { injectSnackbarCreator } from '@awdlab/jig/snackbar';
-import { NgnTab, NgnTabs } from '@awdlab/jig/tabs';
-import { NgnTag } from '@awdlab/jig/tag';
-import { NgnTree } from '@awdlab/jig/tree';
-import { NgnToggleButton } from '@awdlab/jig/toggle-button';
-import { NgnTooltip } from '@awdlab/jig/tooltip';
-import { NgnAccordion, NgnAccordionPanel } from '@awdlab/jig/accordion';
-import { NgnUpload, type NgnUploadFile } from '@awdlab/jig/upload';
+import { AwdTab, AwdTabs } from '@awdlab/jig/tabs';
+import { AwdTag } from '@awdlab/jig/tag';
+import { AwdTree } from '@awdlab/jig/tree';
+import { AwdToggleButton } from '@awdlab/jig/toggle-button';
+import { AwdTooltip } from '@awdlab/jig/tooltip';
+import { AwdAccordion, AwdAccordionPanel } from '@awdlab/jig/accordion';
+import { AwdUpload, type AwdUploadFile } from '@awdlab/jig/upload';
 
 import {
   BUG_ICON,
@@ -48,32 +48,32 @@ import {
 type Density = 'comfortable' | 'compact';
 
 @Component({
-  selector: 'awd-docs-project-board',
+  selector: 'jig-docs-project-board',
   templateUrl: './project-board.html',
   imports: [
-    NgnAccordion,
-    NgnAccordionPanel,
-    NgnAvatar,
-    NgnAvatarGroup,
-    NgnButton,
-    NgnCheckbox,
-    NgnDrawer,
-    NgnEditInplace,
-    NgnFilter,
-    NgnIcon,
-    NgnMenu,
-    NgnMessage,
-    NgnRadio,
-    NgnRadioGroup,
-    NgnSelectButton,
-    NgnSlider,
-    NgnTab,
-    NgnTabs,
-    NgnTag,
-    NgnToggleButton,
-    NgnTree,
-    NgnTooltip,
-    NgnUpload,
+    AwdAccordion,
+    AwdAccordionPanel,
+    AwdAvatar,
+    AwdAvatarGroup,
+    AwdButton,
+    AwdCheckbox,
+    AwdDrawer,
+    AwdEditInplace,
+    AwdFilter,
+    AwdIcon,
+    AwdMenu,
+    AwdMessage,
+    AwdRadio,
+    AwdRadioGroup,
+    AwdSelectButton,
+    AwdSlider,
+    AwdTab,
+    AwdTabs,
+    AwdTag,
+    AwdToggleButton,
+    AwdTree,
+    AwdTooltip,
+    AwdUpload,
   ],
 })
 export class ProjectBoard {
@@ -125,7 +125,7 @@ export class ProjectBoard {
   /** Show only cards assigned to the current user. */
   protected readonly myTasksOnly = signal(false);
 
-  // -- Quick filter (awd-filter over task titles) --
+  // -- Quick filter (jig-filter over task titles) --
   protected readonly filterResult = signal<readonly string[] | null>(null);
   protected readonly taskTitles = computed(() => this._tasks().map(t => t.title));
 
@@ -358,7 +358,7 @@ export class ProjectBoard {
   }
 
   /** Simulated attachment upload — appends the file and reports fake progress. */
-  protected onUpload(files: NgnUploadFile[], task: Task, up: NgnUpload): void {
+  protected onUpload(files: AwdUploadFile[], task: Task, up: AwdUpload): void {
     for (const file of files) {
       let progress = 0;
       const tick = setInterval(() => {

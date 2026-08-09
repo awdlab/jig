@@ -1,8 +1,8 @@
 import { computed, contentChild, Directive, input, TemplateRef } from '@angular/core';
-import { NgnBase } from '@awdlab/jig/base';
+import { AwdBase } from '@awdlab/jig/base';
 
 @Directive()
-export abstract class TabsTemplates extends NgnBase<'tabs'> {
+export abstract class TabsTemplates extends AwdBase<'tabs'> {
   // Header left template
   private readonly _userHeaderLeftTemplate = contentChild<TemplateRef<unknown>>('headerLeft');
   /**

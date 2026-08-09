@@ -1,6 +1,6 @@
 <!-- Mobile only (<=900px): breadcrumb lives in the content here since the
      topbar hides it at this width. -->
-<awd-breadcrumb class="nav:hidden block px-4 pt-4" [items]="breadcrumbItems()" />
+<jig-breadcrumb class="nav:hidden block px-4 pt-4" [items]="breadcrumbItems()" />
 
 <div class="flex w-full justify-center">
   <div class="mx-auto flex w-full max-w-7xl min-w-0 gap-8 px-4 md:px-8">
@@ -8,7 +8,7 @@
     <div class="flex min-w-0 flex-1 flex-col">
       <h2 class="m-0 shrink-0 py-6 text-3xl">{{ page.title }}</h2>
 
-      <awd-tabs
+      <jig-tabs
         class="w-full"
         [lazy]="true"
         [cache]="true"
@@ -17,12 +17,12 @@
         [pt]="tabPt"
       >
         @for (tab of page.tabs; track $index) {
-          <awd-tab [tabId]="tab.title">
+          <jig-tab [tabId]="tab.title">
             <ng-template #header> {{ tab.title }} </ng-template>
             <ng-template #content>
               @switch (tab.kind) {
                 @case ('single') {
-                  <awd-docs-section
+                  <jig-docs-section
                     [section]="tab"
                     (headings)="setTabHeadings(tab.title, $event)"
                   />
@@ -35,9 +35,9 @@
                 }
               }
             </ng-template>
-          </awd-tab>
+          </jig-tab>
         }
-      </awd-tabs>
+      </jig-tabs>
     </div>
 
     <!-- Auto-generated "on this page" rail for the active markdown tab —
@@ -46,7 +46,7 @@
       <aside
         class="sticky top-[5.5rem] hidden max-h-[calc(100dvh-6.5rem)] w-56 shrink-0 self-start overflow-y-auto pt-8 xl:block"
       >
-        <awd-docs-toc [headings]="activeHeadings()" />
+        <jig-docs-toc [headings]="activeHeadings()" />
       </aside>
     }
   </div>

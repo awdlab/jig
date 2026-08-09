@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NgnResizable } from '@awdlab/jig/directives';
+import { AwdResizable } from '@awdlab/jig/directives';
 
 @Component({
-  selector: 'awd-demo-resizable-base',
-  imports: [NgnResizable],
+  selector: 'jig-demo-resizable-base',
+  imports: [AwdResizable],
   template: `
     <div
       ngnResizable
@@ -20,9 +20,9 @@ import { NgnResizable } from '@awdlab/jig/directives';
       height: 140px;
       overflow: auto;
       padding: 12px 16px;
-      background: var(--awd-color-surface-100);
-      border: 1px solid var(--awd-color-surface-300);
-      border-radius: var(--awd-size-radius-md);
+      background: var(--jig-color-surface-100);
+      border: 1px solid var(--jig-color-surface-300);
+      border-radius: var(--jig-size-radius-md);
     }
   `,
 })

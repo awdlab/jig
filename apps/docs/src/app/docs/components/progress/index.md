@@ -1,4 +1,4 @@
-The Progress component (`awd-progress`) shows how far a task has advanced. Bind
+The Progress component (`jig-progress`) shows how far a task has advanced. Bind
 `value` (0–100) for determinate progress, or set `indeterminate` for an animated
 placeholder when the amount of work is unknown. It renders as a horizontal bar by
 default and carries the `progressbar` role with a matching `aria-valuenow`; switch

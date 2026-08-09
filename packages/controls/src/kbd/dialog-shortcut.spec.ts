@@ -1,48 +1,48 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { provideNgnControls } from '@awdlab/jig/api/ng';
-import { NgnActionButton } from '@awdlab/jig/button';
-import { NgnDialog } from '@awdlab/jig/dialog';
+import { provideAwdControls } from '@awdlab/jig/api/ng';
+import { AwdActionButton } from '@awdlab/jig/button';
+import { AwdDialog } from '@awdlab/jig/dialog';
 import { nova } from '@awdlab/jig-themes/nova';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import type { NgnActionButtonConfig } from '@awdlab/jig/api';
+import type { AwdActionButtonConfig } from '@awdlab/jig/api';
 
 @Component({
-  imports: [NgnDialog],
+  imports: [AwdDialog],
   template: `
-    <awd-dialog
+    <jig-dialog
       title="Confirm"
       [open]="true"
       [footerButtons]="buttons()"
       (buttonClicked)="clicked.push($event)"
     >
       <input id="text" />
-    </awd-dialog>
+    </jig-dialog>
   `,
 })
 class DialogHost {
   // buttonClicked emits `value | null`, so the collector must admit null.
   public readonly clicked: (string | null)[] = [];
-  public readonly buttons = signal<NgnActionButtonConfig<string>[]>([
+  public readonly buttons = signal<AwdActionButtonConfig<string>[]>([
     { label: 'Save', value: 'save', shortcut: 'ctrl+s' },
   ]);
 }
 
 @Component({
-  imports: [NgnDialog, NgnActionButton],
+  imports: [AwdDialog, AwdActionButton],
   template: `
-    <awd-dialog title="Rename" [open]="true">
+    <jig-dialog title="Rename" [open]="true">
       <input id="field" />
       <ng-template #footer>
-        <awd-action-button [config]="button" (clicked)="clicked.push($event)" />
+        <jig-action-button [config]="button" (clicked)="clicked.push($event)" />
       </ng-template>
-    </awd-dialog>
+    </jig-dialog>
   `,
 })
 class CustomFooterHost {
   public readonly clicked: string[] = [];
-  public readonly button: NgnActionButtonConfig<string> = {
+  public readonly button: AwdActionButtonConfig<string> = {
     label: 'Save',
     value: 'save',
     shortcut: 'ctrl+s',
@@ -51,7 +51,7 @@ class CustomFooterHost {
 
 beforeEach(() => {
   TestBed.configureTestingModule({
-    providers: [provideNgnControls({ theme: { preset: nova }, disableAnimations: true })],
+    providers: [provideAwdControls({ theme: { preset: nova }, disableAnimations: true })],
   });
 });
 

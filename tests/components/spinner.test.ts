@@ -1,5 +1,5 @@
 import test, { expect, type Page } from '@playwright/test';
-import { NgnSpinnerHarness } from '@awdlab/jig-playwright';
+import { AwdSpinnerHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -8,13 +8,13 @@ test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-spinner />`,
+      template: `<jig-spinner />`,
       imports: ['spinner'],
     },
     {}
   );
 
-  const spinner = new NgnSpinnerHarness(page.locator('awd-spinner'));
+  const spinner = new AwdSpinnerHarness(page.locator('jig-spinner'));
   await spinner.expectVisible();
   await spinner.expectRole();
   await expectScreenshot(page, testInfo, 'initial');
@@ -24,7 +24,7 @@ test('custom size', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-spinner [size]="inputs().size" />`,
+      template: `<jig-spinner [size]="inputs().size" />`,
       imports: ['spinner'],
     },
     {
@@ -34,7 +34,7 @@ test('custom size', async ({ page }, testInfo) => {
     }
   );
 
-  const spinner = new NgnSpinnerHarness(page.locator('awd-spinner'));
+  const spinner = new AwdSpinnerHarness(page.locator('jig-spinner'));
   await spinner.expectVisible();
   await expectScreenshot(page, testInfo, 'size-64');
 
@@ -51,7 +51,7 @@ test('custom thickness', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-spinner [size]="inputs().size" [thickness]="inputs().thickness" />`,
+      template: `<jig-spinner [size]="inputs().size" [thickness]="inputs().thickness" />`,
       imports: ['spinner'],
     },
     {
@@ -62,7 +62,7 @@ test('custom thickness', async ({ page }, testInfo) => {
     }
   );
 
-  const spinner = new NgnSpinnerHarness(page.locator('awd-spinner'));
+  const spinner = new AwdSpinnerHarness(page.locator('jig-spinner'));
   await spinner.expectVisible();
   await expectScreenshot(page, testInfo, 'thickness-8');
 
@@ -79,13 +79,13 @@ test('accessibility', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-spinner />`,
+      template: `<jig-spinner />`,
       imports: ['spinner'],
     },
     {}
   );
 
-  const spinner = new NgnSpinnerHarness(page.locator('awd-spinner'));
+  const spinner = new AwdSpinnerHarness(page.locator('jig-spinner'));
 
   // Check ARIA attributes
   await expect(spinner.locator).toHaveAttribute('role', 'status');
@@ -98,10 +98,10 @@ test('size combinations', async ({ page }, testInfo) => {
     {
       template: `
         <div style="display: flex; gap: 1rem; align-items: center;">
-          <awd-spinner [size]="16" />
-          <awd-spinner [size]="32" />
-          <awd-spinner [size]="48" />
-          <awd-spinner [size]="64" />
+          <jig-spinner [size]="16" />
+          <jig-spinner [size]="32" />
+          <jig-spinner [size]="48" />
+          <jig-spinner [size]="64" />
         </div>
       `,
       imports: ['spinner'],
@@ -116,7 +116,7 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<awd-spinner />`,
+      template: `<jig-spinner />`,
       imports: ['spinner'],
     },
     {}

@@ -1,20 +1,20 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnCalendar } from '@awdlab/jig/calendar';
-import { NgnInputField } from '@awdlab/jig/input-field';
+import { AwdCalendar } from '@awdlab/jig/calendar';
+import { AwdInputField } from '@awdlab/jig/input-field';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-calendar-playground',
-  imports: [NgnCalendar, NgnInputField, NgnDocsPlayground],
+  selector: 'jig-docs-calendar-playground',
+  imports: [AwdCalendar, AwdInputField, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnCalendar', component: component() }]">
-      <awd-input-field>
-        <awd-calendar #ref />
-      </awd-input-field>
-    </awd-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'AwdCalendar', component: component() }]">
+      <jig-input-field>
+        <jig-calendar #ref />
+      </jig-input-field>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsCalendarPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnCalendar });
+export class AwdDocsCalendarPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdCalendar });
 }

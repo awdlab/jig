@@ -1,18 +1,18 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnRating } from '@awdlab/jig/rating';
+import { AwdRating } from '@awdlab/jig/rating';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-rating-playground',
-  imports: [NgnRating, NgnDocsPlayground],
+  selector: 'jig-docs-rating-playground',
+  imports: [AwdRating, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnRating', component: component() }]">
-      <awd-rating #ref [value]="value()" (valueChange)="value.set($event)" />
-    </awd-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'AwdRating', component: component() }]">
+      <jig-rating #ref [value]="value()" (valueChange)="value.set($event)" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsRatingPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnRating });
+export class AwdDocsRatingPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdRating });
   protected readonly value = signal<number | null>(3);
 }

@@ -11,7 +11,7 @@ import {
   untracked,
 } from '@angular/core';
 import { domEventHandler, domEventSignal } from '@awdlab/jig/api/ng';
-import { NgnBase } from '@awdlab/jig/base';
+import { AwdBase } from '@awdlab/jig/base';
 import { signalWithPrevious } from '@awdlab/jig/utils-ng';
 import { movableDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
 
@@ -20,15 +20,15 @@ import { movableDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
  * inline styles (and switching the host to `position: fixed` when it is not
  * already positioned).
  *
- * Combine with {@link NgnResizable} — the resize logic calls
- * {@link NgnMovable.bakePosition} so a resized element keeps its place.
+ * Combine with {@link AwdResizable} — the resize logic calls
+ * {@link AwdMovable.bakePosition} so a resized element keeps its place.
  *
  * @category directive
  */
 @Directive({
   selector: '[ngnMovable]',
 })
-export class NgnMovable extends NgnBase<'movable'> {
+export class AwdMovable extends AwdBase<'movable'> {
   protected readonly theme = this.injectThemeTemplate(movableDirectiveTemplate, {
     movable: () => this.ngnMovable(),
     moved: () => this.dragged(),
@@ -170,7 +170,7 @@ export class NgnMovable extends NgnBase<'movable'> {
 
   /**
    * Hands a gesture to another directive on the same host, so it does not double as a
-   * move. {@link NgnResizable} passes the `pointerdown` its grip owns, `null` otherwise.
+   * move. {@link AwdResizable} passes the `pointerdown` its grip owns, `null` otherwise.
    */
   public blockGesture(pointerDown: PointerEvent | null): void {
     this._blockedDown = pointerDown;

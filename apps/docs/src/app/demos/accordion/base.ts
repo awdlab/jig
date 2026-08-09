@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
-import { NgnAccordion, NgnAccordionPanel } from '@awdlab/jig/accordion';
+import { AwdAccordion, AwdAccordionPanel } from '@awdlab/jig/accordion';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  selector: 'awd-demo-accordion-base',
-  imports: [NgnAccordion, NgnAccordionPanel],
-  template: `<awd-accordion>
-    <awd-accordion-panel [header]="'Panel 1'">
+  selector: 'jig-demo-accordion-base',
+  imports: [AwdAccordion, AwdAccordionPanel],
+  template: `<jig-accordion>
+    <jig-accordion-panel [header]="'Panel 1'">
       <ng-template #content> {{ loremIpsum1 }} </ng-template>
-    </awd-accordion-panel>
-    <awd-accordion-panel [header]="'Panel 2'">
+    </jig-accordion-panel>
+    <jig-accordion-panel [header]="'Panel 2'">
       <ng-template #content> {{ loremIpsum2 }} </ng-template>
-    </awd-accordion-panel>
-    <awd-accordion-panel [header]="'Panel 3'">
+    </jig-accordion-panel>
+    <jig-accordion-panel [header]="'Panel 3'">
       <ng-template #content> {{ loremIpsum3 }} </ng-template>
-    </awd-accordion-panel>
-  </awd-accordion>`,
+    </jig-accordion-panel>
+  </jig-accordion>`,
 })
 export class Demo_Accordion_Base {
   protected readonly loremIpsum1 = exampleData.loremIpsum.full.split(' ').slice(0, 100).join(' ');

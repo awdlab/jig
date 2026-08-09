@@ -1,4 +1,4 @@
-<awd-inplace
+<jig-inplace
   [ptInt]="this"
   [ptDep]="'inplace'"
   [templateDisplay]="displayTemplate()"
@@ -33,7 +33,7 @@
 
 <ng-template #defaultEditTemplate [ngnTemplate]="templateTypes.edit" let-edit>
   <div [ptInt]="this" [ptClass]="'default-edit'">
-    <awd-input-field
+    <jig-input-field
       (focusout)="focusOut($event)"
       [label]="label()"
       [inputId]="inputId()"
@@ -60,8 +60,8 @@
         [ptClass]="'default-edit-close-button'"
         [attr.aria-label]="i18n['editInplace_confirm']()"
       >
-        <awd-icon defaultIcon="edit-confirm" />
+        <jig-icon defaultIcon="edit-confirm" />
       </button>
-    </awd-input-field>
+    </jig-input-field>
   </div>
 </ng-template>

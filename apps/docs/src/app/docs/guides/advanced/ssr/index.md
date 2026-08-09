@@ -11,7 +11,7 @@ Theme CSS is generated and injected into `<head>` as each control scope first
 appears — on the server too. The HTML you serve therefore already carries the
 CSS for the controls it contains, and there is no unstyled flash on load.
 
-Every control also starts with an `awd-control-initializing` class that hides
+Every control also starts with an `jig-control-initializing` class that hides
 it until it has laid out. On the **server** that class is removed immediately,
 so the served markup is complete and visible; in the browser it is removed
 after the first render. Do not target that class in your own CSS — it exists

@@ -4,9 +4,9 @@ import { Demo_Pt_Deps } from '../../../../demos/pt/deps';
 import { Demo_Pt_Listeners } from '../../../../demos/pt/listeners';
 import { Demo_Pt_Styles } from '../../../../demos/pt/styles';
 
-import type { NgnDocsPage } from '../../../../utils/page/types';
+import type { AwdDocsPage } from '../../../../utils/page/types';
 
-export const PassthroughPage: NgnDocsPage = {
+export const PassthroughPage: AwdDocsPage = {
   kind: 'single',
   title: `Passthrough`,
 

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { injectThemeControlKinds } from '@awdlab/jig/api/ng';
-import { NgnHint } from '@awdlab/jig/hint';
+import { AwdHint } from '@awdlab/jig/hint';
 
 @Component({
-  imports: [NgnHint],
-  selector: 'awd-demo-hint-base',
+  imports: [AwdHint],
+  selector: 'jig-demo-hint-base',
   template: `
     <div class="flex flex-col gap-2">
       @for (kind of kinds(); track $index) {
-        <awd-hint [kind]="kind">{{ kind ?? 'default' }} hint text</awd-hint>
+        <jig-hint [kind]="kind">{{ kind ?? 'default' }} hint text</jig-hint>
       }
     </div>
   `,

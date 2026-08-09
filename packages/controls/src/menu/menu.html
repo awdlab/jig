@@ -1,5 +1,5 @@
 @if (popover() && anchor(); as anchor) {
-  <awd-popover
+  <jig-popover
     [ptInt]="this"
     [ptDep]="'popover'"
     [anchor]="anchor"
@@ -11,7 +11,7 @@
     <ng-template #lazy>
       <ng-container *ngTemplateOutlet="menu" />
     </ng-template>
-  </awd-popover>
+  </jig-popover>
 } @else {
   <ng-container *ngTemplateOutlet="menu" />
 }
@@ -63,7 +63,7 @@
     >
       <ng-container *ngTemplateOutlet="itemTemplate(); context: { $implicit: item }" />
     </button>
-    <awd-menu
+    <jig-menu
       #childMenu
       [anchor]="menuItem"
       [items]="item.children"
@@ -101,7 +101,7 @@
 <ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
   {{ maybeCallback(item.label) }}
   @if (item.children) {
-    <awd-icon
+    <jig-icon
       [ptInt]="this"
       [ptClass]="'icon-children'"
       defaultIcon="menu-submenu"

@@ -6,6 +6,6 @@ export function getClassName(
 ): string {
   let result = `${prefix}${scope}`;
   if (className) result += `-${className}`;
-  if (unstyled) result += ` awd-unstyled`;
+  if (unstyled) result += ` jig-unstyled`;
   return result;
 }

@@ -1,11 +1,11 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 import { templateTypesFn } from '@awdlab/jig/api/ng';
-import { NgnBase } from '@awdlab/jig/base';
+import { AwdBase } from '@awdlab/jig/base';
 
 import type { IconType } from '@awdlab/jig-custom-types';
 
 @Directive()
-export abstract class ItemViewTemplates<T> extends NgnBase<'itemView'> {
+export abstract class ItemViewTemplates<T> extends AwdBase<'itemView'> {
   /**
    * The template to be used for rendering each item in the item view.
    * Can also be set using the `item` content child.
@@ -57,7 +57,7 @@ export abstract class ItemViewTemplates<T> extends NgnBase<'itemView'> {
 
   /**
    * Template types for the item-view.
-   * Can be used with the {@link NgnTemplate} directive for type safe ng-templates.
+   * Can be used with the {@link AwdTemplate} directive for type safe ng-templates.
    */
   public readonly templateTypes = templateTypesFn<{
     item: {

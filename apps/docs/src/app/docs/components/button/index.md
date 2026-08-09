@@ -20,7 +20,7 @@ come from the theme, so the demo below enumerates whatever the current theme
 ships.
 
 The `icon` kind is the icon-only button: give it a single glyph (or an
-`<awd-icon>`) as content and always provide an `aria-label`, since there is no
+`<jig-icon>`) as content and always provide an `aria-label`, since there is no
 visible text for assistive tech to read.
 
 {{ demo: Demo_Button_Kind }}
@@ -66,7 +66,7 @@ text and, for filled kinds, a muted background. Native `<a>` elements have no
 
 ### Action buttons
 
-`<awd-action-button>` is a config-driven wrapper for cases where a button is
+`<jig-action-button>` is a config-driven wrapper for cases where a button is
 described by data rather than markup — snackbars, dialog footers, and row
 actions all build their buttons from a `config` object. The config carries the
 `label`, `icon`, `kind`, `color`, `disabled` flag, a `value`, and an `action`

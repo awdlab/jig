@@ -1,21 +1,21 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-input-field-playground',
-  imports: [NgnInput, NgnInputField, NgnDocsPlayground],
+  selector: 'jig-docs-input-field-playground',
+  imports: [AwdInput, AwdInputField, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnInputField', component: component() }]">
-      <awd-input-field #ref>
+    <jig-docs-playground [controls]="[{ componentName: 'AwdInputField', component: component() }]">
+      <jig-input-field #ref>
         <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
-      </awd-input-field>
-    </awd-docs-playground>
+      </jig-input-field>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsInputFieldPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnInputField });
+export class AwdDocsInputFieldPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdInputField });
   protected readonly value = signal<string>('');
 }

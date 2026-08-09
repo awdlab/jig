@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { NgnSelect } from '@awdlab/jig/select';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { AwdSelect } from '@awdlab/jig/select';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnSelect, NgnInputField],
-  selector: 'awd-demo-select-placeholder',
-  template: `<awd-input-field>
-    <awd-select [options]="options" placeholder="Select an option…" />
-  </awd-input-field>`,
+  imports: [AwdSelect, AwdInputField],
+  selector: 'jig-demo-select-placeholder',
+  template: `<jig-input-field>
+    <jig-select [options]="options" placeholder="Select an option…" />
+  </jig-input-field>`,
   host: { class: 'w-48' },
 })
 export class Demo_Select_Placeholder {

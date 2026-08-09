@@ -1,4 +1,4 @@
-import { NgnDocsSelectPlayground } from './playground';
+import { AwdDocsSelectPlayground } from './playground';
 import { Demo_Select_Base } from '../../../demos/select/base';
 import { Demo_Select_DisabledItems } from '../../../demos/select/disabled-items';
 import { Demo_Select_Editable } from '../../../demos/select/editable';
@@ -12,9 +12,9 @@ import { Demo_Select_Templates } from '../../../demos/select/templates';
 import { Demo_Select_Validation } from '../../../demos/select/validation';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const SelectPage: NgnDocsPage = {
+export const SelectPage: AwdDocsPage = {
   title: `Select`,
   kind: 'tabs',
   tabs: [
@@ -41,7 +41,7 @@ export const SelectPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsSelectPlayground,
+      component: AwdDocsSelectPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/select/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/select/a11y.md' },

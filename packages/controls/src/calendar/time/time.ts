@@ -1,22 +1,22 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { Platform } from '@awdlab/jig/api/ng';
 import { I18n } from '@awdlab/jig/i18n';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { DATE_TIME_MASKS, NgnMaskInput } from '@awdlab/jig/mask-input';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { DATE_TIME_MASKS, AwdMaskInput } from '@awdlab/jig/mask-input';
 
-import type { NgnBaseSafe } from '@awdlab/jig/base';
+import type { AwdBaseSafe } from '@awdlab/jig/base';
 
 @Component({
-  selector: 'awd-calendar-time',
+  selector: 'jig-calendar-time',
   templateUrl: './time.html',
-  imports: [NgnInput, NgnMaskInput, NgnInputField],
+  imports: [AwdInput, AwdMaskInput, AwdInputField],
 })
 export class CalendarTime {
   protected readonly i18n = inject(I18n).translations;
   protected readonly isTouchDevice = inject(Platform).isTouchDevice();
 
-  public readonly component = input.required<NgnBaseSafe<'calendar'>>();
+  public readonly component = input.required<AwdBaseSafe<'calendar'>>();
   public readonly currentValue = input.required<Date | null>();
   public readonly showSeconds = input.required<boolean>();
   public readonly timeChange = output<Date | null>();

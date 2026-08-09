@@ -6,7 +6,7 @@
         Every control with realistic data, on one page — for eyeballing theme consistency.
       </p>
     </div>
-    <awd-docs-theme-picker />
+    <jig-docs-theme-picker />
   </header>
 
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -29,43 +29,43 @@
     <!-- Button group -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Button group</span>
-      <awd-button-group>
+      <jig-button-group>
         <button ngnButton kind="primary">Day</button>
         <button ngnButton kind="primary">Week</button>
         <button ngnButton kind="primary">Month</button>
-      </awd-button-group>
+      </jig-button-group>
     </section>
 
     <!-- Select button -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Select button</span>
-      <awd-select-button [options]="selectButtonOptions" [value]="'grid'" />
+      <jig-select-button [options]="selectButtonOptions" [value]="'grid'" />
     </section>
 
     <!-- Toggle / switch / checkbox / radio -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Toggle button</span>
-      <awd-toggle-button label="Notifications" />
+      <jig-toggle-button label="Notifications" />
     </section>
 
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Switch</span>
-      <awd-switch [(value)]="switchValue" />
+      <jig-switch [(value)]="switchValue" />
     </section>
 
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Checkbox</span>
       <div class="flex flex-col gap-2">
         <div class="flex items-center gap-2">
-          <awd-checkbox [(value)]="checkboxValue" />
+          <jig-checkbox [(value)]="checkboxValue" />
           <span>Subscribe</span>
         </div>
         <div class="flex items-center gap-2">
-          <awd-checkbox [value]="false" />
+          <jig-checkbox [value]="false" />
           <span>Remember me</span>
         </div>
         <div class="flex items-center gap-2">
-          <awd-checkbox [allowIndeterminate]="true" [value]="null" />
+          <jig-checkbox [allowIndeterminate]="true" [value]="null" />
           <span>Select all</span>
         </div>
       </div>
@@ -73,18 +73,18 @@
 
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Radio</span>
-      <awd-radio-group [(value)]="radioValue">
-        <awd-radio value="small">Small</awd-radio>
-        <awd-radio value="medium">Medium</awd-radio>
-        <awd-radio value="large">Large</awd-radio>
-      </awd-radio-group>
+      <jig-radio-group [(value)]="radioValue">
+        <jig-radio value="small">Small</jig-radio>
+        <jig-radio value="medium">Medium</jig-radio>
+        <jig-radio value="large">Large</jig-radio>
+      </jig-radio-group>
     </section>
 
     <!-- Slider -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Slider</span>
       <div class="flex items-center gap-4">
-        <awd-slider class="flex-1" [(value)]="sliderValue" />
+        <jig-slider class="flex-1" [(value)]="sliderValue" />
         <span class="w-10 text-right text-sm tabular-nums opacity-70">{{ sliderValue() }}</span>
       </div>
     </section>
@@ -92,16 +92,16 @@
     <!-- Progress -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Progress</span>
-      <awd-progress [value]="progressValue()" />
-      <awd-progress [value]="30" />
+      <jig-progress [value]="progressValue()" />
+      <jig-progress [value]="30" />
     </section>
 
     <!-- Spinner -->
     <section class="card flex flex-col items-start gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Spinner</span>
       <div class="flex items-center gap-4">
-        <awd-spinner [color]="'primary'" />
-        <awd-spinner [color]="'secondary'" />
+        <jig-spinner [color]="'primary'" />
+        <jig-spinner [color]="'secondary'" />
       </div>
     </section>
 
@@ -109,19 +109,19 @@
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Icon</span>
       <div class="flex items-center gap-3 text-2xl">
-        <awd-icon [icon]="icons.user" />
+        <jig-icon [icon]="icons.user" />
       </div>
     </section>
 
     <!-- Avatar -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Avatar</span>
-      <awd-avatar-group>
-        <awd-avatar initials="JC" />
-        <awd-avatar initials="AB" bgColor="var(--awd-color-secondary-default)" />
-        <awd-avatar initials="MK" bgColor="var(--awd-color-accent-default)" />
-        <awd-avatar initials="+3" bgColor="var(--awd-color-surface-400)" />
-      </awd-avatar-group>
+      <jig-avatar-group>
+        <jig-avatar initials="JC" />
+        <jig-avatar initials="AB" bgColor="var(--jig-color-secondary-default)" />
+        <jig-avatar initials="MK" bgColor="var(--jig-color-accent-default)" />
+        <jig-avatar initials="+3" bgColor="var(--jig-color-surface-400)" />
+      </jig-avatar-group>
     </section>
 
     <!-- Chip -->
@@ -129,7 +129,7 @@
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Chip</span>
       <div class="flex flex-wrap gap-2">
         @for (color of chipColors(); track color) {
-          <awd-chip [color]="color">{{ color }}</awd-chip>
+          <jig-chip [color]="color">{{ color }}</jig-chip>
         }
       </div>
     </section>
@@ -141,7 +141,7 @@
         @for (kind of tagKinds(); track kind) {
           <div class="flex flex-wrap items-center gap-2">
             @for (color of tagColors(); track color) {
-              <awd-tag [kind]="kind" [color]="color">{{ color }}</awd-tag>
+              <jig-tag [kind]="kind" [color]="color">{{ color }}</jig-tag>
             }
           </div>
         }
@@ -153,7 +153,7 @@
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Hint</span>
       <div class="flex flex-col gap-2">
         @for (kind of hintKinds(); track kind) {
-          <awd-hint [kind]="kind">{{ kind ?? 'default' }} hint</awd-hint>
+          <jig-hint [kind]="kind">{{ kind ?? 'default' }} hint</jig-hint>
         }
       </div>
     </section>
@@ -163,7 +163,7 @@
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Message</span>
       <div class="flex flex-wrap gap-2">
         @for (color of messageColors(); track color) {
-          <awd-message [kind]="messageKinds()[0]" [color]="color">{{ color }} message</awd-message>
+          <jig-message [kind]="messageKinds()[0]" [color]="color">{{ color }} message</jig-message>
         }
       </div>
     </section>
@@ -172,46 +172,46 @@
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Input field</span>
       <div class="flex flex-col gap-4">
-        <awd-input-field [label]="'Full name'" [labelKind]="'on'">
+        <jig-input-field [label]="'Full name'" [labelKind]="'on'">
           <input ngnInput [value]="textValue()" (valueChange)="textValue.set($event ?? '')" />
-        </awd-input-field>
-        <awd-input-field [label]="'Bio'" [labelKind]="'floatOn'">
+        </jig-input-field>
+        <jig-input-field [label]="'Bio'" [labelKind]="'floatOn'">
           <input ngnInput value="Frontend engineer" />
-        </awd-input-field>
+        </jig-input-field>
       </div>
     </section>
 
     <!-- Number input -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Number input</span>
-      <awd-input-field [label]="'Quantity'" [labelKind]="'on'">
+      <jig-input-field [label]="'Quantity'" [labelKind]="'on'">
         <input ngnNumberInput [min]="0" [max]="100" [(value)]="numberValue" />
-        <awd-spin-buttons />
-      </awd-input-field>
+        <jig-spin-buttons />
+      </jig-input-field>
     </section>
 
     <!-- Mask input -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Mask input</span>
-      <awd-input-field [label]="'Date'" [labelKind]="'on'">
-        <awd-mask-input
+      <jig-input-field [label]="'Date'" [labelKind]="'on'">
+        <jig-mask-input
           [mask]="mask"
           [value]="maskValue()"
           (valueChange)="maskValue.set($event ?? '')"
         />
-      </awd-input-field>
+      </jig-input-field>
     </section>
 
     <!-- Edit inplace -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Edit inplace</span>
-      <awd-edit-inplace [value]="editValue()" (valueChange)="editValue.set($event)" />
+      <jig-edit-inplace [value]="editValue()" (valueChange)="editValue.set($event)" />
     </section>
 
     <!-- Inplace -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Inplace</span>
-      <awd-inplace #inplace>
+      <jig-inplace #inplace>
         <ng-template #display>Show details</ng-template>
         <ng-template #content [ngnTemplate]="inplace.templateTypes.content" let-content>
           <div class="flex items-center gap-2">
@@ -219,31 +219,31 @@
             <button ngnButton kind="icon" (click)="content.close()">✕</button>
           </div>
         </ng-template>
-      </awd-inplace>
+      </jig-inplace>
     </section>
 
     <!-- Select (force-open) -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Select</span>
-      <awd-input-field>
-        <awd-select
+      <jig-input-field>
+        <jig-select
           #gallerySelect
           [options]="items"
           [popoverOptions]="{ sizeConstraints: { minHeight: '0px', maxHeight: '220px' } }"
         />
-      </awd-input-field>
+      </jig-input-field>
     </section>
 
     <!-- List box -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">List box</span>
-      <awd-list-box [items]="items" class="h-[240px]" />
+      <jig-list-box [items]="items" class="h-[240px]" />
     </section>
 
     <!-- Calendar -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Calendar</span>
-      <awd-calendar
+      <jig-calendar
         [inputId]="'gallery-cal'"
         [inline]="true"
         [value]="calendarValue()"
@@ -254,13 +254,13 @@
     <!-- Menu (inline) -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Menu</span>
-      <awd-menu [items]="menuItems()" />
+      <jig-menu [items]="menuItems()" />
     </section>
 
     <!-- Item view -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Item view</span>
-      <awd-item-view
+      <jig-item-view
         #itemView
         [items]="itemViewItems"
         [idField]="'id'"
@@ -269,87 +269,87 @@
         [overflowStrategyFreezeCount]="1"
       >
         <ng-template #item [ngnTemplate]="itemView.templateTypes.item" let-item>
-          <span class="rounded bg-(--awd-color-surface-200) px-2 py-1">
+          <span class="rounded bg-(--jig-color-surface-200) px-2 py-1">
             {{ item.label }}
           </span>
         </ng-template>
-      </awd-item-view>
+      </jig-item-view>
     </section>
 
     <!-- Paginator -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Paginator</span>
-      <awd-paginator [totalItems]="240" />
+      <jig-paginator [totalItems]="240" />
     </section>
 
     <!-- Breadcrumb -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Breadcrumb</span>
-      <awd-breadcrumb [items]="breadcrumbItems()" />
+      <jig-breadcrumb [items]="breadcrumbItems()" />
     </section>
 
     <!-- Filter (inline) -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Filter</span>
-      <awd-filter mode="inline" [data]="filterData" />
+      <jig-filter mode="inline" [data]="filterData" />
     </section>
 
     <!-- Tree -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Tree</span>
-      <awd-tree [items]="tree" [multiple]="true" class="h-[240px]" />
+      <jig-tree [items]="tree" [multiple]="true" class="h-[240px]" />
     </section>
 
     <!-- Accordion -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Accordion</span>
-      <awd-accordion>
-        <awd-accordion-panel [header]="'Overview'">
+      <jig-accordion>
+        <jig-accordion-panel [header]="'Overview'">
           <ng-template #content>{{ loremShort }}</ng-template>
-        </awd-accordion-panel>
-        <awd-accordion-panel [header]="'Details'">
+        </jig-accordion-panel>
+        <jig-accordion-panel [header]="'Details'">
           <ng-template #content>{{ loremShort }}</ng-template>
-        </awd-accordion-panel>
-        <awd-accordion-panel [header]="'Settings'">
+        </jig-accordion-panel>
+        <jig-accordion-panel [header]="'Settings'">
           <ng-template #content>{{ loremShort }}</ng-template>
-        </awd-accordion-panel>
-      </awd-accordion>
+        </jig-accordion-panel>
+      </jig-accordion>
     </section>
 
     <!-- Tabs -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Tabs</span>
-      <awd-tabs>
-        <awd-tab tabId="account">
+      <jig-tabs>
+        <jig-tab tabId="account">
           <ng-template #header>Account</ng-template>
           <ng-template #content>{{ loremShort }}</ng-template>
-        </awd-tab>
-        <awd-tab tabId="security">
+        </jig-tab>
+        <jig-tab tabId="security">
           <ng-template #header>Security</ng-template>
           <ng-template #content>{{ loremShort }}</ng-template>
-        </awd-tab>
-      </awd-tabs>
+        </jig-tab>
+      </jig-tabs>
     </section>
 
     <!-- Splitter -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Splitter</span>
       <div class="h-[140px]">
-        <awd-splitter [layout]="'horizontal'" [aria-label]="'Gallery splitter'">
-          <awd-splitter-panel [size]="'2fr'" [aria-label]="'Navigation'">
+        <jig-splitter [layout]="'horizontal'" [aria-label]="'Gallery splitter'">
+          <jig-splitter-panel [size]="'2fr'" [aria-label]="'Navigation'">
             <div class="p-2 text-sm opacity-70">Navigation</div>
-          </awd-splitter-panel>
-          <awd-splitter-panel [size]="'5fr'" [aria-label]="'Content'">
+          </jig-splitter-panel>
+          <jig-splitter-panel [size]="'5fr'" [aria-label]="'Content'">
             <div class="p-2 text-sm opacity-70">Content</div>
-          </awd-splitter-panel>
-        </awd-splitter>
+          </jig-splitter-panel>
+        </jig-splitter>
       </div>
     </section>
 
     <!-- Table -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Table</span>
-      <awd-table #table class="h-[320px]" [rows]="tableRows" [fieldId]="'id'">
+      <jig-table #table class="h-[320px]" [rows]="tableRows" [fieldId]="'id'">
         <ng-template #header>
           <tr ngnTableHeadTr>
             <th scope="col" [ngnTableTh]="table.column('name')">Name</th>
@@ -364,16 +364,16 @@
             <td ngnTableTd>{{ row.data.location }}</td>
           </tr>
         </ng-template>
-      </awd-table>
+      </jig-table>
     </section>
 
     <!-- Upload -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Upload</span>
-      <awd-upload #up="ngnUpload" (upload)="onUpload($event, up)">
+      <jig-upload #up="ngnUpload" (upload)="onUpload($event, up)">
         <input type="file" multiple />
         Drag files here or click to browse
-      </awd-upload>
+      </jig-upload>
     </section>
 
     <!-- Tooltip (force-open) -->
@@ -386,16 +386,16 @@
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Popover</span>
       <button ngnButton #popoverAnchor>Anchor</button>
-      <awd-popover [anchor]="popoverAnchor" [open]="true" [closeBy]="'none'">
+      <jig-popover [anchor]="popoverAnchor" [open]="true" [closeBy]="'none'">
         <div class="p-1">Popover content</div>
-      </awd-popover>
+      </jig-popover>
     </section>
 
     <!-- Drawer (trigger) -->
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Drawer</span>
       <button ngnButton (click)="drawerOpen.set(true)">Open drawer</button>
-      <awd-drawer
+      <jig-drawer
         [header]="'Filters'"
         [modal]="true"
         [open]="drawerOpen()"
@@ -403,7 +403,7 @@
         (openChange)="drawerOpen.set($event)"
       >
         {{ loremShort }}
-      </awd-drawer>
+      </jig-drawer>
     </section>
 
     <!-- Toast / snackbar (shown persistently on load) -->
@@ -416,7 +416,7 @@
     <section class="card flex flex-col gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Dialog</span>
       <button ngnButton (click)="dialogOpen.set(true)">Reopen dialog</button>
-      <awd-dialog
+      <jig-dialog
         class="gallery-dialog"
         [title]="'Confirm changes'"
         [open]="dialogOpen()"
@@ -427,7 +427,7 @@
       >
         Apply these changes to your project?
         <button ngnButton kind="primary" (click)="dialogOpen.set(false)">Apply</button>
-      </awd-dialog>
+      </jig-dialog>
     </section>
   </div>
 </div>

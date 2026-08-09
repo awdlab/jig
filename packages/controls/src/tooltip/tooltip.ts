@@ -24,8 +24,8 @@ import {
   splitPlacement,
   type TooltipOptions,
 } from '@awdlab/jig/api/ng';
-import { NgnBase, provideSelf, NgnPt } from '@awdlab/jig/base';
-import { NgnDefer } from '@awdlab/jig/defer';
+import { AwdBase, provideSelf, AwdPt } from '@awdlab/jig/base';
+import { AwdDefer } from '@awdlab/jig/defer';
 import { getTimeSpanMilliseconds, notNullish, type TimeSpan } from '@awdlab/jig/utils';
 import { computedWithPrevious, generateElementId } from '@awdlab/jig/utils-ng';
 import { tooltipControlTemplate } from '@awdlab/jig-themes/templates/tooltip';
@@ -43,9 +43,9 @@ import type { Placement } from '@floating-ui/dom';
 @Directive({
   selector: '[ngnTooltip]',
   exportAs: 'ngnTooltip',
-  providers: [provideSelf(NgnTooltip)],
+  providers: [provideSelf(AwdTooltip)],
 })
-export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
+export class AwdTooltip extends AwdBase<'tooltip'> implements OnDestroy {
   protected readonly theme = null;
   private readonly _viewContainerRef = inject(ViewContainerRef);
   private readonly _config = inject(NGN_CONFIG);
@@ -312,9 +312,9 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
 }
 
 @Component({
-  selector: 'awd-tooltip',
+  selector: 'jig-tooltip',
   templateUrl: './tooltip.html',
-  imports: [NgnPt, NgnDefer],
+  imports: [AwdPt, AwdDefer],
   providers: [provideSelf(TooltipComponent)],
   host: {
     '[class]': `positionClass()`,
@@ -333,7 +333,7 @@ export class NgnTooltip extends NgnBase<'tooltip'> implements OnDestroy {
     '[attr.aria-hidden]': `isShown() ? null : true`,
   },
 })
-export class TooltipComponent extends NgnBase<'tooltip'> {
+export class TooltipComponent extends AwdBase<'tooltip'> {
   private _showHideTimeout?: ReturnType<typeof setTimeout>;
   protected readonly theme = this.injectThemeTemplate(tooltipControlTemplate, {
     root: true,

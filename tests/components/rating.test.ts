@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { NgnRatingHarness } from '@awdlab/jig-playwright';
+import { AwdRatingHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -8,13 +8,13 @@ test('base: click to set, clear on repeat', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-rating [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-rating [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['rating'],
     },
     { inputs: { value: null } }
   );
 
-  const rating = new NgnRatingHarness(page.locator('awd-rating'));
+  const rating = new AwdRatingHarness(page.locator('jig-rating'));
   await rating.expectMax(5);
   // Default is null (no rating) — no aria-valuenow, 0 is not a valid value.
   await expect(rating.locator).not.toHaveAttribute('aria-valuenow');
@@ -36,13 +36,13 @@ test('whole-step: entering a symbol area fills it (click anywhere in the symbol)
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-rating [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-rating [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['rating'],
     },
     { inputs: { value: null } }
   );
 
-  const rating = new NgnRatingHarness(page.locator('awd-rating'));
+  const rating = new AwdRatingHarness(page.locator('jig-rating'));
   // Clicking the LEFT edge of the 3rd symbol must still set 3 — with a whole step,
   // entering the symbol's area fills it (no need to reach the 50% mark).
   await rating.clickSymbol(2, 'left');
@@ -57,13 +57,13 @@ test('gap between symbols is clickable and previews the same value', async ({ pa
   await loadComponent(
     page,
     {
-      template: `<awd-rating [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-rating [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['rating'],
     },
     { inputs: { value: null } }
   );
 
-  const rating = new NgnRatingHarness(page.locator('awd-rating'));
+  const rating = new AwdRatingHarness(page.locator('jig-rating'));
   const first = await rating.symbols.nth(0).boundingBox();
   const second = await rating.symbols.nth(1).boundingBox();
   if (!first || !second) {
@@ -83,7 +83,7 @@ test('dead space right of the last symbol sets nothing', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<awd-rating
+      template: `<jig-rating
         style="width: 400px"
         [value]="inputs().value"
         (valueChange)="output('value', $event)"
@@ -93,7 +93,7 @@ test('dead space right of the last symbol sets nothing', async ({ page }) => {
     { inputs: { value: null } }
   );
 
-  const rating = new NgnRatingHarness(page.locator('awd-rating'));
+  const rating = new AwdRatingHarness(page.locator('jig-rating'));
   const root = (await rating.locator.boundingBox())!;
   const last = (await rating.symbols.last().boundingBox())!;
   const y = last.y + last.height / 2;
@@ -109,13 +109,13 @@ test('half-step: left half sets .5, right half sets whole', async ({ page }) => 
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-rating [step]="0.5" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-rating [step]="0.5" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['rating'],
     },
     { inputs: { value: null } }
   );
 
-  const rating = new NgnRatingHarness(page.locator('awd-rating'));
+  const rating = new AwdRatingHarness(page.locator('jig-rating'));
   await rating.clickSymbol(2, 'left'); // left half of 3rd symbol → 2.5
   await rating.expectValue(2.5);
   await rating.clickSymbol(2, 'right'); // right half of 3rd symbol → 3
@@ -126,13 +126,13 @@ test('keyboard navigation with step', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<awd-rating [value]="inputs().value" [step]="inputs().step" (valueChange)="output('value', $event)" />`,
+      template: `<jig-rating [value]="inputs().value" [step]="inputs().step" (valueChange)="output('value', $event)" />`,
       imports: ['rating'],
     },
     { inputs: { value: 2, step: 0.5 } }
   );
 
-  const rating = new NgnRatingHarness(page.locator('awd-rating'));
+  const rating = new AwdRatingHarness(page.locator('jig-rating'));
   await rating.focus();
   await rating.pressKey('ArrowRight');
   await rating.expectValue(2.5);
@@ -154,12 +154,12 @@ test('readonly does not change value', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-rating [value]="inputs().value" [readonly]="true" (valueChange)="output('value', $event)" />`,
+      template: `<jig-rating [value]="inputs().value" [readonly]="true" (valueChange)="output('value', $event)" />`,
       imports: ['rating'],
     },
     { inputs: { value: 3 } }
   );
-  const rating = new NgnRatingHarness(page.locator('awd-rating'));
+  const rating = new AwdRatingHarness(page.locator('jig-rating'));
   await rating.clickSymbol(0, 'center');
   await rating.expectValue(3);
   expect(await handle.getOutputLog()).toEqual({});
@@ -169,19 +169,19 @@ test('disabled: reflects aria-disabled', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<awd-rating [value]="3" [disabled]="true" />`,
+      template: `<jig-rating [value]="3" [disabled]="true" />`,
       imports: ['rating'],
     },
     { inputs: {} }
   );
-  await expect(page.locator('awd-rating')).toHaveAttribute('aria-disabled', 'true');
+  await expect(page.locator('jig-rating')).toHaveAttribute('aria-disabled', 'true');
 });
 
 test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<awd-rating [value]="3" [label]="'Rating'" />`,
+      template: `<jig-rating [value]="3" [label]="'Rating'" />`,
       imports: ['rating'],
     },
     { inputs: {} }
@@ -193,17 +193,17 @@ test('indicatorTemplate receives fillRatio and index, replaces default icons', a
   await loadComponent(
     page,
     {
-      template: `<awd-rating [value]="2.5">
+      template: `<jig-rating [value]="2.5">
         <ng-template #indicator let-ratio let-index="index">
           <span class="ind" [attr.data-ratio]="ratio" [attr.data-index]="index"></span>
         </ng-template>
-      </awd-rating>`,
+      </jig-rating>`,
       imports: ['rating'],
     },
     { inputs: {} }
   );
 
-  const indicators = page.locator('awd-rating .ind');
+  const indicators = page.locator('jig-rating .ind');
   await expect(indicators).toHaveCount(5);
 
   const ratios = await indicators.evaluateAll(els => els.map(el => el.getAttribute('data-ratio')));
@@ -212,7 +212,7 @@ test('indicatorTemplate receives fillRatio and index, replaces default icons', a
   expect(indices).toEqual(['0', '1', '2', '3', '4']);
 
   // default full/empty icon rendering is bypassed while a custom template is active
-  await expect(page.locator('awd-rating awd-icon')).toHaveCount(0);
+  await expect(page.locator('jig-rating jig-icon')).toHaveCount(0);
 });
 
 test('content-child #indicator takes precedence over the indicatorTemplate input', async ({
@@ -223,15 +223,15 @@ test('content-child #indicator takes precedence over the indicatorTemplate input
     {
       template: `
         <ng-template #alt let-ratio><span class="alt-ind" [attr.data-ratio]="ratio"></span></ng-template>
-        <awd-rating [value]="2.5" [indicatorTemplate]="alt">
+        <jig-rating [value]="2.5" [indicatorTemplate]="alt">
           <ng-template #indicator let-ratio><span class="ind" [attr.data-ratio]="ratio"></span></ng-template>
-        </awd-rating>
+        </jig-rating>
       `,
       imports: ['rating'],
     },
     { inputs: {} }
   );
 
-  await expect(page.locator('awd-rating .ind')).toHaveCount(5);
-  await expect(page.locator('awd-rating .alt-ind')).toHaveCount(0);
+  await expect(page.locator('jig-rating .ind')).toHaveCount(5);
+  await expect(page.locator('jig-rating .alt-ind')).toHaveCount(0);
 });

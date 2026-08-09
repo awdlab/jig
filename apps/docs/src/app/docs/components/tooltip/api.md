@@ -1,1 +1,1 @@
-{{ api: tooltip/tooltip NgnTooltip }}
+{{ api: tooltip/tooltip AwdTooltip }}

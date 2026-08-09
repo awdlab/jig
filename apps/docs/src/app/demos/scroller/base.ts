@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnScroller, NgnScrollerItem } from '@awdlab/jig/scroller';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdScroller, AwdScrollerItem } from '@awdlab/jig/scroller';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnScroller, NgnTemplate, NgnScrollerItem],
-  selector: 'awd-demo-scroller-base',
+  imports: [AwdScroller, AwdTemplate, AwdScrollerItem],
+  selector: 'jig-demo-scroller-base',
   template: `
-    <awd-scroller #scroller style="height: 300px" [items]="items">
+    <jig-scroller #scroller style="height: 300px" [items]="items">
       <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item>
         <span [ngnScrollerItem]="item">
           {{ item.label }}
         </span>
       </ng-template>
-    </awd-scroller>
+    </jig-scroller>
   `,
 })
 export class Demo_Scroller_Base {

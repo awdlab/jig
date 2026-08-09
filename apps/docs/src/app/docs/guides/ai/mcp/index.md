@@ -11,7 +11,7 @@ It provides four capabilities:
 
 1. **Docs / explain** — control APIs, selectors, usage, concept guides.
 2. **Theming** — token schema + per-control anatomy + theme-part scaffolds.
-3. **Migration** — PrimeNG / Angular Material / Syncfusion → awd component maps.
+3. **Migration** — PrimeNG / Angular Material / Syncfusion → jig component maps.
 4. **Feature dev** — control recommendations + composition recipes.
 
 All layers are **advisory / knowledge-only**: the server returns knowledge and
@@ -48,12 +48,12 @@ change, it can never silently drift from the library.
 | `scaffold_theme_part`    | Ready-to-edit `createThemePart` skeleton for a control.            |
 | `get_theme_options`      | Theme-dependent `kind` / `color` values (per built-in theme).      |
 | `list_migration_sources` | Source libraries with a migration map + coverage.                  |
-| `map_component`          | One source component → awd target, with prop/event maps + gaps.    |
-| `search_migration`       | Find the awd equivalent for a source component / feature.          |
+| `map_component`          | One source component → jig target, with prop/event maps + gaps.    |
+| `search_migration`       | Find the jig equivalent for a source component / feature.          |
 | `recommend_controls`     | Suggest controls + recipes for a feature goal.                     |
 
-**Resources** (browsable, addressable): `awd://control/<name>`,
-`awd://concept/<slug>`, `awd://recipe/<slug>`, and `awd://example/<slug>` (real,
+**Resources** (browsable, addressable): `jig://control/<name>`,
+`jig://concept/<slug>`, `jig://recipe/<slug>`, and `jig://example/<slug>` (real,
 compiled usage snippets auto-derived from the docs demos).
 
 **Prompts** (surfaced as slash-commands / quick actions where supported):
@@ -70,7 +70,7 @@ No install step is needed — clients run the server via `npx`.
 ```json
 {
   "mcpServers": {
-    "awd-controls": {
+    "jig-controls": {
       "command": "npx",
       "args": ["-y", "@awdlab/jig-mcp"]
     }

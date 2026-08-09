@@ -6,14 +6,14 @@ controls: dialog, button, input-field, input, snackbar, toast
 
 # Confirm / edit dialog flow
 
-`awd-dialog` is declarative: drive it from an `open` signal via `[(open)]`, not a
+`jig-dialog` is declarative: drive it from an `open` signal via `[(open)]`, not a
 service call. Open it from a trigger, edit inside, confirm/cancel to close, then
-surface the outcome with `awd-snackbar` or `awd-toast`.
+surface the outcome with `jig-snackbar` or `jig-toast`.
 
 ## Shape
 
 - Keep dialog visibility in a `signal(false)` bound with `[(open)]`.
-- Put form controls inside the dialog (wrapped in `awd-input-field`).
+- Put form controls inside the dialog (wrapped in `jig-input-field`).
 - Confirm action validates, applies, closes (`open.set(false)`), and notifies.
 - Cancel just closes.
 
@@ -22,14 +22,14 @@ surface the outcome with `awd-snackbar` or `awd-toast`.
 ```html
 <button ngnButton (click)="open.set(true)">Edit</button>
 
-<awd-dialog [(open)]="open" [modal]="true">
-  <awd-input-field label="Title">
+<jig-dialog [(open)]="open" [modal]="true">
+  <jig-input-field label="Title">
     <input ngnInput [(value)]="draft" />
-  </awd-input-field>
+  </jig-input-field>
 
   <button ngnButton (click)="open.set(false)">Cancel</button>
   <button ngnButton (click)="confirm()">Save</button>
-</awd-dialog>
+</jig-dialog>
 ```
 
 ```ts

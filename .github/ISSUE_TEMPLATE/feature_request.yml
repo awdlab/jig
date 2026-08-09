@@ -20,7 +20,7 @@ body:
       description: The API you have in mind, if you have one.
       placeholder: |
         ```html
-        <awd-select [groupBy]="'region'" />
+        <jig-select [groupBy]="'region'" />
         ```
     validations:
       required: false

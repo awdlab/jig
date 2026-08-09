@@ -1,9 +1,9 @@
 import { Demo_Defer_Base } from '../../../demos/defer/base';
 import { i18nNone } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const DeferPage: NgnDocsPage = {
+export const DeferPage: AwdDocsPage = {
   title: `Defer`,
   kind: 'tabs',
   tabs: [

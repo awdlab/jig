@@ -1,13 +1,13 @@
 import { Component, signal } from '@angular/core';
-import { NgnTree } from '@awdlab/jig/tree';
+import { AwdTree } from '@awdlab/jig/tree';
 
 import { fileTree } from './sample-data';
 
 @Component({
-  imports: [NgnTree],
-  selector: 'awd-demo-tree-events',
+  imports: [AwdTree],
+  selector: 'jig-demo-tree-events',
   template: `
-    <awd-tree
+    <jig-tree
       [items]="items"
       [selectable]="true"
       [value]="value()"

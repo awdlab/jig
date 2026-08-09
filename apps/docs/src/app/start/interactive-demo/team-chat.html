@@ -15,13 +15,13 @@
       }
     </div>
   } @else {
-    <awd-splitter
+    <jig-splitter
       class="h-full"
       [layout]="'horizontal'"
       [kind]="'invisible'"
       aria-label="Team chat"
     >
-      <awd-splitter-panel
+      <jig-splitter-panel
         [name]="'list'"
         [size]="'280px'"
         [minSize]="'220px'"
@@ -29,19 +29,19 @@
         aria-label="Conversations"
       >
         <ng-container [ngTemplateOutlet]="listPane" />
-      </awd-splitter-panel>
+      </jig-splitter-panel>
 
-      <awd-splitter-panel
+      <jig-splitter-panel
         [name]="'thread'"
         [size]="'3fr'"
         [minSize]="'340px'"
         aria-label="Messages"
       >
         <ng-container [ngTemplateOutlet]="threadPane" />
-      </awd-splitter-panel>
+      </jig-splitter-panel>
 
       @if (showDetails()) {
-        <awd-splitter-panel
+        <jig-splitter-panel
           [name]="'details'"
           [size]="'300px'"
           [minSize]="'240px'"
@@ -49,9 +49,9 @@
           aria-label="Details"
         >
           <ng-container [ngTemplateOutlet]="detailsPane" />
-        </awd-splitter-panel>
+        </jig-splitter-panel>
       }
-    </awd-splitter>
+    </jig-splitter>
   }
 </div>
 
@@ -59,20 +59,20 @@
 <ng-template #listPane>
   <div class="h-full p-1">
     <div class="chat-card flex h-full flex-col overflow-hidden rounded-2xl">
-      <div class="border-b border-(--awd-color-surface-100) p-(--awd-size-padding-lg)">
-        <awd-input-field class="w-full">
-          <awd-icon [icon]="searchIcon" />
+      <div class="border-b border-(--jig-color-surface-100) p-(--jig-size-padding-lg)">
+        <jig-input-field class="w-full">
+          <jig-icon [icon]="searchIcon" />
           <input
             ngnInput
             placeholder="Search conversations..."
             [value]="search()"
             (valueChange)="onSearch($event)"
           />
-        </awd-input-field>
+        </jig-input-field>
       </div>
 
       <div class="team-chat-list-area chat-scroll relative grow overflow-y-auto">
-        <awd-list-box
+        <jig-list-box
           class="block h-full"
           [items]="conversationItems()"
           [value]="activeId()"
@@ -82,7 +82,7 @@
         >
           <ng-template #group let-option>
             <span
-              class="text-(length:--awd-font-size-xs) font-(--awd-font-weight-semibold) tracking-wide text-(--awd-color-surface-500) uppercase"
+              class="text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-500) uppercase"
             >
               {{ option.label }}
             </span>
@@ -90,10 +90,10 @@
 
           <ng-template #item let-option>
             @let c = option.data;
-            <div class="flex w-full items-center gap-(--awd-size-padding-md) py-1">
+            <div class="flex w-full items-center gap-(--jig-size-padding-md) py-1">
               @if (isChannel(c)) {
                 <span
-                  class="flex size-8 shrink-0 items-center justify-center rounded-(--awd-size-rounded-md) bg-(--awd-color-surface-200) text-(length:--awd-font-size-md) font-(--awd-font-weight-bold) text-(--awd-color-surface-600)"
+                  class="flex size-8 shrink-0 items-center justify-center rounded-(--jig-size-rounded-md) bg-(--jig-color-surface-200) text-(length:--jig-font-size-md) font-(--jig-font-weight-bold) text-(--jig-color-surface-600)"
                 >
                   #
                 </span>
@@ -105,7 +105,7 @@
                   ngnBadgePosition="bottom-end"
                   [ngnBadgeColor]="presenceColor[dmPartner(c).presence]"
                 >
-                  <awd-avatar
+                  <jig-avatar
                     [initials]="dmPartner(c).initials"
                     [bgColor]="dmPartner(c).color"
                     [size]="32"
@@ -114,30 +114,30 @@
               }
 
               <div class="min-w-0 grow">
-                <div class="flex items-baseline justify-between gap-(--awd-size-padding-sm)">
-                  <span class="truncate font-(--awd-font-weight-semibold) text-(--awd-color-text)">
+                <div class="flex items-baseline justify-between gap-(--jig-size-padding-sm)">
+                  <span class="truncate font-(--jig-font-weight-semibold) text-(--jig-color-text)">
                     {{ isChannel(c) ? c.name : dmPartner(c).name }}
                   </span>
                   <span
-                    class="shrink-0 text-(length:--awd-font-size-xs) text-[color-mix(in_oklab,var(--awd-color-text)_50%,transparent)]"
+                    class="shrink-0 text-(length:--jig-font-size-xs) text-[color-mix(in_oklab,var(--jig-color-text)_50%,transparent)]"
                   >
                     {{ c.lastTime }}
                   </span>
                 </div>
-                <div class="flex items-center justify-between gap-(--awd-size-padding-sm)">
+                <div class="flex items-center justify-between gap-(--jig-size-padding-sm)">
                   <span
-                    class="truncate text-(length:--awd-font-size-xs) text-[color-mix(in_oklab,var(--awd-color-text)_65%,transparent)]"
+                    class="truncate text-(length:--jig-font-size-xs) text-[color-mix(in_oklab,var(--jig-color-text)_65%,transparent)]"
                   >
                     {{ c.lastMessage }}
                   </span>
                   @if (unreadOf(c.id)) {
-                    <awd-tag [color]="'primary'">{{ unreadOf(c.id) }}</awd-tag>
+                    <jig-tag [color]="'primary'">{{ unreadOf(c.id) }}</jig-tag>
                   }
                 </div>
               </div>
             </div>
           </ng-template>
-        </awd-list-box>
+        </jig-list-box>
       </div>
     </div>
   </div>
@@ -149,7 +149,7 @@
     <div class="chat-card flex h-full flex-col overflow-hidden rounded-2xl">
       <!-- Thread header -->
       <div
-        class="flex items-center gap-(--awd-size-padding-md) border-b border-(--awd-color-surface-100) px-(--awd-size-padding-lg) py-(--awd-size-padding-md)"
+        class="flex items-center gap-(--jig-size-padding-md) border-b border-(--jig-color-surface-100) px-(--jig-size-padding-lg) py-(--jig-size-padding-md)"
       >
         @if (narrow()) {
           <button
@@ -159,34 +159,34 @@
             aria-label="Back to conversations"
             (click)="showMobileView('list')"
           >
-            <awd-icon [icon]="backIcon" />
+            <jig-icon [icon]="backIcon" />
           </button>
         }
         <div class="min-w-0">
           <h3
-            class="truncate text-(length:--awd-font-size-lg) font-(--awd-font-weight-semibold) text-(--awd-color-text)"
+            class="truncate text-(length:--jig-font-size-lg) font-(--jig-font-weight-semibold) text-(--jig-color-text)"
           >
             {{ isChannel(active()) ? active().name : dmPartner(active()).name }}
           </h3>
           <p
-            class="truncate text-(length:--awd-font-size-xs) text-[color-mix(in_oklab,var(--awd-color-text)_60%,transparent)]"
+            class="truncate text-(length:--jig-font-size-xs) text-[color-mix(in_oklab,var(--jig-color-text)_60%,transparent)]"
           >
             {{ active().topic }}
           </p>
         </div>
 
-        <div class="ml-auto flex items-center gap-(--awd-size-padding-md)">
+        <div class="ml-auto flex items-center gap-(--jig-size-padding-md)">
           @if (!narrow()) {
-            <awd-avatar-group>
+            <jig-avatar-group>
               @for (m of members().slice(0, 4); track m.id) {
-                <awd-avatar
+                <jig-avatar
                   [initials]="m.initials"
                   [bgColor]="m.color"
                   [size]="32"
                   [ngnTooltip]="m.name"
                 />
               }
-            </awd-avatar-group>
+            </jig-avatar-group>
           }
           <button
             ngnButton
@@ -196,7 +196,7 @@
             [ngnTooltipShowOnFocus]="!narrow()"
             (click)="toggleDetails()"
           >
-            <awd-icon [icon]="detailsIcon" />
+            <jig-icon [icon]="detailsIcon" />
           </button>
         </div>
       </div>
@@ -204,40 +204,40 @@
       <!-- Messages -->
       <div
         #threadScroll
-        class="chat-scroll grow space-y-3 overflow-y-auto px-(--awd-size-padding-lg) py-(--awd-size-padding-lg)"
+        class="chat-scroll grow space-y-3 overflow-y-auto px-(--jig-size-padding-lg) py-(--jig-size-padding-lg)"
       >
         @for (m of activeMessages(); track m.id; let i = $index) {
           @if (showDateDivider(i)) {
-            <div class="flex items-center gap-(--awd-size-padding-md) py-(--awd-size-padding-md)">
-              <span class="h-px grow bg-(--awd-color-surface-200)"></span>
+            <div class="flex items-center gap-(--jig-size-padding-md) py-(--jig-size-padding-md)">
+              <span class="h-px grow bg-(--jig-color-surface-200)"></span>
               <span
-                class="rounded-full bg-(--awd-color-surface-100) px-(--awd-size-padding-md) py-0.5 text-(length:--awd-font-size-xs) font-(--awd-font-weight-medium) text-(--awd-color-surface-500)"
+                class="rounded-full bg-(--jig-color-surface-100) px-(--jig-size-padding-md) py-0.5 text-(length:--jig-font-size-xs) font-(--jig-font-weight-medium) text-(--jig-color-surface-500)"
               >
                 {{ m.dateGroup }}
               </span>
-              <span class="h-px grow bg-(--awd-color-surface-200)"></span>
+              <span class="h-px grow bg-(--jig-color-surface-200)"></span>
             </div>
           }
           @if (isFirstUnread(m.id)) {
-            <div class="flex items-center gap-(--awd-size-padding-md) py-1">
-              <span class="h-px grow bg-(--awd-color-primary-400)"></span>
+            <div class="flex items-center gap-(--jig-size-padding-md) py-1">
+              <span class="h-px grow bg-(--jig-color-primary-400)"></span>
               <span
-                class="text-(length:--awd-font-size-xs) font-(--awd-font-weight-semibold) text-(--awd-color-primary-500) uppercase"
+                class="text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) text-(--jig-color-primary-500) uppercase"
               >
                 New
               </span>
-              <span class="h-px grow bg-(--awd-color-primary-400)"></span>
+              <span class="h-px grow bg-(--jig-color-primary-400)"></span>
             </div>
           }
 
           <div
-            class="group relative -mx-(--awd-size-padding-sm) flex gap-(--awd-size-padding-md) rounded-2xl px-(--awd-size-padding-sm) py-1 transition-colors hover:bg-[color-mix(in_oklab,var(--awd-color-text)_5%,transparent)]"
+            class="group relative -mx-(--jig-size-padding-sm) flex gap-(--jig-size-padding-md) rounded-2xl px-(--jig-size-padding-sm) py-1 transition-colors hover:bg-[color-mix(in_oklab,var(--jig-color-text)_5%,transparent)]"
             [class.flex-row-reverse]="m.own"
             (mouseenter)="showBar(bar, emojiPicker, msgMenu)"
             (mouseleave)="hideBarSoon(bar, emojiPicker, msgMenu)"
           >
             @if (!m.own) {
-              <awd-avatar
+              <jig-avatar
                 [initials]="user(m.authorId).initials"
                 [bgColor]="user(m.authorId).color"
                 [size]="36"
@@ -247,16 +247,16 @@
 
             <div class="flex max-w-[78%] flex-col" [class.items-end]="m.own">
               <div
-                class="mb-0.5 flex items-baseline gap-(--awd-size-padding-sm)"
+                class="mb-0.5 flex items-baseline gap-(--jig-size-padding-sm)"
                 [class.flex-row-reverse]="m.own"
               >
                 <span
-                  class="text-(length:--awd-font-size-sm) font-(--awd-font-weight-semibold) text-(--awd-color-text)"
+                  class="text-(length:--jig-font-size-sm) font-(--jig-font-weight-semibold) text-(--jig-color-text)"
                 >
                   {{ m.own ? 'You' : user(m.authorId).name }}
                 </span>
                 <span
-                  class="text-(length:--awd-font-size-xs) text-[color-mix(in_oklab,var(--awd-color-text)_50%,transparent)]"
+                  class="text-(length:--jig-font-size-xs) text-[color-mix(in_oklab,var(--jig-color-text)_50%,transparent)]"
                 >
                   {{ m.time }}
                 </span>
@@ -264,58 +264,58 @@
 
               <div class="relative w-fit" #barAnchor>
                 @if (m.widget === 'poll' && m.poll; as poll) {
-                  <!-- Interactive poll widget: tap an option to vote; bars use awd-progress. -->
-                  <div class="chat-tile w-64 rounded-2xl p-(--awd-size-padding-lg) text-left">
+                  <!-- Interactive poll widget: tap an option to vote; bars use jig-progress. -->
+                  <div class="chat-tile w-64 rounded-2xl p-(--jig-size-padding-lg) text-left">
                     <div
-                      class="mb-(--awd-size-padding-md) text-(length:--awd-font-size-sm) font-(--awd-font-weight-semibold) text-(--awd-color-text)"
+                      class="mb-(--jig-size-padding-md) text-(length:--jig-font-size-sm) font-(--jig-font-weight-semibold) text-(--jig-color-text)"
                     >
                       {{ poll.question }}
                     </div>
                     @for (opt of poll.options; track opt.id) {
                       <button
                         type="button"
-                        class="mb-(--awd-size-padding-sm) block w-full rounded-(--awd-size-rounded-md) px-(--awd-size-padding-sm) py-1 text-left transition-colors hover:bg-(--awd-color-surface-200)"
+                        class="mb-(--jig-size-padding-sm) block w-full rounded-(--jig-size-rounded-md) px-(--jig-size-padding-sm) py-1 text-left transition-colors hover:bg-(--jig-color-surface-200)"
                         (click)="votePoll(m, opt.id)"
                       >
                         <div
-                          class="mb-1 flex items-center justify-between text-(length:--awd-font-size-xs)"
+                          class="mb-1 flex items-center justify-between text-(length:--jig-font-size-xs)"
                         >
                           <span
                             [class]="
                               poll.myVote === opt.id
-                                ? 'font-(--awd-font-weight-semibold) text-(--awd-color-primary-600)'
-                                : 'text-(--awd-color-text)'
+                                ? 'font-(--jig-font-weight-semibold) text-(--jig-color-primary-600)'
+                                : 'text-(--jig-color-text)'
                             "
                           >
                             {{ opt.label }}
                           </span>
-                          <span class="text-(--awd-color-surface-500)">
+                          <span class="text-(--jig-color-surface-500)">
                             {{ opt.votes }} · {{ pollPercent(m, opt.id) }}%
                           </span>
                         </div>
-                        <awd-progress [value]="pollPercent(m, opt.id)" class="block" />
+                        <jig-progress [value]="pollPercent(m, opt.id)" class="block" />
                       </button>
                     }
                     <div
-                      class="mt-(--awd-size-padding-sm) text-(length:--awd-font-size-xs) text-[color-mix(in_oklab,var(--awd-color-text)_55%,transparent)]"
+                      class="mt-(--jig-size-padding-sm) text-(length:--jig-font-size-xs) text-[color-mix(in_oklab,var(--jig-color-text)_55%,transparent)]"
                     >
                       {{ pollTotal(m) }} votes · tap to vote
                     </div>
                   </div>
                 } @else {
                   <div
-                    class="rounded-2xl px-(--awd-size-padding-lg) py-(--awd-size-padding-md) text-(length:--awd-font-size-sm) leading-relaxed"
+                    class="rounded-2xl px-(--jig-size-padding-lg) py-(--jig-size-padding-md) text-(length:--jig-font-size-sm) leading-relaxed"
                     [class]="
-                      m.own ? 'chat-bubble-own' : 'chat-tile chat-bubble-in text-(--awd-color-text)'
+                      m.own ? 'chat-bubble-own' : 'chat-tile chat-bubble-in text-(--jig-color-text)'
                     "
                     [style.color]="m.own ? ownBubbleTextColor : null"
                   >
                     {{ m.text }}
                     @if (m.widget === 'palette') {
-                      <span class="mt-(--awd-size-padding-md) flex gap-1">
+                      <span class="mt-(--jig-size-padding-md) flex gap-1">
                         @for (sw of paletteSwatches; track $index) {
                           <span
-                            class="size-6 rounded-(--awd-size-rounded-md) ring-1 ring-black/10"
+                            class="size-6 rounded-(--jig-size-rounded-md) ring-1 ring-black/10"
                             [style.background]="sw"
                           ></span>
                         }
@@ -329,7 +329,7 @@
                      floating-ui flips it below when there's no room above. Driven imperatively
                      (showBar/hideBarSoon on the #bar ref); closeBy="none" keeps it a manual
                      popover the nested emoji picker / actions menu won't light-dismiss. -->
-                <awd-popover
+                <jig-popover
                   #bar
                   [anchor]="barAnchor"
                   closeBy="none"
@@ -347,7 +347,7 @@
                     @for (e of quickEmojis; track e) {
                       <button
                         type="button"
-                        class="rounded-full px-1 text-(length:--awd-font-size-sm) hover:bg-(--awd-color-surface-200)"
+                        class="rounded-full px-1 text-(length:--jig-font-size-sm) hover:bg-(--jig-color-surface-200)"
                         [attr.aria-label]="'React ' + e"
                         (click)="toggleReaction(m, e)"
                       >
@@ -362,10 +362,10 @@
                       aria-label="More emojis"
                       (click)="emojiPicker.toggle()"
                     >
-                      <awd-icon [icon]="emojiIcon" />
+                      <jig-icon [icon]="emojiIcon" />
                     </button>
                     <!-- The picker pinned the bar open, so its close hands the bar back to hover. -->
-                    <awd-popover
+                    <jig-popover
                       #emojiPicker
                       [anchor]="emojiBtn"
                       [options]="{ placement: 'top' }"
@@ -375,7 +375,7 @@
                         @for (e of moreEmojis; track e) {
                           <button
                             type="button"
-                            class="rounded-(--awd-size-rounded-sm) p-1 text-(length:--awd-font-size-md) hover:bg-(--awd-color-surface-100)"
+                            class="rounded-(--jig-size-rounded-sm) p-1 text-(length:--jig-font-size-md) hover:bg-(--jig-color-surface-100)"
                             [attr.aria-label]="'React ' + e"
                             (click)="toggleReaction(m, e); emojiPicker.hide()"
                           >
@@ -383,7 +383,7 @@
                           </button>
                         }
                       </div>
-                    </awd-popover>
+                    </jig-popover>
                     <button
                       ngnButton
                       kind="icon"
@@ -392,9 +392,9 @@
                       aria-label="Message actions"
                       (click)="msgMenu.show()"
                     >
-                      <awd-icon [icon]="dotsIcon" />
+                      <jig-icon [icon]="dotsIcon" />
                     </button>
-                    <awd-menu
+                    <jig-menu
                       #msgMenu
                       [popover]="true"
                       [anchor]="menuBtn"
@@ -404,27 +404,27 @@
                       (closing)="hideBarSoon(bar)"
                     />
                   </div>
-                </awd-popover>
+                </jig-popover>
               </div>
 
               @if (m.reactions.length) {
                 <div
-                  class="mt-1 flex flex-wrap gap-(--awd-size-padding-sm)"
+                  class="mt-1 flex flex-wrap gap-(--jig-size-padding-sm)"
                   [class.flex-row-reverse]="m.own"
                 >
                   @for (r of m.reactions; track r.emoji) {
                     <button
                       type="button"
-                      class="flex items-center gap-1 rounded-full border px-(--awd-size-padding-md) py-0.5 text-(length:--awd-font-size-xs) transition-colors"
+                      class="flex items-center gap-1 rounded-full border px-(--jig-size-padding-md) py-0.5 text-(length:--jig-font-size-xs) transition-colors"
                       [class]="
                         r.reacted
-                          ? 'border-(--awd-color-primary-400) bg-(--awd-color-primary-100) text-(--awd-color-primary-700)'
-                          : 'border-(--awd-color-surface-200) bg-(--awd-color-surface-100) text-(--awd-color-surface-600)'
+                          ? 'border-(--jig-color-primary-400) bg-(--jig-color-primary-100) text-(--jig-color-primary-700)'
+                          : 'border-(--jig-color-surface-200) bg-(--jig-color-surface-100) text-(--jig-color-surface-600)'
                       "
                       (click)="toggleReaction(m, r.emoji)"
                     >
                       <span>{{ r.emoji }}</span>
-                      <span class="font-(--awd-font-weight-semibold)">{{ r.count }}</span>
+                      <span class="font-(--jig-font-weight-semibold)">{{ r.count }}</span>
                     </button>
                   }
                 </div>
@@ -433,12 +433,12 @@
               @if (m.own && m.id === lastOwnMessageId()) {
                 <div class="mt-1 flex items-center gap-1">
                   <span
-                    class="mr-0.5 text-(length:--awd-font-size-xs) text-[color-mix(in_oklab,var(--awd-color-text)_50%,transparent)]"
+                    class="mr-0.5 text-(length:--jig-font-size-xs) text-[color-mix(in_oklab,var(--jig-color-text)_50%,transparent)]"
                   >
                     Seen
                   </span>
                   @for (r of readers(); track r.id) {
-                    <awd-avatar
+                    <jig-avatar
                       [initials]="r.initials"
                       [bgColor]="r.color"
                       [size]="16"
@@ -453,17 +453,17 @@
 
         <!-- Typing indicator -->
         @if (typingUser(); as t) {
-          <div class="flex items-center gap-(--awd-size-padding-md) pt-(--awd-size-padding-md)">
-            <awd-avatar [initials]="t.initials" [bgColor]="t.color" [size]="36" class="shrink-0" />
+          <div class="flex items-center gap-(--jig-size-padding-md) pt-(--jig-size-padding-md)">
+            <jig-avatar [initials]="t.initials" [bgColor]="t.color" [size]="36" class="shrink-0" />
             <div
-              class="chat-tile chat-bubble-in flex items-center gap-1 rounded-2xl px-(--awd-size-padding-lg) py-(--awd-size-padding-md)"
+              class="chat-tile chat-bubble-in flex items-center gap-1 rounded-2xl px-(--jig-size-padding-lg) py-(--jig-size-padding-md)"
             >
               <span class="typing-dot"></span>
               <span class="typing-dot"></span>
               <span class="typing-dot"></span>
             </div>
             <span
-              class="text-(length:--awd-font-size-xs) text-[color-mix(in_oklab,var(--awd-color-text)_60%,transparent)]"
+              class="text-(length:--jig-font-size-xs) text-[color-mix(in_oklab,var(--jig-color-text)_60%,transparent)]"
             >
               {{ t.name }} is typing…
             </span>
@@ -472,11 +472,11 @@
       </div>
 
       <!-- Composer -->
-      <div class="border-t border-(--awd-color-surface-100) p-(--awd-size-padding-lg)">
-        <div class="flex items-center gap-(--awd-size-padding-md)">
-          <awd-input-field class="grow">
+      <div class="border-t border-(--jig-color-surface-100) p-(--jig-size-padding-lg)">
+        <div class="flex items-center gap-(--jig-size-padding-md)">
+          <jig-input-field class="grow">
             <button ngnButton kind="icon" aria-label="Attach file" ngnTooltip="Attach">
-              <awd-icon [icon]="paperclipIcon" />
+              <jig-icon [icon]="paperclipIcon" />
             </button>
             <input
               ngnInput
@@ -487,7 +487,7 @@
               (valueChange)="draft.set($event ?? '')"
               (keydown.enter)="sendMessage()"
             />
-          </awd-input-field>
+          </jig-input-field>
           <button
             ngnButton
             color="primary"
@@ -497,7 +497,7 @@
             (click)="sendMessage()"
           >
             Send
-            <awd-icon [icon]="sendIcon" />
+            <jig-icon [icon]="sendIcon" />
           </button>
         </div>
       </div>
@@ -510,9 +510,9 @@
   <div class="h-full p-1">
     <div class="chat-card flex h-full flex-col overflow-hidden rounded-2xl">
       <div
-        class="flex items-center justify-between border-b border-(--awd-color-surface-100) px-(--awd-size-padding-lg) py-(--awd-size-padding-md)"
+        class="flex items-center justify-between border-b border-(--jig-color-surface-100) px-(--jig-size-padding-lg) py-(--jig-size-padding-md)"
       >
-        <span class="flex items-center gap-(--awd-size-padding-sm)">
+        <span class="flex items-center gap-(--jig-size-padding-sm)">
           @if (narrow()) {
             <button
               ngnButton
@@ -521,38 +521,38 @@
               aria-label="Back to messages"
               (click)="showMobileView('thread')"
             >
-              <awd-icon [icon]="backIcon" />
+              <jig-icon [icon]="backIcon" />
             </button>
           }
-          <span class="font-(--awd-font-weight-semibold) text-(--awd-color-text)">Details</span>
+          <span class="font-(--jig-font-weight-semibold) text-(--jig-color-text)">Details</span>
         </span>
-        <label class="flex items-center gap-(--awd-size-padding-sm)">
+        <label class="flex items-center gap-(--jig-size-padding-sm)">
           <span
-            class="text-(length:--awd-font-size-xs) text-[color-mix(in_oklab,var(--awd-color-text)_60%,transparent)]"
+            class="text-(length:--jig-font-size-xs) text-[color-mix(in_oklab,var(--jig-color-text)_60%,transparent)]"
           >
             Notifications
           </span>
-          <awd-switch [(value)]="notifications" />
+          <jig-switch [(value)]="notifications" />
         </label>
       </div>
 
       <div
-        class="chat-scroll grow space-y-(--awd-size-padding-md) overflow-y-auto p-(--awd-size-padding-md)"
+        class="chat-scroll grow space-y-(--jig-size-padding-md) overflow-y-auto p-(--jig-size-padding-md)"
       >
         <!-- About -->
         <section
-          class="chat-tile rounded-(--awd-size-rounded-lg) px-(--awd-size-padding-lg) py-(--awd-size-padding-lg)"
+          class="chat-tile rounded-(--jig-size-rounded-lg) px-(--jig-size-padding-lg) py-(--jig-size-padding-lg)"
         >
           <h4
-            class="my-(--awd-size-padding-sm) text-(length:--awd-font-size-xs) font-(--awd-font-weight-semibold) tracking-wide text-(--awd-color-surface-500) uppercase"
+            class="my-(--jig-size-padding-sm) text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-500) uppercase"
           >
             About
           </h4>
-          <p class="text-(length:--awd-font-size-sm) text-(--awd-color-text)">
+          <p class="text-(length:--jig-font-size-sm) text-(--jig-color-text)">
             {{ active().topic }}
           </p>
           <p
-            class="mt-(--awd-size-padding-sm) text-(length:--awd-font-size-xs) text-[color-mix(in_oklab,var(--awd-color-text)_55%,transparent)]"
+            class="mt-(--jig-size-padding-sm) text-(length:--jig-font-size-xs) text-[color-mix(in_oklab,var(--jig-color-text)_55%,transparent)]"
           >
             {{ members().length }} members
           </p>
@@ -560,16 +560,16 @@
 
         <!-- Members -->
         <section
-          class="chat-tile rounded-(--awd-size-rounded-lg) px-(--awd-size-padding-lg) py-(--awd-size-padding-lg)"
+          class="chat-tile rounded-(--jig-size-rounded-lg) px-(--jig-size-padding-lg) py-(--jig-size-padding-lg)"
         >
           <h4
-            class="my-(--awd-size-padding-sm) text-(length:--awd-font-size-xs) font-(--awd-font-weight-semibold) tracking-wide text-(--awd-color-surface-500) uppercase"
+            class="my-(--jig-size-padding-sm) text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-500) uppercase"
           >
             Members
           </h4>
-          <ul class="space-y-(--awd-size-padding-md)">
+          <ul class="space-y-(--jig-size-padding-md)">
             @for (m of members(); track m.id) {
-              <li class="flex items-center gap-(--awd-size-padding-md)">
+              <li class="flex items-center gap-(--jig-size-padding-md)">
                 <span
                   class="inline-flex shrink-0"
                   ngnBadgeDot
@@ -577,16 +577,16 @@
                   ngnBadgePosition="bottom-end"
                   [ngnBadgeColor]="presenceColor[m.presence]"
                 >
-                  <awd-avatar [initials]="m.initials" [bgColor]="m.color" [size]="32" />
+                  <jig-avatar [initials]="m.initials" [bgColor]="m.color" [size]="32" />
                 </span>
                 <div class="min-w-0">
                   <div
-                    class="truncate text-(length:--awd-font-size-sm) font-(--awd-font-weight-medium) text-(--awd-color-text)"
+                    class="truncate text-(length:--jig-font-size-sm) font-(--jig-font-weight-medium) text-(--jig-color-text)"
                   >
                     {{ m.name }}
                   </div>
                   <div
-                    class="truncate text-(length:--awd-font-size-xs) text-[color-mix(in_oklab,var(--awd-color-text)_55%,transparent)]"
+                    class="truncate text-(length:--jig-font-size-xs) text-[color-mix(in_oklab,var(--jig-color-text)_55%,transparent)]"
                   >
                     {{ m.role }}
                   </div>
@@ -598,26 +598,26 @@
 
         <!-- Pinned -->
         <section
-          class="chat-tile rounded-(--awd-size-rounded-lg) px-(--awd-size-padding-lg) py-(--awd-size-padding-lg)"
+          class="chat-tile rounded-(--jig-size-rounded-lg) px-(--jig-size-padding-lg) py-(--jig-size-padding-lg)"
         >
           <h4
-            class="my-(--awd-size-padding-sm) text-(length:--awd-font-size-xs) font-(--awd-font-weight-semibold) tracking-wide text-(--awd-color-surface-500) uppercase"
+            class="my-(--jig-size-padding-sm) text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-500) uppercase"
           >
             Pinned
           </h4>
-          <ul class="space-y-(--awd-size-padding-md)">
+          <ul class="space-y-(--jig-size-padding-md)">
             @for (p of pinned; track p.text) {
               <li
-                class="flex gap-(--awd-size-padding-md) border-(--awd-color-surface-200) pt-(--awd-size-padding-md) not-first:border-t first:pt-0"
+                class="flex gap-(--jig-size-padding-md) border-(--jig-color-surface-200) pt-(--jig-size-padding-md) not-first:border-t first:pt-0"
               >
-                <awd-icon [icon]="pinIcon" class="mt-0.5 shrink-0 text-(--awd-color-primary-500)" />
+                <jig-icon [icon]="pinIcon" class="mt-0.5 shrink-0 text-(--jig-color-primary-500)" />
                 <div class="min-w-0">
                   <div
-                    class="text-(length:--awd-font-size-xs) font-(--awd-font-weight-semibold) text-[color-mix(in_oklab,var(--awd-color-text)_60%,transparent)]"
+                    class="text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) text-[color-mix(in_oklab,var(--jig-color-text)_60%,transparent)]"
                   >
                     {{ p.author }}
                   </div>
-                  <div class="text-(length:--awd-font-size-sm) text-(--awd-color-text)">
+                  <div class="text-(length:--jig-font-size-sm) text-(--jig-color-text)">
                     {{ p.text }}
                   </div>
                 </div>
@@ -628,34 +628,34 @@
 
         <!-- Shared files -->
         <section
-          class="chat-tile rounded-(--awd-size-rounded-lg) px-(--awd-size-padding-lg) py-(--awd-size-padding-lg)"
+          class="chat-tile rounded-(--jig-size-rounded-lg) px-(--jig-size-padding-lg) py-(--jig-size-padding-lg)"
         >
           <h4
-            class="my-(--awd-size-padding-sm) text-(length:--awd-font-size-xs) font-(--awd-font-weight-semibold) tracking-wide text-(--awd-color-surface-500) uppercase"
+            class="my-(--jig-size-padding-sm) text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-500) uppercase"
           >
             Shared files
           </h4>
-          <ul class="space-y-(--awd-size-padding-md)">
+          <ul class="space-y-(--jig-size-padding-md)">
             @for (f of files; track f.name) {
-              <li class="flex items-center gap-(--awd-size-padding-md)">
+              <li class="flex items-center gap-(--jig-size-padding-md)">
                 <span
-                  class="flex size-9 shrink-0 items-center justify-center rounded-(--awd-size-rounded-md)"
-                  [style.background]="'var(--awd-color-' + f.icon + '-100)'"
-                  [style.color]="'var(--awd-color-' + f.icon + '-600)'"
+                  class="flex size-9 shrink-0 items-center justify-center rounded-(--jig-size-rounded-md)"
+                  [style.background]="'var(--jig-color-' + f.icon + '-100)'"
+                  [style.color]="'var(--jig-color-' + f.icon + '-600)'"
                 >
-                  <awd-icon [icon]="paperclipIcon" />
+                  <jig-icon [icon]="paperclipIcon" />
                 </span>
                 <div class="min-w-0 grow">
                   <div
-                    class="truncate text-(length:--awd-font-size-sm) font-(--awd-font-weight-medium) text-(--awd-color-text)"
+                    class="truncate text-(length:--jig-font-size-sm) font-(--jig-font-weight-medium) text-(--jig-color-text)"
                   >
                     {{ f.name }}
                   </div>
                   @if (f.progress !== undefined) {
-                    <awd-progress [value]="f.progress" class="mt-1 block" />
+                    <jig-progress [value]="f.progress" class="mt-1 block" />
                   }
                   <div
-                    class="truncate text-(length:--awd-font-size-xs) text-[color-mix(in_oklab,var(--awd-color-text)_55%,transparent)]"
+                    class="truncate text-(length:--jig-font-size-xs) text-[color-mix(in_oklab,var(--jig-color-text)_55%,transparent)]"
                   >
                     {{ f.meta }}
                   </div>
@@ -676,7 +676,7 @@
      tiles float above their panel in either theme. Colour contrast between
      layers stays subtle; the soft layered shadows do the lifting. */
   .chat-backdrop {
-    background: linear-gradient(160deg, var(--awd-color-surface-100), var(--awd-color-surface-50));
+    background: linear-gradient(160deg, var(--jig-color-surface-100), var(--jig-color-surface-50));
     /* Soft panel lift. Kept tight vertically: the cards sit in a ~10px inset and
        the window's overflow-hidden clips anything past it, so a tall downward
        drop pooled into the bottom frame and hard-cut at the window edge. */
@@ -685,22 +685,22 @@
     --chat-elev-pop: 0 1px 2px rgba(2, 6, 23, 0.04), 0 3px 8px -2px rgba(2, 6, 23, 0.1);
   }
   .chat-card {
-    background: var(--awd-color-surface-25);
-    border: 1px solid color-mix(in oklab, var(--awd-color-surface-300) 45%, transparent);
+    background: var(--jig-color-surface-25);
+    border: 1px solid color-mix(in oklab, var(--jig-color-surface-300) 45%, transparent);
     box-shadow: var(--chat-elev-card);
   }
   :host-context(.dark) .chat-backdrop {
     background: linear-gradient(
       160deg,
-      var(--awd-color-surface-25),
-      color-mix(in oklab, var(--awd-color-surface-25) 55%, var(--awd-color-surface-50))
+      var(--jig-color-surface-25),
+      color-mix(in oklab, var(--jig-color-surface-25) 55%, var(--jig-color-surface-50))
     );
     --chat-elev-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 6px 16px -8px rgba(0, 0, 0, 0.45);
     --chat-elev-pop: 0 1px 2px rgba(0, 0, 0, 0.28), 0 4px 12px -3px rgba(0, 0, 0, 0.42);
   }
   :host-context(.dark) .chat-card {
-    background: var(--awd-color-surface-50);
-    border-color: var(--awd-color-surface-100);
+    background: var(--jig-color-surface-50);
+    border-color: var(--jig-color-surface-100);
   }
 
   /* Raised tile — incoming bubbles, typing indicator, detail segment cards.
@@ -708,18 +708,18 @@
      in dark), so a single rule floats correctly either way; surface-200 gives a
      visible hairline against surface-100 in both modes too. */
   .chat-tile {
-    background: var(--awd-color-surface-100);
-    border: 1px solid color-mix(in oklab, var(--awd-color-surface-200) 65%, transparent);
+    background: var(--jig-color-surface-100);
+    border: 1px solid color-mix(in oklab, var(--jig-color-surface-200) 65%, transparent);
     box-shadow: var(--chat-elev-pop);
   }
   /* Bubbles keep the 2xl radius but grow a small "tail" corner instead of the
      old sharp 90° corner, matching the reference's 16/4px asymmetry. */
   .chat-bubble-in {
-    border-top-left-radius: var(--awd-size-rounded-md);
+    border-top-left-radius: var(--jig-size-rounded-md);
   }
   .chat-bubble-own {
-    border-top-right-radius: var(--awd-size-rounded-md);
-    background: linear-gradient(135deg, var(--awd-color-primary-400), var(--awd-color-primary-600));
+    border-top-right-radius: var(--jig-size-rounded-md);
+    background: linear-gradient(135deg, var(--jig-color-primary-400), var(--jig-color-primary-600));
     box-shadow: var(--chat-elev-pop);
   }
 
@@ -728,7 +728,7 @@
      rules cover older Chromium. The track stays transparent so only a soft thumb shows. */
   .chat-scroll {
     scrollbar-width: thin;
-    scrollbar-color: color-mix(in oklab, var(--awd-color-text) 22%, transparent) transparent;
+    scrollbar-color: color-mix(in oklab, var(--jig-color-text) 22%, transparent) transparent;
   }
   .chat-scroll::-webkit-scrollbar {
     width: 8px;
@@ -738,13 +738,13 @@
     background: transparent;
   }
   .chat-scroll::-webkit-scrollbar-thumb {
-    background: color-mix(in oklab, var(--awd-color-text) 22%, transparent);
+    background: color-mix(in oklab, var(--jig-color-text) 22%, transparent);
     border: 2px solid transparent;
     background-clip: padding-box;
     border-radius: 9999px;
   }
   .chat-scroll::-webkit-scrollbar-thumb:hover {
-    background: color-mix(in oklab, var(--awd-color-text) 38%, transparent);
+    background: color-mix(in oklab, var(--jig-color-text) 38%, transparent);
     background-clip: padding-box;
   }
 
@@ -752,7 +752,7 @@
     width: 6px;
     height: 6px;
     border-radius: 9999px;
-    background: var(--awd-color-surface-400);
+    background: var(--jig-color-surface-400);
     animation: typing-bounce 1.2s infinite ease-in-out;
   }
   .typing-dot:nth-child(2) {

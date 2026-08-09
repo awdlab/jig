@@ -1,7 +1,7 @@
 <!-- The palette owns the field, list, keyboard handling and empty state; this
      component only supplies ranked items for the current query. `filter` is off
      because `items` is already the result of matching. -->
-<awd-command
+<jig-command
   [(open)]="open"
   [(filterText)]="query"
   [filter]="false"
@@ -17,20 +17,20 @@
       <span class="flex flex-wrap items-baseline gap-x-2">
         <span class="truncate">{{ item?.label }}</span>
         @if (detail?.breadcrumb) {
-          <span class="text-(length:--awd-font-size-xs) text-(--awd-color-surface-600)">
+          <span class="text-(length:--jig-font-size-xs) text-(--jig-color-surface-600)">
             {{ detail.breadcrumb }}
           </span>
         }
         @if (detail?.badge) {
           <span
-            class="ml-auto shrink-0 rounded-(--awd-size-rounded-sm) bg-(--awd-color-surface-100) px-1.5 py-0.5 text-(length:--awd-font-size-xs) text-(--awd-color-surface-600)"
+            class="ml-auto shrink-0 rounded-(--jig-size-rounded-sm) bg-(--jig-color-surface-100) px-1.5 py-0.5 text-(length:--jig-font-size-xs) text-(--jig-color-surface-600)"
           >
             {{ detail.badge }}
           </span>
         }
       </span>
       @if (detail?.snippet) {
-        <span class="line-clamp-2 text-(length:--awd-font-size-sm) text-(--awd-color-surface-700)">
+        <span class="line-clamp-2 text-(length:--jig-font-size-sm) text-(--jig-color-surface-700)">
           {{ detail.snippet }}
         </span>
       }
@@ -39,9 +39,9 @@
 
   <ng-template #empty>
     <span
-      class="block p-(--awd-size-padding-xl) text-center text-(length:--awd-font-size-sm) text-(--awd-color-surface-500)"
+      class="block p-(--jig-size-padding-xl) text-center text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)"
     >
       {{ emptyMessage() }}
     </span>
   </ng-template>
-</awd-command>
+</jig-command>

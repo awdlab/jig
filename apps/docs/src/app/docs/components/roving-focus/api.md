@@ -1,8 +1,8 @@
-## NgnRovingGroup
+## AwdRovingGroup
 
 Selector: `[ngnRovingGroup]` · `exportAs: ngnRovingGroup`
 
-{{ api: roving-focus/roving-focus NgnRovingGroup }}
+{{ api: roving-focus/roving-focus AwdRovingGroup }}
 
 | Method                    | Description                                                                         |
 | ------------------------- | ----------------------------------------------------------------------------------- |
@@ -13,11 +13,11 @@ Selector: `[ngnRovingGroup]` · `exportAs: ngnRovingGroup`
 | `activate(item)`          | Activate a registered item reference; ignored when the item is disabled.            |
 | `register` / `unregister` | Called by `ngnRovingItem` itself — only needed for a custom item implementation.    |
 
-## NgnRovingItem
+## AwdRovingItem
 
 Selector: `[ngnRovingItem]` · `exportAs: ngnRovingItem`
 
-{{ api: roving-focus/roving-focus NgnRovingItem }}
+{{ api: roving-focus/roving-focus AwdRovingItem }}
 
 The `disabled` property is a writable `signal<boolean>` (not an input) — call
 `.set(true)` on it from the host control. `isActive()` is a computed signal you
@@ -36,5 +36,5 @@ that is not an `ngnRovingItem`.
 
 ## ROVING_GROUP
 
-`InjectionToken<NgnRovingGroup>` that `ngnRovingGroup` provides. Inject it to
+`InjectionToken<AwdRovingGroup>` that `ngnRovingGroup` provides. Inject it to
 reach the enclosing group from a custom item.

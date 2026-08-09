@@ -1,14 +1,14 @@
 import { colorPickerControlTemplate } from '@awdlab/jig-themes/templates/color-picker';
 import { themeClasses } from '../utils/theme';
 import { NGN_CLASSES } from '../utils/classes';
-import { NgnInputHarness } from './input';
+import { AwdInputHarness } from './input';
 import { expect, type Locator } from '@playwright/test';
 
 function clampEdge(ratio: number): number {
   return Math.min(0.98, Math.max(0.02, ratio));
 }
 
-export class NgnColorPickerHarness {
+export class AwdColorPickerHarness {
   public readonly classes = themeClasses(colorPickerControlTemplate);
   public readonly locator: Locator;
   public readonly trigger: Locator;
@@ -19,7 +19,7 @@ export class NgnColorPickerHarness {
   public readonly hueTrack: Locator;
   public readonly swatches: Locator;
   public readonly formatToggle: Locator;
-  public readonly hexInput: NgnInputHarness;
+  public readonly hexInput: AwdInputHarness;
 
   constructor(locator: Locator) {
     this.locator = locator;
@@ -29,7 +29,7 @@ export class NgnColorPickerHarness {
     this.hueTrack = locator.locator(this.classes['hue-track']);
     this.swatches = locator.locator(this.classes.swatch);
     this.formatToggle = locator.locator(this.classes['format-toggle']);
-    this.hexInput = new NgnInputHarness(
+    this.hexInput = new AwdInputHarness(
       locator.locator(this.classes['fields']).locator(NGN_CLASSES.input['root'])
     );
   }

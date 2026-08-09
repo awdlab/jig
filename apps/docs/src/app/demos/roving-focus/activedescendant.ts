@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NgnRovingGroup, NgnRovingItem } from '@awdlab/jig/roving-focus';
+import { AwdRovingGroup, AwdRovingItem } from '@awdlab/jig/roving-focus';
 
 @Component({
-  selector: 'awd-demo-roving-focus-activedescendant',
-  imports: [NgnRovingGroup, NgnRovingItem],
+  selector: 'jig-demo-roving-focus-activedescendant',
+  imports: [AwdRovingGroup, AwdRovingItem],
   template: `
     <div
       ngnRovingGroup
@@ -31,17 +31,17 @@ import { NgnRovingGroup, NgnRovingItem } from '@awdlab/jig/roving-focus';
     .listbox {
       width: 220px;
       padding: 4px;
-      border: 1px solid var(--awd-color-surface-300);
-      border-radius: var(--awd-size-radius-md);
+      border: 1px solid var(--jig-color-surface-300);
+      border-radius: var(--jig-size-radius-md);
     }
     .option {
       padding: 6px 10px;
-      border-radius: var(--awd-size-radius-sm);
+      border-radius: var(--jig-size-radius-sm);
       cursor: pointer;
     }
     .option[aria-selected='true'] {
-      background: var(--awd-color-primary-500);
-      color: var(--awd-color-primary-500-contrast);
+      background: var(--jig-color-primary-500);
+      color: var(--jig-color-primary-500-contrast);
     }
   `,
 })

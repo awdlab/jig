@@ -29,7 +29,7 @@ the directive is inert during SSR and hydration. See
 
 ### Inside a dialog
 
-Do **not** use `ngnAutofocus` on a control inside a closed `<awd-dialog>`. The
+Do **not** use `ngnAutofocus` on a control inside a closed `<jig-dialog>`. The
 directive latches on the first render — which happens while the dialog is still
 closed and its content not focusable — so the focus is spent and nothing is
 focused when the dialog opens.
@@ -38,11 +38,11 @@ Use the native `autofocus` attribute on the projected element instead; the
 browser applies it when the dialog is shown:
 
 ```html
-<awd-dialog [(open)]="open">
-  <awd-input-field [label]="'Name'">
+<jig-dialog [(open)]="open">
+  <jig-input-field [label]="'Name'">
     <input ngnInput autofocus />
-  </awd-input-field>
-</awd-dialog>
+  </jig-input-field>
+</jig-dialog>
 ```
 
 For a dialog that is already open on first render, neither mechanism fires.

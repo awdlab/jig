@@ -1,5 +1,5 @@
 <header
-  class="w-full border-b border-(--awd-color-surface-200) bg-[color-mix(in_srgb,var(--awd-color-background)_72%,transparent)] backdrop-blur-md"
+  class="w-full border-b border-(--jig-color-surface-200) bg-[color-mix(in_srgb,var(--jig-color-background)_72%,transparent)] backdrop-blur-md"
   [ngnKeyboardShortcut]="searchShortcut()"
 >
   <div
@@ -9,15 +9,15 @@
     <div class="flex h-full min-w-0 items-center gap-3">
       <a [routerLink]="'/'" class="flex h-full shrink-0 items-center gap-2 font-bold">
         <img src="img/logo.png" alt="" class="h-10 w-10" />
-        awd-controls
+        jig-controls
       </a>
       @if (isDocsPage()) {
         <!-- Desktop only: on mobile (<=900px) the breadcrumb moves into the page
              content (see page-renderer), matching the hamburger/sidebar divide. -->
-        <awd-breadcrumb class="nav:block hidden min-w-0 text-base" [items]="breadcrumbItems()" />
+        <jig-breadcrumb class="nav:block hidden min-w-0 text-base" [items]="breadcrumbItems()" />
       }
     </div>
-    <div class="flex h-full items-center gap-2 text-2xl text-(--awd-color-surface-800)">
+    <div class="flex h-full items-center gap-2 text-2xl text-(--jig-color-surface-800)">
       <button
         ngnButton
         kind="icon"
@@ -29,12 +29,12 @@
         (focus)="warmSearch()"
         (click)="searchOpen.set(true)"
       >
-        <awd-icon size="28px" [icon]="iconSearch" />
+        <jig-icon size="28px" [icon]="iconSearch" />
       </button>
-      <awd-docs-search-dialog [(open)]="searchOpen" />
+      <jig-docs-search-dialog [(open)]="searchOpen" />
       <!-- On docs pages the actions live in the menu drawer below 901px; the
            landing page has no drawer, so they stay in the topbar there. -->
-      <awd-docs-topbar-actions [class]="isDocsPage() ? 'nav:flex hidden' : 'flex'" />
+      <jig-docs-topbar-actions [class]="isDocsPage() ? 'nav:flex hidden' : 'flex'" />
       @if (isDocsPage()) {
         <button
           class="hide-when-large"
@@ -43,7 +43,7 @@
           aria-label="Menu Toggle"
           (click)="toggleMenu()"
         >
-          <awd-icon size="28px" [icon]="iconBars" />
+          <jig-icon size="28px" [icon]="iconBars" />
         </button>
       }
     </div>

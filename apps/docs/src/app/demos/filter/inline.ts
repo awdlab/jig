@@ -1,12 +1,12 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnFilter, type NgnFilterConfig } from '@awdlab/jig/filter';
+import { AwdFilter, type AwdFilterConfig } from '@awdlab/jig/filter';
 
 @Component({
-  selector: 'awd-demo-filter-inline',
-  imports: [NgnFilter],
+  selector: 'jig-demo-filter-inline',
+  imports: [AwdFilter],
   template: `
     <div class="flex flex-col gap-2">
-      <awd-filter
+      <jig-filter
         mode="inline"
         [data]="data"
         (filterChange)="output.set($event)"
@@ -34,7 +34,7 @@ export class Demo_Filter_Inline {
     'Greece',
   ];
 
-  protected readonly output = signal<NgnFilterConfig | null>(null);
+  protected readonly output = signal<AwdFilterConfig | null>(null);
   protected readonly filteredData = signal<readonly string[] | null>(null);
   protected readonly filtered = computed(() => this.filteredData() ?? this.data);
 }

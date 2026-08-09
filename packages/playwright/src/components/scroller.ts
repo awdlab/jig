@@ -2,7 +2,7 @@ import { expect, type Locator } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { scrollerControlTemplate } from '@awdlab/jig-themes/templates/scroller';
 
-export class NgnScrollerHarness {
+export class AwdScrollerHarness {
   public readonly classes = themeClasses(scrollerControlTemplate);
   public readonly scrollarea: Locator;
   public readonly item: Locator;

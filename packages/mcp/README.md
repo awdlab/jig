@@ -21,7 +21,7 @@ Four capabilities:
 
 1. **Docs / explain** — control APIs, selectors, usage, concept guides.
 2. **Theming** — token schema + per-control anatomy + theme-part scaffolds.
-3. **Migration** — PrimeNG / Angular Material / Syncfusion → awd component maps.
+3. **Migration** — PrimeNG / Angular Material / Syncfusion → jig component maps.
 4. **Feature dev** — control recommendations + composition recipes.
 
 All layers are **advisory / knowledge-only**: the server returns knowledge and
@@ -69,12 +69,12 @@ Rebuild the pack whenever controls, docs, or authored knowledge change
 | `scaffold_theme_part`    | Ready-to-edit `createThemePart` skeleton for a control.            |
 | `get_theme_options`      | Theme-dependent `kind`/`color` values (per built-in theme).        |
 | `list_migration_sources` | Source libraries with a migration map + coverage.                  |
-| `map_component`          | One source component → awd target, with prop/event maps + gaps.    |
-| `search_migration`       | Find the awd equivalent for a source component/feature.            |
+| `map_component`          | One source component → jig target, with prop/event maps + gaps.    |
+| `search_migration`       | Find the jig equivalent for a source component/feature.            |
 | `recommend_controls`     | Suggest controls + recipes for a feature goal.                     |
 
-**Resources** (browsable, addressable): `awd://control/<name>`,
-`awd://concept/<slug>`, `awd://recipe/<slug>`, `awd://example/<slug>` (real,
+**Resources** (browsable, addressable): `jig://control/<name>`,
+`jig://concept/<slug>`, `jig://recipe/<slug>`, `jig://example/<slug>` (real,
 compiled usage snippets auto-derived from the docs demos).
 
 **Prompts** (surfaced as slash-commands / quick actions where supported):
@@ -91,7 +91,7 @@ Once published, no install step is needed — clients run it via `npx`.
 ```json
 {
   "mcpServers": {
-    "awd-controls": {
+    "jig-controls": {
       "command": "npx",
       "args": ["-y", "@awdlab/jig-mcp"]
     }
@@ -105,8 +105,8 @@ shape. Any MCP-capable client works — the server is client-agnostic.
 ## Skills
 
 The package also ships agent **skills** under [`skills/`](./skills) — procedural
-guides that tell an agent _how_ to use the MCP tools for a task (`awd-controls`,
-`awd-migrate`, `awd-theme`, `awd-build-feature`). Each is a `SKILL.md` with
+guides that tell an agent _how_ to use the MCP tools for a task (`jig-controls`,
+`jig-migrate`, `jig-theme`, `jig-build-feature`). Each is a `SKILL.md` with
 `name` + `description` frontmatter, the convention used by the
 [`skills`](https://github.com/vercel-labs/skills) CLI and compatible installers.
 
@@ -134,7 +134,7 @@ before overwriting an existing skill, comparing versions:
 ```bash
 npx @awdlab/jig-mcp init              # → ./.claude/skills, prompts on conflicts
 npx @awdlab/jig-mcp init --dir .cursor/rules
-npx @awdlab/jig-mcp init --skill awd-migrate --yes
+npx @awdlab/jig-mcp init --skill jig-migrate --yes
 npx @awdlab/jig-mcp init --list       # list bundled skills and exit
 ```
 
@@ -180,7 +180,7 @@ scripts/build-pack.ts   Monorepo-only pack generator (typedoc + md + authored �
 data/knowledge-pack.json Generated at build time (gitignored), shipped in the package
 src/pack.ts             Pack schema + runtime loader
 src/render.ts           Markdown rendering + search helpers
-src/resources.ts        awd://control, awd://concept, awd://recipe resources
+src/resources.ts        jig://control, jig://concept, jig://recipe resources
 src/tools.ts            list_controls, get_control, search_docs
 src/prompts.ts          explain_control, explain_concept
 src/theming.ts          get_theme_schema, get_control_theme, scaffold_theme_part, get_theme_options, author_theme

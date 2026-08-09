@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgnUpload, type NgnUploadFile } from '@awdlab/jig/upload';
+import { AwdUpload, type AwdUploadFile } from '@awdlab/jig/upload';
 
 /**
  * The list surfaces per-item actions: a single dismiss button (cancels the
@@ -8,10 +8,10 @@ import { NgnUpload, type NgnUploadFile } from '@awdlab/jig/upload';
  * first attempt so the failed state and retry are easy to see.
  */
 @Component({
-  imports: [NgnUpload],
-  selector: 'awd-demo-upload-states',
+  imports: [AwdUpload],
+  selector: 'jig-demo-upload-states',
   template: `
-    <awd-upload
+    <jig-upload
       #up="ngnUpload"
       (upload)="onUpload($event, up)"
       (cancelUpload)="onCancel($event)"
@@ -19,13 +19,13 @@ import { NgnUpload, type NgnUploadFile } from '@awdlab/jig/upload';
     >
       <input type="file" multiple />
       First attempt always fails — press retry
-    </awd-upload>
+    </jig-upload>
   `,
 })
 export class Demo_Upload_States {
   private readonly attempts = new Map<string, number>();
 
-  protected onUpload(files: NgnUploadFile[], up: NgnUpload): void {
+  protected onUpload(files: AwdUploadFile[], up: AwdUpload): void {
     for (const item of files) {
       const attempt = (this.attempts.get(item.id) ?? 0) + 1;
       this.attempts.set(item.id, attempt);
@@ -47,11 +47,11 @@ export class Demo_Upload_States {
     }
   }
 
-  protected onCancel(_item: NgnUploadFile): void {
+  protected onCancel(_item: AwdUploadFile): void {
     // In a real app: abort the in-flight request for `_item`.
   }
 
-  protected onRemove(item: NgnUploadFile): void {
+  protected onRemove(item: AwdUploadFile): void {
     this.attempts.delete(item.id);
   }
 }

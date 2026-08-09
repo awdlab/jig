@@ -1,8 +1,8 @@
-{{ api: calendar/calendar NgnCalendar }}
+{{ api: calendar/calendar AwdCalendar }}
 
 ### Deep passthrough
 
-The calendar renders several `awd` controls internally, each exposed via
+The calendar renders several `jig` controls internally, each exposed via
 **deep passthrough** as a named, per-instance slot at the root of `pt`:
 `input`, `current-month`, `current-year`, `current-month-field`,
 `current-year-field`, `previous`, `next`, `trigger-icon`, and `popover`. Each

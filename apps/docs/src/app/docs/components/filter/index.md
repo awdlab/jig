@@ -1,9 +1,9 @@
-The Filter (`awd-filter`) pairs an operator select with a value editor so users
+The Filter (`jig-filter`) pairs an operator select with a value editor so users
 can build filter conditions over a dataset. The `dataType` input (`string`,
 `number`, `date`, `dateTime`, `boolean`, `list`, or `custom`) drives which
 operators and editor UI appear. With `filterLocally` on (the default) it filters
 `data` and emits the result via `filterResultChange`; otherwise it emits only
-the `NgnFilterConfig` via `filterChange` for server-side filtering.
+the `AwdFilterConfig` via `filterChange` for server-side filtering.
 
 ### Base
 
@@ -15,7 +15,7 @@ condition.
 
 ### Validation
 
-The filter plugs into the shared `ngnErrors` + `awd-hint` validation flow like
+The filter plugs into the shared `ngnErrors` + `jig-hint` validation flow like
 any other control — here a custom error requires at least one filter rule.
 
 {{ demo: Demo_Filter_Validation }}

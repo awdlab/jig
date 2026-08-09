@@ -19,7 +19,7 @@ export function registerFeature(server: McpServer, pack: KnowledgePack): void {
     {
       title: 'Recommend controls for a goal',
       description:
-        'Given a feature goal (e.g. "a filterable table with row selection"), suggest the awd ' +
+        'Given a feature goal (e.g. "a filterable table with row selection"), suggest the jig ' +
         'controls to reach for and any matching composition recipes. Follow up with get_control.',
       inputSchema: {
         goal: z.string().describe('What you want to build, in plain language.'),
@@ -68,7 +68,7 @@ export function registerFeature(server: McpServer, pack: KnowledgePack): void {
       const examples = pack.examples
         .filter(e => topNames.has(e.control))
         .slice(0, 6)
-        .map(e => `- ${e.scenario} (\`${e.control}\`) · awd://example/${e.slug}`);
+        .map(e => `- ${e.scenario} (\`${e.control}\`) · jig://example/${e.slug}`);
 
       const parts = [`# Controls for: "${goal}"`];
       parts.push(
@@ -78,7 +78,7 @@ export function registerFeature(server: McpServer, pack: KnowledgePack): void {
       );
       if (recipes.length)
         parts.push(
-          `\n## Matching recipes\n\n${recipes.join('\n')}\n\nRead one via awd://recipe/<slug>.`
+          `\n## Matching recipes\n\n${recipes.join('\n')}\n\nRead one via jig://recipe/<slug>.`
         );
       if (examples.length) parts.push(`\n## Real examples (docs demos)\n\n${examples.join('\n')}`);
       parts.push('\nNext: call get_control on each to get exact inputs before wiring.');
@@ -89,7 +89,7 @@ export function registerFeature(server: McpServer, pack: KnowledgePack): void {
   server.registerPrompt(
     'build_feature',
     {
-      title: 'Build a feature with awd controls',
+      title: 'Build a feature with jig controls',
       description: 'Guided workflow to build a new feature using @awdlab/jig.',
       argsSchema: { goal: z.string().describe('What you want to build.') },
     },
@@ -102,9 +102,9 @@ export function registerFeature(server: McpServer, pack: KnowledgePack): void {
             text:
               `Help me build this with @awdlab/jig: "${goal}".\n` +
               `1. Call recommend_controls("${goal}") to pick the controls + any recipe.\n` +
-              `2. Read matching recipes (awd://recipe/<slug>) and get_control for each control ` +
+              `2. Read matching recipes (jig://recipe/<slug>) and get_control for each control ` +
               `to confirm real inputs/outputs.\n` +
-              `3. Scaffold the feature using awd conventions (signal inputs, awd-input-field ` +
+              `3. Scaffold the feature using jig conventions (signal inputs, jig-input-field ` +
               `chrome, theme tokens — no hardcoded styles).\n` +
               `4. Wire state with signals/computed, then build and visually verify.`,
           },

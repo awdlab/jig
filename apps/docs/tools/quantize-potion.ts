@@ -99,13 +99,13 @@ function cosine(a: Float32Array | number[], b: Float32Array | number[]): number 
 const PROBES = [
   'How do I disable a select?',
   'dark mode theming tokens',
-  'awd-input-field label',
+  'jig-input-field label',
   'booleanAttribute transform on inputs',
   'virtual scrolling long option lists',
   // Tokenizer edge cases: accents, mixed case, punctuation runs, unknown
   // subwords, CJK, digits, and a word past WordPiece's length cap.
   'Größe für Überschrift — naïve café',
-  '[(value)]="foo" @if (bar) { <awd-select/> }',
+  '[(value)]="foo" @if (bar) { <jig-select/> }',
   'ITEM_TEMPLATE vs itemTemplate vs item-template',
   'zzzqqqxxx unpronounceable gibberish',
   '日本語のテキストと English mixed',

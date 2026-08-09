@@ -1,7 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnKbd } from '@awdlab/jig/kbd';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdKbd } from '@awdlab/jig/kbd';
 
 import { Seo } from '../utils/seo';
 
@@ -11,15 +11,15 @@ import { Seo } from '../utils/seo';
  * recovery is usually the navigation the reader already knows.
  */
 @Component({
-  selector: 'awd-docs-not-found',
+  selector: 'jig-docs-not-found',
   templateUrl: 'not-found.html',
   styleUrl: 'not-found.scss',
-  imports: [NgnButton, NgnKbd, RouterLink],
+  imports: [AwdButton, AwdKbd, RouterLink],
   host: {
     class: 'min-w-0 w-full h-full flex flex-col pt-[5.5rem]',
   },
 })
-export class NgnDocsNotFound {
+export class AwdDocsNotFound {
   private readonly _router = inject(Router);
 
   /**

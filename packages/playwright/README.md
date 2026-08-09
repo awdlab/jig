@@ -12,7 +12,7 @@
 
 </div>
 
-Page-object–style `Awd*Harness` helpers that wrap the controls' DOM and ARIA surface, so
+Page-object–style `Jig*Harness` helpers that wrap the controls' DOM and ARIA surface, so
 end-to-end assertions read like the user's intent instead of hand-rolled locators.
 
 ## Install
@@ -22,9 +22,9 @@ pnpm add -D @awdlab/jig-playwright
 ```
 
 ```ts
-import { NgnSelectHarness } from '@awdlab/jig-playwright';
+import { AwdSelectHarness } from '@awdlab/jig-playwright';
 
-const select = new NgnSelectHarness(page.locator('awd-select'));
+const select = new AwdSelectHarness(page.locator('jig-select'));
 await select.open();
 await select.clickItemByText('Option 2');
 await select.expectSelectedItemText('Option 2');

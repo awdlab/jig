@@ -1,19 +1,19 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@awdlab/jig/errors';
-import { NgnHint } from '@awdlab/jig/hint';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { NgnSelect } from '@awdlab/jig/select';
+import { AwdErrors } from '@awdlab/jig/errors';
+import { AwdHint } from '@awdlab/jig/hint';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { AwdSelect } from '@awdlab/jig/select';
 
 import { exampleData } from '../../helper/data';
 
-import type { NgnItemsValue } from '@awdlab/jig/api';
+import type { JigItemsValue } from '@awdlab/jig/api';
 
 @Component({
-  selector: 'awd-demo-select-validation',
-  imports: [NgnErrors, NgnHint, NgnInputField, NgnSelect],
+  selector: 'jig-demo-select-validation',
+  imports: [AwdErrors, AwdHint, AwdInputField, AwdSelect],
   template: `
-    <awd-input-field [label]="'Assignee'" [labelKind]="'on'" class="w-64">
-      <awd-select
+    <jig-input-field [label]="'Assignee'" [labelKind]="'on'" class="w-64">
+      <jig-select
         [options]="options"
         [value]="value()"
         (valueChange)="value.set($event)"
@@ -23,13 +23,13 @@ import type { NgnItemsValue } from '@awdlab/jig/api';
         [ngnErrorsCustom]="errors()"
         [ngnErrorsHint]="assigneeHint"
       />
-    </awd-input-field>
-    <awd-hint #assigneeHint />
+    </jig-input-field>
+    <jig-hint #assigneeHint />
   `,
 })
 export class Demo_Select_Validation {
   protected readonly options = exampleData.items.flatPreformatted;
-  protected readonly value = signal<NgnItemsValue<typeof this.options> | null>(null);
+  protected readonly value = signal<JigItemsValue<typeof this.options> | null>(null);
   protected readonly errors = computed(() =>
     this.value() ? null : { required: 'Select an assignee' }
   );

@@ -1,12 +1,12 @@
-import { NgnDocsHintPlayground } from './playground';
+import { AwdDocsHintPlayground } from './playground';
 import { Demo_Hint_Base } from '../../../demos/hint/base';
 import { Demo_Hint_Template } from '../../../demos/hint/template';
 import { Demo_Hint_WithIcon } from '../../../demos/hint/with-icon';
 import { i18nText } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const HintPage: NgnDocsPage = {
+export const HintPage: AwdDocsPage = {
   title: `Hint`,
   kind: 'tabs',
   tabs: [
@@ -21,7 +21,7 @@ export const HintPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsHintPlayground,
+      component: AwdDocsHintPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/hint/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/hint/a11y.md' },

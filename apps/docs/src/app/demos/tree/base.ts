@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { NgnTree } from '@awdlab/jig/tree';
+import { AwdTree } from '@awdlab/jig/tree';
 
-import type { NgnTreeItem } from '@awdlab/jig/api';
+import type { AwdTreeItem } from '@awdlab/jig/api';
 
 @Component({
-  imports: [NgnTree],
-  selector: 'awd-demo-tree-base',
-  template: `<awd-tree [items]="items" [multiple]="true" style="height: 300px;" />`,
+  imports: [AwdTree],
+  selector: 'jig-demo-tree-base',
+  template: `<jig-tree [items]="items" [multiple]="true" style="height: 300px;" />`,
 })
 export class Demo_Tree_Base {
-  protected readonly items: NgnTreeItem[] = [
+  protected readonly items: AwdTreeItem[] = [
     {
       label: 'Documents',
       value: 'documents',

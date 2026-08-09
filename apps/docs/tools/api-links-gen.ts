@@ -142,7 +142,7 @@ function urlForTag(
   targets: LinkTargets,
   parentOf: Map<number, number>
 ): string | null {
-  // `{@link import('./x').NgnY}` — the import wrapper is noise here.
+  // `{@link import('./x').AwdY}` — the import wrapper is noise here.
   const name = tag.text.replace(/^import\([^)]*\)\./, '').trim();
   const [holder, member] = name.split(/[.#]/);
   const byId = typeof tag.target === 'number' ? urlForId(tag.target, targets, parentOf) : null;

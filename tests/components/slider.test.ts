@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { NgnSliderHarness } from '@awdlab/jig-playwright';
+import { AwdSliderHarness } from '@awdlab/jig-playwright';
 import { evalValue, loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -8,7 +8,7 @@ test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-slider [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-slider [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['slider'],
     },
     {
@@ -18,7 +18,7 @@ test('base', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new NgnSliderHarness(page.locator('awd-slider'));
+  const slider = new AwdSliderHarness(page.locator('jig-slider'));
   await slider.expectValue(50);
   await slider.expectMin(0);
   await slider.expectMax(100);
@@ -41,7 +41,7 @@ test('keyboard navigation', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-slider [value]="inputs().value" [step]="inputs().step" (valueChange)="output('value', $event)" />`,
+      template: `<jig-slider [value]="inputs().value" [step]="inputs().step" (valueChange)="output('value', $event)" />`,
       imports: ['slider'],
     },
     {
@@ -52,7 +52,7 @@ test('keyboard navigation', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new NgnSliderHarness(page.locator('awd-slider'));
+  const slider = new AwdSliderHarness(page.locator('jig-slider'));
   await slider.focus();
   await slider.expectValue(50);
 
@@ -90,7 +90,7 @@ test('track click', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-slider style="width: 300px;" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-slider style="width: 300px;" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['slider'],
     },
     {
@@ -100,7 +100,7 @@ test('track click', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new NgnSliderHarness(page.locator('awd-slider'));
+  const slider = new AwdSliderHarness(page.locator('jig-slider'));
   await slider.expectValue(50);
 
   // Click at the beginning of the track
@@ -123,7 +123,7 @@ test('min max step', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-slider [value]="inputs().value" [min]="inputs().min" [max]="inputs().max" [step]="inputs().step" (valueChange)="output('value', $event)" />`,
+      template: `<jig-slider [value]="inputs().value" [min]="inputs().min" [max]="inputs().max" [step]="inputs().step" (valueChange)="output('value', $event)" />`,
       imports: ['slider'],
     },
     {
@@ -136,7 +136,7 @@ test('min max step', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new NgnSliderHarness(page.locator('awd-slider'));
+  const slider = new AwdSliderHarness(page.locator('jig-slider'));
   await slider.expectValue(10);
   await slider.expectMin(0);
   await slider.expectMax(20);
@@ -164,7 +164,7 @@ test('vertical', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-slider style="height: 200px;" [vertical]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-slider style="height: 200px;" [vertical]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['slider'],
     },
     {
@@ -174,7 +174,7 @@ test('vertical', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new NgnSliderHarness(page.locator('awd-slider'));
+  const slider = new AwdSliderHarness(page.locator('jig-slider'));
   await slider.expectValue(50);
   await slider.expectOrientation('vertical');
   await expectScreenshot(page, testInfo, 'initial');
@@ -198,7 +198,7 @@ test('readonly & disabled', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-slider [value]="inputs().value" [readonly]="inputs().readonly" [disabled]="inputs().disabled" (valueChange)="output('value', $event)" />`,
+      template: `<jig-slider [value]="inputs().value" [readonly]="inputs().readonly" [disabled]="inputs().disabled" (valueChange)="output('value', $event)" />`,
       imports: ['slider'],
     },
     {
@@ -210,7 +210,7 @@ test('readonly & disabled', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new NgnSliderHarness(page.locator('awd-slider'));
+  const slider = new AwdSliderHarness(page.locator('jig-slider'));
   await slider.expectValue(50);
   await slider.expectReadonly(true);
   await slider.expectDisabled(false);
@@ -257,7 +257,7 @@ test('invalid', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-slider [value]="inputs().value" [invalid]="inputs().invalid" [touched]="inputs().touched" />`,
+      template: `<jig-slider [value]="inputs().value" [invalid]="inputs().invalid" [touched]="inputs().touched" />`,
       imports: ['slider'],
     },
     {
@@ -269,7 +269,7 @@ test('invalid', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new NgnSliderHarness(page.locator('awd-slider'));
+  const slider = new AwdSliderHarness(page.locator('jig-slider'));
   await expectScreenshot(page, testInfo, 'invalid');
 });
 
@@ -277,7 +277,7 @@ test('value updates', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-slider [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-slider [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['slider'],
     },
     {
@@ -287,7 +287,7 @@ test('value updates', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new NgnSliderHarness(page.locator('awd-slider'));
+  const slider = new AwdSliderHarness(page.locator('jig-slider'));
   await slider.expectValue(25);
   await expectScreenshot(page, testInfo, 'value-25');
 
@@ -309,7 +309,7 @@ test('accessibility', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-slider 
+      template: `<jig-slider 
         [value]="inputs().value" 
         [min]="inputs().min" 
         [max]="inputs().max"
@@ -329,7 +329,7 @@ test('accessibility', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new NgnSliderHarness(page.locator('awd-slider'));
+  const slider = new AwdSliderHarness(page.locator('jig-slider'));
 
   // Check ARIA attributes
   await expect(slider.locator).toHaveAttribute('role', 'slider');
@@ -345,7 +345,7 @@ test('value text function', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-slider 
+      template: `<jig-slider 
         [value]="inputs().value" 
         [valueTextFn]="inputs().valueTextFn"
       />`,
@@ -359,7 +359,7 @@ test('value text function', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new NgnSliderHarness(page.locator('awd-slider'));
+  const slider = new AwdSliderHarness(page.locator('jig-slider'));
 
   await expect(slider.locator).toBeVisible();
 
@@ -374,7 +374,7 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<awd-slider [value]="inputs().value" [label]="inputs().label" />`,
+      template: `<jig-slider [value]="inputs().value" [label]="inputs().label" />`,
       imports: ['slider'],
     },
     {

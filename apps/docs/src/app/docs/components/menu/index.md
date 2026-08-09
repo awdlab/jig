@@ -1,4 +1,4 @@
-The Menu (`<awd-menu>`) renders a list of actions from a data array (`items`)
+The Menu (`<jig-menu>`) renders a list of actions from a data array (`items`)
 rather than markup, carrying `role="menu"` with each item a `role="menuitem"`
 button. Use it inline as a static list, as a popover next to a trigger, or as a
 right-click context menu.

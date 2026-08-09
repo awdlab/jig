@@ -1,12 +1,12 @@
 import { inject, InjectionToken, type Provider } from '@angular/core';
 
-import type { NgnErrorsMessageContext, NgnErrorsMessages } from './types';
+import type { AwdErrorsMessageContext, AwdErrorsMessages } from './types';
 
 /**
  * Multi-provider token for validation error message maps.
  * @category providers
  */
-export const NGN_ERRORS_MESSAGES = new InjectionToken<readonly NgnErrorsMessages[]>(
+export const NGN_ERRORS_MESSAGES = new InjectionToken<readonly AwdErrorsMessages[]>(
   'NGN_ERRORS_MESSAGES',
   {
     factory: () => [],
@@ -17,7 +17,7 @@ export const NGN_ERRORS_MESSAGES = new InjectionToken<readonly NgnErrorsMessages
  * Provide custom validation error messages that are merged with defaults.
  * @category providers
  */
-export function provideNgnErrorsMessages(messages: NgnErrorsMessages): Provider {
+export function provideAwdErrorsMessages(messages: AwdErrorsMessages): Provider {
   return {
     provide: NGN_ERRORS_MESSAGES,
     useValue: messages,
@@ -29,7 +29,7 @@ export function provideNgnErrorsMessages(messages: NgnErrorsMessages): Provider 
  * Inject all provided validation message maps as a single merged object.
  * @category providers
  */
-export function injectNgnErrorsMessages(): NgnErrorsMessages {
+export function injectAwdErrorsMessages(): AwdErrorsMessages {
   return Object.assign({}, ...inject(NGN_ERRORS_MESSAGES));
 }
 
@@ -40,8 +40,8 @@ export function injectNgnErrorsMessages(): NgnErrorsMessages {
  * fall through to the next source.
  */
 export function resolveUserMessage(
-  context: NgnErrorsMessageContext,
-  messages: NgnErrorsMessages
+  context: AwdErrorsMessageContext,
+  messages: AwdErrorsMessages
 ): string | undefined {
   const resolver = messages[context.key];
   // Empty strings count as "no message" so resolution falls through to the next source.

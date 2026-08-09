@@ -1,12 +1,12 @@
 import { computed, Directive, effect, ElementRef, inject, input, Type } from '@angular/core';
 import { injectThemeTemplate } from '@awdlab/jig/api/ng';
-import { getNearestNgnInstanceSig } from '@awdlab/jig/base';
-import { NgnScrollerItem } from '@awdlab/jig/scroller';
+import { getNearestAwdInstanceSig } from '@awdlab/jig/base';
+import { AwdScrollerItem } from '@awdlab/jig/scroller';
 import { toggleClass } from '@awdlab/jig/utils';
 import { setInputSignalValue } from '@awdlab/jig/utils-ng';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
-import { NgnTable } from './table';
+import { AwdTable } from './table';
 
 import type { FormattedTableDataRow } from './types';
 
@@ -22,7 +22,7 @@ import type { FormattedTableDataRow } from './types';
   host: {
     '[attr.id]': 'rowElementId()',
     '[attr.aria-rowindex]': 'ngnTableBodyTr().index + 2',
-    '[style.--awd-table-row-index]': 'ngnTableBodyTr().index + 2',
+    '[style.--jig-table-row-index]': 'ngnTableBodyTr().index + 2',
     '[class]': `theme.classes({
       'even': ngnTableBodyTr().index % 2 === 0,
       'selected-row': selected(),
@@ -34,7 +34,7 @@ import type { FormattedTableDataRow } from './types';
     '(click)': 'onRowClick($event)',
   },
 })
-export class NgnTableBodyTr<T> extends NgnScrollerItem {
+export class AwdTableBodyTr<T> extends AwdScrollerItem {
   /** The formatted data row this `<tr>` renders. */
   public readonly ngnTableBodyTr = input.required<FormattedTableDataRow<T>>();
   /** The item bound to the underlying scroller entry; kept in sync with {@link ngnTableBodyTr}. */
@@ -42,9 +42,9 @@ export class NgnTableBodyTr<T> extends NgnScrollerItem {
   private readonly _element = inject(ElementRef<HTMLElement>);
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
 
-  private readonly _table = getNearestNgnInstanceSig<Type<NgnTable<any, any>>>(
+  private readonly _table = getNearestAwdInstanceSig<Type<AwdTable<any, any>>>(
     this._element.nativeElement,
-    NgnTable
+    AwdTable
   );
 
   protected readonly selectable = computed(() => !!this._table()?.selectionMode());
@@ -63,8 +63,8 @@ export class NgnTableBodyTr<T> extends NgnScrollerItem {
 
   /**
    * Whether this row is the table's single current-row for keyboard
-   * navigation ({@link NgnTable.focusedRowIndex}). Tracks selection keyboard
-   * nav when {@link NgnTable.selectionMode} is set, and also tracks
+   * navigation ({@link AwdTable.focusedRowIndex}). Tracks selection keyboard
+   * nav when {@link AwdTable.selectionMode} is set, and also tracks
    * row-actions keyboard nav on non-selectable tables that have row actions,
    * so a keyboard user always sees which row is current.
    */

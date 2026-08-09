@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { NgnDrag } from '@awdlab/jig/directives';
+import { AwdDrag } from '@awdlab/jig/directives';
 
-import type { NgnDragInfo } from '@awdlab/jig/directives';
+import type { AwdDragInfo } from '@awdlab/jig/directives';
 
 @Component({
-  selector: 'awd-demo-drag-base',
-  imports: [NgnDrag],
+  selector: 'jig-demo-drag-base',
+  imports: [AwdDrag],
   template: `
     <div class="flex flex-col gap-3">
       <div
@@ -38,16 +38,16 @@ import type { NgnDragInfo } from '@awdlab/jig/directives';
       gap: 12px;
       padding: 20px;
       text-align: center;
-      background: var(--awd-color-surface-100);
-      border: 1px solid var(--awd-color-surface-300);
-      border-radius: var(--awd-size-radius-md);
+      background: var(--jig-color-surface-100);
+      border: 1px solid var(--jig-color-surface-300);
+      border-radius: var(--jig-size-radius-md);
       touch-action: none;
     }
     .inner-button {
       padding: 8px 16px;
-      background: var(--awd-color-surface-200);
-      border: 1px solid var(--awd-color-surface-300);
-      border-radius: var(--awd-size-radius-sm);
+      background: var(--jig-color-surface-200);
+      border: 1px solid var(--jig-color-surface-300);
+      border-radius: var(--jig-size-radius-sm);
     }
     .readout {
       font-family: monospace;
@@ -60,7 +60,7 @@ export class Demo_Drag_Base {
   protected readonly offsetY = signal(0);
   protected readonly clicks = signal(0);
 
-  protected onDragged(info: NgnDragInfo): void {
+  protected onDragged(info: AwdDragInfo): void {
     this.offsetX.update(x => x + info.deltaX);
     this.offsetY.update(y => y + info.deltaY);
   }

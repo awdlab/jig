@@ -11,8 +11,8 @@ import {
   signal,
 } from '@angular/core';
 import { Platform, ThemeService } from '@awdlab/jig/api/ng';
-import { NgnColorPicker } from '@awdlab/jig/color-picker';
-import { NgnSelectButton } from '@awdlab/jig/select-button';
+import { AwdColorPicker } from '@awdlab/jig/color-picker';
+import { AwdSelectButton } from '@awdlab/jig/select-button';
 import { createTheme, createThemePart } from '@awdlab/jig-themes/api';
 import { nova } from '@awdlab/jig-themes/nova';
 import {
@@ -167,7 +167,7 @@ const DEFAULT_THEME_ID: ThemeOptionId = 'nova';
  * Persisted in a cookie (not localStorage) so the SSR server can read it from the request and
  * render the saved theme directly — no first-paint flash. 1-year expiry, lax same-site.
  */
-const COOKIE_NAME = 'awd-docs-theme';
+const COOKIE_NAME = 'jig-docs-theme';
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
 type PickerState = {
@@ -268,7 +268,7 @@ function buildThemeFromState(state: PickerState): Theme {
 
 /**
  * The theme to boot with on the CLIENT, resolved from the persisted cookie (or nova) at
- * module-eval time so it can be the `provideNgnControls` preset. The client then STARTS in the
+ * module-eval time so it can be the `provideAwdControls` preset. The client then STARTS in the
  * saved theme and hydrates the (already server-rendered) saved-theme DOM with no re-apply/flash.
  * On the server `document` is unavailable here — the server instead resolves the theme per
  * request via {@link provideDocsThemeInitializer}.
@@ -414,11 +414,11 @@ export class ThemePickerService {
 }
 
 @Component({
-  selector: 'awd-docs-theme-picker',
-  imports: [NgnSelectButton, NgnColorPicker],
+  selector: 'jig-docs-theme-picker',
+  imports: [AwdSelectButton, AwdColorPicker],
   template: `
-    <div class="flex flex-col gap-(--awd-size-padding-xl)">
-      <awd-select-button
+    <div class="flex flex-col gap-(--jig-size-padding-xl)">
+      <jig-select-button
         aria-label="Theme"
         [options]="themeOptions"
         [value]="picker.themeId()"
@@ -426,20 +426,20 @@ export class ThemePickerService {
       />
 
       @for (group of picker.swatchGroups(); track group.kind) {
-        <div class="flex flex-col gap-(--awd-size-padding-sm)">
-          <span class="text-xs font-medium text-(--awd-color-surface-600)">{{ group.label }}</span>
+        <div class="flex flex-col gap-(--jig-size-padding-sm)">
+          <span class="text-xs font-medium text-(--jig-color-surface-600)">{{ group.label }}</span>
           <div
-            class="flex flex-wrap items-center gap-(--awd-size-padding-sm)"
+            class="flex flex-wrap items-center gap-(--jig-size-padding-sm)"
             role="group"
             [attr.aria-label]="group.label + ' color'"
           >
             @for (color of group.options; track color.name) {
               <button
                 type="button"
-                class="size-8 cursor-pointer rounded-(--awd-size-rounded-md) border-2 transition-transform hover:scale-110"
+                class="size-8 cursor-pointer rounded-(--jig-size-rounded-md) border-2 transition-transform hover:scale-110"
                 [style.background-color]="color.swatch"
                 [style.border-color]="
-                  group.selected === color.hex ? 'var(--awd-color-text)' : 'var(--awd-color-border)'
+                  group.selected === color.hex ? 'var(--jig-color-text)' : 'var(--jig-color-border)'
                 "
                 [attr.aria-label]="'Use ' + color.name"
                 [attr.aria-pressed]="group.selected === color.hex"
@@ -450,7 +450,7 @@ export class ThemePickerService {
             <!-- Custom color via our own color picker (opaque theme colors → hex, no alpha).
                  The picker emits valueChange on every drag frame; debounce so a drag coalesces
                  into one theme rebuild + cookie write instead of one per pointer move. -->
-            <awd-color-picker
+            <jig-color-picker
               [alpha]="false"
               [value]="group.selected ?? group.fallback"
               [label]="'Custom ' + group.label + ' color'"
@@ -462,7 +462,7 @@ export class ThemePickerService {
     </div>
   `,
 })
-export class NgnDocsThemePicker {
+export class AwdDocsThemePicker {
   protected readonly picker = inject(ThemePickerService);
 
   protected readonly themeOptions = this.picker.themes.map(theme => ({

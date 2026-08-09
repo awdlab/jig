@@ -2,7 +2,7 @@ import test, { expect, type Page } from '@playwright/test';
 import { expectOutput, loadComponent } from '../helper/load-component';
 import { exampleData } from '../helper/data';
 import type { InputsType } from '../../apps/test-wrapper/src/app/window.js';
-import { NgnAccordionHarness } from '@awdlab/jig-playwright';
+import { AwdAccordionHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 import { deepCopy } from '@awdlab/jig/utils';
@@ -30,19 +30,19 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
     page,
     {
       template: `
-      <awd-accordion [expandedPanels]="inputs().expandedPanels" [multiple]="inputs().multiple" (expandedPanelsChange)="output('expanded', $event)"
+      <jig-accordion [expandedPanels]="inputs().expandedPanels" [multiple]="inputs().multiple" (expandedPanelsChange)="output('expanded', $event)"
         [lazy]="inputs().lazy" [cache]="inputs().cache"
       >
         @for(panel of inputs().panels; track panel) {
-          <awd-accordion-panel [panelId]="panel.id" [header]="panel.header" [lazy]="panel.lazy" [cache]="panel.cache" [disabled]="panel.disabled">
+          <jig-accordion-panel [panelId]="panel.id" [header]="panel.header" [lazy]="panel.lazy" [cache]="panel.cache" [disabled]="panel.disabled">
             <ng-template #content> 
               <dummy [dummyId]="panel.id" (calledConstructor)="output('constructorCalled', $event)">
                 {{ panel.content }}
               </dummy>
             </ng-template>
-          </awd-accordion-panel>
+          </jig-accordion-panel>
         }
-      </awd-accordion>
+      </jig-accordion>
       `,
       imports: ['accordion', 'accordionPanel', 'dummy_component'],
     },
@@ -60,7 +60,7 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
 test('expand & collapse', async ({ page }, testInfo) => {
   const handle = await prepareTest(page);
 
-  const accordion = new NgnAccordionHarness(page.locator('awd-accordion'));
+  const accordion = new AwdAccordionHarness(page.locator('jig-accordion'));
   await accordion.expectPanelCount(3);
 
   const panel1 = accordion.getPanelByIndex(0);
@@ -147,7 +147,7 @@ test('lazy', async ({ page }, testInfo) => {
     panels,
   });
 
-  const accordion = new NgnAccordionHarness(page.locator('awd-accordion'));
+  const accordion = new AwdAccordionHarness(page.locator('jig-accordion'));
   await accordion.expectPanelCount(3);
 
   await expectOutput(handle, 'constructorCalled', ['panel1']); // panel1 is loaded eagerly

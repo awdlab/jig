@@ -1,17 +1,17 @@
 import { Component, computed, input } from '@angular/core';
 
-import { NgnDocsReveal } from './reveal';
-import { NgnDocsSectionHeader } from './section-header';
+import { AwdDocsReveal } from './reveal';
+import { AwdDocsSectionHeader } from './section-header';
 
 export type SectionLayout = 'split-left' | 'split-right' | 'full';
 
 @Component({
-  selector: 'awd-docs-section-shell',
-  imports: [NgnDocsReveal, NgnDocsSectionHeader],
-  host: { class: 'block px-(--awd-size-padding-xl) py-12 lg:py-16' },
+  selector: 'jig-docs-section-shell',
+  imports: [AwdDocsReveal, AwdDocsSectionHeader],
+  host: { class: 'block px-(--jig-size-padding-xl) py-12 lg:py-16' },
   template: `
     <div class="mx-auto max-w-[1100px]">
-      <awd-docs-section-header
+      <jig-docs-section-header
         [ngnDocsReveal]="0"
         class="mb-8 lg:mb-12"
         [eyebrow]="eyebrow()"
@@ -23,7 +23,7 @@ export type SectionLayout = 'split-left' | 'split-right' | 'full';
       @if (isSplit()) {
         <div
           [ngnDocsReveal]="60"
-          class="grid grid-cols-1 items-center gap-(--awd-size-padding-xl) lg:grid-cols-2"
+          class="grid grid-cols-1 items-center gap-(--jig-size-padding-xl) lg:grid-cols-2"
         >
           <div [style.order]="layout() === 'split-right' ? 2 : 1">
             <ng-content select="[primary]" />
@@ -40,7 +40,7 @@ export type SectionLayout = 'split-left' | 'split-right' | 'full';
     </div>
   `,
 })
-export class NgnDocsSectionShell {
+export class AwdDocsSectionShell {
   public readonly eyebrow = input.required<string>();
   public readonly heading = input.required<string>();
   public readonly subtitle = input<string>('');

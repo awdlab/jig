@@ -1,6 +1,6 @@
 The Calendar is a single-date picker with an optional time input. Its value is a
 `Date | null` two-way `[(value)]` model — it selects one date (plus time when
-enabled), not a range. Wrap `awd-calendar` in an `awd-input-field` for popup
+enabled), not a range. Wrap `jig-calendar` in an `jig-input-field` for popup
 usage, where the field shows a masked text input and the calendar opens on
 focus/click, or set `inline` to render it unwrapped as an always-visible static
 calendar.
@@ -33,7 +33,7 @@ reflects `invalid` (setting `aria-invalid`) alongside `disabled` and `readonly`.
 
 ### States
 
-Each field pairs `awd-calendar` with `awd-input-field` to show the `readonly`,
+Each field pairs `jig-calendar` with `jig-input-field` to show the `readonly`,
 `disabled`, and `invalid` flags — on their own and in combination.
 
 {{ demo: Demo_Calendar_States }}

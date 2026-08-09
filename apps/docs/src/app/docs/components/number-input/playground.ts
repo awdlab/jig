@@ -1,28 +1,28 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { NgnNumberInput } from '@awdlab/jig/number-input';
-import { NgnSpinButtons } from '@awdlab/jig/spin-buttons';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { AwdNumberInput } from '@awdlab/jig/number-input';
+import { AwdSpinButtons } from '@awdlab/jig/spin-buttons';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-number-input-playground',
-  imports: [NgnNumberInput, NgnInputField, NgnSpinButtons, NgnDocsPlayground],
+  selector: 'jig-docs-number-input-playground',
+  imports: [AwdNumberInput, AwdInputField, AwdSpinButtons, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnNumberInput', component: component() }]">
-      <awd-input-field>
+    <jig-docs-playground [controls]="[{ componentName: 'AwdNumberInput', component: component() }]">
+      <jig-input-field>
         <input
           ngnNumberInput
           #ref="ngnNumberInput"
           [value]="value()"
           (valueChange)="value.set($event)"
         />
-        <awd-spin-buttons />
-      </awd-input-field>
-    </awd-docs-playground>
+        <jig-spin-buttons />
+      </jig-input-field>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsNumberInputPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnNumberInput });
+export class AwdDocsNumberInputPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdNumberInput });
   protected readonly value = signal<number | null>(42);
 }

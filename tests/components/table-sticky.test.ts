@@ -7,7 +7,7 @@ import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 
 const STICKY_TABLE_TEMPLATE: TemplateType = {
   template: `
-    <awd-table
+    <jig-table
       #table
       style="height: 400px; width: 600px"
       [rows]="inputs().rows"
@@ -36,7 +36,7 @@ const STICKY_TABLE_TEMPLATE: TemplateType = {
           <td ngnTableTd>{{ row.data.salary }}</td>
         </tr>
       </ng-template>
-    </awd-table>`,
+    </jig-table>`,
   imports: ['tableModule', 'tableStickyColumn', 'ngnTemplate'],
 };
 
@@ -67,7 +67,7 @@ async function loadTable(
   const handle = await loadComponent(page, STICKY_TABLE_TEMPLATE, {
     inputs: { ...DEFAULT_INPUTS, ...inputOverrides },
   });
-  await expect(page.locator('awd-table')).toBeVisible({ timeout: 10000 });
+  await expect(page.locator('jig-table')).toBeVisible({ timeout: 10000 });
   await page.waitForTimeout(300);
   return handle;
 }
@@ -78,7 +78,7 @@ test('sticky columns - start columns have position sticky', async ({ page }) => 
   await loadTable(page);
 
   const stickyInfo = await page.evaluate(() => {
-    const headers = document.querySelectorAll('awd-table th');
+    const headers = document.querySelectorAll('jig-table th');
     return Array.from(headers).map(h => ({
       text: h.textContent?.trim() || '',
       position: getComputedStyle(h).position,
@@ -98,7 +98,7 @@ test('sticky columns - end column has position sticky', async ({ page }) => {
   await loadTable(page);
 
   const stickyInfo = await page.evaluate(() => {
-    const headers = document.querySelectorAll('awd-table th');
+    const headers = document.querySelectorAll('jig-table th');
     return Array.from(headers).map(h => ({
       text: h.textContent?.trim() || '',
       position: getComputedStyle(h).position,
@@ -116,7 +116,7 @@ test('sticky columns - start columns have left offset', async ({ page }) => {
   await loadTable(page);
 
   const offsets = await page.evaluate(() => {
-    const headers = document.querySelectorAll('awd-table th') as NodeListOf<HTMLElement>;
+    const headers = document.querySelectorAll('jig-table th') as NodeListOf<HTMLElement>;
     return Array.from(headers).map(h => ({
       text: h.textContent?.trim() || '',
       left: h.style.left,
@@ -128,16 +128,16 @@ test('sticky columns - start columns have left offset', async ({ page }) => {
   const nameHeader = offsets.find(h => h.text === 'Name');
   const salaryHeader = offsets.find(h => h.text === 'Salary');
 
-  expect(idHeader?.left).toContain('--awd-sticky-start-offset-0');
-  expect(nameHeader?.left).toContain('--awd-sticky-start-offset-1');
-  expect(salaryHeader?.right).toContain('--awd-sticky-end-offset-0');
+  expect(idHeader?.left).toContain('--jig-sticky-start-offset-0');
+  expect(nameHeader?.left).toContain('--jig-sticky-start-offset-1');
+  expect(salaryHeader?.right).toContain('--jig-sticky-end-offset-0');
 });
 
 test('sticky columns - body cells inherit sticky positioning', async ({ page }) => {
   await loadTable(page);
 
   const bodyStickyInfo = await page.evaluate(() => {
-    const cells = document.querySelectorAll('awd-table td') as NodeListOf<HTMLElement>;
+    const cells = document.querySelectorAll('jig-table td') as NodeListOf<HTMLElement>;
     if (!cells.length) return [];
     // Get the first 6 cells (one row's worth)
     return Array.from(cells)
@@ -151,23 +151,23 @@ test('sticky columns - body cells inherit sticky positioning', async ({ page }) 
 
   // First two cells (ID, Name) should be sticky with left
   expect(bodyStickyInfo[0]?.position).toBe('sticky');
-  expect(bodyStickyInfo[0]?.left).toContain('--awd-sticky-start-offset-0');
+  expect(bodyStickyInfo[0]?.left).toContain('--jig-sticky-start-offset-0');
   expect(bodyStickyInfo[1]?.position).toBe('sticky');
-  expect(bodyStickyInfo[1]?.left).toContain('--awd-sticky-start-offset-1');
+  expect(bodyStickyInfo[1]?.left).toContain('--jig-sticky-start-offset-1');
 
   // Middle cells should not be sticky
   expect(bodyStickyInfo[2]?.position).not.toBe('sticky');
 
   // Last cell (Salary) should be sticky with right
   expect(bodyStickyInfo[5]?.position).toBe('sticky');
-  expect(bodyStickyInfo[5]?.right).toContain('--awd-sticky-end-offset-0');
+  expect(bodyStickyInfo[5]?.right).toContain('--jig-sticky-end-offset-0');
 });
 
 test('sticky columns - sticky classes applied to edge cells', async ({ page }) => {
   await loadTable(page);
 
   const classInfo = await page.evaluate(() => {
-    const headers = document.querySelectorAll('awd-table th') as NodeListOf<HTMLElement>;
+    const headers = document.querySelectorAll('jig-table th') as NodeListOf<HTMLElement>;
     return Array.from(headers).map(h => ({
       text: h.textContent?.trim() || '',
       hasStickyStart: h.className.includes('sticky-start'),
@@ -196,7 +196,7 @@ test('sticky columns - z-index layering for sticky cells', async ({ page }) => {
   await loadTable(page);
 
   const zIndexInfo = await page.evaluate(() => {
-    const headers = document.querySelectorAll('awd-table th') as NodeListOf<HTMLElement>;
+    const headers = document.querySelectorAll('jig-table th') as NodeListOf<HTMLElement>;
     return Array.from(headers).map(h => ({
       text: h.textContent?.trim() || '',
       zIndex: getComputedStyle(h).zIndex,
@@ -217,11 +217,11 @@ test('sticky columns - sticky columns remain visible during horizontal scroll', 
 }) => {
   await loadTable(page);
 
-  const tableContainer = page.locator('awd-table table');
+  const tableContainer = page.locator('jig-table table');
 
   // Get initial bounding box of ID header
   const idHeaderBefore = await page.evaluate(() => {
-    const th = document.querySelector('awd-table th');
+    const th = document.querySelector('jig-table th');
     return th?.getBoundingClientRect().left ?? -1;
   });
 
@@ -233,7 +233,7 @@ test('sticky columns - sticky columns remain visible during horizontal scroll', 
 
   // ID header should still be visible (near the same position due to sticky)
   const idHeaderAfter = await page.evaluate(() => {
-    const th = document.querySelector('awd-table th');
+    const th = document.querySelector('jig-table th');
     return th?.getBoundingClientRect().left ?? -1;
   });
 
@@ -246,10 +246,10 @@ test('sticky columns - reorder constrained within sticky group', async ({ page }
 
   // Get initial column order
   const initialStarts = await page.evaluate(() => {
-    const headers = document.querySelectorAll('awd-table th') as NodeListOf<HTMLElement>;
+    const headers = document.querySelectorAll('jig-table th') as NodeListOf<HTMLElement>;
     return Array.from(headers).map(h => ({
       text: h.textContent?.trim() || '',
-      colIndex: h.style.getPropertyValue('--awd-table-column-index'),
+      colIndex: h.style.getPropertyValue('--jig-table-column-index'),
     }));
   });
 
@@ -257,7 +257,7 @@ test('sticky columns - reorder constrained within sticky group', async ({ page }
   const emailStart = initialStarts.find(h => h.text === 'Email')!;
 
   // Try to drag ID (sticky-start) to Email's position (non-sticky)
-  const headers = page.locator('awd-table th');
+  const headers = page.locator('jig-table th');
   const idHeader = headers.first();
   const emailHeader = headers.nth(2);
 
@@ -286,10 +286,10 @@ test('sticky columns - reorder constrained within sticky group', async ({ page }
 
   // ID should stay within sticky group (max position 2, not move to email's position 3)
   const afterStarts = await page.evaluate(() => {
-    const headers = document.querySelectorAll('awd-table th') as NodeListOf<HTMLElement>;
+    const headers = document.querySelectorAll('jig-table th') as NodeListOf<HTMLElement>;
     return Array.from(headers).map(h => ({
       text: h.textContent?.trim() || '',
-      colIndex: parseInt(h.style.getPropertyValue('--awd-table-column-index') || '0'),
+      colIndex: parseInt(h.style.getPropertyValue('--jig-table-column-index') || '0'),
     }));
   });
 

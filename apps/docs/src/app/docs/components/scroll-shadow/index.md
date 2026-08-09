@@ -33,5 +33,5 @@ The directive also toggles `scrolled-start` / `scrolled-end` / `scrolled-top` /
 `ngnScrollShadowUnstyled` to suppress the built-in overlay and paint your own
 shadow off those classes — this is how the [Table](/components/table) anchors
 its shadow to the sticky-column edge rather than the container edge. Reuse the
-shared `--awd-scroll-shadow-color` custom property so your shadow matches the
+shared `--jig-scroll-shadow-color` custom property so your shadow matches the
 built-in one exactly.

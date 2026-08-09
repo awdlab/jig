@@ -1,4 +1,4 @@
-import { NgnError } from '@awdlab/jig/utils';
+import { AwdError } from '@awdlab/jig/utils';
 
 import { supportedLanguages } from './types';
 
@@ -50,6 +50,6 @@ export async function loadLanguage(language: SupportedLanguage): Promise<Transla
       if (customLanguages[language]) {
         return customLanguages[language]();
       }
-      return Promise.reject(new NgnError('i18n', `Unsupported language: ${language}`));
+      return Promise.reject(new AwdError('i18n', `Unsupported language: ${language}`));
   }
 }

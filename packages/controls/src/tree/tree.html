@@ -1,4 +1,4 @@
-<awd-scroller
+<jig-scroller
   [ptInt]="this"
   [ptDep]="'scroller'"
   [scrollContainer]="element.nativeElement"
@@ -51,7 +51,7 @@
         : null
     "
     [attr.aria-disabled]="disabled ? 'true' : null"
-    [style.--awd-tree-level]="node.level"
+    [style.--jig-tree-level]="node.level"
     [ptInt]="this"
     [ptClass]="{
       item: !item.items,
@@ -79,7 +79,7 @@
       >
         <span [ptInt]="this" [ptClass]="'toggle-icon'">
           @if (isLoading(item)) {
-            <awd-spinner [size]="14" />
+            <jig-spinner [size]="14" />
           } @else {
             <span [ptInt]="this" [ptClass]="'toggle-arrow'"></span>
           }
@@ -89,7 +89,7 @@
       <span [ptInt]="this" [ptClass]="'toggle-placeholder'" aria-hidden="true"></span>
     }
     @if (showCheckboxes() && selectableNode) {
-      <awd-checkbox
+      <jig-checkbox
         [ptInt]="this"
         [ptDep]="'item-checkbox'"
         [allowIndeterminate]="true"
@@ -99,7 +99,7 @@
       />
     } @else if (showCheckboxes() && selectable() && item.selectable !== false) {
       <!-- Disabled node: show the checkbox for consistency, but disabled. -->
-      <awd-checkbox
+      <jig-checkbox
         [ptInt]="this"
         [ptDep]="'item-checkbox'"
         [allowIndeterminate]="true"

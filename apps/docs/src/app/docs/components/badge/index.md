@@ -11,9 +11,9 @@ any anchor.
 {{ demo: Demo_Badge_Base }}
 
 > **Clipping hosts:** the badge overhangs its host's corner, so if the host clips
-> its overflow (e.g. `awd-avatar`, which is `overflow: hidden` to round its
+> its overflow (e.g. `jig-avatar`, which is `overflow: hidden` to round its
 > content), place `[ngnBadge]` on a thin wrapper around it — such as
-> `<span class="inline-flex" [ngnBadge]="5"><awd-avatar … /></span>` — rather than
+> `<span class="inline-flex" [ngnBadge]="5"><jig-avatar … /></span>` — rather than
 > on the element itself. Non-clipping hosts like buttons and icons take
 > `[ngnBadge]` directly.
 

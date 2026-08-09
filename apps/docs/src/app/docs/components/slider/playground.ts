@@ -1,24 +1,24 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnSlider } from '@awdlab/jig/slider';
+import { AwdSlider } from '@awdlab/jig/slider';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-slider-playground',
-  imports: [NgnSlider, NgnDocsPlayground],
+  selector: 'jig-docs-slider-playground',
+  imports: [AwdSlider, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnSlider', component: component() }]">
-      <awd-slider
+    <jig-docs-playground [controls]="[{ componentName: 'AwdSlider', component: component() }]">
+      <jig-slider
         class="flex-1"
         [class.h-[400px]]="component().vertical()"
         #ref
         [value]="value()"
         (valueChange)="value.set($event)"
       />
-    </awd-docs-playground>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsSliderPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnSlider });
+export class AwdDocsSliderPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdSlider });
   protected readonly value = signal(50);
 }

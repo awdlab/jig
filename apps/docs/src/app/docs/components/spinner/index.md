@@ -1,8 +1,8 @@
-The Spinner (`<awd-spinner>`) is an indeterminate loading indicator — an animated
+The Spinner (`<jig-spinner>`) is an indeterminate loading indicator — an animated
 circular ring for when you can't show real progress. It renders with
 `role="status"` so assistive tech treats it as a live status region. Use it while
 content is loading, inside a button during a pending action, or as the busy state
-of `<awd-state>`.
+of `<jig-state>`.
 
 ### Basic Usage
 

@@ -1,15 +1,15 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@awdlab/jig/errors';
-import { NgnHint } from '@awdlab/jig/hint';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { DATE_TIME_MASKS, NgnMaskInput, type MaskInputCfg } from '@awdlab/jig/mask-input';
+import { AwdErrors } from '@awdlab/jig/errors';
+import { AwdHint } from '@awdlab/jig/hint';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { DATE_TIME_MASKS, AwdMaskInput, type MaskInputCfg } from '@awdlab/jig/mask-input';
 
 @Component({
-  selector: 'awd-demo-mask-input-validation',
-  imports: [NgnErrors, NgnHint, NgnInputField, NgnMaskInput],
+  selector: 'jig-demo-mask-input-validation',
+  imports: [AwdErrors, AwdHint, AwdInputField, AwdMaskInput],
   template: `
-    <awd-input-field [label]="'Start time'" [labelKind]="'on'" class="w-56">
-      <awd-mask-input
+    <jig-input-field [label]="'Start time'" [labelKind]="'on'" class="w-56">
+      <jig-mask-input
         [mask]="mask"
         [value]="value()"
         (valueChange)="value.set($event ?? '')"
@@ -18,8 +18,8 @@ import { DATE_TIME_MASKS, NgnMaskInput, type MaskInputCfg } from '@awdlab/jig/ma
         [ngnErrorsCustom]="errors()"
         [ngnErrorsHint]="timeHint"
       />
-    </awd-input-field>
-    <awd-hint #timeHint />
+    </jig-input-field>
+    <jig-hint #timeHint />
   `,
 })
 export class Demo_MaskInput_Validation {

@@ -9,7 +9,7 @@ import {
   ColorSchemeService,
 } from './color-scheme';
 
-import type { NgnFeature } from './provider';
+import type { AwdFeature } from './provider';
 
 export type ColorSchemeStorageOption = 'local' | 'session' | ColorSchemeStorage;
 
@@ -54,7 +54,7 @@ export function colorSchemeInitScript(options?: { storage?: 'local' | 'session' 
   );
 }
 
-export function withAutoColorScheme(options?: { storage?: ColorSchemeStorageOption }): NgnFeature {
+export function withAutoColorScheme(options?: { storage?: ColorSchemeStorageOption }): AwdFeature {
   return {
     providers: [
       ColorSchemeService,

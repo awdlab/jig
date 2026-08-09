@@ -8,38 +8,38 @@ import {
   model,
   viewChildren,
 } from '@angular/core';
-import { NgnBase, NgnPt, provideSelf } from '@awdlab/jig/base';
-import { NgnDefer } from '@awdlab/jig/defer';
-import { NgnIcon } from '@awdlab/jig/icon';
-import { NgnRovingGroup, NgnRovingItem } from '@awdlab/jig/roving-focus';
+import { AwdBase, AwdPt, provideSelf } from '@awdlab/jig/base';
+import { AwdDefer } from '@awdlab/jig/defer';
+import { AwdIcon } from '@awdlab/jig/icon';
+import { AwdRovingGroup, AwdRovingItem } from '@awdlab/jig/roving-focus';
 import { stepperControlTemplate } from '@awdlab/jig-themes/templates/stepper';
 
-import { NgnStep } from './step';
+import { AwdStep } from './step';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'awd-stepper',
+  selector: 'jig-stepper',
   templateUrl: './stepper.html',
-  imports: [NgnPt, NgnDefer, NgnIcon, NgnRovingGroup, NgnRovingItem],
-  providers: [provideSelf(NgnStepper)],
+  imports: [AwdPt, AwdDefer, AwdIcon, AwdRovingGroup, AwdRovingItem],
+  providers: [provideSelf(AwdStepper)],
 })
-export class NgnStepper extends NgnBase<'stepper'> {
+export class AwdStepper extends AwdBase<'stepper'> {
   protected readonly theme = this.injectThemeTemplate(stepperControlTemplate, 'root');
 
-  protected readonly steps = contentChildren(NgnStep);
+  protected readonly steps = contentChildren(AwdStep);
 
   /** The header buttons' roving items, in step order (one per step; connectors are plain spans). */
-  private readonly _rovingItems = viewChildren(NgnRovingItem);
+  private readonly _rovingItems = viewChildren(AwdRovingItem);
 
   /** The active step index (zero-based). @default 0 */
   public readonly active = model<number>(0);
   /** Gate forward navigation on prior steps being `completed`. @default false */
   public readonly linear = input(false, { transform: booleanAttribute });
-  /** Lazily render step content (forwarded to `awd-defer`). @default true */
+  /** Lazily render step content (forwarded to `jig-defer`). @default true */
   public readonly lazy = input(true, { transform: booleanAttribute });
-  /** Keep opened step content in the DOM to preserve state (forwarded to `awd-defer`). @default true */
+  /** Keep opened step content in the DOM to preserve state (forwarded to `jig-defer`). @default true */
   public readonly cache = input(true, { transform: booleanAttribute });
 
   /**
@@ -70,7 +70,7 @@ export class NgnStepper extends NgnBase<'stepper'> {
 
     // Keep each header's roving item in sync with its step's NATIVE `disabled` input (not
     // `canGoTo()` gating) — a merely gated step stays arrow-focusable, only a truly disabled
-    // step is skipped by keyboard navigation. Mirrors NgnButtonGroup's roving-disabled sync.
+    // step is skipped by keyboard navigation. Mirrors AwdButtonGroup's roving-disabled sync.
     effect(() => {
       const items = this._rovingItems();
       const steps = this.steps();

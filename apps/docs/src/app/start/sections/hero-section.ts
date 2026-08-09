@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, afterNextRender, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgnButton } from '@awdlab/jig/button';
+import { AwdButton } from '@awdlab/jig/button';
 
 import { CONTROL_COUNT } from './controls-count';
 
@@ -60,8 +60,8 @@ const HOLD_MS = 3400;
 const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/jig-MCP'] as const;
 
 @Component({
-  selector: 'awd-docs-hero-section',
-  imports: [NgnButton, RouterLink],
+  selector: 'jig-docs-hero-section',
+  imports: [AwdButton, RouterLink],
   host: { '[style.--hero-hold]': "holdMs + 'ms'" },
   styles: [
     `
@@ -96,7 +96,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
         margin: 0;
         font-size: var(--hero-font-size);
         line-height: 0.9;
-        font-weight: var(--awd-font-weight-bold);
+        font-weight: var(--jig-font-weight-bold);
         letter-spacing: -0.025em;
         text-wrap: balance;
       }
@@ -191,7 +191,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
         padding-top: 0.5em;
         max-width: 26ch;
         line-height: 1.4;
-        color: var(--awd-color-surface-400);
+        color: var(--jig-color-surface-400);
         opacity: 0;
         transform: translateY(3px);
         transition:
@@ -219,8 +219,8 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
         outline-offset: 6px;
       }
 
-      .hero-link:hover .awd-angular-text,
-      .hero-link:focus-visible .awd-angular-text {
+      .hero-link:hover .jig-angular-text,
+      .hero-link:focus-visible .jig-angular-text {
         text-decoration: underline;
         text-decoration-color: #f736e3;
         text-decoration-thickness: 0.06em;
@@ -241,7 +241,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
       }
 
       .hero-cta {
-        box-shadow: 0 8px 26px color-mix(in srgb, var(--awd-color-primary-500) 22%, transparent);
+        box-shadow: 0 8px 26px color-mix(in srgb, var(--jig-color-primary-500) 22%, transparent);
         transition:
           transform 0.2s ease,
           box-shadow 0.25s ease;
@@ -249,7 +249,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
 
       .hero-cta:hover {
         transform: translateY(-2px);
-        box-shadow: 0 12px 34px color-mix(in srgb, var(--awd-color-primary-500) 40%, transparent);
+        box-shadow: 0 12px 34px color-mix(in srgb, var(--jig-color-primary-500) 40%, transparent);
       }
 
       .hero-cta-ghost {
@@ -261,8 +261,8 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
 
       .hero-cta-ghost:hover {
         transform: translateY(-2px);
-        border-color: var(--awd-color-primary-500) !important;
-        box-shadow: 0 10px 30px color-mix(in srgb, var(--awd-color-primary-500) 18%, transparent);
+        border-color: var(--jig-color-primary-500) !important;
+        box-shadow: 0 10px 30px color-mix(in srgb, var(--jig-color-primary-500) 18%, transparent);
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -290,22 +290,22 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
     `,
   ],
   template: `
-    <section class="px-(--awd-size-padding-xl) pt-32 lg:pt-44">
+    <section class="px-(--jig-size-padding-xl) pt-32 lg:pt-44">
       <div class="mx-auto flex max-w-[1240px] flex-col gap-7">
         <div
-          class="mono flex items-center justify-between gap-(--awd-size-padding-lg) text-[0.72rem] tracking-[0.16em] text-(--awd-color-surface-500) uppercase"
+          class="mono flex items-center justify-between gap-(--jig-size-padding-lg) text-[0.72rem] tracking-[0.16em] text-(--jig-color-surface-500) uppercase"
         >
           <!-- Hovering the package name lifts the rest of the family into view. -->
           <span class="hero-egg-host relative inline-flex">
             <span
-              class="hero-egg absolute bottom-full left-0 flex flex-col gap-[7px] pb-(--awd-size-padding-md)"
+              class="hero-egg absolute bottom-full left-0 flex flex-col gap-[7px] pb-(--jig-size-padding-md)"
             >
               @for (pkg of eggPackages; track pkg) {
                 <a
                   href="https://www.npmjs.com/package/{{ pkg.toLowerCase() }}"
                   target="_blank"
                   rel="noopener"
-                  class="whitespace-nowrap text-inherit no-underline hover:text-(--awd-color-text)"
+                  class="whitespace-nowrap text-inherit no-underline hover:text-(--jig-color-text)"
                   >{{ pkg }}
                 </a>
               }
@@ -314,18 +314,18 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
               href="https://www.npmjs.com/package/@awdlab/jig"
               target="_blank"
               rel="noopener"
-              class="whitespace-nowrap text-inherit no-underline hover:text-(--awd-color-text)"
+              class="whitespace-nowrap text-inherit no-underline hover:text-(--jig-color-text)"
             >
               &#64;awdlab/jig
             </a>
           </span>
           <button
             type="button"
-            class="hero-badge mono inline-flex shrink-0 cursor-pointer items-center gap-(--awd-size-padding-sm) rounded-full border border-(--awd-color-surface-300) bg-transparent px-(--awd-size-padding-md) py-1 text-[0.72rem] tracking-[0.1em] whitespace-nowrap text-(--awd-color-text) uppercase"
+            class="hero-badge mono inline-flex shrink-0 cursor-pointer items-center gap-(--jig-size-padding-sm) rounded-full border border-(--jig-color-surface-300) bg-transparent px-(--jig-size-padding-md) py-1 text-[0.72rem] tracking-[0.1em] whitespace-nowrap text-(--jig-color-text) uppercase"
             [attr.aria-label]="'Copy install command: ' + installCommand"
             (click)="copyInstall()"
           >
-            <span class="size-1.5 rounded-full bg-(--awd-color-primary-500)"></span>
+            <span class="size-1.5 rounded-full bg-(--jig-color-primary-500)"></span>
             @if (copied()) {
               copied ✓
             } @else {
@@ -338,7 +338,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
         </div>
 
         <div class="hero-cycle flex flex-col gap-7">
-          <div class="flex items-center gap-(--awd-size-padding-xl)">
+          <div class="flex items-center gap-(--jig-size-padding-xl)">
             <img
               src="img/logo.png"
               alt=""
@@ -346,7 +346,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
               height="512"
               class="hero-logo hidden shrink-0 sm:block"
             />
-            <div class="hero-stack max-w-[1000px] text-(--awd-color-text)">
+            <div class="hero-stack max-w-[1000px] text-(--jig-color-text)">
               <div class="hero-sizer" aria-hidden="true">
                 @for (phrase of phrases; track phrase.hl) {
                   <span class="hero-line">{{ phrase.pre }}{{ phrase.hl }}{{ phrase.post }}</span>
@@ -359,7 +359,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
                   aria-hidden="true"
                   (animationend)="clearLeaving()"
                 >
-                  {{ gone.pre }}<span class="awd-angular-text">{{ gone.hl }}</span
+                  {{ gone.pre }}<span class="jig-angular-text">{{ gone.hl }}</span
                   >{{ gone.post }}
                 </div>
               }
@@ -371,18 +371,18 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
                     class="hero-link"
                     [href]="'#' + phrase.target"
                     (click)="jumpTo($event, phrase.target)"
-                    ><span class="awd-angular-text">{{ phrase.hl }}</span></a
+                    ><span class="jig-angular-text">{{ phrase.hl }}</span></a
                   >{{ phrase.post }}
                 </h1>
               }
             </div>
           </div>
 
-          <div class="flex items-center gap-(--awd-size-padding-md)">
+          <div class="flex items-center gap-(--jig-size-padding-md)">
             @for (phrase of phrases; track phrase.hl; let i = $index) {
               <button
                 type="button"
-                class="flex cursor-pointer items-center border-none bg-transparent px-0 py-(--awd-size-padding-sm)"
+                class="flex cursor-pointer items-center border-none bg-transparent px-0 py-(--jig-size-padding-sm)"
                 [attr.aria-label]="
                   (i === index() && pinned() ? 'Resume rotation, headline: ' : 'Show headline: ') +
                   phrase.pre +
@@ -393,7 +393,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
                 (click)="goTo(i)"
               >
                 <span
-                  class="h-2 overflow-hidden rounded-full bg-(--awd-color-surface-200) transition-[width] duration-300"
+                  class="h-2 overflow-hidden rounded-full bg-(--jig-color-surface-200) transition-[width] duration-300"
                   [class]="i === index() ? 'w-[30px]' : 'w-2'"
                 >
                   @if (i === index()) {
@@ -409,7 +409,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
             }
             @if (pinned()) {
               <span
-                class="mono text-[0.68rem] tracking-[0.14em] text-(--awd-color-surface-400) uppercase"
+                class="mono text-[0.68rem] tracking-[0.14em] text-(--jig-color-surface-400) uppercase"
               >
                 paused · click again to resume
               </span>
@@ -418,10 +418,10 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
         </div>
 
         <div
-          class="grid items-end gap-(--awd-size-padding-xl) pb-8 lg:grid-cols-[1fr_auto] lg:gap-14"
+          class="grid items-end gap-(--jig-size-padding-xl) pb-8 lg:grid-cols-[1fr_auto] lg:gap-14"
         >
           <p
-            class="m-0 max-w-[520px] text-(length:--awd-font-size-lg) leading-relaxed text-(--awd-color-surface-600)"
+            class="m-0 max-w-[520px] text-(length:--jig-font-size-lg) leading-relaxed text-(--jig-color-surface-600)"
           >
             A
             <a
@@ -459,12 +459,12 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
               >native browser primitives</a
             >.
           </p>
-          <div class="flex flex-wrap items-center gap-(--awd-size-padding-md)">
+          <div class="flex flex-wrap items-center gap-(--jig-size-padding-md)">
             <a
               ngnButton
               kind="primary"
               routerLink="/guides/introduction"
-              class="hero-cta group rounded-full px-(--awd-size-padding-xl) text-(length:--awd-font-size-md) font-(--awd-font-weight-bold)"
+              class="hero-cta group rounded-full px-(--jig-size-padding-xl) text-(length:--jig-font-size-md) font-(--jig-font-weight-bold)"
             >
               Get Started
               <span
@@ -478,7 +478,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
               ngnButton
               kind="secondary"
               routerLink="/components"
-              class="hero-cta-ghost rounded-full px-(--awd-size-padding-xl) text-(length:--awd-font-size-md) font-(--awd-font-weight-bold)"
+              class="hero-cta-ghost rounded-full px-(--jig-size-padding-xl) text-(length:--jig-font-size-md) font-(--jig-font-weight-bold)"
             >
               View Components
             </a>
@@ -489,13 +489,13 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
       <div class="hero-rule"></div>
 
       <div
-        class="mono mx-auto grid max-w-[1240px] grid-cols-2 gap-x-(--awd-size-padding-lg) gap-y-(--awd-size-padding-lg) pt-8 pb-20 text-(length:--awd-font-size-sm) text-(--awd-color-surface-500) sm:grid-cols-4 lg:pb-28"
+        class="mono mx-auto grid max-w-[1240px] grid-cols-2 gap-x-(--jig-size-padding-lg) gap-y-(--jig-size-padding-lg) pt-8 pb-20 text-(length:--jig-font-size-sm) text-(--jig-color-surface-500) sm:grid-cols-4 lg:pb-28"
       >
         <!-- The proof line stays in the a11y tree; hovering just fades it in. -->
         @for (stat of stats; track stat.label) {
           <div class="hero-stat group">
             <span
-              ><span class="text-(--awd-color-text)">{{ stat.value }}</span> {{ stat.label }}</span
+              ><span class="text-(--jig-color-text)">{{ stat.value }}</span> {{ stat.label }}</span
             >
             <span class="hero-stat-proof">{{ stat.proof }}</span>
           </div>
@@ -504,7 +504,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
     </section>
   `,
 })
-export class NgnDocsHeroSection {
+export class AwdDocsHeroSection {
   private readonly _http = inject(HttpClient);
 
   protected readonly stats = STATS;

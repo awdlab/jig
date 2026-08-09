@@ -1,4 +1,4 @@
-import { NgnPopoverHarness } from '@awdlab/jig-playwright';
+import { AwdPopoverHarness } from '@awdlab/jig-playwright';
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
@@ -8,12 +8,12 @@ test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `
       <button #anchor (click)="popover.show()">Open</button>
-      <awd-popover #popover [anchor]="anchor"> Content </awd-popover>
+      <jig-popover #popover [anchor]="anchor"> Content </jig-popover>
     `,
     imports: ['popover'],
   });
 
-  const popover = new NgnPopoverHarness(page.locator('awd-popover').first());
+  const popover = new AwdPopoverHarness(page.locator('jig-popover').first());
   await popover.expectRendered();
   await expectScreenshot(page, testInfo, 'closed');
 
@@ -27,17 +27,17 @@ test('lazy', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `
       <button #anchor (click)="popover.show()">Open</button>
-      <awd-popover #popover [anchor]="anchor" [options]="{ cache: true }">
+      <jig-popover #popover [anchor]="anchor" [options]="{ cache: true }">
         <ng-template #lazy>
           <dummy>
             Content
           </dummy>
         </ng-template>
-      </awd-popover>
+      </jig-popover>
     `,
     imports: ['popover', 'dummy_component'],
   });
-  const popover = new NgnPopoverHarness(page.locator('awd-popover').first());
+  const popover = new AwdPopoverHarness(page.locator('jig-popover').first());
   await popover.expectRendered(false);
   await expectScreenshot(page, testInfo, 'closed');
 
@@ -53,24 +53,24 @@ test('stale reference after removal', async ({ page }) => {
     template: `
       <button #anchor>Open</button>
       @if (inputs().visible) {
-        <awd-popover #popover [anchor]="anchor"> Content </awd-popover>
+        <jig-popover #popover [anchor]="anchor"> Content </jig-popover>
       }
     `,
     imports: ['popover'],
   });
   await handle.setInputs({ visible: true });
 
-  const popover = new NgnPopoverHarness(page.locator('awd-popover').first());
+  const popover = new AwdPopoverHarness(page.locator('jig-popover').first());
   await popover.expectRendered();
 
   // Keep a reference (as consumers driving show()/hide() imperatively do), then drop the popover.
   await page.evaluate(() => {
-    const el = document.querySelector('awd-popover')!;
+    const el = document.querySelector('jig-popover')!;
     (window as any).__popover = (window as any).ng.getComponent(el);
     (window as any).__popover.show();
   });
   await handle.setInputs({ visible: false });
-  await expect(page.locator('awd-popover')).toHaveCount(0);
+  await expect(page.locator('jig-popover')).toHaveCount(0);
 
   const error = await page.evaluate(() => {
     try {
@@ -92,16 +92,16 @@ test('a popover left visible outside the top layer does not reflow its anchor', 
     template: `
       <div>
         <button #anchor (click)="popover.show()">Open</button>
-        <awd-popover #popover [anchor]="anchor">
+        <jig-popover #popover [anchor]="anchor">
           <div style="width: 200px; height: 300px">Content</div>
-        </awd-popover>
+        </jig-popover>
       </div>
       <div id="after" style="height: 20px"></div>
     `,
     imports: ['popover'],
   });
 
-  const popover = new NgnPopoverHarness(page.locator('awd-popover').first());
+  const popover = new AwdPopoverHarness(page.locator('jig-popover').first());
   await page.locator('button').first().click();
   await popover.expectOpened();
 
@@ -111,7 +111,7 @@ test('a popover left visible outside the top layer does not reflow its anchor', 
   // Safari drops a closing popover out of the top layer while it is still displayed. Force that
   // state: in flow the 300px content would push everything below it down.
   await page
-    .locator('awd-popover > div')
+    .locator('jig-popover > div')
     .first()
     .evaluate((el: HTMLElement) => {
       el.hidePopover();
@@ -125,12 +125,12 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(page, {
     template: `
       <button #anchor (click)="popover.show()">Open</button>
-      <awd-popover #popover [anchor]="anchor"> Content </awd-popover>
+      <jig-popover #popover [anchor]="anchor"> Content </jig-popover>
     `,
     imports: ['popover'],
   });
 
-  const popover = new NgnPopoverHarness(page.locator('awd-popover').first());
+  const popover = new AwdPopoverHarness(page.locator('jig-popover').first());
 
   // Open so the scan covers the opened overlay content.
   await page.locator('button').first().click();

@@ -1,45 +1,45 @@
 import { Component } from '@angular/core';
-import { NgnCalendar } from '@awdlab/jig/calendar';
-import { NgnInputField } from '@awdlab/jig/input-field';
+import { AwdCalendar } from '@awdlab/jig/calendar';
+import { AwdInputField } from '@awdlab/jig/input-field';
 
 @Component({
-  selector: 'awd-demo-calendar-states',
-  imports: [NgnCalendar, NgnInputField],
+  selector: 'jig-demo-calendar-states',
+  imports: [AwdCalendar, AwdInputField],
   template: `
     Default:
-    <awd-input-field>
-      <awd-calendar [inputId]="'calendar-states-default'" />
-    </awd-input-field>
+    <jig-input-field>
+      <jig-calendar [inputId]="'calendar-states-default'" />
+    </jig-input-field>
     Readonly:
-    <awd-input-field>
-      <awd-calendar [inputId]="'calendar-states-readonly'" readonly />
-    </awd-input-field>
+    <jig-input-field>
+      <jig-calendar [inputId]="'calendar-states-readonly'" readonly />
+    </jig-input-field>
     Disabled:
-    <awd-input-field>
-      <awd-calendar [inputId]="'calendar-states-disabled'" disabled />
-    </awd-input-field>
+    <jig-input-field>
+      <jig-calendar [inputId]="'calendar-states-disabled'" disabled />
+    </jig-input-field>
     Invalid:
-    <awd-input-field>
-      <awd-calendar [inputId]="'calendar-states-invalid'" [invalidOn]="'immediate'" invalid />
-    </awd-input-field>
+    <jig-input-field>
+      <jig-calendar [inputId]="'calendar-states-invalid'" [invalidOn]="'immediate'" invalid />
+    </jig-input-field>
     Invalid + Readonly:
-    <awd-input-field>
-      <awd-calendar
+    <jig-input-field>
+      <jig-calendar
         [inputId]="'calendar-states-invalid-readonly'"
         [invalidOn]="'immediate'"
         invalid
         readonly
       />
-    </awd-input-field>
+    </jig-input-field>
     Invalid + Disabled:
-    <awd-input-field>
-      <awd-calendar
+    <jig-input-field>
+      <jig-calendar
         [inputId]="'calendar-states-invalid-disabled'"
         [invalidOn]="'immediate'"
         invalid
         disabled
       />
-    </awd-input-field>
+    </jig-input-field>
   `,
   host: { class: 'w-48' },
 })

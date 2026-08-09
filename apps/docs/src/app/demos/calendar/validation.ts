@@ -1,15 +1,15 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnCalendar } from '@awdlab/jig/calendar';
-import { NgnErrors } from '@awdlab/jig/errors';
-import { NgnHint } from '@awdlab/jig/hint';
-import { NgnInputField } from '@awdlab/jig/input-field';
+import { AwdCalendar } from '@awdlab/jig/calendar';
+import { AwdErrors } from '@awdlab/jig/errors';
+import { AwdHint } from '@awdlab/jig/hint';
+import { AwdInputField } from '@awdlab/jig/input-field';
 
 @Component({
-  selector: 'awd-demo-calendar-validation',
-  imports: [NgnCalendar, NgnErrors, NgnHint, NgnInputField],
+  selector: 'jig-demo-calendar-validation',
+  imports: [AwdCalendar, AwdErrors, AwdHint, AwdInputField],
   template: `
-    <awd-input-field [label]="'Due date'" [labelKind]="'on'" class="w-64">
-      <awd-calendar
+    <jig-input-field [label]="'Due date'" [labelKind]="'on'" class="w-64">
+      <jig-calendar
         [value]="value()"
         (valueChange)="value.set($event)"
         ngnErrors
@@ -17,8 +17,8 @@ import { NgnInputField } from '@awdlab/jig/input-field';
         [ngnErrorsCustom]="errors()"
         [ngnErrorsHint]="dateHint"
       />
-    </awd-input-field>
-    <awd-hint #dateHint />
+    </jig-input-field>
+    <jig-hint #dateHint />
   `,
 })
 export class Demo_Calendar_Validation {

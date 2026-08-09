@@ -17,10 +17,10 @@ Add the `withAutoColorScheme()` feature to the provider. This is required — it
 registers the service and eagerly instantiates it so the class actually toggles:
 
 ```ts
-import { provideNgnControls, withAutoColorScheme } from '@awdlab/jig/api/ng';
+import { provideAwdControls, withAutoColorScheme } from '@awdlab/jig/api/ng';
 import { nova } from '@awdlab/jig-themes/nova';
 
-provideNgnControls(
+provideAwdControls(
   { theme: { preset: nova } },
   withAutoColorScheme() // persists to localStorage by default
 );
@@ -56,7 +56,7 @@ export class ThemeToggle {
 > **Avoiding a flash.** Because the class is applied after Angular boots, add a tiny inline
 > script to `index.html` that reads the stored preference (and `prefers-color-scheme`) and
 > sets the `dark` class _before_ first paint. The `colorSchemeInitScript()` helper
-> generates one; keep its storage key (`awd-color-scheme`) in sync.
+> generates one; keep its storage key (`jig-color-scheme`) in sync.
 
 ### Dark mode needs a dark-aware theme
 

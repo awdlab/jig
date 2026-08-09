@@ -15,7 +15,7 @@ import {
 import { matchesShortcut, parseShortcut } from './shortcut';
 
 /** One shortcut and the callback it runs. */
-export type NgnShortcutBinding = {
+export type AwdShortcutBinding = {
   /** Shortcut config string, e.g. `mod+shift+a`. */
   shortcut: string;
   /** Runs when the combo is pressed while focus is inside the scope. */
@@ -46,13 +46,13 @@ function firesWhileEditing(key: string): boolean {
   return FIRES_WHILE_EDITING.test(key.toLowerCase());
 }
 
-const SCOPES = new WeakMap<Element, NgnKeyboardShortcut>();
+const SCOPES = new WeakMap<Element, AwdKeyboardShortcut>();
 
 /** Bumped whenever a scope enrolls or is torn down, so `closestShortcutScope` reruns in an effect. */
 const SCOPES_VERSION = signal(0);
 
 /** The nearest shortcut scope at or above `element`, or null when there is none. */
-export function closestShortcutScope(element: Element | null): NgnKeyboardShortcut | null {
+export function closestShortcutScope(element: Element | null): AwdKeyboardShortcut | null {
   SCOPES_VERSION();
   for (let node = element; node; node = node.parentElement) {
     const scope = SCOPES.get(node);
@@ -65,7 +65,7 @@ export function closestShortcutScope(element: Element | null): NgnKeyboardShortc
 
 /**
  * Runs shortcut callbacks while focus is inside the host element — or anywhere on the page for
- * a binding marked {@link NgnShortcutBinding.global}. A handled shortcut stops propagating, so a
+ * a binding marked {@link AwdShortcutBinding.global}. A handled shortcut stops propagating, so a
  * nested scope wins over an outer one.
  *
  * @category directive
@@ -76,18 +76,18 @@ export function closestShortcutScope(element: Element | null): NgnKeyboardShortc
     '(keydown)': 'onKeydown($event)',
   },
 })
-export class NgnKeyboardShortcut {
+export class AwdKeyboardShortcut {
   /**
    * Shortcuts owned by this scope. Descendant registrations (e.g. an
-   * {@link NgnActionButton} config's `shortcut`) are checked before these.
+   * {@link AwdActionButton} config's `shortcut`) are checked before these.
    */
-  public readonly bindings = input<NgnShortcutBinding[]>([], { alias: 'ngnKeyboardShortcut' });
+  public readonly bindings = input<AwdShortcutBinding[]>([], { alias: 'ngnKeyboardShortcut' });
 
   private readonly _host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly _document = inject(DOCUMENT);
   private readonly _isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  private readonly _registered = new Set<() => NgnShortcutBinding>();
+  private readonly _registered = new Set<() => AwdShortcutBinding>();
   /** Bumped on register/unregister so {@link _hasGlobalBinding} reruns for descendant bindings. */
   private readonly _registeredVersion = signal(0);
 
@@ -116,7 +116,7 @@ export class NgnKeyboardShortcut {
   }
 
   /** Adds a descendant-owned binding and returns its unregister function. */
-  public register(binding: () => NgnShortcutBinding): () => void {
+  public register(binding: () => AwdShortcutBinding): () => void {
     this._registered.add(binding);
     this._registeredVersion.update(v => v + 1);
     return () => {
@@ -156,7 +156,7 @@ export class NgnKeyboardShortcut {
     }
   }
 
-  private candidates(): NgnShortcutBinding[] {
+  private candidates(): AwdShortcutBinding[] {
     return [...[...this._registered].map(binding => binding()), ...this.bindings()];
   }
 }

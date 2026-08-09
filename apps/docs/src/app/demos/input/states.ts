@@ -1,35 +1,35 @@
 import { Component } from '@angular/core';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
 
 @Component({
-  selector: 'awd-demo-input-states',
-  imports: [NgnInput, NgnInputField],
+  selector: 'jig-demo-input-states',
+  imports: [AwdInput, AwdInputField],
   template: `
     Default:
-    <awd-input-field>
+    <jig-input-field>
       <input ngnInput value="Some Text" />
-    </awd-input-field>
+    </jig-input-field>
     Readonly:
-    <awd-input-field>
+    <jig-input-field>
       <input ngnInput value="Some Text" readonly />
-    </awd-input-field>
+    </jig-input-field>
     Disabled:
-    <awd-input-field>
+    <jig-input-field>
       <input ngnInput value="Some Text" disabled />
-    </awd-input-field>
+    </jig-input-field>
     Invalid:
-    <awd-input-field>
+    <jig-input-field>
       <input ngnInput value="Some Text" [invalidOn]="'immediate'" invalid />
-    </awd-input-field>
+    </jig-input-field>
     Invalid + Readonly:
-    <awd-input-field>
+    <jig-input-field>
       <input ngnInput value="Some Text" [invalidOn]="'immediate'" invalid readonly />
-    </awd-input-field>
+    </jig-input-field>
     Invalid + Disabled:
-    <awd-input-field>
+    <jig-input-field>
       <input ngnInput value="Some Text" [invalidOn]="'immediate'" invalid disabled />
-    </awd-input-field>
+    </jig-input-field>
   `,
   host: { class: 'w-48' },
 })

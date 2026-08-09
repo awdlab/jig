@@ -1,17 +1,17 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnHint } from '@awdlab/jig/hint';
+import { AwdHint } from '@awdlab/jig/hint';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-hint-playground',
-  imports: [NgnHint, NgnDocsPlayground],
+  selector: 'jig-docs-hint-playground',
+  imports: [AwdHint, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnHint', component: component() }]">
-      <awd-hint #ref>This is a hint</awd-hint>
-    </awd-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'AwdHint', component: component() }]">
+      <jig-hint #ref>This is a hint</jig-hint>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsHintPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnHint });
+export class AwdDocsHintPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdHint });
 }

@@ -2,7 +2,7 @@ import { computed, contentChild, Directive, input, TemplateRef, viewChild } from
 import { templateTypesFn } from '@awdlab/jig/api/ng';
 import { ValueControlBase } from '@awdlab/jig/base';
 
-import type { NgnItem } from '@awdlab/jig/api';
+import type { JigItem } from '@awdlab/jig/api';
 import type { InputGeneric } from '@awdlab/jig/utils';
 
 /**
@@ -108,10 +108,10 @@ export abstract class SelectTemplates<
    */
   public readonly templateTypes = templateTypesFn<{
     item: {
-      $implicit: NgnItem<unknown, V> | undefined;
+      $implicit: JigItem<unknown, V> | undefined;
     };
     selectedItems: {
-      $implicit: NgnItem<unknown, V>[];
+      $implicit: JigItem<unknown, V>[];
     };
   }>();
 }

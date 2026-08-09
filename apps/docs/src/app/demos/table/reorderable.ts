@@ -1,16 +1,16 @@
 import { JsonPipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnTableModule } from '@awdlab/jig/table';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdTableModule } from '@awdlab/jig/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnTableModule, NgnTemplate, JsonPipe],
-  selector: 'awd-demo-table-reorderable',
+  imports: [AwdTableModule, AwdTemplate, JsonPipe],
+  selector: 'jig-demo-table-reorderable',
   host: { style: 'display: block; width: 100%' },
   template: `
-    <awd-table
+    <jig-table
       #table
       style="height: 400px; width: 100%"
       [rows]="rows"
@@ -34,7 +34,7 @@ import { exampleData } from '../../helper/data';
           <td ngnTableTd>{{ row.data.location }}</td>
         </tr>
       </ng-template>
-    </awd-table>
+    </jig-table>
     <p style="margin-top: 8px; font-size: 14px; color: #666;">
       Column order: {{ columnOrder() | json }}
     </p>

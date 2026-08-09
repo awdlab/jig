@@ -205,7 +205,7 @@ function buildControls(): PackControl[] {
       // so every entry stays individually addressable by `get_control`.
       const moduleName = String(mod.name).split('/').pop()!;
       const name = controls.some(c => c.name === moduleName)
-        ? identToScope(cls.name.replace(/^Awd/, ''))
+        ? identToScope(cls.name.replace(/^Jig/, ''))
         : moduleName;
 
       const byId = new Map<number, Any>((cls.children ?? []).map((c: Any) => [c.id, c]));
@@ -218,7 +218,7 @@ function buildControls(): PackControl[] {
       const classSummary = partsToText(cls.comment?.summary);
       const summary = firstSentence(usage) || classSummary || `The ${cls.name} ${kind}.`;
 
-      const fallbackSelector = kind === 'control' ? `awd-${name}` : `[awd${pascal(name)}]`;
+      const fallbackSelector = kind === 'control' ? `jig-${name}` : `[jig${pascal(name)}]`;
       const selector = selectorFor(String(mod.name), cls.name, fallbackSelector);
 
       controls.push({
@@ -402,7 +402,7 @@ function scenarioName(base: string): string {
 
 /**
  * Derive real usage examples from the docs demos. Each demo is a standalone,
- * compiled Angular component with `imports:` (the awd controls it uses) and an
+ * compiled Angular component with `imports:` (the jig controls it uses) and an
  * inline `template:` — exactly the "how do I actually wire this" snippet an
  * agent wants, straight from code that is known to build.
  */
@@ -421,7 +421,7 @@ function buildExamples(): PackExample[] {
       const template = src.match(/template:\s*`([\s\S]*?)`/)?.[1]?.trim();
       if (!template) continue;
 
-      // awd controls the demo imports, e.g. `@awdlab/jig/input-field`.
+      // jig controls the demo imports, e.g. `@awdlab/jig/input-field`.
       const controls = [
         ...new Set([...src.matchAll(/@awdlab\/controls\/([a-z][a-z0-9-]*)/g)].map(m => m[1]!)),
       ].filter(c => c !== 'utils');
@@ -469,28 +469,28 @@ function loadRecipes(): Recipe[] {
   return recipes;
 }
 
-/** awd selector tokens (elements + attribute directives) a real control exposes. */
+/** jig selector tokens (elements + attribute directives) a real control exposes. */
 function knownSelectorTokens(controls: PackControl[]): Set<string> {
   const known = new Set<string>();
   for (const c of controls) {
-    for (const m of c.selector.matchAll(/awd-[a-z0-9-]+/g)) known.add(m[0]);
-    for (const m of c.selector.matchAll(/awd[A-Z][A-Za-z0-9]*/g)) known.add(m[0]);
+    for (const m of c.selector.matchAll(/jig-[a-z0-9-]+/g)) known.add(m[0]);
+    for (const m of c.selector.matchAll(/jig[A-Z][A-Za-z0-9]*/g)) known.add(m[0]);
   }
   return known;
 }
 
-/** Map every awd selector token (element + attribute) to its control. */
+/** Map every jig selector token (element + attribute) to its control. */
 function controlBySelectorToken(controls: PackControl[]): Map<string, PackControl> {
   const map = new Map<string, PackControl>();
   for (const c of controls) {
-    for (const m of c.selector.matchAll(/awd-[a-z0-9-]+/g)) map.set(m[0], c);
-    for (const m of c.selector.matchAll(/awd[A-Z][A-Za-z0-9]*/g)) map.set(m[0], c);
+    for (const m of c.selector.matchAll(/jig-[a-z0-9-]+/g)) map.set(m[0], c);
+    for (const m of c.selector.matchAll(/jig[A-Z][A-Za-z0-9]*/g)) map.set(m[0], c);
   }
   return map;
 }
 
 /**
- * If a prop-map `to` names a single awd input/model (a bare `identifier` or a
+ * If a prop-map `to` names a single jig input/model (a bare `identifier` or a
  * `[(model)]` binding), return that identifier; otherwise `null` (it's free
  * text like "kind / color" or "(text content)" and isn't validated).
  */
@@ -504,8 +504,8 @@ function inputTokenOf(to: string): string | null {
 
 /**
  * Guard against migration drift:
- *  1. Every component `to` target must reference a real awd selector.
- *  2. Every prop-map `to` that names a single awd input must exist on the
+ *  1. Every component `to` target must reference a real jig selector.
+ *  2. Every prop-map `to` that names a single jig input must exist on the
  *     target control (checked across all controls the `to` references).
  * Catches renamed/mistyped controls AND wrong input names at build time.
  */
@@ -521,12 +521,12 @@ function validateMigrations(migrations: Migration[], controls: PackControl[]): v
       // (1) selector validity + collect the target controls this row points at.
       const targetControls: PackControl[] = [];
       for (const to of targets) {
-        const tokens = [...to.matchAll(/awd-[a-z0-9-]+|awd[A-Z][A-Za-z0-9]*/g)].map(x => x[0]!);
+        const tokens = [...to.matchAll(/jig-[a-z0-9-]+|jig[A-Z][A-Za-z0-9]*/g)].map(x => x[0]!);
         if (!tokens.length) {
-          // A component with no awd selector is only valid if it documents why
+          // A component with no jig selector is only valid if it documents why
           // (a `gaps` entry) — i.e. an intentional "no direct equivalent".
           if (!comp.gaps?.length) {
-            errors.push(`[${m.source}] "${comp.from}" → "${to}" has no awd selector token`);
+            errors.push(`[${m.source}] "${comp.from}" → "${to}" has no jig selector token`);
           }
           continue;
         }
@@ -541,7 +541,7 @@ function validateMigrations(migrations: Migration[], controls: PackControl[]): v
         }
       }
 
-      // (2) prop targets that name a single awd input must exist on some target.
+      // (2) prop targets that name a single jig input must exist on some target.
       if (targetControls.length && comp.props) {
         const inputs = new Set(
           targetControls.flatMap(c => [...c.inputs, ...c.outputs].map(p => p.name))

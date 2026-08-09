@@ -1,1 +1,1 @@
-{{ api: directives/resizable NgnResizable }}
+{{ api: directives/resizable AwdResizable }}

@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { NgnColorPicker } from '@awdlab/jig/color-picker';
+import { AwdColorPicker } from '@awdlab/jig/color-picker';
 
 @Component({
-  selector: 'awd-demo-color-picker-inline',
-  imports: [NgnColorPicker],
-  template: `<awd-color-picker
+  selector: 'jig-demo-color-picker-inline',
+  imports: [AwdColorPicker],
+  template: `<jig-color-picker
     [inline]="true"
     [value]="value()"
     (valueChange)="value.set($event)"

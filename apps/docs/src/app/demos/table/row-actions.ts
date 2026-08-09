@@ -5,17 +5,17 @@ import tablerDots from '@iconify/icons-tabler/dots';
 import tablerEdit from '@iconify/icons-tabler/edit';
 import tablerShare from '@iconify/icons-tabler/share';
 import tablerTrash from '@iconify/icons-tabler/trash';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnTableModule } from '@awdlab/jig/table';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdTableModule } from '@awdlab/jig/table';
 
 import { exampleData } from '../../helper/data';
 
-import type { NgnActionItem } from '@awdlab/jig/api';
+import type { JigActionItem } from '@awdlab/jig/api';
 
 @Component({
-  imports: [NgnTableModule, NgnTemplate],
-  selector: 'awd-demo-table-row-actions',
-  template: `<awd-table #table style="height: 400px" [rows]="rows" [fieldId]="'id'">
+  imports: [AwdTableModule, AwdTemplate],
+  selector: 'jig-demo-table-row-actions',
+  template: `<jig-table #table style="height: 400px" [rows]="rows" [fieldId]="'id'">
     <ng-template #header>
       <tr ngnTableHeadTr>
         <th [ngnTableTh]="table.column('id')">ID</th>
@@ -32,14 +32,14 @@ import type { NgnActionItem } from '@awdlab/jig/api';
         <td ngnTableTd>{{ row.data.location }}</td>
       </tr>
     </ng-template>
-  </awd-table>`,
+  </jig-table>`,
 })
 export class Demo_Table_RowActions {
   protected readonly rows = exampleData.table(100);
 
-  protected actionsFor(row: { index: number; data: { name: string } }): NgnActionItem[] {
+  protected actionsFor(row: { index: number; data: { name: string } }): JigActionItem[] {
     const name = row.data.name;
-    const actions: NgnActionItem[] = [
+    const actions: JigActionItem[] = [
       { id: 'edit', label: 'Edit', icon: tablerEdit, callback: () => alert(`Edit ${name}`) },
       { id: 'delete', label: 'Delete', icon: tablerTrash, callback: () => alert(`Delete ${name}`) },
     ];

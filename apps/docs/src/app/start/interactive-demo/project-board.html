@@ -1,25 +1,25 @@
 <div class="flex h-full min-h-0">
   <!-- ── Project navigation (tree) ─────────────────────────────────────── -->
   <aside
-    class="hidden w-60 shrink-0 flex-col border-r border-(--awd-color-surface-200) bg-(--awd-color-surface-50) lg:flex"
+    class="hidden w-60 shrink-0 flex-col border-r border-(--jig-color-surface-200) bg-(--jig-color-surface-50) lg:flex"
   >
-    <div class="px-(--awd-size-padding-lg) pt-(--awd-size-padding-lg) pb-(--awd-size-padding-sm)">
+    <div class="px-(--jig-size-padding-lg) pt-(--jig-size-padding-lg) pb-(--jig-size-padding-sm)">
       <span
-        class="flex items-center gap-(--awd-size-padding-sm) text-(length:--awd-font-size-xs) font-(--awd-font-weight-semibold) tracking-wide text-(--awd-color-surface-500) uppercase"
+        class="flex items-center gap-(--jig-size-padding-sm) text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-500) uppercase"
       >
-        <awd-icon [icon]="clipboardIcon" /> Projects
+        <jig-icon [icon]="clipboardIcon" /> Projects
       </span>
     </div>
     <!-- Decorative nav: expanded by default, active board fixed-selected, not changeable.
          pt drops the tree's own border + background so it blends into the panel. -->
-    <awd-tree
+    <jig-tree
       [items]="projectTree"
       [multiple]="false"
       [value]="selectedProject"
       [expandedValues]="expandedProjects"
       [selectable]="false"
       [pt]="treePt"
-      class="min-h-0 grow px-(--awd-size-padding-sm) pb-(--awd-size-padding-lg)"
+      class="min-h-0 grow px-(--jig-size-padding-sm) pb-(--jig-size-padding-lg)"
     />
   </aside>
 
@@ -27,44 +27,44 @@
   <div class="flex min-w-0 grow flex-col">
     <!-- Toolbar -->
     <header
-      class="flex flex-col gap-(--awd-size-padding-md) border-b border-(--awd-color-surface-200) px-(--awd-size-padding-lg) py-(--awd-size-padding-md)"
+      class="flex flex-col gap-(--jig-size-padding-md) border-b border-(--jig-color-surface-200) px-(--jig-size-padding-lg) py-(--jig-size-padding-md)"
     >
       <!-- Row 1: title + people + add -->
-      <div class="flex flex-wrap items-center gap-(--awd-size-padding-md)">
-        <awd-icon
+      <div class="flex flex-wrap items-center gap-(--jig-size-padding-md)">
+        <jig-icon
           [icon]="boardIcon"
-          class="shrink-0 text-(length:--awd-font-size-xl) text-(--awd-color-primary-500)"
+          class="shrink-0 text-(length:--jig-font-size-xl) text-(--jig-color-primary-500)"
         />
-        <awd-edit-inplace
-          class="text-(length:--awd-font-size-lg) font-(--awd-font-weight-bold)"
+        <jig-edit-inplace
+          class="text-(length:--jig-font-size-lg) font-(--jig-font-weight-bold)"
           [value]="boardTitle()"
           (valueChange)="boardTitle.set($event)"
         />
-        <span class="text-(length:--awd-font-size-sm) text-(--awd-color-surface-400)">
+        <span class="text-(length:--jig-font-size-sm) text-(--jig-color-surface-400)">
           {{ visibleTasks().length }} tasks
         </span>
 
         <span class="grow"></span>
 
-        <awd-avatar-group>
+        <jig-avatar-group>
           @for (m of members; track m.id) {
-            <awd-avatar
+            <jig-avatar
               [initials]="m.initials"
               [bgColor]="m.color"
               [size]="30"
               [ngnTooltip]="m.name"
             />
           }
-        </awd-avatar-group>
+        </jig-avatar-group>
 
         <button ngnButton kind="primary" (click)="addTask()">
-          <awd-icon [icon]="plusIcon" /> Add task
+          <jig-icon [icon]="plusIcon" /> Add task
         </button>
       </div>
 
       <!-- Row 2: filter + view controls -->
-      <div class="flex flex-wrap items-center gap-(--awd-size-padding-md)">
-        <awd-filter
+      <div class="flex flex-wrap items-center gap-(--jig-size-padding-md)">
+        <jig-filter
           mode="input"
           dataType="string"
           [data]="taskTitles()"
@@ -73,7 +73,7 @@
 
         <span class="grow"></span>
 
-        <awd-toggle-button
+        <jig-toggle-button
           label="My tasks"
           [pt]="nowrapPt"
           [value]="myTasksOnly()"
@@ -81,7 +81,7 @@
         />
 
         <!-- Card density -->
-        <awd-select-button
+        <jig-select-button
           [options]="densityOptions"
           [value]="density()"
           (valueChange)="density.set($event)"
@@ -91,69 +91,69 @@
 
     <!-- Overdue banner -->
     @if (overdueCount() > 0) {
-      <div class="px-(--awd-size-padding-lg) pt-(--awd-size-padding-md)">
-        <awd-message kind="outlined" color="warning">
+      <div class="px-(--jig-size-padding-lg) pt-(--jig-size-padding-md)">
+        <jig-message kind="outlined" color="warning">
           {{ overdueCount() }} task{{ overdueCount() === 1 ? '' : 's' }} past due — review the
           highlighted cards.
-        </awd-message>
+        </jig-message>
       </div>
     }
 
     <!-- Board / List views -->
-    <awd-tabs [(activeTab)]="view" class="flex min-h-0 grow flex-col">
-      <awd-tab tabId="board">
+    <jig-tabs [(activeTab)]="view" class="flex min-h-0 grow flex-col">
+      <jig-tab tabId="board">
         <ng-template #header>
-          <span class="flex items-center gap-(--awd-size-padding-sm)">
-            <awd-icon [icon]="boardIcon" /> Board
+          <span class="flex items-center gap-(--jig-size-padding-sm)">
+            <jig-icon [icon]="boardIcon" /> Board
           </span>
         </ng-template>
         <ng-template #content>
           <!-- Horizontal column scroll -->
-          <div class="h-[42rem] overflow-x-auto p-(--awd-size-padding-lg)">
-            <div class="flex h-full gap-(--awd-size-padding-lg)">
+          <div class="h-[42rem] overflow-x-auto p-(--jig-size-padding-lg)">
+            <div class="flex h-full gap-(--jig-size-padding-lg)">
               @for (col of columns; track col.id) {
                 <section
-                  class="flex h-full w-[min(18rem,calc(100vw-7rem))] shrink-0 flex-col rounded-(--awd-size-rounded-lg) border bg-(--awd-color-surface-100) transition-colors"
+                  class="flex h-full w-[min(18rem,calc(100vw-7rem))] shrink-0 flex-col rounded-(--jig-size-rounded-lg) border bg-(--jig-color-surface-100) transition-colors"
                   [class]="
                     dragOverCol() === col.id
-                      ? 'border-(--awd-color-primary-400)'
-                      : 'border-(--awd-color-surface-200)'
+                      ? 'border-(--jig-color-primary-400)'
+                      : 'border-(--jig-color-surface-200)'
                   "
                   (dragover)="$event.preventDefault()"
                   (dragenter)="dragOverCol.set(col.id)"
                   (drop)="onDrop(col.id)"
                 >
                   <header
-                    class="flex items-center gap-(--awd-size-padding-sm) px-(--awd-size-padding-md) py-(--awd-size-padding-md)"
+                    class="flex items-center gap-(--jig-size-padding-sm) px-(--jig-size-padding-md) py-(--jig-size-padding-md)"
                   >
                     <span
                       aria-hidden="true"
                       class="size-2 rounded-full"
-                      [style.background]="'var(--awd-color-' + col.color + '-500)'"
+                      [style.background]="'var(--jig-color-' + col.color + '-500)'"
                     ></span>
-                    <span class="font-(--awd-font-weight-semibold)">{{ col.title }}</span>
-                    <awd-tag [color]="col.color">{{ countIn(col.id) }}</awd-tag>
+                    <span class="font-(--jig-font-weight-semibold)">{{ col.title }}</span>
+                    <jig-tag [color]="col.color">{{ countIn(col.id) }}</jig-tag>
                     <span class="grow"></span>
                     <button ngnButton kind="icon" ngnTooltip="Add task" (click)="addTask(col.id)">
-                      <awd-icon [icon]="plusIcon" />
+                      <jig-icon [icon]="plusIcon" />
                     </button>
                   </header>
 
                   <div
-                    class="flex min-h-0 grow flex-col gap-(--awd-size-padding-md) overflow-y-auto px-(--awd-size-padding-md) pb-(--awd-size-padding-md)"
+                    class="flex min-h-0 grow flex-col gap-(--jig-size-padding-md) overflow-y-auto px-(--jig-size-padding-md) pb-(--jig-size-padding-md)"
                   >
                     @for (task of tasksIn(col.id); track task.id) {
                       <div
                         draggable="true"
-                        class="card group relative w-full cursor-grab text-left transition-shadow ring-inset hover:shadow-(--awd-shadow-md) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--awd-color-primary-500) active:cursor-grabbing"
+                        class="card group relative w-full cursor-grab text-left transition-shadow ring-inset hover:shadow-(--jig-shadow-md) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--jig-color-primary-500) active:cursor-grabbing"
                         [class]="
                           density() === 'compact'
-                            ? 'p-(--awd-size-padding-sm)'
-                            : 'p-(--awd-size-padding-md)'
+                            ? 'p-(--jig-size-padding-sm)'
+                            : 'p-(--jig-size-padding-md)'
                         "
                         [class.opacity-40]="isDragging(task.id)"
                         [class.ring-1]="task.overdue"
-                        [class.ring-(--awd-color-warning-400)]="task.overdue"
+                        [class.ring-(--jig-color-warning-400)]="task.overdue"
                         role="button"
                         tabindex="0"
                         (click)="openTask(task.id)"
@@ -163,14 +163,14 @@
                         (dragend)="onDragEnd()"
                       >
                         <div
-                          class="mb-(--awd-size-padding-sm) flex items-start gap-(--awd-size-padding-sm)"
+                          class="mb-(--jig-size-padding-sm) flex items-start gap-(--jig-size-padding-sm)"
                         >
-                          <span class="min-w-0 grow font-(--awd-font-weight-medium)">
+                          <span class="min-w-0 grow font-(--jig-font-weight-medium)">
                             {{ task.title }}
                           </span>
-                          <awd-tag [color]="priorityMeta[task.priority].color">
+                          <jig-tag [color]="priorityMeta[task.priority].color">
                             {{ priorityMeta[task.priority].label }}
-                          </awd-tag>
+                          </jig-tag>
                           <button
                             ngnButton
                             kind="icon"
@@ -179,9 +179,9 @@
                             class="-my-1 -mr-1 shrink-0 opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
                             (click)="$event.stopPropagation(); cardMenu.show()"
                           >
-                            <awd-icon [icon]="dotsIcon" />
+                            <jig-icon [icon]="dotsIcon" />
                           </button>
-                          <awd-menu
+                          <jig-menu
                             #cardMenu
                             [popover]="true"
                             [anchor]="cardMenuBtn"
@@ -192,31 +192,31 @@
 
                         @if (density() !== 'compact' && task.labels.length) {
                           <div
-                            class="mb-(--awd-size-padding-sm) flex flex-wrap gap-(--awd-size-padding-sm)"
+                            class="mb-(--jig-size-padding-sm) flex flex-wrap gap-(--jig-size-padding-sm)"
                           >
                             @for (label of task.labels; track label.text) {
-                              <awd-tag [color]="label.color">{{ label.text }}</awd-tag>
+                              <jig-tag [color]="label.color">{{ label.text }}</jig-tag>
                             }
                           </div>
                         }
 
                         <div
-                          class="flex items-center gap-(--awd-size-padding-md) text-(length:--awd-font-size-xs) text-(--awd-color-surface-500)"
+                          class="flex items-center gap-(--jig-size-padding-md) text-(length:--jig-font-size-xs) text-(--jig-color-surface-500)"
                         >
                           @if (task.subtasks.length) {
                             <span class="flex items-center gap-1" ngnTooltip="Subtasks done">
-                              <awd-icon [icon]="subtaskIcon" />
+                              <jig-icon [icon]="subtaskIcon" />
                               {{ doneCount(task) }}/{{ task.subtasks.length }}
                             </span>
                           }
                           @if (task.attachments.length) {
                             <span class="flex items-center gap-1">
-                              <awd-icon [icon]="paperclipIcon" /> {{ task.attachments.length }}
+                              <jig-icon [icon]="paperclipIcon" /> {{ task.attachments.length }}
                             </span>
                           }
                           <span
                             class="flex items-center gap-1"
-                            [class.text-(--awd-color-warning-600)]="task.overdue"
+                            [class.text-(--jig-color-warning-600)]="task.overdue"
                           >
                             {{ task.due }}
                           </span>
@@ -225,20 +225,20 @@
                             type="button"
                             #assignBtn
                             draggable="false"
-                            class="shrink-0 rounded-full transition-transform hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--awd-color-primary-500)"
+                            class="shrink-0 rounded-full transition-transform hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--jig-color-primary-500)"
                             [attr.aria-label]="
                               'Reassign — currently ' + member(task.assigneeId).name
                             "
                             (click)="$event.stopPropagation(); assignMenu.show()"
                           >
-                            <awd-avatar
+                            <jig-avatar
                               [initials]="member(task.assigneeId).initials"
                               [bgColor]="member(task.assigneeId).color"
                               [size]="24"
                               [ngnTooltip]="member(task.assigneeId).name"
                             />
                           </button>
-                          <awd-menu
+                          <jig-menu
                             #assignMenu
                             [popover]="true"
                             [anchor]="assignBtn"
@@ -249,7 +249,7 @@
                       </div>
                     } @empty {
                       <p
-                        class="rounded-(--awd-size-rounded-md) border border-dashed border-(--awd-color-surface-300) px-(--awd-size-padding-md) py-(--awd-size-padding-lg) text-center text-(length:--awd-font-size-xs) text-(--awd-color-surface-400)"
+                        class="rounded-(--jig-size-rounded-md) border border-dashed border-(--jig-color-surface-300) px-(--jig-size-padding-md) py-(--jig-size-padding-lg) text-center text-(length:--jig-font-size-xs) text-(--jig-color-surface-400)"
                       >
                         Drop cards here
                       </p>
@@ -260,39 +260,39 @@
             </div>
           </div>
         </ng-template>
-      </awd-tab>
+      </jig-tab>
 
-      <awd-tab tabId="list">
+      <jig-tab tabId="list">
         <ng-template #header>
-          <span class="flex items-center gap-(--awd-size-padding-sm)">
-            <awd-icon [icon]="listIcon" /> List
+          <span class="flex items-center gap-(--jig-size-padding-sm)">
+            <jig-icon [icon]="listIcon" /> List
           </span>
         </ng-template>
         <ng-template #content>
-          <div class="h-[42rem] overflow-y-auto p-(--awd-size-padding-lg)">
-            <ul class="flex flex-col gap-(--awd-size-padding-sm)">
+          <div class="h-[42rem] overflow-y-auto p-(--jig-size-padding-lg)">
+            <ul class="flex flex-col gap-(--jig-size-padding-sm)">
               @for (task of visibleTasks(); track task.id) {
                 <li>
                   <button
                     type="button"
-                    class="card flex w-full items-center gap-(--awd-size-padding-md) p-(--awd-size-padding-md) text-left transition-shadow hover:shadow-(--awd-shadow-sm)"
+                    class="card flex w-full items-center gap-(--jig-size-padding-md) p-(--jig-size-padding-md) text-left transition-shadow hover:shadow-(--jig-shadow-sm)"
                     (click)="openTask(task.id)"
                   >
                     @if (task.labels[0]?.text === 'Bug') {
-                      <awd-icon [icon]="bugIcon" class="text-(--awd-color-error-500)" />
+                      <jig-icon [icon]="bugIcon" class="text-(--jig-color-error-500)" />
                     }
-                    <span class="min-w-0 grow truncate font-(--awd-font-weight-medium)">
+                    <span class="min-w-0 grow truncate font-(--jig-font-weight-medium)">
                       {{ task.title }}
                     </span>
-                    <awd-tag [color]="priorityMeta[task.priority].color">
+                    <jig-tag [color]="priorityMeta[task.priority].color">
                       {{ priorityMeta[task.priority].label }}
-                    </awd-tag>
+                    </jig-tag>
                     <span
-                      class="w-24 text-(length:--awd-font-size-xs) text-(--awd-color-surface-500)"
+                      class="w-24 text-(length:--jig-font-size-xs) text-(--jig-color-surface-500)"
                     >
                       {{ columnTitle(task.columnId) }}
                     </span>
-                    <awd-avatar
+                    <jig-avatar
                       [initials]="member(task.assigneeId).initials"
                       [bgColor]="member(task.assigneeId).color"
                       [size]="24"
@@ -301,15 +301,15 @@
                   </button>
                 </li>
               } @empty {
-                <li class="py-(--awd-size-padding-xl) text-center text-(--awd-color-surface-400)">
+                <li class="py-(--jig-size-padding-xl) text-center text-(--jig-color-surface-400)">
                   No tasks match the current filter.
                 </li>
               }
             </ul>
           </div>
         </ng-template>
-      </awd-tab>
-    </awd-tabs>
+      </jig-tab>
+    </jig-tabs>
   </div>
 </div>
 
@@ -317,7 +317,7 @@
 <!-- Body passed via [content] with the template declared OUTSIDE the drawer: the
      accordion/panel `#content` templates would otherwise be caught by the drawer's
      own `contentChild('content')` query and hijack the body. -->
-<awd-drawer
+<jig-drawer
   header="Task details"
   position="right"
   size="min(26rem, 92vw)"
@@ -329,77 +329,77 @@
 
 <ng-template #detailBody>
   @if (selectedTask(); as task) {
-    <div class="flex flex-col gap-(--awd-size-padding-lg)">
+    <div class="flex flex-col gap-(--jig-size-padding-lg)">
       <!-- Editable title -->
-      <awd-edit-inplace
-        class="text-(length:--awd-font-size-lg) font-(--awd-font-weight-bold)"
+      <jig-edit-inplace
+        class="text-(length:--jig-font-size-lg) font-(--jig-font-weight-bold)"
         [value]="task.title"
         (valueChange)="renameTask(task, $event)"
       />
 
-      <div class="flex flex-wrap gap-(--awd-size-padding-sm)">
-        <awd-tag [color]="priorityMeta[task.priority].color">
+      <div class="flex flex-wrap gap-(--jig-size-padding-sm)">
+        <jig-tag [color]="priorityMeta[task.priority].color">
           {{ priorityMeta[task.priority].label }} priority
-        </awd-tag>
+        </jig-tag>
         @for (label of task.labels; track label.text) {
-          <awd-tag [color]="label.color">{{ label.text }}</awd-tag>
+          <jig-tag [color]="label.color">{{ label.text }}</jig-tag>
         }
       </div>
 
       <!-- Status picker -->
-      <div class="flex flex-col gap-(--awd-size-padding-sm)">
+      <div class="flex flex-col gap-(--jig-size-padding-sm)">
         <span
-          class="text-(length:--awd-font-size-xs) font-(--awd-font-weight-semibold) text-(--awd-color-surface-500) uppercase"
+          class="text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) text-(--jig-color-surface-500) uppercase"
         >
           Status
         </span>
-        <awd-radio-group
-          class="flex flex-wrap gap-(--awd-size-padding-md)"
+        <jig-radio-group
+          class="flex flex-wrap gap-(--jig-size-padding-md)"
           [value]="task.columnId"
           (valueChange)="setStatus(task, $event)"
         >
           @for (opt of statusOptions; track opt.value) {
-            <awd-radio [value]="opt.value">{{ opt.title }}</awd-radio>
+            <jig-radio [value]="opt.value">{{ opt.title }}</jig-radio>
           }
-        </awd-radio-group>
+        </jig-radio-group>
       </div>
 
       <!-- Progress -->
-      <div class="flex flex-col gap-(--awd-size-padding-sm)">
+      <div class="flex flex-col gap-(--jig-size-padding-sm)">
         <span
-          class="flex items-center justify-between text-(length:--awd-font-size-xs) font-(--awd-font-weight-semibold) text-(--awd-color-surface-500) uppercase"
+          class="flex items-center justify-between text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) text-(--jig-color-surface-500) uppercase"
         >
-          Progress <span class="text-(--awd-color-text)">{{ task.progress }}%</span>
+          Progress <span class="text-(--jig-color-text)">{{ task.progress }}%</span>
         </span>
-        <awd-slider [value]="task.progress" (valueChange)="setProgress(task, $event)" />
+        <jig-slider [value]="task.progress" (valueChange)="setProgress(task, $event)" />
       </div>
 
       <!-- Collapsible detail sections -->
-      <awd-accordion [multiple]="true">
-        <awd-accordion-panel header="Description">
+      <jig-accordion [multiple]="true">
+        <jig-accordion-panel header="Description">
           <ng-template #content>
-            <p class="text-(length:--awd-font-size-sm) text-(--awd-color-surface-600)">
+            <p class="text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)">
               {{ task.description }}
             </p>
           </ng-template>
-        </awd-accordion-panel>
+        </jig-accordion-panel>
 
-        <awd-accordion-panel
+        <jig-accordion-panel
           [header]="'Subtasks · ' + doneCount(task) + '/' + task.subtasks.length"
         >
           <ng-template #content>
             @if (task.subtasks.length) {
-              <ul class="flex flex-col gap-(--awd-size-padding-sm)">
+              <ul class="flex flex-col gap-(--jig-size-padding-sm)">
                 @for (sub of task.subtasks; track sub.id) {
-                  <li class="flex items-center gap-(--awd-size-padding-sm)">
-                    <awd-checkbox
+                  <li class="flex items-center gap-(--jig-size-padding-sm)">
+                    <jig-checkbox
                       [value]="sub.done"
                       (valueChange)="toggleSubtask(task, sub, $event)"
                     />
                     <span
-                      class="text-(length:--awd-font-size-sm)"
+                      class="text-(length:--jig-font-size-sm)"
                       [class.line-through]="sub.done"
-                      [class.text-(--awd-color-surface-400)]="sub.done"
+                      [class.text-(--jig-color-surface-400)]="sub.done"
                     >
                       {{ sub.label }}
                     </span>
@@ -407,35 +407,35 @@
                 }
               </ul>
             } @else {
-              <p class="text-(length:--awd-font-size-sm) text-(--awd-color-surface-400)">
+              <p class="text-(length:--jig-font-size-sm) text-(--jig-color-surface-400)">
                 No subtasks yet.
               </p>
             }
           </ng-template>
-        </awd-accordion-panel>
+        </jig-accordion-panel>
 
-        <awd-accordion-panel [header]="'Attachments · ' + task.attachments.length">
+        <jig-accordion-panel [header]="'Attachments · ' + task.attachments.length">
           <ng-template #content>
-            <div class="flex flex-col gap-(--awd-size-padding-md)">
+            <div class="flex flex-col gap-(--jig-size-padding-md)">
               @for (att of task.attachments; track att.id) {
                 <div
-                  class="flex items-center gap-(--awd-size-padding-sm) rounded-(--awd-size-rounded-md) border border-(--awd-color-surface-200) px-(--awd-size-padding-md) py-(--awd-size-padding-sm) text-(length:--awd-font-size-sm)"
+                  class="flex items-center gap-(--jig-size-padding-sm) rounded-(--jig-size-rounded-md) border border-(--jig-color-surface-200) px-(--jig-size-padding-md) py-(--jig-size-padding-sm) text-(length:--jig-font-size-sm)"
                 >
-                  <awd-icon [icon]="paperclipIcon" class="text-(--awd-color-surface-500)" />
+                  <jig-icon [icon]="paperclipIcon" class="text-(--jig-color-surface-500)" />
                   <span class="grow truncate">{{ att.name }}</span>
-                  <span class="text-(length:--awd-font-size-xs) text-(--awd-color-surface-400)">
+                  <span class="text-(length:--jig-font-size-xs) text-(--jig-color-surface-400)">
                     {{ att.size }}
                   </span>
                 </div>
               }
-              <awd-upload #up="ngnUpload" (upload)="onUpload($event, task, up)">
+              <jig-upload #up="ngnUpload" (upload)="onUpload($event, task, up)">
                 <input type="file" multiple />
                 Drop files or click to attach
-              </awd-upload>
+              </jig-upload>
             </div>
           </ng-template>
-        </awd-accordion-panel>
-      </awd-accordion>
+        </jig-accordion-panel>
+      </jig-accordion>
 
       <!-- Danger zone -->
       <button
@@ -445,7 +445,7 @@
         class="self-start"
         (click)="deleteTask(task.id)"
       >
-        <awd-icon [icon]="trashIcon" /> Delete task
+        <jig-icon [icon]="trashIcon" /> Delete task
       </button>
     </div>
   }

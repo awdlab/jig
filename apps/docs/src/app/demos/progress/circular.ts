@@ -1,13 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NgnProgress } from '@awdlab/jig/progress';
+import { AwdProgress } from '@awdlab/jig/progress';
 import { interval } from 'rxjs';
 
 @Component({
-  selector: 'awd-demo-progress-circular',
-  imports: [NgnProgress],
+  selector: 'jig-demo-progress-circular',
+  imports: [AwdProgress],
   template: `
-    <awd-progress [value]="value()" circular [radius]="50" [thickness]="6" />
+    <jig-progress [value]="value()" circular [radius]="50" [thickness]="6" />
     {{ value() }}%
   `,
 })

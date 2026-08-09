@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnUpload, type NgnUploadFile } from '@awdlab/jig/upload';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdUpload, type AwdUploadFile } from '@awdlab/jig/upload';
 
 /**
  * Manual mode: selected files queue as `pending` and no trigger is rendered.
@@ -10,14 +10,14 @@ import { NgnUpload, type NgnUploadFile } from '@awdlab/jig/upload';
  * how many succeeded and failed.
  */
 @Component({
-  imports: [NgnUpload, NgnButton],
-  selector: 'awd-demo-upload-manual',
+  imports: [AwdUpload, AwdButton],
+  selector: 'jig-demo-upload-manual',
   template: `
     <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
-      <awd-upload #up="ngnUpload" mode="manual" (upload)="onUpload($event, up)">
+      <jig-upload #up="ngnUpload" mode="manual" (upload)="onUpload($event, up)">
         <input type="file" multiple />
         Add files — upload is triggered from code
-      </awd-upload>
+      </jig-upload>
 
       <button ngnButton kind="primary" (click)="start(up)">Start upload from code</button>
 
@@ -30,7 +30,7 @@ import { NgnUpload, type NgnUploadFile } from '@awdlab/jig/upload';
 export class Demo_Upload_Manual {
   protected readonly summary = signal('');
 
-  protected async start(up: NgnUpload): Promise<void> {
+  protected async start(up: AwdUpload): Promise<void> {
     this.summary.set('Uploading…');
     const result = await up.uploadAll();
     const done = result.filter(f => f.state === 'done').length;
@@ -38,7 +38,7 @@ export class Demo_Upload_Manual {
     this.summary.set(`Finished: ${done} succeeded, ${failed} failed.`);
   }
 
-  protected onUpload(files: NgnUploadFile[], up: NgnUpload): void {
+  protected onUpload(files: AwdUploadFile[], up: AwdUpload): void {
     for (const item of files) {
       let progress = 0;
       const tick = setInterval(() => {

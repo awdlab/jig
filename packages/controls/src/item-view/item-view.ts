@@ -11,9 +11,9 @@ import {
   viewChild,
   viewChildren,
 } from '@angular/core';
-import { elementSizeSignal, elementsSizesSignal, NgnTemplate, Platform } from '@awdlab/jig/api/ng';
-import { NgnPt, provideSelf } from '@awdlab/jig/base';
-import { NgnIcon } from '@awdlab/jig/icon';
+import { elementSizeSignal, elementsSizesSignal, AwdTemplate, Platform } from '@awdlab/jig/api/ng';
+import { AwdPt, provideSelf } from '@awdlab/jig/base';
+import { AwdIcon } from '@awdlab/jig/icon';
 import { areArraysDeepEqual, throwExp } from '@awdlab/jig/utils';
 import { itemViewControlTemplate } from '@awdlab/jig-themes/templates/item-view';
 
@@ -52,16 +52,16 @@ type RenderItem<T> =
  * @category control
  */
 @Component({
-  selector: 'awd-item-view',
+  selector: 'jig-item-view',
   templateUrl: './item-view.html',
-  imports: [NgnPt, NgTemplateOutlet, NgnTemplate, NgnIcon],
-  providers: [provideSelf(NgnItemView)],
+  imports: [AwdPt, NgTemplateOutlet, AwdTemplate, AwdIcon],
+  providers: [provideSelf(JigItemView)],
   host: {
     '[attr.role]': '"list"',
-    '[style.--awd-item-view-content-width]': 'contentWidthPx()',
+    '[style.--jig-item-view-content-width]': 'contentWidthPx()',
   },
 })
-export class NgnItemView<T extends object, IdField extends keyof T>
+export class JigItemView<T extends object, IdField extends keyof T>
   extends ItemViewTemplates<T>
   implements AfterViewInit
 {
@@ -207,7 +207,7 @@ export class NgnItemView<T extends object, IdField extends keyof T>
         return 0;
       }
       const lastItem = overflowCheckOrder[overflowCheckOrder.length - 1];
-      return (lastItem ?? throwExp('NgnItemView', 'Unexpected empty entry in overflowCheckOrder'))
+      return (lastItem ?? throwExp('JigItemView', 'Unexpected empty entry in overflowCheckOrder'))
         .index;
     };
 

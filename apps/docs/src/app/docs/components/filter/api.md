@@ -1,1 +1,1 @@
-{{ api: filter/filter NgnFilter }}
+{{ api: filter/filter AwdFilter }}

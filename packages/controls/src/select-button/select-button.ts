@@ -1,22 +1,22 @@
 import { Component, input } from '@angular/core';
-import { NgnPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
-import { NgnButtonGroup } from '@awdlab/jig/button-group';
-import { NgnToggleButton } from '@awdlab/jig/toggle-button';
+import { AwdPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { AwdButtonGroup } from '@awdlab/jig/button-group';
+import { AwdToggleButton } from '@awdlab/jig/toggle-button';
 import { maybeCallback } from '@awdlab/jig/utils';
 import { selectButtonControlTemplate } from '@awdlab/jig-themes/templates/select-button';
 
-import type { NgnActionItemFlat, NgnItem } from '@awdlab/jig/api';
+import type { JigActionItemFlat, JigItem } from '@awdlab/jig/api';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'awd-select-button',
+  selector: 'jig-select-button',
   templateUrl: './select-button.html',
-  imports: [NgnPt, NgnButtonGroup, NgnToggleButton],
-  providers: [provideSelf(NgnSelectButton)],
+  imports: [AwdPt, AwdButtonGroup, AwdToggleButton],
+  providers: [provideSelf(AwdSelectButton)],
 })
-export class NgnSelectButton<V> extends ValueControlBase<'selectButton', V> {
+export class AwdSelectButton<V> extends ValueControlBase<'selectButton', V> {
   protected readonly theme = this.injectThemeTemplate(selectButtonControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),
@@ -33,7 +33,7 @@ export class NgnSelectButton<V> extends ValueControlBase<'selectButton', V> {
   /**
    * Defines the options for the select button.
    */
-  public readonly options = input.required<readonly NgnActionItemFlat<NgnItem<unknown, V>>[]>();
+  public readonly options = input.required<readonly JigActionItemFlat<JigItem<unknown, V>>[]>();
   /**
    * When `true`, allows unselecting the currently selected option by clicking on it again.
    * If `false`, clicking on the selected option will not change the selection.

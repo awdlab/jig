@@ -1,29 +1,29 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnItemView } from '@awdlab/jig/item-view';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { JigItemView } from '@awdlab/jig/item-view';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 type ItemType = { id: string; label: string };
 
 @Component({
-  selector: 'awd-docs-item-view-playground',
-  imports: [NgnItemView, NgnTemplate, NgnDocsPlayground],
+  selector: 'jig-docs-item-view-playground',
+  imports: [JigItemView, AwdTemplate, AwdDocsPlayground],
   template: `
-    <awd-docs-playground
+    <jig-docs-playground
       class="flex-1"
-      [controls]="[{ componentName: 'NgnItemView', component: component() }]"
+      [controls]="[{ componentName: 'JigItemView', component: component() }]"
     >
-      <awd-item-view #ref [items]="items" [idField]="'id'">
+      <jig-item-view #ref [items]="items" [idField]="'id'">
         <ng-template #item [ngnTemplate]="ref.templateTypes.item" let-item>
           <span style="padding: 4px;">{{ item.label }}</span>
         </ng-template>
-      </awd-item-view>
-    </awd-docs-playground>
+      </jig-item-view>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsItemViewPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnItemView });
+export class AwdDocsItemViewPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigItemView });
   protected readonly items: ItemType[] = [
     { id: '1', label: 'Item 1' },
     { id: '2', label: 'Item 2' },

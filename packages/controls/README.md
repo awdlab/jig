@@ -32,17 +32,17 @@ pnpm add @awdlab/jig @awdlab/jig-themes
 ## Usage
 
 ```ts
-import { provideNgnControls } from '@awdlab/jig/api/ng';
+import { provideAwdControls } from '@awdlab/jig/api/ng';
 import { nova } from '@awdlab/jig-themes/nova';
 
 // in your ApplicationConfig providers:
-provideNgnControls({ theme: { preset: nova } });
+provideAwdControls({ theme: { preset: nova } });
 ```
 
 Import each control from its own subpath so you only bundle what you use:
 
 ```ts
-import { NgnButton } from '@awdlab/jig/button';
+import { AwdButton } from '@awdlab/jig/button';
 ```
 
 <div align="center">

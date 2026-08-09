@@ -16,14 +16,14 @@ test('input validation errors drive a normal hint', async ({ page }) => {
             ngnErrors
             [ngnErrorsHint]="emailHint"
           />
-          <awd-hint #emailHint />
+          <jig-hint #emailHint />
         </div>
       `,
     imports: ['input', 'hint', 'errors', 'forms'],
   });
 
   const input = page.locator('input[ngnInput]');
-  const hint = page.locator('awd-hint');
+  const hint = page.locator('jig-hint');
 
   await expect(hint).toHaveText('');
 
@@ -39,19 +39,19 @@ test('custom checkbox errors drive a normal hint', async ({ page }) => {
   await loadComponent(page, {
     template: `
         <div class="page-center" style="display: flex; flex-direction: column; gap: 0.5rem;">
-          <awd-checkbox
+          <jig-checkbox
             ngnErrors
             ngnErrorsShowOn="always"
             [ngnErrorsHint]="termsHint"
             [ngnErrorsCustom]="{ terms: 'Accept the terms' }"
           />
-          <awd-hint #termsHint />
+          <jig-hint #termsHint />
         </div>
       `,
     imports: ['checkbox', 'hint', 'errors'],
   });
 
-  await expect(page.locator('awd-hint')).toContainText('Accept the terms');
+  await expect(page.locator('jig-hint')).toContainText('Accept the terms');
 });
 
 test('async validation shows pending and resolved messages', async ({ page }) => {
@@ -68,13 +68,13 @@ test('async validation shows pending and resolved messages', async ({ page }) =>
             [ngnErrorsHint]="serverHint"
             [ngnErrorsMessages]="{ server: 'Server rejected the value' }"
           />
-          <awd-hint #serverHint />
+          <jig-hint #serverHint />
         </div>
       `,
     imports: ['input', 'hint', 'errors', 'forms', 'testAsyncValidator'],
   });
 
-  const hint = page.locator('awd-hint');
+  const hint = page.locator('jig-hint');
 
   await expect(hint).toContainText('Validating...');
   await expect(hint).toContainText('Server rejected the value');
@@ -85,10 +85,10 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(page, {
     template: `
       <div class="page-center" style="display: flex; flex-direction: column; gap: 0.5rem;">
-        <awd-input-field label="Email">
+        <jig-input-field label="Email">
           <input ngnInput name="email" ngModel required email ngnErrors [ngnErrorsHint]="emailHint" />
-        </awd-input-field>
-        <awd-hint #emailHint />
+        </jig-input-field>
+        <jig-hint #emailHint />
       </div>
     `,
     imports: ['input', 'hint', 'errors', 'forms', 'inputField'],
@@ -97,7 +97,7 @@ test('accessibility (axe)', async ({ page }) => {
   const input = page.locator('input[ngnInput]');
   await input.focus();
   await input.blur();
-  await expect(page.locator('awd-hint')).toContainText('Required');
+  await expect(page.locator('jig-hint')).toContainText('Required');
 
   await expectNoA11yViolations(page);
 });

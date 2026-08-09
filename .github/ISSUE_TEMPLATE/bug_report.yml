@@ -12,8 +12,8 @@ body:
     id: control
     attributes:
       label: Control or package
-      description: e.g. `awd-select`, `ngnTableTh`, `@awdlab/jig-themes`
-      placeholder: awd-select
+      description: e.g. `jig-select`, `ngnTableTh`, `@awdlab/jig-themes`
+      placeholder: jig-select
     validations:
       required: true
 
@@ -39,7 +39,7 @@ body:
     attributes:
       label: Steps to reproduce
       placeholder: |
-        1. Render `<awd-select [items]="items" />`
+        1. Render `<jig-select [items]="items" />`
         2. Open the dropdown with the keyboard
         3. …
     validations:

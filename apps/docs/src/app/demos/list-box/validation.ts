@@ -1,18 +1,18 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@awdlab/jig/errors';
-import { NgnHint } from '@awdlab/jig/hint';
-import { NgnListBox } from '@awdlab/jig/list-box';
+import { AwdErrors } from '@awdlab/jig/errors';
+import { AwdHint } from '@awdlab/jig/hint';
+import { AwdListBox } from '@awdlab/jig/list-box';
 
 import { exampleData } from '../../helper/data';
 
-import type { NgnItemsValue } from '@awdlab/jig/api';
+import type { JigItemsValue } from '@awdlab/jig/api';
 
 @Component({
-  selector: 'awd-demo-list-box-validation',
-  imports: [NgnErrors, NgnHint, NgnListBox],
+  selector: 'jig-demo-list-box-validation',
+  imports: [AwdErrors, AwdHint, AwdListBox],
   template: `
     <div class="flex flex-col gap-2">
-      <awd-list-box
+      <jig-list-box
         [items]="items"
         [selectable]="true"
         [value]="value()"
@@ -24,12 +24,12 @@ import type { NgnItemsValue } from '@awdlab/jig/api';
         [ngnErrorsHint]="listHint"
       />
     </div>
-    <awd-hint #listHint />
+    <jig-hint #listHint />
   `,
 })
 export class Demo_ListBox_Validation {
   protected readonly items = exampleData.items.flatPreformatted;
-  protected readonly value = signal<NgnItemsValue<typeof this.items> | null>(null);
+  protected readonly value = signal<JigItemsValue<typeof this.items> | null>(null);
   protected readonly errors = computed(() =>
     this.value() ? null : { required: 'Select one item' }
   );

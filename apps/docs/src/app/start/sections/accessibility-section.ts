@@ -1,9 +1,9 @@
 import { Component, DestroyRef, afterNextRender, computed, inject, signal } from '@angular/core';
-import { NgnRovingGroup, NgnRovingItem } from '@awdlab/jig/roving-focus';
-import { NgnSwitch } from '@awdlab/jig/switch';
+import { AwdRovingGroup, AwdRovingItem } from '@awdlab/jig/roving-focus';
+import { AwdSwitch } from '@awdlab/jig/switch';
 
-import { NgnDocsReveal } from './reveal';
-import { NgnDocsSectionHeader } from './section-header';
+import { AwdDocsReveal } from './reveal';
+import { AwdDocsSectionHeader } from './section-header';
 
 /** One beat of the autoplay script: which keycap flashes and where the ring lands. */
 interface TheaterStep {
@@ -37,12 +37,12 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
 ];
 
 @Component({
-  selector: 'awd-docs-accessibility-section',
-  imports: [NgnRovingGroup, NgnRovingItem, NgnSwitch, NgnDocsReveal, NgnDocsSectionHeader],
-  host: { class: 'block px-(--awd-size-padding-xl) py-12 lg:py-16' },
+  selector: 'jig-docs-accessibility-section',
+  imports: [AwdRovingGroup, AwdRovingItem, AwdSwitch, AwdDocsReveal, AwdDocsSectionHeader],
+  host: { class: 'block px-(--jig-size-padding-xl) py-12 lg:py-16' },
   template: `
     <div class="mx-auto max-w-[1100px]">
-      <awd-docs-section-header
+      <jig-docs-section-header
         [ngnDocsReveal]="0"
         class="mb-8 lg:mb-12"
         eyebrow="Accessibility"
@@ -52,34 +52,34 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
 
       <div
         [ngnDocsReveal]="60"
-        class="overflow-hidden rounded-(--awd-size-rounded-lg) border border-(--awd-color-surface-200) bg-(--awd-color-surface-25)"
+        class="overflow-hidden rounded-(--jig-size-rounded-lg) border border-(--jig-color-surface-200) bg-(--jig-color-surface-25)"
       >
         <div class="grid grid-cols-1 lg:grid-cols-2">
           <div
-            class="flex flex-col gap-(--awd-size-padding-xl) border-b border-(--awd-color-surface-200) p-(--awd-size-padding-xl) lg:border-r lg:border-b-0"
+            class="flex flex-col gap-(--jig-size-padding-xl) border-b border-(--jig-color-surface-200) p-(--jig-size-padding-xl) lg:border-r lg:border-b-0"
           >
             <div>
               <p
-                class="mono mb-(--awd-size-padding-md) text-(length:--awd-font-size-sm) text-(--awd-color-surface-500)"
+                class="mono mb-(--jig-size-padding-md) text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)"
               >
                 keys the demo is pressing
               </p>
-              <div class="flex flex-wrap gap-(--awd-size-padding-sm)">
+              <div class="flex flex-wrap gap-(--jig-size-padding-sm)">
                 @for (key of keys; track key) {
-                  <span class="awd-keycap" [class.awd-keycap-pressed]="pressedKey() === key">
+                  <span class="jig-keycap" [class.jig-keycap-pressed]="pressedKey() === key">
                     {{ key }}
                   </span>
                 }
               </div>
             </div>
 
-            <dl class="flex flex-col gap-(--awd-size-padding-lg)">
+            <dl class="flex flex-col gap-(--jig-size-padding-lg)">
               @for (guarantee of guarantees; track guarantee.label) {
                 <div>
-                  <dt class="mono text-(length:--awd-font-size-sm) text-(--awd-color-primary-500)">
+                  <dt class="mono text-(length:--jig-font-size-sm) text-(--jig-color-primary-500)">
                     {{ guarantee.label }}
                   </dt>
-                  <dd class="text-(length:--awd-font-size-sm) text-(--awd-color-surface-600)">
+                  <dd class="text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)">
                     {{ guarantee.body }}
                   </dd>
                 </div>
@@ -88,15 +88,15 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
           </div>
 
           <div
-            class="flex flex-col justify-center gap-(--awd-size-padding-lg) bg-[color-mix(in_srgb,var(--awd-color-primary-500)_5%,transparent)] p-(--awd-size-padding-xl)"
+            class="flex flex-col justify-center gap-(--jig-size-padding-lg) bg-[color-mix(in_srgb,var(--jig-color-primary-500)_5%,transparent)] p-(--jig-size-padding-xl)"
           >
             <!-- Watch-only stage: inert so real focus never lands here — the real
                focus styles differ from the simulated ring and would confuse. -->
             <div
               inert
-              class="pointer-events-none flex flex-col gap-(--awd-size-padding-lg) select-none"
+              class="pointer-events-none flex flex-col gap-(--jig-size-padding-lg) select-none"
             >
-              <p class="mono text-(length:--awd-font-size-sm) text-(--awd-color-surface-500)">
+              <p class="mono text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)">
                 toolbar — one tab stop, arrows inside
               </p>
               <div
@@ -106,25 +106,25 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
                 [rovingWrap]="true"
                 role="toolbar"
                 aria-label="Keyboard navigation demo"
-                class="flex flex-wrap gap-(--awd-size-padding-md) rounded-(--awd-size-rounded-md) border border-(--awd-color-surface-200) bg-(--awd-color-background) p-(--awd-size-padding-md)"
+                class="flex flex-wrap gap-(--jig-size-padding-md) rounded-(--jig-size-rounded-md) border border-(--jig-color-surface-200) bg-(--jig-color-background) p-(--jig-size-padding-md)"
               >
                 @for (item of items; track item; let i = $index) {
                   <button
                     ngnRovingItem
                     type="button"
-                    class="rounded-(--awd-size-rounded-md) px-(--awd-size-padding-lg) py-(--awd-size-padding-md) text-(--awd-color-text)"
-                    [class.awd-sim-focus]="simIndex() === i"
+                    class="rounded-(--jig-size-rounded-md) px-(--jig-size-padding-lg) py-(--jig-size-padding-md) text-(--jig-color-text)"
+                    [class.jig-sim-focus]="simIndex() === i"
                   >
                     {{ item }}
                   </button>
                 }
               </div>
               <div
-                class="flex w-fit items-center gap-(--awd-size-padding-md) rounded-(--awd-size-rounded-md) p-(--awd-size-padding-xs)"
-                [class.awd-sim-focus]="simIndex() === 4"
+                class="flex w-fit items-center gap-(--jig-size-padding-md) rounded-(--jig-size-rounded-md) p-(--jig-size-padding-xs)"
+                [class.jig-sim-focus]="simIndex() === 4"
               >
-                <awd-switch #notifySwitch [(value)]="switchOn" />
-                <label [for]="notifySwitch.inputId()" class="text-(--awd-color-text)">
+                <jig-switch #notifySwitch [(value)]="switchOn" />
+                <label [for]="notifySwitch.inputId()" class="text-(--jig-color-text)">
                   Notifications
                 </label>
               </div>
@@ -134,28 +134,28 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
                so the autoplay loop never announces over the real page. -->
             <div
               aria-hidden="true"
-              class="flex items-center gap-(--awd-size-padding-md) rounded-r-(--awd-size-rounded-md) border-l-3 border-(--awd-color-success-500) bg-[color-mix(in_srgb,var(--awd-color-success-500)_8%,transparent)] px-(--awd-size-padding-lg) py-(--awd-size-padding-md)"
+              class="flex items-center gap-(--jig-size-padding-md) rounded-r-(--jig-size-rounded-md) border-l-3 border-(--jig-color-success-500) bg-[color-mix(in_srgb,var(--jig-color-success-500)_8%,transparent)] px-(--jig-size-padding-lg) py-(--jig-size-padding-md)"
             >
-              <span class="mono text-(length:--awd-font-size-sm) text-(--awd-color-success-600)">
+              <span class="mono text-(length:--jig-font-size-sm) text-(--jig-color-success-600)">
                 aria-live
               </span>
-              <span class="text-(length:--awd-font-size-sm) text-(--awd-color-text)">
+              <span class="text-(length:--jig-font-size-sm) text-(--jig-color-text)">
                 {{ announcement() }}
               </span>
             </div>
 
             <dl
               aria-hidden="true"
-              class="mono grid grid-cols-[auto_1fr] gap-x-(--awd-size-padding-lg) gap-y-(--awd-size-padding-xs) border-t border-(--awd-color-surface-200) pt-(--awd-size-padding-lg) text-(length:--awd-font-size-sm) text-(--awd-color-surface-500)"
+              class="mono grid grid-cols-[auto_1fr] gap-x-(--jig-size-padding-lg) gap-y-(--jig-size-padding-xs) border-t border-(--jig-color-surface-200) pt-(--jig-size-padding-lg) text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)"
             >
               <dt>focused</dt>
-              <dd class="text-(--awd-color-text)">{{ focusedLabel() }} ({{ role() }})</dd>
+              <dd class="text-(--jig-color-text)">{{ focusedLabel() }} ({{ role() }})</dd>
               <dt>{{ onSwitch() ? 'aria-checked' : 'tabindex' }}</dt>
-              <dd class="text-(--awd-color-text)">
+              <dd class="text-(--jig-color-text)">
                 {{ onSwitch() ? switchOn() : '0 — single tab stop' }}
               </dd>
               <dt>tested</dt>
-              <dd class="text-(--awd-color-text)">axe · Playwright · CI</dd>
+              <dd class="text-(--jig-color-text)">axe · Playwright · CI</dd>
             </dl>
           </div>
         </div>
@@ -163,7 +163,7 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
     </div>
   `,
 })
-export class NgnDocsAccessibilitySection {
+export class AwdDocsAccessibilitySection {
   protected readonly items = ITEMS;
   protected readonly guarantees = GUARANTEES;
   protected readonly keys = ['Tab', '←', '→', 'Home', 'End', 'Space'];

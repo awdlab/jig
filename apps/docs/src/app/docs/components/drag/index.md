@@ -14,7 +14,7 @@ on every pointer move, and `dragEnd` on release.
 
 {{ demo: Demo_Drag_Base }}
 
-`dragged` carries an `NgnDragInfo`:
+`dragged` carries an `AwdDragInfo`:
 
 | Field       | Meaning                                         |
 | ----------- | ----------------------------------------------- |
@@ -57,16 +57,16 @@ pointer leaves the host and ends wherever it is released.
 
 ### Custom Drag Behaviour
 
-Both directives extend the abstract `NgnDragBase`, which does the gesture
+Both directives extend the abstract `AwdDragBase`, which does the gesture
 detection and calls `onDragged(info)` on each move. Extend it when you want a
 directive that reacts to the drag internally instead of emitting to a consumer:
 
 ```ts
 @Directive({ selector: '[appDragResizeSidebar]' })
-export class DragResizeSidebar extends NgnDragBase {
+export class DragResizeSidebar extends AwdDragBase {
   private readonly _width = signal(280);
 
-  protected onDragged(info: NgnDragInfo): void {
+  protected onDragged(info: AwdDragInfo): void {
     this._width.update(w => w + info.deltaX);
   }
 }

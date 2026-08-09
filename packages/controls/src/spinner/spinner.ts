@@ -1,22 +1,22 @@
 import { booleanAttribute, Component, input, computed } from '@angular/core';
-import { NgnBase, NgnPt, provideSelf } from '@awdlab/jig/base';
+import { AwdBase, AwdPt, provideSelf } from '@awdlab/jig/base';
 import { spinnerControlTemplate } from '@awdlab/jig-themes/templates/spinner';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'awd-spinner',
+  selector: 'jig-spinner',
   templateUrl: './spinner.html',
-  imports: [NgnPt],
-  providers: [provideSelf(NgnSpinner)],
+  imports: [AwdPt],
+  providers: [provideSelf(AwdSpinner)],
   host: {
     role: 'status',
     '[style.--size]': 'size()',
     '[style.--thickness]': 'thickness() || null',
   },
 })
-export class NgnSpinner extends NgnBase<'spinner'> {
+export class AwdSpinner extends AwdBase<'spinner'> {
   protected readonly theme = this.injectThemeTemplate(spinnerControlTemplate, {
     root: true,
     centered: () => !!this.centered(),

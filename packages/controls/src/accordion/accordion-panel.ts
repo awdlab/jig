@@ -10,10 +10,10 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { provideSelf, NgnPt } from '@awdlab/jig/base';
-import { NgnDefer } from '@awdlab/jig/defer';
-import { NgnIcon } from '@awdlab/jig/icon';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { provideSelf, AwdPt } from '@awdlab/jig/base';
+import { AwdDefer } from '@awdlab/jig/defer';
+import { AwdIcon } from '@awdlab/jig/icon';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 import { accordionPanelControlTemplate } from '@awdlab/jig-themes/templates/accordion-panel';
 
@@ -24,13 +24,13 @@ import { ACCORDION_CONTROL } from './types';
  * @category control
  */
 @Component({
-  selector: 'awd-accordion-panel',
-  imports: [NgTemplateOutlet, NgnPt, NgnDefer, NgnTemplate, NgnIcon],
+  selector: 'jig-accordion-panel',
+  imports: [NgTemplateOutlet, AwdPt, AwdDefer, AwdTemplate, AwdIcon],
   templateUrl: './accordion-panel.html',
 
-  providers: [provideSelf(NgnAccordionPanel)],
+  providers: [provideSelf(AwdAccordionPanel)],
 })
-export class NgnAccordionPanel extends AccordionTemplates {
+export class AwdAccordionPanel extends AccordionTemplates {
   protected readonly theme = this.injectThemeTemplate(accordionPanelControlTemplate, 'root');
 
   private readonly _accordionControl = inject(ACCORDION_CONTROL);

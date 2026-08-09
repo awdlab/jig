@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { injectThemeColors, injectThemeControlKinds } from '@awdlab/jig/api/ng';
-import { NgnButton } from '@awdlab/jig/button';
+import { AwdButton } from '@awdlab/jig/button';
 
 @Component({
-  selector: 'awd-demo-button-kind',
-  imports: [NgnButton],
+  selector: 'jig-demo-button-kind',
+  imports: [AwdButton],
   template: `
     <div class="flex flex-col gap-2">
       @for (color of colors(); track $index) {

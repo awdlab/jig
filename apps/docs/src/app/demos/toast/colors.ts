@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { injectThemeColors } from '@awdlab/jig/api/ng';
-import { NgnButton } from '@awdlab/jig/button';
+import { AwdButton } from '@awdlab/jig/button';
 import { injectToastCreator } from '@awdlab/jig/toast';
 
 import type { CustomColor } from '@awdlab/jig-custom-types';
 
 @Component({
-  imports: [NgnButton],
-  selector: 'awd-demo-toast-colors',
+  imports: [AwdButton],
+  selector: 'jig-demo-toast-colors',
   template: `
     @for (color of colors(); track color) {
       <button ngnButton kind="text" [color]="color" (click)="showToast(color)">

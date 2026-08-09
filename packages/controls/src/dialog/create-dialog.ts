@@ -2,15 +2,15 @@ import { ComponentRef, Injector, ViewContainerRef } from '@angular/core';
 import { setComponentInput } from '@awdlab/jig/api/ng';
 import { Observable, Subject } from 'rxjs';
 
-import { NgnDialog } from './dialog';
+import { AwdDialog } from './dialog';
 import { PromptDialogBase } from './prompt-dialog-base';
 
 import type { DialogConfig } from './types';
-import type { NgnActionButtonConfig } from '@awdlab/jig/api';
+import type { AwdActionButtonConfig } from '@awdlab/jig/api';
 
 export type DialogHandle<
   T,
-  Buttons extends NgnActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
+  Buttons extends AwdActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
 > = {
   close: () => void;
   updateConfig: (config: Partial<DialogConfig<T, Buttons>>) => void;
@@ -19,7 +19,7 @@ export type DialogHandle<
 
 export type PromptDialogHandle<
   T,
-  Buttons extends NgnActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
+  Buttons extends AwdActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
 > = {
   close: () => void;
   updateConfig: (config: Partial<DialogConfig<T, Buttons>>) => void;
@@ -31,8 +31,8 @@ export type PromptDialogHandle<
 
 function applyDialogConfig<
   T,
-  Buttons extends NgnActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
->(dialogRef: ComponentRef<NgnDialog<T, Buttons>>, config: DialogConfig<T, Buttons>): void {
+  Buttons extends AwdActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
+>(dialogRef: ComponentRef<AwdDialog<T, Buttons>>, config: DialogConfig<T, Buttons>): void {
   if (config.title !== undefined) {
     setComponentInput(dialogRef, 'title', config.title);
   }
@@ -61,7 +61,7 @@ function applyDialogConfig<
 
 export function createDialog<
   T,
-  Buttons extends NgnActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
+  Buttons extends AwdActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
 >(
   injector: Injector,
   config: DialogConfig<T, Buttons>
@@ -71,9 +71,9 @@ export function createDialog<
   type ButtonValues = Buttons[number]['value'];
 
   const viewContainerRef = injector.get(ViewContainerRef);
-  const dialogRef = viewContainerRef.createComponent(NgnDialog, {
+  const dialogRef = viewContainerRef.createComponent(AwdDialog, {
     injector,
-  }) as unknown as ComponentRef<NgnDialog<T, Buttons>>;
+  }) as unknown as ComponentRef<AwdDialog<T, Buttons>>;
 
   applyDialogConfig(dialogRef, config);
   dialogRef.instance.buttonClicked.subscribe(value => {
@@ -94,7 +94,7 @@ export function createDialog<
       button: ButtonValues | null;
     }>();
 
-    (dialogRef.instance as unknown as NgnDialog<T, Buttons>).promptResult.subscribe(result => {
+    (dialogRef.instance as unknown as AwdDialog<T, Buttons>).promptResult.subscribe(result => {
       _result.resolve(result);
     });
 

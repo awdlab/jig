@@ -1,23 +1,23 @@
 import { Component, signal } from '@angular/core';
-import { NgnAccordion, NgnAccordionPanel } from '@awdlab/jig/accordion';
-import { NgnButton } from '@awdlab/jig/button';
+import { AwdAccordion, AwdAccordionPanel } from '@awdlab/jig/accordion';
+import { AwdButton } from '@awdlab/jig/button';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  selector: 'awd-demo-accordion-disabled',
-  imports: [NgnAccordion, NgnButton, NgnAccordionPanel],
-  template: `<awd-accordion [multiple]="true">
-      <awd-accordion-panel [header]="'Panel 1'">
+  selector: 'jig-demo-accordion-disabled',
+  imports: [AwdAccordion, AwdButton, AwdAccordionPanel],
+  template: `<jig-accordion [multiple]="true">
+      <jig-accordion-panel [header]="'Panel 1'">
         <ng-template #content> {{ loremIpsum1 }} </ng-template>
-      </awd-accordion-panel>
-      <awd-accordion-panel [header]="'Panel 2'">
+      </jig-accordion-panel>
+      <jig-accordion-panel [header]="'Panel 2'">
         <ng-template #content> {{ loremIpsum2 }} </ng-template>
-      </awd-accordion-panel>
-      <awd-accordion-panel [header]="'Panel 3'" [disabled]="isDisabled()">
+      </jig-accordion-panel>
+      <jig-accordion-panel [header]="'Panel 3'" [disabled]="isDisabled()">
         <ng-template #content> {{ loremIpsum3 }} </ng-template>
-      </awd-accordion-panel>
-    </awd-accordion>
+      </jig-accordion-panel>
+    </jig-accordion>
     <button ngnButton (click)="toggleDisabled()">Toggle Disabled</button> `,
 })
 export class Demo_Accordion_Disabled {

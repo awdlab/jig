@@ -1,30 +1,30 @@
 import { Component, signal } from '@angular/core';
-import { NgnSelectButton } from '@awdlab/jig/select-button';
+import { AwdSelectButton } from '@awdlab/jig/select-button';
 
-import type { NgnItem } from '@awdlab/jig/api';
+import type { JigItem } from '@awdlab/jig/api';
 
 @Component({
-  imports: [NgnSelectButton],
-  selector: 'awd-demo-select-button-states',
+  imports: [AwdSelectButton],
+  selector: 'jig-demo-select-button-states',
   template: `
     Default:
-    <awd-select-button [options]="options" [value]="value()" (valueChange)="value.set($event)" />
+    <jig-select-button [options]="options" [value]="value()" (valueChange)="value.set($event)" />
     Disabled:
-    <awd-select-button
+    <jig-select-button
       [options]="options"
       [value]="value()"
       (valueChange)="value.set($event)"
       disabled
     />
     Readonly:
-    <awd-select-button
+    <jig-select-button
       [options]="options"
       [value]="value()"
       (valueChange)="value.set($event)"
       readonly
     />
     Invalid:
-    <awd-select-button
+    <jig-select-button
       [options]="options"
       [value]="value()"
       (valueChange)="value.set($event)"
@@ -48,5 +48,5 @@ export class Demo_SelectButton_States {
     { label: 'Option 1', value: 1 },
     { label: 'Option 2', value: 2 },
     { label: 'Option 3', value: 3 },
-  ] as const satisfies NgnItem[];
+  ] as const satisfies JigItem[];
 }

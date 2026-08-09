@@ -1,7 +1,7 @@
 import { TemplateRef, Type } from '@angular/core';
 
 import type { PromptDialogBase } from './prompt-dialog-base';
-import type { NgnActionButtonConfig } from '@awdlab/jig/api';
+import type { AwdActionButtonConfig } from '@awdlab/jig/api';
 import type { CloseBy } from '@awdlab/jig/api/ng';
 
 export type DialogSize = {
@@ -15,7 +15,7 @@ export type DialogSize = {
 
 export type DialogConfig<
   T,
-  Buttons extends NgnActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
+  Buttons extends AwdActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
 > = {
   title?: string;
   size?: DialogSize;

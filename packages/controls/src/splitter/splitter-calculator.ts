@@ -7,8 +7,8 @@ import {
 } from '@awdlab/jig/api/resize';
 import { Logger, throwExp } from '@awdlab/jig/utils';
 
-import { NgnSplitterPanel } from './panel/splitter-panel';
-import { NgnSplitter } from './splitter';
+import { AwdSplitterPanel } from './panel/splitter-panel';
+import { AwdSplitter } from './splitter';
 
 import type { SplitterLayout } from './types';
 
@@ -16,18 +16,18 @@ import type { SplitterLayout } from './types';
  * Type interface for the {@link SplitterCalculator} interface.
  */
 export interface SplitterCalculatorType {
-  new (splitter: NgnSplitter): SplitterCalculator;
+  new (splitter: AwdSplitter): SplitterCalculator;
 }
 
 /**
- * Represents a calculator for the {@link NgnSplitter} component, handling panel sizes, drag events, and min/max size constraints.
+ * Represents a calculator for the {@link AwdSplitter} component, handling panel sizes, drag events, and min/max size constraints.
  * This interface defines the methods and properties required for managing the splitter's layout and behavior.
  */
 export interface SplitterCalculator {
   /**
    * Signal that provides the ordered list of panels in the splitter.
    */
-  orderedPanels: Signal<readonly NgnSplitterPanel[]>;
+  orderedPanels: Signal<readonly AwdSplitterPanel[]>;
 
   /**
    * Signal that provides the grid template sizes for the splitter (to use in `grid-template-rows` or `grid-template-columns` CSS properties).
@@ -107,7 +107,7 @@ export type SplitterDragContext = {
  * Delegates all resize math to the generic {@link ResizeEngine}.
  */
 export class DefaultSplitterCalculator implements SplitterCalculator {
-  protected readonly panels: Signal<readonly NgnSplitterPanel[]>;
+  protected readonly panels: Signal<readonly AwdSplitterPanel[]>;
   protected readonly dividers: Signal<readonly EmbeddedViewRef<unknown>[]>;
   protected readonly panelOrder: Signal<readonly string[] | null | undefined>;
   protected readonly layout: Signal<SplitterLayout>;
@@ -115,7 +115,7 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
 
   private readonly _engine: ResizeEngine;
 
-  constructor(splitter: NgnSplitter) {
+  constructor(splitter: AwdSplitter) {
     this.panels = splitter.panels;
     this.dividers = splitter.dividers;
     this.panelOrder = splitter.panelOrder;
@@ -161,7 +161,7 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
     panels.forEach((panel, i) => {
       if (i > 0) {
         result +=
-          this.layout() === 'horizontal' ? ` awd-divider-${i - 1} ` : ` "awd-divider-${i - 1}" `;
+          this.layout() === 'horizontal' ? ` jig-divider-${i - 1} ` : ` "jig-divider-${i - 1}" `;
       }
       result += this.layout() === 'horizontal' ? panel['gridArea']() : `"${panel['gridArea']()}"`;
     });
@@ -218,10 +218,10 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
 
     const leftPanel =
       panels[index] ??
-      throwExp('NgnSplitterCalculator', `Left panel is missing for divider at index ${index}`);
+      throwExp('AwdSplitterCalculator', `Left panel is missing for divider at index ${index}`);
     const rightPanel =
       panels[index + 1] ??
-      throwExp('NgnSplitterCalculator', `Right panel is missing for divider at index ${index}`);
+      throwExp('AwdSplitterCalculator', `Right panel is missing for divider at index ${index}`);
 
     if (
       !this._engine.isItemSizeCalculated(leftPanel as unknown as ResizableItem) ||
@@ -243,7 +243,7 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
   }
 
   /** @internal — used by tests to seed panel sizes into the engine. */
-  public setPanelSize(panel: NgnSplitterPanel, size: string) {
+  public setPanelSize(panel: AwdSplitterPanel, size: string) {
     this._engine.setItemSize(panel as unknown as ResizableItem, size as ResizeSize);
   }
 }

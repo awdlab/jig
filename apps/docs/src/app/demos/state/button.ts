@@ -1,35 +1,35 @@
 import { Component } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnState } from '@awdlab/jig/state';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdState } from '@awdlab/jig/state';
 
 @Component({
-  imports: [NgnState, NgnButton],
-  selector: 'awd-demo-state-button',
+  imports: [AwdState, AwdButton],
+  selector: 'jig-demo-state-button',
   template: `
     <div class="flex flex-wrap items-center gap-3">
       <button ngnButton>
         Save
-        <awd-state kind="loading" />
+        <jig-state kind="loading" />
       </button>
       <button ngnButton>
         Publishing
-        <awd-state kind="loading" replaceContent />
+        <jig-state kind="loading" replaceContent />
       </button>
       <button ngnButton kind="secondary">
         Saved
-        <awd-state kind="success" />
+        <jig-state kind="success" />
       </button>
       <button ngnButton kind="secondary">
         Review
-        <awd-state kind="warning" />
+        <jig-state kind="warning" />
       </button>
       <button ngnButton kind="secondary">
         Failed
-        <awd-state kind="error" />
+        <jig-state kind="error" />
       </button>
       <button ngnButton kind="secondary">
         Cancelled
-        <awd-state kind="cancelled" />
+        <jig-state kind="cancelled" />
       </button>
     </div>
   `,

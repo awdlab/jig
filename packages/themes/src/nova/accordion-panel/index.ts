@@ -27,7 +27,7 @@ export const accordionPanelStyles = createThemePart({
       }
       ${c('content')} {
         color: ${v('color.surface.700')};
-        awd-defer {
+        jig-defer {
           padding: ${v('size.padding.md')} ${v('size.padding.lg')};
         }
       }
@@ -38,7 +38,7 @@ export const accordionPanelStyles = createThemePart({
         cursor: pointer;
         user-select: none;
         transition: background-color 0.2s ease-in-out;
-        awd-icon {
+        jig-icon {
           color: ${v('color.surface.600')};
           margin: 0 ${v('size.padding.md')};
           transition: color 0.2s ease-in-out;
@@ -63,7 +63,7 @@ export const accordionPanelStyles = createThemePart({
       /* Expanded panels get a tinted, accent-coloured header. */
       ${c('header-expanded')} {
         background: ${v('color.surface.50')};
-        ${c('header-text')}, awd-icon {
+        ${c('header-text')}, jig-icon {
           color: ${v('color.primary.600')};
         }
       }
@@ -77,7 +77,7 @@ export const accordionPanelStyles = createThemePart({
         ${c('header-text')} {
           color: ${v('color.surface.300')};
         }
-        awd-icon {
+        jig-icon {
           color: ${v('color.surface.300')};
         }
       }

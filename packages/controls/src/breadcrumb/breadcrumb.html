@@ -1,4 +1,4 @@
-<awd-item-view
+<jig-item-view
   #itemView
   [ptInt]="this"
   [ptDep]="'item-view'"
@@ -37,7 +37,7 @@
 
 <ng-template #defaultSeparatorTemplate [ngnTemplate]="templateTypes.separator" let-separator>
   <span [ptInt]="this" [ptClass]="'separator'">
-    <awd-icon defaultIcon="breadcrumb-separator" [icon]="separator.icon" />
+    <jig-icon defaultIcon="breadcrumb-separator" [icon]="separator.icon" />
   </span>
 </ng-template>
 
@@ -49,9 +49,9 @@
     [attr.aria-label]="i18n['breadcrumb_overflow']()"
     (click)="menu.show()"
   >
-    <awd-icon defaultIcon="breadcrumb-overflow" [icon]="overflow.icon" />
+    <jig-icon defaultIcon="breadcrumb-overflow" [icon]="overflow.icon" />
   </button>
-  <awd-menu
+  <jig-menu
     #menu
     [ptInt]="this"
     [ptDep]="'menu'"

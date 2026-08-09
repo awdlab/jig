@@ -1,7 +1,7 @@
-import type { NgnTreeItem } from '@awdlab/jig/api';
+import type { AwdTreeItem } from '@awdlab/jig/api';
 
 /** A small file-system style tree reused across the tree demos. */
-export const fileTree: NgnTreeItem[] = [
+export const fileTree: AwdTreeItem[] = [
   {
     label: 'src',
     value: 'src',

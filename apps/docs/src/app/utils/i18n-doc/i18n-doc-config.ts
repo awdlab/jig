@@ -1,6 +1,6 @@
-import { NgnDocsI18n } from './i18n-doc';
+import { AwdDocsI18n } from './i18n-doc';
 
-import type { NgnDocsPage } from '../page/types';
+import type { AwdDocsPage } from '../page/types';
 import type { Translations } from '@awdlab/jig/i18n';
 
 /**
@@ -14,7 +14,7 @@ export type I18nDescriptions<T> = {
   [K in keyof T]: T[K] extends string ? string : I18nDescriptions<T[K]>;
 };
 
-/** Discriminated payload the {@link NgnDocsI18n} component renders. */
+/** Discriminated payload the {@link AwdDocsI18n} component renders. */
 export type I18nDoc =
   | {
       kind: 'keys';
@@ -29,10 +29,10 @@ export type I18nDoc =
   | { kind: 'none'; projection?: boolean };
 
 /** The `kind: 'component'` variant of a docs page, used for i18n tabs. */
-type I18nTab = Extract<NgnDocsPage, { kind: 'component' }>;
+type I18nTab = Extract<AwdDocsPage, { kind: 'component' }>;
 
 function tab(data: I18nDoc): I18nTab {
-  return { kind: 'component', title: 'i18n', component: NgnDocsI18n, inputs: { data } };
+  return { kind: 'component', title: 'i18n', component: AwdDocsI18n, inputs: { data } };
 }
 
 /**

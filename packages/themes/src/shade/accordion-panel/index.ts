@@ -19,7 +19,7 @@ export const accordionPanelStyles = createThemePart({
         transition: grid-template-rows 0.2s ease-in-out;
       }
       ${c('content')} {
-        awd-defer {
+        jig-defer {
           padding-top: 0;
           padding-bottom: ${v('size.padding.md')};
           padding-left: ${v('size.padding.xl')};
@@ -33,7 +33,7 @@ export const accordionPanelStyles = createThemePart({
         padding: 0;
         cursor: pointer;
         user-select: none;
-        awd-icon {
+        jig-icon {
           color: ${v('color.muted.foreground')};
           margin: 0 ${v('size.padding.md')};
           transition: color 0.2s ease-in-out;

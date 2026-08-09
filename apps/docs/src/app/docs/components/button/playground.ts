@@ -1,13 +1,13 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
+import { AwdButton } from '@awdlab/jig/button';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-button-playground',
-  imports: [NgnButton, NgnDocsPlayground],
+  selector: 'jig-docs-button-playground',
+  imports: [AwdButton, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnButton', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'AwdButton', component: component() }]">
       <button #ref ngnButton>
         @if (component().appliedKind() === 'icon') {
           👽
@@ -15,9 +15,9 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
           A button
         }
       </button>
-    </awd-docs-playground>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsButtonPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnButton });
+export class AwdDocsButtonPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdButton });
 }

@@ -1,1 +1,1 @@
-{{ api: popover/popover NgnPopover }}
+{{ api: popover/popover AwdPopover }}

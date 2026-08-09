@@ -11,9 +11,9 @@ export const itemViewStyles = createThemePart({
       }
       ${c('root')} {
         display: flex;
-        /* Content width set by the component (see NgnItemView host); max-width keeps
+        /* Content width set by the component (see JigItemView host); max-width keeps
            overflow working when constrained. */
-        width: var(--awd-item-view-content-width, 100%);
+        width: var(--jig-item-view-content-width, 100%);
         max-width: 100%;
         white-space: nowrap;
         overflow: hidden;

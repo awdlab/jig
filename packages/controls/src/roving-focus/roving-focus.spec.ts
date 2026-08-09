@@ -3,11 +3,11 @@ import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
 
-import { NgnRovingGroup, NgnRovingItem } from './roving-focus';
+import { AwdRovingGroup, AwdRovingItem } from './roving-focus';
 
 // Nested (tabindex / descendant) topology — item resolves group via injected token.
 @Component({
-  imports: [NgnRovingGroup, NgnRovingItem],
+  imports: [AwdRovingGroup, AwdRovingItem],
   template: `
     <div ngnRovingGroup>
       <span ngnRovingItem id="a">A</span>
@@ -17,14 +17,14 @@ import { NgnRovingGroup, NgnRovingItem } from './roving-focus';
   `,
 })
 class NestedHost {
-  group = viewChild.required(NgnRovingGroup);
+  group = viewChild.required(AwdRovingGroup);
 }
 
 // Sibling (activedescendant) topology — group host is a leaf <input>, items are
 // SIBLINGS and must receive the group via the [ngnRovingItem] reference. This is
 // the topology the mask actually uses; it proves the DI fallback works.
 @Component({
-  imports: [NgnRovingGroup, NgnRovingItem],
+  imports: [AwdRovingGroup, AwdRovingItem],
   template: `
     <div>
       <input #g="ngnRovingGroup" ngnRovingGroup rovingMode="activedescendant" />
@@ -35,7 +35,7 @@ class NestedHost {
   `,
 })
 class SiblingHost {
-  group = viewChild.required(NgnRovingGroup);
+  group = viewChild.required(AwdRovingGroup);
 }
 
 describe('roving-focus registration', () => {
@@ -67,7 +67,7 @@ describe('roving-focus registration', () => {
 });
 
 @Component({
-  imports: [NgnRovingGroup, NgnRovingItem],
+  imports: [AwdRovingGroup, AwdRovingItem],
   template: `
     <div ngnRovingGroup [rovingWrap]="true">
       <span ngnRovingItem id="a">A</span>
@@ -77,7 +77,7 @@ describe('roving-focus registration', () => {
   `,
 })
 class WrapHost {
-  group = viewChild.required(NgnRovingGroup);
+  group = viewChild.required(AwdRovingGroup);
 }
 
 describe('roving-focus navigation methods', () => {
@@ -198,11 +198,11 @@ describe('roving-focus navigation methods', () => {
     it('first() is a no-op when items list is empty', () => {
       // Empty host — verify no throw
       @Component({
-        imports: [NgnRovingGroup],
+        imports: [AwdRovingGroup],
         template: `<div ngnRovingGroup></div>`,
       })
       class EmptyHost {
-        group = viewChild.required(NgnRovingGroup);
+        group = viewChild.required(AwdRovingGroup);
       }
       const fixture = TestBed.createComponent(EmptyHost);
       fixture.detectChanges();
@@ -212,11 +212,11 @@ describe('roving-focus navigation methods', () => {
 
     it('last() is a no-op when items list is empty', () => {
       @Component({
-        imports: [NgnRovingGroup],
+        imports: [AwdRovingGroup],
         template: `<div ngnRovingGroup></div>`,
       })
       class EmptyHost2 {
-        group = viewChild.required(NgnRovingGroup);
+        group = viewChild.required(AwdRovingGroup);
       }
       const fixture = TestBed.createComponent(EmptyHost2);
       fixture.detectChanges();
@@ -254,7 +254,7 @@ describe('roving-focus navigation methods', () => {
 
 @Component({
   selector: 'test-keyboard-horizontal-host',
-  imports: [NgnRovingGroup, NgnRovingItem],
+  imports: [AwdRovingGroup, AwdRovingItem],
   template: `
     <div ngnRovingGroup>
       <span ngnRovingItem id="a">A</span>
@@ -264,12 +264,12 @@ describe('roving-focus navigation methods', () => {
   `,
 })
 class KeyboardHorizontalHost {
-  group = viewChild.required(NgnRovingGroup);
+  group = viewChild.required(AwdRovingGroup);
 }
 
 @Component({
   selector: 'test-keyboard-vertical-host',
-  imports: [NgnRovingGroup, NgnRovingItem],
+  imports: [AwdRovingGroup, AwdRovingItem],
   template: `
     <div ngnRovingGroup orientation="vertical">
       <span ngnRovingItem id="a">A</span>
@@ -279,7 +279,7 @@ class KeyboardHorizontalHost {
   `,
 })
 class KeyboardVerticalHost {
-  group = viewChild.required(NgnRovingGroup);
+  group = viewChild.required(AwdRovingGroup);
 }
 
 function press(host: HTMLElement, key: string, init: KeyboardEventInit = {}): KeyboardEvent {
@@ -454,7 +454,7 @@ describe('roving-focus keyboard', () => {
 
 @Component({
   selector: 'test-tabindex-mode-host',
-  imports: [NgnRovingGroup, NgnRovingItem],
+  imports: [AwdRovingGroup, AwdRovingItem],
   template: `
     <div ngnRovingGroup>
       <span ngnRovingItem id="a">A</span>
@@ -464,12 +464,12 @@ describe('roving-focus keyboard', () => {
   `,
 })
 class TabindexModeHost {
-  group = viewChild.required(NgnRovingGroup);
+  group = viewChild.required(AwdRovingGroup);
 }
 
 @Component({
   selector: 'test-activedescendant-mode-host',
-  imports: [NgnRovingGroup, NgnRovingItem],
+  imports: [AwdRovingGroup, AwdRovingItem],
   template: `
     <div>
       <input #g="ngnRovingGroup" ngnRovingGroup rovingMode="activedescendant" />
@@ -480,23 +480,23 @@ class TabindexModeHost {
   `,
 })
 class ActiveDescendantModeHost {
-  group = viewChild.required(NgnRovingGroup);
+  group = viewChild.required(AwdRovingGroup);
 }
 
 @Component({
   selector: 'test-empty-activedescendant-host',
-  imports: [NgnRovingGroup],
+  imports: [AwdRovingGroup],
   template: `<input ngnRovingGroup rovingMode="activedescendant" />`,
 })
 class EmptyActivedescendantHost {
-  group = viewChild.required(NgnRovingGroup);
+  group = viewChild.required(AwdRovingGroup);
 }
 
 // Host with a writable rovingMode — used to verify reverse-direction cleanup
 // when the mode switches at runtime.
 @Component({
   selector: 'test-dynamic-mode-host',
-  imports: [NgnRovingGroup, NgnRovingItem],
+  imports: [AwdRovingGroup, AwdRovingItem],
   template: `
     <div #g="ngnRovingGroup" ngnRovingGroup [rovingMode]="mode()">
       <span [ngnRovingItem]="g" id="a">A</span>
@@ -507,7 +507,7 @@ class EmptyActivedescendantHost {
 })
 class DynamicModeHost {
   mode = signal<'tabindex' | 'activedescendant'>('activedescendant');
-  group = viewChild.required(NgnRovingGroup);
+  group = viewChild.required(AwdRovingGroup);
 }
 
 // Host whose item count can shrink — used to verify the local active-index
@@ -516,7 +516,7 @@ class DynamicModeHost {
 // the remaining item keeps a stable, valid id.
 @Component({
   selector: 'test-shrinking-items-host',
-  imports: [NgnRovingGroup, NgnRovingItem],
+  imports: [AwdRovingGroup, AwdRovingItem],
   template: `
     <div #g="ngnRovingGroup" ngnRovingGroup rovingMode="activedescendant">
       <span [ngnRovingItem]="g" id="a">A</span>
@@ -529,14 +529,14 @@ class DynamicModeHost {
 })
 class ShrinkingItemsHost {
   showRest = signal(true);
-  group = viewChild.required(NgnRovingGroup);
+  group = viewChild.required(AwdRovingGroup);
 }
 
 // ── Disabled-skip navigation tests ───────────────────────────────────────────
 
 @Component({
   selector: 'test-disabled-skip-host',
-  imports: [NgnRovingGroup, NgnRovingItem],
+  imports: [AwdRovingGroup, AwdRovingItem],
   template: `
     <div ngnRovingGroup [rovingWrap]="wrap()">
       <span ngnRovingItem id="a">A</span>
@@ -548,7 +548,7 @@ class ShrinkingItemsHost {
 })
 class DisabledSkipHost {
   wrap = signal(false);
-  group = viewChild.required(NgnRovingGroup);
+  group = viewChild.required(AwdRovingGroup);
 }
 
 describe('roving-focus disabled skipping', () => {
@@ -558,8 +558,8 @@ describe('roving-focus disabled skipping', () => {
     fixture.detectChanges();
     const group = fixture.componentInstance.group();
     const items = fixture.debugElement
-      .queryAll(By.directive(NgnRovingItem))
-      .map(d => d.injector.get(NgnRovingItem));
+      .queryAll(By.directive(AwdRovingItem))
+      .map(d => d.injector.get(AwdRovingItem));
     return { fixture, group, items };
   }
 
@@ -735,14 +735,14 @@ describe('roving-focus focus modes', () => {
     });
   });
 
-  describe('isActive computed on NgnRovingItem', () => {
+  describe('isActive computed on AwdRovingItem', () => {
     it('only the active item (index 0) has isActive() === true initially', () => {
       const fixture = TestBed.createComponent(TabindexModeHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
       const rovingItems = fixture.debugElement
-        .queryAll(By.directive(NgnRovingItem))
-        .map(d => d.injector.get(NgnRovingItem));
+        .queryAll(By.directive(AwdRovingItem))
+        .map(d => d.injector.get(AwdRovingItem));
       expect(rovingItems[0]!.isActive()).toBe(true);
       expect(rovingItems[1]!.isActive()).toBe(false);
       expect(rovingItems[2]!.isActive()).toBe(false);
@@ -755,8 +755,8 @@ describe('roving-focus focus modes', () => {
       group.next();
       fixture.detectChanges();
       const rovingItems = fixture.debugElement
-        .queryAll(By.directive(NgnRovingItem))
-        .map(d => d.injector.get(NgnRovingItem));
+        .queryAll(By.directive(AwdRovingItem))
+        .map(d => d.injector.get(AwdRovingItem));
       expect(rovingItems[0]!.isActive()).toBe(false);
       expect(rovingItems[1]!.isActive()).toBe(true);
       expect(rovingItems[2]!.isActive()).toBe(false);
@@ -837,8 +837,8 @@ describe('roving-focus focus modes', () => {
       // for the remaining item (not just the local display clamp).
       expect(group.activeIndex()).toBe(0);
       const remainingItem = fixture.debugElement
-        .queryAll(By.directive(NgnRovingItem))
-        .map(d => d.injector.get(NgnRovingItem))[0]!;
+        .queryAll(By.directive(AwdRovingItem))
+        .map(d => d.injector.get(AwdRovingItem))[0]!;
       expect(remainingItem.isActive()).toBe(true);
     });
   });

@@ -1,33 +1,33 @@
 import { afterNextRender, DestroyRef, inject, signal, type Signal, Type } from '@angular/core';
 
-import type { AnyNgnBase, FullAnyNgnBase } from './base';
+import type { AnyAwdBase, FullAnyAwdBase } from './base';
 
 const NGN_INSTANCE_KEY = '__ngneers_control_instance__';
 
 function elementWithInstance(
   element: HTMLElement
-): HTMLElement & { [NGN_INSTANCE_KEY]?: AnyNgnBase } {
-  return element as HTMLElement & { [NGN_INSTANCE_KEY]?: FullAnyNgnBase };
+): HTMLElement & { [NGN_INSTANCE_KEY]?: AnyAwdBase } {
+  return element as HTMLElement & { [NGN_INSTANCE_KEY]?: FullAnyAwdBase };
 }
 
-export function setNgnInstance(element: HTMLElement, instance: AnyNgnBase): void {
+export function setAwdInstance(element: HTMLElement, instance: AnyAwdBase): void {
   elementWithInstance(element)[NGN_INSTANCE_KEY] = instance;
   inject(DestroyRef).onDestroy(() => {
     delete elementWithInstance(element)[NGN_INSTANCE_KEY];
   });
 }
 
-export function getNgnInstance(element: HTMLElement): FullAnyNgnBase {
-  return elementWithInstance(element)[NGN_INSTANCE_KEY] as FullAnyNgnBase;
+export function getAwdInstance(element: HTMLElement): FullAnyAwdBase {
+  return elementWithInstance(element)[NGN_INSTANCE_KEY] as FullAnyAwdBase;
 }
 
-export function getNearestNgnInstance<T extends Type<Omit<AnyNgnBase, 'kind'>>>(
+export function getNearestAwdInstance<T extends Type<Omit<AnyAwdBase, 'kind'>>>(
   element: HTMLElement,
   kind?: T
 ): InstanceType<T> | null {
   let current: HTMLElement | null = element;
   while (current) {
-    const instance = elementWithInstance(current)[NGN_INSTANCE_KEY] as FullAnyNgnBase | undefined;
+    const instance = elementWithInstance(current)[NGN_INSTANCE_KEY] as FullAnyAwdBase | undefined;
     if (instance && (!kind || instance instanceof kind)) {
       return instance as InstanceType<T>;
     }
@@ -36,13 +36,13 @@ export function getNearestNgnInstance<T extends Type<Omit<AnyNgnBase, 'kind'>>>(
   return null;
 }
 
-export function getNearestNgnInstanceSig<T extends Type<AnyNgnBase>>(
+export function getNearestAwdInstanceSig<T extends Type<AnyAwdBase>>(
   element: HTMLElement,
   kind?: T
 ): Signal<InstanceType<T> | null> {
   const sig = signal<InstanceType<T> | null>(null);
   afterNextRender(() => {
-    sig.set(getNearestNgnInstance(element, kind));
+    sig.set(getNearestAwdInstance(element, kind));
   });
   return sig;
 }

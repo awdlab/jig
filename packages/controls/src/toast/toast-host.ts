@@ -1,19 +1,19 @@
 import { afterNextRender, Component, ElementRef, inject, viewChildren } from '@angular/core';
-import { NgnBase } from '@awdlab/jig/base';
+import { AwdBase } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
 import { NotificationRegionController } from '@awdlab/jig/utils-ng';
 import { toastControlTemplate } from '@awdlab/jig-themes/templates/toast';
 
-import { NgnToast } from './toast';
-import { NgnToastManager } from './toast-manager';
+import { AwdToast } from './toast';
+import { AwdToastManager } from './toast-manager';
 
 /**
  * The host component that renders toasts.
  */
 @Component({
-  selector: 'awd-toast-host',
+  selector: 'jig-toast-host',
   templateUrl: 'toast-host.html',
-  imports: [NgnToast],
+  imports: [AwdToast],
   host: {
     '[attr.popover]': '"manual"',
     role: 'region',
@@ -24,13 +24,13 @@ import { NgnToastManager } from './toast-manager';
     '(focusout)': 'region.handleFocusOut($event)',
   },
 })
-export class NgnToastHost extends NgnBase<'toast'> {
+export class AwdToastHost extends AwdBase<'toast'> {
   protected readonly theme = this.injectThemeTemplate(toastControlTemplate, 'host');
   protected readonly i18n = inject(I18n).translations;
-  private readonly _toastManager = inject(NgnToastManager);
+  private readonly _toastManager = inject(AwdToastManager);
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  private readonly _items = viewChildren(NgnToast);
+  private readonly _items = viewChildren(AwdToast);
 
   protected readonly toasts = this._toastManager.toasts;
 

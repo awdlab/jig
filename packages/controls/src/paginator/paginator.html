@@ -7,12 +7,12 @@
   [attr.aria-label]="i18n['paginator_previousPage']()"
   (click)="previousPage($event)"
 >
-  <awd-icon [defaultIcon]="'paginator-previous'" />
+  <jig-icon [defaultIcon]="'paginator-previous'" />
 </button>
 
 @if (mode() === 'pages') {
   <!-- Roving focus: the current page is the only tab stop, the arrow keys move along the row. -->
-  <awd-item-view
+  <jig-item-view
     #itemView
     (keydown)="onPagesKeydown($event)"
     [ptInt]="this"
@@ -56,7 +56,7 @@
         ...
       </button>
     </ng-template>
-  </awd-item-view>
+  </jig-item-view>
 }
 
 @if (mode() === 'compact') {
@@ -72,15 +72,15 @@
   [attr.aria-label]="i18n['paginator_nextPage']()"
   (click)="nextPage($event)"
 >
-  <awd-icon [defaultIcon]="'paginator-next'" />
+  <jig-icon [defaultIcon]="'paginator-next'" />
 </button>
 
 @if (!fixedPageSize()) {
-  <awd-input-field [ptInt]="this" [ptClass]="'page-size-options'">
-    <awd-select
+  <jig-input-field [ptInt]="this" [ptClass]="'page-size-options'">
+    <jig-select
       [options]="pageSizeOptions()"
       [value]="appliedPageSize()"
       (valueChange)="pageSize.set($event)"
     />
-  </awd-input-field>
+  </jig-input-field>
 }

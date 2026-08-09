@@ -1,9 +1,9 @@
 import { Demo_Stepper_Base } from '../../../demos/stepper/base';
 import { Demo_Stepper_Linear } from '../../../demos/stepper/linear';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const StepperPage: NgnDocsPage = {
+export const StepperPage: AwdDocsPage = {
   title: `Stepper`,
   kind: 'tabs',
   tabs: [

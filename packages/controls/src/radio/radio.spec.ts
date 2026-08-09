@@ -1,25 +1,25 @@
 import { Component, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { provideNgnControls } from '@awdlab/jig/api/ng';
+import { provideAwdControls } from '@awdlab/jig/api/ng';
 import { nova } from '@awdlab/jig-themes/nova';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { NgnRadio } from './radio';
-import { NgnRadioGroup } from './radio-group';
+import { AwdRadio } from './radio';
+import { AwdRadioGroup } from './radio-group';
 
 @Component({
-  imports: [NgnRadioGroup, NgnRadio],
+  imports: [AwdRadioGroup, AwdRadio],
   template: `
-    <awd-radio-group
+    <jig-radio-group
       [value]="value()"
       (valueChange)="value.set($event)"
       [disabled]="disabled()"
       [readonly]="readonly()"
     >
-      <awd-radio value="a">A</awd-radio>
-      <awd-radio value="b" [disabled]="bDisabled()">B</awd-radio>
-      <awd-radio value="c">C</awd-radio>
-    </awd-radio-group>
+      <jig-radio value="a">A</jig-radio>
+      <jig-radio value="b" [disabled]="bDisabled()">B</jig-radio>
+      <jig-radio value="c">C</jig-radio>
+    </jig-radio-group>
   `,
 })
 class Host {
@@ -27,7 +27,7 @@ class Host {
   disabled = signal(false);
   readonly = signal(false);
   bDisabled = signal(false);
-  group = viewChild.required(NgnRadioGroup);
+  group = viewChild.required(AwdRadioGroup);
 }
 
 function press(host: HTMLElement, key: string): KeyboardEvent {
@@ -38,19 +38,19 @@ function press(host: HTMLElement, key: string): KeyboardEvent {
 
 beforeEach(() => {
   TestBed.configureTestingModule({
-    providers: [provideNgnControls({ theme: { preset: nova }, disableAnimations: true })],
+    providers: [provideAwdControls({ theme: { preset: nova }, disableAnimations: true })],
   });
 });
 
 function setup() {
   const fixture = TestBed.createComponent(Host);
   fixture.detectChanges();
-  const groupEl = fixture.nativeElement.querySelector('awd-radio-group') as HTMLElement;
-  const radios = Array.from(fixture.nativeElement.querySelectorAll('awd-radio')) as HTMLElement[];
+  const groupEl = fixture.nativeElement.querySelector('jig-radio-group') as HTMLElement;
+  const radios = Array.from(fixture.nativeElement.querySelectorAll('jig-radio')) as HTMLElement[];
   return { fixture, groupEl, radios };
 }
 
-describe('awd-radio-group value ownership', () => {
+describe('jig-radio-group value ownership', () => {
   it('the group host has role=radiogroup and children role=radio', () => {
     const { groupEl, radios } = setup();
     expect(groupEl.getAttribute('role')).toBe('radiogroup');
@@ -75,7 +75,7 @@ describe('awd-radio-group value ownership', () => {
   });
 });
 
-describe('awd-radio-group selection follows focus', () => {
+describe('jig-radio-group selection follows focus', () => {
   it('ArrowRight selects the next radio', () => {
     const { fixture, groupEl } = setup();
     fixture.componentInstance.value.set('a');
@@ -104,7 +104,7 @@ describe('awd-radio-group selection follows focus', () => {
   });
 });
 
-describe('awd-radio-group disabled / readonly', () => {
+describe('jig-radio-group disabled / readonly', () => {
   it('a group-disabled radio exposes aria-disabled and blocks selection', () => {
     const { fixture, groupEl, radios } = setup();
     fixture.componentInstance.disabled.set(true);

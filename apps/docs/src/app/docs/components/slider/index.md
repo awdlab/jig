@@ -1,4 +1,4 @@
-The Slider (`awd-slider`) is a form control for picking a numeric value within a
+The Slider (`jig-slider`) is a form control for picking a numeric value within a
 range by dragging the thumb, clicking the track, or using the keyboard. Bind the
 two-way `value` and set `min`, `max`, and `step` to define the range and its
 granularity. It participates in signal forms and exposes the `slider` role with

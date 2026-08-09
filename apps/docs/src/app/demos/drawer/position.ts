@@ -1,16 +1,16 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnDrawer } from '@awdlab/jig/drawer';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdDrawer } from '@awdlab/jig/drawer';
 
 @Component({
-  imports: [NgnDrawer, NgnButton],
-  selector: 'awd-demo-drawer-position',
+  imports: [AwdDrawer, AwdButton],
+  selector: 'jig-demo-drawer-position',
   template: `<button ngnButton (click)="position.set('left')">←</button>
     <button ngnButton (click)="position.set('right')">→</button>
     <button ngnButton (click)="position.set('top')">↑</button>
     <button ngnButton (click)="position.set('bottom')">↓</button>
     <button ngnButton (click)="position.set('fullscreen')">↔</button>
-    <awd-drawer
+    <jig-drawer
       [header]="'Drawer ' + position()"
       [position]="position() ?? 'left'"
       [open]="!!position()"
@@ -18,7 +18,7 @@ import { NgnDrawer } from '@awdlab/jig/drawer';
       (closed)="position.set(null)"
     >
       Content
-    </awd-drawer>`,
+    </jig-drawer>`,
 })
 export class Demo_Drawer_Position {
   protected readonly position = signal<'left' | 'right' | 'top' | 'bottom' | 'fullscreen' | null>(

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { NgnAvatar } from '@awdlab/jig/avatar';
+import { AwdAvatar } from '@awdlab/jig/avatar';
 
 @Component({
-  selector: 'awd-demo-avatar-base',
-  imports: [NgnAvatar],
-  template: `<awd-avatar initials="A" />
-    <awd-avatar initials="AB" bgColor="var(--awd-color-secondary-default)" />
-    <awd-avatar initials="ABC" />
-    <awd-avatar initials="ABCD" bgColor="var(--awd-color-secondary-default)" />`,
+  selector: 'jig-demo-avatar-base',
+  imports: [AwdAvatar],
+  template: `<jig-avatar initials="A" />
+    <jig-avatar initials="AB" bgColor="var(--jig-color-secondary-default)" />
+    <jig-avatar initials="ABC" />
+    <jig-avatar initials="ABCD" bgColor="var(--jig-color-secondary-default)" />`,
 })
 export class Demo_Avatar_Base {}

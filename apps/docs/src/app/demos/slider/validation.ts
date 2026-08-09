@@ -1,14 +1,14 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@awdlab/jig/errors';
-import { NgnHint } from '@awdlab/jig/hint';
-import { NgnSlider } from '@awdlab/jig/slider';
+import { AwdErrors } from '@awdlab/jig/errors';
+import { AwdHint } from '@awdlab/jig/hint';
+import { AwdSlider } from '@awdlab/jig/slider';
 
 @Component({
-  selector: 'awd-demo-slider-validation',
-  imports: [NgnErrors, NgnHint, NgnSlider],
+  selector: 'jig-demo-slider-validation',
+  imports: [AwdErrors, AwdHint, AwdSlider],
   template: `
     <div class="flex flex-col gap-2">
-      <awd-slider
+      <jig-slider
         [value]="value()"
         (valueChange)="value.set($event)"
         ngnErrors
@@ -17,7 +17,7 @@ import { NgnSlider } from '@awdlab/jig/slider';
         [ngnErrorsHint]="sliderHint"
       />
     </div>
-    <awd-hint #sliderHint />
+    <jig-hint #sliderHint />
   `,
   host: { class: 'block w-80 max-w-full' },
 })

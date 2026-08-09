@@ -1,6 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { NgnMessageHarness } from '@awdlab/jig-playwright';
+import { AwdMessageHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -9,10 +9,10 @@ test('features', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <awd-message
+      <jig-message
         class="page-center"
         [icon]="inputs().icon"
-      >Message text content</awd-message>
+      >Message text content</jig-message>
     `,
       imports: ['message'],
     },
@@ -21,7 +21,7 @@ test('features', async ({ page }, testInfo) => {
     }
   );
 
-  const message = new NgnMessageHarness(page.locator('awd-message'));
+  const message = new AwdMessageHarness(page.locator('jig-message'));
 
   await test.step('default', async () => {
     await expectScreenshot(page, testInfo, 'default');
@@ -54,7 +54,7 @@ test('kinds and colors', async ({ page }, testInfo) => {
             }
             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
               @for (color of inputs().colors; track $index) {
-                <awd-message [kind]="kind" [color]="color">{{ color ?? 'default' }} message</awd-message>
+                <jig-message [kind]="kind" [color]="color">{{ color ?? 'default' }} message</jig-message>
               }
             </div>
           }
@@ -87,9 +87,9 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<awd-message
+      template: `<jig-message
         [icon]="inputs().icon"
-      >Message text content</awd-message>`,
+      >Message text content</jig-message>`,
       imports: ['message'],
     },
     {

@@ -1,1 +1,1 @@
-{{ api: select-button/select-button NgnSelectButton }}
+{{ api: select-button/select-button AwdSelectButton }}

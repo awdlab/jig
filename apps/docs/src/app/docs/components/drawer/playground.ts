@@ -1,16 +1,16 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnDrawer } from '@awdlab/jig/drawer';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdDrawer } from '@awdlab/jig/drawer';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-drawer-playground',
-  imports: [NgnDrawer, NgnButton, NgnDocsPlayground],
+  selector: 'jig-docs-drawer-playground',
+  imports: [AwdDrawer, AwdButton, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnDrawer', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'AwdDrawer', component: component() }]">
       <button ngnButton (click)="open.set(true)">Open Drawer</button>
-      <awd-drawer
+      <jig-drawer
         #ref
         [header]="'Drawer Header'"
         [modal]="true"
@@ -18,11 +18,11 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
         (openChange)="open.set($event)"
       >
         Drawer Content
-      </awd-drawer>
-    </awd-docs-playground>
+      </jig-drawer>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsDrawerPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnDrawer });
+export class AwdDocsDrawerPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdDrawer });
   protected readonly open = signal(false);
 }

@@ -45,7 +45,7 @@ cause a hundred interleaved layout reads.
 
 ### No flash on first render
 
-Every control starts with an `awd-control-initializing` class that keeps it
+Every control starts with an `jig-control-initializing` class that keeps it
 hidden until it has laid out. It is removed after the first browser render —
 and immediately on the server, so server HTML is complete and visible.
 
@@ -57,7 +57,7 @@ at any particular moment.
 Globally, through the [configuration](/guides/configuration):
 
 ```ts
-provideNgnControls({ theme: { preset: nova }, disableAnimations: true });
+provideAwdControls({ theme: { preset: nova }, disableAnimations: true });
 ```
 
 This injects a stylesheet setting `animation-duration` and `transition-duration`
@@ -85,7 +85,7 @@ Opt out through the [configuration](/guides/configuration) if your app already
 handles reduced motion itself:
 
 ```ts
-provideNgnControls({ theme: { preset: nova }, respectReducedMotion: false });
+provideAwdControls({ theme: { preset: nova }, respectReducedMotion: false });
 ```
 
 `disableAnimations` is the unconditional app-level switch; this one follows the
@@ -95,12 +95,12 @@ user's OS setting. They are independent, and either one turns motion off.
 
 Durations and easings are theme tokens under `anim.time.*` and `anim.ease.*`,
 emitted as CSS custom properties (`anim.time.snappyFade` becomes
-`--awd-anim-time-snappy-fade`). Retiming the whole UI is a token override
+`--jig-anim-time-snappy-fade`). Retiming the whole UI is a token override
 rather than editing keyframes:
 
 ```css
 :root {
-  --awd-anim-time-snappy-fade: 120ms;
+  --jig-anim-time-snappy-fade: 120ms;
 }
 ```
 
@@ -115,6 +115,6 @@ your motion in step with the controls:
 
 ```css
 .card {
-  transition: box-shadow var(--awd-anim-time-snappy-fade) var(--awd-anim-ease-fade);
+  transition: box-shadow var(--jig-anim-time-snappy-fade) var(--jig-anim-ease-fade);
 }
 ```

@@ -1,20 +1,20 @@
-Display content in a tabbed interface. A `<awd-tabs>` wraps a set of
-`<awd-tab>` children, each identified by a required `tabId` and carrying two
+Display content in a tabbed interface. A `<jig-tabs>` wraps a set of
+`<jig-tab>` children, each identified by a required `tabId` and carrying two
 projected templates: `#header` for its label and `#content` for its panel. The
 active panel is driven by the two-way `activeTab` model (holding the active
 `tabId`); the first tab is selected automatically when none is set.
 
 ### Basic Usage
 
-Each `<awd-tab>` supplies its label through a `#header` template and its panel
-through a `#content` template; `<awd-tabs>` renders the header strip and the
+Each `<jig-tab>` supplies its label through a `#header` template and its panel
+through a `#content` template; `<jig-tabs>` renders the header strip and the
 active panel below it.
 
 {{ demo: Demo_Tabs_Base }}
 
 ### Dynamic Tabs
 
-Tabs are projected content, so adding or removing `<awd-tab>` elements at runtime
+Tabs are projected content, so adding or removing `<jig-tab>` elements at runtime
 updates the tab set automatically. If the active tab is removed, selection falls
 back to the first tab.
 
@@ -36,7 +36,7 @@ rather than recreating them on every switch.
 
 ### Navigation (router) tabs
 
-A tab may omit its `#content` template — `<awd-tabs>` then renders the header
+A tab may omit its `#content` template — `<jig-tabs>` then renders the header
 strip alone with no panel below it, so the component works as a navigation bar.
 Drive the active tab from your route via `[activeTab]` and handle clicks with
 `(activeTabChange)` (e.g. `router.navigate(...)`), placing a `<router-outlet />`

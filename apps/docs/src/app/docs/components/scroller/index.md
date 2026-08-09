@@ -1,4 +1,4 @@
-The Scroller (`awd-scroller`) renders a list from an `items` array and can
+The Scroller (`jig-scroller`) renders a list from an `items` array and can
 **virtualise** it — rendering only the rows in view instead of the whole list.
 Use the plain scroller for ordinary lists; switch on virtual scrolling once a
 list grows large enough that rendering every row hurts.

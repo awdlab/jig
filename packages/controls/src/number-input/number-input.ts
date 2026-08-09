@@ -35,14 +35,14 @@ function positiveStep(value: number | undefined): number | undefined {
  *   the text is the raw, ungrouped edit form.
  * - `ArrowUp`/`ArrowDown` step by `step`, with `Shift` by `bigStep`.
  *   Results are rounded to the operands' precision so float drift never shows.
- * - Exposes the {@link NgnBase.stepValue}/{@link NgnBase.canStepValue} hooks,
- *   so `awd-spin-buttons` (or a surrounding field) can step the value.
+ * - Exposes the {@link AwdBase.stepValue}/{@link AwdBase.canStepValue} hooks,
+ *   so `jig-spin-buttons` (or a surrounding field) can step the value.
  *
  * @category control
  */
 @Directive({
   selector: 'input[ngnNumberInput]',
-  providers: [provideSelf(NgnNumberInput)],
+  providers: [provideSelf(AwdNumberInput)],
   exportAs: 'ngnNumberInput',
   host: {
     type: 'text',
@@ -58,7 +58,7 @@ function positiveStep(value: number | undefined): number | undefined {
     '[readOnly]': 'readonly()',
   },
 })
-export class NgnNumberInput extends ValueControlBase<'numberInput', number | null> {
+export class AwdNumberInput extends ValueControlBase<'numberInput', number | null> {
   public override readonly isFieldControl = true;
   protected readonly theme = this.injectThemeTemplate(inputControlTemplate, {
     root: true,

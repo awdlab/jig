@@ -45,7 +45,7 @@ export const toastStyles = createThemePart({
         align-items: center;
         gap: ${v('size.padding.sm')};
       }
-      ${c('defaultHeaderText')} awd-icon {
+      ${c('defaultHeaderText')} jig-icon {
         color: var(--theme-color-500);
       }
 

@@ -8,30 +8,30 @@ import {
   signal,
 } from '@angular/core';
 import { Platform } from '@awdlab/jig/api/ng';
-import { NgnError } from '@awdlab/jig/utils';
+import { AwdError } from '@awdlab/jig/utils';
 import { injectOrThrow } from '@awdlab/jig/utils-ng';
 
 import { DEFAULT_SNACKBAR_OPTIONS } from './defaults';
 import { NGN_SNACKBAR_USER_DEFAULTS } from './provider';
-import { NgnSnackbarHost } from './snackbar-host';
+import { AwdSnackbarHost } from './snackbar-host';
 
-import type { NgnSnackbarOptions } from './types';
+import type { AwdSnackbarOptions } from './types';
 
-type SnackbarFull = NgnSnackbarOptions & { id: number };
+type SnackbarFull = AwdSnackbarOptions & { id: number };
 
 @Injectable()
-export class NgnSnackbarManager implements OnDestroy {
+export class AwdSnackbarManager implements OnDestroy {
   private readonly _snackbars = signal<SnackbarFull[]>([]);
   private readonly _appRef = inject(ApplicationRef);
   private readonly _userDefaults = injectOrThrow(
     NGN_SNACKBAR_USER_DEFAULTS,
-    'NgnSnackbarManager',
-    'Failed to inject NGN_SNACKBAR_USER_DEFAULTS, make sure to use withSnackbars() to provide awd snackbars!'
+    'AwdSnackbarManager',
+    'Failed to inject NGN_SNACKBAR_USER_DEFAULTS, make sure to use withSnackbars() to provide jig snackbars!'
   );
   private _nextId = 0;
 
   public readonly snackbars = this._snackbars.asReadonly();
-  private _component?: ComponentRef<NgnSnackbarHost>;
+  private _component?: ComponentRef<AwdSnackbarHost>;
 
   constructor() {
     if (!inject(Platform).isBrowser) {
@@ -40,7 +40,7 @@ export class NgnSnackbarManager implements OnDestroy {
     // Defer creation to avoid issues with Angular's injection tree during app initialization
     queueMicrotask(() => {
       // Create and attach the snackbar host component to the application's root
-      this._component = createComponent(NgnSnackbarHost, {
+      this._component = createComponent(AwdSnackbarHost, {
         environmentInjector: this._appRef.injector,
       });
       this._appRef.attachView(this._component.hostView);
@@ -49,8 +49,8 @@ export class NgnSnackbarManager implements OnDestroy {
         | undefined
         | HTMLElement;
       if (!appRootEl) {
-        throw new NgnError(
-          'NgnSnackbarManager',
+        throw new AwdError(
+          'AwdSnackbarManager',
           'Failed to find application root element to attach snackbar host!'
         );
       }
@@ -70,7 +70,7 @@ export class NgnSnackbarManager implements OnDestroy {
     this._snackbars.update(snackbars => snackbars.filter(t => t.id !== id));
   }
 
-  public addSnackbar(options: NgnSnackbarOptions): number {
+  public addSnackbar(options: AwdSnackbarOptions): number {
     const id = this._nextId++;
     const snackbar: SnackbarFull = {
       ...DEFAULT_SNACKBAR_OPTIONS,

@@ -2,7 +2,7 @@
 `top` as inline styles on its host as you drag, and freezes the host's measured
 `width`/`height` so the element does not reflow mid-drag.
 
-It is what `<awd-dialog [movable]>` is built on, and it works on any element of
+It is what `<jig-dialog [movable]>` is built on, and it works on any element of
 your own.
 
 ### Basic Usage

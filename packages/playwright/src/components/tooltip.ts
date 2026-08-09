@@ -2,7 +2,7 @@ import { tooltipControlTemplate } from '@awdlab/jig-themes/templates/tooltip';
 import { themeClasses } from '../utils/theme';
 import { expect, type Locator } from '@playwright/test';
 
-export class NgnTooltipHarness {
+export class AwdTooltipHarness {
   public readonly classes = themeClasses(tooltipControlTemplate);
 
   private readonly _ngnDefer: Locator;
@@ -13,7 +13,7 @@ export class NgnTooltipHarness {
 
   constructor(locator: Locator) {
     this.locator = locator;
-    this._ngnDefer = locator.locator('awd-defer');
+    this._ngnDefer = locator.locator('jig-defer');
     this._contentWrapper = locator.locator(this.classes.content);
     this.content = this._ngnDefer.locator('> *');
   }

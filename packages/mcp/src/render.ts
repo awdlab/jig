@@ -71,7 +71,7 @@ export function kindsColorsSection(control: PackControl, pack: KnowledgePack): s
     `The \`kind\` / \`color\` inputs accept values defined by the **active theme**, not a fixed ` +
     `type. The built-in themes offer:\n\n${lines.join('\n')}\n\n` +
     `If the app uses a **custom theme**, read that theme's \`createTheme({ …, kinds, colors })\` ` +
-    `or the app's \`NgnCustomTypes\` interface (\`CustomKind\` / \`CustomColor\` from ` +
+    `or the app's \`AwdCustomTypes\` interface (\`CustomKind\` / \`CustomColor\` from ` +
     `\`@awdlab/jig-custom-types\`) for the allowed values. See get_theme_options.\n`
   );
 }
@@ -80,7 +80,7 @@ export function kindsColorsSection(control: PackControl, pack: KnowledgePack): s
 export function exampleBlock(example: PackExample, maxLen = 700): string {
   const truncated =
     example.template.length > maxLen
-      ? `${example.template.slice(0, maxLen)}\n… (truncated — see awd://example/${example.slug})`
+      ? `${example.template.slice(0, maxLen)}\n… (truncated — see jig://example/${example.slug})`
       : example.template;
   return `**${example.scenario}** _(imports: ${example.controls.join(', ')})_\n\n\`\`\`html\n${truncated}\n\`\`\``;
 }
@@ -102,7 +102,7 @@ function examplesSection(control: PackControl, pack: KnowledgePack, limit = 3): 
   const total = primary.length + secondary.length;
   const more =
     total > chosen.length
-      ? `\n_${total - chosen.length} more example(s) — see the \`awd://example/…\` resources._\n`
+      ? `\n_${total - chosen.length} more example(s) — see the \`jig://example/…\` resources._\n`
       : '';
   return `\n## Examples (from docs demos)\n\n${chosen
     .map(e => exampleBlock(e))
@@ -197,7 +197,7 @@ export function queryTerms(query: string): string[] {
 /**
  * Weighted relevance of a control to query terms. An identity hit (the control
  * name / class / selector token) counts far more than a prose hit, so
- * "filterable table" ranks `awd-table` above controls that merely mention
+ * "filterable table" ranks `jig-table` above controls that merely mention
  * filtering in their description.
  */
 export function scoreControl(control: PackControl, terms: string[]): number {
@@ -244,9 +244,9 @@ export function themeOptionsMarkdown(
       .join(', ')}.`;
   }
 
-  const key = controlName ? camel(controlName.replace(/^awd-?/, '')) : null;
+  const key = controlName ? camel(controlName.replace(/^jig-?/, '')) : null;
   const supportsColor = controlName
-    ? (pack.themeParts.find(p => p.name === controlName.replace(/^awd-?/, ''))?.supportsColor ??
+    ? (pack.themeParts.find(p => p.name === controlName.replace(/^jig-?/, ''))?.supportsColor ??
       false)
     : true;
 
@@ -278,9 +278,9 @@ export function themeOptionsMarkdown(
   return (
     `# Theme kind & color options\n\n${blocks.join('\n\n')}\n\n` +
     `> These are the **built-in** themes. Determine which theme the app configures ` +
-    `(the \`preset\` in its awd config / \`provideNgnControls\`, or an active \`ThemeService\` theme). ` +
+    `(the \`preset\` in its jig config / \`provideAwdControls\`, or an active \`ThemeService\` theme). ` +
     `For a **custom theme**, the allowed values come from that theme's \`createTheme({ …, kinds, colors })\` ` +
-    `and the app's \`NgnCustomTypes\` (\`CustomKind\` / \`CustomColor\`) — read those instead.`
+    `and the app's \`AwdCustomTypes\` (\`CustomKind\` / \`CustomColor\`) — read those instead.`
   );
 }
 
@@ -296,7 +296,7 @@ export function themeSchemaMarkdown(schema: ThemeSchema): string {
           .join('\n')}${s.note ? `\n\n${s.note}` : ''}`
     )
     .join('\n\n');
-  return `# awd theme token schema\n\n${schema.overview}\n\n## Token scopes\n\n${scopes}`;
+  return `# jig theme token schema\n\n${schema.overview}\n\n## Token scopes\n\n${scopes}`;
 }
 
 /** A control's themeable anatomy: own classes + dependency scopes. */

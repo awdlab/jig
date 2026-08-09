@@ -1,19 +1,19 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { type BreadcrumbItem, NgnBreadcrumb } from '@awdlab/jig/breadcrumb';
+import { type BreadcrumbItem, AwdBreadcrumb } from '@awdlab/jig/breadcrumb';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-breadcrumb-playground',
-  imports: [NgnBreadcrumb, NgnDocsPlayground],
+  selector: 'jig-docs-breadcrumb-playground',
+  imports: [AwdBreadcrumb, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnBreadcrumb', component: component() }]">
-      <awd-breadcrumb class="flex-1" #ref [items]="items()" />
-    </awd-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'AwdBreadcrumb', component: component() }]">
+      <jig-breadcrumb class="flex-1" #ref [items]="items()" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsBreadcrumbPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnBreadcrumb });
+export class AwdDocsBreadcrumbPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdBreadcrumb });
   protected readonly items = signal<BreadcrumbItem[]>([
     { label: 'Item 1', id: 'item-1' },
     { label: 'Item 2', id: 'item-2' },

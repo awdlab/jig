@@ -1,6 +1,6 @@
 <div>
   @if (isTouchDevice) {
-    <awd-input-field>
+    <jig-input-field>
       <input
         type="time"
         ngnInput
@@ -8,14 +8,14 @@
         [value]="value()"
         (valueChange)="onValueChange($event || '')"
       />
-    </awd-input-field>
+    </jig-input-field>
   } @else {
-    <awd-input-field>
-      <awd-mask-input
+    <jig-input-field>
+      <jig-mask-input
         [mask]="mask()"
         [value]="value()"
         (valueChange)="onValueChange($event ?? '')"
       />
-    </awd-input-field>
+    </jig-input-field>
   }
 </div>

@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { NgnColorPicker } from '@awdlab/jig/color-picker';
+import { AwdColorPicker } from '@awdlab/jig/color-picker';
 
 @Component({
-  selector: 'awd-demo-color-picker-base',
-  imports: [NgnColorPicker],
+  selector: 'jig-demo-color-picker-base',
+  imports: [AwdColorPicker],
   template: `
-    <awd-color-picker [value]="value()" (valueChange)="value.set($event)" />
+    <jig-color-picker [value]="value()" (valueChange)="value.set($event)" />
     <span class="ml-3 inline-block min-w-[13ch] font-mono">{{ value() }}</span>
   `,
   host: { class: 'flex items-center' },

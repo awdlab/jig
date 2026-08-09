@@ -9,14 +9,14 @@ pnpm add -D @awdlab/jig-playwright
 
 ### Harnesses
 
-Each control has an `Awd*Harness` that wraps its DOM and speaks in terms of the
+Each control has an `Jig*Harness` that wraps its DOM and speaks in terms of the
 control's behaviour:
 
 ```ts
-import { NgnSelectHarness } from '@awdlab/jig-playwright';
+import { AwdSelectHarness } from '@awdlab/jig-playwright';
 
 test('picks an option', async ({ page }) => {
-  const select = new NgnSelectHarness(page.locator('awd-select'));
+  const select = new AwdSelectHarness(page.locator('jig-select'));
 
   await select.open();
   await select.clickItemByText('Option 2');
@@ -33,7 +33,7 @@ A harness takes a `Locator` for the control's host element and exposes:
   `select.popoverContent` — for the cases the shorthand does not cover.
 
 The assertions encode the timing rules the DOM alone does not tell you. For
-example `NgnSelectHarness.expectOpened()` waits for the trigger's
+example `AwdSelectHarness.expectOpened()` waits for the trigger's
 `aria-expanded`, not merely for the panel to be visible — the panel is painted
 a frame before the popover actually enters the top layer, and asserting on
 visibility alone lets a following Escape keypress get lost.
@@ -60,16 +60,16 @@ and it doubles as an accessibility check.
 
 ### Unit tests
 
-For component tests, `provideNgnControls` is all the setup needed — with a
+For component tests, `provideAwdControls` is all the setup needed — with a
 theme preset, or controls throw:
 
 ```ts
 import { TestBed } from '@angular/core/testing';
-import { provideNgnControls } from '@awdlab/jig/api/ng';
+import { provideAwdControls } from '@awdlab/jig/api/ng';
 import { nova } from '@awdlab/jig-themes/nova';
 
 TestBed.configureTestingModule({
-  providers: [provideNgnControls({ theme: { preset: nova }, disableAnimations: true })],
+  providers: [provideAwdControls({ theme: { preset: nova }, disableAnimations: true })],
 });
 ```
 

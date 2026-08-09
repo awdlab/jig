@@ -16,15 +16,15 @@ import {
   viewChildren,
 } from '@angular/core';
 import { elementSizeSignal, elementsSizesSignal, Platform } from '@awdlab/jig/api/ng';
-import { NgnPt, provideSelf } from '@awdlab/jig/base';
-import { NgnDefer } from '@awdlab/jig/defer';
-import { NgnDragScroll, NgnScrollAmount } from '@awdlab/jig/directives';
-import { NgnIcon } from '@awdlab/jig/icon';
-import { NgnError } from '@awdlab/jig/utils';
+import { AwdPt, provideSelf } from '@awdlab/jig/base';
+import { AwdDefer } from '@awdlab/jig/defer';
+import { AwdDragScroll, AwdScrollAmount } from '@awdlab/jig/directives';
+import { AwdIcon } from '@awdlab/jig/icon';
+import { AwdError } from '@awdlab/jig/utils';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 import { tabsControlTemplate } from '@awdlab/jig-themes/templates/tabs';
 
-import { NgnTab } from './tab';
+import { AwdTab } from './tab';
 import { TabsTemplates } from './tabs-templates';
 
 import type { IconType } from '@awdlab/jig-custom-types';
@@ -35,13 +35,13 @@ const PADDING_FOR_STICKY_ELEMENTS = 15;
  * @category control
  */
 @Component({
-  selector: 'awd-tabs',
-  imports: [NgTemplateOutlet, NgnPt, NgnDefer, NgnScrollAmount, NgnDragScroll, NgnIcon],
+  selector: 'jig-tabs',
+  imports: [NgTemplateOutlet, AwdPt, AwdDefer, AwdScrollAmount, AwdDragScroll, AwdIcon],
   templateUrl: './tabs.html',
 
-  providers: [provideSelf(NgnTabs)],
+  providers: [provideSelf(AwdTabs)],
 })
-export class NgnTabs extends TabsTemplates implements AfterViewInit {
+export class AwdTabs extends TabsTemplates implements AfterViewInit {
   protected readonly theme = this.injectThemeTemplate(tabsControlTemplate, 'root');
   /**
    * Whether to lazy load the tab contents when they become visible.
@@ -72,12 +72,12 @@ export class NgnTabs extends TabsTemplates implements AfterViewInit {
   protected readonly indicatorWidth = signal(0);
   protected readonly indicatorLeft = signal(0);
 
-  private readonly _tabs = contentChildren(NgnTab);
+  private readonly _tabs = contentChildren(AwdTab);
   private readonly _tabList = viewChild.required<unknown, ElementRef<HTMLDivElement>>('tabList', {
     read: ElementRef<HTMLDivElement>,
   });
   private readonly _tabListScrollDirective = viewChild.required('tabList', {
-    read: NgnScrollAmount,
+    read: AwdScrollAmount,
   });
   private readonly _tabListScroll = computed(() => this._tabListScrollDirective().scrollLeft());
   private readonly _tabListSize = elementSizeSignal(this._tabList);
@@ -227,8 +227,8 @@ export class NgnTabs extends TabsTemplates implements AfterViewInit {
     } else if (index >= rightCutOffTabHeaderIndex && rightCutOffTabHeaderIndex >= 0) {
       const rightCutOffHeader = this._headerSizes()[rightCutOffTabHeaderIndex];
       if (!rightCutOffHeader) {
-        throw new NgnError(
-          'NgnTabs',
+        throw new AwdError(
+          'AwdTabs',
           `Right cut off header is undefined for index ${rightCutOffTabHeaderIndex}`
         );
       }

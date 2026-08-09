@@ -1,20 +1,20 @@
 import { Component, input, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { provideNgnControls } from '@awdlab/jig/api/ng';
-import { NgnActionButton } from '@awdlab/jig/button';
+import { provideAwdControls } from '@awdlab/jig/api/ng';
+import { AwdActionButton } from '@awdlab/jig/button';
 import { withDefaultIcons } from '@awdlab/jig/default-icons';
 import { nova } from '@awdlab/jig-themes/nova';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { NgnKeyboardShortcut } from './keyboard-shortcut';
+import { AwdKeyboardShortcut } from './keyboard-shortcut';
 
-import type { NgnActionButtonConfig } from '@awdlab/jig/api';
+import type { AwdActionButtonConfig } from '@awdlab/jig/api';
 
 @Component({
-  imports: [NgnActionButton, NgnKeyboardShortcut],
+  imports: [AwdActionButton, AwdKeyboardShortcut],
   template: `
     <div [ngnKeyboardShortcut]="[]">
-      <awd-action-button [config]="config()" (clicked)="clicked.push($event)" />
+      <jig-action-button [config]="config()" (clicked)="clicked.push($event)" />
       <input id="text" />
     </div>
   `,
@@ -22,7 +22,7 @@ import type { NgnActionButtonConfig } from '@awdlab/jig/api';
 class ScopedActionButtonHost {
   public readonly actions: string[] = [];
   public readonly clicked: string[] = [];
-  public readonly config = signal<NgnActionButtonConfig<string>>({
+  public readonly config = signal<AwdActionButtonConfig<string>>({
     label: 'Save',
     value: 'save',
     shortcut: 'ctrl+s',
@@ -33,7 +33,7 @@ class ScopedActionButtonHost {
 /** Reproduces a wrapper that conditionally wraps projected content in a scope, e.g. a dialog shell. */
 @Component({
   selector: 'toggleable-scope-wrapper',
-  imports: [NgnKeyboardShortcut],
+  imports: [AwdKeyboardShortcut],
   template: `
     @if (enabled()) {
       <div [ngnKeyboardShortcut]="[]"><ng-content /></div>
@@ -45,17 +45,17 @@ class ToggleableScopeWrapper {
 }
 
 @Component({
-  imports: [NgnActionButton, ToggleableScopeWrapper],
+  imports: [AwdActionButton, ToggleableScopeWrapper],
   template: `
     <toggleable-scope-wrapper [enabled]="scoped()">
-      <awd-action-button [config]="config()" (clicked)="clicked.push($event)" />
+      <jig-action-button [config]="config()" (clicked)="clicked.push($event)" />
     </toggleable-scope-wrapper>
   `,
 })
 class ReResolvingScopeHost {
   public readonly scoped = signal(true);
   public readonly clicked: string[] = [];
-  public readonly config = signal<NgnActionButtonConfig<string>>({
+  public readonly config = signal<AwdActionButtonConfig<string>>({
     label: 'Save',
     value: 'save',
     shortcut: 'ctrl+s',
@@ -65,7 +65,7 @@ class ReResolvingScopeHost {
 beforeEach(() => {
   TestBed.configureTestingModule({
     providers: [
-      provideNgnControls({ theme: { preset: nova }, disableAnimations: true }, withDefaultIcons()),
+      provideAwdControls({ theme: { preset: nova }, disableAnimations: true }, withDefaultIcons()),
     ],
   });
 });
@@ -99,17 +99,17 @@ describe('action button shortcut', () => {
     const fixture = TestBed.createComponent(ScopedActionButtonHost);
     fixture.detectChanges();
 
-    const kbd = fixture.nativeElement.querySelector('awd-kbd') as HTMLElement;
+    const kbd = fixture.nativeElement.querySelector('jig-kbd') as HTMLElement;
     expect(kbd.getAttribute('aria-hidden')).toBe('true');
   });
 
   it('does not advertise aria-keyshortcuts when no ancestor scope resolves', () => {
     @Component({
-      imports: [NgnActionButton],
-      template: `<awd-action-button [config]="config()" />`,
+      imports: [AwdActionButton],
+      template: `<jig-action-button [config]="config()" />`,
     })
     class UnscopedActionButtonHost {
-      public readonly config = signal<NgnActionButtonConfig<string>>({
+      public readonly config = signal<AwdActionButtonConfig<string>>({
         label: 'Save',
         value: 'save',
         shortcut: 'ctrl+s',
@@ -125,11 +125,11 @@ describe('action button shortcut', () => {
 
   it('gives a plain icon-kind button an accessible name with no shortcut', () => {
     @Component({
-      imports: [NgnActionButton],
-      template: `<awd-action-button [config]="config()" />`,
+      imports: [AwdActionButton],
+      template: `<jig-action-button [config]="config()" />`,
     })
     class IconOnlyActionButtonHost {
-      public readonly config = signal<NgnActionButtonConfig<string>>({
+      public readonly config = signal<AwdActionButtonConfig<string>>({
         label: 'Close',
         value: 'close',
         defaultIcon: 'dialog-close',
@@ -146,15 +146,15 @@ describe('action button shortcut', () => {
 
   it('names an icon-kind button with a shortcut by its plain label, glyphs hidden', () => {
     @Component({
-      imports: [NgnActionButton, NgnKeyboardShortcut],
+      imports: [AwdActionButton, AwdKeyboardShortcut],
       template: `
         <div [ngnKeyboardShortcut]="[]">
-          <awd-action-button [config]="config()" />
+          <jig-action-button [config]="config()" />
         </div>
       `,
     })
     class IconShortcutActionButtonHost {
-      public readonly config = signal<NgnActionButtonConfig<string>>({
+      public readonly config = signal<AwdActionButtonConfig<string>>({
         label: 'Save',
         value: 'save',
         defaultIcon: 'dialog-close',
@@ -168,7 +168,7 @@ describe('action button shortcut', () => {
 
     const button = fixture.nativeElement.querySelector('button') as HTMLElement;
     expect(button.getAttribute('aria-label')).toBe('Save');
-    const kbd = fixture.nativeElement.querySelector('awd-kbd') as HTMLElement;
+    const kbd = fixture.nativeElement.querySelector('jig-kbd') as HTMLElement;
     expect(kbd.getAttribute('aria-hidden')).toBe('true');
     expect(kbd.querySelector('kbd')?.textContent?.trim()).toBe('⌃S');
   });

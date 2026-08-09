@@ -2,11 +2,11 @@ import { Component, computed, inject } from '@angular/core';
 import tablerBrandGithub from '@iconify/icons-tabler/brand-github';
 import tablerPalette from '@iconify/icons-tabler/palette';
 import { ColorSchemeService } from '@awdlab/jig/api/ng';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnIcon } from '@awdlab/jig/icon';
-import { NgnPopover } from '@awdlab/jig/popover';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdIcon } from '@awdlab/jig/icon';
+import { AwdPopover } from '@awdlab/jig/popover';
 
-import { NgnDocsThemePicker } from '../../utils/theme-picker';
+import { AwdDocsThemePicker } from '../../utils/theme-picker';
 
 /**
  * Theme, color-scheme and repo actions. Rendered in the topbar on wide viewports
@@ -14,9 +14,9 @@ import { NgnDocsThemePicker } from '../../utils/theme-picker';
  * Callers supply the display class (`flex` / `hidden nav:flex`).
  */
 @Component({
-  selector: 'awd-docs-topbar-actions',
-  imports: [NgnButton, NgnIcon, NgnPopover, NgnDocsThemePicker],
-  host: { class: 'items-center gap-2 text-2xl text-(--awd-color-surface-800)' },
+  selector: 'jig-docs-topbar-actions',
+  imports: [AwdButton, AwdIcon, AwdPopover, AwdDocsThemePicker],
+  host: { class: 'items-center gap-2 text-2xl text-(--jig-color-surface-800)' },
   template: `
     <button
       #themePickerBtn
@@ -28,11 +28,11 @@ import { NgnDocsThemePicker } from '../../utils/theme-picker';
       [attr.aria-expanded]="themePickerPopover.open()"
       (click)="themePickerPopover.toggle()"
     >
-      <awd-icon size="28px" [icon]="iconPalette" />
+      <jig-icon size="28px" [icon]="iconPalette" />
     </button>
-    <awd-popover #themePickerPopover [anchor]="themePickerBtn">
-      <awd-docs-theme-picker />
-    </awd-popover>
+    <jig-popover #themePickerPopover [anchor]="themePickerBtn">
+      <jig-docs-theme-picker />
+    </jig-popover>
     <button
       ngnButton
       kind="icon"
@@ -49,11 +49,11 @@ import { NgnDocsThemePicker } from '../../utils/theme-picker';
       ngnButton
       kind="icon"
     >
-      <awd-icon size="28px" [icon]="iconGithub" />
+      <jig-icon size="28px" [icon]="iconGithub" />
     </a>
   `,
 })
-export class NgnDocsTopbarActions {
+export class AwdDocsTopbarActions {
   protected readonly iconGithub = tablerBrandGithub;
   protected readonly iconPalette = tablerPalette;
   protected readonly colorScheme = inject(ColorSchemeService);

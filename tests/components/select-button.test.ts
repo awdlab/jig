@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { NgnSelectButtonHarness } from '@awdlab/jig-playwright';
+import { AwdSelectButtonHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
@@ -14,7 +14,7 @@ test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-select-button [options]="${options}" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-select-button [options]="${options}" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['selectButton'],
     },
     {
@@ -24,7 +24,7 @@ test('base', async ({ page }, testInfo) => {
     }
   );
 
-  const selectButton = new NgnSelectButtonHarness(page.locator('awd-select-button'));
+  const selectButton = new AwdSelectButtonHarness(page.locator('jig-select-button'));
   await selectButton.expectButtonCount(3);
   await selectButton.expectNoneSelected();
   await expectScreenshot(page, testInfo, 'base');
@@ -51,7 +51,7 @@ test('prevent unselect', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-select-button [options]="${options}" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-select-button [options]="${options}" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['selectButton'],
     },
     {
@@ -61,7 +61,7 @@ test('prevent unselect', async ({ page }, testInfo) => {
     }
   );
 
-  const selectButton = new NgnSelectButtonHarness(page.locator('awd-select-button'));
+  const selectButton = new AwdSelectButtonHarness(page.locator('jig-select-button'));
   await selectButton.expectSelectedAt(0);
 
   // Click selected option — readonly prevents interaction
@@ -76,7 +76,7 @@ test('allow unselect', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-select-button [options]="${options}" [value]="inputs().value" (valueChange)="output('value', $event)" [allowUnselect]="inputs().allowUnselect" />`,
+      template: `<jig-select-button [options]="${options}" [value]="inputs().value" (valueChange)="output('value', $event)" [allowUnselect]="inputs().allowUnselect" />`,
       imports: ['selectButton'],
     },
     {
@@ -87,7 +87,7 @@ test('allow unselect', async ({ page }, testInfo) => {
     }
   );
 
-  const selectButton = new NgnSelectButtonHarness(page.locator('awd-select-button'));
+  const selectButton = new AwdSelectButtonHarness(page.locator('jig-select-button'));
   await selectButton.expectSelectedAt(0);
 
   // Click selected option — allowUnselect removes readonly so click deactivates
@@ -106,7 +106,7 @@ test('states', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-select-button
+      template: `<jig-select-button
         [options]="${options}"
         [value]="inputs().value"
         [disabled]="inputs().disabled"
@@ -128,7 +128,7 @@ test('states', async ({ page }, testInfo) => {
     }
   );
 
-  const selectButton = new NgnSelectButtonHarness(page.locator('awd-select-button'));
+  const selectButton = new AwdSelectButtonHarness(page.locator('jig-select-button'));
 
   // Disabled state
   await handle.setInputs({ disabled: true });
@@ -156,7 +156,7 @@ test('value updates via input', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-select-button [options]="${options}" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-select-button [options]="${options}" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['selectButton'],
     },
     {
@@ -166,7 +166,7 @@ test('value updates via input', async ({ page }, testInfo) => {
     }
   );
 
-  const selectButton = new NgnSelectButtonHarness(page.locator('awd-select-button'));
+  const selectButton = new AwdSelectButtonHarness(page.locator('jig-select-button'));
   await selectButton.expectNoneSelected();
 
   // Set value programmatically
@@ -186,7 +186,7 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<awd-select-button [label]="'Choose an option'" [options]="${options}" [value]="inputs().value" />`,
+      template: `<jig-select-button [label]="'Choose an option'" [options]="${options}" [value]="inputs().value" />`,
       imports: ['selectButton'],
     },
     {

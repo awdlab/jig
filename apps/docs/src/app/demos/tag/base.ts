@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { injectThemeColors, injectThemeControlKinds } from '@awdlab/jig/api/ng';
-import { NgnTag } from '@awdlab/jig/tag';
+import { AwdTag } from '@awdlab/jig/tag';
 
 @Component({
-  imports: [NgnTag],
-  selector: 'awd-demo-tag-base',
+  imports: [AwdTag],
+  selector: 'jig-demo-tag-base',
   template: `
     <div class="flex flex-wrap gap-2">
       @for (kind of kinds(); track $index) {
@@ -12,7 +12,7 @@ import { NgnTag } from '@awdlab/jig/tag';
           <div class="mt-4 mb-2 w-full font-bold">Kind: {{ kind }}</div>
         }
         @for (color of colors(); track $index) {
-          <awd-tag [kind]="kind" [color]="color">{{ color }}</awd-tag>
+          <jig-tag [kind]="kind" [color]="color">{{ color }}</jig-tag>
         }
       }
     </div>

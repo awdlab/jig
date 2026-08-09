@@ -18,7 +18,7 @@ export function registerPrompts(server: McpServer, pack: KnowledgePack): void {
   server.registerPrompt(
     'explain_control',
     {
-      title: 'Explain an awd control',
+      title: 'Explain an jig control',
       description: 'Explain how to use a specific @awdlab/jig control, with its full API.',
       argsSchema: {
         name: completable(z.string(), value =>
@@ -30,7 +30,7 @@ export function registerPrompts(server: McpServer, pack: KnowledgePack): void {
       const key = name
         .trim()
         .toLowerCase()
-        .replace(/^awd-?/, '');
+        .replace(/^jig-?/, '');
       const control = pack.controls.find(c => c.name === key);
       const reference = control
         ? controlMarkdown(control, pack)
@@ -44,7 +44,7 @@ export function registerPrompts(server: McpServer, pack: KnowledgePack): void {
               text:
                 `Explain how to use the ${name} control from @awdlab/jig. Cover its ` +
                 `purpose, a minimal Angular template + component example, the most important ` +
-                `inputs/outputs, and common pitfalls. Use idiomatic awd conventions (signal ` +
+                `inputs/outputs, and common pitfalls. Use idiomatic jig conventions (signal ` +
                 `inputs, theme system). Reference:\n\n${reference}`,
             },
           },
@@ -56,7 +56,7 @@ export function registerPrompts(server: McpServer, pack: KnowledgePack): void {
   server.registerPrompt(
     'explain_concept',
     {
-      title: 'Explain an awd concept',
+      title: 'Explain an jig concept',
       description:
         'Explain an @awdlab/jig concept or guide (theming, colors, passthrough, state, …).',
       argsSchema: {

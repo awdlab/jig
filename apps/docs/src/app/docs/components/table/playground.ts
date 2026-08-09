@@ -1,34 +1,34 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
 import {
-  NgnTableModule,
-  NgnTableSortableColumn,
-  NgnTableFilterableColumn,
-  NgnTableReorderableColumn,
-  NgnTableSelectionColumn,
+  AwdTableModule,
+  AwdTableSortableColumn,
+  AwdTableFilterableColumn,
+  AwdTableReorderableColumn,
+  AwdTableSelectionColumn,
 } from '@awdlab/jig/table';
 
 import { exampleData } from '../../../helper/data';
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
-import type { NgnTable } from '@awdlab/jig/table';
+import type { AwdTable } from '@awdlab/jig/table';
 
 type RowType = ReturnType<typeof exampleData.richTable>[number];
 
 @Component({
-  selector: 'awd-docs-table-playground',
+  selector: 'jig-docs-table-playground',
   imports: [
-    NgnTableModule,
-    NgnTemplate,
-    NgnDocsPlayground,
-    NgnTableSortableColumn,
-    NgnTableFilterableColumn,
-    NgnTableReorderableColumn,
-    NgnTableSelectionColumn,
+    AwdTableModule,
+    AwdTemplate,
+    AwdDocsPlayground,
+    AwdTableSortableColumn,
+    AwdTableFilterableColumn,
+    AwdTableReorderableColumn,
+    AwdTableSelectionColumn,
   ],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnTable', component: component() }]">
-      <awd-table
+    <jig-docs-playground [controls]="[{ componentName: 'AwdTable', component: component() }]">
+      <jig-table
         #ref
         style="height: 400px; max-height: 100%; width: 100%"
         class="flex-1"
@@ -102,11 +102,11 @@ type RowType = ReturnType<typeof exampleData.richTable>[number];
             </td>
           </tr>
         </ng-template>
-      </awd-table>
-    </awd-docs-playground>
+      </jig-table>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsTablePlayground {
-  protected readonly component = viewChild.required<NgnTable<RowType, 'id'>>('ref');
+export class AwdDocsTablePlayground {
+  protected readonly component = viewChild.required<AwdTable<RowType, 'id'>>('ref');
   protected readonly rows = exampleData.richTable(50);
 }

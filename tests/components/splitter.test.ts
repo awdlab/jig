@@ -12,15 +12,15 @@ import { expectScreenshot } from '../helper/screenshot';
 test('thin kind expands on hover without shifting content', async ({ page }) => {
   await loadComponent(page, {
     template: `
-      <awd-splitter
+      <jig-splitter
         class="page-center"
         [layout]="'horizontal'"
         [kind]="'thin'"
         style="width: 400px; height: 120px;"
       >
-        <awd-splitter-panel [size]="'1fr'">Panel 1</awd-splitter-panel>
-        <awd-splitter-panel [size]="'1fr'">Panel 2</awd-splitter-panel>
-      </awd-splitter>
+        <jig-splitter-panel [size]="'1fr'">Panel 1</jig-splitter-panel>
+        <jig-splitter-panel [size]="'1fr'">Panel 2</jig-splitter-panel>
+      </jig-splitter>
     `,
     imports: ['splitter', 'splitterPanel'],
   });
@@ -35,7 +35,7 @@ test('thin kind expands on hover without shifting content', async ({ page }) => 
   expect(await dividerWidth()).toBe(1);
   const restBar = await barWidth();
 
-  const panel2 = page.locator('awd-splitter-panel').nth(1);
+  const panel2 = page.locator('jig-splitter-panel').nth(1);
   const before = await panel2.boundingBox();
 
   await handle.hover();
@@ -51,15 +51,15 @@ test('thin kind expands on hover without shifting content', async ({ page }) => 
 test('invisible kind has a 0px track and expands on hover', async ({ page }) => {
   await loadComponent(page, {
     template: `
-      <awd-splitter
+      <jig-splitter
         class="page-center"
         [layout]="'horizontal'"
         [kind]="'invisible'"
         style="width: 400px; height: 120px;"
       >
-        <awd-splitter-panel [size]="'1fr'">Panel 1</awd-splitter-panel>
-        <awd-splitter-panel [size]="'1fr'">Panel 2</awd-splitter-panel>
-      </awd-splitter>
+        <jig-splitter-panel [size]="'1fr'">Panel 1</jig-splitter-panel>
+        <jig-splitter-panel [size]="'1fr'">Panel 2</jig-splitter-panel>
+      </jig-splitter>
     `,
     imports: ['splitter', 'splitterPanel'],
   });
@@ -85,14 +85,14 @@ test('invisible kind has a 0px track and expands on hover', async ({ page }) => 
 test('accessibility (axe)', async ({ page }) => {
   await loadComponent(page, {
     template: `
-      <awd-splitter
+      <jig-splitter
         class="page-center"
         [layout]="'horizontal'"
         style="width: 400px; height: 120px;"
       >
-        <awd-splitter-panel [size]="'1fr'">Panel 1</awd-splitter-panel>
-        <awd-splitter-panel [size]="'1fr'">Panel 2</awd-splitter-panel>
-      </awd-splitter>
+        <jig-splitter-panel [size]="'1fr'">Panel 1</jig-splitter-panel>
+        <jig-splitter-panel [size]="'1fr'">Panel 2</jig-splitter-panel>
+      </jig-splitter>
     `,
     imports: ['splitter', 'splitterPanel'],
   });
@@ -107,15 +107,15 @@ test('visual', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <awd-splitter
+      <jig-splitter
         class="page-center"
         [layout]="'horizontal'"
         [kind]="inputs().kind"
         style="width: 400px; height: 120px;"
       >
-        <awd-splitter-panel [size]="'1fr'">Panel 1</awd-splitter-panel>
-        <awd-splitter-panel [size]="'1fr'">Panel 2</awd-splitter-panel>
-      </awd-splitter>
+        <jig-splitter-panel [size]="'1fr'">Panel 1</jig-splitter-panel>
+        <jig-splitter-panel [size]="'1fr'">Panel 2</jig-splitter-panel>
+      </jig-splitter>
     `,
       imports: ['splitter', 'splitterPanel'],
     },

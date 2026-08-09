@@ -6,9 +6,9 @@ import { loadComponent } from '../helper/load-component';
 test('label names the projected input and clicking it focuses the input', async ({ page }) => {
   await loadComponent(page, {
     template: `
-      <awd-input-field style="width: 240px" [label]="'Full name'">
+      <jig-input-field style="width: 240px" [label]="'Full name'">
         <input ngnInput />
-      </awd-input-field>`,
+      </jig-input-field>`,
     imports: ['inputField', 'input'],
   });
 
@@ -23,9 +23,9 @@ test('label names the projected input and clicking it focuses the input', async 
 test('clear button empties the projected input and keeps an accessible name', async ({ page }) => {
   await loadComponent(page, {
     template: `
-      <awd-input-field style="width: 240px" [label]="'Search'" [showClearButton]="true">
+      <jig-input-field style="width: 240px" [label]="'Search'" [showClearButton]="true">
         <input ngnInput value="hello" />
-      </awd-input-field>`,
+      </jig-input-field>`,
     imports: ['inputField', 'input'],
   });
 
@@ -43,15 +43,15 @@ test('invalid forces the invalid look on the field chrome', async ({ page }) => 
     page,
     {
       template: `
-      <awd-input-field style="width: 240px" [label]="'Email'" [invalid]="inputs().invalid">
+      <jig-input-field style="width: 240px" [label]="'Email'" [invalid]="inputs().invalid">
         <input ngnInput />
-      </awd-input-field>`,
+      </jig-input-field>`,
       imports: ['inputField', 'input'],
     },
     { inputs: { invalid: false } }
   );
 
-  const chrome = page.locator('awd-input-field [class*="input-field-root"]');
+  const chrome = page.locator('jig-input-field [class*="input-field-root"]');
   await expect(chrome).not.toHaveClass(/input-field-invalid/);
 
   await handle.setInputs({ invalid: true });
@@ -61,9 +61,9 @@ test('invalid forces the invalid look on the field chrome', async ({ page }) => 
 test('accessibility (axe)', async ({ page }) => {
   await loadComponent(page, {
     template: `
-      <awd-input-field style="width: 240px" [label]="'Full name'" [showClearButton]="true">
+      <jig-input-field style="width: 240px" [label]="'Full name'" [showClearButton]="true">
         <input ngnInput value="Ada" />
-      </awd-input-field>`,
+      </jig-input-field>`,
     imports: ['inputField', 'input'],
   });
 

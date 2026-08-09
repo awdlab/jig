@@ -22,7 +22,7 @@ import {
 import { globalStyles } from '@awdlab/jig-themes/base/global';
 import { skip } from 'rxjs';
 
-import { NGN_CONFIG, type NgnConfig } from './config';
+import { NGN_CONFIG, type AwdConfig } from './config';
 
 export type AppliedThemeClassCfg<T extends ControlName> =
   | keyof ThemeClasses<ThemeTemplate[T]>
@@ -37,7 +37,7 @@ export type ControlTemplateInfo<T extends ControlTemplate<string, string[]>> = {
 };
 
 export function themeTemplateToTemplateInfo<T extends ControlTemplate<string, string[]>>(
-  config: NgnConfig,
+  config: AwdConfig,
   template: T,
   options?: { unstyled?: () => boolean }
 ): ControlTemplateInfo<T> {
@@ -138,7 +138,7 @@ export class ThemeService implements OnDestroy {
       // so that the animation starts/ends are still applied & the events are still fired
       this.upsertMotionStyle(
         'no-animations',
-        `.awd-control, .awd-control * {
+        `.jig-control, .jig-control * {
           animation-duration: 0s !important;
           transition-duration: 0s !important;
         }`
@@ -151,7 +151,7 @@ export class ThemeService implements OnDestroy {
       this.upsertMotionStyle(
         'reduced-motion',
         `@media (prefers-reduced-motion: reduce) {
-          .awd-control, .awd-control * {
+          .jig-control, .jig-control * {
             animation-duration: 0.01ms !important;
             transition-duration: 0.01ms !important;
           }
@@ -166,11 +166,11 @@ export class ThemeService implements OnDestroy {
 
   /** Adds a motion stylesheet once — hydration re-runs this over server-rendered markup. */
   private upsertMotionStyle(kind: string, css: string): void {
-    if (this._document.head.querySelector(`style[awd-style="${kind}"]`)) {
+    if (this._document.head.querySelector(`style[jig-style="${kind}"]`)) {
       return;
     }
     const style = this._document.createElement('style');
-    style.setAttribute('awd-style', kind);
+    style.setAttribute('jig-style', kind);
     style.innerHTML = css;
     this._document.head.appendChild(style);
   }
@@ -217,7 +217,7 @@ export class ThemeService implements OnDestroy {
   }
 
   private unloadAllScopes(): void {
-    this._document.head.querySelectorAll('style[awd-style][data-theme-scope]').forEach(el => {
+    this._document.head.querySelectorAll('style[jig-style][data-theme-scope]').forEach(el => {
       el.remove();
     });
   }

@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import tablerCode from '@iconify/icons-tabler/code';
-import { NgnTag } from '@awdlab/jig/tag';
+import { AwdTag } from '@awdlab/jig/tag';
 
 @Component({
-  imports: [NgnTag],
-  selector: 'awd-demo-tag-with-icon',
+  imports: [AwdTag],
+  selector: 'jig-demo-tag-with-icon',
   template: `
     <div class="flex flex-wrap gap-2">
-      <awd-tag [icon]="icon">Tag with icon</awd-tag>
+      <jig-tag [icon]="icon">Tag with icon</jig-tag>
     </div>
   `,
 })

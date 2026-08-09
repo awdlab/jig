@@ -18,7 +18,7 @@ async function loadNumberInput(
     page,
     {
       imports: ['inputField', 'numberInput', 'spinButtons'],
-      template: `<awd-input-field>
+      template: `<jig-input-field>
         <input
           ngnNumberInput
           locale="en-US"
@@ -28,15 +28,15 @@ async function loadNumberInput(
           [step]="inputs().step ?? 1"
           (valueChange)="output('value', $event)"
         />
-        <awd-spin-buttons />
-      </awd-input-field>`,
+        <jig-spin-buttons />
+      </jig-input-field>`,
     },
     { inputs }
   );
   const input = page.locator('input[ngnnumberinput]');
   await expect(input).toBeVisible();
-  const decrement = page.locator('awd-spin-buttons button').nth(0);
-  const increment = page.locator('awd-spin-buttons button').nth(1);
+  const decrement = page.locator('jig-spin-buttons button').nth(0);
+  const increment = page.locator('jig-spin-buttons button').nth(1);
   return { handle, input, increment, decrement };
 }
 
@@ -170,16 +170,16 @@ test('spin buttons placed before the input still resolve the number input', asyn
     page,
     {
       imports: ['inputField', 'numberInput', 'spinButtons'],
-      template: `<awd-input-field>
-        <awd-spin-buttons buttons="decrement" />
+      template: `<jig-input-field>
+        <jig-spin-buttons buttons="decrement" />
         <input
           ngnNumberInput
           locale="en-US"
           [value]="inputs().value ?? null"
           (valueChange)="output('value', $event)"
         />
-        <awd-spin-buttons buttons="increment" />
-      </awd-input-field>`,
+        <jig-spin-buttons buttons="increment" />
+      </jig-input-field>`,
     },
     { inputs: { value: 5 } }
   );
@@ -187,12 +187,12 @@ test('spin buttons placed before the input still resolve the number input', asyn
   await expect(input).toBeVisible();
 
   // Each flanking instance renders exactly one button.
-  await expect(page.locator('awd-spin-buttons').nth(0).locator('button')).toHaveCount(1);
-  await expect(page.locator('awd-spin-buttons').nth(1).locator('button')).toHaveCount(1);
+  await expect(page.locator('jig-spin-buttons').nth(0).locator('button')).toHaveCount(1);
+  await expect(page.locator('jig-spin-buttons').nth(1).locator('button')).toHaveCount(1);
 
-  await page.locator('awd-spin-buttons').nth(1).locator('button').click(); // increment
+  await page.locator('jig-spin-buttons').nth(1).locator('button').click(); // increment
   await expect(input).toHaveValue('6');
-  await page.locator('awd-spin-buttons').nth(0).locator('button').click(); // decrement
+  await page.locator('jig-spin-buttons').nth(0).locator('button').click(); // decrement
   await expect(input).toHaveValue('5');
 
   const log = (await handle.getOutputLog())['value'] ?? [];
@@ -210,7 +210,7 @@ test('accessibility (axe)', async ({ page }) => {
     page,
     {
       imports: ['inputField', 'numberInput', 'spinButtons'],
-      template: `<awd-input-field label="Quantity">
+      template: `<jig-input-field label="Quantity">
         <input
           ngnNumberInput
           locale="en-US"
@@ -218,8 +218,8 @@ test('accessibility (axe)', async ({ page }) => {
           [min]="0"
           [max]="9999"
         />
-        <awd-spin-buttons />
-      </awd-input-field>`,
+        <jig-spin-buttons />
+      </jig-input-field>`,
     },
     { inputs: { value: 42 } }
   );

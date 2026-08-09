@@ -3,7 +3,7 @@ ramp of **eleven tones** from `50` (lightest) to `950` (darkest). Every tone is 
 property you can use anywhere:
 
 ```
---awd-color-<family>-<shade>     e.g. --awd-color-primary-500
+--jig-color-<family>-<shade>     e.g. --jig-color-primary-500
 ```
 
 The families are `surface`, `primary`, `secondary`, `accent`, `info`, `success`,
@@ -14,7 +14,7 @@ The shade theme is slot-based instead: it defines `surface`, `primary`, `seconda
 `muted`, `accent`, and `destructive`, and offers `surface` / `primary` / `destructive` as
 `color` values. It emits the numeric ramp too, so token references keep resolving.
 
-{{ component: NgnThemeColorsDemo }}
+{{ component: AwdThemeColorsDemo }}
 
 ### Contrast companions
 
@@ -22,7 +22,7 @@ Alongside each tone the theme precomputes a WCAG-checked **contrast** color — 
 foreground that reads best on that tone:
 
 ```
---awd-color-<family>-<shade>-contrast    e.g. --awd-color-primary-500-contrast
+--jig-color-<family>-<shade>-contrast    e.g. --jig-color-primary-500-contrast
 ```
 
 Use the pair together — fill with a tone, text with its `-contrast` — and text stays
@@ -30,8 +30,8 @@ legible in both light and dark mode.
 
 ### Standalone tokens
 
-Beyond the ramps there are a few global color tokens: `--awd-color-background`,
-`--awd-color-text`, and `--awd-color-border`, plus grouped `disabled` and `invalid`
+Beyond the ramps there are a few global color tokens: `--jig-color-background`,
+`--jig-color-text`, and `--jig-color-border`, plus grouped `disabled` and `invalid`
 tokens for shared states.
 
 ### Dark mode reverses the ramp

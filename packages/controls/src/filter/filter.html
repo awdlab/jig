@@ -2,13 +2,13 @@
   <div [ptInt]="this" [ptClass]="'rows'">
     @if (dataType() === 'list') {
       <div [ptInt]="this" [ptClass]="'row'" data-testid="filter-row-list">
-        <awd-input-field
+        <jig-input-field
           [ptInt]="this"
           [ptDep]="'value'"
           [disabled]="disabled()"
           [readonly]="readonly()"
         >
-          <awd-select
+          <jig-select
             [ptInt]="this"
             [ptDep]="'list-select'"
             [multiple]="true"
@@ -18,18 +18,18 @@
             [readonly]="readonly()"
             (valueChange)="setListSelection($event)"
           />
-        </awd-input-field>
+        </jig-input-field>
       </div>
     } @else {
       @for (c of templateConfig().conditions; track $index; let i = $index; let last = $last) {
         <div [ptInt]="this" [ptClass]="'row'" [attr.data-testid]="'filter-row-' + i">
-          <awd-input-field
+          <jig-input-field
             [ptInt]="this"
             [ptDep]="operatorRequiresValue(c.operator) ? 'operator' : 'value'"
             [disabled]="disabled()"
             [readonly]="readonly()"
           >
-            <awd-select
+            <jig-select
               [ptInt]="this"
               [ptDep]="'operator-select'"
               [options]="operatorOptions()"
@@ -39,16 +39,16 @@
               [readonly]="readonly()"
               (valueChange)="setOperator(i, $event)"
             />
-          </awd-input-field>
+          </jig-input-field>
           @if (operatorRequiresValue(c.operator)) {
             @if (isDateType()) {
-              <awd-input-field
+              <jig-input-field
                 [ptInt]="this"
                 [ptDep]="'value'"
                 [disabled]="disabled()"
                 [readonly]="readonly()"
               >
-                <awd-calendar
+                <jig-calendar
                   [ptInt]="this"
                   [ptDep]="'calendar'"
                   [showTime]="isShowTime()"
@@ -57,9 +57,9 @@
                   [readonly]="readonly()"
                   (valueChange)="setDateValue(i, $event)"
                 />
-              </awd-input-field>
+              </jig-input-field>
             } @else {
-              <awd-input-field
+              <jig-input-field
                 [ptInt]="this"
                 [ptDep]="'value'"
                 [disabled]="disabled()"
@@ -76,7 +76,7 @@
                   [readOnly]="readonly()"
                   (valueChange)="setRawValue(i, $event)"
                 />
-              </awd-input-field>
+              </jig-input-field>
             }
           }
 
@@ -92,7 +92,7 @@
               [attr.aria-label]="i18n['filter_removeCondition']() + ' ' + (i + 1)"
               data-testid="filter-remove-condition"
             >
-              <awd-icon defaultIcon="filter-remove" />
+              <jig-icon defaultIcon="filter-remove" />
             </button>
           }
         </div>
@@ -179,7 +179,7 @@
 </ng-template>
 
 <ng-template #popoverTemplate let-anchor="anchor">
-  <awd-popover
+  <jig-popover
     #popover
     [ptInt]="this"
     [ptDep]="'popover'"
@@ -195,7 +195,7 @@
         <ng-container [ngTemplateOutlet]="footerTemplate" />
       </div>
     </ng-template>
-  </awd-popover>
+  </jig-popover>
 </ng-template>
 
 @if (mode() === 'inline') {
@@ -204,7 +204,7 @@
     <ng-container [ngTemplateOutlet]="footerTemplate" />
   </div>
 } @else if (mode() === 'input') {
-  <awd-input-field
+  <jig-input-field
     [ptInt]="this"
     [ptDep]="'input-field'"
     (click)="!disabled() && !readonly() && show()"
@@ -217,8 +217,8 @@
     [readonly]="readonly()"
   >
     <div role="button" [ptInt]="this" [ptClass]="'summary'">{{ summaryText() }}</div>
-    <awd-icon [ptInt]="this" [ptClass]="'icon'" defaultIcon="search" />
-  </awd-input-field>
+    <jig-icon [ptInt]="this" [ptClass]="'icon'" defaultIcon="search" />
+  </jig-input-field>
 
   <ng-container
     [ngTemplateOutlet]="popoverTemplate"

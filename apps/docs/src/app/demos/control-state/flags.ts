@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgnCheckbox } from '@awdlab/jig/checkbox';
+import { AwdCheckbox } from '@awdlab/jig/checkbox';
 
 /**
  * The same control rendered in each of the shared state flags. Every flag is a
@@ -7,13 +7,13 @@ import { NgnCheckbox } from '@awdlab/jig/checkbox';
  * class on the host automatically.
  */
 @Component({
-  selector: 'awd-demo-control-state-flags',
-  imports: [NgnCheckbox],
+  selector: 'jig-demo-control-state-flags',
+  imports: [AwdCheckbox],
   template: `
     <div class="flex flex-col gap-3">
       @for (state of states; track state.label) {
         <div class="flex items-center gap-2">
-          <awd-checkbox
+          <jig-checkbox
             #checkbox
             [value]="true"
             [disabled]="state.disabled"

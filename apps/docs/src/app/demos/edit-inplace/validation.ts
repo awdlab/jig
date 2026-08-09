@@ -1,14 +1,14 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnEditInplace } from '@awdlab/jig/edit-inplace';
-import { NgnErrors } from '@awdlab/jig/errors';
-import { NgnHint } from '@awdlab/jig/hint';
+import { AwdEditInplace } from '@awdlab/jig/edit-inplace';
+import { AwdErrors } from '@awdlab/jig/errors';
+import { AwdHint } from '@awdlab/jig/hint';
 
 @Component({
-  selector: 'awd-demo-edit-inplace-validation',
-  imports: [NgnEditInplace, NgnErrors, NgnHint],
+  selector: 'jig-demo-edit-inplace-validation',
+  imports: [AwdEditInplace, AwdErrors, AwdHint],
   template: `
     <div class="flex flex-col gap-2">
-      <awd-edit-inplace
+      <jig-edit-inplace
         [value]="value()"
         (valueChange)="value.set($event)"
         ngnErrors
@@ -17,7 +17,7 @@ import { NgnHint } from '@awdlab/jig/hint';
         [ngnErrorsHint]="nameHint"
       />
     </div>
-    <awd-hint #nameHint />
+    <jig-hint #nameHint />
   `,
   host: { style: 'display: block; width: 220px;' },
 })

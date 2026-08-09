@@ -1,6 +1,6 @@
-import type { NgnDocsPage } from '../../../../utils/page/types';
+import type { AwdDocsPage } from '../../../../utils/page/types';
 
-export const UsagePage: NgnDocsPage = {
+export const UsagePage: AwdDocsPage = {
   kind: 'single',
   title: `Usage`,
 

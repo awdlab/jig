@@ -1,6 +1,6 @@
-import type { NgnDocsPage } from '../../../../utils/page/types';
+import type { AwdDocsPage } from '../../../../utils/page/types';
 
-export const FormsPage: NgnDocsPage = {
+export const FormsPage: AwdDocsPage = {
   kind: 'single',
   title: `Forms & Validation`,
 

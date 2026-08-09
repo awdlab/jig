@@ -20,7 +20,7 @@
         "
       ></ng-container>
     }
-    <awd-icon
+    <jig-icon
       [defaultIcon]="expanded() ? 'accordion-collapse' : 'accordion-expand'"
       [icon]="expanded() ? iconExpanded() : iconCollapsed()"
     />
@@ -43,7 +43,7 @@
     [aria-hidden]="!expanded()"
     role="region"
   >
-    <awd-defer
+    <jig-defer
       [lazyContent]="contentTemplate()"
       [open]="lazyInt() && !cacheInt() ? afterTransitionExpanded() : expanded()"
       [hiddenOnClosed]="false"
@@ -51,7 +51,7 @@
       [lazy]="lazyInt()"
     >
       <ng-content />
-    </awd-defer>
+    </jig-defer>
   </div>
 </div>
 

@@ -1,21 +1,21 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnSelectButton } from '@awdlab/jig/select-button';
+import { AwdSelectButton } from '@awdlab/jig/select-button';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-select-button-playground',
-  imports: [NgnSelectButton, NgnDocsPlayground],
+  selector: 'jig-docs-select-button-playground',
+  imports: [AwdSelectButton, AwdDocsPlayground],
   template: `
-    <awd-docs-playground
-      [controls]="[{ componentName: 'NgnSelectButton', component: component() }]"
+    <jig-docs-playground
+      [controls]="[{ componentName: 'AwdSelectButton', component: component() }]"
     >
-      <awd-select-button #ref [options]="options" />
-    </awd-docs-playground>
+      <jig-select-button #ref [options]="options" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsSelectButtonPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnSelectButton });
+export class AwdDocsSelectButtonPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdSelectButton });
   protected readonly options = [
     { label: 'Option 1', value: 1 },
     { label: 'Option 2', value: 2 },

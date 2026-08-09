@@ -9,18 +9,18 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { NgnBase, provideSelf } from '@awdlab/jig/base';
-import { NgnIcon } from '@awdlab/jig/icon';
-import { ariaKeyShortcuts, closestShortcutScope, NgnKbd } from '@awdlab/jig/kbd';
-import { NgnTooltip } from '@awdlab/jig/tooltip';
+import { AwdBase, provideSelf } from '@awdlab/jig/base';
+import { AwdIcon } from '@awdlab/jig/icon';
+import { ariaKeyShortcuts, closestShortcutScope, AwdKbd } from '@awdlab/jig/kbd';
+import { AwdTooltip } from '@awdlab/jig/tooltip';
 import { Logger, maybeCallback } from '@awdlab/jig/utils';
 
-import { NgnButton } from './button';
+import { AwdButton } from './button';
 
-import type { NgnActionButtonConfig } from '@awdlab/jig/api';
+import type { AwdActionButtonConfig } from '@awdlab/jig/api';
 
 /**
- * Renders a single {@link NgnActionButtonConfig} as a button — label or icon,
+ * Renders a single {@link AwdActionButtonConfig} as a button — label or icon,
  * tooltip, keyboard shortcut and the action callback — so action lists can be
  * driven by data instead of markup.
  *
@@ -31,20 +31,20 @@ import type { NgnActionButtonConfig } from '@awdlab/jig/api';
  * @category control
  */
 @Component({
-  selector: 'awd-action-button',
+  selector: 'jig-action-button',
   templateUrl: 'action-button.html',
-  imports: [NgnButton, NgnIcon, NgnKbd, NgnTooltip],
-  providers: [provideSelf(NgnActionButton)],
+  imports: [AwdButton, AwdIcon, AwdKbd, AwdTooltip],
+  providers: [provideSelf(AwdActionButton)],
 })
-export class NgnActionButton<T> extends NgnBase<null> {
+export class AwdActionButton<T> extends AwdBase<null> {
   protected readonly theme = null;
 
   /**
    * The configuration describing the button: its label, icon, tooltip, value,
    * shortcut, and the action callback fired on click.
-   * @see {@link NgnActionButtonConfig}
+   * @see {@link AwdActionButtonConfig}
    */
-  public readonly config = input.required<NgnActionButtonConfig<T>>();
+  public readonly config = input.required<AwdActionButtonConfig<T>>();
 
   /**
    * Whether the inner button is displayed inline (line-height sized).
@@ -95,7 +95,7 @@ export class NgnActionButton<T> extends NgnBase<null> {
       if (!scope) {
         this._activeShortcut.set(null);
         Logger.warn(
-          `[awd-action-button] shortcut "${shortcut}" is ignored: no ancestor [ngnKeyboardShortcut] scope.`
+          `[jig-action-button] shortcut "${shortcut}" is ignored: no ancestor [ngnKeyboardShortcut] scope.`
         );
         return;
       }

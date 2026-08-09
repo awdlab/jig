@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { NgnListBox } from '@awdlab/jig/list-box';
+import { AwdListBox } from '@awdlab/jig/list-box';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnListBox],
-  selector: 'awd-demo-list-box-multiple',
-  template: `<awd-list-box
+  imports: [AwdListBox],
+  selector: 'jig-demo-list-box-multiple',
+  template: `<jig-list-box
     [items]="items"
     [selectable]="true"
     [multiple]="true"

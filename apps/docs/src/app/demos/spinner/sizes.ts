@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { NgnSpinner } from '@awdlab/jig/spinner';
+import { AwdSpinner } from '@awdlab/jig/spinner';
 
 @Component({
-  selector: 'awd-demo-spinner-sizes',
-  imports: [NgnSpinner],
+  selector: 'jig-demo-spinner-sizes',
+  imports: [AwdSpinner],
   template: `
     <div style="display: flex; gap: 1rem; align-items: center;">
-      <awd-spinner [size]="16" />
-      <awd-spinner [size]="24" />
-      <awd-spinner [size]="32" />
-      <awd-spinner [size]="48" />
-      <awd-spinner [size]="64" />
+      <jig-spinner [size]="16" />
+      <jig-spinner [size]="24" />
+      <jig-spinner [size]="32" />
+      <jig-spinner [size]="48" />
+      <jig-spinner [size]="64" />
     </div>
   `,
 })

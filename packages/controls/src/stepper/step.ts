@@ -6,21 +6,21 @@ import {
   model,
   TemplateRef,
 } from '@angular/core';
-import { NgnBase, provideSelf } from '@awdlab/jig/base';
+import { AwdBase, provideSelf } from '@awdlab/jig/base';
 
 import type { IconType } from '@awdlab/jig-custom-types';
 
 /**
- * A single step within an `awd-stepper`. Declares the step's header metadata and
+ * A single step within an `jig-stepper`. Declares the step's header metadata and
  * projects its content via `<ng-template #content>`.
  * @category control
  */
 @Component({
-  selector: 'awd-step',
+  selector: 'jig-step',
   template: '',
-  providers: [provideSelf(NgnStep)],
+  providers: [provideSelf(AwdStep)],
 })
-export class NgnStep extends NgnBase<'stepper'> {
+export class AwdStep extends AwdBase<'stepper'> {
   protected readonly theme = null;
 
   /** The step's header label. */

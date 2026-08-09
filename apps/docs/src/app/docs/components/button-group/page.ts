@@ -1,12 +1,12 @@
-import { NgnDocsButtonGroupPlayground } from './playground';
+import { AwdDocsButtonGroupPlayground } from './playground';
 import { Demo_ButtonGroup_Base } from '../../../demos/button-group/base';
 import { Demo_ButtonGroup_Orientation } from '../../../demos/button-group/orientation';
 import { Demo_ButtonGroup_Toggle } from '../../../demos/button-group/toggle';
 import { i18nNone } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const ButtonGroupPage: NgnDocsPage = {
+export const ButtonGroupPage: AwdDocsPage = {
   title: `Button Group`,
   kind: 'tabs',
   tabs: [
@@ -21,7 +21,7 @@ export const ButtonGroupPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsButtonGroupPlayground,
+      component: AwdDocsButtonGroupPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/button-group/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/button-group/a11y.md' },

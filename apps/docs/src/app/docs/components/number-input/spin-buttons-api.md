@@ -1,1 +1,1 @@
-{{ api: spin-buttons/spin-buttons NgnSpinButtons }}
+{{ api: spin-buttons/spin-buttons AwdSpinButtons }}

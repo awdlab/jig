@@ -1,8 +1,8 @@
 import { Demo_DarkMode_Toggle } from '../../../../demos/dark-mode/toggle';
 
-import type { NgnDocsPage } from '../../../../utils/page/types';
+import type { AwdDocsPage } from '../../../../utils/page/types';
 
-export const DarkModePage: NgnDocsPage = {
+export const DarkModePage: AwdDocsPage = {
   kind: 'single',
   title: `Dark Mode`,
 

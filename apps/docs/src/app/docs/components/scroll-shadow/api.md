@@ -1,1 +1,1 @@
-{{ api: scroll-shadow/scroll-shadow NgnScrollShadow }}
+{{ api: scroll-shadow/scroll-shadow AwdScrollShadow }}

@@ -1,19 +1,19 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnPopover } from '@awdlab/jig/popover';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdPopover } from '@awdlab/jig/popover';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-popover-playground',
-  imports: [NgnPopover, NgnButton, NgnDocsPlayground],
+  selector: 'jig-docs-popover-playground',
+  imports: [AwdPopover, AwdButton, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnPopover', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'AwdPopover', component: component() }]">
       <button ngnButton #anchor (click)="component().show()">Open Popover</button>
-      <awd-popover #ref [anchor]="anchor">Popover Content</awd-popover>
-    </awd-docs-playground>
+      <jig-popover #ref [anchor]="anchor">Popover Content</jig-popover>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsPopoverPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnPopover });
+export class AwdDocsPopoverPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdPopover });
 }

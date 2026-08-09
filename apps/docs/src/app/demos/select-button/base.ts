@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NgnSelectButton } from '@awdlab/jig/select-button';
+import { AwdSelectButton } from '@awdlab/jig/select-button';
 
 @Component({
-  selector: 'awd-demo-select-button-base',
-  imports: [NgnSelectButton],
-  template: `<awd-select-button [options]="options" />`,
+  selector: 'jig-demo-select-button-base',
+  imports: [AwdSelectButton],
+  template: `<jig-select-button [options]="options" />`,
 })
 export class Demo_SelectButton_Base {
   protected readonly options = [

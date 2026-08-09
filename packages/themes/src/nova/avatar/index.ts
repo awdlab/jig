@@ -40,7 +40,7 @@ export const avatarGroupStyles = createThemePart({
       ${c('root')} ${d('avatar', 'root')} {
         --border-width: 3px;
         border: var(--border-width) solid ${v('color.background')};
-        /* Use :*-of-type (keyed on the awd-avatar element) rather than :*-child so
+        /* Use :*-of-type (keyed on the jig-avatar element) rather than :*-child so
            a non-avatar sibling injected into the group at runtime — e.g. a tooltip
            anchor when an avatar is hovered — doesn't steal first/last position and
            shift the stack. */

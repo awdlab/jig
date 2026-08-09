@@ -19,16 +19,16 @@ import {
   type CloseBy,
   toModalCloseBy,
   toPopoverCloseBy,
-  NgnTemplate,
+  AwdTemplate,
   type Openable,
 } from '@awdlab/jig/api/ng';
-import { NgnPt, provideSelf } from '@awdlab/jig/base';
-import { NgnActionButton, NgnButton } from '@awdlab/jig/button';
-import { NgnDefer } from '@awdlab/jig/defer';
-import { NgnMovable, NgnResizable } from '@awdlab/jig/directives';
+import { AwdPt, provideSelf } from '@awdlab/jig/base';
+import { AwdActionButton, AwdButton } from '@awdlab/jig/button';
+import { AwdDefer } from '@awdlab/jig/defer';
+import { AwdMovable, AwdResizable } from '@awdlab/jig/directives';
 import { I18n } from '@awdlab/jig/i18n';
-import { NgnIcon } from '@awdlab/jig/icon';
-import { NgnKeyboardShortcut } from '@awdlab/jig/kbd';
+import { AwdIcon } from '@awdlab/jig/icon';
+import { AwdKeyboardShortcut } from '@awdlab/jig/kbd';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 import { dialogControlTemplate } from '@awdlab/jig-themes/templates/dialog';
 
@@ -36,7 +36,7 @@ import { DialogTemplates } from './dialog-templates';
 import { PromptDialogBase } from './prompt-dialog-base';
 
 import type { DialogSize } from './types';
-import type { NgnActionButtonConfig } from '@awdlab/jig/api';
+import type { AwdActionButtonConfig } from '@awdlab/jig/api';
 
 type TypedContent = {
   template?: TemplateRef<unknown>;
@@ -48,27 +48,27 @@ type TypedContent = {
  * @category control
  */
 @Component({
-  selector: 'awd-dialog',
+  selector: 'jig-dialog',
   imports: [
     NgTemplateOutlet,
-    NgnTemplate,
-    NgnMovable,
-    NgnDefer,
-    NgnPt,
-    NgnButton,
-    NgnActionButton,
+    AwdTemplate,
+    AwdMovable,
+    AwdDefer,
+    AwdPt,
+    AwdButton,
+    AwdActionButton,
     NgComponentOutlet,
-    NgnIcon,
-    NgnResizable,
-    NgnKeyboardShortcut,
+    AwdIcon,
+    AwdResizable,
+    AwdKeyboardShortcut,
   ],
   templateUrl: './dialog.html',
 
-  providers: [provideSelf(NgnDialog)],
+  providers: [provideSelf(AwdDialog)],
 })
-export class NgnDialog<
+export class AwdDialog<
   T,
-  Buttons extends NgnActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
+  Buttons extends AwdActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
 >
   extends DialogTemplates<T>
   implements Openable

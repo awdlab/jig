@@ -1,13 +1,13 @@
 import { booleanAttribute, Component, input, model, inject } from '@angular/core';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnPt, provideSelf } from '@awdlab/jig/base';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnAutofocus } from '@awdlab/jig/directives';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdPt, provideSelf } from '@awdlab/jig/base';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdAutofocus } from '@awdlab/jig/directives';
 import { I18n } from '@awdlab/jig/i18n';
-import { NgnIcon } from '@awdlab/jig/icon';
-import { NgnInplace } from '@awdlab/jig/inplace';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
+import { AwdIcon } from '@awdlab/jig/icon';
+import { AwdInplace } from '@awdlab/jig/inplace';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
 import { editInplaceControlTemplate } from '@awdlab/jig-themes/templates/edit-inplace';
 
 import { EditInplaceTemplates } from './edit-inplace-templates';
@@ -16,21 +16,21 @@ import { EditInplaceTemplates } from './edit-inplace-templates';
  * @category control
  */
 @Component({
-  selector: 'awd-edit-inplace',
+  selector: 'jig-edit-inplace',
   templateUrl: './edit-inplace.html',
   imports: [
-    NgnPt,
-    NgnInplace,
-    NgnTemplate,
-    NgnInput,
-    NgnAutofocus,
-    NgnButton,
-    NgnIcon,
-    NgnInputField,
+    AwdPt,
+    AwdInplace,
+    AwdTemplate,
+    AwdInput,
+    AwdAutofocus,
+    AwdButton,
+    AwdIcon,
+    AwdInputField,
   ],
-  providers: [provideSelf(NgnEditInplace)],
+  providers: [provideSelf(AwdEditInplace)],
 })
-export class NgnEditInplace extends EditInplaceTemplates {
+export class AwdEditInplace extends EditInplaceTemplates {
   protected readonly theme = this.injectThemeTemplate(editInplaceControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),

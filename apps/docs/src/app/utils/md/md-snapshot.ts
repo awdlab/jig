@@ -3,7 +3,7 @@ import { DOCUMENT, Injectable, inject } from '@angular/core';
 /**
  * Preserves the server-rendered markdown HTML across hydration.
  *
- * `Md` uses `ngSkipHydration`, so Angular discards each `awd-md` element's
+ * `Md` uses `ngSkipHydration`, so Angular discards each `jig-md` element's
  * server-rendered content and re-renders it on the client. That re-render is
  * async (HTTP + dynamic marked/prism imports), so the host would paint empty for
  * ~150ms — a visible flicker. This service snapshots the server HTML before
@@ -16,9 +16,9 @@ export class MdSnapshot {
   private readonly _doc = inject(DOCUMENT);
   private readonly _byFile = new Map<string, string>();
 
-  /** Snapshot every server-rendered `<awd-md data-md-file>` in the document. */
+  /** Snapshot every server-rendered `<jig-md data-md-file>` in the document. */
   public capture(): void {
-    this._doc.querySelectorAll<HTMLElement>('awd-md[data-md-file]').forEach(el => {
+    this._doc.querySelectorAll<HTMLElement>('jig-md[data-md-file]').forEach(el => {
       const file = el.getAttribute('data-md-file');
       if (file && el.innerHTML) {
         this._byFile.set(file, el.innerHTML);

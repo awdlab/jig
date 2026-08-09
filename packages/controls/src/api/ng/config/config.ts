@@ -3,12 +3,12 @@ import { registerCustomLanguages, type Translations } from '@awdlab/jig/i18n';
 import { type DeepPartial, Logger, type LogLevel } from '@awdlab/jig/utils';
 
 import type { TooltipOptions } from './tooltip';
-import type { NgnStateStorage } from '@awdlab/jig/utils-ng';
+import type { AwdStateStorage } from '@awdlab/jig/utils-ng';
 import type { StyleScope, Theme } from '@awdlab/jig-themes';
 
-export const NGN_CONFIG = new InjectionToken<NgnConfig>('NGN_CONFIG');
+export const NGN_CONFIG = new InjectionToken<AwdConfig>('NGN_CONFIG');
 
-export type NgnConfig = {
+export type AwdConfig = {
   readonly logLevel: LogLevel;
   readonly customTranslations?: Record<string, () => Promise<Translations>>;
   readonly disableAnimations: boolean;
@@ -22,20 +22,20 @@ export type NgnConfig = {
     readonly namePrefix: string;
   };
   readonly defaults: {
-    readonly stateStorage: NgnStateStorage;
+    readonly stateStorage: AwdStateStorage;
     readonly splitter: {
-      readonly stateStorage: NgnStateStorage;
+      readonly stateStorage: AwdStateStorage;
     };
     readonly tooltip: TooltipOptions;
   };
 };
 
-export type NgnConfigInit = DeepPartial<
-  NgnConfig,
+export type AwdConfigInit = DeepPartial<
+  AwdConfig,
   'theme.preset.*' | 'theme.styleScope.*' | 'customTranslations.*'
 >;
 
-export const defaultNgnConfig: NgnConfig = {
+export const defaultAwdConfig: AwdConfig = {
   logLevel: 'info',
   disableAnimations: false,
   respectReducedMotion: true,
@@ -43,8 +43,8 @@ export const defaultNgnConfig: NgnConfig = {
     preset: null,
     lazyLoaded: false,
     styleScope: null,
-    cssLayer: 'awd-controls',
-    namePrefix: 'awd-',
+    cssLayer: 'jig-controls',
+    namePrefix: 'jig-',
   },
   defaults: {
     stateStorage: 'session',
@@ -66,61 +66,61 @@ export const defaultNgnConfig: NgnConfig = {
   },
 };
 
-export function provideNgnConfig(config?: NgnConfigInit): Provider {
+export function provideAwdConfig(config?: AwdConfigInit): Provider {
   return [
     {
       provide: NGN_CONFIG,
       useValue: {
-        logLevel: config?.logLevel ?? defaultNgnConfig.logLevel,
+        logLevel: config?.logLevel ?? defaultAwdConfig.logLevel,
         customTranslations: config?.customTranslations,
-        disableAnimations: config?.disableAnimations ?? defaultNgnConfig.disableAnimations,
-        respectReducedMotion: config?.respectReducedMotion ?? defaultNgnConfig.respectReducedMotion,
+        disableAnimations: config?.disableAnimations ?? defaultAwdConfig.disableAnimations,
+        respectReducedMotion: config?.respectReducedMotion ?? defaultAwdConfig.respectReducedMotion,
         theme: {
-          preset: config?.theme?.preset ?? defaultNgnConfig.theme.preset,
-          lazyLoaded: config?.theme?.lazyLoaded ?? defaultNgnConfig.theme.lazyLoaded,
-          styleScope: config?.theme?.styleScope ?? defaultNgnConfig.theme.styleScope,
+          preset: config?.theme?.preset ?? defaultAwdConfig.theme.preset,
+          lazyLoaded: config?.theme?.lazyLoaded ?? defaultAwdConfig.theme.lazyLoaded,
+          styleScope: config?.theme?.styleScope ?? defaultAwdConfig.theme.styleScope,
           cssLayer:
             config?.theme?.cssLayer === undefined
-              ? defaultNgnConfig.theme.cssLayer
+              ? defaultAwdConfig.theme.cssLayer
               : config?.theme?.cssLayer,
-          namePrefix: config?.theme?.namePrefix ?? defaultNgnConfig.theme.namePrefix,
+          namePrefix: config?.theme?.namePrefix ?? defaultAwdConfig.theme.namePrefix,
         },
         defaults: {
-          stateStorage: config?.defaults?.stateStorage ?? defaultNgnConfig.defaults.stateStorage,
+          stateStorage: config?.defaults?.stateStorage ?? defaultAwdConfig.defaults.stateStorage,
           splitter: {
             stateStorage:
               config?.defaults?.splitter?.stateStorage ??
               config?.defaults?.stateStorage ??
-              defaultNgnConfig.defaults.splitter.stateStorage,
+              defaultAwdConfig.defaults.splitter.stateStorage,
           },
           tooltip: {
             placement:
-              config?.defaults?.tooltip?.placement ?? defaultNgnConfig.defaults.tooltip.placement,
-            offset: config?.defaults?.tooltip?.offset ?? defaultNgnConfig.defaults.tooltip.offset,
+              config?.defaults?.tooltip?.placement ?? defaultAwdConfig.defaults.tooltip.placement,
+            offset: config?.defaults?.tooltip?.offset ?? defaultAwdConfig.defaults.tooltip.offset,
             showDelay:
-              config?.defaults?.tooltip?.showDelay ?? defaultNgnConfig.defaults.tooltip.showDelay,
+              config?.defaults?.tooltip?.showDelay ?? defaultAwdConfig.defaults.tooltip.showDelay,
             hideDelay:
-              config?.defaults?.tooltip?.hideDelay ?? defaultNgnConfig.defaults.tooltip.hideDelay,
+              config?.defaults?.tooltip?.hideDelay ?? defaultAwdConfig.defaults.tooltip.hideDelay,
             showArrow:
-              config?.defaults?.tooltip?.showArrow ?? defaultNgnConfig.defaults.tooltip.showArrow,
+              config?.defaults?.tooltip?.showArrow ?? defaultAwdConfig.defaults.tooltip.showArrow,
             showOnHover:
               config?.defaults?.tooltip?.showOnHover ??
-              defaultNgnConfig.defaults.tooltip.showOnHover,
+              defaultAwdConfig.defaults.tooltip.showOnHover,
             showOnFocus:
               config?.defaults?.tooltip?.showOnFocus ??
-              defaultNgnConfig.defaults.tooltip.showOnFocus,
+              defaultAwdConfig.defaults.tooltip.showOnFocus,
             hideOnTooltipHover:
               config?.defaults?.tooltip?.hideOnTooltipHover ??
-              defaultNgnConfig.defaults.tooltip.hideOnTooltipHover,
+              defaultAwdConfig.defaults.tooltip.hideOnTooltipHover,
             hideOnClick:
               config?.defaults?.tooltip?.hideOnClick ??
-              defaultNgnConfig.defaults.tooltip.hideOnClick,
+              defaultAwdConfig.defaults.tooltip.hideOnClick,
             autoAriaMode:
               config?.defaults?.tooltip?.autoAriaMode ??
-              defaultNgnConfig.defaults.tooltip.autoAriaMode,
+              defaultAwdConfig.defaults.tooltip.autoAriaMode,
           },
         },
-      } satisfies NgnConfig,
+      } satisfies AwdConfig,
     },
     provideAppInitializer(() => {
       const config = inject(NGN_CONFIG);

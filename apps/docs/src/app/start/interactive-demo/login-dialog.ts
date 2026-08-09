@@ -2,15 +2,15 @@ import { Component, computed, effect, model, signal } from '@angular/core';
 import { form, FormField, pattern, required, submit } from '@angular/forms/signals';
 import tablerLock from '@iconify/icons-tabler/lock';
 import tablerUser from '@iconify/icons-tabler/user';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnDialog } from '@awdlab/jig/dialog';
-import { NgnErrors } from '@awdlab/jig/errors';
-import { NgnHint } from '@awdlab/jig/hint';
-import { NgnIcon } from '@awdlab/jig/icon';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { NgnOtp } from '@awdlab/jig/otp';
-import { NgnState } from '@awdlab/jig/state';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdDialog } from '@awdlab/jig/dialog';
+import { AwdErrors } from '@awdlab/jig/errors';
+import { AwdHint } from '@awdlab/jig/hint';
+import { AwdIcon } from '@awdlab/jig/icon';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { AwdOtp } from '@awdlab/jig/otp';
+import { AwdState } from '@awdlab/jig/state';
 
 /**
  * Fake login modal for the startpage demo — pure UI showcase, no real auth.
@@ -19,27 +19,27 @@ import { NgnState } from '@awdlab/jig/state';
  * validators, the `[formField]` directive for two-way control binding, and
  * `submit()` for the faked async round-trip (loading state + a server-side
  * "wrong code" error that attaches straight onto the OTP field). Validation
- * messages are rendered by `ngnErrors` → `awd-hint`, which reads the interop
+ * messages are rendered by `ngnErrors` → `jig-hint`, which reads the interop
  * `NgControl` that `[formField]` provides — no manual error wiring. Kept in its
  * own component so it can be `@defer`-loaded, keeping the form controls out of
  * the eager startpage bundle.
  */
 @Component({
-  selector: 'awd-docs-login-dialog',
+  selector: 'jig-docs-login-dialog',
   imports: [
     FormField,
-    NgnButton,
-    NgnDialog,
-    NgnErrors,
-    NgnHint,
-    NgnIcon,
-    NgnInput,
-    NgnInputField,
-    NgnOtp,
-    NgnState,
+    AwdButton,
+    AwdDialog,
+    AwdErrors,
+    AwdHint,
+    AwdIcon,
+    AwdInput,
+    AwdInputField,
+    AwdOtp,
+    AwdState,
   ],
   template: `
-    <awd-dialog
+    <jig-dialog
       title="Sign in"
       [modal]="true"
       [open]="open()"
@@ -49,18 +49,18 @@ import { NgnState } from '@awdlab/jig/state';
     >
       <form
         novalidate
-        class="flex flex-col gap-(--awd-size-padding-lg)"
+        class="flex flex-col gap-(--jig-size-padding-lg)"
         (submit)="onSubmit($event)"
       >
-        <div class="flex flex-col gap-(--awd-size-padding-sm)">
+        <div class="flex flex-col gap-(--jig-size-padding-sm)">
           <label
-            class="text-(length:--awd-font-size-sm) font-(--awd-font-weight-medium) text-(--awd-color-text)"
+            class="text-(length:--jig-font-size-sm) font-(--jig-font-weight-medium) text-(--jig-color-text)"
             for="login-username"
           >
             Username
           </label>
-          <awd-input-field class="w-full" [inputId]="'login-username'">
-            <awd-icon [icon]="userIcon" />
+          <jig-input-field class="w-full" [inputId]="'login-username'">
+            <jig-icon [icon]="userIcon" />
             <input
               ngnInput
               autocomplete="username"
@@ -69,19 +69,19 @@ import { NgnState } from '@awdlab/jig/state';
               ngnErrors
               [ngnErrorsHint]="usernameHint"
             />
-          </awd-input-field>
-          <awd-hint #usernameHint />
+          </jig-input-field>
+          <jig-hint #usernameHint />
         </div>
 
-        <div class="flex flex-col gap-(--awd-size-padding-sm)">
+        <div class="flex flex-col gap-(--jig-size-padding-sm)">
           <label
-            class="text-(length:--awd-font-size-sm) font-(--awd-font-weight-medium) text-(--awd-color-text)"
+            class="text-(length:--jig-font-size-sm) font-(--jig-font-weight-medium) text-(--jig-color-text)"
             for="login-password"
           >
             Password
           </label>
-          <awd-input-field class="w-full" [inputId]="'login-password'">
-            <awd-icon [icon]="lockIcon" />
+          <jig-input-field class="w-full" [inputId]="'login-password'">
+            <jig-icon [icon]="lockIcon" />
             <input
               ngnInput
               type="password"
@@ -91,18 +91,18 @@ import { NgnState } from '@awdlab/jig/state';
               ngnErrors
               [ngnErrorsHint]="passwordHint"
             />
-          </awd-input-field>
-          <awd-hint #passwordHint />
+          </jig-input-field>
+          <jig-hint #passwordHint />
         </div>
 
-        <div class="flex flex-col gap-(--awd-size-padding-sm)">
+        <div class="flex flex-col gap-(--jig-size-padding-sm)">
           <label
             id="login-otp-label"
-            class="text-(length:--awd-font-size-sm) font-(--awd-font-weight-medium) text-(--awd-color-text)"
+            class="text-(length:--jig-font-size-sm) font-(--jig-font-weight-medium) text-(--jig-color-text)"
           >
             Verification code
           </label>
-          <awd-otp
+          <jig-otp
             labelledBy="login-otp-label"
             [length]="6"
             [integerOnly]="true"
@@ -111,10 +111,10 @@ import { NgnState } from '@awdlab/jig/state';
             ngnErrors
             [ngnErrorsHint]="otpHint"
           />
-          <awd-hint #otpHint [content]="demoCodeTpl" />
+          <jig-hint #otpHint [content]="demoCodeTpl" />
           <ng-template #demoCodeTpl>
             Demo code:
-            <span class="font-mono font-(--awd-font-weight-semibold)">123456</span>
+            <span class="font-mono font-(--jig-font-weight-semibold)">123456</span>
           </ng-template>
         </div>
 
@@ -126,13 +126,13 @@ import { NgnState } from '@awdlab/jig/state';
           [disabled]="!!buttonState()"
         >
           {{ buttonLabel() }}
-          <awd-state [kind]="buttonState() ?? undefined" [visible]="!!buttonState()" />
+          <jig-state [kind]="buttonState() ?? undefined" [visible]="!!buttonState()" />
         </button>
       </form>
-    </awd-dialog>
+    </jig-dialog>
   `,
 })
-export class NgnDocsLoginDialog {
+export class AwdDocsLoginDialog {
   protected readonly userIcon = tablerUser;
   protected readonly lockIcon = tablerLock;
 
@@ -154,7 +154,7 @@ export class NgnDocsLoginDialog {
   /** Latches once the faked server accepts the credentials, until the dialog closes. */
   protected readonly succeeded = signal(false);
 
-  /** awd-state kind for the submit button — loading during the round-trip, success once accepted. */
+  /** jig-state kind for the submit button — loading during the round-trip, success once accepted. */
   protected readonly buttonState = computed<'loading' | 'success' | null>(() =>
     this.loginForm().submitting() ? 'loading' : this.succeeded() ? 'success' : null
   );

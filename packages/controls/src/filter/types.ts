@@ -1,4 +1,4 @@
-export type NgnFilterDataType =
+export type AwdFilterDataType =
   | 'string'
   | 'number'
   | 'date'
@@ -7,11 +7,11 @@ export type NgnFilterDataType =
   | 'custom'
   | 'list';
 
-export type NgnFilterMode = 'inline' | 'input' | 'headless';
+export type AwdFilterMode = 'inline' | 'input' | 'headless';
 
-export type NgnFilterMatchMode = 'any' | 'all';
+export type AwdFilterMatchMode = 'any' | 'all';
 
-export type NgnFilterOperatorId =
+export type AwdFilterOperatorId =
   // string
   | 'isEqual'
   | 'isNotEqual'
@@ -36,8 +36,8 @@ export type NgnFilterOperatorId =
  * A single configured filter condition.
  * This is intentionally data-free and serializable (useful for server-side filtering).
  */
-export type NgnFilterConditionConfig = {
-  operator: NgnFilterOperatorId;
+export type AwdFilterConditionConfig = {
+  operator: AwdFilterOperatorId;
   /** Raw user-entered value (string from the input), or null when empty. */
   rawValue: string | null;
 };
@@ -45,27 +45,27 @@ export type NgnFilterConditionConfig = {
 /**
  * Complete filter configuration without any actual dataset/result.
  */
-export type NgnFilterConfig = {
+export type AwdFilterConfig = {
   /** The chosen datatype for the filter value. */
-  dataType: NgnFilterDataType;
+  dataType: AwdFilterDataType;
   /** How multiple conditions should be combined. */
-  matchMode: NgnFilterMatchMode;
+  matchMode: AwdFilterMatchMode;
   /** Configured conditions (may include empty values depending on operator). */
-  conditions: readonly NgnFilterConditionConfig[];
+  conditions: readonly AwdFilterConditionConfig[];
 };
 
-export type NgnFilterCondition = {
-  operator: NgnFilterOperatorId;
+export type AwdFilterCondition = {
+  operator: AwdFilterOperatorId;
   value: unknown;
 };
 
 /**
  * Full client-side filter result (configuration + filtered dataset).
- * Prefer {@link NgnFilterConfig} when you only need the config.
+ * Prefer {@link AwdFilterConfig} when you only need the config.
  */
-export type NgnFilterOutput<T> = NgnFilterConfig & {
+export type AwdFilterOutput<T> = AwdFilterConfig & {
   /** The active (parsed) conditions used for local evaluation. */
-  activeConditions: readonly NgnFilterCondition[];
+  activeConditions: readonly AwdFilterCondition[];
   /** The filtered data result. */
   filtered: readonly T[];
 };

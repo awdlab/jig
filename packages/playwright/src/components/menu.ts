@@ -1,15 +1,15 @@
 import { expect, type Locator } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { menuControlTemplate } from '@awdlab/jig-themes/templates/menu';
-import { NgnPopoverHarness } from './popover';
+import { AwdPopoverHarness } from './popover';
 
-export class NgnMenuHarness {
+export class AwdMenuHarness {
   public readonly classes = themeClasses(menuControlTemplate);
-  public readonly popover: NgnPopoverHarness;
+  public readonly popover: AwdPopoverHarness;
   public readonly item: Locator;
 
   constructor(public locator: Locator) {
-    this.popover = new NgnPopoverHarness(locator.locator(this.classes['popover']['root']));
+    this.popover = new AwdPopoverHarness(locator.locator(this.classes['popover']['root']));
     this.item = locator.locator(this.classes['item']);
   }
 
@@ -24,6 +24,6 @@ export class NgnMenuHarness {
   public async openChildMenuByIndex(index: number) {
     const item = this.item.nth(index);
     await item.click();
-    return new NgnMenuHarness(item.locator('awd-menu').first());
+    return new AwdMenuHarness(item.locator('jig-menu').first());
   }
 }

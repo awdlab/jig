@@ -2,7 +2,7 @@ import { chipControlTemplate } from '@awdlab/jig-themes/templates/chip';
 import { themeClasses } from '../utils/theme';
 import test, { expect, type Locator } from '@playwright/test';
 
-export class NgnChipHarness {
+export class AwdChipHarness {
   public readonly classes = themeClasses(chipControlTemplate);
 
   public readonly locator: Locator;

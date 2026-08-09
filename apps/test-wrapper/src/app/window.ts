@@ -49,7 +49,7 @@ export class WindowService {
       // chunk import + JIT compile does not eat into per-assertion timeouts.
       ready: false,
     };
-    document.body.setAttribute('data-awd-test-wrapper', 'initialized');
+    document.body.setAttribute('data-jig-test-wrapper', 'initialized');
   }
 
   public handleOutput(key: string, value: any) {

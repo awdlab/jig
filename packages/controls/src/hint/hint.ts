@@ -9,20 +9,20 @@ import {
   signal,
   TemplateRef,
 } from '@angular/core';
-import { NgnBase, provideSelf, NgnPt } from '@awdlab/jig/base';
-import { NgnIcon } from '@awdlab/jig/icon';
-import { NgnTooltip } from '@awdlab/jig/tooltip';
+import { AwdBase, provideSelf, AwdPt } from '@awdlab/jig/base';
+import { AwdIcon } from '@awdlab/jig/icon';
+import { AwdTooltip } from '@awdlab/jig/tooltip';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 import { hintControlTemplate } from '@awdlab/jig-themes/templates/hint';
 
-import type { NgnIconKey } from '@awdlab/jig/icon';
+import type { AwdIconKey } from '@awdlab/jig/icon';
 import type { IconType } from '@awdlab/jig-custom-types';
 
 /**
  * Validation state rendered by a hint when connected to helpers such as ngnErrors.
  * @category types
  */
-export interface NgnHintValidationState {
+export interface AwdHintValidationState {
   /** Whether the validation message should be shown. */
   visible: boolean;
   /** Whether validation is currently pending. */
@@ -39,10 +39,10 @@ export interface NgnHintValidationState {
  * @category control
  */
 @Component({
-  selector: 'awd-hint',
+  selector: 'jig-hint',
   templateUrl: './hint.html',
-  imports: [NgnPt, NgnIcon, NgnTooltip, NgTemplateOutlet],
-  providers: [provideSelf(NgnHint)],
+  imports: [AwdPt, AwdIcon, AwdTooltip, NgTemplateOutlet],
+  providers: [provideSelf(AwdHint)],
   host: {
     '[id]': 'controlId()',
     // Collapse the element when acting as a validation hint with nothing to show,
@@ -50,7 +50,7 @@ export interface NgnHintValidationState {
     '[style.display]': "isHidden() ? 'none' : null",
   },
 })
-export class NgnHint extends NgnBase<'hint'> {
+export class AwdHint extends AwdBase<'hint'> {
   protected readonly theme = this.injectThemeTemplate(hintControlTemplate, 'root');
 
   /**
@@ -84,9 +84,9 @@ export class NgnHint extends NgnBase<'hint'> {
    * Validation state supplied by helpers such as ngnErrors.
    * @default null
    */
-  public readonly validationState = input<NgnHintValidationState | null>(null);
+  public readonly validationState = input<AwdHintValidationState | null>(null);
 
-  private readonly _bridgedValidationState = signal<NgnHintValidationState | null>(null);
+  private readonly _bridgedValidationState = signal<AwdHintValidationState | null>(null);
 
   private readonly _activeValidationState = computed(
     () => this._bridgedValidationState() ?? this.validationState()
@@ -120,7 +120,7 @@ export class NgnHint extends NgnBase<'hint'> {
    * Bridge validation state from a companion directive such as ngnErrors.
    * @category methods
    */
-  public setValidationState(state: NgnHintValidationState | null): void {
+  public setValidationState(state: AwdHintValidationState | null): void {
     this._bridgedValidationState.set(state);
   }
 
@@ -168,7 +168,7 @@ export class NgnHint extends NgnBase<'hint'> {
    * The icon registry key of the default icon for the current kind, or
    * `undefined` for the neutral `default` kind.
    */
-  protected readonly defaultIconKey = computed<NgnIconKey | undefined>(() => {
+  protected readonly defaultIconKey = computed<AwdIconKey | undefined>(() => {
     const validation = this._activeValidationState();
     if (validation?.visible) {
       return validation.pending ? 'hint-info' : 'hint-error';

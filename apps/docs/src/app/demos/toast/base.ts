@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
+import { AwdButton } from '@awdlab/jig/button';
 import { injectToastCreator } from '@awdlab/jig/toast';
 
 @Component({
-  imports: [NgnButton],
-  selector: 'awd-demo-toast-base',
+  imports: [AwdButton],
+  selector: 'jig-demo-toast-base',
   template: ` <button ngnButton kind="text" (click)="showToast()">Show Toast</button> `,
 })
 export class Demo_Toast_Base {

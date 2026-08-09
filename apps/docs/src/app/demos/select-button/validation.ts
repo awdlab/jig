@@ -1,14 +1,14 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@awdlab/jig/errors';
-import { NgnHint } from '@awdlab/jig/hint';
-import { NgnSelectButton } from '@awdlab/jig/select-button';
+import { AwdErrors } from '@awdlab/jig/errors';
+import { AwdHint } from '@awdlab/jig/hint';
+import { AwdSelectButton } from '@awdlab/jig/select-button';
 
 @Component({
-  selector: 'awd-demo-select-button-validation',
-  imports: [NgnErrors, NgnHint, NgnSelectButton],
+  selector: 'jig-demo-select-button-validation',
+  imports: [AwdErrors, AwdHint, AwdSelectButton],
   template: `
     <div class="flex flex-col gap-2">
-      <awd-select-button
+      <jig-select-button
         [options]="options"
         [value]="value()"
         (valueChange)="value.set($event)"
@@ -18,7 +18,7 @@ import { NgnSelectButton } from '@awdlab/jig/select-button';
         [ngnErrorsHint]="priorityHint"
       />
     </div>
-    <awd-hint #priorityHint />
+    <jig-hint #priorityHint />
   `,
 })
 export class Demo_SelectButton_Validation {

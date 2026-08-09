@@ -1,1 +1,1 @@
-{{ api: breadcrumb/breadcrumb NgnBreadcrumb }}
+{{ api: breadcrumb/breadcrumb AwdBreadcrumb }}

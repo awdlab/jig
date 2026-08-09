@@ -1,14 +1,14 @@
 import { Component, signal } from '@angular/core';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { NgnNumberInput } from '@awdlab/jig/number-input';
-import { NgnSpinButtons } from '@awdlab/jig/spin-buttons';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { AwdNumberInput } from '@awdlab/jig/number-input';
+import { AwdSpinButtons } from '@awdlab/jig/spin-buttons';
 
 @Component({
-  imports: [NgnNumberInput, NgnInputField, NgnSpinButtons],
-  selector: 'awd-demo-number-input-locale',
+  imports: [AwdNumberInput, AwdInputField, AwdSpinButtons],
+  selector: 'jig-demo-number-input-locale',
   template: `
     <div class="flex flex-col gap-4">
-      <awd-input-field [label]="'Amount (de-DE)'" [labelKind]="'on'">
+      <jig-input-field [label]="'Amount (de-DE)'" [labelKind]="'on'">
         <input
           ngnNumberInput
           locale="de-DE"
@@ -17,9 +17,9 @@ import { NgnSpinButtons } from '@awdlab/jig/spin-buttons';
           [value]="value()"
           (valueChange)="value.set($event)"
         />
-        <awd-spin-buttons />
-      </awd-input-field>
-      <awd-input-field [label]="'Amount (en-US)'" [labelKind]="'on'">
+        <jig-spin-buttons />
+      </jig-input-field>
+      <jig-input-field [label]="'Amount (en-US)'" [labelKind]="'on'">
         <input
           ngnNumberInput
           locale="en-US"
@@ -28,8 +28,8 @@ import { NgnSpinButtons } from '@awdlab/jig/spin-buttons';
           [value]="value()"
           (valueChange)="value.set($event)"
         />
-        <awd-spin-buttons />
-      </awd-input-field>
+        <jig-spin-buttons />
+      </jig-input-field>
     </div>
     value: {{ value() }}
   `,

@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnTableModule, NgnTableSortableColumn } from '@awdlab/jig/table';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdTableModule, AwdTableSortableColumn } from '@awdlab/jig/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnTableModule, NgnTableSortableColumn, NgnTemplate],
-  selector: 'awd-demo-table-sorting',
-  template: `<awd-table #table style="height: 400px" [rows]="rows" [fieldId]="'id'">
+  imports: [AwdTableModule, AwdTableSortableColumn, AwdTemplate],
+  selector: 'jig-demo-table-sorting',
+  template: `<jig-table #table style="height: 400px" [rows]="rows" [fieldId]="'id'">
     <ng-template #header>
       <tr ngnTableHeadTr>
         <th [ngnTableTh]="table.column('id')" [ngnTableSortableColumn]>ID</th>
@@ -24,7 +24,7 @@ import { exampleData } from '../../helper/data';
         <td ngnTableTd>{{ row.data.location }}</td>
       </tr>
     </ng-template>
-  </awd-table>`,
+  </jig-table>`,
 })
 export class Demo_Table_Sorting {
   protected readonly rows = exampleData.table(100);

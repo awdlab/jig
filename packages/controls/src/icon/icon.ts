@@ -1,14 +1,14 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { afterRenderEffect, Component, computed, inject, input } from '@angular/core';
 import { DomSanitizer, type SafeHtml } from '@angular/platform-browser';
-import { NgnBase, provideSelf, NgnPt } from '@awdlab/jig/base';
-import { Logger, NgnError } from '@awdlab/jig/utils';
+import { AwdBase, provideSelf, AwdPt } from '@awdlab/jig/base';
+import { Logger, AwdError } from '@awdlab/jig/utils';
 import { iconControlTemplate } from '@awdlab/jig-themes/templates/icon';
 
 import { GlobalIconTemplate } from './global-icon-template';
 import { NGN_CUSTOM_ICONS, NGN_ICON_REGISTRY } from './icon-registry';
 
-import type { NgnIconEntry, NgnIconKey, NgnIconRegistry } from './icon-registry';
+import type { AwdIconEntry, AwdIconKey, AwdIconRegistry } from './icon-registry';
 import type { IconifyIcon } from '@iconify/types';
 import type { IconType } from '@awdlab/jig-custom-types';
 
@@ -28,7 +28,7 @@ function generateIconSvg(
   iconData = unwrapIcon(iconData);
   if (typeof iconData?.body !== 'string') {
     Logger.error(
-      new NgnError(
+      new AwdError(
         'icon',
         'Icon data has no string "body". If importing from a CommonJS icon package, the module default may need unwrapping.',
         iconData
@@ -58,15 +58,15 @@ function generateIconSvg(
  * @category control
  */
 @Component({
-  selector: 'awd-icon',
+  selector: 'jig-icon',
   templateUrl: './icon.html',
-  imports: [NgnPt, NgTemplateOutlet],
-  providers: [provideSelf(NgnIcon)],
+  imports: [AwdPt, NgTemplateOutlet],
+  providers: [provideSelf(AwdIcon)],
   host: {
     ngSkipHydration: 'true',
   },
 })
-export class NgnIcon extends NgnBase<'icon'> {
+export class AwdIcon extends AwdBase<'icon'> {
   protected readonly theme = this.injectThemeTemplate(iconControlTemplate, 'root');
   private readonly _globalIconTemplate = inject(GlobalIconTemplate).globalIconTemplate;
   private readonly _sanitizer = inject(DomSanitizer);
@@ -78,7 +78,7 @@ export class NgnIcon extends NgnBase<'icon'> {
    * Used as a fallback when {@link icon} is not provided; requires an icon registry.
    * @default undefined
    */
-  public readonly defaultIcon = input<NgnIconKey>();
+  public readonly defaultIcon = input<AwdIconKey>();
   /**
    * The icon to render. Accepts an Iconify data object, a registered icon entry, or a
    * custom value resolved via the {@link GlobalIconTemplate}. Takes precedence over {@link defaultIcon}.
@@ -100,7 +100,7 @@ export class NgnIcon extends NgnBase<'icon'> {
       typeof value.icon === 'object' &&
       'body' in unwrapIcon(value.icon)
     ) {
-      const entry = value as NgnIconEntry;
+      const entry = value as AwdIconEntry;
       iconData = unwrapIcon(entry.icon);
       scale = entry.scale ?? 1;
     } else {
@@ -113,9 +113,9 @@ export class NgnIcon extends NgnBase<'icon'> {
   protected readonly defaultIconSvg = computed(() => {
     const key = this.defaultIcon();
     if (!key || this._isCustom || !this._registry) return null;
-    const raw = unwrapIcon((this._registry as NgnIconRegistry)[key]);
-    const entry: NgnIconEntry =
-      'body' in raw ? { icon: raw as IconifyIcon, scale: 1 } : (raw as NgnIconEntry);
+    const raw = unwrapIcon((this._registry as AwdIconRegistry)[key]);
+    const entry: AwdIconEntry =
+      'body' in raw ? { icon: raw as IconifyIcon, scale: 1 } : (raw as AwdIconEntry);
 
     return generateIconSvg(this._sanitizer, unwrapIcon(entry.icon), entry.scale ?? 1);
   });
@@ -134,23 +134,23 @@ export class NgnIcon extends NgnBase<'icon'> {
     // Throwing inside a computed() is swallowed by Angular's reactive graph:
     // producerRecomputeValue caches the error and only re-throws on a direct
     // getter read, so a recompute during change-detection producer polling
-    // runs the body (firing the NgnError constructor's fancy log) without ever
+    // runs the body (firing the AwdError constructor's fancy log) without ever
     // surfacing the error. afterRenderEffect throws surface reliably.
     afterRenderEffect(() => {
       const icon = this.icon();
       const defaultIcon = this.defaultIcon();
 
       if (!icon && !defaultIcon) {
-        throw new NgnError(
+        throw new AwdError(
           'icon',
           'Icon component requires either an icon or a default icon to be set.'
         );
       }
 
       if (defaultIcon && !this._registry) {
-        throw new NgnError(
+        throw new AwdError(
           'icon',
-          'No icon registry provided. Add withDefaultIcons() or withCustomIcons() to your provideNgnControls() call.'
+          'No icon registry provided. Add withDefaultIcons() or withCustomIcons() to your provideAwdControls() call.'
         );
       }
 
@@ -158,7 +158,7 @@ export class NgnIcon extends NgnBase<'icon'> {
       // default icons; both require a registered GlobalIconTemplate.
       const needsTemplate = (!!icon && !this.iconSvg()) || !!this.customDefaultIcon();
       if (needsTemplate && !this._globalIconTemplate()) {
-        throw new NgnError(
+        throw new AwdError(
           'icon',
           'No GlobalIconTemplate registered. Required when using [icon] with non-Iconify values or withCustomIcons() with [defaultIcon]. If using Iconify, pass an IconifyIcon data object (e.g., import tablerUser from "@iconify/icons-tabler/user").'
         );

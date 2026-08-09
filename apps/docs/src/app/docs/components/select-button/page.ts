@@ -1,12 +1,12 @@
-import { NgnDocsSelectButtonPlayground } from './playground';
+import { AwdDocsSelectButtonPlayground } from './playground';
 import { Demo_SelectButton_Base } from '../../../demos/select-button/base';
 import { Demo_SelectButton_States } from '../../../demos/select-button/states';
 import { Demo_SelectButton_Validation } from '../../../demos/select-button/validation';
 import { i18nText } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const SelectButtonPage: NgnDocsPage = {
+export const SelectButtonPage: AwdDocsPage = {
   title: `Select Button`,
   kind: 'tabs',
   tabs: [
@@ -21,7 +21,7 @@ export const SelectButtonPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsSelectButtonPlayground,
+      component: AwdDocsSelectButtonPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/select-button/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/select-button/a11y.md' },

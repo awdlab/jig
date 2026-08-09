@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { NgnBadgeHarness } from '@awdlab/jig-playwright';
+import { AwdBadgeHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
@@ -14,7 +14,7 @@ test('renders count and clamps to max', async ({ page }, testInfo) => {
     { inputs: { value: 3, max: 99 } }
   );
 
-  const badge = new NgnBadgeHarness(page.locator('button'));
+  const badge = new AwdBadgeHarness(page.locator('button'));
   await badge.expectText('3');
   await expectScreenshot(page, testInfo, 'count-3');
 
@@ -32,7 +32,7 @@ test('hides on zero unless showZero', async ({ page }) => {
     { inputs: { value: 0, showZero: false } }
   );
 
-  const badge = new NgnBadgeHarness(page.locator('button'));
+  const badge = new AwdBadgeHarness(page.locator('button'));
   await badge.expectVisible(false);
 
   await handle.setInputs({ showZero: true });
@@ -49,7 +49,7 @@ test('dot mode ignores value', async ({ page }, testInfo) => {
     },
     { inputs: {} }
   );
-  const badge = new NgnBadgeHarness(page.locator('button'));
+  const badge = new AwdBadgeHarness(page.locator('button'));
   await badge.expectVisible(true);
   await badge.expectText('');
 });
@@ -63,7 +63,7 @@ test('dot mode works standalone (ngnBadgeDot without ngnBadge)', async ({ page }
     },
     { inputs: {} }
   );
-  const badge = new NgnBadgeHarness(page.locator('button'));
+  const badge = new AwdBadgeHarness(page.locator('button'));
   await badge.expectVisible(true);
   await badge.expectText('');
 });
@@ -78,7 +78,7 @@ test('hiding a visible badge destroys the indicator', async ({ page }) => {
     { inputs: { hidden: false } }
   );
 
-  const badge = new NgnBadgeHarness(page.locator('button'));
+  const badge = new AwdBadgeHarness(page.locator('button'));
   await badge.expectVisible(true);
 
   await handle.setInputs({ hidden: true });
@@ -94,27 +94,27 @@ test('custom color applies as css variable', async ({ page }) => {
     },
     { inputs: {} }
   );
-  const badge = new NgnBadgeHarness(page.locator('button'));
+  const badge = new AwdBadgeHarness(page.locator('button'));
   await expect(badge.badge).toHaveCSS('background-color', 'rgb(10, 20, 30)');
 });
 
 test('anchors correctly on a wrapper around a clipping host (avatar)', async ({
   page,
 }, testInfo) => {
-  // awd-avatar has overflow:hidden, so a badge placed directly on it would be
+  // jig-avatar has overflow:hidden, so a badge placed directly on it would be
   // clipped. The documented pattern is to anchor the badge on a thin wrapper.
   await loadComponent(
     page,
     {
-      template: `<div style="padding: 20px; width: max-content;"><span class="inline-flex" [ngnBadge]="5" ngnBadgePosition="top-end"><awd-avatar initials="JD" /></span></div>`,
+      template: `<div style="padding: 20px; width: max-content;"><span class="inline-flex" [ngnBadge]="5" ngnBadgePosition="top-end"><jig-avatar initials="JD" /></span></div>`,
       imports: ['badge', 'avatar'],
     },
     { inputs: {} }
   );
 
-  const wrapper = page.locator('span', { has: page.locator('awd-avatar') });
-  const avatar = page.locator('awd-avatar');
-  const badge = new NgnBadgeHarness(wrapper);
+  const wrapper = page.locator('span', { has: page.locator('jig-avatar') });
+  const avatar = page.locator('jig-avatar');
+  const badge = new AwdBadgeHarness(wrapper);
   await badge.expectVisible(true);
   await badge.expectText('5');
 
@@ -145,7 +145,7 @@ test('accessibility (axe)', async ({ page }) => {
     { inputs: { value: 5 } }
   );
 
-  const badge = new NgnBadgeHarness(page.locator('button'));
+  const badge = new AwdBadgeHarness(page.locator('button'));
   await badge.expectText('5');
   await expectNoA11yViolations(page);
 });

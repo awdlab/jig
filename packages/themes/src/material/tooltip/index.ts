@@ -31,14 +31,14 @@ export const tooltipStyles = createThemePart({
       }
 
       ${c('root')}:popover-open {
-        animation: awd-tooltip-fade-in ${v('anim.time.fade')} ${v('anim.ease.fade')} forwards;
+        animation: jig-tooltip-fade-in ${v('anim.time.fade')} ${v('anim.ease.fade')} forwards;
       }
 
       ${c('closing')}:popover-open {
-        animation: awd-tooltip-fade-out ${v('anim.time.fade')} ${v('anim.ease.fade')} forwards;
+        animation: jig-tooltip-fade-out ${v('anim.time.fade')} ${v('anim.ease.fade')} forwards;
       }
 
-      @keyframes awd-tooltip-fade-in {
+      @keyframes jig-tooltip-fade-in {
         from {
           opacity: 0;
         }
@@ -47,7 +47,7 @@ export const tooltipStyles = createThemePart({
         }
       }
 
-      @keyframes awd-tooltip-fade-out {
+      @keyframes jig-tooltip-fade-out {
         from {
           opacity: 1;
         }

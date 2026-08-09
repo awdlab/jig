@@ -1,12 +1,12 @@
 The Select is a dropdown/listbox control for choosing from a list of options. It
 supports single and multiple selection, an editable free-text mode, optional
 filtering, grouped options, custom option templates, and virtual scrolling for
-long lists. Wrap `awd-select` in an `awd-input-field` for field chrome (label,
+long lists. Wrap `jig-select` in an `jig-input-field` for field chrome (label,
 border, states).
 
 ### Basic Usage
 
-Options come from the `options` input, either as `NgnItem` objects
+Options come from the `options` input, either as `JigItem` objects
 (`{ label, value }`) or as plain objects mapped to items. The value type follows
 the mode: single selection stores the chosen item's `value`, `multiple` stores an
 array of values, and `editable` stores a string. Bind it with `[(value)]`.
@@ -22,7 +22,7 @@ It is replaced by the selected item's label once a value is chosen.
 
 ### Forms integration
 
-`awd-select` is a form value control: it exposes a two-way `[(value)]` model,
+`jig-select` is a form value control: it exposes a two-way `[(value)]` model,
 participates in signal forms, and reflects `disabled`, `readonly`, `invalid`,
 and `touched`. The next demo shows it inside a validated form.
 
@@ -82,7 +82,7 @@ the select wires up its value and the listbox ARIA attributes (`aria-autocomplet
 
 ### Disabled Items
 
-Individual options can be disabled via the `disabled` property on `NgnItem`.
+Individual options can be disabled via the `disabled` property on `JigItem`.
 Disabled items are skipped during keyboard navigation and cannot be selected.
 
 {{ demo: Demo_Select_DisabledItems }}

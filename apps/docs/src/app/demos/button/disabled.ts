@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { injectThemeControlKinds } from '@awdlab/jig/api/ng';
-import { NgnButton } from '@awdlab/jig/button';
+import { AwdButton } from '@awdlab/jig/button';
 
 @Component({
-  selector: 'awd-demo-button-disabled',
-  imports: [NgnButton],
+  selector: 'jig-demo-button-disabled',
+  imports: [AwdButton],
   template: `
     <div class="flex flex-col gap-2">
       @for (kind of kinds(); track $index) {

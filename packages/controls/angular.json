@@ -18,7 +18,7 @@
       },
       "root": ".",
       "sourceRoot": "./src",
-      "prefix": "awd",
+      "prefix": "jig",
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",

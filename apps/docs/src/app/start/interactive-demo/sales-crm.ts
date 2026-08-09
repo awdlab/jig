@@ -13,23 +13,23 @@ import tablerEdit from '@iconify/icons-tabler/edit';
 import tablerEye from '@iconify/icons-tabler/eye';
 import tablerSearch from '@iconify/icons-tabler/search';
 import tablerTrash from '@iconify/icons-tabler/trash';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnAvatar } from '@awdlab/jig/avatar';
-import { type BreadcrumbItem, NgnBreadcrumb } from '@awdlab/jig/breadcrumb';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnChip } from '@awdlab/jig/chip';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdAvatar } from '@awdlab/jig/avatar';
+import { type BreadcrumbItem, AwdBreadcrumb } from '@awdlab/jig/breadcrumb';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdChip } from '@awdlab/jig/chip';
 import { createDialog } from '@awdlab/jig/dialog';
-import { NgnIcon } from '@awdlab/jig/icon';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { type MenuItem, NgnMenu } from '@awdlab/jig/menu';
-import { NgnPaginator } from '@awdlab/jig/paginator';
-import { NgnSelect } from '@awdlab/jig/select';
+import { AwdIcon } from '@awdlab/jig/icon';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { type MenuItem, AwdMenu } from '@awdlab/jig/menu';
+import { AwdPaginator } from '@awdlab/jig/paginator';
+import { AwdSelect } from '@awdlab/jig/select';
 import { createConditionalSpinner } from '@awdlab/jig/spinner';
-import { NgnTableModule } from '@awdlab/jig/table';
-import { NgnTag } from '@awdlab/jig/tag';
+import { AwdTableModule } from '@awdlab/jig/table';
+import { AwdTag } from '@awdlab/jig/tag';
 import { injectToastCreator } from '@awdlab/jig/toast';
-import { NgnTooltip } from '@awdlab/jig/tooltip';
+import { AwdTooltip } from '@awdlab/jig/tooltip';
 
 import {
   createOpportunity,
@@ -45,23 +45,23 @@ import { QuickAddDeal } from './quick-add-deal';
 import { themeColor } from '../../utils/theme-variant';
 
 @Component({
-  selector: 'awd-docs-sales-crm',
+  selector: 'jig-docs-sales-crm',
   templateUrl: './sales-crm.html',
   imports: [
-    NgnAvatar,
-    NgnBreadcrumb,
-    NgnButton,
-    NgnChip,
-    NgnIcon,
-    NgnInput,
-    NgnInputField,
-    NgnMenu,
-    NgnPaginator,
-    NgnSelect,
-    NgnTableModule,
-    NgnTag,
-    NgnTemplate,
-    NgnTooltip,
+    AwdAvatar,
+    AwdBreadcrumb,
+    AwdButton,
+    AwdChip,
+    AwdIcon,
+    AwdInput,
+    AwdInputField,
+    AwdMenu,
+    AwdPaginator,
+    AwdSelect,
+    AwdTableModule,
+    AwdTag,
+    AwdTemplate,
+    AwdTooltip,
     QuickAddDeal,
   ],
 })
@@ -209,6 +209,6 @@ export class SalesCrm {
 
   /** Build a theme color CSS variable from a color name + shade. */
   protected colorVar(name: string, shade = 500): string {
-    return `var(--awd-color-${name}-${shade})`;
+    return `var(--jig-color-${name}-${shade})`;
   }
 }

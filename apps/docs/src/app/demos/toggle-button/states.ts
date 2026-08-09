@@ -1,28 +1,28 @@
 import { Component, signal } from '@angular/core';
-import { NgnToggleButton } from '@awdlab/jig/toggle-button';
+import { AwdToggleButton } from '@awdlab/jig/toggle-button';
 
 @Component({
-  imports: [NgnToggleButton],
-  selector: 'awd-demo-toggle-button-states',
+  imports: [AwdToggleButton],
+  selector: 'jig-demo-toggle-button-states',
   template: `
     Default:
-    <awd-toggle-button [value]="value()" (valueChange)="value.set($event)" label="Toggle" />
+    <jig-toggle-button [value]="value()" (valueChange)="value.set($event)" label="Toggle" />
     Disabled:
-    <awd-toggle-button
+    <jig-toggle-button
       [value]="value()"
       (valueChange)="value.set($event)"
       label="Toggle"
       disabled
     />
     Readonly:
-    <awd-toggle-button
+    <jig-toggle-button
       [value]="value()"
       (valueChange)="value.set($event)"
       label="Toggle"
       readonly
     />
     Invalid:
-    <awd-toggle-button
+    <jig-toggle-button
       [value]="value()"
       (valueChange)="value.set($event)"
       label="Toggle"
@@ -30,7 +30,7 @@ import { NgnToggleButton } from '@awdlab/jig/toggle-button';
       invalid
     />
     Invalid + Disabled:
-    <awd-toggle-button
+    <jig-toggle-button
       [value]="value()"
       (valueChange)="value.set($event)"
       label="Toggle"
@@ -39,7 +39,7 @@ import { NgnToggleButton } from '@awdlab/jig/toggle-button';
       invalid
     />
     Invalid + Readonly:
-    <awd-toggle-button
+    <jig-toggle-button
       [value]="value()"
       (valueChange)="value.set($event)"
       label="Toggle"

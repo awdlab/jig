@@ -15,23 +15,23 @@ nested controls are always styled.
 
 A token part supplies a `values` tree; the engine walks it and emits custom properties.
 Names are derived by joining the scope and key path, replacing `.` with `-` and camelCase
-with kebab-case, prefixed with `--awd-`:
+with kebab-case, prefixed with `--jig-`:
 
 ```text
-scope 'size',  key 'rounded.lg'      → --awd-size-rounded-lg
-scope 'color', key 'surface.50'      → --awd-color-surface-50
-scope 'shadow', key 'md'             → --awd-shadow-md
+scope 'size',  key 'rounded.lg'      → --jig-size-rounded-lg
+scope 'color', key 'surface.50'      → --jig-color-surface-50
+scope 'shadow', key 'md'             → --jig-shadow-md
 ```
 
 A value wrapped in braces is emitted as a **reference** to another token
-(`'{color.text}'` → `var(--awd-color-text)`) — this is how the auto-contrast colors
+(`'{color.text}'` → `var(--jig-color-text)`) — this is how the auto-contrast colors
 self-heal per scheme.
 
 ### The `css` helpers: `v`, `c`, `d`
 
 A part's `root`/`dark` block is a function returning a CSS string, given three helpers:
 
-- **`v(key)`** → `var(--awd-<key>)` — reference a design token.
+- **`v(key)`** → `var(--jig-<key>)` — reference a design token.
 - **`c(className)`** → the control's own scope class selector.
 - **`d(scope, className)`** → a **dependency** control's class selector, for styling a
   nested control from its parent. The allowed `(scope, className)` pairs are constrained by
@@ -41,12 +41,12 @@ A part's `root`/`dark` block is a function returning a CSS string, given three h
 
 For a part with a `base`, the base CSS is emitted **first**, then the theme's rules (nova,
 shade, or material). Both are given a selector suffix that adds exactly one pseudo-class of
-specificity — base uses `:not(.awd-css-specificity)` (a class that never exists), the themed
-layer uses `:not(.awd-unstyled)`. Equal specificity means **source order decides, so the
+specificity — base uses `:not(.jig-css-specificity)` (a class that never exists), the themed
+layer uses `:not(.jig-unstyled)`. Equal specificity means **source order decides, so the
 theme wins**. Two consequences:
 
-- Adding the `awd-unstyled` class to a control makes it fail the themed layer's
-  `:not(.awd-unstyled)` match, dropping it while the structural base rules remain — that's
+- Adding the `jig-unstyled` class to a control makes it fail the themed layer's
+  `:not(.jig-unstyled)` match, dropping it while the structural base rules remain — that's
   how `unstyled` controls work.
 - Dark values are emitted under `&.dark { … }` on the scope root, activated by the `dark`
   class on `<html>` (see [Dark Mode](/guides/dark-mode)).

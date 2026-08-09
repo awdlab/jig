@@ -16,7 +16,7 @@ export const scrollShadowStyles = createThemePart({
       ${c('scrolled-end')},
       ${c('scrolled-top')},
       ${c('scrolled-bottom')} {
-        --awd-scroll-shadow-color: rgb(0 0 0 / 0.08);
+        --jig-scroll-shadow-color: rgb(0 0 0 / 0.08);
       }
     `,
   },
@@ -28,7 +28,7 @@ export const scrollShadowStyles = createThemePart({
       ${c('scrolled-end')},
       ${c('scrolled-top')},
       ${c('scrolled-bottom')} {
-        --awd-scroll-shadow-color: rgb(255 255 255 / 0.35);
+        --jig-scroll-shadow-color: rgb(255 255 255 / 0.35);
       }
     `,
   },

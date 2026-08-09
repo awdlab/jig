@@ -11,10 +11,10 @@ compatible installers.
 
 | Skill               | What it teaches the agent to do                                                                |
 | ------------------- | ---------------------------------------------------------------------------------------------- |
-| `awd-controls`      | Discover controls, look up the real API via `get_control`, honor signal conventions.           |
-| `awd-migrate`       | Inventory `p-*` / `mat-*` / `ejs-*` usage, map each to its awd target, rewrite, and flag gaps. |
-| `awd-theme`         | Author a product theme with tokens only — schema → anatomy → `scaffold_theme_part`.            |
-| `awd-build-feature` | Compose controls into a feature: `recommend_controls` → recipe → `get_control` → scaffold.     |
+| `jig-controls`      | Discover controls, look up the real API via `get_control`, honor signal conventions.           |
+| `jig-migrate`       | Inventory `p-*` / `mat-*` / `ejs-*` usage, map each to its jig target, rewrite, and flag gaps. |
+| `jig-theme`         | Author a product theme with tokens only — schema → anatomy → `scaffold_theme_part`.            |
+| `jig-build-feature` | Compose controls into a feature: `recommend_controls` → recipe → `get_control` → scaffold.     |
 
 ### Installing the skills
 
@@ -41,7 +41,7 @@ existing skill, comparing versions:
 ```bash
 npx @awdlab/jig-mcp init              # → ./.claude/skills, prompts on conflicts
 npx @awdlab/jig-mcp init --dir .cursor/rules
-npx @awdlab/jig-mcp init --skill awd-migrate --yes
+npx @awdlab/jig-mcp init --skill jig-migrate --yes
 npx @awdlab/jig-mcp init --list       # list bundled skills and exit
 ```
 

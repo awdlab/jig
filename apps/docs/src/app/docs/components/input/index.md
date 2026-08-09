@@ -5,13 +5,13 @@ element, `ngModel`, `formControl`, or `formControlName` work alongside it out of
 the box — validation, dirty/touched tracking, and value access all behave
 natively.
 
-Wrap it in `awd-input-field` for field chrome (label, borders, focus ring,
+Wrap it in `jig-input-field` for field chrome (label, borders, focus ring,
 adornments); unlike `input-field`, this directive is only the value binding on
 the element itself.
 
 ### Basic Usage
 
-A bare `ngnInput` on an `<input>`, projected into an `awd-input-field`, with its
+A bare `ngnInput` on an `<input>`, projected into an `jig-input-field`, with its
 `value` bound two-way through `value` / `valueChange`.
 
 {{ demo: Demo_Input_Base }}
@@ -19,13 +19,13 @@ A bare `ngnInput` on an `<input>`, projected into an `awd-input-field`, with its
 ### Validation
 
 Combine `ngnInput` with `ngModel` and Angular validators; `ngnErrors` plus an
-`awd-hint` surfaces the messages under the field.
+`jig-hint` surfaces the messages under the field.
 
 {{ demo: Demo_Input_Validation }}
 
 ### States
 
-`awd-input-field` mirrors the input's state for styling: `readonly` and
+`jig-input-field` mirrors the input's state for styling: `readonly` and
 `disabled` come from the native attributes on the element, and `invalid` applies
 error styling. Set `invalid` explicitly when your validity comes from outside
 Angular forms. States compose — a field can be invalid and readonly at once.
@@ -34,8 +34,8 @@ Angular forms. States compose — a field can be invalid and readonly at once.
 
 ### Composition
 
-`awd-input-field` projects arbitrary content, so prefixes and suffixes are just
-elements placed before or after the input — icons, `<awd-state>` indicators,
+`jig-input-field` projects arbitrary content, so prefixes and suffixes are just
+elements placed before or after the input — icons, `<jig-state>` indicators,
 tooltips, or `ngnButton` actions. Auxiliary controls are skipped when the field
 picks its primary control, so their placement never shadows the real input.
 Provide a `label` (with an optional `labelKind` for placement) or wire

@@ -1,19 +1,19 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnErrors } from '@awdlab/jig/errors';
-import { NgnHint } from '@awdlab/jig/hint';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdErrors } from '@awdlab/jig/errors';
+import { AwdHint } from '@awdlab/jig/hint';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
 
-import type { NgnErrorsCustom } from '@awdlab/jig/errors';
+import type { AwdErrorsCustom } from '@awdlab/jig/errors';
 
 @Component({
-  selector: 'awd-demo-errors-custom',
-  imports: [NgnButton, NgnErrors, NgnHint, NgnInput, NgnInputField],
+  selector: 'jig-demo-errors-custom',
+  imports: [AwdButton, AwdErrors, AwdHint, AwdInput, AwdInputField],
   template: `
     <div class="flex flex-col items-start gap-3">
       <div class="flex flex-col gap-1">
-        <awd-input-field [label]="'Username'" [labelKind]="'on'" class="w-72">
+        <jig-input-field [label]="'Username'" [labelKind]="'on'" class="w-72">
           <input
             ngnInput
             [value]="username()"
@@ -23,8 +23,8 @@ import type { NgnErrorsCustom } from '@awdlab/jig/errors';
             [ngnErrorsCustom]="serverErrors()"
             [ngnErrorsHint]="hint"
           />
-        </awd-input-field>
-        <awd-hint #hint />
+        </jig-input-field>
+        <jig-hint #hint />
       </div>
 
       <button ngnButton (click)="submit()">Check availability</button>
@@ -33,7 +33,7 @@ import type { NgnErrorsCustom } from '@awdlab/jig/errors';
 })
 export class Demo_Errors_Custom {
   protected readonly username = signal('ada');
-  protected readonly serverErrors = signal<NgnErrorsCustom>(null);
+  protected readonly serverErrors = signal<AwdErrorsCustom>(null);
 
   protected onChange(value: string | null): void {
     this.username.set(value ?? '');

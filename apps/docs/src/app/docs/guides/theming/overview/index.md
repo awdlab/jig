@@ -16,7 +16,7 @@ A theme is assembled from three kinds of part:
   - **nova / shade / material** — the full visual layer: colors, radii, shadows,
     transitions, built on design tokens.
 - **Token parts** — design tokens (colors, sizes, shadows, fonts, motion) emitted as
-  `--awd-*` CSS custom properties.
+  `--jig-*` CSS custom properties.
 
 A complete theme is just `createTheme(name, parts, meta)`. The library ships three ready
 presets: **nova** (`nova`), **shade**, and **material** (`material`, a Material
@@ -28,10 +28,10 @@ You select a theme by passing it as `theme.preset` to the provider. The preset i
 `Theme` **object**, not a name:
 
 ```ts
-import { provideNgnControls } from '@awdlab/jig/api/ng';
+import { provideAwdControls } from '@awdlab/jig/api/ng';
 import { nova } from '@awdlab/jig-themes/nova';
 
-provideNgnControls({ theme: { preset: nova } });
+provideAwdControls({ theme: { preset: nova } });
 ```
 
 Without a preset (and with `lazyLoaded: false`), the theme service logs a warning and

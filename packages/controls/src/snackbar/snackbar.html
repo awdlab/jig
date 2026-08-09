@@ -15,7 +15,7 @@
     <div [ptInt]="this" [ptClass]="'defaultHeader'">
       <span [ptInt]="this" [ptClass]="'defaultHeaderText'">
         @if (icon(); as icon) {
-          <awd-icon [icon]="icon" [attr.aria-hidden]="true" />
+          <jig-icon [icon]="icon" [attr.aria-hidden]="true" />
         }
         {{ header() }}
       </span>
@@ -37,7 +37,7 @@
 @if (actions()?.length || (!templateHeader() && closable())) {
   <div [ptInt]="this" [ptClass]="'actions'">
     @for (action of actions(); track $index) {
-      <awd-action-button [config]="action" (clicked)="close()" />
+      <jig-action-button [config]="action" (clicked)="close()" />
     }
     @if (!templateHeader() && closable()) {
       <button
@@ -48,7 +48,7 @@
         [attr.aria-label]="i18n['snackbar_close']()"
         (click)="close()"
       >
-        <awd-icon [defaultIcon]="'snackbar-close'" [icon]="iconClose()" [attr.aria-hidden]="true" />
+        <jig-icon [defaultIcon]="'snackbar-close'" [icon]="iconClose()" [attr.aria-hidden]="true" />
       </button>
     }
   </div>

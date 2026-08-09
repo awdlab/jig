@@ -12,40 +12,40 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { domEventHandler, setComponentInput } from '@awdlab/jig/api/ng';
-import { getNearestNgnInstanceSig } from '@awdlab/jig/base';
-import { NgnMenu, openMenuAt } from '@awdlab/jig/menu';
+import { getNearestAwdInstanceSig } from '@awdlab/jig/base';
+import { AwdMenu, openMenuAt } from '@awdlab/jig/menu';
 
-import { NgnTable } from './table';
-import { NgnTableBodyTr } from './table-row';
-import { NgnTableRowActionsBar } from './table-row-actions-bar';
+import { AwdTable } from './table';
+import { AwdTableBodyTr } from './table-row';
+import { AwdTableRowActionsBar } from './table-row-actions-bar';
 
-import type { NgnActionItem } from '@awdlab/jig/api';
+import type { JigActionItem } from '@awdlab/jig/api';
 
 /**
- * Per-row actions for the table body `<tr>`. Exposes the same `NgnActionItem[]`
+ * Per-row actions for the table body `<tr>`. Exposes the same `JigActionItem[]`
  * as a right-click context menu ({@link context}) and/or an inline hover
  * button-bar ({@link inline}). Both modes are on by default and independent.
  *
  * @category directive
  */
 @Directive({ selector: '[ngnTableRowActions]' })
-export class NgnTableRowActions implements OnDestroy {
+export class AwdTableRowActions implements OnDestroy {
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _vcr = inject(ViewContainerRef);
   private readonly _renderer = inject(Renderer2);
-  private readonly _row = inject(NgnTableBodyTr, { optional: true });
-  private readonly _table = getNearestNgnInstanceSig<Type<NgnTable<any, any>>>(
+  private readonly _row = inject(AwdTableBodyTr, { optional: true });
+  private readonly _table = getNearestAwdInstanceSig<Type<AwdTable<any, any>>>(
     this._element.nativeElement,
-    NgnTable
+    AwdTable
   );
-  private _menu?: ComponentRef<NgnMenu>;
-  private _bar?: ComponentRef<NgnTableRowActionsBar>;
+  private _menu?: ComponentRef<AwdMenu>;
+  private _bar?: ComponentRef<AwdTableRowActionsBar>;
 
   /**
    * The actions available on this row.
    * @alias ngnTableRowActions
    */
-  public readonly actions = input.required<NgnActionItem[]>({ alias: 'ngnTableRowActions' });
+  public readonly actions = input.required<JigActionItem[]>({ alias: 'ngnTableRowActions' });
 
   /**
    * Whether right-clicking the row opens a context menu of the actions.
@@ -140,7 +140,7 @@ export class NgnTableRowActions implements OnDestroy {
 
   private _mountBar(): void {
     if (this._bar) return;
-    this._bar = this._vcr.createComponent(NgnTableRowActionsBar);
+    this._bar = this._vcr.createComponent(AwdTableRowActionsBar);
     // Move the bar's host element inside the <tr> so it joins the row's
     // subgrid and the table's horizontal scroll container. Use Renderer2 so the
     // move stays platform-agnostic (SSR / non-DOM renderers).

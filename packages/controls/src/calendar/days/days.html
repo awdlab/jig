@@ -9,7 +9,7 @@
         [attr.aria-label]="i18n['calendar_previousMonth']()"
         (click)="prev()"
       >
-        <awd-icon [defaultIcon]="'calendar-previous-month'" />
+        <jig-icon [defaultIcon]="'calendar-previous-month'" />
       </button>
       <button
         ngnButton
@@ -19,7 +19,7 @@
         [attr.aria-label]="i18n['calendar_nextMonth']()"
         (click)="next()"
       >
-        <awd-icon [defaultIcon]="'calendar-next-month'" />
+        <jig-icon [defaultIcon]="'calendar-next-month'" />
       </button>
     </div>
     <ng-container
@@ -46,7 +46,7 @@
       "
     />
   </div>
-  <div class="awd-calendar-days" role="grid" [attr.aria-label]="gridLabel()">
+  <div class="jig-calendar-days" role="grid" [attr.aria-label]="gridLabel()">
     <div role="row" style="display: contents">
       @for (weekDay of weekDaysSorted(); track weekDay) {
         <span role="columnheader" [ptInt]="component()" [ptClass]="'week-day'">

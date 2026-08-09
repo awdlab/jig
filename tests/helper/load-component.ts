@@ -28,7 +28,7 @@ export async function loadComponent(
 ) {
   return await test.step('Load Component', async () => {
     await page.goto(process.env['CI'] ? 'http://localhost:4222' : 'http://hostmachine:4222');
-    await expect(page.locator('body')).toHaveAttribute('data-awd-test-wrapper');
+    await expect(page.locator('body')).toHaveAttribute('data-jig-test-wrapper');
 
     async function setTemplate(template: TemplateType) {
       await page.evaluate(

@@ -12,18 +12,18 @@ import {
   booleanAttribute,
   viewChild,
 } from '@angular/core';
-import { elementSizeSignal, NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnPt, provideSelf } from '@awdlab/jig/base';
-import { NgnButton } from '@awdlab/jig/button';
+import { elementSizeSignal, AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdPt, provideSelf } from '@awdlab/jig/base';
+import { AwdButton } from '@awdlab/jig/button';
 import { I18n } from '@awdlab/jig/i18n';
-import { NgnIcon } from '@awdlab/jig/icon';
-import { NgnPaginator, type PaginationState } from '@awdlab/jig/paginator';
-import { NgnScrollShadow } from '@awdlab/jig/scroll-shadow';
-import { NgnScroller } from '@awdlab/jig/scroller';
+import { AwdIcon } from '@awdlab/jig/icon';
+import { AwdPaginator, type PaginationState } from '@awdlab/jig/paginator';
+import { AwdScrollShadow } from '@awdlab/jig/scroll-shadow';
+import { AwdScroller } from '@awdlab/jig/scroller';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
 import { TableColumnLayoutModel } from './table-column-layout-model';
-import { NgnTableGroupHeaderTr } from './table-group-header-row';
+import { AwdTableGroupHeaderTr } from './table-group-header-row';
 import { TableLazyModel } from './table-lazy-model';
 import {
   filterRows,
@@ -34,10 +34,10 @@ import {
 } from './table-row-model';
 import { TableRowNavigationModel } from './table-row-navigation-model';
 import { TableSelectionModel } from './table-selection-model';
-import { NgnTableTemplates } from './table-templates';
+import { AwdTableTemplates } from './table-templates';
 
-import type { NgnTableTh } from './table-header-cell';
-import type { NgnTableRowActions } from './table-row-actions';
+import type { AwdTableTh } from './table-header-cell';
+import type { AwdTableRowActions } from './table-row-actions';
 import type {
   FormattedTableDataRow,
   FormattedTableGroupHeaderRow,
@@ -45,8 +45,8 @@ import type {
   TableDataSource,
   TableSelectionMode,
 } from './types';
-import type { NgnFilterConfig } from '@awdlab/jig/filter';
-import { NgnError, type AllKeysOfUnion } from '@awdlab/jig/utils';
+import type { AwdFilterConfig } from '@awdlab/jig/filter';
+import { AwdError, type AllKeysOfUnion } from '@awdlab/jig/utils';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 
 const DEFAULT_LAZY_PAGE_SIZE = 25;
@@ -55,21 +55,21 @@ const DEFAULT_LAZY_PAGE_SIZE = 25;
  * @category control
  */
 @Component({
-  selector: 'awd-table',
+  selector: 'jig-table',
   templateUrl: './table.html',
 
   imports: [
     NgTemplateOutlet,
-    NgnScroller,
-    NgnPaginator,
-    NgnTemplate,
-    NgnPt,
-    NgnIcon,
-    NgnTableGroupHeaderTr,
-    NgnScrollShadow,
-    NgnButton,
+    AwdScroller,
+    AwdPaginator,
+    AwdTemplate,
+    AwdPt,
+    AwdIcon,
+    AwdTableGroupHeaderTr,
+    AwdScrollShadow,
+    AwdButton,
   ],
-  providers: [provideSelf(NgnTable)],
+  providers: [provideSelf(AwdTable)],
   // Keydown is bound on the host so it also catches keys from the grid's tab stop.
   host: {
     '(keydown)': 'onKeyDown($event)',
@@ -77,11 +77,11 @@ const DEFAULT_LAZY_PAGE_SIZE = 25;
     '(focusout)': 'onFocusOut($event)',
   },
 })
-export class NgnTable<
+export class AwdTable<
   T extends object,
   K extends keyof T,
   G extends Extract<AllKeysOfUnion<T>, string> = never,
-> extends NgnTableTemplates<T> {
+> extends AwdTableTemplates<T> {
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate, {
     root: true,
     virtual: () => this.virtual(),
@@ -91,7 +91,7 @@ export class NgnTable<
     reordering: () => this._columns?.isReordering() ?? false,
     loading: () => this.loadStatus() === 'loading',
   });
-  private readonly _scroller = viewChild.required(NgnScroller);
+  private readonly _scroller = viewChild.required(AwdScroller);
   private readonly _grid = viewChild.required<ElementRef<HTMLElement>>('scrollContainer');
   private readonly _gridId = generateElementId();
   private readonly _head = viewChild<ElementRef<HTMLElement>>('head');
@@ -254,7 +254,7 @@ export class NgnTable<
    */
   public readonly filters = model<
     | {
-        [key in Extract<AllKeysOfUnion<T>, string>]?: NgnFilterConfig;
+        [key in Extract<AllKeysOfUnion<T>, string>]?: AwdFilterConfig;
       }
     | null
   >(null);
@@ -270,7 +270,7 @@ export class NgnTable<
   private readonly _lazyModel = new TableLazyModel<T>({
     dataSource: this.dataSource,
     sort: this.sort,
-    filters: computed(() => this.filters() as Record<string, NgnFilterConfig> | null),
+    filters: computed(() => this.filters() as Record<string, AwdFilterConfig> | null),
     mode: this.lazyMode,
   });
 
@@ -300,7 +300,7 @@ export class NgnTable<
 
   /**
    * Whether a selection column directive is present in the template.
-   * Set automatically by `NgnTableSelectionColumn` — do not set manually.
+   * Set automatically by `AwdTableSelectionColumn` — do not set manually.
    */
   public readonly showCheckboxes = this._columns.hasSelectionColumn;
   protected readonly dropIndicatorState = this._columns.dropIndicatorState;
@@ -318,7 +318,7 @@ export class NgnTable<
 
   /**
    * The single current-row index (index in {@link formattedRows}) for
-   * keyboard navigation. Shared by {@link NgnTable}'s selection keyboard
+   * keyboard navigation. Shared by {@link AwdTable}'s selection keyboard
    * handling and row-actions keyboard navigation — arrows move it, and (when
    * {@link selectionMode} is set) selection follows it. Cleared whenever
    * {@link formattedRows} changes identity (sort/filter/rows replaced) so it
@@ -332,7 +332,7 @@ export class NgnTable<
 
   // --- Row actions registry + keyboard navigation ---
 
-  private readonly _rowActions = new Map<number, NgnTableRowActions>();
+  private readonly _rowActions = new Map<number, AwdTableRowActions>();
   private readonly _rowNav: TableRowNavigationModel<T>;
 
   /**
@@ -561,7 +561,7 @@ export class NgnTable<
     // Lazy grouping needs the full row set, which lazy mode never has.
     effect(() => {
       if (this.lazy() && this.groupBy()) {
-        throw new NgnError('table', 'groupBy is not supported with a lazy dataSource (v1)');
+        throw new AwdError('table', 'groupBy is not supported with a lazy dataSource (v1)');
       }
     });
 
@@ -627,7 +627,7 @@ export class NgnTable<
     return this._columns.getVisualColumnIndex(logicalIndex);
   }
 
-  public getRegisteredHeaderCells(): readonly NgnTableTh[] {
+  public getRegisteredHeaderCells(): readonly AwdTableTh[] {
     return this._columns.getRegisteredHeaderCells();
   }
 
@@ -637,11 +637,11 @@ export class NgnTable<
     return this._columns.getStickyInfo(columnId);
   }
 
-  public registerHeaderCell(cell: NgnTableTh): void {
+  public registerHeaderCell(cell: AwdTableTh): void {
     this._columns.registerHeaderCell(cell);
   }
 
-  public unregisterHeaderCell(cell: NgnTableTh): void {
+  public unregisterHeaderCell(cell: AwdTableTh): void {
     this._columns.unregisterHeaderCell(cell);
   }
 
@@ -661,7 +661,7 @@ export class NgnTable<
     this._columns.unregisterStickyColumn(columnId);
   }
 
-  // --- Resize operations (called by NgnTableTh) ---
+  // --- Resize operations (called by AwdTableTh) ---
 
   public startColumnResize(columnIndex: number, event: PointerEvent): void {
     this._columns.startColumnResize(columnIndex, event);
@@ -679,7 +679,7 @@ export class NgnTable<
     this._columns.autoSizeColumn(columnIndex);
   }
 
-  // --- Reorder operations (called by NgnTableReorderableColumn) ---
+  // --- Reorder operations (called by AwdTableReorderableColumn) ---
 
   public getReorderBounds(columnId: string): { min: number; max: number } {
     return this._columns.getReorderBounds(columnId);
@@ -726,26 +726,26 @@ export class NgnTable<
   // --- Row actions registry ---
 
   /**
-   * Registers a row's {@link NgnTableRowActions} directive keyed by its row
+   * Registers a row's {@link AwdTableRowActions} directive keyed by its row
    * index, so keyboard navigation can look up the active row's actions.
-   * Called by `NgnTableRowActions`; not intended for manual use.
+   * Called by `AwdTableRowActions`; not intended for manual use.
    */
-  public registerRowActions(index: number, dir: NgnTableRowActions): void {
+  public registerRowActions(index: number, dir: AwdTableRowActions): void {
     this._rowActions.set(index, dir);
   }
 
   /**
-   * Unregisters a row's actions directive. Called by `NgnTableRowActions`.
+   * Unregisters a row's actions directive. Called by `AwdTableRowActions`.
    * Only removes the entry if `dir` is still the registered owner for
    * `index`, so a stale unregister (e.g. after row recycling re-registered
    * a different instance at the same index) cannot clobber it.
    */
-  public unregisterRowActions(index: number, dir: NgnTableRowActions): void {
+  public unregisterRowActions(index: number, dir: AwdTableRowActions): void {
     if (this._rowActions.get(index) === dir) this._rowActions.delete(index);
   }
 
   /** Looks up the registered actions directive for a row index, if any. */
-  public getRowActions(index: number): NgnTableRowActions | undefined {
+  public getRowActions(index: number): AwdTableRowActions | undefined {
     return this._rowActions.get(index);
   }
 
@@ -753,7 +753,7 @@ export class NgnTable<
    * Whether keyboard focus is currently inside the action bar of the row at
    * `index` — i.e. this row is both the current row and
    * {@link TableRowNavigationModel.inActions}. Drives the `active-row`
-   * highlight in {@link NgnTableBodyTr}.
+   * highlight in {@link AwdTableBodyTr}.
    */
   public isRowInActions(index: number): boolean {
     return this._rowNav.inActions() && this.focusedRowIndex() === index;
@@ -768,7 +768,7 @@ export class NgnTable<
    */
   protected onFocusIn(event: FocusEvent): void {
     const target = event.target as HTMLElement | null;
-    const bar = target?.closest('awd-table-row-actions-bar') ?? null;
+    const bar = target?.closest('jig-table-row-actions-bar') ?? null;
     this._rowNav.inActions.set(!!bar);
     if (!bar) return;
     // Tabbing straight into a bar makes its row the current one, so leaving the

@@ -1,4 +1,4 @@
-import { NgnListBoxHarness } from '@awdlab/jig-playwright';
+import { AwdListBoxHarness } from '@awdlab/jig-playwright';
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { exampleData } from '../helper/data';
@@ -11,7 +11,7 @@ test('scrolls when a flex parent bounds its height', async ({ page }) => {
     {
       template: `
       <div style="display: flex; flex-direction: column; height: 200px; width: 200px;">
-        <awd-list-box style="flex: 1; min-height: 0;" [items]="inputs().items" />
+        <jig-list-box style="flex: 1; min-height: 0;" [items]="inputs().items" />
       </div>
     `,
       imports: ['listBox'],
@@ -21,7 +21,7 @@ test('scrolls when a flex parent bounds its height', async ({ page }) => {
 
   // The list box itself is the scroll port — role="listbox" has to be both the
   // scrollable region and the direct parent of its options.
-  const metrics = await page.locator('awd-list-box').evaluate(el => {
+  const metrics = await page.locator('jig-list-box').evaluate(el => {
     el.scrollTop = 80;
     return {
       portHeight: el.clientHeight,
@@ -40,7 +40,7 @@ test('separator draws a divider above every group but the first', async ({ page 
     page,
     {
       template: `
-      <awd-list-box
+      <jig-list-box
         aria-label="Options"
         style="width: 200px; height: 400px; display: block;"
         [items]="inputs().items"
@@ -71,7 +71,7 @@ test('home, end and paging move the highlight', async ({ page }) => {
     page,
     {
       template: `
-      <awd-list-box
+      <jig-list-box
         aria-label="Options"
         style="width: 200px; height: 200px; display: block;"
         [items]="inputs().items"
@@ -82,7 +82,7 @@ test('home, end and paging move the highlight', async ({ page }) => {
     { inputs: { items: exampleData.items.flatPreformatted } }
   );
 
-  const listbox = page.locator('awd-list-box');
+  const listbox = page.locator('jig-list-box');
   const items = exampleData.items.flatPreformatted;
   const listboxId = await listbox.getAttribute('id');
   const optionId = (index: number) => `${listboxId}_option_${items[index]!.value}`;
@@ -113,7 +113,7 @@ test('base', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <awd-list-box style="width: 200px; height: 400px; display: block;" [items]="inputs().items" />
+      <jig-list-box style="width: 200px; height: 400px; display: block;" [items]="inputs().items" />
     `,
       imports: ['listBox'],
     },
@@ -124,7 +124,7 @@ test('base', async ({ page }, testInfo) => {
     }
   );
 
-  const listbox = new NgnListBoxHarness(page.locator('awd-list-box').first());
+  const listbox = new AwdListBoxHarness(page.locator('jig-list-box').first());
   await listbox.expectItemsCount(exampleData.items.flatPreformatted.length);
 });
 
@@ -136,7 +136,7 @@ test('accessibility (axe)', async ({ page }) => {
     page,
     {
       template: `
-      <awd-list-box
+      <jig-list-box
         [label]="'Options'"
         style="width: 200px; height: 400px; display: block;"
         [items]="inputs().items"
@@ -151,7 +151,7 @@ test('accessibility (axe)', async ({ page }) => {
     }
   );
 
-  const listbox = new NgnListBoxHarness(page.locator('awd-list-box').first());
+  const listbox = new AwdListBoxHarness(page.locator('jig-list-box').first());
   await listbox.expectItemsCount(exampleData.items.flatPreformatted.length);
   await expectNoA11yViolations(page);
 });
@@ -161,7 +161,7 @@ test('visual', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <awd-list-box
+      <jig-list-box
         class="page-center"
         aria-label="Options"
         style="width: 240px; height: 320px; display: block;"
@@ -174,5 +174,5 @@ test('visual', async ({ page }, testInfo) => {
     { inputs: { items: exampleData.items.groupedPreformatted } }
   );
 
-  await expectScreenshot(page.locator('awd-list-box'), testInfo, 'grouped');
+  await expectScreenshot(page.locator('jig-list-box'), testInfo, 'grouped');
 });

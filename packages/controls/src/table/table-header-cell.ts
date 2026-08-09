@@ -13,11 +13,11 @@ import {
   signal,
   type Signal,
 } from '@angular/core';
-import { getNearestNgnInstance, NgnBase } from '@awdlab/jig/base';
-import { NgnError, toggleClass } from '@awdlab/jig/utils';
+import { getNearestAwdInstance, AwdBase } from '@awdlab/jig/base';
+import { AwdError, toggleClass } from '@awdlab/jig/utils';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
-import { NgnTable } from './table';
+import { AwdTable } from './table';
 
 import type { ResizableItem, ResizeLimit, ResizeSize } from '@awdlab/jig/api/resize';
 
@@ -32,14 +32,14 @@ import type { ResizableItem, ResizeLimit, ResizeSize } from '@awdlab/jig/api/res
   selector: '[ngnTableTh]',
   host: {
     role: 'columnheader',
-    '[style.--awd-table-column-index]': '_visualColumnIndex()',
+    '[style.--jig-table-column-index]': '_visualColumnIndex()',
     '[attr.aria-colindex]': '_ariaColIndex()',
   },
 })
-export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDestroy, OnInit {
+export class AwdTableTh extends AwdBase<'table'> implements ResizableItem, OnDestroy, OnInit {
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate);
-  private _table?: NgnTable<any, any>;
-  private readonly _tableSignal = signal<NgnTable<any, any> | null>(null);
+  private _table?: AwdTable<any, any>;
+  private readonly _tableSignal = signal<AwdTable<any, any> | null>(null);
   private _resizeHandle?: HTMLDivElement;
 
   /** The unique column identifier for this header cell, used for sorting, filtering, sticky, and reorder. */
@@ -156,10 +156,10 @@ export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDes
       if (info) {
         el.style.position = 'sticky';
         if (info.side === 'start') {
-          el.style.left = `var(--awd-sticky-start-offset-${info.index})`;
+          el.style.left = `var(--jig-sticky-start-offset-${info.index})`;
           el.style.removeProperty('right');
         } else {
-          el.style.right = `var(--awd-sticky-end-offset-${info.index})`;
+          el.style.right = `var(--jig-sticky-end-offset-${info.index})`;
           el.style.removeProperty('left');
         }
       } else {
@@ -171,9 +171,9 @@ export class NgnTableTh extends NgnBase<'table'> implements ResizableItem, OnDes
   }
 
   public ngOnInit(): void {
-    const table = getNearestNgnInstance(this.element.nativeElement, NgnTable<any, any>);
+    const table = getNearestAwdInstance(this.element.nativeElement, AwdTable<any, any>);
     if (!table) {
-      throw new NgnError('ngnTableTh', 'ngnTableTh must be used within an NgnTable component');
+      throw new AwdError('ngnTableTh', 'ngnTableTh must be used within an AwdTable component');
     }
     this._table = table;
     this._tableSignal.set(table);

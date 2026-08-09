@@ -95,7 +95,7 @@ export const colorPickerStyles = createThemePart({
       ${c('channel-hex')} {
         flex: 3;
       }
-      ${c('channel')} awd-input-field {
+      ${c('channel')} jig-input-field {
         width: 100%;
       }
       /* Compact horizontal padding so 3-digit channel values (e.g. 246) aren't clipped. */

@@ -1,4 +1,4 @@
-The Toggle Button (`<awd-toggle-button>`) is a single button that flips a
+The Toggle Button (`<jig-toggle-button>`) is a single button that flips a
 boolean `value` on and off in place — think "bold" in a text editor. Its `value`
 is a two-way `model<boolean>` that works with `ngModel` / reactive forms, and
 the state is exposed via `role="switch"` + `aria-checked` so it reads as an

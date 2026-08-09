@@ -7,7 +7,7 @@ import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 
 const TABLE_TEMPLATE: TemplateType = {
   template: `
-    <awd-table
+    <jig-table
       #table
       style="height: 400px; width: 100%"
       [rows]="inputs().rows"
@@ -32,7 +32,7 @@ const TABLE_TEMPLATE: TemplateType = {
           <td ngnTableTd>{{ row.data.location }}</td>
         </tr>
       </ng-template>
-    </awd-table>`,
+    </jig-table>`,
   imports: ['tableModule', 'ngnTemplate'],
 };
 
@@ -60,7 +60,7 @@ async function loadTable(
   const handle = await loadComponent(page, TABLE_TEMPLATE, {
     inputs: { ...DEFAULT_INPUTS, ...inputOverrides },
   });
-  await expect(page.locator('awd-table')).toBeVisible({ timeout: 10000 });
+  await expect(page.locator('jig-table')).toBeVisible({ timeout: 10000 });
   await expect(page.locator('[class*="resize-handle"]').first()).toBeAttached({ timeout: 5000 });
   return handle;
 }
@@ -91,7 +91,7 @@ async function dragHandle(
 
 async function getColumnWidths(page: import('@playwright/test').Page) {
   return page.evaluate(() => {
-    const table = document.querySelector('awd-table table');
+    const table = document.querySelector('jig-table table');
     if (!table) return [];
     const headers = table.querySelectorAll('th');
     return Array.from(headers).map(h => Math.round(h.getBoundingClientRect().width));
@@ -156,7 +156,7 @@ test('table column resize - push mode grows total width', async ({ page }) => {
 
   // The table element itself should have overflow: auto
   const overflowX = await page.evaluate(() => {
-    const table = document.querySelector('awd-table > table');
+    const table = document.querySelector('jig-table > table');
     return table ? getComputedStyle(table).overflowX : '';
   });
   expect(overflowX).toBe('auto');
@@ -197,7 +197,7 @@ test('table column resize - proportional mode locks resized column', async ({ pa
 
   // Grid template should show ID as px, others as minmax(50px, Xfr)
   const gridCols = await page.evaluate(() => {
-    const table = document.querySelector('awd-table table') as HTMLElement | null;
+    const table = document.querySelector('jig-table table') as HTMLElement | null;
     return table?.style.gridTemplateColumns || getComputedStyle(table!).gridTemplateColumns;
   });
   expect(gridCols).toMatch(/^\d+(\.\d+)?px/); // ID is px
@@ -220,7 +220,7 @@ test('table column resize - proportional mode min width floor', async ({ page })
 
   // No overflow
   const overflow = await page.evaluate(() => {
-    const el = document.querySelector('awd-table');
+    const el = document.querySelector('jig-table');
     return el ? el.scrollWidth > el.clientWidth : false;
   });
   expect(overflow).toBe(false);
@@ -259,7 +259,7 @@ test('table column resize - adjacent mode no overflow even with extreme drag', a
   expect(total).toBeCloseTo(initialTotal, -1);
 
   const overflow = await page.evaluate(() => {
-    const el = document.querySelector('awd-table');
+    const el = document.querySelector('jig-table');
     return el ? el.scrollWidth > el.clientWidth : false;
   });
   expect(overflow).toBe(false);
@@ -275,7 +275,7 @@ test('table column resize - proportional mode no overflow even with extreme drag
   await dragHandle(page, resizeHandles.first(), 800);
 
   const overflow = await page.evaluate(() => {
-    const el = document.querySelector('awd-table');
+    const el = document.querySelector('jig-table');
     return el ? el.scrollWidth > el.clientWidth : false;
   });
   expect(overflow).toBe(false);
@@ -321,7 +321,7 @@ test('table column resize - push mode no overflow on initial render', async ({ p
   await loadTable(page, { resizeMode: 'push' });
 
   const overflow = await page.evaluate(() => {
-    const el = document.querySelector('awd-table');
+    const el = document.querySelector('jig-table');
     return el ? el.scrollWidth > el.clientWidth : false;
   });
   expect(overflow).toBe(false);
@@ -346,7 +346,7 @@ test('table column resize - no-op click does not trigger resize state', async ({
   expect(widths[1]).toBeCloseTo(initialWidths[1]!, -1);
 
   const overflow = await page.evaluate(() => {
-    const el = document.querySelector('awd-table');
+    const el = document.querySelector('jig-table');
     return el ? el.scrollWidth > el.clientWidth : false;
   });
   expect(overflow).toBe(false);

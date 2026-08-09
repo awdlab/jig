@@ -1,4 +1,4 @@
-The Paginator (`<awd-paginator>`) splits a large dataset into pages of navigable
+The Paginator (`<jig-paginator>`) splits a large dataset into pages of navigable
 buttons. Give it the required `totalItems` count and it derives the pages; it
 does not slice your data itself — it tells you which slice to load, driving
 either a page-based or an offset-based API. Reach for it below a table or list

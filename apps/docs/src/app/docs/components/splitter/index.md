@@ -1,12 +1,12 @@
-The Splitter (`<awd-splitter>`) lays out resizable panels — one
-`<awd-splitter-panel>` per region — separated by draggable dividers, in a
+The Splitter (`<jig-splitter>`) lays out resizable panels — one
+`<jig-splitter-panel>` per region — separated by draggable dividers, in a
 `horizontal` or `vertical` layout. Give each panel a `fr` or `px` `size` plus
 optional `minSize`/`maxSize` bounds. Use it for adjustable app shells such as a
 sidebar next to a content area, or a preview pane.
 
 ### Basic Usage
 
-Declare a `<awd-splitter-panel>` for each region, then drag the divider between
+Declare a `<jig-splitter-panel>` for each region, then drag the divider between
 two panels to resize. Sizes accept `fr` (proportional) or `px` (fixed) units —
 here a fixed `70px` panel sits beside two `fr` panels that share the rest. Each
 divider is a keyboard-focusable `separator`: arrow keys nudge it by `step`

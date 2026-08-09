@@ -1,16 +1,16 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnDialog } from '@awdlab/jig/dialog';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdDialog } from '@awdlab/jig/dialog';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-dialog-playground',
-  imports: [NgnDialog, NgnButton, NgnDocsPlayground],
+  selector: 'jig-docs-dialog-playground',
+  imports: [AwdDialog, AwdButton, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnDialog', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'AwdDialog', component: component() }]">
       <button ngnButton (click)="open.set(true)">Open Dialog</button>
-      <awd-dialog
+      <jig-dialog
         #ref
         [title]="'Dialog Title'"
         [open]="open()"
@@ -18,11 +18,11 @@ import { NgnDocsPlayground } from '../../../utils/playground/playground';
         (openChange)="open.set($event)"
       >
         Dialog Content
-      </awd-dialog>
-    </awd-docs-playground>
+      </jig-dialog>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsDialogPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnDialog });
+export class AwdDocsDialogPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdDialog });
   protected readonly open = signal(false);
 }

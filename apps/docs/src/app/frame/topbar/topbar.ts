@@ -2,39 +2,39 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import tablerMenu2 from '@iconify/icons-tabler/menu-2';
 import tablerSearch from '@iconify/icons-tabler/search';
-import { NgnBreadcrumb } from '@awdlab/jig/breadcrumb';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnIcon } from '@awdlab/jig/icon';
+import { AwdBreadcrumb } from '@awdlab/jig/breadcrumb';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdIcon } from '@awdlab/jig/icon';
 import {
   ariaKeyShortcuts,
   formatShortcut,
-  NgnKeyboardShortcut,
-  type NgnShortcutBinding,
+  AwdKeyboardShortcut,
+  type AwdShortcutBinding,
 } from '@awdlab/jig/kbd';
 
 import { AppLocation } from '../../helper/app-location';
-import { DocsSearch, NgnDocsSearchDialog } from '../../utils/search';
+import { DocsSearch, AwdDocsSearchDialog } from '../../utils/search';
 import { BreadcrumbService } from '../breadcrumb.service';
 import { FrameState } from '../frame-state';
-import { NgnDocsTopbarActions } from './actions';
+import { AwdDocsTopbarActions } from './actions';
 
 const SEARCH_SHORTCUT = 'mod+k';
 
 @Component({
-  selector: 'awd-docs-topbar',
+  selector: 'jig-docs-topbar',
   templateUrl: 'topbar.html',
   styleUrl: 'topbar.scss',
   imports: [
-    NgnButton,
-    NgnDocsSearchDialog,
-    NgnDocsTopbarActions,
-    NgnIcon,
-    NgnKeyboardShortcut,
+    AwdButton,
+    AwdDocsSearchDialog,
+    AwdDocsTopbarActions,
+    AwdIcon,
+    AwdKeyboardShortcut,
     RouterLink,
-    NgnBreadcrumb,
+    AwdBreadcrumb,
   ],
 })
-export class NgnDocsTopbar {
+export class AwdDocsTopbar {
   protected readonly iconBars = tablerMenu2;
   protected readonly iconSearch = tablerSearch;
   protected readonly searchOpen = signal(false);
@@ -47,7 +47,7 @@ export class NgnDocsTopbar {
   protected readonly breadcrumbItems = this._breadcrumb.items;
 
   /** Page-wide, so the palette opens from anywhere and not just from the topbar. */
-  protected readonly searchShortcut = computed<NgnShortcutBinding[]>(() => [
+  protected readonly searchShortcut = computed<AwdShortcutBinding[]>(() => [
     { shortcut: SEARCH_SHORTCUT, callback: () => this.searchOpen.set(true), global: true },
   ]);
   protected readonly searchLabel = computed(

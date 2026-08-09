@@ -1,43 +1,43 @@
 import { NgModule } from '@angular/core';
 
-import { NgnTable } from './table';
-import { NgnTableTd } from './table-cell';
-import { NgnTableGroupHeaderTr } from './table-group-header-row';
-import { NgnTableTh } from './table-header-cell';
-import { NgnTableHeadTr } from './table-header-row';
-import { NgnTableReorderableColumn } from './table-reorderable-column';
-import { NgnTableBodyTr } from './table-row';
-import { NgnTableRowActions } from './table-row-actions';
-import { NgnTableRowActionsBar } from './table-row-actions-bar';
-import { NgnTableSelectionColumn } from './table-selection-column';
-import { NgnTableStickyColumn } from './table-sticky-column';
+import { AwdTable } from './table';
+import { AwdTableTd } from './table-cell';
+import { AwdTableGroupHeaderTr } from './table-group-header-row';
+import { AwdTableTh } from './table-header-cell';
+import { AwdTableHeadTr } from './table-header-row';
+import { AwdTableReorderableColumn } from './table-reorderable-column';
+import { AwdTableBodyTr } from './table-row';
+import { AwdTableRowActions } from './table-row-actions';
+import { AwdTableRowActionsBar } from './table-row-actions-bar';
+import { AwdTableSelectionColumn } from './table-selection-column';
+import { AwdTableStickyColumn } from './table-sticky-column';
 
 @NgModule({
   imports: [
-    NgnTable,
-    NgnTableBodyTr,
-    NgnTableTd,
-    NgnTableTh,
-    NgnTableHeadTr,
-    NgnTableGroupHeaderTr,
-    NgnTableReorderableColumn,
-    NgnTableRowActions,
-    NgnTableRowActionsBar,
-    NgnTableSelectionColumn,
-    NgnTableStickyColumn,
+    AwdTable,
+    AwdTableBodyTr,
+    AwdTableTd,
+    AwdTableTh,
+    AwdTableHeadTr,
+    AwdTableGroupHeaderTr,
+    AwdTableReorderableColumn,
+    AwdTableRowActions,
+    AwdTableRowActionsBar,
+    AwdTableSelectionColumn,
+    AwdTableStickyColumn,
   ],
   exports: [
-    NgnTable,
-    NgnTableBodyTr,
-    NgnTableTd,
-    NgnTableTh,
-    NgnTableHeadTr,
-    NgnTableGroupHeaderTr,
-    NgnTableReorderableColumn,
-    NgnTableRowActions,
-    NgnTableRowActionsBar,
-    NgnTableSelectionColumn,
-    NgnTableStickyColumn,
+    AwdTable,
+    AwdTableBodyTr,
+    AwdTableTd,
+    AwdTableTh,
+    AwdTableHeadTr,
+    AwdTableGroupHeaderTr,
+    AwdTableReorderableColumn,
+    AwdTableRowActions,
+    AwdTableRowActionsBar,
+    AwdTableSelectionColumn,
+    AwdTableStickyColumn,
   ],
 })
-export class NgnTableModule {}
+export class AwdTableModule {}

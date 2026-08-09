@@ -11,15 +11,15 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { injectThemeTemplate, setComponentInput } from '@awdlab/jig/api/ng';
-import { getNearestNgnInstanceSig } from '@awdlab/jig/base';
-import { NgnActionButton } from '@awdlab/jig/button';
-import { NgnFilter, type NgnFilterDataType } from '@awdlab/jig/filter';
+import { getNearestAwdInstanceSig } from '@awdlab/jig/base';
+import { AwdActionButton } from '@awdlab/jig/button';
+import { AwdFilter, type AwdFilterDataType } from '@awdlab/jig/filter';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
-import { NgnTable } from './table';
-import { NgnTableTh } from './table-header-cell';
+import { AwdTable } from './table';
+import { AwdTableTh } from './table-header-cell';
 
-import type { NgnActionButtonConfig } from '@awdlab/jig/api';
+import type { AwdActionButtonConfig } from '@awdlab/jig/api';
 
 /**
  * @category directive
@@ -30,20 +30,20 @@ import type { NgnActionButtonConfig } from '@awdlab/jig/api';
     '[class]': `theme.classes({'filterable-column': true, 'filtered-column': !!filter() })`,
   },
 })
-export class NgnTableFilterableColumn implements OnDestroy {
+export class AwdTableFilterableColumn implements OnDestroy {
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly _columnId = inject(NgnTableTh).ngnTableTh;
+  private readonly _columnId = inject(AwdTableTh).ngnTableTh;
 
   /** Enables filtering on this column. The directive selector; its value is unused. */
   public readonly ngnTableFilterableColumn = input();
 
-  private readonly _ngnActionButton: ComponentRef<NgnActionButton<null>>;
-  private readonly _ngnFilter: ComponentRef<NgnFilter>;
+  private readonly _ngnActionButton: ComponentRef<AwdActionButton<null>>;
+  private readonly _ngnFilter: ComponentRef<AwdFilter>;
 
-  private readonly _table = getNearestNgnInstanceSig<Type<NgnTable<any, any>>>(
+  private readonly _table = getNearestAwdInstanceSig<Type<AwdTable<any, any>>>(
     this._element.nativeElement,
-    NgnTable
+    AwdTable
   );
   private readonly _rows = computed(() => {
     return this._table()?.rows() || [];
@@ -54,13 +54,13 @@ export class NgnTableFilterableColumn implements OnDestroy {
   });
 
   /** The data type of the column, which determines the available filter operators and UI. */
-  public readonly ngnTableFilterableColumnType = input.required<NgnFilterDataType>();
+  public readonly ngnTableFilterableColumnType = input.required<AwdFilterDataType>();
   /** For list-based filters, the set of selectable option values to offer. */
   public readonly ngnTableFilterableColumnItems = input<string[] | null | undefined>();
 
   constructor() {
-    this._ngnActionButton = inject(ViewContainerRef).createComponent(NgnActionButton<null>);
-    this._ngnFilter = inject(ViewContainerRef).createComponent(NgnFilter);
+    this._ngnActionButton = inject(ViewContainerRef).createComponent(AwdActionButton<null>);
+    this._ngnFilter = inject(ViewContainerRef).createComponent(AwdFilter);
     this._element.nativeElement.appendChild(this._ngnActionButton.location.nativeElement);
     this._element.nativeElement.appendChild(this._ngnFilter.location.nativeElement);
     this._ngnActionButton.location.nativeElement.classList.add(this.theme.class('filter-control'));
@@ -73,7 +73,7 @@ export class NgnTableFilterableColumn implements OnDestroy {
 
     const cfg = computed(
       () =>
-        <NgnActionButtonConfig<null>>{
+        <AwdActionButtonConfig<null>>{
           label: 'Filter',
           value: null,
           kind: 'icon',

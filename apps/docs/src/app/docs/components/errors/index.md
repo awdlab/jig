@@ -1,5 +1,5 @@
 `ngnErrors` resolves a control's validation errors into a human-readable
-message and hands it to an [`awd-hint`](/components/hint). It is the bridge
+message and hands it to an [`jig-hint`](/components/hint). It is the bridge
 between Angular's form validation and what the user actually sees.
 
 It works the same way on **all three** form paradigms — template-driven
@@ -69,10 +69,10 @@ just the first.
 To change messages application-wide, provide them once instead:
 
 ```ts
-import { provideNgnErrorsMessages } from '@awdlab/jig/errors';
+import { provideAwdErrorsMessages } from '@awdlab/jig/errors';
 
 providers: [
-  provideNgnErrorsMessages({
+  provideAwdErrorsMessages({
     required: 'This field is required.',
     email: 'That does not look like an email address.',
   }),
@@ -89,7 +89,7 @@ For each error key, the first source that yields a non-empty message wins:
 1. `ngnErrorsMessages` on this control
 2. a message carried on the error value itself — a `message` field
    (`{ tooShort: { message: '…' } }`) or a plain-string error value
-3. messages from `provideNgnErrorsMessages`
+3. messages from `provideAwdErrorsMessages`
 4. the built-in translation for `errors.<key>` (see [i18n](/guides/i18n))
 5. the raw error key, as a last resort
 

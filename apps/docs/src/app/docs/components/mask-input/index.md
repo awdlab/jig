@@ -1,8 +1,8 @@
-The Input Mask (`<awd-mask-input>`) is a self-contained value control for
+The Input Mask (`<jig-mask-input>`) is a self-contained value control for
 formatted entry — dates, times, and custom patterns. Pass a `mask` (a
 `DATE_TIME_MASKS` preset or a custom config) and bind `[(value)]`; the value
 stays `null` until every section is filled, then becomes the fully composed
-string. Pair it with `awd-input-field` for field chrome.
+string. Pair it with `jig-input-field` for field chrome.
 
 ### Basic Usage
 

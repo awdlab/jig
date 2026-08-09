@@ -1,4 +1,4 @@
-Edit Inplace (`awd-edit-inplace`) shows a `value` as read-only text and, on
+Edit Inplace (`jig-edit-inplace`) shows a `value` as read-only text and, on
 activation, swaps it for an inline text field in the same spot — no separate
 form or dialog. It is a value control with a two-way `value` model (`string`)
 and the usual `label`, `invalid`, `readonly`, and `disabled` inputs, and

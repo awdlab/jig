@@ -1,5 +1,5 @@
 Toasts are brief, non-intrusive messages that appear over the app and dismiss
-themselves. You create them imperatively rather than placing `<awd-toast>` in a
+themselves. You create them imperatively rather than placing `<jig-toast>` in a
 template: register the feature once with `withToasts()` in your app providers
 (optionally passing default options), then inject `injectToastCreator()` and call
 `show(options)`. A single host region is created automatically and attached to

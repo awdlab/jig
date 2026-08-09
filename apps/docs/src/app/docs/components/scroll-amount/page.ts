@@ -2,9 +2,9 @@ import { Demo_ScrollAmount_Base } from '../../../demos/scroll-amount/base';
 import { Demo_ScrollAmount_Infinite } from '../../../demos/scroll-amount/infinite';
 import { i18nNone } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const ScrollAmountPage: NgnDocsPage = {
+export const ScrollAmountPage: AwdDocsPage = {
   title: `Scroll Amount`,
   kind: 'tabs',
   tabs: [

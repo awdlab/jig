@@ -3,7 +3,7 @@
 import { COLORS, KINDS } from '.';
 
 declare module '@awdlab/jig-custom-types' {
-  export interface NgnThemeTypes {
+  export interface AwdThemeTypes {
     kind: typeof KINDS;
     color: typeof COLORS;
   }

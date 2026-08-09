@@ -2,7 +2,7 @@ import test, { expect, type Page } from '@playwright/test';
 import { expectOutput, loadComponent } from '../helper/load-component';
 import { exampleData } from '../helper/data';
 import type { InputsType } from '../../apps/test-wrapper/src/app/window.js';
-import { NgnTabsHarness } from '@awdlab/jig-playwright';
+import { AwdTabsHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 import { deepCopy } from '@awdlab/jig/utils';
@@ -30,20 +30,20 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
     page,
     {
       template: `
-      <awd-tabs [activeTab]="inputs().activeTab" (activeTabChange)="output('activeTab', $event)"
+      <jig-tabs [activeTab]="inputs().activeTab" (activeTabChange)="output('activeTab', $event)"
         [lazy]="inputs().lazy" [cache]="inputs().cache"
       >
         @for(tab of inputs().tabs; track tab) {
-          <awd-tab [tabId]="tab.id">
+          <jig-tab [tabId]="tab.id">
             <ng-template #header>{{ tab.header }}</ng-template>
             <ng-template #content>
               <dummy [dummyId]="tab.id" (calledConstructor)="output('constructorCalled', $event)">
                 {{ tab.content }}
               </dummy>
             </ng-template>
-          </awd-tab>
+          </jig-tab>
         }
-      </awd-tabs>
+      </jig-tabs>
       `,
       imports: ['tabs', 'tab', 'dummy_component'],
     },
@@ -61,7 +61,7 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
 test('select tabs', async ({ page }, testInfo) => {
   const handle = await prepareTest(page);
 
-  const tabs = new NgnTabsHarness(page.locator('awd-tabs'));
+  const tabs = new AwdTabsHarness(page.locator('jig-tabs'));
   await tabs.expectTabCount(3);
 
   const tab1 = tabs.getTabByIndex(0);
@@ -112,7 +112,7 @@ test('lazy', async ({ page }, testInfo) => {
     cache: false,
   });
 
-  const tabsHarness = new NgnTabsHarness(page.locator('awd-tabs'));
+  const tabsHarness = new AwdTabsHarness(page.locator('jig-tabs'));
   await tabsHarness.expectTabCount(3);
 
   const tab1 = tabsHarness.getTabByIndex(0);
@@ -147,7 +147,7 @@ test('lazy with cache', async ({ page }, testInfo) => {
     cache: true,
   });
 
-  const tabsHarness = new NgnTabsHarness(page.locator('awd-tabs'));
+  const tabsHarness = new AwdTabsHarness(page.locator('jig-tabs'));
   await tabsHarness.expectTabCount(3);
 
   const tab1 = tabsHarness.getTabByIndex(0);
@@ -181,7 +181,7 @@ test('lazy with cache', async ({ page }, testInfo) => {
 test('keyboard navigation', async ({ page }, testInfo) => {
   const handle = await prepareTest(page);
 
-  const tabs = new NgnTabsHarness(page.locator('awd-tabs'));
+  const tabs = new AwdTabsHarness(page.locator('jig-tabs'));
   await tabs.expectTabCount(3);
 
   const tab1 = tabs.getTabByIndex(0);
@@ -235,7 +235,7 @@ test('overflow scrolling', async ({ page }, testInfo) => {
   // Set a smaller viewport to trigger overflow
   await page.setViewportSize({ width: 600, height: 400 });
 
-  const tabs = new NgnTabsHarness(page.locator('awd-tabs'));
+  const tabs = new AwdTabsHarness(page.locator('jig-tabs'));
   await tabs.expectTabCount(10);
 
   // Check if scroll buttons are visible
@@ -252,7 +252,7 @@ test('overflow scrolling', async ({ page }, testInfo) => {
 test('dragging a header does not switch the active tab', async ({ page }) => {
   await prepareTest(page);
 
-  const tabs = new NgnTabsHarness(page.locator('awd-tabs'));
+  const tabs = new AwdTabsHarness(page.locator('jig-tabs'));
   await tabs.expectTabCount(3);
 
   const tab1 = tabs.getTabByIndex(0);
@@ -291,7 +291,7 @@ test('custom header templates', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <awd-tabs>
+      <jig-tabs>
         <ng-template #headerLeft>
           <button ngnButton ngnButtonInline kind="icon">➕</button>
         </ng-template>
@@ -299,12 +299,12 @@ test('custom header templates', async ({ page }, testInfo) => {
           <button ngnButton ngnButtonInline kind="icon">🗑️</button>
         </ng-template>
         @for(tab of inputs().tabs; track tab) {
-          <awd-tab [tabId]="tab.id">
+          <jig-tab [tabId]="tab.id">
             <ng-template #header>{{ tab.header }}</ng-template>
             <ng-template #content>{{ tab.content }}</ng-template>
-          </awd-tab>
+          </jig-tab>
         }
-      </awd-tabs>
+      </jig-tabs>
       `,
       imports: ['tabs', 'tab', 'button'],
     },
@@ -315,7 +315,7 @@ test('custom header templates', async ({ page }, testInfo) => {
     }
   );
 
-  const tabs = new NgnTabsHarness(page.locator('awd-tabs'));
+  const tabs = new AwdTabsHarness(page.locator('jig-tabs'));
   await tabs.expectTabCount(3);
 
   // Check that custom header templates are rendered
@@ -341,14 +341,14 @@ test('accessibility (axe)', async ({ page }) => {
     page,
     {
       template: `
-      <awd-tabs>
+      <jig-tabs>
         @for(tab of inputs().tabs; track tab) {
-          <awd-tab [tabId]="tab.id">
+          <jig-tab [tabId]="tab.id">
             <ng-template #header>{{ tab.header }}</ng-template>
             <ng-template #content>{{ tab.content }}</ng-template>
-          </awd-tab>
+          </jig-tab>
         }
-      </awd-tabs>
+      </jig-tabs>
       `,
       imports: ['tabs', 'tab'],
     },
@@ -359,7 +359,7 @@ test('accessibility (axe)', async ({ page }) => {
     }
   );
 
-  const tabs = new NgnTabsHarness(page.locator('awd-tabs'));
+  const tabs = new AwdTabsHarness(page.locator('jig-tabs'));
   await tabs.expectTabCount(3);
 
   await expectNoA11yViolations(page);

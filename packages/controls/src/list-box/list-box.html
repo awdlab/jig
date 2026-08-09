@@ -1,4 +1,4 @@
-<awd-scroller
+<jig-scroller
   [ptInt]="this"
   [ptDep]="'scroller'"
   [scrollContainer]="element.nativeElement"
@@ -49,7 +49,7 @@
     "
   >
     @if (showCheckboxes() && !itemOrGroup.items) {
-      <awd-checkbox
+      <jig-checkbox
         [ptInt]="this"
         [ptDep]="'checkbox'"
         [value]="valueArray().includes(itemOrGroup.value)"

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnScroller, NgnScrollerItem } from '@awdlab/jig/scroller';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdScroller, AwdScrollerItem } from '@awdlab/jig/scroller';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnScroller, NgnTemplate, NgnScrollerItem],
-  selector: 'awd-demo-scroller-virtual',
+  imports: [AwdScroller, AwdTemplate, AwdScrollerItem],
+  selector: 'jig-demo-scroller-virtual',
   template: `
-    <awd-scroller
+    <jig-scroller
       #scroller
       style="height: 300px"
       [items]="items"
@@ -21,7 +21,7 @@ import { exampleData } from '../../helper/data';
           {{ item.label }}
         </span>
       </ng-template>
-    </awd-scroller>
+    </jig-scroller>
   `,
   host: { class: 'w-48' },
 })

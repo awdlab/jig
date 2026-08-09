@@ -1,21 +1,21 @@
 import { InjectionToken, type Provider } from '@angular/core';
 
-import { NgnToastManager } from './toast-manager';
+import { AwdToastManager } from './toast-manager';
 
-import type { NgnToastOptionsMeta } from './types';
+import type { AwdToastOptionsMeta } from './types';
 
-export type NgnToastFeature = {
+export type AwdToastFeature = {
   providers: Provider[];
 };
 
-export const NGN_TOAST_USER_DEFAULTS = new InjectionToken<NgnToastOptionsMeta>(
+export const NGN_TOAST_USER_DEFAULTS = new InjectionToken<AwdToastOptionsMeta>(
   'NGN_TOAST_USER_DEFAULTS'
 );
 
-export function withToasts(defaultOptions?: NgnToastOptionsMeta): NgnToastFeature {
+export function withToasts(defaultOptions?: AwdToastOptionsMeta): AwdToastFeature {
   return {
     providers: [
-      NgnToastManager,
+      AwdToastManager,
       {
         provide: NGN_TOAST_USER_DEFAULTS,
         useValue: defaultOptions || {},

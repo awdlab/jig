@@ -1,9 +1,9 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, ElementRef, inject, input, output, type OnInit } from '@angular/core';
-import { provideSelf, NgnPt } from '@awdlab/jig/base';
-import { NgnButton } from '@awdlab/jig/button';
+import { provideSelf, AwdPt } from '@awdlab/jig/base';
+import { AwdButton } from '@awdlab/jig/button';
 import { I18n } from '@awdlab/jig/i18n';
-import { NgnIcon } from '@awdlab/jig/icon';
+import { AwdIcon } from '@awdlab/jig/icon';
 import { toastControlTemplate } from '@awdlab/jig-themes/templates/toast';
 
 import { DEFAULT_TOAST_OPTIONS } from './defaults';
@@ -15,10 +15,10 @@ import type { IconType } from '@awdlab/jig-custom-types';
  * @category control
  */
 @Component({
-  selector: 'awd-toast',
+  selector: 'jig-toast',
   templateUrl: './toast.html',
-  imports: [NgTemplateOutlet, NgnPt, NgnButton, NgnIcon],
-  providers: [provideSelf(NgnToast)],
+  imports: [NgTemplateOutlet, AwdPt, AwdButton, AwdIcon],
+  providers: [provideSelf(AwdToast)],
   host: {
     '(mouseenter)': 'mouseEnter()',
     '(mouseleave)': 'mouseLeave()',
@@ -32,7 +32,7 @@ import type { IconType } from '@awdlab/jig-custom-types';
     'aria-atomic': 'true',
   },
 })
-export class NgnToast extends ToastTemplates implements OnInit {
+export class AwdToast extends ToastTemplates implements OnInit {
   protected readonly theme = this.injectThemeTemplate(toastControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
   private readonly _host = inject<ElementRef<HTMLElement>>(ElementRef);

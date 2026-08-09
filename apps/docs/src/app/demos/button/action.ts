@@ -1,14 +1,14 @@
 import { Component, signal } from '@angular/core';
-import { NgnActionButton } from '@awdlab/jig/button';
+import { AwdActionButton } from '@awdlab/jig/button';
 
-import type { NgnActionButtonConfig } from '@awdlab/jig/api';
+import type { AwdActionButtonConfig } from '@awdlab/jig/api';
 
 @Component({
-  selector: 'awd-demo-button-action',
-  imports: [NgnActionButton],
+  selector: 'jig-demo-button-action',
+  imports: [AwdActionButton],
   template: `
     <div class="flex flex-wrap items-center gap-2">
-      <awd-action-button [config]="saveConfig" (clicked)="onClicked($event)" />
+      <jig-action-button [config]="saveConfig" (clicked)="onClicked($event)" />
       <span>{{ status() }}</span>
     </div>
   `,
@@ -16,7 +16,7 @@ import type { NgnActionButtonConfig } from '@awdlab/jig/api';
 export class Demo_Button_Action {
   protected readonly status = signal('Ready');
 
-  protected readonly saveConfig: NgnActionButtonConfig<'save'> = {
+  protected readonly saveConfig: AwdActionButtonConfig<'save'> = {
     label: 'Save',
     value: 'save',
     kind: 'primary',

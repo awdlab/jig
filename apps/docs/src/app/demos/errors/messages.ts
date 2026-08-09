@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgnErrors } from '@awdlab/jig/errors';
-import { NgnHint } from '@awdlab/jig/hint';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
+import { AwdErrors } from '@awdlab/jig/errors';
+import { AwdHint } from '@awdlab/jig/hint';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
 
-import type { NgnErrorsMessages } from '@awdlab/jig/errors';
+import type { AwdErrorsMessages } from '@awdlab/jig/errors';
 
 @Component({
-  selector: 'awd-demo-errors-messages',
-  imports: [ReactiveFormsModule, NgnErrors, NgnHint, NgnInput, NgnInputField],
+  selector: 'jig-demo-errors-messages',
+  imports: [ReactiveFormsModule, AwdErrors, AwdHint, AwdInput, AwdInputField],
   template: `
     <div class="flex flex-col gap-1">
-      <awd-input-field [label]="'Coupon code'" [labelKind]="'on'" class="w-72">
+      <jig-input-field [label]="'Coupon code'" [labelKind]="'on'" class="w-72">
         <input
           ngnInput
           [formControl]="code"
@@ -22,8 +22,8 @@ import type { NgnErrorsMessages } from '@awdlab/jig/errors';
           [ngnErrorsMessages]="messages"
           [ngnErrorsHint]="codeHint"
         />
-      </awd-input-field>
-      <awd-hint #codeHint />
+      </jig-input-field>
+      <jig-hint #codeHint />
     </div>
   `,
 })
@@ -34,7 +34,7 @@ export class Demo_Errors_Messages {
   });
 
   /** Static strings and resolvers that read the error's params. */
-  protected readonly messages: NgnErrorsMessages = {
+  protected readonly messages: AwdErrorsMessages = {
     required: 'Enter the code from your invoice.',
     minlength: ({ params }) => `${params['requiredLength']} characters, please.`,
     pattern: 'Uppercase letters, digits and dashes only.',

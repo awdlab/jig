@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { NgnColorPickerHarness } from '@awdlab/jig-playwright';
+import { AwdColorPickerHarness } from '@awdlab/jig-playwright';
 import { parseColor } from '@awdlab/jig/utils';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
@@ -9,13 +9,13 @@ test('inline: reflects bound value', async ({ page }, testInfo) => {
   await loadComponent(
     page,
     {
-      template: `<awd-color-picker [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-color-picker [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['color-picker'],
     },
     { inputs: { value: '#ff0000' } }
   );
 
-  const cp = new NgnColorPickerHarness(page.locator('awd-color-picker'));
+  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
   await expect(cp.panel).toBeVisible();
   await expectScreenshot(page, testInfo, 'inline-red');
 });
@@ -24,13 +24,13 @@ test('clicking hue + sv updates value', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-color-picker [inline]="true" [alpha]="false" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-color-picker [inline]="true" [alpha]="false" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['color-picker'],
     },
     { inputs: { value: '#ff0000' } }
   );
 
-  const cp = new NgnColorPickerHarness(page.locator('awd-color-picker'));
+  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
   await cp.clickSv(1, 0); // full saturation, full value
   await cp.clickHue(0.33); // ~green
 
@@ -50,13 +50,13 @@ test('swatch selection sets value', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-color-picker [inline]="true" [alpha]="false" [swatches]="inputs().swatches" (valueChange)="output('value', $event)" />`,
+      template: `<jig-color-picker [inline]="true" [alpha]="false" [swatches]="inputs().swatches" (valueChange)="output('value', $event)" />`,
       imports: ['color-picker'],
     },
     { inputs: { swatches: ['#123456', '#abcdef'] } }
   );
 
-  const cp = new NgnColorPickerHarness(page.locator('awd-color-picker'));
+  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
   await cp.swatches.nth(0).click();
   const log = await handle.getOutputLog();
   expect((log['value'] as string[]).at(-1)?.toLowerCase()).toBe('#123456');
@@ -66,12 +66,12 @@ test('trigger opens panel (non-inline)', async ({ page }, testInfo) => {
   await loadComponent(
     page,
     {
-      template: `<awd-color-picker [value]="'#00ff00'" />`,
+      template: `<jig-color-picker [value]="'#00ff00'" />`,
       imports: ['color-picker'],
     },
     { inputs: {} }
   );
-  const cp = new NgnColorPickerHarness(page.locator('awd-color-picker'));
+  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
   await expect(cp.panel).toHaveCount(0);
   await expect(cp.trigger).toHaveAttribute('aria-expanded', 'false');
   await expectScreenshot(page, testInfo, 'trigger-closed');
@@ -84,14 +84,14 @@ test('format toggle cycles hex -> rgb -> hsl', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<awd-color-picker [inline]="true" [value]="'#3366cc'" />`,
+      template: `<jig-color-picker [inline]="true" [value]="'#3366cc'" />`,
       imports: ['color-picker'],
     },
     { inputs: {} }
   );
-  const cp = new NgnColorPickerHarness(page.locator('awd-color-picker'));
-  const labels = page.locator('awd-color-picker [class*="channel-label"]');
-  const boxes = page.locator('awd-color-picker [class*="channel"] input');
+  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
+  const labels = page.locator('jig-color-picker [class*="channel-label"]');
+  const boxes = page.locator('jig-color-picker [class*="channel"] input');
 
   // hex: a single box + "Hex" label
   await expect(cp.formatToggle).toHaveText('hex');
@@ -125,7 +125,7 @@ test('headless mode: opens in a popover from an external anchor', async ({ page 
     {
       template: `
         <button #anchor (click)="picker.toggle()">Pick color</button>
-        <awd-color-picker #picker [popover]="true" [anchor]="anchor" [value]="'#ff0000'" />
+        <jig-color-picker #picker [popover]="true" [anchor]="anchor" [value]="'#ff0000'" />
       `,
       imports: ['color-picker'],
     },
@@ -145,12 +145,12 @@ test('editing an RGB channel updates the value', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-color-picker [inline]="true" [alpha]="false" [format]="'rgb'" [value]="'#000000'" (valueChange)="output('value', $event)" />`,
+      template: `<jig-color-picker [inline]="true" [alpha]="false" [format]="'rgb'" [value]="'#000000'" (valueChange)="output('value', $event)" />`,
       imports: ['color-picker'],
     },
     { inputs: {} }
   );
-  const boxes = page.locator('awd-color-picker [class*="channel"] input');
+  const boxes = page.locator('jig-color-picker [class*="channel"] input');
   await expect(boxes).toHaveCount(3); // R, G, B (no alpha)
   await boxes.nth(0).fill('255'); // R = 255
   await boxes.nth(0).blur();
@@ -163,16 +163,16 @@ test('typing a valid hex in the field updates the value', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-color-picker [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-color-picker [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['color-picker'],
     },
     { inputs: { value: '#000000' } }
   );
 
-  const cp = new NgnColorPickerHarness(page.locator('awd-color-picker'));
+  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
   await cp.hexInput.fill('#ff8800');
   // Commit (blur) — the hex is applied on change, not on every keystroke.
-  await page.locator('awd-color-picker input').blur();
+  await page.locator('jig-color-picker input').blur();
 
   const log = await handle.getOutputLog();
   const last = (log['value'] as string[]).at(-1);
@@ -183,13 +183,13 @@ test('short hex is not expanded while typing — only on commit (regression)', a
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-color-picker [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-color-picker [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['color-picker'],
     },
     { inputs: { value: '#000000' } }
   );
 
-  const input = page.locator('awd-color-picker input');
+  const input = page.locator('jig-color-picker input');
   await input.click();
   await input.press('ControlOrMeta+a');
   await input.pressSequentially('#ff0');
@@ -216,13 +216,13 @@ test('SV drag to near-black and back preserves hue (regression)', async ({ page 
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-color-picker [inline]="true" [alpha]="false" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-color-picker [inline]="true" [alpha]="false" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['color-picker'],
     },
     { inputs: { value: '#00ff00' } }
   );
 
-  const cp = new NgnColorPickerHarness(page.locator('awd-color-picker'));
+  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
   await cp.clickSv(0.02, 0.98); // near-black corner: s≈0.02, v≈0.02 → achromatic RGB
   await cp.clickSv(0.9, 0.1); // back to a saturated, bright point: s≈0.9, v≈0.9
 
@@ -239,7 +239,7 @@ test('accessibility (axe): trigger mode', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<awd-color-picker [label]="'Pick a color'" />`,
+      template: `<jig-color-picker [label]="'Pick a color'" />`,
       imports: ['color-picker'],
     },
     { inputs: {} }
@@ -251,7 +251,7 @@ test('accessibility (axe): inline mode', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<awd-color-picker [inline]="true" [label]="'Pick a color'" />`,
+      template: `<jig-color-picker [inline]="true" [label]="'Pick a color'" />`,
       imports: ['color-picker'],
     },
     { inputs: {} }
@@ -263,13 +263,13 @@ test('format toggle re-commits the value in the new format (same color)', async 
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-color-picker [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      template: `<jig-color-picker [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
       imports: ['color-picker'],
     },
     { inputs: { value: '#3366cc' } }
   );
 
-  const cp = new NgnColorPickerHarness(page.locator('awd-color-picker'));
+  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
 
   await cp.formatToggle.click(); // hex -> rgb
   let log = await handle.getOutputLog();
@@ -290,13 +290,13 @@ test('format toggle on an untouched picker does not emit a value', async ({ page
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-color-picker [inline]="true" (valueChange)="output('value', $event)" />`,
+      template: `<jig-color-picker [inline]="true" (valueChange)="output('value', $event)" />`,
       imports: ['color-picker'],
     },
     { inputs: {} }
   );
 
-  const cp = new NgnColorPickerHarness(page.locator('awd-color-picker'));
+  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
   await cp.formatToggle.click();
   expect(await handle.getOutputLog()).toEqual({});
 });

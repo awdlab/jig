@@ -1,11 +1,11 @@
-import { NgnDocsTagPlayground } from './playground';
+import { AwdDocsTagPlayground } from './playground';
 import { Demo_Tag_Base } from '../../../demos/tag/base';
 import { Demo_Tag_WithIcon } from '../../../demos/tag/with-icon';
 import { i18nText } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const TagPage: NgnDocsPage = {
+export const TagPage: AwdDocsPage = {
   title: `Tag`,
   kind: 'tabs',
   tabs: [
@@ -20,7 +20,7 @@ export const TagPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsTagPlayground,
+      component: AwdDocsTagPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/tag/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/tag/a11y.md' },

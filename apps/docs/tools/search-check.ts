@@ -72,9 +72,9 @@ const CASES: { query: string; route: string; topN?: number }[] = [
 /** Identifier lookups, which never go through the model. */
 const NAME_CASES: { query: string; name: string }[] = [
   { query: 'iconClose', name: 'iconClose' },
-  { query: 'awd-select', name: 'awd-select' },
+  { query: 'jig-select', name: 'jig-select' },
   { query: 'ngnButton', name: 'ngnButton' },
-  { query: 'NgnInputField', name: 'NgnInputField' },
+  { query: 'AwdInputField', name: 'AwdInputField' },
   { query: 'closeBy', name: 'closeBy' },
 ];
 

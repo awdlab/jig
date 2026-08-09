@@ -23,18 +23,18 @@ identity, assign a **new** `pt` object when it changes rather than mutating in p
 
 ### Typed targets
 
-Type the object with `NgnPassthrough<'control'>` and every valid scope autocompletes — a
+Type the object with `AwdPassthrough<'control'>` and every valid scope autocompletes — a
 typo is a compile error:
 
 ```ts
-protected readonly pt: NgnPassthrough<'calendar'> = {
+protected readonly pt: AwdPassthrough<'calendar'> = {
   root: { $classes: 'rounded-xl ring-1' },
-  'day-selected': { $styles: { background: 'var(--awd-color-primary-600)' } },
+  'day-selected': { $styles: { background: 'var(--jig-color-primary-600)' } },
 };
 ```
 
 ```html
-<awd-calendar [inline]="true" [pt]="pt" />
+<jig-calendar [inline]="true" [pt]="pt" />
 ```
 
 ### When to use passthrough
@@ -46,8 +46,8 @@ protected readonly pt: NgnPassthrough<'calendar'> = {
 - Extend a **custom theme** when the change should apply to every instance across your app.
 - Go **`unstyled`** when you want to strip all theme styling and start from scratch.
 
-The examples below all use an inline `awd-calendar` — a control that composes several nested
-`awd` controls internally — so a single control can show every mechanic.
+The examples below all use an inline `jig-calendar` — a control that composes several nested
+`jig` controls internally — so a single control can show every mechanic.
 
 ### Styles
 
@@ -81,31 +81,31 @@ arrow) to guarantee clean removal.
 
 ### Deep passthrough
 
-**Deep passthrough** reaches the `awd` controls a control renders internally.
+**Deep passthrough** reaches the `jig` controls a control renders internally.
 Each internal instance is exposed as a named **slot**, right at the root of `pt`
 — alongside the control's own scope classes. A slot's value is typed as that
-child control's own `NgnPassthrough`, resolved against _its own_ scope classes,
+child control's own `AwdPassthrough`, resolved against _its own_ scope classes,
 not the parent's:
 
 ```ts
-protected readonly pt: NgnPassthrough<'calendar'> = {
+protected readonly pt: AwdPassthrough<'calendar'> = {
   // Only the month picker — the year select stays plain.
   'current-month': {
     root: {
       $classes:
-        'text-(--awd-color-primary-700) font-(--awd-font-weight-semibold)',
+        'text-(--jig-color-primary-700) font-(--jig-font-weight-semibold)',
     },
   },
   // The prev / next nav buttons, each addressed by its own slot.
-  previous: { root: { $styles: { color: 'var(--awd-color-primary-600)' } } },
-  next: { root: { $styles: { color: 'var(--awd-color-primary-600)' } } },
+  previous: { root: { $styles: { color: 'var(--jig-color-primary-600)' } } },
+  next: { root: { $styles: { color: 'var(--jig-color-primary-600)' } } },
 };
 ```
 
 Each slot targets exactly **one** instance — `current-month` and `current-year`
 are separate slots, so you can brand the month select without touching the
 year select. Deep passthrough is also recursive: a slot's value is a full
-`NgnPassthrough`, so it can carry the child's _own_ slots to reach a
+`AwdPassthrough`, so it can carry the child's _own_ slots to reach a
 grandchild. Assigning a slot also auto-applies the parent's marker class for
 that slot (`{parentScope}-{slot}`, e.g. `calendar-current-month`) to the child
 control's host element, so you get a stable hook even without a `pt` value.

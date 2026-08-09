@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NgnScrollShadow } from '@awdlab/jig/scroll-shadow';
+import { AwdScrollShadow } from '@awdlab/jig/scroll-shadow';
 
 @Component({
-  imports: [NgnScrollShadow],
-  selector: 'awd-demo-scroll-shadow-both',
+  imports: [AwdScrollShadow],
+  selector: 'jig-demo-scroll-shadow-both',
   template: `
     <div ngnScrollShadow="both" class="box">
       <div class="grid">
@@ -18,8 +18,8 @@ import { NgnScrollShadow } from '@awdlab/jig/scroll-shadow';
       height: 220px;
       max-width: 360px;
       overflow: auto;
-      border: 1px solid var(--awd-color-surface-200);
-      border-radius: var(--awd-size-radius-md);
+      border: 1px solid var(--jig-color-surface-200);
+      border-radius: var(--jig-size-radius-md);
     }
     .grid {
       display: grid;
@@ -32,8 +32,8 @@ import { NgnScrollShadow } from '@awdlab/jig/scroll-shadow';
       height: 70px;
       display: grid;
       place-items: center;
-      background: var(--awd-color-surface-100);
-      border-radius: var(--awd-size-radius-sm);
+      background: var(--jig-color-surface-100);
+      border-radius: var(--jig-size-radius-sm);
     }
   `,
 })

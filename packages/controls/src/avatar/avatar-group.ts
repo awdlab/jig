@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
-import { NgnBase, provideSelf, NgnPt } from '@awdlab/jig/base';
+import { AwdBase, provideSelf, AwdPt } from '@awdlab/jig/base';
 import { avatarGroupControlTemplate } from '@awdlab/jig-themes/templates/avatar';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'awd-avatar-group',
+  selector: 'jig-avatar-group',
   templateUrl: './avatar-group.html',
-  imports: [NgnPt],
-  providers: [provideSelf(NgnAvatarGroup)],
+  imports: [AwdPt],
+  providers: [provideSelf(AwdAvatarGroup)],
 })
-export class NgnAvatarGroup extends NgnBase<'avatarGroup'> {
+export class AwdAvatarGroup extends AwdBase<'avatarGroup'> {
   protected readonly theme = this.injectThemeTemplate(avatarGroupControlTemplate);
 
   constructor() {

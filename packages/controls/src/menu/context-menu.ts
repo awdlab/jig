@@ -9,13 +9,13 @@ import {
 } from '@angular/core';
 import { domEventHandler } from '@awdlab/jig/api/ng';
 
-import { NgnMenu } from './menu';
+import { AwdMenu } from './menu';
 import { openMenuAt } from './open-menu-at';
 
 import type { MenuItem } from './types';
 
 /**
- * Opens an {@link NgnMenu} at the pointer on right-click, replacing the native
+ * Opens an {@link AwdMenu} at the pointer on right-click, replacing the native
  * browser context menu for its host element.
  *
  * The menu is created lazily on first use and reused afterwards; right-clicking
@@ -24,10 +24,10 @@ import type { MenuItem } from './types';
  * @category directive
  */
 @Directive({ selector: '[ngnContextMenu]' })
-export class NgnContextMenu implements OnDestroy {
+export class AwdContextMenu implements OnDestroy {
   private readonly _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _vcr = inject(ViewContainerRef);
-  private _menu?: ComponentRef<NgnMenu>;
+  private _menu?: ComponentRef<AwdMenu>;
 
   /**
    * The menu items to display in the context menu opened on right-click.

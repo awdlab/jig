@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { NgnSelect } from '@awdlab/jig/select';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { AwdSelect } from '@awdlab/jig/select';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnSelect, NgnInputField],
-  selector: 'awd-demo-select-filter',
-  template: `<awd-input-field>
-    <awd-select #select [filter]="true" [options]="options" />
-  </awd-input-field>`,
+  imports: [AwdSelect, AwdInputField],
+  selector: 'jig-demo-select-filter',
+  template: `<jig-input-field>
+    <jig-select #select [filter]="true" [options]="options" />
+  </jig-input-field>`,
   host: { class: 'w-48' },
 })
 export class Demo_Select_Filter {

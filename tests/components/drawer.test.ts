@@ -5,7 +5,7 @@ import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
 const MODEL_TEMPLATE = `
-  <awd-drawer
+  <jig-drawer
     [open]="inputs().open"
     [modal]="inputs().modal"
     [header]="inputs().header"
@@ -15,7 +15,7 @@ const MODEL_TEMPLATE = `
     (closed)="output('closed', true)"
   >
     Drawer body
-  </awd-drawer>
+  </jig-drawer>
 `;
 
 test('modal drawer is a labelled dialog with aria-modal', async ({ page }) => {
@@ -27,7 +27,7 @@ test('modal drawer is a labelled dialog with aria-modal', async ({ page }) => {
     }
   );
 
-  const drawer = page.locator('awd-drawer');
+  const drawer = page.locator('jig-drawer');
   await expect(drawer).toBeVisible();
   await expect(drawer).toHaveAttribute('role', 'dialog');
   await expect(drawer).toHaveAttribute('aria-modal', 'true');
@@ -49,7 +49,7 @@ test('non-modal drawer is a complementary landmark without aria-modal', async ({
     }
   );
 
-  const drawer = page.locator('awd-drawer');
+  const drawer = page.locator('jig-drawer');
   await expect(drawer).toHaveAttribute('role', 'complementary');
   await expect(drawer).not.toHaveAttribute('aria-modal', /.*/);
 });
@@ -63,7 +63,7 @@ test('opens/closes via the open model and emits closed', async ({ page }) => {
     }
   );
 
-  const drawer = page.locator('awd-drawer');
+  const drawer = page.locator('jig-drawer');
   await expect(drawer).toBeHidden();
 
   await handle.setInputs({ open: true, modal: false, header: 'Filters', position: 'left' });
@@ -83,17 +83,17 @@ test('position is reflected on the host', async ({ page }) => {
     }
   );
 
-  await expect(page.locator('awd-drawer')).toHaveAttribute('data-position', 'right');
+  await expect(page.locator('jig-drawer')).toHaveAttribute('data-position', 'right');
 
   await handle.setInputs({ open: true, modal: true, header: 'Filters', position: 'bottom' });
-  await expect(page.locator('awd-drawer')).toHaveAttribute('data-position', 'bottom');
+  await expect(page.locator('jig-drawer')).toHaveAttribute('data-position', 'bottom');
 });
 
 test('modal drawer traps focus and restores focus to the opener on Escape', async ({ page }) => {
   const handle = await loadComponent(page, {
     template: `
         <button id="opener" (click)="drawer.show()">Open drawer</button>
-        <awd-drawer
+        <jig-drawer
           #drawer
           [modal]="true"
           [closeBy]="'any'"
@@ -102,18 +102,18 @@ test('modal drawer traps focus and restores focus to the opener on Escape', asyn
         >
           <button id="first-btn">First</button>
           <button id="last-btn">Last</button>
-        </awd-drawer>
+        </jig-drawer>
       `,
     imports: ['drawer'],
   });
 
   const opener = page.locator('#opener');
-  const drawer = page.locator('awd-drawer');
+  const drawer = page.locator('jig-drawer');
 
   // Whether DOM focus currently rests inside the drawer. Asserted against the
   // trap's contract (containment) rather than a specific element, since the
   // drawer also renders its own header close button as a focusable child.
-  const focusInDrawer = () => page.evaluate(() => !!document.activeElement?.closest('awd-drawer'));
+  const focusInDrawer = () => page.evaluate(() => !!document.activeElement?.closest('jig-drawer'));
 
   await opener.click();
   await expect(drawer).toBeVisible();
@@ -144,7 +144,7 @@ test('accessibility (axe)', async ({ page }) => {
     { template: MODEL_TEMPLATE, imports: ['drawer'] },
     { inputs: { open: true, modal: true, header: 'Filters', position: 'left' } }
   );
-  await expect(page.locator('awd-drawer')).toBeVisible();
+  await expect(page.locator('jig-drawer')).toBeVisible();
   await expectNoA11yViolations(page);
 });
 
@@ -156,7 +156,7 @@ test('visual', async ({ page }, testInfo) => {
   );
 
   await test.step('left', async () => {
-    await expect(page.locator('awd-drawer')).toBeVisible();
+    await expect(page.locator('jig-drawer')).toBeVisible();
     await expectScreenshot(page, testInfo, 'left');
   });
 

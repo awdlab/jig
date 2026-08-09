@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnTooltip } from '@awdlab/jig/tooltip';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdTooltip } from '@awdlab/jig/tooltip';
 
 @Component({
-  imports: [NgnButton, NgnTooltip],
-  selector: 'awd-demo-tooltip-arrow',
+  imports: [AwdButton, AwdTooltip],
+  selector: 'jig-demo-tooltip-arrow',
   template: `<button ngnButton [ngnTooltip]="'Hello World!'" [ngnTooltipShowArrow]="true">
       With Arrow
     </button>

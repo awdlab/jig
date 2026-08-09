@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NgnMovable, NgnResizable } from '@awdlab/jig/directives';
+import { AwdMovable, AwdResizable } from '@awdlab/jig/directives';
 
 @Component({
-  selector: 'awd-demo-resizable-movable',
-  imports: [NgnMovable, NgnResizable],
+  selector: 'jig-demo-resizable-movable',
+  imports: [AwdMovable, AwdResizable],
   template: `
     <div class="board">
       <div
@@ -31,8 +31,8 @@ import { NgnMovable, NgnResizable } from '@awdlab/jig/directives';
       position: relative;
       height: 300px;
       overflow: hidden;
-      border: 1px dashed var(--awd-color-surface-300);
-      border-radius: var(--awd-size-radius-md);
+      border: 1px dashed var(--jig-color-surface-300);
+      border-radius: var(--jig-size-radius-md);
     }
     .panel {
       position: absolute;
@@ -42,9 +42,9 @@ import { NgnMovable, NgnResizable } from '@awdlab/jig/directives';
       height: 120px;
       overflow: auto;
       padding: 12px 16px;
-      background: var(--awd-color-surface-100);
-      border: 1px solid var(--awd-color-surface-300);
-      border-radius: var(--awd-size-radius-md);
+      background: var(--jig-color-surface-100);
+      border: 1px solid var(--jig-color-surface-300);
+      border-radius: var(--jig-size-radius-md);
     }
   `,
 })

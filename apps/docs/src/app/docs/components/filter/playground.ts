@@ -1,18 +1,18 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnFilter } from '@awdlab/jig/filter';
+import { AwdFilter } from '@awdlab/jig/filter';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-filter-playground',
-  imports: [NgnFilter, NgnDocsPlayground],
+  selector: 'jig-docs-filter-playground',
+  imports: [AwdFilter, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnFilter', component: component() }]">
-      <awd-filter #ref [data]="data" />
-    </awd-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'AwdFilter', component: component() }]">
+      <jig-filter #ref [data]="data" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsFilterPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnFilter });
+export class AwdDocsFilterPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdFilter });
   protected readonly data: readonly string[] = ['Germany', 'France', 'Italy', 'Spain', 'Sweden'];
 }

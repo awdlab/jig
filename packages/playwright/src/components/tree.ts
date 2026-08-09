@@ -1,9 +1,9 @@
 import { expect, type Locator } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { treeControlTemplate } from '@awdlab/jig-themes/templates/tree';
-import { NgnScrollerHarness } from './scroller';
+import { AwdScrollerHarness } from './scroller';
 
-export class NgnTreeHarness {
+export class AwdTreeHarness {
   public readonly classes = themeClasses(treeControlTemplate);
   /** All currently rendered nodes (branches and leaves). */
   public readonly node: Locator;
@@ -19,7 +19,7 @@ export class NgnTreeHarness {
   public readonly checkbox: Locator;
   public readonly empty: Locator;
   public readonly spinner: Locator;
-  public readonly scroller: NgnScrollerHarness;
+  public readonly scroller: AwdScrollerHarness;
 
   constructor(public locator: Locator) {
     this.node = locator.locator('[role="treeitem"]');
@@ -32,8 +32,8 @@ export class NgnTreeHarness {
     this.itemExpanded = locator.locator(this.classes['item-expanded']);
     this.checkbox = locator.locator(this.classes['item-checkbox']['root']);
     this.empty = locator.locator(this.classes['empty']);
-    this.spinner = locator.locator('awd-spinner');
-    this.scroller = new NgnScrollerHarness(locator.locator(this.classes['scroller']['root']));
+    this.spinner = locator.locator('jig-spinner');
+    this.scroller = new AwdScrollerHarness(locator.locator(this.classes['scroller']['root']));
   }
 
   /** A single node located by its exact (trimmed, case-insensitive) label. */

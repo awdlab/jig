@@ -14,11 +14,11 @@ export const tableStyles = createThemePart({
       }
       ${c('table')} {
         display: grid;
-        grid-template-rows: var(--awd-table-row-height) auto;
+        grid-template-rows: var(--jig-table-row-height) auto;
         &:has(${c('foot')}) {
-          grid-template-rows: var(--awd-table-row-height) auto var(--awd-table-row-height);
+          grid-template-rows: var(--jig-table-row-height) auto var(--jig-table-row-height);
         }
-        grid-template-columns: repeat(var(--awd-table-column-count), 1fr);
+        grid-template-columns: repeat(var(--jig-table-column-count), 1fr);
         align-content: baseline;
         position: relative;
         overflow: auto;
@@ -64,7 +64,7 @@ export const tableStyles = createThemePart({
         display: grid;
         grid-template-columns: subgrid;
         grid-column: 1 / -1;
-        --row-index: calc(var(--awd-table-row-index) - var(--awd-table-item-start-index));
+        --row-index: calc(var(--jig-table-row-index) - var(--jig-table-item-start-index));
         grid-row-start: var(--row-index);
       }
       ${c('head')} ${c('row')} {
@@ -73,16 +73,16 @@ export const tableStyles = createThemePart({
       /* Pin virtual data rows to one row height so tracks stay uniform for the
          scroll math. Non-virtual leaves the var unset, resolving to auto. */
       ${c('root')}${c('virtual')} ${c('body')} ${c('row')} {
-        height: var(--awd-table-row-height);
+        height: var(--jig-table-row-height);
       }
       ${c('foot')} {
         display: contents;
       }
       ${c('cell')} {
-        height: var(--awd-table-row-height);
+        height: var(--jig-table-row-height);
         min-width: 0;
         grid-column-start: calc(
-          var(--awd-table-column-index) + var(--awd-table-selection-offset, 0)
+          var(--jig-table-column-index) + var(--jig-table-selection-offset, 0)
         );
         /* Pin cells to the row's single track; a reordered cell would otherwise
            trip grid auto-placement onto an implicit extra row. */
@@ -141,12 +141,12 @@ export const tableStyles = createThemePart({
         grid-column: 1 / -1;
         display: flex;
         align-items: center;
-        height: var(--awd-table-row-height);
+        height: var(--jig-table-row-height);
         min-width: 0;
       }
       ${c('root')}:not(${c('virtual')}) ${c('group-header-cell')} {
         height: auto;
-        line-height: var(--awd-table-row-height);
+        line-height: var(--jig-table-row-height);
       }
       ${c('group-toggle')} {
         flex-shrink: 0;
@@ -232,13 +232,13 @@ export const tableStyles = createThemePart({
       /* ── Skeleton loading rows ───────────────────────────────────────── */
 
       /* Single ghost bar spanning all columns. Height falls back to line-height
-         + padding when --awd-table-row-height is absent (non-virtual). */
+         + padding when --jig-table-row-height is absent (non-virtual). */
       ${c('skeleton-row')} {
         box-sizing: border-box;
         display: flex;
         align-items: stretch;
         grid-column: 1 / -1;
-        height: var(--awd-table-row-height, calc(1lh + 1rem));
+        height: var(--jig-table-row-height, calc(1lh + 1rem));
         padding: 0.25rem 0.5rem;
       }
       ${c('skeleton-cell')} {
@@ -258,7 +258,7 @@ export const tableStyles = createThemePart({
         gap: 0.5rem;
         align-items: center;
         justify-content: center;
-        padding: var(--awd-table-row-height) 0;
+        padding: var(--jig-table-row-height) 0;
       }
     `,
   },

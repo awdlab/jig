@@ -1,41 +1,41 @@
 import { computed, Directive, effect, inject, input, type Signal } from '@angular/core';
 import type { ValidationErrors } from '@angular/forms';
-import { NgnHint } from '@awdlab/jig/hint';
+import { AwdHint } from '@awdlab/jig/hint';
 import { I18n } from '@awdlab/jig/i18n';
 
-import { injectNgnControlState } from './control-state';
+import { injectAwdControlState } from './control-state';
 import {
   carriedMessage,
-  injectNgnErrorsMessages,
+  injectAwdErrorsMessages,
   isRecord,
   paramsFromValue,
   resolveUserMessage,
 } from './messages';
 
 import type {
-  NgnError,
-  NgnErrorsCustom,
-  NgnErrorsCustomEntry,
-  NgnErrorsMessageContext,
-  NgnErrorsMessages,
-  NgnErrorsMode,
-  NgnErrorsShowOn,
-  NgnErrorsSource,
-  NgnErrorsState,
+  AwdError,
+  AwdErrorsCustom,
+  AwdErrorsCustomEntry,
+  AwdErrorsMessageContext,
+  AwdErrorsMessages,
+  AwdErrorsMode,
+  AwdErrorsShowOn,
+  AwdErrorsSource,
+  AwdErrorsState,
 } from './types';
 
 /**
  * Resolves validation errors for the control it sits on and exposes them as
- * normalized, message-mapped signals — ready to bridge into an {@link NgnHint}
- * via {@link NgnErrors.ngnErrorsHint}.
+ * normalized, message-mapped signals — ready to bridge into an {@link AwdHint}
+ * via {@link AwdErrors.ngnErrorsHint}.
  *
- * Which form paradigm is in play is abstracted away by {@link injectNgnControlState}:
+ * Which form paradigm is in play is abstracted away by {@link injectAwdControlState}:
  * template-driven (`ngModel`), reactive (`formControl` / `formControlName`) and
  * signal forms (`[formField]`) all surface as one reactive state, including
  * relevant parent-group errors and a no-form `touched` fallback.
  *
  * `ngnErrorsCustom` layers on additional errors independently of any form, and
- * {@link NgnErrors.ngnErrorsShowOn} controls when messages surface (defaults to
+ * {@link AwdErrors.ngnErrorsShowOn} controls when messages surface (defaults to
  * `touched`). Error keys map onto the shared message table; signal-forms
  * `minLength` / `maxLength` kinds have their own table entries alongside the
  * classic lowercase `minlength` / `maxlength`.
@@ -46,43 +46,43 @@ import type {
   selector: '[ngnErrors]',
   exportAs: 'ngnErrors',
 })
-export class NgnErrors {
+export class AwdErrors {
   /**
    * Hint instance that receives the resolved validation state.
    * @category inputs
    */
-  public readonly ngnErrorsHint = input<NgnHint | undefined>();
+  public readonly ngnErrorsHint = input<AwdHint | undefined>();
 
   /**
    * Interaction state that controls when errors become visible.
    * @category inputs
    */
-  public readonly ngnErrorsShowOn = input<NgnErrorsShowOn>('touched');
+  public readonly ngnErrorsShowOn = input<AwdErrorsShowOn>('touched');
 
   /**
    * Whether to show the first matching error or all messages.
    * @category inputs
    */
-  public readonly ngnErrorsMode = input<NgnErrorsMode>('first');
+  public readonly ngnErrorsMode = input<AwdErrorsMode>('first');
 
   /**
    * Per-instance messages that override globally provided defaults.
    * @category inputs
    */
-  public readonly ngnErrorsMessages = input<NgnErrorsMessages | null>(null);
+  public readonly ngnErrorsMessages = input<AwdErrorsMessages | null>(null);
 
   /**
    * Additional errors supplied independently of Angular form validation.
    * @category inputs
    */
-  public readonly ngnErrorsCustom = input<NgnErrorsCustom>(null);
+  public readonly ngnErrorsCustom = input<AwdErrorsCustom>(null);
 
-  /** Paradigm-agnostic view of the host control (see {@link injectNgnControlState}). */
-  private readonly _state = injectNgnControlState();
+  /** Paradigm-agnostic view of the host control (see {@link injectAwdControlState}). */
+  private readonly _state = injectAwdControlState();
   private readonly _i18n = inject(I18n).translations;
-  private readonly _globalMessages = injectNgnErrorsMessages();
+  private readonly _globalMessages = injectAwdErrorsMessages();
 
-  public readonly errors: Signal<readonly NgnError[]> = computed(() => [
+  public readonly errors: Signal<readonly AwdError[]> = computed(() => [
     ...this._normalizeErrors(this._state.errors(), 'control'),
     ...this._normalizeGroupErrors(),
     ...this._normalizeCustomErrors(),
@@ -153,7 +153,7 @@ export class NgnErrors {
     return errors[0]?.message ?? null;
   });
 
-  public readonly state: Signal<NgnErrorsState> = computed(() => ({
+  public readonly state: Signal<AwdErrorsState> = computed(() => ({
     visible: this.visible(),
     pending: this.pending(),
     errors: this.errors(),
@@ -164,19 +164,19 @@ export class NgnErrors {
   constructor() {
     // `ngnErrors` renders the error *message* only — it never touches invalid
     // styling. The control owns its invalid border (via its own `invalidOn`
-    // trigger), and the input field mirrors its child. See {@link NgnErrors}.
+    // trigger), and the input field mirrors its child. See {@link AwdErrors}.
     effect(() => {
       this.ngnErrorsHint()?.setValidationState(this.state());
     });
   }
 
-  private _normalizeGroupErrors(): readonly NgnError[] {
+  private _normalizeGroupErrors(): readonly AwdError[] {
     return this._normalizeErrors(this._state.parentErrors(), 'group').filter(error =>
       this._isGroupErrorRelevant(error.value)
     );
   }
 
-  private _normalizeCustomErrors(): readonly NgnError[] {
+  private _normalizeCustomErrors(): readonly AwdError[] {
     const errors = this.ngnErrorsCustom();
     if (!errors) {
       return [];
@@ -195,8 +195,8 @@ export class NgnErrors {
 
   private _normalizeErrors(
     errors: ValidationErrors | null | undefined,
-    source: NgnErrorsSource
-  ): readonly NgnError[] {
+    source: AwdErrorsSource
+  ): readonly AwdError[] {
     if (!errors) {
       return [];
     }
@@ -204,18 +204,18 @@ export class NgnErrors {
     return Object.entries(errors).map(([key, value]) => this._createError(key, value, source));
   }
 
-  private _createCustomEntryError(error: NgnErrorsCustomEntry): NgnError {
+  private _createCustomEntryError(error: AwdErrorsCustomEntry): AwdError {
     const value = error.value ?? true;
     const params = error.params ?? paramsFromValue(value);
-    const context: NgnErrorsMessageContext = { key: error.key, value, source: 'custom', params };
+    const context: AwdErrorsMessageContext = { key: error.key, value, source: 'custom', params };
     const message = error.message ?? this._resolveMessage(context);
 
     return { key: error.key, value, source: 'custom', params, message };
   }
 
-  private _createError(key: string, value: unknown, source: NgnErrorsSource): NgnError {
+  private _createError(key: string, value: unknown, source: AwdErrorsSource): AwdError {
     const params = paramsFromValue(value);
-    const context: NgnErrorsMessageContext = { key, value, source, params };
+    const context: AwdErrorsMessageContext = { key, value, source, params };
 
     return { key, value, source, params, message: this._resolveMessage(context) };
   }
@@ -225,7 +225,7 @@ export class NgnErrors {
    * per-instance {@link ngnErrorsMessages} → a message carried on the error
    * itself → globally provided messages → the i18n `errors.*` default → the key.
    */
-  private _resolveMessage(context: NgnErrorsMessageContext): string {
+  private _resolveMessage(context: AwdErrorsMessageContext): string {
     return (
       resolveUserMessage(context, this.ngnErrorsMessages() ?? {}) ??
       carriedMessage(context.value) ??
@@ -241,8 +241,8 @@ export class NgnErrors {
    * Such errors are held from display until translations load (see
    * {@link _awaitingI18n}); all others show immediately.
    */
-  private _dependsOnI18n(error: NgnError): boolean {
-    const context: NgnErrorsMessageContext = {
+  private _dependsOnI18n(error: AwdError): boolean {
+    const context: AwdErrorsMessageContext = {
       key: error.key,
       value: error.value,
       source: error.source,

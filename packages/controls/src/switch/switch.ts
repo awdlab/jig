@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
-import { NgnPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { AwdPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { switchControlTemplate } from '@awdlab/jig-themes/templates/switch';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'awd-switch',
+  selector: 'jig-switch',
   templateUrl: './switch.html',
-  imports: [NgnPt],
-  providers: [provideSelf(NgnSwitch)],
+  imports: [AwdPt],
+  providers: [provideSelf(AwdSwitch)],
 })
-export class NgnSwitch extends ValueControlBase<'switch', boolean> {
+export class AwdSwitch extends ValueControlBase<'switch', boolean> {
   protected readonly theme = this.injectThemeTemplate(switchControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),

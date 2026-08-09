@@ -22,7 +22,7 @@ import { toggleClass } from '@awdlab/jig/utils';
 @Directive({
   selector: '[ngnScrollShadow]',
 })
-export class NgnScrollShadow {
+export class AwdScrollShadow {
   protected readonly theme = injectThemeTemplate(scrollShadowDirectiveTemplate);
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _injector = inject(Injector);
@@ -45,7 +45,7 @@ export class NgnScrollShadow {
    * Suppress the built-in edge-shadow overlay's styling (the theme hides it). The overlay element
    * is still injected but rendered inert, so it never disturbs the scroll container's layout.
    * Set this when the consumer paints its own shadows off the `scrolled-*` classes — e.g. the
-   * table anchors them to its sticky-column edges, reusing the shared `--awd-scroll-shadow-color`.
+   * table anchors them to its sticky-column edges, reusing the shared `--jig-scroll-shadow-color`.
    * @default false
    */
   public readonly unstyled = input(false, {
@@ -76,8 +76,8 @@ export class NgnScrollShadow {
         const target = this.scrollShadowTarget() ?? scrollEl;
         const dir = this.ngnScrollShadow();
 
-        surface.style.setProperty('--awd-scroll-shadow-w', `${scrollEl.clientWidth}px`);
-        surface.style.setProperty('--awd-scroll-shadow-h', `${scrollEl.clientHeight}px`);
+        surface.style.setProperty('--jig-scroll-shadow-w', `${scrollEl.clientWidth}px`);
+        surface.style.setProperty('--jig-scroll-shadow-h', `${scrollEl.clientHeight}px`);
 
         if (dir === 'horizontal' || dir === 'both') {
           const sl = scrollEl.scrollLeft;

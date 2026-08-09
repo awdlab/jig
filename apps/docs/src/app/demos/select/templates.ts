@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { NgnSelect } from '@awdlab/jig/select';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { AwdSelect } from '@awdlab/jig/select';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnSelect, NgnInputField],
-  selector: 'awd-demo-select-templates',
-  template: `<awd-input-field>
-    <awd-select #select [options]="options">
+  imports: [AwdSelect, AwdInputField],
+  selector: 'jig-demo-select-templates',
+  template: `<jig-input-field>
+    <jig-select #select [options]="options">
       <ng-template #item let-option>
         <span>🏳️{{ option.label }}</span>
       </ng-template>
@@ -24,8 +24,8 @@ import { exampleData } from '../../helper/data';
           }
         </span>
       </ng-template>
-    </awd-select>
-  </awd-input-field>`,
+    </jig-select>
+  </jig-input-field>`,
   host: { class: 'w-48' },
 })
 export class Demo_Select_Templates {

@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnKbd, NgnKeyboardShortcut } from '@awdlab/jig/kbd';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdKbd, AwdKeyboardShortcut } from '@awdlab/jig/kbd';
 
 @Component({
-  selector: 'awd-demo-kbd-shortcut-scope',
-  imports: [NgnButton, NgnInput, NgnKbd, NgnKeyboardShortcut],
+  selector: 'jig-demo-kbd-shortcut-scope',
+  imports: [AwdButton, AwdInput, AwdKbd, AwdKeyboardShortcut],
   template: `
     <div class="flex flex-col gap-4 p-4">
       <div
@@ -16,8 +16,8 @@ import { NgnKbd, NgnKeyboardShortcut } from '@awdlab/jig/kbd';
         ]"
       >
         <span class="text-sm">
-          Outer scope — focus a field below, then press <awd-kbd shortcut="mod+s" /> or
-          <awd-kbd shortcut="escape" />
+          Outer scope — focus a field below, then press <jig-kbd shortcut="mod+s" /> or
+          <jig-kbd shortcut="escape" />
         </span>
         <input ngnInput placeholder="Outer field" />
 
@@ -26,8 +26,8 @@ import { NgnKbd, NgnKeyboardShortcut } from '@awdlab/jig/kbd';
           [ngnKeyboardShortcut]="[{ shortcut: 'mod+s', callback: () => log('inner: save') }]"
         >
           <span class="text-sm">
-            Inner scope — handles <awd-kbd shortcut="mod+s" /> itself, so the outer scope never sees
-            it. <awd-kbd shortcut="escape" /> still bubbles out.
+            Inner scope — handles <jig-kbd shortcut="mod+s" /> itself, so the outer scope never sees
+            it. <jig-kbd shortcut="escape" /> still bubbles out.
           </span>
           <input ngnInput placeholder="Inner field" />
         </div>

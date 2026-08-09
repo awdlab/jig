@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgnErrors } from '@awdlab/jig/errors';
-import { NgnHint } from '@awdlab/jig/hint';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
+import { AwdErrors } from '@awdlab/jig/errors';
+import { AwdHint } from '@awdlab/jig/hint';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
 
 @Component({
-  selector: 'awd-demo-errors-reactive',
-  imports: [ReactiveFormsModule, NgnErrors, NgnHint, NgnInput, NgnInputField],
+  selector: 'jig-demo-errors-reactive',
+  imports: [ReactiveFormsModule, AwdErrors, AwdHint, AwdInput, AwdInputField],
   template: `
     <div class="flex flex-col gap-1">
-      <awd-input-field [label]="'Email'" [labelKind]="'on'" class="w-72">
+      <jig-input-field [label]="'Email'" [labelKind]="'on'" class="w-72">
         <input ngnInput [formControl]="email" ngnErrors [ngnErrorsHint]="emailHint" />
-      </awd-input-field>
-      <awd-hint #emailHint />
+      </jig-input-field>
+      <jig-hint #emailHint />
     </div>
   `,
 })

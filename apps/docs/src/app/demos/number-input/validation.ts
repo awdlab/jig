@@ -1,15 +1,15 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@awdlab/jig/errors';
-import { NgnHint } from '@awdlab/jig/hint';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { NgnNumberInput } from '@awdlab/jig/number-input';
-import { NgnSpinButtons } from '@awdlab/jig/spin-buttons';
+import { AwdErrors } from '@awdlab/jig/errors';
+import { AwdHint } from '@awdlab/jig/hint';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { AwdNumberInput } from '@awdlab/jig/number-input';
+import { AwdSpinButtons } from '@awdlab/jig/spin-buttons';
 
 @Component({
-  selector: 'awd-demo-number-input-validation',
-  imports: [NgnErrors, NgnHint, NgnInputField, NgnNumberInput, NgnSpinButtons],
+  selector: 'jig-demo-number-input-validation',
+  imports: [AwdErrors, AwdHint, AwdInputField, AwdNumberInput, AwdSpinButtons],
   template: `
-    <awd-input-field [label]="'Quantity'" [labelKind]="'on'" class="w-44">
+    <jig-input-field [label]="'Quantity'" [labelKind]="'on'" class="w-44">
       <input
         ngnNumberInput
         [min]="1"
@@ -20,9 +20,9 @@ import { NgnSpinButtons } from '@awdlab/jig/spin-buttons';
         [ngnErrorsCustom]="errors()"
         [ngnErrorsHint]="quantityHint"
       />
-      <awd-spin-buttons />
-    </awd-input-field>
-    <awd-hint #quantityHint />
+      <jig-spin-buttons />
+    </jig-input-field>
+    <jig-hint #quantityHint />
   `,
 })
 export class Demo_NumberInput_Validation {

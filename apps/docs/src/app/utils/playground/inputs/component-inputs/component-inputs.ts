@@ -2,21 +2,21 @@ import { Component, input, signal, computed } from '@angular/core';
 import { notNullish } from '@awdlab/jig/utils';
 import { ConsoleLogger, Deserializer, FileRegistry } from 'typedoc/browser';
 
-import { NgnDocsPlaygroundInput } from './input/input';
+import { AwdDocsPlaygroundInput } from './input/input';
 import { getTypedocProject } from '../../../typedoc';
 
-import type { AnyNgnBase } from '@awdlab/jig/base';
+import type { AnyAwdBase } from '@awdlab/jig/base';
 import type { DeclarationReflection, ProjectReflection } from 'typedoc/browser';
 
 @Component({
-  selector: 'awd-docs-playground-component-inputs',
+  selector: 'jig-docs-playground-component-inputs',
   templateUrl: 'component-inputs.html',
-  imports: [NgnDocsPlaygroundInput],
+  imports: [AwdDocsPlaygroundInput],
 })
-export class NgnDocsPlaygroundComponentInputs {
+export class AwdDocsPlaygroundComponentInputs {
   private readonly _project = signal<ProjectReflection | null>(null);
 
-  public readonly component = input.required<AnyNgnBase | readonly AnyNgnBase[]>();
+  public readonly component = input.required<AnyAwdBase | readonly AnyAwdBase[]>();
   public readonly componentName = input.required<string>();
 
   protected readonly singleComponent = computed(() => {

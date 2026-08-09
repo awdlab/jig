@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
-import { NgnSplitterModule } from '@awdlab/jig/splitter';
+import { AwdSplitterModule } from '@awdlab/jig/splitter';
 
 @Component({
-  imports: [NgnSplitterModule],
-  selector: 'awd-demo-splitter-base',
+  imports: [AwdSplitterModule],
+  selector: 'jig-demo-splitter-base',
   template: `
-    <awd-splitter [layout]="'horizontal'" [aria-label]="'Basic Example Splitter'">
-      <awd-splitter-panel [size]="'70px'" [aria-label]="'First Panel'">
+    <jig-splitter [layout]="'horizontal'" [aria-label]="'Basic Example Splitter'">
+      <jig-splitter-panel [size]="'70px'" [aria-label]="'First Panel'">
         Panel 1
-      </awd-splitter-panel>
-      <awd-splitter-panel [size]="'3fr'" [aria-label]="'Second Panel'">
+      </jig-splitter-panel>
+      <jig-splitter-panel [size]="'3fr'" [aria-label]="'Second Panel'">
         Panel 2
-      </awd-splitter-panel>
-      <awd-splitter-panel [size]="'5fr'" [aria-label]="'Third Panel'"> Panel 3 </awd-splitter-panel>
-    </awd-splitter>
+      </jig-splitter-panel>
+      <jig-splitter-panel [size]="'5fr'" [aria-label]="'Third Panel'"> Panel 3 </jig-splitter-panel>
+    </jig-splitter>
   `,
   styles: `
     :host {

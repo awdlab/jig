@@ -6,8 +6,8 @@ controls: table, filter, paginator, input, select, tag
 
 # Filterable, paginated table
 
-Combine `awd-table` for the grid, `awd-filter` (or plain inputs) for filtering,
-and `awd-paginator` for paging. Keep the source data and the derived view in
+Combine `jig-table` for the grid, `jig-filter` (or plain inputs) for filtering,
+and `jig-paginator` for paging. Keep the source data and the derived view in
 signals so filtering + paging are pure `computed()` transforms.
 
 ## Shape
@@ -15,20 +15,20 @@ signals so filtering + paging are pure `computed()` transforms.
 - Hold raw rows in a `signal()`; derive the filtered + paged view with
   `computed()`.
 - Drive the paginator's `pageSize` / `total` from the derived view.
-- Use `awd-filter` for operator-based column filtering, or bind simple
-  `input[ngnInput]` / `awd-select` controls to filter signals.
-- Render status/labels inside cells with `awd-tag`.
+- Use `jig-filter` for operator-based column filtering, or bind simple
+  `input[ngnInput]` / `jig-select` controls to filter signals.
+- Render status/labels inside cells with `jig-tag`.
 
 ## Skeleton
 
 ```html
-<awd-filter [(value)]="query" />
+<jig-filter [(value)]="query" />
 
-<awd-table [rows]="pagedRows()">
-  <!-- columns per awd-table docs; verify with get_control -->
-</awd-table>
+<jig-table [rows]="pagedRows()">
+  <!-- columns per jig-table docs; verify with get_control -->
+</jig-table>
 
-<awd-paginator [(page)]="page" [pageSize]="pageSize()" [total]="filtered().length" />
+<jig-paginator [(page)]="page" [pageSize]="pageSize()" [total]="filtered().length" />
 ```
 
 ```ts
@@ -47,7 +47,7 @@ readonly pagedRows = computed(() =>
 
 ## Notes
 
-- `awd-table`'s column/template model is specific — read its docs with
+- `jig-table`'s column/template model is specific — read its docs with
   `get_control` before laying out columns.
 - Reset `page` to 0 whenever the filter query changes.
 - The table can also sort/filter/paginate the `rows` array itself via its own

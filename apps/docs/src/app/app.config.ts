@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideRouter, withInMemoryScrolling, withViewTransitions } from '@angular/router';
-import { provideNgnControls, withAutoColorScheme } from '@awdlab/jig/api/ng';
+import { provideAwdControls, withAutoColorScheme } from '@awdlab/jig/api/ng';
 import { withDefaultIcons } from '@awdlab/jig/default-icons';
 import { withSnackbars } from '@awdlab/jig/snackbar';
 import { withToasts } from '@awdlab/jig/toast';
@@ -44,7 +44,7 @@ export const appConfig: ApplicationConfig = {
         inject(MdSnapshot).capture();
       }
     }),
-    provideNgnControls(
+    provideAwdControls(
       { theme: { preset: resolveInitialTheme() } },
       withToasts(),
       withSnackbars(),

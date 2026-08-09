@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NgnToggleButton } from '@awdlab/jig/toggle-button';
+import { AwdToggleButton } from '@awdlab/jig/toggle-button';
 
 @Component({
-  selector: 'awd-demo-toggle-button-fixed-width',
-  imports: [NgnToggleButton],
-  template: `<awd-toggle-button
+  selector: 'jig-demo-toggle-button-fixed-width',
+  imports: [AwdToggleButton],
+  template: `<jig-toggle-button
     [labelOn]="'A longer label'"
     [labelOff]="'Short'"
     [fixedWidth]="true"

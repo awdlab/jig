@@ -11,16 +11,16 @@ import {
   type Signal,
 } from '@angular/core';
 import { injectThemeColors, injectThemeControlKinds } from '@awdlab/jig/api/ng';
-import { NgnCalendar } from '@awdlab/jig/calendar';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { NgnSelect } from '@awdlab/jig/select';
-import { NgnSwitch } from '@awdlab/jig/switch';
+import { AwdCalendar } from '@awdlab/jig/calendar';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { AwdSelect } from '@awdlab/jig/select';
+import { AwdSwitch } from '@awdlab/jig/switch';
 import { notNullish } from '@awdlab/jig/utils';
 import { setInputSignalValue } from '@awdlab/jig/utils-ng';
 
-import type { NgnItem } from '@awdlab/jig/api';
-import type { AnyNgnBase } from '@awdlab/jig/base';
+import type { JigItem } from '@awdlab/jig/api';
+import type { AnyAwdBase } from '@awdlab/jig/base';
 import type { SomeType, DeclarationReflection } from 'typedoc/browser';
 
 type TypeDeclaration = (
@@ -40,24 +40,24 @@ type TypeDeclaration = (
       kind: 'literalUnion';
       primitiveType: string;
       allowCustomValue: boolean;
-      values: NgnItem[];
+      values: JigItem[];
     }
 ) & {
   optional?: boolean;
 };
 
 @Component({
-  selector: 'awd-docs-playground-input',
+  selector: 'jig-docs-playground-input',
   templateUrl: 'input.html',
-  imports: [NgnInputField, NgnInput, NgnSwitch, NgnSelect, NgnCalendar],
+  imports: [AwdInputField, AwdInput, AwdSwitch, AwdSelect, AwdCalendar],
   host: {
     '[style.display]': 'isKnownType() ? "block" : "none"',
   },
 })
-export class NgnDocsPlaygroundInput {
+export class AwdDocsPlaygroundInput {
   private readonly _injector = inject(Injector);
   public readonly input = input.required<DeclarationReflection>();
-  public readonly instance = input<AnyNgnBase>();
+  public readonly instance = input<AnyAwdBase>();
   public readonly internalControlName = input.required<string>();
 
   protected readonly dataType = computed(() => this.buildTypeModel(this.input().type));
@@ -233,7 +233,7 @@ export class NgnDocsPlaygroundInput {
             primitiveType: typeof literalTypes[0]?.value,
             values: literalTypes.map(
               x =>
-                <NgnItem>{
+                <JigItem>{
                   label: x.value,
                   value: x.value,
                 }

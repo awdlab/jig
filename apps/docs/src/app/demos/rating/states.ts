@@ -1,14 +1,14 @@
 import { Component, signal } from '@angular/core';
-import { NgnRating } from '@awdlab/jig/rating';
+import { AwdRating } from '@awdlab/jig/rating';
 
 @Component({
-  selector: 'awd-demo-rating-states',
-  imports: [NgnRating],
+  selector: 'jig-demo-rating-states',
+  imports: [AwdRating],
   template: `
     <div class="flex flex-col gap-3">
-      <awd-rating [value]="3" [readonly]="true" />
-      <awd-rating [value]="3" [disabled]="true" />
-      <awd-rating
+      <jig-rating [value]="3" [readonly]="true" />
+      <jig-rating [value]="3" [disabled]="true" />
+      <jig-rating
         [value]="value()"
         [invalid]="(value() ?? 0) < 3"
         [invalidOn]="'immediate'"

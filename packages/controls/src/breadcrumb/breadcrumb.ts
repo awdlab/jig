@@ -1,12 +1,12 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnPt, provideSelf } from '@awdlab/jig/base';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdPt, provideSelf } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
-import { NgnIcon } from '@awdlab/jig/icon';
-import { NgnItemView } from '@awdlab/jig/item-view';
-import { NgnMenu } from '@awdlab/jig/menu';
+import { AwdIcon } from '@awdlab/jig/icon';
+import { JigItemView } from '@awdlab/jig/item-view';
+import { AwdMenu } from '@awdlab/jig/menu';
 import { maybeCallback } from '@awdlab/jig/utils';
 import { breadcrumbControlTemplate } from '@awdlab/jig-themes/templates/breadcrumb';
 
@@ -19,13 +19,13 @@ import type { IconType } from '@awdlab/jig-custom-types';
  * @category control
  */
 @Component({
-  selector: 'awd-breadcrumb',
+  selector: 'jig-breadcrumb',
   templateUrl: './breadcrumb.html',
-  imports: [NgnPt, RouterLink, NgTemplateOutlet, NgnTemplate, NgnIcon, NgnItemView, NgnMenu],
+  imports: [AwdPt, RouterLink, NgTemplateOutlet, AwdTemplate, AwdIcon, JigItemView, AwdMenu],
 
-  providers: [provideSelf(NgnBreadcrumb)],
+  providers: [provideSelf(AwdBreadcrumb)],
 })
-export class NgnBreadcrumb extends BreadcrumbTemplates {
+export class AwdBreadcrumb extends BreadcrumbTemplates {
   protected readonly theme = this.injectThemeTemplate(breadcrumbControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
 

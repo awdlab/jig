@@ -52,7 +52,7 @@ export const treeStyles = createThemePart({
           position: absolute;
           inset-block: 0;
           inset-inline-end: 100%;
-          width: calc(var(--awd-tree-level, 0) * 1.5rem);
+          width: calc(var(--jig-tree-level, 0) * 1.5rem);
           background-image: repeating-linear-gradient(
             to right,
             transparent 0 0.6875rem,

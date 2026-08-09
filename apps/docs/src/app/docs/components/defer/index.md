@@ -1,4 +1,4 @@
-`awd-defer` delays creating a piece of UI until it is first shown, and
+`jig-defer` delays creating a piece of UI until it is first shown, and
 optionally keeps it alive afterwards. It is what overlay-style controls use so
 their contents cost nothing until opened.
 
@@ -22,16 +22,16 @@ This is the one thing to get right:
 
 ```html
 <!-- deferred: the template is instantiated on first open -->
-<awd-defer [open]="open()" [lazyContent]="body" />
+<jig-defer [open]="open()" [lazyContent]="body" />
 <ng-template #body><expensive-thing /></ng-template>
 
 <!-- NOT deferred: the parent creates this content immediately -->
-<awd-defer [open]="open()">
+<jig-defer [open]="open()">
   <expensive-thing />
-</awd-defer>
+</jig-defer>
 ```
 
-Projected content is created by the **parent** component, so `awd-defer` never
+Projected content is created by the **parent** component, so `jig-defer` never
 gets the chance to withhold it — it can only hide it. Use projection when you
 want the visibility behaviour without the deferral; use `lazyContent` when you
 want the deferral.
@@ -53,7 +53,7 @@ instantiated at all:
 usual `let-` bindings work:
 
 ```html
-<awd-defer [open]="open()" [lazyContent]="row" [lazyContentContext]="{ $implicit: user() }" />
+<jig-defer [open]="open()" [lazyContent]="row" [lazyContentContext]="{ $implicit: user() }" />
 
 <ng-template #row let-user> {{ user.name }} </ng-template>
 ```
@@ -78,6 +78,6 @@ layout while closed.
 | Need                                              | Use                                                 |
 | ------------------------------------------------- | --------------------------------------------------- |
 | Skip the JavaScript for a route/feature entirely  | Angular `@defer` with `loadChildren`/dynamic import |
-| Skip constructing a subtree until it is shown     | `awd-defer` with `lazyContent`                      |
+| Skip constructing a subtree until it is shown     | `jig-defer` with `lazyContent`                      |
 | Simply add/remove a subtree                       | `@if`                                               |
-| Keep an expensive subtree alive across open/close | `awd-defer` with `cache`                            |
+| Keep an expensive subtree alive across open/close | `jig-defer` with `cache`                            |

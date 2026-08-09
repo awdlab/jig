@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NgnDragScroll } from '@awdlab/jig/directives';
+import { AwdDragScroll } from '@awdlab/jig/directives';
 
 @Component({
-  selector: 'awd-demo-drag-scroll',
-  imports: [NgnDragScroll],
+  selector: 'jig-demo-drag-scroll',
+  imports: [AwdDragScroll],
   template: `
     <div ngnDragScroll class="canvas">
       <div class="grid">
@@ -24,8 +24,8 @@ import { NgnDragScroll } from '@awdlab/jig/directives';
       overflow: auto;
       cursor: grab;
       touch-action: none;
-      border: 1px solid var(--awd-color-surface-300);
-      border-radius: var(--awd-size-radius-md);
+      border: 1px solid var(--jig-color-surface-300);
+      border-radius: var(--jig-size-radius-md);
     }
     .canvas:active {
       cursor: grabbing;
@@ -40,8 +40,8 @@ import { NgnDragScroll } from '@awdlab/jig/directives';
       height: 80px;
       display: grid;
       place-items: center;
-      background: var(--awd-color-surface-100);
-      border-radius: var(--awd-size-radius-sm);
+      background: var(--jig-color-surface-100);
+      border-radius: var(--jig-size-radius-sm);
     }
   `,
 })

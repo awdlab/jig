@@ -1,18 +1,18 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnTooltip } from '@awdlab/jig/tooltip';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdTooltip } from '@awdlab/jig/tooltip';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-tooltip-playground',
-  imports: [NgnButton, NgnTooltip, NgnDocsPlayground],
+  selector: 'jig-docs-tooltip-playground',
+  imports: [AwdButton, AwdTooltip, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnTooltip', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'AwdTooltip', component: component() }]">
       <button #ref ngnButton [ngnTooltip]="'Tooltip text'">Hover me</button>
-    </awd-docs-playground>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsTooltipPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnTooltip });
+export class AwdDocsTooltipPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdTooltip });
 }

@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnDialog } from '@awdlab/jig/dialog';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdDialog } from '@awdlab/jig/dialog';
 
 @Component({
-  imports: [NgnDialog, NgnButton],
+  imports: [AwdDialog, AwdButton],
   template: `<button (click)="open.set(true)">Open Dialog</button>
-    <awd-dialog
+    <jig-dialog
       [unstyled]="true"
       [title]="'test'"
       [open]="open()"
@@ -16,9 +16,9 @@ import { NgnDialog } from '@awdlab/jig/dialog';
     >
       <ng-template #content>
         Content
-        <button autofocus ngnButton>awd</button>
+        <button autofocus ngnButton>jig</button>
       </ng-template>
-    </awd-dialog>`,
+    </jig-dialog>`,
 })
 export class TestComponent {
   protected readonly open = signal(false);

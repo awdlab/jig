@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnTableModule } from '@awdlab/jig/table';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdTableModule } from '@awdlab/jig/table';
 
 import { fetchPage, type Person } from './fake-data-service';
 
 import type { TableDataSource } from '@awdlab/jig/table';
 
 @Component({
-  imports: [NgnTableModule, NgnTemplate],
-  selector: 'awd-demo-table-lazy-infinite-scroll',
-  template: `<awd-table
+  imports: [AwdTableModule, AwdTemplate],
+  selector: 'jig-demo-table-lazy-infinite-scroll',
+  template: `<jig-table
     #table
     style="height: 400px"
     [fieldId]="'id'"
@@ -33,7 +33,7 @@ import type { TableDataSource } from '@awdlab/jig/table';
         <td ngnTableTd>{{ row.data.age }}</td>
       </tr>
     </ng-template>
-  </awd-table>`,
+  </jig-table>`,
 })
 export class Demo_Table_LazyInfiniteScroll {
   protected readonly load: TableDataSource<Person> = req =>

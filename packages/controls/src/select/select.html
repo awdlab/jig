@@ -65,14 +65,14 @@
       }
     </div>
   }
-  <awd-icon
+  <jig-icon
     [ptInt]="this"
     [ptClass]="'icon'"
     [icon]="iconDropdown()"
     defaultIcon="dropdown-toggle"
   />
 </div>
-<awd-popover
+<jig-popover
   #popover
   [ptInt]="this"
   [ptDep]="'popover'"
@@ -86,22 +86,22 @@
   <ng-template #lazy>
     <div [ptInt]="this" [ptClass]="'popover-content'">
       @if (filter()) {
-        <awd-input-field [ptInt]="this" [ptDep]="'filter'">
+        <jig-input-field [ptInt]="this" [ptDep]="'filter'">
           <input
             ngnInput
             [value]="filterTextInternal()"
             (valueChange)="filterTextInternal.set($event)"
             [attr.aria-label]="i18n['select_filterOptions']()"
           />
-          <awd-icon
+          <jig-icon
             [ptInt]="this"
             [ptClass]="'filter-icon'"
             defaultIcon="search"
             [icon]="iconFilter()"
           />
-        </awd-input-field>
+        </jig-input-field>
       }
-      <awd-list-box
+      <jig-list-box
         [ptInt]="this"
         [ptDep]="'list-box'"
         style="height: 100%; min-height: 0"
@@ -125,7 +125,7 @@
       />
     </div>
   </ng-template>
-</awd-popover>
+</jig-popover>
 
 <ng-template #defaultItemTemplate [ngnTemplate]="templateTypes.item" let-item>
   <span [attr.data-testid]="item?.testId">
@@ -153,7 +153,7 @@
 </ng-template>
 
 <ng-template #defaultSelectedItemsTemplate [ngnTemplate]="templateTypes.selectedItems" let-items>
-  <awd-item-view
+  <jig-item-view
     #itemView
     [items]="items"
     [idField]="'value'"
@@ -165,5 +165,5 @@
         *ngTemplateOutlet="selectedItemTemplate(); context: { $implicit: item }"
       ></ng-container>
     </ng-template>
-  </awd-item-view>
+  </jig-item-view>
 </ng-template>

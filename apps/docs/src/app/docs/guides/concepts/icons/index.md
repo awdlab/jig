@@ -1,4 +1,4 @@
-Controls render icons through the `awd-icon` control and a registry of semantic icon
+Controls render icons through the `jig-icon` control and a registry of semantic icon
 **slots**, so you can swap the whole icon set in one place — or override a single glyph on
 one control.
 
@@ -11,7 +11,7 @@ import tablerUser from '@iconify/icons-tabler/user';
 ```
 
 ```html
-<awd-icon [icon]="icon" />
+<jig-icon [icon]="icon" />
 ```
 
 {{ demo: Demo_Icon_Base }}
@@ -23,7 +23,7 @@ that slot — `iconClose`, `iconDropdown`, `iconFilter`, `iconChecked`, and so o
 icon value to replace just that one:
 
 ```html
-<awd-select [iconDropdown]="myChevron" />
+<jig-select [iconDropdown]="myChevron" />
 ```
 
 ### Registering a default set
@@ -35,7 +35,7 @@ slots (`dialog-close`, `dropdown-toggle`, `checkbox-checked`, `sort-ascending`, 
 ```ts
 import { withDefaultIcons } from '@awdlab/jig/default-icons';
 
-provideNgnControls({ theme: { preset: nova } }, withDefaultIcons());
+provideAwdControls({ theme: { preset: nova } }, withDefaultIcons());
 ```
 
 This is why `@iconify/icons-tabler` is an _optional_ peer — it's only pulled in by this
@@ -47,18 +47,18 @@ To use a different icon set, provide a full registry with `withCustomIcons()`. I
 value for **every** semantic slot:
 
 ```ts
-import { withCustomIcons, type NgnCustomIconRegistry } from '@awdlab/jig/icon';
+import { withCustomIcons, type AwdCustomIconRegistry } from '@awdlab/jig/icon';
 
-const icons: NgnCustomIconRegistry = {
+const icons: AwdCustomIconRegistry = {
   'dialog-close': myClose,
   'dropdown-toggle': myChevron,
   /* …all slots… */
 };
 
-provideNgnControls({ theme: { preset: nova } }, withCustomIcons(icons));
+provideAwdControls({ theme: { preset: nova } }, withCustomIcons(icons));
 ```
 
 Include either `withDefaultIcons()` or `withCustomIcons()` — a `defaultIcon` slot with no
 registry throws at render.
 
-See the [Icon](/components/icon) component page for the full `awd-icon` API.
+See the [Icon](/components/icon) component page for the full `jig-icon` API.

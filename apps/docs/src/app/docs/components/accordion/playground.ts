@@ -1,33 +1,33 @@
 import { Component, viewChild, viewChildren } from '@angular/core';
-import { NgnAccordion, NgnAccordionPanel } from '@awdlab/jig/accordion';
+import { AwdAccordion, AwdAccordionPanel } from '@awdlab/jig/accordion';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-accordion-playground',
-  imports: [NgnAccordion, NgnAccordionPanel, NgnDocsPlayground],
+  selector: 'jig-docs-accordion-playground',
+  imports: [AwdAccordion, AwdAccordionPanel, AwdDocsPlayground],
   template: `
-    <awd-docs-playground
+    <jig-docs-playground
       [controls]="[
-        { componentName: 'NgnAccordion', component: componentAccordion() },
-        { componentName: 'NgnAccordionPanel', component: componentPanels() },
+        { componentName: 'AwdAccordion', component: componentAccordion() },
+        { componentName: 'AwdAccordionPanel', component: componentPanels() },
       ]"
     >
-      <awd-accordion #ref class="flex-1">
-        <awd-accordion-panel #ref2 [header]="'Panel 1'">
+      <jig-accordion #ref class="flex-1">
+        <jig-accordion-panel #ref2 [header]="'Panel 1'">
           <ng-template #content>Content 1</ng-template>
-        </awd-accordion-panel>
-        <awd-accordion-panel #ref2 [header]="'Panel 2'">
+        </jig-accordion-panel>
+        <jig-accordion-panel #ref2 [header]="'Panel 2'">
           <ng-template #content>Content 2</ng-template>
-        </awd-accordion-panel>
-        <awd-accordion-panel #ref2 [header]="'Panel 3'">
+        </jig-accordion-panel>
+        <jig-accordion-panel #ref2 [header]="'Panel 3'">
           <ng-template #content>Content 3</ng-template>
-        </awd-accordion-panel>
-      </awd-accordion>
-    </awd-docs-playground>
+        </jig-accordion-panel>
+      </jig-accordion>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsAccordionPlayground {
-  protected readonly componentAccordion = viewChild.required('ref', { read: NgnAccordion });
-  protected readonly componentPanels = viewChildren('ref2', { read: NgnAccordionPanel });
+export class AwdDocsAccordionPlayground {
+  protected readonly componentAccordion = viewChild.required('ref', { read: AwdAccordion });
+  protected readonly componentPanels = viewChildren('ref2', { read: AwdAccordionPanel });
 }

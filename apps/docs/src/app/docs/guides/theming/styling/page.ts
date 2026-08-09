@@ -1,6 +1,6 @@
-import type { NgnDocsPage } from '../../../../utils/page/types';
+import type { AwdDocsPage } from '../../../../utils/page/types';
 
-export const StylingPage: NgnDocsPage = {
+export const StylingPage: AwdDocsPage = {
   kind: 'single',
   title: `Styling & Overrides`,
 

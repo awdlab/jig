@@ -1,4 +1,4 @@
-The Select Button (`awd-select-button`) is a segmented control: a row of
+The Select Button (`jig-select-button`) is a segmented control: a row of
 connected buttons from which the user picks exactly one. Use it for a small,
 fixed set of mutually exclusive options that benefit from being visible at once
 (a List / Grid view switcher, an alignment picker); for many or long options,

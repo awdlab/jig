@@ -1,5 +1,5 @@
 @for (snackbar of snackbars(); track snackbar.id; let i = $index) {
-  <awd-snackbar
+  <jig-snackbar
     [attr.tabindex]="region.tabbableIndex() === i ? 0 : -1"
     [header]="snackbar.header"
     [content]="snackbar.content"

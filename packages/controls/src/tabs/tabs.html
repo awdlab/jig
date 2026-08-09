@@ -16,7 +16,7 @@
         [ptClass]="'scroll-left'"
         (click)="scrollHeaders('left')"
       >
-        <awd-icon [icon]="iconScrollLeft()" [defaultIcon]="'tabs-scroll-left'" />
+        <jig-icon [icon]="iconScrollLeft()" [defaultIcon]="'tabs-scroll-left'" />
       </button>
     }
 
@@ -47,7 +47,7 @@
         [ptClass]="'scroll-right'"
         (click)="scrollHeaders('right')"
       >
-        <awd-icon [icon]="iconScrollRight()" [defaultIcon]="'tabs-scroll-right'" />
+        <jig-icon [icon]="iconScrollRight()" [defaultIcon]="'tabs-scroll-right'" />
       </button>
     }
     <div
@@ -69,7 +69,7 @@
       [id]="elementId + '_tabpanel_' + content.id"
       [attr.aria-labelledby]="elementId + '_tab_' + content.id"
     >
-      <awd-defer
+      <jig-defer
         [lazyContent]="content.template"
         [open]="content.id === activeTab()"
         [cache]="cache()"

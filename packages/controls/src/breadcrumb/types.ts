@@ -1,7 +1,7 @@
-import type { NgnActionItem, NgnActionItemFlat } from '@awdlab/jig/api';
+import type { JigActionItem, JigActionItemFlat } from '@awdlab/jig/api';
 import type { IconType } from '@awdlab/jig-custom-types';
 
-export type BreadcrumbItem = NgnActionItemFlat<NgnActionItem>;
+export type BreadcrumbItem = JigActionItemFlat<JigActionItem>;
 
 export type ItemTemplateType = {
   $implicit: BreadcrumbItem;

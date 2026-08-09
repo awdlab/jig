@@ -14,7 +14,7 @@ import { Platform } from './platform';
 export type ColorScheme = 'light' | 'dark' | 'system';
 
 /** Storage key shared by ColorSchemeService and colorSchemeInitScript. */
-export const COLOR_SCHEME_STORAGE_KEY = 'awd-color-scheme';
+export const COLOR_SCHEME_STORAGE_KEY = 'jig-color-scheme';
 
 /** Synchronous storage for the color-scheme preference (raw enum string, not JSON). */
 export interface ColorSchemeStorage {

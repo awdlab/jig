@@ -10,14 +10,14 @@ import {
 import tablerLock from '@iconify/icons-tabler/lock';
 import tablerUser from '@iconify/icons-tabler/user';
 import { ColorSchemeService } from '@awdlab/jig/api/ng';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnIcon } from '@awdlab/jig/icon';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { NgnSwitch } from '@awdlab/jig/switch';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdIcon } from '@awdlab/jig/icon';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { AwdSwitch } from '@awdlab/jig/switch';
 
-import { NgnDocsSectionShell } from './section-shell';
-import { NgnDocsThemePicker, ThemePickerService } from '../../utils/theme-picker';
+import { AwdDocsSectionShell } from './section-shell';
+import { AwdDocsThemePicker, ThemePickerService } from '../../utils/theme-picker';
 
 /** Fixed annotation hues, one per token family. Not theme-derived — they must
  * stay distinguishable from whatever primary the visitor picks. */
@@ -59,15 +59,15 @@ function toHex(color: string): string {
 }
 
 @Component({
-  selector: 'awd-docs-theming-section',
+  selector: 'jig-docs-theming-section',
   imports: [
-    NgnDocsSectionShell,
-    NgnDocsThemePicker,
-    NgnSwitch,
-    NgnButton,
-    NgnIcon,
-    NgnInput,
-    NgnInputField,
+    AwdDocsSectionShell,
+    AwdDocsThemePicker,
+    AwdSwitch,
+    AwdButton,
+    AwdIcon,
+    AwdInput,
+    AwdInputField,
   ],
   // Theme switches swap token values instantly. Easing everything inside the
   // preview turns the swap into a visible re-theme — the point of the section.
@@ -110,23 +110,23 @@ function toHex(color: string): string {
     }
   `,
   template: `
-    <awd-docs-section-shell
+    <jig-docs-section-shell
       layout="split-left"
       eyebrow="Theming"
       heading="Your design system, not ours"
       subtitle="Every color, space and radius is a design token. Pick a theme and a color — every control follows."
     >
       <div primary>
-        <div class="mb-(--awd-size-padding-xl) flex items-center gap-(--awd-size-padding-md)">
-          <awd-switch
+        <div class="mb-(--jig-size-padding-xl) flex items-center gap-(--jig-size-padding-md)">
+          <jig-switch
             #darkSwitch
             [value]="colorScheme.isDark()"
             (valueChange)="colorScheme.set($event ? 'dark' : 'light')"
           />
-          <label [for]="darkSwitch.inputId()" class="text-(--awd-color-text)">Dark mode</label>
+          <label [for]="darkSwitch.inputId()" class="text-(--jig-color-text)">Dark mode</label>
         </div>
 
-        <awd-docs-theme-picker />
+        <jig-docs-theme-picker />
       </div>
 
       <!-- Gutters around the card are the pills' only breathing room: vertical at
@@ -135,30 +135,30 @@ function toHex(color: string): string {
         <span
           aria-hidden="true"
           data-probe="primary"
-          class="absolute size-0 text-(--awd-color-primary-500)"
+          class="absolute size-0 text-(--jig-color-primary-500)"
         ></span>
         <span
           aria-hidden="true"
           data-probe="surface"
-          class="absolute size-0 text-(--awd-color-surface-500)"
+          class="absolute size-0 text-(--jig-color-surface-500)"
         ></span>
         <!-- A real field carrying the theme's input styling, but outside
              .token-preview so none of it transitions. Reads here return the
              incoming value immediately instead of a frame of the ease. -->
         <div aria-hidden="true" inert class="absolute size-0 overflow-hidden opacity-0">
-          <awd-input-field>
+          <jig-input-field>
             <input ngnInput data-probe="font" tabindex="-1" />
-          </awd-input-field>
+          </jig-input-field>
         </div>
 
-        <div class="card token-preview relative p-(--awd-size-padding-xl)">
+        <div class="card token-preview relative p-(--jig-size-padding-xl)">
           <!-- Card radius: square nested in the corner with the card's own radius, so
                its arc traces the card's. Offset -1px puts its border box on the card's,
                since absolute coords start inside the border. -->
           <div
             aria-hidden="true"
             class="token-marker absolute -top-px -left-px size-5 border-2"
-            [style.border-radius]="'var(--awd-size-rounded-lg)'"
+            [style.border-radius]="'var(--jig-size-rounded-lg)'"
             [style.border-color]="hue('radius')"
           ></div>
 
@@ -166,7 +166,7 @@ function toHex(color: string): string {
                Sits beside its pill in the right gutter, so it only shows from lg. -->
           <div
             aria-hidden="true"
-            class="token-marker absolute top-1/2 right-0 hidden h-2 w-(--awd-size-padding-xl) -translate-y-1/2 border-x lg:block"
+            class="token-marker absolute top-1/2 right-0 hidden h-2 w-(--jig-size-padding-xl) -translate-y-1/2 border-x lg:block"
             [style.border-color]="hue('padding')"
           >
             <div
@@ -179,35 +179,35 @@ function toHex(color: string): string {
           @if (picker.activeOption().surfaces) {
             <div
               aria-hidden="true"
-              class="token-marker absolute top-(--awd-size-padding-xl) right-(--awd-size-padding-xl) size-1.5 rounded-full"
+              class="token-marker absolute top-(--jig-size-padding-xl) right-(--jig-size-padding-xl) size-1.5 rounded-full"
               [style.background-color]="hue('surface')"
             ></div>
           }
 
           <!-- Indented clear of the corner marker. -->
           <p
-            class="mono mb-(--awd-size-padding-lg) pl-2 text-(length:--awd-font-size-sm) text-(--awd-color-surface-500)"
+            class="mono mb-(--jig-size-padding-lg) pl-2 text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)"
           >
             live preview · {{ picker.activeOption().label }}
           </p>
           <h3
-            class="mb-(--awd-size-padding-lg) text-(length:--awd-font-size-lg) font-(--awd-font-weight-bold) text-(--awd-color-text)"
+            class="mb-(--jig-size-padding-lg) text-(length:--jig-font-size-lg) font-(--jig-font-weight-bold) text-(--jig-color-text)"
           >
             Sign in
           </h3>
 
-          <div class="flex flex-col gap-(--awd-size-padding-sm)">
+          <div class="flex flex-col gap-(--jig-size-padding-sm)">
             <label
-              class="text-(length:--awd-font-size-sm) font-(--awd-font-weight-medium) text-(--awd-color-text)"
+              class="text-(length:--jig-font-size-sm) font-(--jig-font-weight-medium) text-(--jig-color-text)"
               [for]="usernameField.inputId()"
             >
               Username
             </label>
             <div class="relative">
-              <awd-input-field #usernameField class="w-full">
-                <awd-icon [icon]="userIcon" />
+              <jig-input-field #usernameField class="w-full">
+                <jig-icon [icon]="userIcon" />
                 <input ngnInput autocomplete="off" [placeholder]="username" />
-              </awd-input-field>
+              </jig-input-field>
               <!-- Font size: ruler under real text, not the password's masking dots.
                    Width comes from a hidden copy of the placeholder wearing the input's
                    own font, so it measures the actual glyphs (themes differ in size AND
@@ -227,16 +227,16 @@ function toHex(color: string): string {
             </div>
           </div>
 
-          <div class="mt-(--awd-size-padding-lg) flex flex-col gap-(--awd-size-padding-sm)">
+          <div class="mt-(--jig-size-padding-lg) flex flex-col gap-(--jig-size-padding-sm)">
             <label
-              class="text-(length:--awd-font-size-sm) font-(--awd-font-weight-medium) text-(--awd-color-text)"
+              class="text-(length:--jig-font-size-sm) font-(--jig-font-weight-medium) text-(--jig-color-text)"
               [for]="passwordField.inputId()"
             >
               Password
             </label>
             <div class="relative">
-              <awd-input-field #passwordField class="w-full">
-                <awd-icon [icon]="lockIcon" />
+              <jig-input-field #passwordField class="w-full">
+                <jig-icon [icon]="lockIcon" />
                 <!-- Indent clears the corner marker. -->
                 <input
                   ngnInput
@@ -245,18 +245,18 @@ function toHex(color: string): string {
                   placeholder="••••••••"
                   class="lg:pl-6"
                 />
-              </awd-input-field>
+              </jig-input-field>
               <!-- Field radius: same token family as the card, usually a smaller value. -->
               <div
                 aria-hidden="true"
                 class="token-marker absolute top-0 left-0 hidden size-5 border-2 lg:block"
-                [style.border-radius]="'var(--awd-size-rounded-md)'"
+                [style.border-radius]="'var(--jig-size-rounded-md)'"
                 [style.border-color]="hue('radius')"
               ></div>
             </div>
           </div>
 
-          <div class="mt-(--awd-size-padding-xl) flex gap-(--awd-size-padding-md)">
+          <div class="mt-(--jig-size-padding-xl) flex gap-(--jig-size-padding-md)">
             <div class="relative flex-1">
               <button ngnButton kind="primary" class="w-full justify-center">Sign in</button>
               <!-- Primary: dot inside the button on the side its pill sits — far
@@ -273,7 +273,7 @@ function toHex(color: string): string {
                    bottom padding, so top-full measures it with no magic number. -->
               <div
                 aria-hidden="true"
-                class="token-marker absolute top-full left-1/2 h-(--awd-size-padding-xl) w-2 -translate-x-1/2 border-y"
+                class="token-marker absolute top-full left-1/2 h-(--jig-size-padding-xl) w-2 -translate-x-1/2 border-y"
                 [style.border-color]="hue('padding')"
               >
                 <div
@@ -287,22 +287,22 @@ function toHex(color: string): string {
 
         @for (pill of pills(); track pill.id) {
           <span
-            class="mono token-pill absolute rounded-(--awd-size-rounded-sm) border px-1.5 py-0.5 text-[10px] whitespace-nowrap"
+            class="mono token-pill absolute rounded-(--jig-size-rounded-sm) border px-1.5 py-0.5 text-[10px] whitespace-nowrap"
             [class]="pill.position"
             [style.color]="hue(pill.hue)"
             [style.border-color]="'color-mix(in srgb, ' + hue(pill.hue) + ' 45%, transparent)'"
             [style.background-color]="
-              'color-mix(in srgb, ' + hue(pill.hue) + ' 12%, var(--awd-color-background))'
+              'color-mix(in srgb, ' + hue(pill.hue) + ' 12%, var(--jig-color-background))'
             "
           >
             {{ pill.label }}: {{ pill.value }}
           </span>
         }
       </div>
-    </awd-docs-section-shell>
+    </jig-docs-section-shell>
   `,
 })
-export class NgnDocsThemingSection {
+export class AwdDocsThemingSection {
   protected readonly colorScheme = inject(ColorSchemeService);
   protected readonly picker = inject(ThemePickerService);
 
@@ -410,9 +410,9 @@ export class NgnDocsThemingSection {
     // Color custom properties hold an unresolved `hsl(from …)`, so read the
     // resolved color off a probe element that consumes them.
     this._values.set({
-      radiusCard: styles.getPropertyValue('--awd-size-rounded-lg').trim() || '…',
-      radiusField: styles.getPropertyValue('--awd-size-rounded-md').trim() || '…',
-      padding: styles.getPropertyValue('--awd-size-padding-xl').trim() || '…',
+      radiusCard: styles.getPropertyValue('--jig-size-rounded-lg').trim() || '…',
+      radiusField: styles.getPropertyValue('--jig-size-rounded-md').trim() || '…',
+      padding: styles.getPropertyValue('--jig-size-padding-xl').trim() || '…',
       primary: toHex(read('[data-probe="primary"]', 'color') ?? '…'),
       surface: toHex(read('[data-probe="surface"]', 'color') ?? '…'),
       fontSize: read(FONT_PROBE, 'fontSize') ?? '…',

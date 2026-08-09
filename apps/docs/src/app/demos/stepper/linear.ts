@@ -1,13 +1,13 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnStepper, NgnStep } from '@awdlab/jig/stepper';
-import { NgnButton } from '@awdlab/jig/button';
+import { AwdStepper, AwdStep } from '@awdlab/jig/stepper';
+import { AwdButton } from '@awdlab/jig/button';
 
 @Component({
-  selector: 'awd-demo-stepper-linear',
-  imports: [NgnStepper, NgnStep, NgnButton],
+  selector: 'jig-demo-stepper-linear',
+  imports: [AwdStepper, AwdStep, AwdButton],
   template: `
-    <awd-stepper [linear]="true" [active]="active()" (activeChange)="active.set($event)">
-      <awd-step [label]="'Terms'" [completed]="termsAccepted()">
+    <jig-stepper [linear]="true" [active]="active()" (activeChange)="active.set($event)">
+      <jig-step [label]="'Terms'" [completed]="termsAccepted()">
         <ng-template #content>
           <p class="mb-3">
             Accept the terms to continue. Once you do, later steps unlock and become clickable in
@@ -22,14 +22,14 @@ import { NgnButton } from '@awdlab/jig/button';
             {{ termsAccepted() ? 'Terms accepted ✓' : 'Accept terms' }}
           </button>
         </ng-template>
-      </awd-step>
-      <awd-step [label]="'Review'" [completed]="active() > 1">
+      </jig-step>
+      <jig-step [label]="'Review'" [completed]="active() > 1">
         <ng-template #content>Everything looks good — review your details.</ng-template>
-      </awd-step>
-      <awd-step [label]="'Done'" [completed]="active() > 2">
+      </jig-step>
+      <jig-step [label]="'Done'" [completed]="active() > 2">
         <ng-template #content>All set! 🎉</ng-template>
-      </awd-step>
-    </awd-stepper>
+      </jig-step>
+    </jig-stepper>
 
     <div class="flex gap-2">
       <button

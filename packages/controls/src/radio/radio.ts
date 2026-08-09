@@ -7,27 +7,27 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { NgnBase, NgnPt, provideSelf } from '@awdlab/jig/base';
-import { NgnRovingItem } from '@awdlab/jig/roving-focus';
+import { AwdBase, AwdPt, provideSelf } from '@awdlab/jig/base';
+import { AwdRovingItem } from '@awdlab/jig/roving-focus';
 import { radioControlTemplate } from '@awdlab/jig-themes/templates/radio';
 
 import { NGN_RADIO_GROUP } from './radio-group.token';
 
 /**
- * A single radio option. Must be projected inside an `awd-radio-group`, which
+ * A single radio option. Must be projected inside an `jig-radio-group`, which
  * owns the selected value — this control only contributes its {@link value}
  * payload and renders the themed dot. The label is authored via content
- * projection (`<awd-radio [value]="…">Label</awd-radio>`) with an optional
+ * projection (`<jig-radio [value]="…">Label</jig-radio>`) with an optional
  * {@link label} input fallback.
  *
  * @category control
  */
 @Component({
-  selector: 'awd-radio',
+  selector: 'jig-radio',
   templateUrl: './radio.html',
-  imports: [NgnPt],
-  hostDirectives: [NgnRovingItem],
-  providers: [provideSelf(NgnRadio)],
+  imports: [AwdPt],
+  hostDirectives: [AwdRovingItem],
+  providers: [provideSelf(AwdRadio)],
   host: {
     role: 'radio',
     '[attr.aria-checked]': 'checked()',
@@ -35,7 +35,7 @@ import { NGN_RADIO_GROUP } from './radio-group.token';
     '[attr.aria-label]': 'label()',
   },
 })
-export class NgnRadio<V> extends NgnBase<'radio'> {
+export class AwdRadio<V> extends AwdBase<'radio'> {
   protected readonly theme = this.injectThemeTemplate(radioControlTemplate, {
     root: true,
   });
@@ -48,7 +48,7 @@ export class NgnRadio<V> extends NgnBase<'radio'> {
   public readonly label = input<string | null>(null);
 
   private readonly _group = inject(NGN_RADIO_GROUP);
-  private readonly _rovingItem = inject(NgnRovingItem);
+  private readonly _rovingItem = inject(AwdRovingItem);
 
   /** Whether this radio is the currently selected option in its group. */
   protected readonly checked = computed(() => this._group.value() === this.value());

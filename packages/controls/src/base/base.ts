@@ -30,27 +30,27 @@ import {
 import { toggleClass } from '@awdlab/jig/utils';
 import { effectWithPrevious, setInputSignalValue } from '@awdlab/jig/utils-ng';
 
-import { setNgnInstance } from './awd-instance';
-import { type NgnPassthrough, NgnPtEngine } from './passthrough';
+import { setAwdInstance } from './jig-instance';
+import { type AwdPassthrough, AwdPtEngine } from './passthrough';
 
 import type { CustomColor, CustomKind } from '@awdlab/jig-custom-types';
 import type { ControlTemplate } from '@awdlab/jig-themes';
 import type { ControlName, ThemeTemplate } from '@awdlab/jig-themes/templates';
 
-export const NGN_CONTROL = new InjectionToken<NgnBase<never>>('NGN_CONTROL');
+export const NGN_CONTROL = new InjectionToken<AwdBase<never>>('NGN_CONTROL');
 
 // eslint-disable-next-line typescript/no-explicit-any
-export type AnyNgnBase = NgnBaseSafe<any>;
-export type NgnBaseSafe<T extends ControlName | null> = Omit<
-  NgnBase<T>,
+export type AnyAwdBase = AwdBaseSafe<any>;
+export type AwdBaseSafe<T extends ControlName | null> = Omit<
+  AwdBase<T>,
   'kind' | 'appliedKind' | 'pt'
 >;
 
 /* eslint-disable typescript/no-explicit-any */
-export type FullAnyNgnBase = Omit<NgnBase<any>, 'kind' | 'appliedKind' | 'pt'> & {
+export type FullAnyAwdBase = Omit<AwdBase<any>, 'kind' | 'appliedKind' | 'pt'> & {
   kind: InputSignal<CustomKind<any> | undefined>;
   appliedKind: InputSignal<CustomKind<any> | undefined>;
-  pt: InputSignal<NgnPassthrough<any> | undefined>;
+  pt: InputSignal<AwdPassthrough<any> | undefined>;
 };
 /* eslint-enable typescript/no-explicit-any */
 
@@ -65,9 +65,9 @@ export function provideSelf(control: Type<unknown>): Provider {
 }
 
 @Directive({
-  host: { class: 'awd-control awd-control-initializing' },
+  host: { class: 'jig-control jig-control-initializing' },
 })
-export abstract class NgnBase<T extends ControlName | null> {
+export abstract class AwdBase<T extends ControlName | null> {
   protected abstract theme: ControlTemplateInfo<never> | null;
 
   private readonly _defaultKind = signal<CustomKind<T> | undefined>(undefined);
@@ -109,11 +109,11 @@ export abstract class NgnBase<T extends ControlName | null> {
    * Custom passthrough attributes to apply to the control's theme classes and its dependencies.
    * This allows for fine-grained customization of attributes, styles and more.
    */
-  public readonly pt = input<T extends string ? NgnPassthrough<T> : never>();
+  public readonly pt = input<T extends string ? AwdPassthrough<T> : never>();
 
   /**
    * Marks a control as the primary value control of a surrounding field
-   * (e.g. `awd-input-field`). Fields resolve their projected control by
+   * (e.g. `jig-input-field`). Fields resolve their projected control by
    * filtering for this flag, so auxiliary controls placed inside the field
    * (buttons, icons, spin buttons, …) never shadow the actual input.
    * Overridden with `true` by input, mask-input, calendar, select, ….
@@ -124,7 +124,7 @@ export abstract class NgnBase<T extends ControlName | null> {
    * Whether the control holds no user-entered content. Field controls override
    * this from their eager entry state — not {@link isFieldControl}'s `value`,
    * which can lag behind typing until the entry is valid (mask-input, calendar)
-   * — so a wrapping `awd-input-field` can float its label reliably.
+   * — so a wrapping `jig-input-field` can float its label reliably.
    */
   public readonly empty: Signal<boolean> = signal(false);
 
@@ -140,7 +140,7 @@ export abstract class NgnBase<T extends ControlName | null> {
   }
 
   /**
-   * Hook for stepping the control's value (e.g. from `awd-spin-buttons` or
+   * Hook for stepping the control's value (e.g. from `jig-spin-buttons` or
    * other external steppers). The default does nothing and returns `false`.
    * Controls with a steppable value (e.g. number-input) override this, apply
    * the step and return `true`.
@@ -152,7 +152,7 @@ export abstract class NgnBase<T extends ControlName | null> {
   }
 
   /**
-   * Hook telling external steppers (e.g. `awd-spin-buttons`) whether the value
+   * Hook telling external steppers (e.g. `jig-spin-buttons`) whether the value
    * can currently be stepped in the given direction. The default returns
    * `false`; controls overriding {@link stepValue} override this as well
    * (typically `false` at a min/max bound or while disabled/readonly).
@@ -179,20 +179,20 @@ export abstract class NgnBase<T extends ControlName | null> {
     this._kindOverride.set(kind);
   }
 
-  private readonly _childNgnControls = viewChildren(NGN_CONTROL);
+  private readonly _childAwdControls = viewChildren(NGN_CONTROL);
   private readonly _afterLeaveCbs: (() => void)[] = [];
 
   constructor() {
     // `pt` is typed against this control's own `T`, which makes `this`
-    // (NgnBase<T>) structurally incompatible with the type-erased AnyNgnBase
-    // alias for an unconstrained/generic T. Safe: AnyNgnBase never reads `pt`
+    // (AwdBase<T>) structurally incompatible with the type-erased AnyAwdBase
+    // alias for an unconstrained/generic T. Safe: AnyAwdBase never reads `pt`
     // in a way that depends on the real T at the call site.
-    setNgnInstance(this.element.nativeElement, this as unknown as AnyNgnBase);
+    setAwdInstance(this.element.nativeElement, this as unknown as AnyAwdBase);
     this.prepareAfterLeaveHook();
     effect(() => {
       // Propagate unstyled state to direct child controls, does not affect
       // custom user content passed into ng-content or projected templates.
-      this._childNgnControls().forEach(child => {
+      this._childAwdControls().forEach(child => {
         setInputSignalValue(child.unstyled, this.unstyled());
       });
     });
@@ -206,12 +206,12 @@ export abstract class NgnBase<T extends ControlName | null> {
       // its children still hidden — native `autofocus` would skip them.
       afterNextRender({
         write: () => {
-          this.element.nativeElement.classList.remove('awd-control-initializing');
+          this.element.nativeElement.classList.remove('jig-control-initializing');
         },
       });
     } else {
       // Remove the initializing class immediately on the server to serve a complete initial HTML.
-      this.element.nativeElement.classList.remove('awd-control-initializing');
+      this.element.nativeElement.classList.remove('jig-control-initializing');
     }
   }
 
@@ -224,7 +224,7 @@ export abstract class NgnBase<T extends ControlName | null> {
       if (typeof this.element.nativeElement.getAnimations !== 'function') {
         this.afterLeaveInternal();
       } else {
-        NgnBase._enqueueLeaveCheck(this.element.nativeElement, () => this.afterLeaveInternal());
+        AwdBase._enqueueLeaveCheck(this.element.nativeElement, () => this.afterLeaveInternal());
       }
     });
   }
@@ -238,23 +238,23 @@ export abstract class NgnBase<T extends ControlName | null> {
   private static _leaveRafScheduled = false;
 
   private static _enqueueLeaveCheck(element: HTMLElement, callback: () => void): void {
-    NgnBase._leaveQueue.push({ element, callback });
-    if (!NgnBase._leaveRafScheduled) {
-      NgnBase._leaveRafScheduled = true;
-      requestAnimationFrame(() => NgnBase._processLeaveQueue());
+    AwdBase._leaveQueue.push({ element, callback });
+    if (!AwdBase._leaveRafScheduled) {
+      AwdBase._leaveRafScheduled = true;
+      requestAnimationFrame(() => AwdBase._processLeaveQueue());
     }
   }
 
   private static _processLeaveQueue(): void {
-    const queue = NgnBase._leaveQueue;
-    NgnBase._leaveQueue = [];
-    NgnBase._leaveRafScheduled = false;
+    const queue = AwdBase._leaveQueue;
+    AwdBase._leaveQueue = [];
+    AwdBase._leaveRafScheduled = false;
 
     // Phase 1: Read all animations (batched queries — no interleaved mutations)
     const results: { animation: Animation | null; callback: () => void }[] = [];
     for (const { element, callback } of queue) {
       results.push({
-        animation: NgnBase._findLeaveAnimation(element),
+        animation: AwdBase._findLeaveAnimation(element),
         callback,
       });
     }
@@ -287,7 +287,7 @@ export abstract class NgnBase<T extends ControlName | null> {
       return leaveAnimation;
     }
     if (element.parentElement) {
-      return NgnBase._findLeaveAnimation(element.parentElement);
+      return AwdBase._findLeaveAnimation(element.parentElement);
     }
     return null;
   }
@@ -339,11 +339,11 @@ export abstract class NgnBase<T extends ControlName | null> {
     }
 
     if (hostClass !== undefined) {
-      // See constructor comment: `this` (NgnBase<T>) isn't structurally assignable
-      // to NgnBaseSafe<T & string> for a generic T because `pt`'s type still
+      // See constructor comment: `this` (AwdBase<T>) isn't structurally assignable
+      // to AwdBaseSafe<T & string> for a generic T because `pt`'s type still
       // depends on T. Narrow the erasure to this control's own T & string, which
-      // matches what NgnPtEngine actually needs here.
-      new NgnPtEngine(this as unknown as NgnBaseSafe<T & string>, hostClass);
+      // matches what AwdPtEngine actually needs here.
+      new AwdPtEngine(this as unknown as AwdBaseSafe<T & string>, hostClass);
     }
 
     return theme as ControlTemplateInfo<

@@ -1,19 +1,19 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnTabs, NgnTab } from '@awdlab/jig/tabs';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdTabs, AwdTab } from '@awdlab/jig/tabs';
 
 @Component({
-  imports: [NgnTabs, NgnTab, NgnButton],
-  selector: 'awd-demo-tabs-dynamic',
+  imports: [AwdTabs, AwdTab, AwdButton],
+  selector: 'jig-demo-tabs-dynamic',
   template: `
-    <awd-tabs>
+    <jig-tabs>
       @for (tab of tabs(); track tab; let index = $index) {
-        <awd-tab [tabId]="'tab' + index">
+        <jig-tab [tabId]="'tab' + index">
           <ng-template #header> {{ tab }} </ng-template>
           <ng-template #content> Content for {{ tab }} </ng-template>
-        </awd-tab>
+        </jig-tab>
       }
-    </awd-tabs>
+    </jig-tabs>
     <button ngnButton (click)="count.set(count() + 1)">Add Tab</button>
     <button ngnButton (click)="count.set(count() - 1)">Remove Tab</button>
   `,

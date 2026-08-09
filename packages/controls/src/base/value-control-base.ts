@@ -1,7 +1,7 @@
 import { booleanAttribute, computed, Directive, input, model, output } from '@angular/core';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 
-import { NgnBase } from './base';
+import { AwdBase } from './base';
 
 import type { FormValueControl } from '@angular/forms/signals';
 import type { ControlName } from '@awdlab/jig-themes/templates';
@@ -13,15 +13,15 @@ import type { ControlName } from '@awdlab/jig-themes/templates';
  * - `immediate` — as soon as it is invalid (e.g. explicit `[invalid]`).
  * - `never` — never style invalid.
  */
-export type NgnInvalidTrigger = 'touched' | 'dirty' | 'immediate' | 'never';
+export type AwdInvalidTrigger = 'touched' | 'dirty' | 'immediate' | 'never';
 
 /**
- * Gates a raw invalid flag by an {@link NgnInvalidTrigger} against the given
- * interaction state. Shared by {@link ValueControlBase} and `NgnInput`.
+ * Gates a raw invalid flag by an {@link AwdInvalidTrigger} against the given
+ * interaction state. Shared by {@link ValueControlBase} and `AwdInput`.
  */
 export function resolveInvalidState(
   invalid: boolean,
-  trigger: NgnInvalidTrigger,
+  trigger: AwdInvalidTrigger,
   touched: boolean,
   dirty: boolean
 ): boolean {
@@ -43,7 +43,7 @@ export function resolveInvalidState(
 
 @Directive()
 export abstract class ValueControlBase<C extends ControlName, T>
-  extends NgnBase<C>
+  extends AwdBase<C>
   implements FormValueControl<T>
 {
   /**
@@ -75,7 +75,7 @@ export abstract class ValueControlBase<C extends ControlName, T>
    * (independent of `ngnErrors`, which governs only the error *message*).
    * @default touched
    */
-  public readonly invalidOn = input<NgnInvalidTrigger>('touched');
+  public readonly invalidOn = input<AwdInvalidTrigger>('touched');
 
   /**
    * The invalid state the theme should render: {@link invalid} gated by

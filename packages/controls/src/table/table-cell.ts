@@ -8,17 +8,17 @@ import {
   signal,
 } from '@angular/core';
 import { injectThemeTemplate } from '@awdlab/jig/api/ng';
-import { getNearestNgnInstance } from '@awdlab/jig/base';
+import { getNearestAwdInstance } from '@awdlab/jig/base';
 import { toggleClass } from '@awdlab/jig/utils';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
-import { NgnTable } from './table';
+import { AwdTable } from './table';
 
 /**
  * A table body cell. Applies the theme's cell class, exposes its visual column
  * index and mirrors the column's sticky positioning.
  *
- * Deliberately does not extend `NgnBase` — one instance exists per cell, so it
+ * Deliberately does not extend `AwdBase` — one instance exists per cell, so it
  * skips the per-control overhead (kind/color effects, view queries, leave
  * animations).
  *
@@ -28,14 +28,14 @@ import { NgnTable } from './table';
   selector: '[ngnTableTd]',
   host: {
     role: 'gridcell',
-    '[style.--awd-table-column-index]': '_visualColumnIndex()',
+    '[style.--jig-table-column-index]': '_visualColumnIndex()',
     '[attr.aria-colindex]': '_ariaColIndex()',
   },
 })
-export class NgnTableTd {
+export class AwdTableTd {
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
-  private readonly _table = signal<NgnTable<any, any> | null>(null);
+  private readonly _table = signal<AwdTable<any, any> | null>(null);
 
   /** 0-based logical (DOM) index of this cell within its row. */
   private readonly _logicalIndex = signal(0);
@@ -88,7 +88,7 @@ export class NgnTableTd {
     }
 
     afterNextRender(() => {
-      const table = getNearestNgnInstance(el, NgnTable) as NgnTable<any, any> | null;
+      const table = getNearestAwdInstance(el, AwdTable) as AwdTable<any, any> | null;
       this._table.set(table);
     });
 
@@ -103,10 +103,10 @@ export class NgnTableTd {
       if (info) {
         el.style.position = 'sticky';
         if (info.side === 'start') {
-          el.style.left = `var(--awd-sticky-start-offset-${info.index})`;
+          el.style.left = `var(--jig-sticky-start-offset-${info.index})`;
           el.style.removeProperty('right');
         } else {
-          el.style.right = `var(--awd-sticky-end-offset-${info.index})`;
+          el.style.right = `var(--jig-sticky-end-offset-${info.index})`;
           el.style.removeProperty('left');
         }
       } else {

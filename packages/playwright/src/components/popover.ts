@@ -2,7 +2,7 @@ import { type Locator, expect } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
 
-export class NgnPopoverHarness {
+export class AwdPopoverHarness {
   public readonly classes = themeClasses(popoverControlTemplate);
 
   private readonly _ngnLazyCacher: Locator;
@@ -10,7 +10,7 @@ export class NgnPopoverHarness {
   private readonly _content: Locator;
 
   constructor(locator: Locator) {
-    this._ngnLazyCacher = locator.locator('awd-defer');
+    this._ngnLazyCacher = locator.locator('jig-defer');
     this._contentWrapper = locator.locator(this.classes.content);
     this._content = this._ngnLazyCacher.locator('> *');
   }

@@ -32,10 +32,10 @@
   [attr.aria-multiselectable]="selectionMode() === 'multi' ? true : null"
   [attr.aria-colcount]="totalColumnCount()"
   [attr.aria-rowcount]="ariaRowCount()"
-  [style.--awd-table-column-count]="totalColumnCount()"
-  [style.--awd-table-selection-offset]="showCheckboxes() ? 1 : 0"
+  [style.--jig-table-column-count]="totalColumnCount()"
+  [style.--jig-table-selection-offset]="showCheckboxes() ? 1 : 0"
   [style.grid-template-columns]="gridTemplateColumns()"
-  [style.--awd-table-row-height.px]="rowHeight()"
+  [style.--jig-table-row-height.px]="rowHeight()"
 >
   <thead #head role="rowgroup" [ptInt]="this" [ptClass]="'head'">
     <ng-container [ngTemplateOutlet]="headerTemplate()"></ng-container>
@@ -56,7 +56,7 @@
     [ptInt]="this"
     [ptClass]="'body'"
     [ptDep]="'scroller'"
-    awd-scroller
+    jig-scroller
     #scroller
     [scrollContainer]="scrollContainer"
     [virtual]="virtual()"
@@ -65,7 +65,7 @@
     [itemHeight]="rowHeight() || 0"
     [virtualPadding]="virtualPadding()"
     [stickyOffset]="headerHeight()"
-    [style.--awd-table-item-start-index]="scroller.itemStartIndex()"
+    [style.--jig-table-item-start-index]="scroller.itemStartIndex()"
   >
     <ng-template #item [ngnTemplate]="scroller.templateTypes.item" let-item let-index="index">
       @if (item.kind === 'group-header') {
@@ -103,7 +103,7 @@
               [attr.aria-expanded]="item.expanded"
               [attr.colspan]="totalColumnCount()"
             >
-              <awd-icon
+              <jig-icon
                 [ptInt]="this"
                 [ptClass]="'group-toggle'"
                 [ptDep]="'group-toggle-icon'"
@@ -154,7 +154,7 @@
   </tbody>
 </table>
 @if (paginator()) {
-  <awd-paginator
+  <jig-paginator
     [ptInt]="this"
     [ptDep]="'paginator'"
     [mode]="lazy() && loadTotal() === undefined ? 'compact' : 'pages'"

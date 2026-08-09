@@ -2,17 +2,17 @@ import { NgComponentOutlet } from '@angular/common';
 import { Component, inject, type Type } from '@angular/core';
 
 import { Seo } from '../utils/seo';
-import { NgnDocsAccessibilitySection } from './sections/accessibility-section';
-import { NgnDocsComponentGallerySection } from './sections/component-gallery-section';
-import { NgnDocsCustomizationSection } from './sections/customization-section';
-import { NgnDocsDemoSection } from './sections/demo-section';
-import { NgnDocsDeveloperExperienceSection } from './sections/developer-experience-section';
-import { NgnDocsFinalCtaSection } from './sections/final-cta-section';
-import { NgnDocsHeroSection } from './sections/hero-section';
-import { NgnDocsQuickStartSection } from './sections/quick-start-section';
-import { NgnDocsSiteFooter } from './sections/site-footer';
-import { NgnDocsThemingSection } from './sections/theming-section';
-import { NgnDocsUnderTheHoodSection } from './sections/under-the-hood-section';
+import { AwdDocsAccessibilitySection } from './sections/accessibility-section';
+import { AwdDocsComponentGallerySection } from './sections/component-gallery-section';
+import { AwdDocsCustomizationSection } from './sections/customization-section';
+import { AwdDocsDemoSection } from './sections/demo-section';
+import { AwdDocsDeveloperExperienceSection } from './sections/developer-experience-section';
+import { AwdDocsFinalCtaSection } from './sections/final-cta-section';
+import { AwdDocsHeroSection } from './sections/hero-section';
+import { AwdDocsQuickStartSection } from './sections/quick-start-section';
+import { AwdDocsSiteFooter } from './sections/site-footer';
+import { AwdDocsThemingSection } from './sections/theming-section';
+import { AwdDocsUnderTheHoodSection } from './sections/under-the-hood-section';
 
 interface FeatureSection {
   readonly id: string;
@@ -20,10 +20,10 @@ interface FeatureSection {
 }
 
 @Component({
-  selector: 'awd-docs-start',
+  selector: 'jig-docs-start',
   templateUrl: 'start.html',
   styleUrl: 'start.scss',
-  imports: [NgComponentOutlet, NgnDocsHeroSection, NgnDocsSiteFooter],
+  imports: [NgComponentOutlet, AwdDocsHeroSection, AwdDocsSiteFooter],
   host: { class: 'flex min-h-full flex-col' },
 })
 export class Start {
@@ -32,20 +32,20 @@ export class Start {
   // customization) → typed DX → accessibility → platform internals → browse
   // everything → closing call to action.
   protected readonly featureSections: readonly FeatureSection[] = [
-    { id: 'demo', component: NgnDocsDemoSection },
-    { id: 'quick-start', component: NgnDocsQuickStartSection },
-    { id: 'theming', component: NgnDocsThemingSection },
-    { id: 'customization', component: NgnDocsCustomizationSection },
-    { id: 'developer-experience', component: NgnDocsDeveloperExperienceSection },
-    { id: 'accessibility', component: NgnDocsAccessibilitySection },
-    { id: 'under-the-hood', component: NgnDocsUnderTheHoodSection },
-    { id: 'component-gallery', component: NgnDocsComponentGallerySection },
-    { id: 'final-cta', component: NgnDocsFinalCtaSection },
+    { id: 'demo', component: AwdDocsDemoSection },
+    { id: 'quick-start', component: AwdDocsQuickStartSection },
+    { id: 'theming', component: AwdDocsThemingSection },
+    { id: 'customization', component: AwdDocsCustomizationSection },
+    { id: 'developer-experience', component: AwdDocsDeveloperExperienceSection },
+    { id: 'accessibility', component: AwdDocsAccessibilitySection },
+    { id: 'under-the-hood', component: AwdDocsUnderTheHoodSection },
+    { id: 'component-gallery', component: AwdDocsComponentGallerySection },
+    { id: 'final-cta', component: AwdDocsFinalCtaSection },
   ];
 
   constructor() {
     // The landing page keeps the bare site name as its title — the suffix the
-    // docs pages carry would read as "awd-controls - awd-controls".
+    // docs pages carry would read as "jig-controls - jig-controls".
     inject(Seo).set({ title: '' });
   }
 }

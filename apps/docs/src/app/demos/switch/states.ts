@@ -1,25 +1,25 @@
 import { Component, signal } from '@angular/core';
-import { NgnSwitch } from '@awdlab/jig/switch';
+import { AwdSwitch } from '@awdlab/jig/switch';
 
 @Component({
-  imports: [NgnSwitch],
-  selector: 'awd-demo-switch-states',
+  imports: [AwdSwitch],
+  selector: 'jig-demo-switch-states',
   template: `
     Default:
-    <awd-switch [value]="value()" (valueChange)="value.set($event)" />
+    <jig-switch [value]="value()" (valueChange)="value.set($event)" />
     Disabled:
-    <awd-switch [value]="value()" (valueChange)="value.set($event)" disabled />
+    <jig-switch [value]="value()" (valueChange)="value.set($event)" disabled />
     Readonly:
-    <awd-switch [value]="value()" (valueChange)="value.set($event)" readonly />
+    <jig-switch [value]="value()" (valueChange)="value.set($event)" readonly />
     Invalid:
-    <awd-switch
+    <jig-switch
       [value]="value()"
       (valueChange)="value.set($event)"
       [invalidOn]="'immediate'"
       invalid
     />
     Invalid + Disabled:
-    <awd-switch
+    <jig-switch
       [value]="value()"
       (valueChange)="value.set($event)"
       [invalidOn]="'immediate'"
@@ -27,7 +27,7 @@ import { NgnSwitch } from '@awdlab/jig/switch';
       disabled
     />
     Invalid + Readonly:
-    <awd-switch
+    <jig-switch
       [value]="value()"
       (valueChange)="value.set($event)"
       [invalidOn]="'immediate'"

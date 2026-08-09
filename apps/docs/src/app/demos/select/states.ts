@@ -1,56 +1,56 @@
 import { Component } from '@angular/core';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { NgnSelect } from '@awdlab/jig/select';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { AwdSelect } from '@awdlab/jig/select';
 
 import { exampleData } from '../../helper/data';
 
 import type { PopoverOptions } from '@awdlab/jig/popover';
 
 @Component({
-  imports: [NgnSelect, NgnInputField],
-  selector: 'awd-demo-select-states',
+  imports: [AwdSelect, AwdInputField],
+  selector: 'jig-demo-select-states',
   template: `
     Default:
-    <awd-input-field>
-      <awd-select [options]="options" [popoverOptions]="popoverOptions" />
-    </awd-input-field>
+    <jig-input-field>
+      <jig-select [options]="options" [popoverOptions]="popoverOptions" />
+    </jig-input-field>
     Readonly:
-    <awd-input-field>
-      <awd-select [options]="options" [popoverOptions]="popoverOptions" readonly />
-    </awd-input-field>
+    <jig-input-field>
+      <jig-select [options]="options" [popoverOptions]="popoverOptions" readonly />
+    </jig-input-field>
     Disabled:
-    <awd-input-field>
-      <awd-select [options]="options" [popoverOptions]="popoverOptions" disabled />
-    </awd-input-field>
+    <jig-input-field>
+      <jig-select [options]="options" [popoverOptions]="popoverOptions" disabled />
+    </jig-input-field>
     Invalid:
-    <awd-input-field>
-      <awd-select
+    <jig-input-field>
+      <jig-select
         [options]="options"
         [popoverOptions]="popoverOptions"
         [invalidOn]="'immediate'"
         invalid
       />
-    </awd-input-field>
+    </jig-input-field>
     Invalid + Readonly:
-    <awd-input-field>
-      <awd-select
+    <jig-input-field>
+      <jig-select
         [options]="options"
         [popoverOptions]="popoverOptions"
         [invalidOn]="'immediate'"
         invalid
         readonly
       />
-    </awd-input-field>
+    </jig-input-field>
     Invalid + Disabled:
-    <awd-input-field>
-      <awd-select
+    <jig-input-field>
+      <jig-select
         [options]="options"
         [popoverOptions]="popoverOptions"
         [invalidOn]="'immediate'"
         invalid
         disabled
       />
-    </awd-input-field>
+    </jig-input-field>
   `,
   host: { class: 'w-48' },
 })

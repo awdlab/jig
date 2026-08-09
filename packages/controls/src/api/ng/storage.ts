@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Logger } from '@awdlab/jig/utils';
 
-export type NgnStorageKind<T> =
+export type AwdStorageKind<T> =
   | 'localstorage'
   | 'sessionstorage'
   | 'cookie'
@@ -22,7 +22,7 @@ export type NgnStorageKind<T> =
 /** One year, in seconds — used as the cookie `max-age`. */
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
-export class NgnStorage<T extends Record<string, unknown>> {
+export class AwdStorage<T extends Record<string, unknown>> {
   private readonly _store: WritableSignal<T>;
   private readonly _set: (value: T) => void;
 
@@ -46,7 +46,7 @@ export class NgnStorage<T extends Record<string, unknown>> {
    * read the platform (`PLATFORM_ID`) to stay SSR-safe, and the `cookie` kind
    * additionally reads `DOCUMENT` / the SSR `REQUEST`.
    */
-  constructor(key: string, kind: NgnStorageKind<T>, initialValue: T) {
+  constructor(key: string, kind: AwdStorageKind<T>, initialValue: T) {
     this._store = signal<T>(initialValue);
 
     // Custom adapter — the caller fully controls persistence.

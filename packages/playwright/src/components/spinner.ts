@@ -2,7 +2,7 @@ import { spinnerControlTemplate } from '@awdlab/jig-themes/templates/spinner';
 import { themeClasses } from '../utils/theme';
 import test, { expect, type Locator } from '@playwright/test';
 
-export class NgnSpinnerHarness {
+export class AwdSpinnerHarness {
   public readonly classes = themeClasses(spinnerControlTemplate);
 
   public readonly locator: Locator;

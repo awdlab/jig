@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NgnMovable } from '@awdlab/jig/directives';
+import { AwdMovable } from '@awdlab/jig/directives';
 
 @Component({
-  selector: 'awd-demo-movable-base',
-  imports: [NgnMovable],
+  selector: 'jig-demo-movable-base',
+  imports: [AwdMovable],
   template: `
     <div class="board">
       <div ngnMovable [ngnMovableLimitToViewport]="false" class="card">Drag me anywhere</div>
@@ -18,17 +18,17 @@ import { NgnMovable } from '@awdlab/jig/directives';
       position: relative;
       height: 260px;
       overflow: hidden;
-      border: 1px dashed var(--awd-color-surface-300);
-      border-radius: var(--awd-size-radius-md);
+      border: 1px dashed var(--jig-color-surface-300);
+      border-radius: var(--jig-size-radius-md);
     }
     .card {
       position: absolute;
       top: 24px;
       left: 24px;
       padding: 16px 20px;
-      background: var(--awd-color-surface-100);
-      border: 1px solid var(--awd-color-surface-300);
-      border-radius: var(--awd-size-radius-md);
+      background: var(--jig-color-surface-100);
+      border: 1px solid var(--jig-color-surface-300);
+      border-radius: var(--jig-size-radius-md);
     }
   `,
 })

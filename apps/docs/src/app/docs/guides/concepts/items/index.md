@@ -2,14 +2,14 @@ Select, list box, tree, menu, command palette and the table's row actions all
 take their data as arrays of plain objects. Three related shapes cover them all,
 and they live in `@awdlab/jig/api`.
 
-### `NgnItem`
+### `JigItem`
 
 The shape for anything selectable.
 
 ```ts
-import type { NgnItem } from '@awdlab/jig/api';
+import type { JigItem } from '@awdlab/jig/api';
 
-const items: NgnItem[] = [
+const items: JigItem[] = [
   { label: 'Berlin', value: 'ber' },
   { label: 'Hamburg', value: 'ham', icon: tablerBuilding },
   { label: 'Munich', value: 'muc', disabled: true },
@@ -23,7 +23,7 @@ const items: NgnItem[] = [
 | `data`     | `T` (optional)             | Your original object, carried through untouched.                  |
 | `icon`     | `IconType` (optional)      | Leading icon.                                                     |
 | `disabled` | `boolean` (optional)       | Not selectable; skipped by keyboard navigation.                   |
-| `items`    | `NgnItem[]` (optional)     | Children — groups in a list box, submenus, tree branches.         |
+| `items`    | `JigItem[]` (optional)     | Children — groups in a list box, submenus, tree branches.         |
 | `testId`   | `string` (optional)        | Stable hook for tests.                                            |
 
 A **function label** is the idiomatic way to keep an item list translated: it is
@@ -39,34 +39,34 @@ entities by hand.
 Rather than mapping by hand, describe which of your fields play which role:
 
 ```ts
-import { transformToNgnItem, type NgnItemFields } from '@awdlab/jig/api';
+import { transformToJigItem, type JigItemFields } from '@awdlab/jig/api';
 
 type City = { id: number; name: string; region: string; children?: City[] };
 
-const fields: NgnItemFields<City, 'id'> = {
+const fields: JigItemFields<City, 'id'> = {
   label: 'name',
   value: 'id',
   children: 'children',
 };
 
-const items = transformToNgnItems(cities, fields);
+const items = transformToJigItems(cities, fields);
 ```
 
-`NgnItemFields` names the source property for `label`, `value`, and optionally
+`JigItemFields` names the source property for `label`, `value`, and optionally
 `translate`, `testId` and `children`. The result keeps the original object in
 `data`, and children are converted recursively with the same field map.
 
 | Helper                               | Purpose                                                                 |
 | ------------------------------------ | ----------------------------------------------------------------------- |
-| `transformToNgnItem(item, fields)`   | Convert one object.                                                     |
-| `transformToNgnItems(items, fields)` | Convert an array, preserving literal types.                             |
-| `transformToNgnItemPrimitive(value)` | Wrap a bare string/number as an item whose label and value are both it. |
+| `transformToJigItem(item, fields)`   | Convert one object.                                                     |
+| `transformToJigItems(items, fields)` | Convert an array, preserving literal types.                             |
+| `transformToJigItemPrimitive(value)` | Wrap a bare string/number as an item whose label and value are both it. |
 | `mapToItems(items)`                  | Replace every group with its children — a flat list of leaves.          |
 | `flatItems(items)`                   | Flatten to one level, keeping the group entries themselves.             |
 
 ### Type inference
 
-`NgnItemValue` / `NgnItemsValue` extract the value type of an item list,
+`JigItemValue` / `JigItemsValue` extract the value type of an item list,
 including nested children, so a control's `value` is typed to exactly what the
 data can produce:
 
@@ -81,9 +81,9 @@ const items = [
 
 Declare the array `as const`, or with a literal type, to get the narrow union.
 
-### `NgnTreeItem`
+### `AwdTreeItem`
 
-The tree extends `NgnItem` with the things only a tree needs:
+The tree extends `JigItem` with the things only a tree needs:
 
 | Field        | Purpose                                                                                     |
 | ------------ | ------------------------------------------------------------------------------------------- |
@@ -92,19 +92,19 @@ The tree extends `NgnItem` with the things only a tree needs:
 | `lazy`       | Marks a branch whose children load on first expand, via the tree's `loadChildren` callback. |
 | `template`   | A per-node `TemplateRef` override, taking precedence over the tree's item template.         |
 
-`NgnTreeItemValue` / `NgnTreeItemsValue` differ from the flat variants: a
+`AwdTreeItemValue` / `AwdTreeItemsValue` differ from the flat variants: a
 branch's own value is part of the union, because a branch can itself be
 selected or expanded.
 
-### `NgnActionItem`
+### `JigActionItem`
 
 For things that **do** something rather than being chosen — menus, command
 palettes, row actions.
 
 ```ts
-import type { NgnActionItem } from '@awdlab/jig/api';
+import type { JigActionItem } from '@awdlab/jig/api';
 
-const actions: NgnActionItem[] = [
+const actions: JigActionItem[] = [
   { id: 'edit', label: 'Edit', icon: tablerPencil, callback: () => edit(row) },
   { id: 'new', label: 'New', shortcut: 'mod+n', callback: () => create() },
   { id: 'docs', label: 'Documentation', route: '/docs' },
@@ -119,16 +119,16 @@ const actions: NgnActionItem[] = [
 | `route`                      | Router link, as an alternative to `callback`.                                           |
 | `shortcut`                   | `+`-joined lowercase tokens (`mod+n`, `shift+mod+p`), rendered as a keycap where shown. |
 | `children`                   | Submenu items.                                                                          |
-| `icon`, `disabled`, `testId` | As on `NgnItem`.                                                                        |
+| `icon`, `disabled`, `testId` | As on `JigItem`.                                                                        |
 
 `mod` maps to ⌘ on Apple platforms and Ctrl elsewhere. The **scope** of a
-shortcut is the host's decision: `awd-command` registers its items page-wide,
+shortcut is the host's decision: `jig-command` registers its items page-wide,
 so a palette command fires whether or not the palette is open, while other
 hosts register against the nearest `[ngnKeyboardShortcut]` container.
 
-### `NgnActionButtonConfig`
+### `AwdActionButtonConfig`
 
-What [`<awd-action-button>`](/components/button) renders — an action item plus
+What [`<jig-action-button>`](/components/button) renders — an action item plus
 the visual knobs a button needs:
 
 | Field                | Purpose                                                      |
@@ -147,7 +147,7 @@ their buttons from — which is why the same object works in each.
 
 | You are describing…                         | Use                     |
 | ------------------------------------------- | ----------------------- |
-| something the user **picks**                | `NgnItem`               |
-| a hierarchy the user picks or expands       | `NgnTreeItem`           |
-| something the user **runs**                 | `NgnActionItem`         |
-| a single rendered button, described by data | `NgnActionButtonConfig` |
+| something the user **picks**                | `JigItem`               |
+| a hierarchy the user picks or expands       | `AwdTreeItem`           |
+| something the user **runs**                 | `JigActionItem`         |
+| a single rendered button, described by data | `AwdActionButtonConfig` |

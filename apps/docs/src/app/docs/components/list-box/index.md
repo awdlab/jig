@@ -1,8 +1,8 @@
-The List Box (`<awd-list-box>`) renders a scrollable, keyboard-navigable list of
+The List Box (`<jig-list-box>`) renders a scrollable, keyboard-navigable list of
 items from an `items` array, with optional grouping, filtering, and
 virtualization for large datasets. It is a value control — enable `selectable`
 to let users pick items and `multiple` for multi-select. Reach for it when you
-need a persistently visible list rather than a dropdown like `awd-select`.
+need a persistently visible list rather than a dropdown like `jig-select`.
 
 ### Basic Usage
 
@@ -21,7 +21,7 @@ other value control. Here a `required` error shows until an item is selected.
 ### Grouped Items
 
 Nested items (a `children` array) render as labelled groups with their entries
-beneath. `transformToNgnItems` maps arbitrary objects onto the expected
+beneath. `transformToJigItems` maps arbitrary objects onto the expected
 `value`/`label`/`children` shape.
 
 {{ demo: Demo_ListBox_Grouped }}

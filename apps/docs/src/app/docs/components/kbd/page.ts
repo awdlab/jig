@@ -1,11 +1,11 @@
-import { NgnDocsKbdPlayground } from './playground';
+import { AwdDocsKbdPlayground } from './playground';
 import { Demo_Kbd_Base } from '../../../demos/kbd/base';
 import { Demo_Kbd_DialogButtons } from '../../../demos/kbd/dialog-buttons';
 import { Demo_Kbd_ShortcutScope } from '../../../demos/kbd/shortcut-scope';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const KbdPage: NgnDocsPage = {
+export const KbdPage: AwdDocsPage = {
   title: `Kbd`,
   kind: 'tabs',
   tabs: [
@@ -19,7 +19,7 @@ export const KbdPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsKbdPlayground,
+      component: AwdDocsKbdPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/kbd/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/kbd/a11y.md' },

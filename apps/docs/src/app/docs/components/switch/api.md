@@ -1,1 +1,1 @@
-{{ api: switch/switch NgnSwitch }}
+{{ api: switch/switch AwdSwitch }}

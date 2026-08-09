@@ -5,8 +5,8 @@
   html,
   body {
     font-family: 'Inter Variable', 'Inter', system-ui, sans-serif;
-    background: var(--awd-color-background);
-    color: var(--awd-color-text);
+    background: var(--jig-color-background);
+    color: var(--jig-color-text);
     // At least the viewport tall, but allowed to grow with content so the
     // document itself is the scroll container (single scrollbar on the right).
     min-height: 100dvh;
@@ -15,7 +15,7 @@
     scroll-behavior: smooth;
   }
   * {
-    scrollbar-color: var(--awd-color-scrollbar);
+    scrollbar-color: var(--jig-color-scrollbar);
   }
   h1 {
     @apply my-10 text-4xl font-semibold;
@@ -40,19 +40,19 @@ code {
 }
 
 .playground {
-  background-image: radial-gradient(circle, var(--awd-color-surface-200) 1px, transparent 1px);
+  background-image: radial-gradient(circle, var(--jig-color-surface-200) 1px, transparent 1px);
   background-size: 24px 24px;
-  border: 1px solid var(--awd-color-surface-200);
-  border-radius: var(--awd-size-rounded-lg);
+  border: 1px solid var(--jig-color-surface-200);
+  border-radius: var(--jig-size-rounded-lg);
 }
 
 // Reusable surface card. Lives in global styles so it crosses component
 // view-encapsulation boundaries (start shell + its child components).
 // Padding/shadow are applied per-instance via utilities, since they vary.
 .card {
-  background: var(--awd-color-surface-25);
-  border: 1px solid var(--awd-color-surface-200);
-  border-radius: var(--awd-size-rounded-lg);
+  background: var(--jig-color-surface-25);
+  border: 1px solid var(--jig-color-surface-200);
+  border-radius: var(--jig-size-rounded-lg);
 }
 
 // Angular-style gradient clipped to text (hero "Angular" word). Mirrors the
@@ -60,7 +60,7 @@ code {
 // magenta → purple), never the far-end blue/red. The band is far larger than
 // the text box and drifts across it, so the word eases from one blend to the
 // next (pink-heavy, purple-heavy, …) instead of rigidly rotating.
-@keyframes awd-angular-morph {
+@keyframes jig-angular-morph {
   0%,
   100% {
     background-position: 0% 20%;
@@ -82,27 +82,27 @@ code {
 // section components — same reason as `.card` above.
 // ---------------------------------------------------------------------------
 
-// Scroll-reveal: the `ngnDocsReveal` directive adds `.awd-reveal` at runtime
-// (so prerendered HTML stays visible without JS) and `.awd-reveal-in` once
+// Scroll-reveal: the `ngnDocsReveal` directive adds `.jig-reveal` at runtime
+// (so prerendered HTML stays visible without JS) and `.jig-reveal-in` once
 // the element intersects the viewport.
-.awd-reveal {
+.jig-reveal {
   opacity: 0;
   transform: translateY(24px);
   transition:
     opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: var(--awd-reveal-delay, 0ms);
+  transition-delay: var(--jig-reveal-delay, 0ms);
 
-  &.awd-reveal-in {
+  &.jig-reveal-in {
     opacity: 1;
     transform: none;
   }
 }
 
 // Mouse-follow glow for bento tiles. The `ngnDocsGlow` directive keeps
-// --awd-glow-x/--awd-glow-y in sync with the pointer; the overlay fades in on
+// --jig-glow-x/--jig-glow-y in sync with the pointer; the overlay fades in on
 // hover. Also lifts the tile slightly.
-.awd-glow-card {
+.jig-glow-card {
   position: relative;
   transition:
     transform 0.25s ease,
@@ -118,8 +118,8 @@ code {
     opacity: 0;
     transition: opacity 0.3s ease;
     background: radial-gradient(
-      360px circle at var(--awd-glow-x, 50%) var(--awd-glow-y, 50%),
-      color-mix(in srgb, var(--awd-color-primary-400) 16%, transparent),
+      360px circle at var(--jig-glow-x, 50%) var(--jig-glow-y, 50%),
+      color-mix(in srgb, var(--jig-color-primary-400) 16%, transparent),
       transparent 65%
     );
   }
@@ -128,10 +128,10 @@ code {
     transform: translateY(-3px);
     border-color: color-mix(
       in srgb,
-      var(--awd-color-primary-400) 45%,
-      var(--awd-color-surface-200)
+      var(--jig-color-primary-400) 45%,
+      var(--jig-color-surface-200)
     );
-    box-shadow: var(--awd-shadow-md);
+    box-shadow: var(--jig-shadow-md);
 
     &::before {
       opacity: 1;
@@ -146,46 +146,46 @@ code {
 }
 
 // Keycaps for the accessibility "keyboard theater".
-.awd-keycap {
+.jig-keycap {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-width: 3rem;
   padding: 0.625rem 0.875rem;
-  border-radius: var(--awd-size-rounded-md);
-  border: 1px solid var(--awd-color-surface-300);
+  border-radius: var(--jig-size-rounded-md);
+  border: 1px solid var(--jig-color-surface-300);
   border-bottom-width: 3px;
-  background: var(--awd-color-surface-25);
-  color: var(--awd-color-text);
+  background: var(--jig-color-surface-25);
+  color: var(--jig-color-text);
   font-family: 'Consolas', 'Menlo', monospace;
-  font-size: var(--awd-font-size-sm);
-  font-weight: var(--awd-font-weight-semibold);
+  font-size: var(--jig-font-size-sm);
+  font-weight: var(--jig-font-weight-semibold);
   transition:
     transform 0.12s ease,
     border-color 0.12s ease,
     background 0.12s ease,
     box-shadow 0.12s ease;
 
-  &.awd-keycap-pressed {
+  &.jig-keycap-pressed {
     transform: translateY(2px);
     border-bottom-width: 1px;
-    border-color: var(--awd-color-primary-500);
-    background: var(--awd-color-primary-50);
-    color: var(--awd-color-primary-600);
-    box-shadow: 0 0 16px color-mix(in srgb, var(--awd-color-primary-500) 35%, transparent);
+    border-color: var(--jig-color-primary-500);
+    background: var(--jig-color-primary-50);
+    color: var(--jig-color-primary-600);
+    box-shadow: 0 0 16px color-mix(in srgb, var(--jig-color-primary-500) 35%, transparent);
   }
 }
 
 // Simulated focus ring that hops between targets in the keyboard theater.
-.awd-sim-focus {
-  outline: 2px solid var(--awd-color-primary-500);
+.jig-sim-focus {
+  outline: 2px solid var(--jig-color-primary-500);
   outline-offset: 3px;
-  border-radius: var(--awd-size-rounded-md);
-  box-shadow: 0 0 18px color-mix(in srgb, var(--awd-color-primary-500) 40%, transparent);
+  border-radius: var(--jig-size-rounded-md);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--jig-color-primary-500) 40%, transparent);
   transition: box-shadow 0.2s ease;
 }
 
-.awd-angular-text {
+.jig-angular-text {
   // One linear layer, no background-color: Firefox rasterizes text-clipped
   // radial/conic gradients through a lower-quality path and the glyph edges
   // lose most of their antialiasing.
@@ -206,7 +206,7 @@ code {
   -webkit-background-clip: text;
   color: transparent;
   // ease-in-out so it settles on each blend before drifting to the next.
-  animation: awd-angular-morph 12s ease-in-out infinite;
+  animation: jig-angular-morph 12s ease-in-out infinite;
 
   // Respect users who prefer reduced motion — hold the blend still.
   @media (prefers-reduced-motion: reduce) {

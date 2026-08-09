@@ -1,13 +1,13 @@
 import { type Locator, expect } from '@playwright/test';
 
-export class NgnRadioGroupHarness {
+export class AwdRadioGroupHarness {
   public readonly locator: Locator;
   /** All radio options in the group, in DOM order. */
   public readonly radios: Locator;
 
   constructor(locator: Locator) {
     this.locator = locator;
-    this.radios = locator.locator('awd-radio');
+    this.radios = locator.locator('jig-radio');
   }
 
   public radio(index: number): Locator {
@@ -37,6 +37,6 @@ export class NgnRadioGroupHarness {
 
   /** Focus the currently active radio (the group's single tab stop). */
   public async focusActive() {
-    await this.locator.locator('awd-radio[tabindex="0"]').focus();
+    await this.locator.locator('jig-radio[tabindex="0"]').focus();
   }
 }

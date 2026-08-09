@@ -1,4 +1,4 @@
-import { NgnDocsInputFieldPlayground } from './playground';
+import { AwdDocsInputFieldPlayground } from './playground';
 import { Demo_InputField_Base } from '../../../demos/input-field/base';
 import { Demo_InputField_Clear } from '../../../demos/input-field/clear';
 import { Demo_InputField_Label } from '../../../demos/input-field/label';
@@ -7,9 +7,9 @@ import { Demo_InputField_Textarea } from '../../../demos/input-field/textarea';
 import { Demo_InputField_Validation } from '../../../demos/input-field/validation';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const InputFieldPage: NgnDocsPage = {
+export const InputFieldPage: AwdDocsPage = {
   title: `Input Field`,
   kind: 'tabs',
   tabs: [
@@ -31,7 +31,7 @@ export const InputFieldPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsInputFieldPlayground,
+      component: AwdDocsInputFieldPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/input-field/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/input-field/a11y.md' },

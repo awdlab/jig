@@ -22,7 +22,7 @@ export const colorPickerStyles = createThemePart({
         height: 100%;
         border-radius: ${v('size.rounded.sm')};
       }
-      /* Popover mode gets its single surface (border/background/padding) from awd-popover
+      /* Popover mode gets its single surface (border/background/padding) from jig-popover
          itself; the panel's own surface only applies in inline mode, where there's no popover
          to supply one — otherwise the two would stack into a double border. */
       ${c('inline')} ${c('panel')} {

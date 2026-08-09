@@ -1,4 +1,4 @@
-import { NgnDocsTablePlayground } from './playground';
+import { AwdDocsTablePlayground } from './playground';
 import { Demo_Table_Base } from '../../../demos/table/base';
 import { Demo_Table_CompactCursorPagination } from '../../../demos/table/compact-cursor-pagination';
 import { Demo_Table_Filtering } from '../../../demos/table/filtering';
@@ -18,9 +18,9 @@ import { Demo_Table_StickyColumns } from '../../../demos/table/sticky-columns';
 import { Demo_Table_Virtual } from '../../../demos/table/virtual';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const TablePage: NgnDocsPage = {
+export const TablePage: AwdDocsPage = {
   title: `Table`,
   kind: 'tabs',
   tabs: [
@@ -51,7 +51,7 @@ export const TablePage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsTablePlayground,
+      component: AwdDocsTablePlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/table/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/table/a11y.md' },

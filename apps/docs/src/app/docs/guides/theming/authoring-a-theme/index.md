@@ -41,7 +41,7 @@ root, dark })`:
 - `base` — the base-layer part to sit on top of (usually reuse the shipped one).
 - `dependencies` — the token templates this part reads (`colorsTemplate`, `sizesTemplate`, …).
 - `root` / `dark` — the styling, as a `css` function that receives helpers `v` (token →
-  `var(--awd-*)`), `c` (own class selector), and `d` (a dependency control's class).
+  `var(--jig-*)`), `c` (own class selector), and `d` (a dependency control's class).
 
 ```ts
 export const widgetStyles = createThemePart({
@@ -64,7 +64,7 @@ export const widgetStyles = createThemePart({
 Provide it exactly like a preset:
 
 ```ts
-provideNgnControls({ theme: { preset: myTheme } });
+provideAwdControls({ theme: { preset: myTheme } });
 ```
 
 > **Two caveats.** `createTheme` does **not** validate that every required part is present

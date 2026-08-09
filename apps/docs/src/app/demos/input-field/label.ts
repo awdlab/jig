@@ -1,32 +1,32 @@
 import { Component, signal } from '@angular/core';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
 
 @Component({
-  imports: [NgnInput, NgnInputField],
-  selector: 'awd-demo-input-field-label',
+  imports: [AwdInput, AwdInputField],
+  selector: 'jig-demo-input-field-label',
   host: {
     style: 'display: flex; flex-direction: column; gap: 1.5rem; padding-top: 1rem;',
   },
   template: `
-    <awd-input-field [label]="'Label over'" [labelKind]="'over'">
+    <jig-input-field [label]="'Label over'" [labelKind]="'over'">
       <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
-    </awd-input-field>
-    <awd-input-field [label]="'Label in'" [labelKind]="'in'">
+    </jig-input-field>
+    <jig-input-field [label]="'Label in'" [labelKind]="'in'">
       <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
-    </awd-input-field>
-    <awd-input-field [label]="'Label on'" [labelKind]="'on'">
+    </jig-input-field>
+    <jig-input-field [label]="'Label on'" [labelKind]="'on'">
       <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
-    </awd-input-field>
-    <awd-input-field [label]="'FloatLabel over'" [labelKind]="'floatOver'">
+    </jig-input-field>
+    <jig-input-field [label]="'FloatLabel over'" [labelKind]="'floatOver'">
       <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
-    </awd-input-field>
-    <awd-input-field [label]="'FloatLabel in'" [labelKind]="'floatIn'">
+    </jig-input-field>
+    <jig-input-field [label]="'FloatLabel in'" [labelKind]="'floatIn'">
       <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
-    </awd-input-field>
-    <awd-input-field [label]="'FloatLabel on'" [labelKind]="'floatOn'">
+    </jig-input-field>
+    <jig-input-field [label]="'FloatLabel on'" [labelKind]="'floatOn'">
       <input ngnInput [value]="value()" (valueChange)="value.set($event ?? '')" />
-    </awd-input-field>
+    </jig-input-field>
   `,
 })
 export class Demo_InputField_Label {

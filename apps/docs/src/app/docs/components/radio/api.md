@@ -1,3 +1,3 @@
-{{ api: radio/radio-group NgnRadioGroup }}
+{{ api: radio/radio-group AwdRadioGroup }}
 
-{{ api: radio/radio NgnRadio }}
+{{ api: radio/radio AwdRadio }}

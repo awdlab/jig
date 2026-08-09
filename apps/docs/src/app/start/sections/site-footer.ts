@@ -2,22 +2,22 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'awd-docs-site-footer',
+  selector: 'jig-docs-site-footer',
   imports: [RouterLink],
   template: `
     <!-- Full-width band so the divider spans the viewport, not just the content. -->
-    <div class="mt-auto w-full border-t border-(--awd-color-surface-200)">
+    <div class="mt-auto w-full border-t border-(--jig-color-surface-200)">
       <footer
-        class="mx-auto flex max-w-[1200px] flex-col items-center gap-(--awd-size-padding-lg) px-(--awd-size-padding-xl) py-(--awd-size-padding-xl) text-(length:--awd-font-size-sm) text-(--awd-color-surface-600) md:flex-row md:justify-between"
+        class="mx-auto flex max-w-[1200px] flex-col items-center gap-(--jig-size-padding-lg) px-(--jig-size-padding-xl) py-(--jig-size-padding-xl) text-(length:--jig-font-size-sm) text-(--jig-color-surface-600) md:flex-row md:justify-between"
       >
         <a
           routerLink="/"
-          class="flex items-center gap-(--awd-size-padding-md) text-(--awd-color-text) no-underline"
+          class="flex items-center gap-(--jig-size-padding-md) text-(--jig-color-text) no-underline"
         >
           <img src="img/logo.png" alt="" class="h-7 w-7" />
           &#64;awdlab/jig
         </a>
-        <nav class="flex flex-wrap justify-center gap-(--awd-size-padding-xl)">
+        <nav class="flex flex-wrap justify-center gap-(--jig-size-padding-xl)">
           <a routerLink="/guides/introduction" class="no-underline hover:underline">Docs</a>
           <a routerLink="/components" class="no-underline hover:underline">Components</a>
           <a
@@ -41,4 +41,4 @@ import { RouterLink } from '@angular/router';
     </div>
   `,
 })
-export class NgnDocsSiteFooter {}
+export class AwdDocsSiteFooter {}

@@ -9,9 +9,9 @@ import {
   flattenTree,
 } from './tree-utils';
 
-import type { NgnTreeItem } from '@awdlab/jig/api';
+import type { AwdTreeItem } from '@awdlab/jig/api';
 
-const tree: NgnTreeItem[] = [
+const tree: AwdTreeItem[] = [
   {
     label: 'Fruit',
     value: 'fruit',
@@ -46,7 +46,7 @@ describe('flattenTree', () => {
   });
 
   it('marks descendants of a disabled branch as parentDisabled', () => {
-    const disabledBranch: NgnTreeItem[] = [
+    const disabledBranch: AwdTreeItem[] = [
       { label: 'X', value: 'x', disabled: true, items: [{ label: 'Y', value: 'y' }] },
     ];
     const flat = flattenTree(disabledBranch, new Set(['x']));
@@ -64,7 +64,7 @@ describe('collectLeafValues', () => {
   });
 
   it('excludes a leaf marked selectable:false', () => {
-    const branch: NgnTreeItem = {
+    const branch: AwdTreeItem = {
       label: 'B',
       value: 'b',
       items: [
@@ -76,7 +76,7 @@ describe('collectLeafValues', () => {
   });
 
   it('excludes all leaves under a disabled branch', () => {
-    const branch: NgnTreeItem = {
+    const branch: AwdTreeItem = {
       label: 'B',
       value: 'b',
       disabled: true,
@@ -95,7 +95,7 @@ describe('collectBranchValues', () => {
   });
 
   it('returns branch values at every depth', () => {
-    const nested: NgnTreeItem[] = [
+    const nested: AwdTreeItem[] = [
       {
         label: 'A',
         value: 'a',
@@ -138,7 +138,7 @@ describe('computeNodeState', () => {
   });
 
   it('ignores leaves under a disabled sub-branch when deriving state', () => {
-    const branch: NgnTreeItem = {
+    const branch: AwdTreeItem = {
       label: 'Root',
       value: 'root',
       items: [
@@ -152,7 +152,7 @@ describe('computeNodeState', () => {
 });
 
 describe('lazy nodes', () => {
-  const lazyTree: NgnTreeItem[] = [
+  const lazyTree: AwdTreeItem[] = [
     { label: 'Root A', value: 'a', lazy: true },
     { label: 'Leaf', value: 'leaf' },
   ];
@@ -184,7 +184,7 @@ describe('lazy nodes', () => {
   });
 
   it('applyLoadedChildren merges nested lazy children', () => {
-    const loaded = new Map<string, NgnTreeItem[]>([
+    const loaded = new Map<string, AwdTreeItem[]>([
       ['a', [{ label: 'Sub', value: 'sub', lazy: true }]],
       ['sub', [{ label: 'Deep', value: 'deep' }]],
     ]);

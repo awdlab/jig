@@ -1,10 +1,10 @@
-import { NgnDocsChangelog } from './changelog';
+import { AwdDocsChangelog } from './changelog';
 
-import type { NgnDocsPage } from '../../../../utils/page/types';
+import type { AwdDocsPage } from '../../../../utils/page/types';
 
-export const ChangelogPage: NgnDocsPage = {
+export const ChangelogPage: AwdDocsPage = {
   kind: 'component',
   title: `Changelog`,
 
-  component: NgnDocsChangelog,
+  component: AwdDocsChangelog,
 };

@@ -1,17 +1,17 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnState } from '@awdlab/jig/state';
+import { AwdState } from '@awdlab/jig/state';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-state-playground',
-  imports: [NgnState, NgnDocsPlayground],
+  selector: 'jig-docs-state-playground',
+  imports: [AwdState, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnState', component: component() }]">
-      <awd-state #ref kind="loading" />
-    </awd-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'AwdState', component: component() }]">
+      <jig-state #ref kind="loading" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsStatePlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnState });
+export class AwdDocsStatePlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdState });
 }

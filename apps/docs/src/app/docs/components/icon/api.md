@@ -1,1 +1,1 @@
-{{ api: icon/icon NgnIcon }}
+{{ api: icon/icon AwdIcon }}

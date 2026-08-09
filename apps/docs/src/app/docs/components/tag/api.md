@@ -1,1 +1,1 @@
-{{ api: tag/tag NgnTag }}
+{{ api: tag/tag AwdTag }}

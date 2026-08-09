@@ -1,24 +1,24 @@
 import { setComponentInput, type Anchor } from '@awdlab/jig/api/ng';
 
-import { NgnMenu } from './menu';
+import { AwdMenu } from './menu';
 
 import type { MenuItem } from './types';
 import type { ComponentRef, ViewContainerRef } from '@angular/core';
 import type { Placement } from '@floating-ui/dom';
 
 /**
- * Lazily creates (or reuses) an `NgnMenu` popover and shows it anchored either
+ * Lazily creates (or reuses) an `AwdMenu` popover and shows it anchored either
  * at a viewport point (context-menu style) or to an element. Returns the
  * `ComponentRef` so callers can keep it for reuse and destroy it on teardown.
  */
 export function openMenuAt(
   vcr: ViewContainerRef,
-  existing: ComponentRef<NgnMenu> | undefined,
+  existing: ComponentRef<AwdMenu> | undefined,
   items: MenuItem[],
   anchor: Anchor,
   placement?: Placement
-): ComponentRef<NgnMenu> {
-  const menu = existing ?? vcr.createComponent(NgnMenu);
+): ComponentRef<AwdMenu> {
+  const menu = existing ?? vcr.createComponent(AwdMenu);
   setComponentInput(menu, 'items', items);
   setComponentInput(menu, 'anchor', anchor);
   setComponentInput(menu, 'popover', true);

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import tablerExternalLink from '@iconify/icons-tabler/external-link';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnIcon } from '@awdlab/jig/icon';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdIcon } from '@awdlab/jig/icon';
 
 @Component({
-  selector: 'awd-demo-button-link',
-  imports: [NgnButton, NgnIcon],
+  selector: 'jig-demo-button-link',
+  imports: [AwdButton, AwdIcon],
   template: `
     <!-- The anchors keep real hrefs so they behave like links; the demo just cancels the
          navigation so reading the page doesn't move you off it. -->
@@ -18,7 +18,7 @@ import { NgnIcon } from '@awdlab/jig/icon';
       <code>&lt;a&gt;</code> when the click navigates, a <code>&lt;button&gt;</code> when it does
       not. Icons flow along with the text, as in
       <a ngnButton kind="link" href="#/components/icon"
-        ><awd-icon [icon]="externalLink" /> icon link</a
+        ><jig-icon [icon]="externalLink" /> icon link</a
       >, and a long label keeps flowing across the line break instead of being pushed onto its own
       row, like
       <a ngnButton kind="link" href="#/components/button">this deliberately verbose link label</a>

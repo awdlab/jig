@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import tablerBell from '@iconify/icons-tabler/bell';
-import { NgnBadge } from '@awdlab/jig/badge';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnIcon } from '@awdlab/jig/icon';
+import { AwdBadge } from '@awdlab/jig/badge';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdIcon } from '@awdlab/jig/icon';
 
 @Component({
-  selector: 'awd-demo-badge-positions',
-  imports: [NgnBadge, NgnButton, NgnIcon],
+  selector: 'jig-demo-badge-positions',
+  imports: [AwdBadge, AwdButton, AwdIcon],
   template: `
     <div class="flex gap-10 p-8">
       <button
@@ -16,10 +16,10 @@ import { NgnIcon } from '@awdlab/jig/icon';
         ngnBadgePosition="top-start"
         aria-label="Top start"
       >
-        <awd-icon [icon]="bell" />
+        <jig-icon [icon]="bell" />
       </button>
       <button ngnButton kind="icon" [ngnBadge]="2" ngnBadgePosition="top-end" aria-label="Top end">
-        <awd-icon [icon]="bell" />
+        <jig-icon [icon]="bell" />
       </button>
       <button
         ngnButton
@@ -28,7 +28,7 @@ import { NgnIcon } from '@awdlab/jig/icon';
         ngnBadgePosition="bottom-start"
         aria-label="Bottom start"
       >
-        <awd-icon [icon]="bell" />
+        <jig-icon [icon]="bell" />
       </button>
       <button
         ngnButton
@@ -37,7 +37,7 @@ import { NgnIcon } from '@awdlab/jig/icon';
         ngnBadgePosition="bottom-end"
         aria-label="Bottom end"
       >
-        <awd-icon [icon]="bell" />
+        <jig-icon [icon]="bell" />
       </button>
     </div>
   `,

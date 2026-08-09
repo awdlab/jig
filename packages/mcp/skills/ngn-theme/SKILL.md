@@ -1,13 +1,13 @@
 ---
-name: awd-theme
-description: Author or modify a product-specific theme for @awdlab/jig (awd) — theme parts, tokens, kinds, colors, dark mode. Use when creating a custom/product theme, styling awd controls, or editing theme part files (createThemePart, createControlTemplate).
+name: jig-theme
+description: Author or modify a product-specific theme for @awdlab/jig (jig) — theme parts, tokens, kinds, colors, dark mode. Use when creating a custom/product theme, styling jig controls, or editing theme part files (createThemePart, createControlTemplate).
 metadata:
   version: 1
 ---
 
-# Authoring an awd theme
+# Authoring an jig theme
 
-awd controls have no component-level CSS — all styling flows through the theme
+jig controls have no component-level CSS — all styling flows through the theme
 system. Use the `@awdlab/jig-mcp` server for the token schema and each
 control's themeable anatomy. This authors a **product** theme; it does not edit
 the library's internal themes.

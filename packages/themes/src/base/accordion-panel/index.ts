@@ -22,7 +22,7 @@ export const accordionPanelStyles = createThemePart({
       }
       ${c('content')} {
         min-height: 0;
-        awd-defer {
+        jig-defer {
           display: block;
         }
       }

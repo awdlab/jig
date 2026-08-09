@@ -19,12 +19,12 @@
     }"
     [style.min-height]="hasShrinkableContent() ? null : 'fit-content'"
   >
-    <awd-defer
+    <jig-defer
       [lazyContent]="lazyContent()"
       [open]="open() || !isFullyClosed()"
       [cache]="appliedOptions().cache"
     >
       <ng-content></ng-content>
-    </awd-defer>
+    </jig-defer>
   </div>
 </div>

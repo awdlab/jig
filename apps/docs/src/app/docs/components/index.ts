@@ -59,13 +59,13 @@ import { TooltipPage } from './tooltip/page';
 import { TreePage } from './tree/page';
 import { UploadPage } from './upload/page';
 
-import type { NgnDocsGroup } from '../../utils/page/types';
+import type { AwdDocsGroup } from '../../utils/page/types';
 
 /**
  * The Components tab, sliced into visual sidebar groups. Group titles are
  * headers only — every page still routes at `/components/{page}`.
  */
-export const COMPONENT_GROUPS: NgnDocsGroup[] = [
+export const COMPONENT_GROUPS: AwdDocsGroup[] = [
   {
     title: 'Inputs',
     pages: [

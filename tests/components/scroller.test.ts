@@ -1,4 +1,4 @@
-import { NgnScrollerHarness } from '@awdlab/jig-playwright';
+import { AwdScrollerHarness } from '@awdlab/jig-playwright';
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
@@ -15,13 +15,13 @@ test('regular scrolling with 50 elements', async ({ page }, testInfo) => {
     page,
     {
       template: `
-        <awd-scroller #scroller style="height: 300px; width: 300px;" [items]="inputs().items">
+        <jig-scroller #scroller style="height: 300px; width: 300px;" [items]="inputs().items">
           <ng-template #item let-item>
             <div [ngnScrollerItem]="item" style="padding: 8px; border-bottom: 1px solid #ccc;">
               {{ item.label }}
             </div>
           </ng-template>
-        </awd-scroller>
+        </jig-scroller>
       `,
       imports: ['scroller'],
     },
@@ -32,7 +32,7 @@ test('regular scrolling with 50 elements', async ({ page }, testInfo) => {
     }
   );
 
-  const scroller = new NgnScrollerHarness(page.locator('awd-scroller'));
+  const scroller = new AwdScrollerHarness(page.locator('jig-scroller'));
 
   // All items should be rendered
   await scroller.expectItemsCount(50);
@@ -65,7 +65,7 @@ test('virtual scrolling with 5000 elements', async ({ page }, testInfo) => {
     page,
     {
       template: `
-        <awd-scroller 
+        <jig-scroller 
           #scroller 
           style="height: 400px; width: 300px;" 
           [items]="inputs().items"
@@ -76,7 +76,7 @@ test('virtual scrolling with 5000 elements', async ({ page }, testInfo) => {
               {{ item.label }}
             </div>
           </ng-template>
-        </awd-scroller>
+        </jig-scroller>
       `,
       imports: ['scroller'],
     },
@@ -88,7 +88,7 @@ test('virtual scrolling with 5000 elements', async ({ page }, testInfo) => {
     }
   );
 
-  const scroller = new NgnScrollerHarness(page.locator('awd-scroller'));
+  const scroller = new AwdScrollerHarness(page.locator('jig-scroller'));
 
   // Only visible items should be rendered (not all 5000)
   // With 400px height and 40px item height, we should see ~10 items + padding
@@ -148,7 +148,7 @@ test('regular scrolling with sticky items', async ({ page }, testInfo) => {
     page,
     {
       template: `
-        <awd-scroller 
+        <jig-scroller 
           #scroller 
           style="height: 250px; width: 300px;" 
           [items]="inputs().items"
@@ -162,7 +162,7 @@ test('regular scrolling with sticky items', async ({ page }, testInfo) => {
               {{ item.label }}
             </div>
           </ng-template>
-        </awd-scroller>
+        </jig-scroller>
       `,
       imports: ['scroller'],
     },
@@ -173,7 +173,7 @@ test('regular scrolling with sticky items', async ({ page }, testInfo) => {
     }
   );
 
-  const scroller = new NgnScrollerHarness(page.locator('awd-scroller'));
+  const scroller = new AwdScrollerHarness(page.locator('jig-scroller'));
 
   // All non-sticky items should be rendered (regular scrolling)
   await scroller.expectItemsCount(9);
@@ -211,7 +211,7 @@ test('virtual scrolling with sticky items', async ({ page }, testInfo) => {
     page,
     {
       template: `
-        <awd-scroller 
+        <jig-scroller 
           #scroller 
           style="height: 400px; width: 300px;" 
           [items]="inputs().items"
@@ -229,7 +229,7 @@ test('virtual scrolling with sticky items', async ({ page }, testInfo) => {
               {{ item.label }}
             </div>
           </ng-template>
-        </awd-scroller>
+        </jig-scroller>
       `,
       imports: ['scroller'],
     },
@@ -241,7 +241,7 @@ test('virtual scrolling with sticky items', async ({ page }, testInfo) => {
     }
   );
 
-  const scroller = new NgnScrollerHarness(page.locator('awd-scroller'));
+  const scroller = new AwdScrollerHarness(page.locator('jig-scroller'));
 
   // Only visible items should be rendered
   await scroller.expectItemsCountBetween(10, 20);
@@ -284,7 +284,7 @@ test('fixed scrolling with scroll to index', async ({ page }, testInfo) => {
             type="number" 
             style="margin-bottom: 8px;"
             (blur)="scrollerRef.scrollToIndex($any($event.target).valueAsNumber)" />
-          <awd-scroller 
+          <jig-scroller 
             #scrollerRef 
             style="height: 300px; width: 300px;" 
             [items]="inputs().items">
@@ -293,7 +293,7 @@ test('fixed scrolling with scroll to index', async ({ page }, testInfo) => {
                 {{ item.label }}
               </div>
             </ng-template>
-          </awd-scroller>
+          </jig-scroller>
         </div>
       `,
       imports: ['scroller'],
@@ -305,7 +305,7 @@ test('fixed scrolling with scroll to index', async ({ page }, testInfo) => {
     }
   );
 
-  const scroller = new NgnScrollerHarness(page.locator('awd-scroller'));
+  const scroller = new AwdScrollerHarness(page.locator('jig-scroller'));
   const scrollInput = page.locator('input[type="number"]');
 
   // All items should be rendered
@@ -357,7 +357,7 @@ test('virtual scrolling with scroll to index', async ({ page }, testInfo) => {
             type="number" 
             style="margin-bottom: 8px;"
             (blur)="scrollerRef.scrollToIndex($any($event.target).valueAsNumber)" />
-          <awd-scroller 
+          <jig-scroller 
             #scrollerRef 
             style="height: 400px; width: 300px;" 
             [items]="inputs().items"
@@ -368,7 +368,7 @@ test('virtual scrolling with scroll to index', async ({ page }, testInfo) => {
                 {{ item.label }}
               </div>
             </ng-template>
-          </awd-scroller>
+          </jig-scroller>
         </div>
       `,
       imports: ['scroller'],
@@ -381,7 +381,7 @@ test('virtual scrolling with scroll to index', async ({ page }, testInfo) => {
     }
   );
 
-  const scroller = new NgnScrollerHarness(page.locator('awd-scroller'));
+  const scroller = new AwdScrollerHarness(page.locator('jig-scroller'));
   const scrollInput = page.locator('input[type="number"]');
 
   // Only visible items should be rendered
@@ -427,7 +427,7 @@ test('virtual scrolling with padding of 5 and assertions', async ({ page }, test
     page,
     {
       template: `
-        <awd-scroller
+        <jig-scroller
           #scroller 
           style="height: 400px; width: 300px;" 
           [items]="inputs().items"
@@ -439,7 +439,7 @@ test('virtual scrolling with padding of 5 and assertions', async ({ page }, test
               {{ item.label }}
             </div>
           </ng-template>
-        </awd-scroller>
+        </jig-scroller>
       `,
       imports: ['scroller'],
     },
@@ -452,7 +452,7 @@ test('virtual scrolling with padding of 5 and assertions', async ({ page }, test
     }
   );
 
-  const scroller = new NgnScrollerHarness(page.locator('awd-scroller'));
+  const scroller = new AwdScrollerHarness(page.locator('jig-scroller'));
 
   // With 400px height, 40px item height = 10 visible items
   // With padding of 5, we should have 10 + (5 * 2) = 20 items rendered
@@ -513,7 +513,7 @@ test('accessibility (axe)', async ({ page }) => {
     page,
     {
       template: `
-        <awd-scroller
+        <jig-scroller
           style="height: 300px; width: 300px;"
           [focusable]="true"
           aria-label="Items"
@@ -523,7 +523,7 @@ test('accessibility (axe)', async ({ page }) => {
               {{ item.label }}
             </div>
           </ng-template>
-        </awd-scroller>
+        </jig-scroller>
       `,
       imports: ['scroller'],
     },
@@ -534,7 +534,7 @@ test('accessibility (axe)', async ({ page }) => {
     }
   );
 
-  const scroller = new NgnScrollerHarness(page.locator('awd-scroller'));
+  const scroller = new AwdScrollerHarness(page.locator('jig-scroller'));
   await scroller.expectItemsCount(50);
 
   await expectNoA11yViolations(page);

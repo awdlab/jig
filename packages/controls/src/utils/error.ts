@@ -3,10 +3,10 @@ export function throwExp(
   errorMsg: string,
   ...additionalContext: unknown[]
 ): never {
-  throw new NgnError(moduleName, errorMsg, ...additionalContext);
+  throw new AwdError(moduleName, errorMsg, ...additionalContext);
 }
 
-export class NgnError extends Error {
+export class AwdError extends Error {
   public readonly additionalContext?: unknown[];
   constructor(area: string, errorMsg: string, ...additionalContext: unknown[]) {
     if (typeof window !== 'undefined' && window['__ngn-controls-global__']?.fancyLogging) {
@@ -19,7 +19,7 @@ export class NgnError extends Error {
     }
 
     super(`[${area}] ${errorMsg}`);
-    this.name = 'NgnError';
+    this.name = 'AwdError';
     this.additionalContext = additionalContext;
   }
 }

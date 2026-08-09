@@ -1,4 +1,4 @@
-import type { FilterConfig, FilterConfigInternal, FilterFn, NgnItem } from '@awdlab/jig/api';
+import type { FilterConfig, FilterConfigInternal, FilterFn, JigItem } from '@awdlab/jig/api';
 
 type _SelectFilterOptions = {
   clearFilterOnClose?: boolean;
@@ -8,4 +8,4 @@ export type SelectFilterOptions<T extends object> = _SelectFilterOptions & Filte
 export type SelectFilterOptionsInternal<T extends object> = _SelectFilterOptions &
   FilterConfigInternal<T>;
 
-export type SelectFilterFn<T extends object> = FilterFn<NgnItem<T>>;
+export type SelectFilterFn<T extends object> = FilterFn<JigItem<T>>;

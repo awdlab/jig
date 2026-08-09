@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ColorSchemeService } from '@awdlab/jig/api/ng';
-import { NgnSelectButton } from '@awdlab/jig/select-button';
+import { AwdSelectButton } from '@awdlab/jig/select-button';
 
 /**
  * Drives the global color scheme through {@link ColorSchemeService}. Changing the
@@ -8,11 +8,11 @@ import { NgnSelectButton } from '@awdlab/jig/select-button';
  * `<html>` flips every control.
  */
 @Component({
-  selector: 'awd-demo-dark-mode-toggle',
-  imports: [NgnSelectButton],
+  selector: 'jig-demo-dark-mode-toggle',
+  imports: [AwdSelectButton],
   template: `
     <div class="flex flex-col gap-3">
-      <awd-select-button
+      <jig-select-button
         [options]="options"
         [value]="scheme.preference()"
         (valueChange)="scheme.set($event)"

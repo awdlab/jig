@@ -1,19 +1,19 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnDefer } from '@awdlab/jig/defer';
-import { NgnSwitch } from '@awdlab/jig/switch';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdDefer } from '@awdlab/jig/defer';
+import { AwdSwitch } from '@awdlab/jig/switch';
 
 let builds = 0;
 
 /** Counts its own constructions, so the deferral is visible. */
 @Component({
-  selector: 'awd-demo-defer-panel',
+  selector: 'jig-demo-defer-panel',
   template: `<div class="panel">Panel constructed {{ build }}× since page load</div>`,
   styles: `
     .panel {
       padding: 16px;
-      background: var(--awd-color-surface-100);
-      border-radius: var(--awd-size-radius-md);
+      background: var(--jig-color-surface-100);
+      border-radius: var(--jig-size-radius-md);
     }
   `,
 })
@@ -22,8 +22,8 @@ export class DeferDemoPanel {
 }
 
 @Component({
-  selector: 'awd-demo-defer-base',
-  imports: [DeferDemoPanel, NgnButton, NgnDefer, NgnSwitch],
+  selector: 'jig-demo-defer-base',
+  imports: [DeferDemoPanel, AwdButton, AwdDefer, AwdSwitch],
   template: `
     <div class="flex flex-col items-start gap-3">
       <div class="flex items-center gap-4">
@@ -31,13 +31,13 @@ export class DeferDemoPanel {
         <label [for]="cacheSwitch.inputId()" class="flex items-center gap-2">
           Keep rendered once opened
         </label>
-        <awd-switch #cacheSwitch [(value)]="cache" />
+        <jig-switch #cacheSwitch [(value)]="cache" />
       </div>
 
-      <awd-defer [open]="open()" [cache]="cache()" [lazyContent]="panel" />
+      <jig-defer [open]="open()" [cache]="cache()" [lazyContent]="panel" />
 
       <ng-template #panel>
-        <awd-demo-defer-panel />
+        <jig-demo-defer-panel />
       </ng-template>
     </div>
   `,

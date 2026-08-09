@@ -2,9 +2,9 @@ import { Demo_RovingFocus_Activedescendant } from '../../../demos/roving-focus/a
 import { Demo_RovingFocus_Base } from '../../../demos/roving-focus/base';
 import { i18nNone } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const RovingFocusPage: NgnDocsPage = {
+export const RovingFocusPage: AwdDocsPage = {
   title: `Roving Focus`,
   kind: 'tabs',
   tabs: [

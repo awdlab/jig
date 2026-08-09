@@ -1,3 +1,3 @@
-{{ api: stepper/stepper NgnStepper }}
+{{ api: stepper/stepper AwdStepper }}
 
-{{ api: stepper/step NgnStep }}
+{{ api: stepper/step AwdStep }}

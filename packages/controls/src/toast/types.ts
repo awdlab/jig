@@ -12,20 +12,20 @@ export type ContentTemplateType = {
   content?: string;
 };
 
-export type NgnToastOptionsMeta = {
+export type AwdToastOptionsMeta = {
   closable?: boolean;
   color?: CustomColor;
   icon?: IconType;
   autoHide?: number | false;
 };
 
-export type NgnToastOptions = NgnToastOptionsMeta & {
+export type AwdToastOptions = AwdToastOptionsMeta & {
   header?: string;
   content?: string;
   headerTemplate?: TemplateRef<HeaderTemplateType>;
   contentTemplate?: TemplateRef<ContentTemplateType>;
 };
 
-export type NgnToastRef = {
+export type AwdToastRef = {
   hide: () => void;
 };

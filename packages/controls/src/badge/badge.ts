@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { Platform, setComponentInput } from '@awdlab/jig/api/ng';
 
-import { NgnBadgeIndicator, type BadgePosition } from './badge-indicator';
+import { AwdBadgeIndicator, type BadgePosition } from './badge-indicator';
 
 /**
  * Overlays a small badge (count, text, or dot) onto its host element — an icon,
@@ -25,11 +25,11 @@ import { NgnBadgeIndicator, type BadgePosition } from './badge-indicator';
   // Also match `[ngnBadgeDot]` so dot mode works standalone (no value/`ngnBadge` needed).
   selector: '[ngnBadge], [ngnBadgeDot]',
 })
-export class NgnBadge {
+export class AwdBadge {
   private readonly _vcr = inject(ViewContainerRef);
   private readonly _host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly _destroyRef = inject(DestroyRef);
-  private _ref?: ComponentRef<NgnBadgeIndicator>;
+  private _ref?: ComponentRef<AwdBadgeIndicator>;
 
   /** Badge content. A number is clamped by {@link max}; empty hides the badge unless {@link dot}. */
   public readonly value = input<number | string | undefined>(undefined, { alias: 'ngnBadge' });
@@ -84,7 +84,7 @@ export class NgnBadge {
         return;
       }
       if (!this._ref) {
-        this._ref = this._vcr.createComponent(NgnBadgeIndicator);
+        this._ref = this._vcr.createComponent(AwdBadgeIndicator);
         this._host.appendChild(this._ref.location.nativeElement);
       }
       setComponentInput(this._ref, 'text', text ?? '');

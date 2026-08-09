@@ -1,4 +1,4 @@
-The Input Field (`<awd-input-field>`) is the standard chrome around a form
+The Input Field (`<jig-input-field>`) is the standard chrome around a form
 control — label, border, focus ring, adornments, and states. It is a
 **composition wrapper**, not a variant of the input: it projects whatever control
 you place inside it (`ngnInput`, `ngnNumberInput`, `ngnMaskInput`, a calendar or
@@ -12,7 +12,7 @@ shadows the real input; clicking anywhere on the chrome forwards focus to that
 control, and it manages the `id` / `aria-labelledby` wiring between the label and
 the input. Set a `label` (with optional `labelKind` for placement) or wire an
 external label via `labelledBy`. Content placed before or after the projected
-control becomes a prefix or suffix — icons, `<awd-state>` indicators, tooltips,
+control becomes a prefix or suffix — icons, `<jig-state>` indicators, tooltips,
 or `ngnButton` actions.
 
 Because the field owns that wiring, it also owns the projected input's `id`: pass
@@ -24,7 +24,7 @@ overwrites. The **A11y** tab shows the external-label pattern.
 ### Validation
 
 The field mirrors the projected control's validity for styling; pair it with
-`ngnErrors` / `awd-hint` to surface messages beneath the field.
+`ngnErrors` / `jig-hint` to surface messages beneath the field.
 
 {{ demo: Demo_InputField_Validation }}
 

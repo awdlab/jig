@@ -1,4 +1,4 @@
-import { NgnDocsToggleButtonPlayground } from './playground';
+import { AwdDocsToggleButtonPlayground } from './playground';
 import { Demo_ToggleButton_Base } from '../../../demos/toggle-button/base';
 import { Demo_ToggleButton_FixedWidth } from '../../../demos/toggle-button/fixed-width';
 import { Demo_ToggleButton_Icon } from '../../../demos/toggle-button/icon';
@@ -7,9 +7,9 @@ import { Demo_ToggleButton_States } from '../../../demos/toggle-button/states';
 import { Demo_ToggleButton_Validation } from '../../../demos/toggle-button/validation';
 import { i18nText } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const ToggleButtonPage: NgnDocsPage = {
+export const ToggleButtonPage: AwdDocsPage = {
   title: `Toggle Button`,
   kind: 'tabs',
   tabs: [
@@ -31,7 +31,7 @@ export const ToggleButtonPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsToggleButtonPlayground,
+      component: AwdDocsToggleButtonPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/toggle-button/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/toggle-button/a11y.md' },

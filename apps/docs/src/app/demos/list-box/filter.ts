@@ -1,17 +1,17 @@
 import { Component, signal } from '@angular/core';
-import { NgnListBox } from '@awdlab/jig/list-box';
+import { AwdListBox } from '@awdlab/jig/list-box';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnListBox],
-  selector: 'awd-demo-list-box-filter',
+  imports: [AwdListBox],
+  selector: 'jig-demo-list-box-filter',
   template: ` <input
       type="text"
       placeholder="Filter items..."
       (input)="filterText.set($event.target.value)"
     />
-    <awd-list-box
+    <jig-list-box
       #listBox
       [items]="items"
       [filter]="true"

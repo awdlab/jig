@@ -2,7 +2,7 @@
   @if (singleComponent(); as component) {
     @if (internalControlName(); as internalControlName) {
       @for (input of componentInputs(); track $index) {
-        <awd-docs-playground-input
+        <jig-docs-playground-input
           [internalControlName]="internalControlName"
           [input]="input"
           [instance]="component"

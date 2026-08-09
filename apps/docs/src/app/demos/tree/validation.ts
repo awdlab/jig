@@ -1,16 +1,16 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@awdlab/jig/errors';
-import { NgnHint } from '@awdlab/jig/hint';
-import { NgnTree } from '@awdlab/jig/tree';
+import { AwdErrors } from '@awdlab/jig/errors';
+import { AwdHint } from '@awdlab/jig/hint';
+import { AwdTree } from '@awdlab/jig/tree';
 
 import { fileTree } from './sample-data';
 
 @Component({
-  selector: 'awd-demo-tree-validation',
-  imports: [NgnErrors, NgnHint, NgnTree],
+  selector: 'jig-demo-tree-validation',
+  imports: [AwdErrors, AwdHint, AwdTree],
   template: `
     <div class="flex flex-col gap-2">
-      <awd-tree
+      <jig-tree
         class="block h-[260px]"
         [items]="items"
         [selectable]="true"
@@ -21,7 +21,7 @@ import { fileTree } from './sample-data';
         [ngnErrorsCustom]="errors()"
         [ngnErrorsHint]="treeHint"
       />
-      <awd-hint #treeHint />
+      <jig-hint #treeHint />
     </div>
   `,
 })

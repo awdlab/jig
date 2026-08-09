@@ -1,17 +1,17 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnSnackbar } from '@awdlab/jig/snackbar';
+import { AwdSnackbar } from '@awdlab/jig/snackbar';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-snackbar-playground',
-  imports: [NgnSnackbar, NgnDocsPlayground],
+  selector: 'jig-docs-snackbar-playground',
+  imports: [AwdSnackbar, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnSnackbar', component: component() }]">
-      <awd-snackbar #ref [header]="'Header Text'" [content]="'Content Text'" />
-    </awd-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'AwdSnackbar', component: component() }]">
+      <jig-snackbar #ref [header]="'Header Text'" [content]="'Content Text'" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsSnackbarPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnSnackbar });
+export class AwdDocsSnackbarPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdSnackbar });
 }

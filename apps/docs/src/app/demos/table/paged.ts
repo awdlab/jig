@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnTableModule } from '@awdlab/jig/table';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdTableModule } from '@awdlab/jig/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnTableModule, NgnTemplate],
-  selector: 'awd-demo-table-paged',
-  template: `<awd-table #table [rows]="rows" [fieldId]="'id'" [paginator]="true">
+  imports: [AwdTableModule, AwdTemplate],
+  selector: 'jig-demo-table-paged',
+  template: `<jig-table #table [rows]="rows" [fieldId]="'id'" [paginator]="true">
     <ng-template #header>
       <tr ngnTableHeadTr>
         <th [ngnTableTh]="table.column('id')">ID</th>
@@ -24,7 +24,7 @@ import { exampleData } from '../../helper/data';
         <td ngnTableTd>{{ row.data.location }}</td>
       </tr>
     </ng-template>
-  </awd-table>`,
+  </jig-table>`,
 })
 export class Demo_Table_Paged {
   protected readonly rows = exampleData.table(1000);

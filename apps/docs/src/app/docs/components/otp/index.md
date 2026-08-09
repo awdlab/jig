@@ -1,6 +1,6 @@
-The OTP control (`awd-otp`) collects a short verification / one-time-password
+The OTP control (`jig-otp`) collects a short verification / one-time-password
 code across a row of single-character cells. It is a self-contained value
-control — bind `[(value)]` directly on `<awd-otp>`. The value is the composed
+control — bind `[(value)]` directly on `<jig-otp>`. The value is the composed
 string (`null` while every cell is empty), and the `(completed)` output fires
 once the whole code is filled.
 
@@ -26,7 +26,7 @@ restrict entry to digits and switch touch keyboards to numeric.
 
 ### Validation
 
-Being a value control, `awd-otp` supports the shared `invalid` state. Here the
+Being a value control, `jig-otp` supports the shared `invalid` state. Here the
 field turns invalid once a complete-but-wrong code is entered, and confirms once
 the expected code is typed.
 

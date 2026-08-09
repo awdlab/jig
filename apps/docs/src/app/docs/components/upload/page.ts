@@ -1,4 +1,4 @@
-import { NgnDocsUploadPlayground } from './playground';
+import { AwdDocsUploadPlayground } from './playground';
 import { Demo_Upload_Base } from '../../../demos/upload/base';
 import { Demo_Upload_Confirm } from '../../../demos/upload/confirm';
 import { Demo_Upload_Interaction } from '../../../demos/upload/interaction';
@@ -7,9 +7,9 @@ import { Demo_Upload_Position } from '../../../demos/upload/position';
 import { Demo_Upload_States } from '../../../demos/upload/states';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const UploadPage: NgnDocsPage = {
+export const UploadPage: AwdDocsPage = {
   title: `Upload`,
   kind: 'tabs',
   tabs: [
@@ -31,7 +31,7 @@ export const UploadPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsUploadPlayground,
+      component: AwdDocsUploadPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/upload/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/upload/a11y.md' },

@@ -1,19 +1,19 @@
 import { Component, signal } from '@angular/core';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
 
 @Component({
-  imports: [NgnInput, NgnInputField],
-  selector: 'awd-demo-input-textarea',
+  imports: [AwdInput, AwdInputField],
+  selector: 'jig-demo-input-textarea',
   template: `
-    <awd-input-field>
+    <jig-input-field>
       <textarea
         ngnInput
         rows="3"
         [value]="value()"
         (valueChange)="value.set($event ?? '')"
       ></textarea>
-    </awd-input-field>
+    </jig-input-field>
     {{ value() }}
   `,
 })

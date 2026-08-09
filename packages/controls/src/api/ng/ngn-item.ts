@@ -1,13 +1,13 @@
 import { computed, type Signal } from '@angular/core';
-import { transformToNgnItems, type NgnItem, type NgnItemFields } from '@awdlab/jig/api';
+import { transformToJigItems, type JigItem, type JigItemFields } from '@awdlab/jig/api';
 
-export function transformToNgnItemsSignal<
+export function transformToJigItemsSignal<
   T extends object,
   K extends keyof T,
   Items extends readonly T[],
 >(
   items: Signal<Items>,
-  fields: NgnItemFields<T, K>
-): Signal<{ [P in keyof Items]: NgnItem<Items[P], K> } & readonly NgnItem<T, K>[]> {
-  return computed(() => transformToNgnItems(items(), fields));
+  fields: JigItemFields<T, K>
+): Signal<{ [P in keyof Items]: JigItem<Items[P], K> } & readonly JigItem<T, K>[]> {
+  return computed(() => transformToJigItems(items(), fields));
 }

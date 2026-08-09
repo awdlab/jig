@@ -1,9 +1,9 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnScrollAmount } from '@awdlab/jig/directives';
+import { AwdScrollAmount } from '@awdlab/jig/directives';
 
 @Component({
-  selector: 'awd-demo-scroll-amount-base',
-  imports: [NgnScrollAmount],
+  selector: 'jig-demo-scroll-amount-base',
+  imports: [AwdScrollAmount],
   template: `
     <div class="flex flex-col gap-3">
       <div ngnScrollAmount class="list">
@@ -21,12 +21,12 @@ import { NgnScrollAmount } from '@awdlab/jig/directives';
     .list {
       height: 200px;
       overflow: auto;
-      border: 1px solid var(--awd-color-surface-300);
-      border-radius: var(--awd-size-radius-md);
+      border: 1px solid var(--jig-color-surface-300);
+      border-radius: var(--jig-size-radius-md);
     }
     .row {
       padding: 10px 14px;
-      border-bottom: 1px solid var(--awd-color-surface-200);
+      border-bottom: 1px solid var(--jig-color-surface-200);
     }
     .readout {
       font-family: monospace;
@@ -34,6 +34,6 @@ import { NgnScrollAmount } from '@awdlab/jig/directives';
   `,
 })
 export class Demo_ScrollAmount_Base {
-  protected readonly scroll = viewChild(NgnScrollAmount);
+  protected readonly scroll = viewChild(AwdScrollAmount);
   protected readonly rows = Array.from({ length: 30 }, (_, i) => i + 1);
 }

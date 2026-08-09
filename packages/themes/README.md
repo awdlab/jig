@@ -13,12 +13,12 @@
 </div>
 
 Controls in `@awdlab/jig` are headless — this package supplies their styling. The
-engine maps each control's named scopes to CSS built on `--awd-*` design tokens and injects
+engine maps each control's named scopes to CSS built on `--jig-*` design tokens and injects
 it into `<head>` at runtime (no stylesheet import, no Tailwind required).
 
 Three presets ship built in: **`nova`** (fully themed, dark-mode aware), **`shade`**
 (shadcn-style) and **`material`** (Material Design 3). Each is a `Theme` object you pass to
-`provideNgnControls({ theme: { preset } })`; `createTheme` / `createThemePart` /
+`provideAwdControls({ theme: { preset } })`; `createTheme` / `createThemePart` /
 `createControlTemplate` let you author your own.
 
 ## Install

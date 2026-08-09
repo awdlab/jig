@@ -5,10 +5,10 @@
     <ng-container *ngComponentOutlet="component()" />
   </div>
   <div
-    class="flex w-full justify-end border-t border-(--awd-color-surface-200) bg-(--awd-color-surface-100) p-2"
+    class="flex w-full justify-end border-t border-(--jig-color-surface-200) bg-(--jig-color-surface-100) p-2"
   >
     <button ngnButton kind="icon" (click)="toggleCodeVisibility()">
-      <awd-icon [icon]="iconCode" />
+      <jig-icon [icon]="iconCode" />
     </button>
   </div>
 
@@ -19,7 +19,7 @@
       >
         <pre><code class="pi-0 prism" [innerHtml]="formattedCode()"></code></pre>
         <button ngnButton kind="icon" class="absolute top-1 right-4" (click)="copyCode()">
-          <awd-icon [icon]="iconCopy" />
+          <jig-icon [icon]="iconCopy" />
         </button>
       </div>
     }

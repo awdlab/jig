@@ -1,44 +1,44 @@
 import { Component } from '@angular/core';
-import { NgnSplitterModule } from '@awdlab/jig/splitter';
+import { AwdSplitterModule } from '@awdlab/jig/splitter';
 
 @Component({
-  imports: [NgnSplitterModule],
-  selector: 'awd-demo-splitter-kinds',
+  imports: [AwdSplitterModule],
+  selector: 'jig-demo-splitter-kinds',
   template: `
     <div class="grid">
       <span>default</span>
-      <awd-splitter [layout]="'horizontal'" [kind]="'default'" [aria-label]="'Default Kind'">
-        <awd-splitter-panel [size]="'1fr'" [aria-label]="'First Panel'">
+      <jig-splitter [layout]="'horizontal'" [kind]="'default'" [aria-label]="'Default Kind'">
+        <jig-splitter-panel [size]="'1fr'" [aria-label]="'First Panel'">
           Panel 1
-        </awd-splitter-panel>
-        <awd-splitter-panel [size]="'1fr'" [aria-label]="'Second Panel'">
+        </jig-splitter-panel>
+        <jig-splitter-panel [size]="'1fr'" [aria-label]="'Second Panel'">
           Panel 2
-        </awd-splitter-panel>
-      </awd-splitter>
+        </jig-splitter-panel>
+      </jig-splitter>
 
       <span>thin</span>
-      <awd-splitter [layout]="'horizontal'" [kind]="'thin'" [aria-label]="'Thin Kind'">
-        <awd-splitter-panel [size]="'1fr'" [aria-label]="'First Panel'">
+      <jig-splitter [layout]="'horizontal'" [kind]="'thin'" [aria-label]="'Thin Kind'">
+        <jig-splitter-panel [size]="'1fr'" [aria-label]="'First Panel'">
           Panel 1
-        </awd-splitter-panel>
-        <awd-splitter-panel [size]="'1fr'" [aria-label]="'Second Panel'">
+        </jig-splitter-panel>
+        <jig-splitter-panel [size]="'1fr'" [aria-label]="'Second Panel'">
           Panel 2
-        </awd-splitter-panel>
-      </awd-splitter>
+        </jig-splitter-panel>
+      </jig-splitter>
 
       <span>invisible</span>
       <!--
         The 'invisible' kind draws no line at rest — style your own seam between
         panels. Here each panel gets a right border to act as the separator.
       -->
-      <awd-splitter [layout]="'horizontal'" [kind]="'invisible'" [aria-label]="'Invisible Kind'">
-        <awd-splitter-panel [size]="'1fr'" [aria-label]="'First Panel'" class="seam">
+      <jig-splitter [layout]="'horizontal'" [kind]="'invisible'" [aria-label]="'Invisible Kind'">
+        <jig-splitter-panel [size]="'1fr'" [aria-label]="'First Panel'" class="seam">
           Panel 1
-        </awd-splitter-panel>
-        <awd-splitter-panel [size]="'1fr'" [aria-label]="'Second Panel'">
+        </jig-splitter-panel>
+        <jig-splitter-panel [size]="'1fr'" [aria-label]="'Second Panel'">
           Panel 2
-        </awd-splitter-panel>
-      </awd-splitter>
+        </jig-splitter-panel>
+      </jig-splitter>
     </div>
   `,
   styles: `
@@ -52,11 +52,11 @@ import { NgnSplitterModule } from '@awdlab/jig/splitter';
       align-items: center;
       gap: 0.5rem 1rem;
     }
-    awd-splitter {
+    jig-splitter {
       height: 80px;
     }
     .seam {
-      border-right: 1px solid var(--awd-color-surface-200, #e5e7eb);
+      border-right: 1px solid var(--jig-color-surface-200, #e5e7eb);
     }
   `,
 })

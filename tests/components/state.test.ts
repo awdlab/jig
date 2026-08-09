@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { NgnStateHarness } from '@awdlab/jig-playwright';
+import { AwdStateHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
@@ -11,7 +11,7 @@ test('loading state fits inside a button', async ({ page }) => {
       template: `
         <button ngnButton>
           Save
-          <awd-state kind="loading" />
+          <jig-state kind="loading" />
         </button>
       `,
       imports: ['button', 'state'],
@@ -20,7 +20,7 @@ test('loading state fits inside a button', async ({ page }) => {
   );
 
   const button = page.locator('button');
-  const state = new NgnStateHarness(page.locator('awd-state'));
+  const state = new AwdStateHarness(page.locator('jig-state'));
 
   await expect(button).toHaveCSS('display', 'flex');
   await state.expectLoading();
@@ -42,7 +42,7 @@ test('replace content mode preserves button size and centers the state', async (
           <button ngnButton data-testid="replace">
             Save
             <span data-testid="label">Label</span>
-            <awd-state kind="loading" replaceContent />
+            <jig-state kind="loading" replaceContent />
           </button>
         </div>
       `,
@@ -54,7 +54,7 @@ test('replace content mode preserves button size and centers the state', async (
   const reference = page.getByTestId('reference');
   const button = page.getByTestId('replace');
   const label = page.getByTestId('label');
-  const state = new NgnStateHarness(button.locator('awd-state'));
+  const state = new AwdStateHarness(button.locator('jig-state'));
 
   await state.expectLoading();
   await expect(button).toHaveCSS('position', 'relative');
@@ -82,7 +82,7 @@ test('semantic states render icons and visibility removes layout', async ({ page
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-state [kind]="inputs().kind" [visible]="inputs().visible" />`,
+      template: `<jig-state [kind]="inputs().kind" [visible]="inputs().visible" />`,
       imports: ['state'],
     },
     {
@@ -93,7 +93,7 @@ test('semantic states render icons and visibility removes layout', async ({ page
     }
   );
 
-  const state = new NgnStateHarness(page.locator('awd-state'));
+  const state = new AwdStateHarness(page.locator('jig-state'));
 
   await state.expectIcon('success');
 
@@ -114,7 +114,7 @@ test('announces the applied kind to assistive tech via a live region', async ({ 
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-state [kind]="inputs().kind" [visible]="inputs().visible" [label]="inputs().label" />`,
+      template: `<jig-state [kind]="inputs().kind" [visible]="inputs().visible" [label]="inputs().label" />`,
       imports: ['state'],
     },
     {
@@ -126,7 +126,7 @@ test('announces the applied kind to assistive tech via a live region', async ({ 
     }
   );
 
-  const host = page.locator('awd-state');
+  const host = page.locator('jig-state');
   const srOnly = host.locator('span span').first();
 
   // Polite kinds → role="status", aria-live="polite".
@@ -149,7 +149,7 @@ test('announces the applied kind to assistive tech via a live region', async ({ 
   await handle.setInputs({ kind: 'loading', visible: true, label: undefined });
   await expect(host).toHaveAttribute('role', 'status');
   await expect(srOnly).toHaveText('Loading');
-  await expect(page.locator('awd-spinner')).toHaveAttribute('aria-hidden', 'true');
+  await expect(page.locator('jig-spinner')).toHaveAttribute('aria-hidden', 'true');
 
   // Explicit label overrides the derived one.
   await handle.setInputs({ kind: 'loading', visible: true, label: 'Saving…' });
@@ -166,14 +166,14 @@ test('state keeps input field layout stable while toggling visibility', async ({
     page,
     {
       template: `
-        <awd-input-field style="display: block; width: 240px;">
+        <jig-input-field style="display: block; width: 240px;">
           <input ngnInput value="@awdlab/jig" />
-          <awd-state
+          <jig-state
             kind="success"
             [visible]="inputs().visible"
             ngnTooltip="Package is available."
           />
-        </awd-input-field>
+        </jig-input-field>
       `,
       imports: ['inputField', 'input', 'state', 'tooltip'],
     },
@@ -184,10 +184,10 @@ test('state keeps input field layout stable while toggling visibility', async ({
     }
   );
 
-  const field = page.locator('awd-input-field');
+  const field = page.locator('jig-input-field');
   const fieldRoot = field.locator('div').first();
   const input = page.locator('input');
-  const state = new NgnStateHarness(page.locator('awd-state'));
+  const state = new AwdStateHarness(page.locator('jig-state'));
 
   await expect(field).toBeVisible();
   await expect(state.locator).toHaveCSS('display', 'flex');
@@ -244,10 +244,10 @@ test('state keeps input field layout stable while toggling visibility', async ({
     y: iconBox!.y + iconBox!.height / 2,
   };
   const hitElementTag = await page.evaluate(({ x, y }) => {
-    return document.elementFromPoint(x, y)?.closest('awd-state')?.tagName ?? null;
+    return document.elementFromPoint(x, y)?.closest('jig-state')?.tagName ?? null;
   }, hitPaddingPoint);
 
-  expect(hitElementTag).toBe('AWD-STATE');
+  expect(hitElementTag).toBe('JIG-STATE');
 
   await page.mouse.click(hitPaddingPoint.x, hitPaddingPoint.y);
   await expect(input).toBeFocused();
@@ -261,7 +261,7 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<awd-state [kind]="inputs().kind" [visible]="inputs().visible" />`,
+      template: `<jig-state [kind]="inputs().kind" [visible]="inputs().visible" />`,
       imports: ['state'],
     },
     {
@@ -272,7 +272,7 @@ test('accessibility (axe)', async ({ page }) => {
     }
   );
 
-  const state = new NgnStateHarness(page.locator('awd-state'));
+  const state = new AwdStateHarness(page.locator('jig-state'));
   await state.expectIcon('success');
 
   await expectNoA11yViolations(page);
@@ -285,7 +285,7 @@ test('visual', async ({ page }, testInfo) => {
       template: `
         <div class="page-center flex items-center gap-4">
           @for (kind of inputs().kinds; track $index) {
-            <awd-state [kind]="kind" />
+            <jig-state [kind]="kind" />
           }
         </div>
       `,

@@ -1,5 +1,5 @@
 import { booleanAttribute, Directive, input } from '@angular/core';
-import { NgnBase, provideSelf } from '@awdlab/jig/base';
+import { AwdBase, provideSelf } from '@awdlab/jig/base';
 import { toggleClass } from '@awdlab/jig/utils';
 import { buttonControlTemplate } from '@awdlab/jig-themes/templates/button';
 
@@ -8,10 +8,10 @@ import { buttonControlTemplate } from '@awdlab/jig-themes/templates/button';
  */
 @Directive({
   selector: 'button[ngnButton], a[ngnButton]',
-  providers: [provideSelf(NgnButton)],
+  providers: [provideSelf(AwdButton)],
   exportAs: 'ngnButton',
 })
-export class NgnButton extends NgnBase<'button'> {
+export class AwdButton extends AwdBase<'button'> {
   protected readonly theme = this.injectThemeTemplate(buttonControlTemplate, {
     root: true,
     inline: () => this.inline(),
@@ -23,7 +23,7 @@ export class NgnButton extends NgnBase<'button'> {
    */
   public readonly inline = input(false, {
     transform: booleanAttribute,
-    // alias follows the awd{Directive}{Prop} convention for the `button[ngnButton], a[ngnButton]` selector
+    // alias follows the jig{Directive}{Prop} convention for the `button[ngnButton], a[ngnButton]` selector
     alias: 'ngnButtonInline',
   });
 

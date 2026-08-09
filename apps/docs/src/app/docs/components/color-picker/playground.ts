@@ -1,18 +1,18 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { NgnColorPicker } from '@awdlab/jig/color-picker';
+import { AwdColorPicker } from '@awdlab/jig/color-picker';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-color-picker-playground',
-  imports: [NgnColorPicker, NgnDocsPlayground],
+  selector: 'jig-docs-color-picker-playground',
+  imports: [AwdColorPicker, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnColorPicker', component: component() }]">
-      <awd-color-picker #ref [value]="value()" (valueChange)="value.set($event)" />
-    </awd-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'AwdColorPicker', component: component() }]">
+      <jig-color-picker #ref [value]="value()" (valueChange)="value.set($event)" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsColorPickerPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnColorPicker });
+export class AwdDocsColorPickerPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdColorPicker });
   protected readonly value = signal('#3b82f6');
 }

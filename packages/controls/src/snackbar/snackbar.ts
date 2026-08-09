@@ -10,26 +10,26 @@ import {
   output,
   type OnInit,
 } from '@angular/core';
-import { provideSelf, NgnPt } from '@awdlab/jig/base';
-import { NgnActionButton, NgnButton } from '@awdlab/jig/button';
+import { provideSelf, AwdPt } from '@awdlab/jig/base';
+import { AwdActionButton, AwdButton } from '@awdlab/jig/button';
 import { I18n } from '@awdlab/jig/i18n';
-import { NgnIcon } from '@awdlab/jig/icon';
+import { AwdIcon } from '@awdlab/jig/icon';
 import { snackbarControlTemplate } from '@awdlab/jig-themes/templates/snackbar';
 
 import { DEFAULT_SNACKBAR_OPTIONS } from './defaults';
 import { SnackbarTemplates } from './snackbar-templates';
 
-import type { NgnActionButtonConfig } from '@awdlab/jig/api';
+import type { AwdActionButtonConfig } from '@awdlab/jig/api';
 import type { IconType } from '@awdlab/jig-custom-types';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'awd-snackbar',
+  selector: 'jig-snackbar',
   templateUrl: './snackbar.html',
-  imports: [NgTemplateOutlet, NgnPt, NgnButton, NgnIcon, NgnActionButton],
-  providers: [provideSelf(NgnSnackbar)],
+  imports: [NgTemplateOutlet, AwdPt, AwdButton, AwdIcon, AwdActionButton],
+  providers: [provideSelf(AwdSnackbar)],
   host: {
     '(mouseenter)': 'mouseEnter()',
     '(mouseleave)': 'mouseLeave()',
@@ -43,7 +43,7 @@ import type { IconType } from '@awdlab/jig-custom-types';
     'aria-atomic': 'true',
   },
 })
-export class NgnSnackbar extends SnackbarTemplates implements OnInit {
+export class AwdSnackbar extends SnackbarTemplates implements OnInit {
   protected readonly theme = this.injectThemeTemplate(snackbarControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
   private readonly _host = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -78,7 +78,7 @@ export class NgnSnackbar extends SnackbarTemplates implements OnInit {
    * type from `@awdlab/jig/api`.
    */
   // ponytail: snackbar has no [ngnKeyboardShortcut] scope, so a config `shortcut` is inert here; add a scope host if needed.
-  public readonly actions = input<NgnActionButtonConfig[]>();
+  public readonly actions = input<AwdActionButtonConfig[]>();
   /**
    * Shows a thin progress bar at the bottom of the snackbar that depletes over the
    * {@link autoHide} duration.

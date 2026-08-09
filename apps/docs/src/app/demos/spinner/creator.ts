@@ -1,14 +1,14 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
+import { AwdButton } from '@awdlab/jig/button';
 import { createConditionalSpinner, injectSpinnerCreator } from '@awdlab/jig/spinner';
 
 @Component({
-  selector: 'awd-demo-spinner-creator',
-  imports: [NgnButton],
+  selector: 'jig-demo-spinner-creator',
+  imports: [AwdButton],
   template: `
     <div
       id="some-area"
-      style="width: 450px; height: 200px; background: var(--awd-color-surface-100); padding: 30px;"
+      style="width: 450px; height: 200px; background: var(--jig-color-surface-100); padding: 30px;"
     >
       Some content
     </div>

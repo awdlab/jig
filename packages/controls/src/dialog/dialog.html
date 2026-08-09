@@ -43,13 +43,13 @@
           (click)="closeWithButton()"
           tabindex="-1"
         >
-          <awd-icon [defaultIcon]="'dialog-close'"></awd-icon>
+          <jig-icon [defaultIcon]="'dialog-close'"></jig-icon>
         </button>
       }
     </header>
   }
   @if (typedContent().template; as template) {
-    <awd-defer
+    <jig-defer
       [lazyContent]="template"
       [lazy]="lazy()"
       [open]="open() || !isFullyClosed()"
@@ -91,7 +91,7 @@
 <ng-template #defaultFooterTemplate>
   <div [ptInt]="this" [ptClass]="'default-footer'">
     @for (button of footerButtons(); track $index) {
-      <awd-action-button [config]="singleButtonTypeFix(button)" (clicked)="buttonClick($event)" />
+      <jig-action-button [config]="singleButtonTypeFix(button)" (clicked)="buttonClick($event)" />
     }
   </div>
 </ng-template>

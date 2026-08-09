@@ -2,7 +2,7 @@ import { tagControlTemplate } from '@awdlab/jig-themes/templates/tag';
 import { themeClasses } from '../utils/theme';
 import test, { expect, type Locator } from '@playwright/test';
 
-export class NgnTagHarness {
+export class AwdTagHarness {
   public readonly classes = themeClasses(tagControlTemplate);
 
   public readonly locator: Locator;

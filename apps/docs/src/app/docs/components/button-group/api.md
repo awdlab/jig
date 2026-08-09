@@ -1,1 +1,1 @@
-{{ api: button-group/button-group NgnButtonGroup }}
+{{ api: button-group/button-group AwdButtonGroup }}

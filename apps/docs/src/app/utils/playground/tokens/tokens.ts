@@ -2,8 +2,8 @@ import { Component, input, signal, computed, inject, Injector, effect } from '@a
 import tablerPalette from '@iconify/icons-tabler/palette';
 import tablerPointer from '@iconify/icons-tabler/pointer';
 import { injectTheme } from '@awdlab/jig/api/ng';
-import { NgnIcon } from '@awdlab/jig/icon';
-import { NgnMessage } from '@awdlab/jig/message';
+import { AwdIcon } from '@awdlab/jig/icon';
+import { AwdMessage } from '@awdlab/jig/message';
 import { notNullish } from '@awdlab/jig/utils';
 import { setInputSignalValue } from '@awdlab/jig/utils-ng';
 import { ConsoleLogger, Deserializer, FileRegistry } from 'typedoc/browser';
@@ -11,18 +11,18 @@ import { ConsoleLogger, Deserializer, FileRegistry } from 'typedoc/browser';
 import { getInternalControlName } from '../../api/api-docs-helper';
 import { getTypedocProject } from '../../typedoc';
 
-import type { AnyNgnBase, FullAnyNgnBase, NgnPassthrough } from '@awdlab/jig/base';
+import type { AnyAwdBase, FullAnyAwdBase, AwdPassthrough } from '@awdlab/jig/base';
 import type { ControlName, ControlTemplate } from '@awdlab/jig-themes';
 import type { ProjectReflection } from 'typedoc/browser';
 
 @Component({
-  selector: 'awd-docs-tokens',
+  selector: 'jig-docs-tokens',
   templateUrl: 'tokens.html',
   styleUrl: 'tokens.scss',
-  imports: [NgnMessage, NgnIcon],
+  imports: [AwdMessage, AwdIcon],
   host: { class: 'flex flex-col' },
 })
-export class NgnDocsPlaygroundTokens<
+export class AwdDocsPlaygroundTokens<
   T extends ControlTemplate<N, C>,
   N extends ControlName,
   C extends string[],
@@ -34,7 +34,7 @@ export class NgnDocsPlaygroundTokens<
 
   public readonly controls = input.required<
     {
-      component: AnyNgnBase | readonly AnyNgnBase[];
+      component: AnyAwdBase | readonly AnyAwdBase[];
       componentName: string;
     }[]
   >();
@@ -76,7 +76,7 @@ export class NgnDocsPlaygroundTokens<
 
   protected readonly activeToken = signal<{
     name: string;
-    component: AnyNgnBase | readonly AnyNgnBase[];
+    component: AnyAwdBase | readonly AnyAwdBase[];
   } | null>(null);
 
   protected readonly pt = computed(() => {
@@ -93,7 +93,7 @@ export class NgnDocsPlaygroundTokens<
         [activeToken.name]: {
           $classes: ['token-highlight'],
         },
-      } as NgnPassthrough<T['scope']>,
+      } as AwdPassthrough<T['scope']>,
     };
   });
 
@@ -110,7 +110,7 @@ export class NgnDocsPlaygroundTokens<
     });
 
     effect(() => {
-      const components = this.controls().flatMap(x => x.component) as FullAnyNgnBase[];
+      const components = this.controls().flatMap(x => x.component) as FullAnyAwdBase[];
       const pt = this.pt();
       components.forEach(comp => {
         if (pt?.components.includes(comp)) {

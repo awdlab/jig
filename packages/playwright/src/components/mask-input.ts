@@ -3,7 +3,7 @@ import { themeClasses } from '../utils/theme';
 import { maskInputControlTemplate } from '@awdlab/jig-themes/templates/mask-input';
 
 /**
- * Playwright harness for `awd-mask-input` (v2).
+ * Playwright harness for `jig-mask-input` (v2).
  *
  * ## Value assertion
  * The control's `value` model (the serialized string, or `null` when incomplete)
@@ -12,7 +12,7 @@ import { maskInputControlTemplate } from '@awdlab/jig-themes/templates/mask-inpu
  * test component (e.g. `<span data-testid="value">{{ inputs().value }}</span>`).
  * This harness intentionally does NOT expose an `expectValue` method.
  */
-export class NgnMaskInputHarness {
+export class AwdMaskInputHarness {
   public readonly classes = themeClasses(maskInputControlTemplate);
 
   /**

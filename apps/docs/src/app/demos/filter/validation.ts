@@ -1,14 +1,14 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@awdlab/jig/errors';
-import { NgnFilter, type NgnFilterConfig } from '@awdlab/jig/filter';
-import { NgnHint } from '@awdlab/jig/hint';
+import { AwdErrors } from '@awdlab/jig/errors';
+import { AwdFilter, type AwdFilterConfig } from '@awdlab/jig/filter';
+import { AwdHint } from '@awdlab/jig/hint';
 
 @Component({
-  selector: 'awd-demo-filter-validation',
-  imports: [NgnErrors, NgnFilter, NgnHint],
+  selector: 'jig-demo-filter-validation',
+  imports: [AwdErrors, AwdFilter, AwdHint],
   template: `
     <div class="flex flex-col gap-2">
-      <awd-filter
+      <jig-filter
         [data]="data"
         (filterChange)="filter.set($event)"
         ngnErrors
@@ -17,12 +17,12 @@ import { NgnHint } from '@awdlab/jig/hint';
         [ngnErrorsHint]="filterHint"
       />
     </div>
-    <awd-hint #filterHint />
+    <jig-hint #filterHint />
   `,
 })
 export class Demo_Filter_Validation {
   protected readonly data = ['Germany', 'France', 'Italy', 'Spain'];
-  protected readonly filter = signal<NgnFilterConfig | null>(null);
+  protected readonly filter = signal<AwdFilterConfig | null>(null);
   protected readonly errors = computed(() =>
     this.filter() ? null : { required: 'Add at least one filter rule' }
   );

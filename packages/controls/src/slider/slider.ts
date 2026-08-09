@@ -1,16 +1,16 @@
 import { Component, input, viewChild, ElementRef, computed } from '@angular/core';
-import { NgnPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
-import { NgnDrag, type NgnDragInfo } from '@awdlab/jig/directives';
+import { AwdPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { AwdDrag, type AwdDragInfo } from '@awdlab/jig/directives';
 import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'awd-slider',
+  selector: 'jig-slider',
   templateUrl: './slider.html',
-  imports: [NgnPt, NgnDrag],
-  providers: [provideSelf(NgnSlider)],
+  imports: [AwdPt, AwdDrag],
+  providers: [provideSelf(AwdSlider)],
   host: {
     role: 'slider',
     '[attr.aria-valuemin]': 'min()',
@@ -27,7 +27,7 @@ import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
     '(blur)': 'markTouched()',
   },
 })
-export class NgnSlider extends ValueControlBase<'slider', number> {
+export class AwdSlider extends ValueControlBase<'slider', number> {
   protected readonly theme = this.injectThemeTemplate(sliderControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),
@@ -94,7 +94,7 @@ export class NgnSlider extends ValueControlBase<'slider', number> {
     return null;
   });
 
-  protected onDragged(delta: NgnDragInfo) {
+  protected onDragged(delta: AwdDragInfo) {
     if (this.readonly() || this.disabled()) {
       return;
     }

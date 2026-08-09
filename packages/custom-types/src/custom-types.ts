@@ -1,8 +1,8 @@
 // eslint-disable-next-line typescript/no-empty-object-type
-export interface NgnCustomTypes {
+export interface AwdCustomTypes {
   // Empty interface to define custom types
 }
 // eslint-disable-next-line typescript/no-empty-object-type
-export interface NgnThemeTypes {
+export interface AwdThemeTypes {
   // Empty interface to define custom types
 }

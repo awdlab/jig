@@ -74,10 +74,10 @@ describe('capabilities registered', () => {
     expect(uris.length).toBe(
       pack.controls.length + pack.concepts.length + pack.recipes.length + pack.examples.length
     );
-    expect(uris).toContain('awd://control/select');
-    expect(uris.some(u => u.startsWith('awd://concept/'))).toBe(true);
-    expect(uris).toContain('awd://recipe/filterable-table');
-    expect(uris.some(u => u.startsWith('awd://example/'))).toBe(true);
+    expect(uris).toContain('jig://control/select');
+    expect(uris.some(u => u.startsWith('jig://concept/'))).toBe(true);
+    expect(uris).toContain('jig://recipe/filterable-table');
+    expect(uris.some(u => u.startsWith('jig://example/'))).toBe(true);
   });
 });
 
@@ -85,14 +85,14 @@ describe('docs tools', () => {
   it('list_controls returns every control', async () => {
     const text = callText(await client.callTool({ name: 'list_controls', arguments: {} }));
     expect(text).toContain(`${pack.controls.length} controls`);
-    expect(text).toContain('NgnSelect');
+    expect(text).toContain('AwdSelect');
   });
 
-  it('get_control returns full API and normalizes the awd- prefix', async () => {
+  it('get_control returns full API and normalizes the jig- prefix', async () => {
     const text = callText(
-      await client.callTool({ name: 'get_control', arguments: { name: 'awd-select' } })
+      await client.callTool({ name: 'get_control', arguments: { name: 'jig-select' } })
     );
-    expect(text).toContain('# NgnSelect');
+    expect(text).toContain('# AwdSelect');
     expect(text).toContain('Selector');
     expect(text).toContain('### Inputs');
   });
@@ -103,7 +103,7 @@ describe('docs tools', () => {
     );
     expect(text).toContain('Kinds & colors (theme-dependent)');
     expect(text).toContain('nova');
-    expect(text).toContain('NgnCustomTypes');
+    expect(text).toContain('AwdCustomTypes');
   });
 
   it('get_control includes real demo examples', async () => {
@@ -152,7 +152,7 @@ describe('theming tools', () => {
     );
     expect(text).toContain('nova');
     expect(text).toContain('primary');
-    expect(text).toContain('NgnCustomTypes');
+    expect(text).toContain('AwdCustomTypes');
   });
 
   it('scaffold_theme_part produces a createThemePart skeleton', async () => {
@@ -171,14 +171,14 @@ describe('migration tools', () => {
     expect(text).toContain('primeng');
   });
 
-  it('map_component maps a PrimeNG dropdown to awd-select', async () => {
+  it('map_component maps a PrimeNG dropdown to jig-select', async () => {
     const text = callText(
       await client.callTool({
         name: 'map_component',
         arguments: { source: 'primeng', component: 'p-dropdown' },
       })
     );
-    expect(text).toContain('awd-select');
+    expect(text).toContain('jig-select');
     expect(text).toContain('[(value)]');
   });
 
@@ -186,25 +186,25 @@ describe('migration tools', () => {
     const text = callText(
       await client.callTool({ name: 'search_migration', arguments: { query: 'date picker' } })
     );
-    expect(text).toContain('awd-calendar');
+    expect(text).toContain('jig-calendar');
   });
 
-  it('every migration to-target resolves to a real awd selector', () => {
+  it('every migration to-target resolves to a real jig selector', () => {
     const known = new Set<string>();
     for (const c of pack.controls) {
-      for (const m of c.selector.matchAll(/awd-[a-z0-9-]+/g)) known.add(m[0]);
-      for (const m of c.selector.matchAll(/awd[A-Z][A-Za-z0-9]*/g)) known.add(m[0]);
+      for (const m of c.selector.matchAll(/jig-[a-z0-9-]+/g)) known.add(m[0]);
+      for (const m of c.selector.matchAll(/jig[A-Z][A-Za-z0-9]*/g)) known.add(m[0]);
     }
     for (const mig of pack.migrations) {
       for (const comp of mig.components) {
         const targets = Array.isArray(comp.to) ? comp.to : [comp.to];
         for (const to of targets) {
-          const tokens = [...to.matchAll(/awd-[a-z0-9-]+|awd[A-Z][A-Za-z0-9]*/g)].map(x => x[0]);
+          const tokens = [...to.matchAll(/jig-[a-z0-9-]+|jig[A-Z][A-Za-z0-9]*/g)].map(x => x[0]);
           if (!tokens.length) {
             // A "no direct equivalent" row is valid only if it documents a gap.
             expect(
               comp.gaps?.length,
-              `"${comp.from}" -> "${to}" has no awd token or gap`
+              `"${comp.from}" -> "${to}" has no jig token or gap`
             ).toBeTruthy();
             continue;
           }
@@ -236,10 +236,10 @@ describe('feature tools & prompts', () => {
       })
     );
     const suggestions = text.slice(text.indexOf('Suggested controls'));
-    // NgnTable must appear before NgnTree/NgnListBox (which only mention
+    // AwdTable must appear before AwdTree/AwdListBox (which only mention
     // filtering/selection in prose) — the weighted scorer's whole point.
-    const tableAt = suggestions.indexOf('awd-table');
-    const treeAt = suggestions.indexOf('awd-tree');
+    const tableAt = suggestions.indexOf('jig-table');
+    const treeAt = suggestions.indexOf('jig-tree');
     expect(tableAt).toBeGreaterThanOrEqual(0);
     if (treeAt >= 0) expect(tableAt).toBeLessThan(treeAt);
   });
@@ -261,18 +261,18 @@ describe('feature tools & prompts', () => {
         arguments: { goal: 'a select dropdown with filtering' },
       })
     );
-    expect(text).toContain('awd://example/');
+    expect(text).toContain('jig://example/');
   });
 
   it('reads a recipe resource body', async () => {
-    const res = await client.readResource({ uri: 'awd://recipe/filterable-table' });
+    const res = await client.readResource({ uri: 'jig://recipe/filterable-table' });
     const text = (res.contents[0] as { text: string }).text;
     expect(text).toContain('Filterable');
   });
 
   it('reads an example resource body', async () => {
     const example = pack.examples.find(e => e.control === 'select')!;
-    const res = await client.readResource({ uri: `awd://example/${example.slug}` });
+    const res = await client.readResource({ uri: `jig://example/${example.slug}` });
     const text = (res.contents[0] as { text: string }).text;
     expect(text).toContain('```html');
   });
@@ -304,8 +304,8 @@ describe('migration prop targets', () => {
   it('every single-input prop target is a real input of the target control', () => {
     const byToken = new Map<string, (typeof pack.controls)[number]>();
     for (const c of pack.controls) {
-      for (const m of c.selector.matchAll(/awd-[a-z0-9-]+/g)) byToken.set(m[0], c);
-      for (const m of c.selector.matchAll(/awd[A-Z][A-Za-z0-9]*/g)) byToken.set(m[0], c);
+      for (const m of c.selector.matchAll(/jig-[a-z0-9-]+/g)) byToken.set(m[0], c);
+      for (const m of c.selector.matchAll(/jig[A-Z][A-Za-z0-9]*/g)) byToken.set(m[0], c);
     }
     const inputToken = (to: string): string | null => {
       const s = to.trim();
@@ -317,7 +317,7 @@ describe('migration prop targets', () => {
     for (const mig of pack.migrations) {
       for (const comp of mig.components) {
         const targets = (Array.isArray(comp.to) ? comp.to : [comp.to]).flatMap(to =>
-          [...to.matchAll(/awd-[a-z0-9-]+|awd[A-Z][A-Za-z0-9]*/g)].map(x => byToken.get(x[0]!))
+          [...to.matchAll(/jig-[a-z0-9-]+|jig[A-Z][A-Za-z0-9]*/g)].map(x => byToken.get(x[0]!))
         );
         const controls = targets.filter(Boolean) as (typeof pack.controls)[number][];
         if (!controls.length || !comp.props) continue;
@@ -346,13 +346,13 @@ describe('init command', () => {
 
     await runInit(['--dir', tmp, '--yes']);
     const installed = readdirSync(tmp);
-    expect(installed).toContain('awd-controls');
-    const md = readFileSync(join(tmp, 'awd-controls', 'SKILL.md'), 'utf-8');
-    expect(md).toMatch(/^name:\s*awd-controls/m);
+    expect(installed).toContain('jig-controls');
+    const md = readFileSync(join(tmp, 'jig-controls', 'SKILL.md'), 'utf-8');
+    expect(md).toMatch(/^name:\s*jig-controls/m);
 
     // Second run: same versions → nothing rewritten (idempotent).
     await runInit(['--dir', tmp, '--yes']);
-    expect(readdirSync(join(tmp, 'awd-controls'))).toContain('SKILL.md');
+    expect(readdirSync(join(tmp, 'jig-controls'))).toContain('SKILL.md');
 
     rmSync(tmp, { recursive: true, force: true });
   });

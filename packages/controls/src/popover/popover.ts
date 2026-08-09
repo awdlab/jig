@@ -22,8 +22,8 @@ import {
   type Openable,
   type Anchor,
 } from '@awdlab/jig/api/ng';
-import { provideSelf, NgnPt } from '@awdlab/jig/base';
-import { NgnDefer } from '@awdlab/jig/defer';
+import { provideSelf, AwdPt } from '@awdlab/jig/base';
+import { AwdDefer } from '@awdlab/jig/defer';
 import { computedWithPrevious, explicitAfterRenderEffect } from '@awdlab/jig/utils-ng';
 import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
 
@@ -35,15 +35,15 @@ import type { PopoverOptions } from './types';
  * @category control
  */
 @Component({
-  selector: 'awd-popover',
+  selector: 'jig-popover',
   templateUrl: './popover.html',
-  imports: [NgnPt, NgnDefer],
-  providers: [provideSelf(NgnPopover)],
+  imports: [AwdPt, AwdDefer],
+  providers: [provideSelf(AwdPopover)],
   host: {
     '(click)': '$event.stopPropagation()',
   },
 })
-export class NgnPopover extends PopoverTemplates implements Openable {
+export class AwdPopover extends PopoverTemplates implements Openable {
   protected readonly theme = this.injectThemeTemplate(popoverControlTemplate, 'root');
 
   /**

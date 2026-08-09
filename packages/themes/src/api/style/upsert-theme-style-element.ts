@@ -10,10 +10,10 @@ export function upsertThemeStyleElement(
   }
   if (!selector) throw new Error('No identifiers provided for the style element');
 
-  let styleElement = document.head.querySelector<HTMLStyleElement>(`style[awd-style]${selector}`);
+  let styleElement = document.head.querySelector<HTMLStyleElement>(`style[jig-style]${selector}`);
   if (!styleElement) {
     styleElement = document.createElement('style');
-    styleElement.setAttribute('awd-style', '');
+    styleElement.setAttribute('jig-style', '');
     for (const key in identifiers) {
       if (identifiers[key] === undefined) continue;
       styleElement.setAttribute(`data-${key}`, identifiers[key]);

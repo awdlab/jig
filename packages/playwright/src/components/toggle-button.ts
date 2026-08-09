@@ -2,7 +2,7 @@ import { type Locator, expect } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { toggleButtonControlTemplate } from '@awdlab/jig-themes/templates/toggle-button';
 
-export class NgnToggleButtonHarness {
+export class AwdToggleButtonHarness {
   public readonly classes = themeClasses(toggleButtonControlTemplate);
 
   public readonly locator: Locator;

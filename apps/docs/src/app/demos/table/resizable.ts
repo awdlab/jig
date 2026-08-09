@@ -1,20 +1,20 @@
 import { Component, signal } from '@angular/core';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnSelectButton } from '@awdlab/jig/select-button';
-import { NgnSwitch } from '@awdlab/jig/switch';
-import { NgnTableModule } from '@awdlab/jig/table';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdSelectButton } from '@awdlab/jig/select-button';
+import { AwdSwitch } from '@awdlab/jig/switch';
+import { AwdTableModule } from '@awdlab/jig/table';
 type TableResizeMode = 'adjacent' | 'proportional' | 'push';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnTableModule, NgnTemplate, NgnSelectButton, NgnSwitch],
-  selector: 'awd-demo-table-resizable',
+  imports: [AwdTableModule, AwdTemplate, AwdSelectButton, AwdSwitch],
+  selector: 'jig-demo-table-resizable',
   host: { style: 'display: block; width: 100%' },
   template: ` <div
       style="margin-bottom: 8px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;"
     >
-      <awd-select-button [options]="modeOptions" [(value)]="resizeMode" />
+      <jig-select-button [options]="modeOptions" [(value)]="resizeMode" />
       @if (resizeMode() === 'proportional') {
         <label
           [for]="switch.inputId()"
@@ -22,10 +22,10 @@ import { exampleData } from '../../helper/data';
         >
           Lock resized
         </label>
-        <awd-switch #switch [(value)]="lockSizes" />
+        <jig-switch #switch [(value)]="lockSizes" />
       }
     </div>
-    <awd-table
+    <jig-table
       #table
       style="height: 400px; width: 100%"
       [rows]="rows"
@@ -50,7 +50,7 @@ import { exampleData } from '../../helper/data';
           <td ngnTableTd>{{ row.data.location }}</td>
         </tr>
       </ng-template>
-    </awd-table>`,
+    </jig-table>`,
 })
 export class Demo_Table_Resizable {
   protected readonly rows = exampleData.table(100);

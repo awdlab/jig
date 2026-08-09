@@ -1,7 +1,7 @@
 {
   "source": "angular-material",
   "label": "Angular Material",
-  "notes": "Material wraps most form controls in <mat-form-field>; the awd equivalent is awd-input-field. Material uses [(ngModel)] or formControlName; awd controls expose a signal `value` model ([(value)]) and also integrate with reactive forms. Material's `matX` attribute directives map to awd attribute directives (e.g. matInput -> ngnInput). Verify target inputs with get_control before rewriting.",
+  "notes": "Material wraps most form controls in <mat-form-field>; the jig equivalent is jig-input-field. Material uses [(ngModel)] or formControlName; jig controls expose a signal `value` model ([(value)]) and also integrate with reactive forms. Material's `matX` attribute directives map to jig attribute directives (e.g. matInput -> ngnInput). Verify target inputs with get_control before rewriting.",
   "components": [
     {
       "from": "button[mat-button] / mat-raised-button",
@@ -13,70 +13,70 @@
     },
     {
       "from": "mat-form-field",
-      "to": "awd-input-field",
+      "to": "jig-input-field",
       "notes": "Wraps a form control and provides label/hint/error chrome.",
       "props": [
         { "from": "mat-label", "to": "label" },
-        { "from": "mat-hint", "to": "hint (awd-hint)" },
+        { "from": "mat-hint", "to": "hint (jig-hint)" },
         { "from": "mat-error", "to": "error / validation" }
       ]
     },
     {
       "from": "input[matInput]",
       "to": "input[ngnInput]",
-      "notes": "Move any `id` off the input onto the wrapper: `<awd-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references.",
+      "notes": "Move any `id` off the input onto the wrapper: `<jig-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references.",
       "props": [{ "from": "[(ngModel)]", "to": "[(value)] or formControl" }]
     },
     {
       "from": "mat-select",
-      "to": "awd-select",
+      "to": "jig-select",
       "props": [
         { "from": "[(ngModel)] / value", "to": "[(value)]" },
         { "from": "multiple", "to": "multiple" },
         {
           "from": "mat-option",
           "to": "options input",
-          "notes": "awd-select takes an options array; verify template projection with get_control."
+          "notes": "jig-select takes an options array; verify template projection with get_control."
         }
       ]
     },
     {
       "from": "mat-checkbox",
-      "to": "awd-checkbox",
+      "to": "jig-checkbox",
       "props": [{ "from": "[(ngModel)] / checked", "to": "[(value)]" }]
     },
     {
       "from": "mat-radio-group / mat-radio-button",
-      "to": "awd-radio-group / awd-radio",
+      "to": "jig-radio-group / jig-radio",
       "props": [{ "from": "[(ngModel)]", "to": "[(value)] on the group" }]
     },
     {
       "from": "mat-slide-toggle",
-      "to": "awd-switch",
+      "to": "jig-switch",
       "props": [{ "from": "[(ngModel)] / checked", "to": "[(value)]" }]
     },
     {
       "from": "mat-slider",
-      "to": "awd-slider",
+      "to": "jig-slider",
       "props": [{ "from": "min / max / step", "to": "min / max / step" }]
     },
     {
       "from": "mat-datepicker + matDatepicker",
-      "to": "awd-calendar",
-      "notes": "Single-component picker in awd; no separate toggle/panel wiring.",
+      "to": "jig-calendar",
+      "notes": "Single-component picker in jig; no separate toggle/panel wiring.",
       "props": [{ "from": "[(ngModel)]", "to": "[(value)]" }]
     },
     {
       "from": "mat-dialog (MatDialog service)",
-      "to": "awd-dialog",
-      "notes": "awd-dialog is a declarative component with an [(open)] model, not primarily a service-opened overlay. Migrate imperatively-opened dialogs to declarative open state where possible.",
+      "to": "jig-dialog",
+      "notes": "jig-dialog is a declarative component with an [(open)] model, not primarily a service-opened overlay. Migrate imperatively-opened dialogs to declarative open state where possible.",
       "gaps": [
         "Service-based programmatic dialog opening differs from Material's MatDialog.open()."
       ]
     },
     {
       "from": "mat-sidenav / mat-drawer",
-      "to": "awd-drawer",
+      "to": "jig-drawer",
       "props": [{ "from": "[(opened)]", "to": "[(open)]" }]
     },
     {
@@ -89,32 +89,32 @@
     },
     {
       "from": "mat-menu / matMenuTriggerFor",
-      "to": "awd-menu",
+      "to": "jig-menu",
       "notes": "Verify trigger + item model with get_control."
     },
-    { "from": "mat-tab-group", "to": "awd-tabs" },
-    { "from": "mat-accordion / mat-expansion-panel", "to": "awd-accordion / awd-accordion-panel" },
+    { "from": "mat-tab-group", "to": "jig-tabs" },
+    { "from": "mat-accordion / mat-expansion-panel", "to": "jig-accordion / jig-accordion-panel" },
     {
       "from": "mat-table",
-      "to": "awd-table",
+      "to": "jig-table",
       "gaps": ["Column/template model differs; migrate incrementally."]
     },
     {
       "from": "mat-paginator",
-      "to": "awd-paginator",
+      "to": "jig-paginator",
       "props": [
         { "from": "pageSize", "to": "pageSize" },
         { "from": "length", "to": "totalItems" }
       ]
     },
-    { "from": "mat-tree", "to": "awd-tree" },
-    { "from": "mat-progress-bar", "to": "awd-progress" },
-    { "from": "mat-progress-spinner / mat-spinner", "to": "awd-spinner" },
-    { "from": "mat-chip-set / mat-chip", "to": "awd-chip" },
+    { "from": "mat-tree", "to": "jig-tree" },
+    { "from": "mat-progress-bar", "to": "jig-progress" },
+    { "from": "mat-progress-spinner / mat-spinner", "to": "jig-spinner" },
+    { "from": "mat-chip-set / mat-chip", "to": "jig-chip" },
     {
       "from": "matBadge",
       "to": "[ngnBadge]",
-      "notes": "Attribute directive overlaying a counter/dot on its host, like matBadge; awd-badge-indicator is the standalone element form. Use awd-tag for a standalone label chip.",
+      "notes": "Attribute directive overlaying a counter/dot on its host, like matBadge; jig-badge-indicator is the standalone element form. Use jig-tag for a standalone label chip.",
       "props": [
         { "from": "matBadge", "to": "[ngnBadge]" },
         { "from": "matBadgePosition", "to": "[ngnBadgePosition]" },
@@ -124,20 +124,20 @@
     },
     {
       "from": "mat-icon",
-      "to": "awd-icon",
-      "notes": "awd uses iconify (tabler) icons; see the icons concept guide."
+      "to": "jig-icon",
+      "notes": "jig uses iconify (tabler) icons; see the icons concept guide."
     },
-    { "from": "mat-snack-bar", "to": "awd-snackbar / awd-toast" },
-    { "from": "mat-breadcrumb (community)", "to": "awd-breadcrumb" },
+    { "from": "mat-snack-bar", "to": "jig-snackbar / jig-toast" },
+    { "from": "mat-breadcrumb (community)", "to": "jig-breadcrumb" },
     {
       "from": "mat-button-toggle-group",
-      "to": "awd-select-button",
-      "notes": "Use awd-toggle-button for a single toggle.",
+      "to": "jig-select-button",
+      "notes": "Use jig-toggle-button for a single toggle.",
       "props": [{ "from": "[(value)]", "to": "[(value)]" }]
     },
     {
       "from": "mat-list / mat-selection-list",
-      "to": "awd-list-box",
+      "to": "jig-list-box",
       "props": [
         { "from": "[(ngModel)]", "to": "[(value)]" },
         { "from": "multiple", "to": "multiple" }
@@ -147,13 +147,13 @@
       "from": "mat-card",
       "to": "(no direct equivalent)",
       "gaps": [
-        "No card container control; compose with plain elements + Tailwind and awd controls inside."
+        "No card container control; compose with plain elements + Tailwind and jig controls inside."
       ]
     },
     {
       "from": "mat-stepper / mat-horizontal-stepper / mat-vertical-stepper",
-      "to": "awd-stepper / awd-step",
-      "notes": "Steps are <awd-step> children; the active index is a signal model. Step content is lazy and cached by default ([lazy], [cache]).",
+      "to": "jig-stepper / jig-step",
+      "notes": "Steps are <jig-step> children; the active index is a signal model. Step content is lazy and cached by default ([lazy], [cache]).",
       "props": [
         { "from": "[(selectedIndex)]", "to": "[(active)]" },
         { "from": "linear", "to": "linear" },
@@ -163,7 +163,7 @@
         { "from": "hasError", "to": "error" }
       ],
       "gaps": [
-        "No stepper-scoped form validation — awd-step exposes [completed]/[error] that you drive from your own form state."
+        "No stepper-scoped form validation — jig-step exposes [completed]/[error] that you drive from your own form state."
       ]
     }
   ]

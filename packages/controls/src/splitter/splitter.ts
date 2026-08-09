@@ -16,14 +16,14 @@ import {
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { elementSizeSignal, NGN_CONFIG, NgnTemplate, templateTypeFn } from '@awdlab/jig/api/ng';
-import { NgnBase, provideSelf, NgnPt } from '@awdlab/jig/base';
+import { elementSizeSignal, NGN_CONFIG, AwdTemplate, templateTypeFn } from '@awdlab/jig/api/ng';
+import { AwdBase, provideSelf, AwdPt } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
-import { Logger, NgnError } from '@awdlab/jig/utils';
-import { type NgnStateStorage, registerState } from '@awdlab/jig/utils-ng';
+import { Logger, AwdError } from '@awdlab/jig/utils';
+import { type AwdStateStorage, registerState } from '@awdlab/jig/utils-ng';
 import { splitterControlTemplate } from '@awdlab/jig-themes/templates/splitter';
 
-import { NgnSplitterPanel } from './panel/splitter-panel';
+import { AwdSplitterPanel } from './panel/splitter-panel';
 import { DefaultSplitterCalculator, type SplitterCalculatorType } from './splitter-calculator';
 import { isSplitterPanelSize } from './utils';
 
@@ -33,10 +33,10 @@ import type { SplitterLayout, SplitterResizeMode, SplitterState, SplitterStateDa
  * @category control
  */
 @Component({
-  selector: 'awd-splitter',
+  selector: 'jig-splitter',
   templateUrl: './splitter.html',
-  imports: [NgnPt, NgnTemplate],
-  providers: [provideSelf(NgnSplitter)],
+  imports: [AwdPt, AwdTemplate],
+  providers: [provideSelf(AwdSplitter)],
   host: {
     role: 'region',
     '[style.grid-template-columns]': `layout() === 'horizontal' ? calculator().gridTemplateSizes() : null`,
@@ -48,7 +48,7 @@ import type { SplitterLayout, SplitterResizeMode, SplitterState, SplitterStateDa
     '[style.min-height]': `layout() === 'vertical' ? calculator().minSize() : null`,
   },
 })
-export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
+export class AwdSplitter extends AwdBase<'splitter'> implements OnDestroy {
   private readonly _viewContainer = inject(ViewContainerRef);
   private readonly _config = inject(NGN_CONFIG);
   protected readonly theme = this.injectThemeTemplate(splitterControlTemplate, {
@@ -72,7 +72,7 @@ export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
    * The storage to use for saving the splitter state.
    * @default `session`
    */
-  public readonly stateStorage = input<NgnStateStorage>(
+  public readonly stateStorage = input<AwdStateStorage>(
     this._config.defaults.splitter.stateStorage
   );
   /**
@@ -138,7 +138,7 @@ export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
   /**
    * The current panels in the splitter.
    */
-  public readonly panels = contentChildren(NgnSplitterPanel);
+  public readonly panels = contentChildren(AwdSplitterPanel);
   /**
    * The current size of the splitter element.
    */
@@ -242,7 +242,7 @@ export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
     }
   }
 
-  private updateDividers(panels: readonly NgnSplitterPanel[]) {
+  private updateDividers(panels: readonly AwdSplitterPanel[]) {
     this.dividers.update(divider => {
       if (divider.length === panels.length - 1) {
         return divider; // No need to update if the number of dividers matches the number of panels
@@ -265,7 +265,7 @@ export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
       const panel = panels[i]!;
       const divider = this.dividers()[i - 1];
       if (!divider) {
-        throw new NgnError('NgnSplitter', `Divider is missing for panel at index ${i}`);
+        throw new AwdError('AwdSplitter', `Divider is missing for panel at index ${i}`);
       }
       this.moveDividerBefore(panel, divider);
     }
@@ -277,7 +277,7 @@ export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
     return viewRef;
   }
 
-  private moveDividerBefore(panel: NgnSplitterPanel, divider: EmbeddedViewRef<unknown>) {
+  private moveDividerBefore(panel: AwdSplitterPanel, divider: EmbeddedViewRef<unknown>) {
     const panelElement = panel.element.nativeElement;
     divider.rootNodes.forEach(node => {
       if (node instanceof HTMLElement) {
@@ -294,7 +294,7 @@ export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
       panelSizes: data.includes('panelSizes')
         ? this.panels().reduce(
             (acc, panel, index) => {
-              acc[panel.name() || `awd-panel-${index}`] = panel.size();
+              acc[panel.name() || `jig-panel-${index}`] = panel.size();
               return acc;
             },
             { ...previousState?.panelSizes }
@@ -351,7 +351,7 @@ export class NgnSplitter extends NgnBase<'splitter'> implements OnDestroy {
     if (state.panelSizes && this.stateData().includes('panelSizes')) {
       const panels = this.panels();
       for (let i = 0; i < panels.length; i++) {
-        const panelName = panels[i]?.name() || `awd-panel-${i}`;
+        const panelName = panels[i]?.name() || `jig-panel-${i}`;
         if (panelName in state.panelSizes) {
           const panelSize = state.panelSizes[panelName];
           if (!panelSize) {

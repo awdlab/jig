@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
-import { NgnBase, provideSelf, NgnPt } from '@awdlab/jig/base';
-import { NgnIcon } from '@awdlab/jig/icon';
+import { AwdBase, provideSelf, AwdPt } from '@awdlab/jig/base';
+import { AwdIcon } from '@awdlab/jig/icon';
 import { tagControlTemplate } from '@awdlab/jig-themes/templates/tag';
 
 import type { IconType } from '@awdlab/jig-custom-types';
@@ -9,12 +9,12 @@ import type { IconType } from '@awdlab/jig-custom-types';
  * @category control
  */
 @Component({
-  selector: 'awd-tag',
+  selector: 'jig-tag',
   templateUrl: './tag.html',
-  imports: [NgnPt, NgnIcon],
-  providers: [provideSelf(NgnTag)],
+  imports: [AwdPt, AwdIcon],
+  providers: [provideSelf(AwdTag)],
 })
-export class NgnTag extends NgnBase<'tag'> {
+export class AwdTag extends AwdBase<'tag'> {
   protected readonly theme = this.injectThemeTemplate(tagControlTemplate, 'root');
 
   /**

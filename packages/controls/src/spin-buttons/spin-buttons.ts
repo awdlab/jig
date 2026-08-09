@@ -1,8 +1,8 @@
 import { Component, computed, DestroyRef, inject, input } from '@angular/core';
-import { type AnyNgnBase, NgnBase, NgnPt, provideSelf } from '@awdlab/jig/base';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnIcon } from '@awdlab/jig/icon';
-import { NgnInputField } from '@awdlab/jig/input-field';
+import { type AnyAwdBase, AwdBase, AwdPt, provideSelf } from '@awdlab/jig/base';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdIcon } from '@awdlab/jig/icon';
+import { AwdInputField } from '@awdlab/jig/input-field';
 import { spinButtonsControlTemplate } from '@awdlab/jig-themes/templates/spin-buttons';
 
 import type { IconType } from '@awdlab/jig-custom-types';
@@ -15,7 +15,7 @@ const HOLD_INTERVAL = 60;
 /**
  * Increment/decrement buttons for a steppable control (e.g. `ngnNumberInput`).
  *
- * Inside an `awd-input-field` the buttons find the field's primary control
+ * Inside an `jig-input-field` the buttons find the field's primary control
  * automatically; outside (or to target a specific control) bind `[for]` to a
  * control instance (e.g. a `#num="ngnNumberInput"` template reference).
  *
@@ -31,12 +31,12 @@ const HOLD_INTERVAL = 60;
  * @category control
  */
 @Component({
-  selector: 'awd-spin-buttons',
+  selector: 'jig-spin-buttons',
   templateUrl: './spin-buttons.html',
-  imports: [NgnPt, NgnButton, NgnIcon],
-  providers: [provideSelf(NgnSpinButtons)],
+  imports: [AwdPt, AwdButton, AwdIcon],
+  providers: [provideSelf(AwdSpinButtons)],
 })
-export class NgnSpinButtons extends NgnBase<'spinButtons'> {
+export class AwdSpinButtons extends AwdBase<'spinButtons'> {
   protected readonly theme = this.injectThemeTemplate(spinButtonsControlTemplate, {
     root: true,
     // A lone decrement button flanks the input's leading edge; everything else
@@ -54,15 +54,15 @@ export class NgnSpinButtons extends NgnBase<'spinButtons'> {
   public readonly buttons = input<'both' | 'increment' | 'decrement'>('both');
   /**
    * The control to step. Falls back to the primary control of a surrounding
-   * `awd-input-field`.
+   * `jig-input-field`.
    */
-  public readonly for = input<AnyNgnBase | undefined>(undefined);
+  public readonly for = input<AnyAwdBase | undefined>(undefined);
   /** Custom icon for the increment button. */
   public readonly iconIncrement = input<IconType>();
   /** Custom icon for the decrement button. */
   public readonly iconDecrement = input<IconType>();
 
-  private readonly _field = inject(NgnInputField, { optional: true });
+  private readonly _field = inject(AwdInputField, { optional: true });
 
   /** The resolved step target: explicit `for` wins over the surrounding field. */
   protected readonly target = computed(() => this.for() ?? this._field?.control());

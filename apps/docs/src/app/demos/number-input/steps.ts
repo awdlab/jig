@@ -1,13 +1,13 @@
 import { Component, signal } from '@angular/core';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { NgnNumberInput } from '@awdlab/jig/number-input';
-import { NgnSpinButtons } from '@awdlab/jig/spin-buttons';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { AwdNumberInput } from '@awdlab/jig/number-input';
+import { AwdSpinButtons } from '@awdlab/jig/spin-buttons';
 
 @Component({
-  imports: [NgnNumberInput, NgnInputField, NgnSpinButtons],
-  selector: 'awd-demo-number-input-steps',
+  imports: [AwdNumberInput, AwdInputField, AwdSpinButtons],
+  selector: 'jig-demo-number-input-steps',
   template: `
-    <awd-input-field [label]="'Opacity (0 – 1, step 0.1)'" [labelKind]="'on'">
+    <jig-input-field [label]="'Opacity (0 – 1, step 0.1)'" [labelKind]="'on'">
       <input
         ngnNumberInput
         [min]="0"
@@ -17,8 +17,8 @@ import { NgnSpinButtons } from '@awdlab/jig/spin-buttons';
         [value]="value()"
         (valueChange)="value.set($event)"
       />
-      <awd-spin-buttons />
-    </awd-input-field>
+      <jig-spin-buttons />
+    </jig-input-field>
     value: {{ value() }}
   `,
 })

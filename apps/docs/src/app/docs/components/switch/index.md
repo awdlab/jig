@@ -1,4 +1,4 @@
-The Switch (`<awd-switch>`) toggles a single boolean that takes effect
+The Switch (`<jig-switch>`) toggles a single boolean that takes effect
 immediately — think "Notifications on/off" or "Dark mode", where flipping it
 applies the change at once with no separate save step. Its state is a plain
 `boolean` exposed through the two-way `value` model.

@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { NgnHintHarness } from '@awdlab/jig-playwright';
+import { AwdHintHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -9,10 +9,10 @@ test('features', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <awd-hint
+      <jig-hint
         class="page-center"
         [icon]="inputs().icon"
-      >Hint text content</awd-hint>
+      >Hint text content</jig-hint>
     `,
       imports: ['hint'],
     },
@@ -21,7 +21,7 @@ test('features', async ({ page }, testInfo) => {
     }
   );
 
-  const hint = new NgnHintHarness(page.locator('awd-hint'));
+  const hint = new AwdHintHarness(page.locator('jig-hint'));
 
   await test.step('default', async () => {
     await expectScreenshot(page, testInfo, 'default');
@@ -49,7 +49,7 @@ test('kinds', async ({ page }, testInfo) => {
       <div class="page-center">
         <div style="display: flex; gap: 0.5rem; flex-direction: column;">
           @for (kind of inputs().kinds; track $index) {
-            <awd-hint [kind]="kind">{{ kind ?? 'default' }} hint</awd-hint>
+            <jig-hint [kind]="kind">{{ kind ?? 'default' }} hint</jig-hint>
           }
         </div>
       </div>
@@ -64,7 +64,7 @@ test('kinds', async ({ page }, testInfo) => {
   );
 
   await expectScreenshot(page, testInfo, 'kinds');
-  await expect(page.locator('awd-hint awd-icon')).toHaveCount(4); // default has no icon
+  await expect(page.locator('jig-hint jig-icon')).toHaveCount(4); // default has no icon
 });
 test('iconOnly validation shows the error in a tooltip', async ({ page }) => {
   await loadComponent(page, {
@@ -78,15 +78,15 @@ test('iconOnly validation shows the error in a tooltip', async ({ page }) => {
           ngnErrors
           [ngnErrorsHint]="emailHint"
         />
-        <awd-hint #emailHint kind="error" iconOnly="true" />
+        <jig-hint #emailHint kind="error" iconOnly="true" />
       </div>
     `,
     imports: ['input', 'hint', 'errors', 'forms'],
   });
 
   const input = page.locator('input[ngnInput]');
-  const hint = page.locator('awd-hint');
-  const icon = hint.locator('awd-icon');
+  const hint = page.locator('jig-hint');
+  const icon = hint.locator('jig-icon');
 
   await expect(hint).toHaveCount(1);
   await expect(hint).toHaveText('');
@@ -106,7 +106,7 @@ test('iconOnly validation shows the error in a tooltip', async ({ page }) => {
 test('iconOnly keeps the kind icon when hidden validation has normal content', async ({ page }) => {
   await loadComponent(page, {
     template: `
-      <awd-hint
+      <jig-hint
         class="page-center"
         kind="error"
         iconOnly="true"
@@ -117,8 +117,8 @@ test('iconOnly keeps the kind icon when hidden validation has normal content', a
     imports: ['hint'],
   });
 
-  const hint = page.locator('awd-hint');
-  const icon = hint.locator('awd-icon');
+  const hint = page.locator('jig-hint');
+  const icon = hint.locator('jig-icon');
 
   await expect(hint).toHaveText('');
   await expect(icon).toHaveCount(1);
@@ -132,7 +132,7 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<awd-hint class="page-center" [kind]="'info'">Hint text content</awd-hint>`,
+      template: `<jig-hint class="page-center" [kind]="'info'">Hint text content</jig-hint>`,
       imports: ['hint'],
     },
     { inputs: {} }

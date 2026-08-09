@@ -1,14 +1,14 @@
 Controls share a consistent, signal-backed state model. It lives in two base classes:
 
-- **`NgnBase<T>`** — the root of every control. Owns presentation/identity state:
+- **`AwdBase<T>`** — the root of every control. Owns presentation/identity state:
   `unstyled`, `kind`, `color`, and the `pt` passthrough input.
-- **`ValueControlBase<T>`** — extends `NgnBase` for form-value controls. Adds the value and
+- **`ValueControlBase<T>`** — extends `AwdBase` for form-value controls. Adds the value and
   interaction state.
 
 ### The state signals
 
 `ValueControlBase` exposes these (all boolean inputs use Angular's `booleanAttribute`
-transform, so `<awd-checkbox disabled>` works):
+transform, so `<jig-checkbox disabled>` works):
 
 | Signal                             | Kind      | Meaning                       |
 | ---------------------------------- | --------- | ----------------------------- |

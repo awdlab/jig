@@ -1,20 +1,20 @@
 import { afterNextRender, Component, ElementRef, inject, viewChildren } from '@angular/core';
-import { NgnBase, provideSelf } from '@awdlab/jig/base';
+import { AwdBase, provideSelf } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
 import { NotificationRegionController } from '@awdlab/jig/utils-ng';
 import { snackbarControlTemplate } from '@awdlab/jig-themes/templates/snackbar';
 
-import { NgnSnackbar } from './snackbar';
-import { NgnSnackbarManager } from './snackbar-manager';
+import { AwdSnackbar } from './snackbar';
+import { AwdSnackbarManager } from './snackbar-manager';
 
 /**
  * The host component that renders snackbars.
  */
 @Component({
-  selector: 'awd-snackbar-host',
+  selector: 'jig-snackbar-host',
   templateUrl: 'snackbar-host.html',
-  imports: [NgnSnackbar],
-  providers: [provideSelf(NgnSnackbarHost)],
+  imports: [AwdSnackbar],
+  providers: [provideSelf(AwdSnackbarHost)],
   host: {
     '[attr.popover]': '"manual"',
     role: 'region',
@@ -25,13 +25,13 @@ import { NgnSnackbarManager } from './snackbar-manager';
     '(focusout)': 'region.handleFocusOut($event)',
   },
 })
-export class NgnSnackbarHost extends NgnBase<'snackbar'> {
+export class AwdSnackbarHost extends AwdBase<'snackbar'> {
   protected readonly theme = this.injectThemeTemplate(snackbarControlTemplate, 'host');
   protected readonly i18n = inject(I18n).translations;
-  private readonly _snackbarManager = inject(NgnSnackbarManager);
+  private readonly _snackbarManager = inject(AwdSnackbarManager);
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  private readonly _items = viewChildren(NgnSnackbar);
+  private readonly _items = viewChildren(AwdSnackbar);
 
   // The first snackbar is anchored at the bottom; each new one stacks above it (mirroring how a
   // second toast appears below the first). Paired with the host's `column-reverse`, the first item

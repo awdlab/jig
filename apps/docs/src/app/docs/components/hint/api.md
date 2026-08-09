@@ -1,1 +1,1 @@
-{{ api: hint/hint NgnHint }}
+{{ api: hint/hint AwdHint }}

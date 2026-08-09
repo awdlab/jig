@@ -1,17 +1,17 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnAvatar } from '@awdlab/jig/avatar';
+import { AwdAvatar } from '@awdlab/jig/avatar';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-avatar-playground',
-  imports: [NgnAvatar, NgnDocsPlayground],
+  selector: 'jig-docs-avatar-playground',
+  imports: [AwdAvatar, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnAvatar', component: component() }]">
-      <awd-avatar #ref />
-    </awd-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'AwdAvatar', component: component() }]">
+      <jig-avatar #ref />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsAvatarPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnAvatar });
+export class AwdDocsAvatarPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdAvatar });
 }

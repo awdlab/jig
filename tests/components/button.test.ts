@@ -14,7 +14,7 @@ test('applies the root theme class and emits clicks', async ({ page }) => {
   );
 
   const button = page.locator('button[ngnButton]');
-  await expect(button).toHaveClass(/awd-button-root/);
+  await expect(button).toHaveClass(/jig-button-root/);
 
   await button.click();
   await button.click();
@@ -34,13 +34,13 @@ test('toggles kind theme classes reactively', async ({ page }) => {
   );
 
   const button = page.locator('button[ngnButton]');
-  await expect(button).toHaveClass(/awd-button-kind-secondary/);
-  await expect(button).not.toHaveClass(/awd-button-kind-icon/);
+  await expect(button).toHaveClass(/jig-button-kind-secondary/);
+  await expect(button).not.toHaveClass(/jig-button-kind-icon/);
 
   // Switching the kind removes the previous kind class and adds the new one.
   await handle.setInputs({ kind: 'icon' });
-  await expect(button).toHaveClass(/awd-button-kind-icon/);
-  await expect(button).not.toHaveClass(/awd-button-kind-secondary/);
+  await expect(button).toHaveClass(/jig-button-kind-icon/);
+  await expect(button).not.toHaveClass(/jig-button-kind-secondary/);
 });
 
 test('disabled button does not fire clicks', async ({ page }) => {
@@ -84,7 +84,7 @@ test('directive works on anchor elements', async ({ page }) => {
   );
 
   const anchor = page.locator('a[ngnButton]');
-  await expect(anchor).toHaveClass(/awd-button-root/);
+  await expect(anchor).toHaveClass(/jig-button-root/);
   await expect(anchor).toHaveAttribute('href', '#link');
 });
 

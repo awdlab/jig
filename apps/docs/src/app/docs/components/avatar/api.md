@@ -1,1 +1,1 @@
-{{ api: avatar/avatar NgnAvatar }}
+{{ api: avatar/avatar AwdAvatar }}

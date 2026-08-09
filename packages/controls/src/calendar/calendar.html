@@ -11,7 +11,7 @@
     (focusout)="potentiallyBlurred()"
     [tabindex]="disabled() ? -1 : 0"
   >
-    <awd-mask-input
+    <jig-mask-input
       [ptInt]="this"
       [ptDep]="'input'"
       [label]="i18n['calendar_input']()"
@@ -23,9 +23,9 @@
       [disabled]="disabled()"
       [readonly]="readonly()"
     />
-    <awd-icon defaultIcon="calendar-trigger" [ptInt]="this" [ptDep]="'trigger-icon'" />
+    <jig-icon defaultIcon="calendar-trigger" [ptInt]="this" [ptDep]="'trigger-icon'" />
   </div>
-  <awd-popover
+  <jig-popover
     #popover
     [ptInt]="this"
     [ptDep]="'popover'"
@@ -36,7 +36,7 @@
     <ng-template #lazy>
       <ng-container *ngTemplateOutlet="calendar"></ng-container>
     </ng-template>
-  </awd-popover>
+  </jig-popover>
 }
 
 <ng-template #calendar>
@@ -47,7 +47,7 @@
       inline: inline(),
     }"
   >
-    <awd-calendar-days
+    <jig-calendar-days
       [component]="this"
       [theme]="theme"
       [year]="year()"
@@ -84,7 +84,7 @@
 <ng-template #defaultTimeTemplate [ngnTemplate]="templateTypes.time" let-time>
   @defer {
     <div [ptInt]="this" [ptClass]="'time'">
-      <awd-calendar-time
+      <jig-calendar-time
         [component]="this"
         [currentValue]="time.time"
         [showSeconds]="time.showSeconds"
@@ -96,8 +96,8 @@
 
 <ng-template #defaultYearTemplate [ngnTemplate]="templateTypes.year" let-y>
   @defer {
-    <awd-input-field [ptInt]="this" [ptDep]="'current-year-field'">
-      <awd-select
+    <jig-input-field [ptInt]="this" [ptDep]="'current-year-field'">
+      <jig-select
         [ptInt]="this"
         [ptDep]="'current-year'"
         [editable]="true"
@@ -111,15 +111,15 @@
         [editableAutoFilter]="false"
       >
         <input ngnInput type="number" [attr.aria-label]="i18n['calendar_selectYear']()" />
-      </awd-select>
-    </awd-input-field>
+      </jig-select>
+    </jig-input-field>
   }
 </ng-template>
 
 <ng-template #defaultMonthTemplate [ngnTemplate]="templateTypes.month" let-m>
   @defer {
-    <awd-input-field [ptInt]="this" [ptDep]="'current-month-field'">
-      <awd-select
+    <jig-input-field [ptInt]="this" [ptDep]="'current-month-field'">
+      <jig-select
         [ptInt]="this"
         [ptDep]="'current-month'"
         [label]="i18n['calendar_selectMonth']()"
@@ -131,6 +131,6 @@
         }"
         [scrollToSelectedItemOnOpen]="'center'"
       />
-    </awd-input-field>
+    </jig-input-field>
   }
 </ng-template>

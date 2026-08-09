@@ -1,21 +1,21 @@
 import { Component, DestroyRef, inject, signal, type WritableSignal } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { NgnState } from '@awdlab/jig/state';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { AwdState } from '@awdlab/jig/state';
 
 @Component({
-  imports: [NgnState, NgnButton, NgnInput, NgnInputField],
-  selector: 'awd-demo-state-button',
+  imports: [AwdState, AwdButton, AwdInput, AwdInputField],
+  selector: 'jig-demo-state-button',
   template: `
-    <awd-input-field label="Type to test">
+    <jig-input-field label="Type to test">
       <input ngnInput value="" (input)="onInput()" />
-      <awd-state [kind]="inputState() ?? undefined" [visible]="!!inputState()" />
-    </awd-input-field>
+      <jig-state [kind]="inputState() ?? undefined" [visible]="!!inputState()" />
+    </jig-input-field>
     <br />
     <button ngnButton (click)="onButton()">
       Click to test
-      <awd-state [kind]="buttonState() ?? undefined" replaceContent [visible]="!!buttonState()" />
+      <jig-state [kind]="buttonState() ?? undefined" replaceContent [visible]="!!buttonState()" />
     </button>
   `,
 })

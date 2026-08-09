@@ -12,7 +12,7 @@ Today the [Splitter](/components/splitter) is the control that ships with
 persistence. Give it a `stateKey` and it remembers:
 
 ```html
-<awd-splitter [(layout)]="layout" stateKey="editor-panes" stateStorage="local"> … </awd-splitter>
+<jig-splitter [(layout)]="layout" stateKey="editor-panes" stateStorage="local"> … </jig-splitter>
 ```
 
 | Input          | Purpose                                                                |
@@ -31,7 +31,7 @@ persistence. Give it a `stateKey` and it remembers:
 Set the default once instead of per control:
 
 ```ts
-provideNgnControls({
+provideAwdControls({
   theme: { preset: nova },
   defaults: {
     stateStorage: 'local',
@@ -49,7 +49,7 @@ collides with your own storage will be overwritten.
 Namespace them, and include anything that makes the state instance-specific:
 
 ```html
-<awd-splitter [stateKey]="'workspace/' + workspaceId() + '/panes'" />
+<jig-splitter [stateKey]="'workspace/' + workspaceId() + '/panes'" />
 ```
 
 Changing the key at runtime loads the state for the new key — which is how you

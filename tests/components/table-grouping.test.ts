@@ -8,7 +8,7 @@ import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 
 const TABLE_TEMPLATE: TemplateType = {
   template: `
-    <awd-table
+    <jig-table
       #table
       style="height: 400px; width: 100%"
       [rows]="inputs().rows"
@@ -33,7 +33,7 @@ const TABLE_TEMPLATE: TemplateType = {
           <td ngnTableTd>{{ row.data.department }}</td>
         </tr>
       </ng-template>
-    </awd-table>`,
+    </jig-table>`,
   imports: ['tableModule', 'ngnTemplate'],
 };
 
@@ -61,7 +61,7 @@ async function loadTable(
   const handle = await loadComponent(page, TABLE_TEMPLATE, {
     inputs: { ...DEFAULT_INPUTS, ...inputOverrides },
   });
-  await expect(page.locator('awd-table')).toBeVisible({ timeout: 10000 });
+  await expect(page.locator('jig-table')).toBeVisible({ timeout: 10000 });
   return handle;
 }
 
@@ -70,7 +70,7 @@ function groupHeaders(page: import('@playwright/test').Page) {
 }
 
 function dataCells(page: import('@playwright/test').Page) {
-  return page.locator('td[class*="awd-table-cell"]:not([class*="group-header"])');
+  return page.locator('td[class*="jig-table-cell"]:not([class*="group-header"])');
 }
 
 // ── Tests ────────────────────────────────────────────────────────────────────
@@ -144,7 +144,7 @@ test('groupBy null disables grouping (passthrough)', async ({ page }) => {
   await loadTable(page, { groupBy: null });
 
   await expect(groupHeaders(page)).toHaveCount(0);
-  await expect(page.locator('td[class*="awd-table-cell"]')).toHaveCount(15);
+  await expect(page.locator('td[class*="jig-table-cell"]')).toHaveCount(15);
 });
 
 test('group headers span all columns', async ({ page }) => {
@@ -153,7 +153,7 @@ test('group headers span all columns', async ({ page }) => {
   const headerCell = groupHeaders(page).first();
   const headerWidth = await headerCell.evaluate(el => el.getBoundingClientRect().width);
   const tableWidth = await page
-    .locator('awd-table table')
+    .locator('jig-table table')
     .evaluate(el => el.getBoundingClientRect().width);
 
   expect(headerWidth).toBeGreaterThan(tableWidth - 10);

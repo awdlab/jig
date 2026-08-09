@@ -1,6 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { NgnTagHarness } from '@awdlab/jig-playwright';
+import { AwdTagHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -9,10 +9,10 @@ test('features', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <awd-tag
+      <jig-tag
         class="page-center"
         [icon]="inputs().icon"
-      >Tag</awd-tag>
+      >Tag</jig-tag>
     `,
       imports: ['tag'],
     },
@@ -21,7 +21,7 @@ test('features', async ({ page }, testInfo) => {
     }
   );
 
-  const tag = new NgnTagHarness(page.locator('awd-tag'));
+  const tag = new AwdTagHarness(page.locator('jig-tag'));
 
   await test.step('default', async () => {
     await expectScreenshot(page, testInfo, 'default');
@@ -53,7 +53,7 @@ test('kinds and colors', async ({ page }, testInfo) => {
               <div class="w-full font-bold mt-4 mb-2">Kind: {{ kind ?? '*none*' }}</div>
             }
             @for (color of inputs().colors; track $index) {
-              <awd-tag [kind]="kind" [color]="color">{{ color ?? 'default' }}</awd-tag>
+              <jig-tag [kind]="kind" [color]="color">{{ color ?? 'default' }}</jig-tag>
             }
           }
         </div>
@@ -85,7 +85,7 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<awd-tag class="page-center">Tag</awd-tag>`,
+      template: `<jig-tag class="page-center">Tag</jig-tag>`,
       imports: ['tag'],
     },
     { inputs: {} }

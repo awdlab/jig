@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { NgnSelect } from '@awdlab/jig/select';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { AwdSelect } from '@awdlab/jig/select';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnSelect, NgnInputField],
-  selector: 'awd-demo-select-base',
-  template: `<awd-input-field>
-    <awd-select
+  imports: [AwdSelect, AwdInputField],
+  selector: 'jig-demo-select-base',
+  template: `<jig-input-field>
+    <jig-select
       #select
       [options]="options"
       [popoverOptions]="{ sizeConstraints: { height: '200px' } }"
     />
-  </awd-input-field>`,
+  </jig-input-field>`,
   host: { class: 'w-48' },
 })
 export class Demo_Select_Base {

@@ -1,12 +1,12 @@
-import { NgnDocsStatePlayground } from './playground';
+import { AwdDocsStatePlayground } from './playground';
 import { Demo_State_Button } from '../../../demos/state/button';
 import { Demo_State_InputField } from '../../../demos/state/input-field';
 import { Demo_State_Interactive } from '../../../demos/state/interactive';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const StatePage: NgnDocsPage = {
+export const StatePage: AwdDocsPage = {
   title: `State`,
   kind: 'tabs',
   tabs: [
@@ -21,7 +21,7 @@ export const StatePage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsStatePlayground,
+      component: AwdDocsStatePlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/state/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/state/a11y.md' },

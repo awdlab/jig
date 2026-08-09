@@ -9,15 +9,15 @@ import {
   effect,
 } from '@angular/core';
 
-export type NgnStateStorage = 'local' | 'session';
+export type AwdStateStorage = 'local' | 'session';
 
-export function loadState<T>(storage: NgnStateStorage, key: string) {
+export function loadState<T>(storage: AwdStateStorage, key: string) {
   const storageType = storage === 'local' ? localStorage : sessionStorage;
   const state = storageType.getItem(key);
   return state ? (JSON.parse(state) as T) : null;
 }
 
-export function saveState<T>(storage: NgnStateStorage, key: string, state: T | null) {
+export function saveState<T>(storage: AwdStateStorage, key: string, state: T | null) {
   const storageType = storage === 'local' ? localStorage : sessionStorage;
   if (state === null) {
     storageType.removeItem(key);
@@ -27,7 +27,7 @@ export function saveState<T>(storage: NgnStateStorage, key: string, state: T | n
 }
 
 export type RegisterStateOptions<T> = {
-  storage: () => NgnStateStorage;
+  storage: () => AwdStateStorage;
   key: () => string | null | undefined;
   valueFn: (previousState: T | null) => T | null;
   onLoad: (state: T | null) => T | null;

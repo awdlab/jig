@@ -13,7 +13,7 @@
   <span [ptInt]="this" [ptClass]="'label'">
     @let renderedIcon = (value() ? iconOn() : iconOff()) ?? icon();
     @if (renderedIcon) {
-      <awd-icon [icon]="renderedIcon" />
+      <jig-icon [icon]="renderedIcon" />
     }
     {{ (value() ? labelOn() : labelOff()) ?? label() }}
   </span>
@@ -21,14 +21,14 @@
     <span inert [ptInt]="this" [ptClass]="'placeholder-active'">
       @let renderedIconOn = iconOn() ?? icon();
       @if (renderedIconOn) {
-        <awd-icon [icon]="renderedIconOn" />
+        <jig-icon [icon]="renderedIconOn" />
       }
       {{ labelOn() ?? label() }}
     </span>
     <span inert [ptInt]="this" [ptClass]="'placeholder'">
       @let renderedIconOff = iconOff() ?? icon();
       @if (renderedIconOff) {
-        <awd-icon [icon]="renderedIconOff" />
+        <jig-icon [icon]="renderedIconOff" />
       }
       {{ labelOff() ?? label() }}
     </span>

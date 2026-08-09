@@ -17,9 +17,9 @@ At runtime the control toggles two classes on its host element: `color-<value>` 
 generic `--theme-color-*` variables** onto the chosen family's ramp:
 
 ```css
-.awd-button.color-success {
-  --theme-color-500: var(--awd-color-success-500);
-  --theme-color-500-contrast: var(--awd-color-success-500-contrast);
+.jig-button.color-success {
+  --theme-color-500: var(--jig-color-success-500);
+  --theme-color-500-contrast: var(--jig-color-success-500-contrast);
   /* …the rest of the ramp… */
 }
 ```
@@ -27,11 +27,11 @@ generic `--theme-color-*` variables** onto the chosen family's ramp:
 Each `kind-*` block is then authored purely against those `--theme-color-*` variables:
 
 ```css
-.awd-button.kind-primary {
+.jig-button.kind-primary {
   background: var(--theme-color-500);
   color: var(--theme-color-500-contrast);
 }
-.awd-button.kind-text {
+.jig-button.kind-text {
   background: transparent;
   color: var(--theme-color-500);
 }
@@ -78,11 +78,11 @@ Both entry points resolve to the same runtime module — only the types differ. 
 typed theme loaded at all, `kind` and `color` fall back to `string`.
 
 To type kinds yourself (for a custom theme, or to override the theme's), augment
-`NgnCustomTypes`, which takes precedence over the theme's:
+`AwdCustomTypes`, which takes precedence over the theme's:
 
 ```ts
 declare module '@awdlab/jig-custom-types' {
-  export interface NgnCustomTypes {
+  export interface AwdCustomTypes {
     kind: { button: readonly ['primary', 'ghost'] };
     color: readonly ['primary', 'danger'];
   }

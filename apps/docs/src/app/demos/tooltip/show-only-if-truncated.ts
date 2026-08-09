@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { NgnTooltip } from '@awdlab/jig/tooltip';
+import { AwdTooltip } from '@awdlab/jig/tooltip';
 
 import type { PositioningSizeConstraints } from '@awdlab/jig/api/ng';
 
 @Component({
-  imports: [NgnTooltip],
-  selector: 'awd-demo-tooltip-show-only-if-truncated',
+  imports: [AwdTooltip],
+  selector: 'jig-demo-tooltip-show-only-if-truncated',
   template: `
     <h1>Truncated</h1>
     <p

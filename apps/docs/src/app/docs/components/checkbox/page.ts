@@ -1,13 +1,13 @@
-import { NgnDocsCheckboxPlayground } from './playground';
+import { AwdDocsCheckboxPlayground } from './playground';
 import { Demo_Checkbox_Base } from '../../../demos/checkbox/base';
 import { Demo_Checkbox_Indeterminate } from '../../../demos/checkbox/indeterminate';
 import { Demo_Checkbox_States } from '../../../demos/checkbox/states';
 import { Demo_Checkbox_Validation } from '../../../demos/checkbox/validation';
 import { i18nText } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const CheckboxPage: NgnDocsPage = {
+export const CheckboxPage: AwdDocsPage = {
   title: `Checkbox`,
   kind: 'tabs',
   tabs: [
@@ -27,7 +27,7 @@ export const CheckboxPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsCheckboxPlayground,
+      component: AwdDocsCheckboxPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/checkbox/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/checkbox/a11y.md' },

@@ -40,7 +40,7 @@
         margin: 0.3rem 0;
       }
       li::marker {
-        color: var(--awd-color-surface-500);
+        color: var(--jig-color-surface-500);
       }
       ul ul,
       ul ol,
@@ -52,10 +52,10 @@
       blockquote {
         margin: 1.25rem 0;
         padding: 0.5rem 1rem;
-        border-left: 3px solid var(--awd-color-primary-400);
-        border-radius: var(--awd-size-rounded-sm);
-        background: var(--awd-color-surface-50);
-        color: var(--awd-color-surface-700);
+        border-left: 3px solid var(--jig-color-primary-400);
+        border-radius: var(--jig-size-rounded-sm);
+        background: var(--jig-color-surface-50);
+        color: var(--jig-color-surface-700);
 
         > :first-child {
           margin-top: 0;
@@ -67,14 +67,14 @@
 
       hr {
         border: none;
-        border-top: 1px solid var(--awd-color-surface-200);
+        border-top: 1px solid var(--jig-color-surface-200);
         margin: 2rem 0;
       }
 
       // Inline code chips
       code {
-        background: var(--awd-color-surface-100);
-        border-radius: var(--awd-size-rounded-sm);
+        background: var(--jig-color-surface-100);
+        border-radius: var(--jig-size-rounded-sm);
         padding: 0.12em 0.35em;
         box-decoration-break: clone;
         -webkit-box-decoration-break: clone;
@@ -88,7 +88,7 @@
         overflow-x: auto;
         padding: 1rem 1.25rem;
         margin: 1.25rem 0;
-        border-radius: var(--awd-size-rounded-md);
+        border-radius: var(--jig-size-rounded-md);
         background: var(--prism-bg);
         code {
           display: block;
@@ -108,7 +108,7 @@
         margin: 0;
       }
       a {
-        color: var(--awd-color-secondary-500);
+        color: var(--jig-color-secondary-500);
         cursor: pointer;
         &:hover {
           text-decoration: underline;
@@ -126,14 +126,14 @@
           display: inline-flex;
           align-items: center;
           margin-left: 0.4rem;
-          color: var(--awd-color-surface-400);
+          color: var(--jig-color-surface-400);
           opacity: 0;
           transition:
             opacity 0.15s ease,
             color 0.15s ease;
 
           &:hover {
-            color: var(--awd-color-primary-500);
+            color: var(--jig-color-primary-500);
             text-decoration: none;
           }
 
@@ -146,8 +146,8 @@
           &.copied::after {
             content: 'Copied!';
             margin-left: 0.35rem;
-            font-size: var(--awd-font-size-xs);
-            color: var(--awd-color-primary-500);
+            font-size: var(--jig-font-size-xs);
+            color: var(--jig-color-primary-500);
             opacity: 1;
           }
         }
@@ -166,27 +166,27 @@
         border-spacing: 0;
         min-width: 100%;
         padding-left: 8px;
-        outline: 1px solid var(--awd-color-surface-200);
+        outline: 1px solid var(--jig-color-surface-200);
         outline-offset: -1px;
-        border-radius: var(--awd-size-rounded-lg);
+        border-radius: var(--jig-size-rounded-lg);
         overflow: hidden;
         box-sizing: border-box;
         thead tr th {
           text-align: left;
-          background-color: var(--awd-color-surface-50);
-          color: var(--awd-color-surface-600);
+          background-color: var(--jig-color-surface-50);
+          color: var(--jig-color-surface-600);
           padding: 1rem 1.5rem;
           text-transform: uppercase;
         }
         tbody tr td {
           padding: 1rem 1.5rem;
           vertical-align: top;
-          border-bottom: 1px solid var(--awd-color-surface-200);
+          border-bottom: 1px solid var(--jig-color-surface-200);
         }
       }
       .code-name-highlight {
-        background: var(--awd-color-surface-50);
-        border-radius: var(--awd-size-rounded-md);
+        background: var(--jig-color-surface-50);
+        border-radius: var(--jig-size-rounded-md);
         padding: 2px 6px;
         margin: 1px 0;
         display: inline;
@@ -195,7 +195,7 @@
         }
       }
       .code-type-highlight {
-        color: var(--awd-color-accent-700);
+        color: var(--jig-color-accent-700);
         font-weight: 500;
       }
     }

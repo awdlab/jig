@@ -27,7 +27,7 @@ export const treeStyles = createThemePart({
         align-items: center;
         /* Margin, not padding: the indent gutter stays outside the row box so row
            backgrounds (hover/selected) start at the item instead of at the row edge. */
-        margin-inline-start: calc(var(--awd-tree-level, 0) * 1.5rem);
+        margin-inline-start: calc(var(--jig-tree-level, 0) * 1.5rem);
       }
       ${c('toggle')},
       ${c('toggle-placeholder')},

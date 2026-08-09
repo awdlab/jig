@@ -1,17 +1,17 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { NgnTemplate, templateTypesFn } from '@awdlab/jig/api/ng';
-import { NgnDrawer } from '@awdlab/jig/drawer';
-import { NgnSelectButton } from '@awdlab/jig/select-button';
+import { AwdTemplate, templateTypesFn } from '@awdlab/jig/api/ng';
+import { AwdDrawer } from '@awdlab/jig/drawer';
+import { AwdSelectButton } from '@awdlab/jig/select-button';
 
 import { ALL_DOCS_TABS } from '../../docs';
 import { AppLocation } from '../../helper/app-location';
 import { safeRoutePath } from '../../utils/routing';
 import { FrameState } from '../frame-state';
-import { NgnDocsTopbarActions } from '../topbar/actions';
+import { AwdDocsTopbarActions } from '../topbar/actions';
 
-import type { NgnPassthrough } from '@awdlab/jig/base';
+import type { AwdPassthrough } from '@awdlab/jig/base';
 
 type MenuLink = {
   title: string;
@@ -31,21 +31,21 @@ type MenuTab = {
 };
 
 @Component({
-  selector: 'awd-docs-menu',
+  selector: 'jig-docs-menu',
   templateUrl: 'menu.html',
   imports: [
     RouterLink,
     RouterOutlet,
     NgTemplateOutlet,
-    NgnTemplate,
-    NgnDrawer,
-    NgnSelectButton,
-    NgnDocsTopbarActions,
+    AwdTemplate,
+    AwdDrawer,
+    AwdSelectButton,
+    AwdDocsTopbarActions,
   ],
   host: { class: 'h-full min-h-0' },
   styleUrl: 'menu.scss',
 })
-export class NgnDocsMenu {
+export class AwdDocsMenu {
   private readonly _frameState = inject(FrameState);
   private readonly _appLocation = inject(AppLocation);
   private readonly _router = inject(Router);
@@ -88,7 +88,7 @@ export class NgnDocsMenu {
    * via their dependency slots — stable object so the passthrough engine does
    * not re-apply on every change detection.
    */
-  protected readonly switcherPt: NgnPassthrough<'selectButton'> = {
+  protected readonly switcherPt: AwdPassthrough<'selectButton'> = {
     // The button-group host is already full width; its inner vertical flex
     // container is `width: fit-content`, so stretch that. Then stretch each
     // toggle-button's host and its inline-grid inner button to match.

@@ -7,12 +7,12 @@ import {
   Type,
 } from '@angular/core';
 import { injectThemeTemplate } from '@awdlab/jig/api/ng';
-import { getNearestNgnInstanceSig } from '@awdlab/jig/base';
+import { getNearestAwdInstanceSig } from '@awdlab/jig/base';
 import { toggleClass } from '@awdlab/jig/utils';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
-import { NgnTable } from './table';
-import { NgnTableTh } from './table-header-cell';
+import { AwdTable } from './table';
+import { AwdTableTh } from './table-header-cell';
 
 /** Minimum distance in pixels before a drag is initiated. */
 const REORDER_DEAD_ZONE_PX = 5;
@@ -23,15 +23,15 @@ const REORDER_DEAD_ZONE_PX = 5;
 @Directive({
   selector: '[ngnTableReorderableColumn]',
 })
-export class NgnTableReorderableColumn implements OnDestroy {
+export class AwdTableReorderableColumn implements OnDestroy {
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly _headerCell = inject(NgnTableTh);
+  private readonly _headerCell = inject(AwdTableTh);
   private readonly _columnId = this._headerCell.ngnTableTh;
 
-  private readonly _table = getNearestNgnInstanceSig<Type<NgnTable<any, any>>>(
+  private readonly _table = getNearestAwdInstanceSig<Type<AwdTable<any, any>>>(
     this._element.nativeElement,
-    NgnTable
+    AwdTable
   );
 
   private _isDragging = false;

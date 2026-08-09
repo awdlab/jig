@@ -1,4 +1,4 @@
-import { NgnError, notNullish } from '@awdlab/jig/utils';
+import { AwdError, notNullish } from '@awdlab/jig/utils';
 
 import { stringMatches, type PredefinedStringMatchFunction } from './string-match';
 
@@ -81,7 +81,7 @@ async function itemMatches<T extends object>(
         return stringMatches(itemString, word, fn);
       }
       if (typeof fn !== 'function') {
-        throw new NgnError(
+        throw new AwdError(
           'filtering',
           `Invalid filter function: ${String(fn)}. Expected a function or one of the predefined filter functions.`
         );

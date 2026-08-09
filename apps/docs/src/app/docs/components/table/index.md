@@ -2,7 +2,7 @@ The Table renders an array of row objects as a data grid with sorting,
 per-column filtering, single and multi selection, row grouping, column
 resize/reorder/sticky, pagination, virtual scrolling, and per-row actions.
 Structure is opt-in and declarative — you enable each feature by adding a
-directive to a header cell or an input to `awd-table`.
+directive to a header cell or an input to `jig-table`.
 
 > **Data is client-side by default.** Sorting, filtering, grouping and
 > pagination all operate on the in-memory `rows` array (the pipeline is filter
@@ -74,7 +74,7 @@ the active sort.
 
 ### Paged Table
 
-Set `paginator` to render an `awd-paginator` below the grid and page the rows
+Set `paginator` to render an `jig-paginator` below the grid and page the rows
 client-side. Combine freely with sorting and filtering — paging is the last step
 of the pipeline, so it pages the already-sorted/filtered result.
 
@@ -120,7 +120,7 @@ horizontally. Multiple sticky columns stack against their edge.
 
 ### Row Actions
 
-Add `ngnTableRowActions` to a body `<tr>` with an `NgnActionItem[]`. By default
+Add `ngnTableRowActions` to a body `<tr>` with an `JigActionItem[]`. By default
 the same actions are exposed two ways (both independently toggleable): a
 right-click context menu (`…Context`) and an inline button-bar at the row's edge
 revealed on hover or keyboard focus (`…Inline`). Actions may nest via `children`

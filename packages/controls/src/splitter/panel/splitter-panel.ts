@@ -1,5 +1,5 @@
 import { Component, computed, input, model } from '@angular/core';
-import { NgnBase, provideSelf } from '@awdlab/jig/base';
+import { AwdBase, provideSelf } from '@awdlab/jig/base';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 import { splitterControlTemplate } from '@awdlab/jig-themes/templates/splitter';
 
@@ -9,9 +9,9 @@ import type { SplitterPanelSize, SplitterPanelSizeLimit } from '../types';
  * @category control
  */
 @Component({
-  selector: 'awd-splitter-panel',
+  selector: 'jig-splitter-panel',
   templateUrl: './splitter-panel.html',
-  providers: [provideSelf(NgnSplitterPanel)],
+  providers: [provideSelf(AwdSplitterPanel)],
   host: {
     role: 'region',
     '[style.grid-area]': 'gridArea()',
@@ -19,12 +19,12 @@ import type { SplitterPanelSize, SplitterPanelSizeLimit } from '../types';
     '[attr.aria-labelledby]': 'ariaLabelledBy()',
   },
 })
-export class NgnSplitterPanel extends NgnBase<'splitter'> {
+export class AwdSplitterPanel extends AwdBase<'splitter'> {
   protected readonly theme = this.injectThemeTemplate(splitterControlTemplate, 'panel');
   private readonly _fallbackAreaName = generateElementId();
 
   /**
-   * The name of the panel, used to identify it in the persisted splitter state and in {@link NgnSplitter.panelOrder}.
+   * The name of the panel, used to identify it in the persisted splitter state and in {@link AwdSplitter.panelOrder}.
    * If nullish, a generated fallback name is used.
    */
   public readonly name = input<string | null>();

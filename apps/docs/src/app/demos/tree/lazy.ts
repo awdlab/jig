@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { NgnTree } from '@awdlab/jig/tree';
+import { AwdTree } from '@awdlab/jig/tree';
 
-import type { NgnTreeItem } from '@awdlab/jig/api';
+import type { AwdTreeItem } from '@awdlab/jig/api';
 
 @Component({
-  imports: [NgnTree],
-  selector: 'awd-demo-tree-lazy',
+  imports: [AwdTree],
+  selector: 'jig-demo-tree-lazy',
   template: `
-    <awd-tree
+    <jig-tree
       [items]="items"
       [loadChildren]="loadChildren"
       style="display: block; height: 300px;"
@@ -16,14 +16,14 @@ import type { NgnTreeItem } from '@awdlab/jig/api';
 })
 export class Demo_Tree_Lazy {
   // Marked `lazy` — children are fetched on first expand.
-  protected readonly items: NgnTreeItem[] = [
+  protected readonly items: AwdTreeItem[] = [
     { label: 'Root A', value: 'a', lazy: true },
     { label: 'Root B', value: 'b', lazy: true },
     { label: 'Leaf (no children)', value: 'leaf' },
   ];
 
   // Simulates an async fetch; the tree shows a spinner while this resolves.
-  protected readonly loadChildren = (item: NgnTreeItem): Promise<NgnTreeItem[]> =>
+  protected readonly loadChildren = (item: AwdTreeItem): Promise<AwdTreeItem[]> =>
     new Promise(resolve =>
       setTimeout(
         () =>

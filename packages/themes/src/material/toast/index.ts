@@ -56,7 +56,7 @@ export const toastStyles = createThemePart({
       ${c('color-surface')} {
         --tst-icon-color: ${ON_SURFACE};
       }
-      ${c('defaultHeaderText')} awd-icon {
+      ${c('defaultHeaderText')} jig-icon {
         color: var(--tst-icon-color);
       }
 

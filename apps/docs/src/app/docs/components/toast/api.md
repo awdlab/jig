@@ -1,3 +1,3 @@
 ## API
 
-{{ api: toast/toast NgnToast }}
+{{ api: toast/toast AwdToast }}

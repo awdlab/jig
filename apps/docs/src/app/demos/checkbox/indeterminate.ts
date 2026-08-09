@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NgnCheckbox } from '@awdlab/jig/checkbox';
+import { AwdCheckbox } from '@awdlab/jig/checkbox';
 
 @Component({
-  selector: 'awd-demo-checkbox-indeterminate',
-  imports: [NgnCheckbox],
-  template: `<awd-checkbox [allowIndeterminate]="true" (valueChange)="($event)" [value]="null" />`,
+  selector: 'jig-demo-checkbox-indeterminate',
+  imports: [AwdCheckbox],
+  template: `<jig-checkbox [allowIndeterminate]="true" (valueChange)="($event)" [value]="null" />`,
 })
 export class Demo_Checkbox_Indeterminate {}

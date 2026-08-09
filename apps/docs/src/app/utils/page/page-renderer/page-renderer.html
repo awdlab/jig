@@ -1,13 +1,13 @@
 <!-- Mobile only (<=900px): breadcrumb lives in the content here since the
      topbar hides it at this width. -->
-<awd-breadcrumb class="nav:hidden block px-4 pt-4" [items]="breadcrumbItems()" />
+<jig-breadcrumb class="nav:hidden block px-4 pt-4" [items]="breadcrumbItems()" />
 
 <div class="flex w-full justify-center">
   <div class="mx-auto flex w-full max-w-7xl min-w-0 gap-8 px-4 md:px-8">
     <!-- Centered content column — flows in the document; the page (body) scrolls. -->
     <div class="flex min-w-0 flex-1 flex-col">
       <h2 class="m-0 shrink-0 py-6 text-3xl">{{ page.title }}</h2>
-      <awd-docs-section class="w-full" [section]="page" (headings)="headings.set($event)" />
+      <jig-docs-section class="w-full" [section]="page" (headings)="headings.set($event)" />
     </div>
 
     <!-- Auto-generated "on this page" rail — floats (sticky) beside the content. -->
@@ -15,7 +15,7 @@
       <aside
         class="sticky top-[5.5rem] hidden max-h-[calc(100dvh-6.5rem)] w-56 shrink-0 self-start overflow-y-auto pt-8 xl:block"
       >
-        <awd-docs-toc [headings]="headings()" />
+        <jig-docs-toc [headings]="headings()" />
       </aside>
     }
   </div>

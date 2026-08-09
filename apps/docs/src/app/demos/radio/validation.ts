@@ -1,14 +1,14 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgnErrors } from '@awdlab/jig/errors';
-import { NgnHint } from '@awdlab/jig/hint';
-import { NgnRadio, NgnRadioGroup } from '@awdlab/jig/radio';
+import { AwdErrors } from '@awdlab/jig/errors';
+import { AwdHint } from '@awdlab/jig/hint';
+import { AwdRadio, AwdRadioGroup } from '@awdlab/jig/radio';
 
 @Component({
-  selector: 'awd-demo-radio-validation',
-  imports: [NgnErrors, NgnHint, NgnRadioGroup, NgnRadio],
+  selector: 'jig-demo-radio-validation',
+  imports: [AwdErrors, AwdHint, AwdRadioGroup, AwdRadio],
   template: `
     <div class="flex flex-col gap-2">
-      <awd-radio-group
+      <jig-radio-group
         [value]="value()"
         (valueChange)="value.set($event)"
         ngnErrors
@@ -16,11 +16,11 @@ import { NgnRadio, NgnRadioGroup } from '@awdlab/jig/radio';
         [ngnErrorsCustom]="errors()"
         [ngnErrorsHint]="sizeHint"
       >
-        <awd-radio value="small">Small</awd-radio>
-        <awd-radio value="medium">Medium</awd-radio>
-        <awd-radio value="large">Large</awd-radio>
-      </awd-radio-group>
-      <awd-hint #sizeHint />
+        <jig-radio value="small">Small</jig-radio>
+        <jig-radio value="medium">Medium</jig-radio>
+        <jig-radio value="large">Large</jig-radio>
+      </jig-radio-group>
+      <jig-hint #sizeHint />
     </div>
   `,
 })

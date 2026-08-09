@@ -5,7 +5,7 @@ import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
 const MODAL_TEMPLATE = `
-  <awd-dialog
+  <jig-dialog
     [title]="inputs().title"
     [open]="inputs().open"
     [modal]="true"
@@ -16,7 +16,7 @@ const MODAL_TEMPLATE = `
   >
     Content
     <button id="dialog-btn">Focus me</button>
-  </awd-dialog>
+  </jig-dialog>
 `;
 
 function loadModal(page: import('@playwright/test').Page, closeBy = 'any', open = false) {
@@ -145,14 +145,14 @@ test('non-modal (popover) dialog opens and closes via the open model', async ({ 
     page,
     {
       template: `
-        <awd-dialog
+        <jig-dialog
           [title]="inputs().title"
           [open]="inputs().open"
           [modal]="false"
           (openChange)="output('open', $event)"
         >
           Content
-        </awd-dialog>
+        </jig-dialog>
       `,
       imports: ['dialog'],
     },
@@ -174,7 +174,7 @@ test('footer buttons emit buttonClicked and the dialog emits closed', async ({ p
     page,
     {
       template: `
-        <awd-dialog
+        <jig-dialog
           [title]="inputs().title"
           [open]="inputs().open"
           [modal]="true"
@@ -184,7 +184,7 @@ test('footer buttons emit buttonClicked and the dialog emits closed', async ({ p
           (closed)="output('closed', true)"
         >
           Content
-        </awd-dialog>
+        </jig-dialog>
       `,
       imports: ['dialog'],
     },
@@ -213,14 +213,14 @@ test('accessibility (axe)', async ({ page }) => {
 });
 
 const CHROMELESS_TEMPLATE = `
-  <awd-dialog
+  <jig-dialog
     [open]="inputs().open"
     [modal]="true"
     [closeButton]="inputs().closeButton"
     [label]="inputs().label"
   >
     <p id="chromeless-body">Body</p>
-  </awd-dialog>
+  </jig-dialog>
 `;
 
 test('drops header, footer and close button when nothing fills them', async ({ page }) => {

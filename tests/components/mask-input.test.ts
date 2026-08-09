@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { NgnMaskInputHarness } from '@awdlab/jig-playwright';
+import { AwdMaskInputHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -15,9 +15,9 @@ async function loadTimeMask(page: any) {
     page,
     {
       imports: ['inputField', 'maskInput'],
-      template: `<awd-input-field>
-        <awd-mask-input [mask]="inputs().mask" (valueChange)="output('value', $event)" />
-      </awd-input-field>`,
+      template: `<jig-input-field>
+        <jig-mask-input [mask]="inputs().mask" (valueChange)="output('value', $event)" />
+      </jig-input-field>`,
     },
     {
       inputs: { mask: 'time' },
@@ -25,7 +25,7 @@ async function loadTimeMask(page: any) {
   );
   // loadComponent fires setTemplate and setInputs without awaiting Angular rendering.
   // Wait for Angular to process the template change (time mask = 3 spinbutton sections).
-  const mask = new NgnMaskInputHarness(page.locator('awd-mask-input').first());
+  const mask = new AwdMaskInputHarness(page.locator('jig-mask-input').first());
   await expect(mask.sections).toHaveCount(3);
   await mask.expectText('HH:MM:SS');
   return { mask, handle };
@@ -214,7 +214,7 @@ test('paste applies a valid time string', async ({ page }) => {
 
   const simulatePaste = (text: string) =>
     page.evaluate((t: string) => {
-      const input = document.querySelector('awd-mask-input input') as HTMLInputElement;
+      const input = document.querySelector('jig-mask-input input') as HTMLInputElement;
       input.focus();
       input.dispatchEvent(
         new InputEvent('beforeinput', {
@@ -241,7 +241,7 @@ test('paste with separators applies correct value', async ({ page }) => {
 
   await mask.focus();
   await page.evaluate(() => {
-    const input = document.querySelector('awd-mask-input input') as HTMLInputElement;
+    const input = document.querySelector('jig-mask-input input') as HTMLInputElement;
     input.focus();
     input.dispatchEvent(
       new InputEvent('beforeinput', {
@@ -260,7 +260,7 @@ test('invalid paste (out-of-range hour) is rejected', async ({ page }) => {
 
   await mask.focus();
   await page.evaluate(() => {
-    const input = document.querySelector('awd-mask-input input') as HTMLInputElement;
+    const input = document.querySelector('jig-mask-input input') as HTMLInputElement;
     input.focus();
     input.dispatchEvent(
       new InputEvent('beforeinput', {
@@ -351,13 +351,13 @@ test('enum segment fills by typing a letter and arrows cycle values', async ({ p
     page,
     {
       imports: ['inputField', 'maskInput'],
-      template: `<awd-input-field>
-        <awd-mask-input [mask]="inputs().mask" (valueChange)="output('value', $event)" />
-      </awd-input-field>`,
+      template: `<jig-input-field>
+        <jig-mask-input [mask]="inputs().mask" (valueChange)="output('value', $event)" />
+      </jig-input-field>`,
     },
     { inputs: { mask: 'time12' } }
   );
-  const mask = new NgnMaskInputHarness(page.locator('awd-mask-input').first());
+  const mask = new AwdMaskInputHarness(page.locator('jig-mask-input').first());
 
   // Wait for the 4-section time12 mask to render (hour, minute, second, period).
   await expect(mask.sections).toHaveCount(4);
@@ -398,13 +398,13 @@ test('date mask fills and emits correct value', async ({ page }) => {
     page,
     {
       imports: ['inputField', 'maskInput'],
-      template: `<awd-input-field>
-        <awd-mask-input [mask]="inputs().mask" (valueChange)="output('value', $event)" />
-      </awd-input-field>`,
+      template: `<jig-input-field>
+        <jig-mask-input [mask]="inputs().mask" (valueChange)="output('value', $event)" />
+      </jig-input-field>`,
     },
     { inputs: { mask: 'date' } }
   );
-  const mask = new NgnMaskInputHarness(page.locator('awd-mask-input').first());
+  const mask = new AwdMaskInputHarness(page.locator('jig-mask-input').first());
 
   // Wait for the 3-section date mask to render (month, day, year).
   await expect(mask.sections).toHaveCount(3);
@@ -430,9 +430,9 @@ test('variable-length hour mask renders non-padded and auto-advances correctly',
     page,
     {
       imports: ['inputField', 'maskInput'],
-      template: `<awd-input-field>
-        <awd-mask-input [mask]="inputs().mask" (valueChange)="output('value', $event)" />
-      </awd-input-field>`,
+      template: `<jig-input-field>
+        <jig-mask-input [mask]="inputs().mask" (valueChange)="output('value', $event)" />
+      </jig-input-field>`,
     },
     {
       inputs: {
@@ -444,7 +444,7 @@ test('variable-length hour mask renders non-padded and auto-advances correctly',
       },
     }
   );
-  const mask = new NgnMaskInputHarness(page.locator('awd-mask-input').first());
+  const mask = new AwdMaskInputHarness(page.locator('jig-mask-input').first());
 
   // Wait for the 2-section variable-length mask to render.
   await expect(mask.sections).toHaveCount(2);
@@ -468,9 +468,9 @@ test('variable-length hour overflow: 1+3 overflows to 3 in hour, advances', asyn
     page,
     {
       imports: ['inputField', 'maskInput'],
-      template: `<awd-input-field>
-        <awd-mask-input [mask]="inputs().mask" (valueChange)="output('value', $event)" />
-      </awd-input-field>`,
+      template: `<jig-input-field>
+        <jig-mask-input [mask]="inputs().mask" (valueChange)="output('value', $event)" />
+      </jig-input-field>`,
     },
     {
       inputs: {
@@ -482,7 +482,7 @@ test('variable-length hour overflow: 1+3 overflows to 3 in hour, advances', asyn
       },
     }
   );
-  const mask = new NgnMaskInputHarness(page.locator('awd-mask-input').first());
+  const mask = new AwdMaskInputHarness(page.locator('jig-mask-input').first());
   await expect(mask.sections).toHaveCount(2);
   await mask.expectText('HH:MM');
 
@@ -506,7 +506,7 @@ test('variable-length hour overflow: 1+3 overflows to 3 in hour, advances', asyn
 test('active-section highlight only shows while focused', async ({ page }, testInfo) => {
   const { mask } = await loadTimeMask(page);
 
-  // The class selector for section-active elements (e.g. '.awd-mask-input-section-active')
+  // The class selector for section-active elements (e.g. '.jig-mask-input-section-active')
   const sectionActiveSelector = mask.classes['section-active'];
 
   // BEFORE focusing: no section should carry the active class.
@@ -554,9 +554,9 @@ test('deleting an earlier field clears orphaned later fields', async ({ page }) 
     page,
     {
       imports: ['inputField', 'maskInput'],
-      template: `<awd-input-field>
-        <awd-mask-input [mask]="inputs().mask" (valueChange)="output('value', $event)" />
-      </awd-input-field>`,
+      template: `<jig-input-field>
+        <jig-mask-input [mask]="inputs().mask" (valueChange)="output('value', $event)" />
+      </jig-input-field>`,
     },
     {
       inputs: {
@@ -568,7 +568,7 @@ test('deleting an earlier field clears orphaned later fields', async ({ page }) 
       },
     }
   );
-  const mask = new NgnMaskInputHarness(page.locator('awd-mask-input').first());
+  const mask = new AwdMaskInputHarness(page.locator('jig-mask-input').first());
   await expect(mask.sections).toHaveCount(2);
   await mask.expectText('HH:MM');
 
@@ -597,7 +597,7 @@ test('deleting an earlier field clears orphaned later fields', async ({ page }) 
 //     section by horizontal position.
 //
 // The feature: `input-field.clicked()` calls `control.focusFromPointer(event)`;
-// `NgnMaskInput` focuses the proxy and calls `setActive` for the section whose
+// `AwdMaskInput` focuses the proxy and calls `setActive` for the section whose
 // bounding box is nearest `event.clientX`.
 // ---------------------------------------------------------------------------
 
@@ -610,18 +610,18 @@ test('clicking input-field padding selects nearest section by horizontal positio
     page,
     {
       imports: ['inputField', 'maskInput'],
-      template: `<awd-input-field><awd-mask-input [mask]="inputs().mask" /></awd-input-field>`,
+      template: `<jig-input-field><jig-mask-input [mask]="inputs().mask" /></jig-input-field>`,
     },
     { inputs: { mask: 'time' } }
   );
-  const mask = new NgnMaskInputHarness(page.locator('awd-mask-input').first());
+  const mask = new AwdMaskInputHarness(page.locator('jig-mask-input').first());
   await expect(mask.sections).toHaveCount(3);
   await mask.expectText('HH:MM:SS');
 
-  // Locate the field root div (not the awd-input-field host, but the inner
+  // Locate the field root div (not the jig-input-field host, but the inner
   // wrapper that receives the (click) handler). It wraps all content and has
   // padding around the mask sections.
-  const fieldRoot = page.locator('awd-input-field').first();
+  const fieldRoot = page.locator('jig-input-field').first();
 
   // ---- Per-section padding clicks (sections 1 and 2) ----
   // For each section, we compute a click point that is:
@@ -697,14 +697,14 @@ test('accessibility (axe)', async ({ page }) => {
     page,
     {
       imports: ['inputField', 'maskInput'],
-      template: `<awd-input-field>
-        <awd-mask-input [mask]="inputs().mask" [label]="'Time'" />
-      </awd-input-field>`,
+      template: `<jig-input-field>
+        <jig-mask-input [mask]="inputs().mask" [label]="'Time'" />
+      </jig-input-field>`,
     },
     { inputs: { mask: 'time' } }
   );
 
-  const mask = new NgnMaskInputHarness(page.locator('awd-mask-input').first());
+  const mask = new AwdMaskInputHarness(page.locator('jig-mask-input').first());
   await expect(mask.sections).toHaveCount(3);
   await mask.expectText('HH:MM:SS');
 

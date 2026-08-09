@@ -2,7 +2,7 @@ import { toastControlTemplate } from '@awdlab/jig-themes/templates/toast';
 import { themeClasses } from '../utils/theme';
 import test, { expect, type Locator, type Page } from '@playwright/test';
 
-export class NgnToastHarness {
+export class AwdToastHarness {
   public readonly classes = themeClasses(toastControlTemplate);
 
   public readonly locator: Locator;
@@ -15,7 +15,7 @@ export class NgnToastHarness {
     this.locator = locator;
     this.header = locator.locator(this.classes.defaultHeader);
     this.content = locator.locator(this.classes.defaultContent);
-    this.icon = this.header.locator('awd-icon').first();
+    this.icon = this.header.locator('jig-icon').first();
     this.closeButton = this.header.locator('button');
   }
 
@@ -56,20 +56,20 @@ export class NgnToastHarness {
   }
 }
 
-export class NgnToastHostHarness {
+export class AwdToastHostHarness {
   public readonly classes = themeClasses(toastControlTemplate);
   public readonly locator: Locator;
 
   constructor(page: Page) {
-    this.locator = page.locator('awd-toast-host');
+    this.locator = page.locator('jig-toast-host');
   }
 
-  public getToast(index: number = 0): NgnToastHarness {
-    return new NgnToastHarness(this.locator.locator('awd-toast').nth(index));
+  public getToast(index: number = 0): AwdToastHarness {
+    return new AwdToastHarness(this.locator.locator('jig-toast').nth(index));
   }
 
   public getAllToasts(): Locator {
-    return this.locator.locator('awd-toast');
+    return this.locator.locator('jig-toast');
   }
 
   public async expectToastCount(count: number) {

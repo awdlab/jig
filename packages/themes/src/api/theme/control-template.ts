@@ -6,7 +6,7 @@ export type Dependency = {
   /**
    * Marks this dependency slot as projected (arrives via `<ng-content>` rather than being
    * rendered by the parent). Projected controls have no host element the parent can mark with
-   * `[ptDep]`, so the slot is excluded from `pt`/`NgnPassthrough` wiring and `d(depClass, inner)`
+   * `[ptDep]`, so the slot is excluded from `pt`/`AwdPassthrough` wiring and `d(depClass, inner)`
    * resolves to the child's own raw class instead of a marker + descendant selector.
    */
   readonly projected?: boolean;
@@ -35,7 +35,7 @@ export function createControlTemplate<
 >(init: { scope: S; classNames: C; readonly dependencies?: Deps }) {
   // Default `dependencies` to an empty array so templates that omit it resolve
   // `Deps` to `readonly []` (no dep keys) rather than the unconstrained
-  // `readonly Dependency[]`, which would pollute `ThemeClasses`/`NgnPassthrough`
+  // `readonly Dependency[]`, which would pollute `ThemeClasses`/`AwdPassthrough`
   // with an index signature for leaf controls.
   return { ...init, dependencies: init.dependencies ?? [] } as ControlTemplate<
     S,

@@ -4,15 +4,15 @@ import tablerPlus from '@iconify/icons-tabler/plus';
 import tablerSettings from '@iconify/icons-tabler/settings';
 import tablerTrash from '@iconify/icons-tabler/trash';
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnCommand } from '@awdlab/jig/command';
-import { NgnKbd, NgnKeyboardShortcut } from '@awdlab/jig/kbd';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdCommand } from '@awdlab/jig/command';
+import { AwdKbd, AwdKeyboardShortcut } from '@awdlab/jig/kbd';
 
-import type { NgnActionItem } from '@awdlab/jig/api';
+import type { JigActionItem } from '@awdlab/jig/api';
 
 @Component({
-  imports: [NgnCommand, NgnButton, NgnKbd, NgnKeyboardShortcut],
-  selector: 'awd-demo-command-shortcuts-demo',
+  imports: [AwdCommand, AwdButton, AwdKbd, AwdKeyboardShortcut],
+  selector: 'jig-demo-command-shortcuts-demo',
   template: `
     <div
       tabindex="0"
@@ -20,11 +20,11 @@ import type { NgnActionItem } from '@awdlab/jig/api';
       [ngnKeyboardShortcut]="[{ shortcut: 'mod+alt+k', callback: () => open.set(true) }]"
     >
       <span class="text-sm">
-        Click inside this box, then press <awd-kbd shortcut="mod+alt+k" /> to open the palette. The
+        Click inside this box, then press <jig-kbd shortcut="mod+alt+k" /> to open the palette. The
         per-item shortcuts below run their command from anywhere — open or closed.
       </span>
       <button ngnButton (click)="open.set(true)">Open palette</button>
-      <awd-command [items]="items" [(open)]="open" (commandSelected)="last.set($event.id)" />
+      <jig-command [items]="items" [(open)]="open" (commandSelected)="last.set($event.id)" />
       @if (last()) {
         <p>Ran: {{ last() }}</p>
       }
@@ -34,7 +34,7 @@ import type { NgnActionItem } from '@awdlab/jig/api';
 export class Demo_Command_Shortcuts {
   protected readonly open = signal(false);
   protected readonly last = signal<string | null>(null);
-  protected readonly items: NgnActionItem[] = [
+  protected readonly items: JigActionItem[] = [
     { id: 'new-file', label: 'New File', icon: tablerPlus, shortcut: 'mod+alt+n' },
     { id: 'new-folder', label: 'New Folder', icon: tablerFolderPlus, shortcut: 'shift+mod+alt+n' },
     { id: 'copy', label: 'Copy', icon: tablerCopy, shortcut: 'mod+alt+c' },

@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnInplace } from '@awdlab/jig/inplace';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdInplace } from '@awdlab/jig/inplace';
 
 @Component({
-  imports: [NgnInplace, NgnTemplate, NgnButton],
-  selector: 'awd-demo-inplace-toggling',
+  imports: [AwdInplace, AwdTemplate, AwdButton],
+  selector: 'jig-demo-inplace-toggling',
   template: `
     <div class="flex flex-col gap-3">
       <div class="flex flex-wrap gap-2">
@@ -14,7 +14,7 @@ import { NgnInplace } from '@awdlab/jig/inplace';
         <button ngnButton (click)="inplace.toggle()">Toggle</button>
       </div>
 
-      <awd-inplace #inplace [(contentVisible)]="visible">
+      <jig-inplace #inplace [(contentVisible)]="visible">
         <ng-template #display>Show Details</ng-template>
         <ng-template #content [ngnTemplate]="inplace.templateTypes.content" let-content>
           <div class="flex items-center gap-2">
@@ -22,7 +22,7 @@ import { NgnInplace } from '@awdlab/jig/inplace';
             <button ngnButton kind="icon" (click)="content.close()">x</button>
           </div>
         </ng-template>
-      </awd-inplace>
+      </jig-inplace>
 
       <span class="text-sm opacity-70">contentVisible = {{ visible() }}</span>
     </div>

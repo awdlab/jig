@@ -2,7 +2,7 @@ import { computed, contentChild, Directive, input, TemplateRef, viewChild } from
 import { templateTypesFn } from '@awdlab/jig/api/ng';
 import { ValueControlBase } from '@awdlab/jig/base';
 
-import type { NgnItem, NgnItemsValue } from '@awdlab/jig/api';
+import type { JigItem, JigItemsValue } from '@awdlab/jig/api';
 import type { InputGeneric } from '@awdlab/jig/utils';
 
 /**
@@ -10,12 +10,12 @@ import type { InputGeneric } from '@awdlab/jig/utils';
  * * If `multiple` is `true`, the value is an array of items: `T[K][]`.
  * * Else it is the item's value type `T[K]`.
  */
-export type ValueType<Items extends readonly NgnItem[], Multiple extends boolean> =
-  InputGeneric<Multiple, false> extends true ? NgnItemsValue<Items>[] : NgnItemsValue<Items>;
+export type ValueType<Items extends readonly JigItem[], Multiple extends boolean> =
+  InputGeneric<Multiple, false> extends true ? JigItemsValue<Items>[] : JigItemsValue<Items>;
 
 @Directive()
 export abstract class ListBoxTemplates<
-  Items extends readonly NgnItem[],
+  Items extends readonly JigItem[],
   Multiple extends boolean,
 > extends ValueControlBase<'listBox', ValueType<Items, Multiple> | null> {
   // Item template

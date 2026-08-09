@@ -1,1 +1,1 @@
-{{ api: checkbox/checkbox NgnCheckbox }}
+{{ api: checkbox/checkbox AwdCheckbox }}

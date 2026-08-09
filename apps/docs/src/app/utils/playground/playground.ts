@@ -1,15 +1,15 @@
 import { Component, input } from '@angular/core';
 
-import { NgnDocsPlaygroundInputs } from './inputs/inputs';
-import { NgnDocsPlaygroundTokens } from './tokens/tokens';
+import { AwdDocsPlaygroundInputs } from './inputs/inputs';
+import { AwdDocsPlaygroundTokens } from './tokens/tokens';
 
-import type { AnyNgnBase } from '@awdlab/jig/base';
+import type { AnyAwdBase } from '@awdlab/jig/base';
 
 @Component({
-  selector: 'awd-docs-playground',
+  selector: 'jig-docs-playground',
   templateUrl: 'playground.html',
   styleUrl: 'playground.scss',
-  imports: [NgnDocsPlaygroundTokens, NgnDocsPlaygroundInputs],
+  imports: [AwdDocsPlaygroundTokens, AwdDocsPlaygroundInputs],
   // The docs shell is body-scrolled and the tab content is wrapped in inline
   // elements, so an `h-full` chain collapses (invisible) — the playground needs an
   // explicit height. It fills the viewport minus the chrome above it (topbar +
@@ -19,10 +19,10 @@ import type { AnyNgnBase } from '@awdlab/jig/base';
     class: 'h-[calc(100dvh_-_16rem)] py-2 pr-2 md:h-[calc(100dvh_-_13.5rem)] md:py-8 md:pr-8 flex',
   },
 })
-export class NgnDocsPlayground {
+export class AwdDocsPlayground {
   public readonly controls = input.required<
     {
-      component: AnyNgnBase | readonly AnyNgnBase[];
+      component: AnyAwdBase | readonly AnyAwdBase[];
       componentName: string;
     }[]
   >();

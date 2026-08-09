@@ -28,8 +28,8 @@ export function isWithinEndZone(distanceFromEnd: number, threshold: number): boo
 
 /**
  * Exposes live scroll geometry of its host (or of an external
- * {@link NgnScrollAmount.container}) as signals, and fires
- * {@link NgnScrollAmount.endReached} when the user scrolls near the bottom.
+ * {@link AwdScrollAmount.container}) as signals, and fires
+ * {@link AwdScrollAmount.endReached} when the user scrolls near the bottom.
  *
  * Geometry is resynced whenever the container resizes or the host's content
  * grows, so `distanceFromEnd` stays correct after the list changes.
@@ -39,7 +39,7 @@ export function isWithinEndZone(distanceFromEnd: number, threshold: number): boo
 @Directive({
   selector: '[ngnScrollAmount]',
 })
-export class NgnScrollAmount {
+export class AwdScrollAmount {
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /**

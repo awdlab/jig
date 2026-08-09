@@ -1,4 +1,4 @@
-import { NgnDocsCalendarPlayground } from './playground';
+import { AwdDocsCalendarPlayground } from './playground';
 import { Demo_Calendar_Base } from '../../../demos/calendar/base';
 import { Demo_Calendar_Inline } from '../../../demos/calendar/inline';
 import { Demo_Calendar_InlineTime } from '../../../demos/calendar/inline-time';
@@ -7,9 +7,9 @@ import { Demo_Calendar_Time } from '../../../demos/calendar/time';
 import { Demo_Calendar_Validation } from '../../../demos/calendar/validation';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const CalendarPage: NgnDocsPage = {
+export const CalendarPage: AwdDocsPage = {
   title: `Calendar`,
   kind: 'tabs',
   tabs: [
@@ -31,7 +31,7 @@ export const CalendarPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsCalendarPlayground,
+      component: AwdDocsCalendarPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/calendar/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/calendar/a11y.md' },

@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnTableModule } from '@awdlab/jig/table';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdTableModule } from '@awdlab/jig/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnTableModule, NgnTemplate],
-  selector: 'awd-demo-table-grouping',
-  template: `<awd-table
+  imports: [AwdTableModule, AwdTemplate],
+  selector: 'jig-demo-table-grouping',
+  template: `<jig-table
     #table
     style="height: 500px"
     [rows]="rows"
@@ -31,7 +31,7 @@ import { exampleData } from '../../helper/data';
         <td ngnTableTd>{{ row.data.location }}</td>
       </tr>
     </ng-template>
-  </awd-table>`,
+  </jig-table>`,
 })
 export class Demo_Table_Grouping {
   protected readonly rows = exampleData.table(50);

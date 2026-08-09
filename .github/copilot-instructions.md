@@ -38,13 +38,13 @@ This is **awdlab Controls**, an Angular component library that provides a compre
 
 ### Angular Components
 
-- **Component prefix**: `awd` (e.g., `ngnButton`, `ngnInput`)
+- **Component prefix**: `jig` (e.g., `ngnButton`, `ngnInput`)
 - **Selector style**:
-  - Element selectors: `kebab-case` (e.g., `awd-button`)
+  - Element selectors: `kebab-case` (e.g., `jig-button`)
   - Attribute selectors: `camelCase` (e.g., `ngnButton`)
 - **Change detection**: Zoneless (Angular 22 default); `OnPush` no longer tool-enforced
 - **Component class suffix**: Not required
-- **Base class**: Extend `NgnBase<T>` for component base functionality
+- **Base class**: Extend `AwdBase<T>` for component base functionality
 - **Theme templates**: Use `injectThemeTemplate()` to inject theme templates
 - Use `input()` for component inputs (signal-based)
 - Use `output()` for component outputs (signal-based)
@@ -64,8 +64,8 @@ This is **awdlab Controls**, an Angular component library that provides a compre
 
 ### Naming Conventions
 
-- **Components**: PascalCase with `Awd` prefix (e.g., `NgnButton`, `NgnInput`)
-- **Directives**: PascalCase with `Awd` prefix
+- **Components**: PascalCase with `Jig` prefix (e.g., `AwdButton`, `AwdInput`)
+- **Directives**: PascalCase with `Jig` prefix
 - **Types/Interfaces**: PascalCase
 - **Functions**: camelCase
 - **Constants**: UPPER_SNAKE_CASE or camelCase depending on context
@@ -224,16 +224,16 @@ describe('ComponentOrFunction', () => {
 
 ```typescript
 import { Directive, input } from '@angular/core';
-import { NgnBase, provideSelf } from '@awdlab/jig/base';
+import { AwdBase, provideSelf } from '@awdlab/jig/base';
 
 @Directive({
   selector: '[ngnExample]',
-  providers: [provideSelf(NgnExample)],
+  providers: [provideSelf(AwdExample)],
   host: {
     '[class]': 'theme.classes({ /* ... */ })',
   },
 })
-export class NgnExample extends NgnBase<'example'> {
+export class AwdExample extends AwdBase<'example'> {
   protected readonly theme = this.injectThemeTemplate(exampleTemplate);
 
   public readonly someInput = input<string>();

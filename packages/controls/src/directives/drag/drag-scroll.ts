@@ -1,12 +1,12 @@
 import { Directive } from '@angular/core';
 
-import { NgnDragBase } from './drag-base';
+import { AwdDragBase } from './drag-base';
 
-import type { NgnDragInfo } from './types';
+import type { AwdDragInfo } from './types';
 
 /**
  * Drag-to-scroll ("grab and pan") for its host: the same gesture as
- * {@link NgnDrag}, but each move scrolls the host by the inverse delta.
+ * {@link AwdDrag}, but each move scrolls the host by the inverse delta.
  *
  * Put it on the scrolling element itself. Because the gesture cancels the
  * synthesized click, panning across interactive children does not activate
@@ -17,8 +17,8 @@ import type { NgnDragInfo } from './types';
 @Directive({
   selector: '[ngnDragScroll]',
 })
-export class NgnDragScroll extends NgnDragBase {
-  protected onDragged(delta: NgnDragInfo): void {
+export class AwdDragScroll extends AwdDragBase {
+  protected onDragged(delta: AwdDragInfo): void {
     this.el.nativeElement.scrollBy({
       left: -delta.deltaX,
       top: -delta.deltaY,

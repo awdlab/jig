@@ -19,7 +19,7 @@ export function registerTools(server: McpServer, pack: KnowledgePack): void {
   server.registerTool(
     'list_controls',
     {
-      title: 'List awd controls',
+      title: 'List jig controls',
       description:
         'List every @awdlab/jig control and directive with its selector and a ' +
         'one-line summary. Call this first to discover what exists before asking for details.',
@@ -34,7 +34,7 @@ export function registerTools(server: McpServer, pack: KnowledgePack): void {
   server.registerTool(
     'get_control',
     {
-      title: 'Get an awd control',
+      title: 'Get an jig control',
       description:
         'Full reference for one control: selector, all inputs/outputs with types, defaults ' +
         'and descriptions, plus prose usage docs. Use before writing code that uses the control.',
@@ -48,10 +48,10 @@ export function registerTools(server: McpServer, pack: KnowledgePack): void {
       const key = name
         .trim()
         .toLowerCase()
-        .replace(/^awd-?/, '');
+        .replace(/^jig-?/, '');
       const control =
         pack.controls.find(c => c.name === key) ??
-        pack.controls.find(c => c.className.toLowerCase() === `awd${key}`) ??
+        pack.controls.find(c => c.className.toLowerCase() === `jig${key}`) ??
         pack.controls.find(c => c.name.replace(/-/g, '') === key.replace(/-/g, ''));
       if (!control) {
         return text(`No control named "${name}". Available controls: ${controlNames(pack)}.`);
@@ -63,7 +63,7 @@ export function registerTools(server: McpServer, pack: KnowledgePack): void {
   server.registerTool(
     'search_docs',
     {
-      title: 'Search awd docs',
+      title: 'Search jig docs',
       description:
         'Keyword search across all controls and concept guides (theming, colors, passthrough, ' +
         'state, getting started, …). Returns ranked matches. Use when you know what you want to ' +
@@ -95,7 +95,7 @@ export function registerTools(server: McpServer, pack: KnowledgePack): void {
         if (s > 0) {
           hits.push({
             label: `${c.className} — ${c.summary}`,
-            ref: `control "${c.name}" (get_control) · awd://control/${c.name}`,
+            ref: `control "${c.name}" (get_control) · jig://control/${c.name}`,
             score: s,
           });
         }
@@ -105,7 +105,7 @@ export function registerTools(server: McpServer, pack: KnowledgePack): void {
         if (s > 0) {
           hits.push({
             label: `Guide: ${g.title}`,
-            ref: `explain_concept "${g.slug}" · awd://concept/${g.slug}`,
+            ref: `explain_concept "${g.slug}" · jig://concept/${g.slug}`,
             score: s,
           });
         }

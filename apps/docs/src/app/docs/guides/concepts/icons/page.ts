@@ -1,8 +1,8 @@
 import { Demo_Icon_Base } from '../../../../demos/icon/base';
 
-import type { NgnDocsPage } from '../../../../utils/page/types';
+import type { AwdDocsPage } from '../../../../utils/page/types';
 
-export const IconsPage: NgnDocsPage = {
+export const IconsPage: AwdDocsPage = {
   kind: 'single',
   title: `Icons`,
 

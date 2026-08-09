@@ -1,8 +1,8 @@
-Everything `provideNgnControls` accepts, in one place. The first argument is a
+Everything `provideAwdControls` accepts, in one place. The first argument is a
 config object; every following argument is an opt-in feature.
 
 ```ts
-provideNgnControls(config, ...features);
+provideAwdControls(config, ...features);
 ```
 
 Only the config is required, and within it only `theme.preset` really matters —
@@ -11,7 +11,7 @@ everything else has a working default.
 ### Config reference
 
 ```ts
-provideNgnControls({
+provideAwdControls({
   logLevel: 'info',
   disableAnimations: false,
   respectReducedMotion: true,
@@ -20,8 +20,8 @@ provideNgnControls({
     preset: nova,
     lazyLoaded: false,
     styleScope: null,
-    cssLayer: 'awd-controls',
-    namePrefix: 'awd-',
+    cssLayer: 'jig-controls',
+    namePrefix: 'jig-',
   },
   defaults: {
     stateStorage: 'session',
@@ -47,8 +47,8 @@ provideNgnControls({
 | `preset`     | `Theme \| null`      | `null`           | The theme object (not a name). Required unless `lazyLoaded` is `true` — without one, controls throw.                       |
 | `lazyLoaded` | `boolean`            | `false`          | Suppresses the "no theme" error, for apps that install a theme later at runtime.                                           |
 | `styleScope` | `StyleScope \| null` | `null`           | Selector the token declarations are scoped to. `null` means `:root`. See [Styling & Overrides](/guides/styling-overrides). |
-| `cssLayer`   | `string \| null`     | `'awd-controls'` | Wraps all generated CSS in a `@layer` of this name. Set to `null` to emit unlayered CSS.                                   |
-| `namePrefix` | `string`             | `'awd-'`         | Prefix for generated class names and CSS custom properties.                                                                |
+| `cssLayer`   | `string \| null`     | `'jig-controls'` | Wraps all generated CSS in a `@layer` of this name. Set to `null` to emit unlayered CSS.                                   |
+| `namePrefix` | `string`             | `'jig-'`         | Prefix for generated class names and CSS custom properties.                                                                |
 
 > `cssLayer` is the lever for specificity. Everything the theme emits sits in
 > one cascade layer, so **any** unlayered CSS of yours wins over it regardless
@@ -57,8 +57,8 @@ provideNgnControls({
 `styleScope` takes a selector descriptor rather than a raw string:
 
 ```ts
-styleScope: { kind: 'class', name: 'my-app' } // .my-app { --awd-…: … }
-styleScope: { kind: 'attribute', name: 'data-awd', value: 'on' }
+styleScope: { kind: 'class', name: 'my-app' } // .my-app { --jig-…: … }
+styleScope: { kind: 'attribute', name: 'data-jig', value: 'on' }
 styleScope: { kind: 'id', name: 'app-root' }
 styleScope: { kind: 'tag', name: 'my-app' }
 ```
@@ -111,19 +111,19 @@ injected without their feature.
 
 ```ts
 import { ApplicationConfig } from '@angular/core';
-import { provideNgnControls, withAutoColorScheme } from '@awdlab/jig/api/ng';
+import { provideAwdControls, withAutoColorScheme } from '@awdlab/jig/api/ng';
 import { withDefaultIcons } from '@awdlab/jig/default-icons';
 import { withSnackbars } from '@awdlab/jig/snackbar';
 import { withToasts } from '@awdlab/jig/toast';
-import { provideNgnErrorsMessages } from '@awdlab/jig/errors';
+import { provideAwdErrorsMessages } from '@awdlab/jig/errors';
 import { nova } from '@awdlab/jig-themes/nova';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideNgnControls(
+    provideAwdControls(
       {
         logLevel: 'warn',
-        theme: { preset: nova, cssLayer: 'awd-controls' },
+        theme: { preset: nova, cssLayer: 'jig-controls' },
         defaults: { stateStorage: 'local' },
       },
       withDefaultIcons(),
@@ -131,7 +131,7 @@ export const appConfig: ApplicationConfig = {
       withToasts(),
       withSnackbars()
     ),
-    provideNgnErrorsMessages({ required: 'This field is required.' }),
+    provideAwdErrorsMessages({ required: 'This field is required.' }),
   ],
 };
 ```
@@ -143,5 +143,5 @@ build your own control on top of the library:
 
 ```ts
 const config = inject(NGN_CONFIG);
-config.theme.namePrefix; // 'awd-'
+config.theme.namePrefix; // 'jig-'
 ```

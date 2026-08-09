@@ -2,7 +2,7 @@ import { type Locator, expect } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { inputControlTemplate } from '@awdlab/jig-themes/templates/input';
 
-export class NgnInputHarness {
+export class AwdInputHarness {
   public readonly classes = themeClasses(inputControlTemplate);
 
   public readonly locator: Locator;

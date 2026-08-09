@@ -22,7 +22,7 @@ type FilterConfig<T> = {
 ```
 
 ```html
-<awd-select [items]="items" [filter]="{ filterFn: 'fuzzy', splitWords: true }" />
+<jig-select [items]="items" [filter]="{ filterFn: 'fuzzy', splitWords: true }" />
 ```
 
 `filterFn` is either the name of a built-in matcher or your own predicate:
@@ -69,15 +69,15 @@ array.
 ## Structured filters
 
 The [Filter](/components/filter) control and each filterable table column
-produce an `NgnFilterConfig` — a **serializable** description of the conditions,
+produce an `AwdFilterConfig` — a **serializable** description of the conditions,
 with no data in it. That is deliberate: the same object can be evaluated
 locally or sent to a server.
 
 ```ts
-type NgnFilterConfig = {
+type AwdFilterConfig = {
   dataType: 'string' | 'number' | 'date' | 'dateTime' | 'boolean' | 'custom' | 'list';
   matchMode: 'all' | 'any';
-  conditions: readonly { operator: NgnFilterOperatorId; rawValue: string | null }[];
+  conditions: readonly { operator: AwdFilterOperatorId; rawValue: string | null }[];
 };
 ```
 

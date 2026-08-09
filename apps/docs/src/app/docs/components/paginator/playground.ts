@@ -1,17 +1,17 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnPaginator } from '@awdlab/jig/paginator';
+import { AwdPaginator } from '@awdlab/jig/paginator';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-paginator-playground',
-  imports: [NgnPaginator, NgnDocsPlayground],
+  selector: 'jig-docs-paginator-playground',
+  imports: [AwdPaginator, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnPaginator', component: component() }]">
-      <awd-paginator class="flex-1" #ref [totalItems]="50" />
-    </awd-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'AwdPaginator', component: component() }]">
+      <jig-paginator class="flex-1" #ref [totalItems]="50" />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsPaginatorPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnPaginator });
+export class AwdDocsPaginatorPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdPaginator });
 }

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { NgnSplitterModule } from '@awdlab/jig/splitter';
+import { AwdSplitterModule } from '@awdlab/jig/splitter';
 
 @Component({
-  imports: [NgnSplitterModule],
-  selector: 'awd-demo-splitter-min-max',
+  imports: [AwdSplitterModule],
+  selector: 'jig-demo-splitter-min-max',
   template: `
-    <awd-splitter [layout]="'horizontal'" [aria-label]="'Min/Max Sizes Splitter'">
-      <awd-splitter-panel
+    <jig-splitter [layout]="'horizontal'" [aria-label]="'Min/Max Sizes Splitter'">
+      <jig-splitter-panel
         [name]="'first-panel'"
         [size]="'70px'"
         [minSize]="'10%'"
@@ -14,8 +14,8 @@ import { NgnSplitterModule } from '@awdlab/jig/splitter';
         [aria-label]="'First Panel'"
       >
         Panel 1
-      </awd-splitter-panel>
-      <awd-splitter-panel
+      </jig-splitter-panel>
+      <jig-splitter-panel
         [name]="'second-panel'"
         [size]="'3fr'"
         [minSize]="'150px'"
@@ -23,27 +23,27 @@ import { NgnSplitterModule } from '@awdlab/jig/splitter';
         [aria-label]="'Second Panel'"
       >
         Panel 2
-      </awd-splitter-panel>
-      <awd-splitter-panel
+      </jig-splitter-panel>
+      <jig-splitter-panel
         [name]="'third-panel'"
         [size]="'5fr'"
         [maxSize]="'750px'"
         [aria-label]="'Third Panel'"
       >
         Panel 3
-      </awd-splitter-panel>
-      <awd-splitter-panel
+      </jig-splitter-panel>
+      <jig-splitter-panel
         [name]="'fourth-panel'"
         [size]="'1fr'"
         [minSize]="'15%'"
         [aria-label]="'Fourth Panel'"
       >
         Panel 4
-      </awd-splitter-panel>
-      <awd-splitter-panel [name]="'fifth-panel'" [size]="'50px'" [aria-label]="'Fifth Panel'">
+      </jig-splitter-panel>
+      <jig-splitter-panel [name]="'fifth-panel'" [size]="'50px'" [aria-label]="'Fifth Panel'">
         Panel 5
-      </awd-splitter-panel>
-    </awd-splitter>
+      </jig-splitter-panel>
+    </jig-splitter>
   `,
   styles: `
     :host {

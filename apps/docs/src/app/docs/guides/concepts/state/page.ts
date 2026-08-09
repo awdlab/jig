@@ -1,8 +1,8 @@
 import { Demo_ControlState_Flags } from '../../../../demos/control-state/flags';
 
-import type { NgnDocsPage } from '../../../../utils/page/types';
+import type { AwdDocsPage } from '../../../../utils/page/types';
 
-export const StateConceptPage: NgnDocsPage = {
+export const StateConceptPage: AwdDocsPage = {
   kind: 'single',
   title: `State`,
 

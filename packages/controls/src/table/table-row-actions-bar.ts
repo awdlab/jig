@@ -11,23 +11,23 @@ import {
   viewChildren,
 } from '@angular/core';
 import { injectThemeTemplate } from '@awdlab/jig/api/ng';
-import { NgnActionButton } from '@awdlab/jig/button';
-import { NgnMenu, openMenuAt } from '@awdlab/jig/menu';
+import { AwdActionButton } from '@awdlab/jig/button';
+import { AwdMenu, openMenuAt } from '@awdlab/jig/menu';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
 import { actionItemToButtonConfig, hasChildren } from './action-item-mapping';
 
-import type { NgnActionButtonConfig, NgnActionItem } from '@awdlab/jig/api';
+import type { AwdActionButtonConfig, JigActionItem } from '@awdlab/jig/api';
 
 type BarAction = {
-  item: NgnActionItem;
-  config: NgnActionButtonConfig<string>;
+  item: JigActionItem;
+  config: AwdActionButtonConfig<string>;
   hasChildren: boolean;
 };
 
 /**
- * Inline row-actions bar: renders each {@link NgnActionItem} as an
- * `awd-action-button`. An action with `children` opens a submenu popover
+ * Inline row-actions bar: renders each {@link JigActionItem} as an
+ * `jig-action-button`. An action with `children` opens a submenu popover
  * anchored to its own button — the anchor is resolved from the rendered
  * button element itself, never from a `testId` lookup, so it keeps working
  * even when an action has no `testId`. Positioning/visibility is applied by
@@ -35,11 +35,11 @@ type BarAction = {
  * the buttons.
  */
 @Component({
-  selector: 'awd-table-row-actions-bar',
-  imports: [NgnActionButton],
+  selector: 'jig-table-row-actions-bar',
+  imports: [AwdActionButton],
   template: `
     @for (action of barActions(); track action.item.id) {
-      <awd-action-button
+      <jig-action-button
         [config]="action.config"
         [inline]="true"
         [attr.aria-haspopup]="action.hasChildren ? 'menu' : null"
@@ -53,26 +53,26 @@ type BarAction = {
     '(click)': 'onBarClick($event)',
   },
 })
-export class NgnTableRowActionsBar implements OnDestroy {
+export class AwdTableRowActionsBar implements OnDestroy {
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
   private readonly _vcr = inject(ViewContainerRef);
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
-  private _menu?: ComponentRef<NgnMenu>;
+  private _menu?: ComponentRef<AwdMenu>;
 
-  // One host `ElementRef` per rendered `awd-action-button`, in the same order
+  // One host `ElementRef` per rendered `jig-action-button`, in the same order
   // as `barActions()`. Reading the native `<button>` off these refs is the
   // robust anchor for the submenu popover — it doesn't depend on the action
-  // having a `testId`. The accessible name itself is owned by `NgnTooltip`
+  // having a `testId`. The accessible name itself is owned by `AwdTooltip`
   // (via `ngnTooltipAutoAriaMode="label"` on `action-button.html`), not this
   // component.
-  private readonly _buttonHosts = viewChildren(NgnActionButton, { read: ElementRef });
+  private readonly _buttonHosts = viewChildren(AwdActionButton, { read: ElementRef });
 
   /**
    * The actions to render as buttons. Used for standalone consumers that bind
    * an array directly. When {@link actionsSource} is provided (the directive
    * mounts the bar imperatively), that signal takes precedence.
    */
-  public readonly actions = input<NgnActionItem[]>([]);
+  public readonly actions = input<JigActionItem[]>([]);
 
   /**
    * A reactive source of actions. Preferred over {@link actions} when set:
@@ -83,7 +83,7 @@ export class NgnTableRowActionsBar implements OnDestroy {
    * otherwise loop into infinite change detection (NG0103).
    * @internal
    */
-  public readonly actionsSource = input<Signal<NgnActionItem[]> | null>(null);
+  public readonly actionsSource = input<Signal<JigActionItem[]> | null>(null);
 
   protected readonly barActions = computed<BarAction[]>(() => {
     const source = this.actionsSource();
@@ -134,7 +134,7 @@ export class NgnTableRowActionsBar implements OnDestroy {
    * Stops a native button click (mouse or Space/Enter key activation) from
    * bubbling to the row's own click handler — otherwise, on a table with
    * `selectionMode` set, activating an action would also select/toggle the
-   * row it lives in. Mirrors {@link import('./table-selection-column').NgnTableSelectionColumn}'s
+   * row it lives in. Mirrors {@link import('./table-selection-column').AwdTableSelectionColumn}'s
    * click guard for the same reason.
    */
   protected onBarClick(event: MouseEvent): void {

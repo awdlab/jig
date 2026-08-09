@@ -41,7 +41,7 @@ export const buttonStyles = createThemePart({
         width: auto;
         height: auto;
         /* A block-level icon would break the link's line box. */
-        awd-icon {
+        jig-icon {
           display: inline-flex;
           vertical-align: -0.15em;
         }

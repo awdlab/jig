@@ -1,17 +1,17 @@
 # API
 
-## NgnTable
+## AwdTable
 
-Selector: `awd-table`
+Selector: `jig-table`
 
-{{ api: table/table NgnTable }}
+{{ api: table/table AwdTable }}
 
 ### Lazy Loading
 
 Setting `dataSource` switches the table into lazy (server-driven) mode: `rows`
 is ignored, and sort/filter are delegated to the loader instead of applied
 client-side. `dataSource` is incompatible with `groupBy` — setting both throws
-an `NgnError` (grouping needs the full row set, which lazy mode never has).
+an `AwdError` (grouping needs the full row set, which lazy mode never has).
 
 > **Bind `dataSource` to a stable reference** — a class field or method, not an
 > inline arrow (`[dataSource]="req => …"`). A new function identity on every
@@ -37,7 +37,7 @@ The loader has the shape `(req: TableLoadRequest) => Promise<TableLoadResult<T>>
 | ------------------ | -------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | `pagination`       | `PaginationState`                                        | Page/slice coordinates, reused from the paginator.                                   |
 | `sort`             | `{ column: string; direction: 'asc' \| 'desc' } \| null` | Active sort descriptor, or `null` when unsorted.                                     |
-| `filters`          | `Record<string, NgnFilterConfig> \| null`                | Active per-column filter config, or `null` when unfiltered.                          |
+| `filters`          | `Record<string, AwdFilterConfig> \| null`                | Active per-column filter config, or `null` when unfiltered.                          |
 | `cursor`           | `unknown` (optional)                                     | Continuation token from the previous page's `cursor`. `undefined` on the first page. |
 | `signal`           | `AbortSignal`                                            | Aborts when the request is superseded or the table is destroyed.                     |
 
@@ -53,77 +53,77 @@ The loader has the shape `(req: TableLoadRequest) => Promise<TableLoadResult<T>>
 These build the grid itself. `ngnTableTh` declares the column id that every
 other feature is addressed by.
 
-### NgnTableHeadTr
+### AwdTableHeadTr
 
 Selector: `[ngnTableHeadTr]` — the header `<tr>`.
 
-{{ api: table/table-header-row NgnTableHeadTr }}
+{{ api: table/table-header-row AwdTableHeadTr }}
 
-### NgnTableTh
+### AwdTableTh
 
 Selector: `[ngnTableTh]` — a header cell. The bound value is the column id.
 
-{{ api: table/table-header-cell NgnTableTh }}
+{{ api: table/table-header-cell AwdTableTh }}
 
-### NgnTableBodyTr
+### AwdTableBodyTr
 
 Selector: `[ngnTableBodyTr]` — a body `<tr>`; bind the row object from the
 `#body` template.
 
-{{ api: table/table-row NgnTableBodyTr }}
+{{ api: table/table-row AwdTableBodyTr }}
 
-### NgnTableTd
+### AwdTableTd
 
 Selector: `[ngnTableTd]` — a body cell. It has no inputs; it applies the cell
 class, exposes the visual column index and mirrors sticky positioning.
 
-### NgnTableGroupHeaderTr
+### AwdTableGroupHeaderTr
 
 Selector: `[ngnTableGroupHeaderTr]` — the `<tr>` for a group header when
 `groupBy` is set; bind the group-header row from the `#groupHeader` template.
 
-{{ api: table/table-group-header-row NgnTableGroupHeaderTr }}
+{{ api: table/table-group-header-row AwdTableGroupHeaderTr }}
 
 ## Column feature directives
 
 Each goes on a header cell, except selection which is used on both header and
 body cells.
 
-### NgnTableSortableColumn
+### AwdTableSortableColumn
 
 Selector: `[ngnTableSortableColumn]`
 
-{{ api: table/table-sortable-column NgnTableSortableColumn }}
+{{ api: table/table-sortable-column AwdTableSortableColumn }}
 
-### NgnTableFilterableColumn
+### AwdTableFilterableColumn
 
 Selector: `[ngnTableFilterableColumn]`
 
-{{ api: table/table-filterable-column NgnTableFilterableColumn }}
+{{ api: table/table-filterable-column AwdTableFilterableColumn }}
 
-### NgnTableSelectionColumn
+### AwdTableSelectionColumn
 
 Selector: `[ngnTableSelectionColumn]`
 
-{{ api: table/table-selection-column NgnTableSelectionColumn }}
+{{ api: table/table-selection-column AwdTableSelectionColumn }}
 
-### NgnTableReorderableColumn
+### AwdTableReorderableColumn
 
 Selector: `[ngnTableReorderableColumn]`
 
-{{ api: table/table-reorderable-column NgnTableReorderableColumn }}
+{{ api: table/table-reorderable-column AwdTableReorderableColumn }}
 
-### NgnTableStickyColumn
+### AwdTableStickyColumn
 
 Selector: `[ngnTableStickyColumn]` — on a header cell; the body cells follow.
 
-{{ api: table/table-sticky-column NgnTableStickyColumn }}
+{{ api: table/table-sticky-column AwdTableStickyColumn }}
 
-## NgnTableRowActions
+## AwdTableRowActions
 
 Selector: `[ngnTableRowActions]` (apply to a body `<tr>`)
 
-{{ api: table/table-row-actions NgnTableRowActions }}
+{{ api: table/table-row-actions AwdTableRowActions }}
 
 Keyboard: the grid is a single tab stop. ↑/↓/Home/End/PageUp/PageDown move the
 current row, → enters the row's actions, ←/→ move between them (← off the first
@@ -131,7 +131,7 @@ returns to the row), Enter/Space trigger an action, and
 Enter/ContextMenu/Shift+F10 open the menu. See the Accessibility tab for the
 full key map.
 
-## NgnTableModule
+## AwdTableModule
 
 An `NgModule` that imports and exports every table directive at once, for
 convenience. All of them are standalone — importing the module is optional.

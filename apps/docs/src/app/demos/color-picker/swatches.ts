@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { NgnColorPicker } from '@awdlab/jig/color-picker';
+import { AwdColorPicker } from '@awdlab/jig/color-picker';
 
 @Component({
-  selector: 'awd-demo-color-picker-swatches',
-  imports: [NgnColorPicker],
+  selector: 'jig-demo-color-picker-swatches',
+  imports: [AwdColorPicker],
   template: `
-    <awd-color-picker
+    <jig-color-picker
       [inline]="true"
       [swatches]="['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6']"
       [value]="value()"

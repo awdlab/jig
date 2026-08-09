@@ -1,21 +1,21 @@
 import { Component, computed, input, linkedSignal } from '@angular/core';
-import { NgnBase, provideSelf, NgnPt } from '@awdlab/jig/base';
+import { AwdBase, provideSelf, AwdPt } from '@awdlab/jig/base';
 import { avatarControlTemplate } from '@awdlab/jig-themes/templates/avatar';
 
 /**
  * @category control
  */
 @Component({
-  selector: 'awd-avatar',
+  selector: 'jig-avatar',
   templateUrl: './avatar.html',
-  imports: [NgnPt],
+  imports: [AwdPt],
   host: {
     '[style.--size.px]': 'size()',
     '[style.--color]': 'bgColor()',
   },
-  providers: [provideSelf(NgnAvatar)],
+  providers: [provideSelf(AwdAvatar)],
 })
-export class NgnAvatar extends NgnBase<'avatar'> {
+export class AwdAvatar extends AwdBase<'avatar'> {
   protected readonly theme = this.injectThemeTemplate(avatarControlTemplate, 'root');
 
   /**

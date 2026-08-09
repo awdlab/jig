@@ -2,7 +2,7 @@ import { type Locator, expect } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { switchControlTemplate } from '@awdlab/jig-themes/templates/switch';
 
-export class NgnSwitchHarness {
+export class AwdSwitchHarness {
   public readonly classes = themeClasses(switchControlTemplate);
 
   public readonly locator: Locator;

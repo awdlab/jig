@@ -1,6 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { NgnSnackbarHarness } from '@awdlab/jig-playwright';
+import { AwdSnackbarHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -9,7 +9,7 @@ test('features', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <awd-snackbar
+      <jig-snackbar
         class="page-center"
         [header]="inputs().header"
         [content]="inputs().content"
@@ -31,7 +31,7 @@ test('features', async ({ page }, testInfo) => {
     }
   );
 
-  const snackbar = new NgnSnackbarHarness(page.locator('awd-snackbar'));
+  const snackbar = new AwdSnackbarHarness(page.locator('jig-snackbar'));
 
   await test.step('default', async () => {
     await snackbar.expectHeader('Notification');
@@ -80,7 +80,7 @@ test('colors', async ({ page }, testInfo) => {
       <div class="page-center">
         <div class="flex gap-2 flex-col">
           @for (color of inputs().colors; track $index) {
-            <awd-snackbar
+            <jig-snackbar
               [color]="color"
               [header]="color ?? 'default'"
               [content]="'Snackbar message'"
@@ -116,7 +116,7 @@ test('actions', async ({ page }, testInfo) => {
     page,
     {
       template: `
-      <awd-snackbar
+      <jig-snackbar
         class="page-center"
         [color]="'success'"
         [icon]="{ body: '<path fill=\\'none\\' stroke=\\'currentColor\\' stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\' stroke-width=\\'2\\' d=\\'M5 12l5 5L20 7\\'/>', width: 24, height: 24 }"
@@ -152,7 +152,7 @@ test('progress bar', async ({ page }) => {
       page,
       {
         template: `
-        <awd-snackbar
+        <jig-snackbar
           class="page-center"
           [header]="'Notification'"
           [content]="'Auto-hiding message'"
@@ -165,7 +165,7 @@ test('progress bar', async ({ page }) => {
       { inputs: { showProgress, autoHide } }
     );
 
-  const bar = page.locator('awd-snackbar >> css=[class*="progressBar"]');
+  const bar = page.locator('jig-snackbar >> css=[class*="progressBar"]');
 
   await test.step('renders and is styled when auto-hiding', async () => {
     const handle = await setup(true, 100000);
@@ -183,7 +183,7 @@ test('progress bar', async ({ page }) => {
     });
     expect(styles.position).toBe('absolute');
     expect(styles.height).toBe('3px');
-    expect(styles.animationName).toBe('awd-snackbar-progressBar');
+    expect(styles.animationName).toBe('jig-snackbar-progressBar');
     expect(styles.inlineDuration).toBe('100000ms');
     // Background must resolve to a visible (non-transparent) colour.
     expect(styles.backgroundColor).not.toBe('rgba(0, 0, 0, 0)');
@@ -192,7 +192,7 @@ test('progress bar', async ({ page }) => {
 
   await test.step('pauses on hover and resumes on leave when pauseOnHover is set', async () => {
     await setup(true, 100000);
-    const snackbar = page.locator('awd-snackbar');
+    const snackbar = page.locator('jig-snackbar');
     const playState = () => bar.evaluate(el => (el as HTMLElement).style.animationPlayState);
 
     // Running by default while the auto-hide timer is active.
@@ -226,7 +226,7 @@ test('accessibility (axe)', async ({ page }) => {
     page,
     {
       template: `
-      <awd-snackbar
+      <jig-snackbar
         class="page-center"
         [header]="'Notification'"
         [content]="'This is a basic snackbar message.'"
@@ -239,7 +239,7 @@ test('accessibility (axe)', async ({ page }) => {
     { inputs: {} }
   );
 
-  const snackbar = new NgnSnackbarHarness(page.locator('awd-snackbar'));
+  const snackbar = new AwdSnackbarHarness(page.locator('jig-snackbar'));
   await snackbar.expectClosable(true);
 
   await expectNoA11yViolations(page);

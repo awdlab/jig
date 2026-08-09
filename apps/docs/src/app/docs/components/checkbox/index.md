@@ -14,7 +14,7 @@ set its checked state.
 
 ### Validation
 
-The checkbox plugs into the shared `ngnErrors` + `awd-hint` validation flow like
+The checkbox plugs into the shared `ngnErrors` + `jig-hint` validation flow like
 any other control.
 
 {{ demo: Demo_Checkbox_Validation }}

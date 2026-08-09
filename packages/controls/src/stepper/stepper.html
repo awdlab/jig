@@ -19,9 +19,9 @@
     >
       <span [ptInt]="this" [ptClass]="'marker'">
         @if (step.iconStep(); as icon) {
-          <awd-icon [ptInt]="this" [ptClass]="'marker-icon'" [icon]="icon" />
+          <jig-icon [ptInt]="this" [ptClass]="'marker-icon'" [icon]="icon" />
         } @else if (step.completed() && i !== active()) {
-          <awd-icon [ptInt]="this" [ptClass]="'marker-icon'" [defaultIcon]="'stepper-completed'" />
+          <jig-icon [ptInt]="this" [ptClass]="'marker-icon'" [defaultIcon]="'stepper-completed'" />
         } @else {
           <span [ptInt]="this" [ptClass]="'marker-index'">{{ i + 1 }}</span>
         }
@@ -46,7 +46,7 @@
     [ptClass]="{ content: i === active() }"
     [hidden]="i !== active()"
   >
-    <awd-defer
+    <jig-defer
       [lazyContent]="step.content()"
       [open]="i === active()"
       [lazy]="lazy()"

@@ -15,7 +15,7 @@ export const breadcrumbStyles = createThemePart({
       ${c('separator')} {
         display: inline-flex;
         align-items: center;
-        awd-icon {
+        jig-icon {
           display: flex;
         }
       }

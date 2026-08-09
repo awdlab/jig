@@ -1,18 +1,18 @@
-import { NgnError } from '@awdlab/jig/utils';
+import { AwdError } from '@awdlab/jig/utils';
 
 import type { IconType } from '@awdlab/jig-custom-types';
 
-export type NgnItem<T = any, V = any> = {
+export type JigItem<T = any, V = any> = {
   data?: T;
   label: string | (() => string);
   icon?: IconType;
   value: V;
   testId?: string;
   disabled?: boolean;
-  items?: NgnItem<T, V>[];
+  items?: JigItem<T, V>[];
 };
 
-export type NgnItemFields<T, K extends keyof T> = {
+export type JigItemFields<T, K extends keyof T> = {
   label: keyof T;
   value: K;
   translate?: keyof T;
@@ -20,59 +20,59 @@ export type NgnItemFields<T, K extends keyof T> = {
   children?: keyof T;
 };
 
-export type NgnItemValue<Item extends NgnItem> = Item extends { items: readonly (infer A)[] }
-  ? A extends NgnItem
-    ? NgnItemValue<A>
+export type JigItemValue<Item extends JigItem> = Item extends { items: readonly (infer A)[] }
+  ? A extends JigItem
+    ? JigItemValue<A>
     : never
   : Item extends { value: infer T }
     ? T
     : never;
 
-export type NgnItemsValue<Items extends readonly NgnItem[]> = Items[number] extends infer A
-  ? A extends NgnItem
-    ? NgnItemValue<A>
+export type JigItemsValue<Items extends readonly JigItem[]> = Items[number] extends infer A
+  ? A extends JigItem
+    ? JigItemValue<A>
     : never
   : never;
 
-export function transformToNgnItem<T extends object, K extends keyof T>(
+export function transformToJigItem<T extends object, K extends keyof T>(
   item: T,
-  fields: NgnItemFields<T, K>
-): NgnItem<T, T[K]> {
+  fields: JigItemFields<T, K>
+): JigItem<T, T[K]> {
   const rawItems = fields.children ? item[fields.children] : undefined;
   if (rawItems && !Array.isArray(rawItems)) {
-    throw new NgnError(
-      'transformToNgnItem',
+    throw new AwdError(
+      'transformToJigItem',
       `Expected children to be an array, but got ${typeof rawItems} for item: ${JSON.stringify(item)}`
     );
   }
   const items = (rawItems as T[])?.length
-    ? transformToNgnItems(rawItems as T[], fields)
+    ? transformToJigItems(rawItems as T[], fields)
     : undefined;
   return {
     data: item,
     label: item[fields.label] as string | (() => string),
     value: item[fields.value],
     testId: fields.testId ? (item[fields.testId] as string) : undefined,
-    items: items as NgnItem<T, T[K]>[],
+    items: items as JigItem<T, T[K]>[],
   };
 }
 
-export function transformToNgnItemPrimitive<T extends string | number>(
+export function transformToJigItemPrimitive<T extends string | number>(
   item: T
-): NgnItem<unknown, T> {
-  return transformToNgnItem({ var: item }, { label: 'var', value: 'var' });
+): JigItem<unknown, T> {
+  return transformToJigItem({ var: item }, { label: 'var', value: 'var' });
 }
 
-export function transformToNgnItems<Items extends readonly object[], K extends keyof Items[number]>(
+export function transformToJigItems<Items extends readonly object[], K extends keyof Items[number]>(
   items: Items,
-  fields: NgnItemFields<Items[number], K>
-): { [P in keyof Items]: NgnItem<Items[P], K> } & readonly NgnItem<Items[number], K>[] {
-  return items.map((item: Items[number]) => transformToNgnItem(item, fields)) as {
-    [P in keyof Items]: NgnItem<Items[P], K>;
-  } & readonly NgnItem<Items[number], K>[];
+  fields: JigItemFields<Items[number], K>
+): { [P in keyof Items]: JigItem<Items[P], K> } & readonly JigItem<Items[number], K>[] {
+  return items.map((item: Items[number]) => transformToJigItem(item, fields)) as {
+    [P in keyof Items]: JigItem<Items[P], K>;
+  } & readonly JigItem<Items[number], K>[];
 }
 
-export function mapToItems(items: readonly NgnItem[]): readonly NgnItem[] {
+export function mapToItems(items: readonly JigItem[]): readonly JigItem[] {
   return items
     .map(item => {
       if (item.items) {
@@ -83,7 +83,7 @@ export function mapToItems(items: readonly NgnItem[]): readonly NgnItem[] {
     .flat();
 }
 
-export function flatItems(items: readonly NgnItem[]): NgnItem[] {
+export function flatItems(items: readonly JigItem[]): JigItem[] {
   return items
     .map(item => {
       if (item.items) {

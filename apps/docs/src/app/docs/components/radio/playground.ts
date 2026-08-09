@@ -1,21 +1,21 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnRadio, NgnRadioGroup } from '@awdlab/jig/radio';
+import { AwdRadio, AwdRadioGroup } from '@awdlab/jig/radio';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-radio-playground',
-  imports: [NgnRadioGroup, NgnRadio, NgnDocsPlayground],
+  selector: 'jig-docs-radio-playground',
+  imports: [AwdRadioGroup, AwdRadio, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnRadioGroup', component: component() }]">
-      <awd-radio-group #ref>
-        <awd-radio value="one">Option one</awd-radio>
-        <awd-radio value="two">Option two</awd-radio>
-        <awd-radio value="three">Option three</awd-radio>
-      </awd-radio-group>
-    </awd-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'AwdRadioGroup', component: component() }]">
+      <jig-radio-group #ref>
+        <jig-radio value="one">Option one</jig-radio>
+        <jig-radio value="two">Option two</jig-radio>
+        <jig-radio value="three">Option three</jig-radio>
+      </jig-radio-group>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsRadioPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnRadioGroup });
+export class AwdDocsRadioPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdRadioGroup });
 }

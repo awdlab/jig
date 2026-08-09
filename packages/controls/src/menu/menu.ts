@@ -15,12 +15,12 @@ import {
   viewChildren,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { type Anchor, NgnTemplate, type Openable, Platform } from '@awdlab/jig/api/ng';
-import { NgnPt, provideSelf } from '@awdlab/jig/base';
-import { NgnAutofocus } from '@awdlab/jig/directives';
-import { NgnIcon } from '@awdlab/jig/icon';
-import { NgnPopover } from '@awdlab/jig/popover';
-import { maybeCallback, NgnError } from '@awdlab/jig/utils';
+import { type Anchor, AwdTemplate, type Openable, Platform } from '@awdlab/jig/api/ng';
+import { AwdPt, provideSelf } from '@awdlab/jig/base';
+import { AwdAutofocus } from '@awdlab/jig/directives';
+import { AwdIcon } from '@awdlab/jig/icon';
+import { AwdPopover } from '@awdlab/jig/popover';
+import { maybeCallback, AwdError } from '@awdlab/jig/utils';
 import { effectWithPrevious, explicitEffect, generateElementId } from '@awdlab/jig/utils-ng';
 import { menuControlTemplate } from '@awdlab/jig-themes/templates/menu';
 
@@ -34,13 +34,13 @@ import type { IconType } from '@awdlab/jig-custom-types';
  * @category control
  */
 @Component({
-  selector: 'awd-menu',
-  imports: [NgnPt, NgTemplateOutlet, NgnTemplate, NgnAutofocus, NgnPopover, NgnIcon, RouterLink],
+  selector: 'jig-menu',
+  imports: [AwdPt, NgTemplateOutlet, AwdTemplate, AwdAutofocus, AwdPopover, AwdIcon, RouterLink],
   templateUrl: './menu.html',
 
-  providers: [provideSelf(NgnMenu)],
+  providers: [provideSelf(AwdMenu)],
 })
-export class NgnMenu extends MenuTemplates implements Openable {
+export class AwdMenu extends MenuTemplates implements Openable {
   protected readonly theme = this.injectThemeTemplate(menuControlTemplate, {
     submenu: () => this.isSubMenu(),
   });
@@ -117,9 +117,9 @@ export class NgnMenu extends MenuTemplates implements Openable {
   );
 
   private readonly _isTouchDevice = inject(Platform).isTouchDevice;
-  private readonly _popover = viewChild(NgnPopover);
+  private readonly _popover = viewChild(AwdPopover);
   private readonly _menuItems = viewChildren<ElementRef<HTMLElement>>('menuItem');
-  private readonly _childMenus = viewChildren(NgnMenu);
+  private readonly _childMenus = viewChildren(AwdMenu);
   private readonly _openSubmenuOnHover = computed(
     () => this.openSubmenuOnHover() ?? this.popover()
   );
@@ -131,8 +131,8 @@ export class NgnMenu extends MenuTemplates implements Openable {
     inject(DestroyRef).onDestroy(() => (this._destroyed = true));
     effect(() => {
       if (this.popover() && !this.anchor()) {
-        throw new NgnError(
-          'NgnMenu',
+        throw new AwdError(
+          'AwdMenu',
           'When using popover mode, the anchor input must be provided.'
         );
       }
@@ -184,8 +184,8 @@ export class NgnMenu extends MenuTemplates implements Openable {
    */
   public show(focus = true) {
     if (!this.popover()) {
-      throw new NgnError(
-        'NgnMenu',
+      throw new AwdError(
+        'AwdMenu',
         'The show() method can only be used when popover mode is enabled.'
       );
     }
@@ -199,8 +199,8 @@ export class NgnMenu extends MenuTemplates implements Openable {
    */
   public hide(emitCloseEvent = true) {
     if (!this.popover()) {
-      throw new NgnError(
-        'NgnMenu',
+      throw new AwdError(
+        'AwdMenu',
         'The hide() method can only be used when popover mode is enabled.'
       );
     }
@@ -212,14 +212,14 @@ export class NgnMenu extends MenuTemplates implements Openable {
    */
   public toggle() {
     if (!this.popover()) {
-      throw new NgnError(
-        'NgnMenu',
+      throw new AwdError(
+        'AwdMenu',
         'The toggle() method can only be used when popover mode is enabled.'
       );
     }
     const popoverEl = this._popover();
     if (!popoverEl) {
-      throw new NgnError('NgnMenu', 'Popover element is not available.');
+      throw new AwdError('AwdMenu', 'Popover element is not available.');
     }
     if (popoverEl.open()) {
       popoverEl.hide();
@@ -228,7 +228,7 @@ export class NgnMenu extends MenuTemplates implements Openable {
     }
   }
 
-  protected handleKeydown(event: KeyboardEvent, subMenu?: NgnMenu) {
+  protected handleKeydown(event: KeyboardEvent, subMenu?: AwdMenu) {
     let currentIndex = this._menuItems()
       .map(x => x.nativeElement)
       .indexOf(event.target as HTMLElement);
@@ -291,7 +291,7 @@ export class NgnMenu extends MenuTemplates implements Openable {
   }
 
   protected openChildMenu(
-    childMenu: NgnMenu,
+    childMenu: AwdMenu,
     menuItem: HTMLButtonElement | null,
     openBy: 'hover' | 'click' | 'arrow'
   ) {

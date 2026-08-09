@@ -1,27 +1,27 @@
 import { Component, signal } from '@angular/core';
-import { NgnSlider } from '@awdlab/jig/slider';
+import { AwdSlider } from '@awdlab/jig/slider';
 
 @Component({
-  selector: 'awd-demo-slider-states',
-  imports: [NgnSlider],
+  selector: 'jig-demo-slider-states',
+  imports: [AwdSlider],
   template: `
     Default:
-    <awd-slider [value]="value()" (valueChange)="value.set($event)" />
+    <jig-slider [value]="value()" (valueChange)="value.set($event)" />
     Readonly:
-    <awd-slider [value]="value()" readonly />
+    <jig-slider [value]="value()" readonly />
     Disabled:
-    <awd-slider [value]="value()" disabled />
+    <jig-slider [value]="value()" disabled />
     Invalid:
-    <awd-slider
+    <jig-slider
       [value]="value()"
       [invalidOn]="'immediate'"
       invalid
       (valueChange)="value.set($event)"
     />
     Invalid + Readonly:
-    <awd-slider [value]="value()" [invalidOn]="'immediate'" invalid readonly />
+    <jig-slider [value]="value()" [invalidOn]="'immediate'" invalid readonly />
     Invalid + Disabled:
-    <awd-slider [value]="value()" [invalidOn]="'immediate'" invalid disabled />
+    <jig-slider [value]="value()" [invalidOn]="'immediate'" invalid disabled />
   `,
   host: { class: 'flex-1 max-w-100' },
 })

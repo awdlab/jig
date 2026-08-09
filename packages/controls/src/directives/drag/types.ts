@@ -1,4 +1,4 @@
-export type NgnDragInfo = {
+export type AwdDragInfo = {
   deltaX: number;
   deltaY: number;
   absoluteX: number;

@@ -1,6 +1,6 @@
-The Radio group lets the user pick a single option from a set. Compose `awd-radio`
-options inside an `awd-radio-group`; the group (`role="radiogroup"`) owns the
-selected value via a two-way `value`, while each `awd-radio` contributes its
+The Radio group lets the user pick a single option from a set. Compose `jig-radio`
+options inside an `jig-radio-group`; the group (`role="radiogroup"`) owns the
+selected value via a two-way `value`, while each `jig-radio` contributes its
 payload and renders the themed dot.
 
 Reach for it when all options should stay visible; for many options or to save
@@ -8,7 +8,7 @@ space, use a **select** dropdown instead.
 
 ### Basic Usage
 
-Wrap `awd-radio` options in an `awd-radio-group` and bind `value` with
+Wrap `jig-radio` options in an `jig-radio-group` and bind `value` with
 `[(value)]`. Selection follows focus — arrow keys move between options and select
 as they go — and the group is a single tab stop that lands on the checked option.
 
@@ -30,7 +30,7 @@ options in a column. Arrow-key navigation follows the orientation.
 
 ### Disabled Options
 
-A disabled `awd-radio` is skipped during keyboard navigation and can't be
+A disabled `jig-radio` is skipped during keyboard navigation and can't be
 selected, while the rest of the group stays interactive.
 
 {{ demo: Demo_Radio_States }}

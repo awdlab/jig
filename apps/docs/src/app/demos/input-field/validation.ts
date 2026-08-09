@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgnErrors } from '@awdlab/jig/errors';
-import { NgnHint } from '@awdlab/jig/hint';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
+import { AwdErrors } from '@awdlab/jig/errors';
+import { AwdHint } from '@awdlab/jig/hint';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
 
 @Component({
-  selector: 'awd-demo-input-field-validation',
-  imports: [FormsModule, NgnErrors, NgnHint, NgnInput, NgnInputField],
+  selector: 'jig-demo-input-field-validation',
+  imports: [FormsModule, AwdErrors, AwdHint, AwdInput, AwdInputField],
   template: `
-    <awd-input-field [label]="'Project name'" [labelKind]="'on'" class="w-72">
+    <jig-input-field [label]="'Project name'" [labelKind]="'on'" class="w-72">
       <input ngnInput name="project" ngModel required ngnErrors [ngnErrorsHint]="projectHint" />
-    </awd-input-field>
-    <awd-hint #projectHint />
+    </jig-input-field>
+    <jig-hint #projectHint />
   `,
 })
 export class Demo_InputField_Validation {}

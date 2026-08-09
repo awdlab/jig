@@ -1,17 +1,17 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 import { templateTypesFn } from '@awdlab/jig/api/ng';
-import { NgnBase } from '@awdlab/jig/base';
+import { AwdBase } from '@awdlab/jig/base';
 
-import type { NgnActionItem, NgnItem } from '@awdlab/jig/api';
+import type { JigActionItem, JigItem } from '@awdlab/jig/api';
 
 /**
- * The shape the command control hands to the list box: an {@link NgnItem} whose
- * `data` carries the original {@link NgnActionItem} and whose `value` is its id.
+ * The shape the command control hands to the list box: an {@link JigItem} whose
+ * `data` carries the original {@link JigActionItem} and whose `value` is its id.
  */
-export type CommandItem = NgnItem<NgnActionItem, string>;
+export type CommandItem = JigItem<JigActionItem, string>;
 
 @Directive()
-export abstract class CommandTemplates extends NgnBase<'command'> {
+export abstract class CommandTemplates extends AwdBase<'command'> {
   private readonly _defaultItemTemplate =
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');
   private readonly _userItemTemplate =

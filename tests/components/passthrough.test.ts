@@ -54,7 +54,7 @@ test('pt $listeners are removed when the element carrying them is destroyed', as
       // The calendar sits behind an @if so we can destroy *part* of the component
       // (the element with the listener) without tearing down the whole test host.
       template: `@if (inputs().show) {
-        <awd-calendar [inline]="true" [pt]="inputs().pt" />
+        <jig-calendar [inline]="true" [pt]="inputs().pt" />
       }`,
       imports: ['calendar'],
     },
@@ -66,7 +66,7 @@ test('pt $listeners are removed when the element carrying them is destroyed', as
     }
   );
 
-  const calendar = page.locator('awd-calendar');
+  const calendar = page.locator('jig-calendar');
   await expect(calendar).toBeAttached();
 
   // The listener is attached exactly once, and nothing has been removed yet.
@@ -98,12 +98,12 @@ test('pt dependency slot forwards to ONE nested instance', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<awd-calendar [inline]="true" [pt]="inputs().pt" />`,
+      template: `<jig-calendar [inline]="true" [pt]="inputs().pt" />`,
       imports: ['calendar'],
     },
     {
       inputs: {
-        // The 'current-month' slot is typed NgnPassthrough<select>; its 'root'
+        // The 'current-month' slot is typed AwdPassthrough<select>; its 'root'
         // key lands on the month select host, forwarded via that select's own
         // engine. The year select uses a different slot and stays untouched.
         pt: { 'current-month': { root: { $classes: 'probe-month' } } },
@@ -112,21 +112,21 @@ test('pt dependency slot forwards to ONE nested instance', async ({ page }) => {
   );
 
   // Only the month select carries the class; the year select does not.
-  await expect(page.locator('awd-calendar awd-select.probe-month')).toHaveCount(1);
+  await expect(page.locator('jig-calendar jig-select.probe-month')).toHaveCount(1);
 });
 
 test('dependency marker class is auto-applied without pt', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<awd-calendar [inline]="true" />`,
+      template: `<jig-calendar [inline]="true" />`,
       imports: ['calendar'],
     },
     {}
   );
 
   // The current-month select host carries the calendar marker class
-  // (`{namePrefix}{scope}-{depClass}` = `awd-calendar-current-month`) even
+  // (`{namePrefix}{scope}-{depClass}` = `jig-calendar-current-month`) even
   // when no pt is provided.
-  await expect(page.locator('awd-calendar awd-select.awd-calendar-current-month')).toHaveCount(1);
+  await expect(page.locator('jig-calendar jig-select.jig-calendar-current-month')).toHaveCount(1);
 });

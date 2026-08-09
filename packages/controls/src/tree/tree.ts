@@ -20,16 +20,16 @@ import {
   type FilterConfig,
   type FilterConfigInternal,
   filterOptions,
-  type NgnTreeItem,
-  type NgnTreeItemsValue,
+  type AwdTreeItem,
+  type AwdTreeItemsValue,
 } from '@awdlab/jig/api';
-import { NgnStorage, type NgnStorageKind, NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnPt, provideSelf } from '@awdlab/jig/base';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnCheckbox } from '@awdlab/jig/checkbox';
+import { AwdStorage, type AwdStorageKind, AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdPt, provideSelf } from '@awdlab/jig/base';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdCheckbox } from '@awdlab/jig/checkbox';
 import { I18n } from '@awdlab/jig/i18n';
-import { NgnScroller, NgnScrollerItem } from '@awdlab/jig/scroller';
-import { createConditionalSpinner, NgnSpinner } from '@awdlab/jig/spinner';
+import { AwdScroller, AwdScrollerItem } from '@awdlab/jig/scroller';
+import { createConditionalSpinner, AwdSpinner } from '@awdlab/jig/spinner';
 import { Logger, maybeCallback } from '@awdlab/jig/utils';
 import { asyncComputed } from '@awdlab/jig/utils-ng';
 
@@ -44,45 +44,45 @@ import {
 } from './tree-utils';
 
 /** The individual pieces of tree state that can be persisted. */
-export type NgnTreeStorageState = 'value' | 'expanded';
+export type AwdTreeStorageState = 'value' | 'expanded';
 
 /**
  * Configuration for persisting tree state (expansion + selection).
  * Pass to the `storage` input, e.g. `{ key: 'my-tree' }` or
  * `{ key: 'my-tree', kind: 'sessionstorage' }`.
  */
-export interface NgnTreeStorageConfig {
+export interface AwdTreeStorageConfig {
   /** The storage key under which the state is saved. */
   key: string;
   /**
    * Where/how to persist. Accepts `'localstorage'`, `'sessionstorage'`, or a
    * custom `{ initialize, update }` adapter. Defaults to `'localstorage'`.
    */
-  kind?: NgnStorageKind<Record<string, unknown>>;
+  kind?: AwdStorageKind<Record<string, unknown>>;
   /**
    * Which states to persist. When omitted, all states are saved. When
    * provided, only the listed states are saved/restored.
    */
-  states?: NgnTreeStorageState[];
+  states?: AwdTreeStorageState[];
 }
 
 /**
  * @category control
  */
 @Component({
-  selector: 'awd-tree',
+  selector: 'jig-tree',
   templateUrl: './tree.html',
   imports: [
     NgTemplateOutlet,
-    NgnButton,
-    NgnScroller,
-    NgnScrollerItem,
-    NgnCheckbox,
-    NgnSpinner,
-    NgnTemplate,
-    NgnPt,
+    AwdButton,
+    AwdScroller,
+    AwdScrollerItem,
+    AwdCheckbox,
+    AwdSpinner,
+    AwdTemplate,
+    AwdPt,
   ],
-  providers: [provideSelf(NgnTree)],
+  providers: [provideSelf(AwdTree)],
   host: {
     '[attr.tabIndex]': 'focussable() ? 0 : null',
     '(keydown)': 'onKeyDown($event)',
@@ -96,7 +96,7 @@ export interface NgnTreeStorageConfig {
     '[id]': 'inputId()',
   },
 })
-export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends boolean = false>
+export class AwdTree<Items extends readonly AwdTreeItem[], Multiple extends boolean = false>
   extends TreeTemplates<Items, Multiple>
   implements OnInit
 {
@@ -107,9 +107,9 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
     empty: () => !this.flatNodes().length,
   });
 
-  private readonly _scroller = viewChild.required<NgnScroller<FlatTreeNode>>(NgnScroller);
+  private readonly _scroller = viewChild.required<AwdScroller<FlatTreeNode>>(AwdScroller);
 
-  /** The tree items to render, as a nested list of {@link NgnTreeItem} objects. */
+  /** The tree items to render, as a nested list of {@link AwdTreeItem} objects. */
   public readonly items = input.required<Items>();
 
   /**
@@ -149,42 +149,42 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
   /** Manually set the filter text. */
   public readonly filterText = input<string | null>(null);
   /** Values of expanded branch nodes (two-way). */
-  public readonly expandedValues = model<NgnTreeItemsValue<Items>[]>([]);
+  public readonly expandedValues = model<AwdTreeItemsValue<Items>[]>([]);
 
   /**
    * Persist expansion + selection state across reloads. Provide a key and,
-   * optionally, an `NgnStorageKind` (defaults to `'localstorage'`).
+   * optionally, an `AwdStorageKind` (defaults to `'localstorage'`).
    */
-  public readonly storage = input<NgnTreeStorageConfig | null>(null);
-  private _storage?: NgnStorage<Record<string, unknown>>;
+  public readonly storage = input<AwdTreeStorageConfig | null>(null);
+  private _storage?: AwdStorage<Record<string, unknown>>;
 
   /**
    * Loads the children of a `lazy` node the first time it is expanded.
    * The returned items are cached internally and merged into the tree.
    */
   public readonly loadChildren =
-    input<(item: NgnTreeItem) => readonly NgnTreeItem[] | Promise<readonly NgnTreeItem[]>>();
+    input<(item: AwdTreeItem) => readonly AwdTreeItem[] | Promise<readonly AwdTreeItem[]>>();
 
   /** Emitted with the node's value whenever a node is clicked/selected. */
-  public readonly itemClicked = output<NgnTreeItemsValue<Items>>();
+  public readonly itemClicked = output<AwdTreeItemsValue<Items>>();
   /** Emitted when a branch is expanded (fires before any lazy load resolves). */
-  public readonly nodeExpand = output<NgnTreeItem>();
+  public readonly nodeExpand = output<AwdTreeItem>();
 
   protected readonly maybeCallback = maybeCallback;
 
   /** Lazily-loaded children, keyed by node value. */
   private readonly _loadedChildren = signal<
-    ReadonlyMap<NgnTreeItemsValue<Items>, readonly NgnTreeItem[]>
+    ReadonlyMap<AwdTreeItemsValue<Items>, readonly AwdTreeItem[]>
   >(new Map());
   /** Node values currently awaiting their lazy children. */
-  private readonly _loadingNodes = signal<ReadonlySet<NgnTreeItemsValue<Items>>>(new Set());
+  private readonly _loadingNodes = signal<ReadonlySet<AwdTreeItemsValue<Items>>>(new Set());
 
   protected readonly filteredItems = asyncComputed(async () => {
     const filter = !!this.filter();
     const appliedFilterOptions = this._appliedFilterOptions();
     const filterText = this.filterText();
     if (!filter || !filterText) {
-      return this.items() as readonly NgnTreeItem[];
+      return this.items() as readonly AwdTreeItem[];
     }
     return await filterOptions(this.items(), filterText, appliedFilterOptions);
   }, []);
@@ -192,7 +192,7 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
   private readonly _appliedFilterOptions = computed(() => {
     const filter = this.filter();
     const providedFilterArgs = typeof filter === 'boolean' ? {} : filter;
-    const options: FilterConfigInternal<NgnTreeItem> = {
+    const options: FilterConfigInternal<AwdTreeItem> = {
       filterFieldsCallback: item => item.label,
       fieldItems: 'items',
       splitWords: true,
@@ -211,7 +211,7 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
   );
 
   private readonly _expandedSet = computed(
-    () => new Set<NgnTreeItemsValue<Items>>([...this.expandedValues(), ...this._autoExpanded()])
+    () => new Set<AwdTreeItemsValue<Items>>([...this.expandedValues(), ...this._autoExpanded()])
   );
 
   /** Filtered items with any lazily-loaded children merged in. */
@@ -228,11 +228,11 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
 
   protected readonly valueArray = computed(() => {
     const v = this.value();
-    return (Array.isArray(v) ? v : v != null ? [v] : []) as NgnTreeItemsValue<Items>[];
+    return (Array.isArray(v) ? v : v != null ? [v] : []) as AwdTreeItemsValue<Items>[];
   });
   private readonly _valueSet = computed(() => new Set(this.valueArray()));
 
-  public readonly currentHighlightedValue = signal<NgnTreeItemsValue<Items> | null>(null);
+  public readonly currentHighlightedValue = signal<AwdTreeItemsValue<Items> | null>(null);
 
   protected readonly showCheckboxes = computed(() => this.checkbox() ?? this.multiple() ?? false);
 
@@ -310,16 +310,16 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
   }
 
   /** Create the store and restore persisted state. Runs at most once. */
-  private _initStorage(cfg: NgnTreeStorageConfig): void {
+  private _initStorage(cfg: AwdTreeStorageConfig): void {
     if (this._storage) {
       return;
     }
-    // NgnStorage reads platform/document/request tokens, so it needs an
+    // AwdStorage reads platform/document/request tokens, so it needs an
     // injection context.
     this._storage = runInInjectionContext(
       this.injector,
       () =>
-        new NgnStorage<Record<string, unknown>>(cfg.key, cfg.kind ?? 'localstorage', {
+        new AwdStorage<Record<string, unknown>>(cfg.key, cfg.kind ?? 'localstorage', {
           expanded: this.expandedValues(),
           value: this.value() ?? null,
         })
@@ -327,7 +327,7 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
     if (this._persistsState('expanded')) {
       const savedExpanded = this._storage.get('expanded');
       if (Array.isArray(savedExpanded)) {
-        this.expandedValues.set(savedExpanded as NgnTreeItemsValue<Items>[]);
+        this.expandedValues.set(savedExpanded as AwdTreeItemsValue<Items>[]);
       }
     }
     if (this._persistsState('value')) {
@@ -339,13 +339,13 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
   }
 
   /** Whether the given state should be persisted (all states when unset). */
-  private _persistsState(state: NgnTreeStorageState): boolean {
+  private _persistsState(state: AwdTreeStorageState): boolean {
     const states = this.storage()?.states;
     return !states || states.includes(state);
   }
 
   /** Derived tri-state for a node's checkbox / aria-checked. */
-  protected nodeState(item: NgnTreeItem): 'checked' | 'unchecked' | 'indeterminate' {
+  protected nodeState(item: AwdTreeItem): 'checked' | 'unchecked' | 'indeterminate' {
     return computeNodeState(item, this._valueSet());
   }
 
@@ -356,12 +356,12 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
   }
 
   /** Whether a lazy node is currently loading its children. */
-  protected isLoading(item: NgnTreeItem): boolean {
-    return this._loadingNodes().has(item.value as NgnTreeItemsValue<Items>);
+  protected isLoading(item: AwdTreeItem): boolean {
+    return this._loadingNodes().has(item.value as AwdTreeItemsValue<Items>);
   }
 
-  protected async toggleExpand(item: NgnTreeItem): Promise<void> {
-    const value = item.value as NgnTreeItemsValue<Items>;
+  protected async toggleExpand(item: AwdTreeItem): Promise<void> {
+    const value = item.value as AwdTreeItemsValue<Items>;
     const willExpand = !this.expandedValues().includes(value);
     this.expandedValues.update(values =>
       values.includes(value) ? values.filter(v => v !== value) : [...values, value]
@@ -381,11 +381,11 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
       return;
     }
     this._loadingNodes.update(set => new Set(set).add(value));
-    let children: readonly NgnTreeItem[] | undefined;
+    let children: readonly AwdTreeItem[] | undefined;
     try {
       children = await loader(item);
     } catch (error) {
-      Logger.warn(`awd-tree: failed to load children for node "${String(value)}"`, error);
+      Logger.warn(`jig-tree: failed to load children for node "${String(value)}"`, error);
     }
     // Ignore stale results: if items() changed mid-load, the loading state was
     // cleared and this result should be dropped.
@@ -406,8 +406,8 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
     this.onSelect(node.item);
   }
 
-  protected onSelect(item: NgnTreeItem): void {
-    const value = item.value as NgnTreeItemsValue<Items>;
+  protected onSelect(item: AwdTreeItem): void {
+    const value = item.value as AwdTreeItemsValue<Items>;
     if (this.multiple()) {
       if (this.showCheckboxes()) {
         // Cascade tri-state checking; value stays a leaf-only array.
@@ -416,7 +416,7 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
           cascadeCheck(item, shouldCheck, this.valueArray()) as ValueType<Items, Multiple>
         );
       } else {
-        const current = (this.value() as NgnTreeItemsValue<Items>[]) ?? [];
+        const current = (this.value() as AwdTreeItemsValue<Items>[]) ?? [];
         this.value.set(
           (current.includes(value)
             ? current.filter(v => v !== value)
@@ -453,7 +453,7 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
       event.stopPropagation();
       const target = key === 'Home' ? enabled[0] : enabled[enabled.length - 1];
       this.currentHighlightedValue.set(
-        (target?.item.value ?? null) as NgnTreeItemsValue<Items> | null
+        (target?.item.value ?? null) as AwdTreeItemsValue<Items> | null
       );
     } else if (key === 'ArrowRight') {
       event.preventDefault();
@@ -495,7 +495,7 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
     }
     const target = enabled[next];
     if (target) {
-      this.currentHighlightedValue.set(target.item.value as NgnTreeItemsValue<Items>);
+      this.currentHighlightedValue.set(target.item.value as AwdTreeItemsValue<Items>);
     }
   }
 
@@ -514,7 +514,7 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
           break; // left this node's subtree
         }
         if (!(candidate.parentDisabled || candidate.item.disabled)) {
-          this.currentHighlightedValue.set(candidate.item.value as NgnTreeItemsValue<Items>);
+          this.currentHighlightedValue.set(candidate.item.value as AwdTreeItemsValue<Items>);
           return;
         }
       }
@@ -539,7 +539,7 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
       }
       if (ancestor.level < node.level) {
         if (!(ancestor.parentDisabled || ancestor.item.disabled)) {
-          this.currentHighlightedValue.set(ancestor.item.value as NgnTreeItemsValue<Items>);
+          this.currentHighlightedValue.set(ancestor.item.value as AwdTreeItemsValue<Items>);
         }
         return;
       }
@@ -557,7 +557,7 @@ export class NgnTree<Items extends readonly NgnTreeItem[], Multiple extends bool
       }
       const label = maybeCallback(node.item.label).toLowerCase();
       if (label.startsWith(lower)) {
-        this.currentHighlightedValue.set(node.item.value as NgnTreeItemsValue<Items>);
+        this.currentHighlightedValue.set(node.item.value as AwdTreeItemsValue<Items>);
         return;
       }
     }

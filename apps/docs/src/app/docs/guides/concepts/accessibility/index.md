@@ -34,7 +34,7 @@ importantly — what remains **your** responsibility.
 
 A component library cannot make an application accessible. These stay with you:
 
-**Names.** Most controls need a label you provide: `<awd-input-field [label]>`,
+**Names.** Most controls need a label you provide: `<jig-input-field [label]>`,
 an `aria-label`, or `labelledBy`. A control with no accessible name is a
 failure of [4.1.2](https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html)
 no matter how correct its role is.

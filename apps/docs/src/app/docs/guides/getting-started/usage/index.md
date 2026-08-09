@@ -6,24 +6,24 @@ The root `@awdlab/jig` entry point is intentionally empty — every control has 
 own subpath, so you only bundle what you import:
 
 ```ts
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnSelect } from '@awdlab/jig/select';
-import { provideNgnControls } from '@awdlab/jig/api/ng';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdSelect } from '@awdlab/jig/select';
+import { provideAwdControls } from '@awdlab/jig/api/ng';
 ```
 
 ### Render a control
 
 Controls are standalone — add them to a component's `imports` and use them in the
-template. Some are elements (`awd-select`), some are attribute directives on native
+template. Some are elements (`jig-select`), some are attribute directives on native
 elements (`button[ngnButton]`, `input[ngnInput]`):
 
 ```ts
 import { Component } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
+import { AwdButton } from '@awdlab/jig/button';
 
 @Component({
   selector: 'app-example',
-  imports: [NgnButton],
+  imports: [AwdButton],
   template: `<button ngnButton kind="primary">Save</button>`,
 })
 export class ExampleComponent {}
@@ -39,11 +39,11 @@ without `ControlValueAccessor`:
 
 ```ts
 @Component({
-  imports: [NgnInput, NgnInputField],
+  imports: [AwdInput, AwdInputField],
   template: `
-    <awd-input-field>
+    <jig-input-field>
       <input ngnInput [value]="name()" (valueChange)="name.set($event ?? '')" />
-    </awd-input-field>
+    </jig-input-field>
   `,
 })
 export class NameField {

@@ -35,11 +35,11 @@ export const tableStyles = createThemePart({
         gap: ${v('size.padding.sm')};
       }
       ${c('body')} {
-        --awd-cell-bg-base: ${v('color.background')};
+        --jig-cell-bg-base: ${v('color.background')};
       }
       ${c('cell')} {
-        --awd-cell-bg: var(--awd-cell-bg-base);
-        background: var(--awd-cell-bg);
+        --jig-cell-bg: var(--jig-cell-bg-base);
+        background: var(--jig-cell-bg);
         /* shadcn table language: horizontal row borders only, no vertical borders */
         border-bottom: 1px solid ${v('color.border')};
         padding: 0 ${v('size.padding.lg')};
@@ -48,7 +48,7 @@ export const tableStyles = createThemePart({
         transition-duration: ${v('anim.time.snappyFade')};
         transition-timing-function: ${v('anim.ease.snappyFade')};
         &:not(:has(*)) {
-          line-height: var(--awd-table-row-height);
+          line-height: var(--jig-table-row-height);
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -68,7 +68,7 @@ export const tableStyles = createThemePart({
         padding: ${v('size.padding.md')} ${v('size.padding.lg')};
       }
       ${c('striped')} ${c('even')} {
-        --awd-cell-bg-base: color-mix(in srgb, ${v('color.muted.base')} 50%, transparent);
+        --jig-cell-bg-base: color-mix(in srgb, ${v('color.muted.base')} 50%, transparent);
       }
       ${c('root')} ${d('paginator')} {
         width: 90%;
@@ -82,14 +82,14 @@ export const tableStyles = createThemePart({
         padding: 0 ${v('size.padding.sm')};
       }
       ${c('selected-row')} ${c('cell')} {
-        --awd-cell-bg: ${v('color.muted.base')};
+        --jig-cell-bg: ${v('color.muted.base')};
       }
       ${c('selectable')} ${c('body')} ${c('row')}:hover ${c('cell')} {
-        --awd-cell-bg: color-mix(in srgb, ${v('color.muted.base')} 50%, var(--awd-cell-bg-base));
+        --jig-cell-bg: color-mix(in srgb, ${v('color.muted.base')} 50%, var(--jig-cell-bg-base));
       }
       ${c('selectable')} ${c('body')} ${c('selected-row')}:hover ${c('cell')} {
         /* shadcn keeps selected rows at bg-muted; hover does not restyle them */
-        --awd-cell-bg: ${v('color.muted.base')};
+        --jig-cell-bg: ${v('color.muted.base')};
       }
       ${c('focused-row')}:not(:has(${c('focused-row-cell')})) ${c('cell')}:first-child {
         box-shadow: inset 3px 0 0 ${v('color.ring')};
@@ -195,7 +195,7 @@ export const tableStyles = createThemePart({
       /* ── Sticky Columns ──────────────────────────────────────────── */
 
       ${c('sticky-start')}, ${c('sticky-end')}, ${c('selection-column')} {
-        --awd-cell-bg-base: ${v('color.background')};
+        --jig-cell-bg-base: ${v('color.background')};
       }
       ${c('head')} ${c('sticky-start')},
       ${c('head')} ${c('sticky-end')},
@@ -204,7 +204,7 @@ export const tableStyles = createThemePart({
       }
       /* Scroll shadows anchored to the sticky-column edges (a table-specific placement the generic
          scroll-shadow overlay can't do — it's disabled here via ngnScrollShadowUnstyled). The tint
-         is the shared --awd-scroll-shadow-color (dark mode included), so it stays identical to the
+         is the shared --jig-scroll-shadow-color (dark mode included), so it stays identical to the
          generic overlay. */
       ${c('sticky-start-edge')},
       ${c('sticky-end-edge')},
@@ -224,11 +224,11 @@ export const tableStyles = createThemePart({
       ${d('scroll-shadow', 'scrolled-start')} ${c('sticky-start-edge')}::after,
       ${d('scroll-shadow', 'scrolled-start')} ${c('selection-column')}::after {
         left: 100%;
-        background: linear-gradient(to right, var(--awd-scroll-shadow-color), transparent);
+        background: linear-gradient(to right, var(--jig-scroll-shadow-color), transparent);
       }
       ${d('scroll-shadow', 'scrolled-end')} ${c('sticky-end-edge')}::after {
         right: 100%;
-        background: linear-gradient(to left, var(--awd-scroll-shadow-color), transparent);
+        background: linear-gradient(to left, var(--jig-scroll-shadow-color), transparent);
       }
     `,
   },

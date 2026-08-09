@@ -12,19 +12,19 @@ import {
   viewChild,
 } from '@angular/core';
 import type { Anchor, Openable } from '@awdlab/jig/api/ng';
-import { NgnPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnDrag, type NgnDragInfo } from '@awdlab/jig/directives';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { NgnNumberInput } from '@awdlab/jig/number-input';
-import { NgnPopover } from '@awdlab/jig/popover';
+import { AwdPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdDrag, type AwdDragInfo } from '@awdlab/jig/directives';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { AwdNumberInput } from '@awdlab/jig/number-input';
+import { AwdPopover } from '@awdlab/jig/popover';
 import {
   type ColorFormat,
   formatColor,
   hsvaToRgba,
   type HSVA,
-  NgnError,
+  AwdError,
   parseColor,
   type RGBA,
   rgbaToHsva,
@@ -37,25 +37,25 @@ const DEFAULT_HSVA: HSVA = { h: 0, s: 0, v: 0, a: 1 };
  * @category control
  */
 @Component({
-  selector: 'awd-color-picker',
+  selector: 'jig-color-picker',
   templateUrl: './color-picker.html',
   imports: [
     NgTemplateOutlet,
-    NgnPt,
-    NgnDrag,
-    NgnPopover,
-    NgnInput,
-    NgnButton,
-    NgnInputField,
-    NgnNumberInput,
+    AwdPt,
+    AwdDrag,
+    AwdPopover,
+    AwdInput,
+    AwdButton,
+    AwdInputField,
+    AwdNumberInput,
   ],
-  providers: [provideSelf(NgnColorPicker)],
+  providers: [provideSelf(AwdColorPicker)],
   host: {
     '[style.--hue]': 'hsva().h',
     '(focusout)': 'potentiallyBlurred()',
   },
 })
-export class NgnColorPicker extends ValueControlBase<'color-picker', string> implements Openable {
+export class AwdColorPicker extends ValueControlBase<'color-picker', string> implements Openable {
   protected readonly theme = this.injectThemeTemplate(colorPickerControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),
@@ -67,7 +67,7 @@ export class NgnColorPicker extends ValueControlBase<'color-picker', string> imp
   private readonly _hueTrack = viewChild<ElementRef<HTMLElement>>('hueTrack');
   private readonly _alphaTrack = viewChild<ElementRef<HTMLElement>>('alphaTrack');
   // Only rendered (non-`inline()`) behind the trigger — absent while inline.
-  private readonly _popover = viewChild(NgnPopover);
+  private readonly _popover = viewChild(AwdPopover);
 
   /** Output/display format. @default hex */
   public readonly format = input<ColorFormat>('hex');
@@ -80,7 +80,7 @@ export class NgnColorPicker extends ValueControlBase<'color-picker', string> imp
   /**
    * Headless mode: render no trigger of its own and open in a popover anchored to
    * {@link anchor}, driven imperatively via {@link show}/{@link hide}/{@link toggle}
-   * (like `awd-menu`). Requires {@link anchor}. @default false
+   * (like `jig-menu`). Requires {@link anchor}. @default false
    */
   public readonly popover = input(false, { transform: booleanAttribute });
   /** The external element the headless popover anchors to. Required when {@link popover} is set. */
@@ -130,10 +130,10 @@ export class NgnColorPicker extends ValueControlBase<'color-picker', string> imp
     });
     effect(() => this.activeFormat.set(this.format()));
 
-    // Headless popover requires an anchor (mirrors awd-menu).
+    // Headless popover requires an anchor (mirrors jig-menu).
     effect(() => {
       if (this.popover() && !this.anchor()) {
-        throw new NgnError('NgnColorPicker', 'popover mode requires the anchor input to be set.');
+        throw new AwdError('AwdColorPicker', 'popover mode requires the anchor input to be set.');
       }
     });
     // Two-way bridge between the `open` model and the actual popover state.
@@ -181,7 +181,7 @@ export class NgnColorPicker extends ValueControlBase<'color-picker', string> imp
     this.commit();
   }
 
-  protected onSvDrag(info: NgnDragInfo): void {
+  protected onSvDrag(info: AwdDragInfo): void {
     if (this.readonly() || this.disabled()) return;
     const el = this._svArea()?.nativeElement;
     if (!el) return;
@@ -192,7 +192,7 @@ export class NgnColorPicker extends ValueControlBase<'color-picker', string> imp
     this.commit();
   }
 
-  protected onHueDrag(info: NgnDragInfo): void {
+  protected onHueDrag(info: AwdDragInfo): void {
     if (this.readonly() || this.disabled()) return;
     const el = this._hueTrack()?.nativeElement;
     if (!el) return;
@@ -202,7 +202,7 @@ export class NgnColorPicker extends ValueControlBase<'color-picker', string> imp
     this.commit();
   }
 
-  protected onAlphaDrag(info: NgnDragInfo): void {
+  protected onAlphaDrag(info: AwdDragInfo): void {
     if (this.readonly() || this.disabled()) return;
     const el = this._alphaTrack()?.nativeElement;
     if (!el) return;

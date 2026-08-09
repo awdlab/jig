@@ -1,1 +1,1 @@
-{{ api: drawer/drawer NgnDrawer }}
+{{ api: drawer/drawer AwdDrawer }}

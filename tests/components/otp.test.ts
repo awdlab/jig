@@ -4,7 +4,7 @@ import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
 // ---------------------------------------------------------------------------
-// Helper: load a labelled awd-otp and expose its composed value on the output
+// Helper: load a labelled jig-otp and expose its composed value on the output
 // log. Cells are the individual <input maxlength="1"> elements, in order.
 // ---------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ async function loadOtp(
     page,
     {
       imports: ['otp'],
-      template: `<awd-otp
+      template: `<jig-otp
         label="Verification code"
         [length]="inputs().length ?? 6"
         [mask]="inputs().mask ?? false"
@@ -26,7 +26,7 @@ async function loadOtp(
     },
     { inputs }
   );
-  const otp = page.locator('awd-otp');
+  const otp = page.locator('jig-otp');
   await expect(otp).toBeVisible();
   const cells = otp.locator('input');
   return { handle, otp, cells };
@@ -99,7 +99,7 @@ test('paste distributes characters across cells', async ({ page }) => {
   // the real Clipboard API, so we drive the control's `paste` handler directly.
   await cells.first().focus();
   await page.evaluate((text: string) => {
-    const input = document.querySelector('awd-otp input') as HTMLInputElement;
+    const input = document.querySelector('jig-otp input') as HTMLInputElement;
     input.focus();
     const dt = new DataTransfer();
     dt.setData('text', text);

@@ -1,13 +1,13 @@
-import { NgnDocsOtpPlayground } from './playground';
+import { AwdDocsOtpPlayground } from './playground';
 import { Demo_Otp_Base } from '../../../demos/otp/base';
 import { Demo_Otp_Length } from '../../../demos/otp/length';
 import { Demo_Otp_Mask } from '../../../demos/otp/mask';
 import { Demo_Otp_Validation } from '../../../demos/otp/validation';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const OtpPage: NgnDocsPage = {
+export const OtpPage: AwdDocsPage = {
   title: `OTP`,
   kind: 'tabs',
   tabs: [
@@ -21,7 +21,7 @@ export const OtpPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsOtpPlayground,
+      component: AwdDocsOtpPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/otp/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/otp/a11y.md' },

@@ -1,15 +1,15 @@
 import { Component, signal } from '@angular/core';
-import { NgnProgress } from '@awdlab/jig/progress';
+import { AwdProgress } from '@awdlab/jig/progress';
 
 @Component({
-  selector: 'awd-demo-progress-sizes',
-  imports: [NgnProgress],
+  selector: 'jig-demo-progress-sizes',
+  imports: [AwdProgress],
   template: `
     <div style="display: flex; flex-direction: column; gap: 1rem;">
-      <awd-progress [value]="value()" circular [radius]="20" [thickness]="4" />
-      <awd-progress [value]="value()" circular [radius]="30" [thickness]="5" />
-      <awd-progress [value]="value()" circular [radius]="40" [thickness]="6" />
-      <awd-progress [value]="value()" circular [radius]="50" [thickness]="8" />
+      <jig-progress [value]="value()" circular [radius]="20" [thickness]="4" />
+      <jig-progress [value]="value()" circular [radius]="30" [thickness]="5" />
+      <jig-progress [value]="value()" circular [radius]="40" [thickness]="6" />
+      <jig-progress [value]="value()" circular [radius]="50" [thickness]="8" />
     </div>
   `,
 })

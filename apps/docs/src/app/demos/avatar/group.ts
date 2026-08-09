@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
-import { NgnAvatar, NgnAvatarGroup } from '@awdlab/jig/avatar';
+import { AwdAvatar, AwdAvatarGroup } from '@awdlab/jig/avatar';
 
 @Component({
-  selector: 'awd-demo-avatar-group',
-  imports: [NgnAvatar, NgnAvatarGroup],
+  selector: 'jig-demo-avatar-group',
+  imports: [AwdAvatar, AwdAvatarGroup],
   template: `
-    <awd-avatar-group>
-      <awd-avatar image="img/avatar/1.png" />
-      <awd-avatar image="img/avatar/2.png" />
-      <awd-avatar image="img/avatar/3.png" />
-      <awd-avatar image="img/avatar/4.png" />
-      <awd-avatar image="img/avatar/5.png" />
-      <awd-avatar initials="+2" bgColor="var(--awd-color-surface-400)" />
-    </awd-avatar-group>
+    <jig-avatar-group>
+      <jig-avatar image="img/avatar/1.png" />
+      <jig-avatar image="img/avatar/2.png" />
+      <jig-avatar image="img/avatar/3.png" />
+      <jig-avatar image="img/avatar/4.png" />
+      <jig-avatar image="img/avatar/5.png" />
+      <jig-avatar initials="+2" bgColor="var(--jig-color-surface-400)" />
+    </jig-avatar-group>
   `,
 })
 export class Demo_Avatar_Group {}

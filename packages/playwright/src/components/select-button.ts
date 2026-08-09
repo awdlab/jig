@@ -1,9 +1,9 @@
 import { type Locator, expect } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { selectButtonControlTemplate } from '@awdlab/jig-themes/templates/select-button';
-import { NgnToggleButtonHarness } from './toggle-button';
+import { AwdToggleButtonHarness } from './toggle-button';
 
-export class NgnSelectButtonHarness {
+export class AwdSelectButtonHarness {
   public readonly classes = themeClasses(selectButtonControlTemplate);
 
   public readonly locator: Locator;
@@ -11,16 +11,16 @@ export class NgnSelectButtonHarness {
 
   constructor(locator: Locator) {
     this.locator = locator;
-    this.buttons = locator.locator('awd-toggle-button');
+    this.buttons = locator.locator('jig-toggle-button');
   }
 
-  public getButtonAt(index: number): NgnToggleButtonHarness {
-    return new NgnToggleButtonHarness(this.buttons.nth(index));
+  public getButtonAt(index: number): AwdToggleButtonHarness {
+    return new AwdToggleButtonHarness(this.buttons.nth(index));
   }
 
-  public getButtonByTestId(testId: string): NgnToggleButtonHarness {
-    return new NgnToggleButtonHarness(
-      this.locator.locator(`awd-toggle-button[data-testid="${testId}"]`)
+  public getButtonByTestId(testId: string): AwdToggleButtonHarness {
+    return new AwdToggleButtonHarness(
+      this.locator.locator(`jig-toggle-button[data-testid="${testId}"]`)
     );
   }
 

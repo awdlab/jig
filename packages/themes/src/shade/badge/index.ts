@@ -8,7 +8,7 @@ export const badgeStyles = createThemePart({
   base: baseStyles.badge,
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
-    // --awd-badge-color is set by the directive; falls back to the primary color.
+    // --jig-badge-color is set by the directive; falls back to the primary color.
     css: ({ v, c }) => css`
       ${c('root')} {
         min-width: 1.25rem;
@@ -17,7 +17,7 @@ export const badgeStyles = createThemePart({
         border-radius: ${v('size.rounded.full')};
         /* Background-colored ring so the badge reads on any anchor (icon, button, avatar). */
         box-shadow: 0 0 0 2px ${v('color.background')};
-        background: var(--awd-badge-color, ${v('color.primary.base')});
+        background: var(--jig-badge-color, ${v('color.primary.base')});
         color: ${v('color.primary.foreground')};
         font-size: ${v('font.size.sm')};
         font-weight: ${v('font.weight.semibold')};

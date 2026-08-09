@@ -1,17 +1,17 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnCheckbox } from '@awdlab/jig/checkbox';
+import { AwdCheckbox } from '@awdlab/jig/checkbox';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-checkbox-playground',
-  imports: [NgnCheckbox, NgnDocsPlayground],
+  selector: 'jig-docs-checkbox-playground',
+  imports: [AwdCheckbox, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnCheckbox', component: component() }]">
-      <awd-checkbox #ref />
-    </awd-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'AwdCheckbox', component: component() }]">
+      <jig-checkbox #ref />
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsCheckboxPlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnCheckbox });
+export class AwdDocsCheckboxPlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdCheckbox });
 }

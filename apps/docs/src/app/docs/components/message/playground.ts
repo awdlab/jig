@@ -1,17 +1,17 @@
 import { Component, viewChild } from '@angular/core';
-import { NgnMessage } from '@awdlab/jig/message';
+import { AwdMessage } from '@awdlab/jig/message';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-message-playground',
-  imports: [NgnMessage, NgnDocsPlayground],
+  selector: 'jig-docs-message-playground',
+  imports: [AwdMessage, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnMessage', component: component() }]">
-      <awd-message #ref>This is a message</awd-message>
-    </awd-docs-playground>
+    <jig-docs-playground [controls]="[{ componentName: 'AwdMessage', component: component() }]">
+      <jig-message #ref>This is a message</jig-message>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsMessagePlayground {
-  protected readonly component = viewChild.required('ref', { read: NgnMessage });
+export class AwdDocsMessagePlayground {
+  protected readonly component = viewChild.required('ref', { read: AwdMessage });
 }

@@ -14,7 +14,7 @@ import { defineTestComponent, TestComponentBase } from './define-test-component'
 import { isEval, WindowService } from './window';
 
 @Component({
-  selector: 'awd-root',
+  selector: 'jig-root',
   imports: [],
   template: ``,
 })

@@ -1,25 +1,25 @@
 import { Component, computed, viewChild, viewChildren } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnButtonGroup } from '@awdlab/jig/button-group';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdButtonGroup } from '@awdlab/jig/button-group';
 
-import { NgnDocsPlayground } from '../../../utils/playground/playground';
+import { AwdDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
-  selector: 'awd-docs-button-group-playground',
-  imports: [NgnButton, NgnButtonGroup, NgnDocsPlayground],
+  selector: 'jig-docs-button-group-playground',
+  imports: [AwdButton, AwdButtonGroup, AwdDocsPlayground],
   template: `
-    <awd-docs-playground [controls]="[{ componentName: 'NgnButtonGroup', component: component() }]">
-      <awd-button-group #ref class="flex-1">
+    <jig-docs-playground [controls]="[{ componentName: 'AwdButtonGroup', component: component() }]">
+      <jig-button-group #ref class="flex-1">
         <button #ref2 kind="primary" ngnButton>Button 1</button>
         <button #ref2 kind="primary" ngnButton>Button 2</button>
         <button #ref2 kind="primary" ngnButton>Button 3</button>
-      </awd-button-group>
-    </awd-docs-playground>
+      </jig-button-group>
+    </jig-docs-playground>
   `,
 })
-export class NgnDocsButtonGroupPlayground {
-  private readonly _componentButtonGroup = viewChild.required('ref', { read: NgnButtonGroup });
-  private readonly _componentButtons = viewChildren('ref2', { read: NgnButton });
+export class AwdDocsButtonGroupPlayground {
+  private readonly _componentButtonGroup = viewChild.required('ref', { read: AwdButtonGroup });
+  private readonly _componentButtons = viewChildren('ref2', { read: AwdButton });
   protected readonly component = computed(() => [
     this._componentButtonGroup(),
     ...this._componentButtons(),

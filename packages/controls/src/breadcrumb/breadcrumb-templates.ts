@@ -1,11 +1,11 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 import { templateTypesFn } from '@awdlab/jig/api/ng';
-import { NgnBase } from '@awdlab/jig/base';
+import { AwdBase } from '@awdlab/jig/base';
 
 import type { ItemTemplateType, OverflowTemplateType, SeparatorTemplateType } from './types';
 
 @Directive()
-export abstract class BreadcrumbTemplates extends NgnBase<'breadcrumb'> {
+export abstract class BreadcrumbTemplates extends AwdBase<'breadcrumb'> {
   // Item template
   private readonly _defaultItemTemplate =
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');

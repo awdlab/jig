@@ -1,1 +1,1 @@
-{{ api: progress/progress NgnProgress }}
+{{ api: progress/progress AwdProgress }}

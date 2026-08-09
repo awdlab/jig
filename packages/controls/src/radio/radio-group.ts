@@ -1,16 +1,16 @@
 import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
 import { provideSelf, ValueControlBase } from '@awdlab/jig/base';
-import { NgnRovingGroup } from '@awdlab/jig/roving-focus';
+import { AwdRovingGroup } from '@awdlab/jig/roving-focus';
 import { radioGroupControlTemplate } from '@awdlab/jig-themes/templates/radio-group';
 
-import { NGN_RADIO_GROUP, type NgnRadioGroupApi, type NgnRadioRef } from './radio-group.token';
+import { NGN_RADIO_GROUP, type AwdRadioGroupApi, type AwdRadioRef } from './radio-group.token';
 
 /**
  * A themed radio group. Owns the selected {@link value}; the individual
- * `awd-radio` children projected inside are presentational and report their
+ * `jig-radio` children projected inside are presentational and report their
  * payload up through {@link register}.
  *
- * Keyboard handling and roving tab order are delegated to `NgnRovingGroup`
+ * Keyboard handling and roving tab order are delegated to `AwdRovingGroup`
  * (applied as a host directive). Selection follows focus: moving the roving
  * active item (arrows / Home / End / pointer) selects it, matching native
  * radio-group behavior.
@@ -18,10 +18,10 @@ import { NGN_RADIO_GROUP, type NgnRadioGroupApi, type NgnRadioRef } from './radi
  * @category control
  */
 @Component({
-  selector: 'awd-radio-group',
+  selector: 'jig-radio-group',
   templateUrl: './radio-group.html',
-  hostDirectives: [{ directive: NgnRovingGroup, inputs: ['orientation', 'rovingWrap'] }],
-  providers: [provideSelf(NgnRadioGroup), { provide: NGN_RADIO_GROUP, useExisting: NgnRadioGroup }],
+  hostDirectives: [{ directive: AwdRovingGroup, inputs: ['orientation', 'rovingWrap'] }],
+  providers: [provideSelf(AwdRadioGroup), { provide: NGN_RADIO_GROUP, useExisting: AwdRadioGroup }],
   host: {
     role: 'radiogroup',
     '[attr.aria-label]': 'label()',
@@ -31,9 +31,9 @@ import { NGN_RADIO_GROUP, type NgnRadioGroupApi, type NgnRadioRef } from './radi
     '[attr.aria-disabled]': "disabled() ? 'true' : null",
   },
 })
-export class NgnRadioGroup<V>
+export class AwdRadioGroup<V>
   extends ValueControlBase<'radioGroup', V>
-  implements NgnRadioGroupApi<V>
+  implements AwdRadioGroupApi<V>
 {
   protected readonly theme = this.injectThemeTemplate(radioGroupControlTemplate, {
     root: true,
@@ -41,15 +41,15 @@ export class NgnRadioGroup<V>
   });
 
   /** The roving-focus host directive that drives keyboard/tab coordination. */
-  protected readonly roving = inject(NgnRovingGroup);
+  protected readonly roving = inject(AwdRovingGroup);
 
-  private readonly _radios = signal<readonly NgnRadioRef<V>[]>([]);
+  private readonly _radios = signal<readonly AwdRadioRef<V>[]>([]);
 
-  public register(ref: NgnRadioRef<V>): void {
+  public register(ref: AwdRadioRef<V>): void {
     this._radios.update(list => (list.includes(ref) ? list : [...list, ref]));
   }
 
-  public unregister(ref: NgnRadioRef<V>): void {
+  public unregister(ref: AwdRadioRef<V>): void {
     this._radios.update(list => list.filter(r => r !== ref));
   }
 

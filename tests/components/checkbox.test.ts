@@ -3,7 +3,7 @@ import { loadComponent } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
-const TEMPLATE = `<awd-checkbox
+const TEMPLATE = `<jig-checkbox
   [value]="inputs().value"
   [disabled]="inputs().disabled"
   [readonly]="inputs().readonly"
@@ -104,7 +104,7 @@ test('indeterminate state renders as mixed and resolves on click', async ({ page
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-checkbox
+      template: `<jig-checkbox
         [allowIndeterminate]="true"
         [value]="inputs().value"
         (valueChange)="output('value', $event)"
@@ -130,7 +130,7 @@ test('accessibility (axe)', async ({ page }) => {
     page,
     {
       template: `<label>Accept the terms
-        <awd-checkbox [value]="inputs().value" (valueChange)="output('value', $event)" />
+        <jig-checkbox [value]="inputs().value" (valueChange)="output('value', $event)" />
       </label>`,
       imports: ['checkbox'],
     },

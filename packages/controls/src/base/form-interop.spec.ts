@@ -1,10 +1,10 @@
 import { Component, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { provideNgnControls } from '@awdlab/jig/api/ng';
+import { provideAwdControls } from '@awdlab/jig/api/ng';
 import { withDefaultIcons } from '@awdlab/jig/default-icons';
-import { NgnSelect } from '@awdlab/jig/select';
-import { NgnSwitch } from '@awdlab/jig/switch';
+import { AwdSelect } from '@awdlab/jig/select';
+import { AwdSwitch } from '@awdlab/jig/switch';
 import { nova } from '@awdlab/jig-themes/nova';
 import { beforeEach, describe, expect, it } from 'vitest';
 
@@ -14,17 +14,17 @@ import { beforeEach, describe, expect, it } from 'vitest';
 // executable proof (and guards against a regression that would force a CVA).
 
 @Component({
-  imports: [ReactiveFormsModule, NgnSwitch],
-  template: `<awd-switch [formControl]="ctrl" />`,
+  imports: [ReactiveFormsModule, AwdSwitch],
+  template: `<jig-switch [formControl]="ctrl" />`,
 })
 class ReactiveSwitchHost {
   ctrl = new FormControl<boolean>(false, { nonNullable: true });
-  sw = viewChild.required(NgnSwitch);
+  sw = viewChild.required(AwdSwitch);
 }
 
 @Component({
-  imports: [ReactiveFormsModule, NgnSelect],
-  template: `<awd-select [options]="opts" [formControl]="ctrl" />`,
+  imports: [ReactiveFormsModule, AwdSelect],
+  template: `<jig-select [options]="opts" [formControl]="ctrl" />`,
 })
 class ReactiveSelectHost {
   opts = [
@@ -32,15 +32,15 @@ class ReactiveSelectHost {
     { label: 'B', value: 2 },
   ];
   ctrl = new FormControl<number | null>(null);
-  sel = viewChild.required(NgnSelect);
+  sel = viewChild.required(AwdSelect);
 }
 
 @Component({
-  imports: [ReactiveFormsModule, NgnSwitch, NgnSelect],
+  imports: [ReactiveFormsModule, AwdSwitch, AwdSelect],
   template: `
     <form [formGroup]="form">
-      <awd-switch formControlName="enabled" />
-      <awd-select [options]="opts" formControlName="choice" />
+      <jig-switch formControlName="enabled" />
+      <jig-select [options]="opts" formControlName="choice" />
     </form>
   `,
 })
@@ -53,15 +53,15 @@ class FormGroupHost {
     enabled: new FormControl<boolean>(false, { nonNullable: true }),
     choice: new FormControl<number | null>(null),
   });
-  sw = viewChild.required(NgnSwitch);
-  sel = viewChild.required(NgnSelect);
+  sw = viewChild.required(AwdSwitch);
+  sel = viewChild.required(AwdSelect);
 }
 
 describe('classic forms interop (FormValueControl, no CVA)', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        provideNgnControls(
+        provideAwdControls(
           { theme: { preset: nova }, disableAnimations: true },
           withDefaultIcons()
         ),
@@ -69,7 +69,7 @@ describe('classic forms interop (FormValueControl, no CVA)', () => {
     });
   });
 
-  it('reactive [formControl] binds both ways on awd-switch', () => {
+  it('reactive [formControl] binds both ways on jig-switch', () => {
     const f = TestBed.createComponent(ReactiveSwitchHost);
     f.detectChanges();
 
@@ -84,7 +84,7 @@ describe('classic forms interop (FormValueControl, no CVA)', () => {
     expect(f.componentInstance.ctrl.value).toBe(false);
   });
 
-  it('reactive [formControl] binds both ways on awd-select', () => {
+  it('reactive [formControl] binds both ways on jig-select', () => {
     const f = TestBed.createComponent(ReactiveSelectHost);
     f.detectChanges();
 

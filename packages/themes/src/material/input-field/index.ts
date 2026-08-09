@@ -50,7 +50,7 @@ export const inputFieldStyles = createThemePart({
 
       return css`
         /* Base root == MD3 outlined text field (the DEFAULT look). Applied to c('root')
-           directly — not gated behind c('kind-outlined') — so a bare <awd-input-field>
+           directly — not gated behind c('kind-outlined') — so a bare <jig-input-field>
            with no kind still renders the outlined chrome. kind=filled overrides below. */
         ${c('root')} {
           border-radius: ${v('size.rounded.md')};

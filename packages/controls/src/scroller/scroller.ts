@@ -11,8 +11,8 @@ import {
 } from '@angular/core';
 import { elementSizeSignal } from '@awdlab/jig/api/ng';
 import { provideSelf } from '@awdlab/jig/base';
-import { NgnScrollAmount } from '@awdlab/jig/directives';
-import { type AllKeysOfUnion, getScrollTop, NgnError } from '@awdlab/jig/utils';
+import { AwdScrollAmount } from '@awdlab/jig/directives';
+import { type AllKeysOfUnion, getScrollTop, AwdError } from '@awdlab/jig/utils';
 import { scrollerControlTemplate } from '@awdlab/jig-themes/templates/scroller';
 
 import { ScrollerTemplates } from './scroller-templates';
@@ -21,29 +21,29 @@ import { ScrollerTemplates } from './scroller-templates';
  * @category control
  */
 @Component({
-  selector: 'awd-scroller, [awd-scroller]',
+  selector: 'jig-scroller, [jig-scroller]',
   templateUrl: './scroller.html',
   imports: [NgTemplateOutlet],
-  providers: [provideSelf(NgnScroller)],
+  providers: [provideSelf(AwdScroller)],
   hostDirectives: [
-    { directive: NgnScrollAmount, inputs: ['ngnScrollAmountContainer: scrollContainer'] },
+    { directive: AwdScrollAmount, inputs: ['ngnScrollAmountContainer: scrollContainer'] },
   ],
   host: {
     // No attribute at all when not focusable: a tabindex (even -1) makes the element
     // focusable to axe, which then rejects it as a child of role="listbox"/"tree".
     '[attr.tabindex]': 'focusable() ? 0 : null',
-    '[style.--awd-scroller-item-height.px]': 'itemHeight() ?? "auto"',
-    '[style.--awd-scroller-padding-top.px]': 'paddingTop()',
-    '[style.--awd-scroller-padding-bottom.px]': 'paddingBottom()',
+    '[style.--jig-scroller-item-height.px]': 'itemHeight() ?? "auto"',
+    '[style.--jig-scroller-padding-top.px]': 'paddingTop()',
+    '[style.--jig-scroller-padding-bottom.px]': 'paddingBottom()',
   },
 })
-export class NgnScroller<T> extends ScrollerTemplates<T> {
+export class AwdScroller<T> extends ScrollerTemplates<T> {
   protected readonly theme = this.injectThemeTemplate(scrollerControlTemplate, {
     root: true,
     virtual: () => !!this.virtual(),
   });
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly _scrollAmount = inject(NgnScrollAmount);
+  private readonly _scrollAmount = inject(AwdScrollAmount);
 
   /** Remaining vertical scroll distance to the bottom (px). Proxied from the host scroll directive. */
   public readonly distanceFromEnd = this._scrollAmount.distanceFromEnd;
@@ -202,7 +202,7 @@ export class NgnScroller<T> extends ScrollerTemplates<T> {
     super();
     effect(() => {
       if (this.virtual() && !this.itemHeight()) {
-        throw new NgnError('scroller', 'itemHeight must be set when virtual is true');
+        throw new AwdError('scroller', 'itemHeight must be set when virtual is true');
       }
     });
   }

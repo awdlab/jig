@@ -13,17 +13,17 @@ import {
   untracked,
 } from '@angular/core';
 import {
-  NgnTemplate,
+  AwdTemplate,
   type Openable,
   Platform,
   type PopoverCloseBy,
   toPopoverCloseBy,
 } from '@awdlab/jig/api/ng';
-import { NgnPt, provideSelf } from '@awdlab/jig/base';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnDefer } from '@awdlab/jig/defer';
+import { AwdPt, provideSelf } from '@awdlab/jig/base';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdDefer } from '@awdlab/jig/defer';
 import { I18n } from '@awdlab/jig/i18n';
-import { NgnIcon } from '@awdlab/jig/icon';
+import { AwdIcon } from '@awdlab/jig/icon';
 import { FocusTrap, generateElementId } from '@awdlab/jig/utils-ng';
 import { drawerControlTemplate } from '@awdlab/jig-themes/templates/drawer';
 
@@ -35,10 +35,10 @@ import type { IconType } from '@awdlab/jig-custom-types';
  * @category control
  */
 @Component({
-  selector: 'awd-drawer',
+  selector: 'jig-drawer',
   templateUrl: './drawer.html',
-  imports: [NgnPt, NgTemplateOutlet, NgnDefer, NgnButton, NgnIcon, NgnTemplate],
-  providers: [provideSelf(NgnDrawer)],
+  imports: [AwdPt, NgTemplateOutlet, AwdDefer, AwdButton, AwdIcon, AwdTemplate],
+  providers: [provideSelf(AwdDrawer)],
   host: {
     '[attr.popover]': 'closeByPopover()',
     '(toggle)': 'onToggle($event)',
@@ -50,7 +50,7 @@ import type { IconType } from '@awdlab/jig-custom-types';
     '[attr.data-position]': 'position()',
   },
 })
-export class NgnDrawer extends DrawerTemplates implements Openable {
+export class AwdDrawer extends DrawerTemplates implements Openable {
   protected readonly theme = this.injectThemeTemplate(drawerControlTemplate, {
     root: true,
     horizontal: () => this.horizontal(),

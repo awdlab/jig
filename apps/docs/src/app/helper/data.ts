@@ -1,4 +1,4 @@
-import { transformToNgnItems } from '@awdlab/jig/api';
+import { transformToJigItems } from '@awdlab/jig/api';
 
 const itemsGrouped = [
   {
@@ -98,13 +98,13 @@ const flatGroupedItems = itemsGrouped.flatMap(group => [group, ...group.items]) 
   | (typeof itemsGrouped)[number]['items'][number]
 )[];
 
-const itemsPreformatted = transformToNgnItems(items, {
+const itemsPreformatted = transformToJigItems(items, {
   value: 'id',
   label: 'label',
   testId: 'id',
 });
 
-const itemsGroupedPreformatted = transformToNgnItems(itemsGrouped, {
+const itemsGroupedPreformatted = transformToJigItems(itemsGrouped, {
   value: 'id',
   label: 'label',
   children: 'items',

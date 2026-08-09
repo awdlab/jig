@@ -1,8 +1,8 @@
 import { Demo_Button_Kind } from '../../../../demos/button/kind';
 
-import type { NgnDocsPage } from '../../../../utils/page/types';
+import type { AwdDocsPage } from '../../../../utils/page/types';
 
-export const KindsColorsPage: NgnDocsPage = {
+export const KindsColorsPage: AwdDocsPage = {
   kind: 'single',
   title: `Kinds & Colors`,
 

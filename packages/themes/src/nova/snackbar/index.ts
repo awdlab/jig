@@ -82,7 +82,7 @@ export const snackbarStyles = createThemePart({
       ${c('color-surface')} {
         --snk-icon-color: ${ON_SURFACE};
       }
-      ${c('defaultHeaderText')} awd-icon {
+      ${c('defaultHeaderText')} jig-icon {
         color: var(--snk-icon-color);
       }
 

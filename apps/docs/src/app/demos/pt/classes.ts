@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
-import { NgnCalendar } from '@awdlab/jig/calendar';
+import { AwdCalendar } from '@awdlab/jig/calendar';
 
-import type { NgnPassthrough } from '@awdlab/jig/base';
+import type { AwdPassthrough } from '@awdlab/jig/base';
 
 @Component({
-  selector: 'awd-demo-pt-classes',
-  imports: [NgnCalendar],
-  template: `<awd-calendar [inputId]="'pt-classes'" [inline]="true" [pt]="pt" />`,
+  selector: 'jig-demo-pt-classes',
+  imports: [AwdCalendar],
+  template: `<jig-calendar [inputId]="'pt-classes'" [inline]="true" [pt]="pt" />`,
 })
 export class Demo_Pt_Classes {
-  protected readonly pt: NgnPassthrough<'calendar'> = {
+  protected readonly pt: AwdPassthrough<'calendar'> = {
     root: {
-      $classes: 'rounded-xl ring-1 ring-(--awd-color-primary-200) overflow-hidden',
+      $classes: 'rounded-xl ring-1 ring-(--jig-color-primary-200) overflow-hidden',
     },
     header: {
-      $classes: 'rounded-t-lg bg-(--awd-color-surface-100) shadow-sm',
+      $classes: 'rounded-t-lg bg-(--jig-color-surface-100) shadow-sm',
     },
   };
 }

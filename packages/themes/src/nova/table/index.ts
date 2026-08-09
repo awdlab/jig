@@ -49,11 +49,11 @@ export const tableStyles = createThemePart({
         /* Rows get the normal surface background by default (not transparent),
            so sticky columns and the inline row-actions bar sit on a solid,
            consistent surface rather than showing through to whatever is behind. */
-        --awd-cell-bg-base: ${v('color.background')};
+        --jig-cell-bg-base: ${v('color.background')};
       }
       ${c('cell')} {
-        --awd-cell-bg: var(--awd-cell-bg-base);
-        background: var(--awd-cell-bg);
+        --jig-cell-bg: var(--jig-cell-bg-base);
+        background: var(--jig-cell-bg);
         border-bottom: 1px solid ${v('color.border')};
         padding: 0 ${v('size.padding.md')};
         text-align: left;
@@ -61,7 +61,7 @@ export const tableStyles = createThemePart({
           background 0.1s ease,
           box-shadow 0.15s ease;
         &:not(:has(*)) {
-          line-height: var(--awd-table-row-height);
+          line-height: var(--jig-table-row-height);
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -81,7 +81,7 @@ export const tableStyles = createThemePart({
         padding: ${v('size.padding.md')};
       }
       ${c('striped')} ${c('even')} {
-        --awd-cell-bg-base: ${v('color.surface.100')};
+        --jig-cell-bg-base: ${v('color.surface.100')};
       }
       ${c('root')} ${d('paginator')} {
         width: 90%;
@@ -95,13 +95,13 @@ export const tableStyles = createThemePart({
         padding: 0 ${v('size.padding.sm')};
       }
       ${c('selected-row')} ${c('cell')} {
-        --awd-cell-bg: color-mix(in srgb, ${v('color.primary.500')} 10%, var(--awd-cell-bg-base));
+        --jig-cell-bg: color-mix(in srgb, ${v('color.primary.500')} 10%, var(--jig-cell-bg-base));
       }
       ${c('selectable')} ${c('body')} ${c('row')}:hover ${c('cell')} {
-        --awd-cell-bg: ${v('color.surface.50')};
+        --jig-cell-bg: ${v('color.surface.50')};
       }
       ${c('selectable')} ${c('body')} ${c('selected-row')}:hover ${c('cell')} {
-        --awd-cell-bg: color-mix(in srgb, ${v('color.primary.500')} 15%, var(--awd-cell-bg-base));
+        --jig-cell-bg: color-mix(in srgb, ${v('color.primary.500')} 15%, var(--jig-cell-bg-base));
       }
       ${c('focused-row')}:not(:has(${c('focused-row-cell')})) ${c('cell')}:first-child {
         box-shadow: inset 3px 0 0 ${v('color.primary.500')};
@@ -212,7 +212,7 @@ export const tableStyles = createThemePart({
       /* ── Sticky Columns ──────────────────────────────────────────── */
 
       ${c('sticky-start')}, ${c('sticky-end')}, ${c('selection-column')} {
-        --awd-cell-bg-base: ${v('color.background')};
+        --jig-cell-bg-base: ${v('color.background')};
       }
       ${c('head')} ${c('sticky-start')},
       ${c('head')} ${c('sticky-end')},
@@ -221,7 +221,7 @@ export const tableStyles = createThemePart({
       }
       /* Scroll shadows anchored to the sticky-column edges (a table-specific placement the generic
          scroll-shadow overlay can't do — it's disabled here via ngnScrollShadowUnstyled). The tint
-         is the shared --awd-scroll-shadow-color so it stays identical to the generic overlay. */
+         is the shared --jig-scroll-shadow-color so it stays identical to the generic overlay. */
       ${c('sticky-start-edge')},
       ${c('sticky-end-edge')},
       ${c('selection-column')} {
@@ -240,11 +240,11 @@ export const tableStyles = createThemePart({
       ${d('scroll-shadow', 'scrolled-start')} ${c('sticky-start-edge')}::after,
       ${d('scroll-shadow', 'scrolled-start')} ${c('selection-column')}::after {
         left: 100%;
-        background: linear-gradient(to right, var(--awd-scroll-shadow-color), transparent);
+        background: linear-gradient(to right, var(--jig-scroll-shadow-color), transparent);
       }
       ${d('scroll-shadow', 'scrolled-end')} ${c('sticky-end-edge')}::after {
         right: 100%;
-        background: linear-gradient(to left, var(--awd-scroll-shadow-color), transparent);
+        background: linear-gradient(to left, var(--jig-scroll-shadow-color), transparent);
       }
 
       /* ── Row Actions (inline) ────────────────────────────────────────── */

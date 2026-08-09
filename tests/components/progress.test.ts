@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { NgnProgressHarness } from '@awdlab/jig-playwright';
+import { AwdProgressHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -8,7 +8,7 @@ test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-progress [value]="inputs().value" />`,
+      template: `<jig-progress [value]="inputs().value" />`,
       imports: ['progress'],
     },
     {
@@ -18,7 +18,7 @@ test('base', async ({ page }, testInfo) => {
     }
   );
 
-  const progress = new NgnProgressHarness(page.locator('awd-progress'));
+  const progress = new AwdProgressHarness(page.locator('jig-progress'));
   await progress.expectVisible();
   await progress.expectValue(50);
   await progress.expectMin(0);
@@ -30,7 +30,7 @@ test('value updates', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-progress [value]="inputs().value" />`,
+      template: `<jig-progress [value]="inputs().value" />`,
       imports: ['progress'],
     },
     {
@@ -40,7 +40,7 @@ test('value updates', async ({ page }, testInfo) => {
     }
   );
 
-  const progress = new NgnProgressHarness(page.locator('awd-progress'));
+  const progress = new AwdProgressHarness(page.locator('jig-progress'));
   await progress.expectValue(25);
   await expectScreenshot(page, testInfo, 'value-25');
 
@@ -64,7 +64,7 @@ test('indeterminate mode', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-progress [value]="inputs().value" [indeterminate]="inputs().indeterminate" />`,
+      template: `<jig-progress [value]="inputs().value" [indeterminate]="inputs().indeterminate" />`,
       imports: ['progress'],
     },
     {
@@ -75,7 +75,7 @@ test('indeterminate mode', async ({ page }, testInfo) => {
     }
   );
 
-  const progress = new NgnProgressHarness(page.locator('awd-progress'));
+  const progress = new AwdProgressHarness(page.locator('jig-progress'));
   await progress.expectVisible();
   await progress.expectIndeterminate(true);
 
@@ -94,7 +94,7 @@ test('accessibility', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-progress [value]="inputs().value" />`,
+      template: `<jig-progress [value]="inputs().value" />`,
       imports: ['progress'],
     },
     {
@@ -104,7 +104,7 @@ test('accessibility', async ({ page }, testInfo) => {
     }
   );
 
-  const progress = new NgnProgressHarness(page.locator('awd-progress'));
+  const progress = new AwdProgressHarness(page.locator('jig-progress'));
 
   // Check ARIA attributes
   await expect(progress.locator).toHaveAttribute('role', 'progressbar');
@@ -117,7 +117,7 @@ test('edge cases', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-progress [value]="inputs().value" />`,
+      template: `<jig-progress [value]="inputs().value" />`,
       imports: ['progress'],
     },
     {
@@ -127,7 +127,7 @@ test('edge cases', async ({ page }, testInfo) => {
     }
   );
 
-  const progress = new NgnProgressHarness(page.locator('awd-progress'));
+  const progress = new AwdProgressHarness(page.locator('jig-progress'));
   // Component should clamp to 100
   await progress.expectValue(100);
   await expectScreenshot(page, testInfo, 'clamped-100');
@@ -143,7 +143,7 @@ test('circular mode', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-progress [value]="inputs().value" [circular]="inputs().circular" [radius]="inputs().radius" [thickness]="inputs().thickness" />`,
+      template: `<jig-progress [value]="inputs().value" [circular]="inputs().circular" [radius]="inputs().radius" [thickness]="inputs().thickness" />`,
       imports: ['progress'],
     },
     {
@@ -156,7 +156,7 @@ test('circular mode', async ({ page }, testInfo) => {
     }
   );
 
-  const progress = new NgnProgressHarness(page.locator('awd-progress'));
+  const progress = new AwdProgressHarness(page.locator('jig-progress'));
   await progress.expectVisible();
   await progress.expectCircular(true);
   await progress.expectValue(75);
@@ -172,7 +172,7 @@ test('circular indeterminate mode', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<awd-progress [circular]="inputs().circular" [indeterminate]="inputs().indeterminate" [radius]="inputs().radius" [thickness]="inputs().thickness" />`,
+      template: `<jig-progress [circular]="inputs().circular" [indeterminate]="inputs().indeterminate" [radius]="inputs().radius" [thickness]="inputs().thickness" />`,
       imports: ['progress'],
     },
     {
@@ -185,7 +185,7 @@ test('circular indeterminate mode', async ({ page }, testInfo) => {
     }
   );
 
-  const progress = new NgnProgressHarness(page.locator('awd-progress'));
+  const progress = new AwdProgressHarness(page.locator('jig-progress'));
   await progress.expectVisible();
   await progress.expectCircular(true);
 
@@ -198,7 +198,7 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {
-      template: `<awd-progress aria-label="Upload progress" [value]="inputs().value" />`,
+      template: `<jig-progress aria-label="Upload progress" [value]="inputs().value" />`,
       imports: ['progress'],
     },
     {

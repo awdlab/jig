@@ -3,7 +3,7 @@ import { themeClasses } from '../utils/theme';
 import { accordionControlTemplate } from '@awdlab/jig-themes/templates/accordion';
 import { accordionPanelControlTemplate } from '@awdlab/jig-themes/templates/accordion-panel';
 
-export class NgnAccordionHarness {
+export class AwdAccordionHarness {
   public readonly classes = themeClasses(accordionPanelControlTemplate);
 
   public readonly panels: Locator;
@@ -12,8 +12,8 @@ export class NgnAccordionHarness {
     this.panels = this.locator.locator(this.classes['root']);
   }
 
-  public getPanelByIndex(index: number): NgnAccordionPanelHarness {
-    return new NgnAccordionPanelHarness(this.panels.nth(index));
+  public getPanelByIndex(index: number): AwdAccordionPanelHarness {
+    return new AwdAccordionPanelHarness(this.panels.nth(index));
   }
 
   public expectPanelCount(count: number) {
@@ -21,7 +21,7 @@ export class NgnAccordionHarness {
   }
 }
 
-export class NgnAccordionPanelHarness {
+export class AwdAccordionPanelHarness {
   public readonly classes = themeClasses(accordionPanelControlTemplate);
 
   public readonly header: Locator;

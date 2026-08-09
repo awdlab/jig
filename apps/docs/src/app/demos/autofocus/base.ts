@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnAutofocus } from '@awdlab/jig/directives';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdAutofocus } from '@awdlab/jig/directives';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
 
 @Component({
-  selector: 'awd-demo-autofocus-base',
-  imports: [NgnAutofocus, NgnButton, NgnInput, NgnInputField],
+  selector: 'jig-demo-autofocus-base',
+  imports: [AwdAutofocus, AwdButton, AwdInput, AwdInputField],
   template: `
     <div class="flex flex-col items-start gap-3">
       <button ngnButton (click)="editing.set(!editing())">
@@ -14,9 +14,9 @@ import { NgnInputField } from '@awdlab/jig/input-field';
       </button>
 
       @if (editing()) {
-        <awd-input-field [label]="'New name'" class="w-72">
+        <jig-input-field [label]="'New name'" class="w-72">
           <input ngnInput ngnAutofocus [value]="name()" (valueChange)="name.set($event ?? '')" />
-        </awd-input-field>
+        </jig-input-field>
       }
     </div>
   `,

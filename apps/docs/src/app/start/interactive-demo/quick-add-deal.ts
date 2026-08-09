@@ -1,14 +1,14 @@
 import { Component, output, signal } from '@angular/core';
 import { form, FormField, min, required } from '@angular/forms/signals';
-import { NgnButton } from '@awdlab/jig/button';
-import { NgnCalendar } from '@awdlab/jig/calendar';
-import { NgnErrors } from '@awdlab/jig/errors';
-import { NgnHint } from '@awdlab/jig/hint';
-import { NgnInput } from '@awdlab/jig/input';
-import { NgnInputField } from '@awdlab/jig/input-field';
-import { NgnNumberInput } from '@awdlab/jig/number-input';
-import { NgnSelect } from '@awdlab/jig/select';
-import { NgnSelectButton } from '@awdlab/jig/select-button';
+import { AwdButton } from '@awdlab/jig/button';
+import { AwdCalendar } from '@awdlab/jig/calendar';
+import { AwdErrors } from '@awdlab/jig/errors';
+import { AwdHint } from '@awdlab/jig/hint';
+import { AwdInput } from '@awdlab/jig/input';
+import { AwdInputField } from '@awdlab/jig/input-field';
+import { AwdNumberInput } from '@awdlab/jig/number-input';
+import { AwdSelect } from '@awdlab/jig/select';
+import { AwdSelectButton } from '@awdlab/jig/select-button';
 
 import {
   type DealDraft,
@@ -31,28 +31,28 @@ interface DealForm {
 }
 
 @Component({
-  selector: 'awd-docs-quick-add-deal',
+  selector: 'jig-docs-quick-add-deal',
   imports: [
     FormField,
-    NgnButton,
-    NgnCalendar,
-    NgnErrors,
-    NgnHint,
-    NgnInput,
-    NgnInputField,
-    NgnNumberInput,
-    NgnSelect,
-    NgnSelectButton,
+    AwdButton,
+    AwdCalendar,
+    AwdErrors,
+    AwdHint,
+    AwdInput,
+    AwdInputField,
+    AwdNumberInput,
+    AwdSelect,
+    AwdSelectButton,
   ],
   template: `
     <h3
-      class="mb-(--awd-size-padding-lg) text-(length:--awd-font-size-lg) font-(--awd-font-weight-semibold) text-(--awd-color-text)"
+      class="mb-(--jig-size-padding-lg) text-(length:--jig-font-size-lg) font-(--jig-font-weight-semibold) text-(--jig-color-text)"
     >
       Quick Add Deal
     </h3>
 
     <div>
-      <awd-input-field class="block" label="Account Name">
+      <jig-input-field class="block" label="Account Name">
         <input
           ngnInput
           [formField]="dealForm.account"
@@ -61,12 +61,12 @@ interface DealForm {
           ngnErrorsShowOn="touched"
           placeholder="Acme Inc."
         />
-      </awd-input-field>
-      <awd-hint #accountHint class="mt-(--awd-size-padding-sm)" />
+      </jig-input-field>
+      <jig-hint #accountHint class="mt-(--jig-size-padding-sm)" />
     </div>
 
     <div>
-      <awd-input-field class="block" label="Deal Value">
+      <jig-input-field class="block" label="Deal Value">
         <input
           ngnNumberInput
           [formField]="dealForm.value"
@@ -76,39 +76,39 @@ interface DealForm {
           [formatOptions]="currencyFormat"
           placeholder="50000"
         />
-      </awd-input-field>
-      <awd-hint #valueHint class="mt-(--awd-size-padding-sm)" />
+      </jig-input-field>
+      <jig-hint #valueHint class="mt-(--jig-size-padding-sm)" />
     </div>
 
-    <awd-input-field class="block" label="Stage">
-      <awd-select [options]="stageOptions" [formField]="dealForm.stage" />
-    </awd-input-field>
+    <jig-input-field class="block" label="Stage">
+      <jig-select [options]="stageOptions" [formField]="dealForm.stage" />
+    </jig-input-field>
 
-    <awd-input-field class="block" label="Owner">
-      <awd-select [options]="ownerOptions" [formField]="dealForm.owner" />
-    </awd-input-field>
+    <jig-input-field class="block" label="Owner">
+      <jig-select [options]="ownerOptions" [formField]="dealForm.owner" />
+    </jig-input-field>
 
-    <div class="mb-(--awd-size-padding-lg)">
-      <awd-input-field class="block" label="Close Date">
-        <awd-calendar
+    <div class="mb-(--jig-size-padding-lg)">
+      <jig-input-field class="block" label="Close Date">
+        <jig-calendar
           [formField]="dealForm.closeDate"
           ngnErrors
           [ngnErrorsHint]="closeDateHint"
           ngnErrorsShowOn="touched"
         />
-      </awd-input-field>
-      <awd-hint #closeDateHint class="mt-(--awd-size-padding-sm)" />
+      </jig-input-field>
+      <jig-hint #closeDateHint class="mt-(--jig-size-padding-sm)" />
     </div>
 
     <label
       [for]="priorityBtn.inputId()"
-      class="mb-(--awd-size-padding-sm) block text-(length:--awd-font-size-sm) font-(--awd-font-weight-semibold) text-(--awd-color-surface-600)"
+      class="mb-(--jig-size-padding-sm) block text-(length:--jig-font-size-sm) font-(--jig-font-weight-semibold) text-(--jig-color-surface-600)"
     >
       Priority
     </label>
-    <awd-select-button
+    <jig-select-button
       #priorityBtn
-      class="mb-(--awd-size-padding-lg) block"
+      class="mb-(--jig-size-padding-lg) block"
       [options]="priorityOptions"
       [formField]="dealForm.priority"
     />

@@ -1,5 +1,5 @@
 import type { Locator } from '@playwright/test';
 
-export class NgnButtonHarness {
+export class AwdButtonHarness {
   constructor(public locator: Locator) {}
 }

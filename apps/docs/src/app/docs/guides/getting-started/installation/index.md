@@ -35,12 +35,12 @@ pnpm add @floating-ui/dom @ngneers/signal-translate @iconify/icons-tabler
 
 ### Register the provider
 
-Add `provideNgnControls` to your application config, passing a theme preset and any
+Add `provideAwdControls` to your application config, passing a theme preset and any
 optional features you want:
 
 ```ts
 import { ApplicationConfig } from '@angular/core';
-import { provideNgnControls, withAutoColorScheme } from '@awdlab/jig/api/ng';
+import { provideAwdControls, withAutoColorScheme } from '@awdlab/jig/api/ng';
 import { withDefaultIcons } from '@awdlab/jig/default-icons';
 import { withToasts } from '@awdlab/jig/toast';
 import { withSnackbars } from '@awdlab/jig/snackbar';
@@ -48,7 +48,7 @@ import { nova } from '@awdlab/jig-themes/nova';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideNgnControls(
+    provideAwdControls(
       { theme: { preset: nova } }, // the preset is a Theme object, not a string
       withDefaultIcons(), // register the built-in Tabler icon set
       withAutoColorScheme(), // enable automatic light/dark mode

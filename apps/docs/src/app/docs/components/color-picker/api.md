@@ -1,1 +1,1 @@
-{{ api: color-picker/color-picker NgnColorPicker }}
+{{ api: color-picker/color-picker AwdColorPicker }}

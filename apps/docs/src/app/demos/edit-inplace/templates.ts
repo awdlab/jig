@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnEditInplace } from '@awdlab/jig/edit-inplace';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdEditInplace } from '@awdlab/jig/edit-inplace';
 
 @Component({
-  imports: [NgnEditInplace, NgnTemplate],
-  selector: 'awd-demo-inplace-templates',
-  template: ` <awd-edit-inplace #inplace [value]="value()" (valueChange)="value.set($event)">
+  imports: [AwdEditInplace, AwdTemplate],
+  selector: 'jig-demo-inplace-templates',
+  template: ` <jig-edit-inplace #inplace [value]="value()" (valueChange)="value.set($event)">
     <ng-template #display [ngnTemplate]="inplace.templateTypes.display" let-display>
       <span
         class="bg-primary-100 text-primary-800 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium"
@@ -25,7 +25,7 @@ import { NgnEditInplace } from '@awdlab/jig/edit-inplace';
         <button class="text-primary-600 text-sm" type="button" (click)="edit.close()">Done</button>
       </div>
     </ng-template>
-  </awd-edit-inplace>`,
+  </jig-edit-inplace>`,
   host: { style: 'display: block; width: 260px;' },
 })
 export class Demo_EditInplace_Templates {

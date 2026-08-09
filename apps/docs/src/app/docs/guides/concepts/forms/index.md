@@ -36,12 +36,12 @@ Define the shape with `form()` and bind each field:
 import { form, required, email, minLength, FormField } from '@angular/forms/signals';
 
 @Component({
-  imports: [FormField, NgnInput, NgnInputField, NgnErrors, NgnHint],
+  imports: [FormField, AwdInput, AwdInputField, AwdErrors, AwdHint],
   template: `
-    <awd-input-field [label]="'Email'">
+    <jig-input-field [label]="'Email'">
       <input ngnInput [formField]="userForm.email" ngnErrors [ngnErrorsHint]="hint" />
-    </awd-input-field>
-    <awd-hint #hint />
+    </jig-input-field>
+    <jig-hint #hint />
   `,
 })
 export class SignUp {
@@ -64,11 +64,11 @@ Nothing special is required — the control behaves like a native input:
 
 ```ts
 @Component({
-  imports: [ReactiveFormsModule, NgnInput, NgnErrors, NgnHint],
+  imports: [ReactiveFormsModule, AwdInput, AwdErrors, AwdHint],
   template: `
     <form [formGroup]="form">
       <input ngnInput formControlName="email" ngnErrors [ngnErrorsHint]="hint" />
-      <awd-hint #hint />
+      <jig-hint #hint />
     </form>
   `,
 })
@@ -86,15 +86,15 @@ input is **not** written for you — see "Who owns invalid" below.
 
 Messages come from the [`ngnErrors`](/components/errors) directive, which reads
 the host's validation state whatever paradigm produced it and pushes a message
-into an [`awd-hint`](/components/hint):
+into an [`jig-hint`](/components/hint):
 
 ```html
-<input ngnInput [formControl]="email" ngnErrors [ngnErrorsHint]="hint" /> <awd-hint #hint />
+<input ngnInput [formControl]="email" ngnErrors [ngnErrorsHint]="hint" /> <jig-hint #hint />
 ```
 
 It resolves messages from — in order — the control's own `ngnErrorsMessages`,
 a message carried on the error, app-wide messages from
-`provideNgnErrorsMessages()`, and finally the built-in translations. Full
+`provideAwdErrorsMessages()`, and finally the built-in translations. Full
 detail on the [Errors](/components/errors) page.
 
 ### Who owns `invalid`
@@ -127,7 +127,7 @@ paints itself red before the user has had a chance:
 Because the two triggers are independent you can show the border immediately
 but hold the message until blur, or vice versa.
 
-`awd-input-field` reflects its projected control's gated state, so the wrapper
+`jig-input-field` reflects its projected control's gated state, so the wrapper
 and the input never disagree.
 
 ### Touched and blur

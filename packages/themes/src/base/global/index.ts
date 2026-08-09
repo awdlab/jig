@@ -5,19 +5,19 @@ export const globalStyles = createThemePart({
   controlTemplate: globalControlTemplate,
   root: {
     css: ({ v, c }) => css`
-      --awd-color-scrollbar-thumb: var(--awd-color-surface-300);
-      --awd-color-scrollbar-track: transparent;
-      --awd-color-scrollbar: var(--awd-color-scrollbar-thumb) var(--awd-color-scrollbar-track);
+      --jig-color-scrollbar-thumb: var(--jig-color-surface-300);
+      --jig-color-scrollbar-track: transparent;
+      --jig-color-scrollbar: var(--jig-color-scrollbar-thumb) var(--jig-color-scrollbar-track);
       ${c('root')} {
-        /* styles for all awd controls go here */
+        /* styles for all jig controls go here */
         * {
-          scrollbar-color: var(--awd-color-scrollbar);
+          scrollbar-color: var(--jig-color-scrollbar);
         }
       }
-      .awd-control.awd-control-initializing {
+      .jig-control.jig-control-initializing {
         /*
          * Hide controls until they are fully initialized to prevent FOUC
-         * The 'awd-control-initialized' class is added in a afterNextRender callback in NgnBase.
+         * The 'jig-control-initialized' class is added in a afterNextRender callback in AwdBase.
          */
         display: none !important;
       }

@@ -18,14 +18,14 @@ import {
   filterOptions,
   flatItems,
   mapToItems,
-  type NgnItem,
-  type NgnItemsValue,
+  type JigItem,
+  type JigItemsValue,
 } from '@awdlab/jig/api';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnPt, provideSelf } from '@awdlab/jig/base';
-import { NgnCheckbox } from '@awdlab/jig/checkbox';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdPt, provideSelf } from '@awdlab/jig/base';
+import { AwdCheckbox } from '@awdlab/jig/checkbox';
 import { I18n } from '@awdlab/jig/i18n';
-import { NgnScroller, NgnScrollerItem } from '@awdlab/jig/scroller';
+import { AwdScroller, AwdScrollerItem } from '@awdlab/jig/scroller';
 import { createConditionalSpinner } from '@awdlab/jig/spinner';
 import { maybeCallback } from '@awdlab/jig/utils';
 import { asyncComputed } from '@awdlab/jig/utils-ng';
@@ -54,10 +54,10 @@ function movesCaret(event: KeyboardEvent): boolean {
  * @category control
  */
 @Component({
-  selector: 'awd-list-box',
+  selector: 'jig-list-box',
   templateUrl: './list-box.html',
-  imports: [NgTemplateOutlet, NgnScroller, NgnScrollerItem, NgnCheckbox, NgnTemplate, NgnPt],
-  providers: [provideSelf(NgnListBox)],
+  imports: [NgTemplateOutlet, AwdScroller, AwdScrollerItem, AwdCheckbox, AwdTemplate, AwdPt],
+  providers: [provideSelf(AwdListBox)],
   host: {
     '[attr.tabIndex]': 'focussable() ? 0 : null',
     '(keydown)': 'onKeyDown($event)',
@@ -70,8 +70,8 @@ function movesCaret(event: KeyboardEvent): boolean {
     '[id]': 'inputId()',
   },
 })
-export class NgnListBox<
-  Items extends readonly NgnItem[],
+export class AwdListBox<
+  Items extends readonly JigItem[],
   Multiple extends boolean = false,
 > extends ListBoxTemplates<Items, Multiple> {
   protected readonly i18n = inject(I18n).translations;
@@ -82,7 +82,7 @@ export class NgnListBox<
     separator: () => this.separator(),
   });
 
-  private readonly _scroller = viewChild.required<NgnScroller<NgnItemsValue<Items>>>(NgnScroller);
+  private readonly _scroller = viewChild.required<AwdScroller<JigItemsValue<Items>>>(AwdScroller);
 
   /**
    * The items to display in the list box.
@@ -151,7 +151,7 @@ export class NgnListBox<
   /**
    * Emitted when an item is clicked, carrying the value of that item.
    */
-  public readonly itemClicked = output<NgnItemsValue<Items>>();
+  public readonly itemClicked = output<JigItemsValue<Items>>();
 
   protected readonly maybeCallback = maybeCallback;
 
@@ -159,12 +159,12 @@ export class NgnListBox<
 
   protected readonly valueArray = computed(() => {
     const v = this.value();
-    return (Array.isArray(v) ? v : v ? [v] : []) as NgnItemsValue<Items>[];
+    return (Array.isArray(v) ? v : v ? [v] : []) as JigItemsValue<Items>[];
   });
-  public readonly currentHighlightedValue = signal<NgnItemsValue<Items> | null>(null);
+  public readonly currentHighlightedValue = signal<JigItemsValue<Items> | null>(null);
 
   /** DOM id of an option row. */
-  public optionId(value: NgnItemsValue<Items>): string {
+  public optionId(value: JigItemsValue<Items>): string {
     return `${this.inputId()}_option_${value}`;
   }
 
@@ -192,7 +192,7 @@ export class NgnListBox<
   private readonly _appliedFilterOptions = computed(() => {
     const filter = this.filter();
     const providedFilterArgs = typeof filter === 'boolean' ? {} : filter;
-    const options: FilterConfigInternal<NgnItem> = {
+    const options: FilterConfigInternal<JigItem> = {
       filterFieldsCallback: item => item.label,
       fieldItems: 'items',
       splitWords: true,
@@ -307,9 +307,9 @@ export class NgnListBox<
     return row ? Math.max(1, Math.floor(port.clientHeight / row)) : DEFAULT_PAGE_SIZE;
   }
 
-  protected onSelect(value: NgnItemsValue<Items>) {
+  protected onSelect(value: JigItemsValue<Items>) {
     if (this.multiple()) {
-      const currentValue = (this.value() as Array<NgnItemsValue<Items>>) ?? [];
+      const currentValue = (this.value() as Array<JigItemsValue<Items>>) ?? [];
       if (!currentValue.includes(value)) {
         this.value.set([...currentValue, value] as ValueType<Items, Multiple>);
       } else {

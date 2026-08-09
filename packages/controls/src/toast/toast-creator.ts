@@ -1,22 +1,22 @@
 import { Injector, runInInjectionContext } from '@angular/core';
 import { injectOrThrow } from '@awdlab/jig/utils-ng';
 
-import { NgnToastManager } from './toast-manager';
+import { AwdToastManager } from './toast-manager';
 
-import type { NgnToastOptions, NgnToastRef } from './types';
+import type { AwdToastOptions, AwdToastRef } from './types';
 
 class ToastCreator {
-  private readonly _manager: NgnToastManager;
+  private readonly _manager: AwdToastManager;
 
   constructor() {
     this._manager = injectOrThrow(
-      NgnToastManager,
+      AwdToastManager,
       'injectToastCreator',
-      'NgnToastManager not found. Make sure to use withToasts() to provide awd toasts!'
+      'AwdToastManager not found. Make sure to use withToasts() to provide jig toasts!'
     );
   }
 
-  public show(options: NgnToastOptions): NgnToastRef {
+  public show(options: AwdToastOptions): AwdToastRef {
     const id = this._manager.addToast(options);
     return {
       hide: () => this._manager.removeToast(id),

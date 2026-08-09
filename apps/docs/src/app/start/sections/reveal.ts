@@ -8,7 +8,7 @@ import { DestroyRef, Directive, ElementRef, afterNextRender, inject, input } fro
  * hidden content. Respects `prefers-reduced-motion`.
  */
 @Directive({ selector: '[ngnDocsReveal]' })
-export class NgnDocsReveal {
+export class AwdDocsReveal {
   /** Extra transition delay in ms — use to stagger siblings. */
   public readonly revealDelay = input(0, { alias: 'ngnDocsReveal' });
 
@@ -27,8 +27,8 @@ export class NgnDocsReveal {
         return;
       }
 
-      el.style.setProperty('--awd-reveal-delay', `${this.revealDelay()}ms`);
-      el.classList.add('awd-reveal');
+      el.style.setProperty('--jig-reveal-delay', `${this.revealDelay()}ms`);
+      el.classList.add('jig-reveal');
 
       // The huge top margin keeps elements ABOVE the viewport "intersecting",
       // so content jumped past (anchor links, End key, fast scroll) still
@@ -36,7 +36,7 @@ export class NgnDocsReveal {
       const io = new IntersectionObserver(
         entries => {
           if (entries.some(e => e.isIntersecting)) {
-            el.classList.add('awd-reveal-in');
+            el.classList.add('jig-reveal-in');
             io.disconnect();
           }
         },

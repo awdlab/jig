@@ -85,13 +85,13 @@ Register the provider with a theme preset (the preset is a `Theme` object, not a
 
 ```ts
 import { ApplicationConfig } from '@angular/core';
-import { provideNgnControls, withAutoColorScheme } from '@awdlab/jig/api/ng';
+import { provideAwdControls, withAutoColorScheme } from '@awdlab/jig/api/ng';
 import { withDefaultIcons } from '@awdlab/jig/default-icons';
 import { nova } from '@awdlab/jig-themes/nova';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideNgnControls(
+    provideAwdControls(
       { theme: { preset: nova } },
       withDefaultIcons(), // opt-in built-in Tabler icon set
       withAutoColorScheme() // opt-in automatic light/dark mode
@@ -105,11 +105,11 @@ directives on native elements:
 
 ```ts
 import { Component } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
+import { AwdButton } from '@awdlab/jig/button';
 
 @Component({
   selector: 'app-example',
-  imports: [NgnButton],
+  imports: [AwdButton],
   template: `<button ngnButton kind="primary">Save</button>`,
 })
 export class ExampleComponent {}

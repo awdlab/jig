@@ -33,7 +33,7 @@ function flatten(prefix: string, values: unknown, descriptions: unknown): I18nRo
  * library's `en` translations, so it can never drift from the source.
  */
 @Component({
-  selector: 'awd-docs-i18n',
+  selector: 'jig-docs-i18n',
   templateUrl: './i18n-doc.html',
   // Reuse the shared markdown content styles verbatim — the template wraps its
   // output in a `.md` div so the same `:host ::ng-deep .md …` rules apply here.
@@ -43,7 +43,7 @@ function flatten(prefix: string, values: unknown, descriptions: unknown): I18nRo
   },
   imports: [RouterLink],
 })
-export class NgnDocsI18n {
+export class AwdDocsI18n {
   readonly data = input.required<I18nDoc>();
 
   private readonly _en = signal<Translations | null>(null);

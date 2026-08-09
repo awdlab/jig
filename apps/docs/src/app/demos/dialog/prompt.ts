@@ -1,11 +1,11 @@
 import { Component, inject, Injector, signal } from '@angular/core';
-import { NgnButton } from '@awdlab/jig/button';
+import { AwdButton } from '@awdlab/jig/button';
 import { createDialog, PromptDialogBase } from '@awdlab/jig/dialog';
-import { NgnInput } from '@awdlab/jig/input';
+import { AwdInput } from '@awdlab/jig/input';
 
 @Component({
-  selector: 'awd-demo-dialog-prompt',
-  imports: [NgnInput],
+  selector: 'jig-demo-dialog-prompt',
+  imports: [AwdInput],
   template: `<input ngnInput [(value)]="value" />`,
 })
 // TODO: figure out how to make the button values type safe here
@@ -27,8 +27,8 @@ export class DialogPromptDemo extends PromptDialogBase<{ value: string }, true |
 }
 
 @Component({
-  selector: 'awd-demo-dialog-prompt',
-  imports: [NgnButton],
+  selector: 'jig-demo-dialog-prompt',
+  imports: [AwdButton],
   template: `<button ngnButton (click)="prompt()">Show Prompt</button>`,
 })
 export class Demo_Dialog_Prompt {

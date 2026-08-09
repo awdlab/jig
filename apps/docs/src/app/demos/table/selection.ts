@@ -1,14 +1,14 @@
 import { JsonPipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { NgnTemplate } from '@awdlab/jig/api/ng';
-import { NgnTableModule } from '@awdlab/jig/table';
+import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { AwdTableModule } from '@awdlab/jig/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [NgnTableModule, NgnTemplate, JsonPipe],
-  selector: 'awd-demo-table-selection-single',
-  template: `<awd-table
+  imports: [AwdTableModule, AwdTemplate, JsonPipe],
+  selector: 'jig-demo-table-selection-single',
+  template: `<jig-table
       #table
       style="height: 400px"
       [rows]="rows"
@@ -32,7 +32,7 @@ import { exampleData } from '../../helper/data';
           <td ngnTableTd>{{ row.data.location }}</td>
         </tr>
       </ng-template>
-    </awd-table>
+    </jig-table>
     <p>Selected: {{ selectedIds() | json }}</p>`,
 })
 export class Demo_Table_Selection_Single {
@@ -41,9 +41,9 @@ export class Demo_Table_Selection_Single {
 }
 
 @Component({
-  imports: [NgnTableModule, NgnTemplate, JsonPipe],
-  selector: 'awd-demo-table-selection-multi',
-  template: `<awd-table
+  imports: [AwdTableModule, AwdTemplate, JsonPipe],
+  selector: 'jig-demo-table-selection-multi',
+  template: `<jig-table
       #table
       style="height: 400px"
       [rows]="rows"
@@ -67,7 +67,7 @@ export class Demo_Table_Selection_Single {
           <td ngnTableTd>{{ row.data.location }}</td>
         </tr>
       </ng-template>
-    </awd-table>
+    </jig-table>
     <p>Selected ({{ selectedIds().length }}): {{ selectedIds() | json }}</p>`,
 })
 export class Demo_Table_Selection_Multi {

@@ -1,4 +1,4 @@
-import { NgnDocsSnackbarPlayground } from './playground';
+import { AwdDocsSnackbarPlayground } from './playground';
 import { Demo_Snackbar_Actions } from '../../../demos/snackbar/actions';
 import { Demo_Snackbar_Base } from '../../../demos/snackbar/base';
 import { Demo_Snackbar_Closable } from '../../../demos/snackbar/closable';
@@ -7,9 +7,9 @@ import { Demo_Snackbar_Icon } from '../../../demos/snackbar/icon';
 import { Demo_Snackbar_Persistent } from '../../../demos/snackbar/persistent';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { NgnDocsPage } from '../../../utils/page/types';
+import type { AwdDocsPage } from '../../../utils/page/types';
 
-export const SnackbarPage: NgnDocsPage = {
+export const SnackbarPage: AwdDocsPage = {
   title: `Snackbar`,
   kind: 'tabs',
   tabs: [
@@ -31,7 +31,7 @@ export const SnackbarPage: NgnDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: NgnDocsSnackbarPlayground,
+      component: AwdDocsSnackbarPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/snackbar/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/snackbar/a11y.md' },

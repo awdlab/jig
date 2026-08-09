@@ -17,7 +17,7 @@ import {
 } from '@awdlab/jig/api/ng';
 import { resizableDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
 
-import { NgnMovable } from './movable';
+import { AwdMovable } from './movable';
 
 /** Side length (px) of the browser's native resize grip. */
 const GRIP_SIZE = 16;
@@ -29,7 +29,7 @@ const GRIP_SIZE = 16;
  * It does not implement the resize gesture itself — the theme's `resizable`
  * part supplies the CSS `resize` handle; this directive observes the resulting
  * size changes while the pointer is down and writes the clamped
- * `min-*`/`max-*` styles. On a host that is also {@link NgnMovable}, the
+ * `min-*`/`max-*` styles. On a host that is also {@link AwdMovable}, the
  * position is baked first so the element does not jump.
  *
  * @category directive
@@ -40,12 +40,12 @@ const GRIP_SIZE = 16;
     '[class]': 'theme.classes({ resizable: ngnResizable(), resized: resized()})',
   },
 })
-export class NgnResizable {
+export class AwdResizable {
   protected readonly theme = injectThemeTemplate(resizableDirectiveTemplate);
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
   private readonly _isBrowser = inject(Platform).isBrowser;
   private readonly _document = inject(DOCUMENT);
-  private readonly _ngnMovable = inject(NgnMovable, { optional: true });
+  private readonly _ngnMovable = inject(AwdMovable, { optional: true });
   private _isPointerDown = false;
 
   /**
@@ -98,14 +98,14 @@ export class NgnResizable {
   }
 
   constructor() {
-    // claimed during dispatch, not in an effect: a batched flush would run NgnMovable's
+    // claimed during dispatch, not in an effect: a batched flush would run AwdMovable's
     // pointermove handling before the claim and move the element
     domEventHandler(this._el, 'pointerdown', pointerDown => {
       if (!this.ngnResizable()) {
         return;
       }
       this._isPointerDown = true;
-      // the grip owns this gesture — a co-hosted NgnMovable must not also move the element
+      // the grip owns this gesture — a co-hosted AwdMovable must not also move the element
       this._ngnMovable?.blockGesture(this.isOnGrip(pointerDown) ? pointerDown : null);
     });
 

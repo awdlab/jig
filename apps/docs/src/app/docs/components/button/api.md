@@ -1,14 +1,14 @@
-## NgnButton
+## AwdButton
 
 Selector: `button[ngnButton]`, `a[ngnButton]`
 
-{{ api: button/button NgnButton }}
+{{ api: button/button AwdButton }}
 
-## NgnActionButton
+## AwdActionButton
 
-Selector: `awd-action-button`
+Selector: `jig-action-button`
 
 Config-driven button — see [Items & Data](/guides/items-data) for
-`NgnActionButtonConfig`.
+`AwdActionButtonConfig`.
 
-{{ api: button/action-button NgnActionButton }}
+{{ api: button/action-button AwdActionButton }}

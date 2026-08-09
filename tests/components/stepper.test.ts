@@ -1,22 +1,22 @@
 import test, { expect } from '@playwright/test';
-import { NgnStepperHarness } from '@awdlab/jig-playwright';
+import { AwdStepperHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
 const TEMPLATE = `
-  <awd-stepper [active]="inputs().active" [linear]="inputs().linear"
+  <jig-stepper [active]="inputs().active" [linear]="inputs().linear"
     (activeChange)="output('active', $event)">
-    <awd-step [label]="'One'" [completed]="inputs().c0">
+    <jig-step [label]="'One'" [completed]="inputs().c0">
       <ng-template #content>Step one content</ng-template>
-    </awd-step>
-    <awd-step [label]="'Two'">
+    </jig-step>
+    <jig-step [label]="'Two'">
       <ng-template #content>Step two content</ng-template>
-    </awd-step>
-    <awd-step [label]="'Three'">
+    </jig-step>
+    <jig-step [label]="'Three'">
       <ng-template #content>Step three content</ng-template>
-    </awd-step>
-  </awd-stepper>
+    </jig-step>
+  </jig-stepper>
 `;
 
 test('non-linear: any step selectable', async ({ page }) => {
@@ -26,7 +26,7 @@ test('non-linear: any step selectable', async ({ page }) => {
     { inputs: { active: 0, linear: false, c0: false } }
   );
 
-  const stepper = new NgnStepperHarness(page.locator('awd-stepper'));
+  const stepper = new AwdStepperHarness(page.locator('jig-stepper'));
   await stepper.expectActive(0);
   await expect(page.getByText('Step one content')).toBeVisible();
 
@@ -44,7 +44,7 @@ test('linear: unreachable steps are visually disabled (greyed) and un-dim when r
     { inputs: { active: 0, linear: true, c0: false } }
   );
 
-  const stepper = new NgnStepperHarness(page.locator('awd-stepper'));
+  const stepper = new AwdStepperHarness(page.locator('jig-stepper'));
   const opacity = (i: number) =>
     stepper.steps.nth(i).evaluate(el => getComputedStyle(el as HTMLElement).opacity);
 
@@ -68,7 +68,7 @@ test('linear: forward gated until completed', async ({ page }) => {
     { inputs: { active: 0, linear: true, c0: false } }
   );
 
-  const stepper = new NgnStepperHarness(page.locator('awd-stepper'));
+  const stepper = new AwdStepperHarness(page.locator('jig-stepper'));
   await stepper.expectActive(0);
 
   // Step 2 is not reachable while step 0 is incomplete.
@@ -86,17 +86,17 @@ test('linear: incomplete optional step does not block forward navigation', async
     page,
     {
       template: `
-        <awd-stepper [linear]="true">
-          <awd-step [label]="'One'" [completed]="true"><ng-template #content>One</ng-template></awd-step>
-          <awd-step [label]="'Two'" [optional]="true"><ng-template #content>Two</ng-template></awd-step>
-          <awd-step [label]="'Three'"><ng-template #content>Three</ng-template></awd-step>
-        </awd-stepper>`,
+        <jig-stepper [linear]="true">
+          <jig-step [label]="'One'" [completed]="true"><ng-template #content>One</ng-template></jig-step>
+          <jig-step [label]="'Two'" [optional]="true"><ng-template #content>Two</ng-template></jig-step>
+          <jig-step [label]="'Three'"><ng-template #content>Three</ng-template></jig-step>
+        </jig-stepper>`,
       imports: ['stepper', 'step'],
     },
     { inputs: {} }
   );
 
-  const stepper = new NgnStepperHarness(page.locator('awd-stepper'));
+  const stepper = new AwdStepperHarness(page.locator('jig-stepper'));
   await stepper.expectActive(0);
 
   // Step 1 (index 1) is optional and incomplete — it must not gate reaching step 2 (index 2).
@@ -109,17 +109,17 @@ test('keyboard: arrow navigation skips a disabled step header', async ({ page })
     page,
     {
       template: `
-        <awd-stepper>
-          <awd-step [label]="'A'"><ng-template #content>A</ng-template></awd-step>
-          <awd-step [label]="'B'" [disabled]="true"><ng-template #content>B</ng-template></awd-step>
-          <awd-step [label]="'C'"><ng-template #content>C</ng-template></awd-step>
-        </awd-stepper>`,
+        <jig-stepper>
+          <jig-step [label]="'A'"><ng-template #content>A</ng-template></jig-step>
+          <jig-step [label]="'B'" [disabled]="true"><ng-template #content>B</ng-template></jig-step>
+          <jig-step [label]="'C'"><ng-template #content>C</ng-template></jig-step>
+        </jig-stepper>`,
       imports: ['stepper', 'step'],
     },
     { inputs: {} }
   );
 
-  const stepper = new NgnStepperHarness(page.locator('awd-stepper'));
+  const stepper = new AwdStepperHarness(page.locator('jig-stepper'));
   await stepper.steps.nth(0).focus();
   await page.keyboard.press('ArrowRight');
 
@@ -133,15 +133,15 @@ test('disabled step not selectable', async ({ page }) => {
     page,
     {
       template: `
-        <awd-stepper>
-          <awd-step [label]="'A'"><ng-template #content>A</ng-template></awd-step>
-          <awd-step [label]="'B'" [disabled]="true"><ng-template #content>B</ng-template></awd-step>
-        </awd-stepper>`,
+        <jig-stepper>
+          <jig-step [label]="'A'"><ng-template #content>A</ng-template></jig-step>
+          <jig-step [label]="'B'" [disabled]="true"><ng-template #content>B</ng-template></jig-step>
+        </jig-stepper>`,
       imports: ['stepper', 'step'],
     },
     { inputs: {} }
   );
-  const stepper = new NgnStepperHarness(page.locator('awd-stepper'));
+  const stepper = new AwdStepperHarness(page.locator('jig-stepper'));
   await stepper.expectStepDisabled(1, true);
 });
 
@@ -152,10 +152,10 @@ test('visual: active + completed markers', async ({ page }, testInfo) => {
     { inputs: { active: 1, linear: false, c0: true } }
   );
 
-  const stepper = new NgnStepperHarness(page.locator('awd-stepper'));
+  const stepper = new AwdStepperHarness(page.locator('jig-stepper'));
   await stepper.expectActive(1);
 
-  await expectScreenshot(page.locator('awd-stepper'), testInfo);
+  await expectScreenshot(page.locator('jig-stepper'), testInfo);
 });
 
 test('accessibility (axe)', async ({ page }) => {

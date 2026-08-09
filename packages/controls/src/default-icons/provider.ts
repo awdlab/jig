@@ -22,11 +22,11 @@ import tablerStarFilled from '@iconify/icons-tabler/star-filled';
 import tablerUpload from '@iconify/icons-tabler/upload';
 import tablerX from '@iconify/icons-tabler/x';
 
-import { NGN_CUSTOM_ICONS, NGN_ICON_REGISTRY, type NgnIconRegistry } from '@awdlab/jig/icon';
+import { NGN_CUSTOM_ICONS, NGN_ICON_REGISTRY, type AwdIconRegistry } from '@awdlab/jig/icon';
 
-import type { NgnFeature } from '@awdlab/jig/api/ng';
+import type { AwdFeature } from '@awdlab/jig/api/ng';
 
-const NGN_DEFAULT_ICON_REGISTRY: NgnIconRegistry = {
+const NGN_DEFAULT_ICON_REGISTRY: AwdIconRegistry = {
   'accordion-collapse': { icon: tablerChevronUp, scale: 1.71 },
   'accordion-expand': { icon: tablerChevronDown, scale: 1.71 },
   'breadcrumb-separator': { icon: tablerChevronRight, scale: 1.71 },
@@ -74,7 +74,7 @@ const NGN_DEFAULT_ICON_REGISTRY: NgnIconRegistry = {
   'upload-remove': { icon: tablerX, scale: 1.71 },
 };
 
-export function withDefaultIcons(): NgnFeature {
+export function withDefaultIcons(): AwdFeature {
   return {
     providers: [
       { provide: NGN_ICON_REGISTRY, useValue: NGN_DEFAULT_ICON_REGISTRY },
