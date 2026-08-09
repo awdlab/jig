@@ -12,20 +12,20 @@ export type ContentTemplateType = {
   content?: string;
 };
 
-export type AwdToastOptionsMeta = {
+export type JigToastOptionsMeta = {
   closable?: boolean;
   color?: CustomColor;
   icon?: IconType;
   autoHide?: number | false;
 };
 
-export type AwdToastOptions = AwdToastOptionsMeta & {
+export type JigToastOptions = JigToastOptionsMeta & {
   header?: string;
   content?: string;
   headerTemplate?: TemplateRef<HeaderTemplateType>;
   contentTemplate?: TemplateRef<ContentTemplateType>;
 };
 
-export type AwdToastRef = {
+export type JigToastRef = {
   hide: () => void;
 };

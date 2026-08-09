@@ -16,14 +16,14 @@ import {
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { elementSizeSignal, NGN_CONFIG, AwdTemplate, templateTypeFn } from '@awdlab/jig/api/ng';
-import { AwdBase, provideSelf, AwdPt } from '@awdlab/jig/base';
+import { elementSizeSignal, NGN_CONFIG, JigTemplate, templateTypeFn } from '@awdlab/jig/api/ng';
+import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
-import { Logger, AwdError } from '@awdlab/jig/utils';
-import { type AwdStateStorage, registerState } from '@awdlab/jig/utils-ng';
+import { Logger, JigError } from '@awdlab/jig/utils';
+import { type JigStateStorage, registerState } from '@awdlab/jig/utils-ng';
 import { splitterControlTemplate } from '@awdlab/jig-themes/templates/splitter';
 
-import { AwdSplitterPanel } from './panel/splitter-panel';
+import { JigSplitterPanel } from './panel/splitter-panel';
 import { DefaultSplitterCalculator, type SplitterCalculatorType } from './splitter-calculator';
 import { isSplitterPanelSize } from './utils';
 
@@ -35,8 +35,8 @@ import type { SplitterLayout, SplitterResizeMode, SplitterState, SplitterStateDa
 @Component({
   selector: 'jig-splitter',
   templateUrl: './splitter.html',
-  imports: [AwdPt, AwdTemplate],
-  providers: [provideSelf(AwdSplitter)],
+  imports: [JigPt, JigTemplate],
+  providers: [provideSelf(JigSplitter)],
   host: {
     role: 'region',
     '[style.grid-template-columns]': `layout() === 'horizontal' ? calculator().gridTemplateSizes() : null`,
@@ -48,7 +48,7 @@ import type { SplitterLayout, SplitterResizeMode, SplitterState, SplitterStateDa
     '[style.min-height]': `layout() === 'vertical' ? calculator().minSize() : null`,
   },
 })
-export class AwdSplitter extends AwdBase<'splitter'> implements OnDestroy {
+export class JigSplitter extends JigBase<'splitter'> implements OnDestroy {
   private readonly _viewContainer = inject(ViewContainerRef);
   private readonly _config = inject(NGN_CONFIG);
   protected readonly theme = this.injectThemeTemplate(splitterControlTemplate, {
@@ -72,7 +72,7 @@ export class AwdSplitter extends AwdBase<'splitter'> implements OnDestroy {
    * The storage to use for saving the splitter state.
    * @default `session`
    */
-  public readonly stateStorage = input<AwdStateStorage>(
+  public readonly stateStorage = input<JigStateStorage>(
     this._config.defaults.splitter.stateStorage
   );
   /**
@@ -138,7 +138,7 @@ export class AwdSplitter extends AwdBase<'splitter'> implements OnDestroy {
   /**
    * The current panels in the splitter.
    */
-  public readonly panels = contentChildren(AwdSplitterPanel);
+  public readonly panels = contentChildren(JigSplitterPanel);
   /**
    * The current size of the splitter element.
    */
@@ -242,7 +242,7 @@ export class AwdSplitter extends AwdBase<'splitter'> implements OnDestroy {
     }
   }
 
-  private updateDividers(panels: readonly AwdSplitterPanel[]) {
+  private updateDividers(panels: readonly JigSplitterPanel[]) {
     this.dividers.update(divider => {
       if (divider.length === panels.length - 1) {
         return divider; // No need to update if the number of dividers matches the number of panels
@@ -265,7 +265,7 @@ export class AwdSplitter extends AwdBase<'splitter'> implements OnDestroy {
       const panel = panels[i]!;
       const divider = this.dividers()[i - 1];
       if (!divider) {
-        throw new AwdError('AwdSplitter', `Divider is missing for panel at index ${i}`);
+        throw new JigError('JigSplitter', `Divider is missing for panel at index ${i}`);
       }
       this.moveDividerBefore(panel, divider);
     }
@@ -277,7 +277,7 @@ export class AwdSplitter extends AwdBase<'splitter'> implements OnDestroy {
     return viewRef;
   }
 
-  private moveDividerBefore(panel: AwdSplitterPanel, divider: EmbeddedViewRef<unknown>) {
+  private moveDividerBefore(panel: JigSplitterPanel, divider: EmbeddedViewRef<unknown>) {
     const panelElement = panel.element.nativeElement;
     divider.rootNodes.forEach(node => {
       if (node instanceof HTMLElement) {

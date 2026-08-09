@@ -1,9 +1,9 @@
 import { Component, DestroyRef, afterNextRender, computed, inject, signal } from '@angular/core';
-import { AwdRovingGroup, AwdRovingItem } from '@awdlab/jig/roving-focus';
-import { AwdSwitch } from '@awdlab/jig/switch';
+import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
+import { JigSwitch } from '@awdlab/jig/switch';
 
-import { AwdDocsReveal } from './reveal';
-import { AwdDocsSectionHeader } from './section-header';
+import { JigDocsReveal } from './reveal';
+import { JigDocsSectionHeader } from './section-header';
 
 /** One beat of the autoplay script: which keycap flashes and where the ring lands. */
 interface TheaterStep {
@@ -38,7 +38,7 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
 
 @Component({
   selector: 'jig-docs-accessibility-section',
-  imports: [AwdRovingGroup, AwdRovingItem, AwdSwitch, AwdDocsReveal, AwdDocsSectionHeader],
+  imports: [JigRovingGroup, JigRovingItem, JigSwitch, JigDocsReveal, JigDocsSectionHeader],
   host: { class: 'block px-(--jig-size-padding-xl) py-12 lg:py-16' },
   template: `
     <div class="mx-auto max-w-[1100px]">
@@ -163,7 +163,7 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
     </div>
   `,
 })
-export class AwdDocsAccessibilitySection {
+export class JigDocsAccessibilitySection {
   protected readonly items = ITEMS;
   protected readonly guarantees = GUARANTEES;
   protected readonly keys = ['Tab', '←', '→', 'Home', 'End', 'Space'];

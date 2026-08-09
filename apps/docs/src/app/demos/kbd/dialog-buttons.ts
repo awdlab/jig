@@ -1,14 +1,14 @@
 import { Component, signal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdDialog } from '@awdlab/jig/dialog';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDialog } from '@awdlab/jig/dialog';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 
-import type { AwdActionButtonConfig } from '@awdlab/jig/api';
+import type { JigActionButtonConfig } from '@awdlab/jig/api';
 
 @Component({
   selector: 'jig-demo-kbd-dialog-buttons',
-  imports: [AwdButton, AwdDialog, AwdInput, AwdInputField],
+  imports: [JigButton, JigDialog, JigInput, JigInputField],
   template: `
     <div class="flex flex-col gap-4 p-4">
       <button ngnButton (click)="open.set(true)">Open dialog</button>
@@ -32,7 +32,7 @@ export class Demo_Kbd_DialogButtons {
   protected readonly open = signal(false);
   protected readonly last = signal<string | null>(null);
 
-  protected readonly buttons: AwdActionButtonConfig<string>[] = [
+  protected readonly buttons: JigActionButtonConfig<string>[] = [
     { label: 'Cancel', value: 'cancel', kind: 'secondary', shortcut: 'escape' },
     { label: 'Confirm', value: 'confirm', kind: 'primary', shortcut: 'ctrl+enter' },
   ];

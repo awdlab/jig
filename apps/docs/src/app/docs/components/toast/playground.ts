@@ -1,17 +1,17 @@
 import { Component, viewChild } from '@angular/core';
-import { AwdToast } from '@awdlab/jig/toast';
+import { JigToast } from '@awdlab/jig/toast';
 
-import { AwdDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   selector: 'jig-docs-toast-playground',
-  imports: [AwdToast, AwdDocsPlayground],
+  imports: [JigToast, JigDocsPlayground],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'AwdToast', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'JigToast', component: component() }]">
       <jig-toast #ref [header]="'Header Text'" [content]="'Content Text'" />
     </jig-docs-playground>
   `,
 })
-export class AwdDocsToastPlayground {
-  protected readonly component = viewChild.required('ref', { read: AwdToast });
+export class JigDocsToastPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigToast });
 }

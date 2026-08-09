@@ -1,14 +1,14 @@
 import { Component, viewChild } from '@angular/core';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdInplace } from '@awdlab/jig/inplace';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigInplace } from '@awdlab/jig/inplace';
 
-import { AwdDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   selector: 'jig-docs-inplace-playground',
-  imports: [AwdInplace, AwdTemplate, AwdDocsPlayground],
+  imports: [JigInplace, JigTemplate, JigDocsPlayground],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'AwdInplace', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'JigInplace', component: component() }]">
       <jig-inplace #ref>
         <ng-template #display>Show Details</ng-template>
         <ng-template #content [ngnTemplate]="component().templateTypes.content">
@@ -18,6 +18,6 @@ import { AwdDocsPlayground } from '../../../utils/playground/playground';
     </jig-docs-playground>
   `,
 })
-export class AwdDocsInplacePlayground {
-  protected readonly component = viewChild.required('ref', { read: AwdInplace });
+export class JigDocsInplacePlayground {
+  protected readonly component = viewChild.required('ref', { read: JigInplace });
 }

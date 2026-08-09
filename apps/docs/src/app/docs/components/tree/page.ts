@@ -1,4 +1,4 @@
-import { AwdDocsTreePlayground } from './playground';
+import { JigDocsTreePlayground } from './playground';
 import { Demo_Tree_Base } from '../../../demos/tree/base';
 import { Demo_Tree_Disabled } from '../../../demos/tree/disabled';
 import { Demo_Tree_Events } from '../../../demos/tree/events';
@@ -10,9 +10,9 @@ import { Demo_Tree_Validation } from '../../../demos/tree/validation';
 import { Demo_Tree_Virtual } from '../../../demos/tree/virtual';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const TreePage: AwdDocsPage = {
+export const TreePage: JigDocsPage = {
   title: `Tree`,
   kind: 'tabs',
   tabs: [
@@ -36,7 +36,7 @@ export const TreePage: AwdDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: AwdDocsTreePlayground,
+      component: JigDocsTreePlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/tree/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/tree/a11y.md' },

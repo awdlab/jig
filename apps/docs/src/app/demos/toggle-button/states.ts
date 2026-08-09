@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { AwdToggleButton } from '@awdlab/jig/toggle-button';
+import { JigToggleButton } from '@awdlab/jig/toggle-button';
 
 @Component({
-  imports: [AwdToggleButton],
+  imports: [JigToggleButton],
   selector: 'jig-demo-toggle-button-states',
   template: `
     Default:

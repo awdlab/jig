@@ -1,17 +1,17 @@
 import { type Locator, expect } from '@playwright/test';
 import { calendarControlTemplate } from '@awdlab/jig-themes/templates/calendar';
 import { themeClasses } from '../utils/theme';
-import { AwdSelectHarness } from './select';
+import { JigSelectHarness } from './select';
 import type { WeekDay } from '@awdlab/jig/calendar';
 import { en } from '@awdlab/jig/i18n/translations/en';
 
-export class AwdCalendarHarness {
+export class JigCalendarHarness {
   public readonly classes = themeClasses(calendarControlTemplate);
 
   public readonly backButton: Locator;
   public readonly nextButton: Locator;
-  public readonly currentMonth: AwdSelectHarness;
-  public readonly currentYear: AwdSelectHarness;
+  public readonly currentMonth: JigSelectHarness;
+  public readonly currentYear: JigSelectHarness;
   public readonly days: Locator;
   public readonly day: Locator;
   public readonly daySameMonth: Locator;
@@ -22,10 +22,10 @@ export class AwdCalendarHarness {
   constructor(public locator: Locator) {
     this.backButton = locator.locator(this.classes.previous['root']);
     this.nextButton = locator.locator(this.classes.next['root']);
-    this.currentMonth = new AwdSelectHarness(
+    this.currentMonth = new JigSelectHarness(
       locator.locator(this.classes['current-month']['root'])
     );
-    this.currentYear = new AwdSelectHarness(locator.locator(this.classes['current-year']['root']));
+    this.currentYear = new JigSelectHarness(locator.locator(this.classes['current-year']['root']));
     this.days = locator.locator(this.classes.days);
     this.day = locator.locator(this.classes.day);
     this.daySameMonth = locator.locator(

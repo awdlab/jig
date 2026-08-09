@@ -4,12 +4,12 @@ import tablerClipboardList from '@iconify/icons-tabler/clipboard-list';
 import tablerLock from '@iconify/icons-tabler/lock';
 import tablerMessageCircle from '@iconify/icons-tabler/message-circle';
 import tablerSettings from '@iconify/icons-tabler/settings';
-import { AwdAvatar } from '@awdlab/jig/avatar';
-import { AwdBadge } from '@awdlab/jig/badge';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdTooltip } from '@awdlab/jig/tooltip';
+import { JigAvatar } from '@awdlab/jig/avatar';
+import { JigBadge } from '@awdlab/jig/badge';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 
-import { AwdDocsLoginDialog } from '../interactive-demo/login-dialog';
+import { JigDocsLoginDialog } from '../interactive-demo/login-dialog';
 import { ProjectBoard } from '../interactive-demo/project-board';
 import { SalesCrm } from '../interactive-demo/sales-crm';
 import { TeamChat } from '../interactive-demo/team-chat';
@@ -19,11 +19,11 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
 @Component({
   selector: 'jig-docs-demo-section',
   imports: [
-    AwdAvatar,
-    AwdBadge,
-    AwdIcon,
-    AwdTooltip,
-    AwdDocsLoginDialog,
+    JigAvatar,
+    JigBadge,
+    JigIcon,
+    JigTooltip,
+    JigDocsLoginDialog,
     SalesCrm,
     TeamChat,
     ProjectBoard,
@@ -172,7 +172,7 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
     </section>
   `,
 })
-export class AwdDocsDemoSection {
+export class JigDocsDemoSection {
   protected readonly lockIcon = tablerLock;
   protected readonly settingsIcon = tablerSettings;
 

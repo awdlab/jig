@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdState } from '@awdlab/jig/state';
+import { JigButton } from '@awdlab/jig/button';
+import { JigState } from '@awdlab/jig/state';
 
 @Component({
-  imports: [AwdState, AwdButton],
+  imports: [JigState, JigButton],
   selector: 'jig-demo-state-button',
   template: `
     <div class="flex flex-wrap items-center gap-3">

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdPopover } from '@awdlab/jig/popover';
+import { JigButton } from '@awdlab/jig/button';
+import { JigPopover } from '@awdlab/jig/popover';
 
 import { DummyLazyComponent } from '../dummies/lazy';
 
 @Component({
-  imports: [AwdPopover, AwdButton, DummyLazyComponent],
+  imports: [JigPopover, JigButton, DummyLazyComponent],
   selector: 'jig-demo-popover-lazy',
   template: `
     <button ngnButton #anchor (click)="popover.show()">Open</button>

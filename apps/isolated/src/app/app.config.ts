@@ -5,7 +5,7 @@ import {
   provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideAwdControls } from '@awdlab/jig/api/ng';
+import { provideJigControls } from '@awdlab/jig/api/ng';
 import { withDefaultIcons } from '@awdlab/jig/default-icons';
 import { nova } from '@awdlab/jig-themes/nova';
 
@@ -13,7 +13,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideAwdControls(
+    provideJigControls(
       {
         theme: { preset: nova },
         disableAnimations: true,

@@ -9,18 +9,18 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { AwdBase, provideSelf } from '@awdlab/jig/base';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { ariaKeyShortcuts, closestShortcutScope, AwdKbd } from '@awdlab/jig/kbd';
-import { AwdTooltip } from '@awdlab/jig/tooltip';
+import { JigBase, provideSelf } from '@awdlab/jig/base';
+import { JigIcon } from '@awdlab/jig/icon';
+import { ariaKeyShortcuts, closestShortcutScope, JigKbd } from '@awdlab/jig/kbd';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 import { Logger, maybeCallback } from '@awdlab/jig/utils';
 
-import { AwdButton } from './button';
+import { JigButton } from './button';
 
-import type { AwdActionButtonConfig } from '@awdlab/jig/api';
+import type { JigActionButtonConfig } from '@awdlab/jig/api';
 
 /**
- * Renders a single {@link AwdActionButtonConfig} as a button — label or icon,
+ * Renders a single {@link JigActionButtonConfig} as a button — label or icon,
  * tooltip, keyboard shortcut and the action callback — so action lists can be
  * driven by data instead of markup.
  *
@@ -33,18 +33,18 @@ import type { AwdActionButtonConfig } from '@awdlab/jig/api';
 @Component({
   selector: 'jig-action-button',
   templateUrl: 'action-button.html',
-  imports: [AwdButton, AwdIcon, AwdKbd, AwdTooltip],
-  providers: [provideSelf(AwdActionButton)],
+  imports: [JigButton, JigIcon, JigKbd, JigTooltip],
+  providers: [provideSelf(JigActionButton)],
 })
-export class AwdActionButton<T> extends AwdBase<null> {
+export class JigActionButton<T> extends JigBase<null> {
   protected readonly theme = null;
 
   /**
    * The configuration describing the button: its label, icon, tooltip, value,
    * shortcut, and the action callback fired on click.
-   * @see {@link AwdActionButtonConfig}
+   * @see {@link JigActionButtonConfig}
    */
-  public readonly config = input.required<AwdActionButtonConfig<T>>();
+  public readonly config = input.required<JigActionButtonConfig<T>>();
 
   /**
    * Whether the inner button is displayed inline (line-height sized).

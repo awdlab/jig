@@ -44,7 +44,7 @@ This is **awdlab Controls**, an Angular component library that provides a compre
   - Attribute selectors: `camelCase` (e.g., `ngnButton`)
 - **Change detection**: Zoneless (Angular 22 default); `OnPush` no longer tool-enforced
 - **Component class suffix**: Not required
-- **Base class**: Extend `AwdBase<T>` for component base functionality
+- **Base class**: Extend `JigBase<T>` for component base functionality
 - **Theme templates**: Use `injectThemeTemplate()` to inject theme templates
 - Use `input()` for component inputs (signal-based)
 - Use `output()` for component outputs (signal-based)
@@ -64,7 +64,7 @@ This is **awdlab Controls**, an Angular component library that provides a compre
 
 ### Naming Conventions
 
-- **Components**: PascalCase with `Jig` prefix (e.g., `AwdButton`, `AwdInput`)
+- **Components**: PascalCase with `Jig` prefix (e.g., `JigButton`, `JigInput`)
 - **Directives**: PascalCase with `Jig` prefix
 - **Types/Interfaces**: PascalCase
 - **Functions**: camelCase
@@ -224,16 +224,16 @@ describe('ComponentOrFunction', () => {
 
 ```typescript
 import { Directive, input } from '@angular/core';
-import { AwdBase, provideSelf } from '@awdlab/jig/base';
+import { JigBase, provideSelf } from '@awdlab/jig/base';
 
 @Directive({
   selector: '[ngnExample]',
-  providers: [provideSelf(AwdExample)],
+  providers: [provideSelf(JigExample)],
   host: {
     '[class]': 'theme.classes({ /* ... */ })',
   },
 })
-export class AwdExample extends AwdBase<'example'> {
+export class JigExample extends JigBase<'example'> {
   protected readonly theme = this.injectThemeTemplate(exampleTemplate);
 
   public readonly someInput = input<string>();

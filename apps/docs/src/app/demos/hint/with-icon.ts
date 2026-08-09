@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import tablerBulb from '@iconify/icons-tabler/bulb';
-import { AwdHint } from '@awdlab/jig/hint';
+import { JigHint } from '@awdlab/jig/hint';
 
 @Component({
-  imports: [AwdHint],
+  imports: [JigHint],
   selector: 'jig-demo-hint-with-icon',
   template: `
     <div class="flex flex-col gap-2">

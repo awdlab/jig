@@ -1,13 +1,13 @@
-import { AwdDocsTabsPlayground } from './playground';
+import { JigDocsTabsPlayground } from './playground';
 import { Demo_Tabs_Base } from '../../../demos/tabs/base';
 import { Demo_Tabs_CustomHeader } from '../../../demos/tabs/custom-header';
 import { Demo_Tabs_Dynamic } from '../../../demos/tabs/dynamic';
 import { Demo_Tabs_Navigation } from '../../../demos/tabs/navigation';
 import { i18nText } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const TabsPage: AwdDocsPage = {
+export const TabsPage: JigDocsPage = {
   title: `Tabs`,
   kind: 'tabs',
   tabs: [
@@ -22,7 +22,7 @@ export const TabsPage: AwdDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: AwdDocsTabsPlayground,
+      component: JigDocsTabsPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/tabs/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/tabs/a11y.md' },

@@ -15,16 +15,16 @@ import {
   inject,
 } from '@angular/core';
 import { type FilterConfig, mapToItems, type JigItem } from '@awdlab/jig/api';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdPt, provideSelf } from '@awdlab/jig/base';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 import { JigItemView } from '@awdlab/jig/item-view';
-import { AwdListBox } from '@awdlab/jig/list-box';
-import { AwdPopover, type PopoverOptions } from '@awdlab/jig/popover';
-import { deepMerge, maybeCallback, AwdError } from '@awdlab/jig/utils';
+import { JigListBox } from '@awdlab/jig/list-box';
+import { JigPopover, type PopoverOptions } from '@awdlab/jig/popover';
+import { deepMerge, maybeCallback, JigError } from '@awdlab/jig/utils';
 import { selectControlTemplate } from '@awdlab/jig-themes/templates/select';
 
 import { SelectTemplates, type ValueType } from './select-templates';
@@ -39,22 +39,22 @@ import type { IconType } from '@awdlab/jig-custom-types';
   selector: 'jig-select',
   templateUrl: './select.html',
   imports: [
-    AwdPt,
-    AwdListBox,
-    AwdPopover,
-    AwdInput,
-    AwdInputField,
+    JigPt,
+    JigListBox,
+    JigPopover,
+    JigInput,
+    JigInputField,
     NgTemplateOutlet,
-    AwdTemplate,
+    JigTemplate,
     JigItemView,
-    AwdIcon,
+    JigIcon,
   ],
-  providers: [provideSelf(AwdSelect)],
+  providers: [provideSelf(JigSelect)],
   host: {
     style: 'display: block;',
   },
 })
-export class AwdSelect<
+export class JigSelect<
   V,
   Editable extends boolean = false,
   Multiple extends boolean = false,
@@ -62,9 +62,9 @@ export class AwdSelect<
   public override readonly isFieldControl = true;
   protected readonly theme = this.injectThemeTemplate(selectControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
-  private readonly _popover = viewChild.required<AwdPopover>(AwdPopover);
+  private readonly _popover = viewChild.required<JigPopover>(JigPopover);
   private readonly _field = viewChild.required<ElementRef<HTMLElement>>('field');
-  private readonly _customEditableInput = contentChild(AwdInput);
+  private readonly _customEditableInput = contentChild(JigInput);
   private _customEditableSub?: OutputRefSubscription;
 
   /**
@@ -169,7 +169,7 @@ export class AwdSelect<
 
   /**
    * Whether the control holds no value. Drives the empty status class and lets a
-   * wrapping {@link AwdInputField} float its label. See {@link value}.
+   * wrapping {@link JigInputField} float its label. See {@link value}.
    */
   public override readonly empty = computed(() => {
     const v = this.value();
@@ -177,7 +177,7 @@ export class AwdSelect<
     return v == null || v === '';
   });
 
-  private readonly _listbox = viewChild(AwdListBox);
+  private readonly _listbox = viewChild(JigListBox);
   private _userChangedEditableInput = false;
   protected get anchorElement(): HTMLElement {
     return (
@@ -220,10 +220,10 @@ export class AwdSelect<
     super();
     effect(() => {
       if (this.editable() && this.multiple()) {
-        throw new AwdError('select', 'Editable and multiple selection cannot be used together');
+        throw new JigError('select', 'Editable and multiple selection cannot be used together');
       }
       if (this.editable() && this.filter()) {
-        throw new AwdError('select', 'Editable and filtering cannot be used together');
+        throw new JigError('select', 'Editable and filtering cannot be used together');
       }
     });
     effect(() => {

@@ -1,11 +1,11 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdSlider } from '@awdlab/jig/slider';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigSlider } from '@awdlab/jig/slider';
 
 @Component({
   selector: 'jig-demo-slider-validation',
-  imports: [AwdErrors, AwdHint, AwdSlider],
+  imports: [JigErrors, JigHint, JigSlider],
   template: `
     <div class="flex flex-col gap-2">
       <jig-slider

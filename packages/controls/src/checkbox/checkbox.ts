@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core';
-import { AwdPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
-import { AwdIcon } from '@awdlab/jig/icon';
+import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { JigIcon } from '@awdlab/jig/icon';
 import { checkboxControlTemplate } from '@awdlab/jig-themes/templates/checkbox';
 
 import type { InputGeneric } from '@awdlab/jig/utils';
@@ -15,10 +15,10 @@ type ValueType<Indeterminate extends boolean> =
 @Component({
   selector: 'jig-checkbox',
   templateUrl: './checkbox.html',
-  imports: [AwdPt, AwdIcon],
-  providers: [provideSelf(AwdCheckbox)],
+  imports: [JigPt, JigIcon],
+  providers: [provideSelf(JigCheckbox)],
 })
-export class AwdCheckbox<Indeterminate extends boolean> extends ValueControlBase<
+export class JigCheckbox<Indeterminate extends boolean> extends ValueControlBase<
   'checkbox',
   ValueType<Indeterminate>
 > {

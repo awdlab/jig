@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { AwdSplitterModule } from '@awdlab/jig/splitter';
+import { JigSplitterModule } from '@awdlab/jig/splitter';
 
 @Component({
-  imports: [AwdSplitterModule],
+  imports: [JigSplitterModule],
   selector: 'jig-demo-splitter-vertical',
   template: `
     <jig-splitter [layout]="'vertical'" [aria-label]="'Vertical Splitter Example'">

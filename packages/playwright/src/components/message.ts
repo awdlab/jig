@@ -2,7 +2,7 @@ import { messageControlTemplate } from '@awdlab/jig-themes/templates/message';
 import { themeClasses } from '../utils/theme';
 import test, { expect, type Locator } from '@playwright/test';
 
-export class AwdMessageHarness {
+export class JigMessageHarness {
   public readonly classes = themeClasses(messageControlTemplate);
 
   public readonly locator: Locator;

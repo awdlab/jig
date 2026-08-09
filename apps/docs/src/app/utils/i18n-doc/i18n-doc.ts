@@ -43,7 +43,7 @@ function flatten(prefix: string, values: unknown, descriptions: unknown): I18nRo
   },
   imports: [RouterLink],
 })
-export class AwdDocsI18n {
+export class JigDocsI18n {
   readonly data = input.required<I18nDoc>();
 
   private readonly _en = signal<Translations | null>(null);

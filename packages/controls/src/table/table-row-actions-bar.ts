@@ -11,17 +11,17 @@ import {
   viewChildren,
 } from '@angular/core';
 import { injectThemeTemplate } from '@awdlab/jig/api/ng';
-import { AwdActionButton } from '@awdlab/jig/button';
-import { AwdMenu, openMenuAt } from '@awdlab/jig/menu';
+import { JigActionButton } from '@awdlab/jig/button';
+import { JigMenu, openMenuAt } from '@awdlab/jig/menu';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
 import { actionItemToButtonConfig, hasChildren } from './action-item-mapping';
 
-import type { AwdActionButtonConfig, JigActionItem } from '@awdlab/jig/api';
+import type { JigActionButtonConfig, JigActionItem } from '@awdlab/jig/api';
 
 type BarAction = {
   item: JigActionItem;
-  config: AwdActionButtonConfig<string>;
+  config: JigActionButtonConfig<string>;
   hasChildren: boolean;
 };
 
@@ -36,7 +36,7 @@ type BarAction = {
  */
 @Component({
   selector: 'jig-table-row-actions-bar',
-  imports: [AwdActionButton],
+  imports: [JigActionButton],
   template: `
     @for (action of barActions(); track action.item.id) {
       <jig-action-button
@@ -53,19 +53,19 @@ type BarAction = {
     '(click)': 'onBarClick($event)',
   },
 })
-export class AwdTableRowActionsBar implements OnDestroy {
+export class JigTableRowActionsBar implements OnDestroy {
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
   private readonly _vcr = inject(ViewContainerRef);
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
-  private _menu?: ComponentRef<AwdMenu>;
+  private _menu?: ComponentRef<JigMenu>;
 
   // One host `ElementRef` per rendered `jig-action-button`, in the same order
   // as `barActions()`. Reading the native `<button>` off these refs is the
   // robust anchor for the submenu popover — it doesn't depend on the action
-  // having a `testId`. The accessible name itself is owned by `AwdTooltip`
+  // having a `testId`. The accessible name itself is owned by `JigTooltip`
   // (via `ngnTooltipAutoAriaMode="label"` on `action-button.html`), not this
   // component.
-  private readonly _buttonHosts = viewChildren(AwdActionButton, { read: ElementRef });
+  private readonly _buttonHosts = viewChildren(JigActionButton, { read: ElementRef });
 
   /**
    * The actions to render as buttons. Used for standalone consumers that bind
@@ -134,7 +134,7 @@ export class AwdTableRowActionsBar implements OnDestroy {
    * Stops a native button click (mouse or Space/Enter key activation) from
    * bubbling to the row's own click handler — otherwise, on a table with
    * `selectionMode` set, activating an action would also select/toggle the
-   * row it lives in. Mirrors {@link import('./table-selection-column').AwdTableSelectionColumn}'s
+   * row it lives in. Mirrors {@link import('./table-selection-column').JigTableSelectionColumn}'s
    * click guard for the same reason.
    */
   protected onBarClick(event: MouseEvent): void {

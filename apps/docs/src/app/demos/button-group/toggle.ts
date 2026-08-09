@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { AwdButtonGroup } from '@awdlab/jig/button-group';
-import { AwdToggleButton } from '@awdlab/jig/toggle-button';
+import { JigButtonGroup } from '@awdlab/jig/button-group';
+import { JigToggleButton } from '@awdlab/jig/toggle-button';
 
 @Component({
   selector: 'jig-demo-button-group-toggle',
-  imports: [AwdToggleButton, AwdButtonGroup],
+  imports: [JigToggleButton, JigButtonGroup],
   template: `<jig-button-group>
     <jig-toggle-button [fixedWidth]="true" label="Button A" />
     <jig-toggle-button [fixedWidth]="true" label="Button B" />

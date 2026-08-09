@@ -2,7 +2,7 @@ import { uploadControlTemplate } from '@awdlab/jig-themes/templates/upload';
 import { themeClasses } from '../utils/theme';
 import { expect, type Locator } from '@playwright/test';
 
-export class AwdUploadHarness {
+export class JigUploadHarness {
   public readonly classes = themeClasses(uploadControlTemplate);
 
   public readonly locator: Locator;

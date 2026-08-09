@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdTableModule } from '@awdlab/jig/table';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigTableModule } from '@awdlab/jig/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [AwdTableModule, AwdTemplate],
+  imports: [JigTableModule, JigTemplate],
   selector: 'jig-demo-table-virtual',
   template: `<jig-table
     #table

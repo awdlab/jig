@@ -1,10 +1,10 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdFilter, type AwdFilterConfig } from '@awdlab/jig/filter';
+import { JigButton } from '@awdlab/jig/button';
+import { JigFilter, type JigFilterConfig } from '@awdlab/jig/filter';
 
 @Component({
   selector: 'jig-demo-filter-headless',
-  imports: [AwdButton, AwdFilter],
+  imports: [JigButton, JigFilter],
   template: `
     <div class="flex flex-col gap-2">
       <button type="button" ngnButton #btn (click)="filter.show()">Open filter</button>
@@ -39,7 +39,7 @@ export class Demo_Filter_Headless {
     'Greece',
   ];
 
-  protected readonly output = signal<AwdFilterConfig | null>(null);
+  protected readonly output = signal<JigFilterConfig | null>(null);
   protected readonly filteredData = signal<readonly string[] | null>(null);
   protected readonly filtered = computed(() => this.filteredData() ?? this.data);
 }

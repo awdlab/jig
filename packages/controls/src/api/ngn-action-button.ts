@@ -1,10 +1,10 @@
-import type { AwdIconKey } from '@awdlab/jig/icon';
+import type { JigIconKey } from '@awdlab/jig/icon';
 import type { CustomColor, CustomKind, IconType } from '@awdlab/jig-custom-types';
 
-export type AwdActionButtonConfig<T = unknown> = {
+export type JigActionButtonConfig<T = unknown> = {
   label: string | (() => string);
   value: T;
-  /** Runs on click, or on the keyboard {@link AwdActionButtonConfig.shortcut}, where no pointer event exists. */
+  /** Runs on click, or on the keyboard {@link JigActionButtonConfig.shortcut}, where no pointer event exists. */
   action?: (event?: PointerEvent) => void;
   /**
    * Shortcut config string, e.g. `mod+s`. Registered with the nearest ancestor
@@ -12,7 +12,7 @@ export type AwdActionButtonConfig<T = unknown> = {
    */
   shortcut?: string;
   icon?: IconType;
-  defaultIcon?: AwdIconKey;
+  defaultIcon?: JigIconKey;
   kind?: CustomKind<'button'>;
   color?: CustomColor;
   disabled?: boolean;

@@ -1,5 +1,5 @@
 import test, { expect, type Page } from '@playwright/test';
-import { AwdSpinnerHarness } from '@awdlab/jig-playwright';
+import { JigSpinnerHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -14,7 +14,7 @@ test('base', async ({ page }, testInfo) => {
     {}
   );
 
-  const spinner = new AwdSpinnerHarness(page.locator('jig-spinner'));
+  const spinner = new JigSpinnerHarness(page.locator('jig-spinner'));
   await spinner.expectVisible();
   await spinner.expectRole();
   await expectScreenshot(page, testInfo, 'initial');
@@ -34,7 +34,7 @@ test('custom size', async ({ page }, testInfo) => {
     }
   );
 
-  const spinner = new AwdSpinnerHarness(page.locator('jig-spinner'));
+  const spinner = new JigSpinnerHarness(page.locator('jig-spinner'));
   await spinner.expectVisible();
   await expectScreenshot(page, testInfo, 'size-64');
 
@@ -62,7 +62,7 @@ test('custom thickness', async ({ page }, testInfo) => {
     }
   );
 
-  const spinner = new AwdSpinnerHarness(page.locator('jig-spinner'));
+  const spinner = new JigSpinnerHarness(page.locator('jig-spinner'));
   await spinner.expectVisible();
   await expectScreenshot(page, testInfo, 'thickness-8');
 
@@ -85,7 +85,7 @@ test('accessibility', async ({ page }, testInfo) => {
     {}
   );
 
-  const spinner = new AwdSpinnerHarness(page.locator('jig-spinner'));
+  const spinner = new JigSpinnerHarness(page.locator('jig-spinner'));
 
   // Check ARIA attributes
   await expect(spinner.locator).toHaveAttribute('role', 'status');

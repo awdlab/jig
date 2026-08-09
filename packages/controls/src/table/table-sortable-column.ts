@@ -12,12 +12,12 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { injectThemeTemplate, setComponentInput } from '@awdlab/jig/api/ng';
-import { getNearestAwdInstanceSig } from '@awdlab/jig/base';
-import { AwdIcon } from '@awdlab/jig/icon';
+import { getNearestJigInstanceSig } from '@awdlab/jig/base';
+import { JigIcon } from '@awdlab/jig/icon';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
-import { AwdTable } from './table';
-import { AwdTableTh } from './table-header-cell';
+import { JigTable } from './table';
+import { JigTableTh } from './table-header-cell';
 
 /**
  * @category directive
@@ -30,16 +30,16 @@ import { AwdTableTh } from './table-header-cell';
     '(click)': `onHostClick($event)`,
   },
 })
-export class AwdTableSortableColumn implements OnDestroy {
+export class JigTableSortableColumn implements OnDestroy {
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /** Enables sorting on this column. The directive selector; its value is unused. */
   public readonly ngnTableSortableColumn = input();
 
-  private readonly _table = getNearestAwdInstanceSig<Type<AwdTable<any, any>>>(
+  private readonly _table = getNearestJigInstanceSig<Type<JigTable<any, any>>>(
     this._element.nativeElement,
-    AwdTable
+    JigTable
   );
   protected readonly sort = computed(() => {
     const tableSort = this._table()?.sort();
@@ -49,9 +49,9 @@ export class AwdTableSortableColumn implements OnDestroy {
     return null;
   });
 
-  private readonly columnId = inject(AwdTableTh).ngnTableTh;
+  private readonly columnId = inject(JigTableTh).ngnTableTh;
 
-  private readonly _ngnIcon: ComponentRef<AwdIcon>;
+  private readonly _ngnIcon: ComponentRef<JigIcon>;
   private _sortButton?: HTMLElement;
 
   private readonly onSortKeyDown = (event: KeyboardEvent) => {
@@ -62,7 +62,7 @@ export class AwdTableSortableColumn implements OnDestroy {
   };
 
   constructor() {
-    // Runs after AwdTableTh's own hook, which wraps the header content in the
+    // Runs after JigTableTh's own hook, which wraps the header content in the
     // `cell-text` span — that span becomes the sort button.
     afterNextRender(() => {
       const text = this._element.nativeElement.querySelector<HTMLElement>(
@@ -75,7 +75,7 @@ export class AwdTableSortableColumn implements OnDestroy {
       this._sortButton = text;
     });
 
-    this._ngnIcon = inject(ViewContainerRef).createComponent(AwdIcon);
+    this._ngnIcon = inject(ViewContainerRef).createComponent(JigIcon);
     this._element.nativeElement.appendChild(this._ngnIcon.location.nativeElement);
     this._ngnIcon.location.nativeElement.classList.add(this.theme.class('sort-control'));
 

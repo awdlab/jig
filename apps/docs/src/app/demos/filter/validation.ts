@@ -1,11 +1,11 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdFilter, type AwdFilterConfig } from '@awdlab/jig/filter';
-import { AwdHint } from '@awdlab/jig/hint';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigFilter, type JigFilterConfig } from '@awdlab/jig/filter';
+import { JigHint } from '@awdlab/jig/hint';
 
 @Component({
   selector: 'jig-demo-filter-validation',
-  imports: [AwdErrors, AwdFilter, AwdHint],
+  imports: [JigErrors, JigFilter, JigHint],
   template: `
     <div class="flex flex-col gap-2">
       <jig-filter
@@ -22,7 +22,7 @@ import { AwdHint } from '@awdlab/jig/hint';
 })
 export class Demo_Filter_Validation {
   protected readonly data = ['Germany', 'France', 'Italy', 'Spain'];
-  protected readonly filter = signal<AwdFilterConfig | null>(null);
+  protected readonly filter = signal<JigFilterConfig | null>(null);
   protected readonly errors = computed(() =>
     this.filter() ? null : { required: 'Add at least one filter rule' }
   );

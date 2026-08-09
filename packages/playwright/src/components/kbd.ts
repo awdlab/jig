@@ -3,7 +3,7 @@ import { expect, type Locator } from '@playwright/test';
 
 import { themeClasses } from '../utils/theme';
 
-export class AwdKbdHarness {
+export class JigKbdHarness {
   public readonly classes = themeClasses(kbdControlTemplate);
   public readonly locator: Locator;
   public readonly key: Locator;

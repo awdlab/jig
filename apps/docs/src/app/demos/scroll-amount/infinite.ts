@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { AwdScrollAmount } from '@awdlab/jig/directives';
-import { AwdSpinner } from '@awdlab/jig/spinner';
+import { JigScrollAmount } from '@awdlab/jig/directives';
+import { JigSpinner } from '@awdlab/jig/spinner';
 
 @Component({
   selector: 'jig-demo-scroll-amount-infinite',
-  imports: [AwdScrollAmount, AwdSpinner],
+  imports: [JigScrollAmount, JigSpinner],
   template: `
     <div ngnScrollAmount [ngnScrollAmountEndThreshold]="120" (endReached)="loadMore()" class="list">
       @for (row of rows(); track row) {

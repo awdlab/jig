@@ -2,7 +2,7 @@ import { stepperControlTemplate } from '@awdlab/jig-themes/templates/stepper';
 import { themeClasses } from '../utils/theme';
 import { expect, type Locator } from '@playwright/test';
 
-export class AwdStepperHarness {
+export class JigStepperHarness {
   public readonly classes = themeClasses(stepperControlTemplate);
   public readonly locator: Locator;
   public readonly steps: Locator;

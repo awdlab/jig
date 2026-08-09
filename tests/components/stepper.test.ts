@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { AwdStepperHarness } from '@awdlab/jig-playwright';
+import { JigStepperHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
@@ -26,7 +26,7 @@ test('non-linear: any step selectable', async ({ page }) => {
     { inputs: { active: 0, linear: false, c0: false } }
   );
 
-  const stepper = new AwdStepperHarness(page.locator('jig-stepper'));
+  const stepper = new JigStepperHarness(page.locator('jig-stepper'));
   await stepper.expectActive(0);
   await expect(page.getByText('Step one content')).toBeVisible();
 
@@ -44,7 +44,7 @@ test('linear: unreachable steps are visually disabled (greyed) and un-dim when r
     { inputs: { active: 0, linear: true, c0: false } }
   );
 
-  const stepper = new AwdStepperHarness(page.locator('jig-stepper'));
+  const stepper = new JigStepperHarness(page.locator('jig-stepper'));
   const opacity = (i: number) =>
     stepper.steps.nth(i).evaluate(el => getComputedStyle(el as HTMLElement).opacity);
 
@@ -68,7 +68,7 @@ test('linear: forward gated until completed', async ({ page }) => {
     { inputs: { active: 0, linear: true, c0: false } }
   );
 
-  const stepper = new AwdStepperHarness(page.locator('jig-stepper'));
+  const stepper = new JigStepperHarness(page.locator('jig-stepper'));
   await stepper.expectActive(0);
 
   // Step 2 is not reachable while step 0 is incomplete.
@@ -96,7 +96,7 @@ test('linear: incomplete optional step does not block forward navigation', async
     { inputs: {} }
   );
 
-  const stepper = new AwdStepperHarness(page.locator('jig-stepper'));
+  const stepper = new JigStepperHarness(page.locator('jig-stepper'));
   await stepper.expectActive(0);
 
   // Step 1 (index 1) is optional and incomplete — it must not gate reaching step 2 (index 2).
@@ -119,7 +119,7 @@ test('keyboard: arrow navigation skips a disabled step header', async ({ page })
     { inputs: {} }
   );
 
-  const stepper = new AwdStepperHarness(page.locator('jig-stepper'));
+  const stepper = new JigStepperHarness(page.locator('jig-stepper'));
   await stepper.steps.nth(0).focus();
   await page.keyboard.press('ArrowRight');
 
@@ -141,7 +141,7 @@ test('disabled step not selectable', async ({ page }) => {
     },
     { inputs: {} }
   );
-  const stepper = new AwdStepperHarness(page.locator('jig-stepper'));
+  const stepper = new JigStepperHarness(page.locator('jig-stepper'));
   await stepper.expectStepDisabled(1, true);
 });
 
@@ -152,7 +152,7 @@ test('visual: active + completed markers', async ({ page }, testInfo) => {
     { inputs: { active: 1, linear: false, c0: true } }
   );
 
-  const stepper = new AwdStepperHarness(page.locator('jig-stepper'));
+  const stepper = new JigStepperHarness(page.locator('jig-stepper'));
   await stepper.expectActive(1);
 
   await expectScreenshot(page.locator('jig-stepper'), testInfo);

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { AwdBadge } from '@awdlab/jig/badge';
-import { AwdButton } from '@awdlab/jig/button';
+import { JigBadge } from '@awdlab/jig/badge';
+import { JigButton } from '@awdlab/jig/button';
 
 @Component({
   selector: 'jig-demo-badge-color',
-  imports: [AwdBadge, AwdButton],
+  imports: [JigBadge, JigButton],
   template: `
     <div class="flex gap-8 p-6">
       <button ngnButton [ngnBadge]="3" ngnBadgeColor="#e11d48">Alerts</button>

@@ -1,4 +1,4 @@
-import { AwdDocsButtonPlayground } from './playground';
+import { JigDocsButtonPlayground } from './playground';
 import { Demo_Button_Action } from '../../../demos/button/action';
 import { Demo_Button_Base } from '../../../demos/button/base';
 import { Demo_Button_Disabled } from '../../../demos/button/disabled';
@@ -7,9 +7,9 @@ import { Demo_Button_Kind } from '../../../demos/button/kind';
 import { Demo_Button_Link } from '../../../demos/button/link';
 import { i18nText } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const ButtonPage: AwdDocsPage = {
+export const ButtonPage: JigDocsPage = {
   title: `Button`,
   kind: 'tabs',
   tabs: [
@@ -31,7 +31,7 @@ export const ButtonPage: AwdDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: AwdDocsButtonPlayground,
+      component: JigDocsButtonPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/button/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/button/a11y.md' },

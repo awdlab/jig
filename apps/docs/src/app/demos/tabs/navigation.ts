@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { AwdTabs, AwdTab } from '@awdlab/jig/tabs';
+import { JigTabs, JigTab } from '@awdlab/jig/tabs';
 
 @Component({
-  imports: [AwdTabs, AwdTab],
+  imports: [JigTabs, JigTab],
   selector: 'jig-demo-tabs-navigation',
   template: `
     <!-- Contentless tabs act as a navigation bar. Drive selection off the URL

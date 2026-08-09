@@ -64,7 +64,7 @@ export const widgetStyles = createThemePart({
 Provide it exactly like a preset:
 
 ```ts
-provideAwdControls({ theme: { preset: myTheme } });
+provideJigControls({ theme: { preset: myTheme } });
 ```
 
 > **Two caveats.** `createTheme` does **not** validate that every required part is present

@@ -1,12 +1,12 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { DATE_TIME_MASKS, AwdMaskInput, type MaskInputCfg } from '@awdlab/jig/mask-input';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { DATE_TIME_MASKS, JigMaskInput, type MaskInputCfg } from '@awdlab/jig/mask-input';
 
 @Component({
   selector: 'jig-demo-mask-input-validation',
-  imports: [AwdErrors, AwdHint, AwdInputField, AwdMaskInput],
+  imports: [JigErrors, JigHint, JigInputField, JigMaskInput],
   template: `
     <jig-input-field [label]="'Start time'" [labelKind]="'on'" class="w-56">
       <jig-mask-input

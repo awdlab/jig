@@ -11,7 +11,7 @@ import { Directive } from '@angular/core';
     '(mousemove)': 'onMove($event)',
   },
 })
-export class AwdDocsGlow {
+export class JigDocsGlow {
   protected onMove(event: MouseEvent): void {
     const el = event.currentTarget as HTMLElement;
     const rect = el.getBoundingClientRect();

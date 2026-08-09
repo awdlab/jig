@@ -30,27 +30,27 @@ import {
 import { toggleClass } from '@awdlab/jig/utils';
 import { effectWithPrevious, setInputSignalValue } from '@awdlab/jig/utils-ng';
 
-import { setAwdInstance } from './jig-instance';
-import { type AwdPassthrough, AwdPtEngine } from './passthrough';
+import { setJigInstance } from './jig-instance';
+import { type JigPassthrough, JigPtEngine } from './passthrough';
 
 import type { CustomColor, CustomKind } from '@awdlab/jig-custom-types';
 import type { ControlTemplate } from '@awdlab/jig-themes';
 import type { ControlName, ThemeTemplate } from '@awdlab/jig-themes/templates';
 
-export const NGN_CONTROL = new InjectionToken<AwdBase<never>>('NGN_CONTROL');
+export const NGN_CONTROL = new InjectionToken<JigBase<never>>('NGN_CONTROL');
 
 // eslint-disable-next-line typescript/no-explicit-any
-export type AnyAwdBase = AwdBaseSafe<any>;
-export type AwdBaseSafe<T extends ControlName | null> = Omit<
-  AwdBase<T>,
+export type AnyJigBase = JigBaseSafe<any>;
+export type JigBaseSafe<T extends ControlName | null> = Omit<
+  JigBase<T>,
   'kind' | 'appliedKind' | 'pt'
 >;
 
 /* eslint-disable typescript/no-explicit-any */
-export type FullAnyAwdBase = Omit<AwdBase<any>, 'kind' | 'appliedKind' | 'pt'> & {
+export type FullAnyJigBase = Omit<JigBase<any>, 'kind' | 'appliedKind' | 'pt'> & {
   kind: InputSignal<CustomKind<any> | undefined>;
   appliedKind: InputSignal<CustomKind<any> | undefined>;
-  pt: InputSignal<AwdPassthrough<any> | undefined>;
+  pt: InputSignal<JigPassthrough<any> | undefined>;
 };
 /* eslint-enable typescript/no-explicit-any */
 
@@ -67,7 +67,7 @@ export function provideSelf(control: Type<unknown>): Provider {
 @Directive({
   host: { class: 'jig-control jig-control-initializing' },
 })
-export abstract class AwdBase<T extends ControlName | null> {
+export abstract class JigBase<T extends ControlName | null> {
   protected abstract theme: ControlTemplateInfo<never> | null;
 
   private readonly _defaultKind = signal<CustomKind<T> | undefined>(undefined);
@@ -109,7 +109,7 @@ export abstract class AwdBase<T extends ControlName | null> {
    * Custom passthrough attributes to apply to the control's theme classes and its dependencies.
    * This allows for fine-grained customization of attributes, styles and more.
    */
-  public readonly pt = input<T extends string ? AwdPassthrough<T> : never>();
+  public readonly pt = input<T extends string ? JigPassthrough<T> : never>();
 
   /**
    * Marks a control as the primary value control of a surrounding field
@@ -179,20 +179,20 @@ export abstract class AwdBase<T extends ControlName | null> {
     this._kindOverride.set(kind);
   }
 
-  private readonly _childAwdControls = viewChildren(NGN_CONTROL);
+  private readonly _childJigControls = viewChildren(NGN_CONTROL);
   private readonly _afterLeaveCbs: (() => void)[] = [];
 
   constructor() {
     // `pt` is typed against this control's own `T`, which makes `this`
-    // (AwdBase<T>) structurally incompatible with the type-erased AnyAwdBase
-    // alias for an unconstrained/generic T. Safe: AnyAwdBase never reads `pt`
+    // (JigBase<T>) structurally incompatible with the type-erased AnyJigBase
+    // alias for an unconstrained/generic T. Safe: AnyJigBase never reads `pt`
     // in a way that depends on the real T at the call site.
-    setAwdInstance(this.element.nativeElement, this as unknown as AnyAwdBase);
+    setJigInstance(this.element.nativeElement, this as unknown as AnyJigBase);
     this.prepareAfterLeaveHook();
     effect(() => {
       // Propagate unstyled state to direct child controls, does not affect
       // custom user content passed into ng-content or projected templates.
-      this._childAwdControls().forEach(child => {
+      this._childJigControls().forEach(child => {
         setInputSignalValue(child.unstyled, this.unstyled());
       });
     });
@@ -224,7 +224,7 @@ export abstract class AwdBase<T extends ControlName | null> {
       if (typeof this.element.nativeElement.getAnimations !== 'function') {
         this.afterLeaveInternal();
       } else {
-        AwdBase._enqueueLeaveCheck(this.element.nativeElement, () => this.afterLeaveInternal());
+        JigBase._enqueueLeaveCheck(this.element.nativeElement, () => this.afterLeaveInternal());
       }
     });
   }
@@ -238,23 +238,23 @@ export abstract class AwdBase<T extends ControlName | null> {
   private static _leaveRafScheduled = false;
 
   private static _enqueueLeaveCheck(element: HTMLElement, callback: () => void): void {
-    AwdBase._leaveQueue.push({ element, callback });
-    if (!AwdBase._leaveRafScheduled) {
-      AwdBase._leaveRafScheduled = true;
-      requestAnimationFrame(() => AwdBase._processLeaveQueue());
+    JigBase._leaveQueue.push({ element, callback });
+    if (!JigBase._leaveRafScheduled) {
+      JigBase._leaveRafScheduled = true;
+      requestAnimationFrame(() => JigBase._processLeaveQueue());
     }
   }
 
   private static _processLeaveQueue(): void {
-    const queue = AwdBase._leaveQueue;
-    AwdBase._leaveQueue = [];
-    AwdBase._leaveRafScheduled = false;
+    const queue = JigBase._leaveQueue;
+    JigBase._leaveQueue = [];
+    JigBase._leaveRafScheduled = false;
 
     // Phase 1: Read all animations (batched queries — no interleaved mutations)
     const results: { animation: Animation | null; callback: () => void }[] = [];
     for (const { element, callback } of queue) {
       results.push({
-        animation: AwdBase._findLeaveAnimation(element),
+        animation: JigBase._findLeaveAnimation(element),
         callback,
       });
     }
@@ -287,7 +287,7 @@ export abstract class AwdBase<T extends ControlName | null> {
       return leaveAnimation;
     }
     if (element.parentElement) {
-      return AwdBase._findLeaveAnimation(element.parentElement);
+      return JigBase._findLeaveAnimation(element.parentElement);
     }
     return null;
   }
@@ -339,11 +339,11 @@ export abstract class AwdBase<T extends ControlName | null> {
     }
 
     if (hostClass !== undefined) {
-      // See constructor comment: `this` (AwdBase<T>) isn't structurally assignable
-      // to AwdBaseSafe<T & string> for a generic T because `pt`'s type still
+      // See constructor comment: `this` (JigBase<T>) isn't structurally assignable
+      // to JigBaseSafe<T & string> for a generic T because `pt`'s type still
       // depends on T. Narrow the erasure to this control's own T & string, which
-      // matches what AwdPtEngine actually needs here.
-      new AwdPtEngine(this as unknown as AwdBaseSafe<T & string>, hostClass);
+      // matches what JigPtEngine actually needs here.
+      new JigPtEngine(this as unknown as JigBaseSafe<T & string>, hostClass);
     }
 
     return theme as ControlTemplateInfo<

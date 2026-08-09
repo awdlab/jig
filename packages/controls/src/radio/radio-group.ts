@@ -1,16 +1,16 @@
 import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
 import { provideSelf, ValueControlBase } from '@awdlab/jig/base';
-import { AwdRovingGroup } from '@awdlab/jig/roving-focus';
+import { JigRovingGroup } from '@awdlab/jig/roving-focus';
 import { radioGroupControlTemplate } from '@awdlab/jig-themes/templates/radio-group';
 
-import { NGN_RADIO_GROUP, type AwdRadioGroupApi, type AwdRadioRef } from './radio-group.token';
+import { NGN_RADIO_GROUP, type JigRadioGroupApi, type JigRadioRef } from './radio-group.token';
 
 /**
  * A themed radio group. Owns the selected {@link value}; the individual
  * `jig-radio` children projected inside are presentational and report their
  * payload up through {@link register}.
  *
- * Keyboard handling and roving tab order are delegated to `AwdRovingGroup`
+ * Keyboard handling and roving tab order are delegated to `JigRovingGroup`
  * (applied as a host directive). Selection follows focus: moving the roving
  * active item (arrows / Home / End / pointer) selects it, matching native
  * radio-group behavior.
@@ -20,8 +20,8 @@ import { NGN_RADIO_GROUP, type AwdRadioGroupApi, type AwdRadioRef } from './radi
 @Component({
   selector: 'jig-radio-group',
   templateUrl: './radio-group.html',
-  hostDirectives: [{ directive: AwdRovingGroup, inputs: ['orientation', 'rovingWrap'] }],
-  providers: [provideSelf(AwdRadioGroup), { provide: NGN_RADIO_GROUP, useExisting: AwdRadioGroup }],
+  hostDirectives: [{ directive: JigRovingGroup, inputs: ['orientation', 'rovingWrap'] }],
+  providers: [provideSelf(JigRadioGroup), { provide: NGN_RADIO_GROUP, useExisting: JigRadioGroup }],
   host: {
     role: 'radiogroup',
     '[attr.aria-label]': 'label()',
@@ -31,9 +31,9 @@ import { NGN_RADIO_GROUP, type AwdRadioGroupApi, type AwdRadioRef } from './radi
     '[attr.aria-disabled]': "disabled() ? 'true' : null",
   },
 })
-export class AwdRadioGroup<V>
+export class JigRadioGroup<V>
   extends ValueControlBase<'radioGroup', V>
-  implements AwdRadioGroupApi<V>
+  implements JigRadioGroupApi<V>
 {
   protected readonly theme = this.injectThemeTemplate(radioGroupControlTemplate, {
     root: true,
@@ -41,15 +41,15 @@ export class AwdRadioGroup<V>
   });
 
   /** The roving-focus host directive that drives keyboard/tab coordination. */
-  protected readonly roving = inject(AwdRovingGroup);
+  protected readonly roving = inject(JigRovingGroup);
 
-  private readonly _radios = signal<readonly AwdRadioRef<V>[]>([]);
+  private readonly _radios = signal<readonly JigRadioRef<V>[]>([]);
 
-  public register(ref: AwdRadioRef<V>): void {
+  public register(ref: JigRadioRef<V>): void {
     this._radios.update(list => (list.includes(ref) ? list : [...list, ref]));
   }
 
-  public unregister(ref: AwdRadioRef<V>): void {
+  public unregister(ref: JigRadioRef<V>): void {
     this._radios.update(list => list.filter(r => r !== ref));
   }
 

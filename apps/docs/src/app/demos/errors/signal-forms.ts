@@ -1,13 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { email, FormField, form, minLength, required } from '@angular/forms/signals';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 
 @Component({
   selector: 'jig-demo-errors-signal-forms',
-  imports: [FormField, AwdErrors, AwdHint, AwdInput, AwdInputField],
+  imports: [FormField, JigErrors, JigHint, JigInput, JigInputField],
   template: `
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-1">

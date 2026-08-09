@@ -1,3 +1,3 @@
-{{ api: radio/radio-group AwdRadioGroup }}
+{{ api: radio/radio-group JigRadioGroup }}
 
-{{ api: radio/radio AwdRadio }}
+{{ api: radio/radio JigRadio }}

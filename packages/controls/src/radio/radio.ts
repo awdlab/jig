@@ -7,8 +7,8 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { AwdBase, AwdPt, provideSelf } from '@awdlab/jig/base';
-import { AwdRovingItem } from '@awdlab/jig/roving-focus';
+import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigRovingItem } from '@awdlab/jig/roving-focus';
 import { radioControlTemplate } from '@awdlab/jig-themes/templates/radio';
 
 import { NGN_RADIO_GROUP } from './radio-group.token';
@@ -25,9 +25,9 @@ import { NGN_RADIO_GROUP } from './radio-group.token';
 @Component({
   selector: 'jig-radio',
   templateUrl: './radio.html',
-  imports: [AwdPt],
-  hostDirectives: [AwdRovingItem],
-  providers: [provideSelf(AwdRadio)],
+  imports: [JigPt],
+  hostDirectives: [JigRovingItem],
+  providers: [provideSelf(JigRadio)],
   host: {
     role: 'radio',
     '[attr.aria-checked]': 'checked()',
@@ -35,7 +35,7 @@ import { NGN_RADIO_GROUP } from './radio-group.token';
     '[attr.aria-label]': 'label()',
   },
 })
-export class AwdRadio<V> extends AwdBase<'radio'> {
+export class JigRadio<V> extends JigBase<'radio'> {
   protected readonly theme = this.injectThemeTemplate(radioControlTemplate, {
     root: true,
   });
@@ -48,7 +48,7 @@ export class AwdRadio<V> extends AwdBase<'radio'> {
   public readonly label = input<string | null>(null);
 
   private readonly _group = inject(NGN_RADIO_GROUP);
-  private readonly _rovingItem = inject(AwdRovingItem);
+  private readonly _rovingItem = inject(JigRovingItem);
 
   /** Whether this radio is the currently selected option in its group. */
   protected readonly checked = computed(() => this._group.value() === this.value());

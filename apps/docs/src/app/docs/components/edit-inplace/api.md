@@ -1,1 +1,1 @@
-{{ api: edit-inplace/edit-inplace AwdEditInplace }}
+{{ api: edit-inplace/edit-inplace JigEditInplace }}

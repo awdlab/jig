@@ -1,4 +1,4 @@
-import { AwdDocsToastPlayground } from './playground';
+import { JigDocsToastPlayground } from './playground';
 import { Demo_Toast_Base } from '../../../demos/toast/base';
 import { Demo_Toast_Closable } from '../../../demos/toast/closable';
 import { Demo_Toast_Colors } from '../../../demos/toast/colors';
@@ -6,9 +6,9 @@ import { Demo_Toast_Icon } from '../../../demos/toast/icon';
 import { Demo_Toast_Persistent } from '../../../demos/toast/persistent';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const ToastPage: AwdDocsPage = {
+export const ToastPage: JigDocsPage = {
   title: `Toast`,
   kind: 'tabs',
   tabs: [
@@ -29,7 +29,7 @@ export const ToastPage: AwdDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: AwdDocsToastPlayground,
+      component: JigDocsToastPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/toast/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/toast/a11y.md' },

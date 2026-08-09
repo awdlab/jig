@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { AwdHintHarness } from '@awdlab/jig-playwright';
+import { JigHintHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -21,7 +21,7 @@ test('features', async ({ page }, testInfo) => {
     }
   );
 
-  const hint = new AwdHintHarness(page.locator('jig-hint'));
+  const hint = new JigHintHarness(page.locator('jig-hint'));
 
   await test.step('default', async () => {
     await expectScreenshot(page, testInfo, 'default');

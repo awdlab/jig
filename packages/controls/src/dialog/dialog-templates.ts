@@ -8,10 +8,10 @@ import {
   viewChild,
 } from '@angular/core';
 import { templateTypesFn } from '@awdlab/jig/api/ng';
-import { AwdBase } from '@awdlab/jig/base';
+import { JigBase } from '@awdlab/jig/base';
 
 @Directive()
-export abstract class DialogTemplates<T> extends AwdBase<'dialog'> {
+export abstract class DialogTemplates<T> extends JigBase<'dialog'> {
   private readonly _userContentTemplate = contentChild<TemplateRef<unknown>>('content');
   /**
    * The content of the dialog.

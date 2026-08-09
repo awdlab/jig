@@ -35,7 +35,7 @@ slots (`dialog-close`, `dropdown-toggle`, `checkbox-checked`, `sort-ascending`, 
 ```ts
 import { withDefaultIcons } from '@awdlab/jig/default-icons';
 
-provideAwdControls({ theme: { preset: nova } }, withDefaultIcons());
+provideJigControls({ theme: { preset: nova } }, withDefaultIcons());
 ```
 
 This is why `@iconify/icons-tabler` is an _optional_ peer — it's only pulled in by this
@@ -47,15 +47,15 @@ To use a different icon set, provide a full registry with `withCustomIcons()`. I
 value for **every** semantic slot:
 
 ```ts
-import { withCustomIcons, type AwdCustomIconRegistry } from '@awdlab/jig/icon';
+import { withCustomIcons, type JigCustomIconRegistry } from '@awdlab/jig/icon';
 
-const icons: AwdCustomIconRegistry = {
+const icons: JigCustomIconRegistry = {
   'dialog-close': myClose,
   'dropdown-toggle': myChevron,
   /* …all slots… */
 };
 
-provideAwdControls({ theme: { preset: nova } }, withCustomIcons(icons));
+provideJigControls({ theme: { preset: nova } }, withCustomIcons(icons));
 ```
 
 Include either `withDefaultIcons()` or `withCustomIcons()` — a `defaultIcon` slot with no

@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 
-import type { AwdErrorsMessages } from '@awdlab/jig/errors';
+import type { JigErrorsMessages } from '@awdlab/jig/errors';
 
 @Component({
   selector: 'jig-demo-errors-messages',
-  imports: [ReactiveFormsModule, AwdErrors, AwdHint, AwdInput, AwdInputField],
+  imports: [ReactiveFormsModule, JigErrors, JigHint, JigInput, JigInputField],
   template: `
     <div class="flex flex-col gap-1">
       <jig-input-field [label]="'Coupon code'" [labelKind]="'on'" class="w-72">
@@ -34,7 +34,7 @@ export class Demo_Errors_Messages {
   });
 
   /** Static strings and resolvers that read the error's params. */
-  protected readonly messages: AwdErrorsMessages = {
+  protected readonly messages: JigErrorsMessages = {
     required: 'Enter the code from your invoice.',
     minlength: ({ params }) => `${params['requiredLength']} characters, please.`,
     pattern: 'Uppercase letters, digits and dashes only.',

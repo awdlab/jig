@@ -1,14 +1,14 @@
 import { Component, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { provideAwdControls } from '@awdlab/jig/api/ng';
+import { provideJigControls } from '@awdlab/jig/api/ng';
 import { nova } from '@awdlab/jig-themes/nova';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { AwdRadio } from './radio';
-import { AwdRadioGroup } from './radio-group';
+import { JigRadio } from './radio';
+import { JigRadioGroup } from './radio-group';
 
 @Component({
-  imports: [AwdRadioGroup, AwdRadio],
+  imports: [JigRadioGroup, JigRadio],
   template: `
     <jig-radio-group
       [value]="value()"
@@ -27,7 +27,7 @@ class Host {
   disabled = signal(false);
   readonly = signal(false);
   bDisabled = signal(false);
-  group = viewChild.required(AwdRadioGroup);
+  group = viewChild.required(JigRadioGroup);
 }
 
 function press(host: HTMLElement, key: string): KeyboardEvent {
@@ -38,7 +38,7 @@ function press(host: HTMLElement, key: string): KeyboardEvent {
 
 beforeEach(() => {
   TestBed.configureTestingModule({
-    providers: [provideAwdControls({ theme: { preset: nova }, disableAnimations: true })],
+    providers: [provideJigControls({ theme: { preset: nova }, disableAnimations: true })],
   });
 });
 

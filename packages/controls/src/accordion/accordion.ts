@@ -1,5 +1,5 @@
 import { booleanAttribute, Component, input, model } from '@angular/core';
-import { AwdBase, provideSelf } from '@awdlab/jig/base';
+import { JigBase, provideSelf } from '@awdlab/jig/base';
 import { accordionControlTemplate } from '@awdlab/jig-themes/templates/accordion';
 
 import { ACCORDION_CONTROL, type AccordionControl } from './types';
@@ -15,11 +15,11 @@ import type { IconType } from '@awdlab/jig-custom-types';
   templateUrl: './accordion.html',
 
   providers: [
-    provideSelf(AwdAccordion),
+    provideSelf(JigAccordion),
     {
       provide: ACCORDION_CONTROL,
-      deps: [AwdAccordion],
-      useFactory: (accordion: AwdAccordion) =>
+      deps: [JigAccordion],
+      useFactory: (accordion: JigAccordion) =>
         <AccordionControl>{
           expandedPanels: accordion.expandedPanels,
           togglePanel: accordion.togglePanel.bind(accordion),
@@ -31,7 +31,7 @@ import type { IconType } from '@awdlab/jig-custom-types';
     },
   ],
 })
-export class AwdAccordion extends AwdBase<'accordion'> {
+export class JigAccordion extends JigBase<'accordion'> {
   protected readonly theme = this.injectThemeTemplate(accordionControlTemplate, 'root');
   /**
    * Whether to keep lazily-loaded panel content in the DOM after the panel closes.

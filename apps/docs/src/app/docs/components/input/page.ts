@@ -1,13 +1,13 @@
-import { AwdDocsInputPlayground } from './playground';
+import { JigDocsInputPlayground } from './playground';
 import { Demo_Input_Base } from '../../../demos/input/base';
 import { Demo_Input_States } from '../../../demos/input/states';
 import { Demo_Input_Textarea } from '../../../demos/input/textarea';
 import { Demo_Input_Validation } from '../../../demos/input/validation';
 import { i18nText } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const InputPage: AwdDocsPage = {
+export const InputPage: JigDocsPage = {
   title: `Input`,
   kind: 'tabs',
   tabs: [
@@ -22,7 +22,7 @@ export const InputPage: AwdDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: AwdDocsInputPlayground,
+      component: JigDocsInputPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/input/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/input/a11y.md' },

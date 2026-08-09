@@ -8,13 +8,13 @@ import {
   model,
   viewChildren,
 } from '@angular/core';
-import { AwdBase, AwdPt, provideSelf } from '@awdlab/jig/base';
-import { AwdDefer } from '@awdlab/jig/defer';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdRovingGroup, AwdRovingItem } from '@awdlab/jig/roving-focus';
+import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigDefer } from '@awdlab/jig/defer';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
 import { stepperControlTemplate } from '@awdlab/jig-themes/templates/stepper';
 
-import { AwdStep } from './step';
+import { JigStep } from './step';
 
 /**
  * @category control
@@ -22,16 +22,16 @@ import { AwdStep } from './step';
 @Component({
   selector: 'jig-stepper',
   templateUrl: './stepper.html',
-  imports: [AwdPt, AwdDefer, AwdIcon, AwdRovingGroup, AwdRovingItem],
-  providers: [provideSelf(AwdStepper)],
+  imports: [JigPt, JigDefer, JigIcon, JigRovingGroup, JigRovingItem],
+  providers: [provideSelf(JigStepper)],
 })
-export class AwdStepper extends AwdBase<'stepper'> {
+export class JigStepper extends JigBase<'stepper'> {
   protected readonly theme = this.injectThemeTemplate(stepperControlTemplate, 'root');
 
-  protected readonly steps = contentChildren(AwdStep);
+  protected readonly steps = contentChildren(JigStep);
 
   /** The header buttons' roving items, in step order (one per step; connectors are plain spans). */
-  private readonly _rovingItems = viewChildren(AwdRovingItem);
+  private readonly _rovingItems = viewChildren(JigRovingItem);
 
   /** The active step index (zero-based). @default 0 */
   public readonly active = model<number>(0);
@@ -70,7 +70,7 @@ export class AwdStepper extends AwdBase<'stepper'> {
 
     // Keep each header's roving item in sync with its step's NATIVE `disabled` input (not
     // `canGoTo()` gating) — a merely gated step stays arrow-focusable, only a truly disabled
-    // step is skipped by keyboard navigation. Mirrors AwdButtonGroup's roving-disabled sync.
+    // step is skipped by keyboard navigation. Mirrors JigButtonGroup's roving-disabled sync.
     effect(() => {
       const items = this._rovingItems();
       const steps = this.steps();

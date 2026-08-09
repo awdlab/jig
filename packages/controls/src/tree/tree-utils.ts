@@ -1,7 +1,7 @@
-import type { AwdTreeItem } from '@awdlab/jig/api';
+import type { JigTreeItem } from '@awdlab/jig/api';
 
 export interface FlatTreeNode<T = any, V = any> {
-  item: AwdTreeItem<T, V>;
+  item: JigTreeItem<T, V>;
   /** 0-based depth. */
   level: number;
   /** Number of siblings at this level (aria-setsize). */
@@ -16,7 +16,7 @@ export interface FlatTreeNode<T = any, V = any> {
 
 /** Walk the tree, emitting only expanded + visible nodes as a flat list. */
 export function flattenTree<T, V>(
-  items: readonly AwdTreeItem<T, V>[],
+  items: readonly JigTreeItem<T, V>[],
   expanded: ReadonlySet<V>,
   level = 0,
   parentDisabled = false
@@ -50,9 +50,9 @@ export function flattenTree<T, V>(
  * longer marked `lazy`. Returns the input unchanged when nothing is loaded.
  */
 export function applyLoadedChildren<T, V>(
-  items: readonly AwdTreeItem<T, V>[],
-  loaded: ReadonlyMap<V, readonly AwdTreeItem<T, V>[]>
-): readonly AwdTreeItem<T, V>[] {
+  items: readonly JigTreeItem<T, V>[],
+  loaded: ReadonlyMap<V, readonly JigTreeItem<T, V>[]>
+): readonly JigTreeItem<T, V>[] {
   if (loaded.size === 0) {
     return items;
   }
@@ -69,7 +69,7 @@ export function applyLoadedChildren<T, V>(
 }
 
 /** All selectable, enabled leaf values under (and including) an item. */
-export function collectLeafValues<T, V>(item: AwdTreeItem<T, V>, parentDisabled = false): V[] {
+export function collectLeafValues<T, V>(item: JigTreeItem<T, V>, parentDisabled = false): V[] {
   const disabled = parentDisabled || !!item.disabled;
   if (item.items && item.items.length > 0) {
     return item.items.flatMap(child => collectLeafValues(child, disabled));
@@ -81,7 +81,7 @@ export function collectLeafValues<T, V>(item: AwdTreeItem<T, V>, parentDisabled 
 }
 
 /** All branch values in the forest (used to auto-expand while filtering). */
-export function collectBranchValues<T, V>(items: readonly AwdTreeItem<T, V>[]): V[] {
+export function collectBranchValues<T, V>(items: readonly JigTreeItem<T, V>[]): V[] {
   return items.flatMap(item =>
     item.items && item.items.length > 0 ? [item.value, ...collectBranchValues(item.items)] : []
   );
@@ -89,7 +89,7 @@ export function collectBranchValues<T, V>(items: readonly AwdTreeItem<T, V>[]): 
 
 /** Add/remove all of a node's enabled leaf values against the current value set. */
 export function cascadeCheck<T, V>(
-  node: AwdTreeItem<T, V>,
+  node: JigTreeItem<T, V>,
   shouldCheck: boolean,
   currentValue: readonly V[]
 ): V[] {
@@ -107,7 +107,7 @@ export function cascadeCheck<T, V>(
 
 /** Derive a node's tri-state from which of its leaves are in the value set. */
 export function computeNodeState<T, V>(
-  item: AwdTreeItem<T, V>,
+  item: JigTreeItem<T, V>,
   valueSet: ReadonlySet<V>
 ): 'checked' | 'unchecked' | 'indeterminate' {
   const leaves = collectLeafValues(item);

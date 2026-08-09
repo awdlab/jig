@@ -1,4 +1,4 @@
-import type { AwdCustomTypes, AwdThemeTypes } from './custom-types';
+import type { JigCustomTypes, JigThemeTypes } from './custom-types';
 
 type GetCustomType<Group, K> = K extends string
   ? Group extends { kind: { [key in K]: infer T } }
@@ -6,9 +6,9 @@ type GetCustomType<Group, K> = K extends string
     : never
   : never;
 
-type CustomKindInt<K> = [GetCustomType<AwdCustomTypes, K>] extends [never]
-  ? GetCustomType<AwdThemeTypes, K>
-  : GetCustomType<AwdCustomTypes, K>;
+type CustomKindInt<K> = [GetCustomType<JigCustomTypes, K>] extends [never]
+  ? GetCustomType<JigThemeTypes, K>
+  : GetCustomType<JigCustomTypes, K>;
 
 // The [never] wrapper is required: a bare `never extends readonly (infer A)[]` matches with
 // no inference candidate for A, which silently yields `unknown` and disables type checking.

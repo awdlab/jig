@@ -1,12 +1,12 @@
 import { inject, InjectionToken, type Provider } from '@angular/core';
 
-import type { AwdErrorsMessageContext, AwdErrorsMessages } from './types';
+import type { JigErrorsMessageContext, JigErrorsMessages } from './types';
 
 /**
  * Multi-provider token for validation error message maps.
  * @category providers
  */
-export const NGN_ERRORS_MESSAGES = new InjectionToken<readonly AwdErrorsMessages[]>(
+export const NGN_ERRORS_MESSAGES = new InjectionToken<readonly JigErrorsMessages[]>(
   'NGN_ERRORS_MESSAGES',
   {
     factory: () => [],
@@ -17,7 +17,7 @@ export const NGN_ERRORS_MESSAGES = new InjectionToken<readonly AwdErrorsMessages
  * Provide custom validation error messages that are merged with defaults.
  * @category providers
  */
-export function provideAwdErrorsMessages(messages: AwdErrorsMessages): Provider {
+export function provideJigErrorsMessages(messages: JigErrorsMessages): Provider {
   return {
     provide: NGN_ERRORS_MESSAGES,
     useValue: messages,
@@ -29,7 +29,7 @@ export function provideAwdErrorsMessages(messages: AwdErrorsMessages): Provider 
  * Inject all provided validation message maps as a single merged object.
  * @category providers
  */
-export function injectAwdErrorsMessages(): AwdErrorsMessages {
+export function injectJigErrorsMessages(): JigErrorsMessages {
   return Object.assign({}, ...inject(NGN_ERRORS_MESSAGES));
 }
 
@@ -40,8 +40,8 @@ export function injectAwdErrorsMessages(): AwdErrorsMessages {
  * fall through to the next source.
  */
 export function resolveUserMessage(
-  context: AwdErrorsMessageContext,
-  messages: AwdErrorsMessages
+  context: JigErrorsMessageContext,
+  messages: JigErrorsMessages
 ): string | undefined {
   const resolver = messages[context.key];
   // Empty strings count as "no message" so resolution falls through to the next source.

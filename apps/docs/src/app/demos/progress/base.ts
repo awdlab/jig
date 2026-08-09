@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AwdProgress } from '@awdlab/jig/progress';
+import { JigProgress } from '@awdlab/jig/progress';
 import { interval } from 'rxjs';
 
 @Component({
   selector: 'jig-demo-progress-base',
-  imports: [AwdProgress],
+  imports: [JigProgress],
   template: `
     <jig-progress [value]="value()" />
     {{ value() }}%

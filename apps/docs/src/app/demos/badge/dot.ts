@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import tablerMail from '@iconify/icons-tabler/mail';
-import { AwdAvatar } from '@awdlab/jig/avatar';
-import { AwdBadge } from '@awdlab/jig/badge';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdIcon } from '@awdlab/jig/icon';
+import { JigAvatar } from '@awdlab/jig/avatar';
+import { JigBadge } from '@awdlab/jig/badge';
+import { JigButton } from '@awdlab/jig/button';
+import { JigIcon } from '@awdlab/jig/icon';
 
 @Component({
   selector: 'jig-demo-badge-dot',
-  imports: [AwdBadge, AwdButton, AwdIcon, AwdAvatar],
+  imports: [JigBadge, JigButton, JigIcon, JigAvatar],
   template: `
     <div class="flex items-center gap-8 p-4">
       <!-- Online-status dot on an avatar. The avatar clips its content, so the badge

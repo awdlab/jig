@@ -1,1 +1,1 @@
-{{ api: directives/autofocus AwdAutofocus }}
+{{ api: directives/autofocus JigAutofocus }}

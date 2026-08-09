@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { AwdTree } from '@awdlab/jig/tree';
+import { JigTree } from '@awdlab/jig/tree';
 
 import { fileTree } from './sample-data';
 
 @Component({
-  imports: [AwdTree],
+  imports: [JigTree],
   selector: 'jig-demo-tree-templates',
   template: `
     <jig-tree [items]="items" style="display: block; height: 300px;">

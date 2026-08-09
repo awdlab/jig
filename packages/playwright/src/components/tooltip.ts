@@ -2,7 +2,7 @@ import { tooltipControlTemplate } from '@awdlab/jig-themes/templates/tooltip';
 import { themeClasses } from '../utils/theme';
 import { expect, type Locator } from '@playwright/test';
 
-export class AwdTooltipHarness {
+export class JigTooltipHarness {
   public readonly classes = themeClasses(tooltipControlTemplate);
 
   private readonly _ngnDefer: Locator;

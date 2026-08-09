@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { type SplitterLayout, AwdSplitterModule } from '@awdlab/jig/splitter';
+import { JigButton } from '@awdlab/jig/button';
+import { type SplitterLayout, JigSplitterModule } from '@awdlab/jig/splitter';
 
 @Component({
-  imports: [AwdSplitterModule, AwdButton],
+  imports: [JigSplitterModule, JigButton],
   selector: 'jig-demo-splitter-state',
   template: `
     <div style="display: flex; gap: 8px;">

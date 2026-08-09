@@ -1,13 +1,13 @@
-import { AwdDocsNumberInputPlayground } from './playground';
+import { JigDocsNumberInputPlayground } from './playground';
 import { Demo_NumberInput_Base } from '../../../demos/number-input/base';
 import { Demo_NumberInput_Locale } from '../../../demos/number-input/locale';
 import { Demo_NumberInput_Steps } from '../../../demos/number-input/steps';
 import { Demo_NumberInput_Validation } from '../../../demos/number-input/validation';
 import { i18nText } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const NumberInputPage: AwdDocsPage = {
+export const NumberInputPage: JigDocsPage = {
   title: `Number Input`,
   kind: 'tabs',
   tabs: [
@@ -27,7 +27,7 @@ export const NumberInputPage: AwdDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: AwdDocsNumberInputPlayground,
+      component: JigDocsNumberInputPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/number-input/api.md' },
     {

@@ -1,1 +1,1 @@
-{{ api: dialog/dialog AwdDialog }}
+{{ api: dialog/dialog JigDialog }}

@@ -1,17 +1,17 @@
 import { Component, input, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { provideAwdControls } from '@awdlab/jig/api/ng';
-import { AwdActionButton } from '@awdlab/jig/button';
+import { provideJigControls } from '@awdlab/jig/api/ng';
+import { JigActionButton } from '@awdlab/jig/button';
 import { withDefaultIcons } from '@awdlab/jig/default-icons';
 import { nova } from '@awdlab/jig-themes/nova';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { AwdKeyboardShortcut } from './keyboard-shortcut';
+import { JigKeyboardShortcut } from './keyboard-shortcut';
 
-import type { AwdActionButtonConfig } from '@awdlab/jig/api';
+import type { JigActionButtonConfig } from '@awdlab/jig/api';
 
 @Component({
-  imports: [AwdActionButton, AwdKeyboardShortcut],
+  imports: [JigActionButton, JigKeyboardShortcut],
   template: `
     <div [ngnKeyboardShortcut]="[]">
       <jig-action-button [config]="config()" (clicked)="clicked.push($event)" />
@@ -22,7 +22,7 @@ import type { AwdActionButtonConfig } from '@awdlab/jig/api';
 class ScopedActionButtonHost {
   public readonly actions: string[] = [];
   public readonly clicked: string[] = [];
-  public readonly config = signal<AwdActionButtonConfig<string>>({
+  public readonly config = signal<JigActionButtonConfig<string>>({
     label: 'Save',
     value: 'save',
     shortcut: 'ctrl+s',
@@ -33,7 +33,7 @@ class ScopedActionButtonHost {
 /** Reproduces a wrapper that conditionally wraps projected content in a scope, e.g. a dialog shell. */
 @Component({
   selector: 'toggleable-scope-wrapper',
-  imports: [AwdKeyboardShortcut],
+  imports: [JigKeyboardShortcut],
   template: `
     @if (enabled()) {
       <div [ngnKeyboardShortcut]="[]"><ng-content /></div>
@@ -45,7 +45,7 @@ class ToggleableScopeWrapper {
 }
 
 @Component({
-  imports: [AwdActionButton, ToggleableScopeWrapper],
+  imports: [JigActionButton, ToggleableScopeWrapper],
   template: `
     <toggleable-scope-wrapper [enabled]="scoped()">
       <jig-action-button [config]="config()" (clicked)="clicked.push($event)" />
@@ -55,7 +55,7 @@ class ToggleableScopeWrapper {
 class ReResolvingScopeHost {
   public readonly scoped = signal(true);
   public readonly clicked: string[] = [];
-  public readonly config = signal<AwdActionButtonConfig<string>>({
+  public readonly config = signal<JigActionButtonConfig<string>>({
     label: 'Save',
     value: 'save',
     shortcut: 'ctrl+s',
@@ -65,7 +65,7 @@ class ReResolvingScopeHost {
 beforeEach(() => {
   TestBed.configureTestingModule({
     providers: [
-      provideAwdControls({ theme: { preset: nova }, disableAnimations: true }, withDefaultIcons()),
+      provideJigControls({ theme: { preset: nova }, disableAnimations: true }, withDefaultIcons()),
     ],
   });
 });
@@ -105,11 +105,11 @@ describe('action button shortcut', () => {
 
   it('does not advertise aria-keyshortcuts when no ancestor scope resolves', () => {
     @Component({
-      imports: [AwdActionButton],
+      imports: [JigActionButton],
       template: `<jig-action-button [config]="config()" />`,
     })
     class UnscopedActionButtonHost {
-      public readonly config = signal<AwdActionButtonConfig<string>>({
+      public readonly config = signal<JigActionButtonConfig<string>>({
         label: 'Save',
         value: 'save',
         shortcut: 'ctrl+s',
@@ -125,11 +125,11 @@ describe('action button shortcut', () => {
 
   it('gives a plain icon-kind button an accessible name with no shortcut', () => {
     @Component({
-      imports: [AwdActionButton],
+      imports: [JigActionButton],
       template: `<jig-action-button [config]="config()" />`,
     })
     class IconOnlyActionButtonHost {
-      public readonly config = signal<AwdActionButtonConfig<string>>({
+      public readonly config = signal<JigActionButtonConfig<string>>({
         label: 'Close',
         value: 'close',
         defaultIcon: 'dialog-close',
@@ -146,7 +146,7 @@ describe('action button shortcut', () => {
 
   it('names an icon-kind button with a shortcut by its plain label, glyphs hidden', () => {
     @Component({
-      imports: [AwdActionButton, AwdKeyboardShortcut],
+      imports: [JigActionButton, JigKeyboardShortcut],
       template: `
         <div [ngnKeyboardShortcut]="[]">
           <jig-action-button [config]="config()" />
@@ -154,7 +154,7 @@ describe('action button shortcut', () => {
       `,
     })
     class IconShortcutActionButtonHost {
-      public readonly config = signal<AwdActionButtonConfig<string>>({
+      public readonly config = signal<JigActionButtonConfig<string>>({
         label: 'Save',
         value: 'save',
         defaultIcon: 'dialog-close',

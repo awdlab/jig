@@ -6,7 +6,7 @@ import { PromptDialogBase } from './prompt-dialog-base';
 
 import type { createDialog, DialogHandle, PromptDialogHandle } from './create-dialog';
 import type { DialogConfig } from './types';
-import type { AwdActionButtonConfig } from '@awdlab/jig/api';
+import type { JigActionButtonConfig } from '@awdlab/jig/api';
 
 // --- Test components ---
 
@@ -114,7 +114,7 @@ describe('PromptDialogBase type safety', () => {
 
   it('should accept valid DialogConfig with matching button values for PromptDialogBase content', () => {
     assertType<
-      DialogConfig<TestPrompt, [AwdActionButtonConfig<'ok'>, AwdActionButtonConfig<'cancel'>]>
+      DialogConfig<TestPrompt, [JigActionButtonConfig<'ok'>, JigActionButtonConfig<'cancel'>]>
     >({
       title: 'Test',
       content: TestPrompt,
@@ -127,7 +127,7 @@ describe('PromptDialogBase type safety', () => {
 
   it('should accept valid DialogConfig with boolean button values', () => {
     assertType<
-      DialogConfig<BooleanPrompt, [AwdActionButtonConfig<true>, AwdActionButtonConfig<false>]>
+      DialogConfig<BooleanPrompt, [JigActionButtonConfig<true>, JigActionButtonConfig<false>]>
     >({
       title: 'Prompt',
       content: BooleanPrompt,
@@ -144,7 +144,7 @@ describe('PromptDialogBase type safety', () => {
       DialogConfig<
         TestPrompt,
         // @ts-expect-error 'yes' is not assignable to 'ok' | 'cancel'
-        [AwdActionButtonConfig<'yes'>, AwdActionButtonConfig<'no'>]
+        [JigActionButtonConfig<'yes'>, JigActionButtonConfig<'no'>]
       >
     >({
       title: 'Test',
@@ -161,7 +161,7 @@ describe('PromptDialogBase type safety', () => {
       DialogConfig<
         TestPrompt,
         // @ts-expect-error 'nope' is not assignable to 'ok' | 'cancel'
-        [AwdActionButtonConfig<'ok'>, AwdActionButtonConfig<'nope'>]
+        [JigActionButtonConfig<'ok'>, JigActionButtonConfig<'nope'>]
       >
     >({
       title: 'Test',
@@ -178,7 +178,7 @@ describe('PromptDialogBase type safety', () => {
       DialogConfig<
         BooleanPrompt,
         // @ts-expect-error string is not assignable to true | false
-        [AwdActionButtonConfig<'confirm'>, AwdActionButtonConfig<'cancel'>]
+        [JigActionButtonConfig<'confirm'>, JigActionButtonConfig<'cancel'>]
       >
     >({
       title: 'Test',
@@ -192,20 +192,20 @@ describe('PromptDialogBase type safety', () => {
 
   it('should return PromptDialogHandle for PromptDialogBase content', () => {
     assertType<
-      PromptDialogHandle<TestPrompt, [AwdActionButtonConfig<'ok'>, AwdActionButtonConfig<'cancel'>]>
+      PromptDialogHandle<TestPrompt, [JigActionButtonConfig<'ok'>, JigActionButtonConfig<'cancel'>]>
     >(
       {} as ReturnType<
         typeof createDialog<
           TestPrompt,
-          [AwdActionButtonConfig<'ok'>, AwdActionButtonConfig<'cancel'>]
+          [JigActionButtonConfig<'ok'>, JigActionButtonConfig<'cancel'>]
         >
       >
     );
   });
 
   it('should return DialogHandle for non-prompt content', () => {
-    assertType<DialogHandle<NonPromptComponent, [AwdActionButtonConfig<unknown>]>>(
-      {} as ReturnType<typeof createDialog<NonPromptComponent, [AwdActionButtonConfig<unknown>]>>
+    assertType<DialogHandle<NonPromptComponent, [JigActionButtonConfig<unknown>]>>(
+      {} as ReturnType<typeof createDialog<NonPromptComponent, [JigActionButtonConfig<unknown>]>>
     );
   });
 });

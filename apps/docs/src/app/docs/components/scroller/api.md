@@ -1,15 +1,15 @@
-## AwdScroller
+## JigScroller
 
 Selector: `jig-scroller`, `[jig-scroller]`
 
-{{ api: scroller/scroller AwdScroller }}
+{{ api: scroller/scroller JigScroller }}
 
-## AwdScrollerItem
+## JigScrollerItem
 
 Selector: `[ngnScrollerItem]`
 
 Binds a rendered element to the item it represents, so the scroller can apply
 its per-item classes and resolve sticky state. Throws when used outside an
-`AwdScroller`.
+`JigScroller`.
 
-{{ api: scroller/scroller-item AwdScrollerItem }}
+{{ api: scroller/scroller-item JigScrollerItem }}

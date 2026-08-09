@@ -1,7 +1,7 @@
 import { executeMultiFilter } from '@awdlab/jig/api';
 
 import type { FormattedTableRow } from './types';
-import type { AwdFilterConfig } from '@awdlab/jig/filter';
+import type { JigFilterConfig } from '@awdlab/jig/filter';
 import type { PaginationState } from '@awdlab/jig/paginator';
 import type { AllKeysOfUnion } from '@awdlab/jig/utils';
 
@@ -11,7 +11,7 @@ export type TableSort<T> = {
 };
 
 export type TableFilters<T> =
-  | { [key in Extract<AllKeysOfUnion<T>, string>]?: AwdFilterConfig }
+  | { [key in Extract<AllKeysOfUnion<T>, string>]?: JigFilterConfig }
   | null;
 
 export type TableSortComparator<T> = (a: T, b: T, sort: TableSort<T>) => number;

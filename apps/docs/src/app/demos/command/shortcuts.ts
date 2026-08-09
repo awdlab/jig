@@ -4,14 +4,14 @@ import tablerPlus from '@iconify/icons-tabler/plus';
 import tablerSettings from '@iconify/icons-tabler/settings';
 import tablerTrash from '@iconify/icons-tabler/trash';
 import { Component, signal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdCommand } from '@awdlab/jig/command';
-import { AwdKbd, AwdKeyboardShortcut } from '@awdlab/jig/kbd';
+import { JigButton } from '@awdlab/jig/button';
+import { JigCommand } from '@awdlab/jig/command';
+import { JigKbd, JigKeyboardShortcut } from '@awdlab/jig/kbd';
 
 import type { JigActionItem } from '@awdlab/jig/api';
 
 @Component({
-  imports: [AwdCommand, AwdButton, AwdKbd, AwdKeyboardShortcut],
+  imports: [JigCommand, JigButton, JigKbd, JigKeyboardShortcut],
   selector: 'jig-demo-command-shortcuts-demo',
   template: `
     <div

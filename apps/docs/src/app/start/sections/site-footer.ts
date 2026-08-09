@@ -41,4 +41,4 @@ import { RouterLink } from '@angular/router';
     </div>
   `,
 })
-export class AwdDocsSiteFooter {}
+export class JigDocsSiteFooter {}

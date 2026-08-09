@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { injectThemeColors } from '@awdlab/jig/api/ng';
-import { AwdButton } from '@awdlab/jig/button';
+import { JigButton } from '@awdlab/jig/button';
 import { injectSnackbarCreator } from '@awdlab/jig/snackbar';
 
 import type { CustomColor } from '@awdlab/jig-custom-types';
 
 @Component({
-  imports: [AwdButton],
+  imports: [JigButton],
   selector: 'jig-demo-snackbar-colors',
   template: `
     @for (color of colors(); track color) {

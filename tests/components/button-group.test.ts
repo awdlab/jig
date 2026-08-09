@@ -2,7 +2,7 @@ import test, { type Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import type { InputsType } from '../../apps/test-wrapper/src/app/window.js';
 import { expectScreenshot } from '../helper/screenshot';
-import { AwdButtonGroupHarness } from '@awdlab/jig-playwright';
+import { JigButtonGroupHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 
 async function prepareTest(page: Page, inputs: InputsType = {}) {
@@ -24,7 +24,7 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
 test('base', async ({ page }, testInfo) => {
   const handle = await prepareTest(page);
 
-  const buttonGroup = new AwdButtonGroupHarness(page.locator('jig-button-group'));
+  const buttonGroup = new JigButtonGroupHarness(page.locator('jig-button-group'));
   await buttonGroup.expectItemCount(5);
 
   await expectScreenshot(page, testInfo, 'horizontal');

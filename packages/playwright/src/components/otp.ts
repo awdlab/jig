@@ -9,7 +9,7 @@ import { otpControlTemplate } from '@awdlab/jig-themes/templates/otp';
  * composed `value` model is not written to the DOM, so assert it via a bound
  * echo element in the test component.
  */
-export class AwdOtpHarness {
+export class JigOtpHarness {
   public readonly classes = themeClasses(otpControlTemplate);
 
   /** All character-cell inputs, in order. */

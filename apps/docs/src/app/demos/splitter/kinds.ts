@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { AwdSplitterModule } from '@awdlab/jig/splitter';
+import { JigSplitterModule } from '@awdlab/jig/splitter';
 
 @Component({
-  imports: [AwdSplitterModule],
+  imports: [JigSplitterModule],
   selector: 'jig-demo-splitter-kinds',
   template: `
     <div class="grid">

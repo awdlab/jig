@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
-import { AwdAccordion, AwdAccordionPanel } from '@awdlab/jig/accordion';
+import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
 
 @Component({
   selector: 'jig-root',
-  imports: [AwdAccordion, AwdAccordionPanel],
+  imports: [JigAccordion, JigAccordionPanel],
   template: `
     <button (click)="visible.set(!visible())">Toggle Tabs</button>
     @if (visible()) {

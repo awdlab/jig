@@ -1,13 +1,13 @@
 import { Component, signal, ViewEncapsulation } from '@angular/core';
-import { AwdAccordion, AwdAccordionPanel } from '@awdlab/jig/accordion';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdAvatar } from '@awdlab/jig/avatar';
-import { AwdListBox } from '@awdlab/jig/list-box';
+import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigAvatar } from '@awdlab/jig/avatar';
+import { JigListBox } from '@awdlab/jig/list-box';
 
-import { AwdDocsSectionShell } from './section-shell';
+import { JigDocsSectionShell } from './section-shell';
 import { style } from '../../utils/code/prism';
 
-import type { AwdPassthrough } from '@awdlab/jig/base';
+import type { JigPassthrough } from '@awdlab/jig/base';
 
 type Mode = 'pt' | 'templated' | 'theme' | 'unstyled';
 
@@ -22,12 +22,12 @@ interface Person {
 @Component({
   selector: 'jig-docs-customization-section',
   imports: [
-    AwdDocsSectionShell,
-    AwdListBox,
-    AwdTemplate,
-    AwdAvatar,
-    AwdAccordion,
-    AwdAccordionPanel,
+    JigDocsSectionShell,
+    JigListBox,
+    JigTemplate,
+    JigAvatar,
+    JigAccordion,
+    JigAccordionPanel,
   ],
   // None so the #unstyled-demo rules emit as global CSS, scoped by the id.
   encapsulation: ViewEncapsulation.None,
@@ -225,7 +225,7 @@ interface Person {
     </jig-docs-section-shell>
   `,
 })
-export class AwdDocsCustomizationSection {
+export class JigDocsCustomizationSection {
   protected readonly expandedPanels = signal<string[]>(['pt']);
 
   protected readonly people: readonly Person[] = [
@@ -237,7 +237,7 @@ export class AwdDocsCustomizationSection {
 
   protected readonly selected = signal<string | null>('ada');
 
-  protected readonly ptOverrides: AwdPassthrough<'listBox'> = {
+  protected readonly ptOverrides: JigPassthrough<'listBox'> = {
     root: {
       $styles: {
         borderRadius: '0',
@@ -265,7 +265,7 @@ export class AwdDocsCustomizationSection {
     },
   };
 
-  protected readonly themeOverrides: AwdPassthrough<'listBox'> = {
+  protected readonly themeOverrides: JigPassthrough<'listBox'> = {
     root: {
       $styles: {
         borderRadius: 'var(--jig-size-rounded-lg)',
@@ -337,7 +337,7 @@ const listBox = createThemePart({
   \` },
 });
 
-provideAwdControls({ theme: { preset: createTheme({ listBox }) } });`,
+provideJigControls({ theme: { preset: createTheme({ listBox }) } });`,
   unstyled: `<!-- base theme only — bring your own CSS -->
 <div id="unstyled-demo">
   <jig-list-box [items]="people" [unstyled]="true" selectable />

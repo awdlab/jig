@@ -3,7 +3,7 @@ import { loadComponent } from '../helper/load-component';
 
 import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 
-// AwdMovable writes left/top on pointer drag. On a shared host AwdResizable claims the
+// JigMovable writes left/top on pointer drag. On a shared host JigResizable claims the
 // gesture that starts on its grip, so a resize never doubles as a move.
 const panel = (page: Page) => page.locator('.panel');
 
@@ -50,7 +50,7 @@ test('resizable host: dragging the resize grip does not move the element', async
   await dragFrom(page, panel(page), 'grip');
   const after = await box(panel(page));
 
-  // The top-left corner stays put — AwdResizable claimed the gesture.
+  // The top-left corner stays put — JigResizable claimed the gesture.
   // Size is not asserted: whether a synthetic drag drives the native grip is browser-dependent.
   expect(Math.abs(after.x - before.x)).toBeLessThanOrEqual(1);
   expect(Math.abs(after.y - before.y)).toBeLessThanOrEqual(1);

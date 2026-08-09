@@ -1,13 +1,13 @@
-import { AwdDocsCommandPlayground } from './playground';
+import { JigDocsCommandPlayground } from './playground';
 import { Demo_Command_Base } from '../../../demos/command/base';
 import { Demo_Command_Grouped } from '../../../demos/command/grouped';
 import { Demo_Command_Routes } from '../../../demos/command/routes';
 import { Demo_Command_Shortcuts } from '../../../demos/command/shortcuts';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const CommandPage: AwdDocsPage = {
+export const CommandPage: JigDocsPage = {
   title: `Command`,
   kind: 'tabs',
   tabs: [
@@ -26,7 +26,7 @@ export const CommandPage: AwdDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: AwdDocsCommandPlayground,
+      component: JigDocsCommandPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/command/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/command/a11y.md' },

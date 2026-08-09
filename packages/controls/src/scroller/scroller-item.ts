@@ -7,39 +7,39 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { getNearestAwdInstance } from '@awdlab/jig/base';
-import { AwdError, toggleClass } from '@awdlab/jig/utils';
+import { getNearestJigInstance } from '@awdlab/jig/base';
+import { JigError, toggleClass } from '@awdlab/jig/utils';
 
-import { AwdScroller } from './scroller';
+import { JigScroller } from './scroller';
 
 /**
  * Binds a rendered element to the item it represents inside an enclosing
- * {@link AwdScroller}, so the scroller can apply its per-item classes and
+ * {@link JigScroller}, so the scroller can apply its per-item classes and
  * resolve the item's sticky state.
  *
- * Throws if used outside an `AwdScroller`.
+ * Throws if used outside an `JigScroller`.
  *
  * @category directive
  */
 @Directive({ selector: '[ngnScrollerItem]' })
-export class AwdScrollerItem implements AfterViewInit {
+export class JigScrollerItem implements AfterViewInit {
   private readonly _el = inject(ElementRef<HTMLElement>);
   /**
    * The item bound to this element. Used to resolve its sticky state and apply
-   * the scroller's item classes from the enclosing {@link AwdScroller}.
+   * the scroller's item classes from the enclosing {@link JigScroller}.
    */
   public readonly ngnScrollerItem = input.required<object>();
-  private readonly _scroller = signal<AwdScroller<unknown> | null>(null);
+  private readonly _scroller = signal<JigScroller<unknown> | null>(null);
 
   public ngAfterViewInit() {
     if (!this._el.nativeElement.isConnected) {
       return;
     }
-    const parentInstance = getNearestAwdInstance(this._el.nativeElement, AwdScroller);
+    const parentInstance = getNearestJigInstance(this._el.nativeElement, JigScroller);
     if (!parentInstance) {
-      throw new AwdError(
+      throw new JigError(
         'scroller',
-        'ngnScrollerItem must be used within an AwdScroller component'
+        'ngnScrollerItem must be used within an JigScroller component'
       );
     }
     this._scroller.set(parentInstance);

@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { booleanAttribute, Component, computed, input, signal } from '@angular/core';
-import { AwdPt, provideSelf } from '@awdlab/jig/base';
-import { AwdIcon } from '@awdlab/jig/icon';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigIcon } from '@awdlab/jig/icon';
 import { ratingControlTemplate } from '@awdlab/jig-themes/templates/rating';
 
 import { RatingTemplates } from './rating-templates';
@@ -14,8 +14,8 @@ import type { IconType } from '@awdlab/jig-custom-types';
 @Component({
   selector: 'jig-rating',
   templateUrl: './rating.html',
-  imports: [NgTemplateOutlet, AwdPt, AwdIcon],
-  providers: [provideSelf(AwdRating)],
+  imports: [NgTemplateOutlet, JigPt, JigIcon],
+  providers: [provideSelf(JigRating)],
   host: {
     role: 'slider',
     'aria-valuemin': '0',
@@ -35,7 +35,7 @@ import type { IconType } from '@awdlab/jig-custom-types';
     '(blur)': 'markTouched()',
   },
 })
-export class AwdRating extends RatingTemplates {
+export class JigRating extends RatingTemplates {
   protected readonly theme = this.injectThemeTemplate(ratingControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),

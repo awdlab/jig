@@ -71,7 +71,7 @@ export function kindsColorsSection(control: PackControl, pack: KnowledgePack): s
     `The \`kind\` / \`color\` inputs accept values defined by the **active theme**, not a fixed ` +
     `type. The built-in themes offer:\n\n${lines.join('\n')}\n\n` +
     `If the app uses a **custom theme**, read that theme's \`createTheme({ …, kinds, colors })\` ` +
-    `or the app's \`AwdCustomTypes\` interface (\`CustomKind\` / \`CustomColor\` from ` +
+    `or the app's \`JigCustomTypes\` interface (\`CustomKind\` / \`CustomColor\` from ` +
     `\`@awdlab/jig-custom-types\`) for the allowed values. See get_theme_options.\n`
   );
 }
@@ -278,9 +278,9 @@ export function themeOptionsMarkdown(
   return (
     `# Theme kind & color options\n\n${blocks.join('\n\n')}\n\n` +
     `> These are the **built-in** themes. Determine which theme the app configures ` +
-    `(the \`preset\` in its jig config / \`provideAwdControls\`, or an active \`ThemeService\` theme). ` +
+    `(the \`preset\` in its jig config / \`provideJigControls\`, or an active \`ThemeService\` theme). ` +
     `For a **custom theme**, the allowed values come from that theme's \`createTheme({ …, kinds, colors })\` ` +
-    `and the app's \`AwdCustomTypes\` (\`CustomKind\` / \`CustomColor\`) — read those instead.`
+    `and the app's \`JigCustomTypes\` (\`CustomKind\` / \`CustomColor\`) — read those instead.`
   );
 }
 

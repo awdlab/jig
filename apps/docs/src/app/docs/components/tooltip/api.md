@@ -1,1 +1,1 @@
-{{ api: tooltip/tooltip AwdTooltip }}
+{{ api: tooltip/tooltip JigTooltip }}

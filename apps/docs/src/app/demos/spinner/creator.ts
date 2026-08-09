@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
+import { JigButton } from '@awdlab/jig/button';
 import { createConditionalSpinner, injectSpinnerCreator } from '@awdlab/jig/spinner';
 
 @Component({
   selector: 'jig-demo-spinner-creator',
-  imports: [AwdButton],
+  imports: [JigButton],
   template: `
     <div
       id="some-area"

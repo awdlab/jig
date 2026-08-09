@@ -1,7 +1,7 @@
 import { signal, type Signal } from '@angular/core';
 
 import type { PaginationState } from '@awdlab/jig/paginator';
-import type { AwdFilterConfig } from '@awdlab/jig/filter';
+import type { JigFilterConfig } from '@awdlab/jig/filter';
 import type { TableDataSource, TableLoadResult } from './types';
 
 export type TableLazyMode = 'paginate' | 'infinite';
@@ -9,12 +9,12 @@ export type TableLazyMode = 'paginate' | 'infinite';
 export type TableLazyDeps<T> = {
   dataSource: Signal<TableDataSource<T> | null>;
   sort: Signal<{ column: string; direction: 'asc' | 'desc' } | null>;
-  filters: Signal<Record<string, AwdFilterConfig> | null>;
+  filters: Signal<Record<string, JigFilterConfig> | null>;
   mode: Signal<TableLazyMode>;
 };
 
 /**
- * Owns lazy-loading state for {@link AwdTable}: the loaded row window,
+ * Owns lazy-loading state for {@link JigTable}: the loaded row window,
  * request status, per-page cache, and an epoch that invalidates on
  * sort/filter/pageSize/dataSource change. Plain signal class (no DI), mirroring
  * `TableSelectionModel`.

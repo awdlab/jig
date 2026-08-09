@@ -1,7 +1,7 @@
 ### Accordion API
 
-{{ api: accordion/accordion AwdAccordion }}
+{{ api: accordion/accordion JigAccordion }}
 
 ### Accordion Panel API
 
-{{ api: accordion/accordion-panel AwdAccordionPanel }}
+{{ api: accordion/accordion-panel JigAccordionPanel }}

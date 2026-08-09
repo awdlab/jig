@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AwdResizable } from '@awdlab/jig/directives';
+import { JigResizable } from '@awdlab/jig/directives';
 
 @Component({
   selector: 'jig-demo-resizable-base',
-  imports: [AwdResizable],
+  imports: [JigResizable],
   template: `
     <div
       ngnResizable

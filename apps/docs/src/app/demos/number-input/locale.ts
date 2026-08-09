@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdNumberInput } from '@awdlab/jig/number-input';
-import { AwdSpinButtons } from '@awdlab/jig/spin-buttons';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigNumberInput } from '@awdlab/jig/number-input';
+import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
 
 @Component({
-  imports: [AwdNumberInput, AwdInputField, AwdSpinButtons],
+  imports: [JigNumberInput, JigInputField, JigSpinButtons],
   selector: 'jig-demo-number-input-locale',
   template: `
     <div class="flex flex-col gap-4">

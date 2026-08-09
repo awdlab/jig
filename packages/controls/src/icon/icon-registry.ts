@@ -1,10 +1,10 @@
 import { InjectionToken } from '@angular/core';
 
 import type { IconifyIcon } from '@iconify/types';
-import type { AwdFeature } from '@awdlab/jig/api/ng';
-import type { IconType, AwdIconEntry } from '@awdlab/jig-custom-types';
+import type { JigFeature } from '@awdlab/jig/api/ng';
+import type { IconType, JigIconEntry } from '@awdlab/jig-custom-types';
 
-export type { AwdIconEntry } from '@awdlab/jig-custom-types';
+export type { JigIconEntry } from '@awdlab/jig-custom-types';
 
 export const NGN_ICON_KEYS = [
   'accordion-collapse',
@@ -54,19 +54,19 @@ export const NGN_ICON_KEYS = [
   'upload-remove',
 ] as const;
 
-export type AwdIconKey = (typeof NGN_ICON_KEYS)[number];
+export type JigIconKey = (typeof NGN_ICON_KEYS)[number];
 
-export type AwdIconRegistry = Record<AwdIconKey, IconifyIcon | AwdIconEntry>;
+export type JigIconRegistry = Record<JigIconKey, IconifyIcon | JigIconEntry>;
 
-export type AwdCustomIconRegistry = Record<AwdIconKey, IconType>;
+export type JigCustomIconRegistry = Record<JigIconKey, IconType>;
 
-export const NGN_ICON_REGISTRY = new InjectionToken<AwdIconRegistry | AwdCustomIconRegistry>(
+export const NGN_ICON_REGISTRY = new InjectionToken<JigIconRegistry | JigCustomIconRegistry>(
   'NGN_ICON_REGISTRY'
 );
 
 export const NGN_CUSTOM_ICONS = new InjectionToken<boolean>('NGN_CUSTOM_ICONS');
 
-export function withCustomIcons(registry: AwdCustomIconRegistry): AwdFeature {
+export function withCustomIcons(registry: JigCustomIconRegistry): JigFeature {
   return {
     providers: [
       { provide: NGN_ICON_REGISTRY, useValue: registry },

@@ -1,11 +1,11 @@
-import { AwdDocsKbdPlayground } from './playground';
+import { JigDocsKbdPlayground } from './playground';
 import { Demo_Kbd_Base } from '../../../demos/kbd/base';
 import { Demo_Kbd_DialogButtons } from '../../../demos/kbd/dialog-buttons';
 import { Demo_Kbd_ShortcutScope } from '../../../demos/kbd/shortcut-scope';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const KbdPage: AwdDocsPage = {
+export const KbdPage: JigDocsPage = {
   title: `Kbd`,
   kind: 'tabs',
   tabs: [
@@ -19,7 +19,7 @@ export const KbdPage: AwdDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: AwdDocsKbdPlayground,
+      component: JigDocsKbdPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/kbd/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/kbd/a11y.md' },

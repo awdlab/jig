@@ -1,4 +1,4 @@
-export type AwdDragInfo = {
+export type JigDragInfo = {
   deltaX: number;
   deltaY: number;
   absoluteX: number;

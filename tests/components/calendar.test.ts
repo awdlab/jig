@@ -1,7 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
-import { AwdCalendarHarness, AwdMaskInputHarness } from '@awdlab/jig-playwright';
+import { JigCalendarHarness, JigMaskInputHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 
 test('IO', async ({ page }, testInfo) => {
@@ -28,7 +28,7 @@ test('IO', async ({ page }, testInfo) => {
     expect(await handle.getOutputLog()).toEqual({ value: expectedOutputs });
   }
 
-  const calendar = new AwdCalendarHarness(page.locator('jig-calendar'));
+  const calendar = new JigCalendarHarness(page.locator('jig-calendar'));
   await calendar.expectDate('2025', 'August', '18');
   await expectScreenshot(page, testInfo, 'initial value');
   await handle.setInputs({
@@ -76,7 +76,7 @@ test('typing partial input is free and does not move the calendar', async ({ pag
 
   // The proxy input is the hidden input inside jig-mask-input inside jig-calendar.
   // Visible text is rendered in section/separator spans, not in input.value.
-  const maskHarness = new AwdMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
+  const maskHarness = new JigMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
   await maskHarness.focus();
 
   // Regression: typing "1" used to auto-parse to "01/01/2001 12:00 AM" and block
@@ -104,7 +104,7 @@ test('typing a complete date updates the calendar value live, exactly once', asy
     { inputs: {} }
   );
 
-  const maskHarness = new AwdMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
+  const maskHarness = new JigMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
   await maskHarness.focus();
 
   // Incomplete (year only partially typed) → no calendar update yet.
@@ -137,7 +137,7 @@ test('clearing every input mask section clears the calendar value', async ({ pag
     }
   );
 
-  const mask = new AwdMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
+  const mask = new JigMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
   await mask.expectText('06/15/2026');
 
   await mask.clear();
@@ -197,7 +197,7 @@ test('arrow-stepping an out-of-range day clamps to the month instead of rolling 
     { inputs: {} }
   );
 
-  const mask = new AwdMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
+  const mask = new JigMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
   await mask.focus();
 
   // Type February 1st 2026.
@@ -244,7 +244,7 @@ test('day field max adapts to the month: 30-day month and leap February', async 
       },
       { inputs: {} }
     );
-    const mask = new AwdMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
+    const mask = new JigMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
     await mask.focus();
     await mask.pressSequentially(typed);
 
@@ -274,7 +274,7 @@ test('clicking the calendar field padding selects the nearest mask section', asy
     { inputs: {} }
   );
 
-  const mask = new AwdMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
+  const mask = new JigMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
   await expect(mask.sections).toHaveCount(3);
 
   const field = page.locator('jig-calendar .jig-calendar-input-field').first();
@@ -325,7 +325,7 @@ test('clicking the OUTER input-field padding around a calendar selects the neare
     { inputs: {} }
   );
 
-  const mask = new AwdMaskInputHarness(page.locator('jig-mask-input').first());
+  const mask = new JigMaskInputHarness(page.locator('jig-mask-input').first());
   await expect(mask.sections).toHaveCount(3);
 
   // The OUTER input-field root — its padding/border is the "topmost area".
@@ -360,7 +360,7 @@ test('first day of week', async ({ page }, testInfo) => {
     }
   );
 
-  const calendar = new AwdCalendarHarness(page.locator('jig-calendar'));
+  const calendar = new JigCalendarHarness(page.locator('jig-calendar'));
   await calendar.expectDate('2025', 'August', '18');
   await calendar.expectFirstWeekday('sunday');
   await expectScreenshot(page, testInfo, 'sunday');

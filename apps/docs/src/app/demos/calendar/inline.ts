@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AwdCalendar } from '@awdlab/jig/calendar';
+import { JigCalendar } from '@awdlab/jig/calendar';
 
 @Component({
   selector: 'jig-demo-calendar-inline',
-  imports: [AwdCalendar],
+  imports: [JigCalendar],
   template: ` <jig-calendar [inputId]="'test-input'" [inline]="true" /> `,
 })
 export class Demo_Calendar_Inline {}

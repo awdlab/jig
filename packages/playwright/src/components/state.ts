@@ -1,19 +1,19 @@
 import { stateControlTemplate } from '@awdlab/jig-themes/templates/state';
 import { expect, type Locator } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
-import { AwdSpinnerHarness } from './spinner';
+import { JigSpinnerHarness } from './spinner';
 
-export class AwdStateHarness {
+export class JigStateHarness {
   public readonly classes = themeClasses(stateControlTemplate);
 
   public readonly indicator: Locator;
   public readonly icon: Locator;
-  public readonly spinner: AwdSpinnerHarness;
+  public readonly spinner: JigSpinnerHarness;
 
   constructor(public readonly locator: Locator) {
     this.indicator = locator.locator(this.classes.indicator);
     this.icon = locator.locator('jig-icon');
-    this.spinner = new AwdSpinnerHarness(locator.locator('jig-spinner'));
+    this.spinner = new JigSpinnerHarness(locator.locator('jig-spinner'));
   }
 
   public async expectLoading() {

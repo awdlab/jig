@@ -12,19 +12,19 @@ import {
   viewChild,
 } from '@angular/core';
 import type { Anchor, Openable } from '@awdlab/jig/api/ng';
-import { AwdPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdDrag, type AwdDragInfo } from '@awdlab/jig/directives';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdNumberInput } from '@awdlab/jig/number-input';
-import { AwdPopover } from '@awdlab/jig/popover';
+import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDrag, type JigDragInfo } from '@awdlab/jig/directives';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigNumberInput } from '@awdlab/jig/number-input';
+import { JigPopover } from '@awdlab/jig/popover';
 import {
   type ColorFormat,
   formatColor,
   hsvaToRgba,
   type HSVA,
-  AwdError,
+  JigError,
   parseColor,
   type RGBA,
   rgbaToHsva,
@@ -41,21 +41,21 @@ const DEFAULT_HSVA: HSVA = { h: 0, s: 0, v: 0, a: 1 };
   templateUrl: './color-picker.html',
   imports: [
     NgTemplateOutlet,
-    AwdPt,
-    AwdDrag,
-    AwdPopover,
-    AwdInput,
-    AwdButton,
-    AwdInputField,
-    AwdNumberInput,
+    JigPt,
+    JigDrag,
+    JigPopover,
+    JigInput,
+    JigButton,
+    JigInputField,
+    JigNumberInput,
   ],
-  providers: [provideSelf(AwdColorPicker)],
+  providers: [provideSelf(JigColorPicker)],
   host: {
     '[style.--hue]': 'hsva().h',
     '(focusout)': 'potentiallyBlurred()',
   },
 })
-export class AwdColorPicker extends ValueControlBase<'color-picker', string> implements Openable {
+export class JigColorPicker extends ValueControlBase<'color-picker', string> implements Openable {
   protected readonly theme = this.injectThemeTemplate(colorPickerControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),
@@ -67,7 +67,7 @@ export class AwdColorPicker extends ValueControlBase<'color-picker', string> imp
   private readonly _hueTrack = viewChild<ElementRef<HTMLElement>>('hueTrack');
   private readonly _alphaTrack = viewChild<ElementRef<HTMLElement>>('alphaTrack');
   // Only rendered (non-`inline()`) behind the trigger — absent while inline.
-  private readonly _popover = viewChild(AwdPopover);
+  private readonly _popover = viewChild(JigPopover);
 
   /** Output/display format. @default hex */
   public readonly format = input<ColorFormat>('hex');
@@ -133,7 +133,7 @@ export class AwdColorPicker extends ValueControlBase<'color-picker', string> imp
     // Headless popover requires an anchor (mirrors jig-menu).
     effect(() => {
       if (this.popover() && !this.anchor()) {
-        throw new AwdError('AwdColorPicker', 'popover mode requires the anchor input to be set.');
+        throw new JigError('JigColorPicker', 'popover mode requires the anchor input to be set.');
       }
     });
     // Two-way bridge between the `open` model and the actual popover state.
@@ -181,7 +181,7 @@ export class AwdColorPicker extends ValueControlBase<'color-picker', string> imp
     this.commit();
   }
 
-  protected onSvDrag(info: AwdDragInfo): void {
+  protected onSvDrag(info: JigDragInfo): void {
     if (this.readonly() || this.disabled()) return;
     const el = this._svArea()?.nativeElement;
     if (!el) return;
@@ -192,7 +192,7 @@ export class AwdColorPicker extends ValueControlBase<'color-picker', string> imp
     this.commit();
   }
 
-  protected onHueDrag(info: AwdDragInfo): void {
+  protected onHueDrag(info: JigDragInfo): void {
     if (this.readonly() || this.disabled()) return;
     const el = this._hueTrack()?.nativeElement;
     if (!el) return;
@@ -202,7 +202,7 @@ export class AwdColorPicker extends ValueControlBase<'color-picker', string> imp
     this.commit();
   }
 
-  protected onAlphaDrag(info: AwdDragInfo): void {
+  protected onAlphaDrag(info: JigDragInfo): void {
     if (this.readonly() || this.disabled()) return;
     const el = this._alphaTrack()?.nativeElement;
     if (!el) return;

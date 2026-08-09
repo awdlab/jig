@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import tablerExternalLink from '@iconify/icons-tabler/external-link';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdIcon } from '@awdlab/jig/icon';
+import { JigButton } from '@awdlab/jig/button';
+import { JigIcon } from '@awdlab/jig/icon';
 
 @Component({
   selector: 'jig-demo-button-link',
-  imports: [AwdButton, AwdIcon],
+  imports: [JigButton, JigIcon],
   template: `
     <!-- The anchors keep real hrefs so they behave like links; the demo just cancels the
          navigation so reading the page doesn't move you off it. -->

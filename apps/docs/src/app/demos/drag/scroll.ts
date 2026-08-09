@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AwdDragScroll } from '@awdlab/jig/directives';
+import { JigDragScroll } from '@awdlab/jig/directives';
 
 @Component({
   selector: 'jig-demo-drag-scroll',
-  imports: [AwdDragScroll],
+  imports: [JigDragScroll],
   template: `
     <div ngnDragScroll class="canvas">
       <div class="grid">

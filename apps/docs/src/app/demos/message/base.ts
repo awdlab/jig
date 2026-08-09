@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { injectThemeColors, injectThemeControlKinds } from '@awdlab/jig/api/ng';
-import { AwdMessage } from '@awdlab/jig/message';
+import { JigMessage } from '@awdlab/jig/message';
 
 @Component({
-  imports: [AwdMessage],
+  imports: [JigMessage],
   selector: 'jig-demo-message-base',
   template: `
     <div class="flex flex-wrap gap-2">

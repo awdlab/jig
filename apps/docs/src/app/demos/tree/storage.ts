@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { AwdTree } from '@awdlab/jig/tree';
+import { JigTree } from '@awdlab/jig/tree';
 
 import { fileTree } from './sample-data';
 
-import type { AwdTreeStorageConfig } from '@awdlab/jig/tree';
+import type { JigTreeStorageConfig } from '@awdlab/jig/tree';
 
 @Component({
-  imports: [AwdTree],
+  imports: [JigTree],
   selector: 'jig-demo-tree-storage',
   template: `
     <p style="margin-bottom: 0.5rem; font-size: 0.875rem;">
@@ -23,8 +23,8 @@ import type { AwdTreeStorageConfig } from '@awdlab/jig/tree';
 export class Demo_Tree_Storage {
   protected readonly items = fileTree;
 
-  // Stable reference; key + optional AwdStorageKind (defaults to 'localstorage').
-  protected readonly storage: AwdTreeStorageConfig = {
+  // Stable reference; key + optional JigStorageKind (defaults to 'localstorage').
+  protected readonly storage: JigTreeStorageConfig = {
     key: 'jig-demo-tree-state',
     kind: 'localstorage',
   };

@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { AwdCheckbox } from '@awdlab/jig/checkbox';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
 
 @Component({
-  imports: [AwdCheckbox],
+  imports: [JigCheckbox],
   selector: 'jig-demo-checkbox-states',
   template: `
     Default:

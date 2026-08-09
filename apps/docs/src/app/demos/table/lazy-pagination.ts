@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdTableModule } from '@awdlab/jig/table';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigTableModule } from '@awdlab/jig/table';
 
 import { fetchPage, type Person } from './fake-data-service';
 
 import type { TableDataSource } from '@awdlab/jig/table';
 
 @Component({
-  imports: [AwdTableModule, AwdTemplate],
+  imports: [JigTableModule, JigTemplate],
   selector: 'jig-demo-table-lazy-pagination',
   template: `<jig-table
     #table

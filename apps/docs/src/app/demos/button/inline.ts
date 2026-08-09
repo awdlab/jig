@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import tablerCopy from '@iconify/icons-tabler/copy';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
+import { JigButton } from '@awdlab/jig/button';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 
 @Component({
   selector: 'jig-demo-button-inline',
-  imports: [AwdButton, AwdIcon, AwdInput, AwdInputField],
+  imports: [JigButton, JigIcon, JigInput, JigInputField],
   template: `
     <div class="flex flex-col items-start gap-4">
       <p class="max-w-prose">

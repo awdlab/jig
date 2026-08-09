@@ -1,10 +1,10 @@
-import { AwdDocsBreadcrumbPlayground } from './playground';
+import { JigDocsBreadcrumbPlayground } from './playground';
 import { Demo_Breadcrumb_Base } from '../../../demos/breadcrumb/base';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const BreadcrumbPage: AwdDocsPage = {
+export const BreadcrumbPage: JigDocsPage = {
   title: `Breadcrumb`,
   kind: 'tabs',
   tabs: [
@@ -19,7 +19,7 @@ export const BreadcrumbPage: AwdDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: AwdDocsBreadcrumbPlayground,
+      component: JigDocsBreadcrumbPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/breadcrumb/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/breadcrumb/a11y.md' },

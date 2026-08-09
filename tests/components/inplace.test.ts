@@ -1,5 +1,5 @@
 import test from '@playwright/test';
-import { AwdInplaceHarness } from '@awdlab/jig-playwright';
+import { JigInplaceHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -22,7 +22,7 @@ test('base', async ({ page }, testInfo) => {
     imports: ['inplace'],
   });
 
-  const inplace = new AwdInplaceHarness(page.locator('jig-inplace'));
+  const inplace = new JigInplaceHarness(page.locator('jig-inplace'));
 
   await inplace.expectDisplayVisible(true);
   await inplace.expectContentVisible(false);
@@ -57,7 +57,7 @@ test('lazy loading', async ({ page }, testInfo) => {
     imports: ['inplace', 'dummy_component'],
   });
 
-  const inplace = new AwdInplaceHarness(page.locator('jig-inplace'));
+  const inplace = new JigInplaceHarness(page.locator('jig-inplace'));
 
   await test.step('lazy=true (default)', async () => {
     await handle.setInputs({ lazy: true, cache: false });
@@ -116,7 +116,7 @@ test('model binding', async ({ page }, testInfo) => {
     imports: ['inplace'],
   });
 
-  const inplace = new AwdInplaceHarness(page.locator('jig-inplace'));
+  const inplace = new JigInplaceHarness(page.locator('jig-inplace'));
 
   await test.step('initially closed', async () => {
     await handle.setInputs({ contentVisible: false });
@@ -155,7 +155,7 @@ test('accessibility (axe)', async ({ page }) => {
     imports: ['inplace'],
   });
 
-  const inplace = new AwdInplaceHarness(page.locator('jig-inplace'));
+  const inplace = new JigInplaceHarness(page.locator('jig-inplace'));
 
   // Scan the display (collapsed) surface first.
   await inplace.expectDisplayVisible(true);

@@ -1,13 +1,13 @@
 import { booleanAttribute, Component, input, model, inject } from '@angular/core';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdPt, provideSelf } from '@awdlab/jig/base';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdAutofocus } from '@awdlab/jig/directives';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigButton } from '@awdlab/jig/button';
+import { JigAutofocus } from '@awdlab/jig/directives';
 import { I18n } from '@awdlab/jig/i18n';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdInplace } from '@awdlab/jig/inplace';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInplace } from '@awdlab/jig/inplace';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 import { editInplaceControlTemplate } from '@awdlab/jig-themes/templates/edit-inplace';
 
 import { EditInplaceTemplates } from './edit-inplace-templates';
@@ -19,18 +19,18 @@ import { EditInplaceTemplates } from './edit-inplace-templates';
   selector: 'jig-edit-inplace',
   templateUrl: './edit-inplace.html',
   imports: [
-    AwdPt,
-    AwdInplace,
-    AwdTemplate,
-    AwdInput,
-    AwdAutofocus,
-    AwdButton,
-    AwdIcon,
-    AwdInputField,
+    JigPt,
+    JigInplace,
+    JigTemplate,
+    JigInput,
+    JigAutofocus,
+    JigButton,
+    JigIcon,
+    JigInputField,
   ],
-  providers: [provideSelf(AwdEditInplace)],
+  providers: [provideSelf(JigEditInplace)],
 })
-export class AwdEditInplace extends EditInplaceTemplates {
+export class JigEditInplace extends EditInplaceTemplates {
   protected readonly theme = this.injectThemeTemplate(editInplaceControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),

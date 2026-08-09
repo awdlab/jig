@@ -1,34 +1,34 @@
 import { expect, type Locator } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { selectControlTemplate } from '@awdlab/jig-themes/templates/select';
-import { AwdInputHarness } from './input';
+import { JigInputHarness } from './input';
 import { NGN_CLASSES } from '../utils/classes';
-import { AwdListBoxHarness } from './list-box';
-import { AwdInputFieldHarness } from './input-field';
+import { JigListBoxHarness } from './list-box';
+import { JigInputFieldHarness } from './input-field';
 import { JigItemViewHarness } from './item-view';
 
-export class AwdSelectHarness {
+export class JigSelectHarness {
   public readonly classes = themeClasses(selectControlTemplate);
-  public readonly filter: AwdInputFieldHarness<{ input: AwdInputHarness }>;
+  public readonly filter: JigInputFieldHarness<{ input: JigInputHarness }>;
   public readonly filterIcon: Locator;
   public readonly icon: Locator;
   public readonly input: Locator;
-  public readonly inputEditable: AwdInputHarness;
-  public readonly listBox: AwdListBoxHarness;
+  public readonly inputEditable: JigInputHarness;
+  public readonly listBox: JigListBoxHarness;
   public readonly popoverContent: Locator;
   public readonly multipleItemView: JigItemViewHarness;
 
   constructor(public locator: Locator) {
-    this.filter = new AwdInputFieldHarness(locator.locator(this.classes['filter']['root']), l => ({
-      input: new AwdInputHarness(l.locator(NGN_CLASSES.input['root'])),
+    this.filter = new JigInputFieldHarness(locator.locator(this.classes['filter']['root']), l => ({
+      input: new JigInputHarness(l.locator(NGN_CLASSES.input['root'])),
     }));
     this.filterIcon = locator.locator(this.classes['filter-icon']);
     this.icon = locator.locator(this.classes['icon']);
     this.input = locator.locator(this.classes['input']);
-    this.inputEditable = new AwdInputHarness(
+    this.inputEditable = new JigInputHarness(
       locator.locator(`${this.classes['input-editable']} ${NGN_CLASSES.input['root']}`)
     );
-    this.listBox = new AwdListBoxHarness(locator.locator(this.classes['list-box']['root']));
+    this.listBox = new JigListBoxHarness(locator.locator(this.classes['list-box']['root']));
     this.popoverContent = locator.locator(this.classes['popover-content']);
     this.multipleItemView = new JigItemViewHarness(locator.locator('jig-item-view'));
   }

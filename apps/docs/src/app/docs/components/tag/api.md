@@ -1,1 +1,1 @@
-{{ api: tag/tag AwdTag }}
+{{ api: tag/tag JigTag }}

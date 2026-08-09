@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdInplace } from '@awdlab/jig/inplace';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigButton } from '@awdlab/jig/button';
+import { JigInplace } from '@awdlab/jig/inplace';
 
 @Component({
-  imports: [AwdInplace, AwdTemplate, AwdButton],
+  imports: [JigInplace, JigTemplate, JigButton],
   selector: 'jig-demo-inplace-toggling',
   template: `
     <div class="flex flex-col gap-3">

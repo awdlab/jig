@@ -1,1 +1,1 @@
-{{ api: hint/hint AwdHint }}
+{{ api: hint/hint JigHint }}

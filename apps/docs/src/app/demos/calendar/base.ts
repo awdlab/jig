@@ -1,11 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { AwdCalendar } from '@awdlab/jig/calendar';
-import { AwdInputField } from '@awdlab/jig/input-field';
+import { JigCalendar } from '@awdlab/jig/calendar';
+import { JigInputField } from '@awdlab/jig/input-field';
 
 @Component({
   selector: 'jig-demo-calendar-base',
-  imports: [AwdCalendar, AwdInputField, DatePipe],
+  imports: [JigCalendar, JigInputField, DatePipe],
   template: `
     <jig-input-field>
       <jig-calendar [inputId]="'test-input'" [value]="value()" (valueChange)="value.set($event)" />

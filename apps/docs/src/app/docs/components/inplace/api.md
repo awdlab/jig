@@ -1,1 +1,1 @@
-{{ api: inplace/inplace AwdInplace }}
+{{ api: inplace/inplace JigInplace }}

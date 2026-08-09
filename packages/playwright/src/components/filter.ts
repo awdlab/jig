@@ -2,10 +2,10 @@ import { expect, type Locator } from '@playwright/test';
 import { filterControlTemplate } from '@awdlab/jig-themes/templates/filter';
 import { themeClasses } from '../utils/theme';
 import { NGN_CLASSES } from '../utils/classes';
-import { AwdInputHarness } from './input';
-import { AwdSelectHarness } from './select';
+import { JigInputHarness } from './input';
+import { JigSelectHarness } from './select';
 
-export class AwdFilterHarness {
+export class JigFilterHarness {
   public readonly classes = themeClasses(filterControlTemplate);
 
   public readonly trigger: Locator;
@@ -29,17 +29,17 @@ export class AwdFilterHarness {
     return this.locator.locator(this.classes['row']).nth(index);
   }
 
-  public operatorSelect(index: number): AwdSelectHarness {
-    return new AwdSelectHarness(this.row(index).locator(this.classes['operator']['root']));
+  public operatorSelect(index: number): JigSelectHarness {
+    return new JigSelectHarness(this.row(index).locator(this.classes['operator']['root']));
   }
 
   /** Select inside row using the 'value' ptClass (e.g. boolean operator or list select). */
-  public valueSelect(index: number): AwdSelectHarness {
-    return new AwdSelectHarness(this.row(index).locator(this.classes['value']['root']));
+  public valueSelect(index: number): JigSelectHarness {
+    return new JigSelectHarness(this.row(index).locator(this.classes['value']['root']));
   }
 
-  public valueInput(index: number): AwdInputHarness {
-    return new AwdInputHarness(
+  public valueInput(index: number): JigInputHarness {
+    return new JigInputHarness(
       this.row(index).locator(`${this.classes['value']['root']} ${NGN_CLASSES.input['root']}`)
     );
   }

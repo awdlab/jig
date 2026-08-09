@@ -85,14 +85,14 @@ describe('docs tools', () => {
   it('list_controls returns every control', async () => {
     const text = callText(await client.callTool({ name: 'list_controls', arguments: {} }));
     expect(text).toContain(`${pack.controls.length} controls`);
-    expect(text).toContain('AwdSelect');
+    expect(text).toContain('JigSelect');
   });
 
   it('get_control returns full API and normalizes the jig- prefix', async () => {
     const text = callText(
       await client.callTool({ name: 'get_control', arguments: { name: 'jig-select' } })
     );
-    expect(text).toContain('# AwdSelect');
+    expect(text).toContain('# JigSelect');
     expect(text).toContain('Selector');
     expect(text).toContain('### Inputs');
   });
@@ -103,7 +103,7 @@ describe('docs tools', () => {
     );
     expect(text).toContain('Kinds & colors (theme-dependent)');
     expect(text).toContain('nova');
-    expect(text).toContain('AwdCustomTypes');
+    expect(text).toContain('JigCustomTypes');
   });
 
   it('get_control includes real demo examples', async () => {
@@ -152,7 +152,7 @@ describe('theming tools', () => {
     );
     expect(text).toContain('nova');
     expect(text).toContain('primary');
-    expect(text).toContain('AwdCustomTypes');
+    expect(text).toContain('JigCustomTypes');
   });
 
   it('scaffold_theme_part produces a createThemePart skeleton', async () => {
@@ -236,7 +236,7 @@ describe('feature tools & prompts', () => {
       })
     );
     const suggestions = text.slice(text.indexOf('Suggested controls'));
-    // AwdTable must appear before AwdTree/AwdListBox (which only mention
+    // JigTable must appear before JigTree/JigListBox (which only mention
     // filtering/selection in prose) — the weighted scorer's whole point.
     const tableAt = suggestions.indexOf('jig-table');
     const treeAt = suggestions.indexOf('jig-tree');

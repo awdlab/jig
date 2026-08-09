@@ -1,7 +1,7 @@
 ### Splitter API
 
-{{ api: splitter/splitter AwdSplitter }}
+{{ api: splitter/splitter JigSplitter }}
 
 ### Splitter Panel
 
-{{ api: splitter/panel/splitter-panel AwdSplitterPanel }}
+{{ api: splitter/panel/splitter-panel JigSplitterPanel }}

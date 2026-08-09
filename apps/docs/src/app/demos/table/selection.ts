@@ -1,12 +1,12 @@
 import { JsonPipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdTableModule } from '@awdlab/jig/table';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigTableModule } from '@awdlab/jig/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [AwdTableModule, AwdTemplate, JsonPipe],
+  imports: [JigTableModule, JigTemplate, JsonPipe],
   selector: 'jig-demo-table-selection-single',
   template: `<jig-table
       #table
@@ -41,7 +41,7 @@ export class Demo_Table_Selection_Single {
 }
 
 @Component({
-  imports: [AwdTableModule, AwdTemplate, JsonPipe],
+  imports: [JigTableModule, JigTemplate, JsonPipe],
   selector: 'jig-demo-table-selection-multi',
   template: `<jig-table
       #table

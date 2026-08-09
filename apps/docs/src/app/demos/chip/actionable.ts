@@ -1,10 +1,10 @@
 import { Component, computed } from '@angular/core';
 import { injectThemeControlKinds } from '@awdlab/jig/api/ng';
-import { AwdChip } from '@awdlab/jig/chip';
+import { JigChip } from '@awdlab/jig/chip';
 
 @Component({
   selector: 'jig-demo-chip-actionable',
-  imports: [AwdChip],
+  imports: [JigChip],
   template: `
     <div class="flex flex-col flex-wrap gap-2">
       <div class="flex flex-wrap gap-2">

@@ -1,17 +1,17 @@
 # API
 
-## AwdTable
+## JigTable
 
 Selector: `jig-table`
 
-{{ api: table/table AwdTable }}
+{{ api: table/table JigTable }}
 
 ### Lazy Loading
 
 Setting `dataSource` switches the table into lazy (server-driven) mode: `rows`
 is ignored, and sort/filter are delegated to the loader instead of applied
 client-side. `dataSource` is incompatible with `groupBy` — setting both throws
-an `AwdError` (grouping needs the full row set, which lazy mode never has).
+an `JigError` (grouping needs the full row set, which lazy mode never has).
 
 > **Bind `dataSource` to a stable reference** — a class field or method, not an
 > inline arrow (`[dataSource]="req => …"`). A new function identity on every
@@ -37,7 +37,7 @@ The loader has the shape `(req: TableLoadRequest) => Promise<TableLoadResult<T>>
 | ------------------ | -------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | `pagination`       | `PaginationState`                                        | Page/slice coordinates, reused from the paginator.                                   |
 | `sort`             | `{ column: string; direction: 'asc' \| 'desc' } \| null` | Active sort descriptor, or `null` when unsorted.                                     |
-| `filters`          | `Record<string, AwdFilterConfig> \| null`                | Active per-column filter config, or `null` when unfiltered.                          |
+| `filters`          | `Record<string, JigFilterConfig> \| null`                | Active per-column filter config, or `null` when unfiltered.                          |
 | `cursor`           | `unknown` (optional)                                     | Continuation token from the previous page's `cursor`. `undefined` on the first page. |
 | `signal`           | `AbortSignal`                                            | Aborts when the request is superseded or the table is destroyed.                     |
 
@@ -53,77 +53,77 @@ The loader has the shape `(req: TableLoadRequest) => Promise<TableLoadResult<T>>
 These build the grid itself. `ngnTableTh` declares the column id that every
 other feature is addressed by.
 
-### AwdTableHeadTr
+### JigTableHeadTr
 
 Selector: `[ngnTableHeadTr]` — the header `<tr>`.
 
-{{ api: table/table-header-row AwdTableHeadTr }}
+{{ api: table/table-header-row JigTableHeadTr }}
 
-### AwdTableTh
+### JigTableTh
 
 Selector: `[ngnTableTh]` — a header cell. The bound value is the column id.
 
-{{ api: table/table-header-cell AwdTableTh }}
+{{ api: table/table-header-cell JigTableTh }}
 
-### AwdTableBodyTr
+### JigTableBodyTr
 
 Selector: `[ngnTableBodyTr]` — a body `<tr>`; bind the row object from the
 `#body` template.
 
-{{ api: table/table-row AwdTableBodyTr }}
+{{ api: table/table-row JigTableBodyTr }}
 
-### AwdTableTd
+### JigTableTd
 
 Selector: `[ngnTableTd]` — a body cell. It has no inputs; it applies the cell
 class, exposes the visual column index and mirrors sticky positioning.
 
-### AwdTableGroupHeaderTr
+### JigTableGroupHeaderTr
 
 Selector: `[ngnTableGroupHeaderTr]` — the `<tr>` for a group header when
 `groupBy` is set; bind the group-header row from the `#groupHeader` template.
 
-{{ api: table/table-group-header-row AwdTableGroupHeaderTr }}
+{{ api: table/table-group-header-row JigTableGroupHeaderTr }}
 
 ## Column feature directives
 
 Each goes on a header cell, except selection which is used on both header and
 body cells.
 
-### AwdTableSortableColumn
+### JigTableSortableColumn
 
 Selector: `[ngnTableSortableColumn]`
 
-{{ api: table/table-sortable-column AwdTableSortableColumn }}
+{{ api: table/table-sortable-column JigTableSortableColumn }}
 
-### AwdTableFilterableColumn
+### JigTableFilterableColumn
 
 Selector: `[ngnTableFilterableColumn]`
 
-{{ api: table/table-filterable-column AwdTableFilterableColumn }}
+{{ api: table/table-filterable-column JigTableFilterableColumn }}
 
-### AwdTableSelectionColumn
+### JigTableSelectionColumn
 
 Selector: `[ngnTableSelectionColumn]`
 
-{{ api: table/table-selection-column AwdTableSelectionColumn }}
+{{ api: table/table-selection-column JigTableSelectionColumn }}
 
-### AwdTableReorderableColumn
+### JigTableReorderableColumn
 
 Selector: `[ngnTableReorderableColumn]`
 
-{{ api: table/table-reorderable-column AwdTableReorderableColumn }}
+{{ api: table/table-reorderable-column JigTableReorderableColumn }}
 
-### AwdTableStickyColumn
+### JigTableStickyColumn
 
 Selector: `[ngnTableStickyColumn]` — on a header cell; the body cells follow.
 
-{{ api: table/table-sticky-column AwdTableStickyColumn }}
+{{ api: table/table-sticky-column JigTableStickyColumn }}
 
-## AwdTableRowActions
+## JigTableRowActions
 
 Selector: `[ngnTableRowActions]` (apply to a body `<tr>`)
 
-{{ api: table/table-row-actions AwdTableRowActions }}
+{{ api: table/table-row-actions JigTableRowActions }}
 
 Keyboard: the grid is a single tab stop. ↑/↓/Home/End/PageUp/PageDown move the
 current row, → enters the row's actions, ←/→ move between them (← off the first
@@ -131,7 +131,7 @@ returns to the row), Enter/Space trigger an action, and
 Enter/ContextMenu/Shift+F10 open the menu. See the Accessibility tab for the
 full key map.
 
-## AwdTableModule
+## JigTableModule
 
 An `NgModule` that imports and exports every table directive at once, for
 convenience. All of them are standalone — importing the module is optional.

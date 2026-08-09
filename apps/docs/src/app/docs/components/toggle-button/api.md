@@ -1,1 +1,1 @@
-{{ api: toggle-button/toggle-button AwdToggleButton }}
+{{ api: toggle-button/toggle-button JigToggleButton }}

@@ -1,1 +1,1 @@
-{{ api: number-input/number-input AwdNumberInput }}
+{{ api: number-input/number-input JigNumberInput }}

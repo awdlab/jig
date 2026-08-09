@@ -1,5 +1,5 @@
 import { Component, computed, input, linkedSignal } from '@angular/core';
-import { AwdBase, provideSelf, AwdPt } from '@awdlab/jig/base';
+import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
 import { avatarControlTemplate } from '@awdlab/jig-themes/templates/avatar';
 
 /**
@@ -8,14 +8,14 @@ import { avatarControlTemplate } from '@awdlab/jig-themes/templates/avatar';
 @Component({
   selector: 'jig-avatar',
   templateUrl: './avatar.html',
-  imports: [AwdPt],
+  imports: [JigPt],
   host: {
     '[style.--size.px]': 'size()',
     '[style.--color]': 'bgColor()',
   },
-  providers: [provideSelf(AwdAvatar)],
+  providers: [provideSelf(JigAvatar)],
 })
-export class AwdAvatar extends AwdBase<'avatar'> {
+export class JigAvatar extends JigBase<'avatar'> {
   protected readonly theme = this.injectThemeTemplate(avatarControlTemplate, 'root');
 
   /**

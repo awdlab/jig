@@ -1,6 +1,6 @@
 import { Directive, effect, ElementRef, inject, input } from '@angular/core';
 import { injectThemeTemplate } from '@awdlab/jig/api/ng';
-import { AwdScrollerItem } from '@awdlab/jig/scroller';
+import { JigScrollerItem } from '@awdlab/jig/scroller';
 import { toggleClass } from '@awdlab/jig/utils';
 import { setInputSignalValue } from '@awdlab/jig/utils-ng';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
@@ -21,7 +21,7 @@ import type { FormattedTableGroupHeaderRow } from './types';
     '[style.--jig-table-row-index]': 'ngnTableGroupHeaderTr().index + 2',
   },
 })
-export class AwdTableGroupHeaderTr extends AwdScrollerItem {
+export class JigTableGroupHeaderTr extends JigScrollerItem {
   /** The group-header row this `<tr>` renders. */
   public readonly ngnTableGroupHeaderTr = input.required<FormattedTableGroupHeaderRow>();
   /** The item bound to the underlying scroller entry; kept in sync with {@link ngnTableGroupHeaderTr}. */

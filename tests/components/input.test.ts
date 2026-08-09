@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { AwdInputHarness } from '@awdlab/jig-playwright';
+import { JigInputHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -13,7 +13,7 @@ test('base', async ({ page }, testInfo) => {
     `,
     imports: ['input', 'inputField'],
   });
-  const textField = new AwdInputHarness(page.locator('input[ngnInput]').first());
+  const textField = new JigInputHarness(page.locator('input[ngnInput]').first());
   await textField.expectValue('');
   await textField.fill('123');
   await textField.expectValue('123');

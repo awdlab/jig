@@ -8,8 +8,8 @@ import {
   model,
   viewChild,
 } from '@angular/core';
-import { AwdPt, provideSelf } from '@awdlab/jig/base';
-import { AwdDefer } from '@awdlab/jig/defer';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigDefer } from '@awdlab/jig/defer';
 import { signalWithPrevious } from '@awdlab/jig/utils-ng';
 import { inplaceControlTemplate } from '@awdlab/jig-themes/templates/inplace';
 
@@ -21,10 +21,10 @@ import { InplaceTemplates } from './inplace-templates';
 @Component({
   selector: 'jig-inplace',
   templateUrl: './inplace.html',
-  imports: [AwdPt, NgTemplateOutlet, AwdDefer],
-  providers: [provideSelf(AwdInplace)],
+  imports: [JigPt, NgTemplateOutlet, JigDefer],
+  providers: [provideSelf(JigInplace)],
 })
-export class AwdInplace extends InplaceTemplates {
+export class JigInplace extends InplaceTemplates {
   protected readonly theme = this.injectThemeTemplate(inplaceControlTemplate, {
     root: true,
     disabled: () => this.disabled(),

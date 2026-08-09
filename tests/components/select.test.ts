@@ -1,4 +1,4 @@
-import { AwdSelectHarness } from '@awdlab/jig-playwright';
+import { JigSelectHarness } from '@awdlab/jig-playwright';
 import test, { expect } from '@playwright/test';
 
 import { exampleData } from '../helper/data';
@@ -61,7 +61,7 @@ test('base', async ({ page }, testInfo) => {
     }
   );
 
-  const select = new AwdSelectHarness(page.locator('jig-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
   await select.expectOpened(false);
   await select.open();
@@ -108,7 +108,7 @@ test('virtual', async ({ page }, testInfo) => {
     }
   );
 
-  const select = new AwdSelectHarness(page.locator('jig-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
   await select.expectOpened(false);
   await select.open();
@@ -157,7 +157,7 @@ test('grouped', async ({ page }, testInfo) => {
     }
   );
 
-  const select = new AwdSelectHarness(page.locator('jig-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
   await select.expectOpened(false);
   await select.open();
@@ -202,7 +202,7 @@ test('templates', async ({ page }, testInfo) => {
     }
   );
 
-  const select = new AwdSelectHarness(page.locator('jig-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
   await select.expectOpened(false);
   await select.open();
@@ -240,7 +240,7 @@ test('filter', async ({ page }, testInfo) => {
     }
   );
 
-  const select = new AwdSelectHarness(page.locator('jig-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
   await select.expectOpened(false);
   await select.open();
@@ -290,7 +290,7 @@ test('editable', async ({ page }, testInfo) => {
     }
   );
 
-  const select = new AwdSelectHarness(page.locator('jig-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
   await select.expectOpened(false);
   await select.open();
@@ -335,7 +335,7 @@ test('multiple', async ({ page }, testInfo) => {
     }
   );
 
-  const select = new AwdSelectHarness(page.locator('jig-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
   await select.expectOpened(false);
   await select.open();
@@ -395,7 +395,7 @@ test('invalid', async ({ page }, testInfo) => {
     }
   );
 
-  const select = new AwdSelectHarness(page.locator('jig-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
   await select.expectOpened(false);
   await expectScreenshot(page, testInfo, 'invalid');
@@ -437,7 +437,7 @@ test.describe('keyboard navigation', () => {
 
   test('Enter opens and closes popover', async ({ page }) => {
     await setupKeyboard(page);
-    const select = new AwdSelectHarness(page.locator('jig-select').first());
+    const select = new JigSelectHarness(page.locator('jig-select').first());
 
     await select.input.focus();
     await select.expectOpened(false);
@@ -451,7 +451,7 @@ test.describe('keyboard navigation', () => {
 
   test('arrow keys do not change value when popover is closed', async ({ page }) => {
     await setupKeyboard(page);
-    const select = new AwdSelectHarness(page.locator('jig-select').first());
+    const select = new JigSelectHarness(page.locator('jig-select').first());
 
     await select.input.focus();
     await page.keyboard.press('ArrowDown');
@@ -464,7 +464,7 @@ test.describe('keyboard navigation', () => {
 
   test('arrow keys navigate and Enter selects when popover is open', async ({ page }) => {
     const handle = await setupKeyboard(page);
-    const select = new AwdSelectHarness(page.locator('jig-select').first());
+    const select = new JigSelectHarness(page.locator('jig-select').first());
 
     await select.input.focus();
     await page.keyboard.press('Enter');
@@ -480,7 +480,7 @@ test.describe('keyboard navigation', () => {
 
   test('Enter re-opens popover after selecting an item', async ({ page }) => {
     await setupKeyboard(page);
-    const select = new AwdSelectHarness(page.locator('jig-select').first());
+    const select = new JigSelectHarness(page.locator('jig-select').first());
 
     await select.input.focus();
     await page.keyboard.press('Enter');
@@ -497,7 +497,7 @@ test.describe('keyboard navigation', () => {
     page,
   }) => {
     await setupKeyboard(page);
-    const select = new AwdSelectHarness(page.locator('jig-select').first());
+    const select = new JigSelectHarness(page.locator('jig-select').first());
 
     await select.input.focus();
     await page.keyboard.press('Enter');
@@ -547,7 +547,7 @@ test.describe('disabled items', () => {
 
   test('keyboard navigation skips disabled items', async ({ page }) => {
     const handle = await setupDisabled(page);
-    const select = new AwdSelectHarness(page.locator('jig-select').first());
+    const select = new JigSelectHarness(page.locator('jig-select').first());
 
     await select.input.focus();
     await page.keyboard.press('Enter');
@@ -568,7 +568,7 @@ test.describe('disabled items', () => {
 
   test('clicking disabled item does not select it', async ({ page }) => {
     await setupDisabled(page);
-    const select = new AwdSelectHarness(page.locator('jig-select').first());
+    const select = new JigSelectHarness(page.locator('jig-select').first());
 
     await select.open();
     const disabledItem = select.listBox.scroller.getItemByText('Bravo');
@@ -600,7 +600,7 @@ test('opens from the wrapping field padding with tabindex -1', async ({ page }) 
     }
   );
 
-  const select = new AwdSelectHarness(page.locator('jig-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
   const field = page.locator('jig-input-field > div').first();
 
   await expect(field).toHaveCSS('cursor', 'pointer');
@@ -638,7 +638,7 @@ test('accessibility (axe)', async ({ page }) => {
     }
   );
 
-  const select = new AwdSelectHarness(page.locator('jig-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
   // The listbox surface only exists once the popover is open.
   await select.open();
 
@@ -659,7 +659,7 @@ test('filter input keeps Home and End for the caret', async ({ page }) => {
     { inputs: { options: exampleData.items.groupedPreformatted } }
   );
 
-  const select = new AwdSelectHarness(page.locator('jig-select').first());
+  const select = new JigSelectHarness(page.locator('jig-select').first());
   await select.open();
 
   const input = select.filter.children.input;

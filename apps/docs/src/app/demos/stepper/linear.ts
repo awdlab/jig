@@ -1,10 +1,10 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdStepper, AwdStep } from '@awdlab/jig/stepper';
-import { AwdButton } from '@awdlab/jig/button';
+import { JigStepper, JigStep } from '@awdlab/jig/stepper';
+import { JigButton } from '@awdlab/jig/button';
 
 @Component({
   selector: 'jig-demo-stepper-linear',
-  imports: [AwdStepper, AwdStep, AwdButton],
+  imports: [JigStepper, JigStep, JigButton],
   template: `
     <jig-stepper [linear]="true" [active]="active()" (activeChange)="active.set($event)">
       <jig-step [label]="'Terms'" [completed]="termsAccepted()">

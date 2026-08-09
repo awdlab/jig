@@ -1,14 +1,14 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdDialog } from '@awdlab/jig/dialog';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDialog } from '@awdlab/jig/dialog';
 
-import { AwdDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   selector: 'jig-docs-dialog-playground',
-  imports: [AwdDialog, AwdButton, AwdDocsPlayground],
+  imports: [JigDialog, JigButton, JigDocsPlayground],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'AwdDialog', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'JigDialog', component: component() }]">
       <button ngnButton (click)="open.set(true)">Open Dialog</button>
       <jig-dialog
         #ref
@@ -22,7 +22,7 @@ import { AwdDocsPlayground } from '../../../utils/playground/playground';
     </jig-docs-playground>
   `,
 })
-export class AwdDocsDialogPlayground {
-  protected readonly component = viewChild.required('ref', { read: AwdDialog });
+export class JigDocsDialogPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigDialog });
   protected readonly open = signal(false);
 }

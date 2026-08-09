@@ -1,9 +1,9 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdFilter } from '@awdlab/jig/filter';
+import { JigFilter } from '@awdlab/jig/filter';
 
 @Component({
   selector: 'jig-demo-filter-datatypes',
-  imports: [AwdFilter],
+  imports: [JigFilter],
   template: `
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-2">

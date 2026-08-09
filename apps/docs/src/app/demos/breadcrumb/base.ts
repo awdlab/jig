@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { type BreadcrumbItem, AwdBreadcrumb } from '@awdlab/jig/breadcrumb';
+import { type BreadcrumbItem, JigBreadcrumb } from '@awdlab/jig/breadcrumb';
 
 @Component({
   selector: 'jig-demo-breadcrumb-base',
-  imports: [AwdBreadcrumb],
+  imports: [JigBreadcrumb],
   template: `<jig-breadcrumb [items]="items()" />`,
   host: { class: 'flex-1' },
 })

@@ -1,1 +1,1 @@
-{{ api: spinner/spinner AwdSpinner }}
+{{ api: spinner/spinner JigSpinner }}

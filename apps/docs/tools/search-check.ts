@@ -74,7 +74,7 @@ const NAME_CASES: { query: string; name: string }[] = [
   { query: 'iconClose', name: 'iconClose' },
   { query: 'jig-select', name: 'jig-select' },
   { query: 'ngnButton', name: 'ngnButton' },
-  { query: 'AwdInputField', name: 'AwdInputField' },
+  { query: 'JigInputField', name: 'JigInputField' },
   { query: 'closeBy', name: 'closeBy' },
 ];
 

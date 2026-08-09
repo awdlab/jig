@@ -1,33 +1,33 @@
 import { Component, viewChild } from '@angular/core';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { JigTemplate } from '@awdlab/jig/api/ng';
 import {
-  AwdTableModule,
-  AwdTableSortableColumn,
-  AwdTableFilterableColumn,
-  AwdTableReorderableColumn,
-  AwdTableSelectionColumn,
+  JigTableModule,
+  JigTableSortableColumn,
+  JigTableFilterableColumn,
+  JigTableReorderableColumn,
+  JigTableSelectionColumn,
 } from '@awdlab/jig/table';
 
 import { exampleData } from '../../../helper/data';
-import { AwdDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
-import type { AwdTable } from '@awdlab/jig/table';
+import type { JigTable } from '@awdlab/jig/table';
 
 type RowType = ReturnType<typeof exampleData.richTable>[number];
 
 @Component({
   selector: 'jig-docs-table-playground',
   imports: [
-    AwdTableModule,
-    AwdTemplate,
-    AwdDocsPlayground,
-    AwdTableSortableColumn,
-    AwdTableFilterableColumn,
-    AwdTableReorderableColumn,
-    AwdTableSelectionColumn,
+    JigTableModule,
+    JigTemplate,
+    JigDocsPlayground,
+    JigTableSortableColumn,
+    JigTableFilterableColumn,
+    JigTableReorderableColumn,
+    JigTableSelectionColumn,
   ],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'AwdTable', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'JigTable', component: component() }]">
       <jig-table
         #ref
         style="height: 400px; max-height: 100%; width: 100%"
@@ -106,7 +106,7 @@ type RowType = ReturnType<typeof exampleData.richTable>[number];
     </jig-docs-playground>
   `,
 })
-export class AwdDocsTablePlayground {
-  protected readonly component = viewChild.required<AwdTable<RowType, 'id'>>('ref');
+export class JigDocsTablePlayground {
+  protected readonly component = viewChild.required<JigTable<RowType, 'id'>>('ref');
   protected readonly rows = exampleData.richTable(50);
 }

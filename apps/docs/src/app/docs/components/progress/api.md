@@ -1,1 +1,1 @@
-{{ api: progress/progress AwdProgress }}
+{{ api: progress/progress JigProgress }}

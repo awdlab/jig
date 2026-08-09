@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { AwdTree } from '@awdlab/jig/tree';
+import { JigTree } from '@awdlab/jig/tree';
 
-import type { AwdTreeItem } from '@awdlab/jig/api';
+import type { JigTreeItem } from '@awdlab/jig/api';
 
 @Component({
-  imports: [AwdTree],
+  imports: [JigTree],
   selector: 'jig-demo-tree-disabled',
   template: `<jig-tree [items]="items" [multiple]="true" style="display: block; height: 300px;" />`,
 })
 export class Demo_Tree_Disabled {
-  protected readonly items: AwdTreeItem[] = [
+  protected readonly items: JigTreeItem[] = [
     {
       label: 'Active project',
       value: 'project',

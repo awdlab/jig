@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import tablerBell from '@iconify/icons-tabler/bell';
-import { AwdBadge } from '@awdlab/jig/badge';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdIcon } from '@awdlab/jig/icon';
+import { JigBadge } from '@awdlab/jig/badge';
+import { JigButton } from '@awdlab/jig/button';
+import { JigIcon } from '@awdlab/jig/icon';
 
 @Component({
   selector: 'jig-demo-badge-positions',
-  imports: [AwdBadge, AwdButton, AwdIcon],
+  imports: [JigBadge, JigButton, JigIcon],
   template: `
     <div class="flex gap-10 p-8">
       <button

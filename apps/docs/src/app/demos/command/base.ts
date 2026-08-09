@@ -2,13 +2,13 @@ import tablerCopy from '@iconify/icons-tabler/copy';
 import tablerFolderPlus from '@iconify/icons-tabler/folder-plus';
 import tablerPlus from '@iconify/icons-tabler/plus';
 import { Component, signal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdCommand } from '@awdlab/jig/command';
+import { JigButton } from '@awdlab/jig/button';
+import { JigCommand } from '@awdlab/jig/command';
 
 import type { JigActionItem } from '@awdlab/jig/api';
 
 @Component({
-  imports: [AwdCommand, AwdButton],
+  imports: [JigCommand, JigButton],
   selector: 'jig-demo-command-base-demo',
   template: `
     <button ngnButton (click)="open.set(true)">Open palette</button>

@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdDialog } from '@awdlab/jig/dialog';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDialog } from '@awdlab/jig/dialog';
 
-import type { AwdActionButtonConfig } from '@awdlab/jig/api';
+import type { JigActionButtonConfig } from '@awdlab/jig/api';
 
 @Component({
   selector: 'jig-demo-dialog-buttons',
-  imports: [AwdDialog, AwdButton],
+  imports: [JigDialog, JigButton],
   template: `<button ngnButton (click)="open.set(true)">Open Dialog</button>
     <jig-dialog
       [title]="'Buttons'"
@@ -42,7 +42,7 @@ export class Demo_Dialog_Buttons {
       },
       value: true,
     },
-  ] satisfies AwdActionButtonConfig<unknown>[];
+  ] satisfies JigActionButtonConfig<unknown>[];
 
   protected onButtonClicked(value: boolean | null): void {
     console.log('Dialog button clicked with value:', value);

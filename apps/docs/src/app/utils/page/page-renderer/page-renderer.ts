@@ -1,33 +1,33 @@
 import { Component, effect, inject, computed, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AwdBreadcrumb } from '@awdlab/jig/breadcrumb';
+import { JigBreadcrumb } from '@awdlab/jig/breadcrumb';
 import { notNullish } from '@awdlab/jig/utils';
 
-import { AwdDocsPageSection } from './section/section';
-import { AwdDocsToc } from './toc/toc';
+import { JigDocsPageSection } from './section/section';
+import { JigDocsToc } from './toc/toc';
 import { BreadcrumbService } from '../../../frame/breadcrumb.service';
 import { safeRoutePath } from '../../routing';
 import { Seo } from '../../seo';
 
 import type { TocEntry } from '../../md/types';
-import type { AwdDocsSinglePage, AwdDocsTab } from '../types';
+import type { JigDocsSinglePage, JigDocsTab } from '../types';
 import type { BreadcrumbItem } from '@awdlab/jig/breadcrumb';
 
 @Component({
   selector: 'jig-docs-page-renderer',
   templateUrl: 'page-renderer.html',
-  imports: [AwdDocsPageSection, AwdDocsToc, AwdBreadcrumb],
+  imports: [JigDocsPageSection, JigDocsToc, JigBreadcrumb],
   host: {
     class: 'min-w-0 w-full h-full flex flex-col pt-[5.5rem]',
   },
 })
-export class AwdDocsPageRenderer {
+export class JigDocsPageRenderer {
   private readonly _seo = inject(Seo);
   private readonly _activatedRoute = inject(ActivatedRoute);
   private readonly _breadcrumb = inject(BreadcrumbService);
 
-  protected readonly tab = this._activatedRoute.snapshot.data['tab'] as AwdDocsTab | undefined;
-  protected readonly page = this._activatedRoute.snapshot.data['page'] as AwdDocsSinglePage;
+  protected readonly tab = this._activatedRoute.snapshot.data['tab'] as JigDocsTab | undefined;
+  protected readonly page = this._activatedRoute.snapshot.data['page'] as JigDocsSinglePage;
 
   /** Content headings for the "on this page" rail, emitted by the section. */
   protected readonly headings = signal<TocEntry[]>([]);

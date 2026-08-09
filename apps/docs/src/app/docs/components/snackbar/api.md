@@ -1,3 +1,3 @@
 ## API
 
-{{ api: snackbar/snackbar AwdSnackbar }}
+{{ api: snackbar/snackbar JigSnackbar }}

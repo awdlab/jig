@@ -1,13 +1,13 @@
-import { AwdDocsOtpPlayground } from './playground';
+import { JigDocsOtpPlayground } from './playground';
 import { Demo_Otp_Base } from '../../../demos/otp/base';
 import { Demo_Otp_Length } from '../../../demos/otp/length';
 import { Demo_Otp_Mask } from '../../../demos/otp/mask';
 import { Demo_Otp_Validation } from '../../../demos/otp/validation';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const OtpPage: AwdDocsPage = {
+export const OtpPage: JigDocsPage = {
   title: `OTP`,
   kind: 'tabs',
   tabs: [
@@ -21,7 +21,7 @@ export const OtpPage: AwdDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: AwdDocsOtpPlayground,
+      component: JigDocsOtpPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/otp/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/otp/a11y.md' },

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import tablerUser from '@iconify/icons-tabler/user';
-import { AwdButton } from '@awdlab/jig/button';
+import { JigButton } from '@awdlab/jig/button';
 import { injectToastCreator } from '@awdlab/jig/toast';
 
 @Component({
-  imports: [AwdButton],
+  imports: [JigButton],
   selector: 'jig-demo-toast-icon',
   template: ` <button ngnButton kind="text" (click)="showToast()">Show Toast</button> `,
 })

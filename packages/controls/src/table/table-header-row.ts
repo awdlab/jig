@@ -1,5 +1,5 @@
 import { Directive, ElementRef, inject } from '@angular/core';
-import { AwdBase } from '@awdlab/jig/base';
+import { JigBase } from '@awdlab/jig/base';
 import { toggleClass } from '@awdlab/jig/utils';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
@@ -10,7 +10,7 @@ import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
  * @category directive
  */
 @Directive({ selector: '[ngnTableHeadTr]', host: { role: 'row', '[attr.aria-rowindex]': '1' } })
-export class AwdTableHeadTr extends AwdBase<'table'> {
+export class JigTableHeadTr extends JigBase<'table'> {
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate);
   private readonly _element = inject(ElementRef<HTMLElement>);
 

@@ -1,8 +1,8 @@
 import { Component, computed, DestroyRef, inject, input } from '@angular/core';
-import { type AnyAwdBase, AwdBase, AwdPt, provideSelf } from '@awdlab/jig/base';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdInputField } from '@awdlab/jig/input-field';
+import { type AnyJigBase, JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigButton } from '@awdlab/jig/button';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInputField } from '@awdlab/jig/input-field';
 import { spinButtonsControlTemplate } from '@awdlab/jig-themes/templates/spin-buttons';
 
 import type { IconType } from '@awdlab/jig-custom-types';
@@ -33,10 +33,10 @@ const HOLD_INTERVAL = 60;
 @Component({
   selector: 'jig-spin-buttons',
   templateUrl: './spin-buttons.html',
-  imports: [AwdPt, AwdButton, AwdIcon],
-  providers: [provideSelf(AwdSpinButtons)],
+  imports: [JigPt, JigButton, JigIcon],
+  providers: [provideSelf(JigSpinButtons)],
 })
-export class AwdSpinButtons extends AwdBase<'spinButtons'> {
+export class JigSpinButtons extends JigBase<'spinButtons'> {
   protected readonly theme = this.injectThemeTemplate(spinButtonsControlTemplate, {
     root: true,
     // A lone decrement button flanks the input's leading edge; everything else
@@ -56,13 +56,13 @@ export class AwdSpinButtons extends AwdBase<'spinButtons'> {
    * The control to step. Falls back to the primary control of a surrounding
    * `jig-input-field`.
    */
-  public readonly for = input<AnyAwdBase | undefined>(undefined);
+  public readonly for = input<AnyJigBase | undefined>(undefined);
   /** Custom icon for the increment button. */
   public readonly iconIncrement = input<IconType>();
   /** Custom icon for the decrement button. */
   public readonly iconDecrement = input<IconType>();
 
-  private readonly _field = inject(AwdInputField, { optional: true });
+  private readonly _field = inject(JigInputField, { optional: true });
 
   /** The resolved step target: explicit `for` wins over the surrounding field. */
   protected readonly target = computed(() => this.for() ?? this._field?.control());

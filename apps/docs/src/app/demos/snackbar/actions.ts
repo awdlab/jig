@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import tablerCircleCheck from '@iconify/icons-tabler/circle-check';
-import { AwdButton } from '@awdlab/jig/button';
+import { JigButton } from '@awdlab/jig/button';
 import { injectSnackbarCreator } from '@awdlab/jig/snackbar';
 
 @Component({
-  imports: [AwdButton],
+  imports: [JigButton],
   selector: 'jig-demo-snackbar-actions',
   template: ` <button ngnButton kind="text" (click)="showSnackbar()">Show with action</button> `,
 })

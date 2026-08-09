@@ -1,1 +1,1 @@
-{{ api: breadcrumb/breadcrumb AwdBreadcrumb }}
+{{ api: breadcrumb/breadcrumb JigBreadcrumb }}

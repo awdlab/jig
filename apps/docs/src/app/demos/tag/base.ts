@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { injectThemeColors, injectThemeControlKinds } from '@awdlab/jig/api/ng';
-import { AwdTag } from '@awdlab/jig/tag';
+import { JigTag } from '@awdlab/jig/tag';
 
 @Component({
-  imports: [AwdTag],
+  imports: [JigTag],
   selector: 'jig-demo-tag-base',
   template: `
     <div class="flex flex-wrap gap-2">

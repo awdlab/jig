@@ -60,7 +60,7 @@ Supply a loader through `customTranslations`. It is called lazily, so the
 locale is a separate chunk:
 
 ```ts
-provideAwdControls({
+provideJigControls({
   theme: { preset: nova },
   customTranslations: {
     fr: () => import('./i18n/fr').then(m => m.fr),
@@ -104,11 +104,11 @@ minlength: 'Use at least {{ requiredLength }} characters';
 Error text lives in the same translation table under `errors.*`, so the
 defaults are localized. Overriding one message app-wide does not require a
 translation file — use
-[`provideAwdErrorsMessages()`](/components/errors), whose resolvers can read
+[`provideJigErrorsMessages()`](/components/errors), whose resolvers can read
 your own i18n:
 
 ```ts
-provideAwdErrorsMessages({
+provideJigErrorsMessages({
   required: () => inject(TranslateService).instant('validation.required'),
 });
 ```

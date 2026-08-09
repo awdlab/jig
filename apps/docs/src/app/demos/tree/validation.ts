@@ -1,13 +1,13 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdTree } from '@awdlab/jig/tree';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigTree } from '@awdlab/jig/tree';
 
 import { fileTree } from './sample-data';
 
 @Component({
   selector: 'jig-demo-tree-validation',
-  imports: [AwdErrors, AwdHint, AwdTree],
+  imports: [JigErrors, JigHint, JigTree],
   template: `
     <div class="flex flex-col gap-2">
       <jig-tree

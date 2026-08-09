@@ -2,7 +2,7 @@ import test, { expect, type Page } from '@playwright/test';
 import { expectOutput, loadComponent } from '../helper/load-component';
 import { exampleData } from '../helper/data';
 import type { InputsType } from '../../apps/test-wrapper/src/app/window.js';
-import { AwdAccordionHarness } from '@awdlab/jig-playwright';
+import { JigAccordionHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 import { deepCopy } from '@awdlab/jig/utils';
@@ -60,7 +60,7 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
 test('expand & collapse', async ({ page }, testInfo) => {
   const handle = await prepareTest(page);
 
-  const accordion = new AwdAccordionHarness(page.locator('jig-accordion'));
+  const accordion = new JigAccordionHarness(page.locator('jig-accordion'));
   await accordion.expectPanelCount(3);
 
   const panel1 = accordion.getPanelByIndex(0);
@@ -147,7 +147,7 @@ test('lazy', async ({ page }, testInfo) => {
     panels,
   });
 
-  const accordion = new AwdAccordionHarness(page.locator('jig-accordion'));
+  const accordion = new JigAccordionHarness(page.locator('jig-accordion'));
   await accordion.expectPanelCount(3);
 
   await expectOutput(handle, 'constructorCalled', ['panel1']); // panel1 is loaded eagerly

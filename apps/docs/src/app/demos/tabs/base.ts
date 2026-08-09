@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { AwdTabs, AwdTab } from '@awdlab/jig/tabs';
+import { JigTabs, JigTab } from '@awdlab/jig/tabs';
 
 import { DummyLoremIpsumComponent1, DummyLoremIpsumComponent2 } from '../dummies/lorem-ipsum';
 
 @Component({
-  imports: [AwdTabs, AwdTab, DummyLoremIpsumComponent1, DummyLoremIpsumComponent2],
+  imports: [JigTabs, JigTab, DummyLoremIpsumComponent1, DummyLoremIpsumComponent2],
   selector: 'jig-demo-tabs-base',
   template: `
     <jig-tabs>

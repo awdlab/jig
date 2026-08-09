@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
+import { JigButton } from '@awdlab/jig/button';
 
 @Component({
   selector: 'jig-demo-button-base',
-  imports: [AwdButton],
+  imports: [JigButton],
   template: `<button ngnButton (click)="onClick()">Click Me!!!</button>`,
 })
 export class Demo_Button_Base {

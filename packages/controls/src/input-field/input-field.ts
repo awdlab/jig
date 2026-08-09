@@ -7,10 +7,10 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { AwdBase, NGN_CONTROL, provideSelf, AwdPt } from '@awdlab/jig/base';
-import { AwdButton } from '@awdlab/jig/button';
+import { JigBase, NGN_CONTROL, provideSelf, JigPt } from '@awdlab/jig/base';
+import { JigButton } from '@awdlab/jig/button';
 import { I18n } from '@awdlab/jig/i18n';
-import { AwdIcon } from '@awdlab/jig/icon';
+import { JigIcon } from '@awdlab/jig/icon';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 import { inputFieldControlTemplate } from '@awdlab/jig-themes/templates/input-field';
 
@@ -20,15 +20,15 @@ import type { CustomKind, IconType } from '@awdlab/jig-custom-types';
  * @category control
  */
 @Component({
-  imports: [AwdPt, AwdIcon, AwdButton],
+  imports: [JigPt, JigIcon, JigButton],
   selector: 'jig-input-field',
   templateUrl: './input-field.html',
   host: {
     '[inert]': 'disabled()',
   },
-  providers: [provideSelf(AwdInputField)],
+  providers: [provideSelf(JigInputField)],
 })
-export class AwdInputField extends AwdBase<'inputField'> {
+export class JigInputField extends JigBase<'inputField'> {
   protected readonly theme = this.injectThemeTemplate(inputFieldControlTemplate, {
     host: true,
     filled: () => this.filled(),

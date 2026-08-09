@@ -87,7 +87,7 @@ For anything inside, go through `pt` — it accepts class strings, so Tailwind
 utilities reach internal parts without a global stylesheet:
 
 ```ts
-protected readonly pt: AwdPassthrough<'select'> = {
+protected readonly pt: JigPassthrough<'select'> = {
   'popover-content': { $classes: 'max-h-64' },
 };
 ```
@@ -102,7 +102,7 @@ By default token declarations land on `:root`. When the library runs inside a
 page you do not own, scope them:
 
 ```ts
-provideAwdControls({
+provideJigControls({
   theme: { preset: nova, styleScope: { kind: 'class', name: 'my-app' } },
 });
 ```

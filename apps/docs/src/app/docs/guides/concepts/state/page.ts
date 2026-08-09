@@ -1,8 +1,8 @@
 import { Demo_ControlState_Flags } from '../../../../demos/control-state/flags';
 
-import type { AwdDocsPage } from '../../../../utils/page/types';
+import type { JigDocsPage } from '../../../../utils/page/types';
 
-export const StateConceptPage: AwdDocsPage = {
+export const StateConceptPage: JigDocsPage = {
   kind: 'single',
   title: `State`,
 

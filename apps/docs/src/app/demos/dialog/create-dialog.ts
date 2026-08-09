@@ -1,12 +1,12 @@
 import { Component, inject, Injector } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
+import { JigButton } from '@awdlab/jig/button';
 import { createDialog } from '@awdlab/jig/dialog';
 
 import { DummyLoremIpsumComponent1 } from '../dummies/lorem-ipsum';
 
 @Component({
   selector: 'jig-demo-dialog-create-dialog',
-  imports: [AwdButton],
+  imports: [JigButton],
   template: `<button ngnButton (click)="showDialog()">Open Dialog</button>
     <button ngnButton (click)="showComponentDialog()">Open Component Dialog</button>`,
 })

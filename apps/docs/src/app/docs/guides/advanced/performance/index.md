@@ -8,8 +8,8 @@ has its own subpath, and the package is marked `sideEffects: false`, so a
 bundler drops everything you do not import:
 
 ```ts
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdSelect } from '@awdlab/jig/select';
+import { JigButton } from '@awdlab/jig/button';
+import { JigSelect } from '@awdlab/jig/select';
 ```
 
 There is no barrel to accidentally pull the whole library through — but do not

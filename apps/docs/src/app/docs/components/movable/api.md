@@ -1,4 +1,4 @@
-{{ api: directives/movable AwdMovable }}
+{{ api: directives/movable JigMovable }}
 
 | Method           | Description                                                                                                                   |
 | ---------------- | ----------------------------------------------------------------------------------------------------------------------------- |

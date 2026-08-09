@@ -6,7 +6,7 @@ import {
   signal,
   TemplateRef,
 } from '@angular/core';
-import { AwdBase, provideSelf } from '@awdlab/jig/base';
+import { JigBase, provideSelf } from '@awdlab/jig/base';
 
 /**
  * @category control
@@ -16,9 +16,9 @@ import { AwdBase, provideSelf } from '@awdlab/jig/base';
   imports: [],
   template: '',
 
-  providers: [provideSelf(AwdTab)],
+  providers: [provideSelf(JigTab)],
 })
-export class AwdTab extends AwdBase<'tabs'> {
+export class JigTab extends JigBase<'tabs'> {
   protected readonly theme = null;
   /**
    * The unique identifier for the tab.

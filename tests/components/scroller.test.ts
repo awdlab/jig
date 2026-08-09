@@ -1,4 +1,4 @@
-import { AwdScrollerHarness } from '@awdlab/jig-playwright';
+import { JigScrollerHarness } from '@awdlab/jig-playwright';
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
@@ -32,7 +32,7 @@ test('regular scrolling with 50 elements', async ({ page }, testInfo) => {
     }
   );
 
-  const scroller = new AwdScrollerHarness(page.locator('jig-scroller'));
+  const scroller = new JigScrollerHarness(page.locator('jig-scroller'));
 
   // All items should be rendered
   await scroller.expectItemsCount(50);
@@ -88,7 +88,7 @@ test('virtual scrolling with 5000 elements', async ({ page }, testInfo) => {
     }
   );
 
-  const scroller = new AwdScrollerHarness(page.locator('jig-scroller'));
+  const scroller = new JigScrollerHarness(page.locator('jig-scroller'));
 
   // Only visible items should be rendered (not all 5000)
   // With 400px height and 40px item height, we should see ~10 items + padding
@@ -173,7 +173,7 @@ test('regular scrolling with sticky items', async ({ page }, testInfo) => {
     }
   );
 
-  const scroller = new AwdScrollerHarness(page.locator('jig-scroller'));
+  const scroller = new JigScrollerHarness(page.locator('jig-scroller'));
 
   // All non-sticky items should be rendered (regular scrolling)
   await scroller.expectItemsCount(9);
@@ -241,7 +241,7 @@ test('virtual scrolling with sticky items', async ({ page }, testInfo) => {
     }
   );
 
-  const scroller = new AwdScrollerHarness(page.locator('jig-scroller'));
+  const scroller = new JigScrollerHarness(page.locator('jig-scroller'));
 
   // Only visible items should be rendered
   await scroller.expectItemsCountBetween(10, 20);
@@ -305,7 +305,7 @@ test('fixed scrolling with scroll to index', async ({ page }, testInfo) => {
     }
   );
 
-  const scroller = new AwdScrollerHarness(page.locator('jig-scroller'));
+  const scroller = new JigScrollerHarness(page.locator('jig-scroller'));
   const scrollInput = page.locator('input[type="number"]');
 
   // All items should be rendered
@@ -381,7 +381,7 @@ test('virtual scrolling with scroll to index', async ({ page }, testInfo) => {
     }
   );
 
-  const scroller = new AwdScrollerHarness(page.locator('jig-scroller'));
+  const scroller = new JigScrollerHarness(page.locator('jig-scroller'));
   const scrollInput = page.locator('input[type="number"]');
 
   // Only visible items should be rendered
@@ -452,7 +452,7 @@ test('virtual scrolling with padding of 5 and assertions', async ({ page }, test
     }
   );
 
-  const scroller = new AwdScrollerHarness(page.locator('jig-scroller'));
+  const scroller = new JigScrollerHarness(page.locator('jig-scroller'));
 
   // With 400px height, 40px item height = 10 visible items
   // With padding of 5, we should have 10 + (5 * 2) = 20 items rendered
@@ -534,7 +534,7 @@ test('accessibility (axe)', async ({ page }) => {
     }
   );
 
-  const scroller = new AwdScrollerHarness(page.locator('jig-scroller'));
+  const scroller = new JigScrollerHarness(page.locator('jig-scroller'));
   await scroller.expectItemsCount(50);
 
   await expectNoA11yViolations(page);

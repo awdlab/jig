@@ -1,1 +1,1 @@
-{{ api: message/message AwdMessage }}
+{{ api: message/message JigMessage }}

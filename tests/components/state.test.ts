@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { AwdStateHarness } from '@awdlab/jig-playwright';
+import { JigStateHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
@@ -20,7 +20,7 @@ test('loading state fits inside a button', async ({ page }) => {
   );
 
   const button = page.locator('button');
-  const state = new AwdStateHarness(page.locator('jig-state'));
+  const state = new JigStateHarness(page.locator('jig-state'));
 
   await expect(button).toHaveCSS('display', 'flex');
   await state.expectLoading();
@@ -54,7 +54,7 @@ test('replace content mode preserves button size and centers the state', async (
   const reference = page.getByTestId('reference');
   const button = page.getByTestId('replace');
   const label = page.getByTestId('label');
-  const state = new AwdStateHarness(button.locator('jig-state'));
+  const state = new JigStateHarness(button.locator('jig-state'));
 
   await state.expectLoading();
   await expect(button).toHaveCSS('position', 'relative');
@@ -93,7 +93,7 @@ test('semantic states render icons and visibility removes layout', async ({ page
     }
   );
 
-  const state = new AwdStateHarness(page.locator('jig-state'));
+  const state = new JigStateHarness(page.locator('jig-state'));
 
   await state.expectIcon('success');
 
@@ -187,7 +187,7 @@ test('state keeps input field layout stable while toggling visibility', async ({
   const field = page.locator('jig-input-field');
   const fieldRoot = field.locator('div').first();
   const input = page.locator('input');
-  const state = new AwdStateHarness(page.locator('jig-state'));
+  const state = new JigStateHarness(page.locator('jig-state'));
 
   await expect(field).toBeVisible();
   await expect(state.locator).toHaveCSS('display', 'flex');
@@ -272,7 +272,7 @@ test('accessibility (axe)', async ({ page }) => {
     }
   );
 
-  const state = new AwdStateHarness(page.locator('jig-state'));
+  const state = new JigStateHarness(page.locator('jig-state'));
   await state.expectIcon('success');
 
   await expectNoA11yViolations(page);

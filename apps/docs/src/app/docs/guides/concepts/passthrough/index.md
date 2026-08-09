@@ -23,11 +23,11 @@ identity, assign a **new** `pt` object when it changes rather than mutating in p
 
 ### Typed targets
 
-Type the object with `AwdPassthrough<'control'>` and every valid scope autocompletes — a
+Type the object with `JigPassthrough<'control'>` and every valid scope autocompletes — a
 typo is a compile error:
 
 ```ts
-protected readonly pt: AwdPassthrough<'calendar'> = {
+protected readonly pt: JigPassthrough<'calendar'> = {
   root: { $classes: 'rounded-xl ring-1' },
   'day-selected': { $styles: { background: 'var(--jig-color-primary-600)' } },
 };
@@ -84,11 +84,11 @@ arrow) to guarantee clean removal.
 **Deep passthrough** reaches the `jig` controls a control renders internally.
 Each internal instance is exposed as a named **slot**, right at the root of `pt`
 — alongside the control's own scope classes. A slot's value is typed as that
-child control's own `AwdPassthrough`, resolved against _its own_ scope classes,
+child control's own `JigPassthrough`, resolved against _its own_ scope classes,
 not the parent's:
 
 ```ts
-protected readonly pt: AwdPassthrough<'calendar'> = {
+protected readonly pt: JigPassthrough<'calendar'> = {
   // Only the month picker — the year select stays plain.
   'current-month': {
     root: {
@@ -105,7 +105,7 @@ protected readonly pt: AwdPassthrough<'calendar'> = {
 Each slot targets exactly **one** instance — `current-month` and `current-year`
 are separate slots, so you can brand the month select without touching the
 year select. Deep passthrough is also recursive: a slot's value is a full
-`AwdPassthrough`, so it can carry the child's _own_ slots to reach a
+`JigPassthrough`, so it can carry the child's _own_ slots to reach a
 grandchild. Assigning a slot also auto-applies the parent's marker class for
 that slot (`{parentScope}-{slot}`, e.g. `calendar-current-month`) to the child
 control's host element, so you get a stable hook even without a `pt` value.

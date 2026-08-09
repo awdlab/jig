@@ -1,8 +1,8 @@
 import { DOCUMENT, inject, Injectable } from '@angular/core';
-import { globalPropertyName, type AwdGlobalType } from '@awdlab/jig/utils';
+import { globalPropertyName, type JigGlobalType } from '@awdlab/jig/utils';
 
 @Injectable()
-export class AwdGlobal implements AwdGlobalType {
+export class JigGlobal implements JigGlobalType {
   private readonly _window = inject(DOCUMENT).defaultView || window;
   constructor() {
     this._window[globalPropertyName] ??= {

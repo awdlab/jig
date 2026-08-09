@@ -2,18 +2,18 @@ import { Component, computed, input, signal } from '@angular/core';
 import { ConsoleLogger, Deserializer, FileRegistry, ReflectionKind } from 'typedoc/browser';
 
 import { getTypedocProject } from '../typedoc';
-import { AwdDocsApiProperties } from './properties/properties';
+import { JigDocsApiProperties } from './properties/properties';
 
 import type { DeclarationReflection, ProjectReflection } from 'typedoc/browser';
 
 @Component({
   selector: 'jig-docs-api',
   templateUrl: 'api.html',
-  imports: [AwdDocsApiProperties],
+  imports: [JigDocsApiProperties],
 })
 export class Api {
   public readonly moduleName = input('scroller/scroller');
-  public readonly controlName = input('AwdScroller');
+  public readonly controlName = input('JigScroller');
 
   private readonly _project = signal<ProjectReflection | null>(null);
 

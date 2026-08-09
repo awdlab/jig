@@ -1,1 +1,1 @@
-{{ api: switch/switch AwdSwitch }}
+{{ api: switch/switch JigSwitch }}

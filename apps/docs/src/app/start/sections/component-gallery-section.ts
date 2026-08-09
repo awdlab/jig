@@ -1,49 +1,49 @@
 import { Component, DestroyRef, inject, signal, viewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AwdAvatar } from '@awdlab/jig/avatar';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdCheckbox } from '@awdlab/jig/checkbox';
-import { AwdChip } from '@awdlab/jig/chip';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdProgress } from '@awdlab/jig/progress';
-import { AwdSelect } from '@awdlab/jig/select';
-import { AwdSlider } from '@awdlab/jig/slider';
-import { AwdSwitch } from '@awdlab/jig/switch';
-import { AwdTab, AwdTabs } from '@awdlab/jig/tabs';
-import { AwdTag } from '@awdlab/jig/tag';
-import { AwdTooltip } from '@awdlab/jig/tooltip';
+import { JigAvatar } from '@awdlab/jig/avatar';
+import { JigButton } from '@awdlab/jig/button';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
+import { JigChip } from '@awdlab/jig/chip';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigProgress } from '@awdlab/jig/progress';
+import { JigSelect } from '@awdlab/jig/select';
+import { JigSlider } from '@awdlab/jig/slider';
+import { JigSwitch } from '@awdlab/jig/switch';
+import { JigTab, JigTabs } from '@awdlab/jig/tabs';
+import { JigTag } from '@awdlab/jig/tag';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 
 import { CONTROL_COUNT } from './controls-count';
 import { GALLERY } from './gallery-data';
-import { AwdDocsGlow } from './glow';
-import { AwdDocsSectionShell } from './section-shell';
+import { JigDocsGlow } from './glow';
+import { JigDocsSectionShell } from './section-shell';
 
-import type { AwdPassthrough } from '@awdlab/jig/base';
+import type { JigPassthrough } from '@awdlab/jig/base';
 import type { CustomColor } from '@awdlab/jig-custom-types';
-import { AwdState } from '@awdlab/jig/state';
+import { JigState } from '@awdlab/jig/state';
 
 @Component({
   selector: 'jig-docs-component-gallery-section',
   imports: [
-    AwdDocsSectionShell,
+    JigDocsSectionShell,
     RouterLink,
-    AwdButton,
-    AwdSwitch,
-    AwdSlider,
-    AwdSelect,
-    AwdInputField,
-    AwdInput,
-    AwdChip,
-    AwdTag,
-    AwdAvatar,
-    AwdProgress,
-    AwdTooltip,
-    AwdCheckbox,
-    AwdTabs,
-    AwdTab,
-    AwdDocsGlow,
-    AwdState,
+    JigButton,
+    JigSwitch,
+    JigSlider,
+    JigSelect,
+    JigInputField,
+    JigInput,
+    JigChip,
+    JigTag,
+    JigAvatar,
+    JigProgress,
+    JigTooltip,
+    JigCheckbox,
+    JigTabs,
+    JigTab,
+    JigDocsGlow,
+    JigState,
   ],
   styles: `
     /* The slider has no built-in transition; glide the fill/thumb between rest and hover. */
@@ -170,13 +170,13 @@ import { AwdState } from '@awdlab/jig/state';
     </jig-docs-section-shell>
   `,
 })
-export class AwdDocsComponentGallerySection {
+export class JigDocsComponentGallerySection {
   protected readonly gallery = GALLERY;
   protected readonly controlCount = CONTROL_COUNT;
 
   // Programmatic refs for controls without a pure-value rest/hover model.
-  private readonly select = viewChild<AwdSelect<string>>('sel');
-  private readonly tooltip = viewChild<AwdTooltip>('tip');
+  private readonly select = viewChild<JigSelect<string>>('sel');
+  private readonly tooltip = viewChild<JigTooltip>('tip');
 
   // Per-control state — each signal animates from its rest value to a hover value.
   protected readonly switchValue = signal(false);
@@ -189,7 +189,7 @@ export class AwdDocsComponentGallerySection {
     { value: 'b', label: 'Option B' },
   ];
   // Keep the hover-opened dropdown inert so it can't be interacted with mid-demo.
-  protected readonly selectPt: AwdPassthrough<'select'> = {
+  protected readonly selectPt: JigPassthrough<'select'> = {
     'popover-content': { $attributes: { inert: '' } },
   };
   protected readonly buttonState = signal<undefined | 'loading' | 'success'>(undefined);

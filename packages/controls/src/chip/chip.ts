@@ -1,8 +1,8 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { booleanAttribute, Component, inject, input, output } from '@angular/core';
-import { AwdBase, provideSelf, AwdPt } from '@awdlab/jig/base';
+import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
-import { AwdIcon } from '@awdlab/jig/icon';
+import { JigIcon } from '@awdlab/jig/icon';
 import { chipControlTemplate } from '@awdlab/jig-themes/templates/chip';
 
 import type { IconType } from '@awdlab/jig-custom-types';
@@ -13,10 +13,10 @@ import type { IconType } from '@awdlab/jig-custom-types';
 @Component({
   selector: 'jig-chip',
   templateUrl: './chip.html',
-  imports: [AwdPt, AwdIcon, NgTemplateOutlet],
-  providers: [provideSelf(AwdChip)],
+  imports: [JigPt, JigIcon, NgTemplateOutlet],
+  providers: [provideSelf(JigChip)],
 })
-export class AwdChip extends AwdBase<'chip'> {
+export class JigChip extends JigBase<'chip'> {
   protected readonly theme = this.injectThemeTemplate(chipControlTemplate, {
     root: true,
     closable: () => this.closable(),

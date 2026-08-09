@@ -1,8 +1,8 @@
-Everything `provideAwdControls` accepts, in one place. The first argument is a
+Everything `provideJigControls` accepts, in one place. The first argument is a
 config object; every following argument is an opt-in feature.
 
 ```ts
-provideAwdControls(config, ...features);
+provideJigControls(config, ...features);
 ```
 
 Only the config is required, and within it only `theme.preset` really matters —
@@ -11,7 +11,7 @@ everything else has a working default.
 ### Config reference
 
 ```ts
-provideAwdControls({
+provideJigControls({
   logLevel: 'info',
   disableAnimations: false,
   respectReducedMotion: true,
@@ -111,16 +111,16 @@ injected without their feature.
 
 ```ts
 import { ApplicationConfig } from '@angular/core';
-import { provideAwdControls, withAutoColorScheme } from '@awdlab/jig/api/ng';
+import { provideJigControls, withAutoColorScheme } from '@awdlab/jig/api/ng';
 import { withDefaultIcons } from '@awdlab/jig/default-icons';
 import { withSnackbars } from '@awdlab/jig/snackbar';
 import { withToasts } from '@awdlab/jig/toast';
-import { provideAwdErrorsMessages } from '@awdlab/jig/errors';
+import { provideJigErrorsMessages } from '@awdlab/jig/errors';
 import { nova } from '@awdlab/jig-themes/nova';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideAwdControls(
+    provideJigControls(
       {
         logLevel: 'warn',
         theme: { preset: nova, cssLayer: 'jig-controls' },
@@ -131,7 +131,7 @@ export const appConfig: ApplicationConfig = {
       withToasts(),
       withSnackbars()
     ),
-    provideAwdErrorsMessages({ required: 'This field is required.' }),
+    provideJigErrorsMessages({ required: 'This field is required.' }),
   ],
 };
 ```

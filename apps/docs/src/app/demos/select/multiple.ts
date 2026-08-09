@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdSelect } from '@awdlab/jig/select';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigSelect } from '@awdlab/jig/select';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [AwdSelect, AwdInputField],
+  imports: [JigSelect, JigInputField],
   selector: 'jig-demo-select-multiple',
   template: `
     <jig-input-field>

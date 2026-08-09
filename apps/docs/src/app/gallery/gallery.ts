@@ -3,55 +3,55 @@ import tablerCode from '@iconify/icons-tabler/code';
 import tablerCopy from '@iconify/icons-tabler/copy';
 import tablerTrash from '@iconify/icons-tabler/trash';
 import tablerUser from '@iconify/icons-tabler/user';
-import { AwdAccordion, AwdAccordionPanel } from '@awdlab/jig/accordion';
-import { injectThemeColors, injectThemeControlKinds, AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdAvatar, AwdAvatarGroup } from '@awdlab/jig/avatar';
-import { type BreadcrumbItem, AwdBreadcrumb } from '@awdlab/jig/breadcrumb';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdButtonGroup } from '@awdlab/jig/button-group';
-import { AwdCalendar } from '@awdlab/jig/calendar';
-import { AwdCheckbox } from '@awdlab/jig/checkbox';
-import { AwdChip } from '@awdlab/jig/chip';
-import { AwdDialog } from '@awdlab/jig/dialog';
-import { AwdDrawer } from '@awdlab/jig/drawer';
-import { AwdEditInplace } from '@awdlab/jig/edit-inplace';
-import { AwdFilter } from '@awdlab/jig/filter';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdInplace } from '@awdlab/jig/inplace';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
+import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
+import { injectThemeColors, injectThemeControlKinds, JigTemplate } from '@awdlab/jig/api/ng';
+import { JigAvatar, JigAvatarGroup } from '@awdlab/jig/avatar';
+import { type BreadcrumbItem, JigBreadcrumb } from '@awdlab/jig/breadcrumb';
+import { JigButton } from '@awdlab/jig/button';
+import { JigButtonGroup } from '@awdlab/jig/button-group';
+import { JigCalendar } from '@awdlab/jig/calendar';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
+import { JigChip } from '@awdlab/jig/chip';
+import { JigDialog } from '@awdlab/jig/dialog';
+import { JigDrawer } from '@awdlab/jig/drawer';
+import { JigEditInplace } from '@awdlab/jig/edit-inplace';
+import { JigFilter } from '@awdlab/jig/filter';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInplace } from '@awdlab/jig/inplace';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 import { JigItemView } from '@awdlab/jig/item-view';
-import { AwdListBox } from '@awdlab/jig/list-box';
-import { DATE_TIME_MASKS, type MaskInputCfg, AwdMaskInput } from '@awdlab/jig/mask-input';
-import { type MenuItem, AwdMenu } from '@awdlab/jig/menu';
-import { AwdMessage } from '@awdlab/jig/message';
-import { AwdNumberInput } from '@awdlab/jig/number-input';
-import { AwdPaginator } from '@awdlab/jig/paginator';
-import { AwdPopover } from '@awdlab/jig/popover';
-import { AwdProgress } from '@awdlab/jig/progress';
-import { AwdRadio, AwdRadioGroup } from '@awdlab/jig/radio';
-import { AwdSelect } from '@awdlab/jig/select';
-import { AwdSelectButton } from '@awdlab/jig/select-button';
-import { AwdSlider } from '@awdlab/jig/slider';
+import { JigListBox } from '@awdlab/jig/list-box';
+import { DATE_TIME_MASKS, type MaskInputCfg, JigMaskInput } from '@awdlab/jig/mask-input';
+import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
+import { JigMessage } from '@awdlab/jig/message';
+import { JigNumberInput } from '@awdlab/jig/number-input';
+import { JigPaginator } from '@awdlab/jig/paginator';
+import { JigPopover } from '@awdlab/jig/popover';
+import { JigProgress } from '@awdlab/jig/progress';
+import { JigRadio, JigRadioGroup } from '@awdlab/jig/radio';
+import { JigSelect } from '@awdlab/jig/select';
+import { JigSelectButton } from '@awdlab/jig/select-button';
+import { JigSlider } from '@awdlab/jig/slider';
 import { injectSnackbarCreator } from '@awdlab/jig/snackbar';
-import { AwdSpinButtons } from '@awdlab/jig/spin-buttons';
-import { AwdSpinner } from '@awdlab/jig/spinner';
-import { AwdSplitterModule } from '@awdlab/jig/splitter';
-import { AwdSwitch } from '@awdlab/jig/switch';
-import { AwdTableModule } from '@awdlab/jig/table';
-import { AwdTab, AwdTabs } from '@awdlab/jig/tabs';
-import { AwdTag } from '@awdlab/jig/tag';
+import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
+import { JigSpinner } from '@awdlab/jig/spinner';
+import { JigSplitterModule } from '@awdlab/jig/splitter';
+import { JigSwitch } from '@awdlab/jig/switch';
+import { JigTableModule } from '@awdlab/jig/table';
+import { JigTab, JigTabs } from '@awdlab/jig/tabs';
+import { JigTag } from '@awdlab/jig/tag';
 import { injectToastCreator } from '@awdlab/jig/toast';
-import { AwdToggleButton } from '@awdlab/jig/toggle-button';
-import { AwdTooltip } from '@awdlab/jig/tooltip';
-import { AwdTree } from '@awdlab/jig/tree';
-import { AwdUpload, type AwdUploadFile } from '@awdlab/jig/upload';
+import { JigToggleButton } from '@awdlab/jig/toggle-button';
+import { JigTooltip } from '@awdlab/jig/tooltip';
+import { JigTree } from '@awdlab/jig/tree';
+import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
 
 import { exampleData } from '../helper/data';
-import { AwdDocsThemePicker } from '../utils/theme-picker/theme-picker';
+import { JigDocsThemePicker } from '../utils/theme-picker/theme-picker';
 
-import type { AwdTreeItem } from '@awdlab/jig/api';
+import type { JigTreeItem } from '@awdlab/jig/api';
 
 /**
  * Unlinked overview page (`/_gallery`) rendering every visual control with
@@ -62,53 +62,53 @@ import type { AwdTreeItem } from '@awdlab/jig/api';
   selector: 'jig-docs-gallery',
   templateUrl: './gallery.html',
   imports: [
-    AwdTemplate,
-    AwdDocsThemePicker,
-    AwdAccordion,
-    AwdAccordionPanel,
-    AwdAvatar,
-    AwdAvatarGroup,
-    AwdBreadcrumb,
-    AwdButton,
-    AwdButtonGroup,
-    AwdCalendar,
-    AwdCheckbox,
-    AwdChip,
-    AwdDialog,
-    AwdDrawer,
-    AwdEditInplace,
-    AwdFilter,
-    AwdHint,
-    AwdIcon,
-    AwdInplace,
-    AwdInput,
-    AwdInputField,
+    JigTemplate,
+    JigDocsThemePicker,
+    JigAccordion,
+    JigAccordionPanel,
+    JigAvatar,
+    JigAvatarGroup,
+    JigBreadcrumb,
+    JigButton,
+    JigButtonGroup,
+    JigCalendar,
+    JigCheckbox,
+    JigChip,
+    JigDialog,
+    JigDrawer,
+    JigEditInplace,
+    JigFilter,
+    JigHint,
+    JigIcon,
+    JigInplace,
+    JigInput,
+    JigInputField,
     JigItemView,
-    AwdListBox,
-    AwdMaskInput,
-    AwdMenu,
-    AwdMessage,
-    AwdNumberInput,
-    AwdPaginator,
-    AwdPopover,
-    AwdProgress,
-    AwdRadio,
-    AwdRadioGroup,
-    AwdSelect,
-    AwdSelectButton,
-    AwdSlider,
-    AwdSpinButtons,
-    AwdSpinner,
-    AwdSplitterModule,
-    AwdSwitch,
-    AwdTableModule,
-    AwdTab,
-    AwdTabs,
-    AwdTag,
-    AwdToggleButton,
-    AwdTooltip,
-    AwdTree,
-    AwdUpload,
+    JigListBox,
+    JigMaskInput,
+    JigMenu,
+    JigMessage,
+    JigNumberInput,
+    JigPaginator,
+    JigPopover,
+    JigProgress,
+    JigRadio,
+    JigRadioGroup,
+    JigSelect,
+    JigSelectButton,
+    JigSlider,
+    JigSpinButtons,
+    JigSpinner,
+    JigSplitterModule,
+    JigSwitch,
+    JigTableModule,
+    JigTab,
+    JigTabs,
+    JigTag,
+    JigToggleButton,
+    JigTooltip,
+    JigTree,
+    JigUpload,
   ],
   // Scoped positioning for the always-open, top-layer overlays so they sit in
   // grid gaps instead of covering the content being compared. Purely layout —
@@ -125,7 +125,7 @@ import type { AwdTreeItem } from '@awdlab/jig/api';
     }
   `,
 })
-export class AwdDocsGallery {
+export class JigDocsGallery {
   // ---- palettes driven by the active theme (kinds × colors matrices) --------
   protected readonly buttonKinds = injectThemeControlKinds('button');
   protected readonly buttonColors = injectThemeColors('button');
@@ -162,7 +162,7 @@ export class AwdDocsGallery {
     { label: 'jig', id: 'jig' },
   ]);
 
-  protected readonly tree: AwdTreeItem[] = [
+  protected readonly tree: JigTreeItem[] = [
     {
       label: 'src',
       value: 'src',
@@ -211,8 +211,8 @@ export class AwdDocsGallery {
   protected readonly icons = { user: tablerUser };
 
   // ---- force-open overlays (see class doc + scoped styles) -----------------
-  private readonly _select = viewChild.required<AwdSelect<unknown>>('gallerySelect');
-  private readonly _tooltip = viewChild.required(AwdTooltip);
+  private readonly _select = viewChild.required<JigSelect<unknown>>('gallerySelect');
+  private readonly _tooltip = viewChild.required(JigTooltip);
 
   private readonly _toasts = injectToastCreator();
   private readonly _snackbars = injectSnackbarCreator();
@@ -240,7 +240,7 @@ export class AwdDocsGallery {
     });
   }
 
-  protected onUpload(files: AwdUploadFile[], up: AwdUpload): void {
+  protected onUpload(files: JigUploadFile[], up: JigUpload): void {
     for (const file of files) {
       let progress = 0;
       const tick = setInterval(() => {

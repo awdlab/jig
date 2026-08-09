@@ -2,15 +2,15 @@ import { Component, computed, effect, model, signal } from '@angular/core';
 import { form, FormField, pattern, required, submit } from '@angular/forms/signals';
 import tablerLock from '@iconify/icons-tabler/lock';
 import tablerUser from '@iconify/icons-tabler/user';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdDialog } from '@awdlab/jig/dialog';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdOtp } from '@awdlab/jig/otp';
-import { AwdState } from '@awdlab/jig/state';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDialog } from '@awdlab/jig/dialog';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigOtp } from '@awdlab/jig/otp';
+import { JigState } from '@awdlab/jig/state';
 
 /**
  * Fake login modal for the startpage demo — pure UI showcase, no real auth.
@@ -28,15 +28,15 @@ import { AwdState } from '@awdlab/jig/state';
   selector: 'jig-docs-login-dialog',
   imports: [
     FormField,
-    AwdButton,
-    AwdDialog,
-    AwdErrors,
-    AwdHint,
-    AwdIcon,
-    AwdInput,
-    AwdInputField,
-    AwdOtp,
-    AwdState,
+    JigButton,
+    JigDialog,
+    JigErrors,
+    JigHint,
+    JigIcon,
+    JigInput,
+    JigInputField,
+    JigOtp,
+    JigState,
   ],
   template: `
     <jig-dialog
@@ -132,7 +132,7 @@ import { AwdState } from '@awdlab/jig/state';
     </jig-dialog>
   `,
 })
-export class AwdDocsLoginDialog {
+export class JigDocsLoginDialog {
   protected readonly userIcon = tablerUser;
   protected readonly lockIcon = tablerLock;
 

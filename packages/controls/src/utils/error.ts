@@ -3,10 +3,10 @@ export function throwExp(
   errorMsg: string,
   ...additionalContext: unknown[]
 ): never {
-  throw new AwdError(moduleName, errorMsg, ...additionalContext);
+  throw new JigError(moduleName, errorMsg, ...additionalContext);
 }
 
-export class AwdError extends Error {
+export class JigError extends Error {
   public readonly additionalContext?: unknown[];
   constructor(area: string, errorMsg: string, ...additionalContext: unknown[]) {
     if (typeof window !== 'undefined' && window['__ngn-controls-global__']?.fancyLogging) {
@@ -19,7 +19,7 @@ export class AwdError extends Error {
     }
 
     super(`[${area}] ${errorMsg}`);
-    this.name = 'AwdError';
+    this.name = 'JigError';
     this.additionalContext = additionalContext;
   }
 }

@@ -1,18 +1,18 @@
 import { Component, signal } from '@angular/core';
-import { AwdSlider } from '@awdlab/jig/slider';
-import { AwdSwitch } from '@awdlab/jig/switch';
+import { JigSlider } from '@awdlab/jig/slider';
+import { JigSwitch } from '@awdlab/jig/switch';
 
-import { AwdDocsReveal } from './reveal';
-import { AwdDocsSectionHeader } from './section-header';
+import { JigDocsReveal } from './reveal';
+import { JigDocsSectionHeader } from './section-header';
 import { style } from '../../utils/code/prism';
 
 const EXAMPLE_CODE = `import { Component, signal } from '@angular/core';
-import { AwdSlider } from '@awdlab/jig/slider';
-import { AwdSwitch } from '@awdlab/jig/switch';
+import { JigSlider } from '@awdlab/jig/slider';
+import { JigSwitch } from '@awdlab/jig/switch';
 
 @Component({
   selector: 'app-volume',
-  imports: [AwdSlider, AwdSwitch],
+  imports: [JigSlider, JigSwitch],
   template: \`
     <jig-slider [min]="0" [max]="100" [(value)]="volume" />
     <jig-switch [(value)]="muted" />
@@ -25,7 +25,7 @@ export class VolumeComponent {
 
 @Component({
   selector: 'jig-docs-quick-start-section',
-  imports: [AwdSlider, AwdSwitch, AwdDocsReveal, AwdDocsSectionHeader],
+  imports: [JigSlider, JigSwitch, JigDocsReveal, JigDocsSectionHeader],
   host: { class: 'block px-(--jig-size-padding-xl) py-12 lg:py-16' },
   template: `
     <div [ngnDocsReveal]="0" class="mx-auto max-w-[1100px]">
@@ -97,7 +97,7 @@ export class VolumeComponent {
     </div>
   `,
 })
-export class AwdDocsQuickStartSection {
+export class JigDocsQuickStartSection {
   protected readonly volume = signal(57);
   protected readonly muted = signal(true);
   protected readonly highlighted = signal('');

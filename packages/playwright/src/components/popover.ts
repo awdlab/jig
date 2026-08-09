@@ -2,7 +2,7 @@ import { type Locator, expect } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
 
-export class AwdPopoverHarness {
+export class JigPopoverHarness {
   public readonly classes = themeClasses(popoverControlTemplate);
 
   private readonly _ngnLazyCacher: Locator;

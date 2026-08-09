@@ -2,11 +2,11 @@ import { Component, computed, inject } from '@angular/core';
 import tablerBrandGithub from '@iconify/icons-tabler/brand-github';
 import tablerPalette from '@iconify/icons-tabler/palette';
 import { ColorSchemeService } from '@awdlab/jig/api/ng';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdPopover } from '@awdlab/jig/popover';
+import { JigButton } from '@awdlab/jig/button';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigPopover } from '@awdlab/jig/popover';
 
-import { AwdDocsThemePicker } from '../../utils/theme-picker';
+import { JigDocsThemePicker } from '../../utils/theme-picker';
 
 /**
  * Theme, color-scheme and repo actions. Rendered in the topbar on wide viewports
@@ -15,7 +15,7 @@ import { AwdDocsThemePicker } from '../../utils/theme-picker';
  */
 @Component({
   selector: 'jig-docs-topbar-actions',
-  imports: [AwdButton, AwdIcon, AwdPopover, AwdDocsThemePicker],
+  imports: [JigButton, JigIcon, JigPopover, JigDocsThemePicker],
   host: { class: 'items-center gap-2 text-2xl text-(--jig-color-surface-800)' },
   template: `
     <button
@@ -53,7 +53,7 @@ import { AwdDocsThemePicker } from '../../utils/theme-picker';
     </a>
   `,
 })
-export class AwdDocsTopbarActions {
+export class JigDocsTopbarActions {
   protected readonly iconGithub = tablerBrandGithub;
   protected readonly iconPalette = tablerPalette;
   protected readonly colorScheme = inject(ColorSchemeService);

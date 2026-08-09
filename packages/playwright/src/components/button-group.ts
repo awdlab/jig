@@ -1,7 +1,7 @@
 import { expect, type Locator } from '@playwright/test';
-import { AwdButtonHarness } from './button';
+import { JigButtonHarness } from './button';
 
-export class AwdButtonGroupHarness {
+export class JigButtonGroupHarness {
   public readonly buttons: Locator;
 
   constructor(public locator: Locator) {
@@ -12,7 +12,7 @@ export class AwdButtonGroupHarness {
     await expect(this.buttons).toHaveCount(count);
   }
 
-  public getButtonAt(index: number): AwdButtonHarness {
-    return new AwdButtonHarness(this.buttons.nth(index));
+  public getButtonAt(index: number): JigButtonHarness {
+    return new JigButtonHarness(this.buttons.nth(index));
   }
 }

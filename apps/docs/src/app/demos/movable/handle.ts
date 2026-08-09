@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AwdMovable } from '@awdlab/jig/directives';
+import { JigMovable } from '@awdlab/jig/directives';
 
 @Component({
   selector: 'jig-demo-movable-handle',
-  imports: [AwdMovable],
+  imports: [JigMovable],
   template: `
     <div class="board">
       <div

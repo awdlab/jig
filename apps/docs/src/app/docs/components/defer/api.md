@@ -1,6 +1,6 @@
 Selector: `jig-defer`
 
-{{ api: defer/defer AwdDefer }}
+{{ api: defer/defer JigDefer }}
 
 ## Host classes
 

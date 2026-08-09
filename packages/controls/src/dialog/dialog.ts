@@ -19,16 +19,16 @@ import {
   type CloseBy,
   toModalCloseBy,
   toPopoverCloseBy,
-  AwdTemplate,
+  JigTemplate,
   type Openable,
 } from '@awdlab/jig/api/ng';
-import { AwdPt, provideSelf } from '@awdlab/jig/base';
-import { AwdActionButton, AwdButton } from '@awdlab/jig/button';
-import { AwdDefer } from '@awdlab/jig/defer';
-import { AwdMovable, AwdResizable } from '@awdlab/jig/directives';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigActionButton, JigButton } from '@awdlab/jig/button';
+import { JigDefer } from '@awdlab/jig/defer';
+import { JigMovable, JigResizable } from '@awdlab/jig/directives';
 import { I18n } from '@awdlab/jig/i18n';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdKeyboardShortcut } from '@awdlab/jig/kbd';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigKeyboardShortcut } from '@awdlab/jig/kbd';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 import { dialogControlTemplate } from '@awdlab/jig-themes/templates/dialog';
 
@@ -36,7 +36,7 @@ import { DialogTemplates } from './dialog-templates';
 import { PromptDialogBase } from './prompt-dialog-base';
 
 import type { DialogSize } from './types';
-import type { AwdActionButtonConfig } from '@awdlab/jig/api';
+import type { JigActionButtonConfig } from '@awdlab/jig/api';
 
 type TypedContent = {
   template?: TemplateRef<unknown>;
@@ -51,24 +51,24 @@ type TypedContent = {
   selector: 'jig-dialog',
   imports: [
     NgTemplateOutlet,
-    AwdTemplate,
-    AwdMovable,
-    AwdDefer,
-    AwdPt,
-    AwdButton,
-    AwdActionButton,
+    JigTemplate,
+    JigMovable,
+    JigDefer,
+    JigPt,
+    JigButton,
+    JigActionButton,
     NgComponentOutlet,
-    AwdIcon,
-    AwdResizable,
-    AwdKeyboardShortcut,
+    JigIcon,
+    JigResizable,
+    JigKeyboardShortcut,
   ],
   templateUrl: './dialog.html',
 
-  providers: [provideSelf(AwdDialog)],
+  providers: [provideSelf(JigDialog)],
 })
-export class AwdDialog<
+export class JigDialog<
   T,
-  Buttons extends AwdActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
+  Buttons extends JigActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
 >
   extends DialogTemplates<T>
   implements Openable

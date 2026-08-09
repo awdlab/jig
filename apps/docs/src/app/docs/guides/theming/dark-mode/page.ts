@@ -1,8 +1,8 @@
 import { Demo_DarkMode_Toggle } from '../../../../demos/dark-mode/toggle';
 
-import type { AwdDocsPage } from '../../../../utils/page/types';
+import type { JigDocsPage } from '../../../../utils/page/types';
 
-export const DarkModePage: AwdDocsPage = {
+export const DarkModePage: JigDocsPage = {
   kind: 'single',
   title: `Dark Mode`,
 

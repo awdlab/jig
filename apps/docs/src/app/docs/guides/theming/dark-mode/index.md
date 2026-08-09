@@ -17,10 +17,10 @@ Add the `withAutoColorScheme()` feature to the provider. This is required — it
 registers the service and eagerly instantiates it so the class actually toggles:
 
 ```ts
-import { provideAwdControls, withAutoColorScheme } from '@awdlab/jig/api/ng';
+import { provideJigControls, withAutoColorScheme } from '@awdlab/jig/api/ng';
 import { nova } from '@awdlab/jig-themes/nova';
 
-provideAwdControls(
+provideJigControls(
   { theme: { preset: nova } },
   withAutoColorScheme() // persists to localStorage by default
 );

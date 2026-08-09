@@ -8,17 +8,17 @@ import {
   signal,
 } from '@angular/core';
 import { injectThemeTemplate } from '@awdlab/jig/api/ng';
-import { getNearestAwdInstance } from '@awdlab/jig/base';
+import { getNearestJigInstance } from '@awdlab/jig/base';
 import { toggleClass } from '@awdlab/jig/utils';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
-import { AwdTable } from './table';
+import { JigTable } from './table';
 
 /**
  * A table body cell. Applies the theme's cell class, exposes its visual column
  * index and mirrors the column's sticky positioning.
  *
- * Deliberately does not extend `AwdBase` — one instance exists per cell, so it
+ * Deliberately does not extend `JigBase` — one instance exists per cell, so it
  * skips the per-control overhead (kind/color effects, view queries, leave
  * animations).
  *
@@ -32,10 +32,10 @@ import { AwdTable } from './table';
     '[attr.aria-colindex]': '_ariaColIndex()',
   },
 })
-export class AwdTableTd {
+export class JigTableTd {
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
-  private readonly _table = signal<AwdTable<any, any> | null>(null);
+  private readonly _table = signal<JigTable<any, any> | null>(null);
 
   /** 0-based logical (DOM) index of this cell within its row. */
   private readonly _logicalIndex = signal(0);
@@ -88,7 +88,7 @@ export class AwdTableTd {
     }
 
     afterNextRender(() => {
-      const table = getNearestAwdInstance(el, AwdTable) as AwdTable<any, any> | null;
+      const table = getNearestJigInstance(el, JigTable) as JigTable<any, any> | null;
       this._table.set(table);
     });
 

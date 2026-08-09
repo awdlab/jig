@@ -1,6 +1,6 @@
-import type { AwdDocsPage } from '../../../../utils/page/types';
+import type { JigDocsPage } from '../../../../utils/page/types';
 
-export const MigrationPage: AwdDocsPage = {
+export const MigrationPage: JigDocsPage = {
   kind: 'single',
   title: `Migration`,
 

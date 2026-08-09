@@ -1,25 +1,25 @@
 import { Component, input } from '@angular/core';
 import tablerAdjustments from '@iconify/icons-tabler/adjustments';
 import tablerInfoCircle from '@iconify/icons-tabler/info-circle';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdTooltip } from '@awdlab/jig/tooltip';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 
-import { AwdDocsPlaygroundComponentInputs } from './component-inputs/component-inputs';
+import { JigDocsPlaygroundComponentInputs } from './component-inputs/component-inputs';
 
-import type { AnyAwdBase } from '@awdlab/jig/base';
+import type { AnyJigBase } from '@awdlab/jig/base';
 
 @Component({
   selector: 'jig-docs-playground-inputs',
   templateUrl: 'inputs.html',
-  imports: [AwdDocsPlaygroundComponentInputs, AwdIcon, AwdTooltip],
+  imports: [JigDocsPlaygroundComponentInputs, JigIcon, JigTooltip],
   host: { class: 'flex flex-col' },
 })
-export class AwdDocsPlaygroundInputs {
+export class JigDocsPlaygroundInputs {
   protected readonly iconSliders = tablerAdjustments;
   protected readonly iconInfo = tablerInfoCircle;
   public readonly controls = input.required<
     {
-      component: AnyAwdBase | readonly AnyAwdBase[];
+      component: AnyJigBase | readonly AnyJigBase[];
       componentName: string;
     }[]
   >();

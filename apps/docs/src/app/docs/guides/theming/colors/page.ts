@@ -1,11 +1,11 @@
-import { AwdThemeColorsDemo } from '../../../../page-components/colors';
+import { JigThemeColorsDemo } from '../../../../page-components/colors';
 
-import type { AwdDocsPage } from '../../../../utils/page/types';
+import type { JigDocsPage } from '../../../../utils/page/types';
 
-export const ColorsPage: AwdDocsPage = {
+export const ColorsPage: JigDocsPage = {
   kind: 'single',
   title: `Colors`,
 
   mdFile: 'guides/theming/colors/index.md',
-  components: [AwdThemeColorsDemo],
+  components: [JigThemeColorsDemo],
 };

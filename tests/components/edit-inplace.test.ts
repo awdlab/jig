@@ -1,5 +1,5 @@
 import test from '@playwright/test';
-import { AwdEditInplaceHarness } from '@awdlab/jig-playwright';
+import { JigEditInplaceHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -12,7 +12,7 @@ test('base', async ({ page }, testInfo) => {
     imports: ['editInplace'],
   });
 
-  const editInplace = new AwdEditInplaceHarness(page.locator('jig-edit-inplace'));
+  const editInplace = new JigEditInplaceHarness(page.locator('jig-edit-inplace'));
 
   await test.step('initial display', async () => {
     await handle.setInputs({ value: 'Initial value' });
@@ -47,7 +47,7 @@ test('close with enter key', async ({ page }, testInfo) => {
     imports: ['editInplace'],
   });
 
-  const editInplace = new AwdEditInplaceHarness(page.locator('jig-edit-inplace'));
+  const editInplace = new JigEditInplaceHarness(page.locator('jig-edit-inplace'));
 
   await handle.setInputs({ value: 'Test value' });
   await editInplace.inplace.clickDisplay();
@@ -79,7 +79,7 @@ test('custom templates', async ({ page }, testInfo) => {
     imports: ['editInplace'],
   });
 
-  const editInplace = new AwdEditInplaceHarness(page.locator('jig-edit-inplace'));
+  const editInplace = new JigEditInplaceHarness(page.locator('jig-edit-inplace'));
   const customDisplay = page.locator('.custom-display');
   const customEdit = page.locator('.custom-edit');
 
@@ -117,7 +117,7 @@ test('lazy loading', async ({ page }, testInfo) => {
     imports: ['editInplace'],
   });
 
-  const editInplace = new AwdEditInplaceHarness(page.locator('jig-edit-inplace'));
+  const editInplace = new JigEditInplaceHarness(page.locator('jig-edit-inplace'));
 
   await test.step('lazy=true (default)', async () => {
     await handle.setInputs({ value: 'Lazy value', lazy: true, cache: false });
@@ -157,7 +157,7 @@ test('model binding', async ({ page }, testInfo) => {
     imports: ['editInplace'],
   });
 
-  const editInplace = new AwdEditInplaceHarness(page.locator('jig-edit-inplace'));
+  const editInplace = new JigEditInplaceHarness(page.locator('jig-edit-inplace'));
 
   await test.step('initially closed', async () => {
     await handle.setInputs({ value: 'Test', editVisible: false });
@@ -186,7 +186,7 @@ test('accessibility (axe)', async ({ page }) => {
     imports: ['editInplace'],
   });
 
-  const editInplace = new AwdEditInplaceHarness(page.locator('jig-edit-inplace'));
+  const editInplace = new JigEditInplaceHarness(page.locator('jig-edit-inplace'));
   await handle.setInputs({ value: 'Jane Doe' });
 
   // Display state: the trigger is a labelled button.

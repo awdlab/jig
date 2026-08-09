@@ -28,7 +28,7 @@ value outside the allowed range surfaces an error message.
 
 {{ demo: Demo_NumberInput_Validation }}
 
-See the **Spin Buttons API** tab for the full `AwdSpinButtons` reference.
+See the **Spin Buttons API** tab for the full `JigSpinButtons` reference.
 
 ### Locale formatting
 

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdScroller, AwdScrollerItem } from '@awdlab/jig/scroller';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigScroller, JigScrollerItem } from '@awdlab/jig/scroller';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [AwdScroller, AwdTemplate, AwdScrollerItem],
+  imports: [JigScroller, JigTemplate, JigScrollerItem],
   selector: 'jig-demo-scroller-sticky',
   template: `
     <jig-scroller #scroller style="height: 300px" [items]="items" [fieldSticky]="'items'">

@@ -5,7 +5,7 @@ import {
   NgControl,
   type ValidationErrors,
 } from '@angular/forms';
-import { NGN_CONTROL, type FullAnyAwdBase } from '@awdlab/jig/base';
+import { NGN_CONTROL, type FullAnyJigBase } from '@awdlab/jig/base';
 
 /**
  * A paradigm-agnostic, reactive view of the form control sitting on the host
@@ -27,7 +27,7 @@ import { NGN_CONTROL, type FullAnyAwdBase } from '@awdlab/jig/base';
  * status / touched / pristine) is the one subscription that keeps these signals
  * live — replacing separate `valueChanges` + `statusChanges` watches.
  */
-export interface AwdControlState {
+export interface JigControlState {
   /** Host control name, used to match relevant parent/group errors. */
   readonly name: string | number | null;
   /** Validation errors of the host control (all paradigms), or `null`. */
@@ -45,14 +45,14 @@ interface ControlWithEvents {
 }
 
 /**
- * Resolves and reactively tracks the {@link AwdControlState} of the host
+ * Resolves and reactively tracks the {@link JigControlState} of the host
  * element. Must be called in an injection context (field/directive constructor).
  */
-export function injectAwdControlState(): AwdControlState {
+export function injectJigControlState(): JigControlState {
   const ngControl = inject(NgControl, { optional: true, self: true });
   const selfContainer = inject(ControlContainer, { optional: true, self: true });
   const parentContainer = inject(ControlContainer, { optional: true, skipSelf: true });
-  const ngnControl = inject(NGN_CONTROL, { optional: true, self: true }) as FullAnyAwdBase | null;
+  const ngnControl = inject(NGN_CONTROL, { optional: true, self: true }) as FullAnyJigBase | null;
   const destroyRef = inject(DestroyRef);
 
   const revision = signal(0);

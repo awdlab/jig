@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { afterNextRender, Component, computed, inject, signal } from '@angular/core';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdSpinner } from '@awdlab/jig/spinner';
-import { AwdTag } from '@awdlab/jig/tag';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigSpinner } from '@awdlab/jig/spinner';
+import { JigTag } from '@awdlab/jig/tag';
 
 import { getMarked } from '../../../../utils/md/marked';
 import { Seo } from '../../../../utils/seo';
@@ -25,12 +25,12 @@ type RenderedRelease = Release & { html: string };
   selector: 'jig-docs-changelog',
   templateUrl: 'changelog.html',
   styleUrl: 'changelog.scss',
-  imports: [AwdHint, AwdSpinner, AwdTag],
+  imports: [JigHint, JigSpinner, JigTag],
   host: {
     class: 'min-w-0 w-full h-full flex flex-col pt-[5.5rem]',
   },
 })
-export class AwdDocsChangelog {
+export class JigDocsChangelog {
   private readonly _http = inject(HttpClient);
 
   protected readonly releases = signal<RenderedRelease[] | null>(null);

@@ -1,13 +1,13 @@
-import { AwdDocsRadioPlayground } from './playground';
+import { JigDocsRadioPlayground } from './playground';
 import { Demo_Radio_Base } from '../../../demos/radio/base';
 import { Demo_Radio_Orientation } from '../../../demos/radio/orientation';
 import { Demo_Radio_States } from '../../../demos/radio/states';
 import { Demo_Radio_Validation } from '../../../demos/radio/validation';
 import { i18nText } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const RadioPage: AwdDocsPage = {
+export const RadioPage: JigDocsPage = {
   title: `Radio`,
   kind: 'tabs',
   tabs: [
@@ -27,7 +27,7 @@ export const RadioPage: AwdDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: AwdDocsRadioPlayground,
+      component: JigDocsRadioPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/radio/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/radio/a11y.md' },

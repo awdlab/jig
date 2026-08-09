@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { transformToJigItems } from '@awdlab/jig/api';
-import { AwdListBox } from '@awdlab/jig/list-box';
+import { JigListBox } from '@awdlab/jig/list-box';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [AwdListBox],
+  imports: [JigListBox],
   selector: 'jig-demo-list-box-grouped-demo',
   template: ` <jig-list-box [items]="items" style="display: block; height: 300px;" /> `,
 })

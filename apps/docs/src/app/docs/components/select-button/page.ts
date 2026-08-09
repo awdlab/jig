@@ -1,12 +1,12 @@
-import { AwdDocsSelectButtonPlayground } from './playground';
+import { JigDocsSelectButtonPlayground } from './playground';
 import { Demo_SelectButton_Base } from '../../../demos/select-button/base';
 import { Demo_SelectButton_States } from '../../../demos/select-button/states';
 import { Demo_SelectButton_Validation } from '../../../demos/select-button/validation';
 import { i18nText } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const SelectButtonPage: AwdDocsPage = {
+export const SelectButtonPage: JigDocsPage = {
   title: `Select Button`,
   kind: 'tabs',
   tabs: [
@@ -21,7 +21,7 @@ export const SelectButtonPage: AwdDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: AwdDocsSelectButtonPlayground,
+      component: JigDocsSelectButtonPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/select-button/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/select-button/a11y.md' },

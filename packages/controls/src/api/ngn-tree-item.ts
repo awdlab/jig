@@ -6,9 +6,9 @@ import type { TemplateRef } from '@angular/core';
  * `items` field for child nodes. A node with a non-empty `items` array is a
  * branch; otherwise it is a leaf.
  */
-export interface AwdTreeItem<T = any, V = any> extends JigItem<T, V> {
+export interface JigTreeItem<T = any, V = any> extends JigItem<T, V> {
   /** Child nodes. */
-  items?: AwdTreeItem<T, V>[];
+  items?: JigTreeItem<T, V>[];
   /**
    * Whether this node participates in selection/checking. Default `true`.
    * When `false`: no checkbox is rendered, the node is excluded from `value`,
@@ -25,7 +25,7 @@ export interface AwdTreeItem<T = any, V = any> extends JigItem<T, V> {
   /**
    * Per-node template override. Takes precedence over the global item template.
    */
-  template?: TemplateRef<{ $implicit: AwdTreeItem<T, V> }>;
+  template?: TemplateRef<{ $implicit: JigTreeItem<T, V> }>;
 }
 
 /**
@@ -35,11 +35,11 @@ export interface AwdTreeItem<T = any, V = any> extends JigItem<T, V> {
  * branch node's own `value` with the values of all its descendants — because
  * in a tree a branch node can itself be selected/expanded.
  */
-export type AwdTreeItemValue<Item extends AwdTreeItem> = Item extends {
+export type JigTreeItemValue<Item extends JigTreeItem> = Item extends {
   items: readonly (infer A)[];
 }
-  ? A extends AwdTreeItem
-    ? Item['value'] | AwdTreeItemValue<A>
+  ? A extends JigTreeItem
+    ? Item['value'] | JigTreeItemValue<A>
     : Item['value']
   : Item['value'];
 
@@ -47,8 +47,8 @@ export type AwdTreeItemValue<Item extends AwdTreeItem> = Item extends {
  * The union of every node value (branches and leaves) in a tree item list.
  * This is the type-safe value space for selection, expansion, and highlight.
  */
-export type AwdTreeItemsValue<Items extends readonly AwdTreeItem[]> = Items[number] extends infer A
-  ? A extends AwdTreeItem
-    ? AwdTreeItemValue<A>
+export type JigTreeItemsValue<Items extends readonly JigTreeItem[]> = Items[number] extends infer A
+  ? A extends JigTreeItem
+    ? JigTreeItemValue<A>
     : never
   : never;

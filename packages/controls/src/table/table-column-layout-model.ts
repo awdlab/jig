@@ -2,7 +2,7 @@ import { afterRenderEffect, computed, signal } from '@angular/core';
 import { elementSizeSignal } from '@awdlab/jig/api/ng';
 import { getResizeLimitInPx, ResizeEngine } from '@awdlab/jig/api/resize';
 
-import type { AwdTableTh } from './table-header-cell';
+import type { JigTableTh } from './table-header-cell';
 import type { ElementRef, ModelSignal, Signal } from '@angular/core';
 import type { ResizableItem } from '@awdlab/jig/api/resize';
 
@@ -26,13 +26,13 @@ export interface TableColumnLayoutModelDeps {
 }
 
 /**
- * Owns all column geometry for {@link AwdTable}: effective order, widths (via the wrapped
+ * Owns all column geometry for {@link JigTable}: effective order, widths (via the wrapped
  * {@link ResizeEngine}), sticky columns, reorder gestures, auto-sizing, and the composed
  * `grid-template-columns`. Reads table flags through injected signals; writes only its own
  * state and the injected `columnOrder` model.
  */
 export class TableColumnLayoutModel {
-  private readonly _registeredHeaderCells = signal<AwdTableTh[]>([]);
+  private readonly _registeredHeaderCells = signal<JigTableTh[]>([]);
   private readonly _stickyColumns = signal<ReadonlyMap<string, 'start' | 'end'>>(new Map());
   private readonly _hasSelectionColumn = signal(false);
   private readonly _isReordering = signal(false);
@@ -222,15 +222,15 @@ export class TableColumnLayoutModel {
     this._hasSelectionColumn.set(false);
   }
 
-  public registerHeaderCell(cell: AwdTableTh): void {
+  public registerHeaderCell(cell: JigTableTh): void {
     this._registeredHeaderCells.update(cells => [...cells, cell]);
   }
 
-  public unregisterHeaderCell(cell: AwdTableTh): void {
+  public unregisterHeaderCell(cell: JigTableTh): void {
     this._registeredHeaderCells.update(cells => cells.filter(c => c !== cell));
   }
 
-  public getRegisteredHeaderCells(): readonly AwdTableTh[] {
+  public getRegisteredHeaderCells(): readonly JigTableTh[] {
     return this._registeredHeaderCells();
   }
 
@@ -266,7 +266,7 @@ export class TableColumnLayoutModel {
     return null;
   }
 
-  // --- Resize operations (called by AwdTableTh) ---
+  // --- Resize operations (called by JigTableTh) ---
 
   public startColumnResize(columnIndex: number, event: PointerEvent): void {
     if (!this._deps.resizable()) return;
@@ -283,7 +283,7 @@ export class TableColumnLayoutModel {
     this._resizeEngine.endDrag(columnIndex, cancel);
   }
 
-  // --- Reorder operations (called by AwdTableReorderableColumn) ---
+  // --- Reorder operations (called by JigTableReorderableColumn) ---
 
   public getReorderBounds(columnId: string): { min: number; max: number } {
     const order = this._effectiveColumnOrder();
@@ -322,7 +322,7 @@ export class TableColumnLayoutModel {
     // Build visual-order cells with their bounding boxes
     const visualCells = effectiveOrder
       .map(id => cells.find(c => c.ngnTableTh() === id))
-      .filter((c): c is AwdTableTh => !!c);
+      .filter((c): c is JigTableTh => !!c);
 
     for (let i = 0; i < visualCells.length; i++) {
       const rect = visualCells[i]!.element.nativeElement.getBoundingClientRect();

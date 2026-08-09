@@ -1,25 +1,25 @@
 import { Component, signal } from '@angular/core';
-import { type BreadcrumbItem, AwdBreadcrumb } from '@awdlab/jig/breadcrumb';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdDialog } from '@awdlab/jig/dialog';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdSelect } from '@awdlab/jig/select';
-import { AwdSelectButton } from '@awdlab/jig/select-button';
+import { type BreadcrumbItem, JigBreadcrumb } from '@awdlab/jig/breadcrumb';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDialog } from '@awdlab/jig/dialog';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigSelect } from '@awdlab/jig/select';
+import { JigSelectButton } from '@awdlab/jig/select-button';
 
-import { AwdDocsReveal } from './reveal';
-import { AwdDocsSectionHeader } from './section-header';
+import { JigDocsReveal } from './reveal';
+import { JigDocsSectionHeader } from './section-header';
 
 @Component({
   selector: 'jig-docs-under-the-hood-section',
   imports: [
-    AwdBreadcrumb,
-    AwdButton,
-    AwdDialog,
-    AwdInputField,
-    AwdSelect,
-    AwdSelectButton,
-    AwdDocsReveal,
-    AwdDocsSectionHeader,
+    JigBreadcrumb,
+    JigButton,
+    JigDialog,
+    JigInputField,
+    JigSelect,
+    JigSelectButton,
+    JigDocsReveal,
+    JigDocsSectionHeader,
   ],
   host: { class: 'block px-(--jig-size-padding-xl) py-12 lg:py-16' },
   template: `
@@ -163,7 +163,7 @@ import { AwdDocsSectionHeader } from './section-header';
     </jig-dialog>
   `,
 })
-export class AwdDocsUnderTheHoodSection {
+export class JigDocsUnderTheHoodSection {
   protected readonly dialogOpen = signal(false);
 
   protected readonly owners = [

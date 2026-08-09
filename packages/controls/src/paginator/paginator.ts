@@ -9,15 +9,15 @@ import {
   model,
   output,
 } from '@angular/core';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdBase, AwdPt, provideSelf } from '@awdlab/jig/base';
-import { AwdButton } from '@awdlab/jig/button';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigButton } from '@awdlab/jig/button';
 import { I18n } from '@awdlab/jig/i18n';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdInputField } from '@awdlab/jig/input-field';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInputField } from '@awdlab/jig/input-field';
 import { JigItemView } from '@awdlab/jig/item-view';
-import { AwdSelect } from '@awdlab/jig/select';
-import { AwdError, throwExp } from '@awdlab/jig/utils';
+import { JigSelect } from '@awdlab/jig/select';
+import { JigError, throwExp } from '@awdlab/jig/utils';
 import { paginatorControlTemplate } from '@awdlab/jig-themes/templates/paginator';
 
 import type { PaginationState } from './types';
@@ -30,19 +30,19 @@ import type { JigItem } from '@awdlab/jig/api';
   selector: 'jig-paginator',
   templateUrl: './paginator.html',
   imports: [
-    AwdButton,
-    AwdIcon,
+    JigButton,
+    JigIcon,
     JigItemView,
-    AwdSelect,
-    AwdTemplate,
+    JigSelect,
+    JigTemplate,
     NgStyle,
-    AwdPt,
-    AwdInputField,
+    JigPt,
+    JigInputField,
     NgClass,
   ],
-  providers: [provideSelf(AwdPaginator)],
+  providers: [provideSelf(JigPaginator)],
 })
-export class AwdPaginator extends AwdBase<'paginator'> {
+export class JigPaginator extends JigBase<'paginator'> {
   protected readonly theme = this.injectThemeTemplate(paginatorControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
 
@@ -85,7 +85,7 @@ export class AwdPaginator extends AwdBase<'paginator'> {
     () =>
       this.pageSize() ||
       this.possiblePageSizes()[0] ||
-      throwExp('AwdPaginator', 'At least one page size must be provided')
+      throwExp('JigPaginator', 'At least one page size must be provided')
   );
   protected readonly pageCount = computed(() =>
     Math.ceil((this.totalItems() ?? 0) / this.appliedPageSize())
@@ -128,7 +128,7 @@ export class AwdPaginator extends AwdBase<'paginator'> {
     });
     effect(() => {
       if (this.mode() === 'pages' && this.totalItems() === undefined) {
-        throw new AwdError('paginator', "totalItems is required in 'pages' mode");
+        throw new JigError('paginator', "totalItems is required in 'pages' mode");
       }
     });
   }

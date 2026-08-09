@@ -17,11 +17,11 @@ type ThemeClassToPassthrough<T> = {
     : ThemeClassToPassthrough<T[K]> & PassthroughValue;
 };
 
-export type AwdPassthrough<T extends ControlName> = T extends null
+export type JigPassthrough<T extends ControlName> = T extends null
   ? never
   : ThemeTemplate[T] extends ControlTemplate
     ? ThemeClassToPassthrough<ThemeClasses<ThemeTemplate[T]>> & PassthroughValue
     : never;
 
 // eslint-disable-next-line typescript/no-explicit-any
-export type AnyAwdPassthrough = AwdPassthrough<any>;
+export type AnyJigPassthrough = JigPassthrough<any>;

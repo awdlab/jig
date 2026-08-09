@@ -1,11 +1,11 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdEditInplace } from '@awdlab/jig/edit-inplace';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
+import { JigEditInplace } from '@awdlab/jig/edit-inplace';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
 
 @Component({
   selector: 'jig-demo-edit-inplace-validation',
-  imports: [AwdEditInplace, AwdErrors, AwdHint],
+  imports: [JigEditInplace, JigErrors, JigHint],
   template: `
     <div class="flex flex-col gap-2">
       <jig-edit-inplace

@@ -1,9 +1,9 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdFilter, type AwdFilterConfig } from '@awdlab/jig/filter';
+import { JigFilter, type JigFilterConfig } from '@awdlab/jig/filter';
 
 @Component({
   selector: 'jig-demo-filter-base',
-  imports: [AwdFilter],
+  imports: [JigFilter],
   template: `
     <div class="flex flex-col gap-2">
       <jig-filter
@@ -33,7 +33,7 @@ export class Demo_Filter_Base {
     'Greece',
   ];
 
-  protected readonly output = signal<AwdFilterConfig | null>(null);
+  protected readonly output = signal<JigFilterConfig | null>(null);
   protected readonly filteredData = signal<readonly string[] | null>(null);
   protected readonly filtered = computed(() => this.filteredData() ?? this.data);
 }

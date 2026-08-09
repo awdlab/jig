@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AwdPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { switchControlTemplate } from '@awdlab/jig-themes/templates/switch';
 
 /**
@@ -8,10 +8,10 @@ import { switchControlTemplate } from '@awdlab/jig-themes/templates/switch';
 @Component({
   selector: 'jig-switch',
   templateUrl: './switch.html',
-  imports: [AwdPt],
-  providers: [provideSelf(AwdSwitch)],
+  imports: [JigPt],
+  providers: [provideSelf(JigSwitch)],
 })
-export class AwdSwitch extends ValueControlBase<'switch', boolean> {
+export class JigSwitch extends ValueControlBase<'switch', boolean> {
   protected readonly theme = this.injectThemeTemplate(switchControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),

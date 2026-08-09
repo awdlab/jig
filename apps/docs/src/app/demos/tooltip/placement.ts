@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdTooltip } from '@awdlab/jig/tooltip';
+import { JigButton } from '@awdlab/jig/button';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 
 @Component({
-  imports: [AwdButton, AwdTooltip],
+  imports: [JigButton, JigTooltip],
   selector: 'jig-demo-tooltip-placement',
   template: `
     <button ngnButton [ngnTooltip]="content" [ngnTooltipPlacement]="'left-start'">

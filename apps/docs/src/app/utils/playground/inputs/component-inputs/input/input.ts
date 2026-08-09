@@ -11,16 +11,16 @@ import {
   type Signal,
 } from '@angular/core';
 import { injectThemeColors, injectThemeControlKinds } from '@awdlab/jig/api/ng';
-import { AwdCalendar } from '@awdlab/jig/calendar';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdSelect } from '@awdlab/jig/select';
-import { AwdSwitch } from '@awdlab/jig/switch';
+import { JigCalendar } from '@awdlab/jig/calendar';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigSelect } from '@awdlab/jig/select';
+import { JigSwitch } from '@awdlab/jig/switch';
 import { notNullish } from '@awdlab/jig/utils';
 import { setInputSignalValue } from '@awdlab/jig/utils-ng';
 
 import type { JigItem } from '@awdlab/jig/api';
-import type { AnyAwdBase } from '@awdlab/jig/base';
+import type { AnyJigBase } from '@awdlab/jig/base';
 import type { SomeType, DeclarationReflection } from 'typedoc/browser';
 
 type TypeDeclaration = (
@@ -49,15 +49,15 @@ type TypeDeclaration = (
 @Component({
   selector: 'jig-docs-playground-input',
   templateUrl: 'input.html',
-  imports: [AwdInputField, AwdInput, AwdSwitch, AwdSelect, AwdCalendar],
+  imports: [JigInputField, JigInput, JigSwitch, JigSelect, JigCalendar],
   host: {
     '[style.display]': 'isKnownType() ? "block" : "none"',
   },
 })
-export class AwdDocsPlaygroundInput {
+export class JigDocsPlaygroundInput {
   private readonly _injector = inject(Injector);
   public readonly input = input.required<DeclarationReflection>();
-  public readonly instance = input<AnyAwdBase>();
+  public readonly instance = input<AnyJigBase>();
   public readonly internalControlName = input.required<string>();
 
   protected readonly dataType = computed(() => this.buildTypeModel(this.input().type));

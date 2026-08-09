@@ -6,38 +6,38 @@ import {
   type OnDestroy,
 } from '@angular/core';
 import tablerUser from '@iconify/icons-tabler/user';
-import { AwdAccordion, AwdAccordionPanel } from '@awdlab/jig/accordion';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdAvatar, AwdAvatarGroup } from '@awdlab/jig/avatar';
-import { AwdBreadcrumb } from '@awdlab/jig/breadcrumb';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdButtonGroup } from '@awdlab/jig/button-group';
-import { AwdCalendar } from '@awdlab/jig/calendar';
-import { AwdCheckbox } from '@awdlab/jig/checkbox';
-import { AwdChip } from '@awdlab/jig/chip';
-import { AwdDefer } from '@awdlab/jig/defer';
-import { AwdDialog } from '@awdlab/jig/dialog';
-import { AwdEditInplace } from '@awdlab/jig/edit-inplace';
-import { AwdFilter } from '@awdlab/jig/filter';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdInplace } from '@awdlab/jig/inplace';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdMaskInput } from '@awdlab/jig/mask-input';
+import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigAvatar, JigAvatarGroup } from '@awdlab/jig/avatar';
+import { JigBreadcrumb } from '@awdlab/jig/breadcrumb';
+import { JigButton } from '@awdlab/jig/button';
+import { JigButtonGroup } from '@awdlab/jig/button-group';
+import { JigCalendar } from '@awdlab/jig/calendar';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
+import { JigChip } from '@awdlab/jig/chip';
+import { JigDefer } from '@awdlab/jig/defer';
+import { JigDialog } from '@awdlab/jig/dialog';
+import { JigEditInplace } from '@awdlab/jig/edit-inplace';
+import { JigFilter } from '@awdlab/jig/filter';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInplace } from '@awdlab/jig/inplace';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigMaskInput } from '@awdlab/jig/mask-input';
 import { JigItemView } from '@awdlab/jig/item-view';
-import { AwdListBox } from '@awdlab/jig/list-box';
-import { AwdMessage } from '@awdlab/jig/message';
-import { AwdPopover } from '@awdlab/jig/popover';
-import { AwdProgress } from '@awdlab/jig/progress';
-import { AwdScroller, AwdScrollerItem } from '@awdlab/jig/scroller';
-import { AwdSelect } from '@awdlab/jig/select';
-import { AwdSlider } from '@awdlab/jig/slider';
-import { AwdSpinner } from '@awdlab/jig/spinner';
-import { AwdSplitter, AwdSplitterPanel } from '@awdlab/jig/splitter';
-import { AwdTableModule } from '@awdlab/jig/table';
-import { AwdTab, AwdTabs } from '@awdlab/jig/tabs';
-import { AwdTag } from '@awdlab/jig/tag';
-import { AwdTooltip } from '@awdlab/jig/tooltip';
+import { JigListBox } from '@awdlab/jig/list-box';
+import { JigMessage } from '@awdlab/jig/message';
+import { JigPopover } from '@awdlab/jig/popover';
+import { JigProgress } from '@awdlab/jig/progress';
+import { JigScroller, JigScrollerItem } from '@awdlab/jig/scroller';
+import { JigSelect } from '@awdlab/jig/select';
+import { JigSlider } from '@awdlab/jig/slider';
+import { JigSpinner } from '@awdlab/jig/spinner';
+import { JigSplitter, JigSplitterPanel } from '@awdlab/jig/splitter';
+import { JigTableModule } from '@awdlab/jig/table';
+import { JigTab, JigTabs } from '@awdlab/jig/tabs';
+import { JigTag } from '@awdlab/jig/tag';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 
 import type { JigItem } from '@awdlab/jig/api';
 
@@ -51,43 +51,43 @@ declare global {
   selector: 'jig-leak-test',
 
   imports: [
-    AwdTemplate,
-    AwdAccordion,
-    AwdAccordionPanel,
-    AwdAvatar,
-    AwdAvatarGroup,
-    AwdBreadcrumb,
-    AwdButton,
-    AwdButtonGroup,
-    AwdCalendar,
-    AwdCheckbox,
-    AwdChip,
-    AwdDefer,
-    AwdDialog,
-    AwdEditInplace,
-    AwdFilter,
-    AwdIcon,
-    AwdInplace,
-    AwdInput,
-    AwdInputField,
-    AwdMaskInput,
+    JigTemplate,
+    JigAccordion,
+    JigAccordionPanel,
+    JigAvatar,
+    JigAvatarGroup,
+    JigBreadcrumb,
+    JigButton,
+    JigButtonGroup,
+    JigCalendar,
+    JigCheckbox,
+    JigChip,
+    JigDefer,
+    JigDialog,
+    JigEditInplace,
+    JigFilter,
+    JigIcon,
+    JigInplace,
+    JigInput,
+    JigInputField,
+    JigMaskInput,
     JigItemView,
-    AwdListBox,
-    AwdMessage,
-    AwdPopover,
-    AwdProgress,
-    AwdScroller,
-    AwdScrollerItem,
-    AwdSelect,
-    AwdSlider,
-    AwdSpinner,
-    AwdSplitter,
-    AwdSplitterPanel,
-    AwdTab,
-    AwdTabs,
-    AwdTableModule,
-    AwdTag,
-    AwdTooltip,
+    JigListBox,
+    JigMessage,
+    JigPopover,
+    JigProgress,
+    JigScroller,
+    JigScrollerItem,
+    JigSelect,
+    JigSlider,
+    JigSpinner,
+    JigSplitter,
+    JigSplitterPanel,
+    JigTab,
+    JigTabs,
+    JigTableModule,
+    JigTag,
+    JigTooltip,
   ],
   template: `
     @if (show()) {

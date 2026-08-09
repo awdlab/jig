@@ -1,1 +1,1 @@
-{{ api: badge/badge AwdBadge }}
+{{ api: badge/badge JigBadge }}

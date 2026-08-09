@@ -1,1 +1,1 @@
-{{ api: directives/resizable AwdResizable }}
+{{ api: directives/resizable JigResizable }}

@@ -14,7 +14,7 @@ The shade theme is slot-based instead: it defines `surface`, `primary`, `seconda
 `muted`, `accent`, and `destructive`, and offers `surface` / `primary` / `destructive` as
 `color` values. It emits the numeric ramp too, so token references keep resolving.
 
-{{ component: AwdThemeColorsDemo }}
+{{ component: JigThemeColorsDemo }}
 
 ### Contrast companions
 

@@ -4,15 +4,15 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { TableColumnLayoutModel } from './table-column-layout-model';
 
-import type { AwdTableTh } from './table-header-cell';
+import type { JigTableTh } from './table-header-cell';
 
-function cell(id: string): AwdTableTh {
+function cell(id: string): JigTableTh {
   return {
     ngnTableTh: signal(id),
     element: new ElementRef(document.createElement('th')),
     minSize: signal('0px'),
     maxSize: signal('100%'),
-  } as unknown as AwdTableTh;
+  } as unknown as JigTableTh;
 }
 
 // `model()` may only be called in a class-member initializer, so the two-way

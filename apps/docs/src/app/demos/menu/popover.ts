@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { type MenuItem, AwdMenu } from '@awdlab/jig/menu';
+import { JigButton } from '@awdlab/jig/button';
+import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
 
 @Component({
   selector: 'jig-demo-menu-popover',
-  imports: [AwdMenu, AwdButton],
+  imports: [JigMenu, JigButton],
   template: ` <button ngnButton #anchor (click)="menu.show()">Open Menu</button>
     <jig-menu #menu [popover]="true" [anchor]="anchor" [items]="items()" />`,
 })

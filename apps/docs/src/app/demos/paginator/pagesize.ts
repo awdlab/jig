@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AwdPaginator } from '@awdlab/jig/paginator';
+import { JigPaginator } from '@awdlab/jig/paginator';
 
 @Component({
   selector: 'jig-demo-paginator-pagesize',
-  imports: [AwdPaginator],
+  imports: [JigPaginator],
   template: `
     <jig-paginator [totalItems]="500" [pageSize]="20" [possiblePageSizes]="[10, 20, 30, 40]" />
   `,

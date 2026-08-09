@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdState } from '@awdlab/jig/state';
-import { AwdTooltip } from '@awdlab/jig/tooltip';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigState } from '@awdlab/jig/state';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 
 @Component({
-  imports: [AwdState, AwdInput, AwdInputField, AwdTooltip],
+  imports: [JigState, JigInput, JigInputField, JigTooltip],
   selector: 'jig-demo-state-input-field',
   template: `
     <div class="grid max-w-lg gap-4">

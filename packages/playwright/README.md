@@ -22,9 +22,9 @@ pnpm add -D @awdlab/jig-playwright
 ```
 
 ```ts
-import { AwdSelectHarness } from '@awdlab/jig-playwright';
+import { JigSelectHarness } from '@awdlab/jig-playwright';
 
-const select = new AwdSelectHarness(page.locator('jig-select'));
+const select = new JigSelectHarness(page.locator('jig-select'));
 await select.open();
 await select.clickItemByText('Option 2');
 await select.expectSelectedItemText('Option 2');

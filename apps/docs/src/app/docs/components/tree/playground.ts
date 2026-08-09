@@ -1,22 +1,22 @@
 import { Component, viewChild } from '@angular/core';
-import { AwdTree } from '@awdlab/jig/tree';
+import { JigTree } from '@awdlab/jig/tree';
 
-import { AwdDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
-import type { AwdTreeItem } from '@awdlab/jig/api';
+import type { JigTreeItem } from '@awdlab/jig/api';
 
 @Component({
   selector: 'jig-docs-tree-playground',
-  imports: [AwdTree, AwdDocsPlayground],
+  imports: [JigTree, JigDocsPlayground],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'AwdTree', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'JigTree', component: component() }]">
       <jig-tree #ref class="flex-1" [items]="items" [multiple]="true" style="height: 300px;" />
     </jig-docs-playground>
   `,
 })
-export class AwdDocsTreePlayground {
-  protected readonly component = viewChild.required('ref', { read: AwdTree });
-  protected readonly items: AwdTreeItem[] = [
+export class JigDocsTreePlayground {
+  protected readonly component = viewChild.required('ref', { read: JigTree });
+  protected readonly items: JigTreeItem[] = [
     {
       label: 'Documents',
       value: 'documents',

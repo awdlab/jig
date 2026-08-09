@@ -1,13 +1,13 @@
 import { Component, viewChild } from '@angular/core';
-import { AwdRadio, AwdRadioGroup } from '@awdlab/jig/radio';
+import { JigRadio, JigRadioGroup } from '@awdlab/jig/radio';
 
-import { AwdDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   selector: 'jig-docs-radio-playground',
-  imports: [AwdRadioGroup, AwdRadio, AwdDocsPlayground],
+  imports: [JigRadioGroup, JigRadio, JigDocsPlayground],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'AwdRadioGroup', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'JigRadioGroup', component: component() }]">
       <jig-radio-group #ref>
         <jig-radio value="one">Option one</jig-radio>
         <jig-radio value="two">Option two</jig-radio>
@@ -16,6 +16,6 @@ import { AwdDocsPlayground } from '../../../utils/playground/playground';
     </jig-docs-playground>
   `,
 })
-export class AwdDocsRadioPlayground {
-  protected readonly component = viewChild.required('ref', { read: AwdRadioGroup });
+export class JigDocsRadioPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigRadioGroup });
 }

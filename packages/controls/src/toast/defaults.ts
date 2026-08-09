@@ -1,6 +1,6 @@
-import type { AwdToastOptions } from './types';
+import type { JigToastOptions } from './types';
 
-export const DEFAULT_TOAST_OPTIONS: AwdToastOptions = {
+export const DEFAULT_TOAST_OPTIONS: JigToastOptions = {
   closable: false,
   autoHide: 5000,
 };

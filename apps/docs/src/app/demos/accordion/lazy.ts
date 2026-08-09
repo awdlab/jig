@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AwdAccordion, AwdAccordionPanel } from '@awdlab/jig/accordion';
+import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
 
 import { exampleData } from '../../helper/data';
 import { DummyLoremIpsumComponent1, DummyLoremIpsumComponent2 } from '../dummies/lorem-ipsum';
@@ -18,8 +18,8 @@ export class Demo3Component {
 @Component({
   selector: 'jig-demo-accordion-lazy',
   imports: [
-    AwdAccordion,
-    AwdAccordionPanel,
+    JigAccordion,
+    JigAccordionPanel,
     DummyLoremIpsumComponent1,
     DummyLoremIpsumComponent2,
     Demo3Component,

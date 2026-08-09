@@ -1,4 +1,4 @@
-import { AwdListBoxHarness } from '@awdlab/jig-playwright';
+import { JigListBoxHarness } from '@awdlab/jig-playwright';
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { exampleData } from '../helper/data';
@@ -124,7 +124,7 @@ test('base', async ({ page }, testInfo) => {
     }
   );
 
-  const listbox = new AwdListBoxHarness(page.locator('jig-list-box').first());
+  const listbox = new JigListBoxHarness(page.locator('jig-list-box').first());
   await listbox.expectItemsCount(exampleData.items.flatPreformatted.length);
 });
 
@@ -151,7 +151,7 @@ test('accessibility (axe)', async ({ page }) => {
     }
   );
 
-  const listbox = new AwdListBoxHarness(page.locator('jig-list-box').first());
+  const listbox = new JigListBoxHarness(page.locator('jig-list-box').first());
   await listbox.expectItemsCount(exampleData.items.flatPreformatted.length);
   await expectNoA11yViolations(page);
 });

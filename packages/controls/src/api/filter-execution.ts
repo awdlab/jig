@@ -2,11 +2,11 @@ import { type AllKeysOfUnion, objectEntries } from '@awdlab/jig/utils';
 
 import { stringMatches } from './string-match';
 
-type AwdFilterDataType = 'string' | 'number' | 'date' | 'dateTime' | 'boolean' | 'custom' | 'list';
+type JigFilterDataType = 'string' | 'number' | 'date' | 'dateTime' | 'boolean' | 'custom' | 'list';
 
-type AwdFilterMatchMode = 'all' | 'any';
+type JigFilterMatchMode = 'all' | 'any';
 
-type AwdFilterOperatorId =
+type JigFilterOperatorId =
   | 'isEqual'
   | 'isNotEqual'
   | 'contains'
@@ -23,23 +23,23 @@ type AwdFilterOperatorId =
   | 'isFalse'
   | 'custom';
 
-type AwdFilterConditionConfig = {
-  operator: AwdFilterOperatorId;
+type JigFilterConditionConfig = {
+  operator: JigFilterOperatorId;
   rawValue: string | null;
 };
 
-type AwdFilterConfig = {
-  dataType: AwdFilterDataType;
-  matchMode: AwdFilterMatchMode;
-  conditions: readonly AwdFilterConditionConfig[];
+type JigFilterConfig = {
+  dataType: JigFilterDataType;
+  matchMode: JigFilterMatchMode;
+  conditions: readonly JigFilterConditionConfig[];
 };
 
-type AwdFilterCondition = {
-  operator: AwdFilterOperatorId;
+type JigFilterCondition = {
+  operator: JigFilterOperatorId;
   value: unknown;
 };
 
-export type AwdFilterValueSelector<T> = (item: T) => unknown;
+export type JigFilterValueSelector<T> = (item: T) => unknown;
 
 function normalizeString(value: unknown): string {
   return (value ?? '').toString().toLowerCase();
@@ -67,7 +67,7 @@ function asDateMs(value: unknown): number | null {
   return null;
 }
 
-function operatorRequiresValue(operator: AwdFilterOperatorId): boolean {
+function operatorRequiresValue(operator: JigFilterOperatorId): boolean {
   switch (operator) {
     case 'isEmpty':
     case 'isNotEmpty':
@@ -79,7 +79,7 @@ function operatorRequiresValue(operator: AwdFilterOperatorId): boolean {
   }
 }
 
-export function parseFilterRawValue(raw: string | null, dataType: AwdFilterDataType): unknown {
+export function parseFilterRawValue(raw: string | null, dataType: JigFilterDataType): unknown {
   if (raw == null || raw === '') {
     return null;
   }
@@ -103,7 +103,7 @@ export function parseFilterRawValue(raw: string | null, dataType: AwdFilterDataT
   }
 }
 
-export function getActiveFilterConditions(config: AwdFilterConfig): readonly AwdFilterCondition[] {
+export function getActiveFilterConditions(config: JigFilterConfig): readonly JigFilterCondition[] {
   const dt = config.dataType;
   return config.conditions
     .map(c => {
@@ -128,15 +128,15 @@ export function getActiveFilterConditions(config: AwdFilterConfig): readonly Awd
       if (c.operator === 'in' && Array.isArray(parsed) && parsed.length === 0) {
         return null;
       }
-      return <AwdFilterCondition>{ operator: c.operator, value: parsed };
+      return <JigFilterCondition>{ operator: c.operator, value: parsed };
     })
-    .filter((x): x is AwdFilterCondition => x != null);
+    .filter((x): x is JigFilterCondition => x != null);
 }
 
 function matchesValue(
   value: unknown,
-  dataType: AwdFilterDataType,
-  condition: AwdFilterCondition
+  dataType: JigFilterDataType,
+  condition: JigFilterCondition
 ): boolean {
   switch (dataType) {
     case 'string': {
@@ -257,8 +257,8 @@ function matchesValue(
 
 export function executeFilter<T>(
   data: readonly T[],
-  config: AwdFilterConfig,
-  selector: AwdFilterValueSelector<T> = (item: T): unknown => item
+  config: JigFilterConfig,
+  selector: JigFilterValueSelector<T> = (item: T): unknown => item
 ): readonly T[] {
   const active = getActiveFilterConditions(config);
   if (active.length === 0) {
@@ -277,12 +277,12 @@ export function executeFilter<T>(
 export function executeMultiFilter<T extends object>(
   data: readonly T[],
   configs: {
-    [key in Extract<AllKeysOfUnion<T>, string>]?: AwdFilterConfig;
+    [key in Extract<AllKeysOfUnion<T>, string>]?: JigFilterConfig;
   }
 ): readonly T[] {
   let result: readonly T[] = data;
   for (const [key, config] of objectEntries(configs).filter(x => !!x[1])) {
-    const forcedAll: AwdFilterConfig = { ...(config as AwdFilterConfig), matchMode: 'all' };
+    const forcedAll: JigFilterConfig = { ...(config as JigFilterConfig), matchMode: 'all' };
     result = executeFilter(result, forcedAll, (item: T): unknown => item[key]);
   }
   return result;

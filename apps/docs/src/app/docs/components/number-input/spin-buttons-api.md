@@ -1,1 +1,1 @@
-{{ api: spin-buttons/spin-buttons AwdSpinButtons }}
+{{ api: spin-buttons/spin-buttons JigSpinButtons }}

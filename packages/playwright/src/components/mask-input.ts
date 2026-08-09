@@ -12,7 +12,7 @@ import { maskInputControlTemplate } from '@awdlab/jig-themes/templates/mask-inpu
  * test component (e.g. `<span data-testid="value">{{ inputs().value }}</span>`).
  * This harness intentionally does NOT expose an `expectValue` method.
  */
-export class AwdMaskInputHarness {
+export class JigMaskInputHarness {
   public readonly classes = themeClasses(maskInputControlTemplate);
 
   /**

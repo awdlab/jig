@@ -1,6 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { AwdTooltipHarness } from '@awdlab/jig-playwright';
+import { JigTooltipHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -10,7 +10,7 @@ test('base', async ({ page }, testInfo) => {
     imports: ['tooltip'],
   });
 
-  const tooltip = new AwdTooltipHarness(page.getByRole('tooltip').first());
+  const tooltip = new JigTooltipHarness(page.getByRole('tooltip').first());
   const button = page.getByRole('button').first();
   await expectScreenshot(page, testInfo, 'closed');
 
@@ -60,7 +60,7 @@ test('position change', async ({ page }, testInfo) => {
     }
   );
 
-  const tooltip = new AwdTooltipHarness(page.getByRole('tooltip').first());
+  const tooltip = new JigTooltipHarness(page.getByRole('tooltip').first());
   const button = page.getByRole('button').first();
   await button.hover();
   await tooltip.expectRendered();
@@ -125,7 +125,7 @@ test('positioning on scroll', async ({ page }, testInfo) => {
     imports: ['tooltip'],
   });
 
-  const tooltip = new AwdTooltipHarness(page.getByRole('tooltip').first());
+  const tooltip = new JigTooltipHarness(page.getByRole('tooltip').first());
   const button = page.getByRole('button').first();
   const toScreenshot = page.locator('#toScreenshot');
   await button.hover();
@@ -158,7 +158,7 @@ test('accessibility (axe)', async ({ page }) => {
     imports: ['tooltip'],
   });
 
-  const tooltip = new AwdTooltipHarness(page.getByRole('tooltip').first());
+  const tooltip = new JigTooltipHarness(page.getByRole('tooltip').first());
   const button = page.getByRole('button').first();
 
   // The tooltip surface only exists in the DOM once shown.

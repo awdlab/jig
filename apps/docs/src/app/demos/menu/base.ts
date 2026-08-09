@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 import tablerCode from '@iconify/icons-tabler/code';
-import { type MenuItem, AwdMenu } from '@awdlab/jig/menu';
+import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
 
 @Component({
   selector: 'jig-demo-menu-base',
-  imports: [AwdMenu],
+  imports: [JigMenu],
   template: `<jig-menu #menu [items]="items()" />`,
 })
 export class Demo_Menu_Base {

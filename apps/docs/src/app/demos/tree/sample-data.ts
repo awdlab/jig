@@ -1,7 +1,7 @@
-import type { AwdTreeItem } from '@awdlab/jig/api';
+import type { JigTreeItem } from '@awdlab/jig/api';
 
 /** A small file-system style tree reused across the tree demos. */
-export const fileTree: AwdTreeItem[] = [
+export const fileTree: JigTreeItem[] = [
   {
     label: 'src',
     value: 'src',

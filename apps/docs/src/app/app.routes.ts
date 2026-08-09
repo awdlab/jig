@@ -1,4 +1,4 @@
-import { AwdDocsFrame } from './frame/frame';
+import { JigDocsFrame } from './frame/frame';
 import { FrameState } from './frame/frame-state';
 import { Start } from './start/start';
 import { TestComponent } from './test';
@@ -11,11 +11,11 @@ export const routes: Routes = [
     // Unlinked control overview — reachable by direct URL only (not in the
     // docs menu). Lazy so it stays out of the main bundle.
     path: '_gallery',
-    loadComponent: () => import('./gallery/gallery').then(m => m.AwdDocsGallery),
+    loadComponent: () => import('./gallery/gallery').then(m => m.JigDocsGallery),
   },
   {
     path: '',
-    component: AwdDocsFrame,
+    component: JigDocsFrame,
     providers: [FrameState],
     children: [
       {

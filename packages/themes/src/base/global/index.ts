@@ -17,7 +17,7 @@ export const globalStyles = createThemePart({
       .jig-control.jig-control-initializing {
         /*
          * Hide controls until they are fully initialized to prevent FOUC
-         * The 'jig-control-initialized' class is added in a afterNextRender callback in AwdBase.
+         * The 'jig-control-initialized' class is added in a afterNextRender callback in JigBase.
          */
         display: none !important;
       }

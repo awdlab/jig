@@ -1,11 +1,11 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 import { templateTypesFn } from '@awdlab/jig/api/ng';
-import { AwdBase } from '@awdlab/jig/base';
+import { JigBase } from '@awdlab/jig/base';
 
 import type { HeaderTemplateType } from './types';
 
 @Directive()
-export abstract class DrawerTemplates extends AwdBase<'drawer'> {
+export abstract class DrawerTemplates extends JigBase<'drawer'> {
   // Header template
   private readonly _defaultHeaderTemplate =
     viewChild.required<TemplateRef<typeof this.templateTypes.header>>('defaultHeaderTemplate');

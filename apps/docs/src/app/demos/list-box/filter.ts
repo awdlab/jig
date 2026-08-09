@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { AwdListBox } from '@awdlab/jig/list-box';
+import { JigListBox } from '@awdlab/jig/list-box';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [AwdListBox],
+  imports: [JigListBox],
   selector: 'jig-demo-list-box-filter',
   template: ` <input
       type="text"

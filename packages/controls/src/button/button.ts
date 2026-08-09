@@ -1,5 +1,5 @@
 import { booleanAttribute, Directive, input } from '@angular/core';
-import { AwdBase, provideSelf } from '@awdlab/jig/base';
+import { JigBase, provideSelf } from '@awdlab/jig/base';
 import { toggleClass } from '@awdlab/jig/utils';
 import { buttonControlTemplate } from '@awdlab/jig-themes/templates/button';
 
@@ -8,10 +8,10 @@ import { buttonControlTemplate } from '@awdlab/jig-themes/templates/button';
  */
 @Directive({
   selector: 'button[ngnButton], a[ngnButton]',
-  providers: [provideSelf(AwdButton)],
+  providers: [provideSelf(JigButton)],
   exportAs: 'ngnButton',
 })
-export class AwdButton extends AwdBase<'button'> {
+export class JigButton extends JigBase<'button'> {
   protected readonly theme = this.injectThemeTemplate(buttonControlTemplate, {
     root: true,
     inline: () => this.inline(),

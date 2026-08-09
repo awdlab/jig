@@ -1,6 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { AwdTagHarness } from '@awdlab/jig-playwright';
+import { JigTagHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -21,7 +21,7 @@ test('features', async ({ page }, testInfo) => {
     }
   );
 
-  const tag = new AwdTagHarness(page.locator('jig-tag'));
+  const tag = new JigTagHarness(page.locator('jig-tag'));
 
   await test.step('default', async () => {
     await expectScreenshot(page, testInfo, 'default');

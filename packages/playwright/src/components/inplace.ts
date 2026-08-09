@@ -2,7 +2,7 @@ import { type Locator, expect } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { inplaceControlTemplate } from '@awdlab/jig-themes/templates/inplace';
 
-export class AwdInplaceHarness {
+export class JigInplaceHarness {
   public readonly classes = themeClasses(inplaceControlTemplate);
 
   public readonly display: Locator;

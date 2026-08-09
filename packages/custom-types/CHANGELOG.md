@@ -12,7 +12,7 @@
 
 The theme augmentations were also unreachable. `<theme>/theme-types.d.ts` shipped in the package but nothing pulled it into a consumer's program: no reference from the theme barrel, no `exports` entry to import or reference it by, and it lives under `node_modules`, so app `include` globs miss it. Each theme now ships a `typed.d.ts` barrel that references it, and `@awdlab/jig-themes/<theme>` resolves its types there.
 
-Apps that pull in more than one theme have to opt out for the extra ones via the new `@awdlab/jig-themes/<theme>/untyped` entry point — two augmentations of `AwdThemeTypes` clash, and the first one loaded silently wins. Both entry points resolve to the same runtime module; only the types differ.
+Apps that pull in more than one theme have to opt out for the extra ones via the new `@awdlab/jig-themes/<theme>/untyped` entry point — two augmentations of `JigThemeTypes` clash, and the first one loaded silently wins. Both entry points resolve to the same runtime module; only the types differ.
 
 Bindings that leaned on the old `unknown` may now fail to compile. `[kind]="null"` is the common one: the input accepts `undefined`, not `null`.
 

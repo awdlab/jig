@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { AwdCalendar } from '@awdlab/jig/calendar';
-import { AwdInputField } from '@awdlab/jig/input-field';
+import { JigCalendar } from '@awdlab/jig/calendar';
+import { JigInputField } from '@awdlab/jig/input-field';
 
 @Component({
   selector: 'jig-demo-calendar-states',
-  imports: [AwdCalendar, AwdInputField],
+  imports: [JigCalendar, JigInputField],
   template: `
     Default:
     <jig-input-field>

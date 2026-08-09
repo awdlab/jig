@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { AwdCalendar } from '@awdlab/jig/calendar';
+import { JigCalendar } from '@awdlab/jig/calendar';
 
-import type { AwdPassthrough } from '@awdlab/jig/base';
+import type { JigPassthrough } from '@awdlab/jig/base';
 
 @Component({
   selector: 'jig-demo-pt-deps',
-  imports: [AwdCalendar],
+  imports: [JigCalendar],
   template: `<jig-calendar [inputId]="'pt-deps'" [inline]="true" [pt]="pt" />`,
 })
 export class Demo_Pt_Deps {
-  protected readonly pt: AwdPassthrough<'calendar'> = {
+  protected readonly pt: JigPassthrough<'calendar'> = {
     // Only the month picker — the year select is left untouched.
     'current-month': {
       root: {

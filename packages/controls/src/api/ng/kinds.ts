@@ -23,7 +23,7 @@ function injectActiveTheme(): Signal<Theme | null | undefined> {
 /**
  * Retrieves the available kinds for a given control from the active theme, as a reactive signal
  * that updates when the active theme changes. Does **not** return custom kinds defined by the
- * user in `AwdCustomTypes`.
+ * user in `JigCustomTypes`.
  * @param controlName The name of the control to get kinds for.
  * @returns A signal of the available kinds for the specified control.
  */
@@ -35,7 +35,7 @@ export function injectThemeControlKinds<T extends string>(controlName: T): Signa
 /**
  * Retrieves the available colors from the active theme, as a reactive signal that updates when
  * the active theme changes. Does **not** return custom colors defined by the user in
- * `AwdCustomTypes`.
+ * `JigCustomTypes`.
  * @returns A signal of the available colors.
  */
 /**

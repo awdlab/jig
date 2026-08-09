@@ -11,9 +11,9 @@ import {
   viewChild,
   viewChildren,
 } from '@angular/core';
-import { elementSizeSignal, elementsSizesSignal, AwdTemplate, Platform } from '@awdlab/jig/api/ng';
-import { AwdPt, provideSelf } from '@awdlab/jig/base';
-import { AwdIcon } from '@awdlab/jig/icon';
+import { elementSizeSignal, elementsSizesSignal, JigTemplate, Platform } from '@awdlab/jig/api/ng';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigIcon } from '@awdlab/jig/icon';
 import { areArraysDeepEqual, throwExp } from '@awdlab/jig/utils';
 import { itemViewControlTemplate } from '@awdlab/jig-themes/templates/item-view';
 
@@ -54,7 +54,7 @@ type RenderItem<T> =
 @Component({
   selector: 'jig-item-view',
   templateUrl: './item-view.html',
-  imports: [AwdPt, NgTemplateOutlet, AwdTemplate, AwdIcon],
+  imports: [JigPt, NgTemplateOutlet, JigTemplate, JigIcon],
   providers: [provideSelf(JigItemView)],
   host: {
     '[attr.role]': '"list"',

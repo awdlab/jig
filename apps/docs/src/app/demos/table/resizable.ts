@@ -1,14 +1,14 @@
 import { Component, signal } from '@angular/core';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdSelectButton } from '@awdlab/jig/select-button';
-import { AwdSwitch } from '@awdlab/jig/switch';
-import { AwdTableModule } from '@awdlab/jig/table';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigSelectButton } from '@awdlab/jig/select-button';
+import { JigSwitch } from '@awdlab/jig/switch';
+import { JigTableModule } from '@awdlab/jig/table';
 type TableResizeMode = 'adjacent' | 'proportional' | 'push';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [AwdTableModule, AwdTemplate, AwdSelectButton, AwdSwitch],
+  imports: [JigTableModule, JigTemplate, JigSelectButton, JigSwitch],
   selector: 'jig-demo-table-resizable',
   host: { style: 'display: block; width: 100%' },
   template: ` <div

@@ -1,13 +1,13 @@
 import { Component, viewChild } from '@angular/core';
-import { AwdUpload, type AwdUploadFile } from '@awdlab/jig/upload';
+import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
 
-import { AwdDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   selector: 'jig-docs-upload-playground',
-  imports: [AwdUpload, AwdDocsPlayground],
+  imports: [JigUpload, JigDocsPlayground],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'AwdUpload', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'JigUpload', component: component() }]">
       <jig-upload #ref="ngnUpload" (upload)="onUpload($event)">
         <input type="file" multiple />
         Drag files here or click to browse
@@ -15,10 +15,10 @@ import { AwdDocsPlayground } from '../../../utils/playground/playground';
     </jig-docs-playground>
   `,
 })
-export class AwdDocsUploadPlayground {
-  protected readonly component = viewChild.required('ref', { read: AwdUpload });
+export class JigDocsUploadPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigUpload });
 
-  protected onUpload(files: AwdUploadFile[]): void {
+  protected onUpload(files: JigUploadFile[]): void {
     const up = this.component();
     for (const item of files) {
       let progress = 0;

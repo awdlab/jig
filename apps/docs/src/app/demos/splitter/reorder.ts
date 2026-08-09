@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdSplitterModule } from '@awdlab/jig/splitter';
+import { JigButton } from '@awdlab/jig/button';
+import { JigSplitterModule } from '@awdlab/jig/splitter';
 
 @Component({
-  imports: [AwdSplitterModule, AwdButton],
+  imports: [JigSplitterModule, JigButton],
   selector: 'jig-demo-splitter-reorder',
   template: `
     <button ngnButton (click)="shufflePanels()">Shuffle panel order</button>

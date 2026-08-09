@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { AwdOtp } from '@awdlab/jig/otp';
+import { JigOtp } from '@awdlab/jig/otp';
 
 @Component({
-  imports: [AwdOtp],
+  imports: [JigOtp],
   selector: 'jig-demo-otp-base',
   template: `
     <jig-otp

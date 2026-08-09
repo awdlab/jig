@@ -2,7 +2,7 @@ import { ratingControlTemplate } from '@awdlab/jig-themes/templates/rating';
 import { themeClasses } from '../utils/theme';
 import { expect, type Locator } from '@playwright/test';
 
-export class AwdRatingHarness {
+export class JigRatingHarness {
   public readonly classes = themeClasses(ratingControlTemplate);
   public readonly locator: Locator;
   public readonly symbols: Locator;

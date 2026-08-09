@@ -1,17 +1,17 @@
 import { Component, viewChild } from '@angular/core';
-import { AwdChip } from '@awdlab/jig/chip';
+import { JigChip } from '@awdlab/jig/chip';
 
-import { AwdDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   selector: 'jig-docs-chip-playground',
-  imports: [AwdChip, AwdDocsPlayground],
+  imports: [JigChip, JigDocsPlayground],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'AwdChip', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'JigChip', component: component() }]">
       <jig-chip #ref>Chip</jig-chip>
     </jig-docs-playground>
   `,
 })
-export class AwdDocsChipPlayground {
-  protected readonly component = viewChild.required('ref', { read: AwdChip });
+export class JigDocsChipPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigChip });
 }

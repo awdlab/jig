@@ -1,32 +1,32 @@
 import { ALL_DOCS_TABS } from './docs';
-import { AwdDocsMenu } from './frame/menu/menu';
-import { AwdDocsPageRenderer } from './utils/page/page-renderer/page-renderer';
-import { AwdDocsPageTabRenderer } from './utils/page/page-renderer/page-tab-renderer/page-tab-renderer';
+import { JigDocsMenu } from './frame/menu/menu';
+import { JigDocsPageRenderer } from './utils/page/page-renderer/page-renderer';
+import { JigDocsPageTabRenderer } from './utils/page/page-renderer/page-tab-renderer/page-tab-renderer';
 import { safeRoutePath } from './utils/routing';
 
-import type { AwdDocsPage, AwdDocsTab } from './utils/page/types';
+import type { JigDocsPage, JigDocsTab } from './utils/page/types';
 import type { Route, Routes } from '@angular/router';
 
 /**
  * Builds the leaf route for a single page. Groups are visual-only, so every
- * page routes directly under its {@link AwdDocsTab} — `/{tab}/{page}`.
+ * page routes directly under its {@link JigDocsTab} — `/{tab}/{page}`.
  */
-function getPageRoute(page: AwdDocsPage, tab: AwdDocsTab): Route {
+function getPageRoute(page: JigDocsPage, tab: JigDocsTab): Route {
   if (page.kind === 'tabs') {
     return {
       path: safeRoutePath(page.title),
       data: { page, tab },
-      component: AwdDocsPageTabRenderer,
+      component: JigDocsPageTabRenderer,
       children: page.tabs.map(t => ({
         path: t.default ? '' : safeRoutePath(t.title),
         data: { page, tab },
-        component: AwdDocsPageTabRenderer, // Dummy: handled by parent, never used
+        component: JigDocsPageTabRenderer, // Dummy: handled by parent, never used
       })),
     };
   } else if (page.kind === 'single') {
     return {
       path: safeRoutePath(page.title),
-      component: AwdDocsPageRenderer,
+      component: JigDocsPageRenderer,
       data: { page, tab },
     };
   } else if (page.kind === 'component') {
@@ -41,7 +41,7 @@ function getPageRoute(page: AwdDocsPage, tab: AwdDocsTab): Route {
   throw new Error(`Unroutable page kind: ${(page as { kind: string }).kind}`);
 }
 
-function getTabRoutes(tabs: AwdDocsTab[]): Routes {
+function getTabRoutes(tabs: JigDocsTab[]): Routes {
   return tabs.map(tab => {
     const pages = tab.groups.flatMap(group => group.pages);
     return <Route>{
@@ -70,7 +70,7 @@ function getTabRoutes(tabs: AwdDocsTab[]): Routes {
 export const docsChildRoutes: Routes = [
   {
     path: '',
-    component: AwdDocsMenu,
+    component: JigDocsMenu,
     children: [
       ...getTabRoutes(ALL_DOCS_TABS),
       {
@@ -82,7 +82,7 @@ export const docsChildRoutes: Routes = [
       // sidebar, search and theme picker stay available.
       {
         path: '**',
-        loadComponent: () => import('./not-found/not-found').then(m => m.AwdDocsNotFound),
+        loadComponent: () => import('./not-found/not-found').then(m => m.JigDocsNotFound),
       },
     ],
   },

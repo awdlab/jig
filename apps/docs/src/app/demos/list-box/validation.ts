@@ -1,7 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdListBox } from '@awdlab/jig/list-box';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigListBox } from '@awdlab/jig/list-box';
 
 import { exampleData } from '../../helper/data';
 
@@ -9,7 +9,7 @@ import type { JigItemsValue } from '@awdlab/jig/api';
 
 @Component({
   selector: 'jig-demo-list-box-validation',
-  imports: [AwdErrors, AwdHint, AwdListBox],
+  imports: [JigErrors, JigHint, JigListBox],
   template: `
     <div class="flex flex-col gap-2">
       <jig-list-box

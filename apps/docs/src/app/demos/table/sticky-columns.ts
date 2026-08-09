@@ -1,12 +1,12 @@
 import { CurrencyPipe, JsonPipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdTableModule } from '@awdlab/jig/table';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigTableModule } from '@awdlab/jig/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [AwdTableModule, AwdTemplate, CurrencyPipe, JsonPipe],
+  imports: [JigTableModule, JigTemplate, CurrencyPipe, JsonPipe],
   selector: 'jig-demo-table-sticky-columns',
   host: { style: 'display: block; width: 100%' },
   template: `

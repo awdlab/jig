@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdDrawer } from '@awdlab/jig/drawer';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDrawer } from '@awdlab/jig/drawer';
 
 @Component({
-  imports: [AwdDrawer, AwdButton],
+  imports: [JigDrawer, JigButton],
   selector: 'jig-demo-drawer-base',
   template: `<button ngnButton (click)="open.set(true)">Open Drawer</button>
     <jig-drawer

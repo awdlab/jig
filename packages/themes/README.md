@@ -18,7 +18,7 @@ it into `<head>` at runtime (no stylesheet import, no Tailwind required).
 
 Three presets ship built in: **`nova`** (fully themed, dark-mode aware), **`shade`**
 (shadcn-style) and **`material`** (Material Design 3). Each is a `Theme` object you pass to
-`provideAwdControls({ theme: { preset } })`; `createTheme` / `createThemePart` /
+`provideJigControls({ theme: { preset } })`; `createTheme` / `createThemePart` /
 `createControlTemplate` let you author your own.
 
 ## Install

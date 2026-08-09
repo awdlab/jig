@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AwdCheckbox } from '@awdlab/jig/checkbox';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
 
 /**
  * The same control rendered in each of the shared state flags. Every flag is a
@@ -8,7 +8,7 @@ import { AwdCheckbox } from '@awdlab/jig/checkbox';
  */
 @Component({
   selector: 'jig-demo-control-state-flags',
-  imports: [AwdCheckbox],
+  imports: [JigCheckbox],
   template: `
     <div class="flex flex-col gap-3">
       @for (state of states; track state.label) {

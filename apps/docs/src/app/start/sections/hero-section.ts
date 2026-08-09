@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, afterNextRender, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AwdButton } from '@awdlab/jig/button';
+import { JigButton } from '@awdlab/jig/button';
 
 import { CONTROL_COUNT } from './controls-count';
 
@@ -61,7 +61,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
 
 @Component({
   selector: 'jig-docs-hero-section',
-  imports: [AwdButton, RouterLink],
+  imports: [JigButton, RouterLink],
   host: { '[style.--hero-hold]': "holdMs + 'ms'" },
   styles: [
     `
@@ -504,7 +504,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
     </section>
   `,
 })
-export class AwdDocsHeroSection {
+export class JigDocsHeroSection {
   private readonly _http = inject(HttpClient);
 
   protected readonly stats = STATS;

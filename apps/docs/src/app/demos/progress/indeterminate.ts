@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { AwdProgress } from '@awdlab/jig/progress';
+import { JigProgress } from '@awdlab/jig/progress';
 
 @Component({
   selector: 'jig-demo-progress-indeterminate',
-  imports: [AwdProgress],
+  imports: [JigProgress],
   template: ` <jig-progress [value]="value()" indeterminate /> `,
   host: { class: 'flex-1 max-w-100' },
 })

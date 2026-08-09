@@ -1,1 +1,1 @@
-{{ api: chip/chip AwdChip }}
+{{ api: chip/chip JigChip }}

@@ -1,4 +1,4 @@
-import { AwdDocsSnackbarPlayground } from './playground';
+import { JigDocsSnackbarPlayground } from './playground';
 import { Demo_Snackbar_Actions } from '../../../demos/snackbar/actions';
 import { Demo_Snackbar_Base } from '../../../demos/snackbar/base';
 import { Demo_Snackbar_Closable } from '../../../demos/snackbar/closable';
@@ -7,9 +7,9 @@ import { Demo_Snackbar_Icon } from '../../../demos/snackbar/icon';
 import { Demo_Snackbar_Persistent } from '../../../demos/snackbar/persistent';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const SnackbarPage: AwdDocsPage = {
+export const SnackbarPage: JigDocsPage = {
   title: `Snackbar`,
   kind: 'tabs',
   tabs: [
@@ -31,7 +31,7 @@ export const SnackbarPage: AwdDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: AwdDocsSnackbarPlayground,
+      component: JigDocsSnackbarPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/snackbar/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/snackbar/a11y.md' },

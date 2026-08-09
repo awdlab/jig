@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { AwdSwitch } from '@awdlab/jig/switch';
+import { JigSwitch } from '@awdlab/jig/switch';
 
 @Component({
-  imports: [AwdSwitch],
+  imports: [JigSwitch],
   selector: 'jig-demo-switch-states',
   template: `
     Default:

@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { AwdDrag } from '@awdlab/jig/directives';
+import { JigDrag } from '@awdlab/jig/directives';
 
-import type { AwdDragInfo } from '@awdlab/jig/directives';
+import type { JigDragInfo } from '@awdlab/jig/directives';
 
 @Component({
   selector: 'jig-demo-drag-base',
-  imports: [AwdDrag],
+  imports: [JigDrag],
   template: `
     <div class="flex flex-col gap-3">
       <div
@@ -60,7 +60,7 @@ export class Demo_Drag_Base {
   protected readonly offsetY = signal(0);
   protected readonly clicks = signal(0);
 
-  protected onDragged(info: AwdDragInfo): void {
+  protected onDragged(info: JigDragInfo): void {
     this.offsetX.update(x => x + info.deltaX);
     this.offsetY.update(y => y + info.deltaY);
   }

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdButtonGroup } from '@awdlab/jig/button-group';
+import { JigButton } from '@awdlab/jig/button';
+import { JigButtonGroup } from '@awdlab/jig/button-group';
 
 @Component({
   selector: 'jig-demo-button-group-orientation',
-  imports: [AwdButton, AwdButtonGroup],
+  imports: [JigButton, JigButtonGroup],
   template: `<div class="flex flex-wrap items-start gap-8">
     <jig-button-group orientation="horizontal">
       <button ngnButton kind="primary">Button A</button>

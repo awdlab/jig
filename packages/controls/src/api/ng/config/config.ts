@@ -3,12 +3,12 @@ import { registerCustomLanguages, type Translations } from '@awdlab/jig/i18n';
 import { type DeepPartial, Logger, type LogLevel } from '@awdlab/jig/utils';
 
 import type { TooltipOptions } from './tooltip';
-import type { AwdStateStorage } from '@awdlab/jig/utils-ng';
+import type { JigStateStorage } from '@awdlab/jig/utils-ng';
 import type { StyleScope, Theme } from '@awdlab/jig-themes';
 
-export const NGN_CONFIG = new InjectionToken<AwdConfig>('NGN_CONFIG');
+export const NGN_CONFIG = new InjectionToken<JigConfig>('NGN_CONFIG');
 
-export type AwdConfig = {
+export type JigConfig = {
   readonly logLevel: LogLevel;
   readonly customTranslations?: Record<string, () => Promise<Translations>>;
   readonly disableAnimations: boolean;
@@ -22,20 +22,20 @@ export type AwdConfig = {
     readonly namePrefix: string;
   };
   readonly defaults: {
-    readonly stateStorage: AwdStateStorage;
+    readonly stateStorage: JigStateStorage;
     readonly splitter: {
-      readonly stateStorage: AwdStateStorage;
+      readonly stateStorage: JigStateStorage;
     };
     readonly tooltip: TooltipOptions;
   };
 };
 
-export type AwdConfigInit = DeepPartial<
-  AwdConfig,
+export type JigConfigInit = DeepPartial<
+  JigConfig,
   'theme.preset.*' | 'theme.styleScope.*' | 'customTranslations.*'
 >;
 
-export const defaultAwdConfig: AwdConfig = {
+export const defaultJigConfig: JigConfig = {
   logLevel: 'info',
   disableAnimations: false,
   respectReducedMotion: true,
@@ -66,61 +66,61 @@ export const defaultAwdConfig: AwdConfig = {
   },
 };
 
-export function provideAwdConfig(config?: AwdConfigInit): Provider {
+export function provideJigConfig(config?: JigConfigInit): Provider {
   return [
     {
       provide: NGN_CONFIG,
       useValue: {
-        logLevel: config?.logLevel ?? defaultAwdConfig.logLevel,
+        logLevel: config?.logLevel ?? defaultJigConfig.logLevel,
         customTranslations: config?.customTranslations,
-        disableAnimations: config?.disableAnimations ?? defaultAwdConfig.disableAnimations,
-        respectReducedMotion: config?.respectReducedMotion ?? defaultAwdConfig.respectReducedMotion,
+        disableAnimations: config?.disableAnimations ?? defaultJigConfig.disableAnimations,
+        respectReducedMotion: config?.respectReducedMotion ?? defaultJigConfig.respectReducedMotion,
         theme: {
-          preset: config?.theme?.preset ?? defaultAwdConfig.theme.preset,
-          lazyLoaded: config?.theme?.lazyLoaded ?? defaultAwdConfig.theme.lazyLoaded,
-          styleScope: config?.theme?.styleScope ?? defaultAwdConfig.theme.styleScope,
+          preset: config?.theme?.preset ?? defaultJigConfig.theme.preset,
+          lazyLoaded: config?.theme?.lazyLoaded ?? defaultJigConfig.theme.lazyLoaded,
+          styleScope: config?.theme?.styleScope ?? defaultJigConfig.theme.styleScope,
           cssLayer:
             config?.theme?.cssLayer === undefined
-              ? defaultAwdConfig.theme.cssLayer
+              ? defaultJigConfig.theme.cssLayer
               : config?.theme?.cssLayer,
-          namePrefix: config?.theme?.namePrefix ?? defaultAwdConfig.theme.namePrefix,
+          namePrefix: config?.theme?.namePrefix ?? defaultJigConfig.theme.namePrefix,
         },
         defaults: {
-          stateStorage: config?.defaults?.stateStorage ?? defaultAwdConfig.defaults.stateStorage,
+          stateStorage: config?.defaults?.stateStorage ?? defaultJigConfig.defaults.stateStorage,
           splitter: {
             stateStorage:
               config?.defaults?.splitter?.stateStorage ??
               config?.defaults?.stateStorage ??
-              defaultAwdConfig.defaults.splitter.stateStorage,
+              defaultJigConfig.defaults.splitter.stateStorage,
           },
           tooltip: {
             placement:
-              config?.defaults?.tooltip?.placement ?? defaultAwdConfig.defaults.tooltip.placement,
-            offset: config?.defaults?.tooltip?.offset ?? defaultAwdConfig.defaults.tooltip.offset,
+              config?.defaults?.tooltip?.placement ?? defaultJigConfig.defaults.tooltip.placement,
+            offset: config?.defaults?.tooltip?.offset ?? defaultJigConfig.defaults.tooltip.offset,
             showDelay:
-              config?.defaults?.tooltip?.showDelay ?? defaultAwdConfig.defaults.tooltip.showDelay,
+              config?.defaults?.tooltip?.showDelay ?? defaultJigConfig.defaults.tooltip.showDelay,
             hideDelay:
-              config?.defaults?.tooltip?.hideDelay ?? defaultAwdConfig.defaults.tooltip.hideDelay,
+              config?.defaults?.tooltip?.hideDelay ?? defaultJigConfig.defaults.tooltip.hideDelay,
             showArrow:
-              config?.defaults?.tooltip?.showArrow ?? defaultAwdConfig.defaults.tooltip.showArrow,
+              config?.defaults?.tooltip?.showArrow ?? defaultJigConfig.defaults.tooltip.showArrow,
             showOnHover:
               config?.defaults?.tooltip?.showOnHover ??
-              defaultAwdConfig.defaults.tooltip.showOnHover,
+              defaultJigConfig.defaults.tooltip.showOnHover,
             showOnFocus:
               config?.defaults?.tooltip?.showOnFocus ??
-              defaultAwdConfig.defaults.tooltip.showOnFocus,
+              defaultJigConfig.defaults.tooltip.showOnFocus,
             hideOnTooltipHover:
               config?.defaults?.tooltip?.hideOnTooltipHover ??
-              defaultAwdConfig.defaults.tooltip.hideOnTooltipHover,
+              defaultJigConfig.defaults.tooltip.hideOnTooltipHover,
             hideOnClick:
               config?.defaults?.tooltip?.hideOnClick ??
-              defaultAwdConfig.defaults.tooltip.hideOnClick,
+              defaultJigConfig.defaults.tooltip.hideOnClick,
             autoAriaMode:
               config?.defaults?.tooltip?.autoAriaMode ??
-              defaultAwdConfig.defaults.tooltip.autoAriaMode,
+              defaultJigConfig.defaults.tooltip.autoAriaMode,
           },
         },
-      } satisfies AwdConfig,
+      } satisfies JigConfig,
     },
     provideAppInitializer(() => {
       const config = inject(NGN_CONFIG);

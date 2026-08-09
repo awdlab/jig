@@ -1,7 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdKbd } from '@awdlab/jig/kbd';
+import { JigButton } from '@awdlab/jig/button';
+import { JigKbd } from '@awdlab/jig/kbd';
 
 import { Seo } from '../utils/seo';
 
@@ -14,12 +14,12 @@ import { Seo } from '../utils/seo';
   selector: 'jig-docs-not-found',
   templateUrl: 'not-found.html',
   styleUrl: 'not-found.scss',
-  imports: [AwdButton, AwdKbd, RouterLink],
+  imports: [JigButton, JigKbd, RouterLink],
   host: {
     class: 'min-w-0 w-full h-full flex flex-col pt-[5.5rem]',
   },
 })
-export class AwdDocsNotFound {
+export class JigDocsNotFound {
   private readonly _router = inject(Router);
 
   /**

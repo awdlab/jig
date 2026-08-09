@@ -3,15 +3,15 @@ import { RouterLink } from '@angular/router';
 import { injectThemeColors, injectThemeControlKinds } from '@awdlab/jig/api/ng';
 import { type CommentDisplayPart, ReflectionFlag, DeclarationReflection } from 'typedoc/browser';
 
-import { AwdDocsApiComment } from './comment/comment';
+import { JigDocsApiComment } from './comment/comment';
 
 @Component({
   selector: 'jig-docs-api-properties',
   templateUrl: 'properties.html',
-  imports: [AwdDocsApiComment, RouterLink],
+  imports: [JigDocsApiComment, RouterLink],
   host: { class: 'block md' },
 })
-export class AwdDocsApiProperties {
+export class JigDocsApiProperties {
   public readonly kind = input.required<'Inputs' | 'Outputs' | 'Properties'>();
   public readonly properties = input.required<DeclarationReflection[]>();
   public readonly internalControlName = input.required<string | null>();

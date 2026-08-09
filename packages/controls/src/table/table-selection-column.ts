@@ -13,14 +13,14 @@ import {
   Type,
 } from '@angular/core';
 import { injectThemeTemplate, setComponentInput } from '@awdlab/jig/api/ng';
-import { getNearestAwdInstanceSig } from '@awdlab/jig/base';
-import { AwdCheckbox } from '@awdlab/jig/checkbox';
+import { getNearestJigInstanceSig } from '@awdlab/jig/base';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
 import { I18n } from '@awdlab/jig/i18n';
 import { toggleClass } from '@awdlab/jig/utils';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
-import { AwdTable } from './table';
-import { AwdTableBodyTr } from './table-row';
+import { JigTable } from './table';
+import { JigTableBodyTr } from './table-row';
 
 /**
  * Directive that turns a `<th>` or `<td>` into a selection checkbox column.
@@ -43,28 +43,28 @@ import { AwdTableBodyTr } from './table-row';
     '(click)': 'onClick($event)',
   },
 })
-export class AwdTableSelectionColumn implements OnDestroy {
+export class JigTableSelectionColumn implements OnDestroy {
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _envInjector = inject(EnvironmentInjector);
   private readonly _appRef = inject(ApplicationRef);
   private readonly _i18n = inject(I18n).translations;
 
-  private readonly _table = getNearestAwdInstanceSig<Type<AwdTable<any, any>>>(
+  private readonly _table = getNearestJigInstanceSig<Type<JigTable<any, any>>>(
     this._element.nativeElement,
-    AwdTable
+    JigTable
   );
 
   /** Non-null only when used inside a body row (`<td>`). */
-  private readonly _bodyTr = inject(AwdTableBodyTr, { optional: true });
+  private readonly _bodyTr = inject(JigTableBodyTr, { optional: true });
 
   private readonly _isHeader = this._element.nativeElement.tagName === 'TH';
 
   /**
-   * AwdCheckbox created at the application level via `createComponent` + `EnvironmentInjector`.
+   * JigCheckbox created at the application level via `createComponent` + `EnvironmentInjector`.
    * This keeps it outside Angular's view tree so `@for` reconciliation cannot destroy it.
    */
-  private _checkboxRef!: ComponentRef<AwdCheckbox<boolean>>;
+  private _checkboxRef!: ComponentRef<JigCheckbox<boolean>>;
 
   protected readonly selected = computed(() => {
     if (this._isHeader) return false;
@@ -129,12 +129,12 @@ export class AwdTableSelectionColumn implements OnDestroy {
   }
 
   /**
-   * Creates an AwdCheckbox via `createComponent` + `EnvironmentInjector`.
+   * Creates an JigCheckbox via `createComponent` + `EnvironmentInjector`.
    * The component is attached to `ApplicationRef` (not a ViewContainerRef),
    * so Angular's `@for` block reconciliation cannot destroy it.
    */
   private _createCheckbox(): void {
-    this._checkboxRef = createComponent(AwdCheckbox, {
+    this._checkboxRef = createComponent(JigCheckbox, {
       environmentInjector: this._envInjector,
     });
     this._appRef.attachView(this._checkboxRef.hostView);

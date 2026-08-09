@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { AwdListBox } from '@awdlab/jig/list-box';
+import { JigListBox } from '@awdlab/jig/list-box';
 
 @Component({
-  imports: [AwdListBox],
+  imports: [JigListBox],
   selector: 'jig-demo-list-box-virtual-demo',
   template: `
     <jig-list-box

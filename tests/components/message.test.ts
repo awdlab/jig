@@ -1,6 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { AwdMessageHarness } from '@awdlab/jig-playwright';
+import { JigMessageHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -21,7 +21,7 @@ test('features', async ({ page }, testInfo) => {
     }
   );
 
-  const message = new AwdMessageHarness(page.locator('jig-message'));
+  const message = new JigMessageHarness(page.locator('jig-message'));
 
   await test.step('default', async () => {
     await expectScreenshot(page, testInfo, 'default');

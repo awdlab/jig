@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { AwdToggleButtonHarness } from '@awdlab/jig-playwright';
+import { JigToggleButtonHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
@@ -16,7 +16,7 @@ test('toggles value on click, reflects aria-checked, and emits valueChange', asy
 
   const host = page.locator('jig-toggle-button');
   const button = host.locator('button');
-  const toggle = new AwdToggleButtonHarness(host);
+  const toggle = new JigToggleButtonHarness(host);
 
   await toggle.expectActive(false);
   await expect(button).toHaveAttribute('aria-checked', 'false');
@@ -55,7 +55,7 @@ test('disabled toggle button does not toggle and emits nothing', async ({ page }
 
   // Force the click past the disabled state — it must still not toggle.
   await button.click({ force: true });
-  await new AwdToggleButtonHarness(host).expectActive(false);
+  await new JigToggleButtonHarness(host).expectActive(false);
   await expect(button).toHaveAttribute('aria-checked', 'false');
 
   // No output was emitted while disabled.

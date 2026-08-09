@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { AwdProgressHarness } from '@awdlab/jig-playwright';
+import { JigProgressHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -18,7 +18,7 @@ test('base', async ({ page }, testInfo) => {
     }
   );
 
-  const progress = new AwdProgressHarness(page.locator('jig-progress'));
+  const progress = new JigProgressHarness(page.locator('jig-progress'));
   await progress.expectVisible();
   await progress.expectValue(50);
   await progress.expectMin(0);
@@ -40,7 +40,7 @@ test('value updates', async ({ page }, testInfo) => {
     }
   );
 
-  const progress = new AwdProgressHarness(page.locator('jig-progress'));
+  const progress = new JigProgressHarness(page.locator('jig-progress'));
   await progress.expectValue(25);
   await expectScreenshot(page, testInfo, 'value-25');
 
@@ -75,7 +75,7 @@ test('indeterminate mode', async ({ page }, testInfo) => {
     }
   );
 
-  const progress = new AwdProgressHarness(page.locator('jig-progress'));
+  const progress = new JigProgressHarness(page.locator('jig-progress'));
   await progress.expectVisible();
   await progress.expectIndeterminate(true);
 
@@ -104,7 +104,7 @@ test('accessibility', async ({ page }, testInfo) => {
     }
   );
 
-  const progress = new AwdProgressHarness(page.locator('jig-progress'));
+  const progress = new JigProgressHarness(page.locator('jig-progress'));
 
   // Check ARIA attributes
   await expect(progress.locator).toHaveAttribute('role', 'progressbar');
@@ -127,7 +127,7 @@ test('edge cases', async ({ page }, testInfo) => {
     }
   );
 
-  const progress = new AwdProgressHarness(page.locator('jig-progress'));
+  const progress = new JigProgressHarness(page.locator('jig-progress'));
   // Component should clamp to 100
   await progress.expectValue(100);
   await expectScreenshot(page, testInfo, 'clamped-100');
@@ -156,7 +156,7 @@ test('circular mode', async ({ page }, testInfo) => {
     }
   );
 
-  const progress = new AwdProgressHarness(page.locator('jig-progress'));
+  const progress = new JigProgressHarness(page.locator('jig-progress'));
   await progress.expectVisible();
   await progress.expectCircular(true);
   await progress.expectValue(75);
@@ -185,7 +185,7 @@ test('circular indeterminate mode', async ({ page }, testInfo) => {
     }
   );
 
-  const progress = new AwdProgressHarness(page.locator('jig-progress'));
+  const progress = new JigProgressHarness(page.locator('jig-progress'));
   await progress.expectVisible();
   await progress.expectCircular(true);
 

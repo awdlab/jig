@@ -1,1 +1,1 @@
-{{ api: scroll-shadow/scroll-shadow AwdScrollShadow }}
+{{ api: scroll-shadow/scroll-shadow JigScrollShadow }}

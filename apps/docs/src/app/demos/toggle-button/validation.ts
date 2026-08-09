@@ -1,11 +1,11 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdToggleButton } from '@awdlab/jig/toggle-button';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigToggleButton } from '@awdlab/jig/toggle-button';
 
 @Component({
   selector: 'jig-demo-toggle-button-validation',
-  imports: [AwdErrors, AwdHint, AwdToggleButton],
+  imports: [JigErrors, JigHint, JigToggleButton],
   template: `
     <div class="flex flex-col items-start gap-2">
       <jig-toggle-button

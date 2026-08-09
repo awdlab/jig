@@ -1,4 +1,4 @@
-import { AwdError } from '@awdlab/jig/utils';
+import { JigError } from '@awdlab/jig/utils';
 
 import type { IconType } from '@awdlab/jig-custom-types';
 
@@ -40,7 +40,7 @@ export function transformToJigItem<T extends object, K extends keyof T>(
 ): JigItem<T, T[K]> {
   const rawItems = fields.children ? item[fields.children] : undefined;
   if (rawItems && !Array.isArray(rawItems)) {
-    throw new AwdError(
+    throw new JigError(
       'transformToJigItem',
       `Expected children to be an array, but got ${typeof rawItems} for item: ${JSON.stringify(item)}`
     );

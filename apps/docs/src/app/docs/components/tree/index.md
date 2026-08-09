@@ -57,8 +57,8 @@ you prefer to load them yourself.
 
 ### Persisting State
 
-Pass a `storage` config (`key` + optional `AwdStorageKind`) to save expansion
-and selection across reloads via `AwdStorage`. Use `states` to persist only
+Pass a `storage` config (`key` + optional `JigStorageKind`) to save expansion
+and selection across reloads via `JigStorage`. Use `states` to persist only
 some of them, e.g. `{ key: 'my-tree', states: ['expanded'] }`. The `kind`
 accepts `'localstorage'` (default), `'sessionstorage'`, or `'cookie'` — the
 `cookie` kind is SSR-safe and restores state during server rendering.

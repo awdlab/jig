@@ -1,1 +1,1 @@
-{{ api: color-picker/color-picker AwdColorPicker }}
+{{ api: color-picker/color-picker JigColorPicker }}

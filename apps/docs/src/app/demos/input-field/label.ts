@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 
 @Component({
-  imports: [AwdInput, AwdInputField],
+  imports: [JigInput, JigInputField],
   selector: 'jig-demo-input-field-label',
   host: {
     style: 'display: flex; flex-direction: column; gap: 1.5rem; padding-top: 1rem;',

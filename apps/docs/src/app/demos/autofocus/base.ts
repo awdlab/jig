@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdAutofocus } from '@awdlab/jig/directives';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
+import { JigButton } from '@awdlab/jig/button';
+import { JigAutofocus } from '@awdlab/jig/directives';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 
 @Component({
   selector: 'jig-demo-autofocus-base',
-  imports: [AwdAutofocus, AwdButton, AwdInput, AwdInputField],
+  imports: [JigAutofocus, JigButton, JigInput, JigInputField],
   template: `
     <div class="flex flex-col items-start gap-3">
       <button ngnButton (click)="editing.set(!editing())">

@@ -15,12 +15,12 @@ import {
   viewChildren,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { type Anchor, AwdTemplate, type Openable, Platform } from '@awdlab/jig/api/ng';
-import { AwdPt, provideSelf } from '@awdlab/jig/base';
-import { AwdAutofocus } from '@awdlab/jig/directives';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdPopover } from '@awdlab/jig/popover';
-import { maybeCallback, AwdError } from '@awdlab/jig/utils';
+import { type Anchor, JigTemplate, type Openable, Platform } from '@awdlab/jig/api/ng';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigAutofocus } from '@awdlab/jig/directives';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigPopover } from '@awdlab/jig/popover';
+import { maybeCallback, JigError } from '@awdlab/jig/utils';
 import { effectWithPrevious, explicitEffect, generateElementId } from '@awdlab/jig/utils-ng';
 import { menuControlTemplate } from '@awdlab/jig-themes/templates/menu';
 
@@ -35,12 +35,12 @@ import type { IconType } from '@awdlab/jig-custom-types';
  */
 @Component({
   selector: 'jig-menu',
-  imports: [AwdPt, NgTemplateOutlet, AwdTemplate, AwdAutofocus, AwdPopover, AwdIcon, RouterLink],
+  imports: [JigPt, NgTemplateOutlet, JigTemplate, JigAutofocus, JigPopover, JigIcon, RouterLink],
   templateUrl: './menu.html',
 
-  providers: [provideSelf(AwdMenu)],
+  providers: [provideSelf(JigMenu)],
 })
-export class AwdMenu extends MenuTemplates implements Openable {
+export class JigMenu extends MenuTemplates implements Openable {
   protected readonly theme = this.injectThemeTemplate(menuControlTemplate, {
     submenu: () => this.isSubMenu(),
   });
@@ -117,9 +117,9 @@ export class AwdMenu extends MenuTemplates implements Openable {
   );
 
   private readonly _isTouchDevice = inject(Platform).isTouchDevice;
-  private readonly _popover = viewChild(AwdPopover);
+  private readonly _popover = viewChild(JigPopover);
   private readonly _menuItems = viewChildren<ElementRef<HTMLElement>>('menuItem');
-  private readonly _childMenus = viewChildren(AwdMenu);
+  private readonly _childMenus = viewChildren(JigMenu);
   private readonly _openSubmenuOnHover = computed(
     () => this.openSubmenuOnHover() ?? this.popover()
   );
@@ -131,8 +131,8 @@ export class AwdMenu extends MenuTemplates implements Openable {
     inject(DestroyRef).onDestroy(() => (this._destroyed = true));
     effect(() => {
       if (this.popover() && !this.anchor()) {
-        throw new AwdError(
-          'AwdMenu',
+        throw new JigError(
+          'JigMenu',
           'When using popover mode, the anchor input must be provided.'
         );
       }
@@ -184,8 +184,8 @@ export class AwdMenu extends MenuTemplates implements Openable {
    */
   public show(focus = true) {
     if (!this.popover()) {
-      throw new AwdError(
-        'AwdMenu',
+      throw new JigError(
+        'JigMenu',
         'The show() method can only be used when popover mode is enabled.'
       );
     }
@@ -199,8 +199,8 @@ export class AwdMenu extends MenuTemplates implements Openable {
    */
   public hide(emitCloseEvent = true) {
     if (!this.popover()) {
-      throw new AwdError(
-        'AwdMenu',
+      throw new JigError(
+        'JigMenu',
         'The hide() method can only be used when popover mode is enabled.'
       );
     }
@@ -212,14 +212,14 @@ export class AwdMenu extends MenuTemplates implements Openable {
    */
   public toggle() {
     if (!this.popover()) {
-      throw new AwdError(
-        'AwdMenu',
+      throw new JigError(
+        'JigMenu',
         'The toggle() method can only be used when popover mode is enabled.'
       );
     }
     const popoverEl = this._popover();
     if (!popoverEl) {
-      throw new AwdError('AwdMenu', 'Popover element is not available.');
+      throw new JigError('JigMenu', 'Popover element is not available.');
     }
     if (popoverEl.open()) {
       popoverEl.hide();
@@ -228,7 +228,7 @@ export class AwdMenu extends MenuTemplates implements Openable {
     }
   }
 
-  protected handleKeydown(event: KeyboardEvent, subMenu?: AwdMenu) {
+  protected handleKeydown(event: KeyboardEvent, subMenu?: JigMenu) {
     let currentIndex = this._menuItems()
       .map(x => x.nativeElement)
       .indexOf(event.target as HTMLElement);
@@ -291,7 +291,7 @@ export class AwdMenu extends MenuTemplates implements Openable {
   }
 
   protected openChildMenu(
-    childMenu: AwdMenu,
+    childMenu: JigMenu,
     menuItem: HTMLButtonElement | null,
     openBy: 'hover' | 'click' | 'arrow'
   ) {

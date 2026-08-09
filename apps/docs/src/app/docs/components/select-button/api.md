@@ -1,1 +1,1 @@
-{{ api: select-button/select-button AwdSelectButton }}
+{{ api: select-button/select-button JigSelectButton }}

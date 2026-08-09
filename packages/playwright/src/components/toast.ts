@@ -2,7 +2,7 @@ import { toastControlTemplate } from '@awdlab/jig-themes/templates/toast';
 import { themeClasses } from '../utils/theme';
 import test, { expect, type Locator, type Page } from '@playwright/test';
 
-export class AwdToastHarness {
+export class JigToastHarness {
   public readonly classes = themeClasses(toastControlTemplate);
 
   public readonly locator: Locator;
@@ -56,7 +56,7 @@ export class AwdToastHarness {
   }
 }
 
-export class AwdToastHostHarness {
+export class JigToastHostHarness {
   public readonly classes = themeClasses(toastControlTemplate);
   public readonly locator: Locator;
 
@@ -64,8 +64,8 @@ export class AwdToastHostHarness {
     this.locator = page.locator('jig-toast-host');
   }
 
-  public getToast(index: number = 0): AwdToastHarness {
-    return new AwdToastHarness(this.locator.locator('jig-toast').nth(index));
+  public getToast(index: number = 0): JigToastHarness {
+    return new JigToastHarness(this.locator.locator('jig-toast').nth(index));
   }
 
   public getAllToasts(): Locator {

@@ -1,14 +1,14 @@
 import { Component, output, signal } from '@angular/core';
 import { form, FormField, min, required } from '@angular/forms/signals';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdCalendar } from '@awdlab/jig/calendar';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdNumberInput } from '@awdlab/jig/number-input';
-import { AwdSelect } from '@awdlab/jig/select';
-import { AwdSelectButton } from '@awdlab/jig/select-button';
+import { JigButton } from '@awdlab/jig/button';
+import { JigCalendar } from '@awdlab/jig/calendar';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigNumberInput } from '@awdlab/jig/number-input';
+import { JigSelect } from '@awdlab/jig/select';
+import { JigSelectButton } from '@awdlab/jig/select-button';
 
 import {
   type DealDraft,
@@ -34,15 +34,15 @@ interface DealForm {
   selector: 'jig-docs-quick-add-deal',
   imports: [
     FormField,
-    AwdButton,
-    AwdCalendar,
-    AwdErrors,
-    AwdHint,
-    AwdInput,
-    AwdInputField,
-    AwdNumberInput,
-    AwdSelect,
-    AwdSelectButton,
+    JigButton,
+    JigCalendar,
+    JigErrors,
+    JigHint,
+    JigInput,
+    JigInputField,
+    JigNumberInput,
+    JigSelect,
+    JigSelectButton,
   ],
   template: `
     <h3

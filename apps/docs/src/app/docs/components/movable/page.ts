@@ -2,9 +2,9 @@ import { Demo_Movable_Base } from '../../../demos/movable/base';
 import { Demo_Movable_Handle } from '../../../demos/movable/handle';
 import { i18nNone } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const MovablePage: AwdDocsPage = {
+export const MovablePage: JigDocsPage = {
   title: `Movable`,
   kind: 'tabs',
   tabs: [

@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { AwdMaskInputHarness } from '@awdlab/jig-playwright';
+import { JigMaskInputHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -25,7 +25,7 @@ async function loadTimeMask(page: any) {
   );
   // loadComponent fires setTemplate and setInputs without awaiting Angular rendering.
   // Wait for Angular to process the template change (time mask = 3 spinbutton sections).
-  const mask = new AwdMaskInputHarness(page.locator('jig-mask-input').first());
+  const mask = new JigMaskInputHarness(page.locator('jig-mask-input').first());
   await expect(mask.sections).toHaveCount(3);
   await mask.expectText('HH:MM:SS');
   return { mask, handle };
@@ -357,7 +357,7 @@ test('enum segment fills by typing a letter and arrows cycle values', async ({ p
     },
     { inputs: { mask: 'time12' } }
   );
-  const mask = new AwdMaskInputHarness(page.locator('jig-mask-input').first());
+  const mask = new JigMaskInputHarness(page.locator('jig-mask-input').first());
 
   // Wait for the 4-section time12 mask to render (hour, minute, second, period).
   await expect(mask.sections).toHaveCount(4);
@@ -404,7 +404,7 @@ test('date mask fills and emits correct value', async ({ page }) => {
     },
     { inputs: { mask: 'date' } }
   );
-  const mask = new AwdMaskInputHarness(page.locator('jig-mask-input').first());
+  const mask = new JigMaskInputHarness(page.locator('jig-mask-input').first());
 
   // Wait for the 3-section date mask to render (month, day, year).
   await expect(mask.sections).toHaveCount(3);
@@ -444,7 +444,7 @@ test('variable-length hour mask renders non-padded and auto-advances correctly',
       },
     }
   );
-  const mask = new AwdMaskInputHarness(page.locator('jig-mask-input').first());
+  const mask = new JigMaskInputHarness(page.locator('jig-mask-input').first());
 
   // Wait for the 2-section variable-length mask to render.
   await expect(mask.sections).toHaveCount(2);
@@ -482,7 +482,7 @@ test('variable-length hour overflow: 1+3 overflows to 3 in hour, advances', asyn
       },
     }
   );
-  const mask = new AwdMaskInputHarness(page.locator('jig-mask-input').first());
+  const mask = new JigMaskInputHarness(page.locator('jig-mask-input').first());
   await expect(mask.sections).toHaveCount(2);
   await mask.expectText('HH:MM');
 
@@ -568,7 +568,7 @@ test('deleting an earlier field clears orphaned later fields', async ({ page }) 
       },
     }
   );
-  const mask = new AwdMaskInputHarness(page.locator('jig-mask-input').first());
+  const mask = new JigMaskInputHarness(page.locator('jig-mask-input').first());
   await expect(mask.sections).toHaveCount(2);
   await mask.expectText('HH:MM');
 
@@ -597,7 +597,7 @@ test('deleting an earlier field clears orphaned later fields', async ({ page }) 
 //     section by horizontal position.
 //
 // The feature: `input-field.clicked()` calls `control.focusFromPointer(event)`;
-// `AwdMaskInput` focuses the proxy and calls `setActive` for the section whose
+// `JigMaskInput` focuses the proxy and calls `setActive` for the section whose
 // bounding box is nearest `event.clientX`.
 // ---------------------------------------------------------------------------
 
@@ -614,7 +614,7 @@ test('clicking input-field padding selects nearest section by horizontal positio
     },
     { inputs: { mask: 'time' } }
   );
-  const mask = new AwdMaskInputHarness(page.locator('jig-mask-input').first());
+  const mask = new JigMaskInputHarness(page.locator('jig-mask-input').first());
   await expect(mask.sections).toHaveCount(3);
   await mask.expectText('HH:MM:SS');
 
@@ -704,7 +704,7 @@ test('accessibility (axe)', async ({ page }) => {
     { inputs: { mask: 'time' } }
   );
 
-  const mask = new AwdMaskInputHarness(page.locator('jig-mask-input').first());
+  const mask = new JigMaskInputHarness(page.locator('jig-mask-input').first());
   await expect(mask.sections).toHaveCount(3);
   await mask.expectText('HH:MM:SS');
 

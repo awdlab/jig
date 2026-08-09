@@ -1,1 +1,1 @@
-{{ api: checkbox/checkbox AwdCheckbox }}
+{{ api: checkbox/checkbox JigCheckbox }}

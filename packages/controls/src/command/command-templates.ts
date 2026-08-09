@@ -1,6 +1,6 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 import { templateTypesFn } from '@awdlab/jig/api/ng';
-import { AwdBase } from '@awdlab/jig/base';
+import { JigBase } from '@awdlab/jig/base';
 
 import type { JigActionItem, JigItem } from '@awdlab/jig/api';
 
@@ -11,7 +11,7 @@ import type { JigActionItem, JigItem } from '@awdlab/jig/api';
 export type CommandItem = JigItem<JigActionItem, string>;
 
 @Directive()
-export abstract class CommandTemplates extends AwdBase<'command'> {
+export abstract class CommandTemplates extends JigBase<'command'> {
   private readonly _defaultItemTemplate =
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');
   private readonly _userItemTemplate =

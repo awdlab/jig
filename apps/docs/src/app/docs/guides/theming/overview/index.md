@@ -28,10 +28,10 @@ You select a theme by passing it as `theme.preset` to the provider. The preset i
 `Theme` **object**, not a name:
 
 ```ts
-import { provideAwdControls } from '@awdlab/jig/api/ng';
+import { provideJigControls } from '@awdlab/jig/api/ng';
 import { nova } from '@awdlab/jig-themes/nova';
 
-provideAwdControls({ theme: { preset: nova } });
+provideJigControls({ theme: { preset: nova } });
 ```
 
 Without a preset (and with `lazyLoaded: false`), the theme service logs a warning and

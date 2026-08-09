@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AwdMovable } from '@awdlab/jig/directives';
+import { JigMovable } from '@awdlab/jig/directives';
 
 @Component({
   selector: 'jig-demo-movable-base',
-  imports: [AwdMovable],
+  imports: [JigMovable],
   template: `
     <div class="board">
       <div ngnMovable [ngnMovableLimitToViewport]="false" class="card">Drag me anywhere</div>

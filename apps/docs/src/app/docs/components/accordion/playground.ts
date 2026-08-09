@@ -1,16 +1,16 @@
 import { Component, viewChild, viewChildren } from '@angular/core';
-import { AwdAccordion, AwdAccordionPanel } from '@awdlab/jig/accordion';
+import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
 
-import { AwdDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   selector: 'jig-docs-accordion-playground',
-  imports: [AwdAccordion, AwdAccordionPanel, AwdDocsPlayground],
+  imports: [JigAccordion, JigAccordionPanel, JigDocsPlayground],
   template: `
     <jig-docs-playground
       [controls]="[
-        { componentName: 'AwdAccordion', component: componentAccordion() },
-        { componentName: 'AwdAccordionPanel', component: componentPanels() },
+        { componentName: 'JigAccordion', component: componentAccordion() },
+        { componentName: 'JigAccordionPanel', component: componentPanels() },
       ]"
     >
       <jig-accordion #ref class="flex-1">
@@ -27,7 +27,7 @@ import { AwdDocsPlayground } from '../../../utils/playground/playground';
     </jig-docs-playground>
   `,
 })
-export class AwdDocsAccordionPlayground {
-  protected readonly componentAccordion = viewChild.required('ref', { read: AwdAccordion });
-  protected readonly componentPanels = viewChildren('ref2', { read: AwdAccordionPanel });
+export class JigDocsAccordionPlayground {
+  protected readonly componentAccordion = viewChild.required('ref', { read: JigAccordion });
+  protected readonly componentPanels = viewChildren('ref2', { read: JigAccordionPanel });
 }

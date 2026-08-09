@@ -69,15 +69,15 @@ array.
 ## Structured filters
 
 The [Filter](/components/filter) control and each filterable table column
-produce an `AwdFilterConfig` — a **serializable** description of the conditions,
+produce an `JigFilterConfig` — a **serializable** description of the conditions,
 with no data in it. That is deliberate: the same object can be evaluated
 locally or sent to a server.
 
 ```ts
-type AwdFilterConfig = {
+type JigFilterConfig = {
   dataType: 'string' | 'number' | 'date' | 'dateTime' | 'boolean' | 'custom' | 'list';
   matchMode: 'all' | 'any';
-  conditions: readonly { operator: AwdFilterOperatorId; rawValue: string | null }[];
+  conditions: readonly { operator: JigFilterOperatorId; rawValue: string | null }[];
 };
 ```
 

@@ -1,13 +1,13 @@
 import { Component, computed, viewChild, viewChildren } from '@angular/core';
-import { AwdTabs, AwdTab } from '@awdlab/jig/tabs';
+import { JigTabs, JigTab } from '@awdlab/jig/tabs';
 
-import { AwdDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   selector: 'jig-docs-tabs-playground',
-  imports: [AwdTabs, AwdTab, AwdDocsPlayground],
+  imports: [JigTabs, JigTab, JigDocsPlayground],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'AwdTabs', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'JigTabs', component: component() }]">
       <jig-tabs class="flex-1" #ref>
         <jig-tab #ref2 tabId="tab1">
           <ng-template #header>Tab 1</ng-template>
@@ -25,8 +25,8 @@ import { AwdDocsPlayground } from '../../../utils/playground/playground';
     </jig-docs-playground>
   `,
 })
-export class AwdDocsTabsPlayground {
-  private readonly _componentTabs = viewChild.required('ref', { read: AwdTabs });
-  private readonly _componentTab = viewChildren('ref2', { read: AwdTab });
+export class JigDocsTabsPlayground {
+  private readonly _componentTabs = viewChild.required('ref', { read: JigTabs });
+  private readonly _componentTab = viewChildren('ref2', { read: JigTab });
   protected readonly component = computed(() => [this._componentTabs(), ...this._componentTab()]);
 }

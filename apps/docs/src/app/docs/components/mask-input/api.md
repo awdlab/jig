@@ -1,1 +1,1 @@
-{{ api: mask-input/mask-input AwdMaskInput }}
+{{ api: mask-input/mask-input JigMaskInput }}

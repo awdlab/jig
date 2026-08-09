@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { AwdUpload } from '@awdlab/jig/upload';
+import { JigUpload } from '@awdlab/jig/upload';
 
 /**
  * The `interaction` input restricts how files can be added: `click` (picker
  * only), `drag` (drop only), or `both` (default).
  */
 @Component({
-  imports: [AwdUpload],
+  imports: [JigUpload],
   selector: 'jig-demo-upload-interaction',
   template: `
     <div style="display: grid; gap: 1rem;">

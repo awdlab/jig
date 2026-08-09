@@ -1,8 +1,8 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdSelect } from '@awdlab/jig/select';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigSelect } from '@awdlab/jig/select';
 
 import { exampleData } from '../../helper/data';
 
@@ -10,7 +10,7 @@ import type { JigItemsValue } from '@awdlab/jig/api';
 
 @Component({
   selector: 'jig-demo-select-validation',
-  imports: [AwdErrors, AwdHint, AwdInputField, AwdSelect],
+  imports: [JigErrors, JigHint, JigInputField, JigSelect],
   template: `
     <jig-input-field [label]="'Assignee'" [labelKind]="'on'" class="w-64">
       <jig-select

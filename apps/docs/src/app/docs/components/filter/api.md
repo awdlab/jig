@@ -1,1 +1,1 @@
-{{ api: filter/filter AwdFilter }}
+{{ api: filter/filter JigFilter }}

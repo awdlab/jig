@@ -8,30 +8,30 @@ import {
   signal,
 } from '@angular/core';
 import { Platform } from '@awdlab/jig/api/ng';
-import { AwdError } from '@awdlab/jig/utils';
+import { JigError } from '@awdlab/jig/utils';
 import { injectOrThrow } from '@awdlab/jig/utils-ng';
 
 import { DEFAULT_SNACKBAR_OPTIONS } from './defaults';
 import { NGN_SNACKBAR_USER_DEFAULTS } from './provider';
-import { AwdSnackbarHost } from './snackbar-host';
+import { JigSnackbarHost } from './snackbar-host';
 
-import type { AwdSnackbarOptions } from './types';
+import type { JigSnackbarOptions } from './types';
 
-type SnackbarFull = AwdSnackbarOptions & { id: number };
+type SnackbarFull = JigSnackbarOptions & { id: number };
 
 @Injectable()
-export class AwdSnackbarManager implements OnDestroy {
+export class JigSnackbarManager implements OnDestroy {
   private readonly _snackbars = signal<SnackbarFull[]>([]);
   private readonly _appRef = inject(ApplicationRef);
   private readonly _userDefaults = injectOrThrow(
     NGN_SNACKBAR_USER_DEFAULTS,
-    'AwdSnackbarManager',
+    'JigSnackbarManager',
     'Failed to inject NGN_SNACKBAR_USER_DEFAULTS, make sure to use withSnackbars() to provide jig snackbars!'
   );
   private _nextId = 0;
 
   public readonly snackbars = this._snackbars.asReadonly();
-  private _component?: ComponentRef<AwdSnackbarHost>;
+  private _component?: ComponentRef<JigSnackbarHost>;
 
   constructor() {
     if (!inject(Platform).isBrowser) {
@@ -40,7 +40,7 @@ export class AwdSnackbarManager implements OnDestroy {
     // Defer creation to avoid issues with Angular's injection tree during app initialization
     queueMicrotask(() => {
       // Create and attach the snackbar host component to the application's root
-      this._component = createComponent(AwdSnackbarHost, {
+      this._component = createComponent(JigSnackbarHost, {
         environmentInjector: this._appRef.injector,
       });
       this._appRef.attachView(this._component.hostView);
@@ -49,8 +49,8 @@ export class AwdSnackbarManager implements OnDestroy {
         | undefined
         | HTMLElement;
       if (!appRootEl) {
-        throw new AwdError(
-          'AwdSnackbarManager',
+        throw new JigError(
+          'JigSnackbarManager',
           'Failed to find application root element to attach snackbar host!'
         );
       }
@@ -70,7 +70,7 @@ export class AwdSnackbarManager implements OnDestroy {
     this._snackbars.update(snackbars => snackbars.filter(t => t.id !== id));
   }
 
-  public addSnackbar(options: AwdSnackbarOptions): number {
+  public addSnackbar(options: JigSnackbarOptions): number {
     const id = this._nextId++;
     const snackbar: SnackbarFull = {
       ...DEFAULT_SNACKBAR_OPTIONS,

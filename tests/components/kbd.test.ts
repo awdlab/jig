@@ -1,4 +1,4 @@
-import { AwdKbdHarness } from '@awdlab/jig-playwright';
+import { JigKbdHarness } from '@awdlab/jig-playwright';
 import test, { expect } from '@playwright/test';
 
 import { expectNoA11yViolations } from '../helper/axe';
@@ -17,7 +17,7 @@ test('renders shortcut glyphs', async ({ page }) => {
     { inputs: { shortcut: 'ctrl+shift+a' } }
   );
 
-  const kbd = new AwdKbdHarness(page.locator('jig-kbd'));
+  const kbd = new JigKbdHarness(page.locator('jig-kbd'));
   await kbd.expectText('⌃⇧A');
 });
 
@@ -167,7 +167,7 @@ test('accessibility (axe)', async ({ page }) => {
     { inputs: { shortcut: 'ctrl+shift+a' } }
   );
 
-  const kbd = new AwdKbdHarness(page.locator('jig-kbd'));
+  const kbd = new JigKbdHarness(page.locator('jig-kbd'));
   await kbd.expectText('⌃⇧A');
   await expectNoA11yViolations(page);
 });

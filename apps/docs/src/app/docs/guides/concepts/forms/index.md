@@ -36,7 +36,7 @@ Define the shape with `form()` and bind each field:
 import { form, required, email, minLength, FormField } from '@angular/forms/signals';
 
 @Component({
-  imports: [FormField, AwdInput, AwdInputField, AwdErrors, AwdHint],
+  imports: [FormField, JigInput, JigInputField, JigErrors, JigHint],
   template: `
     <jig-input-field [label]="'Email'">
       <input ngnInput [formField]="userForm.email" ngnErrors [ngnErrorsHint]="hint" />
@@ -64,7 +64,7 @@ Nothing special is required — the control behaves like a native input:
 
 ```ts
 @Component({
-  imports: [ReactiveFormsModule, AwdInput, AwdErrors, AwdHint],
+  imports: [ReactiveFormsModule, JigInput, JigErrors, JigHint],
   template: `
     <form [formGroup]="form">
       <input ngnInput formControlName="email" ngnErrors [ngnErrorsHint]="hint" />
@@ -94,7 +94,7 @@ into an [`jig-hint`](/components/hint):
 
 It resolves messages from — in order — the control's own `ngnErrorsMessages`,
 a message carried on the error, app-wide messages from
-`provideAwdErrorsMessages()`, and finally the built-in translations. Full
+`provideJigErrorsMessages()`, and finally the built-in translations. Full
 detail on the [Errors](/components/errors) page.
 
 ### Who owns `invalid`

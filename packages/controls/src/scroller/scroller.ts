@@ -11,8 +11,8 @@ import {
 } from '@angular/core';
 import { elementSizeSignal } from '@awdlab/jig/api/ng';
 import { provideSelf } from '@awdlab/jig/base';
-import { AwdScrollAmount } from '@awdlab/jig/directives';
-import { type AllKeysOfUnion, getScrollTop, AwdError } from '@awdlab/jig/utils';
+import { JigScrollAmount } from '@awdlab/jig/directives';
+import { type AllKeysOfUnion, getScrollTop, JigError } from '@awdlab/jig/utils';
 import { scrollerControlTemplate } from '@awdlab/jig-themes/templates/scroller';
 
 import { ScrollerTemplates } from './scroller-templates';
@@ -24,9 +24,9 @@ import { ScrollerTemplates } from './scroller-templates';
   selector: 'jig-scroller, [jig-scroller]',
   templateUrl: './scroller.html',
   imports: [NgTemplateOutlet],
-  providers: [provideSelf(AwdScroller)],
+  providers: [provideSelf(JigScroller)],
   hostDirectives: [
-    { directive: AwdScrollAmount, inputs: ['ngnScrollAmountContainer: scrollContainer'] },
+    { directive: JigScrollAmount, inputs: ['ngnScrollAmountContainer: scrollContainer'] },
   ],
   host: {
     // No attribute at all when not focusable: a tabindex (even -1) makes the element
@@ -37,13 +37,13 @@ import { ScrollerTemplates } from './scroller-templates';
     '[style.--jig-scroller-padding-bottom.px]': 'paddingBottom()',
   },
 })
-export class AwdScroller<T> extends ScrollerTemplates<T> {
+export class JigScroller<T> extends ScrollerTemplates<T> {
   protected readonly theme = this.injectThemeTemplate(scrollerControlTemplate, {
     root: true,
     virtual: () => !!this.virtual(),
   });
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly _scrollAmount = inject(AwdScrollAmount);
+  private readonly _scrollAmount = inject(JigScrollAmount);
 
   /** Remaining vertical scroll distance to the bottom (px). Proxied from the host scroll directive. */
   public readonly distanceFromEnd = this._scrollAmount.distanceFromEnd;
@@ -202,7 +202,7 @@ export class AwdScroller<T> extends ScrollerTemplates<T> {
     super();
     effect(() => {
       if (this.virtual() && !this.itemHeight()) {
-        throw new AwdError('scroller', 'itemHeight must be set when virtual is true');
+        throw new JigError('scroller', 'itemHeight must be set when virtual is true');
       }
     });
   }

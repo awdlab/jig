@@ -9,10 +9,10 @@ import {
   TemplateRef,
   viewChildren,
 } from '@angular/core';
-import { type AwdBaseSafe, AwdPt } from '@awdlab/jig/base';
-import { AwdButton } from '@awdlab/jig/button';
+import { type JigBaseSafe, JigPt } from '@awdlab/jig/base';
+import { JigButton } from '@awdlab/jig/button';
 import { I18n } from '@awdlab/jig/i18n';
-import { AwdIcon } from '@awdlab/jig/icon';
+import { JigIcon } from '@awdlab/jig/icon';
 import { calendarControlTemplate } from '@awdlab/jig-themes/templates/calendar';
 
 import {
@@ -45,10 +45,10 @@ type WeekModel = {
 @Component({
   selector: 'jig-calendar-days',
   templateUrl: './days.html',
-  imports: [NgTemplateOutlet, AwdPt, AwdButton, AwdIcon],
+  imports: [NgTemplateOutlet, JigPt, JigButton, JigIcon],
 })
 export class CalendarDays {
-  public readonly component = input.required<AwdBaseSafe<'calendar'>>();
+  public readonly component = input.required<JigBaseSafe<'calendar'>>();
   public readonly theme = input.required<ControlTemplateInfo<typeof calendarControlTemplate>>();
   public readonly year = input.required<number>();
   public readonly month = input.required<number>();

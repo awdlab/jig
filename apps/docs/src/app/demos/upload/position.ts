@@ -1,13 +1,13 @@
 import { Component, signal } from '@angular/core';
-import { AwdSelectButton } from '@awdlab/jig/select-button';
-import { AwdUpload, type AwdUploadFile, type AwdUploadListPosition } from '@awdlab/jig/upload';
+import { JigSelectButton } from '@awdlab/jig/select-button';
+import { JigUpload, type JigUploadFile, type JigUploadListPosition } from '@awdlab/jig/upload';
 
 /**
  * `listPosition` places the file list `top`, `bottom` (default), `left`, or
  * `right` of the drop zone.
  */
 @Component({
-  imports: [AwdUpload, AwdSelectButton],
+  imports: [JigUpload, JigSelectButton],
   selector: 'jig-demo-upload-position',
   template: `
     <div style="display: flex; flex-direction: column; gap: 1rem;">
@@ -25,16 +25,16 @@ import { AwdUpload, type AwdUploadFile, type AwdUploadListPosition } from '@awdl
   `,
 })
 export class Demo_Upload_Position {
-  protected readonly position = signal<AwdUploadListPosition>('right');
+  protected readonly position = signal<JigUploadListPosition>('right');
 
-  protected readonly options: { label: string; value: AwdUploadListPosition }[] = [
+  protected readonly options: { label: string; value: JigUploadListPosition }[] = [
     { label: 'Top', value: 'top' },
     { label: 'Bottom', value: 'bottom' },
     { label: 'Left', value: 'left' },
     { label: 'Right', value: 'right' },
   ];
 
-  protected onUpload(files: AwdUploadFile[], up: AwdUpload): void {
+  protected onUpload(files: JigUploadFile[], up: JigUpload): void {
     for (const item of files) {
       let progress = 0;
       const tick = setInterval(() => {

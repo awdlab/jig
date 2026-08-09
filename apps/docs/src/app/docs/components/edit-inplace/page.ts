@@ -1,13 +1,13 @@
-import { AwdDocsEditInplacePlayground } from './playground';
+import { JigDocsEditInplacePlayground } from './playground';
 import { Demo_EditInplace_Base } from '../../../demos/edit-inplace/base';
 import { Demo_EditInplace_States } from '../../../demos/edit-inplace/states';
 import { Demo_EditInplace_Templates } from '../../../demos/edit-inplace/templates';
 import { Demo_EditInplace_Validation } from '../../../demos/edit-inplace/validation';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const EditInplacePage: AwdDocsPage = {
+export const EditInplacePage: JigDocsPage = {
   title: `Edit Inplace`,
   kind: 'tabs',
   tabs: [
@@ -27,7 +27,7 @@ export const EditInplacePage: AwdDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: AwdDocsEditInplacePlayground,
+      component: JigDocsEditInplacePlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/edit-inplace/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/edit-inplace/a11y.md' },

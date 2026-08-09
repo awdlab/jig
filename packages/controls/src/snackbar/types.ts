@@ -1,6 +1,6 @@
 import { TemplateRef } from '@angular/core';
 
-import type { AwdActionButtonConfig } from '@awdlab/jig/api';
+import type { JigActionButtonConfig } from '@awdlab/jig/api';
 import type { CustomColor, IconType } from '@awdlab/jig-custom-types';
 
 export type HeaderTemplateType = {
@@ -13,24 +13,24 @@ export type ContentTemplateType = {
   content?: string;
 };
 
-export type AwdSnackbarOptionsMeta = {
+export type JigSnackbarOptionsMeta = {
   closable?: boolean;
   color?: CustomColor;
   icon?: IconType;
   autoHide?: number | false;
-  actions?: AwdActionButtonConfig[];
+  actions?: JigActionButtonConfig[];
   showProgress?: boolean;
   pauseOnHover?: boolean;
   ariaLive?: 'polite' | 'assertive' | 'off';
 };
 
-export type AwdSnackbarOptions = AwdSnackbarOptionsMeta & {
+export type JigSnackbarOptions = JigSnackbarOptionsMeta & {
   header?: string;
   content?: string;
   headerTemplate?: TemplateRef<HeaderTemplateType>;
   contentTemplate?: TemplateRef<ContentTemplateType>;
 };
 
-export type AwdSnackbarRef = {
+export type JigSnackbarRef = {
   hide: () => void;
 };

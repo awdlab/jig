@@ -1,14 +1,14 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { type MenuItem, AwdMenu } from '@awdlab/jig/menu';
+import { JigButton } from '@awdlab/jig/button';
+import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
 
-import { AwdDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   selector: 'jig-docs-menu-playground',
-  imports: [AwdMenu, AwdButton, AwdDocsPlayground],
+  imports: [JigMenu, JigButton, JigDocsPlayground],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'AwdMenu', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'JigMenu', component: component() }]">
       <button
         [style.display]="component().popover() ? 'unset' : 'none'"
         ngnButton
@@ -22,8 +22,8 @@ import { AwdDocsPlayground } from '../../../utils/playground/playground';
     </jig-docs-playground>
   `,
 })
-export class AwdDocsMenuPlayground {
-  protected readonly component = viewChild.required('ref', { read: AwdMenu });
+export class JigDocsMenuPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigMenu });
   protected readonly items = signal<MenuItem[]>([
     { id: '1', label: 'Item 1' },
     { id: '2', label: 'Item 2' },

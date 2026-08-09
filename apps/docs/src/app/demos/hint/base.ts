@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { injectThemeControlKinds } from '@awdlab/jig/api/ng';
-import { AwdHint } from '@awdlab/jig/hint';
+import { JigHint } from '@awdlab/jig/hint';
 
 @Component({
-  imports: [AwdHint],
+  imports: [JigHint],
   selector: 'jig-demo-hint-base',
   template: `
     <div class="flex flex-col gap-2">

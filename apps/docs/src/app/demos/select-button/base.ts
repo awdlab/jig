@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AwdSelectButton } from '@awdlab/jig/select-button';
+import { JigSelectButton } from '@awdlab/jig/select-button';
 
 @Component({
   selector: 'jig-demo-select-button-base',
-  imports: [AwdSelectButton],
+  imports: [JigSelectButton],
   template: `<jig-select-button [options]="options" />`,
 })
 export class Demo_SelectButton_Base {

@@ -1,17 +1,17 @@
 import { Component, viewChild } from '@angular/core';
-import { AwdMessage } from '@awdlab/jig/message';
+import { JigMessage } from '@awdlab/jig/message';
 
-import { AwdDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   selector: 'jig-docs-message-playground',
-  imports: [AwdMessage, AwdDocsPlayground],
+  imports: [JigMessage, JigDocsPlayground],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'AwdMessage', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'JigMessage', component: component() }]">
       <jig-message #ref>This is a message</jig-message>
     </jig-docs-playground>
   `,
 })
-export class AwdDocsMessagePlayground {
-  protected readonly component = viewChild.required('ref', { read: AwdMessage });
+export class JigDocsMessagePlayground {
+  protected readonly component = viewChild.required('ref', { read: JigMessage });
 }

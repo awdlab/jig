@@ -38,7 +38,7 @@ function resolve(
 /**
  * Resolve a theme-specific color, or `undefined` when the active theme has no override. Must run
  * in an injection context (component field initializer / constructor) — use for
- * `AwdActionButtonConfig` arrays etc.
+ * `JigActionButtonConfig` arrays etc.
  */
 export function themeColor(perTheme: PerThemeColor): CustomColor | undefined {
   return resolve(inject(ThemeService), perTheme);

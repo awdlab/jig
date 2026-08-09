@@ -1,6 +1,6 @@
-import type { AwdDocsPage } from '../../../../utils/page/types';
+import type { JigDocsPage } from '../../../../utils/page/types';
 
-export const SsrPage: AwdDocsPage = {
+export const SsrPage: JigDocsPage = {
   kind: 'single',
   title: `SSR & Hydration`,
 

@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { AwdSelectButtonHarness } from '@awdlab/jig-playwright';
+import { JigSelectButtonHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
@@ -24,7 +24,7 @@ test('base', async ({ page }, testInfo) => {
     }
   );
 
-  const selectButton = new AwdSelectButtonHarness(page.locator('jig-select-button'));
+  const selectButton = new JigSelectButtonHarness(page.locator('jig-select-button'));
   await selectButton.expectButtonCount(3);
   await selectButton.expectNoneSelected();
   await expectScreenshot(page, testInfo, 'base');
@@ -61,7 +61,7 @@ test('prevent unselect', async ({ page }, testInfo) => {
     }
   );
 
-  const selectButton = new AwdSelectButtonHarness(page.locator('jig-select-button'));
+  const selectButton = new JigSelectButtonHarness(page.locator('jig-select-button'));
   await selectButton.expectSelectedAt(0);
 
   // Click selected option — readonly prevents interaction
@@ -87,7 +87,7 @@ test('allow unselect', async ({ page }, testInfo) => {
     }
   );
 
-  const selectButton = new AwdSelectButtonHarness(page.locator('jig-select-button'));
+  const selectButton = new JigSelectButtonHarness(page.locator('jig-select-button'));
   await selectButton.expectSelectedAt(0);
 
   // Click selected option — allowUnselect removes readonly so click deactivates
@@ -128,7 +128,7 @@ test('states', async ({ page }, testInfo) => {
     }
   );
 
-  const selectButton = new AwdSelectButtonHarness(page.locator('jig-select-button'));
+  const selectButton = new JigSelectButtonHarness(page.locator('jig-select-button'));
 
   // Disabled state
   await handle.setInputs({ disabled: true });
@@ -166,7 +166,7 @@ test('value updates via input', async ({ page }, testInfo) => {
     }
   );
 
-  const selectButton = new AwdSelectButtonHarness(page.locator('jig-select-button'));
+  const selectButton = new JigSelectButtonHarness(page.locator('jig-select-button'));
   await selectButton.expectNoneSelected();
 
   // Set value programmatically

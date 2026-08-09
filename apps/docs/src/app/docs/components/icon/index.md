@@ -21,7 +21,7 @@ The component resolves its icon from one of two inputs:
   icons.
 - **`defaultIcon`** — a key (e.g. `breadcrumb-separator`) into the icon set
   registered globally via `withDefaultIcons()` or `withCustomIcons()` in your
-  `provideAwdControls()` call. Controls use this internally so their icons stay
+  `provideJigControls()` call. Controls use this internally so their icons stay
   overridable from one place.
 
 `icon` takes precedence over `defaultIcon`, so passing an explicit `[icon]`

@@ -1,5 +1,5 @@
 import { Component, input, computed, booleanAttribute } from '@angular/core';
-import { AwdBase, AwdPt, provideSelf } from '@awdlab/jig/base';
+import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
 import { progressControlTemplate } from '@awdlab/jig-themes/templates/progress';
 
 const TAU = Math.PI * 2;
@@ -10,8 +10,8 @@ const TAU = Math.PI * 2;
 @Component({
   selector: 'jig-progress',
   templateUrl: './progress.html',
-  imports: [AwdPt],
-  providers: [provideSelf(AwdProgress)],
+  imports: [JigPt],
+  providers: [provideSelf(JigProgress)],
   host: {
     role: 'progressbar',
     '[attr.aria-valuemin]': '0',
@@ -20,7 +20,7 @@ const TAU = Math.PI * 2;
     '[style.--progress.%]': 'indeterminate() ? null : safeValue()',
   },
 })
-export class AwdProgress extends AwdBase<'progress'> {
+export class JigProgress extends JigBase<'progress'> {
   protected readonly theme = this.injectThemeTemplate(progressControlTemplate, {
     root: true,
     indeterminate: () => this.indeterminate(),

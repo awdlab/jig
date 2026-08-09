@@ -2,7 +2,7 @@ import { type Locator, expect } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { avatarControlTemplate } from '@awdlab/jig-themes/templates/avatar';
 
-export class AwdAvatarHarness {
+export class JigAvatarHarness {
   public readonly classes = themeClasses(avatarControlTemplate);
 
   constructor(public locator: Locator) {}

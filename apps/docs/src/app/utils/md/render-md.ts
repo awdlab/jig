@@ -3,7 +3,7 @@ import { firstValueFrom } from 'rxjs';
 import { getMarked } from './marked';
 import { parseMarkdown } from './parse-md';
 import { Api } from '../api/api';
-import { AwdDocsDemo } from '../demo/demo';
+import { JigDocsDemo } from '../demo/demo';
 import { renderComponent } from '../rendering/render-component';
 import { safeRoutePath } from '../routing';
 
@@ -152,7 +152,7 @@ export async function renderMd(
       } else if (kind === 'demo') {
         const demoComponent = getComponent(block.component);
         return {
-          component: AwdDocsDemo,
+          component: JigDocsDemo,
           inputs: { component: demoComponent },
           id: `__component_placeholder_${Math.random().toString(36).substring(2, 9)}`,
         };

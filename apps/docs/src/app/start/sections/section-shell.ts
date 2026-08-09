@@ -1,13 +1,13 @@
 import { Component, computed, input } from '@angular/core';
 
-import { AwdDocsReveal } from './reveal';
-import { AwdDocsSectionHeader } from './section-header';
+import { JigDocsReveal } from './reveal';
+import { JigDocsSectionHeader } from './section-header';
 
 export type SectionLayout = 'split-left' | 'split-right' | 'full';
 
 @Component({
   selector: 'jig-docs-section-shell',
-  imports: [AwdDocsReveal, AwdDocsSectionHeader],
+  imports: [JigDocsReveal, JigDocsSectionHeader],
   host: { class: 'block px-(--jig-size-padding-xl) py-12 lg:py-16' },
   template: `
     <div class="mx-auto max-w-[1100px]">
@@ -40,7 +40,7 @@ export type SectionLayout = 'split-left' | 'split-right' | 'full';
     </div>
   `,
 })
-export class AwdDocsSectionShell {
+export class JigDocsSectionShell {
   public readonly eyebrow = input.required<string>();
   public readonly heading = input.required<string>();
   public readonly subtitle = input<string>('');

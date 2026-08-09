@@ -1,1 +1,1 @@
-{{ api: slider/slider AwdSlider }}
+{{ api: slider/slider JigSlider }}

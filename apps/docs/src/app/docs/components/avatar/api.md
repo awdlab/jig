@@ -1,1 +1,1 @@
-{{ api: avatar/avatar AwdAvatar }}
+{{ api: avatar/avatar JigAvatar }}

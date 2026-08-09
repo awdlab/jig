@@ -1,12 +1,12 @@
 import { computed, Directive, effect, ElementRef, inject, input, Type } from '@angular/core';
 import { injectThemeTemplate } from '@awdlab/jig/api/ng';
-import { getNearestAwdInstanceSig } from '@awdlab/jig/base';
-import { AwdScrollerItem } from '@awdlab/jig/scroller';
+import { getNearestJigInstanceSig } from '@awdlab/jig/base';
+import { JigScrollerItem } from '@awdlab/jig/scroller';
 import { toggleClass } from '@awdlab/jig/utils';
 import { setInputSignalValue } from '@awdlab/jig/utils-ng';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
-import { AwdTable } from './table';
+import { JigTable } from './table';
 
 import type { FormattedTableDataRow } from './types';
 
@@ -34,7 +34,7 @@ import type { FormattedTableDataRow } from './types';
     '(click)': 'onRowClick($event)',
   },
 })
-export class AwdTableBodyTr<T> extends AwdScrollerItem {
+export class JigTableBodyTr<T> extends JigScrollerItem {
   /** The formatted data row this `<tr>` renders. */
   public readonly ngnTableBodyTr = input.required<FormattedTableDataRow<T>>();
   /** The item bound to the underlying scroller entry; kept in sync with {@link ngnTableBodyTr}. */
@@ -42,9 +42,9 @@ export class AwdTableBodyTr<T> extends AwdScrollerItem {
   private readonly _element = inject(ElementRef<HTMLElement>);
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
 
-  private readonly _table = getNearestAwdInstanceSig<Type<AwdTable<any, any>>>(
+  private readonly _table = getNearestJigInstanceSig<Type<JigTable<any, any>>>(
     this._element.nativeElement,
-    AwdTable
+    JigTable
   );
 
   protected readonly selectable = computed(() => !!this._table()?.selectionMode());
@@ -63,8 +63,8 @@ export class AwdTableBodyTr<T> extends AwdScrollerItem {
 
   /**
    * Whether this row is the table's single current-row for keyboard
-   * navigation ({@link AwdTable.focusedRowIndex}). Tracks selection keyboard
-   * nav when {@link AwdTable.selectionMode} is set, and also tracks
+   * navigation ({@link JigTable.focusedRowIndex}). Tracks selection keyboard
+   * nav when {@link JigTable.selectionMode} is set, and also tracks
    * row-actions keyboard nav on non-selectable tables that have row actions,
    * so a keyboard user always sees which row is current.
    */

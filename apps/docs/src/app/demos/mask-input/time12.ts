@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { DATE_TIME_MASKS, AwdMaskInput, type MaskInputCfg } from '@awdlab/jig/mask-input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { DATE_TIME_MASKS, JigMaskInput, type MaskInputCfg } from '@awdlab/jig/mask-input';
 
 @Component({
-  imports: [AwdMaskInput, AwdInputField],
+  imports: [JigMaskInput, JigInputField],
   selector: 'jig-demo-mask-input-time12',
   template: `
     <jig-input-field [label]="'Time (12h)'" [labelKind]="'on'">

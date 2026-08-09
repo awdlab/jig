@@ -30,7 +30,7 @@ export interface PackProp {
 export interface PackControl {
   /** Internal control name / docs folder, e.g. `select`. */
   name: string;
-  /** Exported class name, e.g. `AwdSelect`. */
+  /** Exported class name, e.g. `JigSelect`. */
   className: string;
   /** `control` or `directive`. */
   kind: 'control' | 'directive';

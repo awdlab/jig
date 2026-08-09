@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { AwdSliderHarness } from '@awdlab/jig-playwright';
+import { JigSliderHarness } from '@awdlab/jig-playwright';
 import { evalValue, loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -18,7 +18,7 @@ test('base', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new AwdSliderHarness(page.locator('jig-slider'));
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
   await slider.expectValue(50);
   await slider.expectMin(0);
   await slider.expectMax(100);
@@ -52,7 +52,7 @@ test('keyboard navigation', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new AwdSliderHarness(page.locator('jig-slider'));
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
   await slider.focus();
   await slider.expectValue(50);
 
@@ -100,7 +100,7 @@ test('track click', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new AwdSliderHarness(page.locator('jig-slider'));
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
   await slider.expectValue(50);
 
   // Click at the beginning of the track
@@ -136,7 +136,7 @@ test('min max step', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new AwdSliderHarness(page.locator('jig-slider'));
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
   await slider.expectValue(10);
   await slider.expectMin(0);
   await slider.expectMax(20);
@@ -174,7 +174,7 @@ test('vertical', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new AwdSliderHarness(page.locator('jig-slider'));
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
   await slider.expectValue(50);
   await slider.expectOrientation('vertical');
   await expectScreenshot(page, testInfo, 'initial');
@@ -210,7 +210,7 @@ test('readonly & disabled', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new AwdSliderHarness(page.locator('jig-slider'));
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
   await slider.expectValue(50);
   await slider.expectReadonly(true);
   await slider.expectDisabled(false);
@@ -269,7 +269,7 @@ test('invalid', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new AwdSliderHarness(page.locator('jig-slider'));
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
   await expectScreenshot(page, testInfo, 'invalid');
 });
 
@@ -287,7 +287,7 @@ test('value updates', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new AwdSliderHarness(page.locator('jig-slider'));
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
   await slider.expectValue(25);
   await expectScreenshot(page, testInfo, 'value-25');
 
@@ -329,7 +329,7 @@ test('accessibility', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new AwdSliderHarness(page.locator('jig-slider'));
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
 
   // Check ARIA attributes
   await expect(slider.locator).toHaveAttribute('role', 'slider');
@@ -359,7 +359,7 @@ test('value text function', async ({ page }, testInfo) => {
     }
   );
 
-  const slider = new AwdSliderHarness(page.locator('jig-slider'));
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
 
   await expect(slider.locator).toBeVisible();
 

@@ -1,6 +1,6 @@
 import tablerBug from '@iconify/icons-tabler/bug';
 
-import type { AwdTreeItem } from '@awdlab/jig/api';
+import type { JigTreeItem } from '@awdlab/jig/api';
 
 import type { PaletteColorName } from './data';
 
@@ -85,7 +85,7 @@ export const PRIORITY_META: Record<TaskPriority, { label: string; color: Palette
 };
 
 /** Left-rail project navigation — plain hierarchy the tree renders. */
-export const PROJECT_TREE: AwdTreeItem[] = [
+export const PROJECT_TREE: JigTreeItem[] = [
   {
     label: 'Mobile App',
     value: 'mobile',

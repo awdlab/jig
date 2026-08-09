@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { AwdSwitchHarness } from '@awdlab/jig-playwright';
+import { JigSwitchHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -18,7 +18,7 @@ test('base', async ({ page }, testInfo) => {
     }
   );
 
-  const switchControl = new AwdSwitchHarness(page.locator('jig-switch'));
+  const switchControl = new JigSwitchHarness(page.locator('jig-switch'));
   await switchControl.expectValue(false);
   await expectScreenshot(page, testInfo, 'unchecked');
 
@@ -54,7 +54,7 @@ test('keyboard navigation', async ({ page }, testInfo) => {
     }
   );
 
-  const switchControl = new AwdSwitchHarness(page.locator('jig-switch'));
+  const switchControl = new JigSwitchHarness(page.locator('jig-switch'));
   await switchControl.expectValue(false);
 
   // Focus the switch
@@ -98,7 +98,7 @@ test('states', async ({ page }, testInfo) => {
     }
   );
 
-  const switchControl = new AwdSwitchHarness(page.locator('jig-switch'));
+  const switchControl = new JigSwitchHarness(page.locator('jig-switch'));
 
   // Test disabled state
   await handle.setInputs({ disabled: true });
@@ -153,7 +153,7 @@ test('value updates', async ({ page }, testInfo) => {
     }
   );
 
-  const switchControl = new AwdSwitchHarness(page.locator('jig-switch'));
+  const switchControl = new JigSwitchHarness(page.locator('jig-switch'));
   await switchControl.expectValue(false);
 
   // Update value via input

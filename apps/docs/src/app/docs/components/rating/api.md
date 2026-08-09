@@ -1,1 +1,1 @@
-{{ api: rating/rating AwdRating }}
+{{ api: rating/rating JigRating }}

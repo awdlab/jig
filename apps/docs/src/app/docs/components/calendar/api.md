@@ -1,4 +1,4 @@
-{{ api: calendar/calendar AwdCalendar }}
+{{ api: calendar/calendar JigCalendar }}
 
 ### Deep passthrough
 

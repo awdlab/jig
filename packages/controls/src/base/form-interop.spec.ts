@@ -1,10 +1,10 @@
 import { Component, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { provideAwdControls } from '@awdlab/jig/api/ng';
+import { provideJigControls } from '@awdlab/jig/api/ng';
 import { withDefaultIcons } from '@awdlab/jig/default-icons';
-import { AwdSelect } from '@awdlab/jig/select';
-import { AwdSwitch } from '@awdlab/jig/switch';
+import { JigSelect } from '@awdlab/jig/select';
+import { JigSwitch } from '@awdlab/jig/switch';
 import { nova } from '@awdlab/jig-themes/nova';
 import { beforeEach, describe, expect, it } from 'vitest';
 
@@ -14,16 +14,16 @@ import { beforeEach, describe, expect, it } from 'vitest';
 // executable proof (and guards against a regression that would force a CVA).
 
 @Component({
-  imports: [ReactiveFormsModule, AwdSwitch],
+  imports: [ReactiveFormsModule, JigSwitch],
   template: `<jig-switch [formControl]="ctrl" />`,
 })
 class ReactiveSwitchHost {
   ctrl = new FormControl<boolean>(false, { nonNullable: true });
-  sw = viewChild.required(AwdSwitch);
+  sw = viewChild.required(JigSwitch);
 }
 
 @Component({
-  imports: [ReactiveFormsModule, AwdSelect],
+  imports: [ReactiveFormsModule, JigSelect],
   template: `<jig-select [options]="opts" [formControl]="ctrl" />`,
 })
 class ReactiveSelectHost {
@@ -32,11 +32,11 @@ class ReactiveSelectHost {
     { label: 'B', value: 2 },
   ];
   ctrl = new FormControl<number | null>(null);
-  sel = viewChild.required(AwdSelect);
+  sel = viewChild.required(JigSelect);
 }
 
 @Component({
-  imports: [ReactiveFormsModule, AwdSwitch, AwdSelect],
+  imports: [ReactiveFormsModule, JigSwitch, JigSelect],
   template: `
     <form [formGroup]="form">
       <jig-switch formControlName="enabled" />
@@ -53,15 +53,15 @@ class FormGroupHost {
     enabled: new FormControl<boolean>(false, { nonNullable: true }),
     choice: new FormControl<number | null>(null),
   });
-  sw = viewChild.required(AwdSwitch);
-  sel = viewChild.required(AwdSelect);
+  sw = viewChild.required(JigSwitch);
+  sel = viewChild.required(JigSelect);
 }
 
 describe('classic forms interop (FormValueControl, no CVA)', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        provideAwdControls(
+        provideJigControls(
           { theme: { preset: nova }, disableAnimations: true },
           withDefaultIcons()
         ),

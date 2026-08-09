@@ -1,13 +1,13 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdNumberInput } from '@awdlab/jig/number-input';
-import { AwdSpinButtons } from '@awdlab/jig/spin-buttons';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigNumberInput } from '@awdlab/jig/number-input';
+import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
 
 @Component({
   selector: 'jig-demo-number-input-validation',
-  imports: [AwdErrors, AwdHint, AwdInputField, AwdNumberInput, AwdSpinButtons],
+  imports: [JigErrors, JigHint, JigInputField, JigNumberInput, JigSpinButtons],
   template: `
     <jig-input-field [label]="'Quantity'" [labelKind]="'on'" class="w-44">
       <input

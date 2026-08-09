@@ -1,1 +1,1 @@
-{{ api: icon/icon AwdIcon }}
+{{ api: icon/icon JigIcon }}

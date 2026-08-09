@@ -1,1 +1,1 @@
-{{ api: paginator/paginator AwdPaginator }}
+{{ api: paginator/paginator JigPaginator }}

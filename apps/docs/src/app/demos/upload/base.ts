@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AwdUpload, type AwdUploadFile } from '@awdlab/jig/upload';
+import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
 
 /**
  * Auto mode: files upload the moment they are selected or dropped. The consumer
@@ -7,7 +7,7 @@ import { AwdUpload, type AwdUploadFile } from '@awdlab/jig/upload';
  * `exportAs="ngnUpload"` handle.
  */
 @Component({
-  imports: [AwdUpload],
+  imports: [JigUpload],
   selector: 'jig-demo-upload-base',
   template: `
     <jig-upload #up="ngnUpload" (upload)="onUpload($event, up)">
@@ -17,13 +17,13 @@ import { AwdUpload, type AwdUploadFile } from '@awdlab/jig/upload';
   `,
 })
 export class Demo_Upload_Base {
-  protected onUpload(files: AwdUploadFile[], up: AwdUpload): void {
+  protected onUpload(files: JigUploadFile[], up: JigUpload): void {
     for (const item of files) {
       this.simulate(item, up);
     }
   }
 
-  private simulate(item: AwdUploadFile, up: AwdUpload): void {
+  private simulate(item: JigUploadFile, up: JigUpload): void {
     let progress = 0;
     const tick = setInterval(() => {
       progress += 20;

@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { AwdProgress } from '@awdlab/jig/progress';
+import { JigProgress } from '@awdlab/jig/progress';
 
 @Component({
   selector: 'jig-demo-progress-sizes',
-  imports: [AwdProgress],
+  imports: [JigProgress],
   template: `
     <div style="display: flex; flex-direction: column; gap: 1rem;">
       <jig-progress [value]="value()" circular [radius]="20" [thickness]="4" />

@@ -2,9 +2,9 @@ import { Demo_Autofocus_Base } from '../../../demos/autofocus/base';
 import { Demo_Autofocus_Conditional } from '../../../demos/autofocus/conditional';
 import { i18nNone } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const AutofocusPage: AwdDocsPage = {
+export const AutofocusPage: JigDocsPage = {
   title: `Autofocus`,
   kind: 'tabs',
   tabs: [

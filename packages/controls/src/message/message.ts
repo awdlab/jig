@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
-import { AwdBase, provideSelf, AwdPt } from '@awdlab/jig/base';
-import { AwdIcon } from '@awdlab/jig/icon';
+import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
+import { JigIcon } from '@awdlab/jig/icon';
 import { messageControlTemplate } from '@awdlab/jig-themes/templates/message';
 
 import type { IconType } from '@awdlab/jig-custom-types';
@@ -11,10 +11,10 @@ import type { IconType } from '@awdlab/jig-custom-types';
 @Component({
   selector: 'jig-message',
   templateUrl: './message.html',
-  imports: [AwdPt, AwdIcon],
-  providers: [provideSelf(AwdMessage)],
+  imports: [JigPt, JigIcon],
+  providers: [provideSelf(JigMessage)],
 })
-export class AwdMessage extends AwdBase<'message'> {
+export class JigMessage extends JigBase<'message'> {
   protected readonly theme = this.injectThemeTemplate(messageControlTemplate, 'root');
 
   /**

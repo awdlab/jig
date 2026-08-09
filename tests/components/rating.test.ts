@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { AwdRatingHarness } from '@awdlab/jig-playwright';
+import { JigRatingHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -14,7 +14,7 @@ test('base: click to set, clear on repeat', async ({ page }, testInfo) => {
     { inputs: { value: null } }
   );
 
-  const rating = new AwdRatingHarness(page.locator('jig-rating'));
+  const rating = new JigRatingHarness(page.locator('jig-rating'));
   await rating.expectMax(5);
   // Default is null (no rating) — no aria-valuenow, 0 is not a valid value.
   await expect(rating.locator).not.toHaveAttribute('aria-valuenow');
@@ -42,7 +42,7 @@ test('whole-step: entering a symbol area fills it (click anywhere in the symbol)
     { inputs: { value: null } }
   );
 
-  const rating = new AwdRatingHarness(page.locator('jig-rating'));
+  const rating = new JigRatingHarness(page.locator('jig-rating'));
   // Clicking the LEFT edge of the 3rd symbol must still set 3 — with a whole step,
   // entering the symbol's area fills it (no need to reach the 50% mark).
   await rating.clickSymbol(2, 'left');
@@ -63,7 +63,7 @@ test('gap between symbols is clickable and previews the same value', async ({ pa
     { inputs: { value: null } }
   );
 
-  const rating = new AwdRatingHarness(page.locator('jig-rating'));
+  const rating = new JigRatingHarness(page.locator('jig-rating'));
   const first = await rating.symbols.nth(0).boundingBox();
   const second = await rating.symbols.nth(1).boundingBox();
   if (!first || !second) {
@@ -93,7 +93,7 @@ test('dead space right of the last symbol sets nothing', async ({ page }) => {
     { inputs: { value: null } }
   );
 
-  const rating = new AwdRatingHarness(page.locator('jig-rating'));
+  const rating = new JigRatingHarness(page.locator('jig-rating'));
   const root = (await rating.locator.boundingBox())!;
   const last = (await rating.symbols.last().boundingBox())!;
   const y = last.y + last.height / 2;
@@ -115,7 +115,7 @@ test('half-step: left half sets .5, right half sets whole', async ({ page }) => 
     { inputs: { value: null } }
   );
 
-  const rating = new AwdRatingHarness(page.locator('jig-rating'));
+  const rating = new JigRatingHarness(page.locator('jig-rating'));
   await rating.clickSymbol(2, 'left'); // left half of 3rd symbol → 2.5
   await rating.expectValue(2.5);
   await rating.clickSymbol(2, 'right'); // right half of 3rd symbol → 3
@@ -132,7 +132,7 @@ test('keyboard navigation with step', async ({ page }) => {
     { inputs: { value: 2, step: 0.5 } }
   );
 
-  const rating = new AwdRatingHarness(page.locator('jig-rating'));
+  const rating = new JigRatingHarness(page.locator('jig-rating'));
   await rating.focus();
   await rating.pressKey('ArrowRight');
   await rating.expectValue(2.5);
@@ -159,7 +159,7 @@ test('readonly does not change value', async ({ page }) => {
     },
     { inputs: { value: 3 } }
   );
-  const rating = new AwdRatingHarness(page.locator('jig-rating'));
+  const rating = new JigRatingHarness(page.locator('jig-rating'));
   await rating.clickSymbol(0, 'center');
   await rating.expectValue(3);
   expect(await handle.getOutputLog()).toEqual({});

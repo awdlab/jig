@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { AwdAccordion, AwdAccordionPanel } from '@awdlab/jig/accordion';
+import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
   selector: 'jig-demo-accordion-base',
-  imports: [AwdAccordion, AwdAccordionPanel],
+  imports: [JigAccordion, JigAccordionPanel],
   template: `<jig-accordion>
     <jig-accordion-panel [header]="'Panel 1'">
       <ng-template #content> {{ loremIpsum1 }} </ng-template>

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import tablerBrandGithub from '@iconify/icons-tabler/brand-github';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdIcon } from '@awdlab/jig/icon';
+import { JigButton } from '@awdlab/jig/button';
+import { JigIcon } from '@awdlab/jig/icon';
 
-import { AwdDocsSectionHeader } from './section-header';
+import { JigDocsSectionHeader } from './section-header';
 
 @Component({
   selector: 'jig-docs-final-cta-section',
-  imports: [AwdButton, AwdIcon, RouterLink, AwdDocsSectionHeader],
+  imports: [JigButton, JigIcon, RouterLink, JigDocsSectionHeader],
   host: { class: 'block px-(--jig-size-padding-xl) py-12 lg:py-16' },
   template: `
     <div
@@ -41,6 +41,6 @@ import { AwdDocsSectionHeader } from './section-header';
     </div>
   `,
 })
-export class AwdDocsFinalCtaSection {
+export class JigDocsFinalCtaSection {
   protected readonly githubIcon = tablerBrandGithub;
 }

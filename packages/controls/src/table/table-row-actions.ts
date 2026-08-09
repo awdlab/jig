@@ -12,12 +12,12 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { domEventHandler, setComponentInput } from '@awdlab/jig/api/ng';
-import { getNearestAwdInstanceSig } from '@awdlab/jig/base';
-import { AwdMenu, openMenuAt } from '@awdlab/jig/menu';
+import { getNearestJigInstanceSig } from '@awdlab/jig/base';
+import { JigMenu, openMenuAt } from '@awdlab/jig/menu';
 
-import { AwdTable } from './table';
-import { AwdTableBodyTr } from './table-row';
-import { AwdTableRowActionsBar } from './table-row-actions-bar';
+import { JigTable } from './table';
+import { JigTableBodyTr } from './table-row';
+import { JigTableRowActionsBar } from './table-row-actions-bar';
 
 import type { JigActionItem } from '@awdlab/jig/api';
 
@@ -29,17 +29,17 @@ import type { JigActionItem } from '@awdlab/jig/api';
  * @category directive
  */
 @Directive({ selector: '[ngnTableRowActions]' })
-export class AwdTableRowActions implements OnDestroy {
+export class JigTableRowActions implements OnDestroy {
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _vcr = inject(ViewContainerRef);
   private readonly _renderer = inject(Renderer2);
-  private readonly _row = inject(AwdTableBodyTr, { optional: true });
-  private readonly _table = getNearestAwdInstanceSig<Type<AwdTable<any, any>>>(
+  private readonly _row = inject(JigTableBodyTr, { optional: true });
+  private readonly _table = getNearestJigInstanceSig<Type<JigTable<any, any>>>(
     this._element.nativeElement,
-    AwdTable
+    JigTable
   );
-  private _menu?: ComponentRef<AwdMenu>;
-  private _bar?: ComponentRef<AwdTableRowActionsBar>;
+  private _menu?: ComponentRef<JigMenu>;
+  private _bar?: ComponentRef<JigTableRowActionsBar>;
 
   /**
    * The actions available on this row.
@@ -140,7 +140,7 @@ export class AwdTableRowActions implements OnDestroy {
 
   private _mountBar(): void {
     if (this._bar) return;
-    this._bar = this._vcr.createComponent(AwdTableRowActionsBar);
+    this._bar = this._vcr.createComponent(JigTableRowActionsBar);
     // Move the bar's host element inside the <tr> so it joins the row's
     // subgrid and the table's horizontal scroll container. Use Renderer2 so the
     // move stays platform-agnostic (SSR / non-DOM renderers).

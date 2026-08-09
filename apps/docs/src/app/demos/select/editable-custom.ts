@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdSelect } from '@awdlab/jig/select';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigSelect } from '@awdlab/jig/select';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [AwdSelect, AwdInput, AwdInputField],
+  imports: [JigSelect, JigInput, JigInputField],
   selector: 'jig-demo-select-editable-custom',
   template: `<jig-input-field>
     <jig-select

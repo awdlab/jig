@@ -1,1 +1,1 @@
-{{ api: select/select AwdSelect }}
+{{ api: select/select JigSelect }}

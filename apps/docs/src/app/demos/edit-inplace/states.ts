@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { AwdEditInplace } from '@awdlab/jig/edit-inplace';
+import { JigEditInplace } from '@awdlab/jig/edit-inplace';
 
 @Component({
-  imports: [AwdEditInplace],
+  imports: [JigEditInplace],
   selector: 'jig-demo-inplace-states',
   template: `
     Default:

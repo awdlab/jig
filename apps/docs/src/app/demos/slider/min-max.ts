@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { AwdSlider } from '@awdlab/jig/slider';
+import { JigSlider } from '@awdlab/jig/slider';
 
 @Component({
   selector: 'jig-demo-slider-min-max',
-  imports: [AwdSlider],
+  imports: [JigSlider],
   template: `
     <jig-slider [value]="value()" (valueChange)="value.set($event)" [min]="0" [max]="5" />
     <br />

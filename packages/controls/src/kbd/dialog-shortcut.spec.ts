@@ -1,15 +1,15 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { provideAwdControls } from '@awdlab/jig/api/ng';
-import { AwdActionButton } from '@awdlab/jig/button';
-import { AwdDialog } from '@awdlab/jig/dialog';
+import { provideJigControls } from '@awdlab/jig/api/ng';
+import { JigActionButton } from '@awdlab/jig/button';
+import { JigDialog } from '@awdlab/jig/dialog';
 import { nova } from '@awdlab/jig-themes/nova';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import type { AwdActionButtonConfig } from '@awdlab/jig/api';
+import type { JigActionButtonConfig } from '@awdlab/jig/api';
 
 @Component({
-  imports: [AwdDialog],
+  imports: [JigDialog],
   template: `
     <jig-dialog
       title="Confirm"
@@ -24,13 +24,13 @@ import type { AwdActionButtonConfig } from '@awdlab/jig/api';
 class DialogHost {
   // buttonClicked emits `value | null`, so the collector must admit null.
   public readonly clicked: (string | null)[] = [];
-  public readonly buttons = signal<AwdActionButtonConfig<string>[]>([
+  public readonly buttons = signal<JigActionButtonConfig<string>[]>([
     { label: 'Save', value: 'save', shortcut: 'ctrl+s' },
   ]);
 }
 
 @Component({
-  imports: [AwdDialog, AwdActionButton],
+  imports: [JigDialog, JigActionButton],
   template: `
     <jig-dialog title="Rename" [open]="true">
       <input id="field" />
@@ -42,7 +42,7 @@ class DialogHost {
 })
 class CustomFooterHost {
   public readonly clicked: string[] = [];
-  public readonly button: AwdActionButtonConfig<string> = {
+  public readonly button: JigActionButtonConfig<string> = {
     label: 'Save',
     value: 'save',
     shortcut: 'ctrl+s',
@@ -51,7 +51,7 @@ class CustomFooterHost {
 
 beforeEach(() => {
   TestBed.configureTestingModule({
-    providers: [provideAwdControls({ theme: { preset: nova }, disableAnimations: true })],
+    providers: [provideJigControls({ theme: { preset: nova }, disableAnimations: true })],
   });
 });
 

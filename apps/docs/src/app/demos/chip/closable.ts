@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { AwdChip } from '@awdlab/jig/chip';
+import { JigChip } from '@awdlab/jig/chip';
 
 @Component({
-  imports: [AwdChip],
+  imports: [JigChip],
   selector: 'jig-demo-chip-closable',
   template: `<jig-chip [closable]="true" (closed)="onChipClose()">Close me!</jig-chip>`,
 })

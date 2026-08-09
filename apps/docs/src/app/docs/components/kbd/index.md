@@ -36,7 +36,7 @@ a nested scope wins over an outer one.
 
 ### Action buttons and dialogs
 
-An `AwdActionButtonConfig` can carry a `shortcut`. The button registers it with the
+An `JigActionButtonConfig` can carry a `shortcut`. The button registers it with the
 nearest ancestor scope and renders the glyphs inline next to its label or icon, for
 every kind — an icon-only button shows icon + keycap. `jig-dialog` is a scope, so
 footer buttons work with no extra wiring.

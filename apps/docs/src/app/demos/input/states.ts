@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 
 @Component({
   selector: 'jig-demo-input-states',
-  imports: [AwdInput, AwdInputField],
+  imports: [JigInput, JigInputField],
   template: `
     Default:
     <jig-input-field>

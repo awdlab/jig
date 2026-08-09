@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdTableFilterableColumn, AwdTableModule } from '@awdlab/jig/table';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigTableFilterableColumn, JigTableModule } from '@awdlab/jig/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [AwdTableModule, AwdTableFilterableColumn, AwdTemplate],
+  imports: [JigTableModule, JigTableFilterableColumn, JigTemplate],
   selector: 'jig-demo-table-filtering',
   template: `<jig-table #table style="height: 400px" [rows]="rows" [fieldId]="'id'">
     <ng-template #header>

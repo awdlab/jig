@@ -2,7 +2,7 @@ import test, { expect, type Page } from '@playwright/test';
 import { expectOutput, loadComponent } from '../helper/load-component';
 import { exampleData } from '../helper/data';
 import type { InputsType } from '../../apps/test-wrapper/src/app/window.js';
-import { AwdTabsHarness } from '@awdlab/jig-playwright';
+import { JigTabsHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 import { deepCopy } from '@awdlab/jig/utils';
@@ -61,7 +61,7 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
 test('select tabs', async ({ page }, testInfo) => {
   const handle = await prepareTest(page);
 
-  const tabs = new AwdTabsHarness(page.locator('jig-tabs'));
+  const tabs = new JigTabsHarness(page.locator('jig-tabs'));
   await tabs.expectTabCount(3);
 
   const tab1 = tabs.getTabByIndex(0);
@@ -112,7 +112,7 @@ test('lazy', async ({ page }, testInfo) => {
     cache: false,
   });
 
-  const tabsHarness = new AwdTabsHarness(page.locator('jig-tabs'));
+  const tabsHarness = new JigTabsHarness(page.locator('jig-tabs'));
   await tabsHarness.expectTabCount(3);
 
   const tab1 = tabsHarness.getTabByIndex(0);
@@ -147,7 +147,7 @@ test('lazy with cache', async ({ page }, testInfo) => {
     cache: true,
   });
 
-  const tabsHarness = new AwdTabsHarness(page.locator('jig-tabs'));
+  const tabsHarness = new JigTabsHarness(page.locator('jig-tabs'));
   await tabsHarness.expectTabCount(3);
 
   const tab1 = tabsHarness.getTabByIndex(0);
@@ -181,7 +181,7 @@ test('lazy with cache', async ({ page }, testInfo) => {
 test('keyboard navigation', async ({ page }, testInfo) => {
   const handle = await prepareTest(page);
 
-  const tabs = new AwdTabsHarness(page.locator('jig-tabs'));
+  const tabs = new JigTabsHarness(page.locator('jig-tabs'));
   await tabs.expectTabCount(3);
 
   const tab1 = tabs.getTabByIndex(0);
@@ -235,7 +235,7 @@ test('overflow scrolling', async ({ page }, testInfo) => {
   // Set a smaller viewport to trigger overflow
   await page.setViewportSize({ width: 600, height: 400 });
 
-  const tabs = new AwdTabsHarness(page.locator('jig-tabs'));
+  const tabs = new JigTabsHarness(page.locator('jig-tabs'));
   await tabs.expectTabCount(10);
 
   // Check if scroll buttons are visible
@@ -252,7 +252,7 @@ test('overflow scrolling', async ({ page }, testInfo) => {
 test('dragging a header does not switch the active tab', async ({ page }) => {
   await prepareTest(page);
 
-  const tabs = new AwdTabsHarness(page.locator('jig-tabs'));
+  const tabs = new JigTabsHarness(page.locator('jig-tabs'));
   await tabs.expectTabCount(3);
 
   const tab1 = tabs.getTabByIndex(0);
@@ -315,7 +315,7 @@ test('custom header templates', async ({ page }, testInfo) => {
     }
   );
 
-  const tabs = new AwdTabsHarness(page.locator('jig-tabs'));
+  const tabs = new JigTabsHarness(page.locator('jig-tabs'));
   await tabs.expectTabCount(3);
 
   // Check that custom header templates are rendered
@@ -359,7 +359,7 @@ test('accessibility (axe)', async ({ page }) => {
     }
   );
 
-  const tabs = new AwdTabsHarness(page.locator('jig-tabs'));
+  const tabs = new JigTabsHarness(page.locator('jig-tabs'));
   await tabs.expectTabCount(3);
 
   await expectNoA11yViolations(page);

@@ -1,6 +1,6 @@
 import { type Locator, expect } from '@playwright/test';
 
-export class AwdRadioGroupHarness {
+export class JigRadioGroupHarness {
   public readonly locator: Locator;
   /** All radio options in the group, in DOM order. */
   public readonly radios: Locator;

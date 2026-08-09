@@ -11,7 +11,7 @@ import {
 import { setComponentInput } from '@awdlab/jig/api/ng';
 import { debounceSignal } from '@awdlab/jig/utils-ng';
 
-import { AwdSpinner } from './spinner';
+import { JigSpinner } from './spinner';
 
 import type { CustomColor } from '@awdlab/jig-custom-types';
 
@@ -21,11 +21,11 @@ import type { CustomColor } from '@awdlab/jig-custom-types';
  * @param injector The injector to use. Defaults to the current injector.
  * @returns The spinner creator.
  */
-export function injectSpinnerCreator(injector?: Injector): AwdSpinnerCreator {
+export function injectSpinnerCreator(injector?: Injector): JigSpinnerCreator {
   if (injector) {
     return runInInjectionContext(injector, () => injectSpinnerCreator());
   }
-  return new AwdSpinnerCreator();
+  return new JigSpinnerCreator();
 }
 
 /**
@@ -140,7 +140,7 @@ const DEFAULT_OPTIONS: SpinnerOptions = {
   ariaBusy: true,
 };
 
-class AwdSpinnerCreator {
+class JigSpinnerCreator {
   private readonly _vcr = inject(ViewContainerRef);
   private readonly _destroyRef = inject(DestroyRef);
   private _destroyed = false;
@@ -185,7 +185,7 @@ class AwdSpinnerCreator {
       }, 10);
       return;
     }
-    const componentRef = this._vcr.createComponent(AwdSpinner);
+    const componentRef = this._vcr.createComponent(JigSpinner);
 
     const doHide = () => {
       componentRef.destroy();

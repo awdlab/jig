@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { AwdCalendar } from '@awdlab/jig/calendar';
+import { JigCalendar } from '@awdlab/jig/calendar';
 
-import type { AwdPassthrough } from '@awdlab/jig/base';
+import type { JigPassthrough } from '@awdlab/jig/base';
 
 @Component({
   selector: 'jig-demo-pt-attributes',
-  imports: [AwdCalendar],
+  imports: [JigCalendar],
   template: `<jig-calendar [inputId]="'pt-attributes'" [inline]="true" [pt]="pt" />`,
 })
 export class Demo_Pt_Attributes {
-  protected readonly pt: AwdPassthrough<'calendar'> = {
+  protected readonly pt: JigPassthrough<'calendar'> = {
     root: {
       $attributes: {
         'data-testid': 'booking-calendar',

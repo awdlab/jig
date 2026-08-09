@@ -14,13 +14,13 @@ import {
  *
  * The focus is latched: it fires on the first render where the host is
  * displayed and never again, so re-showing the element does not re-focus it.
- * Setting {@link AwdAutofocus.ngnAutofocus} to `false` releases the latch, so
+ * Setting {@link JigAutofocus.ngnAutofocus} to `false` releases the latch, so
  * toggling it back to `true` focuses again.
  *
  * @category directive
  */
 @Directive({ selector: '[ngnAutofocus]' })
-export class AwdAutofocus {
+export class JigAutofocus {
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
   private readonly _focused = signal(false);
   private readonly _isInitialized = signal(false);

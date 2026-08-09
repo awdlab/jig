@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { injectThemeColors } from '@awdlab/jig/api/ng';
-import { AwdChip } from '@awdlab/jig/chip';
+import { JigChip } from '@awdlab/jig/chip';
 
 @Component({
   selector: 'jig-demo-chip-base',
-  imports: [AwdChip],
+  imports: [JigChip],
   template: `
     <div class="flex flex-wrap gap-2">
       @for (color of colors(); track $index) {

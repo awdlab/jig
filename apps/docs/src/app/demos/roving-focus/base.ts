@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdRovingGroup, AwdRovingItem } from '@awdlab/jig/roving-focus';
+import { JigButton } from '@awdlab/jig/button';
+import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
 
 @Component({
   selector: 'jig-demo-roving-focus-base',
-  imports: [AwdButton, AwdRovingGroup, AwdRovingItem],
+  imports: [JigButton, JigRovingGroup, JigRovingItem],
   template: `
     <div class="flex flex-col items-start gap-3">
       <div

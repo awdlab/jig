@@ -1,13 +1,13 @@
 import { Component, computed, viewChild, viewChildren } from '@angular/core';
-import { AwdSplitter, AwdSplitterModule, AwdSplitterPanel } from '@awdlab/jig/splitter';
+import { JigSplitter, JigSplitterModule, JigSplitterPanel } from '@awdlab/jig/splitter';
 
-import { AwdDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   selector: 'jig-docs-splitter-playground',
-  imports: [AwdSplitterModule, AwdDocsPlayground],
+  imports: [JigSplitterModule, JigDocsPlayground],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'AwdSplitter', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'JigSplitter', component: component() }]">
       <jig-splitter class="flex-1" #ref [layout]="'horizontal'" style="height: 200px;">
         <jig-splitter-panel #ref2 [size]="'1fr'">Panel 1</jig-splitter-panel>
         <jig-splitter-panel #ref2 [size]="'1fr'">Panel 2</jig-splitter-panel>
@@ -16,9 +16,9 @@ import { AwdDocsPlayground } from '../../../utils/playground/playground';
     </jig-docs-playground>
   `,
 })
-export class AwdDocsSplitterPlayground {
-  private readonly _componentSplitter = viewChild.required('ref', { read: AwdSplitter });
-  private readonly _componentPanels = viewChildren('ref2', { read: AwdSplitterPanel });
+export class JigDocsSplitterPlayground {
+  private readonly _componentSplitter = viewChild.required('ref', { read: JigSplitter });
+  private readonly _componentPanels = viewChildren('ref2', { read: JigSplitterPanel });
   protected readonly component = computed(() => [
     this._componentSplitter(),
     ...this._componentPanels(),

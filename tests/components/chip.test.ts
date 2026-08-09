@@ -1,6 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { AwdChipHarness } from '@awdlab/jig-playwright';
+import { JigChipHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { mouseDownOnElement } from '../helper/mouse';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -25,7 +25,7 @@ test('features', async ({ page }, testInfo) => {
     }
   );
 
-  const chip = new AwdChipHarness(page.locator('jig-chip'));
+  const chip = new JigChipHarness(page.locator('jig-chip'));
 
   await test.step('default', async () => {
     await expectScreenshot(page, testInfo, 'default');

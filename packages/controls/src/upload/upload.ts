@@ -10,30 +10,30 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { AwdBase, AwdPt, provideSelf } from '@awdlab/jig/base';
-import { AwdButton } from '@awdlab/jig/button';
+import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigButton } from '@awdlab/jig/button';
 import { I18n } from '@awdlab/jig/i18n';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdProgress } from '@awdlab/jig/progress';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigProgress } from '@awdlab/jig/progress';
 import { uploadControlTemplate } from '@awdlab/jig-themes/templates/upload';
 
-import type { AwdUploadFile } from './types';
+import type { JigUploadFile } from './types';
 import type { IconType } from '@awdlab/jig-custom-types';
 
 /** How the user is allowed to add files to the drop zone. */
-export type AwdUploadInteraction = 'click' | 'drag' | 'both';
+export type JigUploadInteraction = 'click' | 'drag' | 'both';
 /**
  * When selected/dropped files start uploading.
  * - `auto` — instantly.
  * - `confirm` — queued as `pending`; the user presses a rendered trigger.
  * - `manual` — queued as `pending`; no trigger is rendered, upload starts only
- *   via {@link AwdUpload.uploadAll}/{@link AwdUpload.uploadFile} from code.
+ *   via {@link JigUpload.uploadAll}/{@link JigUpload.uploadFile} from code.
  */
-export type AwdUploadMode = 'auto' | 'confirm' | 'manual';
+export type JigUploadMode = 'auto' | 'confirm' | 'manual';
 /** Which trigger(s) are rendered in `confirm` mode. */
-export type AwdUploadConfirmTrigger = 'all' | 'per-item' | 'both';
+export type JigUploadConfirmTrigger = 'all' | 'per-item' | 'both';
 /** Where the file list renders relative to the drop zone. */
-export type AwdUploadListPosition = 'top' | 'bottom' | 'left' | 'right';
+export type JigUploadListPosition = 'top' | 'bottom' | 'left' | 'right';
 
 let uploadFileIdSeq = 0;
 let uploadInstanceSeq = 0;
@@ -50,7 +50,7 @@ let uploadInstanceSeq = 0;
  * </jig-upload>
  * ```
  *
- * The control owns the list of {@link AwdUploadFile}s and their lifecycle
+ * The control owns the list of {@link JigUploadFile}s and their lifecycle
  * state, but it **cannot** observe the actual transfer (the consumer runs the
  * request). Report progress/status back through the `exportAs="ngnUpload"`
  * handle: {@link setProgress}, {@link markDone}, {@link markFailed}.
@@ -61,8 +61,8 @@ let uploadInstanceSeq = 0;
   selector: 'jig-upload',
   exportAs: 'ngnUpload',
   templateUrl: './upload.html',
-  imports: [AwdPt, AwdIcon, AwdButton, AwdProgress],
-  providers: [provideSelf(AwdUpload)],
+  imports: [JigPt, JigIcon, JigButton, JigProgress],
+  providers: [provideSelf(JigUpload)],
   host: {
     '(dragenter)': 'onDragOver($event)',
     '(dragover)': 'onDragOver($event)',
@@ -70,7 +70,7 @@ let uploadInstanceSeq = 0;
     '(drop)': 'onDrop($event)',
   },
 })
-export class AwdUpload extends AwdBase<'upload'> {
+export class JigUpload extends JigBase<'upload'> {
   protected readonly theme = this.injectThemeTemplate(uploadControlTemplate, {
     root: true,
     dragover: () => this.dragover(),
@@ -96,13 +96,13 @@ export class AwdUpload extends AwdBase<'upload'> {
    * - `both` — either.
    * @default both
    */
-  public readonly interaction = input<AwdUploadInteraction>('both');
+  public readonly interaction = input<JigUploadInteraction>('both');
   /**
    * When uploads start: `auto` (instantly), `confirm` (user presses a rendered
    * trigger), or `manual` (only via {@link uploadAll}/{@link uploadFile}).
    * @default auto
    */
-  public readonly mode = input<AwdUploadMode>('auto');
+  public readonly mode = input<JigUploadMode>('auto');
   /**
    * Provide a custom upload icon
    */
@@ -112,7 +112,7 @@ export class AwdUpload extends AwdBase<'upload'> {
    * (`all`), a button per pending item (`per-item`), or `both`.
    * @default all
    */
-  public readonly confirmTrigger = input<AwdUploadConfirmTrigger>('all');
+  public readonly confirmTrigger = input<JigUploadConfirmTrigger>('all');
   /**
    * Disables all interaction.
    * @default false
@@ -122,25 +122,25 @@ export class AwdUpload extends AwdBase<'upload'> {
    * Where the file list renders relative to the drop zone.
    * @default bottom
    */
-  public readonly listPosition = input<AwdUploadListPosition>('bottom');
+  public readonly listPosition = input<JigUploadListPosition>('bottom');
 
   /**
    * Emitted with the files to upload: on select/drop in `auto` mode, or when a
    * manual trigger fires. The emitted items are already marked `uploading`.
    */
-  public readonly upload = output<AwdUploadFile[]>();
+  public readonly upload = output<JigUploadFile[]>();
   /** Emitted when a file is removed from the list. */
-  public readonly remove = output<AwdUploadFile>();
+  public readonly remove = output<JigUploadFile>();
   /** Emitted when a `failed` file's retry is pressed (also re-emits `upload`). */
-  public readonly retry = output<AwdUploadFile>();
+  public readonly retry = output<JigUploadFile>();
   /**
    * Emitted when an in-flight file is dismissed (the item's remove/cancel
    * action while `uploading`). Abort the request; the item is then removed.
    */
-  public readonly cancelUpload = output<AwdUploadFile>();
+  public readonly cancelUpload = output<JigUploadFile>();
 
   /** The tracked files, in insertion order. */
-  public readonly files = signal<AwdUploadFile[]>([]);
+  public readonly files = signal<JigUploadFile[]>([]);
 
   protected readonly dragover = signal(false);
 
@@ -277,34 +277,34 @@ export class AwdUpload extends AwdBase<'upload'> {
    *
    * Returns a promise that resolves once every started file has settled — i.e.
    * reached `done`, `failed`, or been cancelled/removed. It resolves with the
-   * same items handed to `(upload)`, so their final {@link AwdUploadFile.state}
+   * same items handed to `(upload)`, so their final {@link JigUploadFile.state}
    * tells you which succeeded and which failed. Resolves with `[]` if there was
    * nothing pending.
    */
-  public uploadAll(): Promise<AwdUploadFile[]> {
+  public uploadAll(): Promise<JigUploadFile[]> {
     const pending = this.files().filter(f => f.state === 'pending');
     return pending.length ? this.startUpload(pending) : Promise.resolve([]);
   }
 
   /**
-   * Start uploading a single `pending` file by its {@link AwdUploadFile.id}.
+   * Start uploading a single `pending` file by its {@link JigUploadFile.id}.
    * Returns the same settle-promise as {@link uploadAll}.
    */
-  public uploadFile(id: string): Promise<AwdUploadFile[]> {
+  public uploadFile(id: string): Promise<JigUploadFile[]> {
     const item = this.files().find(f => f.id === id && f.state === 'pending');
     return item ? this.startUpload([item]) : Promise.resolve([]);
   }
 
-  protected uploadOne(item: AwdUploadFile): void {
+  protected uploadOne(item: JigUploadFile): void {
     void this.startUpload([item]);
   }
 
-  protected retryFile(item: AwdUploadFile): void {
+  protected retryFile(item: JigUploadFile): void {
     this.retry.emit(item);
     void this.startUpload([item]);
   }
 
-  protected removeFile(item: AwdUploadFile): void {
+  protected removeFile(item: JigUploadFile): void {
     // A single dismiss action: while in-flight, aborting the upload is implied,
     // so tell the consumer to cancel the request before we drop the item.
     if (item.state === 'uploading') {
@@ -353,7 +353,7 @@ export class AwdUpload extends AwdBase<'upload'> {
       return;
     }
 
-    const added = accepted.map<AwdUploadFile>(file => ({
+    const added = accepted.map<JigUploadFile>(file => ({
       id: `jig-upload-${++uploadFileIdSeq}`,
       file,
       state: 'pending',
@@ -366,7 +366,7 @@ export class AwdUpload extends AwdBase<'upload'> {
     }
   }
 
-  private startUpload(items: AwdUploadFile[]): Promise<AwdUploadFile[]> {
+  private startUpload(items: JigUploadFile[]): Promise<JigUploadFile[]> {
     for (const item of items) {
       item.state = 'uploading';
     }
@@ -399,7 +399,7 @@ export class AwdUpload extends AwdBase<'upload'> {
     }
   }
 
-  private patch(id: string, changes: Partial<AwdUploadFile>): void {
+  private patch(id: string, changes: Partial<JigUploadFile>): void {
     this.files.update(files => {
       const item = files.find(f => f.id === id);
       if (item) {

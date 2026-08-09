@@ -8,7 +8,7 @@ import { DestroyRef, Directive, ElementRef, afterNextRender, inject, input } fro
  * hidden content. Respects `prefers-reduced-motion`.
  */
 @Directive({ selector: '[ngnDocsReveal]' })
-export class AwdDocsReveal {
+export class JigDocsReveal {
   /** Extra transition delay in ms — use to stagger siblings. */
   public readonly revealDelay = input(0, { alias: 'ngnDocsReveal' });
 

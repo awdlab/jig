@@ -8,7 +8,7 @@ export function themeClasses<CT extends ControlTemplate>(template: CT): ThemeCla
   for (const dep of template.dependencies ?? []) {
     const childClasses = themeClasses(dep.template);
     // Non-projected deps get a `[ptDep]` marker class (`.jig-{scope}-{depClass}`) applied to
-    // the child's host element (see `AwdPt`/`apply-theme.ts`'s `d()`). Whether a given child
+    // the child's host element (see `JigPt`/`apply-theme.ts`'s `d()`). Whether a given child
     // class then lives on that SAME host element or on an element nested inside the child's own
     // template depends on which classNames the child passes as `hostClass` to
     // `injectThemeTemplate` (e.g. list-box binds its own 'root' straight to its host, so marker

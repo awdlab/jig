@@ -1,11 +1,11 @@
 import { Component, DestroyRef, inject, signal, type WritableSignal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdState } from '@awdlab/jig/state';
+import { JigButton } from '@awdlab/jig/button';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigState } from '@awdlab/jig/state';
 
 @Component({
-  imports: [AwdState, AwdButton, AwdInput, AwdInputField],
+  imports: [JigState, JigButton, JigInput, JigInputField],
   selector: 'jig-demo-state-button',
   template: `
     <jig-input-field label="Type to test">

@@ -7,13 +7,13 @@ import {
   type OnDestroy,
   Type,
 } from '@angular/core';
-import { getNearestAwdInstanceSig } from '@awdlab/jig/base';
+import { getNearestJigInstanceSig } from '@awdlab/jig/base';
 
-import { AwdTable } from './table';
-import { AwdTableTh } from './table-header-cell';
+import { JigTable } from './table';
+import { JigTableTh } from './table-header-cell';
 
 /**
- * Pins the column of its {@link AwdTableTh} to the start or end edge of the
+ * Pins the column of its {@link JigTableTh} to the start or end edge of the
  * table so it stays visible while the body scrolls horizontally.
  *
  * Goes on the header cell; the matching body cells follow automatically.
@@ -23,17 +23,17 @@ import { AwdTableTh } from './table-header-cell';
 @Directive({
   selector: '[ngnTableStickyColumn]',
 })
-export class AwdTableStickyColumn implements OnDestroy {
+export class JigTableStickyColumn implements OnDestroy {
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly _headerCell = inject(AwdTableTh);
+  private readonly _headerCell = inject(JigTableTh);
   private readonly _columnId = this._headerCell.ngnTableTh;
 
   /** Which edge the column sticks to: `'start'` (left) or `'end'` (right). */
   public readonly ngnTableStickyColumn = input.required<'start' | 'end'>();
 
-  private readonly _table = getNearestAwdInstanceSig<Type<AwdTable<any, any>>>(
+  private readonly _table = getNearestJigInstanceSig<Type<JigTable<any, any>>>(
     this._element.nativeElement,
-    AwdTable
+    JigTable
   );
 
   constructor() {

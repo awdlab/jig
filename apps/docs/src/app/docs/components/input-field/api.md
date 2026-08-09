@@ -1,1 +1,1 @@
-{{ api: input-field/input-field AwdInputField }}
+{{ api: input-field/input-field JigInputField }}

@@ -5,15 +5,15 @@ import tablerDots from '@iconify/icons-tabler/dots';
 import tablerEdit from '@iconify/icons-tabler/edit';
 import tablerShare from '@iconify/icons-tabler/share';
 import tablerTrash from '@iconify/icons-tabler/trash';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdTableModule } from '@awdlab/jig/table';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigTableModule } from '@awdlab/jig/table';
 
 import { exampleData } from '../../helper/data';
 
 import type { JigActionItem } from '@awdlab/jig/api';
 
 @Component({
-  imports: [AwdTableModule, AwdTemplate],
+  imports: [JigTableModule, JigTemplate],
   selector: 'jig-demo-table-row-actions',
   template: `<jig-table #table style="height: 400px" [rows]="rows" [fieldId]="'id'">
     <ng-template #header>

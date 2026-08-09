@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { AwdSplitterModule } from '@awdlab/jig/splitter';
+import { JigSplitterModule } from '@awdlab/jig/splitter';
 
 @Component({
-  imports: [AwdSplitterModule],
+  imports: [JigSplitterModule],
   selector: 'jig-demo-splitter-min-max',
   template: `
     <jig-splitter [layout]="'horizontal'" [aria-label]="'Min/Max Sizes Splitter'">

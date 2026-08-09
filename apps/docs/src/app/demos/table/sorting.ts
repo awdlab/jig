@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdTableModule, AwdTableSortableColumn } from '@awdlab/jig/table';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigTableModule, JigTableSortableColumn } from '@awdlab/jig/table';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [AwdTableModule, AwdTableSortableColumn, AwdTemplate],
+  imports: [JigTableModule, JigTableSortableColumn, JigTemplate],
   selector: 'jig-demo-table-sorting',
   template: `<jig-table #table style="height: 400px" [rows]="rows" [fieldId]="'id'">
     <ng-template #header>

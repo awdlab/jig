@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AwdRovingGroup, AwdRovingItem } from '@awdlab/jig/roving-focus';
+import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
 
 @Component({
   selector: 'jig-demo-roving-focus-activedescendant',
-  imports: [AwdRovingGroup, AwdRovingItem],
+  imports: [JigRovingGroup, JigRovingItem],
   template: `
     <div
       ngnRovingGroup

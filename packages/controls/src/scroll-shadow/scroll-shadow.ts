@@ -22,7 +22,7 @@ import { toggleClass } from '@awdlab/jig/utils';
 @Directive({
   selector: '[ngnScrollShadow]',
 })
-export class AwdScrollShadow {
+export class JigScrollShadow {
   protected readonly theme = injectThemeTemplate(scrollShadowDirectiveTemplate);
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _injector = inject(Injector);

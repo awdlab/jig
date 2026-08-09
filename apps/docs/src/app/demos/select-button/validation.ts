@@ -1,11 +1,11 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdSelectButton } from '@awdlab/jig/select-button';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigSelectButton } from '@awdlab/jig/select-button';
 
 @Component({
   selector: 'jig-demo-select-button-validation',
-  imports: [AwdErrors, AwdHint, AwdSelectButton],
+  imports: [JigErrors, JigHint, JigSelectButton],
   template: `
     <div class="flex flex-col gap-2">
       <jig-select-button

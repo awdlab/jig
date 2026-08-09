@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { AwdColorPicker } from '@awdlab/jig/color-picker';
+import { JigColorPicker } from '@awdlab/jig/color-picker';
 
 @Component({
   selector: 'jig-demo-color-picker-base',
-  imports: [AwdColorPicker],
+  imports: [JigColorPicker],
   template: `
     <jig-color-picker [value]="value()" (valueChange)="value.set($event)" />
     <span class="ml-3 inline-block min-w-[13ch] font-mono">{{ value() }}</span>

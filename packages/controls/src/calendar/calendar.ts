@@ -11,16 +11,16 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { AwdTemplate, Platform } from '@awdlab/jig/api/ng';
-import { AwdPt, provideSelf } from '@awdlab/jig/base';
+import { JigTemplate, Platform } from '@awdlab/jig/api/ng';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { getDateOrTimeMask, AwdMaskInput } from '@awdlab/jig/mask-input';
-import { AwdPopover } from '@awdlab/jig/popover';
-import { AwdSelect } from '@awdlab/jig/select';
-import { AwdError, throwExp } from '@awdlab/jig/utils';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { getDateOrTimeMask, JigMaskInput } from '@awdlab/jig/mask-input';
+import { JigPopover } from '@awdlab/jig/popover';
+import { JigSelect } from '@awdlab/jig/select';
+import { JigError, throwExp } from '@awdlab/jig/utils';
 import { calendarControlTemplate } from '@awdlab/jig-themes/templates/calendar';
 
 import { CalendarTemplates } from './calendar-templates';
@@ -50,25 +50,25 @@ type MonthItemType = JigItem<{ $: (typeof MONTHS)[number] }, '$'>;
   templateUrl: './calendar.html',
   imports: [
     NgTemplateOutlet,
-    AwdTemplate,
-    AwdPt,
-    AwdInput,
-    AwdIcon,
-    AwdSelect,
-    AwdPopover,
+    JigTemplate,
+    JigPt,
+    JigInput,
+    JigIcon,
+    JigSelect,
+    JigPopover,
     CalendarDays,
     CalendarTime,
-    AwdInputField,
-    AwdMaskInput,
+    JigInputField,
+    JigMaskInput,
   ],
-  providers: [provideSelf(AwdCalendar)],
+  providers: [provideSelf(JigCalendar)],
   host: {
     '[style.display]': '"block"',
     '[style.width]': 'inline() ? "fit-content" : "100%"',
     '[attr.aria-invalid]': 'invalidState() ? "true" : null',
   },
 })
-export class AwdCalendar extends CalendarTemplates {
+export class JigCalendar extends CalendarTemplates {
   /**
    * Set the first day of the week.
    * @default 'monday'
@@ -95,8 +95,8 @@ export class AwdCalendar extends CalendarTemplates {
    */
   public readonly format = input('MM/dd/yyyy');
 
-  private readonly _popover = viewChild<AwdPopover>(AwdPopover);
-  private readonly _mask = viewChild(AwdMaskInput);
+  private readonly _popover = viewChild<JigPopover>(JigPopover);
+  private readonly _mask = viewChild(JigMaskInput);
   private readonly _platform = inject(Platform);
   protected readonly i18n = inject(I18n).translations;
   public override readonly isFieldControl = true;
@@ -222,7 +222,7 @@ export class AwdCalendar extends CalendarTemplates {
   /**
    * Places focus from a pointer event: forwards the location to the embedded
    * mask so the section nearest the cursor is selected, then opens the popup.
-   * Implemented as the `AwdBase.focusFromPointer` hook so it also works when the
+   * Implemented as the `JigBase.focusFromPointer` hook so it also works when the
    * calendar is wrapped in an `jig-input-field` — the outer field delegates the
    * click here (with the real coordinates) instead of synthesising a
    * coordinate-less click. Invoked by the calendar's own field click too.
@@ -240,14 +240,14 @@ export class AwdCalendar extends CalendarTemplates {
    */
   public show() {
     if (this.inline()) {
-      throw new AwdError('calendar', 'cannot open inline calendar');
+      throw new JigError('calendar', 'cannot open inline calendar');
     }
     if (this._platform.isTouchDevice() || this.disabled() || this.readonly()) {
       return;
     }
     const popover = this._popover();
     if (!popover) {
-      throw new AwdError('calendar', 'popover not found despite inline being false');
+      throw new JigError('calendar', 'popover not found despite inline being false');
     }
     popover.show();
   }
@@ -257,11 +257,11 @@ export class AwdCalendar extends CalendarTemplates {
    */
   public hide() {
     if (this.inline()) {
-      throw new AwdError('calendar', 'cannot close inline calendar');
+      throw new JigError('calendar', 'cannot close inline calendar');
     }
     const popover = this._popover();
     if (!popover) {
-      throw new AwdError('calendar', 'popover not found despite inline being false');
+      throw new JigError('calendar', 'popover not found despite inline being false');
     }
     popover.hide();
   }
@@ -273,7 +273,7 @@ export class AwdCalendar extends CalendarTemplates {
     if (event.key === 'Enter' && !this.inline()) {
       const popover = this._popover();
       if (!popover) {
-        throw new AwdError('calendar', 'popover not found despite inline being false');
+        throw new JigError('calendar', 'popover not found despite inline being false');
       }
       popover.toggle();
       event.stopPropagation();

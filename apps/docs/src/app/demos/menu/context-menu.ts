@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { type MenuItem, AwdContextMenu } from '@awdlab/jig/menu';
+import { type MenuItem, JigContextMenu } from '@awdlab/jig/menu';
 
 @Component({
   selector: 'jig-demo-menu-context-menu',
-  imports: [AwdContextMenu],
+  imports: [JigContextMenu],
   template: `<div
     class="flex cursor-context-menu items-center justify-center rounded-md border border-dashed border-gray-400 p-4"
     [ngnContextMenu]="items()"

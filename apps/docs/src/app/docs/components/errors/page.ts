@@ -4,9 +4,9 @@ import { Demo_Errors_Reactive } from '../../../demos/errors/reactive';
 import { Demo_Errors_SignalForms } from '../../../demos/errors/signal-forms';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const ErrorsPage: AwdDocsPage = {
+export const ErrorsPage: JigDocsPage = {
   title: `Errors`,
   kind: 'tabs',
   tabs: [

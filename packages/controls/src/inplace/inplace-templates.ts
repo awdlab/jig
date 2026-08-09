@@ -1,11 +1,11 @@
 import { computed, contentChild, Directive, input, TemplateRef } from '@angular/core';
 import { templateTypesFn } from '@awdlab/jig/api/ng';
-import { AwdBase } from '@awdlab/jig/base';
+import { JigBase } from '@awdlab/jig/base';
 
 import type { ContentTemplateType } from './types';
 
 @Directive()
-export abstract class InplaceTemplates extends AwdBase<'inplace'> {
+export abstract class InplaceTemplates extends JigBase<'inplace'> {
   // Display template
   private readonly _userDisplayTemplate = contentChild<TemplateRef<unknown>>('display');
   /**

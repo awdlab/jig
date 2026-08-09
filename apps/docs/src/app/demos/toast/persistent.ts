@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { injectToastCreator, type AwdToastRef } from '@awdlab/jig/toast';
+import { JigButton } from '@awdlab/jig/button';
+import { injectToastCreator, type JigToastRef } from '@awdlab/jig/toast';
 
 @Component({
-  imports: [AwdButton],
+  imports: [JigButton],
   selector: 'jig-demo-toast-persistent',
   template: `
     <button ngnButton kind="text" (click)="showToast()">Show Toast</button>
@@ -13,7 +13,7 @@ import { injectToastCreator, type AwdToastRef } from '@awdlab/jig/toast';
 export class Demo_Toast_Persistent {
   private readonly _toastCreator = injectToastCreator();
 
-  private _toastRef?: AwdToastRef;
+  private _toastRef?: JigToastRef;
 
   protected hideToast() {
     this._toastRef?.hide();

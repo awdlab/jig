@@ -13,23 +13,23 @@ import tablerEdit from '@iconify/icons-tabler/edit';
 import tablerEye from '@iconify/icons-tabler/eye';
 import tablerSearch from '@iconify/icons-tabler/search';
 import tablerTrash from '@iconify/icons-tabler/trash';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdAvatar } from '@awdlab/jig/avatar';
-import { type BreadcrumbItem, AwdBreadcrumb } from '@awdlab/jig/breadcrumb';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdChip } from '@awdlab/jig/chip';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigAvatar } from '@awdlab/jig/avatar';
+import { type BreadcrumbItem, JigBreadcrumb } from '@awdlab/jig/breadcrumb';
+import { JigButton } from '@awdlab/jig/button';
+import { JigChip } from '@awdlab/jig/chip';
 import { createDialog } from '@awdlab/jig/dialog';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { type MenuItem, AwdMenu } from '@awdlab/jig/menu';
-import { AwdPaginator } from '@awdlab/jig/paginator';
-import { AwdSelect } from '@awdlab/jig/select';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
+import { JigPaginator } from '@awdlab/jig/paginator';
+import { JigSelect } from '@awdlab/jig/select';
 import { createConditionalSpinner } from '@awdlab/jig/spinner';
-import { AwdTableModule } from '@awdlab/jig/table';
-import { AwdTag } from '@awdlab/jig/tag';
+import { JigTableModule } from '@awdlab/jig/table';
+import { JigTag } from '@awdlab/jig/tag';
 import { injectToastCreator } from '@awdlab/jig/toast';
-import { AwdTooltip } from '@awdlab/jig/tooltip';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 
 import {
   createOpportunity,
@@ -48,20 +48,20 @@ import { themeColor } from '../../utils/theme-variant';
   selector: 'jig-docs-sales-crm',
   templateUrl: './sales-crm.html',
   imports: [
-    AwdAvatar,
-    AwdBreadcrumb,
-    AwdButton,
-    AwdChip,
-    AwdIcon,
-    AwdInput,
-    AwdInputField,
-    AwdMenu,
-    AwdPaginator,
-    AwdSelect,
-    AwdTableModule,
-    AwdTag,
-    AwdTemplate,
-    AwdTooltip,
+    JigAvatar,
+    JigBreadcrumb,
+    JigButton,
+    JigChip,
+    JigIcon,
+    JigInput,
+    JigInputField,
+    JigMenu,
+    JigPaginator,
+    JigSelect,
+    JigTableModule,
+    JigTag,
+    JigTemplate,
+    JigTooltip,
     QuickAddDeal,
   ],
 })

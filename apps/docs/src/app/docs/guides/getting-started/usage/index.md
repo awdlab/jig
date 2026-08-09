@@ -6,9 +6,9 @@ The root `@awdlab/jig` entry point is intentionally empty — every control has 
 own subpath, so you only bundle what you import:
 
 ```ts
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdSelect } from '@awdlab/jig/select';
-import { provideAwdControls } from '@awdlab/jig/api/ng';
+import { JigButton } from '@awdlab/jig/button';
+import { JigSelect } from '@awdlab/jig/select';
+import { provideJigControls } from '@awdlab/jig/api/ng';
 ```
 
 ### Render a control
@@ -19,11 +19,11 @@ elements (`button[ngnButton]`, `input[ngnInput]`):
 
 ```ts
 import { Component } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
+import { JigButton } from '@awdlab/jig/button';
 
 @Component({
   selector: 'app-example',
-  imports: [AwdButton],
+  imports: [JigButton],
   template: `<button ngnButton kind="primary">Save</button>`,
 })
 export class ExampleComponent {}
@@ -39,7 +39,7 @@ without `ControlValueAccessor`:
 
 ```ts
 @Component({
-  imports: [AwdInput, AwdInputField],
+  imports: [JigInput, JigInputField],
   template: `
     <jig-input-field>
       <input ngnInput [value]="name()" (valueChange)="name.set($event ?? '')" />

@@ -1,6 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { AwdAvatarHarness } from '@awdlab/jig-playwright';
+import { JigAvatarHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -18,7 +18,7 @@ test('initials & image', async ({ page }) => {
     }
   );
 
-  const avatar = new AwdAvatarHarness(page.locator('jig-avatar'));
+  const avatar = new JigAvatarHarness(page.locator('jig-avatar'));
   await avatar.expectInitials('AB');
   handle.setInputs({ initials: 'CD' });
   await avatar.expectInitials('CD');

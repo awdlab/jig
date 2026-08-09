@@ -1,12 +1,12 @@
-import { AwdDocsSwitchPlayground } from './playground';
+import { JigDocsSwitchPlayground } from './playground';
 import { Demo_Switch_Base } from '../../../demos/switch/base';
 import { Demo_Switch_States } from '../../../demos/switch/states';
 import { Demo_Switch_Validation } from '../../../demos/switch/validation';
 import { i18nText } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const SwitchPage: AwdDocsPage = {
+export const SwitchPage: JigDocsPage = {
   title: `Switch`,
   kind: 'tabs',
   tabs: [
@@ -21,7 +21,7 @@ export const SwitchPage: AwdDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: AwdDocsSwitchPlayground,
+      component: JigDocsSwitchPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/switch/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/switch/a11y.md' },

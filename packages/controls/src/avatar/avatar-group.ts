@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AwdBase, provideSelf, AwdPt } from '@awdlab/jig/base';
+import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
 import { avatarGroupControlTemplate } from '@awdlab/jig-themes/templates/avatar';
 
 /**
@@ -8,10 +8,10 @@ import { avatarGroupControlTemplate } from '@awdlab/jig-themes/templates/avatar'
 @Component({
   selector: 'jig-avatar-group',
   templateUrl: './avatar-group.html',
-  imports: [AwdPt],
-  providers: [provideSelf(AwdAvatarGroup)],
+  imports: [JigPt],
+  providers: [provideSelf(JigAvatarGroup)],
 })
-export class AwdAvatarGroup extends AwdBase<'avatarGroup'> {
+export class JigAvatarGroup extends JigBase<'avatarGroup'> {
   protected readonly theme = this.injectThemeTemplate(avatarGroupControlTemplate);
 
   constructor() {

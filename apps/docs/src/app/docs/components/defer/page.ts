@@ -1,9 +1,9 @@
 import { Demo_Defer_Base } from '../../../demos/defer/base';
 import { i18nNone } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const DeferPage: AwdDocsPage = {
+export const DeferPage: JigDocsPage = {
   title: `Defer`,
   kind: 'tabs',
   tabs: [

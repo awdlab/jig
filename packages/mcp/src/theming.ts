@@ -90,7 +90,7 @@ export function registerTheming(server: McpServer, pack: KnowledgePack): void {
         'The allowed `kind` and `color` values for controls — these are theme-dependent, not ' +
         'static types. Returns values for the built-in themes (nova, shade); pass `theme` and/or ' +
         '`control` to narrow. For a CUSTOM theme, this explains where to read the values instead ' +
-        "(the app's createTheme + AwdCustomTypes). Use this to resolve a control's kind/color input.",
+        "(the app's createTheme + JigCustomTypes). Use this to resolve a control's kind/color input.",
       inputSchema: {
         theme: z
           .string()

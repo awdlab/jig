@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { JigTemplate } from '@awdlab/jig/api/ng';
 import { JigItemView } from '@awdlab/jig/item-view';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
-  imports: [JigItemView, AwdTemplate],
+  imports: [JigItemView, JigTemplate],
   selector: 'jig-demo-item-view-base',
   template: `
     <jig-item-view

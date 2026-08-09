@@ -1,4 +1,4 @@
-import { AwdDocsInputFieldPlayground } from './playground';
+import { JigDocsInputFieldPlayground } from './playground';
 import { Demo_InputField_Base } from '../../../demos/input-field/base';
 import { Demo_InputField_Clear } from '../../../demos/input-field/clear';
 import { Demo_InputField_Label } from '../../../demos/input-field/label';
@@ -7,9 +7,9 @@ import { Demo_InputField_Textarea } from '../../../demos/input-field/textarea';
 import { Demo_InputField_Validation } from '../../../demos/input-field/validation';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const InputFieldPage: AwdDocsPage = {
+export const InputFieldPage: JigDocsPage = {
   title: `Input Field`,
   kind: 'tabs',
   tabs: [
@@ -31,7 +31,7 @@ export const InputFieldPage: AwdDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: AwdDocsInputFieldPlayground,
+      component: JigDocsInputFieldPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/input-field/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/input-field/a11y.md' },

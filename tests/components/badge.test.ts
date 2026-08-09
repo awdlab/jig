@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { AwdBadgeHarness } from '@awdlab/jig-playwright';
+import { JigBadgeHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
@@ -14,7 +14,7 @@ test('renders count and clamps to max', async ({ page }, testInfo) => {
     { inputs: { value: 3, max: 99 } }
   );
 
-  const badge = new AwdBadgeHarness(page.locator('button'));
+  const badge = new JigBadgeHarness(page.locator('button'));
   await badge.expectText('3');
   await expectScreenshot(page, testInfo, 'count-3');
 
@@ -32,7 +32,7 @@ test('hides on zero unless showZero', async ({ page }) => {
     { inputs: { value: 0, showZero: false } }
   );
 
-  const badge = new AwdBadgeHarness(page.locator('button'));
+  const badge = new JigBadgeHarness(page.locator('button'));
   await badge.expectVisible(false);
 
   await handle.setInputs({ showZero: true });
@@ -49,7 +49,7 @@ test('dot mode ignores value', async ({ page }, testInfo) => {
     },
     { inputs: {} }
   );
-  const badge = new AwdBadgeHarness(page.locator('button'));
+  const badge = new JigBadgeHarness(page.locator('button'));
   await badge.expectVisible(true);
   await badge.expectText('');
 });
@@ -63,7 +63,7 @@ test('dot mode works standalone (ngnBadgeDot without ngnBadge)', async ({ page }
     },
     { inputs: {} }
   );
-  const badge = new AwdBadgeHarness(page.locator('button'));
+  const badge = new JigBadgeHarness(page.locator('button'));
   await badge.expectVisible(true);
   await badge.expectText('');
 });
@@ -78,7 +78,7 @@ test('hiding a visible badge destroys the indicator', async ({ page }) => {
     { inputs: { hidden: false } }
   );
 
-  const badge = new AwdBadgeHarness(page.locator('button'));
+  const badge = new JigBadgeHarness(page.locator('button'));
   await badge.expectVisible(true);
 
   await handle.setInputs({ hidden: true });
@@ -94,7 +94,7 @@ test('custom color applies as css variable', async ({ page }) => {
     },
     { inputs: {} }
   );
-  const badge = new AwdBadgeHarness(page.locator('button'));
+  const badge = new JigBadgeHarness(page.locator('button'));
   await expect(badge.badge).toHaveCSS('background-color', 'rgb(10, 20, 30)');
 });
 
@@ -114,7 +114,7 @@ test('anchors correctly on a wrapper around a clipping host (avatar)', async ({
 
   const wrapper = page.locator('span', { has: page.locator('jig-avatar') });
   const avatar = page.locator('jig-avatar');
-  const badge = new AwdBadgeHarness(wrapper);
+  const badge = new JigBadgeHarness(wrapper);
   await badge.expectVisible(true);
   await badge.expectText('5');
 
@@ -145,7 +145,7 @@ test('accessibility (axe)', async ({ page }) => {
     { inputs: { value: 5 } }
   );
 
-  const badge = new AwdBadgeHarness(page.locator('button'));
+  const badge = new JigBadgeHarness(page.locator('button'));
   await badge.expectText('5');
   await expectNoA11yViolations(page);
 });

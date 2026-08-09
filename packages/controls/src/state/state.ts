@@ -1,11 +1,11 @@
 import { booleanAttribute, Component, computed, inject, input } from '@angular/core';
-import { AwdBase, AwdPt, provideSelf } from '@awdlab/jig/base';
+import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdSpinner } from '@awdlab/jig/spinner';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigSpinner } from '@awdlab/jig/spinner';
 import { stateControlTemplate } from '@awdlab/jig-themes/templates/state';
 
-import type { AwdIconKey } from '@awdlab/jig/icon';
+import type { JigIconKey } from '@awdlab/jig/icon';
 import type { IconType } from '@awdlab/jig-custom-types';
 
 /**
@@ -14,8 +14,8 @@ import type { IconType } from '@awdlab/jig-custom-types';
 @Component({
   selector: 'jig-state',
   templateUrl: './state.html',
-  imports: [AwdIcon, AwdPt, AwdSpinner],
-  providers: [provideSelf(AwdState)],
+  imports: [JigIcon, JigPt, JigSpinner],
+  providers: [provideSelf(JigState)],
   host: {
     '[style.--jig-state-size.px]': 'size()',
     // The kind is conveyed to sighted users purely by icon shape + color, so
@@ -27,7 +27,7 @@ import type { IconType } from '@awdlab/jig-custom-types';
     '[attr.aria-atomic]': "role() ? 'true' : null",
   },
 })
-export class AwdState extends AwdBase<'state'> {
+export class JigState extends JigBase<'state'> {
   private readonly i18n = inject(I18n).translations;
   /**
    * Whether the indicator is rendered and occupies layout space.
@@ -113,7 +113,7 @@ export class AwdState extends AwdBase<'state'> {
     }
   });
 
-  protected readonly defaultIcon = computed<AwdIconKey | undefined>(() => {
+  protected readonly defaultIcon = computed<JigIconKey | undefined>(() => {
     switch (this.appliedKind()) {
       case 'cancelled':
         return 'upload-cancel';

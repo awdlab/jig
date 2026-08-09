@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { injectThemeColors } from '@awdlab/jig/api/ng';
-import { AwdButton } from '@awdlab/jig/button';
+import { JigButton } from '@awdlab/jig/button';
 import { injectToastCreator } from '@awdlab/jig/toast';
 
 import type { CustomColor } from '@awdlab/jig-custom-types';
 
 @Component({
-  imports: [AwdButton],
+  imports: [JigButton],
   selector: 'jig-demo-toast-colors',
   template: `
     @for (color of colors(); track color) {

@@ -1,18 +1,18 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { provideAwdControls } from '@awdlab/jig/api/ng';
+import { provideJigControls } from '@awdlab/jig/api/ng';
 import { withDefaultIcons } from '@awdlab/jig/default-icons';
 import { nova } from '@awdlab/jig-themes/nova';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { AwdTab } from './tab';
-import { AwdTabs } from './tabs';
+import { JigTab } from './tab';
+import { JigTabs } from './tabs';
 
 // Tabs used as a pure navigation bar: headers only, no projected `#content`.
 // A consumer drives routing off `(activeTabChange)` and reflects the URL back
 // via `[activeTab]`. No empty tabpanel stubs must be emitted.
 @Component({
-  imports: [AwdTabs, AwdTab],
+  imports: [JigTabs, JigTab],
   template: `
     <jig-tabs [activeTab]="active()" (activeTabChange)="active.set($event)">
       @for (t of items; track t.id) {
@@ -35,7 +35,7 @@ describe('tabs as navigation (no tab content)', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        provideAwdControls(
+        provideJigControls(
           { theme: { preset: nova }, disableAnimations: true },
           withDefaultIcons()
         ),

@@ -81,7 +81,7 @@ const items = [
 
 Declare the array `as const`, or with a literal type, to get the narrow union.
 
-### `AwdTreeItem`
+### `JigTreeItem`
 
 The tree extends `JigItem` with the things only a tree needs:
 
@@ -92,7 +92,7 @@ The tree extends `JigItem` with the things only a tree needs:
 | `lazy`       | Marks a branch whose children load on first expand, via the tree's `loadChildren` callback. |
 | `template`   | A per-node `TemplateRef` override, taking precedence over the tree's item template.         |
 
-`AwdTreeItemValue` / `AwdTreeItemsValue` differ from the flat variants: a
+`JigTreeItemValue` / `JigTreeItemsValue` differ from the flat variants: a
 branch's own value is part of the union, because a branch can itself be
 selected or expanded.
 
@@ -126,7 +126,7 @@ shortcut is the host's decision: `jig-command` registers its items page-wide,
 so a palette command fires whether or not the palette is open, while other
 hosts register against the nearest `[ngnKeyboardShortcut]` container.
 
-### `AwdActionButtonConfig`
+### `JigActionButtonConfig`
 
 What [`<jig-action-button>`](/components/button) renders — an action item plus
 the visual knobs a button needs:
@@ -148,6 +148,6 @@ their buttons from — which is why the same object works in each.
 | You are describing…                         | Use                     |
 | ------------------------------------------- | ----------------------- |
 | something the user **picks**                | `JigItem`               |
-| a hierarchy the user picks or expands       | `AwdTreeItem`           |
+| a hierarchy the user picks or expands       | `JigTreeItem`           |
 | something the user **runs**                 | `JigActionItem`         |
-| a single rendered button, described by data | `AwdActionButtonConfig` |
+| a single rendered button, described by data | `JigActionButtonConfig` |

@@ -31,7 +31,7 @@ persistence. Give it a `stateKey` and it remembers:
 Set the default once instead of per control:
 
 ```ts
-provideAwdControls({
+provideJigControls({
   theme: { preset: nova },
   defaults: {
     stateStorage: 'local',

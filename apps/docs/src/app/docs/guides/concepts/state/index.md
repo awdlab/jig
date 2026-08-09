@@ -1,8 +1,8 @@
 Controls share a consistent, signal-backed state model. It lives in two base classes:
 
-- **`AwdBase<T>`** — the root of every control. Owns presentation/identity state:
+- **`JigBase<T>`** — the root of every control. Owns presentation/identity state:
   `unstyled`, `kind`, `color`, and the `pt` passthrough input.
-- **`ValueControlBase<T>`** — extends `AwdBase` for form-value controls. Adds the value and
+- **`ValueControlBase<T>`** — extends `JigBase` for form-value controls. Adds the value and
   interaction state.
 
 ### The state signals

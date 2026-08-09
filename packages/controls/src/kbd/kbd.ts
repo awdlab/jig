@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { AwdBase, AwdPt, provideSelf } from '@awdlab/jig/base';
+import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
 import { kbdControlTemplate } from '@awdlab/jig-themes/templates/kbd';
 
 import { formatShortcut } from './shortcut';
@@ -11,10 +11,10 @@ import { formatShortcut } from './shortcut';
 @Component({
   selector: 'jig-kbd',
   templateUrl: './kbd.html',
-  imports: [AwdPt],
-  providers: [provideSelf(AwdKbd)],
+  imports: [JigPt],
+  providers: [provideSelf(JigKbd)],
 })
-export class AwdKbd extends AwdBase<'kbd'> {
+export class JigKbd extends JigBase<'kbd'> {
   protected readonly theme = this.injectThemeTemplate(kbdControlTemplate, 'root');
 
   /**

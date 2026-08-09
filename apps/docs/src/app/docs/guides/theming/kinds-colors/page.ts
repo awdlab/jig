@@ -1,8 +1,8 @@
 import { Demo_Button_Kind } from '../../../../demos/button/kind';
 
-import type { AwdDocsPage } from '../../../../utils/page/types';
+import type { JigDocsPage } from '../../../../utils/page/types';
 
-export const KindsColorsPage: AwdDocsPage = {
+export const KindsColorsPage: JigDocsPage = {
   kind: 'single',
   title: `Kinds & Colors`,
 

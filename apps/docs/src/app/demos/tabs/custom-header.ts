@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdTabs, AwdTab } from '@awdlab/jig/tabs';
+import { JigButton } from '@awdlab/jig/button';
+import { JigTabs, JigTab } from '@awdlab/jig/tabs';
 
 @Component({
-  imports: [AwdTabs, AwdTab, AwdButton],
+  imports: [JigTabs, JigTab, JigButton],
   selector: 'jig-demo-tabs-base',
   template: `
     <jig-tabs>

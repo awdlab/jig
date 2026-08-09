@@ -1,10 +1,10 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdSelect } from '@awdlab/jig/select';
-import { AwdSelectButton } from '@awdlab/jig/select-button';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigSelect } from '@awdlab/jig/select';
+import { JigSelectButton } from '@awdlab/jig/select-button';
 
-import { AwdDocsReveal } from './reveal';
-import { AwdDocsSectionHeader } from './section-header';
+import { JigDocsReveal } from './reveal';
+import { JigDocsSectionHeader } from './section-header';
 import { style } from '../../utils/code/prism';
 
 import type { JigItem } from '@awdlab/jig/api';
@@ -58,7 +58,7 @@ const KIND_CLASS: Record<MemberKind, string> = {
 const CODE_SINGLE = `type StageId = 'discovery' | 'proposal' | 'won';
 
 @Component({
-  imports: [AwdInputField, AwdSelect],
+  imports: [JigInputField, JigSelect],
   template: \`
     <jig-input-field label="Stage" labelKind="on">
       <jig-select
@@ -76,7 +76,7 @@ export class DealFormComponent {
 const CODE_MULTIPLE = `type StageId = 'discovery' | 'proposal' | 'won';
 
 @Component({
-  imports: [AwdInputField, AwdSelect],
+  imports: [JigInputField, JigSelect],
   template: \`
     <jig-input-field label="Stages" labelKind="on">
       <jig-select
@@ -128,7 +128,7 @@ const FACTS: readonly Fact[] = [
 
 @Component({
   selector: 'jig-docs-developer-experience-section',
-  imports: [AwdInputField, AwdSelect, AwdSelectButton, AwdDocsReveal, AwdDocsSectionHeader],
+  imports: [JigInputField, JigSelect, JigSelectButton, JigDocsReveal, JigDocsSectionHeader],
   host: { class: 'block px-(--jig-size-padding-xl) py-12 lg:py-16' },
   styles: [
     `
@@ -286,7 +286,7 @@ const FACTS: readonly Fact[] = [
     </div>
   `,
 })
-export class AwdDocsDeveloperExperienceSection {
+export class JigDocsDeveloperExperienceSection {
   protected readonly members = MEMBERS;
   protected readonly kindClass = KIND_CLASS;
   protected readonly facts = FACTS;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AwdUpload, type AwdUploadFile } from '@awdlab/jig/upload';
+import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
 
 /**
  * The list surfaces per-item actions: a single dismiss button (cancels the
@@ -8,7 +8,7 @@ import { AwdUpload, type AwdUploadFile } from '@awdlab/jig/upload';
  * first attempt so the failed state and retry are easy to see.
  */
 @Component({
-  imports: [AwdUpload],
+  imports: [JigUpload],
   selector: 'jig-demo-upload-states',
   template: `
     <jig-upload
@@ -25,7 +25,7 @@ import { AwdUpload, type AwdUploadFile } from '@awdlab/jig/upload';
 export class Demo_Upload_States {
   private readonly attempts = new Map<string, number>();
 
-  protected onUpload(files: AwdUploadFile[], up: AwdUpload): void {
+  protected onUpload(files: JigUploadFile[], up: JigUpload): void {
     for (const item of files) {
       const attempt = (this.attempts.get(item.id) ?? 0) + 1;
       this.attempts.set(item.id, attempt);
@@ -47,11 +47,11 @@ export class Demo_Upload_States {
     }
   }
 
-  protected onCancel(_item: AwdUploadFile): void {
+  protected onCancel(_item: JigUploadFile): void {
     // In a real app: abort the in-flight request for `_item`.
   }
 
-  protected onRemove(item: AwdUploadFile): void {
+  protected onRemove(item: JigUploadFile): void {
     this.attempts.delete(item.id);
   }
 }

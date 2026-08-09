@@ -1,5 +1,5 @@
 import { booleanAttribute, Component, input, computed } from '@angular/core';
-import { AwdBase, AwdPt, provideSelf } from '@awdlab/jig/base';
+import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
 import { spinnerControlTemplate } from '@awdlab/jig-themes/templates/spinner';
 
 /**
@@ -8,15 +8,15 @@ import { spinnerControlTemplate } from '@awdlab/jig-themes/templates/spinner';
 @Component({
   selector: 'jig-spinner',
   templateUrl: './spinner.html',
-  imports: [AwdPt],
-  providers: [provideSelf(AwdSpinner)],
+  imports: [JigPt],
+  providers: [provideSelf(JigSpinner)],
   host: {
     role: 'status',
     '[style.--size]': 'size()',
     '[style.--thickness]': 'thickness() || null',
   },
 })
-export class AwdSpinner extends AwdBase<'spinner'> {
+export class JigSpinner extends JigBase<'spinner'> {
   protected readonly theme = this.injectThemeTemplate(spinnerControlTemplate, {
     root: true,
     centered: () => !!this.centered(),

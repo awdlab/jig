@@ -46,7 +46,7 @@ import { Component } from '@angular/core';
     }
   `,
 })
-export class AwdThemeColorsDemo {
+export class JigThemeColorsDemo {
   constructor() {}
 
   protected readonly colors = [

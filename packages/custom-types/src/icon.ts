@@ -1,10 +1,10 @@
-import type { AwdCustomTypes } from './custom-types';
+import type { JigCustomTypes } from './custom-types';
 
 import type { IconifyIcon } from '@iconify/types';
 
-export interface AwdIconEntry {
+export interface JigIconEntry {
   icon: IconifyIcon;
   scale?: number;
 }
 
-export type IconType = AwdCustomTypes extends { icon: infer T } ? T : IconifyIcon | AwdIconEntry;
+export type IconType = JigCustomTypes extends { icon: infer T } ? T : IconifyIcon | JigIconEntry;

@@ -78,11 +78,11 @@ Both entry points resolve to the same runtime module — only the types differ. 
 typed theme loaded at all, `kind` and `color` fall back to `string`.
 
 To type kinds yourself (for a custom theme, or to override the theme's), augment
-`AwdCustomTypes`, which takes precedence over the theme's:
+`JigCustomTypes`, which takes precedence over the theme's:
 
 ```ts
 declare module '@awdlab/jig-custom-types' {
-  export interface AwdCustomTypes {
+  export interface JigCustomTypes {
     kind: { button: readonly ['primary', 'ghost'] };
     color: readonly ['primary', 'danger'];
   }

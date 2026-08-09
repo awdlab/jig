@@ -29,7 +29,7 @@ export const widgetControlTemplate = createControlTemplate({
 **2. Register the scope** by adding it to the `ThemeTemplate` map in
 `packages/themes/src/templates/index.ts` — this makes `'widget'` a valid `ControlName`.
 
-**3. Write the component.** Extend `AwdBase<'scope'>` (presentational/attribute) or
+**3. Write the component.** Extend `JigBase<'scope'>` (presentational/attribute) or
 `ValueControlBase<'scope', V>` (form value). Add `provideSelf(Class)` so ancestors can find
 it via DI. Assign `injectThemeTemplate(...)` to the `theme` field; the optional second
 argument maps host classes to state.
@@ -37,16 +37,16 @@ argument maps host classes to state.
 ```ts
 // packages/controls/src/widget/widget.ts
 import { Component, input } from '@angular/core';
-import { AwdBase, provideSelf, AwdPt } from '@awdlab/jig/base';
+import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
 import { widgetControlTemplate } from '@awdlab/jig-themes/templates/widget';
 
 @Component({
   selector: 'jig-widget', // jig- prefix, kebab === folder name
   templateUrl: './widget.html',
-  imports: [AwdPt],
-  providers: [provideSelf(AwdWidget)],
+  imports: [JigPt],
+  providers: [provideSelf(JigWidget)],
 })
-export class AwdWidget extends AwdBase<'widget'> {
+export class JigWidget extends JigBase<'widget'> {
   protected readonly theme = this.injectThemeTemplate(widgetControlTemplate, 'root');
 
   /** Text shown after the icon. */

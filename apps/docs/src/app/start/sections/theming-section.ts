@@ -10,14 +10,14 @@ import {
 import tablerLock from '@iconify/icons-tabler/lock';
 import tablerUser from '@iconify/icons-tabler/user';
 import { ColorSchemeService } from '@awdlab/jig/api/ng';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdSwitch } from '@awdlab/jig/switch';
+import { JigButton } from '@awdlab/jig/button';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigSwitch } from '@awdlab/jig/switch';
 
-import { AwdDocsSectionShell } from './section-shell';
-import { AwdDocsThemePicker, ThemePickerService } from '../../utils/theme-picker';
+import { JigDocsSectionShell } from './section-shell';
+import { JigDocsThemePicker, ThemePickerService } from '../../utils/theme-picker';
 
 /** Fixed annotation hues, one per token family. Not theme-derived — they must
  * stay distinguishable from whatever primary the visitor picks. */
@@ -61,13 +61,13 @@ function toHex(color: string): string {
 @Component({
   selector: 'jig-docs-theming-section',
   imports: [
-    AwdDocsSectionShell,
-    AwdDocsThemePicker,
-    AwdSwitch,
-    AwdButton,
-    AwdIcon,
-    AwdInput,
-    AwdInputField,
+    JigDocsSectionShell,
+    JigDocsThemePicker,
+    JigSwitch,
+    JigButton,
+    JigIcon,
+    JigInput,
+    JigInputField,
   ],
   // Theme switches swap token values instantly. Easing everything inside the
   // preview turns the swap into a visible re-theme — the point of the section.
@@ -302,7 +302,7 @@ function toHex(color: string): string {
     </jig-docs-section-shell>
   `,
 })
-export class AwdDocsThemingSection {
+export class JigDocsThemingSection {
   protected readonly colorScheme = inject(ColorSchemeService);
   protected readonly picker = inject(ThemePickerService);
 

@@ -6,7 +6,7 @@ import {
   model,
   TemplateRef,
 } from '@angular/core';
-import { AwdBase, provideSelf } from '@awdlab/jig/base';
+import { JigBase, provideSelf } from '@awdlab/jig/base';
 
 import type { IconType } from '@awdlab/jig-custom-types';
 
@@ -18,9 +18,9 @@ import type { IconType } from '@awdlab/jig-custom-types';
 @Component({
   selector: 'jig-step',
   template: '',
-  providers: [provideSelf(AwdStep)],
+  providers: [provideSelf(JigStep)],
 })
-export class AwdStep extends AwdBase<'stepper'> {
+export class JigStep extends JigBase<'stepper'> {
   protected readonly theme = null;
 
   /** The step's header label. */

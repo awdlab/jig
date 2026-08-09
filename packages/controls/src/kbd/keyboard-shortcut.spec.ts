@@ -2,10 +2,10 @@ import { Component, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
-import { AwdKeyboardShortcut, type AwdShortcutBinding } from './keyboard-shortcut';
+import { JigKeyboardShortcut, type JigShortcutBinding } from './keyboard-shortcut';
 
 @Component({
-  imports: [AwdKeyboardShortcut],
+  imports: [JigKeyboardShortcut],
   template: `
     <div [ngnKeyboardShortcut]="bindings()">
       <button id="inner">Inner</button>
@@ -14,12 +14,12 @@ import { AwdKeyboardShortcut, type AwdShortcutBinding } from './keyboard-shortcu
   `,
 })
 class ScopeHost {
-  public readonly bindings = signal<AwdShortcutBinding[]>([]);
-  public readonly directive = viewChild.required(AwdKeyboardShortcut);
+  public readonly bindings = signal<JigShortcutBinding[]>([]);
+  public readonly directive = viewChild.required(JigKeyboardShortcut);
 }
 
 @Component({
-  imports: [AwdKeyboardShortcut],
+  imports: [JigKeyboardShortcut],
   template: `
     <div [ngnKeyboardShortcut]="outer()">
       <div [ngnKeyboardShortcut]="inner()">
@@ -29,12 +29,12 @@ class ScopeHost {
   `,
 })
 class NestedHost {
-  public readonly outer = signal<AwdShortcutBinding[]>([]);
-  public readonly inner = signal<AwdShortcutBinding[]>([]);
+  public readonly outer = signal<JigShortcutBinding[]>([]);
+  public readonly inner = signal<JigShortcutBinding[]>([]);
 }
 
 @Component({
-  imports: [AwdKeyboardShortcut],
+  imports: [JigKeyboardShortcut],
   template: `
     <div [ngnKeyboardShortcut]="bindings()">
       <button id="inner">Inner</button>
@@ -42,7 +42,7 @@ class NestedHost {
   `,
 })
 class GlobalHost {
-  public readonly bindings = signal<AwdShortcutBinding[]>([]);
+  public readonly bindings = signal<JigShortcutBinding[]>([]);
 }
 
 /** Dispatches a bubbling keydown from outside every scope. */
@@ -75,7 +75,7 @@ function press(
   return event;
 }
 
-describe('AwdKeyboardShortcut', () => {
+describe('JigKeyboardShortcut', () => {
   it('fires the callback for a keydown from a focused descendant', () => {
     const fixture = TestBed.createComponent(ScopeHost);
     const calls: string[] = [];

@@ -10,9 +10,9 @@ import {
   viewChild,
 } from '@angular/core';
 import { domEventHandler } from '@awdlab/jig/api/ng';
-import { AwdPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
-import { AwdRovingGroup, AwdRovingItem } from '@awdlab/jig/roving-focus';
+import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
 import { maskInputControlTemplate } from '@awdlab/jig-themes/templates/mask-input';
 
 import {
@@ -37,10 +37,10 @@ import type { MaskInputCfg } from './types';
 @Component({
   selector: 'jig-mask-input',
   templateUrl: './mask-input.html',
-  imports: [AwdPt, AwdRovingGroup, AwdRovingItem],
-  providers: [provideSelf(AwdMaskInput)],
+  imports: [JigPt, JigRovingGroup, JigRovingItem],
+  providers: [provideSelf(JigMaskInput)],
 })
-export class AwdMaskInput extends ValueControlBase<'maskInput', string | null> {
+export class JigMaskInput extends ValueControlBase<'maskInput', string | null> {
   public override readonly isFieldControl = true;
   protected readonly theme = this.injectThemeTemplate(maskInputControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
@@ -94,7 +94,7 @@ export class AwdMaskInput extends ValueControlBase<'maskInput', string | null> {
   });
 
   /** The roving group on the proxy input element. */
-  protected readonly rovingGroup = viewChild.required(AwdRovingGroup);
+  protected readonly rovingGroup = viewChild.required(JigRovingGroup);
 
   /** The proxy input element reference. */
   private readonly _proxyRef = viewChild.required<ElementRef<HTMLInputElement>>('proxy');

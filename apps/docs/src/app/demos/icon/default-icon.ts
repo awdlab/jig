@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import tablerUser from '@iconify/icons-tabler/user';
-import { AwdIcon } from '@awdlab/jig/icon';
+import { JigIcon } from '@awdlab/jig/icon';
 
 @Component({
-  imports: [AwdIcon],
+  imports: [JigIcon],
   selector: 'jig-demo-icon-default-icon',
   template: `
     <div class="flex items-center gap-4">

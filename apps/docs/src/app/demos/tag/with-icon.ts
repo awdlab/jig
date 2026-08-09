@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import tablerCode from '@iconify/icons-tabler/code';
-import { AwdTag } from '@awdlab/jig/tag';
+import { JigTag } from '@awdlab/jig/tag';
 
 @Component({
-  imports: [AwdTag],
+  imports: [JigTag],
   selector: 'jig-demo-tag-with-icon',
   template: `
     <div class="flex flex-wrap gap-2">

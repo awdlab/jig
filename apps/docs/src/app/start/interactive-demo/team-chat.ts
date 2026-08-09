@@ -23,22 +23,22 @@ import tablerSearch from '@iconify/icons-tabler/search';
 import tablerSend from '@iconify/icons-tabler/send';
 import tablerTrash from '@iconify/icons-tabler/trash';
 import type { Openable } from '@awdlab/jig/api/ng';
-import { AwdAvatar, AwdAvatarGroup } from '@awdlab/jig/avatar';
-import { AwdBadge } from '@awdlab/jig/badge';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdListBox } from '@awdlab/jig/list-box';
-import { type MenuItem, AwdMenu } from '@awdlab/jig/menu';
-import { AwdPopover } from '@awdlab/jig/popover';
-import { AwdProgress } from '@awdlab/jig/progress';
+import { JigAvatar, JigAvatarGroup } from '@awdlab/jig/avatar';
+import { JigBadge } from '@awdlab/jig/badge';
+import { JigButton } from '@awdlab/jig/button';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigListBox } from '@awdlab/jig/list-box';
+import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
+import { JigPopover } from '@awdlab/jig/popover';
+import { JigProgress } from '@awdlab/jig/progress';
 import { createConditionalSpinner } from '@awdlab/jig/spinner';
-import { AwdSplitterModule } from '@awdlab/jig/splitter';
-import { AwdSwitch } from '@awdlab/jig/switch';
-import { AwdTag } from '@awdlab/jig/tag';
+import { JigSplitterModule } from '@awdlab/jig/splitter';
+import { JigSwitch } from '@awdlab/jig/switch';
+import { JigTag } from '@awdlab/jig/tag';
 import { injectToastCreator } from '@awdlab/jig/toast';
-import { AwdTooltip } from '@awdlab/jig/tooltip';
+import { JigTooltip } from '@awdlab/jig/tooltip';
 
 import {
   type ChatMessage,
@@ -58,21 +58,21 @@ import {
   templateUrl: './team-chat.html',
   imports: [
     NgTemplateOutlet,
-    AwdAvatar,
-    AwdAvatarGroup,
-    AwdBadge,
-    AwdButton,
-    AwdIcon,
-    AwdInput,
-    AwdInputField,
-    AwdListBox,
-    AwdMenu,
-    AwdPopover,
-    AwdProgress,
-    AwdSplitterModule,
-    AwdSwitch,
-    AwdTag,
-    AwdTooltip,
+    JigAvatar,
+    JigAvatarGroup,
+    JigBadge,
+    JigButton,
+    JigIcon,
+    JigInput,
+    JigInputField,
+    JigListBox,
+    JigMenu,
+    JigPopover,
+    JigProgress,
+    JigSplitterModule,
+    JigSwitch,
+    JigTag,
+    JigTooltip,
   ],
 })
 export class TeamChat {
@@ -154,10 +154,10 @@ export class TeamChat {
    * stuck open when moving between messages. Tracking the single open bar and closing it
    * when another opens keeps exactly one visible, order-independent under fast moves.
    */
-  private _openBar: { bar: AwdPopover; nested: readonly Openable[] } | null = null;
+  private _openBar: { bar: JigPopover; nested: readonly Openable[] } | null = null;
   private _barCloseTimer: ReturnType<typeof setTimeout> | undefined;
 
-  protected showBar(bar: AwdPopover, ...nested: Openable[]): void {
+  protected showBar(bar: JigPopover, ...nested: Openable[]): void {
     // The picker/menu float over neighbouring rows, so the gap between them hovers a
     // sibling message: a pinned bar wins over another row's hover.
     if (this._openBar?.bar !== bar && this._pinned()) {
@@ -176,7 +176,7 @@ export class TeamChat {
     return this._openBar?.nested.some(n => n.open()) ?? false;
   }
 
-  protected hideBarSoon(bar: AwdPopover, ...nested: Openable[]): void {
+  protected hideBarSoon(bar: JigPopover, ...nested: Openable[]): void {
     clearTimeout(this._barCloseTimer);
     if (nested.some(n => n.open())) {
       return;
@@ -185,7 +185,7 @@ export class TeamChat {
   }
 
   /** Nested popovers outlive the bar's own close (their content isn't torn down), so close them too. */
-  private _hideBar(entry: { bar: AwdPopover; nested: readonly Openable[] }): void {
+  private _hideBar(entry: { bar: JigPopover; nested: readonly Openable[] }): void {
     for (const nested of entry.nested) {
       if (nested.open()) {
         nested.hide();

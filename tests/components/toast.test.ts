@@ -1,6 +1,6 @@
 import test, { expect, type Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { AwdToastHostHarness } from '@awdlab/jig-playwright';
+import { JigToastHostHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -19,7 +19,7 @@ async function loadToastTrigger(page: Page, options: Record<string, unknown> = {
   );
   const show = page.getByTestId('show-toast');
   const hide = page.getByTestId('hide-toast');
-  const host = new AwdToastHostHarness(page);
+  const host = new JigToastHostHarness(page);
   return { handle, show, hide, host };
 }
 

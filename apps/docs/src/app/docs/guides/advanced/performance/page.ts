@@ -1,6 +1,6 @@
-import type { AwdDocsPage } from '../../../../utils/page/types';
+import type { JigDocsPage } from '../../../../utils/page/types';
 
-export const PerformancePage: AwdDocsPage = {
+export const PerformancePage: JigDocsPage = {
   kind: 'single',
   title: `Performance`,
 

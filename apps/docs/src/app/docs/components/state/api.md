@@ -1,1 +1,1 @@
-{{ api: state/state AwdState }}
+{{ api: state/state JigState }}

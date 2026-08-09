@@ -1,11 +1,11 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdCheckbox } from '@awdlab/jig/checkbox';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
 
 @Component({
   selector: 'jig-demo-checkbox-validation',
-  imports: [AwdCheckbox, AwdErrors, AwdHint],
+  imports: [JigCheckbox, JigErrors, JigHint],
   template: `
     <div class="flex flex-col gap-2">
       <jig-checkbox

@@ -1,4 +1,4 @@
-import { AwdDocsSliderPlayground } from './playground';
+import { JigDocsSliderPlayground } from './playground';
 import { Demo_Slider_Base } from '../../../demos/slider/base';
 import { Demo_Slider_MinMax } from '../../../demos/slider/min-max';
 import { Demo_Slider_States } from '../../../demos/slider/states';
@@ -6,9 +6,9 @@ import { Demo_Slider_Validation } from '../../../demos/slider/validation';
 import { Demo_Slider_Vertical } from '../../../demos/slider/vertical';
 import { i18nText } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const SliderPage: AwdDocsPage = {
+export const SliderPage: JigDocsPage = {
   title: `Slider`,
   kind: 'tabs',
   tabs: [
@@ -29,7 +29,7 @@ export const SliderPage: AwdDocsPage = {
     {
       kind: 'component',
       title: 'Playground',
-      component: AwdDocsSliderPlayground,
+      component: JigDocsSliderPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/slider/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/slider/a11y.md' },

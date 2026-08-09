@@ -2,8 +2,8 @@ import { signal, type Signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { AwdSplitterPanel } from './panel/splitter-panel';
-import { AwdSplitter } from './splitter';
+import { JigSplitterPanel } from './panel/splitter-panel';
+import { JigSplitter } from './splitter';
 import { DefaultSplitterCalculator } from './splitter-calculator';
 
 import type { SplitterLayout } from './types';
@@ -14,7 +14,7 @@ function createMockPanel(
   minSize: string,
   maxSize: string,
   gridArea = 'panel'
-): AwdSplitterPanel {
+): JigSplitterPanel {
   return {
     size: signal(size),
     minSize: signal(minSize),
@@ -25,12 +25,12 @@ function createMockPanel(
 
 // Mock splitter helper
 function createMockSplitter(
-  panels: AwdSplitterPanel[],
+  panels: JigSplitterPanel[],
   layout: SplitterLayout = 'horizontal',
   splitterSize = 1000,
   dividerSize = 10,
   panelOrder: string[] | null = null
-): AwdSplitter {
+): JigSplitter {
   const mockDivider = {
     rootNodes: [
       Object.setPrototypeOf(
@@ -46,7 +46,7 @@ function createMockSplitter(
   const elementSizeSignal = signal({ width: splitterSize, height: splitterSize });
 
   return {
-    panels: signal(panels) as Signal<readonly AwdSplitterPanel[]>,
+    panels: signal(panels) as Signal<readonly JigSplitterPanel[]>,
     dividers: signal(
       panels.length > 1
         ? Array(panels.length - 1)

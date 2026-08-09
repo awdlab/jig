@@ -1,5 +1,5 @@
 import type { Locator } from '@playwright/test';
 
-export class AwdButtonHarness {
+export class JigButtonHarness {
   constructor(public locator: Locator) {}
 }

@@ -1,1 +1,1 @@
-{{ api: button-group/button-group AwdButtonGroup }}
+{{ api: button-group/button-group JigButtonGroup }}

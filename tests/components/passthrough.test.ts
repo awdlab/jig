@@ -103,7 +103,7 @@ test('pt dependency slot forwards to ONE nested instance', async ({ page }) => {
     },
     {
       inputs: {
-        // The 'current-month' slot is typed AwdPassthrough<select>; its 'root'
+        // The 'current-month' slot is typed JigPassthrough<select>; its 'root'
         // key lands on the month select host, forwarded via that select's own
         // engine. The year select uses a different slot and stays untouched.
         pt: { 'current-month': { root: { $classes: 'probe-month' } } },

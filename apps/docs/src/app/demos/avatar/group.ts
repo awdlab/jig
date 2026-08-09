@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AwdAvatar, AwdAvatarGroup } from '@awdlab/jig/avatar';
+import { JigAvatar, JigAvatarGroup } from '@awdlab/jig/avatar';
 
 @Component({
   selector: 'jig-demo-avatar-group',
-  imports: [AwdAvatar, AwdAvatarGroup],
+  imports: [JigAvatar, JigAvatarGroup],
   template: `
     <jig-avatar-group>
       <jig-avatar image="img/avatar/1.png" />

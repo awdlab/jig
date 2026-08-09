@@ -12,18 +12,18 @@ import {
   booleanAttribute,
   viewChild,
 } from '@angular/core';
-import { elementSizeSignal, AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdPt, provideSelf } from '@awdlab/jig/base';
-import { AwdButton } from '@awdlab/jig/button';
+import { elementSizeSignal, JigTemplate } from '@awdlab/jig/api/ng';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigButton } from '@awdlab/jig/button';
 import { I18n } from '@awdlab/jig/i18n';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdPaginator, type PaginationState } from '@awdlab/jig/paginator';
-import { AwdScrollShadow } from '@awdlab/jig/scroll-shadow';
-import { AwdScroller } from '@awdlab/jig/scroller';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigPaginator, type PaginationState } from '@awdlab/jig/paginator';
+import { JigScrollShadow } from '@awdlab/jig/scroll-shadow';
+import { JigScroller } from '@awdlab/jig/scroller';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
 import { TableColumnLayoutModel } from './table-column-layout-model';
-import { AwdTableGroupHeaderTr } from './table-group-header-row';
+import { JigTableGroupHeaderTr } from './table-group-header-row';
 import { TableLazyModel } from './table-lazy-model';
 import {
   filterRows,
@@ -34,10 +34,10 @@ import {
 } from './table-row-model';
 import { TableRowNavigationModel } from './table-row-navigation-model';
 import { TableSelectionModel } from './table-selection-model';
-import { AwdTableTemplates } from './table-templates';
+import { JigTableTemplates } from './table-templates';
 
-import type { AwdTableTh } from './table-header-cell';
-import type { AwdTableRowActions } from './table-row-actions';
+import type { JigTableTh } from './table-header-cell';
+import type { JigTableRowActions } from './table-row-actions';
 import type {
   FormattedTableDataRow,
   FormattedTableGroupHeaderRow,
@@ -45,8 +45,8 @@ import type {
   TableDataSource,
   TableSelectionMode,
 } from './types';
-import type { AwdFilterConfig } from '@awdlab/jig/filter';
-import { AwdError, type AllKeysOfUnion } from '@awdlab/jig/utils';
+import type { JigFilterConfig } from '@awdlab/jig/filter';
+import { JigError, type AllKeysOfUnion } from '@awdlab/jig/utils';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 
 const DEFAULT_LAZY_PAGE_SIZE = 25;
@@ -60,16 +60,16 @@ const DEFAULT_LAZY_PAGE_SIZE = 25;
 
   imports: [
     NgTemplateOutlet,
-    AwdScroller,
-    AwdPaginator,
-    AwdTemplate,
-    AwdPt,
-    AwdIcon,
-    AwdTableGroupHeaderTr,
-    AwdScrollShadow,
-    AwdButton,
+    JigScroller,
+    JigPaginator,
+    JigTemplate,
+    JigPt,
+    JigIcon,
+    JigTableGroupHeaderTr,
+    JigScrollShadow,
+    JigButton,
   ],
-  providers: [provideSelf(AwdTable)],
+  providers: [provideSelf(JigTable)],
   // Keydown is bound on the host so it also catches keys from the grid's tab stop.
   host: {
     '(keydown)': 'onKeyDown($event)',
@@ -77,11 +77,11 @@ const DEFAULT_LAZY_PAGE_SIZE = 25;
     '(focusout)': 'onFocusOut($event)',
   },
 })
-export class AwdTable<
+export class JigTable<
   T extends object,
   K extends keyof T,
   G extends Extract<AllKeysOfUnion<T>, string> = never,
-> extends AwdTableTemplates<T> {
+> extends JigTableTemplates<T> {
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate, {
     root: true,
     virtual: () => this.virtual(),
@@ -91,7 +91,7 @@ export class AwdTable<
     reordering: () => this._columns?.isReordering() ?? false,
     loading: () => this.loadStatus() === 'loading',
   });
-  private readonly _scroller = viewChild.required(AwdScroller);
+  private readonly _scroller = viewChild.required(JigScroller);
   private readonly _grid = viewChild.required<ElementRef<HTMLElement>>('scrollContainer');
   private readonly _gridId = generateElementId();
   private readonly _head = viewChild<ElementRef<HTMLElement>>('head');
@@ -254,7 +254,7 @@ export class AwdTable<
    */
   public readonly filters = model<
     | {
-        [key in Extract<AllKeysOfUnion<T>, string>]?: AwdFilterConfig;
+        [key in Extract<AllKeysOfUnion<T>, string>]?: JigFilterConfig;
       }
     | null
   >(null);
@@ -270,7 +270,7 @@ export class AwdTable<
   private readonly _lazyModel = new TableLazyModel<T>({
     dataSource: this.dataSource,
     sort: this.sort,
-    filters: computed(() => this.filters() as Record<string, AwdFilterConfig> | null),
+    filters: computed(() => this.filters() as Record<string, JigFilterConfig> | null),
     mode: this.lazyMode,
   });
 
@@ -300,7 +300,7 @@ export class AwdTable<
 
   /**
    * Whether a selection column directive is present in the template.
-   * Set automatically by `AwdTableSelectionColumn` — do not set manually.
+   * Set automatically by `JigTableSelectionColumn` — do not set manually.
    */
   public readonly showCheckboxes = this._columns.hasSelectionColumn;
   protected readonly dropIndicatorState = this._columns.dropIndicatorState;
@@ -318,7 +318,7 @@ export class AwdTable<
 
   /**
    * The single current-row index (index in {@link formattedRows}) for
-   * keyboard navigation. Shared by {@link AwdTable}'s selection keyboard
+   * keyboard navigation. Shared by {@link JigTable}'s selection keyboard
    * handling and row-actions keyboard navigation — arrows move it, and (when
    * {@link selectionMode} is set) selection follows it. Cleared whenever
    * {@link formattedRows} changes identity (sort/filter/rows replaced) so it
@@ -332,7 +332,7 @@ export class AwdTable<
 
   // --- Row actions registry + keyboard navigation ---
 
-  private readonly _rowActions = new Map<number, AwdTableRowActions>();
+  private readonly _rowActions = new Map<number, JigTableRowActions>();
   private readonly _rowNav: TableRowNavigationModel<T>;
 
   /**
@@ -561,7 +561,7 @@ export class AwdTable<
     // Lazy grouping needs the full row set, which lazy mode never has.
     effect(() => {
       if (this.lazy() && this.groupBy()) {
-        throw new AwdError('table', 'groupBy is not supported with a lazy dataSource (v1)');
+        throw new JigError('table', 'groupBy is not supported with a lazy dataSource (v1)');
       }
     });
 
@@ -627,7 +627,7 @@ export class AwdTable<
     return this._columns.getVisualColumnIndex(logicalIndex);
   }
 
-  public getRegisteredHeaderCells(): readonly AwdTableTh[] {
+  public getRegisteredHeaderCells(): readonly JigTableTh[] {
     return this._columns.getRegisteredHeaderCells();
   }
 
@@ -637,11 +637,11 @@ export class AwdTable<
     return this._columns.getStickyInfo(columnId);
   }
 
-  public registerHeaderCell(cell: AwdTableTh): void {
+  public registerHeaderCell(cell: JigTableTh): void {
     this._columns.registerHeaderCell(cell);
   }
 
-  public unregisterHeaderCell(cell: AwdTableTh): void {
+  public unregisterHeaderCell(cell: JigTableTh): void {
     this._columns.unregisterHeaderCell(cell);
   }
 
@@ -661,7 +661,7 @@ export class AwdTable<
     this._columns.unregisterStickyColumn(columnId);
   }
 
-  // --- Resize operations (called by AwdTableTh) ---
+  // --- Resize operations (called by JigTableTh) ---
 
   public startColumnResize(columnIndex: number, event: PointerEvent): void {
     this._columns.startColumnResize(columnIndex, event);
@@ -679,7 +679,7 @@ export class AwdTable<
     this._columns.autoSizeColumn(columnIndex);
   }
 
-  // --- Reorder operations (called by AwdTableReorderableColumn) ---
+  // --- Reorder operations (called by JigTableReorderableColumn) ---
 
   public getReorderBounds(columnId: string): { min: number; max: number } {
     return this._columns.getReorderBounds(columnId);
@@ -726,26 +726,26 @@ export class AwdTable<
   // --- Row actions registry ---
 
   /**
-   * Registers a row's {@link AwdTableRowActions} directive keyed by its row
+   * Registers a row's {@link JigTableRowActions} directive keyed by its row
    * index, so keyboard navigation can look up the active row's actions.
-   * Called by `AwdTableRowActions`; not intended for manual use.
+   * Called by `JigTableRowActions`; not intended for manual use.
    */
-  public registerRowActions(index: number, dir: AwdTableRowActions): void {
+  public registerRowActions(index: number, dir: JigTableRowActions): void {
     this._rowActions.set(index, dir);
   }
 
   /**
-   * Unregisters a row's actions directive. Called by `AwdTableRowActions`.
+   * Unregisters a row's actions directive. Called by `JigTableRowActions`.
    * Only removes the entry if `dir` is still the registered owner for
    * `index`, so a stale unregister (e.g. after row recycling re-registered
    * a different instance at the same index) cannot clobber it.
    */
-  public unregisterRowActions(index: number, dir: AwdTableRowActions): void {
+  public unregisterRowActions(index: number, dir: JigTableRowActions): void {
     if (this._rowActions.get(index) === dir) this._rowActions.delete(index);
   }
 
   /** Looks up the registered actions directive for a row index, if any. */
-  public getRowActions(index: number): AwdTableRowActions | undefined {
+  public getRowActions(index: number): JigTableRowActions | undefined {
     return this._rowActions.get(index);
   }
 
@@ -753,7 +753,7 @@ export class AwdTable<
    * Whether keyboard focus is currently inside the action bar of the row at
    * `index` — i.e. this row is both the current row and
    * {@link TableRowNavigationModel.inActions}. Drives the `active-row`
-   * highlight in {@link AwdTableBodyTr}.
+   * highlight in {@link JigTableBodyTr}.
    */
   public isRowInActions(index: number): boolean {
     return this._rowNav.inActions() && this.focusedRowIndex() === index;

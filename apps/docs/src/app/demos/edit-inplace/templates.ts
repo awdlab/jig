@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdEditInplace } from '@awdlab/jig/edit-inplace';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigEditInplace } from '@awdlab/jig/edit-inplace';
 
 @Component({
-  imports: [AwdEditInplace, AwdTemplate],
+  imports: [JigEditInplace, JigTemplate],
   selector: 'jig-demo-inplace-templates',
   template: ` <jig-edit-inplace #inplace [value]="value()" (valueChange)="value.set($event)">
     <ng-template #display [ngnTemplate]="inplace.templateTypes.display" let-display>

@@ -1,1 +1,1 @@
-{{ api: list-box/list-box AwdListBox }}
+{{ api: list-box/list-box JigListBox }}

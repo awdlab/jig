@@ -1,7 +1,7 @@
 ### Tabs API
 
-{{ api: tabs/tabs AwdTabs }}
+{{ api: tabs/tabs JigTabs }}
 
 ### Tab API
 
-{{ api: tabs/tab AwdTab }}
+{{ api: tabs/tab JigTab }}

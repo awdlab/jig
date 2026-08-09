@@ -73,13 +73,13 @@ stop.
 
 ### Disabled Items
 
-`AwdRovingItem.disabled` is a writable signal, not an input — the host control
+`JigRovingItem.disabled` is a writable signal, not an input — the host control
 sets it, which is how `jig-radio` keeps a disabled radio out of the keyboard
 order. A disabled item is skipped by `next`/`prev`/`first`/`last` and ignores
 pointer activation.
 
 ```ts
-const item = viewChild.required(AwdRovingItem);
+const item = viewChild.required(JigRovingItem);
 effect(() => item().disabled.set(this.disabled()));
 ```
 

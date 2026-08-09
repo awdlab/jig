@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
-import { AwdPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
-import { AwdButtonGroup } from '@awdlab/jig/button-group';
-import { AwdToggleButton } from '@awdlab/jig/toggle-button';
+import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { JigButtonGroup } from '@awdlab/jig/button-group';
+import { JigToggleButton } from '@awdlab/jig/toggle-button';
 import { maybeCallback } from '@awdlab/jig/utils';
 import { selectButtonControlTemplate } from '@awdlab/jig-themes/templates/select-button';
 
@@ -13,10 +13,10 @@ import type { JigActionItemFlat, JigItem } from '@awdlab/jig/api';
 @Component({
   selector: 'jig-select-button',
   templateUrl: './select-button.html',
-  imports: [AwdPt, AwdButtonGroup, AwdToggleButton],
-  providers: [provideSelf(AwdSelectButton)],
+  imports: [JigPt, JigButtonGroup, JigToggleButton],
+  providers: [provideSelf(JigSelectButton)],
 })
-export class AwdSelectButton<V> extends ValueControlBase<'selectButton', V> {
+export class JigSelectButton<V> extends ValueControlBase<'selectButton', V> {
   protected readonly theme = this.injectThemeTemplate(selectButtonControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),

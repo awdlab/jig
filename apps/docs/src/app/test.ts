@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdDialog } from '@awdlab/jig/dialog';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDialog } from '@awdlab/jig/dialog';
 
 @Component({
-  imports: [AwdDialog, AwdButton],
+  imports: [JigDialog, JigButton],
   template: `<button (click)="open.set(true)">Open Dialog</button>
     <jig-dialog
       [unstyled]="true"

@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { AwdSlider } from '@awdlab/jig/slider';
+import { JigSlider } from '@awdlab/jig/slider';
 
 @Component({
   selector: 'jig-demo-slider-vertical',
-  imports: [AwdSlider],
+  imports: [JigSlider],
   template: `
     <jig-slider
       class="h-34"

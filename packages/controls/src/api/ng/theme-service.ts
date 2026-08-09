@@ -22,7 +22,7 @@ import {
 import { globalStyles } from '@awdlab/jig-themes/base/global';
 import { skip } from 'rxjs';
 
-import { NGN_CONFIG, type AwdConfig } from './config';
+import { NGN_CONFIG, type JigConfig } from './config';
 
 export type AppliedThemeClassCfg<T extends ControlName> =
   | keyof ThemeClasses<ThemeTemplate[T]>
@@ -37,7 +37,7 @@ export type ControlTemplateInfo<T extends ControlTemplate<string, string[]>> = {
 };
 
 export function themeTemplateToTemplateInfo<T extends ControlTemplate<string, string[]>>(
-  config: AwdConfig,
+  config: JigConfig,
   template: T,
   options?: { unstyled?: () => boolean }
 ): ControlTemplateInfo<T> {

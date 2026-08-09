@@ -12,7 +12,7 @@ import {
   untracked,
   viewChildren,
 } from '@angular/core';
-import { AwdPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
 import { otpControlTemplate } from '@awdlab/jig-themes/templates/otp';
 
@@ -46,8 +46,8 @@ function normalizeLength(value: number): number {
 @Component({
   selector: 'jig-otp',
   templateUrl: './otp.html',
-  imports: [AwdPt],
-  providers: [provideSelf(AwdOtp)],
+  imports: [JigPt],
+  providers: [provideSelf(JigOtp)],
   host: {
     role: 'group',
     '[attr.aria-label]': 'label()',
@@ -56,7 +56,7 @@ function normalizeLength(value: number): number {
     '(focusout)': 'onFocusOut($event)',
   },
 })
-export class AwdOtp extends ValueControlBase<'otp', string | null> {
+export class JigOtp extends ValueControlBase<'otp', string | null> {
   protected readonly theme = this.injectThemeTemplate(otpControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),

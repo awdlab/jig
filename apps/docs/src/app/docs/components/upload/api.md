@@ -1,3 +1,3 @@
 ## API
 
-{{ api: upload/upload AwdUpload }}
+{{ api: upload/upload JigUpload }}

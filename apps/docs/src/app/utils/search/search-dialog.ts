@@ -4,7 +4,7 @@ import tablerFileText from '@iconify/icons-tabler/file-text';
 import tablerPuzzle from '@iconify/icons-tabler/puzzle';
 import tablerSearch from '@iconify/icons-tabler/search';
 import tablerTag from '@iconify/icons-tabler/tag';
-import { AwdCommand } from '@awdlab/jig/command';
+import { JigCommand } from '@awdlab/jig/command';
 
 import { DocsSearch } from './search';
 
@@ -24,9 +24,9 @@ type ResultDetail = { breadcrumb: string; snippet: string; badge: string };
       display: contents;
     }
   `,
-  imports: [AwdCommand],
+  imports: [JigCommand],
 })
-export class AwdDocsSearchDialog {
+export class JigDocsSearchDialog {
   public readonly open = model(false);
 
   protected readonly iconSearch = tablerSearch;

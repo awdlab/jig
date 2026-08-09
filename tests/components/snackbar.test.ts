@@ -1,6 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { AwdSnackbarHarness } from '@awdlab/jig-playwright';
+import { JigSnackbarHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -31,7 +31,7 @@ test('features', async ({ page }, testInfo) => {
     }
   );
 
-  const snackbar = new AwdSnackbarHarness(page.locator('jig-snackbar'));
+  const snackbar = new JigSnackbarHarness(page.locator('jig-snackbar'));
 
   await test.step('default', async () => {
     await snackbar.expectHeader('Notification');
@@ -239,7 +239,7 @@ test('accessibility (axe)', async ({ page }) => {
     { inputs: {} }
   );
 
-  const snackbar = new AwdSnackbarHarness(page.locator('jig-snackbar'));
+  const snackbar = new JigSnackbarHarness(page.locator('jig-snackbar'));
   await snackbar.expectClosable(true);
 
   await expectNoA11yViolations(page);

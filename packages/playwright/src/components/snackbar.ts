@@ -2,7 +2,7 @@ import { snackbarControlTemplate } from '@awdlab/jig-themes/templates/snackbar';
 import { themeClasses } from '../utils/theme';
 import { expect, type Locator, type Page } from '@playwright/test';
 
-export class AwdSnackbarHarness {
+export class JigSnackbarHarness {
   public readonly classes = themeClasses(snackbarControlTemplate);
 
   public readonly locator: Locator;
@@ -58,7 +58,7 @@ export class AwdSnackbarHarness {
   }
 }
 
-export class AwdSnackbarHostHarness {
+export class JigSnackbarHostHarness {
   public readonly classes = themeClasses(snackbarControlTemplate);
   public readonly locator: Locator;
 
@@ -66,8 +66,8 @@ export class AwdSnackbarHostHarness {
     this.locator = page.locator('jig-snackbar-host');
   }
 
-  public getSnackbar(index: number = 0): AwdSnackbarHarness {
-    return new AwdSnackbarHarness(this.locator.locator('jig-snackbar').nth(index));
+  public getSnackbar(index: number = 0): JigSnackbarHarness {
+    return new JigSnackbarHarness(this.locator.locator('jig-snackbar').nth(index));
   }
 
   public getAllSnackbars(): Locator {

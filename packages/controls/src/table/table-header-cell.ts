@@ -13,11 +13,11 @@ import {
   signal,
   type Signal,
 } from '@angular/core';
-import { getNearestAwdInstance, AwdBase } from '@awdlab/jig/base';
-import { AwdError, toggleClass } from '@awdlab/jig/utils';
+import { getNearestJigInstance, JigBase } from '@awdlab/jig/base';
+import { JigError, toggleClass } from '@awdlab/jig/utils';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
-import { AwdTable } from './table';
+import { JigTable } from './table';
 
 import type { ResizableItem, ResizeLimit, ResizeSize } from '@awdlab/jig/api/resize';
 
@@ -36,10 +36,10 @@ import type { ResizableItem, ResizeLimit, ResizeSize } from '@awdlab/jig/api/res
     '[attr.aria-colindex]': '_ariaColIndex()',
   },
 })
-export class AwdTableTh extends AwdBase<'table'> implements ResizableItem, OnDestroy, OnInit {
+export class JigTableTh extends JigBase<'table'> implements ResizableItem, OnDestroy, OnInit {
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate);
-  private _table?: AwdTable<any, any>;
-  private readonly _tableSignal = signal<AwdTable<any, any> | null>(null);
+  private _table?: JigTable<any, any>;
+  private readonly _tableSignal = signal<JigTable<any, any> | null>(null);
   private _resizeHandle?: HTMLDivElement;
 
   /** The unique column identifier for this header cell, used for sorting, filtering, sticky, and reorder. */
@@ -171,9 +171,9 @@ export class AwdTableTh extends AwdBase<'table'> implements ResizableItem, OnDes
   }
 
   public ngOnInit(): void {
-    const table = getNearestAwdInstance(this.element.nativeElement, AwdTable<any, any>);
+    const table = getNearestJigInstance(this.element.nativeElement, JigTable<any, any>);
     if (!table) {
-      throw new AwdError('ngnTableTh', 'ngnTableTh must be used within an AwdTable component');
+      throw new JigError('ngnTableTh', 'ngnTableTh must be used within an JigTable component');
     }
     this._table = table;
     this._tableSignal.set(table);

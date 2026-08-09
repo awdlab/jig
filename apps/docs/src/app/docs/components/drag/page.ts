@@ -2,9 +2,9 @@ import { Demo_Drag_Base } from '../../../demos/drag/base';
 import { Demo_Drag_Scroll } from '../../../demos/drag/scroll';
 import { i18nNone } from '../../../utils/i18n-doc';
 
-import type { AwdDocsPage } from '../../../utils/page/types';
+import type { JigDocsPage } from '../../../utils/page/types';
 
-export const DragPage: AwdDocsPage = {
+export const DragPage: JigDocsPage = {
   title: `Drag`,
   kind: 'tabs',
   tabs: [

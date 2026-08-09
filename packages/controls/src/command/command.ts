@@ -11,15 +11,15 @@ import {
   viewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { AwdPt, provideSelf } from '@awdlab/jig/base';
-import { AwdDialog } from '@awdlab/jig/dialog';
-import { AwdIcon } from '@awdlab/jig/icon';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigDialog } from '@awdlab/jig/dialog';
+import { JigIcon } from '@awdlab/jig/icon';
 import { I18n } from '@awdlab/jig/i18n';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdKbd, AwdKeyboardShortcut, type AwdShortcutBinding } from '@awdlab/jig/kbd';
-import { AwdListBox } from '@awdlab/jig/list-box';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigKbd, JigKeyboardShortcut, type JigShortcutBinding } from '@awdlab/jig/kbd';
+import { JigListBox } from '@awdlab/jig/list-box';
+import { JigTemplate } from '@awdlab/jig/api/ng';
 import { maybeCallback } from '@awdlab/jig/utils';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 import { commandControlTemplate } from '@awdlab/jig-themes/templates/command';
@@ -63,23 +63,23 @@ function collectById(items: readonly JigActionItem[], into: Map<string, JigActio
   selector: 'jig-command',
   templateUrl: './command.html',
   imports: [
-    AwdPt,
-    AwdDialog,
-    AwdListBox,
-    AwdInput,
-    AwdInputField,
-    AwdIcon,
-    AwdTemplate,
-    AwdKbd,
-    AwdKeyboardShortcut,
+    JigPt,
+    JigDialog,
+    JigListBox,
+    JigInput,
+    JigInputField,
+    JigIcon,
+    JigTemplate,
+    JigKbd,
+    JigKeyboardShortcut,
   ],
-  providers: [provideSelf(AwdCommand)],
+  providers: [provideSelf(JigCommand)],
 })
-export class AwdCommand extends CommandTemplates {
+export class JigCommand extends CommandTemplates {
   protected readonly theme = this.injectThemeTemplate(commandControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
   private readonly _router = inject(Router, { optional: true });
-  private readonly _listBox = viewChild<AwdListBox<CommandItem[], false>>(AwdListBox);
+  private readonly _listBox = viewChild<JigListBox<CommandItem[], false>>(JigListBox);
   private readonly _searchInput = viewChild<ElementRef<HTMLInputElement>>('searchInput');
 
   protected readonly listBoxId = generateElementId();
@@ -133,7 +133,7 @@ export class AwdCommand extends CommandTemplates {
     maxHeight: '60vh',
   });
   /**
-   * Determines how the palette can be dismissed. See {@link AwdDialog.closeBy}.
+   * Determines how the palette can be dismissed. See {@link JigDialog.closeBy}.
    * @default 'any'
    */
   public readonly closeBy = input<CloseBy>('any');
@@ -156,7 +156,7 @@ export class AwdCommand extends CommandTemplates {
   private readonly _itemsById = computed(() => collectById(this.items(), new Map()));
 
   /** Bindings for every command that configured a shortcut, live page-wide whether the palette is open or not. */
-  protected readonly shortcutBindings = computed<AwdShortcutBinding[]>(() =>
+  protected readonly shortcutBindings = computed<JigShortcutBinding[]>(() =>
     [...this._itemsById().values()].flatMap(item =>
       item.shortcut && !item.children?.length
         ? [

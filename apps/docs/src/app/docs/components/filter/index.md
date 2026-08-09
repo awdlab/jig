@@ -3,7 +3,7 @@ can build filter conditions over a dataset. The `dataType` input (`string`,
 `number`, `date`, `dateTime`, `boolean`, `list`, or `custom`) drives which
 operators and editor UI appear. With `filterLocally` on (the default) it filters
 `data` and emits the result via `filterResultChange`; otherwise it emits only
-the `AwdFilterConfig` via `filterChange` for server-side filtering.
+the `JigFilterConfig` via `filterChange` for server-side filtering.
 
 ### Base
 

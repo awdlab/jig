@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { AwdAccordion, AwdAccordionPanel } from '@awdlab/jig/accordion';
-import { AwdButton } from '@awdlab/jig/button';
+import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
+import { JigButton } from '@awdlab/jig/button';
 
 import { exampleData } from '../../helper/data';
 
 @Component({
   selector: 'jig-demo-accordion-disabled',
-  imports: [AwdAccordion, AwdButton, AwdAccordionPanel],
+  imports: [JigAccordion, JigButton, JigAccordionPanel],
   template: `<jig-accordion [multiple]="true">
       <jig-accordion-panel [header]="'Panel 1'">
         <ng-template #content> {{ loremIpsum1 }} </ng-template>

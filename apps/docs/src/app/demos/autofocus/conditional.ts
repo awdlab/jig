@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { AwdAutofocus } from '@awdlab/jig/directives';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
-import { AwdSwitch } from '@awdlab/jig/switch';
+import { JigAutofocus } from '@awdlab/jig/directives';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
+import { JigSwitch } from '@awdlab/jig/switch';
 
 @Component({
   selector: 'jig-demo-autofocus-conditional',
-  imports: [AwdAutofocus, AwdInput, AwdInputField, AwdSwitch],
+  imports: [JigAutofocus, JigInput, JigInputField, JigSwitch],
   template: `
     <div class="flex flex-col items-start gap-3">
       <jig-switch [(value)]="autofocus" [label]="'Autofocus the second field'" />

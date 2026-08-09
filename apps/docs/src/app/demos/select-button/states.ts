@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { AwdSelectButton } from '@awdlab/jig/select-button';
+import { JigSelectButton } from '@awdlab/jig/select-button';
 
 import type { JigItem } from '@awdlab/jig/api';
 
 @Component({
-  imports: [AwdSelectButton],
+  imports: [JigSelectButton],
   selector: 'jig-demo-select-button-states',
   template: `
     Default:

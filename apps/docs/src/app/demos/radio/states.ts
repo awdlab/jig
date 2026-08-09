@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { AwdRadio, AwdRadioGroup } from '@awdlab/jig/radio';
+import { JigRadio, JigRadioGroup } from '@awdlab/jig/radio';
 
 @Component({
   selector: 'jig-demo-radio-states',
-  imports: [AwdRadioGroup, AwdRadio],
+  imports: [JigRadioGroup, JigRadio],
   template: `
     <jig-radio-group [(value)]="value" orientation="vertical">
       <jig-radio value="a">Enabled</jig-radio>

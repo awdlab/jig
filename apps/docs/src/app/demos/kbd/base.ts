@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AwdKbd } from '@awdlab/jig/kbd';
+import { JigKbd } from '@awdlab/jig/kbd';
 
 @Component({
   selector: 'jig-demo-kbd-base',
-  imports: [AwdKbd],
+  imports: [JigKbd],
   template: `
     <div class="flex flex-wrap items-center gap-4 p-4">
       <jig-kbd shortcut="mod+shift+a" />

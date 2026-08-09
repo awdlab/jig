@@ -30,7 +30,7 @@
 
 The theme augmentations were also unreachable. `<theme>/theme-types.d.ts` shipped in the package but nothing pulled it into a consumer's program: no reference from the theme barrel, no `exports` entry to import or reference it by, and it lives under `node_modules`, so app `include` globs miss it. Each theme now ships a `typed.d.ts` barrel that references it, and `@awdlab/jig-themes/<theme>` resolves its types there.
 
-Apps that pull in more than one theme have to opt out for the extra ones via the new `@awdlab/jig-themes/<theme>/untyped` entry point — two augmentations of `AwdThemeTypes` clash, and the first one loaded silently wins. Both entry points resolve to the same runtime module; only the types differ.
+Apps that pull in more than one theme have to opt out for the extra ones via the new `@awdlab/jig-themes/<theme>/untyped` entry point — two augmentations of `JigThemeTypes` clash, and the first one loaded silently wins. Both entry points resolve to the same runtime module; only the types differ.
 
 Bindings that leaned on the old `unknown` may now fail to compile. `[kind]="null"` is the common one: the input accepts `undefined`, not `null`.
 
@@ -42,9 +42,9 @@ Target size (2.5.8): inline icon buttons were sized at `1lh` — 15x16px inside 
 
 Contrast (1.4.3): every muted `color:` in nova moves one shade darker (400 → 500, 500 → 600, 600 → 700), lifting the table head, upload size and color-picker channel labels from 3.85:1/4.06:1 to 5.47:1 or better. Backgrounds and borders are untouched. Mask-input placeholder segments and calendar other-month days stay below 4.5:1 by decision, with a scoped opt-out recording the measured ratio.
 
-Virtualized `role="listbox"` / `role="tree"` hosts now own the scroll port, so the role host is both the scrollable region and the direct parent of its options. `jig-scroller` emits a `tabindex` only when `focusable`, because even `-1` makes it focusable to axe. `AwdListBox.pageSize()` measured the scroller's `clientHeight`, which is now `auto`, so `PageDown` jumped to the end — it measures the host instead. Stuck group headers paint over the scroll port's padding band, keeping the gap to the container border. `AwdScrollerHarness.scrollToIndex` scrolled the wrong element and silently did nothing.
+Virtualized `role="listbox"` / `role="tree"` hosts now own the scroll port, so the role host is both the scrollable region and the direct parent of its options. `jig-scroller` emits a `tabindex` only when `focusable`, because even `-1` makes it focusable to axe. `JigListBox.pageSize()` measured the scroller's `clientHeight`, which is now `auto`, so `PageDown` jumped to the end — it measures the host instead. Stuck group headers paint over the scroll port's padding band, keeping the gap to the container border. `JigScrollerHarness.scrollToIndex` scrolled the wrong element and silently did nothing.
 
-`AwdBadge`, `AwdScrollShadow` and `AwdKeyboardShortcut` were missing the `@category` tag the API-docs generator keys off, so their documented API tables rendered empty and the MCP knowledge pack skipped them entirely. All three are now generated (65 controls in the pack, up from 62).
+`JigBadge`, `JigScrollShadow` and `JigKeyboardShortcut` were missing the `@category` tag the API-docs generator keys off, so their documented API tables rendered empty and the MCP knowledge pack skipped them entirely. All three are now generated (65 controls in the pack, up from 62).
 
 `@awdlab/jig-mcp` migration maps catch up with the controls added since they were written: `p-rating`, `p-colorPicker` and `mat-stepper` no longer claim "no direct equivalent" (they map to `jig-rating`, `jig-color-picker` and `jig-stepper`/`jig-step`), badges map to the `[ngnBadge]` directive instead of `jig-tag`, and `p-inputOtp`, `p-stepper`, `p-scroller`, `ejs-rating`, `ejs-stepper`, `ejs-colorpicker`, `ejs-otpinput`, `ejs-inplaceeditor` and `ejs-keyboard` are new entries. The table recipe documents `dataSource` lazy loading and the form recipe documents `[ngnErrors]` with signal forms.
 
@@ -63,7 +63,7 @@ Docs corrections: the material theme was missing wherever the library's presets 
 
 New `@awdlab/jig/command` entry point: `jig-command` is a command palette — a modal dialog wrapping a search field and a list box, with grouped items, per-command shortcuts, `route` navigation, and templates for items, groups and the empty state. Ships `command_*` translations (en, de) and theme parts for base, nova, material and shade.
 
-`AwdActionButtonConfig` gains `shortcut`: the button registers it with the nearest ancestor `[ngnKeyboardShortcut]` scope, renders the glyphs inline as a hidden keycap, and sets `aria-keyshortcuts`. `JigActionItem` gains `shortcut` for the same purpose in item-driven hosts. `jig-dialog` is itself a scope, so footer buttons need no extra wiring.
+`JigActionButtonConfig` gains `shortcut`: the button registers it with the nearest ancestor `[ngnKeyboardShortcut]` scope, renders the glyphs inline as a hidden keycap, and sets `aria-keyshortcuts`. `JigActionItem` gains `shortcut` for the same purpose in item-driven hosts. `jig-dialog` is itself a scope, so footer buttons need no extra wiring.
 
 `jig-dialog` gains `closeButton` (default `true`) and `label`. With `closeButton` set to `false` and neither a title nor a header template the header is dropped entirely, and the footer is likewise dropped when nothing fills it. `aria-labelledby` is only emitted when a header actually renders; `label` supplies `aria-label` for a dialog with no visible title.
 
@@ -71,7 +71,7 @@ New `@awdlab/jig/command` entry point: `jig-command` is a command palette — a 
 
 Nova and shade gain a `backdrop` theme part (`backdrop.scrim`, `backdrop.blur.*`); their modal dialog and drawer backdrops now blur what sits behind them.
 
-Breaking: `AwdActionButtonConfig.action` widens to `(event?: PointerEvent) => void`, because a shortcut-invoked action has no pointer event to pass. TypeScript still accepts a callback that declares the parameter as required (`(event: PointerEvent) => void`), so this does **not** surface as a compile error — audit your `action` callbacks by hand and change any unconditional `event.foo` access to `event?.foo`, or the call throws the first time the action runs from a keyboard shortcut.
+Breaking: `JigActionButtonConfig.action` widens to `(event?: PointerEvent) => void`, because a shortcut-invoked action has no pointer event to pass. TypeScript still accepts a callback that declares the parameter as required (`(event: PointerEvent) => void`), so this does **not** surface as a compile error — audit your `action` callbacks by hand and change any unconditional `event.foo` access to `event?.foo`, or the call throws the first time the action runs from a keyboard shortcut.
 
 ## @awdlab/jig 0.0.1-next.2 (2026-07-27)
 
@@ -80,7 +80,7 @@ Breaking: `AwdActionButtonConfig.action` widens to `(event?: PointerEvent) => vo
 
 ## @awdlab/jig 0.0.1-next.1 (2026-07-20)
 
-- Add the `jig-otp` one-time-password control — a row of single-character cells with keyboard navigation, paste distribution, `mask`/`integerOnly`/`length` options and a `(completed)` output. Includes base/nova/shade theme parts and a Playwright `AwdOtpHarness`.
+- Add the `jig-otp` one-time-password control — a row of single-character cells with keyboard navigation, paste distribution, `mask`/`integerOnly`/`length` options and a `(completed)` output. Includes base/nova/shade theme parts and a Playwright `JigOtpHarness`.
 
 ## @awdlab/jig 0.0.1-next.0 (2026-07-16)
 

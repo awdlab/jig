@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdDefer } from '@awdlab/jig/defer';
-import { AwdSwitch } from '@awdlab/jig/switch';
+import { JigButton } from '@awdlab/jig/button';
+import { JigDefer } from '@awdlab/jig/defer';
+import { JigSwitch } from '@awdlab/jig/switch';
 
 let builds = 0;
 
@@ -23,7 +23,7 @@ export class DeferDemoPanel {
 
 @Component({
   selector: 'jig-demo-defer-base',
-  imports: [DeferDemoPanel, AwdButton, AwdDefer, AwdSwitch],
+  imports: [DeferDemoPanel, JigButton, JigDefer, JigSwitch],
   template: `
     <div class="flex flex-col items-start gap-3">
       <div class="flex items-center gap-4">

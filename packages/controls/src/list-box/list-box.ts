@@ -21,11 +21,11 @@ import {
   type JigItem,
   type JigItemsValue,
 } from '@awdlab/jig/api';
-import { AwdTemplate } from '@awdlab/jig/api/ng';
-import { AwdPt, provideSelf } from '@awdlab/jig/base';
-import { AwdCheckbox } from '@awdlab/jig/checkbox';
+import { JigTemplate } from '@awdlab/jig/api/ng';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
 import { I18n } from '@awdlab/jig/i18n';
-import { AwdScroller, AwdScrollerItem } from '@awdlab/jig/scroller';
+import { JigScroller, JigScrollerItem } from '@awdlab/jig/scroller';
 import { createConditionalSpinner } from '@awdlab/jig/spinner';
 import { maybeCallback } from '@awdlab/jig/utils';
 import { asyncComputed } from '@awdlab/jig/utils-ng';
@@ -56,8 +56,8 @@ function movesCaret(event: KeyboardEvent): boolean {
 @Component({
   selector: 'jig-list-box',
   templateUrl: './list-box.html',
-  imports: [NgTemplateOutlet, AwdScroller, AwdScrollerItem, AwdCheckbox, AwdTemplate, AwdPt],
-  providers: [provideSelf(AwdListBox)],
+  imports: [NgTemplateOutlet, JigScroller, JigScrollerItem, JigCheckbox, JigTemplate, JigPt],
+  providers: [provideSelf(JigListBox)],
   host: {
     '[attr.tabIndex]': 'focussable() ? 0 : null',
     '(keydown)': 'onKeyDown($event)',
@@ -70,7 +70,7 @@ function movesCaret(event: KeyboardEvent): boolean {
     '[id]': 'inputId()',
   },
 })
-export class AwdListBox<
+export class JigListBox<
   Items extends readonly JigItem[],
   Multiple extends boolean = false,
 > extends ListBoxTemplates<Items, Multiple> {
@@ -82,7 +82,7 @@ export class AwdListBox<
     separator: () => this.separator(),
   });
 
-  private readonly _scroller = viewChild.required<AwdScroller<JigItemsValue<Items>>>(AwdScroller);
+  private readonly _scroller = viewChild.required<JigScroller<JigItemsValue<Items>>>(JigScroller);
 
   /**
    * The items to display in the list box.

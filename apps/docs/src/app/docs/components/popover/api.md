@@ -1,1 +1,1 @@
-{{ api: popover/popover AwdPopover }}
+{{ api: popover/popover JigPopover }}

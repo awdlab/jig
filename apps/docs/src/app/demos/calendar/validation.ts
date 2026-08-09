@@ -1,12 +1,12 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdCalendar } from '@awdlab/jig/calendar';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdInputField } from '@awdlab/jig/input-field';
+import { JigCalendar } from '@awdlab/jig/calendar';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigInputField } from '@awdlab/jig/input-field';
 
 @Component({
   selector: 'jig-demo-calendar-validation',
-  imports: [AwdCalendar, AwdErrors, AwdHint, AwdInputField],
+  imports: [JigCalendar, JigErrors, JigHint, JigInputField],
   template: `
     <jig-input-field [label]="'Due date'" [labelKind]="'on'" class="w-64">
       <jig-calendar

@@ -22,7 +22,7 @@ import { Component, input } from '@angular/core';
     }
   `,
 })
-export class AwdDocsSectionHeader {
+export class JigDocsSectionHeader {
   public readonly eyebrow = input.required<string>();
   public readonly heading = input.required<string>();
   public readonly subtitle = input<string>('');

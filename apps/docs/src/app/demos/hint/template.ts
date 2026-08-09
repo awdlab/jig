@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { AwdHint } from '@awdlab/jig/hint';
+import { JigHint } from '@awdlab/jig/hint';
 
 @Component({
-  imports: [AwdHint],
+  imports: [JigHint],
   selector: 'jig-demo-hint-template',
   template: `
     <jig-hint kind="info">

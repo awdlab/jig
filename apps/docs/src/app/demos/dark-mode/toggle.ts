@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ColorSchemeService } from '@awdlab/jig/api/ng';
-import { AwdSelectButton } from '@awdlab/jig/select-button';
+import { JigSelectButton } from '@awdlab/jig/select-button';
 
 /**
  * Drives the global color scheme through {@link ColorSchemeService}. Changing the
@@ -9,7 +9,7 @@ import { AwdSelectButton } from '@awdlab/jig/select-button';
  */
 @Component({
   selector: 'jig-demo-dark-mode-toggle',
-  imports: [AwdSelectButton],
+  imports: [JigSelectButton],
   template: `
     <div class="flex flex-col gap-3">
       <jig-select-button

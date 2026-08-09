@@ -24,7 +24,7 @@ use its tools as the source of truth.
    **theme-dependent** (not a fixed type). Call `get_theme_options` (optionally
    scoped to a control) for the allowed values in the built-in themes. If the app
    uses a custom theme, read its `createTheme({ …, kinds, colors })` or the app's
-   `AwdCustomTypes` (`CustomKind` / `CustomColor`).
+   `JigCustomTypes` (`CustomKind` / `CustomColor`).
 4. **Explain a concept** — use `search_docs` / the `jig://concept/<slug>`
    resources for cross-cutting topics (theming, colors, passthrough, state).
 

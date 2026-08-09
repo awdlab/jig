@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { AwdColorPickerHarness } from '@awdlab/jig-playwright';
+import { JigColorPickerHarness } from '@awdlab/jig-playwright';
 import { parseColor } from '@awdlab/jig/utils';
 import { loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
@@ -15,7 +15,7 @@ test('inline: reflects bound value', async ({ page }, testInfo) => {
     { inputs: { value: '#ff0000' } }
   );
 
-  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
+  const cp = new JigColorPickerHarness(page.locator('jig-color-picker'));
   await expect(cp.panel).toBeVisible();
   await expectScreenshot(page, testInfo, 'inline-red');
 });
@@ -30,7 +30,7 @@ test('clicking hue + sv updates value', async ({ page }) => {
     { inputs: { value: '#ff0000' } }
   );
 
-  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
+  const cp = new JigColorPickerHarness(page.locator('jig-color-picker'));
   await cp.clickSv(1, 0); // full saturation, full value
   await cp.clickHue(0.33); // ~green
 
@@ -56,7 +56,7 @@ test('swatch selection sets value', async ({ page }) => {
     { inputs: { swatches: ['#123456', '#abcdef'] } }
   );
 
-  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
+  const cp = new JigColorPickerHarness(page.locator('jig-color-picker'));
   await cp.swatches.nth(0).click();
   const log = await handle.getOutputLog();
   expect((log['value'] as string[]).at(-1)?.toLowerCase()).toBe('#123456');
@@ -71,7 +71,7 @@ test('trigger opens panel (non-inline)', async ({ page }, testInfo) => {
     },
     { inputs: {} }
   );
-  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
+  const cp = new JigColorPickerHarness(page.locator('jig-color-picker'));
   await expect(cp.panel).toHaveCount(0);
   await expect(cp.trigger).toHaveAttribute('aria-expanded', 'false');
   await expectScreenshot(page, testInfo, 'trigger-closed');
@@ -89,7 +89,7 @@ test('format toggle cycles hex -> rgb -> hsl', async ({ page }) => {
     },
     { inputs: {} }
   );
-  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
+  const cp = new JigColorPickerHarness(page.locator('jig-color-picker'));
   const labels = page.locator('jig-color-picker [class*="channel-label"]');
   const boxes = page.locator('jig-color-picker [class*="channel"] input');
 
@@ -169,7 +169,7 @@ test('typing a valid hex in the field updates the value', async ({ page }) => {
     { inputs: { value: '#000000' } }
   );
 
-  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
+  const cp = new JigColorPickerHarness(page.locator('jig-color-picker'));
   await cp.hexInput.fill('#ff8800');
   // Commit (blur) — the hex is applied on change, not on every keystroke.
   await page.locator('jig-color-picker input').blur();
@@ -222,7 +222,7 @@ test('SV drag to near-black and back preserves hue (regression)', async ({ page 
     { inputs: { value: '#00ff00' } }
   );
 
-  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
+  const cp = new JigColorPickerHarness(page.locator('jig-color-picker'));
   await cp.clickSv(0.02, 0.98); // near-black corner: s≈0.02, v≈0.02 → achromatic RGB
   await cp.clickSv(0.9, 0.1); // back to a saturated, bright point: s≈0.9, v≈0.9
 
@@ -269,7 +269,7 @@ test('format toggle re-commits the value in the new format (same color)', async 
     { inputs: { value: '#3366cc' } }
   );
 
-  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
+  const cp = new JigColorPickerHarness(page.locator('jig-color-picker'));
 
   await cp.formatToggle.click(); // hex -> rgb
   let log = await handle.getOutputLog();
@@ -296,7 +296,7 @@ test('format toggle on an untouched picker does not emit a value', async ({ page
     { inputs: {} }
   );
 
-  const cp = new AwdColorPickerHarness(page.locator('jig-color-picker'));
+  const cp = new JigColorPickerHarness(page.locator('jig-color-picker'));
   await cp.formatToggle.click();
   expect(await handle.getOutputLog()).toEqual({});
 });

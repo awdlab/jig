@@ -1,3 +1,3 @@
-{{ api: stepper/stepper AwdStepper }}
+{{ api: stepper/stepper JigStepper }}
 
-{{ api: stepper/step AwdStep }}
+{{ api: stepper/step JigStep }}

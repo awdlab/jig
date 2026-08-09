@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { AwdCalendar } from '@awdlab/jig/calendar';
+import { JigCalendar } from '@awdlab/jig/calendar';
 
-import type { AwdPassthrough } from '@awdlab/jig/base';
+import type { JigPassthrough } from '@awdlab/jig/base';
 
 @Component({
   selector: 'jig-demo-pt-classes',
-  imports: [AwdCalendar],
+  imports: [JigCalendar],
   template: `<jig-calendar [inputId]="'pt-classes'" [inline]="true" [pt]="pt" />`,
 })
 export class Demo_Pt_Classes {
-  protected readonly pt: AwdPassthrough<'calendar'> = {
+  protected readonly pt: JigPassthrough<'calendar'> = {
     root: {
       $classes: 'rounded-xl ring-1 ring-(--jig-color-primary-200) overflow-hidden',
     },

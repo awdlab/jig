@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 
 @Component({
   selector: 'jig-demo-errors-reactive',
-  imports: [ReactiveFormsModule, AwdErrors, AwdHint, AwdInput, AwdInputField],
+  imports: [ReactiveFormsModule, JigErrors, JigHint, JigInput, JigInputField],
   template: `
     <div class="flex flex-col gap-1">
       <jig-input-field [label]="'Email'" [labelKind]="'on'" class="w-72">

@@ -1,5 +1,5 @@
 /**
- * The lifecycle state of a single {@link AwdUploadFile}.
+ * The lifecycle state of a single {@link JigUploadFile}.
  *
  * - `pending` — queued, not yet handed to the consumer (manual mode, or pre-emit).
  * - `uploading` — emitted via `(upload)`, the consumer is transferring it.
@@ -8,10 +8,10 @@
  * - `cancelled` — dismissed while in-flight; the item is removed from the list
  *   but settles the upload promise in this terminal state.
  */
-export type AwdUploadFileState = 'pending' | 'uploading' | 'done' | 'failed' | 'cancelled';
+export type JigUploadFileState = 'pending' | 'uploading' | 'done' | 'failed' | 'cancelled';
 
 /**
- * A file tracked by {@link AwdUpload}. Wraps the native {@link File} with the
+ * A file tracked by {@link JigUpload}. Wraps the native {@link File} with the
  * control-owned {@link id} (used to report progress/status back through the
  * `exportAs` handle) and the current lifecycle {@link state}.
  *
@@ -20,13 +20,13 @@ export type AwdUploadFileState = 'pending' | 'uploading' | 'done' | 'failed' | '
  * `setProgress`. It stays `0` (rendered as an indeterminate bar while
  * `uploading`) until then.
  */
-export interface AwdUploadFile {
+export interface JigUploadFile {
   /** Stable, control-generated id. Use it to call back through the handle. */
   readonly id: string;
   /** The native file selected or dropped by the user. */
   readonly file: File;
   /** Current lifecycle state. */
-  state: AwdUploadFileState;
+  state: JigUploadFileState;
   /** Upload progress in the range `0`–`100`. `0` renders as indeterminate. */
   progress: number;
   /** Error reported by the consumer for a `failed` file, if any. */

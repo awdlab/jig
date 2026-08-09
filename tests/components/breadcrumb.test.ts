@@ -2,7 +2,7 @@ import test, { type Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import type { InputsType } from '../../apps/test-wrapper/src/app/window.js';
 import type { JigActionItem } from '@awdlab/jig/api';
-import { AwdBreadcrumbHarness } from '@awdlab/jig-playwright';
+import { JigBreadcrumbHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -36,7 +36,7 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
 test('base', async ({ page }, testInfo) => {
   const handle = await prepareTest(page);
 
-  const breadcrumb = new AwdBreadcrumbHarness(page.locator('jig-breadcrumb'));
+  const breadcrumb = new JigBreadcrumbHarness(page.locator('jig-breadcrumb'));
   await breadcrumb.itemView.expectItemCount(10);
   // 420px fits five of the ten crumbs at the theme's control font size; the rest move
   // into the overflow menu. Outline marks the constraining box in the screenshot.

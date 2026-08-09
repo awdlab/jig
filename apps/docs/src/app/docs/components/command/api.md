@@ -1,1 +1,1 @@
-{{ api: command/command AwdCommand }}
+{{ api: command/command JigCommand }}

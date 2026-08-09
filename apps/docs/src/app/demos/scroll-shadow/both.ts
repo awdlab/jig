@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { AwdScrollShadow } from '@awdlab/jig/scroll-shadow';
+import { JigScrollShadow } from '@awdlab/jig/scroll-shadow';
 
 @Component({
-  imports: [AwdScrollShadow],
+  imports: [JigScrollShadow],
   selector: 'jig-demo-scroll-shadow-both',
   template: `
     <div ngnScrollShadow="both" class="box">

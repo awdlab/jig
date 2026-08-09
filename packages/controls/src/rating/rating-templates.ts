@@ -1,7 +1,7 @@
 import { computed, contentChild, Directive, input, TemplateRef } from '@angular/core';
 import { ValueControlBase } from '@awdlab/jig/base';
 
-/** Context for a custom {@link AwdRating} symbol template. */
+/** Context for a custom {@link JigRating} symbol template. */
 export interface RatingIndicatorContext {
   /** Fill ratio for this symbol, 0..1. */
   $implicit: number;

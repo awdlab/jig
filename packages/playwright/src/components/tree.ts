@@ -1,9 +1,9 @@
 import { expect, type Locator } from '@playwright/test';
 import { themeClasses } from '../utils/theme';
 import { treeControlTemplate } from '@awdlab/jig-themes/templates/tree';
-import { AwdScrollerHarness } from './scroller';
+import { JigScrollerHarness } from './scroller';
 
-export class AwdTreeHarness {
+export class JigTreeHarness {
   public readonly classes = themeClasses(treeControlTemplate);
   /** All currently rendered nodes (branches and leaves). */
   public readonly node: Locator;
@@ -19,7 +19,7 @@ export class AwdTreeHarness {
   public readonly checkbox: Locator;
   public readonly empty: Locator;
   public readonly spinner: Locator;
-  public readonly scroller: AwdScrollerHarness;
+  public readonly scroller: JigScrollerHarness;
 
   constructor(public locator: Locator) {
     this.node = locator.locator('[role="treeitem"]');
@@ -33,7 +33,7 @@ export class AwdTreeHarness {
     this.checkbox = locator.locator(this.classes['item-checkbox']['root']);
     this.empty = locator.locator(this.classes['empty']);
     this.spinner = locator.locator('jig-spinner');
-    this.scroller = new AwdScrollerHarness(locator.locator(this.classes['scroller']['root']));
+    this.scroller = new JigScrollerHarness(locator.locator(this.classes['scroller']['root']));
   }
 
   /** A single node located by its exact (trimmed, case-insensitive) label. */

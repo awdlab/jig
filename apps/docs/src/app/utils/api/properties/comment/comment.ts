@@ -14,7 +14,7 @@ import type { CommentDisplayPart } from 'typedoc/browser';
   // `{@link}` targets render as plain `<a href>` inside `[innerHTML]`.
   hostDirectives: [RouteLinks],
 })
-export class AwdDocsApiComment {
+export class JigDocsApiComment {
   public readonly comment = input<CommentDisplayPart[] | undefined>();
 
   protected readonly commentString = computed(() => {

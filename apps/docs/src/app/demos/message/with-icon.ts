@@ -3,10 +3,10 @@ import tablerBrandGithub from '@iconify/icons-tabler/brand-github';
 import tablerCode from '@iconify/icons-tabler/code';
 import tablerCopy from '@iconify/icons-tabler/copy';
 import tablerUser from '@iconify/icons-tabler/user';
-import { AwdMessage } from '@awdlab/jig/message';
+import { JigMessage } from '@awdlab/jig/message';
 
 @Component({
-  imports: [AwdMessage],
+  imports: [JigMessage],
   selector: 'jig-demo-message-with-icon',
   template: `
     <div class="flex flex-col gap-2">

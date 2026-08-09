@@ -1,1 +1,1 @@
-{{ api: directives/scroll-amount AwdScrollAmount }}
+{{ api: directives/scroll-amount JigScrollAmount }}

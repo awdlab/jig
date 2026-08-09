@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdKbd, AwdKeyboardShortcut } from '@awdlab/jig/kbd';
+import { JigButton } from '@awdlab/jig/button';
+import { JigInput } from '@awdlab/jig/input';
+import { JigKbd, JigKeyboardShortcut } from '@awdlab/jig/kbd';
 
 @Component({
   selector: 'jig-demo-kbd-shortcut-scope',
-  imports: [AwdButton, AwdInput, AwdKbd, AwdKeyboardShortcut],
+  imports: [JigButton, JigInput, JigKbd, JigKeyboardShortcut],
   template: `
     <div class="flex flex-col gap-4 p-4">
       <div

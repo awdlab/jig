@@ -1,15 +1,15 @@
 import { Component, signal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdInput } from '@awdlab/jig/input';
-import { AwdInputField } from '@awdlab/jig/input-field';
+import { JigButton } from '@awdlab/jig/button';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigInput } from '@awdlab/jig/input';
+import { JigInputField } from '@awdlab/jig/input-field';
 
-import type { AwdErrorsCustom } from '@awdlab/jig/errors';
+import type { JigErrorsCustom } from '@awdlab/jig/errors';
 
 @Component({
   selector: 'jig-demo-errors-custom',
-  imports: [AwdButton, AwdErrors, AwdHint, AwdInput, AwdInputField],
+  imports: [JigButton, JigErrors, JigHint, JigInput, JigInputField],
   template: `
     <div class="flex flex-col items-start gap-3">
       <div class="flex flex-col gap-1">
@@ -33,7 +33,7 @@ import type { AwdErrorsCustom } from '@awdlab/jig/errors';
 })
 export class Demo_Errors_Custom {
   protected readonly username = signal('ada');
-  protected readonly serverErrors = signal<AwdErrorsCustom>(null);
+  protected readonly serverErrors = signal<JigErrorsCustom>(null);
 
   protected onChange(value: string | null): void {
     this.username.set(value ?? '');

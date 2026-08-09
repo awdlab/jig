@@ -1,4 +1,4 @@
-import type { AwdActionButtonConfig, JigActionItem } from '@awdlab/jig/api';
+import type { JigActionButtonConfig, JigActionItem } from '@awdlab/jig/api';
 
 /** Whether an action opens a submenu rather than firing a leaf callback. */
 export function hasChildren(item: JigActionItem): boolean {
@@ -7,11 +7,11 @@ export function hasChildren(item: JigActionItem): boolean {
 
 /**
  * Adapts an {@link JigActionItem} (the context-menu shape) to the
- * {@link AwdActionButtonConfig} that `jig-action-button` consumes. Icon-only
+ * {@link JigActionButtonConfig} that `jig-action-button` consumes. Icon-only
  * rendering (`kind: 'icon'`) is chosen when the item has an icon, so the label
  * becomes the button's tooltip / accessible name.
  */
-export function actionItemToButtonConfig(item: JigActionItem): AwdActionButtonConfig<string> {
+export function actionItemToButtonConfig(item: JigActionItem): JigActionButtonConfig<string> {
   return {
     label: item.label,
     value: item.id,

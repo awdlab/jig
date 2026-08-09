@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AwdCheckbox } from '@awdlab/jig/checkbox';
+import { JigCheckbox } from '@awdlab/jig/checkbox';
 
 @Component({
   selector: 'jig-demo-checkbox-base',
-  imports: [AwdCheckbox],
+  imports: [JigCheckbox],
   template: `<jig-checkbox />`,
 })
 export class Demo_Checkbox_Base {}

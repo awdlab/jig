@@ -1,21 +1,21 @@
 import { Component, viewChild } from '@angular/core';
-import { AwdListBox } from '@awdlab/jig/list-box';
+import { JigListBox } from '@awdlab/jig/list-box';
 
-import { AwdDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 import type { JigItem } from '@awdlab/jig/api';
 
 @Component({
   selector: 'jig-docs-list-box-playground',
-  imports: [AwdListBox, AwdDocsPlayground],
+  imports: [JigListBox, JigDocsPlayground],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'AwdListBox', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'JigListBox', component: component() }]">
       <jig-list-box #ref class="flex-1" [items]="items" style="display: block; height: 200px;" />
     </jig-docs-playground>
   `,
 })
-export class AwdDocsListBoxPlayground {
-  protected readonly component = viewChild.required('ref', { read: AwdListBox });
+export class JigDocsListBoxPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigListBox });
   protected readonly items: JigItem[] = [
     { label: 'Item 1', value: '1' },
     { label: 'Item 2', value: '2' },

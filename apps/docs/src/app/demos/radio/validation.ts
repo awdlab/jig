@@ -1,11 +1,11 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdErrors } from '@awdlab/jig/errors';
-import { AwdHint } from '@awdlab/jig/hint';
-import { AwdRadio, AwdRadioGroup } from '@awdlab/jig/radio';
+import { JigErrors } from '@awdlab/jig/errors';
+import { JigHint } from '@awdlab/jig/hint';
+import { JigRadio, JigRadioGroup } from '@awdlab/jig/radio';
 
 @Component({
   selector: 'jig-demo-radio-validation',
-  imports: [AwdErrors, AwdHint, AwdRadioGroup, AwdRadio],
+  imports: [JigErrors, JigHint, JigRadioGroup, JigRadio],
   template: `
     <div class="flex flex-col gap-2">
       <jig-radio-group

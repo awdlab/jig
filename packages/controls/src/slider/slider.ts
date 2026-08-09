@@ -1,6 +1,6 @@
 import { Component, input, viewChild, ElementRef, computed } from '@angular/core';
-import { AwdPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
-import { AwdDrag, type AwdDragInfo } from '@awdlab/jig/directives';
+import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { JigDrag, type JigDragInfo } from '@awdlab/jig/directives';
 import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
 
 /**
@@ -9,8 +9,8 @@ import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
 @Component({
   selector: 'jig-slider',
   templateUrl: './slider.html',
-  imports: [AwdPt, AwdDrag],
-  providers: [provideSelf(AwdSlider)],
+  imports: [JigPt, JigDrag],
+  providers: [provideSelf(JigSlider)],
   host: {
     role: 'slider',
     '[attr.aria-valuemin]': 'min()',
@@ -27,7 +27,7 @@ import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
     '(blur)': 'markTouched()',
   },
 })
-export class AwdSlider extends ValueControlBase<'slider', number> {
+export class JigSlider extends ValueControlBase<'slider', number> {
   protected readonly theme = this.injectThemeTemplate(sliderControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),
@@ -94,7 +94,7 @@ export class AwdSlider extends ValueControlBase<'slider', number> {
     return null;
   });
 
-  protected onDragged(delta: AwdDragInfo) {
+  protected onDragged(delta: JigDragInfo) {
     if (this.readonly() || this.disabled()) {
       return;
     }

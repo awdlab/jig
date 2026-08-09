@@ -1,17 +1,17 @@
 import { Component, viewChild } from '@angular/core';
-import { AwdSpinner } from '@awdlab/jig/spinner';
+import { JigSpinner } from '@awdlab/jig/spinner';
 
-import { AwdDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   selector: 'jig-docs-spinner-playground',
-  imports: [AwdSpinner, AwdDocsPlayground],
+  imports: [JigSpinner, JigDocsPlayground],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'AwdSpinner', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'JigSpinner', component: component() }]">
       <jig-spinner #ref />
     </jig-docs-playground>
   `,
 })
-export class AwdDocsSpinnerPlayground {
-  protected readonly component = viewChild.required('ref', { read: AwdSpinner });
+export class JigDocsSpinnerPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigSpinner });
 }

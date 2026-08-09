@@ -48,7 +48,7 @@ function scrollParent(el: HTMLElement): HTMLElement | null {
   styleUrl: 'toc.scss',
   host: { class: 'block' },
 })
-export class AwdDocsToc {
+export class JigDocsToc {
   private readonly _document = inject(DOCUMENT);
   private readonly _isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 

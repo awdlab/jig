@@ -16,15 +16,15 @@ import {
   viewChildren,
 } from '@angular/core';
 import { elementSizeSignal, elementsSizesSignal, Platform } from '@awdlab/jig/api/ng';
-import { AwdPt, provideSelf } from '@awdlab/jig/base';
-import { AwdDefer } from '@awdlab/jig/defer';
-import { AwdDragScroll, AwdScrollAmount } from '@awdlab/jig/directives';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdError } from '@awdlab/jig/utils';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { JigDefer } from '@awdlab/jig/defer';
+import { JigDragScroll, JigScrollAmount } from '@awdlab/jig/directives';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigError } from '@awdlab/jig/utils';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 import { tabsControlTemplate } from '@awdlab/jig-themes/templates/tabs';
 
-import { AwdTab } from './tab';
+import { JigTab } from './tab';
 import { TabsTemplates } from './tabs-templates';
 
 import type { IconType } from '@awdlab/jig-custom-types';
@@ -36,12 +36,12 @@ const PADDING_FOR_STICKY_ELEMENTS = 15;
  */
 @Component({
   selector: 'jig-tabs',
-  imports: [NgTemplateOutlet, AwdPt, AwdDefer, AwdScrollAmount, AwdDragScroll, AwdIcon],
+  imports: [NgTemplateOutlet, JigPt, JigDefer, JigScrollAmount, JigDragScroll, JigIcon],
   templateUrl: './tabs.html',
 
-  providers: [provideSelf(AwdTabs)],
+  providers: [provideSelf(JigTabs)],
 })
-export class AwdTabs extends TabsTemplates implements AfterViewInit {
+export class JigTabs extends TabsTemplates implements AfterViewInit {
   protected readonly theme = this.injectThemeTemplate(tabsControlTemplate, 'root');
   /**
    * Whether to lazy load the tab contents when they become visible.
@@ -72,12 +72,12 @@ export class AwdTabs extends TabsTemplates implements AfterViewInit {
   protected readonly indicatorWidth = signal(0);
   protected readonly indicatorLeft = signal(0);
 
-  private readonly _tabs = contentChildren(AwdTab);
+  private readonly _tabs = contentChildren(JigTab);
   private readonly _tabList = viewChild.required<unknown, ElementRef<HTMLDivElement>>('tabList', {
     read: ElementRef<HTMLDivElement>,
   });
   private readonly _tabListScrollDirective = viewChild.required('tabList', {
-    read: AwdScrollAmount,
+    read: JigScrollAmount,
   });
   private readonly _tabListScroll = computed(() => this._tabListScrollDirective().scrollLeft());
   private readonly _tabListSize = elementSizeSignal(this._tabList);
@@ -227,8 +227,8 @@ export class AwdTabs extends TabsTemplates implements AfterViewInit {
     } else if (index >= rightCutOffTabHeaderIndex && rightCutOffTabHeaderIndex >= 0) {
       const rightCutOffHeader = this._headerSizes()[rightCutOffTabHeaderIndex];
       if (!rightCutOffHeader) {
-        throw new AwdError(
-          'AwdTabs',
+        throw new JigError(
+          'JigTabs',
           `Right cut off header is undefined for index ${rightCutOffTabHeaderIndex}`
         );
       }

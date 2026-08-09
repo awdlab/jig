@@ -12,8 +12,8 @@ import {
   type Signal,
 } from '@angular/core';
 import { elementSizeSignal, elementsSizesSignal } from '@awdlab/jig/api/ng';
-import { AwdBase, NGN_CONTROL, provideSelf, AwdPt } from '@awdlab/jig/base';
-import { AwdRovingGroup } from '@awdlab/jig/roving-focus';
+import { JigBase, NGN_CONTROL, provideSelf, JigPt } from '@awdlab/jig/base';
+import { JigRovingGroup } from '@awdlab/jig/roving-focus';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 import { buttonGroupControlTemplate } from '@awdlab/jig-themes/templates/button-group';
 
@@ -52,11 +52,11 @@ function resolveDisabled(ref: object, element: HTMLElement): Signal<boolean> {
 @Component({
   selector: 'jig-button-group',
   templateUrl: './button-group.html',
-  imports: [AwdPt, AwdRovingGroup],
+  imports: [JigPt, JigRovingGroup],
 
-  providers: [provideSelf(AwdButtonGroup)],
+  providers: [provideSelf(JigButtonGroup)],
 })
-export class AwdButtonGroup extends AwdBase<'buttonGroup'> {
+export class JigButtonGroup extends JigBase<'buttonGroup'> {
   protected readonly theme = this.injectThemeTemplate(buttonGroupControlTemplate, 'root');
 
   private readonly _contentRef = contentChildren(NGN_CONTROL);
@@ -69,7 +69,7 @@ export class AwdButtonGroup extends AwdBase<'buttonGroup'> {
    * stop across the projected buttons: the active button gets `tabindex="0"`,
    * the rest `-1`, and arrow keys move focus between them.
    */
-  private readonly _roving = viewChild.required(AwdRovingGroup);
+  private readonly _roving = viewChild.required(JigRovingGroup);
   private readonly _parentSize = elementSizeSignal(this.element.nativeElement);
   private readonly _contentSizes = elementsSizesSignal(this._content);
   private readonly _contentWidth = computed(() => {

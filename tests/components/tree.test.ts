@@ -1,4 +1,4 @@
-import { AwdTreeHarness } from '@awdlab/jig-playwright';
+import { JigTreeHarness } from '@awdlab/jig-playwright';
 import test, { expect } from '@playwright/test';
 
 import { exampleData } from '../helper/data';
@@ -6,7 +6,7 @@ import { evalValue, loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
-import type { AwdTreeItem } from '@awdlab/jig/api';
+import type { JigTreeItem } from '@awdlab/jig/api';
 import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 
 const grouped = exampleData.items.groupedPreformatted;
@@ -20,7 +20,7 @@ function treeTmpl(attrs = ''): TemplateType {
 }
 
 function harness(page: import('@playwright/test').Page) {
-  return new AwdTreeHarness(page.locator('jig-tree').first());
+  return new JigTreeHarness(page.locator('jig-tree').first());
 }
 
 test('base', async ({ page }, testInfo) => {
@@ -106,7 +106,7 @@ test('multiselect cascade checkboxes', async ({ page }, testInfo) => {
 });
 
 test.describe('disabled nodes', () => {
-  const disabledTree: AwdTreeItem[] = [
+  const disabledTree: JigTreeItem[] = [
     {
       label: 'Fruit',
       value: 'fruit',
@@ -188,7 +188,7 @@ test('custom item template', async ({ page }, testInfo) => {
 });
 
 test('virtual scrolling renders only a window of nodes', async ({ page }, testInfo) => {
-  const many: AwdTreeItem[] = Array.from({ length: 200 }, (_, i) => ({
+  const many: JigTreeItem[] = Array.from({ length: 200 }, (_, i) => ({
     label: `Item ${i}`,
     value: `i${i}`,
   }));

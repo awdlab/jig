@@ -1,4 +1,4 @@
-export type AwdFilterDataType =
+export type JigFilterDataType =
   | 'string'
   | 'number'
   | 'date'
@@ -7,11 +7,11 @@ export type AwdFilterDataType =
   | 'custom'
   | 'list';
 
-export type AwdFilterMode = 'inline' | 'input' | 'headless';
+export type JigFilterMode = 'inline' | 'input' | 'headless';
 
-export type AwdFilterMatchMode = 'any' | 'all';
+export type JigFilterMatchMode = 'any' | 'all';
 
-export type AwdFilterOperatorId =
+export type JigFilterOperatorId =
   // string
   | 'isEqual'
   | 'isNotEqual'
@@ -36,8 +36,8 @@ export type AwdFilterOperatorId =
  * A single configured filter condition.
  * This is intentionally data-free and serializable (useful for server-side filtering).
  */
-export type AwdFilterConditionConfig = {
-  operator: AwdFilterOperatorId;
+export type JigFilterConditionConfig = {
+  operator: JigFilterOperatorId;
   /** Raw user-entered value (string from the input), or null when empty. */
   rawValue: string | null;
 };
@@ -45,27 +45,27 @@ export type AwdFilterConditionConfig = {
 /**
  * Complete filter configuration without any actual dataset/result.
  */
-export type AwdFilterConfig = {
+export type JigFilterConfig = {
   /** The chosen datatype for the filter value. */
-  dataType: AwdFilterDataType;
+  dataType: JigFilterDataType;
   /** How multiple conditions should be combined. */
-  matchMode: AwdFilterMatchMode;
+  matchMode: JigFilterMatchMode;
   /** Configured conditions (may include empty values depending on operator). */
-  conditions: readonly AwdFilterConditionConfig[];
+  conditions: readonly JigFilterConditionConfig[];
 };
 
-export type AwdFilterCondition = {
-  operator: AwdFilterOperatorId;
+export type JigFilterCondition = {
+  operator: JigFilterOperatorId;
   value: unknown;
 };
 
 /**
  * Full client-side filter result (configuration + filtered dataset).
- * Prefer {@link AwdFilterConfig} when you only need the config.
+ * Prefer {@link JigFilterConfig} when you only need the config.
  */
-export type AwdFilterOutput<T> = AwdFilterConfig & {
+export type JigFilterOutput<T> = JigFilterConfig & {
   /** The active (parsed) conditions used for local evaluation. */
-  activeConditions: readonly AwdFilterCondition[];
+  activeConditions: readonly JigFilterCondition[];
   /** The filtered data result. */
   filtered: readonly T[];
 };

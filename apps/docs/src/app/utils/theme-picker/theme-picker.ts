@@ -11,8 +11,8 @@ import {
   signal,
 } from '@angular/core';
 import { Platform, ThemeService } from '@awdlab/jig/api/ng';
-import { AwdColorPicker } from '@awdlab/jig/color-picker';
-import { AwdSelectButton } from '@awdlab/jig/select-button';
+import { JigColorPicker } from '@awdlab/jig/color-picker';
+import { JigSelectButton } from '@awdlab/jig/select-button';
 import { createTheme, createThemePart } from '@awdlab/jig-themes/api';
 import { nova } from '@awdlab/jig-themes/nova';
 import {
@@ -268,7 +268,7 @@ function buildThemeFromState(state: PickerState): Theme {
 
 /**
  * The theme to boot with on the CLIENT, resolved from the persisted cookie (or nova) at
- * module-eval time so it can be the `provideAwdControls` preset. The client then STARTS in the
+ * module-eval time so it can be the `provideJigControls` preset. The client then STARTS in the
  * saved theme and hydrates the (already server-rendered) saved-theme DOM with no re-apply/flash.
  * On the server `document` is unavailable here — the server instead resolves the theme per
  * request via {@link provideDocsThemeInitializer}.
@@ -415,7 +415,7 @@ export class ThemePickerService {
 
 @Component({
   selector: 'jig-docs-theme-picker',
-  imports: [AwdSelectButton, AwdColorPicker],
+  imports: [JigSelectButton, JigColorPicker],
   template: `
     <div class="flex flex-col gap-(--jig-size-padding-xl)">
       <jig-select-button
@@ -462,7 +462,7 @@ export class ThemePickerService {
     </div>
   `,
 })
-export class AwdDocsThemePicker {
+export class JigDocsThemePicker {
   protected readonly picker = inject(ThemePickerService);
 
   protected readonly themeOptions = this.picker.themes.map(theme => ({

@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { AwdRating } from '@awdlab/jig/rating';
+import { JigRating } from '@awdlab/jig/rating';
 
 @Component({
   selector: 'jig-demo-rating-half',
-  imports: [AwdRating],
+  imports: [JigRating],
   template: `<jig-rating [step]="0.5" [value]="value()" (valueChange)="value.set($event)" />`,
 })
 export class Demo_Rating_Half {

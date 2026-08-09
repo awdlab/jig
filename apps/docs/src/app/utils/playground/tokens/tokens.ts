@@ -2,8 +2,8 @@ import { Component, input, signal, computed, inject, Injector, effect } from '@a
 import tablerPalette from '@iconify/icons-tabler/palette';
 import tablerPointer from '@iconify/icons-tabler/pointer';
 import { injectTheme } from '@awdlab/jig/api/ng';
-import { AwdIcon } from '@awdlab/jig/icon';
-import { AwdMessage } from '@awdlab/jig/message';
+import { JigIcon } from '@awdlab/jig/icon';
+import { JigMessage } from '@awdlab/jig/message';
 import { notNullish } from '@awdlab/jig/utils';
 import { setInputSignalValue } from '@awdlab/jig/utils-ng';
 import { ConsoleLogger, Deserializer, FileRegistry } from 'typedoc/browser';
@@ -11,7 +11,7 @@ import { ConsoleLogger, Deserializer, FileRegistry } from 'typedoc/browser';
 import { getInternalControlName } from '../../api/api-docs-helper';
 import { getTypedocProject } from '../../typedoc';
 
-import type { AnyAwdBase, FullAnyAwdBase, AwdPassthrough } from '@awdlab/jig/base';
+import type { AnyJigBase, FullAnyJigBase, JigPassthrough } from '@awdlab/jig/base';
 import type { ControlName, ControlTemplate } from '@awdlab/jig-themes';
 import type { ProjectReflection } from 'typedoc/browser';
 
@@ -19,10 +19,10 @@ import type { ProjectReflection } from 'typedoc/browser';
   selector: 'jig-docs-tokens',
   templateUrl: 'tokens.html',
   styleUrl: 'tokens.scss',
-  imports: [AwdMessage, AwdIcon],
+  imports: [JigMessage, JigIcon],
   host: { class: 'flex flex-col' },
 })
-export class AwdDocsPlaygroundTokens<
+export class JigDocsPlaygroundTokens<
   T extends ControlTemplate<N, C>,
   N extends ControlName,
   C extends string[],
@@ -34,7 +34,7 @@ export class AwdDocsPlaygroundTokens<
 
   public readonly controls = input.required<
     {
-      component: AnyAwdBase | readonly AnyAwdBase[];
+      component: AnyJigBase | readonly AnyJigBase[];
       componentName: string;
     }[]
   >();
@@ -76,7 +76,7 @@ export class AwdDocsPlaygroundTokens<
 
   protected readonly activeToken = signal<{
     name: string;
-    component: AnyAwdBase | readonly AnyAwdBase[];
+    component: AnyJigBase | readonly AnyJigBase[];
   } | null>(null);
 
   protected readonly pt = computed(() => {
@@ -93,7 +93,7 @@ export class AwdDocsPlaygroundTokens<
         [activeToken.name]: {
           $classes: ['token-highlight'],
         },
-      } as AwdPassthrough<T['scope']>,
+      } as JigPassthrough<T['scope']>,
     };
   });
 
@@ -110,7 +110,7 @@ export class AwdDocsPlaygroundTokens<
     });
 
     effect(() => {
-      const components = this.controls().flatMap(x => x.component) as FullAnyAwdBase[];
+      const components = this.controls().flatMap(x => x.component) as FullAnyJigBase[];
       const pt = this.pt();
       components.forEach(comp => {
         if (pt?.components.includes(comp)) {

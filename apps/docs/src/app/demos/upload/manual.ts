@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdUpload, type AwdUploadFile } from '@awdlab/jig/upload';
+import { JigButton } from '@awdlab/jig/button';
+import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
 
 /**
  * Manual mode: selected files queue as `pending` and no trigger is rendered.
@@ -10,7 +10,7 @@ import { AwdUpload, type AwdUploadFile } from '@awdlab/jig/upload';
  * how many succeeded and failed.
  */
 @Component({
-  imports: [AwdUpload, AwdButton],
+  imports: [JigUpload, JigButton],
   selector: 'jig-demo-upload-manual',
   template: `
     <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
@@ -30,7 +30,7 @@ import { AwdUpload, type AwdUploadFile } from '@awdlab/jig/upload';
 export class Demo_Upload_Manual {
   protected readonly summary = signal('');
 
-  protected async start(up: AwdUpload): Promise<void> {
+  protected async start(up: JigUpload): Promise<void> {
     this.summary.set('Uploading…');
     const result = await up.uploadAll();
     const done = result.filter(f => f.state === 'done').length;
@@ -38,7 +38,7 @@ export class Demo_Upload_Manual {
     this.summary.set(`Finished: ${done} succeeded, ${failed} failed.`);
   }
 
-  protected onUpload(files: AwdUploadFile[], up: AwdUpload): void {
+  protected onUpload(files: JigUploadFile[], up: JigUpload): void {
     for (const item of files) {
       let progress = 0;
       const tick = setInterval(() => {

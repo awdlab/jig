@@ -1,4 +1,4 @@
-import { AwdError } from '@awdlab/jig/utils';
+import { JigError } from '@awdlab/jig/utils';
 
 import type { OverflowStrategy } from './types';
 
@@ -148,7 +148,7 @@ export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLa
     for (let i = 0; i < overflowCheckOrder.length; i++) {
       const index = overflowCheckOrder[i]?.index;
       if (index === undefined) {
-        throw new AwdError(
+        throw new JigError(
           'calculateItemViewLayout',
           'Invalid overflow check order: index is undefined'
         );

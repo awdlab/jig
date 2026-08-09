@@ -1,10 +1,10 @@
 import { Component, computed, signal } from '@angular/core';
-import { AwdOtp } from '@awdlab/jig/otp';
+import { JigOtp } from '@awdlab/jig/otp';
 
 const EXPECTED = '123456';
 
 @Component({
-  imports: [AwdOtp],
+  imports: [JigOtp],
   selector: 'jig-demo-otp-validation',
   template: `
     <jig-otp

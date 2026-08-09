@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { AwdRating } from '@awdlab/jig/rating';
+import { JigRating } from '@awdlab/jig/rating';
 
 @Component({
   selector: 'jig-demo-rating-states',
-  imports: [AwdRating],
+  imports: [JigRating],
   template: `
     <div class="flex flex-col gap-3">
       <jig-rating [value]="3" [readonly]="true" />

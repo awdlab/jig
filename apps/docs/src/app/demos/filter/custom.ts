@@ -1,6 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { executeFilter } from '@awdlab/jig/api';
-import { AwdFilter, type AwdFilterConfig } from '@awdlab/jig/filter';
+import { JigFilter, type JigFilterConfig } from '@awdlab/jig/filter';
 
 type Country = {
   name: string;
@@ -9,7 +9,7 @@ type Country = {
 
 @Component({
   selector: 'jig-demo-filter-custom',
-  imports: [AwdFilter],
+  imports: [JigFilter],
   template: `
     <div class="flex flex-col gap-2">
       <jig-filter
@@ -39,7 +39,7 @@ export class Demo_Filter_Custom {
     { name: 'Sweden', code: 'SE' },
   ];
 
-  protected readonly config = signal<AwdFilterConfig | null>(null);
+  protected readonly config = signal<JigFilterConfig | null>(null);
 
   protected readonly filtered = computed(() => {
     const cfg = this.config();

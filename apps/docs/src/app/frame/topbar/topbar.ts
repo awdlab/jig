@@ -2,21 +2,21 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import tablerMenu2 from '@iconify/icons-tabler/menu-2';
 import tablerSearch from '@iconify/icons-tabler/search';
-import { AwdBreadcrumb } from '@awdlab/jig/breadcrumb';
-import { AwdButton } from '@awdlab/jig/button';
-import { AwdIcon } from '@awdlab/jig/icon';
+import { JigBreadcrumb } from '@awdlab/jig/breadcrumb';
+import { JigButton } from '@awdlab/jig/button';
+import { JigIcon } from '@awdlab/jig/icon';
 import {
   ariaKeyShortcuts,
   formatShortcut,
-  AwdKeyboardShortcut,
-  type AwdShortcutBinding,
+  JigKeyboardShortcut,
+  type JigShortcutBinding,
 } from '@awdlab/jig/kbd';
 
 import { AppLocation } from '../../helper/app-location';
-import { DocsSearch, AwdDocsSearchDialog } from '../../utils/search';
+import { DocsSearch, JigDocsSearchDialog } from '../../utils/search';
 import { BreadcrumbService } from '../breadcrumb.service';
 import { FrameState } from '../frame-state';
-import { AwdDocsTopbarActions } from './actions';
+import { JigDocsTopbarActions } from './actions';
 
 const SEARCH_SHORTCUT = 'mod+k';
 
@@ -25,16 +25,16 @@ const SEARCH_SHORTCUT = 'mod+k';
   templateUrl: 'topbar.html',
   styleUrl: 'topbar.scss',
   imports: [
-    AwdButton,
-    AwdDocsSearchDialog,
-    AwdDocsTopbarActions,
-    AwdIcon,
-    AwdKeyboardShortcut,
+    JigButton,
+    JigDocsSearchDialog,
+    JigDocsTopbarActions,
+    JigIcon,
+    JigKeyboardShortcut,
     RouterLink,
-    AwdBreadcrumb,
+    JigBreadcrumb,
   ],
 })
-export class AwdDocsTopbar {
+export class JigDocsTopbar {
   protected readonly iconBars = tablerMenu2;
   protected readonly iconSearch = tablerSearch;
   protected readonly searchOpen = signal(false);
@@ -47,7 +47,7 @@ export class AwdDocsTopbar {
   protected readonly breadcrumbItems = this._breadcrumb.items;
 
   /** Page-wide, so the palette opens from anywhere and not just from the topbar. */
-  protected readonly searchShortcut = computed<AwdShortcutBinding[]>(() => [
+  protected readonly searchShortcut = computed<JigShortcutBinding[]>(() => [
     { shortcut: SEARCH_SHORTCUT, callback: () => this.searchOpen.set(true), global: true },
   ]);
   protected readonly searchLabel = computed(

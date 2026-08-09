@@ -1,13 +1,13 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { AwdSlider } from '@awdlab/jig/slider';
+import { JigSlider } from '@awdlab/jig/slider';
 
-import { AwdDocsPlayground } from '../../../utils/playground/playground';
+import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   selector: 'jig-docs-slider-playground',
-  imports: [AwdSlider, AwdDocsPlayground],
+  imports: [JigSlider, JigDocsPlayground],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'AwdSlider', component: component() }]">
+    <jig-docs-playground [controls]="[{ componentName: 'JigSlider', component: component() }]">
       <jig-slider
         class="flex-1"
         [class.h-[400px]]="component().vertical()"
@@ -18,7 +18,7 @@ import { AwdDocsPlayground } from '../../../utils/playground/playground';
     </jig-docs-playground>
   `,
 })
-export class AwdDocsSliderPlayground {
-  protected readonly component = viewChild.required('ref', { read: AwdSlider });
+export class JigDocsSliderPlayground {
+  protected readonly component = viewChild.required('ref', { read: JigSlider });
   protected readonly value = signal(50);
 }

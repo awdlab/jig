@@ -164,7 +164,7 @@ test('the filter text resets between openings', async ({ page }) => {
 
   await handle.setInputs({ items: ITEMS, open: false });
   await expect(page.locator('dialog')).toBeHidden();
-  // see the reopen note above: AwdDialog's deferred close would overwrite an immediate reopen
+  // see the reopen note above: JigDialog's deferred close would overwrite an immediate reopen
   await page.waitForTimeout(50);
 
   await handle.setInputs({ items: ITEMS, open: true });
@@ -232,7 +232,7 @@ test('the search field takes focus again on every opening', async ({ page }) => 
 
   await handle.setInputs({ items: ITEMS, open: false });
   await expect(page.locator('dialog')).toBeHidden();
-  // AwdDialog finishes closing in a requestAnimationFrame that sets `open` to false; reopening
+  // JigDialog finishes closing in a requestAnimationFrame that sets `open` to false; reopening
   // before it lands is overwritten by it, so let the frame pass first.
   await page.waitForTimeout(50);
 
