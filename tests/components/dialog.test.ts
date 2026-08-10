@@ -206,6 +206,66 @@ test('footer buttons emit buttonClicked and the dialog emits closed', async ({ p
   await expectOutput(handle, 'button', ['confirm']);
 });
 
+test('lazy content stays unrendered until the dialog is opened for the first time', async ({
+  page,
+}) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+        <ng-template #lazyTpl><p id="lazy-body">Lazy body</p></ng-template>
+        <jig-dialog title="Lazy" [open]="inputs().open" [modal]="true" [content]="lazyTpl" [lazy]="true" />
+      `,
+      imports: ['dialog'],
+    },
+    { inputs: { open: false } }
+  );
+
+  await expect(page.locator('#lazy-body')).not.toBeAttached();
+
+  await handle.setInputs({ open: true });
+  await expect(page.locator('#lazy-body')).toBeVisible();
+});
+
+test('keeps lazy uncached content mounted until the close animation finishes', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+        <ng-template #lazyTpl><p id="lazy-body">Lazy body</p></ng-template>
+        <jig-dialog
+          title="Lazy"
+          [open]="inputs().open"
+          [modal]="true"
+          [content]="lazyTpl"
+          [lazy]="true"
+          [cache]="false"
+        />
+      `,
+      imports: ['dialog'],
+    },
+    { inputs: { open: true } }
+  );
+
+  const body = page.locator('#lazy-body');
+  await expect(body).toBeVisible();
+
+  // A real, long-running animation on the dialog element stands in for the theme's exit
+  // transition — the close path has to wait for whatever animates there.
+  await page.evaluate(() => {
+    document.querySelector('dialog')!.animate([{ opacity: 1 }, { opacity: 0 }], {
+      duration: 1000,
+    });
+  });
+
+  await handle.setInputs({ open: false });
+  await page.waitForTimeout(300);
+  await expect(body).toBeAttached();
+
+  // Once it finishes, the uncached content is torn down again.
+  await expect(body).not.toBeAttached({ timeout: 3000 });
+});
+
 test('accessibility (axe)', async ({ page }) => {
   await loadModal(page, 'any', true);
   await expect(page.locator('dialog')).toBeVisible();

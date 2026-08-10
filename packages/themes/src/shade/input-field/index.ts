@@ -61,7 +61,6 @@ export const inputFieldStyles = createThemePart({
             border-color 0.15s ease-in-out,
             color 0.15s ease-in-out,
             box-shadow 0.15s ease-in-out;
-          overflow: auto;
           /** line-height + vertical padding + border */
           --baseHeight: calc(1lh + 2 * ${v('size.padding.sm')} + 2px);
           height: max(var(--baseHeight), fit-content);

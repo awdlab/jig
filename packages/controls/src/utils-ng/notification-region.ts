@@ -28,26 +28,27 @@ export interface NotificationRegionItem {
  * and binds {@link tabbableIndex} to each item's `tabindex`.
  */
 export class NotificationRegionController<T extends NotificationRegionItem> {
+  private readonly _host: HTMLElement;
+  private readonly _items: () => readonly T[];
+
   /** The item index currently exposed to the Tab sequence (roving tabindex). */
   public readonly activeIndex = signal(0);
-
-  private _regionFocused = false;
 
   /**
    * @param host  The region's root element, used to scope focus containment checks.
    * @param items A getter returning the live, ordered list of items (oldest first).
    */
-  constructor(
-    private readonly host: HTMLElement,
-    private readonly items: () => readonly T[]
-  ) {}
+  constructor(host: HTMLElement, items: () => readonly T[]) {
+    this._host = host;
+    this._items = items;
+  }
 
   /**
    * The roving tabindex target, clamped to the current item count so the region
    * always has exactly one tabbable entry point even after items are removed.
    */
   public tabbableIndex(): number {
-    const count = this.items().length;
+    const count = this._items().length;
     return count === 0 ? -1 : Math.min(this.activeIndex(), count - 1);
   }
 
@@ -56,7 +57,7 @@ export class NotificationRegionController<T extends NotificationRegionItem> {
     if (event.key !== 'F6') {
       return;
     }
-    const items = this.items();
+    const items = this._items();
     if (items.length === 0) {
       return;
     }
@@ -66,7 +67,7 @@ export class NotificationRegionController<T extends NotificationRegionItem> {
 
   /** Region-level handler: arrow / Home / End roving between notifications. */
   public handleKeydown(event: KeyboardEvent): void {
-    const items = this.items();
+    const items = this._items();
     if (items.length === 0) {
       return;
     }
@@ -94,8 +95,7 @@ export class NotificationRegionController<T extends NotificationRegionItem> {
 
   /** Region gained focus (via hotkey, Tab, or click) — pause every timer in it. */
   public handleFocusIn(): void {
-    this._regionFocused = true;
-    for (const item of this.items()) {
+    for (const item of this._items()) {
       item.regionPause();
     }
   }
@@ -103,17 +103,16 @@ export class NotificationRegionController<T extends NotificationRegionItem> {
   /** Region lost focus to something outside it — resume every timer. */
   public handleFocusOut(event: FocusEvent): void {
     const next = event.relatedTarget as Node | null;
-    if (next && this.host.contains(next)) {
+    if (next && this._host.contains(next)) {
       return;
     }
-    this._regionFocused = false;
-    for (const item of this.items()) {
+    for (const item of this._items()) {
       item.regionResume();
     }
   }
 
   private focusIndex(index: number): void {
     this.activeIndex.set(index);
-    this.items()[index]?.focus();
+    this._items()[index]?.focus();
   }
 }
