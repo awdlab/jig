@@ -26,7 +26,7 @@ const CONTROLS_SRC = 'https://github.com/awdlab/jig/tree/main/packages/controls/
         target="_blank"
         rel="noreferrer"
         jigTooltip="View source on GitHub"
-        aria-label="View source on GitHub"
+        jigTooltipAutoAriaMode="label"
         [href]="href"
       >
         <jig-icon size="24px" [icon]="iconGithub" />
