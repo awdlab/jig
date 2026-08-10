@@ -8,6 +8,7 @@ import { JigDocsToc } from './toc/toc';
 import { BreadcrumbService } from '../../../frame/breadcrumb.service';
 import { safeRoutePath } from '../../routing';
 import { Seo } from '../../seo';
+import { JigDocsSourceLink } from '../source-link';
 
 import type { TocEntry } from '../../md/types';
 import type { JigDocsSinglePage, JigDocsTab } from '../types';
@@ -16,7 +17,7 @@ import type { BreadcrumbItem } from '@awdlab/jig/breadcrumb';
 @Component({
   selector: 'jig-docs-page-renderer',
   templateUrl: 'page-renderer.html',
-  imports: [JigDocsPageSection, JigDocsToc, JigBreadcrumb],
+  imports: [JigDocsPageSection, JigDocsToc, JigBreadcrumb, JigDocsSourceLink],
   host: {
     class: 'min-w-0 w-full h-full flex flex-col pt-[5.5rem]',
   },

@@ -9,6 +9,7 @@ import { filter } from 'rxjs';
 import { BreadcrumbService } from '../../../../frame/breadcrumb.service';
 import { safeRoutePath } from '../../../routing';
 import { Seo } from '../../../seo';
+import { JigDocsSourceLink } from '../../source-link';
 import { JigDocsPageSection } from '../section/section';
 import { JigDocsToc } from '../toc/toc';
 
@@ -20,7 +21,15 @@ import type { BreadcrumbItem } from '@awdlab/jig/breadcrumb';
 @Component({
   selector: 'jig-docs-page-tab-renderer',
   templateUrl: 'page-tab-renderer.html',
-  imports: [JigDocsPageSection, JigDocsToc, JigTabs, JigTab, NgComponentOutlet, JigBreadcrumb],
+  imports: [
+    JigDocsPageSection,
+    JigDocsToc,
+    JigTabs,
+    JigTab,
+    NgComponentOutlet,
+    JigBreadcrumb,
+    JigDocsSourceLink,
+  ],
   host: {
     class: 'min-w-0 w-full h-full flex flex-col pt-[5.5rem]',
   },

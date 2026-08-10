@@ -6,6 +6,7 @@ import type { JigDocsPage } from '../../../utils/page/types';
 
 export const DragPage: JigDocsPage = {
   title: `Drag`,
+  source: 'directives/drag',
   kind: 'tabs',
   tabs: [
     {

@@ -6,6 +6,7 @@ import type { JigDocsPage } from '../../../utils/page/types';
 
 export const AutofocusPage: JigDocsPage = {
   title: `Autofocus`,
+  source: 'directives/autofocus.ts',
   kind: 'tabs',
   tabs: [
     {

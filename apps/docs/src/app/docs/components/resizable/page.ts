@@ -6,6 +6,7 @@ import type { JigDocsPage } from '../../../utils/page/types';
 
 export const ResizablePage: JigDocsPage = {
   title: `Resizable`,
+  source: 'directives/resizable.ts',
   kind: 'tabs',
   tabs: [
     {

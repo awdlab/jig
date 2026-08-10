@@ -6,6 +6,7 @@ import type { JigDocsPage } from '../../../utils/page/types';
 
 export const MovablePage: JigDocsPage = {
   title: `Movable`,
+  source: 'directives/movable.ts',
   kind: 'tabs',
   tabs: [
     {

@@ -6,6 +6,7 @@ import type { JigDocsPage } from '../../../utils/page/types';
 
 export const ScrollAmountPage: JigDocsPage = {
   title: `Scroll Amount`,
+  source: 'directives/scroll-amount.ts',
   kind: 'tabs',
   tabs: [
     {

@@ -31,6 +31,11 @@ type Tabs = {
  */
 export type JigDocsPage = {
   title: string;
+  /**
+   * Control sources path under `packages/controls/src`, linked from the page
+   * header. Defaults to the route slug; set it only when the two differ.
+   */
+  source?: string;
 } & (SinglePage | Tabs | ComponentPage);
 
 /**
