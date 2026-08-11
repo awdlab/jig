@@ -86,6 +86,10 @@ export const en = {
   splitter: {
     handleLabel: 'Drag to resize',
   },
+  slider: {
+    rangeStart: 'Range start',
+    rangeEnd: 'Range end',
+  },
   inputField: {
     clearInput: 'Clear input',
   },

@@ -1,6 +1,7 @@
-import { Component, input, viewChild, ElementRef, computed } from '@angular/core';
+import { Component, input, viewChild, ElementRef, computed, inject } from '@angular/core';
 import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { JigDrag, type JigDragInfo } from '@awdlab/jig/directives';
+import { I18n } from '@awdlab/jig/i18n';
 import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
 
 import type { InputGeneric } from '@awdlab/jig/utils';
@@ -24,18 +25,18 @@ export type SliderHandle = 'start' | 'end';
   imports: [JigPt, JigDrag],
   providers: [provideSelf(JigSlider)],
   host: {
-    role: 'slider',
-    '[attr.aria-valuemin]': 'min()',
-    '[attr.aria-valuemax]': 'max()',
-    '[attr.aria-valuenow]': 'values()[1]',
-    '[attr.aria-readonly]': 'readonly() ? "true" : null',
+    '[attr.role]': 'isRange() ? "group" : "slider"',
+    '[attr.aria-valuemin]': 'isRange() ? null : min()',
+    '[attr.aria-valuemax]': 'isRange() ? null : max()',
+    '[attr.aria-valuenow]': 'isRange() ? null : values()[1]',
+    '[attr.aria-readonly]': '!isRange() && readonly() ? "true" : null',
     '[attr.disabled]': 'disabled() ? "" : null',
     '[attr.aria-labelledby]': 'labelledBy()',
     '[attr.aria-label]': 'label()',
-    '[attr.aria-orientation]': 'vertical() ? "vertical" : "horizontal"',
-    '[attr.aria-valuetext]': 'valueTextFor(values()[1])',
-    '[tabindex]': 'disabled() ? -1 : 0',
-    '(keydown)': 'onKeyDown($event)',
+    '[attr.aria-orientation]': 'isRange() ? null : vertical() ? "vertical" : "horizontal"',
+    '[attr.aria-valuetext]': 'isRange() ? null : valueTextFor(values()[1])',
+    '[attr.tabindex]': 'isRange() ? null : disabled() ? -1 : 0',
+    '(keydown)': 'onHostKeyDown($event)',
     '(blur)': 'markTouched()',
   },
 })
@@ -48,7 +49,10 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
     invalid: () => this.invalidState(),
     horizontal: () => !this.vertical(),
     vertical: () => this.vertical(),
+    range: () => this.isRange(),
   });
+
+  protected readonly translations = inject(I18n).translations;
 
   private readonly _track = viewChild.required<ElementRef<HTMLDivElement>>('track');
 
@@ -77,6 +81,15 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
   public readonly step = input<number>(1);
 
   /**
+   * Turns the slider into a two-handle range slider. When enabled the value
+   * becomes a `[start, end]` tuple instead of a single number.
+   *
+   * See {@link minRangeDistance} to require a gap between the handles.
+   * @default false
+   */
+  public readonly range = input<Range>();
+
+  /**
    * The value text representation for accessibility.
    * If both {@link valueText} and {@link valueTextFn} are provided, {@link valueText} takes precedence.
    */
@@ -89,14 +102,19 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
   public readonly valueTextFn = input<(value: number) => string>();
 
   /** Whether the slider runs in two-handle range mode. */
-  protected readonly isRange = computed<boolean>(() => false);
+  protected readonly isRange = computed<boolean>(() => !!this.range());
 
   /**
-   * The `[start, end]` pair in value space. Outside range mode the start is
-   * pinned to {@link min} so the fill spans from the track origin.
+   * The `[start, end]` pair in value space, sorted and clamped to
+   * {@link min}/{@link max}. Outside range mode the start is pinned to
+   * {@link min} so the fill spans from the track origin.
    */
   protected readonly values = computed<[number, number]>(() => {
     const v = this.value() as number | [number, number] | undefined;
+    if (this.isRange()) {
+      const pair: [number, number] = Array.isArray(v) ? v : [this.min(), this.max()];
+      return [this.clampValue(Math.min(...pair)), this.clampValue(Math.max(...pair))];
+    }
     return [this.min(), this.clampValue(typeof v === 'number' ? v : this.min())];
   });
 
@@ -155,6 +173,14 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
         return;
     }
     event.preventDefault();
+  }
+
+  /** Host keyboard only drives single mode; range mode keys land on the thumbs. */
+  protected onHostKeyDown(event: KeyboardEvent) {
+    if (this.isRange()) {
+      return;
+    }
+    this.onKeyDown(event);
   }
 
   protected thumbClicked(event: PointerEvent) {

@@ -27,6 +27,10 @@ export const sliderStyles = createThemePart({
           }
         }
       }
+      ${c('thumb')}:focus-visible {
+        outline: 0.4rem solid ${controlRing(v)};
+        outline-offset: 0;
+      }
       ${c('track')} {
         background: ${v('color.surface.100')};
         border-radius: ${v('size.rounded.full')};

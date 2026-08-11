@@ -387,3 +387,107 @@ test('accessibility (axe)', async ({ page }) => {
 
   await expectNoA11yViolations(page);
 });
+
+test('range base', async ({ page }, testInfo) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<jig-slider style="width: 300px;" [range]="true" [value]="inputs().value" [label]="inputs().label" (valueChange)="output('value', $event)" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: [20, 60],
+        label: 'Price',
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+  await expect(slider.thumbs).toHaveCount(2);
+  await slider.expectRangeValue([20, 60]);
+  await expectScreenshot(page, testInfo, 'initial');
+
+  // Host degrades to a group; the value ARIA lives on the thumbs.
+  await expect(slider.locator).toHaveAttribute('role', 'group');
+  await expect(slider.locator).toHaveAttribute('aria-label', 'Price');
+  await expect(slider.locator).not.toHaveAttribute('aria-valuenow');
+  await expect(slider.locator).not.toHaveAttribute('aria-valuemin');
+  await expect(slider.locator).not.toHaveAttribute('aria-orientation');
+  await expect(slider.locator).not.toHaveAttribute('tabindex');
+
+  for (const thumb of [slider.thumbStart, slider.thumbEnd]) {
+    await expect(thumb).toHaveAttribute('role', 'slider');
+    await expect(thumb).toHaveAttribute('tabindex', '0');
+    await expect(thumb).toHaveAttribute('aria-orientation', 'horizontal');
+    await expect(thumb).not.toHaveAttribute('aria-label', '');
+  }
+
+  // Each handle reports its own legal window, not the whole track.
+  await expect(slider.thumbStart).toHaveAttribute('aria-valuemin', '0');
+  await expect(slider.thumbStart).toHaveAttribute('aria-valuemax', '60');
+  await expect(slider.thumbEnd).toHaveAttribute('aria-valuemin', '20');
+  await expect(slider.thumbEnd).toHaveAttribute('aria-valuemax', '100');
+
+  // Value changes propagate back into the ARIA window.
+  await handle.setInputs({ value: [10, 90] });
+  await slider.expectRangeValue([10, 90]);
+  await expect(slider.thumbStart).toHaveAttribute('aria-valuemax', '90');
+  await expect(slider.thumbEnd).toHaveAttribute('aria-valuemin', '10');
+});
+
+test('range normalizes an unsorted value', async ({ page }, testInfo) => {
+  await loadComponent(
+    page,
+    {
+      template: `<jig-slider [range]="true" [value]="inputs().value" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: [80, 30],
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+  await slider.expectRangeValue([30, 80]);
+});
+
+test('range vertical', async ({ page }, testInfo) => {
+  await loadComponent(
+    page,
+    {
+      template: `<jig-slider style="height: 200px;" [range]="true" [vertical]="true" [value]="inputs().value" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: [25, 75],
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+  await slider.expectRangeValue([25, 75]);
+  await expect(slider.thumbStart).toHaveAttribute('aria-orientation', 'vertical');
+  await expectScreenshot(page, testInfo, 'initial');
+});
+
+test('range accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<jig-slider [range]="true" [value]="inputs().value" [label]="inputs().label" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: [20, 60],
+        label: 'Price range',
+      },
+    }
+  );
+
+  await expectNoA11yViolations(page);
+});

@@ -86,6 +86,10 @@ export const de = {
   splitter: {
     handleLabel: 'Ziehen zum Ändern der Größe',
   },
+  slider: {
+    rangeStart: 'Bereichsanfang',
+    rangeEnd: 'Bereichsende',
+  },
   inputField: {
     clearInput: 'Eingabe löschen',
   },
