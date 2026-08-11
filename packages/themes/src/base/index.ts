@@ -15,6 +15,7 @@ import { colorPickerStyles } from '@awdlab/jig-themes/base/color-picker';
 import { commandStyles } from '@awdlab/jig-themes/base/command';
 import { dialogStyles } from '@awdlab/jig-themes/base/dialog';
 import { drawerStyles } from '@awdlab/jig-themes/base/drawer';
+import { dropdownListStyles } from '@awdlab/jig-themes/base/dropdown-list';
 import { editInplaceStyles } from '@awdlab/jig-themes/base/edit-inplace';
 import { filterStyles } from '@awdlab/jig-themes/base/filter';
 import { globalStyles } from '@awdlab/jig-themes/base/global';
@@ -76,6 +77,7 @@ export const baseStyles = {
   command: commandStyles,
   dialog: dialogStyles,
   drawer: drawerStyles,
+  dropdownList: dropdownListStyles,
   filter: filterStyles,
   editInplace: editInplaceStyles,
   global: globalStyles,

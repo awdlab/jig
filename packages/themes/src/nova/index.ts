@@ -24,6 +24,7 @@ import { colorPickerStyles } from '@awdlab/jig-themes/nova/color-picker';
 import { commandStyles } from '@awdlab/jig-themes/nova/command';
 import { dialogStyles } from '@awdlab/jig-themes/nova/dialog';
 import { drawerStyles } from '@awdlab/jig-themes/nova/drawer';
+import { dropdownListStyles } from '@awdlab/jig-themes/nova/dropdown-list';
 import { editInplaceStyles } from '@awdlab/jig-themes/nova/edit-inplace';
 import { filterStyles } from '@awdlab/jig-themes/nova/filter';
 import { globalStyles } from '@awdlab/jig-themes/nova/global';
@@ -110,6 +111,7 @@ export const nova = createTheme(
     coral,
     dialogStyles,
     drawerStyles,
+    dropdownListStyles,
     filterStyles,
     editInplaceStyles,
     font,

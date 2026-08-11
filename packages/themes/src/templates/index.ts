@@ -17,6 +17,7 @@ export type ThemeTemplate = {
   command: Awaited<typeof import('./command')>['commandControlTemplate'];
   dialog: Awaited<typeof import('./dialog')>['dialogControlTemplate'];
   drawer: Awaited<typeof import('./drawer')>['drawerControlTemplate'];
+  dropdownList: Awaited<typeof import('./dropdown-list')>['dropdownListControlTemplate'];
   filter: Awaited<typeof import('./filter')>['filterControlTemplate'];
   editInplace: Awaited<typeof import('./edit-inplace')>['editInplaceControlTemplate'];
   global: Awaited<typeof import('./global')>['globalControlTemplate'];
