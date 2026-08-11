@@ -45,7 +45,7 @@ export const sliderStyles = createThemePart({
         border: var(--thumbBorderSize) solid ${v('color.primary.500')};
         box-shadow: ${v('shadow.sm')};
       }
-      ${c('root')}:not([disabled]):not([aria-readonly='true']) {
+      ${c('root')}:not([disabled]):not(${c('readonly')}) {
         ${c('thumb')} {
           cursor: grab;
           &:active {
@@ -86,7 +86,7 @@ export const sliderStyles = createThemePart({
           }
         }
       }
-      ${c('root')}[aria-readonly='true'] {
+      ${c('root')}${c('readonly')} {
         ${c('thumb')} {
           border-color: ${v('color.surface.700')};
         }

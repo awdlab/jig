@@ -50,6 +50,7 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
     horizontal: () => !this.vertical(),
     vertical: () => this.vertical(),
     range: () => this.isRange(),
+    readonly: () => this.readonly(),
   });
 
   protected readonly translations = inject(I18n).translations;
