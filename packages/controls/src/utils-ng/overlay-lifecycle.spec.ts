@@ -3,8 +3,10 @@ import {
   createEnvironmentInjector,
   EnvironmentInjector,
   Injector,
+  type ModelSignal,
   runInInjectionContext,
   signal,
+  type WritableSignal,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -50,8 +52,17 @@ function animation(
   return {
     finished,
     playState,
-    effect: { getTiming: () => ({ iterations }) },
+    effect: { getComputedTiming: () => ({ iterations }) },
   } as unknown as Animation;
+}
+
+/**
+ * A control's `open` is a `ModelSignal`, which only `model()` inside a component can
+ * produce. The lifecycle reads and sets it like any writable signal, so a plain one
+ * stands in.
+ */
+function openModel(initial = false): ModelSignal<boolean> & WritableSignal<boolean> {
+  return signal(initial) as unknown as ModelSignal<boolean> & WritableSignal<boolean>;
 }
 
 function create(
@@ -83,18 +94,17 @@ describe('OverlayLifecycle', () => {
     document.body.innerHTML = '';
   });
 
-  it('starts closed and reports hasBeenOpened only after a first open', () => {
+  it('starts closed and opens on demand', () => {
     const element = createElement();
     const lifecycle = create(element, 'popover');
 
     expect(lifecycle.phase()).toBe('closed');
     expect(lifecycle.isFullyClosed()).toBe(true);
-    expect(lifecycle.hasBeenOpened()).toBe(false);
 
     lifecycle.show();
 
     expect(lifecycle.phase()).toBe('open');
-    expect(lifecycle.hasBeenOpened()).toBe(true);
+    expect(lifecycle.isFullyClosed()).toBe(false);
   });
 
   describe('per-mode native calls', () => {
@@ -238,7 +248,7 @@ describe('OverlayLifecycle', () => {
 
   it('follows the control open model without the control wiring an effect', async () => {
     const element = createElement();
-    const open = signal(false);
+    const open = openModel();
     TestBed.runInInjectionContext(
       () => new OverlayLifecycle(() => element, { mode: () => 'popover', control: { open } })
     );
@@ -258,7 +268,7 @@ describe('OverlayLifecycle', () => {
 
   it('survives an imperative show while the model still reads false', () => {
     const element = createElement();
-    const open = signal(false);
+    const open = openModel();
     const lifecycle = TestBed.runInInjectionContext(
       () =>
         new OverlayLifecycle(() => element, {
@@ -301,7 +311,7 @@ describe('OverlayLifecycle', () => {
 
   it('keeps the control open model in step with the phase', () => {
     const element = createElement();
-    const open = signal(false);
+    const open = openModel();
     const lifecycle = create(element, 'popover', { control: { open } });
 
     lifecycle.show();
@@ -354,5 +364,19 @@ describe('OverlayLifecycle', () => {
     expect(() => lifecycle.show()).not.toThrow();
     expect(lifecycle.phase()).toBe('closed');
     expect(element.calls).toHaveLength(0);
+  });
+
+  it('rolls the model back when a detached element cannot be shown', () => {
+    const element = createElement();
+    element.remove();
+    const open = openModel();
+    const lifecycle = create(element, 'popover', { control: { open } });
+
+    lifecycle.show();
+
+    // Left `true`, the control would report itself open with nothing behind it, and the
+    // next `show()` would no-op against a model that never went back to false.
+    expect(open()).toBe(false);
+    expect(lifecycle.phase()).toBe('closed');
   });
 });

@@ -62,6 +62,11 @@ export class JigDrawer extends DrawerTemplates implements Openable {
    */
   public readonly closed = output();
   /**
+   * Emits when the drawer starts closing, before its exit animation.
+   * Use {@link closed} to react once the animation has finished.
+   */
+  public readonly closing = output();
+  /**
    * Shows or hides the drawer.
    *
    * You probably want to react to openChange events from outside to update your variable accordingly.

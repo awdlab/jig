@@ -1,5 +1,9 @@
 <div [ptInt]="this" [ptClass]="'content'">
-  <jig-defer [lazyContent]="contentTemplate()" [open]="isShown()" [cache]="false"></jig-defer>
+  <jig-defer
+    [lazyContent]="contentTemplate()"
+    [open]="isShown() || isClosing()"
+    [cache]="false"
+  ></jig-defer>
 </div>
 
 <ng-template #defaultContentTemplate>

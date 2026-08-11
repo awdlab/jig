@@ -387,9 +387,13 @@ export class TooltipComponent extends JigBase<'tooltip'> {
    * Open/close state and the `popover` attribute. `hint` never light-dismisses other
    * popovers, and the attribute is dropped while hidden so a tooltip that has been
    * shown once does not linger as a top-layer element.
+   *
+   * The exit animation is gated on `:popover-open`, so the popover has to stay open for
+   * the length of it — hiding first would skip the fade-out entirely.
    */
   private readonly _lifecycle = new OverlayLifecycle(() => this.element.nativeElement, {
     mode: () => 'hint',
+    deferHide: true,
   });
 
   public readonly id = generateElementId();

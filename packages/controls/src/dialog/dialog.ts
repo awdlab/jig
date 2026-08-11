@@ -155,6 +155,11 @@ export class JigDialog<
    * Emits when the dialog has fully closed.
    */
   public readonly closed = output();
+  /**
+   * Emits when the dialog starts closing, before its exit animation.
+   * Use {@link closed} to react once the animation has finished.
+   */
+  public readonly closing = output();
 
   /**
    * Emits when a prompt dialog resolves. Carries the value produced by the prompt content

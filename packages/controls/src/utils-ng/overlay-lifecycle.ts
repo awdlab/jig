@@ -1,4 +1,14 @@
-import { afterRenderEffect, computed, DestroyRef, inject, Injector, signal } from '@angular/core';
+import {
+  afterRenderEffect,
+  computed,
+  DestroyRef,
+  inject,
+  Injector,
+  signal,
+  untracked,
+} from '@angular/core';
+
+import type { Openable } from './openable';
 
 /**
  * How an overlay enters the top layer.
@@ -14,22 +24,14 @@ export type OverlayMode = 'modal' | 'popover' | 'hint' | 'manual';
 export type OverlayPhase = 'closed' | 'opening' | 'open' | 'closing';
 
 /**
- * The parts of an overlay control the lifecycle drives on its behalf. Structural on
- * purpose: any `Openable` satisfies it, and a spec can pass a plain object. `utils-ng`
- * cannot import `api/ng` — that dependency runs the other way.
+ * The parts of an {@link Openable} the lifecycle drives on its behalf: `open` is read as
+ * the source of truth and kept in step with the phase — `true` on open, `false` when the
+ * close starts — and the two outputs bracket the exit animation.
+ *
+ * Derived from {@link Openable} rather than restated, so the two cannot drift. The
+ * outputs are optional because a control may omit either.
  */
-export type OverlayControl = {
-  /**
-   * The control's two-way open state. Read as the source of truth — setting it opens or
-   * closes the overlay — and kept in step with the phase: `true` on open, `false` when
-   * the close starts. An Angular `ModelSignal<boolean>` satisfies this shape.
-   */
-  open: (() => boolean) & { set(value: boolean): void };
-  /** Emitted once the exit animation has finished. */
-  closed?: { emit(): void };
-  /** Emitted when the close starts, unless the close was silent. */
-  closing?: { emit(): void };
-};
+export type OverlayControl = Pick<Openable, 'open'> & Partial<Pick<Openable, 'closed' | 'closing'>>;
 
 export type OverlayLifecycleOptions = {
   /** Which native API drives the overlay. Re-read on every open. */
@@ -89,7 +91,6 @@ export class OverlayLifecycle {
   private readonly _element: () => HTMLElement | null | undefined;
   private readonly _options: OverlayLifecycleOptions;
   private readonly _phase = signal<OverlayPhase>('closed');
-  private readonly _hasBeenOpened = signal(false);
   private _destroyed = false;
 
   /** Current phase. */
@@ -101,8 +102,6 @@ export class OverlayLifecycle {
   });
   /** Whether the overlay is closed *and* done animating — the cue to unmount content. */
   public readonly isFullyClosed = computed(() => this._phase() === 'closed');
-  /** Whether the overlay has been opened at least once. */
-  public readonly hasBeenOpened = this._hasBeenOpened.asReadonly();
 
   constructor(element: () => HTMLElement | null | undefined, options: OverlayLifecycleOptions) {
     this._element = element;
@@ -113,17 +112,16 @@ export class OverlayLifecycle {
     destroyRef.onDestroy(() => (this._destroyed = true));
 
     // Follow whichever source of truth the control has: an explicit predicate, or its
-    // own `open` model. Both calls are no-ops when the phase already matches, so the
+    // own `open` model. Untracked, so the effect depends on that source alone — show and
+    // hide both read and write the phase, which would otherwise re-run the effect on
+    // every transition. Both calls are no-ops when the phase already matches, so the
     // model updates this class makes cannot feed back into a loop.
     const isOpen = options.openWhen ?? options.control?.open;
     if (isOpen) {
       afterRenderEffect(
         () => {
-          if (isOpen()) {
-            this.show();
-          } else {
-            this.hide();
-          }
+          const open = isOpen();
+          untracked(() => (open ? this.show() : this.hide()));
         },
         injector ? { injector } : undefined
       );
@@ -136,7 +134,6 @@ export class OverlayLifecycle {
       return;
     }
     this._phase.set('opening');
-    this._hasBeenOpened.set(true);
     // Sync the model now, not once the (possibly deferred) show lands — the effect that
     // follows the model would otherwise see a stale `false` and close this straight back.
     this.notify(() => {
@@ -175,15 +172,6 @@ export class OverlayLifecycle {
     this.awaitExitAnimation(this.animationElement());
   }
 
-  /** Opens or closes, whichever the current phase is not. */
-  public toggle(): void {
-    if (this.isOpen()) {
-      this.hide();
-    } else {
-      this.show();
-    }
-  }
-
   /**
    * Feed the host's native `toggle` event in so light dismiss, Escape and
    * `popovertarget` land in the machine instead of desynchronising it.
@@ -193,7 +181,6 @@ export class OverlayLifecycle {
     if (newState === 'open') {
       if (this._phase() !== 'open') {
         this._phase.set('open');
-        this._hasBeenOpened.set(true);
         this.markOpened();
       }
       return;
@@ -205,11 +192,6 @@ export class OverlayLifecycle {
     this._phase.set('closing');
     this.startClosing(false);
     this.awaitExitAnimation(this.animationElement());
-  }
-
-  /** The host's native `<dialog>` `close` event. */
-  public onNativeClose(): void {
-    this.onNativeToggle({ newState: 'closed' } as ToggleEvent);
   }
 
   private hideNow(): void {
@@ -228,7 +210,10 @@ export class OverlayLifecycle {
   private showNow(): void {
     const element = this.attachedElement();
     if (!element) {
+      // Nothing to show. Roll the model back too, or the control reports itself open
+      // with no overlay behind it and can never be reopened.
       this._phase.set('closed');
+      this.notify(() => this._options.control?.open.set(false));
       return;
     }
     const mode = this._options.mode();
@@ -325,7 +310,7 @@ export class OverlayLifecycle {
         .filter(
           animation =>
             animation.playState === 'running' &&
-            animation.effect?.getTiming().iterations !== Infinity
+            animation.effect?.getComputedTiming().iterations !== Infinity
         )
         .map(animation => animation.finished);
       void Promise.allSettled(pending).then(finish);
