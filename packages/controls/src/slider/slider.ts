@@ -1,4 +1,13 @@
-import { Component, input, viewChild, ElementRef, computed, effect, inject } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  viewChild,
+  ElementRef,
+  computed,
+  effect,
+  inject,
+} from '@angular/core';
 import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { JigDrag, type JigDragInfo } from '@awdlab/jig/directives';
 import { I18n } from '@awdlab/jig/i18n';
@@ -113,6 +122,13 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
    */
   public readonly valueTextFn = input<(value: number) => string>();
 
+  /**
+   * Emits the settled value when the user finishes an interaction: a drag
+   * release, a track click, or a key press. Fires even when the value did not
+   * change — use {@link value} for continuous updates.
+   */
+  public readonly valueCommit = output<SliderValue<Range>>();
+
   /** Whether the slider runs in two-handle range mode. */
   protected readonly isRange = computed<boolean>(() => !!this.range());
 
@@ -175,6 +191,14 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
 
   protected onDragEnd() {
     this._suppressTrackClick = true;
+    if (this.readonly() || this.disabled()) {
+      return;
+    }
+    this.commitValue();
+  }
+
+  private commitValue(): void {
+    this.valueCommit.emit(this.value());
   }
 
   /** Clears the drag-release click suppression; a genuine track interaction starts here, not with a stale flag. */
@@ -199,16 +223,15 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
         break;
       case 'Home':
         this.setHandle(handle, lower);
-        this.onDragEnd();
         break;
       case 'End':
         this.setHandle(handle, upper);
-        this.onDragEnd();
         break;
       default:
         return;
     }
     event.preventDefault();
+    this.commitValue();
   }
 
   /** Host keyboard only drives single mode; range mode keys land on the thumbs. */
@@ -234,6 +257,7 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
     const cursorPos = this.vertical() ? event.clientY : event.clientX;
     const next = this.valueAtPosition(cursorPos);
     this.setHandle(this.isRange() ? this.nearestHandle(next) : 'end', next);
+    this.commitValue();
   }
 
   /** The handle closest to a value; ties go to the start handle. */

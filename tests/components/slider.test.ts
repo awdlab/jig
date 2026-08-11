@@ -808,3 +808,103 @@ test('negative minRangeDistance throws', async ({ page }) => {
     expect(errors.join('\n')).toContain('minRangeDistance cannot be negative');
   }).toPass();
 });
+
+test('valueCommit - single mode', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<jig-slider style="width: 300px;" [value]="inputs().value" (valueCommit)="output('valueCommit', $event)" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: 50,
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+  await slider.focus();
+
+  // Arrow key: one commit with the new value.
+  await slider.pressKey('ArrowRight');
+
+  // Home/End must each commit exactly once, not twice.
+  await slider.pressKey('Home');
+  await slider.pressKey('End');
+
+  // Unhandled key: no commit.
+  await slider.pressKey('Tab');
+
+  // Track click: one commit with the clicked value.
+  await slider.clickTrack({ x: 10 });
+
+  const outputs = await handle.getOutputLog();
+  expect(outputs['valueCommit'].slice(0, 3)).toEqual([51, 0, 100]);
+  expect(outputs['valueCommit']).toHaveLength(4);
+  expect(outputs['valueCommit'][3]).toBeLessThan(20);
+});
+
+test('valueCommit - range mode', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<jig-slider style="width: 300px;" [range]="true" [value]="inputs().value" (valueCommit)="output('valueCommit', $event)" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: [20, 60],
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+
+  // Drag release: one commit with the settled [start, end] pair.
+  await slider.dragThumb({ x: 30 }, 'start');
+
+  // Key press: one commit with the settled pair.
+  await slider.focus('end');
+  await slider.pressKey('ArrowUp', 'end');
+
+  const outputs = await handle.getOutputLog();
+  expect(outputs['valueCommit']).toHaveLength(2);
+  const [start] = outputs['valueCommit'][0];
+  expect(start).toBeGreaterThan(20);
+  expect(outputs['valueCommit'][0]).toEqual([start, 60]);
+  expect(outputs['valueCommit'][1]).toEqual([start, 61]);
+});
+
+test('valueCommit - readonly and disabled emit nothing', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<jig-slider style="width: 300px;" [value]="inputs().value" [readonly]="inputs().readonly" [disabled]="inputs().disabled" (valueCommit)="output('valueCommit', $event)" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: 50,
+        readonly: true,
+        disabled: false,
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+
+  async function expectNoCommit() {
+    await slider.focus();
+    await slider.pressKey('ArrowRight');
+    await slider.pressKey('Home');
+    await slider.clickTrack({ x: 10 });
+    await slider.dragThumb({ x: 20 });
+    expect(await handle.getOutputLog()).toEqual({});
+  }
+
+  await expectNoCommit();
+
+  await handle.setInputs({ readonly: false, disabled: true });
+  await expectNoCommit();
+});

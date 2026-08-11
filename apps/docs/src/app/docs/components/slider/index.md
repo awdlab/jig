@@ -44,6 +44,15 @@ governs user interaction, so the control never silently rewrites your model.
 
 {{ demo: Demo_Slider_Range }}
 
+### Committing a value
+
+`valueChange` fires continuously as the value moves — on every drag frame and
+every key press. `valueCommit` fires once an interaction settles: a drag
+release, a track click, or a handled key press, including when a drag clamps
+against `minRangeDistance` and ends back where it started. Use it to react to
+a finished pick (e.g. save or fetch) without reacting to every intermediate
+frame.
+
 ### Vertical
 
 Set `vertical` to `true` to orient the track bottom-to-top. Give the slider a
