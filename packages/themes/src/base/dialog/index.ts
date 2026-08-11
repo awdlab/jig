@@ -26,6 +26,9 @@ export const dialogStyles = createThemePart({
       }
       ${c('content')} {
         overflow: auto;
+        /* Ensure overflowing outlines are visible in the content */
+        margin: -4px;
+        padding: 4px;
       }
       ${c('default-footer')} {
         display: flex;

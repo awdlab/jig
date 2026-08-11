@@ -47,9 +47,9 @@ export class JigDocsTopbar {
   protected readonly breadcrumbItems = this._breadcrumb.items;
 
   /** Page-wide, so the palette opens from anywhere and not just from the topbar. */
-  protected readonly searchShortcut = computed<JigShortcutBinding[]>(() => [
-    { shortcut: SEARCH_SHORTCUT, callback: () => this.searchOpen.set(true), global: true },
-  ]);
+  protected readonly searchShortcut: JigShortcutBinding[] = [
+    { shortcut: SEARCH_SHORTCUT, callback: () => this.searchOpen.update(v => !v), global: true },
+  ];
   protected readonly searchLabel = computed(
     () => `Search the docs (${formatShortcut(SEARCH_SHORTCUT)})`
   );

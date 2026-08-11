@@ -8,7 +8,7 @@ import { DummyLazyComponent } from '../dummies/lazy';
   selector: 'jig-demo-dialog-lazy',
   imports: [JigDialog, JigButton, DummyLazyComponent],
   template: `<button jigButton (click)="open.set(true)">Open Dialog</button>
-    <jig-dialog [open]="open()" (openChange)="open.set($event)">
+    <jig-dialog [open]="open()" (openChange)="open.set($event)" [lazy]="true">
       <ng-template #content>
         <dummy-lazy-test />
       </ng-template>

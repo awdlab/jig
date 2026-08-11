@@ -49,6 +49,50 @@ test('creates a toast with correct content and notification ARIA', async ({ page
   await expect(toast.locator).toHaveAttribute('aria-atomic', 'true');
 });
 
+test('the region stays in the top layer until the last toast has animated out', async ({
+  page,
+}) => {
+  const { show, host } = await loadToastTrigger(page, {
+    header: 'Leaving',
+    content: 'Watch me go.',
+    autoHide: false,
+    closable: true,
+  });
+
+  await show.click();
+  await host.expectToastCount(1);
+
+  // `animate.leave` keeps the toast in the DOM for its exit animation. Sampling every
+  // frame instead of once after the close: a region that drops out of the top layer
+  // while a toast is still attached would `display: none` that animation away, and a
+  // single well-timed assertion would race the animation's length.
+  await page.evaluate(() => {
+    (window as unknown as { __regionViolations: number }).__regionViolations = 0;
+    const sample = () => {
+      const toast = document.querySelector('jig-toast');
+      const region = document.querySelector('jig-toast-host');
+      if (!toast || !region) {
+        return;
+      }
+      if (!region.matches(':popover-open')) {
+        (window as unknown as { __regionViolations: number }).__regionViolations++;
+      }
+      requestAnimationFrame(sample);
+    };
+    requestAnimationFrame(sample);
+  });
+
+  await host.getToast(0).close();
+  await expect(page.locator('jig-toast')).not.toBeAttached({ timeout: 4000 });
+
+  expect(
+    await page.evaluate(
+      () => (window as unknown as { __regionViolations: number }).__regionViolations
+    )
+  ).toBe(0);
+  expect(await host.locator.evaluate(el => el.matches(':popover-open'))).toBe(false);
+});
+
 test('dismisses via the close button when closable', async ({ page }) => {
   const { show, host } = await loadToastTrigger(page, {
     header: 'Closable',

@@ -1,7 +1,7 @@
-import { afterNextRender, Component, ElementRef, inject, viewChildren } from '@angular/core';
+import { Component, ElementRef, inject, viewChildren } from '@angular/core';
 import { JigBase, provideSelf } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
-import { NotificationRegionController } from '@awdlab/jig/utils-ng';
+import { NotificationRegionController, OverlayLifecycle } from '@awdlab/jig/utils-ng';
 import { snackbarControlTemplate } from '@awdlab/jig-themes/templates/snackbar';
 
 import { JigSnackbar } from './snackbar';
@@ -16,7 +16,6 @@ import { JigSnackbarManager } from './snackbar-manager';
   imports: [JigSnackbar],
   providers: [provideSelf(JigSnackbarHost)],
   host: {
-    '[attr.popover]': '"manual"',
     role: 'region',
     '[attr.aria-label]': "i18n['snackbar_region']()",
     '(document:keydown)': 'region.handleGlobalKeydown($event)',
@@ -47,12 +46,19 @@ export class JigSnackbarHost extends JigBase<'snackbar'> {
     this._items()
   );
 
-  constructor() {
-    super();
-    afterNextRender(() => {
-      this._el.nativeElement.showPopover();
-    });
-  }
+  /**
+   * Only occupies the top layer while snackbars exist — a permanently open popover blocks
+   * later top-layer entries from stacking predictably and looks like top-layer hijacking
+   * to password managers.
+   */
+  private readonly _lifecycle = new OverlayLifecycle(() => this._el.nativeElement, {
+    mode: () => 'manual',
+    openWhen: () => this.snackbars().length > 0,
+    // The last snackbar animates itself out with `animate.leave` while still in the DOM —
+    // hiding the region first would `display: none` that animation away.
+    deferHide: true,
+    awaitSubtree: true,
+  });
 
   protected removeSnackbar(id: number): void {
     this._snackbarManager.removeSnackbar(id);

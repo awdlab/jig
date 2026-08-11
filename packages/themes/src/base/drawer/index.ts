@@ -10,6 +10,7 @@ export const drawerStyles = createThemePart({
         color: inherit;
         flex-direction: column;
         position: fixed;
+        display: none;
         &:popover-open {
           display: flex;
         }

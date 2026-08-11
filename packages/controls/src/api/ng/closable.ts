@@ -1,4 +1,4 @@
-import { type ModelSignal, OutputEmitterRef } from '@angular/core';
+export type { Openable } from '@awdlab/jig/utils-ng';
 
 export type PopoverCloseBy = 'any' | 'none';
 export type CloseBy = PopoverCloseBy | 'escape';
@@ -22,12 +22,4 @@ export function toModalCloseBy(closeBy: CloseBy): 'any' | 'closerequest' | 'none
     case 'none':
       return 'none';
   }
-}
-
-export interface Openable {
-  show(): void;
-  hide(): void;
-  toggle(): void;
-  open: ModelSignal<boolean>;
-  closed: OutputEmitterRef<void>;
 }

@@ -14,8 +14,12 @@ export const inputFieldStyles = createThemePart({
         display: inline-flex;
         align-items: center;
         width: 100%;
-        overflow: auto;
         min-height: fit-content;
+        overflow: auto;
+        /* Special handling for bitwarden autofill scale animation (causes unwanted overflow): */
+        &:has(.com-bitwarden-browser-animated-fill) {
+          overflow: hidden;
+        }
         &:has(textarea) {
           resize: both;
         }

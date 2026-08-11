@@ -3,14 +3,12 @@ import {
   ChangeDetectorRef,
   Component,
   computed,
-  DestroyRef,
   ElementRef,
   inject,
   Injector,
   input,
   model,
   output,
-  signal,
   untracked,
   viewChild,
 } from '@angular/core';
@@ -24,7 +22,7 @@ import {
 } from '@awdlab/jig/api/ng';
 import { provideSelf, JigPt } from '@awdlab/jig/base';
 import { JigDefer } from '@awdlab/jig/defer';
-import { computedWithPrevious, explicitAfterRenderEffect } from '@awdlab/jig/utils-ng';
+import { computedWithPrevious, OverlayLifecycle } from '@awdlab/jig/utils-ng';
 import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
 
 import { PopoverTemplates } from './popover-templates';
@@ -79,19 +77,6 @@ export class JigPopover extends PopoverTemplates implements Openable {
   public readonly closeBy = input<PopoverCloseBy>('any');
 
   protected readonly _content = viewChild.required<ElementRef<HTMLElement>>('content');
-  protected readonly closeByPopover = computed(() => toPopoverCloseBy(this.closeBy()));
-  protected readonly isFullyClosed = signal(true);
-
-  private _skipEmitCloseEvent = false;
-  private _triggeredByInput = false;
-  // Set by `onToggle` when the open state changed because the popover itself
-  // toggled (native show/hide). The `[open]` effect then skips re-running
-  // show()/hide() for that echo — otherwise the redundant show() schedules a
-  // second deferred `togglePopover(true)` that can re-open the popover right
-  // after a quick close (e.g. Enter then Escape). The effect still reacts to
-  // genuine external `[open]` input changes.
-  private _internalToggle = false;
-  private _destroyed = false;
 
   protected readonly appliedOptions = computed(() => ({
     cache: false,
@@ -118,68 +103,40 @@ export class JigPopover extends PopoverTemplates implements Openable {
     });
   });
 
-  constructor() {
-    super();
+  /**
+   * Open/close state, the native popover calls and the `popover` attribute. The
+   * attribute only exists while open, so a closed popover is not a top-layer element.
+   */
+  private readonly _lifecycle = new OverlayLifecycle(() => this._popover(), {
+    mode: () => 'popover',
+    control: this,
+    popoverValue: () => toPopoverCloseBy(this.closeBy()),
+    deferShow: true,
+    // The wrapper is `display: none` while closed; the exit animation runs on its content.
+    animationElement: () => this._content()?.nativeElement,
+    // Flush so the deferred content exists before the lifecycle's frame measures it.
+    onOpening: () => this._cdr.detectChanges(),
+    onBeforeShow: () => this._autoPos()?.start(),
+    onClosing: () => this._autoPos()?.stop(),
+  });
 
-    inject(DestroyRef).onDestroy(() => (this._destroyed = true));
-
-    explicitAfterRenderEffect([this.open], ([open]) => {
-      // Ignore the echo from our own onToggle-driven open change; only react to
-      // external `[open]` input changes.
-      if (this._internalToggle) {
-        this._internalToggle = false;
-        return;
-      }
-      if (!open) {
-        this._triggeredByInput = true;
-        this.hide();
-      }
-      if (open) {
-        this._triggeredByInput = true;
-        this.show();
-      }
-    });
-  }
+  /** `true` once the popover is closed and done animating — the cue to unmount content. */
+  protected readonly isFullyClosed = this._lifecycle.isFullyClosed;
+  /** `true` while the exit animation is still running. */
+  protected readonly isClosing = computed(() => this._lifecycle.phase() === 'closing');
 
   /**
    * Opens the popover. Alternatively, you can also set the {@link open} input to `true`.
    */
   public show() {
-    untracked(() => {
-      if (this._destroyed || (this.open() && !this._triggeredByInput)) {
-        return;
-      }
-      this._triggeredByInput = false;
-      this.isFullyClosed.set(false);
-      this._cdr.detectChanges();
-      requestAnimationFrame(() => {
-        if (!this.isAttached()) {
-          return;
-        }
-        this._autoPos()?.start();
-        this._popover().togglePopover(true);
-      });
-    });
+    untracked(() => this._lifecycle.show());
   }
 
   /**
    * Closes the popover. Alternatively, you can also set the {@link open} input to `false`.
    */
   public hide(emitCloseEvent = true) {
-    untracked(() => {
-      if (!this.isAttached() || (!this.open() && !this._triggeredByInput)) {
-        return;
-      }
-      this._triggeredByInput = false;
-      this._skipEmitCloseEvent = !emitCloseEvent;
-      this._autoPos()?.stop();
-      this._popover().togglePopover(false);
-    });
-  }
-
-  /** Native popover APIs throw on disconnected elements, so callers holding a stale reference no-op. */
-  private isAttached() {
-    return !this._destroyed && this._popover().isConnected;
+    untracked(() => this._lifecycle.hide({ silent: !emitCloseEvent }));
   }
 
   /**
@@ -194,44 +151,6 @@ export class JigPopover extends PopoverTemplates implements Openable {
   }
 
   protected onToggle(event: Event) {
-    const evt = event as ToggleEvent;
-    // Mark this open-state change as internal so the `[open]` effect doesn't
-    // echo it back into another show()/hide().
-    this._internalToggle = true;
-    if (evt.newState === 'closed') {
-      this.open.set(false);
-
-      if (this._skipEmitCloseEvent) {
-        this._skipEmitCloseEvent = false;
-      } else {
-        this.closing.emit();
-      }
-      this._autoPos()?.stop();
-
-      requestAnimationFrame(() => {
-        if (this._destroyed) {
-          return;
-        }
-        const allAnimationsDone = Promise.all(
-          this._content()
-            .nativeElement.getAnimations()
-            .map(x => x.finished)
-        );
-        allAnimationsDone
-          .then(() => {
-            if (this._destroyed) {
-              return;
-            }
-            this.isFullyClosed.set(true);
-            this.closed.emit();
-          })
-          .catch(() => {
-            // ignore cancelled animation
-          });
-      });
-    } else {
-      this.open.set(true);
-      this.isFullyClosed.set(false);
-    }
+    this._lifecycle.onNativeToggle(event);
   }
 }

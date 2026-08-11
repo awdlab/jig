@@ -68,7 +68,6 @@ export const inputFieldStyles = createThemePart({
           outline-width: 3px;
           outline-style: solid;
           outline-offset: 0;
-          overflow: auto;
           /** The shared control height as a floor; content (textarea, chips) still grows it.
               Must be min-height — height: max(..., fit-content) is invalid CSS and gets dropped. */
           --baseHeight: ${v('size.height.control')};

@@ -1,7 +1,7 @@
-import { afterNextRender, Component, ElementRef, inject, viewChildren } from '@angular/core';
+import { Component, ElementRef, inject, viewChildren } from '@angular/core';
 import { JigBase } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
-import { NotificationRegionController } from '@awdlab/jig/utils-ng';
+import { NotificationRegionController, OverlayLifecycle } from '@awdlab/jig/utils-ng';
 import { toastControlTemplate } from '@awdlab/jig-themes/templates/toast';
 
 import { JigToast } from './toast';
@@ -15,7 +15,6 @@ import { JigToastManager } from './toast-manager';
   templateUrl: 'toast-host.html',
   imports: [JigToast],
   host: {
-    '[attr.popover]': '"manual"',
     role: 'region',
     '[attr.aria-label]': "i18n['toast_region']()",
     '(document:keydown)': 'region.handleGlobalKeydown($event)',
@@ -42,12 +41,19 @@ export class JigToastHost extends JigBase<'toast'> {
     this._items()
   );
 
-  constructor() {
-    super();
-    afterNextRender(() => {
-      this._el.nativeElement.showPopover();
-    });
-  }
+  /**
+   * Only occupies the top layer while toasts exist — a permanently open popover blocks
+   * later top-layer entries from stacking predictably and looks like top-layer hijacking
+   * to password managers.
+   */
+  private readonly _lifecycle = new OverlayLifecycle(() => this._el.nativeElement, {
+    mode: () => 'manual',
+    openWhen: () => this.toasts().length > 0,
+    // The last toast animates itself out with `animate.leave` while still in the DOM —
+    // hiding the region first would `display: none` that animation away.
+    deferHide: true,
+    awaitSubtree: true,
+  });
 
   protected removeToast(id: number): void {
     this._toastManager.removeToast(id);

@@ -80,4 +80,6 @@ Always check **all** parts when making changes to a control — a rename or new 
 
 - The dev server does NOT recompile when a globally `@use`d SCSS partial (e.g. `src/styles/global.scss`) changes — the watcher misses it. To force a rebuild + reload, save the app's `styles.scss` entry (which `@use`s those partials). (Component-template/TS edits hot-reload normally; this caveat is specific to global SCSS partials.)
 
+- PR descriptions: lead with a short summary readable in under a minute — the most important points at a glance. Add deeper detail below only if genuinely needed.
+
 ## Imported Claude Cowork project instructions

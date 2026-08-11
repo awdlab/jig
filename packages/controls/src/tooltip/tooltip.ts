@@ -27,7 +27,7 @@ import {
 import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
 import { JigDefer } from '@awdlab/jig/defer';
 import { getTimeSpanMilliseconds, notNullish, type TimeSpan } from '@awdlab/jig/utils';
-import { computedWithPrevious, generateElementId } from '@awdlab/jig/utils-ng';
+import { computedWithPrevious, generateElementId, OverlayLifecycle } from '@awdlab/jig/utils-ng';
 import { tooltipControlTemplate } from '@awdlab/jig-themes/templates/tooltip';
 
 import {
@@ -323,7 +323,6 @@ export class JigTooltip extends JigBase<'tooltip'> implements OnDestroy {
     '[style.--anchor-end]': `toPixels(relativeAnchorElementPosition()?.end)`,
     '[style.left]': `toPixels(position().x)`,
     '[style.top]': `toPixels(position().y)`,
-    '[attr.popover]': `'hint'`,
     '[attr.id]': `id`,
     '[attr.role]': `'tooltip'`,
     '(toggle)': 'onToggle($event)',
@@ -384,12 +383,24 @@ export class TooltipComponent extends JigBase<'tooltip'> {
     RelativeAnchorElementPositionData | undefined
   >(undefined);
 
-  private readonly _isShown = signal(false);
-  private readonly _isClosing = signal(false);
+  /**
+   * Open/close state and the `popover` attribute. `hint` never light-dismisses other
+   * popovers, and the attribute is dropped while hidden so a tooltip that has been
+   * shown once does not linger as a top-layer element.
+   *
+   * The exit animation is gated on `:popover-open`, so the popover has to stay open for
+   * the length of it — hiding first would skip the fade-out entirely.
+   */
+  private readonly _lifecycle = new OverlayLifecycle(() => this.element.nativeElement, {
+    mode: () => 'hint',
+    deferHide: true,
+  });
 
   public readonly id = generateElementId();
-  public readonly isShown = this._isShown.asReadonly();
-  public readonly isClosing = this._isClosing.asReadonly();
+  /** Whether the tooltip is currently displayed. */
+  public readonly isShown = this._lifecycle.isOpen;
+  /** Whether the tooltip is playing its exit animation. */
+  public readonly isClosing = computed(() => this._lifecycle.phase() === 'closing');
 
   private readonly _defaultContentTemplate =
     viewChild.required<TemplateRef<unknown>>('defaultContentTemplate');
@@ -507,27 +518,15 @@ export class TooltipComponent extends JigBase<'tooltip'> {
       return;
     }
 
-    this._isShown.set(true);
-    this.element.nativeElement.showPopover();
+    this._lifecycle.show();
   }
 
   protected onHide() {
-    this._isClosing.set(true);
-    requestAnimationFrame(() => {
-      Promise.all(this.element.nativeElement.getAnimations().map(a => a.finished))
-        .then(() => this.element.nativeElement.hidePopover())
-        .catch(() => {})
-        .finally(() => this._isClosing.set(false));
-    });
+    this._lifecycle.hide();
   }
 
   protected onToggle(event: Event) {
-    const evt = event as ToggleEvent;
-    if (evt.newState === 'closed') {
-      this._isShown.set(false);
-    } else {
-      this._isShown.set(true);
-    }
+    this._lifecycle.onNativeToggle(event);
   }
 
   protected toPixels(value: number | undefined): string | undefined {

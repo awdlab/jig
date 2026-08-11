@@ -9,7 +9,6 @@ import {
   input,
   model,
   output,
-  signal,
   untracked,
 } from '@angular/core';
 import {
@@ -24,7 +23,7 @@ import { JigButton } from '@awdlab/jig/button';
 import { JigDefer } from '@awdlab/jig/defer';
 import { I18n } from '@awdlab/jig/i18n';
 import { JigIcon } from '@awdlab/jig/icon';
-import { FocusTrap, generateElementId } from '@awdlab/jig/utils-ng';
+import { FocusTrap, generateElementId, OverlayLifecycle } from '@awdlab/jig/utils-ng';
 import { drawerControlTemplate } from '@awdlab/jig-themes/templates/drawer';
 
 import { DrawerTemplates } from './drawer-templates';
@@ -40,7 +39,6 @@ import type { IconType } from '@awdlab/jig-custom-types';
   imports: [JigPt, NgTemplateOutlet, JigDefer, JigButton, JigIcon, JigTemplate],
   providers: [provideSelf(JigDrawer)],
   host: {
-    '[attr.popover]': 'closeByPopover()',
     '(toggle)': 'onToggle($event)',
     '[attr.aria-modal]': 'modal() ? "true" : null',
     // A modal overlay is a dialog; a non-modal side panel is complementary
@@ -63,6 +61,11 @@ export class JigDrawer extends DrawerTemplates implements Openable {
    * Emits when the drawer has fully closed.
    */
   public readonly closed = output();
+  /**
+   * Emits when the drawer starts closing, before its exit animation.
+   * Use {@link closed} to react once the animation has finished.
+   */
+  public readonly closing = output();
   /**
    * Shows or hides the drawer.
    *
@@ -119,9 +122,18 @@ export class JigDrawer extends DrawerTemplates implements Openable {
   });
 
   private readonly platform = inject(Platform);
-  private _togglingTriggeredByInput = false;
-  protected readonly isFullyClosed = signal(true);
-  protected readonly closeByPopover = computed(() => toPopoverCloseBy(this.closeBy()));
+  /**
+   * Open/close state, the native popover calls and the `popover` attribute. The
+   * attribute only exists while open, so a closed drawer is not a top-layer element.
+   */
+  private readonly _lifecycle = new OverlayLifecycle(() => this.element.nativeElement, {
+    mode: () => 'popover',
+    control: this,
+    popoverValue: () => toPopoverCloseBy(this.closeBy()),
+  });
+
+  /** `true` once the drawer is closed and done animating — the cue to unmount content. */
+  protected readonly isFullyClosed = this._lifecycle.isFullyClosed;
   protected readonly horizontal = computed(
     () => this.position() === 'top' || this.position() === 'bottom'
   );
@@ -129,16 +141,6 @@ export class JigDrawer extends DrawerTemplates implements Openable {
 
   constructor() {
     super();
-    afterRenderEffect(() => {
-      if (this.open()) {
-        this._togglingTriggeredByInput = true;
-        this.show();
-      } else {
-        this._togglingTriggeredByInput = true;
-        this.hide();
-      }
-    });
-
     // Trap focus inside a modal drawer while it is open. The Popover API already
     // handles Escape/light-dismiss; the trap adds focus-in, Tab wrapping, and
     // focus restore on close that the popover does not provide. Runs as an
@@ -183,26 +185,14 @@ export class JigDrawer extends DrawerTemplates implements Openable {
    * Opens the drawer. Alternatively, you can also set the `open` input to `true`.
    */
   public show() {
-    untracked(() => {
-      if (this.open() && !this._togglingTriggeredByInput) {
-        return;
-      }
-      this._togglingTriggeredByInput = false;
-      this.element.nativeElement.togglePopover(true);
-    });
+    untracked(() => this._lifecycle.show());
   }
 
   /**
    * Closes the drawer. Alternatively, you can also set the `open` input to `false`.
    */
   public hide() {
-    untracked(() => {
-      if (!this.open() && !this._togglingTriggeredByInput) {
-        return;
-      }
-      this._togglingTriggeredByInput = false;
-      this.element.nativeElement.togglePopover(false);
-    });
+    untracked(() => this._lifecycle.hide());
   }
 
   /**
@@ -217,26 +207,6 @@ export class JigDrawer extends DrawerTemplates implements Openable {
   }
 
   protected onToggle(event: Event) {
-    const evt = event as ToggleEvent;
-    if (evt.newState === 'closed') {
-      this.open.set(false);
-
-      requestAnimationFrame(() => {
-        const allAnimationsDone = Promise.all(
-          this.element.nativeElement.getAnimations().map(x => x.finished)
-        );
-        allAnimationsDone
-          .then(() => {
-            this.isFullyClosed.set(true);
-            this.closed.emit();
-          })
-          .catch(() => {
-            // ignore cancelled animation
-          });
-      });
-    } else {
-      this.open.set(true);
-      this.isFullyClosed.set(false);
-    }
+    this._lifecycle.onNativeToggle(event);
   }
 }

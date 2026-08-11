@@ -7,6 +7,9 @@ export const tooltipStyles = createThemePart({
   root: {
     css: ({ v, c }) => css`
       ${c('root')} {
+        &:not(:popover-open) {
+          display: none;
+        }
         // Browser-Reset:
         width: unset;
         height: unset;
