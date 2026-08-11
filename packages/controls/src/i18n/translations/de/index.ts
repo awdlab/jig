@@ -100,6 +100,9 @@ export const de = {
   },
   otp: {
     cellLabel: 'Zeichen {{ index }} von {{ total }}',
+    errors: {
+      required: 'Geben Sie den vollständigen Code ein',
+    },
   },
   drawer: {
     close: 'Schließen',

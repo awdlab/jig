@@ -684,3 +684,65 @@ describe('jigErrors', () => {
     });
   });
 });
+
+// ── control-scoped messages ─────────────────────────────────────────────────
+@Component({
+  imports: [FormField, JigOtp, JigErrors],
+  template: `
+    <jig-otp
+      [length]="6"
+      [formField]="signalForm.code"
+      jigErrors
+      jigErrorsShowOn="always"
+      #errors="jigErrors"
+    />
+  `,
+})
+class ScopedMessageHost {
+  model = signal({ code: '' });
+  signalForm = form(this.model, path => required(path.code));
+  errors = viewChild.required<JigErrors>('errors');
+  otp = viewChild.required(JigOtp);
+}
+
+@Component({
+  imports: [FormsModule, JigInput, JigErrors],
+  template: `
+    <input
+      jigInput
+      required
+      [(ngModel)]="value"
+      jigErrors
+      jigErrorsShowOn="always"
+      #errors="jigErrors"
+    />
+  `,
+})
+class ScopedFallbackHost {
+  value = '';
+  errors = viewChild.required<JigErrors>('errors');
+}
+
+describe('control-scoped error messages', () => {
+  it('exposes the host control theme scope', async () => {
+    const fixture = TestBed.createComponent(ScopedMessageHost);
+    await flush(fixture);
+
+    expect(fixture.componentInstance.otp().controlScope()).toBe('otp');
+  });
+
+  it('prefers a control-scoped translation over the generic one', async () => {
+    const fixture = TestBed.createComponent(ScopedMessageHost);
+    await flush(fixture);
+
+    expect(fixture.componentInstance.errors().errors()[0]?.key).toBe('required');
+    expect(fixture.componentInstance.errors().message()).toBe('Enter the full code');
+  });
+
+  it('falls back to the generic translation when the control defines none', async () => {
+    const fixture = TestBed.createComponent(ScopedFallbackHost);
+    await flush(fixture);
+
+    expect(fixture.componentInstance.errors().message()).toBe('Required');
+  });
+});

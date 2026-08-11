@@ -73,6 +73,13 @@ export abstract class JigBase<T extends ControlName | null> {
   private readonly _defaultKind = signal<CustomKind<T> | undefined>(undefined);
   private readonly _defaultColor = signal<CustomColor | undefined>(undefined);
   private readonly _kindOverride = signal<CustomKind<T> | undefined>(undefined);
+  private readonly _controlScope = signal<string | null>(null);
+
+  /**
+   * The control's theme scope, available once its theme has been injected.
+   * `jigErrors` reads it to prefer a control-scoped validation message.
+   */
+  public readonly controlScope: Signal<string | null> = this._controlScope;
 
   /**
    * The element reference for the host element.
@@ -337,6 +344,7 @@ export abstract class JigBase<T extends ControlName | null> {
   > {
     const opts = { unstyled: this.unstyled };
     const theme = injectThemeTemplate(template, opts);
+    this._controlScope.set(theme.scope);
 
     const defaults = injectThemeControlDefaults(theme.scope)();
     const kinds = injectThemeControlKinds(theme.scope)();

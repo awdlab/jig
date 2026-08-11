@@ -100,6 +100,9 @@ export const en = {
   },
   otp: {
     cellLabel: 'Character {{ index }} of {{ total }}',
+    errors: {
+      required: 'Enter the full code',
+    },
   },
   drawer: {
     close: 'Close',
