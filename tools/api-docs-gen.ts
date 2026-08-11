@@ -19,6 +19,8 @@ import {
   OptionDefaults,
 } from 'typedoc';
 
+import { writeTypeMatrix } from './type-matrix/type-matrix-gen';
+
 const OUT_DIR = '../../apps/docs/src/app/docs/_generated';
 
 const options: TypeDocOptions = {
@@ -224,6 +226,7 @@ async function run() {
   }
   await convertProject(project);
   await app.generateOutputs(project);
+  await writeTypeMatrix(`${OUT_DIR}/type-matrix.json`);
 }
 
 void run();
