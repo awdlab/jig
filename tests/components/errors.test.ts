@@ -77,6 +77,9 @@ test('async validation shows pending and resolved messages', async ({ page }) =>
   const hint = page.locator('jig-hint');
 
   await expect(hint).toContainText('Validating...');
+
+  // The validator only settles when told to, so the pending phase above is not a race.
+  await page.evaluate(() => (window as any).jigResolveAsyncValidator());
   await expect(hint).toContainText('Server rejected the value');
 });
 
