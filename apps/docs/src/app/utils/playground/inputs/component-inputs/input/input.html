@@ -45,5 +45,48 @@
         />
       </jig-input-field>
     }
+    @case ('array') {
+      @if (dataType.elementType.kind === 'literalUnion') {
+        <jig-input-field [label]="label" [labelKind]="'on'">
+          <jig-select
+            [multiple]="true"
+            [value]="value()"
+            (valueChange)="value.set($event)"
+            [options]="dataType.elementType.values"
+          />
+        </jig-input-field>
+      } @else {
+        <jig-docs-playground-json-input
+          [label]="label"
+          [type]="dataType"
+          [value]="value()"
+          (valueChange)="value.set($event)"
+        />
+      }
+    }
+    @case ('tuple') {
+      <jig-docs-playground-json-input
+        [label]="label"
+        [type]="dataType"
+        [value]="value()"
+        (valueChange)="value.set($event)"
+      />
+    }
+    @case ('object') {
+      <jig-docs-playground-json-input
+        [label]="label"
+        [type]="dataType"
+        [value]="value()"
+        (valueChange)="value.set($event)"
+      />
+    }
+    @case ('union') {
+      <jig-docs-playground-json-input
+        [label]="label"
+        [type]="dataType"
+        [value]="value()"
+        (valueChange)="value.set($event)"
+      />
+    }
   }
 }

@@ -19,6 +19,7 @@ import { JigSelect } from '@awdlab/jig/select';
 import { JigSwitch } from '@awdlab/jig/switch';
 import { setInputSignalValue } from '@awdlab/jig/utils-ng';
 
+import { JigDocsPlaygroundJsonInput } from './json-input/json-input';
 import { collectParamValues, comboKey, resolveParams } from '../../../params';
 
 import type { AnyJigBase } from '@awdlab/jig/base';
@@ -37,6 +38,7 @@ import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
     JigSwitch,
     JigSelect,
     JigCalendar,
+    JigDocsPlaygroundJsonInput,
   ],
   host: {
     '[style.display]': 'isKnownType() ? "block" : "none"',

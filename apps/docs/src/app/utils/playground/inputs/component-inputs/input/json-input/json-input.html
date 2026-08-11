@@ -1,0 +1,13 @@
+<jig-input-field [label]="label()" [labelKind]="'on'">
+  <textarea
+    jigInput
+    rows="4"
+    class="font-mono text-xs"
+    [invalid]="!!error()"
+    [value]="text()"
+    (blur)="commit($any($event.target).value)"
+  ></textarea>
+</jig-input-field>
+@if (error(); as error) {
+  <jig-hint [kind]="'error'">{{ error }}</jig-hint>
+}
