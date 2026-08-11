@@ -1,8 +1,9 @@
-import { Component, input, viewChild, ElementRef, computed, inject } from '@angular/core';
+import { Component, input, viewChild, ElementRef, computed, effect, inject } from '@angular/core';
 import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { JigDrag, type JigDragInfo } from '@awdlab/jig/directives';
 import { I18n } from '@awdlab/jig/i18n';
 import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
+import { JigError } from '@awdlab/jig/utils';
 
 import type { InputGeneric } from '@awdlab/jig/utils';
 
@@ -91,6 +92,16 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
   public readonly range = input<Range>();
 
   /**
+   * The smallest gap the two handles may have, in value units. Dragging or
+   * stepping a handle stops this far from the other one; the other handle never
+   * moves.
+   *
+   * Only applies when {@link range} is `true`. Must not exceed `max - min`.
+   * @default 0
+   */
+  public readonly minRangeDistance = input<number>(0);
+
+  /**
    * The value text representation for accessibility.
    * If both {@link valueText} and {@link valueTextFn} are provided, {@link valueText} takes precedence.
    */
@@ -127,6 +138,14 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
 
   constructor() {
     super();
+    effect(() => {
+      if (this.isRange() && this.minRangeDistance() > this.max() - this.min()) {
+        throw new JigError(
+          'slider',
+          'minRangeDistance cannot be larger than the distance between min and max'
+        );
+      }
+    });
   }
 
   protected valueTextFor(value: number): string | null {
@@ -220,7 +239,8 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
       return [this.min(), this.max()];
     }
     const [start, end] = this.values();
-    return handle === 'start' ? [this.min(), end] : [start, this.max()];
+    const gap = this.minRangeDistance();
+    return handle === 'start' ? [this.min(), end - gap] : [start + gap, this.max()];
   }
 
   private setHandle(handle: SliderHandle, next: number): void {

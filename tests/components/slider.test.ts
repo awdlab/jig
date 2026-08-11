@@ -657,3 +657,75 @@ test('range readonly & disabled', async ({ page }, testInfo) => {
   await slider.pressKey('ArrowRight', 'start');
   await slider.expectRangeValue([21, 60]);
 });
+
+test('minRangeDistance clamps the moved handle', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<jig-slider style="width: 300px;" [range]="true" [minRangeDistance]="inputs().minRangeDistance" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: [30, 70],
+        minRangeDistance: 10,
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+
+  // The gap shows up in each handle's announced window.
+  await expect(slider.thumbStart).toHaveAttribute('aria-valuemax', '60');
+  await expect(slider.thumbEnd).toHaveAttribute('aria-valuemin', '40');
+
+  // End into start: stops at start + 10, start does not move.
+  await slider.pressKey('Home', 'end');
+  await slider.expectRangeValue([30, 40]);
+
+  // Start into end: stops at end - 10.
+  await slider.pressKey('End', 'start');
+  await slider.expectRangeValue([30, 40]);
+
+  // Stepping toward the other handle stops at the gap rather than crossing.
+  await slider.pressKey('End', 'end');
+  await slider.expectRangeValue([30, 100]);
+  await handle.setInputs({ value: [30, 41] });
+  await slider.pressKey('ArrowRight', 'start');
+  await slider.expectRangeValue([31, 41]);
+  await slider.pressKey('ArrowRight', 'start');
+  await slider.expectRangeValue([31, 41]);
+
+  // Dragging respects it too.
+  await handle.setInputs({ value: [30, 70] });
+  await slider.dragThumb({ x: 200 }, 'start');
+  await expect(async () => {
+    const start = Number(await slider.thumbStart.getAttribute('aria-valuenow'));
+    const end = Number(await slider.thumbEnd.getAttribute('aria-valuenow'));
+    expect(end).toBe(70);
+    expect(start).toBeLessThanOrEqual(60);
+  }).toPass();
+});
+
+test('minRangeDistance larger than the span throws', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', err => errors.push(err.message));
+
+  await loadComponent(
+    page,
+    {
+      template: `<jig-slider [range]="true" [min]="0" [max]="10" [minRangeDistance]="20" [value]="inputs().value" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: [0, 10],
+      },
+    }
+  );
+
+  await expect(async () => {
+    expect(errors.join('\n')).toContain('[slider]');
+    expect(errors.join('\n')).toContain('minRangeDistance');
+  }).toPass();
+});
