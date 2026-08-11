@@ -709,6 +709,13 @@ test('minRangeDistance clamps the moved handle', async ({ page }) => {
 
 test('minRangeDistance larger than the span throws', async ({ page }) => {
   const errors: string[] = [];
+  page.on('console', async msg => {
+    if (msg.type() !== 'error') return;
+    const parts = await Promise.all(
+      msg.args().map(arg => arg.evaluate(e => (e instanceof Error ? e.message : String(e))))
+    );
+    errors.push(parts.join(' '));
+  });
   page.on('pageerror', err => errors.push(err.message));
 
   await loadComponent(
