@@ -4,8 +4,10 @@ import { ConsoleLogger, Deserializer, FileRegistry } from 'typedoc/browser';
 
 import { JigDocsPlaygroundInput } from './input/input';
 import { getTypedocProject } from '../../../typedoc';
+import { getTypeMatrix } from '../../../type-matrix';
 
 import type { AnyJigBase } from '@awdlab/jig/base';
+import type { ControlTypes, TypeMatrix } from '../../type-model';
 import type { DeclarationReflection, ProjectReflection } from 'typedoc/browser';
 
 @Component({
@@ -15,6 +17,7 @@ import type { DeclarationReflection, ProjectReflection } from 'typedoc/browser';
 })
 export class JigDocsPlaygroundComponentInputs {
   private readonly _project = signal<ProjectReflection | null>(null);
+  private readonly _matrix = signal<TypeMatrix | null>(null);
 
   public readonly component = input.required<AnyJigBase | readonly AnyJigBase[]>();
   public readonly componentName = input.required<string>();
@@ -52,6 +55,10 @@ export class JigDocsPlaygroundComponentInputs {
     return inputs;
   });
 
+  protected readonly controlTypes = computed<ControlTypes | null>(
+    () => this._matrix()?.[this.componentName()] ?? null
+  );
+
   protected readonly internalControlName = computed(() => {
     const comp = this._projectComponent();
     if (!comp) {
@@ -81,5 +88,7 @@ export class JigDocsPlaygroundComponentInputs {
       });
       this._project.set(project);
     });
+
+    void getTypeMatrix().then(matrix => this._matrix.set(matrix));
   }
 }

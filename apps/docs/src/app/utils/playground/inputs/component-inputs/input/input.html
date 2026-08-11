@@ -1,5 +1,4 @@
 @let label = input().name + (dataType()?.optional ? '' : '*');
-
 @if (dataType(); as dataType) {
   @switch (dataType.kind) {
     @case ('primitive') {

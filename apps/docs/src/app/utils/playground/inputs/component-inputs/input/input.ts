@@ -17,36 +17,14 @@ import { JigNumberInput } from '@awdlab/jig/number-input';
 import { JigInputField } from '@awdlab/jig/input-field';
 import { JigSelect } from '@awdlab/jig/select';
 import { JigSwitch } from '@awdlab/jig/switch';
-import { notNullish } from '@awdlab/jig/utils';
 import { setInputSignalValue } from '@awdlab/jig/utils-ng';
 
-import type { JigItem } from '@awdlab/jig/api';
-import type { AnyJigBase } from '@awdlab/jig/base';
-import type { SomeType, DeclarationReflection } from 'typedoc/browser';
-import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
+import { collectParamValues, comboKey, resolveParams } from '../../../params';
 
-type TypeDeclaration = (
-  | {
-      kind: 'literal';
-      value: string | number | bigint | boolean | null;
-    }
-  | {
-      kind: 'primitive';
-      type: string;
-    }
-  | {
-      kind: 'array';
-      elementType: TypeDeclaration;
-    }
-  | {
-      kind: 'literalUnion';
-      primitiveType: string;
-      allowCustomValue: boolean;
-      values: JigItem[];
-    }
-) & {
-  optional?: boolean;
-};
+import type { AnyJigBase } from '@awdlab/jig/base';
+import type { ControlTypes, TypeDeclaration } from '../../../type-model';
+import type { DeclarationReflection } from 'typedoc/browser';
+import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
 
 @Component({
   selector: 'jig-docs-playground-input',
@@ -69,8 +47,30 @@ export class JigDocsPlaygroundInput {
   public readonly input = input.required<DeclarationReflection>();
   public readonly instance = input<AnyJigBase>();
   public readonly internalControlName = input.required<string>();
+  public readonly controlTypes = input<ControlTypes | null>(null);
 
-  protected readonly dataType = computed(() => this.buildTypeModel(this.input().type));
+  protected readonly dataType = computed<TypeDeclaration | undefined>(() => {
+    const themeType = this.themeDrivenType();
+    if (themeType) {
+      return themeType;
+    }
+
+    const types = this.controlTypes();
+    const instance = this.instance();
+    if (!types || !instance) {
+      return undefined;
+    }
+
+    const key = comboKey(types.params, name => (instance as any)[name]?.());
+    const inputs = types.combos[key];
+    const type = inputs?.[this.input().name];
+    if (!type) {
+      return undefined;
+    }
+
+    const siblingValues = Object.keys(inputs).map(name => (instance as any)[name]?.() as unknown);
+    return resolveParams(type, collectParamValues(siblingValues)) ?? undefined;
+  });
   protected readonly value = linkedSignal<any>(() => this.defaultValue());
   protected _previousInputValue: any = undefined;
 
@@ -122,6 +122,10 @@ export class JigDocsPlaygroundInput {
       case 'primitive':
         return ['string', 'number', 'boolean', 'date'].includes(type.type);
       case 'literal':
+      case 'array':
+      case 'tuple':
+      case 'object':
+      case 'union':
         return true;
       case 'literalUnion':
         return type.values.length > 0;
@@ -165,115 +169,38 @@ export class JigDocsPlaygroundInput {
     return undefined;
   });
 
-  private buildTypeModel(type?: SomeType): TypeDeclaration | undefined {
-    if (!type) {
-      return undefined;
-    }
-
-    function valuesToLiteralUnion(
-      value: (string | null | undefined)[]
-    ): TypeDeclaration | undefined {
-      if (!value.length || value.every(v => !v)) {
-        return undefined;
-      }
-      return {
-        kind: 'literalUnion',
-        primitiveType: 'string',
-        allowCustomValue: false,
-        values: value.map(c => {
-          if (!c) {
-            return { label: '- none -', value: undefined };
-          }
-          return {
-            label: c,
-            value: c,
-          };
-        }),
-      };
-    }
-
-    if (this.input().name === 'kind') {
-      const kinds = runInInjectionContext(this._injector, () =>
-        injectThemeControlKinds(this.internalControlName())()
+  private readonly themeDrivenType = computed<TypeDeclaration | undefined>(() => {
+    const name = this.input().name;
+    const control = this.internalControlName();
+    if (name === 'kind') {
+      return this.valuesToLiteralUnion(
+        runInInjectionContext(this._injector, () => injectThemeControlKinds(control)())
       );
-      return valuesToLiteralUnion(kinds);
-    } else if (this.input().name === 'color') {
-      const colors = runInInjectionContext(this._injector, () =>
-        injectThemeColors(this.internalControlName())()
-      );
-      return valuesToLiteralUnion(colors);
-    } else if (this.input().name === 'labelKind') {
-      const colors = runInInjectionContext(this._injector, () =>
-        injectThemeControlKinds('inputFieldLabel')()
-      );
-      return valuesToLiteralUnion(colors);
     }
-
-    switch (type.type) {
-      case 'union': {
-        const isOptional = type.types.some(
-          t =>
-            (t.type === 'intrinsic' && t.name === 'undefined') ||
-            (t.type === 'literal' && t.value === null)
-        );
-        const filteredTypes = type.types.filter(
-          t =>
-            !(
-              (t.type === 'intrinsic' && t.name === 'undefined') ||
-              (t.type === 'literal' && t.value === null)
-            )
-        );
-        if (filteredTypes.length === 1) {
-          const res = this.buildTypeModel(filteredTypes[0]);
-          if (!res) {
-            return undefined;
-          }
-          if (isOptional) {
-            res.optional = true;
-          }
-          return res;
-        }
-
-        const types = filteredTypes.map(t => this.buildTypeModel(t)).filter(notNullish);
-        if (types.some(t => t.kind === 'literal')) {
-          const literalTypes = types.filter(t => t.kind === 'literal');
-          return {
-            kind: 'literalUnion',
-            optional: isOptional,
-            primitiveType: typeof literalTypes[0]?.value,
-            values: literalTypes.map(
-              x =>
-                <JigItem>{
-                  label: x.value,
-                  value: x.value,
-                }
-            ),
-            allowCustomValue: types.some(t => t.kind !== 'literal'),
-          };
-        }
-        return;
-      }
-      case 'intrinsic':
-        return {
-          kind: 'primitive',
-          type: type.name,
-        };
-
-      case 'literal':
-        return {
-          kind: 'literal',
-          value: type.value,
-        };
-      case 'reference':
-        switch (type.name) {
-          case 'Date':
-            return {
-              kind: 'primitive',
-              type: 'date',
-            };
-        }
-        return undefined;
+    if (name === 'color') {
+      return this.valuesToLiteralUnion(
+        runInInjectionContext(this._injector, () => injectThemeColors(control)())
+      );
+    }
+    if (name === 'labelKind') {
+      return this.valuesToLiteralUnion(
+        runInInjectionContext(this._injector, () => injectThemeControlKinds('inputFieldLabel')())
+      );
     }
     return undefined;
+  });
+
+  private valuesToLiteralUnion(values: (string | null | undefined)[]): TypeDeclaration | undefined {
+    if (!values.length || values.every(v => !v)) {
+      return undefined;
+    }
+    return {
+      kind: 'literalUnion',
+      primitiveType: 'string',
+      allowCustomValue: false,
+      values: values.map(v =>
+        v ? { label: v, value: v } : { label: '- none -', value: undefined }
+      ),
+    };
   }
 }
