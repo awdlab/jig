@@ -28,6 +28,20 @@ The field mirrors the projected control's validity for styling; pair it with
 
 {{ demo: Demo_InputField_Validation }}
 
+### Required Marker
+
+`showRequiredMarker` appends a `*` to the label when the projected control is
+required. The field reads that from the control itself, so all three form
+paradigms work without extra wiring: reactive `Validators.required`, the
+template-driven `required` attribute, and the signal-forms `required()` rule
+(setting `required` on the control by hand works too).
+
+Switch it on for the whole app with `provideJigControls({ defaults: { inputField:
+{ showRequiredMarker: true } } })` — it is off by default — and override it per
+field with `[showRequiredMarker]`.
+
+{{ demo: Demo_InputField_Required }}
+
 ### Textarea
 
 The same wrapper works around a multi-line `<textarea>` — the field adapts its

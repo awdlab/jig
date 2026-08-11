@@ -17,6 +17,9 @@ export const hintStyles = createThemePart({
         color: ${v('color.muted.foreground')};
         font-size: ${v('font.size.xs')};
         line-height: ${v('font.size.xs')};
+        transition:
+          grid-template-rows 0.2s ease-in-out,
+          margin 0.2s ease-in-out;
       }
 
       ${c('icon')} {

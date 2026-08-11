@@ -2,6 +2,7 @@ import { JigDocsInputFieldPlayground } from './playground';
 import { Demo_InputField_Base } from '../../../demos/input-field/base';
 import { Demo_InputField_Clear } from '../../../demos/input-field/clear';
 import { Demo_InputField_Label } from '../../../demos/input-field/label';
+import { Demo_InputField_Required } from '../../../demos/input-field/required';
 import { Demo_InputField_States } from '../../../demos/input-field/states';
 import { Demo_InputField_Textarea } from '../../../demos/input-field/textarea';
 import { Demo_InputField_Validation } from '../../../demos/input-field/validation';
@@ -22,6 +23,7 @@ export const InputFieldPage: JigDocsPage = {
       components: [
         Demo_InputField_Base,
         Demo_InputField_Validation,
+        Demo_InputField_Required,
         Demo_InputField_Textarea,
         Demo_InputField_Clear,
         Demo_InputField_States,

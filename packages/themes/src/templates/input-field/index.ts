@@ -11,6 +11,7 @@ export const inputFieldControlTemplate = createControlTemplate({
     'readonly',
     'invalid',
     'label',
+    'required-marker',
     'clear-button',
     'labelKind-*',
     'kind-*',

@@ -129,6 +129,20 @@ export abstract class JigBase<T extends ControlName | null> {
   public readonly empty: Signal<boolean> = signal(false);
 
   /**
+   * The raw required flag. Value controls override this with a `required` input
+   * that Angular writes from a bound signal-forms field, and from a classic form
+   * control on a control without a `ControlValueAccessor`. Read
+   * {@link requiredState}, which also covers the paradigms that don't write it.
+   */
+  public readonly required: Signal<boolean> = signal(false);
+
+  /**
+   * Whether the control requires a value, across all three form paradigms. A
+   * wrapping `jig-input-field` reads it to mark its label.
+   */
+  public readonly requiredState: Signal<boolean> = computed(() => this.required());
+
+  /**
    * Hook for placing focus/selection from a pointer event that originated in the
    * surrounding field (or the control itself). The default does nothing and
    * returns `false`, signalling the surrounding field should fall back to its

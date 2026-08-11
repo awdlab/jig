@@ -56,6 +56,8 @@ function positiveStep(value: number | undefined): number | undefined {
     '[attr.aria-invalid]': 'invalidState() ? "true" : null',
     '[disabled]': 'disabled()',
     '[readOnly]': 'readonly()',
+    '[required]': 'required()',
+    '[attr.aria-required]': 'requiredState() ? "true" : null',
   },
 })
 export class JigNumberInput extends ValueControlBase<'numberInput', number | null> {

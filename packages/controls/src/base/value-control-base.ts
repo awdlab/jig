@@ -2,6 +2,7 @@ import { booleanAttribute, computed, Directive, input, model, output } from '@an
 import { generateElementId } from '@awdlab/jig/utils-ng';
 
 import { JigBase } from './base';
+import { injectNgControlRequired } from './required-state';
 
 import type { FormValueControl } from '@angular/forms/signals';
 import type { ControlName } from '@awdlab/jig-themes/templates';
@@ -95,6 +96,25 @@ export abstract class ValueControlBase<C extends ControlName, T>
   public readonly disabled = input(false, { transform: booleanAttribute });
 
   public readonly readonly = input(false, { transform: booleanAttribute });
+
+  /**
+   * The raw required flag, written by Angular from a bound signal-forms field or
+   * classic form control, and settable explicitly when no form is in play. Read
+   * {@link requiredState}, which also covers a classic form bound through the
+   * default value accessor.
+   * @default false
+   */
+  public override readonly required = input(false, { transform: booleanAttribute });
+
+  private readonly _ngControlRequired = injectNgControlRequired();
+
+  /**
+   * Whether a value is required: {@link required} OR-ed with the required
+   * validator of a bound reactive/template-driven form control.
+   */
+  public override readonly requiredState = computed(
+    () => this.required() || this._ngControlRequired()
+  );
 
   /**
    * The touched state. A bound signal-forms field writes it in via the

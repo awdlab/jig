@@ -138,6 +138,12 @@ export const inputFieldStyles = createThemePart({
           }
         }
 
+        ${c('required-marker')}::after {
+          content: '*';
+          margin-inline-start: 0.15em;
+          color: ${v('color.destructive.base')};
+        }
+
         /* Label Styles */
         ${c('label')} {
           color: ${v('color.muted.foreground')};

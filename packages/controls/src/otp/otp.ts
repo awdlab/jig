@@ -53,6 +53,7 @@ function normalizeLength(value: number): number {
     '[attr.aria-label]': 'label()',
     '[attr.aria-labelledby]': 'labelledBy()',
     '[attr.aria-invalid]': 'invalidState() ? "true" : null',
+    '[attr.aria-required]': 'requiredState() ? "true" : null',
     '(focusout)': 'onFocusOut($event)',
   },
 })

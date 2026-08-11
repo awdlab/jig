@@ -34,6 +34,7 @@
       aria-haspopup="listbox"
       [attr.aria-controls]="inputId() + '_listbox'"
       [attr.aria-invalid]="invalidState() ? 'true' : null"
+      [attr.aria-required]="requiredState() ? 'true' : null"
       [attr.aria-readonly]="readonly() ? 'true' : null"
       [attr.aria-label]="label()"
       [attr.aria-labelledby]="labelledBy()"

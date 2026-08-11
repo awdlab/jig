@@ -11,6 +11,7 @@
     [attr.aria-roledescription]="i18n['maskInput_roleDescription']()"
     [attr.aria-label]="label()"
     [attr.aria-labelledby]="labelledBy()"
+    [attr.aria-required]="requiredState() ? 'true' : null"
     [disabled]="disabled()"
     [attr.readonly]="readonly() || null"
     tabindex="0"

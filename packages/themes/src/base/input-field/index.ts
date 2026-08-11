@@ -70,6 +70,12 @@ export const inputFieldStyles = createThemePart({
       ${c('root')}:has(${d('input', 'empty')}) ${c('clear-button')} {
         display: none;
       }
+
+      /* Marker text lives in CSS so it stays out of the accessibility tree and
+         themes can swap the character. */
+      ${c('required-marker')}::after {
+        content: '*';
+      }
     `,
   },
 });

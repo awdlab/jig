@@ -19,6 +19,9 @@ export const hintStyles = createThemePart({
            them from hugging the field (a line-height equal to the font size clamps to the glyphs). */
         line-height: 1.4;
         margin-top: ${v('size.padding.sm')};
+        transition:
+          grid-template-rows 0.2s ease-in-out,
+          margin 0.2s ease-in-out;
       }
 
       ${c('icon')} {

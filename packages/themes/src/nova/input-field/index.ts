@@ -183,6 +183,12 @@ export const inputFieldStyles = createThemePart({
           transition-timing-function: ${v('anim.ease.fade')};
         }
 
+        ${c('required-marker')}::after {
+          content: '*';
+          margin-inline-start: 0.15em;
+          color: ${v('color.invalid.border')};
+        }
+
         /* Label over */
         ${c('labelKind-over')}, ${c('labelKind-floatOver')} {
           position: relative;

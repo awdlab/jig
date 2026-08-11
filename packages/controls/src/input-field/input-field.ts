@@ -7,6 +7,7 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { JIG_CONFIG } from '@awdlab/jig/api/ng';
 import { JigBase, JIG_CONTROL, provideSelf, JigPt } from '@awdlab/jig/base';
 import { JigButton } from '@awdlab/jig/button';
 import { I18n } from '@awdlab/jig/i18n';
@@ -34,6 +35,7 @@ export class JigInputField extends JigBase<'inputField'> {
     filled: () => this.filled(),
   });
   protected readonly i18n = inject(I18n).translations;
+  private readonly _config = inject(JIG_CONFIG);
 
   /**
    * Label for the input field
@@ -51,6 +53,13 @@ export class JigInputField extends JigBase<'inputField'> {
    * @default undefined
    */
   public readonly labelKind = input<CustomKind<'inputFieldLabel'>>(undefined as never);
+  /**
+   * Mark the {@link label} when the projected control is required — every form
+   * paradigm reports that automatically. `null` inherits the global
+   * `defaults.inputField.showRequiredMarker` config.
+   * @default null
+   */
+  public readonly showRequiredMarker = input<boolean | null>(null);
   /**
    * ID for the projected input element. Defaults to a generated id. The field
    * writes this onto the element, replacing any `id` set on the input itself —
@@ -110,6 +119,13 @@ export class JigInputField extends JigBase<'inputField'> {
     const control = this.control();
     return !!control && !control.empty();
   });
+
+  /** Whether the label renders its required marker. */
+  protected readonly requiredMarker = computed(
+    () =>
+      (this.showRequiredMarker() ?? this._config.defaults.inputField.showRequiredMarker) &&
+      !!this.control()?.requiredState()
+  );
 
   /** The primary control's element when it is a native input/textarea. */
   private readonly _inputElement = computed(() => {

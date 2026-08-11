@@ -209,6 +209,12 @@ export const inputFieldStyles = createThemePart({
           }
         }
 
+        ${c('required-marker')}::after {
+          content: '*';
+          margin-inline-start: 0.15em;
+          color: ${v('color.invalid.border')};
+        }
+
         /* Label Styles — MD3 floating label: active (floated) is smaller + regular weight,
            resting (large, in-place) is medium weight; see the per-kind blocks below. */
         ${c('label')} {

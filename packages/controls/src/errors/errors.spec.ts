@@ -438,16 +438,16 @@ describe('jigErrors', () => {
       expect(errors.errors()[0]?.key).toBe('required');
       expect(errors.visible()).toBe(false);
 
-      // the hint slot collapses while there is nothing to show
+      // the hint slot collapses to zero height while there is nothing to show
       const hint = fixture.nativeElement.querySelector('jig-hint') as HTMLElement;
-      expect(hint.style.display).toBe('none');
+      expect(hint.classList).toContain('jig-hint-root-collapsed');
 
       fixture.componentInstance.control.markAsTouched();
       await flush(fixture);
 
       expect(errors.visible()).toBe(true);
       expect(errors.message()).toBe('Email is required');
-      expect(hint.style.display).not.toBe('none');
+      expect(hint.classList).not.toContain('jig-hint-root-collapsed');
       expect(hint.textContent).toContain('Email is required');
     });
 

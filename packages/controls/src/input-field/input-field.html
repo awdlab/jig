@@ -1,5 +1,7 @@
 @if (label(); as label) {
-  <label [ptInt]="this" [ptClass]="'label'" [for]="inputId()">{{ label }}</label>
+  <!-- Hugged tags keep the marker glued to the label text — the label is `white-space: pre`. -->
+  <!-- prettier-ignore -->
+  <label [ptInt]="this" [ptClass]="'label'" [for]="inputId()">{{ label }}@if (requiredMarker()) {<span [ptInt]="this" [ptClass]="'required-marker'" aria-hidden="true"></span>}</label>
 }
 <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
 <div

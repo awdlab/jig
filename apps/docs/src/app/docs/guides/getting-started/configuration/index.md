@@ -26,6 +26,7 @@ provideJigControls({
   defaults: {
     stateStorage: 'session',
     splitter: { stateStorage: 'session' },
+    inputField: { showRequiredMarker: false },
     tooltip: {/* … */},
   },
 });
@@ -68,11 +69,12 @@ larger page you do not own.
 
 #### `defaults`
 
-| Option                  | Type                   | Default                 | Description                                                                          |
-| ----------------------- | ---------------------- | ----------------------- | ------------------------------------------------------------------------------------ |
-| `stateStorage`          | `'local' \| 'session'` | `'session'`             | Where controls persist UI state. See [State Persistence](/guides/state-persistence). |
-| `splitter.stateStorage` | `'local' \| 'session'` | inherits `stateStorage` | Per-control override for the splitter.                                               |
-| `tooltip`               | `TooltipOptions`       | see below               | Default options for every `jigTooltip`.                                              |
+| Option                          | Type                   | Default                 | Description                                                                                                    |
+| ------------------------------- | ---------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `stateStorage`                  | `'local' \| 'session'` | `'session'`             | Where controls persist UI state. See [State Persistence](/guides/state-persistence).                           |
+| `splitter.stateStorage`         | `'local' \| 'session'` | inherits `stateStorage` | Per-control override for the splitter.                                                                         |
+| `inputField.showRequiredMarker` | `boolean`              | `false`                 | Mark the label of every input field whose control is required. Override per field with `[showRequiredMarker]`. |
+| `tooltip`                       | `TooltipOptions`       | see below               | Default options for every `jigTooltip`.                                                                        |
 
 Tooltip defaults:
 

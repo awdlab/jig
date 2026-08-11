@@ -15,6 +15,8 @@ Put `jigErrors` on the same element as the form binding and point it at a hint:
 
 The hint stays empty until there is something to show. By default messages
 appear once the control is **touched**, so a pristine form is not a wall of red.
+An empty hint takes up no space, and the message expands into place instead of
+popping in.
 
 ### Signal Forms
 
