@@ -347,13 +347,11 @@ export class JigFilter<T = unknown> extends ValueControlBase<'filter', JigFilter
   protected readonly resolvedListOptions = computed<readonly JigItem[]>(() => {
     const listOptions = this.listOptions();
     return listOptions
-      ? listOptions.map(
-          (opt): JigItem => ({
-            label: opt,
-            value: opt,
-            testId: `filter-list-${opt}`,
-          })
-        )
+      ? listOptions.map((opt): JigItem => ({
+          label: opt,
+          value: opt,
+          testId: `filter-list-${opt}`,
+        }))
       : this.autoListOptions();
   });
 
