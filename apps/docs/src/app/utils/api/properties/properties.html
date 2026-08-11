@@ -9,47 +9,37 @@
       </tr>
     </thead>
     <tbody>
-      @for (prop of properties(); track prop.id) {
-        @if (
-          (prop.name !== 'kind' || specialTypes().kind) &&
-          (prop.name !== 'color' || specialTypes().color)
-        ) {
-          <tr [id]="kind() + '_' + prop.name">
-            <td [class.required]="!prop.flags.hasFlag(FLAGS.Optional)">
-              <code class="code-name-highlight">{{ prop.name }}</code>
-            </td>
-            <td>
-              @if (prop.name === 'kind') {
-                <code class="code-type-highlight">
-                  {{ specialTypes().kind }}
-                </code>
-              } @else if (prop.name === 'color') {
-                <code class="code-type-highlight">
-                  {{ specialTypes().color }}
-                </code>
-              } @else if (prop.name === 'pt') {
-                <div>
-                  Visit the <a [routerLink]="['/guides/passthrough']">passthrough docs</a> or switch
-                  to the <a [routerLink]="['./playground']">playground tab</a> to explore available
-                  Passthrough properties.
-                </div>
-              } @else {
-                <code class="code-type-highlight">
-                  {{ prop.type }}
-                </code>
-              }
-            </td>
-            <td>
-              <jig-docs-api-comment [comment]="getDefaultValue(prop)" />
-            </td>
-            <td>
-              @if (prop.comment) {
-                <jig-docs-api-comment [comment]="prop.comment.summary" />
-              }
-            </td>
-          </tr>
-        }
-      }
+      @for (prop of properties(); track prop.id) { @if ( (prop.name !== 'kind' ||
+      specialTypes().kind) && (prop.name !== 'color' || specialTypes().color) ) {
+      <tr [id]="kind() + '_' + prop.name">
+        <td [class.required]="!prop.flags.hasFlag(FLAGS.Optional)">
+          <code class="code-name-highlight">{{ prop.name }}</code>
+        </td>
+        <td>
+          @if (prop.name === 'kind') {
+          <code class="code-type-highlight"> {{ specialTypes().kind }} </code>
+          } @else if (prop.name === 'color') {
+          <code class="code-type-highlight"> {{ specialTypes().color }} </code>
+          } @else if (prop.name === 'pt') {
+          <div>
+            Visit the <a [routerLink]="['/guides/passthrough']">passthrough docs</a> or switch to
+            the <a [routerLink]="['./playground']">playground tab</a> to explore available
+            Passthrough properties.
+          </div>
+          } @else {
+          <code class="code-type-highlight"> {{ prop.type }} </code>
+          }
+        </td>
+        <td>
+          <jig-docs-api-comment [comment]="getDefaultValue(prop)" />
+        </td>
+        <td>
+          @if (prop.comment) {
+          <jig-docs-api-comment [comment]="prop.comment.summary" />
+          }
+        </td>
+      </tr>
+      } }
     </tbody>
   </table>
 </div>

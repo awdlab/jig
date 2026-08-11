@@ -1,10 +1,8 @@
 @for (group of propGroups(); track group.kind) {
-  <h3>
-    {{ group.kind }}
-  </h3>
-  <jig-docs-api-properties
-    [properties]="group.properties"
-    [kind]="group.kind"
-    [internalControlName]="internalControlName()"
-  />
+<h3>{{ group.kind }}</h3>
+<jig-docs-api-properties
+  [properties]="group.properties"
+  [kind]="group.kind"
+  [internalControlName]="internalControlName()"
+/>
 }

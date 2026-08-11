@@ -20,12 +20,14 @@ import { JigSwitch } from '@awdlab/jig/switch';
 import { setInputSignalValue } from '@awdlab/jig/utils-ng';
 
 import { JigDocsPlaygroundJsonInput } from './json-input/json-input';
-import { collectParamValues, comboKey, resolveParams } from '../../../params';
+import { collectParamValues, comboKey, hasParam, resolveParams } from '../../../params';
 
 import type { AnyJigBase } from '@awdlab/jig/base';
 import type { ControlTypes, TypeDeclaration } from '../../../type-model';
 import type { DeclarationReflection } from 'typedoc/browser';
 import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
+
+const THEME_DRIVEN_INPUTS = ['kind', 'color', 'labelKind'];
 
 @Component({
   selector: 'jig-docs-playground-input',
@@ -50,11 +52,12 @@ export class JigDocsPlaygroundInput {
   public readonly instance = input<AnyJigBase>();
   public readonly internalControlName = input.required<string>();
   public readonly controlTypes = input<ControlTypes | null>(null);
+  /** Names of the control's other inputs, searched for generic parameter values. */
+  public readonly siblingInputs = input<readonly string[]>([]);
 
   protected readonly dataType = computed<TypeDeclaration | undefined>(() => {
-    const themeType = this.themeDrivenType();
-    if (themeType) {
-      return themeType;
+    if (THEME_DRIVEN_INPUTS.includes(this.input().name)) {
+      return this.themeDrivenType();
     }
 
     const types = this.controlTypes();
@@ -70,7 +73,13 @@ export class JigDocsPlaygroundInput {
       return undefined;
     }
 
-    const siblingValues = Object.keys(inputs).map(name => (instance as any)[name]?.() as unknown);
+    if (!hasParam(type)) {
+      return type;
+    }
+
+    const siblingValues = this.siblingInputs()
+      .filter(name => name !== this.input().name)
+      .map(name => (instance as any)[name]?.() as unknown);
     return resolveParams(type, collectParamValues(siblingValues)) ?? undefined;
   });
   protected readonly value = linkedSignal<any>(() => this.defaultValue());

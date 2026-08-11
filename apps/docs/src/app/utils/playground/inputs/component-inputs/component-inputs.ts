@@ -55,6 +55,8 @@ export class JigDocsPlaygroundComponentInputs {
     return inputs;
   });
 
+  protected readonly inputNames = computed(() => this.componentInputs().map(input => input.name));
+
   protected readonly controlTypes = computed<ControlTypes | null>(
     () => this._matrix()?.[this.componentName()] ?? null
   );

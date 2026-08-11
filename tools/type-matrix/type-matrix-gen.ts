@@ -44,8 +44,7 @@ function buildProbeSource(controls: DiscoveredControl[]): { source: string; prob
   const probes: Probe[] = [];
 
   controls.forEach((control, index) => {
-    const importPath =
-      './' + relative(SRC_DIR, control.file).replace(/\\/g, '/').replace(/\.ts$/, '');
+    const importPath = `./${relative(SRC_DIR, control.file).replace(/\\/g, '/').replace(/\.ts$/, '')}`;
     imports.push(`import type { ${control.name} as C${index} } from '${importPath}';`);
 
     const finite = control.typeParams.filter(param => domainOf(param.constraint));
@@ -194,12 +193,20 @@ export async function generateTypeMatrix(): Promise<TypeMatrix> {
         combos: {},
       });
 
+      const boundInputs = new Set(entry.params.map(param => param.input));
+
       const inputs: Record<string, TypeDeclaration> = {};
       for (const symbol of checker.getPropertiesOfType(classType)) {
         const type = inputTypeOf(symbol, checker);
         if (!type) continue;
+        const name = aliasOf(symbol) ?? symbol.getName();
+        // The parameter is pinned to this combination, but the input still offers both values.
+        if (boundInputs.has(symbol.getName())) {
+          inputs[name] = { kind: 'primitive', type: 'boolean', optional: true };
+          continue;
+        }
         try {
-          inputs[aliasOf(symbol) ?? symbol.getName()] = serializeType(type, checker);
+          inputs[name] = serializeType(type, checker);
         } catch (error) {
           if (error !== DISQUALIFIED) throw error;
         }

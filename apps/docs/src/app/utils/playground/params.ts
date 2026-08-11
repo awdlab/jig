@@ -48,6 +48,24 @@ export function collectParamValues(values: unknown[]): { label: string; value: u
   return collected;
 }
 
+/** Whether the type contains a generic parameter that still needs filling. */
+export function hasParam(type: TypeDeclaration): boolean {
+  switch (type.kind) {
+    case 'param':
+      return true;
+    case 'array':
+      return hasParam(type.elementType);
+    case 'tuple':
+      return type.elements.some(hasParam);
+    case 'union':
+      return type.types.some(hasParam);
+    case 'object':
+      return type.properties.some(property => hasParam(property.type));
+    default:
+      return false;
+  }
+}
+
 /** Substitutes `param` leaves with a literal union; returns null if none can be filled. */
 export function resolveParams(
   type: TypeDeclaration,

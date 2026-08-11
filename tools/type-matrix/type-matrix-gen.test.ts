@@ -33,12 +33,20 @@ test('binds a boolean type parameter to its input', () => {
   );
 });
 
-test('renders a boolean-constrained parameter as a boolean input', () => {
-  assert.deepEqual(combo('JigSelect', 'false|false')['multiple'], {
-    kind: 'literal',
-    value: false,
-    optional: true,
-  });
+test('offers both values for a parameter-bound input, not the pinned one', () => {
+  for (const key of ['false|false', 'false|true']) {
+    assert.deepEqual(combo('JigSelect', key)['multiple'], {
+      kind: 'primitive',
+      type: 'boolean',
+      optional: true,
+    });
+  }
+});
+
+test('keeps a literal union editable when the union also has a primitive member', () => {
+  const type = combo('JigSelect', 'false|false')['scrollToSelectedItemOnOpen'];
+  assert.equal(type?.kind, 'literalUnion');
+  assert.equal(type?.kind === 'literalUnion' && type.allowCustomValue, true);
 });
 
 test('resolves the select value through its conditional type', () => {

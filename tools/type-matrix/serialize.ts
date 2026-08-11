@@ -57,15 +57,13 @@ export function serializeType(
       return { ...members[0]!, optional };
     }
 
-    if (members.every(m => m.kind === 'literal')) {
-      const values = members.map(m => ({
-        label: String((m as { value: unknown }).value),
-        value: (m as { value: unknown }).value,
-      }));
+    const literals = members.filter(m => m.kind === 'literal');
+    if (literals.length) {
+      const values = literals.map(m => ({ label: String(m.value), value: m.value }));
       return {
         kind: 'literalUnion',
         primitiveType: typeof values[0]?.value,
-        allowCustomValue: false,
+        allowCustomValue: members.length !== literals.length,
         values,
         optional,
       };
