@@ -491,3 +491,169 @@ test('range accessibility (axe)', async ({ page }) => {
 
   await expectNoA11yViolations(page);
 });
+
+test('range keyboard moves only the focused handle', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<jig-slider [range]="true" [value]="inputs().value" [step]="inputs().step" (valueChange)="output('value', $event)" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: [20, 60],
+        step: 5,
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+
+  await slider.focus('start');
+  await slider.pressKey('ArrowRight', 'start');
+  await slider.expectRangeValue([25, 60]);
+
+  await slider.pressKey('ArrowLeft', 'start');
+  await slider.expectRangeValue([20, 60]);
+
+  await slider.focus('end');
+  await slider.pressKey('ArrowUp', 'end');
+  await slider.expectRangeValue([20, 65]);
+
+  await slider.pressKey('ArrowDown', 'end');
+  await slider.expectRangeValue([20, 60]);
+
+  // Home/End land on each handle's own bound, not the track's.
+  await slider.pressKey('Home', 'end');
+  await slider.expectRangeValue([20, 20]);
+
+  await slider.pressKey('End', 'end');
+  await slider.expectRangeValue([20, 100]);
+
+  await slider.pressKey('End', 'start');
+  await slider.expectRangeValue([100, 100]);
+
+  await slider.pressKey('Home', 'start');
+  await slider.expectRangeValue([0, 100]);
+
+  const outputs = await handle.getOutputLog();
+  expect(outputs['value']).toEqual([
+    [25, 60],
+    [20, 60],
+    [20, 65],
+    [20, 60],
+    [20, 20],
+    [20, 100],
+    [100, 100],
+    [0, 100],
+  ]);
+});
+
+test('range drag moves only the dragged handle', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<jig-slider style="width: 300px;" [range]="true" [value]="inputs().value" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: [20, 60],
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+
+  await slider.dragThumb({ x: 30 }, 'start');
+  await expect(async () => {
+    const start = Number(await slider.thumbStart.getAttribute('aria-valuenow'));
+    const end = Number(await slider.thumbEnd.getAttribute('aria-valuenow'));
+    expect(start).toBeGreaterThan(20);
+    expect(end).toBe(60);
+  }).toPass();
+
+  await slider.dragThumb({ x: -30 }, 'end');
+  await expect(async () => {
+    const end = Number(await slider.thumbEnd.getAttribute('aria-valuenow'));
+    expect(end).toBeLessThan(60);
+  }).toPass();
+});
+
+test('range track click moves the nearest handle', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<jig-slider style="width: 300px;" [range]="true" [value]="inputs().value" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: [40, 60],
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+
+  // Far left of the track: nearer the start handle.
+  await slider.clickTrack({ x: 10 });
+  await expect(async () => {
+    const start = Number(await slider.thumbStart.getAttribute('aria-valuenow'));
+    const end = Number(await slider.thumbEnd.getAttribute('aria-valuenow'));
+    expect(start).toBeLessThan(20);
+    expect(end).toBe(60);
+  }).toPass();
+
+  // Far right: nearer the end handle.
+  await slider.clickTrack({ x: 270 });
+  await expect(async () => {
+    const end = Number(await slider.thumbEnd.getAttribute('aria-valuenow'));
+    expect(end).toBeGreaterThan(80);
+  }).toPass();
+});
+
+test('range readonly & disabled', async ({ page }, testInfo) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<jig-slider style="width: 300px;" [range]="true" [value]="inputs().value" [readonly]="inputs().readonly" [disabled]="inputs().disabled" (valueChange)="output('value', $event)" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: [20, 60],
+        readonly: true,
+        disabled: false,
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+  await expect(slider.thumbStart).toHaveAttribute('aria-readonly', 'true');
+  await expect(slider.thumbStart).toHaveAttribute('tabindex', '0');
+  await expectScreenshot(page, testInfo, 'readonly');
+
+  async function expectFrozen() {
+    await slider.pressKey('ArrowRight', 'start');
+    await slider.pressKey('ArrowRight', 'end');
+    await slider.clickTrack({ x: 10 });
+    await slider.dragThumb({ x: 40 }, 'start');
+    await slider.expectRangeValue([20, 60]);
+    expect(await handle.getOutputLog()).toEqual({});
+  }
+
+  await expectFrozen();
+
+  await handle.setInputs({ readonly: false, disabled: true });
+  await expect(slider.locator).toHaveAttribute('disabled');
+  await expect(slider.thumbStart).toHaveAttribute('tabindex', '-1');
+  await expect(slider.thumbEnd).toHaveAttribute('tabindex', '-1');
+  await expectScreenshot(page, testInfo, 'disabled');
+
+  await expectFrozen();
+
+  await handle.setInputs({ disabled: false });
+  await slider.pressKey('ArrowRight', 'start');
+  await slider.expectRangeValue([21, 60]);
+});

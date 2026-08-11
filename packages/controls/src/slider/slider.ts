@@ -193,7 +193,14 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
       return;
     }
     const cursorPos = this.vertical() ? event.clientY : event.clientX;
-    this.setHandle('end', this.valueAtPosition(cursorPos));
+    const next = this.valueAtPosition(cursorPos);
+    this.setHandle(this.isRange() ? this.nearestHandle(next) : 'end', next);
+  }
+
+  /** The handle closest to a value; ties go to the start handle. */
+  private nearestHandle(value: number): SliderHandle {
+    const [start, end] = this.values();
+    return Math.abs(value - start) <= Math.abs(value - end) ? 'start' : 'end';
   }
 
   /** Rounds a viewport coordinate along the track to the nearest stepped value. */
