@@ -2,7 +2,6 @@
   [ptInt]="this"
   [ptClass]="'wrapper'"
   #popover
-  [attr.popover]="closeByPopover()"
   (toggle)="onToggle($event)"
   [style.min-height]="
     hasShrinkableContent()
@@ -15,7 +14,7 @@
     [ptInt]="this"
     [ptClass]="{
       content: true,
-      'content-closing': !this.open() && !this.isFullyClosed(),
+      'content-closing': isClosing(),
     }"
     [style.min-height]="hasShrinkableContent() ? null : 'fit-content'"
   >

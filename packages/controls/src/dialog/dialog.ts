@@ -1,6 +1,5 @@
 import { NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
 import {
-  afterRenderEffect,
   booleanAttribute,
   Component,
   computed,
@@ -12,7 +11,6 @@ import {
   signal,
   TemplateRef,
   Type,
-  untracked,
   viewChild,
 } from '@angular/core';
 import {
@@ -29,7 +27,7 @@ import { JigMovable, JigResizable } from '@awdlab/jig/directives';
 import { I18n } from '@awdlab/jig/i18n';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigKeyboardShortcut } from '@awdlab/jig/kbd';
-import { generateElementId } from '@awdlab/jig/utils-ng';
+import { generateElementId, OverlayLifecycle } from '@awdlab/jig/utils-ng';
 import { dialogControlTemplate } from '@awdlab/jig-themes/templates/dialog';
 
 import { DialogTemplates } from './dialog-templates';
@@ -199,10 +197,17 @@ export class JigDialog<
    * How a modal dialog can be closed by the user.
    */
   protected readonly modalClosedBy = computed(() => toModalCloseBy(this.closeBy()));
+
   /**
-   * How a popover dialog can be closed by the user.
+   * Open/close state, the native dialog/popover calls and the `popover` attribute — the
+   * attribute exists only while open in popover mode, and never in modal mode.
    */
-  protected readonly popoverClosedBy = computed(() => toPopoverCloseBy(this.closeBy()));
+  private readonly _lifecycle = new OverlayLifecycle(() => this._dialogElement().nativeElement, {
+    mode: () => (this.modal() ? 'modal' : 'popover'),
+    control: this,
+    popoverValue: () => toPopoverCloseBy(this.closeBy()),
+    onClosing: () => this.cancelPrompt(),
+  });
   protected readonly showHeader = computed(
     () => this.hasHeaderTemplate() || !!this.title() || this.closeButton()
   );
@@ -219,7 +224,8 @@ export class JigDialog<
   protected readonly ariaLabel = computed(() =>
     this.labelledBy() ? null : (this.label() ?? null)
   );
-  protected readonly isFullyClosed = signal(true);
+  /** `true` once the dialog is closed and done animating — the cue to unmount content. */
+  protected readonly isFullyClosed = this._lifecycle.isFullyClosed;
 
   protected readonly typedContent = computed<TypedContent>(() => {
     const content = this.contentTemplate();
@@ -234,22 +240,6 @@ export class JigDialog<
       return { component: content };
     }
   });
-
-  constructor() {
-    super();
-    afterRenderEffect(() => {
-      if (this.open()) {
-        if (untracked(this.modal)) {
-          this._dialogElement().nativeElement.showModal();
-        } else {
-          this._dialogElement().nativeElement.showPopover();
-        }
-      } else {
-        this._dialogElement().nativeElement.close();
-        this._dialogElement().nativeElement.hidePopover();
-      }
-    });
-  }
 
   /**
    * Backdrop taps of a modal dialog. Safari has no `closedby` support, so the light dismiss has to
@@ -292,7 +282,7 @@ export class JigDialog<
         return;
       }
       if (this.closeBy() === 'escape') {
-        this.setStateToClosed();
+        this._lifecycle.hide();
       }
       return;
     }
@@ -312,25 +302,7 @@ export class JigDialog<
       if (!wasOpen && this.open()) {
         return;
       }
-      this.setStateToClosed();
-    });
-  }
-
-  private setStateToClosed() {
-    this.open.set(false);
-    this.cancelPrompt();
-    requestAnimationFrame(() => {
-      const allAnimationsDone = Promise.all(
-        this.element.nativeElement.getAnimations().map(x => x.finished)
-      );
-      allAnimationsDone
-        .then(() => {
-          this.isFullyClosed.set(true);
-          this.closed.emit();
-        })
-        .catch(() => {
-          // ignore cancelled animation
-        });
+      this._lifecycle.hide();
     });
   }
 
