@@ -139,7 +139,13 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
   constructor() {
     super();
     effect(() => {
-      if (this.isRange() && this.minRangeDistance() > this.max() - this.min()) {
+      if (!this.isRange()) {
+        return;
+      }
+      if (this.minRangeDistance() < 0) {
+        throw new JigError('slider', 'minRangeDistance cannot be negative');
+      }
+      if (this.minRangeDistance() > this.max() - this.min()) {
         throw new JigError(
           'slider',
           'minRangeDistance cannot be larger than the distance between min and max'

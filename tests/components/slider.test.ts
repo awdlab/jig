@@ -736,3 +736,32 @@ test('minRangeDistance larger than the span throws', async ({ page }) => {
     expect(errors.join('\n')).toContain('minRangeDistance');
   }).toPass();
 });
+
+test('negative minRangeDistance throws', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('console', async msg => {
+    if (msg.type() !== 'error') return;
+    const parts = await Promise.all(
+      msg.args().map(arg => arg.evaluate(e => (e instanceof Error ? e.message : String(e))))
+    );
+    errors.push(parts.join(' '));
+  });
+  page.on('pageerror', err => errors.push(err.message));
+
+  await loadComponent(
+    page,
+    {
+      template: `<jig-slider [range]="true" [minRangeDistance]="-5" [value]="inputs().value" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: [0, 10],
+      },
+    }
+  );
+
+  await expect(async () => {
+    expect(errors.join('\n')).toContain('minRangeDistance cannot be negative');
+  }).toPass();
+});
