@@ -170,7 +170,17 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
     this.setHandle(handle, this.valueAtPosition(cursorPos));
   }
 
-  protected onDragEnd() {}
+  /** Set when a drag ends, so the synthesized click that follows it doesn't reach {@link trackClicked}. */
+  private _suppressTrackClick = false;
+
+  protected onDragEnd() {
+    this._suppressTrackClick = true;
+  }
+
+  /** Clears the drag-release click suppression; a genuine track interaction starts here, not with a stale flag. */
+  protected onTrackPointerDown() {
+    this._suppressTrackClick = false;
+  }
 
   protected onKeyDown(event: KeyboardEvent, handle: SliderHandle = 'end') {
     if (this.readonly() || this.disabled()) {
@@ -214,6 +224,10 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
   }
 
   protected trackClicked(event: PointerEvent) {
+    if (this._suppressTrackClick) {
+      this._suppressTrackClick = false;
+      return;
+    }
     if (this.readonly() || this.disabled()) {
       return;
     }

@@ -707,6 +707,49 @@ test('minRangeDistance clamps the moved handle', async ({ page }) => {
   }).toPass();
 });
 
+test('range drag-release click does not move the other handle', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<jig-slider style="width: 300px;" [range]="true" [minRangeDistance]="inputs().minRangeDistance" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: [30, 70],
+        minRangeDistance: 10,
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+
+  // Where dragThumb's mouse.up() actually lands: the start thumb's initial
+  // center, offset by the drag delta. minRangeDistance clamps the handle
+  // itself at 60, but the pointer keeps going well past that.
+  const startBox = await slider.thumbStart.boundingBox();
+  if (!startBox) {
+    throw new Error('Start thumb not found');
+  }
+  const releaseX = startBox.x + startBox.width / 2 + 200;
+  const releaseY = startBox.y + startBox.height / 2;
+
+  await slider.dragThumb({ x: 200 }, 'start');
+  await expect(async () => {
+    const start = Number(await slider.thumbStart.getAttribute('aria-valuenow'));
+    expect(start).toBe(60);
+  }).toPass();
+
+  // A real browser synthesizes a click at the release point after this drag,
+  // targeting whatever sits there (the track, since the pointer travelled
+  // past the end handle). Playwright's raw mouse.up() does not synthesize
+  // that click, so it is dispatched here to model what the browser does.
+  await slider.track.dispatchEvent('click', { clientX: releaseX, clientY: releaseY });
+
+  // The end handle was never dragged; the synthesized click must not move it.
+  await slider.expectRangeValue([60, 70]);
+});
+
 test('minRangeDistance larger than the span throws', async ({ page }) => {
   const errors: string[] = [];
   page.on('console', async msg => {

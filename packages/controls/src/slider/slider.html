@@ -1,6 +1,12 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
-<div #track [ptInt]="this" [ptClass]="'track'" (click)="trackClicked($event)">
+<div
+  #track
+  [ptInt]="this"
+  [ptClass]="'track'"
+  (pointerdown)="onTrackPointerDown()"
+  (click)="trackClicked($event)"
+>
   <div
     [ptInt]="this"
     [ptClass]="'fill'"
