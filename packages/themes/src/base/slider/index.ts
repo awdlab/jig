@@ -32,8 +32,8 @@ export const sliderStyles = createThemePart({
         ${c('fill')} {
           height: 100%;
           inset-block-start: 0;
-          inset-inline-start: 0;
-          width: var(--valuePercent);
+          inset-inline-start: var(--startPercent);
+          width: calc(var(--valuePercent) - var(--startPercent));
         }
         ${c('thumb')} {
           inset-inline-start: calc(var(--valuePercent) - var(--thumbSize) / 2);
@@ -51,9 +51,9 @@ export const sliderStyles = createThemePart({
         }
         ${c('fill')} {
           width: 100%;
-          inset-block-end: 0;
           inset-inline-start: 0;
-          height: var(--valuePercent);
+          inset-block-end: var(--startPercent);
+          height: calc(var(--valuePercent) - var(--startPercent));
         }
         ${c('thumb')} {
           inset-block-end: calc(var(--valuePercent) - var(--thumbSize) / 2);

@@ -1,7 +1,12 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <div #track [ptInt]="this" [ptClass]="'track'" (click)="trackClicked($event)">
-  <div [ptInt]="this" [ptClass]="'fill'" [style.--valuePercent.%]="left()"></div>
+  <div
+    [ptInt]="this"
+    [ptClass]="'fill'"
+    [style.--startPercent.%]="startPercent()"
+    [style.--valuePercent.%]="endPercent()"
+  ></div>
   <div
     #thumb
     [ptInt]="this"
@@ -9,7 +14,7 @@
     jigDrag
     (dragged)="onDragged($event)"
     (dragEnd)="onDragEnd()"
-    [style.--valuePercent.%]="left()"
+    [style.--valuePercent.%]="endPercent()"
     (click)="thumbClicked($event)"
   ></div>
 </div>
