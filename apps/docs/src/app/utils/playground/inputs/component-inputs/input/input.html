@@ -11,7 +11,13 @@
         }
         @case ('number') {
           <jig-input-field [label]="label" [labelKind]="'on'">
-            <input type="number" jigInput [value]="value()" (valueChange)="value.set($event)" />
+            <input
+              type="number"
+              jigNumberInput
+              [value]="value()"
+              (valueChange)="value.set($event)"
+            />
+            <jig-spin-buttons [kind]="'stacked'" />
           </jig-input-field>
         }
         @case ('boolean') {

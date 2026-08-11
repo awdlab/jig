@@ -13,6 +13,7 @@ import {
 import { injectThemeColors, injectThemeControlKinds } from '@awdlab/jig/api/ng';
 import { JigCalendar } from '@awdlab/jig/calendar';
 import { JigInput } from '@awdlab/jig/input';
+import { JigNumberInput } from '@awdlab/jig/number-input';
 import { JigInputField } from '@awdlab/jig/input-field';
 import { JigSelect } from '@awdlab/jig/select';
 import { JigSwitch } from '@awdlab/jig/switch';
@@ -22,6 +23,7 @@ import { setInputSignalValue } from '@awdlab/jig/utils-ng';
 import type { JigItem } from '@awdlab/jig/api';
 import type { AnyJigBase } from '@awdlab/jig/base';
 import type { SomeType, DeclarationReflection } from 'typedoc/browser';
+import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
 
 type TypeDeclaration = (
   | {
@@ -49,7 +51,15 @@ type TypeDeclaration = (
 @Component({
   selector: 'jig-docs-playground-input',
   templateUrl: 'input.html',
-  imports: [JigInputField, JigInput, JigSwitch, JigSelect, JigCalendar],
+  imports: [
+    JigInputField,
+    JigNumberInput,
+    JigSpinButtons,
+    JigInput,
+    JigSwitch,
+    JigSelect,
+    JigCalendar,
+  ],
   host: {
     '[style.display]': 'isKnownType() ? "block" : "none"',
   },
