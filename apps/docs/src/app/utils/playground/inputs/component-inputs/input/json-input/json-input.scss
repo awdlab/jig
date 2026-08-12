@@ -2,8 +2,8 @@
   display: block;
 }
 
-// The field wraps a textarea, so the theme gives its root a `resize: both`
-// handle of its own. The textarea's height-only handle is the one to keep.
+// The field already carries a resize handle for textareas; keep that one and
+// hold it to the height so the editor cannot outgrow the panel.
 :host ::ng-deep .jig-input-field-root {
-  resize: none;
+  resize: vertical;
 }
