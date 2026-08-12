@@ -1,6 +1,7 @@
 import { JigDocsMaskInputPlayground } from './playground';
 import { Demo_MaskInput_Base } from '../../../demos/mask-input/base';
 import { Demo_MaskInput_Date } from '../../../demos/mask-input/date';
+import { Demo_MaskInput_States } from '../../../demos/mask-input/states';
 import { Demo_MaskInput_Time12 } from '../../../demos/mask-input/time12';
 import { Demo_MaskInput_Validation } from '../../../demos/mask-input/validation';
 import { i18nKeys } from '../../../utils/i18n-doc';
@@ -19,6 +20,7 @@ export const MaskInputPage: JigDocsPage = {
       mdFile: 'components/mask-input/index.md',
       components: [
         Demo_MaskInput_Base,
+        Demo_MaskInput_States,
         Demo_MaskInput_Validation,
         Demo_MaskInput_Time12,
         Demo_MaskInput_Date,

@@ -142,6 +142,20 @@ export const en = {
   select: {
     filterOptions: 'Filter options',
   },
+  tagInput: {
+    remove: 'Remove {{ tag }}',
+    duplicate: '{{ tag }} is already added',
+    tooShort: 'Tags must be at least {{ min }} characters',
+    maxTags: 'Maximum of {{ max }} tags reached',
+    added: '{{ tag }} added',
+    removed: '{{ tag }} removed',
+    suggestions: 'Suggestions',
+    errors: {
+      required: 'Add at least one tag',
+      tagCount: 'Add between {{ min }} and {{ max }} tags',
+      tagLength: 'Each tag must be {{ min }} to {{ max }} characters',
+    },
+  },
   paginator: {
     previousPage: 'Previous page',
     nextPage: 'Next page',

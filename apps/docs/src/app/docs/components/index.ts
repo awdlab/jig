@@ -14,6 +14,7 @@ import { DeferPage } from './defer/page';
 import { DialogPage } from './dialog/page';
 import { DragPage } from './drag/page';
 import { DrawerPage } from './drawer/page';
+import { DropdownListPage } from './dropdown-list/page';
 import { EditInplacePage } from './edit-inplace/page';
 import { ErrorsPage } from './errors/page';
 import { FilterPage } from './filter/page';
@@ -53,6 +54,7 @@ import { SwitchPage } from './switch/page';
 import { TablePage } from './table/page';
 import { TabsPage } from './tabs/page';
 import { TagPage } from './tag/page';
+import { TagInputPage } from './tag-input/page';
 import { ToastPage } from './toast/page';
 import { ToggleButtonPage } from './toggle-button/page';
 import { TooltipPage } from './tooltip/page';
@@ -85,6 +87,7 @@ export const COMPONENT_GROUPS: JigDocsGroup[] = [
       SelectPage,
       SliderPage,
       SwitchPage,
+      TagInputPage,
       UploadPage,
     ],
   },
@@ -117,6 +120,7 @@ export const COMPONENT_GROUPS: JigDocsGroup[] = [
       DeferPage,
       DialogPage,
       DrawerPage,
+      DropdownListPage,
       MenuPage,
       PopoverPage,
       ScrollShadowPage,

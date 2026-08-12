@@ -42,7 +42,12 @@ import type { MaskInputCfg } from './types';
 })
 export class JigMaskInput extends ValueControlBase<'maskInput', string | null> {
   public override readonly isFieldControl = true;
-  protected readonly theme = this.injectThemeTemplate(maskInputControlTemplate, 'root');
+  protected readonly theme = this.injectThemeTemplate(maskInputControlTemplate, {
+    root: true,
+    disabled: () => this.disabled(),
+    readonly: () => this.readonly(),
+    invalid: () => this.invalidState(),
+  });
   protected readonly i18n = inject(I18n).translations;
 
   /**
@@ -85,12 +90,12 @@ export class JigMaskInput extends ValueControlBase<'maskInput', string | null> {
    * highlight and "actively edited" treatment only apply while focused. */
   protected readonly focused = signal(false);
 
-  /** RenderTokens for template `@for` loop. While unfocused there is no active
-   * section, so padded fields render in their resting (padded) form. */
+  /** RenderTokens for template `@for` loop. Without an active section, padded
+   * fields render in their resting (padded) form. */
   protected readonly tokens = computed(() => {
     const p = this._parts();
     if (!p) return [];
-    return composeDisplay(p, this.values(), this.focused() ? this.activeOrd() : undefined);
+    return composeDisplay(p, this.values(), this.sectionActive() ?? undefined);
   });
 
   /** The roving group on the proxy input element. */
@@ -101,6 +106,13 @@ export class JigMaskInput extends ValueControlBase<'maskInput', string | null> {
 
   /** Active field ordinal (identity: item index === field ordinal). */
   protected readonly activeOrd = computed(() => this.rovingGroup().activeIndex());
+
+  /** Ordinal of the section rendered as active, or `null` when none is —
+   * while unfocused, and always while readonly, where sections are not
+   * selectable and the control is a single plain tab stop. */
+  protected readonly sectionActive = computed(() =>
+    this.focused() && !this.readonly() ? this.activeOrd() : null
+  );
 
   protected readonly proxyInputMode = computed(() => {
     const f = this._fields()[this.activeOrd()];

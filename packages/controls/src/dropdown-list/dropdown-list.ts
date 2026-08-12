@@ -11,7 +11,6 @@ import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigListBox } from '@awdlab/jig/list-box';
 import { JigPopover, type PopoverOptions } from '@awdlab/jig/popover';
 import { deepMerge } from '@awdlab/jig/utils';
-import { explicitEffect } from '@awdlab/jig/utils-ng';
 import { dropdownListControlTemplate } from '@awdlab/jig-themes/templates/dropdown-list';
 
 import { DropdownListTemplates, type ValueType } from './dropdown-list-templates';
@@ -111,6 +110,12 @@ export class JigDropdownList<Items extends readonly JigItem[], Multiple extends 
    */
   public readonly filterText = input<string | null>(null);
   /**
+   * Whether a spinner covers the list. Set this while items are being fetched — the wait
+   * belongs where the items will appear, not on the trigger.
+   * @default false
+   */
+  public readonly loading = input(false, { transform: booleanAttribute });
+  /**
    * Whether the list is virtualized.
    * @default false
    */
@@ -171,18 +176,6 @@ export class JigDropdownList<Items extends readonly JigItem[], Multiple extends 
     () => this._listBox()?.currentHighlightedValue() ?? null
   );
 
-  constructor() {
-    super();
-    explicitEffect([this.open], ([open]) => {
-      if (open && !this._popover()?.open()) {
-        this.show();
-      }
-      if (!open && this._popover()?.open()) {
-        this.hide();
-      }
-    });
-  }
-
   /** Clears the keyboard highlight. */
   public clearHighlight(): void {
     this._listBox()?.currentHighlightedValue.set(null);
@@ -236,9 +229,5 @@ export class JigDropdownList<Items extends readonly JigItem[], Multiple extends 
     if (this.closeOnSelect()) {
       this.hide();
     }
-  }
-
-  protected onPopoverOpenChange(open: boolean): void {
-    this.open.set(open);
   }
 }

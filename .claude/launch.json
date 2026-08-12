@@ -28,6 +28,21 @@
       "port": 4204
     },
     {
+      "name": "test-wrapper-e2e",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        ".claude/launch-pnpm.js",
+        "test-wrapper:serve",
+        "--port",
+        "4222",
+        "--host",
+        "0.0.0.0",
+        "--allowed-hosts"
+      ],
+      "autoPort": false,
+      "port": 4222
+    },
+    {
       "name": "isolated",
       "runtimeExecutable": "node",
       "runtimeArgs": [".claude/launch-pnpm.js", "isolated:serve", "--no-hmr"],

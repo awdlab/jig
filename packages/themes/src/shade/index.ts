@@ -58,6 +58,7 @@ import { switchStyles } from '@awdlab/jig-themes/shade/switch';
 import { tableStyles } from '@awdlab/jig-themes/shade/table';
 import { tabsStyles } from '@awdlab/jig-themes/shade/tabs';
 import { tagStyles } from '@awdlab/jig-themes/shade/tag';
+import { tagInputStyles } from '@awdlab/jig-themes/shade/tag-input';
 import { toastStyles } from '@awdlab/jig-themes/shade/toast';
 import { toggleButtonStyles } from '@awdlab/jig-themes/shade/toggle-button';
 import { tooltipStyles } from '@awdlab/jig-themes/shade/tooltip';
@@ -146,6 +147,7 @@ export const shade = createTheme(
     tableStyles,
     tabsStyles,
     tagStyles,
+    tagInputStyles,
     toastStyles,
     toggleButtonStyles,
     tooltipStyles,

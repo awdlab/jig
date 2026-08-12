@@ -66,6 +66,14 @@ export class JigRovingGroup {
    * @default false
    */
   public readonly rovingWrap = input(false, { transform: booleanAttribute });
+  /**
+   * Suspends the group: arrow/Home/End navigation, pointer activation and
+   * {@link setActive} become no-ops, and no active item is exposed. The host
+   * stays a single tab stop, so a suspended group reads as one plain element
+   * (e.g. a readonly mask input, whose sections must not be selectable).
+   * @default false
+   */
+  public readonly rovingDisabled = input(false, { transform: booleanAttribute });
 
   /**
    * Emits the index of the newly active item whenever it changes via keyboard,
@@ -147,7 +155,7 @@ export class JigRovingGroup {
 
         // Guard the empty-items window (items register during effects, so the
         // first effect pass may see an empty list).
-        if (!items.length) {
+        if (!items.length || this.rovingDisabled()) {
           this._host.removeAttribute('aria-activedescendant');
           this._host.removeAttribute('aria-owns');
           return;
@@ -181,7 +189,7 @@ export class JigRovingGroup {
   }
 
   public activate(target: RovingItemRef): void {
-    if (target.disabled?.()) return;
+    if (this.rovingDisabled() || target.disabled?.()) return;
     const idx = this.items().indexOf(target);
     if (idx >= 0) this._setActive(idx);
   }
@@ -212,6 +220,7 @@ export class JigRovingGroup {
 
   /** Set the active item by index (clamped to range); emits activeItemChange. */
   public setActive(index: number): void {
+    if (this.rovingDisabled()) return;
     if (index >= 0 && index < this.items().length) this._setActive(index);
   }
 
@@ -229,7 +238,7 @@ export class JigRovingGroup {
   }
 
   private _onKeydown(e: KeyboardEvent): void {
-    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (this.rovingDisabled() || e.ctrlKey || e.metaKey || e.altKey) return;
     const horizontal = this.orientation() === 'horizontal';
     let consumed = true;
     switch (e.key) {

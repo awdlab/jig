@@ -147,6 +147,12 @@ export class JigListBox<
    * Manually set the filter text.
    */
   public readonly filterText = input<string | null>(null);
+  /**
+   * Whether a spinner covers the list. Set this while items are being fetched, so the
+   * wait is shown where the items will appear instead of on the host's own field.
+   * @default false
+   */
+  public readonly loading = input(false, { transform: booleanAttribute });
 
   /**
    * Emitted when an item is clicked, carrying the value of that item.
@@ -209,7 +215,7 @@ export class JigListBox<
 
   constructor() {
     super();
-    createConditionalSpinner(this.filterIsExecuting);
+    createConditionalSpinner(computed(() => this.loading() || this.filterIsExecuting()));
 
     effect(() => {
       const currentHighlightedValue = this.currentHighlightedValue();

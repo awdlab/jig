@@ -1,0 +1,91 @@
+<div jigScrollShadow="horizontal" jigDragScroll [ptInt]="this" [ptClass]="'field'">
+  <ul
+    jigRovingGroup
+    rovingWrap="true"
+    orientation="horizontal"
+    role="list"
+    [ptInt]="this"
+    [ptClass]="{ tags: true, 'single-line': !multiline(), multiline: multiline() }"
+  >
+    @for (tag of tags(); track $index; let i = $index) {
+      <li role="listitem" [ptInt]="this" [ptClass]="'tag'">
+        <ng-container
+          [ngTemplateOutlet]="tagTemplate()"
+          [ngTemplateOutletContext]="{ $implicit: tag, index: i, remove: removeTagFn(i) }"
+        />
+        @if (!disabled() && !readonly()) {
+          <button
+            type="button"
+            jigRovingItem
+            [ptInt]="this"
+            [ptClass]="'tag-remove'"
+            [attr.aria-label]="i18n['tagInput_remove']({ tag: tag })"
+            (click)="removeTag(i)"
+            (keydown)="onTagKeyDown($event, i)"
+          >
+            <jig-icon
+              [ptInt]="this"
+              [ptClass]="'tag-remove-icon'"
+              [icon]="iconRemove()"
+              defaultIcon="chip-remove"
+            />
+          </button>
+        }
+      </li>
+    }
+  </ul>
+
+  <input
+    jigInput
+    [ptInt]="this"
+    [ptDep]="'input'"
+    role="combobox"
+    aria-autocomplete="list"
+    aria-haspopup="listbox"
+    autocomplete="off"
+    [attr.aria-expanded]="suggestionsOpen()"
+    [attr.aria-controls]="inputId() + '_listbox'"
+    [attr.aria-activedescendant]="highlightedOptionId()"
+    [id]="inputId()"
+    [attr.maxlength]="maxTagLength() ?? null"
+    [attr.placeholder]="placeholder() ?? null"
+    [attr.aria-label]="label()"
+    [attr.aria-labelledby]="labelledBy()"
+    [invalid]="invalidState()"
+    invalidOn="immediate"
+    [attr.aria-required]="requiredState() ? 'true' : null"
+    [readOnly]="readonly() || full()"
+    [disabled]="disabled()"
+    (valueChange)="onInput($event)"
+    (keydown)="onKeyDown($event)"
+    (paste)="onPaste($event)"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+  />
+
+  <div role="status" aria-live="polite" [ptInt]="this" [ptClass]="'live-region'">
+    {{ announcement() }}
+  </div>
+</div>
+
+@if (suggestions()) {
+  <jig-dropdown-list
+    [ptInt]="this"
+    [ptDep]="'dropdown'"
+    [inputId]="inputId()"
+    [anchor]="anchorElement"
+    [popoverOptions]="dropdownOptions()"
+    [items]="resolvedSuggestions()"
+    [loading]="suggestionsLoading()"
+    [closeOnSelect]="false"
+    closeBy="none"
+    [label]="i18n['tagInput_suggestions']()"
+    [templateItem]="suggestionTemplate()"
+    (itemClicked)="pickSuggestion($event)"
+    (mousedown)="$event.preventDefault()"
+  />
+}
+
+<ng-template #defaultTagTemplate [jigTemplate]="templateTypes.tag" let-tag>
+  <span [ptInt]="this" [ptClass]="'tag-label'">{{ tag }}</span>
+</ng-template>

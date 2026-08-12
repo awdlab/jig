@@ -3,11 +3,11 @@
     class="component-wrapper flex h-fit w-full items-center justify-center gap-2 p-8 md:min-h-[200px]"
   >
     @defer (on viewport; on idle) {
-    <ng-container *ngComponentOutlet="component()" />
+      <ng-container *ngComponentOutlet="component()" />
     } @placeholder {
-    <div class="h-8">
-      <jig-spinner [size]="64" [centered]="true" />
-    </div>
+      <div class="h-8">
+        <jig-spinner [size]="64" [centered]="true" />
+      </div>
     }
   </div>
   <div
@@ -20,14 +20,14 @@
 
   <div class="w-full">
     @if (codeVisible()) {
-    <div
-      class="relative max-h-100 overflow-auto border-t border-[var(--prism-border)] bg-[var(--prism-bg)] p-4 text-[var(--prism-fg)]"
-    >
-      <pre><code class="pi-0 prism" [innerHtml]="formattedCode()"></code></pre>
-      <button jigButton kind="icon" class="absolute top-1 right-4" (click)="copyCode()">
-        <jig-icon [icon]="iconCopy" />
-      </button>
-    </div>
+      <div
+        class="relative max-h-100 overflow-auto border-t border-[var(--prism-border)] bg-[var(--prism-bg)] p-4 text-[var(--prism-fg)]"
+      >
+        <pre><code class="pi-0 prism" [innerHtml]="formattedCode()"></code></pre>
+        <button jigButton kind="icon" class="absolute top-1 right-4" (click)="copyCode()">
+          <jig-icon [icon]="iconCopy" />
+        </button>
+      </div>
     }
   </div>
 </div>

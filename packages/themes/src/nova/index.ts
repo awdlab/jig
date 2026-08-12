@@ -60,6 +60,7 @@ import { switchStyles } from '@awdlab/jig-themes/nova/switch';
 import { tableStyles } from '@awdlab/jig-themes/nova/table';
 import { tabsStyles } from '@awdlab/jig-themes/nova/tabs';
 import { tagStyles } from '@awdlab/jig-themes/nova/tag';
+import { tagInputStyles } from '@awdlab/jig-themes/nova/tag-input';
 import { toastStyles } from '@awdlab/jig-themes/nova/toast';
 import { toggleButtonStyles } from '@awdlab/jig-themes/nova/toggle-button';
 import { tooltipStyles } from '@awdlab/jig-themes/nova/tooltip';
@@ -154,6 +155,7 @@ export const nova = createTheme(
     tableStyles,
     tabsStyles,
     tagStyles,
+    tagInputStyles,
     toastStyles,
     toggleButtonStyles,
     tooltipStyles,

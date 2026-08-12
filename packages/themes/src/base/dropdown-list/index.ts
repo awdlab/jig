@@ -11,6 +11,10 @@ export const dropdownListStyles = createThemePart({
         display: flex;
         flex-direction: column;
       }
+      /* No projected header means no gap above the list. */
+      ${c('header')}:empty {
+        display: none;
+      }
       ${c('root')} ${d('popover', 'content')} {
         padding: 0;
       }

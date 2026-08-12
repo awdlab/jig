@@ -3,6 +3,7 @@ import { themeClasses } from '../utils/theme';
 import { selectControlTemplate } from '@awdlab/jig-themes/templates/select';
 import { JigInputHarness } from './input';
 import { JIG_CLASSES } from '../utils/classes';
+import { JigDropdownListHarness } from './dropdown-list';
 import { JigListBoxHarness } from './list-box';
 import { JigInputFieldHarness } from './input-field';
 import { JigItemViewHarness } from './item-view';
@@ -14,8 +15,8 @@ export class JigSelectHarness {
   public readonly icon: Locator;
   public readonly input: Locator;
   public readonly inputEditable: JigInputHarness;
-  public readonly listBox: JigListBoxHarness;
-  public readonly popoverContent: Locator;
+  /** The dropdown the select builds its list on. */
+  public readonly dropdown: JigDropdownListHarness;
   public readonly multipleItemView: JigItemViewHarness;
 
   constructor(public locator: Locator) {
@@ -28,9 +29,18 @@ export class JigSelectHarness {
     this.inputEditable = new JigInputHarness(
       locator.locator(`${this.classes['input-editable']} ${JIG_CLASSES.input['root']}`)
     );
-    this.listBox = new JigListBoxHarness(locator.locator(this.classes['list-box']['root']));
-    this.popoverContent = locator.locator(this.classes['popover-content']);
+    this.dropdown = new JigDropdownListHarness(locator.locator(this.classes['dropdown']['root']));
     this.multipleItemView = new JigItemViewHarness(locator.locator('jig-item-view'));
+  }
+
+  /** The list box, now owned by the dropdown. */
+  public get listBox(): JigListBoxHarness {
+    return this.dropdown.listBox;
+  }
+
+  /** The dropdown's content wrapper, formerly the select's own `popover-content`. */
+  public get popoverContent(): Locator {
+    return this.dropdown.content;
   }
 
   public async expectOpened(opened = true) {

@@ -84,7 +84,8 @@ export const inputFieldStyles = createThemePart({
         ${c('disabled')}, ${c('root')}:has(${d('input', 'root')}:disabled), ${c(
           'root'
         )}:has([role='combobox'][disabled]), :disabled ${c('root')},
-        ${c('root')}:has(${d('input', 'root')}[disabled]) {
+        ${c('root')}:has(${d('input', 'root')}[disabled]),
+        ${c('root')}:has(${d('mask', 'disabled')}) {
           opacity: 0.5;
           cursor: default;
           &:focus-within {

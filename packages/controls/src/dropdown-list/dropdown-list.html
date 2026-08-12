@@ -6,7 +6,7 @@
   [closeBy]="closeBy()"
   [id]="inputId() + '_popover'"
   [hasShrinkableContent]="true"
-  (openChange)="onPopoverOpenChange($event)"
+  [(open)]="open"
   (closed)="closed.emit()"
   (closing)="closing.emit()"
 >
@@ -25,6 +25,9 @@
         [separator]="separator()"
         [filter]="filter()"
         [filterText]="filterText()"
+        [loading]="loading()"
+        [label]="label()"
+        [labelledBy]="labelledBy()"
         [items]="items()"
         [itemHeight]="itemHeight()"
         [virtual]="virtual()"

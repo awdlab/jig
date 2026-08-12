@@ -1,5 +1,6 @@
 import { createControlTemplate } from '@awdlab/jig-themes/api';
 import { inputControlTemplate } from '@awdlab/jig-themes/templates/input';
+import { maskInputControlTemplate } from '@awdlab/jig-themes/templates/mask-input';
 
 export const inputFieldControlTemplate = createControlTemplate({
   scope: 'input-field',
@@ -16,5 +17,8 @@ export const inputFieldControlTemplate = createControlTemplate({
     'labelKind-*',
     'kind-*',
   ],
-  dependencies: [{ class: 'input', template: inputControlTemplate, projected: true }],
+  dependencies: [
+    { class: 'input', template: inputControlTemplate, projected: true },
+    { class: 'mask', template: maskInputControlTemplate, projected: true },
+  ],
 });

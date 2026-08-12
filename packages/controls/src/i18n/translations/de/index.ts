@@ -142,6 +142,20 @@ export const de = {
   select: {
     filterOptions: 'Optionen filtern',
   },
+  tagInput: {
+    remove: '{{ tag }} entfernen',
+    duplicate: '{{ tag }} wurde bereits hinzugefügt',
+    tooShort: 'Tags müssen mindestens {{ min }} Zeichen lang sein',
+    maxTags: 'Maximal {{ max }} Tags erreicht',
+    added: '{{ tag }} hinzugefügt',
+    removed: '{{ tag }} entfernt',
+    suggestions: 'Vorschläge',
+    errors: {
+      required: 'Fügen Sie mindestens einen Tag hinzu',
+      tagCount: 'Fügen Sie zwischen {{ min }} und {{ max }} Tags hinzu',
+      tagLength: 'Jeder Tag muss {{ min }} bis {{ max }} Zeichen lang sein',
+    },
+  },
   paginator: {
     previousPage: 'Vorherige Seite',
     nextPage: 'Nächste Seite',

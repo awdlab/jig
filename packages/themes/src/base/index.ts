@@ -50,6 +50,7 @@ import { stepperStyles } from '@awdlab/jig-themes/base/stepper';
 import { switchStyles } from '@awdlab/jig-themes/base/switch';
 import { tabsStyles } from '@awdlab/jig-themes/base/tabs';
 import { tagStyles } from '@awdlab/jig-themes/base/tag';
+import { tagInputStyles } from '@awdlab/jig-themes/base/tag-input';
 import { toastStyles } from '@awdlab/jig-themes/base/toast';
 import { toggleButtonStyles } from '@awdlab/jig-themes/base/toggle-button';
 import { tooltipStyles } from '@awdlab/jig-themes/base/tooltip';
@@ -113,6 +114,7 @@ export const baseStyles = {
   table: tableStyles,
   tabs: tabsStyles,
   tag: tagStyles,
+  tagInput: tagInputStyles,
   toast: toastStyles,
   toggleButton: toggleButtonStyles,
   tooltip: tooltipStyles,
