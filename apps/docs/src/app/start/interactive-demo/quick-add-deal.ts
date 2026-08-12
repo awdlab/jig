@@ -62,7 +62,7 @@ interface DealForm {
           placeholder="Acme Inc."
         />
       </jig-input-field>
-      <jig-hint #accountHint class="mt-(--jig-size-padding-sm)" />
+      <jig-hint #accountHint />
     </div>
 
     <div>
@@ -77,7 +77,7 @@ interface DealForm {
           placeholder="50000"
         />
       </jig-input-field>
-      <jig-hint #valueHint class="mt-(--jig-size-padding-sm)" />
+      <jig-hint #valueHint />
     </div>
 
     <jig-input-field class="block" label="Stage">
@@ -97,7 +97,7 @@ interface DealForm {
           jigErrorsShowOn="touched"
         />
       </jig-input-field>
-      <jig-hint #closeDateHint class="mt-(--jig-size-padding-sm)" />
+      <jig-hint #closeDateHint />
     </div>
 
     <label

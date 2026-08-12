@@ -15,6 +15,18 @@ value, and **Backspace** to clear the active section. This demo uses the
 
 {{ demo: Demo_MaskInput_Base }}
 
+### States
+
+`readonly`, `disabled`, and `invalid` behave like on any other form control, and
+a surrounding `jig-input-field` mirrors them for its chrome. A readonly mask is
+a single tab stop with no selectable sections — it takes focus, but no section
+highlights and typing, stepping, and clearing are rejected; a disabled one takes
+no focus at all. Set `invalid` explicitly when
+your validity comes from outside Angular forms — `invalidOn` controls when the
+styling shows. States compose.
+
+{{ demo: Demo_MaskInput_States }}
+
 ### Validation
 
 The mask input validates like any value control. Here a `required` error

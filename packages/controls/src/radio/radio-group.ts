@@ -28,6 +28,7 @@ import { JIG_RADIO_GROUP, type JigRadioGroupApi, type JigRadioRef } from './radi
     '[attr.aria-labelledby]': 'labelledBy()',
     '[attr.aria-orientation]': 'roving.orientation()',
     '[attr.aria-invalid]': "invalidState() ? 'true' : null",
+    '[attr.aria-required]': "requiredState() ? 'true' : null",
     '[attr.aria-disabled]': "disabled() ? 'true' : null",
   },
 })

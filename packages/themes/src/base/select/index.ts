@@ -5,7 +5,7 @@ export const selectStyles = createThemePart({
   controlTemplate: selectControlTemplate,
   dependencies: [],
   root: {
-    css: ({ v, c, d }) => css`
+    css: ({ c }) => css`
       ${c('input')} {
         display: flex;
         justify-content: space-between;
@@ -28,17 +28,6 @@ export const selectStyles = createThemePart({
       }
       ${c('input-editable')} {
         cursor: text;
-      }
-      ${c('popover-content')} {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-      }
-      ${c('root')} ${d('popover', 'content')} {
-        padding: 0;
-      }
-      ${c('root')} ${d('list-box')} {
-        border-width: 0;
       }
     `,
   },

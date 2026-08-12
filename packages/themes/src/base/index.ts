@@ -15,6 +15,7 @@ import { colorPickerStyles } from '@awdlab/jig-themes/base/color-picker';
 import { commandStyles } from '@awdlab/jig-themes/base/command';
 import { dialogStyles } from '@awdlab/jig-themes/base/dialog';
 import { drawerStyles } from '@awdlab/jig-themes/base/drawer';
+import { dropdownListStyles } from '@awdlab/jig-themes/base/dropdown-list';
 import { editInplaceStyles } from '@awdlab/jig-themes/base/edit-inplace';
 import { filterStyles } from '@awdlab/jig-themes/base/filter';
 import { globalStyles } from '@awdlab/jig-themes/base/global';
@@ -49,6 +50,7 @@ import { stepperStyles } from '@awdlab/jig-themes/base/stepper';
 import { switchStyles } from '@awdlab/jig-themes/base/switch';
 import { tabsStyles } from '@awdlab/jig-themes/base/tabs';
 import { tagStyles } from '@awdlab/jig-themes/base/tag';
+import { tagInputStyles } from '@awdlab/jig-themes/base/tag-input';
 import { toastStyles } from '@awdlab/jig-themes/base/toast';
 import { toggleButtonStyles } from '@awdlab/jig-themes/base/toggle-button';
 import { tooltipStyles } from '@awdlab/jig-themes/base/tooltip';
@@ -76,6 +78,7 @@ export const baseStyles = {
   command: commandStyles,
   dialog: dialogStyles,
   drawer: drawerStyles,
+  dropdownList: dropdownListStyles,
   filter: filterStyles,
   editInplace: editInplaceStyles,
   global: globalStyles,
@@ -111,6 +114,7 @@ export const baseStyles = {
   table: tableStyles,
   tabs: tabsStyles,
   tag: tagStyles,
+  tagInput: tagInputStyles,
   toast: toastStyles,
   toggleButton: toggleButtonStyles,
   tooltip: tooltipStyles,

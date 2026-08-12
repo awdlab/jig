@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { domEventHandler, domEventSignal } from '@awdlab/jig/api/ng';
 import {
+  injectNgControlRequired,
   JigBase,
   type JigInvalidTrigger,
   provideSelf,
@@ -27,6 +28,13 @@ import { inputControlTemplate } from '@awdlab/jig-themes/templates/input';
   exportAs: 'jigInput',
   host: {
     '[attr.aria-invalid]': 'invalidState() ? "true" : null',
+    // Declaring a `required` input takes the binding away from the native
+    // element (Angular only falls back to the DOM property when no directive
+    // claims it), so mirror it back to keep native constraint validation.
+    '[required]': 'required()',
+    // A validator-only required (reactive forms) sets no native attribute, so
+    // this is what conveys it to assistive tech.
+    '[attr.aria-required]': 'requiredState() ? "true" : null',
   },
 })
 export class JigInput extends JigBase<'input'> implements AfterViewInit {
@@ -51,6 +59,24 @@ export class JigInput extends JigBase<'input'> implements AfterViewInit {
    * @default touched
    */
   public readonly invalidOn = input<JigInvalidTrigger>('touched');
+
+  /**
+   * The raw required flag, written by Angular from a bound signal-forms field,
+   * and set by the plain `required` attribute. Read {@link requiredState}, which
+   * also covers a reactive/template-driven control's required validator.
+   * @default false
+   */
+  public override readonly required = input(false, { transform: booleanAttribute });
+
+  private readonly _ngControlRequired = injectNgControlRequired();
+
+  /**
+   * Whether a value is required: {@link required} OR-ed with the required
+   * validator of a bound reactive/template-driven form control.
+   */
+  public override readonly requiredState = computed(
+    () => this.required() || this._ngControlRequired()
+  );
 
   /**
    * Touched state. A bound signal-forms field writes it in (`FormUiControl`

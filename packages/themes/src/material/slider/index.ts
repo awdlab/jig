@@ -8,7 +8,7 @@ export const sliderStyles = createThemePart({
   base: baseStyles.slider,
   dependencies: [colorsTemplate, sizesTemplate, animationTemplate],
   root: {
-    css: ({ v, c, d }) => css`
+    css: ({ v, c }) => css`
       ${c('root')} {
         --trackThickness: 0.375rem;
         --thumbSize: 1.25rem;
@@ -29,7 +29,7 @@ export const sliderStyles = createThemePart({
         border-radius: ${v('size.rounded.full')};
         transition: box-shadow ${v('anim.time.snappyFade')} ${v('anim.ease.snappyFade')};
       }
-      ${c('root')}:not([disabled]):not([aria-readonly='true']) {
+      ${c('root')}:not([disabled]):not(${c('readonly')}) {
         ${c('thumb')} {
           cursor: grab;
           &:active {
@@ -77,7 +77,7 @@ export const sliderStyles = createThemePart({
           }
         }
       }
-      ${c('root')}[aria-readonly='true'] {
+      ${c('root')}${c('readonly')} {
         ${c('thumb')} {
           background: ${v('color.surface.700')};
         }

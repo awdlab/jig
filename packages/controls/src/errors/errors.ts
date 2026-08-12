@@ -256,12 +256,27 @@ export class JigErrors {
   }
 
   /**
-   * Looks up the i18n `errors.<key>` default, interpolating the error params.
-   * Returns `undefined` when the key is unknown or translations aren't loaded —
-   * `signal-translate` echoes the flat path back in that case, which we detect.
+   * Looks up an i18n default for the error, preferring the host control's own
+   * `{scope}_errors_{key}` over the shared `errors_{key}`, and interpolating the
+   * error params.
    */
   private _translate(key: string, params: Record<string, unknown>): string | undefined {
-    const path = `errors_${key}`;
+    // Theme scopes are kebab-case (`tag-input`); translation keys are camelCase.
+    const scope = this._state
+      .controlScope()
+      ?.replace(/-([a-z])/g, (_, char: string) => char.toUpperCase());
+    return (
+      (scope ? this._lookup(`${scope}_errors_${key}`, params) : undefined) ??
+      this._lookup(`errors_${key}`, params)
+    );
+  }
+
+  /**
+   * Resolves one flat translation path. Returns `undefined` when the key is
+   * unknown or translations aren't loaded — `signal-translate` echoes the path
+   * back in that case, which we detect.
+   */
+  private _lookup(path: string, params: Record<string, unknown>): string | undefined {
     const message = this._i18n._unsafe[path]?.(params);
     return message === undefined || message === path ? undefined : message;
   }

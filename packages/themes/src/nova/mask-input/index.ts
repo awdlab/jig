@@ -25,6 +25,14 @@ export const maskInputStyles = createThemePart({
         box-shadow: 0 0 0 2px ${v('color.accent.100')};
         border-radius: ${v('size.rounded.sm')};
       }
+      ${c('disabled')} {
+        color: ${v('color.disabled.text')};
+      }
+      ${c('disabled')} ${c('section')},
+      ${c('disabled')} ${c('section-placeholder')},
+      ${c('disabled')} ${c('separator')} {
+        color: inherit;
+      }
     `,
   },
 });

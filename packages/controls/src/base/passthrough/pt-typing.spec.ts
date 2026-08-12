@@ -23,9 +23,10 @@ describe('passthrough typing', () => {
     });
 
     it('is recursive — a slot carries the child control own slots (grandchild)', () => {
-      // `current-month` is a select; a select exposes a `list-box` slot.
+      // `current-month` is a select, which exposes a `dropdown` slot, which in
+      // turn exposes `list-box` — three levels of nesting resolve.
       assertType<JigPassthrough<'calendar'>>({
-        'current-month': { 'list-box': { root: { $classes: 'x' } } },
+        'current-month': { dropdown: { 'list-box': { root: { $classes: 'x' } } } },
       });
     });
 
@@ -64,7 +65,7 @@ describe('passthrough typing', () => {
     it('rejects a class that does not belong to the parent control', () => {
       // @ts-expect-error 'nope' is not a calendar class
       assertType<AppliedThemeClassCfg<'calendar'>>('nope');
-      // @ts-expect-error 'list-box' belongs to select, not calendar
+      // @ts-expect-error 'list-box' belongs to the dropdown list, not calendar
       assertType<AppliedThemeClassCfg<'calendar'>>('list-box');
     });
   });

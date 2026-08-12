@@ -60,6 +60,7 @@ import { switchStyles } from '@awdlab/jig-themes/material/switch';
 import { tableStyles } from '@awdlab/jig-themes/material/table';
 import { tabsStyles } from '@awdlab/jig-themes/material/tabs';
 import { tagStyles } from '@awdlab/jig-themes/material/tag';
+import { tagInputStyles } from '@awdlab/jig-themes/material/tag-input';
 import { toastStyles } from '@awdlab/jig-themes/material/toast';
 import { toggleButtonStyles } from '@awdlab/jig-themes/material/toggle-button';
 import { tooltipStyles } from '@awdlab/jig-themes/material/tooltip';
@@ -151,6 +152,7 @@ export const material = createTheme(
     tableStyles,
     tabsStyles,
     tagStyles,
+    tagInputStyles,
     toastStyles,
     toggleButtonStyles,
     tooltipStyles,

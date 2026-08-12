@@ -28,6 +28,9 @@ export const OtpPage: JigDocsPage = {
     i18nKeys('otp', {
       cellLabel:
         'Accessible name for each character cell, announcing its position (e.g. "Character 3 of 6").',
+      errors: {
+        required: 'Validation message shown when the code is incomplete.',
+      },
     }),
   ],
 };

@@ -18,12 +18,12 @@ import { type FilterConfig, mapToItems, type JigItem } from '@awdlab/jig/api';
 import { JigTemplate } from '@awdlab/jig/api/ng';
 import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
+import { JigDropdownList } from '@awdlab/jig/dropdown-list';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigInput } from '@awdlab/jig/input';
 import { JigInputField } from '@awdlab/jig/input-field';
 import { JigItemView } from '@awdlab/jig/item-view';
-import { JigListBox } from '@awdlab/jig/list-box';
-import { JigPopover, type PopoverOptions } from '@awdlab/jig/popover';
+import type { PopoverOptions } from '@awdlab/jig/popover';
 import { deepMerge, maybeCallback, JigError } from '@awdlab/jig/utils';
 import { selectControlTemplate } from '@awdlab/jig-themes/templates/select';
 
@@ -40,8 +40,7 @@ import type { IconType } from '@awdlab/jig-custom-types';
   templateUrl: './select.html',
   imports: [
     JigPt,
-    JigListBox,
-    JigPopover,
+    JigDropdownList,
     JigInput,
     JigInputField,
     NgTemplateOutlet,
@@ -62,7 +61,8 @@ export class JigSelect<
   public override readonly isFieldControl = true;
   protected readonly theme = this.injectThemeTemplate(selectControlTemplate, 'root');
   protected readonly i18n = inject(I18n).translations;
-  private readonly _popover = viewChild.required<JigPopover>(JigPopover);
+  private readonly _dropdown =
+    viewChild.required<JigDropdownList<readonly JigItem<unknown, V>[]>>(JigDropdownList);
   private readonly _field = viewChild.required<ElementRef<HTMLElement>>('field');
   private readonly _customEditableInput = contentChild(JigInput);
   private _customEditableSub?: OutputRefSubscription;
@@ -177,7 +177,6 @@ export class JigSelect<
     return v == null || v === '';
   });
 
-  private readonly _listbox = viewChild(JigListBox);
   private _userChangedEditableInput = false;
   protected get anchorElement(): HTMLElement {
     return (
@@ -245,7 +244,7 @@ export class JigSelect<
       customEditableInput.element.nativeElement.setAttribute('aria-autocomplete', 'list');
       customEditableInput.element.nativeElement.setAttribute(
         'aria-expanded',
-        `${this._popover().open()}`
+        `${this._dropdown().open()}`
       );
       customEditableInput.element.nativeElement.setAttribute('aria-haspopup', 'listbox');
       customEditableInput.element.nativeElement.setAttribute(
@@ -266,7 +265,7 @@ export class JigSelect<
       if (!this.editable()) {
         return;
       }
-      const hasOptions = !!this._listbox()?.displayedItems().length;
+      const hasOptions = !!this._dropdown().displayedItems().length;
       if (!this._userChangedEditableInput) {
         return;
       }
@@ -280,8 +279,8 @@ export class JigSelect<
   }
 
   protected onKeyDown(event: KeyboardEvent) {
-    if (this._popover().open()) {
-      this._listbox()?.onKeyDown(event);
+    if (this._dropdown().open()) {
+      this._dropdown().onKeyDown(event);
     }
     // if event is not handled by the listbox, we can handle it here
     if (!event.defaultPrevented) {
@@ -289,11 +288,11 @@ export class JigSelect<
         if (this.readonly() || this.disabled()) {
           return;
         }
-        this._popover().toggle();
+        this._dropdown().toggle();
         event.stopPropagation();
         event.preventDefault();
       }
-      if (this._popover().open() && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+      if (this._dropdown().open() && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
         if (this.readonly() || this.disabled()) {
           return;
         }
@@ -314,7 +313,7 @@ export class JigSelect<
   }
 
   protected onPopoverClosed() {
-    this._listbox()?.currentHighlightedValue.set(null);
+    this._dropdown().clearHighlight();
     this.potentiallyBlurred();
     this.currentHighlightedValue.set(null);
     const filter = this.filter();
@@ -336,12 +335,6 @@ export class JigSelect<
       if (this.value() !== v) {
         this.value.set(v);
       }
-    }
-  }
-
-  protected onItemClicked() {
-    if (!this.multiple()) {
-      this.hide();
     }
   }
 
@@ -374,14 +367,14 @@ export class JigSelect<
     if (this.disabled() || this.readonly()) {
       return;
     }
-    this._popover().show();
+    this._dropdown().show();
   }
 
   /**
    * Hides the select dropdown.
    */
   public hide() {
-    this._popover().hide();
+    this._dropdown().hide();
   }
 
   protected onEditableChange(value: string | null) {
@@ -399,7 +392,7 @@ export class JigSelect<
   // instead.
   protected potentiallyBlurred() {
     setTimeout(() => {
-      if (this.element.nativeElement.contains(document.activeElement) || this._popover().open()) {
+      if (this.element.nativeElement.contains(document.activeElement) || this._dropdown().open()) {
         return;
       }
       this.markTouched();

@@ -8,16 +8,18 @@
   }
 </ng-template>
 
-@if (icon() || defaultIconKey()) {
-  <jig-icon
-    [ptInt]="this"
-    [ptClass]="'icon'"
-    [icon]="icon()"
-    [defaultIcon]="defaultIconKey()"
-    [jigTooltip]="iconOnly() ? renderedContent : null"
-    [jigTooltipAutoAriaMode]="'label'"
-  />
-}
-@if (!iconOnly()) {
-  <ng-container [ngTemplateOutlet]="renderedContent" />
-}
+<div [ptInt]="this" [ptClass]="'content'">
+  @if (icon() || defaultIconKey()) {
+    <jig-icon
+      [ptInt]="this"
+      [ptClass]="'icon'"
+      [icon]="icon()"
+      [defaultIcon]="defaultIconKey()"
+      [jigTooltip]="iconOnly() ? renderedContent : null"
+      [jigTooltipAutoAriaMode]="'label'"
+    />
+  }
+  @if (!iconOnly()) {
+    <ng-container [ngTemplateOutlet]="renderedContent" />
+  }
+</div>

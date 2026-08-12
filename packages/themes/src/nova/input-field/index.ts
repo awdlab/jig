@@ -87,7 +87,8 @@ export const inputFieldStyles = createThemePart({
         ${c('disabled')}, ${c('root')}:has(${d('input', 'root')}:disabled), ${c(
           'root'
         )}:has([role='combobox'][disabled]), :disabled ${c('root')},
-        ${c('root')}:has(${d('input', 'root')}[disabled]) {
+        ${c('root')}:has(${d('input', 'root')}[disabled]),
+        ${c('root')}:has(${d('mask', 'disabled')}) {
           background: ${v('color.disabled.background')};
           border-color: ${v('color.disabled.border')};
           color: ${v('color.disabled.text')};
@@ -181,6 +182,12 @@ export const inputFieldStyles = createThemePart({
 
           transition-duration: ${v('anim.time.fade')};
           transition-timing-function: ${v('anim.ease.fade')};
+        }
+
+        ${c('required-marker')}::after {
+          content: '*';
+          margin-inline-start: 0.15em;
+          color: ${v('color.invalid.border')};
         }
 
         /* Label over */

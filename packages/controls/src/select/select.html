@@ -15,7 +15,7 @@
       <input
         jigInput
         autocomplete="list"
-        [aria-expanded]="popover.open()"
+        [aria-expanded]="dropdown.open()"
         aria-haspopup="listbox"
         [attr.aria-controls]="inputId() + '_listbox'"
         [id]="inputId()"
@@ -30,10 +30,11 @@
       role="combobox"
       [ptInt]="this"
       [ptClass]="{ combobox: true, empty: empty() }"
-      [aria-expanded]="popover.open()"
+      [aria-expanded]="dropdown.open()"
       aria-haspopup="listbox"
       [attr.aria-controls]="inputId() + '_listbox'"
       [attr.aria-invalid]="invalidState() ? 'true' : null"
+      [attr.aria-required]="requiredState() ? 'true' : null"
       [attr.aria-readonly]="readonly() ? 'true' : null"
       [attr.aria-label]="label()"
       [attr.aria-labelledby]="labelledBy()"
@@ -72,60 +73,48 @@
     defaultIcon="dropdown-toggle"
   />
 </div>
-<jig-popover
-  #popover
+<jig-dropdown-list
+  #dropdown
   [ptInt]="this"
-  [ptDep]="'popover'"
-  [options]="appliedPopoverOptions()"
+  [ptDep]="'dropdown'"
+  [inputId]="inputId()"
   [anchor]="anchorElement"
+  [popoverOptions]="appliedPopoverOptions()"
+  [items]="options()"
+  [multiple]="multiple()"
+  [checkbox]="checkbox()"
+  [selectable]="true"
+  [filter]="appliedFilter()"
+  [filterText]="filterTextInternal()"
+  [itemHeight]="itemHeight()"
+  [virtual]="virtual()"
+  [scrollToSelectedItemOnOpen]="scrollToSelectedItemOnOpen()"
+  [closeOnSelect]="!multiple()"
+  [templateItem]="itemTemplate()"
+  [templateGroup]="groupTemplate()"
+  [templateEmpty]="noItemsTemplate()"
+  [value]="multiple() ? selectedItemsValues() : selectedItemsValues()[0]"
+  (valueChange)="onSelect($event)"
   (keydown)="onKeyDown($event)"
   (closed)="onPopoverClosed()"
-  [id]="inputId() + '_popover'"
-  [hasShrinkableContent]="true"
 >
-  <ng-template #lazy>
-    <div [ptInt]="this" [ptClass]="'popover-content'">
-      @if (filter()) {
-        <jig-input-field [ptInt]="this" [ptDep]="'filter'">
-          <input
-            jigInput
-            [value]="filterTextInternal()"
-            (valueChange)="filterTextInternal.set($event)"
-            [attr.aria-label]="i18n['select_filterOptions']()"
-          />
-          <jig-icon
-            [ptInt]="this"
-            [ptClass]="'filter-icon'"
-            defaultIcon="search"
-            [icon]="iconFilter()"
-          />
-        </jig-input-field>
-      }
-      <jig-list-box
-        [ptInt]="this"
-        [ptDep]="'list-box'"
-        style="height: 100%; min-height: 0"
-        [focussable]="false"
-        [selectable]="true"
-        [filter]="appliedFilter()"
-        [filterText]="filterTextInternal()"
-        [items]="options()"
-        [itemHeight]="itemHeight()"
-        [virtual]="virtual()"
-        [templateItem]="itemTemplate()"
-        [templateGroup]="groupTemplate()"
-        [multiple]="multiple()"
-        [value]="multiple() ? selectedItemsValues() : selectedItemsValues()[0]"
-        [scrollToSelectedItemOnInit]="scrollToSelectedItemOnOpen()"
-        (valueChange)="onSelect($event)"
-        (itemClicked)="onItemClicked()"
-        [inputId]="inputId() + '_listbox'"
-        [templateEmpty]="noItemsTemplate()"
-        [checkbox]="checkbox()"
+  @if (filter()) {
+    <jig-input-field dropdownHeader [ptInt]="this" [ptDep]="'filter'">
+      <input
+        jigInput
+        [value]="filterTextInternal()"
+        (valueChange)="filterTextInternal.set($event)"
+        [attr.aria-label]="i18n['select_filterOptions']()"
       />
-    </div>
-  </ng-template>
-</jig-popover>
+      <jig-icon
+        [ptInt]="this"
+        [ptClass]="'filter-icon'"
+        defaultIcon="search"
+        [icon]="iconFilter()"
+      />
+    </jig-input-field>
+  }
+</jig-dropdown-list>
 
 <ng-template #defaultItemTemplate [jigTemplate]="templateTypes.item" let-item>
   <span [attr.data-testid]="item?.testId">

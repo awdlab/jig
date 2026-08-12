@@ -36,7 +36,7 @@ export const sliderStyles = createThemePart({
         border: var(--thumbBorderSize) solid ${v('color.primary.base')};
         box-shadow: ${v('shadow.sm')};
       }
-      ${c('root')}:not([disabled]):not([aria-readonly='true']) {
+      ${c('root')}:not([disabled]):not(${c('readonly')}) {
         ${c('thumb')} {
           cursor: grab;
           &:active {

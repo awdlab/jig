@@ -1,15 +1,58 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
-<div #track [ptInt]="this" [ptClass]="'track'" (click)="trackClicked($event)">
-  <div [ptInt]="this" [ptClass]="'fill'" [style.--valuePercent.%]="left()"></div>
+<div
+  #track
+  [ptInt]="this"
+  [ptClass]="'track'"
+  (pointerdown)="onTrackPointerDown()"
+  (click)="trackClicked($event)"
+>
   <div
-    #thumb
+    [ptInt]="this"
+    [ptClass]="'fill'"
+    [style.--startPercent.%]="startPercent()"
+    [style.--valuePercent.%]="endPercent()"
+  ></div>
+  @if (isRange()) {
+    <div
+      [ptInt]="this"
+      [ptClass]="'thumb'"
+      jigDrag
+      role="slider"
+      [attr.tabindex]="disabled() ? -1 : 0"
+      [attr.aria-label]="translations['slider_rangeStart']()"
+      [attr.aria-valuemin]="min()"
+      [attr.aria-valuemax]="startBounds()[1]"
+      [attr.aria-valuenow]="values()[0]"
+      [attr.aria-valuetext]="valueTextFor(values()[0])"
+      [attr.aria-orientation]="vertical() ? 'vertical' : 'horizontal'"
+      [attr.aria-readonly]="readonly() ? 'true' : null"
+      [style.--valuePercent.%]="startPercent()"
+      (dragged)="onDragged($event, 'start')"
+      (dragEnd)="onDragEnd()"
+      (keydown)="onKeyDown($event, 'start')"
+      (blur)="markTouched()"
+      (click)="thumbClicked($event)"
+    ></div>
+  }
+  <div
     [ptInt]="this"
     [ptClass]="'thumb'"
     jigDrag
-    (dragged)="onDragged($event)"
+    [attr.role]="isRange() ? 'slider' : null"
+    [attr.tabindex]="isRange() ? (disabled() ? -1 : 0) : null"
+    [attr.aria-label]="isRange() ? translations['slider_rangeEnd']() : null"
+    [attr.aria-valuemin]="isRange() ? endBounds()[0] : null"
+    [attr.aria-valuemax]="isRange() ? max() : null"
+    [attr.aria-valuenow]="isRange() ? values()[1] : null"
+    [attr.aria-valuetext]="isRange() ? valueTextFor(values()[1]) : null"
+    [attr.aria-orientation]="isRange() ? (vertical() ? 'vertical' : 'horizontal') : null"
+    [attr.aria-readonly]="isRange() && readonly() ? 'true' : null"
+    [style.--valuePercent.%]="endPercent()"
+    (dragged)="onDragged($event, 'end')"
     (dragEnd)="onDragEnd()"
-    [style.--valuePercent.%]="left()"
+    (keydown)="onKeyDown($event, 'end')"
+    (blur)="markTouched()"
     (click)="thumbClicked($event)"
   ></div>
 </div>

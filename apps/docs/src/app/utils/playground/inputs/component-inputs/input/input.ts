@@ -5,62 +5,57 @@ import {
   effect,
   linkedSignal,
   type InputSignal,
-  inject,
-  Injector,
-  runInInjectionContext,
   type Signal,
 } from '@angular/core';
-import { injectThemeColors, injectThemeControlKinds } from '@awdlab/jig/api/ng';
 import { JigCalendar } from '@awdlab/jig/calendar';
 import { JigInput } from '@awdlab/jig/input';
+import { JigNumberInput } from '@awdlab/jig/number-input';
 import { JigInputField } from '@awdlab/jig/input-field';
 import { JigSelect } from '@awdlab/jig/select';
+import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
 import { JigSwitch } from '@awdlab/jig/switch';
-import { notNullish } from '@awdlab/jig/utils';
-import { setInputSignalValue } from '@awdlab/jig/utils-ng';
+import { generateElementId, setInputSignalValue } from '@awdlab/jig/utils-ng';
 
-import type { JigItem } from '@awdlab/jig/api';
+import { JigDocsPlaygroundJsonInput } from './json-input/json-input';
+
 import type { AnyJigBase } from '@awdlab/jig/base';
-import type { SomeType, DeclarationReflection } from 'typedoc/browser';
-
-type TypeDeclaration = (
-  | {
-      kind: 'literal';
-      value: string | number | bigint | boolean | null;
-    }
-  | {
-      kind: 'primitive';
-      type: string;
-    }
-  | {
-      kind: 'array';
-      elementType: TypeDeclaration;
-    }
-  | {
-      kind: 'literalUnion';
-      primitiveType: string;
-      allowCustomValue: boolean;
-      values: JigItem[];
-    }
-) & {
-  optional?: boolean;
-};
+import type { TypeDeclaration } from '../../../type-model';
+import type { DeclarationReflection } from 'typedoc/browser';
 
 @Component({
   selector: 'jig-docs-playground-input',
   templateUrl: 'input.html',
-  imports: [JigInputField, JigInput, JigSwitch, JigSelect, JigCalendar],
+  imports: [
+    JigInputField,
+    JigNumberInput,
+    JigSpinButtons,
+    JigInput,
+    JigSwitch,
+    JigSelect,
+    JigCalendar,
+    JigDocsPlaygroundJsonInput,
+  ],
   host: {
-    '[style.display]': 'isKnownType() ? "block" : "none"',
+    // A switch is short enough to sit on the label's line.
+    '[class.block]': '!isSwitch()',
+    '[class.flex]': 'isSwitch()',
+    '[class.items-center]': 'isSwitch()',
+    '[class.justify-between]': 'isSwitch()',
+    '[class.gap-2]': 'isSwitch()',
   },
 })
 export class JigDocsPlaygroundInput {
-  private readonly _injector = inject(Injector);
   public readonly input = input.required<DeclarationReflection>();
   public readonly instance = input<AnyJigBase>();
-  public readonly internalControlName = input.required<string>();
+  /** The input's type, already resolved and filled in by the parent panel. */
+  public readonly type = input.required<TypeDeclaration>();
 
-  protected readonly dataType = computed(() => this.buildTypeModel(this.input().type));
+  protected readonly controlId = generateElementId();
+  protected readonly isSwitch = computed(() => {
+    const type = this.type();
+    return type.kind === 'primitive' && type.type === 'boolean';
+  });
+
   protected readonly value = linkedSignal<any>(() => this.defaultValue());
   protected _previousInputValue: any = undefined;
 
@@ -102,24 +97,6 @@ export class JigDocsPlaygroundInput {
     });
   }
 
-  protected readonly isKnownType = computed(() => this.isKnownTypeFn(this.dataType()));
-
-  private isKnownTypeFn(type?: TypeDeclaration): boolean {
-    if (!type) {
-      return false;
-    }
-    switch (type.kind) {
-      case 'primitive':
-        return ['string', 'number', 'boolean', 'date'].includes(type.type);
-      case 'literal':
-        return true;
-      case 'literalUnion':
-        return type.values.length > 0;
-      default:
-        return false;
-    }
-  }
-
   private readonly defaultValue = computed(() => {
     const defaultComment = this.input().comment?.getTag('@default');
     if (!defaultComment) {
@@ -154,116 +131,4 @@ export class JigDocsPlaygroundInput {
 
     return undefined;
   });
-
-  private buildTypeModel(type?: SomeType): TypeDeclaration | undefined {
-    if (!type) {
-      return undefined;
-    }
-
-    function valuesToLiteralUnion(
-      value: (string | null | undefined)[]
-    ): TypeDeclaration | undefined {
-      if (!value.length || value.every(v => !v)) {
-        return undefined;
-      }
-      return {
-        kind: 'literalUnion',
-        primitiveType: 'string',
-        allowCustomValue: false,
-        values: value.map(c => {
-          if (!c) {
-            return { label: '- none -', value: undefined };
-          }
-          return {
-            label: c,
-            value: c,
-          };
-        }),
-      };
-    }
-
-    if (this.input().name === 'kind') {
-      const kinds = runInInjectionContext(this._injector, () =>
-        injectThemeControlKinds(this.internalControlName())()
-      );
-      return valuesToLiteralUnion(kinds);
-    } else if (this.input().name === 'color') {
-      const colors = runInInjectionContext(this._injector, () =>
-        injectThemeColors(this.internalControlName())()
-      );
-      return valuesToLiteralUnion(colors);
-    } else if (this.input().name === 'labelKind') {
-      const colors = runInInjectionContext(this._injector, () =>
-        injectThemeControlKinds('inputFieldLabel')()
-      );
-      return valuesToLiteralUnion(colors);
-    }
-
-    switch (type.type) {
-      case 'union': {
-        const isOptional = type.types.some(
-          t =>
-            (t.type === 'intrinsic' && t.name === 'undefined') ||
-            (t.type === 'literal' && t.value === null)
-        );
-        const filteredTypes = type.types.filter(
-          t =>
-            !(
-              (t.type === 'intrinsic' && t.name === 'undefined') ||
-              (t.type === 'literal' && t.value === null)
-            )
-        );
-        if (filteredTypes.length === 1) {
-          const res = this.buildTypeModel(filteredTypes[0]);
-          if (!res) {
-            return undefined;
-          }
-          if (isOptional) {
-            res.optional = true;
-          }
-          return res;
-        }
-
-        const types = filteredTypes.map(t => this.buildTypeModel(t)).filter(notNullish);
-        if (types.some(t => t.kind === 'literal')) {
-          const literalTypes = types.filter(t => t.kind === 'literal');
-          return {
-            kind: 'literalUnion',
-            optional: isOptional,
-            primitiveType: typeof literalTypes[0]?.value,
-            values: literalTypes.map(
-              x =>
-                <JigItem>{
-                  label: x.value,
-                  value: x.value,
-                }
-            ),
-            allowCustomValue: types.some(t => t.kind !== 'literal'),
-          };
-        }
-        return;
-      }
-      case 'intrinsic':
-        return {
-          kind: 'primitive',
-          type: type.name,
-        };
-
-      case 'literal':
-        return {
-          kind: 'literal',
-          value: type.value,
-        };
-      case 'reference':
-        switch (type.name) {
-          case 'Date':
-            return {
-              kind: 'primitive',
-              type: 'date',
-            };
-        }
-        return undefined;
-    }
-    return undefined;
-  }
 }

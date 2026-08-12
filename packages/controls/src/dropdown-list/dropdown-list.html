@@ -1,0 +1,47 @@
+<jig-popover
+  [ptInt]="this"
+  [ptDep]="'popover'"
+  [options]="appliedPopoverOptions()"
+  [anchor]="anchor()"
+  [closeBy]="closeBy()"
+  [id]="inputId() + '_popover'"
+  [hasShrinkableContent]="true"
+  [(open)]="open"
+  (closed)="closed.emit()"
+  (closing)="closing.emit()"
+>
+  <ng-template #lazy>
+    <div [ptInt]="this" [ptClass]="'content'">
+      <div [ptInt]="this" [ptClass]="'header'">
+        <ng-content select="[dropdownHeader]" />
+      </div>
+      <jig-list-box
+        [ptInt]="this"
+        [ptDep]="'list-box'"
+        style="height: 100%; min-height: 0"
+        [focussable]="false"
+        [selectable]="selectable()"
+        [selectOnHover]="selectOnHover()"
+        [separator]="separator()"
+        [filter]="filter()"
+        [filterText]="filterText()"
+        [loading]="loading()"
+        [label]="label()"
+        [labelledBy]="labelledBy()"
+        [items]="items()"
+        [itemHeight]="itemHeight()"
+        [virtual]="virtual()"
+        [multiple]="multiple()"
+        [checkbox]="checkbox()"
+        [value]="value()"
+        [scrollToSelectedItemOnInit]="scrollToSelectedItemOnOpen()"
+        [templateItem]="itemTemplate()"
+        [templateGroup]="groupTemplate()"
+        [templateEmpty]="emptyTemplate()"
+        [inputId]="inputId() + '_listbox'"
+        (valueChange)="onSelect($event)"
+        (itemClicked)="onItemClicked($event)"
+      />
+    </div>
+  </ng-template>
+</jig-popover>

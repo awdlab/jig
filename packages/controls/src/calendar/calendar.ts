@@ -66,6 +66,7 @@ type MonthItemType = JigItem<{ $: (typeof MONTHS)[number] }, '$'>;
     '[style.display]': '"block"',
     '[style.width]': 'inline() ? "fit-content" : "100%"',
     '[attr.aria-invalid]': 'invalidState() ? "true" : null',
+    '[attr.aria-required]': 'requiredState() ? "true" : null',
   },
 })
 export class JigCalendar extends CalendarTemplates {

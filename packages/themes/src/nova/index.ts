@@ -24,6 +24,7 @@ import { colorPickerStyles } from '@awdlab/jig-themes/nova/color-picker';
 import { commandStyles } from '@awdlab/jig-themes/nova/command';
 import { dialogStyles } from '@awdlab/jig-themes/nova/dialog';
 import { drawerStyles } from '@awdlab/jig-themes/nova/drawer';
+import { dropdownListStyles } from '@awdlab/jig-themes/nova/dropdown-list';
 import { editInplaceStyles } from '@awdlab/jig-themes/nova/edit-inplace';
 import { filterStyles } from '@awdlab/jig-themes/nova/filter';
 import { globalStyles } from '@awdlab/jig-themes/nova/global';
@@ -59,6 +60,7 @@ import { switchStyles } from '@awdlab/jig-themes/nova/switch';
 import { tableStyles } from '@awdlab/jig-themes/nova/table';
 import { tabsStyles } from '@awdlab/jig-themes/nova/tabs';
 import { tagStyles } from '@awdlab/jig-themes/nova/tag';
+import { tagInputStyles } from '@awdlab/jig-themes/nova/tag-input';
 import { toastStyles } from '@awdlab/jig-themes/nova/toast';
 import { toggleButtonStyles } from '@awdlab/jig-themes/nova/toggle-button';
 import { tooltipStyles } from '@awdlab/jig-themes/nova/tooltip';
@@ -110,6 +112,7 @@ export const nova = createTheme(
     coral,
     dialogStyles,
     drawerStyles,
+    dropdownListStyles,
     filterStyles,
     editInplaceStyles,
     font,
@@ -152,6 +155,7 @@ export const nova = createTheme(
     tableStyles,
     tabsStyles,
     tagStyles,
+    tagInputStyles,
     toastStyles,
     toggleButtonStyles,
     tooltipStyles,

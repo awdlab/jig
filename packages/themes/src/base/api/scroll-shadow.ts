@@ -18,7 +18,10 @@ export const scrollShadowStyles = createThemePart({
         left: 0;
         z-index: 1;
         width: 0;
-        height: 0;
+        /* Empty, so auto height is zero in a block container. In a flex one it stretches
+           instead of being centred, which would drag the surface past the bottom edge. */
+        height: auto;
+        align-self: stretch;
         overflow: visible;
         pointer-events: none;
       }

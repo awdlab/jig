@@ -1,7 +1,6 @@
 import { createControlTemplate } from '@awdlab/jig-themes/api';
+import { dropdownListControlTemplate } from '@awdlab/jig-themes/templates/dropdown-list';
 import { inputFieldControlTemplate } from '@awdlab/jig-themes/templates/input-field';
-import { listBoxControlTemplate } from '@awdlab/jig-themes/templates/list-box';
-import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
 
 export const selectControlTemplate = createControlTemplate({
   scope: 'select',
@@ -13,13 +12,10 @@ export const selectControlTemplate = createControlTemplate({
     'input',
     'icon',
     'input-editable',
-    'popover-content',
     'filter-icon',
-    'list-box-empty',
   ],
   dependencies: [
-    { class: 'popover', template: popoverControlTemplate },
-    { class: 'list-box', template: listBoxControlTemplate },
+    { class: 'dropdown', template: dropdownListControlTemplate },
     { class: 'filter', template: inputFieldControlTemplate },
   ],
 });

@@ -86,6 +86,10 @@ export const en = {
   splitter: {
     handleLabel: 'Drag to resize',
   },
+  slider: {
+    rangeStart: 'Range start',
+    rangeEnd: 'Range end',
+  },
   inputField: {
     clearInput: 'Clear input',
   },
@@ -96,6 +100,9 @@ export const en = {
   },
   otp: {
     cellLabel: 'Character {{ index }} of {{ total }}',
+    errors: {
+      required: 'Enter the full code',
+    },
   },
   drawer: {
     close: 'Close',
@@ -134,6 +141,21 @@ export const en = {
   },
   select: {
     filterOptions: 'Filter options',
+  },
+  tagInput: {
+    remove: 'Remove {{ tag }}',
+    duplicate: '{{ tag }} is already added',
+    tooShort: 'Entries must be at least {{ min }} characters',
+    tooLong: 'Entries must be at most {{ max }} characters',
+    maxTags: 'Maximum of {{ max }} entries reached',
+    added: '{{ tag }} added',
+    removed: '{{ tag }} removed',
+    suggestions: 'Suggestions',
+    errors: {
+      required: 'Add at least one entry',
+      tagCount: 'Add between {{ min }} and {{ max }} entries',
+      tagLength: 'Each entry must be {{ min }} to {{ max }} characters',
+    },
   },
   paginator: {
     previousPage: 'Previous page',

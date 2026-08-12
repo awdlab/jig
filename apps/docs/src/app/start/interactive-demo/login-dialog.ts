@@ -111,11 +111,13 @@ import { JigState } from '@awdlab/jig/state';
             jigErrors
             [jigErrorsHint]="otpHint"
           />
-          <jig-hint #otpHint [content]="demoCodeTpl" />
-          <ng-template #demoCodeTpl>
+          <!-- Helper text and the error slot are separate hints: a hint that always
+               carries content can never expand in, it would just swap its text. -->
+          <jig-hint>
             Demo code:
             <span class="font-mono font-(--jig-font-weight-semibold)">123456</span>
-          </ng-template>
+          </jig-hint>
+          <jig-hint #otpHint />
         </div>
 
         <button

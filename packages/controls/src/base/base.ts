@@ -73,6 +73,13 @@ export abstract class JigBase<T extends ControlName | null> {
   private readonly _defaultKind = signal<CustomKind<T> | undefined>(undefined);
   private readonly _defaultColor = signal<CustomColor | undefined>(undefined);
   private readonly _kindOverride = signal<CustomKind<T> | undefined>(undefined);
+  private readonly _controlScope = signal<string | null>(null);
+
+  /**
+   * The control's theme scope, available once its theme has been injected.
+   * `jigErrors` reads it to prefer a control-scoped validation message.
+   */
+  public readonly controlScope: Signal<string | null> = this._controlScope;
 
   /**
    * The element reference for the host element.
@@ -127,6 +134,20 @@ export abstract class JigBase<T extends ControlName | null> {
    * — so a wrapping `jig-input-field` can float its label reliably.
    */
   public readonly empty: Signal<boolean> = signal(false);
+
+  /**
+   * The raw required flag. Value controls override this with a `required` input
+   * that Angular writes from a bound signal-forms field, and from a classic form
+   * control on a control without a `ControlValueAccessor`. Read
+   * {@link requiredState}, which also covers the paradigms that don't write it.
+   */
+  public readonly required: Signal<boolean> = signal(false);
+
+  /**
+   * Whether the control requires a value, across all three form paradigms. A
+   * wrapping `jig-input-field` reads it to mark its label.
+   */
+  public readonly requiredState: Signal<boolean> = computed(() => this.required());
 
   /**
    * Hook for placing focus/selection from a pointer event that originated in the
@@ -323,6 +344,7 @@ export abstract class JigBase<T extends ControlName | null> {
   > {
     const opts = { unstyled: this.unstyled };
     const theme = injectThemeTemplate(template, opts);
+    this._controlScope.set(theme.scope);
 
     const defaults = injectThemeControlDefaults(theme.scope)();
     const kinds = injectThemeControlKinds(theme.scope)();

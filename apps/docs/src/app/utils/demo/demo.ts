@@ -9,12 +9,13 @@ import { throwExp } from '@awdlab/jig/utils';
 import { style } from '../code/prism';
 
 import type { Type } from '@angular/core';
+import { JigSpinner } from '@awdlab/jig/spinner';
 
 @Component({
   selector: 'jig-docs-demo',
   templateUrl: 'demo.html',
   styleUrl: 'demo.scss',
-  imports: [NgComponentOutlet, JigButton, JigIcon],
+  imports: [NgComponentOutlet, JigButton, JigIcon, JigSpinner],
 })
 export class JigDocsDemo {
   protected readonly iconCode = tablerCode;

@@ -17,6 +17,7 @@ export type ThemeTemplate = {
   command: Awaited<typeof import('./command')>['commandControlTemplate'];
   dialog: Awaited<typeof import('./dialog')>['dialogControlTemplate'];
   drawer: Awaited<typeof import('./drawer')>['drawerControlTemplate'];
+  dropdownList: Awaited<typeof import('./dropdown-list')>['dropdownListControlTemplate'];
   filter: Awaited<typeof import('./filter')>['filterControlTemplate'];
   editInplace: Awaited<typeof import('./edit-inplace')>['editInplaceControlTemplate'];
   global: Awaited<typeof import('./global')>['globalControlTemplate'];
@@ -53,6 +54,7 @@ export type ThemeTemplate = {
   tabs: Awaited<typeof import('./tabs')>['tabsControlTemplate'];
   table: Awaited<typeof import('./table')>['tableControlTemplate'];
   tag: Awaited<typeof import('./tag')>['tagControlTemplate'];
+  tagInput: Awaited<typeof import('./tag-input')>['tagInputControlTemplate'];
   toast: Awaited<typeof import('./toast')>['toastControlTemplate'];
   toggleButton: Awaited<typeof import('./toggle-button')>['toggleButtonControlTemplate'];
   tooltip: Awaited<typeof import('./tooltip')>['tooltipControlTemplate'];

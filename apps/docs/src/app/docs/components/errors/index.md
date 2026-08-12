@@ -15,6 +15,8 @@ Put `jigErrors` on the same element as the form binding and point it at a hint:
 
 The hint stays empty until there is something to show. By default messages
 appear once the control is **touched**, so a pristine form is not a wall of red.
+An empty hint takes up no space, and the message expands into place instead of
+popping in.
 
 ### Signal Forms
 
@@ -90,11 +92,24 @@ For each error key, the first source that yields a non-empty message wins:
 2. a message carried on the error value itself — a `message` field
    (`{ tooShort: { message: '…' } }`) or a plain-string error value
 3. messages from `provideJigErrorsMessages`
-4. the built-in translation for `errors.<key>` (see [i18n](/guides/i18n))
-5. the raw error key, as a last resort
+4. the control-scoped translation for `<scope>.errors.<key>`
+5. the shared translation for `errors.<key>` (see [i18n](/guides/i18n))
+6. the raw error key, as a last resort
 
 An empty string counts as "no message" and falls through to the next source, so
 you can blank out a single key without losing the rest.
+
+### Control-Scoped Defaults
+
+Step 4 lets a control give a shared error kind wording that actually fits it,
+without any app code. `jig-otp` translates `required` as "Enter the full code",
+and `jig-tag-input` as "Add at least one entry", while every other control keeps
+the generic "Required".
+
+The scope is the control's theme scope in camelCase, so the translation key is
+`otp.errors.required` or `tagInput.errors.required`. A control that defines no
+scoped entry for a key simply falls through to the shared one — nothing to
+configure either way.
 
 > Errors whose message can only come from the built-in translations are held
 > back until the locale has loaded, so a raw key like `required` never flashes

@@ -1,0 +1,16 @@
+<!-- The field already carries a resize handle for textareas; hold it to the height so the
+     editor cannot outgrow the panel. -->
+<jig-input-field style="resize: vertical">
+  <textarea
+    jigInput
+    rows="2"
+    wrap="off"
+    class="h-full resize-none overflow-auto font-mono text-xs whitespace-pre"
+    [invalid]="!!error()"
+    [value]="text()"
+    (blur)="commit($any($event.target).value)"
+  ></textarea>
+</jig-input-field>
+@if (error(); as error) {
+  <jig-hint [kind]="'error'">{{ error }}</jig-hint>
+}

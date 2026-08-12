@@ -20,13 +20,9 @@
             </td>
             <td>
               @if (prop.name === 'kind') {
-                <code class="code-type-highlight">
-                  {{ specialTypes().kind }}
-                </code>
+                <code class="code-type-highlight"> {{ specialTypes().kind }} </code>
               } @else if (prop.name === 'color') {
-                <code class="code-type-highlight">
-                  {{ specialTypes().color }}
-                </code>
+                <code class="code-type-highlight"> {{ specialTypes().color }} </code>
               } @else if (prop.name === 'pt') {
                 <div>
                   Visit the <a [routerLink]="['/guides/passthrough']">passthrough docs</a> or switch
@@ -34,9 +30,7 @@
                   Passthrough properties.
                 </div>
               } @else {
-                <code class="code-type-highlight">
-                  {{ prop.type }}
-                </code>
+                <code class="code-type-highlight"> {{ prop.type }} </code>
               }
             </td>
             <td>

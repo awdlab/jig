@@ -86,6 +86,10 @@ export const de = {
   splitter: {
     handleLabel: 'Ziehen zum Ändern der Größe',
   },
+  slider: {
+    rangeStart: 'Bereichsanfang',
+    rangeEnd: 'Bereichsende',
+  },
   inputField: {
     clearInput: 'Eingabe löschen',
   },
@@ -96,6 +100,9 @@ export const de = {
   },
   otp: {
     cellLabel: 'Zeichen {{ index }} von {{ total }}',
+    errors: {
+      required: 'Geben Sie den vollständigen Code ein',
+    },
   },
   drawer: {
     close: 'Schließen',
@@ -134,6 +141,21 @@ export const de = {
   },
   select: {
     filterOptions: 'Optionen filtern',
+  },
+  tagInput: {
+    remove: '{{ tag }} entfernen',
+    duplicate: '{{ tag }} wurde bereits hinzugefügt',
+    tooShort: 'Einträge müssen mindestens {{ min }} Zeichen lang sein',
+    tooLong: 'Einträge dürfen höchstens {{ max }} Zeichen lang sein',
+    maxTags: 'Maximal {{ max }} Einträge erreicht',
+    added: '{{ tag }} hinzugefügt',
+    removed: '{{ tag }} entfernt',
+    suggestions: 'Vorschläge',
+    errors: {
+      required: 'Fügen Sie mindestens einen Eintrag hinzu',
+      tagCount: 'Fügen Sie zwischen {{ min }} und {{ max }} Einträge hinzu',
+      tagLength: 'Jeder Eintrag muss {{ min }} bis {{ max }} Zeichen lang sein',
+    },
   },
   paginator: {
     previousPage: 'Vorherige Seite',

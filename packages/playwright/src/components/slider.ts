@@ -1,24 +1,41 @@
 import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
 import { themeClasses } from '../utils/theme';
-import test, { expect, type Locator } from '@playwright/test';
+import { expect, type Locator } from '@playwright/test';
 
 export class JigSliderHarness {
   public readonly classes = themeClasses(sliderControlTemplate);
 
   public readonly locator: Locator;
   public readonly track: Locator;
+  /** Every thumb — one in single mode, two in range mode. */
+  public readonly thumbs: Locator;
+  /** The single-mode thumb, or the lower handle in range mode. */
   public readonly thumb: Locator;
+  /** The lower handle. Only present in range mode. */
+  public readonly thumbStart: Locator;
+  /** The upper handle in range mode, and the only thumb in single mode. */
+  public readonly thumbEnd: Locator;
   public readonly fill: Locator;
 
   constructor(locator: Locator) {
     this.locator = locator;
     this.track = locator.locator(this.classes.track);
-    this.thumb = locator.locator(this.classes.thumb);
+    this.thumbs = locator.locator(this.classes.thumb);
+    this.thumb = this.thumbs.first();
+    this.thumbStart = this.thumbs.first();
+    this.thumbEnd = this.thumbs.last();
     this.fill = locator.locator(this.classes.fill);
   }
 
   public async expectValue(value: number) {
     await expect(this.locator).toHaveAttribute('aria-valuenow', value.toString());
+  }
+
+  /** Asserts the `[start, end]` pair reported by the two range thumbs. */
+  public async expectRangeValue([start, end]: [number, number]) {
+    await expect(this.thumbs).toHaveCount(2);
+    await expect(this.thumbStart).toHaveAttribute('aria-valuenow', start.toString());
+    await expect(this.thumbEnd).toHaveAttribute('aria-valuenow', end.toString());
   }
 
   public async expectMin(min: number) {
@@ -61,10 +78,11 @@ export class JigSliderHarness {
     await this.track.click({ position: { x: x - box.x, y: y - box.y } });
   }
 
-  public async dragThumb(delta: { x?: number; y?: number }) {
-    await this.thumb.hover();
+  public async dragThumb(delta: { x?: number; y?: number }, handle: 'start' | 'end' = 'end') {
+    const target = handle === 'start' ? this.thumbStart : this.thumbEnd;
+    await target.hover();
     await this.locator.page().mouse.down();
-    const box = await this.thumb.boundingBox();
+    const box = await target.boundingBox();
     if (!box) {
       throw new Error('Thumb not found');
     }
@@ -74,11 +92,19 @@ export class JigSliderHarness {
     await this.locator.page().mouse.up();
   }
 
-  public async pressKey(key: string) {
+  public async pressKey(key: string, handle?: 'start' | 'end') {
+    if (handle) {
+      await (handle === 'start' ? this.thumbStart : this.thumbEnd).press(key);
+      return;
+    }
     await this.locator.press(key);
   }
 
-  public async focus() {
+  public async focus(handle?: 'start' | 'end') {
+    if (handle) {
+      await (handle === 'start' ? this.thumbStart : this.thumbEnd).focus();
+      return;
+    }
     await this.locator.focus();
   }
 }

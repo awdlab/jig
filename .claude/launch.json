@@ -15,10 +15,33 @@
       "port": 4203
     },
     {
+      "name": "docs-verify",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [".claude/launch-pnpm.js", "docs:serve", "--no-hmr", "--port", "4207"],
+      "autoPort": false,
+      "port": 4207
+    },
+    {
       "name": "test-wrapper",
       "runtimeExecutable": "node",
       "runtimeArgs": [".claude/launch-pnpm.js", "test-wrapper:serve", "--no-hmr", "--port", "4204"],
       "port": 4204
+    },
+    {
+      "name": "test-wrapper-e2e",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        ".claude/launch-pnpm.js",
+        "test-wrapper:serve",
+        "--port",
+        "4222",
+        "--host",
+        "0.0.0.0",
+        "--allowed-hosts",
+        "hostmachine"
+      ],
+      "autoPort": false,
+      "port": 4222
     },
     {
       "name": "isolated",

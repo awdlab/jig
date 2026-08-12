@@ -2,7 +2,13 @@
   <div
     class="component-wrapper flex h-fit w-full items-center justify-center gap-2 p-8 md:min-h-[200px]"
   >
-    <ng-container *ngComponentOutlet="component()" />
+    @defer (on viewport; on idle) {
+      <ng-container *ngComponentOutlet="component()" />
+    } @placeholder {
+      <div class="h-8">
+        <jig-spinner [size]="64" [centered]="true" />
+      </div>
+    }
   </div>
   <div
     class="flex w-full justify-end border-t border-(--jig-color-surface-200) bg-(--jig-color-surface-100) p-2"

@@ -16,6 +16,9 @@ export const hintStyles = createThemePart({
         color: color-mix(in srgb, ${v('color.text')} 60%, transparent);
         font-size: ${v('font.size.xs')};
         line-height: ${v('font.size.xs')};
+        transition:
+          grid-template-rows 0.2s ease-in-out,
+          margin 0.2s ease-in-out;
       }
 
       ${c('icon')} {

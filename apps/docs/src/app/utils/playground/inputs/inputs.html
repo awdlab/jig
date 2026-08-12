@@ -1,7 +1,12 @@
 <div class="flex flex-col gap-4 p-4">
-  <div class="flex items-center gap-2 pb-2 font-semibold">
+  <div
+    class="sticky top-0 z-10 -mx-4 -mt-4 flex items-center gap-2 bg-(--jig-color-surface-25) px-4 pt-4 pb-2 font-semibold"
+  >
     <jig-icon style="color: var(--jig-color-primary-500)" [icon]="iconSliders" />
     INPUTS
+    <jig-input-field class="ml-auto w-40 font-normal" [label]="'Filter'" [labelKind]="'on'">
+      <input type="text" jigInput [value]="filter()" (valueChange)="filter.set($event ?? '')" />
+    </jig-input-field>
   </div>
   @for (control of controls(); track $index) {
     <div>
@@ -18,6 +23,7 @@
       <jig-docs-playground-component-inputs
         [component]="control.component"
         [componentName]="control.componentName"
+        [filter]="filter()"
       />
     </div>
   }

@@ -671,3 +671,63 @@ test('filter input keeps Home and End for the caret', async ({ page }) => {
   await input.press('End');
   expect(await caret()).toBe(3);
 });
+
+// The select builds its list on jig-dropdown-list and projects its filter field
+// into the dropdown's header slot. These assert the seam, not the list behaviour
+// the tests above already cover.
+test('builds its list on jig-dropdown-list', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+        <jig-input-field style="width: 220px;">
+          <jig-select
+            inputId="sel"
+            [options]="inputs().options"
+            [filter]="inputs().filter"
+            (valueChange)="output('valueChange', $event)"
+          />
+        </jig-input-field>
+      `,
+      imports: ['select', 'inputField'],
+    },
+    {
+      inputs: {
+        options: exampleData.items.flatPreformatted,
+        filter: true,
+      },
+    }
+  );
+
+  const select = new JigSelectHarness(page.locator('jig-select'));
+
+  await test.step('keeps the listbox and popover ids on the select inputId', async () => {
+    await select.open();
+    await expect(page.locator('#sel_listbox')).toBeVisible();
+    await expect(page.locator('#sel_popover')).toBeAttached();
+  });
+
+  await test.step('projects the filter field into the dropdown header', async () => {
+    await expect(select.dropdown.header).toBeVisible();
+    await expect(select.dropdown.header.locator('input')).toBeVisible();
+    // The forwarding getters keep pointing at the moved parts.
+    await expect(select.popoverContent).toBeVisible();
+    await expect(select.listBox.locator).toBeVisible();
+  });
+
+  await test.step('still clears the filter when the list closes', async () => {
+    await select.filter.children.input.fill('ger');
+    await select.close();
+    await select.open();
+    await select.filter.children.input.expectValue('');
+  });
+
+  await test.step('still delegates arrow navigation to the list box', async () => {
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Enter');
+    await select.expectOpened(false);
+    expect(await handle.getOutputLogAndClear()).toEqual({
+      valueChange: [exampleData.items.flatPreformatted[0]?.value],
+    });
+  });
+});

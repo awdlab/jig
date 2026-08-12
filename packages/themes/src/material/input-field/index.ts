@@ -132,7 +132,8 @@ export const inputFieldStyles = createThemePart({
         ${c('disabled')}, ${c('root')}:has(${d('input', 'root')}:disabled), ${c(
           'root'
         )}:has([role='combobox'][disabled]), :disabled ${c('root')},
-        ${c('root')}:has(${d('input', 'root')}[disabled]) {
+        ${c('root')}:has(${d('input', 'root')}[disabled]),
+        ${c('root')}:has(${d('mask', 'disabled')}) {
           background: ${v('color.disabled.background')};
           border-color: ${v('color.disabled.border')};
           color: ${v('color.disabled.text')};
@@ -207,6 +208,12 @@ export const inputFieldStyles = createThemePart({
           &:hover {
             color: ${v('color.surface.700')};
           }
+        }
+
+        ${c('required-marker')}::after {
+          content: '*';
+          margin-inline-start: 0.15em;
+          color: ${v('color.invalid.border')};
         }
 
         /* Label Styles — MD3 floating label: active (floated) is smaller + regular weight,

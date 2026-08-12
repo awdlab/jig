@@ -190,7 +190,7 @@ export class JigDocsComponentGallerySection {
   ];
   // Keep the hover-opened dropdown inert so it can't be interacted with mid-demo.
   protected readonly selectPt: JigPassthrough<'select'> = {
-    'popover-content': { $attributes: { inert: '' } },
+    dropdown: { $attributes: { inert: '' } },
   };
   protected readonly buttonState = signal<undefined | 'loading' | 'success'>(undefined);
   protected readonly chipColor = signal<CustomColor | undefined>(undefined);

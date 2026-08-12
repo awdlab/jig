@@ -16,6 +16,10 @@ import type { JigDragInfo } from './types';
  */
 @Directive({
   selector: '[jigDragScroll]',
+  host: {
+    // A pan reads as a text drag to the browser, so suppress selection for its duration.
+    '[style.user-select]': 'isDragging() ? "none" : null',
+  },
 })
 export class JigDragScroll extends JigDragBase {
   protected onDragged(delta: JigDragInfo): void {

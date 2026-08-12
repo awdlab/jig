@@ -14,7 +14,7 @@ export const sliderStyles = createThemePart({
   base: baseStyles.slider,
   dependencies: [colorsTemplate, sizesTemplate, shadowTemplate, ringTemplate],
   root: {
-    css: ({ v, c, d }) => css`
+    css: ({ v, c }) => css`
       ${c('root')} {
         --trackThickness: 0.3125rem;
         --thumbBorderSize: 0.125rem;
@@ -26,6 +26,10 @@ export const sliderStyles = createThemePart({
             outline-offset: 0;
           }
         }
+      }
+      ${c('thumb')}:focus-visible {
+        outline: 0.4rem solid ${controlRing(v)};
+        outline-offset: 0;
       }
       ${c('track')} {
         background: ${v('color.surface.100')};
@@ -41,7 +45,7 @@ export const sliderStyles = createThemePart({
         border: var(--thumbBorderSize) solid ${v('color.primary.500')};
         box-shadow: ${v('shadow.sm')};
       }
-      ${c('root')}:not([disabled]):not([aria-readonly='true']) {
+      ${c('root')}:not([disabled]):not(${c('readonly')}) {
         ${c('thumb')} {
           cursor: grab;
           &:active {
@@ -82,7 +86,7 @@ export const sliderStyles = createThemePart({
           }
         }
       }
-      ${c('root')}[aria-readonly='true'] {
+      ${c('root')}${c('readonly')} {
         ${c('thumb')} {
           border-color: ${v('color.surface.700')};
         }

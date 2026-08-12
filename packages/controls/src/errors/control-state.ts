@@ -38,6 +38,8 @@ export interface JigControlState {
   readonly dirty: Signal<boolean>;
   readonly pending: Signal<boolean>;
   readonly submitted: Signal<boolean>;
+  /** Theme scope of the host jig control, for control-scoped message lookup. */
+  readonly controlScope: Signal<string | null>;
 }
 
 interface ControlWithEvents {
@@ -119,5 +121,6 @@ export function injectJigControlState(): JigControlState {
     dirty: computed(() => (revision(), host()?.dirty ?? dirtyFallback())),
     pending: computed(() => (revision(), host()?.pending ?? false)),
     submitted: computed(() => (revision(), submitted())),
+    controlScope: computed(() => jigControl?.controlScope() ?? null),
   };
 }

@@ -16,6 +16,7 @@ export const IMPORTS = {
   defer: () => import('@awdlab/jig/defer').then(m => m.JigDefer),
   dialog: () => import('@awdlab/jig/dialog').then(m => m.JigDialog),
   drawer: () => import('@awdlab/jig/drawer').then(m => m.JigDrawer),
+  dropdownList: () => import('@awdlab/jig/dropdown-list').then(m => m.JigDropdownList),
   menu: () => import('@awdlab/jig/menu').then(m => m.JigMenu),
   editInplace: () => import('@awdlab/jig/edit-inplace').then(m => m.JigEditInplace),
   errors: () => import('@awdlab/jig/errors').then(m => m.JigErrors),
@@ -69,6 +70,7 @@ export const IMPORTS = {
   tableStickyColumn: () => import('@awdlab/jig/table').then(m => m.JigTableStickyColumn),
   jigTemplate: () => import('@awdlab/jig/api/ng').then(m => m.JigTemplate),
   tag: () => import('@awdlab/jig/tag').then(m => m.JigTag),
+  tagInput: () => import('@awdlab/jig/tag-input').then(m => m.JigTagInput),
   toast: () => import('@awdlab/jig/toast').then(m => m.JigToast),
   toggleButton: () => import('@awdlab/jig/toggle-button').then(m => m.JigToggleButton),
   tooltip: () => import('@awdlab/jig/tooltip').then(m => m.JigTooltip),
@@ -78,4 +80,5 @@ export const IMPORTS = {
   testAsyncValidator: () =>
     import('./helper-components/async-validator').then(m => m.TestAsyncValidator),
   toastTrigger: () => import('./helper-components/toast-trigger').then(m => m.ToastTrigger),
+  tagForm: () => import('./helper-components/tag-form').then(m => m.TagForm),
 };

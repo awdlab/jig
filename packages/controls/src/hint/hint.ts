@@ -45,13 +45,13 @@ export interface JigHintValidationState {
   providers: [provideSelf(JigHint)],
   host: {
     '[id]': 'controlId()',
-    // Collapse the element when acting as a validation hint with nothing to show,
-    // so an unfilled error slot doesn't reserve space (see isHidden).
-    '[style.display]': "isHidden() ? 'none' : null",
   },
 })
 export class JigHint extends JigBase<'hint'> {
-  protected readonly theme = this.injectThemeTemplate(hintControlTemplate, 'root');
+  protected readonly theme = this.injectThemeTemplate(hintControlTemplate, {
+    root: true,
+    'root-collapsed': () => this.isHidden(),
+  });
 
   /**
    * A stable id placed on the host element so a related control can reference
@@ -103,8 +103,8 @@ export class JigHint extends JigBase<'hint'> {
   });
 
   /**
-   * Whether to collapse the host. Only auto-hides when the hint is wired as a
-   * validation hint (has a validation state) that is currently not visible and
+   * Whether to collapse the host to zero height. Only auto-hides when the hint is
+   * wired as a validation hint (has a validation state) that is currently not visible and
    * carries no static content of its own — i.e. an empty error slot. Plain hints
    * (no validation state) never auto-hide.
    */

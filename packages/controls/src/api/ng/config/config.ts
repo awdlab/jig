@@ -26,6 +26,10 @@ export type JigConfig = {
     readonly splitter: {
       readonly stateStorage: JigStateStorage;
     };
+    readonly inputField: {
+      /** Mark the label of a field whose control is required. */
+      readonly showRequiredMarker: boolean;
+    };
     readonly tooltip: TooltipOptions;
   };
 };
@@ -50,6 +54,9 @@ export const defaultJigConfig: JigConfig = {
     stateStorage: 'session',
     splitter: {
       stateStorage: 'session',
+    },
+    inputField: {
+      showRequiredMarker: false,
     },
     tooltip: {
       placement: 'bottom',
@@ -92,6 +99,11 @@ export function provideJigConfig(config?: JigConfigInit): Provider {
               config?.defaults?.splitter?.stateStorage ??
               config?.defaults?.stateStorage ??
               defaultJigConfig.defaults.splitter.stateStorage,
+          },
+          inputField: {
+            showRequiredMarker:
+              config?.defaults?.inputField?.showRequiredMarker ??
+              defaultJigConfig.defaults.inputField.showRequiredMarker,
           },
           tooltip: {
             placement:
