@@ -10,6 +10,7 @@ import type { TypeDeclaration } from '../../../../type-model';
 @Component({
   selector: 'jig-docs-playground-json-input',
   templateUrl: 'json-input.html',
+  styleUrl: 'json-input.scss',
   imports: [JigInputField, JigInput, JigHint],
 })
 export class JigDocsPlaygroundJsonInput {

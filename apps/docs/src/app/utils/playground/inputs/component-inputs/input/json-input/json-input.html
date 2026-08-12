@@ -3,7 +3,7 @@
     jigInput
     rows="2"
     wrap="off"
-    class="resize-y overflow-auto font-mono text-xs whitespace-pre"
+    class="w-full max-w-full min-w-0 resize-y overflow-auto font-mono text-xs whitespace-pre"
     [invalid]="!!error()"
     [value]="text()"
     (blur)="commit($any($event.target).value)"
