@@ -16,25 +16,14 @@
   @case ('primitive') {
     @switch (dataType.type) {
       @case ('string') {
-        <jig-input-field>
-          <input
-            type="text"
-            jigInput
-            [id]="controlId"
-            [value]="value()"
-            (valueChange)="value.set($event)"
-          />
+        <!-- The id goes on the field: it writes its own `inputId` onto the projected input. -->
+        <jig-input-field [inputId]="controlId">
+          <input type="text" jigInput [value]="value()" (valueChange)="value.set($event)" />
         </jig-input-field>
       }
       @case ('number') {
-        <jig-input-field>
-          <input
-            type="number"
-            jigNumberInput
-            [id]="controlId"
-            [value]="value()"
-            (valueChange)="value.set($event)"
-          />
+        <jig-input-field [inputId]="controlId">
+          <input type="number" jigNumberInput [value]="value()" (valueChange)="value.set($event)" />
           <jig-spin-buttons [kind]="'stacked'" />
         </jig-input-field>
       }

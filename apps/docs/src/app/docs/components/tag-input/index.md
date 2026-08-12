@@ -37,8 +37,9 @@ adding `design` twice in each of these; `allowDuplicates` lets the second one th
 
 {{ demo: Demo_TagInput_MaxTags }}
 
-`minTagLength` refuses shorter text on commit and leaves it in the field; `maxTagLength` becomes
-the field's native `maxlength`, so over-long text cannot be typed at all.
+`minTagLength` refuses shorter text on commit and leaves it in the field. `maxTagLength` becomes
+the field's native `maxlength`, so over-long text cannot be typed at all — and text that reaches
+the control another way, from a paste or a suggestion, is refused on commit.
 
 {{ demo: Demo_TagInput_TagLength }}
 

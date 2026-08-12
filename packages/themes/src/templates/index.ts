@@ -42,7 +42,6 @@ export type ThemeTemplate = {
   rating: Awaited<typeof import('./rating')>['ratingControlTemplate'];
   scroller: Awaited<typeof import('./scroller')>['scrollerControlTemplate'];
   select: Awaited<typeof import('./select')>['selectControlTemplate'];
-  tagInput: Awaited<typeof import('./tag-input')>['tagInputControlTemplate'];
   selectButton: Awaited<typeof import('./select-button')>['selectButtonControlTemplate'];
   slider: Awaited<typeof import('./slider')>['sliderControlTemplate'];
   snackbar: Awaited<typeof import('./snackbar')>['snackbarControlTemplate'];
@@ -55,6 +54,7 @@ export type ThemeTemplate = {
   tabs: Awaited<typeof import('./tabs')>['tabsControlTemplate'];
   table: Awaited<typeof import('./table')>['tableControlTemplate'];
   tag: Awaited<typeof import('./tag')>['tagControlTemplate'];
+  tagInput: Awaited<typeof import('./tag-input')>['tagInputControlTemplate'];
   toast: Awaited<typeof import('./toast')>['toastControlTemplate'];
   toggleButton: Awaited<typeof import('./toggle-button')>['toggleButtonControlTemplate'];
   tooltip: Awaited<typeof import('./tooltip')>['tooltipControlTemplate'];

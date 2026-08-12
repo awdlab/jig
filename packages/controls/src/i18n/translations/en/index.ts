@@ -146,6 +146,7 @@ export const en = {
     remove: 'Remove {{ tag }}',
     duplicate: '{{ tag }} is already added',
     tooShort: 'Tags must be at least {{ min }} characters',
+    tooLong: 'Tags must be at most {{ max }} characters',
     maxTags: 'Maximum of {{ max }} tags reached',
     added: '{{ tag }} added',
     removed: '{{ tag }} removed',

@@ -10,8 +10,8 @@ import type { TypeDeclaration } from '../../../../type-model';
 @Component({
   selector: 'jig-docs-playground-json-input',
   templateUrl: 'json-input.html',
-  styleUrl: 'json-input.scss',
   imports: [JigInputField, JigInput, JigHint],
+  host: { class: 'block' },
 })
 export class JigDocsPlaygroundJsonInput {
   public readonly type = input.required<TypeDeclaration>();

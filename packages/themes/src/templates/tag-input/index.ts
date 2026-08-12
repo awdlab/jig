@@ -3,7 +3,7 @@ import { dropdownListControlTemplate } from '@awdlab/jig-themes/templates/dropdo
 import { inputControlTemplate } from '@awdlab/jig-themes/templates/input';
 
 export const tagInputControlTemplate = createControlTemplate({
-  scope: 'tagInput',
+  scope: 'tag-input',
   classNames: [
     'root',
     'field',

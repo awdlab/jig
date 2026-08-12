@@ -92,7 +92,6 @@ export class JigTagInput extends TagInputTemplates {
 
   private readonly _injector = inject(Injector);
   private readonly _rovingGroup = viewChild<JigRovingGroup>(JigRovingGroup);
-  private readonly _field = viewChild<JigInput>(JigInput);
   private readonly _dropdown =
     viewChild<JigDropdownList<readonly JigItem<unknown, string>[]>>(JigDropdownList);
 
@@ -186,8 +185,17 @@ export class JigTagInput extends TagInputTemplates {
   /** The text typed but not yet committed. */
   public readonly pendingText = signal('');
 
-  /** What was last announced, resolved to a message by {@link announcement}. */
-  private readonly _announced = signal<{ kind: AnnouncementKind; tag: string } | null>(null);
+  /**
+   * What was last announced, resolved to a message by {@link announcement}. The
+   * `seq` makes a repeat of the same event a distinct message, so rejecting the
+   * same tag twice is announced twice.
+   */
+  private readonly _announced = signal<{
+    kind: AnnouncementKind;
+    tag: string;
+    seq: number;
+  } | null>(null);
+  private _announceSeq = 0;
 
   /**
    * The live-region message. Derived rather than stored, so it re-resolves if the
@@ -198,19 +206,32 @@ export class JigTagInput extends TagInputTemplates {
     if (!announced) {
       return '';
     }
-    switch (announced.kind) {
+    const message = this.announcementFor(announced.kind, announced.tag);
+    // Alternate a trailing no-break space: same wording, different node value, so a
+    // repeated event re-announces instead of the region seeing an unchanged string.
+    return message + '\u00A0'.repeat(announced.seq % 2);
+  });
+
+  private announcementFor(kind: AnnouncementKind, tag: string): string {
+    switch (kind) {
       case 'added':
-        return this.i18n['tagInput_added']({ tag: announced.tag });
+        return this.i18n['tagInput_added']({ tag });
       case 'removed':
-        return this.i18n['tagInput_removed']({ tag: announced.tag });
+        return this.i18n['tagInput_removed']({ tag });
       case 'duplicate':
-        return this.i18n['tagInput_duplicate']({ tag: announced.tag });
+        return this.i18n['tagInput_duplicate']({ tag });
       case 'tooShort':
         return this.i18n['tagInput_tooShort']({ min: this.minTagLength() });
+      case 'tooLong':
+        return this.i18n['tagInput_tooLong']({ max: this.maxTagLength() });
       case 'maxTags':
         return this.i18n['tagInput_maxTags']({ max: this.maxTags() });
     }
-  });
+  }
+
+  private _announce(kind: AnnouncementKind, tag: string): void {
+    this._announced.set({ kind, tag, seq: ++this._announceSeq });
+  }
 
   /** The current tags, with `null` flattened to an empty list for rendering. */
   protected readonly tags = computed(() => this.value() ?? []);
@@ -338,12 +359,18 @@ export class JigTagInput extends TagInputTemplates {
     if (min !== undefined && candidate.length < min) {
       return this._reject(candidate, 'tooShort');
     }
+    // The field's `maxlength` stops typing past the limit, but a paste and a
+    // suggestion both reach here without passing through it.
+    const max = this.maxTagLength();
+    if (max !== undefined && candidate.length > max) {
+      return this._reject(candidate, 'tooLong');
+    }
     if (!this.allowDuplicates() && this.tags().includes(candidate)) {
       return this._reject(candidate, 'duplicate');
     }
     this.value.set([...this.tags(), candidate]);
     this._setFieldText('');
-    this._announced.set({ kind: 'added', tag: candidate });
+    this._announce('added', candidate);
     return true;
   }
 
@@ -358,7 +385,7 @@ export class JigTagInput extends TagInputTemplates {
     }
     const next = tags.filter((_, i) => i !== index);
     this.value.set(next.length ? next : null);
-    this._announced.set({ kind: 'removed', tag: removed });
+    this._announce('removed', removed);
     return true;
   }
 
@@ -402,7 +429,12 @@ export class JigTagInput extends TagInputTemplates {
       return;
     }
     event.preventDefault();
-    this._setFieldText(this._commitAll(this._split(this._currentText() + pasted)));
+    const element = this._inputElement();
+    const text = this._currentText();
+    const start = element?.selectionStart ?? text.length;
+    const end = element?.selectionEnd ?? text.length;
+    const merged = text.slice(0, start) + pasted + text.slice(end);
+    this._setFieldText(this._commitAll(this._split(merged)));
   }
 
   protected onFocus(): void {
@@ -481,7 +513,7 @@ export class JigTagInput extends TagInputTemplates {
 
   private _reject(text: string, reason: TagRejectionReason): false {
     this.rejected.emit({ text, reason });
-    this._announced.set({ kind: reason, tag: text });
+    this._announce(reason, text);
     return false;
   }
 
@@ -512,9 +544,10 @@ export class JigTagInput extends TagInputTemplates {
     const committable = parts.slice(0, -1);
     for (let i = 0; i < committable.length; i++) {
       if (this.full()) {
-        // Out of room: hand back everything still uncommitted.
+        // Out of room: hand back everything still uncommitted, joined by a separator
+        // that actually separates — newlines always do, even with no delimiter declared.
         const rest = [...committable.slice(i), trailing];
-        return rest.join(this.delimiters()[0] ?? ',');
+        return rest.join(this.delimiters()[0] ?? '\n');
       }
       this.addTag(committable[i] ?? '');
     }

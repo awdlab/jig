@@ -7,6 +7,7 @@ import {
   computed,
   effect,
   inject,
+  isDevMode,
 } from '@angular/core';
 import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { JigDrag, type JigDragInfo } from '@awdlab/jig/directives';
@@ -105,7 +106,8 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
    * stepping a handle stops this far from the other one; the other handle never
    * moves.
    *
-   * Only applies when {@link range} is `true`. Must not exceed `max - min`.
+   * Only applies when {@link range} is `true`. Values outside `0 … max - min` are
+   * clamped into that window, with a dev-mode error.
    * @default 0
    */
   public readonly minRangeDistance = input<number>(0);
@@ -133,18 +135,27 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
   protected readonly isRange = computed<boolean>(() => !!this.range());
 
   /**
-   * The `[start, end]` pair in value space, sorted and clamped to
-   * {@link min}/{@link max}. Outside range mode the start is pinned to
-   * {@link min} so the fill spans from the track origin.
+   * The `[start, end]` pair in value space, sorted, clamped to
+   * {@link min}/{@link max} and widened to {@link minRangeDistance}. Outside range
+   * mode the start is pinned to {@link min} so the fill spans from the track
+   * origin.
    */
   protected readonly values = computed<[number, number]>(() => {
     const v = this.value() as number | [number, number] | undefined;
     if (this.isRange()) {
       const pair: [number, number] = Array.isArray(v) ? v : [this.min(), this.max()];
-      return [this.clampValue(Math.min(...pair)), this.clampValue(Math.max(...pair))];
+      return this.enforceGap(
+        this.clampValue(Math.min(...pair)),
+        this.clampValue(Math.max(...pair))
+      );
     }
     return [this.min(), this.clampValue(typeof v === 'number' ? v : this.min())];
   });
+
+  /** {@link minRangeDistance}, held to a gap the track can actually hold. */
+  private readonly gap = computed(() =>
+    Math.min(Math.max(0, this.max() - this.min()), Math.max(0, this.minRangeDistance()))
+  );
 
   protected readonly startPercent = computed(() => this.percentOf(this.values()[0]));
   protected readonly endPercent = computed(() => this.percentOf(this.values()[1]));
@@ -154,20 +165,34 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
 
   constructor() {
     super();
-    effect(() => {
-      if (!this.isRange()) {
-        return;
-      }
-      if (this.minRangeDistance() < 0) {
-        throw new JigError('slider', 'minRangeDistance cannot be negative');
-      }
-      if (this.minRangeDistance() > this.max() - this.min()) {
-        throw new JigError(
-          'slider',
-          'minRangeDistance cannot be larger than the distance between min and max'
-        );
-      }
-    });
+    if (isDevMode()) {
+      effect(() => {
+        if (!this.isRange()) {
+          return;
+        }
+        const distance = this.minRangeDistance();
+        if (distance !== this.gap()) {
+          console.error(
+            new JigError(
+              'slider',
+              `minRangeDistance must be between 0 and max - min (${this.max() - this.min()}); ` +
+                `${distance} was clamped to ${this.gap()}.`
+            )
+          );
+        }
+        const bound = this.value();
+        const [start, end] = this.values();
+        if (Array.isArray(bound) && (bound[0] !== start || bound[1] !== end)) {
+          console.error(
+            new JigError(
+              'slider',
+              `value [${bound.join(', ')}] does not satisfy min, max and minRangeDistance; ` +
+                `displayed as [${start}, ${end}].`
+            )
+          );
+        }
+      });
+    }
   }
 
   protected valueTextFor(value: number): string | null {
@@ -283,8 +308,17 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
       return [this.min(), this.max()];
     }
     const [start, end] = this.values();
-    const gap = this.minRangeDistance();
+    const gap = this.gap();
     return handle === 'start' ? [this.min(), end - gap] : [start + gap, this.max()];
+  }
+
+  /** Widens a clamped pair until it satisfies the gap, moving the end first. */
+  private enforceGap(start: number, end: number): [number, number] {
+    const gap = this.gap();
+    if (end - start >= gap) {
+      return [start, end];
+    }
+    return start + gap <= this.max() ? [start, start + gap] : [this.max() - gap, this.max()];
   }
 
   private setHandle(handle: SliderHandle, next: number): void {

@@ -130,7 +130,7 @@ test('constraints', async ({ page }) => {
     await page.keyboard.press('Enter');
     await tags.expectTags(['abcdef', 'second']);
     await expect(tags.input.locator).toHaveAttribute('readonly', '');
-    await expect(tags.locator).toHaveClass(/jig-tagInput-full/);
+    await expect(tags.locator).toHaveClass(/jig-tag-input-full/);
   });
 });
 
@@ -165,7 +165,7 @@ test('layout modes', async ({ page }, testInfo) => {
   await page.mouse.move(0, 0);
 
   await test.step('single line scrolls horizontally', async () => {
-    await expect(tags.tagList).toHaveClass(/jig-tagInput-single-line/);
+    await expect(tags.tagList).toHaveClass(/jig-tag-input-single-line/);
     const overflow = await tags.field.evaluate(el => el.scrollWidth > el.clientWidth);
     expect(overflow).toBe(true);
     await expectScreenshot(page, testInfo, 'single-line');
@@ -192,7 +192,7 @@ test('layout modes', async ({ page }, testInfo) => {
   await test.step('multiline wraps and grows', async () => {
     const before = (await tags.locator.boundingBox())!.height;
     await handle.setInputs({ multiline: true });
-    await expect(tags.tagList).toHaveClass(/jig-tagInput-multiline/);
+    await expect(tags.tagList).toHaveClass(/jig-tag-input-multiline/);
 
     const after = (await tags.locator.boundingBox())!.height;
     expect(after).toBeGreaterThan(before);

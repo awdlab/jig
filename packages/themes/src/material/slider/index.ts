@@ -8,7 +8,7 @@ export const sliderStyles = createThemePart({
   base: baseStyles.slider,
   dependencies: [colorsTemplate, sizesTemplate, animationTemplate],
   root: {
-    css: ({ v, c, d }) => css`
+    css: ({ v, c }) => css`
       ${c('root')} {
         --trackThickness: 0.375rem;
         --thumbSize: 1.25rem;

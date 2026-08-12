@@ -23,7 +23,7 @@ export type TagSuggestions =
  * Why a tag input refused to turn typed text into a tag.
  * @category types
  */
-export type TagRejectionReason = 'duplicate' | 'tooShort' | 'maxTags';
+export type TagRejectionReason = 'duplicate' | 'tooShort' | 'tooLong' | 'maxTags';
 
 /**
  * A refused tag, carried by the tag input's `rejected` output.

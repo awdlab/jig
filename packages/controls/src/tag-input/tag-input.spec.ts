@@ -374,14 +374,14 @@ describe('jig-tag-input', () => {
   it('swaps the layout state class between modes', () => {
     const { fixture, host, root } = setup();
 
-    expect(root.querySelector('.jig-tagInput-single-line')).not.toBeNull();
-    expect(root.querySelector('.jig-tagInput-multiline')).toBeNull();
+    expect(root.querySelector('.jig-tag-input-single-line')).not.toBeNull();
+    expect(root.querySelector('.jig-tag-input-multiline')).toBeNull();
 
     host.multiline.set(true);
     fixture.detectChanges();
 
-    expect(root.querySelector('.jig-tagInput-single-line')).toBeNull();
-    expect(root.querySelector('.jig-tagInput-multiline')).not.toBeNull();
+    expect(root.querySelector('.jig-tag-input-single-line')).toBeNull();
+    expect(root.querySelector('.jig-tag-input-multiline')).not.toBeNull();
   });
 
   it('announces additions and rejections into the live region', async () => {
@@ -397,6 +397,13 @@ describe('jig-tag-input', () => {
     tags.addTag('alpha');
     await flush(fixture);
     expect(liveRegion.textContent?.trim()).toBe('alpha is already added');
+
+    // The same refusal again still reaches the region: same wording, different node value.
+    const firstRejection = liveRegion.textContent;
+    tags.addTag('alpha');
+    await flush(fixture);
+    expect(liveRegion.textContent?.trim()).toBe('alpha is already added');
+    expect(liveRegion.textContent).not.toBe(firstRejection);
 
     tags.removeTag(0);
     await flush(fixture);

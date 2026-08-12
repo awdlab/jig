@@ -11,15 +11,6 @@ import { domEventHandler, domEventObservable, Platform } from '@awdlab/jig/api/n
 
 import type { JigDragInfo } from './types';
 
-/** Whether a click on `target` places a caret, i.e. its native gesture must be left alone. */
-function isTextEntry(target: EventTarget | null): boolean {
-  return (
-    target instanceof HTMLInputElement ||
-    target instanceof HTMLTextAreaElement ||
-    (target instanceof HTMLElement && target.isContentEditable)
-  );
-}
-
 @Directive()
 export abstract class JigDragBase {
   protected readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -78,12 +69,6 @@ export abstract class JigDragBase {
     );
     afterRenderEffect(() => {
       this._pointerDownEvent.subscribe(event => {
-        // The gesture must not also start a native text selection: the browser then
-        // autoscrolls the container towards a pointer held past its edge, fighting the
-        // drag. Text-entry targets keep their default so a click still places the caret.
-        if (!isTextEntry(event.target)) {
-          event.preventDefault();
-        }
         this._pointerDown = true;
         this._dragged = false;
         this._startX = (event as PointerEvent).clientX;

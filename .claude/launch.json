@@ -37,7 +37,8 @@
         "4222",
         "--host",
         "0.0.0.0",
-        "--allowed-hosts"
+        "--allowed-hosts",
+        "hostmachine"
       ],
       "autoPort": false,
       "port": 4222

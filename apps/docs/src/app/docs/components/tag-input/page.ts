@@ -53,6 +53,7 @@ export const TagInputPage: JigDocsPage = {
         remove: 'Accessible label for a tag’s remove button.',
         duplicate: 'Announced when a tag is refused because it is already present.',
         tooShort: 'Announced when typed text is shorter than the per-tag minimum.',
+        tooLong: 'Announced when text pasted or picked exceeds the per-tag maximum.',
         maxTags: 'Announced when the tag limit has been reached.',
         added: 'Announced when a tag is added.',
         removed: 'Announced when a tag is removed.',

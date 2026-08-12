@@ -106,7 +106,7 @@ without any app code. `jig-otp` translates `required` as "Enter the full code",
 and `jig-tag-input` as "Add at least one tag", while every other control keeps
 the generic "Required".
 
-The scope is the control's theme scope, so the translation key is
+The scope is the control's theme scope in camelCase, so the translation key is
 `otp.errors.required` or `tagInput.errors.required`. A control that defines no
 scoped entry for a key simply falls through to the shared one — nothing to
 configure either way.

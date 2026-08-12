@@ -36,6 +36,8 @@ export const tagInputStyles = createThemePart({
         flex-wrap: wrap;
       }
       /* Padding, not margin: it is the row's leading inset and has to scroll away with it. */
+      /* Unselectable: a pan across the row would otherwise drag-select the tag text, and the
+         browser then autoscrolls towards a pointer held past the edge, fighting the pan. */
       ${c('tags')} {
         display: flex;
         align-items: center;
@@ -43,6 +45,7 @@ export const tagInputStyles = createThemePart({
         padding: 0;
         padding-inline-start: var(--fieldPadX, 0px);
         list-style: none;
+        user-select: none;
       }
       ${c('tags')}:empty {
         display: none;

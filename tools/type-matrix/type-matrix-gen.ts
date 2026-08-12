@@ -14,7 +14,9 @@ import type {
 
 const CONTROLS_ROOT = resolve(import.meta.dirname, '../../packages/controls');
 const SRC_DIR = join(CONTROLS_ROOT, 'src');
-const PROBE_FILE = join(SRC_DIR, '__type-probe.generated.ts');
+// Outside `src`, so a killed run cannot leave a stray file the package build picks up.
+const PROBE_FILE = join(CONTROLS_ROOT, '__type-probe.generated.ts');
+const PROBE_DIR = dirname(PROBE_FILE);
 const TSCONFIG = join(CONTROLS_ROOT, 'tsconfig.typedoc.json');
 const SIGNAL_WRAPPERS = ['InputSignal', 'InputSignalWithTransform', 'ModelSignal'];
 const MAX_COMBOS = 8;
@@ -44,14 +46,19 @@ function buildProbeSource(controls: DiscoveredControl[]): { source: string; prob
   const probes: Probe[] = [];
 
   controls.forEach((control, index) => {
-    const importPath = `./${relative(SRC_DIR, control.file).replace(/\\/g, '/').replace(/\.ts$/, '')}`;
+    const importPath = `./${relative(PROBE_DIR, control.file).replace(/\\/g, '/').replace(/\.ts$/, '')}`;
     imports.push(`import type { ${control.name} as C${index} } from '${importPath}';`);
 
     const finite = control.typeParams.filter(param => domainOf(param.constraint));
-    const rows = combinations(finite.map(param => domainOf(param.constraint)!));
+    let rows = combinations(finite.map(param => domainOf(param.constraint)!));
     if (rows.length > MAX_COMBOS) {
-      console.warn(`[type-matrix] skipping ${control.name}: ${rows.length} combinations`);
-      return;
+      // Too many to enumerate — keep the all-defaults row so the control still has
+      // inputs in the playground instead of silently rendering none.
+      console.warn(
+        `[type-matrix] ${control.name}: ${rows.length} combinations exceed ${MAX_COMBOS}, ` +
+          'keeping the all-defaults combination only'
+      );
+      rows = [finite.map(() => false)];
     }
 
     rows.forEach((row, rowIndex) => {

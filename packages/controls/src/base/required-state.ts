@@ -39,17 +39,30 @@ export function injectNgControlRequired(): Signal<boolean> {
   }
   const destroyRef = inject(DestroyRef);
   const revision = signal(0);
+  let watched: AbstractControl | null = null;
+  let subscription: { unsubscribe: () => void } | undefined;
 
-  // The `AbstractControl` resolves only once the form directive has registered.
-  queueMicrotask(() => {
-    const subscription = (ngControl.control as ControlWithEvents | null)?.events?.subscribe(() =>
+  // Re-arms onto whichever control is bound now — a rebound `[formControl]` swaps the
+  // instance, and the one we were listening to stops reporting.
+  const watch = (control: AbstractControl | null): void => {
+    if (control === watched) {
+      return;
+    }
+    subscription?.unsubscribe();
+    watched = control;
+    subscription = (control as ControlWithEvents | null)?.events?.subscribe(() =>
       revision.update(value => value + 1)
     );
-    if (subscription) {
-      destroyRef.onDestroy(() => subscription.unsubscribe());
-    }
-    revision.update(value => value + 1);
-  });
+  };
+  destroyRef.onDestroy(() => subscription?.unsubscribe());
 
-  return computed(() => (revision(), hasRequiredValidator(ngControl.control)));
+  // The `AbstractControl` resolves only once the form directive has registered.
+  queueMicrotask(() => revision.update(value => value + 1));
+
+  return computed(() => {
+    revision();
+    const control = ngControl.control;
+    watch(control);
+    return hasRequiredValidator(control);
+  });
 }

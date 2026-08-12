@@ -261,7 +261,10 @@ export class JigErrors {
    * error params.
    */
   private _translate(key: string, params: Record<string, unknown>): string | undefined {
-    const scope = this._state.controlScope();
+    // Theme scopes are kebab-case (`tag-input`); translation keys are camelCase.
+    const scope = this._state
+      .controlScope()
+      ?.replace(/-([a-z])/g, (_, char: string) => char.toUpperCase());
     return (
       (scope ? this._lookup(`${scope}_errors_${key}`, params) : undefined) ??
       this._lookup(`errors_${key}`, params)

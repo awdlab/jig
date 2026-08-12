@@ -36,3 +36,6 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+
+# type-matrix probe, written and removed by tools/type-matrix
+__type-probe.generated.ts

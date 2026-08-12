@@ -14,7 +14,7 @@ export const sliderStyles = createThemePart({
   base: baseStyles.slider,
   dependencies: [colorsTemplate, sizesTemplate, shadowTemplate, ringTemplate],
   root: {
-    css: ({ v, c, d }) => css`
+    css: ({ v, c }) => css`
       ${c('root')} {
         --trackThickness: 0.3125rem;
         --thumbBorderSize: 0.125rem;

@@ -5,7 +5,7 @@ export const sliderStyles = createThemePart({
   controlTemplate: sliderControlTemplate,
   dependencies: [],
   root: {
-    css: ({ v, c, d }) => css`
+    css: ({ c }) => css`
       ${c('root')} {
         user-select: none;
         display: flex;

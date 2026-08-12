@@ -3,7 +3,7 @@ import { listBoxControlTemplate } from '@awdlab/jig-themes/templates/list-box';
 import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
 
 export const dropdownListControlTemplate = createControlTemplate({
-  scope: 'dropdownList',
+  scope: 'dropdown-list',
   classNames: ['root', 'content', 'header'],
   dependencies: [
     { class: 'popover', template: popoverControlTemplate },

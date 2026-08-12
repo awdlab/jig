@@ -35,12 +35,13 @@ spans between the handles rather than from the track origin.
 
 `minRangeDistance` sets the smallest gap the handles may have, in value units.
 Dragging or stepping a handle stops that far from the other one — the other
-handle never moves. Setting it larger than `max - min` throws, since no pair of
-values could satisfy it.
+handle never moves. A value outside `0 … max - min` is clamped into that window,
+since no pair of values could satisfy it, and reported as an error in dev mode.
 
-A `[start, end]` you bind in is sorted and clamped to `min`/`max` for display,
-but `minRangeDistance` is not applied retroactively to it — the constraint
-governs user interaction, so the control never silently rewrites your model.
+A `[start, end]` you bind in is sorted, clamped to `min`/`max` and widened to
+`minRangeDistance` for display — dev mode logs an error naming the pair it showed
+instead. The displayed pair is what the handles report and what further
+interaction moves; your model is only rewritten once the user moves a handle.
 
 {{ demo: Demo_Slider_Range }}
 

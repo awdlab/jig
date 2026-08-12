@@ -750,7 +750,7 @@ test('range drag-release click does not move the other handle', async ({ page })
   await slider.expectRangeValue([60, 70]);
 });
 
-test('minRangeDistance larger than the span throws', async ({ page }) => {
+test('minRangeDistance larger than the span is clamped and reported', async ({ page }) => {
   const errors: string[] = [];
   page.on('console', async msg => {
     if (msg.type() !== 'error') return;
@@ -778,9 +778,15 @@ test('minRangeDistance larger than the span throws', async ({ page }) => {
     expect(errors.join('\n')).toContain('[slider]');
     expect(errors.join('\n')).toContain('minRangeDistance');
   }).toPass();
+
+  // Clamped to the full span, so the handles sit at the ends and stay usable.
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+  await slider.expectRangeValue([0, 10]);
+  await slider.pressKey('ArrowRight', 'start');
+  await slider.expectRangeValue([0, 10]);
 });
 
-test('negative minRangeDistance throws', async ({ page }) => {
+test('negative minRangeDistance is clamped to zero and reported', async ({ page }) => {
   const errors: string[] = [];
   page.on('console', async msg => {
     if (msg.type() !== 'error') return;
@@ -805,8 +811,15 @@ test('negative minRangeDistance throws', async ({ page }) => {
   );
 
   await expect(async () => {
-    expect(errors.join('\n')).toContain('minRangeDistance cannot be negative');
+    expect(errors.join('\n')).toContain('[slider]');
+    expect(errors.join('\n')).toContain('minRangeDistance');
   }).toPass();
+
+  // Clamped to 0, so the handles may meet but never cross.
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+  await slider.expectRangeValue([0, 10]);
+  await slider.pressKey('End', 'start');
+  await slider.expectRangeValue([10, 10]);
 });
 
 test('valueCommit - single mode', async ({ page }) => {

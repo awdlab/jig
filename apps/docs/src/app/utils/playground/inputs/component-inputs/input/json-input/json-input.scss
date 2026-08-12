@@ -1,9 +1,0 @@
-:host {
-  display: block;
-}
-
-// The field already carries a resize handle for textareas; keep that one and
-// hold it to the height so the editor cannot outgrow the panel.
-:host ::ng-deep .jig-input-field-root {
-  resize: vertical;
-}
