@@ -36,7 +36,12 @@ import type { DeclarationReflection } from 'typedoc/browser';
     JigDocsPlaygroundJsonInput,
   ],
   host: {
-    class: 'block',
+    // A switch is short enough to sit on the label's line.
+    '[class.block]': '!isSwitch()',
+    '[class.flex]': 'isSwitch()',
+    '[class.items-center]': 'isSwitch()',
+    '[class.justify-between]': 'isSwitch()',
+    '[class.gap-2]': 'isSwitch()',
   },
 })
 export class JigDocsPlaygroundInput {
@@ -46,6 +51,10 @@ export class JigDocsPlaygroundInput {
   public readonly type = input.required<TypeDeclaration>();
 
   protected readonly controlId = generateElementId();
+  protected readonly isSwitch = computed(() => {
+    const type = this.type();
+    return type.kind === 'primitive' && type.type === 'boolean';
+  });
 
   protected readonly value = linkedSignal<any>(() => this.defaultValue());
   protected _previousInputValue: any = undefined;
