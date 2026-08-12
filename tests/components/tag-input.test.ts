@@ -2,7 +2,7 @@ import { JigTagInputHarness } from '@awdlab/jig-playwright';
 import test, { expect } from '@playwright/test';
 
 import { expectNoA11yViolations } from '../helper/axe';
-import { loadComponent } from '../helper/load-component';
+import { evalValue, loadComponent } from '../helper/load-component';
 import { expectScreenshot } from '../helper/screenshot';
 
 // The field's <label for> needs the same id the tag input puts on its text field:
@@ -28,6 +28,7 @@ const TEMPLATE = `
       [suggestionsDebounce]="0"
       [disabled]="inputs().disabled"
       [readonly]="inputs().readonly"
+      [required]="inputs().required"
       (valueChange)="output('valueChange', $event)"
       (rejected)="output('rejected', $event)"
     />
@@ -44,6 +45,7 @@ const BASE_INPUTS = {
   suggestions: undefined,
   disabled: false,
   readonly: false,
+  required: false,
 };
 
 function load(page: Parameters<typeof loadComponent>[0], inputs: Record<string, unknown> = {}) {
@@ -58,15 +60,33 @@ test('commit pipeline', async ({ page }) => {
   const handle = await load(page);
   const tags = new JigTagInputHarness(page.locator('jig-tag-input'));
 
-  await test.step('starts with no tags', async () => {
+  await test.step('starts with no tags, reporting empty and never an empty array', async () => {
     await tags.expectTags([]);
+    // Empty rather than `[]`, so a signal-forms `required` reacts to it.
+    await expect(tags.locator).toHaveClass(/jig-tag-input-empty/);
     expect(await handle.getOutputLog()).toEqual({});
   });
 
-  await test.step('Enter commits', async () => {
-    await tags.type('alpha');
+  await test.step('pending text alone counts as not empty, so a label can float', async () => {
+    await tags.type('al');
+    await expect(tags.locator).not.toHaveClass(/jig-tag-input-empty/);
+    await tags.input.clear();
+    await expect(tags.locator).toHaveClass(/jig-tag-input-empty/);
+  });
+
+  await test.step('blank text is ignored without a rejection', async () => {
+    await tags.input.pressSequentially('   ');
+    await page.keyboard.press('Enter');
+    await tags.expectTags([]);
+    expect(await handle.getOutputLog()).toEqual({});
+    await tags.input.clear();
+  });
+
+  await test.step('Enter commits, trimming first', async () => {
+    await tags.type('  alpha  ');
     await page.keyboard.press('Enter');
     await tags.expectTags(['alpha']);
+    await expect(tags.locator).not.toHaveClass(/jig-tag-input-empty/);
     expect(await handle.getOutputLogAndClear()).toEqual({ valueChange: [['alpha']] });
   });
 
@@ -86,6 +106,24 @@ test('commit pipeline', async ({ page }) => {
     expect(await handle.getOutputLogAndClear()).toEqual({
       rejected: [{ text: 'alpha', reason: 'duplicate' }],
     });
+  });
+
+  await test.step('the same refusal again is announced again', async () => {
+    const before = await tags.liveRegion.textContent();
+    await page.keyboard.press('Enter');
+    // Same wording, different node value, so the live region re-announces it
+    // instead of seeing an unchanged string and staying silent.
+    await expect.poll(() => tags.liveRegion.textContent()).not.toBe(before);
+    await tags.expectAnnouncement('alpha is already added');
+    expect(await handle.getOutputLogAndClear()).toEqual({
+      rejected: [{ text: 'alpha', reason: 'duplicate' }],
+    });
+  });
+
+  await test.step('Backspace stays with the caret while text is pending', async () => {
+    await page.keyboard.press('Backspace');
+    await tags.expectTags(['alpha', 'beta']);
+    await tags.input.expectValue('alph');
   });
 
   await test.step('Backspace on an empty field removes the last tag', async () => {
@@ -132,6 +170,62 @@ test('constraints', async ({ page }) => {
     await expect(tags.input.locator).toHaveAttribute('readonly', '');
     await expect(tags.locator).toHaveClass(/jig-tag-input-full/);
   });
+});
+
+test('duplicates and required', async ({ page }) => {
+  const handle = await load(page, { allowDuplicates: true, required: true });
+  const tags = new JigTagInputHarness(page.locator('jig-tag-input'));
+
+  await test.step('required reaches assistive tech as aria-required', async () => {
+    await expect(tags.input.locator).toHaveAttribute('aria-required', 'true');
+    await handle.setInputs({ required: false });
+    await expect(tags.input.locator).not.toHaveAttribute('aria-required', 'true');
+  });
+
+  await test.step('allowDuplicates keeps the second copy', async () => {
+    await tags.type('alpha,alpha,');
+    await tags.expectTags(['alpha', 'alpha']);
+    expect(await handle.getOutputLogAndClear()).toEqual({
+      valueChange: [['alpha'], ['alpha', 'alpha']],
+    });
+  });
+});
+
+test('delimiter splitting hands back what does not fit', async ({ page }) => {
+  const handle = await load(page, { maxTags: 2 });
+  const tags = new JigTagInputHarness(page.locator('jig-tag-input'));
+
+  await test.step('an unterminated fragment stays pending', async () => {
+    await tags.type('one,two');
+    await tags.expectTags(['one']);
+    await tags.input.expectValue('two');
+  });
+
+  await test.step('splitting stops at maxTags and returns the remainder', async () => {
+    await page.keyboard.press('Enter');
+    await tags.expectTags(['one', 'two']);
+    // Readonly at the limit, so the leftovers arrive through a paste instead.
+    expect(await handle.getOutputLogAndClear()).toEqual({ valueChange: [['one', 'two']] });
+  });
+});
+
+test('a single-tag paste is left to the browser', async ({ page, browserName }) => {
+  test.skip(
+    browserName === 'firefox',
+    'Firefox ignores clipboardData on a synthesised ClipboardEvent'
+  );
+  await load(page);
+  const tags = new JigTagInputHarness(page.locator('jig-tag-input'));
+
+  await tags.input.locator.click();
+  await tags.input.locator.evaluate(input => {
+    const data = new DataTransfer();
+    data.setData('text', 'solo');
+    input.dispatchEvent(new ClipboardEvent('paste', { clipboardData: data, bubbles: true }));
+  });
+
+  // Nothing committed and nothing preventDefault-ed — the text is the browser's to insert.
+  await tags.expectTags([]);
 });
 
 // Firefox drops `clipboardData` from a synthesised ClipboardEvent, so the control
@@ -302,6 +396,121 @@ test('suggestions', async ({ page }, testInfo) => {
 
     await tags.input.locator.click();
     await tags.dropdown.expectOpened();
+  });
+});
+
+test('no suggestions means no dropdown at all', async ({ page }) => {
+  await load(page);
+  const tags = new JigTagInputHarness(page.locator('jig-tag-input'));
+
+  await tags.input.locator.click();
+  await expect(tags.dropdown.locator).toHaveCount(0);
+});
+
+test('suggestion callback', async ({ page }) => {
+  const handle = await load(page, {
+    // Records what it was called with, and narrows the pool itself the way a
+    // real remote lookup would.
+    suggestions: evalValue(`(text, tags) => {
+      window.__suggestionCalls = [...(window.__suggestionCalls ?? []), [text, [...tags]]];
+      return new Promise(resolve =>
+        setTimeout(
+          () => resolve(['alpha', 'alberta', 'beta'].filter(o => o.startsWith(text))),
+          10
+        )
+      );
+    }`),
+  });
+  const tags = new JigTagInputHarness(page.locator('jig-tag-input'));
+  const calls = () => page.evaluate(() => (window as any).__suggestionCalls ?? []);
+
+  await test.step('is asked with the typed text and resolves asynchronously', async () => {
+    await tags.type('al');
+    await expect(tags.dropdown.listBox.item).toHaveCount(2);
+    await expect.poll(async () => (await calls()).at(-1)).toEqual(['al', []]);
+  });
+
+  await test.step('is re-asked with the tags already added', async () => {
+    await tags.dropdown.listBox.scroller.clickItemByText('alpha');
+    await tags.expectTags(['alpha']);
+    await tags.input.pressSequentially('al');
+    await expect.poll(async () => (await calls()).at(-1)).toEqual(['al', ['alpha']]);
+  });
+
+  await test.step('a callback result is not narrowed again, only stripped of current tags', async () => {
+    // 'alpha' and 'alberta' both start with 'al'; the added one drops out.
+    await expect(tags.dropdown.listBox.item).toHaveCount(1);
+  });
+
+  await test.step('an item may show a label and commit a different value', async () => {
+    await handle.setInputs({
+      suggestions: evalValue(`[{ label: 'Alpha Team', value: 'alpha-team' }]`),
+    });
+    await tags.input.clear();
+    await tags.dropdown.listBox.scroller.clickItemByText('Alpha Team');
+    await tags.expectTags(['alpha', 'alpha-team']);
+  });
+});
+
+// The `tagCount` / `tagLength` validators, driven through a signal form. The
+// bounds are read when the form is built, so each case loads its own component.
+test('signal-forms validators', async ({ page }) => {
+  async function loadForm(inputs: Record<string, unknown>) {
+    await loadComponent(
+      page,
+      {
+        template: `<tag-form
+          [countMin]="inputs().countMin"
+          [countMax]="inputs().countMax"
+          [lengthMin]="inputs().lengthMin"
+          [lengthMax]="inputs().lengthMax"
+        />`,
+        imports: ['tagForm'],
+      },
+      { inputs: { countMin: 2, countMax: 3, lengthMin: 2, lengthMax: 5, ...inputs } }
+    );
+    return new JigTagInputHarness(page.locator('jig-tag-input'));
+  }
+
+  await test.step('an empty value reports required, not the tag rules', async () => {
+    await loadForm({});
+    await expect(page.locator('jig-hint')).toContainText('Add at least one entry');
+    await expect(page.locator('jig-hint')).not.toContainText('Add between');
+  });
+
+  await test.step('below the minimum count reports tagCount with the bounds', async () => {
+    const tags = await loadForm({});
+    await tags.type('alpha,');
+    await expect(page.locator('jig-hint')).toContainText('Add between 2 and 3 entries');
+  });
+
+  await test.step('a satisfying value clears every message', async () => {
+    const tags = await loadForm({});
+    await tags.type('alpha,beta,');
+    await expect(page.locator('jig-hint')).toHaveText('');
+  });
+
+  await test.step('above the maximum count reports tagCount again', async () => {
+    const tags = await loadForm({});
+    await tags.type('alpha,beta,gamma,delta,');
+    await expect(page.locator('jig-hint')).toContainText('Add between 2 and 3 entries');
+  });
+
+  await test.step('a tag outside the length bounds reports tagLength', async () => {
+    // No control-side length rules here, so the value reaches the validator.
+    const tags = await loadForm({ countMin: undefined, countMax: undefined });
+    await tags.type('a,beta,');
+    await expect(page.locator('jig-hint')).toContainText('Each entry must be 2 to 5 characters');
+  });
+
+  await test.step('an unbounded end is left unchecked', async () => {
+    const tags = await loadForm({
+      countMin: undefined,
+      countMax: undefined,
+      lengthMin: undefined,
+    });
+    await tags.type('a,');
+    await expect(page.locator('jig-hint')).toHaveText('');
   });
 });
 

@@ -80,4 +80,5 @@ export const IMPORTS = {
   testAsyncValidator: () =>
     import('./helper-components/async-validator').then(m => m.TestAsyncValidator),
   toastTrigger: () => import('./helper-components/toast-trigger').then(m => m.ToastTrigger),
+  tagForm: () => import('./helper-components/tag-form').then(m => m.TagForm),
 };
