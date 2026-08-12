@@ -1,3 +1,9 @@
 :host {
   display: block;
 }
+
+// The field wraps a textarea, so the theme gives its root a `resize: both`
+// handle of its own. The textarea's height-only handle is the one to keep.
+:host ::ng-deep .jig-input-field-root {
+  resize: none;
+}
