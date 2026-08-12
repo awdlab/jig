@@ -33,10 +33,10 @@ export const tagInputStyles = createThemePart({
          so shade 50 stays a hairline off the field background in both. */
       ${c('tag')} {
         gap: ${v('size.padding.sm')};
-        padding: 0 ${v('size.padding.sm')};
-        border: 1px solid ${v('color.surface.300')};
+        padding: 0 ${v('size.padding.md')};
+        border: 1px solid ${v('color.surface.200')};
         border-radius: ${v('size.rounded.sm')};
-        background: ${v('color.surface.50')};
+        background: ${v('color.surface.100')};
         color: ${v('color.text')};
         font-size: ${v('font.size.sm')};
         line-height: 1.125rem;

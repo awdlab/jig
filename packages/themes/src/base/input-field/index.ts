@@ -11,7 +11,7 @@ export const inputFieldStyles = createThemePart({
       }
       ${c('root')} {
         cursor: text;
-        display: inline-flex;
+        display: flex;
         align-items: center;
         width: 100%;
         min-height: fit-content;
@@ -49,24 +49,19 @@ export const inputFieldStyles = createThemePart({
         }
         /* Anything following the input — a sibling (select's dropdown icon) or a sibling of
            one of its wrappers (the field's clear button) — owns the trailing strip. */
-        & ${d('input', 'root')}:not(:last-child),
-        & :not(:last-child) ${d('input', 'root')} {
+        & ${d('input', 'root')}:not(:last-child), & :not(:last-child) ${d('input', 'root')} {
           --fieldClaimEnd: 0px;
         }
         /* Same for anything preceding it (tag-input's tags): without this the input's
            negative leading margin covers that content and swallows its clicks. */
-        & ${d('input', 'root')}:not(:first-child),
-        & :not(:first-child) ${d('input', 'root')} {
+        & ${d('input', 'root')}:not(:first-child), & :not(:first-child) ${d('input', 'root')} {
           --fieldClaimStart: 0px;
         }
 
-        &:has(${d('input', 'root')}:disabled),
-        &:has(${d('mask', 'disabled')}) {
+        &:has(${d('input', 'root')}:disabled), &:has(${d('mask', 'disabled')}) {
           cursor: default;
         }
-        &:has(${d('input', 'root')}[aria-readonly]),
-        &:has(${d('input', 'root')}:read-only),
-        &:has(${d('mask', 'readonly')}) {
+        &:has(${d('input', 'root')}[aria-readonly]), &:has(${d('input', 'root')}:read-only), &:has(${d('mask', 'readonly')}) {
           cursor: default;
         }
 

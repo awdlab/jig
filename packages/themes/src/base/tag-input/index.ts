@@ -79,7 +79,6 @@ export const tagInputStyles = createThemePart({
       ${c('field')} ${d('input')} {
         field-sizing: content;
         flex: 1 1 auto;
-        min-width: 3rem;
         border-width: 0;
         outline: none;
         background: transparent;
@@ -88,6 +87,7 @@ export const tagInputStyles = createThemePart({
         /* Last in the row, so its padding carries the trailing inset. A theme overrides the
            leading one to a small gap whenever tags precede it. */
         padding-inline: var(--fieldPadX, 0px);
+        width: unset;
       }
       /* Without content sizing the input's default preferred width would drive the row, so
          keep the fixed floor those engines had. */
