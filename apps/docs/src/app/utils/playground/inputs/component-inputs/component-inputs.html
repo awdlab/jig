@@ -1,26 +1,24 @@
 <div class="flex flex-col gap-2">
-  @if (singleComponent(); as component) {
-    @if (internalControlName(); as internalControlName) {
-      @for (group of inputGroups(); track group.title) {
-        <details class="input-group" [open]="group.open">
-          <summary
-            class="cursor-pointer py-1 text-xs font-semibold tracking-wide text-(--jig-color-surface-600) uppercase"
-          >
-            {{ group.title }}
-          </summary>
-          <div class="flex flex-col gap-4 py-2">
-            @for (input of group.inputs; track input.name) {
-              <jig-docs-playground-input
-                [internalControlName]="internalControlName"
-                [input]="input"
-                [instance]="component"
-                [controlTypes]="controlTypes()"
-                [siblingInputs]="inputNames()"
-              />
-            }
-          </div>
-        </details>
-      }
+  @if (internalControlName(); as internalControlName) {
+    @for (group of inputGroups(); track group.title) {
+      <details class="input-group" [open]="group.open">
+        <summary
+          class="cursor-pointer py-1 text-xs font-semibold tracking-wide text-(--jig-color-surface-600) uppercase"
+        >
+          {{ group.title }}
+          <span class="font-normal">· {{ group.entries.length }}</span>
+        </summary>
+        <div class="flex flex-col">
+          @for (entry of group.entries; track entry.input.name) {
+            <jig-docs-playground-input
+              class="border-b border-(--jig-color-surface-200) py-3 last:border-b-0"
+              [input]="entry.input"
+              [type]="entry.type"
+              [instance]="singleComponent()"
+            />
+          }
+        </div>
+      </details>
     }
   }
 </div>

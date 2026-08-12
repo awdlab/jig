@@ -5,29 +5,22 @@ import {
   effect,
   linkedSignal,
   type InputSignal,
-  inject,
-  Injector,
-  runInInjectionContext,
   type Signal,
 } from '@angular/core';
-import { injectThemeColors, injectThemeControlKinds } from '@awdlab/jig/api/ng';
 import { JigCalendar } from '@awdlab/jig/calendar';
 import { JigInput } from '@awdlab/jig/input';
 import { JigNumberInput } from '@awdlab/jig/number-input';
 import { JigInputField } from '@awdlab/jig/input-field';
 import { JigSelect } from '@awdlab/jig/select';
+import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
 import { JigSwitch } from '@awdlab/jig/switch';
-import { setInputSignalValue } from '@awdlab/jig/utils-ng';
+import { generateElementId, setInputSignalValue } from '@awdlab/jig/utils-ng';
 
 import { JigDocsPlaygroundJsonInput } from './json-input/json-input';
-import { collectParamValues, comboKey, hasParam, resolveParams } from '../../../params';
 
 import type { AnyJigBase } from '@awdlab/jig/base';
-import type { ControlTypes, TypeDeclaration } from '../../../type-model';
+import type { TypeDeclaration } from '../../../type-model';
 import type { DeclarationReflection } from 'typedoc/browser';
-import { JigSpinButtons } from '@awdlab/jig/spin-buttons';
-
-const THEME_DRIVEN_INPUTS = ['kind', 'color', 'labelKind'];
 
 @Component({
   selector: 'jig-docs-playground-input',
@@ -43,46 +36,17 @@ const THEME_DRIVEN_INPUTS = ['kind', 'color', 'labelKind'];
     JigDocsPlaygroundJsonInput,
   ],
   host: {
-    '[class.is-hidden]': '!isKnownType()',
-    '[style.display]': 'isKnownType() ? "block" : "none"',
+    class: 'block',
   },
 })
 export class JigDocsPlaygroundInput {
-  private readonly _injector = inject(Injector);
   public readonly input = input.required<DeclarationReflection>();
   public readonly instance = input<AnyJigBase>();
-  public readonly internalControlName = input.required<string>();
-  public readonly controlTypes = input<ControlTypes | null>(null);
-  /** Names of the control's other inputs, searched for generic parameter values. */
-  public readonly siblingInputs = input<readonly string[]>([]);
+  /** The input's type, already resolved and filled in by the parent panel. */
+  public readonly type = input.required<TypeDeclaration>();
 
-  protected readonly dataType = computed<TypeDeclaration | undefined>(() => {
-    if (THEME_DRIVEN_INPUTS.includes(this.input().name)) {
-      return this.themeDrivenType();
-    }
+  protected readonly controlId = generateElementId();
 
-    const types = this.controlTypes();
-    const instance = this.instance();
-    if (!types || !instance) {
-      return undefined;
-    }
-
-    const key = comboKey(types.params, name => (instance as any)[name]?.());
-    const inputs = types.combos[key];
-    const type = inputs?.[this.input().name];
-    if (!type) {
-      return undefined;
-    }
-
-    if (!hasParam(type)) {
-      return type;
-    }
-
-    const siblingValues = this.siblingInputs()
-      .filter(name => name !== this.input().name)
-      .map(name => (instance as any)[name]?.() as unknown);
-    return resolveParams(type, collectParamValues(siblingValues)) ?? undefined;
-  });
   protected readonly value = linkedSignal<any>(() => this.defaultValue());
   protected _previousInputValue: any = undefined;
 
@@ -124,28 +88,6 @@ export class JigDocsPlaygroundInput {
     });
   }
 
-  protected readonly isKnownType = computed(() => this.isKnownTypeFn(this.dataType()));
-
-  private isKnownTypeFn(type?: TypeDeclaration): boolean {
-    if (!type) {
-      return false;
-    }
-    switch (type.kind) {
-      case 'primitive':
-        return ['string', 'number', 'boolean', 'date'].includes(type.type);
-      case 'literal':
-      case 'array':
-      case 'tuple':
-      case 'object':
-      case 'union':
-        return true;
-      case 'literalUnion':
-        return type.values.length > 0;
-      default:
-        return false;
-    }
-  }
-
   private readonly defaultValue = computed(() => {
     const defaultComment = this.input().comment?.getTag('@default');
     if (!defaultComment) {
@@ -180,39 +122,4 @@ export class JigDocsPlaygroundInput {
 
     return undefined;
   });
-
-  private readonly themeDrivenType = computed<TypeDeclaration | undefined>(() => {
-    const name = this.input().name;
-    const control = this.internalControlName();
-    if (name === 'kind') {
-      return this.valuesToLiteralUnion(
-        runInInjectionContext(this._injector, () => injectThemeControlKinds(control)())
-      );
-    }
-    if (name === 'color') {
-      return this.valuesToLiteralUnion(
-        runInInjectionContext(this._injector, () => injectThemeColors(control)())
-      );
-    }
-    if (name === 'labelKind') {
-      return this.valuesToLiteralUnion(
-        runInInjectionContext(this._injector, () => injectThemeControlKinds('inputFieldLabel')())
-      );
-    }
-    return undefined;
-  });
-
-  private valuesToLiteralUnion(values: (string | null | undefined)[]): TypeDeclaration | undefined {
-    if (!values.length || values.every(v => !v)) {
-      return undefined;
-    }
-    return {
-      kind: 'literalUnion',
-      primitiveType: 'string',
-      allowCustomValue: false,
-      values: values.map(v =>
-        v ? { label: v, value: v } : { label: '- none -', value: undefined }
-      ),
-    };
-  }
 }

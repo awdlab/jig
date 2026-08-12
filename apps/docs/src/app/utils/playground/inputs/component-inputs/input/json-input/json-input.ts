@@ -13,7 +13,6 @@ import type { TypeDeclaration } from '../../../../type-model';
   imports: [JigInputField, JigInput, JigHint],
 })
 export class JigDocsPlaygroundJsonInput {
-  public readonly label = input.required<string>();
   public readonly type = input.required<TypeDeclaration>();
   public readonly value = model<unknown>();
 
