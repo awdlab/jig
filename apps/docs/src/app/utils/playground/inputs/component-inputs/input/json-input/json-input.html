@@ -2,7 +2,8 @@
   <textarea
     jigInput
     rows="2"
-    class="font-mono text-xs"
+    wrap="off"
+    class="resize-y overflow-auto font-mono text-xs whitespace-pre"
     [invalid]="!!error()"
     [value]="text()"
     (blur)="commit($any($event.target).value)"
