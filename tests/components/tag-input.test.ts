@@ -191,7 +191,11 @@ test('duplicates and required', async ({ page }) => {
   });
 });
 
-test('delimiter splitting hands back what does not fit', async ({ page }) => {
+test('delimiter splitting hands back what does not fit', async ({ page, browserName }) => {
+  test.skip(
+    browserName === 'firefox',
+    'Firefox ignores clipboardData on a synthesised ClipboardEvent'
+  );
   const handle = await load(page, { maxTags: 2 });
   const tags = new JigTagInputHarness(page.locator('jig-tag-input'));
 
@@ -199,12 +203,19 @@ test('delimiter splitting hands back what does not fit', async ({ page }) => {
     await tags.type('one,two');
     await tags.expectTags(['one']);
     await tags.input.expectValue('two');
+    expect(await handle.getOutputLogAndClear()).toEqual({ valueChange: [['one']] });
   });
 
   await test.step('splitting stops at maxTags and returns the remainder', async () => {
-    await page.keyboard.press('Enter');
+    // Typing past the limit is impossible — the field turns readonly at maxTags —
+    // so the oversized payload arrives as a paste.
+    await tags.input.locator.evaluate(input => {
+      const data = new DataTransfer();
+      data.setData('text', ',three,four');
+      input.dispatchEvent(new ClipboardEvent('paste', { clipboardData: data, bubbles: true }));
+    });
     await tags.expectTags(['one', 'two']);
-    // Readonly at the limit, so the leftovers arrive through a paste instead.
+    await tags.input.expectValue('three,four');
     expect(await handle.getOutputLogAndClear()).toEqual({ valueChange: [['one', 'two']] });
   });
 });
@@ -229,7 +240,7 @@ test('a single-tag paste is left to the browser', async ({ page, browserName }) 
 });
 
 // Firefox drops `clipboardData` from a synthesised ClipboardEvent, so the control
-// never sees the payload. The handler's logic is covered in tag-input.spec.ts.
+// never sees the payload.
 test('paste splitting', async ({ page, browserName }) => {
   test.skip(
     browserName === 'firefox',

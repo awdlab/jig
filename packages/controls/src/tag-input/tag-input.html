@@ -53,7 +53,7 @@
     [attr.aria-labelledby]="labelledBy()"
     [invalid]="invalidState()"
     invalidOn="immediate"
-    [attr.aria-required]="requiredState() ? 'true' : null"
+    [required]="requiredState()"
     [readOnly]="readonly() || full()"
     [disabled]="disabled()"
     (valueChange)="onInput($event)"
