@@ -145,16 +145,16 @@ export const de = {
   tagInput: {
     remove: '{{ tag }} entfernen',
     duplicate: '{{ tag }} wurde bereits hinzugefügt',
-    tooShort: 'Tags müssen mindestens {{ min }} Zeichen lang sein',
-    tooLong: 'Tags dürfen höchstens {{ max }} Zeichen lang sein',
-    maxTags: 'Maximal {{ max }} Tags erreicht',
+    tooShort: 'Einträge müssen mindestens {{ min }} Zeichen lang sein',
+    tooLong: 'Einträge dürfen höchstens {{ max }} Zeichen lang sein',
+    maxTags: 'Maximal {{ max }} Einträge erreicht',
     added: '{{ tag }} hinzugefügt',
     removed: '{{ tag }} entfernt',
     suggestions: 'Vorschläge',
     errors: {
-      required: 'Fügen Sie mindestens einen Tag hinzu',
-      tagCount: 'Fügen Sie zwischen {{ min }} und {{ max }} Tags hinzu',
-      tagLength: 'Jeder Tag muss {{ min }} bis {{ max }} Zeichen lang sein',
+      required: 'Fügen Sie mindestens einen Eintrag hinzu',
+      tagCount: 'Fügen Sie zwischen {{ min }} und {{ max }} Einträge hinzu',
+      tagLength: 'Jeder Eintrag muss {{ min }} bis {{ max }} Zeichen lang sein',
     },
   },
   paginator: {

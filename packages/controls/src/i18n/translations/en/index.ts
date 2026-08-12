@@ -145,16 +145,16 @@ export const en = {
   tagInput: {
     remove: 'Remove {{ tag }}',
     duplicate: '{{ tag }} is already added',
-    tooShort: 'Tags must be at least {{ min }} characters',
-    tooLong: 'Tags must be at most {{ max }} characters',
-    maxTags: 'Maximum of {{ max }} tags reached',
+    tooShort: 'Entries must be at least {{ min }} characters',
+    tooLong: 'Entries must be at most {{ max }} characters',
+    maxTags: 'Maximum of {{ max }} entries reached',
     added: '{{ tag }} added',
     removed: '{{ tag }} removed',
     suggestions: 'Suggestions',
     errors: {
-      required: 'Add at least one tag',
-      tagCount: 'Add between {{ min }} and {{ max }} tags',
-      tagLength: 'Each tag must be {{ min }} to {{ max }} characters',
+      required: 'Add at least one entry',
+      tagCount: 'Add between {{ min }} and {{ max }} entries',
+      tagLength: 'Each entry must be {{ min }} to {{ max }} characters',
     },
   },
   paginator: {

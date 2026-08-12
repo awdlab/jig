@@ -112,7 +112,7 @@ test('constraints', async ({ page }) => {
     await page.keyboard.press('Enter');
     await tags.expectTags([]);
     await tags.input.expectValue('ab');
-    await tags.expectAnnouncement('Tags must be at least 3 characters');
+    await tags.expectAnnouncement('Entries must be at least 3 characters');
     expect(await handle.getOutputLogAndClear()).toEqual({
       rejected: [{ text: 'ab', reason: 'tooShort' }],
     });
