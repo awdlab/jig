@@ -16,19 +16,19 @@
     * no highlight *
   </div>
   @for (group of tokensGroups(); track $index) {
-  <div>
-    <h4 class="text-base font-semibold">{{ group.name }}</h4>
-    <div class="flex flex-col gap-2">
-      @for (token of group.tokens; track $index) {
-      <div
-        [class.selected]="activeToken() === token"
-        (mouseenter)="activeToken.set(token)"
-        class="mono rounded-sm bg-(--jig-color-surface-100) p-2"
-      >
-        {{ token.name }}
+    <div>
+      <h4 class="text-base font-semibold">{{ group.name }}</h4>
+      <div class="flex flex-col gap-2">
+        @for (token of group.tokens; track $index) {
+          <div
+            [class.selected]="activeToken() === token"
+            (mouseenter)="activeToken.set(token)"
+            class="mono rounded-sm bg-(--jig-color-surface-100) p-2"
+          >
+            {{ token.name }}
+          </div>
+        }
       </div>
-      }
     </div>
-  </div>
   }
 </div>
