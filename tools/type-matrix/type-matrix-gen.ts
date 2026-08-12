@@ -119,6 +119,12 @@ function aliasOf(symbol: ts.Symbol): string | null {
   );
 }
 
+/** The class declaring the input, which may be a base class. */
+function ownerOf(symbol: ts.Symbol): string | null {
+  const parent = symbol.declarations?.[0]?.parent;
+  return parent && ts.isClassDeclaration(parent) ? (parent.name?.text ?? null) : null;
+}
+
 function inputTypeOf(symbol: ts.Symbol, checker: ts.TypeChecker): ts.Type | null {
   const declaration = symbol.declarations?.[0];
   if (!declaration || !isPublicInput(symbol)) return null;
@@ -190,6 +196,7 @@ export async function generateTypeMatrix(): Promise<TypeMatrix> {
       const declared = declaredClassType(control, program, checker);
       const entry: ControlTypes = (matrix[probe.control] ??= {
         params: declared ? paramBindings(control, declared, checker) : [],
+        owners: {},
         combos: {},
       });
 
@@ -203,12 +210,17 @@ export async function generateTypeMatrix(): Promise<TypeMatrix> {
         // The parameter is pinned to this combination, but the input still offers both values.
         if (boundInputs.has(symbol.getName())) {
           inputs[name] = { kind: 'primitive', type: 'boolean', optional: true };
-          continue;
+        } else {
+          try {
+            inputs[name] = serializeType(type, checker);
+          } catch (error) {
+            if (error !== DISQUALIFIED) throw error;
+            continue;
+          }
         }
-        try {
-          inputs[name] = serializeType(type, checker);
-        } catch (error) {
-          if (error !== DISQUALIFIED) throw error;
+        const owner = ownerOf(symbol);
+        if (owner) {
+          entry.owners[name] = owner;
         }
       }
       entry.combos[probe.key] = inputs;

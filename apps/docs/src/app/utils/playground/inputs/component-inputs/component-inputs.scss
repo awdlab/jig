@@ -1,0 +1,5 @@
+// A group whose inputs all resolved to an unsupported type would show a heading
+// over nothing.
+.input-group:not(:has(jig-docs-playground-input:not(.is-hidden))) {
+  display: none;
+}

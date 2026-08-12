@@ -43,6 +43,7 @@ const THEME_DRIVEN_INPUTS = ['kind', 'color', 'labelKind'];
     JigDocsPlaygroundJsonInput,
   ],
   host: {
+    '[class.is-hidden]': '!isKnownType()',
     '[style.display]': 'isKnownType() ? "block" : "none"',
   },
 })

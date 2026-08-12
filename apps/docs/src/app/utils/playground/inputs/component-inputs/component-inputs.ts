@@ -13,6 +13,7 @@ import type { DeclarationReflection, ProjectReflection } from 'typedoc/browser';
 @Component({
   selector: 'jig-docs-playground-component-inputs',
   templateUrl: 'component-inputs.html',
+  styleUrl: 'component-inputs.scss',
   imports: [JigDocsPlaygroundInput],
 })
 export class JigDocsPlaygroundComponentInputs {
@@ -21,6 +22,8 @@ export class JigDocsPlaygroundComponentInputs {
 
   public readonly component = input.required<AnyJigBase | readonly AnyJigBase[]>();
   public readonly componentName = input.required<string>();
+  /** Substring the input names are filtered by. */
+  public readonly filter = input('');
 
   protected readonly singleComponent = computed(() => {
     const comp = this.component();
@@ -56,6 +59,35 @@ export class JigDocsPlaygroundComponentInputs {
   });
 
   protected readonly inputNames = computed(() => this.componentInputs().map(input => input.name));
+
+  /**
+   * Inputs split by the class that declares them, so a control's own inputs come
+   * before the ones every control inherits. `value` leads regardless of where it
+   * is declared.
+   */
+  protected readonly inputGroups = computed(() => {
+    const owners = this.controlTypes()?.owners ?? {};
+    const filter = this.filter().trim().toLowerCase();
+    const inputs = filter
+      ? this.componentInputs().filter(input => input.name.toLowerCase().includes(filter))
+      : this.componentInputs();
+
+    const groups: { title: string; open: boolean; inputs: DeclarationReflection[] }[] = [
+      { title: 'Control', open: true, inputs: [] },
+      { title: 'Value & validation', open: true, inputs: [] },
+      { title: 'Common', open: false, inputs: [] },
+    ];
+
+    for (const input of inputs) {
+      const owner = owners[input.name];
+      const index =
+        input.name === 'value' || !owner?.endsWith('Base') ? 0 : owner === 'JigBase' ? 2 : 1;
+      groups[index]!.inputs.push(input);
+    }
+    groups[0]!.inputs.sort((a, b) => Number(b.name === 'value') - Number(a.name === 'value'));
+
+    return groups.filter(group => group.inputs.length);
+  });
 
   protected readonly controlTypes = computed<ControlTypes | null>(
     () => this._matrix()?.[this.componentName()] ?? null

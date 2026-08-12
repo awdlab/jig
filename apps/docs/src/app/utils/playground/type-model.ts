@@ -28,6 +28,8 @@ export interface ParamBinding {
 
 export interface ControlTypes {
   params: ParamBinding[];
+  /** Input name → the class that declares it, used to group the playground panel. */
+  owners: Record<string, string>;
   /** Combination key (param values joined by `|`) → input name → resolved type. */
   combos: Record<string, Record<string, TypeDeclaration>>;
 }
