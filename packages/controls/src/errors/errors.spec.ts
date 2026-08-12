@@ -392,16 +392,18 @@ beforeEach(() => {
 
 type Fixture = { detectChanges: () => void; whenStable: () => Promise<unknown> };
 
-/** Runs change detection and macrotasks until `predicate` holds (or `tries` run out). */
-async function waitFor(fixture: Fixture, predicate: () => boolean, tries = 25): Promise<void> {
-  for (let i = 0; i < tries; i++) {
+/** Runs change detection and macrotasks until `predicate` holds, or throws at the deadline. */
+async function waitFor(fixture: Fixture, predicate: () => boolean, timeout = 3000): Promise<void> {
+  const deadline = Date.now() + timeout;
+  do {
     fixture.detectChanges();
     if (predicate()) {
       return;
     }
-    await new Promise(resolve => setTimeout(resolve));
-  }
-  fixture.detectChanges();
+    await new Promise(resolve => setTimeout(resolve, 10));
+  } while (Date.now() < deadline);
+
+  throw new Error(`waitFor: condition not met within ${timeout}ms`);
 }
 
 /** Detects changes and waits for the async default-language import to land. */
