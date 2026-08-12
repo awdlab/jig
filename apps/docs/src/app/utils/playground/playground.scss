@@ -20,6 +20,15 @@
 .panels {
   box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
 }
+// Side by side, each panel scrolls on its own — a shared scrollbar would drag
+// the other panel along and push both section headers out of view.
+@container playground (min-width: 901px) {
+  .properties-wrapper > * {
+    max-height: 100%;
+    overflow-y: auto;
+  }
+}
+
 @container playground (max-width: 900px) {
   .properties-wrapper {
     flex-direction: column;

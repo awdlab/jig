@@ -1,92 +1,69 @@
-@let label = input().name + (dataType()?.optional ? '' : '*');
-@if (dataType(); as dataType) {
-  @switch (dataType.kind) {
-    @case ('primitive') {
-      @switch (dataType.type) {
-        @case ('string') {
-          <jig-input-field [label]="label" [labelKind]="'on'">
-            <input type="text" jigInput [value]="value()" (valueChange)="value.set($event)" />
-          </jig-input-field>
-        }
-        @case ('number') {
-          <jig-input-field [label]="label" [labelKind]="'on'">
-            <input
-              type="number"
-              jigNumberInput
-              [value]="value()"
-              (valueChange)="value.set($event)"
-            />
-            <jig-spin-buttons [kind]="'stacked'" />
-          </jig-input-field>
-        }
-        @case ('boolean') {
-          <div class="flex items-center justify-between gap-2">
-            <label [for]="switch.inputId()">
-              <!-- We intentionally do not use the label variable here to avoid showing the asterisk for required boolean inputs -->
-              {{ input().name }}
-            </label>
-            <jig-switch #switch [value]="value()" (valueChange)="value.set($event)" />
-          </div>
-        }
-        @case ('date') {
-          <jig-input-field [label]="label" [labelKind]="'on'">
-            <jig-calendar [value]="value()" (valueChange)="value.set($event)" />
-          </jig-input-field>
-        }
-      }
-    }
-    @case ('literalUnion') {
-      <jig-input-field [label]="label" [labelKind]="'on'">
-        <jig-select
-          [value]="value()"
-          (valueChange)="value.set($event)"
-          [options]="dataType.values"
-          [editable]="dataType.allowCustomValue"
-        />
-      </jig-input-field>
-    }
-    @case ('array') {
-      @if (dataType.elementType.kind === 'literalUnion') {
-        <jig-input-field [label]="label" [labelKind]="'on'">
-          <jig-select
-            [multiple]="true"
-            [value]="value()"
-            (valueChange)="value.set($event)"
-            [options]="dataType.elementType.values"
-          />
-        </jig-input-field>
-      } @else {
-        <jig-docs-playground-json-input
-          [label]="label"
-          [type]="dataType"
-          [value]="value()"
-          (valueChange)="value.set($event)"
-        />
-      }
-    }
-    @case ('tuple') {
-      <jig-docs-playground-json-input
-        [label]="label"
-        [type]="dataType"
-        [value]="value()"
-        (valueChange)="value.set($event)"
-      />
-    }
-    @case ('object') {
-      <jig-docs-playground-json-input
-        [label]="label"
-        [type]="dataType"
-        [value]="value()"
-        (valueChange)="value.set($event)"
-      />
-    }
-    @case ('union') {
-      <jig-docs-playground-json-input
-        [label]="label"
-        [type]="dataType"
-        [value]="value()"
-        (valueChange)="value.set($event)"
-      />
-    }
-  }
-}
+@let label = input().name + (dataType()?.optional ? '' : '*'); @if (dataType(); as dataType) {
+@switch (dataType.kind) { @case ('primitive') { @switch (dataType.type) { @case ('string') {
+<jig-input-field [label]="label" [labelKind]="'on'">
+  <input type="text" jigInput [value]="value()" (valueChange)="value.set($event)" />
+</jig-input-field>
+} @case ('number') {
+<jig-input-field [label]="label" [labelKind]="'on'">
+  <input type="number" jigNumberInput [value]="value()" (valueChange)="value.set($event)" />
+  <jig-spin-buttons [kind]="'stacked'" />
+</jig-input-field>
+} @case ('boolean') {
+<div class="flex items-center justify-between gap-2">
+  <label [for]="switch.inputId()">
+    <!-- We intentionally do not use the label variable here to avoid showing the asterisk for required boolean inputs -->
+    {{ input().name }}
+  </label>
+  <jig-switch #switch [value]="value()" (valueChange)="value.set($event)" />
+</div>
+} @case ('date') {
+<jig-input-field [label]="label" [labelKind]="'on'">
+  <jig-calendar [value]="value()" (valueChange)="value.set($event)" />
+</jig-input-field>
+} } } @case ('literalUnion') {
+<jig-input-field [label]="label" [labelKind]="'on'">
+  <jig-select
+    [value]="value()"
+    (valueChange)="value.set($event)"
+    [options]="dataType.values"
+    [editable]="dataType.allowCustomValue"
+  />
+</jig-input-field>
+} @case ('array') { @if (dataType.elementType.kind === 'literalUnion') {
+<jig-input-field [label]="label" [labelKind]="'on'">
+  <jig-select
+    [multiple]="true"
+    [value]="value()"
+    (valueChange)="value.set($event)"
+    [options]="dataType.elementType.values"
+  />
+</jig-input-field>
+} @else {
+<jig-docs-playground-json-input
+  [label]="label"
+  [type]="dataType"
+  [value]="value()"
+  (valueChange)="value.set($event)"
+/>
+} } @case ('tuple') {
+<jig-docs-playground-json-input
+  [label]="label"
+  [type]="dataType"
+  [value]="value()"
+  (valueChange)="value.set($event)"
+/>
+} @case ('object') {
+<jig-docs-playground-json-input
+  [label]="label"
+  [type]="dataType"
+  [value]="value()"
+  (valueChange)="value.set($event)"
+/>
+} @case ('union') {
+<jig-docs-playground-json-input
+  [label]="label"
+  [type]="dataType"
+  [value]="value()"
+  (valueChange)="value.set($event)"
+/>
+} } }

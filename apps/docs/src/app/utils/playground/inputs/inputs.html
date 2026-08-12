@@ -1,24 +1,25 @@
 <div class="flex flex-col gap-4 p-4">
-  <div class="flex items-center gap-2 pb-2 font-semibold">
+  <div
+    class="sticky top-0 z-10 -mx-4 -mt-4 flex items-center gap-2 bg-(--jig-color-surface-25) px-4 pt-4 pb-2 font-semibold"
+  >
     <jig-icon style="color: var(--jig-color-primary-500)" [icon]="iconSliders" />
     INPUTS
   </div>
   @for (control of controls(); track $index) {
-    <div>
-      <h4 class="flex items-center gap-2 text-base font-semibold">
-        {{ control.componentName }}
-        @if (isArray(control.component)) {
-          <jig-icon
-            style="color: var(--jig-color-info-500)"
-            [icon]="iconInfo"
-            [jigTooltip]="'The playground contains multiple instances of this component.\nOnly the first is affected by the changes you make here!'"
-          />
-        }
-      </h4>
-      <jig-docs-playground-component-inputs
-        [component]="control.component"
-        [componentName]="control.componentName"
+  <div>
+    <h4 class="flex items-center gap-2 text-base font-semibold">
+      {{ control.componentName }} @if (isArray(control.component)) {
+      <jig-icon
+        style="color: var(--jig-color-info-500)"
+        [icon]="iconInfo"
+        [jigTooltip]="'The playground contains multiple instances of this component.\nOnly the first is affected by the changes you make here!'"
       />
-    </div>
+      }
+    </h4>
+    <jig-docs-playground-component-inputs
+      [component]="control.component"
+      [componentName]="control.componentName"
+    />
+  </div>
   }
 </div>

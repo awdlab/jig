@@ -1,5 +1,7 @@
 <div class="flex flex-col gap-4 p-4">
-  <div class="flex items-center gap-2 pb-2 font-semibold">
+  <div
+    class="sticky top-0 z-10 -mx-4 -mt-4 flex items-center gap-2 bg-(--jig-color-surface-50) px-4 pt-4 pb-2 font-semibold"
+  >
     <jig-icon style="color: var(--jig-color-primary-500)" [icon]="iconPalette" />
     TOKENS
   </div>
@@ -14,19 +16,19 @@
     * no highlight *
   </div>
   @for (group of tokensGroups(); track $index) {
-    <div>
-      <h4 class="text-base font-semibold">{{ group.name }}</h4>
-      <div class="flex flex-col gap-2">
-        @for (token of group.tokens; track $index) {
-          <div
-            [class.selected]="activeToken() === token"
-            (mouseenter)="activeToken.set(token)"
-            class="mono rounded-sm bg-(--jig-color-surface-100) p-2"
-          >
-            {{ token.name }}
-          </div>
-        }
+  <div>
+    <h4 class="text-base font-semibold">{{ group.name }}</h4>
+    <div class="flex flex-col gap-2">
+      @for (token of group.tokens; track $index) {
+      <div
+        [class.selected]="activeToken() === token"
+        (mouseenter)="activeToken.set(token)"
+        class="mono rounded-sm bg-(--jig-color-surface-100) p-2"
+      >
+        {{ token.name }}
       </div>
+      }
     </div>
+  </div>
   }
 </div>
