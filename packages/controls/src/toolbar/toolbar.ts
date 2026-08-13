@@ -15,7 +15,7 @@ import {
   type Signal,
 } from '@angular/core';
 import { elementSizeSignal, elementsSizesSignal, JigTemplate, Platform } from '@awdlab/jig/api/ng';
-import { JIG_CONTROL, JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
+import { JIG_CONTROL, JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigIcon } from '@awdlab/jig/icon';
 import { I18n } from '@awdlab/jig/i18n';
 import { calculateItemViewLayout, type OverflowOrder } from '@awdlab/jig/item-view';
@@ -27,9 +27,15 @@ import { toolbarControlTemplate } from '@awdlab/jig-themes/templates/toolbar';
 
 import { JigToolbarRegion } from './toolbar-region';
 import { ToolbarTemplates } from './toolbar-templates';
-import { TOOLBAR_CONTROL, type ToolbarControl, type ToolbarPlacement } from './types';
+import {
+  TOOLBAR_CONTROL,
+  type ToolbarControl,
+  type ToolbarOrientation,
+  type ToolbarOverflow,
+  type ToolbarPlacement,
+  type ToolbarRegionRef,
+} from './types';
 
-import type { ToolbarOrientation, ToolbarOverflow, ToolbarRegionRef } from './types';
 import type { IconType } from '@awdlab/jig-custom-types';
 
 type PlacementItem = {
