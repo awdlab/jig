@@ -9,7 +9,7 @@ import {
   model,
   output,
 } from '@angular/core';
-import { JigTemplate } from '@awdlab/jig/api/ng';
+import { inlineArrowStep, JigTemplate } from '@awdlab/jig/api/ng';
 import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigButton } from '@awdlab/jig/button';
 import { I18n } from '@awdlab/jig/i18n';
@@ -153,7 +153,7 @@ export class JigPaginator extends JigBase<'paginator'> {
 
   /** Moves focus along the page buttons without selecting; Enter/Space activates natively. */
   protected onPagesKeydown(event: KeyboardEvent): void {
-    const step = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
+    const step = inlineArrowStep(event.currentTarget as Element, event.key);
     if (!step) {
       return;
     }

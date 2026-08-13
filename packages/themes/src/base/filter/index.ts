@@ -60,7 +60,7 @@ export const filterStyles = createThemePart({
       }
       ${c('footer-actions')} {
         display: flex;
-        margin-left: auto;
+        margin-inline-start: auto;
       }
       ${c('active-indicator')} {
         position: absolute;

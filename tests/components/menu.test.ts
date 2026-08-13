@@ -1,6 +1,7 @@
 import test, { expect } from '@playwright/test';
 
 import { loadComponent, evalValue } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -206,4 +207,51 @@ test('visual', async ({ page }, testInfo) => {
 
   await expect(page.locator('[role="menu"]')).toBeVisible();
   await expectScreenshot(page, testInfo, 'inline');
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    { template: `<jig-menu [items]="inputs().items" />`, imports: ['menu'] },
+    { inputs: { items: ITEMS } }
+  );
+  await expectScreenshot(page, testInfo);
+});
+
+test('rtl keyboard: submenus open away from the parent along the inline axis', async ({ page }) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    { template: `<jig-menu class="block w-40" [items]="inputs().items" />`, imports: ['menu'] },
+    {
+      inputs: {
+        items: [
+          { id: '1', label: 'Item 1' },
+          {
+            id: '2',
+            label: 'Parent',
+            children: [
+              { id: '2-1', label: 'Child 1' },
+              { id: '2-2', label: 'Child 2' },
+            ],
+          },
+        ],
+      },
+    }
+  );
+
+  const parent = page.getByRole('menuitem', { name: 'Parent' });
+  await parent.focus();
+  await expect(parent).toHaveAttribute('aria-expanded', 'false');
+
+  // Nesting runs along the inline axis, so in RTL ArrowLeft opens the submenu.
+  await page.keyboard.press('ArrowLeft');
+  await expect(parent).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.getByRole('menuitem', { name: 'Child 1' })).toBeVisible();
+
+  // ArrowRight (back toward the parent) closes it again.
+  await page.getByRole('menuitem', { name: 'Child 1' }).focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.getByRole('menuitem', { name: 'Child 1' })).not.toBeVisible();
 });

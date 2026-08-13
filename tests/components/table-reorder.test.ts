@@ -1,6 +1,8 @@
 import test, { expect } from '@playwright/test';
 
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
+import { expectScreenshot } from '../helper/screenshot';
 import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -316,4 +318,10 @@ test('table column reorder - empty columnOrder uses natural order', async ({ pag
   const colStarts = await getColumnStarts(page);
   // Natural registration order: id(1), name(2), department(3), location(4)
   expect(colStarts).toEqual([1, 2, 3, 4]);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadTable(page);
+  await expectScreenshot(page, testInfo);
 });

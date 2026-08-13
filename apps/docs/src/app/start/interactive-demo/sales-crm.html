@@ -1,4 +1,4 @@
-<div class="p-(--jig-size-padding-xl)">
+<div class="flex h-full flex-col p-(--jig-size-padding-xl) max-md:h-auto">
   <!-- Header: breadcrumb + title + date range + search -->
   <div
     class="mb-(--jig-size-padding-xl) flex flex-col gap-(--jig-size-padding-lg) md:flex-row md:items-start md:justify-between"
@@ -13,7 +13,7 @@
     </div>
     <div class="flex flex-wrap items-center gap-(--jig-size-padding-md)">
       <jig-input-field class="w-56">
-        <jig-icon [icon]="calendarIcon" class="mr-1" />
+        <jig-icon [icon]="calendarIcon" class="me-1" />
         <jig-select [options]="dateRangeOptions" [(value)]="dateRange" />
       </jig-input-field>
       <jig-input-field class="w-64">
@@ -61,7 +61,7 @@
 
   <!-- Opportunities + Lead capture -->
   <div
-    class="mb-(--jig-size-padding-xl) grid grid-cols-1 gap-(--jig-size-padding-xl) lg:grid-cols-6"
+    class="mb-(--jig-size-padding-xl) grid min-h-0 grow grid-cols-1 gap-(--jig-size-padding-xl) lg:grid-cols-6"
   >
     <div class="card flex flex-col p-(--jig-size-padding-xl) lg:col-span-4">
       <div class="mb-(--jig-size-padding-lg) flex items-center justify-between">
@@ -75,7 +75,7 @@
         </button>
       </div>
 
-      <div class="sales-crm-table-area relative grow overflow-x-auto">
+      <div class="sales-crm-table-area relative min-h-0 grow overflow-auto">
         <jig-table #table [rows]="pagedRows()" [fieldId]="'id'">
           <ng-template #header>
             <tr jigTableHeadTr>
@@ -150,7 +150,8 @@
           @for (chip of filterChips; track chip.value) {
             <jig-chip
               [actionable]="true"
-              [color]="activeFilter() === chip.value ? 'primary' : undefined"
+              [color]="activeFilter() === chip.value ? 'primary' : 'surface'"
+              [class]="activeFilter() === chip.value ? 'ring-2 ring-(--jig-color-primary-500)' : ''"
               (clicked)="setFilter(chip.value)"
             >
               {{ chip.label }}
@@ -176,5 +177,15 @@
     <div class="card p-(--jig-size-padding-xl) lg:col-span-2">
       <jig-docs-quick-add-deal (add)="addDeal($event)" />
     </div>
+  </div>
+
+  <!-- Pipeline meter: full width below the cards, so it costs one row instead of a card -->
+  <div class="flex items-center gap-(--jig-size-padding-lg)">
+    <span
+      class="text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide whitespace-nowrap text-(--jig-color-surface-600) uppercase"
+    >
+      Pipeline by stage
+    </span>
+    <jig-meter class="min-w-0 grow" label="Pipeline by stage" [items]="pipeline()" />
   </div>
 </div>

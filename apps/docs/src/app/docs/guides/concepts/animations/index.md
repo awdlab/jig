@@ -72,14 +72,19 @@ and no code path skipped.
 ### Reduced motion
 
 `prefers-reduced-motion: reduce` is honoured automatically — nothing to wire
-up. A stylesheet collapsing `animation-duration` and `transition-duration` to
-`0.01ms` for every control and its descendants is injected behind that media
-query, so motion disappears the moment the user's OS setting says so, and comes
-back when it changes.
+up. What happens depends on what the animation is for:
 
-Near-zero rather than `none` or `0s`, for the same reason as
-`disableAnimations`: anything the leave logic waits on still has to start and
-finish.
+- **One-shot animations** (dialogs, drawers, popovers, toasts appearing and
+  leaving) collapse to `0.01ms`. Near-zero rather than `none` or `0s`, because
+  anything the leave logic waits on still has to start and finish.
+- **Meaningful loops** — the spinner, indeterminate progress — slow to `6s` and
+  keep running. They are the only signal that something is still happening, so
+  stopping them would report a lie.
+- **Cosmetic loops** — the skeleton's shimmer (a gradient sweep or an opacity
+  pulse, depending on the theme) — stop entirely, resting on a flat placeholder.
+
+The snackbar's countdown bar is left exactly as authored: its duration _is_ the
+remaining time, so retiming it would misreport when the snackbar closes.
 
 Opt out through the [configuration](/guides/configuration) if your app already
 handles reduced motion itself:
@@ -89,7 +94,14 @@ provideJigControls({ theme: { preset: nova }, respectReducedMotion: false });
 ```
 
 `disableAnimations` is the unconditional app-level switch; this one follows the
-user's OS setting. They are independent, and either one turns motion off.
+user's OS setting. They are independent, and either one turns motion off — but
+`disableAnimations` is blunt on purpose: on its own, it forces `0s` on
+everything, including the snackbar countdown bar, which then empties
+immediately. If the user's OS also reports reduced motion, the reduced-motion
+handling above takes over for the animations it cares about — a loading
+indicator still turns slowly rather than freezing — while the snackbar
+countdown bar empties immediately either way. That bluntness is what makes
+`disableAnimations` the right setting for tests.
 
 ### Motion tokens
 

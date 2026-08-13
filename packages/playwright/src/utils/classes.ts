@@ -1,5 +1,5 @@
 import { avatarControlTemplate } from '@awdlab/jig-themes/templates/avatar';
-import { themeClasses } from './theme';
+import { themeClasses } from './theme.js';
 import { buttonControlTemplate } from '@awdlab/jig-themes/templates/button';
 import { calendarControlTemplate } from '@awdlab/jig-themes/templates/calendar';
 import { checkboxControlTemplate } from '@awdlab/jig-themes/templates/checkbox';

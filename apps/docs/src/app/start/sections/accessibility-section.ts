@@ -56,7 +56,7 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
       >
         <div class="grid grid-cols-1 lg:grid-cols-2">
           <div
-            class="flex flex-col gap-(--jig-size-padding-xl) border-b border-(--jig-color-surface-200) p-(--jig-size-padding-xl) lg:border-r lg:border-b-0"
+            class="flex flex-col gap-(--jig-size-padding-xl) border-b border-(--jig-color-surface-200) p-(--jig-size-padding-xl) lg:border-e lg:border-b-0"
           >
             <div>
               <p
@@ -134,7 +134,7 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
                so the autoplay loop never announces over the real page. -->
             <div
               aria-hidden="true"
-              class="flex items-center gap-(--jig-size-padding-md) rounded-r-(--jig-size-rounded-md) border-l-3 border-(--jig-color-success-500) bg-[color-mix(in_srgb,var(--jig-color-success-500)_8%,transparent)] px-(--jig-size-padding-lg) py-(--jig-size-padding-md)"
+              class="flex items-center gap-(--jig-size-padding-md) rounded-e-(--jig-size-rounded-md) border-s-3 border-(--jig-color-success-500) bg-[color-mix(in_srgb,var(--jig-color-success-500)_8%,transparent)] px-(--jig-size-padding-lg) py-(--jig-size-padding-md)"
             >
               <span class="mono text-(length:--jig-font-size-sm) text-(--jig-color-success-600)">
                 aria-live

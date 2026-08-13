@@ -9,8 +9,8 @@ export const tabsControlTemplate = createControlTemplate({
     'header',
     'header-active',
     'header-active-indicator',
-    'scroll-left',
-    'scroll-right',
+    'scroll-start',
+    'scroll-end',
     'content',
   ],
 });

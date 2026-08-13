@@ -1,17 +1,19 @@
 import { expect, type Locator } from '@playwright/test';
 import { filterControlTemplate } from '@awdlab/jig-themes/templates/filter';
-import { themeClasses } from '../utils/theme';
-import { JIG_CLASSES } from '../utils/classes';
-import { JigInputHarness } from './input';
-import { JigSelectHarness } from './select';
+import { themeClasses } from '../utils/theme.js';
+import { JIG_CLASSES } from '../utils/classes.js';
+import { JigInputHarness } from './input.js';
+import { JigSelectHarness } from './select.js';
+import { JigHarness } from '../harness.js';
 
-export class JigFilterHarness {
+export class JigFilterHarness extends JigHarness {
   public readonly classes = themeClasses(filterControlTemplate);
 
   public readonly trigger: Locator;
   public readonly popoverContent: Locator;
 
-  constructor(public locator: Locator) {
+  constructor(locator: Locator) {
+    super(locator);
     this.trigger = locator.locator(this.classes['input-field']['root']);
     this.popoverContent = locator.locator(this.classes['popover-content']);
   }

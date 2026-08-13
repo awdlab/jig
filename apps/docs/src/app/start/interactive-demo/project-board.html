@@ -1,7 +1,7 @@
 <div class="flex h-full min-h-0">
   <!-- ── Project navigation (tree) ─────────────────────────────────────── -->
   <aside
-    class="hidden w-60 shrink-0 flex-col border-r border-(--jig-color-surface-200) bg-(--jig-color-surface-50) lg:flex"
+    class="hidden w-60 shrink-0 flex-col border-e border-(--jig-color-surface-200) bg-(--jig-color-surface-50) lg:flex"
   >
     <div class="px-(--jig-size-padding-lg) pt-(--jig-size-padding-lg) pb-(--jig-size-padding-sm)">
       <span
@@ -145,7 +145,7 @@
                     @for (task of tasksIn(col.id); track task.id) {
                       <div
                         draggable="true"
-                        class="card group relative w-full cursor-grab text-left transition-shadow ring-inset hover:shadow-(--jig-shadow-md) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--jig-color-primary-500) active:cursor-grabbing"
+                        class="card group relative w-full cursor-grab text-start transition-shadow ring-inset hover:shadow-(--jig-shadow-md) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--jig-color-primary-500) active:cursor-grabbing"
                         [class]="
                           density() === 'compact'
                             ? 'p-(--jig-size-padding-sm)'
@@ -275,7 +275,7 @@
                 <li>
                   <button
                     type="button"
-                    class="card flex w-full items-center gap-(--jig-size-padding-md) p-(--jig-size-padding-md) text-left transition-shadow hover:shadow-(--jig-shadow-sm)"
+                    class="card flex w-full items-center gap-(--jig-size-padding-md) p-(--jig-size-padding-md) text-start transition-shadow hover:shadow-(--jig-shadow-sm)"
                     (click)="openTask(task.id)"
                   >
                     @if (task.labels[0]?.text === 'Bug') {
@@ -319,7 +319,7 @@
      own `contentChild('content')` query and hijack the body. -->
 <jig-drawer
   header="Task details"
-  position="right"
+  position="end"
   size="min(26rem, 92vw)"
   [modal]="true"
   closeBy="any"

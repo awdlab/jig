@@ -175,7 +175,7 @@
           </p>
         </div>
 
-        <div class="ml-auto flex items-center gap-(--jig-size-padding-md)">
+        <div class="ms-auto flex items-center gap-(--jig-size-padding-md)">
           @if (!narrow()) {
             <jig-avatar-group>
               @for (m of members().slice(0, 4); track m.id) {
@@ -265,7 +265,7 @@
               <div class="relative w-fit" #barAnchor>
                 @if (m.widget === 'poll' && m.poll; as poll) {
                   <!-- Interactive poll widget: tap an option to vote; bars use jig-progress. -->
-                  <div class="chat-tile w-64 rounded-2xl p-(--jig-size-padding-lg) text-left">
+                  <div class="chat-tile w-64 rounded-2xl p-(--jig-size-padding-lg) text-start">
                     <div
                       class="mb-(--jig-size-padding-md) text-(length:--jig-font-size-sm) font-(--jig-font-weight-semibold) text-(--jig-color-text)"
                     >
@@ -274,7 +274,7 @@
                     @for (opt of poll.options; track opt.id) {
                       <button
                         type="button"
-                        class="mb-(--jig-size-padding-sm) block w-full rounded-(--jig-size-rounded-md) px-(--jig-size-padding-sm) py-1 text-left transition-colors hover:bg-(--jig-color-surface-200)"
+                        class="mb-(--jig-size-padding-sm) block w-full rounded-(--jig-size-rounded-md) px-(--jig-size-padding-sm) py-1 text-start transition-colors hover:bg-(--jig-color-surface-200)"
                         (click)="votePoll(m, opt.id)"
                       >
                         <div
@@ -429,11 +429,10 @@
                   }
                 </div>
               }
-
               @if (m.own && m.id === lastOwnMessageId()) {
                 <div class="mt-1 flex items-center gap-1">
                   <span
-                    class="mr-0.5 text-(length:--jig-font-size-xs) text-[color-mix(in_oklab,var(--jig-color-text)_50%,transparent)]"
+                    class="me-0.5 text-(length:--jig-font-size-xs) text-[color-mix(in_oklab,var(--jig-color-text)_50%,transparent)]"
                   >
                     Seen
                   </span>

@@ -1,5 +1,6 @@
 import test, { type Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import type { InputsType } from '../../apps/test-wrapper/src/app/window.js';
 import type { JigActionItem } from '@awdlab/jig/api';
 import { JigBreadcrumbHarness } from '@awdlab/jig-playwright';
@@ -55,4 +56,10 @@ test('accessibility (axe)', async ({ page }) => {
   // copy aria-hidden, not the visible indicator.
   await prepareTest(page);
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await prepareTest(page);
+  await expectScreenshot(page, testInfo);
 });

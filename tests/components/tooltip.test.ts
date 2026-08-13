@@ -1,5 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { JigTooltipHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -167,4 +168,15 @@ test('accessibility (axe)', async ({ page }) => {
   await tooltip.expectOpened();
 
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(page, {
+    template: `<button class="page-center" [jigTooltip]="'Hello World!'">Button</button>`,
+    imports: ['tooltip'],
+  });
+  await page.locator('button').hover();
+  await expect(page.locator('jig-tooltip')).toBeVisible();
+  await expectScreenshot(page, testInfo);
 });

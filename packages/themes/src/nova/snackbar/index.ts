@@ -64,7 +64,7 @@ export const snackbarStyles = createThemePart({
       ${c('root')}::before {
         content: '';
         position: absolute;
-        left: 0;
+        inset-inline-start: 0;
         top: 0;
         bottom: 0;
         width: 4px;
@@ -166,8 +166,8 @@ export const snackbarStyles = createThemePart({
          clips its corners to the border radius so it touches the border. */
       ${c('progressBar')} {
         height: 3px;
-        left: 0;
-        right: 0;
+        inset-inline-start: 0;
+        inset-inline-end: 0;
         width: auto;
         bottom: 0;
         background: color-mix(in srgb, ${ON_SURFACE} 55%, transparent);

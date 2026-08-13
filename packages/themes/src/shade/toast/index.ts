@@ -25,8 +25,8 @@ export const toastStyles = createThemePart({
         gap: var(--toastGap);
         background: transparent;
         top: ${v('size.padding.lg')};
-        right: ${v('size.padding.lg')};
-        margin-left: ${v('size.padding.lg')};
+        inset-inline-end: ${v('size.padding.lg')};
+        margin-inline-start: ${v('size.padding.lg')};
         overflow: visible;
       }
 

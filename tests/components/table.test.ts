@@ -1,5 +1,7 @@
 import test, { expect } from '@playwright/test';
+import { JigTableHarness } from '@awdlab/jig-playwright';
 import { loadComponent, evalValue } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -65,8 +67,12 @@ const TABLE_TEMPLATE_WITH_SELECTION = `
   </jig-table>
 `;
 
+function table(page: import('@playwright/test').Page) {
+  return new JigTableHarness(page.locator('jig-table'));
+}
+
 function getBodyRows(page: import('@playwright/test').Page) {
-  return page.locator('tbody tr[role="row"]');
+  return table(page).rows;
 }
 
 test.describe('Table Selection - Single Mode', () => {
@@ -143,9 +149,13 @@ test.describe('Table Selection - Multi Mode', () => {
       }
     );
 
+    const grid = table(page);
+    await grid.expectRowCount(TABLE_ROWS.length);
+    await grid.selectAll.expectValue(false);
+    await grid.rowCheckbox(0).expectValue(false);
+
     // Header checkbox + 5 row checkboxes
-    const checkboxes = page.locator('jig-checkbox');
-    await expect(checkboxes).toHaveCount(6);
+    await expect(page.locator('jig-checkbox')).toHaveCount(6);
   });
 
   test('click row toggles selection', async ({ page }) => {
@@ -160,13 +170,14 @@ test.describe('Table Selection - Multi Mode', () => {
       }
     );
 
-    const rows = getBodyRows(page);
-    await rows.nth(0).click();
-    await rows.nth(2).click();
+    const grid = table(page);
+    await grid.row(0).click();
+    await grid.row(2).click();
 
-    await expect(rows.nth(0)).toHaveAttribute('aria-selected', 'true');
-    await expect(rows.nth(1)).toHaveAttribute('aria-selected', 'false');
-    await expect(rows.nth(2)).toHaveAttribute('aria-selected', 'true');
+    await grid.expectSelected(0);
+    await grid.expectSelected(1, false);
+    await grid.expectSelected(2);
+    await grid.expectSelectedCount(2);
   });
 
   test('click same row twice deselects it', async ({ page }) => {
@@ -203,10 +214,7 @@ test.describe('Table Selection - Multi Mode', () => {
 
     // aria-multiselectable lives on the grid element (the <table role="grid">),
     // not the host, so it is valid ARIA for the grid role.
-    await expect(page.locator('table[role="grid"]')).toHaveAttribute(
-      'aria-multiselectable',
-      'true'
-    );
+    await expect(table(page).grid).toHaveAttribute('aria-multiselectable', 'true');
   });
 });
 
@@ -306,17 +314,19 @@ test.describe('Table Accessibility - aria-sort', () => {
     // The sortable column is the only header carrying aria-sort. (The
     // `[jigTableSortableColumn]` binding is a property, not a DOM attribute, so
     // it can't be used as a selector.)
-    const sortable = page.locator('th[aria-sort]');
-    await expect(sortable).toHaveAttribute('aria-sort', 'none');
+    const grid = table(page);
+    // The sortable column is the second header in this template.
+    await expect(grid.sortControl(1)).toBeAttached();
+    await grid.expectSort(1, 'none');
 
-    await sortable.click();
-    await expect(sortable).toHaveAttribute('aria-sort', 'ascending');
+    await grid.sortBy(1);
+    await grid.expectSort(1, 'ascending');
 
-    await sortable.click();
-    await expect(sortable).toHaveAttribute('aria-sort', 'descending');
+    await grid.sortBy(1);
+    await grid.expectSort(1, 'descending');
 
-    await sortable.click();
-    await expect(sortable).toHaveAttribute('aria-sort', 'none');
+    await grid.sortBy(1);
+    await grid.expectSort(1, 'none');
   });
 
   test('non-sortable header cells have no aria-sort', async ({ page }) => {
@@ -1367,4 +1377,19 @@ test('visual', async ({ page }, testInfo) => {
     await expect(rows.nth(1)).toHaveAttribute('aria-selected', 'true');
     await expectScreenshot(page, testInfo, 'selected');
   });
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: TABLE_TEMPLATE,
+      imports: ['tableModule', 'jigTemplate'],
+    },
+    {
+      inputs: { rows: TABLE_ROWS, selectionMode: 'single' },
+    }
+  );
+  await expectScreenshot(page, testInfo);
 });

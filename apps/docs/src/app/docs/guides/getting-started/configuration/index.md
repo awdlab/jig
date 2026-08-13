@@ -34,12 +34,12 @@ provideJigControls({
 
 #### Top level
 
-| Option                 | Type                                          | Default  | Description                                                                                                                                       |
-| ---------------------- | --------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `logLevel`             | `'debug' \| 'info' \| 'warn' \| 'error'`      | `'info'` | How much the library logs. Raise it to `'warn'` in production to silence informational output.                                                    |
-| `disableAnimations`    | `boolean`                                     | `false`  | Turns off control animations globally. See [Animations](/guides/animations).                                                                      |
-| `respectReducedMotion` | `boolean`                                     | `true`   | Collapses control animations to a near-zero duration while the OS reports `prefers-reduced-motion: reduce`. See [Animations](/guides/animations). |
-| `customTranslations`   | `Record<string, () => Promise<Translations>>` | —        | Extra languages, loaded on demand. See [i18n](/guides/i18n).                                                                                      |
+| Option                 | Type                                          | Default  | Description                                                                                                                                                                                            |
+| ---------------------- | --------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `logLevel`             | `'debug' \| 'info' \| 'warn' \| 'error'`      | `'info'` | How much the library logs. Raise it to `'warn'` in production to silence informational output.                                                                                                         |
+| `disableAnimations`    | `boolean`                                     | `false`  | Turns off control animations globally; if the OS also reports reduced motion, the reduced-motion tiers take precedence for loading indicators. See [Animations](/guides/animations).                   |
+| `respectReducedMotion` | `boolean`                                     | `true`   | Reduces control animations while the OS reports `prefers-reduced-motion: reduce` — one-shot animations collapse, loading indicators slow, decorative loops stop. See [Animations](/guides/animations). |
+| `customTranslations`   | `Record<string, () => Promise<Translations>>` | —        | Extra languages, loaded on demand. See [i18n](/guides/i18n).                                                                                                                                           |
 
 #### `theme`
 

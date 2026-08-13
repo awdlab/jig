@@ -1,5 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { JigAvatarHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -63,4 +64,21 @@ test('accessibility (axe)', async ({ page }) => {
     { inputs: { initials: 'AB' } }
   );
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `<jig-avatar [initials]="inputs().initials" [image]="inputs().image" />`,
+      imports: ['avatar'],
+    },
+    {
+      inputs: {
+        initials: 'AB',
+      },
+    }
+  );
+  await expectScreenshot(page, testInfo);
 });

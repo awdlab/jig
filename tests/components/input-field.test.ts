@@ -2,6 +2,8 @@ import test, { expect } from '@playwright/test';
 
 import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
+import { expectScreenshot } from '../helper/screenshot';
 
 test('label names the projected input and clicking it focuses the input', async ({ page }) => {
   await loadComponent(page, {
@@ -69,4 +71,16 @@ test('accessibility (axe)', async ({ page }) => {
 
   await expect(page.locator('input')).toBeVisible();
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(page, {
+    template: `
+      <jig-input-field style="width: 240px" [label]="'Full name'">
+        <input jigInput />
+      </jig-input-field>`,
+    imports: ['inputField', 'input'],
+  });
+  await expectScreenshot(page, testInfo);
 });

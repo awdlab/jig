@@ -29,6 +29,7 @@ import { ListBoxPage } from './list-box/page';
 import { MaskInputPage } from './mask-input/page';
 import { MenuPage } from './menu/page';
 import { MessagePage } from './message/page';
+import { MeterPage } from './meter/page';
 import { MovablePage } from './movable/page';
 import { NumberInputPage } from './number-input/page';
 import { OtpPage } from './otp/page';
@@ -44,6 +45,7 @@ import { ScrollShadowPage } from './scroll-shadow/page';
 import { ScrollerPage } from './scroller/page';
 import { SelectPage } from './select/page';
 import { SelectButtonPage } from './select-button/page';
+import { SkeletonPage } from './skeleton/page';
 import { SliderPage } from './slider/page';
 import { SnackbarPage } from './snackbar/page';
 import { SpinnerPage } from './spinner/page';
@@ -57,6 +59,7 @@ import { TagPage } from './tag/page';
 import { TagInputPage } from './tag-input/page';
 import { ToastPage } from './toast/page';
 import { ToggleButtonPage } from './toggle-button/page';
+import { ToolbarPage } from './toolbar/page';
 import { TooltipPage } from './tooltip/page';
 import { TreePage } from './tree/page';
 import { UploadPage } from './upload/page';
@@ -105,8 +108,10 @@ export const COMPONENT_GROUPS: JigDocsGroup[] = [
       InplacePage,
       ItemViewPage,
       KbdPage,
+      MeterPage,
       PaginatorPage,
       ProgressPage,
+      SkeletonPage,
       SpinnerPage,
       TablePage,
       TagPage,
@@ -128,6 +133,7 @@ export const COMPONENT_GROUPS: JigDocsGroup[] = [
       SplitterPage,
       StepperPage,
       TabsPage,
+      ToolbarPage,
       TooltipPage,
     ],
   },

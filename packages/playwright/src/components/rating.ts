@@ -1,14 +1,14 @@
 import { ratingControlTemplate } from '@awdlab/jig-themes/templates/rating';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { expect, type Locator } from '@playwright/test';
+import { JigHarness } from '../harness.js';
 
-export class JigRatingHarness {
+export class JigRatingHarness extends JigHarness {
   public readonly classes = themeClasses(ratingControlTemplate);
-  public readonly locator: Locator;
   public readonly symbols: Locator;
 
   constructor(locator: Locator) {
-    this.locator = locator;
+    super(locator);
     this.symbols = locator.locator(this.classes.symbol);
   }
 
@@ -30,7 +30,7 @@ export class JigRatingHarness {
     await symbol.click({ position: { x, y: box.height / 2 } });
   }
 
-  public async focus() {
+  public override async focus() {
     await this.locator.focus();
   }
 

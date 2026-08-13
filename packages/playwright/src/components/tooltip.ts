@@ -1,18 +1,18 @@
 import { tooltipControlTemplate } from '@awdlab/jig-themes/templates/tooltip';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { expect, type Locator } from '@playwright/test';
+import { JigHarness } from '../harness.js';
 
-export class JigTooltipHarness {
+export class JigTooltipHarness extends JigHarness {
   public readonly classes = themeClasses(tooltipControlTemplate);
 
   private readonly _jigDefer: Locator;
   private readonly _contentWrapper: Locator;
 
-  public readonly locator: Locator;
   public readonly content: Locator;
 
   constructor(locator: Locator) {
-    this.locator = locator;
+    super(locator);
     this._jigDefer = locator.locator('jig-defer');
     this._contentWrapper = locator.locator(this.classes.content);
     this.content = this._jigDefer.locator('> *');

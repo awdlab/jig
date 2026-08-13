@@ -32,6 +32,29 @@ A harness takes a `Locator` for the control's host element and exposes:
 - **sub-locators and nested harnesses** — `select.listBox`, `select.filter`,
   `select.popoverContent` — for the cases the shorthand does not cover.
 
+### What every harness can do
+
+All harnesses extend `JigHarness`, so the interactions and states that mean the
+same thing everywhere are available on all of them — `locator`, `page`,
+`click()`, `hover()`, `focus()`, `blur()`, `press()`, `expectVisible()`,
+`expectAttached()`, `expectText()`, `expectFocused()`, `expectDisabled()`,
+`expectReadonly()`, `expectInvalid()` and `expectRequired()`.
+
+The state assertions match the host **or any element inside it**, because a
+themed control puts `disabled` / `aria-invalid` on whichever inner element owns
+it — a native `<input>`, a `<button>` — not necessarily on the host:
+
+```ts
+const checkbox = new JigCheckboxHarness(page.locator('jig-checkbox'));
+
+await checkbox.expectReadonly();
+await checkbox.focus();
+await checkbox.expectFocused(); // true when focus lands on the inner input
+```
+
+`JigHarness` is also usable directly, for a control whose dedicated harness
+does not exist yet: `new JigHarness(page.locator('jig-thing'))`.
+
 The assertions encode the timing rules the DOM alone does not tell you. For
 example `JigSelectHarness.expectOpened()` waits for the trigger's
 `aria-expanded`, not merely for the panel to be visible — the panel is painted

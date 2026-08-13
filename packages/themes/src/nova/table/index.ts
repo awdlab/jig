@@ -56,7 +56,7 @@ export const tableStyles = createThemePart({
         background: var(--jig-cell-bg);
         border-bottom: 1px solid ${v('color.border')};
         padding: 0 ${v('size.padding.md')};
-        text-align: left;
+        text-align: start;
         transition:
           background 0.1s ease,
           box-shadow 0.15s ease;
@@ -185,7 +185,7 @@ export const tableStyles = createThemePart({
           content: '';
           position: absolute;
           top: 0;
-          right: 0;
+          inset-inline-end: 0;
           width: 12px;
           height: 100%;
         }
@@ -237,13 +237,19 @@ export const tableStyles = createThemePart({
         width: 12px;
         pointer-events: none;
       }
+      /* Gradient direction is physical, so mirror the strip rather than duplicating both fades. */
+      ${d('scroll-shadow', 'scrolled-start')}:dir(rtl) ${c('sticky-start-edge')}::after,
+      ${d('scroll-shadow', 'scrolled-start')}:dir(rtl) ${c('selection-column')}::after,
+      ${d('scroll-shadow', 'scrolled-end')}:dir(rtl) ${c('sticky-end-edge')}::after {
+        transform: scaleX(-1);
+      }
       ${d('scroll-shadow', 'scrolled-start')} ${c('sticky-start-edge')}::after,
       ${d('scroll-shadow', 'scrolled-start')} ${c('selection-column')}::after {
-        left: 100%;
+        inset-inline-start: 100%;
         background: linear-gradient(to right, var(--jig-scroll-shadow-color), transparent);
       }
       ${d('scroll-shadow', 'scrolled-end')} ${c('sticky-end-edge')}::after {
-        right: 100%;
+        inset-inline-end: 100%;
         background: linear-gradient(to left, var(--jig-scroll-shadow-color), transparent);
       }
 
@@ -262,28 +268,9 @@ export const tableStyles = createThemePart({
 
       /* ── Skeleton loading rows ───────────────────────────────────────── */
 
-      /* Base theme owns layout/height; nova adds token padding + a shimmer. */
+      /* Base theme owns layout/height; nova adds token padding. Cells render jig-skeleton. */
       ${c('skeleton-row')} {
         padding: ${v('size.padding.sm')} ${v('size.padding.md')};
-      }
-      ${c('skeleton-cell')} {
-        opacity: 1;
-        background: linear-gradient(
-          90deg,
-          ${v('color.surface.200')} 25%,
-          ${v('color.surface.100')} 37%,
-          ${v('color.surface.200')} 63%
-        );
-        background-size: 400% 100%;
-        animation: ${c('skeleton-cell', 'animation')} 1.4s ease infinite;
-      }
-      @keyframes ${c('skeleton-cell', 'animation')} {
-        0% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0 50%;
-        }
       }
 
       /* ── Error row ───────────────────────────────────────────────────── */

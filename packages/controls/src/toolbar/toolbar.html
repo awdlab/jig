@@ -1,0 +1,174 @@
+<div
+  jigRovingGroup
+  [orientation]="orientation()"
+  [ptInt]="this"
+  [ptClass]="{
+    grid: true,
+    horizontal: orientation() === 'horizontal',
+    vertical: orientation() === 'vertical',
+    wrap: overflow() === 'wrap',
+  }"
+>
+  <div #trackStart [ptInt]="this" [ptClass]="'placement-start'">
+    <ng-content />
+    @if (measuring()) {
+      <div
+        #triggerStart
+        data-jig-toolbar-overflow
+        [ptInt]="this"
+        [ptClass]="{
+          'overflow-trigger': true,
+          'overflow-trigger-hidden': start.overflowCount() === 0,
+        }"
+        [attr.aria-hidden]="start.overflowCount() === 0 ? 'true' : null"
+        [attr.inert]="start.overflowCount() === 0 ? '' : null"
+      >
+        <ng-container
+          *ngTemplateOutlet="
+            overflowTemplate();
+            context: {
+              $implicit: {
+                icon: iconOverflow(),
+                placement: 'start',
+                overflowCount: start.overflowCount(),
+                open: start.open(),
+                toggle: start.toggle,
+              },
+            }
+          "
+        />
+        <jig-popover
+          [ptInt]="this"
+          [ptDep]="'popover'"
+          [(open)]="start.open"
+          [anchor]="triggerStart"
+        >
+          <ng-container
+            *ngTemplateOutlet="
+              popoverContentTemplate();
+              context: {
+                $implicit: { placement: 'start', itemTemplates: start.overflowTemplates() },
+              }
+            "
+          />
+        </jig-popover>
+      </div>
+    }
+  </div>
+
+  <div #trackCenter [ptInt]="this" [ptClass]="'placement-center'">
+    <ng-content select="[placement=center]" />
+    @if (measuring()) {
+      <div
+        #triggerCenter
+        data-jig-toolbar-overflow
+        [ptInt]="this"
+        [ptClass]="{
+          'overflow-trigger': true,
+          'overflow-trigger-hidden': center.overflowCount() === 0,
+        }"
+        [attr.aria-hidden]="center.overflowCount() === 0 ? 'true' : null"
+        [attr.inert]="center.overflowCount() === 0 ? '' : null"
+      >
+        <ng-container
+          *ngTemplateOutlet="
+            overflowTemplate();
+            context: {
+              $implicit: {
+                icon: iconOverflow(),
+                placement: 'center',
+                overflowCount: center.overflowCount(),
+                open: center.open(),
+                toggle: center.toggle,
+              },
+            }
+          "
+        />
+        <jig-popover
+          [ptInt]="this"
+          [ptDep]="'popover'"
+          [(open)]="center.open"
+          [anchor]="triggerCenter"
+        >
+          <ng-container
+            *ngTemplateOutlet="
+              popoverContentTemplate();
+              context: {
+                $implicit: { placement: 'center', itemTemplates: center.overflowTemplates() },
+              }
+            "
+          />
+        </jig-popover>
+      </div>
+    }
+  </div>
+
+  <div #trackEnd [ptInt]="this" [ptClass]="'placement-end'">
+    <ng-content select="[placement=end]" />
+    @if (measuring()) {
+      <div
+        #triggerEnd
+        data-jig-toolbar-overflow
+        [ptInt]="this"
+        [ptClass]="{
+          'overflow-trigger': true,
+          'overflow-trigger-hidden': end.overflowCount() === 0,
+        }"
+        [attr.aria-hidden]="end.overflowCount() === 0 ? 'true' : null"
+        [attr.inert]="end.overflowCount() === 0 ? '' : null"
+      >
+        <ng-container
+          *ngTemplateOutlet="
+            overflowTemplate();
+            context: {
+              $implicit: {
+                icon: iconOverflow(),
+                placement: 'end',
+                overflowCount: end.overflowCount(),
+                open: end.open(),
+                toggle: end.toggle,
+              },
+            }
+          "
+        />
+        <jig-popover [ptInt]="this" [ptDep]="'popover'" [(open)]="end.open" [anchor]="triggerEnd">
+          <ng-container
+            *ngTemplateOutlet="
+              popoverContentTemplate();
+              context: {
+                $implicit: { placement: 'end', itemTemplates: end.overflowTemplates() },
+              }
+            "
+          />
+        </jig-popover>
+      </div>
+    }
+  </div>
+</div>
+
+<ng-template #defaultOverflowTemplate [jigTemplate]="templateTypes.overflow" let-overflow>
+  <button
+    type="button"
+    [ptInt]="this"
+    [ptClass]="'overflow-button'"
+    [attr.aria-label]="i18n['toolbar_overflow']()"
+    [attr.aria-expanded]="overflow.open"
+    (click)="overflow.toggle()"
+  >
+    <jig-icon defaultIcon="toolbar-overflow" [icon]="overflow.icon" />
+  </button>
+</ng-template>
+
+<ng-template
+  #defaultPopoverContentTemplate
+  [jigTemplate]="templateTypes.popoverContent"
+  let-content
+>
+  <div [ptInt]="this" [ptClass]="'popover-content'">
+    @for (itemTemplate of content.itemTemplates; track $index) {
+      <ng-container
+        *ngTemplateOutlet="itemTemplate; context: { $implicit: { overflowed: true } }"
+      />
+    }
+  </div>
+</ng-template>

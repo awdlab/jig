@@ -1,5 +1,7 @@
 import test, { expect, type Locator, type Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
+import { expectScreenshot } from '../helper/screenshot';
 
 import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 
@@ -104,4 +106,10 @@ test('non-resizable host: the bottom-right corner is an ordinary drag start', as
 
   expect(after.x).toBeGreaterThan(before.x);
   expect(after.y).toBeGreaterThan(before.y);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(page, movableTemplate('jigResizable'));
+  await expectScreenshot(page, testInfo);
 });

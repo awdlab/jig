@@ -26,6 +26,7 @@ import { JigListBox } from '@awdlab/jig/list-box';
 import { DATE_TIME_MASKS, type MaskInputCfg, JigMaskInput } from '@awdlab/jig/mask-input';
 import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
 import { JigMessage } from '@awdlab/jig/message';
+import { type MeterItem, JigMeter } from '@awdlab/jig/meter';
 import { JigNumberInput } from '@awdlab/jig/number-input';
 import { JigPaginator } from '@awdlab/jig/paginator';
 import { JigPopover } from '@awdlab/jig/popover';
@@ -88,6 +89,7 @@ import type { JigTreeItem } from '@awdlab/jig/api';
     JigMaskInput,
     JigMenu,
     JigMessage,
+    JigMeter,
     JigNumberInput,
     JigPaginator,
     JigPopover,
@@ -140,6 +142,12 @@ export class JigDocsGallery {
   protected readonly items = exampleData.items.flatPreformatted;
   protected readonly itemViewItems = exampleData.items.flat.slice(0, 6);
   protected readonly tableRows = exampleData.table(25);
+  protected readonly meterItems: MeterItem[] = [
+    { label: 'Documents', value: 32 },
+    { label: 'Media', value: 24 },
+    { label: 'Apps', value: 15 },
+    { label: 'Cache', value: 9 },
+  ];
   protected readonly lorem = exampleData.loremIpsum.words100;
   protected readonly loremShort = exampleData.loremIpsum.full.split(' ').slice(0, 40).join(' ');
 

@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { JigSelectButtonHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 
 const options = `[
@@ -197,4 +198,48 @@ test('accessibility (axe)', async ({ page }) => {
   );
 
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `<jig-select-button [options]="${options}" [value]="inputs().value" />`,
+      imports: ['selectButton'],
+    },
+    { inputs: { value: 2 } }
+  );
+  await expectScreenshot(page, testInfo);
+});
+
+test('rtl keyboard: roving focus follows the inline axis', async ({ page }) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `<jig-select-button [options]="${options}" [value]="inputs().value" />`,
+      imports: ['selectButton'],
+    },
+    { inputs: { value: null } }
+  );
+
+  const buttons = page.locator('jig-select-button button');
+  await buttons.nth(0).focus();
+  await expect(buttons.nth(0)).toBeFocused();
+
+  // The group is laid out along the inline axis, so ArrowLeft advances in RTL.
+  await page.keyboard.press('ArrowLeft');
+  await expect(buttons.nth(1)).toBeFocused();
+  await page.keyboard.press('ArrowLeft');
+  await expect(buttons.nth(2)).toBeFocused();
+
+  await page.keyboard.press('ArrowRight');
+  await expect(buttons.nth(1)).toBeFocused();
+
+  // Home/End are index-based, so they are unaffected by direction.
+  await page.keyboard.press('Home');
+  await expect(buttons.nth(0)).toBeFocused();
+  await page.keyboard.press('End');
+  await expect(buttons.nth(2)).toBeFocused();
 });

@@ -1,5 +1,6 @@
 import test, { expect, type Page } from '@playwright/test';
 import { expectOutput, loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { exampleData } from '../helper/data';
 import type { InputsType } from '../../apps/test-wrapper/src/app/window.js';
 import { JigAccordionHarness } from '@awdlab/jig-playwright';
@@ -190,4 +191,10 @@ test('lazy', async ({ page }, testInfo) => {
 test('accessibility (axe)', async ({ page }) => {
   await prepareTest(page, { expandedPanels: ['panel1'] });
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await prepareTest(page);
+  await expectScreenshot(page, testInfo);
 });

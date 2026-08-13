@@ -5,14 +5,14 @@ import { JigDrawer } from '@awdlab/jig/drawer';
 @Component({
   imports: [JigDrawer, JigButton],
   selector: 'jig-demo-drawer-position',
-  template: `<button jigButton (click)="position.set('left')">←</button>
-    <button jigButton (click)="position.set('right')">→</button>
+  template: `<button jigButton (click)="position.set('start')">⇤</button>
+    <button jigButton (click)="position.set('end')">⇥</button>
     <button jigButton (click)="position.set('top')">↑</button>
     <button jigButton (click)="position.set('bottom')">↓</button>
     <button jigButton (click)="position.set('fullscreen')">↔</button>
     <jig-drawer
       [header]="'Drawer ' + position()"
-      [position]="position() ?? 'left'"
+      [position]="position() ?? 'start'"
       [open]="!!position()"
       [closeBy]="'any'"
       (closed)="position.set(null)"
@@ -21,7 +21,7 @@ import { JigDrawer } from '@awdlab/jig/drawer';
     </jig-drawer>`,
 })
 export class Demo_Drawer_Position {
-  protected readonly position = signal<'left' | 'right' | 'top' | 'bottom' | 'fullscreen' | null>(
+  protected readonly position = signal<'start' | 'end' | 'top' | 'bottom' | 'fullscreen' | null>(
     null
   );
 }

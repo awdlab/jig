@@ -1,11 +1,12 @@
 import { expect, type Locator } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { tagInputControlTemplate } from '@awdlab/jig-themes/templates/tag-input';
-import { JIG_CLASSES } from '../utils/classes';
-import { JigDropdownListHarness } from './dropdown-list';
-import { JigInputHarness } from './input';
+import { JIG_CLASSES } from '../utils/classes.js';
+import { JigDropdownListHarness } from './dropdown-list.js';
+import { JigInputHarness } from './input.js';
+import { JigHarness } from '../harness.js';
 
-export class JigTagInputHarness {
+export class JigTagInputHarness extends JigHarness {
   public readonly classes = themeClasses(tagInputControlTemplate);
   /** The field wrapper — the horizontal scroll container in single-line mode. */
   public readonly field: Locator;
@@ -18,7 +19,8 @@ export class JigTagInputHarness {
   /** The suggestion dropdown. Only present when `suggestions` is set. */
   public readonly dropdown: JigDropdownListHarness;
 
-  constructor(public locator: Locator) {
+  constructor(locator: Locator) {
+    super(locator);
     this.field = locator.locator(this.classes['field']);
     this.tagList = locator.locator(this.classes['tags']);
     this.input = new JigInputHarness(locator.locator(JIG_CLASSES.input['root']));

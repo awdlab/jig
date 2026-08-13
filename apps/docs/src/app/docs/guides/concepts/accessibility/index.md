@@ -19,9 +19,10 @@ The target is **WCAG 2.2 level AA**.
   while open and returns it to the trigger on close.
 - **Live regions** for transient messages: toasts and snackbars render into a
   labelled region so they are announced without stealing focus.
-- **Animation control** — all motion is CSS from the theme, collapses to
-  near-zero automatically under `prefers-reduced-motion: reduce`, and can be
-  turned off globally with one config flag. See
+- **Animation control** — all motion is CSS from the theme, reduced
+  automatically under `prefers-reduced-motion: reduce` — one-shot
+  animations collapse, loading indicators slow down, decorative loops stop — and
+  can be turned off globally with one config flag. See
   [Animations](/guides/animations).
 - **Localized ARIA strings** — every built-in `aria-label` comes from the
   translation table, so it follows the user's language. See

@@ -1,18 +1,18 @@
 import { badgeControlTemplate } from '@awdlab/jig-themes/templates/badge';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { expect, type Locator } from '@playwright/test';
+import { JigHarness } from '../harness.js';
 
-export class JigBadgeHarness {
+export class JigBadgeHarness extends JigHarness {
   public readonly classes = themeClasses(badgeControlTemplate);
-  public readonly locator: Locator;
   public readonly badge: Locator;
 
   constructor(hostLocator: Locator) {
-    this.locator = hostLocator;
+    super(hostLocator);
     this.badge = hostLocator.locator(this.classes.root);
   }
 
-  public async expectVisible(visible: boolean) {
+  public override async expectVisible(visible: boolean) {
     if (visible) {
       await expect(this.badge).toBeVisible();
     } else {
@@ -20,7 +20,7 @@ export class JigBadgeHarness {
     }
   }
 
-  public async expectText(text: string) {
+  public override async expectText(text: string) {
     await expect(this.badge).toHaveText(text);
   }
 }

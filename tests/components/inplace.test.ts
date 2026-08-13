@@ -1,6 +1,7 @@
 import test from '@playwright/test';
 import { JigInplaceHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -165,4 +166,25 @@ test('accessibility (axe)', async ({ page }) => {
   await inplace.clickDisplay();
   await inplace.expectContentVisible(true);
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(page, {
+    template: `
+      <jig-inplace>
+        <ng-template #display>
+          <span>Click to edit</span>
+        </ng-template>
+        <ng-template #content let-content>
+          <div>
+            <p>Content is visible</p>
+            <button (click)="content.close()">Close</button>
+          </div>
+        </ng-template>
+      </jig-inplace>
+    `,
+    imports: ['inplace'],
+  });
+  await expectScreenshot(page, testInfo);
 });

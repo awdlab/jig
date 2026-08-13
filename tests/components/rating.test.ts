@@ -1,6 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { JigRatingHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -234,4 +235,43 @@ test('content-child #indicator takes precedence over the indicatorTemplate input
 
   await expect(page.locator('jig-rating .ind')).toHaveCount(5);
   await expect(page.locator('jig-rating .alt-ind')).toHaveCount(0);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `<jig-rating [value]="inputs().value" />`,
+      imports: ['rating'],
+    },
+    // Partially filled, so the fill direction is visible.
+    { inputs: { value: 3 } }
+  );
+  await expectScreenshot(page, testInfo);
+});
+
+test('rtl keyboard: symbols step along the inline axis', async ({ page }) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    { template: `<jig-rating [value]="inputs().value" [count]="5" />`, imports: ['rating'] },
+    { inputs: { value: 3 } }
+  );
+
+  const rating = new JigRatingHarness(page.locator('jig-rating'));
+  await rating.focus();
+  await rating.expectValue(3);
+
+  // Symbols run along the inline axis, matching the pointer handling.
+  await rating.pressKey('ArrowLeft');
+  await rating.expectValue(4);
+  await rating.pressKey('ArrowRight');
+  await rating.expectValue(3);
+
+  // The block axis is unaffected.
+  await rating.pressKey('ArrowUp');
+  await rating.expectValue(4);
+  await rating.pressKey('ArrowDown');
+  await rating.expectValue(3);
 });

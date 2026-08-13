@@ -24,7 +24,7 @@
         class="relative max-h-100 overflow-auto border-t border-[var(--prism-border)] bg-[var(--prism-bg)] p-4 text-[var(--prism-fg)]"
       >
         <pre><code class="pi-0 prism" [innerHtml]="formattedCode()"></code></pre>
-        <button jigButton kind="icon" class="absolute top-1 right-4" (click)="copyCode()">
+        <button jigButton kind="icon" class="absolute end-4 top-1" (click)="copyCode()">
           <jig-icon [icon]="iconCopy" />
         </button>
       </div>

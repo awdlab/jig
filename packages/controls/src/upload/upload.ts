@@ -33,7 +33,7 @@ export type JigUploadMode = 'auto' | 'confirm' | 'manual';
 /** Which trigger(s) are rendered in `confirm` mode. */
 export type JigUploadConfirmTrigger = 'all' | 'per-item' | 'both';
 /** Where the file list renders relative to the drop zone. */
-export type JigUploadListPosition = 'top' | 'bottom' | 'left' | 'right';
+export type JigUploadListPosition = 'top' | 'bottom' | 'start' | 'end';
 
 let uploadFileIdSeq = 0;
 let uploadInstanceSeq = 0;
@@ -80,8 +80,8 @@ export class JigUpload extends JigBase<'upload'> {
     'has-files': () => this.files().length > 0,
     'list-top': () => this.listPosition() === 'top',
     'list-bottom': () => this.listPosition() === 'bottom',
-    'list-left': () => this.listPosition() === 'left',
-    'list-right': () => this.listPosition() === 'right',
+    'list-start': () => this.listPosition() === 'start',
+    'list-end': () => this.listPosition() === 'end',
   });
 
   protected readonly i18n = inject(I18n).translations;
@@ -119,7 +119,8 @@ export class JigUpload extends JigBase<'upload'> {
    */
   public readonly disabled = input(false, { transform: booleanAttribute });
   /**
-   * Where the file list renders relative to the drop zone.
+   * Where the file list renders relative to the drop zone. `'start'`/`'end'`
+   * follow the writing direction.
    * @default bottom
    */
   public readonly listPosition = input<JigUploadListPosition>('bottom');

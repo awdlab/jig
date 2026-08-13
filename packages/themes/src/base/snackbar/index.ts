@@ -58,12 +58,16 @@ export const snackbarStyles = createThemePart({
       ${c('progressBar')} {
         position: absolute;
         bottom: 0;
-        left: 0;
+        inset-inline-start: 0;
         width: 100%;
         transform-origin: left center;
         animation-name: ${c('progressBar', 'animation')};
         animation-timing-function: linear;
         animation-fill-mode: forwards;
+      }
+      /* transform-origin has no logical keyword; the bar must drain from the inline-start edge. */
+      ${c('progressBar')}:dir(rtl) {
+        transform-origin: right center;
       }
       @keyframes ${c('progressBar', 'animation')} {
         from {

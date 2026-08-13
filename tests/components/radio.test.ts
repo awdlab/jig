@@ -1,6 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { JigRadioGroupHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -77,7 +78,7 @@ test('keyboard skips disabled option', async ({ page }) => {
   );
 
   const group = new JigRadioGroupHarness(page.locator('jig-radio-group'));
-  await group.expectDisabled(1, true);
+  await group.expectRadioDisabled(1, true);
   await group.focusActive();
 
   // b is disabled, so ArrowRight jumps straight to c.
@@ -99,7 +100,7 @@ test('states', async ({ page }, testInfo) => {
 
   // Disabled group: clicking does not change the value.
   await handle.setInputs({ disabled: true });
-  await group.expectDisabled(0, true);
+  await group.expectRadioDisabled(0, true);
   await expectScreenshot(page, testInfo, 'disabled');
   await group.select(2, true);
   await group.expectSelected(0);
@@ -128,4 +129,22 @@ test('accessibility (axe)', async ({ page }) => {
   await group.expectSelected(0);
 
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    { template: TEMPLATE, imports: ['radioGroup', 'radio'] },
+    {
+      inputs: {
+        value: 'a',
+        disabled: false,
+        readonly: false,
+        invalid: false,
+        bDisabled: false,
+      },
+    }
+  );
+  await expectScreenshot(page, testInfo);
 });

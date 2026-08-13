@@ -1,5 +1,7 @@
 import test, { expect } from '@playwright/test';
+import { JigSplitterHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -124,4 +126,70 @@ test('visual', async ({ page }, testInfo) => {
 
   await expect(page.locator('[role="separator"]')).toBeVisible();
   await expectScreenshot(page, testInfo, 'horizontal');
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(page, {
+    template: `
+      <jig-splitter
+        class="page-center"
+        [layout]="'horizontal'"
+        [kind]="'thin'"
+        style="width: 400px; height: 120px;"
+      >
+        <jig-splitter-panel [size]="'1fr'">Panel 1</jig-splitter-panel>
+        <jig-splitter-panel [size]="'1fr'">Panel 2</jig-splitter-panel>
+      </jig-splitter>
+    `,
+    imports: ['splitter', 'splitterPanel'],
+  });
+  await expectScreenshot(page, testInfo);
+});
+
+const DRAG_TEMPLATE = `
+  <jig-splitter class="page-center" [layout]="'horizontal'" style="width: 400px; height: 120px;">
+    <jig-splitter-panel [size]="'1fr'">Panel 1</jig-splitter-panel>
+    <jig-splitter-panel [size]="'1fr'">Panel 2</jig-splitter-panel>
+  </jig-splitter>
+`;
+
+function splitter(page: import('@playwright/test').Page) {
+  return new JigSplitterHarness(page.locator('jig-splitter'));
+}
+
+/** Drags the divider by `dx` screen pixels. */
+async function dragDividerBy(page: import('@playwright/test').Page, dx: number) {
+  await splitter(page).dragDivider(0, dx);
+}
+
+const firstPanelWidth = async (page: import('@playwright/test').Page) => {
+  const box = await page.locator('jig-splitter-panel').first().boundingBox();
+  return box!.width;
+};
+
+test('dragging the divider toward the inline-end grows the first panel', async ({ page }) => {
+  await loadComponent(page, { template: DRAG_TEMPLATE, imports: ['splitter', 'splitterPanel'] });
+  const before = await firstPanelWidth(page);
+
+  // LTR: the inline-end is to the right.
+  await dragDividerBy(page, 60);
+  expect(await firstPanelWidth(page)).toBeGreaterThan(before + 40);
+});
+
+test('rtl pointer: dragging the divider toward the inline-end grows the first panel', async ({
+  page,
+}) => {
+  await useRtl(page);
+  await loadComponent(page, { template: DRAG_TEMPLATE, imports: ['splitter', 'splitterPanel'] });
+  const before = await firstPanelWidth(page);
+
+  // RTL mirrors the panel order, so the inline-end is now to the LEFT. Dragging
+  // right (as LTR would) must shrink the first panel instead.
+  await dragDividerBy(page, -60);
+  expect(await firstPanelWidth(page)).toBeGreaterThan(before + 40);
+
+  const grown = await firstPanelWidth(page);
+  await dragDividerBy(page, 60);
+  expect(await firstPanelWidth(page)).toBeLessThan(grown - 40);
 });

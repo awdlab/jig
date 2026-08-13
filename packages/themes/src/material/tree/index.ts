@@ -59,7 +59,7 @@ export const treeStyles = createThemePart({
         height: 0;
         border-top: 0.4rem solid transparent;
         border-bottom: 0.4rem solid transparent;
-        border-left: 0.5rem solid currentColor;
+        border-inline-start: 0.5rem solid currentColor;
       }
       ${c('item-selectable')} {
         cursor: pointer;

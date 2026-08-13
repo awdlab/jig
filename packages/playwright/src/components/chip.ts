@@ -1,21 +1,21 @@
 import { chipControlTemplate } from '@awdlab/jig-themes/templates/chip';
-import { themeClasses } from '../utils/theme';
-import test, { expect, type Locator } from '@playwright/test';
+import { themeClasses } from '../utils/theme.js';
+import { expect, type Locator } from '@playwright/test';
+import { JigHarness } from '../harness.js';
 
-export class JigChipHarness {
+export class JigChipHarness extends JigHarness {
   public readonly classes = themeClasses(chipControlTemplate);
 
-  public readonly locator: Locator;
   public readonly content: Locator;
   public readonly closeButton: Locator;
 
   constructor(locator: Locator) {
-    this.locator = locator;
+    super(locator);
     this.content = locator.locator(this.classes.content);
     this.closeButton = locator.locator(this.classes['close-button']);
   }
 
-  public async click() {
+  public override async click() {
     await this.content.click();
   }
 
@@ -23,7 +23,7 @@ export class JigChipHarness {
     await this.closeButton.click();
   }
 
-  public async expectState(state: { actionable?: boolean; closable?: boolean }) {
+  public async expectModifiers(state: { actionable?: boolean; closable?: boolean }) {
     if (state.actionable !== undefined) {
       if (state.actionable) {
         await expect(this.locator).toHaveClass(this.classes.actionable);

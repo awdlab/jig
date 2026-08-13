@@ -1,0 +1,15 @@
+<ng-content />
+
+@for (itemTemplate of itemTemplates(); track $index; let i = $index) {
+  <!-- Always rendered with `overflowed: false`: this copy is what gets measured,
+       so it must keep the in-bar appearance even while it is offscreen. -->
+  <div
+    #itemRef
+    [ptInt]="this"
+    [ptClass]="{ item: true, 'item-overflowing': isOverflowed(i) }"
+    [attr.inert]="isOverflowed(i) ? '' : null"
+    [attr.aria-hidden]="isOverflowed(i) ? 'true' : null"
+  >
+    <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: { overflowed: false } }" />
+  </div>
+}

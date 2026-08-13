@@ -24,7 +24,7 @@ back to the first tab.
 
 When the headers are wider than the tab list they become horizontally
 scrollable, with scroll buttons appearing at whichever edge is overflowing (their
-icons are configurable via `iconScrollLeft` / `iconScrollRight`) and drag-to-
+icons are configurable via `iconScrollStart` / `iconScrollEnd`) and drag-to-
 scroll support. Selecting or keyboard-navigating to an off-screen header scrolls
 it into view.
 

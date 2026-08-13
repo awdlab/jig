@@ -1,5 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { JigFilterHarness, JigSelectHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
@@ -440,4 +441,29 @@ test('visual', async ({ page }, testInfo) => {
   await expect(filter.operatorSelect(0).locator).toBeVisible();
 
   await expectScreenshot(page, testInfo, 'inline');
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `
+        <jig-filter
+          [data]="inputs().data"
+          dataType="string"
+          (filterChange)="output('config', $event)"
+          (filterResultChange)="output('filtered', $event)"
+          style="width: 320px"
+        />
+      `,
+      imports: ['filter'],
+    },
+    {
+      inputs: {
+        data: ['Nigeria', 'Algeria', 'Germany', 'France'],
+      },
+    }
+  );
+  await expectScreenshot(page, testInfo);
 });

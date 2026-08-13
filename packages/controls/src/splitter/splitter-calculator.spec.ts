@@ -56,6 +56,7 @@ function createMockSplitter(
     ),
     panelOrder: signal(panelOrder),
     layout: signal(layout),
+    element: { nativeElement: document.createElement('div') },
     elementSize: elementSizeSignal,
   } as any;
 }

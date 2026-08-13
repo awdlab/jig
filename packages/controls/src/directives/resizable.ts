@@ -13,6 +13,7 @@ import {
   domEventSignal,
   elementSizeSignal,
   injectThemeTemplate,
+  isRtl,
   Platform,
 } from '@awdlab/jig/api/ng';
 import { resizableDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
@@ -85,8 +86,9 @@ export class JigResizable {
   }
 
   /**
-   * Whether the pointer landed on the host's native resize grip (bottom-right corner).
-   * The grip is drawn on the element itself, so a hit on a child is never one.
+   * Whether the pointer landed on the host's native resize grip. The browser draws
+   * it in the bottom inline-end corner, which is bottom-left under RTL. The grip is
+   * drawn on the element itself, so a hit on a child is never one.
    */
   private isOnGrip(event: PointerEvent): boolean {
     const el = this._el.nativeElement;
@@ -94,7 +96,8 @@ export class JigResizable {
       return false;
     }
     const rect = el.getBoundingClientRect();
-    return rect.right - event.clientX <= GRIP_SIZE && rect.bottom - event.clientY <= GRIP_SIZE;
+    const fromInlineEnd = isRtl(el) ? event.clientX - rect.left : rect.right - event.clientX;
+    return fromInlineEnd <= GRIP_SIZE && rect.bottom - event.clientY <= GRIP_SIZE;
   }
 
   constructor() {
@@ -136,7 +139,9 @@ export class JigResizable {
 
       const elRect = this._el.nativeElement.getBoundingClientRect();
 
-      const maxWidth = bodyWidth - elRect.left;
+      // Growth runs toward the inline-end, so the room available is measured from
+      // the opposite edge under RTL.
+      const maxWidth = isRtl(this._el.nativeElement) ? elRect.right : bodyWidth - elRect.left;
       const maxHeight = bodyHeight - elRect.top;
 
       const inputMaxWidth = this.jigResizableSizeLimits()?.maxWidth;

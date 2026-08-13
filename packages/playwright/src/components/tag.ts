@@ -1,16 +1,16 @@
 import { tagControlTemplate } from '@awdlab/jig-themes/templates/tag';
-import { themeClasses } from '../utils/theme';
-import test, { expect, type Locator } from '@playwright/test';
+import { themeClasses } from '../utils/theme.js';
+import { expect, type Locator } from '@playwright/test';
+import { JigHarness } from '../harness.js';
 
-export class JigTagHarness {
+export class JigTagHarness extends JigHarness {
   public readonly classes = themeClasses(tagControlTemplate);
 
-  public readonly locator: Locator;
   public readonly content: Locator;
   public readonly icon: Locator;
 
   constructor(locator: Locator) {
-    this.locator = locator;
+    super(locator);
     this.content = locator.locator(this.classes.content);
     this.icon = locator.locator(this.classes.icon);
   }

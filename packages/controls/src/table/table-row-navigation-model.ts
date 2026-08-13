@@ -2,6 +2,7 @@ import { signal } from '@angular/core';
 
 import type { FormattedTableRow, TableSelectionMode } from './types';
 import type { Signal, WritableSignal } from '@angular/core';
+import { inlineArrowStep } from '@awdlab/jig/api/ng';
 
 export interface RowNavigationDeps<T extends object> {
   /** The currently rendered/formatted rows, in view order. */
@@ -65,9 +66,12 @@ export class TableRowNavigationModel<T extends object> {
       case 'PageUp':
         return this._moveRow(event, rows.length);
       case 'ArrowRight':
-        return actions ? this._moveRight(event, current) : false;
-      case 'ArrowLeft':
-        return actions ? this._moveLeft(event, current) : false;
+      case 'ArrowLeft': {
+        if (!actions) return false;
+        // The action bar sits at the row's inline-end, so RTL reverses entry/exit.
+        const step = inlineArrowStep(event.currentTarget as Element, event.key);
+        return step === 1 ? this._moveRight(event, current) : this._moveLeft(event, current);
+      }
       case 'Enter':
       case ' ':
         return this._activate(event, current, actions);

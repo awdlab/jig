@@ -6,45 +6,14 @@ import {
   inject,
   Injector,
   input,
-  isSignal,
   runInInjectionContext,
   viewChild,
-  type Signal,
 } from '@angular/core';
 import { elementSizeSignal, elementsSizesSignal } from '@awdlab/jig/api/ng';
 import { JigBase, JIG_CONTROL, provideSelf, JigPt } from '@awdlab/jig/base';
-import { JigRovingGroup } from '@awdlab/jig/roving-focus';
+import { JigRovingGroup, resolveDisabled, resolveFocusable } from '@awdlab/jig/roving-focus';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 import { buttonGroupControlTemplate } from '@awdlab/jig-themes/templates/button-group';
-
-const FOCUSABLE_SELECTOR = 'button, a[href], input, select, textarea, [tabindex]';
-
-/**
- * Resolve the element that should own the roving tab stop for a projected
- * control. The control's host is the focusable element for a native
- * `button[jigButton]`/`a[jigButton]`; for wrapper controls like
- * `jig-toggle-button` the real tab stop is a focusable descendant.
- */
-function resolveFocusable(host: HTMLElement): HTMLElement {
-  if (host.matches(FOCUSABLE_SELECTOR)) return host;
-  return host.querySelector<HTMLElement>(FOCUSABLE_SELECTOR) ?? host;
-}
-
-/**
- * Reactive disabled flag for a projected control so roving navigation skips it.
- * Prefer the control's own `disabled` signal (e.g. `jig-toggle-button`); fall
- * back to reflecting the focusable element's native `disabled`/`aria-disabled`
- * for plain `button[jigButton]`, which has no such signal.
- */
-function resolveDisabled(ref: object, element: HTMLElement): Signal<boolean> {
-  const controlDisabled = (ref as { disabled?: unknown }).disabled;
-  if (isSignal(controlDisabled)) {
-    return controlDisabled as Signal<boolean>;
-  }
-  return computed(
-    () => element.matches(':disabled') || element.getAttribute('aria-disabled') === 'true'
-  );
-}
 
 /**
  * @category control
@@ -104,17 +73,21 @@ export class JigButtonGroup extends JigBase<'buttonGroup'> {
     // calls `inject()`, so it must run in an injection context.
     effect(onCleanup => {
       const group = this._roving();
-      const items = this._contentRef().map(ref => {
+      const items = this._contentRef()
         // The projected control's host is not always the focusable element:
         // `button[jigButton]` is itself the button, but `jig-toggle-button`
-        // wraps a native `<button>`. Roving must own the real tab stop.
-        const host = ref.element.nativeElement;
-        const element = resolveFocusable(host);
-        if (!element.id) {
-          element.id = runInInjectionContext(this._injector, () => generateElementId());
-        }
-        return { id: element.id, element, disabled: resolveDisabled(ref, element) };
-      });
+        // wraps a native `<button>`. Roving must own the real tab stop, and a
+        // control with no focusable element is not a stop at all.
+        .flatMap(ref => {
+          const element = resolveFocusable(ref.element.nativeElement);
+          return element ? [{ ref, element }] : [];
+        })
+        .map(({ ref, element }) => {
+          if (!element.id) {
+            element.id = runInInjectionContext(this._injector, () => generateElementId());
+          }
+          return { id: element.id, element, disabled: resolveDisabled(ref, element) };
+        });
       items.forEach(item => group.register(item));
       onCleanup(() => items.forEach(item => group.unregister(item)));
     });

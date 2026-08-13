@@ -1,6 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { JigUploadHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -191,4 +192,13 @@ test('visual', async ({ page }, testInfo) => {
   await expect(upload.zone).toBeVisible();
 
   await expectScreenshot(page, testInfo, 'dropzone');
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(page, {
+    template: `<jig-upload><input type="file" multiple /></jig-upload>`,
+    imports: ['upload'],
+  });
+  await expectScreenshot(page, testInfo);
 });

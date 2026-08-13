@@ -3,7 +3,7 @@ import { Component, input } from '@angular/core';
 /** The one header pattern every start-page segment uses: keyword, heading, subheader. */
 @Component({
   selector: 'jig-docs-section-header',
-  host: { class: 'block text-left' },
+  host: { class: 'block text-start' },
   template: `
     <p
       class="mono text-(length:--jig-font-size-sm) tracking-wider text-(--jig-color-primary-500) uppercase"

@@ -1,0 +1,50 @@
+<div [ptInt]="this" [ptClass]="'track'" aria-hidden="true">
+  @for (entry of entries(); track $index) {
+    <div
+      [ptInt]="this"
+      [ptClass]="{ segment: true, highlighted: hoveredIndex() === $index }"
+      [style.--meter-color]="entry.color"
+      [style.--meter-size.%]="entry.percentage"
+      (pointerenter)="hover($index)"
+      (pointerleave)="hover(null)"
+    ></div>
+  }
+</div>
+
+<ul [ptInt]="this" [ptClass]="'legend'">
+  @for (entry of entries(); track $index) {
+    <li
+      [ptInt]="this"
+      [ptClass]="{ item: true, highlighted: hoveredIndex() === $index }"
+      [style.--meter-color]="entry.color"
+      (pointerenter)="hover($index)"
+      (pointerleave)="hover(null)"
+    >
+      <ng-container
+        *ngTemplateOutlet="
+          labelTemplate();
+          context: { $implicit: entry.item, percentage: entry.percentage }
+        "
+      ></ng-container>
+      @if (!showPercentage()) {
+        <span [ptInt]="this" [ptClass]="'sr-only'">{{ percentageText(entry.percentage) }}</span>
+      }
+    </li>
+  }
+</ul>
+
+<ng-template
+  #defaultLabelTemplate
+  [jigTemplate]="templateTypes.label"
+  let-item
+  let-percentage="percentage"
+>
+  <span [ptInt]="this" [ptClass]="'swatch'" aria-hidden="true"></span>
+  @if (item.icon) {
+    <jig-icon [ptInt]="this" [ptClass]="'icon'" [icon]="item.icon" />
+  }
+  <span [ptInt]="this" [ptClass]="'label'">{{ item.label }}</span>
+  @if (showPercentage()) {
+    <span [ptInt]="this" [ptClass]="'value'">{{ percentageText(percentage) }}</span>
+  }
+</ng-template>

@@ -1,16 +1,16 @@
 import { colorPickerControlTemplate } from '@awdlab/jig-themes/templates/color-picker';
-import { themeClasses } from '../utils/theme';
-import { JIG_CLASSES } from '../utils/classes';
-import { JigInputHarness } from './input';
+import { themeClasses } from '../utils/theme.js';
+import { JIG_CLASSES } from '../utils/classes.js';
+import { JigInputHarness } from './input.js';
 import { expect, type Locator } from '@playwright/test';
+import { JigHarness } from '../harness.js';
 
 function clampEdge(ratio: number): number {
   return Math.min(0.98, Math.max(0.02, ratio));
 }
 
-export class JigColorPickerHarness {
+export class JigColorPickerHarness extends JigHarness {
   public readonly classes = themeClasses(colorPickerControlTemplate);
-  public readonly locator: Locator;
   public readonly trigger: Locator;
   // The popover panel is a native-popover child of the host (not portaled elsewhere in the
   // DOM), so it stays reachable via a plain descendant locator — same as `select`'s dropdown.
@@ -22,7 +22,7 @@ export class JigColorPickerHarness {
   public readonly hexInput: JigInputHarness;
 
   constructor(locator: Locator) {
-    this.locator = locator;
+    super(locator);
     this.trigger = locator.locator(this.classes.trigger);
     this.panel = locator.locator(this.classes.panel);
     this.svArea = locator.locator(this.classes['sv-area']);

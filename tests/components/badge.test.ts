@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { JigBadgeHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 
 test('renders count and clamps to max', async ({ page }, testInfo) => {
@@ -148,4 +149,17 @@ test('accessibility (axe)', async ({ page }) => {
   const badge = new JigBadgeHarness(page.locator('button'));
   await badge.expectText('5');
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `<button style="width:48px;height:48px" [jigBadge]="inputs().value" [jigBadgeMax]="inputs().max">A</button>`,
+      imports: ['badge'],
+    },
+    { inputs: { value: 3, max: 99 } }
+  );
+  await expectScreenshot(page, testInfo);
 });

@@ -13,8 +13,8 @@ export const uploadControlTemplate = createControlTemplate({
     // file-list placement (relative to the drop zone)
     'list-top',
     'list-bottom',
-    'list-left',
-    'list-right',
+    'list-start',
+    'list-end',
     // drop zone + its column (zone + manual footer)
     'main',
     'zone',

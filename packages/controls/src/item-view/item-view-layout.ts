@@ -16,10 +16,13 @@ export type ItemViewLayoutInput = {
   strategy: OverflowStrategy;
   freezeCount: number;
   strategyIndex: number;
-  containerWidth: number;
-  itemWidths: readonly number[];
-  overflowItemWidth: number;
+  /** Available space on the main axis: width when horizontal, height when vertical. */
+  containerSize: number;
+  itemSizes: readonly number[];
+  overflowItemSize: number;
   gap: number;
+  /** Explicit priority order. When omitted it is derived from `strategy`. */
+  checkOrder?: OverflowOrder;
 };
 
 export type ItemViewLayoutResult = {
@@ -129,21 +132,23 @@ export function getItemOverflowCheckOrder(params: {
 
 export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLayoutResult {
   const count = Math.max(0, Math.floor(params.count));
-  const containerWidth = Math.max(0, params.containerWidth);
-  const overflowItemWidth = Math.max(0, params.overflowItemWidth);
+  const containerSize = Math.max(0, params.containerSize);
+  const overflowItemSize = Math.max(0, params.overflowItemSize);
   const gap = Math.max(0, params.gap);
   const maxOverflowIndicatorCount = params.strategy === 'aroundIndex' ? 2 : 1;
 
-  const overflowCheckOrder = getItemOverflowCheckOrder({
-    count,
-    strategy: params.strategy,
-    freezeCount: params.freezeCount,
-    strategyIndex: params.strategyIndex,
-  });
+  const overflowCheckOrder =
+    params.checkOrder ??
+    getItemOverflowCheckOrder({
+      count,
+      strategy: params.strategy,
+      freezeCount: params.freezeCount,
+      strategyIndex: params.strategyIndex,
+    });
 
-  const getVisibleItemCount = (reservedWidth: number): number => {
+  const getVisibleItemCount = (reservedSize: number): number => {
     let visibleItemCount = 0;
-    let totalWidth = Math.max(0, reservedWidth);
+    let totalSize = Math.max(0, reservedSize);
 
     for (let i = 0; i < overflowCheckOrder.length; i++) {
       const index = overflowCheckOrder[i]?.index;
@@ -153,12 +158,12 @@ export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLa
           'Invalid overflow check order: index is undefined'
         );
       }
-      const itemWidth = params.itemWidths[index] ?? 0;
+      const itemSize = params.itemSizes[index] ?? 0;
       const itemGap = i > 0 ? gap : 0;
-      const newWidth = totalWidth + itemWidth + itemGap;
+      const newSize = totalSize + itemSize + itemGap;
 
-      if (newWidth <= containerWidth) {
-        totalWidth = newWidth;
+      if (newSize <= containerSize) {
+        totalSize = newSize;
         visibleItemCount++;
       } else {
         break;
@@ -184,7 +189,7 @@ export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLa
     previousOverflowIndicatorCount = overflowIndicatorCount;
 
     const initialVisibleItemCount = getVisibleItemCount(
-      overflowIndicatorCount * (overflowItemWidth + gap)
+      overflowIndicatorCount * (overflowItemSize + gap)
     );
 
     remainingItemOrders = overflowCheckOrder
@@ -194,7 +199,7 @@ export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLa
     overflowIndicatorLocations = new Set(remainingItemOrders.map(i => i.location));
     overflowIndicatorCount = overflowIndicatorLocations.size;
     const finalVisibleItemCount = getVisibleItemCount(
-      overflowIndicatorCount * (overflowItemWidth + gap)
+      overflowIndicatorCount * (overflowItemSize + gap)
     );
     renderedItemOrders = overflowCheckOrder.slice(0, finalVisibleItemCount);
   }
@@ -207,9 +212,9 @@ export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLa
       const itemsWithIndices = remainingItemOrders
         .map((x, i) => [i + renderedItemOrders.length, x] as const)
         .filter(x => x[1].location === location);
-      const itemSizes = itemsWithIndices.map(i => params.itemWidths[i[1].index] ?? 0);
+      const itemSizes = itemsWithIndices.map(i => params.itemSizes[i[1].index] ?? 0);
       const itemsTotalSize = itemSizes.reduce((a, b) => a + b, 0);
-      if (itemsTotalSize <= overflowItemWidth) {
+      if (itemsTotalSize <= overflowItemSize) {
         overflowIndicatorLocations.delete(location);
         renderedItemOrders = [...renderedItemOrders, ...itemsWithIndices.map(i => i[1])];
         overflowIndicatorCount--;

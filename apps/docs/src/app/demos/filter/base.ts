@@ -14,7 +14,7 @@ import { JigFilter, type JigFilterConfig } from '@awdlab/jig/filter';
 
       <div class="text-sm opacity-70">Filtered: {{ filtered().length }}/{{ data.length }}</div>
 
-      <ul class="list-disc pl-5">
+      <ul class="list-disc ps-5">
         @for (item of filtered(); track item) {
           <li>{{ item }}</li>
         }

@@ -11,6 +11,7 @@ import { JigSplitterPanel } from './panel/splitter-panel';
 import { JigSplitter } from './splitter';
 
 import type { SplitterLayout } from './types';
+import { isRtl } from '@awdlab/jig/api/ng';
 
 /**
  * Type interface for the {@link SplitterCalculator} interface.
@@ -114,8 +115,10 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
   protected readonly splitterSize: Signal<number>;
 
   private readonly _engine: ResizeEngine;
+  private readonly _host: HTMLElement;
 
   constructor(splitter: JigSplitter) {
+    this._host = splitter.element.nativeElement;
     this.panels = splitter.panels;
     this.dividers = splitter.dividers;
     this.panelOrder = splitter.panelOrder;
@@ -185,7 +188,7 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
     const panels = this.orderedPanels();
     if (index < 0 || index >= panels.length - 1) return;
 
-    const startPosition = this.layout() === 'horizontal' ? event.clientX : event.clientY;
+    const startPosition = this.axisPosition(event);
 
     this.dragContext.set({
       dividerIndex: index,
@@ -200,8 +203,20 @@ export class DefaultSplitterCalculator implements SplitterCalculator {
     const ctx = this.dragContext();
     if (!ctx || ctx.dividerIndex !== index || ctx.pointerId !== event.pointerId) return;
 
-    const currentPosition = this.layout() === 'horizontal' ? event.clientX : event.clientY;
-    this._engine.drag(index, currentPosition);
+    this._engine.drag(index, this.axisPosition(event));
+  }
+
+  /**
+   * Pointer position along the resize axis. The engine only ever uses position
+   * deltas, so negating the inline axis in RTL is exactly the sign flip the
+   * mirrored panel order needs — a positive delta always grows the panel before
+   * the divider, matching {@link moveDivider}'s keyboard contract.
+   */
+  private axisPosition(event: PointerEvent): number {
+    if (this.layout() !== 'horizontal') {
+      return event.clientY;
+    }
+    return isRtl(this._host) ? -event.clientX : event.clientX;
   }
 
   public endDrag(index: number, event: PointerEvent, isCancel: boolean) {

@@ -47,13 +47,13 @@ export const avatarGroupStyles = createThemePart({
         &:not(:first-of-type) {
           /* Overlap scales with avatar size (half-overlap) so small stacks don't clump.
              At the 48px default this equals the former -1.5rem. */
-          margin-left: calc(var(--size, 48px) * -0.5);
+          margin-inline-start: calc(var(--size, 48px) * -0.5);
         }
         &:first-of-type {
-          margin-left: calc(-1 * var(--border-width));
+          margin-inline-start: calc(-1 * var(--border-width));
         }
         &:last-of-type {
-          margin-right: calc(-1 * var(--border-width));
+          margin-inline-end: calc(-1 * var(--border-width));
         }
       }
     `,

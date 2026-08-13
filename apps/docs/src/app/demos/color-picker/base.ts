@@ -6,7 +6,7 @@ import { JigColorPicker } from '@awdlab/jig/color-picker';
   imports: [JigColorPicker],
   template: `
     <jig-color-picker [value]="value()" (valueChange)="value.set($event)" />
-    <span class="ml-3 inline-block min-w-[13ch] font-mono">{{ value() }}</span>
+    <span class="ms-3 inline-block min-w-[13ch] font-mono">{{ value() }}</span>
   `,
   host: { class: 'flex items-center' },
 })

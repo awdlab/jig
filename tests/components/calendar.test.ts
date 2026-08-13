@@ -1,5 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 import { JigCalendarHarness, JigMaskInputHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -384,4 +385,21 @@ test('accessibility (axe)', async ({ page }) => {
   // 4.06:1). They label dates outside the shown month, which the control does not
   // require the user to read.
   await expectNoA11yViolations(page, { disableRules: ['color-contrast'] });
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `<jig-calendar [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      imports: ['calendar'],
+    },
+    {
+      inputs: {
+        value: new Date(2025, 7, 18, 12, 0, 0), // August 18, 2025
+      },
+    }
+  );
+  await expectScreenshot(page, testInfo);
 });

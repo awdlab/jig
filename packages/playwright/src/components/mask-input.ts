@@ -1,6 +1,7 @@
 import { type Locator, expect } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { maskInputControlTemplate } from '@awdlab/jig-themes/templates/mask-input';
+import { JigHarness } from '../harness.js';
 
 /**
  * Playwright harness for `jig-mask-input` (v2).
@@ -12,7 +13,7 @@ import { maskInputControlTemplate } from '@awdlab/jig-themes/templates/mask-inpu
  * test component (e.g. `<span data-testid="value">{{ inputs().value }}</span>`).
  * This harness intentionally does NOT expose an `expectValue` method.
  */
-export class JigMaskInputHarness {
+export class JigMaskInputHarness extends JigHarness {
   public readonly classes = themeClasses(maskInputControlTemplate);
 
   /**
@@ -26,19 +27,20 @@ export class JigMaskInputHarness {
    */
   public readonly sections: Locator;
 
-  constructor(private readonly locator: Locator) {
+  constructor(locator: Locator) {
+    super(locator);
     // The proxy is the only <input> inside the control.
     this.proxy = locator.locator('input').first();
     this.sections = locator.locator('[role="spinbutton"]');
   }
 
   /** Focus the proxy input so subsequent key events are delivered to the control. */
-  public async focus(): Promise<void> {
+  public override async focus(): Promise<void> {
     await this.proxy.focus();
   }
 
   /** Press a single key on the proxy input (e.g. 'ArrowRight', 'Backspace', '1'). */
-  public async press(key: string): Promise<void> {
+  public override async press(key: string): Promise<void> {
     await this.proxy.focus();
     await this.proxy.press(key);
   }
@@ -59,7 +61,7 @@ export class JigMaskInputHarness {
    *
    * Uses Playwright's auto-retry (`expect.poll`) so it waits for Angular to render.
    */
-  public expectText(visible: string): Promise<void> {
+  public override expectText(visible: string): Promise<void> {
     const visibleSelector = [
       this.classes['section'],
       this.classes['section-placeholder'],

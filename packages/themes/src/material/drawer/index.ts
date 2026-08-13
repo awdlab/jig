@@ -42,7 +42,7 @@ export const drawerStyles = createThemePart({
           --animation-y: -40px;
           --animation-x: 0;
         }
-        &[data-position='right'] {
+        &[data-position='end'] {
           --animation-y: 0;
           --animation-x: 40px;
         }
@@ -50,8 +50,16 @@ export const drawerStyles = createThemePart({
           --animation-y: 40px;
           --animation-x: 0;
         }
-        &[data-position='left'] {
+        &[data-position='start'] {
           --animation-y: 0;
+          --animation-x: -40px;
+        }
+        /* The horizontal slide follows the writing direction: a start drawer always
+           enters from the inline-start edge. */
+        &:dir(rtl)[data-position='start'] {
+          --animation-x: 40px;
+        }
+        &:dir(rtl)[data-position='end'] {
           --animation-x: -40px;
         }
       }

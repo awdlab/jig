@@ -4,7 +4,7 @@
   .text-wrapper {
     display: block;
     padding: 0.375rem 0.75rem;
-    border-left: 2px solid transparent;
+    border-inline-start: 2px solid transparent;
     border-radius: var(--jig-size-rounded-md);
     font-size: var(--jig-font-size-sm);
     line-height: 1.4;
@@ -23,10 +23,11 @@
   &.active-item .text-wrapper {
     font-weight: var(--jig-font-weight-semibold);
     color: var(--jig-color-primary-700);
-    border-left-color: var(--jig-color-primary-500);
+    border-inline-start-color: var(--jig-color-primary-500);
     background-color: var(--jig-color-primary-50);
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+    // Square off the edge the indicator sits on, so it stays flush in both directions.
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
   }
 }
 

@@ -1,5 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
+import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
 // Minimal Iconify data object — enough for the component to inline an <svg>.
@@ -67,4 +69,14 @@ test('accessibility (axe)', async ({ page }) => {
     { inputs: { icon: ICONIFY } }
   );
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    { template: `<jig-icon [icon]="inputs().icon" />`, imports: ['icon'] },
+    { inputs: { icon: ICONIFY } }
+  );
+  await expectScreenshot(page, testInfo);
 });

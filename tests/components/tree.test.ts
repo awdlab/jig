@@ -3,6 +3,7 @@ import test, { expect } from '@playwright/test';
 
 import { exampleData } from '../helper/data';
 import { evalValue, loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -138,8 +139,8 @@ test.describe('disabled nodes', () => {
     const tree = harness(page);
 
     await tree.expectExpanded('Fruit', true);
-    await tree.expectDisabled('Apple', false);
-    await tree.expectDisabled('Banana', true);
+    await tree.expectNodeDisabled('Apple', false);
+    await tree.expectNodeDisabled('Banana', true);
     // A disabled node keeps its checkbox (disabled) for column alignment.
     await expect(tree.getNode('Banana').locator('jig-checkbox')).toHaveCount(1);
 
@@ -148,8 +149,8 @@ test.describe('disabled nodes', () => {
     expect(await handle.getOutputLog()).toEqual({});
 
     // A disabled branch cascades disabled state to its whole subtree.
-    await tree.expectDisabled('Archived', true);
-    await tree.expectDisabled('Old', true);
+    await tree.expectNodeDisabled('Archived', true);
+    await tree.expectNodeDisabled('Old', true);
     await expectScreenshot(page, testInfo, 'disabled');
   });
 });
@@ -295,4 +296,37 @@ test('accessibility (axe)', async ({ page }) => {
   await tree.expectExpanded('Africa', true);
 
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(page, treeTmpl(), { inputs: { items: grouped } });
+  const tree = harness(page);
+  // Expanded, so the per-level indentation and the toggle carets are visible.
+  await tree.toggleNode('Europe');
+  await tree.expectExpanded('Europe', true);
+  await expectScreenshot(page, testInfo);
+});
+
+test('rtl keyboard: the key pointing away from the root expands', async ({ page }) => {
+  await useRtl(page);
+  await loadComponent(page, treeTmpl(), { inputs: { items: grouped } });
+  const tree = harness(page);
+
+  await tree.locator.focus();
+  await page.keyboard.press('ArrowDown');
+  await tree.expectActiveDescendant('Africa');
+
+  // Depth runs along the inline axis, so in RTL ArrowLeft expands and ArrowRight collapses.
+  await page.keyboard.press('ArrowLeft');
+  await tree.expectExpanded('Africa', true);
+
+  await page.keyboard.press('ArrowLeft'); // into the first child
+  await tree.expectActiveDescendant('Nigeria');
+
+  await page.keyboard.press('ArrowRight'); // back to the parent
+  await tree.expectActiveDescendant('Africa');
+
+  await page.keyboard.press('ArrowRight');
+  await tree.expectExpanded('Africa', false);
 });

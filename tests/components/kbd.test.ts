@@ -3,6 +3,7 @@ import test, { expect } from '@playwright/test';
 
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectOutput, loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 
 test('renders shortcut glyphs', async ({ page }) => {
@@ -170,4 +171,14 @@ test('accessibility (axe)', async ({ page }) => {
   const kbd = new JigKbdHarness(page.locator('jig-kbd'));
   await kbd.expectText('⌃⇧A');
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    { template: `<jig-kbd [shortcut]="inputs().shortcut" />`, imports: ['kbd'] },
+    { inputs: { shortcut: 'ctrl+shift+a' } }
+  );
+  await expectScreenshot(page, testInfo);
 });

@@ -22,8 +22,8 @@ export const accordionPanelStyles = createThemePart({
         jig-defer {
           padding-top: 0;
           padding-bottom: ${v('size.padding.md')};
-          padding-left: ${v('size.padding.xl')};
-          padding-right: ${v('size.padding.xl')};
+          padding-inline-start: ${v('size.padding.xl')};
+          padding-inline-end: ${v('size.padding.xl')};
           color: ${v('color.muted.foreground')};
         }
       }

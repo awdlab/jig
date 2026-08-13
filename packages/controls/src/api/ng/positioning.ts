@@ -1,5 +1,7 @@
 import { DestroyRef, inject, Injector } from '@angular/core';
 
+import { onDirectionChange } from './direction';
+
 import type {
   Alignment,
   ComputePositionReturn,
@@ -253,10 +255,19 @@ export function autoPositionElement(
     });
   }
 
+  // A direction flip changes which physical side a logical alignment resolves to,
+  // but autoUpdate only fires on scroll/resize — so reposition explicitly.
+  const unregisterDirection = onDirectionChange(() => {
+    if (started) {
+      positionElement(anchor, floatingEl, options);
+    }
+  });
+
   destroyRef.onDestroy(() => {
     started = false;
     cleanup?.();
     cleanup = undefined;
+    unregisterDirection();
   });
   return {
     start: () => {

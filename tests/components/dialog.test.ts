@@ -1,6 +1,9 @@
 import test, { expect } from '@playwright/test';
 
+import { JigDialogHarness } from '@awdlab/jig-playwright';
+
 import { expectOutput, loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -31,19 +34,21 @@ function loadModal(page: import('@playwright/test').Page, closeBy = 'any', open 
 
 test('opens/closes via the open model and labels itself from the title', async ({ page }) => {
   const handle = await loadModal(page, 'any', false);
-  const dialog = page.locator('dialog');
+  const dialog = new JigDialogHarness(page.locator('jig-dialog'));
 
-  await expect(dialog).toBeHidden();
+  await dialog.expectOpened(false);
 
   await handle.setInputs({ title: 'My Dialog', open: true, closeBy: 'any' });
-  await expect(dialog).toBeVisible();
+  await dialog.expectOpened();
+  await dialog.expectModal();
+  await expect(dialog.title).toHaveText('My Dialog');
 
-  const labelId = await dialog.getAttribute('aria-labelledby');
+  const labelId = await dialog.wrapper.getAttribute('aria-labelledby');
   expect(labelId).toBeTruthy();
   await expect(page.locator(`#${labelId}`)).toHaveText('My Dialog');
 
   await handle.setInputs({ title: 'My Dialog', open: false, closeBy: 'any' });
-  await expect(dialog).toBeHidden();
+  await dialog.expectOpened(false);
 });
 
 test('survives a reopen that happens before the deferred close lands', async ({ page }) => {
@@ -324,4 +329,11 @@ test('visual', async ({ page }, testInfo) => {
   await expect(page.locator('dialog')).toBeVisible();
 
   await expectScreenshot(page, testInfo, 'modal');
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadModal(page, 'any', true);
+  await expect(page.locator('dialog')).toBeVisible();
+  await expectScreenshot(page, testInfo);
 });

@@ -52,7 +52,33 @@ function elementsSizesSignalInt(
     equal: (a, b) => JSON.stringify(a) === JSON.stringify(b),
   });
 
+  const destroyRef = inject(DestroyRef);
+  if (typeof ResizeObserver === 'undefined') {
+    return sizeSignal; // ResizeObserver is not supported, return initial size
+  }
+
   let elements: HTMLElement[];
+  const resizeObserver = new ResizeObserver(entries => {
+    entries.forEach(entry => {
+      const index = elements.findIndex(el => el === entry.target);
+      sizeSignal.update(s => {
+        const copy = deepCopy(s);
+        const borderBoxSize = entry.borderBoxSize[0];
+        if (!borderBoxSize) {
+          return s;
+        }
+        copy[index] = {
+          width: borderBoxSize.inlineSize,
+          height: borderBoxSize.blockSize,
+        };
+        return copy;
+      });
+    });
+  });
+  destroyRef.onDestroy(() => {
+    resizeObserver.disconnect();
+  });
+
   afterRenderEffect(() => {
     resizeObserver.disconnect();
     if (active && !active()) {
@@ -77,30 +103,6 @@ function elementsSizesSignalInt(
     elements.forEach(el => {
       resizeObserver.observe(el, { box: 'border-box' });
     });
-  });
-  const destroyRef = inject(DestroyRef);
-  if (typeof ResizeObserver === 'undefined') {
-    return sizeSignal; // ResizeObserver is not supported, return initial size
-  }
-  const resizeObserver = new ResizeObserver(entries => {
-    entries.forEach(entry => {
-      const index = elements.findIndex(el => el === entry.target);
-      sizeSignal.update(s => {
-        const copy = deepCopy(s);
-        const borderBoxSize = entry.borderBoxSize[0];
-        if (!borderBoxSize) {
-          return s;
-        }
-        copy[index] = {
-          width: borderBoxSize.inlineSize,
-          height: borderBoxSize.blockSize,
-        };
-        return copy;
-      });
-    });
-  });
-  destroyRef.onDestroy(() => {
-    resizeObserver.disconnect();
   });
   return sizeSignal;
 }

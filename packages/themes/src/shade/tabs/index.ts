@@ -58,8 +58,8 @@ export const tabsStyles = createThemePart({
       }
       /* Scroll affordances live inside the muted pill tray, so they blend into it (not the page
        * background) — otherwise a white block with the tray's gray showing around its corners. */
-      ${c('scroll-left')},
-      ${c('scroll-right')} {
+      ${c('scroll-start')},
+      ${c('scroll-end')} {
         background: ${v('color.muted.base')};
         padding: 0;
         color: ${v('color.muted.foreground')};
@@ -70,14 +70,21 @@ export const tabsStyles = createThemePart({
           color: ${v('color.foreground')};
         }
       }
-      ${c('scroll-left')} {
+      ${c('scroll-start')} {
         &::after {
           background: linear-gradient(90deg, var(--blurColor), transparent);
         }
       }
-      ${c('scroll-right')} {
+      ${c('scroll-end')} {
         &::after {
           background: linear-gradient(270deg, var(--blurColor), transparent);
+        }
+      }
+      /* Gradient direction is physical: mirror the fade so it always washes over the
+         content rather than away from it. */
+      ${c('scroll-start')}:dir(rtl), ${c('scroll-end')}:dir(rtl) {
+        &::after {
+          transform: scaleX(-1);
         }
       }
       ${c('content')} {

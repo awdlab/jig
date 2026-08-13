@@ -15,6 +15,7 @@ import {
 import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
 import { otpControlTemplate } from '@awdlab/jig-themes/templates/otp';
+import { inlineArrowStep } from '@awdlab/jig/api/ng';
 
 /**
  * Coerce a requested length to a sane cell count (at least one). Coerces
@@ -198,13 +199,13 @@ export class JigOtp extends ValueControlBase<'otp', string | null> {
         this._setCell(index, '');
         break;
       case 'ArrowLeft':
+      case 'ArrowRight': {
         event.preventDefault();
-        if (index > 0) this._focusCell(index - 1);
+        // Cells are ordered along the inline axis, so RTL reverses which key advances.
+        const next = index + inlineArrowStep(event.currentTarget as Element, event.key);
+        if (next >= 0 && next < this.appliedLength()) this._focusCell(next);
         break;
-      case 'ArrowRight':
-        event.preventDefault();
-        if (index < this.appliedLength() - 1) this._focusCell(index + 1);
-        break;
+      }
       case 'Home':
         event.preventDefault();
         this._focusCell(0);

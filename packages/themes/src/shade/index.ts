@@ -37,6 +37,7 @@ import { listBoxStyles } from '@awdlab/jig-themes/shade/list-box';
 import { maskInputStyles } from '@awdlab/jig-themes/shade/mask-input';
 import { menuStyles } from '@awdlab/jig-themes/shade/menu';
 import { messageStyles } from '@awdlab/jig-themes/shade/message';
+import { meterStyles } from '@awdlab/jig-themes/shade/meter';
 import { otpStyles } from '@awdlab/jig-themes/shade/otp';
 import { paginatorStyles } from '@awdlab/jig-themes/shade/paginator';
 import { popoverStyles } from '@awdlab/jig-themes/shade/popover';
@@ -47,6 +48,7 @@ import { ratingStyles } from '@awdlab/jig-themes/shade/rating';
 import { scrollerStyles } from '@awdlab/jig-themes/shade/scroller';
 import { selectStyles } from '@awdlab/jig-themes/shade/select';
 import { selectButtonStyles } from '@awdlab/jig-themes/shade/select-button';
+import { skeletonStyles } from '@awdlab/jig-themes/shade/skeleton';
 import { sliderStyles } from '@awdlab/jig-themes/shade/slider';
 import { snackbarStyles } from '@awdlab/jig-themes/shade/snackbar';
 import { spinButtonsStyles } from '@awdlab/jig-themes/shade/spin-buttons';
@@ -60,6 +62,8 @@ import { tabsStyles } from '@awdlab/jig-themes/shade/tabs';
 import { tagStyles } from '@awdlab/jig-themes/shade/tag';
 import { tagInputStyles } from '@awdlab/jig-themes/shade/tag-input';
 import { toastStyles } from '@awdlab/jig-themes/shade/toast';
+import { toolbarStyles } from '@awdlab/jig-themes/shade/toolbar';
+import { toolbarRegionStyles } from '@awdlab/jig-themes/shade/toolbar-region';
 import { toggleButtonStyles } from '@awdlab/jig-themes/shade/toggle-button';
 import { tooltipStyles } from '@awdlab/jig-themes/shade/tooltip';
 import { treeStyles } from '@awdlab/jig-themes/shade/tree';
@@ -121,6 +125,7 @@ export const shade = createTheme(
     listBoxStyles,
     menuStyles,
     messageStyles,
+    meterStyles,
     otpStyles,
     movableStyles,
     paginatorStyles,
@@ -136,6 +141,7 @@ export const shade = createTheme(
     selectButtonStyles,
     shadow,
     sizes,
+    skeletonStyles,
     sliderStyles,
     snackbarStyles,
     spinButtonsStyles,
@@ -149,6 +155,8 @@ export const shade = createTheme(
     tagStyles,
     tagInputStyles,
     toastStyles,
+    toolbarStyles,
+    toolbarRegionStyles,
     toggleButtonStyles,
     tooltipStyles,
     treeStyles,

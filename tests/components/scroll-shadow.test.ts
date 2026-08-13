@@ -2,6 +2,7 @@ import test, { expect, type Page } from '@playwright/test';
 
 import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 
 // The directive toggles `scrolled-{start,end,top,bottom}` classes on the target and injects a
@@ -223,4 +224,16 @@ test('accessibility (axe)', async ({ page }) => {
   await waitReady(page, '#sc');
 
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(page, {
+    template: `
+      <div id="sc" jigScrollShadow="horizontal" style="width: 200px; height: 100px; overflow: auto;">
+        <div style="width: 800px; height: 40px;"></div>
+      </div>`,
+    imports: ['scrollShadow'],
+  });
+  await expectScreenshot(page, testInfo);
 });

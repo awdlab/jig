@@ -1,6 +1,6 @@
 <div class="menu-wrapper flex">
   <div
-    class="hide-when-compact sticky top-[5.5rem] mt-[5.5rem] mb-4 ml-4 max-h-[calc(100dvh-6.5rem)] shrink-0 self-start overflow-x-hidden overflow-y-auto rounded-(--jig-size-rounded-lg) bg-(--jig-color-surface-50) shadow-(--jig-shadow-md)"
+    class="hide-when-compact sticky top-[5.5rem] ms-4 mt-[5.5rem] mb-4 max-h-[calc(100dvh-6.5rem)] shrink-0 self-start overflow-x-hidden overflow-y-auto rounded-(--jig-size-rounded-lg) bg-(--jig-color-surface-50) shadow-(--jig-shadow-md)"
   >
     <ng-container *ngTemplateOutlet="menu" />
   </div>
@@ -10,7 +10,7 @@
 
 <jig-drawer
   class="hide-when-large"
-  position="left"
+  position="start"
   [open]="isOpen()"
   (openChange)="!$event && isOpen.set(false)"
 >
@@ -52,7 +52,7 @@
     @for (item of group.items; track item.link) {
       <a
         [routerLink]="item.link"
-        class="menu-item pr-4 pl-4"
+        class="menu-item ps-4 pe-4"
         [class.active-item]="isActiveLink(item.link)"
         (click)="isOpen.set(false)"
       >

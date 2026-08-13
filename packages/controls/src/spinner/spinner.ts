@@ -12,6 +12,7 @@ import { spinnerControlTemplate } from '@awdlab/jig-themes/templates/spinner';
   providers: [provideSelf(JigSpinner)],
   host: {
     role: 'status',
+    class: 'jig-motion-loop',
     '[style.--size]': 'size()',
     '[style.--thickness]': 'thickness() || null',
   },

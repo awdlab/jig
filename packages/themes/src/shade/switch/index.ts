@@ -50,6 +50,9 @@ export const switchStyles = createThemePart({
       ${c('track-checked')} ${c('thumb')} {
         transform: translateX(1.5rem);
       }
+      ${c('track-checked')}:dir(rtl) ${c('thumb')} {
+        transform: translateX(-1.5rem);
+      }
 
       ${c('invalid')} ${c('track')} {
         background-color: ${v('color.destructive.base')};

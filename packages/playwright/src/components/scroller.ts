@@ -1,14 +1,16 @@
 import { expect, type Locator } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { scrollerControlTemplate } from '@awdlab/jig-themes/templates/scroller';
+import { JigHarness } from '../harness.js';
 
-export class JigScrollerHarness {
+export class JigScrollerHarness extends JigHarness {
   public readonly classes = themeClasses(scrollerControlTemplate);
   public readonly scrollarea: Locator;
   public readonly item: Locator;
   public readonly itemSticky: Locator;
 
-  constructor(public locator: Locator) {
+  constructor(locator: Locator) {
+    super(locator);
     this.scrollarea = locator;
     this.item = locator.locator(`> :not(${this.classes['item-sticky']})`);
     this.itemSticky = locator.locator(this.classes['item-sticky']);

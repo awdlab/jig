@@ -4,7 +4,7 @@
   >
     <jig-icon style="color: var(--jig-color-primary-500)" [icon]="iconSliders" />
     INPUTS
-    <jig-input-field class="ml-auto w-40 font-normal" [label]="'Filter'" [labelKind]="'on'">
+    <jig-input-field class="ms-auto w-40 font-normal" [label]="'Filter'" [labelKind]="'on'">
       <input type="text" jigInput [value]="filter()" (valueChange)="filter.set($event ?? '')" />
     </jig-input-field>
   </div>

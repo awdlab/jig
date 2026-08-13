@@ -1,6 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { JigStepperHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -165,4 +166,14 @@ test('accessibility (axe)', async ({ page }) => {
     { inputs: { active: 0 } }
   );
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    { template: TEMPLATE, imports: ['stepper', 'step'] },
+    { inputs: { active: 0, linear: false, c0: false } }
+  );
+  await expectScreenshot(page, testInfo);
 });

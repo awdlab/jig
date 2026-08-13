@@ -1,6 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { JigMaskInputHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -712,4 +713,21 @@ test('accessibility (axe)', async ({ page }) => {
   // (#677b98 on #f0f2f5, 3.85:1). The placeholder is a format hint, not content the
   // control requires the user to read.
   await expectNoA11yViolations(page, { disableRules: ['color-contrast'] });
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      imports: ['inputField', 'maskInput'],
+      template: `<jig-input-field>
+        <jig-mask-input [mask]="inputs().mask" (valueChange)="output('value', $event)" />
+      </jig-input-field>`,
+    },
+    {
+      inputs: { mask: 'time' },
+    }
+  );
+  await expectScreenshot(page, testInfo);
 });

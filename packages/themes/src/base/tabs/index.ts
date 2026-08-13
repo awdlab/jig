@@ -34,7 +34,7 @@ export const tabsStyles = createThemePart({
         bottom: 0;
         pointer-events: none;
       }
-      ${c('scroll-left')}, ${c('scroll-right')} {
+      ${c('scroll-start')}, ${c('scroll-end')} {
         position: sticky;
         width: 1rem;
         border: none;
@@ -48,20 +48,20 @@ export const tabsStyles = createThemePart({
           pointer-events: none;
         }
       }
-      ${c('scroll-left')} {
-        left: -0.5px; /** Not 0 to prevent small gaps due to rounding issues, I assume */
-        margin-right: -1rem;
+      ${c('scroll-start')} {
+        inset-inline-start: -0.5px; /** Not 0 to prevent small gaps due to rounding issues, I assume */
+        margin-inline-end: -1rem;
         &::after {
-          left: 100%;
-          right: -0.625rem;
+          inset-inline-start: 100%;
+          inset-inline-end: -0.625rem;
         }
       }
-      ${c('scroll-right')} {
-        right: -0.5px; /** Not 0 to prevent small gaps due to rounding issues, I assume */
-        margin-left: -1rem;
+      ${c('scroll-end')} {
+        inset-inline-end: -0.5px; /** Not 0 to prevent small gaps due to rounding issues, I assume */
+        margin-inline-start: -1rem;
         &::after {
-          right: 100%;
-          left: -0.625rem;
+          inset-inline-end: 100%;
+          inset-inline-start: -0.625rem;
         }
       }
     `,

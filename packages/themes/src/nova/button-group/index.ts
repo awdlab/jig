@@ -26,30 +26,30 @@ export const buttonGroupStyles = createThemePart({
         /* Regular button */
         & > ${d('button', 'root')} {
           &:first-child {
-            border-top-left-radius: ${v('size.rounded.md')};
-            border-bottom-left-radius: ${v('size.rounded.md')};
+            border-start-start-radius: ${v('size.rounded.md')};
+            border-end-start-radius: ${v('size.rounded.md')};
           }
           &:last-child {
-            border-top-right-radius: ${v('size.rounded.md')};
-            border-bottom-right-radius: ${v('size.rounded.md')};
+            border-start-end-radius: ${v('size.rounded.md')};
+            border-end-end-radius: ${v('size.rounded.md')};
           }
           &:not(:last-child) {
-            border-right: 1px solid var(--theme-color-300);
+            border-inline-end: 1px solid var(--theme-color-300);
           }
         }
 
         /* Toggle button */
         & > ${d('toggle-button', 'root')} {
           &:first-child ${d('toggle-button', 'button')} {
-            border-top-left-radius: ${v('size.rounded.md')};
-            border-bottom-left-radius: ${v('size.rounded.md')};
+            border-start-start-radius: ${v('size.rounded.md')};
+            border-end-start-radius: ${v('size.rounded.md')};
           }
           &:last-child ${d('toggle-button', 'button')} {
-            border-top-right-radius: ${v('size.rounded.md')};
-            border-bottom-right-radius: ${v('size.rounded.md')};
+            border-start-end-radius: ${v('size.rounded.md')};
+            border-end-end-radius: ${v('size.rounded.md')};
           }
           &:not(:last-child) ${d('toggle-button', 'button')} {
-            border-right: none;
+            border-inline-end: none;
           }
         }
       }
@@ -58,13 +58,13 @@ export const buttonGroupStyles = createThemePart({
           width: 100%;
           &:first-child,
           &:first-child ${d('toggle-button', 'button')} {
-            border-top-left-radius: ${v('size.rounded.md')};
-            border-top-right-radius: ${v('size.rounded.md')};
+            border-start-start-radius: ${v('size.rounded.md')};
+            border-start-end-radius: ${v('size.rounded.md')};
           }
           &:last-child,
           &:last-child ${d('toggle-button', 'button')} {
-            border-bottom-left-radius: ${v('size.rounded.md')};
-            border-bottom-right-radius: ${v('size.rounded.md')};
+            border-end-start-radius: ${v('size.rounded.md')};
+            border-end-end-radius: ${v('size.rounded.md')};
           }
         }
       }

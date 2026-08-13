@@ -1,15 +1,10 @@
-import { type Locator, expect } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { expect } from '@playwright/test';
+import { themeClasses } from '../utils/theme.js';
 import { inputControlTemplate } from '@awdlab/jig-themes/templates/input';
+import { JigHarness } from '../harness.js';
 
-export class JigInputHarness {
+export class JigInputHarness extends JigHarness {
   public readonly classes = themeClasses(inputControlTemplate);
-
-  public readonly locator: Locator;
-
-  constructor(locator: Locator) {
-    this.locator = locator;
-  }
 
   public expectValue(value: string): Promise<void> {
     return expect(this.locator).toHaveValue(value);
@@ -26,7 +21,7 @@ export class JigInputHarness {
     return this.locator.pressSequentially(text, { delay: 5 });
   }
 
-  public press(key: string): Promise<void> {
+  public override press(key: string): Promise<void> {
     return this.locator.press(key);
   }
 }

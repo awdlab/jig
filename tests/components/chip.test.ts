@@ -1,5 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { JigChipHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { mouseDownOnElement } from '../helper/mouse';
@@ -117,4 +118,27 @@ test('accessibility (axe)', async ({ page }) => {
     { inputs: {} }
   );
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `
+      <jig-chip
+        class="page-center"
+        [actionable]="inputs().actionable"
+        [closable]="inputs().closable"
+        (clicked)="output('clicked', $event)"
+        (closed)="output('closed', $event)"
+      >Chip</jig-chip>
+    `,
+      imports: ['chip'],
+    },
+    {
+      inputs: { actionable: false, closable: false },
+    }
+  );
+  await expectScreenshot(page, testInfo);
 });

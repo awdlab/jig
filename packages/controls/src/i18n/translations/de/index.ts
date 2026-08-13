@@ -116,6 +116,9 @@ export const de = {
   breadcrumb: {
     overflow: 'Mehr anzeigen',
   },
+  toolbar: {
+    overflow: 'Mehr anzeigen',
+  },
   toast: {
     close: 'Schließen',
     region: 'Benachrichtigungen',

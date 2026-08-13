@@ -1,14 +1,16 @@
 import { expect, type Locator } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { menuControlTemplate } from '@awdlab/jig-themes/templates/menu';
-import { JigPopoverHarness } from './popover';
+import { JigPopoverHarness } from './popover.js';
+import { JigHarness } from '../harness.js';
 
-export class JigMenuHarness {
+export class JigMenuHarness extends JigHarness {
   public readonly classes = themeClasses(menuControlTemplate);
   public readonly popover: JigPopoverHarness;
   public readonly item: Locator;
 
-  constructor(public locator: Locator) {
+  constructor(locator: Locator) {
+    super(locator);
     this.popover = new JigPopoverHarness(locator.locator(this.classes['popover']['root']));
     this.item = locator.locator(this.classes['item']);
   }

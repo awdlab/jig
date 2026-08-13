@@ -14,8 +14,10 @@ A modal drawer opened from a button through the two-way `open` model, with a
 
 ### Positioning
 
-`position` chooses the edge: `left` (default), `right`, `top`, `bottom`, or
-`fullscreen`. `size` sets the width for left/right drawers and the height for
+`position` chooses the edge: `start` (default), `end`, `top`, `bottom`, or
+`fullscreen`. `start`/`end` follow the writing direction, so a `start` drawer
+opens from the left in LTR and from the right in RTL. `size` sets the width for
+`start`/`end` drawers and the height for
 top/bottom drawers (default `300px`); it is ignored for `fullscreen`. On small
 viewports (under 600px in either dimension) the drawer automatically falls back
 to `fullscreen` regardless of the requested position.

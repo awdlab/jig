@@ -16,6 +16,7 @@ import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
 import { JigError } from '@awdlab/jig/utils';
 
 import type { InputGeneric } from '@awdlab/jig/utils';
+import { inlineArrowStep, isRtl } from '@awdlab/jig/api/ng';
 
 /**
  * The value type of the slider: a `[start, end]` tuple when `range` is `true`,
@@ -239,10 +240,15 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
     const current = handle === 'start' ? this.values()[0] : this.values()[1];
     switch (event.key) {
       case 'ArrowLeft':
+      case 'ArrowRight': {
+        // Only the inline axis flips; Up/Down below stay physical.
+        const step = inlineArrowStep(event.currentTarget as Element, event.key);
+        this.setHandle(handle, current + step * this.step());
+        break;
+      }
       case 'ArrowDown':
         this.setHandle(handle, current - this.step());
         break;
-      case 'ArrowRight':
       case 'ArrowUp':
         this.setHandle(handle, current + this.step());
         break;
@@ -293,12 +299,17 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
 
   /** Rounds a viewport coordinate along the track to the nearest stepped value. */
   private valueAtPosition(cursorPos: number): number {
-    const trackRect = this._track().nativeElement.getBoundingClientRect();
-    const trackStart = this.vertical() ? trackRect.top : trackRect.left;
+    const track = this._track().nativeElement;
+    const trackRect = track.getBoundingClientRect();
     const trackLength = this.vertical() ? trackRect.height : trackRect.width;
-    const positionInTrack = cursorPos - trackStart;
-    const corrected = this.vertical() ? trackLength - positionInTrack : positionInTrack;
-    const unstepped = this.min() + (corrected / trackLength) * (this.max() - this.min());
+    // Distance from the track's minimum end: the bottom when vertical, otherwise
+    // the inline-start edge — which is the right edge in RTL.
+    const fromMin = this.vertical()
+      ? trackRect.bottom - cursorPos
+      : isRtl(track)
+        ? trackRect.right - cursorPos
+        : cursorPos - trackRect.left;
+    const unstepped = this.min() + (fromMin / trackLength) * (this.max() - this.min());
     return Math.round((unstepped - this.min()) / this.step()) * this.step() + this.min();
   }
 

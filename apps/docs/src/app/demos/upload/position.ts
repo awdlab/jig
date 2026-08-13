@@ -3,8 +3,8 @@ import { JigSelectButton } from '@awdlab/jig/select-button';
 import { JigUpload, type JigUploadFile, type JigUploadListPosition } from '@awdlab/jig/upload';
 
 /**
- * `listPosition` places the file list `top`, `bottom` (default), `left`, or
- * `right` of the drop zone.
+ * `listPosition` places the file list `top`, `bottom` (default), `start`, or
+ * `end` of the drop zone. `start`/`end` follow the writing direction.
  */
 @Component({
   imports: [JigUpload, JigSelectButton],
@@ -25,13 +25,13 @@ import { JigUpload, type JigUploadFile, type JigUploadListPosition } from '@awdl
   `,
 })
 export class Demo_Upload_Position {
-  protected readonly position = signal<JigUploadListPosition>('right');
+  protected readonly position = signal<JigUploadListPosition>('end');
 
   protected readonly options: { label: string; value: JigUploadListPosition }[] = [
     { label: 'Top', value: 'top' },
     { label: 'Bottom', value: 'bottom' },
-    { label: 'Left', value: 'left' },
-    { label: 'Right', value: 'right' },
+    { label: 'Start', value: 'start' },
+    { label: 'End', value: 'end' },
   ];
 
   protected onUpload(files: JigUploadFile[], up: JigUpload): void {

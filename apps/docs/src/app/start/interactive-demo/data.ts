@@ -130,6 +130,34 @@ const STATUS_COLORS: Record<OpportunityStatus, PaletteColorName> = {
   Proposal: 'primary',
 };
 
+/** Pipeline stages in funnel order, for anything that reports per stage. */
+export const STAGE_ORDER: readonly OpportunityStatus[] = [
+  'Discovery',
+  'Proposal',
+  'Negotiation',
+  'Closed Won',
+];
+
+/**
+ * Stage color for `jig-meter`, which needs a CSS color rather than a slot name. The literal
+ * fallback covers themes without that slot (shade has no `success`), where an undefined
+ * variable would otherwise paint nothing.
+ */
+export function stageColor(status: OpportunityStatus): string {
+  const fallbacks: Record<PaletteColorName, string> = {
+    primary: '#4f46e5',
+    secondary: '#a16207',
+    accent: '#db2777',
+    surface: '#94a3b8',
+    success: '#16a34a',
+    info: '#0284c7',
+    warning: '#d97706',
+    error: '#dc2626',
+  };
+  const slot = STATUS_COLORS[status];
+  return `var(--jig-color-${slot}-500, ${fallbacks[slot]})`;
+}
+
 function makeOpportunity(
   id: number,
   company: string,

@@ -23,6 +23,7 @@ import { JigIcon } from '@awdlab/jig/icon';
 import { JigInput } from '@awdlab/jig/input';
 import { JigInputField } from '@awdlab/jig/input-field';
 import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
+import { type MeterItem, JigMeter } from '@awdlab/jig/meter';
 import { JigPaginator } from '@awdlab/jig/paginator';
 import { JigSelect } from '@awdlab/jig/select';
 import { createConditionalSpinner } from '@awdlab/jig/spinner';
@@ -40,6 +41,8 @@ import {
   type Opportunity,
   OPPORTUNITIES,
   type OpportunityFilter,
+  STAGE_ORDER,
+  stageColor,
 } from './data';
 import { QuickAddDeal } from './quick-add-deal';
 import { themeColor } from '../../utils/theme-variant';
@@ -56,6 +59,7 @@ import { themeColor } from '../../utils/theme-variant';
     JigInput,
     JigInputField,
     JigMenu,
+    JigMeter,
     JigPaginator,
     JigSelect,
     JigTableModule,
@@ -89,7 +93,7 @@ export class SalesCrm {
   ];
 
   protected readonly dateRange = signal<string>('oct-2024');
-  protected readonly activeFilter = signal<OpportunityFilter>('highValue');
+  protected readonly activeFilter = signal<OpportunityFilter>('all');
   protected readonly search = signal('');
 
   protected readonly pageSize = 5;
@@ -115,6 +119,16 @@ export class SalesCrm {
     return this._opportunities().filter(
       o => matchesFilter(o, filter) && (!term || o.company.toLowerCase().includes(term))
     );
+  });
+
+  /** Value per stage across the rows currently in view — it follows filter, search and new deals. */
+  protected readonly pipeline = computed<MeterItem[]>(() => {
+    const rows = this.filtered();
+    return STAGE_ORDER.map(stage => ({
+      label: stage,
+      value: rows.filter(row => row.status === stage).reduce((sum, row) => sum + row.value, 0),
+      color: stageColor(stage),
+    })).filter(item => item.value > 0);
   });
 
   protected readonly pagedRows = computed(() => {

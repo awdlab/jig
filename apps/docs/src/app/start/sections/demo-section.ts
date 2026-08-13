@@ -54,7 +54,7 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
                full viewport width instead of a 279px squeeze. -->
           <div class="flex min-h-[54rem] max-md:min-h-[36rem] max-md:flex-col">
             <nav
-              class="flex w-16 shrink-0 flex-col items-center gap-(--jig-size-padding-sm) border-r border-(--jig-color-surface-200) bg-(--jig-color-surface-50) py-(--jig-size-padding-lg) max-md:w-full max-md:flex-row max-md:justify-start max-md:gap-(--jig-size-padding-xs) max-md:overflow-x-auto max-md:border-r-0 max-md:border-b max-md:px-(--jig-size-padding-md) max-md:py-(--jig-size-padding-sm)"
+              class="flex w-16 shrink-0 flex-col items-center gap-(--jig-size-padding-sm) border-e border-(--jig-color-surface-200) bg-(--jig-color-surface-50) py-(--jig-size-padding-lg) max-md:w-full max-md:flex-row max-md:justify-start max-md:gap-(--jig-size-padding-xs) max-md:overflow-x-auto max-md:border-e-0 max-md:border-b max-md:px-(--jig-size-padding-md) max-md:py-(--jig-size-padding-sm)"
               role="tablist"
               aria-orientation="vertical"
               aria-label="Demo app"
@@ -88,7 +88,7 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
                   @if (active() === d.id) {
                     <span
                       aria-hidden="true"
-                      class="absolute top-1/2 left-[-0.625rem] h-6 w-1 -translate-y-1/2 rounded-r-full bg-(--jig-color-primary-500) max-md:hidden"
+                      class="absolute top-1/2 start-[-0.625rem] h-6 w-1 -translate-y-1/2 rounded-e-full bg-(--jig-color-primary-500) max-md:hidden"
                     ></span>
                   }
                   <jig-icon [icon]="d.icon" />
@@ -128,10 +128,9 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
               </button>
             </nav>
 
-            <!-- 54rem min-height fits the Sales CRM at desktop width without scrolling and keeps a
-                 constant section height across demos. It's a MIN so when the CRM reflows to a taller
-                 single column at narrow widths the body grows instead of showing a scrollbar. Team
-                 Chat needs a definite height for its splitter (its panes scroll internally). -->
+            <!-- 54rem keeps the section height constant across demos; each demo scrolls its own
+                 inner region instead. Below md the CRM reflows to a single column, so there the
+                 body grows from a 36rem floor instead of showing a scrollbar. -->
             <div
               class="min-w-0 grow"
               role="tabpanel"
@@ -140,7 +139,7 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
             >
               @switch (active()) {
                 @case ('sales-crm') {
-                  <div class="min-h-[54rem] max-md:min-h-[36rem]">
+                  <div class="h-[54rem] max-md:h-auto max-md:min-h-[36rem]">
                     <jig-docs-sales-crm />
                   </div>
                 }

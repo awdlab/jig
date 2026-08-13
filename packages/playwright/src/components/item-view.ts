@@ -1,15 +1,17 @@
 import { expect, type Locator } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { itemViewControlTemplate } from '@awdlab/jig-themes/templates/item-view';
+import { JigHarness } from '../harness.js';
 
-export class JigItemViewHarness {
+export class JigItemViewHarness extends JigHarness {
   public readonly classes = themeClasses(itemViewControlTemplate);
   public readonly item: Locator;
   public readonly itemVisible: Locator;
   public readonly itemOverflowing: Locator;
   public readonly overflowItem: Locator;
 
-  constructor(public locator: Locator) {
+  constructor(locator: Locator) {
+    super(locator);
     this.item = locator.locator(this.classes['item']);
     this.itemVisible = locator.locator(
       `${this.classes['item']}:not(${this.classes['item-overflowing']})`
