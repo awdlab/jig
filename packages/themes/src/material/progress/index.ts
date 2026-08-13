@@ -33,21 +33,21 @@ export const progressStyles = createThemePart({
 
         @keyframes ${c('fill', 'animation')} {
           from {
-            left: -10%;
+            inset-inline-start: -10%;
             width: 10%;
           }
           to {
-            left: 130%;
+            inset-inline-start: 130%;
             width: 100%;
           }
         }
         @keyframes ${c('fill2', 'animation')} {
           from {
-            left: -80%;
+            inset-inline-start: -80%;
             width: 80%;
           }
           to {
-            left: 110%;
+            inset-inline-start: 110%;
             width: 10%;
           }
         }

@@ -38,7 +38,7 @@ export const itemViewStyles = createThemePart({
         opacity: 0;
         pointer-events: none;
         top: -9999px;
-        left: -9999px;
+        inset-inline-start: -9999px;
       }
       ${c('more-items-hidden')} {
         visibility: hidden;

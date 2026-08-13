@@ -1,6 +1,7 @@
 import { type Locator, expect } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { otpControlTemplate } from '@awdlab/jig-themes/templates/otp';
+import { JigHarness } from '../harness.js';
 
 /**
  * Playwright harness for `jig-otp`.
@@ -9,16 +10,14 @@ import { otpControlTemplate } from '@awdlab/jig-themes/templates/otp';
  * composed `value` model is not written to the DOM, so assert it via a bound
  * echo element in the test component.
  */
-export class JigOtpHarness {
+export class JigOtpHarness extends JigHarness {
   public readonly classes = themeClasses(otpControlTemplate);
 
   /** All character-cell inputs, in order. */
   public readonly cells: Locator;
 
-  private readonly locator: Locator;
-
   constructor(locator: Locator) {
-    this.locator = locator;
+    super(locator);
     this.cells = locator.locator('input');
   }
 
@@ -28,7 +27,7 @@ export class JigOtpHarness {
   }
 
   /** Press a single key on the cell at `index`. */
-  public async press(index: number, key: string): Promise<void> {
+  public async pressCell(index: number, key: string): Promise<void> {
     await this.cells.nth(index).focus();
     await this.cells.nth(index).press(key);
   }

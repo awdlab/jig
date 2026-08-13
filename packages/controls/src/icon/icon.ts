@@ -64,6 +64,9 @@ function generateIconSvg(
   providers: [provideSelf(JigIcon)],
   host: {
     ngSkipHydration: 'true',
+    // Reflected so themes can key off the slot — used to mirror the directional
+    // icons (chevrons, carets) under `:dir(rtl)`.
+    '[attr.data-default-icon]': 'defaultIcon()',
   },
 })
 export class JigIcon extends JigBase<'icon'> {

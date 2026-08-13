@@ -24,6 +24,15 @@ import { skip } from 'rxjs';
 
 import { JIG_CONFIG, type JigConfig } from './config';
 
+/** Elements opted out of the default reduced-motion collapse by a motion tier marker. */
+const MOTION_TIER_SELECTORS =
+  '.jig-motion-exact, .jig-motion-exact *, ' +
+  '.jig-motion-loop, .jig-motion-loop *, ' +
+  '.jig-motion-cosmetic, .jig-motion-cosmetic *';
+
+/** Loop speed for `jig-motion-loop` under reduced motion — slow enough to read as motion-light, fast enough to still look like it's running. */
+const REDUCED_MOTION_LOOP_DURATION = '6s';
+
 export type AppliedThemeClassCfg<T extends ControlName> =
   | keyof ThemeClasses<ThemeTemplate[T]>
   | Partial<Record<keyof ThemeClasses<ThemeTemplate[T]>, boolean | (() => boolean)>>;
@@ -148,15 +157,24 @@ export class ThemeService implements OnDestroy {
 
     if (this._config.respectReducedMotion) {
       // near-zero instead of 0s/none, so animationend still fires and leave logic completes.
-      // Capping iterations stops looping animations (spinner, skeleton) from strobing at that
-      // duration; they run one instant cycle and rest on their final keyframe.
+      // `:where()` adds no specificity, so the tiers below cannot be outranked by this rule.
+      // Tiered elements are excluded from this rule entirely, so their CSS transitions are not collapsed.
+      const untiered = `:not(:where(${MOTION_TIER_SELECTORS}))`;
+      // Injected after the disableAnimations sheet above, so at equal specificity this sheet wins for tiered elements.
       this.upsertMotionStyle(
         'reduced-motion',
         `@media (prefers-reduced-motion: reduce) {
-          .jig-control, .jig-control * {
+          .jig-control${untiered}, .jig-control *${untiered} {
             animation-duration: 0.01ms !important;
             animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
+          }
+          .jig-motion-loop, .jig-motion-loop * {
+            animation-duration: ${REDUCED_MOTION_LOOP_DURATION} !important;
+            animation-iteration-count: infinite !important;
+          }
+          .jig-motion-cosmetic, .jig-motion-cosmetic * {
+            animation-name: none !important;
           }
         }`
       );

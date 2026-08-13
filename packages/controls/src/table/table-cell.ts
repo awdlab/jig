@@ -100,19 +100,21 @@ export class JigTableTd {
       toggleClass(el, this.theme.class('sticky-start-edge'), info?.side === 'start' && info.isEdge);
       toggleClass(el, this.theme.class('sticky-end-edge'), info?.side === 'end' && info.isEdge);
 
+      // The offsets accumulate in visual column order, so they pin to the inline
+      // edges — physical left/right would stick to the wrong side under RTL.
       if (info) {
         el.style.position = 'sticky';
         if (info.side === 'start') {
-          el.style.left = `var(--jig-sticky-start-offset-${info.index})`;
-          el.style.removeProperty('right');
+          el.style.insetInlineStart = `var(--jig-sticky-start-offset-${info.index})`;
+          el.style.removeProperty('inset-inline-end');
         } else {
-          el.style.right = `var(--jig-sticky-end-offset-${info.index})`;
-          el.style.removeProperty('left');
+          el.style.insetInlineEnd = `var(--jig-sticky-end-offset-${info.index})`;
+          el.style.removeProperty('inset-inline-start');
         }
       } else {
         el.style.removeProperty('position');
-        el.style.removeProperty('left');
-        el.style.removeProperty('right');
+        el.style.removeProperty('inset-inline-start');
+        el.style.removeProperty('inset-inline-end');
       }
     });
   }

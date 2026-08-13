@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  afterRenderEffect,
   Component,
   computed,
   contentChildren,
@@ -14,7 +15,13 @@ import {
   viewChild,
   type Signal,
 } from '@angular/core';
-import { elementSizeSignal, elementsSizesSignal, JigTemplate, Platform } from '@awdlab/jig/api/ng';
+import {
+  elementSizeSignal,
+  elementsSizesSignal,
+  JigTemplate,
+  Platform,
+  type Size,
+} from '@awdlab/jig/api/ng';
 import { JIG_CONTROL, JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigIcon } from '@awdlab/jig/icon';
 import { I18n } from '@awdlab/jig/i18n';
@@ -118,6 +125,7 @@ export class JigToolbar extends ToolbarTemplates {
 
   private readonly _gap = signal(0);
   private readonly _roving = viewChild.required(JigRovingGroup);
+  private readonly _hostSize = elementSizeSignal(this.element.nativeElement, this.measuring);
 
   protected readonly start = this._createPlacement(
     'start',
@@ -133,24 +141,42 @@ export class JigToolbar extends ToolbarTemplates {
 
   private readonly _placements = [this.start, this.center, this.end];
 
+  private _axisSize(size: Size): number {
+    return this.orientation() === 'horizontal' ? size.width : size.height;
+  }
+
   /**
-   * Size of every item at its natural size, collapsed or not — the theme feeds it to
-   * `min-width` so a shrink-to-fit parent sizes to the *uncollapsed* toolbar. Without
-   * it the parent wraps the collapsed content, which shrinks the toolbar, which
-   * collapses more. Collapsed items stay laid out off-screen precisely so this stays
-   * measurable.
+   * Everything the theme puts between the host edge and the tracks: grid padding, border
+   * and the gaps between the three tracks. Constant for a given theme, so measuring it
+   * against the current host size does not feed back into the size it helps produce.
+   */
+  private readonly _chromeSize = computed(() => {
+    const tracks = this._placements.reduce(
+      (sum, placement) => sum + this._axisSize(placement.trackSize()),
+      0
+    );
+    return Math.max(0, this._axisSize(this._hostSize()) - tracks);
+  });
+
+  /**
+   * Size the toolbar needs with every item at its natural size, collapsed or not — the
+   * theme feeds it to the host's main-axis size so a shrink-to-fit parent sizes to the
+   * *uncollapsed* toolbar. Without it the parent wraps the collapsed content, which
+   * shrinks the toolbar, which collapses more. Collapsed items stay laid out off-screen
+   * precisely so this stays measurable. The trigger is excluded on purpose: at this size
+   * nothing collapses, so no trigger is shown.
    */
   protected readonly naturalContentSizePx = computed<string | null>(() => {
     if (!this.measuring()) {
       return null;
     }
-    const horizontal = this.orientation() === 'horizontal';
-    const sizes = this._placements.flatMap(placement =>
-      placement.itemSizes().map(size => (horizontal ? size.width : size.height))
-    );
-    const total = Math.ceil(
-      sizes.reduce((sum, size) => sum + size, 0) + this._gap() * Math.max(0, sizes.length - 1)
-    );
+    const gap = this._gap();
+    // Gaps are counted per track — the gaps *between* tracks are part of the chrome.
+    const tracks = this._placements.map(placement => {
+      const sizes = placement.itemSizes().map(size => this._axisSize(size));
+      return sizes.reduce((sum, size) => sum + size, 0) + gap * Math.max(0, sizes.length - 1);
+    });
+    const total = Math.ceil(tracks.reduce((sum, size) => sum + size, 0) + this._chromeSize());
     return Number.isFinite(total) && total > 0 && total < 100_000 ? `${total}px` : null;
   });
 
@@ -183,7 +209,10 @@ export class JigToolbar extends ToolbarTemplates {
 
     // Single tab stop across the whole toolbar. Offscreen copies of collapsed
     // items are inert, so they must not become navigable.
-    effect(onCleanup => {
+    // After render: which element owns a control's tab stop is read off the DOM, and a
+    // projected control's own bindings — the `tabindex` a `jig-select` puts on its
+    // trigger — are not applied yet while the toolbar's own view is being refreshed.
+    afterRenderEffect(onCleanup => {
       const group = this._roving();
       const controls = [
         // A region is a JIG_CONTROL but not a focusable one. Registering its host would
@@ -200,11 +229,19 @@ export class JigToolbar extends ToolbarTemplates {
         .filter(ref => ref !== undefined);
 
       const seen = new Set<HTMLElement>();
-      const items = [
+      const entries = [
         ...controls.map(ref => ({ ref, host: ref.element.nativeElement })),
         ...triggers.map(ref => ({ ref, host: ref.nativeElement })),
-      ]
-        .map(({ ref, host }) => ({ ref, element: resolveFocusable(host) }))
+      ];
+      const items = entries
+        // A control with nothing focusable in it — a decorative icon or tag, or the icon
+        // inside an icon button — is not a stop. Nesting is not the test: a wrapper like
+        // `jig-input-field` and the `jig-select` inside it both resolve to the same
+        // focusable element, which the dedup below collapses into one stop.
+        .flatMap(({ ref, host }) => {
+          const element = resolveFocusable(host);
+          return element ? [{ ref, element }] : [];
+        })
         // Collapsed copies are inert, and popover copies belong to the popover's own
         // tab order — neither is a stop in the toolbar.
         .filter(({ element }) => !element.closest('[inert]') && !element.closest('jig-popover'))
@@ -271,8 +308,7 @@ export class JigToolbar extends ToolbarTemplates {
     triggerRef: Signal<ElementRef<HTMLElement> | undefined>
   ) {
     const measuring = computed(() => this.overflow() === 'popover');
-    const axisSize = (size: { width: number; height: number }) =>
-      this.orientation() === 'horizontal' ? size.width : size.height;
+    const axisSize = (size: Size) => this._axisSize(size);
 
     const regions = computed(() => this._regions().filter(r => r.placement() === placement));
     const items = computed<PlacementItem[]>(() =>
@@ -335,6 +371,7 @@ export class JigToolbar extends ToolbarTemplates {
       overflowCount,
       overflowTemplates,
       itemSizes,
+      trackSize,
       triggerRef,
       open,
       toggle: () => open.update(value => !value),

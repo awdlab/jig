@@ -4,6 +4,7 @@ import test, { expect } from '@playwright/test';
 import { exampleData } from '../helper/data';
 import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 
 import type { JigItem } from '@awdlab/jig/api';
@@ -730,4 +731,27 @@ test('builds its list on jig-dropdown-list', async ({ page }) => {
       valueChange: [exampleData.items.flatPreformatted[0]?.value],
     });
   });
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `
+        <jig-input-field style="width: 300px;">
+          <jig-select [options]="inputs().options" />
+        </jig-input-field>
+      `,
+      imports: ['select', 'inputField'],
+    },
+    { inputs: { options: exampleData.items.flatPreformatted } }
+  );
+
+  // Open, so the dropdown's alignment against the field is what gets captured.
+  const select = new JigSelectHarness(page.locator('jig-select'));
+  await select.open();
+  await select.expectOpened();
+  await expect(select.listBox.item.first()).toBeVisible();
+  await expectScreenshot(page, testInfo);
 });

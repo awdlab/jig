@@ -102,7 +102,7 @@ export const treeStyles = createThemePart({
         height: 0;
         border-top: 0.28rem solid transparent;
         border-bottom: 0.28rem solid transparent;
-        border-left: 0.36rem solid currentColor;
+        border-inline-start: 0.36rem solid currentColor;
       }
       ${c('item-selectable')} {
         cursor: pointer;

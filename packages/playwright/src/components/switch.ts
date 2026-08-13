@@ -1,15 +1,15 @@
 import { type Locator, expect } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { switchControlTemplate } from '@awdlab/jig-themes/templates/switch';
+import { JigHarness } from '../harness.js';
 
-export class JigSwitchHarness {
+export class JigSwitchHarness extends JigHarness {
   public readonly classes = themeClasses(switchControlTemplate);
 
-  public readonly locator: Locator;
   public readonly input: Locator;
 
   constructor(locator: Locator) {
-    this.locator = locator;
+    super(locator);
     this.input = locator.locator(this.classes.input);
   }
 
@@ -25,7 +25,7 @@ export class JigSwitchHarness {
     }
   }
 
-  public async expectDisabled(disabled: boolean) {
+  public override async expectDisabled(disabled: boolean) {
     if (disabled) {
       await expect(this.input).toBeDisabled();
     } else {
@@ -33,7 +33,7 @@ export class JigSwitchHarness {
     }
   }
 
-  public async expectReadonly(readonly: boolean) {
+  public override async expectReadonly(readonly: boolean) {
     if (readonly) {
       await expect(this.input).toHaveAttribute('aria-readonly');
     } else {

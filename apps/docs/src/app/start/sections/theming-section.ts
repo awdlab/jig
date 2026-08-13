@@ -166,11 +166,11 @@ function toHex(color: string): string {
                Sits beside its pill in the right gutter, so it only shows from lg. -->
           <div
             aria-hidden="true"
-            class="token-marker absolute top-1/2 right-0 hidden h-2 w-(--jig-size-padding-xl) -translate-y-1/2 border-x lg:block"
+            class="token-marker absolute top-1/2 end-0 hidden h-2 w-(--jig-size-padding-xl) -translate-y-1/2 border-x lg:block"
             [style.border-color]="hue('padding')"
           >
             <div
-              class="absolute top-1/2 left-0 h-px w-full"
+              class="absolute top-1/2 start-0 h-px w-full"
               [style.background-color]="hue('padding')"
             ></div>
           </div>
@@ -179,14 +179,14 @@ function toHex(color: string): string {
           @if (picker.activeOption().surfaces) {
             <div
               aria-hidden="true"
-              class="token-marker absolute top-(--jig-size-padding-xl) right-(--jig-size-padding-xl) size-1.5 rounded-full"
+              class="token-marker absolute top-(--jig-size-padding-xl) end-(--jig-size-padding-xl) size-1.5 rounded-full"
               [style.background-color]="hue('surface')"
             ></div>
           }
 
           <!-- Indented clear of the corner marker. -->
           <p
-            class="mono mb-(--jig-size-padding-lg) pl-2 text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)"
+            class="mono mb-(--jig-size-padding-lg) ps-2 text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)"
           >
             live preview · {{ picker.activeOption().label }}
           </p>
@@ -220,7 +220,7 @@ function toHex(color: string): string {
               >
                 <span class="invisible" [style]="rulerFont()">{{ username }}</span>
                 <div
-                  class="absolute top-1/2 left-0 h-px w-full"
+                  class="absolute top-1/2 start-0 h-px w-full"
                   [style.background-color]="hue('fontSize')"
                 ></div>
               </div>
@@ -243,13 +243,13 @@ function toHex(color: string): string {
                   type="password"
                   autocomplete="off"
                   placeholder="••••••••"
-                  class="lg:pl-6"
+                  class="lg:ps-6"
                 />
               </jig-input-field>
               <!-- Field radius: same token family as the card, usually a smaller value. -->
               <div
                 aria-hidden="true"
-                class="token-marker absolute top-0 left-0 hidden size-5 border-2 lg:block"
+                class="token-marker absolute top-0 start-0 hidden size-5 border-2 lg:block"
                 [style.border-radius]="'var(--jig-size-rounded-md)'"
                 [style.border-color]="hue('radius')"
               ></div>
@@ -263,7 +263,7 @@ function toHex(color: string): string {
                    enough in to clear the corner arc at every theme's radius. -->
               <div
                 aria-hidden="true"
-                class="absolute bottom-2 left-2 size-2 rounded-full border border-solid border-black"
+                class="absolute bottom-2 start-2 size-2 rounded-full border border-solid border-black"
                 [style.background-color]="hue('primary')"
               ></div>
             </div>
@@ -273,11 +273,11 @@ function toHex(color: string): string {
                    bottom padding, so top-full measures it with no magic number. -->
               <div
                 aria-hidden="true"
-                class="token-marker absolute top-full left-1/2 h-(--jig-size-padding-xl) w-2 -translate-x-1/2 border-y"
+                class="token-marker absolute top-full start-1/2 h-(--jig-size-padding-xl) w-2 -translate-x-1/2 border-y"
                 [style.border-color]="hue('padding')"
               >
                 <div
-                  class="absolute top-0 left-1/2 h-full w-px"
+                  class="absolute top-0 start-1/2 h-full w-px"
                   [style.background-color]="hue('padding')"
                 ></div>
               </div>
@@ -337,14 +337,14 @@ export class JigDocsThemingSection {
         hue: 'radius',
         label: 'radius',
         value: value('radiusCard'),
-        position: 'top-0 left-0 lg:left-28',
+        position: 'top-0 start-0 lg:start-28',
       },
       {
         id: 'radiusField',
         hue: 'radius',
         label: 'radius',
         value: value('radiusField'),
-        position: 'hidden lg:top-[62%] lg:left-0 lg:block',
+        position: 'hidden lg:top-[62%] lg:start-0 lg:block',
       },
       {
         // Below lg it points at the ruler under Cancel instead of the side bar.
@@ -352,14 +352,14 @@ export class JigDocsThemingSection {
         hue: 'padding',
         label: 'padding',
         value: value('padding'),
-        position: 'right-0 bottom-0 lg:top-[47%] lg:bottom-auto',
+        position: 'end-0 bottom-0 lg:top-[47%] lg:bottom-auto',
       },
       {
         id: 'fontSize',
         hue: 'fontSize',
         label: 'fontSize',
         value: value('fontSize'),
-        position: 'hidden lg:top-[44%] lg:left-0 lg:block',
+        position: 'hidden lg:top-[44%] lg:start-0 lg:block',
       },
       {
         id: 'primary',
@@ -367,7 +367,7 @@ export class JigDocsThemingSection {
         label: 'primary',
         // Both offsets land on the card's left edge — the Sign-in button starts there.
         value: value('primary'),
-        position: 'bottom-0 left-0 lg:left-28',
+        position: 'bottom-0 start-0 lg:start-28',
       },
     ];
     if (this.picker.activeOption().surfaces) {
@@ -376,7 +376,7 @@ export class JigDocsThemingSection {
         hue: 'surface',
         label: 'surface',
         value: value('surface'),
-        position: 'top-0 right-0 lg:right-28',
+        position: 'top-0 end-0 lg:end-28',
       });
     }
     return pills;

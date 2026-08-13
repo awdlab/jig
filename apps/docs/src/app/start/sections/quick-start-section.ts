@@ -41,7 +41,7 @@ export class VolumeComponent {
       >
         <div class="grid grid-cols-1 lg:grid-cols-2">
           <div
-            class="border-b border-(--jig-color-surface-200) p-(--jig-size-padding-xl) lg:border-r lg:border-b-0"
+            class="border-b border-(--jig-color-surface-200) p-(--jig-size-padding-xl) lg:border-e lg:border-b-0"
           >
             <p
               class="mono mb-(--jig-size-padding-lg) text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)"

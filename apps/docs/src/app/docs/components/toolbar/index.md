@@ -14,8 +14,10 @@ between the controls inside.
 
 ### Placements
 
-The three tracks are a grid, so the center placement is centered against the
-**toolbar**, not against whatever the start and end placements happen to weigh.
+The center placement is centered against the **toolbar**, not against whatever the
+start and end placements happen to weigh — the side placements reserve equal space
+for as long as neither of them needs more than its half. Past that the center gives
+way rather than the side placement wrapping.
 
 Note that `placement` must be a static attribute rather than a binding — Angular
 resolves content projection at compile time.
@@ -27,6 +29,11 @@ resolves content projection at compile time.
 `overflow="wrap"` (the default) lets the toolbar grow along the cross axis when
 its content no longer fits. This is pure CSS: nothing is measured, and any
 projected content works, so a simple toolbar needs no extra markup.
+
+A placement wraps as a whole — it keeps its items together and moves to the next
+line as one group, and only wraps inside itself when that single group is wider
+than the toolbar. Space is spent where the content is: a full start placement uses
+the room the end placement does not need before anything wraps.
 
 {{ demo: Demo_Toolbar_OverflowWrap }}
 
@@ -70,3 +77,22 @@ collapses — give the toolbar (or its container) a height when you want vertica
 overflow.
 
 {{ demo: Demo_Toolbar_Vertical }}
+
+### Editor Toolbar
+
+A formatting bar puts everything together: grouped actions separated by rules, a
+block-style `jig-select`, toggle buttons whose pressed state lives in the editor,
+and document actions pushed to the end.
+
+Icon-only buttons carry the dense groups; the label lives in the tooltip and the
+`aria-label`.
+
+{{ demo: Demo_Toolbar_Editor }}
+
+### Table Actions
+
+The same layout serves a bulk-action bar — selection state and row actions at
+the start, a filter field centered against the toolbar, and the view switcher at
+the end.
+
+{{ demo: Demo_Toolbar_TableActions }}

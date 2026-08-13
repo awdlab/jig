@@ -1,7 +1,10 @@
 import test, { expect } from '@playwright/test';
+import { JigTableHarness } from '@awdlab/jig-playwright';
 
 import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
+import { expectScreenshot } from '../helper/screenshot';
 import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -65,12 +68,16 @@ async function loadTable(
   return handle;
 }
 
+function table(page: import('@playwright/test').Page) {
+  return new JigTableHarness(page.locator('jig-table'));
+}
+
 function groupHeaders(page: import('@playwright/test').Page) {
-  return page.locator('[class*="group-header-cell"]');
+  return table(page).groupHeaders.locator(table(page).classes['group-header-cell']);
 }
 
 function dataCells(page: import('@playwright/test').Page) {
-  return page.locator('td[class*="jig-table-cell"]:not([class*="group-header"])');
+  return table(page).cells;
 }
 
 // ── Tests ────────────────────────────────────────────────────────────────────
@@ -184,11 +191,10 @@ test('aria-expanded reflects group state', async ({ page }) => {
   await loadTable(page, { expandedGroups: ['Engineering'] });
 
   // aria-expanded lives on the group cell — on a row it is treegrid-only.
-  const cells = groupHeaders(page);
-  // Engineering expanded
-  await expect(cells.nth(0)).toHaveAttribute('aria-expanded', 'true');
-  // Sales collapsed
-  await expect(cells.nth(1)).toHaveAttribute('aria-expanded', 'false');
+  const grid = table(page);
+  await grid.expectGroupCount(3);
+  await grid.expectGroupExpanded(0, true);
+  await grid.expectGroupExpanded(1, false);
 });
 
 test('sorting applies within groups', async ({ page }) => {
@@ -230,4 +236,10 @@ test('accessibility (axe)', async ({ page }) => {
   await loadTable(page);
   await expect(groupHeaders(page)).toHaveCount(ALL_GROUPS.length);
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadTable(page);
+  await expectScreenshot(page, testInfo);
 });

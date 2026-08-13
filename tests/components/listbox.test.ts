@@ -1,6 +1,7 @@
 import { JigListBoxHarness } from '@awdlab/jig-playwright';
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { exampleData } from '../helper/data';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
@@ -175,4 +176,21 @@ test('visual', async ({ page }, testInfo) => {
   );
 
   await expectScreenshot(page.locator('jig-list-box'), testInfo, 'grouped');
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `
+      <div style="display: flex; flex-direction: column; height: 200px; width: 200px;">
+        <jig-list-box style="flex: 1; min-height: 0;" [items]="inputs().items" />
+      </div>
+    `,
+      imports: ['listBox'],
+    },
+    { inputs: { items: exampleData.items.flatPreformatted } }
+  );
+  await expectScreenshot(page, testInfo);
 });

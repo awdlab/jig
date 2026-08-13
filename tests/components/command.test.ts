@@ -1,7 +1,9 @@
 import test, { expect } from '@playwright/test';
+import { JigCommandHarness } from '@awdlab/jig-playwright';
 
 import { expectNoA11yViolations } from '../helper/axe';
 import { evalValue, loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 
 const TEMPLATE = `
@@ -49,30 +51,32 @@ test('opens as a chromeless modal dialog holding a search field and a grouped li
   page,
 }) => {
   await loadCommand(page);
+  const command = new JigCommandHarness(page.locator('jig-command'));
   const dialog = page.locator('dialog');
 
-  await expect(dialog).toBeVisible();
+  await command.expectOpened();
+  await command.dialog.expectModal();
   await expect(dialog.locator('header')).toHaveCount(0);
   await expect(dialog.locator('button')).toHaveCount(0);
-  await expect(dialog.locator('[role="option"]')).toHaveCount(4);
-  await expect(dialog.locator('[role="group"]')).toHaveCount(2);
+  await command.expectItemCount(4);
+  await expect(command.listBox.group).toHaveCount(2);
   await expect(dialog.getByRole('option', { name: 'Home' })).toBeVisible();
 });
 
 test('focuses the search field on open and filters as you type', async ({ page }) => {
   await loadCommand(page);
-  const input = page.locator('dialog input');
+  const command = new JigCommandHarness(page.locator('jig-command'));
 
-  await expect(input).toBeFocused();
+  await expect(command.search.locator).toBeFocused();
 
-  await input.fill('inb');
-  await expect(page.locator('dialog [role="option"]')).toHaveCount(1);
-  await expect(page.getByRole('option', { name: 'Inbox' })).toBeVisible();
-  await expect(page.locator('dialog [role="group"]')).toHaveCount(1);
+  await command.filter('inb');
+  await command.expectItemCount(1);
+  await command.expectItemLabels(['Inbox']);
+  await expect(command.listBox.group).toHaveCount(1);
 
-  await input.fill('zzz');
-  await expect(page.locator('dialog [role="option"]')).toHaveCount(0);
-  await expect(page.getByText('No results found')).toBeVisible();
+  await command.search.fill('zzz');
+  await command.expectItemCount(0);
+  await command.expectEmpty();
 });
 
 test('ArrowDown plus Enter activates the highlighted item, emits it and closes', async ({
@@ -288,4 +292,14 @@ test('has no accessibility violations while open', async ({ page }) => {
   await loadCommand(page);
   await expect(page.locator('dialog')).toBeVisible();
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    { template: TEMPLATE, imports: ['command'] },
+    { inputs: { items: ITEMS, open: true } }
+  );
+  await expectScreenshot(page, testInfo);
 });

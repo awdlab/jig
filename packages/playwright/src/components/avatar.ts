@@ -1,11 +1,10 @@
-import { type Locator, expect } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { expect } from '@playwright/test';
+import { themeClasses } from '../utils/theme.js';
 import { avatarControlTemplate } from '@awdlab/jig-themes/templates/avatar';
+import { JigHarness } from '../harness.js';
 
-export class JigAvatarHarness {
+export class JigAvatarHarness extends JigHarness {
   public readonly classes = themeClasses(avatarControlTemplate);
-
-  constructor(public locator: Locator) {}
 
   public expectInitials(expected: string) {
     return expect(this.locator.locator(this.classes.initials)).toHaveText(expected);

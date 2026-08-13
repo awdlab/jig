@@ -1,6 +1,8 @@
 import test, { expect } from '@playwright/test';
 
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
+import { expectScreenshot } from '../helper/screenshot';
 import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -112,15 +114,15 @@ test('sticky columns - end column has position sticky', async ({ page }) => {
   expect(roleHeader?.position).not.toBe('sticky');
 });
 
-test('sticky columns - start columns have left offset', async ({ page }) => {
+test('sticky columns - start columns have an inline-start offset', async ({ page }) => {
   await loadTable(page);
 
   const offsets = await page.evaluate(() => {
     const headers = document.querySelectorAll('jig-table th') as NodeListOf<HTMLElement>;
     return Array.from(headers).map(h => ({
       text: h.textContent?.trim() || '',
-      left: h.style.left,
-      right: h.style.right,
+      inlineStart: h.style.insetInlineStart,
+      inlineEnd: h.style.insetInlineEnd,
     }));
   });
 
@@ -128,9 +130,9 @@ test('sticky columns - start columns have left offset', async ({ page }) => {
   const nameHeader = offsets.find(h => h.text === 'Name');
   const salaryHeader = offsets.find(h => h.text === 'Salary');
 
-  expect(idHeader?.left).toContain('--jig-sticky-start-offset-0');
-  expect(nameHeader?.left).toContain('--jig-sticky-start-offset-1');
-  expect(salaryHeader?.right).toContain('--jig-sticky-end-offset-0');
+  expect(idHeader?.inlineStart).toContain('--jig-sticky-start-offset-0');
+  expect(nameHeader?.inlineStart).toContain('--jig-sticky-start-offset-1');
+  expect(salaryHeader?.inlineEnd).toContain('--jig-sticky-end-offset-0');
 });
 
 test('sticky columns - body cells inherit sticky positioning', async ({ page }) => {
@@ -144,23 +146,23 @@ test('sticky columns - body cells inherit sticky positioning', async ({ page }) 
       .slice(0, 6)
       .map(c => ({
         position: getComputedStyle(c).position,
-        left: c.style.left,
-        right: c.style.right,
+        inlineStart: c.style.insetInlineStart,
+        inlineEnd: c.style.insetInlineEnd,
       }));
   });
 
   // First two cells (ID, Name) should be sticky with left
   expect(bodyStickyInfo[0]?.position).toBe('sticky');
-  expect(bodyStickyInfo[0]?.left).toContain('--jig-sticky-start-offset-0');
+  expect(bodyStickyInfo[0]?.inlineStart).toContain('--jig-sticky-start-offset-0');
   expect(bodyStickyInfo[1]?.position).toBe('sticky');
-  expect(bodyStickyInfo[1]?.left).toContain('--jig-sticky-start-offset-1');
+  expect(bodyStickyInfo[1]?.inlineStart).toContain('--jig-sticky-start-offset-1');
 
   // Middle cells should not be sticky
   expect(bodyStickyInfo[2]?.position).not.toBe('sticky');
 
   // Last cell (Salary) should be sticky with right
   expect(bodyStickyInfo[5]?.position).toBe('sticky');
-  expect(bodyStickyInfo[5]?.right).toContain('--jig-sticky-end-offset-0');
+  expect(bodyStickyInfo[5]?.inlineEnd).toContain('--jig-sticky-end-offset-0');
 });
 
 test('sticky columns - sticky classes applied to edge cells', async ({ page }) => {
@@ -296,4 +298,10 @@ test('sticky columns - reorder constrained within sticky group', async ({ page }
   const idAfter = afterStarts.find(h => h.text === 'ID')!;
   // ID should be clamped to max position 2 (the sticky-start group boundary)
   expect(idAfter.colIndex).toBeLessThanOrEqual(2);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadTable(page);
+  await expectScreenshot(page, testInfo);
 });

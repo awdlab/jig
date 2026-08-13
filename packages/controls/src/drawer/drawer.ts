@@ -85,10 +85,11 @@ export class JigDrawer extends DrawerTemplates implements Openable {
    */
   public readonly modal = input(false, { transform: booleanAttribute });
   /**
-   * Position of the drawer
-   * @default 'left'
+   * Edge the drawer is docked to. `'start'`/`'end'` follow the writing direction,
+   * so a `'start'` drawer opens from the left in LTR and from the right in RTL.
+   * @default 'start'
    */
-  public readonly position = input<'top' | 'right' | 'bottom' | 'left' | 'fullscreen'>('left');
+  public readonly position = input<'top' | 'end' | 'bottom' | 'start' | 'fullscreen'>('start');
   /**
    * The width or height of the drawer depending on its position
    * @default '300px'
@@ -160,8 +161,8 @@ export class JigDrawer extends DrawerTemplates implements Openable {
       if (position === 'fullscreen') {
         this.element.nativeElement.style.top = '0';
         this.element.nativeElement.style.bottom = '0';
-        this.element.nativeElement.style.left = '0';
-        this.element.nativeElement.style.right = '0';
+        this.element.nativeElement.style.insetInlineStart = '0';
+        this.element.nativeElement.style.insetInlineEnd = '0';
         this.element.nativeElement.style.width = '100%';
         this.element.nativeElement.style.height = '100%';
         return;
@@ -169,9 +170,9 @@ export class JigDrawer extends DrawerTemplates implements Openable {
 
       this.element.nativeElement.style.top = position !== 'bottom' ? '0' : 'unset';
       this.element.nativeElement.style.bottom = position !== 'top' ? '0' : 'unset';
-      this.element.nativeElement.style.left = position !== 'right' ? '0' : 'unset';
-      this.element.nativeElement.style.right = position !== 'left' ? '0' : 'unset';
-      if (position === 'left' || position === 'right') {
+      this.element.nativeElement.style.insetInlineStart = position !== 'end' ? '0' : 'unset';
+      this.element.nativeElement.style.insetInlineEnd = position !== 'start' ? '0' : 'unset';
+      if (position === 'start' || position === 'end') {
         this.element.nativeElement.style.width = this.size();
         this.element.nativeElement.style.height = '100%';
       } else {

@@ -1,6 +1,7 @@
 import test, { expect, type Page } from '@playwright/test';
 import { JigSpinnerHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -123,4 +124,17 @@ test('accessibility (axe)', async ({ page }) => {
   );
 
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `<jig-spinner />`,
+      imports: ['spinner'],
+    },
+    {}
+  );
+  await expectScreenshot(page, testInfo);
 });

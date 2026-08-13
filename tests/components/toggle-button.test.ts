@@ -1,6 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { JigToggleButtonHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -89,4 +90,17 @@ test('visual', async ({ page }, testInfo) => {
   });
 
   await expectScreenshot(page, testInfo, 'states');
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `<jig-toggle-button [value]="inputs().value" (valueChange)="output('value', $event)">Toggle</jig-toggle-button>`,
+      imports: ['toggleButton'],
+    },
+    { inputs: { value: false } }
+  );
+  await expectScreenshot(page, testInfo);
 });

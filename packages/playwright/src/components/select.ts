@@ -1,14 +1,15 @@
 import { expect, type Locator } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { selectControlTemplate } from '@awdlab/jig-themes/templates/select';
-import { JigInputHarness } from './input';
-import { JIG_CLASSES } from '../utils/classes';
-import { JigDropdownListHarness } from './dropdown-list';
-import { JigListBoxHarness } from './list-box';
-import { JigInputFieldHarness } from './input-field';
-import { JigItemViewHarness } from './item-view';
+import { JigInputHarness } from './input.js';
+import { JIG_CLASSES } from '../utils/classes.js';
+import { JigDropdownListHarness } from './dropdown-list.js';
+import { JigListBoxHarness } from './list-box.js';
+import { JigInputFieldHarness } from './input-field.js';
+import { JigItemViewHarness } from './item-view.js';
+import { JigHarness } from '../harness.js';
 
-export class JigSelectHarness {
+export class JigSelectHarness extends JigHarness {
   public readonly classes = themeClasses(selectControlTemplate);
   public readonly filter: JigInputFieldHarness<{ input: JigInputHarness }>;
   public readonly filterIcon: Locator;
@@ -19,7 +20,8 @@ export class JigSelectHarness {
   public readonly dropdown: JigDropdownListHarness;
   public readonly multipleItemView: JigItemViewHarness;
 
-  constructor(public locator: Locator) {
+  constructor(locator: Locator) {
+    super(locator);
     this.filter = new JigInputFieldHarness(locator.locator(this.classes['filter']['root']), l => ({
       input: new JigInputHarness(l.locator(JIG_CLASSES.input['root'])),
     }));

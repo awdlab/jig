@@ -10,8 +10,8 @@ export const tabsStyles = createThemePart({
   root: {
     css: ({ v, c }) => css`
       ${c('headers')} {
-        border-top-left-radius: ${v('size.rounded.sm')};
-        border-top-right-radius: ${v('size.rounded.sm')};
+        border-start-start-radius: ${v('size.rounded.sm')};
+        border-start-end-radius: ${v('size.rounded.sm')};
       }
       ${c('headers-container')} {
         border-bottom: 1px solid ${v('color.border')};
@@ -42,7 +42,7 @@ export const tabsStyles = createThemePart({
           left 0.2s ease-in-out,
           width 0.2s ease-in-out;
       }
-      ${c('scroll-left')}, ${c('scroll-right')} {
+      ${c('scroll-start')}, ${c('scroll-end')} {
         background: ${v('color.background')};
         padding: 0;
         color: ${v('color.surface.400')};
@@ -66,14 +66,21 @@ export const tabsStyles = createThemePart({
           --blurColor: color-mix(in srgb, ${v('color.text')} 12%, ${v('color.background')});
         }
       }
-      ${c('scroll-left')} {
+      ${c('scroll-start')} {
         &::after {
           background: linear-gradient(90deg, var(--blurColor), transparent);
         }
       }
-      ${c('scroll-right')} {
+      ${c('scroll-end')} {
         &::after {
           background: linear-gradient(270deg, var(--blurColor), transparent);
+        }
+      }
+      /* Gradient direction is physical: mirror the fade so it always washes over the
+         content rather than away from it. */
+      ${c('scroll-start')}:dir(rtl), ${c('scroll-end')}:dir(rtl) {
+        &::after {
+          transform: scaleX(-1);
         }
       }
       ${c('content')} {

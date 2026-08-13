@@ -1,5 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 import { JigToolbarHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
@@ -81,6 +82,55 @@ test('popover mode collapses what does not fit', async ({ page }, testInfo) => {
 
   await expectScreenshot(page, testInfo, 'collapsed');
   await expectNoA11yViolations(page);
+});
+
+// No inline width, so the theme's own sizing decides: the natural size must cover the
+// theme's padding, border and track gaps, or the toolbar collapses inside its own box.
+test('nothing collapses with room to spare and no authored width', async ({ page }) => {
+  await loadComponent(page, {
+    template: `<div style="width: 900px">
+      <jig-toolbar overflow="popover">
+        <jig-toolbar-region placement="start">
+          ${ITEM('A')}${ITEM('B')}${ITEM('C')}${ITEM('D')}
+        </jig-toolbar-region>
+      </jig-toolbar>
+    </div>`,
+    imports: IMPORTS,
+  });
+
+  const toolbar = new JigToolbarHarness(page.locator('jig-toolbar'));
+
+  await expect(toolbar.item).toHaveCount(4);
+  await expect(toolbar.itemOverflowing).toHaveCount(0);
+  await toolbar.expectTriggerVisible('start', false);
+});
+
+// A shrink-to-fit parent must wrap the *uncollapsed* toolbar. Wrapping the collapsed one
+// shrinks the toolbar, which collapses more.
+test('a shrink-to-fit parent sizes to the uncollapsed toolbar', async ({ page }) => {
+  await loadComponent(page, {
+    template: `<div style="display: inline-block">
+      <jig-toolbar overflow="popover">
+        <jig-toolbar-region placement="start">
+          ${ITEM('A')}${ITEM('B')}${ITEM('C')}${ITEM('D')}
+        </jig-toolbar-region>
+      </jig-toolbar>
+    </div>
+    <div style="display: inline-block">
+      <jig-toolbar orientation="vertical" overflow="popover">
+        <jig-toolbar-region placement="start">
+          ${ITEM('A')}${ITEM('B')}${ITEM('C')}${ITEM('D')}
+        </jig-toolbar-region>
+      </jig-toolbar>
+    </div>`,
+    imports: IMPORTS,
+  });
+
+  for (const toolbar of await page.locator('jig-toolbar').all()) {
+    const harness = new JigToolbarHarness(toolbar);
+    await expect(harness.item).toHaveCount(4);
+    await expect(harness.itemOverflowing).toHaveCount(0);
+  }
 });
 
 test('collapsed items appear in the popover', async ({ page }) => {
@@ -222,4 +272,18 @@ test('collapsed items are not tab stops', async ({ page }) => {
   await expect(toolbar.itemOverflowing).not.toHaveCount(0);
   await expect(toolbar.itemOverflowing.first()).toHaveAttribute('inert', '');
   await expect(toolbar.itemOverflowing.first()).toHaveAttribute('aria-hidden', 'true');
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(page, {
+    template: `<jig-toolbar style="width: 600px">
+      <span>Document</span>
+      <button jigButton>Bold</button>
+      <div placement="center">Center</div>
+      <div placement="end"><button jigButton>Save</button></div>
+    </jig-toolbar>`,
+    imports: IMPORTS,
+  });
+  await expectScreenshot(page, testInfo);
 });

@@ -1,5 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { evalValue, loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
+import { expectScreenshot } from '../helper/screenshot';
 
 /**
  * Passthrough (`pt`) `$listeners` must not leak: when the element carrying the
@@ -129,4 +131,26 @@ test('dependency marker class is auto-applied without pt', async ({ page }) => {
   // (`{namePrefix}{scope}-{depClass}` = `jig-calendar-current-month`) even
   // when no pt is provided.
   await expect(page.locator('jig-calendar jig-select.jig-calendar-current-month')).toHaveCount(1);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      // The calendar sits behind an @if so we can destroy *part* of the component
+      // (the element with the listener) without tearing down the whole test host.
+      template: `@if (inputs().show) {
+        <jig-calendar [inline]="true" [pt]="inputs().pt" />
+      }`,
+      imports: ['calendar'],
+    },
+    {
+      inputs: {
+        show: true,
+        pt: evalValue('window.__ptFixture'),
+      },
+    }
+  );
+  await expectScreenshot(page, testInfo);
 });

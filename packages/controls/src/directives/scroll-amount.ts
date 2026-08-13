@@ -69,8 +69,14 @@ export class JigScrollAmount {
   public readonly scrollTarget = computed(() => this.container() ?? this._el.nativeElement);
   /** Current vertical scroll offset (px) of the {@link scrollTarget}. */
   public readonly scrollTop = signal(this._el.nativeElement.scrollTop);
-  /** Current horizontal scroll offset (px) of the {@link scrollTarget}. */
-  public readonly scrollLeft = signal(this._el.nativeElement.scrollLeft);
+  /**
+   * How far the {@link scrollTarget} is scrolled from its inline-start edge (px).
+   *
+   * Always positive: browsers report a negative `scrollLeft` in RTL (0 at the
+   * inline-start edge, decreasing toward the inline-end), so the raw value is
+   * normalized here rather than at every call site.
+   */
+  public readonly scrollInlineStart = signal(Math.abs(this._el.nativeElement.scrollLeft));
 
   private readonly _containerSize = elementSizeSignal(this.scrollTarget);
   private readonly _hostSize = elementSizeSignal(this._el);
@@ -88,9 +94,9 @@ export class JigScrollAmount {
   public readonly distanceFromEnd = computed(() =>
     computeDistanceFromEnd(this.scrollHeight(), this.clientHeight(), this.scrollTop())
   );
-  /** Remaining horizontal scroll distance to the right edge (px), clamped at 0. */
-  public readonly distanceFromRight = computed(() =>
-    computeDistanceFromEnd(this.scrollWidth(), this.clientWidth(), this.scrollLeft())
+  /** Remaining horizontal scroll distance to the inline-end edge (px), clamped at 0. */
+  public readonly distanceFromInlineEnd = computed(() =>
+    computeDistanceFromEnd(this.scrollWidth(), this.clientWidth(), this.scrollInlineStart())
   );
 
   private readonly _scrollEvent = domEventObservable(this.scrollTarget, 'scroll');
@@ -113,12 +119,12 @@ export class JigScrollAmount {
       const obs = this._scrollEvent.pipe(
         map(e => {
           const target = e.target as HTMLElement;
-          return { top: target.scrollTop, left: target.scrollLeft, el: target };
+          return { top: target.scrollTop, inlineStart: Math.abs(target.scrollLeft), el: target };
         })
       );
       obs.subscribe(scroll => {
         this.scrollTop.set(scroll.top);
-        this.scrollLeft.set(scroll.left);
+        this.scrollInlineStart.set(scroll.inlineStart);
         this._syncVerticalGeometry(scroll.el);
       });
     });

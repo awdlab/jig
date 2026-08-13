@@ -15,7 +15,13 @@ import {
   viewChildren,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { type Anchor, JigTemplate, type Openable, Platform } from '@awdlab/jig/api/ng';
+import {
+  type Anchor,
+  inlineArrowStep,
+  JigTemplate,
+  type Openable,
+  Platform,
+} from '@awdlab/jig/api/ng';
 import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigAutofocus } from '@awdlab/jig/directives';
 import { JigIcon } from '@awdlab/jig/icon';
@@ -245,10 +251,14 @@ export class JigMenu extends MenuTemplates implements Openable {
         currentIndex = 0;
       }
       this._menuItems()[currentIndex]?.nativeElement.focus();
-    } else if (event.key === 'ArrowRight' && subMenu) {
-      this.openChildMenu(subMenu, null, 'arrow');
-    } else if (event.key === 'ArrowLeft' && this.isSubMenu()) {
-      this._popover()?.hide();
+    } else if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+      // Submenus nest along the inline axis: away from the parent opens, back closes.
+      const step = inlineArrowStep(event.currentTarget as Element, event.key);
+      if (step === 1 && subMenu) {
+        this.openChildMenu(subMenu, null, 'arrow');
+      } else if (step === -1 && this.isSubMenu()) {
+        this._popover()?.hide();
+      }
     }
   }
 

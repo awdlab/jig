@@ -1,6 +1,7 @@
 import { JigPopoverHarness } from '@awdlab/jig-playwright';
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -137,4 +138,18 @@ test('accessibility (axe)', async ({ page }) => {
   await popover.expectOpened();
 
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(page, {
+    template: `
+      <button #anchor (click)="popover.show()">Open</button>
+      <jig-popover #popover [anchor]="anchor"> Content </jig-popover>
+    `,
+    imports: ['popover'],
+  });
+  await page.getByText('Open').click();
+  await expect(page.locator('jig-popover')).toBeVisible();
+  await expectScreenshot(page, testInfo);
 });

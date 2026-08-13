@@ -14,6 +14,7 @@ const TAU = Math.PI * 2;
   providers: [provideSelf(JigProgress)],
   host: {
     role: 'progressbar',
+    '[class.jig-motion-loop]': 'indeterminate()',
     '[attr.aria-valuemin]': '0',
     '[attr.aria-valuemax]': '100',
     '[attr.aria-valuenow]': 'indeterminate() ? null : safeValue()',

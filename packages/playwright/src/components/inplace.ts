@@ -1,14 +1,16 @@
 import { type Locator, expect } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { inplaceControlTemplate } from '@awdlab/jig-themes/templates/inplace';
+import { JigHarness } from '../harness.js';
 
-export class JigInplaceHarness {
+export class JigInplaceHarness extends JigHarness {
   public readonly classes = themeClasses(inplaceControlTemplate);
 
   public readonly display: Locator;
   public readonly content: Locator;
 
-  constructor(public locator: Locator) {
+  constructor(locator: Locator) {
+    super(locator);
     this.display = this.locator.locator(this.classes['display']);
     this.content = this.locator.locator(this.classes['content']);
   }

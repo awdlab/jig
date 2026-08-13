@@ -14,6 +14,10 @@ import { nova } from '@awdlab/jig-themes/nova';
 import { App } from './app';
 import { LeakTestComponent } from './leak-test.component';
 
+// Tests run without animations for determinism; `?animations` keeps them for motion assertions.
+const animationsEnabled =
+  typeof location !== 'undefined' && new URLSearchParams(location.search).has('animations');
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -21,7 +25,7 @@ export const appConfig: ApplicationConfig = {
     provideJigControls(
       {
         theme: { preset: nova },
-        disableAnimations: true,
+        disableAnimations: !animationsEnabled,
       },
       withToasts(),
       withSnackbars(),

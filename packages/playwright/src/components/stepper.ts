@@ -1,14 +1,14 @@
 import { stepperControlTemplate } from '@awdlab/jig-themes/templates/stepper';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { expect, type Locator } from '@playwright/test';
+import { JigHarness } from '../harness.js';
 
-export class JigStepperHarness {
+export class JigStepperHarness extends JigHarness {
   public readonly classes = themeClasses(stepperControlTemplate);
-  public readonly locator: Locator;
   public readonly steps: Locator;
 
   constructor(locator: Locator) {
-    this.locator = locator;
+    super(locator);
     this.steps = locator.locator(this.classes.step);
   }
 

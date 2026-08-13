@@ -1,10 +1,12 @@
 import { expect, type Locator } from '@playwright/test';
-import { JigButtonHarness } from './button';
+import { JigButtonHarness } from './button.js';
+import { JigHarness } from '../harness.js';
 
-export class JigButtonGroupHarness {
+export class JigButtonGroupHarness extends JigHarness {
   public readonly buttons: Locator;
 
-  constructor(public locator: Locator) {
+  constructor(locator: Locator) {
+    super(locator);
     this.buttons = locator.locator('button[jigButton]');
   }
 

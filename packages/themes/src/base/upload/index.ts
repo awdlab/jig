@@ -17,12 +17,12 @@ export const uploadStyles = createThemePart({
         ${c('list-bottom')} {
           flex-direction: column;
         }
-        ${c('list-left')},
-        ${c('list-right')} {
+        ${c('list-start')},
+        ${c('list-end')} {
           flex-direction: row;
         }
         ${c('list-top')} ${c('list')},
-        ${c('list-left')} ${c('list')} {
+        ${c('list-start')} ${c('list')} {
           order: -1;
         }
 
@@ -83,8 +83,8 @@ export const uploadStyles = createThemePart({
           list-style: none;
         }
         /* Beside the zone: share the row width. */
-        ${c('list-left')} ${c('list')},
-        ${c('list-right')} ${c('list')} {
+        ${c('list-start')} ${c('list')},
+        ${c('list-end')} ${c('list')} {
           flex: 1 1 auto;
         }
 

@@ -1,5 +1,5 @@
 import { afterRenderEffect, computed, signal } from '@angular/core';
-import { elementSizeSignal } from '@awdlab/jig/api/ng';
+import { elementSizeSignal, isRtl } from '@awdlab/jig/api/ng';
 import { getResizeLimitInPx, ResizeEngine } from '@awdlab/jig/api/resize';
 
 import type { JigTableTh } from './table-header-cell';
@@ -270,12 +270,21 @@ export class TableColumnLayoutModel {
 
   public startColumnResize(columnIndex: number, event: PointerEvent): void {
     if (!this._deps.resizable()) return;
-    this._resizeEngine.startDrag(columnIndex, event.clientX);
+    this._resizeEngine.startDrag(columnIndex, this.resizeAxisPosition(event));
   }
 
   public dragColumnResize(columnIndex: number, event: PointerEvent): void {
     if (!this._deps.resizable()) return;
-    this._resizeEngine.drag(columnIndex, event.clientX);
+    this._resizeEngine.drag(columnIndex, this.resizeAxisPosition(event));
+  }
+
+  /**
+   * The engine only uses position deltas, so negating the axis in RTL keeps a
+   * positive delta meaning "widen the column" while the handle sits on the
+   * mirrored edge.
+   */
+  private resizeAxisPosition(event: PointerEvent): number {
+    return isRtl(this._deps.element.nativeElement) ? -event.clientX : event.clientX;
   }
 
   public endColumnResize(columnIndex: number, cancel: boolean): void {
@@ -324,10 +333,13 @@ export class TableColumnLayoutModel {
       .map(id => cells.find(c => c.jigTableTh() === id))
       .filter((c): c is JigTableTh => !!c);
 
+    // Visual order runs right-to-left in RTL, so "drop before cell i" is the
+    // cursor being past its midpoint on the other side.
+    const rtl = isRtl(this._deps.element.nativeElement);
     for (let i = 0; i < visualCells.length; i++) {
       const rect = visualCells[i]!.element.nativeElement.getBoundingClientRect();
       const midX = rect.left + rect.width / 2;
-      if (cursorX < midX) {
+      if (rtl ? cursorX > midX : cursorX < midX) {
         targetIndex = i;
         break;
       }

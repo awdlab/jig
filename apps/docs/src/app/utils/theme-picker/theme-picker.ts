@@ -10,7 +10,7 @@ import {
   REQUEST,
   signal,
 } from '@angular/core';
-import { Platform, ThemeService } from '@awdlab/jig/api/ng';
+import { notifyDirectionChanged, Platform, ThemeService } from '@awdlab/jig/api/ng';
 import { JigColorPicker } from '@awdlab/jig/color-picker';
 import { JigSelectButton } from '@awdlab/jig/select-button';
 import { createTheme, createThemePart } from '@awdlab/jig-themes/api';
@@ -170,12 +170,16 @@ const DEFAULT_THEME_ID: ThemeOptionId = 'nova';
 const COOKIE_NAME = 'jig-docs-theme';
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
+export type DocsDirection = 'ltr' | 'rtl';
+
 type PickerState = {
   id: ThemeOptionId;
   /** Selected primary base color per theme; `null` = that theme's default. */
   colors: Record<ThemeOptionId, string | null>;
   /** Selected surface (neutral) base color per theme; `null` = that theme's default. */
   surfaces: Record<ThemeOptionId, string | null>;
+  /** Writing direction applied to the whole document. */
+  dir: DocsDirection;
 };
 
 function fallbackState(): PickerState {
@@ -183,6 +187,7 @@ function fallbackState(): PickerState {
     id: DEFAULT_THEME_ID,
     colors: { nova: null, shade: null, material: null },
     surfaces: { nova: null, shade: null, material: null },
+    dir: 'ltr',
   };
 }
 
@@ -238,6 +243,10 @@ function parseThemeState(rawValue: string | null): PickerState {
     };
     readColors((parsed as { colors?: unknown })?.colors, state.colors);
     readColors((parsed as { surfaces?: unknown })?.surfaces, state.surfaces);
+    const savedDir = (parsed as { dir?: unknown })?.dir;
+    if (savedDir === 'ltr' || savedDir === 'rtl') {
+      state.dir = savedDir;
+    }
     return state;
   } catch {
     return fallbackState();
@@ -290,8 +299,11 @@ export function provideDocsThemeInitializer(): EnvironmentProviders {
     if (inject(Platform).isBrowser) {
       return;
     }
-    const themeService = inject(ThemeService);
-    themeService.activeTheme.set(buildThemeFromState(resolveThemeStateFromContext()));
+    const state = resolveThemeStateFromContext();
+    inject(ThemeService).activeTheme.set(buildThemeFromState(state));
+    // Stamp `dir` server-side too, so an RTL visitor gets RTL HTML rather than a
+    // left-to-right first paint that flips once the client boots.
+    inject(DOCUMENT).documentElement.setAttribute('dir', state.dir);
   });
 }
 
@@ -328,6 +340,32 @@ export class ThemePickerService {
   public readonly selectedColor = computed(() => this._colorByTheme()[this.themeId()]);
 
   public readonly selectedSurface = computed(() => this._surfaceByTheme()[this.themeId()]);
+
+  /**
+   * Document writing direction. Seeded from the same cookie the SSR initializer reads, so the
+   * server-rendered `dir` already matches and nothing flips on hydration.
+   */
+  public readonly dir = signal<DocsDirection>(this._initial.dir);
+
+  constructor() {
+    // SSR already stamped `dir`, but a prerendered page is built without the cookie, so
+    // reapply on the client to cover that path. A no-op when it already matches.
+    if (this._platform.isBrowser) {
+      this._document.documentElement.setAttribute('dir', this._initial.dir);
+    }
+  }
+
+  public selectDir(dir: DocsDirection): void {
+    if (this.dir() === dir) {
+      return;
+    }
+    this.dir.set(dir);
+    this._document.documentElement.setAttribute('dir', dir);
+    // Logical CSS and `:dir()` re-match on their own; this is for the open overlays
+    // whose placement was computed imperatively.
+    notifyDirectionChanged();
+    this._persist();
+  }
 
   /**
    * The swatch rows to render, driven by the active theme: always a `primary` row, plus a
@@ -407,6 +445,7 @@ export class ThemePickerService {
       id: this.themeId(),
       colors: this._colorByTheme(),
       surfaces: this._surfaceByTheme(),
+      dir: this.dir(),
     };
     const value = encodeURIComponent(JSON.stringify(state));
     this._document.cookie = `${COOKIE_NAME}=${value}; path=/; max-age=${COOKIE_MAX_AGE}; samesite=lax`;
@@ -459,6 +498,16 @@ export class ThemePickerService {
           </div>
         </div>
       }
+
+      <div class="flex flex-col gap-(--jig-size-padding-sm)">
+        <span class="text-xs font-medium text-(--jig-color-surface-600)">Direction</span>
+        <jig-select-button
+          aria-label="Writing direction"
+          [options]="dirOptions"
+          [value]="picker.dir()"
+          (valueChange)="picker.selectDir($event)"
+        />
+      </div>
     </div>
   `,
 })
@@ -469,6 +518,11 @@ export class JigDocsThemePicker {
     label: theme.label,
     value: theme.id,
   }));
+
+  protected readonly dirOptions: { label: string; value: DocsDirection }[] = [
+    { label: 'LTR', value: 'ltr' },
+    { label: 'RTL', value: 'rtl' },
+  ];
 
   private _customColorTimer?: ReturnType<typeof setTimeout>;
 

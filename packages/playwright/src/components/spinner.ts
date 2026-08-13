@@ -1,21 +1,21 @@
 import { spinnerControlTemplate } from '@awdlab/jig-themes/templates/spinner';
-import { themeClasses } from '../utils/theme';
-import test, { expect, type Locator } from '@playwright/test';
+import { themeClasses } from '../utils/theme.js';
+import { expect, type Locator } from '@playwright/test';
+import { JigHarness } from '../harness.js';
 
-export class JigSpinnerHarness {
+export class JigSpinnerHarness extends JigHarness {
   public readonly classes = themeClasses(spinnerControlTemplate);
 
-  public readonly locator: Locator;
   public readonly svg: Locator;
   public readonly circle: Locator;
 
   constructor(locator: Locator) {
-    this.locator = locator;
+    super(locator);
     this.svg = locator.locator(this.classes.svg);
     this.circle = locator.locator(this.classes.circle);
   }
 
-  public async expectVisible() {
+  public override async expectVisible() {
     await expect(this.locator).toBeVisible();
     await expect(this.svg).toBeVisible();
     await expect(this.circle).toBeVisible();

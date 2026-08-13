@@ -76,6 +76,9 @@ export const meterStyles = createThemePart({
       ${c('vertical')} ${c('segment')}${c('highlighted')}:not(:hover) {
         transform: translateX(-3px);
       }
+      ${c('vertical')}:dir(rtl) ${c('segment')}${c('highlighted')}:not(:hover) {
+        transform: translateX(3px);
+      }
       /* A halo instead of padding: the row keeps its box, so nothing shifts on hover. */
       ${c('item')}${c('highlighted')} {
         background: ${v('color.surface.100')};

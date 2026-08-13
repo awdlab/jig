@@ -57,7 +57,7 @@ export const tabsStyles = createThemePart({
       ${c('header-active-indicator')} {
         display: none;
       }
-      ${c('scroll-left')}, ${c('scroll-right')} {
+      ${c('scroll-start')}, ${c('scroll-end')} {
         background: ${v('color.surface.50')};
         padding: 0;
         color: ${v('color.surface.600')};
@@ -75,14 +75,21 @@ export const tabsStyles = createThemePart({
           outline-offset: -3px;
         }
       }
-      ${c('scroll-left')} {
+      ${c('scroll-start')} {
         &::after {
           background: linear-gradient(90deg, var(--blurColor), transparent);
         }
       }
-      ${c('scroll-right')} {
+      ${c('scroll-end')} {
         &::after {
           background: linear-gradient(270deg, var(--blurColor), transparent);
+        }
+      }
+      /* Gradient direction is physical: mirror the fade so it always washes over the
+         content rather than away from it. */
+      ${c('scroll-start')}:dir(rtl), ${c('scroll-end')}:dir(rtl) {
+        &::after {
+          transform: scaleX(-1);
         }
       }
       ${c('content')} {

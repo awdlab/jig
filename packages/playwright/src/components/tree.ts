@@ -1,9 +1,10 @@
 import { expect, type Locator } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { treeControlTemplate } from '@awdlab/jig-themes/templates/tree';
-import { JigScrollerHarness } from './scroller';
+import { JigScrollerHarness } from './scroller.js';
+import { JigHarness } from '../harness.js';
 
-export class JigTreeHarness {
+export class JigTreeHarness extends JigHarness {
   public readonly classes = themeClasses(treeControlTemplate);
   /** All currently rendered nodes (branches and leaves). */
   public readonly node: Locator;
@@ -21,7 +22,8 @@ export class JigTreeHarness {
   public readonly spinner: Locator;
   public readonly scroller: JigScrollerHarness;
 
-  constructor(public locator: Locator) {
+  constructor(locator: Locator) {
+    super(locator);
     this.node = locator.locator('[role="treeitem"]');
     this.item = locator.locator(this.classes['item']);
     this.group = locator.locator(this.classes['group']);
@@ -84,7 +86,7 @@ export class JigTreeHarness {
     return expect(this.getNode(text)).toHaveAttribute('aria-checked', state);
   }
 
-  public expectDisabled(text: string, disabled = true): Promise<void> {
+  public expectNodeDisabled(text: string, disabled = true): Promise<void> {
     return disabled
       ? expect(this.getNode(text)).toHaveAttribute('aria-disabled', 'true')
       : expect(this.getNode(text)).not.toHaveAttribute('aria-disabled', 'true');

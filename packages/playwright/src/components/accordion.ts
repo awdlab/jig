@@ -1,14 +1,15 @@
 import { type Locator, expect } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
-import { accordionControlTemplate } from '@awdlab/jig-themes/templates/accordion';
+import { themeClasses } from '../utils/theme.js';
 import { accordionPanelControlTemplate } from '@awdlab/jig-themes/templates/accordion-panel';
+import { JigHarness } from '../harness.js';
 
-export class JigAccordionHarness {
+export class JigAccordionHarness extends JigHarness {
   public readonly classes = themeClasses(accordionPanelControlTemplate);
 
   public readonly panels: Locator;
 
-  constructor(public locator: Locator) {
+  constructor(locator: Locator) {
+    super(locator);
     this.panels = this.locator.locator(this.classes['root']);
   }
 
@@ -21,13 +22,14 @@ export class JigAccordionHarness {
   }
 }
 
-export class JigAccordionPanelHarness {
+export class JigAccordionPanelHarness extends JigHarness {
   public readonly classes = themeClasses(accordionPanelControlTemplate);
 
   public readonly header: Locator;
   public readonly content: Locator;
 
-  constructor(public locator: Locator) {
+  constructor(locator: Locator) {
+    super(locator);
     this.header = this.locator.locator(this.classes['header']);
     this.content = this.locator.locator(this.classes['content']);
   }
@@ -40,7 +42,7 @@ export class JigAccordionPanelHarness {
     return expect(this.header).toHaveAttribute('aria-expanded', String(expanded));
   }
 
-  public expectDisabled(disabled = true) {
+  public override expectDisabled(disabled = true) {
     return expect(this.header).toBeDisabled();
   }
 

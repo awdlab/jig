@@ -1,8 +1,9 @@
 import { type Locator, expect } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
+import { JigHarness } from '../harness.js';
 
-export class JigPopoverHarness {
+export class JigPopoverHarness extends JigHarness {
   public readonly classes = themeClasses(popoverControlTemplate);
 
   private readonly _jigLazyCacher: Locator;
@@ -10,6 +11,7 @@ export class JigPopoverHarness {
   private readonly _content: Locator;
 
   constructor(locator: Locator) {
+    super(locator);
     this._jigLazyCacher = locator.locator('jig-defer');
     this._contentWrapper = locator.locator(this.classes.content);
     this._content = this._jigLazyCacher.locator('> *');

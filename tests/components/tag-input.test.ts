@@ -3,6 +3,7 @@ import test, { expect } from '@playwright/test';
 
 import { expectNoA11yViolations } from '../helper/axe';
 import { evalValue, loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 
 // The field's <label for> needs the same id the tag input puts on its text field:
@@ -560,4 +561,29 @@ test('states and accessibility', async ({ page }, testInfo) => {
     await expect(tags.removeButton(0)).toHaveCount(0);
     await expectScreenshot(page, testInfo, 'disabled');
   });
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await load(page);
+  await expectScreenshot(page, testInfo);
+});
+
+test('rtl keyboard: the caret reaches the tags along the inline axis', async ({ page }) => {
+  await useRtl(page);
+  await load(page);
+  const tags = new JigTagInputHarness(page.locator('jig-tag-input'));
+
+  await tags.type('alpha,beta,gamma,');
+  await tags.expectTags(['alpha', 'beta', 'gamma']);
+
+  // The tags precede the caret on the inline axis, so RTL reaches them with ArrowRight.
+  await page.keyboard.press('ArrowRight');
+  await expect(tags.removeButton(2)).toBeFocused();
+
+  await page.keyboard.press('ArrowRight');
+  await expect(tags.removeButton(1)).toBeFocused();
+
+  await page.keyboard.press('ArrowLeft');
+  await expect(tags.removeButton(2)).toBeFocused();
 });

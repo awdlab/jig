@@ -1,18 +1,18 @@
 import { uploadControlTemplate } from '@awdlab/jig-themes/templates/upload';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { expect, type Locator } from '@playwright/test';
+import { JigHarness } from '../harness.js';
 
-export class JigUploadHarness {
+export class JigUploadHarness extends JigHarness {
   public readonly classes = themeClasses(uploadControlTemplate);
 
-  public readonly locator: Locator;
   public readonly zone: Locator;
   public readonly input: Locator;
   public readonly list: Locator;
   public readonly items: Locator;
 
   constructor(locator: Locator) {
-    this.locator = locator;
+    super(locator);
     this.zone = locator.locator(this.classes.zone);
     this.input = locator.locator('input[type=file]');
     this.list = locator.locator(this.classes.list);

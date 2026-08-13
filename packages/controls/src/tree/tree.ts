@@ -23,7 +23,7 @@ import {
   type JigTreeItem,
   type JigTreeItemsValue,
 } from '@awdlab/jig/api';
-import { JigStorage, type JigStorageKind, JigTemplate } from '@awdlab/jig/api/ng';
+import { inlineArrowStep, JigStorage, type JigStorageKind, JigTemplate } from '@awdlab/jig/api/ng';
 import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigButton } from '@awdlab/jig/button';
 import { JigCheckbox } from '@awdlab/jig/checkbox';
@@ -455,14 +455,15 @@ export class JigTree<Items extends readonly JigTreeItem[], Multiple extends bool
       this.currentHighlightedValue.set(
         (target?.item.value ?? null) as JigTreeItemsValue<Items> | null
       );
-    } else if (key === 'ArrowRight') {
+    } else if (key === 'ArrowRight' || key === 'ArrowLeft') {
       event.preventDefault();
       event.stopPropagation();
-      this._expandOrEnter(nodes);
-    } else if (key === 'ArrowLeft') {
-      event.preventDefault();
-      event.stopPropagation();
-      this._collapseOrLeave(nodes);
+      // Depth runs along the inline axis: the key pointing away from the root expands.
+      if (inlineArrowStep(event.currentTarget as Element, key) === 1) {
+        this._expandOrEnter(nodes);
+      } else {
+        this._collapseOrLeave(nodes);
+      }
     } else if (key === 'Enter' || key === ' ') {
       const node = this._currentNode(nodes);
       if (node && this.isSelectable(node)) {

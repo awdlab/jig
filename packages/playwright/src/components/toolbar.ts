@@ -1,11 +1,12 @@
 import { expect, type Locator } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { toolbarControlTemplate } from '@awdlab/jig-themes/templates/toolbar';
 import { toolbarRegionControlTemplate } from '@awdlab/jig-themes/templates/toolbar-region';
+import { JigHarness } from '../harness.js';
 
 export type ToolbarPlacement = 'start' | 'center' | 'end';
 
-export class JigToolbarHarness {
+export class JigToolbarHarness extends JigHarness {
   public readonly classes = themeClasses(toolbarControlTemplate);
   public readonly regionClasses = themeClasses(toolbarRegionControlTemplate);
   public readonly item: Locator;
@@ -13,7 +14,8 @@ export class JigToolbarHarness {
   public readonly itemOverflowing: Locator;
   public readonly overflowTrigger: Locator;
 
-  constructor(public locator: Locator) {
+  constructor(locator: Locator) {
+    super(locator);
     this.item = locator.locator(this.regionClasses['item']);
     this.itemVisible = locator.locator(
       `${this.regionClasses['item']}:not(${this.regionClasses['item-overflowing']})`

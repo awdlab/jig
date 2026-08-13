@@ -24,10 +24,12 @@ export async function loadComponent(
   io?: {
     inputs?: InputsType;
     outputs?: OutputsType;
-  }
+  },
+  options?: { search?: string }
 ) {
   return await test.step('Load Component', async () => {
-    await page.goto(process.env['CI'] ? 'http://localhost:4222' : 'http://hostmachine:4222');
+    const base = process.env['CI'] ? 'http://localhost:4222' : 'http://hostmachine:4222';
+    await page.goto(`${base}${options?.search ?? ''}`);
     await expect(page.locator('body')).toHaveAttribute('data-jig-test-wrapper');
 
     async function setTemplate(template: TemplateType) {

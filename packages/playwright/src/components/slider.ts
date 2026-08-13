@@ -1,11 +1,11 @@
 import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { expect, type Locator } from '@playwright/test';
+import { JigHarness } from '../harness.js';
 
-export class JigSliderHarness {
+export class JigSliderHarness extends JigHarness {
   public readonly classes = themeClasses(sliderControlTemplate);
 
-  public readonly locator: Locator;
   public readonly track: Locator;
   /** Every thumb — one in single mode, two in range mode. */
   public readonly thumbs: Locator;
@@ -18,7 +18,7 @@ export class JigSliderHarness {
   public readonly fill: Locator;
 
   constructor(locator: Locator) {
-    this.locator = locator;
+    super(locator);
     this.track = locator.locator(this.classes.track);
     this.thumbs = locator.locator(this.classes.thumb);
     this.thumb = this.thumbs.first();
@@ -50,7 +50,7 @@ export class JigSliderHarness {
     await expect(this.locator).toHaveAttribute('aria-orientation', orientation);
   }
 
-  public async expectReadonly(readonly: boolean) {
+  public override async expectReadonly(readonly: boolean) {
     if (readonly) {
       await expect(this.locator).toHaveAttribute('aria-readonly', 'true');
       await expect(this.locator).toHaveAttribute('tabindex', '0');
@@ -59,7 +59,7 @@ export class JigSliderHarness {
     }
   }
 
-  public async expectDisabled(disabled: boolean) {
+  public override async expectDisabled(disabled: boolean) {
     if (disabled) {
       await expect(this.locator).toHaveAttribute('disabled');
       await expect(this.locator).toHaveAttribute('tabindex', '-1');
@@ -100,7 +100,7 @@ export class JigSliderHarness {
     await this.locator.press(key);
   }
 
-  public async focus(handle?: 'start' | 'end') {
+  public override async focus(handle?: 'start' | 'end') {
     if (handle) {
       await (handle === 'start' ? this.thumbStart : this.thumbEnd).focus();
       return;

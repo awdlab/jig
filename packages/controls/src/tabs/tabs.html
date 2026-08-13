@@ -9,14 +9,14 @@
     [ptClass]="'headers'"
     [id]="elementId + '_tablist'"
   >
-    @if (tabsOverflowingLeft()) {
+    @if (tabsOverflowingStart()) {
       <button
         tabindex="-1"
         [ptInt]="this"
-        [ptClass]="'scroll-left'"
-        (click)="scrollHeaders('left')"
+        [ptClass]="'scroll-start'"
+        (click)="scrollHeaders('start')"
       >
-        <jig-icon [icon]="iconScrollLeft()" [defaultIcon]="'tabs-scroll-left'" />
+        <jig-icon [icon]="iconScrollStart()" [defaultIcon]="'tabs-scroll-start'" />
       </button>
     }
 
@@ -40,21 +40,16 @@
         <ng-container *ngTemplateOutlet="header.template"></ng-container>
       </button>
     }
-    @if (tabsOverflowingRight()) {
-      <button
-        tabindex="-1"
-        [ptInt]="this"
-        [ptClass]="'scroll-right'"
-        (click)="scrollHeaders('right')"
-      >
-        <jig-icon [icon]="iconScrollRight()" [defaultIcon]="'tabs-scroll-right'" />
+    @if (tabsOverflowingEnd()) {
+      <button tabindex="-1" [ptInt]="this" [ptClass]="'scroll-end'" (click)="scrollHeaders('end')">
+        <jig-icon [icon]="iconScrollEnd()" [defaultIcon]="'tabs-scroll-end'" />
       </button>
     }
     <div
       [ptInt]="this"
       [ptClass]="'header-active-indicator'"
       [style.width.px]="indicatorWidth()"
-      [style.left.px]="indicatorLeft()"
+      [style.inset-inline-start.px]="indicatorInlineStart()"
       [style.transitionDuration.ms]="isFirstRender() ? 0 : undefined"
     ></div>
   </div>

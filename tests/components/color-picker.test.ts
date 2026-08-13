@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { JigColorPickerHarness } from '@awdlab/jig-playwright';
 import { parseColor } from '@awdlab/jig/utils';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -299,4 +300,17 @@ test('format toggle on an untouched picker does not emit a value', async ({ page
   const cp = new JigColorPickerHarness(page.locator('jig-color-picker'));
   await cp.formatToggle.click();
   expect(await handle.getOutputLog()).toEqual({});
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `<jig-color-picker [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      imports: ['color-picker'],
+    },
+    { inputs: { value: '#ff0000' } }
+  );
+  await expectScreenshot(page, testInfo);
 });

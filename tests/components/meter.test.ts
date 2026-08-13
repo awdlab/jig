@@ -1,6 +1,7 @@
 import test, { expect, type JSHandle } from '@playwright/test';
 import { JigMeterHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -282,4 +283,17 @@ test('accessibility', async ({ page }) => {
   );
 
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `<jig-meter label="Disk usage" [items]="inputs().items" />`,
+      imports: ['meter'],
+    },
+    { inputs: { items: ITEMS } }
+  );
+  await expectScreenshot(page, testInfo);
 });

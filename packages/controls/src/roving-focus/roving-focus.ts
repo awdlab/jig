@@ -11,7 +11,7 @@ import {
   signal,
   type Signal,
 } from '@angular/core';
-import { domEventHandler } from '@awdlab/jig/api/ng';
+import { domEventHandler, inlineArrowStep } from '@awdlab/jig/api/ng';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 
 export type RovingOrientation = 'horizontal' | 'vertical';
@@ -243,12 +243,15 @@ export class JigRovingGroup {
     let consumed = true;
     switch (e.key) {
       case 'ArrowRight':
-        if (horizontal) this.next();
-        else consumed = false;
-        break;
       case 'ArrowLeft':
-        if (horizontal) this.prev();
-        else consumed = false;
+        // The inline axis follows the writing direction, so in RTL ArrowLeft advances.
+        if (!horizontal) {
+          consumed = false;
+        } else if (inlineArrowStep(this._host, e.key) === 1) {
+          this.next();
+        } else {
+          this.prev();
+        }
         break;
       case 'ArrowDown':
         if (!horizontal) this.next();

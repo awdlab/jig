@@ -1,6 +1,8 @@
 import test, { expect } from '@playwright/test';
 import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent, evalValue } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
+import { expectScreenshot } from '../helper/screenshot';
 
 const ROWS = [
   { id: 1, name: 'Alice' },
@@ -528,4 +530,56 @@ test('accessibility (axe)', async ({ page }) => {
 
   await expect(page.locator('tbody tr[role="row"]')).toHaveCount(ROWS.length);
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    { template: TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
+    {
+      inputs: {
+        rows: ROWS,
+        actions: evalValue(
+          "[{ id: 'edit', label: 'Edit', testId: 'act-edit', callback: () => { (window.__calls ??= []).push('edit'); } }]"
+        ),
+      },
+    }
+  );
+  await expectScreenshot(page, testInfo);
+});
+
+test('rtl keyboard: the action bar is entered from the row inline-end', async ({ page }) => {
+  await useRtl(page);
+  const twoActions = [
+    { id: 'edit', label: 'Edit', icon: 'edit', testId: 'kb-edit' },
+    { id: 'del', label: 'Delete', icon: 'delete', testId: 'kb-del' },
+  ];
+  await loadComponent(
+    page,
+    { template: INLINE_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
+    { inputs: { rows: ROWS, actions: twoActions } }
+  );
+
+  const table = page.locator('jig-table table[role="grid"]');
+  const firstRow = page.locator('tbody tr[role="row"]').nth(0);
+  await table.focus();
+  await page.keyboard.press('ArrowDown');
+  // The bar is hidden until the row is focused, and focus() on a hidden element is
+  // a no-op — so settle the row state before entering.
+  await expect(firstRow).toHaveClass(/focused-row|table-focused-row/);
+
+  // The bar sits at the row's inline-end, so in RTL ArrowLeft enters it.
+  await page.keyboard.press('ArrowLeft');
+  await expect(firstRow).toHaveClass(/active-row|table-active-row/);
+  await expect(firstRow.locator('[data-test-id="kb-edit"]')).toBeFocused();
+
+  await page.keyboard.press('ArrowLeft');
+  await expect(firstRow.locator('[data-test-id="kb-del"]')).toBeFocused();
+  await page.keyboard.press('ArrowRight');
+  await expect(firstRow.locator('[data-test-id="kb-edit"]')).toBeFocused();
+
+  // ArrowRight off the first action backs out to row navigation.
+  await page.keyboard.press('ArrowRight');
+  await expect(table).toBeFocused();
 });

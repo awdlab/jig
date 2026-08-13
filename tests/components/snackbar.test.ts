@@ -1,5 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { JigSnackbarHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -243,4 +244,34 @@ test('accessibility (axe)', async ({ page }) => {
   await snackbar.expectClosable(true);
 
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `
+      <jig-snackbar
+        class="page-center"
+        [header]="inputs().header"
+        [content]="inputs().content"
+        [icon]="inputs().icon"
+        [closable]="inputs().closable"
+        [autoHide]="false"
+        (closeSnackbar)="output('closeSnackbar', $event)"
+      />
+    `,
+      imports: ['snackbar'],
+    },
+    {
+      inputs: {
+        header: 'Notification',
+        content: 'This is a basic snackbar message.',
+        icon: undefined,
+        closable: false,
+      },
+    }
+  );
+  await expectScreenshot(page, testInfo);
 });

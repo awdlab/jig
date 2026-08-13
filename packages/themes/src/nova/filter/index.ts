@@ -61,14 +61,14 @@ export const filterStyles = createThemePart({
       }
       ${c('active-indicator')} {
         top: -2px;
-        right: -2px;
+        inset-inline-end: -2px;
         width: 8px;
         height: 8px;
         border-radius: 50%;
         background: ${v('color.primary.500')};
       }
       ${c('summary')} {
-        padding-right: ${v('size.padding.sm')};
+        padding-inline-end: ${v('size.padding.sm')};
       }
       ${c('inline')} {
         display: flex;

@@ -197,7 +197,7 @@ export const inputFieldStyles = createThemePart({
             position: absolute;
             top: 0;
             transform: translateY(-100%);
-            left: 0;
+            inset-inline-start: 0;
             padding: 0 ${v('size.padding.md')};
             transition-property: top, transform, font-size;
           }
@@ -246,7 +246,7 @@ export const inputFieldStyles = createThemePart({
             position: absolute;
             padding: ${v('size.padding.sm')} 4px;
             top: 0;
-            left: ${v('size.padding.lg')};
+            inset-inline-start: ${v('size.padding.lg')};
             max-width: calc(100% - ${v('size.padding.lg')} * 2);
             transform: translateY(-55%);
             transition-property: top, left, font-size, transform, padding;
@@ -257,7 +257,7 @@ export const inputFieldStyles = createThemePart({
               position: absolute;
               top: 50%;
               transform: translateY(-50%) scale(1);
-              left: 0;
+              inset-inline-start: 0;
               width: 100%;
               height: 6px;
               background: ${v('color.surface.50')};
@@ -271,7 +271,7 @@ export const inputFieldStyles = createThemePart({
             font-size: 1rem;
             pointer-events: none;
             padding: 0 ${v('size.padding.md')};
-            left: 0;
+            inset-inline-start: 0;
             transform: translateY(-50%);
             top: 50%;
             &:before {

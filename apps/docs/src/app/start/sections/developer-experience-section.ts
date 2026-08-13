@@ -167,7 +167,7 @@ const FACTS: readonly Fact[] = [
         class="overflow-hidden rounded-(--jig-size-rounded-lg) border border-(--jig-color-surface-200) bg-(--jig-color-surface-25)"
       >
         <div class="grid grid-cols-1 lg:grid-cols-2">
-          <div class="border-b border-(--jig-color-surface-200) lg:border-r lg:border-b-0">
+          <div class="border-b border-(--jig-color-surface-200) lg:border-e lg:border-b-0">
             <div
               class="flex flex-wrap items-center gap-(--jig-size-padding-lg) border-b border-(--jig-color-surface-200) px-(--jig-size-padding-xl) py-(--jig-size-padding-md)"
             >
@@ -228,7 +228,7 @@ const FACTS: readonly Fact[] = [
                   ><span class="animate-pulse">|</span>
                 </p>
                 <div
-                  class="mt-(--jig-size-padding-sm) ml-(--jig-size-padding-xl) overflow-hidden rounded-(--jig-size-rounded-md) border border-(--jig-color-surface-300) bg-(--jig-color-surface-50) shadow-(--jig-shadow-md)"
+                  class="mt-(--jig-size-padding-sm) ms-(--jig-size-padding-xl) overflow-hidden rounded-(--jig-size-rounded-md) border border-(--jig-color-surface-300) bg-(--jig-color-surface-50) shadow-(--jig-shadow-md)"
                 >
                   <!-- track includes the mode so rows re-create and the flash replays. -->
                   @for (member of members; track member.name + mode(); let first = $first) {

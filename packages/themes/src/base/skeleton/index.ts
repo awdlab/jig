@@ -10,12 +10,12 @@ export const skeletonStyles = createThemePart({
       ${c('root')} {
         box-sizing: border-box;
         display: block;
-        width: var(--width);
-        height: var(--height);
+        width: var(--jig-skeleton-width);
+        height: var(--jig-skeleton-height);
         /* Inset paints inside the box, keeping the total at the authored height. A theme
            restating the background shorthand must restate background-clip with it. */
-        padding-block: var(--inset);
-        border-radius: var(--radius, 0.25rem);
+        padding-block: var(--jig-skeleton-inset);
+        border-radius: var(--jig-skeleton-radius, 0.25rem);
         background: currentColor;
         background-clip: content-box;
         opacity: 0.1;

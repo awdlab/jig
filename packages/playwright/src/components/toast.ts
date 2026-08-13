@@ -1,26 +1,22 @@
 import { toastControlTemplate } from '@awdlab/jig-themes/templates/toast';
-import { themeClasses } from '../utils/theme';
-import test, { expect, type Locator, type Page } from '@playwright/test';
+import { themeClasses } from '../utils/theme.js';
+import { expect, type Locator, type Page } from '@playwright/test';
+import { JigHarness } from '../harness.js';
 
-export class JigToastHarness {
+export class JigToastHarness extends JigHarness {
   public readonly classes = themeClasses(toastControlTemplate);
 
-  public readonly locator: Locator;
   public readonly header: Locator;
   public readonly content: Locator;
   public readonly icon: Locator;
   public readonly closeButton: Locator;
 
   constructor(locator: Locator) {
-    this.locator = locator;
+    super(locator);
     this.header = locator.locator(this.classes.defaultHeader);
     this.content = locator.locator(this.classes.defaultContent);
     this.icon = this.header.locator('jig-icon').first();
     this.closeButton = this.header.locator('button');
-  }
-
-  public async expectVisible() {
-    await expect(this.locator).toBeVisible();
   }
 
   public async expectHidden() {
@@ -56,12 +52,11 @@ export class JigToastHarness {
   }
 }
 
-export class JigToastHostHarness {
+export class JigToastHostHarness extends JigHarness {
   public readonly classes = themeClasses(toastControlTemplate);
-  public readonly locator: Locator;
 
   constructor(page: Page) {
-    this.locator = page.locator('jig-toast-host');
+    super(page.locator('jig-toast-host'));
   }
 
   public getToast(index: number = 0): JigToastHarness {
@@ -74,9 +69,5 @@ export class JigToastHostHarness {
 
   public async expectToastCount(count: number) {
     await expect(this.getAllToasts()).toHaveCount(count);
-  }
-
-  public async expectVisible() {
-    await expect(this.locator).toBeVisible();
   }
 }

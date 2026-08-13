@@ -1,6 +1,9 @@
 import test, { expect } from '@playwright/test';
+import { JigTableHarness } from '@awdlab/jig-playwright';
 
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
+import { expectScreenshot } from '../helper/screenshot';
 import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -103,13 +106,14 @@ async function getColumnWidths(page: import('@playwright/test').Page) {
 test('table column resize - adjacent mode', async ({ page }) => {
   await loadTable(page);
 
-  const resizeHandles = page.locator('[class*="resize-handle"]');
+  const grid = new JigTableHarness(page.locator('jig-table'));
   const initialWidths = await getColumnWidths(page);
   expect(initialWidths[0]).toBeCloseTo(100, -1);
   expect(initialWidths.length).toBe(4);
+  expect(await grid.columnWidth(0)).toBeCloseTo(100, -1);
 
   // Drag ID column handle 100px right
-  await dragHandle(page, resizeHandles.first(), 100);
+  await grid.resizeColumn(0, 100);
 
   const newWidths = await getColumnWidths(page);
   expect(newWidths[0]!).toBeGreaterThan(initialWidths[0]! + 80);
@@ -402,4 +406,33 @@ test('table column resize - double-click works in push mode', async ({ page }) =
   // Name column should have auto-sized
   expect(newWidths[1]).not.toBeCloseTo(initialWidths[1]!, -1);
   expect(newWidths[1]!).toBeGreaterThanOrEqual(48);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadTable(page);
+  await expectScreenshot(page, testInfo);
+});
+
+test('rtl pointer: dragging a resize handle toward the inline-end widens its column', async ({
+  page,
+}) => {
+  await useRtl(page);
+  await loadTable(page);
+
+  const resizeHandles = page.locator('[class*="resize-handle"]');
+  const initialWidths = await getColumnWidths(page);
+
+  // The handle sits on the column's inline-end edge, which is the LEFT side in
+  // RTL — so dragging left widens. A physical implementation would shrink here.
+  await dragHandle(page, resizeHandles.first(), -100);
+
+  const widened = await getColumnWidths(page);
+  expect(widened[0]!).toBeGreaterThan(initialWidths[0]! + 80);
+  expect(widened[1]!).toBeLessThan(initialWidths[1]! - 80);
+
+  // And back the other way, to rule out a sign-agnostic pass.
+  await dragHandle(page, resizeHandles.first(), 100);
+  const restored = await getColumnWidths(page);
+  expect(restored[0]!).toBeLessThan(widened[0]! - 80);
 });

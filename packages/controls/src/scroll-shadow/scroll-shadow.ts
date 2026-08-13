@@ -80,7 +80,8 @@ export class JigScrollShadow {
         surface.style.setProperty('--jig-scroll-shadow-h', `${scrollEl.clientHeight}px`);
 
         if (dir === 'horizontal' || dir === 'both') {
-          const sl = scrollEl.scrollLeft;
+          // Negative in RTL (0 at the inline-start edge), so normalize to a distance.
+          const sl = Math.abs(scrollEl.scrollLeft);
           const maxH = scrollEl.scrollWidth - scrollEl.clientWidth;
           toggleClass(target, this.theme.class('scrolled-start'), sl > 0);
           toggleClass(target, this.theme.class('scrolled-end'), maxH > 0 && sl < maxH - 1);

@@ -306,7 +306,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
           <!-- Hovering the package name lifts the rest of the family into view. -->
           <span class="hero-egg-host relative inline-flex">
             <span
-              class="hero-egg absolute bottom-full left-0 flex flex-col gap-[7px] pb-(--jig-size-padding-md)"
+              class="hero-egg absolute bottom-full start-0 flex flex-col gap-[7px] pb-(--jig-size-padding-md)"
             >
               @for (pkg of eggPackages; track pkg) {
                 <a

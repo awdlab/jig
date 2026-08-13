@@ -3,6 +3,7 @@ import { JigDropdownListHarness } from '@awdlab/jig-playwright';
 
 import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 
 const ITEMS = [
@@ -176,4 +177,43 @@ test('projected header', async ({ page }, testInfo) => {
   await expect(page.getByTestId('header')).toBeVisible();
   await expectScreenshot(page, testInfo, 'with-header');
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `
+        <div class="page-center" style="display: flex; gap: 24px; align-items: start">
+          <div>
+            <button #wide type="button" jigButton (click)="matched.toggle()">
+              A deliberately wide trigger button
+            </button>
+            <jig-dropdown-list
+              #matched
+              inputId="matched"
+              [anchor]="wide"
+              label="Matched width"
+              [items]="inputs().items"
+              [popoverOptions]="{ sizeConstraints: { width: 1, maxWidth: 1 } }"
+            />
+          </div>
+          <div>
+            <button #slim type="button" jigButton (click)="anchored.toggle()">···</button>
+            <jig-dropdown-list
+              #anchored
+              inputId="anchored"
+              [anchor]="slim"
+              label="Anchored width"
+              [items]="inputs().items"
+            />
+          </div>
+        </div>
+      `,
+      imports: ['button', 'dropdownList'],
+    },
+    { inputs: { items: ITEMS } }
+  );
+  await expectScreenshot(page, testInfo);
 });

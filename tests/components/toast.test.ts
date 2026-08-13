@@ -1,5 +1,6 @@
 import test, { expect, type Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { JigToastHostHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
@@ -196,4 +197,11 @@ test('visual', async ({ page }, testInfo) => {
   await host.getToast(0).expectVisible();
 
   await expectScreenshot(page, testInfo, 'toast');
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  const { show } = await loadToastTrigger(page, { message: 'Saved', kind: 'success' });
+  await show.click();
+  await expectScreenshot(page, testInfo);
 });

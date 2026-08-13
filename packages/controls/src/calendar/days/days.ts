@@ -29,6 +29,7 @@ import {
 } from '../types';
 
 import type { ControlTemplateInfo } from '@awdlab/jig/api/ng';
+import { inlineArrowStep } from '@awdlab/jig/api/ng';
 
 // Configuration: Number of weeks to show before and after the current month
 const WEEKS_BEFORE = 1;
@@ -214,7 +215,9 @@ export class CalendarDays {
       const allDayButtons = getCurrentMonthButtons();
       const index = allDayButtons.indexOf(day);
       const daysInMonth = this._daysInMonth();
-      if (event.key === 'ArrowRight') {
+      // The day grid runs along the inline axis, so RTL reverses which key advances.
+      const inline = inlineArrowStep(day, event.key);
+      if (inline === 1) {
         if (index < daysInMonth - 1) {
           allDayButtons[index + 1]?.focus();
         } else {
@@ -223,7 +226,7 @@ export class CalendarDays {
             getCurrentMonthButtons()[0]?.focus();
           });
         }
-      } else if (event.key === 'ArrowLeft') {
+      } else if (inline === -1) {
         if (index > 0) {
           allDayButtons[index - 1]?.focus();
         } else {

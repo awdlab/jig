@@ -1,6 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { JigStateHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -296,4 +297,22 @@ test('visual', async ({ page }, testInfo) => {
   );
 
   await expectScreenshot(page, testInfo, 'kinds');
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `
+        <button jigButton>
+          Save
+          <jig-state kind="loading" />
+        </button>
+      `,
+      imports: ['button', 'state'],
+    },
+    {}
+  );
+  await expectScreenshot(page, testInfo);
 });

@@ -23,10 +23,11 @@ function cssLength(value: number | string): string {
   providers: [provideSelf(JigSkeleton)],
   host: {
     'aria-hidden': 'true',
-    '[style.--width]': 'cssWidth()',
-    '[style.--height]': 'cssHeight()',
-    '[style.--radius]': 'cssRadius()',
-    '[style.--inset]': 'cssInset()',
+    class: 'jig-motion-cosmetic',
+    '[style.--jig-skeleton-width]': 'cssWidth()',
+    '[style.--jig-skeleton-height]': 'cssHeight()',
+    '[style.--jig-skeleton-radius]': 'cssRadius()',
+    '[style.--jig-skeleton-inset]': 'cssInset()',
   },
 })
 export class JigSkeleton extends JigBase<'skeleton'> {

@@ -16,7 +16,7 @@ import { JigFilter, type JigFilterConfig } from '@awdlab/jig/filter';
           (filterResultChange)="filteredData.set($event)"
         />
         <div class="text-sm opacity-70">Filtered: {{ filtered().length }}/{{ data.length }}</div>
-        <ul class="list-disc pl-5">
+        <ul class="list-disc ps-5">
           @for (item of filtered(); track item) {
             <li>{{ item }}</li>
           }
@@ -32,7 +32,7 @@ import { JigFilter, type JigFilterConfig } from '@awdlab/jig/filter';
           (filterResultChange)="filteredData2.set($event)"
         />
         <div class="text-sm opacity-70">Filtered: {{ filtered2().length }}/{{ data.length }}</div>
-        <ul class="list-disc pl-5">
+        <ul class="list-disc ps-5">
           @for (item of filtered2(); track item) {
             <li>{{ item }}</li>
           }

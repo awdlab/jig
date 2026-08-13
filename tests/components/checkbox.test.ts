@@ -1,5 +1,7 @@
 import test, { expect } from '@playwright/test';
+import { JigCheckboxHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -56,11 +58,11 @@ test('disabled checkbox cannot be toggled', async ({ page }) => {
     { inputs: { value: false, disabled: true, readonly: false, invalid: false } }
   );
 
-  const input = page.getByRole('checkbox');
-  await expect(input).toBeDisabled();
+  const checkbox = new JigCheckboxHarness(page.locator('jig-checkbox'));
+  await checkbox.expectDisabled();
 
-  await input.click({ force: true });
-  await expect(input).not.toBeChecked();
+  await checkbox.toggle(true);
+  await checkbox.expectValue(false);
   expect(await handle.getOutputLog()).toEqual({});
 });
 
@@ -71,13 +73,13 @@ test('readonly checkbox blocks interaction but stays enabled', async ({ page }) 
     { inputs: { value: false, disabled: false, readonly: true, invalid: false } }
   );
 
-  const input = page.getByRole('checkbox');
-  await expect(input).not.toBeDisabled();
-  await expect(input).toHaveAttribute('aria-readonly', '');
+  const checkbox = new JigCheckboxHarness(page.locator('jig-checkbox'));
+  await checkbox.expectDisabled(false);
+  await checkbox.expectReadonly();
 
   // The control preventDefaults the click, so the value never flips.
-  await input.click();
-  await expect(input).not.toBeChecked();
+  await checkbox.toggle();
+  await checkbox.expectValue(false);
   expect(await handle.getOutputLog()).toEqual({});
 });
 
@@ -88,16 +90,17 @@ test('surfaces aria-invalid only after the control is touched', async ({ page })
     { inputs: { value: false, disabled: false, readonly: false, invalid: true } }
   );
 
-  const checkbox = page.getByRole('checkbox');
+  const checkbox = new JigCheckboxHarness(page.locator('jig-checkbox'));
   // invalidOn='touched' (default) gates the raw invalid flag: nothing surfaces
   // until the user has interacted, so the invalid never flashes on a pristine field.
-  await expect(checkbox).not.toHaveAttribute('aria-invalid', 'true');
+  await checkbox.expectInvalid(false);
 
   // blurring the control marks it touched, which reveals the invalid state.
   await checkbox.focus();
-  await checkbox.blur();
+  await checkbox.expectFocused();
+  await checkbox.input.blur();
 
-  await expect(checkbox).toHaveAttribute('aria-invalid', 'true');
+  await checkbox.expectInvalid();
 });
 
 test('indeterminate state renders as mixed and resolves on click', async ({ page }) => {
@@ -114,13 +117,13 @@ test('indeterminate state renders as mixed and resolves on click', async ({ page
     { inputs: { value: null } }
   );
 
-  const input = page.getByRole('checkbox');
-  await expect(input).toHaveJSProperty('indeterminate', true);
+  const checkbox = new JigCheckboxHarness(page.locator('jig-checkbox'));
+  await checkbox.expectIndeterminate();
 
   // Clicking an indeterminate checkbox resolves it to checked.
-  await input.click();
-  await expect(input).toHaveJSProperty('indeterminate', false);
-  await expect(input).toBeChecked();
+  await checkbox.toggle();
+  await checkbox.expectIndeterminate(false);
+  await checkbox.expectValue(true);
   expect((await handle.getOutputLog())['value']).toEqual([true]);
 });
 
@@ -168,4 +171,14 @@ test('visual', async ({ page }, testInfo) => {
     await expect(page.getByRole('checkbox')).toHaveAttribute('aria-invalid', 'true');
     await expectScreenshot(page, testInfo, 'invalid');
   });
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    { template: TEMPLATE, imports: ['checkbox'] },
+    { inputs: { value: false, disabled: false, readonly: false, invalid: false } }
+  );
+  await expectScreenshot(page, testInfo);
 });

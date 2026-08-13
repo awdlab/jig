@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { booleanAttribute, Component, computed, input, signal } from '@angular/core';
+import { inlineArrowStep, isRtl } from '@awdlab/jig/api/ng';
 import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigIcon } from '@awdlab/jig/icon';
 import { ratingControlTemplate } from '@awdlab/jig-themes/templates/rating';
@@ -90,15 +91,24 @@ export class JigRating extends RatingTemplates {
     }
     switch (event.key) {
       case 'ArrowLeft':
+      case 'ArrowRight': {
+        // Symbols run along the inline axis, matching the pointer handling in valueAt().
+        const step = inlineArrowStep(event.currentTarget as Element, event.key) * this.step();
+        this.value.update(v => {
+          const next = (v ?? 0) + step;
+          // Decrementing below the first step clears the rating (0 is not a valid value).
+          return next <= 0 ? null : Math.min(this.count(), next);
+        });
+        event.preventDefault();
+        break;
+      }
       case 'ArrowDown':
-        // Decrementing below the first step clears the rating (0 is not a valid value).
         this.value.update(v => {
           const next = (v ?? 0) - this.step();
           return next <= 0 ? null : next;
         });
         event.preventDefault();
         break;
-      case 'ArrowRight':
       case 'ArrowUp':
         this.value.update(v => Math.min(this.count(), (v ?? 0) + this.step()));
         event.preventDefault();
@@ -146,11 +156,10 @@ export class JigRating extends RatingTemplates {
    * click share the same bounds — positions in the gaps snap to the symbol they precede.
    */
   private valueAt(event: MouseEvent): number | null {
-    const rects = this.symbolRects(event.currentTarget as HTMLElement);
-    // Flex reverses the symbols in RTL, so the inline direction is read off the rects
-    // instead of assuming DOM order runs left to right.
-    const [first, second] = rects;
-    const rtl = !!first && !!second && second.left < first.left;
+    const root = event.currentTarget as HTMLElement;
+    const rects = this.symbolRects(root);
+    // Flex reverses the symbols in RTL, so DOM order does not run left to right.
+    const rtl = isRtl(root);
     const index = rects.findIndex(r => (rtl ? event.clientX >= r.left : event.clientX <= r.right));
     const rect = rects[index];
     // index -1 means the pointer is past the last symbol: the root can be wider than its
@@ -164,7 +173,7 @@ export class JigRating extends RatingTemplates {
     // Fill on area-entry: within symbol `index`, snap UP to the nearest `step`
     // sub-division. Entering the symbol anywhere (ratio > 0) selects at least its
     // first sub-step, so a whole-step rating fills the entire symbol as soon as the
-    // pointer is over it, and a half-step rating fills the left/right half.
+    // pointer is over it, and a half-step rating fills the leading half.
     const step = this.step();
     const subStepsPerSymbol = Math.max(1, Math.round(1 / step));
     const subIndex = Math.min(

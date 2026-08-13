@@ -46,6 +46,9 @@ export const switchStyles = createThemePart({
       ${c('track-checked')} ${c('thumb')} {
         transform: translateX(1.0625rem);
       }
+      ${c('track-checked')}:dir(rtl) ${c('thumb')} {
+        transform: translateX(-1.0625rem);
+      }
 
       ${c('root')}:has(${c('input')}[disabled]) ${c('track')} {
         background-color: ${v('color.disabled.background')};

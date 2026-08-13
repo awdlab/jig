@@ -1,11 +1,11 @@
 import { expect, type Locator } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { meterControlTemplate } from '@awdlab/jig-themes/templates/meter';
+import { JigHarness } from '../harness.js';
 
-export class JigMeterHarness {
+export class JigMeterHarness extends JigHarness {
   public readonly classes = themeClasses(meterControlTemplate);
 
-  public readonly locator: Locator;
   public readonly track: Locator;
   public readonly segments: Locator;
   public readonly legend: Locator;
@@ -14,17 +14,13 @@ export class JigMeterHarness {
   public readonly icons: Locator;
 
   constructor(locator: Locator) {
-    this.locator = locator;
+    super(locator);
     this.track = locator.locator(this.classes.track);
     this.segments = locator.locator(this.classes.segment);
     this.legend = locator.locator(this.classes.legend);
     this.items = locator.locator(this.classes.item);
     this.values = locator.locator(this.classes.value);
     this.icons = locator.locator(this.classes.icon);
-  }
-
-  public async expectVisible() {
-    await expect(this.locator).toBeVisible();
   }
 
   public async expectSegmentCount(count: number) {

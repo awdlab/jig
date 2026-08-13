@@ -73,17 +73,21 @@ export class JigButtonGroup extends JigBase<'buttonGroup'> {
     // calls `inject()`, so it must run in an injection context.
     effect(onCleanup => {
       const group = this._roving();
-      const items = this._contentRef().map(ref => {
+      const items = this._contentRef()
         // The projected control's host is not always the focusable element:
         // `button[jigButton]` is itself the button, but `jig-toggle-button`
-        // wraps a native `<button>`. Roving must own the real tab stop.
-        const host = ref.element.nativeElement;
-        const element = resolveFocusable(host);
-        if (!element.id) {
-          element.id = runInInjectionContext(this._injector, () => generateElementId());
-        }
-        return { id: element.id, element, disabled: resolveDisabled(ref, element) };
-      });
+        // wraps a native `<button>`. Roving must own the real tab stop, and a
+        // control with no focusable element is not a stop at all.
+        .flatMap(ref => {
+          const element = resolveFocusable(ref.element.nativeElement);
+          return element ? [{ ref, element }] : [];
+        })
+        .map(({ ref, element }) => {
+          if (!element.id) {
+            element.id = runInInjectionContext(this._injector, () => generateElementId());
+          }
+          return { id: element.id, element, disabled: resolveDisabled(ref, element) };
+        });
       items.forEach(item => group.register(item));
       onCleanup(() => items.forEach(item => group.unregister(item)));
     });

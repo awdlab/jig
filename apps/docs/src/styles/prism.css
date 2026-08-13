@@ -7,8 +7,6 @@
 :root {
   --prism-bg: #f6f8fa;
   --prism-fg: #24292e;
-  --prism-inline: #cf222e;
-  --prism-selection: #add6ff;
   --prism-comment: #008000;
   --prism-number: #098658;
   --prism-string: #a31515;
@@ -27,8 +25,6 @@
 :root.dark {
   --prism-bg: #1e1e1e;
   --prism-fg: #d4d4d4;
-  --prism-inline: #db4c69;
-  --prism-selection: #264f78;
   --prism-comment: #6a9955;
   --prism-number: #b5cea8;
   --prism-string: #ce9178;
@@ -54,6 +50,15 @@ code.prism {
   color: var(--prism-fg);
 }
 
+/* Source reads left-to-right even on an RTL page; `isolate` keeps an inline
+* chip's brackets from mirroring inside RTL prose. */
+pre,
+code {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: left;
+}
+
 pre:has(> code.prism) {
   padding: 1em;
   border-radius: 0.5rem;
@@ -61,52 +66,11 @@ pre:has(> code.prism) {
   overflow-x: auto;
 }
 
-.prism {
-  pre[class*='language-'],
-  code[class*='language-'] {
-    color: var(--prism-fg);
-    font-size: 0.8rem;
-    text-shadow: none;
-    font-family: Menlo, Monaco, Consolas, 'Andale Mono', 'Ubuntu Mono', 'Courier New', monospace;
-    direction: ltr;
-    text-align: left;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    line-height: 1.5;
-    -moz-tab-size: 4;
-    -o-tab-size: 4;
-    tab-size: 4;
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
-  }
-
-  pre[class*='language-']::selection,
-  code[class*='language-']::selection,
-  pre[class*='language-'] *::selection,
-  code[class*='language-'] *::selection {
-    text-shadow: none;
-    background: var(--prism-selection);
-  }
-
-  pre[class*='language-'] {
-    padding: 1em;
-    margin: 0.5em 0;
-    overflow: auto;
-    background: var(--prism-bg);
-  }
-
-  :not(pre) > code[class*='language-'] {
-    padding: 0.1em 0.3em;
-    border-radius: 0.3em;
-    color: var(--prism-inline);
-    background: var(--prism-bg);
-  }
-  /*********************************************************
-* Tokens
+/*********************************************************
+* Token colors. `prism` sits on the `<code>` itself, so everything below is a
+* descendant selector against the spans Prism emits.
 */
+.prism {
   .namespace {
     opacity: 0.7;
   }
@@ -286,48 +250,13 @@ pre:has(> code.prism) {
     color: var(--prism-class);
   }
   /*********************************************************
-* Language Specific
+* Language Specific — embedded grammars (Prism nests these as spans)
 */
-
-  pre[class*='language-javascript'],
-  code[class*='language-javascript'],
-  pre[class*='language-jsx'],
-  code[class*='language-jsx'],
-  pre[class*='language-typescript'],
-  code[class*='language-typescript'],
-  pre[class*='language-tsx'],
-  code[class*='language-tsx'] {
-    color: var(--prism-variable);
-  }
-
-  pre[class*='language-css'],
-  code[class*='language-css'] {
-    color: var(--prism-string);
-  }
-
-  pre[class*='language-html'],
-  code[class*='language-html'] {
-    color: var(--prism-fg);
-  }
-
   .language-regex .token.anchor {
     color: var(--prism-function);
   }
 
   .language-html .token.punctuation {
     color: var(--prism-muted);
-  }
-  /*********************************************************
-* Line highlighting
-*/
-  pre[class*='language-'] > code[class*='language-'] {
-    position: relative;
-    z-index: 1;
-  }
-
-  .line-highlight.line-highlight {
-    background: #f7ebc6;
-    box-shadow: inset 5px 0 0 #f7d87c;
-    z-index: 0;
   }
 }

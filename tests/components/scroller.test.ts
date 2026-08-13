@@ -1,6 +1,7 @@
 import { JigScrollerHarness } from '@awdlab/jig-playwright';
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -538,4 +539,26 @@ test('accessibility (axe)', async ({ page }) => {
   await scroller.expectItemsCount(50);
 
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  const items = Array.from({ length: 50 }, (_, i) => ({ id: i, label: `Item ${i + 1}` }));
+  await loadComponent(
+    page,
+    {
+      template: `
+        <jig-scroller #scroller style="height: 300px; width: 300px;" [items]="inputs().items">
+          <ng-template #item let-item>
+            <div [jigScrollerItem]="item" style="padding: 8px; border-bottom: 1px solid #ccc;">
+              {{ item.label }}
+            </div>
+          </ng-template>
+        </jig-scroller>
+      `,
+      imports: ['scroller', 'jigTemplate'],
+    },
+    { inputs: { items } }
+  );
+  await expectScreenshot(page, testInfo);
 });

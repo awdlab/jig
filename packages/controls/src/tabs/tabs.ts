@@ -15,7 +15,13 @@ import {
   viewChild,
   viewChildren,
 } from '@angular/core';
-import { elementSizeSignal, elementsSizesSignal, Platform } from '@awdlab/jig/api/ng';
+import {
+  elementSizeSignal,
+  elementsSizesSignal,
+  inlineArrowStep,
+  isRtl,
+  Platform,
+} from '@awdlab/jig/api/ng';
 import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigDefer } from '@awdlab/jig/defer';
 import { JigDragScroll, JigScrollAmount } from '@awdlab/jig/directives';
@@ -58,19 +64,19 @@ export class JigTabs extends TabsTemplates implements AfterViewInit {
    */
   public readonly activeTab = model<string>('');
   /**
-   * Icon for the left scroll button.
+   * Icon for the scroll button at the inline-start edge.
    */
-  public readonly iconScrollLeft = input<IconType>();
+  public readonly iconScrollStart = input<IconType>();
   /**
-   * Icon for the right scroll button.
+   * Icon for the scroll button at the inline-end edge.
    */
-  public readonly iconScrollRight = input<IconType>();
+  public readonly iconScrollEnd = input<IconType>();
 
   protected readonly isFirstRender = signal(true);
 
   protected readonly elementId = generateElementId();
   protected readonly indicatorWidth = signal(0);
-  protected readonly indicatorLeft = signal(0);
+  protected readonly indicatorInlineStart = signal(0);
 
   private readonly _tabs = contentChildren(JigTab);
   private readonly _tabList = viewChild.required<unknown, ElementRef<HTMLDivElement>>('tabList', {
@@ -79,7 +85,9 @@ export class JigTabs extends TabsTemplates implements AfterViewInit {
   private readonly _tabListScrollDirective = viewChild.required('tabList', {
     read: JigScrollAmount,
   });
-  private readonly _tabListScroll = computed(() => this._tabListScrollDirective().scrollLeft());
+  private readonly _tabListScroll = computed(() =>
+    this._tabListScrollDirective().scrollInlineStart()
+  );
   private readonly _tabListSize = elementSizeSignal(this._tabList);
 
   private readonly _renderedTabHeaders = viewChildren<ElementRef<HTMLButtonElement>>('tabHeader');
@@ -128,7 +136,7 @@ export class JigTabs extends TabsTemplates implements AfterViewInit {
     return totalWidth + this._headerGap() * Math.max(0, sizes.length - 1);
   });
 
-  protected readonly tabsOverflowingRight = computed(() => {
+  protected readonly tabsOverflowingEnd = computed(() => {
     const tabListWidth = this._tabListSize().width;
     const scrollAmount = this._tabListScroll();
     // Use the signal-tracked total width instead of reading scrollWidth
@@ -138,7 +146,7 @@ export class JigTabs extends TabsTemplates implements AfterViewInit {
     return totalHeadersWidth - scrollAmount > tabListWidth + 0.5;
   });
 
-  protected readonly tabsOverflowingLeft = computed(() => this._tabListScroll() > 0);
+  protected readonly tabsOverflowingStart = computed(() => this._tabListScroll() > 0);
 
   constructor() {
     super();
@@ -159,7 +167,7 @@ export class JigTabs extends TabsTemplates implements AfterViewInit {
         .reduce((partialSum, a) => partialSum + a, 0);
 
       this.indicatorWidth.set(headersizes[activeTabIndex]?.width ?? 0);
-      this.indicatorLeft.set(headerSizesBeforeActive);
+      this.indicatorInlineStart.set(headerSizesBeforeActive);
     });
   }
 
@@ -200,7 +208,9 @@ export class JigTabs extends TabsTemplates implements AfterViewInit {
         return;
       }
 
-      const nextIndex = event.key === 'ArrowRight' ? indexOfCurrentTab + 1 : indexOfCurrentTab - 1;
+      // Headers run along the inline axis, so RTL reverses which key advances.
+      const nextIndex =
+        indexOfCurrentTab + inlineArrowStep(event.currentTarget as Element, event.key);
       // overflow
       const safeNextIndex = (nextIndex + this._tabs().length) % this._tabs().length;
 
@@ -216,20 +226,19 @@ export class JigTabs extends TabsTemplates implements AfterViewInit {
   }
 
   private ensureTabHeaderIsScrolledIntoView(index: number) {
-    const { left: leftCutOffTabHeaderIndex, right: rightCutOffTabHeaderIndex } =
-      this.getCutOffTabHeaders();
+    const { start: startCutOffIndex, end: endCutOffIndex } = this.getCutOffTabHeaders();
     const tablistElement = this._tabList().nativeElement;
-    if (index <= leftCutOffTabHeaderIndex) {
+    if (index <= startCutOffIndex) {
       const newScrollLeft = this.calculateHeaderSliceWidth(0, index) - PADDING_FOR_STICKY_ELEMENTS;
       setTimeout(() => {
-        tablistElement.scrollTo({ left: newScrollLeft, behavior: 'smooth' });
+        this.scrollToInlineStart(tablistElement, newScrollLeft);
       });
-    } else if (index >= rightCutOffTabHeaderIndex && rightCutOffTabHeaderIndex >= 0) {
-      const rightCutOffHeader = this._headerSizes()[rightCutOffTabHeaderIndex];
+    } else if (index >= endCutOffIndex && endCutOffIndex >= 0) {
+      const rightCutOffHeader = this._headerSizes()[endCutOffIndex];
       if (!rightCutOffHeader) {
         throw new JigError(
           'JigTabs',
-          `Right cut off header is undefined for index ${rightCutOffTabHeaderIndex}`
+          `Right cut off header is undefined for index ${endCutOffIndex}`
         );
       }
       const newScrollLeft =
@@ -238,7 +247,7 @@ export class JigTabs extends TabsTemplates implements AfterViewInit {
         rightCutOffHeader.width +
         PADDING_FOR_STICKY_ELEMENTS;
       setTimeout(() => {
-        tablistElement.scrollTo({ left: newScrollLeft, behavior: 'smooth' });
+        this.scrollToInlineStart(tablistElement, newScrollLeft);
       });
     }
   }
@@ -255,8 +264,8 @@ export class JigTabs extends TabsTemplates implements AfterViewInit {
     const tabListWidth = tabListElement.clientWidth - PADDING_FOR_STICKY_ELEMENTS; // account for right padding
 
     const scrollAmount = this._tabListScroll();
-    let leftCutOffTabHeaderIndex = -1;
-    let rightCutOffTabHeaderIndex = -1;
+    let startCutOffIndex = -1;
+    let endCutOffIndex = -1;
     let cumulativeWidth = PADDING_FOR_STICKY_ELEMENTS; // account for left padding
 
     headers.forEach(header => {
@@ -265,44 +274,51 @@ export class JigTabs extends TabsTemplates implements AfterViewInit {
         const headerEnd = cumulativeWidth + header;
         cumulativeWidth = headerEnd;
 
-        if (leftCutOffTabHeaderIndex === -1 && headerEnd > scrollAmount) {
-          leftCutOffTabHeaderIndex = i;
+        if (startCutOffIndex === -1 && headerEnd > scrollAmount) {
+          startCutOffIndex = i;
         }
         if (
-          rightCutOffTabHeaderIndex === -1 &&
+          endCutOffIndex === -1 &&
           headerStart < scrollAmount + tabListWidth &&
           headerEnd > scrollAmount + tabListWidth
         ) {
-          rightCutOffTabHeaderIndex = i;
+          endCutOffIndex = i;
         }
       }
     });
     return {
-      left: leftCutOffTabHeaderIndex,
-      right: rightCutOffTabHeaderIndex,
+      start: startCutOffIndex,
+      end: endCutOffIndex,
     };
   }
 
-  protected scrollHeaders(direction: 'left' | 'right') {
+  /**
+   * Scrolls the header list to `inlineStart` px from its inline-start edge.
+   * `scrollTo` takes a physical offset, which runs negative under RTL.
+   */
+  private scrollToInlineStart(el: HTMLElement, inlineStart: number): void {
+    el.scrollTo({ left: isRtl(el) ? -inlineStart : inlineStart, behavior: 'smooth' });
+  }
+
+  protected scrollHeaders(direction: 'start' | 'end') {
     const tabListElement = this._tabList().nativeElement;
     const headers = this._headerSizes().map(s => s.width);
 
     const tabListWidth = tabListElement.clientWidth - PADDING_FOR_STICKY_ELEMENTS; // account for right padding
 
-    const { left: leftCutOffTabHeaderIndex, right: rightCutOffTabHeaderIndex } =
-      this.getCutOffTabHeaders();
+    const { start: startCutOffIndex, end: endCutOffIndex } = this.getCutOffTabHeaders();
 
-    if (direction === 'right') {
-      const newScrollAmount = this.calculateHeaderSliceWidth(0, rightCutOffTabHeaderIndex);
+    if (direction === 'end') {
+      const newScrollAmount = this.calculateHeaderSliceWidth(0, endCutOffIndex);
 
       const scrollAmountFixed =
         newScrollAmount >= tabListElement.scrollWidth
           ? newScrollAmount
           : newScrollAmount - PADDING_FOR_STICKY_ELEMENTS;
-      tabListElement.scrollTo({ left: scrollAmountFixed, behavior: 'smooth' });
+      this.scrollToInlineStart(tabListElement, scrollAmountFixed);
     } else {
       let usedUpSpace = 0;
-      let indexOfFirstVisibleTab = leftCutOffTabHeaderIndex;
+      let indexOfFirstVisibleTab = startCutOffIndex;
       while (
         usedUpSpace < tabListWidth - PADDING_FOR_STICKY_ELEMENTS * 2 &&
         indexOfFirstVisibleTab >= 0
@@ -317,7 +333,7 @@ export class JigTabs extends TabsTemplates implements AfterViewInit {
           : headers.slice(0, indexOfFirstVisibleTab + 2).reduce((a, b) => a + b, 0) -
             PADDING_FOR_STICKY_ELEMENTS;
 
-      tabListElement.scrollTo({ left: scrollTo, behavior: 'smooth' });
+      this.scrollToInlineStart(tabListElement, scrollTo);
     }
   }
 }

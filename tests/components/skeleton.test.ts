@@ -1,6 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { JigSkeletonHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -133,6 +134,21 @@ test('custom radius', async ({ page }, testInfo) => {
   await expectScreenshot(page, testInfo, 'radius-pill');
 });
 
+// The sizing variables are namespaced, so an app token of the same short name cannot
+// reach into the skeleton and override what the theme decided.
+test('app custom properties do not leak into the skeleton', async ({ page }) => {
+  await loadComponent(page, {
+    template: `<div style="--radius: 9999px; --width: 10px; --height: 10px; --inset: 20px">
+      <jig-skeleton [width]="200" [height]="16" />
+    </div>`,
+    imports: ['skeleton'],
+  });
+
+  const skeleton = new JigSkeletonHarness(page.locator('jig-skeleton'));
+  await skeleton.expectSize(200, 16);
+  expect(await skeleton.borderRadius()).not.toBe('9999px');
+});
+
 test('is hidden from assistive tech', async ({ page }) => {
   await loadComponent(
     page,
@@ -181,4 +197,17 @@ test('accessibility (axe)', async ({ page }) => {
   );
 
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `<jig-skeleton [width]="200" [height]="16" />`,
+      imports: ['skeleton'],
+    },
+    {}
+  );
+  await expectScreenshot(page, testInfo);
 });

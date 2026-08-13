@@ -1,14 +1,16 @@
 import { type Locator, expect } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { tabsControlTemplate } from '@awdlab/jig-themes/templates/tabs';
+import { JigHarness } from '../harness.js';
 
-export class JigTabsHarness {
+export class JigTabsHarness extends JigHarness {
   public readonly classes = themeClasses(tabsControlTemplate);
 
   public readonly headers: Locator;
   public readonly contents: Locator;
 
-  constructor(public locator: Locator) {
+  constructor(locator: Locator) {
+    super(locator);
     this.headers = this.locator.locator(this.classes['header']);
     this.contents = this.locator.locator(this.classes['content']);
   }
@@ -22,7 +24,7 @@ export class JigTabsHarness {
   }
 }
 
-export class JigTabHarness {
+export class JigTabHarness extends JigHarness {
   public readonly classes = themeClasses(tabsControlTemplate);
 
   public readonly header: Locator;
@@ -32,8 +34,10 @@ export class JigTabHarness {
     public tabs: JigTabsHarness,
     public index: number
   ) {
-    this.header = this.tabs.headers.nth(index);
-    this.content = this.tabs.contents.nth(index);
+    // A tab's host is its header — the element that is clicked and carries `aria-selected`.
+    super(tabs.headers.nth(index));
+    this.header = tabs.headers.nth(index);
+    this.content = tabs.contents.nth(index);
   }
 
   public expectHeaderText(expected: string) {

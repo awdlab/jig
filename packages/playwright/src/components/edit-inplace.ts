@@ -1,16 +1,18 @@
 import { type Locator, expect } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { editInplaceControlTemplate } from '@awdlab/jig-themes/templates/edit-inplace';
-import { JigInplaceHarness } from './inplace';
+import { JigInplaceHarness } from './inplace.js';
+import { JigHarness } from '../harness.js';
 
-export class JigEditInplaceHarness {
+export class JigEditInplaceHarness extends JigHarness {
   public readonly classes = themeClasses(editInplaceControlTemplate);
 
   public readonly inplace: JigInplaceHarness;
   public readonly input: Locator;
   public readonly closeButton: Locator;
 
-  constructor(public locator: Locator) {
+  constructor(locator: Locator) {
+    super(locator);
     this.inplace = new JigInplaceHarness(this.locator.locator(this.classes['inplace']['root']));
     this.input = this.locator.locator(this.classes['default-edit-input']);
     this.closeButton = this.locator.locator(this.classes['default-edit-close-button']);

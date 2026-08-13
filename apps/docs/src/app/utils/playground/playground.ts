@@ -16,7 +16,7 @@ import type { AnyJigBase } from '@awdlab/jig/base';
   // title + tabs header; more on mobile where the breadcrumb shows) so the page
   // itself never scrolls — overflow lives in the panels' internal scrollers.
   host: {
-    class: 'h-[calc(100dvh_-_16rem)] py-2 pr-2 md:h-[calc(100dvh_-_13.5rem)] md:py-8 md:pr-8 flex',
+    class: 'h-[calc(100dvh_-_16rem)] py-2 pe-2 md:h-[calc(100dvh_-_13.5rem)] md:py-8 md:pe-8 flex',
   },
 })
 export class JigDocsPlayground {

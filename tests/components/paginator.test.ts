@@ -1,5 +1,7 @@
 import test, { expect } from '@playwright/test';
+import { JigPaginatorHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -33,19 +35,19 @@ test('next / previous navigation moves the current page and emits state', async 
     { inputs: baseInputs }
   );
 
-  const paginator = page.locator('jig-paginator');
-  const current = paginator.locator('[aria-current="page"]');
+  const paginator = new JigPaginatorHarness(page.locator('jig-paginator'));
+  await paginator.expectPageCount(3);
 
-  await paginator.getByLabel('Next page').click();
-  await expect(current).toHaveText('2');
+  await paginator.goToNext();
+  await paginator.expectCurrentPage(2);
 
   let last = (await handle.getOutputLog())['value']!.at(-1);
   expect(last.page.current).toBe(1);
   expect(last.page.size).toBe(10);
   expect(last.slice).toEqual({ skip: 10, take: 10 });
 
-  await paginator.getByLabel('Previous page').click();
-  await expect(current).toHaveText('1');
+  await paginator.goToPrevious();
+  await paginator.expectCurrentPage(1);
 
   last = (await handle.getOutputLog())['value']!.at(-1);
   expect(last.page.current).toBe(0);
@@ -181,4 +183,10 @@ test('visual', async ({ page }, testInfo) => {
 
   await expect(page.locator('jig-paginator [aria-current="page"]')).toHaveText('1');
   await expectScreenshot(page, testInfo, 'pages');
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(page, { template: TEMPLATE, imports: ['paginator'] }, { inputs: baseInputs });
+  await expectScreenshot(page, testInfo);
 });

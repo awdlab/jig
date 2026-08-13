@@ -60,7 +60,7 @@ export class JigDocsPageTabRenderer {
 
   protected readonly tabPt: JigPassthrough<'tabs'> = {
     'headers-container': {
-      $classes: 'mr-2 md:mr-8',
+      $classes: 'me-2 md:me-8',
     },
     content: {
       $styles: {

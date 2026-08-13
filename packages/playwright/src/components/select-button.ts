@@ -1,16 +1,16 @@
 import { type Locator, expect } from '@playwright/test';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { selectButtonControlTemplate } from '@awdlab/jig-themes/templates/select-button';
-import { JigToggleButtonHarness } from './toggle-button';
+import { JigToggleButtonHarness } from './toggle-button.js';
+import { JigHarness } from '../harness.js';
 
-export class JigSelectButtonHarness {
+export class JigSelectButtonHarness extends JigHarness {
   public readonly classes = themeClasses(selectButtonControlTemplate);
 
-  public readonly locator: Locator;
   public readonly buttons: Locator;
 
   constructor(locator: Locator) {
-    this.locator = locator;
+    super(locator);
     this.buttons = locator.locator('jig-toggle-button');
   }
 
@@ -25,7 +25,7 @@ export class JigSelectButtonHarness {
   }
 
   public async clickButtonAt(index: number, force = false) {
-    await this.getButtonAt(index).click(force);
+    await this.getButtonAt(index).click({ force });
   }
 
   public async expectButtonCount(count: number) {
@@ -43,7 +43,7 @@ export class JigSelectButtonHarness {
     }
   }
 
-  public async expectDisabled(disabled: boolean) {
+  public override async expectDisabled(disabled: boolean) {
     const innerButtons = this.locator.locator('button');
     const count = await innerButtons.count();
     for (let i = 0; i < count; i++) {

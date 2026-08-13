@@ -28,7 +28,7 @@
       ul,
       ol {
         margin: 0.85rem 0;
-        padding-left: 1.5rem;
+        padding-inline-start: 1.5rem;
       }
       ul {
         list-style: disc;
@@ -52,7 +52,7 @@
       blockquote {
         margin: 1.25rem 0;
         padding: 0.5rem 1rem;
-        border-left: 3px solid var(--jig-color-primary-400);
+        border-inline-start: 3px solid var(--jig-color-primary-400);
         border-radius: var(--jig-size-rounded-sm);
         background: var(--jig-color-surface-50);
         color: var(--jig-color-surface-700);
@@ -125,7 +125,7 @@
         .heading-anchor {
           display: inline-flex;
           align-items: center;
-          margin-left: 0.4rem;
+          margin-inline-start: 0.4rem;
           color: var(--jig-color-surface-400);
           opacity: 0;
           transition:
@@ -145,7 +145,7 @@
           // Transient "Copied!" confirmation after a click.
           &.copied::after {
             content: 'Copied!';
-            margin-left: 0.35rem;
+            margin-inline-start: 0.35rem;
             font-size: var(--jig-font-size-xs);
             color: var(--jig-color-primary-500);
             opacity: 1;
@@ -165,14 +165,14 @@
       table {
         border-spacing: 0;
         min-width: 100%;
-        padding-left: 8px;
+        padding-inline-start: 8px;
         outline: 1px solid var(--jig-color-surface-200);
         outline-offset: -1px;
         border-radius: var(--jig-size-rounded-lg);
         overflow: hidden;
         box-sizing: border-box;
         thead tr th {
-          text-align: left;
+          text-align: start;
           background-color: var(--jig-color-surface-50);
           color: var(--jig-color-surface-600);
           padding: 1rem 1.5rem;

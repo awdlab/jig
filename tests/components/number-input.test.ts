@@ -1,5 +1,7 @@
 import test, { expect, type Page } from '@playwright/test';
+import { JigSpinButtonsHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -35,9 +37,14 @@ async function loadNumberInput(
   );
   const input = page.locator('input[jignumberinput]');
   await expect(input).toBeVisible();
-  const decrement = page.locator('jig-spin-buttons button').nth(0);
-  const increment = page.locator('jig-spin-buttons button').nth(1);
-  return { handle, input, increment, decrement };
+  const spin = new JigSpinButtonsHarness(page.locator('jig-spin-buttons'));
+  return {
+    handle,
+    input,
+    spin,
+    increment: spin.increment.locator,
+    decrement: spin.decrement.locator,
+  };
 }
 
 async function lastValue(handle: { getOutputLog: () => Promise<Record<string, any[]>> }) {
@@ -233,4 +240,10 @@ test('visual', async ({ page }, testInfo) => {
   await expect(input).toHaveValue(/1.234.5/);
 
   await expectScreenshot(page, testInfo, 'with-spin-buttons');
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadNumberInput(page, { value: 1234.5, min: 0, max: 9999 });
+  await expectScreenshot(page, testInfo);
 });

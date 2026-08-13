@@ -1,5 +1,6 @@
 import test, { expect, type Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -148,4 +149,29 @@ test('visual', async ({ page }, testInfo) => {
     await expect(cells.nth(3)).toHaveValue('4');
     await expectScreenshot(page, testInfo, 'filled');
   });
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  const { cells } = await loadOtp(page, { length: 4, integerOnly: true });
+  await cells.nth(0).focus();
+  await page.keyboard.type('12');
+  await expectScreenshot(page, testInfo);
+});
+
+test('rtl keyboard: cells advance along the inline axis', async ({ page }) => {
+  await useRtl(page);
+  const { cells } = await loadOtp(page, { length: 4, integerOnly: true });
+
+  await cells.nth(0).focus();
+  await expect(cells.nth(0)).toBeFocused();
+
+  await page.keyboard.press('ArrowLeft');
+  await expect(cells.nth(1)).toBeFocused();
+  await page.keyboard.press('ArrowRight');
+  await expect(cells.nth(0)).toBeFocused();
+
+  // Cannot step past the first cell backwards.
+  await page.keyboard.press('ArrowRight');
+  await expect(cells.nth(0)).toBeFocused();
 });

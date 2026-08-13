@@ -38,8 +38,8 @@ export const chipStyles = createThemePart({
         background: none;
         color: var(--theme-color-600-on-100);
         border: none;
-        border-top-right-radius: ${v('size.rounded.full')};
-        border-bottom-right-radius: ${v('size.rounded.full')};
+        border-start-end-radius: ${v('size.rounded.full')};
+        border-end-end-radius: ${v('size.rounded.full')};
         font-size: 0.75rem;
 
         /* Inset: the button is flush with the chip's edge, so an offset ring would sit
@@ -83,9 +83,9 @@ export const chipStyles = createThemePart({
 
       ${c('closable')} {
         ${c('content')} {
-          padding-right: calc(${v('size.padding.sm')} / 2);
-          border-top-right-radius: 0;
-          border-bottom-right-radius: 0;
+          padding-inline-end: calc(${v('size.padding.sm')} / 2);
+          border-start-end-radius: 0;
+          border-end-end-radius: 0;
         }
       }
     `,

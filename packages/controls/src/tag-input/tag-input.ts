@@ -13,7 +13,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { JigTemplate } from '@awdlab/jig/api/ng';
+import { inlineArrowStep, JigTemplate } from '@awdlab/jig/api/ng';
 import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigDragScroll } from '@awdlab/jig/directives';
 import { JigDropdownList } from '@awdlab/jig/dropdown-list';
@@ -476,7 +476,12 @@ export class JigTagInput extends TagInputTemplates {
       this.removeTag(this.tags().length - 1);
       return;
     }
-    if (event.key === 'ArrowLeft' && this._caretAtStart() && this.tags().length) {
+    // The tags sit before the caret on the inline axis, so RTL reaches them with ArrowRight.
+    if (
+      inlineArrowStep(event.currentTarget as Element, event.key) === -1 &&
+      this._caretAtStart() &&
+      this.tags().length
+    ) {
       event.preventDefault();
       this._focusTag(this.tags().length - 1);
     }

@@ -1,6 +1,8 @@
 import test, { expect } from '@playwright/test';
+import { JigDrawerHarness } from '@awdlab/jig-playwright';
 
 import { expectOutput, loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -23,16 +25,17 @@ test('modal drawer is a labelled dialog with aria-modal', async ({ page }) => {
     page,
     { template: MODEL_TEMPLATE, imports: ['drawer'] },
     {
-      inputs: { open: true, modal: true, header: 'Filters', position: 'left' },
+      inputs: { open: true, modal: true, header: 'Filters', position: 'start' },
     }
   );
 
-  const drawer = page.locator('jig-drawer');
-  await expect(drawer).toBeVisible();
-  await expect(drawer).toHaveAttribute('role', 'dialog');
-  await expect(drawer).toHaveAttribute('aria-modal', 'true');
+  const drawer = new JigDrawerHarness(page.locator('jig-drawer'));
+  await drawer.expectOpened();
+  await drawer.expectModal();
+  await drawer.expectPosition('start');
+  await expect(drawer.headerText).toHaveText('Filters');
 
-  const labelId = await drawer.getAttribute('aria-labelledby');
+  const labelId = await drawer.locator.getAttribute('aria-labelledby');
   expect(labelId).toBeTruthy();
   await expect(page.locator(`#${labelId}`)).toHaveText('Filters');
 
@@ -45,13 +48,13 @@ test('non-modal drawer is a complementary landmark without aria-modal', async ({
     page,
     { template: MODEL_TEMPLATE, imports: ['drawer'] },
     {
-      inputs: { open: true, modal: false, header: 'Filters', position: 'left' },
+      inputs: { open: true, modal: false, header: 'Filters', position: 'start' },
     }
   );
 
-  const drawer = page.locator('jig-drawer');
-  await expect(drawer).toHaveAttribute('role', 'complementary');
-  await expect(drawer).not.toHaveAttribute('aria-modal', /.*/);
+  const drawer = new JigDrawerHarness(page.locator('jig-drawer'));
+  await drawer.expectModal(false);
+  await expect(drawer.locator).not.toHaveAttribute('aria-modal', /.*/);
 });
 
 test('opens/closes via the open model and emits closed', async ({ page }) => {
@@ -59,17 +62,17 @@ test('opens/closes via the open model and emits closed', async ({ page }) => {
     page,
     { template: MODEL_TEMPLATE, imports: ['drawer'] },
     {
-      inputs: { open: false, modal: false, header: 'Filters', position: 'left' },
+      inputs: { open: false, modal: false, header: 'Filters', position: 'start' },
     }
   );
 
   const drawer = page.locator('jig-drawer');
   await expect(drawer).toBeHidden();
 
-  await handle.setInputs({ open: true, modal: false, header: 'Filters', position: 'left' });
+  await handle.setInputs({ open: true, modal: false, header: 'Filters', position: 'start' });
   await expect(drawer).toBeVisible();
 
-  await handle.setInputs({ open: false, modal: false, header: 'Filters', position: 'left' });
+  await handle.setInputs({ open: false, modal: false, header: 'Filters', position: 'start' });
   await expect(drawer).toBeHidden();
   await expectOutput(handle, 'closed', [true]);
 });
@@ -79,11 +82,11 @@ test('position is reflected on the host', async ({ page }) => {
     page,
     { template: MODEL_TEMPLATE, imports: ['drawer'] },
     {
-      inputs: { open: true, modal: true, header: 'Filters', position: 'right' },
+      inputs: { open: true, modal: true, header: 'Filters', position: 'end' },
     }
   );
 
-  await expect(page.locator('jig-drawer')).toHaveAttribute('data-position', 'right');
+  await expect(page.locator('jig-drawer')).toHaveAttribute('data-position', 'end');
 
   await handle.setInputs({ open: true, modal: true, header: 'Filters', position: 'bottom' });
   await expect(page.locator('jig-drawer')).toHaveAttribute('data-position', 'bottom');
@@ -142,7 +145,7 @@ test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     { template: MODEL_TEMPLATE, imports: ['drawer'] },
-    { inputs: { open: true, modal: true, header: 'Filters', position: 'left' } }
+    { inputs: { open: true, modal: true, header: 'Filters', position: 'start' } }
   );
   await expect(page.locator('jig-drawer')).toBeVisible();
   await expectNoA11yViolations(page);
@@ -152,16 +155,28 @@ test('visual', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
     { template: MODEL_TEMPLATE, imports: ['drawer'] },
-    { inputs: { open: true, modal: true, header: 'Filters', position: 'left' } }
+    { inputs: { open: true, modal: true, header: 'Filters', position: 'start' } }
   );
 
-  await test.step('left', async () => {
+  await test.step('start', async () => {
     await expect(page.locator('jig-drawer')).toBeVisible();
-    await expectScreenshot(page, testInfo, 'left');
+    await expectScreenshot(page, testInfo, 'start');
   });
 
-  await test.step('right', async () => {
-    await handle.setInputs({ open: true, modal: true, header: 'Filters', position: 'right' });
-    await expectScreenshot(page, testInfo, 'right');
+  await test.step('end', async () => {
+    await handle.setInputs({ open: true, modal: true, header: 'Filters', position: 'end' });
+    await expectScreenshot(page, testInfo, 'end');
   });
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    { template: MODEL_TEMPLATE, imports: ['drawer'] },
+    {
+      inputs: { open: true, modal: true, header: 'Filters', position: 'start' },
+    }
+  );
+  await expectScreenshot(page, testInfo);
 });

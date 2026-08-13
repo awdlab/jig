@@ -1,5 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { JigItemViewHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -102,4 +103,34 @@ test('accessibility (axe)', async ({ page }) => {
   );
 
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `<jig-item-view
+        [items]="inputs().items"
+        [idField]="'id'"
+        style="width: {{inputs().width}}; outline: 1px solid red;"
+      >
+        <ng-template #item let-item>
+          <span style="padding: 8px; background: {{item.color}}">{{item.label}}</span>
+        </ng-template>
+      </jig-item-view>`,
+      imports: ['itemView'],
+    },
+    {
+      inputs: {
+        items: [
+          { id: 1, label: 'Item 1', color: 'red' },
+          { id: 2, label: 'Item 2', color: 'green' },
+          { id: 3, label: 'Item 3', color: 'blue' },
+        ],
+        width: '220px',
+      },
+    }
+  );
+  await expectScreenshot(page, testInfo);
 });

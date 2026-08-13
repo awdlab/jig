@@ -1,6 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { JigSliderHarness } from '@awdlab/jig-playwright';
 import { evalValue, loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -920,4 +921,73 @@ test('valueCommit - readonly and disabled emit nothing', async ({ page }) => {
 
   await handle.setInputs({ readonly: false, disabled: true });
   await expectNoCommit();
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `<jig-slider [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: 50,
+      },
+    }
+  );
+  await expectScreenshot(page, testInfo);
+});
+
+test('rtl keyboard: the inline axis follows the writing direction', async ({ page }) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `<jig-slider [value]="inputs().value" [step]="inputs().step" />`,
+      imports: ['slider'],
+    },
+    { inputs: { value: 50, step: 5 } }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+  await slider.focus();
+  await slider.expectValue(50);
+
+  // In RTL the inline-end lies to the left, so ArrowLeft increases.
+  await slider.pressKey('ArrowLeft');
+  await slider.expectValue(55);
+  await slider.pressKey('ArrowRight');
+  await slider.expectValue(50);
+
+  // The block axis is unaffected by direction.
+  await slider.pressKey('ArrowUp');
+  await slider.expectValue(55);
+  await slider.pressKey('ArrowDown');
+  await slider.expectValue(50);
+});
+
+test('rtl pointer: the track is measured from the inline-start edge', async ({ page }) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `<jig-slider [value]="inputs().value" [step]="inputs().step" />`,
+      imports: ['slider'],
+    },
+    { inputs: { value: 50, step: 1 } }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+  const box = await slider.track.boundingBox();
+  if (!box) throw new Error('slider track has no box');
+
+  // A quarter in from the RIGHT edge is 25% in RTL, where the same point would
+  // read as 75% if the track were still measured left-to-right.
+  await slider.track.click({ position: { x: box.width * 0.75, y: box.height / 2 } });
+  await slider.expectValue(25);
+
+  await slider.track.click({ position: { x: box.width * 0.25, y: box.height / 2 } });
+  await slider.expectValue(75);
 });

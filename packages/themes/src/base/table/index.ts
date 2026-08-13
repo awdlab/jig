@@ -175,7 +175,7 @@ export const tableStyles = createThemePart({
       ${c('resize-handle')} {
         position: absolute;
         top: 0;
-        right: 0;
+        inset-inline-end: 0;
         height: 100%;
         cursor: col-resize;
         z-index: 1;
@@ -193,7 +193,7 @@ export const tableStyles = createThemePart({
       }
       ${c('selection-column')} {
         position: sticky;
-        left: 0;
+        inset-inline-start: 0;
         z-index: 1;
       }
       ${c('head')} ${c('selection-column')} {
@@ -210,7 +210,7 @@ export const tableStyles = createThemePart({
         display: flex;
         align-items: center;
         position: sticky;
-        right: 0;
+        inset-inline-end: 0;
         z-index: 2;
       }
       /* Hidden-until-hover only applies when the bar is mounted inline inside

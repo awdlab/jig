@@ -22,10 +22,12 @@ export const toolbarStyles = createThemePart({
         width: var(--jig-toolbar-content-width, 100%);
         max-width: 100%;
       }
-      /* A vertical toolbar can only overflow if something bounds its height, and
-         that bound comes from the host's parent — so the host has to take it. */
+      /* Same trade on the block axis: prefer the uncollapsed content height, let a real
+         bound from the parent win. A vertical toolbar can only overflow if something
+         bounds its height. */
       ${c('root')}:has(> ${c('vertical')}) {
-        height: 100%;
+        height: var(--jig-toolbar-content-height, 100%);
+        max-height: 100%;
       }
       ${c('grid')} {
         display: grid;
@@ -92,11 +94,36 @@ export const toolbarStyles = createThemePart({
           justify-content: flex-end;
         }
       }
+      /* Wrap mode lays the placements out as one wrapping row instead of three columns:
+         a placement keeps its items together and moves to the next line as a whole, and
+         only wraps internally when that one group is wider than the toolbar. Nothing is
+         measured here, so the grid's minmax(0, …) budget is not needed — and its 1fr
+         side tracks would wrap a full start placement while the end track sat half empty.
+         The side placements grow equally, which is what keeps the center one centered
+         for as long as everything fits on one line. */
+      ${c('horizontal')}${c('wrap')} {
+        display: flex;
+        flex-wrap: wrap;
+        & ${c('placement-start')},
+        & ${c('placement-end')} {
+          /* Zero basis and equal growth keep the side placements the same width, which is
+             what centers the middle one. The min-width is the hypothetical size the line
+             break is decided on, so a placement still wraps as a whole at its content
+             width — and the 100% clamp lets a placement wider than the toolbar wrap
+             inside itself instead of overflowing. */
+          flex: 1 0 0;
+          min-width: fit-content;
+        }
+        & ${c('placement-center')} {
+          flex: 0 0 auto;
+        }
+      }
       ${c('wrap')} {
         & ${c('placement-start')},
         & ${c('placement-center')},
         & ${c('placement-end')} {
           flex-wrap: wrap;
+          max-width: 100%;
         }
       }
       ${c('overflow-trigger')} {
@@ -108,7 +135,7 @@ export const toolbarStyles = createThemePart({
       ${c('overflow-trigger-hidden')} {
         position: absolute;
         top: -9999px;
-        left: -9999px;
+        inset-inline-start: -9999px;
         opacity: 0;
         visibility: hidden;
         pointer-events: none;

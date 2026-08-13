@@ -19,7 +19,7 @@ export const breadcrumbStyles = createThemePart({
       ${c('separator')} {
         color: ${v('color.muted.foreground')};
         jig-icon {
-          margin-left: 0.5rem;
+          margin-inline-start: 0.5rem;
           font-size: ${v('font.size.xs')};
         }
       }

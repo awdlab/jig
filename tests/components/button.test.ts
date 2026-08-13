@@ -1,5 +1,7 @@
 import test, { expect } from '@playwright/test';
+import { JigButtonHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -13,8 +15,9 @@ test('applies the root theme class and emits clicks', async ({ page }) => {
     { inputs: {} }
   );
 
-  const button = page.locator('button[jigButton]');
-  await expect(button).toHaveClass(/jig-button-root/);
+  const button = new JigButtonHarness(page.locator('button[jigButton]'));
+  await expect(button.locator).toHaveClass(new RegExp(button.classes.root.slice(1)));
+  await button.expectText('Click Me');
 
   await button.click();
   await button.click();
@@ -53,11 +56,11 @@ test('disabled button does not fire clicks', async ({ page }) => {
     { inputs: { disabled: true } }
   );
 
-  const button = page.locator('button[jigButton]');
-  await expect(button).toBeDisabled();
+  const button = new JigButtonHarness(page.locator('button[jigButton]'));
+  await button.expectDisabled();
 
   // The disabled button carries a muted background distinct from its enabled state.
-  const disabledBg = await button.evaluate(el => getComputedStyle(el).backgroundColor);
+  const disabledBg = await button.locator.evaluate(el => getComputedStyle(el).backgroundColor);
 
   // Force the click past pointer-events; the disabled button must still not fire.
   await button.click({ force: true });
@@ -65,9 +68,9 @@ test('disabled button does not fire clicks', async ({ page }) => {
 
   // Re-enabling restores click behaviour.
   await handle.setInputs({ disabled: false });
-  await expect(button).not.toBeDisabled();
+  await button.expectDisabled(false);
   await expect
-    .poll(async () => button.evaluate(el => getComputedStyle(el).backgroundColor))
+    .poll(async () => button.locator.evaluate(el => getComputedStyle(el).backgroundColor))
     .not.toBe(disabledBg);
   await button.click();
   expect((await handle.getOutputLog())['clicked']).toEqual([true]);
@@ -120,4 +123,17 @@ test('visual', async ({ page }, testInfo) => {
   );
 
   await expectScreenshot(page, testInfo, 'kinds');
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `<button jigButton (click)="output('clicked', 'hit')">Click Me</button>`,
+      imports: ['button'],
+    },
+    { inputs: {} }
+  );
+  await expectScreenshot(page, testInfo);
 });

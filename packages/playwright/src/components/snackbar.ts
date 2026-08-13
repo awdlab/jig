@@ -1,28 +1,24 @@
 import { snackbarControlTemplate } from '@awdlab/jig-themes/templates/snackbar';
-import { themeClasses } from '../utils/theme';
+import { themeClasses } from '../utils/theme.js';
 import { expect, type Locator, type Page } from '@playwright/test';
+import { JigHarness } from '../harness.js';
 
-export class JigSnackbarHarness {
+export class JigSnackbarHarness extends JigHarness {
   public readonly classes = themeClasses(snackbarControlTemplate);
 
-  public readonly locator: Locator;
   public readonly header: Locator;
   public readonly content: Locator;
   public readonly icon: Locator;
   public readonly closeButton: Locator;
 
   constructor(locator: Locator) {
-    this.locator = locator;
+    super(locator);
     this.header = locator.locator(this.classes.defaultHeader);
     this.content = locator.locator(this.classes.defaultContent);
     this.icon = this.header.locator('jig-icon').first();
     // The close button is a direct child of the snackbar root (sibling of the body), not inside
     // the header. It is the only <button> in the snackbar, so match it directly.
     this.closeButton = locator.locator('button');
-  }
-
-  public async expectVisible() {
-    await expect(this.locator).toBeVisible();
   }
 
   public async expectHidden() {
@@ -58,12 +54,11 @@ export class JigSnackbarHarness {
   }
 }
 
-export class JigSnackbarHostHarness {
+export class JigSnackbarHostHarness extends JigHarness {
   public readonly classes = themeClasses(snackbarControlTemplate);
-  public readonly locator: Locator;
 
   constructor(page: Page) {
-    this.locator = page.locator('jig-snackbar-host');
+    super(page.locator('jig-snackbar-host'));
   }
 
   public getSnackbar(index: number = 0): JigSnackbarHarness {
@@ -76,9 +71,5 @@ export class JigSnackbarHostHarness {
 
   public async expectSnackbarCount(count: number) {
     await expect(this.getAllSnackbars()).toHaveCount(count);
-  }
-
-  public async expectVisible() {
-    await expect(this.locator).toBeVisible();
   }
 }

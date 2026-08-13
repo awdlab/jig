@@ -12,7 +12,7 @@ export const skeletonStyles = createThemePart({
     css: ({ v, c }) => css`
       ${c('root')} {
         opacity: 1;
-        border-radius: var(--radius, ${v('size.rounded.sm')});
+        border-radius: var(--jig-skeleton-radius, ${v('size.rounded.sm')});
         background: ${v('color.muted.base')};
         background-clip: content-box;
         animation: ${c('root', 'animation')} 1.8s ease-in-out infinite;

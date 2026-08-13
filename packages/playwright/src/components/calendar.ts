@@ -1,11 +1,12 @@
 import { type Locator, expect } from '@playwright/test';
 import { calendarControlTemplate } from '@awdlab/jig-themes/templates/calendar';
-import { themeClasses } from '../utils/theme';
-import { JigSelectHarness } from './select';
+import { themeClasses } from '../utils/theme.js';
+import { JigSelectHarness } from './select.js';
 import type { WeekDay } from '@awdlab/jig/calendar';
 import { en } from '@awdlab/jig/i18n/translations/en';
+import { JigHarness } from '../harness.js';
 
-export class JigCalendarHarness {
+export class JigCalendarHarness extends JigHarness {
   public readonly classes = themeClasses(calendarControlTemplate);
 
   public readonly backButton: Locator;
@@ -19,7 +20,8 @@ export class JigCalendarHarness {
   public readonly daySelected: Locator;
   public readonly weekDay: Locator;
 
-  constructor(public locator: Locator) {
+  constructor(locator: Locator) {
+    super(locator);
     this.backButton = locator.locator(this.classes.previous['root']);
     this.nextButton = locator.locator(this.classes.next['root']);
     this.currentMonth = new JigSelectHarness(

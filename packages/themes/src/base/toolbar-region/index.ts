@@ -27,7 +27,7 @@ export const toolbarRegionStyles = createThemePart({
       ${c('item-overflowing')} {
         position: absolute;
         top: -9999px;
-        left: -9999px;
+        inset-inline-start: -9999px;
         opacity: 0;
         pointer-events: none;
       }

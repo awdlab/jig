@@ -1,6 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { JigProgressHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
@@ -209,4 +210,21 @@ test('accessibility (axe)', async ({ page }) => {
   );
 
   await expectNoA11yViolations(page);
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await loadComponent(
+    page,
+    {
+      template: `<jig-progress [value]="inputs().value" />`,
+      imports: ['progress'],
+    },
+    {
+      inputs: {
+        value: 50,
+      },
+    }
+  );
+  await expectScreenshot(page, testInfo);
 });

@@ -16,7 +16,13 @@ import {
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { elementSizeSignal, JIG_CONFIG, JigTemplate, templateTypeFn } from '@awdlab/jig/api/ng';
+import {
+  elementSizeSignal,
+  inlineArrowStep,
+  JIG_CONFIG,
+  JigTemplate,
+  templateTypeFn,
+} from '@awdlab/jig/api/ng';
 import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
 import { Logger, JigError } from '@awdlab/jig/utils';
@@ -221,16 +227,15 @@ export class JigSplitter extends JigBase<'splitter'> implements OnDestroy {
   }
 
   protected onHandleKeyDown(index: number, event: KeyboardEvent) {
-    if (
-      (event.key === 'ArrowLeft' && this.layout() === 'horizontal') ||
-      (event.key === 'ArrowUp' && this.layout() === 'vertical')
-    ) {
+    // A horizontal splitter moves along the inline axis, so RTL reverses its arrows.
+    const inline =
+      this.layout() === 'horizontal'
+        ? inlineArrowStep(event.currentTarget as Element, event.key)
+        : 0;
+    if (inline === -1 || (event.key === 'ArrowUp' && this.layout() === 'vertical')) {
       this.calculator().moveDivider(index, -this.getStepInPx());
       event.preventDefault(); // Prevent default scrolling behavior
-    } else if (
-      (event.key === 'ArrowRight' && this.layout() === 'horizontal') ||
-      (event.key === 'ArrowDown' && this.layout() === 'vertical')
-    ) {
+    } else if (inline === 1 || (event.key === 'ArrowDown' && this.layout() === 'vertical')) {
       this.calculator().moveDivider(index, this.getStepInPx());
       event.preventDefault(); // Prevent default scrolling behavior
     } else if (event.key === 'Home') {

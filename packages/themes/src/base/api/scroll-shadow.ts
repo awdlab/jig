@@ -15,7 +15,7 @@ export const scrollShadowStyles = createThemePart({
       ${c('overlay')} {
         position: sticky;
         top: 0;
-        left: 0;
+        inset-inline-start: 0;
         z-index: 1;
         width: 0;
         /* Empty, so auto height is zero in a block container. In a flex one it stretches
@@ -31,7 +31,7 @@ export const scrollShadowStyles = createThemePart({
       ${c('surface')} {
         position: absolute;
         top: 0;
-        left: 0;
+        inset-inline-start: 0;
         width: var(--jig-scroll-shadow-w, 0);
         height: var(--jig-scroll-shadow-h, 0);
         pointer-events: none;
@@ -46,6 +46,12 @@ export const scrollShadowStyles = createThemePart({
           var(--jig-scroll-shadow-start, none), var(--jig-scroll-shadow-end, none),
           var(--jig-scroll-shadow-top, none), var(--jig-scroll-shadow-bottom, none);
         transition: background-image 0.15s ease;
+      }
+      /* Neither background-position nor gradient direction has a logical form, so mirror the
+         whole decorative layer: the start/end strips swap edges AND fade direction in one go.
+         The top/bottom strips are full-width, so a horizontal flip leaves them unchanged. */
+      ${c('surface')}:dir(rtl) {
+        transform: scaleX(-1);
       }
       ${c('scrolled-start')} ${c('surface')} {
         --jig-scroll-shadow-start: linear-gradient(

@@ -12,7 +12,7 @@ export const skeletonStyles = createThemePart({
     css: ({ v, c }) => css`
       ${c('root')} {
         opacity: 1;
-        border-radius: var(--radius, ${v('size.rounded.sm')});
+        border-radius: var(--jig-skeleton-radius, ${v('size.rounded.sm')});
         background: linear-gradient(
           90deg,
           ${v('color.surface.200')} 20%,

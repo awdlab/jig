@@ -43,8 +43,8 @@ export const chipStyles = createThemePart({
         background: none;
         color: inherit;
         border: none;
-        border-top-right-radius: ${v('size.rounded.md')};
-        border-bottom-right-radius: ${v('size.rounded.md')};
+        border-start-end-radius: ${v('size.rounded.md')};
+        border-end-end-radius: ${v('size.rounded.md')};
         font-size: 0.75rem;
         transition: background 0.15s ease;
 
@@ -83,9 +83,9 @@ export const chipStyles = createThemePart({
 
       ${c('closable')} {
         ${c('content')} {
-          padding-right: calc(${v('size.padding.sm')} / 2);
-          border-top-right-radius: 0;
-          border-bottom-right-radius: 0;
+          padding-inline-end: calc(${v('size.padding.sm')} / 2);
+          border-start-end-radius: 0;
+          border-end-end-radius: 0;
         }
       }
     `,

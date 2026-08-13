@@ -58,7 +58,7 @@ export const snackbarStyles = createThemePart({
       ${c('root')}::before {
         content: '';
         position: absolute;
-        left: ${v('size.padding.sm')};
+        inset-inline-start: ${v('size.padding.sm')};
         top: 50%;
         transform: translateY(-50%);
         height: 55%;
@@ -151,8 +151,8 @@ export const snackbarStyles = createThemePart({
 
       ${c('progressBar')} {
         height: 3px;
-        left: ${v('size.padding.md')};
-        right: ${v('size.padding.md')};
+        inset-inline-start: ${v('size.padding.md')};
+        inset-inline-end: ${v('size.padding.md')};
         width: auto;
         bottom: 4px;
         border-radius: ${v('size.rounded.lg')};

@@ -1,12 +1,12 @@
 import { type Locator, expect } from '@playwright/test';
+import { JigHarness } from '../harness.js';
 
-export class JigRadioGroupHarness {
-  public readonly locator: Locator;
+export class JigRadioGroupHarness extends JigHarness {
   /** All radio options in the group, in DOM order. */
   public readonly radios: Locator;
 
   constructor(locator: Locator) {
-    this.locator = locator;
+    super(locator);
     this.radios = locator.locator('jig-radio');
   }
 
@@ -27,7 +27,7 @@ export class JigRadioGroupHarness {
     await expect(this.radio(index)).toHaveAttribute('aria-checked', 'false');
   }
 
-  public async expectDisabled(index: number, disabled = true) {
+  public async expectRadioDisabled(index: number, disabled = true) {
     if (disabled) {
       await expect(this.radio(index)).toHaveAttribute('aria-disabled', 'true');
     } else {
