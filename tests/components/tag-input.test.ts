@@ -294,6 +294,9 @@ test('layout modes', async ({ page }, testInfo) => {
 
     // Shot taken here, not above: where the caret scroll lands after the last commit is
     // browser-timing dependent, while the drag ends pinned to the row's end.
+    // Snap to the exact end first — the rounded assert above tolerates a sub-pixel offset
+    // that the screenshot sees as shifted text.
+    await tags.field.evaluate(el => (el.scrollLeft = el.scrollWidth));
     await expectScreenshot(page, testInfo, 'single-line');
   });
 

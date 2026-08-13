@@ -1,5 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
+import type { TemplateType } from '../../apps/test-wrapper/src/app/window.js';
 import { JigToolbarHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -7,7 +8,7 @@ import { expectNoA11yViolations } from '../helper/axe';
 const ITEM = (label: string) =>
   `<ng-template #item><button jigButton style="width: 60px">${label}</button></ng-template>`;
 
-const IMPORTS = ['toolbar', 'toolbarRegion', 'button'];
+const IMPORTS: TemplateType['imports'] = ['toolbar', 'toolbarRegion', 'button'];
 
 test('base', async ({ page }, testInfo) => {
   await loadComponent(page, {
