@@ -1,6 +1,6 @@
 {
   "name": "@awdlab/jig-playwright",
-  "version": "0.0.1-next.1",
+  "version": "0.0.1",
   "description": "Playwright testing harness with page-object helpers for @awdlab/jig components.",
   "license": "MIT",
   "homepage": "https://jig.awdlab.dev",
