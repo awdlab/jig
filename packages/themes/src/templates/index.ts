@@ -32,6 +32,7 @@ export type ThemeTemplate = {
   listBox: Awaited<typeof import('./list-box')>['listBoxControlTemplate'];
   menu: Awaited<typeof import('./menu')>['menuControlTemplate'];
   message: Awaited<typeof import('./message')>['messageControlTemplate'];
+  meter: Awaited<typeof import('./meter')>['meterControlTemplate'];
   numberInput: Awaited<typeof import('./input')>['inputControlTemplate'];
   otp: Awaited<typeof import('./otp')>['otpControlTemplate'];
   paginator: Awaited<typeof import('./paginator')>['paginatorControlTemplate'];
@@ -43,6 +44,7 @@ export type ThemeTemplate = {
   scroller: Awaited<typeof import('./scroller')>['scrollerControlTemplate'];
   select: Awaited<typeof import('./select')>['selectControlTemplate'];
   selectButton: Awaited<typeof import('./select-button')>['selectButtonControlTemplate'];
+  skeleton: Awaited<typeof import('./skeleton')>['skeletonControlTemplate'];
   slider: Awaited<typeof import('./slider')>['sliderControlTemplate'];
   snackbar: Awaited<typeof import('./snackbar')>['snackbarControlTemplate'];
   spinButtons: Awaited<typeof import('./spin-buttons')>['spinButtonsControlTemplate'];
@@ -57,6 +59,8 @@ export type ThemeTemplate = {
   tagInput: Awaited<typeof import('./tag-input')>['tagInputControlTemplate'];
   toast: Awaited<typeof import('./toast')>['toastControlTemplate'];
   toggleButton: Awaited<typeof import('./toggle-button')>['toggleButtonControlTemplate'];
+  toolbar: Awaited<typeof import('./toolbar')>['toolbarControlTemplate'];
+  toolbarRegion: Awaited<typeof import('./toolbar-region')>['toolbarRegionControlTemplate'];
   tooltip: Awaited<typeof import('./tooltip')>['tooltipControlTemplate'];
   tree: Awaited<typeof import('./tree')>['treeControlTemplate'];
   upload: Awaited<typeof import('./upload')>['uploadControlTemplate'];

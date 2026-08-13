@@ -45,6 +45,7 @@ export const JIG_ICON_KEYS = [
   'tabs-scroll-left',
   'tabs-scroll-right',
   'toast-close',
+  'toolbar-overflow',
   'snackbar-close',
   'upload-trigger',
   'upload-done',

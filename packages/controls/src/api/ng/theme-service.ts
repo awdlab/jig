@@ -147,12 +147,15 @@ export class ThemeService implements OnDestroy {
     }
 
     if (this._config.respectReducedMotion) {
-      // near-zero instead of 0s/none, so animationend still fires and leave logic completes
+      // near-zero instead of 0s/none, so animationend still fires and leave logic completes.
+      // Capping iterations stops looping animations (spinner, skeleton) from strobing at that
+      // duration; they run one instant cycle and rest on their final keyframe.
       this.upsertMotionStyle(
         'reduced-motion',
         `@media (prefers-reduced-motion: reduce) {
           .jig-control, .jig-control * {
             animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
           }
         }`

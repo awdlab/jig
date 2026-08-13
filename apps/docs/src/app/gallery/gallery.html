@@ -96,6 +96,16 @@
       <jig-progress [value]="30" />
     </section>
 
+    <!-- Meter -->
+    <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
+      <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Meter</span>
+      <jig-meter label="Storage" [items]="meterItems" [total]="100" />
+      <div class="flex gap-6">
+        <jig-meter class="h-28" vertical label="Storage, vertical" [items]="meterItems" />
+        <jig-meter label="Storage, no percentages" [items]="meterItems" [showPercentage]="false" />
+      </div>
+    </section>
+
     <!-- Spinner -->
     <section class="card flex flex-col items-start gap-3 p-4">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Spinner</span>
@@ -269,9 +279,7 @@
         [overflowStrategyFreezeCount]="1"
       >
         <ng-template #item [jigTemplate]="itemView.templateTypes.item" let-item>
-          <span class="rounded bg-(--jig-color-surface-200) px-2 py-1">
-            {{ item.label }}
-          </span>
+          <span class="rounded bg-(--jig-color-surface-200) px-2 py-1"> {{ item.label }} </span>
         </ng-template>
       </jig-item-view>
     </section>

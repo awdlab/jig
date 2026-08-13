@@ -273,7 +273,6 @@ test('layout modes', async ({ page }, testInfo) => {
     await expect(tags.tagList).toHaveClass(/jig-tag-input-single-line/);
     const overflow = await tags.field.evaluate(el => el.scrollWidth > el.clientWidth);
     expect(overflow).toBe(true);
-    await expectScreenshot(page, testInfo, 'single-line');
   });
 
   await test.step('dragging the row scrolls it, and holding past the edge keeps it there', async () => {
@@ -292,6 +291,10 @@ test('layout modes', async ({ page }, testInfo) => {
     expect(await tags.field.evaluate(el => Math.round(el.scrollLeft))).toBe(max);
     await page.mouse.up();
     await page.mouse.move(0, 0);
+
+    // Shot taken here, not above: where the caret scroll lands after the last commit is
+    // browser-timing dependent, while the drag ends pinned to the row's end.
+    await expectScreenshot(page, testInfo, 'single-line');
   });
 
   await test.step('multiline wraps and grows', async () => {

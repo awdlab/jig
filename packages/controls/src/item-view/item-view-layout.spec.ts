@@ -82,9 +82,9 @@ describe('item-view layout', () => {
                   strategy,
                   freezeCount,
                   strategyIndex: 8,
-                  containerWidth,
-                  itemWidths: widths,
-                  overflowItemWidth: overflowWidth,
+                  containerSize: containerWidth,
+                  itemSizes: widths,
+                  overflowItemSize: overflowWidth,
                   gap,
                 });
 
@@ -100,9 +100,9 @@ describe('item-view layout', () => {
                 strategy,
                 freezeCount,
                 strategyIndex: 8,
-                containerWidth,
-                itemWidths: widths,
-                overflowItemWidth: overflowWidth,
+                containerSize: containerWidth,
+                itemSizes: widths,
+                overflowItemSize: overflowWidth,
                 gap,
               });
 
@@ -258,13 +258,71 @@ describe('item-view layout', () => {
       strategy: 'aroundIndex',
       freezeCount: 0,
       strategyIndex: 3,
-      containerWidth: 2 * 10 + 50 + 50 + 1, // 2 overflow indicators + 2 large + 1 tiny
-      itemWidths: greedyTrapWidths,
-      overflowItemWidth: 10,
+      containerSize: 2 * 10 + 50 + 50 + 1, // 2 overflow indicators + 2 large + 1 tiny
+      itemSizes: greedyTrapWidths,
+      overflowItemSize: 10,
       gap: 0,
     });
 
     // Optimal could show 3 items (50 + 50 + 1) but current algorithm shows only 2.
     expect(layout.renderedItemOrders.length).toBe(3);
+  });
+
+  describe('explicit checkOrder', () => {
+    const sizes = [50, 50, 50, 50];
+
+    it('reproduces the strategy-derived order when omitted', () => {
+      const derived = getItemOverflowCheckOrder({
+        count: sizes.length,
+        strategy: 'end',
+        freezeCount: 0,
+        strategyIndex: 0,
+      });
+
+      const implicit = calculateItemViewLayout({
+        count: sizes.length,
+        strategy: 'end',
+        freezeCount: 0,
+        strategyIndex: 0,
+        containerSize: 120,
+        itemSizes: sizes,
+        overflowItemSize: 20,
+        gap: 0,
+      });
+      const explicit = calculateItemViewLayout({
+        count: sizes.length,
+        strategy: 'end',
+        freezeCount: 0,
+        strategyIndex: 0,
+        containerSize: 120,
+        itemSizes: sizes,
+        overflowItemSize: 20,
+        gap: 0,
+        checkOrder: derived,
+      });
+
+      expect(explicit.renderedItemOrders).toEqual(implicit.renderedItemOrders);
+      expect(explicit.remainingItemOrders).toEqual(implicit.remainingItemOrders);
+    });
+
+    it('keeps the items listed first and overflows the rest', () => {
+      // Reverse priority: index 3 is the most important, index 0 the least.
+      const checkOrder = [3, 2, 1, 0].map(index => ({ index, location: 'end' }) as const);
+
+      const layout = calculateItemViewLayout({
+        count: sizes.length,
+        strategy: 'end',
+        freezeCount: 0,
+        strategyIndex: 0,
+        containerSize: 120, // 2 items + indicator
+        itemSizes: sizes,
+        overflowItemSize: 20,
+        gap: 0,
+        checkOrder,
+      });
+
+      expect(getVisibleIndices(layout)).toEqual([2, 3]);
+      expect(layout.remainingItemOrders.map(x => x.index)).toEqual([0, 1]);
+    });
   });
 });

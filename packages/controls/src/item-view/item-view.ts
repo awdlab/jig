@@ -163,9 +163,9 @@ export class JigItemView<T extends object, IdField extends keyof T>
       strategy: this.overflowStrategy(),
       freezeCount,
       strategyIndex: this.overflowStrategyIndex(),
-      containerWidth,
-      itemWidths: renderedItemWidths,
-      overflowItemWidth: this._overflowItemSize().width,
+      containerSize: containerWidth,
+      itemSizes: renderedItemWidths,
+      overflowItemSize: this._overflowItemSize().width,
       gap: this._themeGap(),
     });
 

@@ -128,10 +128,9 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
               </button>
             </nav>
 
-            <!-- 54rem min-height fits the Sales CRM at desktop width without scrolling and keeps a
-                 constant section height across demos. It's a MIN so when the CRM reflows to a taller
-                 single column at narrow widths the body grows instead of showing a scrollbar. Team
-                 Chat needs a definite height for its splitter (its panes scroll internally). -->
+            <!-- 54rem keeps the section height constant across demos; each demo scrolls its own
+                 inner region instead. Below md the CRM reflows to a single column, so there the
+                 body grows from a 36rem floor instead of showing a scrollbar. -->
             <div
               class="min-w-0 grow"
               role="tabpanel"
@@ -140,7 +139,7 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
             >
               @switch (active()) {
                 @case ('sales-crm') {
-                  <div class="min-h-[54rem] max-md:min-h-[36rem]">
+                  <div class="h-[54rem] max-md:h-auto max-md:min-h-[36rem]">
                     <jig-docs-sales-crm />
                   </div>
                 }

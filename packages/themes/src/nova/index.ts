@@ -39,6 +39,7 @@ import { listBoxStyles } from '@awdlab/jig-themes/nova/list-box';
 import { maskInputStyles } from '@awdlab/jig-themes/nova/mask-input';
 import { menuStyles } from '@awdlab/jig-themes/nova/menu';
 import { messageStyles } from '@awdlab/jig-themes/nova/message';
+import { meterStyles } from '@awdlab/jig-themes/nova/meter';
 import { otpStyles } from '@awdlab/jig-themes/nova/otp';
 import { paginatorStyles } from '@awdlab/jig-themes/nova/paginator';
 import { popoverStyles } from '@awdlab/jig-themes/nova/popover';
@@ -49,6 +50,7 @@ import { ratingStyles } from '@awdlab/jig-themes/nova/rating';
 import { scrollerStyles } from '@awdlab/jig-themes/nova/scroller';
 import { selectStyles } from '@awdlab/jig-themes/nova/select';
 import { selectButtonStyles } from '@awdlab/jig-themes/nova/select-button';
+import { skeletonStyles } from '@awdlab/jig-themes/nova/skeleton';
 import { sliderStyles } from '@awdlab/jig-themes/nova/slider';
 import { snackbarStyles } from '@awdlab/jig-themes/nova/snackbar';
 import { spinButtonsStyles } from '@awdlab/jig-themes/nova/spin-buttons';
@@ -62,6 +64,8 @@ import { tabsStyles } from '@awdlab/jig-themes/nova/tabs';
 import { tagStyles } from '@awdlab/jig-themes/nova/tag';
 import { tagInputStyles } from '@awdlab/jig-themes/nova/tag-input';
 import { toastStyles } from '@awdlab/jig-themes/nova/toast';
+import { toolbarStyles } from '@awdlab/jig-themes/nova/toolbar';
+import { toolbarRegionStyles } from '@awdlab/jig-themes/nova/toolbar-region';
 import { toggleButtonStyles } from '@awdlab/jig-themes/nova/toggle-button';
 import { tooltipStyles } from '@awdlab/jig-themes/nova/tooltip';
 import { treeStyles } from '@awdlab/jig-themes/nova/tree';
@@ -129,6 +133,7 @@ export const nova = createTheme(
     listBoxStyles,
     menuStyles,
     messageStyles,
+    meterStyles,
     otpStyles,
     movableStyles,
     paginatorStyles,
@@ -144,6 +149,7 @@ export const nova = createTheme(
     selectStyles,
     selectButtonStyles,
     sizes,
+    skeletonStyles,
     sliderStyles,
     snackbarStyles,
     spinButtonsStyles,
@@ -157,6 +163,8 @@ export const nova = createTheme(
     tagStyles,
     tagInputStyles,
     toastStyles,
+    toolbarStyles,
+    toolbarRegionStyles,
     toggleButtonStyles,
     tooltipStyles,
     treeStyles,

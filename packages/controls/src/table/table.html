@@ -127,7 +127,9 @@
       } @else {
         @for (i of [].constructor(skeletonRows()); track $index) {
           <tr [class]="theme.class('skeleton-row')" role="row" aria-hidden="true">
-            <td [class]="theme.class('skeleton-cell')" role="gridcell"></td>
+            <td [class]="theme.class('skeleton-cell')" role="gridcell">
+              <jig-skeleton [height]="'100%'" />
+            </td>
           </tr>
         }
       }

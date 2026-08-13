@@ -39,6 +39,7 @@ import { listBoxStyles } from '@awdlab/jig-themes/material/list-box';
 import { maskInputStyles } from '@awdlab/jig-themes/material/mask-input';
 import { menuStyles } from '@awdlab/jig-themes/material/menu';
 import { messageStyles } from '@awdlab/jig-themes/material/message';
+import { meterStyles } from '@awdlab/jig-themes/material/meter';
 import { otpStyles } from '@awdlab/jig-themes/material/otp';
 import { paginatorStyles } from '@awdlab/jig-themes/material/paginator';
 import { popoverStyles } from '@awdlab/jig-themes/material/popover';
@@ -49,6 +50,7 @@ import { ratingStyles } from '@awdlab/jig-themes/material/rating';
 import { scrollerStyles } from '@awdlab/jig-themes/material/scroller';
 import { selectStyles } from '@awdlab/jig-themes/material/select';
 import { selectButtonStyles } from '@awdlab/jig-themes/material/select-button';
+import { skeletonStyles } from '@awdlab/jig-themes/material/skeleton';
 import { sliderStyles } from '@awdlab/jig-themes/material/slider';
 import { snackbarStyles } from '@awdlab/jig-themes/material/snackbar';
 import { spinButtonsStyles } from '@awdlab/jig-themes/material/spin-buttons';
@@ -62,6 +64,8 @@ import { tabsStyles } from '@awdlab/jig-themes/material/tabs';
 import { tagStyles } from '@awdlab/jig-themes/material/tag';
 import { tagInputStyles } from '@awdlab/jig-themes/material/tag-input';
 import { toastStyles } from '@awdlab/jig-themes/material/toast';
+import { toolbarStyles } from '@awdlab/jig-themes/material/toolbar';
+import { toolbarRegionStyles } from '@awdlab/jig-themes/material/toolbar-region';
 import { toggleButtonStyles } from '@awdlab/jig-themes/material/toggle-button';
 import { tooltipStyles } from '@awdlab/jig-themes/material/tooltip';
 import { treeStyles } from '@awdlab/jig-themes/material/tree';
@@ -127,6 +131,7 @@ export const material = createTheme(
     listBoxStyles,
     menuStyles,
     messageStyles,
+    meterStyles,
     otpStyles,
     movableStyles,
     paginatorStyles,
@@ -141,6 +146,7 @@ export const material = createTheme(
     selectStyles,
     selectButtonStyles,
     sizes,
+    skeletonStyles,
     sliderStyles,
     snackbarStyles,
     spinButtonsStyles,
@@ -154,6 +160,8 @@ export const material = createTheme(
     tagStyles,
     tagInputStyles,
     toastStyles,
+    toolbarStyles,
+    toolbarRegionStyles,
     toggleButtonStyles,
     tooltipStyles,
     treeStyles,

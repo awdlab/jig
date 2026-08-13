@@ -32,7 +32,7 @@ _Decided 2026-07-08 (repo-wide audit). Apply to all new/edited controls; migrate
 - Control folder name and `jig-` element selector are kebab-case and identical: folder `x-y` ⇒ selector `jig-x-y`.
 - The "input" family is **modifier-first**: `number-input`, `mask-input` (rename `input-mask` → `mask-input`). The bare `input` directive keeps its name. **Exception:** `input-field` stays input-first (`JigInputField`, `jig-input-field`) — it composes/projects other controls rather than being a variant of `input`, so the family rule does not apply to it.
 - Attribute directives applied to native elements (`jigButton`, `jigInput`) intentionally keep camelCase attribute selectors — this is **not** a violation.
-- Every control ships all 7 anatomy parts (see below), including a theme template, docs page, and demos.
+- Every control ships all anatomy parts (see below), including a theme template, docs page, and demos.
 
 ### Input / output properties
 
@@ -50,23 +50,29 @@ _Decided 2026-07-08 (repo-wide audit). Apply to all new/edited controls; migrate
 
 When creating or modifying a control, be aware that each control spans these parts:
 
-| Part           | Location                                        | Key function                                                              |
-| -------------- | ----------------------------------------------- | ------------------------------------------------------------------------- |
-| Control source | `packages/controls/src/{name}/`                 | Component `.ts`, `.html` template, `index.ts` barrel, `ng-package.json`   |
-| Theme template | `packages/themes/src/templates/{name}/index.ts` | `createControlTemplate({ scope, classNames })`                            |
-| Base theme     | `packages/themes/src/base/{name}/index.ts`      | `createThemePart()` — minimal/structural styling                          |
-| Nova theme     | `packages/themes/src/nova/{name}/index.ts`      | `createThemePart()` — full themed styling (colors, dark mode, responsive) |
-| Tests          | `tests/components/{name}.test.ts`               | Vitest + Angular TestBed, snapshot dir alongside                          |
-| Docs page      | `apps/docs/src/app/docs/components/{name}/`     | `page.ts`, `index.md`, `api.md`, `playground.ts`                          |
-| Demos          | `apps/docs/src/app/demos/{name}/`               | Scenario-based standalone Angular components                              |
+| Part           | Location                                        | Key function                                                                 |
+| -------------- | ----------------------------------------------- | ---------------------------------------------------------------------------- |
+| Control source | `packages/controls/src/{name}/`                 | Component `.ts`, `.html` template, `index.ts` barrel, `ng-package.json`      |
+| Theme template | `packages/themes/src/templates/{name}/index.ts` | `createControlTemplate({ scope, classNames })`                               |
+| Base theme     | `packages/themes/src/base/{name}/index.ts`      | `createThemePart()` — minimal/structural styling                             |
+| Nova theme     | `packages/themes/src/nova/{name}/index.ts`      | `createThemePart()` — full themed styling (colors, dark mode, responsive)    |
+| Shade theme    | `packages/themes/src/shade/{name}/index.ts`     | `createThemePart()` — flat, low-chrome styling                               |
+| Material theme | `packages/themes/src/material/{name}/index.ts`  | `createThemePart()` — Material-flavoured styling                             |
+| Test harness   | `packages/playwright/src/components/{name}.ts`  | `Jig{Name}Harness` + export from `components/index.ts`                       |
+| Test registry  | `apps/test-wrapper/src/app/imports.ts`          | `{name}: () => import('@awdlab/jig/{name}')` — enables `imports: ['{name}']` |
+| Tests          | `tests/components/{name}.test.ts`               | Playwright + screenshot snapshots, snapshot dir alongside                    |
+| Docs page      | `apps/docs/src/app/docs/components/{name}/`     | `page.ts`, `index.md`, `api.md`, `a11y.md`, `playground.ts`                  |
+| Demos          | `apps/docs/src/app/demos/{name}/`               | Scenario-based standalone Angular components                                 |
+
+Each theme part also needs an empty `package.json` (`{}`) next to `index.ts`. New controls must be registered in `packages/themes/src/templates/index.ts` (`ThemeTemplate`), each theme's `index.ts`, and `apps/docs/src/app/docs/components/index.ts` (`COMPONENT_GROUPS`).
 
 Always check **all** parts when making changes to a control — a rename or new input affects templates, themes, tests, docs, and demos.
 
 ## Testing
 
-- **Unit**: Vitest with Angular TestBed
-- **E2E**: Playwright
-- Test files live in `tests/components/`, not next to source
+- **Unit**: Vitest with Angular TestBed — `.spec.ts` files next to source (rare; mostly utilities)
+- **Component/E2E**: Playwright — `tests/components/{name}.test.ts`, driven through the
+  `apps/test-wrapper` app and the `@awdlab/jig-playwright` harnesses
 
 ## User Preferences
 

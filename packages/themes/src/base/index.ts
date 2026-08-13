@@ -30,6 +30,7 @@ import { listBoxStyles } from '@awdlab/jig-themes/base/list-box';
 import { maskInputStyles } from '@awdlab/jig-themes/base/mask-input';
 import { menuStyles } from '@awdlab/jig-themes/base/menu';
 import { messageStyles } from '@awdlab/jig-themes/base/message';
+import { meterStyles } from '@awdlab/jig-themes/base/meter';
 import { otpStyles } from '@awdlab/jig-themes/base/otp';
 import { paginatorStyles } from '@awdlab/jig-themes/base/paginator';
 import { popoverStyles } from '@awdlab/jig-themes/base/popover';
@@ -40,6 +41,7 @@ import { ratingStyles } from '@awdlab/jig-themes/base/rating';
 import { scrollerStyles } from '@awdlab/jig-themes/base/scroller';
 import { selectStyles } from '@awdlab/jig-themes/base/select';
 import { selectButtonStyles } from '@awdlab/jig-themes/base/select-button';
+import { skeletonStyles } from '@awdlab/jig-themes/base/skeleton';
 import { sliderStyles } from '@awdlab/jig-themes/base/slider';
 import { snackbarStyles } from '@awdlab/jig-themes/base/snackbar';
 import { spinButtonsStyles } from '@awdlab/jig-themes/base/spin-buttons';
@@ -52,6 +54,8 @@ import { tabsStyles } from '@awdlab/jig-themes/base/tabs';
 import { tagStyles } from '@awdlab/jig-themes/base/tag';
 import { tagInputStyles } from '@awdlab/jig-themes/base/tag-input';
 import { toastStyles } from '@awdlab/jig-themes/base/toast';
+import { toolbarStyles } from '@awdlab/jig-themes/base/toolbar';
+import { toolbarRegionStyles } from '@awdlab/jig-themes/base/toolbar-region';
 import { toggleButtonStyles } from '@awdlab/jig-themes/base/toggle-button';
 import { tooltipStyles } from '@awdlab/jig-themes/base/tooltip';
 import { treeStyles } from '@awdlab/jig-themes/base/tree';
@@ -93,6 +97,7 @@ export const baseStyles = {
   listBox: listBoxStyles,
   menu: menuStyles,
   message: messageStyles,
+  meter: meterStyles,
   otp: otpStyles,
   paginator: paginatorStyles,
   popover: popoverStyles,
@@ -103,6 +108,7 @@ export const baseStyles = {
   scroller: scrollerStyles,
   select: selectStyles,
   selectButton: selectButtonStyles,
+  skeleton: skeletonStyles,
   slider: sliderStyles,
   snackbar: snackbarStyles,
   spinButtons: spinButtonsStyles,
@@ -116,6 +122,8 @@ export const baseStyles = {
   tag: tagStyles,
   tagInput: tagInputStyles,
   toast: toastStyles,
+  toolbar: toolbarStyles,
+  toolbarRegion: toolbarRegionStyles,
   toggleButton: toggleButtonStyles,
   tooltip: tooltipStyles,
   tree: treeStyles,

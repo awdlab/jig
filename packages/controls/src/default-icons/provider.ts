@@ -65,6 +65,7 @@ const JIG_DEFAULT_ICON_REGISTRY: JigIconRegistry = {
   'tabs-scroll-left': { icon: tablerChevronLeft, scale: 1.71 },
   'tabs-scroll-right': { icon: tablerChevronRight, scale: 1.71 },
   'toast-close': { icon: tablerX, scale: 1.71 },
+  'toolbar-overflow': { icon: tablerDots, scale: 1.33 },
   'snackbar-close': { icon: tablerX, scale: 1.71 },
   'upload-trigger': { icon: tablerUpload, scale: 1.14 },
   'upload-done': { icon: tablerCircleCheck, scale: 1.14 },

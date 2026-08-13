@@ -243,9 +243,6 @@ export const tableStyles = createThemePart({
       }
       ${c('skeleton-cell')} {
         flex: 1;
-        border-radius: 0.25rem;
-        background: currentColor;
-        opacity: 0.1;
       }
 
       /* ── Error row ───────────────────────────────────────────────────── */

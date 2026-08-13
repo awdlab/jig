@@ -20,6 +20,7 @@ import { JigIcon } from '@awdlab/jig/icon';
 import { JigPaginator, type PaginationState } from '@awdlab/jig/paginator';
 import { JigScrollShadow } from '@awdlab/jig/scroll-shadow';
 import { JigScroller } from '@awdlab/jig/scroller';
+import { JigSkeleton } from '@awdlab/jig/skeleton';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
 import { TableColumnLayoutModel } from './table-column-layout-model';
@@ -68,6 +69,7 @@ const DEFAULT_LAZY_PAGE_SIZE = 25;
     JigTableGroupHeaderTr,
     JigScrollShadow,
     JigButton,
+    JigSkeleton,
   ],
   providers: [provideSelf(JigTable)],
   // Keydown is bound on the host so it also catches keys from the grid's tab stop.
