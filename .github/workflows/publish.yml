@@ -23,6 +23,12 @@ name: Publish
 # registry rejects it with a masked E404. Leaving it out lets OIDC engage (npm
 # defaults to registry.npmjs.org anyway).
 #
+# Git push auth: the `main` ruleset requires PRs, and GITHUB_TOKEN cannot bypass
+# it (GitHub Actions is not an installable app, so it can't be a ruleset bypass
+# actor). The `jig-release-bot` App is on the bypass list instead; this job mints
+# an installation token from RELEASE_APP_ID / RELEASE_APP_PRIVATE_KEY and checkout
+# uses it for the remote, so the release commit and tags push straight to main.
+#
 # First-time note: a trusted publisher can only be set on a package that already
 # exists. If a brand-new package's first publish is rejected, bootstrap it once
 # (`npm login` locally, then `pnpm exec awesome-publish publish --pre next`),
@@ -40,14 +46,20 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read # git pushes use the App token, not GITHUB_TOKEN
       id-token: write # npm Trusted Publishing (OIDC) + provenance
     steps:
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ vars.RELEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
       - uses: actions/checkout@v4
         with:
           # Full history + tags: the pipeline diffs commits since the last tag
           # for changelogs/release notes and reads tags for version resolution.
           fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
