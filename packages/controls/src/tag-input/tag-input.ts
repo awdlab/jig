@@ -4,6 +4,7 @@ import {
   booleanAttribute,
   Component,
   computed,
+  type ElementRef,
   inject,
   Injector,
   input,
@@ -13,7 +14,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { inlineArrowStep, JigTemplate } from '@awdlab/jig/api/ng';
+import { inlineArrowStep, isRtl, JigTemplate } from '@awdlab/jig/api/ng';
 import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigDragScroll } from '@awdlab/jig/directives';
 import { JigDropdownList } from '@awdlab/jig/dropdown-list';
@@ -91,6 +92,7 @@ export class JigTagInput extends TagInputTemplates {
   protected readonly i18n = inject(I18n).translations;
 
   private readonly _injector = inject(Injector);
+  private readonly _field = viewChild.required<ElementRef<HTMLElement>>('field');
   private readonly _rovingGroup = viewChild<JigRovingGroup>(JigRovingGroup);
   private readonly _dropdown =
     viewChild<JigDropdownList<readonly JigItem<unknown, string>[]>>(JigDropdownList);
@@ -333,6 +335,16 @@ export class JigTagInput extends TagInputTemplates {
         dropdown.hide();
       }
     });
+    // The list never takes focus here, so its focusout reset never fires: a highlight
+    // would outlive the item it sits on and Enter would keep committing that item
+    // instead of newly typed text.
+    explicitEffect([this.resolvedSuggestions], ([items]) => {
+      const dropdown = this._dropdown();
+      const highlighted = dropdown?.highlightedValue();
+      if (highlighted != null && !items.some(item => item.value === highlighted)) {
+        dropdown?.clearHighlight();
+      }
+    });
   }
 
   /**
@@ -371,7 +383,22 @@ export class JigTagInput extends TagInputTemplates {
     this.value.set([...this.tags(), candidate]);
     this._setFieldText('');
     this._announce('added', candidate);
+    this._scrollToEnd();
     return true;
+  }
+
+  /** Brings the end of the tag row — the tag just added — into view once it has rendered. */
+  private _scrollToEnd(): void {
+    afterNextRender(
+      {
+        write: () => {
+          const element = this._field().nativeElement;
+          // `scrollTo` takes a physical offset, which runs negative under RTL.
+          element.scrollTo({ left: isRtl(element) ? -element.scrollWidth : element.scrollWidth });
+        },
+      },
+      { injector: this._injector }
+    );
   }
 
   /**

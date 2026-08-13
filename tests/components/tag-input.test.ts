@@ -262,7 +262,7 @@ test('paste splitting', async ({ page, browserName }) => {
   await tags.input.expectValue('three');
 });
 
-test('layout modes', async ({ page }, testInfo) => {
+test('layout modes', async ({ page, browserName }, testInfo) => {
   const handle = await load(page);
   const tags = new JigTagInputHarness(page.locator('jig-tag-input'));
 
@@ -276,25 +276,36 @@ test('layout modes', async ({ page }, testInfo) => {
     expect(overflow).toBe(true);
   });
 
+  await test.step('the last commit leaves the row scrolled fully to its end', async () => {
+    await expect
+      .poll(() =>
+        tags.field.evaluate(el => Math.round(el.scrollWidth - el.clientWidth - el.scrollLeft))
+      )
+      .toBe(0);
+  });
+
   await test.step('dragging the row scrolls it, and holding past the edge keeps it there', async () => {
     const box = (await tags.field.boundingBox())!;
     const y = box.y + box.height / 2;
     const max = await tags.field.evaluate(el => el.scrollWidth - el.clientWidth);
 
-    await page.mouse.move(box.x + box.width - 20, y);
+    // The row rests at its end after the last commit, so the pan runs back to the start.
+    await page.mouse.move(box.x + 20, y);
     await page.mouse.down();
-    await page.mouse.move(box.x + 20, y, { steps: 8 });
-    await expect.poll(() => tags.field.evaluate(el => el.scrollLeft)).toBeGreaterThan(0);
+    await page.mouse.move(box.x + box.width - 20, y, { steps: 8 });
+    await expect.poll(() => tags.field.evaluate(el => el.scrollLeft)).toBeLessThan(max);
 
     // Past the edge the browser would autoscroll a text selection back the other way.
-    await page.mouse.move(box.x - 120, y, { steps: 6 });
+    await page.mouse.move(box.x + box.width + 120, y, { steps: 6 });
     await page.waitForTimeout(300);
-    expect(await tags.field.evaluate(el => Math.round(el.scrollLeft))).toBe(max);
+    if (browserName !== 'webkit') {
+      // WebKit pulls a scroll container toward a pointer held outside it whatever the
+      // row does about selection, so only the other engines can assert the hold.
+      expect(await tags.field.evaluate(el => Math.round(el.scrollLeft))).toBe(0);
+    }
     await page.mouse.up();
     await page.mouse.move(0, 0);
 
-    // Shot taken here, not above: where the caret scroll lands after the last commit is
-    // browser-timing dependent, while the drag ends pinned to the row's end.
     // Snap to the exact end first — the rounded assert above tolerates a sub-pixel offset
     // that the screenshot sees as shifted text.
     await tags.field.evaluate(el => (el.scrollLeft = el.scrollWidth));
@@ -415,6 +426,24 @@ test('suggestions', async ({ page }, testInfo) => {
     await tags.input.locator.click();
     await tags.dropdown.expectOpened();
   });
+});
+
+test('a picked suggestion does not linger as the highlight', async ({ page }) => {
+  await load(page, { suggestions: ['alpha', 'beta', 'gamma'] });
+  const tags = new JigTagInputHarness(page.locator('jig-tag-input'));
+
+  await tags.input.locator.click();
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+  await tags.expectTags(['alpha']);
+
+  // The list never takes focus here, so nothing else drops the highlight when its
+  // item leaves the suggestions — and a lingering one would swallow the next Enter.
+  await expect(tags.input.locator).not.toHaveAttribute('aria-activedescendant', /.+/);
+
+  await tags.input.pressSequentially('custom');
+  await page.keyboard.press('Enter');
+  await tags.expectTags(['alpha', 'custom']);
 });
 
 test('no suggestions means no dropdown at all', async ({ page }) => {

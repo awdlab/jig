@@ -202,14 +202,13 @@ export class JigSplitter extends JigBase<'splitter'> implements OnDestroy {
     if (!(target instanceof HTMLElement)) {
       throw new Error('Event target is not an HTMLElement');
     }
-    // Make sure the element is stable before capturing the pointer
-    requestAnimationFrame(() => {
-      try {
-        target.setPointerCapture(event.pointerId);
-      } catch {
-        // Ignore errors if the element is not capable of capturing the pointer
-      }
-    });
+    // Capture synchronously — a deferred capture loses the moves of a fast drag,
+    // since the handler is bound to the handle the pointer leaves.
+    try {
+      target.setPointerCapture(event.pointerId);
+    } catch {
+      // Ignore errors if the element is not capable of capturing the pointer
+    }
 
     this.calculator().startDrag(index, event);
   }
