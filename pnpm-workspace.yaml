@@ -38,7 +38,7 @@ ignoredBuiltDependencies:
   - msgpackr-extract
 
 minimumReleaseAgeExclude:
-  - awesome-publish@0.0.9
+  - awesome-publish@0.0.10
 
 onlyBuiltDependencies:
   - esbuild
