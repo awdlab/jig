@@ -12,6 +12,14 @@ name: Publish
 #   latest — no flag: 0.2.0-next.0 → 0.2.0 under `latest`. Changesets are
 #            consumed and deleted.
 #
+# The `resume` input recovers a run that died mid-release: it reads npm, the git
+# tags and the GitHub releases, then completes only the missing parts for the
+# version already in package.json. Try a plain re-run first — if the release
+# commit never landed, the checkout still has the old version plus its changesets
+# and a normal run is correct (`--resume` would error with "no unfinished release
+# found"). Use resume when a normal re-run reports nothing to release but a
+# version is clearly half-shipped.
+#
 # Auth: npm Trusted Publishing (OIDC) — no NPM_TOKEN. The `id-token: write`
 # permission lets GitHub mint a short-lived identity that npm trusts (configured
 # per package on npmjs.com → Settings → Trusted Publisher). Provenance is emitted
@@ -41,10 +49,18 @@ on:
         type: choice
         options: [next, latest]
         default: next
+      resume:
+        description: 'Finish a half-shipped release: publishes/tags only the parts missing for the version already in package.json. Ignores changesets and `channel`.'
+        type: boolean
+        default: false
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      # Skip husky: the pre-push format/lint check rejects the release commit's
+      # generated CHANGELOG.md and version bumps. PR checks already gate content.
+      HUSKY: '0'
     permissions:
       contents: read # git pushes use the App token, not GITHUB_TOKEN
       id-token: write # npm Trusted Publishing (OIDC) + provenance
@@ -70,7 +86,7 @@ jobs:
           echo "node: $(node -v)  npm: $(npm -v)  ($(command -v npm))"
           echo "id-token available: ${ACTIONS_ID_TOKEN_REQUEST_URL:+yes}"
       - run: pnpm install --frozen-lockfile
-      - run: pnpm exec awesome-publish publish --ci ${{ inputs.channel == 'next' && '--pre next' || '' }}
+      - run: pnpm exec awesome-publish publish --ci ${{ inputs.resume && '--resume' || (inputs.channel == 'next' && '--pre next' || '') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWESOME_PUBLISH_AI_KEY: ${{ secrets.AWESOME_PUBLISH_AI_KEY }}
