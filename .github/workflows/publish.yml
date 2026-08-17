@@ -2,8 +2,8 @@ name: Publish
 
 # Manual trigger — no auto-publish on merge. awesome-publish reads changesets to
 # decide versions, builds the publishable packages (via buildCommand in
-# awesome-publish.config.ts), publishes to npm, tags, and cuts per-package
-# GitHub releases.
+# awesome-publish.config.ts), publishes to npm, tags, and cuts one combined
+# GitHub release listing every package in the run (github.releases.mode).
 #
 # The `channel` input picks the release mode:
 #   next   — `--pre next`: 0.1.0 + minor changeset → 0.2.0-next.0 under the
@@ -62,7 +62,7 @@ jobs:
       # generated CHANGELOG.md and version bumps. PR checks already gate content.
       HUSKY: '0'
     permissions:
-      contents: read # git pushes use the App token, not GITHUB_TOKEN
+      contents: read # git pushes AND GitHub releases use the App token, not GITHUB_TOKEN
       id-token: write # npm Trusted Publishing (OIDC) + provenance
     steps:
       - uses: actions/create-github-app-token@v2
@@ -88,5 +88,9 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec awesome-publish publish --ci ${{ inputs.resume && '--resume' || (inputs.channel == 'next' && '--pre next' || '') }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # The App token, not secrets.GITHUB_TOKEN: this job runs with
+          # `contents: read`, which cannot create a GitHub release (403). The App
+          # already has write access for pushing the release commit and tags, so
+          # reusing it here keeps releases attributed to jig-release-bot too.
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           AWESOME_PUBLISH_AI_KEY: ${{ secrets.AWESOME_PUBLISH_AI_KEY }}
