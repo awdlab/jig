@@ -1,5 +1,110 @@
 # Changelog
 
+## @awdlab/jig 0.0.4 (2026-08-17)
+
+- **New control `jig-tag-input`.** A list of string tags the user types and confirms — Enter always commits, further characters can be declared as `delimiters`. Offers suggestions from a static list or an async callback, enforces `maxTags` / `minTagLength` / `maxTagLength` / `allowDuplicates` and reports refusals through `rejected`, wraps onto several lines or scrolls on one, and announces every change in a live region. Its value is `string[] | null` — never an empty array — so signal-forms `required` reacts to an empty control. Ships the `tagCount` and `tagLength` validators for bounds the stock `minLength`/`maxLength` cannot express on a nullable array.
+
+**New control `jig-dropdown-list`.** The anchored popover wrapping a `jig-list-box` — the dropdown half of a combobox, extracted out of `jig-select` and now shared by select and tag-input. Usable on its own, and projects `dropdownHeader` content above the list, which is how select puts its filter field inside the popover.
+
+**`jig-slider` gains range mode.** `range` turns the value into a `[start, end]` tuple and spans the fill between the handles. `minRangeDistance` sets the smallest gap the handles may have; values outside `0 … max - min`, and bound pairs that violate the gap, are clamped with a dev-mode error. The host degrades to `role="group"` and each handle becomes its own focusable `role="slider"` with handle-local `aria-valuemin`/`aria-valuemax`, per the WAI-ARIA multi-thumb pattern. New `valueCommit` output emits once an interaction settles — a drag release, a track click, or a handled key press — where `valueChange` fires on every frame.
+
+**`jig-input-field` can mark the label of a required control with an asterisk.** Opt in per field via `showRequiredMarker`, or globally via the new `defaults.inputField.showRequiredMarker` config. Value controls expose `requiredState`, which ORs the `required` input with the required validator of a bound form control, so the marker works across signal forms, reactive and template-driven forms alike. The marker is drawn in CSS and hidden from the accessibility tree — `aria-required` on the control already carries the semantics.
+
+**Validation messages can be scoped to a control.** A control's own `<scope>.errors.<key>` translation now wins over the shared `errors.<key>`, so `jig-otp` says "Enter the full code" and `jig-tag-input` "Add at least one entry" where every other control keeps the generic wording.
+
+**`jig-hint` collapses through a `root-collapsed` theme class** instead of an inline `display: none`, so a hidden validation hint keeps the field's layout stable and the message expands into place.
+
+Smaller additions: `rovingDisabled` on `jigRovingGroup` suspends navigation so a suspended group reads as one plain element (a readonly `jig-mask-input` no longer exposes selectable sections); `loading` on `jig-list-box` covers the list with a spinner while items are fetched; `jig-mask-input` exposes `disabled` / `readonly` / `invalid` theme classes and the matching ARIA.
+
+### Breaking
+
+`JigPassthrough<'select'>` changed shape. The select's popover and list box now live behind the extracted dropdown, so the `popover` and `list-box` dependencies and the `popover-content` / `list-box-empty` classes are gone, replaced by a single `dropdown` dependency:
+
+```diff
+-const pt: JigPassthrough<'select'> = { 'popover-content': { … } };
++const pt: JigPassthrough<'select'> = { dropdown: { content: { … } } };
+
+-const pt: JigPassthrough<'select'> = { 'list-box': { root: { … } } };
++const pt: JigPassthrough<'select'> = { dropdown: { 'list-box': { root: { … } } } };
+```
+
+The Playwright `JigSelectHarness` keeps `listBox` and `popoverContent` as forwarding getters, so existing end-to-end tests need no change.
+- **New control `jig-skeleton`.** A placeholder box for content that has not arrived yet. `shape` picks which dimensions apply: a `rect` is sized with `width` (default `100%`) and `height` (default `1lh`, so a bare skeleton reads as one line of text) plus an optional `radius`; a `circle` takes a single `diameter` and is always fully rounded. Numbers are pixels, strings are passed through as CSS lengths, so `width="55%"` and `height="2rem"` work as written. The host carries `aria-hidden="true"` — a skeleton is never content, and the surrounding region owns the loading announcement.
+
+Rectangles paint a 2px vertical inset inside their own box rather than outside it, so stacked `1lh` lines separate visually while the height they occupy stays exactly on the text line grid. Circles keep their full diameter, since an inset would squash them into an ellipse. Sizing flows through `--jig-skeleton-*` custom properties, namespaced so an app token of the same short name cannot reach in and override what the theme decided.
+
+The animation is a themed concern: base renders a flat block at the authored size, nova and material sweep a travelling gradient (material on its own easing and with a wider highlight), and shade pulses opacity instead, matching its flatter look. A theme that restates the `background` shorthand has to restate `background-clip` with it, or the inset stops being an inset.
+
+`jig-table` now renders `jig-skeleton` inside its loading rows instead of painting the cell itself, so the table's shimmer comes from the shared control and follows whichever theme is active.
+- **New control `jig-meter`.** Breaks a quantity into labelled, colored parts: a stacked bar plus a legend. Every item carries a `label` and a `value`, optionally a `color` and an `icon`. Without `total` the items add up to a full bar; with one, whatever they don't cover stays empty track — pass the remainder as its own item to give it a name and a share. Items that overshoot `total` are clipped and reported through a dev-mode error. Each legend entry shows its share, rounded except for a non-zero sliver below one percent, which reads `<1%`; `showPercentage="false"` hides the numbers visually but keeps them in the accessibility tree. `vertical` stands the bar up — filling bottom-up, the way a gauge reads — and moves the legend beside it. The legend row is templateable through `<ng-template #label>` (or `templateLabel`), which receives the item and its unrounded percentage. Hovering a segment highlights the legend entry that names it, and hovering a legend entry lifts its segment clear of the bar — decorative, and switched off with `highlightOnHover="false"`. Neighbouring segments are parted by a hairline in the track color, the filled run ends in a rounded cap, and an item too small to round up to a visible slice still paints a minimum sliver, so the bar never contradicts its legend. The host is a `role="group"` named by `label`, the bar is `aria-hidden` — the legend is plain text, so nothing depends on color alone. Items without a `color` cycle through a per-theme palette: eight hues in nova and material, an interleaved primary ramp in the monochrome shade, and `currentColor` under a base-only theme.
+- Every overlay control now shares one open/close lifecycle, and the bugs the duplicated copies had drifted into are fixed.
+
+Dialog kept lazy, uncached content mounted only until `open` flipped, not until the exit animation ended: the flag meant to span the animation was never reset on open, and the close waited on animations of the host element, which is `display: contents` and never animates. `closed` fired early for the same reason. A cancelled exit animation stranded dialog and tooltip half-closed — content mounted, `closed` never emitted — because the rejection was swallowed; the close now settles instead of hanging, and skips animations that never finish (infinite, paused, idle) so a spinner in projected content cannot wedge it. `closed` and `closing` can no longer fire after the host is destroyed.
+
+Closed overlays are no longer top-layer elements: modal dialogs drop the unused `popover` attribute, and popover, tooltip, toast and snackbar carry theirs only while open. Password managers that count top-layer entries no longer read a page full of jig controls as top-layer hijacking and disable their inline menu. Toast and snackbar regions occupy the top layer only while they hold items, and stay until the last item has animated out — previously the region entered at app start, so any modal opened later covered it.
+
+`Openable` gains an optional `closing` output and documented semantics for the members every overlay shares, and dialog and drawer now expose that output alongside popover — it fires when the close starts, where `closed` fires once the exit animation has finished. Drawer and tooltip hide themselves via `:not(:popover-open)` in the base theme instead of relying on the user-agent rule for the `popover` attribute, which is no longer present while they are closed.
+- **Roving focus only claims elements that can actually take focus.** `resolveFocusable` now returns `undefined` instead of falling back to the control's host when the control has nothing focusable in it, and callers skip those controls. A decorative `jig-icon` — including the icon inside an icon button — is a `JIG_CONTROL`, so a container collecting its descendant controls used to register it and stamp a `tabindex` on it, adding phantom stops to the roving order.
+
+Controls built from `tabindex` rather than a native element now resolve to the innermost such element. `jig-input-field` carries a `tabindex` of its own but only forwards focus to the control it wraps, so a `jig-select` inside a field is the tab stop and the field is not. The test is structural rather than reading tabindex values, since roving rewrites the values of everything it owns and a value-based rule would not survive a re-registration.
+
+`jig-toolbar` registers its items in an after-render effect. Which element owns a control's tab stop is read off the DOM, and a projected control's own bindings — the `tabindex` a `jig-select` puts on its trigger — are not applied yet while the toolbar's view is being refreshed, so a `jig-select` in a toolbar was silently skipped by the arrow keys.
+- **Right-to-left support.** Controls read the writing direction from the DOM: set `dir` on `<html>` or on any element and everything below it mirrors. There is no RTL mode to enable, no per-control input, and no service to configure. Because `direction` is an inherited CSS property, it resolves per subtree — a `dir="rtl"` island inside a left-to-right page works, and so does the reverse.
+
+Layout and styling are mirrored throughout. Padding, margins, borders and corner radii across every theme part are written as CSS logical properties, so they follow the inline axis instead of a fixed side. The pieces CSS cannot express logically are handled per theme with `:dir(rtl)`: gradient direction and `background-position` (the scroll-shadow layer, the table's sticky-column edges and the tabs overflow fades are mirrored as a whole rather than duplicating every fade), `transform-origin` on the snackbar progress bar, and the `translate()` offsets behind the badge's corner overhang, the switch thumb travel, the vertical meter's highlight lift and the drawer's slide-in.
+
+Keyboard navigation follows the inline axis, so in RTL `ArrowLeft` advances. That includes the cases where the axis carries meaning rather than order: tree nodes expand away from the root, submenus open away from their parent, and a table row's action bar is entered from the row's inline-end. `ArrowUp`/`ArrowDown` stay physical — the block axis does not flip.
+
+Pointer interaction mirrors too. A slider's value is measured from the track's minimum end, and the splitter divider, table column resize and table column reorder all resolve against the inline-start edge, so a positive drag keeps its meaning in both directions. The native resize grip that `jigResizable` hit-tests is found in the bottom inline-end corner, which is bottom-left under RTL.
+
+Three things stay physical on purpose. `placement="left"` on a tooltip, popover or menu means the left — only the alignment half (`-start`/`-end`) follows the direction, which floating-ui already handles. `jigMovable` writes physical coordinates, so a freely dragged element goes where the pointer goes. And the colour picker's saturation, hue and alpha gradients are painted left-to-right with pointer maths to match, so a hue ramp does not reverse when the page does.
+
+New in `@awdlab/jig/api/ng`: `isRtl(el)` answers per element and is meant to be called at the point of use rather than cached, which keeps `getComputedStyle` out of the reactive graph; `inlineArrowStep(el, key)` resolves a horizontal arrow key into a step along the inline axis; `notifyDirectionChanged()` tells already-open overlays to re-resolve their placement after a runtime `dir` change, with `onDirectionChange()` to register that work. None of this is needed when the direction is set once at bootstrap, nor for anything styled with logical properties or `:dir(rtl)` — CSS re-matches on its own.
+
+Two bugs surfaced along the way. Sticky table columns pinned to the wrong edge in RTL: their offsets are accumulated in visual column order but were applied to physical `left`/`right`, so a sticky-end column did not stick at all. And the off-screen parking used to keep collapsed toolbar items and the item-view measurable (`left: -9999px`) created real scrollable overflow in RTL — overflow toward the inline-start is not scrollable, but the mirrored position is — which showed up as a phantom horizontal scrollbar.
+
+Directional glyphs in the default icon set are mirrored rather than swapped: `jig-icon` now reflects its `defaultIcon` as `data-default-icon`, and one theme rule flips the chevrons and carets used by the breadcrumb separator, the calendar's month arrows, submenu markers, the paginator, the table group toggle and the tabs scroll buttons. Keying off the slot means a consumer who overrides one of those icons gets the same treatment, while non-directional slots are untouched.
+
+The docs ship an RTL guide and a **Direction** toggle in the theme picker, which flips the whole site and persists in the same cookie the theme uses, so a returning RTL visitor gets RTL HTML from the server rather than a left-to-right first paint. Every control that renders visible markup of its own has an RTL screenshot test — captured in a state worth looking at, so an open dropdown rather than a closed field — plus interaction tests covering the direction-dependent keyboard, pointer and scroll behaviour.
+
+### Breaking
+
+Inputs and theme classes that named a physical side now name a logical one. `top` and `bottom` are unchanged.
+
+```diff
+-<jig-drawer position="left" />
++<jig-drawer position="start" />
+
+-<jig-upload listPosition="right" />
++<jig-upload listPosition="end" />
+
+-<jig-tabs [iconScrollLeft]="…" [iconScrollRight]="…" />
++<jig-tabs [iconScrollStart]="…" [iconScrollEnd]="…" />
+```
+
+`JigUploadListPosition` is now `'top' | 'bottom' | 'start' | 'end'`, and the drawer's `position` is `'top' | 'end' | 'bottom' | 'start' | 'fullscreen'`. The `data-position` attribute the drawer reflects carries the new values, as does `JigDrawerHarness.expectPosition`.
+
+Theme parts and `JigPassthrough` keys follow: `tabs` exposes `scroll-start` / `scroll-end` in place of `scroll-left` / `scroll-right`, and `upload` exposes `list-start` / `list-end` in place of `list-left` / `list-right`. The matching default-icon keys are now `tabs-scroll-start` and `tabs-scroll-end`. `jig-tooltip` is deliberately unchanged — its `left` / `right` classes come from floating-ui's resolved physical side and sit alongside the separate `start` / `end` alignment classes.
+
+`jigScrollAmount` reports a distance rather than a physical offset, because browsers report a negative `scrollLeft` in RTL:
+
+```diff
+-scrollAmount.scrollLeft()
++scrollAmount.scrollInlineStart()
+
+-scrollAmount.distanceFromRight()
++scrollAmount.distanceFromInlineEnd()
+```
+- **New control `jig-toolbar`.** Arranges controls across three placements — start, center and end — in either orientation, and decides what happens when they stop fitting. It is a layout-and-focus container: it does not own the state of the controls inside it. Projected content lands in the start placement; `placement="center"` and `placement="end"` move it into the other tracks, as static attributes rather than bindings, since Angular resolves content projection at compile time. The side placements reserve equal space, so the center placement is centered against the toolbar rather than against whatever the sides happen to weigh, and an empty center track costs nothing; past the point where a side needs more than its half, the center gives way rather than the side wrapping. `orientation="vertical"` stacks the tracks and switches the measured axis to the block direction. The whole toolbar is a single tab stop: `role="toolbar"` with `aria-orientation`, one roving tabindex across all three placements, arrow keys along the orientation, `Home`/`End` to the ends, disabled controls skipped.
+
+`overflow` decides the response to a shortage of space. `'wrap'` (the default) grows the toolbar along the cross axis — pure CSS, nothing is measured, so any projected content works and a simple toolbar needs no extra markup. A placement wraps as a whole, moving to the next line as one group and only wrapping inside itself when that group alone is wider than the toolbar, so a full start placement first uses the room the end placement does not need. `'popover'` collapses whatever no longer fits into a `…` trigger per placement, which reveals the collapsed items in a popover. Collapsing means rendering an item in two places, so collapsible content is declared as `<ng-template #item>` inside a `jig-toolbar-region`; each item template receives an `overflowed` flag, so the same template can render an icon-only button in the bar and an icon-plus-label row in the popover. Because the template renders twice, item state has to live in the parent component. Projected content that cannot collapse is refused with a dev-mode error rather than silently consuming track space the collapse math never accounted for.
+
+**New control `jig-toolbar-region`.** A group of items sharing a placement and a collapse `priority`: regions pooled in one placement give up the lowest priority first, regardless of where they sit visually, so a low-priority region on the left can empty while the region to its right stays full. Ties collapse in reverse DOM order. The region is `display: contents`, so its items are direct children of the placement track and a single gap applies across all regions in it — the gap the collapse math reads out of the theme.
+
+Collapsed items stay in the DOM, laid out off-screen, so the toolbar keeps measuring them at their natural size; hiding them would measure zero, everything would "fit", and the toolbar would flip forever. Their in-bar copy is `inert` and `aria-hidden="true"`, so only the copy inside the popover is exposed and no item is announced twice or becomes a phantom tab stop. Inside the popover, controls use the native tab order rather than a roving tabindex. The `…` trigger is a real button with a translated `aria-label` (`toolbar.overflow`, new in en and de) and `aria-expanded`, drawn with the new `toolbar-overflow` default icon or an `iconOverflow` of your own; while nothing is collapsed it is inert and hidden from assistive tech. Both halves are templateable — `<ng-template #overflow>` / `templateOverflow` for the trigger, `<ng-template #popoverContent>` / `templatePopoverContent` for the popover body.
+
+Ships with base, nova, shade and material theme parts for both the toolbar and the region, and a `JigToolbarHarness` for Playwright.
+
 ## @awdlab/jig 0.0.3 (2026-08-17)
 
 - **New control `jig-tag-input`.** A list of string tags the user types and confirms — Enter always commits, further characters can be declared as `delimiters`. Offers suggestions from a static list or an async callback, enforces `maxTags` / `minTagLength` / `maxTagLength` / `allowDuplicates` and reports refusals through `rejected`, wraps onto several lines or scrolls on one, and announces every change in a live region. Its value is `string[] | null` — never an empty array — so signal-forms `required` reacts to an empty control. Ships the `tagCount` and `tagLength` validators for bounds the stock `minLength`/`maxLength` cannot express on a nullable array.
