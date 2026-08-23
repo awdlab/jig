@@ -39,3 +39,7 @@ Thumbs.db
 
 # type-matrix probe, written and removed by tools/type-matrix
 __type-probe.generated.ts
+
+# `awesome-publish pack` output — build artefacts, and lint-changed trips over the
+# extracted .d.ts files if they are left untracked.
+awesome-publish-pack/
