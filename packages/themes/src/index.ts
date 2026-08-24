@@ -1,2 +1,2 @@
-export * from './api';
-export * from './templates';
+export * from './api/index.js';
+export * from './templates/index.js';

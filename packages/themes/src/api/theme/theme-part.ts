@@ -1,7 +1,7 @@
-import type { ControlTemplate } from './control-template';
-import type { Scoped } from './scoped';
-import type { VariableValues } from './variable';
-import type { VariableTemplate } from './variable-template';
+import type { ControlTemplate } from './control-template.js';
+import type { Scoped } from './scoped.js';
+import type { VariableValues } from './variable.js';
+import type { VariableTemplate } from './variable-template.js';
 
 type DepClasses<Deps> = Deps extends readonly (infer Dep)[]
   ? Dep extends { class: infer Cls extends string }

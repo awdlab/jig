@@ -61,7 +61,7 @@ import { tooltipStyles } from '@awdlab/jig-themes/base/tooltip';
 import { treeStyles } from '@awdlab/jig-themes/base/tree';
 import { uploadStyles } from '@awdlab/jig-themes/base/upload';
 
-import { tableStyles } from './table';
+import { tableStyles } from './table/index.js';
 
 export const baseStyles = {
   accordion: accordionStyles,

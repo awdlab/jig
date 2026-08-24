@@ -134,6 +134,8 @@ test('dependency marker class is auto-applied without pt', async ({ page }) => {
 });
 
 test('rtl', async ({ page }, testInfo) => {
+  // The calendar renders "today" — freeze it so the snapshot does not drift.
+  await page.clock.setFixedTime(new Date('2025-08-18T12:13:14'));
   await useRtl(page);
   await loadComponent(
     page,

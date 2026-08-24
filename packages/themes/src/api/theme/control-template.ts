@@ -1,4 +1,4 @@
-import type { Scoped } from './scoped';
+import type { Scoped } from './scoped.js';
 
 export type Dependency = {
   readonly class: string;

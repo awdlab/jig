@@ -1,4 +1,4 @@
-import type { JigCustomTypes, JigThemeTypes } from './custom-types';
+import type { JigCustomTypes, JigThemeTypes } from './custom-types.js';
 
 type GetCustomType<Group, K> = K extends string
   ? Group extends { kind: { [key in K]: infer T } }

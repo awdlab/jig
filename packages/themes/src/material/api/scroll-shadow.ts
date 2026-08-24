@@ -1,6 +1,6 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate } from '../base';
+import { colorsTemplate } from '../base/index.js';
 import { scrollShadowDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
 
 // The scroll-shadow tint is the single source of truth for the shadow color. It is defined on the

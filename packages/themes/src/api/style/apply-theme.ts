@@ -1,9 +1,9 @@
-import { getClassName } from './get-class-name';
-import type { StyleScope } from './style-scope';
-import { upsertThemeStyleElement } from './upsert-theme-style-element';
-import type { Theme } from '../theme/theme';
-import type { ThemePart } from '../theme/theme-part';
-import { groupArrayUsing } from '../utils/group-array-using';
+import { getClassName } from './get-class-name.js';
+import type { StyleScope } from './style-scope.js';
+import { upsertThemeStyleElement } from './upsert-theme-style-element.js';
+import type { Theme } from '../theme/theme.js';
+import type { ThemePart } from '../theme/theme-part.js';
+import { groupArrayUsing } from '../utils/group-array-using.js';
 
 export type ApplyThemeOptions = {
   /**

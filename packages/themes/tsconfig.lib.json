@@ -3,6 +3,8 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    // Published as raw ESM for Node, so specifiers must carry explicit extensions.
+    "module": "nodenext",
     "outDir": "../out-tsc/lib",
     "rootDir": "./src",
     "declaration": true,
