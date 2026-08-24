@@ -1,5 +1,17 @@
 # Changelog
 
+## @awdlab/jig 0.0.5 (2026-08-24)
+
+- **`@awdlab/jig-themes` and `@awdlab/jig-custom-types` are installable again.** Both shipped two manifests: the source `package.json` at the tarball root, whose `main` pointed at an `./index.js` that only existed one directory down and which carried no `exports` at all, plus a second generated manifest inside `dist/`. Nothing could resolve either package. The source `package.json` is now the single publish manifest and points into `dist/`, and the build no longer copies a manifest, README or LICENSE into the build output.
+
+`@awdlab/jig-themes` declares its 300-plus theme-part subpaths through one `exports` pattern instead of a generated entry per part, so the 313 empty `package.json` marker files under `packages/themes/src` are gone — with them goes the class of bug where a new theme part silently stayed unresolvable because its marker was forgotten. The three theme entry points keep their explicit mapping, since `@awdlab/jig-themes/nova` must load the type augmentation from `typed.d.ts` while `@awdlab/jig-themes/nova/untyped` must not.
+
+**Emitted specifiers are correct at the source.** Both packages compiled with the workspace-wide `module: preserve`, which emits import specifiers verbatim, so extensionless and directory specifiers survived into `dist` where Node's ESM resolver rejects them. A post-build script rewrote them afterwards — a regex that only matched `from` and `import()` forms, so the side-effect `import './theme-types'` inside each theme's `typed.d.ts` stayed broken for consumers on `node16`/`nodenext` resolution. The two packages now build with `module: nodenext` and carry explicit `.js` extensions in source, and the rewrite script is deleted. `@awdlab/jig-custom-types` was never rewritten at all and shipped extensionless re-exports.
+
+**`@awdlab/jig` packs from `dist/`.** ng-packagr flattens secondary entry points into hyphenated bundle names, so its generated manifest cannot be expressed as a root manifest pointing into `dist/`; the tarball now uses that manifest directly and carries one `package.json` instead of two. `README`/`LICENSE` are copied into `dist` so npm still includes them.
+
+No API surface changed — every import path a consumer already uses resolves to the same module.
+
 ## @awdlab/jig 0.0.4 (2026-08-17)
 
 - **New control `jig-tag-input`.** A list of string tags the user types and confirms — Enter always commits, further characters can be declared as `delimiters`. Offers suggestions from a static list or an async callback, enforces `maxTags` / `minTagLength` / `maxTagLength` / `allowDuplicates` and reports refusals through `rejected`, wraps onto several lines or scrolls on one, and announces every change in a live region. Its value is `string[] | null` — never an empty array — so signal-forms `required` reacts to an empty control. Ships the `tagCount` and `tagLength` validators for bounds the stock `minLength`/`maxLength` cannot express on a nullable array.

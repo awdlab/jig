@@ -1,6 +1,6 @@
 {
   "name": "@awdlab/jig-themes",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Theme presets and the theming engine for @awdlab/jig (Nova, Shade, Material, and base themes).",
   "license": "MIT",
   "homepage": "https://jig.awdlab.dev",
