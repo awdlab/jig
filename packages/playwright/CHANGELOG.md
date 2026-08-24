@@ -34,6 +34,7 @@ Four harness methods clashed with the base class and were renamed to say what th
 -await toggleButton.click(true);
 +await toggleButton.click({ force: true });
 ```
+
 - **Right-to-left support.** Controls read the writing direction from the DOM: set `dir` on `<html>` or on any element and everything below it mirrors. There is no RTL mode to enable, no per-control input, and no service to configure. Because `direction` is an inherited CSS property, it resolves per subtree — a `dir="rtl"` island inside a left-to-right page works, and so does the reverse.
 
 Layout and styling are mirrored throughout. Padding, margins, borders and corner radii across every theme part are written as CSS logical properties, so they follow the inline axis instead of a fixed side. The pieces CSS cannot express logically are handled per theme with `:dir(rtl)`: gradient direction and `background-position` (the scroll-shadow layer, the table's sticky-column edges and the tabs overflow fades are mirrored as a whole rather than duplicating every fade), `transform-origin` on the snackbar progress bar, and the `translate()` offsets behind the badge's corner overhang, the switch thumb travel, the vertical meter's highlight lift and the drawer's slide-in.
@@ -115,6 +116,7 @@ Four harness methods clashed with the base class and were renamed to say what th
 -await toggleButton.click(true);
 +await toggleButton.click({ force: true });
 ```
+
 - **Right-to-left support.** Controls read the writing direction from the DOM: set `dir` on `<html>` or on any element and everything below it mirrors. There is no RTL mode to enable, no per-control input, and no service to configure. Because `direction` is an inherited CSS property, it resolves per subtree — a `dir="rtl"` island inside a left-to-right page works, and so does the reverse.
 
 Layout and styling are mirrored throughout. Padding, margins, borders and corner radii across every theme part are written as CSS logical properties, so they follow the inline axis instead of a fixed side. The pieces CSS cannot express logically are handled per theme with `:dir(rtl)`: gradient direction and `background-position` (the scroll-shadow layer, the table's sticky-column edges and the tabs overflow fades are mirrored as a whole rather than duplicating every fade), `transform-origin` on the snackbar progress bar, and the `translate()` offsets behind the badge's corner overhang, the switch thumb travel, the vertical meter's highlight lift and the drawer's slide-in.
@@ -196,6 +198,7 @@ Four harness methods clashed with the base class and were renamed to say what th
 -await toggleButton.click(true);
 +await toggleButton.click({ force: true });
 ```
+
 - **Right-to-left support.** Controls read the writing direction from the DOM: set `dir` on `<html>` or on any element and everything below it mirrors. There is no RTL mode to enable, no per-control input, and no service to configure. Because `direction` is an inherited CSS property, it resolves per subtree — a `dir="rtl"` island inside a left-to-right page works, and so does the reverse.
 
 Layout and styling are mirrored throughout. Padding, margins, borders and corner radii across every theme part are written as CSS logical properties, so they follow the inline axis instead of a fixed side. The pieces CSS cannot express logically are handled per theme with `:dir(rtl)`: gradient direction and `background-position` (the scroll-shadow layer, the table's sticky-column edges and the tabs overflow fades are mirrored as a whole rather than duplicating every fade), `transform-origin` on the snackbar progress bar, and the `translate()` offsets behind the badge's corner overhang, the switch thumb travel, the vertical meter's highlight lift and the drawer's slide-in.
