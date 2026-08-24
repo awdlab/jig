@@ -71,7 +71,7 @@ import { tooltipStyles } from '@awdlab/jig-themes/material/tooltip';
 import { treeStyles } from '@awdlab/jig-themes/material/tree';
 import { uploadStyles } from '@awdlab/jig-themes/material/upload';
 
-import type {} from './theme-types';
+import type {} from './theme-types.js';
 
 export const KINDS = {
   button: ['primary', 'secondary', 'link', 'text', 'icon'] as const,

@@ -69,7 +69,7 @@ import { tooltipStyles } from '@awdlab/jig-themes/shade/tooltip';
 import { treeStyles } from '@awdlab/jig-themes/shade/tree';
 import { uploadStyles } from '@awdlab/jig-themes/shade/upload';
 
-import type {} from './theme-types';
+import type {} from './theme-types.js';
 
 // Shared button vocabulary — identical to nova (primary | secondary | link | text | icon), so
 // themes are kind-compatible and no per-theme kind translation is needed. `primary`, `secondary`

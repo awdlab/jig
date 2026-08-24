@@ -71,7 +71,7 @@ import { tooltipStyles } from '@awdlab/jig-themes/nova/tooltip';
 import { treeStyles } from '@awdlab/jig-themes/nova/tree';
 import { uploadStyles } from '@awdlab/jig-themes/nova/upload';
 
-import type {} from './theme-types';
+import type {} from './theme-types.js';
 
 export const KINDS = {
   button: ['primary', 'secondary', 'link', 'text', 'icon'] as const,

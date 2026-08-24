@@ -21,8 +21,7 @@
   },
   "scripts": {
     "prebuild": "pnpm rimraf ./dist",
-    "postbuild": "tsx ./tools/post-build.ts",
-    "build": "pnpm prebuild && tsc -p ./tsconfig.lib.json --outDir ./dist && pnpm postbuild"
+    "build": "pnpm prebuild && tsc -p ./tsconfig.lib.json --outDir ./dist"
   },
   "type": "module",
   "main": "./dist/index.js",

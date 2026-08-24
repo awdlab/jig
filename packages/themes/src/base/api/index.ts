@@ -1,3 +1,3 @@
-export * from './movable';
-export * from './resizable';
-export * from './scroll-shadow';
+export * from './movable.js';
+export * from './resizable.js';
+export * from './scroll-shadow.js';

@@ -1,4 +1,4 @@
-import type { JigCustomTypes, JigThemeTypes } from './custom-types';
+import type { JigCustomTypes, JigThemeTypes } from './custom-types.js';
 
 type GetCustomType<Group> = Group extends { color: infer T } ? T : never;
 

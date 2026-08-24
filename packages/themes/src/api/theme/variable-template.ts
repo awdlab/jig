@@ -1,6 +1,6 @@
-import type { Scoped } from './scoped';
-import type { TemplateVariable } from './template-variable';
-import type { VariableKeys, VariableValues } from './variable';
+import type { Scoped } from './scoped.js';
+import type { TemplateVariable } from './template-variable.js';
+import type { VariableKeys, VariableValues } from './variable.js';
 
 export type VariableTemplate<
   S extends string = string,

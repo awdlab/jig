@@ -1,4 +1,4 @@
-import type { JigCustomTypes } from './custom-types';
+import type { JigCustomTypes } from './custom-types.js';
 
 import type { IconifyIcon } from '@iconify/types';
 

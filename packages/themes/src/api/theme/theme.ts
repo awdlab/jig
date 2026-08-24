@@ -1,4 +1,4 @@
-import type { ThemePart } from './theme-part';
+import type { ThemePart } from './theme-part.js';
 
 /**
  * Explicit per-control default `color`/`kind`, keyed by control name. When set,
