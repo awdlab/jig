@@ -1,6 +1,8 @@
 export type ThemeTemplate = {
   accordion: Awaited<typeof import('./accordion/index.js')>['accordionControlTemplate'];
-  accordionPanel: Awaited<typeof import('./accordion-panel/index.js')>['accordionPanelControlTemplate'];
+  accordionPanel: Awaited<
+    typeof import('./accordion-panel/index.js')
+  >['accordionPanelControlTemplate'];
   movable: Awaited<typeof import('./api/index.js')>['movableDirectiveTemplate'];
   resizable: Awaited<typeof import('./api/index.js')>['resizableDirectiveTemplate'];
   scrollShadow: Awaited<typeof import('./api/index.js')>['scrollShadowDirectiveTemplate'];
@@ -60,7 +62,9 @@ export type ThemeTemplate = {
   toast: Awaited<typeof import('./toast/index.js')>['toastControlTemplate'];
   toggleButton: Awaited<typeof import('./toggle-button/index.js')>['toggleButtonControlTemplate'];
   toolbar: Awaited<typeof import('./toolbar/index.js')>['toolbarControlTemplate'];
-  toolbarRegion: Awaited<typeof import('./toolbar-region/index.js')>['toolbarRegionControlTemplate'];
+  toolbarRegion: Awaited<
+    typeof import('./toolbar-region/index.js')
+  >['toolbarRegionControlTemplate'];
   tooltip: Awaited<typeof import('./tooltip/index.js')>['tooltipControlTemplate'];
   tree: Awaited<typeof import('./tree/index.js')>['treeControlTemplate'];
   upload: Awaited<typeof import('./upload/index.js')>['uploadControlTemplate'];
