@@ -4,6 +4,7 @@ dist
 .angular
 _generated
 **/coverage/**
+awesome-publish-pack/
 
 # Linked tsconfig files
 **/tsconfig.symlink.json

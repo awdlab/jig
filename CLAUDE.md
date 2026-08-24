@@ -64,7 +64,7 @@ When creating or modifying a control, be aware that each control spans these par
 | Docs page      | `apps/docs/src/app/docs/components/{name}/`     | `page.ts`, `index.md`, `api.md`, `a11y.md`, `playground.ts`                  |
 | Demos          | `apps/docs/src/app/demos/{name}/`               | Scenario-based standalone Angular components                                 |
 
-Each theme part also needs an empty `package.json` (`{}`) next to `index.ts`. New controls must be registered in `packages/themes/src/templates/index.ts` (`ThemeTemplate`), each theme's `index.ts`, and `apps/docs/src/app/docs/components/index.ts` (`COMPONENT_GROUPS`).
+New controls must be registered in `packages/themes/src/templates/index.ts` (`ThemeTemplate`), each theme's `index.ts`, and `apps/docs/src/app/docs/components/index.ts` (`COMPONENT_GROUPS`).
 
 Always check **all** parts when making changes to a control — a rename or new input affects templates, themes, tests, docs, and demos.
 
