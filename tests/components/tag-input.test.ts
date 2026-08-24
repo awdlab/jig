@@ -433,6 +433,7 @@ test('a picked suggestion does not linger as the highlight', async ({ page }) =>
   const tags = new JigTagInputHarness(page.locator('jig-tag-input'));
 
   await tags.input.locator.click();
+  await tags.dropdown.expectOpened();
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
   await tags.expectTags(['alpha']);
