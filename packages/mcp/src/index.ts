@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 
-import { runInit } from './init.js';
 import { createServer } from './server.js';
 
 /**
@@ -22,7 +21,10 @@ async function serve(): Promise<void> {
 const command = process.argv[2];
 
 if (command === 'init') {
-  runInit(process.argv.slice(3))
+  // Lazy: init.js pulls in awesome-logging, which writes escapes to stdout and
+  // hijacks stdin on import — fatal for the stdio JSON-RPC channel.
+  import('./init.js')
+    .then(({ runInit }) => runInit(process.argv.slice(3)))
     .then(() => process.exit(0))
     .catch(err => {
       console.error('[@awdlab/jig-mcp] init failed:', err);
