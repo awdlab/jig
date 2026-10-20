@@ -267,7 +267,7 @@
         [ptInt]="this"
         [ptClass]="'format-toggle'"
         [disabled]="disabled()"
-        aria-label="Color format"
+        [attr.aria-label]="'Color format: ' + activeFormat()"
         (click)="cycleFormat()"
       >
         {{ activeFormat() }}

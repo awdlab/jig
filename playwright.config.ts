@@ -29,6 +29,14 @@ export default defineConfig({
     ['junit', { outputFile: 'tests/results/test-report.xml' }],
   ],
   snapshotDir: 'tests/snapshots',
+  expect: {
+    toHaveScreenshot: {
+      // Low threshold catches light tints (focus/hover surfaces) that the stock 0.2
+      // scores as identical; maxDiffPixels absorbs glyph-antialiasing churn.
+      threshold: 0.02,
+      maxDiffPixels: 1500,
+    },
+  },
   use: {
     trace: 'retain-on-failure',
     connectOptions: process.env['CI'] ? undefined : { wsEndpoint: 'ws://127.0.0.1:3000/' },
