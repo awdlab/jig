@@ -47,7 +47,7 @@
     "@floating-ui/dom": "^1.7.1",
     "@iconify/icons-tabler": "^1.0.0",
     "@awdlab/jig-themes": "workspace:",
-    "@ngneers/signal-translate": "^20.0.0",
+    "@ngneers/signal-translate": "^22.0.0",
     "rxjs": "~7.8.0"
   },
   "peerDependenciesMeta": {
@@ -61,9 +61,9 @@
     "@angular/compiler-cli": "catalog:",
     "@iconify/icons-tabler": "^1.2.95",
     "@iconify/types": "^2.0.0",
-    "ng-packagr": "^22.1.1",
+    "ng-packagr": "^22.2.4",
     "typescript": "catalog:",
-    "vitest": "^4.1.10"
+    "vitest": "^5.0.5"
   },
   "sideEffects": false
 }

@@ -57,6 +57,7 @@ export class WindowService {
     this.logOutput(key, value);
     if (triggeredOutput) {
       try {
+        // oxlint-disable-next-line no-eval -- harness supplies the output handler as a source string
         const fn = window.eval(triggeredOutput);
         return fn(value);
       } catch (err) {
