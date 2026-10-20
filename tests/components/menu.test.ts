@@ -255,3 +255,14 @@ test('rtl keyboard: submenus open away from the parent along the inline axis', a
   await page.keyboard.press('ArrowRight');
   await expect(page.getByRole('menuitem', { name: 'Child 1' })).not.toBeVisible();
 });
+
+test('popover menu focuses its first item on open', async ({ page }) => {
+  await loadComponent(
+    page,
+    { template: POPOVER_TEMPLATE, imports: ['menu'] },
+    { inputs: { items: ITEMS } }
+  );
+
+  await page.locator('button').first().click();
+  await expect(page.getByRole('menuitem', { name: 'Item 1' })).toBeFocused();
+});

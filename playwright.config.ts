@@ -29,6 +29,14 @@ export default defineConfig({
     ['junit', { outputFile: 'tests/results/test-report.xml' }],
   ],
   snapshotDir: 'tests/snapshots',
+  expect: {
+    toHaveScreenshot: {
+      // Per-pixel colour tolerance. The stock 0.2 scores a light tint (a focus or
+      // hover surface) as identical, so a whole region can change without a pixel
+      // counting. maxDiffPixels stays at its default of 0.
+      threshold: 0.02,
+    },
+  },
   use: {
     trace: 'retain-on-failure',
     connectOptions: process.env['CI'] ? undefined : { wsEndpoint: 'ws://127.0.0.1:3000/' },

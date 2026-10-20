@@ -303,6 +303,11 @@ test('layout modes', async ({ page, browserName }, testInfo) => {
       // row does about selection, so only the other engines can assert the hold.
       expect(await tags.field.evaluate(el => Math.round(el.scrollLeft))).toBe(0);
     }
+
+    // A pan must not leave a text selection behind. WebKit starts one at a pointerdown
+    // inside a `user-select: none` subtree and extends it into the field label outside.
+    expect(await page.evaluate(() => getSelection()?.toString() ?? '')).toBe('');
+
     await page.mouse.up();
     await page.mouse.move(0, 0);
 

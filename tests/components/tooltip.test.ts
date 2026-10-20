@@ -133,23 +133,28 @@ test('positioning on scroll', async ({ page }, testInfo) => {
   await tooltip.expectRendered();
   await tooltip.expectOpened();
 
+  // Scrolling re-rasterises the composited text: same geometry, glyph edges off by
+  // up to 15% of a channel. The stock tolerance ignores that, and a tooltip that
+  // actually moved still fails on its high-contrast edges.
+  const afterScroll = { threshold: 0.2 };
+
   await test.step('not scrolled', async () => {
     await expectScreenshot(toScreenshot, testInfo);
   });
 
   await test.step('scrolled vertically', async () => {
     await page.evaluate(() => window.scrollTo(0, 25));
-    await expectScreenshot(toScreenshot, testInfo);
+    await expectScreenshot(toScreenshot, testInfo, undefined, afterScroll);
   });
 
   await test.step('scrolled both', async () => {
     await page.evaluate(() => window.scrollTo(25, 25));
-    await expectScreenshot(toScreenshot, testInfo);
+    await expectScreenshot(toScreenshot, testInfo, undefined, afterScroll);
   });
 
   await test.step('scrolled horizontally', async () => {
     await page.evaluate(() => window.scrollTo(25, 0));
-    await expectScreenshot(toScreenshot, testInfo);
+    await expectScreenshot(toScreenshot, testInfo, undefined, afterScroll);
   });
 });
 

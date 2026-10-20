@@ -85,4 +85,9 @@ export const IMPORTS = {
     import('./helper-components/async-validator').then(m => m.TestAsyncValidator),
   toastTrigger: () => import('./helper-components/toast-trigger').then(m => m.ToastTrigger),
   tagForm: () => import('./helper-components/tag-form').then(m => m.TagForm),
+  formManual: () => import('./helper-components/form-paradigms').then(m => m.FormManual),
+  formTemplateDriven: () =>
+    import('./helper-components/form-paradigms').then(m => m.FormTemplateDriven),
+  formReactive: () => import('./helper-components/form-paradigms').then(m => m.FormReactive),
+  formSignal: () => import('./helper-components/form-paradigms').then(m => m.FormSignal),
 };

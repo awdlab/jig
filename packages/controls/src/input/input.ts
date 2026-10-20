@@ -12,12 +12,16 @@ import {
 import { domEventHandler, domEventSignal } from '@awdlab/jig/api/ng';
 import {
   injectNgControlRequired,
+  injectNgControlValue,
   JigBase,
   type JigInvalidTrigger,
   provideSelf,
   resolveInvalidState,
 } from '@awdlab/jig/base';
 import { inputControlTemplate } from '@awdlab/jig-themes/templates/input';
+
+/** Sentinel for "no control value adopted yet", distinct from any real value. */
+const NOT_SEEN = Symbol('not-seen');
 
 /**
  * @category control
@@ -133,8 +137,23 @@ export class JigInput extends JigBase<'input'> implements AfterViewInit {
     });
   }
 
+  private readonly _ngControlValue = injectNgControlValue();
+
   constructor() {
     super();
+    // `ngModel` / `formControl` write the element directly and never set `value`,
+    // so copy their value in - otherwise the effect below overwrites a pre-filled
+    // field with the model's empty default. Only real value changes are copied, so
+    // typing into an `updateOn: 'blur'` control is not undone.
+    let seen: unknown = NOT_SEEN;
+    effect(() => {
+      const bound = this._ngControlValue();
+      if (!bound || Object.is(bound.value, seen)) {
+        return;
+      }
+      seen = bound.value;
+      this.value.set(bound.value == null ? '' : String(bound.value));
+    });
     effect(() => {
       if (this._input.value !== this.value()) {
         this._input.value = this.value() || '';

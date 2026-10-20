@@ -17,7 +17,7 @@ the library's internal themes.
 1. **Load the schema** — call `get_theme_schema` for the token vocabulary
    (`color.*`, `size.*`, `font.*`, `shadow.*`, `anim.*`) and the `createThemePart`
    authoring API: `c('<class>')` targets the control's own classes, `d('<scope>',
-'<class>')` targets a dependency's classes, `v('<token>')` reads a token.
+   '<class>')` targets a dependency's classes, `v('<token>')` reads a token.
 2. **Get the control anatomy** — call `get_control_theme(control)` for the scope,
    the class names you can target with `c()`, and dependency scopes for `d()`.
 3. **Scaffold** — call `scaffold_theme_part(control)` for a ready `createThemePart`

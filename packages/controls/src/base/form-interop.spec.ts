@@ -1,8 +1,9 @@
-import { Component, viewChild } from '@angular/core';
+import { Component, ElementRef, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideJigControls } from '@awdlab/jig/api/ng';
 import { withDefaultIcons } from '@awdlab/jig/default-icons';
+import { JigInput } from '@awdlab/jig/input';
 import { JigSelect } from '@awdlab/jig/select';
 import { JigSwitch } from '@awdlab/jig/switch';
 import { nova } from '@awdlab/jig-themes/nova';
@@ -57,6 +58,19 @@ class FormGroupHost {
   sel = viewChild.required(JigSelect);
 }
 
+// `jigInput` sits on a native element, so classic forms drive it through
+// Angular's `DefaultValueAccessor`. The directive mirrors that control's value
+// into its own model instead of writing its (empty) model back over it.
+@Component({
+  imports: [ReactiveFormsModule, JigInput],
+  template: `<input jigInput [formControl]="ctrl" />`,
+})
+class ReactiveInputHost {
+  ctrl = new FormControl('Ada', { nonNullable: true });
+  input = viewChild.required(JigInput);
+  element = viewChild.required(JigInput, { read: ElementRef<HTMLInputElement> });
+}
+
 describe('classic forms interop (FormValueControl, no CVA)', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -97,6 +111,19 @@ describe('classic forms interop (FormValueControl, no CVA)', () => {
     f.componentInstance.sel().value.set(1);
     f.detectChanges();
     expect(f.componentInstance.ctrl.value).toBe(1);
+  });
+
+  it('reactive [formControl] keeps a pre-filled value on jig-input', () => {
+    const f = TestBed.createComponent(ReactiveInputHost);
+    f.detectChanges();
+
+    expect(f.componentInstance.element().nativeElement.value).toBe('Ada');
+    expect(f.componentInstance.input().value()).toBe('Ada');
+
+    f.componentInstance.ctrl.setValue('Grace');
+    f.detectChanges();
+    expect(f.componentInstance.element().nativeElement.value).toBe('Grace');
+    expect(f.componentInstance.input().value()).toBe('Grace');
   });
 
   it('formControlName inside a FormGroup binds custom controls', () => {

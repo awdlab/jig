@@ -1,6 +1,7 @@
 import {
   afterNextRender,
   booleanAttribute,
+  DestroyRef,
   Directive,
   effect,
   ElementRef,
@@ -24,6 +25,7 @@ export class JigAutofocus {
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
   private readonly _focused = signal(false);
   private readonly _isInitialized = signal(false);
+  private _frame = 0;
 
   /**
    * Whether to focus the host element once it has rendered. Set to `false` to
@@ -46,22 +48,14 @@ export class JigAutofocus {
      * `afterNextRender` only runs in the browser, never during server-side
      * prerendering — guarding against `getClientRects`/`focus` calls on a
      * server DOM element that lacks them.
-     *
-     * The additional microtask ensures that the control is rendered and the
-     * jig-control-initializing class is removed before trying to focus the element.
      */
-    afterNextRender(() => {
-      if (this._el.nativeElement.getClientRects().length === 0) {
-        queueMicrotask(() => {
-          this._isInitialized.set(true);
-        });
-      } else {
-        this._isInitialized.set(true);
-      }
-    });
+    afterNextRender(() => this._isInitialized.set(true));
+
+    inject(DestroyRef).onDestroy(() => cancelAnimationFrame(this._frame));
   }
 
   private autoFocus() {
+    cancelAnimationFrame(this._frame);
     if (!this._isInitialized()) {
       return;
     }
@@ -71,7 +65,15 @@ export class JigAutofocus {
     if (this._focused()) {
       return;
     }
-    this._el.nativeElement.focus();
+    const element = this._el.nativeElement;
+    // `focus()` on a host that is not laid out yet is a silent no-op: a popover enters
+    // the top layer a frame after its content renders, and controls are `display: none`
+    // while initializing. Wait for layout instead of assuming it has happened.
+    if (element.isConnected && element.getClientRects().length === 0) {
+      this._frame = requestAnimationFrame(() => this.autoFocus());
+      return;
+    }
+    element.focus();
     this._focused.set(true);
   }
 }
