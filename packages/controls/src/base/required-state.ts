@@ -25,17 +25,15 @@ function hasRequiredValidator(control: AbstractControl | null | undefined): bool
 }
 
 /**
- * Reactive required state of a reactive or template-driven form control on the
- * host element. Angular binds a `required` input on controls it drives directly
- * (signal forms, and classic forms on a control without a `ControlValueAccessor`)
- * — this covers the remaining case, a native element whose classic form binding
- * runs through the default value accessor. Must be called in an injection
- * context.
+ * The `AbstractControl` bound to the host element, re-read whenever it emits.
+ * `control` is `null` when no form directive sits on the host. Wrapped in a
+ * fresh object so a re-read propagates even though the control instance stays
+ * the same. Must be called in an injection context.
  */
-export function injectNgControlRequired(): Signal<boolean> {
+function injectBoundControl(): Signal<{ control: AbstractControl | null }> {
   const ngControl = inject(NgControl, { optional: true, self: true });
   if (!ngControl) {
-    return signal(false).asReadonly();
+    return signal({ control: null }).asReadonly();
   }
   const destroyRef = inject(DestroyRef);
   const revision = signal(0);
@@ -63,6 +61,33 @@ export function injectNgControlRequired(): Signal<boolean> {
     revision();
     const control = ngControl.control;
     watch(control);
-    return hasRequiredValidator(control);
+    return { control };
+  });
+}
+
+/**
+ * Reactive required state of a reactive or template-driven form control on the
+ * host element. Angular binds a `required` input on controls it drives directly
+ * (signal forms, and classic forms on a control without a `ControlValueAccessor`)
+ * — this covers the remaining case, a native element whose classic form binding
+ * runs through the default value accessor. Must be called in an injection
+ * context.
+ */
+export function injectNgControlRequired(): Signal<boolean> {
+  const bound = injectBoundControl();
+  return computed(() => hasRequiredValidator(bound().control));
+}
+
+/**
+ * The bound form control's current value, wrapped so "no form on the host" is
+ * distinguishable from a control whose value is `null`. Reading the value here
+ * also tracks signal forms, whose interop `NgControl` exposes it as a signal.
+ * Must be called in an injection context.
+ */
+export function injectNgControlValue(): Signal<{ value: unknown } | null> {
+  const bound = injectBoundControl();
+  return computed(() => {
+    const control = bound().control;
+    return control ? { value: control.value } : null;
   });
 }
