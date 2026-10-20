@@ -31,10 +31,10 @@ export default defineConfig({
   snapshotDir: 'tests/snapshots',
   expect: {
     toHaveScreenshot: {
-      // Low threshold catches light tints (focus/hover surfaces) that the stock 0.2
-      // scores as identical; maxDiffPixels absorbs glyph-antialiasing churn.
+      // Per-pixel colour tolerance. The stock 0.2 scores a light tint (a focus or
+      // hover surface) as identical, so a whole region can change without a pixel
+      // counting. maxDiffPixels stays at its default of 0.
       threshold: 0.02,
-      maxDiffPixels: 1500,
     },
   },
   use: {
