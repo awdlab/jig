@@ -12,6 +12,7 @@ awesome-publish-pack/
 # Tests
 test-report.xml
 tests/results/
+tests/triage/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
