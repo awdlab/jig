@@ -1,5 +1,6 @@
 import {
   afterRenderEffect,
+  DestroyRef,
   Directive,
   DOCUMENT,
   ElementRef,
@@ -21,6 +22,7 @@ export abstract class JigDragBase {
   private _startX?: number = undefined;
   private _startY?: number = undefined;
   private _dragged = false;
+  private _previousUserSelect: string | null = null;
 
   protected readonly isDragging = signal(false);
   /**
@@ -46,6 +48,7 @@ export abstract class JigDragBase {
     if (!this._isBrowser) {
       return;
     }
+    inject(DestroyRef).onDestroy(() => this.suppressSelection(false));
     domEventHandler(this.el.nativeElement, 'touchmove', e => {
       if (e.cancelable) {
         e.preventDefault();
@@ -82,6 +85,7 @@ export abstract class JigDragBase {
         this._startX = undefined;
         this._startY = undefined;
         this.isDragging.set(false);
+        this.suppressSelection(false);
         this.dragEnd.emit();
       });
 
@@ -101,6 +105,24 @@ export abstract class JigDragBase {
     this.onDragged(delta);
   }
 
+  /**
+   * Suppresses text selection for the length of the gesture, document-wide rather than on
+   * the host: WebKit starts a selection at a pointerdown inside a `user-select: none`
+   * subtree and extends it into whatever is selectable around it — a sibling field label,
+   * say — so host-scoped suppression does not hold there.
+   */
+  private suppressSelection(suppress: boolean) {
+    const body = this._document.body;
+    if (suppress) {
+      this._previousUserSelect ??= body.style.userSelect;
+      body.style.userSelect = 'none';
+      this._document.getSelection()?.removeAllRanges();
+    } else if (this._previousUserSelect !== null) {
+      body.style.userSelect = this._previousUserSelect;
+      this._previousUserSelect = null;
+    }
+  }
+
   private handleDrag(event: Event) {
     const { clientX, clientY } = event as PointerEvent;
     if (this._startX === undefined || this._startY === undefined) {
@@ -114,6 +136,7 @@ export abstract class JigDragBase {
         return;
       }
       this.isDragging.set(true);
+      this.suppressSelection(true);
       this._dragged = true;
       this.dragStart.emit();
     }

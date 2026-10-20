@@ -1,4 +1,4 @@
-import test, { type Page } from '@playwright/test';
+import test, { expect, type Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { useRtl } from '../helper/direction';
 import type { InputsType } from '../../apps/test-wrapper/src/app/window.js';
@@ -45,6 +45,9 @@ test('base', async ({ page }, testInfo) => {
 
   await breadcrumb.itemView.overflowItem.locator(breadcrumb.classes['overflow']).click();
   await breadcrumb.overflowMenu.expectItemCount(5);
+  // The opened menu focuses its first item. Asserted rather than left to the screenshot,
+  // whose focus tint is too faint to fail a pixel comparison reliably.
+  await expect(page.getByRole('menuitem').first()).toBeFocused();
 
   await expectScreenshot(page, testInfo, 'overflow-open');
 });
