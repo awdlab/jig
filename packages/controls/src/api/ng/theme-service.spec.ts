@@ -1,7 +1,7 @@
 import { CSP_NONCE } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { nova } from '@awdlab/jig-themes/nova';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import { provideJigControls } from './provider';
 import { ThemeService } from './theme-service';
@@ -29,6 +29,12 @@ const themed = (extra?: JigConfigInit['theme']): JigConfigInit => ({
 });
 
 describe('ThemeService', () => {
+  // Sheets are upserted: one another spec left behind would be reused as-is, so the
+  // head has to be empty of them before each case, not just after.
+  beforeEach(() => {
+    jigStyles().forEach(el => el.remove());
+  });
+
   afterEach(() => {
     jigStyles().forEach(el => el.remove());
   });
