@@ -27,7 +27,7 @@ catalog:
   '@angular/platform-server': 22.2.3
   '@angular/router': 22.2.3
   '@angular/ssr': 22.2.3
-  typescript: ~6.0.3
+  typescript: ~7.0.2
 
 ignoredBuiltDependencies:
   - '@parcel/watcher'
