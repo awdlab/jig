@@ -1,5 +1,11 @@
 # Changelog
 
+## @awdlab/jig-playwright 0.0.5 (2026-10-21)
+
+- **Dependency refresh.** Angular moves from 22.1.1/22.1.3 to 22.2.3 across the catalog, and `@awdlab/jig` now peers on `@ngneers/signal-translate` ^22 instead of ^20 — the v20 range never matched the Angular 22 peer the package itself declares. `@awdlab/jig-playwright` peers on `@playwright/test` ^1.64.1, and `@awdlab/jig-mcp` picks up `@modelcontextprotocol/sdk` ^1.32.1 and `zod` ^4.6.7.
+
+No source changes, no migrations: every Angular 22 migration schematic targets 22.0.0, so the 22.1 → 22.2 step has nothing to run.
+
 ## @awdlab/jig-playwright 0.0.4 (2026-08-17)
 
 - **The harness package is importable again.** `dist/index.js` re-exported directories, which Node's ESM resolver rejects (`ERR_UNSUPPORTED_DIR_IMPORT`), so the published package threw on import — the workspace never noticed because its tests resolve the harnesses from source. Relative specifiers are now explicit files. `@awdlab/jig-themes` had the same defect in its emitted output and is rewritten at build time, and the `toolbar` / `toolbar-region` parts were missing the `package.json` marker that puts a theme part in the package's `exports` map, so `@awdlab/jig-themes/templates/toolbar` — and with it `JigToolbarHarness` — could not resolve in an install at all.

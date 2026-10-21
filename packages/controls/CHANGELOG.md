@@ -1,5 +1,16 @@
 # Changelog
 
+## @awdlab/jig 0.0.6 (2026-10-21)
+
+- **A pre-filled reactive or template-driven value no longer disappears from `jigInput`.** Classic forms drive a native `<input>` through Angular's `DefaultValueAccessor`, which writes the element directly and never touches the directive's `value` model. The directive's own element sync then wrote its empty default back over what the form had just written, so edit forms and other pre-filled forms rendered blank while `control.value` was correct — forms that start empty were unaffected, which is why the bug only surfaced on existing data.
+
+`jigInput` now copies the bound control's value into its model, and only when that value actually changes, so an `updateOn: 'blur'` control does not undo what the user is typing. The model no longer lags behind a programmatic `setValue` either, which had kept `empty()` — and with it the floating label of a wrapping `jig-input-field` — wrong.
+
+Signal forms (`[formField]`) and plain `value` / `valueChange` binding are unchanged; both already wrote the model.
+- **Dependency refresh.** Angular moves from 22.1.1/22.1.3 to 22.2.3 across the catalog, and `@awdlab/jig` now peers on `@ngneers/signal-translate` ^22 instead of ^20 — the v20 range never matched the Angular 22 peer the package itself declares. `@awdlab/jig-playwright` peers on `@playwright/test` ^1.64.1, and `@awdlab/jig-mcp` picks up `@modelcontextprotocol/sdk` ^1.32.1 and `zod` ^4.6.7.
+
+No source changes, no migrations: every Angular 22 migration schematic targets 22.0.0, so the 22.1 → 22.2 step has nothing to run.
+
 ## @awdlab/jig 0.0.5 (2026-08-24)
 
 - **`@awdlab/jig-themes` and `@awdlab/jig-custom-types` are installable again.** Both shipped two manifests: the source `package.json` at the tarball root, whose `main` pointed at an `./index.js` that only existed one directory down and which carried no `exports` at all, plus a second generated manifest inside `dist/`. Nothing could resolve either package. The source `package.json` is now the single publish manifest and points into `dist/`, and the build no longer copies a manifest, README or LICENSE into the build output.
