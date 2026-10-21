@@ -108,7 +108,17 @@ provideJigControls({
 ```
 
 The declarations are then emitted under `.my-app`, so nothing leaks into the
-host page's `:root`.
+host page's `:root`. Control rules follow the same scope, and `@media` blocks
+are scoped with them; `@keyframes` stay global, as they must.
+
+Two things to keep in mind:
+
+- **Put the scope on, or above, your application root element.** Toasts and
+  snackbars attach to the root component's element, so a scope on a wrapper
+  further inside the app leaves them unstyled. Dialogs, popovers, menus and
+  tooltips render where they are declared, so they are always covered.
+- **Dark mode is unaffected.** The `dark` class stays on `<html>`; scoped dark
+  rules match it on an ancestor. See [Dark Mode](/guides/dark-mode).
 
 ### What not to do
 

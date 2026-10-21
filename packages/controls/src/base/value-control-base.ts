@@ -84,7 +84,7 @@ export abstract class ValueControlBase<C extends ControlName, T>
    * {@link invalidOn} against {@link touched} / {@link dirty}. Controls map their
    * theme `invalid` part (and any `aria-invalid`) to this.
    */
-  protected readonly invalidState = computed(() =>
+  public override readonly invalidState = computed(() =>
     resolveInvalidState(this.invalid(), this.invalidOn(), this.touched(), this.dirty())
   );
   /**

@@ -9,7 +9,9 @@ HTML contains.
 
 Theme CSS is generated and injected into `<head>` as each control scope first
 appears — on the server too. The HTML you serve therefore already carries the
-CSS for the controls it contains, and there is no unstyled flash on load.
+CSS for the controls it contains, and there is no unstyled flash on load. Those
+style elements carry your CSP nonce when one is configured — see
+[Security](/guides/security).
 
 Every control also starts with a `jig-control-initializing` class that hides
 it until it has laid out. On the **server** that class is removed immediately,

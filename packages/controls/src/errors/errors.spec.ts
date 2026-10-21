@@ -678,11 +678,21 @@ describe('jigErrors', () => {
       await flush(fixture);
 
       const input = fixture.nativeElement.querySelector('input');
-      // jigErrors renders the message (showOn="always") but no longer drives the
-      // field's invalid class — the reactive control's invalid rides the native
-      // ng-invalid class, which the field theme reflects via :has().
+      // jigErrors renders the message (showOn="always") but the field's invalid
+      // class follows the control's own gated invalid state, which is untouched here.
       expect(fixture.nativeElement.querySelector('.jig-input-field-invalid')).toBeNull();
       expect(input?.classList.contains('ng-invalid')).toBe(true);
+    });
+
+    it("mirrors the projected control's gated invalid state onto the field", async () => {
+      const fixture = TestBed.createComponent(FieldAutoInvalidHost);
+      await flush(fixture);
+
+      expect(fixture.nativeElement.querySelector('.jig-input-field-invalid')).toBeNull();
+
+      fixture.componentInstance.control.markAsTouched();
+      await flush(fixture);
+      expect(fixture.nativeElement.querySelector('.jig-input-field-invalid')).not.toBeNull();
     });
   });
 });

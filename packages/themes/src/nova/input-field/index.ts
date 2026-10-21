@@ -18,25 +18,6 @@ export const inputFieldStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, animationTemplate, fontTemplate, ringTemplate],
   root: {
     css: ({ v, c, d }) => {
-      const invalidDisabledSelector = `
-        ${c('invalid')}:disabled,
-        ${c('root')}:has(.ng-invalid.ng-touched:disabled),
-        ${c('root')}:has(${d('input', 'invalid')}:disabled),
-        ${c('root')}:has([aria-invalid='true'][disabled])
-      `;
-
-      // `:read-only` also matches disabled inputs, so every use excludes them — the
-      // disabled rules come first and must not be overridden by the read-only ones.
-      const invalidReadonlySelector = `
-          ${c('invalid')}:read-only:not(:disabled),
-          ${c('root')}:has(.ng-invalid.ng-touched:read-only:not(:disabled)),
-          ${c('root')}:has(${d('input', 'invalid')}:read-only:not(:disabled)),
-          ${c('invalid')}[aria-readonly],
-          ${c('root')}:has(.ng-invalid.ng-touched[aria-readonly]),
-          ${c('root')}:has(${d('input', 'invalid')}[aria-readonly]),
-          ${c('root')}:has([aria-invalid='true'][aria-readonly='true'])
-        `;
-
       // Float when the field is focused or its projected control reports content.
       // The `filled` class is set component-side from the control's `empty` signal,
       // so this works for select/calendar/mask-input, not just native inputs.
@@ -99,9 +80,21 @@ export const inputFieldStyles = createThemePart({
             border-color: ${v('color.disabled.border')};
             outline-color: transparent;
           }
+          /* invalid & disabled — red border stays, but no focus ring. */
+          &${c('invalid')} {
+            border-color: ${v('color.invalid.border')};
+            &:hover {
+              border-color: ${v('color.invalid.border')};
+            }
+            &:focus-within {
+              border-color: ${v('color.invalid.border')};
+              outline-color: transparent;
+            }
+          }
         }
 
-        /* read-only */
+        /* read-only — :read-only also matches disabled inputs, so every branch
+           excludes them: the disabled rules must not be overridden here. */
         ${c('readonly')}:not(${c('disabled')}), ${c('root')}:has(${d(
           'input',
           'root'
@@ -114,39 +107,21 @@ export const inputFieldStyles = createThemePart({
             border-color: ${v('color.disabled.border')};
             outline-color: ${fieldNeutralRing(v)};
           }
-        }
-
-        /* invalid — the projected control gates its own aria-invalid (via its
-           invalidOn trigger), so it's trustworthy here; the field just reflects
-           it. Reactive/template forms: the projected control's own .ng-invalid.ng-touched. */
-        ${c('invalid')},
-        ${c('root')}:has(.ng-invalid.ng-touched),
-        ${c('root')}:has(${d('input', 'invalid')}),
-        ${c('root')}:has([aria-invalid='true']) {
-          border-color: ${v('color.invalid.border')};
-          &:hover {
+          /* invalid & read-only */
+          &${c('invalid')} {
             border-color: ${v('color.invalid.border')};
-          }
-          &:focus-within {
-            border-color: ${v('color.invalid.border')};
-            outline-color: ${fieldInvalidRing(v)};
+            &:hover {
+              border-color: ${v('color.invalid.border')};
+            }
+            &:focus-within {
+              border-color: ${v('color.invalid.border')};
+              outline-color: ${fieldInvalidRing(v)};
+            }
           }
         }
 
-        /* invalid & disabled — red border stays, but no focus ring (see disabled). */
-        ${invalidDisabledSelector} {
-          border-color: ${v('color.invalid.border')};
-          &:hover {
-            border-color: ${v('color.invalid.border')};
-          }
-          &:focus-within {
-            border-color: ${v('color.invalid.border')};
-            outline-color: transparent;
-          }
-        }
-
-        /* invalid & read-only */
-        ${invalidReadonlySelector} {
+        /* invalid — the field carries its projected control's gated invalid state. */
+        ${c('invalid')} {
           border-color: ${v('color.invalid.border')};
           &:hover {
             border-color: ${v('color.invalid.border')};
