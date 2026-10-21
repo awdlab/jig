@@ -1,5 +1,25 @@
 # Changelog
 
+## @awdlab/jig 0.0.8 (2026-10-21)
+
+- **`styleScope` actually scopes the generated CSS.** `applyTheme()` built its internal options with a `scope` key while the CSS generators read `styleScope`, so the selector always fell back to `:root` — a configured scope only ever reached the style element's `data-style-scope` attribute. Tokens leaked into the host page's `:root`, control rules applied globally, and two themes on one page overwrote each other. The generators now receive the scope, and emit `.my-app { … }` for `styleScope: { kind: 'class', name: 'my-app' }`.
+
+Two things that only surface once scoping works:
+
+- **Dark mode.** The `dark` class sits on the document element, so a scoped theme matches it on an ancestor (`:root.dark &`) instead of on the scope element. Unscoped themes keep emitting `&.dark`, i.e. `:root.dark`, unchanged.
+- **At-rules.** A top-level `@media` block is now emitted with its rules inside the scope selector; `@keyframes` and other non-style at-rules stay global.
+
+Nothing changes for the default configuration (`styleScope: null`): rules are still emitted at `:root`. Scoped setups should put the scope on, or above, the application root element — toasts and snackbars attach there.
+- **Auto-generated element ids no longer collide between the server and the client.** Under SSR both sides started `nextElementId` at 1, so every id the server issued was issued a second time during hydration. Most controls bind their id and overwrite the attribute, which hid it, but `roving-focus` and `button-group` keep an id that is already on the element — those elements held their server number while the client counter climbed past it and handed the same number to another control, aiming a label's `for` at an unrelated element. `JigGlobal` now seeds the counter from `TransferState` and republishes it on every increment, so the client resumes where the server stopped.
+- **`jig-input-field` takes its invalid styling from the projected control, not from CSS guesswork.** The field themes matched validity through `:has(.ng-invalid.ng-touched)`, `:has([aria-invalid='true'])` and the control's own invalid class, which meant every theme carried framework-specific selectors and the combinations with `:disabled` / `:read-only` had to be spelled out again in each one. The control now reports its gated invalid state through the new `JigBase.invalidState` signal, the field merges it with its own `invalid` input, and the theme styles a single `invalid` class — with the disabled and read-only variants nested under their own state blocks. `ValueControlBase.invalidState` and `JigInput.invalidState` are public now; they were protected.
+
+A field whose projected control is not a jig control (a plain `<input>` without `jigInput`) no longer picks up `aria-invalid` or `.ng-invalid` on its own — set `[invalid]` on `jig-input-field` for those.
+- **Generated `<style>` elements carry your CSP nonce.** Theme and motion stylesheets are written into `<head>` at runtime, so a nonce-based `style-src` policy dropped them and the app rendered unstyled. `ThemeService` now reads Angular's [`CSP_NONCE`](https://angular.dev/api/core/CSP_NONCE) token — set through `ngCspNonce` on the app root or a provider — and stamps the value on every style element it creates, before it enters the DOM. Outside Angular, `applyTheme()` / `applyGlobalStyles()` take the value as a `nonce` option. No configuration is needed when the app already provides the token.
+
+**Style content is written with `textContent` instead of `innerHTML`,** so nothing in the library hits a Trusted Types sink. `jig-icon` still renders bypassed SVG markup, which needs `angular#unsafe-bypass` in the `trusted-types` directive.
+
+**Docs:** new [Security](https://jig.awdlab.dev/guides/security) guide covering CSP (including the `style-src-attr` caveat for static style attributes), Trusted Types, icon trust, passthrough attributes and persisted state.
+
 ## @awdlab/jig 0.0.7 (2026-10-21)
 
 - **Validator directives on jig controls work again in template-driven and reactive forms.** `ngModel`, `[formControl]` and `formControlName` bind a `FormValueControl` through Angular's custom-control path, which never attaches the host's validator directives ([angular/angular#69756](https://github.com/angular/angular/issues/69756)). A `<jig-select required [(ngModel)]>` or a custom `NG_VALIDATORS` directive on `<jig-checkbox>` was silently ignored, so the form reported valid and submitted with empty values. `ValueControlBase` now merges those validators into the bound control (and removes them again on destroy or rebind), the way Angular does for a `ControlValueAccessor`. Signal forms and reactive controls without validator directives are untouched. A static `required` attribute next to `[formControl]` / `formControlName` is still switched off by Angular itself — use `Validators.required` on the `FormControl`.
