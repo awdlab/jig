@@ -1,5 +1,15 @@
 # Changelog
 
+## @awdlab/jig-themes 0.0.6 (2026-10-21)
+
+- **Validator directives on jig controls work again in template-driven and reactive forms.** `ngModel`, `[formControl]` and `formControlName` bind a `FormValueControl` through Angular's custom-control path, which never attaches the host's validator directives ([angular/angular#69756](https://github.com/angular/angular/issues/69756)). A `<jig-select required [(ngModel)]>` or a custom `NG_VALIDATORS` directive on `<jig-checkbox>` was silently ignored, so the form reported valid and submitted with empty values. `ValueControlBase` now merges those validators into the bound control (and removes them again on destroy or rebind), the way Angular does for a `ControlValueAccessor`. Signal forms and reactive controls without validator directives are untouched. A static `required` attribute next to `[formControl]` / `formControlName` is still switched off by Angular itself — use `Validators.required` on the `FormControl`.
+
+**`jigInput` reports `aria-invalid` under classic forms.** Reactive and template-driven forms drive `<input jigInput>` / `<textarea jigInput>` through the native value accessor and never wrote its `invalid` / `touched` state, so the element got no `aria-invalid` and `invalidOn="dirty"` had no effect. The directive now reads validity, touched and dirty from the bound control.
+
+**An invalid form no longer marks every field inside it.** The `jig-input-field` theme parts (nova, shade, material) matched any field nested under an `.ng-invalid.ng-touched` ancestor, so a touched, invalid `<form>` or group painted valid fields red too. Fields now reflect only their own projected control.
+
+**Docs (and the MCP's guidance):** `invalid` is set automatically by every form binding — signal, reactive and template-driven — and only needs binding for validity from outside Angular forms.
+
 ## @awdlab/jig-themes 0.0.5 (2026-08-24)
 
 - **`@awdlab/jig-themes` and `@awdlab/jig-custom-types` are installable again.** Both shipped two manifests: the source `package.json` at the tarball root, whose `main` pointed at an `./index.js` that only existed one directory down and which carried no `exports` at all, plus a second generated manifest inside `dist/`. Nothing could resolve either package. The source `package.json` is now the single publish manifest and points into `dist/`, and the build no longer copies a manifest, README or LICENSE into the build output.
