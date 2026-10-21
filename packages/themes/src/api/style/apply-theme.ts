@@ -47,7 +47,7 @@ export function applyTheme<T extends Theme>(
   const opt = {
     document: options.document ?? window.document,
     layer: options.layer,
-    scope: options.styleScope,
+    styleScope: options.styleScope,
     namePrefix: options.namePrefix ?? 'jig-',
     nonce: options.nonce,
   };
@@ -61,7 +61,7 @@ export function applyTheme<T extends Theme>(
       {
         kind: 'variables',
         'theme-scope': scope,
-        'style-scope': styleScopeToIdentifier(opt.scope),
+        'style-scope': styleScopeToIdentifier(opt.styleScope),
       },
       css,
       opt.nonce
@@ -81,7 +81,7 @@ export function applyTheme<T extends Theme>(
       {
         kind: 'styles',
         'theme-scope': part[0]?.scope,
-        'style-scope': styleScopeToIdentifier(opt.scope),
+        'style-scope': styleScopeToIdentifier(opt.styleScope),
       },
       css,
       opt.nonce
@@ -93,7 +93,7 @@ export function applyGlobalStyles(globalStyles: ThemePart, options: ApplyThemeOp
   const opt = {
     document: options.document ?? window.document,
     layer: options.layer,
-    scope: options.styleScope,
+    styleScope: options.styleScope,
     namePrefix: options.namePrefix ?? 'jig-',
     nonce: options.nonce,
   };
@@ -103,7 +103,7 @@ export function applyGlobalStyles(globalStyles: ThemePart, options: ApplyThemeOp
     {
       kind: 'variables',
       'theme-scope': globalStyles.scope,
-      'style-scope': styleScopeToIdentifier(opt.scope),
+      'style-scope': styleScopeToIdentifier(opt.styleScope),
     },
     cssVariables,
     opt.nonce
@@ -114,7 +114,7 @@ export function applyGlobalStyles(globalStyles: ThemePart, options: ApplyThemeOp
     {
       kind: 'styles',
       'theme-scope': globalStyles.scope,
-      'style-scope': styleScopeToIdentifier(opt.scope),
+      'style-scope': styleScopeToIdentifier(opt.styleScope),
     },
     cssStyles,
     opt.nonce
@@ -176,18 +176,17 @@ function buildVariablesCss(parts: ThemePart[], options: ApplyThemeOptions): stri
   let css = options.layer ? `@layer ${options.layer} { ` : '';
   css += `${getScopeSelector(options.styleScope)} { `;
 
+  const darkSelector = getDarkSelector(options.styleScope);
   for (const { root, dark } of cssParts) {
     if (root) {
       css += root;
     }
     if (dark) {
-      // check for special 'dark' class on body
-      css += `&.dark { ${dark} }`;
+      css += `${darkSelector} { ${dark} }`;
     }
   }
 
-  // TODO: light, dark and highContrast themes
-  // TODO: Special handling for @media, @container, ... for scoping
+  // TODO: light and highContrast themes
 
   css += ' }';
   if (options.layer) css += ' }';
@@ -294,17 +293,17 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions, isBase = 
 
   css += `${getScopeSelector(options.styleScope)} { `;
 
+  const darkSelector = getDarkSelector(options.styleScope);
   let unscopableCss = '';
   for (const { root, dark } of cssParts) {
     if (root) {
-      const { unscopable, scopable } = splitScopableCss(root);
+      const { unscopable, scopable } = splitScopableCss(root, options.styleScope);
       css += scopable;
       unscopableCss += unscopable;
     }
     if (dark) {
-      const { unscopable, scopable } = splitScopableCss(dark);
-      // check for special 'dark' class on body
-      css += `&.dark { ${scopable} }`;
+      const { unscopable, scopable } = splitScopableCss(dark, options.styleScope);
+      css += `${darkSelector} { ${scopable} }`;
       if (unscopable) {
         console.warn(
           'Unscopable CSS inside dark theme is not supported and will be ignored:',
@@ -314,8 +313,7 @@ function buildStyleCss(parts: ThemePart[], options: ApplyThemeOptions, isBase = 
     }
   }
 
-  // TODO: light, dark and highContrast themes
-  // TODO: Special handling for @media, @container, ... for scoping
+  // TODO: light and highContrast themes
 
   css += ' }';
   css += unscopableCss;
@@ -340,6 +338,28 @@ function getScopeSelector(scope: StyleScope | undefined): string | null {
   }
 }
 
+/**
+ * The `dark` class sits on the document element, so a scoped theme has to match it on an
+ * ancestor instead of on the scope element itself.
+ */
+function getDarkSelector(scope: StyleScope | undefined): string {
+  return scope ? ':root.dark &' : '&.dark';
+}
+
+/** At-rules whose body holds no style rules — wrapping their contents in a selector breaks them. */
+const UNSCOPABLE_AT_RULES =
+  /^\s*@(keyframes|font-face|property|counter-style|font-feature-values)\b/;
+
+/** Wraps a top-level at-rule's body in the scope selector, so its rules stay scoped too. */
+function scopeAtRule(atRule: string, scope: StyleScope | undefined): string {
+  if (!scope || UNSCOPABLE_AT_RULES.test(atRule)) return atRule;
+  const open = atRule.indexOf('{');
+  const close = atRule.lastIndexOf('}');
+  if (open === -1 || close < open) return atRule;
+  const body = atRule.slice(open + 1, close);
+  return `${atRule.slice(0, open + 1)} ${getScopeSelector(scope)} { ${body} } }`;
+}
+
 function getCssVar(prefix: string, key: string): string {
   // Replace dots with dashes and convert camelCase to kebab-case
   const varName = key
@@ -349,7 +369,10 @@ function getCssVar(prefix: string, key: string): string {
   return `--${prefix}${varName}`;
 }
 
-function splitScopableCss(css: string): { unscopable: string; scopable: string } {
+function splitScopableCss(
+  css: string,
+  scope: StyleScope | undefined
+): { unscopable: string; scopable: string } {
   let depth = 0;
   let result = {
     scopable: '',
@@ -370,7 +393,7 @@ function splitScopableCss(css: string): { unscopable: string; scopable: string }
     } else if (char === '}') {
       depth--;
       if (depth === 0 && kind === 'unscopable') {
-        result.unscopable += css.slice(start, i + 1);
+        result.unscopable += scopeAtRule(css.slice(start, i + 1), scope);
         start = i + 1;
         kind = 'scopable';
       }
