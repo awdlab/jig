@@ -11,5 +11,5 @@
   "quoteProps": "as-needed",
   "endOfLine": "lf",
   "sortPackageJson": false,
-  "ignorePatterns": [".changeset"]
+  "ignorePatterns": [".changeset", "**/CHANGELOG.md"]
 }

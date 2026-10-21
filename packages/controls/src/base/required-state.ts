@@ -1,5 +1,19 @@
-import { computed, DestroyRef, inject, signal, type Signal } from '@angular/core';
-import { type AbstractControl, FormControl, NgControl } from '@angular/forms';
+import {
+  computed,
+  DestroyRef,
+  effect,
+  inject,
+  signal,
+  type Signal,
+  untracked,
+} from '@angular/core';
+import {
+  type AbstractControl,
+  FormControl,
+  NG_ASYNC_VALIDATORS,
+  NG_VALIDATORS,
+  NgControl,
+} from '@angular/forms';
 
 interface ControlWithEvents {
   events?: { subscribe: (next: () => void) => { unsubscribe: () => void } };
@@ -76,6 +90,105 @@ function injectBoundControl(): Signal<{ control: AbstractControl | null }> {
 export function injectNgControlRequired(): Signal<boolean> {
   const bound = injectBoundControl();
   return computed(() => hasRequiredValidator(bound().control));
+}
+
+/**
+ * Interaction/validity state of the form control bound to the host element
+ * (reactive, template-driven, or signal forms via its interop `NgControl`), or
+ * `null` when no form is in play. Classic forms drive a native-element directive
+ * such as `jigInput` through the default value accessor, so they never write
+ * `invalid` / `touched` / `dirty` into it — this is where it reads them instead.
+ * Must be called in an injection context.
+ */
+export function injectNgControlStatus(): Signal<{
+  invalid: boolean;
+  touched: boolean;
+  dirty: boolean;
+} | null> {
+  const bound = injectBoundControl();
+  return computed(() => {
+    const control = bound().control;
+    return control
+      ? { invalid: !!control.invalid, touched: !!control.touched, dirty: !!control.dirty }
+      : null;
+  });
+}
+
+/**
+ * Workaround for https://github.com/angular/angular/issues/69756
+ *
+ * Classic forms (`ngModel`, `[formControl]`, `formControlName`) bind a
+ * `FormValueControl` through `NgControl.setupCustomControl()`, which — unlike the
+ * `ControlValueAccessor` path — never calls `setUpValidators()`. Validator
+ * directives on the host (`required`, `minlength`, custom `NG_VALIDATORS`) are
+ * thus silently dropped. This merges the directive's composed validators into
+ * the bound control the way Angular's CVA path does.
+ *
+ * A no-op where there is nothing to fix: signal forms provide a non-`NgControl`
+ * interop control, and without a validator directive on the host `validator` /
+ * `asyncValidator` are `null`, so a reactive control's own validators are never
+ * touched. It only adds what the control lacks (by reference), so it also steps
+ * aside once Angular attaches them itself. Must be called in an injection context.
+ */
+export function injectNgControlValidators(): void {
+  const ngControl = inject(NgControl, { optional: true, self: true });
+  if (!(ngControl instanceof NgControl)) {
+    return;
+  }
+  const { validator, asyncValidator } = ngControl;
+  if (!validator && !asyncValidator) {
+    return;
+  }
+
+  // The control we attached to, so a rebound `[formControl]` or destroy undoes it.
+  let attached: AbstractControl | null = null;
+  const detach = (): void => {
+    if (!attached) {
+      return;
+    }
+    if (validator) attached.removeValidators(validator);
+    if (asyncValidator) attached.removeAsyncValidators(asyncValidator);
+    attached.updateValueAndValidity();
+    attached = null;
+  };
+
+  // Validator directives report input changes (e.g. `[required]="flag"`) through
+  // this hook; Angular's CVA path registers it in `setUpValidators()` as well.
+  const rawValidators = [
+    ...(inject(NG_VALIDATORS, { optional: true, self: true }) ?? []),
+    ...(inject(NG_ASYNC_VALIDATORS, { optional: true, self: true }) ?? []),
+  ] as { registerOnValidatorChange?: (fn: () => void) => void }[];
+  for (const raw of rawValidators) {
+    raw.registerOnValidatorChange?.(() => attached?.updateValueAndValidity());
+  }
+
+  const bound = injectBoundControl();
+  effect(() => {
+    const control = bound().control;
+    untracked(() => {
+      if (control === attached) {
+        return;
+      }
+      detach();
+      if (!control) {
+        return;
+      }
+      let added = false;
+      if (validator && !control.hasValidator(validator)) {
+        control.addValidators(validator);
+        added = true;
+      }
+      if (asyncValidator && !control.hasAsyncValidator(asyncValidator)) {
+        control.addAsyncValidators(asyncValidator);
+        added = true;
+      }
+      if (added) {
+        attached = control;
+        control.updateValueAndValidity();
+      }
+    });
+  });
+  inject(DestroyRef).onDestroy(detach);
 }
 
 /**

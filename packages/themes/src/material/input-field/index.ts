@@ -19,7 +19,6 @@ export const inputFieldStyles = createThemePart({
     css: ({ v, c, d }) => {
       const invalidDisabledSelector = `
         ${c('invalid')}:disabled,
-        .ng-invalid.ng-touched:disabled ${c('root')},
         ${c('root')}:has(.ng-invalid.ng-touched:disabled),
         ${c('root')}:has(${d('input', 'invalid')}:disabled),
         ${c('root')}:has([aria-invalid='true'][disabled])
@@ -27,11 +26,9 @@ export const inputFieldStyles = createThemePart({
 
       const invalidReadonlySelector = `
           ${c('invalid')}:read-only,
-          .ng-invalid.ng-touched:read-only ${c('root')},
           ${c('root')}:has(.ng-invalid.ng-touched:read-only),
           ${c('root')}:has(${d('input', 'invalid')}:read-only),
           ${c('invalid')}[aria-readonly],
-          .ng-invalid.ng-touched[aria-readonly] ${c('root')},
           ${c('root')}:has(.ng-invalid.ng-touched[aria-readonly]),
           ${c('root')}:has(${d('input', 'invalid')}[aria-readonly]),
           ${c('root')}:has([aria-invalid='true'][aria-readonly='true'])
@@ -162,9 +159,8 @@ export const inputFieldStyles = createThemePart({
 
         /* invalid — the projected control gates its own aria-invalid (via its
            invalidOn trigger), so it's trustworthy here; the field just reflects
-           it. Reactive/template forms use the native .ng-invalid.ng-touched. */
+           it. Reactive/template forms: the projected control's own .ng-invalid.ng-touched. */
         ${c('invalid')},
-        .ng-invalid.ng-touched ${c('root')},
         ${c('root')}:has(.ng-invalid.ng-touched),
         ${c('root')}:has(${d('input', 'invalid')}),
         ${c('root')}:has([aria-invalid='true']) {

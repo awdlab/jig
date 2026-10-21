@@ -60,6 +60,47 @@ test('invalid forces the invalid look on the field chrome', async ({ page }) => 
   await expect(chrome).toHaveClass(/input-field-invalid/);
 });
 
+test('an invalid form only marks the fields whose own control is invalid', async ({ page }) => {
+  await loadComponent(page, {
+    template: `
+      <form style="display: flex; flex-direction: column; gap: 1.5rem; width: 240px">
+        <jig-input-field data-testid="required" [label]="'Required'">
+          <input jigInput name="req" ngModel required />
+        </jig-input-field>
+        <jig-input-field data-testid="optional" [label]="'Optional'">
+          <input jigInput name="opt" ngModel />
+        </jig-input-field>
+        <jig-input-field data-testid="forced" [label]="'Forced'" [invalid]="true">
+          <input jigInput name="forced" ngModel />
+        </jig-input-field>
+      </form>`,
+    imports: ['inputField', 'input', 'forms'],
+  });
+
+  for (const name of ['req', 'opt', 'forced']) {
+    await page.locator(`input[name="${name}"]`).focus();
+  }
+  await page.locator('input[name="forced"]').blur();
+  await page.mouse.move(0, 0);
+  await expect(page.locator('form')).toHaveClass(/ng-invalid/);
+  await expect(page.locator('form')).toHaveClass(/ng-touched/);
+
+  const borderColor = (testId: string) =>
+    page
+      .getByTestId(testId)
+      .locator('[class*="input-field-root"]')
+      .evaluate(el => getComputedStyle(el).borderTopColor);
+
+  await expect
+    .poll(async () => {
+      const [required, optional, forced] = await Promise.all(
+        ['required', 'optional', 'forced'].map(borderColor)
+      );
+      return { optionalIsInvalid: optional === required, forcedIsInvalid: forced === required };
+    })
+    .toEqual({ optionalIsInvalid: false, forcedIsInvalid: true });
+});
+
 test('accessibility (axe)', async ({ page }) => {
   await loadComponent(page, {
     template: `

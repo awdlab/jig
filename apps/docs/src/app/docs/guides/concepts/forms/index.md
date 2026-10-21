@@ -79,8 +79,14 @@ export class Profile {
 }
 ```
 
-One difference: with reactive/template-driven forms the control's `invalid`
-input is **not** written for you — see "Who owns invalid" below.
+The bound control's validity, touched and dirty state reach the control
+automatically, just as with signal forms — there is no need to bind `invalid`
+yourself. See "Who owns invalid" below.
+
+Validator directives in the template (`required`, `minlength`, your own
+`NG_VALIDATORS`) work too. One exception in reactive forms: a static `required`
+attribute next to `formControl` / `formControlName` is switched off by Angular,
+so put `Validators.required` on the `FormControl` instead.
 
 ### Validation messages
 
@@ -107,11 +113,12 @@ Two separate decisions, deliberately kept apart:
 | When does the invalid style show? | `invalidOn`       | the control       |
 | When does the message show?       | `jigErrorsShowOn` | `jigErrors`       |
 
-`invalid` is the raw flag. A signal-forms binding sets it; with reactive forms
-you bind it yourself:
+`invalid` is the raw flag. Any form binding sets it for you — `[formField]`,
+`[formControl]`, `formControlName` or `ngModel` — so in a form you never bind
+it. Set it yourself only when validity comes from outside Angular forms:
 
 ```html
-<input jigInput [formControl]="email" [invalid]="email.invalid" />
+<input jigInput [value]="email()" [invalid]="!emailAvailable()" />
 ```
 
 `invalidOn` gates when that flag is actually rendered — the control never

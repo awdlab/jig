@@ -64,6 +64,11 @@ the corresponding styling when your validity comes from outside Angular forms; a
 disabled field is made `inert`. States compose — a field can be invalid and
 readonly at once.
 
+The field only reflects the invalid state of its own projected control — an
+invalid `<form>` or form group does not mark the other fields inside it. For
+group-level errors (e.g. a password confirmation), bind `invalid` on the fields
+that should show them: `[invalid]="form.hasError('mismatch')"`.
+
 {{ demo: Demo_InputField_States }}
 
 ### Label
