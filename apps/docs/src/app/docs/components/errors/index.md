@@ -40,8 +40,9 @@ forms `minLength`/`maxLength`.
 <input jigInput invalidOn="immediate" jigErrors jigErrorsShowOn="touched" />
 ```
 
-A signal-forms binding writes `invalid` in for you; with reactive forms you set
-it yourself. See [State](/guides/state).
+Any form binding — signal, reactive or template-driven — supplies `invalid` for
+you; set it yourself only for validity from outside Angular forms. See
+[State](/guides/state).
 
 ### When Messages Appear
 

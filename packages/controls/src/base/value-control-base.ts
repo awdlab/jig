@@ -2,7 +2,7 @@ import { booleanAttribute, computed, Directive, input, model, output } from '@an
 import { generateElementId } from '@awdlab/jig/utils-ng';
 
 import { JigBase } from './base';
-import { injectNgControlRequired } from './required-state';
+import { injectNgControlRequired, injectNgControlValidators } from './required-state';
 
 import type { FormValueControl } from '@angular/forms/signals';
 import type { ControlName } from '@awdlab/jig-themes/templates';
@@ -62,9 +62,10 @@ export abstract class ValueControlBase<C extends ControlName, T>
    */
   public readonly inputId = input<string>(generateElementId());
   /**
-   * The raw invalid flag. A bound signal-forms field writes it in from the
-   * field's validity (`FormUiControl` `invalid` input); the app may also set it
-   * explicitly. Whether it actually *shows* is gated by {@link invalidOn} — map
+   * The raw invalid flag. Any bound form (`[formField]`, `[formControl]`,
+   * `formControlName`, `ngModel`) writes it in from the control's validity, so
+   * forms never need to bind it; set it explicitly only for validity from
+   * outside Angular forms. Whether it actually *shows* is gated by {@link invalidOn} — map
    * the theme's invalid part (and any `aria-invalid`) to {@link invalidState},
    * not this.
    * @default false
@@ -107,6 +108,12 @@ export abstract class ValueControlBase<C extends ControlName, T>
   public override readonly required = input(false, { transform: booleanAttribute });
 
   private readonly _ngControlRequired = injectNgControlRequired();
+
+  constructor() {
+    super();
+    // Validator directives on a classic-forms host (`required`, `minlength`, …).
+    injectNgControlValidators();
+  }
 
   /**
    * Whether a value is required: {@link required} OR-ed with the required

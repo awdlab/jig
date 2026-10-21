@@ -12,6 +12,7 @@ import {
 import { domEventHandler, domEventSignal } from '@awdlab/jig/api/ng';
 import {
   injectNgControlRequired,
+  injectNgControlStatus,
   injectNgControlValue,
   JigBase,
   type JigInvalidTrigger,
@@ -51,8 +52,10 @@ export class JigInput extends JigBase<'input'> implements AfterViewInit {
 
   public override readonly empty = computed(() => !this.value());
   /**
-   * The raw invalid flag (bound from a signal-forms field's validity, or set
-   * explicitly). Whether it *shows* is gated by {@link invalidOn} — read
+   * The raw invalid flag. A bound form (`[formField]`, `[formControl]`,
+   * `formControlName`, `ngModel`) supplies its validity automatically, so forms
+   * never need to bind it; set it explicitly only for validity from outside
+   * Angular forms. Whether it *shows* is gated by {@link invalidOn} — read
    * {@link invalidState}.
    * @default false
    */
@@ -90,13 +93,27 @@ export class JigInput extends JigBase<'input'> implements AfterViewInit {
   public readonly touched = model(false);
 
   /**
-   * The invalid state the theme renders: {@link invalid} gated by
-   * {@link invalidOn}. (Dirty tracking isn't wired for the bare directive, so the
-   * `dirty` trigger behaves like `immediate` here.)
+   * Validity of a bound form control. Classic forms drive this native element
+   * through the default value accessor, so they never write {@link invalid} /
+   * {@link touched} — read them from the control instead.
    */
-  protected readonly invalidState = computed(() =>
-    resolveInvalidState(this.invalid(), this.invalidOn(), this.touched(), true)
-  );
+  private readonly _ngControlStatus = injectNgControlStatus();
+
+  /**
+   * The invalid state the theme renders: {@link invalid} (or a bound form
+   * control's validity) gated by {@link invalidOn}. (Without a form, dirty
+   * tracking isn't wired for the bare directive, so the `dirty` trigger behaves
+   * like `immediate` there.)
+   */
+  protected readonly invalidState = computed(() => {
+    const form = this._ngControlStatus();
+    return resolveInvalidState(
+      this.invalid() || !!form?.invalid,
+      this.invalidOn(),
+      form?.touched ?? this.touched(),
+      form?.dirty ?? true
+    );
+  });
 
   /**
    * The current value of the input, kept in sync with the native element in both directions.

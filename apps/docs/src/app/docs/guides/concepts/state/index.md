@@ -24,16 +24,17 @@ transform, so `<jig-checkbox disabled>` works):
 
 {{ demo: Demo_ControlState_Flags }}
 
-### `invalid` is set by you, not derived
+### `invalid` comes from the form
 
-Setting `[invalid]` is an explicit choice — the control does not flip it automatically from
-form validation. There is **no `ControlValueAccessor`**. Instead:
+Inside a form you never bind `invalid` — the bound control's validity reaches it
+automatically. There is **no `ControlValueAccessor`**; controls implement
+`FormValueControl`, and Angular's interop writes `invalid`, `touched` and `dirty` in for
+signal forms (`[formField]`), reactive forms (`[formControl]` / `formControlName`) and
+template-driven forms (`ngModel`) alike. `jigInput`, which classic forms drive through
+the native value accessor, reads the same state from the bound control.
 
-- **Signal forms** — controls implement `FormValueControl`, so they bind directly and a
-  bound field writes `invalid` in for you.
-- **Reactive/template forms** — a dedicated error directive reads the Angular
-  `AbstractControl`'s `errors`/`touched`/`dirty` and drives a hint control, rather than
-  mutating the control's own `invalid`.
+Set `[invalid]` yourself only for validity from outside Angular forms. Error _messages_
+are a separate concern, handled by [`jigErrors`](/components/errors).
 
 When the invalid styling actually appears is a separate decision, owned by `invalidOn`
 (`touched` by default, or `dirty` / `immediate` / `never`). The full picture is in
