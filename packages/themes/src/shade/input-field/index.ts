@@ -16,23 +16,6 @@ export const inputFieldStyles = createThemePart({
     // Label-kind positioning is preserved verbatim from the structural theme; only colors and
     // the focus treatment (shadcn box-shadow ring) are restyled to shade tokens.
     css: ({ v, c, d }) => {
-      const invalidDisabledSelector = `
-        ${c('invalid')}:disabled,
-        ${c('root')}:has(.ng-invalid.ng-touched:disabled),
-        ${c('root')}:has(${d('input', 'invalid')}:disabled),
-        ${c('root')}:has([aria-invalid='true'][disabled])
-      `;
-
-      const invalidReadonlySelector = `
-          ${c('invalid')}:read-only,
-          ${c('root')}:has(.ng-invalid.ng-touched:read-only),
-          ${c('root')}:has(${d('input', 'invalid')}:read-only),
-          ${c('invalid')}[aria-readonly],
-          ${c('root')}:has(.ng-invalid.ng-touched[aria-readonly]),
-          ${c('root')}:has(${d('input', 'invalid')}[aria-readonly]),
-          ${c('root')}:has([aria-invalid='true'][aria-readonly='true'])
-        `;
-
       function getFloating(klass: string) {
         return `${klass}:has(${d('input', 'root')}:focus),
           ${klass}:has(${d('input', 'root')}:not(${d('input', 'empty')}))`;
@@ -88,6 +71,10 @@ export const inputFieldStyles = createThemePart({
           &:focus-within {
             box-shadow: none;
           }
+          /* invalid & disabled */
+          &${c('invalid')} {
+            border-color: ${v('color.destructive.base')};
+          }
         }
 
         /* read-only: muted fill, readable, clearly non-editable */
@@ -100,31 +87,20 @@ export const inputFieldStyles = createThemePart({
             border-color: ${v('color.border')};
             box-shadow: none;
           }
+          /* invalid & read-only */
+          &${c('invalid')} {
+            border-color: ${v('color.destructive.base')};
+          }
         }
 
-        /* invalid — the projected control gates its own aria-invalid (via its
-           invalidOn trigger), so it's trustworthy here; the field just reflects
-           it. Reactive/template forms: the projected control's own .ng-invalid.ng-touched. */
-        ${c('invalid')},
-        ${c('root')}:has(.ng-invalid.ng-touched),
-        ${c('root')}:has(${d('input', 'invalid')}),
-        ${c('root')}:has([aria-invalid='true']) {
+        /* invalid — the field carries its projected control's gated invalid state. */
+        ${c('invalid')} {
           border-color: ${v('color.destructive.base')};
           &:focus-within {
             border-color: ${v('color.destructive.base')};
             box-shadow: 0 0 0 3px
               color-mix(in srgb, ${v('color.destructive.base')} 20%, transparent);
           }
-        }
-
-        /* invalid & disabled */
-        ${invalidDisabledSelector} {
-          border-color: ${v('color.destructive.base')};
-        }
-
-        /* invalid & read-only */
-        ${invalidReadonlySelector} {
-          border-color: ${v('color.destructive.base')};
         }
 
         ${c('clear-button')} {

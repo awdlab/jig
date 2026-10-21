@@ -31,6 +31,12 @@ export type ApplyThemeOptions = {
    * @default `'jig-'`
    */
   namePrefix: string;
+  /**
+   * The CSP nonce to put on the generated `<style>` elements, for apps whose
+   * `style-src` policy requires one.
+   * @default `undefined`
+   */
+  nonce?: string;
 };
 
 export function applyTheme<T extends Theme>(
@@ -43,6 +49,7 @@ export function applyTheme<T extends Theme>(
     layer: options.layer,
     scope: options.styleScope,
     namePrefix: options.namePrefix ?? 'jig-',
+    nonce: options.nonce,
   };
   const parts = groupArrayUsing(getThemePartsByScopes(theme, scopes), x => x.scope);
 
@@ -56,7 +63,8 @@ export function applyTheme<T extends Theme>(
         'theme-scope': scope,
         'style-scope': styleScopeToIdentifier(opt.scope),
       },
-      css
+      css,
+      opt.nonce
     );
   }
 
@@ -75,7 +83,8 @@ export function applyTheme<T extends Theme>(
         'theme-scope': part[0]?.scope,
         'style-scope': styleScopeToIdentifier(opt.scope),
       },
-      css
+      css,
+      opt.nonce
     );
   }
 }
@@ -86,6 +95,7 @@ export function applyGlobalStyles(globalStyles: ThemePart, options: ApplyThemeOp
     layer: options.layer,
     scope: options.styleScope,
     namePrefix: options.namePrefix ?? 'jig-',
+    nonce: options.nonce,
   };
   const cssVariables = buildVariablesCss([globalStyles], opt);
   upsertThemeStyleElement(
@@ -95,7 +105,8 @@ export function applyGlobalStyles(globalStyles: ThemePart, options: ApplyThemeOp
       'theme-scope': globalStyles.scope,
       'style-scope': styleScopeToIdentifier(opt.scope),
     },
-    cssVariables
+    cssVariables,
+    opt.nonce
   );
   const cssStyles = buildStyleCss([globalStyles], opt);
   upsertThemeStyleElement(
@@ -105,7 +116,8 @@ export function applyGlobalStyles(globalStyles: ThemePart, options: ApplyThemeOp
       'theme-scope': globalStyles.scope,
       'style-scope': styleScopeToIdentifier(opt.scope),
     },
-    cssStyles
+    cssStyles,
+    opt.nonce
   );
 }
 

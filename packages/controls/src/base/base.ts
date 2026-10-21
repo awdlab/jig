@@ -136,6 +136,14 @@ export abstract class JigBase<T extends ControlName | null> {
   public readonly empty: Signal<boolean> = signal(false);
 
   /**
+   * Whether the control currently surfaces its invalid styling, already gated by
+   * its own `invalidOn` trigger. Value controls override it; a wrapping
+   * `jig-input-field` reads it to style its chrome, so themes never need
+   * framework-specific validity selectors.
+   */
+  public readonly invalidState: Signal<boolean> = signal(false);
+
+  /**
    * The raw required flag. Value controls override this with a `required` input
    * that Angular writes from a bound signal-forms field, and from a classic form
    * control on a control without a `ControlValueAccessor`. Read
@@ -314,14 +322,9 @@ export abstract class JigBase<T extends ControlName | null> {
   }
 
   private afterLeaveInternal() {
-    /**
-     * After the control is hidden/removed from the DOM,
-     * manually wipe the innerHTML to ensure no detached children remain
-     * mapped to this component's LView slots in the browser's memory.
-     * This is especially important for controls that use ng-content
-     * or dynamically render child components.
-     */
-    this.element.nativeElement.innerHTML = '';
+    // Wipes the children after the control left the DOM, so none stay mapped to this
+    // component's LView slots in memory — matters most for ng-content and dynamic children.
+    this.element.nativeElement.textContent = '';
     this._afterLeaveCbs.forEach(cb => cb());
     this.afterLeave();
   }

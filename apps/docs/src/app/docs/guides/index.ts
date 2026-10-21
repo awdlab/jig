@@ -15,6 +15,7 @@ import { ItemsPage } from './concepts/items/page';
 import { OverlaysPage } from './concepts/overlays/page';
 import { PassthroughPage } from './concepts/passthrough/page';
 import { RtlPage } from './concepts/rtl/page';
+import { SecurityPage } from './concepts/security/page';
 import { StateConceptPage } from './concepts/state/page';
 import { StatePersistencePage } from './concepts/state-persistence/page';
 import { BrowserSupportPage } from './getting-started/browser-support/page';
@@ -76,6 +77,7 @@ export const GUIDE_GROUPS: JigDocsGroup[] = [
       I18nPage,
       RtlPage,
       AccessibilityPage,
+      SecurityPage,
     ],
   },
   {

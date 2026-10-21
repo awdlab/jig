@@ -105,7 +105,7 @@ export class JigInput extends JigBase<'input'> implements AfterViewInit {
    * tracking isn't wired for the bare directive, so the `dirty` trigger behaves
    * like `immediate` there.)
    */
-  protected readonly invalidState = computed(() => {
+  public override readonly invalidState = computed(() => {
     const form = this._ngControlStatus();
     return resolveInvalidState(
       this.invalid() || !!form?.invalid,

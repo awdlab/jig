@@ -84,9 +84,9 @@ export class JigInputField extends JigBase<'inputField'> {
   public readonly tabindex = input<number>(-1);
   /**
    * Explicitly apply invalid state styling on the field chrome. The field does
-   * not compute validity — it also reflects its projected control's own invalid
-   * state (the child's gated `aria-invalid`) via the theme. Set this only to
-   * force the invalid look regardless of the child.
+   * not compute validity — it also reflects its projected control's own gated
+   * invalid state ({@link JigBase.invalidState}). Set this only to force the
+   * invalid look regardless of the child.
    * @default false
    */
   public readonly invalid = input(false, { transform: booleanAttribute });
@@ -119,6 +119,14 @@ export class JigInputField extends JigBase<'inputField'> {
     const control = this.control();
     return !!control && !control.empty();
   });
+
+  /**
+   * The invalid state the field chrome renders: the explicit {@link invalid}
+   * input, or the projected control's own gated invalid state.
+   */
+  public override readonly invalidState = computed(
+    () => this.invalid() || !!this.control()?.invalidState()
+  );
 
   /** Whether the label renders its required marker. */
   protected readonly requiredMarker = computed(

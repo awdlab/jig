@@ -1,4 +1,5 @@
 import {
+  CSP_NONCE,
   DOCUMENT,
   inject,
   Injectable,
@@ -132,6 +133,8 @@ export class ThemeService implements OnDestroy {
   private readonly _config = inject(JIG_CONFIG);
   private readonly _loadedScopes = new Set<string>();
   private readonly _document = inject(DOCUMENT);
+  /** Angular resolves this from a `CSP_NONCE` provider, else from `ngCspNonce` on the app root. */
+  private readonly _nonce = inject(CSP_NONCE);
 
   public readonly activeTheme = signal(this._config.theme?.preset);
 
@@ -192,7 +195,8 @@ export class ThemeService implements OnDestroy {
     }
     const style = this._document.createElement('style');
     style.setAttribute('jig-style', kind);
-    style.innerHTML = css;
+    if (this._nonce) style.setAttribute('nonce', this._nonce);
+    style.textContent = css;
     this._document.head.appendChild(style);
   }
 
@@ -254,12 +258,14 @@ export class ThemeService implements OnDestroy {
       layer: this._config.theme.cssLayer ?? undefined,
       styleScope: this._config.theme.styleScope ?? undefined,
       namePrefix: this._config.theme.namePrefix,
+      nonce: this._nonce ?? undefined,
     });
     applyGlobalStyles(global, {
       document: this._document,
       layer: this._config.theme.cssLayer ?? undefined,
       styleScope: this._config.theme.styleScope ?? undefined,
       namePrefix: this._config.theme.namePrefix,
+      nonce: this._nonce ?? undefined,
     });
   }
 }
