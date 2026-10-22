@@ -2,5 +2,6 @@
 // prism.css) does not trigger a dev-server rebuild on its own — re-save THIS
 // file to force a recompile + reload.
 @use 'styles/global.scss';
+@use 'styles/markdown.scss';
 @use 'styles/prism.css';
 @use 'styles/tailwind.css';

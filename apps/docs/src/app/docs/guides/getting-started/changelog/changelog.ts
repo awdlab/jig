@@ -64,14 +64,35 @@ export class JigDocsChangelog {
     });
   }
 
+  /**
+   * A combined release carries no package, and its name is a timestamp — the
+   * heading drops it so only the formatted local time is shown.
+   */
+  protected title(release: RenderedRelease): string {
+    if (release.version) {
+      return release.version;
+    }
+    return /^Release \d{4}-\d{2}-\d{2} \d{2}:\d{2}( [A-Z]{2,5})?$/.test(release.name)
+      ? 'Release'
+      : release.name;
+  }
+
+  /**
+   * GitHub publishes in UTC. Releases are cut from Central Europe, so the list
+   * reads in that zone — the lede names it, and `datetime` keeps the original
+   * instant.
+   */
   protected formatDate(iso: string | null): string {
     if (!iso) {
       return '';
     }
-    return new Date(iso).toLocaleDateString(undefined, {
+    return new Date(iso).toLocaleString(undefined, {
+      timeZone: 'Europe/Berlin',
       year: 'numeric',
       month: 'long',
       day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
     });
   }
 

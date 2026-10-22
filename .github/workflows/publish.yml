@@ -61,6 +61,13 @@ jobs:
       # Skip husky: the pre-push format/lint check rejects the release commit's
       # generated CHANGELOG.md and version bumps. PR checks already gate content.
       HUSKY: '0'
+      # The combined release is titled from the release commit's `%cI` date, which
+      # carries whatever offset the committer recorded. A UTC runner therefore titled
+      # a 00:55 release "Release 2026-10-21 22:55"; with the project's own zone the
+      # title reads local time. The CHANGELOG.md heading date still comes from
+      # `new Date().toISOString()` inside awesome-publish and stays UTC, so a release
+      # cut after 22:00 local is dated a day early there until that is fixed upstream.
+      TZ: Europe/Berlin
     permissions:
       contents: read # git pushes AND GitHub releases use the App token, not GITHUB_TOKEN
       id-token: write # npm Trusted Publishing (OIDC) + provenance
@@ -94,3 +101,17 @@ jobs:
           # reusing it here keeps releases attributed to jig-release-bot too.
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           AWESOME_PUBLISH_AI_KEY: ${{ secrets.AWESOME_PUBLISH_AI_KEY }}
+      # awesome-publish titles the release from the commit date with no zone, so the
+      # reader cannot tell which one it is. Appends the abbreviation TZ resolves to
+      # (CET or CEST). No-op when the run cut no combined release.
+      - name: Name the release's time zone
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          tag=$(git tag --points-at HEAD | grep '^release-' | head -1)
+          if [ -z "$tag" ]; then echo "no combined release tag at HEAD"; exit 0; fi
+          title=$(gh release view "$tag" --json name --jq .name)
+          # Match either abbreviation, not just today's, so a --resume on the far
+          # side of a DST switch cannot append a second one.
+          case "$title" in *" CET"|*" CEST") echo "already zoned: $title"; exit 0;; esac
+          gh release edit "$tag" --title "$title $(date +%Z)"

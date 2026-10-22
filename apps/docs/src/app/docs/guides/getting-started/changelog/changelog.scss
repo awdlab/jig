@@ -1,7 +1,21 @@
+/* Same centered shell the markdown pages use, so the column lines up with them. */
 .cl-wrap {
   width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding: 0 1rem 6rem;
+}
+
+@media (width >= 48rem) {
+  .cl-wrap {
+    padding-inline: 2rem;
+  }
+}
+
+/* Reading column inside that shell — the rail beside it stays empty here. */
+.cl-head,
+.cl-package {
   max-width: 52rem;
-  padding: 0 1.5rem 6rem;
 }
 
 .cl-head {
@@ -75,60 +89,33 @@
   white-space: nowrap;
 }
 
+/* Body styling comes from the global `md` class on the element. */
 .cl-notes {
   margin-top: 1rem;
-  line-height: 1.7;
 }
 
 .cl-notes-empty {
   color: var(--jig-color-surface-400);
 }
 
-/* Release notes are upstream markdown: keep the vertical rhythm predictable
-   rather than inheriting whatever the body happens to contain. */
-.cl-notes :is(h1, h2, h3, h4) {
-  margin: 1.5rem 0 0.5rem;
-  font-size: 1rem;
-  font-weight: var(--jig-font-weight-semibold);
-}
+/* A release note is nested under the version heading above it, so its own
+   headings stay below the global markdown sizes. `::ng-deep` because the body
+   arrives through `[innerHTML]` and carries no encapsulation attribute. */
+:host ::ng-deep .cl-notes {
+  h1,
+  h2 {
+    margin: 1.75rem 0 0.5rem;
+    font-size: 1.125rem;
+    font-weight: var(--jig-font-weight-semibold);
+  }
 
-.cl-notes :is(ul, ol) {
-  margin: 0.5rem 0;
-  padding-inline-start: 1.25rem;
-  list-style: disc;
-}
-
-.cl-notes ol {
-  list-style: decimal;
-}
-
-.cl-notes li {
-  margin: 0.25rem 0;
-}
-
-.cl-notes p {
-  margin: 0.5rem 0;
-}
-
-.cl-notes code {
-  padding: 0.1em 0.35em;
-  border-radius: var(--jig-size-radius-sm);
-  background: var(--jig-color-surface-100);
-  font-family: 'Consolas', 'Menlo', 'Monaco', monospace;
-  font-size: 0.9em;
-}
-
-.cl-notes pre {
-  overflow-x: auto;
-  margin: 0.75rem 0;
-  padding: 0.875rem 1rem;
-  border-radius: var(--jig-size-radius-md);
-  background: var(--jig-color-surface-100);
-}
-
-.cl-notes pre code {
-  padding: 0;
-  background: none;
+  h3,
+  h4 {
+    margin: 1.25rem 0 0.4rem;
+    font-size: 0.9375rem;
+    font-weight: var(--jig-font-weight-semibold);
+    color: var(--jig-color-surface-500);
+  }
 }
 
 .cl-link {

@@ -3,7 +3,8 @@
     <h1 class="cl-title">Changelog</h1>
     <p class="cl-lede">
       Every published release, straight from the repository. Each entry lists what changed in that
-      package — the packages version independently, so they move at different speeds.
+      package — the packages version independently, so they move at different speeds. Times are
+      Central European Time (CET/CEST).
     </p>
   </header>
 
@@ -29,7 +30,7 @@
           <article class="cl-release">
             <div class="cl-release-head">
               <h3 class="cl-version">
-                <a class="cl-link" [href]="release.url">{{ release.version ?? release.name }}</a>
+                <a class="cl-link" [href]="release.url">{{ title(release) }}</a>
               </h3>
               @if (release.prerelease) {
                 <jig-tag color="warning">pre-release</jig-tag>
@@ -42,7 +43,7 @@
             </div>
 
             @if (release.html) {
-              <div class="cl-notes" [innerHTML]="release.html"></div>
+              <div class="cl-notes md" [innerHTML]="release.html"></div>
             } @else {
               <p class="cl-notes cl-notes-empty">No notes for this release.</p>
             }

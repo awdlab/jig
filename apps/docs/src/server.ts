@@ -102,6 +102,8 @@ async function fetchReleases(): Promise<ReleaseData[]> {
     body?: string | null;
   }[];
 
+  // Sorted because GitHub does not return releases in date order; the page reads
+  // newest first.
   return json
     .filter(release => !release.draft && !!release.tag_name)
     .map(release => {
@@ -118,7 +120,8 @@ async function fetchReleases(): Promise<ReleaseData[]> {
         url: release.html_url ?? `https://github.com/awdlab/jig/releases/tag/${tag}`,
         body: release.body ?? '',
       } satisfies ReleaseData;
-    });
+    })
+    .sort((a, b) => (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''));
 }
 
 app.get('/api/changelog', async (_req, res) => {
