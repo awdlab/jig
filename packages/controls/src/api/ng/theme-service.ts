@@ -159,7 +159,9 @@ export class ThemeService implements OnDestroy {
     }
 
     if (this._config.respectReducedMotion) {
-      // near-zero instead of 0s/none, so animationend still fires and leave logic completes.
+      // Near-zero animation duration, so animationend still fires and leave logic completes.
+      // Transitions get a flat 0s: with the default `transition-property: all`, any non-zero
+      // duration transitions properties that had none, making computed-style reads lag a frame.
       // `:where()` adds no specificity, so the tiers below cannot be outranked by this rule.
       // Tiered elements are excluded from this rule entirely, so their CSS transitions are not collapsed.
       const untiered = `:not(:where(${MOTION_TIER_SELECTORS}))`;
@@ -170,7 +172,7 @@ export class ThemeService implements OnDestroy {
           .jig-control${untiered}, .jig-control *${untiered} {
             animation-duration: 0.01ms !important;
             animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
+            transition-duration: 0s !important;
           }
           .jig-motion-loop, .jig-motion-loop * {
             animation-duration: ${REDUCED_MOTION_LOOP_DURATION} !important;

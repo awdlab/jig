@@ -50,6 +50,29 @@ test('untiered animations collapse to near-zero under reduced motion', async ({ 
   expect(motion.transition).toBeLessThan(0.001);
 });
 
+test('properties with no transition still change instantly under reduced motion', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await loadComponent(
+    page,
+    {
+      template: `<jig-input-field [label]="'Name'"><input jigInput /></jig-input-field>`,
+      imports: ['inputField', 'input'],
+    },
+    {},
+    { search: '?animations' }
+  );
+
+  // A non-zero collapse duration would transition every property (transition-property
+  // defaults to `all`), so this read would return the outgoing font size.
+  const fontSize = await page.locator('jig-input-field input').evaluate(el => {
+    el.style.fontSize = '33px';
+    return getComputedStyle(el).fontSize;
+  });
+  expect(fontSize).toBe('33px');
+});
+
 test('nothing is collapsed without reduced motion', async ({ page }) => {
   await loadComponent(
     page,

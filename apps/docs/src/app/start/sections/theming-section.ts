@@ -388,8 +388,6 @@ export class JigDocsThemingSection {
 
   constructor() {
     const host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
-    // font-size and padding are transitioned, so reading them when the theme
-    // changes returns the OUTGOING value. Applying a theme is itself async, so a
     // Computed values only exist in the browser, so re-read them after render
     // whenever the selection changes.
     afterRenderEffect(() => {
