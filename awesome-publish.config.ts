@@ -29,5 +29,8 @@ export default defineConfig({
     model: 'gemini-flash-latest',
     baseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai/',
   },
-  aiReleaseNotes: true,
+  // The custom prompt fixes what the built-in one produced: notes are written per
+  // package, but a changeset shared by several packages handed each the same summary,
+  // so one release repeated the same prose under every package heading.
+  aiReleaseNotes: { enabled: true, customPromptFile: '.github/release-notes-prompt.md' },
 });

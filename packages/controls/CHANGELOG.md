@@ -1,361 +1,172 @@
 # Changelog
 
-## @awdlab/jig 0.0.8 (2026-10-21)
+Release times are Central European Time (CET/CEST), the project's local time zone.
 
-- **`styleScope` actually scopes the generated CSS.** `applyTheme()` built its internal options with a `scope` key while the CSS generators read `styleScope`, so the selector always fell back to `:root` — a configured scope only ever reached the style element's `data-style-scope` attribute. Tokens leaked into the host page's `:root`, control rules applied globally, and two themes on one page overwrote each other. The generators now receive the scope, and emit `.my-app { … }` for `styleScope: { kind: 'class', name: 'my-app' }`.
-
-Two things that only surface once scoping works:
-
-- **Dark mode.** The `dark` class sits on the document element, so a scoped theme matches it on an ancestor (`:root.dark &`) instead of on the scope element. Unscoped themes keep emitting `&.dark`, i.e. `:root.dark`, unchanged.
-- **At-rules.** A top-level `@media` block is now emitted with its rules inside the scope selector; `@keyframes` and other non-style at-rules stay global.
-
-Nothing changes for the default configuration (`styleScope: null`): rules are still emitted at `:root`. Scoped setups should put the scope on, or above, the application root element — toasts and snackbars attach there.
-- **Auto-generated element ids no longer collide between the server and the client.** Under SSR both sides started `nextElementId` at 1, so every id the server issued was issued a second time during hydration. Most controls bind their id and overwrite the attribute, which hid it, but `roving-focus` and `button-group` keep an id that is already on the element — those elements held their server number while the client counter climbed past it and handed the same number to another control, aiming a label's `for` at an unrelated element. `JigGlobal` now seeds the counter from `TransferState` and republishes it on every increment, so the client resumes where the server stopped.
-- **`jig-input-field` takes its invalid styling from the projected control, not from CSS guesswork.** The field themes matched validity through `:has(.ng-invalid.ng-touched)`, `:has([aria-invalid='true'])` and the control's own invalid class, which meant every theme carried framework-specific selectors and the combinations with `:disabled` / `:read-only` had to be spelled out again in each one. The control now reports its gated invalid state through the new `JigBase.invalidState` signal, the field merges it with its own `invalid` input, and the theme styles a single `invalid` class — with the disabled and read-only variants nested under their own state blocks. `ValueControlBase.invalidState` and `JigInput.invalidState` are public now; they were protected.
-
-A field whose projected control is not a jig control (a plain `<input>` without `jigInput`) no longer picks up `aria-invalid` or `.ng-invalid` on its own — set `[invalid]` on `jig-input-field` for those.
-- **Generated `<style>` elements carry your CSP nonce.** Theme and motion stylesheets are written into `<head>` at runtime, so a nonce-based `style-src` policy dropped them and the app rendered unstyled. `ThemeService` now reads Angular's [`CSP_NONCE`](https://angular.dev/api/core/CSP_NONCE) token — set through `ngCspNonce` on the app root or a provider — and stamps the value on every style element it creates, before it enters the DOM. Outside Angular, `applyTheme()` / `applyGlobalStyles()` take the value as a `nonce` option. No configuration is needed when the app already provides the token.
-
-**Style content is written with `textContent` instead of `innerHTML`,** so nothing in the library hits a Trusted Types sink. `jig-icon` still renders bypassed SVG markup, which needs `angular#unsafe-bypass` in the `trusted-types` directive.
-
-**Docs:** new [Security](https://jig.awdlab.dev/guides/security) guide covering CSP (including the `style-src-attr` caveat for static style attributes), Trusted Types, icon trust, passthrough attributes and persisted state.
-
-## @awdlab/jig 0.0.7 (2026-10-21)
-
-- **Validator directives on jig controls work again in template-driven and reactive forms.** `ngModel`, `[formControl]` and `formControlName` bind a `FormValueControl` through Angular's custom-control path, which never attaches the host's validator directives ([angular/angular#69756](https://github.com/angular/angular/issues/69756)). A `<jig-select required [(ngModel)]>` or a custom `NG_VALIDATORS` directive on `<jig-checkbox>` was silently ignored, so the form reported valid and submitted with empty values. `ValueControlBase` now merges those validators into the bound control (and removes them again on destroy or rebind), the way Angular does for a `ControlValueAccessor`. Signal forms and reactive controls without validator directives are untouched. A static `required` attribute next to `[formControl]` / `formControlName` is still switched off by Angular itself — use `Validators.required` on the `FormControl`.
-
-**`jigInput` reports `aria-invalid` under classic forms.** Reactive and template-driven forms drive `<input jigInput>` / `<textarea jigInput>` through the native value accessor and never wrote its `invalid` / `touched` state, so the element got no `aria-invalid` and `invalidOn="dirty"` had no effect. The directive now reads validity, touched and dirty from the bound control.
-
-**An invalid form no longer marks every field inside it.** The `jig-input-field` theme parts (nova, shade, material) matched any field nested under an `.ng-invalid.ng-touched` ancestor, so a touched, invalid `<form>` or group painted valid fields red too. Fields now reflect only their own projected control.
-
-**Docs (and the MCP's guidance):** `invalid` is set automatically by every form binding — signal, reactive and template-driven — and only needs binding for validity from outside Angular forms.
-
-## @awdlab/jig 0.0.6 (2026-10-21)
-
-- **A pre-filled reactive or template-driven value no longer disappears from `jigInput`.** Classic forms drive a native `<input>` through Angular's `DefaultValueAccessor`, which writes the element directly and never touches the directive's `value` model. The directive's own element sync then wrote its empty default back over what the form had just written, so edit forms and other pre-filled forms rendered blank while `control.value` was correct — forms that start empty were unaffected, which is why the bug only surfaced on existing data.
-
-`jigInput` now copies the bound control's value into its model, and only when that value actually changes, so an `updateOn: 'blur'` control does not undo what the user is typing. The model no longer lags behind a programmatic `setValue` either, which had kept `empty()` — and with it the floating label of a wrapping `jig-input-field` — wrong.
-
-Signal forms (`[formField]`) and plain `value` / `valueChange` binding are unchanged; both already wrote the model.
-- **Dependency refresh.** Angular moves from 22.1.1/22.1.3 to 22.2.3 across the catalog, and `@awdlab/jig` now peers on `@ngneers/signal-translate` ^22 instead of ^20 — the v20 range never matched the Angular 22 peer the package itself declares. `@awdlab/jig-playwright` peers on `@playwright/test` ^1.64.1, and `@awdlab/jig-mcp` picks up `@modelcontextprotocol/sdk` ^1.32.1 and `zod` ^4.6.7.
-
-No source changes, no migrations: every Angular 22 migration schematic targets 22.0.0, so the 22.1 → 22.2 step has nothing to run.
-
-## @awdlab/jig 0.0.5 (2026-08-24)
-
-- **`@awdlab/jig-themes` and `@awdlab/jig-custom-types` are installable again.** Both shipped two manifests: the source `package.json` at the tarball root, whose `main` pointed at an `./index.js` that only existed one directory down and which carried no `exports` at all, plus a second generated manifest inside `dist/`. Nothing could resolve either package. The source `package.json` is now the single publish manifest and points into `dist/`, and the build no longer copies a manifest, README or LICENSE into the build output.
-
-`@awdlab/jig-themes` declares its 300-plus theme-part subpaths through one `exports` pattern instead of a generated entry per part, so the 313 empty `package.json` marker files under `packages/themes/src` are gone — with them goes the class of bug where a new theme part silently stayed unresolvable because its marker was forgotten. The three theme entry points keep their explicit mapping, since `@awdlab/jig-themes/nova` must load the type augmentation from `typed.d.ts` while `@awdlab/jig-themes/nova/untyped` must not.
-
-**Emitted specifiers are correct at the source.** Both packages compiled with the workspace-wide `module: preserve`, which emits import specifiers verbatim, so extensionless and directory specifiers survived into `dist` where Node's ESM resolver rejects them. A post-build script rewrote them afterwards — a regex that only matched `from` and `import()` forms, so the side-effect `import './theme-types'` inside each theme's `typed.d.ts` stayed broken for consumers on `node16`/`nodenext` resolution. The two packages now build with `module: nodenext` and carry explicit `.js` extensions in source, and the rewrite script is deleted. `@awdlab/jig-custom-types` was never rewritten at all and shipped extensionless re-exports.
-
-**`@awdlab/jig` packs from `dist/`.** ng-packagr flattens secondary entry points into hyphenated bundle names, so its generated manifest cannot be expressed as a root manifest pointing into `dist/`; the tarball now uses that manifest directly and carries one `package.json` instead of two. `README`/`LICENSE` are copied into `dist` so npm still includes them.
-
-No API surface changed — every import path a consumer already uses resolves to the same module.
-
-## @awdlab/jig 0.0.4 (2026-08-17)
-
-- **New control `jig-tag-input`.** A list of string tags the user types and confirms — Enter always commits, further characters can be declared as `delimiters`. Offers suggestions from a static list or an async callback, enforces `maxTags` / `minTagLength` / `maxTagLength` / `allowDuplicates` and reports refusals through `rejected`, wraps onto several lines or scrolls on one, and announces every change in a live region. Its value is `string[] | null` — never an empty array — so signal-forms `required` reacts to an empty control. Ships the `tagCount` and `tagLength` validators for bounds the stock `minLength`/`maxLength` cannot express on a nullable array.
-
-**New control `jig-dropdown-list`.** The anchored popover wrapping a `jig-list-box` — the dropdown half of a combobox, extracted out of `jig-select` and now shared by select and tag-input. Usable on its own, and projects `dropdownHeader` content above the list, which is how select puts its filter field inside the popover.
-
-**`jig-slider` gains range mode.** `range` turns the value into a `[start, end]` tuple and spans the fill between the handles. `minRangeDistance` sets the smallest gap the handles may have; values outside `0 … max - min`, and bound pairs that violate the gap, are clamped with a dev-mode error. The host degrades to `role="group"` and each handle becomes its own focusable `role="slider"` with handle-local `aria-valuemin`/`aria-valuemax`, per the WAI-ARIA multi-thumb pattern. New `valueCommit` output emits once an interaction settles — a drag release, a track click, or a handled key press — where `valueChange` fires on every frame.
-
-**`jig-input-field` can mark the label of a required control with an asterisk.** Opt in per field via `showRequiredMarker`, or globally via the new `defaults.inputField.showRequiredMarker` config. Value controls expose `requiredState`, which ORs the `required` input with the required validator of a bound form control, so the marker works across signal forms, reactive and template-driven forms alike. The marker is drawn in CSS and hidden from the accessibility tree — `aria-required` on the control already carries the semantics.
-
-**Validation messages can be scoped to a control.** A control's own `<scope>.errors.<key>` translation now wins over the shared `errors.<key>`, so `jig-otp` says "Enter the full code" and `jig-tag-input` "Add at least one entry" where every other control keeps the generic wording.
-
-**`jig-hint` collapses through a `root-collapsed` theme class** instead of an inline `display: none`, so a hidden validation hint keeps the field's layout stable and the message expands into place.
-
-Smaller additions: `rovingDisabled` on `jigRovingGroup` suspends navigation so a suspended group reads as one plain element (a readonly `jig-mask-input` no longer exposes selectable sections); `loading` on `jig-list-box` covers the list with a spinner while items are fetched; `jig-mask-input` exposes `disabled` / `readonly` / `invalid` theme classes and the matching ARIA.
+## @awdlab/jig 0.0.8 (2026-10-22 00:55 CEST)
 
 ### Breaking
 
-`JigPassthrough<'select'>` changed shape. The select's popover and list box now live behind the extracted dropdown, so the `popover` and `list-box` dependencies and the `popover-content` / `list-box-empty` classes are gone, replaced by a single `dropdown` dependency:
+- `ValueControlBase.invalidState` and `JigInput.invalidState` are public; they were protected.
+- `jig-input-field` no longer infers invalid state from a plain `<input>`. Bind `[invalid]` for controls that are not jig controls.
 
-```diff
--const pt: JigPassthrough<'select'> = { 'popover-content': { … } };
-+const pt: JigPassthrough<'select'> = { dropdown: { content: { … } } };
+### Fixed
 
--const pt: JigPassthrough<'select'> = { 'list-box': { root: { … } } };
-+const pt: JigPassthrough<'select'> = { dropdown: { 'list-box': { root: { … } } } };
-```
+- `styleScope` actually scopes the generated CSS. `applyTheme()` passed a `scope` key while the generators read `styleScope`, so every rule fell back to `:root`.
+- A scoped theme matches dark mode on an ancestor (`:root.dark &`), and a top-level `@media` block is emitted inside the scope selector.
+- SSR and the client no longer hand out the same auto-generated element id — the counter crosses the boundary via `TransferState`.
+- Injected `<style>` elements carry Angular's `CSP_NONCE`, and style text is written with `textContent` instead of `innerHTML`.
+- `jig-input-field` reads invalid state from the projected control instead of guessing it with `:has(.ng-invalid.ng-touched)` selectors.
 
-The Playwright `JigSelectHarness` keeps `listBox` and `popoverContent` as forwarding getters, so existing end-to-end tests need no change.
+### Added
 
-- **New control `jig-skeleton`.** A placeholder box for content that has not arrived yet. `shape` picks which dimensions apply: a `rect` is sized with `width` (default `100%`) and `height` (default `1lh`, so a bare skeleton reads as one line of text) plus an optional `radius`; a `circle` takes a single `diameter` and is always fully rounded. Numbers are pixels, strings are passed through as CSS lengths, so `width="55%"` and `height="2rem"` work as written. The host carries `aria-hidden="true"` — a skeleton is never content, and the surrounding region owns the loading announcement.
+- [Security guide](https://jig.awdlab.dev/guides/security): CSP, Trusted Types, icon trust, passthrough attributes, persisted state.
 
-Rectangles paint a 2px vertical inset inside their own box rather than outside it, so stacked `1lh` lines separate visually while the height they occupy stays exactly on the text line grid. Circles keep their full diameter, since an inset would squash them into an ellipse. Sizing flows through `--jig-skeleton-*` custom properties, namespaced so an app token of the same short name cannot reach in and override what the theme decided.
+## @awdlab/jig 0.0.7 (2026-10-21 19:25 CEST)
 
-The animation is a themed concern: base renders a flat block at the authored size, nova and material sweep a travelling gradient (material on its own easing and with a wider highlight), and shade pulses opacity instead, matching its flatter look. A theme that restates the `background` shorthand has to restate `background-clip` with it, or the inset stops being an inset.
+### Fixed
 
-`jig-table` now renders `jig-skeleton` inside its loading rows instead of painting the cell itself, so the table's shimmer comes from the shared control and follows whichever theme is active.
+- Validator directives on jig controls work again under `ngModel`, `[formControl]` and `formControlName` ([angular/angular#69756](https://github.com/angular/angular/issues/69756)). A static `required` next to `[formControl]` is still disabled by Angular — use `Validators.required`.
+- `jigInput` reports `aria-invalid` under reactive and template-driven forms.
+- An invalid `<form>` no longer paints every field inside it red; a field reflects only its own control.
 
-- **New control `jig-meter`.** Breaks a quantity into labelled, colored parts: a stacked bar plus a legend. Every item carries a `label` and a `value`, optionally a `color` and an `icon`. Without `total` the items add up to a full bar; with one, whatever they don't cover stays empty track — pass the remainder as its own item to give it a name and a share. Items that overshoot `total` are clipped and reported through a dev-mode error. Each legend entry shows its share, rounded except for a non-zero sliver below one percent, which reads `<1%`; `showPercentage="false"` hides the numbers visually but keeps them in the accessibility tree. `vertical` stands the bar up — filling bottom-up, the way a gauge reads — and moves the legend beside it. The legend row is templateable through `<ng-template #label>` (or `templateLabel`), which receives the item and its unrounded percentage. Hovering a segment highlights the legend entry that names it, and hovering a legend entry lifts its segment clear of the bar — decorative, and switched off with `highlightOnHover="false"`. Neighbouring segments are parted by a hairline in the track color, the filled run ends in a rounded cap, and an item too small to round up to a visible slice still paints a minimum sliver, so the bar never contradicts its legend. The host is a `role="group"` named by `label`, the bar is `aria-hidden` — the legend is plain text, so nothing depends on color alone. Items without a `color` cycle through a per-theme palette: eight hues in nova and material, an interleaved primary ramp in the monochrome shade, and `currentColor` under a base-only theme.
-- Every overlay control now shares one open/close lifecycle, and the bugs the duplicated copies had drifted into are fixed.
+## @awdlab/jig 0.0.6 (2026-10-21 07:45 CEST)
 
-Dialog kept lazy, uncached content mounted only until `open` flipped, not until the exit animation ended: the flag meant to span the animation was never reset on open, and the close waited on animations of the host element, which is `display: contents` and never animates. `closed` fired early for the same reason. A cancelled exit animation stranded dialog and tooltip half-closed — content mounted, `closed` never emitted — because the rejection was swallowed; the close now settles instead of hanging, and skips animations that never finish (infinite, paused, idle) so a spinner in projected content cannot wedge it. `closed` and `closing` can no longer fire after the host is destroyed.
+### Fixed
 
-Closed overlays are no longer top-layer elements: modal dialogs drop the unused `popover` attribute, and popover, tooltip, toast and snackbar carry theirs only while open. Password managers that count top-layer entries no longer read a page full of jig controls as top-layer hijacking and disable their inline menu. Toast and snackbar regions occupy the top layer only while they hold items, and stay until the last item has animated out — previously the region entered at app start, so any modal opened later covered it.
+- A pre-filled reactive or template-driven value no longer disappears from `jigInput`. The directive's element sync overwrote what `DefaultValueAccessor` had just written, so edit forms rendered blank.
 
-`Openable` gains an optional `closing` output and documented semantics for the members every overlay shares, and dialog and drawer now expose that output alongside popover — it fires when the close starts, where `closed` fires once the exit animation has finished. Drawer and tooltip hide themselves via `:not(:popover-open)` in the base theme instead of relying on the user-agent rule for the `popover` attribute, which is no longer present while they are closed.
+### Changed
 
-- **Roving focus only claims elements that can actually take focus.** `resolveFocusable` now returns `undefined` instead of falling back to the control's host when the control has nothing focusable in it, and callers skip those controls. A decorative `jig-icon` — including the icon inside an icon button — is a `JIG_CONTROL`, so a container collecting its descendant controls used to register it and stamp a `tabindex` on it, adding phantom stops to the roving order.
+- Angular 22.1 → 22.2.3 across the catalog; `@ngneers/signal-translate` peer widened to `^22`. No migrations to run.
 
-Controls built from `tabindex` rather than a native element now resolve to the innermost such element. `jig-input-field` carries a `tabindex` of its own but only forwards focus to the control it wraps, so a `jig-select` inside a field is the tab stop and the field is not. The test is structural rather than reading tabindex values, since roving rewrites the values of everything it owns and a value-based rule would not survive a re-registration.
+## @awdlab/jig 0.0.5 (2026-08-24 23:47 CEST)
 
-`jig-toolbar` registers its items in an after-render effect. Which element owns a control's tab stop is read off the DOM, and a projected control's own bindings — the `tabindex` a `jig-select` puts on its trigger — are not applied yet while the toolbar's view is being refreshed, so a `jig-select` in a toolbar was silently skipped by the arrow keys.
+### Fixed
 
-- **Right-to-left support.** Controls read the writing direction from the DOM: set `dir` on `<html>` or on any element and everything below it mirrors. There is no RTL mode to enable, no per-control input, and no service to configure. Because `direction` is an inherited CSS property, it resolves per subtree — a `dir="rtl"` island inside a left-to-right page works, and so does the reverse.
+- `@awdlab/jig-themes` and `@awdlab/jig-custom-types` are installable again — both shipped two manifests and neither resolved.
+- Import specifiers are emitted correctly at the source (`module: nodenext` plus explicit `.js`), replacing the post-build rewrite script.
+- `@awdlab/jig` packs from `dist/` with a single manifest.
 
-Layout and styling are mirrored throughout. Padding, margins, borders and corner radii across every theme part are written as CSS logical properties, so they follow the inline axis instead of a fixed side. The pieces CSS cannot express logically are handled per theme with `:dir(rtl)`: gradient direction and `background-position` (the scroll-shadow layer, the table's sticky-column edges and the tabs overflow fades are mirrored as a whole rather than duplicating every fade), `transform-origin` on the snackbar progress bar, and the `translate()` offsets behind the badge's corner overhang, the switch thumb travel, the vertical meter's highlight lift and the drawer's slide-in.
+No API surface changed.
 
-Keyboard navigation follows the inline axis, so in RTL `ArrowLeft` advances. That includes the cases where the axis carries meaning rather than order: tree nodes expand away from the root, submenus open away from their parent, and a table row's action bar is entered from the row's inline-end. `ArrowUp`/`ArrowDown` stay physical — the block axis does not flip.
+## @awdlab/jig 0.0.4 (2026-08-17 23:36 CEST)
 
-Pointer interaction mirrors too. A slider's value is measured from the track's minimum end, and the splitter divider, table column resize and table column reorder all resolve against the inline-start edge, so a positive drag keeps its meaning in both directions. The native resize grip that `jigResizable` hit-tests is found in the bottom inline-end corner, which is bottom-left under RTL.
+- Release tooling only (release-note restore). No library changes.
 
-Three things stay physical on purpose. `placement="left"` on a tooltip, popover or menu means the left — only the alignment half (`-start`/`-end`) follows the direction, which floating-ui already handles. `jigMovable` writes physical coordinates, so a freely dragged element goes where the pointer goes. And the colour picker's saturation, hue and alpha gradients are painted left-to-right with pointer maths to match, so a hue ramp does not reverse when the page does.
+## @awdlab/jig 0.0.3 (2026-08-17 22:53 CEST)
 
-New in `@awdlab/jig/api/ng`: `isRtl(el)` answers per element and is meant to be called at the point of use rather than cached, which keeps `getComputedStyle` out of the reactive graph; `inlineArrowStep(el, key)` resolves a horizontal arrow key into a step along the inline axis; `notifyDirectionChanged()` tells already-open overlays to re-resolve their placement after a runtime `dir` change, with `onDirectionChange()` to register that work. None of this is needed when the direction is set once at bootstrap, nor for anything styled with logical properties or `:dir(rtl)` — CSS re-matches on its own.
+- Release tooling only (changesets restored, GitHub releases enabled). No library changes.
 
-Two bugs surfaced along the way. Sticky table columns pinned to the wrong edge in RTL: their offsets are accumulated in visual column order but were applied to physical `left`/`right`, so a sticky-end column did not stick at all. And the off-screen parking used to keep collapsed toolbar items and the item-view measurable (`left: -9999px`) created real scrollable overflow in RTL — overflow toward the inline-start is not scrollable, but the mirrored position is — which showed up as a phantom horizontal scrollbar.
+## @awdlab/jig 0.0.2 (2026-08-17 22:07 CEST)
 
-Directional glyphs in the default icon set are mirrored rather than swapped: `jig-icon` now reflects its `defaultIcon` as `data-default-icon`, and one theme rule flips the chevrons and carets used by the breadcrumb separator, the calendar's month arrows, submenu markers, the paginator, the table group toggle and the tabs scroll buttons. Keying off the slot means a consumer who overrides one of those icons gets the same treatment, while non-directional slots are untouched.
+- Release pipeline fixes (resume mode). No library changes.
 
-The docs ship an RTL guide and a **Direction** toggle in the theme picker, which flips the whole site and persists in the same cookie the theme uses, so a returning RTL visitor gets RTL HTML from the server rather than a left-to-right first paint. Every control that renders visible markup of its own has an RTL screenshot test — captured in a state worth looking at, so an open dropdown rather than a closed field — plus interaction tests covering the direction-dependent keyboard, pointer and scroll behaviour.
+## @awdlab/jig 0.0.1 (2026-08-13 23:22 CEST)
 
-### Breaking
-
-Inputs and theme classes that named a physical side now name a logical one. `top` and `bottom` are unchanged.
-
-```diff
--<jig-drawer position="left" />
-+<jig-drawer position="start" />
-
--<jig-upload listPosition="right" />
-+<jig-upload listPosition="end" />
-
--<jig-tabs [iconScrollLeft]="…" [iconScrollRight]="…" />
-+<jig-tabs [iconScrollStart]="…" [iconScrollEnd]="…" />
-```
-
-`JigUploadListPosition` is now `'top' | 'bottom' | 'start' | 'end'`, and the drawer's `position` is `'top' | 'end' | 'bottom' | 'start' | 'fullscreen'`. The `data-position` attribute the drawer reflects carries the new values, as does `JigDrawerHarness.expectPosition`.
-
-Theme parts and `JigPassthrough` keys follow: `tabs` exposes `scroll-start` / `scroll-end` in place of `scroll-left` / `scroll-right`, and `upload` exposes `list-start` / `list-end` in place of `list-left` / `list-right`. The matching default-icon keys are now `tabs-scroll-start` and `tabs-scroll-end`. `jig-tooltip` is deliberately unchanged — its `left` / `right` classes come from floating-ui's resolved physical side and sit alongside the separate `start` / `end` alignment classes.
-
-`jigScrollAmount` reports a distance rather than a physical offset, because browsers report a negative `scrollLeft` in RTL:
-
-```diff
--scrollAmount.scrollLeft()
-+scrollAmount.scrollInlineStart()
-
--scrollAmount.distanceFromRight()
-+scrollAmount.distanceFromInlineEnd()
-```
-
-- **New control `jig-toolbar`.** Arranges controls across three placements — start, center and end — in either orientation, and decides what happens when they stop fitting. It is a layout-and-focus container: it does not own the state of the controls inside it. Projected content lands in the start placement; `placement="center"` and `placement="end"` move it into the other tracks, as static attributes rather than bindings, since Angular resolves content projection at compile time. The side placements reserve equal space, so the center placement is centered against the toolbar rather than against whatever the sides happen to weigh, and an empty center track costs nothing; past the point where a side needs more than its half, the center gives way rather than the side wrapping. `orientation="vertical"` stacks the tracks and switches the measured axis to the block direction. The whole toolbar is a single tab stop: `role="toolbar"` with `aria-orientation`, one roving tabindex across all three placements, arrow keys along the orientation, `Home`/`End` to the ends, disabled controls skipped.
-
-`overflow` decides the response to a shortage of space. `'wrap'` (the default) grows the toolbar along the cross axis — pure CSS, nothing is measured, so any projected content works and a simple toolbar needs no extra markup. A placement wraps as a whole, moving to the next line as one group and only wrapping inside itself when that group alone is wider than the toolbar, so a full start placement first uses the room the end placement does not need. `'popover'` collapses whatever no longer fits into a `…` trigger per placement, which reveals the collapsed items in a popover. Collapsing means rendering an item in two places, so collapsible content is declared as `<ng-template #item>` inside a `jig-toolbar-region`; each item template receives an `overflowed` flag, so the same template can render an icon-only button in the bar and an icon-plus-label row in the popover. Because the template renders twice, item state has to live in the parent component. Projected content that cannot collapse is refused with a dev-mode error rather than silently consuming track space the collapse math never accounted for.
-
-**New control `jig-toolbar-region`.** A group of items sharing a placement and a collapse `priority`: regions pooled in one placement give up the lowest priority first, regardless of where they sit visually, so a low-priority region on the left can empty while the region to its right stays full. Ties collapse in reverse DOM order. The region is `display: contents`, so its items are direct children of the placement track and a single gap applies across all regions in it — the gap the collapse math reads out of the theme.
-
-Collapsed items stay in the DOM, laid out off-screen, so the toolbar keeps measuring them at their natural size; hiding them would measure zero, everything would "fit", and the toolbar would flip forever. Their in-bar copy is `inert` and `aria-hidden="true"`, so only the copy inside the popover is exposed and no item is announced twice or becomes a phantom tab stop. Inside the popover, controls use the native tab order rather than a roving tabindex. The `…` trigger is a real button with a translated `aria-label` (`toolbar.overflow`, new in en and de) and `aria-expanded`, drawn with the new `toolbar-overflow` default icon or an `iconOverflow` of your own; while nothing is collapsed it is inert and hidden from assistive tech. Both halves are templateable — `<ng-template #overflow>` / `templateOverflow` for the trigger, `<ng-template #popoverContent>` / `templatePopoverContent` for the popover body.
-
-Ships with base, nova, shade and material theme parts for both the toolbar and the region, and a `JigToolbarHarness` for Playwright.
-
-## @awdlab/jig 0.0.3 (2026-08-17)
-
-- **New control `jig-tag-input`.** A list of string tags the user types and confirms — Enter always commits, further characters can be declared as `delimiters`. Offers suggestions from a static list or an async callback, enforces `maxTags` / `minTagLength` / `maxTagLength` / `allowDuplicates` and reports refusals through `rejected`, wraps onto several lines or scrolls on one, and announces every change in a live region. Its value is `string[] | null` — never an empty array — so signal-forms `required` reacts to an empty control. Ships the `tagCount` and `tagLength` validators for bounds the stock `minLength`/`maxLength` cannot express on a nullable array.
-
-**New control `jig-dropdown-list`.** The anchored popover wrapping a `jig-list-box` — the dropdown half of a combobox, extracted out of `jig-select` and now shared by select and tag-input. Usable on its own, and projects `dropdownHeader` content above the list, which is how select puts its filter field inside the popover.
-
-**`jig-slider` gains range mode.** `range` turns the value into a `[start, end]` tuple and spans the fill between the handles. `minRangeDistance` sets the smallest gap the handles may have; values outside `0 … max - min`, and bound pairs that violate the gap, are clamped with a dev-mode error. The host degrades to `role="group"` and each handle becomes its own focusable `role="slider"` with handle-local `aria-valuemin`/`aria-valuemax`, per the WAI-ARIA multi-thumb pattern. New `valueCommit` output emits once an interaction settles — a drag release, a track click, or a handled key press — where `valueChange` fires on every frame.
-
-**`jig-input-field` can mark the label of a required control with an asterisk.** Opt in per field via `showRequiredMarker`, or globally via the new `defaults.inputField.showRequiredMarker` config. Value controls expose `requiredState`, which ORs the `required` input with the required validator of a bound form control, so the marker works across signal forms, reactive and template-driven forms alike. The marker is drawn in CSS and hidden from the accessibility tree — `aria-required` on the control already carries the semantics.
-
-**Validation messages can be scoped to a control.** A control's own `<scope>.errors.<key>` translation now wins over the shared `errors.<key>`, so `jig-otp` says "Enter the full code" and `jig-tag-input` "Add at least one entry" where every other control keeps the generic wording.
-
-**`jig-hint` collapses through a `root-collapsed` theme class** instead of an inline `display: none`, so a hidden validation hint keeps the field's layout stable and the message expands into place.
-
-Smaller additions: `rovingDisabled` on `jigRovingGroup` suspends navigation so a suspended group reads as one plain element (a readonly `jig-mask-input` no longer exposes selectable sections); `loading` on `jig-list-box` covers the list with a spinner while items are fetched; `jig-mask-input` exposes `disabled` / `readonly` / `invalid` theme classes and the matching ARIA.
+First stable release.
 
 ### Breaking
 
-`JigPassthrough<'select'>` changed shape. The select's popover and list box now live behind the extracted dropdown, so the `popover` and `list-box` dependencies and the `popover-content` / `list-box-empty` classes are gone, replaced by a single `dropdown` dependency:
+- `JigPassthrough<'select'>` changed shape — the popover and list box moved behind the extracted dropdown:
 
-```diff
--const pt: JigPassthrough<'select'> = { 'popover-content': { … } };
-+const pt: JigPassthrough<'select'> = { dropdown: { content: { … } } };
+  ```diff
+  -const pt: JigPassthrough<'select'> = { 'popover-content': { … } };
+  +const pt: JigPassthrough<'select'> = { dropdown: { content: { … } } };
+  ```
 
--const pt: JigPassthrough<'select'> = { 'list-box': { root: { … } } };
-+const pt: JigPassthrough<'select'> = { dropdown: { 'list-box': { root: { … } } } };
-```
+  `JigSelectHarness` keeps `listBox` and `popoverContent` as forwarding getters, so e2e tests need no change.
 
-The Playwright `JigSelectHarness` keeps `listBox` and `popoverContent` as forwarding getters, so existing end-to-end tests need no change.
+### Added
 
-- **New control `jig-skeleton`.** A placeholder box for content that has not arrived yet. `shape` picks which dimensions apply: a `rect` is sized with `width` (default `100%`) and `height` (default `1lh`, so a bare skeleton reads as one line of text) plus an optional `radius`; a `circle` takes a single `diameter` and is always fully rounded. Numbers are pixels, strings are passed through as CSS lengths, so `width="55%"` and `height="2rem"` work as written. The host carries `aria-hidden="true"` — a skeleton is never content, and the surrounding region owns the loading announcement.
+- `jig-tag-input` — typed string tags with `delimiters`, suggestions, `maxTags` / `minTagLength` / `maxTagLength` / `allowDuplicates`, a `rejected` output and the `tagCount` / `tagLength` validators.
+- `jig-dropdown-list` — the anchored popover around `jig-list-box`, extracted from `jig-select` and shared with tag-input.
+- `jig-skeleton` — `rect` / `circle` placeholder sized through `--jig-skeleton-*`; `jig-table` loading rows now use it.
+- `jig-meter` — stacked bar plus legend, with `total`, per-item colors and icons, `vertical` mode and a templateable legend row.
+- `jig-toolbar` — groups controls into one roving-focus tab stop.
+- Right-to-left support: set `dir` anywhere and layout, keyboard navigation and pointer maths mirror. New `isRtl()`, `inlineArrowStep()`, `notifyDirectionChanged()` and `onDirectionChange()` in `@awdlab/jig/api/ng`.
+- `jig-slider` range mode — `range` makes the value a `[start, end]` tuple, `minRangeDistance` sets the smallest gap, and `valueCommit` fires once an interaction settles.
+- `jig-input-field` can mark a required control's label with an asterisk (`showRequiredMarker`, or `defaults.inputField.showRequiredMarker`); value controls expose `requiredState`.
+- Per-control validation messages: `<scope>.errors.<key>` wins over the shared `errors.<key>`.
+- `rovingDisabled` on `jigRovingGroup`, `loading` on `jig-list-box`, and `disabled` / `readonly` / `invalid` theme classes on `jig-mask-input`.
 
-Rectangles paint a 2px vertical inset inside their own box rather than outside it, so stacked `1lh` lines separate visually while the height they occupy stays exactly on the text line grid. Circles keep their full diameter, since an inset would squash them into an ellipse. Sizing flows through `--jig-skeleton-*` custom properties, namespaced so an app token of the same short name cannot reach in and override what the theme decided.
+### Fixed
 
-The animation is a themed concern: base renders a flat block at the authored size, nova and material sweep a travelling gradient (material on its own easing and with a wider highlight), and shade pulses opacity instead, matching its flatter look. A theme that restates the `background` shorthand has to restate `background-clip` with it, or the inset stops being an inset.
+- One shared open/close lifecycle for every overlay. Dialog keeps lazy content mounted until the exit animation ends, a cancelled animation no longer strands dialog or tooltip half-closed, and `closed` / `closing` cannot fire after the host is destroyed.
+- Closed overlays are no longer top-layer elements, so password managers stop reading a page of jig controls as top-layer hijacking. Toast and snackbar regions enter the top layer only while they hold items.
+- Roving focus only claims elements that can take focus — a decorative `jig-icon` no longer adds a phantom tab stop, and a `jig-select` inside `jig-input-field` or `jig-toolbar` is reached by the arrow keys.
+- `jig-hint` collapses through a `root-collapsed` theme class instead of an inline `display: none`, keeping field layout stable.
+- Angular peers publish as `^22.0.5` instead of the exact catalog pin, so consumers on a later Angular patch no longer hit a peer conflict.
+- `customTranslations` languages are selectable — they were registered but never added to `availableLanguages`.
+- Translation loading is tracked with `PendingTasks`, so SSR waits for the locale instead of serializing raw key paths.
+- Every public directive carries `@category`, so it appears in the generated API tables and the MCP knowledge pack.
 
-`jig-table` now renders `jig-skeleton` inside its loading rows instead of painting the cell itself, so the table's shimmer comes from the shared control and follows whichever theme is active.
-
-- **New control `jig-meter`.** Breaks a quantity into labelled, colored parts: a stacked bar plus a legend. Every item carries a `label` and a `value`, optionally a `color` and an `icon`. Without `total` the items add up to a full bar; with one, whatever they don't cover stays empty track — pass the remainder as its own item to give it a name and a share. Items that overshoot `total` are clipped and reported through a dev-mode error. Each legend entry shows its share, rounded except for a non-zero sliver below one percent, which reads `<1%`; `showPercentage="false"` hides the numbers visually but keeps them in the accessibility tree. `vertical` stands the bar up — filling bottom-up, the way a gauge reads — and moves the legend beside it. The legend row is templateable through `<ng-template #label>` (or `templateLabel`), which receives the item and its unrounded percentage. Hovering a segment highlights the legend entry that names it, and hovering a legend entry lifts its segment clear of the bar — decorative, and switched off with `highlightOnHover="false"`. Neighbouring segments are parted by a hairline in the track color, the filled run ends in a rounded cap, and an item too small to round up to a visible slice still paints a minimum sliver, so the bar never contradicts its legend. The host is a `role="group"` named by `label`, the bar is `aria-hidden` — the legend is plain text, so nothing depends on color alone. Items without a `color` cycle through a per-theme palette: eight hues in nova and material, an interleaved primary ramp in the monochrome shade, and `currentColor` under a base-only theme.
-- Every overlay control now shares one open/close lifecycle, and the bugs the duplicated copies had drifted into are fixed.
-
-Dialog kept lazy, uncached content mounted only until `open` flipped, not until the exit animation ended: the flag meant to span the animation was never reset on open, and the close waited on animations of the host element, which is `display: contents` and never animates. `closed` fired early for the same reason. A cancelled exit animation stranded dialog and tooltip half-closed — content mounted, `closed` never emitted — because the rejection was swallowed; the close now settles instead of hanging, and skips animations that never finish (infinite, paused, idle) so a spinner in projected content cannot wedge it. `closed` and `closing` can no longer fire after the host is destroyed.
-
-Closed overlays are no longer top-layer elements: modal dialogs drop the unused `popover` attribute, and popover, tooltip, toast and snackbar carry theirs only while open. Password managers that count top-layer entries no longer read a page full of jig controls as top-layer hijacking and disable their inline menu. Toast and snackbar regions occupy the top layer only while they hold items, and stay until the last item has animated out — previously the region entered at app start, so any modal opened later covered it.
-
-`Openable` gains an optional `closing` output and documented semantics for the members every overlay shares, and dialog and drawer now expose that output alongside popover — it fires when the close starts, where `closed` fires once the exit animation has finished. Drawer and tooltip hide themselves via `:not(:popover-open)` in the base theme instead of relying on the user-agent rule for the `popover` attribute, which is no longer present while they are closed.
-
-- **Roving focus only claims elements that can actually take focus.** `resolveFocusable` now returns `undefined` instead of falling back to the control's host when the control has nothing focusable in it, and callers skip those controls. A decorative `jig-icon` — including the icon inside an icon button — is a `JIG_CONTROL`, so a container collecting its descendant controls used to register it and stamp a `tabindex` on it, adding phantom stops to the roving order.
-
-Controls built from `tabindex` rather than a native element now resolve to the innermost such element. `jig-input-field` carries a `tabindex` of its own but only forwards focus to the control it wraps, so a `jig-select` inside a field is the tab stop and the field is not. The test is structural rather than reading tabindex values, since roving rewrites the values of everything it owns and a value-based rule would not survive a re-registration.
-
-`jig-toolbar` registers its items in an after-render effect. Which element owns a control's tab stop is read off the DOM, and a projected control's own bindings — the `tabindex` a `jig-select` puts on its trigger — are not applied yet while the toolbar's view is being refreshed, so a `jig-select` in a toolbar was silently skipped by the arrow keys.
-
-- **Right-to-left support.** Controls read the writing direction from the DOM: set `dir` on `<html>` or on any element and everything below it mirrors. There is no RTL mode to enable, no per-control input, and no service to configure. Because `direction` is an inherited CSS property, it resolves per subtree — a `dir="rtl"` island inside a left-to-right page works, and so does the reverse.
-
-Layout and styling are mirrored throughout. Padding, margins, borders and corner radii across every theme part are written as CSS logical properties, so they follow the inline axis instead of a fixed side. The pieces CSS cannot express logically are handled per theme with `:dir(rtl)`: gradient direction and `background-position` (the scroll-shadow layer, the table's sticky-column edges and the tabs overflow fades are mirrored as a whole rather than duplicating every fade), `transform-origin` on the snackbar progress bar, and the `translate()` offsets behind the badge's corner overhang, the switch thumb travel, the vertical meter's highlight lift and the drawer's slide-in.
-
-Keyboard navigation follows the inline axis, so in RTL `ArrowLeft` advances. That includes the cases where the axis carries meaning rather than order: tree nodes expand away from the root, submenus open away from their parent, and a table row's action bar is entered from the row's inline-end. `ArrowUp`/`ArrowDown` stay physical — the block axis does not flip.
-
-Pointer interaction mirrors too. A slider's value is measured from the track's minimum end, and the splitter divider, table column resize and table column reorder all resolve against the inline-start edge, so a positive drag keeps its meaning in both directions. The native resize grip that `jigResizable` hit-tests is found in the bottom inline-end corner, which is bottom-left under RTL.
-
-Three things stay physical on purpose. `placement="left"` on a tooltip, popover or menu means the left — only the alignment half (`-start`/`-end`) follows the direction, which floating-ui already handles. `jigMovable` writes physical coordinates, so a freely dragged element goes where the pointer goes. And the colour picker's saturation, hue and alpha gradients are painted left-to-right with pointer maths to match, so a hue ramp does not reverse when the page does.
-
-New in `@awdlab/jig/api/ng`: `isRtl(el)` answers per element and is meant to be called at the point of use rather than cached, which keeps `getComputedStyle` out of the reactive graph; `inlineArrowStep(el, key)` resolves a horizontal arrow key into a step along the inline axis; `notifyDirectionChanged()` tells already-open overlays to re-resolve their placement after a runtime `dir` change, with `onDirectionChange()` to register that work. None of this is needed when the direction is set once at bootstrap, nor for anything styled with logical properties or `:dir(rtl)` — CSS re-matches on its own.
-
-Two bugs surfaced along the way. Sticky table columns pinned to the wrong edge in RTL: their offsets are accumulated in visual column order but were applied to physical `left`/`right`, so a sticky-end column did not stick at all. And the off-screen parking used to keep collapsed toolbar items and the item-view measurable (`left: -9999px`) created real scrollable overflow in RTL — overflow toward the inline-start is not scrollable, but the mirrored position is — which showed up as a phantom horizontal scrollbar.
-
-Directional glyphs in the default icon set are mirrored rather than swapped: `jig-icon` now reflects its `defaultIcon` as `data-default-icon`, and one theme rule flips the chevrons and carets used by the breadcrumb separator, the calendar's month arrows, submenu markers, the paginator, the table group toggle and the tabs scroll buttons. Keying off the slot means a consumer who overrides one of those icons gets the same treatment, while non-directional slots are untouched.
-
-The docs ship an RTL guide and a **Direction** toggle in the theme picker, which flips the whole site and persists in the same cookie the theme uses, so a returning RTL visitor gets RTL HTML from the server rather than a left-to-right first paint. Every control that renders visible markup of its own has an RTL screenshot test — captured in a state worth looking at, so an open dropdown rather than a closed field — plus interaction tests covering the direction-dependent keyboard, pointer and scroll behaviour.
+## @awdlab/jig 0.0.1-next.6 (2026-08-08 01:35 CEST)
 
 ### Breaking
 
-Inputs and theme classes that named a physical side now name a logical one. `top` and `bottom` are unchanged.
+- Bindings that leaned on the old `unknown` may stop compiling. `[kind]="null"` is the common one — the input accepts `undefined`, not `null`.
 
-```diff
--<jig-drawer position="left" />
-+<jig-drawer position="start" />
+### Fixed
 
--<jig-upload listPosition="right" />
-+<jig-upload listPosition="end" />
+- `kind` and `color` resolve to the active theme's literal unions again. `CustomKind` / `CustomColor` collapsed to `unknown` without an augmentation, and the augmentations themselves were unreachable; each theme now ships a `typed.d.ts` barrel that references them.
 
--<jig-tabs [iconScrollLeft]="…" [iconScrollRight]="…" />
-+<jig-tabs [iconScrollStart]="…" [iconScrollEnd]="…" />
-```
+### Added
 
-`JigUploadListPosition` is now `'top' | 'bottom' | 'start' | 'end'`, and the drawer's `position` is `'top' | 'end' | 'bottom' | 'start' | 'fullscreen'`. The `data-position` attribute the drawer reflects carries the new values, as does `JigDrawerHarness.expectPosition`.
+- `@awdlab/jig-themes/<theme>/untyped` for apps that load more than one theme — two `JigThemeTypes` augmentations clash, so the extra themes opt out.
 
-Theme parts and `JigPassthrough` keys follow: `tabs` exposes `scroll-start` / `scroll-end` in place of `scroll-left` / `scroll-right`, and `upload` exposes `list-start` / `list-end` in place of `list-left` / `list-right`. The matching default-icon keys are now `tabs-scroll-start` and `tabs-scroll-end`. `jig-tooltip` is deliberately unchanged — its `left` / `right` classes come from floating-ui's resolved physical side and sit alongside the separate `start` / `end` alignment classes.
+## @awdlab/jig 0.0.1-next.5 (2026-08-07 22:32 CEST)
 
-`jigScrollAmount` reports a distance rather than a physical offset, because browsers report a negative `scrollLeft` in RTL:
+### Fixed
 
-```diff
--scrollAmount.scrollLeft()
-+scrollAmount.scrollInlineStart()
+- WCAG 2.2 AA: inline icon buttons hold a 24×24px minimum target size, and every muted `color:` in nova moves one shade darker (3.85:1 → 5.47:1 or better).
+- Virtualized `role="listbox"` / `role="tree"` hosts own their scroll port. `JigListBox.pageSize()` measures the host, so `PageDown` no longer jumps to the end, and stuck group headers keep the gap to the container border.
+- `jig-scroller` emits a `tabindex` only when `focusable`.
+- `JigBadge`, `JigScrollShadow` and `JigKeyboardShortcut` were missing `@category`, so their API tables rendered empty (65 controls in the MCP pack, up from 62).
 
--scrollAmount.distanceFromRight()
-+scrollAmount.distanceFromInlineEnd()
-```
+### Changed
 
-- **New control `jig-toolbar`.** Arranges controls across three placements — start, center and end — in either orientation, and decides what happens when they stop fitting. It is a layout-and-focus container: it does not own the state of the controls inside it. Projected content lands in the start placement; `placement="center"` and `placement="end"` move it into the other tracks, as static attributes rather than bindings, since Angular resolves content projection at compile time. The side placements reserve equal space, so the center placement is centered against the toolbar rather than against whatever the sides happen to weigh, and an empty center track costs nothing; past the point where a side needs more than its half, the center gives way rather than the side wrapping. `orientation="vertical"` stacks the tracks and switches the measured axis to the block direction. The whole toolbar is a single tab stop: `role="toolbar"` with `aria-orientation`, one roving tabindex across all three placements, arrow keys along the orientation, `Home`/`End` to the ends, disabled controls skipped.
+- The axe helper scans `wcag22aa` with `color-contrast` enabled; only `region` stays disabled.
+- `@awdlab/jig-mcp` migration maps cover the newer controls (rating, color-picker, stepper, OTP, scroller, inplace-editor, keyboard).
 
-`overflow` decides the response to a shortage of space. `'wrap'` (the default) grows the toolbar along the cross axis — pure CSS, nothing is measured, so any projected content works and a simple toolbar needs no extra markup. A placement wraps as a whole, moving to the next line as one group and only wrapping inside itself when that group alone is wider than the toolbar, so a full start placement first uses the room the end placement does not need. `'popover'` collapses whatever no longer fits into a `…` trigger per placement, which reveals the collapsed items in a popover. Collapsing means rendering an item in two places, so collapsible content is declared as `<ng-template #item>` inside a `jig-toolbar-region`; each item template receives an `overflowed` flag, so the same template can render an icon-only button in the bar and an icon-plus-label row in the popover. Because the template renders twice, item state has to live in the parent component. Projected content that cannot collapse is refused with a dev-mode error rather than silently consuming track space the collapse math never accounted for.
+## @awdlab/jig 0.0.1-next.4 (2026-08-07 16:03 CEST)
 
-**New control `jig-toolbar-region`.** A group of items sharing a placement and a collapse `priority`: regions pooled in one placement give up the lowest priority first, regardless of where they sit visually, so a low-priority region on the left can empty while the region to its right stays full. Ties collapse in reverse DOM order. The region is `display: contents`, so its items are direct children of the placement track and a single gap applies across all regions in it — the gap the collapse math reads out of the theme.
+### Fixed
 
-Collapsed items stay in the DOM, laid out off-screen, so the toolbar keeps measuring them at their natural size; hiding them would measure zero, everything would "fit", and the toolbar would flip forever. Their in-bar copy is `inert` and `aria-hidden="true"`, so only the copy inside the popover is exposed and no item is announced twice or becomes a phantom tab stop. Inside the popover, controls use the native tab order rather than a roving tabindex. The `…` trigger is a real button with a translated `aria-label` (`toolbar.overflow`, new in en and de) and `aria-expanded`, drawn with the new `toolbar-overflow` default icon or an `iconOverflow` of your own; while nothing is collapsed it is inert and hidden from assistive tech. Both halves are templateable — `<ng-template #overflow>` / `templateOverflow` for the trigger, `<ng-template #popoverContent>` / `templatePopoverContent` for the popover body.
+- A control that renders already open no longer hides its own content. `jig-control-initializing` now lifts in the `write` phase, so `autofocus` inside a dialog opened with `open="true"` is honoured.
+- `[jigMovable]` and `[jigResizable]` end an interaction on `pointercancel`, not just `pointerup`, so touch scrolling no longer leaves a drag running.
+- `[jigResizable]` stops observing size and ignores pointer presses while its binding is falsy.
 
-Ships with base, nova, shade and material theme parts for both the toolbar and the region, and a `JigToolbarHarness` for Playwright.
+## @awdlab/jig 0.0.1-next.3 (2026-08-07 01:43 CEST)
 
-## @awdlab/jig 0.0.2 (2026-08-08)
+### Breaking
 
-- Readme adjustments
+- `JigActionButtonConfig.action` widens to `(event?: PointerEvent) => void`. This is **not** a compile error — audit your callbacks and change unconditional `event.foo` access to `event?.foo`, or the call throws when the action runs from a shortcut.
 
-## @awdlab/jig 0.0.1 (2026-08-08)
+### Added
 
-- Angular peer dependencies are published as `^22.0.5` instead of the exact `22.0.5`. The peers are declared as `catalog:`, and the catalog pins exact versions to keep workspace installs reproducible — that pin was being copied verbatim into the published package, so every consumer on any later Angular patch hit a peer conflict and `ng update` refused to run without `--force`. Only bare versions are widened; ranges already written as `~` or `^` are left as-is.
-- Document the directive API and fix two i18n gaps.
+- `@awdlab/jig/kbd`: `jig-kbd`, `[jigKeyboardShortcut]` and the Angular-free helpers `parseShortcut`, `matchesShortcut`, `formatShortcut`, `ariaKeyShortcuts`, `closestShortcutScope`. `mod` renders ⌘ on macOS, ⌃ elsewhere.
+- `@awdlab/jig/command`: `jig-command`, a command palette with grouped items, per-command shortcuts, `route` navigation and templates for items, groups and the empty state (en/de translations, all four themes).
+- `shortcut` on `JigActionButtonConfig` and `JigActionItem`; `jig-dialog` is itself a shortcut scope.
+- `jig-dialog` gains `closeButton` (default `true`) and `label`; the header and footer are dropped when nothing fills them.
+- `jig-list-box` gains `separator`, plus `Home` / `End` / `PageDown` / `PageUp`.
+- `backdrop` theme part in nova and shade — modal dialog and drawer backdrops blur what sits behind them.
 
-- Every public directive and the remaining table structure directives now carry
-  `@category`, so they appear in the generated API tables and in the MCP
-  knowledge pack: `jigAutofocus`, `jigMovable`, `jigResizable`, `jigScrollAmount`,
-  `jigDrag`, `jigDragScroll`, `jigRovingGroup`/`jigRovingItem`, `jigContextMenu`,
-  `jig-action-button`, `jigScrollerItem`, and the table's `th`/`td`/`tr`,
-  sticky-column and row-actions directives.
-- `customTranslations` languages are now selectable. They were registered but
-  never added to `availableLanguages`, so `setLanguage('fr')` silently fell back
-  to English.
-- Translation loading is tracked with `PendingTasks`, so server-side rendering
-  waits for the locale instead of serializing raw key paths that were then
-  swapped out on hydration.
+### Changed
 
-## @awdlab/jig 0.0.1-next.6 (2026-08-07)
+- Nova theme redesign.
 
-- `kind` and `color` resolve to the active theme's literal unions again, and importing a theme is all it takes to get there. Two separate defects kept the custom-type mechanic from ever working.
+## @awdlab/jig 0.0.1-next.2 (2026-07-28 00:45 CEST)
 
-`CustomKind` and `CustomColor` collapsed to `unknown` whenever no augmentation was loaded. `never extends readonly (infer A)[]` matches with no inference candidate, so `A` widened to `unknown`, and the `extends never` guard written to catch that could never fire — a bare `X extends never` does not match `never`. Every `kind`/`color` binding was therefore checked against `unknown`, so `kind="nonsense"` passed anywhere. Both types now guard with `[X] extends [never]` and fall back to `string`.
+### Fixed
 
-The theme augmentations were also unreachable. `<theme>/theme-types.d.ts` shipped in the package but nothing pulled it into a consumer's program: no reference from the theme barrel, no `exports` entry to import or reference it by, and it lives under `node_modules`, so app `include` globs miss it. Each theme now ships a `typed.d.ts` barrel that references it, and `@awdlab/jig-themes/<theme>` resolves its types there.
+- Validity state fixes and assorted smaller issues.
 
-Apps that pull in more than one theme have to opt out for the extra ones via the new `@awdlab/jig-themes/<theme>/untyped` entry point — two augmentations of `JigThemeTypes` clash, and the first one loaded silently wins. Both entry points resolve to the same runtime module; only the types differ.
+## @awdlab/jig 0.0.1-next.1 (2026-07-20 21:47 CEST)
 
-Bindings that leaned on the old `unknown` may now fail to compile. `[kind]="null"` is the common one: the input accepts `undefined`, not `null`.
+### Added
 
-## @awdlab/jig 0.0.1-next.5 (2026-08-07)
+- `jig-otp` — single-character cells with keyboard navigation, paste distribution, `mask` / `integerOnly` / `length` and a `(completed)` output. Base/nova/shade theme parts and `JigOtpHarness` included.
 
-- The axe helper now scans the `wcag22aa` rule set with `color-contrast` enabled, and the four controls that carried `test.fixme` a11y checks pass it. Only `region` stays globally disabled (a test-wrapper artifact).
+## @awdlab/jig 0.0.1-next.0 (2026-07-17 01:31 CEST)
 
-Target size (2.5.8): inline icon buttons were sized at `1lh` — 15x16px inside `jig-edit-inplace` — and now hold a 24x24px minimum in the base theme, covering the tree toggle, the input-field clear button and the table row actions in one place. The chip remove button grows from 22px to the same 24px minimum.
-
-Contrast (1.4.3): every muted `color:` in nova moves one shade darker (400 → 500, 500 → 600, 600 → 700), lifting the table head, upload size and color-picker channel labels from 3.85:1/4.06:1 to 5.47:1 or better. Backgrounds and borders are untouched. Mask-input placeholder segments and calendar other-month days stay below 4.5:1 by decision, with a scoped opt-out recording the measured ratio.
-
-Virtualized `role="listbox"` / `role="tree"` hosts now own the scroll port, so the role host is both the scrollable region and the direct parent of its options. `jig-scroller` emits a `tabindex` only when `focusable`, because even `-1` makes it focusable to axe. `JigListBox.pageSize()` measured the scroller's `clientHeight`, which is now `auto`, so `PageDown` jumped to the end — it measures the host instead. Stuck group headers paint over the scroll port's padding band, keeping the gap to the container border. `JigScrollerHarness.scrollToIndex` scrolled the wrong element and silently did nothing.
-
-`JigBadge`, `JigScrollShadow` and `JigKeyboardShortcut` were missing the `@category` tag the API-docs generator keys off, so their documented API tables rendered empty and the MCP knowledge pack skipped them entirely. All three are now generated (65 controls in the pack, up from 62).
-
-`@awdlab/jig-mcp` migration maps catch up with the controls added since they were written: `p-rating`, `p-colorPicker` and `mat-stepper` no longer claim "no direct equivalent" (they map to `jig-rating`, `jig-color-picker` and `jig-stepper`/`jig-step`), badges map to the `[jigBadge]` directive instead of `jig-tag`, and `p-inputOtp`, `p-stepper`, `p-scroller`, `ejs-rating`, `ejs-stepper`, `ejs-colorpicker`, `ejs-otpinput`, `ejs-inplaceeditor` and `ejs-keyboard` are new entries. The table recipe documents `dataSource` lazy loading and the form recipe documents `[jigErrors]` with signal forms.
-
-Docs corrections: the material theme was missing wherever the library's presets were counted (introduction, theming overview, dark mode, READMEs, the themes package description). The default `color` is the theme's first entry — `primary` for nova, not `surface`. `jig-message` has no `filled` kind. The icon registry covers 45 slots, not ~42. The control anatomy and theme-internals guides described a nova-only theme layer, and the installation guide omitted the `@angular/compiler` peer.
-
-## @awdlab/jig 0.0.1-next.4 (2026-08-07)
-
-- A control that renders already open no longer hides its own content from the browser. Every control starts out with `jig-control-initializing` (`display: none`) to avoid a flash of unstyled content, and dropped that class in the same after-render phase that `jig-dialog` uses to call `showModal()` — so a dialog created with `open` set to `true` ran its native focusing steps while the controls inside it were still hidden. Anything carrying `autofocus` was skipped as unfocusable and focus fell through to the header close button. The class now lifts in the earlier `write` phase, ahead of any `mixedReadWrite` hook.
-
-`[jigMovable]` and `[jigResizable]` now end an interaction on `pointercancel`, not just `pointerup`. Touch scrolling takes the pointer away and only fires `pointercancel`, which left both directives believing a drag or resize was still running — on the command palette that baked the dialog's position and size in place the next time the filter changed its height. `[jigResizable]` also stops observing size and ignores pointer presses while its binding is falsy.
-
-## @awdlab/jig 0.0.1-next.3 (2026-08-06)
-
-- Nova theme redesign + various fixes
-- New `@awdlab/jig/kbd` entry point: `jig-kbd` displays a keyboard shortcut, `[jigKeyboardShortcut]` runs shortcut callbacks scoped to focus within an element (a binding marked `global` fires page-wide instead), and the exported helpers `parseShortcut`, `matchesShortcut`, `formatShortcut`, `ariaKeyShortcuts` and `closestShortcutScope` are the Angular-free building blocks underneath. `mod` renders ⌘ on macOS and ⌃ elsewhere, matching the key it resolves to. `@awdlab/jig/api/ng` gains the `isMacPlatform()` helper the `mod` resolution is built on.
-
-New `@awdlab/jig/command` entry point: `jig-command` is a command palette — a modal dialog wrapping a search field and a list box, with grouped items, per-command shortcuts, `route` navigation, and templates for items, groups and the empty state. Ships `command_*` translations (en, de) and theme parts for base, nova, material and shade.
-
-`JigActionButtonConfig` gains `shortcut`: the button registers it with the nearest ancestor `[jigKeyboardShortcut]` scope, renders the glyphs inline as a hidden keycap, and sets `aria-keyshortcuts`. `JigActionItem` gains `shortcut` for the same purpose in item-driven hosts. `jig-dialog` is itself a scope, so footer buttons need no extra wiring.
-
-`jig-dialog` gains `closeButton` (default `true`) and `label`. With `closeButton` set to `false` and neither a title nor a header template the header is dropped entirely, and the footer is likewise dropped when nothing fills it. `aria-labelledby` is only emitted when a header actually renders; `label` supplies `aria-label` for a dialog with no visible title.
-
-`jig-list-box` gains `separator`, drawing a divider above every group but the first, and grows its keyboard support: `Home` / `End` highlight the first / last enabled option, `PageDown` / `PageUp` move by a visible page's worth of rows and stop at the ends. Its root is now a column flex box, so the scroller resolves a height inside a flex parent.
-
-Nova and shade gain a `backdrop` theme part (`backdrop.scrim`, `backdrop.blur.*`); their modal dialog and drawer backdrops now blur what sits behind them.
-
-Breaking: `JigActionButtonConfig.action` widens to `(event?: PointerEvent) => void`, because a shortcut-invoked action has no pointer event to pass. TypeScript still accepts a callback that declares the parameter as required (`(event: PointerEvent) => void`), so this does **not** surface as a compile error — audit your `action` callbacks by hand and change any unconditional `event.foo` access to `event?.foo`, or the call throws the first time the action runs from a keyboard shortcut.
-
-## @awdlab/jig 0.0.1-next.2 (2026-07-27)
-
-- Validity State fixes
-- Various issues & fixes
-
-## @awdlab/jig 0.0.1-next.1 (2026-07-20)
-
-- Add the `jig-otp` one-time-password control — a row of single-character cells with keyboard navigation, paste distribution, `mask`/`integerOnly`/`length` options and a `(completed)` output. Includes base/nova/shade theme parts and a Playwright `JigOtpHarness`.
-
-## @awdlab/jig 0.0.1-next.0 (2026-07-16)
-
-- fixed stuff
-- Release readiness set up
+- First prerelease: release readiness set up.

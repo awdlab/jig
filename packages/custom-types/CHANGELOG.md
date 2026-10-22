@@ -1,21 +1,26 @@
 # Changelog
 
-## @awdlab/jig-custom-types 0.0.1 (2026-08-08)
+Release times are Central European Time (CET/CEST), the project's local time zone.
 
-- Readme adjustments
+## @awdlab/jig-custom-types 0.0.1 (2026-08-24 23:47 CEST)
 
-## @awdlab/jig-custom-types 0.0.1-next.1 (2026-08-07)
+First stable release.
 
-- `kind` and `color` resolve to the active theme's literal unions again, and importing a theme is all it takes to get there. Two separate defects kept the custom-type mechanic from ever working.
+### Fixed
 
-`CustomKind` and `CustomColor` collapsed to `unknown` whenever no augmentation was loaded. `never extends readonly (infer A)[]` matches with no inference candidate, so `A` widened to `unknown`, and the `extends never` guard written to catch that could never fire — a bare `X extends never` does not match `never`. Every `kind`/`color` binding was therefore checked against `unknown`, so `kind="nonsense"` passed anywhere. Both types now guard with `[X] extends [never]` and fall back to `string`.
+- The package is installable again — it shipped two manifests, and the root one pointed at an `./index.js` one directory down with no `exports` at all.
+- Re-exports carry explicit `.js` extensions (`module: nodenext`), so `node16`/`nodenext` resolution works. The package was never covered by the old post-build rewrite script.
 
-The theme augmentations were also unreachable. `<theme>/theme-types.d.ts` shipped in the package but nothing pulled it into a consumer's program: no reference from the theme barrel, no `exports` entry to import or reference it by, and it lives under `node_modules`, so app `include` globs miss it. Each theme now ships a `typed.d.ts` barrel that references it, and `@awdlab/jig-themes/<theme>` resolves its types there.
+## @awdlab/jig-custom-types 0.0.1-next.1 (2026-08-08 01:35 CEST)
 
-Apps that pull in more than one theme have to opt out for the extra ones via the new `@awdlab/jig-themes/<theme>/untyped` entry point — two augmentations of `JigThemeTypes` clash, and the first one loaded silently wins. Both entry points resolve to the same runtime module; only the types differ.
+### Breaking
 
-Bindings that leaned on the old `unknown` may now fail to compile. `[kind]="null"` is the common one: the input accepts `undefined`, not `null`.
+- Bindings that leaned on the old `unknown` may stop compiling. `[kind]="null"` is the common one — the input accepts `undefined`, not `null`.
 
-## @awdlab/jig-custom-types 0.0.1-next.0 (2026-07-16)
+### Fixed
 
-- Release readiness set up
+- `CustomKind` and `CustomColor` no longer collapse to `unknown` without an augmentation. `never extends readonly (infer A)[]` matched with no inference candidate and the `extends never` guard could never fire; both now guard with `[X] extends [never]` and fall back to `string`.
+
+## @awdlab/jig-custom-types 0.0.1-next.0 (2026-07-17 01:31 CEST)
+
+- First prerelease: release readiness set up.
