@@ -16,6 +16,13 @@ interface TheaterStep {
 
 const ITEMS = ['Home', 'Search', 'Profile', 'Settings'];
 
+/** Autoplay beat. Reduced motion slows the loop down rather than freezing the stage. */
+const STEP_MS = 1100;
+const STEP_MS_REDUCED = 3000;
+
+/** Share of a beat the keycap stays lit. */
+const KEY_HOLD_RATIO = 0.36;
+
 /** What every control ships with, no wiring on your side. */
 const GUARANTEES: readonly { label: string; body: string }[] = [
   {
@@ -71,6 +78,13 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
                   </span>
                 }
               </div>
+              @if (reducedMotion()) {
+                <p
+                  class="mt-(--jig-size-padding-md) text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)"
+                >
+                  Reduced motion is on, so the demo steps through at a slower pace.
+                </p>
+              }
             </div>
 
             <dl class="flex flex-col gap-(--jig-size-padding-lg)">
@@ -168,6 +182,7 @@ export class JigDocsAccessibilitySection {
   protected readonly guarantees = GUARANTEES;
   protected readonly keys = ['Tab', '←', '→', 'Home', 'End', 'Space'];
 
+  protected readonly reducedMotion = signal(false);
   protected readonly pressedKey = signal<string | null>(null);
   protected readonly simIndex = signal(0);
   protected readonly switchOn = signal(false);
@@ -208,20 +223,22 @@ export class JigDocsAccessibilitySection {
     const destroyRef = inject(DestroyRef);
 
     afterNextRender(() => {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        return;
-      }
+      this.reducedMotion.set(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
       this._startAutoplay();
     });
 
     destroyRef.onDestroy(() => this._stopAutoplay());
   }
 
+  private _stepMs(): number {
+    return this.reducedMotion() ? STEP_MS_REDUCED : STEP_MS;
+  }
+
   private _startAutoplay(): void {
     if (this._stepTimer !== null) {
       return;
     }
-    this._stepTimer = setInterval(() => this._playStep(), 1100);
+    this._stepTimer = setInterval(() => this._playStep(), this._stepMs());
   }
 
   private _stopAutoplay(): void {
@@ -253,6 +270,6 @@ export class JigDocsAccessibilitySection {
     if (this._keyTimer !== null) {
       clearTimeout(this._keyTimer);
     }
-    this._keyTimer = setTimeout(() => this.pressedKey.set(null), 400);
+    this._keyTimer = setTimeout(() => this.pressedKey.set(null), this._stepMs() * KEY_HOLD_RATIO);
   }
 }
