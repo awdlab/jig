@@ -91,7 +91,7 @@ export class JigTable<
     selectable: () => !!this.selectionMode(),
     reorderable: () => this.reorderable(),
     reordering: () => this._columns?.isReordering() ?? false,
-    loading: () => this.loadStatus() === 'loading',
+    loading: () => this.isLoading(),
   });
   private readonly _scroller = viewChild.required(JigScroller);
   private readonly _grid = viewChild.required<ElementRef<HTMLElement>>('scrollContainer');
@@ -141,6 +141,12 @@ export class JigTable<
    * @default false
    */
   public readonly paginator = input<boolean>(false);
+  /**
+   * Whether the table is loading. Renders skeleton rows in place of the body.
+   * Client-side mode only — with {@link dataSource} the table tracks this itself.
+   * @default false
+   */
+  public readonly loading = input(false, { transform: booleanAttribute });
 
   /**
    * A loader callback for server-driven lazy loading. When set, the table fetches
@@ -277,6 +283,8 @@ export class JigTable<
   });
 
   protected readonly loadStatus = this._lazyModel.status;
+  /** Loading from either source: the {@link loading} input or a lazy fetch in flight. */
+  protected readonly isLoading = computed(() => this.loading() || this.loadStatus() === 'loading');
   protected readonly loadError = this._lazyModel.error;
   protected readonly loadTotal = this._lazyModel.total;
   protected readonly lazyHasMore = this._lazyModel.hasMore;
@@ -370,9 +378,9 @@ export class JigTable<
     return `${this._gridId}_row_${index}`;
   }
 
-  /** Number of placeholder rows to show while a lazy load is in flight. */
+  /** Number of placeholder rows to show while loading. */
   protected readonly skeletonRows = computed(() => {
-    if (this.loadStatus() !== 'loading') return 0;
+    if (!this.isLoading()) return 0;
     return this.paginator()
       ? (this.pageState()?.page.size ?? DEFAULT_LAZY_PAGE_SIZE)
       : this.virtualPadding() * 2 + 1;
@@ -404,8 +412,8 @@ export class JigTable<
   });
 
   protected readonly pagedRows = computed<FormattedTableRow<T>[]>(() => {
-    // Lazy pagination clears rows while fetching so skeletons replace the page.
-    if (this.lazy() && this.lazyMode() === 'paginate' && this.loadStatus() === 'loading') {
+    // Skeletons replace the body while loading; infinite scroll keeps what it already has.
+    if (this.isLoading() && (!this.lazy() || this.lazyMode() === 'paginate')) {
       return [];
     }
     // Lazy loaders return exactly one page — never re-slice client-side.

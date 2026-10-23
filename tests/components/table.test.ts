@@ -21,6 +21,7 @@ const TABLE_TEMPLATE = `
     style="height: 400px"
     [rows]="inputs().rows"
     [fieldId]="'id'"
+    [loading]="inputs().loading"
     [selectionMode]="inputs().selectionMode"
   >
     <ng-template #header>
@@ -510,6 +511,24 @@ test.describe('Table Lazy - pagination', () => {
     // Page 0 must have been fetched exactly once — the cache served the return trip.
     const pages = await page.evaluate(() => (window as any).__lazyPages ?? []);
     expect(pages.filter((p: number) => p === 0)).toHaveLength(1);
+  });
+
+  test('client-side mode shows skeleton rows while [loading] is set', async ({ page }) => {
+    const { setInputs } = await loadComponent(
+      page,
+      { template: TABLE_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
+      { inputs: { rows: TABLE_ROWS, loading: true } }
+    );
+
+    const harness = table(page);
+    await harness.expectLoading();
+    await expect(page.locator('tbody tr[class*="skeleton-row"]')).toHaveCount(5);
+    await expect(getBodyRows(page)).toHaveCount(0);
+
+    await setInputs({ rows: TABLE_ROWS, loading: false });
+    await expect(page.locator('tbody tr[class*="skeleton-row"]')).toHaveCount(0);
+    await expect(getBodyRows(page)).toHaveCount(TABLE_ROWS.length);
+    await harness.expectLoading(false);
   });
 
   // The loader is held open via a window-hung resolver so the pending state stays.

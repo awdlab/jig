@@ -28,7 +28,7 @@
   [attr.aria-label]="label()"
   [attr.aria-labelledby]="labelledBy()"
   [attr.aria-activedescendant]="activeRowId()"
-  [attr.aria-busy]="loadStatus() === 'loading' ? true : null"
+  [attr.aria-busy]="isLoading() ? true : null"
   [attr.aria-multiselectable]="selectionMode() === 'multi' ? true : null"
   [attr.aria-colcount]="totalColumnCount()"
   [attr.aria-rowcount]="ariaRowCount()"

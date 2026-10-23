@@ -28,7 +28,7 @@ a `JigError` (grouping needs the full row set, which lazy mode never has).
 
 | Template slot | Context            | Description                                                                                   |
 | ------------- | ------------------ | --------------------------------------------------------------------------------------------- |
-| `#loading`    | —                  | Rendered instead of the default skeleton rows while a lazy load is in flight.                 |
+| `#loading`    | —                  | Rendered instead of the default skeleton rows while loading (lazy fetch or `[loading]`).      |
 | `#error`      | `{ error, retry }` | Rendered instead of the default error row when a lazy load rejects. `retry` calls `reload()`. |
 
 The loader has the shape `(req: TableLoadRequest) => Promise<TableLoadResult<T>>`:
