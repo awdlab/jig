@@ -45,13 +45,13 @@ type ConditionInternal = {
   rawValue: string | null;
 };
 
-type OperatorDef = {
+export type OperatorDef = {
   id: JigFilterOperatorId;
   labelKey: string;
   requiresValue: boolean;
 };
 
-function defaultOperatorsForType(dataType: JigFilterDataType) {
+export function defaultOperatorsForType(dataType: JigFilterDataType) {
   switch (dataType) {
     case 'string':
       return [
