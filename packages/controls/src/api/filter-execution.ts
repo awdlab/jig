@@ -34,6 +34,25 @@ type JigFilterConfig = {
   conditions: readonly JigFilterConditionConfig[];
 };
 
+type JigFilterAttribute<T = unknown> = {
+  key: string;
+  label: string | (() => string);
+  dataType: JigFilterDataType;
+  listOptions?: readonly string[];
+  selector?: (item: T) => unknown;
+};
+
+type JigAttributeFilterConditionConfig = {
+  attribute: string;
+  operator: JigFilterOperatorId;
+  rawValue: string | null;
+};
+
+type JigAttributeFilterConfig = {
+  matchMode: JigFilterMatchMode;
+  conditions: readonly JigAttributeFilterConditionConfig[];
+};
+
 type JigFilterCondition = {
   operator: JigFilterOperatorId;
   value: unknown;
@@ -300,4 +319,56 @@ export function executeMultiFilter<T extends object>(
     result = executeFilter(result, forcedAll, (item: T): unknown => item[key]);
   }
   return result;
+}
+
+function readAttributeValue<T>(item: T, attribute: JigFilterAttribute<T>): unknown {
+  if (attribute.selector) {
+    return attribute.selector(item);
+  }
+  const source = (item as { data?: unknown } | null)?.data ?? item;
+  return (source as Record<string, unknown> | null | undefined)?.[attribute.key];
+}
+
+/** Filters by conditions that each name their own attribute; `matchMode` joins them across attributes. */
+export function executeAttributeFilter<T>(
+  data: readonly T[],
+  config: JigAttributeFilterConfig,
+  attributes: readonly JigFilterAttribute<T>[],
+  childrenKey?: keyof T
+): readonly T[] {
+  const active = config.conditions.flatMap(c => {
+    const attribute = attributes.find(a => a.key === c.attribute);
+    if (!attribute) {
+      return [];
+    }
+    const [condition] = getActiveFilterConditions({
+      dataType: attribute.dataType,
+      matchMode: 'all',
+      conditions: [c],
+    });
+    return condition ? [{ attribute, condition }] : [];
+  });
+  if (active.length === 0) {
+    return data;
+  }
+
+  const matches = (item: T): boolean => {
+    const test = ({ attribute, condition }: (typeof active)[number]): boolean =>
+      matchesValue(readAttributeValue(item, attribute), attribute.dataType, condition);
+    return config.matchMode === 'any' ? active.some(test) : active.every(test);
+  };
+
+  const filterLevel = (items: readonly T[]): T[] =>
+    items.flatMap(item => {
+      const children = childrenKey ? item[childrenKey] : undefined;
+      if (Array.isArray(children) && children.length > 0) {
+        const surviving = filterLevel(children as T[]);
+        if (surviving.length > 0) {
+          return [{ ...item, [childrenKey as keyof T]: surviving }];
+        }
+      }
+      return matches(item) ? [item] : [];
+    });
+
+  return filterLevel(data);
 }
