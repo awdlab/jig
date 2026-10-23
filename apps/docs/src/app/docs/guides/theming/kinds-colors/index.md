@@ -101,9 +101,9 @@ and `customizeColors` build both halves from one declaration: the type union **a
 runtime list that feeds defaults and enumeration.
 
 It takes two files. First, a module of your own — `src/app/jig-kinds.ts`, say — that declares
-the lists and augments `JigCustomTypes` with them. The augmentation is global: it applies
-across the whole app as soon as this file is part of the compilation, which importing it from
-your config guarantees.
+the lists and augments `JigCustomTypes` with them. A `declare module` block only applies if its
+file is part of the TypeScript program; here that is guaranteed by your config importing
+`APP_KINDS`, so a plain `.ts` is enough no matter how narrow your `tsconfig` globs are.
 
 ```ts
 // src/app/jig-kinds.ts
@@ -152,12 +152,17 @@ original lists while the runtime list reflects your changes.
 don't mention keep the theme's kinds untouched — there's no need to re-list them.
 
 If you only want the types, compose them by hand instead. `ThemeKind<Control>` and `ThemeColor`
-expose the theme's own values, so `Exclude` and `|` do the work. This needs no second file and
-no `provideJigControls` change — but the runtime lists still come from the theme, so a kind you
-remove this way stays in the enumeration `injectThemeControlKinds` returns:
+expose the theme's own values, so `Exclude` and `|` do the work. This needs no
+`provideJigControls` change — but the runtime lists still come from the theme, so a kind you
+remove this way stays in the enumeration `injectThemeControlKinds` returns.
+
+Write it as a **`.d.ts`**. Nothing imports this file, so it reaches the program only through
+your `tsconfig` — and while the Angular CLI's default `"include": ["src/**/*.ts"]` would pick a
+`.ts` up, a narrower config silently would not, leaving `kind` and `color` as unchecked
+`string` with no error to tell you:
 
 ```ts
-// src/app/jig-kinds.ts
+// src/app/jig-kinds.d.ts
 import type { ThemeColor, ThemeKind } from '@awdlab/jig-custom-types';
 import type {} from '@awdlab/jig-themes/nova';
 
