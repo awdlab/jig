@@ -16,7 +16,7 @@
   [tabindex]="tabindex()"
 >
   <ng-content select="input, textarea" />
-  @if (showClearButton()) {
+  @if (showClearButton() && !readonly()) {
     <button
       tabindex="-1"
       [ptInt]="this"
