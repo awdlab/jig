@@ -9,6 +9,11 @@ export const listBoxStyles = createThemePart({
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
     css: ({ v, c, d }) => css`
+      /* The root is the scroll port, so its padding sits inside the clip. A stuck
+         group would otherwise let rows show in the band above it. */
+      ${c('root')} ${d('scroller', 'item-sticky')} {
+        box-shadow: 0 calc(-1 * ${v('size.padding.sm')}) 0 ${v('color.background')};
+      }
       ${c('root')} {
         border-radius: ${v('size.rounded.md')};
         border: 1px solid ${v('color.border')};
@@ -56,9 +61,12 @@ export const listBoxStyles = createThemePart({
         font-size: ${v('font.size.xs')};
         cursor: default;
       }
+      /* Grouped lists stack their headers while scrolling, so the chip shape goes. */
+      ${c('separator')} ${c('group')} {
+        border-radius: 0;
+      }
       /* every group but the first opens a new section with a divider above it */
       ${c('separator')} ${c('group')}:not(:first-of-type) {
-        border-radius: 0;
         border-top: 1px solid ${v('color.border')};
         margin-top: ${v('size.padding.sm')};
         padding-top: ${v('size.padding.md')};

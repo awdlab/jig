@@ -36,10 +36,16 @@ export const commandStyles = createThemePart({
       ${c('root')} ${d('list-box', 'group')} {
         background: ${v('color.background')};
         color: ${v('color.surface.600')};
+        /* Full-bleed label, not list-box's chip. */
+        border-radius: 0;
         padding: ${v('size.padding.md')} ${v('size.padding.lg')} ${v('size.padding.sm')};
         font-size: ${v('font.size.xs')};
         font-weight: ${v('font.weight.semibold')};
         letter-spacing: 0.06em;
+      }
+      /* The label is flat here, not the chip list-box breaks sections with, so it takes a divider. */
+      ${c('root')} ${d('list-box', 'group')}:not(:first-of-type) {
+        border-top: 1px solid ${v('color.border')};
       }
       ${c('root')} ${d('list-box', 'item')} {
         padding-inline: ${v('size.padding.lg')};

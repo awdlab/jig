@@ -18,9 +18,10 @@ export const listBoxStyles = createThemePart({
         position: relative;
         overflow-anchor: none;
       }
+      /* Never shrink below the items: the scroller is the containing block of the
+         sticky group headers, so a viewport-tall box would unstick them mid-scroll. */
       ${c('root')} ${d('scroller')} {
-        flex: 1;
-        min-height: 0;
+        flex: 1 0 auto;
         overflow: visible;
         height: auto;
       }

@@ -49,6 +49,8 @@ test('IO', async ({ page }, testInfo) => {
 
   await calendar.selectMonth(12);
   await expectOutput();
+  // The pointer rests where the month option was and would hover a day cell underneath.
+  await page.mouse.move(800, 600, { steps: 2 });
   await expectScreenshot(page, testInfo, 'month-selected');
   await calendar.selectDay(30);
   await calendar.expectDate('2023', 'December', '30');
