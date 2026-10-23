@@ -15,6 +15,7 @@ test('features', async ({ page }, testInfo) => {
         class="page-center"
         [actionable]="inputs().actionable"
         [closable]="inputs().closable"
+        [labelClose]="inputs().labelClose"
         (clicked)="output('clicked', $event)"
         (closed)="output('closed', $event)"
       >Chip</jig-chip>
@@ -22,7 +23,7 @@ test('features', async ({ page }, testInfo) => {
       imports: ['chip'],
     },
     {
-      inputs: { actionable: false, closable: false },
+      inputs: { actionable: false, closable: false, labelClose: undefined as string | undefined },
     }
   );
 
@@ -52,8 +53,21 @@ test('features', async ({ page }, testInfo) => {
     await chip.closeButton.focus();
     await expectScreenshot(page, testInfo, 'closable-close-focused');
 
+    await expect(chip.closeButton).toHaveAttribute('aria-label', 'Remove');
+
     await chip.close();
     expect(await handle.getOutputLogAndClear()).toEqual({ closed: [expect.anything()] });
+  });
+
+  await test.step('labelClose', async () => {
+    await handle.setInputs({
+      actionable: false,
+      closable: true,
+      labelClose: 'Remove filter Status',
+    });
+    await expect(chip.closeButton).toHaveAttribute('aria-label', 'Remove filter Status');
+    await handle.setInputs({ labelClose: undefined });
+    await expect(chip.closeButton).toHaveAttribute('aria-label', 'Remove');
   });
 
   await page.mouse.move(0, 0);
