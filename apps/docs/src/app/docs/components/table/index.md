@@ -23,6 +23,15 @@ tracking. Give the table a fixed height, as it scrolls its body internally.
 
 {{ demo: Demo_Table_Base }}
 
+### Everything At Once
+
+One table with most features enabled at the same time: multi selection with
+checkboxes, sortable and filterable columns, a sticky ID column, column resize
+and reorder, pagination and per-row actions (hover a row, or right-click it).
+Each feature is explained on its own in the examples below.
+
+{{ demo: Demo_Table_Showcase }}
+
 ### Selection
 
 Set `selectionMode` to `'single'` or `'multi'` (or leave it `null` to disable
@@ -46,8 +55,9 @@ Add `jigTableSortableColumn` to a header cell. Clicking the header cycles the
 sort ascending → descending → unsorted, reflected in the two-way `[(sort)]`
 model (`{ column, direction }` or `null`). The default comparator handles
 numbers numerically and everything else via `localeCompare`, with nulls first
-on ascending; pass a `sortComparator` to override it. The active header carries
-`aria-sort="ascending" | "descending"`.
+on ascending; pass a `sortComparator` to override it. Set `sortClearable` to
+`false` to drop the unsorted step and toggle between ascending and descending
+only. The active header carries `aria-sort="ascending" | "descending"`.
 
 {{ demo: Demo_Table_Sorting }}
 
@@ -156,3 +166,15 @@ paginator into compact mode (next/previous only, no page count) — useful for
 cursor-based backends where the total row count isn't known.
 
 {{ demo: Demo_Table_CompactCursorPagination }}
+
+### Persisting State
+
+Pass a `storage` config (`key` + optional `JigStorageKind`) to save the table's
+state across reloads via `JigStorage`. Everything the user can change is
+persisted: `sort`, `filters`, `columnOrder`, `columnSizes`, `selection`,
+`expandedGroups` and `page` (index + size). Use `states` to persist only some
+of them, e.g. `{ key: 'my-table', states: ['sort', 'columnSizes'] }`. The `kind`
+accepts `'localstorage'` (default), `'sessionstorage'`, or `'cookie'` — the
+`cookie` kind is SSR-safe and restores state during server rendering.
+
+{{ demo: Demo_Table_Storage }}

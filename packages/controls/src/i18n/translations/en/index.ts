@@ -179,6 +179,7 @@ export const en = {
     noItemsFound: 'No items found',
   },
   table: {
+    filter: 'Filter',
     selectAllRows: 'Select all rows',
     selectRow: 'Select row',
     sortedBy: 'Sorted by {{ column }}, {{ direction }}',

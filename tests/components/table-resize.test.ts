@@ -293,32 +293,23 @@ test('table column resize - proportional mode no overflow even with extreme drag
 test('table column resize - last column has no handle in adjacent and proportional modes', async ({
   page,
 }) => {
+  const visibleHandles = () =>
+    page.evaluate(() => {
+      const handles = document.querySelectorAll('[class*="resize-handle"]');
+      return Array.from(handles).filter(h => getComputedStyle(h).display !== 'none').length;
+    });
+
+  // Adjacent mode: last column has no handle
   await loadTable(page);
+  expect(await visibleHandles()).toBe(3);
 
-  // Adjacent mode: last column handle hidden
-  const adjacentHandles = await page.evaluate(() => {
-    const handles = document.querySelectorAll('[class*="resize-handle"]');
-    return Array.from(handles).map(h => getComputedStyle(h).display !== 'none');
-  });
-  expect(adjacentHandles).toEqual([true, true, true, false]);
-
-  // Proportional mode: last column handle also hidden
+  // Proportional mode: last column has none either
   await loadTable(page, { resizeMode: 'proportional' });
+  expect(await visibleHandles()).toBe(3);
 
-  const proportionalHandles = await page.evaluate(() => {
-    const handles = document.querySelectorAll('[class*="resize-handle"]');
-    return Array.from(handles).map(h => getComputedStyle(h).display !== 'none');
-  });
-  expect(proportionalHandles).toEqual([true, true, true, false]);
-
-  // Push mode: ALL handles visible
+  // Push mode: ALL columns have a handle
   await loadTable(page, { resizeMode: 'push' });
-
-  const pushHandles = await page.evaluate(() => {
-    const handles = document.querySelectorAll('[class*="resize-handle"]');
-    return Array.from(handles).map(h => getComputedStyle(h).display !== 'none');
-  });
-  expect(pushHandles).toEqual([true, true, true, true]);
+  expect(await visibleHandles()).toBe(4);
 });
 
 test('table column resize - push mode no overflow on initial render', async ({ page }) => {

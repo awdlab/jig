@@ -17,7 +17,7 @@ import { JigIcon } from '@awdlab/jig/icon';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
 import { JigTable } from './table';
-import { JigTableTh } from './table-header-cell';
+import { JigTableTh, TABLE_HEADER_INTERACTIVE_SELECTOR } from './table-header-cell';
 
 /**
  * @category directive
@@ -62,8 +62,7 @@ export class JigTableSortableColumn implements OnDestroy {
   };
 
   constructor() {
-    // Runs after JigTableTh's own hook, which wraps the header content in the
-    // `cell-text` span — that span becomes the sort button.
+    // The header cell's template renders the `cell-text` span; it becomes the sort button.
     afterNextRender(() => {
       const text = this._element.nativeElement.querySelector<HTMLElement>(
         `.${this.theme.class('cell-text')}`
@@ -97,18 +96,23 @@ export class JigTableSortableColumn implements OnDestroy {
   protected onHostClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
     if (target.classList.contains(this.theme.class('resize-handle'))) return;
+    // Controls in the header (filter button, consumer buttons) own their clicks.
+    const interactive = target.closest(TABLE_HEADER_INTERACTIVE_SELECTOR);
+    if (interactive && interactive !== this._sortButton) return;
     this.toggleSort();
   }
 
   protected toggleSort(): void {
     const currentSort = this.sort();
     const table = this._table();
-    table?.sort.set(
-      currentSort === null
-        ? { column: this.columnId(), direction: 'asc' }
-        : currentSort === 'asc'
-          ? { column: this.columnId(), direction: 'desc' }
-          : null
-    );
+    if (!table) return;
+    if (currentSort === 'desc' && table.sortClearable()) {
+      table.sort.set(null);
+      return;
+    }
+    table.sort.set({
+      column: this.columnId(),
+      direction: currentSort === 'asc' ? 'desc' : 'asc',
+    });
   }
 }
