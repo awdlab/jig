@@ -16,6 +16,8 @@ provideJigControls({
   disableAnimations: false,
   respectReducedMotion: true,
   customTranslations: { fr: () => import('./i18n/fr').then(m => m.fr) },
+  language: undefined,
+  syncDocumentLang: true,
   theme: {
     preset: nova,
     lazyLoaded: false,
@@ -40,6 +42,8 @@ provideJigControls({
 | `disableAnimations`    | `boolean`                                     | `false`  | Turns off control animations globally; if the OS also reports reduced motion, the reduced-motion tiers take precedence for loading indicators. See [Animations](/guides/animations).                   |
 | `respectReducedMotion` | `boolean`                                     | `true`   | Reduces control animations while the OS reports `prefers-reduced-motion: reduce` — one-shot animations collapse, loading indicators slow, decorative loops stop. See [Animations](/guides/animations). |
 | `customTranslations`   | `Record<string, () => Promise<Translations>>` | —        | Extra languages, loaded on demand. See [i18n](/guides/i18n).                                                                                                                                           |
+| `language`             | `string \| null`                              | —        | Initial language for the built-in strings. Omitted, it adopts `<html lang>`; `null` uses the browser language. See [i18n](/guides/i18n).                                                               |
+| `syncDocumentLang`     | `boolean`                                     | `true`   | Writes the active language back to `<html lang>` on every switch — screen readers rely on the attribute for pronunciation. Turn it off if the app sets it itself. See [i18n](/guides/i18n).            |
 
 #### `theme`
 

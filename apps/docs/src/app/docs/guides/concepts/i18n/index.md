@@ -42,17 +42,30 @@ export class LanguageSwitcher {
 | `translate(key, params)` | One-off lookup with interpolation.                                      |
 | `translations`           | The signal tree behind every built-in string.                           |
 
-The initial language is **`en`**, not the browser's. Call `setLanguage(null)`
-during startup if you want the browser's preference instead:
+### Initial language and `<html lang>`
+
+The initial language is taken from `<html lang>`, falling back to `en` when the
+document declares none. Override it through the config:
 
 ```ts
-provideAppInitializer(() => inject(I18n).setLanguage(null));
+provideJigControls({
+  theme: { preset: nova },
+  language: 'de', // or `null` for the browser's preference
+});
 ```
 
 Resolution is forgiving: an unknown region falls back to its base language
 (`de-AT` → `de`), and an entirely unknown tag falls back to the first available
-language. The service also keeps `<html lang>` in sync with the active
-language, which screen readers rely on for pronunciation.
+language.
+
+Because the tag starts out as the one the document already declares, jig never
+relabels the page on startup. From there it keeps `<html lang>` in sync with
+every `setLanguage()` call, which screen readers rely on for pronunciation. Turn
+that off if the app sets the attribute itself:
+
+```ts
+provideJigControls({ theme: { preset: nova }, syncDocumentLang: false });
+```
 
 ### Adding a language
 

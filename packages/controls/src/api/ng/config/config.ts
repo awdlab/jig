@@ -5,7 +5,12 @@ import {
   makeEnvironmentProviders,
   provideAppInitializer,
 } from '@angular/core';
-import { registerCustomLanguages, type Translations } from '@awdlab/jig/i18n';
+import {
+  JIG_I18N_OPTIONS,
+  registerCustomLanguages,
+  type JigI18nOptions,
+  type Translations,
+} from '@awdlab/jig/i18n';
 import { type DeepPartial, Logger, type LogLevel } from '@awdlab/jig/utils';
 
 import type { TooltipOptions } from './tooltip';
@@ -17,6 +22,18 @@ export const JIG_CONFIG = new InjectionToken<JigConfig>('JIG_CONFIG');
 export type JigConfig = {
   readonly logLevel: LogLevel;
   readonly customTranslations?: Record<string, () => Promise<Translations>>;
+  /**
+   * Initial language tag for the built-in strings. Omit it to adopt `<html lang>`,
+   * pass `null` for the browser language.
+   */
+  readonly language?: string | null;
+  /**
+   * Write the active language back to `<html lang>` on every switch. Turn it off
+   * if the app sets the attribute itself.
+   *
+   * @default true
+   */
+  readonly syncDocumentLang: boolean;
   readonly disableAnimations: boolean;
   /** Collapse control animations to a near-zero duration while `prefers-reduced-motion: reduce` is set. */
   readonly respectReducedMotion: boolean;
@@ -47,6 +64,7 @@ export type JigConfigInit = DeepPartial<
 
 export const defaultJigConfig: JigConfig = {
   logLevel: 'info',
+  syncDocumentLang: true,
   disableAnimations: false,
   respectReducedMotion: true,
   theme: {
@@ -86,6 +104,8 @@ export function provideJigConfig(config?: JigConfigInit): EnvironmentProviders {
       useValue: {
         logLevel: config?.logLevel ?? defaultJigConfig.logLevel,
         customTranslations: config?.customTranslations,
+        language: config?.language,
+        syncDocumentLang: config?.syncDocumentLang ?? defaultJigConfig.syncDocumentLang,
         disableAnimations: config?.disableAnimations ?? defaultJigConfig.disableAnimations,
         respectReducedMotion: config?.respectReducedMotion ?? defaultJigConfig.respectReducedMotion,
         theme: {
@@ -139,6 +159,13 @@ export function provideJigConfig(config?: JigConfigInit): EnvironmentProviders {
           },
         },
       } satisfies JigConfig,
+    },
+    {
+      provide: JIG_I18N_OPTIONS,
+      useFactory: (): JigI18nOptions => {
+        const config = inject(JIG_CONFIG);
+        return { language: config.language, syncDocumentLang: config.syncDocumentLang };
+      },
     },
     provideAppInitializer(() => {
       const config = inject(JIG_CONFIG);

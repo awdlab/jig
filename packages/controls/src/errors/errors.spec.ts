@@ -382,6 +382,8 @@ class FieldAutoInvalidHost {
 }
 
 beforeEach(() => {
+  // I18n seeds from `<html lang>`, which a language switch in an earlier test wrote.
+  document.documentElement.lang = '';
   TestBed.configureTestingModule({
     providers: [
       provideJigControls({ theme: { preset: nova }, disableAnimations: true }, withDefaultIcons()),
