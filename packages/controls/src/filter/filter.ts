@@ -45,11 +45,14 @@ type ConditionInternal = {
   rawValue: string | null;
 };
 
-type OperatorDef = {
+type OperatorDefShape = {
   id: JigFilterOperatorId;
   labelKey: string;
   requiresValue: boolean;
 };
+
+/** Keeps `labelKey` a literal union so it can index the translations. */
+type OperatorDef = ReturnType<typeof defaultOperatorsForType>[number];
 
 function defaultOperatorsForType(dataType: JigFilterDataType) {
   switch (dataType) {
@@ -63,7 +66,7 @@ function defaultOperatorsForType(dataType: JigFilterDataType) {
         { id: 'endsWith', labelKey: 'filter_operators_endsWith', requiresValue: true },
         { id: 'isEmpty', labelKey: 'filter_operators_isEmpty', requiresValue: false },
         { id: 'isNotEmpty', labelKey: 'filter_operators_isNotEmpty', requiresValue: false },
-      ] as const satisfies OperatorDef[];
+      ] as const satisfies OperatorDefShape[];
     case 'number':
       return [
         { id: 'isEqual', labelKey: 'filter_operators_isEqual', requiresValue: true },
@@ -80,7 +83,7 @@ function defaultOperatorsForType(dataType: JigFilterDataType) {
           labelKey: 'filter_operators_lessThanOrEqual',
           requiresValue: true,
         },
-      ] as const satisfies OperatorDef[];
+      ] as const satisfies OperatorDefShape[];
     case 'date':
     case 'dateTime':
       return [
@@ -90,20 +93,20 @@ function defaultOperatorsForType(dataType: JigFilterDataType) {
         { id: 'greaterThanOrEqual', labelKey: 'filter_operators_onOrAfter', requiresValue: true },
         { id: 'lessThan', labelKey: 'filter_operators_before', requiresValue: true },
         { id: 'lessThanOrEqual', labelKey: 'filter_operators_onOrBefore', requiresValue: true },
-      ] as const satisfies OperatorDef[];
+      ] as const satisfies OperatorDefShape[];
     case 'boolean':
       return [
         { id: 'isTrue', labelKey: 'filter_operators_isTrue', requiresValue: false },
         { id: 'isFalse', labelKey: 'filter_operators_isFalse', requiresValue: false },
-      ] as const satisfies OperatorDef[];
+      ] as const satisfies OperatorDefShape[];
     case 'custom':
       return [
         { id: 'custom', labelKey: 'filter_operators_custom', requiresValue: true },
-      ] as const satisfies OperatorDef[];
+      ] as const satisfies OperatorDefShape[];
     case 'list':
       return [
         { id: 'in', labelKey: 'filter_operators_in', requiresValue: true },
-      ] as const satisfies OperatorDef[];
+      ] as const satisfies OperatorDefShape[];
   }
 }
 
@@ -151,6 +154,21 @@ export class JigFilter<T = unknown> extends ValueControlBase<'filter', JigFilter
    * @default false
    */
   public readonly allowMultiple = input(false, { transform: booleanAttribute });
+
+  /**
+   * Restricts and orders the operators offered for the current {@link dataType}.
+   * Ids that the datatype does not support are ignored. When `null`, `undefined` or empty,
+   * all operators of the datatype are offered. Has no effect for `dataType="list"`.
+   * @default undefined
+   */
+  public readonly operators = input<readonly JigFilterOperatorId[] | null | undefined>();
+
+  /**
+   * Operator a new condition starts with. Must be part of the resolved {@link operators}
+   * of the current {@link dataType}, otherwise the first one is used.
+   * @default undefined
+   */
+  public readonly defaultOperator = input<JigFilterOperatorId | null | undefined>();
 
   /**
    * Options for `dataType="list"`.
@@ -266,13 +284,12 @@ export class JigFilter<T = unknown> extends ValueControlBase<'filter', JigFilter
       };
     }
 
-    const firstOp = this.operatorDefs()[0]?.id ?? 'isEqual';
     return {
       dataType: this.dataType(),
       matchMode: 'all',
       conditions: <readonly JigFilterConditionConfig[]>[
         {
-          operator: firstOp,
+          operator: this.defaultOperatorId(),
           rawValue: null,
         },
       ],
@@ -305,13 +322,32 @@ export class JigFilter<T = unknown> extends ValueControlBase<'filter', JigFilter
     }
   });
 
-  protected readonly operatorDefs = computed(() => {
-    const dt = this.dataType();
-    const defs = defaultOperatorsForType(dt);
-    if (dt === 'custom' && defs.length === 1 && defs[0]?.id === 'custom') {
+  protected readonly operatorDefs = computed<readonly OperatorDef[]>(() => {
+    const defs: readonly OperatorDef[] = defaultOperatorsForType(this.dataType());
+    const allowed = this.operators();
+    if (!allowed?.length) {
       return defs;
     }
-    return defs;
+    const picked = allowed
+      .map(id => defs.find(d => d.id === id))
+      .filter((d): d is OperatorDef => !!d);
+    if (picked.length === 0) {
+      throw new JigError(
+        'filter',
+        `None of the given [operators] are supported by dataType "${this.dataType()}".`
+      );
+    }
+    return picked;
+  });
+
+  /** Operator a new condition starts with. */
+  protected readonly defaultOperatorId = computed<JigFilterOperatorId>(() => {
+    const defs = this.operatorDefs();
+    const preferred = this.defaultOperator();
+    if (preferred && defs.some(d => d.id === preferred)) {
+      return preferred;
+    }
+    return defs[0]?.id ?? 'isEqual';
   });
 
   protected readonly operatorOptions = computed(() => {
@@ -516,10 +552,10 @@ export class JigFilter<T = unknown> extends ValueControlBase<'filter', JigFilter
 
     effect(() => {
       const defs = this.operatorDefs();
-      const first = defs[0];
-      if (!first) {
+      if (defs.length === 0) {
         throw new JigError('filter', 'No operators available.');
       }
+      const fallback = this.defaultOperatorId();
       const defIds = new Set(defs.map(d => d.id));
 
       const normalizeConditions = (
@@ -531,7 +567,7 @@ export class JigFilter<T = unknown> extends ValueControlBase<'filter', JigFilter
             return c;
           }
           changed = true;
-          return { ...c, operator: first.id, rawValue: null };
+          return { ...c, operator: fallback, rawValue: null };
         });
         return changed ? next : conditions;
       };
@@ -668,11 +704,10 @@ export class JigFilter<T = unknown> extends ValueControlBase<'filter', JigFilter
     if (cfg.dataType === 'list') {
       return;
     }
-    const firstOp = this.operatorDefs()[0]?.id ?? 'isEqual';
     this.updateWorkingConfig({
       ...cfg,
       matchMode: cfg.matchMode,
-      conditions: [...cfg.conditions, this.createCondition(firstOp)],
+      conditions: [...cfg.conditions, this.createCondition(this.defaultOperatorId())],
     });
   }
 

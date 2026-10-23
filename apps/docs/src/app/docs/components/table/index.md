@@ -67,7 +67,9 @@ Add `jigTableFilterableColumn` with a `…Type` (the column's data type, which
 picks the available operators and UI) and, for list filters, a `…Items` option
 set. A filter button appears in the header and opens a filter popover; applied
 filters live in the two-way `[(filters)]` model, keyed by column. Multiple
-column filters combine (AND).
+column filters combine (AND). A `…Operators` list narrows and orders the
+operators of that column, and `…DefaultOperator` picks the one a new condition
+starts with.
 
 {{ demo: Demo_Table_Filtering }}
 

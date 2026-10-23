@@ -437,6 +437,43 @@ test('list kind (multi select) filters by membership', async ({ page }) => {
   }).toPass();
 });
 
+test('operators restricts the list and defaultOperator seeds new conditions', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `
+        <jig-filter
+          mode="inline"
+          allowMultiple
+          [data]="inputs().data"
+          [operators]="inputs().operators"
+          defaultOperator="contains"
+          dataType="string"
+          style="width: 400px"
+        />
+      `,
+      imports: ['filter'],
+    },
+    {
+      inputs: {
+        data: ['Apple', 'Banana', 'Cherry'],
+        operators: ['startsWith', 'contains', 'bogus'],
+      },
+    }
+  );
+
+  const filter = new JigFilterHarness(page.locator('jig-filter'));
+  const op = filter.operatorSelect(0);
+  await op.expectSelectedItemText('Contains');
+
+  await op.open();
+  await op.listBox.scroller.expectItemsTexts(['Starts with', 'Contains']);
+  await op.close();
+
+  await filter.addConditionButton().click();
+  await filter.operatorSelect(1).expectSelectedItemText('Contains');
+});
+
 test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,

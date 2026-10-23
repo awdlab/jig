@@ -13,7 +13,7 @@ import {
 import { injectThemeTemplate, setComponentInput } from '@awdlab/jig/api/ng';
 import { getNearestJigInstanceSig } from '@awdlab/jig/base';
 import { JigActionButton } from '@awdlab/jig/button';
-import { JigFilter, type JigFilterDataType } from '@awdlab/jig/filter';
+import { JigFilter, type JigFilterDataType, type JigFilterOperatorId } from '@awdlab/jig/filter';
 import { I18n } from '@awdlab/jig/i18n';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
@@ -59,6 +59,20 @@ export class JigTableFilterableColumn implements OnDestroy {
   public readonly jigTableFilterableColumnType = input.required<JigFilterDataType>();
   /** For list-based filters, the set of selectable option values to offer. */
   public readonly jigTableFilterableColumnItems = input<string[] | null | undefined>();
+  /**
+   * Restricts and orders the operators offered for this column. Ids the column type does not
+   * support are ignored; when empty, all operators of the type are offered.
+   */
+  public readonly jigTableFilterableColumnOperators = input<
+    readonly JigFilterOperatorId[] | null | undefined
+  >();
+  /**
+   * Operator a new condition on this column starts with. Must be part of
+   * {@link jigTableFilterableColumnOperators}, otherwise the first one is used.
+   */
+  public readonly jigTableFilterableColumnDefaultOperator = input<
+    JigFilterOperatorId | null | undefined
+  >();
   /**
    * Accessible label of the filter trigger. Defaults to the translated `table.filter`
    * text; set it to name the column, e.g. `Filter by name`.
@@ -107,6 +121,16 @@ export class JigTableFilterableColumn implements OnDestroy {
     });
     effect(() => {
       setComponentInput(this._jigFilter, 'listOptions', this.jigTableFilterableColumnItems());
+    });
+    effect(() => {
+      setComponentInput(this._jigFilter, 'operators', this.jigTableFilterableColumnOperators());
+    });
+    effect(() => {
+      setComponentInput(
+        this._jigFilter,
+        'defaultOperator',
+        this.jigTableFilterableColumnDefaultOperator()
+      );
     });
     this._jigFilter.instance.filterChange.subscribe(cfg => {
       const table = this._table();
