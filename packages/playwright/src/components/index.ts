@@ -15,6 +15,7 @@ export * from './drawer.js';
 export * from './dropdown-list.js';
 export * from './edit-inplace.js';
 export * from './inplace.js';
+export * from './filter-list-box.js';
 export * from './filter.js';
 export * from './hint.js';
 export * from './input.js';
