@@ -203,7 +203,8 @@ function generateRichTableData(count: number) {
 
   for (let i = 0; i < count; i++) {
     const firstName = firstNames[i % firstNames.length]!;
-    const lastName = lastNames[i % lastNames.length]!;
+    // Co-prime stride so names combine instead of repeating every 20 rows.
+    const lastName = lastNames[(i * 7) % lastNames.length]!;
     const department = departments[i % departments.length]!;
     const location = locations[i % locations.length]!;
     const role = roles[i % roles.length]!;

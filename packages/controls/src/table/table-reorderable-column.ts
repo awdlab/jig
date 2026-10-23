@@ -12,7 +12,7 @@ import { toggleClass } from '@awdlab/jig/utils';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
 import { JigTable } from './table';
-import { JigTableTh } from './table-header-cell';
+import { JigTableTh, TABLE_HEADER_INTERACTIVE_SELECTOR } from './table-header-cell';
 
 /** Minimum distance in pixels before a drag is initiated. */
 const REORDER_DEAD_ZONE_PX = 5;
@@ -59,9 +59,12 @@ export class JigTableReorderableColumn implements OnDestroy {
     const table = this._table();
     if (!table?.reorderable()) return;
 
-    // Don't intercept resize handle clicks
+    // Don't intercept the resize handle or interactive header content
     const target = event.target as HTMLElement;
     if (target.classList.contains(this.theme.class('resize-handle'))) return;
+    // The label doubles as the sort button, but it still drags.
+    const interactive = target.closest(TABLE_HEADER_INTERACTIVE_SELECTOR);
+    if (interactive && !interactive.classList.contains(this.theme.class('cell-text'))) return;
 
     event.preventDefault();
 

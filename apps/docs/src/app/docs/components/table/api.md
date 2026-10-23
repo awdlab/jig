@@ -63,6 +63,18 @@ Selector: `[jigTableHeadTr]` — the header `<tr>`.
 
 Selector: `[jigTableTh]` — a header cell. The bound value is the column id.
 
+Header content is rendered inside a label span, which doubles as the sort
+button on a sortable column. Buttons, links and anything marked
+`jigTableThAction` are rendered next to that span instead, so they stay out of
+the sort button and keep their own clicks:
+
+```html
+<th [jigTableTh]="table.column('name')" jigTableSortableColumn>
+  Name
+  <button type="button" (click)="openColumnMenu()">⋮</button>
+</th>
+```
+
 {{ api: table/table-header-cell JigTableTh }}
 
 ### JigTableBodyTr

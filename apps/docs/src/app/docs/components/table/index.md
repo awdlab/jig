@@ -23,6 +23,15 @@ tracking. Give the table a fixed height, as it scrolls its body internally.
 
 {{ demo: Demo_Table_Base }}
 
+### Everything At Once
+
+One table with most features enabled at the same time: multi selection with
+checkboxes, sortable and filterable columns, a sticky ID column, column resize
+and reorder, pagination and per-row actions (hover a row, or right-click it).
+Each feature is explained on its own in the examples below.
+
+{{ demo: Demo_Table_Showcase }}
+
 ### Selection
 
 Set `selectionMode` to `'single'` or `'multi'` (or leave it `null` to disable
