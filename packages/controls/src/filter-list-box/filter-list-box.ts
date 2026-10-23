@@ -318,14 +318,18 @@ export class JigFilterListBox<
 
   protected removeCondition(index: number): void {
     const config = this.filterConfig();
-    if (!config) {
+    if (!config || this.disabled() || this.readonly()) {
       return;
     }
     const conditions = config.conditions.filter((_, i) => i !== index);
     this.filterConfig.set(conditions.length > 0 ? { ...config, conditions } : null);
   }
 
-  /** Clears the search text and every condition. The selection is untouched. */
+  /**
+   * Clears the search text and every condition. The selection is untouched.
+   * Programmatic, so it also clears a disabled or readonly control — the
+   * configuration has no input of its own to reset it through.
+   */
   public clearFilters(): void {
     this.clearDebounce();
     this.searchInput.set('');

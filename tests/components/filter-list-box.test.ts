@@ -129,10 +129,12 @@ test('holds the typed text back until the debounce elapses', async ({ page }) =>
   await listBox.listBox().expectItemsCount(1);
   await expect(listBox.listBox().item).toHaveText('Ann');
 
-  // A zero debounce writes through without a timer at all.
+  // A zero debounce writes through without a timer at all: the narrowing is
+  // there on the first look, which no timer branch — not even the 300 ms
+  // default — could manage.
   await handle.setInputs({ items: USERS, searchDebounce: 0 });
   await listBox.searchInput().fill('bo');
-  await expect(listBox.listBox().item).toHaveText('Bo', { timeout: 1000 });
+  expect(await listBox.listBox().item.allInnerTexts()).toEqual(['Bo']);
 });
 
 test('does not select while disabled or readonly', async ({ page }) => {
@@ -173,6 +175,58 @@ test('does not select while disabled or readonly', async ({ page }) => {
   await expect(listBox.listBox().itemSelected).toHaveCount(1);
   await expect(async () => {
     expect((await handle.getOutputLog())['value']?.at(-1)).toBe('ann');
+  }).toPass();
+});
+
+test('does not remove a chip while disabled or readonly', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+        <jig-filter-list-box
+          label="Users"
+          style="width: 320px; height: 320px"
+          [items]="inputs().items"
+          [attributes]="inputs().attributes"
+          [disabled]="inputs().disabled"
+          [readonly]="inputs().readonly"
+          (filterChange)="output('config', $event)"
+        />
+      `,
+      imports: ['filterListBox'],
+    },
+    { inputs: { items: USERS, attributes: ATTRIBUTES, disabled: false, readonly: false } }
+  );
+  const listBox = harness(page);
+
+  const filter = await openFilter(listBox);
+  await setCondition(filter, 0, 'Email', 'Contains', '@gmail');
+  await closeFilter(listBox);
+  await expect(listBox.chips()).toHaveCount(1);
+
+  for (const state of [
+    { disabled: true, readonly: false },
+    { disabled: false, readonly: true },
+  ]) {
+    await handle.setInputs({ items: USERS, attributes: ATTRIBUTES, ...state });
+    // The chip still reports the active condition, it just cannot be removed.
+    await expect(listBox.chips()).toHaveCount(1);
+    await expect(listBox.chip(0).closeButton).toHaveCount(0);
+    await expect(listBox.filterTrigger()).toBeDisabled();
+    expect((await handle.getOutputLog())['config']?.at(-1).conditions).toHaveLength(1);
+  }
+
+  await handle.setInputs({
+    items: USERS,
+    attributes: ATTRIBUTES,
+    disabled: false,
+    readonly: false,
+  });
+  await listBox.removeChip(0);
+
+  await expect(listBox.chips()).toHaveCount(0);
+  await expect(async () => {
+    expect((await handle.getOutputLog())['config']?.at(-1)).toBeNull();
   }).toPass();
 });
 

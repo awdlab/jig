@@ -74,7 +74,7 @@
       <jig-chip
         [ptInt]="this"
         [ptDep]="'chip'"
-        [closable]="true"
+        [closable]="!disabled() && !readonly()"
         (closed)="removeCondition(chip.index)"
         >{{ chip.label }}</jig-chip
       >
@@ -117,6 +117,7 @@
           kind="secondary"
           [ptInt]="this"
           [ptDep]="'clear-all-button'"
+          [disabled]="disabled() || readonly()"
           (click)="clearFilters()"
         >
           {{ i18n['filterListBox_clearAllFilters']() }}
