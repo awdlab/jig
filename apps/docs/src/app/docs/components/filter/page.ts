@@ -6,6 +6,7 @@ import { Demo_Filter_DataTypes } from '../../../demos/filter/datatypes';
 import { Demo_Filter_Headless } from '../../../demos/filter/headless';
 import { Demo_Filter_Inline } from '../../../demos/filter/inline';
 import { Demo_Filter_Multiple } from '../../../demos/filter/multiple';
+import { Demo_Filter_Operators } from '../../../demos/filter/operators';
 import { Demo_Filter_Validation } from '../../../demos/filter/validation';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
@@ -27,6 +28,7 @@ export const FilterPage: JigDocsPage = {
         Demo_Filter_Inline,
         Demo_Filter_Headless,
         Demo_Filter_DataTypes,
+        Demo_Filter_Operators,
         Demo_Filter_Custom,
         Demo_Filter_Multiple,
         Demo_Filter_ApplyMode,
@@ -63,6 +65,7 @@ export const FilterPage: JigDocsPage = {
           isEqual: 'Operator label: value equals the target.',
           isNotEqual: 'Operator label: value differs from the target.',
           contains: 'Operator label: value contains the target substring.',
+          notContains: 'Operator label: value does not contain the target substring.',
           startsWith: 'Operator label: value begins with the target.',
           endsWith: 'Operator label: value ends with the target.',
           in: 'Operator label: value is one of a set.',

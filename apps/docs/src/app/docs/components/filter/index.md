@@ -45,6 +45,15 @@ Each `dataType` exposes its own operators and editor UI: `list` (multi-select),
 
 {{ demo: Demo_Filter_DataTypes }}
 
+### Operators
+
+`operators` restricts and orders the operators offered for the current
+`dataType`; ids the datatype does not support are ignored. `defaultOperator`
+picks the one a new condition starts with — here `startsWith` instead of the
+usual `isEqual`.
+
+{{ demo: Demo_Filter_Operators }}
+
 ### Custom
 
 `dataType="custom"` offers a single free-form condition. Combined with
