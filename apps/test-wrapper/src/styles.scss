@@ -12,3 +12,9 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+/* App-defined button kind: unlayered, so it outranks the theme's `@layer jig` rules. */
+.jig-button-kind-fancy {
+  background-color: magenta;
+  color: var(--theme-color-500-contrast);
+}
