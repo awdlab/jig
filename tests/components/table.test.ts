@@ -1214,6 +1214,31 @@ test.describe('Table Accessibility', () => {
     await expect(getBodyRows(page).first()).not.toHaveClass(/focused-row/);
   });
 
+  test('custom header buttons stay outside the sort button', async ({ page }) => {
+    const template = A11Y_TEMPLATE.replace(
+      '[jigTableSortableColumn]>Name<',
+      `[jigTableSortableColumn]>Name @if (inputs().rows.length) {
+        <button type="button" data-testid="col-menu">Menu</button>
+      }<`
+    );
+    await loadComponent(
+      page,
+      { template, imports: A11Y_IMPORTS },
+      { inputs: { rows: TABLE_ROWS, selectionMode: null } }
+    );
+
+    const nameHeader = page.locator('th[role="columnheader"]').nth(1);
+    const menuButton = nameHeader.getByTestId('col-menu');
+    await expect(menuButton).toBeVisible();
+    await expect(nameHeader.locator('[role="button"] [data-testid="col-menu"]')).toHaveCount(0);
+
+    await menuButton.click();
+    await expect(nameHeader).toHaveAttribute('aria-sort', 'none');
+
+    await nameHeader.locator('[role="button"]').click();
+    await expect(nameHeader).toHaveAttribute('aria-sort', 'ascending');
+  });
+
   test('Space toggles the current row and row checkboxes stay out of the tab order', async ({
     page,
   }) => {
