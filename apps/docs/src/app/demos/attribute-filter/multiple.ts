@@ -20,7 +20,7 @@ import { type Person, people, ROLES } from '../../helper/people';
 
       <ul class="list-disc ps-5">
         @for (person of filtered(); track person.id) {
-          <li>{{ person.name }} · {{ person.email }} · #{{ person.id }}</li>
+          <li>{{ person.name }} · {{ person.email }} · {{ person.role }} · #{{ person.id }}</li>
         }
       </ul>
     </div>
