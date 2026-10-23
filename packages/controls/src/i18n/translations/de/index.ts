@@ -43,6 +43,11 @@ export const de = {
     placeholder: 'Klicken zum Bearbeiten',
     confirm: 'Bestätigen',
   },
+  attributeFilter: {
+    attribute: 'Attribut',
+    chip: '{{ attribute }} {{ operator }} {{ value }}',
+    chipNoValue: '{{ attribute }} {{ operator }}',
+  },
   filter: {
     noFilter: 'Kein Filter',
     addCondition: 'Bedingung hinzufügen',

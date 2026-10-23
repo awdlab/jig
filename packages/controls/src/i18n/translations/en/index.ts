@@ -43,6 +43,11 @@ export const en = {
     placeholder: 'Click to edit',
     confirm: 'Confirm',
   },
+  attributeFilter: {
+    attribute: 'Attribute',
+    chip: '{{ attribute }} {{ operator }} {{ value }}',
+    chipNoValue: '{{ attribute }} {{ operator }}',
+  },
   filter: {
     noFilter: 'No filter',
     addCondition: 'Add condition',
