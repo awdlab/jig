@@ -9,6 +9,7 @@ import {
   input,
   model,
   output,
+  signal,
   untracked,
   viewChild,
 } from '@angular/core';
@@ -87,6 +88,15 @@ export class JigPopover extends PopoverTemplates implements Openable {
   private readonly _cdr = inject(ChangeDetectorRef);
   private readonly _popoverRef = viewChild.required<ElementRef<HTMLElement>>('popover');
   private readonly _popover = computed(() => this._popoverRef().nativeElement);
+  /**
+   * `false` between entering the top layer and floating-ui's first applied position.
+   * Until then the UA parks the popover at the viewport origin, so painting it there
+   * flashes it in the wrong place and a click aimed at it lands outside, which
+   * light-dismisses it.
+   */
+  private readonly _positioned = signal(false);
+  protected readonly positioned = this._positioned.asReadonly();
+
   private readonly _autoPos = computedWithPrevious<AutoPositioningHandle | undefined>(prev => {
     prev?.stop();
     const popoverEl = this._popover();
@@ -100,6 +110,8 @@ export class JigPopover extends PopoverTemplates implements Openable {
       placement: this.appliedOptions()?.placement,
       offset: this.appliedOptions()?.padding,
       hasShrinkableContent: this.hasShrinkableContent(),
+      // Fires after the coordinates are written to the element.
+      onPositionChange: () => this._positioned.set(true),
     });
   });
 
@@ -115,7 +127,10 @@ export class JigPopover extends PopoverTemplates implements Openable {
     // The wrapper is `display: none` while closed; the exit animation runs on its content.
     animationElement: () => this._content()?.nativeElement,
     // Flush so the deferred content exists before the lifecycle's frame measures it.
-    onOpening: () => this._cdr.detectChanges(),
+    onOpening: () => {
+      this._positioned.set(false);
+      this._cdr.detectChanges();
+    },
     onBeforeShow: () => this._autoPos()?.start(),
     onClosing: () => this._autoPos()?.stop(),
   });

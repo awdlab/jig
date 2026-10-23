@@ -66,10 +66,10 @@ export class JigAutofocus {
       return;
     }
     const element = this._el.nativeElement;
-    // `focus()` on a host that is not laid out yet is a silent no-op: a popover enters
-    // the top layer a frame after its content renders, and controls are `display: none`
-    // while initializing. Wait for layout instead of assuming it has happened.
-    if (element.isConnected && element.getClientRects().length === 0) {
+    // `focus()` on a host that is not rendered yet is a silent no-op: controls are
+    // `display: none` while initializing, and a popover stays `visibility: hidden` until
+    // it has been positioned. Wait for it to render instead of assuming it has.
+    if (element.isConnected && !element.checkVisibility({ visibilityProperty: true })) {
       this._frame = requestAnimationFrame(() => this.autoFocus());
       return;
     }
