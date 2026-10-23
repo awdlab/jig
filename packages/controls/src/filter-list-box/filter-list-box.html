@@ -14,7 +14,7 @@
       [disabled]="disabled()"
       [readOnly]="readonly()"
       [attr.aria-label]="i18n['filterListBox_search']()"
-      (valueChange)="searchInput.set($event)"
+      (valueChange)="searchInput.set($event ?? '')"
     />
     <jig-icon [ptInt]="this" [ptDep]="'search-icon'" defaultIcon="search" [icon]="iconSearch()" />
   </jig-input-field>
