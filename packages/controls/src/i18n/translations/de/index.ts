@@ -65,6 +65,7 @@ export const de = {
       isEqual: 'Ist gleich',
       isNotEqual: 'Ist nicht gleich',
       contains: 'Enthält',
+      notContains: 'Enthält nicht',
       startsWith: 'Beginnt mit',
       endsWith: 'Endet mit',
       in: 'Ist eines von',

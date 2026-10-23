@@ -65,6 +65,7 @@ export const en = {
       isEqual: 'Is equal',
       isNotEqual: 'Is not equal',
       contains: 'Contains',
+      notContains: 'Does not contain',
       startsWith: 'Starts with',
       endsWith: 'Ends with',
       in: 'Is one of',
