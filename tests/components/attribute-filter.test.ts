@@ -333,3 +333,139 @@ test('matches the screenshot with two conditions', async ({ page }, testInfo) =>
 
   await expectScreenshot(page, testInfo, 'inline');
 });
+
+const GMAIL = { attribute: 'email', operator: 'contains', rawValue: '@gmail' };
+const OVER_25 = { attribute: 'age', operator: 'greaterThan', rawValue: '25' };
+
+test('reflects an external config change in the rows while the popover is open', async ({
+  page,
+}) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+        <jig-attribute-filter
+          [data]="inputs().data"
+          [attributes]="inputs().attributes"
+          [allowMultiple]="true"
+          [value]="inputs().config"
+          (filterChange)="output('config', $event)"
+          style="width: 360px"
+        />
+      `,
+      imports: ['attributeFilter'],
+    },
+    {
+      inputs: {
+        data: USERS,
+        attributes: ATTRIBUTES,
+        config: { matchMode: 'all', conditions: [GMAIL, OVER_25] },
+      },
+    }
+  );
+
+  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  await filter.open();
+  await expect(filter.row(1)).toBeVisible();
+
+  // Something else in the app drops the second condition while the popover is open.
+  await handle.setInputs({
+    data: USERS,
+    attributes: ATTRIBUTES,
+    config: { matchMode: 'all', conditions: [GMAIL] },
+  });
+
+  await expect(filter.row(1)).toHaveCount(0);
+  await filter.attributeSelect(0).expectSelectedItemText('Email');
+  await filter.valueInput(0).expectValue('@gmail');
+});
+
+test('keeps a value being typed when the config changes from outside', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+        <jig-attribute-filter
+          mode="inline"
+          [data]="inputs().data"
+          [attributes]="inputs().attributes"
+          [autoApplyDebounce]="1500"
+          [value]="inputs().config"
+          (filterChange)="output('config', $event)"
+          style="width: 560px"
+        />
+      `,
+      imports: ['attributeFilter'],
+    },
+    {
+      inputs: {
+        data: USERS,
+        attributes: ATTRIBUTES,
+        config: { matchMode: 'all', conditions: [GMAIL] },
+      },
+    }
+  );
+
+  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  await filter.valueInput(0).expectValue('@gmail');
+
+  // Type, then let the app write a different config while the commit is still pending.
+  await filter.valueInput(0).fill('@work');
+  await handle.setInputs({
+    data: USERS,
+    attributes: ATTRIBUTES,
+    config: { matchMode: 'all', conditions: [OVER_25] },
+  });
+
+  await filter.valueInput(0).expectValue('@work');
+  await expect(async () => {
+    const config = (await handle.getOutputLog())['config']?.at(-1);
+    expect(config.conditions[0]).toEqual({ ...GMAIL, rawValue: '@work' });
+  }).toPass();
+});
+
+test('leaves manual mode edits pending when the config changes from outside', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+        <jig-attribute-filter
+          mode="inline"
+          [autoApply]="false"
+          [data]="inputs().data"
+          [attributes]="inputs().attributes"
+          [value]="inputs().config"
+          (filterChange)="output('config', $event)"
+          style="width: 560px"
+        />
+      `,
+      imports: ['attributeFilter'],
+    },
+    { inputs: { data: USERS, attributes: ATTRIBUTES, config: null } }
+  );
+
+  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  await setCondition(filter, 0, 'Email', 'Contains', '@gmail');
+  await filter.applyButton().click();
+
+  await filter.valueInput(0).fill('@work');
+  await handle.setInputs({
+    data: USERS,
+    attributes: ATTRIBUTES,
+    config: { matchMode: 'all', conditions: [OVER_25] },
+  });
+
+  // The pending edit survives, and apply commits it rather than the external config.
+  await filter.valueInput(0).expectValue('@work');
+  await filter.applyButton().click();
+
+  await expect(async () => {
+    const config = (await handle.getOutputLog())['config']?.at(-1);
+    expect(config.conditions[0]).toEqual({ ...GMAIL, rawValue: '@work' });
+  }).toPass();
+
+  // Cancel still restores the applied snapshot.
+  await filter.valueInput(0).fill('@other');
+  await filter.cancelButton().click();
+  await filter.valueInput(0).expectValue('@work');
+});

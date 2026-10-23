@@ -10,6 +10,7 @@ import {
   numberAttribute,
   output,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import {
@@ -395,6 +396,18 @@ export class JigAttributeFilter<T = unknown> extends ValueControlBase<
 
     effect(() => {
       this.filterChange.emit(this.value() ?? null);
+    });
+
+    // In auto-apply mode a config written from outside replaces the rows. The control's own commits
+    // already hold that config in workingConfig, and a pending debounce means the user is mid-edit.
+    effect(() => {
+      const cfg = this.value();
+      untracked(() => {
+        if (!this.autoApply() || this._debounceTimer != null || cfg === this.workingConfig()) {
+          return;
+        }
+        this.workingConfig.set(cfg);
+      });
     });
 
     effect(() => {
