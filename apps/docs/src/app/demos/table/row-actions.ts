@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import tablerArchive from '@iconify/icons-tabler/archive';
-import tablerCopy from '@iconify/icons-tabler/copy';
-import tablerDots from '@iconify/icons-tabler/dots';
-import tablerEdit from '@iconify/icons-tabler/edit';
-import tablerShare from '@iconify/icons-tabler/share';
-import tablerTrash from '@iconify/icons-tabler/trash';
+import tablerArchive from '@iconify/icons-tabler/archive.js';
+import tablerCopy from '@iconify/icons-tabler/copy.js';
+import tablerDots from '@iconify/icons-tabler/dots.js';
+import tablerEdit from '@iconify/icons-tabler/edit.js';
+import tablerShare from '@iconify/icons-tabler/share.js';
+import tablerTrash from '@iconify/icons-tabler/trash.js';
 import { JigTemplate } from '@awdlab/jig/api/ng';
 import { JigTableModule } from '@awdlab/jig/table';
 

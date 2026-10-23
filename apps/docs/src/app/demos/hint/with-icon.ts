@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import tablerBulb from '@iconify/icons-tabler/bulb';
+import tablerBulb from '@iconify/icons-tabler/bulb.js';
 import { JigHint } from '@awdlab/jig/hint';
 
 @Component({

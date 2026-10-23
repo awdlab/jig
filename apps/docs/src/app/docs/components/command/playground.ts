@@ -1,6 +1,6 @@
-import tablerCopy from '@iconify/icons-tabler/copy';
-import tablerHome from '@iconify/icons-tabler/home';
-import tablerMail from '@iconify/icons-tabler/mail';
+import tablerCopy from '@iconify/icons-tabler/copy.js';
+import tablerHome from '@iconify/icons-tabler/home.js';
+import tablerMail from '@iconify/icons-tabler/mail.js';
 import { Component, signal, viewChild } from '@angular/core';
 import { JigButton } from '@awdlab/jig/button';
 import { JigCommand } from '@awdlab/jig/command';

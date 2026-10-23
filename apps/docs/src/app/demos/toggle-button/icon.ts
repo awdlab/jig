@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import tablerCode from '@iconify/icons-tabler/code';
-import tablerMenu2 from '@iconify/icons-tabler/menu-2';
+import tablerCode from '@iconify/icons-tabler/code.js';
+import tablerMenu2 from '@iconify/icons-tabler/menu-2.js';
 import { JigToggleButton } from '@awdlab/jig/toggle-button';
 
 @Component({

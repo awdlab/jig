@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import tablerBell from '@iconify/icons-tabler/bell';
+import tablerBell from '@iconify/icons-tabler/bell.js';
 import { JigBadge } from '@awdlab/jig/badge';
 import { JigButton } from '@awdlab/jig/button';
 import { JigIcon } from '@awdlab/jig/icon';

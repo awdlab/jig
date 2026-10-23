@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import tablerBrandGithub from '@iconify/icons-tabler/brand-github';
-import tablerCode from '@iconify/icons-tabler/code';
-import tablerCopy from '@iconify/icons-tabler/copy';
-import tablerUser from '@iconify/icons-tabler/user';
+import tablerBrandGithub from '@iconify/icons-tabler/brand-github.js';
+import tablerCode from '@iconify/icons-tabler/code.js';
+import tablerCopy from '@iconify/icons-tabler/copy.js';
+import tablerUser from '@iconify/icons-tabler/user.js';
 import { JigMessage } from '@awdlab/jig/message';
 
 @Component({

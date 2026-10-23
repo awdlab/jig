@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { JigMeter } from '@awdlab/jig/meter';
-import tablerBolt from '@iconify/icons-tabler/bolt';
-import tablerDroplet from '@iconify/icons-tabler/droplet';
-import tablerFlame from '@iconify/icons-tabler/flame';
-import tablerSun from '@iconify/icons-tabler/sun';
-import tablerWindmill from '@iconify/icons-tabler/windmill';
+import tablerBolt from '@iconify/icons-tabler/bolt.js';
+import tablerDroplet from '@iconify/icons-tabler/droplet.js';
+import tablerFlame from '@iconify/icons-tabler/flame.js';
+import tablerSun from '@iconify/icons-tabler/sun.js';
+import tablerWindmill from '@iconify/icons-tabler/windmill.js';
 
 import type { MeterItem } from '@awdlab/jig/meter';
 

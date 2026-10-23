@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import tablerUser from '@iconify/icons-tabler/user';
+import tablerUser from '@iconify/icons-tabler/user.js';
 import { JigIcon } from '@awdlab/jig/icon';
 
 @Component({

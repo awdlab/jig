@@ -1,6 +1,6 @@
-import tablerCopy from '@iconify/icons-tabler/copy';
-import tablerFolderPlus from '@iconify/icons-tabler/folder-plus';
-import tablerPlus from '@iconify/icons-tabler/plus';
+import tablerCopy from '@iconify/icons-tabler/copy.js';
+import tablerFolderPlus from '@iconify/icons-tabler/folder-plus.js';
+import tablerPlus from '@iconify/icons-tabler/plus.js';
 import { Component, signal } from '@angular/core';
 import { JigButton } from '@awdlab/jig/button';
 import { JigCommand } from '@awdlab/jig/command';

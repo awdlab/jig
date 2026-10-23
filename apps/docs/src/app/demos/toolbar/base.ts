@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import tablerArrowBackUp from '@iconify/icons-tabler/arrow-back-up';
-import tablerArrowForwardUp from '@iconify/icons-tabler/arrow-forward-up';
-import tablerBold from '@iconify/icons-tabler/bold';
-import tablerDeviceFloppy from '@iconify/icons-tabler/device-floppy';
-import tablerItalic from '@iconify/icons-tabler/italic';
-import tablerUnderline from '@iconify/icons-tabler/underline';
+import tablerArrowBackUp from '@iconify/icons-tabler/arrow-back-up.js';
+import tablerArrowForwardUp from '@iconify/icons-tabler/arrow-forward-up.js';
+import tablerBold from '@iconify/icons-tabler/bold.js';
+import tablerDeviceFloppy from '@iconify/icons-tabler/device-floppy.js';
+import tablerItalic from '@iconify/icons-tabler/italic.js';
+import tablerUnderline from '@iconify/icons-tabler/underline.js';
 import { JigButton } from '@awdlab/jig/button';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigToolbar } from '@awdlab/jig/toolbar';

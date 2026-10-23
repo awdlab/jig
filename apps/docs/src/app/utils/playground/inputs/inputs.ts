@@ -1,6 +1,6 @@
 import { Component, input, signal } from '@angular/core';
-import tablerAdjustments from '@iconify/icons-tabler/adjustments';
-import tablerInfoCircle from '@iconify/icons-tabler/info-circle';
+import tablerAdjustments from '@iconify/icons-tabler/adjustments.js';
+import tablerInfoCircle from '@iconify/icons-tabler/info-circle.js';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigInput } from '@awdlab/jig/input';
 import { JigInputField } from '@awdlab/jig/input-field';

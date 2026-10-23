@@ -6,13 +6,13 @@ import {
   runInInjectionContext,
   signal,
 } from '@angular/core';
-import tablerCalendar from '@iconify/icons-tabler/calendar';
-import tablerDotsVertical from '@iconify/icons-tabler/dots-vertical';
-import tablerDownload from '@iconify/icons-tabler/download';
-import tablerEdit from '@iconify/icons-tabler/edit';
-import tablerEye from '@iconify/icons-tabler/eye';
-import tablerSearch from '@iconify/icons-tabler/search';
-import tablerTrash from '@iconify/icons-tabler/trash';
+import tablerCalendar from '@iconify/icons-tabler/calendar.js';
+import tablerDotsVertical from '@iconify/icons-tabler/dots-vertical.js';
+import tablerDownload from '@iconify/icons-tabler/download.js';
+import tablerEdit from '@iconify/icons-tabler/edit.js';
+import tablerEye from '@iconify/icons-tabler/eye.js';
+import tablerSearch from '@iconify/icons-tabler/search.js';
+import tablerTrash from '@iconify/icons-tabler/trash.js';
 import { JigTemplate } from '@awdlab/jig/api/ng';
 import { JigAvatar } from '@awdlab/jig/avatar';
 import { type BreadcrumbItem, JigBreadcrumb } from '@awdlab/jig/breadcrumb';

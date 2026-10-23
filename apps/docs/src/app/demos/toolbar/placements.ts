@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
-import tablerFileText from '@iconify/icons-tabler/file-text';
-import tablerSearch from '@iconify/icons-tabler/search';
-import tablerShare from '@iconify/icons-tabler/share';
-import tablerUser from '@iconify/icons-tabler/user';
+import tablerFileText from '@iconify/icons-tabler/file-text.js';
+import tablerSearch from '@iconify/icons-tabler/search.js';
+import tablerShare from '@iconify/icons-tabler/share.js';
+import tablerUser from '@iconify/icons-tabler/user.js';
 import { JigButton } from '@awdlab/jig/button';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigInput } from '@awdlab/jig/input';

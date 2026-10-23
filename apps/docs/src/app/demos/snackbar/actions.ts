@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import tablerCircleCheck from '@iconify/icons-tabler/circle-check';
+import tablerCircleCheck from '@iconify/icons-tabler/circle-check.js';
 import { JigButton } from '@awdlab/jig/button';
 import { injectSnackbarCreator } from '@awdlab/jig/snackbar';
 

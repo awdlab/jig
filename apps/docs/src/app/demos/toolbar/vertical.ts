@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import tablerEraser from '@iconify/icons-tabler/eraser';
-import tablerHandMove from '@iconify/icons-tabler/hand-move';
-import tablerPencil from '@iconify/icons-tabler/pencil';
-import tablerPhoto from '@iconify/icons-tabler/photo';
-import tablerPointer from '@iconify/icons-tabler/pointer';
-import tablerShape from '@iconify/icons-tabler/shape';
-import tablerTypography from '@iconify/icons-tabler/typography';
+import tablerEraser from '@iconify/icons-tabler/eraser.js';
+import tablerHandMove from '@iconify/icons-tabler/hand-move.js';
+import tablerPencil from '@iconify/icons-tabler/pencil.js';
+import tablerPhoto from '@iconify/icons-tabler/photo.js';
+import tablerPointer from '@iconify/icons-tabler/pointer.js';
+import tablerShape from '@iconify/icons-tabler/shape.js';
+import tablerTypography from '@iconify/icons-tabler/typography.js';
 import { JigButton } from '@awdlab/jig/button';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigToolbar, JigToolbarRegion } from '@awdlab/jig/toolbar';

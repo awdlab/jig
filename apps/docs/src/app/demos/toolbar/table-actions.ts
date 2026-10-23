@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import tablerDownload from '@iconify/icons-tabler/download';
-import tablerLayoutGrid from '@iconify/icons-tabler/layout-grid';
-import tablerLayoutList from '@iconify/icons-tabler/layout-list';
-import tablerSearch from '@iconify/icons-tabler/search';
-import tablerTrash from '@iconify/icons-tabler/trash';
+import tablerDownload from '@iconify/icons-tabler/download.js';
+import tablerLayoutGrid from '@iconify/icons-tabler/layout-grid.js';
+import tablerLayoutList from '@iconify/icons-tabler/layout-list.js';
+import tablerSearch from '@iconify/icons-tabler/search.js';
+import tablerTrash from '@iconify/icons-tabler/trash.js';
 import { JigButton } from '@awdlab/jig/button';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigInput } from '@awdlab/jig/input';

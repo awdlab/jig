@@ -163,7 +163,7 @@ export class JigIcon extends JigBase<'icon'> {
       if (needsTemplate && !this._globalIconTemplate()) {
         throw new JigError(
           'icon',
-          'No GlobalIconTemplate registered. Required when using [icon] with non-Iconify values or withCustomIcons() with [defaultIcon]. If using Iconify, pass an IconifyIcon data object (e.g., import tablerUser from "@iconify/icons-tabler/user").'
+          'No GlobalIconTemplate registered. Required when using [icon] with non-Iconify values or withCustomIcons() with [defaultIcon]. If using Iconify, pass an IconifyIcon data object (e.g., import tablerUser from "@iconify/icons-tabler/user.js").'
         );
       }
     });

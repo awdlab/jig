@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import tablerCode from '@iconify/icons-tabler/code';
+import tablerCode from '@iconify/icons-tabler/code.js';
 import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
 
 @Component({
