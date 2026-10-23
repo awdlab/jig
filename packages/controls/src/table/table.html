@@ -162,6 +162,8 @@
     [mode]="lazy() && loadTotal() === undefined ? 'compact' : 'pages'"
     [totalItems]="lazy() ? (loadTotal() ?? 0) : rows().length"
     [hasNext]="lazyHasMore()"
+    [(page)]="pageIndex"
+    [(pageSize)]="pageSize"
     (value)="pageChanged($event)"
   />
 }

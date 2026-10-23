@@ -1,10 +1,10 @@
-import { afterRenderEffect, computed, signal } from '@angular/core';
+import { afterRenderEffect, computed, signal, untracked } from '@angular/core';
 import { elementSizeSignal, isRtl } from '@awdlab/jig/api/ng';
 import { getResizeLimitInPx, ResizeEngine } from '@awdlab/jig/api/resize';
 
 import type { JigTableTh } from './table-header-cell';
 import type { ElementRef, ModelSignal, Signal } from '@angular/core';
-import type { ResizableItem } from '@awdlab/jig/api/resize';
+import type { ResizableItem, ResizeSize } from '@awdlab/jig/api/resize';
 
 /**
  * Default minimum column width in pixels for table columns.
@@ -53,6 +53,18 @@ export class TableColumnLayoutModel {
   public readonly isDragging = (): boolean => this._resizeEngine.isDragging();
 
   public readonly columnCount = computed(() => this._registeredHeaderCells().length);
+
+  /** Current column widths keyed by column id. */
+  public readonly columnSizes = computed<Record<string, ResizeSize>>(() => {
+    const sizes: Record<string, ResizeSize> = {};
+    for (const cell of this._registeredHeaderCells()) {
+      sizes[cell.jigTableTh()] = cell.size();
+    }
+    return sizes;
+  });
+
+  /** Widths waiting to be applied to columns that have not registered yet. */
+  private _restoredSizes: Record<string, ResizeSize> | null = null;
 
   /**
    * Effective column order: merges user-provided `columnOrder` with registered header cells.
@@ -224,6 +236,25 @@ export class TableColumnLayoutModel {
 
   public registerHeaderCell(cell: JigTableTh): void {
     this._registeredHeaderCells.update(cells => [...cells, cell]);
+    this._applyRestoredSize(cell);
+  }
+
+  /**
+   * Applies saved widths keyed by column id. Columns that register later pick
+   * theirs up in {@link registerHeaderCell}.
+   */
+  public restoreColumnSizes(sizes: Record<string, ResizeSize>): void {
+    this._restoredSizes = sizes;
+    for (const cell of untracked(this._registeredHeaderCells)) {
+      this._applyRestoredSize(cell);
+    }
+  }
+
+  private _applyRestoredSize(cell: JigTableTh): void {
+    const size = this._restoredSizes?.[cell.jigTableTh()];
+    if (size) {
+      cell.size.set(size);
+    }
   }
 
   public unregisterHeaderCell(cell: JigTableTh): void {

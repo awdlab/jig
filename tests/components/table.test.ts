@@ -1442,3 +1442,68 @@ test('rtl', async ({ page }, testInfo) => {
   );
   await expectScreenshot(page, testInfo);
 });
+
+test('persists state to storage across reloads', async ({ page }) => {
+  const key = 'table-e2e-storage';
+  const component = {
+    template: `
+      <jig-table
+        #table
+        style="height: 400px"
+        [rows]="inputs().rows"
+        [fieldId]="'id'"
+        [resizable]="true"
+        [selectionMode]="'single'"
+        [storage]="inputs().storage"
+      >
+        <ng-template #header>
+          <tr jigTableHeadTr>
+            <th [jigTableTh]="table.column('id')">ID</th>
+            <th [jigTableTh]="table.column('name')" [jigTableSortableColumn]>Name</th>
+            <th [jigTableTh]="table.column('dept')">Dept</th>
+          </tr>
+        </ng-template>
+        <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+          <tr [jigTableBodyTr]="row">
+            <td jigTableTd>{{ row.data.id }}</td>
+            <td jigTableTd>{{ row.data.name }}</td>
+            <td jigTableTd>{{ row.data.dept }}</td>
+          </tr>
+        </ng-template>
+      </jig-table>
+    `,
+    imports: ['tableModule', 'jigTemplate', 'tableSortableColumn'],
+  } satisfies TemplateType;
+  const io = { inputs: { rows: TABLE_ROWS, storage: { key, kind: 'localstorage' } } };
+
+  // Clear the key once, before the app bootstraps, so the first mount starts
+  // unsorted regardless of any pre-existing storage (the flag keeps the
+  // remount navigation from wiping the state we just persisted).
+  await page.addInitScript(k => {
+    const flag = `__jig_cleared_${k}`;
+    if (!sessionStorage.getItem(flag)) {
+      localStorage.removeItem(k);
+      sessionStorage.setItem(flag, '1');
+    }
+  }, key);
+
+  await loadComponent(page, component, io);
+
+  const grid = table(page);
+  await grid.sortBy(1);
+  await grid.expectSort(1, 'ascending');
+  await grid.rows.nth(1).click();
+  await grid.expectSelected(1);
+  await grid.resizeColumn(0, 60);
+  const width = await grid.columnWidth(0);
+
+  // Wait for the state to be flushed to storage before remounting.
+  await expect.poll(() => page.evaluate(k => localStorage.getItem(k) ?? '', key)).toContain('asc');
+
+  // Re-mount (fresh navigation; localStorage persists across it).
+  await loadComponent(page, component, io);
+  const grid2 = table(page);
+  await grid2.expectSort(1, 'ascending');
+  await grid2.expectSelected(1);
+  expect(Math.abs((await grid2.columnWidth(0)) - width)).toBeLessThan(2);
+});

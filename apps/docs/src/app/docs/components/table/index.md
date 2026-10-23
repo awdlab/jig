@@ -164,3 +164,15 @@ paginator into compact mode (next/previous only, no page count) — useful for
 cursor-based backends where the total row count isn't known.
 
 {{ demo: Demo_Table_CompactCursorPagination }}
+
+### Persisting State
+
+Pass a `storage` config (`key` + optional `JigStorageKind`) to save the table's
+state across reloads via `JigStorage`. Everything the user can change is
+persisted: `sort`, `filters`, `columnOrder`, `columnSizes`, `selection`,
+`expandedGroups` and `page` (index + size). Use `states` to persist only some
+of them, e.g. `{ key: 'my-table', states: ['sort', 'columnSizes'] }`. The `kind`
+accepts `'localstorage'` (default), `'sessionstorage'`, or `'cookie'` — the
+`cookie` kind is SSR-safe and restores state during server rendering.
+
+{{ demo: Demo_Table_Storage }}
