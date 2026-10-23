@@ -262,10 +262,21 @@ export class JigFilterBar<T = unknown, TData = T> extends ValueControlBase<
     }
     const selector = this.searchSelector();
     const properties = this.properties() ?? [];
-    const haystack = (item: T): string =>
-      selector
-        ? selector(item)
-        : properties.map(p => String(readFilterPropertyValue(item, p) ?? '')).join(' ');
+    const haystack = (item: T): string => {
+      if (selector) {
+        return selector(item);
+      }
+      if (properties.length) {
+        return properties.map(p => String(readFilterPropertyValue(item, p) ?? '')).join(' ');
+      }
+      // Nothing declared: search whatever the item carries, so a bare search box still works.
+      const source = (item as { data?: unknown } | null)?.data ?? item;
+      return source && typeof source === 'object'
+        ? Object.values(source)
+            .filter(v => v != null && typeof v !== 'object')
+            .join(' ')
+        : String(source ?? '');
+    };
     return data.filter(item => stringMatches(haystack(item).toLowerCase(), text, 'contains'));
   }
 

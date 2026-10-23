@@ -62,6 +62,17 @@ test('searches every declared property by default', async ({ page }) => {
   }).toPass();
 });
 
+test('searches the whole item when no properties are declared', async ({ page }) => {
+  const handle = await load(page, { properties: null });
+  const bar = new JigFilterBarHarness(page.locator('jig-filter-bar'));
+
+  await bar.searchInput().fill('Admin');
+  await expect(async () => {
+    const log = await handle.getOutputLog();
+    expect(names(log['filtered']?.at(-1))).toEqual(['Ann']);
+  }).toPass();
+});
+
 test('renders no filter trigger without properties', async ({ page }) => {
   await load(page, { properties: null });
   const bar = new JigFilterBarHarness(page.locator('jig-filter-bar'));
