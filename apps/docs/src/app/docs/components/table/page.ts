@@ -5,6 +5,7 @@ import { Demo_Table_Filtering } from '../../../demos/table/filtering';
 import { Demo_Table_Grouping } from '../../../demos/table/grouping';
 import { Demo_Table_LazyInfiniteScroll } from '../../../demos/table/lazy-infinite-scroll';
 import { Demo_Table_LazyPagination } from '../../../demos/table/lazy-pagination';
+import { Demo_Table_Loading } from '../../../demos/table/loading';
 import { Demo_Table_Paged } from '../../../demos/table/paged';
 import { Demo_Table_Reorderable } from '../../../demos/table/reorderable';
 import { Demo_Table_Resizable } from '../../../demos/table/resizable';
@@ -46,6 +47,7 @@ export const TablePage: JigDocsPage = {
         Demo_Table_Reorderable,
         Demo_Table_StickyColumns,
         Demo_Table_RowActions,
+        Demo_Table_Loading,
         Demo_Table_LazyPagination,
         Demo_Table_LazyInfiniteScroll,
         Demo_Table_CompactCursorPagination,

@@ -139,6 +139,14 @@ the current row) is always available even when the right-click affordance is off
 
 {{ demo: Demo_Table_RowActions }}
 
+### Loading State
+
+Set `loading` to replace the body with skeleton rows while you fetch data
+yourself — the client-side counterpart to the state `dataSource` tracks on its
+own. Override the placeholders with an `<ng-template #loading>`.
+
+{{ demo: Demo_Table_Loading }}
+
 ### Lazy Loading
 
 Provide a `dataSource` loader instead of `rows` to fetch rows on demand — the
