@@ -58,12 +58,13 @@ Resolution is forgiving: an unknown region falls back to its base language
 (`de-AT` → `de`), and an entirely unknown tag falls back to the first available
 language.
 
-`<html lang>` belongs to the app, so jig only reads it. If the app delegates its
-document language to jig — screen readers rely on the attribute for
-pronunciation — turn the write-back on:
+Because the tag starts out as the one the document already declares, jig never
+relabels the page on startup. From there it keeps `<html lang>` in sync with
+every `setLanguage()` call, which screen readers rely on for pronunciation. Turn
+that off if the app sets the attribute itself:
 
 ```ts
-provideJigControls({ theme: { preset: nova }, syncDocumentLang: true });
+provideJigControls({ theme: { preset: nova }, syncDocumentLang: false });
 ```
 
 ### Adding a language

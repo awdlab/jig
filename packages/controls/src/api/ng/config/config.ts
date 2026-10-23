@@ -22,10 +22,10 @@ export type JigConfig = {
    */
   readonly language?: string | null;
   /**
-   * Write the active language back to `<html lang>` on every switch. Leave it off
-   * unless the app delegates its document language to jig.
+   * Write the active language back to `<html lang>` on every switch. Turn it off
+   * if the app sets the attribute itself.
    *
-   * @default false
+   * @default true
    */
   readonly syncDocumentLang: boolean;
   readonly disableAnimations: boolean;
@@ -58,7 +58,7 @@ export type JigConfigInit = DeepPartial<
 
 export const defaultJigConfig: JigConfig = {
   logLevel: 'info',
-  syncDocumentLang: false,
+  syncDocumentLang: true,
   disableAnimations: false,
   respectReducedMotion: true,
   theme: {

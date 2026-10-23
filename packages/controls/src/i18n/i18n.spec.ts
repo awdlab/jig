@@ -29,17 +29,24 @@ describe('I18n', () => {
     expect(setup({ language: 'en' }).language()).toBe('en');
   });
 
-  it('leaves the document language alone by default', () => {
+  it('keeps the document language in sync', () => {
     document.documentElement.lang = 'de';
     setup().setLanguage('en');
+    TestBed.tick();
+    expect(document.documentElement.lang).toBe('en');
+  });
+
+  it('leaves the document language alone when the sync is off', () => {
+    document.documentElement.lang = 'de';
+    setup({ syncDocumentLang: false }).setLanguage('en');
     TestBed.tick();
     expect(document.documentElement.lang).toBe('de');
   });
 
-  it('syncs the document language when asked', () => {
+  it('does not change the document language on startup', () => {
     document.documentElement.lang = 'de';
-    setup({ syncDocumentLang: true }).setLanguage('en');
+    setup();
     TestBed.tick();
-    expect(document.documentElement.lang).toBe('en');
+    expect(document.documentElement.lang).toBe('de');
   });
 });

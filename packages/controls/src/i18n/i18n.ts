@@ -20,7 +20,7 @@ export type JigI18nOptions = {
   /**
    * Write the active language back to `<html lang>` on every switch.
    *
-   * @default false
+   * @default true
    */
   readonly syncDocumentLang?: boolean;
 };
@@ -46,7 +46,7 @@ export class I18n extends BaseTranslateService<Translations> {
     // selectable no matter when they land — otherwise the base service falls
     // back to the first built-in language.
     super(availableLanguageTags(), initialLanguage(options));
-    this.setDocumentLangTag = options?.syncDocumentLang ?? false;
+    this.setDocumentLangTag = options?.syncDocumentLang ?? true;
   }
 
   protected loadTranslations(lang: string): Promise<Translations> {
