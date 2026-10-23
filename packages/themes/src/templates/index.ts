@@ -21,6 +21,7 @@ export type ThemeTemplate = {
   drawer: Awaited<typeof import('./drawer/index.js')>['drawerControlTemplate'];
   dropdownList: Awaited<typeof import('./dropdown-list/index.js')>['dropdownListControlTemplate'];
   filterField: Awaited<typeof import('./filter-field/index.js')>['filterFieldControlTemplate'];
+  filterBar: Awaited<typeof import('./filter-bar/index.js')>['filterBarControlTemplate'];
   filterBuilder: Awaited<
     typeof import('./filter-builder/index.js')
   >['filterBuilderControlTemplate'];

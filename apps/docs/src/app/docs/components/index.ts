@@ -1,4 +1,5 @@
 import { AccordionPage } from './accordion/page';
+import { FilterBarPage } from './filter-bar/page';
 import { FilterBuilderPage } from './filter-builder/page';
 import { AutofocusPage } from './autofocus/page';
 import { AvatarPage } from './avatar/page';
@@ -81,6 +82,7 @@ export const COMPONENT_GROUPS: JigDocsGroup[] = [
       EditInplacePage,
       FilterFieldPage,
       FilterBuilderPage,
+      FilterBarPage,
       InputPage,
       InputFieldPage,
       ListBoxPage,

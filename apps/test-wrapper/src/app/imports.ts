@@ -2,6 +2,7 @@ export const IMPORTS = {
   accordion: () => import('@awdlab/jig/accordion').then(m => m.JigAccordion),
   accordionPanel: () => import('@awdlab/jig/accordion').then(m => m.JigAccordionPanel),
   actionButton: () => import('@awdlab/jig/button').then(m => m.JigActionButton),
+  filterBar: () => import('@awdlab/jig/filter-bar').then(m => m.JigFilterBar),
   filterBuilder: () => import('@awdlab/jig/filter-builder').then(m => m.JigFilterBuilder),
   avatar: () => import('@awdlab/jig/avatar').then(m => m.JigAvatar),
   avatarGroup: () => import('@awdlab/jig/avatar').then(m => m.JigAvatarGroup),

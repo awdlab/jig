@@ -25,6 +25,7 @@ import { commandStyles } from '@awdlab/jig-themes/shade/command';
 import { dialogStyles } from '@awdlab/jig-themes/shade/dialog';
 import { drawerStyles } from '@awdlab/jig-themes/shade/drawer';
 import { editInplaceStyles } from '@awdlab/jig-themes/shade/edit-inplace';
+import { filterBarStyles } from '@awdlab/jig-themes/shade/filter-bar';
 import { filterBuilderStyles } from '@awdlab/jig-themes/shade/filter-builder';
 import { filterFieldStyles } from '@awdlab/jig-themes/shade/filter-field';
 import { hintStyles } from '@awdlab/jig-themes/shade/hint';
@@ -113,6 +114,7 @@ export const shade = createTheme(
     dialogStyles,
     drawerStyles,
     editInplaceStyles,
+    filterBarStyles,
     filterBuilderStyles,
     filterFieldStyles,
     font,

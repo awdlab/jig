@@ -1,4 +1,5 @@
 export * from './accordion.js';
+export * from './filter-bar.js';
 export * from './filter-builder.js';
 export * from './avatar.js';
 export * from './badge.js';
