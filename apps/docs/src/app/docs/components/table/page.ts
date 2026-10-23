@@ -13,6 +13,7 @@ import {
   Demo_Table_Selection_Multi,
   Demo_Table_Selection_Single,
 } from '../../../demos/table/selection';
+import { Demo_Table_ServerFiltering } from '../../../demos/table/server-filtering';
 import { Demo_Table_Sorting } from '../../../demos/table/sorting';
 import { Demo_Table_StickyColumns } from '../../../demos/table/sticky-columns';
 import { Demo_Table_Virtual } from '../../../demos/table/virtual';
@@ -35,6 +36,7 @@ export const TablePage: JigDocsPage = {
         Demo_Table_Selection_Single,
         Demo_Table_Selection_Multi,
         Demo_Table_Filtering,
+        Demo_Table_ServerFiltering,
         Demo_Table_Grouping,
         Demo_Table_Paged,
         Demo_Table_Sorting,

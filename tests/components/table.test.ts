@@ -1393,3 +1393,73 @@ test('rtl', async ({ page }, testInfo) => {
   );
   await expectScreenshot(page, testInfo);
 });
+
+const TABLE_TEMPLATE_WITH_FILTERS = `
+  <jig-table
+    #table
+    style="height: 400px"
+    [rows]="inputs().rows"
+    [fieldId]="'id'"
+    [filters]="inputs().filters"
+    [filterLocally]="inputs().filterLocally"
+  >
+    <ng-template #header>
+      <tr jigTableHeadTr>
+        <th [jigTableTh]="table.column('id')">ID</th>
+        <th
+          [jigTableTh]="table.column('dept')"
+          [jigTableFilterableColumn]
+          [jigTableFilterableColumnType]="'string'"
+        >
+          Dept
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+      <tr [jigTableBodyTr]="row">
+        <td jigTableTd>{{ row.data.id }}</td>
+        <td jigTableTd>{{ row.data.dept }}</td>
+      </tr>
+    </ng-template>
+  </jig-table>
+`;
+
+const DEPT_FILTER = {
+  dept: {
+    dataType: 'string',
+    matchMode: 'all',
+    conditions: [{ operator: 'isEqual', rawValue: 'Design' }],
+  },
+};
+
+test.describe('Table Filtering - filterLocally', () => {
+  test('filters rows client-side by default', async ({ page }) => {
+    await loadComponent(
+      page,
+      {
+        template: TABLE_TEMPLATE_WITH_FILTERS,
+        imports: ['tableModule', 'jigTemplate'],
+      },
+      {
+        inputs: { rows: TABLE_ROWS, filters: DEPT_FILTER, filterLocally: true },
+      }
+    );
+
+    await expect(getBodyRows(page)).toHaveCount(2);
+  });
+
+  test('leaves rows untouched when filterLocally is false', async ({ page }) => {
+    await loadComponent(
+      page,
+      {
+        template: TABLE_TEMPLATE_WITH_FILTERS,
+        imports: ['tableModule', 'jigTemplate'],
+      },
+      {
+        inputs: { rows: TABLE_ROWS, filters: DEPT_FILTER, filterLocally: false },
+      }
+    );
+
+    await expect(getBodyRows(page)).toHaveCount(TABLE_ROWS.length);
+  });
+});
