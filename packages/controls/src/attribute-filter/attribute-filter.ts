@@ -43,6 +43,7 @@ import type {
   JigAttributeFilterConditionConfig,
   JigAttributeFilterConfig,
   JigFilterAttribute,
+  JigFilterAttributeKey,
 } from './types';
 import type { Anchor } from '@awdlab/jig/api/ng';
 
@@ -536,15 +537,16 @@ export class JigAttributeFilter<T = unknown> extends ValueControlBase<
     if (typeof attributeKey !== 'string') {
       return;
     }
+    const key = attributeKey;
     const existing = this.templateConfig().conditions[index];
-    const attribute = this.attributeFor(attributeKey);
-    if (!existing || !attribute || existing.attribute === attributeKey) {
+    const attribute = this.attributeFor(key);
+    if (!existing || !attribute || existing.attribute === key) {
       return;
     }
     const sameDataType = this.dataTypeOf(existing.attribute) === attribute.dataType;
     this.updateCondition(
       index,
-      sameDataType ? { ...existing, attribute: attributeKey } : this.createCondition(attribute)
+      sameDataType ? { ...existing, attribute: key } : this.createCondition(attribute)
     );
   }
 

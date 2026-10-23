@@ -34,6 +34,22 @@ export type JigItemsValue<Items extends readonly JigItem[]> = Items[number] exte
     : never
   : never;
 
+/** The `data` payload behind an item — a group's payload is its children's. */
+export type JigItemData<Item extends JigItem> = Item extends { items: readonly (infer A)[] }
+  ? A extends JigItem
+    ? JigItemData<A>
+    : never
+  : Item extends { data?: infer D }
+    ? NonNullable<D>
+    : never;
+
+/** The `data` payload carried by a set of items — what a filter attribute's key indexes. */
+export type JigItemsData<Items extends readonly JigItem[]> = Items[number] extends infer A
+  ? A extends JigItem
+    ? JigItemData<A>
+    : never
+  : never;
+
 export function transformToJigItem<T extends object, K extends keyof T>(
   item: T,
   fields: JigItemFields<T, K>

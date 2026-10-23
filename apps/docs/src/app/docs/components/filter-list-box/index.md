@@ -10,7 +10,9 @@ top of it the control adds:
 
 - `[(searchText)]` — the search text, written `searchDebounce` milliseconds
   after typing stops.
-- `attributes` — what the filter popover can build conditions on.
+- `attributes` — what the filter popover can build conditions on. Keys are
+  checked against the items' `data` payload, not against `JigItem` itself, so
+  `JigFilterAttribute` takes both: `JigFilterAttribute<Item, Person>`.
 - `allowMultiple` — defaults to `true` here, unlike the standalone attribute
   filter, because the chips make a set of conditions easy to read at a glance.
 - `filterLocally` and `filterChange` — for server-side filtering.

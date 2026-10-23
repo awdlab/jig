@@ -3,7 +3,7 @@ import { transformToJigItems } from '@awdlab/jig/api';
 import type { JigAttributeFilterConfig, JigFilterAttribute } from '@awdlab/jig/attribute-filter';
 import { JigFilterListBox } from '@awdlab/jig/filter-list-box';
 
-import { people, ROLES } from '../../helper/people';
+import { people, ROLES, type Person } from '../../helper/people';
 
 const items = transformToJigItems(people, { label: 'name', value: 'id' });
 type Item = (typeof items)[number];
@@ -28,7 +28,7 @@ type Item = (typeof items)[number];
 })
 export class Demo_FilterListBox_Attributes {
   protected readonly items = items;
-  protected readonly attributes: readonly JigFilterAttribute<Item>[] = [
+  protected readonly attributes: readonly JigFilterAttribute<Item, Person>[] = [
     { key: 'email', label: 'E-mail', dataType: 'string' },
     { key: 'role', label: 'Role', dataType: 'list', listOptions: ROLES },
     { key: 'joined', label: 'Joined', dataType: 'date' },

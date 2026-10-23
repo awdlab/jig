@@ -22,6 +22,7 @@ import {
   getActiveFilterConditions,
   type FilterConfig,
   type JigItem,
+  type JigItemsData,
   type JigItemsValue,
 } from '@awdlab/jig/api';
 import {
@@ -47,11 +48,11 @@ import { FilterListBoxTemplates } from './filter-list-box-templates';
 import type { IconType } from '@awdlab/jig-custom-types';
 
 /** An active condition, paired with the attribute it filters on and its parsed value. */
-type ActiveCondition<T> = {
+type ActiveCondition<TItem, TData> = {
   /** Position in the configuration, so a chip can remove exactly this condition. */
   index: number;
   condition: JigAttributeFilterConditionConfig;
-  attribute: JigFilterAttribute<T>;
+  attribute: JigFilterAttribute<TItem, TData>;
   value: unknown;
 };
 
@@ -102,7 +103,9 @@ export class JigFilterListBox<
    * plain searchable list — without it no filter trigger and no chips are rendered.
    * @default null
    */
-  public readonly attributes = input<readonly JigFilterAttribute<Items[number]>[] | null>(null);
+  public readonly attributes = input<
+    readonly JigFilterAttribute<Items[number], JigItemsData<Items>>[] | null
+  >(null);
   /**
    * Two-way text the list is searched by, written {@link searchDebounce} after
    * the user stops typing.
@@ -199,7 +202,9 @@ export class JigFilterListBox<
   /** The items the filter derives its `list` options from, groups flattened. */
   protected readonly filterData = computed(() => flatItems(this.items()) as Items[number][]);
 
-  protected readonly activeConditions = computed<readonly ActiveCondition<Items[number]>[]>(() => {
+  protected readonly activeConditions = computed<
+    readonly ActiveCondition<Items[number], JigItemsData<Items>>[]
+  >(() => {
     const config = this.filterConfig();
     const attributes = this.attributes();
     if (!config || !attributes) {
@@ -279,7 +284,11 @@ export class JigFilterListBox<
     }
   }
 
-  private chipLabel({ condition, attribute, value }: ActiveCondition<Items[number]>): string {
+  private chipLabel({
+    condition,
+    attribute,
+    value,
+  }: ActiveCondition<Items[number], JigItemsData<Items>>): string {
     const defs = defaultOperatorsForType(attribute.dataType);
     const def = defs.find(d => d.id === condition.operator);
     const operator = def ? this._i18n.unsafe(def.labelKey)() : condition.operator;

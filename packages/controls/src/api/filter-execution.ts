@@ -34,13 +34,18 @@ type JigFilterConfig = {
   conditions: readonly JigFilterConditionConfig[];
 };
 
-type JigFilterAttribute<T = unknown> = {
-  key: string;
+type JigFilterAttributeKey<TData> = unknown extends TData
+  ? string
+  : Extract<AllKeysOfUnion<TData>, string>;
+
+type JigFilterAttribute<TItem = unknown, TData = TItem> = {
   label: string | (() => string);
   dataType: JigFilterDataType;
   listOptions?: readonly string[];
-  selector?: (item: T) => unknown;
-};
+} & (
+  | { key: JigFilterAttributeKey<TData>; selector?: (item: TItem) => unknown }
+  | { key: string; selector: (item: TItem) => unknown }
+);
 
 type JigAttributeFilterConditionConfig = {
   attribute: string;
@@ -322,7 +327,10 @@ export function executeMultiFilter<T extends object>(
 }
 
 /** Reads an attribute's value from an item: the attribute's own selector, else `(item.data ?? item)[key]`. */
-export function readFilterAttributeValue<T>(item: T, attribute: JigFilterAttribute<T>): unknown {
+export function readFilterAttributeValue<TItem, TData = TItem>(
+  item: TItem,
+  attribute: JigFilterAttribute<TItem, TData>
+): unknown {
   if (attribute.selector) {
     return attribute.selector(item);
   }
@@ -342,12 +350,12 @@ export function formatConditionValue(value: unknown, dataType: JigFilterDataType
 }
 
 /** Filters by conditions that each name their own attribute; `matchMode` joins them across attributes. */
-export function executeAttributeFilter<T>(
-  data: readonly T[],
+export function executeAttributeFilter<TItem, TData = TItem>(
+  data: readonly TItem[],
   config: JigAttributeFilterConfig,
-  attributes: readonly JigFilterAttribute<T>[],
-  childrenKey?: keyof T
-): readonly T[] {
+  attributes: readonly JigFilterAttribute<TItem, TData>[],
+  childrenKey?: keyof TItem
+): readonly TItem[] {
   const active = config.conditions.flatMap(c => {
     const attribute = attributes.find(a => a.key === c.attribute);
     if (!attribute) {
@@ -364,19 +372,19 @@ export function executeAttributeFilter<T>(
     return data;
   }
 
-  const matches = (item: T): boolean => {
+  const matches = (item: TItem): boolean => {
     const test = ({ attribute, condition }: (typeof active)[number]): boolean =>
       matchesValue(readFilterAttributeValue(item, attribute), attribute.dataType, condition);
     return config.matchMode === 'any' ? active.some(test) : active.every(test);
   };
 
-  const filterLevel = (items: readonly T[]): T[] =>
+  const filterLevel = (items: readonly TItem[]): TItem[] =>
     items.flatMap(item => {
       const children = childrenKey ? item[childrenKey] : undefined;
       if (Array.isArray(children) && children.length > 0) {
-        const surviving = filterLevel(children as T[]);
+        const surviving = filterLevel(children as TItem[]);
         if (surviving.length > 0) {
-          return [{ ...item, [childrenKey as keyof T]: surviving }];
+          return [{ ...item, [childrenKey as keyof TItem]: surviving }];
         }
       }
       return matches(item) ? [item] : [];
