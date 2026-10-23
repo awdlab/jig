@@ -88,12 +88,7 @@ export class JigPopover extends PopoverTemplates implements Openable {
   private readonly _cdr = inject(ChangeDetectorRef);
   private readonly _popoverRef = viewChild.required<ElementRef<HTMLElement>>('popover');
   private readonly _popover = computed(() => this._popoverRef().nativeElement);
-  /**
-   * `false` between entering the top layer and floating-ui's first applied position.
-   * Until then the UA parks the popover at the viewport origin, so painting it there
-   * flashes it in the wrong place and a click aimed at it lands outside, which
-   * light-dismisses it.
-   */
+  /** `false` until floating-ui has placed the popover; until then the UA parks it at the viewport origin. */
   private readonly _positioned = signal(false);
   protected readonly positioned = this._positioned.asReadonly();
 

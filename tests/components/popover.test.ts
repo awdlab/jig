@@ -123,8 +123,7 @@ test('a popover left visible outside the top layer does not reflow its anchor', 
 });
 
 test('is never painted before it is positioned', async ({ page }) => {
-  // Hold the floating-ui chunk back so the gap between entering the top layer and the
-  // first computed position spans several frames, as it does on a loaded CI machine.
+  // Hold the floating-ui chunk back so the unpositioned window spans several frames.
   let chunkRequested = false;
   await page.route(/@floating-ui_dom\.js/, async route => {
     chunkRequested = true;
@@ -142,10 +141,7 @@ test('is never painted before it is positioned', async ({ page }) => {
 
   const popover = new JigPopoverHarness(page.locator('jig-popover').first());
 
-  // Record the wrapper's box on every frame it is actually painted. floating-ui places
-  // the popover asynchronously; until it does, the UA parks it at the viewport origin,
-  // so any painted frame before that is both a visible jump and a click landing outside
-  // the popover, which light-dismisses it.
+  // Record the wrapper's box on every frame it is actually painted.
   await page.evaluate(selector => {
     const frames: string[] = [];
     (window as unknown as { __frames: string[] }).__frames = frames;

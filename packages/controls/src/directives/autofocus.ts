@@ -66,9 +66,8 @@ export class JigAutofocus {
       return;
     }
     const element = this._el.nativeElement;
-    // `focus()` on a host that is not rendered yet is a silent no-op: controls are
-    // `display: none` while initializing, and a popover stays `visibility: hidden` until
-    // it has been positioned. Wait for it to render instead of assuming it has.
+    // `focus()` is a silent no-op on a host that is not rendered: `display: none` while a
+    // control initializes, `visibility: hidden` while a popover is still unpositioned.
     if (element.isConnected && !element.checkVisibility({ visibilityProperty: true })) {
       this._frame = requestAnimationFrame(() => this.autoFocus());
       return;
