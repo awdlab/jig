@@ -122,6 +122,57 @@ test('a popover left visible outside the top layer does not reflow its anchor', 
   expect((await after.boundingBox())!.y).toBe(before);
 });
 
+test('is never painted before it is positioned', async ({ page }) => {
+  // Hold the floating-ui module back so the unpositioned window spans several frames.
+  // Matched on content, not URL — the dev server names that chunk differently depending
+  // on whether its dependency cache is warm.
+  let held = false;
+  await page.route(/\.js(\?|$)/, async route => {
+    const response = await route.fetch();
+    if ((await response.text()).includes('computePosition')) {
+      held = true;
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    await route.fulfill({ response });
+  });
+
+  await loadComponent(page, {
+    template: `
+      <button #anchor (click)="popover.show()">Open</button>
+      <jig-popover #popover [anchor]="anchor"> Content </jig-popover>
+    `,
+    imports: ['popover'],
+  });
+
+  const popover = new JigPopoverHarness(page.locator('jig-popover').first());
+
+  // Record the wrapper's box on every frame it is actually painted.
+  await page.evaluate(selector => {
+    const frames: string[] = [];
+    (window as unknown as { __frames: string[] }).__frames = frames;
+    const element = document.querySelector(selector) as HTMLElement;
+    const sample = () => {
+      if (element.matches(':popover-open') && getComputedStyle(element).visibility !== 'hidden') {
+        const box = element.getBoundingClientRect();
+        frames.push(
+          [box.x, box.y, box.width, box.height].map(value => Math.round(value)).join(',')
+        );
+      }
+      requestAnimationFrame(sample);
+    };
+    requestAnimationFrame(sample);
+  }, popover.classes.wrapper);
+
+  await page.locator('button').first().click();
+  await popover.expectOpened();
+  await page.waitForTimeout(300);
+
+  const frames = await page.evaluate(() => (window as unknown as { __frames: string[] }).__frames);
+  expect(held).toBe(true);
+  expect(frames.length).toBeGreaterThan(0);
+  expect([...new Set(frames)]).toEqual([frames[frames.length - 1]]);
+});
+
 test('accessibility (axe)', async ({ page }) => {
   await loadComponent(page, {
     template: `

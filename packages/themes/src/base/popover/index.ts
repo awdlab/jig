@@ -34,6 +34,11 @@ export const popoverStyles = createThemePart({
         font-size: 1rem;
         cursor: default;
 
+        /* In the top layer but not yet placed by floating-ui: measurable, but not painted or clickable at the wrong spot. */
+        &${c('wrapper-unpositioned')} {
+          visibility: hidden;
+        }
+
         &:not(:popover-open) {
           display: none;
           /* Due to the TRANSITION_BUFFER, the child would reappear (for TRANSITION_BUFFER), because the closing class gets removed */
