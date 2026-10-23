@@ -56,3 +56,9 @@ the bar exposes `filtersActive` and `clear()` so your own "no results" message
 can offer to clear everything.
 
 {{ demo: Demo_FilterBar_WithListBox }}
+
+### A filter of your own
+
+`templateFilter` is forwarded straight to the embedded builder, so the popover
+behind the trigger can be entirely yours. See the filter builder's page for the
+context it hands your template.

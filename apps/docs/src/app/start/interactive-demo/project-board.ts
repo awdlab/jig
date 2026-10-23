@@ -125,7 +125,7 @@ export class ProjectBoard {
   /** Show only cards assigned to the current user. */
   protected readonly myTasksOnly = signal(false);
 
-  // -- Quick filter (jig-filter over task titles) --
+  // -- Quick filter (jig-filter-field over task titles) --
   protected readonly filterResult = signal<readonly string[] | null>(null);
   protected readonly taskTitles = computed(() => this._tasks().map(t => t.title));
 

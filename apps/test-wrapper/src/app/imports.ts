@@ -70,6 +70,7 @@ export const IMPORTS = {
   table: () => import('@awdlab/jig/table').then(m => m.JigTable),
   tableModule: () => import('@awdlab/jig/table').then(m => m.JigTableModule),
   tableSelectionColumn: () => import('@awdlab/jig/table').then(m => m.JigTableSelectionColumn),
+  tableFilterableColumn: () => import('@awdlab/jig/table').then(m => m.JigTableFilterableColumn),
   tableSortableColumn: () => import('@awdlab/jig/table').then(m => m.JigTableSortableColumn),
   tableStickyColumn: () => import('@awdlab/jig/table').then(m => m.JigTableStickyColumn),
   jigTemplate: () => import('@awdlab/jig/api/ng').then(m => m.JigTemplate),

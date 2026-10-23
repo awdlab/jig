@@ -70,3 +70,28 @@ export type JigFilterOutput<T> = JigFilterConfig & {
   /** The filtered data result. */
   filtered: readonly T[];
 };
+
+/**
+ * What a custom filter template is handed. Write a configuration back with
+ * {@link JigFilterFieldTemplateContext.setValue} and the field filters as usual.
+ */
+export type JigFilterFieldTemplateContext<T = unknown> = {
+  /** The configuration being edited, `null` while nothing is set. */
+  $implicit: JigFilterConfig | null;
+  /** The data being filtered, for deriving options from. */
+  data: readonly T[];
+  /** The field's data type, which decides the operators you may use. */
+  dataType: JigFilterDataType;
+  disabled: boolean;
+  readonly: boolean;
+  /** Writes a configuration back, honouring `autoApply` and its debounce. */
+  setValue: (config: JigFilterConfig | null) => void;
+  /** Commits the pending configuration. Only meaningful while `autoApply` is off. */
+  apply: () => void;
+  /** Restores the configuration as it was when the popover opened. */
+  cancel: () => void;
+  /** Clears the configuration. */
+  clear: () => void;
+  /** Closes the popover. */
+  close: () => void;
+};

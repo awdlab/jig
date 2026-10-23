@@ -22,7 +22,7 @@ import {
   filterPropertyId,
   readFilterPropertyValue,
 } from '@awdlab/jig/api';
-import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigButton } from '@awdlab/jig/button';
 import { JigCalendar } from '@awdlab/jig/calendar';
 import {
@@ -39,6 +39,8 @@ import { JigPopover, type PopoverOptions } from '@awdlab/jig/popover';
 import { JigSelect } from '@awdlab/jig/select';
 import { deepMerge, JigError } from '@awdlab/jig/utils';
 import { filterBuilderControlTemplate } from '@awdlab/jig-themes/templates/filter-builder';
+
+import { FilterBuilderTemplates } from './filter-builder-templates';
 
 import type {
   JigFilterBuilderConditionConfig,
@@ -97,10 +99,7 @@ function parseListRawValue(rawValue: string | null): readonly string[] {
     style: 'display: block;',
   },
 })
-export class JigFilterBuilder<T = unknown, TData = T> extends ValueControlBase<
-  'filterBuilder',
-  JigFilterBuilderConfig | null
-> {
+export class JigFilterBuilder<T = unknown, TData = T> extends FilterBuilderTemplates<T, TData> {
   protected readonly theme = this.injectThemeTemplate(filterBuilderControlTemplate, 'root');
   private readonly _i18n = inject(I18n);
   protected readonly i18n = this._i18n.translations;
@@ -612,6 +611,20 @@ export class JigFilterBuilder<T = unknown, TData = T> extends ValueControlBase<
     next.splice(index, 1);
     this.updateWorkingConfig({ ...cfg, conditions: next });
   }
+
+  /** Everything a custom filter template needs to render and write the configuration. */
+  protected readonly filterContext = computed(() => ({
+    $implicit: this.templateConfig(),
+    data: this.data(),
+    properties: this.properties(),
+    disabled: this.disabled(),
+    readonly: this.readonly(),
+    setValue: (config: JigFilterBuilderConfig | null) => this.updateWorkingConfig(config),
+    apply: () => this.apply(),
+    cancel: () => this.cancelChanges(),
+    clear: () => this.clear(),
+    close: () => this.hide(),
+  }));
 
   /** Applies the working config (manual mode). */
   protected apply(): void {

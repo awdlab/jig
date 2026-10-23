@@ -12,6 +12,7 @@ import {
   numberAttribute,
   output,
   signal,
+  TemplateRef,
   untracked,
   viewChild,
 } from '@angular/core';
@@ -137,6 +138,11 @@ export class JigFilterBar<T = unknown, TData = T> extends ValueControlBase<
    * @default true
    */
   public readonly filterLocally = input(true, { transform: booleanAttribute });
+  /**
+   * Replaces the filter popover's condition rows with your own editor. Forwarded
+   * to the embedded {@link JigFilterBuilder}; see its `templateFilter`.
+   */
+  public readonly templateFilter = input<TemplateRef<unknown> | null>(null);
   /**
    * Custom icon for the search field.
    */

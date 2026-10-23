@@ -122,7 +122,7 @@ export class JigTableHarness extends JigHarness {
 
   /** The filter popover of a `jigTableFilterableColumn` header. */
   public columnFilter(column: number): JigFilterFieldHarness {
-    return new JigFilterFieldHarness(this.headerCell(column).locator('jig-filter'));
+    return new JigFilterFieldHarness(this.headerCell(column).locator('jig-filter-field'));
   }
 
   // --- column resize / reorder --------------------------------------------

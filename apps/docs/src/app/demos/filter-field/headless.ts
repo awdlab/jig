@@ -9,7 +9,7 @@ import { JigFilterField, type JigFilterConfig } from '@awdlab/jig/filter-field';
     <div class="flex flex-col gap-2">
       <button type="button" jigButton #btn (click)="filter.show()">Open filter</button>
 
-      <jig-filter
+      <jig-filter-field
         #filter
         mode="headless"
         [anchor]="btn"

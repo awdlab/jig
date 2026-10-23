@@ -153,7 +153,7 @@ declare global {
       <jig-edit-inplace [value]="editInplaceValue()" (valueChange)="editInplaceValue.set($event)" />
 
       <!-- Filter -->
-      <jig-filter [data]="filterData()" dataType="string" />
+      <jig-filter-field [data]="filterData()" dataType="string" />
 
       <!-- Icon -->
       <jig-icon [icon]="userIcon" />

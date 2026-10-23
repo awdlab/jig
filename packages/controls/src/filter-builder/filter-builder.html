@@ -133,6 +133,14 @@
   </div>
 </ng-template>
 
+<ng-template #conditionArea>
+  @if (filterTemplate(); as custom) {
+    <ng-container [ngTemplateOutlet]="custom" [ngTemplateOutletContext]="filterContext()" />
+  } @else {
+    <ng-container [ngTemplateOutlet]="rowsTemplate" />
+  }
+</ng-template>
+
 <ng-template #footerTemplate>
   @if (!disabled() && !readonly()) {
     <div [ptInt]="this" [ptClass]="'footer'">
@@ -205,7 +213,7 @@
   >
     <ng-template #lazy>
       <div [ptInt]="this" [ptClass]="'popover-content'">
-        <ng-container [ngTemplateOutlet]="rowsTemplate" />
+        <ng-container [ngTemplateOutlet]="conditionArea" />
         <ng-container [ngTemplateOutlet]="footerTemplate" />
       </div>
     </ng-template>
@@ -214,7 +222,7 @@
 
 @if (mode() === 'inline') {
   <div [ptInt]="this" [ptClass]="'inline'">
-    <ng-container [ngTemplateOutlet]="rowsTemplate" />
+    <ng-container [ngTemplateOutlet]="conditionArea" />
     <ng-container [ngTemplateOutlet]="footerTemplate" />
   </div>
 } @else if (mode() === 'input') {

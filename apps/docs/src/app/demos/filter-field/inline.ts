@@ -6,7 +6,7 @@ import { JigFilterField, type JigFilterConfig } from '@awdlab/jig/filter-field';
   imports: [JigFilterField],
   template: `
     <div class="flex flex-col gap-2">
-      <jig-filter
+      <jig-filter-field
         mode="inline"
         [data]="data"
         (filterChange)="output.set($event)"

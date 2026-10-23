@@ -8,7 +8,7 @@ import { JigHint } from '@awdlab/jig/hint';
   imports: [JigErrors, JigFilterField, JigHint],
   template: `
     <div class="flex flex-col gap-2">
-      <jig-filter
+      <jig-filter-field
         [data]="data"
         (filterChange)="filter.set($event)"
         jigErrors

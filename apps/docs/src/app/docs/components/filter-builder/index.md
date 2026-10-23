@@ -4,7 +4,7 @@ operator, then a value — "e-mail contains @gmail.com", "role is Admin" — and
 the conditions are joined by one match mode, `all` or `any`, flipped by the
 clickable pill between rows.
 
-It is the sibling of `jig-filter`, which filters a single fixed property (a
+It is the sibling of `jig-filter-field`, which filters a single fixed property (a
 table column). Reach for the property filter when one control has to filter on
 several properties of the same item, for example a list of users showing a name,
 an e-mail and an id.
@@ -69,3 +69,11 @@ When `autoApply` is `false`, changes are not applied until the user clicks
 "Apply". The "Cancel" button restores the previous filter state.
 
 {{ demo: Demo_FilterBuilder_ApplyMode }}
+
+### A filter of your own
+
+`templateFilter` (or an `<ng-template #filter>`) replaces the condition rows with
+your own editor, exactly as on `jig-filter-field`. The context carries
+`properties` instead of a single `dataType`, since a condition here names the
+property it filters on. Write a `JigFilterBuilderConfig` back through `setValue`
+and the chips, the badge and server-side filtering all keep working.

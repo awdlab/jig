@@ -1,4 +1,5 @@
 import { JigDocsFilterFieldPlayground } from './playground';
+import { Demo_FilterField_CustomTemplate } from '../../../demos/filter-field/custom-template';
 import { Demo_FilterField_ApplyMode } from '../../../demos/filter-field/apply-mode';
 import { Demo_FilterField_Base } from '../../../demos/filter-field/base';
 import { Demo_FilterField_Custom } from '../../../demos/filter-field/custom';
@@ -32,6 +33,7 @@ export const FilterFieldPage: JigDocsPage = {
         Demo_FilterField_Custom,
         Demo_FilterField_Multiple,
         Demo_FilterField_ApplyMode,
+        Demo_FilterField_CustomTemplate,
       ],
     },
     {

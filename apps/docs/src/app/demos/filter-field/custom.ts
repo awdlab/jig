@@ -12,7 +12,7 @@ type Country = {
   imports: [JigFilterField],
   template: `
     <div class="flex flex-col gap-2">
-      <jig-filter
+      <jig-filter-field
         mode="inline"
         dataType="custom"
         [filterLocally]="false"

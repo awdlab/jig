@@ -6,7 +6,7 @@ controls: table, filter, paginator, input, select, tag
 
 # Filterable, paginated table
 
-Combine `jig-table` for the grid, `jig-filter` (or plain inputs) for filtering,
+Combine `jig-table` for the grid, `jig-filter-field` (or plain inputs) for filtering,
 and `jig-paginator` for paging. Keep the source data and the derived view in
 signals so filtering + paging are pure `computed()` transforms.
 
@@ -15,14 +15,14 @@ signals so filtering + paging are pure `computed()` transforms.
 - Hold raw rows in a `signal()`; derive the filtered + paged view with
   `computed()`.
 - Drive the paginator's `pageSize` / `total` from the derived view.
-- Use `jig-filter` for operator-based column filtering, or bind simple
+- Use `jig-filter-field` for operator-based column filtering, or bind simple
   `input[jigInput]` / `jig-select` controls to filter signals.
 - Render status/labels inside cells with `jig-tag`.
 
 ## Skeleton
 
 ```html
-<jig-filter [(value)]="query" />
+<jig-filter-field [(value)]="query" />
 
 <jig-table [rows]="pagedRows()">
   <!-- columns per jig-table docs; verify with get_control -->

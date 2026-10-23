@@ -578,3 +578,57 @@ test('the date editor keeps the month the user navigates to', async ({ page }) =
   await calendar.backButton.click();
   await calendar.currentMonth.expectSelectedItemText('July');
 });
+
+test('a custom filter template replaces the rows and filters through setValue', async ({
+  page,
+}) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+        <jig-filter-builder
+          mode="inline"
+          [data]="inputs().data"
+          [properties]="inputs().properties"
+          (filterResultChange)="output('filtered', $event)"
+          style="width: 560px"
+        >
+          <ng-template #filter let-config let-setValue="setValue" let-properties="properties">
+            <button
+              type="button"
+              data-testid="gmail-only"
+              (click)="
+                setValue({
+                  matchMode: 'all',
+                  conditions: [
+                    { property: 'email', operator: 'contains', rawValue: '@gmail.com' }
+                  ]
+                })
+              "
+            >
+              Gmail only
+            </button>
+            <span data-testid="property-count">{{ properties.length }}</span>
+            <span data-testid="condition-count">{{ config?.conditions?.length ?? 0 }}</span>
+          </ng-template>
+        </jig-filter-builder>
+      `,
+      imports: ['filterBuilder'],
+    },
+    { inputs: { data: USERS, properties: PROPERTIES } }
+  );
+
+  await expect(page.getByTestId('gmail-only')).toBeVisible();
+  await expect(page.getByTestId('property-count')).toHaveText(String(PROPERTIES.length));
+  await expect(page.locator('jig-filter-builder jig-select')).toHaveCount(0);
+
+  await page.getByTestId('gmail-only').click();
+  await expect(page.getByTestId('condition-count')).toHaveText('1');
+  await expect(async () => {
+    const log = await handle.getOutputLog();
+    expect((log['filtered']?.at(-1) as { name: string }[] | undefined)?.map(u => u.name)).toEqual([
+      'Ann',
+      'Cal',
+    ]);
+  }).toPass();
+});

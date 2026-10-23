@@ -8,7 +8,7 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
   imports: [JigFilterField, JigDocsPlayground],
   template: `
     <jig-docs-playground [controls]="[{ componentName: 'JigFilterField', component: component() }]">
-      <jig-filter #ref [data]="data" />
+      <jig-filter-field #ref [data]="data" />
     </jig-docs-playground>
   `,
 })

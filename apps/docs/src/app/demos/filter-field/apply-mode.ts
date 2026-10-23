@@ -8,7 +8,7 @@ import { JigFilterField, type JigFilterConfig } from '@awdlab/jig/filter-field';
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-2">
         <div class="text-sm font-medium">Manual Apply (inline)</div>
-        <jig-filter
+        <jig-filter-field
           mode="inline"
           [autoApply]="false"
           [data]="data"
@@ -25,7 +25,7 @@ import { JigFilterField, type JigFilterConfig } from '@awdlab/jig/filter-field';
 
       <div class="flex flex-col gap-2">
         <div class="text-sm font-medium">Manual Apply (popover)</div>
-        <jig-filter
+        <jig-filter-field
           [autoApply]="false"
           [data]="data"
           (filterChange)="output2.set($event)"

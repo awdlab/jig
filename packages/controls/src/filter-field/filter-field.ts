@@ -18,7 +18,7 @@ import {
   type JigItem,
   parseFilterRawDate,
 } from '@awdlab/jig/api';
-import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigButton } from '@awdlab/jig/button';
 import { JigCalendar } from '@awdlab/jig/calendar';
 import { I18n } from '@awdlab/jig/i18n';
@@ -29,6 +29,8 @@ import { JigPopover, type PopoverOptions } from '@awdlab/jig/popover';
 import { JigSelect } from '@awdlab/jig/select';
 import { deepMerge, JigError } from '@awdlab/jig/utils';
 import { filterFieldControlTemplate } from '@awdlab/jig-themes/templates/filter-field';
+
+import { FilterFieldTemplates } from './filter-field-templates';
 
 import type {
   JigFilterCondition,
@@ -114,7 +116,7 @@ export function defaultOperatorsForType(dataType: JigFilterDataType) {
  * @category control
  */
 @Component({
-  selector: 'jig-filter',
+  selector: 'jig-filter-field',
   templateUrl: './filter-field.html',
   imports: [
     JigPt,
@@ -132,10 +134,7 @@ export function defaultOperatorsForType(dataType: JigFilterDataType) {
     style: 'display: block;',
   },
 })
-export class JigFilterField<T = unknown> extends ValueControlBase<
-  'filterField',
-  JigFilterConfig | null
-> {
+export class JigFilterField<T = unknown> extends FilterFieldTemplates<T> {
   protected readonly theme = this.injectThemeTemplate(filterFieldControlTemplate, 'root');
   private readonly _i18n = inject(I18n);
   protected readonly i18n = this._i18n.translations;
@@ -753,6 +752,20 @@ export class JigFilterField<T = unknown> extends ValueControlBase<
       ],
     });
   }
+
+  /** Everything a custom filter template needs to render and write the configuration. */
+  protected readonly filterContext = computed(() => ({
+    $implicit: this.templateConfig(),
+    data: this.data(),
+    dataType: this.dataType(),
+    disabled: this.disabled(),
+    readonly: this.readonly(),
+    setValue: (config: JigFilterConfig | null) => this.updateWorkingConfig(config),
+    apply: () => this.apply(),
+    cancel: () => this.cancelChanges(),
+    clear: () => this.clear(),
+    close: () => this.hide(),
+  }));
 
   /** Applies the working config (manual mode). */
   protected apply(): void {

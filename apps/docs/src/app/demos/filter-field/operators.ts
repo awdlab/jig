@@ -6,7 +6,7 @@ import { JigFilterField, type JigFilterOperatorId } from '@awdlab/jig/filter-fie
   imports: [JigFilterField],
   template: `
     <div class="flex flex-col gap-2">
-      <jig-filter
+      <jig-filter-field
         mode="inline"
         [data]="data"
         [operators]="operators"

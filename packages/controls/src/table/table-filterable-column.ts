@@ -1,4 +1,5 @@
 import {
+  TemplateRef,
   ComponentRef,
   computed,
   Directive,
@@ -15,6 +16,7 @@ import { getNearestJigInstanceSig } from '@awdlab/jig/base';
 import { JigActionButton } from '@awdlab/jig/button';
 import {
   JigFilterField,
+  type JigFilterFieldTemplateContext,
   type JigFilterDataType,
   type JigFilterOperatorId,
 } from '@awdlab/jig/filter-field';
@@ -63,6 +65,13 @@ export class JigTableFilterableColumn implements OnDestroy {
   public readonly jigTableFilterableColumnType = input.required<JigFilterDataType>();
   /** For list-based filters, the set of selectable option values to offer. */
   public readonly jigTableFilterableColumnItems = input<string[] | null | undefined>();
+  /**
+   * Replaces this column's filter popover with your own editor — a slider, a rating,
+   * a lookup against your backend. It writes a `JigFilterConfig` back through the
+   * context's `setValue`, so the column filters exactly as a built-in one does.
+   */
+  public readonly jigTableFilterableColumnTemplate =
+    input<TemplateRef<JigFilterFieldTemplateContext> | null>(null);
   /**
    * Restricts and orders the operators offered for this column. Ids the column type does not
    * support are ignored; when empty, all operators of the type are offered.
@@ -127,6 +136,9 @@ export class JigTableFilterableColumn implements OnDestroy {
     });
     effect(() => {
       setComponentInput(this._jigFilter, 'listOptions', this.jigTableFilterableColumnItems());
+    });
+    effect(() => {
+      setComponentInput(this._jigFilter, 'templateFilter', this.jigTableFilterableColumnTemplate());
     });
     effect(() => {
       setComponentInput(this._jigFilter, 'operators', this.jigTableFilterableColumnOperators());

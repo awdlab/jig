@@ -1,4 +1,4 @@
-The Filter (`jig-filter`) pairs an operator select with a value editor so users
+The Filter (`jig-filter-field`) pairs an operator select with a value editor so users
 can build filter conditions over a dataset. The `dataType` input (`string`,
 `number`, `date`, `dateTime`, `boolean`, `list`, or `custom`) drives which
 operators and editor UI appear. With `filterLocally` on (the default) it filters
@@ -74,3 +74,20 @@ whether a row must satisfy all conditions or any of them.
 When `autoApply` is `false`, changes are not applied until the user clicks "Apply". The "Cancel" button restores the previous filter state.
 
 {{ demo: Demo_FilterField_ApplyMode }}
+
+### A filter of your own
+
+Pass `templateFilter` — or project an `<ng-template #filter>` — and your editor
+replaces the condition rows. The trigger, the summary and the footer stay, so
+`autoApply` keeps its Apply and Cancel without you reimplementing them.
+
+Your template writes an ordinary configuration back through `setValue`, which is
+what keeps everything downstream working: the same matcher filters, the same
+config serializes for a server. A slider that means "at least 30" writes one
+`greaterThanOrEqual` condition; nothing else needs to know a slider was involved.
+
+The context carries the configuration as `$implicit`, plus `data`, `dataType`,
+`disabled`, `readonly`, and `setValue` / `apply` / `cancel` / `clear` / `close`
+so you can drive the popover yourself if you render your own footer.
+
+{{ demo: Demo_FilterField_CustomTemplate }}

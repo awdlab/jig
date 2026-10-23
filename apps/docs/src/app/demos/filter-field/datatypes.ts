@@ -8,7 +8,7 @@ import { JigFilterField } from '@awdlab/jig/filter-field';
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-2">
         <div class="text-sm font-medium">List</div>
-        <jig-filter
+        <jig-filter-field
           mode="inline"
           dataType="list"
           [data]="listData"
@@ -21,7 +21,7 @@ import { JigFilterField } from '@awdlab/jig/filter-field';
 
       <div class="flex flex-col gap-2">
         <div class="text-sm font-medium">String</div>
-        <jig-filter
+        <jig-filter-field
           mode="inline"
           [dataType]="'string'"
           [data]="stringData"
@@ -34,7 +34,7 @@ import { JigFilterField } from '@awdlab/jig/filter-field';
 
       <div class="flex flex-col gap-2">
         <div class="text-sm font-medium">Number</div>
-        <jig-filter
+        <jig-filter-field
           mode="inline"
           [dataType]="'number'"
           [data]="numberData"
@@ -47,7 +47,7 @@ import { JigFilterField } from '@awdlab/jig/filter-field';
 
       <div class="flex flex-col gap-2">
         <div class="text-sm font-medium">Date</div>
-        <jig-filter
+        <jig-filter-field
           mode="inline"
           [dataType]="'date'"
           [data]="dateData"
@@ -60,7 +60,7 @@ import { JigFilterField } from '@awdlab/jig/filter-field';
 
       <div class="flex flex-col gap-2">
         <div class="text-sm font-medium">DateTime</div>
-        <jig-filter
+        <jig-filter-field
           mode="inline"
           [dataType]="'dateTime'"
           [data]="dateTimeData"
@@ -73,7 +73,7 @@ import { JigFilterField } from '@awdlab/jig/filter-field';
 
       <div class="flex flex-col gap-2">
         <div class="text-sm font-medium">Boolean</div>
-        <jig-filter
+        <jig-filter-field
           mode="inline"
           [dataType]="'boolean'"
           [data]="booleanData"

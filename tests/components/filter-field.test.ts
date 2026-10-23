@@ -10,7 +10,7 @@ test('base (string contains) emits filtered result', async ({ page }) => {
     page,
     {
       template: `
-        <jig-filter
+        <jig-filter-field
           [data]="inputs().data"
           dataType="string"
           (filterChange)="output('config', $event)"
@@ -27,7 +27,7 @@ test('base (string contains) emits filtered result', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
   await filter.open();
 
   const op1 = filter.operatorSelect(0);
@@ -47,7 +47,7 @@ test('string notContains excludes matching values', async ({ page }) => {
     page,
     {
       template: `
-        <jig-filter
+        <jig-filter-field
           [data]="inputs().data"
           dataType="string"
           (filterResultChange)="output('filtered', $event)"
@@ -63,7 +63,7 @@ test('string notContains excludes matching values', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
   await filter.open();
 
   const op1 = filter.operatorSelect(0);
@@ -83,7 +83,7 @@ test('inline mode renders without popover', async ({ page }) => {
     page,
     {
       template: `
-        <jig-filter
+        <jig-filter-field
           mode="inline"
           [data]="inputs().data"
           dataType="string"
@@ -101,7 +101,7 @@ test('inline mode renders without popover', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
 
   // Inline mode: operator select and value input should be visible without opening
   const op = filter.operatorSelect(0);
@@ -133,7 +133,7 @@ test('multiple conditions with AND/OR divider toggle', async ({ page }) => {
     page,
     {
       template: `
-        <jig-filter
+        <jig-filter-field
           mode="inline"
           [data]="inputs().data"
           dataType="string"
@@ -152,7 +152,7 @@ test('multiple conditions with AND/OR divider toggle', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
 
   // Set first condition: contains "ap"
   const op1 = filter.operatorSelect(0);
@@ -196,7 +196,7 @@ test('remove condition button works', async ({ page }) => {
     page,
     {
       template: `
-        <jig-filter
+        <jig-filter-field
           mode="inline"
           [data]="inputs().data"
           dataType="string"
@@ -215,7 +215,7 @@ test('remove condition button works', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
 
   // Add a second condition
   await filter.addConditionButton().click();
@@ -234,7 +234,7 @@ test('manual apply mode: apply commits, cancel restores', async ({ page }) => {
     page,
     {
       template: `
-        <jig-filter
+        <jig-filter-field
           mode="inline"
           [autoApply]="false"
           [data]="inputs().data"
@@ -253,7 +253,7 @@ test('manual apply mode: apply commits, cancel restores', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
 
   // Apply and Cancel buttons should be visible
   await expect(filter.applyButton()).toBeVisible();
@@ -303,7 +303,7 @@ test('boolean filter uses Yes/No labels', async ({ page }) => {
     page,
     {
       template: `
-        <jig-filter
+        <jig-filter-field
           mode="inline"
           [data]="inputs().data"
           dataType="boolean"
@@ -321,7 +321,7 @@ test('boolean filter uses Yes/No labels', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
 
   // Boolean uses valueSelect (operator with value ptClass since no value input)
   const boolSelect = filter.valueSelect(0);
@@ -353,7 +353,7 @@ test('popover mode summary text shows quoted value', async ({ page }) => {
     page,
     {
       template: `
-        <jig-filter
+        <jig-filter-field
           [data]="inputs().data"
           dataType="string"
           (filterChange)="output('config', $event)"
@@ -370,7 +370,7 @@ test('popover mode summary text shows quoted value', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
 
   // Summary should show "No filter" initially
   await expect(filter.trigger).toContainText('No filter');
@@ -395,7 +395,7 @@ test('list kind (multi select) filters by membership', async ({ page }) => {
     page,
     {
       template: `
-        <jig-filter
+        <jig-filter-field
           [data]="inputs().data"
           dataType="list"
           (filterChange)="output('config', $event)"
@@ -412,11 +412,11 @@ test('list kind (multi select) filters by membership', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
   await filter.open();
 
   const select = new JigSelectHarness(
-    page.locator('jig-filter [data-testid="filter-row-list"] jig-select')
+    page.locator('jig-filter-field [data-testid="filter-row-list"] jig-select')
   );
   await select.open();
   await select.clickItemByText('Germany', false);
@@ -442,7 +442,7 @@ test('operators restricts the list and defaultOperator seeds new conditions', as
     page,
     {
       template: `
-        <jig-filter
+        <jig-filter-field
           mode="inline"
           allowMultiple
           [data]="inputs().data"
@@ -462,7 +462,7 @@ test('operators restricts the list and defaultOperator seeds new conditions', as
     }
   );
 
-  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
   const op = filter.operatorSelect(0);
   await op.expectSelectedItemText('Contains');
 
@@ -479,14 +479,14 @@ test('accessibility (axe)', async ({ page }) => {
     page,
     {
       template: `
-        <jig-filter mode="inline" [data]="inputs().data" dataType="string" style="width: 400px" />
+        <jig-filter-field mode="inline" [data]="inputs().data" dataType="string" style="width: 400px" />
       `,
       imports: ['filterField'],
     },
     { inputs: { data: ['Apple', 'Banana', 'Cherry'] } }
   );
 
-  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
   await expect(filter.operatorSelect(0).locator).toBeVisible();
 
   await expectNoA11yViolations(page);
@@ -497,7 +497,7 @@ test('visual', async ({ page }, testInfo) => {
     page,
     {
       template: `
-        <jig-filter
+        <jig-filter-field
           class="page-center"
           mode="inline"
           [data]="inputs().data"
@@ -510,7 +510,7 @@ test('visual', async ({ page }, testInfo) => {
     { inputs: { data: ['Apple', 'Banana', 'Cherry'] } }
   );
 
-  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
   await expect(filter.operatorSelect(0).locator).toBeVisible();
 
   await expectScreenshot(page, testInfo, 'inline');
@@ -522,7 +522,7 @@ test('rtl', async ({ page }, testInfo) => {
     page,
     {
       template: `
-        <jig-filter
+        <jig-filter-field
           [data]="inputs().data"
           dataType="string"
           (filterChange)="output('config', $event)"
@@ -539,4 +539,53 @@ test('rtl', async ({ page }, testInfo) => {
     }
   );
   await expectScreenshot(page, testInfo);
+});
+
+test('a custom filter template replaces the rows and filters through setValue', async ({
+  page,
+}) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+        <jig-filter-field
+          mode="inline"
+          dataType="number"
+          [data]="inputs().data"
+          (filterResultChange)="output('filtered', $event)"
+          style="width: 320px"
+        >
+          <ng-template #filter let-config let-setValue="setValue">
+            <button
+              type="button"
+              data-testid="at-least-30"
+              (click)="
+                setValue({
+                  dataType: 'number',
+                  matchMode: 'all',
+                  conditions: [{ operator: 'greaterThanOrEqual', rawValue: '30' }]
+                })
+              "
+            >
+              At least 30
+            </button>
+            <span data-testid="condition-count">{{ config?.conditions?.length ?? 0 }}</span>
+          </ng-template>
+        </jig-filter-field>
+      `,
+      imports: ['filterField'],
+    },
+    { inputs: { data: [10, 20, 30, 40] } }
+  );
+
+  // The built-in rows are gone; the custom editor is what renders.
+  await expect(page.getByTestId('at-least-30')).toBeVisible();
+  await expect(page.locator('jig-filter-field jig-select')).toHaveCount(0);
+
+  await page.getByTestId('at-least-30').click();
+  await expect(page.getByTestId('condition-count')).toHaveText('1');
+  await expect(async () => {
+    const log = await handle.getOutputLog();
+    expect(log['filtered']?.at(-1)).toEqual([30, 40]);
+  }).toPass();
 });
