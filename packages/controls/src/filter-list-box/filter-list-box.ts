@@ -17,6 +17,7 @@ import {
 } from '@angular/core';
 import {
   executeAttributeFilter,
+  filterAttributeId,
   flatItems,
   formatConditionValue,
   getActiveFilterConditions,
@@ -211,7 +212,7 @@ export class JigFilterListBox<
       return [];
     }
     return config.conditions.flatMap((condition, index) => {
-      const attribute = attributes.find(a => a.key === condition.attribute);
+      const attribute = attributes.find(a => filterAttributeId(a) === condition.attribute);
       if (!attribute) {
         return [];
       }

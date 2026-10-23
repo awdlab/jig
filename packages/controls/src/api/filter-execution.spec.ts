@@ -120,7 +120,7 @@ describe('executeAttributeFilter', () => {
       },
       [
         {
-          key: 'domain',
+          computedKey: 'domain',
           label: 'Domain',
           dataType: 'string',
           selector: (r: Row) => r.email.split('@')[1],

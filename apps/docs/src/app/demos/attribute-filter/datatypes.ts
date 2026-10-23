@@ -39,7 +39,7 @@ export class Demo_AttributeFilter_DataTypes {
     { key: 'lastSeen', label: 'Last seen', dataType: 'dateTime' },
     { key: 'active', label: 'Active', dataType: 'boolean' },
     {
-      key: 'search',
+      computedKey: 'search',
       label: 'Any field',
       dataType: 'custom',
       selector: person => `${person.name} ${person.email} ${person.role}`,

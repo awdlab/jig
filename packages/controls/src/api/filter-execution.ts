@@ -44,7 +44,7 @@ type JigFilterAttribute<TItem = unknown, TData = TItem> = {
   listOptions?: readonly string[];
 } & (
   | { key: JigFilterAttributeKey<TData>; selector?: (item: TItem) => unknown }
-  | { key: string; selector: (item: TItem) => unknown }
+  | { computedKey: string; selector: (item: TItem) => unknown }
 );
 
 type JigAttributeFilterConditionConfig = {
@@ -326,6 +326,11 @@ export function executeMultiFilter<T extends object>(
   return result;
 }
 
+/** The identifier a condition stores for an attribute, whichever kind it is. */
+export function filterAttributeId(attribute: { key?: string; computedKey?: string }): string {
+  return attribute.key ?? attribute.computedKey ?? '';
+}
+
 /** Reads an attribute's value from an item: the attribute's own selector, else `(item.data ?? item)[key]`. */
 export function readFilterAttributeValue<TItem, TData = TItem>(
   item: TItem,
@@ -335,7 +340,9 @@ export function readFilterAttributeValue<TItem, TData = TItem>(
     return attribute.selector(item);
   }
   const source = (item as { data?: unknown } | null)?.data ?? item;
-  return (source as Record<string, unknown> | null | undefined)?.[attribute.key];
+  return 'key' in attribute
+    ? (source as Record<string, unknown> | null | undefined)?.[attribute.key]
+    : undefined;
 }
 
 /** Renders a condition's parsed value: a list joined, a date formatted, anything else as text. */
@@ -357,7 +364,7 @@ export function executeAttributeFilter<TItem, TData = TItem>(
   childrenKey?: keyof TItem
 ): readonly TItem[] {
   const active = config.conditions.flatMap(c => {
-    const attribute = attributes.find(a => a.key === c.attribute);
+    const attribute = attributes.find(a => filterAttributeId(a) === c.attribute);
     if (!attribute) {
       return [];
     }

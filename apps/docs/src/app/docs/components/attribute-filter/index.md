@@ -14,8 +14,9 @@ Describe what can be filtered with `attributes`, an array of
 to read from each item (or from `item.data` for a `JigItem`) and is checked
 against that type, so a mistyped key is a compile error rather than a condition
 that silently matches nothing. An attribute that is computed rather than read
-from a property supplies a `selector` instead, and may then use any `key` as its
-identifier. `dataType` (`string`, `number`, `date`, `dateTime`,
+from a property uses `computedKey` instead of `key` and must supply a `selector`.
+Keeping the two apart is what lets an editor complete `key` from the item's own
+properties. `dataType` (`string`, `number`, `date`, `dateTime`,
 `boolean`, `list` or `custom`) drives the operators and the value editor of that
 attribute's row. With `filterLocally` on (the default) it filters `data` and
 emits the result via `filterResultChange`; otherwise it emits only the

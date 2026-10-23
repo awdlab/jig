@@ -36,9 +36,13 @@ export type JigFilterAttribute<TItem = unknown, TData = TItem> = {
       selector?: (item: TItem) => unknown;
     }
   | {
-      /** Any identifier, since {@link JigFilterAttribute.selector} reads the value instead of the key. */
-      key: string;
-      /** Reads the value to compare — required here, because the key names no property. */
+      /**
+       * Identifies a computed attribute in a condition. It names no property, which is
+       * why {@link JigFilterAttribute.selector} is required — and why it is a separate
+       * field, so `key` stays the item's own property names and keeps autocompleting.
+       */
+      computedKey: string;
+      /** Reads the value to compare. */
       selector: (item: TItem) => unknown;
     }
 );

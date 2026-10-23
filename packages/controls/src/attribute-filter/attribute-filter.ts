@@ -19,6 +19,7 @@ import {
   getActiveFilterConditions,
   type JigItem,
   parseFilterRawDate,
+  filterAttributeId,
   readFilterAttributeValue,
 } from '@awdlab/jig/api';
 import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
@@ -203,7 +204,7 @@ export class JigAttributeFilter<T = unknown, TData = T> extends ValueControlBase
   private _debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
   private readonly _attributesByKey = computed(
-    () => new Map(this.attributes().map(a => [a.key, a] as const))
+    () => new Map(this.attributes().map(a => [filterAttributeId(a), a] as const))
   );
 
   private attributeFor(key: string): JigFilterAttribute<T, TData> | undefined {
@@ -215,8 +216,8 @@ export class JigAttributeFilter<T = unknown, TData = T> extends ValueControlBase
       a =>
         <JigItem>{
           label: a.label,
-          value: a.key,
-          testId: `attribute-filter-attribute-${a.key}`,
+          value: filterAttributeId(a),
+          testId: `attribute-filter-attribute-${filterAttributeId(a)}`,
         }
     )
   );
@@ -227,7 +228,7 @@ export class JigAttributeFilter<T = unknown, TData = T> extends ValueControlBase
         this.attributes().map(a => {
           const defs = defaultOperatorsForType(a.dataType);
           return [
-            a.key,
+            filterAttributeId(a),
             defs.map(
               op =>
                 <JigItem>{
@@ -262,7 +263,7 @@ export class JigAttributeFilter<T = unknown, TData = T> extends ValueControlBase
           ),
         ].sort((a, b) => a.localeCompare(b));
       map.set(
-        attribute.key,
+        filterAttributeId(attribute),
         values.map(
           value => <JigItem>{ label: value, value, testId: `attribute-filter-list-${value}` }
         )
@@ -279,7 +280,11 @@ export class JigAttributeFilter<T = unknown, TData = T> extends ValueControlBase
     attribute: JigFilterAttribute<T, TData>
   ): JigAttributeFilterConditionConfig {
     const defs = defaultOperatorsForType(attribute.dataType);
-    return { attribute: attribute.key, operator: defs[0]?.id ?? 'isEqual', rawValue: null };
+    return {
+      attribute: filterAttributeId(attribute),
+      operator: defs[0]?.id ?? 'isEqual',
+      rawValue: null,
+    };
   }
 
   private defaultConfig(): JigAttributeFilterConfig {
