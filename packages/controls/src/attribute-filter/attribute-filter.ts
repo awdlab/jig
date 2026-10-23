@@ -44,7 +44,6 @@ import type {
   JigAttributeFilterConditionConfig,
   JigAttributeFilterConfig,
   JigFilterAttribute,
-  JigFilterAttributeKey,
 } from './types';
 import type { Anchor } from '@awdlab/jig/api/ng';
 
