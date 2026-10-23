@@ -15,6 +15,7 @@ import type { JigFilterConfig } from '@awdlab/jig/filter';
     [rows]="rows()"
     [fieldId]="'id'"
     [filterLocally]="false"
+    [loading]="loading()"
     [(filters)]="filters"
   >
     <ng-template #header>
@@ -50,12 +51,16 @@ import type { JigFilterConfig } from '@awdlab/jig/filter';
 export class Demo_Table_ServerFiltering {
   protected readonly filters = signal<Record<string, JigFilterConfig> | null>(null);
   protected readonly rows = signal<readonly Person[]>([]);
+  protected readonly loading = signal(false);
 
   constructor() {
     effect(() => {
       const filters = this.filters();
+      this.loading.set(true);
       void fetchFiltered(filters).then(rows => {
-        if (this.filters() === filters) this.rows.set(rows);
+        if (this.filters() !== filters) return;
+        this.rows.set(rows);
+        this.loading.set(false);
       });
     });
   }

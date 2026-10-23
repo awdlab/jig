@@ -77,7 +77,9 @@ Set `[filterLocally]="false"` for server-side filtering without handing paging
 over to `dataSource`: the header controls still drive `[(filters)]`, but the
 table renders `rows` as given, so you refetch them yourself when `filters`
 changes. Pass `…Items` for list columns — options derived from `rows` would
-only ever cover the rows currently loaded.
+only ever cover the rows currently loaded. Since you own the request, bind
+[`loading`](#loading-state) to it for skeleton rows — the table only sees
+`rows` arrive and cannot tell a fetch is in flight by itself.
 
 {{ demo: Demo_Table_ServerFiltering }}
 
