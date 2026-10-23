@@ -102,6 +102,80 @@ test('renders a search field that narrows the list', async ({ page }) => {
   await expect(listBox.listBox().item).toHaveText('Ann');
 });
 
+test('holds the typed text back until the debounce elapses', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+        <jig-filter-list-box
+          label="Users"
+          style="width: 320px; height: 320px"
+          [items]="inputs().items"
+          [searchDebounce]="inputs().searchDebounce"
+        />
+      `,
+      imports: ['filterListBox'],
+    },
+    { inputs: { items: USERS, searchDebounce: 1500 } }
+  );
+  const listBox = harness(page);
+
+  await listBox.searchInput().fill('an');
+  await listBox.listBox().expectItemsCount(3);
+  await page.waitForTimeout(700);
+  await listBox.listBox().expectItemsCount(3);
+
+  // Once the timer fires the text reaches the list.
+  await listBox.listBox().expectItemsCount(1);
+  await expect(listBox.listBox().item).toHaveText('Ann');
+
+  // A zero debounce writes through without a timer at all.
+  await handle.setInputs({ items: USERS, searchDebounce: 0 });
+  await listBox.searchInput().fill('bo');
+  await expect(listBox.listBox().item).toHaveText('Bo', { timeout: 1000 });
+});
+
+test('does not select while disabled or readonly', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+        <jig-filter-list-box
+          label="Users"
+          style="width: 320px; height: 320px"
+          [items]="inputs().items"
+          [disabled]="inputs().disabled"
+          [readonly]="inputs().readonly"
+          (valueChange)="output('value', $event)"
+        />
+      `,
+      imports: ['filterListBox'],
+    },
+    { inputs: { items: USERS, disabled: true, readonly: false } }
+  );
+  const listBox = harness(page);
+
+  await listBox.listBox().item.first().click();
+  await page.waitForTimeout(100);
+  await expect(listBox.listBox().itemSelected).toHaveCount(0);
+  expect((await handle.getOutputLog())['value']).toBeUndefined();
+  // Disabled also takes the list out of the tab order.
+  await expect(listBox.listBox().locator).not.toHaveAttribute('tabindex', '0');
+
+  await handle.setInputs({ items: USERS, disabled: false, readonly: true });
+  await listBox.listBox().item.first().click();
+  await page.waitForTimeout(100);
+  await expect(listBox.listBox().itemSelected).toHaveCount(0);
+  expect((await handle.getOutputLog())['value']).toBeUndefined();
+
+  await handle.setInputs({ items: USERS, disabled: false, readonly: false });
+  await listBox.listBox().item.first().click();
+  await expect(listBox.listBox().itemSelected).toHaveCount(1);
+  await expect(async () => {
+    expect((await handle.getOutputLog())['value']?.at(-1)).toBe('ann');
+  }).toPass();
+});
+
 test('renders no filter trigger when attributes is not given', async ({ page }) => {
   await load(page, { attributes: null });
   const listBox = harness(page);

@@ -19,7 +19,8 @@ export const filterListBoxStyles = createThemePart({
         flex: 1;
         min-width: 0;
       }
-      ${d('filter-trigger')} {
+      ${c('trigger')} {
+        display: inline-flex;
         flex: 0 0 auto;
       }
       ${c('chips')} {

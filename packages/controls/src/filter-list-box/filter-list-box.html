@@ -22,7 +22,7 @@
   @if (attributes()) {
     <!-- The badge sits on a wrapper: its count is decorative text that must not
          compete with the button's accessible name. -->
-    <span style="flex: none; display: inline-flex" [jigBadge]="activeConditions().length">
+    <span [ptInt]="this" [ptClass]="'trigger'" [jigBadge]="activeConditions().length">
       <button
         #filterTrigger
         type="button"
@@ -89,7 +89,8 @@
   [items]="narrowedItems()"
   [filter]="filter()"
   [filterText]="searchText()"
-  [selectable]="selectable()"
+  [selectable]="selectable() && !disabled() && !readonly()"
+  [focussable]="!disabled()"
   [separator]="separator()"
   [loading]="loading()"
   [virtual]="virtual()"

@@ -9,7 +9,7 @@ import { listBoxControlTemplate } from '@awdlab/jig-themes/templates/list-box';
 
 export const filterListBoxControlTemplate = createControlTemplate({
   scope: 'filterListBox',
-  classNames: ['root', 'search-row', 'chips', 'empty', 'empty-actions'],
+  classNames: ['root', 'search-row', 'trigger', 'chips', 'empty', 'empty-actions'],
   dependencies: [
     { class: 'search-field', template: inputFieldControlTemplate },
     { class: 'search-input', template: inputControlTemplate },
