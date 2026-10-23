@@ -1,14 +1,13 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
-import { attributeFilterControlTemplate } from '@awdlab/jig-themes/templates/attribute-filter';
+import { colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/nova/base';
+import { filterBuilderControlTemplate } from '@awdlab/jig-themes/templates/filter-builder';
 
-export const attributeFilterStyles = createThemePart({
-  controlTemplate: attributeFilterControlTemplate,
-  base: baseStyles.attributeFilter,
+export const filterBuilderStyles = createThemePart({
+  controlTemplate: filterBuilderControlTemplate,
+  base: baseStyles.filterBuilder,
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
-    // color.border swaps automatically between schemes, so no separate dark block is needed.
     css: ({ v, c, d }) => css`
       ${c('icon')} {
         cursor: pointer;
@@ -24,7 +23,7 @@ export const attributeFilterStyles = createThemePart({
         gap: ${v('size.padding.sm')};
         flex-wrap: nowrap;
       }
-      ${d('attribute')},
+      ${d('property')},
       ${d('operator')} {
         flex: 0 1 auto;
         min-width: 0;
@@ -43,15 +42,15 @@ export const attributeFilterStyles = createThemePart({
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        color: ${v('color.muted.foreground')};
+        color: ${v('color.surface.500')};
         cursor: pointer;
         transition: color 0.15s ease;
       }
       ${c('condition-divider')}:hover {
-        color: ${v('color.foreground')};
+        color: ${v('color.primary.500')};
       }
       ${c('condition-divider')}::before, ${c('condition-divider')}::after {
-        background: ${v('color.border')};
+        background: ${v('color.surface.200')};
       }
       ${c('footer')} {
         padding-top: ${v('size.padding.md')};
@@ -67,7 +66,7 @@ export const attributeFilterStyles = createThemePart({
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background: ${v('color.primary.base')};
+        background: ${v('color.primary.500')};
       }
       ${c('summary')} {
         padding-inline-end: ${v('size.padding.sm')};
@@ -76,6 +75,16 @@ export const attributeFilterStyles = createThemePart({
         display: flex;
         flex-direction: column;
         gap: ${v('size.padding.md')};
+      }
+    `,
+  },
+  dark: {
+    css: ({ v, c }) => css`
+      ${c('condition-divider')}::before, ${c('condition-divider')}::after {
+        background: ${v('color.surface.600')};
+      }
+      ${c('footer')} {
+        border-top-color: ${v('color.surface.700')};
       }
     `,
   },

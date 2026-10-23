@@ -1,5 +1,5 @@
 export * from './accordion.js';
-export * from './attribute-filter.js';
+export * from './filter-builder.js';
 export * from './avatar.js';
 export * from './badge.js';
 export * from './breadcrumb.js';

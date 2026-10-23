@@ -35,32 +35,32 @@ type JigFilterConfig = {
   conditions: readonly JigFilterConditionConfig[];
 };
 
-type JigFilterAttributeKey<TData> = unknown extends TData
+type JigFilterPropertyKey<TData> = unknown extends TData
   ? string
   : Extract<AllKeysOfUnion<TData>, string>;
 
-type JigFilterAttribute<TItem = unknown, TData = TItem> = {
+type JigFilterProperty<TItem = unknown, TData = TItem> = {
   label: string | (() => string);
   dataType: JigFilterDataType;
   listOptions?: readonly string[];
 } & (
   | {
-      key: JigFilterAttributeKey<TData>;
+      key: JigFilterPropertyKey<TData>;
       selector?: (item: TItem) => unknown;
       computedKey?: never;
     }
   | { computedKey: string; selector: (item: TItem) => unknown; key?: never }
 );
 
-type JigAttributeFilterConditionConfig = {
-  attribute: string;
+type JigFilterBuilderConditionConfig = {
+  property: string;
   operator: JigFilterOperatorId;
   rawValue: string | null;
 };
 
-type JigAttributeFilterConfig = {
+type JigFilterBuilderConfig = {
   matchMode: JigFilterMatchMode;
-  conditions: readonly JigAttributeFilterConditionConfig[];
+  conditions: readonly JigFilterBuilderConditionConfig[];
 };
 
 type JigFilterCondition = {
@@ -335,21 +335,21 @@ export function executeMultiFilter<T extends object>(
   return result;
 }
 
-/** The identifier a condition stores for an attribute, whichever kind it is. */
-export function filterAttributeId(attribute: { key?: string; computedKey?: string }): string {
-  return attribute.key ?? attribute.computedKey ?? '';
+/** The identifier a condition stores for an property, whichever kind it is. */
+export function filterPropertyId(property: { key?: string; computedKey?: string }): string {
+  return property.key ?? property.computedKey ?? '';
 }
 
-/** Reads an attribute's value from an item: the attribute's own selector, else `(item.data ?? item)[key]`. */
-export function readFilterAttributeValue<TItem, TData = TItem>(
+/** Reads an property's value from an item: the property's own selector, else `(item.data ?? item)[key]`. */
+export function readFilterPropertyValue<TItem, TData = TItem>(
   item: TItem,
-  attribute: JigFilterAttribute<TItem, TData>
+  property: JigFilterProperty<TItem, TData>
 ): unknown {
-  if (attribute.selector) {
-    return attribute.selector(item);
+  if (property.selector) {
+    return property.selector(item);
   }
   const source = (item as { data?: unknown } | null)?.data ?? item;
-  const key = attribute.key;
+  const key = property.key;
   return key == null ? undefined : (source as Record<string, unknown> | null | undefined)?.[key];
 }
 
@@ -364,32 +364,32 @@ export function formatConditionValue(value: unknown, dataType: JigFilterDataType
   return String(value ?? '');
 }
 
-/** Filters by conditions that each name their own attribute; `matchMode` joins them across attributes. */
-export function executeAttributeFilter<TItem, TData = TItem>(
+/** Filters by conditions that each name their own property; `matchMode` joins them across properties. */
+export function executePropertyFilter<TItem, TData = TItem>(
   data: readonly TItem[],
-  config: JigAttributeFilterConfig,
-  attributes: readonly JigFilterAttribute<TItem, TData>[],
+  config: JigFilterBuilderConfig,
+  properties: readonly JigFilterProperty<TItem, TData>[],
   childrenKey?: keyof TItem
 ): readonly TItem[] {
   const active = config.conditions.flatMap(c => {
-    const attribute = attributes.find(a => filterAttributeId(a) === c.attribute);
-    if (!attribute) {
+    const property = properties.find(a => filterPropertyId(a) === c.property);
+    if (!property) {
       return [];
     }
     const [condition] = getActiveFilterConditions({
-      dataType: attribute.dataType,
+      dataType: property.dataType,
       matchMode: 'all',
       conditions: [c],
     });
-    return condition ? [{ attribute, condition }] : [];
+    return condition ? [{ property, condition }] : [];
   });
   if (active.length === 0) {
     return data;
   }
 
   const matches = (item: TItem): boolean => {
-    const test = ({ attribute, condition }: (typeof active)[number]): boolean =>
-      matchesValue(readFilterAttributeValue(item, attribute), attribute.dataType, condition);
+    const test = ({ property, condition }: (typeof active)[number]): boolean =>
+      matchesValue(readFilterPropertyValue(item, property), property.dataType, condition);
     return config.matchMode === 'any' ? active.some(test) : active.every(test);
   };
 

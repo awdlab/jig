@@ -1,18 +1,22 @@
 import { Component, computed, signal } from '@angular/core';
-import { JigAttributeFilter, type JigFilterAttribute } from '@awdlab/jig/attribute-filter';
+import { JigFilterBuilder, type JigFilterProperty } from '@awdlab/jig/filter-builder';
+import { JigButton } from '@awdlab/jig/button';
 
-import { type Person, people, ROLES } from '../../helper/people';
+import { type Person, people } from '../../helper/people';
 
 @Component({
-  selector: 'jig-demo-attribute-filter-multiple',
-  imports: [JigAttributeFilter],
+  selector: 'jig-demo-filter-builder-headless',
+  imports: [JigFilterBuilder, JigButton],
   template: `
     <div class="flex flex-col gap-2">
-      <jig-attribute-filter
-        mode="inline"
-        [allowMultiple]="true"
+      <button type="button" jigButton #btn (click)="filter.show()">Filter users</button>
+
+      <jig-filter-builder
+        #filter
+        mode="headless"
+        [anchor]="btn"
         [data]="data"
-        [attributes]="attributes"
+        [properties]="properties"
         (filterResultChange)="filteredData.set($event)"
       />
 
@@ -20,18 +24,17 @@ import { type Person, people, ROLES } from '../../helper/people';
 
       <ul class="list-disc ps-5">
         @for (person of filtered(); track person.id) {
-          <li>{{ person.name }} · {{ person.email }} · {{ person.role }} · #{{ person.id }}</li>
+          <li>{{ person.name }} · {{ person.email }} · #{{ person.id }}</li>
         }
       </ul>
     </div>
   `,
 })
-export class Demo_AttributeFilter_Multiple {
+export class Demo_FilterBuilder_Headless {
   protected readonly data = people;
-  protected readonly attributes: readonly JigFilterAttribute<Person>[] = [
+  protected readonly properties: readonly JigFilterProperty<Person>[] = [
     { key: 'name', label: 'Name', dataType: 'string' },
     { key: 'email', label: 'E-mail', dataType: 'string' },
-    { key: 'role', label: 'Role', dataType: 'list', listOptions: ROLES },
     { key: 'id', label: 'ID', dataType: 'number' },
   ];
 

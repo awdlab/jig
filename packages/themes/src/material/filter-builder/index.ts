@@ -1,16 +1,29 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/nova/base';
-import { attributeFilterControlTemplate } from '@awdlab/jig-themes/templates/attribute-filter';
+import { colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/material/base';
+import { filterBuilderControlTemplate } from '@awdlab/jig-themes/templates/filter-builder';
 
-export const attributeFilterStyles = createThemePart({
-  controlTemplate: attributeFilterControlTemplate,
-  base: baseStyles.attributeFilter,
+export const filterBuilderStyles = createThemePart({
+  controlTemplate: filterBuilderControlTemplate,
+  base: baseStyles.filterBuilder,
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
     css: ({ v, c, d }) => css`
+      /* MD3 icon-button state layer: circular halo grown out of the icon's own
+         box via negative margin, so it doesn't shift the summary layout. */
       ${c('icon')} {
         cursor: pointer;
+        border-radius: ${v('size.rounded.full')};
+        padding: 0.25rem;
+        margin: -0.25rem;
+        transition: background 0.15s ease;
+        &:hover {
+          background: color-mix(in srgb, ${v('color.primary.500')} 8%, transparent);
+        }
+        &:focus-visible {
+          outline: 2px solid color-mix(in srgb, ${v('color.primary.500')} 50%, transparent);
+          outline-offset: 2px;
+        }
       }
       ${c('popover-content')} {
         padding: ${v('size.padding.lg')};
@@ -23,7 +36,7 @@ export const attributeFilterStyles = createThemePart({
         gap: ${v('size.padding.sm')};
         flex-wrap: nowrap;
       }
-      ${d('attribute')},
+      ${d('property')},
       ${d('operator')} {
         flex: 0 1 auto;
         min-width: 0;
@@ -42,19 +55,19 @@ export const attributeFilterStyles = createThemePart({
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.400')};
         cursor: pointer;
         transition: color 0.15s ease;
       }
       ${c('condition-divider')}:hover {
-        color: ${v('color.primary.500')};
+        color: ${v('color.primary.foreground')};
       }
       ${c('condition-divider')}::before, ${c('condition-divider')}::after {
         background: ${v('color.surface.200')};
       }
       ${c('footer')} {
         padding-top: ${v('size.padding.md')};
-        border-top: 1px solid ${v('color.border')};
+        border-top: 1px solid ${v('color.surface.200')};
         gap: ${v('size.padding.sm')};
       }
       ${c('footer-actions')} {
@@ -84,7 +97,7 @@ export const attributeFilterStyles = createThemePart({
         background: ${v('color.surface.600')};
       }
       ${c('footer')} {
-        border-top-color: ${v('color.surface.700')};
+        border-top-color: ${v('color.surface.600')};
       }
     `,
   },

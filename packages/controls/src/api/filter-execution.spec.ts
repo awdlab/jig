@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
 import {
-  executeAttributeFilter,
+  executePropertyFilter,
   executeFilter,
   parseFilterRawDate,
   parseFilterRawValue,
-  readFilterAttributeValue,
+  readFilterPropertyValue,
 } from './filter-execution';
 
 describe('parseFilterRawDate', () => {
@@ -68,9 +68,9 @@ describe('executeFilter date granularity', () => {
   });
 });
 
-describe('executeAttributeFilter', () => {
+describe('executePropertyFilter', () => {
   type Row = { name: string; email: string; age: number };
-  const attributes = [
+  const properties = [
     { key: 'name', label: 'Name', dataType: 'string' },
     { key: 'email', label: 'Email', dataType: 'string' },
     { key: 'age', label: 'Age', dataType: 'number' },
@@ -81,42 +81,42 @@ describe('executeAttributeFilter', () => {
     { name: 'Cal', email: 'cal@gmail.com', age: 22 },
   ];
   const names = (rows: readonly Row[]) => rows.map(r => r.name);
-  const gmail = { attribute: 'email', operator: 'contains', rawValue: '@gmail.com' } as const;
-  const over25 = { attribute: 'age', operator: 'greaterThan', rawValue: '25' } as const;
+  const gmail = { property: 'email', operator: 'contains', rawValue: '@gmail.com' } as const;
+  const over25 = { property: 'age', operator: 'greaterThan', rawValue: '25' } as const;
 
-  it('filters on the attribute each condition names', () => {
-    const result = executeAttributeFilter(
+  it('filters on the property each condition names', () => {
+    const result = executePropertyFilter(
       data,
       { matchMode: 'all', conditions: [gmail] },
-      attributes
+      properties
     );
     expect(names(result)).toEqual(['Ann', 'Cal']);
   });
 
-  it('joins conditions across attributes with all', () => {
-    const result = executeAttributeFilter(
+  it('joins conditions across properties with all', () => {
+    const result = executePropertyFilter(
       data,
       { matchMode: 'all', conditions: [gmail, over25] },
-      attributes
+      properties
     );
     expect(names(result)).toEqual(['Ann']);
   });
 
-  it('joins conditions across attributes with any', () => {
-    const result = executeAttributeFilter(
+  it('joins conditions across properties with any', () => {
+    const result = executePropertyFilter(
       data,
       { matchMode: 'any', conditions: [gmail, over25] },
-      attributes
+      properties
     );
     expect(names(result)).toEqual(['Ann', 'Bo', 'Cal']);
   });
 
   it('reads values through a supplied selector', () => {
-    const result = executeAttributeFilter(
+    const result = executePropertyFilter(
       data,
       {
         matchMode: 'all',
-        conditions: [{ attribute: 'domain', operator: 'isEqual', rawValue: 'work.com' }],
+        conditions: [{ property: 'domain', operator: 'isEqual', rawValue: 'work.com' }],
       },
       [
         {
@@ -132,32 +132,32 @@ describe('executeAttributeFilter', () => {
 
   it('reads a JigItem through its data payload by default', () => {
     const items = data.map(row => ({ label: row.name, value: row.name, data: row }));
-    const result = executeAttributeFilter(items, { matchMode: 'all', conditions: [over25] }, [
+    const result = executePropertyFilter(items, { matchMode: 'all', conditions: [over25] }, [
       { key: 'age', label: 'Age', dataType: 'number' },
     ]);
     expect(result.map(i => i.label)).toEqual(['Ann', 'Bo']);
   });
 
-  it('ignores a condition naming an unknown attribute', () => {
-    const result = executeAttributeFilter(
+  it('ignores a condition naming an unknown property', () => {
+    const result = executePropertyFilter(
       data,
       {
         matchMode: 'all',
-        conditions: [{ attribute: 'nope', operator: 'contains', rawValue: 'x' }, gmail],
+        conditions: [{ property: 'nope', operator: 'contains', rawValue: 'x' }, gmail],
       },
-      attributes
+      properties
     );
     expect(names(result)).toEqual(['Ann', 'Cal']);
   });
 
   it('returns the data unchanged when no condition is active', () => {
-    const result = executeAttributeFilter(
+    const result = executePropertyFilter(
       data,
       {
         matchMode: 'all',
-        conditions: [{ attribute: 'email', operator: 'contains', rawValue: '' }],
+        conditions: [{ property: 'email', operator: 'contains', rawValue: '' }],
       },
-      attributes
+      properties
     );
     expect(result).toBe(data);
   });
@@ -169,43 +169,43 @@ describe('executeAttributeFilter', () => {
       { name: 'G1', email: '', age: 0, items: [ann, bo] },
       { name: 'G2', email: '', age: 0, items: [bo] },
     ];
-    const result = executeAttributeFilter(
+    const result = executePropertyFilter(
       groups,
       { matchMode: 'all', conditions: [gmail] },
-      attributes,
+      properties,
       'items'
     );
     expect(result).toEqual([{ name: 'G1', email: '', age: 0, items: [ann] }]);
   });
 });
 
-describe('readFilterAttributeValue', () => {
+describe('readFilterPropertyValue', () => {
   const email = { key: 'email', label: 'Email', dataType: 'string' } as const;
   const row = { name: 'Ann', email: 'ann@gmail.com' };
 
   it('reads the property named by the key', () => {
-    expect(readFilterAttributeValue(row, email)).toBe('ann@gmail.com');
+    expect(readFilterPropertyValue(row, email)).toBe('ann@gmail.com');
   });
 
   it('reads through a JigItem data payload', () => {
-    expect(readFilterAttributeValue({ label: 'Ann', value: 1, data: row }, email)).toBe(
+    expect(readFilterPropertyValue({ label: 'Ann', value: 1, data: row }, email)).toBe(
       'ann@gmail.com'
     );
   });
 
-  it('prefers the attribute selector over the key', () => {
+  it('prefers the property selector over the key', () => {
     const domain = {
       key: 'email',
       label: 'Domain',
       dataType: 'string',
       selector: (r: typeof row) => r.email.split('@')[1],
     } as const;
-    expect(readFilterAttributeValue(row, domain)).toBe('gmail.com');
+    expect(readFilterPropertyValue(row, domain)).toBe('gmail.com');
   });
 
   it('is undefined for a key the item does not carry', () => {
     expect(
-      readFilterAttributeValue(row, { key: 'age', label: 'Age', dataType: 'number' })
+      readFilterPropertyValue(row, { key: 'age', label: 'Age', dataType: 'number' })
     ).toBeUndefined();
   });
 });

@@ -1,36 +1,36 @@
 <ng-template #rowsTemplate>
   <div [ptInt]="this" [ptClass]="'rows'">
     @for (c of templateConfig().conditions; track $index; let i = $index; let last = $last) {
-      <div [ptInt]="this" [ptClass]="'row'" [attr.data-testid]="'attribute-filter-row-' + i">
+      <div [ptInt]="this" [ptClass]="'row'" [attr.data-testid]="'filter-builder-row-' + i">
         <jig-input-field
           [ptInt]="this"
-          [ptDep]="'attribute'"
+          [ptDep]="'property'"
           [disabled]="disabled()"
           [readonly]="readonly()"
         >
           <jig-select
             [ptInt]="this"
-            [ptDep]="'attribute-select'"
-            [options]="attributeOptions()"
-            [label]="i18n['attributeFilter_attribute']()"
-            [value]="c.attribute"
+            [ptDep]="'property-select'"
+            [options]="propertyOptions()"
+            [label]="i18n['filterBuilder_property']()"
+            [value]="c.property"
             [disabled]="disabled()"
             [readonly]="readonly()"
-            (valueChange)="setAttribute(i, $event)"
-            data-testid="attribute-filter-attribute"
+            (valueChange)="setProperty(i, $event)"
+            data-testid="filter-builder-property"
           />
         </jig-input-field>
 
         <jig-input-field
           [ptInt]="this"
-          [ptDep]="operatorRequiresValue(c.attribute, c.operator) ? 'operator' : 'value'"
+          [ptDep]="operatorRequiresValue(c.property, c.operator) ? 'operator' : 'value'"
           [disabled]="disabled()"
           [readonly]="readonly()"
         >
           <jig-select
             [ptInt]="this"
             [ptDep]="'operator-select'"
-            [options]="operatorOptionsFor(c.attribute)"
+            [options]="operatorOptionsFor(c.property)"
             [label]="i18n['filter_operator']()"
             [value]="c.operator"
             [disabled]="disabled()"
@@ -39,8 +39,8 @@
           />
         </jig-input-field>
 
-        @if (operatorRequiresValue(c.attribute, c.operator)) {
-          @if (isListType(c.attribute)) {
+        @if (operatorRequiresValue(c.property, c.operator)) {
+          @if (isListType(c.property)) {
             <jig-input-field
               [ptInt]="this"
               [ptDep]="'value'"
@@ -51,14 +51,14 @@
                 [ptInt]="this"
                 [ptDep]="'list-select'"
                 [multiple]="true"
-                [options]="listOptionsFor(c.attribute)"
+                [options]="listOptionsFor(c.property)"
                 [value]="$any(listSelection(i))"
                 [disabled]="disabled()"
                 [readonly]="readonly()"
                 (valueChange)="setListSelection(i, $event)"
               />
             </jig-input-field>
-          } @else if (isDateType(c.attribute)) {
+          } @else if (isDateType(c.property)) {
             <jig-input-field
               [ptInt]="this"
               [ptDep]="'value'"
@@ -68,7 +68,7 @@
               <jig-calendar
                 [ptInt]="this"
                 [ptDep]="'calendar'"
-                [showTime]="isShowTime(c.attribute)"
+                [showTime]="isShowTime(c.property)"
                 [value]="parseRawDate(c.rawValue)"
                 [disabled]="disabled()"
                 [readonly]="readonly()"
@@ -87,7 +87,7 @@
                 [ptInt]="this"
                 [ptDep]="'input'"
                 [attr.aria-label]="i18n['filter_value']()"
-                [type]="inputTypeFor(c.attribute)"
+                [type]="inputTypeFor(c.property)"
                 [value]="c.rawValue || ''"
                 [disabled]="disabled()"
                 [readOnly]="readonly()"
@@ -107,7 +107,7 @@
             [disabled]="disabled() || readonly()"
             (click)="removeCondition(i)"
             [attr.aria-label]="i18n['filter_removeCondition']() + ' ' + (i + 1)"
-            data-testid="attribute-filter-remove-condition"
+            data-testid="filter-builder-remove-condition"
           >
             <jig-icon defaultIcon="filter-remove" />
           </button>
@@ -124,7 +124,7 @@
           (keydown.enter)="!disabled() && !readonly() && toggleMatchMode()"
           (keydown.space)="!disabled() && !readonly() && toggleMatchMode(); $event.preventDefault()"
           [attr.aria-disabled]="disabled() || readonly()"
-          data-testid="attribute-filter-match-mode"
+          data-testid="filter-builder-match-mode"
         >
           {{ matchModeLabel() }}
         </div>
@@ -144,7 +144,7 @@
           [ptInt]="this"
           [ptDep]="'add-button'"
           (click)="addCondition()"
-          data-testid="attribute-filter-add-rule"
+          data-testid="filter-builder-add-rule"
         >
           <span aria-hidden="true">+</span>
           {{ i18n['filter_addCondition']() }}
@@ -159,7 +159,7 @@
             [ptInt]="this"
             [ptDep]="'cancel-button'"
             (click)="cancelChanges()"
-            data-testid="attribute-filter-cancel"
+            data-testid="filter-builder-cancel"
           >
             {{ i18n['filter_cancel']() }}
           </button>
@@ -170,7 +170,7 @@
             [ptInt]="this"
             [ptDep]="'apply-button'"
             (click)="apply()"
-            data-testid="attribute-filter-apply"
+            data-testid="filter-builder-apply"
           >
             {{ i18n['filter_apply']() }}
           </button>
@@ -182,7 +182,7 @@
             [ptInt]="this"
             [ptDep]="'clear-button'"
             (click)="clear()"
-            data-testid="attribute-filter-clear"
+            data-testid="filter-builder-clear"
           >
             {{ i18n['filter_clear']() }}
           </button>

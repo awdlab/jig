@@ -1,13 +1,13 @@
 import { expect, type Locator } from '@playwright/test';
-import { attributeFilterControlTemplate } from '@awdlab/jig-themes/templates/attribute-filter';
+import { filterBuilderControlTemplate } from '@awdlab/jig-themes/templates/filter-builder';
 import { themeClasses } from '../utils/theme.js';
 import { JIG_CLASSES } from '../utils/classes.js';
 import { JigInputHarness } from './input.js';
 import { JigSelectHarness } from './select.js';
 import { JigHarness } from '../harness.js';
 
-export class JigAttributeFilterHarness extends JigHarness {
-  public readonly classes = themeClasses(attributeFilterControlTemplate);
+export class JigFilterBuilderHarness extends JigHarness {
+  public readonly classes = themeClasses(filterBuilderControlTemplate);
 
   public readonly trigger: Locator;
   public readonly popoverContent: Locator;
@@ -36,9 +36,9 @@ export class JigAttributeFilterHarness extends JigHarness {
     return this.locator.locator(this.classes['row']).nth(index);
   }
 
-  /** The select that picks the row's attribute. */
-  public attributeSelect(index: number): JigSelectHarness {
-    return new JigSelectHarness(this.row(index).locator(this.classes['attribute']['root']));
+  /** The select that picks the row's property. */
+  public propertySelect(index: number): JigSelectHarness {
+    return new JigSelectHarness(this.row(index).locator(this.classes['property']['root']));
   }
 
   public operatorSelect(index: number): JigSelectHarness {
@@ -61,22 +61,22 @@ export class JigAttributeFilterHarness extends JigHarness {
   }
 
   public addConditionButton(): Locator {
-    return this.locator.locator('[data-testid="attribute-filter-add-rule"]');
+    return this.locator.locator('[data-testid="filter-builder-add-rule"]');
   }
 
   public matchModeDivider(): Locator {
-    return this.locator.locator('[data-testid="attribute-filter-match-mode"]');
+    return this.locator.locator('[data-testid="filter-builder-match-mode"]');
   }
 
   public clearButton(): Locator {
-    return this.locator.locator('[data-testid="attribute-filter-clear"]');
+    return this.locator.locator('[data-testid="filter-builder-clear"]');
   }
 
   public applyButton(): Locator {
-    return this.locator.locator('[data-testid="attribute-filter-apply"]');
+    return this.locator.locator('[data-testid="filter-builder-apply"]');
   }
 
   public cancelButton(): Locator {
-    return this.locator.locator('[data-testid="attribute-filter-cancel"]');
+    return this.locator.locator('[data-testid="filter-builder-cancel"]');
   }
 }

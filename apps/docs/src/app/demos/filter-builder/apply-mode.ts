@@ -1,17 +1,19 @@
 import { Component, computed, signal } from '@angular/core';
-import { JigAttributeFilter, type JigFilterAttribute } from '@awdlab/jig/attribute-filter';
+import { JigFilterBuilder, type JigFilterProperty } from '@awdlab/jig/filter-builder';
 
 import { type Person, people } from '../../helper/people';
 
 @Component({
-  selector: 'jig-demo-attribute-filter-inline',
-  imports: [JigAttributeFilter],
+  selector: 'jig-demo-filter-builder-apply-mode',
+  imports: [JigFilterBuilder],
   template: `
     <div class="flex flex-col gap-2">
-      <jig-attribute-filter
+      <jig-filter-builder
         mode="inline"
+        [allowMultiple]="true"
+        [autoApply]="false"
         [data]="data"
-        [attributes]="attributes"
+        [properties]="properties"
         (filterResultChange)="filteredData.set($event)"
       />
 
@@ -25,9 +27,9 @@ import { type Person, people } from '../../helper/people';
     </div>
   `,
 })
-export class Demo_AttributeFilter_Inline {
+export class Demo_FilterBuilder_ApplyMode {
   protected readonly data = people;
-  protected readonly attributes: readonly JigFilterAttribute<Person>[] = [
+  protected readonly properties: readonly JigFilterProperty<Person>[] = [
     { key: 'name', label: 'Name', dataType: 'string' },
     { key: 'email', label: 'E-mail', dataType: 'string' },
     { key: 'id', label: 'ID', dataType: 'number' },

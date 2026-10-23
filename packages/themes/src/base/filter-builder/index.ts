@@ -1,8 +1,8 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
-import { attributeFilterControlTemplate } from '@awdlab/jig-themes/templates/attribute-filter';
+import { filterBuilderControlTemplate } from '@awdlab/jig-themes/templates/filter-builder';
 
-export const attributeFilterStyles = createThemePart({
-  controlTemplate: attributeFilterControlTemplate,
+export const filterBuilderStyles = createThemePart({
+  controlTemplate: filterBuilderControlTemplate,
   dependencies: [],
   root: {
     css: ({ c, d }) => css`
@@ -24,7 +24,7 @@ export const attributeFilterStyles = createThemePart({
         min-width: 0;
         align-items: center;
       }
-      ${d('attribute')},
+      ${d('property')},
       ${d('operator')} {
         min-width: 0;
       }

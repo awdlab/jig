@@ -49,10 +49,10 @@ export const en = {
     clearAllFilters: 'Clear all filters',
     openFilter: 'Open filter',
   },
-  attributeFilter: {
-    attribute: 'Attribute',
-    chip: '{{ attribute }} {{ operator }} {{ value }}',
-    chipNoValue: '{{ attribute }} {{ operator }}',
+  filterBuilder: {
+    property: 'Property',
+    chip: '{{ property }} {{ operator }} {{ value }}',
+    chipNoValue: '{{ property }} {{ operator }}',
   },
   filter: {
     noFilter: 'No filter',

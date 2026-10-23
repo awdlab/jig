@@ -1,5 +1,5 @@
 import { AccordionPage } from './accordion/page';
-import { AttributeFilterPage } from './attribute-filter/page';
+import { FilterBuilderPage } from './filter-builder/page';
 import { AutofocusPage } from './autofocus/page';
 import { AvatarPage } from './avatar/page';
 import { BadgePage } from './badge/page';
@@ -75,12 +75,12 @@ export const COMPONENT_GROUPS: JigDocsGroup[] = [
   {
     title: 'Inputs',
     pages: [
-      AttributeFilterPage,
       CalendarPage,
       CheckboxPage,
       ColorPickerPage,
       EditInplacePage,
       FilterPage,
+      FilterBuilderPage,
       InputPage,
       InputFieldPage,
       ListBoxPage,

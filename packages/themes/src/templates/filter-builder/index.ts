@@ -6,8 +6,8 @@ import { inputFieldControlTemplate } from '@awdlab/jig-themes/templates/input-fi
 import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
 import { selectControlTemplate } from '@awdlab/jig-themes/templates/select';
 
-export const attributeFilterControlTemplate = createControlTemplate({
-  scope: 'attribute-filter',
+export const filterBuilderControlTemplate = createControlTemplate({
+  scope: 'filter-builder',
   classNames: [
     'root',
     'inline',
@@ -25,10 +25,10 @@ export const attributeFilterControlTemplate = createControlTemplate({
     { class: 'popover', template: popoverControlTemplate },
     { class: 'input-field', template: inputFieldControlTemplate },
     { class: 'value', template: inputFieldControlTemplate },
-    { class: 'attribute', template: inputFieldControlTemplate },
+    { class: 'property', template: inputFieldControlTemplate },
     { class: 'operator', template: inputFieldControlTemplate },
     { class: 'list-select', template: selectControlTemplate },
-    { class: 'attribute-select', template: selectControlTemplate },
+    { class: 'property-select', template: selectControlTemplate },
     { class: 'operator-select', template: selectControlTemplate },
     { class: 'calendar', template: calendarControlTemplate },
     { class: 'input', template: inputControlTemplate },

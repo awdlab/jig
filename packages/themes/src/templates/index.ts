@@ -21,9 +21,9 @@ export type ThemeTemplate = {
   drawer: Awaited<typeof import('./drawer/index.js')>['drawerControlTemplate'];
   dropdownList: Awaited<typeof import('./dropdown-list/index.js')>['dropdownListControlTemplate'];
   filter: Awaited<typeof import('./filter/index.js')>['filterControlTemplate'];
-  attributeFilter: Awaited<
-    typeof import('./attribute-filter/index.js')
-  >['attributeFilterControlTemplate'];
+  filterBuilder: Awaited<
+    typeof import('./filter-builder/index.js')
+  >['filterBuilderControlTemplate'];
   editInplace: Awaited<typeof import('./edit-inplace/index.js')>['editInplaceControlTemplate'];
   global: Awaited<typeof import('./global/index.js')>['globalControlTemplate'];
   hint: Awaited<typeof import('./hint/index.js')>['hintControlTemplate'];

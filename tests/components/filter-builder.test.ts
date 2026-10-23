@@ -1,6 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { JigAttributeFilterHarness, JigCalendarHarness } from '@awdlab/jig-playwright';
+import { JigFilterBuilderHarness, JigCalendarHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -10,7 +10,7 @@ const USERS = [
   { name: 'Cal', email: 'cal@gmail.com', role: 'User', age: 22, joined: '2024-03-20' },
 ];
 
-const ATTRIBUTES = [
+const PROPERTIES = [
   { key: 'name', label: 'Name', dataType: 'string' },
   { key: 'email', label: 'Email', dataType: 'string' },
   { key: 'age', label: 'Age', dataType: 'number' },
@@ -19,10 +19,10 @@ const ATTRIBUTES = [
 ];
 
 const INLINE_TEMPLATE = `
-  <jig-attribute-filter
+  <jig-filter-builder
     mode="inline"
     [data]="inputs().data"
-    [attributes]="inputs().attributes"
+    [properties]="inputs().properties"
     [allowMultiple]="true"
     (filterChange)="output('config', $event)"
     (filterResultChange)="output('filtered', $event)"
@@ -33,21 +33,21 @@ const INLINE_TEMPLATE = `
 function inlineComponent(page: Parameters<typeof loadComponent>[0]) {
   return loadComponent(
     page,
-    { template: INLINE_TEMPLATE, imports: ['attributeFilter'] },
-    { inputs: { data: USERS, attributes: ATTRIBUTES } }
+    { template: INLINE_TEMPLATE, imports: ['filterBuilder'] },
+    { inputs: { data: USERS, properties: PROPERTIES } }
   );
 }
 
 async function setCondition(
-  filter: JigAttributeFilterHarness,
+  filter: JigFilterBuilderHarness,
   index: number,
-  attribute: string,
+  property: string,
   operator: string,
   value?: string
 ) {
-  const attr = filter.attributeSelect(index);
+  const attr = filter.propertySelect(index);
   await attr.open();
-  await attr.clickItemByText(attribute);
+  await attr.clickItemByText(property);
 
   const op = filter.operatorSelect(index);
   await op.open();
@@ -58,22 +58,22 @@ async function setCondition(
   }
 }
 
-test('filters on the attribute chosen in the row', async ({ page }) => {
+test('filters on the property chosen in the row', async ({ page }) => {
   const handle = await inlineComponent(page);
-  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
 
   await setCondition(filter, 0, 'Email', 'Contains', '@gmail');
 
   await expect(async () => {
     const log = await handle.getOutputLog();
-    expect(log['config']?.at(-1).conditions[0].attribute).toBe('email');
+    expect(log['config']?.at(-1).conditions[0].property).toBe('email');
     expect(log['filtered']?.at(-1)).toEqual([USERS[0], USERS[2]]);
   }).toPass();
 });
 
-test('joins two conditions on different attributes with and', async ({ page }) => {
+test('joins two conditions on different properties with and', async ({ page }) => {
   const handle = await inlineComponent(page);
-  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
 
   await setCondition(filter, 0, 'Email', 'Contains', '@gmail');
   await filter.addConditionButton().click();
@@ -83,7 +83,7 @@ test('joins two conditions on different attributes with and', async ({ page }) =
     const log = await handle.getOutputLog();
     const config = log['config']?.at(-1);
     expect(config.matchMode).toBe('all');
-    expect(config.conditions.map((c: { attribute: string }) => c.attribute)).toEqual([
+    expect(config.conditions.map((c: { property: string }) => c.property)).toEqual([
       'email',
       'age',
     ]);
@@ -93,7 +93,7 @@ test('joins two conditions on different attributes with and', async ({ page }) =
 
 test('flips the whole set to or when the divider is clicked', async ({ page }) => {
   const handle = await inlineComponent(page);
-  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
 
   await setCondition(filter, 0, 'Name', 'Contains', 'ann');
   await filter.addConditionButton().click();
@@ -113,23 +113,23 @@ test('flips the whole set to or when the divider is clicked', async ({ page }) =
   }).toPass();
 });
 
-test('resets operator and value when the row switches to an attribute of another dataType', async ({
+test('resets operator and value when the row switches to an property of another dataType', async ({
   page,
 }) => {
   const handle = await inlineComponent(page);
-  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
 
   await setCondition(filter, 0, 'Email', 'Contains', 'ann@');
 
-  // Another string attribute keeps the operator and the typed value.
-  const attr = filter.attributeSelect(0);
+  // Another string property keeps the operator and the typed value.
+  const attr = filter.propertySelect(0);
   await attr.open();
   await attr.clickItemByText('Name');
 
   await expect(async () => {
     const config = (await handle.getOutputLog())['config']?.at(-1);
     expect(config.conditions[0]).toEqual({
-      attribute: 'name',
+      property: 'name',
       operator: 'contains',
       rawValue: 'ann@',
     });
@@ -142,7 +142,7 @@ test('resets operator and value when the row switches to an attribute of another
   await expect(async () => {
     const log = await handle.getOutputLog();
     expect(log['config']?.at(-1).conditions[0]).toEqual({
-      attribute: 'age',
+      property: 'age',
       operator: 'isEqual',
       rawValue: null,
     });
@@ -151,11 +151,11 @@ test('resets operator and value when the row switches to an attribute of another
   await filter.valueInput(0).expectValue('');
 });
 
-test('renders a calendar value editor for a date attribute', async ({ page }) => {
+test('renders a calendar value editor for a date property', async ({ page }) => {
   await inlineComponent(page);
-  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
 
-  const attr = filter.attributeSelect(0);
+  const attr = filter.propertySelect(0);
   await attr.open();
   await attr.clickItemByText('Joined');
 
@@ -163,11 +163,11 @@ test('renders a calendar value editor for a date attribute', async ({ page }) =>
   await expect(filter.valueInput(0).locator).toHaveCount(0);
 });
 
-test('renders an operator select and a multi-select for a list attribute', async ({ page }) => {
+test('renders an operator select and a multi-select for a list property', async ({ page }) => {
   const handle = await inlineComponent(page);
-  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
 
-  const attr = filter.attributeSelect(0);
+  const attr = filter.propertySelect(0);
   await attr.open();
   await attr.clickItemByText('Role');
 
@@ -183,7 +183,7 @@ test('renders an operator select and a multi-select for a list attribute', async
   await expect(async () => {
     const log = await handle.getOutputLog();
     const condition = log['config']?.at(-1).conditions[0];
-    expect(condition.attribute).toBe('role');
+    expect(condition.property).toBe('role');
     expect(condition.operator).toBe('in');
     expect(JSON.parse(condition.rawValue)).toEqual(['Admin']);
     expect(log['filtered']?.at(-1)).toEqual([USERS[0]]);
@@ -192,9 +192,9 @@ test('renders an operator select and a multi-select for a list attribute', async
 
 test('inline mode renders without a popover', async ({ page }) => {
   await inlineComponent(page);
-  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
 
-  await expect(filter.attributeSelect(0).locator).toBeVisible();
+  await expect(filter.propertySelect(0).locator).toBeVisible();
   await expect(filter.trigger).toHaveCount(0);
   await filter.expectOpened(false);
 });
@@ -206,28 +206,28 @@ test('emits config only and leaves data untouched when filterLocally is false', 
     page,
     {
       template: `
-        <jig-attribute-filter
+        <jig-filter-builder
           mode="inline"
           [data]="inputs().data"
-          [attributes]="inputs().attributes"
+          [properties]="inputs().properties"
           [filterLocally]="false"
           (filterChange)="output('config', $event)"
           (filterResultChange)="output('filtered', $event)"
           style="width: 560px"
         />
       `,
-      imports: ['attributeFilter'],
+      imports: ['filterBuilder'],
     },
-    { inputs: { data: USERS, attributes: ATTRIBUTES } }
+    { inputs: { data: USERS, properties: PROPERTIES } }
   );
 
-  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
   await setCondition(filter, 0, 'Email', 'Contains', '@gmail');
 
   await expect(async () => {
     const log = await handle.getOutputLog();
     expect(log['config']?.at(-1).conditions[0]).toEqual({
-      attribute: 'email',
+      property: 'email',
       operator: 'contains',
       rawValue: '@gmail',
     });
@@ -240,22 +240,22 @@ test('manual mode commits only on apply and restores on cancel', async ({ page }
     page,
     {
       template: `
-        <jig-attribute-filter
+        <jig-filter-builder
           mode="inline"
           [autoApply]="false"
           [data]="inputs().data"
-          [attributes]="inputs().attributes"
+          [properties]="inputs().properties"
           (filterChange)="output('config', $event)"
           (filterResultChange)="output('filtered', $event)"
           style="width: 560px"
         />
       `,
-      imports: ['attributeFilter'],
+      imports: ['filterBuilder'],
     },
-    { inputs: { data: USERS, attributes: ATTRIBUTES } }
+    { inputs: { data: USERS, properties: PROPERTIES } }
   );
 
-  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
   await expect(filter.clearButton()).toHaveCount(0);
 
   await setCondition(filter, 0, 'Email', 'Contains', '@gmail');
@@ -288,19 +288,19 @@ test('has no axe violations with the popover open', async ({ page }) => {
     page,
     {
       template: `
-        <jig-attribute-filter
+        <jig-filter-builder
           [data]="inputs().data"
-          [attributes]="inputs().attributes"
+          [properties]="inputs().properties"
           [allowMultiple]="true"
           style="width: 360px"
         />
       `,
-      imports: ['attributeFilter'],
+      imports: ['filterBuilder'],
     },
-    { inputs: { data: USERS, attributes: ATTRIBUTES } }
+    { inputs: { data: USERS, properties: PROPERTIES } }
   );
 
-  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
   await filter.open();
 
   await expectNoA11yViolations(page);
@@ -311,21 +311,21 @@ test('matches the screenshot with two conditions', async ({ page }, testInfo) =>
     page,
     {
       template: `
-        <jig-attribute-filter
+        <jig-filter-builder
           class="page-center"
           mode="inline"
           [data]="inputs().data"
-          [attributes]="inputs().attributes"
+          [properties]="inputs().properties"
           [allowMultiple]="true"
           style="width: 560px"
         />
       `,
-      imports: ['attributeFilter'],
+      imports: ['filterBuilder'],
     },
-    { inputs: { data: USERS, attributes: ATTRIBUTES } }
+    { inputs: { data: USERS, properties: PROPERTIES } }
   );
 
-  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
   await setCondition(filter, 0, 'Email', 'Contains', '@gmail');
   await filter.addConditionButton().click();
   await setCondition(filter, 1, 'Age', 'Greater than', '25');
@@ -334,8 +334,8 @@ test('matches the screenshot with two conditions', async ({ page }, testInfo) =>
   await expectScreenshot(page, testInfo, 'inline');
 });
 
-const GMAIL = { attribute: 'email', operator: 'contains', rawValue: '@gmail' };
-const OVER_25 = { attribute: 'age', operator: 'greaterThan', rawValue: '25' };
+const GMAIL = { property: 'email', operator: 'contains', rawValue: '@gmail' };
+const OVER_25 = { property: 'age', operator: 'greaterThan', rawValue: '25' };
 
 test('reflects an external config change in the rows while the popover is open', async ({
   page,
@@ -344,39 +344,39 @@ test('reflects an external config change in the rows while the popover is open',
     page,
     {
       template: `
-        <jig-attribute-filter
+        <jig-filter-builder
           [data]="inputs().data"
-          [attributes]="inputs().attributes"
+          [properties]="inputs().properties"
           [allowMultiple]="true"
           [value]="inputs().config"
           (filterChange)="output('config', $event)"
           style="width: 360px"
         />
       `,
-      imports: ['attributeFilter'],
+      imports: ['filterBuilder'],
     },
     {
       inputs: {
         data: USERS,
-        attributes: ATTRIBUTES,
+        properties: PROPERTIES,
         config: { matchMode: 'all', conditions: [GMAIL, OVER_25] },
       },
     }
   );
 
-  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
   await filter.open();
   await expect(filter.row(1)).toBeVisible();
 
   // Something else in the app drops the second condition while the popover is open.
   await handle.setInputs({
     data: USERS,
-    attributes: ATTRIBUTES,
+    properties: PROPERTIES,
     config: { matchMode: 'all', conditions: [GMAIL] },
   });
 
   await expect(filter.row(1)).toHaveCount(0);
-  await filter.attributeSelect(0).expectSelectedItemText('Email');
+  await filter.propertySelect(0).expectSelectedItemText('Email');
   await filter.valueInput(0).expectValue('@gmail');
 });
 
@@ -385,35 +385,35 @@ test('keeps a value being typed when the config changes from outside', async ({ 
     page,
     {
       template: `
-        <jig-attribute-filter
+        <jig-filter-builder
           mode="inline"
           [data]="inputs().data"
-          [attributes]="inputs().attributes"
+          [properties]="inputs().properties"
           [autoApplyDebounce]="1500"
           [value]="inputs().config"
           (filterChange)="output('config', $event)"
           style="width: 560px"
         />
       `,
-      imports: ['attributeFilter'],
+      imports: ['filterBuilder'],
     },
     {
       inputs: {
         data: USERS,
-        attributes: ATTRIBUTES,
+        properties: PROPERTIES,
         config: { matchMode: 'all', conditions: [GMAIL] },
       },
     }
   );
 
-  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
   await filter.valueInput(0).expectValue('@gmail');
 
   // Type, then let the app write a different config while the commit is still pending.
   await filter.valueInput(0).fill('@work');
   await handle.setInputs({
     data: USERS,
-    attributes: ATTRIBUTES,
+    properties: PROPERTIES,
     config: { matchMode: 'all', conditions: [OVER_25] },
   });
 
@@ -429,29 +429,29 @@ test('leaves manual mode edits pending when the config changes from outside', as
     page,
     {
       template: `
-        <jig-attribute-filter
+        <jig-filter-builder
           mode="inline"
           [autoApply]="false"
           [data]="inputs().data"
-          [attributes]="inputs().attributes"
+          [properties]="inputs().properties"
           [value]="inputs().config"
           (filterChange)="output('config', $event)"
           style="width: 560px"
         />
       `,
-      imports: ['attributeFilter'],
+      imports: ['filterBuilder'],
     },
-    { inputs: { data: USERS, attributes: ATTRIBUTES, config: null } }
+    { inputs: { data: USERS, properties: PROPERTIES, config: null } }
   );
 
-  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
   await setCondition(filter, 0, 'Email', 'Contains', '@gmail');
   await filter.applyButton().click();
 
   await filter.valueInput(0).fill('@work');
   await handle.setInputs({
     data: USERS,
-    attributes: ATTRIBUTES,
+    properties: PROPERTIES,
     config: { matchMode: 'all', conditions: [OVER_25] },
   });
 
@@ -477,36 +477,36 @@ test('the trigger summary renders the parsed value, not the raw storage string',
     page,
     {
       template: `
-        <jig-attribute-filter
+        <jig-filter-builder
           [data]="inputs().data"
-          [attributes]="inputs().attributes"
+          [properties]="inputs().properties"
           [value]="inputs().config"
           style="width: 360px"
         />
       `,
-      imports: ['attributeFilter'],
+      imports: ['filterBuilder'],
     },
     {
       inputs: {
         data: USERS,
-        attributes: ATTRIBUTES,
+        properties: PROPERTIES,
         config: {
           matchMode: 'all',
-          conditions: [{ attribute: 'role', operator: 'in', rawValue: '["Admin","User"]' }],
+          conditions: [{ property: 'role', operator: 'in', rawValue: '["Admin","User"]' }],
         },
       },
     }
   );
 
-  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
   await expect(filter.summary()).toHaveText('Role Is one of "Admin, User"');
 
   await handle.setInputs({
     data: USERS,
-    attributes: ATTRIBUTES,
+    properties: PROPERTIES,
     config: {
       matchMode: 'all',
-      conditions: [{ attribute: 'joined', operator: 'greaterThan', rawValue: '2024-01-15' }],
+      conditions: [{ property: 'joined', operator: 'greaterThan', rawValue: '2024-01-15' }],
     },
   });
 
@@ -519,32 +519,32 @@ test('manual mode renders a bound config and applies it untouched', async ({ pag
     page,
     {
       template: `
-        <jig-attribute-filter
+        <jig-filter-builder
           mode="inline"
           [autoApply]="false"
           [data]="inputs().data"
-          [attributes]="inputs().attributes"
+          [properties]="inputs().properties"
           [value]="inputs().config"
           (filterChange)="output('config', $event)"
           (filterResultChange)="output('filtered', $event)"
           style="width: 560px"
         />
       `,
-      imports: ['attributeFilter'],
+      imports: ['filterBuilder'],
     },
     {
       inputs: {
         data: USERS,
-        attributes: ATTRIBUTES,
+        properties: PROPERTIES,
         config: { matchMode: 'all', conditions: [GMAIL] },
       },
     }
   );
 
-  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
 
   // The editor shows the bound config rather than an empty default row.
-  await filter.attributeSelect(0).expectSelectedItemText('Email');
+  await filter.propertySelect(0).expectSelectedItemText('Email');
   await filter.valueInput(0).expectValue('@gmail');
 
   // Apply without touching a row commits that same config, it does not discard it.
@@ -564,9 +564,9 @@ test('manual mode renders a bound config and applies it untouched', async ({ pag
 test('the date editor keeps the month the user navigates to', async ({ page }) => {
   await page.clock.setFixedTime(new Date('2025-08-18T12:13:14'));
   await inlineComponent(page);
-  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
 
-  const attr = filter.attributeSelect(0);
+  const attr = filter.propertySelect(0);
   await attr.open();
   await attr.clickItemByText('Joined');
 
