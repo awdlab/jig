@@ -32,8 +32,12 @@ export type JigFilterAttribute<TItem = unknown, TData = TItem> = {
   | {
       /** Names the property to read, and identifies the attribute in a condition. */
       key: JigFilterAttributeKey<TData>;
-      /** Reads the value to compare. Defaults to `(item.data ?? item)[key]`. */
+      /**
+       * Overrides how this attribute's value is read — the key still identifies it.
+       * Defaults to `(item.data ?? item)[key]`.
+       */
       selector?: (item: TItem) => unknown;
+      computedKey?: never;
     }
   | {
       /**
@@ -44,6 +48,7 @@ export type JigFilterAttribute<TItem = unknown, TData = TItem> = {
       computedKey: string;
       /** Reads the value to compare. */
       selector: (item: TItem) => unknown;
+      key?: never;
     }
 );
 

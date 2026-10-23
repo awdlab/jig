@@ -43,8 +43,12 @@ type JigFilterAttribute<TItem = unknown, TData = TItem> = {
   dataType: JigFilterDataType;
   listOptions?: readonly string[];
 } & (
-  | { key: JigFilterAttributeKey<TData>; selector?: (item: TItem) => unknown }
-  | { computedKey: string; selector: (item: TItem) => unknown }
+  | {
+      key: JigFilterAttributeKey<TData>;
+      selector?: (item: TItem) => unknown;
+      computedKey?: never;
+    }
+  | { computedKey: string; selector: (item: TItem) => unknown; key?: never }
 );
 
 type JigAttributeFilterConditionConfig = {
@@ -340,9 +344,8 @@ export function readFilterAttributeValue<TItem, TData = TItem>(
     return attribute.selector(item);
   }
   const source = (item as { data?: unknown } | null)?.data ?? item;
-  return 'key' in attribute
-    ? (source as Record<string, unknown> | null | undefined)?.[attribute.key]
-    : undefined;
+  const key = attribute.key;
+  return key == null ? undefined : (source as Record<string, unknown> | null | undefined)?.[key];
 }
 
 /** Renders a condition's parsed value: a list joined, a date formatted, anything else as text. */

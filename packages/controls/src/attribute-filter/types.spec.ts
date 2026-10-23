@@ -32,6 +32,28 @@ describe('JigFilterAttribute', () => {
     expect(attribute.computedKey).toBe('search');
   });
 
+  it('reads a known property its own way, keeping the key as the identifier', () => {
+    const attribute = {
+      key: 'email',
+      label: 'Domain',
+      dataType: 'string',
+      selector: (p: Person) => p.email.split('@')[1],
+    } satisfies JigFilterAttribute<Person, Person>;
+    expect(attribute.selector({ email: 'a@b.com' } as Person)).toBe('b.com');
+  });
+
+  it('rejects naming both a property key and a computed key', () => {
+    const both = {
+      key: 'email',
+      computedKey: 'search',
+      label: 'L',
+      dataType: 'string',
+      selector: (p: Person) => p.name,
+      // @ts-expect-error an attribute is identified one way or the other, not both
+    } satisfies JigFilterAttribute<Person, Person>;
+    expect(both.key).toBe('email');
+  });
+
   it('rejects a key the item does not carry, and a computed key without a selector', () => {
     // @ts-expect-error 'naem' is not a property of Person
     const typo = { key: 'naem', label: 'Name', dataType: 'string' } satisfies JigFilterAttribute<
@@ -44,6 +66,7 @@ describe('JigFilterAttribute', () => {
       dataType: 'custom',
       // @ts-expect-error a computed attribute must supply a selector
     } satisfies JigFilterAttribute<Person, Person>;
+    void noSelector;
     expect([typo, noSelector]).toHaveLength(2);
   });
 });
