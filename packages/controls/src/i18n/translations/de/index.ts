@@ -179,6 +179,7 @@ export const de = {
     noItemsFound: 'Keine Einträge gefunden',
   },
   table: {
+    filter: 'Filtern',
     selectAllRows: 'Alle Zeilen auswählen',
     selectRow: 'Zeile auswählen',
     sortedBy: 'Sortiert nach {{ column }}, {{ direction }}',
