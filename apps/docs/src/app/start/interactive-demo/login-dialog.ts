@@ -1,7 +1,7 @@
 import { Component, computed, effect, model, signal } from '@angular/core';
 import { form, FormField, pattern, required, submit } from '@angular/forms/signals';
-import tablerLock from '@iconify/icons-tabler/lock';
-import tablerUser from '@iconify/icons-tabler/user';
+import tablerLock from '@iconify/icons-tabler/lock.js';
+import tablerUser from '@iconify/icons-tabler/user.js';
 import { JigButton } from '@awdlab/jig/button';
 import { JigDialog } from '@awdlab/jig/dialog';
 import { JigErrors } from '@awdlab/jig/errors';

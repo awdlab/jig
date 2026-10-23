@@ -1,7 +1,7 @@
-import tablerAlertTriangle from '@iconify/icons-tabler/alert-triangle';
-import tablerCircleCheck from '@iconify/icons-tabler/circle-check';
-import tablerCoin from '@iconify/icons-tabler/coin';
-import tablerUsers from '@iconify/icons-tabler/users';
+import tablerAlertTriangle from '@iconify/icons-tabler/alert-triangle.js';
+import tablerCircleCheck from '@iconify/icons-tabler/circle-check.js';
+import tablerCoin from '@iconify/icons-tabler/coin.js';
+import tablerUsers from '@iconify/icons-tabler/users.js';
 
 import type { JigItem } from '@awdlab/jig/api';
 import type { IconType } from '@awdlab/jig-custom-types';

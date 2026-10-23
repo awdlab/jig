@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import tablerBrandGithub from '@iconify/icons-tabler/brand-github';
+import tablerBrandGithub from '@iconify/icons-tabler/brand-github.js';
 import { JigButton } from '@awdlab/jig/button';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigTooltip } from '@awdlab/jig/tooltip';

@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import tablerBriefcase from '@iconify/icons-tabler/briefcase';
-import tablerClipboardList from '@iconify/icons-tabler/clipboard-list';
-import tablerLock from '@iconify/icons-tabler/lock';
-import tablerMessageCircle from '@iconify/icons-tabler/message-circle';
-import tablerSettings from '@iconify/icons-tabler/settings';
+import tablerBriefcase from '@iconify/icons-tabler/briefcase.js';
+import tablerClipboardList from '@iconify/icons-tabler/clipboard-list.js';
+import tablerLock from '@iconify/icons-tabler/lock.js';
+import tablerMessageCircle from '@iconify/icons-tabler/message-circle.js';
+import tablerSettings from '@iconify/icons-tabler/settings.js';
 import { JigAvatar } from '@awdlab/jig/avatar';
 import { JigBadge } from '@awdlab/jig/badge';
 import { JigIcon } from '@awdlab/jig/icon';

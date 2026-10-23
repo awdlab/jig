@@ -1,7 +1,7 @@
 import { NgComponentOutlet } from '@angular/common';
 import { Component, input, signal } from '@angular/core';
-import tablerCode from '@iconify/icons-tabler/code';
-import tablerCopy from '@iconify/icons-tabler/copy';
+import tablerCode from '@iconify/icons-tabler/code.js';
+import tablerCopy from '@iconify/icons-tabler/copy.js';
 import { JigButton } from '@awdlab/jig/button';
 import { JigIcon } from '@awdlab/jig/icon';
 import { throwExp } from '@awdlab/jig/utils';

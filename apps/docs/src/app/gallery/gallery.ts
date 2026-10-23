@@ -1,8 +1,8 @@
 import { afterNextRender, Component, DestroyRef, inject, signal, viewChild } from '@angular/core';
-import tablerCode from '@iconify/icons-tabler/code';
-import tablerCopy from '@iconify/icons-tabler/copy';
-import tablerTrash from '@iconify/icons-tabler/trash';
-import tablerUser from '@iconify/icons-tabler/user';
+import tablerCode from '@iconify/icons-tabler/code.js';
+import tablerCopy from '@iconify/icons-tabler/copy.js';
+import tablerTrash from '@iconify/icons-tabler/trash.js';
+import tablerUser from '@iconify/icons-tabler/user.js';
 import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
 import { injectThemeColors, injectThemeControlKinds, JigTemplate } from '@awdlab/jig/api/ng';
 import { JigAvatar, JigAvatarGroup } from '@awdlab/jig/avatar';

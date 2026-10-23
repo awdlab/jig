@@ -5,7 +5,7 @@ import {
   type OnInit,
   type OnDestroy,
 } from '@angular/core';
-import tablerUser from '@iconify/icons-tabler/user';
+import tablerUser from '@iconify/icons-tabler/user.js';
 import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
 import { JigTemplate } from '@awdlab/jig/api/ng';
 import { JigAvatar, JigAvatarGroup } from '@awdlab/jig/avatar';

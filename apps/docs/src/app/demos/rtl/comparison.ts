@@ -4,7 +4,7 @@ import { JigButton } from '@awdlab/jig/button';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigPaginator } from '@awdlab/jig/paginator';
 import { JigProgress } from '@awdlab/jig/progress';
-import tablerBell from '@iconify/icons-tabler/bell';
+import tablerBell from '@iconify/icons-tabler/bell.js';
 
 /**
  * The same markup rendered in both directions, so the mirroring is visible without

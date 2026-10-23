@@ -1,6 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
-import tablerBrandGithub from '@iconify/icons-tabler/brand-github';
-import tablerPalette from '@iconify/icons-tabler/palette';
+import tablerBrandGithub from '@iconify/icons-tabler/brand-github.js';
+import tablerPalette from '@iconify/icons-tabler/palette.js';
 import { ColorSchemeService } from '@awdlab/jig/api/ng';
 import { JigButton } from '@awdlab/jig/button';
 import { JigIcon } from '@awdlab/jig/icon';

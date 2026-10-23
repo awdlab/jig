@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import tablerArrowBackUp from '@iconify/icons-tabler/arrow-back-up';
-import tablerDeviceFloppy from '@iconify/icons-tabler/device-floppy';
-import tablerZoomIn from '@iconify/icons-tabler/zoom-in';
-import tablerZoomOut from '@iconify/icons-tabler/zoom-out';
+import tablerArrowBackUp from '@iconify/icons-tabler/arrow-back-up.js';
+import tablerDeviceFloppy from '@iconify/icons-tabler/device-floppy.js';
+import tablerZoomIn from '@iconify/icons-tabler/zoom-in.js';
+import tablerZoomOut from '@iconify/icons-tabler/zoom-out.js';
 import { JigButton } from '@awdlab/jig/button';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigToolbar, JigToolbarRegion } from '@awdlab/jig/toolbar';

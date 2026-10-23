@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import tablerMail from '@iconify/icons-tabler/mail';
+import tablerMail from '@iconify/icons-tabler/mail.js';
 import { JigAvatar } from '@awdlab/jig/avatar';
 import { JigBadge } from '@awdlab/jig/badge';
 import { JigButton } from '@awdlab/jig/button';

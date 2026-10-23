@@ -1,7 +1,7 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import tablerMenu2 from '@iconify/icons-tabler/menu-2';
-import tablerSearch from '@iconify/icons-tabler/search';
+import tablerMenu2 from '@iconify/icons-tabler/menu-2.js';
+import tablerSearch from '@iconify/icons-tabler/search.js';
 import { JigBreadcrumb } from '@awdlab/jig/breadcrumb';
 import { JigButton } from '@awdlab/jig/button';
 import { JigIcon } from '@awdlab/jig/icon';

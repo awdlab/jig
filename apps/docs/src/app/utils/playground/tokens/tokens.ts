@@ -1,6 +1,6 @@
 import { Component, input, signal, computed, inject, Injector, effect } from '@angular/core';
-import tablerPalette from '@iconify/icons-tabler/palette';
-import tablerPointer from '@iconify/icons-tabler/pointer';
+import tablerPalette from '@iconify/icons-tabler/palette.js';
+import tablerPointer from '@iconify/icons-tabler/pointer.js';
 import { injectTheme } from '@awdlab/jig/api/ng';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigMessage } from '@awdlab/jig/message';

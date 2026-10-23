@@ -7,8 +7,8 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import tablerLock from '@iconify/icons-tabler/lock';
-import tablerUser from '@iconify/icons-tabler/user';
+import tablerLock from '@iconify/icons-tabler/lock.js';
+import tablerUser from '@iconify/icons-tabler/user.js';
 import { ColorSchemeService } from '@awdlab/jig/api/ng';
 import { JigButton } from '@awdlab/jig/button';
 import { JigIcon } from '@awdlab/jig/icon';

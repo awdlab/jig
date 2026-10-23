@@ -1,9 +1,9 @@
 import { Component, computed, effect, inject, model, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import tablerFileText from '@iconify/icons-tabler/file-text';
-import tablerPuzzle from '@iconify/icons-tabler/puzzle';
-import tablerSearch from '@iconify/icons-tabler/search';
-import tablerTag from '@iconify/icons-tabler/tag';
+import tablerFileText from '@iconify/icons-tabler/file-text.js';
+import tablerPuzzle from '@iconify/icons-tabler/puzzle.js';
+import tablerSearch from '@iconify/icons-tabler/search.js';
+import tablerTag from '@iconify/icons-tabler/tag.js';
 import { JigCommand } from '@awdlab/jig/command';
 
 import { DocsSearch } from './search';

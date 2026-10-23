@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import tablerCopy from '@iconify/icons-tabler/copy';
+import tablerCopy from '@iconify/icons-tabler/copy.js';
 import { JigButton } from '@awdlab/jig/button';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigInput } from '@awdlab/jig/input';

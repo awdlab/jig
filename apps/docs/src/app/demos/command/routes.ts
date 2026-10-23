@@ -1,6 +1,6 @@
-import tablerAppWindow from '@iconify/icons-tabler/app-window';
-import tablerList from '@iconify/icons-tabler/list';
-import tablerSquare from '@iconify/icons-tabler/square';
+import tablerAppWindow from '@iconify/icons-tabler/app-window.js';
+import tablerList from '@iconify/icons-tabler/list.js';
+import tablerSquare from '@iconify/icons-tabler/square.js';
 import { Component, signal } from '@angular/core';
 import { JigButton } from '@awdlab/jig/button';
 import { JigCommand } from '@awdlab/jig/command';

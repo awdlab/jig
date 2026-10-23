@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import tablerExternalLink from '@iconify/icons-tabler/external-link';
+import tablerExternalLink from '@iconify/icons-tabler/external-link.js';
 import { JigButton } from '@awdlab/jig/button';
 import { JigIcon } from '@awdlab/jig/icon';
 

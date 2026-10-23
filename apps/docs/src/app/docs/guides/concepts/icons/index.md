@@ -7,7 +7,7 @@ one control.
 An icon value is an [Iconify](https://iconify.design) icon object (or `{ icon, scale }`):
 
 ```ts
-import tablerUser from '@iconify/icons-tabler/user';
+import tablerUser from '@iconify/icons-tabler/user.js';
 ```
 
 ```html

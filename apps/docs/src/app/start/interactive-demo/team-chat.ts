@@ -11,17 +11,17 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import tablerChevronLeft from '@iconify/icons-tabler/chevron-left';
-import tablerCopy from '@iconify/icons-tabler/copy';
-import tablerCornerUpLeft from '@iconify/icons-tabler/corner-up-left';
-import tablerDotsVertical from '@iconify/icons-tabler/dots-vertical';
-import tablerLayoutSidebarRight from '@iconify/icons-tabler/layout-sidebar-right';
-import tablerMoodSmile from '@iconify/icons-tabler/mood-smile';
-import tablerPaperclip from '@iconify/icons-tabler/paperclip';
-import tablerPin from '@iconify/icons-tabler/pin';
-import tablerSearch from '@iconify/icons-tabler/search';
-import tablerSend from '@iconify/icons-tabler/send';
-import tablerTrash from '@iconify/icons-tabler/trash';
+import tablerChevronLeft from '@iconify/icons-tabler/chevron-left.js';
+import tablerCopy from '@iconify/icons-tabler/copy.js';
+import tablerCornerUpLeft from '@iconify/icons-tabler/corner-up-left.js';
+import tablerDotsVertical from '@iconify/icons-tabler/dots-vertical.js';
+import tablerLayoutSidebarRight from '@iconify/icons-tabler/layout-sidebar-right.js';
+import tablerMoodSmile from '@iconify/icons-tabler/mood-smile.js';
+import tablerPaperclip from '@iconify/icons-tabler/paperclip.js';
+import tablerPin from '@iconify/icons-tabler/pin.js';
+import tablerSearch from '@iconify/icons-tabler/search.js';
+import tablerSend from '@iconify/icons-tabler/send.js';
+import tablerTrash from '@iconify/icons-tabler/trash.js';
 import type { Openable } from '@awdlab/jig/api/ng';
 import { JigAvatar, JigAvatarGroup } from '@awdlab/jig/avatar';
 import { JigBadge } from '@awdlab/jig/badge';

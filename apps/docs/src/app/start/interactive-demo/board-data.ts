@@ -1,4 +1,4 @@
-import tablerBug from '@iconify/icons-tabler/bug';
+import tablerBug from '@iconify/icons-tabler/bug.js';
 
 import type { JigTreeItem } from '@awdlab/jig/api';
 
