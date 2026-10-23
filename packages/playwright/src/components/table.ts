@@ -186,7 +186,7 @@ export class JigTableHarness extends JigHarness {
   // --- row actions ---------------------------------------------------------
 
   public rowAction(index: number, testId: string): Locator {
-    return this.row(index).locator(`[data-test-id="${testId}"]`);
+    return this.row(index).locator(`[data-testid="${testId}"]`);
   }
 
   public expectRowActionsBarVisible(visible = true): Promise<void> {
