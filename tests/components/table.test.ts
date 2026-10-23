@@ -259,6 +259,7 @@ const TABLE_TEMPLATE_SORTABLE = `
     style="height: 400px"
     [rows]="inputs().rows"
     [fieldId]="'id'"
+    [sortClearable]="inputs().sortClearable ?? true"
   >
     <ng-template #header>
       <tr jigTableHeadTr>
@@ -327,6 +328,29 @@ test.describe('Table Accessibility - aria-sort', () => {
 
     await grid.sortBy(1);
     await grid.expectSort(1, 'none');
+  });
+
+  test('sortClearable=false keeps the sort two-state', async ({ page }) => {
+    await loadComponent(
+      page,
+      {
+        template: TABLE_TEMPLATE_SORTABLE,
+        imports: ['tableModule', 'jigTemplate', 'tableSortableColumn'],
+      },
+      { inputs: { rows: TABLE_ROWS, sortClearable: false } }
+    );
+
+    const grid = table(page);
+    await grid.expectSort(1, 'none');
+
+    await grid.sortBy(1);
+    await grid.expectSort(1, 'ascending');
+
+    await grid.sortBy(1);
+    await grid.expectSort(1, 'descending');
+
+    await grid.sortBy(1);
+    await grid.expectSort(1, 'ascending');
   });
 
   test('non-sortable header cells have no aria-sort', async ({ page }) => {

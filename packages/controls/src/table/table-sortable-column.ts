@@ -105,12 +105,14 @@ export class JigTableSortableColumn implements OnDestroy {
   protected toggleSort(): void {
     const currentSort = this.sort();
     const table = this._table();
-    table?.sort.set(
-      currentSort === null
-        ? { column: this.columnId(), direction: 'asc' }
-        : currentSort === 'asc'
-          ? { column: this.columnId(), direction: 'desc' }
-          : null
-    );
+    if (!table) return;
+    if (currentSort === 'desc' && table.sortClearable()) {
+      table.sort.set(null);
+      return;
+    }
+    table.sort.set({
+      column: this.columnId(),
+      direction: currentSort === 'asc' ? 'desc' : 'asc',
+    });
   }
 }

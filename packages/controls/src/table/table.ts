@@ -244,6 +244,13 @@ export class JigTable<
   } | null>(null);
 
   /**
+   * Whether clicking a sorted column a third time clears the sort. When `false`, sorting
+   * toggles between ascending and descending only. See {@link sort}.
+   * @default true
+   */
+  public readonly sortClearable = input(true, { transform: booleanAttribute });
+
+  /**
    * Optional custom comparator used when `sort` is active. Receives the two rows and the
    * active sort descriptor. When omitted, a default comparator is used (nulls-first on asc,
    * numeric for numbers, `localeCompare` otherwise).
