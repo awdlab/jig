@@ -27,7 +27,6 @@ import { drawerStyles } from '@awdlab/jig-themes/shade/drawer';
 import { editInplaceStyles } from '@awdlab/jig-themes/shade/edit-inplace';
 import { attributeFilterStyles } from '@awdlab/jig-themes/shade/attribute-filter';
 import { filterStyles } from '@awdlab/jig-themes/shade/filter';
-import { filterListBoxStyles } from '@awdlab/jig-themes/shade/filter-list-box';
 import { hintStyles } from '@awdlab/jig-themes/shade/hint';
 import { iconStyles } from '@awdlab/jig-themes/shade/icon';
 import { inplaceStyles } from '@awdlab/jig-themes/shade/inplace';
@@ -116,7 +115,6 @@ export const shade = createTheme(
     editInplaceStyles,
     attributeFilterStyles,
     filterStyles,
-    filterListBoxStyles,
     font,
     hintStyles,
     iconStyles,

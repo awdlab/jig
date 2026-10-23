@@ -29,7 +29,6 @@ import { drawerStyles } from '@awdlab/jig-themes/material/drawer';
 import { editInplaceStyles } from '@awdlab/jig-themes/material/edit-inplace';
 import { attributeFilterStyles } from '@awdlab/jig-themes/material/attribute-filter';
 import { filterStyles } from '@awdlab/jig-themes/material/filter';
-import { filterListBoxStyles } from '@awdlab/jig-themes/material/filter-list-box';
 import { hintStyles } from '@awdlab/jig-themes/material/hint';
 import { iconStyles } from '@awdlab/jig-themes/material/icon';
 import { inplaceStyles } from '@awdlab/jig-themes/material/inplace';
@@ -120,7 +119,6 @@ export const material = createTheme(
     drawerStyles,
     attributeFilterStyles,
     filterStyles,
-    filterListBoxStyles,
     editInplaceStyles,
     font,
     hintStyles,

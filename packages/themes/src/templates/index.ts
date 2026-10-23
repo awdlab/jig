@@ -24,9 +24,6 @@ export type ThemeTemplate = {
   attributeFilter: Awaited<
     typeof import('./attribute-filter/index.js')
   >['attributeFilterControlTemplate'];
-  filterListBox: Awaited<
-    typeof import('./filter-list-box/index.js')
-  >['filterListBoxControlTemplate'];
   editInplace: Awaited<typeof import('./edit-inplace/index.js')>['editInplaceControlTemplate'];
   global: Awaited<typeof import('./global/index.js')>['globalControlTemplate'];
   hint: Awaited<typeof import('./hint/index.js')>['hintControlTemplate'];

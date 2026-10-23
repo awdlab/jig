@@ -43,7 +43,7 @@ export const en = {
     placeholder: 'Click to edit',
     confirm: 'Confirm',
   },
-  filterListBox: {
+  filterBar: {
     search: 'Search',
     activeFilters: 'Active filters',
     clearAllFilters: 'Clear all filters',

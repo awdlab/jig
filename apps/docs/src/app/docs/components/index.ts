@@ -19,7 +19,6 @@ import { DropdownListPage } from './dropdown-list/page';
 import { EditInplacePage } from './edit-inplace/page';
 import { ErrorsPage } from './errors/page';
 import { FilterPage } from './filter/page';
-import { FilterListBoxPage } from './filter-list-box/page';
 import { HintPage } from './hint/page';
 import { IconPage } from './icon/page';
 import { InplacePage } from './inplace/page';
@@ -82,7 +81,6 @@ export const COMPONENT_GROUPS: JigDocsGroup[] = [
       ColorPickerPage,
       EditInplacePage,
       FilterPage,
-      FilterListBoxPage,
       InputPage,
       InputFieldPage,
       ListBoxPage,
