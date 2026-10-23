@@ -22,8 +22,8 @@ leave it out for a content-sized list, which is what a slim icon button wants.
 
 ### Grouped items
 
-Grouped items render with sticky group headers, and `separator` draws a divider above each
-group.
+Grouped items render with sticky group headers, and `separator` breaks each group off from
+what precedes it — the theme decides whether that reads as a divider or a gap.
 
 {{ demo: Demo_DropdownList_Grouped }}
 

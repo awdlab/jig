@@ -106,8 +106,8 @@ export class JigListBox<
    */
   public readonly selectOnHover = input(false, { transform: booleanAttribute });
   /**
-   * Whether a divider is drawn above each group, separating it from what precedes it.
-   * Only affects grouped items; the first entry in the list never gets one.
+   * Whether each group is broken off from what precedes it — a divider, a gap, or both,
+   * depending on the theme. Only affects grouped items; the first entry never gets one.
    * @default false
    */
   public readonly separator = input(false, { transform: booleanAttribute });

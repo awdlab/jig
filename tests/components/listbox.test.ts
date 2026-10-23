@@ -36,7 +36,7 @@ test('scrolls when a flex parent bounds its height', async ({ page }) => {
   expect(metrics.scrollTop).toBe(80);
 });
 
-test('separator draws a divider above every group but the first', async ({ page }) => {
+test('separator opens a new section above every group but the first', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
@@ -56,15 +56,19 @@ test('separator draws a divider above every group but the first', async ({ page 
   );
 
   const groups = page.locator('[role="group"]');
-  const borderWidth = (index: number) =>
-    groups.nth(index).evaluate(el => getComputedStyle(el).borderTopWidth);
+  // Themes break the section with a divider, a gap, or both, so measure the space above.
+  const spaceAbove = (index: number) =>
+    groups.nth(index).evaluate(el => {
+      const s = getComputedStyle(el);
+      return parseFloat(s.borderTopWidth) + parseFloat(s.marginTop);
+    });
 
-  expect(await borderWidth(1)).toBe('0px');
+  expect(await spaceAbove(1)).toBe(0);
 
   await handle.setInputs({ items: exampleData.items.groupedPreformatted, separator: true });
 
-  expect(await borderWidth(0)).toBe('0px');
-  expect(await borderWidth(1)).toBe('1px');
+  expect(await spaceAbove(0)).toBe(0);
+  expect(await spaceAbove(1)).toBeGreaterThan(0);
 });
 
 test('home, end and paging move the highlight', async ({ page }) => {
