@@ -24,6 +24,7 @@ import { colorPickerStyles } from '@awdlab/jig-themes/shade/color-picker';
 import { commandStyles } from '@awdlab/jig-themes/shade/command';
 import { dialogStyles } from '@awdlab/jig-themes/shade/dialog';
 import { drawerStyles } from '@awdlab/jig-themes/shade/drawer';
+import { dropdownListStyles } from '@awdlab/jig-themes/shade/dropdown-list';
 import { editInplaceStyles } from '@awdlab/jig-themes/shade/edit-inplace';
 import { filterStyles } from '@awdlab/jig-themes/shade/filter';
 import { hintStyles } from '@awdlab/jig-themes/shade/hint';
@@ -111,6 +112,7 @@ export const shade = createTheme(
     commandStyles,
     dialogStyles,
     drawerStyles,
+    dropdownListStyles,
     editInplaceStyles,
     filterStyles,
     font,
