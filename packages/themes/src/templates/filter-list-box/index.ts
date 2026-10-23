@@ -8,7 +8,7 @@ import { inputFieldControlTemplate } from '@awdlab/jig-themes/templates/input-fi
 import { listBoxControlTemplate } from '@awdlab/jig-themes/templates/list-box';
 
 export const filterListBoxControlTemplate = createControlTemplate({
-  scope: 'filterListBox',
+  scope: 'filter-list-box',
   classNames: ['root', 'search-row', 'trigger', 'chips', 'empty', 'empty-actions'],
   dependencies: [
     { class: 'search-field', template: inputFieldControlTemplate },

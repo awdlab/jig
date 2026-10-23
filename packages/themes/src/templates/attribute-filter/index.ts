@@ -7,7 +7,7 @@ import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
 import { selectControlTemplate } from '@awdlab/jig-themes/templates/select';
 
 export const attributeFilterControlTemplate = createControlTemplate({
-  scope: 'attributeFilter',
+  scope: 'attribute-filter',
   classNames: [
     'root',
     'inline',
