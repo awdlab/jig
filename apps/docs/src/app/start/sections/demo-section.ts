@@ -9,6 +9,7 @@ import { JigBadge } from '@awdlab/jig/badge';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigTooltip } from '@awdlab/jig/tooltip';
 
+import { JigDocsLoader } from '../../utils/loader/loader';
 import { JigDocsLoginDialog } from '../interactive-demo/login-dialog';
 import { ProjectBoard } from '../interactive-demo/project-board';
 import { SalesCrm } from '../interactive-demo/sales-crm';
@@ -23,6 +24,7 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
     JigBadge,
     JigIcon,
     JigTooltip,
+    JigDocsLoader,
     JigDocsLoginDialog,
     SalesCrm,
     TeamChat,
@@ -154,7 +156,9 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
                       <jig-docs-project-board />
                     </div>
                   } @placeholder {
-                    <div class="h-[54rem] max-md:h-[36rem]"></div>
+                    <div class="grid h-[54rem] place-items-center max-md:h-[36rem]">
+                      <jig-docs-loader />
+                    </div>
                   }
                 }
               }
