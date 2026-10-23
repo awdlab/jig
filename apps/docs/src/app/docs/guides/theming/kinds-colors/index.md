@@ -90,6 +90,9 @@ declare module '@awdlab/jig-custom-types' {
 }
 ```
 
+Spelling the lists out like this replaces the theme's entirely. To start from the theme's own
+values and adjust them, see [Kinds in your app](#kinds-in-your-app) below.
+
 ### Kinds in your app
 
 An app can add kinds of its own and remove ones the theme ships — a kind your design guide
@@ -97,7 +100,13 @@ forbids should be a compile error at the binding site, not a review comment. `cu
 and `customizeColors` build both halves from one declaration: the type union **and** the
 runtime list that feeds defaults and enumeration.
 
+It takes two files. First, a module of your own — `src/app/jig-kinds.ts`, say — that declares
+the lists and augments `JigCustomTypes` with them. The augmentation is global: it applies
+across the whole app as soon as this file is part of the compilation, which importing it from
+your config guarantees.
+
 ```ts
+// src/app/jig-kinds.ts
 import { customizeColors, customizeKinds } from '@awdlab/jig/api';
 import { nova } from '@awdlab/jig-themes/nova';
 
@@ -115,19 +124,43 @@ declare module '@awdlab/jig-custom-types' {
 }
 ```
 
+Then hand the same two constants to `provideJigControls`, so the runtime lists match the types
+you just declared:
+
 ```ts
-provideJigControls({
-  theme: { preset: nova, kinds: APP_KINDS, colors: APP_COLORS },
-});
+// src/app/app.config.ts
+import { ApplicationConfig } from '@angular/core';
+import { provideJigControls } from '@awdlab/jig/api/ng';
+import { nova } from '@awdlab/jig-themes/nova';
+
+import { APP_COLORS, APP_KINDS } from './jig-kinds';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideJigControls({
+      theme: { preset: nova, kinds: APP_KINDS, colors: APP_COLORS },
+    }),
+  ],
+};
 ```
+
+Keep the customization inline in the `customizeKinds` call. Pulling it out into a separate
+variable widens its literal types away, which would leave the types describing the theme's
+original lists while the runtime list reflects your changes.
 
 `remove` is typed against the theme's own values, so a typo is a compile error. Controls you
 don't mention keep the theme's kinds untouched — there's no need to re-list them.
 
 If you only want the types, compose them by hand instead. `ThemeKind<Control>` and `ThemeColor`
-expose the theme's own values, so `Exclude` and `|` do the work:
+expose the theme's own values, so `Exclude` and `|` do the work. This needs no second file and
+no `provideJigControls` change — but the runtime lists still come from the theme, so a kind you
+remove this way stays in the enumeration `injectThemeControlKinds` returns:
 
 ```ts
+// src/app/jig-kinds.ts
+import type { ThemeColor, ThemeKind } from '@awdlab/jig-custom-types';
+import type {} from '@awdlab/jig-themes/nova';
+
 declare module '@awdlab/jig-custom-types' {
   export interface JigCustomTypes {
     kind: { button: Exclude<ThemeKind<'button'>, 'link'> | 'fancy' };
