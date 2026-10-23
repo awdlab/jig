@@ -8,8 +8,7 @@ writing behind your back.
 
 ### Persisting a control
 
-Today the [Splitter](/components/splitter) is the control that ships with
-persistence. Give it a `stateKey` and it remembers:
+The [Splitter](/components/splitter) gives it a `stateKey` and remembers:
 
 ```html
 <jig-splitter [(layout)]="layout" stateKey="editor-panes" stateStorage="local"> … </jig-splitter>
@@ -20,6 +19,15 @@ persistence. Give it a `stateKey` and it remembers:
 | `stateKey`     | Storage key. **Nullish means nothing is stored** — this is the opt-in. |
 | `stateStorage` | `'local'` or `'session'`. Defaults to the configured default.          |
 | `stateData`    | Which parts to persist: `'layout'`, `'panelOrder'`, `'panelSizes'`.    |
+
+The [Tree](/components/tree) and [Table](/components/table) persist through a
+`storage` config input instead — `{ key, kind?, states? }`, backed by
+`JigStorage`. Same opt-in rule (no key, no storage), and `kind` additionally
+supports `'cookie'`, which is readable during server rendering.
+
+```html
+<jig-table [storage]="{ key: 'people-table', states: ['sort', 'columnSizes'] }"> … </jig-table>
+```
 
 ### Choosing local vs session
 

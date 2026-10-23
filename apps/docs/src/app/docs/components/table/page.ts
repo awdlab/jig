@@ -5,16 +5,20 @@ import { Demo_Table_Filtering } from '../../../demos/table/filtering';
 import { Demo_Table_Grouping } from '../../../demos/table/grouping';
 import { Demo_Table_LazyInfiniteScroll } from '../../../demos/table/lazy-infinite-scroll';
 import { Demo_Table_LazyPagination } from '../../../demos/table/lazy-pagination';
+import { Demo_Table_Loading } from '../../../demos/table/loading';
 import { Demo_Table_Paged } from '../../../demos/table/paged';
 import { Demo_Table_Reorderable } from '../../../demos/table/reorderable';
 import { Demo_Table_Resizable } from '../../../demos/table/resizable';
 import { Demo_Table_RowActions } from '../../../demos/table/row-actions';
+import { Demo_Table_Showcase } from '../../../demos/table/showcase';
 import {
   Demo_Table_Selection_Multi,
   Demo_Table_Selection_Single,
 } from '../../../demos/table/selection';
+import { Demo_Table_ServerFiltering } from '../../../demos/table/server-filtering';
 import { Demo_Table_Sorting } from '../../../demos/table/sorting';
 import { Demo_Table_StickyColumns } from '../../../demos/table/sticky-columns';
+import { Demo_Table_Storage } from '../../../demos/table/storage';
 import { Demo_Table_Virtual } from '../../../demos/table/virtual';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
@@ -32,9 +36,11 @@ export const TablePage: JigDocsPage = {
       mdFile: 'components/table/index.md',
       components: [
         Demo_Table_Base,
+        Demo_Table_Showcase,
         Demo_Table_Selection_Single,
         Demo_Table_Selection_Multi,
         Demo_Table_Filtering,
+        Demo_Table_ServerFiltering,
         Demo_Table_Grouping,
         Demo_Table_Paged,
         Demo_Table_Sorting,
@@ -43,9 +49,11 @@ export const TablePage: JigDocsPage = {
         Demo_Table_Reorderable,
         Demo_Table_StickyColumns,
         Demo_Table_RowActions,
+        Demo_Table_Loading,
         Demo_Table_LazyPagination,
         Demo_Table_LazyInfiniteScroll,
         Demo_Table_CompactCursorPagination,
+        Demo_Table_Storage,
       ],
     },
     {
@@ -58,6 +66,8 @@ export const TablePage: JigDocsPage = {
     i18nKeys(
       'table',
       {
+        filter:
+          'Accessible label of the column filter trigger; overridden per column with `jigTableFilterableColumnLabel`.',
         selectAllRows:
           'Accessible label for the header checkbox that toggles selection of every row.',
         selectRow: 'Accessible label for the per-row selection checkbox.',

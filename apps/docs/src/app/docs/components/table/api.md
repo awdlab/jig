@@ -28,7 +28,7 @@ a `JigError` (grouping needs the full row set, which lazy mode never has).
 
 | Template slot | Context            | Description                                                                                   |
 | ------------- | ------------------ | --------------------------------------------------------------------------------------------- |
-| `#loading`    | —                  | Rendered instead of the default skeleton rows while a lazy load is in flight.                 |
+| `#loading`    | —                  | Rendered instead of the default skeleton rows while loading (lazy fetch or `[loading]`).      |
 | `#error`      | `{ error, retry }` | Rendered instead of the default error row when a lazy load rejects. `retry` calls `reload()`. |
 
 The loader has the shape `(req: TableLoadRequest) => Promise<TableLoadResult<T>>`:
@@ -62,6 +62,18 @@ Selector: `[jigTableHeadTr]` — the header `<tr>`.
 ### JigTableTh
 
 Selector: `[jigTableTh]` — a header cell. The bound value is the column id.
+
+Header content is rendered inside a label span, which doubles as the sort
+button on a sortable column. Buttons, links and anything marked
+`jigTableThAction` are rendered next to that span instead, so they stay out of
+the sort button and keep their own clicks:
+
+```html
+<th [jigTableTh]="table.column('name')" jigTableSortableColumn>
+  Name
+  <button type="button" (click)="openColumnMenu()">⋮</button>
+</th>
+```
 
 {{ api: table/table-header-cell JigTableTh }}
 

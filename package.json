@@ -30,6 +30,7 @@
     "test:build": "pnpm tsc --noEmit --project tests/tsconfig.test.json",
     "test:ui": "pnpm playwright test --ui",
     "test:types": "node --import tsx --test \"tools/type-matrix/*.test.ts\"",
+    "test:types-d": "tsx tools/check-type-fixtures.ts",
     "unit-test": "pnpm -r test",
     "prepare": "husky"
   },

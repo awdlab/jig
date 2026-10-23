@@ -83,14 +83,14 @@ type JigFilterConfig = {
 
 Which operators the UI offers depends on the `dataType`:
 
-| Data type          | Default operators                                                                           |
-| ------------------ | ------------------------------------------------------------------------------------------- |
-| `string`           | `isEqual`, `isNotEqual`, `contains`, `startsWith`, `endsWith`, `isEmpty`, `isNotEmpty`      |
-| `number`           | `isEqual`, `isNotEqual`, `greaterThan`, `greaterThanOrEqual`, `lessThan`, `lessThanOrEqual` |
-| `date`, `dateTime` | the same comparisons, labelled as before / on-or-before / after / on-or-after               |
-| `boolean`          | `isTrue`, `isFalse`                                                                         |
-| `list`             | `in`                                                                                        |
-| `custom`           | `custom` — you evaluate it                                                                  |
+| Data type          | Default operators                                                                                     |
+| ------------------ | ----------------------------------------------------------------------------------------------------- |
+| `string`           | `isEqual`, `isNotEqual`, `contains`, `notContains`, `startsWith`, `endsWith`, `isEmpty`, `isNotEmpty` |
+| `number`           | `isEqual`, `isNotEqual`, `greaterThan`, `greaterThanOrEqual`, `lessThan`, `lessThanOrEqual`           |
+| `date`, `dateTime` | the same comparisons, labelled as before / on-or-before / after / on-or-after                         |
+| `boolean`          | `isTrue`, `isFalse`                                                                                   |
+| `list`             | `in`                                                                                                  |
+| `custom`           | `custom` — you evaluate it                                                                            |
 
 `isEmpty`, `isNotEmpty`, `isTrue` and `isFalse` need no value; the rest do.
 

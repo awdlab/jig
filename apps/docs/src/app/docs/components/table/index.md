@@ -23,6 +23,15 @@ tracking. Give the table a fixed height, as it scrolls its body internally.
 
 {{ demo: Demo_Table_Base }}
 
+### Everything At Once
+
+One table with most features enabled at the same time: multi selection with
+checkboxes, sortable and filterable columns, a sticky ID column, column resize
+and reorder, pagination and per-row actions (hover a row, or right-click it).
+Each feature is explained on its own in the examples below.
+
+{{ demo: Demo_Table_Showcase }}
+
 ### Selection
 
 Set `selectionMode` to `'single'` or `'multi'` (or leave it `null` to disable
@@ -46,8 +55,9 @@ Add `jigTableSortableColumn` to a header cell. Clicking the header cycles the
 sort ascending → descending → unsorted, reflected in the two-way `[(sort)]`
 model (`{ column, direction }` or `null`). The default comparator handles
 numbers numerically and everything else via `localeCompare`, with nulls first
-on ascending; pass a `sortComparator` to override it. The active header carries
-`aria-sort="ascending" | "descending"`.
+on ascending; pass a `sortComparator` to override it. Set `sortClearable` to
+`false` to drop the unsorted step and toggle between ascending and descending
+only. The active header carries `aria-sort="ascending" | "descending"`.
 
 {{ demo: Demo_Table_Sorting }}
 
@@ -57,9 +67,21 @@ Add `jigTableFilterableColumn` with a `…Type` (the column's data type, which
 picks the available operators and UI) and, for list filters, a `…Items` option
 set. A filter button appears in the header and opens a filter popover; applied
 filters live in the two-way `[(filters)]` model, keyed by column. Multiple
-column filters combine (AND).
+column filters combine (AND). A `…Operators` list narrows and orders the
+operators of that column, and `…DefaultOperator` picks the one a new condition
+starts with.
 
 {{ demo: Demo_Table_Filtering }}
+
+Set `[filterLocally]="false"` for server-side filtering without handing paging
+over to `dataSource`: the header controls still drive `[(filters)]`, but the
+table renders `rows` as given, so you refetch them yourself when `filters`
+changes. Pass `…Items` for list columns — options derived from `rows` would
+only ever cover the rows currently loaded. Since you own the request, bind
+[`loading`](#loading-state) to it for skeleton rows — the table only sees
+`rows` arrive and cannot tell a fetch is in flight by itself.
+
+{{ demo: Demo_Table_ServerFiltering }}
 
 ### Row Grouping
 
@@ -129,6 +151,14 @@ the current row) is always available even when the right-click affordance is off
 
 {{ demo: Demo_Table_RowActions }}
 
+### Loading State
+
+Set `loading` to replace the body with skeleton rows while you fetch data
+yourself — the client-side counterpart to the state `dataSource` tracks on its
+own. Override the placeholders with an `<ng-template #loading>`.
+
+{{ demo: Demo_Table_Loading }}
+
 ### Lazy Loading
 
 Provide a `dataSource` loader instead of `rows` to fetch rows on demand — the
@@ -154,3 +184,15 @@ paginator into compact mode (next/previous only, no page count) — useful for
 cursor-based backends where the total row count isn't known.
 
 {{ demo: Demo_Table_CompactCursorPagination }}
+
+### Persisting State
+
+Pass a `storage` config (`key` + optional `JigStorageKind`) to save the table's
+state across reloads via `JigStorage`. Everything the user can change is
+persisted: `sort`, `filters`, `columnOrder`, `columnSizes`, `selection`,
+`expandedGroups` and `page` (index + size). Use `states` to persist only some
+of them, e.g. `{ key: 'my-table', states: ['sort', 'columnSizes'] }`. The `kind`
+accepts `'localstorage'` (default), `'sessionstorage'`, or `'cookie'` — the
+`cookie` kind is SSR-safe and restores state during server rendering.
+
+{{ demo: Demo_Table_Storage }}

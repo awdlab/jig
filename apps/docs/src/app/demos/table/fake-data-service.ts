@@ -1,3 +1,7 @@
+import { executeMultiFilter } from '@awdlab/jig/api';
+
+import type { JigFilterConfig } from '@awdlab/jig/filter';
+
 /**
  * In-memory fake backend for the lazy-loading table demos. Simulates network
  * latency with a delay; not part of the published control library.
@@ -31,4 +35,10 @@ export async function fetchCursor(cursor: number | undefined, take: number) {
   const rows = DATA.slice(skip, skip + take);
   const nextSkip = skip + take;
   return { rows, hasMore: nextSkip < DATA.length, cursor: nextSkip };
+}
+
+/** Filtering loader — stands in for a backend that applies the filter config. */
+export async function fetchFiltered(filters: Record<string, JigFilterConfig> | null) {
+  await delay(400);
+  return executeMultiFilter(DATA, filters ?? {}).slice(0, 50);
 }

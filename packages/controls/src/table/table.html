@@ -28,7 +28,7 @@
   [attr.aria-label]="label()"
   [attr.aria-labelledby]="labelledBy()"
   [attr.aria-activedescendant]="activeRowId()"
-  [attr.aria-busy]="loadStatus() === 'loading' ? true : null"
+  [attr.aria-busy]="isLoading() ? true : null"
   [attr.aria-multiselectable]="selectionMode() === 'multi' ? true : null"
   [attr.aria-colcount]="totalColumnCount()"
   [attr.aria-rowcount]="ariaRowCount()"
@@ -162,6 +162,8 @@
     [mode]="lazy() && loadTotal() === undefined ? 'compact' : 'pages'"
     [totalItems]="lazy() ? (loadTotal() ?? 0) : rows().length"
     [hasNext]="lazyHasMore()"
+    [(page)]="pageIndex"
+    [(pageSize)]="pageSize"
     (value)="pageChanged($event)"
   />
 }

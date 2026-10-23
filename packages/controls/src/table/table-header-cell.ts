@@ -1,15 +1,11 @@
 import {
-  afterNextRender,
   afterRenderEffect,
+  Component,
   computed,
-  Directive,
-  ElementRef,
-  inject,
   input,
   model,
   type OnDestroy,
   type OnInit,
-  Renderer2,
   signal,
   type Signal,
 } from '@angular/core';
@@ -21,15 +17,35 @@ import { JigTable } from './table';
 
 import type { ResizableItem, ResizeLimit, ResizeSize } from '@awdlab/jig/api/resize';
 
+/** Interactive children that own their clicks — the header must not sort or drag on them. */
+export const TABLE_HEADER_INTERACTIVE_SELECTOR =
+  'button, a, input, select, textarea, [role="button"]';
+
 /**
  * A table header cell. Declares the column's id — the key every other column
  * feature (sort, filter, sticky, reorder, resize) is addressed by — and owns
  * the column's size and resize handle.
  *
+ * The cell's content is projected into a label span; buttons, links and
+ * anything marked `jigTableThAction` are projected next to it instead, so
+ * they stay outside the sort button.
+ *
  * @category directive
  */
-@Directive({
-  selector: '[jigTableTh]',
+@Component({
+  selector: 'th[jigTableTh]',
+  template: `
+    <span [class]="theme.class('cell-text')"><ng-content /></span>
+    <ng-content select="button, a, [jigTableThAction]" />
+    <div [class]="theme.class('spacer')"></div>
+    @if (_showHandle()) {
+      <div
+        [class]="theme.class('resize-handle')"
+        (pointerdown)="onResizePointerDown($event)"
+        (dblclick)="onResizeDblClick($event)"
+      ></div>
+    }
+  `,
   host: {
     role: 'columnheader',
     '[style.--jig-table-column-index]': '_visualColumnIndex()',
@@ -40,7 +56,6 @@ export class JigTableTh extends JigBase<'table'> implements ResizableItem, OnDes
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate);
   private _table?: JigTable<any, any>;
   private readonly _tableSignal = signal<JigTable<any, any> | null>(null);
-  private _resizeHandle?: HTMLDivElement;
 
   /** The unique column identifier for this header cell, used for sorting, filtering, sticky, and reorder. */
   public readonly jigTableTh = input.required<string>();
@@ -66,18 +81,19 @@ export class JigTableTh extends JigBase<'table'> implements ResizableItem, OnDes
   /**
    * Whether this column is resizable. Computed from the parent table's `resizable` input.
    */
-  public readonly resizable = computed(() => this._table?.resizable() ?? false);
+  public readonly resizable = computed(() => this._tableSignal()?.resizable() ?? false);
 
   /**
    * Whether the resize handle should be shown. Hidden for the last column in adjacent
    * and proportional modes since it is implicitly resized via the previous column's handle.
    * Push mode shows handles on all columns since each column grows independently.
    */
-  private readonly _showHandle = computed(() => {
-    if (!this._table?.resizable()) return false;
-    if (this._table.resizeMode() === 'push') return true;
+  protected readonly _showHandle = computed(() => {
+    const table = this._tableSignal();
+    if (!table?.resizable()) return false;
+    if (table.resizeMode() === 'push') return true;
     // Adjacent & proportional: hide handle on last column
-    const cells = this._table.getRegisteredHeaderCells();
+    const cells = table.getRegisteredHeaderCells();
     return cells.indexOf(this) < cells.length - 1;
   });
 
@@ -86,8 +102,9 @@ export class JigTableTh extends JigBase<'table'> implements ResizableItem, OnDes
    * Falls back to registration index + 1 when no reordering is active.
    */
   public readonly _visualColumnIndex = computed(() => {
-    if (!this._table) return undefined;
-    const map = this._table.columnOrderMap();
+    const table = this._tableSignal();
+    if (!table) return undefined;
+    const map = table.columnOrderMap();
     return map.get(this.jigTableTh()) ?? this.getColumnIndex() + 1;
   });
 
@@ -101,46 +118,6 @@ export class JigTableTh extends JigBase<'table'> implements ResizableItem, OnDes
   constructor() {
     super();
     this.prepareDom();
-
-    const renderer = inject(Renderer2);
-    const elRef = inject<ElementRef<HTMLElement>>(ElementRef);
-    afterNextRender(() => {
-      // Wrap existing content in a text container for ellipsis support
-      const textWrapper = renderer.createElement('span');
-      textWrapper.classList.add(this.theme.class('cell-text'));
-      const el = elRef.nativeElement;
-      while (el.firstChild) {
-        textWrapper.appendChild(el.firstChild);
-      }
-      el.appendChild(textWrapper);
-
-      // Move dynamically-created controls back out of the text wrapper
-      // so they participate in the header cell's flex layout (order: 2, 3)
-      const filterControl = textWrapper.querySelector(`.${this.theme.class('filter-control')}`);
-      if (filterControl) el.appendChild(filterControl);
-      const sortControl = textWrapper.querySelector(`.${this.theme.class('sort-control')}`);
-      if (sortControl) el.appendChild(sortControl);
-
-      // Spacer div for flex layout
-      const spacer = renderer.createElement('div');
-      spacer.classList.add(this.theme.class('spacer'));
-      elRef.nativeElement.appendChild(spacer);
-
-      // Resize handle
-      this._resizeHandle = renderer.createElement('div') as HTMLDivElement;
-      this._resizeHandle.classList.add(this.theme.class('resize-handle'));
-      this._resizeHandle.addEventListener('pointerdown', this.onResizePointerDown);
-      this._resizeHandle.addEventListener('dblclick', this.onResizeDblClick);
-      elRef.nativeElement.appendChild(this._resizeHandle);
-    });
-
-    // Toggle handle visibility based on mode and column position
-    afterRenderEffect(() => {
-      const show = this._showHandle();
-      if (this._resizeHandle) {
-        this._resizeHandle.style.display = show ? '' : 'none';
-      }
-    });
 
     // Sticky column classes and offsets
     afterRenderEffect(() => {
@@ -184,8 +161,6 @@ export class JigTableTh extends JigBase<'table'> implements ResizableItem, OnDes
 
   public ngOnDestroy(): void {
     this._table?.unregisterHeaderCell(this);
-    this._resizeHandle?.removeEventListener('pointerdown', this.onResizePointerDown);
-    this._resizeHandle?.removeEventListener('dblclick', this.onResizeDblClick);
   }
 
   private prepareDom() {
@@ -193,7 +168,7 @@ export class JigTableTh extends JigBase<'table'> implements ResizableItem, OnDes
     toggleClass(this.element.nativeElement, this.theme.class('resizable'), true);
   }
 
-  private readonly onResizeDblClick = (event: MouseEvent) => {
+  protected readonly onResizeDblClick = (event: MouseEvent) => {
     if (!this._table?.resizable()) return;
     event.preventDefault();
     event.stopPropagation();
@@ -202,7 +177,7 @@ export class JigTableTh extends JigBase<'table'> implements ResizableItem, OnDes
     this._table.autoSizeColumn(columnIndex);
   };
 
-  private readonly onResizePointerDown = (event: PointerEvent) => {
+  protected readonly onResizePointerDown = (event: PointerEvent) => {
     if (!this._table?.resizable()) return;
     event.preventDefault();
     event.stopPropagation();
@@ -237,8 +212,7 @@ export class JigTableTh extends JigBase<'table'> implements ResizableItem, OnDes
   };
 
   private getColumnIndex(): number {
-    if (!this._table) return -1;
-    const cells = this._table.getRegisteredHeaderCells();
-    return cells.indexOf(this);
+    const cells = this._tableSignal()?.getRegisteredHeaderCells();
+    return cells ? cells.indexOf(this) : -1;
   }
 }

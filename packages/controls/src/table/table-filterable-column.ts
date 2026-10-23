@@ -13,7 +13,8 @@ import {
 import { injectThemeTemplate, setComponentInput } from '@awdlab/jig/api/ng';
 import { getNearestJigInstanceSig } from '@awdlab/jig/base';
 import { JigActionButton } from '@awdlab/jig/button';
-import { JigFilter, type JigFilterDataType } from '@awdlab/jig/filter';
+import { JigFilter, type JigFilterDataType, type JigFilterOperatorId } from '@awdlab/jig/filter';
+import { I18n } from '@awdlab/jig/i18n';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
 import { JigTable } from './table';
@@ -34,6 +35,7 @@ export class JigTableFilterableColumn implements OnDestroy {
   protected readonly theme = injectThemeTemplate(tableControlTemplate);
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly _columnId = inject(JigTableTh).jigTableTh;
+  private readonly _i18n = inject(I18n).translations;
 
   /** Enables filtering on this column. The directive selector; its value is unused. */
   public readonly jigTableFilterableColumn = input();
@@ -57,6 +59,25 @@ export class JigTableFilterableColumn implements OnDestroy {
   public readonly jigTableFilterableColumnType = input.required<JigFilterDataType>();
   /** For list-based filters, the set of selectable option values to offer. */
   public readonly jigTableFilterableColumnItems = input<string[] | null | undefined>();
+  /**
+   * Restricts and orders the operators offered for this column. Ids the column type does not
+   * support are ignored; when empty, all operators of the type are offered.
+   */
+  public readonly jigTableFilterableColumnOperators = input<
+    readonly JigFilterOperatorId[] | null | undefined
+  >();
+  /**
+   * Operator a new condition on this column starts with. Must be part of
+   * {@link jigTableFilterableColumnOperators}, otherwise the first one is used.
+   */
+  public readonly jigTableFilterableColumnDefaultOperator = input<
+    JigFilterOperatorId | null | undefined
+  >();
+  /**
+   * Accessible label of the filter trigger. Defaults to the translated `table.filter`
+   * text; set it to name the column, e.g. `Filter by name`.
+   */
+  public readonly jigTableFilterableColumnLabel = input<string | null | undefined>();
 
   constructor() {
     this._jigActionButton = inject(ViewContainerRef).createComponent(JigActionButton<null>);
@@ -70,11 +91,13 @@ export class JigTableFilterableColumn implements OnDestroy {
     setComponentInput(this._jigFilter, 'anchor', this._jigActionButton.location.nativeElement);
     setComponentInput(this._jigFilter, 'mode', 'headless');
     setComponentInput(this._jigFilter, 'allowMultiple', true);
+    // The table applies the filter; the popover only ever emits its config.
+    setComponentInput(this._jigFilter, 'filterLocally', false);
 
     const cfg = computed(
       () =>
         <JigActionButtonConfig<null>>{
-          label: 'Filter',
+          label: this.jigTableFilterableColumnLabel() || this._i18n['table_filter'](),
           value: null,
           kind: 'icon',
           defaultIcon: this.filter() ? 'filter-active' : 'filter-inactive',
@@ -100,6 +123,16 @@ export class JigTableFilterableColumn implements OnDestroy {
     });
     effect(() => {
       setComponentInput(this._jigFilter, 'listOptions', this.jigTableFilterableColumnItems());
+    });
+    effect(() => {
+      setComponentInput(this._jigFilter, 'operators', this.jigTableFilterableColumnOperators());
+    });
+    effect(() => {
+      setComponentInput(
+        this._jigFilter,
+        'defaultOperator',
+        this.jigTableFilterableColumnDefaultOperator()
+      );
     });
     this._jigFilter.instance.filterChange.subscribe(cfg => {
       const table = this._table();

@@ -1,6 +1,9 @@
 <div
   [ptInt]="this"
-  [ptClass]="'wrapper'"
+  [ptClass]="{
+    wrapper: true,
+    'wrapper-unpositioned': !positioned(),
+  }"
   #popover
   (toggle)="onToggle($event)"
   [style.min-height]="

@@ -231,7 +231,7 @@ export class JigAttributeFilter<T = unknown, TData = T> extends ValueControlBase
             defs.map(
               op =>
                 <JigItem>{
-                  label: this._i18n.unsafe(op.labelKey),
+                  label: this.i18n[op.labelKey],
                   value: op.id,
                   testId: `attribute-filter-operator-${op.id}`,
                 }

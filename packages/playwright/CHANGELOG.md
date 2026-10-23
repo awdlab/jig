@@ -1,5 +1,9 @@
 # Changelog
 
+## @awdlab/jig-playwright 0.0.6 (2026-10-23)
+
+- **Row action buttons carry `data-testid` like every other control.** The action button template — the one behind both the inline row action bar and the row context menu — rendered the `testId` of an action as `data-test-id`, so Playwright's `getByTestId` never matched a row action while it matched every other control. The attribute is now `data-testid`; `JigTableHarness.rowAction()` looks for the new spelling.
+
 Release times are Central European Time (CET/CEST), the project's local time zone.
 
 ## @awdlab/jig-playwright 0.0.5 (2026-10-21 07:45 CEST)

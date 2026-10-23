@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { booleanAttribute, Component, inject, input, output } from '@angular/core';
+import { booleanAttribute, Component, computed, inject, input, output } from '@angular/core';
 import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
 import { JigIcon } from '@awdlab/jig/icon';
@@ -23,6 +23,7 @@ export class JigChip extends JigBase<'chip'> {
     actionable: () => this.actionable(),
   });
   protected readonly i18n = inject(I18n).translations;
+  protected readonly closeLabel = computed(() => this.labelClose() ?? this.i18n['chip_close']());
 
   /**
    * Set whether the chip can be closed (removed).
@@ -38,6 +39,11 @@ export class JigChip extends JigBase<'chip'> {
    * Set a custom icon for the close button.
    */
   public readonly iconClose = input<IconType>();
+  /**
+   * Override the accessible name of the close button, e.g. `Remove filter Status`.
+   * Falls back to the `chip_close` translation.
+   */
+  public readonly labelClose = input<string>();
   /**
    * Emitted when the chip is closed (removed).
    */

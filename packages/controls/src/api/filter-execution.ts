@@ -10,6 +10,7 @@ type JigFilterOperatorId =
   | 'isEqual'
   | 'isNotEqual'
   | 'contains'
+  | 'notContains'
   | 'startsWith'
   | 'endsWith'
   | 'in'
@@ -187,6 +188,8 @@ function matchesValue(
           return left !== normalizeString(condition.value);
         case 'contains':
           return stringMatches(left, normalizeString(condition.value), 'contains');
+        case 'notContains':
+          return !stringMatches(left, normalizeString(condition.value), 'contains');
         case 'startsWith':
           return stringMatches(left, normalizeString(condition.value), 'startsWith');
         case 'endsWith':
@@ -220,6 +223,8 @@ function matchesValue(
           return left !== normalizeString(condition.value);
         case 'contains':
           return stringMatches(left, normalizeString(condition.value), 'contains');
+        case 'notContains':
+          return !stringMatches(left, normalizeString(condition.value), 'contains');
         case 'startsWith':
           return stringMatches(left, normalizeString(condition.value), 'startsWith');
         case 'endsWith':

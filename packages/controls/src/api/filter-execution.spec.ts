@@ -209,3 +209,17 @@ describe('readFilterAttributeValue', () => {
     ).toBeUndefined();
   });
 });
+
+describe('executeFilter notContains', () => {
+  const data = ['Nigeria', 'Algeria', 'Germany', 'France', ''];
+
+  it('keeps only the values without the substring, empty ones included', () => {
+    expect(
+      executeFilter(data, {
+        dataType: 'string',
+        matchMode: 'all',
+        conditions: [{ operator: 'notContains', rawValue: 'ger' }],
+      })
+    ).toEqual(['France', '']);
+  });
+});

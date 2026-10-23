@@ -76,6 +76,7 @@ export const en = {
       isEqual: 'Is equal',
       isNotEqual: 'Is not equal',
       contains: 'Contains',
+      notContains: 'Does not contain',
       startsWith: 'Starts with',
       endsWith: 'Ends with',
       in: 'Is one of',
@@ -190,6 +191,7 @@ export const en = {
     noItemsFound: 'No items found',
   },
   table: {
+    filter: 'Filter',
     selectAllRows: 'Select all rows',
     selectRow: 'Select row',
     sortedBy: 'Sorted by {{ column }}, {{ direction }}',
