@@ -46,8 +46,9 @@ Add `jigTableSortableColumn` to a header cell. Clicking the header cycles the
 sort ascending → descending → unsorted, reflected in the two-way `[(sort)]`
 model (`{ column, direction }` or `null`). The default comparator handles
 numbers numerically and everything else via `localeCompare`, with nulls first
-on ascending; pass a `sortComparator` to override it. The active header carries
-`aria-sort="ascending" | "descending"`.
+on ascending; pass a `sortComparator` to override it. Set `sortClearable` to
+`false` to drop the unsorted step and toggle between ascending and descending
+only. The active header carries `aria-sort="ascending" | "descending"`.
 
 {{ demo: Demo_Table_Sorting }}
 
