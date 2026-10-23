@@ -403,3 +403,30 @@ test('rtl', async ({ page }, testInfo) => {
   );
   await expectScreenshot(page, testInfo);
 });
+
+test('keeps the navigated month when the host rebinds an equal date', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2025-08-18T12:13:14'));
+
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<jig-calendar [inline]="true" [value]="inputs().value" />`,
+      imports: ['calendar'],
+    },
+    { inputs: { value: new Date(2025, 7, 18, 12, 0, 0) } }
+  );
+
+  const calendar = new JigCalendarHarness(page.locator('jig-calendar'));
+  await calendar.currentMonth.expectSelectedItemText('August');
+
+  await calendar.backButton.click();
+  await calendar.currentMonth.expectSelectedItemText('July');
+
+  // A host binding `[value]="parse(raw)"` hands over a fresh Date on every pass.
+  await handle.setInputs({ value: new Date(2025, 7, 18, 12, 0, 0) });
+  await calendar.currentMonth.expectSelectedItemText('July');
+
+  // A genuinely different month still moves the view.
+  await handle.setInputs({ value: new Date(2025, 2, 11, 12, 0, 0) });
+  await calendar.currentMonth.expectSelectedItemText('March');
+});

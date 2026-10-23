@@ -112,10 +112,21 @@ export class JigCalendar extends CalendarTemplates {
       this.element.nativeElement
     );
   }
-  protected readonly year = linkedSignal(
-    () => this.value()?.getFullYear() || new Date().getFullYear()
+  /** Re-emits only when the displayed month actually changes, so a host that rebinds an equal `Date` does not undo the user's navigation. */
+  private readonly _valueYearMonth = computed(
+    () => {
+      const value = this.value();
+      return value ? { year: value.getFullYear(), month: value.getMonth() } : null;
+    },
+    { equal: (a, b) => a?.year === b?.year && a?.month === b?.month }
   );
-  protected readonly month = linkedSignal(() => this.value()?.getMonth() ?? new Date().getMonth());
+
+  protected readonly year = linkedSignal(
+    () => this._valueYearMonth()?.year || new Date().getFullYear()
+  );
+  protected readonly month = linkedSignal(
+    () => this._valueYearMonth()?.month ?? new Date().getMonth()
+  );
   protected readonly yearOptions = generateYearOptions();
   protected readonly monthOptions: Signal<JigItem<MonthItemType>[]> = computed(() => {
     const months = Array.from(

@@ -1,6 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
-import { JigAttributeFilterHarness } from '@awdlab/jig-playwright';
+import { JigAttributeFilterHarness, JigCalendarHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -559,4 +559,22 @@ test('manual mode renders a bound config and applies it untouched', async ({ pag
   await filter.valueInput(0).fill('@work');
   await filter.cancelButton().click();
   await filter.valueInput(0).expectValue('@gmail');
+});
+
+test('the date editor keeps the month the user navigates to', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2025-08-18T12:13:14'));
+  await inlineComponent(page);
+  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+
+  const attr = filter.attributeSelect(0);
+  await attr.open();
+  await attr.clickItemByText('Joined');
+
+  const calendar = new JigCalendarHarness(filter.row(0).locator('jig-calendar'));
+  await filter.row(0).locator('jig-calendar jig-mask-input').click();
+  await calendar.selectDay(15);
+  await calendar.currentMonth.expectSelectedItemText('August');
+
+  await calendar.backButton.click();
+  await calendar.currentMonth.expectSelectedItemText('July');
 });
