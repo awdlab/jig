@@ -109,7 +109,7 @@ test('mouse: context menu, inline bar, and disabling inline', async ({ page }) =
 
     const firstRow = page.locator('tbody tr[role="row"]').nth(0);
     await firstRow.hover();
-    const btn = firstRow.locator('[data-test-id="inline-edit"]');
+    const btn = firstRow.locator('[data-testid="inline-edit"]');
     await expect(btn).toBeVisible();
     await btn.click();
 
@@ -144,7 +144,7 @@ test('inline bar component: rendering, accessible names, and submenus', async ({
     );
 
     await expect(page.locator('jig-table-row-actions-bar button')).toHaveCount(2);
-    await expect(page.locator('[data-test-id="bar-edit"]')).toHaveAttribute('aria-label', 'Edit');
+    await expect(page.locator('[data-testid="bar-edit"]')).toHaveAttribute('aria-label', 'Edit');
   });
 
   await test.step('an action with children opens a submenu anchored to its button', async () => {
@@ -166,9 +166,9 @@ test('inline bar component: rendering, accessible names, and submenus', async ({
       }
     );
 
-    await page.locator('[data-test-id="bar-more"]').click();
+    await page.locator('[data-testid="bar-more"]').click();
     const menuItem = page
-      .locator('[data-test-id="bar-child"]')
+      .locator('[data-testid="bar-child"]')
       .or(page.getByText('Child action'))
       .first();
     await expect(menuItem).toBeVisible();
@@ -201,14 +201,14 @@ test('keyboard: roving focus, activation, and menu triggers (no selection mode)'
 
     // ArrowRight enters the bar → first action focused, active-row set.
     await page.keyboard.press('ArrowRight');
-    await expect(firstRow.locator('[data-test-id="kb-edit"]')).toBeFocused();
+    await expect(firstRow.locator('[data-testid="kb-edit"]')).toBeFocused();
     await expect(firstRow).toHaveClass(/active-row|table-active-row/);
 
     // ArrowRight/ArrowLeft move between actions.
     await page.keyboard.press('ArrowRight');
-    await expect(firstRow.locator('[data-test-id="kb-del"]')).toBeFocused();
+    await expect(firstRow.locator('[data-testid="kb-del"]')).toBeFocused();
     await page.keyboard.press('ArrowLeft');
-    await expect(firstRow.locator('[data-test-id="kb-edit"]')).toBeFocused();
+    await expect(firstRow.locator('[data-testid="kb-edit"]')).toBeFocused();
 
     // ArrowLeft off the first action returns to row navigation (table focused).
     await page.keyboard.press('ArrowLeft');
@@ -216,9 +216,9 @@ test('keyboard: roving focus, activation, and menu triggers (no selection mode)'
 
     // Re-enter, then Escape backs out to the row.
     await page.keyboard.press('ArrowRight');
-    await expect(firstRow.locator('[data-test-id="kb-edit"]')).toBeFocused();
+    await expect(firstRow.locator('[data-testid="kb-edit"]')).toBeFocused();
     await page.keyboard.press('Escape');
-    await expect(firstRow.locator('[data-test-id="kb-edit"]')).not.toBeFocused();
+    await expect(firstRow.locator('[data-testid="kb-edit"]')).not.toBeFocused();
     await expect(firstRow).not.toHaveClass(/active-row|table-active-row/);
   });
 
@@ -243,7 +243,7 @@ test('keyboard: roving focus, activation, and menu triggers (no selection mode)'
     // bar is still hidden/unfocusable.
     await expect(firstRow).toHaveClass(/focused-row|table-focused-row/);
     await page.keyboard.press('ArrowRight');
-    const btn = firstRow.locator('[data-test-id="kb-enter-edit"]');
+    const btn = firstRow.locator('[data-testid="kb-enter-edit"]');
     await expect(btn).toBeFocused();
 
     await page.keyboard.press('Enter');
@@ -305,7 +305,7 @@ test('keyboard: row actions coexist with selection mode', async ({ page }) => {
 
     // ArrowRight enters the action bar.
     await page.keyboard.press('ArrowRight');
-    const btn = rows.nth(0).locator('[data-test-id="sel-edit"]');
+    const btn = rows.nth(0).locator('[data-testid="sel-edit"]');
     await expect(btn).toBeFocused();
     await expect(rows.nth(0)).toHaveClass(/active-row/);
 
@@ -383,7 +383,7 @@ test('keyboard: row actions coexist with selection mode', async ({ page }) => {
     // Enter the bar; Space now activates the focused button, not selection —
     // the row's selected state must remain unchanged and no menu opens.
     await page.keyboard.press('ArrowRight');
-    await expect(rows.nth(0).locator('[data-test-id="sel-edit"]')).toBeFocused();
+    await expect(rows.nth(0).locator('[data-testid="sel-edit"]')).toBeFocused();
     await page.keyboard.press(' ');
     await expect(rows.nth(0)).toHaveAttribute('aria-selected', 'true');
     await expect(page.locator('[role="menu"]')).toHaveCount(0);
@@ -572,12 +572,12 @@ test('rtl keyboard: the action bar is entered from the row inline-end', async ({
   // The bar sits at the row's inline-end, so in RTL ArrowLeft enters it.
   await page.keyboard.press('ArrowLeft');
   await expect(firstRow).toHaveClass(/active-row|table-active-row/);
-  await expect(firstRow.locator('[data-test-id="kb-edit"]')).toBeFocused();
+  await expect(firstRow.locator('[data-testid="kb-edit"]')).toBeFocused();
 
   await page.keyboard.press('ArrowLeft');
-  await expect(firstRow.locator('[data-test-id="kb-del"]')).toBeFocused();
+  await expect(firstRow.locator('[data-testid="kb-del"]')).toBeFocused();
   await page.keyboard.press('ArrowRight');
-  await expect(firstRow.locator('[data-test-id="kb-edit"]')).toBeFocused();
+  await expect(firstRow.locator('[data-testid="kb-edit"]')).toBeFocused();
 
   // ArrowRight off the first action backs out to row navigation.
   await page.keyboard.press('ArrowRight');
