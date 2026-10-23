@@ -5,6 +5,9 @@ operators and editor UI appear. With `filterLocally` on (the default) it filters
 `data` and emits the result via `filterResultChange`; otherwise it emits only
 the `JigFilterConfig` via `filterChange` for server-side filtering.
 
+`date` compares whole calendar days in the user's local time zone, so a time of
+day on the data is ignored; `dateTime` compares the exact instant.
+
 ### Base
 
 In the default `input` mode the control renders an input-like trigger that opens

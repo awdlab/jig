@@ -12,7 +12,12 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { executeFilter, getActiveFilterConditions, type JigItem } from '@awdlab/jig/api';
+import {
+  executeFilter,
+  getActiveFilterConditions,
+  type JigItem,
+  parseFilterRawDate,
+} from '@awdlab/jig/api';
 import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { JigButton } from '@awdlab/jig/button';
 import { JigCalendar } from '@awdlab/jig/calendar';
@@ -381,9 +386,7 @@ export class JigFilter<T = unknown> extends ValueControlBase<'filter', JigFilter
 
   /** Parse a rawValue string to a Date for the calendar component. */
   protected parseRawDate(rawValue: string | null): Date | null {
-    if (!rawValue) return null;
-    const d = new Date(rawValue);
-    return Number.isNaN(d.getTime()) ? null : d;
+    return rawValue ? parseFilterRawDate(rawValue) : null;
   }
 
   /** Convert a Date from the calendar to a rawValue string. */

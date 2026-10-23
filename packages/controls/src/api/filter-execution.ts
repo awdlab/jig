@@ -61,10 +61,15 @@ function asDateMs(value: unknown): number | null {
     return value.getTime();
   }
   if (typeof value === 'string' && value.trim() !== '') {
-    const d = new Date(value);
-    return Number.isNaN(d.getTime()) ? null : d.getTime();
+    return parseFilterRawDate(value)?.getTime() ?? null;
   }
   return null;
+}
+
+function startOfLocalDayMs(ms: number): number {
+  const d = new Date(ms);
+  d.setHours(0, 0, 0, 0);
+  return d.getTime();
 }
 
 function operatorRequiresValue(operator: JigFilterOperatorId): boolean {
@@ -77,6 +82,14 @@ function operatorRequiresValue(operator: JigFilterOperatorId): boolean {
     default:
       return true;
   }
+}
+
+const DATE_ONLY = /^\d{4}-\d{2}-\d{2}$/;
+
+/** Parse a filter date string. A bare `YYYY-MM-DD` is local midnight, not UTC midnight. */
+export function parseFilterRawDate(raw: string): Date | null {
+  const d = new Date(DATE_ONLY.test(raw) ? `${raw}T00:00` : raw);
+  return Number.isNaN(d.getTime()) ? null : d;
 }
 
 export function parseFilterRawValue(raw: string | null, dataType: JigFilterDataType): unknown {
@@ -92,10 +105,8 @@ export function parseFilterRawValue(raw: string | null, dataType: JigFilterDataT
     case 'number':
       return asNumber(raw);
     case 'date':
-    case 'dateTime': {
-      const d = new Date(raw);
-      return Number.isNaN(d.getTime()) ? null : d;
-    }
+    case 'dateTime':
+      return parseFilterRawDate(raw);
     case 'boolean':
       return raw === 'true';
     case 'custom':
@@ -214,11 +225,14 @@ function matchesValue(
     }
     case 'date':
     case 'dateTime': {
-      const left = asDateMs(value);
-      const right = asDateMs(condition.value);
-      if (left == null || right == null) {
+      const leftMs = asDateMs(value);
+      const rightMs = asDateMs(condition.value);
+      if (leftMs == null || rightMs == null) {
         return false;
       }
+      // 'date' compares whole local days, so a time of day on either side is ignored.
+      const left = dataType === 'date' ? startOfLocalDayMs(leftMs) : leftMs;
+      const right = dataType === 'date' ? startOfLocalDayMs(rightMs) : rightMs;
       switch (condition.operator) {
         case 'isEqual':
           return left === right;
