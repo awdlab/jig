@@ -123,12 +123,17 @@ test('a popover left visible outside the top layer does not reflow its anchor', 
 });
 
 test('is never painted before it is positioned', async ({ page }) => {
-  // Hold the floating-ui chunk back so the unpositioned window spans several frames.
-  let chunkRequested = false;
-  await page.route(/@floating-ui_dom\.js/, async route => {
-    chunkRequested = true;
-    await new Promise(resolve => setTimeout(resolve, 100));
-    await route.continue();
+  // Hold the floating-ui module back so the unpositioned window spans several frames.
+  // Matched on content, not URL — the dev server names that chunk differently depending
+  // on whether its dependency cache is warm.
+  let held = false;
+  await page.route(/\.js(\?|$)/, async route => {
+    const response = await route.fetch();
+    if ((await response.text()).includes('computePosition')) {
+      held = true;
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    await route.fulfill({ response });
   });
 
   await loadComponent(page, {
@@ -163,7 +168,7 @@ test('is never painted before it is positioned', async ({ page }) => {
   await page.waitForTimeout(300);
 
   const frames = await page.evaluate(() => (window as unknown as { __frames: string[] }).__frames);
-  expect(chunkRequested).toBe(true);
+  expect(held).toBe(true);
   expect(frames.length).toBeGreaterThan(0);
   expect([...new Set(frames)]).toEqual([frames[frames.length - 1]]);
 });
