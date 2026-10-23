@@ -88,3 +88,83 @@ declare module '@awdlab/jig-custom-types' {
   }
 }
 ```
+
+### Kinds in your app
+
+An app can add kinds of its own and remove ones the theme ships — a kind your design guide
+forbids should be a compile error at the binding site, not a review comment. `customizeKinds`
+and `customizeColors` build both halves from one declaration: the type union **and** the
+runtime list that feeds defaults and enumeration.
+
+```ts
+import { customizeColors, customizeKinds } from '@awdlab/jig/api';
+import { nova } from '@awdlab/jig-themes/nova';
+
+export const APP_KINDS = customizeKinds(nova, {
+  button: { remove: ['link', 'text'], add: ['fancy'] },
+} as const);
+
+export const APP_COLORS = customizeColors(nova, { remove: ['info'], add: ['brand'] } as const);
+
+declare module '@awdlab/jig-custom-types' {
+  export interface JigCustomTypes {
+    kind: typeof APP_KINDS;
+    color: typeof APP_COLORS;
+  }
+}
+```
+
+```ts
+provideJigControls({
+  theme: { preset: nova, kinds: APP_KINDS, colors: APP_COLORS },
+});
+```
+
+`remove` is typed against the theme's own values, so a typo is a compile error. Controls you
+don't mention keep the theme's kinds untouched — there's no need to re-list them.
+
+If you only want the types, compose them by hand instead. `ThemeKind<Control>` and `ThemeColor`
+expose the theme's own values, so `Exclude` and `|` do the work:
+
+```ts
+declare module '@awdlab/jig-custom-types' {
+  export interface JigCustomTypes {
+    kind: { button: Exclude<ThemeKind<'button'>, 'link'> | 'fancy' };
+    color: ThemeColor | 'brand';
+  }
+}
+```
+
+### Styling an added kind
+
+The control toggles `<prefix><scope>-kind-<value>` on its host, so `kind="fancy"` on a button
+gives you `.jig-button-kind-fancy` to write against. Author it the same way a theme does —
+against the generic `--theme-color-*` variables rather than a concrete family — and the kind
+recolors with the `color` input for free:
+
+```css
+.jig-button-kind-fancy {
+  background: var(--theme-color-500);
+  color: var(--theme-color-500-contrast);
+}
+```
+
+Theme CSS lives in `@layer jig`, and unlayered styles outrank any layer, so a plain app
+stylesheet wins without `!important`. If you set a `cssLayer` of your own, declare it after
+`jig`.
+
+### Removing the default kind
+
+A control with no `kind` bound uses the theme's `meta.defaults` entry, or the first kind in the
+list. Remove the kind the theme defaults to and the next remaining kind takes over, with a
+warning in the console. To choose the replacement yourself, set it explicitly:
+
+```ts
+provideJigControls({
+  theme: { preset: nova, kinds: APP_KINDS, defaults: { button: { kind: 'secondary' } } },
+});
+```
+
+`theme.kinds`, `theme.colors` and `theme.defaults` are a flat list rather than one per theme. An
+app that switches themes at runtime keeps the same customization across all of them, so keep the
+removals to values every theme you switch between agrees on.
