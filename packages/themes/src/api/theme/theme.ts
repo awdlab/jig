@@ -30,7 +30,7 @@ export function createTheme<
   name: string,
   parts: P,
   metadata?: { kinds?: KINDS; colors?: COLORS; defaults?: ThemeDefaults }
-): Theme<P, KINDS> {
+): Theme<P, KINDS, COLORS> {
   return {
     name,
     parts,
