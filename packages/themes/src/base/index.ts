@@ -19,6 +19,7 @@ import { dropdownListStyles } from '@awdlab/jig-themes/base/dropdown-list';
 import { editInplaceStyles } from '@awdlab/jig-themes/base/edit-inplace';
 import { attributeFilterStyles } from '@awdlab/jig-themes/base/attribute-filter';
 import { filterStyles } from '@awdlab/jig-themes/base/filter';
+import { filterListBoxStyles } from '@awdlab/jig-themes/base/filter-list-box';
 import { globalStyles } from '@awdlab/jig-themes/base/global';
 import { hintStyles } from '@awdlab/jig-themes/base/hint';
 import { iconStyles } from '@awdlab/jig-themes/base/icon';
@@ -86,6 +87,7 @@ export const baseStyles = {
   dropdownList: dropdownListStyles,
   attributeFilter: attributeFilterStyles,
   filter: filterStyles,
+  filterListBox: filterListBoxStyles,
   editInplace: editInplaceStyles,
   global: globalStyles,
   hint: hintStyles,

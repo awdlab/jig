@@ -43,6 +43,12 @@ export const de = {
     placeholder: 'Klicken zum Bearbeiten',
     confirm: 'Bestätigen',
   },
+  filterListBox: {
+    search: 'Suchen',
+    activeFilters: 'Aktive Filter',
+    clearAllFilters: 'Alle Filter löschen',
+    openFilter: 'Filter öffnen',
+  },
   attributeFilter: {
     attribute: 'Attribut',
     chip: '{{ attribute }} {{ operator }} {{ value }}',

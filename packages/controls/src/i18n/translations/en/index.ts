@@ -43,6 +43,12 @@ export const en = {
     placeholder: 'Click to edit',
     confirm: 'Confirm',
   },
+  filterListBox: {
+    search: 'Search',
+    activeFilters: 'Active filters',
+    clearAllFilters: 'Clear all filters',
+    openFilter: 'Open filter',
+  },
   attributeFilter: {
     attribute: 'Attribute',
     chip: '{{ attribute }} {{ operator }} {{ value }}',
