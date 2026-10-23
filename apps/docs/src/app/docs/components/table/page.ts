@@ -15,6 +15,7 @@ import {
 } from '../../../demos/table/selection';
 import { Demo_Table_Sorting } from '../../../demos/table/sorting';
 import { Demo_Table_StickyColumns } from '../../../demos/table/sticky-columns';
+import { Demo_Table_Storage } from '../../../demos/table/storage';
 import { Demo_Table_Virtual } from '../../../demos/table/virtual';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
@@ -46,6 +47,7 @@ export const TablePage: JigDocsPage = {
         Demo_Table_LazyPagination,
         Demo_Table_LazyInfiniteScroll,
         Demo_Table_CompactCursorPagination,
+        Demo_Table_Storage,
       ],
     },
     {
