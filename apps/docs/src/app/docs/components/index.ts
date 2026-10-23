@@ -1,4 +1,5 @@
 import { AccordionPage } from './accordion/page';
+import { AttributeFilterPage } from './attribute-filter/page';
 import { AutofocusPage } from './autofocus/page';
 import { AvatarPage } from './avatar/page';
 import { BadgePage } from './badge/page';
@@ -18,6 +19,7 @@ import { DropdownListPage } from './dropdown-list/page';
 import { EditInplacePage } from './edit-inplace/page';
 import { ErrorsPage } from './errors/page';
 import { FilterPage } from './filter/page';
+import { FilterListBoxPage } from './filter-list-box/page';
 import { HintPage } from './hint/page';
 import { IconPage } from './icon/page';
 import { InplacePage } from './inplace/page';
@@ -74,11 +76,13 @@ export const COMPONENT_GROUPS: JigDocsGroup[] = [
   {
     title: 'Inputs',
     pages: [
+      AttributeFilterPage,
       CalendarPage,
       CheckboxPage,
       ColorPickerPage,
       EditInplacePage,
       FilterPage,
+      FilterListBoxPage,
       InputPage,
       InputFieldPage,
       ListBoxPage,
