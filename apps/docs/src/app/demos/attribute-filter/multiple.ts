@@ -1,7 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { JigAttributeFilter, type JigFilterAttribute } from '@awdlab/jig/attribute-filter';
 
-import { type Person, people } from '../../helper/people';
+import { type Person, people, ROLES } from '../../helper/people';
 
 @Component({
   selector: 'jig-demo-attribute-filter-multiple',
@@ -31,6 +31,7 @@ export class Demo_AttributeFilter_Multiple {
   protected readonly attributes: readonly JigFilterAttribute<Person>[] = [
     { key: 'name', label: 'Name', dataType: 'string' },
     { key: 'email', label: 'E-mail', dataType: 'string' },
+    { key: 'role', label: 'Role', dataType: 'list', listOptions: ROLES },
     { key: 'id', label: 'ID', dataType: 'number' },
   ];
 

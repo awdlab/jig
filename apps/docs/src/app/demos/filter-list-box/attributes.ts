@@ -21,7 +21,7 @@ type Item = (typeof items)[number];
         (filterChange)="config.set($event)"
       />
       <div class="text-sm opacity-70">
-        {{ config()?.conditions?.length ?? 0 }} condition(s) active
+        {{ config()?.conditions.length ?? 0 }} condition(s) active
       </div>
     </div>
   `,
