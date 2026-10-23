@@ -15,6 +15,8 @@ import {
 } from '@angular/core';
 import {
   executeAttributeFilter,
+  formatConditionValue,
+  getActiveFilterConditions,
   type JigItem,
   parseFilterRawDate,
   readFilterAttributeValue,
@@ -27,7 +29,6 @@ import {
   type JigFilterDataType,
   type JigFilterMode,
   type JigFilterOperatorId,
-  type OperatorDef,
 } from '@awdlab/jig/filter';
 import { I18n } from '@awdlab/jig/i18n';
 import { JigIcon } from '@awdlab/jig/icon';
@@ -223,7 +224,7 @@ export class JigAttributeFilter<T = unknown> extends ValueControlBase<
     () =>
       new Map(
         this.attributes().map(a => {
-          const defs: readonly OperatorDef[] = defaultOperatorsForType(a.dataType);
+          const defs = defaultOperatorsForType(a.dataType);
           return [
             a.key,
             defs.map(
@@ -252,7 +253,12 @@ export class JigAttributeFilter<T = unknown> extends ValueControlBase<
       const values =
         attribute.listOptions ??
         [
-          ...new Set(this.data().map(item => String(readFilterAttributeValue(item, attribute)))),
+          ...new Set(
+            this.data()
+              .map(item => readFilterAttributeValue(item, attribute))
+              .filter(value => value != null)
+              .map(value => String(value))
+          ),
         ].sort((a, b) => a.localeCompare(b));
       map.set(
         attribute.key,
@@ -269,7 +275,7 @@ export class JigAttributeFilter<T = unknown> extends ValueControlBase<
   }
 
   private createCondition(attribute: JigFilterAttribute<T>): JigAttributeFilterConditionConfig {
-    const defs: readonly OperatorDef[] = defaultOperatorsForType(attribute.dataType);
+    const defs = defaultOperatorsForType(attribute.dataType);
     return { attribute: attribute.key, operator: defs[0]?.id ?? 'isEqual', rawValue: null };
   }
 
@@ -329,38 +335,41 @@ export class JigAttributeFilter<T = unknown> extends ValueControlBase<
     return typeof label === 'function' ? label() : (label ?? attributeKey);
   }
 
-  protected readonly activeConditionConfigs = computed<
-    readonly JigAttributeFilterConditionConfig[]
-  >(() => {
+  /** Conditions that actually narrow, each paired with its attribute and parsed value. */
+  private readonly _activeConditions = computed(() => {
     const cfg = this.value();
     if (!cfg) {
       return [];
     }
-    return cfg.conditions.filter(
-      c =>
-        this.attributeFor(c.attribute) &&
-        (!this.operatorRequiresValue(c.attribute, c.operator) ||
-          (c.rawValue != null && c.rawValue !== ''))
-    );
+    return cfg.conditions.flatMap(condition => {
+      const attribute = this.attributeFor(condition.attribute);
+      if (!attribute) {
+        return [];
+      }
+      const [active] = getActiveFilterConditions({
+        dataType: attribute.dataType,
+        matchMode: 'all',
+        conditions: [condition],
+      });
+      return active ? [{ condition, attribute, value: active.value }] : [];
+    });
   });
 
   protected readonly summaryText = computed(() => {
-    const active = this.activeConditionConfigs();
+    const active = this._activeConditions();
     if (active.length === 0) {
       return this.i18n['filter_noFilter']();
     }
-    if (active.length === 1) {
-      const c = active[0];
-      if (!c) {
-        return this.i18n['filter_noFilter']();
+    const only = active.length === 1 ? active[0] : undefined;
+    if (only) {
+      const defs = defaultOperatorsForType(only.attribute.dataType);
+      const def = defs.find(d => d.id === only.condition.operator);
+      const operatorLabel = def ? this._i18n.unsafe(def.labelKey)() : only.condition.operator;
+      const prefix = `${this.attributeLabel(only.condition.attribute)} ${operatorLabel}`;
+      if (def && !def.requiresValue) {
+        return prefix;
       }
-      const defs: readonly OperatorDef[] = defaultOperatorsForType(
-        this.attributeFor(c.attribute)?.dataType ?? 'string'
-      );
-      const def = defs.find(d => d.id === c.operator);
-      const operatorLabel = def ? this._i18n.unsafe(def.labelKey)() : c.operator;
-      const prefix = `${this.attributeLabel(c.attribute)} ${operatorLabel}`;
-      return c.rawValue == null || c.rawValue === '' ? prefix : `${prefix} "${c.rawValue}"`;
+      return `${prefix} "${formatConditionValue(only.value, only.attribute.dataType)}"`;
     }
 
     const matchLabel =
@@ -398,15 +407,23 @@ export class JigAttributeFilter<T = unknown> extends ValueControlBase<
       this.filterChange.emit(this.value() ?? null);
     });
 
-    // In auto-apply mode a config written from outside replaces the rows. The control's own commits
-    // already hold that config in workingConfig, and a pending debounce means the user is mid-edit.
+    // A config written from outside replaces the rows. The control's own commits already hold that
+    // config in workingConfig, a pending debounce means the user is mid-edit, and in manual mode a
+    // touched editor keeps its pending rows.
     effect(() => {
       const cfg = this.value();
       untracked(() => {
-        if (!this.autoApply() || this._debounceTimer != null || cfg === this.workingConfig()) {
+        if (!this.autoApply() && this.workingConfig() != null) {
+          return;
+        }
+        if (this._debounceTimer != null || cfg === this.workingConfig()) {
           return;
         }
         this.workingConfig.set(cfg);
+        if (!this.autoApply()) {
+          // The untouched editor now shows this config, so cancel restores to it.
+          this._snapshotConfig = cfg ? structuredClone(cfg) : null;
+        }
       });
     });
 
@@ -439,7 +456,7 @@ export class JigAttributeFilter<T = unknown> extends ValueControlBase<
         if (!attribute) {
           return c;
         }
-        const defs: readonly OperatorDef[] = defaultOperatorsForType(attribute.dataType);
+        const defs = defaultOperatorsForType(attribute.dataType);
         if (defs.some(d => d.id === c.operator)) {
           return c;
         }
@@ -510,7 +527,7 @@ export class JigAttributeFilter<T = unknown> extends ValueControlBase<
     if (!attribute) {
       return true;
     }
-    const defs: readonly OperatorDef[] = defaultOperatorsForType(attribute.dataType);
+    const defs = defaultOperatorsForType(attribute.dataType);
     return defs.find(d => d.id === operator)?.requiresValue ?? true;
   }
 

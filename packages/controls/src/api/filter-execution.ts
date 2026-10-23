@@ -330,6 +330,17 @@ export function readFilterAttributeValue<T>(item: T, attribute: JigFilterAttribu
   return (source as Record<string, unknown> | null | undefined)?.[attribute.key];
 }
 
+/** Renders a condition's parsed value: a list joined, a date formatted, anything else as text. */
+export function formatConditionValue(value: unknown, dataType: JigFilterDataType): string {
+  if (Array.isArray(value)) {
+    return value.join(', ');
+  }
+  if (value instanceof Date) {
+    return dataType === 'dateTime' ? value.toLocaleString() : value.toLocaleDateString();
+  }
+  return String(value ?? '');
+}
+
 /** Filters by conditions that each name their own attribute; `matchMode` joins them across attributes. */
 export function executeAttributeFilter<T>(
   data: readonly T[],

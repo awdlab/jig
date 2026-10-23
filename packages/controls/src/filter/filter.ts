@@ -51,7 +51,7 @@ export type OperatorDef = {
   requiresValue: boolean;
 };
 
-export function defaultOperatorsForType(dataType: JigFilterDataType) {
+export function defaultOperatorsForType(dataType: JigFilterDataType): readonly OperatorDef[] {
   switch (dataType) {
     case 'string':
       return [
@@ -317,7 +317,7 @@ export class JigFilter<T = unknown> extends ValueControlBase<'filter', JigFilter
     const options = this.operatorDefs().map(
       op =>
         <JigItem>{
-          label: this.i18n[op.labelKey],
+          label: this.unsafeI18n(op.labelKey),
           value: op.id,
           testId: `filter-operator-${op.id}`,
         }

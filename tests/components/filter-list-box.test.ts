@@ -491,3 +491,17 @@ test('matches the screenshot with search text and two chips', async ({ page }, t
 
   await expectScreenshot(page, testInfo, 'chips');
 });
+
+test('derives list options from item data, skipping group headers', async ({ page }) => {
+  await load(page, { items: GROUPED });
+  const listBox = harness(page);
+
+  const filter = await openFilter(listBox);
+  const attribute = filter.attributeSelect(0);
+  await attribute.open();
+  await attribute.clickItemByText('Role');
+
+  const values = filter.valueSelect(0);
+  await values.open();
+  expect(await values.listBox.item.allInnerTexts()).toEqual(['Admin', 'User']);
+});

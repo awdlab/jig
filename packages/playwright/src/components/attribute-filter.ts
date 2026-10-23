@@ -27,6 +27,11 @@ export class JigAttributeFilterHarness extends JigHarness {
     await this.expectOpened(true);
   }
 
+  /** The trigger's one-line rendering of the applied filter (`input` mode). */
+  public summary(): Locator {
+    return this.locator.locator(this.classes['summary']);
+  }
+
   public row(index: number): Locator {
     return this.locator.locator(this.classes['row']).nth(index);
   }

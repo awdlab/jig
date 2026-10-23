@@ -469,3 +469,94 @@ test('leaves manual mode edits pending when the config changes from outside', as
   await filter.cancelButton().click();
   await filter.valueInput(0).expectValue('@work');
 });
+
+test('the trigger summary renders the parsed value, not the raw storage string', async ({
+  page,
+}) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+        <jig-attribute-filter
+          [data]="inputs().data"
+          [attributes]="inputs().attributes"
+          [value]="inputs().config"
+          style="width: 360px"
+        />
+      `,
+      imports: ['attributeFilter'],
+    },
+    {
+      inputs: {
+        data: USERS,
+        attributes: ATTRIBUTES,
+        config: {
+          matchMode: 'all',
+          conditions: [{ attribute: 'role', operator: 'in', rawValue: '["Admin","User"]' }],
+        },
+      },
+    }
+  );
+
+  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+  await expect(filter.summary()).toHaveText('Role Is one of "Admin, User"');
+
+  await handle.setInputs({
+    data: USERS,
+    attributes: ATTRIBUTES,
+    config: {
+      matchMode: 'all',
+      conditions: [{ attribute: 'joined', operator: 'greaterThan', rawValue: '2024-01-15' }],
+    },
+  });
+
+  const joined = await page.evaluate(() => new Date(2024, 0, 15).toLocaleDateString());
+  await expect(filter.summary()).toHaveText(`Joined After "${joined}"`);
+});
+
+test('manual mode renders a bound config and applies it untouched', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+        <jig-attribute-filter
+          mode="inline"
+          [autoApply]="false"
+          [data]="inputs().data"
+          [attributes]="inputs().attributes"
+          [value]="inputs().config"
+          (filterChange)="output('config', $event)"
+          (filterResultChange)="output('filtered', $event)"
+          style="width: 560px"
+        />
+      `,
+      imports: ['attributeFilter'],
+    },
+    {
+      inputs: {
+        data: USERS,
+        attributes: ATTRIBUTES,
+        config: { matchMode: 'all', conditions: [GMAIL] },
+      },
+    }
+  );
+
+  const filter = new JigAttributeFilterHarness(page.locator('jig-attribute-filter'));
+
+  // The editor shows the bound config rather than an empty default row.
+  await filter.attributeSelect(0).expectSelectedItemText('Email');
+  await filter.valueInput(0).expectValue('@gmail');
+
+  // Apply without touching a row commits that same config, it does not discard it.
+  await filter.applyButton().click();
+  await expect(async () => {
+    const log = await handle.getOutputLog();
+    expect(log['config']?.at(-1).conditions).toEqual([GMAIL]);
+    expect(log['filtered']?.at(-1)).toEqual([USERS[0], USERS[2]]);
+  }).toPass();
+
+  // Cancel restores the bound config too.
+  await filter.valueInput(0).fill('@work');
+  await filter.cancelButton().click();
+  await filter.valueInput(0).expectValue('@gmail');
+});

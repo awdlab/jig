@@ -18,6 +18,7 @@ import {
 import {
   executeAttributeFilter,
   flatItems,
+  formatConditionValue,
   getActiveFilterConditions,
   type FilterConfig,
   type JigItem,
@@ -33,11 +34,7 @@ import { JigBadge } from '@awdlab/jig/badge';
 import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigButton } from '@awdlab/jig/button';
 import { JigChip } from '@awdlab/jig/chip';
-import {
-  defaultOperatorsForType,
-  type JigFilterDataType,
-  type OperatorDef,
-} from '@awdlab/jig/filter';
+import { defaultOperatorsForType } from '@awdlab/jig/filter';
 import { I18n } from '@awdlab/jig/i18n';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigInput } from '@awdlab/jig/input';
@@ -57,17 +54,6 @@ type ActiveCondition<T> = {
   attribute: JigFilterAttribute<T>;
   value: unknown;
 };
-
-/** Renders a condition's parsed value: a list joined, a date formatted, anything else as text. */
-function formatConditionValue(value: unknown, dataType: JigFilterDataType): string {
-  if (Array.isArray(value)) {
-    return value.join(', ');
-  }
-  if (value instanceof Date) {
-    return dataType === 'dateTime' ? value.toLocaleString() : value.toLocaleDateString();
-  }
-  return String(value ?? '');
-}
 
 /**
  * A {@link JigListBox} that ships its own search field — and, given
@@ -294,7 +280,7 @@ export class JigFilterListBox<
   }
 
   private chipLabel({ condition, attribute, value }: ActiveCondition<Items[number]>): string {
-    const defs: readonly OperatorDef[] = defaultOperatorsForType(attribute.dataType);
+    const defs = defaultOperatorsForType(attribute.dataType);
     const def = defs.find(d => d.id === condition.operator);
     const operator = def ? this._i18n.unsafe(def.labelKey)() : condition.operator;
     const label = typeof attribute.label === 'function' ? attribute.label() : attribute.label;
