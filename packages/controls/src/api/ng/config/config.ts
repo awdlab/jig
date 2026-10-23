@@ -15,7 +15,7 @@ import { type DeepPartial, Logger, type LogLevel } from '@awdlab/jig/utils';
 
 import type { TooltipOptions } from './tooltip';
 import type { JigStateStorage } from '@awdlab/jig/utils-ng';
-import type { StyleScope, Theme } from '@awdlab/jig-themes';
+import type { StyleScope, Theme, ThemeDefaults } from '@awdlab/jig-themes';
 
 export const JIG_CONFIG = new InjectionToken<JigConfig>('JIG_CONFIG');
 
@@ -43,6 +43,24 @@ export type JigConfig = {
     readonly styleScope: StyleScope | null;
     readonly cssLayer: string | null;
     readonly namePrefix: string;
+    /**
+     * Kinds the app offers per control, replacing the active theme's list for the controls it
+     * names. Build it with `customizeKinds` so the `JigCustomTypes` augmentation and this list
+     * come from one declaration.
+     * @default null
+     */
+    readonly kinds: Record<string, readonly string[]> | null;
+    /**
+     * Colors the app offers, replacing the active theme's list. See {@link JigConfig.theme.kinds}.
+     * @default null
+     */
+    readonly colors: readonly string[] | null;
+    /**
+     * Per-control default `kind`/`color`, replacing the active theme's. Set it when the app
+     * removes the kind the theme defaults to.
+     * @default null
+     */
+    readonly defaults: ThemeDefaults | null;
   };
   readonly defaults: {
     readonly stateStorage: JigStateStorage;
@@ -59,7 +77,12 @@ export type JigConfig = {
 
 export type JigConfigInit = DeepPartial<
   JigConfig,
-  'theme.preset.*' | 'theme.styleScope.*' | 'customTranslations.*'
+  | 'theme.preset.*'
+  | 'theme.styleScope.*'
+  | 'theme.kinds.*'
+  | 'theme.colors.*'
+  | 'theme.defaults.*'
+  | 'customTranslations.*'
 >;
 
 export const defaultJigConfig: JigConfig = {
@@ -73,6 +96,9 @@ export const defaultJigConfig: JigConfig = {
     styleScope: null,
     cssLayer: 'jig',
     namePrefix: 'jig-',
+    kinds: null,
+    colors: null,
+    defaults: null,
   },
   defaults: {
     stateStorage: 'session',
@@ -117,6 +143,9 @@ export function provideJigConfig(config?: JigConfigInit): EnvironmentProviders {
               ? defaultJigConfig.theme.cssLayer
               : config?.theme?.cssLayer,
           namePrefix: config?.theme?.namePrefix ?? defaultJigConfig.theme.namePrefix,
+          kinds: config?.theme?.kinds ?? defaultJigConfig.theme.kinds,
+          colors: config?.theme?.colors ?? defaultJigConfig.theme.colors,
+          defaults: config?.theme?.defaults ?? defaultJigConfig.theme.defaults,
         },
         defaults: {
           stateStorage: config?.defaults?.stateStorage ?? defaultJigConfig.defaults.stateStorage,

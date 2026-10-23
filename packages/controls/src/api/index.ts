@@ -1,3 +1,4 @@
+export * from './customize-kinds';
 export * from './filter-execution';
 export * from './string-filter';
 export * from './string-match';
