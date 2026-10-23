@@ -2,17 +2,24 @@
   <div [ptInt]="this" [ptClass]="'rows'">
     @for (c of templateConfig().conditions; track $index; let i = $index; let last = $last) {
       <div [ptInt]="this" [ptClass]="'row'" [attr.data-testid]="'attribute-filter-row-' + i">
-        <jig-select
+        <jig-input-field
           [ptInt]="this"
           [ptDep]="'attribute'"
-          [options]="attributeOptions()"
-          [label]="i18n['attributeFilter_attribute']()"
-          [value]="c.attribute"
           [disabled]="disabled()"
           [readonly]="readonly()"
-          (valueChange)="setAttribute(i, $event)"
-          data-testid="attribute-filter-attribute"
-        />
+        >
+          <jig-select
+            [ptInt]="this"
+            [ptDep]="'attribute-select'"
+            [options]="attributeOptions()"
+            [label]="i18n['attributeFilter_attribute']()"
+            [value]="c.attribute"
+            [disabled]="disabled()"
+            [readonly]="readonly()"
+            (valueChange)="setAttribute(i, $event)"
+            data-testid="attribute-filter-attribute"
+          />
+        </jig-input-field>
 
         <jig-input-field
           [ptInt]="this"

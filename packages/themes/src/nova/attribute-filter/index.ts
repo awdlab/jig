@@ -23,10 +23,7 @@ export const attributeFilterStyles = createThemePart({
         gap: ${v('size.padding.sm')};
         flex-wrap: nowrap;
       }
-      ${d('attribute')} {
-        flex: 1 1 0;
-        min-width: 0;
-      }
+      ${d('attribute')},
       ${d('operator')} {
         flex: 0 1 auto;
         min-width: 0;

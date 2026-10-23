@@ -24,9 +24,7 @@ export const attributeFilterStyles = createThemePart({
         min-width: 0;
         align-items: center;
       }
-      ${d('attribute')} {
-        min-width: 0;
-      }
+      ${d('attribute')},
       ${d('operator')} {
         min-width: 0;
       }

@@ -321,7 +321,8 @@ export function executeMultiFilter<T extends object>(
   return result;
 }
 
-function readAttributeValue<T>(item: T, attribute: JigFilterAttribute<T>): unknown {
+/** Reads an attribute's value from an item: the attribute's own selector, else `(item.data ?? item)[key]`. */
+export function readFilterAttributeValue<T>(item: T, attribute: JigFilterAttribute<T>): unknown {
   if (attribute.selector) {
     return attribute.selector(item);
   }
@@ -354,7 +355,7 @@ export function executeAttributeFilter<T>(
 
   const matches = (item: T): boolean => {
     const test = ({ attribute, condition }: (typeof active)[number]): boolean =>
-      matchesValue(readAttributeValue(item, attribute), attribute.dataType, condition);
+      matchesValue(readFilterAttributeValue(item, attribute), attribute.dataType, condition);
     return config.matchMode === 'any' ? active.some(test) : active.every(test);
   };
 

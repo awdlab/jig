@@ -12,7 +12,12 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { executeAttributeFilter, type JigItem, parseFilterRawDate } from '@awdlab/jig/api';
+import {
+  executeAttributeFilter,
+  type JigItem,
+  parseFilterRawDate,
+  readFilterAttributeValue,
+} from '@awdlab/jig/api';
 import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { JigButton } from '@awdlab/jig/button';
 import { JigCalendar } from '@awdlab/jig/calendar';
@@ -237,15 +242,6 @@ export class JigAttributeFilter<T = unknown> extends ValueControlBase<
     return this._operatorOptions().get(attributeKey) ?? NO_OPTIONS;
   }
 
-  /** Mirrors the default value read of `executeAttributeFilter`. */
-  private readAttributeValue(attribute: JigFilterAttribute<T>, item: T): unknown {
-    if (attribute.selector) {
-      return attribute.selector(item);
-    }
-    const source = (item as { data?: unknown } | null)?.data ?? item;
-    return (source as Record<string, unknown> | null | undefined)?.[attribute.key];
-  }
-
   private readonly _listOptions = computed(() => {
     const map = new Map<string, readonly JigItem[]>();
     for (const attribute of this.attributes()) {
@@ -255,7 +251,7 @@ export class JigAttributeFilter<T = unknown> extends ValueControlBase<
       const values =
         attribute.listOptions ??
         [
-          ...new Set(this.data().map(item => String(this.readAttributeValue(attribute, item)))),
+          ...new Set(this.data().map(item => String(readFilterAttributeValue(item, attribute)))),
         ].sort((a, b) => a.localeCompare(b));
       map.set(
         attribute.key,

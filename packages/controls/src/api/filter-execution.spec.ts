@@ -5,6 +5,7 @@ import {
   executeFilter,
   parseFilterRawDate,
   parseFilterRawValue,
+  readFilterAttributeValue,
 } from './filter-execution';
 
 describe('parseFilterRawDate', () => {
@@ -175,5 +176,36 @@ describe('executeAttributeFilter', () => {
       'items'
     );
     expect(result).toEqual([{ name: 'G1', email: '', age: 0, items: [ann] }]);
+  });
+});
+
+describe('readFilterAttributeValue', () => {
+  const email = { key: 'email', label: 'Email', dataType: 'string' } as const;
+  const row = { name: 'Ann', email: 'ann@gmail.com' };
+
+  it('reads the property named by the key', () => {
+    expect(readFilterAttributeValue(row, email)).toBe('ann@gmail.com');
+  });
+
+  it('reads through a JigItem data payload', () => {
+    expect(readFilterAttributeValue({ label: 'Ann', value: 1, data: row }, email)).toBe(
+      'ann@gmail.com'
+    );
+  });
+
+  it('prefers the attribute selector over the key', () => {
+    const domain = {
+      key: 'email',
+      label: 'Domain',
+      dataType: 'string',
+      selector: (r: typeof row) => r.email.split('@')[1],
+    } as const;
+    expect(readFilterAttributeValue(row, domain)).toBe('gmail.com');
+  });
+
+  it('is undefined for a key the item does not carry', () => {
+    expect(
+      readFilterAttributeValue(row, { key: 'age', label: 'Age', dataType: 'number' })
+    ).toBeUndefined();
   });
 });
