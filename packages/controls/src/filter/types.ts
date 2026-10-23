@@ -16,6 +16,7 @@ export type JigFilterOperatorId =
   | 'isEqual'
   | 'isNotEqual'
   | 'contains'
+  | 'notContains'
   | 'startsWith'
   | 'endsWith'
   | 'in'

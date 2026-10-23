@@ -58,6 +58,7 @@ function defaultOperatorsForType(dataType: JigFilterDataType) {
         { id: 'isEqual', labelKey: 'filter_operators_isEqual', requiresValue: true },
         { id: 'isNotEqual', labelKey: 'filter_operators_isNotEqual', requiresValue: true },
         { id: 'contains', labelKey: 'filter_operators_contains', requiresValue: true },
+        { id: 'notContains', labelKey: 'filter_operators_notContains', requiresValue: true },
         { id: 'startsWith', labelKey: 'filter_operators_startsWith', requiresValue: true },
         { id: 'endsWith', labelKey: 'filter_operators_endsWith', requiresValue: true },
         { id: 'isEmpty', labelKey: 'filter_operators_isEmpty', requiresValue: false },

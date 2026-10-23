@@ -63,6 +63,7 @@ export const FilterPage: JigDocsPage = {
           isEqual: 'Operator label: value equals the target.',
           isNotEqual: 'Operator label: value differs from the target.',
           contains: 'Operator label: value contains the target substring.',
+          notContains: 'Operator label: value does not contain the target substring.',
           startsWith: 'Operator label: value begins with the target.',
           endsWith: 'Operator label: value ends with the target.',
           in: 'Operator label: value is one of a set.',

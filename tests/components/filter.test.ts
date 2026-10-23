@@ -42,6 +42,42 @@ test('base (string contains) emits filtered result', async ({ page }) => {
   }).toPass();
 });
 
+test('string notContains excludes matching values', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+        <jig-filter
+          [data]="inputs().data"
+          dataType="string"
+          (filterResultChange)="output('filtered', $event)"
+          style="width: 320px"
+        />
+      `,
+      imports: ['filter'],
+    },
+    {
+      inputs: {
+        data: ['Nigeria', 'Algeria', 'Germany', 'France'],
+      },
+    }
+  );
+
+  const filter = new JigFilterHarness(page.locator('jig-filter'));
+  await filter.open();
+
+  const op1 = filter.operatorSelect(0);
+  await op1.open();
+  await op1.clickItemByText('Does not contain');
+  await filter.valueInput(0).fill('ger');
+
+  await expect(async () => {
+    const log = await handle.getOutputLog();
+    const last = log['filtered']?.at(-1);
+    expect(last).toEqual(['France']);
+  }).toPass();
+});
+
 test('inline mode renders without popover', async ({ page }) => {
   const handle = await loadComponent(
     page,
