@@ -13,7 +13,7 @@
     type="button"
     [ptInt]="this"
     [ptClass]="'close-button'"
-    [attr.aria-label]="i18n['chip_close']()"
+    [attr.aria-label]="closeLabel()"
     (click)="closed.emit($event)"
   >
     <jig-icon
