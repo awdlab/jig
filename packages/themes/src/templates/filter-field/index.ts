@@ -6,8 +6,8 @@ import { inputFieldControlTemplate } from '@awdlab/jig-themes/templates/input-fi
 import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
 import { selectControlTemplate } from '@awdlab/jig-themes/templates/select';
 
-export const filterControlTemplate = createControlTemplate({
-  scope: 'filter',
+export const filterFieldControlTemplate = createControlTemplate({
+  scope: 'filter-field',
   classNames: [
     'root',
     'inline',

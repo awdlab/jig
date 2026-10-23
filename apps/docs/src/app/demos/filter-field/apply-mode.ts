@@ -1,9 +1,9 @@
 import { Component, computed, signal } from '@angular/core';
-import { JigFilter, type JigFilterConfig } from '@awdlab/jig/filter';
+import { JigFilterField, type JigFilterConfig } from '@awdlab/jig/filter-field';
 
 @Component({
   selector: 'jig-demo-filter-apply-mode',
-  imports: [JigFilter],
+  imports: [JigFilterField],
   template: `
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-2">
@@ -41,7 +41,7 @@ import { JigFilter, type JigFilterConfig } from '@awdlab/jig/filter';
     </div>
   `,
 })
-export class Demo_Filter_ApplyMode {
+export class Demo_FilterField_ApplyMode {
   protected readonly data: readonly string[] = [
     'Apple',
     'Apricot',

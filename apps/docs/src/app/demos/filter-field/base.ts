@@ -1,16 +1,14 @@
 import { Component, computed, signal } from '@angular/core';
-import { JigFilter, type JigFilterOperatorId } from '@awdlab/jig/filter';
+import { JigFilterField, type JigFilterConfig } from '@awdlab/jig/filter-field';
 
 @Component({
-  selector: 'jig-demo-filter-operators',
-  imports: [JigFilter],
+  selector: 'jig-demo-filter-base',
+  imports: [JigFilterField],
   template: `
     <div class="flex flex-col gap-2">
       <jig-filter
-        mode="inline"
         [data]="data"
-        [operators]="operators"
-        [defaultOperator]="'startsWith'"
+        (filterChange)="output.set($event)"
         (filterResultChange)="filteredData.set($event)"
       />
 
@@ -24,7 +22,7 @@ import { JigFilter, type JigFilterOperatorId } from '@awdlab/jig/filter';
     </div>
   `,
 })
-export class Demo_Filter_Operators {
+export class Demo_FilterField_Base {
   protected readonly data: readonly string[] = [
     'Germany',
     'France',
@@ -35,12 +33,7 @@ export class Demo_Filter_Operators {
     'Greece',
   ];
 
-  protected readonly operators: readonly JigFilterOperatorId[] = [
-    'startsWith',
-    'contains',
-    'isEqual',
-  ];
-
+  protected readonly output = signal<JigFilterConfig | null>(null);
   protected readonly filteredData = signal<readonly string[] | null>(null);
   protected readonly filtered = computed(() => this.filteredData() ?? this.data);
 }

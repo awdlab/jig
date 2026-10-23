@@ -2,7 +2,7 @@ import type {
   JigFilterDataType,
   JigFilterMatchMode,
   JigFilterOperatorId,
-} from '@awdlab/jig/filter';
+} from '@awdlab/jig/filter-field';
 import type { AllKeysOfUnion } from '@awdlab/jig/utils';
 
 /**

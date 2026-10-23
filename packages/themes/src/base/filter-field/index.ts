@@ -1,8 +1,8 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
-import { filterControlTemplate } from '@awdlab/jig-themes/templates/filter';
+import { filterFieldControlTemplate } from '@awdlab/jig-themes/templates/filter-field';
 
-export const filterStyles = createThemePart({
-  controlTemplate: filterControlTemplate,
+export const filterFieldStyles = createThemePart({
+  controlTemplate: filterFieldControlTemplate,
   dependencies: [],
   root: {
     css: ({ c, d }) => css`

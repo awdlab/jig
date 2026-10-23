@@ -1,7 +1,7 @@
 import { signal, type Signal } from '@angular/core';
 
 import type { PaginationState } from '@awdlab/jig/paginator';
-import type { JigFilterConfig } from '@awdlab/jig/filter';
+import type { JigFilterConfig } from '@awdlab/jig/filter-field';
 import type { TableDataSource, TableLoadResult } from './types';
 
 export type TableLazyMode = 'paginate' | 'infinite';

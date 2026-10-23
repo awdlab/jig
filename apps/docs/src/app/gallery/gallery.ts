@@ -15,7 +15,7 @@ import { JigChip } from '@awdlab/jig/chip';
 import { JigDialog } from '@awdlab/jig/dialog';
 import { JigDrawer } from '@awdlab/jig/drawer';
 import { JigEditInplace } from '@awdlab/jig/edit-inplace';
-import { JigFilter } from '@awdlab/jig/filter';
+import { JigFilterField } from '@awdlab/jig/filter-field';
 import { JigHint } from '@awdlab/jig/hint';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigInplace } from '@awdlab/jig/inplace';
@@ -78,7 +78,7 @@ import type { JigTreeItem } from '@awdlab/jig/api';
     JigDialog,
     JigDrawer,
     JigEditInplace,
-    JigFilter,
+    JigFilterField,
     JigHint,
     JigIcon,
     JigInplace,

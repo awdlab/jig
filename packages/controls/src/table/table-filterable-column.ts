@@ -13,7 +13,11 @@ import {
 import { injectThemeTemplate, setComponentInput } from '@awdlab/jig/api/ng';
 import { getNearestJigInstanceSig } from '@awdlab/jig/base';
 import { JigActionButton } from '@awdlab/jig/button';
-import { JigFilter, type JigFilterDataType, type JigFilterOperatorId } from '@awdlab/jig/filter';
+import {
+  JigFilterField,
+  type JigFilterDataType,
+  type JigFilterOperatorId,
+} from '@awdlab/jig/filter-field';
 import { I18n } from '@awdlab/jig/i18n';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
@@ -41,7 +45,7 @@ export class JigTableFilterableColumn implements OnDestroy {
   public readonly jigTableFilterableColumn = input();
 
   private readonly _jigActionButton: ComponentRef<JigActionButton<null>>;
-  private readonly _jigFilter: ComponentRef<JigFilter>;
+  private readonly _jigFilter: ComponentRef<JigFilterField>;
 
   private readonly _table = getNearestJigInstanceSig<Type<JigTable<any, any>>>(
     this._element.nativeElement,
@@ -81,7 +85,7 @@ export class JigTableFilterableColumn implements OnDestroy {
 
   constructor() {
     this._jigActionButton = inject(ViewContainerRef).createComponent(JigActionButton<null>);
-    this._jigFilter = inject(ViewContainerRef).createComponent(JigFilter);
+    this._jigFilter = inject(ViewContainerRef).createComponent(JigFilterField);
     this._element.nativeElement.appendChild(this._jigActionButton.location.nativeElement);
     this._element.nativeElement.appendChild(this._jigFilter.location.nativeElement);
     this._jigActionButton.location.nativeElement.classList.add(this.theme.class('filter-control'));

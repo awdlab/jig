@@ -14,21 +14,21 @@ In the default `input` mode the control renders an input-like trigger that opens
 the filter editor in a popover; the trigger summary reflects the active
 condition.
 
-{{ demo: Demo_Filter_Base }}
+{{ demo: Demo_FilterField_Base }}
 
 ### Validation
 
 The filter plugs into the shared `jigErrors` + `jig-hint` validation flow like
 any other control — here a custom error requires at least one filter rule.
 
-{{ demo: Demo_Filter_Validation }}
+{{ demo: Demo_FilterField_Validation }}
 
 ### Inline
 
 `mode="inline"` renders the condition rows directly on the page instead of
 behind a popover trigger.
 
-{{ demo: Demo_Filter_Inline }}
+{{ demo: Demo_FilterField_Inline }}
 
 ### Headless
 
@@ -36,14 +36,14 @@ behind a popover trigger.
 and positioned against the element passed to `anchor` — here the "Open filter"
 button.
 
-{{ demo: Demo_Filter_Headless }}
+{{ demo: Demo_FilterField_Headless }}
 
 ### DataTypes
 
 Each `dataType` exposes its own operators and editor UI: `list` (multi-select),
 `string`, `number`, `date`, `dateTime`, and `boolean`.
 
-{{ demo: Demo_Filter_DataTypes }}
+{{ demo: Demo_FilterField_DataTypes }}
 
 ### Operators
 
@@ -52,7 +52,7 @@ Each `dataType` exposes its own operators and editor UI: `list` (multi-select),
 picks the one a new condition starts with — here `startsWith` instead of the
 usual `isEqual`.
 
-{{ demo: Demo_Filter_Operators }}
+{{ demo: Demo_FilterField_Operators }}
 
 ### Custom
 
@@ -60,17 +60,17 @@ usual `isEqual`.
 `filterLocally="false"`, the component emits only the config and you run
 `executeFilter` yourself against a chosen field.
 
-{{ demo: Demo_Filter_Custom }}
+{{ demo: Demo_FilterField_Custom }}
 
 ### Multiple conditions
 
 `allowMultiple` lets the user add several conditions and pick a match mode —
 whether a row must satisfy all conditions or any of them.
 
-{{ demo: Demo_Filter_Multiple }}
+{{ demo: Demo_FilterField_Multiple }}
 
 ### Manual Apply / Cancel
 
 When `autoApply` is `false`, changes are not applied until the user clicks "Apply". The "Cancel" button restores the previous filter state.
 
-{{ demo: Demo_Filter_ApplyMode }}
+{{ demo: Demo_FilterField_ApplyMode }}

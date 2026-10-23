@@ -1,13 +1,14 @@
 import { Component, computed, signal } from '@angular/core';
-import { JigFilter, type JigFilterConfig } from '@awdlab/jig/filter';
+import { JigFilterField, type JigFilterConfig } from '@awdlab/jig/filter-field';
 
 @Component({
-  selector: 'jig-demo-filter-inline',
-  imports: [JigFilter],
+  selector: 'jig-demo-filter-multiple',
+  imports: [JigFilterField],
   template: `
     <div class="flex flex-col gap-2">
       <jig-filter
         mode="inline"
+        [allowMultiple]="true"
         [data]="data"
         (filterChange)="output.set($event)"
         (filterResultChange)="filteredData.set($event)"
@@ -23,15 +24,17 @@ import { JigFilter, type JigFilterConfig } from '@awdlab/jig/filter';
     </div>
   `,
 })
-export class Demo_Filter_Inline {
+export class Demo_FilterField_Multiple {
   protected readonly data: readonly string[] = [
-    'Germany',
-    'France',
-    'Italy',
-    'Spain',
-    'Sweden',
-    'Switzerland',
-    'Greece',
+    'Apple',
+    'Apricot',
+    'Banana',
+    'Blueberry',
+    'Cherry',
+    'Grapes',
+    'Lemon',
+    'Orange',
+    'Strawberry',
   ];
 
   protected readonly output = signal<JigFilterConfig | null>(null);

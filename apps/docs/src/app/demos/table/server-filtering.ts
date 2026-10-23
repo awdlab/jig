@@ -4,7 +4,7 @@ import { JigTableFilterableColumn, JigTableModule } from '@awdlab/jig/table';
 
 import { fetchFiltered, type Person } from './fake-data-service';
 
-import type { JigFilterConfig } from '@awdlab/jig/filter';
+import type { JigFilterConfig } from '@awdlab/jig/filter-field';
 
 @Component({
   imports: [JigTableModule, JigTableFilterableColumn, JigTemplate],

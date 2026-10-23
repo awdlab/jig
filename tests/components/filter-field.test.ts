@@ -1,7 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { useRtl } from '../helper/direction';
-import { JigFilterHarness, JigSelectHarness } from '@awdlab/jig-playwright';
+import { JigFilterFieldHarness, JigSelectHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 import { expectScreenshot } from '../helper/screenshot';
 
@@ -18,7 +18,7 @@ test('base (string contains) emits filtered result', async ({ page }) => {
           style="width: 320px"
         />
       `,
-      imports: ['filter'],
+      imports: ['filterField'],
     },
     {
       inputs: {
@@ -27,7 +27,7 @@ test('base (string contains) emits filtered result', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
   await filter.open();
 
   const op1 = filter.operatorSelect(0);
@@ -54,7 +54,7 @@ test('string notContains excludes matching values', async ({ page }) => {
           style="width: 320px"
         />
       `,
-      imports: ['filter'],
+      imports: ['filterField'],
     },
     {
       inputs: {
@@ -63,7 +63,7 @@ test('string notContains excludes matching values', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
   await filter.open();
 
   const op1 = filter.operatorSelect(0);
@@ -92,7 +92,7 @@ test('inline mode renders without popover', async ({ page }) => {
           style="width: 400px"
         />
       `,
-      imports: ['filter'],
+      imports: ['filterField'],
     },
     {
       inputs: {
@@ -101,7 +101,7 @@ test('inline mode renders without popover', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
 
   // Inline mode: operator select and value input should be visible without opening
   const op = filter.operatorSelect(0);
@@ -143,7 +143,7 @@ test('multiple conditions with AND/OR divider toggle', async ({ page }) => {
           style="width: 400px"
         />
       `,
-      imports: ['filter'],
+      imports: ['filterField'],
     },
     {
       inputs: {
@@ -152,7 +152,7 @@ test('multiple conditions with AND/OR divider toggle', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
 
   // Set first condition: contains "ap"
   const op1 = filter.operatorSelect(0);
@@ -206,7 +206,7 @@ test('remove condition button works', async ({ page }) => {
           style="width: 400px"
         />
       `,
-      imports: ['filter'],
+      imports: ['filterField'],
     },
     {
       inputs: {
@@ -215,7 +215,7 @@ test('remove condition button works', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
 
   // Add a second condition
   await filter.addConditionButton().click();
@@ -244,7 +244,7 @@ test('manual apply mode: apply commits, cancel restores', async ({ page }) => {
           style="width: 400px"
         />
       `,
-      imports: ['filter'],
+      imports: ['filterField'],
     },
     {
       inputs: {
@@ -253,7 +253,7 @@ test('manual apply mode: apply commits, cancel restores', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
 
   // Apply and Cancel buttons should be visible
   await expect(filter.applyButton()).toBeVisible();
@@ -312,7 +312,7 @@ test('boolean filter uses Yes/No labels', async ({ page }) => {
           style="width: 400px"
         />
       `,
-      imports: ['filter'],
+      imports: ['filterField'],
     },
     {
       inputs: {
@@ -321,7 +321,7 @@ test('boolean filter uses Yes/No labels', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
 
   // Boolean uses valueSelect (operator with value ptClass since no value input)
   const boolSelect = filter.valueSelect(0);
@@ -361,7 +361,7 @@ test('popover mode summary text shows quoted value', async ({ page }) => {
           style="width: 320px"
         />
       `,
-      imports: ['filter'],
+      imports: ['filterField'],
     },
     {
       inputs: {
@@ -370,7 +370,7 @@ test('popover mode summary text shows quoted value', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
 
   // Summary should show "No filter" initially
   await expect(filter.trigger).toContainText('No filter');
@@ -403,7 +403,7 @@ test('list kind (multi select) filters by membership', async ({ page }) => {
           style="width: 360px"
         />
       `,
-      imports: ['filter'],
+      imports: ['filterField'],
     },
     {
       inputs: {
@@ -412,7 +412,7 @@ test('list kind (multi select) filters by membership', async ({ page }) => {
     }
   );
 
-  const filter = new JigFilterHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
   await filter.open();
 
   const select = new JigSelectHarness(
@@ -452,7 +452,7 @@ test('operators restricts the list and defaultOperator seeds new conditions', as
           style="width: 400px"
         />
       `,
-      imports: ['filter'],
+      imports: ['filterField'],
     },
     {
       inputs: {
@@ -462,7 +462,7 @@ test('operators restricts the list and defaultOperator seeds new conditions', as
     }
   );
 
-  const filter = new JigFilterHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
   const op = filter.operatorSelect(0);
   await op.expectSelectedItemText('Contains');
 
@@ -481,12 +481,12 @@ test('accessibility (axe)', async ({ page }) => {
       template: `
         <jig-filter mode="inline" [data]="inputs().data" dataType="string" style="width: 400px" />
       `,
-      imports: ['filter'],
+      imports: ['filterField'],
     },
     { inputs: { data: ['Apple', 'Banana', 'Cherry'] } }
   );
 
-  const filter = new JigFilterHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
   await expect(filter.operatorSelect(0).locator).toBeVisible();
 
   await expectNoA11yViolations(page);
@@ -505,12 +505,12 @@ test('visual', async ({ page }, testInfo) => {
           style="width: 400px"
         />
       `,
-      imports: ['filter'],
+      imports: ['filterField'],
     },
     { inputs: { data: ['Apple', 'Banana', 'Cherry'] } }
   );
 
-  const filter = new JigFilterHarness(page.locator('jig-filter'));
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter'));
   await expect(filter.operatorSelect(0).locator).toBeVisible();
 
   await expectScreenshot(page, testInfo, 'inline');
@@ -530,7 +530,7 @@ test('rtl', async ({ page }, testInfo) => {
           style="width: 320px"
         />
       `,
-      imports: ['filter'],
+      imports: ['filterField'],
     },
     {
       inputs: {

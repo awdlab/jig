@@ -1,18 +1,13 @@
 import { Component, computed, signal } from '@angular/core';
-import { JigButton } from '@awdlab/jig/button';
-import { JigFilter, type JigFilterConfig } from '@awdlab/jig/filter';
+import { JigFilterField, type JigFilterConfig } from '@awdlab/jig/filter-field';
 
 @Component({
-  selector: 'jig-demo-filter-headless',
-  imports: [JigButton, JigFilter],
+  selector: 'jig-demo-filter-inline',
+  imports: [JigFilterField],
   template: `
     <div class="flex flex-col gap-2">
-      <button type="button" jigButton #btn (click)="filter.show()">Open filter</button>
-
       <jig-filter
-        #filter
-        mode="headless"
-        [anchor]="btn"
+        mode="inline"
         [data]="data"
         (filterChange)="output.set($event)"
         (filterResultChange)="filteredData.set($event)"
@@ -28,7 +23,7 @@ import { JigFilter, type JigFilterConfig } from '@awdlab/jig/filter';
     </div>
   `,
 })
-export class Demo_Filter_Headless {
+export class Demo_FilterField_Inline {
   protected readonly data: readonly string[] = [
     'Germany',
     'France',

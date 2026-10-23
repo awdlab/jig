@@ -1,19 +1,19 @@
-import { JigDocsFilterPlayground } from './playground';
-import { Demo_Filter_ApplyMode } from '../../../demos/filter/apply-mode';
-import { Demo_Filter_Base } from '../../../demos/filter/base';
-import { Demo_Filter_Custom } from '../../../demos/filter/custom';
-import { Demo_Filter_DataTypes } from '../../../demos/filter/datatypes';
-import { Demo_Filter_Headless } from '../../../demos/filter/headless';
-import { Demo_Filter_Inline } from '../../../demos/filter/inline';
-import { Demo_Filter_Multiple } from '../../../demos/filter/multiple';
-import { Demo_Filter_Operators } from '../../../demos/filter/operators';
-import { Demo_Filter_Validation } from '../../../demos/filter/validation';
+import { JigDocsFilterFieldPlayground } from './playground';
+import { Demo_FilterField_ApplyMode } from '../../../demos/filter-field/apply-mode';
+import { Demo_FilterField_Base } from '../../../demos/filter-field/base';
+import { Demo_FilterField_Custom } from '../../../demos/filter-field/custom';
+import { Demo_FilterField_DataTypes } from '../../../demos/filter-field/datatypes';
+import { Demo_FilterField_Headless } from '../../../demos/filter-field/headless';
+import { Demo_FilterField_Inline } from '../../../demos/filter-field/inline';
+import { Demo_FilterField_Multiple } from '../../../demos/filter-field/multiple';
+import { Demo_FilterField_Operators } from '../../../demos/filter-field/operators';
+import { Demo_FilterField_Validation } from '../../../demos/filter-field/validation';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
 import type { JigDocsPage } from '../../../utils/page/types';
 
-export const FilterPage: JigDocsPage = {
-  title: `Filter`,
+export const FilterFieldPage: JigDocsPage = {
+  title: `Filter Field`,
   kind: 'tabs',
   tabs: [
     {
@@ -21,26 +21,26 @@ export const FilterPage: JigDocsPage = {
       default: true,
 
       title: 'Examples',
-      mdFile: 'components/filter/index.md',
+      mdFile: 'components/filter-field/index.md',
       components: [
-        Demo_Filter_Base,
-        Demo_Filter_Validation,
-        Demo_Filter_Inline,
-        Demo_Filter_Headless,
-        Demo_Filter_DataTypes,
-        Demo_Filter_Operators,
-        Demo_Filter_Custom,
-        Demo_Filter_Multiple,
-        Demo_Filter_ApplyMode,
+        Demo_FilterField_Base,
+        Demo_FilterField_Validation,
+        Demo_FilterField_Inline,
+        Demo_FilterField_Headless,
+        Demo_FilterField_DataTypes,
+        Demo_FilterField_Operators,
+        Demo_FilterField_Custom,
+        Demo_FilterField_Multiple,
+        Demo_FilterField_ApplyMode,
       ],
     },
     {
       kind: 'component',
       title: 'Playground',
-      component: JigDocsFilterPlayground,
+      component: JigDocsFilterFieldPlayground,
     },
-    { kind: 'single', title: 'API', mdFile: 'components/filter/api.md' },
-    { kind: 'single', title: 'A11y', mdFile: 'components/filter/a11y.md' },
+    { kind: 'single', title: 'API', mdFile: 'components/filter-field/api.md' },
+    { kind: 'single', title: 'A11y', mdFile: 'components/filter-field/a11y.md' },
     i18nKeys(
       'filter',
       {

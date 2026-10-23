@@ -1,7 +1,7 @@
 import { executeMultiFilter } from '@awdlab/jig/api';
 
 import type { FormattedTableRow } from './types';
-import type { JigFilterConfig } from '@awdlab/jig/filter';
+import type { JigFilterConfig } from '@awdlab/jig/filter-field';
 import type { PaginationState } from '@awdlab/jig/paginator';
 import type { AllKeysOfUnion } from '@awdlab/jig/utils';
 

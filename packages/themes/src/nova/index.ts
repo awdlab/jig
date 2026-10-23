@@ -27,7 +27,7 @@ import { drawerStyles } from '@awdlab/jig-themes/nova/drawer';
 import { dropdownListStyles } from '@awdlab/jig-themes/nova/dropdown-list';
 import { editInplaceStyles } from '@awdlab/jig-themes/nova/edit-inplace';
 import { filterBuilderStyles } from '@awdlab/jig-themes/nova/filter-builder';
-import { filterStyles } from '@awdlab/jig-themes/nova/filter';
+import { filterFieldStyles } from '@awdlab/jig-themes/nova/filter-field';
 import { globalStyles } from '@awdlab/jig-themes/nova/global';
 import { hintStyles } from '@awdlab/jig-themes/nova/hint';
 import { iconStyles } from '@awdlab/jig-themes/nova/icon';
@@ -119,7 +119,7 @@ export const nova = createTheme(
     drawerStyles,
     dropdownListStyles,
     filterBuilderStyles,
-    filterStyles,
+    filterFieldStyles,
     editInplaceStyles,
     font,
     globalStyles,

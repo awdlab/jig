@@ -28,7 +28,7 @@ import { JigInputField } from '@awdlab/jig/input-field';
 import { JigPopover, type PopoverOptions } from '@awdlab/jig/popover';
 import { JigSelect } from '@awdlab/jig/select';
 import { deepMerge, JigError } from '@awdlab/jig/utils';
-import { filterControlTemplate } from '@awdlab/jig-themes/templates/filter';
+import { filterFieldControlTemplate } from '@awdlab/jig-themes/templates/filter-field';
 
 import type {
   JigFilterCondition,
@@ -115,7 +115,7 @@ export function defaultOperatorsForType(dataType: JigFilterDataType) {
  */
 @Component({
   selector: 'jig-filter',
-  templateUrl: './filter.html',
+  templateUrl: './filter-field.html',
   imports: [
     JigPt,
     NgTemplateOutlet,
@@ -127,13 +127,16 @@ export function defaultOperatorsForType(dataType: JigFilterDataType) {
     JigIcon,
     JigButton,
   ],
-  providers: [provideSelf(JigFilter)],
+  providers: [provideSelf(JigFilterField)],
   host: {
     style: 'display: block;',
   },
 })
-export class JigFilter<T = unknown> extends ValueControlBase<'filter', JigFilterConfig | null> {
-  protected readonly theme = this.injectThemeTemplate(filterControlTemplate, 'root');
+export class JigFilterField<T = unknown> extends ValueControlBase<
+  'filterField',
+  JigFilterConfig | null
+> {
+  protected readonly theme = this.injectThemeTemplate(filterFieldControlTemplate, 'root');
   private readonly _i18n = inject(I18n);
   protected readonly i18n = this._i18n.translations;
   protected readonly unsafeI18n = this._i18n.unsafe.bind(this._i18n);
@@ -333,7 +336,7 @@ export class JigFilter<T = unknown> extends ValueControlBase<'filter', JigFilter
       .filter((d): d is OperatorDef => !!d);
     if (picked.length === 0) {
       throw new JigError(
-        'filter',
+        'filterField',
         `None of the given [operators] are supported by dataType "${this.dataType()}".`
       );
     }
@@ -553,7 +556,7 @@ export class JigFilter<T = unknown> extends ValueControlBase<'filter', JigFilter
     effect(() => {
       const defs = this.operatorDefs();
       if (defs.length === 0) {
-        throw new JigError('filter', 'No operators available.');
+        throw new JigError('filterField', 'No operators available.');
       }
       const fallback = this.defaultOperatorId();
       const defIds = new Set(defs.map(d => d.id));
@@ -792,14 +795,14 @@ export class JigFilter<T = unknown> extends ValueControlBase<'filter', JigFilter
   /** Shows the filter popup. Only works when {@link mode} is not `inline`. */
   public show(): void {
     if (this.mode() === 'inline') {
-      throw new JigError('filter', 'Cannot open an inline filter.');
+      throw new JigError('filterField', 'Cannot open an inline filter.');
     }
     if (this.mode() === 'headless' && !this.anchor()) {
-      throw new JigError('filter', 'Headless mode requires an [anchor] input.');
+      throw new JigError('filterField', 'Headless mode requires an [anchor] input.');
     }
     const popover = this._popover();
     if (!popover) {
-      throw new JigError('filter', 'Popover is not available.');
+      throw new JigError('filterField', 'Popover is not available.');
     }
 
     // Snapshot current value for cancel
@@ -814,7 +817,7 @@ export class JigFilter<T = unknown> extends ValueControlBase<'filter', JigFilter
   /** Hides the filter popup. Only works when {@link mode} is not `inline`. */
   public hide(): void {
     if (this.mode() === 'inline') {
-      throw new JigError('filter', 'Cannot close an inline filter.');
+      throw new JigError('filterField', 'Cannot close an inline filter.');
     }
     this._popover()?.hide();
   }

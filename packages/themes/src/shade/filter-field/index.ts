@@ -1,11 +1,11 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
 import { colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
-import { filterControlTemplate } from '@awdlab/jig-themes/templates/filter';
+import { filterFieldControlTemplate } from '@awdlab/jig-themes/templates/filter-field';
 
-export const filterStyles = createThemePart({
-  controlTemplate: filterControlTemplate,
-  base: baseStyles.filter,
+export const filterFieldStyles = createThemePart({
+  controlTemplate: filterFieldControlTemplate,
+  base: baseStyles.filterField,
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
     // color.border swaps automatically between schemes, so no separate dark block is needed.

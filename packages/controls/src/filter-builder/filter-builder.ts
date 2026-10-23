@@ -30,7 +30,7 @@ import {
   type JigFilterDataType,
   type JigFilterMode,
   type JigFilterOperatorId,
-} from '@awdlab/jig/filter';
+} from '@awdlab/jig/filter-field';
 import { I18n } from '@awdlab/jig/i18n';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigInput } from '@awdlab/jig/input';

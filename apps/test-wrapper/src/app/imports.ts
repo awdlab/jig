@@ -21,7 +21,7 @@ export const IMPORTS = {
   menu: () => import('@awdlab/jig/menu').then(m => m.JigMenu),
   editInplace: () => import('@awdlab/jig/edit-inplace').then(m => m.JigEditInplace),
   errors: () => import('@awdlab/jig/errors').then(m => m.JigErrors),
-  filter: () => import('@awdlab/jig/filter').then(m => m.JigFilter),
+  filterField: () => import('@awdlab/jig/filter-field').then(m => m.JigFilterField),
   forms: () => import('@angular/forms').then(m => m.FormsModule),
   reactiveForms: () => import('@angular/forms').then(m => m.ReactiveFormsModule),
   hint: () => import('@awdlab/jig/hint').then(m => m.JigHint),
