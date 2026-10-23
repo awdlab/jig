@@ -91,6 +91,8 @@ export class JigTableFilterableColumn implements OnDestroy {
     setComponentInput(this._jigFilter, 'anchor', this._jigActionButton.location.nativeElement);
     setComponentInput(this._jigFilter, 'mode', 'headless');
     setComponentInput(this._jigFilter, 'allowMultiple', true);
+    // The table applies the filter; the popover only ever emits its config.
+    setComponentInput(this._jigFilter, 'filterLocally', false);
 
     const cfg = computed(
       () =>

@@ -28,7 +28,10 @@ export async function loadComponent(
   options?: { search?: string }
 ) {
   return await test.step('Load Component', async () => {
-    const base = process.env['CI'] ? 'http://localhost:4222' : 'http://hostmachine:4222';
+    // JIG_TEST_WRAPPER_URL lets a second worktree run against its own wrapper port.
+    const base =
+      process.env['JIG_TEST_WRAPPER_URL'] ??
+      (process.env['CI'] ? 'http://localhost:4222' : 'http://hostmachine:4222');
     await page.goto(`${base}${options?.search ?? ''}`);
     await expect(page.locator('body')).toHaveAttribute('data-jig-test-wrapper');
 

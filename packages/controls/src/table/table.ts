@@ -314,6 +314,16 @@ export class JigTable<
       }
     | null
   >(null);
+
+  /**
+   * Whether {@link filters} are applied to {@link rows} client-side. Set to `false` for
+   * server-side filtering: the header filter controls still drive {@link filters}, but the
+   * table renders {@link rows} as given, so you refetch them yourself. Ignored when
+   * {@link dataSource} is set — lazy mode always delegates filtering to the loader.
+   * @default true
+   */
+  public readonly filterLocally = input(true, { transform: booleanAttribute });
+
   protected readonly pageState = signal<PaginationState | null>(null);
   /** Paginator page index, held here so it can be restored from storage. */
   protected readonly pageIndex = signal(0);
@@ -488,7 +498,9 @@ export class JigTable<
   );
 
   private readonly _filteredRows = computed<readonly T[]>(() =>
-    this.lazy() ? this._baseRows() : filterRows(this._baseRows(), this.filters())
+    this.lazy() || !this.filterLocally()
+      ? this._baseRows()
+      : filterRows(this._baseRows(), this.filters())
   );
 
   /** Page size only — page navigation must not invalidate the per-page cache. */
