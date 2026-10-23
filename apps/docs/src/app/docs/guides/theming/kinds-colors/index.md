@@ -12,12 +12,13 @@ in any color.
 
 ### How it works
 
-At runtime the control toggles two classes on its host element: `color-<value>` and
-`kind-<value>`. The theme's color layer makes each `color-*` class **re-point a set of
+At runtime the control toggles two classes on its host element: `<prefix><scope>-color-<value>`
+and `<prefix><scope>-kind-<value>` — on a button, `jig-button-color-success` and
+`jig-button-kind-primary`. The theme's color layer makes each `color-*` class **re-point a set of
 generic `--theme-color-*` variables** onto the chosen family's ramp:
 
 ```css
-.jig-button.color-success {
+.jig-button-color-success {
   --theme-color-500: var(--jig-color-success-500);
   --theme-color-500-contrast: var(--jig-color-success-500-contrast);
   /* …the rest of the ramp… */
@@ -27,11 +28,11 @@ generic `--theme-color-*` variables** onto the chosen family's ramp:
 Each `kind-*` block is then authored purely against those `--theme-color-*` variables:
 
 ```css
-.jig-button.kind-primary {
+.jig-button-kind-primary {
   background: var(--theme-color-500);
   color: var(--theme-color-500-contrast);
 }
-.jig-button.kind-text {
+.jig-button-kind-text {
   background: transparent;
   color: var(--theme-color-500);
 }
@@ -156,7 +157,7 @@ stylesheet wins without `!important`. If you set a `cssLayer` of your own, decla
 ### Removing the default kind
 
 A control with no `kind` bound uses the theme's `meta.defaults` entry, or the first kind in the
-list. Remove the kind the theme defaults to and the next remaining kind takes over, with a
+list. Remove the kind the theme defaults to and the first remaining kind takes over, with a
 warning in the console. To choose the replacement yourself, set it explicitly:
 
 ```ts

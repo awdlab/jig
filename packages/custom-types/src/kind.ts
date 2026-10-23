@@ -33,4 +33,4 @@ export type ThemeKind<K extends string> = [GetCustomType<JigThemeTypes, K>] exte
  * Falls back to `string` when no theme or app type augmentation is loaded, so bindings keep
  * working (unchecked) instead of failing outright.
  */
-export type CustomKind<K> = [UnionCustomKind<K>] extends [never] ? string : UnionCustomKind<K>;
+export type CustomKind<K> = [CustomKindInt<K>] extends [never] ? string : UnionCustomKind<K>;

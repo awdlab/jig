@@ -30,7 +30,32 @@ function effectiveKinds(
   return config.theme.kinds?.[controlName] ?? theme?.meta.kinds?.[controlName] ?? [];
 }
 
+/** The app's colors when it configured any, else the active theme's. */
+function effectiveColors(config: JigConfig, theme: Theme | null | undefined): readonly string[] {
+  return config.theme.colors ?? theme?.meta.colors ?? [];
+}
+
 const warnedDefaults = new Set<string>();
+
+/** Drops a default the effective list no longer offers, warning once per control and value. */
+function resolveDefault<V extends string>(
+  value: V | undefined,
+  available: readonly string[],
+  axis: 'kind' | 'color',
+  controlName: string
+): V | undefined {
+  if (value === undefined || available.includes(value)) {
+    return value;
+  }
+  const key = `${controlName}:${axis}:${value}`;
+  if (!warnedDefaults.has(key)) {
+    warnedDefaults.add(key);
+    Logger.warn(
+      `The default ${axis} "${value}" for control "${controlName}" is not among its available ${axis}s. Falling back to the first available ${axis}.`
+    );
+  }
+  return undefined;
+}
 
 /**
  * Retrieves the available kinds for a given control, as a reactive signal that updates when the
@@ -49,8 +74,8 @@ export function injectThemeControlKinds<T extends string>(controlName: T): Signa
  * Reads the per-control default `color`/`kind` — the app's configured defaults when it set any,
  * else the active theme's `meta.defaults` — as a reactive signal. Empty object when none is
  * configured; callers then fall back to the positional (first-array-entry) default. A default
- * `kind` that is not in the effective kind list is dropped, so removing the theme's default kind
- * falls back to the first remaining one instead of emitting a kind the app banned.
+ * `kind` or `color` that is not in the effective list is dropped, so removing the theme's default
+ * falls back to the first remaining value instead of emitting one the app banned.
  * @param controlName The name of the control to get defaults for.
  */
 export function injectThemeControlDefaults<T extends string>(
@@ -63,17 +88,21 @@ export function injectThemeControlDefaults<T extends string>(
     const defaults = (config.theme.defaults?.[controlName] ??
       theme?.meta.defaults?.[controlName] ??
       {}) as { color?: CustomColor; kind?: CustomKind<T> };
-    const kinds = effectiveKinds(config, theme, controlName);
-    if (defaults.kind === undefined || kinds.includes(defaults.kind as string)) {
-      return defaults;
-    }
-    if (!warnedDefaults.has(controlName)) {
-      warnedDefaults.add(controlName);
-      Logger.warn(
-        `The default kind "${defaults.kind}" for control "${controlName}" is not among its available kinds. Falling back to the first available kind.`
-      );
-    }
-    return { ...defaults, kind: undefined };
+    return {
+      ...defaults,
+      kind: resolveDefault(
+        defaults.kind as string | undefined,
+        effectiveKinds(config, theme, controlName),
+        'kind',
+        controlName
+      ) as CustomKind<T> | undefined,
+      color: resolveDefault(
+        defaults.color as string | undefined,
+        effectiveColors(config, theme),
+        'color',
+        controlName
+      ) as CustomColor | undefined,
+    };
   });
 }
 
@@ -96,6 +125,6 @@ export function injectThemeColors(controlName?: string): Signal<CustomColor[]> {
         return [];
       }
     }
-    return (config.theme.colors ?? theme?.meta.colors ?? []) as CustomColor[];
+    return effectiveColors(config, theme) as CustomColor[];
   });
 }

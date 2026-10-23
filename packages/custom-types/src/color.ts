@@ -29,4 +29,4 @@ export type ThemeColor = [GetCustomType<JigThemeTypes>] extends [never]
  * Falls back to `string` when no theme or app type augmentation is loaded, so bindings keep
  * working (unchecked) instead of failing outright.
  */
-export type CustomColor = [UnionCustomColor] extends [never] ? string : UnionCustomColor;
+export type CustomColor = [CustomColorInt] extends [never] ? string : UnionCustomColor;

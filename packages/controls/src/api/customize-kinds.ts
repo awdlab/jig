@@ -21,22 +21,22 @@ type AddedOf<X> = [NonNullable<X>] extends [never]
   : NonNullable<X> extends { readonly add: readonly (infer A)[] }
     ? A
     : never;
-type ChangeAt<C, N> = N extends keyof C ? C[N] : never;
-
-export type KindCustomization<K extends KindMap> = {
+// Deliberately not exported: annotating a variable with it widens the literals away, which would
+// silently decouple the returned types from the runtime list. Pass an inline literal.
+type KindCustomization<K extends KindMap> = {
   readonly [N in keyof K]?: Change<K[N][number]>;
 } & {
   readonly [control: string]: Change<string> | undefined;
 };
 
 export type CustomizedKinds<K extends KindMap, C> = {
-  readonly [N in keyof K | keyof C]: readonly (
-    | (N extends keyof K ? Exclude<K[N][number], RemovedOf<ChangeAt<C, N>>> : never)
-    | AddedOf<ChangeAt<C, N>>
+  readonly [N in keyof C]: readonly (
+    | (N extends keyof K ? Exclude<K[N][number], RemovedOf<C[N]>> : never)
+    | AddedOf<C[N]>
   )[];
 };
 
-export type ColorCustomization<CO extends readonly string[]> = Change<CO[number]>;
+type ColorCustomization<CO extends readonly string[]> = Change<CO[number]>;
 
 export type CustomizedColors<CO extends readonly string[], X> = readonly (
   | Exclude<CO[number], RemovedOf<X>>
@@ -48,14 +48,16 @@ function applyChange(
   change: Change<string> | undefined
 ): readonly string[] {
   const removed = new Set(change?.remove ?? []);
-  return Object.freeze([...base.filter(value => !removed.has(value)), ...(change?.add ?? [])]);
+  const kept = base.filter(value => !removed.has(value));
+  return Object.freeze([...new Set([...kept, ...(change?.add ?? [])])]);
 }
 
 /**
  * Builds an app's kind lists from a theme's own, removing and adding per control. Feed the result
  * both to `JigCustomTypes` (as `typeof`) and to `provideJigControls`, so types and runtime agree.
- * Controls the customization omits are carried over unchanged; a control the theme does not define
- * contributes its `add` list alone.
+ * Only the controls the customization names appear in the result, so every other control keeps
+ * falling back to whichever theme is active. A control the theme does not define contributes its
+ * `add` list alone.
  */
 export function customizeKinds<const K extends KindMap, const C extends KindCustomization<K>>(
   theme: Theme<ThemePart[], K, readonly string[]>,
@@ -64,7 +66,7 @@ export function customizeKinds<const K extends KindMap, const C extends KindCust
   const source: KindMap = theme.meta.kinds ?? {};
   const changes = customization as Record<string, Change<string> | undefined>;
   const result: Record<string, readonly string[]> = {};
-  for (const control of new Set([...Object.keys(source), ...Object.keys(changes)])) {
+  for (const control of Object.keys(changes)) {
     result[control] = applyChange(source[control] ?? [], changes[control]);
   }
   return Object.freeze(result) as CustomizedKinds<K, C>;

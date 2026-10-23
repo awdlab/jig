@@ -10,6 +10,11 @@ const fixtures = readdirSync(fixtureRoot, { withFileTypes: true })
   .map(entry => entry.name)
   .sort();
 
+if (fixtures.length === 0) {
+  console.error(`No type fixtures found in ${fixtureRoot}`);
+  process.exit(1);
+}
+
 let failed = 0;
 for (const fixture of fixtures) {
   const result = spawnSync(

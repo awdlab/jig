@@ -1,7 +1,8 @@
 import { Injector, runInInjectionContext } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Logger } from '@awdlab/jig/utils';
 import { createTheme } from '@awdlab/jig-themes';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { injectThemeColors, injectThemeControlDefaults, injectThemeControlKinds } from './kinds';
 import { provideJigControls } from './provider';
@@ -14,7 +15,11 @@ const preset = createTheme('test', [], {
     tag: ['default', 'pill'] as const,
   },
   colors: ['primary', 'info'] as const,
-  defaults: { button: { kind: 'link' }, tag: { kind: 'pill' } },
+  defaults: {
+    button: { kind: 'link' },
+    tag: { kind: 'pill' },
+    badge: { color: 'primary' },
+  },
 });
 
 function configure(config: JigConfigInit['theme']) {
@@ -64,6 +69,32 @@ describe('injectThemeControlDefaults', () => {
     const injector = configure({ kinds: { tag: ['default', 'pill'] } });
     const defaults = runInInjectionContext(injector, () => injectThemeControlDefaults('tag'));
     expect(defaults().kind).toBe('pill');
+  });
+
+  it('drops a theme default color that the override removed', () => {
+    const injector = configure({ colors: ['info'] });
+    const defaults = runInInjectionContext(injector, () => injectThemeControlDefaults('badge'));
+    expect(defaults().color).toBeUndefined();
+  });
+
+  it('keeps a theme default color that survived the override', () => {
+    const injector = configure({ colors: ['primary', 'brand'] });
+    const defaults = runInInjectionContext(injector, () => injectThemeControlDefaults('badge'));
+    expect(defaults().color).toBe('primary');
+  });
+
+  it('warns once about a dropped default', () => {
+    const warn = vi.spyOn(Logger, 'warn').mockImplementation(() => undefined);
+    const injector = configure({
+      kinds: { splitter: ['thin'] },
+      defaults: { splitter: { kind: 'invisible' } },
+    });
+    const defaults = runInInjectionContext(injector, () => injectThemeControlDefaults('splitter'));
+    defaults();
+    defaults();
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls[0]?.[0]).toContain('invisible');
+    warn.mockRestore();
   });
 
   it('prefers the configured defaults over the theme', () => {

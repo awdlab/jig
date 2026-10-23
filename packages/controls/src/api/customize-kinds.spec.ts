@@ -19,8 +19,17 @@ describe('customizeKinds', () => {
     ]);
   });
 
-  it('copies controls the customization omits', () => {
-    expect(customizeKinds(theme, { button: { remove: ['link'] } }).tag).toEqual(['default']);
+  it('omits controls the customization does not name, so they keep falling back to the theme', () => {
+    expect(Object.keys(customizeKinds(theme, { button: { remove: ['link'] } }))).toEqual([
+      'button',
+    ]);
+  });
+
+  it('does not duplicate a value that is added while it still survives', () => {
+    expect(customizeKinds(theme, { button: { add: ['primary'] } }).button).toEqual([
+      'primary',
+      'link',
+    ]);
   });
 
   it('yields an empty list when every kind is removed', () => {
