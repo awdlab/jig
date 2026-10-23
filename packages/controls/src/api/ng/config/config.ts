@@ -1,4 +1,10 @@
-import { inject, InjectionToken, provideAppInitializer, type Provider } from '@angular/core';
+import {
+  type EnvironmentProviders,
+  inject,
+  InjectionToken,
+  makeEnvironmentProviders,
+  provideAppInitializer,
+} from '@angular/core';
 import { registerCustomLanguages, type Translations } from '@awdlab/jig/i18n';
 import { type DeepPartial, Logger, type LogLevel } from '@awdlab/jig/utils';
 
@@ -73,8 +79,8 @@ export const defaultJigConfig: JigConfig = {
   },
 };
 
-export function provideJigConfig(config?: JigConfigInit): Provider {
-  return [
+export function provideJigConfig(config?: JigConfigInit): EnvironmentProviders {
+  return makeEnvironmentProviders([
     {
       provide: JIG_CONFIG,
       useValue: {
@@ -141,5 +147,5 @@ export function provideJigConfig(config?: JigConfigInit): Provider {
       }
       Logger.logLevel = config.logLevel ?? Logger.logLevel;
     }),
-  ];
+  ]);
 }
