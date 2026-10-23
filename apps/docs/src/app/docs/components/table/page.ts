@@ -58,6 +58,8 @@ export const TablePage: JigDocsPage = {
     i18nKeys(
       'table',
       {
+        filter:
+          'Accessible label of the column filter trigger; overridden per column with `jigTableFilterableColumnLabel`.',
         selectAllRows:
           'Accessible label for the header checkbox that toggles selection of every row.',
         selectRow: 'Accessible label for the per-row selection checkbox.',
