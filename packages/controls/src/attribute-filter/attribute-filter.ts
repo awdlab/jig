@@ -97,7 +97,7 @@ function parseListRawValue(rawValue: string | null): readonly string[] {
     style: 'display: block;',
   },
 })
-export class JigAttributeFilter<T = unknown> extends ValueControlBase<
+export class JigAttributeFilter<T = unknown, TData = T> extends ValueControlBase<
   'attributeFilter',
   JigAttributeFilterConfig | null
 > {
@@ -117,7 +117,7 @@ export class JigAttributeFilter<T = unknown> extends ValueControlBase<
    * determines that row's operators and value editor.
    * @default []
    */
-  public readonly attributes = input<readonly JigFilterAttribute<T>[]>([]);
+  public readonly attributes = input<readonly JigFilterAttribute<T, TData>[]>([]);
 
   /**
    * Allows multiple conditions and a match mode (any/all).
@@ -206,7 +206,7 @@ export class JigAttributeFilter<T = unknown> extends ValueControlBase<
     () => new Map(this.attributes().map(a => [a.key, a] as const))
   );
 
-  private attributeFor(key: string): JigFilterAttribute<T> | undefined {
+  private attributeFor(key: string): JigFilterAttribute<T, TData> | undefined {
     return this._attributesByKey().get(key);
   }
 
@@ -275,7 +275,9 @@ export class JigAttributeFilter<T = unknown> extends ValueControlBase<
     return this._listOptions().get(attributeKey) ?? NO_OPTIONS;
   }
 
-  private createCondition(attribute: JigFilterAttribute<T>): JigAttributeFilterConditionConfig {
+  private createCondition(
+    attribute: JigFilterAttribute<T, TData>
+  ): JigAttributeFilterConditionConfig {
     const defs = defaultOperatorsForType(attribute.dataType);
     return { attribute: attribute.key, operator: defs[0]?.id ?? 'isEqual', rawValue: null };
   }

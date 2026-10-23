@@ -58,7 +58,7 @@ type ActiveCondition<TItem, TData> = {
 
 /**
  * A {@link JigListBox} that ships its own search field — and, given
- * {@link JigFilterListBox.attributes}, a filter popover whose conditions show up
+ * {@link JigFilterListBox['attributes']}, a filter popover whose conditions show up
  * as removable chips above the list.
  *
  * Conditions narrow the items first, the search text narrows what is left, so
