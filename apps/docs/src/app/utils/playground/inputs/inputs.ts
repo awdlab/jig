@@ -8,7 +8,7 @@ import { JigTooltip } from '@awdlab/jig/tooltip';
 
 import { JigDocsPlaygroundComponentInputs } from './component-inputs/component-inputs';
 
-import type { AnyJigBase } from '@awdlab/jig/base';
+import type { PlaygroundControl } from '../playground';
 
 @Component({
   selector: 'jig-docs-playground-inputs',
@@ -20,12 +20,7 @@ export class JigDocsPlaygroundInputs {
   protected readonly iconSliders = tablerAdjustments;
   protected readonly iconInfo = tablerInfoCircle;
   protected readonly filter = signal('');
-  public readonly controls = input.required<
-    {
-      component: AnyJigBase | readonly AnyJigBase[];
-      componentName: string;
-    }[]
-  >();
+  public readonly controls = input.required<readonly PlaygroundControl[]>();
 
   protected readonly isArray = Array.isArray;
 }

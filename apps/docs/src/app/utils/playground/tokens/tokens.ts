@@ -11,8 +11,9 @@ import { ConsoleLogger, Deserializer, FileRegistry } from 'typedoc/browser';
 import { getInternalControlName } from '../../api/api-docs-helper';
 import { getTypedocProject } from '../../typedoc';
 
-import type { AnyJigBase, FullAnyJigBase, JigPassthrough } from '@awdlab/jig/base';
+import type { FullAnyJigBase, JigPassthrough } from '@awdlab/jig/base';
 import type { ControlName, ControlTemplate } from '@awdlab/jig-themes';
+import type { PlaygroundControl } from '../playground';
 import type { ProjectReflection } from 'typedoc/browser';
 
 @Component({
@@ -32,12 +33,7 @@ export class JigDocsPlaygroundTokens<
   private readonly _injector = inject(Injector);
   private readonly _project = signal<ProjectReflection | null>(null);
 
-  public readonly controls = input.required<
-    {
-      component: AnyJigBase | readonly AnyJigBase[];
-      componentName: string;
-    }[]
-  >();
+  public readonly controls = input.required<readonly PlaygroundControl[]>();
 
   protected readonly tokensGroups = computed(() => {
     const project = this._project();
@@ -76,7 +72,7 @@ export class JigDocsPlaygroundTokens<
 
   protected readonly activeToken = signal<{
     name: string;
-    component: AnyJigBase | readonly AnyJigBase[];
+    component: PlaygroundControl['component'];
   } | null>(null);
 
   protected readonly pt = computed(() => {
@@ -110,7 +106,9 @@ export class JigDocsPlaygroundTokens<
     });
 
     effect(() => {
-      const components = this.controls().flatMap(x => x.component) as FullAnyJigBase[];
+      const components = this.controls()
+        .flatMap(x => x.component)
+        .filter(notNullish) as FullAnyJigBase[];
       const pt = this.pt();
       components.forEach(comp => {
         if (pt?.components.includes(comp)) {
