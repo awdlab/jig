@@ -5,9 +5,7 @@
     @defer (on viewport; on idle) {
       <ng-container *ngComponentOutlet="component()" />
     } @placeholder {
-      <div class="h-8">
-        <jig-spinner [size]="64" [centered]="true" />
-      </div>
+      <jig-docs-loader />
     }
   </div>
   <div

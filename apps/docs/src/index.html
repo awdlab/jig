@@ -19,6 +19,80 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <!-- Splash for the client-rendered routes, where jig-root ships empty and
+         stays blank until the bundle lands. The :has() rule hides it with no
+         JS, so an SSR response never shows it. -->
+    <link rel="preload" as="image" href="/img/logo.png?v=4" />
+    <style>
+      #jig-splash {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483000;
+        display: grid;
+        place-items: center;
+        background: #ffffff;
+        /* Hiding is instant (see below); coming back waits out any route
+           transition, which empties jig-root for a frame. */
+        transition:
+          opacity 0.35s ease 10s,
+          visibility 0.35s 10s;
+        /* Fail-safe: never trap the page behind the overlay. */
+        animation: jig-splash-bail 1ms linear 20s forwards;
+      }
+      .dark #jig-splash {
+        background: #0b0b0f;
+      }
+      body:has(jig-root router-outlet + *) #jig-splash,
+      body:has(jig-root > :not(router-outlet)) #jig-splash {
+        opacity: 0;
+        visibility: hidden;
+        transition-delay: 0s;
+      }
+      #jig-splash .jig-splash-stack {
+        display: grid;
+        place-items: center;
+      }
+      #jig-splash .jig-splash-stack > * {
+        grid-area: 1 / 1;
+      }
+      #jig-splash .jig-splash-ring {
+        width: 84px;
+        height: 84px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 36, 138, 0.18);
+        border-top-color: #ff248a;
+        animation: jig-splash-spin 0.9s linear infinite;
+      }
+      #jig-splash img {
+        width: 44px;
+        height: 44px;
+        animation: jig-splash-pulse 1.8s ease-in-out infinite;
+      }
+      @keyframes jig-splash-spin {
+        to {
+          transform: rotate(1turn);
+        }
+      }
+      @keyframes jig-splash-pulse {
+        50% {
+          opacity: 0.55;
+          transform: scale(0.94);
+        }
+      }
+      @keyframes jig-splash-bail {
+        to {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #jig-splash .jig-splash-ring,
+        #jig-splash img {
+          animation: none;
+        }
+      }
+    </style>
+
     <!-- Favicon / Manifest -->
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png?v=3" sizes="96x96" />
     <link rel="shortcut icon" href="/favicon/favicon.ico?v=3" />
@@ -70,6 +144,12 @@
     ></script>
   </head>
   <body>
+    <div id="jig-splash" aria-hidden="true">
+      <div class="jig-splash-stack">
+        <span class="jig-splash-ring"></span>
+        <img src="/img/logo.png?v=4" alt="" width="44" height="44" />
+      </div>
+    </div>
     <jig-root></jig-root>
   </body>
 </html>
