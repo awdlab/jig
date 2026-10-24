@@ -13,20 +13,17 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
       #playground
       [controls]="[{ componentName: 'JigFilterBuilder', component: component() }]"
     >
-      <button
-        [style.display]="playground.values().JigFilterBuilder?.mode === 'headless' ? null : 'none'"
-        jigButton
-        #anchor
-        (click)="ref.show()"
-      >
-        Open filter
-      </button>
-      <jig-filter-builder #ref [anchor]="anchor" [data]="data" [properties]="properties" />
+      @if (playground.values().JigFilterBuilder?.mode === 'headless') {
+        <button jigButton #anchor (click)="ref.show()">Open filter</button>
+        <jig-filter-builder #ref [anchor]="anchor" [data]="data" [properties]="properties" />
+      } @else {
+        <jig-filter-builder #ref [data]="data" [properties]="properties" />
+      }
     </jig-docs-playground>
   `,
 })
 export class JigDocsFilterBuilderPlayground {
-  protected readonly component = viewChild.required('ref', { read: JigFilterBuilder });
+  protected readonly component = viewChild('ref', { read: JigFilterBuilder });
   protected readonly data = people;
   protected readonly properties: readonly JigFilterProperty<Person>[] = [
     { key: 'name', label: 'Name', dataType: 'string' },

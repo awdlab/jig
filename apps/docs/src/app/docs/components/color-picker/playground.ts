@@ -12,24 +12,21 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
       #playground
       [controls]="[{ componentName: 'JigColorPicker', component: component() }]"
     >
-      <button
-        [style.display]="playground.values().JigColorPicker?.popover ? null : 'none'"
-        jigButton
-        #anchor
-        (click)="ref.toggle()"
-      >
-        Pick a color
-      </button>
-      <jig-color-picker
-        #ref
-        [anchor]="anchor"
-        [value]="value()"
-        (valueChange)="value.set($event)"
-      />
+      @if (playground.values().JigColorPicker?.popover) {
+        <button jigButton #anchor (click)="ref.toggle()">Pick a color</button>
+        <jig-color-picker
+          #ref
+          [anchor]="anchor"
+          [value]="value()"
+          (valueChange)="value.set($event)"
+        />
+      } @else {
+        <jig-color-picker #ref [value]="value()" (valueChange)="value.set($event)" />
+      }
     </jig-docs-playground>
   `,
 })
 export class JigDocsColorPickerPlayground {
-  protected readonly component = viewChild.required('ref', { read: JigColorPicker });
+  protected readonly component = viewChild('ref', { read: JigColorPicker });
   protected readonly value = signal('#3b82f6');
 }

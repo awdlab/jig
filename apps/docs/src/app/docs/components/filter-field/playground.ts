@@ -12,19 +12,16 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
       #playground
       [controls]="[{ componentName: 'JigFilterField', component: component() }]"
     >
-      <button
-        [style.display]="playground.values().JigFilterField?.mode === 'headless' ? null : 'none'"
-        jigButton
-        #anchor
-        (click)="ref.show()"
-      >
-        Open filter
-      </button>
-      <jig-filter-field #ref [anchor]="anchor" [data]="data" />
+      @if (playground.values().JigFilterField?.mode === 'headless') {
+        <button jigButton #anchor (click)="ref.show()">Open filter</button>
+        <jig-filter-field #ref [anchor]="anchor" [data]="data" />
+      } @else {
+        <jig-filter-field #ref [data]="data" />
+      }
     </jig-docs-playground>
   `,
 })
 export class JigDocsFilterFieldPlayground {
-  protected readonly component = viewChild.required('ref', { read: JigFilterField });
+  protected readonly component = viewChild('ref', { read: JigFilterField });
   protected readonly data: readonly string[] = ['Germany', 'France', 'Italy', 'Spain', 'Sweden'];
 }

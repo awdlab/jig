@@ -8,22 +8,21 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
   selector: 'jig-docs-menu-playground',
   imports: [JigMenu, JigButton, JigDocsPlayground],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'JigMenu', component: component() }]">
-      <button
-        [style.display]="component().popover() ? 'unset' : 'none'"
-        jigButton
-        #anchor
-        (click)="ref.show()"
-      >
-        Open Menu
-      </button>
-
-      <jig-menu #ref [items]="items()" [anchor]="anchor" />
+    <jig-docs-playground
+      #playground
+      [controls]="[{ componentName: 'JigMenu', component: component() }]"
+    >
+      @if (playground.values().JigMenu?.popover) {
+        <button jigButton #anchor (click)="ref.show()">Open Menu</button>
+        <jig-menu #ref [items]="items()" [anchor]="anchor" />
+      } @else {
+        <jig-menu #ref [items]="items()" />
+      }
     </jig-docs-playground>
   `,
 })
 export class JigDocsMenuPlayground {
-  protected readonly component = viewChild.required('ref', { read: JigMenu });
+  protected readonly component = viewChild('ref', { read: JigMenu });
   protected readonly items = signal<MenuItem[]>([
     { id: '1', label: 'Item 1' },
     { id: '2', label: 'Item 2' },
