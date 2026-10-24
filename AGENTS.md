@@ -97,4 +97,8 @@ Always check **all** parts when making changes to a control — a rename or new 
 
 - PR descriptions: lead with a short summary readable in under a minute — the most important points at a glance. Add deeper detail below only if genuinely needed.
 
+- Don't run the full Playwright suite (`pnpm test`) — it takes several minutes. Run the specific test files most likely to catch the change, and leave the full run to CI.
+
+- Verify a build by its exit code, not by grepping its output: the Angular builder prints `X [ERROR] TS…` with ANSI codes in between, so patterns like `error TS` or `ERROR]` silently match nothing and a failing build reads as clean.
+
 ## Imported Claude Cowork project instructions
