@@ -44,11 +44,14 @@ export class VolumeComponent {
             class="border-b border-(--jig-color-surface-200) p-(--jig-size-padding-xl) lg:border-e lg:border-b-0"
           >
             <p
-              class="mono mb-(--jig-size-padding-lg) text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)"
+              class="mono mb-(--jig-size-padding-lg) text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)"
             >
               volume.component.ts
             </p>
             <pre
+              tabindex="0"
+              role="region"
+              aria-label="volume.component.ts"
               class="overflow-x-auto text-(length:--jig-font-size-sm)"
             ><code class="prism" [innerHTML]="highlighted()"></code></pre>
           </div>
@@ -57,11 +60,11 @@ export class VolumeComponent {
             class="flex flex-col justify-center gap-(--jig-size-padding-lg) bg-[color-mix(in_srgb,var(--jig-color-primary-500)_5%,transparent)] p-(--jig-size-padding-xl)"
           >
             <div class="mono flex items-center justify-between">
-              <span class="text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)">
+              <span class="text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)">
                 running here, zoneless
               </span>
               <span
-                class="flex items-center gap-(--jig-size-padding-sm) text-(length:--jig-font-size-sm) text-(--jig-color-success-600)"
+                class="flex items-center gap-(--jig-size-padding-sm) text-(length:--jig-font-size-sm) text-(--jig-color-success-800)"
               >
                 <span class="size-1.5 rounded-full bg-(--jig-color-success-500)"></span>
                 live

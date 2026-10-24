@@ -10,10 +10,10 @@ export const maskInputStyles = createThemePart({
   root: {
     css: ({ v, c }) => css`
       ${c('section-placeholder')} {
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
       }
       ${c('separator')} {
-        color: ${v('color.surface.500')};
+        color: ${v('color.surface.600')};
       }
       ${c('section')} + ${c('separator')},
       ${c('separator')}:has(+ ${c('section')}) {

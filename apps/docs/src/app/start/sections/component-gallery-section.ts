@@ -14,7 +14,7 @@ import { JigTab, JigTabs } from '@awdlab/jig/tabs';
 import { JigTag } from '@awdlab/jig/tag';
 import { JigTooltip } from '@awdlab/jig/tooltip';
 
-import { CONTROL_COUNT } from './controls-count';
+import { CONTROL_COUNT } from '../../docs/_generated/seo';
 import { GALLERY } from './gallery-data';
 import { JigDocsGlow } from './glow';
 import { JigDocsSectionShell } from './section-shell';

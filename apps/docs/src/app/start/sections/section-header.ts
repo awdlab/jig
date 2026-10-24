@@ -6,7 +6,7 @@ import { Component, input } from '@angular/core';
   host: { class: 'block text-start' },
   template: `
     <p
-      class="mono text-(length:--jig-font-size-sm) tracking-wider text-(--jig-color-primary-500) uppercase"
+      class="mono text-(length:--jig-font-size-sm) tracking-wider text-(--jig-color-primary-600) uppercase"
     >
       {{ eyebrow() }}
     </p>

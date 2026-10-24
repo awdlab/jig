@@ -67,7 +67,7 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
           >
             <div>
               <p
-                class="mono mb-(--jig-size-padding-md) text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)"
+                class="mono mb-(--jig-size-padding-md) text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)"
               >
                 keys the demo is pressing
               </p>
@@ -80,7 +80,7 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
               </div>
               @if (reducedMotion()) {
                 <p
-                  class="mt-(--jig-size-padding-md) text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)"
+                  class="mt-(--jig-size-padding-md) text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)"
                 >
                   Reduced motion is on, so the demo steps through at a slower pace.
                 </p>
@@ -90,7 +90,7 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
             <dl class="flex flex-col gap-(--jig-size-padding-lg)">
               @for (guarantee of guarantees; track guarantee.label) {
                 <div>
-                  <dt class="mono text-(length:--jig-font-size-sm) text-(--jig-color-primary-500)">
+                  <dt class="mono text-(length:--jig-font-size-sm) text-(--jig-color-primary-600)">
                     {{ guarantee.label }}
                   </dt>
                   <dd class="text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)">
@@ -110,7 +110,7 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
               inert
               class="pointer-events-none flex flex-col gap-(--jig-size-padding-lg) select-none"
             >
-              <p class="mono text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)">
+              <p class="mono text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)">
                 toolbar — one tab stop, arrows inside
               </p>
               <div
@@ -150,7 +150,7 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
               aria-hidden="true"
               class="flex items-center gap-(--jig-size-padding-md) rounded-e-(--jig-size-rounded-md) border-s-3 border-(--jig-color-success-500) bg-[color-mix(in_srgb,var(--jig-color-success-500)_8%,transparent)] px-(--jig-size-padding-lg) py-(--jig-size-padding-md)"
             >
-              <span class="mono text-(length:--jig-font-size-sm) text-(--jig-color-success-600)">
+              <span class="mono text-(length:--jig-font-size-sm) text-(--jig-color-success-800)">
                 aria-live
               </span>
               <span class="text-(length:--jig-font-size-sm) text-(--jig-color-text)">
@@ -160,7 +160,7 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
 
             <dl
               aria-hidden="true"
-              class="mono grid grid-cols-[auto_1fr] gap-x-(--jig-size-padding-lg) gap-y-(--jig-size-padding-xs) border-t border-(--jig-color-surface-200) pt-(--jig-size-padding-lg) text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)"
+              class="mono grid grid-cols-[auto_1fr] gap-x-(--jig-size-padding-lg) gap-y-(--jig-size-padding-xs) border-t border-(--jig-color-surface-200) pt-(--jig-size-padding-lg) text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)"
             >
               <dt>focused</dt>
               <dd class="text-(--jig-color-text)">{{ focusedLabel() }} ({{ role() }})</dd>

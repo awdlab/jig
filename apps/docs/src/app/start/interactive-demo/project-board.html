@@ -5,7 +5,7 @@
   >
     <div class="px-(--jig-size-padding-lg) pt-(--jig-size-padding-lg) pb-(--jig-size-padding-sm)">
       <span
-        class="flex items-center gap-(--jig-size-padding-sm) text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-500) uppercase"
+        class="flex items-center gap-(--jig-size-padding-sm) text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-600) uppercase"
       >
         <jig-icon [icon]="clipboardIcon" /> Projects
       </span>
@@ -26,21 +26,21 @@
   <!-- ── Board ─────────────────────────────────────────────────────────── -->
   <div class="flex min-w-0 grow flex-col">
     <!-- Toolbar -->
-    <header
+    <div
       class="flex flex-col gap-(--jig-size-padding-md) border-b border-(--jig-color-surface-200) px-(--jig-size-padding-lg) py-(--jig-size-padding-md)"
     >
       <!-- Row 1: title + people + add -->
       <div class="flex flex-wrap items-center gap-(--jig-size-padding-md)">
         <jig-icon
           [icon]="boardIcon"
-          class="shrink-0 text-(length:--jig-font-size-xl) text-(--jig-color-primary-500)"
+          class="shrink-0 text-(length:--jig-font-size-xl) text-(--jig-color-primary-600)"
         />
         <jig-edit-inplace
           class="text-(length:--jig-font-size-lg) font-(--jig-font-weight-bold)"
           [value]="boardTitle()"
           (valueChange)="boardTitle.set($event)"
         />
-        <span class="text-(length:--jig-font-size-sm) text-(--jig-color-surface-400)">
+        <span class="text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)">
           {{ visibleTasks().length }} tasks
         </span>
 
@@ -87,7 +87,7 @@
           (valueChange)="density.set($event)"
         />
       </div>
-    </header>
+    </div>
 
     <!-- Overdue banner -->
     @if (overdueCount() > 0) {
@@ -123,7 +123,7 @@
                   (dragenter)="dragOverCol.set(col.id)"
                   (drop)="onDrop(col.id)"
                 >
-                  <header
+                  <div
                     class="flex items-center gap-(--jig-size-padding-sm) px-(--jig-size-padding-md) py-(--jig-size-padding-md)"
                   >
                     <span
@@ -137,7 +137,7 @@
                     <button jigButton kind="icon" jigTooltip="Add task" (click)="addTask(col.id)">
                       <jig-icon [icon]="plusIcon" />
                     </button>
-                  </header>
+                  </div>
 
                   <div
                     class="flex min-h-0 grow flex-col gap-(--jig-size-padding-md) overflow-y-auto px-(--jig-size-padding-md) pb-(--jig-size-padding-md)"
@@ -201,7 +201,7 @@
                         }
 
                         <div
-                          class="flex items-center gap-(--jig-size-padding-md) text-(length:--jig-font-size-xs) text-(--jig-color-surface-500)"
+                          class="flex items-center gap-(--jig-size-padding-md) text-(length:--jig-font-size-xs) text-(--jig-color-surface-600)"
                         >
                           @if (task.subtasks.length) {
                             <span class="flex items-center gap-1" jigTooltip="Subtasks done">
@@ -216,7 +216,7 @@
                           }
                           <span
                             class="flex items-center gap-1"
-                            [class.text-(--jig-color-warning-600)]="task.overdue"
+                            [class.text-(--jig-color-warning-700)]="task.overdue"
                           >
                             {{ task.due }}
                           </span>
@@ -249,7 +249,7 @@
                       </div>
                     } @empty {
                       <p
-                        class="rounded-(--jig-size-rounded-md) border border-dashed border-(--jig-color-surface-300) px-(--jig-size-padding-md) py-(--jig-size-padding-lg) text-center text-(length:--jig-font-size-xs) text-(--jig-color-surface-400)"
+                        class="rounded-(--jig-size-rounded-md) border border-dashed border-(--jig-color-surface-300) px-(--jig-size-padding-md) py-(--jig-size-padding-lg) text-center text-(length:--jig-font-size-xs) text-(--jig-color-surface-600)"
                       >
                         Drop cards here
                       </p>
@@ -279,7 +279,7 @@
                     (click)="openTask(task.id)"
                   >
                     @if (task.labels[0]?.text === 'Bug') {
-                      <jig-icon [icon]="bugIcon" class="text-(--jig-color-error-500)" />
+                      <jig-icon [icon]="bugIcon" class="text-(--jig-color-error-700)" />
                     }
                     <span class="min-w-0 grow truncate font-(--jig-font-weight-medium)">
                       {{ task.title }}
@@ -288,7 +288,7 @@
                       {{ priorityMeta[task.priority].label }}
                     </jig-tag>
                     <span
-                      class="w-24 text-(length:--jig-font-size-xs) text-(--jig-color-surface-500)"
+                      class="w-24 text-(length:--jig-font-size-xs) text-(--jig-color-surface-600)"
                     >
                       {{ columnTitle(task.columnId) }}
                     </span>
@@ -301,7 +301,7 @@
                   </button>
                 </li>
               } @empty {
-                <li class="py-(--jig-size-padding-xl) text-center text-(--jig-color-surface-400)">
+                <li class="py-(--jig-size-padding-xl) text-center text-(--jig-color-surface-600)">
                   No tasks match the current filter.
                 </li>
               }
@@ -349,7 +349,7 @@
       <!-- Status picker -->
       <div class="flex flex-col gap-(--jig-size-padding-sm)">
         <span
-          class="text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) text-(--jig-color-surface-500) uppercase"
+          class="text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) text-(--jig-color-surface-600) uppercase"
         >
           Status
         </span>
@@ -367,7 +367,7 @@
       <!-- Progress -->
       <div class="flex flex-col gap-(--jig-size-padding-sm)">
         <span
-          class="flex items-center justify-between text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) text-(--jig-color-surface-500) uppercase"
+          class="flex items-center justify-between text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) text-(--jig-color-surface-600) uppercase"
         >
           Progress <span class="text-(--jig-color-text)">{{ task.progress }}%</span>
         </span>
@@ -399,7 +399,7 @@
                     <span
                       class="text-(length:--jig-font-size-sm)"
                       [class.line-through]="sub.done"
-                      [class.text-(--jig-color-surface-400)]="sub.done"
+                      [class.text-(--jig-color-surface-600)]="sub.done"
                     >
                       {{ sub.label }}
                     </span>
@@ -407,7 +407,7 @@
                 }
               </ul>
             } @else {
-              <p class="text-(length:--jig-font-size-sm) text-(--jig-color-surface-400)">
+              <p class="text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)">
                 No subtasks yet.
               </p>
             }
@@ -421,9 +421,9 @@
                 <div
                   class="flex items-center gap-(--jig-size-padding-sm) rounded-(--jig-size-rounded-md) border border-(--jig-color-surface-200) px-(--jig-size-padding-md) py-(--jig-size-padding-sm) text-(length:--jig-font-size-sm)"
                 >
-                  <jig-icon [icon]="paperclipIcon" class="text-(--jig-color-surface-500)" />
+                  <jig-icon [icon]="paperclipIcon" class="text-(--jig-color-surface-600)" />
                   <span class="grow truncate">{{ att.name }}</span>
-                  <span class="text-(length:--jig-font-size-xs) text-(--jig-color-surface-400)">
+                  <span class="text-(length:--jig-font-size-xs) text-(--jig-color-surface-600)">
                     {{ att.size }}
                   </span>
                 </div>

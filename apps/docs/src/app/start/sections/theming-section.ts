@@ -22,11 +22,11 @@ import { JigDocsThemePicker, ThemePickerService } from '../../utils/theme-picker
 /** Fixed annotation hues, one per token family. Not theme-derived — they must
  * stay distinguishable from whatever primary the visitor picks. */
 const HUES = {
-  radius: { light: '#2563eb', dark: '#60a5fa' },
-  primary: { light: '#7c3aed', dark: '#a78bfa' },
-  padding: { light: '#e11d48', dark: '#fb7185' },
-  fontSize: { light: '#059669', dark: '#34d399' },
-  surface: { light: '#b45309', dark: '#fbbf24' },
+  radius: { light: '#1d4ed8', dark: '#60a5fa' },
+  primary: { light: '#6d28d9', dark: '#a78bfa' },
+  padding: { light: '#be123c', dark: '#fb7185' },
+  fontSize: { light: '#065f46', dark: '#34d399' },
+  surface: { light: '#92400e', dark: '#fbbf24' },
 } as const;
 
 type Hue = keyof typeof HUES;
@@ -135,12 +135,12 @@ function toHex(color: string): string {
         <span
           aria-hidden="true"
           data-probe="primary"
-          class="absolute size-0 text-(--jig-color-primary-500)"
+          class="absolute size-0 text-(--jig-color-primary-600)"
         ></span>
         <span
           aria-hidden="true"
           data-probe="surface"
-          class="absolute size-0 text-(--jig-color-surface-500)"
+          class="absolute size-0 text-(--jig-color-surface-600)"
         ></span>
         <!-- A real field carrying the theme's input styling, but outside
              .token-preview so none of it transitions. Reads here return the
@@ -186,7 +186,7 @@ function toHex(color: string): string {
 
           <!-- Indented clear of the corner marker. -->
           <p
-            class="mono mb-(--jig-size-padding-lg) ps-2 text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)"
+            class="mono mb-(--jig-size-padding-lg) ps-2 text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)"
           >
             live preview · {{ picker.activeOption().label }}
           </p>

@@ -131,7 +131,12 @@ interface Person {
                   [pt]="ptOverrides"
                 />
               </div>
-              <pre class="level-code"><code class="prism" [innerHTML]="code().pt"></code></pre>
+              <pre
+                class="level-code"
+                tabindex="0"
+                role="region"
+                aria-label="Code example"
+              ><code class="prism" [innerHTML]="code().pt"></code></pre>
             </div>
           </ng-template>
         </jig-accordion-panel>
@@ -160,7 +165,7 @@ interface Person {
                           item?.label
                         }}</span>
                         <span
-                          class="text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)"
+                          class="text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)"
                           >{{ item?.role }}</span
                         >
                       </span>
@@ -169,6 +174,9 @@ interface Person {
                 </jig-list-box>
               </div>
               <pre
+                tabindex="0"
+                role="region"
+                aria-label="Code example"
                 class="level-code"
               ><code class="prism" [innerHTML]="code().templated"></code></pre>
             </div>
@@ -191,7 +199,12 @@ interface Person {
                   [pt]="themeOverrides"
                 />
               </div>
-              <pre class="level-code"><code class="prism" [innerHTML]="code().theme"></code></pre>
+              <pre
+                class="level-code"
+                tabindex="0"
+                role="region"
+                aria-label="Code example"
+              ><code class="prism" [innerHTML]="code().theme"></code></pre>
             </div>
           </ng-template>
         </jig-accordion-panel>
@@ -216,6 +229,9 @@ interface Person {
                 </div>
               </div>
               <pre
+                tabindex="0"
+                role="region"
+                aria-label="Code example"
                 class="level-code"
               ><code class="prism" [innerHTML]="code().unstyled"></code></pre>
             </div>
@@ -259,7 +275,7 @@ export class JigDocsCustomizationSection {
     'item-selected': {
       $styles: {
         background: 'var(--jig-color-primary-500)',
-        color: 'var(--jig-color-primary-50)',
+        color: 'var(--jig-color-primary-500-contrast)',
         fontWeight: 'var(--jig-font-weight-semibold)',
       },
     },
@@ -284,7 +300,7 @@ export class JigDocsCustomizationSection {
     'item-selected': {
       $styles: {
         background: 'var(--jig-color-primary-600)',
-        color: 'var(--jig-color-primary-50)',
+        color: 'var(--jig-color-primary-600-contrast)',
       },
     },
   };

@@ -36,7 +36,7 @@ import { JigDocsSectionHeader } from './section-header';
           class="rounded-(--jig-size-rounded-lg) border border-(--jig-color-surface-200) bg-(--jig-color-surface-25) p-(--jig-size-padding-xl)"
         >
           <p
-            class="mono flex items-center gap-(--jig-size-padding-sm) text-(length:--jig-font-size-sm) text-(--jig-color-success-600)"
+            class="mono flex items-center gap-(--jig-size-padding-sm) text-(length:--jig-font-size-sm) text-(--jig-color-success-700)"
           >
             <span class="size-1.5 rounded-full bg-(--jig-color-success-500)"></span>
             platform native
@@ -59,7 +59,7 @@ import { JigDocsSectionHeader } from './section-header';
           class="rounded-(--jig-size-rounded-lg) border border-(--jig-color-surface-200) bg-(--jig-color-surface-25) p-(--jig-size-padding-xl)"
         >
           <p
-            class="mono flex items-center gap-(--jig-size-padding-sm) text-(length:--jig-font-size-sm) text-(--jig-color-success-600)"
+            class="mono flex items-center gap-(--jig-size-padding-sm) text-(length:--jig-font-size-sm) text-(--jig-color-success-700)"
           >
             <span class="size-1.5 rounded-full bg-(--jig-color-success-500)"></span>
             platform native
@@ -84,7 +84,7 @@ import { JigDocsSectionHeader } from './section-header';
           class="rounded-(--jig-size-rounded-lg) border border-(--jig-color-surface-200) bg-(--jig-color-surface-25) p-(--jig-size-padding-xl)"
         >
           <p
-            class="mono flex items-center gap-(--jig-size-padding-sm) text-(length:--jig-font-size-sm) text-(--jig-color-primary-500)"
+            class="mono flex items-center gap-(--jig-size-padding-sm) text-(length:--jig-font-size-sm) text-(--jig-color-primary-600)"
           >
             <span class="size-1.5 rounded-full bg-(--jig-color-primary-500)"></span>
             we built it for you
@@ -126,7 +126,7 @@ import { JigDocsSectionHeader } from './section-header';
           class="rounded-(--jig-size-rounded-lg) border border-(--jig-color-surface-200) bg-(--jig-color-surface-25) p-(--jig-size-padding-xl)"
         >
           <p
-            class="mono flex items-center gap-(--jig-size-padding-sm) text-(length:--jig-font-size-sm) text-(--jig-color-primary-500)"
+            class="mono flex items-center gap-(--jig-size-padding-sm) text-(length:--jig-font-size-sm) text-(--jig-color-primary-600)"
           >
             <span class="size-1.5 rounded-full bg-(--jig-color-primary-500)"></span>
             we built it for you

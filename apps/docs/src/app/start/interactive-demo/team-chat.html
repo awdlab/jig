@@ -82,7 +82,7 @@
         >
           <ng-template #group let-option>
             <span
-              class="text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-500) uppercase"
+              class="text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-600) uppercase"
             >
               {{ option.label }}
             </span>
@@ -211,7 +211,7 @@
             <div class="flex items-center gap-(--jig-size-padding-md) py-(--jig-size-padding-md)">
               <span class="h-px grow bg-(--jig-color-surface-200)"></span>
               <span
-                class="rounded-full bg-(--jig-color-surface-100) px-(--jig-size-padding-md) py-0.5 text-(length:--jig-font-size-xs) font-(--jig-font-weight-medium) text-(--jig-color-surface-500)"
+                class="rounded-full bg-(--jig-color-surface-100) px-(--jig-size-padding-md) py-0.5 text-(length:--jig-font-size-xs) font-(--jig-font-weight-medium) text-(--jig-color-surface-600)"
               >
                 {{ m.dateGroup }}
               </span>
@@ -222,7 +222,7 @@
             <div class="flex items-center gap-(--jig-size-padding-md) py-1">
               <span class="h-px grow bg-(--jig-color-primary-400)"></span>
               <span
-                class="text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) text-(--jig-color-primary-500) uppercase"
+                class="text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) text-(--jig-color-primary-600) uppercase"
               >
                 New
               </span>
@@ -289,7 +289,7 @@
                           >
                             {{ opt.label }}
                           </span>
-                          <span class="text-(--jig-color-surface-500)">
+                          <span class="text-(--jig-color-surface-600)">
                             {{ opt.votes }} · {{ pollPercent(m, opt.id) }}%
                           </span>
                         </div>
@@ -543,7 +543,7 @@
           class="chat-tile rounded-(--jig-size-rounded-lg) px-(--jig-size-padding-lg) py-(--jig-size-padding-lg)"
         >
           <h4
-            class="my-(--jig-size-padding-sm) text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-500) uppercase"
+            class="my-(--jig-size-padding-sm) text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-600) uppercase"
           >
             About
           </h4>
@@ -562,7 +562,7 @@
           class="chat-tile rounded-(--jig-size-rounded-lg) px-(--jig-size-padding-lg) py-(--jig-size-padding-lg)"
         >
           <h4
-            class="my-(--jig-size-padding-sm) text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-500) uppercase"
+            class="my-(--jig-size-padding-sm) text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-600) uppercase"
           >
             Members
           </h4>
@@ -600,7 +600,7 @@
           class="chat-tile rounded-(--jig-size-rounded-lg) px-(--jig-size-padding-lg) py-(--jig-size-padding-lg)"
         >
           <h4
-            class="my-(--jig-size-padding-sm) text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-500) uppercase"
+            class="my-(--jig-size-padding-sm) text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-600) uppercase"
           >
             Pinned
           </h4>
@@ -609,7 +609,7 @@
               <li
                 class="flex gap-(--jig-size-padding-md) border-(--jig-color-surface-200) pt-(--jig-size-padding-md) not-first:border-t first:pt-0"
               >
-                <jig-icon [icon]="pinIcon" class="mt-0.5 shrink-0 text-(--jig-color-primary-500)" />
+                <jig-icon [icon]="pinIcon" class="mt-0.5 shrink-0 text-(--jig-color-primary-600)" />
                 <div class="min-w-0">
                   <div
                     class="text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) text-[color-mix(in_oklab,var(--jig-color-text)_60%,transparent)]"
@@ -630,7 +630,7 @@
           class="chat-tile rounded-(--jig-size-rounded-lg) px-(--jig-size-padding-lg) py-(--jig-size-padding-lg)"
         >
           <h4
-            class="my-(--jig-size-padding-sm) text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-500) uppercase"
+            class="my-(--jig-size-padding-sm) text-(length:--jig-font-size-xs) font-(--jig-font-weight-semibold) tracking-wide text-(--jig-color-surface-600) uppercase"
           >
             Shared files
           </h4>
@@ -640,7 +640,7 @@
                 <span
                   class="flex size-9 shrink-0 items-center justify-center rounded-(--jig-size-rounded-md)"
                   [style.background]="'var(--jig-color-' + f.icon + '-100)'"
-                  [style.color]="'var(--jig-color-' + f.icon + '-600)'"
+                  [style.color]="'var(--jig-color-' + f.icon + '-700)'"
                 >
                   <jig-icon [icon]="paperclipIcon" />
                 </span>
@@ -752,7 +752,7 @@
     height: 6px;
     border-radius: 9999px;
     background: var(--jig-color-surface-400);
-    animation: typing-bounce 1.2s infinite ease-in-out;
+    animation: typing-wave 1.2s infinite ease-in-out;
   }
   .typing-dot:nth-child(2) {
     animation-delay: 0.15s;
@@ -760,7 +760,7 @@
   .typing-dot:nth-child(3) {
     animation-delay: 0.3s;
   }
-  @keyframes typing-bounce {
+  @keyframes typing-wave {
     0%,
     60%,
     100% {
@@ -770,6 +770,23 @@
     30% {
       transform: translateY(-4px);
       opacity: 1;
+    }
+  }
+  @keyframes typing-fade {
+    0%,
+    60%,
+    100% {
+      opacity: 0.5;
+    }
+    30% {
+      opacity: 1;
+    }
+  }
+  /* Reduced motion: the dots still signal activity, without the hop and at half speed. */
+  @media (prefers-reduced-motion: reduce) {
+    .typing-dot {
+      animation-name: typing-fade;
+      animation-duration: 2.4s;
     }
   }
 </style>
