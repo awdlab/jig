@@ -21,6 +21,7 @@ export const calendarControlTemplate = createControlTemplate({
     'day-selected',
     'day-today',
     'day-other-month',
+    'day-disabled',
     'months',
     'month',
     'time',

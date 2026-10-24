@@ -23,6 +23,7 @@ import { JigSelect } from '@awdlab/jig/select';
 import { JigError, throwExp } from '@awdlab/jig/utils';
 import { calendarControlTemplate } from '@awdlab/jig-themes/templates/calendar';
 
+import { clampToBounds, isWithinBounds } from './bounds';
 import { CalendarTemplates } from './calendar-templates';
 import { CalendarDays } from './days/days';
 import { formatDate, parseDate } from './formatter';
@@ -95,6 +96,22 @@ export class JigCalendar extends CalendarTemplates {
    * @default 'MM/dd/yyyy'
    */
   public readonly format = input('MM/dd/yyyy');
+  /**
+   * The earliest selectable date, compared by day. Earlier days render disabled but stay navigable.
+   * A signal forms `min()` rule binds here automatically.
+   * @default null
+   */
+  public readonly min = input<Date | null, Date | null | undefined>(null, {
+    transform: v => v ?? null,
+  });
+  /**
+   * The latest selectable date, compared by day. Later days render disabled but stay navigable.
+   * A signal forms `max()` rule binds here automatically.
+   * @default null
+   */
+  public readonly max = input<Date | null, Date | null | undefined>(null, {
+    transform: v => v ?? null,
+  });
 
   private readonly _popover = viewChild<JigPopover>(JigPopover);
   private readonly _mask = viewChild(JigMaskInput);
@@ -213,7 +230,9 @@ export class JigCalendar extends CalendarTemplates {
     newValue.setFullYear(this.year());
     newValue.setMonth(this.month() + day.monthOffset);
     newValue.setDate(day.date);
-    this.value.set(newValue);
+    if (isWithinBounds(newValue, this.min(), this.max())) {
+      this.value.set(newValue);
+    }
   }
 
   protected changeTime(newTime: Date | null) {
@@ -339,10 +358,11 @@ export class JigCalendar extends CalendarTemplates {
     }
     // Format-aware parse that clamps an out-of-range day to the month's length
     // (e.g. Feb 31 → Feb 28) instead of rolling over into the next month.
-    const date = parseDate(raw, this.format());
-    if (!date) {
+    const parsed = parseDate(raw, this.format());
+    if (!parsed) {
       return;
     }
+    const date = clampToBounds(parsed, this.min(), this.max());
     if (!this.showTime()) {
       date.setHours(this.value()?.getHours() ?? 0);
       date.setMinutes(this.value()?.getMinutes() ?? 0);

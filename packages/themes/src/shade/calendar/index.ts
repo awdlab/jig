@@ -88,6 +88,14 @@ export const calendarStyles = createThemePart({
           color: ${v('color.primary.foreground')};
         }
       }
+      ${c('day-disabled')} {
+        cursor: not-allowed;
+        opacity: 0.5;
+        &:hover {
+          background: transparent;
+          color: inherit;
+        }
+      }
       ${d('current-month-field')} {
         flex: 1 1 0;
         min-width: 0;

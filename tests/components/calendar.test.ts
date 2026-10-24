@@ -432,3 +432,72 @@ test('keeps the navigated month when the host rebinds an equal date', async ({ p
   await handle.setInputs({ value: new Date(2025, 2, 11, 12, 0, 0) });
   await calendar.currentMonth.expectSelectedItemText('March');
 });
+
+test('min / max disable out-of-range days but keep navigation free', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<jig-calendar [inline]="true" [min]="inputs().min" [max]="inputs().max" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
+      imports: ['calendar'],
+    },
+    {
+      inputs: {
+        min: new Date(2025, 7, 10, 12, 0, 0),
+        max: new Date(2025, 8, 20, 12, 0, 0),
+        value: new Date(2025, 7, 18, 12, 0, 0),
+      },
+    }
+  );
+
+  const calendar = new JigCalendarHarness(page.locator('jig-calendar'));
+  const disabledSameMonth = calendar.daySameMonth.and(calendar.dayDisabled);
+  await expect(disabledSameMonth).toHaveCount(9); // August 1–9
+  await expect(calendar.daySameMonth.nth(8)).toHaveAttribute('aria-disabled', 'true');
+  await expect(calendar.daySameMonth.nth(9)).not.toHaveAttribute('aria-disabled');
+
+  await calendar.daySameMonth.nth(4).click({ force: true });
+  await calendar.daySameMonth.nth(4).press('Enter');
+  await calendar.selectDay(10);
+  await calendar.expectDate('2025', 'August', '10');
+  expect((await handle.getOutputLog())['value']).toEqual([new Date(2025, 7, 10, 12, 0, 0)]);
+
+  await calendar.nextButton.click();
+  await calendar.currentMonth.expectSelectedItemText('September');
+  await expect(disabledSameMonth).toHaveCount(10); // September 21–30
+
+  // Paging past max still works; every day there is disabled.
+  await calendar.daySameMonth.nth(29).focus();
+  await page.keyboard.press('ArrowRight');
+  await calendar.currentMonth.expectSelectedItemText('October');
+  await expect(disabledSameMonth).toHaveCount(31);
+  await calendar.backButton.click();
+  await calendar.backButton.click();
+  await calendar.backButton.click();
+  await calendar.currentMonth.expectSelectedItemText('July');
+  await expect(disabledSameMonth).toHaveCount(31);
+});
+
+test('typing a date outside min / max clamps it to the bound', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<jig-calendar [inputId]="'calbounds'" [format]="'MM/dd/yyyy'" [min]="inputs().min" [max]="inputs().max" (valueChange)="output('value', $event)" />`,
+      imports: ['calendar'],
+    },
+    { inputs: { min: new Date(2025, 7, 10, 12, 0, 0), max: new Date(2025, 8, 20, 12, 0, 0) } }
+  );
+
+  const mask = new JigMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
+  await mask.focus();
+  await mask.pressSequentially('01012020');
+  await mask.expectText('08/10/2025');
+
+  await mask.clear();
+  await mask.focus();
+  await mask.pressSequentially('12312030');
+  await mask.expectText('09/20/2025');
+
+  // The mask renders the committed value, so its text above is the clamped day.
+  const log = (await handle.getOutputLog())['value'] as (Date | null)[];
+  expect(log.filter(Boolean)).toHaveLength(2);
+});
