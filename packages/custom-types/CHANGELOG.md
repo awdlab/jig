@@ -1,5 +1,9 @@
 # Changelog
 
+## @awdlab/jig-custom-types 0.0.2 (2026-10-24)
+
+- **An app can add kinds and colors of its own, and remove ones its theme ships, from a single declaration.** `customizeKinds` and `customizeColors` derive the lists from the active theme; the same object feeds the `JigCustomTypes` augmentation and the new `theme.kinds` / `theme.colors` / `theme.defaults` config fields, so the typed union and the runtime list that drives defaults and enumeration cannot drift apart. `remove` is typed against the theme's own values, controls the customization omits keep falling back to whichever theme is active, and a default the app removed is dropped with a warning instead of being emitted as a banned class. `ThemeKind<Control>` and `ThemeColor` expose a theme's values for apps that only want the types. `createTheme` now keeps its `COLORS` parameter in its return type, which `customizeColors` needs in order to read a theme's colors.
+
 Release times are Central European Time (CET/CEST), the project's local time zone.
 
 ## @awdlab/jig-custom-types 0.0.1 (2026-08-24 23:47 CEST)
