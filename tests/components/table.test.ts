@@ -1596,3 +1596,74 @@ test('persists state to storage across reloads', async ({ page }) => {
   await grid2.expectSelected(1);
   expect(Math.abs((await grid2.columnWidth(0)) - width)).toBeLessThan(2);
 });
+
+test('a column filter can be replaced by a custom template', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `
+        <ng-template #deptFilter let-setValue="setValue">
+          <button
+            type="button"
+            data-testid="design-only"
+            (click)="
+              setValue({
+                dataType: 'string',
+                matchMode: 'all',
+                conditions: [{ operator: 'isEqual', rawValue: 'Design' }]
+              })
+            "
+          >
+            Design only
+          </button>
+        </ng-template>
+        <jig-table
+          #table
+          style="height: 400px"
+          [rows]="inputs().rows"
+          [fieldId]="'id'"
+        >
+          <ng-template #header>
+            <tr jigTableHeadTr>
+              <th [jigTableTh]="table.column('id')">ID</th>
+              <th
+                [jigTableTh]="table.column('dept')"
+                [jigTableFilterableColumn]
+                [jigTableFilterableColumnType]="'string'"
+                [jigTableFilterableColumnTemplate]="deptFilter"
+              >
+                Dept
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+            <tr [jigTableBodyTr]="row">
+              <td jigTableTd>{{ row.data.id }}</td>
+              <td jigTableTd>{{ row.data.dept }}</td>
+            </tr>
+          </ng-template>
+        </jig-table>
+      `,
+      imports: ['tableModule', 'jigTemplate', 'tableFilterableColumn'],
+    },
+    {
+      inputs: {
+        rows: [
+          { id: 1, dept: 'Design' },
+          { id: 2, dept: 'Engineering' },
+          { id: 3, dept: 'Design' },
+        ],
+      },
+    }
+  );
+
+  const table = new JigTableHarness(page.locator('jig-table'));
+  await expect(getBodyRows(page)).toHaveCount(3);
+
+  await table.headerCells.nth(1).locator('jig-action-button').click();
+  // The built-in operator select is gone; the custom editor is what opened.
+  await expect(page.getByTestId('design-only')).toBeVisible();
+
+  await page.getByTestId('design-only').click();
+  await expect(getBodyRows(page)).toHaveCount(2);
+});

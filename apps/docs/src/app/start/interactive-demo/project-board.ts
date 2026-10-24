@@ -14,7 +14,7 @@ import { JigButton } from '@awdlab/jig/button';
 import { JigCheckbox } from '@awdlab/jig/checkbox';
 import { JigDrawer } from '@awdlab/jig/drawer';
 import { JigEditInplace } from '@awdlab/jig/edit-inplace';
-import { JigFilter } from '@awdlab/jig/filter';
+import { JigFilterField } from '@awdlab/jig/filter-field';
 import { JigIcon } from '@awdlab/jig/icon';
 import { type MenuItem, JigMenu } from '@awdlab/jig/menu';
 import { JigMessage } from '@awdlab/jig/message';
@@ -59,7 +59,7 @@ type Density = 'comfortable' | 'compact';
     JigCheckbox,
     JigDrawer,
     JigEditInplace,
-    JigFilter,
+    JigFilterField,
     JigIcon,
     JigMenu,
     JigMessage,
@@ -125,7 +125,7 @@ export class ProjectBoard {
   /** Show only cards assigned to the current user. */
   protected readonly myTasksOnly = signal(false);
 
-  // -- Quick filter (jig-filter over task titles) --
+  // -- Quick filter (jig-filter-field over task titles) --
   protected readonly filterResult = signal<readonly string[] | null>(null);
   protected readonly taskTitles = computed(() => this._tasks().map(t => t.title));
 

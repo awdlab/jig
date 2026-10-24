@@ -43,6 +43,17 @@ export const en = {
     placeholder: 'Click to edit',
     confirm: 'Confirm',
   },
+  filterBar: {
+    search: 'Search',
+    activeFilters: 'Active filters',
+    clearAllFilters: 'Clear all filters',
+    openFilter: 'Open filter',
+  },
+  filterBuilder: {
+    property: 'Property',
+    chip: '{{ property }} {{ operator }} {{ value }}',
+    chipNoValue: '{{ property }} {{ operator }}',
+  },
   filter: {
     noFilter: 'No filter',
     addCondition: 'Add condition',

@@ -125,3 +125,30 @@ test('rtl', async ({ page }, testInfo) => {
   });
   await expectScreenshot(page, testInfo);
 });
+
+test('readonly hides the clear button so the value cannot be wiped', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+      <jig-input-field
+        style="width: 240px"
+        [label]="'Search'"
+        [showClearButton]="true"
+        [readonly]="inputs().readonly"
+      >
+        <input jigInput value="hello" [readOnly]="inputs().readonly" />
+      </jig-input-field>`,
+      imports: ['inputField', 'input'],
+    },
+    { inputs: { readonly: true } }
+  );
+
+  const input = page.locator('input');
+  await expect(page.getByRole('button')).toHaveCount(0);
+  await expect(input).toHaveValue('hello');
+
+  await handle.setInputs({ readonly: false });
+  await page.getByRole('button').click();
+  await expect(input).toHaveValue('');
+});

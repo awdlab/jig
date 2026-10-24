@@ -71,6 +71,12 @@ column filters combine (AND). A `…Operators` list narrows and orders the
 operators of that column, and `…DefaultOperator` picks the one a new condition
 starts with.
 
+`…Template` takes a `TemplateRef` and replaces that column's popover with your
+own editor — a slider, a rating, a lookup against your backend. It writes an
+ordinary `JigFilterConfig` back through the context's `setValue`, so the column
+filters, combines and serializes exactly as a built-in one does. See the filter
+field's page for the full context.
+
 {{ demo: Demo_Table_Filtering }}
 
 Set `[filterLocally]="false"` for server-side filtering without handing paging

@@ -20,7 +20,11 @@ export type ThemeTemplate = {
   dialog: Awaited<typeof import('./dialog/index.js')>['dialogControlTemplate'];
   drawer: Awaited<typeof import('./drawer/index.js')>['drawerControlTemplate'];
   dropdownList: Awaited<typeof import('./dropdown-list/index.js')>['dropdownListControlTemplate'];
-  filter: Awaited<typeof import('./filter/index.js')>['filterControlTemplate'];
+  filterField: Awaited<typeof import('./filter-field/index.js')>['filterFieldControlTemplate'];
+  filterBar: Awaited<typeof import('./filter-bar/index.js')>['filterBarControlTemplate'];
+  filterBuilder: Awaited<
+    typeof import('./filter-builder/index.js')
+  >['filterBuilderControlTemplate'];
   editInplace: Awaited<typeof import('./edit-inplace/index.js')>['editInplaceControlTemplate'];
   global: Awaited<typeof import('./global/index.js')>['globalControlTemplate'];
   hint: Awaited<typeof import('./hint/index.js')>['hintControlTemplate'];

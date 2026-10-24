@@ -53,7 +53,7 @@ import type {
   TableDataSource,
   TableSelectionMode,
 } from './types';
-import type { JigFilterConfig } from '@awdlab/jig/filter';
+import type { JigFilterConfig } from '@awdlab/jig/filter-field';
 import type { ResizeSize } from '@awdlab/jig/api/resize';
 import { JigError, type AllKeysOfUnion } from '@awdlab/jig/utils';
 import { generateElementId } from '@awdlab/jig/utils-ng';

@@ -53,7 +53,8 @@ height to the projected element.
 
 Enable `showClearButton` for a built-in affordance that empties the value and
 refocuses the input (customize the glyph with `iconClearButton`). Controls that
-manage their own value clear through a hook; plain inputs clear via the DOM.
+manage their own value clear through a hook; plain inputs clear via the DOM. A
+`readonly` field hides the button — clearing would write to the control.
 
 {{ demo: Demo_InputField_Clear }}
 

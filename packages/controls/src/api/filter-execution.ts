@@ -35,6 +35,34 @@ type JigFilterConfig = {
   conditions: readonly JigFilterConditionConfig[];
 };
 
+type JigFilterPropertyKey<TData> = unknown extends TData
+  ? string
+  : Extract<AllKeysOfUnion<TData>, string>;
+
+type JigFilterProperty<TItem = unknown, TData = TItem> = {
+  label: string | (() => string);
+  dataType: JigFilterDataType;
+  listOptions?: readonly string[];
+} & (
+  | {
+      key: JigFilterPropertyKey<TData>;
+      selector?: (item: TItem) => unknown;
+      computedKey?: never;
+    }
+  | { computedKey: string; selector: (item: TItem) => unknown; key?: never }
+);
+
+type JigFilterBuilderConditionConfig = {
+  property: string;
+  operator: JigFilterOperatorId;
+  rawValue: string | null;
+};
+
+type JigFilterBuilderConfig = {
+  matchMode: JigFilterMatchMode;
+  conditions: readonly JigFilterBuilderConditionConfig[];
+};
+
 type JigFilterCondition = {
   operator: JigFilterOperatorId;
   value: unknown;
@@ -305,4 +333,77 @@ export function executeMultiFilter<T extends object>(
     result = executeFilter(result, forcedAll, (item: T): unknown => item[key]);
   }
   return result;
+}
+
+/** The identifier a condition stores for an property, whichever kind it is. */
+export function filterPropertyId(property: { key?: string; computedKey?: string }): string {
+  return property.key ?? property.computedKey ?? '';
+}
+
+/** Reads an property's value from an item: the property's own selector, else `(item.data ?? item)[key]`. */
+export function readFilterPropertyValue<TItem, TData = TItem>(
+  item: TItem,
+  property: JigFilterProperty<TItem, TData>
+): unknown {
+  if (property.selector) {
+    return property.selector(item);
+  }
+  const source = (item as { data?: unknown } | null)?.data ?? item;
+  const key = property.key;
+  return key == null ? undefined : (source as Record<string, unknown> | null | undefined)?.[key];
+}
+
+/** Renders a condition's parsed value: a list joined, a date formatted, anything else as text. */
+export function formatConditionValue(value: unknown, dataType: JigFilterDataType): string {
+  if (Array.isArray(value)) {
+    return value.join(', ');
+  }
+  if (value instanceof Date) {
+    return dataType === 'dateTime' ? value.toLocaleString() : value.toLocaleDateString();
+  }
+  return String(value ?? '');
+}
+
+/** Filters by conditions that each name their own property; `matchMode` joins them across properties. */
+export function executePropertyFilter<TItem, TData = TItem>(
+  data: readonly TItem[],
+  config: JigFilterBuilderConfig,
+  properties: readonly JigFilterProperty<TItem, TData>[],
+  childrenKey?: keyof TItem
+): readonly TItem[] {
+  const active = config.conditions.flatMap(c => {
+    const property = properties.find(a => filterPropertyId(a) === c.property);
+    if (!property) {
+      return [];
+    }
+    const [condition] = getActiveFilterConditions({
+      dataType: property.dataType,
+      matchMode: 'all',
+      conditions: [c],
+    });
+    return condition ? [{ property, condition }] : [];
+  });
+  if (active.length === 0) {
+    return data;
+  }
+
+  const matches = (item: TItem): boolean => {
+    const test = ({ property, condition }: (typeof active)[number]): boolean =>
+      matchesValue(readFilterPropertyValue(item, property), property.dataType, condition);
+    return config.matchMode === 'any' ? active.some(test) : active.every(test);
+  };
+
+  const filterLevel = (items: readonly TItem[]): TItem[] =>
+    items.flatMap(item => {
+      const children = childrenKey ? item[childrenKey] : undefined;
+      if (Array.isArray(children) && children.length > 0) {
+        const surviving = filterLevel(children as TItem[]);
+        if (surviving.length > 0) {
+          return [{ ...item, [childrenKey as keyof TItem]: surviving }];
+        }
+      }
+      return matches(item) ? [item] : [];
+    });
+
+  return filterLevel(data);
 }

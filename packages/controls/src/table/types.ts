@@ -1,5 +1,5 @@
 import type { PaginationState } from '@awdlab/jig/paginator';
-import type { JigFilterConfig } from '@awdlab/jig/filter';
+import type { JigFilterConfig } from '@awdlab/jig/filter-field';
 
 export type FormattedTableDataRow<T> = {
   kind: 'data' | 'header' | 'footer';

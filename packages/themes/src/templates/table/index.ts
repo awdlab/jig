@@ -1,7 +1,7 @@
 import { createControlTemplate } from '@awdlab/jig-themes/api';
 import { scrollShadowDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
 import { checkboxControlTemplate } from '@awdlab/jig-themes/templates/checkbox';
-import { filterControlTemplate } from '@awdlab/jig-themes/templates/filter';
+import { filterFieldControlTemplate } from '@awdlab/jig-themes/templates/filter-field';
 import { iconControlTemplate } from '@awdlab/jig-themes/templates/icon';
 import { paginatorControlTemplate } from '@awdlab/jig-themes/templates/paginator';
 import { popoverControlTemplate } from '@awdlab/jig-themes/templates/popover';
@@ -63,7 +63,7 @@ export const tableControlTemplate = createControlTemplate({
     { class: 'scroll-shadow', template: scrollShadowDirectiveTemplate, projected: true },
     { class: 'group-toggle-icon', template: iconControlTemplate },
     { class: 'sort-icon', template: iconControlTemplate, projected: true },
-    { class: 'filter', template: filterControlTemplate, projected: true },
+    { class: 'filter', template: filterFieldControlTemplate, projected: true },
     { class: 'popover', template: popoverControlTemplate, projected: true },
     { class: 'paginator', template: paginatorControlTemplate },
     { class: 'checkbox', template: checkboxControlTemplate, projected: true },

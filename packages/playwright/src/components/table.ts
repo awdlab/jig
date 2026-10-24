@@ -3,7 +3,7 @@ import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 import { themeClasses } from '../utils/theme.js';
 import { JigHarness } from '../harness.js';
 import { JigCheckboxHarness } from './checkbox.js';
-import { JigFilterHarness } from './filter.js';
+import { JigFilterFieldHarness } from './filter-field.js';
 import { JigPaginatorHarness } from './paginator.js';
 import { JigScrollerHarness } from './scroller.js';
 
@@ -121,8 +121,8 @@ export class JigTableHarness extends JigHarness {
   }
 
   /** The filter popover of a `jigTableFilterableColumn` header. */
-  public columnFilter(column: number): JigFilterHarness {
-    return new JigFilterHarness(this.headerCell(column).locator('jig-filter'));
+  public columnFilter(column: number): JigFilterFieldHarness {
+    return new JigFilterFieldHarness(this.headerCell(column).locator('jig-filter-field'));
   }
 
   // --- column resize / reorder --------------------------------------------

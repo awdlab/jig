@@ -18,7 +18,7 @@ import { JigChip } from '@awdlab/jig/chip';
 import { JigDefer } from '@awdlab/jig/defer';
 import { JigDialog } from '@awdlab/jig/dialog';
 import { JigEditInplace } from '@awdlab/jig/edit-inplace';
-import { JigFilter } from '@awdlab/jig/filter';
+import { JigFilterField } from '@awdlab/jig/filter-field';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigInplace } from '@awdlab/jig/inplace';
 import { JigInput } from '@awdlab/jig/input';
@@ -65,7 +65,7 @@ declare global {
     JigDefer,
     JigDialog,
     JigEditInplace,
-    JigFilter,
+    JigFilterField,
     JigIcon,
     JigInplace,
     JigInput,
@@ -153,7 +153,7 @@ declare global {
       <jig-edit-inplace [value]="editInplaceValue()" (valueChange)="editInplaceValue.set($event)" />
 
       <!-- Filter -->
-      <jig-filter [data]="filterData()" dataType="string" />
+      <jig-filter-field [data]="filterData()" dataType="string" />
 
       <!-- Icon -->
       <jig-icon [icon]="userIcon" />

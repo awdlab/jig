@@ -1,6 +1,6 @@
 import { executeMultiFilter } from '@awdlab/jig/api';
 
-import type { JigFilterConfig } from '@awdlab/jig/filter';
+import type { JigFilterConfig } from '@awdlab/jig/filter-field';
 
 /**
  * In-memory fake backend for the lazy-loading table demos. Simulates network

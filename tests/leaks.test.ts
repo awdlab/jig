@@ -56,7 +56,7 @@ test('Memory leak detection for all components', async ({ page }) => {
     'JigDefer',
     'JigDialog',
     'JigEditInplace',
-    'JigFilter',
+    'JigFilterField',
     'JigIcon',
     'JigInplace',
     'JigInput',

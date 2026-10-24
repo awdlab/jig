@@ -26,7 +26,9 @@ import { dialogStyles } from '@awdlab/jig-themes/shade/dialog';
 import { drawerStyles } from '@awdlab/jig-themes/shade/drawer';
 import { dropdownListStyles } from '@awdlab/jig-themes/shade/dropdown-list';
 import { editInplaceStyles } from '@awdlab/jig-themes/shade/edit-inplace';
-import { filterStyles } from '@awdlab/jig-themes/shade/filter';
+import { filterBarStyles } from '@awdlab/jig-themes/shade/filter-bar';
+import { filterBuilderStyles } from '@awdlab/jig-themes/shade/filter-builder';
+import { filterFieldStyles } from '@awdlab/jig-themes/shade/filter-field';
 import { hintStyles } from '@awdlab/jig-themes/shade/hint';
 import { iconStyles } from '@awdlab/jig-themes/shade/icon';
 import { inplaceStyles } from '@awdlab/jig-themes/shade/inplace';
@@ -114,7 +116,9 @@ export const shade = createTheme(
     drawerStyles,
     dropdownListStyles,
     editInplaceStyles,
-    filterStyles,
+    filterBarStyles,
+    filterBuilderStyles,
+    filterFieldStyles,
     font,
     hintStyles,
     iconStyles,

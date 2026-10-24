@@ -1,0 +1,64 @@
+import { Component, computed, signal } from '@angular/core';
+import { JigFilterField, type JigFilterConfig } from '@awdlab/jig/filter-field';
+
+@Component({
+  selector: 'jig-demo-filter-apply-mode',
+  imports: [JigFilterField],
+  template: `
+    <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-2">
+        <div class="text-sm font-medium">Manual Apply (inline)</div>
+        <jig-filter-field
+          mode="inline"
+          [autoApply]="false"
+          [data]="data"
+          (filterChange)="output.set($event)"
+          (filterResultChange)="filteredData.set($event)"
+        />
+        <div class="text-sm opacity-70">Filtered: {{ filtered().length }}/{{ data.length }}</div>
+        <ul class="list-disc ps-5">
+          @for (item of filtered(); track item) {
+            <li>{{ item }}</li>
+          }
+        </ul>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <div class="text-sm font-medium">Manual Apply (popover)</div>
+        <jig-filter-field
+          [autoApply]="false"
+          [data]="data"
+          (filterChange)="output2.set($event)"
+          (filterResultChange)="filteredData2.set($event)"
+        />
+        <div class="text-sm opacity-70">Filtered: {{ filtered2().length }}/{{ data.length }}</div>
+        <ul class="list-disc ps-5">
+          @for (item of filtered2(); track item) {
+            <li>{{ item }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+  `,
+})
+export class Demo_FilterField_ApplyMode {
+  protected readonly data: readonly string[] = [
+    'Apple',
+    'Apricot',
+    'Banana',
+    'Blueberry',
+    'Cherry',
+    'Grapes',
+    'Lemon',
+    'Orange',
+    'Strawberry',
+  ];
+
+  protected readonly output = signal<JigFilterConfig | null>(null);
+  protected readonly filteredData = signal<readonly string[] | null>(null);
+  protected readonly filtered = computed(() => this.filteredData() ?? this.data);
+
+  protected readonly output2 = signal<JigFilterConfig | null>(null);
+  protected readonly filteredData2 = signal<readonly string[] | null>(null);
+  protected readonly filtered2 = computed(() => this.filteredData2() ?? this.data);
+}

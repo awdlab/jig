@@ -17,7 +17,9 @@ import { dialogStyles } from '@awdlab/jig-themes/base/dialog';
 import { drawerStyles } from '@awdlab/jig-themes/base/drawer';
 import { dropdownListStyles } from '@awdlab/jig-themes/base/dropdown-list';
 import { editInplaceStyles } from '@awdlab/jig-themes/base/edit-inplace';
-import { filterStyles } from '@awdlab/jig-themes/base/filter';
+import { filterBarStyles } from '@awdlab/jig-themes/base/filter-bar';
+import { filterBuilderStyles } from '@awdlab/jig-themes/base/filter-builder';
+import { filterFieldStyles } from '@awdlab/jig-themes/base/filter-field';
 import { globalStyles } from '@awdlab/jig-themes/base/global';
 import { hintStyles } from '@awdlab/jig-themes/base/hint';
 import { iconStyles } from '@awdlab/jig-themes/base/icon';
@@ -83,7 +85,9 @@ export const baseStyles = {
   dialog: dialogStyles,
   drawer: drawerStyles,
   dropdownList: dropdownListStyles,
-  filter: filterStyles,
+  filterBar: filterBarStyles,
+  filterBuilder: filterBuilderStyles,
+  filterField: filterFieldStyles,
   editInplace: editInplaceStyles,
   global: globalStyles,
   hint: hintStyles,

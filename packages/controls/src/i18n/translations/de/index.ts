@@ -43,6 +43,17 @@ export const de = {
     placeholder: 'Klicken zum Bearbeiten',
     confirm: 'Bestätigen',
   },
+  filterBar: {
+    search: 'Suchen',
+    activeFilters: 'Aktive Filter',
+    clearAllFilters: 'Alle Filter löschen',
+    openFilter: 'Filter öffnen',
+  },
+  filterBuilder: {
+    property: 'Eigenschaft',
+    chip: '{{ property }} {{ operator }} {{ value }}',
+    chipNoValue: '{{ property }} {{ operator }}',
+  },
   filter: {
     noFilter: 'Kein Filter',
     addCondition: 'Bedingung hinzufügen',

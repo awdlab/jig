@@ -67,7 +67,8 @@ export class JigInputField extends JigBase<'inputField'> {
    */
   public readonly inputId = input<string>(generateElementId());
   /**
-   * Show clear button
+   * Show clear button. Hidden while {@link readonly} is set, since clearing
+   * writes to the projected control.
    * @default false
    */
   public readonly showClearButton = input(false, { transform: booleanAttribute });

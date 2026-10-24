@@ -1,0 +1,84 @@
+<div [ptInt]="this" [ptClass]="'search-row'">
+  <jig-input-field
+    [ptInt]="this"
+    [ptDep]="'search-field'"
+    [showClearButton]="true"
+    [disabled]="disabled()"
+    [readonly]="readonly()"
+  >
+    <input
+      jigInput
+      [ptInt]="this"
+      [ptDep]="'search-input'"
+      [value]="searchInput()"
+      [disabled]="disabled()"
+      [readOnly]="readonly()"
+      [attr.aria-label]="i18n['filterBar_search']()"
+      (valueChange)="searchInput.set($event ?? '')"
+    />
+    <jig-icon [ptInt]="this" [ptDep]="'search-icon'" defaultIcon="search" [icon]="iconSearch()" />
+  </jig-input-field>
+
+  @if (properties()) {
+    <!-- The badge sits on a wrapper: its count is decorative text that must not
+         compete with the button's accessible name. -->
+    <span [ptInt]="this" [ptClass]="'trigger'" [jigBadge]="activeConditions().length">
+      <button
+        #filterTrigger
+        type="button"
+        jigButton
+        kind="icon"
+        [ptInt]="this"
+        [ptDep]="'filter-trigger'"
+        [disabled]="disabled() || readonly()"
+        [attr.aria-label]="filterTriggerLabel()"
+        (click)="show()"
+      >
+        <jig-icon
+          [defaultIcon]="activeConditions().length ? 'filter-active' : 'filter-inactive'"
+          [icon]="iconFilter()"
+        />
+      </button>
+    </span>
+  }
+</div>
+
+@if (properties(); as properties) {
+  @let anchor = filterAnchor();
+  @if (anchor) {
+    <jig-filter-builder
+      [ptInt]="this"
+      [ptDep]="'filter'"
+      mode="headless"
+      [anchor]="anchor.nativeElement"
+      [data]="data()"
+      [properties]="properties"
+      [allowMultiple]="allowMultiple()"
+      [templateFilter]="filterTemplate()"
+      [filterLocally]="false"
+      [value]="filterConfig()"
+      [disabled]="disabled()"
+      [readonly]="readonly()"
+      (filterChange)="filterConfig.set($event)"
+    />
+  }
+}
+
+@if (showActiveFilters() && chips().length) {
+  <div
+    [ptInt]="this"
+    [ptClass]="'chips'"
+    role="group"
+    [attr.aria-label]="i18n['filterBar_activeFilters']()"
+  >
+    @for (chip of chips(); track chip.index) {
+      <jig-chip
+        [ptInt]="this"
+        [ptDep]="'chip'"
+        [closable]="!disabled() && !readonly()"
+        (closed)="removeCondition(chip.index)"
+        >{{ chip.label }}</jig-chip
+      >
+    }
+  </div>
+}

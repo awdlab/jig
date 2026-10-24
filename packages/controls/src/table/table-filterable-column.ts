@@ -1,4 +1,5 @@
 import {
+  TemplateRef,
   ComponentRef,
   computed,
   Directive,
@@ -13,7 +14,12 @@ import {
 import { injectThemeTemplate, setComponentInput } from '@awdlab/jig/api/ng';
 import { getNearestJigInstanceSig } from '@awdlab/jig/base';
 import { JigActionButton } from '@awdlab/jig/button';
-import { JigFilter, type JigFilterDataType, type JigFilterOperatorId } from '@awdlab/jig/filter';
+import {
+  JigFilterField,
+  type JigFilterFieldTemplateContext,
+  type JigFilterDataType,
+  type JigFilterOperatorId,
+} from '@awdlab/jig/filter-field';
 import { I18n } from '@awdlab/jig/i18n';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
@@ -41,7 +47,7 @@ export class JigTableFilterableColumn implements OnDestroy {
   public readonly jigTableFilterableColumn = input();
 
   private readonly _jigActionButton: ComponentRef<JigActionButton<null>>;
-  private readonly _jigFilter: ComponentRef<JigFilter>;
+  private readonly _jigFilter: ComponentRef<JigFilterField>;
 
   private readonly _table = getNearestJigInstanceSig<Type<JigTable<any, any>>>(
     this._element.nativeElement,
@@ -59,6 +65,13 @@ export class JigTableFilterableColumn implements OnDestroy {
   public readonly jigTableFilterableColumnType = input.required<JigFilterDataType>();
   /** For list-based filters, the set of selectable option values to offer. */
   public readonly jigTableFilterableColumnItems = input<string[] | null | undefined>();
+  /**
+   * Replaces this column's filter popover with your own editor — a slider, a rating,
+   * a lookup against your backend. It writes a `JigFilterConfig` back through the
+   * context's `setValue`, so the column filters exactly as a built-in one does.
+   */
+  public readonly jigTableFilterableColumnTemplate =
+    input<TemplateRef<JigFilterFieldTemplateContext> | null>(null);
   /**
    * Restricts and orders the operators offered for this column. Ids the column type does not
    * support are ignored; when empty, all operators of the type are offered.
@@ -81,7 +94,7 @@ export class JigTableFilterableColumn implements OnDestroy {
 
   constructor() {
     this._jigActionButton = inject(ViewContainerRef).createComponent(JigActionButton<null>);
-    this._jigFilter = inject(ViewContainerRef).createComponent(JigFilter);
+    this._jigFilter = inject(ViewContainerRef).createComponent(JigFilterField);
     this._element.nativeElement.appendChild(this._jigActionButton.location.nativeElement);
     this._element.nativeElement.appendChild(this._jigFilter.location.nativeElement);
     this._jigActionButton.location.nativeElement.classList.add(this.theme.class('filter-control'));
@@ -123,6 +136,9 @@ export class JigTableFilterableColumn implements OnDestroy {
     });
     effect(() => {
       setComponentInput(this._jigFilter, 'listOptions', this.jigTableFilterableColumnItems());
+    });
+    effect(() => {
+      setComponentInput(this._jigFilter, 'templateFilter', this.jigTableFilterableColumnTemplate());
     });
     effect(() => {
       setComponentInput(this._jigFilter, 'operators', this.jigTableFilterableColumnOperators());
