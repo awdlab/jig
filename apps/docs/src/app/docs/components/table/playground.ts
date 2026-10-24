@@ -27,7 +27,11 @@ type RowType = ReturnType<typeof exampleData.richTable>[number];
     JigTableSelectionColumn,
   ],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'JigTable', component: component() }]">
+    <jig-docs-playground
+      #playground
+      [controls]="[{ componentName: 'JigTable', component: component() }]"
+    >
+      @let selectable = playground.values().JigTable?.selectionMode === 'multi';
       <jig-table
         #ref
         style="height: 400px; max-height: 100%; width: 100%"
@@ -40,7 +44,9 @@ type RowType = ReturnType<typeof exampleData.richTable>[number];
       >
         <ng-template #header>
           <tr jigTableHeadTr>
-            <th jigTableSelectionColumn></th>
+            @if (selectable) {
+              <th jigTableSelectionColumn></th>
+            }
             <th [jigTableTh]="ref.column('id')" [jigTableSortableColumn]>ID</th>
             <th
               [jigTableTh]="ref.column('name')"
@@ -90,7 +96,9 @@ type RowType = ReturnType<typeof exampleData.richTable>[number];
         </ng-template>
         <ng-template #body let-row [jigTemplate]="ref.templateTypes.body">
           <tr [jigTableBodyTr]="row">
-            <td jigTableSelectionColumn></td>
+            @if (selectable) {
+              <td jigTableSelectionColumn></td>
+            }
             <td jigTableTd>{{ row.data.id }}</td>
             <td jigTableTd>{{ row.data.name }}</td>
             <td jigTableTd>{{ row.data.email }}</td>

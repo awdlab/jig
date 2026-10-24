@@ -1,4 +1,5 @@
 import { Component, viewChild } from '@angular/core';
+import { JigButton } from '@awdlab/jig/button';
 import { JigFilterBuilder, type JigFilterProperty } from '@awdlab/jig/filter-builder';
 
 import { type Person, people } from '../../../helper/people';
@@ -6,12 +7,21 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   selector: 'jig-docs-filter-builder-playground',
-  imports: [JigFilterBuilder, JigDocsPlayground],
+  imports: [JigFilterBuilder, JigButton, JigDocsPlayground],
   template: `
     <jig-docs-playground
+      #playground
       [controls]="[{ componentName: 'JigFilterBuilder', component: component() }]"
     >
-      <jig-filter-builder #ref [data]="data" [properties]="properties" />
+      <button
+        [style.display]="playground.values().JigFilterBuilder?.mode === 'headless' ? null : 'none'"
+        jigButton
+        #anchor
+        (click)="ref.show()"
+      >
+        Open filter
+      </button>
+      <jig-filter-builder #ref [anchor]="anchor" [data]="data" [properties]="properties" />
     </jig-docs-playground>
   `,
 })

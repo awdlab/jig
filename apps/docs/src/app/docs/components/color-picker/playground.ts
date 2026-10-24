@@ -1,14 +1,31 @@
 import { Component, signal, viewChild } from '@angular/core';
+import { JigButton } from '@awdlab/jig/button';
 import { JigColorPicker } from '@awdlab/jig/color-picker';
 
 import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({
   selector: 'jig-docs-color-picker-playground',
-  imports: [JigColorPicker, JigDocsPlayground],
+  imports: [JigColorPicker, JigButton, JigDocsPlayground],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'JigColorPicker', component: component() }]">
-      <jig-color-picker #ref [value]="value()" (valueChange)="value.set($event)" />
+    <jig-docs-playground
+      #playground
+      [controls]="[{ componentName: 'JigColorPicker', component: component() }]"
+    >
+      <button
+        [style.display]="playground.values().JigColorPicker?.popover ? null : 'none'"
+        jigButton
+        #anchor
+        (click)="ref.toggle()"
+      >
+        Pick a color
+      </button>
+      <jig-color-picker
+        #ref
+        [anchor]="anchor"
+        [value]="value()"
+        (valueChange)="value.set($event)"
+      />
     </jig-docs-playground>
   `,
 })
