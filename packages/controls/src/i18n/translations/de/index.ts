@@ -126,6 +126,7 @@ export const de = {
     close: 'Entfernen',
   },
   breadcrumb: {
+    label: 'Navigationspfad',
     overflow: 'Mehr anzeigen',
   },
   toolbar: {

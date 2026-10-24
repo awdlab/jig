@@ -60,7 +60,7 @@ export class JigToast extends ToastTemplates implements OnInit {
     return color === 'error' || color === 'warning' ? 'assertive' : 'polite';
   });
 
-  /** Landmark role paired with {@link liveMode} — `alert` when assertive, else `status`. */
+  /** Landmark role paired with the live-region politeness — `alert` when assertive, else `status`. */
   protected readonly role = computed(() => (this.liveMode() === 'assertive' ? 'alert' : 'status'));
 
   /** Icon to display alongside the toast content. */

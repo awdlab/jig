@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { booleanAttribute, Component, input } from '@angular/core';
 import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { JigButtonGroup } from '@awdlab/jig/button-group';
 import { JigToggleButton } from '@awdlab/jig/toggle-button';
@@ -39,7 +39,7 @@ export class JigSelectButton<V> extends ValueControlBase<'selectButton', V> {
    * If `false`, clicking on the selected option will not change the selection.
    * @default false
    */
-  public readonly allowUnselect = input<boolean>(false);
+  public readonly allowUnselect = input(false, { transform: booleanAttribute });
 
   protected readonly maybeCallback = maybeCallback;
 

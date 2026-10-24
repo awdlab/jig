@@ -5,6 +5,14 @@ import { type CommentDisplayPart, ReflectionFlag, DeclarationReflection } from '
 
 import { JigDocsApiComment } from './comment/comment';
 
+import type { ApiGroupKind } from '../api';
+
+/** One table: the members the control declares, or those it inherits. */
+type MemberSection = {
+  inherited: boolean;
+  members: DeclarationReflection[];
+};
+
 @Component({
   selector: 'jig-docs-api-properties',
   templateUrl: 'properties.html',
@@ -12,7 +20,7 @@ import { JigDocsApiComment } from './comment/comment';
   host: { class: 'block md' },
 })
 export class JigDocsApiProperties {
-  public readonly kind = input.required<'Inputs' | 'Outputs' | 'Properties'>();
+  public readonly kind = input.required<ApiGroupKind>();
   public readonly properties = input.required<DeclarationReflection[]>();
   public readonly internalControlName = input.required<string | null>();
   protected readonly FLAGS = ReflectionFlag;
@@ -20,29 +28,61 @@ export class JigDocsApiProperties {
   private readonly _injector = inject(Injector);
 
   protected getDefaultValue(prop: DeclarationReflection): CommentDisplayPart[] | undefined {
-    const defaultTag = prop.comment?.getTag('@default');
-    return defaultTag?.content;
+    return prop.comment?.getTag('@default')?.content;
   }
 
-  protected readonly specialTypes = computed<{ kind: string | null; color: string | null }>(() => {
+  /** `(a: string, b?: number) => void` for a method row. */
+  protected signature(prop: DeclarationReflection): string {
+    const signature = prop.signatures?.[0];
+    if (!signature) {
+      return '';
+    }
+    const params = (signature.parameters ?? [])
+      .map(p => `${p.name}${p.flags.hasFlag(ReflectionFlag.Optional) ? '?' : ''}: ${p.type}`)
+      .join(', ');
+    return `(${params}) => ${signature.type}`;
+  }
+
+  /** Members of an interface, so a type's shape is readable without leaving the page. */
+  protected members(type: DeclarationReflection): DeclarationReflection[] {
+    return (type.children ?? []) as DeclarationReflection[];
+  }
+
+  /**
+   * The control's own members first, then one section per base class they come
+   * from. A flat alphabetical list buries `options` among `dirty` and `inputId`.
+   */
+  protected readonly sections = computed<MemberSection[]>(() => {
+    if (this.kind() === 'Types') {
+      return [{ inherited: false, members: this.properties() }];
+    }
+    const own: DeclarationReflection[] = [];
+    const inherited: DeclarationReflection[] = [];
+    for (const prop of this.properties()) {
+      (prop.comment?.hasModifier('@inherited') ? inherited : own).push(prop);
+    }
+    return [
+      ...(own.length ? [{ inherited: false, members: own }] : []),
+      ...(inherited.length ? [{ inherited: true, members: inherited }] : []),
+    ];
+  });
+
+  /**
+   * `kind` and `color` are typed by the theme, not by the source. The row is
+   * always shown — "this theme defines none" is API information too.
+   */
+  protected readonly specialTypes = computed<{ kind: string; color: string }>(() => {
     const internalName = this.internalControlName();
     if (!internalName) {
-      return {
-        kind: '',
-        color: '',
-      };
+      return { kind: '', color: '' };
     }
-    const kinds = runInInjectionContext(this._injector, () =>
-      injectThemeControlKinds(internalName)()
-    );
-    const colors = runInInjectionContext(this._injector, () => injectThemeColors(internalName)());
-
-    const kind = kinds.length ? `'${kinds.join("' | '")}' | 'undefined'` : null;
-    const color = colors.length ? `'${colors.join("' | '")}' | 'undefined'` : null;
-
+    const union = (values: readonly string[]) =>
+      values.length ? `'${values.join("' | '")}' | 'undefined'` : 'undefined';
     return {
-      kind,
-      color,
+      kind: union(
+        runInInjectionContext(this._injector, () => injectThemeControlKinds(internalName)())
+      ),
+      color: union(runInInjectionContext(this._injector, () => injectThemeColors(internalName)())),
     };
   });
 }

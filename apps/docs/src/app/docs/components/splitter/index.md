@@ -46,9 +46,10 @@ independently of how the panels are written in the template. Reassign the array
 
 ### State Management
 
-Give the splitter a `stateKey` and it persists the current layout, panel order,
-and panel sizes to `stateStorage` (`'session'` by default, `'local'` here),
-restoring them on reload. Choose which parts are saved with `stateData`.
+Give the splitter a `storage` config and it persists the current layout, panel
+order and panel sizes, restoring them on reload. `kind` picks the backing store
+(the configured default, `'localstorage'` here) and `states` narrows what is
+saved. See [State Persistence](/guides/state-persistence).
 
 {{ demo: Demo_Splitter_State }}
 

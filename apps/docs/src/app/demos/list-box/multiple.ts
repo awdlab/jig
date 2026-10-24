@@ -8,7 +8,6 @@ import { exampleData } from '../../helper/data';
   selector: 'jig-demo-list-box-multiple',
   template: `<jig-list-box
     [items]="items"
-    [selectable]="true"
     [multiple]="true"
     style="display: block; height: 300px;"
   />`,

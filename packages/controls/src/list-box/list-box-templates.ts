@@ -1,8 +1,8 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 import { templateTypesFn } from '@awdlab/jig/api/ng';
-import { ValueControlBase } from '@awdlab/jig/base';
+import { CollectionControlBase } from '@awdlab/jig/base';
 
-import type { JigItem, JigItemsValue } from '@awdlab/jig/api';
+import type { FilterConfig, JigItem, JigItemsValue } from '@awdlab/jig/api';
 import type { InputGeneric } from '@awdlab/jig/utils';
 
 /**
@@ -17,7 +17,13 @@ export type ValueType<Items extends readonly JigItem[], Multiple extends boolean
 export abstract class ListBoxTemplates<
   Items extends readonly JigItem[],
   Multiple extends boolean,
-> extends ValueControlBase<'listBox', ValueType<Items, Multiple> | null> {
+> extends CollectionControlBase<
+  'listBox',
+  ValueType<Items, Multiple> | null,
+  Items,
+  Multiple,
+  FilterConfig<Items[number]>
+> {
   // Item template
   private readonly _defaultItemTemplate =
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');

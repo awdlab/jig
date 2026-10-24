@@ -114,7 +114,7 @@ export class JigSnackbar extends SnackbarTemplates implements OnInit {
     return color === 'error' || color === 'warning' ? 'assertive' : 'polite';
   });
 
-  /** Landmark role paired with {@link liveMode} — `alert` when assertive, else `status`. */
+  /** Landmark role paired with the live-region politeness — `alert` when assertive, else `status`. */
   protected readonly role = computed(() => (this.liveMode() === 'assertive' ? 'alert' : 'status'));
 
   /**

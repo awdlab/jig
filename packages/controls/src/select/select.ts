@@ -7,7 +7,7 @@ import {
   effect,
   ElementRef,
   input,
-  linkedSignal,
+  model,
   type OutputRefSubscription,
   type Signal,
   signal,
@@ -25,6 +25,7 @@ import { JigInputField } from '@awdlab/jig/input-field';
 import { JigItemView } from '@awdlab/jig/item-view';
 import type { PopoverOptions } from '@awdlab/jig/popover';
 import { deepMerge, maybeCallback, JigError } from '@awdlab/jig/utils';
+import { optionalBooleanAttribute } from '@awdlab/jig/utils-ng';
 import { selectControlTemplate } from '@awdlab/jig-themes/templates/select';
 
 import { SelectTemplates, type ValueType } from './select-templates';
@@ -86,9 +87,9 @@ export class JigSelect<
     )
   );
   /**
-   * The available options to choose from. They can either be
-   * * A list of {@link JigItem} objects
-   * * A list of plain objects. You'll have to provide a {@link fields} input to specify how to map the plain objects to {@link JigItem} objects.
+   * The available options to choose from, as `JigItem` objects. Map a list of
+   * plain objects with `transformToJigItems(items, { label, value })` from
+   * `@awdlab/jig/api`.
    */
   public readonly options = input<readonly JigItem<unknown, V>[]>([]);
   /**
@@ -98,9 +99,11 @@ export class JigSelect<
    */
   public readonly filter = input<SelectFilterOptions<JigItem<unknown, V>> | boolean>(false);
   /**
-   * Manually set the filter text.
+   * The text the options are filtered by. Two-way, so the text the user types
+   * into the filter field is readable from outside.
+   * @default null
    */
-  public readonly filterText = input<string | null>(null);
+  public readonly filterText = model<string | null>(null);
   /**
    * The icon to display in the filter input.
    */
@@ -158,7 +161,7 @@ export class JigSelect<
    * This option is true per default when {@link multiple} is `true`.
    * @default multiple()
    */
-  public readonly checkbox = input<boolean>();
+  public readonly checkbox = input(undefined, { transform: optionalBooleanAttribute });
   /**
    * Text shown in the trigger when no value is selected.
    * @default undefined
@@ -185,7 +188,6 @@ export class JigSelect<
     );
   }
 
-  protected readonly filterTextInternal = linkedSignal(this.filterText);
   protected readonly currentHighlightedValue = signal<V | null>(null);
   protected readonly valueStr = computed(() => {
     const v = this.value();
@@ -319,7 +321,7 @@ export class JigSelect<
     const filter = this.filter();
     if (filter === true || (typeof filter === 'object' && filter.clearFilterOnClose)) {
       if (!this.editable()) {
-        this.filterTextInternal.set('');
+        this.filterText.set('');
       }
     }
   }
@@ -382,7 +384,7 @@ export class JigSelect<
       this.value.set(maybeCallback(value) as ValueType<V, Editable, Multiple>);
       this._userChangedEditableInput = true;
       if (this.editableAutoFilter()) {
-        this.filterTextInternal.set(value);
+        this.filterText.set(value);
       }
     }
   }

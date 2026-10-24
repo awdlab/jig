@@ -14,7 +14,6 @@ import type { JigItemsValue } from '@awdlab/jig/api';
       style="display: block; height: 300px;"
       [value]="value()"
       (valueChange)="value.set($event)"
-      [selectable]="true"
     />
   `,
 })

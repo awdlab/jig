@@ -24,6 +24,8 @@ export const BreadcrumbPage: JigDocsPage = {
     { kind: 'single', title: 'API', mdFile: 'components/breadcrumb/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/breadcrumb/a11y.md' },
     i18nKeys('breadcrumb', {
+      label:
+        'Accessible name for the breadcrumb navigation landmark, unless `label` or `labelledBy` is set.',
       overflow:
         'Accessible label for the overflow button that opens the menu of collapsed breadcrumb items.',
     }),

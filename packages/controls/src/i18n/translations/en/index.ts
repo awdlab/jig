@@ -126,6 +126,7 @@ export const en = {
     close: 'Remove',
   },
   breadcrumb: {
+    label: 'Breadcrumb',
     overflow: 'Show more',
   },
   toolbar: {

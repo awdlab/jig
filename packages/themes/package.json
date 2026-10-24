@@ -24,7 +24,9 @@
   "scripts": {
     "prebuild": "pnpm rimraf ./dist",
     "postbuild": "tsx ./tools/post-build.ts",
-    "build": "pnpm prebuild && tsc -p ./tsconfig.lib.json --outDir ./dist && pnpm postbuild"
+    "build": "pnpm prebuild && tsc -p ./tsconfig.lib.json --outDir ./dist && pnpm postbuild",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "type": "module",
   "dependencies": {
@@ -68,5 +70,8 @@
       "types": "./dist/*/index.d.ts",
       "import": "./dist/*/index.js"
     }
+  },
+  "devDependencies": {
+    "vitest": "^5.0.5"
   }
 }

@@ -11,7 +11,7 @@ import { safeRoutePath } from '../src/app/utils/routing';
 export const DOCS_DIR = join(import.meta.dirname, '../src/app/docs');
 
 /** The typedoc groups the API table renders, and therefore the ones with anchors. */
-export const API_GROUPS = new Set(['Inputs', 'Outputs', 'Properties']);
+export const API_GROUPS = new Set(['Inputs', 'Outputs', 'Properties', 'Methods', 'Types']);
 
 export async function walk(dir: string, match: (path: string) => boolean): Promise<string[]> {
   const found: string[] = [];

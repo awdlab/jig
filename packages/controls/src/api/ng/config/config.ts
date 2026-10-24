@@ -13,8 +13,8 @@ import {
 } from '@awdlab/jig/i18n';
 import { type DeepPartial, Logger, type LogLevel } from '@awdlab/jig/utils';
 
+import type { JigBuiltInStorageKind } from '../storage';
 import type { TooltipOptions } from './tooltip';
-import type { JigStateStorage } from '@awdlab/jig/utils-ng';
 import type { StyleScope, Theme, ThemeDefaults } from '@awdlab/jig-themes';
 
 export const JIG_CONFIG = new InjectionToken<JigConfig>('JIG_CONFIG');
@@ -63,10 +63,8 @@ export type JigConfig = {
     readonly defaults: ThemeDefaults | null;
   };
   readonly defaults: {
-    readonly stateStorage: JigStateStorage;
-    readonly splitter: {
-      readonly stateStorage: JigStateStorage;
-    };
+    /** Where controls persist UI state when their `storage` config names no `kind`. */
+    readonly stateStorage: JigBuiltInStorageKind;
     readonly inputField: {
       /** Mark the label of a field whose control is required. */
       readonly showRequiredMarker: boolean;
@@ -101,10 +99,7 @@ export const defaultJigConfig: JigConfig = {
     defaults: null,
   },
   defaults: {
-    stateStorage: 'session',
-    splitter: {
-      stateStorage: 'session',
-    },
+    stateStorage: 'localstorage',
     inputField: {
       showRequiredMarker: false,
     },
@@ -149,12 +144,6 @@ export function provideJigConfig(config?: JigConfigInit): EnvironmentProviders {
         },
         defaults: {
           stateStorage: config?.defaults?.stateStorage ?? defaultJigConfig.defaults.stateStorage,
-          splitter: {
-            stateStorage:
-              config?.defaults?.splitter?.stateStorage ??
-              config?.defaults?.stateStorage ??
-              defaultJigConfig.defaults.splitter.stateStorage,
-          },
           inputField: {
             showRequiredMarker:
               config?.defaults?.inputField?.showRequiredMarker ??

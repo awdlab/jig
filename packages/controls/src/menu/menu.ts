@@ -27,7 +27,12 @@ import { JigAutofocus } from '@awdlab/jig/directives';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigPopover } from '@awdlab/jig/popover';
 import { maybeCallback, JigError } from '@awdlab/jig/utils';
-import { effectWithPrevious, explicitEffect, generateElementId } from '@awdlab/jig/utils-ng';
+import {
+  effectWithPrevious,
+  explicitEffect,
+  generateElementId,
+  optionalBooleanAttribute,
+} from '@awdlab/jig/utils-ng';
 import { menuControlTemplate } from '@awdlab/jig-themes/templates/menu';
 
 import { MenuTemplates } from './menu-templates';
@@ -63,7 +68,7 @@ export class JigMenu extends MenuTemplates implements Openable {
    * Whether to automatically set ARIA attributes on the anchor element.
    * @default true if anchor is an HTMLButtonElement, false otherwise.
    */
-  public readonly autoAnchorAria = input<boolean>();
+  public readonly autoAnchorAria = input(undefined, { transform: optionalBooleanAttribute });
   /**
    * Whether the menu is a popover. Requires {@link anchor} to be set.
    * @default false

@@ -13,7 +13,6 @@ import { fileTree } from './sample-data';
       <jig-tree
         class="block h-[260px]"
         [items]="items"
-        [selectable]="true"
         [value]="value()"
         (valueChange)="value.set($event)"
         jigErrors

@@ -3,6 +3,7 @@ import { booleanAttribute, Component, computed, input, signal } from '@angular/c
 import { inlineArrowStep, isRtl } from '@awdlab/jig/api/ng';
 import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigIcon } from '@awdlab/jig/icon';
+import { addWithPrecision } from '@awdlab/jig/utils';
 import { ratingControlTemplate } from '@awdlab/jig-themes/templates/rating';
 
 import { RatingTemplates } from './rating-templates';
@@ -85,6 +86,15 @@ export class JigRating extends RatingTemplates {
     return Math.min(1, Math.max(0, filled));
   }
 
+  /** Moves the value by `delta`, clamped to the symbol count; at or below 0 the rating clears. */
+  private stepValueBy(delta: number): void {
+    this.value.update(current => {
+      const next = addWithPrecision(current ?? 0, delta);
+      // 0 is not a selectable value, so stepping down past the first step clears.
+      return next <= 0 ? null : Math.min(this.count(), next);
+    });
+  }
+
   protected onKeyDown(event: KeyboardEvent) {
     if (this.readonly() || this.disabled()) {
       return;
@@ -94,23 +104,25 @@ export class JigRating extends RatingTemplates {
       case 'ArrowRight': {
         // Symbols run along the inline axis, matching the pointer handling in valueAt().
         const step = inlineArrowStep(event.currentTarget as Element, event.key) * this.step();
-        this.value.update(v => {
-          const next = (v ?? 0) + step;
-          // Decrementing below the first step clears the rating (0 is not a valid value).
-          return next <= 0 ? null : Math.min(this.count(), next);
-        });
+        this.stepValueBy(step);
         event.preventDefault();
         break;
       }
       case 'ArrowDown':
-        this.value.update(v => {
-          const next = (v ?? 0) - this.step();
-          return next <= 0 ? null : next;
-        });
+        this.stepValueBy(-this.step());
         event.preventDefault();
         break;
       case 'ArrowUp':
-        this.value.update(v => Math.min(this.count(), (v ?? 0) + this.step()));
+        this.stepValueBy(this.step());
+        event.preventDefault();
+        break;
+      case 'PageDown':
+        // A page moves a whole symbol, however finely `step` subdivides it.
+        this.stepValueBy(-1);
+        event.preventDefault();
+        break;
+      case 'PageUp':
+        this.stepValueBy(1);
         event.preventDefault();
         break;
       case 'Home':

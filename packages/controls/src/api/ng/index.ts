@@ -9,6 +9,7 @@ export * from './kinds';
 export * from './platform';
 export * from './positioning';
 export * from './provider';
+export * from './register-storage';
 export * from './storage';
 export * from './template';
 export * from './theme-service';

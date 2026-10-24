@@ -8,8 +8,8 @@ or a linear wizard's step indicator.
 
 A ten-level trail passed through `items`. Because it overflows its container the
 middle entries collapse into an overflow menu, leaving the first item and the
-tail visible; the last item has no `callback`, so it renders as the
-non-clickable current page.
+tail visible; the last item is the current page, so it renders as
+non-clickable text.
 
 {{ demo: Demo_Breadcrumb_Base }}
 
@@ -18,15 +18,19 @@ non-clickable current page.
 The single required input is **`items`**: a `BreadcrumbItem[]` ordered from the
 root down to the current page (the last entry). Each item has a `label` and an
 `id`, and is made interactive by giving it either a `callback` (invoked on
-click) or a `route` (bound to `routerLink`). An item with neither renders as
-plain, non-clickable text — which is how you represent the current page, since
-it should not link to itself.
+click) or a `route` (bound to `routerLink`). A `route` renders a real `<a>`, a
+`callback` alone renders a `<button>`, and an item with neither renders as plain
+text.
+
+The **last** entry is always the current page: it is rendered as text and marked
+`aria-current="page"` whatever `route` or `callback` it carries, since a page
+should not link to itself.
 
 ```ts
 items = signal<BreadcrumbItem[]>([
   { label: 'Home', id: 'home', route: '/' },
   { label: 'Reports', id: 'reports', route: '/reports' },
-  { label: 'Q3', id: 'q3' }, // current page — no route/callback
+  { label: 'Q3', id: 'q3' }, // current page — rendered as text
 ]);
 ```
 

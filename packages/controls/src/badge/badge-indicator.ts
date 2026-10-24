@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { booleanAttribute, Component, computed, input } from '@angular/core';
 import { JigBase, provideSelf } from '@awdlab/jig/base';
 import { badgeControlTemplate } from '@awdlab/jig-themes/templates/badge';
 
@@ -34,11 +34,11 @@ export class JigBadgeIndicator extends JigBase<'badge'> {
   /** The rendered badge text (already max-clamped by the directive). */
   public readonly text = input<string>('');
   /** Whether to render as a dot (no text). @default false */
-  public readonly dot = input<boolean>(false);
+  public readonly dot = input(false, { transform: booleanAttribute });
   /** Which corner the badge sits in. @default top-end */
   public readonly position = input<BadgePosition>('top-end');
   /** Position on a circular anchor's edge (~45°) instead of the box corner. @default false */
-  public readonly circular = input<boolean>(false);
+  public readonly circular = input(false, { transform: booleanAttribute });
   /** CSS color value or `var(...)` reference for the badge fill. */
   public readonly bgColor = input<string>();
 

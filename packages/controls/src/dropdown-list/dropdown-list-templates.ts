@@ -1,8 +1,8 @@
 import { computed, contentChild, Directive, input, TemplateRef } from '@angular/core';
 import { templateTypesFn } from '@awdlab/jig/api/ng';
-import { ValueControlBase } from '@awdlab/jig/base';
+import { CollectionControlBase } from '@awdlab/jig/base';
 
-import type { JigItem, JigItemsValue } from '@awdlab/jig/api';
+import type { FilterConfig, JigItem, JigItemsValue } from '@awdlab/jig/api';
 import type { InputGeneric } from '@awdlab/jig/utils';
 
 /**
@@ -17,7 +17,13 @@ export type ValueType<Items extends readonly JigItem[], Multiple extends boolean
 export abstract class DropdownListTemplates<
   Items extends readonly JigItem[],
   Multiple extends boolean,
-> extends ValueControlBase<'dropdownList', ValueType<Items, Multiple> | null> {
+> extends CollectionControlBase<
+  'dropdownList',
+  ValueType<Items, Multiple> | null,
+  Items,
+  Multiple,
+  FilterConfig<Items[number]>
+> {
   // Item template
   private readonly _userItemTemplate =
     contentChild<TemplateRef<typeof this.templateTypes.item>>('item');

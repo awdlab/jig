@@ -7,6 +7,7 @@ export * from './fuzzy-match';
 export * from './globals';
 export * from './logger';
 export * from './not-nullish';
+export * from './number';
 export * from './object';
 export * from './positioning';
 export * from './time-span';

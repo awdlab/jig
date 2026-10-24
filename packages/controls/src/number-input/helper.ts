@@ -1,3 +1,7 @@
+import { addWithPrecision } from '@awdlab/jig/utils';
+
+export { decimalPlaces, roundToPrecision } from '@awdlab/jig/utils';
+
 /** Locale-specific separators derived from `Intl.NumberFormat`. */
 export type LocaleNumberInfo = {
   /** The decimal separator, e.g. `.` (en) or `,` (de). */
@@ -65,26 +69,6 @@ export function parseLocaleNumber(text: string, info: LocaleNumberInfo): ParsedN
   return { kind: 'value', value };
 }
 
-/** Number of decimal places of `value` (bounded to 20, exponent-safe). */
-export function decimalPlaces(value: number): number {
-  if (!Number.isFinite(value)) {
-    return 0;
-  }
-  let factor = 1;
-  let places = 0;
-  while (Math.round(value * factor) / factor !== value && places < 20) {
-    factor *= 10;
-    places++;
-  }
-  return places;
-}
-
-/** Rounds `value` to `decimals` decimal places (float-drift cleanup). */
-export function roundToPrecision(value: number, decimals: number): number {
-  const factor = Math.pow(10, decimals);
-  return Math.round(value * factor) / factor;
-}
-
 /** Clamps `value` into `[min, max]`; open bounds when `null`/`undefined`. */
 export function clampValue(value: number, min?: number | null, max?: number | null): number {
   if (min != null && value < min) {
@@ -113,7 +97,5 @@ export function stepNumberValue(
     const seed = direction === 1 ? (min ?? 0) : (max ?? 0);
     return clampValue(seed, min, max);
   }
-  const decimals = Math.max(decimalPlaces(current), decimalPlaces(amount));
-  const next = roundToPrecision(current + direction * amount, decimals);
-  return clampValue(next, min, max);
+  return clampValue(addWithPrecision(current, direction * amount), min, max);
 }

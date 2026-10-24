@@ -14,7 +14,6 @@ import type { JigItemsValue } from '@awdlab/jig/api';
     <div class="flex flex-col gap-2">
       <jig-list-box
         [items]="items"
-        [selectable]="true"
         [value]="value()"
         (valueChange)="value.set($event)"
         style="display: block; height: 260px;"

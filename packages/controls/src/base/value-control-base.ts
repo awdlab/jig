@@ -92,10 +92,18 @@ export abstract class ValueControlBase<C extends ControlName, T>
    */
   public readonly value = model<T>(undefined as T);
   /**
-   * Set the disabled state of the control.
+   * Whether the control rejects interaction entirely: not focusable, not
+   * submitted. See {@link readonly} for a non-editable control that stays
+   * focusable.
+   * @default false
    */
   public readonly disabled = input(false, { transform: booleanAttribute });
 
+  /**
+   * Whether the control shows its value but refuses edits. Unlike {@link disabled}
+   * it stays focusable and is still submitted with a form.
+   * @default false
+   */
   public readonly readonly = input(false, { transform: booleanAttribute });
 
   /**
@@ -126,10 +134,16 @@ export abstract class ValueControlBase<C extends ControlName, T>
   /**
    * The touched state. A bound signal-forms field writes it in via the
    * `FormUiControl` `touched` input; the control writes it out through
-   * {@link markTouched} on blur.
+   * `markTouched` on blur.
    */
   public readonly touched = model(false);
 
+  /**
+   * Whether the value has been changed by the user. A bound signal-forms field
+   * writes it in; set it explicitly only when no form is in play. Read by
+   * {@link invalidOn}'s `dirty` trigger.
+   * @default false
+   */
   public readonly dirty = input(false, { transform: booleanAttribute });
 
   /**

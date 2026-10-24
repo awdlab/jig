@@ -1,4 +1,5 @@
 import {
+  booleanAttribute,
   Component,
   input,
   output,
@@ -13,7 +14,7 @@ import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { JigDrag, type JigDragInfo } from '@awdlab/jig/directives';
 import { I18n } from '@awdlab/jig/i18n';
 import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
-import { JigError } from '@awdlab/jig/utils';
+import { addWithPrecision, JigError } from '@awdlab/jig/utils';
 
 import type { InputGeneric } from '@awdlab/jig/utils';
 import { inlineArrowStep, isRtl } from '@awdlab/jig/api/ng';
@@ -79,7 +80,7 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
    * Whether the slider is oriented vertically instead of horizontally.
    * @default false
    */
-  public readonly vertical = input<boolean>(false);
+  public readonly vertical = input(false, { transform: booleanAttribute });
 
   /**
    * The maximum value of the slider.
@@ -92,6 +93,21 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
    * @default 1
    */
   public readonly step = input<number>(1);
+
+  /**
+   * The increment applied with `PageUp`/`PageDown`. Non-finite or non-positive
+   * values fall back to `step * 10`.
+   * @default step * 10
+   */
+  public readonly bigStep = input<number>();
+
+  /** {@link bigStep}, falling back to ten {@link step}s. */
+  protected readonly appliedBigStep = computed(() => {
+    const bigStep = this.bigStep();
+    return bigStep !== undefined && Number.isFinite(bigStep) && bigStep > 0
+      ? bigStep
+      : this.step() * 10;
+  });
 
   /**
    * Turns the slider into a two-handle range slider. When enabled the value
@@ -243,14 +259,20 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
       case 'ArrowRight': {
         // Only the inline axis flips; Up/Down below stay physical.
         const step = inlineArrowStep(event.currentTarget as Element, event.key);
-        this.setHandle(handle, current + step * this.step());
+        this.setHandle(handle, addWithPrecision(current, step * this.step()));
         break;
       }
       case 'ArrowDown':
-        this.setHandle(handle, current - this.step());
+        this.setHandle(handle, addWithPrecision(current, -this.step()));
         break;
       case 'ArrowUp':
-        this.setHandle(handle, current + this.step());
+        this.setHandle(handle, addWithPrecision(current, this.step()));
+        break;
+      case 'PageDown':
+        this.setHandle(handle, addWithPrecision(current, -this.appliedBigStep()));
+        break;
+      case 'PageUp':
+        this.setHandle(handle, addWithPrecision(current, this.appliedBigStep()));
         break;
       case 'Home':
         this.setHandle(handle, lower);
@@ -310,7 +332,8 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
         ? trackRect.right - cursorPos
         : cursorPos - trackRect.left;
     const unstepped = this.min() + (fromMin / trackLength) * (this.max() - this.min());
-    return Math.round((unstepped - this.min()) / this.step()) * this.step() + this.min();
+    const steps = Math.round((unstepped - this.min()) / this.step());
+    return addWithPrecision(this.min(), steps * this.step());
   }
 
   /** The legal `[lower, upper]` a handle may be moved to. */

@@ -22,17 +22,22 @@
 </ng-template>
 
 <ng-template #defaultItemTemplate [jigTemplate]="templateTypes.item" let-item>
-  <a
-    [ptInt]="this"
-    [ptClass]="{
-      item: true,
-      'item-clickable': !!item.callback || !!item.route,
-    }"
-    (click)="item.callback?.()"
-    [routerLink]="item.route"
-  >
-    {{ maybeCallback(item.label) }}
-  </a>
+  @let current = item.id === currentId();
+  @let classes = { item: true, 'item-clickable': !current && (!!item.callback || !!item.route) };
+  @if (!current && item.route) {
+    <a [ptInt]="this" [ptClass]="classes" [routerLink]="item.route" (click)="item.callback?.()">{{
+      maybeCallback(item.label)
+    }}</a>
+  } @else if (!current && item.callback) {
+    <!-- A callback without a route is not a link: a button is focusable and keyboard-operable, an href-less anchor is neither. -->
+    <button type="button" [ptInt]="this" [ptClass]="classes" (click)="item.callback()">
+      {{ maybeCallback(item.label) }}
+    </button>
+  } @else {
+    <span [ptInt]="this" [ptClass]="classes" [attr.aria-current]="current ? 'page' : null">{{
+      maybeCallback(item.label)
+    }}</span>
+  }
 </ng-template>
 
 <ng-template #defaultSeparatorTemplate [jigTemplate]="templateTypes.separator" let-separator>
