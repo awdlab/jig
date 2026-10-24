@@ -2,7 +2,6 @@ import {
   booleanAttribute,
   Component,
   computed,
-  contentChild,
   DestroyRef,
   effect,
   ElementRef,
@@ -13,7 +12,6 @@ import {
   numberAttribute,
   output,
   signal,
-  TemplateRef,
   untracked,
   viewChild,
 } from '@angular/core';
@@ -26,7 +24,7 @@ import {
   stringMatches,
 } from '@awdlab/jig/api';
 import { JigBadge } from '@awdlab/jig/badge';
-import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigButton } from '@awdlab/jig/button';
 import { JigChip } from '@awdlab/jig/chip';
 import { defaultOperatorsForType } from '@awdlab/jig/filter-field';
@@ -41,6 +39,8 @@ import { JigIcon } from '@awdlab/jig/icon';
 import { JigInput } from '@awdlab/jig/input';
 import { JigInputField } from '@awdlab/jig/input-field';
 import { filterBarControlTemplate } from '@awdlab/jig-themes/templates/filter-bar';
+
+import { FilterBarTemplates } from './filter-bar-templates';
 
 import type { IconType } from '@awdlab/jig-custom-types';
 
@@ -79,10 +79,7 @@ type ActiveCondition<TItem, TData> = {
   ],
   providers: [provideSelf(JigFilterBar)],
 })
-export class JigFilterBar<T = unknown, TData = T> extends ValueControlBase<
-  'filterBar',
-  JigFilterBuilderConfig | null
-> {
+export class JigFilterBar<T = unknown, TData = T> extends FilterBarTemplates<T, TData> {
   protected readonly theme = this.injectThemeTemplate(filterBarControlTemplate, 'root');
   private readonly _i18n = inject(I18n);
   protected readonly i18n = this._i18n.translations;
@@ -139,16 +136,6 @@ export class JigFilterBar<T = unknown, TData = T> extends ValueControlBase<
    * @default true
    */
   public readonly filterLocally = input(true, { transform: booleanAttribute });
-  /**
-   * Replaces the filter popover's condition rows with your own editor. Forwarded
-   * to the embedded {@link JigFilterBuilder}; see its `templateFilter`.
-   */
-  public readonly templateFilter = input<TemplateRef<unknown> | null>(null);
-  private readonly _userFilterTemplate = contentChild<TemplateRef<unknown>>('filter');
-  /** The projected `#filter` template wins over the input, as elsewhere in the library. */
-  protected readonly filterTemplate = computed(
-    () => this._userFilterTemplate() ?? this.templateFilter()
-  );
   /**
    * Custom icon for the search field.
    */

@@ -2,7 +2,7 @@ import { computed, contentChild, Directive, input, TemplateRef } from '@angular/
 import { templateTypesFn } from '@awdlab/jig/api/ng';
 import { ValueControlBase } from '@awdlab/jig/base';
 
-import type { JigFilterBuilderConfig, JigFilterProperty } from './types';
+import type { JigFilterBuilderConfig, JigFilterBuilderTemplateContext } from './types';
 
 @Directive()
 export abstract class FilterBuilderTemplates<T, TData> extends ValueControlBase<
@@ -28,25 +28,6 @@ export abstract class FilterBuilderTemplates<T, TData> extends ValueControlBase<
    * Types for the filter builder templates.
    */
   public readonly templateTypes = templateTypesFn<{
-    filter: {
-      /** The configuration being edited, `null` while nothing is set. */
-      $implicit: JigFilterBuilderConfig | null;
-      /** The data being filtered, for deriving options from. */
-      data: readonly T[];
-      /** The properties a condition may name. */
-      properties: readonly JigFilterProperty<T, TData>[];
-      disabled: boolean;
-      readonly: boolean;
-      /** Writes a configuration back, honouring `autoApply` and its debounce. */
-      setValue: (config: JigFilterBuilderConfig | null) => void;
-      /** Commits the pending configuration. Only meaningful while `autoApply` is off. */
-      apply: () => void;
-      /** Restores the configuration as it was when the popover opened. */
-      cancel: () => void;
-      /** Clears the configuration. */
-      clear: () => void;
-      /** Closes the popover. */
-      close: () => void;
-    };
+    filter: JigFilterBuilderTemplateContext<T, TData>;
   }>();
 }

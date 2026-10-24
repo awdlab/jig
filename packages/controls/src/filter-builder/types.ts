@@ -73,3 +73,28 @@ export type JigFilterBuilderConfig = {
   /** Configured conditions (may include empty values depending on operator). */
   conditions: readonly JigFilterBuilderConditionConfig[];
 };
+
+/**
+ * What a custom filter template is handed. Write a configuration back with
+ * {@link JigFilterBuilderTemplateContext.setValue} and the control filters as usual.
+ */
+export type JigFilterBuilderTemplateContext<TItem = unknown, TData = TItem> = {
+  /** The configuration being edited, `null` while nothing is set. */
+  $implicit: JigFilterBuilderConfig | null;
+  /** The data being filtered, for deriving options from. */
+  data: readonly TItem[];
+  /** The properties a condition may name. */
+  properties: readonly JigFilterProperty<TItem, TData>[];
+  disabled: boolean;
+  readonly: boolean;
+  /** Writes a configuration back, honouring `autoApply` and its debounce. */
+  setValue: (config: JigFilterBuilderConfig | null) => void;
+  /** Commits the pending configuration. Only meaningful while `autoApply` is off. */
+  apply: () => void;
+  /** Restores the configuration as it was when the popover opened. */
+  cancel: () => void;
+  /** Clears the configuration. */
+  clear: () => void;
+  /** Closes the popover. */
+  close: () => void;
+};
