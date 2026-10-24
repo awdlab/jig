@@ -351,7 +351,8 @@ const UNSCOPABLE_AT_RULES =
   /^\s*@(keyframes|font-face|property|counter-style|font-feature-values)\b/;
 
 /** Wraps a top-level at-rule's body in the scope selector, so its rules stay scoped too. */
-function scopeAtRule(atRule: string, scope: StyleScope | undefined): string {
+/** @internal Exported for tests. */
+export function scopeAtRule(atRule: string, scope: StyleScope | undefined): string {
   if (!scope || UNSCOPABLE_AT_RULES.test(atRule)) return atRule;
   const open = atRule.indexOf('{');
   const close = atRule.lastIndexOf('}');
@@ -360,7 +361,8 @@ function scopeAtRule(atRule: string, scope: StyleScope | undefined): string {
   return `${atRule.slice(0, open + 1)} ${getScopeSelector(scope)} { ${body} } }`;
 }
 
-function getCssVar(prefix: string, key: string): string {
+/** @internal Exported for tests. */
+export function getCssVar(prefix: string, key: string): string {
   // Replace dots with dashes and convert camelCase to kebab-case
   const varName = key
     .replace(/\./g, '-')
@@ -369,7 +371,8 @@ function getCssVar(prefix: string, key: string): string {
   return `--${prefix}${varName}`;
 }
 
-function splitScopableCss(
+/** @internal Exported for tests. */
+export function splitScopableCss(
   css: string,
   scope: StyleScope | undefined
 ): { unscopable: string; scopable: string } {
@@ -385,7 +388,9 @@ function splitScopableCss(
     const char = css[i];
     // @MaSch0212 review the `!depth` condition here, some queries are allowed inside scopable css
     if (!depth && char === '@' && (!css[i - 1] || css[i - 1] === ' ') && kind === 'scopable') {
-      result.scopable += css.slice(start, i - 1);
+      // Up to `i`, not `i - 1`: at i === 0 that is slice(0, -1), which copies the
+      // whole block into the scopable half and then emits the at-rule again.
+      result.scopable += css.slice(start, i);
       start = i;
       kind = 'unscopable';
     } else if (char === '{') {

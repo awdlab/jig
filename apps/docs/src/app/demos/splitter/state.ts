@@ -1,6 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { JigButton } from '@awdlab/jig/button';
-import { type SplitterLayout, JigSplitterModule } from '@awdlab/jig/splitter';
+import {
+  type JigSplitterStorageConfig,
+  type SplitterLayout,
+  JigSplitterModule,
+} from '@awdlab/jig/splitter';
 
 @Component({
   imports: [JigSplitterModule, JigButton],
@@ -13,8 +17,7 @@ import { type SplitterLayout, JigSplitterModule } from '@awdlab/jig/splitter';
     <jig-splitter
       [layout]="layout()"
       [panelOrder]="panelOrder()"
-      [stateStorage]="'local'"
-      [stateKey]="'splitter-state-demo'"
+      [storage]="storage"
       (layoutChange)="layout.set($event)"
       [aria-label]="'Stateful Splitter Demo'"
     >
@@ -45,6 +48,11 @@ import { type SplitterLayout, JigSplitterModule } from '@awdlab/jig/splitter';
   `,
 })
 export class Demo_Splitter_State {
+  // A stable reference: an inline object literal would be a new config every change-detection cycle.
+  protected readonly storage: JigSplitterStorageConfig = {
+    key: 'splitter-state-demo',
+    kind: 'localstorage',
+  };
   protected readonly layout = signal<SplitterLayout>('horizontal');
   protected readonly panelOrder = signal([
     'first-panel',

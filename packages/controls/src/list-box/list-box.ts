@@ -13,7 +13,6 @@ import {
   output,
 } from '@angular/core';
 import {
-  type FilterConfig,
   type FilterConfigInternal,
   filterOptions,
   flatItems,
@@ -59,7 +58,7 @@ function movesCaret(event: KeyboardEvent): boolean {
   imports: [NgTemplateOutlet, JigScroller, JigScrollerItem, JigCheckbox, JigTemplate, JigPt],
   providers: [provideSelf(JigListBox)],
   host: {
-    '[attr.tabIndex]': 'focussable() ? 0 : null',
+    '[attr.tabindex]': 'focusable() ? 0 : null',
     '(keydown)': 'onKeyDown($event)',
     '(focusout)': 'currentHighlightedValue.set(null)',
     role: 'listbox',
@@ -85,21 +84,11 @@ export class JigListBox<
   private readonly _scroller = viewChild.required<JigScroller<JigItemsValue<Items>>>(JigScroller);
 
   /**
-   * The items to display in the list box.
-   */
-  public readonly items = input.required<Items>();
-
-  /**
    * Whether to scroll to the selected item when the list box is first rendered.
    * Pass a `ScrollLogicalPosition` to control where the item lands in the viewport.
    * @default false
    */
   public readonly scrollToSelectedItemOnInit = input<boolean | ScrollLogicalPosition>(false);
-  /**
-   * Whether items can be selected by the user.
-   * @default false
-   */
-  public readonly selectable = input(false, { transform: booleanAttribute });
   /**
    * Whether hovering an item selects it.
    * @default false
@@ -115,38 +104,7 @@ export class JigListBox<
    * Whether the list box itself is focusable and participates in keyboard navigation.
    * @default true
    */
-  public readonly focussable = input(true, { transform: booleanAttribute });
-  /**
-   * Whether the list is virtualized.
-   * @default false
-   */
-  public readonly virtual = input(false, { transform: booleanAttribute });
-  /**
-   * When {@link virtual} is enabled, this defines the height of each item in the list.
-   */
-  public readonly itemHeight = input<number>();
-  /**
-   * Enable this to allow the user to select multiple values.
-   * When enabled, the value of the control becomes an array of selected items.
-   */
-  public readonly multiple = input<Multiple>();
-  /**
-   * Whether to use a checkbox to indicate selection state.
-   *
-   * This option is true per default when {@link multiple} is `true`.
-   * @default multiple()
-   */
-  public readonly checkbox = input<boolean>();
-  /**
-   * Accepts a boolean value that determines whether the filter is enabled.
-   * Alternatively, you can provide `FilterConfig` to customize the filter behavior.
-   * @default `false`
-   */
-  public readonly filter = input<FilterConfig<Items[number]> | boolean>(false);
-  /**
-   * Manually set the filter text.
-   */
-  public readonly filterText = input<string | null>(null);
+  public readonly focusable = input(true, { transform: booleanAttribute });
   /**
    * Whether a spinner covers the list. Set this while items are being fetched, so the
    * wait is shown where the items will appear instead of on the host's own field.
@@ -210,8 +168,6 @@ export class JigListBox<
   });
 
   protected readonly filterIsExecuting = this.filteredItems.isRunning;
-
-  protected readonly showCheckboxes = computed(() => this.checkbox() ?? this.multiple() ?? false);
 
   constructor() {
     super();

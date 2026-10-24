@@ -1,12 +1,16 @@
 import { JigDocsFrame } from './frame/frame';
 import { FrameState } from './frame/frame-state';
 import { Start } from './start/start';
-import { TestComponent } from './test';
 
 import type { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { path: 'test', component: TestComponent },
+  {
+    // Scratch page for trying a control in isolation; reachable by direct URL
+    // only. Lazy so it stays out of the main bundle.
+    path: 'test',
+    loadComponent: () => import('./test').then(m => m.TestComponent),
+  },
   {
     // Unlinked control overview — reachable by direct URL only (not in the
     // docs menu). Lazy so it stays out of the main bundle.

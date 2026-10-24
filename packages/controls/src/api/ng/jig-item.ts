@@ -8,6 +8,6 @@ export function transformToJigItemsSignal<
 >(
   items: Signal<Items>,
   fields: JigItemFields<T, K>
-): Signal<{ [P in keyof Items]: JigItem<Items[P], K> } & readonly JigItem<T, K>[]> {
+): Signal<{ [P in keyof Items]: JigItem<Items[P], T[K]> } & readonly JigItem<T, T[K]>[]> {
   return computed(() => transformToJigItems(items(), fields));
 }

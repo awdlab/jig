@@ -10,10 +10,11 @@ import {
 } from '@angular/core';
 import { Logger } from '@awdlab/jig/utils';
 
+/** The persistence backends built into the library. */
+export type JigBuiltInStorageKind = 'localstorage' | 'sessionstorage' | 'cookie';
+
 export type JigStorageKind<T> =
-  | 'localstorage'
-  | 'sessionstorage'
-  | 'cookie'
+  | JigBuiltInStorageKind
   | {
       initialize: () => T;
       update: (value: T) => void;

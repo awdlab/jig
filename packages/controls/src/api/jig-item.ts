@@ -66,10 +66,13 @@ export function transformToJigItemPrimitive<T extends string | number>(
 export function transformToJigItems<Items extends readonly object[], K extends keyof Items[number]>(
   items: Items,
   fields: JigItemFields<Items[number], K>
-): { [P in keyof Items]: JigItem<Items[P], K> } & readonly JigItem<Items[number], K>[] {
+): { [P in keyof Items]: JigItem<Items[P], Items[number][K]> } & readonly JigItem<
+  Items[number],
+  Items[number][K]
+>[] {
   return items.map((item: Items[number]) => transformToJigItem(item, fields)) as {
-    [P in keyof Items]: JigItem<Items[P], K>;
-  } & readonly JigItem<Items[number], K>[];
+    [P in keyof Items]: JigItem<Items[P], Items[number][K]>;
+  } & readonly JigItem<Items[number], Items[number][K]>[];
 }
 
 export function mapToItems(items: readonly JigItem[]): readonly JigItem[] {

@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { JigTemplate } from '@awdlab/jig/api/ng';
 import { JigPt, provideSelf } from '@awdlab/jig/base';
@@ -24,6 +24,11 @@ import type { IconType } from '@awdlab/jig-custom-types';
   imports: [JigPt, RouterLink, NgTemplateOutlet, JigTemplate, JigIcon, JigItemView, JigMenu],
 
   providers: [provideSelf(JigBreadcrumb)],
+  host: {
+    role: 'navigation',
+    '[attr.aria-label]': 'labelledBy() ? null : (label() ?? i18n["breadcrumb_label"]())',
+    '[attr.aria-labelledby]': 'labelledBy()',
+  },
 })
 export class JigBreadcrumb extends BreadcrumbTemplates {
   protected readonly theme = this.injectThemeTemplate(breadcrumbControlTemplate, 'root');
@@ -35,6 +40,18 @@ export class JigBreadcrumb extends BreadcrumbTemplates {
    */
   public readonly items = input.required<BreadcrumbItem[]>();
   /**
+   * Accessible name for the breadcrumb landmark. Ignored when {@link labelledBy}
+   * is set.
+   * @default the translated "Breadcrumb"
+   */
+  public readonly label = input<string | null>(null);
+  /**
+   * Id of an element naming the breadcrumb landmark. Takes precedence over
+   * {@link label}.
+   * @default null
+   */
+  public readonly labelledBy = input<string | null>(null);
+  /**
    * Icon rendered between adjacent breadcrumb items.
    * Falls back to the theme's default separator icon when unset.
    */
@@ -44,6 +61,9 @@ export class JigBreadcrumb extends BreadcrumbTemplates {
    * Falls back to the theme's default overflow icon when unset.
    */
   public readonly iconOverflow = input<IconType>();
+
+  /** The last entry is the current page: it is marked `aria-current` and never rendered as a link. */
+  protected readonly currentId = computed(() => this.items().at(-1)?.id);
 
   protected readonly maybeCallback = maybeCallback;
 }

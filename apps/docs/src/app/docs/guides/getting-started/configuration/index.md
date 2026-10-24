@@ -26,8 +26,7 @@ provideJigControls({
     namePrefix: 'jig-',
   },
   defaults: {
-    stateStorage: 'session',
-    splitter: { stateStorage: 'session' },
+    stateStorage: 'localstorage',
     inputField: { showRequiredMarker: false },
     tooltip: {/* … */},
   },
@@ -73,12 +72,11 @@ larger page you do not own.
 
 #### `defaults`
 
-| Option                          | Type                   | Default                 | Description                                                                                                    |
-| ------------------------------- | ---------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `stateStorage`                  | `'local' \| 'session'` | `'session'`             | Where controls persist UI state. See [State Persistence](/guides/state-persistence).                           |
-| `splitter.stateStorage`         | `'local' \| 'session'` | inherits `stateStorage` | Per-control override for the splitter.                                                                         |
-| `inputField.showRequiredMarker` | `boolean`              | `false`                 | Mark the label of every input field whose control is required. Override per field with `[showRequiredMarker]`. |
-| `tooltip`                       | `TooltipOptions`       | see below               | Default options for every `jigTooltip`.                                                                        |
+| Option                          | Type                                             | Default          | Description                                                                                                     |
+| ------------------------------- | ------------------------------------------------ | ---------------- | --------------------------------------------------------------------------------------------------------------- |
+| `stateStorage`                  | `'localstorage' \| 'sessionstorage' \| 'cookie'` | `'localstorage'` | Default backing store for every control's `storage` config. See [State Persistence](/guides/state-persistence). |
+| `inputField.showRequiredMarker` | `boolean`                                        | `false`          | Mark the label of every input field whose control is required. Override per field with `[showRequiredMarker]`.  |
+| `tooltip`                       | `TooltipOptions`                                 | see below        | Default options for every `jigTooltip`.                                                                         |
 
 Tooltip defaults:
 
@@ -130,7 +128,7 @@ export const appConfig: ApplicationConfig = {
       {
         logLevel: 'warn',
         theme: { preset: nova, cssLayer: 'jig' },
-        defaults: { stateStorage: 'local' },
+        defaults: { stateStorage: 'sessionstorage' },
       },
       withDefaultIcons(),
       withAutoColorScheme(),

@@ -11,7 +11,7 @@ export class JigError extends Error {
   constructor(area: string, errorMsg: string, ...additionalContext: unknown[]) {
     if (typeof window !== 'undefined' && window['__jig-global__']?.fancyLogging) {
       console.log(
-        `%c💥%c[${area}]`,
+        `%c💥%c[${area}] ${errorMsg}`,
         'font-size: 24px;',
         'color: #ff0042; font-size: 20px; background-color: #000000;',
         ...additionalContext

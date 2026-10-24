@@ -15,7 +15,7 @@ import { dropdownListControlTemplate } from '@awdlab/jig-themes/templates/dropdo
 
 import { DropdownListTemplates, type ValueType } from './dropdown-list-templates';
 
-import type { FilterConfig, JigItem, JigItemsValue } from '@awdlab/jig/api';
+import type { JigItem, JigItemsValue } from '@awdlab/jig/api';
 import type { Anchor, Openable, PopoverCloseBy } from '@awdlab/jig/api/ng';
 
 /**
@@ -71,25 +71,6 @@ export class JigDropdownList<Items extends readonly JigItem[], Multiple extends 
   public readonly closeOnSelect = input(true, { transform: booleanAttribute });
 
   /**
-   * The items to display. See {@link JigListBox.items}.
-   */
-  public readonly items = input.required<Items>();
-  /**
-   * Whether multiple items can be selected. When enabled the value becomes an
-   * array of item values.
-   */
-  public readonly multiple = input<Multiple>();
-  /**
-   * Whether a checkbox indicates selection state.
-   * @default multiple()
-   */
-  public readonly checkbox = input<boolean>();
-  /**
-   * Whether items can be selected by the user.
-   * @default true
-   */
-  public readonly selectable = input(true, { transform: booleanAttribute });
-  /**
    * Whether hovering an item selects it.
    * @default false
    */
@@ -100,30 +81,11 @@ export class JigDropdownList<Items extends readonly JigItem[], Multiple extends 
    */
   public readonly separator = input(false, { transform: booleanAttribute });
   /**
-   * Accepts a boolean that enables filtering, or a `FilterConfig` to customize it.
-   * Drive the text with {@link filterText}.
-   * @default false
-   */
-  public readonly filter = input<FilterConfig<Items[number]> | boolean>(false);
-  /**
-   * The text the list is filtered by. See {@link filter}.
-   */
-  public readonly filterText = input<string | null>(null);
-  /**
    * Whether a spinner covers the list. Set this while items are being fetched — the wait
    * belongs where the items will appear, not on the trigger.
    * @default false
    */
   public readonly loading = input(false, { transform: booleanAttribute });
-  /**
-   * Whether the list is virtualized.
-   * @default false
-   */
-  public readonly virtual = input(false, { transform: booleanAttribute });
-  /**
-   * Row height when {@link virtual} is enabled.
-   */
-  public readonly itemHeight = input<number>();
   /**
    * Whether to scroll to the selected item when the list opens. Pass a
    * `ScrollLogicalPosition` to control where it lands in the viewport.

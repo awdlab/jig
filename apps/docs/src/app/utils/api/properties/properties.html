@@ -1,25 +1,29 @@
-<div class="table-wrapper">
-  <table>
-    <thead>
-      <tr>
-        <th>Property</th>
-        <th>Type</th>
-        <th>Default</th>
-        <th style="min-width: 250px">Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (prop of properties(); track prop.id) {
-        @if (
-          (prop.name !== 'kind' || specialTypes().kind) &&
-          (prop.name !== 'color' || specialTypes().color)
-        ) {
+@for (section of sections(); track section.inherited) {
+  @if (section.inherited) {
+    <h4 class="api-inherited-heading">Inherited</h4>
+  }
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>{{ kind() === 'Types' ? 'Name' : kind() === 'Methods' ? 'Method' : 'Property' }}</th>
+          <th>{{ kind() === 'Methods' ? 'Signature' : kind() === 'Types' ? 'Shape' : 'Type' }}</th>
+          @if (kind() === 'Inputs') {
+            <th>Default</th>
+          }
+          <th style="min-width: 250px">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (prop of section.members; track prop.id) {
           <tr [id]="kind() + '_' + prop.name">
             <td [class.required]="!prop.flags.hasFlag(FLAGS.Optional)">
               <code class="code-name-highlight">{{ prop.name }}</code>
             </td>
             <td>
-              @if (prop.name === 'kind') {
+              @if (kind() === 'Methods') {
+                <code class="code-type-highlight">{{ signature(prop) }}</code>
+              } @else if (prop.name === 'kind') {
                 <code class="code-type-highlight"> {{ specialTypes().kind }} </code>
               } @else if (prop.name === 'color') {
                 <code class="code-type-highlight"> {{ specialTypes().color }} </code>
@@ -29,13 +33,30 @@
                   to the <a [routerLink]="['./playground']">playground tab</a> to explore available
                   Passthrough properties.
                 </div>
+              } @else if (members(prop).length) {
+                <ul class="api-type-members">
+                  @for (member of members(prop); track member.id) {
+                    <li>
+                      <code class="code-name-highlight"
+                        >{{ member.name
+                        }}{{ member.flags.hasFlag(FLAGS.Optional) ? '?' : '' }}</code
+                      >:
+                      <code class="code-type-highlight">{{ member.type }}</code>
+                      @if (member.comment) {
+                        <jig-docs-api-comment [comment]="member.comment.summary" />
+                      }
+                    </li>
+                  }
+                </ul>
               } @else {
                 <code class="code-type-highlight"> {{ prop.type }} </code>
               }
             </td>
-            <td>
-              <jig-docs-api-comment [comment]="getDefaultValue(prop)" />
-            </td>
+            @if (kind() === 'Inputs') {
+              <td>
+                <jig-docs-api-comment [comment]="getDefaultValue(prop)" />
+              </td>
+            }
             <td>
               @if (prop.comment) {
                 <jig-docs-api-comment [comment]="prop.comment.summary" />
@@ -43,7 +64,7 @@
             </td>
           </tr>
         }
-      }
-    </tbody>
-  </table>
-</div>
+      </tbody>
+    </table>
+  </div>
+}

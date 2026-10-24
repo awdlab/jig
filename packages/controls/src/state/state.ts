@@ -171,7 +171,7 @@ export class JigState extends JigBase<'state'> {
     return kind === 'error' || kind === 'warning' ? 'assertive' : 'polite';
   });
 
-  /** Landmark role paired with {@link liveMode} — `alert` when assertive, else `status`. */
+  /** Landmark role paired with the live-region politeness — `alert` when assertive, else `status`. */
   protected readonly role = computed<'alert' | 'status' | null>(() => {
     const live = this.liveMode();
     if (!live || live === 'off') {

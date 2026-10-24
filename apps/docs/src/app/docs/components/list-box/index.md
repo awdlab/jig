@@ -1,13 +1,14 @@
 The List Box (`<jig-list-box>`) renders a scrollable, keyboard-navigable list of
 items from an `items` array, with optional grouping, filtering, and
-virtualization for large datasets. It is a value control — enable `selectable`
-to let users pick items and `multiple` for multi-select. Reach for it when you
+virtualization for large datasets. It is a value control — items are selectable
+by default, so set `multiple` for multi-select or `[selectable]="false"` for a
+display-only list. Reach for it when you
 need a persistently visible list rather than a dropdown like `jig-select`.
 
 ### Basic Usage
 
 Pass an `items` array to render a scrollable list, and give the host a fixed
-height so it scrolls. Without `selectable` the list is purely for display.
+height so it scrolls. With `[selectable]="false"` the list is purely for display.
 
 {{ demo: Demo_ListBox_Base }}
 
@@ -35,21 +36,21 @@ template for group headers. Both receive the item through `let-option`.
 
 ### Value Selection
 
-Bind `[(value)]` alongside `selectable` to control and read the selection. The
+Bind `[(value)]` to control and read the selection. The
 value holds the selected item's value (or an array once `multiple` is set).
 
 {{ demo: Demo_ListBox_Value }}
 
 ### Multiple Selection
 
-Set `multiple` together with `selectable` to allow several selections; the value
+Set `multiple` to allow several selections; the value
 becomes an array and checkboxes appear automatically to indicate state.
 
 {{ demo: Demo_ListBox_Multiple }}
 
 ### Filtering
 
-Enable `filter` and feed it `filterText` to narrow the visible items. Matching is
+Enable `filter` and bind `[(filterText)]` to narrow the visible items. Matching is
 case-insensitive substring by default; pass a `FilterConfig` object to `filter`
 to customize it.
 

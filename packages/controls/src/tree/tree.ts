@@ -23,7 +23,13 @@ import {
   type JigTreeItem,
   type JigTreeItemsValue,
 } from '@awdlab/jig/api';
-import { inlineArrowStep, JigStorage, type JigStorageKind, JigTemplate } from '@awdlab/jig/api/ng';
+import {
+  inlineArrowStep,
+  type JigStorageConfig,
+  type JigStorageRegistration,
+  JigTemplate,
+  registerStorage,
+} from '@awdlab/jig/api/ng';
 import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigButton } from '@awdlab/jig/button';
 import { JigCheckbox } from '@awdlab/jig/checkbox';
@@ -31,7 +37,7 @@ import { I18n } from '@awdlab/jig/i18n';
 import { JigScroller, JigScrollerItem } from '@awdlab/jig/scroller';
 import { createConditionalSpinner, JigSpinner } from '@awdlab/jig/spinner';
 import { Logger, maybeCallback } from '@awdlab/jig/utils';
-import { asyncComputed } from '@awdlab/jig/utils-ng';
+import { asyncComputed, optionalBooleanAttribute } from '@awdlab/jig/utils-ng';
 
 import { TreeTemplates, type ValueType } from './tree-templates';
 import {
@@ -51,20 +57,7 @@ export type JigTreeStorageState = 'value' | 'expanded';
  * Pass to the `storage` input, e.g. `{ key: 'my-tree' }` or
  * `{ key: 'my-tree', kind: 'sessionstorage' }`.
  */
-export interface JigTreeStorageConfig {
-  /** The storage key under which the state is saved. */
-  key: string;
-  /**
-   * Where/how to persist. Accepts `'localstorage'`, `'sessionstorage'`, or a
-   * custom `{ initialize, update }` adapter. Defaults to `'localstorage'`.
-   */
-  kind?: JigStorageKind<Record<string, unknown>>;
-  /**
-   * Which states to persist. When omitted, all states are saved. When
-   * provided, only the listed states are saved/restored.
-   */
-  states?: JigTreeStorageState[];
-}
+export type JigTreeStorageConfig = JigStorageConfig<JigTreeStorageState>;
 
 /**
  * @category control
@@ -84,7 +77,7 @@ export interface JigTreeStorageConfig {
   ],
   providers: [provideSelf(JigTree)],
   host: {
-    '[attr.tabIndex]': 'focussable() ? 0 : null',
+    '[attr.tabindex]': 'focusable() ? 0 : null',
     '(keydown)': 'onKeyDown($event)',
     '(focusout)': 'currentHighlightedValue.set(null)',
     role: 'tree',
@@ -109,45 +102,11 @@ export class JigTree<Items extends readonly JigTreeItem[], Multiple extends bool
 
   private readonly _scroller = viewChild.required<JigScroller<FlatTreeNode>>(JigScroller);
 
-  /** The tree items to render, as a nested list of {@link JigTreeItem} objects. */
-  public readonly items = input.required<Items>();
-
-  /**
-   * Whether nodes can be selected/checked.
-   * @default true
-   */
-  public readonly selectable = input(true, { transform: booleanAttribute });
   /**
    * Whether the tree is focusable and participates in keyboard navigation.
    * @default true
    */
-  public readonly focussable = input(true, { transform: booleanAttribute });
-  /**
-   * Whether the tree is virtualized. When enabled, provide {@link itemHeight}.
-   * @default false
-   */
-  public readonly virtual = input(false, { transform: booleanAttribute });
-  /**
-   * When {@link virtual} is enabled, this defines the height of each node in the list.
-   */
-  public readonly itemHeight = input<number>();
-  /**
-   * Enable this to allow selecting multiple nodes. The value then becomes an array of node values.
-   * @default false
-   */
-  public readonly multiple = input<Multiple>();
-  /**
-   * Whether to render checkboxes. Defaults to `multiple()`.
-   * @default multiple()
-   */
-  public readonly checkbox = input<boolean>();
-  /**
-   * Boolean to enable filtering, or a `FilterConfig` to customize it.
-   * @default false
-   */
-  public readonly filter = input<FilterConfig<Items[number]> | boolean>(false);
-  /** Manually set the filter text. */
-  public readonly filterText = input<string | null>(null);
+  public readonly focusable = input(true, { transform: booleanAttribute });
   /** Values of expanded branch nodes (two-way). */
   public readonly expandedValues = model<JigTreeItemsValue<Items>[]>([]);
 
@@ -156,7 +115,7 @@ export class JigTree<Items extends readonly JigTreeItem[], Multiple extends bool
    * optionally, a `jigStorageKind` (defaults to `'localstorage'`).
    */
   public readonly storage = input<JigTreeStorageConfig | null>(null);
-  private _storage?: JigStorage<Record<string, unknown>>;
+  private readonly _storage: JigStorageRegistration;
 
   /**
    * Loads the children of a `lazy` node the first time it is expanded.
@@ -234,38 +193,26 @@ export class JigTree<Items extends readonly JigTreeItem[], Multiple extends bool
 
   public readonly currentHighlightedValue = signal<JigTreeItemsValue<Items> | null>(null);
 
-  protected readonly showCheckboxes = computed(() => this.checkbox() ?? this.multiple() ?? false);
-
   constructor() {
     super();
     createConditionalSpinner(this.filterIsExecuting);
 
-    // Fallback init for when the `storage` config arrives after ngOnInit (e.g.
-    // an async binding). Idempotent with the ngOnInit path. Registered before
-    // the persistence effect so the store is restored before any write; the
-    // persistence effect no-ops until `_storage` exists anyway.
-    effect(() => {
-      const cfg = this.storage();
-      if (cfg) {
-        untracked(() => this._initStorage(cfg));
-      }
-    });
-
-    // Persist expansion + selection whenever they change.
-    effect(() => {
-      const expanded = this.expandedValues();
-      const value = this.value();
-      untracked(() => {
-        if (!this._storage) {
-          return;
-        }
-        if (this._persistsState('expanded')) {
-          this._storage.set('expanded', expanded);
-        }
-        if (this._persistsState('value')) {
-          this._storage.set('value', value ?? null);
-        }
-      });
+    this._storage = registerStorage<JigTreeStorageState>({
+      config: this.storage,
+      slices: {
+        expanded: {
+          value: () => this.expandedValues(),
+          restore: stored => {
+            if (Array.isArray(stored)) {
+              this.expandedValues.set(stored as JigTreeItemsValue<Items>[]);
+            }
+          },
+        },
+        value: {
+          value: () => this.value() ?? null,
+          restore: stored => this.value.set(stored as ValueType<Items, Multiple>),
+        },
+      },
     });
 
     // Drop cached lazy children when the source items change identity.
@@ -292,56 +239,13 @@ export class JigTree<Items extends readonly JigTreeItem[], Multiple extends bool
   }
 
   /**
-   * Create the store and restore persisted state before the first view check
-   * (so it also feeds the SSR render for the `cookie` kind without triggering
-   * ExpressionChangedAfterItHasBeenChecked).
-   *
-   * This is the common path: the `storage` config is normally bound before
-   * init, so the restore happens pre-render. When the config only becomes
-   * available after init (e.g. an async binding, or a dynamic host that applies
-   * inputs after creating the component), the constructor effect below picks it
-   * up instead — `_initStorage` is idempotent, so at most one of them runs.
+   * Restore before the first view check, so the `cookie` kind also feeds the SSR
+   * render without an ExpressionChangedAfterItHasBeenChecked. A config that only
+   * arrives later (an async binding) is picked up by `registerStorage`'s own
+   * effect instead; the two are idempotent against each other.
    */
   public ngOnInit(): void {
-    const cfg = this.storage();
-    if (cfg) {
-      this._initStorage(cfg);
-    }
-  }
-
-  /** Create the store and restore persisted state. Runs at most once. */
-  private _initStorage(cfg: JigTreeStorageConfig): void {
-    if (this._storage) {
-      return;
-    }
-    // JigStorage reads platform/document/request tokens, so it needs an
-    // injection context.
-    this._storage = runInInjectionContext(
-      this.injector,
-      () =>
-        new JigStorage<Record<string, unknown>>(cfg.key, cfg.kind ?? 'localstorage', {
-          expanded: this.expandedValues(),
-          value: this.value() ?? null,
-        })
-    );
-    if (this._persistsState('expanded')) {
-      const savedExpanded = this._storage.get('expanded');
-      if (Array.isArray(savedExpanded)) {
-        this.expandedValues.set(savedExpanded as JigTreeItemsValue<Items>[]);
-      }
-    }
-    if (this._persistsState('value')) {
-      const savedValue = this._storage.get('value');
-      if (savedValue !== undefined) {
-        this.value.set(savedValue as ValueType<Items, Multiple>);
-      }
-    }
-  }
-
-  /** Whether the given state should be persisted (all states when unset). */
-  private _persistsState(state: JigTreeStorageState): boolean {
-    const states = this.storage()?.states;
-    return !states || states.includes(state);
+    this._storage.restore();
   }
 
   /** Derived tri-state for a node's checkbox / aria-checked. */

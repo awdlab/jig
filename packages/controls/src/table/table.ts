@@ -16,9 +16,10 @@ import {
 } from '@angular/core';
 import {
   elementSizeSignal,
-  JigStorage,
-  type JigStorageKind,
+  type JigStorageConfig,
+  type JigStorageRegistration,
   JigTemplate,
+  registerStorage,
 } from '@awdlab/jig/api/ng';
 import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigButton } from '@awdlab/jig/button';
@@ -75,20 +76,7 @@ export type JigTableStorageState =
  * selection, expanded groups, pagination). Pass to the `storage` input, e.g.
  * `{ key: 'my-table' }` or `{ key: 'my-table', kind: 'sessionstorage' }`.
  */
-export interface JigTableStorageConfig {
-  /** The storage key under which the state is saved. */
-  key: string;
-  /**
-   * Where/how to persist. Accepts `'localstorage'`, `'sessionstorage'`, or a
-   * custom `{ initialize, update }` adapter. Defaults to `'localstorage'`.
-   */
-  kind?: JigStorageKind<Record<string, unknown>>;
-  /**
-   * Which states to persist. When omitted, all states are saved. When
-   * provided, only the listed states are saved/restored.
-   */
-  states?: JigTableStorageState[];
-}
+export type JigTableStorageConfig = JigStorageConfig<JigTableStorageState>;
 
 /**
  * @category control
@@ -166,7 +154,7 @@ export class JigTable<
    * Whether the table is virtualized. When enabled, provide {@link rowHeight}.
    * @default false
    */
-  public readonly virtual = input<boolean>(false);
+  public readonly virtual = input(false, { transform: booleanAttribute });
   /**
    * When {@link virtual} is enabled, the number of extra rows to render above and below the viewport.
    * @default 2
@@ -176,12 +164,12 @@ export class JigTable<
    * Whether to apply alternating background colors to rows.
    * @default false
    */
-  public readonly striped = input<boolean>(false);
+  public readonly striped = input(false, { transform: booleanAttribute });
   /**
    * Whether to render a paginator and page the rows.
    * @default false
    */
-  public readonly paginator = input<boolean>(false);
+  public readonly paginator = input(false, { transform: booleanAttribute });
   /**
    * Whether the table is loading. Renders skeleton rows in place of the body.
    * Client-side mode only — with {@link dataSource} the table tracks this itself.
@@ -265,7 +253,7 @@ export class JigTable<
    *
    * @default false
    */
-  public readonly lockSizes = input<boolean>(false);
+  public readonly lockSizes = input(false, { transform: booleanAttribute });
 
   /**
    * Whether column reordering is enabled.
@@ -336,7 +324,7 @@ export class JigTable<
    * (defaults to `'localstorage'`) and the `states` to limit it to.
    */
   public readonly storage = input<JigTableStorageConfig | null>(null);
-  private _storage?: JigStorage<Record<string, unknown>>;
+  private readonly _storage: JigStorageRegistration;
 
   // --- Lazy (server-driven) loading ---
 
@@ -519,51 +507,64 @@ export class JigTable<
     // an async binding). Idempotent with the ngOnInit path. Registered before
     // the persistence effect so the store is restored before any write; the
     // persistence effect no-ops until `_storage` exists anyway.
-    effect(() => {
-      const cfg = this.storage();
-      if (cfg) {
-        untracked(() => this._initStorage(cfg));
-      }
-    });
-
-    // Persist table state whenever any of the tracked pieces change.
-    effect(() => {
-      const sort = this.sort();
-      const filters = this.filters();
-      const columnOrder = this.columnOrder();
-      const selection = this.selection();
-      const expandedGroups = this.expandedGroups();
-      const page = this.pageState()?.page ?? null;
-      // Widths churn on every drag frame — take the result, not the frames.
-      const columnSizes = this._columns.isDragging() ? null : this._columns.columnSizes();
-      untracked(() => {
-        const storage = this._storage;
-        if (!storage) {
-          return;
-        }
-        if (this._persistsState('sort')) {
-          storage.set('sort', sort);
-        }
-        if (this._persistsState('filters')) {
-          storage.set('filters', filters);
-        }
-        if (this._persistsState('columnOrder')) {
-          storage.set('columnOrder', columnOrder);
-        }
-        if (this._persistsState('selection')) {
-          storage.set('selection', selection);
-        }
-        if (this._persistsState('expandedGroups')) {
-          storage.set('expandedGroups', expandedGroups);
-        }
-        if (page && this._persistsState('page')) {
-          storage.set('page', page);
-        }
-        // Empty before the header cells register — would wipe restored widths.
-        if (columnSizes && Object.keys(columnSizes).length && this._persistsState('columnSizes')) {
-          storage.set('columnSizes', columnSizes);
-        }
-      });
+    this._storage = registerStorage<JigTableStorageState>({
+      config: this.storage,
+      slices: {
+        sort: {
+          value: () => this.sort(),
+          restore: stored => this.sort.set(stored as ReturnType<typeof this.sort>),
+        },
+        filters: {
+          value: () => this.filters(),
+          restore: stored => this.filters.set(stored as ReturnType<typeof this.filters>),
+        },
+        columnOrder: {
+          value: () => this.columnOrder(),
+          restore: stored => {
+            if (Array.isArray(stored)) {
+              this.columnOrder.set(stored as string[]);
+            }
+          },
+        },
+        columnSizes: {
+          // Widths churn on every drag frame — take the result, not the frames.
+          value: () => (this._columns.isDragging() ? null : this._columns.columnSizes()),
+          // Empty before the header cells register — that would wipe restored widths.
+          skipWrite: value => !value || !Object.keys(value).length,
+          restore: stored => {
+            if (stored && typeof stored === 'object') {
+              this._columns.restoreColumnSizes(stored as Record<string, ResizeSize>);
+            }
+          },
+        },
+        selection: {
+          value: () => this.selection(),
+          restore: stored => {
+            if (Array.isArray(stored)) {
+              this.selection.set(stored as T[K & keyof T][]);
+            }
+          },
+        },
+        expandedGroups: {
+          value: () => this.expandedGroups(),
+          restore: stored => {
+            if (Array.isArray(stored)) {
+              this.expandedGroups.set(stored as Array<T[G] & (string | number)>);
+            }
+          },
+        },
+        page: {
+          value: () => this.pageState()?.page ?? null,
+          skipWrite: value => !value,
+          restore: stored => {
+            const page = stored as PaginationState['page'] | null;
+            if (page) {
+              this.pageIndex.set(page.current);
+              this.pageSize.set(page.size);
+            }
+          },
+        },
+      },
     });
 
     this._selection = new TableSelectionModel<T, K>({
@@ -731,93 +732,13 @@ export class JigTable<
   }
 
   /**
-   * Create the store and restore persisted state before the first view check
-   * (so it also feeds the SSR render for the `cookie` kind without triggering
-   * ExpressionChangedAfterItHasBeenChecked).
-   *
-   * This is the common path: the `storage` config is normally bound before
-   * init. When it only becomes available after init (e.g. an async binding),
-   * the constructor effect picks it up instead — `_initStorage` is idempotent,
-   * so at most one of them runs.
+   * Restore before the first view check, so the `cookie` kind also feeds the SSR
+   * render without an ExpressionChangedAfterItHasBeenChecked. A config that only
+   * arrives later (an async binding) is picked up by `registerStorage`'s own
+   * effect instead; the two are idempotent against each other.
    */
   public ngOnInit(): void {
-    const cfg = this.storage();
-    if (cfg) {
-      this._initStorage(cfg);
-    }
-  }
-
-  /** Create the store and restore persisted state. Runs at most once. */
-  private _initStorage(cfg: JigTableStorageConfig): void {
-    if (this._storage) {
-      return;
-    }
-    // JigStorage reads platform/document/request tokens, so it needs an
-    // injection context.
-    const storage = runInInjectionContext(
-      this.injector,
-      () =>
-        new JigStorage<Record<string, unknown>>(cfg.key, cfg.kind ?? 'localstorage', {
-          sort: this.sort(),
-          filters: this.filters(),
-          columnOrder: this.columnOrder(),
-          columnSizes: this._columns.columnSizes(),
-          selection: this.selection(),
-          expandedGroups: this.expandedGroups(),
-          page: this.pageState()?.page ?? null,
-        })
-    );
-    this._storage = storage;
-
-    if (this._persistsState('sort')) {
-      const saved = storage.get('sort');
-      if (saved !== undefined) {
-        this.sort.set(saved as ReturnType<typeof this.sort>);
-      }
-    }
-    if (this._persistsState('filters')) {
-      const saved = storage.get('filters');
-      if (saved !== undefined) {
-        this.filters.set(saved as ReturnType<typeof this.filters>);
-      }
-    }
-    if (this._persistsState('columnOrder')) {
-      const saved = storage.get('columnOrder');
-      if (Array.isArray(saved)) {
-        this.columnOrder.set(saved as string[]);
-      }
-    }
-    if (this._persistsState('columnSizes')) {
-      const saved = storage.get('columnSizes');
-      if (saved && typeof saved === 'object') {
-        this._columns.restoreColumnSizes(saved as Record<string, ResizeSize>);
-      }
-    }
-    if (this._persistsState('selection')) {
-      const saved = storage.get('selection');
-      if (Array.isArray(saved)) {
-        this.selection.set(saved as T[K & keyof T][]);
-      }
-    }
-    if (this._persistsState('expandedGroups')) {
-      const saved = storage.get('expandedGroups');
-      if (Array.isArray(saved)) {
-        this.expandedGroups.set(saved as Array<T[G] & (string | number)>);
-      }
-    }
-    if (this._persistsState('page')) {
-      const saved = storage.get('page') as PaginationState['page'] | null | undefined;
-      if (saved) {
-        this.pageIndex.set(saved.current);
-        this.pageSize.set(saved.size);
-      }
-    }
-  }
-
-  /** Whether the given state should be persisted (all states when unset). */
-  private _persistsState(state: JigTableStorageState): boolean {
-    const states = this.storage()?.states;
-    return !states || states.includes(state);
+    this._storage.restore();
   }
 
   /** Force a lazy refetch, clearing the page cache. No-op in client-side mode. */

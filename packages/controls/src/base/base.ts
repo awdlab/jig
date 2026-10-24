@@ -97,12 +97,17 @@ export abstract class JigBase<T extends ControlName | null> {
   public readonly unstyled = input(false, { transform: booleanAttribute });
 
   /**
-   * Some controls support custom kinds for styling purposes.
-   * The available kinds depend on the control and the theme used.
-   *
-   * TODO: link to custom types documentation
+   * The control's visual variant. Which kinds exist depends on the control and
+   * the active theme — a theme that declares none for this control accepts no
+   * value here. Unset falls back to the theme's default kind.
+   * See [Kinds & Colors](/guides/kinds-colors).
    */
   public readonly kind = input<CustomKind<T> | undefined>(undefined as never);
+  /**
+   * The control's color from the theme's palette. Which colors exist depends on
+   * the active theme; unset falls back to the theme's default color.
+   * See [Kinds & Colors](/guides/kinds-colors).
+   */
   public readonly color = input<CustomColor | undefined>(undefined as never);
 
   public readonly appliedKind = computed<CustomKind<T> | undefined>(

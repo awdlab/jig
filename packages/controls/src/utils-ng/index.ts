@@ -1,3 +1,4 @@
+export * from './boolean-attribute';
 export * from './dom';
 export * from './focus-trap';
 export * from './generate-id';
@@ -7,4 +8,3 @@ export * from './notification-region';
 export * from './openable';
 export * from './overlay-lifecycle';
 export * from './signals';
-export * from './state';

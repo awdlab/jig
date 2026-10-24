@@ -79,6 +79,22 @@ async function collectLinkTargets(project: Node): Promise<LinkTargets> {
   const byId = new Map<number, string>();
   const byName = new Map<string, string>();
 
+  // A group's rows are not always the class's own children — the `Types` group
+  // references interfaces declared in the control's sibling modules.
+  const nodeById = new Map<number, Node>();
+  (function index(node: Node) {
+    if (typeof node.id === 'number' && typeof node.variant === 'string') {
+      nodeById.set(node.id, node);
+    }
+    for (const value of Object.values(node)) {
+      if (Array.isArray(value)) {
+        value.filter(isNode).forEach(index);
+      } else if (isNode(value)) {
+        index(value);
+      }
+    }
+  })(project);
+
   for (const ref of await collectApiRefs()) {
     const module = project.children?.find(child => child.name === ref.module);
     const control = module?.children?.find(child => child.name === ref.className);
@@ -94,19 +110,36 @@ async function collectLinkTargets(project: Node): Promise<LinkTargets> {
     }
     byName.set(ref.className, classUrl);
 
-    const members = new Map((control.children ?? []).map(child => [child.id, child]));
     for (const group of control.groups ?? []) {
       if (!API_GROUPS.has(group.title)) {
         continue;
       }
       for (const id of group.children) {
-        const member = members.get(id);
+        const member = nodeById.get(id);
         if (!member?.name) {
           continue;
         }
         const url = `/${ref.route}#${group.title}_${member.name}`;
         byId.set(id, url);
         byName.set(`${ref.className}.${member.name}`, url);
+        // An inherited member is also written as `JigBase.unstyled`; register it
+        // under the declaring class too. First page documenting it wins.
+        const inheritedFrom = (member.inheritedFrom as { name?: string } | undefined)?.name;
+        if (inheritedFrom && !byName.has(inheritedFrom)) {
+          byName.set(inheritedFrom, url);
+        }
+        // A type is addressed by its bare name (`BreadcrumbItem`), and by
+        // `Type.member` for a field of it. First page wins.
+        if (group.title === 'Types') {
+          if (!byName.has(member.name)) {
+            byName.set(member.name, url);
+          }
+          for (const field of member.children ?? []) {
+            if (field.name && !byName.has(`${member.name}.${field.name}`)) {
+              byName.set(`${member.name}.${field.name}`, url);
+            }
+          }
+        }
       }
     }
   }

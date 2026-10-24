@@ -31,8 +31,8 @@ and `touched`. The next demo shows it inside a validated form.
 ### Filtering
 
 Set `filter` to `true` to add a search box to the dropdown, or pass
-`SelectFilterOptions` to customise matching (and `clearFilterOnClose`). Use the
-`filterText` input if you want to drive the query yourself. Provide `iconFilter`
+`SelectFilterOptions` to customise matching (and `clearFilterOnClose`). Bind `[(filterText)]` to
+drive the query yourself, or just to read what the user typed. Provide `iconFilter`
 to customise the search icon.
 
 {{ demo: Demo_Select_Filter }}

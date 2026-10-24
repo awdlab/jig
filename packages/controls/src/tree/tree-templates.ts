@@ -1,9 +1,9 @@
 import { computed, contentChild, Directive, input, TemplateRef, viewChild } from '@angular/core';
 
 import { templateTypesFn } from '@awdlab/jig/api/ng';
-import { ValueControlBase } from '@awdlab/jig/base';
+import { CollectionControlBase } from '@awdlab/jig/base';
 
-import type { JigTreeItem, JigTreeItemsValue } from '@awdlab/jig/api';
+import type { FilterConfig, JigTreeItem, JigTreeItemsValue } from '@awdlab/jig/api';
 import type { InputGeneric } from '@awdlab/jig/utils';
 
 /**
@@ -23,7 +23,13 @@ export type ValueType<Items extends readonly JigTreeItem[], Multiple extends boo
 export abstract class TreeTemplates<
   Items extends readonly JigTreeItem[],
   Multiple extends boolean,
-> extends ValueControlBase<'tree', ValueType<Items, Multiple> | null> {
+> extends CollectionControlBase<
+  'tree',
+  ValueType<Items, Multiple> | null,
+  Items,
+  Multiple,
+  FilterConfig<Items[number]>
+> {
   // Item template
   private readonly _defaultItemTemplate =
     viewChild.required<TemplateRef<typeof this.templateTypes.item>>('defaultItemTemplate');

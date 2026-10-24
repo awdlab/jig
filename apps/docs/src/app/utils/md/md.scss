@@ -68,6 +68,22 @@
         margin: 1.25rem 0;
       }
 
+      .api-inherited-heading {
+        margin: 2rem 0 0;
+        font-size: var(--jig-font-size-sm);
+        font-weight: 500;
+        color: var(--jig-color-surface-600);
+      }
+
+      .api-type-members {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
       .code-name-highlight {
         background: var(--jig-color-surface-50);
         border-radius: var(--jig-size-rounded-md);

@@ -85,7 +85,7 @@
   [checkbox]="checkbox()"
   [selectable]="true"
   [filter]="appliedFilter()"
-  [filterText]="filterTextInternal()"
+  [filterText]="filterText()"
   [itemHeight]="itemHeight()"
   [virtual]="virtual()"
   [scrollToSelectedItemOnOpen]="scrollToSelectedItemOnOpen()"
@@ -102,8 +102,8 @@
     <jig-input-field dropdownHeader [ptInt]="this" [ptDep]="'filter'">
       <input
         jigInput
-        [value]="filterTextInternal()"
-        (valueChange)="filterTextInternal.set($event)"
+        [value]="filterText()"
+        (valueChange)="filterText.set($event)"
         [attr.aria-label]="i18n['select_filterOptions']()"
       />
       <jig-icon

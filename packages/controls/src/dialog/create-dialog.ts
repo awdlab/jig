@@ -1,6 +1,5 @@
-import { ComponentRef, Injector, ViewContainerRef } from '@angular/core';
+import { ComponentRef, Injector, type OutputRef, ViewContainerRef } from '@angular/core';
 import { setComponentInput } from '@awdlab/jig/api/ng';
-import { Observable, Subject } from 'rxjs';
 
 import { JigDialog } from './dialog';
 import { PromptDialogBase } from './prompt-dialog-base';
@@ -14,7 +13,7 @@ export type DialogHandle<
 > = {
   close: () => void;
   updateConfig: (config: Partial<DialogConfig<T, Buttons>>) => void;
-  buttonClicked: Observable<Buttons[number]['value'] | null>;
+  buttonClicked: OutputRef<Buttons[number]['value'] | null>;
 };
 
 export type PromptDialogHandle<
@@ -24,7 +23,7 @@ export type PromptDialogHandle<
   close: () => void;
   updateConfig: (config: Partial<DialogConfig<T, Buttons>>) => void;
   result: Promise<{
-    value: T extends PromptDialogBase<infer D, Buttons> ? D : never | null;
+    value: (T extends PromptDialogBase<infer D, Buttons> ? D : never) | null;
     button: Buttons[number]['value'] | null;
   }>;
 };
@@ -32,30 +31,13 @@ export type PromptDialogHandle<
 function applyDialogConfig<
   T,
   Buttons extends JigActionButtonConfig<T extends PromptDialogBase<any, infer B> ? B : unknown>[],
->(dialogRef: ComponentRef<JigDialog<T, Buttons>>, config: DialogConfig<T, Buttons>): void {
-  if (config.title !== undefined) {
-    setComponentInput(dialogRef, 'title', config.title);
-  }
-  if (config.size !== undefined) {
-    setComponentInput(dialogRef, 'size', config.size);
-  }
-  if (config.modal !== undefined) {
-    setComponentInput(dialogRef, 'modal', config.modal);
-  }
-  if (config.footerButtons !== undefined) {
-    setComponentInput(dialogRef, 'footerButtons', config.footerButtons);
-  }
-  if (config.closeBy !== undefined) {
-    setComponentInput(dialogRef, 'closeBy', config.closeBy);
-  }
-  if (config.content !== undefined) {
-    setComponentInput(dialogRef, 'content', config.content);
-  }
-  if (config.movable !== undefined) {
-    setComponentInput(dialogRef, 'movable', config.movable);
-  }
-  if (config.resizable !== undefined) {
-    setComponentInput(dialogRef, 'resizable', config.resizable);
+>(dialogRef: ComponentRef<JigDialog<T, Buttons>>, config: Partial<DialogConfig<T, Buttons>>): void {
+  // Every DialogConfig key is a JigDialog input of the same name, so forwarding
+  // by key keeps the two from drifting as inputs are added.
+  for (const [key, value] of Object.entries(config)) {
+    if (value !== undefined) {
+      setComponentInput(dialogRef, key as keyof DialogConfig<T, Buttons> & string, value);
+    }
   }
 }
 
@@ -76,44 +58,33 @@ export function createDialog<
   }) as unknown as ComponentRef<JigDialog<T, Buttons>>;
 
   applyDialogConfig(dialogRef, config);
-  dialogRef.instance.buttonClicked.subscribe(value => {
-    buttonClicked.next(value);
-  });
 
-  const buttonClicked = new Subject<ButtonValues | null>();
-  dialogRef.onDestroy(() => {
-    buttonClicked.complete();
-  });
+  const handle = {
+    close: () => dialogRef.destroy(),
+    updateConfig: (newConfig: Partial<DialogConfig<T, Buttons>>) =>
+      applyDialogConfig(dialogRef, newConfig),
+  };
 
   if (
     typeof config.content === 'function' &&
     config.content.prototype instanceof PromptDialogBase
   ) {
-    const _result = Promise.withResolvers<{
+    const result = Promise.withResolvers<{
       value: (T extends PromptDialogBase<infer D, ButtonValues> ? D : never) | null;
       button: ButtonValues | null;
     }>();
 
-    (dialogRef.instance as unknown as JigDialog<T, Buttons>).promptResult.subscribe(result => {
-      _result.resolve(result);
+    dialogRef.instance.promptResult.subscribe(value => {
+      result.resolve(value);
     });
 
-    return {
-      close: () => dialogRef.destroy(),
-      updateConfig: (newConfig: Partial<DialogConfig<T, Buttons>>) =>
-        applyDialogConfig(dialogRef, newConfig),
-      result: _result.promise,
-    } as T extends PromptDialogBase<any, any>
+    return { ...handle, result: result.promise } as T extends PromptDialogBase<any, any>
       ? PromptDialogHandle<T, Buttons>
       : DialogHandle<T, Buttons>;
   }
 
-  return {
-    close: () => dialogRef.destroy(),
-    updateConfig: (newConfig: Partial<DialogConfig<T, Buttons>>) =>
-      applyDialogConfig(dialogRef, newConfig),
-    buttonClicked: buttonClicked.asObservable(),
-  } as T extends PromptDialogBase<any, any>
+  const buttonClicked: OutputRef<ButtonValues | null> = dialogRef.instance.buttonClicked;
+  return { ...handle, buttonClicked } as T extends PromptDialogBase<any, any>
     ? PromptDialogHandle<T, Buttons>
     : DialogHandle<T, Buttons>;
 }

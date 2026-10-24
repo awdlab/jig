@@ -5,6 +5,7 @@ type _SelectFilterOptions = {
 };
 export type SelectFilterOptions<T extends object> = _SelectFilterOptions & FilterConfig<T>;
 
+/** @internal */
 export type SelectFilterOptionsInternal<T extends object> = _SelectFilterOptions &
   FilterConfigInternal<T>;
 

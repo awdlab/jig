@@ -6,6 +6,10 @@ import { JigDocsApiProperties } from './properties/properties';
 
 import type { DeclarationReflection, ProjectReflection } from 'typedoc/browser';
 
+/** The API tables a control page renders, in the order it renders them. */
+export const API_GROUP_ORDER = ['Inputs', 'Outputs', 'Methods', 'Properties', 'Types'] as const;
+export type ApiGroupKind = (typeof API_GROUP_ORDER)[number];
+
 @Component({
   selector: 'jig-docs-api',
   templateUrl: 'api.html',
@@ -33,31 +37,28 @@ export class Api {
     const component = this._projectComponent();
 
     if (!component) {
-      return { inputs: [], outputs: [], properties: [] };
+      return { Inputs: [], Outputs: [], Properties: [], Methods: [], Types: [] };
     }
 
     const groups = (component as DeclarationReflection).groups ?? [];
-    const inputs = (groups.find(g => g.title === 'Inputs')?.children ??
-      []) as DeclarationReflection[];
-    const outputs = (groups.find(g => g.title === 'Outputs')?.children ??
-      []) as DeclarationReflection[];
-    const properties = (groups.find(g => g.title === 'Properties')?.children ??
-      []) as DeclarationReflection[];
+    const of = (title: ApiGroupKind) =>
+      (groups.find(g => g.title === title)?.children ?? []) as DeclarationReflection[];
 
-    return { inputs, outputs, properties };
+    return {
+      Inputs: of('Inputs'),
+      Outputs: of('Outputs'),
+      Properties: of('Properties'),
+      Methods: of('Methods'),
+      Types: of('Types'),
+    };
   });
 
   public readonly propGroups = computed(() => {
     const props = this.props();
-    return [
-      ...(props.inputs.length > 0 ? [{ kind: 'Inputs', properties: props.inputs } as const] : []),
-      ...(props.outputs.length > 0
-        ? [{ kind: 'Outputs', properties: props.outputs } as const]
-        : []),
-      ...(props.properties.length > 0
-        ? [{ kind: 'Properties', properties: props.properties } as const]
-        : []),
-    ];
+    return API_GROUP_ORDER.filter(kind => props[kind].length > 0).map(kind => ({
+      kind,
+      properties: props[kind],
+    }));
   });
 
   protected readonly internalControlName = computed(() => {

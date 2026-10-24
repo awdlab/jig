@@ -1,8 +1,10 @@
 import {
   afterRenderEffect,
+  booleanAttribute,
   Component,
   computed,
   contentChildren,
+  effect,
   EmbeddedViewRef,
   inject,
   input,
@@ -20,20 +22,33 @@ import {
   elementSizeSignal,
   inlineArrowStep,
   JIG_CONFIG,
+  type JigStorageConfig,
+  registerStorage,
   JigTemplate,
   templateTypeFn,
 } from '@awdlab/jig/api/ng';
 import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
 import { Logger, JigError } from '@awdlab/jig/utils';
-import { type JigStateStorage, registerState } from '@awdlab/jig/utils-ng';
 import { splitterControlTemplate } from '@awdlab/jig-themes/templates/splitter';
 
 import { JigSplitterPanel } from './panel/splitter-panel';
 import { DefaultSplitterCalculator, type SplitterCalculatorType } from './splitter-calculator';
 import { isSplitterPanelSize } from './utils';
 
-import type { SplitterLayout, SplitterResizeMode, SplitterState, SplitterStateData } from './types';
+import type {
+  SplitterLayout,
+  SplitterPanelSize,
+  SplitterResizeMode,
+  SplitterState,
+  SplitterStateData,
+} from './types';
+
+/**
+ * Configuration for persisting splitter state (layout, panel order, panel sizes).
+ * Pass to the `storage` input, e.g. `{ key: 'editor-panes' }`.
+ */
+export type JigSplitterStorageConfig = JigStorageConfig<SplitterStateData>;
 
 /**
  * @category control
@@ -75,26 +90,12 @@ export class JigSplitter extends JigBase<'splitter'> implements OnDestroy {
    */
   public readonly panelOrder = model<string[] | null>();
   /**
-   * The storage to use for saving the splitter state.
-   * @default `session`
+   * Persist layout, panel order and panel sizes across reloads. Provide a key
+   * and, optionally, a `kind` (defaults to the configured `defaults.stateStorage`)
+   * and the subset of `states` to save.
+   * @default null
    */
-  public readonly stateStorage = input<JigStateStorage>(
-    this._config.defaults.splitter.stateStorage
-  );
-  /**
-   * The key to use for saving the splitter state.
-   * If nullish, the state will not be saved.
-   */
-  public readonly stateKey = input<string | null>();
-  /**
-   * The type of data to save in the splitter state.
-   * @default `['layout', 'panelOrder', 'panelSizes']`
-   */
-  public readonly stateData = input<readonly SplitterStateData[]>([
-    'layout',
-    'panelOrder',
-    'panelSizes',
-  ]);
+  public readonly storage = input<JigSplitterStorageConfig | null>(null);
   /**
    * The type of calculator to use for the splitter.
    * @default `DefaultSplitterCalculator`
@@ -113,7 +114,7 @@ export class JigSplitter extends JigBase<'splitter'> implements OnDestroy {
    * When `false`, panels keep their original units (`fr`, `px`).
    * @default false
    */
-  public readonly lockSizes = input<boolean>(false);
+  public readonly lockSizes = input(false, { transform: booleanAttribute });
   /**
    * The step size for moving the dividers using the keyboard.
    * This can be a pixel value (e.g., '5px') or a percentage value (e.g., '5%').
@@ -182,13 +183,48 @@ export class JigSplitter extends JigBase<'splitter'> implements OnDestroy {
       });
     });
 
-    registerState({
-      storage: () => this.stateStorage(),
-      key: () => this.stateKey(),
-      valueFn: this.computeState.bind(this),
-      onLoad: this.onStateLoad.bind(this),
+    registerStorage<SplitterStateData>({
+      config: this.storage,
+      // A drag writes a new size on every pointer move.
       debounce: 100,
+      slices: {
+        layout: {
+          value: () => this.layout(),
+          restore: stored => this.layout.set(stored as SplitterLayout),
+        },
+        panelOrder: {
+          value: () => this.panelOrder(),
+          restore: stored => this.panelOrder.set(stored as string[]),
+        },
+        panelSizes: {
+          // Merged onto what is stored, so panels not rendered right now keep their size.
+          value: stored =>
+            this.panels().reduce(
+              (sizes, panel, index) => {
+                sizes[panel.name() || `jig-panel-${index}`] = panel.size();
+                return sizes;
+              },
+              { ...(stored as Record<string, SplitterPanelSize> | undefined) }
+            ),
+          restore: stored => this.applyPanelSizes(stored as Record<string, SplitterPanelSize>),
+        },
+      },
+      onSave: values => this.stateSaving.emit(values as SplitterState),
+      onRestore: values => {
+        this.ensureValidState(values as SplitterState);
+        this.stateLoading.emit(values as SplitterState);
+      },
     });
+  }
+
+  private applyPanelSizes(sizes: Record<string, SplitterPanelSize>): void {
+    const panels = this.panels();
+    for (let i = 0; i < panels.length; i++) {
+      const size = sizes[panels[i]?.name() || `jig-panel-${i}`];
+      if (size) {
+        panels[i]?.size.set(size);
+      }
+    }
   }
 
   public ngOnDestroy(): void {
@@ -290,36 +326,6 @@ export class JigSplitter extends JigBase<'splitter'> implements OnDestroy {
     });
   }
 
-  private computeState(previousState: SplitterState | null) {
-    const data = this.stateData();
-    const state: SplitterState = {
-      layout: data.includes('layout') ? this.layout() : undefined,
-      panelOrder: data.includes('panelOrder') ? this.panelOrder() : undefined,
-      panelSizes: data.includes('panelSizes')
-        ? this.panels().reduce(
-            (acc, panel, index) => {
-              acc[panel.name() || `jig-panel-${index}`] = panel.size();
-              return acc;
-            },
-            { ...previousState?.panelSizes }
-          )
-        : undefined,
-    };
-
-    this.stateSaving.emit(state);
-
-    return state;
-  }
-
-  private onStateLoad(state: SplitterState | null) {
-    if (state) {
-      this.ensureValidState(state);
-      this.stateLoading.emit(state);
-      this.applyFromState(state);
-    }
-    return state;
-  }
-
   private ensureValidState(state: SplitterState): void {
     if (state.layout && state.layout !== 'horizontal' && state.layout !== 'vertical') {
       Logger.warn(`Invalid layout in saved splitter state.`, { state });
@@ -342,28 +348,6 @@ export class JigSplitter extends JigBase<'splitter'> implements OnDestroy {
     ) {
       Logger.warn(`Invalid panelSizes in saved splitter state.`, { state });
       delete state.panelSizes;
-    }
-  }
-
-  private applyFromState(state: SplitterState) {
-    if (state.layout && this.stateData().includes('layout')) {
-      this.layout.set(state.layout);
-    }
-    if (state.panelOrder && this.stateData().includes('panelOrder')) {
-      this.panelOrder.set(state.panelOrder);
-    }
-    if (state.panelSizes && this.stateData().includes('panelSizes')) {
-      const panels = this.panels();
-      for (let i = 0; i < panels.length; i++) {
-        const panelName = panels[i]?.name() || `jig-panel-${i}`;
-        if (panelName in state.panelSizes) {
-          const panelSize = state.panelSizes[panelName];
-          if (!panelSize) {
-            continue;
-          }
-          panels[i]?.size.set(panelSize);
-        }
-      }
     }
   }
 

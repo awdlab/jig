@@ -9,7 +9,6 @@ import { fileTree } from './sample-data';
   template: `
     <jig-tree
       [items]="items"
-      [selectable]="true"
       [value]="value()"
       (valueChange)="value.set($event)"
       [(expandedValues)]="expanded"
