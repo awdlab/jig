@@ -101,4 +101,6 @@ Always check **all** parts when making changes to a control — a rename or new 
 
 - Verify a build by its exit code, not by grepping its output: the Angular builder prints `X [ERROR] TS…` with ANSI codes in between, so patterns like `error TS` or `ERROR]` silently match nothing and a failing build reads as clean.
 
+- Every PR needs a changeset, including docs-only ones — the `changeset-check` workflow fails without a `.changeset/*.md` file in the diff. For changes that publish nothing (docs app, tooling, CI), add an **empty** changeset: no package lines between the `---` fences, then the author/email/timestamp comments and a bold one-line summary, ending with "No published package changes."
+
 ## Imported Claude Cowork project instructions
