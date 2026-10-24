@@ -18,6 +18,7 @@ export class JigCalendarHarness extends JigHarness {
   public readonly daySameMonth: Locator;
   public readonly dayOtherMonth: Locator;
   public readonly daySelected: Locator;
+  public readonly dayDisabled: Locator;
   public readonly weekDay: Locator;
 
   constructor(locator: Locator) {
@@ -35,6 +36,7 @@ export class JigCalendarHarness extends JigHarness {
     );
     this.dayOtherMonth = locator.locator(`${this.classes.day}${this.classes['day-other-month']}`);
     this.daySelected = locator.locator(this.classes['day-selected']);
+    this.dayDisabled = locator.locator(this.classes['day-disabled']);
     this.weekDay = locator.locator(this.classes['week-day']);
   }
 

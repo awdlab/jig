@@ -41,6 +41,8 @@ export type DayTemplateType = {
     selected: boolean;
     today: boolean;
     fromOtherMonth: boolean;
+    /** Whether the day lies outside the calendar's min/max bounds and cannot be selected. */
+    disabled: boolean;
   };
 };
 
