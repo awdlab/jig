@@ -8,13 +8,20 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
   selector: 'jig-docs-calendar-playground',
   imports: [JigCalendar, JigInputField, JigDocsPlayground],
   template: `
-    <jig-docs-playground [controls]="[{ componentName: 'JigCalendar', component: component() }]">
-      <jig-input-field>
+    <jig-docs-playground
+      #playground
+      [controls]="[{ componentName: 'JigCalendar', component: component() }]"
+    >
+      @if (playground.values().JigCalendar?.inline) {
         <jig-calendar #ref />
-      </jig-input-field>
+      } @else {
+        <jig-input-field>
+          <jig-calendar #ref />
+        </jig-input-field>
+      }
     </jig-docs-playground>
   `,
 })
 export class JigDocsCalendarPlayground {
-  protected readonly component = viewChild.required('ref', { read: JigCalendar });
+  protected readonly component = viewChild('ref', { read: JigCalendar });
 }

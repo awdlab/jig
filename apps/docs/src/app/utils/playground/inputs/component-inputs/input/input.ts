@@ -3,6 +3,7 @@ import {
   input,
   computed,
   effect,
+  inject,
   linkedSignal,
   type InputSignal,
   type Signal,
@@ -17,6 +18,7 @@ import { JigSwitch } from '@awdlab/jig/switch';
 import { generateElementId, setInputSignalValue } from '@awdlab/jig/utils-ng';
 
 import { JigDocsPlaygroundJsonInput } from './json-input/json-input';
+import { JigDocsPlayground, type PlaygroundControl } from '../../../playground';
 
 import type { AnyJigBase } from '@awdlab/jig/base';
 import type { TypeDeclaration } from '../../../type-model';
@@ -45,6 +47,10 @@ import type { DeclarationReflection } from 'typedoc/browser';
   },
 })
 export class JigDocsPlaygroundInput {
+  private readonly _playground =
+    inject<JigDocsPlayground<readonly PlaygroundControl[]>>(JigDocsPlayground);
+
+  public readonly componentName = input.required<string>();
   public readonly input = input.required<DeclarationReflection>();
   public readonly instance = input<AnyJigBase>();
   /** The input's type, already resolved and filled in by the parent panel. */
@@ -58,8 +64,11 @@ export class JigDocsPlaygroundInput {
 
   protected readonly value = linkedSignal<any>(() => this.defaultValue());
   protected _previousInputValue: any = undefined;
+  private _previousInstance: AnyJigBase | undefined;
 
   constructor() {
+    effect(() => this._playground.setValue(this.componentName(), this.input().name, this.value()));
+
     effect(() => {
       const instance = this.instance();
       if (!instance) {
@@ -68,7 +77,11 @@ export class JigDocsPlaygroundInput {
       const value = this.value();
       const inputName = this.input().name;
 
-      if ((this._previousInputValue ?? undefined) !== (value ?? undefined)) {
+      // A swapped-in instance starts from its defaults, so it gets every value re-applied.
+      const swapped = this._previousInstance !== undefined && instance !== this._previousInstance;
+      this._previousInstance = instance;
+
+      if (swapped || (this._previousInputValue ?? undefined) !== (value ?? undefined)) {
         this._previousInputValue = value;
         if (inputName in instance) {
           const input = (instance as any)[inputName] as InputSignal<unknown>;
