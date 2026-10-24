@@ -4,7 +4,6 @@ import {
   Component,
   computed,
   contentChildren,
-  effect,
   EmbeddedViewRef,
   inject,
   input,

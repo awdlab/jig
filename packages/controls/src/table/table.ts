@@ -8,7 +8,6 @@ import {
   input,
   model,
   type OnInit,
-  runInInjectionContext,
   signal,
   untracked,
   booleanAttribute,

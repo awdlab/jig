@@ -9,7 +9,6 @@ import {
   model,
   type OnInit,
   output,
-  runInInjectionContext,
   signal,
   untracked,
   viewChild,
@@ -17,7 +16,6 @@ import {
 import { treeControlTemplate } from '@awdlab/jig-themes/templates/tree';
 
 import {
-  type FilterConfig,
   type FilterConfigInternal,
   filterOptions,
   type JigTreeItem,
@@ -37,7 +35,7 @@ import { I18n } from '@awdlab/jig/i18n';
 import { JigScroller, JigScrollerItem } from '@awdlab/jig/scroller';
 import { createConditionalSpinner, JigSpinner } from '@awdlab/jig/spinner';
 import { Logger, maybeCallback } from '@awdlab/jig/utils';
-import { asyncComputed, optionalBooleanAttribute } from '@awdlab/jig/utils-ng';
+import { asyncComputed } from '@awdlab/jig/utils-ng';
 
 import { TreeTemplates, type ValueType } from './tree-templates';
 import {
