@@ -31,8 +31,9 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
     ProjectBoard,
   ],
   template: `
-    <section class="px-(--jig-size-padding-xl) py-8">
+    <section class="px-(--jig-size-padding-xl) py-8" aria-labelledby="demo-heading">
       <div class="mx-auto max-w-[1360px]">
+        <h2 id="demo-heading" class="sr-only">Live demo apps</h2>
         <div class="card overflow-hidden shadow-(--jig-shadow-lg)">
           <!-- Browser chrome -->
           <div
@@ -44,7 +45,7 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
               <span class="size-3 rounded-full bg-[#34d399]"></span>
             </span>
             <span
-              class="mx-auto flex items-center gap-(--jig-size-padding-sm) rounded-(--jig-size-rounded-md) bg-(--jig-color-surface-100) px-(--jig-size-padding-lg) py-1.5 font-mono text-(length:--jig-font-size-xs) text-(--jig-color-surface-500)"
+              class="mx-auto flex items-center gap-(--jig-size-padding-sm) rounded-(--jig-size-rounded-md) bg-(--jig-color-surface-100) px-(--jig-size-padding-lg) py-1.5 font-mono text-(length:--jig-font-size-xs) text-(--jig-color-surface-600)"
             >
               <jig-icon [icon]="lockIcon" /> app.jig.awdlab.dev
             </span>
@@ -57,10 +58,7 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
           <div class="flex min-h-[54rem] max-md:min-h-[36rem] max-md:flex-col">
             <nav
               class="flex w-16 shrink-0 flex-col items-center gap-(--jig-size-padding-sm) border-e border-(--jig-color-surface-200) bg-(--jig-color-surface-50) py-(--jig-size-padding-lg) max-md:w-full max-md:flex-row max-md:justify-start max-md:gap-(--jig-size-padding-xs) max-md:overflow-x-auto max-md:border-e-0 max-md:border-b max-md:px-(--jig-size-padding-md) max-md:py-(--jig-size-padding-sm)"
-              role="tablist"
-              aria-orientation="vertical"
               aria-label="Demo app"
-              (keydown)="onRailKeydown($event)"
             >
               <span
                 aria-hidden="true"
@@ -69,33 +67,42 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
                 n
               </span>
 
-              @for (d of demos; track d.id) {
-                <button
-                  type="button"
-                  role="tab"
-                  [id]="'demo-tab-' + d.id"
-                  [attr.aria-selected]="active() === d.id"
-                  aria-controls="demo-panel"
-                  [tabindex]="active() === d.id ? 0 : -1"
-                  [jigTooltip]="d.label"
-                  jigTooltipPlacement="right"
-                  class="relative flex size-11 items-center justify-center rounded-(--jig-size-rounded-lg) text-(length:--jig-font-size-lg) transition-colors"
-                  [class]="
-                    active() === d.id
-                      ? 'bg-(--jig-color-primary-100) text-(--jig-color-primary-600)'
-                      : 'text-(--jig-color-surface-500) hover:bg-(--jig-color-surface-100) hover:text-(--jig-color-text)'
-                  "
-                  (click)="active.set(d.id)"
-                >
-                  @if (active() === d.id) {
-                    <span
-                      aria-hidden="true"
-                      class="absolute top-1/2 start-[-0.625rem] h-6 w-1 -translate-y-1/2 rounded-e-full bg-(--jig-color-primary-500) max-md:hidden"
-                    ></span>
-                  }
-                  <jig-icon [icon]="d.icon" />
-                </button>
-              }
+              <div
+                class="flex flex-col items-center gap-(--jig-size-padding-sm) max-md:flex-row max-md:gap-(--jig-size-padding-xs)"
+                role="tablist"
+                aria-orientation="vertical"
+                aria-label="Demos"
+                (keydown)="onRailKeydown($event)"
+              >
+                @for (d of demos; track d.id) {
+                  <button
+                    type="button"
+                    role="tab"
+                    [id]="'demo-tab-' + d.id"
+                    [attr.aria-selected]="active() === d.id"
+                    aria-controls="demo-panel"
+                    [tabindex]="active() === d.id ? 0 : -1"
+                    [attr.aria-label]="d.label"
+                    [jigTooltip]="d.label"
+                    jigTooltipPlacement="right"
+                    class="relative flex size-11 items-center justify-center rounded-(--jig-size-rounded-lg) text-(length:--jig-font-size-lg) transition-colors"
+                    [class]="
+                      active() === d.id
+                        ? 'bg-(--jig-color-primary-100) text-(--jig-color-primary-600)'
+                        : 'text-(--jig-color-surface-600) hover:bg-(--jig-color-surface-100) hover:text-(--jig-color-text)'
+                    "
+                    (click)="active.set(d.id)"
+                  >
+                    @if (active() === d.id) {
+                      <span
+                        aria-hidden="true"
+                        class="absolute top-1/2 start-[-0.625rem] h-6 w-1 -translate-y-1/2 rounded-e-full bg-(--jig-color-primary-500) max-md:hidden"
+                      ></span>
+                    }
+                    <jig-icon [icon]="d.icon" />
+                  </button>
+                }
+              </div>
 
               <span class="grow"></span>
 
@@ -105,7 +112,7 @@ type DemoId = 'sales-crm' | 'team-chat' | 'project-board';
                 jigTooltip="Settings"
                 jigTooltipPlacement="right"
                 tabindex="-1"
-                class="flex size-11 items-center justify-center rounded-(--jig-size-rounded-lg) text-(length:--jig-font-size-lg) text-(--jig-color-surface-500) transition-colors hover:bg-(--jig-color-surface-100) hover:text-(--jig-color-text)"
+                class="flex size-11 items-center justify-center rounded-(--jig-size-rounded-lg) text-(length:--jig-font-size-lg) text-(--jig-color-surface-600) transition-colors hover:bg-(--jig-color-surface-100) hover:text-(--jig-color-text)"
               >
                 <jig-icon [icon]="settingsIcon" />
               </button>

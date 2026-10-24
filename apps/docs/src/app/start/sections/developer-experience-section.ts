@@ -102,7 +102,7 @@ interface Fact {
 const FACTS: readonly Fact[] = [
   {
     metric: '100%',
-    metricClass: 'text-(--jig-color-primary-500)',
+    metricClass: 'text-(--jig-color-primary-600)',
     title: 'Typed public API',
     body: 'Inputs, models and outputs are generic — no any, no string keys, no guessing.',
   },
@@ -114,13 +114,13 @@ const FACTS: readonly Fact[] = [
   },
   {
     metric: 'CI',
-    metricClass: 'text-(--jig-color-success-500)',
+    metricClass: 'text-(--jig-color-success-700)',
     title: 'Unit + visual tests',
     body: 'Screenshot regression and axe checks run on every control, every release.',
   },
   {
     metric: 'i18n',
-    metricClass: 'text-(--jig-color-warning-500)',
+    metricClass: 'text-(--jig-color-warning-700)',
     title: 'Locale aware',
     body: 'Bundled UI translations; dates and numbers follow the active locale.',
   },
@@ -205,18 +205,21 @@ const FACTS: readonly Fact[] = [
                   [placeholder]="multiple() ? 'Pick stages…' : 'Pick a stage…'"
                 />
               </jig-input-field>
-              <span class="mono text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)">
+              <span class="mono text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)">
                 value = {{ valuePreview() }}
               </span>
             </div>
 
             <div class="p-(--jig-size-padding-xl)">
               <p
-                class="mono mb-(--jig-size-padding-lg) text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)"
+                class="mono mb-(--jig-size-padding-lg) text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)"
               >
                 deal-form.component.ts
               </p>
               <pre
+                tabindex="0"
+                role="region"
+                aria-label="deal-form.component.ts"
                 class="overflow-x-auto text-(length:--jig-font-size-sm)"
               ><code class="prism" [innerHTML]="highlighted()"></code></pre>
 
@@ -224,7 +227,7 @@ const FACTS: readonly Fact[] = [
                    select instance, typed by the generic you passed in. -->
               <div aria-hidden="true" class="mono mt-(--jig-size-padding-xl)">
                 <p class="text-(--jig-color-text)">
-                  this.select()<span class="text-(--jig-color-surface-400)">.</span
+                  this.select()<span class="text-(--jig-color-surface-600)">.</span
                   ><span class="animate-pulse">|</span>
                 </p>
                 <div
@@ -246,7 +249,7 @@ const FACTS: readonly Fact[] = [
                         </span>
                         <span class="text-(--jig-color-text)">{{ member.name }}</span>
                       </span>
-                      <span class="text-(--jig-color-surface-500)">
+                      <span class="text-(--jig-color-surface-600)">
                         {{ multiple() ? member.multiple : member.single }}
                       </span>
                     </div>

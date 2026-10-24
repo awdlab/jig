@@ -5,6 +5,20 @@ import { JigTooltipHarness } from '@awdlab/jig-playwright';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
+test('keeps an author-set accessible name', async ({ page }) => {
+  await loadComponent(page, {
+    template: `<button class="page-center" aria-label="Export opportunities" [jigTooltip]="'Export to CSV'">⬇</button>`,
+    imports: ['tooltip'],
+  });
+
+  const button = page.getByRole('button', { name: 'Export opportunities' });
+  await expect(button).toHaveAttribute('aria-description', 'Export to CSV');
+
+  await button.hover();
+  await expect(page.getByRole('tooltip').first()).toBeVisible();
+  await expect(button).toHaveAttribute('aria-label', 'Export opportunities');
+});
+
 test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(page, {
     template: `<button class="page-center" [jigTooltip]="'Hello World!'">Button</button>`,

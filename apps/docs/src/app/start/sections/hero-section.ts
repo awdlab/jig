@@ -3,7 +3,7 @@ import { Component, afterNextRender, computed, inject, signal } from '@angular/c
 import { RouterLink } from '@angular/router';
 import { JigButton } from '@awdlab/jig/button';
 
-import { CONTROL_COUNT } from './controls-count';
+import { CONTROL_COUNT } from '../../docs/_generated/seo';
 
 interface Stats {
   version: string | null;
@@ -301,7 +301,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
     <section class="px-(--jig-size-padding-xl) pt-32 lg:pt-44">
       <div class="mx-auto flex max-w-[1240px] flex-col gap-7">
         <div
-          class="mono flex items-center justify-between gap-(--jig-size-padding-lg) text-[0.72rem] tracking-[0.16em] text-(--jig-color-surface-500) uppercase"
+          class="mono flex items-center justify-between gap-(--jig-size-padding-lg) text-[0.72rem] tracking-[0.16em] text-(--jig-color-surface-600) uppercase"
         >
           <!-- Hovering the package name lifts the rest of the family into view. -->
           <span class="hero-egg-host relative inline-flex">
@@ -356,7 +356,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
                 href="https://github.com/awdlab"
                 target="_blank"
                 rel="noopener"
-                class="mono self-end pb-2 text-[0.72rem] tracking-[0.16em] text-(--jig-color-surface-500) uppercase no-underline hover:text-(--jig-color-text)"
+                class="mono self-end pb-2 text-[0.72rem] tracking-[0.16em] text-(--jig-color-surface-600) uppercase no-underline hover:text-(--jig-color-text)"
               >
                 by awdlab
               </a>
@@ -424,7 +424,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
             }
             @if (pinned()) {
               <span
-                class="mono text-[0.68rem] tracking-[0.14em] text-(--jig-color-surface-400) uppercase"
+                class="mono text-[0.68rem] tracking-[0.14em] text-(--jig-color-surface-600) uppercase"
               >
                 paused · click again to resume
               </span>
@@ -504,7 +504,7 @@ const EGG_PACKAGES = ['@awdlab/jig-THEMES', '@awdlab/jig-PLAYWRIGHT', '@awdlab/j
       <div class="hero-rule"></div>
 
       <div
-        class="mono mx-auto grid max-w-[1240px] grid-cols-2 gap-x-(--jig-size-padding-lg) gap-y-(--jig-size-padding-lg) pt-8 pb-20 text-(length:--jig-font-size-sm) text-(--jig-color-surface-500) sm:grid-cols-4 lg:pb-28"
+        class="mono mx-auto grid max-w-[1240px] grid-cols-2 gap-x-(--jig-size-padding-lg) gap-y-(--jig-size-padding-lg) pt-8 pb-20 text-(length:--jig-font-size-sm) text-(--jig-color-surface-600) sm:grid-cols-4 lg:pb-28"
       >
         <!-- The proof line stays in the a11y tree; hovering just fades it in. -->
         @for (stat of stats; track stat.label) {

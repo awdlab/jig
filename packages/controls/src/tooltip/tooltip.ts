@@ -50,6 +50,8 @@ export class JigTooltip extends JigBase<'tooltip'> implements OnDestroy {
   private readonly _viewContainerRef = inject(ViewContainerRef);
   private readonly _config = inject(JIG_CONFIG);
   private readonly _tooltip = signal<ComponentRef<TooltipComponent> | null>(null);
+  /** The ARIA attribute this directive last wrote, so it never removes an author's. */
+  private _ownedAriaAttr: string | null = null;
 
   /**
    * The content of the tooltip, can be a string or a TemplateRef.
@@ -213,10 +215,10 @@ export class JigTooltip extends JigBase<'tooltip'> implements OnDestroy {
       const content = this.content();
       const autoAriaMode = this.effectiveOptions().autoAriaMode;
 
-      el.removeAttribute('aria-label');
-      el.removeAttribute('aria-description');
-      el.removeAttribute('aria-labelledby');
-      el.removeAttribute('aria-describedby');
+      if (this._ownedAriaAttr) {
+        el.removeAttribute(this._ownedAriaAttr);
+        this._ownedAriaAttr = null;
+      }
 
       if (autoAriaMode === 'none' || !content) {
         return;
@@ -224,19 +226,28 @@ export class JigTooltip extends JigBase<'tooltip'> implements OnDestroy {
 
       const tooltip = this.tooltip();
       const isShown = tooltip?.isShown() ?? false;
-
-      if (typeof content === 'string') {
-        if (isShown && tooltip) {
-          const attr = autoAriaMode === 'label' ? 'aria-labelledby' : 'aria-describedby';
-          el.setAttribute(attr, tooltip.id);
-        } else {
-          const attr = autoAriaMode === 'label' ? 'aria-label' : 'aria-description';
-          el.setAttribute(attr, content);
-        }
-      } else if (content instanceof TemplateRef && isShown && tooltip) {
-        const attr = autoAriaMode === 'label' ? 'aria-labelledby' : 'aria-describedby';
-        el.setAttribute(attr, tooltip.id);
+      const isLabel = autoAriaMode === 'label';
+      let attr: string;
+      let value: string;
+      if (isShown && tooltip) {
+        attr = isLabel ? 'aria-labelledby' : 'aria-describedby';
+        value = tooltip.id;
+      } else if (typeof content === 'string') {
+        attr = isLabel ? 'aria-label' : 'aria-description';
+        value = content;
+      } else {
+        return;
       }
+
+      // An author-set name or description wins over the tooltip's.
+      const authored = isLabel
+        ? ['aria-label', 'aria-labelledby']
+        : ['aria-description', 'aria-describedby'];
+      if (authored.some(name => el.hasAttribute(name))) {
+        return;
+      }
+      el.setAttribute(attr, value);
+      this._ownedAriaAttr = attr;
     });
   }
 

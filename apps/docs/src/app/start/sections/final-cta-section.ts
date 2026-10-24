@@ -34,7 +34,7 @@ import { JigDocsSectionHeader } from './section-header';
         </a>
       </div>
       <p
-        class="mono mt-(--jig-size-padding-xl) text-(length:--jig-font-size-sm) text-(--jig-color-surface-500)"
+        class="mono mt-(--jig-size-padding-xl) text-(length:--jig-font-size-sm) text-(--jig-color-surface-600)"
       >
         MIT licensed · Angular 22+ · zoneless and signals-native
       </p>
