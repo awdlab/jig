@@ -2,6 +2,7 @@ import { JigDocsFilterBarPlayground } from './playground';
 import { Demo_FilterBar_Base } from '../../../demos/filter-bar/base';
 import { Demo_FilterBar_Properties } from '../../../demos/filter-bar/properties';
 import { Demo_FilterBar_WithListBox } from '../../../demos/filter-bar/with-list-box';
+import { Demo_FilterBar_CustomTemplate } from '../../../demos/filter-bar/custom-template';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
 import type { JigDocsPage } from '../../../utils/page/types';
@@ -16,7 +17,12 @@ export const FilterBarPage: JigDocsPage = {
 
       title: 'Examples',
       mdFile: 'components/filter-bar/index.md',
-      components: [Demo_FilterBar_Base, Demo_FilterBar_Properties, Demo_FilterBar_WithListBox],
+      components: [
+        Demo_FilterBar_Base,
+        Demo_FilterBar_Properties,
+        Demo_FilterBar_WithListBox,
+        Demo_FilterBar_CustomTemplate,
+      ],
     },
     {
       kind: 'component',

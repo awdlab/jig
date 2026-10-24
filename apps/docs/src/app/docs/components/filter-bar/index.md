@@ -62,3 +62,5 @@ can offer to clear everything.
 `templateFilter` is forwarded straight to the embedded builder, so the popover
 behind the trigger can be entirely yours. See the filter builder's page for the
 context it hands your template.
+
+{{ demo: Demo_FilterBar_CustomTemplate }}

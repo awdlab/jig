@@ -36,6 +36,9 @@ function load(page: Parameters<typeof loadComponent>[0], inputs: Record<string, 
   );
 }
 
+const bar = (page: Parameters<typeof loadComponent>[0]) =>
+  new JigFilterBarHarness(page.locator('jig-filter-bar'));
+
 const names = (rows: unknown): string[] =>
   (rows as { name: string }[] | undefined)?.map(r => r.name) ?? [];
 
@@ -224,4 +227,51 @@ test('matches the screenshot with search text and a chip', async ({ page }, test
   await bar.searchInput().fill('Ann');
 
   await expectScreenshot(page, testInfo, 'chip');
+});
+
+test('a projected filter template replaces the popover rows', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+        <jig-filter-bar
+          [data]="inputs().data"
+          [properties]="inputs().properties"
+          [searchDebounce]="0"
+          (filterChange)="output('config', $event)"
+          (filterResultChange)="output('filtered', $event)"
+          style="width: 420px"
+        >
+          <ng-template #filter let-setValue="setValue">
+            <button
+              type="button"
+              data-testid="ann-only"
+              (click)="
+                setValue({
+                  matchMode: 'all',
+                  conditions: [{ property: 'name', operator: 'isEqual', rawValue: 'Ann' }]
+                })
+              "
+            >
+              Ann only
+            </button>
+          </ng-template>
+        </jig-filter-bar>
+      `,
+      imports: ['filterBar'],
+    },
+    { inputs: { data: USERS, properties: PROPERTIES } }
+  );
+
+  const builder = bar(page).filterBuilder();
+  await bar(page).filterTrigger().click();
+  await expect(page.getByTestId('ann-only')).toBeVisible();
+  // The condition rows are gone — no property select is rendered for row 0.
+  await expect(builder.propertySelect(0).locator).toHaveCount(0);
+
+  await page.getByTestId('ann-only').click();
+  await expect(async () => {
+    const log = await handle.getOutputLog();
+    expect(names(log['filtered']?.at(-1))).toEqual(['Ann']);
+  }).toPass();
 });

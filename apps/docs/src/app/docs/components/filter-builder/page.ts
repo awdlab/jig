@@ -5,6 +5,7 @@ import { Demo_FilterBuilder_DataTypes } from '../../../demos/filter-builder/data
 import { Demo_FilterBuilder_Headless } from '../../../demos/filter-builder/headless';
 import { Demo_FilterBuilder_Inline } from '../../../demos/filter-builder/inline';
 import { Demo_FilterBuilder_Multiple } from '../../../demos/filter-builder/multiple';
+import { Demo_FilterBuilder_CustomTemplate } from '../../../demos/filter-builder/custom-template';
 import { i18nKeys } from '../../../utils/i18n-doc';
 
 import type { JigDocsPage } from '../../../utils/page/types';
@@ -25,6 +26,7 @@ export const FilterBuilderPage: JigDocsPage = {
         Demo_FilterBuilder_Headless,
         Demo_FilterBuilder_DataTypes,
         Demo_FilterBuilder_Multiple,
+        Demo_FilterBuilder_CustomTemplate,
         Demo_FilterBuilder_ApplyMode,
       ],
     },

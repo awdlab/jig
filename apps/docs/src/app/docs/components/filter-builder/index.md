@@ -77,3 +77,5 @@ your own editor, exactly as on `jig-filter-field`. The context carries
 `properties` instead of a single `dataType`, since a condition here names the
 property it filters on. Write a `JigFilterBuilderConfig` back through `setValue`
 and the chips, the badge and server-side filtering all keep working.
+
+{{ demo: Demo_FilterBuilder_CustomTemplate }}

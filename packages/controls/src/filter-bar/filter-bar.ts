@@ -2,6 +2,7 @@ import {
   booleanAttribute,
   Component,
   computed,
+  contentChild,
   DestroyRef,
   effect,
   ElementRef,
@@ -143,6 +144,11 @@ export class JigFilterBar<T = unknown, TData = T> extends ValueControlBase<
    * to the embedded {@link JigFilterBuilder}; see its `templateFilter`.
    */
   public readonly templateFilter = input<TemplateRef<unknown> | null>(null);
+  private readonly _userFilterTemplate = contentChild<TemplateRef<unknown>>('filter');
+  /** The projected `#filter` template wins over the input, as elsewhere in the library. */
+  protected readonly filterTemplate = computed(
+    () => this._userFilterTemplate() ?? this.templateFilter()
+  );
   /**
    * Custom icon for the search field.
    */
