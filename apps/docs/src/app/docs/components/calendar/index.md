@@ -31,6 +31,17 @@ reflects `invalid` (setting `aria-invalid`) alongside `disabled` and `readonly`.
 
 {{ demo: Demo_Calendar_Validation }}
 
+### Min / max
+
+`min` and `max` bound the selectable dates, compared by day. Days outside the
+range render disabled (`aria-disabled`) and ignore clicks and Enter/Space, but
+every month stays navigable so the grid can still show context such as today or
+custom day-template indicators. A typed date outside the range is clamped to the
+nearest bound. Either bound can be `null` to leave that
+side open.
+
+{{ demo: Demo_Calendar_Bounds }}
+
 ### States
 
 Each field pairs `jig-calendar` with `jig-input-field` to show the `readonly`,

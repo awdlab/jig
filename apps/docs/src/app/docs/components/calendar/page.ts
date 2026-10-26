@@ -1,5 +1,6 @@
 import { JigDocsCalendarPlayground } from './playground';
 import { Demo_Calendar_Base } from '../../../demos/calendar/base';
+import { Demo_Calendar_Bounds } from '../../../demos/calendar/bounds';
 import { Demo_Calendar_Inline } from '../../../demos/calendar/inline';
 import { Demo_Calendar_InlineTime } from '../../../demos/calendar/inline-time';
 import { Demo_Calendar_States } from '../../../demos/calendar/states';
@@ -22,6 +23,7 @@ export const CalendarPage: JigDocsPage = {
       components: [
         Demo_Calendar_Base,
         Demo_Calendar_Validation,
+        Demo_Calendar_Bounds,
         Demo_Calendar_States,
         Demo_Calendar_Inline,
         Demo_Calendar_Time,

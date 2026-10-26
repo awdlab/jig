@@ -80,10 +80,12 @@
                 'day-other-month': day.monthOffset !== 0,
                 'day-today': isToday(day),
                 'day-selected': isSelected(day),
+                'day-disabled': isDisabled(day),
               }"
               [tabIndex]="!day.monthOffset && tabFocusDay() === day.date ? 0 : -1"
               [attr.aria-current]="isToday(day) ? 'date' : null"
               [attr.aria-label]="dayLabel(day)"
+              [attr.aria-disabled]="isDisabled(day) ? 'true' : null"
               type="button"
               (click)="
                 daySelected.emit({
@@ -102,6 +104,7 @@
                       fromOtherMonth: day.monthOffset !== 0,
                       selected: isSelected(day),
                       today: isToday(day),
+                      disabled: isDisabled(day),
                     },
                   }
                 "

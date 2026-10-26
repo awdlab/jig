@@ -27,6 +27,7 @@ import {
   type WeekDayTemplateType,
   type YearTemplateType,
 } from '../types';
+import { isWithinBounds } from '../bounds';
 
 import type { ControlTemplateInfo } from '@awdlab/jig/api/ng';
 import { inlineArrowStep } from '@awdlab/jig/api/ng';
@@ -55,6 +56,8 @@ export class CalendarDays {
   public readonly month = input.required<number>();
   public readonly currentValue = input.required<Date | null>();
   public readonly firstDayOfWeek = input.required<WeekDay>();
+  public readonly min = input.required<Date | null>();
+  public readonly max = input.required<Date | null>();
   public readonly dayTemplate = input.required<TemplateRef<DayTemplateType>>();
   public readonly weekDayTemplate = input.required<TemplateRef<WeekDayTemplateType>>();
   public readonly timeTemplate = input.required<TemplateRef<TimeTemplateType>>();
@@ -162,12 +165,23 @@ export class CalendarDays {
     })
   );
 
+  private _dateOf(day: DayModel): Date {
+    return new Date(this.year(), this.month() + day.monthOffset, day.date);
+  }
+
   /** Full, localized date used as each day cell's accessible name (e.g. "Thursday, 15 January 2026"). */
   protected dayLabel(day: DayModel): string {
-    return new Date(this.year(), this.month() + day.monthOffset, day.date).toLocaleDateString(
-      undefined,
-      { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-    );
+    return this._dateOf(day).toLocaleDateString(undefined, {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  }
+
+  /** Whether the given day cell lies outside the min/max bounds. */
+  protected isDisabled(day: DayModel): boolean {
+    return !isWithinBounds(this._dateOf(day), this.min(), this.max());
   }
 
   /** Whether the given day cell holds the currently selected value. */
