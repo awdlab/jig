@@ -1,5 +1,6 @@
-import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, input, signal } from '@angular/core';
 import { provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { hostOrGeneratedId } from '@awdlab/jig/utils-ng';
 import { JigRovingGroup } from '@awdlab/jig/roving-focus';
 import { radioGroupControlTemplate } from '@awdlab/jig-themes/templates/radio-group';
 
@@ -26,6 +27,7 @@ import { JIG_RADIO_GROUP, type JigRadioGroupApi, type JigRadioRef } from './radi
     role: 'radiogroup',
     '[attr.aria-label]': 'label()',
     '[attr.aria-labelledby]': 'labelledBy()',
+    '[id]': 'inputId()',
     '[attr.aria-orientation]': 'roving.orientation()',
     '[attr.aria-invalid]': "invalidState() ? 'true' : null",
     '[attr.aria-required]': "requiredState() ? 'true' : null",
@@ -36,6 +38,12 @@ export class JigRadioGroup<V>
   extends ValueControlBase<'radioGroup', V>
   implements JigRadioGroupApi<V>
 {
+  /**
+   * The ID for the control, rendered on its host. Defaults to the host's `id` attribute, else a
+   * generated id.
+   */
+  public override readonly inputId = input<string>(hostOrGeneratedId());
+
   protected readonly theme = this.injectThemeTemplate(radioGroupControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),

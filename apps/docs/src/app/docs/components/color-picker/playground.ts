@@ -8,7 +8,12 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
   imports: [JigColorPicker, JigDocsPlayground],
   template: `
     <jig-docs-playground [controls]="[{ componentName: 'JigColorPicker', component: component() }]">
-      <jig-color-picker #ref [value]="value()" (valueChange)="value.set($event)" />
+      <jig-color-picker
+        #ref
+        [label]="'Color'"
+        [value]="value()"
+        (valueChange)="value.set($event)"
+      />
     </jig-docs-playground>
   `,
 })

@@ -92,7 +92,7 @@
     {
       "from": "p-inputText / pInputText",
       "to": "input[jigInput]",
-      "notes": "Attribute directive on native <input>/<textarea>; wrap in jig-input-field for chrome. Move any `id` off the input onto the wrapper: `<jig-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references.",
+      "notes": "Attribute directive on native <input>/<textarea>; wrap in jig-input-field for chrome. Keep any existing `id` on the input; the field label follows it.",
       "props": [{ "from": "[(ngModel)]", "to": "[(value)]" }]
     },
     {

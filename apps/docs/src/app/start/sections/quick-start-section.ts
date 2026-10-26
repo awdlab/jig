@@ -1,4 +1,5 @@
 import { Component, signal } from '@angular/core';
+import { JigFor } from '@awdlab/jig/directives';
 import { JigSlider } from '@awdlab/jig/slider';
 import { JigSwitch } from '@awdlab/jig/switch';
 
@@ -25,7 +26,7 @@ export class VolumeComponent {
 
 @Component({
   selector: 'jig-docs-quick-start-section',
-  imports: [JigSlider, JigSwitch, JigDocsReveal, JigDocsSectionHeader],
+  imports: [JigFor, JigSlider, JigSwitch, JigDocsReveal, JigDocsSectionHeader],
   host: { class: 'block px-(--jig-size-padding-xl) py-12 lg:py-16' },
   template: `
     <div [jigDocsReveal]="0" class="mx-auto max-w-[1100px]">
@@ -73,7 +74,7 @@ export class VolumeComponent {
 
             <div>
               <div class="mb-(--jig-size-padding-md) flex items-baseline justify-between">
-                <label [for]="volumeSlider.inputId()" class="text-(--jig-color-text)">Volume</label>
+                <label [jigFor]="volumeSlider" class="text-(--jig-color-text)">Volume</label>
                 <span
                   class="text-(length:--jig-font-size-lg) font-(--jig-font-weight-bold) text-(--jig-color-text)"
                 >

@@ -35,7 +35,7 @@ import { I18n } from '@awdlab/jig/i18n';
 import { JigScroller, JigScrollerItem } from '@awdlab/jig/scroller';
 import { createConditionalSpinner, JigSpinner } from '@awdlab/jig/spinner';
 import { Logger, maybeCallback } from '@awdlab/jig/utils';
-import { asyncComputed } from '@awdlab/jig/utils-ng';
+import { asyncComputed, hostOrGeneratedId } from '@awdlab/jig/utils-ng';
 
 import { TreeTemplates, type ValueType } from './tree-templates';
 import {
@@ -91,6 +91,12 @@ export class JigTree<Items extends readonly JigTreeItem[], Multiple extends bool
   extends TreeTemplates<Items, Multiple>
   implements OnInit
 {
+  /**
+   * The ID for the control, rendered on its host. Defaults to the host's `id` attribute, else a
+   * generated id.
+   */
+  public override readonly inputId = input<string>(hostOrGeneratedId());
+
   protected readonly i18n = inject(I18n).translations;
   protected readonly theme = this.injectThemeTemplate(treeControlTemplate, {
     root: true,

@@ -2,6 +2,7 @@ import { Component, output, signal } from '@angular/core';
 import { form, FormField, min, required } from '@angular/forms/signals';
 import { JigButton } from '@awdlab/jig/button';
 import { JigCalendar } from '@awdlab/jig/calendar';
+import { JigFor } from '@awdlab/jig/directives';
 import { JigErrors } from '@awdlab/jig/errors';
 import { JigHint } from '@awdlab/jig/hint';
 import { JigInput } from '@awdlab/jig/input';
@@ -37,6 +38,7 @@ interface DealForm {
     JigButton,
     JigCalendar,
     JigErrors,
+    JigFor,
     JigHint,
     JigInput,
     JigInputField,
@@ -101,7 +103,7 @@ interface DealForm {
     </div>
 
     <label
-      [for]="priorityBtn.inputId()"
+      [jigFor]="priorityBtn"
       class="mb-(--jig-size-padding-sm) block text-(length:--jig-font-size-sm) font-(--jig-font-weight-semibold) text-(--jig-color-surface-600)"
     >
       Priority

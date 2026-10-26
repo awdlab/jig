@@ -9,12 +9,14 @@
     (click)="focusFromPointer($event)"
     (keydown)="onKeyDown($event)"
     (focusout)="potentiallyBlurred()"
-    [tabindex]="disabled() ? -1 : 0"
+    tabindex="-1"
   >
     <jig-mask-input
       [ptInt]="this"
       [ptDep]="'input'"
-      [label]="i18n['calendar_input']()"
+      [inputId]="inputId()"
+      [label]="label()"
+      [labelledBy]="labelledBy()"
       [mask]="maskCfg()"
       [invalid]="invalidState()"
       [invalidOn]="'immediate'"
@@ -46,6 +48,10 @@
       root: true,
       inline: inline(),
     }"
+    [attr.role]="inline() ? 'group' : null"
+    [attr.id]="inline() ? inputId() : null"
+    [attr.aria-label]="inline() ? label() : null"
+    [attr.aria-labelledby]="inline() ? labelledBy() : null"
   >
     <jig-calendar-days
       [component]="this"

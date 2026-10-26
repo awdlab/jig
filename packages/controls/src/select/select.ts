@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  afterRenderEffect,
   booleanAttribute,
   Component,
   computed,
@@ -151,7 +152,7 @@ export class JigSelect<
    */
   public readonly scrollToSelectedItemOnOpen = input<boolean | ScrollLogicalPosition>(true);
   /**
-   * Tabindex for the select control.
+   * Tabindex for the combobox trigger. Ignored when {@link editable}, where the input is the tab stop.
    * @default `0`
    */
   public readonly tabindex = input<number>(0);
@@ -254,6 +255,13 @@ export class JigSelect<
         `${this.inputId()}_listbox`
       );
     });
+    // After render, so it outlasts the input's own id binding; a consumer-set id is kept.
+    afterRenderEffect(() => {
+      const customEditableInput = this._customEditableInput();
+      if (this.editable() && customEditableInput && !customEditableInput.id()) {
+        customEditableInput.element.nativeElement.id = this.inputId();
+      }
+    });
     effect(() => {
       if (!this.editable()) {
         return;
@@ -354,12 +362,17 @@ export class JigSelect<
     if (target?.closest('button, a[href], [tabindex]:not([tabindex="-1"])')) {
       return false;
     }
-    const field = this._field().nativeElement;
-    // Non-editable selects render a combobox div instead of an input — focus the field itself
-    // there, otherwise the click would open the list with focus left on the document.
-    (field.querySelector('input') ?? field).focus();
-    this.show();
+    this.focusAndShow();
     return true;
+  }
+
+  /** Focuses the combobox (or the editable input) and opens the list. */
+  protected focusAndShow() {
+    if (this.disabled()) {
+      return;
+    }
+    this._field().nativeElement.querySelector<HTMLElement>('input, [role="combobox"]')?.focus();
+    this.show();
   }
 
   /**

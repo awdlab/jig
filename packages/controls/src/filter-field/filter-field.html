@@ -219,12 +219,22 @@
     (keydown)="onKeyDown($event)"
     #field
     [label]="label()"
-    [inputId]="inputId()"
+    [labelFor]="inputId()"
     [invalid]="invalidState()"
     [disabled]="disabled()"
     [readonly]="readonly()"
   >
-    <div role="button" [ptInt]="this" [ptClass]="'summary'">{{ summaryText() }}</div>
+    <!-- Labelled by itself too, so the field label is read before the summary instead of replacing it. -->
+    <div
+      role="button"
+      [id]="inputId()"
+      [attr.tabindex]="disabled() ? -1 : 0"
+      [attr.aria-labelledby]="inputId()"
+      [ptInt]="this"
+      [ptClass]="'summary'"
+    >
+      {{ summaryText() }}
+    </div>
     <jig-icon [ptInt]="this" [ptClass]="'icon'" defaultIcon="search" />
   </jig-input-field>
 

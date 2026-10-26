@@ -9,7 +9,7 @@ import type { TagRejection } from '@awdlab/jig/tag-input';
   selector: 'jig-demo-tag-input-rejected',
   imports: [JigInputField, JigTagInput],
   template: `
-    <jig-input-field [label]="'Labels'" [labelKind]="'on'" inputId="tag-rejected">
+    <jig-input-field [label]="'Labels'" [labelKind]="'on'">
       <jig-tag-input
         inputId="tag-rejected"
         [delimiters]="','"

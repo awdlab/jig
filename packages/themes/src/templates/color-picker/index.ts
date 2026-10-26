@@ -25,6 +25,7 @@ export const colorPickerControlTemplate = createControlTemplate({
     'format-toggle',
     'invalid',
     'disabled',
+    'sr-only',
   ],
   dependencies: [{ class: 'popover', template: popoverControlTemplate }],
 });

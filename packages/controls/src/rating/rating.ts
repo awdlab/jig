@@ -2,6 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { booleanAttribute, Component, computed, input, signal } from '@angular/core';
 import { inlineArrowStep, isRtl } from '@awdlab/jig/api/ng';
 import { JigPt, provideSelf } from '@awdlab/jig/base';
+import { hostOrGeneratedId } from '@awdlab/jig/utils-ng';
 import { JigIcon } from '@awdlab/jig/icon';
 import { addWithPrecision } from '@awdlab/jig/utils';
 import { ratingControlTemplate } from '@awdlab/jig-themes/templates/rating';
@@ -27,6 +28,7 @@ import type { IconType } from '@awdlab/jig-custom-types';
     '[attr.disabled]': 'disabled() ? "" : null',
     '[attr.aria-disabled]': "disabled() ? 'true' : null",
     '[attr.aria-labelledby]': 'labelledBy()',
+    '[id]': 'inputId()',
     '[attr.aria-label]': 'label()',
     '[attr.aria-valuetext]': 'valueTextValue()',
     '[tabindex]': 'disabled() ? -1 : 0',
@@ -38,6 +40,12 @@ import type { IconType } from '@awdlab/jig-custom-types';
   },
 })
 export class JigRating extends RatingTemplates {
+  /**
+   * The ID for the control, rendered on its host. Defaults to the host's `id` attribute, else a
+   * generated id.
+   */
+  public override readonly inputId = input<string>(hostOrGeneratedId());
+
   protected readonly theme = this.injectThemeTemplate(ratingControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),

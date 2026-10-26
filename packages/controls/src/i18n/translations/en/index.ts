@@ -1,7 +1,6 @@
 export const en = {
   calendar: {
     today: 'Today',
-    input: 'Date',
     selectYear: 'Select year',
     selectMonth: 'Select month',
     previousMonth: 'Previous month',
@@ -109,6 +108,9 @@ export const en = {
     roleDescription: 'formatted input',
     segmentRange: '{{ name }}, {{ min }} to {{ max }}',
     optionSeparator: ' or ',
+  },
+  colorPicker: {
+    trigger: 'Select color',
   },
   otp: {
     cellLabel: 'Character {{ index }} of {{ total }}',

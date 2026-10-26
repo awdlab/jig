@@ -38,14 +38,13 @@ Whatever the source library, the same four things change.
 ```
 
 **2. Field wrappers.** `mat-form-field` and PrimeNG's float-label wrappers
-become [`jig-input-field`](/components/input-field), which owns the label,
-the id and the layout.
+become [`jig-input-field`](/components/input-field), which owns the label
+and the layout.
 
-> **Watch the `id`.** The field writes its own `inputId` onto the projected
-> input, replacing an `id` you set there. Move an existing id onto the wrapper —
-> `<jig-input-field [inputId]="'user-email'">` — or every external
-> `<label for>`, `aria-describedby` and `getElementById` that referenced it
-> breaks silently.
+> **Labels follow the control.** Keep an existing `id` on the input; the field
+> label points at it. Controls without a native input (select, slider, …) take
+> an external label through [`<label jigFor>`](/components/label) instead of
+> `<label for>`.
 
 **3. Severity becomes two axes.** `severity`, `color` and `appearance` inputs
 collapse onto `kind` (the treatment) and `color` (the palette), typed against

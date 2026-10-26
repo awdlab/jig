@@ -124,6 +124,7 @@ interface Person {
             <div class="level-grid">
               <div class="card level-demo">
                 <jig-list-box
+                  label="Team members"
                   class="w-full"
                   selectable
                   [items]="people"
@@ -151,6 +152,7 @@ interface Person {
             <div class="level-grid">
               <div class="card level-demo">
                 <jig-list-box
+                  label="Team members"
                   #tplBox
                   class="w-full"
                   selectable
@@ -192,6 +194,7 @@ interface Person {
             <div class="level-grid">
               <div class="card level-demo">
                 <jig-list-box
+                  label="Team members"
                   class="w-full"
                   selectable
                   [items]="people"
@@ -220,6 +223,7 @@ interface Person {
               <div class="card level-demo">
                 <div id="unstyled-demo" class="w-full">
                   <jig-list-box
+                    label="Team members"
                     class="w-full"
                     [unstyled]="true"
                     selectable

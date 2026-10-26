@@ -93,6 +93,7 @@ import { JigState } from '@awdlab/jig/state';
                 }
                 @case ('Slider') {
                   <jig-slider
+                    [label]="entry.name"
                     [min]="0"
                     [max]="100"
                     [(value)]="sliderValue"
@@ -103,6 +104,7 @@ import { JigState } from '@awdlab/jig/state';
                   <jig-input-field>
                     <jig-select
                       #sel
+                      [label]="entry.name"
                       [pt]="selectPt"
                       [options]="selectOptions"
                       [(value)]="selectValue"

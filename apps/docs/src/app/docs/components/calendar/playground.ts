@@ -15,7 +15,7 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
       @if (playground.values().JigCalendar?.inline) {
         <jig-calendar #ref />
       } @else {
-        <jig-input-field>
+        <jig-input-field [label]="'Date'">
           <jig-calendar #ref />
         </jig-input-field>
       }

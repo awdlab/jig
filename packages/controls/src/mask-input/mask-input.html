@@ -12,6 +12,7 @@
     [attr.aria-roledescription]="i18n['maskInput_roleDescription']()"
     [attr.aria-label]="label()"
     [attr.aria-labelledby]="labelledBy()"
+    [id]="inputId()"
     [attr.aria-required]="requiredState() ? 'true' : null"
     [attr.aria-invalid]="invalidState() ? 'true' : null"
     [attr.aria-readonly]="readonly() ? 'true' : null"

@@ -13,6 +13,7 @@ import {
   viewChildren,
 } from '@angular/core';
 import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { hostOrGeneratedId } from '@awdlab/jig/utils-ng';
 import { I18n } from '@awdlab/jig/i18n';
 import { otpControlTemplate } from '@awdlab/jig-themes/templates/otp';
 import { inlineArrowStep } from '@awdlab/jig/api/ng';
@@ -53,12 +54,19 @@ function normalizeLength(value: number): number {
     role: 'group',
     '[attr.aria-label]': 'label()',
     '[attr.aria-labelledby]': 'labelledBy()',
+    '[id]': 'inputId()',
     '[attr.aria-invalid]': 'invalidState() ? "true" : null',
     '[attr.aria-required]': 'requiredState() ? "true" : null',
     '(focusout)': 'onFocusOut($event)',
   },
 })
 export class JigOtp extends ValueControlBase<'otp', string | null> {
+  /**
+   * The ID for the control, rendered on its host. Defaults to the host's `id` attribute, else a
+   * generated id.
+   */
+  public override readonly inputId = input<string>(hostOrGeneratedId());
+
   protected readonly theme = this.injectThemeTemplate(otpControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),

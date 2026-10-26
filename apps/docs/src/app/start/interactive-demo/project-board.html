@@ -82,6 +82,7 @@
 
         <!-- Card density -->
         <jig-select-button
+          label="Card density"
           [options]="densityOptions"
           [value]="density()"
           (valueChange)="density.set($event)"
@@ -371,7 +372,11 @@
         >
           Progress <span class="text-(--jig-color-text)">{{ task.progress }}%</span>
         </span>
-        <jig-slider [value]="task.progress" (valueChange)="setProgress(task, $event)" />
+        <jig-slider
+          label="Progress"
+          [value]="task.progress"
+          (valueChange)="setProgress(task, $event)"
+        />
       </div>
 
       <!-- Collapsible detail sections -->

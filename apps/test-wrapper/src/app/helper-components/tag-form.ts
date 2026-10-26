@@ -29,7 +29,7 @@ function liveBounds(min: Signal<number | undefined>, max: Signal<number | undefi
   selector: 'tag-form',
   imports: [JigTagInput, JigInputField, JigHint, JigErrors, FormField],
   template: `
-    <jig-input-field class="page-center" style="width: 24rem" [label]="'Labels'" inputId="tags">
+    <jig-input-field class="page-center" style="width: 24rem" [label]="'Labels'">
       <jig-tag-input
         inputId="tags"
         delimiters=","

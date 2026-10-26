@@ -432,3 +432,54 @@ test('keeps the navigated month when the host rebinds an equal date', async ({ p
   await handle.setInputs({ value: new Date(2025, 2, 11, 12, 0, 0) });
   await calendar.currentMonth.expectSelectedItemText('March');
 });
+
+test('the field is a single tab stop on its input', async ({ page }) => {
+  await loadComponent(page, {
+    template: `<button>before</button><jig-calendar [label]="'Due date'" />`,
+    imports: ['calendar'],
+  });
+
+  await page.getByRole('button', { name: 'before' }).focus();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('textbox', { name: 'Due date' })).toBeFocused();
+});
+
+test('a pointer press on the icon does not mark the calendar touched', async ({ page }) => {
+  const handle = await loadComponent(page, {
+    template: `
+      <jig-input-field style="width: 240px">
+        <jig-calendar (touchedChange)="output('touched', $event)" />
+      </jig-input-field>`,
+    imports: ['inputField', 'calendar'],
+  });
+  await page.locator('jig-calendar input').focus();
+
+  const box = (await page.locator('jig-calendar jig-icon').boundingBox())!;
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down();
+  await page.waitForTimeout(150);
+  await page.mouse.up();
+
+  expect((await handle.getOutputLog())['touched']).toBeUndefined();
+});
+
+test('keeps a consumer id on the host, static or bound', async ({ page }) => {
+  await loadComponent(page, {
+    template: `<jig-calendar id="due" /><jig-calendar [id]="'start'" [inline]="true" />`,
+    imports: ['calendar'],
+  });
+
+  await expect(page.locator('jig-calendar').nth(0)).toHaveAttribute('id', 'due');
+  await expect(page.locator('jig-calendar').nth(1)).toHaveAttribute('id', 'start');
+});
+
+test('an inline calendar is a group without aria-required', async ({ page }) => {
+  await loadComponent(page, {
+    template: `<jig-calendar [inline]="true" required label="Due date" />`,
+    imports: ['calendar'],
+  });
+
+  const group = page.getByRole('group', { name: 'Due date' });
+  await expect(group).toBeVisible();
+  await expect(group).not.toHaveAttribute('aria-required');
+});

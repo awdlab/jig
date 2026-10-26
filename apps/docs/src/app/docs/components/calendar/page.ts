@@ -39,7 +39,6 @@ export const CalendarPage: JigDocsPage = {
       'calendar',
       {
         today: 'Label for the control that jumps the view back to the current date.',
-        input: 'Accessible label for the masked date input field.',
         selectYear: 'Accessible label for the year selection control.',
         selectMonth: 'Accessible label for the month selection control.',
         previousMonth: 'Accessible label for the button that navigates to the previous month.',

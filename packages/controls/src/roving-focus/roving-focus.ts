@@ -10,6 +10,7 @@ import {
   output,
   signal,
   type Signal,
+  untracked,
 } from '@angular/core';
 import { domEventHandler, inlineArrowStep } from '@awdlab/jig/api/ng';
 import { generateElementId } from '@awdlab/jig/utils-ng';
@@ -231,10 +232,13 @@ export class JigRovingGroup {
    * focus into the group would be wrong.
    */
   public syncActiveIndex(index: number): void {
-    if (index < 0 || index >= this.items().length) return;
-    if (index === this.activeIndex()) return;
-    this._suppressFocus = true;
-    this.activeIndex.set(index);
+    // Untracked, so a syncing effect doesn't re-run (and undo) every keyboard move.
+    untracked(() => {
+      if (index < 0 || index >= this.items().length) return;
+      if (index === this.activeIndex()) return;
+      this._suppressFocus = true;
+      this.activeIndex.set(index);
+    });
   }
 
   private _onKeydown(e: KeyboardEvent): void {

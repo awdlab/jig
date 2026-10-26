@@ -27,6 +27,7 @@ import { InputPage } from './input/page';
 import { InputFieldPage } from './input-field/page';
 import { ItemViewPage } from './item-view/page';
 import { KbdPage } from './kbd/page';
+import { LabelPage } from './label/page';
 import { ListBoxPage } from './list-box/page';
 import { MaskInputPage } from './mask-input/page';
 import { MenuPage } from './menu/page';
@@ -147,7 +148,15 @@ export const COMPONENT_GROUPS: JigDocsGroup[] = [
   },
   {
     title: 'Directives',
-    pages: [AutofocusPage, DragPage, MovablePage, ResizablePage, RovingFocusPage, ScrollAmountPage],
+    pages: [
+      AutofocusPage,
+      DragPage,
+      LabelPage,
+      MovablePage,
+      ResizablePage,
+      RovingFocusPage,
+      ScrollAmountPage,
+    ],
   },
 ];
 
