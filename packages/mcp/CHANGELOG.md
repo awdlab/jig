@@ -1,5 +1,16 @@
 # Changelog
 
+## @awdlab/jig-mcp 0.0.5 (2026-10-26)
+
+- **The table hands sorting, filter UX and row-action anchoring back to the app.**
+
+- `jig-table` gains `sortLocally`: set it to `false` and the header still drives `[(sort)]`, but rows render in the order given — the sort counterpart to `filterLocally`.
+- `jigTableFilterableColumn` gains `…AutoApply` (apply / cancel buttons when `false`) and `…AllowMultiple` (a single condition when `false`); both default to `true` as before.
+- List filters take `{ label, value }` items besides plain strings, in `jig-filter-field`'s `listOptions` and the table's `…Items`; the label shows, the value matches.
+- `JigActionItem.callback` receives the triggering event, from row-action buttons and menu items alike, so an action can anchor a popover to `event.currentTarget`.
+- `JigTableModule` now includes `JigTableSortableColumn` and `JigTableFilterableColumn`.
+- MCP: `get_control` names each control's real entry point (e.g. `@awdlab/jig/table`) instead of the empty `@awdlab/jig` root, and the PrimeNG migration maps `p-table`, `pSortableColumn`, `p-columnFilter`, `pFrozenColumn` and `p-contextMenu` input by input.
+
 ## @awdlab/jig-mcp 0.0.4 (2026-10-26)
 
 - **Labels now name and focus every control, not just native inputs.**

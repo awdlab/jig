@@ -1,5 +1,16 @@
 # Changelog
 
+## @awdlab/jig 0.0.12 (2026-10-26)
+
+- **The table hands sorting, filter UX and row-action anchoring back to the app.**
+
+- `jig-table` gains `sortLocally`: set it to `false` and the header still drives `[(sort)]`, but rows render in the order given — the sort counterpart to `filterLocally`.
+- `jigTableFilterableColumn` gains `…AutoApply` (apply / cancel buttons when `false`) and `…AllowMultiple` (a single condition when `false`); both default to `true` as before.
+- List filters take `{ label, value }` items besides plain strings, in `jig-filter-field`'s `listOptions` and the table's `…Items`; the label shows, the value matches.
+- `JigActionItem.callback` receives the triggering event, from row-action buttons and menu items alike, so an action can anchor a popover to `event.currentTarget`.
+- `JigTableModule` now includes `JigTableSortableColumn` and `JigTableFilterableColumn`.
+- MCP: `get_control` names each control's real entry point (e.g. `@awdlab/jig/table`) instead of the empty `@awdlab/jig` root, and the PrimeNG migration maps `p-table`, `pSortableColumn`, `p-columnFilter`, `pFrozenColumn` and `p-contextMenu` input by input.
+
 ## @awdlab/jig 0.0.11 (2026-10-26)
 
 - **`jig-calendar` takes `min` and `max` date bounds.** Days outside the range render disabled with `aria-disabled` and ignore clicks and Enter/Space, while every month stays navigable so out-of-range days can still carry context; a typed date outside the range is clamped to the nearest bound instead of being committed. Bounds compare by calendar day, so their time of day does not matter. Both inputs accept `undefined`, so a signal forms `min()`/`max()` rule binds straight onto the calendar. Themes style the new `day-disabled` class, custom day templates receive a `disabled` flag, and `JigCalendarHarness` gains a `dayDisabled` locator.
