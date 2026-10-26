@@ -1,5 +1,19 @@
 # Changelog
 
+## @awdlab/jig 0.0.11 (2026-10-26)
+
+- **`jig-calendar` takes `min` and `max` date bounds.** Days outside the range render disabled with `aria-disabled` and ignore clicks and Enter/Space, while every month stays navigable so out-of-range days can still carry context; a typed date outside the range is clamped to the nearest bound instead of being committed. Bounds compare by calendar day, so their time of day does not matter. Both inputs accept `undefined`, so a signal forms `min()`/`max()` rule binds straight onto the calendar. Themes style the new `day-disabled` class, custom day templates receive a `disabled` flag, and `JigCalendarHarness` gains a `dayDisabled` locator.
+- **Labels now name and focus every control, not just native inputs.**
+
+- New `jigFor` directive (`@awdlab/jig/directives`): `<label [jigFor]="slider">` takes a control (or an element id), puts the label first in the control's `aria-labelledby` — so the visible label wins over the control's own `label` — and focuses the control, or a group's active item, on click.
+- `jig-input-field` labels through `jigFor`, so its label now names a projected select, calendar, tag-input or mask-input too, and its `labelledBy` reaches any projected control. The control keeps its own id.
+- Every control renders its `inputId` on the element that carries its name; controls that do so on their host (slider, rating, otp, radio-group, list-box, tree, number-input) take the host's own `id` attribute. `jigInput` gains `inputId`, from its `id` or generated.
+- Fixes: checkbox and switch `labelledBy` threw; `jig-button-group` exposes `role="group"` on its host and keeps its tab stop on the focused button; select-button keeps it on the selected option (arrow keys work again with a value); the select combobox is its tab stop; the editable select's input is a named `role="combobox"`; calendar is a single tab stop; inline calendar and inline color-picker are labelled groups; color-picker's fallback trigger name is translatable (`colorPicker.trigger`).
+- `jig-input-field` gains `labelFor` for projected content that isn't a jig control; filter-field and filter-builder use it, so their input-mode summary is a focusable button (Enter/Space opens) named by the field label plus the summary.
+- Breaking: `jig-input-field` drops its `inputId` input — set the id on the control instead (`<input jigInput id="x">`, `<jig-select inputId="x">`); the field label follows it.
+- Breaking: calendar no longer falls back to a fixed "Date" label (translation key `calendar.input` removed) — name it like any other control.
+- `JigSelectHarness` gains a `combobox` locator.
+
 ## @awdlab/jig 0.0.10 (2026-10-24)
 
 - **A popover no longer flashes at the top-left of the viewport before it is positioned.** `JigPopover` entered the top layer and only then asked floating-ui for a position, and that first `computePosition` is asynchronous — on a cold open it also waits for the lazily imported `@floating-ui/dom` chunk. For those frames the UA's default placement applied, so the panel was painted, and hit-tested, at the viewport origin before jumping to its anchor. A pointer press aimed at it during the jump landed on the document instead and light-dismissed the popover, which made clicking an option in a freshly opened `jig-select` lose the click and close the list. The wrapper now carries a `wrapper-unpositioned` class until the first position is applied, keeping it laid out — floating-ui still measures it — but neither painted nor clickable. `jigAutofocus` follows the same rule: it now waits for a host that is actually rendered (`checkVisibility`) rather than merely laid out, so a menu still focuses its first item on open.

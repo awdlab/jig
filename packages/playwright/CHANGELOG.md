@@ -1,5 +1,19 @@
 # Changelog
 
+## @awdlab/jig-playwright 0.0.8 (2026-10-26)
+
+- **`jig-calendar` takes `min` and `max` date bounds.** Days outside the range render disabled with `aria-disabled` and ignore clicks and Enter/Space, while every month stays navigable so out-of-range days can still carry context; a typed date outside the range is clamped to the nearest bound instead of being committed. Bounds compare by calendar day, so their time of day does not matter. Both inputs accept `undefined`, so a signal forms `min()`/`max()` rule binds straight onto the calendar. Themes style the new `day-disabled` class, custom day templates receive a `disabled` flag, and `JigCalendarHarness` gains a `dayDisabled` locator.
+- **Labels now name and focus every control, not just native inputs.**
+
+- New `jigFor` directive (`@awdlab/jig/directives`): `<label [jigFor]="slider">` takes a control (or an element id), puts the label first in the control's `aria-labelledby` — so the visible label wins over the control's own `label` — and focuses the control, or a group's active item, on click.
+- `jig-input-field` labels through `jigFor`, so its label now names a projected select, calendar, tag-input or mask-input too, and its `labelledBy` reaches any projected control. The control keeps its own id.
+- Every control renders its `inputId` on the element that carries its name; controls that do so on their host (slider, rating, otp, radio-group, list-box, tree, number-input) take the host's own `id` attribute. `jigInput` gains `inputId`, from its `id` or generated.
+- Fixes: checkbox and switch `labelledBy` threw; `jig-button-group` exposes `role="group"` on its host and keeps its tab stop on the focused button; select-button keeps it on the selected option (arrow keys work again with a value); the select combobox is its tab stop; the editable select's input is a named `role="combobox"`; calendar is a single tab stop; inline calendar and inline color-picker are labelled groups; color-picker's fallback trigger name is translatable (`colorPicker.trigger`).
+- `jig-input-field` gains `labelFor` for projected content that isn't a jig control; filter-field and filter-builder use it, so their input-mode summary is a focusable button (Enter/Space opens) named by the field label plus the summary.
+- Breaking: `jig-input-field` drops its `inputId` input — set the id on the control instead (`<input jigInput id="x">`, `<jig-select inputId="x">`); the field label follows it.
+- Breaking: calendar no longer falls back to a fixed "Date" label (translation key `calendar.input` removed) — name it like any other control.
+- `JigSelectHarness` gains a `combobox` locator.
+
 ## @awdlab/jig-playwright 0.0.7 (2026-10-24)
 
 - **Three filter controls, named for what each one lets you configure.** `jig-filter` is now `jig-filter-field`: conditions over one field the host fixes, which is what a table column filter always was. `jig-filter-builder` is new in substance — each condition picks its own property, so a list of users can be filtered by "e-mail contains @gmail.com and role is Admin" — and `jig-filter-bar` composes the builder with a debounced search box, a trigger badged with the active condition count, and removable condition chips. The bar is display-agnostic: put a list box, a tree or your own markup beneath it. `jig-list-box` and `jig-tree` already take the same `items`, `filter` and `filterText` inputs, so one recipe covers both, and the bar's docs carry it.

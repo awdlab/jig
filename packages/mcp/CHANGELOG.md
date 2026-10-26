@@ -1,5 +1,18 @@
 # Changelog
 
+## @awdlab/jig-mcp 0.0.4 (2026-10-26)
+
+- **Labels now name and focus every control, not just native inputs.**
+
+- New `jigFor` directive (`@awdlab/jig/directives`): `<label [jigFor]="slider">` takes a control (or an element id), puts the label first in the control's `aria-labelledby` — so the visible label wins over the control's own `label` — and focuses the control, or a group's active item, on click.
+- `jig-input-field` labels through `jigFor`, so its label now names a projected select, calendar, tag-input or mask-input too, and its `labelledBy` reaches any projected control. The control keeps its own id.
+- Every control renders its `inputId` on the element that carries its name; controls that do so on their host (slider, rating, otp, radio-group, list-box, tree, number-input) take the host's own `id` attribute. `jigInput` gains `inputId`, from its `id` or generated.
+- Fixes: checkbox and switch `labelledBy` threw; `jig-button-group` exposes `role="group"` on its host and keeps its tab stop on the focused button; select-button keeps it on the selected option (arrow keys work again with a value); the select combobox is its tab stop; the editable select's input is a named `role="combobox"`; calendar is a single tab stop; inline calendar and inline color-picker are labelled groups; color-picker's fallback trigger name is translatable (`colorPicker.trigger`).
+- `jig-input-field` gains `labelFor` for projected content that isn't a jig control; filter-field and filter-builder use it, so their input-mode summary is a focusable button (Enter/Space opens) named by the field label plus the summary.
+- Breaking: `jig-input-field` drops its `inputId` input — set the id on the control instead (`<input jigInput id="x">`, `<jig-select inputId="x">`); the field label follows it.
+- Breaking: calendar no longer falls back to a fixed "Date" label (translation key `calendar.input` removed) — name it like any other control.
+- `JigSelectHarness` gains a `combobox` locator.
+
 Release times are Central European Time (CET/CEST), the project's local time zone.
 
 ## @awdlab/jig-mcp 0.0.3 (2026-10-21 19:25 CEST)
