@@ -279,12 +279,12 @@ export class JigMenu extends MenuTemplates implements Openable {
     });
   }
 
-  protected itemClicked(item: MenuItem) {
+  protected itemClicked(item: MenuItem, event: Event) {
     if (this.popover()) {
       this.doCloseAll();
     }
     if ('callback' in item) {
-      item.callback?.();
+      item.callback?.(event);
     }
   }
 

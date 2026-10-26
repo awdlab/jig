@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { JigTableHarness } from '@awdlab/jig-playwright';
+import { JigFilterFieldHarness, JigTableHarness } from '@awdlab/jig-playwright';
 import { loadComponent, evalValue } from '../helper/load-component';
 import { useRtl } from '../helper/direction';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -261,6 +261,7 @@ const TABLE_TEMPLATE_SORTABLE = `
     [rows]="inputs().rows"
     [fieldId]="'id'"
     [sortClearable]="inputs().sortClearable ?? true"
+    [sortLocally]="inputs().sortLocally ?? true"
   >
     <ng-template #header>
       <tr jigTableHeadTr>
@@ -352,6 +353,23 @@ test.describe('Table Accessibility - aria-sort', () => {
 
     await grid.sortBy(1);
     await grid.expectSort(1, 'ascending');
+  });
+
+  test('sortLocally=false drives sort but keeps the given row order', async ({ page }) => {
+    await loadComponent(
+      page,
+      {
+        template: TABLE_TEMPLATE_SORTABLE,
+        imports: ['tableModule', 'jigTemplate'],
+      },
+      { inputs: { rows: TABLE_ROWS, sortLocally: false } }
+    );
+
+    const grid = table(page);
+    await grid.sortBy(1);
+    await grid.sortBy(1);
+    await grid.expectSort(1, 'descending');
+    await expect(getBodyRows(page).first()).toContainText('Alice');
   });
 
   test('non-sortable header cells have no aria-sort', async ({ page }) => {
@@ -1595,6 +1613,50 @@ test('persists state to storage across reloads', async ({ page }) => {
   await grid2.expectSort(1, 'ascending');
   await grid2.expectSelected(1);
   expect(Math.abs((await grid2.columnWidth(0)) - width)).toBeLessThan(2);
+});
+
+test('a column filter can require apply and a single condition', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `
+        <jig-table #table style="height: 400px" [rows]="inputs().rows" [fieldId]="'id'">
+          <ng-template #header>
+            <tr jigTableHeadTr>
+              <th [jigTableTh]="table.column('id')">ID</th>
+              <th
+                [jigTableTh]="table.column('dept')"
+                [jigTableFilterableColumn]
+                [jigTableFilterableColumnType]="'string'"
+                [jigTableFilterableColumnAutoApply]="false"
+                [jigTableFilterableColumnAllowMultiple]="false"
+              >
+                Dept
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-row [jigTemplate]="table.templateTypes.body">
+            <tr [jigTableBodyTr]="row">
+              <td jigTableTd>{{ row.data.id }}</td>
+              <td jigTableTd>{{ row.data.dept }}</td>
+            </tr>
+          </ng-template>
+        </jig-table>
+      `,
+      imports: ['tableModule', 'jigTemplate'],
+    },
+    { inputs: { rows: TABLE_ROWS } }
+  );
+
+  await table(page).headerCells.nth(1).locator('jig-action-button').click();
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
+  await expect(filter.applyButton()).toBeVisible();
+  await expect(filter.addConditionButton()).toHaveCount(0);
+
+  await filter.valueInput(0).fill('Design');
+  await expect(getBodyRows(page)).toHaveCount(TABLE_ROWS.length);
+  await filter.applyButton().click();
+  await expect(getBodyRows(page)).toHaveCount(2);
 });
 
 test('a column filter can be replaced by a custom template', async ({ page }) => {

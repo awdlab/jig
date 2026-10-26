@@ -1,13 +1,13 @@
 import { Component, effect, signal } from '@angular/core';
 import { JigTemplate } from '@awdlab/jig/api/ng';
-import { JigTableFilterableColumn, JigTableModule } from '@awdlab/jig/table';
+import { JigTableModule } from '@awdlab/jig/table';
 
 import { fetchFiltered, type Person } from './fake-data-service';
 
 import type { JigFilterConfig } from '@awdlab/jig/filter-field';
 
 @Component({
-  imports: [JigTableModule, JigTableFilterableColumn, JigTemplate],
+  imports: [JigTableModule, JigTemplate],
   selector: 'jig-demo-table-server-filtering',
   template: `<jig-table
     #table

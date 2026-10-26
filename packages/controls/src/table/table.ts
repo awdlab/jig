@@ -292,6 +292,14 @@ export class JigTable<
   public readonly sortComparator = input<TableSortComparator<T> | undefined>(undefined);
 
   /**
+   * Whether {@link sort} is applied to {@link rows} client-side. Set to `false` for
+   * server-side sorting: the header sort controls still drive {@link sort}, but the table
+   * renders {@link rows} in the order given. Ignored when {@link dataSource} is set.
+   * @default true
+   */
+  public readonly sortLocally = input(true, { transform: booleanAttribute });
+
+  /**
    * The active per-column filter configuration, keyed by column, or `null` when unfiltered. Two-way bindable.
    * @default null
    */
@@ -494,8 +502,8 @@ export class JigTable<
   private readonly _lazyPageSize = computed(() => this.pageState()?.page.size);
 
   private readonly _sortedRows = computed<readonly T[]>(() =>
-    this.lazy()
-      ? this._baseRows()
+    this.lazy() || !this.sortLocally()
+      ? this._filteredRows()
       : sortRows(this._filteredRows(), this.sort(), this.sortComparator())
   );
 

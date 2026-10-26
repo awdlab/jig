@@ -89,7 +89,7 @@
       [ptClass]="'item'"
       [disabled]="item.disabled"
       (keydown)="handleKeydown($event)"
-      (click)="itemClicked(item)"
+      (click)="itemClicked(item, $event)"
       (mouseenter)="closeChildMenus('hover', menuItem)"
       [routerLink]="item.route"
     >

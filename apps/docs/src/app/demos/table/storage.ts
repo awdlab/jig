@@ -1,24 +1,13 @@
 import { Component } from '@angular/core';
 import { JigTemplate } from '@awdlab/jig/api/ng';
-import {
-  JigTableFilterableColumn,
-  JigTableModule,
-  JigTableReorderableColumn,
-  JigTableSortableColumn,
-} from '@awdlab/jig/table';
+import { JigTableModule, JigTableReorderableColumn } from '@awdlab/jig/table';
 
 import { exampleData } from '../../helper/data';
 
 import type { JigTableStorageConfig } from '@awdlab/jig/table';
 
 @Component({
-  imports: [
-    JigTableModule,
-    JigTemplate,
-    JigTableSortableColumn,
-    JigTableFilterableColumn,
-    JigTableReorderableColumn,
-  ],
+  imports: [JigTableModule, JigTemplate, JigTableReorderableColumn],
   selector: 'jig-demo-table-storage',
   host: { style: 'display: block; width: 100%' },
   template: `

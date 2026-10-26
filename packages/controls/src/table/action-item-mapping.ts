@@ -19,6 +19,6 @@ export function actionItemToButtonConfig(item: JigActionItem): JigActionButtonCo
     kind: item.icon ? 'icon' : undefined,
     disabled: item.disabled,
     testId: item.testId,
-    action: () => item.callback?.(),
+    action: event => item.callback?.(event),
   };
 }

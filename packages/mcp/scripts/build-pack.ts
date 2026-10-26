@@ -225,6 +225,7 @@ function buildControls(): PackControl[] {
         name,
         className: cls.name,
         kind,
+        importPath: `@awdlab/jig/${String(mod.name).split('/')[0]}`,
         selector,
         summary,
         usage,

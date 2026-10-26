@@ -5,24 +5,14 @@ import tablerEdit from '@iconify/icons-tabler/edit';
 import tablerMail from '@iconify/icons-tabler/mail';
 import tablerTrash from '@iconify/icons-tabler/trash';
 import { JigTemplate } from '@awdlab/jig/api/ng';
-import {
-  JigTableFilterableColumn,
-  JigTableModule,
-  JigTableSortableColumn,
-} from '@awdlab/jig/table';
+import { JigTableModule } from '@awdlab/jig/table';
 
 import { exampleData } from '../../helper/data';
 
 import type { JigActionItem } from '@awdlab/jig/api';
 
 @Component({
-  imports: [
-    JigTableModule,
-    JigTableFilterableColumn,
-    JigTableSortableColumn,
-    JigTemplate,
-    CurrencyPipe,
-  ],
+  imports: [JigTableModule, JigTemplate, CurrencyPipe],
   selector: 'jig-demo-table-showcase',
   template: `<jig-table
     #table

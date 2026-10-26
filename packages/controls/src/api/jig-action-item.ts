@@ -4,7 +4,11 @@ export type JigActionItem = {
   id: string;
   label: string | (() => string);
   icon?: IconType;
-  callback?: () => void;
+  /**
+   * Runs when the item is activated. Receives the triggering DOM event when there is one, so
+   * `event.currentTarget` can anchor a popover to the clicked button or menu item.
+   */
+  callback?: (event?: Event) => void;
   /**
    * Keyboard shortcut that runs this item, as `+`-joined lowercase tokens
    * (`mod+n`, `shift+mod+p`). Rendered as a keycap where the host supports it.

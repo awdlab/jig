@@ -1,4 +1,5 @@
 import {
+  booleanAttribute,
   TemplateRef,
   ComponentRef,
   computed,
@@ -26,7 +27,7 @@ import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 import { JigTable } from './table';
 import { JigTableTh } from './table-header-cell';
 
-import type { JigActionButtonConfig } from '@awdlab/jig/api';
+import type { JigActionButtonConfig, JigItem } from '@awdlab/jig/api';
 
 /**
  * @category directive
@@ -63,8 +64,27 @@ export class JigTableFilterableColumn implements OnDestroy {
 
   /** The data type of the column, which determines the available filter operators and UI. */
   public readonly jigTableFilterableColumnType = input.required<JigFilterDataType>();
-  /** For list-based filters, the set of selectable option values to offer. */
-  public readonly jigTableFilterableColumnItems = input<string[] | null | undefined>();
+  /**
+   * For list-based filters, the options to offer: plain strings, or items whose `label` is shown
+   * while their `value` is matched. When omitted, options are derived from the column's values.
+   */
+  public readonly jigTableFilterableColumnItems = input<
+    readonly (string | JigItem)[] | null | undefined
+  >();
+  /**
+   * Whether edits in the filter popover apply immediately. When `false`, the popover shows
+   * apply / cancel buttons and the column filters only once the user applies.
+   * @default true
+   */
+  public readonly jigTableFilterableColumnAutoApply = input(true, { transform: booleanAttribute });
+  /**
+   * Whether the user can add several conditions joined by match-all / match-any.
+   * Has no effect for `list` columns.
+   * @default true
+   */
+  public readonly jigTableFilterableColumnAllowMultiple = input(true, {
+    transform: booleanAttribute,
+  });
   /**
    * Replaces this column's filter popover with your own editor — a slider, a rating,
    * a lookup against your backend. It writes a `JigFilterConfig` back through the
@@ -103,7 +123,6 @@ export class JigTableFilterableColumn implements OnDestroy {
     setComponentInput(this._jigActionButton, 'inline', true);
     setComponentInput(this._jigFilter, 'anchor', this._jigActionButton.location.nativeElement);
     setComponentInput(this._jigFilter, 'mode', 'headless');
-    setComponentInput(this._jigFilter, 'allowMultiple', true);
     // The table applies the filter; the popover only ever emits its config.
     setComponentInput(this._jigFilter, 'filterLocally', false);
 
@@ -136,6 +155,16 @@ export class JigTableFilterableColumn implements OnDestroy {
     });
     effect(() => {
       setComponentInput(this._jigFilter, 'listOptions', this.jigTableFilterableColumnItems());
+    });
+    effect(() => {
+      setComponentInput(this._jigFilter, 'autoApply', this.jigTableFilterableColumnAutoApply());
+    });
+    effect(() => {
+      setComponentInput(
+        this._jigFilter,
+        'allowMultiple',
+        this.jigTableFilterableColumnAllowMultiple()
+      );
     });
     effect(() => {
       setComponentInput(this._jigFilter, 'templateFilter', this.jigTableFilterableColumnTemplate());
