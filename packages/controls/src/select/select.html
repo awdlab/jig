@@ -4,20 +4,24 @@
     input: true,
     'input-editable': editable(),
   }"
-  (click)="show()"
+  (click)="focusAndShow()"
   (keydown)="onKeyDown($event)"
   #field
-  [tabindex]="editable() || disabled() ? -1 : tabindex()"
+  tabindex="-1"
   (focusout)="potentiallyBlurred()"
 >
   @if (editable()) {
     <ng-content select="[jigInput]">
       <input
         jigInput
-        autocomplete="list"
+        role="combobox"
+        aria-autocomplete="list"
+        autocomplete="off"
         [aria-expanded]="dropdown.open()"
         aria-haspopup="listbox"
         [attr.aria-controls]="inputId() + '_listbox'"
+        [attr.aria-label]="label()"
+        [attr.aria-labelledby]="labelledBy()"
         [id]="inputId()"
         [value]="valueStr() || ''"
         (valueChange)="onEditableChange($event)"
@@ -40,6 +44,7 @@
       [attr.aria-labelledby]="labelledBy()"
       [attr.disabled]="disabled() ? '' : null"
       [id]="inputId()"
+      [tabindex]="disabled() ? -1 : tabindex()"
     >
       @if (multiple()) {
         @if (selectedItems().length) {

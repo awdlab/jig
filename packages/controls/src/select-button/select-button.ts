@@ -1,4 +1,4 @@
-import { booleanAttribute, Component, input } from '@angular/core';
+import { booleanAttribute, Component, effect, input, viewChild, viewChildren } from '@angular/core';
 import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { JigButtonGroup } from '@awdlab/jig/button-group';
 import { JigToggleButton } from '@awdlab/jig/toggle-button';
@@ -42,6 +42,21 @@ export class JigSelectButton<V> extends ValueControlBase<'selectButton', V> {
   public readonly allowUnselect = input(false, { transform: booleanAttribute });
 
   protected readonly maybeCallback = maybeCallback;
+
+  private readonly _group = viewChild.required(JigButtonGroup);
+  private readonly _toggles = viewChildren(JigToggleButton);
+
+  constructor() {
+    super();
+    // Keep the tab stop on the selected option so Tab-in lands on it, as in a radio group.
+    effect(() => {
+      const index = this.options().findIndex(option => option.value === this.value());
+      const toggle = this._toggles()[index];
+      if (toggle) {
+        this._group().syncTabStop(toggle.element.nativeElement);
+      }
+    });
+  }
 
   protected valueChange(value: V) {
     if (this.value() === value && !this.allowUnselect()) {

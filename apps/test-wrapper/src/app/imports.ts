@@ -32,6 +32,7 @@ export const IMPORTS = {
   inputField: () => import('@awdlab/jig/input-field').then(m => m.JigInputField),
   maskInput: () => import('@awdlab/jig/mask-input').then(m => m.JigMaskInput),
   itemView: () => import('@awdlab/jig/item-view').then(m => m.JigItemView),
+  jigFor: () => import('@awdlab/jig/directives').then(m => m.JigFor),
   kbd: () => import('@awdlab/jig/kbd').then(m => m.JigKbd),
   keyboardShortcut: () => import('@awdlab/jig/kbd').then(m => m.JigKeyboardShortcut),
   listBox: () => import('@awdlab/jig/list-box').then(m => m.JigListBox),

@@ -632,3 +632,29 @@ test('a custom filter template replaces the rows and filters through setValue', 
     ]);
   }).toPass();
 });
+
+test('the input-mode summary is a labelled, focusable button', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `
+        <button>before</button>
+        <jig-filter-builder
+          label="Filters"
+          [data]="inputs().data"
+          [properties]="inputs().properties"
+          style="width: 320px"
+        />
+      `,
+      imports: ['filterBuilder'],
+    },
+    { inputs: { data: USERS, properties: PROPERTIES } }
+  );
+
+  const summary = page.locator('jig-filter-builder [role="button"]').first();
+  await expect(summary).toHaveAccessibleName(/^Filters\s+\S/);
+
+  await page.getByRole('button', { name: 'before' }).focus();
+  await page.keyboard.press('Tab');
+  await expect(summary).toBeFocused();
+});

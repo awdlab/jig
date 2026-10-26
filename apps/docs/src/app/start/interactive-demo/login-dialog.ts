@@ -59,10 +59,11 @@ import { JigState } from '@awdlab/jig/state';
           >
             Username
           </label>
-          <jig-input-field class="w-full" [inputId]="'login-username'">
+          <jig-input-field class="w-full">
             <jig-icon [icon]="userIcon" />
             <input
               jigInput
+              id="login-username"
               autocomplete="username"
               placeholder="jane.doe"
               [formField]="loginForm.username"
@@ -80,10 +81,11 @@ import { JigState } from '@awdlab/jig/state';
           >
             Password
           </label>
-          <jig-input-field class="w-full" [inputId]="'login-password'">
+          <jig-input-field class="w-full">
             <jig-icon [icon]="lockIcon" />
             <input
               jigInput
+              id="login-password"
               type="password"
               autocomplete="current-password"
               placeholder="••••••••"

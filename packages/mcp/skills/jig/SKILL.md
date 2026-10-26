@@ -34,12 +34,11 @@ use its tools as the source of truth.
   Bind values two-way with the signal model, e.g. `[(value)]="mySignal"`.
 - **Field chrome** — wrap form controls (`jig-select`, `input[jigInput]`,
   `input[jigNumberInput]`, …) in `jig-input-field` for label/hint/error.
-- **The field owns the input's `id`** — `jig-input-field` writes `inputId()` onto
-  the projected input, replacing an `id` set on the `<input>` itself. Put the id
-  on the field (`<jig-input-field [inputId]="'x'">`) when an external
-  `<label for>` references it, or read it back via a template ref
-  (`[for]="field.inputId()"`). Grouped controls without a single focusable
-  element (`jig-otp`) take `labelledBy` instead of `for`/`id`.
+- **The id lives on the control** — `id` on a `jigInput`, `inputId` on every
+  other control; the `jig-input-field` label follows it. For an external label
+  use `<label [jigFor]="control">` (from `@awdlab/jig/directives`): it names and
+  focuses any control, including ones without a native input (select, slider,
+  select-button, otp, …).
 - **Selectors are exact** — some controls are elements (`jig-select`), others are
   attribute directives (`button[jigButton]`, `[jigTooltip]`). Copy the selector
   from `get_control`; never invent it.

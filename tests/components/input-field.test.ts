@@ -22,6 +22,66 @@ test('label names the projected input and clicking it focuses the input', async 
   await expect(input).toBeFocused();
 });
 
+test('label names a projected select and clicking it focuses the select', async ({ page }) => {
+  await loadComponent(page, {
+    template: `
+      <jig-input-field style="width: 240px" [label]="'Stage'">
+        <jig-select [options]="[{ value: 'a', label: 'Lead' }]" />
+      </jig-input-field>`,
+    imports: ['inputField', 'select'],
+  });
+
+  const combobox = page.getByRole('combobox', { name: 'Stage' });
+  await expect(combobox).toBeVisible();
+
+  await page.locator('label').click();
+  await expect(combobox).toBeFocused();
+});
+
+test('label names a projected calendar and clicking it focuses its input', async ({ page }) => {
+  await loadComponent(page, {
+    template: `
+      <jig-input-field style="width: 240px" [label]="'Close date'">
+        <jig-calendar />
+      </jig-input-field>`,
+    imports: ['inputField', 'calendar'],
+  });
+
+  const input = page.getByLabel('Close date');
+  await expect(input).toHaveCount(1);
+  await expect(input).not.toHaveAttribute('aria-label');
+
+  await page.locator('label').click();
+  await expect(input).toBeFocused();
+});
+
+test('label names a projected editable select input', async ({ page }) => {
+  await loadComponent(page, {
+    template: `
+      <jig-input-field style="width: 240px" [label]="'City'">
+        <jig-select [editable]="true" [options]="[{ value: 'b', label: 'Berlin' }]">
+          <input jigInput />
+        </jig-select>
+      </jig-input-field>`,
+    imports: ['inputField', 'select', 'input'],
+  });
+
+  await expect(page.getByRole('combobox', { name: 'City' })).toBeVisible();
+});
+
+test('labelledBy adds to the field label instead of replacing it', async ({ page }) => {
+  await loadComponent(page, {
+    template: `
+      <span id="hint">(optional)</span>
+      <jig-input-field style="width: 240px" [label]="'Nickname'" [labelledBy]="'hint'">
+        <input jigInput />
+      </jig-input-field>`,
+    imports: ['inputField', 'input'],
+  });
+
+  await expect(page.locator('input')).toHaveAccessibleName('Nickname (optional)');
+});
+
 test('clear button empties the projected input and keeps an accessible name', async ({ page }) => {
   await loadComponent(page, {
     template: `
@@ -151,4 +211,31 @@ test('readonly hides the clear button so the value cannot be wiped', async ({ pa
   await handle.setInputs({ readonly: false });
   await page.getByRole('button').click();
   await expect(input).toHaveValue('');
+});
+
+test('labelledBy reaches a projected select too', async ({ page }) => {
+  await loadComponent(page, {
+    template: `
+      <span id="hint">(required)</span>
+      <jig-input-field style="width: 240px" [label]="'Stage'" [labelledBy]="'hint'">
+        <jig-select [options]="[{ value: 'a', label: 'Lead' }]" />
+      </jig-input-field>`,
+    imports: ['inputField', 'select'],
+  });
+
+  await expect(page.getByRole('combobox')).toHaveAccessibleName('Stage (required)');
+});
+
+test('the field label follows an id set on the projected input', async ({ page }) => {
+  await loadComponent(page, {
+    template: `
+      <label for="nick">External</label>
+      <jig-input-field style="width: 240px" [label]="'Nickname'">
+        <input jigInput id="nick" />
+      </jig-input-field>`,
+    imports: ['inputField', 'input'],
+  });
+
+  await expect(page.locator('input')).toHaveAttribute('id', 'nick');
+  await expect(page.locator('jig-input-field label')).toHaveAttribute('for', 'nick');
 });

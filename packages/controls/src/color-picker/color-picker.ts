@@ -5,6 +5,7 @@ import {
   computed,
   effect,
   ElementRef,
+  inject,
   input,
   model,
   output,
@@ -15,6 +16,7 @@ import type { Anchor, Openable } from '@awdlab/jig/api/ng';
 import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { JigButton } from '@awdlab/jig/button';
 import { JigDrag, type JigDragInfo } from '@awdlab/jig/directives';
+import { I18n } from '@awdlab/jig/i18n';
 import { JigInput } from '@awdlab/jig/input';
 import { JigInputField } from '@awdlab/jig/input-field';
 import { JigNumberInput } from '@awdlab/jig/number-input';
@@ -62,6 +64,7 @@ export class JigColorPicker extends ValueControlBase<'color-picker', string> imp
     disabled: () => this.disabled(),
     inline: () => this.inline(),
   });
+  protected readonly i18n = inject(I18n).translations;
 
   private readonly _svArea = viewChild<ElementRef<HTMLElement>>('svArea');
   private readonly _hueTrack = viewChild<ElementRef<HTMLElement>>('hueTrack');

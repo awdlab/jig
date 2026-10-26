@@ -18,7 +18,7 @@ function initialsOf(email: string): string {
   selector: 'jig-demo-tag-input-templates',
   imports: [JigInputField, JigTagInput, JigTemplate, JigAvatar],
   template: `
-    <jig-input-field [label]="'Recipients'" [labelKind]="'on'" inputId="tag-templates">
+    <jig-input-field [label]="'Recipients'" [labelKind]="'on'">
       <jig-tag-input
         #tags
         inputId="tag-templates"

@@ -17,7 +17,7 @@ const CATALOGUE = [
   selector: 'jig-demo-tag-input-suggestions-async',
   imports: [JigInputField, JigTagInput],
   template: `
-    <jig-input-field [label]="'Labels'" [labelKind]="'on'" inputId="tag-async">
+    <jig-input-field [label]="'Labels'" [labelKind]="'on'">
       <jig-tag-input
         inputId="tag-async"
         [delimiters]="','"

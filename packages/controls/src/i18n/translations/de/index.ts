@@ -1,7 +1,6 @@
 export const de = {
   calendar: {
     today: 'Heute',
-    input: 'Datum',
     selectYear: 'Jahr auswählen',
     selectMonth: 'Monat auswählen',
     previousMonth: 'Vorheriger Monat',
@@ -109,6 +108,9 @@ export const de = {
     roleDescription: 'formatierte Eingabe',
     segmentRange: '{{ name }}, {{ min }} bis {{ max }}',
     optionSeparator: ' oder ',
+  },
+  colorPicker: {
+    trigger: 'Farbe auswählen',
   },
   otp: {
     cellLabel: 'Zeichen {{ index }} von {{ total }}',

@@ -1,4 +1,4 @@
-import test, { type Page } from '@playwright/test';
+import test, { expect, type Page } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { useRtl } from '../helper/direction';
 import type { InputsType } from '../../apps/test-wrapper/src/app/window.js';
@@ -53,4 +53,23 @@ test('rtl', async ({ page }, testInfo) => {
     imports: ['buttonGroup', 'button'],
   });
   await expectScreenshot(page, testInfo);
+});
+
+test('independent toggles keep the tab stop on the last one used', async ({ page }) => {
+  await loadComponent(page, {
+    template: `
+      <jig-button-group>
+        <jig-toggle-button label="A" />
+        <jig-toggle-button label="B" />
+        <jig-toggle-button label="C" />
+      </jig-button-group>`,
+    imports: ['buttonGroup', 'toggleButton'],
+  });
+
+  await page.getByRole('switch', { name: 'A' }).click();
+  await page.getByRole('switch', { name: 'C' }).click();
+
+  await expect(page.getByRole('switch', { name: 'C' })).toBeFocused();
+  await expect(page.getByRole('switch', { name: 'C' })).toHaveAttribute('tabindex', '0');
+  await expect(page.getByRole('switch', { name: 'A' })).toHaveAttribute('tabindex', '-1');
 });

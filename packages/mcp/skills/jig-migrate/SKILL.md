@@ -28,11 +28,9 @@ guess jig equivalents or their inputs — the maps and control APIs are exact.
    - `[(ngModel)]="x"` → the signal model, usually `[(value)]="x"` (or reactive
      forms via `jig-input-field`).
    - Wrap standalone form controls in `jig-input-field` for label/hint/error.
-   - Move an `id` from the source input onto the wrapper's `inputId`
-     (`<jig-input-field [inputId]="'old-id'">`) — the field overwrites an `id`
-     left on the projected `<input>`, silently breaking every external
-     `<label for>`, `aria-describedby`, and `document.getElementById` that
-     referenced it.
+   - Keep an existing `id` on the input; the field label follows it. For an
+     external label on a control without a native input (select, slider, …),
+     use `<label [jigFor]="control">` instead of `<label for>`.
    - Map `severity` / `color` onto jig `kind` + `color` (see `get_theme_options`).
 6. **Flag gaps** — where a map lists a gap or a feature has no equivalent, surface
    it to the user rather than fabricating an input that doesn't exist.

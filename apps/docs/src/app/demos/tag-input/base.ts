@@ -6,7 +6,7 @@ import { JigTagInput } from '@awdlab/jig/tag-input';
   selector: 'jig-demo-tag-input-base',
   imports: [JigInputField, JigTagInput],
   template: `
-    <jig-input-field [label]="'Labels'" [labelKind]="'on'" inputId="tag-input-base">
+    <jig-input-field [label]="'Labels'" [labelKind]="'on'">
       <jig-tag-input
         inputId="tag-input-base"
         [delimiters]="','"

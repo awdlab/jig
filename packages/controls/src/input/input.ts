@@ -19,6 +19,7 @@ import {
   provideSelf,
   resolveInvalidState,
 } from '@awdlab/jig/base';
+import { generateElementId } from '@awdlab/jig/utils-ng';
 import { inputControlTemplate } from '@awdlab/jig-themes/templates/input';
 
 /** Sentinel for "no control value adopted yet", distinct from any real value. */
@@ -32,6 +33,7 @@ const NOT_SEEN = Symbol('not-seen');
   providers: [provideSelf(JigInput)],
   exportAs: 'jigInput',
   host: {
+    '[attr.id]': 'inputId()',
     '[attr.aria-invalid]': 'invalidState() ? "true" : null',
     // Declaring a `required` input takes the binding away from the native
     // element (Angular only falls back to the DOM property when no directive
@@ -51,6 +53,14 @@ export class JigInput extends JigBase<'input'> implements AfterViewInit {
   });
 
   public override readonly empty = computed(() => !this.value());
+  /**
+   * The element's `id`, static or bound. Read {@link inputId}, which falls back to a generated id.
+   * @default undefined
+   */
+  public readonly id = input<string>();
+  private readonly _generatedId = generateElementId();
+  /** The element's id under the name every jig control uses, for `jigFor` and input-field. */
+  public readonly inputId = computed(() => this.id() ?? this._generatedId);
   /**
    * The raw invalid flag. A bound form (`[formField]`, `[formControl]`,
    * `formControlName`, `ngModel`) supplies its validity automatically, so forms

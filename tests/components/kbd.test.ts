@@ -114,8 +114,8 @@ const RENAME_DIALOG = `
     [footerButtons]="inputs().buttons"
     (buttonClicked)="output('button', $event)"
   >
-    <jig-input-field label="New name" inputId="field">
-      <input jigInput autofocus />
+    <jig-input-field label="New name">
+      <input jigInput id="field" autofocus />
     </jig-input-field>
   </jig-dialog>
 `;

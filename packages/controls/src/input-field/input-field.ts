@@ -1,18 +1,19 @@
 import {
+  afterRenderEffect,
   booleanAttribute,
   Component,
   computed,
   contentChildren,
-  effect,
   inject,
   input,
 } from '@angular/core';
 import { JIG_CONFIG } from '@awdlab/jig/api/ng';
 import { JigBase, JIG_CONTROL, provideSelf, JigPt } from '@awdlab/jig/base';
 import { JigButton } from '@awdlab/jig/button';
+import { JigFor } from '@awdlab/jig/directives';
 import { I18n } from '@awdlab/jig/i18n';
 import { JigIcon } from '@awdlab/jig/icon';
-import { generateElementId } from '@awdlab/jig/utils-ng';
+import { toggleIdRefs } from '@awdlab/jig/utils-ng';
 import { inputFieldControlTemplate } from '@awdlab/jig-themes/templates/input-field';
 
 import type { CustomKind, IconType } from '@awdlab/jig-custom-types';
@@ -21,7 +22,7 @@ import type { CustomKind, IconType } from '@awdlab/jig-custom-types';
  * @category control
  */
 @Component({
-  imports: [JigPt, JigIcon, JigButton],
+  imports: [JigPt, JigIcon, JigButton, JigFor],
   selector: 'jig-input-field',
   templateUrl: './input-field.html',
   host: {
@@ -43,10 +44,16 @@ export class JigInputField extends JigBase<'inputField'> {
    */
   public readonly label = input<string | null>(null);
   /**
-   * Sets the `aria-labelledby` attribute on the input element
+   * Ids added to the projected control's `aria-labelledby`, after the field {@link label}.
    * @default null
    */
   public readonly labelledBy = input<string | null>(null);
+  /**
+   * The id the {@link label} names when the projected content isn't a jig control, such as a
+   * custom `role="button"`. Otherwise the label follows the control's own `inputId`.
+   * @default undefined
+   */
+  public readonly labelFor = input<string>();
   /**
    * The kind of label presentation
    * @todo add link to custom kind documentation subsection label
@@ -60,12 +67,6 @@ export class JigInputField extends JigBase<'inputField'> {
    * @default null
    */
   public readonly showRequiredMarker = input<boolean | null>(null);
-  /**
-   * ID for the projected input element. Defaults to a generated id. The field
-   * writes this onto the element, replacing any `id` set on the input itself —
-   * set the id here when an external `<label for>` must reference it.
-   */
-  public readonly inputId = input<string>(generateElementId());
   /**
    * Show clear button. Hidden while {@link readonly} is set, since clearing
    * writes to the projected control.
@@ -144,23 +145,29 @@ export class JigInputField extends JigBase<'inputField'> {
       : undefined;
   });
 
+  /** The id the {@link label} points at: {@link labelFor}, else the projected control's own. */
+  protected readonly labelTarget = computed(
+    () =>
+      this.labelFor() ??
+      (this.control() as Partial<{ inputId: () => string }> | undefined)?.inputId?.() ??
+      ''
+  );
+
   constructor() {
     super();
     this.initializeAutoThemeClasses('labelKind', this.labelKind);
-    effect(() => {
-      const inputElement = this._inputElement();
-      if (!inputElement) {
-        return;
-      }
-      inputElement.id = this.inputId();
-    });
-    effect(() => {
-      const inputElement = this._inputElement();
-      if (!inputElement) {
-        return;
-      }
+    afterRenderEffect(onCleanup => {
       const labelledBy = this.labelledBy();
-      inputElement.setAttribute('aria-labelledby', labelledBy ?? '');
+      const labelTarget = this.labelTarget();
+      const target =
+        labelledBy && labelTarget
+          ? this.element.nativeElement.querySelector<HTMLElement>(`#${CSS.escape(labelTarget)}`)
+          : null;
+      if (!labelledBy || !target) {
+        return;
+      }
+      toggleIdRefs(target, 'aria-labelledby', labelledBy, 'append');
+      onCleanup(() => toggleIdRefs(target, 'aria-labelledby', labelledBy, 'remove'));
     });
   }
 

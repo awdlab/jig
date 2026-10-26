@@ -15,6 +15,8 @@ export class JigSelectHarness extends JigHarness {
   public readonly filterIcon: Locator;
   public readonly icon: Locator;
   public readonly input: Locator;
+  /** The non-editable trigger, which is the select's tab stop. */
+  public readonly combobox: Locator;
   public readonly inputEditable: JigInputHarness;
   /** The dropdown the select builds its list on. */
   public readonly dropdown: JigDropdownListHarness;
@@ -28,6 +30,7 @@ export class JigSelectHarness extends JigHarness {
     this.filterIcon = locator.locator(this.classes['filter-icon']);
     this.icon = locator.locator(this.classes['icon']);
     this.input = locator.locator(this.classes['input']);
+    this.combobox = locator.locator(this.classes['combobox']);
     this.inputEditable = new JigInputHarness(
       locator.locator(`${this.classes['input-editable']} ${JIG_CLASSES.input['root']}`)
     );

@@ -440,7 +440,7 @@ test.describe('keyboard navigation', () => {
     await setupKeyboard(page);
     const select = new JigSelectHarness(page.locator('jig-select').first());
 
-    await select.input.focus();
+    await select.combobox.focus();
     await select.expectOpened(false);
 
     await page.keyboard.press('Enter');
@@ -454,7 +454,7 @@ test.describe('keyboard navigation', () => {
     await setupKeyboard(page);
     const select = new JigSelectHarness(page.locator('jig-select').first());
 
-    await select.input.focus();
+    await select.combobox.focus();
     await page.keyboard.press('ArrowDown');
     await page.keyboard.press('ArrowDown');
     await page.keyboard.press('ArrowUp');
@@ -467,7 +467,7 @@ test.describe('keyboard navigation', () => {
     const handle = await setupKeyboard(page);
     const select = new JigSelectHarness(page.locator('jig-select').first());
 
-    await select.input.focus();
+    await select.combobox.focus();
     await page.keyboard.press('Enter');
     await select.expectOpened(true);
 
@@ -483,7 +483,7 @@ test.describe('keyboard navigation', () => {
     await setupKeyboard(page);
     const select = new JigSelectHarness(page.locator('jig-select').first());
 
-    await select.input.focus();
+    await select.combobox.focus();
     await page.keyboard.press('Enter');
     await select.expectOpened(true);
     await page.keyboard.press('ArrowDown');
@@ -500,7 +500,7 @@ test.describe('keyboard navigation', () => {
     await setupKeyboard(page);
     const select = new JigSelectHarness(page.locator('jig-select').first());
 
-    await select.input.focus();
+    await select.combobox.focus();
     await page.keyboard.press('Enter');
     await select.expectOpened(true);
     await page.keyboard.press('ArrowDown');
@@ -550,7 +550,7 @@ test.describe('disabled items', () => {
     const handle = await setupDisabled(page);
     const select = new JigSelectHarness(page.locator('jig-select').first());
 
-    await select.input.focus();
+    await select.combobox.focus();
     await page.keyboard.press('Enter');
     await select.expectOpened(true);
 
@@ -558,7 +558,7 @@ test.describe('disabled items', () => {
     await page.keyboard.press('Enter');
     await select.expectSelectedItemText('Alpha');
 
-    await select.input.focus();
+    await select.combobox.focus();
     await page.keyboard.press('Enter');
     await select.expectOpened(true);
     await page.keyboard.press('ArrowDown');
@@ -754,4 +754,59 @@ test('rtl', async ({ page }, testInfo) => {
   await select.expectOpened();
   await expect(select.listBox.item.first()).toBeVisible();
   await expectScreenshot(page, testInfo);
+});
+
+test('a pointer press on the chevron does not mark the select touched', async ({ page }) => {
+  const handle = await loadComponent(page, {
+    template: `
+      <jig-input-field style="width: 240px">
+        <jig-select [options]="[{ value: 'a', label: 'Alpha' }]" (touchedChange)="output('touched', $event)" />
+      </jig-input-field>`,
+    imports: ['inputField', 'select'],
+  });
+  const select = new JigSelectHarness(page.locator('jig-select'));
+  await select.combobox.focus();
+
+  const box = (await select.icon.boundingBox())!;
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down();
+  await page.waitForTimeout(150);
+  await page.mouse.up();
+
+  await select.expectOpened(true);
+  expect((await handle.getOutputLog())['touched']).toBeUndefined();
+});
+
+test('editable select is named by its label input', async ({ page }) => {
+  await loadComponent(page, {
+    template: `<jig-select [editable]="true" label="City" [options]="[{ value: 'b', label: 'Berlin' }]" />`,
+    imports: ['select'],
+  });
+
+  await expect(page.getByRole('combobox', { name: 'City' })).toBeVisible();
+});
+
+test('a pointer open of a standalone select focuses its combobox', async ({ page }) => {
+  await loadComponent(page, {
+    template: `<jig-select style="width: 240px" [options]="[{ value: 'a', label: 'Alpha' }]" />`,
+    imports: ['select'],
+  });
+  const select = new JigSelectHarness(page.locator('jig-select'));
+
+  await select.icon.click();
+  await select.expectOpened(true);
+  await expect(select.combobox).toBeFocused();
+});
+
+test('a projected editable input keeps its own id', async ({ page }) => {
+  await loadComponent(page, {
+    template: `
+      <label for="city">City</label>
+      <jig-select [editable]="true" [options]="[{ value: 'b', label: 'Berlin' }]">
+        <input jigInput id="city" />
+      </jig-select>`,
+    imports: ['select', 'input'],
+  });
+
+  await expect(page.getByRole('combobox', { name: 'City' })).toHaveAttribute('id', 'city');
 });

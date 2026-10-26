@@ -243,3 +243,27 @@ test('rtl keyboard: roving focus follows the inline axis', async ({ page }) => {
   await page.keyboard.press('End');
   await expect(buttons.nth(2)).toBeFocused();
 });
+
+test('the tab stop follows the selected option', async ({ page }) => {
+  await loadComponent(page, {
+    template: `<button>before</button><jig-select-button [options]="${options}" [value]="2" />`,
+    imports: ['selectButton'],
+  });
+
+  await page.getByRole('button', { name: 'before' }).focus();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('switch', { name: 'Option 2' })).toBeFocused();
+});
+
+test('arrow keys move focus when an option is selected', async ({ page }) => {
+  await loadComponent(page, {
+    template: `<jig-select-button [options]="${options}" [value]="1" />`,
+    imports: ['selectButton'],
+  });
+
+  await page.getByRole('switch', { name: 'Option 1' }).focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.getByRole('switch', { name: 'Option 2' })).toBeFocused();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.getByRole('switch', { name: 'Option 3' })).toBeFocused();
+});

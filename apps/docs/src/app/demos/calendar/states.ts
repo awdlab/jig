@@ -6,24 +6,19 @@ import { JigInputField } from '@awdlab/jig/input-field';
   selector: 'jig-demo-calendar-states',
   imports: [JigCalendar, JigInputField],
   template: `
-    Default:
-    <jig-input-field>
+    <jig-input-field [label]="'Default'">
       <jig-calendar [inputId]="'calendar-states-default'" />
     </jig-input-field>
-    Readonly:
-    <jig-input-field>
+    <jig-input-field [label]="'Readonly'">
       <jig-calendar [inputId]="'calendar-states-readonly'" readonly />
     </jig-input-field>
-    Disabled:
-    <jig-input-field>
+    <jig-input-field [label]="'Disabled'">
       <jig-calendar [inputId]="'calendar-states-disabled'" disabled />
     </jig-input-field>
-    Invalid:
-    <jig-input-field>
+    <jig-input-field [label]="'Invalid'">
       <jig-calendar [inputId]="'calendar-states-invalid'" [invalidOn]="'immediate'" invalid />
     </jig-input-field>
-    Invalid + Readonly:
-    <jig-input-field>
+    <jig-input-field [label]="'Invalid + Readonly'">
       <jig-calendar
         [inputId]="'calendar-states-invalid-readonly'"
         [invalidOn]="'immediate'"
@@ -31,8 +26,7 @@ import { JigInputField } from '@awdlab/jig/input-field';
         readonly
       />
     </jig-input-field>
-    Invalid + Disabled:
-    <jig-input-field>
+    <jig-input-field [label]="'Invalid + Disabled'">
       <jig-calendar
         [inputId]="'calendar-states-invalid-disabled'"
         [invalidOn]="'immediate'"

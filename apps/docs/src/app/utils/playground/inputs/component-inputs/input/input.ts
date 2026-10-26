@@ -9,6 +9,7 @@ import {
   type Signal,
 } from '@angular/core';
 import { JigCalendar } from '@awdlab/jig/calendar';
+import { JigFor } from '@awdlab/jig/directives';
 import { JigInput } from '@awdlab/jig/input';
 import { JigNumberInput } from '@awdlab/jig/number-input';
 import { JigInputField } from '@awdlab/jig/input-field';
@@ -35,6 +36,7 @@ import type { DeclarationReflection } from 'typedoc/browser';
     JigSwitch,
     JigSelect,
     JigCalendar,
+    JigFor,
     JigDocsPlaygroundJsonInput,
   ],
   host: {

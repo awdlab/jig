@@ -24,10 +24,16 @@
     [ptClass]="'trigger'"
     aria-haspopup="true"
     [attr.aria-expanded]="popover.open()"
-    [attr.aria-label]="label() || 'Select color'"
+    [attr.aria-label]="label()"
+    [attr.aria-labelledby]="labelledBy()"
+    [id]="inputId()"
     (click)="toggleOpen()"
   >
     <span [ptInt]="this" [ptClass]="'preview'" [style.background]="cssColor()"></span>
+    @if (!label()) {
+      <!-- Content names the button below aria-label and a <label>, so it never overrides either. -->
+      <span [ptInt]="this" [ptClass]="'sr-only'">{{ i18n['colorPicker_trigger']() }}</span>
+    }
   </button>
   <jig-popover
     #popover
@@ -44,7 +50,14 @@
 }
 
 <ng-template #panel>
-  <div [ptInt]="this" [ptClass]="'panel'">
+  <div
+    [ptInt]="this"
+    [ptClass]="'panel'"
+    [attr.role]="inline() ? 'group' : null"
+    [attr.id]="inline() ? inputId() : null"
+    [attr.aria-label]="inline() ? label() : null"
+    [attr.aria-labelledby]="inline() ? labelledBy() : null"
+  >
     <div
       #svArea
       [ptInt]="this"

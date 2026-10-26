@@ -5,7 +5,7 @@ import { JigInputField } from '@awdlab/jig/input-field';
 @Component({
   selector: 'jig-demo-calendar-time',
   imports: [JigCalendar, JigInputField],
-  template: `<jig-input-field>
+  template: `<jig-input-field [label]="'Date and time'">
     <jig-calendar [inputId]="'test-input'" [showTime]="true" [format]="'MM/dd/yyyy h:mm a'" />
   </jig-input-field>`,
 })

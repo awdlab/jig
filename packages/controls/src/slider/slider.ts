@@ -11,6 +11,7 @@ import {
   isDevMode,
 } from '@angular/core';
 import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { hostOrGeneratedId } from '@awdlab/jig/utils-ng';
 import { JigDrag, type JigDragInfo } from '@awdlab/jig/directives';
 import { I18n } from '@awdlab/jig/i18n';
 import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
@@ -45,6 +46,7 @@ export type SliderHandle = 'start' | 'end';
     '[attr.aria-readonly]': '!isRange() && readonly() ? "true" : null',
     '[attr.disabled]': 'disabled() ? "" : null',
     '[attr.aria-labelledby]': 'labelledBy()',
+    '[id]': 'inputId()',
     '[attr.aria-label]': 'label()',
     '[attr.aria-orientation]': 'isRange() ? null : vertical() ? "vertical" : "horizontal"',
     '[attr.aria-valuetext]': 'isRange() ? null : valueTextFor(values()[1])',
@@ -57,6 +59,12 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
   'slider',
   SliderValue<Range>
 > {
+  /**
+   * The ID for the control, rendered on its host. Defaults to the host's `id` attribute, else a
+   * generated id.
+   */
+  public override readonly inputId = input<string>(hostOrGeneratedId());
+
   protected readonly theme = this.injectThemeTemplate(sliderControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),

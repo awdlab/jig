@@ -101,7 +101,7 @@ import { JigDocsSectionHeader } from './section-header';
             not per viewport. No media queries. Drag the width down and watch.
           </p>
           <jig-select-button
-            aria-label="Container width"
+            label="Container width"
             [options]="widths"
             [value]="widthPct()"
             (valueChange)="widthPct.set($event)"
@@ -112,7 +112,7 @@ import { JigDocsSectionHeader } from './section-header';
           >
             <jig-input-field>
               <jig-select
-                aria-label="Teams"
+                label="Teams"
                 [multiple]="true"
                 [options]="teams"
                 [(value)]="selectedTeams"

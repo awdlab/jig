@@ -7,11 +7,11 @@ import { JigTagInput } from '@awdlab/jig/tag-input';
   imports: [JigInputField, JigTagInput],
   template: `
     Single line:
-    <jig-input-field [label]="'Labels'" [labelKind]="'on'" inputId="tag-single">
+    <jig-input-field [label]="'Labels'" [labelKind]="'on'">
       <jig-tag-input inputId="tag-single" [delimiters]="','" [value]="value()" />
     </jig-input-field>
     Multiline:
-    <jig-input-field [label]="'Labels'" [labelKind]="'on'" inputId="tag-multi">
+    <jig-input-field [label]="'Labels'" [labelKind]="'on'">
       <jig-tag-input inputId="tag-multi" [delimiters]="','" [multiline]="true" [value]="value()" />
     </jig-input-field>
   `,

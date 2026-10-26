@@ -36,13 +36,13 @@
     <jig-input-field
       (focusout)="focusOut($event)"
       [label]="label()"
-      [inputId]="inputId()"
       [invalid]="invalidState()"
       [labelledBy]="labelledBy()"
     >
       <input
         type="text"
         jigInput
+        [id]="inputId()"
         jigAutofocus
         [value]="edit.value"
         (valueChange)="edit.update($event ?? '')"

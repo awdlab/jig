@@ -3,6 +3,8 @@ import { Demo_ColorPicker_Base } from '../../../demos/color-picker/base';
 import { Demo_ColorPicker_Inline } from '../../../demos/color-picker/inline';
 import { Demo_ColorPicker_Swatches } from '../../../demos/color-picker/swatches';
 
+import { i18nKeys } from '../../../utils/i18n-doc';
+
 import type { JigDocsPage } from '../../../utils/page/types';
 
 export const ColorPickerPage: JigDocsPage = {
@@ -19,5 +21,8 @@ export const ColorPickerPage: JigDocsPage = {
     { kind: 'component', title: 'Playground', component: JigDocsColorPickerPlayground },
     { kind: 'single', title: 'API', mdFile: 'components/color-picker/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/color-picker/a11y.md' },
+    i18nKeys('colorPicker', {
+      trigger: 'Accessible name for the trigger button when no label names the picker.',
+    }),
   ],
 };

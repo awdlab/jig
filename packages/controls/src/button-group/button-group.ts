@@ -22,8 +22,11 @@ import { buttonGroupControlTemplate } from '@awdlab/jig-themes/templates/button-
   selector: 'jig-button-group',
   templateUrl: './button-group.html',
   imports: [JigPt, JigRovingGroup],
-
   providers: [provideSelf(JigButtonGroup)],
+  host: {
+    role: 'group',
+    '(focusin)': 'onFocusIn($event)',
+  },
 })
 export class JigButtonGroup extends JigBase<'buttonGroup'> {
   protected readonly theme = this.injectThemeTemplate(buttonGroupControlTemplate, 'root');
@@ -91,5 +94,28 @@ export class JigButtonGroup extends JigBase<'buttonGroup'> {
       items.forEach(item => group.register(item));
       onCleanup(() => items.forEach(item => group.unregister(item)));
     });
+  }
+
+  /** Moves the tab stop to whichever button gains focus, by pointer or code, not only by arrow key. */
+  protected onFocusIn(event: FocusEvent) {
+    const group = this._roving();
+    const index = group.items().findIndex(item => item.element === event.target);
+    if (index >= 0) {
+      group.syncActiveIndex(index);
+    }
+  }
+
+  /**
+   * Moves the tab stop to the button inside `host` without moving focus, so Tab-in lands on a
+   * selection. Disabled buttons are skipped.
+   */
+  public syncTabStop(host: HTMLElement): void {
+    const group = this._roving();
+    const index = group
+      .items()
+      .findIndex(item => !item.disabled?.() && host.contains(item.element));
+    if (index >= 0) {
+      group.syncActiveIndex(index);
+    }
   }
 }

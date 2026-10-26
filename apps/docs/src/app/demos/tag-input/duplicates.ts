@@ -7,11 +7,11 @@ import { JigTagInput } from '@awdlab/jig/tag-input';
   imports: [JigInputField, JigTagInput],
   template: `
     Refused (default):
-    <jig-input-field [label]="'Labels'" [labelKind]="'on'" inputId="tag-unique">
+    <jig-input-field [label]="'Labels'" [labelKind]="'on'">
       <jig-tag-input inputId="tag-unique" [delimiters]="','" [value]="['design']" />
     </jig-input-field>
     Allowed:
-    <jig-input-field [label]="'Labels'" [labelKind]="'on'" inputId="tag-dupes">
+    <jig-input-field [label]="'Labels'" [labelKind]="'on'">
       <jig-tag-input
         inputId="tag-dupes"
         [delimiters]="','"

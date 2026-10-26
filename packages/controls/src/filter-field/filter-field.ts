@@ -836,7 +836,7 @@ export class JigFilterField<T = unknown> extends FilterFieldTemplates<T> {
   }
 
   protected onKeyDown(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' || event.key === ' ') {
       if (this.mode() !== 'inline') {
         this._popover()?.toggle();
         event.stopPropagation();

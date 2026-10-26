@@ -40,7 +40,7 @@
     {
       "from": "ejs-textbox",
       "to": "input[jigInput]",
-      "notes": "Wrap in jig-input-field. Move any `id` off the input onto the wrapper: `<jig-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references."
+      "notes": "Wrap in jig-input-field. Keep any existing `id` on the input; the field label follows it."
     },
     {
       "from": "ejs-numerictextbox",

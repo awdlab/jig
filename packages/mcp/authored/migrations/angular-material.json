@@ -24,7 +24,7 @@
     {
       "from": "input[matInput]",
       "to": "input[jigInput]",
-      "notes": "Move any `id` off the input onto the wrapper: `<jig-input-field [inputId]=\"'old-id'\">` — the field overwrites an id left on the projected input, breaking external `<label for>` / `aria-describedby` references.",
+      "notes": "Keep any existing `id` on the input; the field label follows it.",
       "props": [{ "from": "[(ngModel)]", "to": "[(value)] or formControl" }]
     },
     {

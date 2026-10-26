@@ -589,3 +589,27 @@ test('a custom filter template replaces the rows and filters through setValue', 
     expect(log['filtered']?.at(-1)).toEqual([30, 40]);
   }).toPass();
 });
+
+test('the input-mode summary is a labelled, focusable button', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `
+        <button>before</button>
+        <jig-filter-field label="Fruit" [data]="inputs().data" dataType="string" style="width: 320px" />
+      `,
+      imports: ['filterField'],
+    },
+    { inputs: { data: ['Apple', 'Banana'] } }
+  );
+
+  const summary = page.locator('jig-filter-field [role="button"]');
+  await expect(summary).toHaveAccessibleName(/^Fruit\s+\S/);
+
+  await page.getByRole('button', { name: 'before' }).focus();
+  await page.keyboard.press('Tab');
+  await expect(summary).toBeFocused();
+
+  await page.keyboard.press(' ');
+  await new JigFilterFieldHarness(page.locator('jig-filter-field')).expectOpened();
+});

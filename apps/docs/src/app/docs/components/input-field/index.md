@@ -15,9 +15,9 @@ external label via `labelledBy`. Content placed before or after the projected
 control becomes a prefix or suffix — icons, `<jig-state>` indicators, tooltips,
 or `jigButton` actions.
 
-Because the field owns that wiring, it also owns the projected input's `id`: pass
-`inputId` on the field rather than setting `id` on the `<input>`, which the field
-overwrites. The **A11y** tab shows the external-label pattern.
+The control keeps its own `id`, and the field label follows it, so an `id` on
+the `<input>` (or `inputId` on a select, calendar, …) is what external labels
+reference. The **A11y** tab shows the external-label pattern.
 
 {{ demo: Demo_InputField_Base }}
 

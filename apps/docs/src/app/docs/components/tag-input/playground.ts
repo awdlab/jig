@@ -9,7 +9,7 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
   imports: [JigTagInput, JigInputField, JigDocsPlayground],
   template: `
     <jig-docs-playground [controls]="[{ componentName: 'JigTagInput', component: component() }]">
-      <jig-input-field [label]="'Labels'" [labelKind]="'on'" inputId="tag-playground">
+      <jig-input-field [label]="'Labels'" [labelKind]="'on'">
         <jig-tag-input #ref inputId="tag-playground" [delimiters]="','" [value]="['design']" />
       </jig-input-field>
     </jig-docs-playground>

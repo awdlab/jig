@@ -6,16 +6,12 @@ import { evalValue, loadComponent } from '../helper/load-component';
 import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 
-// The field's <label for> needs the same id the tag input puts on its text field:
-// jig-input-field only auto-assigns its inputId when the projected control *is* an
-// <input>, which a composite control never is.
 const TEMPLATE = `
   <jig-input-field
     class="page-center"
     style="width: 24rem"
     [label]="'Labels'"
     [labelKind]="'on'"
-    inputId="tags"
   >
     <jig-tag-input
       inputId="tags"

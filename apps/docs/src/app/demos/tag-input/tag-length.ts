@@ -6,7 +6,7 @@ import { JigTagInput } from '@awdlab/jig/tag-input';
   selector: 'jig-demo-tag-input-tag-length',
   imports: [JigInputField, JigTagInput],
   template: `
-    <jig-input-field [label]="'3 to 10 characters'" [labelKind]="'on'" inputId="tag-length">
+    <jig-input-field [label]="'3 to 10 characters'" [labelKind]="'on'">
       <jig-tag-input
         inputId="tag-length"
         [delimiters]="','"

@@ -17,11 +17,17 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
         <jig-color-picker
           #ref
           [anchor]="anchor"
+          [label]="'Color'"
           [value]="value()"
           (valueChange)="value.set($event)"
         />
       } @else {
-        <jig-color-picker #ref [value]="value()" (valueChange)="value.set($event)" />
+        <jig-color-picker
+          #ref
+          [label]="'Color'"
+          [value]="value()"
+          (valueChange)="value.set($event)"
+        />
       }
     </jig-docs-playground>
   `,

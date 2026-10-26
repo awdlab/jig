@@ -690,7 +690,7 @@ export class JigFilterBuilder<T = unknown, TData = T> extends FilterBuilderTempl
   }
 
   protected onKeyDown(event: KeyboardEvent): void {
-    if (event.key === 'Enter' && this.mode() !== 'inline') {
+    if ((event.key === 'Enter' || event.key === ' ') && this.mode() !== 'inline') {
       this._popover()?.toggle();
       event.stopPropagation();
       event.preventDefault();

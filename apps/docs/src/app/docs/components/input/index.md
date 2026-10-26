@@ -39,7 +39,7 @@ elements placed before or after the input — icons, `<jig-state>` indicators,
 tooltips, or `jigButton` actions. Auxiliary controls are skipped when the field
 picks its primary control, so their placement never shadows the real input.
 Provide a `label` (with an optional `labelKind` for placement) or wire
-`labelledBy`/`inputId` to an external label; enable `showClearButton` for a
+`labelledBy` to an external label; enable `showClearButton` for a
 built-in clear affordance.
 
 ### Textarea

@@ -27,7 +27,7 @@ import { I18n } from '@awdlab/jig/i18n';
 import { JigScroller, JigScrollerItem } from '@awdlab/jig/scroller';
 import { createConditionalSpinner } from '@awdlab/jig/spinner';
 import { maybeCallback } from '@awdlab/jig/utils';
-import { asyncComputed } from '@awdlab/jig/utils-ng';
+import { asyncComputed, hostOrGeneratedId } from '@awdlab/jig/utils-ng';
 import { listBoxControlTemplate } from '@awdlab/jig-themes/templates/list-box';
 
 import { ListBoxTemplates, type ValueType } from './list-box-templates';
@@ -73,6 +73,12 @@ export class JigListBox<
   Items extends readonly JigItem[],
   Multiple extends boolean = false,
 > extends ListBoxTemplates<Items, Multiple> {
+  /**
+   * The ID for the control, rendered on its host. Defaults to the host's `id` attribute, else a
+   * generated id.
+   */
+  public override readonly inputId = input<string>(hostOrGeneratedId());
+
   protected readonly i18n = inject(I18n).translations;
   protected readonly theme = this.injectThemeTemplate(listBoxControlTemplate, {
     root: true,

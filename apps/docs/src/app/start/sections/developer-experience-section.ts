@@ -175,7 +175,7 @@ const FACTS: readonly Fact[] = [
                 Let users pick
               </span>
               <jig-select-button
-                aria-label="Selection mode"
+                label="Selection mode"
                 [options]="modes"
                 [value]="mode()"
                 (valueChange)="mode.set($event)"

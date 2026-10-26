@@ -7,7 +7,7 @@ import { JigInputField } from '@awdlab/jig/input-field';
   selector: 'jig-demo-calendar-base',
   imports: [JigCalendar, JigInputField, DatePipe],
   template: `
-    <jig-input-field>
+    <jig-input-field [label]="'Date'">
       <jig-calendar [inputId]="'test-input'" [value]="value()" (valueChange)="value.set($event)" />
     </jig-input-field>
     {{ value() | date: 'medium' }}

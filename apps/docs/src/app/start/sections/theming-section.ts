@@ -199,14 +199,14 @@ function toHex(color: string): string {
           <div class="flex flex-col gap-(--jig-size-padding-sm)">
             <label
               class="text-(length:--jig-font-size-sm) font-(--jig-font-weight-medium) text-(--jig-color-text)"
-              [for]="usernameField.inputId()"
+              for="theming-username"
             >
               Username
             </label>
             <div class="relative">
-              <jig-input-field #usernameField class="w-full">
+              <jig-input-field class="w-full">
                 <jig-icon [icon]="userIcon" />
-                <input jigInput autocomplete="off" [placeholder]="username" />
+                <input jigInput id="theming-username" autocomplete="off" [placeholder]="username" />
               </jig-input-field>
               <!-- Font size: ruler under real text, not the password's masking dots.
                    Width comes from a hidden copy of the placeholder wearing the input's
@@ -230,16 +230,17 @@ function toHex(color: string): string {
           <div class="mt-(--jig-size-padding-lg) flex flex-col gap-(--jig-size-padding-sm)">
             <label
               class="text-(length:--jig-font-size-sm) font-(--jig-font-weight-medium) text-(--jig-color-text)"
-              [for]="passwordField.inputId()"
+              for="theming-password"
             >
               Password
             </label>
             <div class="relative">
-              <jig-input-field #passwordField class="w-full">
+              <jig-input-field class="w-full">
                 <jig-icon [icon]="lockIcon" />
                 <!-- Indent clears the corner marker. -->
                 <input
                   jigInput
+                  id="theming-password"
                   type="password"
                   autocomplete="off"
                   placeholder="••••••••"

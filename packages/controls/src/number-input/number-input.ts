@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { domEventHandler } from '@awdlab/jig/api/ng';
 import { provideSelf, ValueControlBase } from '@awdlab/jig/base';
+import { hostOrGeneratedId } from '@awdlab/jig/utils-ng';
 import { inputControlTemplate } from '@awdlab/jig-themes/templates/input';
 
 import { clampValue, localeNumberInfo, parseLocaleNumber, stepNumberValue } from './helper';
@@ -53,6 +54,8 @@ function positiveStep(value: number | undefined): number | undefined {
     '[attr.aria-valuemin]': 'min() ?? null',
     '[attr.aria-valuemax]': 'max() ?? null',
     '[attr.aria-label]': 'label()',
+    '[attr.aria-labelledby]': 'labelledBy()',
+    '[id]': 'inputId()',
     '[attr.aria-invalid]': 'invalidState() ? "true" : null',
     '[disabled]': 'disabled()',
     '[readOnly]': 'readonly()',
@@ -61,6 +64,12 @@ function positiveStep(value: number | undefined): number | undefined {
   },
 })
 export class JigNumberInput extends ValueControlBase<'numberInput', number | null> {
+  /**
+   * The ID for the control, rendered on its host. Defaults to the host's `id` attribute, else a
+   * generated id.
+   */
+  public override readonly inputId = input<string>(hostOrGeneratedId());
+
   public override readonly isFieldControl = true;
   protected readonly theme = this.injectThemeTemplate(inputControlTemplate, {
     root: true,

@@ -9,7 +9,7 @@ import { JigTagInput, tagCount, tagLength } from '@awdlab/jig/tag-input';
   selector: 'jig-demo-tag-input-validation',
   imports: [FormField, JigErrors, JigHint, JigInputField, JigTagInput],
   template: `
-    <jig-input-field [label]="'Labels'" [labelKind]="'on'" inputId="tag-validation">
+    <jig-input-field [label]="'Labels'" [labelKind]="'on'">
       <jig-tag-input
         inputId="tag-validation"
         [formField]="labelForm.tags"
