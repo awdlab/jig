@@ -27,7 +27,7 @@ import { JigInput } from '@awdlab/jig/input';
 import { JigInputField } from '@awdlab/jig/input-field';
 import { JigPopover, type PopoverOptions } from '@awdlab/jig/popover';
 import { JigSelect } from '@awdlab/jig/select';
-import { deepMerge, JigError } from '@awdlab/jig/utils';
+import { deepMerge, JigError, maybeCallback } from '@awdlab/jig/utils';
 import { filterFieldControlTemplate } from '@awdlab/jig-themes/templates/filter-field';
 
 import { FilterFieldTemplates } from './filter-field-templates';
@@ -173,11 +173,11 @@ export class JigFilterField<T = unknown> extends FilterFieldTemplates<T> {
   public readonly defaultOperator = input<JigFilterOperatorId | null | undefined>();
 
   /**
-   * Options for `dataType="list"`.
-   * When provided, they are used as-is. When `null` or `undefined`, options are derived from {@link data}.
+   * Options for `dataType="list"`: plain strings, or items whose `label` is shown while their
+   * `value` is matched. When `null` or `undefined`, options are derived from {@link data}.
    * @default undefined
    */
-  public readonly listOptions = input<readonly string[] | null | undefined>();
+  public readonly listOptions = input<readonly (string | JigItem)[] | null | undefined>();
 
   /**
    * Controls how the filter is rendered.
@@ -391,11 +391,15 @@ export class JigFilterField<T = unknown> extends FilterFieldTemplates<T> {
   protected readonly resolvedListOptions = computed<readonly JigItem[]>(() => {
     const listOptions = this.listOptions();
     return listOptions
-      ? listOptions.map((opt): JigItem => ({
-          label: opt,
-          value: opt,
-          testId: `filter-list-${opt}`,
-        }))
+      ? listOptions.map((opt): JigItem =>
+          typeof opt === 'string'
+            ? { label: opt, value: opt, testId: `filter-list-${opt}` }
+            : {
+                ...opt,
+                value: String(opt.value),
+                testId: opt.testId ?? `filter-list-${String(opt.value)}`,
+              }
+        )
       : this.autoListOptions();
   });
 
@@ -453,7 +457,8 @@ export class JigFilterField<T = unknown> extends FilterFieldTemplates<T> {
         return this.i18n['filter_noFilter']();
       }
       if (selected.length === 1) {
-        return selected[0] ?? this.i18n['filter_noFilter']();
+        const option = this.resolvedListOptions().find(o => o.value === selected[0]);
+        return option ? maybeCallback(option.label) : (selected[0] ?? '');
       }
       return `${selected.length} ${this.i18n['filter_selected']()}`;
     }

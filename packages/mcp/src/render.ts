@@ -115,7 +115,7 @@ export function controlMarkdown(control: PackControl, pack?: KnowledgePack): str
     `# ${control.className}\n\n` +
     `- **Selector:** \`${control.selector}\`\n` +
     `- **Kind:** ${control.kind}\n` +
-    `- **Import:** \`@awdlab/jig\`\n\n` +
+    `- **Import:** \`${control.importPath}\`\n\n` +
     `${control.summary}\n`;
 
   const api = propTable('Inputs', control.inputs) + propTable('Outputs', control.outputs);

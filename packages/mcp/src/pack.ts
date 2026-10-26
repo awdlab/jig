@@ -34,6 +34,8 @@ export interface PackControl {
   className: string;
   /** `control` or `directive`. */
   kind: 'control' | 'directive';
+  /** Secondary entry point that exports the class, e.g. `@awdlab/jig/select`. */
+  importPath: string;
   /** Best-effort selector, e.g. `jig-select` or `[jigTooltip]`. */
   selector: string;
   /** One-line summary (first sentence of the docs prose). */

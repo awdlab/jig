@@ -233,10 +233,171 @@
     {
       "from": "p-table / p-dataTable",
       "to": "jig-table",
-      "notes": "Column/template model differs substantially. Migrate incrementally and verify with get_control + the table docs.",
+      "notes": "Import JigTableModule from `@awdlab/jig/table`. Same two-template shape as PrimeNG: `<ng-template #header>` holds `<tr jigTableHeadTr>` with `<th [jigTableTh]=\"table.column('field')\">` cells, `<ng-template #body let-row [jigTemplate]=\"table.templateTypes.body\">` holds `<tr [jigTableBodyTr]=\"row\">` with `<td jigTableTd>` cells; the row object is `row.data`. Features are per-column directives on the `th` (sort, filter, sticky). Data is filtered and sorted client-side unless `filterLocally` / `sortLocally` are `false` or a `dataSource` is set. Give the table a fixed height; it scrolls its body itself.",
+      "props": [
+        {
+          "from": "value",
+          "to": "rows"
+        },
+        {
+          "from": "dataKey",
+          "to": "fieldId",
+          "notes": "Required; also the key stored in `selection`."
+        },
+        {
+          "from": "loading",
+          "to": "loading"
+        },
+        {
+          "from": "stripedRows",
+          "to": "striped"
+        },
+        {
+          "from": "paginator",
+          "to": "paginator",
+          "notes": "Page size is picked in the paginator UI, not bound on the table."
+        },
+        {
+          "from": "virtualScroll",
+          "to": "virtual"
+        },
+        {
+          "from": "virtualScrollItemSize",
+          "to": "rowHeight"
+        },
+        {
+          "from": "lazy + (onLazyLoad)",
+          "to": "dataSource",
+          "notes": "An async loader `(req) => Promise<{ rows, total?, hasMore }>`; `req` carries pagination, sort, filters and an AbortSignal. Bind a stable reference, not an inline arrow."
+        },
+        {
+          "from": "sortField / sortOrder / (onSort)",
+          "to": "[(sort)]",
+          "notes": "One `{ column, direction: 'asc' | 'desc' }` or `null`. No multi-sort."
+        },
+        {
+          "from": "customSort / (sortFunction)",
+          "to": "sortComparator"
+        },
+        {
+          "from": "(onSort) with server-side sorting",
+          "to": "sortLocally",
+          "notes": "Set `false` and refetch `rows` when `sort` changes."
+        },
+        {
+          "from": "filters / (onFilter)",
+          "to": "[(filters)]",
+          "notes": "Keyed by column id; each value is a `JigFilterConfig` (dataType, matchMode, conditions)."
+        },
+        {
+          "from": "(onFilter) with server-side filtering",
+          "to": "filterLocally",
+          "notes": "Set `false` and refetch `rows` when `filters` change."
+        },
+        {
+          "from": "selectionMode",
+          "to": "selectionMode",
+          "notes": "`'single'` or `'multi'`."
+        },
+        {
+          "from": "[(selection)]",
+          "to": "[(selection)]",
+          "notes": "Holds row ids (`fieldId` values), not row objects."
+        },
+        {
+          "from": "rowGroupMode=\"subheader\" + groupRowsBy",
+          "to": "groupBy",
+          "notes": "Collapsible group-header rows; open groups in `[(expandedGroups)]`. Not available with `dataSource`."
+        },
+        {
+          "from": "resizableColumns",
+          "to": "resizable"
+        },
+        {
+          "from": "columnResizeMode",
+          "to": "resizeMode",
+          "notes": "`'fit'` → `'adjacent'`, `'expand'` → `'push'`."
+        },
+        {
+          "from": "reorderableColumns + (onColReorder)",
+          "to": "[(columnOrder)]",
+          "notes": "Also set `reorderable`; the model is an array of column ids."
+        },
+        {
+          "from": "stateStorage / stateKey",
+          "to": "storage",
+          "notes": "`{ key, kind?, states? }`; persists sort, filters, column sizes/order, selection, groups and page."
+        },
+        {
+          "from": "scrollable / scrollHeight",
+          "to": "a fixed CSS height on jig-table",
+          "notes": "The body always scrolls inside the table."
+        }
+      ],
       "gaps": [
-        "Feature parity for advanced datatable features (row grouping, cell editing, virtual scroll) must be verified case by case."
+        "No `rows` / `rowsPerPageOptions` / `[(first)]` inputs — the paginator owns page size and index (persist them through `storage`).",
+        "No multi-column sort (`sortMode=\"multiple\"`).",
+        "No row expansion (`pRowToggler` / `#expandedrow`), cell editing (`pEditableColumn`) or export (`exportCSV`) — build these in your row templates.",
+        "No global filter (`filterGlobal` / `globalFilterFields`) — filter `rows` yourself or use column filters."
       ]
+    },
+    {
+      "from": "pSortableColumn + p-sortIcon",
+      "to": "th[jigTableSortableColumn]",
+      "notes": "Put the directive on the `jigTableTh` cell; it renders the sort icon and `aria-sort` itself. The column id comes from `[jigTableTh]`, so `pSortableColumn=\"field\"`'s value is dropped."
+    },
+    {
+      "from": "p-columnFilter",
+      "to": "th[jigTableFilterableColumn]",
+      "notes": "Put the directive on the `jigTableTh` cell; it renders the filter button and popover. Applied filters land in jig-table's `[(filters)]`.",
+      "props": [
+        {
+          "from": "type",
+          "to": "jigTableFilterableColumnType",
+          "notes": "`text` → `'string'`, `numeric` → `'number'`, `date` → `'date'`, `boolean` → `'boolean'`; a multiselect filter → `'list'`."
+        },
+        {
+          "from": "options (multiselect filter)",
+          "to": "jigTableFilterableColumnItems",
+          "notes": "Strings, or `{ label, value }` items."
+        },
+        {
+          "from": "matchModeOptions",
+          "to": "jigTableFilterableColumnOperators"
+        },
+        {
+          "from": "matchMode",
+          "to": "jigTableFilterableColumnDefaultOperator"
+        },
+        {
+          "from": "showApplyButton",
+          "to": "jigTableFilterableColumnAutoApply",
+          "notes": "Inverted: `showApplyButton` → `[jigTableFilterableColumnAutoApply]=\"false\"`."
+        },
+        {
+          "from": "maxConstraints=\"1\" / showAddButton=\"false\"",
+          "to": "jigTableFilterableColumnAllowMultiple",
+          "notes": "Set to `false`."
+        },
+        {
+          "from": "#filter template",
+          "to": "jigTableFilterableColumnTemplate",
+          "notes": "Write a `JigFilterConfig` back through the context's `setValue`."
+        }
+      ],
+      "gaps": [
+        "`display=\"row\"` (inline filter row) has no equivalent — filters always open in a popover."
+      ]
+    },
+    {
+      "from": "pFrozenColumn / alignFrozen",
+      "to": "th[jigTableStickyColumn]",
+      "notes": "`jigTableStickyColumn=\"start\"` or `\"end\"` on the header cell."
+    },
+    {
+      "from": "p-contextMenu + [(contextMenuSelection)]",
+      "to": "tr[jigTableRowActions]",
+      "notes": "Bind a `JigActionItem[]` on the body row; it opens on right-click and as an inline hover bar (`jigTableRowActionsInline=\"false\"` drops the bar). Each `callback` receives the click event, so `event.currentTarget` can anchor a popover. Row checkboxes (`p-tableCheckbox` / `p-tableHeaderCheckbox`) map to a `jigTableSelectionColumn` th/td pair."
     },
     {
       "from": "p-paginator",

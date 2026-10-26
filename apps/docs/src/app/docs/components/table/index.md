@@ -59,17 +59,23 @@ on ascending; pass a `sortComparator` to override it. Set `sortClearable` to
 `false` to drop the unsorted step and toggle between ascending and descending
 only. The active header carries `aria-sort="ascending" | "descending"`.
 
+Set `[sortLocally]="false"` to sort on the server: the headers still drive
+`[(sort)]`, but the table renders `rows` in the order you hand it.
+
 {{ demo: Demo_Table_Sorting }}
 
 ### Filtering Columns
 
 Add `jigTableFilterableColumn` with a `…Type` (the column's data type, which
 picks the available operators and UI) and, for list filters, a `…Items` option
-set. A filter button appears in the header and opens a filter popover; applied
+set — plain strings, or `{ label, value }` items when the shown text differs
+from the stored value. A filter button appears in the header and opens a filter popover; applied
 filters live in the two-way `[(filters)]` model, keyed by column. Multiple
 column filters combine (AND). A `…Operators` list narrows and orders the
 operators of that column, and `…DefaultOperator` picks the one a new condition
-starts with.
+starts with. Edits apply as the user types; set `…AutoApply` to `false` for
+apply / cancel buttons, and `…AllowMultiple` to `false` to keep a column to a
+single condition.
 
 `…Template` takes a `TemplateRef` and replaces that column's popover with your
 own editor — a slider, a rating, a lookup against your backend. It writes an
@@ -82,7 +88,8 @@ field's page for the full context.
 Set `[filterLocally]="false"` for server-side filtering without handing paging
 over to `dataSource`: the header controls still drive `[(filters)]`, but the
 table renders `rows` as given, so you refetch them yourself when `filters`
-changes. Pass `…Items` for list columns — options derived from `rows` would
+changes. Pair it with `[sortLocally]="false"` when the server sorts too. Pass
+`…Items` for list columns — options derived from `rows` would
 only ever cover the rows currently loaded. Since you own the request, bind
 [`loading`](#loading-state) to it for skeleton rows — the table only sees
 `rows` arrive and cannot tell a fetch is in flight by itself.
@@ -152,7 +159,8 @@ Add `jigTableRowActions` to a body `<tr>` with a `jigActionItem[]`. By default
 the same actions are exposed two ways (both independently toggleable): a
 right-click context menu (`…Context`) and an inline button-bar at the row's edge
 revealed on hover or keyboard focus (`…Inline`). Actions may nest via `children`
-to open submenus. The keyboard context menu (Enter / ContextMenu / Shift+F10 on
+to open submenus. A `callback` receives the triggering event, so
+`event.currentTarget` can anchor a popover to the clicked button. The keyboard context menu (Enter / ContextMenu / Shift+F10 on
 the current row) is always available even when the right-click affordance is off.
 
 {{ demo: Demo_Table_RowActions }}

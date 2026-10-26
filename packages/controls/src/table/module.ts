@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { JigTable } from './table';
 import { JigTableTd } from './table-cell';
+import { JigTableFilterableColumn } from './table-filterable-column';
 import { JigTableGroupHeaderTr } from './table-group-header-row';
 import { JigTableTh } from './table-header-cell';
 import { JigTableHeadTr } from './table-header-row';
@@ -10,6 +11,7 @@ import { JigTableBodyTr } from './table-row';
 import { JigTableRowActions } from './table-row-actions';
 import { JigTableRowActionsBar } from './table-row-actions-bar';
 import { JigTableSelectionColumn } from './table-selection-column';
+import { JigTableSortableColumn } from './table-sortable-column';
 import { JigTableStickyColumn } from './table-sticky-column';
 
 @NgModule({
@@ -24,6 +26,8 @@ import { JigTableStickyColumn } from './table-sticky-column';
     JigTableRowActions,
     JigTableRowActionsBar,
     JigTableSelectionColumn,
+    JigTableSortableColumn,
+    JigTableFilterableColumn,
     JigTableStickyColumn,
   ],
   exports: [
@@ -37,6 +41,8 @@ import { JigTableStickyColumn } from './table-sticky-column';
     JigTableRowActions,
     JigTableRowActionsBar,
     JigTableSelectionColumn,
+    JigTableSortableColumn,
+    JigTableFilterableColumn,
     JigTableStickyColumn,
   ],
 })

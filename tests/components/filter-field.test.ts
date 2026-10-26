@@ -437,6 +437,44 @@ test('list kind (multi select) filters by membership', async ({ page }) => {
   }).toPass();
 });
 
+test('list options show their label and match their value', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `
+        <jig-filter-field
+          [data]="inputs().data"
+          [listOptions]="inputs().listOptions"
+          dataType="list"
+          (filterResultChange)="output('filtered', $event)"
+          style="width: 360px"
+        />
+      `,
+      imports: ['filterField'],
+    },
+    {
+      inputs: {
+        data: ['de', 'fr', 'ng'],
+        listOptions: [{ label: 'Germany', value: 'de' }, { label: 'France', value: 'fr' }, 'ng'],
+      },
+    }
+  );
+
+  const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
+  await filter.open();
+  const select = new JigSelectHarness(
+    page.locator('jig-filter-field [data-testid="filter-row-list"] jig-select')
+  );
+  await select.open();
+  await select.clickItemByText('Germany', false);
+  await select.close();
+
+  await expect(async () => {
+    expect((await handle.getOutputLog())['filtered']?.at(-1)).toEqual(['de']);
+  }).toPass();
+  await expect(filter.trigger).toContainText('Germany');
+});
+
 test('operators restricts the list and defaultOperator seeds new conditions', async ({ page }) => {
   await loadComponent(
     page,
