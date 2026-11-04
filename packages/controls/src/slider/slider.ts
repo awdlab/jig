@@ -228,20 +228,37 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
     return this.valueTextFn()?.(value) ?? null;
   }
 
-  protected onDragged(delta: JigDragInfo, handle: SliderHandle = 'end') {
-    if (this.readonly() || this.disabled()) {
+  /** The handle the running pointer gesture moves. */
+  private _dragHandle?: SliderHandle;
+
+  /** Claims the gesture for a thumb before its pointerdown bubbles to {@link onTrackPointerDown}. */
+  protected onThumbPointerDown(handle: SliderHandle) {
+    this._dragHandle = handle;
+  }
+
+  /** Jumps the nearest handle to a press beside the thumbs, then leaves it to the drag. */
+  protected onTrackPointerDown(event: PointerEvent) {
+    if (this._dragHandle || event.button !== 0 || this.readonly() || this.disabled()) {
+      return;
+    }
+    const cursorPos = this.vertical() ? event.clientY : event.clientX;
+    const next = this.valueAtPosition(cursorPos);
+    this._dragHandle = this.isRange() ? this.nearestHandle(next) : 'end';
+    this.setHandle(this._dragHandle, next);
+  }
+
+  protected onDragged(delta: JigDragInfo) {
+    if (!this._dragHandle || this.readonly() || this.disabled()) {
       return;
     }
     const cursorPos = this.vertical() ? delta.absoluteY : delta.absoluteX;
-    this.setHandle(handle, this.valueAtPosition(cursorPos));
+    this.setHandle(this._dragHandle, this.valueAtPosition(cursorPos));
   }
 
-  /** Set when a drag ends, so the synthesized click that follows it doesn't reach {@link trackClicked}. */
-  private _suppressTrackClick = false;
-
   protected onDragEnd() {
-    this._suppressTrackClick = true;
-    if (this.readonly() || this.disabled()) {
+    const handle = this._dragHandle;
+    this._dragHandle = undefined;
+    if (!handle || this.readonly() || this.disabled()) {
       return;
     }
     this.commitValue();
@@ -249,11 +266,6 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
 
   private commitValue(): void {
     this.valueCommit.emit(this.value());
-  }
-
-  /** Clears the drag-release click suppression; a genuine track interaction starts here, not with a stale flag. */
-  protected onTrackPointerDown() {
-    this._suppressTrackClick = false;
   }
 
   protected onKeyDown(event: KeyboardEvent, handle: SliderHandle = 'end') {
@@ -301,24 +313,6 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
       return;
     }
     this.onKeyDown(event);
-  }
-
-  protected thumbClicked(event: PointerEvent) {
-    event.stopPropagation();
-  }
-
-  protected trackClicked(event: PointerEvent) {
-    if (this._suppressTrackClick) {
-      this._suppressTrackClick = false;
-      return;
-    }
-    if (this.readonly() || this.disabled()) {
-      return;
-    }
-    const cursorPos = this.vertical() ? event.clientY : event.clientX;
-    const next = this.valueAtPosition(cursorPos);
-    this.setHandle(this.isRange() ? this.nearestHandle(next) : 'end', next);
-    this.commitValue();
   }
 
   /** The handle closest to a value; ties go to the start handle. */

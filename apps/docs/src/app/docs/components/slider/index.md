@@ -7,8 +7,10 @@ role moves to each of the two handles.
 
 ### Basic Usage
 
-Bind `value` with `[(value)]`. Drag the thumb or click anywhere on the track to
-set it; arrow keys nudge by `step`, and Home/End jump to `min`/`max`.
+Bind `value` with `[(value)]`. Drag the thumb, or press anywhere on the track: the
+value jumps there and follows the pointer until release. The press area is `2rem`
+tall and reaches past the track's ends, so the thin line itself needs no precise
+aim. Arrow keys nudge by `step`, and Home/End jump to `min`/`max`.
 
 {{ demo: Demo_Slider_Base }}
 
