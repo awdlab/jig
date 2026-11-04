@@ -1,11 +1,12 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
-<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <div
   #track
   [ptInt]="this"
   [ptClass]="'track'"
-  (pointerdown)="onTrackPointerDown()"
-  (click)="trackClicked($event)"
+  jigDrag
+  (pointerdown)="onTrackPointerDown($event)"
+  (dragged)="onDragged($event)"
+  (dragEnd)="onDragEnd()"
 >
   <div
     [ptInt]="this"
@@ -17,7 +18,6 @@
     <div
       [ptInt]="this"
       [ptClass]="'thumb'"
-      jigDrag
       role="slider"
       [attr.tabindex]="disabled() ? -1 : 0"
       [attr.aria-label]="translations['slider_rangeStart']()"
@@ -28,17 +28,14 @@
       [attr.aria-orientation]="vertical() ? 'vertical' : 'horizontal'"
       [attr.aria-readonly]="readonly() ? 'true' : null"
       [style.--valuePercent.%]="startPercent()"
-      (dragged)="onDragged($event, 'start')"
-      (dragEnd)="onDragEnd()"
+      (pointerdown)="onThumbPointerDown('start')"
       (keydown)="onKeyDown($event, 'start')"
       (blur)="markTouched()"
-      (click)="thumbClicked($event)"
     ></div>
   }
   <div
     [ptInt]="this"
     [ptClass]="'thumb'"
-    jigDrag
     [attr.role]="isRange() ? 'slider' : null"
     [attr.tabindex]="isRange() ? (disabled() ? -1 : 0) : null"
     [attr.aria-label]="isRange() ? translations['slider_rangeEnd']() : null"
@@ -49,10 +46,8 @@
     [attr.aria-orientation]="isRange() ? (vertical() ? 'vertical' : 'horizontal') : null"
     [attr.aria-readonly]="isRange() && readonly() ? 'true' : null"
     [style.--valuePercent.%]="endPercent()"
-    (dragged)="onDragged($event, 'end')"
-    (dragEnd)="onDragEnd()"
+    (pointerdown)="onThumbPointerDown('end')"
     (keydown)="onKeyDown($event, 'end')"
     (blur)="markTouched()"
-    (click)="thumbClicked($event)"
   ></div>
 </div>

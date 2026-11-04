@@ -5,6 +5,17 @@ import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 import { expectNoA11yViolations } from '../helper/axe';
 
+/** The viewport point at the given ratios of the track's box. */
+async function trackPoint(
+  slider: JigSliderHarness,
+  xRatio: number,
+  yRatio = 0.5
+): Promise<[number, number]> {
+  const box = await slider.track.boundingBox();
+  if (!box) throw new Error('slider track has no box');
+  return [box.x + box.width * xRatio, box.y + box.height * yRatio];
+}
+
 test('base', async ({ page }, testInfo) => {
   const handle = await loadComponent(
     page,
@@ -118,6 +129,236 @@ test('track click', async ({ page }, testInfo) => {
     expect(Number(value)).toBeGreaterThan(80);
   }).toPass();
   await expectScreenshot(page, testInfo, 'track-click-end');
+});
+
+test('track press follows the pointer and commits on release', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<jig-slider style="width: 300px;" [value]="inputs().value" (valueCommit)="output('valueCommit', $event)" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: 50,
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+
+  // The press alone moves the value, before any release.
+  await page.mouse.move(...(await trackPoint(slider, 0.25)));
+  await page.mouse.down();
+  await slider.expectValue(25);
+
+  await page.mouse.move(...(await trackPoint(slider, 0.75)));
+  await slider.expectValue(75);
+  expect(await handle.getOutputLog()).toEqual({});
+
+  await page.mouse.up();
+  await expect.poll(handle.getOutputLog).toEqual({ valueCommit: [75] });
+});
+
+test('vertical track press follows the pointer', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<jig-slider style="height: 200px;" [vertical]="true" [value]="inputs().value" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: 50,
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+
+  await page.mouse.move(...(await trackPoint(slider, 0.5, 0.75)));
+  await page.mouse.down();
+  await slider.expectValue(25);
+
+  await page.mouse.move(...(await trackPoint(slider, 0.5, 0.25)));
+  await slider.expectValue(75);
+  await page.mouse.up();
+});
+
+test('track press ignores non-primary buttons', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<jig-slider style="width: 300px;" [value]="inputs().value" (valueChange)="output('value', $event)" (valueCommit)="output('valueCommit', $event)" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: 50,
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+
+  await page.mouse.move(...(await trackPoint(slider, 0.25)));
+  await page.mouse.down({ button: 'right' });
+  await page.mouse.move(...(await trackPoint(slider, 0.75)));
+  await page.mouse.up({ button: 'right' });
+
+  await slider.expectValue(50);
+  expect(await handle.getOutputLog()).toEqual({});
+});
+
+test('pressing a thumb off-center keeps the value', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<jig-slider style="width: 300px;" [value]="inputs().value" (valueCommit)="output('valueCommit', $event)" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: 50,
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+  const box = await slider.thumb.boundingBox();
+  if (!box) throw new Error('slider thumb has no box');
+
+  await page.mouse.move(box.x + box.width - 1, box.y + box.height / 2);
+  await page.mouse.down();
+  await page.mouse.up();
+
+  await slider.expectValue(50);
+  await expect.poll(handle.getOutputLog).toEqual({ valueCommit: [50] });
+});
+
+test('the press area reaches past the visible track', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<div style="padding: 40px;"><jig-slider style="width: 300px;" [value]="inputs().value" /></div>`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: 50,
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+  const [x, y] = await trackPoint(slider, 0.25);
+  const [trackEnd] = await trackPoint(slider, 1);
+
+  // Above the thumb's own height.
+  await page.mouse.click(x, y - 12);
+  await slider.expectValue(25);
+
+  // Past the end of the track.
+  await page.mouse.click(trackEnd + 4, y);
+  await slider.expectValue(100);
+
+  await page.mouse.click(x, y + 20);
+  await slider.expectValue(100);
+});
+
+test('vertical press area reaches past the visible track', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<div style="padding: 40px;"><jig-slider style="height: 200px;" [vertical]="true" [value]="inputs().value" /></div>`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: 50,
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+  const [x, y] = await trackPoint(slider, 0.5, 0.75);
+
+  await page.mouse.click(x + 12, y);
+  await slider.expectValue(25);
+});
+
+test('the press area adds no scrollable overflow', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `<div id="scroller" style="overflow: auto;"><jig-slider [value]="inputs().value" /></div>`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: 50,
+      },
+    }
+  );
+
+  const overflow = await page
+    .locator('#scroller')
+    .evaluate(scroller => scroller.scrollHeight - scroller.clientHeight);
+  expect(overflow).toBe(0);
+});
+
+test('an inert slider has no press area over its neighbours', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<button style="display: block; width: 300px; height: 40px;" (click)="output('click', true)">Neighbour</button><jig-slider style="width: 300px;" [value]="inputs().value" [disabled]="inputs().disabled" [readonly]="inputs().readonly" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: 50,
+        disabled: true,
+        readonly: false,
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+  const [x, y] = await trackPoint(slider, 0.25);
+
+  await page.mouse.click(x, y - 12);
+  await handle.setInputs({ disabled: false, readonly: true });
+  await page.mouse.click(x, y - 12);
+
+  await expect.poll(handle.getOutputLog).toEqual({ click: [true, true] });
+});
+
+test('only an operable track shows the pointer cursor', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<jig-slider [value]="inputs().value" [disabled]="inputs().disabled" [readonly]="inputs().readonly" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: 50,
+        disabled: false,
+        readonly: false,
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+  await expect(slider.track).toHaveCSS('cursor', 'pointer');
+  await expect(slider.fill).toHaveCSS('cursor', 'pointer');
+  await expect(slider.thumbEnd).toHaveCSS('cursor', 'grab');
+
+  await handle.setInputs({ disabled: true });
+  await expect(slider.track).toHaveCSS('cursor', 'auto');
+
+  await handle.setInputs({ disabled: false, readonly: true });
+  await expect(slider.track).toHaveCSS('cursor', 'auto');
 });
 
 test('min max step', async ({ page }, testInfo) => {
@@ -612,6 +853,37 @@ test('range track click moves the nearest handle', async ({ page }) => {
     const end = Number(await slider.thumbEnd.getAttribute('aria-valuenow'));
     expect(end).toBeGreaterThan(80);
   }).toPass();
+});
+
+test('range track press drags the nearest handle until release', async ({ page }) => {
+  const handle = await loadComponent(
+    page,
+    {
+      template: `<jig-slider style="width: 300px;" [range]="true" [value]="inputs().value" (valueCommit)="output('valueCommit', $event)" />`,
+      imports: ['slider'],
+    },
+    {
+      inputs: {
+        value: [20, 60],
+      },
+    }
+  );
+
+  const slider = new JigSliderHarness(page.locator('jig-slider'));
+
+  await page.mouse.move(...(await trackPoint(slider, 0.1)));
+  await page.mouse.down();
+  await slider.expectRangeValue([10, 60]);
+
+  await page.mouse.move(...(await trackPoint(slider, 0.4)));
+  await slider.expectRangeValue([40, 60]);
+
+  // The dragged handle stops at the other one, which stays put.
+  await page.mouse.move(...(await trackPoint(slider, 0.9)));
+  await slider.expectRangeValue([60, 60]);
+
+  await page.mouse.up();
+  await expect.poll(handle.getOutputLog).toEqual({ valueCommit: [[60, 60]] });
 });
 
 test('range readonly & disabled', async ({ page }, testInfo) => {

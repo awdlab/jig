@@ -7,11 +7,22 @@ export const sliderStyles = createThemePart({
   root: {
     css: ({ c }) => css`
       ${c('root')} {
+        --trackHitSize: 2rem;
         user-select: none;
         display: flex;
       }
       ${c('track')} {
         position: relative;
+        /* Keeps the press area out of the surrounding scrollable overflow. */
+        contain: layout;
+      }
+      ${c('root')}:not([disabled]):not(${c('readonly')}) ${c('track')} {
+        cursor: pointer;
+        /* Invisible press area, so the thin track needs no pixel-precise aim. */
+        &::before {
+          content: '';
+          position: absolute;
+        }
       }
       ${c('fill')} {
         position: absolute;
@@ -28,6 +39,10 @@ export const sliderStyles = createThemePart({
           width: calc(100% - var(--thumbSize));
           height: var(--trackThickness);
           margin: calc((var(--thumbSize) - var(--trackThickness)) / 2) calc(var(--thumbSize) / 2);
+        }
+        ${c('track')}::before {
+          inset-block: calc((var(--trackThickness) - var(--trackHitSize)) / 2);
+          inset-inline: calc(var(--thumbSize) / -2);
         }
         ${c('fill')} {
           height: 100%;
@@ -48,6 +63,10 @@ export const sliderStyles = createThemePart({
           height: calc(100% - var(--thumbSize));
           width: var(--trackThickness);
           margin: calc(var(--thumbSize) / 2) calc((var(--thumbSize) - var(--trackThickness)) / 2);
+        }
+        ${c('track')}::before {
+          inset-inline: calc((var(--trackThickness) - var(--trackHitSize)) / 2);
+          inset-block: calc(var(--thumbSize) / -2);
         }
         ${c('fill')} {
           width: 100%;
