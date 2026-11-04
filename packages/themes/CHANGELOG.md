@@ -1,5 +1,9 @@
 # Changelog
 
+## @awdlab/jig-themes 0.0.10 (2026-11-04)
+
+- **Pressing the `jig-slider` track now moves the value live.** The nearest handle jumps to the pointer on press and follows it until release, where `valueCommit` fires; before, the value only changed on click. The track now reacts to pointer events, so a scripted `click()` on it no longer moves the value, and a click on a thumb bubbles to ancestors as a click on the track already did. The press area is now `2rem` tall, shows a pointer cursor and reaches past the track's ends, overhanging the control by up to `0.5rem` along its long sides unless it is `disabled` or `readonly`.
+
 ## @awdlab/jig-themes 0.0.9 (2026-10-26)
 
 - **`jig-calendar` takes `min` and `max` date bounds.** Days outside the range render disabled with `aria-disabled` and ignore clicks and Enter/Space, while every month stays navigable so out-of-range days can still carry context; a typed date outside the range is clamped to the nearest bound instead of being committed. Bounds compare by calendar day, so their time of day does not matter. Both inputs accept `undefined`, so a signal forms `min()`/`max()` rule binds straight onto the calendar. Themes style the new `day-disabled` class, custom day templates receive a `disabled` flag, and `JigCalendarHarness` gains a `dayDisabled` locator.

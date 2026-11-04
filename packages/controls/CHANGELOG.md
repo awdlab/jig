@@ -1,5 +1,9 @@
 # Changelog
 
+## @awdlab/jig 0.0.13 (2026-11-04)
+
+- **Pressing the `jig-slider` track now moves the value live.** The nearest handle jumps to the pointer on press and follows it until release, where `valueCommit` fires; before, the value only changed on click. The track now reacts to pointer events, so a scripted `click()` on it no longer moves the value, and a click on a thumb bubbles to ancestors as a click on the track already did. The press area is now `2rem` tall, shows a pointer cursor and reaches past the track's ends, overhanging the control by up to `0.5rem` along its long sides unless it is `disabled` or `readonly`.
+
 ## @awdlab/jig 0.0.12 (2026-10-26)
 
 - **The table hands sorting, filter UX and row-action anchoring back to the app.**
