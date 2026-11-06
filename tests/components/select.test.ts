@@ -479,6 +479,23 @@ test.describe('keyboard navigation', () => {
     expect(await handle.getOutputLog()).toEqual({ value: ['ng'] });
   });
 
+  test('combobox points aria-activedescendant at the highlighted option', async ({ page }) => {
+    await setupKeyboard(page);
+    const select = new JigSelectHarness(page.locator('jig-select').first());
+
+    await select.combobox.focus();
+    await page.keyboard.press('Enter');
+    await select.expectOpened(true);
+    await page.keyboard.press('ArrowDown');
+
+    const activeId = await select.combobox.getAttribute('aria-activedescendant');
+    expect(activeId).toBeTruthy();
+    await expect(page.locator(`[id="${activeId}"]`)).toHaveAttribute('role', 'option');
+
+    await page.keyboard.press('Escape');
+    await expect(select.combobox).not.toHaveAttribute('aria-activedescendant');
+  });
+
   test('Enter re-opens popover after selecting an item', async ({ page }) => {
     await setupKeyboard(page);
     const select = new JigSelectHarness(page.locator('jig-select').first());
@@ -809,4 +826,25 @@ test('a projected editable input keeps its own id', async ({ page }) => {
   });
 
   await expect(page.getByRole('combobox', { name: 'City' })).toHaveAttribute('id', 'city');
+});
+
+test('a projected editable input points aria-activedescendant at the highlighted option', async ({
+  page,
+}) => {
+  await loadComponent(page, {
+    template: `
+      <jig-select [editable]="true" [options]="[{ value: 'b', label: 'Berlin' }, { value: 'p', label: 'Paris' }]">
+        <input jigInput aria-label="City" />
+      </jig-select>`,
+    imports: ['select', 'input'],
+  });
+  const input = page.getByRole('combobox', { name: 'City' });
+
+  await input.click();
+  await expect(input).toHaveAttribute('aria-expanded', 'true');
+  await input.press('ArrowDown');
+
+  await expect(input).toHaveAttribute('aria-activedescendant', /_option_/);
+  const activeId = await input.getAttribute('aria-activedescendant');
+  await expect(page.locator(`[id="${activeId}"]`)).toHaveAttribute('role', 'option');
 });

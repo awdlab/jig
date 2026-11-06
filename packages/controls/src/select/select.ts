@@ -255,6 +255,18 @@ export class JigSelect<
         `${this.inputId()}_listbox`
       );
     });
+    effect(() => {
+      const el = this._customEditableInput()?.element.nativeElement;
+      if (!this.editable() || !el) {
+        return;
+      }
+      const activeId = this._dropdown().highlightedOptionId();
+      if (activeId) {
+        el.setAttribute('aria-activedescendant', activeId);
+      } else {
+        el.removeAttribute('aria-activedescendant');
+      }
+    });
     // After render, so it outlasts the input's own id binding; a consumer-set id is kept.
     afterRenderEffect(() => {
       const customEditableInput = this._customEditableInput();
