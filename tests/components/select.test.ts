@@ -478,6 +478,23 @@ test('arrow keys navigate and Enter selects when popover is open', async ({ page
   expect(await handle.getOutputLog()).toEqual({ value: ['ng'] });
 });
 
+test('combobox points aria-activedescendant at the highlighted option', async ({ page }) => {
+  await setupKeyboard(page);
+  const select = new JigSelectHarness(page.locator('jig-select').first());
+
+  await select.combobox.focus();
+  await page.keyboard.press('Enter');
+  await select.expectOpened(true);
+  await page.keyboard.press('ArrowDown');
+
+  const activeId = await select.combobox.getAttribute('aria-activedescendant');
+  expect(activeId).toBeTruthy();
+  await expect(page.locator(`[id="${activeId}"]`)).toHaveAttribute('role', 'option');
+
+  await page.keyboard.press('Escape');
+  await expect(select.combobox).not.toHaveAttribute('aria-activedescendant');
+});
+
 test('Enter re-opens popover after selecting an item', async ({ page }) => {
   await setupKeyboard(page);
   const select = new JigSelectHarness(page.locator('jig-select').first());
