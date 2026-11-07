@@ -7,9 +7,9 @@
  *
  * Flags (combinable; if none of the four op flags are given, defaults to
  * `--format-check --lint-check`):
- *   --format-check     oxfmt --check (.ts/.json/.md) + prettier --check (.html)
+ *   --format-check     oxfmt --check (.ts/.mts/.json/.md) + prettier --check (.html)
  *   --format-fix       oxfmt (write) + prettier --write
- *   --lint-check       oxlint --type-aware (.ts)
+ *   --lint-check       oxlint --type-aware (.ts/.mts)
  *   --lint-fix         oxlint --type-aware --fix
  *   --base <ref>       comparison base (default: origin/main, falls back to main)
  *   --concurrency <n>  max parallel jobs (default: CPU count)
@@ -87,9 +87,9 @@ if (changed.length === 0) {
 
 // --- route files by extension / owning package --------------------------------
 const ext = (f: string) => path.extname(f).slice(1).toLowerCase();
-const oxfmtFiles = changed.filter(f => ['ts', 'json', 'md'].includes(ext(f)));
+const oxfmtFiles = changed.filter(f => ['ts', 'mts', 'json', 'md'].includes(ext(f)));
 const htmlFiles = changed.filter(f => ext(f) === 'html');
-const oxlintFiles = changed.filter(f => ext(f) === 'ts');
+const oxlintFiles = changed.filter(f => ['ts', 'mts'].includes(ext(f)));
 
 // --- build the job list -------------------------------------------------------
 interface Job {

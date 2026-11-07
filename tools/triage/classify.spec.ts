@@ -1,5 +1,5 @@
 import { strict as assert } from 'node:assert';
-import { test } from 'node:test';
+import { test } from 'vitest';
 import { classify, type RgbaImage } from './classify.ts';
 
 function image(width: number, height: number, fill: [number, number, number] = [255, 255, 255]) {

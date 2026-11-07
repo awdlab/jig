@@ -9,8 +9,8 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 // Tests run against the BUILT server (`pnpm build:server` runs first via the
 // `test` script) so they exercise the real shipped artifact, including the
 // bundled knowledge pack loaded from data/.
-import { loadPack } from '../dist/pack.js';
-import { createServer } from '../dist/server.js';
+import { loadPack } from './pack.js';
+import { createServer } from './server.js';
 
 const pack = loadPack();
 let client: Client;
@@ -335,7 +335,7 @@ describe('migration prop targets', () => {
 
 describe('init command', () => {
   it('installs skills and treats an existing up-to-date skill as unchanged', async () => {
-    const { runInit } = await import('../dist/init.js');
+    const { runInit } = await import('./init.js');
     const tmp = join(
       dirname(fileURLToPath(import.meta.url)),
       '..',

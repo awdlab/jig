@@ -41,3 +41,6 @@ Thumbs.db
 
 # type-matrix probe, written and removed by tools/type-matrix
 __type-probe.generated.ts
+
+# Root LICENSE copied into publishFiles packages by their build:post
+packages/*/LICENSE

@@ -15,19 +15,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - name: Use Node.js 22.22.3
         uses: actions/setup-node@v4
         with:
           node-version: 22.22.3
-      - name: Install pnpm
-        run: npm i -g pnpm
       - name: Install
         run: pnpm i
       - name: Format Check
         run: pnpm run format:check
       - name: Lint
         run: pnpm run lint
-      - name: Build themes
+      - name: Build custom types
         run: pnpm run types:build
       - name: Build themes
         run: pnpm run themes:build
@@ -37,6 +36,8 @@ jobs:
         run: pnpm run unit-test
       - name: Type Fixtures
         run: pnpm run test:types-d
+      - name: Tool and type-matrix tests
+        run: pnpm run test:tools
       - name: Cache embedding model download
         # The docs build quantizes the search model from the pinned upstream weights;
         # the key carries that pin, so bumping it re-downloads the 30MB once.
@@ -66,11 +67,10 @@ jobs:
       options: --user 1001
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22.22.3
-      - name: Install pnpm
-        run: npm i -g pnpm
       - name: Install
         run: pnpm i
       - name: Check for test compiler errors

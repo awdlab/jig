@@ -31,13 +31,14 @@
     "README.md"
   ],
   "scripts": {
-    "prebuild:pack": "pnpm --filter @awdlab/jig api-docs:generate",
+    "build:pre": "pnpm --filter @awdlab/jig api-docs:generate",
     "build:pack": "tsx scripts/build-pack.ts",
-    "build:server": "tsc -p tsconfig.json",
-    "build": "pnpm build:pack && pnpm build:server",
+    "build:server": "tsc -p tsconfig.build.json",
+    "build": "pnpm build:pre && pnpm build:pack && pnpm build:server && pnpm build:post",
+    "build:post": "cpy ../../LICENSE .",
     "start": "tsx src/index.ts",
     "inspect": "pnpm dlx @modelcontextprotocol/inspector tsx src/index.ts",
-    "test": "pnpm build && vitest run",
+    "test": "pnpm build && tsc -p tsconfig.json && vitest run",
     "test:watch": "vitest"
   },
   "dependencies": {
@@ -49,7 +50,7 @@
     "@types/node": "^26.6.5",
     "tsx": "^4.23.11",
     "typedoc": "^0.28.20",
-    "typescript": "~6.0.0",
+    "typescript": "catalog:",
     "vitest": "^5.0.5"
   }
 }

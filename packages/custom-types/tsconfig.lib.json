@@ -11,6 +11,6 @@
     "declarationMap": true,
     "types": []
   },
-  "include": ["./src/**/*.ts", "esbuild.config.mjs"],
+  "include": ["./src/**/*.ts"],
   "exclude": ["**/*.spec.ts", "dist/**"]
 }

@@ -129,7 +129,7 @@ always matching the released version.
 
 | Requirement       | Version                                      |
 | ----------------- | -------------------------------------------- |
-| Angular           | 22.0+                                        |
+| Angular           | 22.2+                                        |
 | TypeScript        | 6.0+                                         |
 | Node (build only) | 22+                                          |
 | Browsers          | Chrome/Edge 120+, Firefox 129+, Safari 17.5+ |

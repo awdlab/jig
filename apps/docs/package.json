@@ -3,10 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "serve": "ng serve",
-    "build": "ng build",
-    "preserve": "pnpm run prepare-docs",
-    "prebuild": "pnpm run prepare-docs",
+    "serve": "pnpm prepare-docs && ng serve",
+    "build": "pnpm prepare-docs && ng build",
     "prepare-docs": "pnpm --filter @awdlab/jig api-docs:generate && pnpm api:links && pnpm seo:gen && pnpm search:model && pnpm search:index",
     "api:links": "tsx tools/api-links-gen.ts",
     "seo:gen": "tsx tools/seo-gen.ts",

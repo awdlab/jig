@@ -6,8 +6,8 @@
     "prettier": "node --experimental-strip-types node_modules/prettier/bin/prettier.cjs",
     "changeset": "pnpm exec awesome-publish changeset",
     "docs:serve": "pnpm --filter @awdlab/jig-docs serve",
-    "test-wrapper:serve": "pnpm --filter @awdlab/test-wrapper serve",
-    "isolated:serve": "pnpm --filter @awdlab/isolated serve",
+    "test-wrapper:serve": "pnpm --filter @awdlab/jig-test-wrapper serve",
+    "isolated:serve": "pnpm --filter @awdlab/jig-isolated serve",
     "docs:build": "pnpm --filter @awdlab/jig-docs build",
     "search:check": "pnpm --filter @awdlab/jig-docs search:check",
     "controls:build": "pnpm --filter @awdlab/jig build",
@@ -17,9 +17,9 @@
     "pw:build": "pnpm --filter @awdlab/jig-playwright build",
     "api-docs:generate": "pnpm --filter @awdlab/jig api-docs:generate",
     "build": "pnpm -r build",
-    "format": "oxfmt \"**/*.{ts,json,md}\" && pnpm format:html",
+    "format": "oxfmt \"**/*.{ts,mts,json,md}\" && pnpm format:html",
     "format:html": "pnpm prettier --write \"**/*.html\" --ignore-path .gitignore",
-    "format:check": "oxfmt --check \"**/*.{ts,json,md}\" && pnpm prettier --check \"**/*.html\" --ignore-path .gitignore",
+    "format:check": "oxfmt --check \"**/*.{ts,mts,json,md}\" && pnpm prettier --check \"**/*.html\" --ignore-path .gitignore",
     "lint": "oxlint --type-aware",
     "check:changed": "tsx tools/lint-changed.ts",
     "fix:changed": "tsx tools/lint-changed.ts --format-fix --lint-fix",
@@ -29,10 +29,11 @@
     "test": "pnpm playwright test",
     "test:build": "pnpm tsc --noEmit --project tests/tsconfig.test.json",
     "test:ui": "pnpm playwright test --ui",
-    "test:types": "node --import tsx --test \"tools/type-matrix/*.test.ts\"",
+    "test:types": "vitest run --config tools/vitest.config.ts type-matrix",
     "test:types-d": "tsx tools/check-type-fixtures.ts",
     "unit-test": "pnpm -r test",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test:tools": "vitest run --config tools/vitest.config.ts"
   },
   "license": "MIT",
   "packageManager": "pnpm@11.10.0",
@@ -59,6 +60,7 @@
     "tsx": "^4.23.11",
     "typedoc": "^0.28.20",
     "typescript": "catalog:",
+    "vitest": "^5.0.5",
     "yaml": "^2.9.0"
   }
 }

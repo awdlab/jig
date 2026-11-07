@@ -30,7 +30,7 @@ web
 ## Capabilities and Constraints
 
 - Theme presets: **nova** (fully themed, dark-mode aware), **shade** (shadcn-style, flat), **material** (Material Design 3), plus a token-driven engine for authoring custom themes. App-defined kinds and colors.
-- Requirements: Angular 22.0+, TypeScript 6.0+, Node 22+ (build only); browsers Chrome/Edge 120+, Firefox 129+, Safari 17.5+ — floors set by the platform features above.
+- Requirements: Angular 22.2+, TypeScript 6.0+, Node 22+ (build only); browsers Chrome/Edge 120+, Firefox 129+, Safari 17.5+ — floors set by the platform features above.
 - i18n (localized ARIA strings), RTL, SSR, animations that respect `prefers-reduced-motion`, state persistence.
 - **Beta**, published under the `next` dist-tag. API close to stable; inputs may still be renamed between pre-releases, each with a changelog entry.
 - MIT licensed, open source on GitHub (`awdlab/jig`).

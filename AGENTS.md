@@ -32,7 +32,7 @@ _Decided 2026-07-08 (repo-wide audit). Apply to all new/edited controls; migrate
 ### Naming
 
 - Control folder name and `jig-` element selector are kebab-case and identical: folder `x-y` ⇒ selector `jig-x-y`.
-- The "input" family is **modifier-first**: `number-input`, `mask-input` (rename `input-mask` → `mask-input`). The bare `input` directive keeps its name. **Exception:** `input-field` stays input-first (`JigInputField`, `jig-input-field`) — it composes/projects other controls rather than being a variant of `input`, so the family rule does not apply to it.
+- The "input" family is **modifier-first**: `number-input`, `mask-input`. The bare `input` directive keeps its name. **Exception:** `input-field` stays input-first (`JigInputField`, `jig-input-field`) — it composes/projects other controls rather than being a variant of `input`, so the family rule does not apply to it.
 - Attribute directives applied to native elements (`jigButton`, `jigInput`) intentionally keep camelCase attribute selectors — this is **not** a violation.
 - Every control ships all anatomy parts (see below), including a theme template, docs page, and demos.
 
@@ -40,7 +40,7 @@ _Decided 2026-07-08 (repo-wide audit). Apply to all new/edited controls; migrate
 
 - **Icon** inputs use an `icon` **prefix**: `iconClose`, `iconFilter`, `iconDropdown` — never `closeIcon` / `filterIcon`.
 - **Boolean** inputs always use the transform: `input(false, { transform: booleanAttribute })`. Tri-state booleans where unset means "inherit" use `optionalBooleanAttribute` from `@awdlab/jig/utils-ng`.
-- **Directive** inputs expose a public alias `jig{Directive}{Prop}`. `@angular-eslint/no-input-rename` only permits an alias that is **exactly** the selector, or the selector + `PascalCase(propertyName)` — so the alias suffix must equal the property name. Pick the property name so the alias reads well (e.g. property `container` → alias `jigScrollAmountContainer`, not property `scrollContainer` which would force `jigScrollAmountScrollContainer`). Reference: `tooltip` — property `size` aliased to `jigTooltipSize`.
+- **Directive** inputs expose a public alias `jig{Directive}{Prop}`. The alias is either **exactly** the selector, or the selector + `PascalCase(propertyName)` — so the alias suffix must equal the property name. Pick the property name so the alias reads well (e.g. property `container` → alias `jigScrollAmountContainer`, not property `scrollContainer` which would force `jigScrollAmountScrollContainer`). Reference: `tooltip` — property `size` aliased to `jigTooltipSize`.
   - Add an `@alias jig{Directive}{Prop}` TSDoc tag to every aliased input — the API docs and the MCP pack list inputs by that name.
   - **Exception:** directives on native elements (`input`, `number-input`) mirror the native attribute names without a prefix (`id`, `min`, `max`, `step`).
 - **Template** inputs use a `template` **prefix**: `templateHeader`, `templateIndicator` — never `headerTemplate`. **Exception:** inputs for the main projected content may be named `content` (`lazyContent` for deferred content).
@@ -78,7 +78,7 @@ When creating or modifying a control, be aware that each control spans these par
 | Material theme | `packages/themes/src/material/{name}/index.ts`  | `createThemePart()` — Material-flavoured styling                             |
 | Test harness   | `packages/playwright/src/components/{name}.ts`  | `Jig{Name}Harness` + export from `components/index.ts`                       |
 | Test registry  | `apps/test-wrapper/src/app/imports.ts`          | `{name}: () => import('@awdlab/jig/{name}')` — enables `imports: ['{name}']` |
-| Tests          | `tests/components/{name}.test.ts`               | Playwright + screenshot snapshots, snapshot dir alongside                    |
+| Tests          | `tests/components/{name}.test.ts`               | Playwright + screenshot snapshots in `tests/snapshots/`                      |
 | Docs page      | `apps/docs/src/app/docs/components/{name}/`     | `page.ts`, `index.md`, `api.md`, `a11y.md`, `playground.ts`                  |
 | Demos          | `apps/docs/src/app/demos/{name}/`               | Scenario-based standalone Angular components                                 |
 
@@ -94,7 +94,8 @@ Always check **all** parts when making changes to a control — a rename or new 
 
 ## Testing
 
-- **Unit**: Vitest with Angular TestBed — `.spec.ts` files next to source (rare; mostly utilities)
+- **Unit**: Vitest — `.spec.ts` files next to source (controls use Angular TestBed); `pnpm unit-test` runs the package specs, `pnpm test:tools` the `tools/` specs
+- **Prerequisite**: the e2e tests need a Playwright browser server on `ws://127.0.0.1:3000` — start it with `pnpm playwright-docker`
 - **Component/E2E**: Playwright — `tests/components/{name}.test.ts`, driven through the
   `apps/test-wrapper` app and the `@awdlab/jig-playwright` harnesses
 - **Feature/E2E**: cross-cutting behaviour (forms, labels, pass-through, reduced motion …) lives in `tests/features/{name}.test.ts`

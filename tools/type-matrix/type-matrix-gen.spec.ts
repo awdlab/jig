@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { before, test } from 'node:test';
+import { beforeAll, test } from 'vitest';
 
 import { generateTypeMatrix } from './type-matrix-gen';
 
@@ -7,12 +7,9 @@ import type { TypeMatrix } from '../../apps/docs/src/app/utils/playground/type-m
 
 let matrix: TypeMatrix;
 
-before(
-  async () => {
-    matrix = await generateTypeMatrix();
-  },
-  { timeout: 300_000 }
-);
+beforeAll(async () => {
+  matrix = await generateTypeMatrix();
+}, 300_000);
 
 function combo(control: string, key: string) {
   const entry = matrix[control];

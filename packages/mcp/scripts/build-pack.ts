@@ -44,7 +44,7 @@ const OUT = resolve(HERE, '../data/knowledge-pack.json');
 // TypeDoc helpers — kept deliberately small; only what docs need to render.
 // ---------------------------------------------------------------------------
 
-type Any = Record<string, any>;
+type Any = any;
 
 /** Render a TypeDoc serialized type into a readable TS string. */
 function typeToString(t: Any | undefined): string {
@@ -178,7 +178,7 @@ function stripPlaceholders(md: string): string {
 function firstSentence(text: string): string {
   const flat = text.replace(/\s+/g, ' ').trim();
   const m = flat.match(/^(.*?[.!?])(\s|$)/);
-  return (m ? m[1] : flat).trim();
+  return (m?.[1] ?? flat).trim();
 }
 
 // ---------------------------------------------------------------------------

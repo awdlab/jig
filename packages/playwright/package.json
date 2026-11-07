@@ -21,12 +21,21 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "dist"
   ],
   "scripts": {
-    "prebuild": "pnpm rimraf ./dist",
-    "build": "pnpm prebuild && tsc -p ./tsconfig.lib.json"
+    "build:pre": "pnpm rimraf ./dist",
+    "build": "pnpm build:pre && tsc -p ./tsconfig.lib.json && pnpm build:post",
+    "build:post": "cpy ../../LICENSE ."
   },
   "publishConfig": {
     "access": "public"
