@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
 
-import { JigRovingGroup, JigRovingItem } from './roving-focus';
+import { JigRovingGroup, JigRovingItem } from './roving-group';
 
 // Nested (tabindex / descendant) topology — item resolves group via injected token.
 @Component({
@@ -27,7 +27,7 @@ class NestedHost {
   imports: [JigRovingGroup, JigRovingItem],
   template: `
     <div>
-      <input #g="jigRovingGroup" jigRovingGroup rovingMode="activedescendant" />
+      <input #g="jigRovingGroup" jigRovingGroup jigRovingGroupMode="activedescendant" />
       <span [jigRovingItem]="g" id="a">A</span>
       <span [jigRovingItem]="g" id="b">B</span>
       <span [jigRovingItem]="g" id="c">C</span>
@@ -38,7 +38,7 @@ class SiblingHost {
   group = viewChild.required(JigRovingGroup);
 }
 
-describe('roving-focus registration', () => {
+describe('roving-group registration', () => {
   it('orders items by DOM position (nested)', () => {
     const fixture = TestBed.createComponent(NestedHost);
     fixture.detectChanges();
@@ -69,7 +69,7 @@ describe('roving-focus registration', () => {
 @Component({
   imports: [JigRovingGroup, JigRovingItem],
   template: `
-    <div jigRovingGroup [rovingWrap]="true">
+    <div jigRovingGroup [jigRovingGroupWrap]="true">
       <span jigRovingItem id="a">A</span>
       <span jigRovingItem id="b">B</span>
       <span jigRovingItem id="c">C</span>
@@ -80,7 +80,7 @@ class WrapHost {
   group = viewChild.required(JigRovingGroup);
 }
 
-describe('roving-focus navigation methods', () => {
+describe('roving-group navigation methods', () => {
   describe('next()', () => {
     it('increments activeIndex from 0 to 1', () => {
       const fixture = TestBed.createComponent(NestedHost);
@@ -100,7 +100,7 @@ describe('roving-focus navigation methods', () => {
       expect(emitted).toEqual([1]);
     });
 
-    it('next() at last index with rovingWrap=false stays at last', () => {
+    it('next() at last index with wrap=false stays at last', () => {
       const fixture = TestBed.createComponent(NestedHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
@@ -112,7 +112,7 @@ describe('roving-focus navigation methods', () => {
       expect(emitted).toEqual([2]);
     });
 
-    it('next() at last index with rovingWrap=true wraps to 0', () => {
+    it('next() at last index with wrap=true wraps to 0', () => {
       const fixture = TestBed.createComponent(WrapHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
@@ -135,7 +135,7 @@ describe('roving-focus navigation methods', () => {
       expect(group.activeIndex()).toBe(0);
     });
 
-    it('prev() at index 0 with rovingWrap=false stays at 0 (clamped)', () => {
+    it('prev() at index 0 with wrap=false stays at 0 (clamped)', () => {
       const fixture = TestBed.createComponent(NestedHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
@@ -146,7 +146,7 @@ describe('roving-focus navigation methods', () => {
       expect(emitted).toEqual([0]);
     });
 
-    it('prev() at index 0 with rovingWrap=true wraps to last index (2)', () => {
+    it('prev() at index 0 with wrap=true wraps to last index (2)', () => {
       const fixture = TestBed.createComponent(WrapHost);
       fixture.detectChanges();
       const group = fixture.componentInstance.group();
@@ -271,7 +271,7 @@ class KeyboardHorizontalHost {
   selector: 'test-keyboard-vertical-host',
   imports: [JigRovingGroup, JigRovingItem],
   template: `
-    <div jigRovingGroup orientation="vertical">
+    <div jigRovingGroup jigRovingGroupOrientation="vertical">
       <span jigRovingItem id="a">A</span>
       <span jigRovingItem id="b">B</span>
       <span jigRovingItem id="c">C</span>
@@ -288,7 +288,7 @@ function press(host: HTMLElement, key: string, init: KeyboardEventInit = {}): Ke
   return ev;
 }
 
-describe('roving-focus keyboard', () => {
+describe('roving-group keyboard', () => {
   describe('horizontal orientation (default)', () => {
     it('ArrowRight moves to next and calls preventDefault', () => {
       const fixture = TestBed.createComponent(KeyboardHorizontalHost);
@@ -472,7 +472,7 @@ class TabindexModeHost {
   imports: [JigRovingGroup, JigRovingItem],
   template: `
     <div>
-      <input #g="jigRovingGroup" jigRovingGroup rovingMode="activedescendant" />
+      <input #g="jigRovingGroup" jigRovingGroup jigRovingGroupMode="activedescendant" />
       <span [jigRovingItem]="g" id="a">A</span>
       <span [jigRovingItem]="g" id="b">B</span>
       <span [jigRovingItem]="g" id="c">C</span>
@@ -486,19 +486,19 @@ class ActiveDescendantModeHost {
 @Component({
   selector: 'test-empty-activedescendant-host',
   imports: [JigRovingGroup],
-  template: `<input jigRovingGroup rovingMode="activedescendant" />`,
+  template: `<input jigRovingGroup jigRovingGroupMode="activedescendant" />`,
 })
 class EmptyActivedescendantHost {
   group = viewChild.required(JigRovingGroup);
 }
 
-// Host with a writable rovingMode — used to verify reverse-direction cleanup
+// Host with a writable mode — used to verify reverse-direction cleanup
 // when the mode switches at runtime.
 @Component({
   selector: 'test-dynamic-mode-host',
   imports: [JigRovingGroup, JigRovingItem],
   template: `
-    <div #g="jigRovingGroup" jigRovingGroup [rovingMode]="mode()">
+    <div #g="jigRovingGroup" jigRovingGroup [jigRovingGroupMode]="mode()">
       <span [jigRovingItem]="g" id="a">A</span>
       <span [jigRovingItem]="g" id="b">B</span>
       <span [jigRovingItem]="g" id="c">C</span>
@@ -518,7 +518,7 @@ class DynamicModeHost {
   selector: 'test-shrinking-items-host',
   imports: [JigRovingGroup, JigRovingItem],
   template: `
-    <div #g="jigRovingGroup" jigRovingGroup rovingMode="activedescendant">
+    <div #g="jigRovingGroup" jigRovingGroup jigRovingGroupMode="activedescendant">
       <span [jigRovingItem]="g" id="a">A</span>
       @if (showRest()) {
         <span [jigRovingItem]="g" id="b">B</span>
@@ -538,7 +538,7 @@ class ShrinkingItemsHost {
   selector: 'test-disabled-skip-host',
   imports: [JigRovingGroup, JigRovingItem],
   template: `
-    <div jigRovingGroup [rovingWrap]="wrap()">
+    <div jigRovingGroup [jigRovingGroupWrap]="wrap()">
       <span jigRovingItem id="a">A</span>
       <span jigRovingItem id="b">B</span>
       <span jigRovingItem id="c">C</span>
@@ -551,7 +551,7 @@ class DisabledSkipHost {
   group = viewChild.required(JigRovingGroup);
 }
 
-describe('roving-focus disabled skipping', () => {
+describe('roving-group disabled skipping', () => {
   function setup(wrap = false) {
     const fixture = TestBed.createComponent(DisabledSkipHost);
     fixture.componentInstance.wrap.set(wrap);
@@ -624,7 +624,7 @@ describe('roving-focus disabled skipping', () => {
   });
 });
 
-describe('roving-focus focus modes', () => {
+describe('roving-group focus modes', () => {
   describe('tabindex mode', () => {
     it('active item (index 0) gets tabindex="0", others get tabindex="-1" after detectChanges', () => {
       const fixture = TestBed.createComponent(TabindexModeHost);

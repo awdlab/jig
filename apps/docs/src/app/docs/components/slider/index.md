@@ -50,7 +50,7 @@ interaction moves; your model is only rewritten once the user moves a handle.
 ### Committing a value
 
 `valueChange` fires continuously as the value moves — on every drag frame and
-every key press. `valueCommit` fires once an interaction settles: a drag
+every key press. `valueCommitted` fires once an interaction settles: a drag
 release, a track click, or a handled key press, including when a drag clamps
 against `minRangeDistance` and ends back where it started. Use it to react to
 a finished pick (e.g. save or fetch) without reacting to every intermediate

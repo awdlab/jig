@@ -49,7 +49,7 @@ export class JigSpinButtons extends JigBase<'spinButtons'> {
   /**
    * Which buttons to render. Use two instances (`decrement` + `increment`)
    * to place one button on each side of the input.
-   * @default 'both'
+   * @default both
    */
   public readonly buttons = input<'both' | 'increment' | 'decrement'>('both');
   /**

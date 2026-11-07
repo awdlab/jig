@@ -42,7 +42,7 @@ import { ProgressPage } from './progress/page';
 import { RadioPage } from './radio/page';
 import { RatingPage } from './rating/page';
 import { ResizablePage } from './resizable/page';
-import { RovingFocusPage } from './roving-focus/page';
+import { RovingGroupPage } from './roving-group/page';
 import { ScrollAmountPage } from './scroll-amount/page';
 import { ScrollShadowPage } from './scroll-shadow/page';
 import { ScrollerPage } from './scroller/page';
@@ -153,7 +153,7 @@ export const COMPONENT_GROUPS: JigDocsGroup[] = [
       LabelPage,
       MovablePage,
       ResizablePage,
-      RovingFocusPage,
+      RovingGroupPage,
       ScrollAmountPage,
       ScrollShadowPage,
     ],

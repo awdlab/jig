@@ -59,7 +59,7 @@ export class JigPaginator extends JigBase<'paginator'> {
    * Layout mode.
    * - `'pages'`: full paginator with numbered page buttons (needs {@link totalItems}).
    * - `'compact'`: prev/next buttons only, no page indicators, no total required.
-   * @default 'pages'
+   * @default pages
    */
   public readonly mode = input<'pages' | 'compact'>('pages');
   /**
@@ -103,7 +103,7 @@ export class JigPaginator extends JigBase<'paginator'> {
   /**
    * Emits the current pagination state whenever the page or page size changes.
    */
-  public readonly value = output<PaginationState>();
+  public readonly stateChange = output<PaginationState>();
   /**
    * Current page index (zero-based).
    * @default 0
@@ -115,7 +115,7 @@ export class JigPaginator extends JigBase<'paginator'> {
     effect(() => {
       const page = this.page();
       const pageSize = this.appliedPageSize();
-      this.value.emit({
+      this.stateChange.emit({
         page: {
           current: page,
           size: pageSize,

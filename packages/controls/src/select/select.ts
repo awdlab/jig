@@ -96,7 +96,7 @@ export class JigSelect<
   /**
    * Accepts a boolean value that determines whether the filter is enabled.
    * Alternatively, you can provide `SelectFilterOptions` to customize the filter behavior.
-   * @default `false`
+   * @default false
    */
   public readonly filter = input<SelectFilterOptions<JigItem<unknown, V>> | boolean>(false);
   /**
@@ -115,7 +115,7 @@ export class JigSelect<
   public readonly iconDropdown = input<IconType>();
   /**
    * Whether the select is virtualized.
-   * @default `false`
+   * @default false
    */
   public readonly virtual = input(false, { transform: booleanAttribute });
   /**
@@ -130,12 +130,12 @@ export class JigSelect<
    * * {@link multiple} selection
    * * {@link filter} without also setting {@link editableAutoFilter} to `false`
    *
-   * @default `false`
+   * @default false
    */
   public readonly editable = input<Editable>();
   /**
    * Whether to automatically filter the options based on the user's input in the {@link editable} input.
-   * @default `true`
+   * @default true
    */
   public readonly editableAutoFilter = input(true, { transform: booleanAttribute });
   /**
@@ -143,17 +143,17 @@ export class JigSelect<
    * When enabled, the value of the control becomes an array of selected items.
    *
    * This is only applicable when {@link editable} is `false`.
-   * @default `false`
+   * @default false
    */
   public readonly multiple = input<Multiple>();
   /**
    * Whether to scroll to the selected item when the dropdown is opened.
-   * @default `true`
+   * @default true
    */
   public readonly scrollToSelectedItemOnOpen = input<boolean | ScrollLogicalPosition>(true);
   /**
    * Tabindex for the combobox trigger. Ignored when {@link editable}, where the input is the tab stop.
-   * @default `0`
+   * @default 0
    */
   public readonly tabindex = input<number>(0);
   /**

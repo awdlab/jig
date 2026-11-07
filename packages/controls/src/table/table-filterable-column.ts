@@ -25,7 +25,7 @@ import { I18n } from '@awdlab/jig/i18n';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
 import { JigTable } from './table';
-import { JigTableTh } from './table-header-cell';
+import { JigTableTh } from './table-th';
 
 import type { JigActionButtonConfig, JigItem } from '@awdlab/jig/api';
 
@@ -62,55 +62,74 @@ export class JigTableFilterableColumn implements OnDestroy {
     return tableFilter;
   });
 
-  /** The data type of the column, which determines the available filter operators and UI. */
-  public readonly jigTableFilterableColumnType = input.required<JigFilterDataType>();
+  /**
+   * The data type of the column, which determines the available filter operators and UI.
+   * @alias jigTableFilterableColumnType
+   */
+  public readonly type = input.required<JigFilterDataType>({
+    alias: 'jigTableFilterableColumnType',
+  });
   /**
    * For list-based filters, the options to offer: plain strings, or items whose `label` is shown
    * while their `value` is matched. When omitted, options are derived from the column's values.
+   * @alias jigTableFilterableColumnItems
    */
-  public readonly jigTableFilterableColumnItems = input<
-    readonly (string | JigItem)[] | null | undefined
-  >();
+  public readonly items = input<readonly (string | JigItem)[] | null | undefined>(undefined, {
+    alias: 'jigTableFilterableColumnItems',
+  });
   /**
    * Whether edits in the filter popover apply immediately. When `false`, the popover shows
    * apply / cancel buttons and the column filters only once the user applies.
    * @default true
+   * @alias jigTableFilterableColumnAutoApply
    */
-  public readonly jigTableFilterableColumnAutoApply = input(true, { transform: booleanAttribute });
+  public readonly autoApply = input(true, {
+    transform: booleanAttribute,
+    alias: 'jigTableFilterableColumnAutoApply',
+  });
   /**
    * Whether the user can add several conditions joined by match-all / match-any.
    * Has no effect for `list` columns.
    * @default true
+   * @alias jigTableFilterableColumnAllowMultiple
    */
-  public readonly jigTableFilterableColumnAllowMultiple = input(true, {
+  public readonly allowMultiple = input(true, {
     transform: booleanAttribute,
+    alias: 'jigTableFilterableColumnAllowMultiple',
   });
   /**
    * Replaces this column's filter popover with your own editor — a slider, a rating,
    * a lookup against your backend. It writes a `JigFilterConfig` back through the
    * context's `setValue`, so the column filters exactly as a built-in one does.
+   * @alias jigTableFilterableColumnTemplate
    */
-  public readonly jigTableFilterableColumnTemplate =
-    input<TemplateRef<JigFilterFieldTemplateContext> | null>(null);
+  public readonly template = input<TemplateRef<JigFilterFieldTemplateContext> | null>(null, {
+    alias: 'jigTableFilterableColumnTemplate',
+  });
   /**
    * Restricts and orders the operators offered for this column. Ids the column type does not
    * support are ignored; when empty, all operators of the type are offered.
+   * @alias jigTableFilterableColumnOperators
    */
-  public readonly jigTableFilterableColumnOperators = input<
-    readonly JigFilterOperatorId[] | null | undefined
-  >();
+  public readonly operators = input<readonly JigFilterOperatorId[] | null | undefined>(undefined, {
+    alias: 'jigTableFilterableColumnOperators',
+  });
   /**
    * Operator a new condition on this column starts with. Must be part of
-   * {@link jigTableFilterableColumnOperators}, otherwise the first one is used.
+   * {@link operators}, otherwise the first one is used.
+   * @alias jigTableFilterableColumnDefaultOperator
    */
-  public readonly jigTableFilterableColumnDefaultOperator = input<
-    JigFilterOperatorId | null | undefined
-  >();
+  public readonly defaultOperator = input<JigFilterOperatorId | null | undefined>(undefined, {
+    alias: 'jigTableFilterableColumnDefaultOperator',
+  });
   /**
    * Accessible label of the filter trigger. Defaults to the translated `table.filter`
    * text; set it to name the column, e.g. `Filter by name`.
+   * @alias jigTableFilterableColumnLabel
    */
-  public readonly jigTableFilterableColumnLabel = input<string | null | undefined>();
+  public readonly label = input<string | null | undefined>(undefined, {
+    alias: 'jigTableFilterableColumnLabel',
+  });
 
   constructor() {
     this._jigActionButton = inject(ViewContainerRef).createComponent(JigActionButton<null>);
@@ -129,7 +148,7 @@ export class JigTableFilterableColumn implements OnDestroy {
     const cfg = computed(
       () =>
         <JigActionButtonConfig<null>>{
-          label: this.jigTableFilterableColumnLabel() || this._i18n['table_filter'](),
+          label: this.label() || this._i18n['table_filter'](),
           value: null,
           kind: 'icon',
           defaultIcon: this.filter() ? 'filter-active' : 'filter-inactive',
@@ -151,33 +170,25 @@ export class JigTableFilterableColumn implements OnDestroy {
       );
     });
     effect(() => {
-      setComponentInput(this._jigFilter, 'dataType', this.jigTableFilterableColumnType());
+      setComponentInput(this._jigFilter, 'dataType', this.type());
     });
     effect(() => {
-      setComponentInput(this._jigFilter, 'listOptions', this.jigTableFilterableColumnItems());
+      setComponentInput(this._jigFilter, 'listOptions', this.items());
     });
     effect(() => {
-      setComponentInput(this._jigFilter, 'autoApply', this.jigTableFilterableColumnAutoApply());
+      setComponentInput(this._jigFilter, 'autoApply', this.autoApply());
     });
     effect(() => {
-      setComponentInput(
-        this._jigFilter,
-        'allowMultiple',
-        this.jigTableFilterableColumnAllowMultiple()
-      );
+      setComponentInput(this._jigFilter, 'allowMultiple', this.allowMultiple());
     });
     effect(() => {
-      setComponentInput(this._jigFilter, 'templateFilter', this.jigTableFilterableColumnTemplate());
+      setComponentInput(this._jigFilter, 'templateFilter', this.template());
     });
     effect(() => {
-      setComponentInput(this._jigFilter, 'operators', this.jigTableFilterableColumnOperators());
+      setComponentInput(this._jigFilter, 'operators', this.operators());
     });
     effect(() => {
-      setComponentInput(
-        this._jigFilter,
-        'defaultOperator',
-        this.jigTableFilterableColumnDefaultOperator()
-      );
+      setComponentInput(this._jigFilter, 'defaultOperator', this.defaultOperator());
     });
     this._jigFilter.instance.filterChange.subscribe(cfg => {
       const table = this._table();

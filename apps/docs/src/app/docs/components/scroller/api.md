@@ -1,6 +1,6 @@
 ## JigScroller
 
-Selector: `jig-scroller`, `[jig-scroller]`
+Selector: `jig-scroller`, `[jigScroller]`
 
 {{ api: scroller/scroller JigScroller }}
 

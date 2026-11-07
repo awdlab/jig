@@ -13,7 +13,7 @@ import { JigButton } from '@awdlab/jig/button';
 import { JigFor } from '@awdlab/jig/directives';
 import { I18n } from '@awdlab/jig/i18n';
 import { JigIcon } from '@awdlab/jig/icon';
-import { toggleIdRefs } from '@awdlab/jig/utils-ng';
+import { optionalBooleanAttribute, toggleIdRefs } from '@awdlab/jig/utils-ng';
 import { inputFieldControlTemplate } from '@awdlab/jig-themes/templates/input-field';
 
 import type { CustomKind, IconType } from '@awdlab/jig-custom-types';
@@ -62,11 +62,10 @@ export class JigInputField extends JigBase<'inputField'> {
   public readonly labelKind = input<CustomKind<'inputFieldLabel'>>(undefined as never);
   /**
    * Mark the {@link label} when the projected control is required — every form
-   * paradigm reports that automatically. `null` inherits the global
+   * paradigm reports that automatically. Unset (or `null`) inherits the global
    * `defaults.inputField.showRequiredMarker` config.
-   * @default null
    */
-  public readonly showRequiredMarker = input<boolean | null>(null);
+  public readonly showRequiredMarker = input(undefined, { transform: optionalBooleanAttribute });
   /**
    * Show clear button. Hidden while {@link readonly} is set, since clearing
    * writes to the projected control.

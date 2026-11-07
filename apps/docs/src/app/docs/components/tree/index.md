@@ -50,7 +50,7 @@ A disabled branch disables its whole subtree while remaining expandable.
 ### Lazy Loading
 
 Mark a branch `lazy` and provide `loadChildren`. Children are fetched on first
-expand (a spinner shows while loading) and cached; `nodeExpand` also fires if
+expand (a spinner shows while loading) and cached; `nodeExpanded` also fires if
 you prefer to load them yourself.
 
 {{ demo: Demo_Tree_Lazy }}

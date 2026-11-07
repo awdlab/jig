@@ -37,8 +37,15 @@ _Decided 2026-07-08 (repo-wide audit). Apply to all new/edited controls; migrate
 ### Input / output properties
 
 - **Icon** inputs use an `icon` **prefix**: `iconClose`, `iconFilter`, `iconDropdown` — never `closeIcon` / `filterIcon`.
-- **Boolean** inputs always use the transform: `input(false, { transform: booleanAttribute })`.
+- **Boolean** inputs always use the transform: `input(false, { transform: booleanAttribute })`. Tri-state booleans where unset means "inherit" use `optionalBooleanAttribute` from `@awdlab/jig/utils-ng`.
 - **Directive** inputs expose a public alias `jig{Directive}{Prop}`. `@angular-eslint/no-input-rename` only permits an alias that is **exactly** the selector, or the selector + `PascalCase(propertyName)` — so the alias suffix must equal the property name. Pick the property name so the alias reads well (e.g. property `container` → alias `jigScrollAmountContainer`, not property `scrollContainer` which would force `jigScrollAmountScrollContainer`). Reference: `tooltip` — property `size` aliased to `jigTooltipSize`.
+  - Add an `@alias jig{Directive}{Prop}` TSDoc tag to every aliased input — the API docs and the MCP pack list inputs by that name.
+  - **Exception:** directives on native elements (`input`, `number-input`) mirror the native attribute names without a prefix (`id`, `min`, `max`, `step`).
+- **Template** inputs use a `template` **prefix**: `templateHeader`, `templateIndicator` — never `headerTemplate`. **Exception:** inputs for the main projected content may be named `content` (`lazyContent` for deferred content).
+- **Outputs** follow the first rule that applies:
+  - `*Change` — a piece of state moved, paired with a `model()` where it can be written back (`openChange`, `stateChange`).
+  - Past participle — something happened and is done, subject first (`closed`, `itemClicked`, `fileRemoved`, `uploadRequested`).
+  - Present participle — the "before" half of a bracketed pair (`closing` before `closed`). Never a bare verb (`upload`) or bare noun (`value`).
 
 ### TSDoc (reference: `select`)
 

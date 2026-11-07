@@ -2,7 +2,7 @@ import { afterRenderEffect, computed, signal, untracked } from '@angular/core';
 import { elementSizeSignal, isRtl } from '@awdlab/jig/api/ng';
 import { getResizeLimitInPx, ResizeEngine } from '@awdlab/jig/api/resize';
 
-import type { JigTableTh } from './table-header-cell';
+import type { JigTableTh } from './table-th';
 import type { ElementRef, ModelSignal, Signal } from '@angular/core';
 import type { ResizableItem, ResizeSize } from '@awdlab/jig/api/resize';
 

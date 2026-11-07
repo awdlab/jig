@@ -13,9 +13,9 @@ import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
   template: `
     <jig-upload
       #up="jigUpload"
-      (upload)="onUpload($event, up)"
-      (cancelUpload)="onCancel($event)"
-      (remove)="onRemove($event)"
+      (uploadRequested)="onUpload($event, up)"
+      (uploadCancelled)="onCancel($event)"
+      (fileRemoved)="onRemove($event)"
     >
       <input type="file" multiple />
       First attempt always fails — press retry

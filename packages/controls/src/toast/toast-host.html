@@ -9,6 +9,6 @@
     [templateContent]="toast.contentTemplate"
     [templateHeader]="toast.headerTemplate"
     [closable]="!!toast.closable"
-    (closeToast)="removeToast(toast.id)"
+    (closed)="removeToast(toast.id)"
   />
 }

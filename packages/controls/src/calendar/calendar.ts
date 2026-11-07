@@ -25,9 +25,9 @@ import { calendarControlTemplate } from '@awdlab/jig-themes/templates/calendar';
 
 import { clampToBounds, isWithinBounds } from './bounds';
 import { CalendarTemplates } from './calendar-templates';
-import { CalendarDays } from './days/days';
+import { JigCalendarDays } from './days/days';
 import { formatDate, parseDate } from './formatter';
-import { CalendarTime } from './time/time';
+import { JigCalendarTime } from './time/time';
 import { type DayModel, type Month, MONTHS, type WeekDay } from './types';
 
 import type { JigItem } from '@awdlab/jig/api';
@@ -57,8 +57,8 @@ type MonthItemType = JigItem<{ $: (typeof MONTHS)[number] }, '$'>;
     JigIcon,
     JigSelect,
     JigPopover,
-    CalendarDays,
-    CalendarTime,
+    JigCalendarDays,
+    JigCalendarTime,
     JigInputField,
     JigMaskInput,
   ],
@@ -73,7 +73,7 @@ type MonthItemType = JigItem<{ $: (typeof MONTHS)[number] }, '$'>;
 export class JigCalendar extends CalendarTemplates {
   /**
    * Set the first day of the week.
-   * @default 'monday'
+   * @default monday
    */
   public readonly firstDayOfWeek = input<WeekDay>('monday');
   /**
@@ -93,7 +93,7 @@ export class JigCalendar extends CalendarTemplates {
   public readonly inline = input(false, { transform: booleanAttribute });
   /**
    * The format of the date displayed in the input field.
-   * @default 'MM/dd/yyyy'
+   * @default MM/dd/yyyy
    */
   public readonly format = input('MM/dd/yyyy');
   /**

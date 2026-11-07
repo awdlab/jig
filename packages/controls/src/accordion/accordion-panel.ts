@@ -17,7 +17,7 @@ import { JigIcon } from '@awdlab/jig/icon';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 import { accordionPanelControlTemplate } from '@awdlab/jig-themes/templates/accordion-panel';
 
-import { AccordionTemplates } from './accordion-templates';
+import { AccordionPanelTemplates } from './accordion-panel-templates';
 import { ACCORDION_CONTROL } from './types';
 
 /**
@@ -30,7 +30,7 @@ import { ACCORDION_CONTROL } from './types';
 
   providers: [provideSelf(JigAccordionPanel)],
 })
-export class JigAccordionPanel extends AccordionTemplates {
+export class JigAccordionPanel extends AccordionPanelTemplates {
   protected readonly theme = this.injectThemeTemplate(accordionPanelControlTemplate, 'root');
 
   private readonly _accordionControl = inject(ACCORDION_CONTROL);

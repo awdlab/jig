@@ -13,7 +13,7 @@ Put `jigRovingGroup` on the container and `jigRovingItem` on each member. Items
 register themselves through DI and are ordered by their position in the DOM, so
 nothing has to be listed twice.
 
-{{ demo: Demo_RovingFocus_Base }}
+{{ demo: Demo_RovingGroup_Base }}
 
 Keys handled by the group: ←/→ (horizontal), ↑/↓ (vertical), and Home/End in
 both orientations. Everything else passes through, and a key pressed with Ctrl,
@@ -21,17 +21,17 @@ Meta or Alt is ignored so browser shortcuts keep working.
 
 ### Orientation and Wrapping
 
-`orientation` decides which arrow pair navigates — `'horizontal'` (default) or
-`'vertical'`. `rovingWrap` makes navigation cycle past the ends instead of
+`jigRovingGroupOrientation` decides which arrow pair navigates — `'horizontal'` (default) or
+`'vertical'`. `jigRovingGroupWrap` makes navigation cycle past the ends instead of
 stopping there.
 
 ```html
-<div jigRovingGroup orientation="vertical" rovingWrap>…</div>
+<div jigRovingGroup jigRovingGroupOrientation="vertical" jigRovingGroupWrap>…</div>
 ```
 
 ### Focus Modes
 
-`rovingMode` chooses how the active item is exposed:
+`jigRovingGroupMode` chooses how the active item is exposed:
 
 | Mode                 | What happens                                                                                  |
 | -------------------- | --------------------------------------------------------------------------------------------- |
@@ -41,7 +41,7 @@ stopping there.
 Use `activedescendant` when focus must remain in a text field — a combobox
 whose list is navigated while the user types — and `tabindex` everywhere else.
 
-{{ demo: Demo_RovingFocus_Activedescendant }}
+{{ demo: Demo_RovingGroup_Activedescendant }}
 
 In `activedescendant` mode the group must be focusable itself (`tabindex="0"`)
 and carry the container role; the directive fills in `aria-owns` and
@@ -53,15 +53,15 @@ id.
 
 The group exposes its state and movement API:
 
-| Member               | Purpose                                                           |
-| -------------------- | ----------------------------------------------------------------- |
-| `items()`            | registered items, in DOM order                                    |
-| `activeIndex()`      | index of the active item                                          |
-| `next()` / `prev()`  | move one step, honouring `rovingWrap` and skipping disabled items |
-| `first()` / `last()` | jump to the first/last enabled item                               |
-| `setActive(i)`       | activate by index; emits `activeItemChange`                       |
-| `syncActiveIndex(i)` | move the tab stop **without** moving focus or emitting            |
-| `activeItemChange`   | output emitting the new index on every change                     |
+| Member               | Purpose                                                                   |
+| -------------------- | ------------------------------------------------------------------------- |
+| `items()`            | registered items, in DOM order                                            |
+| `activeIndex()`      | index of the active item                                                  |
+| `next()` / `prev()`  | move one step, honouring `jigRovingGroupWrap` and skipping disabled items |
+| `first()` / `last()` | jump to the first/last enabled item                                       |
+| `setActive(i)`       | activate by index; emits `activeItemChange`                               |
+| `syncActiveIndex(i)` | move the tab stop **without** moving focus or emitting                    |
+| `activeItemChange`   | output emitting the new index on every change                             |
 
 `syncActiveIndex` is the one to reach for when your own state changes the
 selection — a radio group whose `value` was set from code. Using `setActive`

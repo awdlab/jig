@@ -6,7 +6,7 @@ import type { JigDragInfo } from './types';
 
 /**
  * Reports pointer drag gestures on its host without moving anything: it emits
- * `dragStart`, `dragged` (per pointer move, with deltas) and `dragEnd`, leaving
+ * `dragStarted`, `dragged` (per pointer move, with deltas) and `dragEnded`, leaving
  * the reaction to you.
  *
  * A gesture only starts after the pointer travels 5px, and the click the

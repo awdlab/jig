@@ -51,30 +51,39 @@ export class JigRovingGroup {
   /**
    * Which arrow keys move the active item: `'horizontal'` uses Left/Right,
    * `'vertical'` uses Up/Down. Home/End always jump to first/last.
-   * @default 'horizontal'
+   * @default horizontal
+   * @alias jigRovingGroupOrientation
    */
-  public readonly orientation = input<RovingOrientation>('horizontal');
+  public readonly orientation = input<RovingOrientation>('horizontal', {
+    alias: 'jigRovingGroupOrientation',
+  });
   /**
    * How the active item is exposed. `'tabindex'` moves the tab stop (and DOM
    * focus) between items; `'activedescendant'` keeps focus on the group and
    * points `aria-activedescendant` at the active item.
-   * @default 'tabindex'
+   * @default tabindex
+   * @alias jigRovingGroupMode
    */
-  public readonly rovingMode = input<RovingMode>('tabindex');
+  public readonly mode = input<RovingMode>('tabindex', { alias: 'jigRovingGroupMode' });
   /**
    * Whether keyboard navigation wraps around the ends of the list instead of
    * stopping at the first/last item.
    * @default false
+   * @alias jigRovingGroupWrap
    */
-  public readonly rovingWrap = input(false, { transform: booleanAttribute });
+  public readonly wrap = input(false, { transform: booleanAttribute, alias: 'jigRovingGroupWrap' });
   /**
    * Suspends the group: arrow/Home/End navigation, pointer activation and
    * {@link setActive} become no-ops, and no active item is exposed. The host
    * stays a single tab stop, so a suspended group reads as one plain element
    * (e.g. a readonly mask input, whose sections must not be selectable).
    * @default false
+   * @alias jigRovingGroupDisabled
    */
-  public readonly rovingDisabled = input(false, { transform: booleanAttribute });
+  public readonly disabled = input(false, {
+    transform: booleanAttribute,
+    alias: 'jigRovingGroupDisabled',
+  });
 
   /**
    * Emits the index of the newly active item whenever it changes via keyboard,
@@ -117,7 +126,7 @@ export class JigRovingGroup {
     // Apply focus-mode side effects reactively.
     effect(() => {
       const items = this.items();
-      const mode = this.rovingMode();
+      const mode = this.mode();
 
       // Clamp the active index LOCALLY (do not mutate the activeIndex signal)
       // so that attributes/focus always reference a valid item even if
@@ -156,7 +165,7 @@ export class JigRovingGroup {
 
         // Guard the empty-items window (items register during effects, so the
         // first effect pass may see an empty list).
-        if (!items.length || this.rovingDisabled()) {
+        if (!items.length || this.disabled()) {
           this._host.removeAttribute('aria-activedescendant');
           this._host.removeAttribute('aria-owns');
           return;
@@ -190,7 +199,7 @@ export class JigRovingGroup {
   }
 
   public activate(target: RovingItemRef): void {
-    if (this.rovingDisabled() || target.disabled?.()) return;
+    if (this.disabled() || target.disabled?.()) return;
     const idx = this.items().indexOf(target);
     if (idx >= 0) this._setActive(idx);
   }
@@ -221,7 +230,7 @@ export class JigRovingGroup {
 
   /** Set the active item by index (clamped to range); emits activeItemChange. */
   public setActive(index: number): void {
-    if (this.rovingDisabled()) return;
+    if (this.disabled()) return;
     if (index >= 0 && index < this.items().length) this._setActive(index);
   }
 
@@ -242,7 +251,7 @@ export class JigRovingGroup {
   }
 
   private _onKeydown(e: KeyboardEvent): void {
-    if (this.rovingDisabled() || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (this.disabled() || e.ctrlKey || e.metaKey || e.altKey) return;
     const horizontal = this.orientation() === 'horizontal';
     let consumed = true;
     switch (e.key) {
@@ -289,7 +298,7 @@ export class JigRovingGroup {
     // clamp-and-emit contract. Bounded by `n` iterations so it terminates.
     for (let step = 0; step < n; step++) {
       i += delta;
-      if (this.rovingWrap()) {
+      if (this.wrap()) {
         i = ((i % n) + n) % n;
         if (i === start) break; // looped back — no other enabled item
       } else if (i < 0 || i >= n) {

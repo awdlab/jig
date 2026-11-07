@@ -97,7 +97,7 @@ export class JigSplitter extends JigBase<'splitter'> implements OnDestroy {
   public readonly storage = input<JigSplitterStorageConfig | null>(null);
   /**
    * The type of calculator to use for the splitter.
-   * @default `DefaultSplitterCalculator`
+   * @default DefaultSplitterCalculator
    */
   public readonly calculatorType = input<SplitterCalculatorType>(DefaultSplitterCalculator);
   /**
@@ -118,7 +118,7 @@ export class JigSplitter extends JigBase<'splitter'> implements OnDestroy {
    * The step size for moving the dividers using the keyboard.
    * This can be a pixel value (e.g., '5px') or a percentage value (e.g., '5%').
    * If a percentage is used, it will be calculated based on the size of the splitter element.
-   * @default '5px'
+   * @default 5px
    */
   public readonly step = input<`${number}${'%' | 'px'}`>('5px');
 

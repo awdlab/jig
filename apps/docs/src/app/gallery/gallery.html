@@ -378,7 +378,7 @@
     <!-- Upload -->
     <section class="card flex flex-col gap-3 p-4 xl:col-span-2">
       <span class="text-xs font-semibold tracking-wide uppercase opacity-50">Upload</span>
-      <jig-upload #up="jigUpload" (upload)="onUpload($event, up)">
+      <jig-upload #up="jigUpload" (uploadRequested)="onUpload($event, up)">
         <input type="file" multiple />
         Drag files here or click to browse
       </jig-upload>

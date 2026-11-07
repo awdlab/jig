@@ -128,14 +128,14 @@ test('uploading: a single dismiss button cancels the upload and removes the item
   // Exactly one per-item action while uploading (previously cancel + remove).
   await expect(upload.item(0).locator(upload.classes.action)).toHaveCount(1);
 
-  // Dismissing an in-flight item emits cancelUpload AND remove, then drops it.
+  // Dismissing an in-flight item emits uploadCancelled AND fileRemoved, then drops it.
   await page.evaluate(() => {
     const el = document.querySelector('jig-upload')!;
     const component = (window as any).ng.getComponent(el);
     (window as any).__cancelled = false;
     (window as any).__removed = false;
-    component.cancelUpload.subscribe(() => ((window as any).__cancelled = true));
-    component.remove.subscribe(() => ((window as any).__removed = true));
+    component.uploadCancelled.subscribe(() => ((window as any).__cancelled = true));
+    component.fileRemoved.subscribe(() => ((window as any).__removed = true));
   });
 
   await upload.actionButton(0, 'cancel').click();

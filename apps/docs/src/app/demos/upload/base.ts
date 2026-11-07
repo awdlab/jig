@@ -10,7 +10,7 @@ import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
   imports: [JigUpload],
   selector: 'jig-demo-upload-base',
   template: `
-    <jig-upload #up="jigUpload" (upload)="onUpload($event, up)">
+    <jig-upload #up="jigUpload" (uploadRequested)="onUpload($event, up)">
       <input type="file" multiple />
       Drag files here or click to browse
     </jig-upload>

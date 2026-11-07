@@ -45,7 +45,7 @@ let uploadInstanceSeq = 0;
  * hides it, and drives it:
  *
  * ```html
- * <jig-upload #up="jigUpload" mode="auto" (upload)="send($event, up)">
+ * <jig-upload #up="jigUpload" mode="auto" (uploadRequested)="send($event, up)">
  *   <input type="file" multiple accept="image/*" />
  * </jig-upload>
  * ```
@@ -129,16 +129,16 @@ export class JigUpload extends JigBase<'upload'> {
    * Emitted with the files to upload: on select/drop in `auto` mode, or when a
    * manual trigger fires. The emitted items are already marked `uploading`.
    */
-  public readonly upload = output<JigUploadFile[]>();
+  public readonly uploadRequested = output<JigUploadFile[]>();
   /** Emitted when a file is removed from the list. */
-  public readonly remove = output<JigUploadFile>();
-  /** Emitted when a `failed` file's retry is pressed (also re-emits `upload`). */
-  public readonly retry = output<JigUploadFile>();
+  public readonly fileRemoved = output<JigUploadFile>();
+  /** Emitted when a `failed` file's retry is pressed (also re-emits `uploadRequested`). */
+  public readonly retryRequested = output<JigUploadFile>();
   /**
    * Emitted when an in-flight file is dismissed (the item's remove/cancel
    * action while `uploading`). Abort the request; the item is then removed.
    */
-  public readonly cancelUpload = output<JigUploadFile>();
+  public readonly uploadCancelled = output<JigUploadFile>();
 
   /** The tracked files, in insertion order. */
   public readonly files = signal<JigUploadFile[]>([]);
@@ -278,7 +278,7 @@ export class JigUpload extends JigBase<'upload'> {
    *
    * Returns a promise that resolves once every started file has settled — i.e.
    * reached `done`, `failed`, or been cancelled/removed. It resolves with the
-   * same items handed to `(upload)`, so their final {@link JigUploadFile.state}
+   * same items handed to `(uploadRequested)`, so their final {@link JigUploadFile.state}
    * tells you which succeeded and which failed. Resolves with `[]` if there was
    * nothing pending.
    */
@@ -301,7 +301,7 @@ export class JigUpload extends JigBase<'upload'> {
   }
 
   protected retryFile(item: JigUploadFile): void {
-    this.retry.emit(item);
+    this.retryRequested.emit(item);
     void this.startUpload([item]);
   }
 
@@ -309,14 +309,14 @@ export class JigUpload extends JigBase<'upload'> {
     // A single dismiss action: while in-flight, aborting the upload is implied,
     // so tell the consumer to cancel the request before we drop the item.
     if (item.state === 'uploading') {
-      this.cancelUpload.emit(item);
+      this.uploadCancelled.emit(item);
       // Move to a terminal state before settling so uploadAll()/uploadFile()
       // don't resolve with the item still reading as `uploading`.
       item.state = 'cancelled';
     }
     this.files.update(files => files.filter(f => f.id !== item.id));
     this.settle(item.id);
-    this.remove.emit(item);
+    this.fileRemoved.emit(item);
   }
 
   /** Human-readable file size for display in the list. */
@@ -372,7 +372,7 @@ export class JigUpload extends JigBase<'upload'> {
       item.state = 'uploading';
     }
     this.files.update(files => [...files]);
-    this.upload.emit(items);
+    this.uploadRequested.emit(items);
     return Promise.all(items.map(item => this.whenSettled(item.id))).then(() => items);
   }
 

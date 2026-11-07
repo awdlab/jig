@@ -1,7 +1,7 @@
 import { Component, DestroyRef, effect, inject, input, signal } from '@angular/core';
 import { provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { hostOrGeneratedId } from '@awdlab/jig/utils-ng';
-import { JigRovingGroup } from '@awdlab/jig/roving-focus';
+import { JigRovingGroup } from '@awdlab/jig/roving-group';
 import { radioGroupControlTemplate } from '@awdlab/jig-themes/templates/radio-group';
 
 import { JIG_RADIO_GROUP, type JigRadioGroupApi, type JigRadioRef } from './radio-group.token';
@@ -21,7 +21,12 @@ import { JIG_RADIO_GROUP, type JigRadioGroupApi, type JigRadioRef } from './radi
 @Component({
   selector: 'jig-radio-group',
   templateUrl: './radio-group.html',
-  hostDirectives: [{ directive: JigRovingGroup, inputs: ['orientation', 'rovingWrap'] }],
+  hostDirectives: [
+    {
+      directive: JigRovingGroup,
+      inputs: ['jigRovingGroupOrientation: orientation', 'jigRovingGroupWrap: wrap'],
+    },
+  ],
   providers: [provideSelf(JigRadioGroup), { provide: JIG_RADIO_GROUP, useExisting: JigRadioGroup }],
   host: {
     role: 'radiogroup',
@@ -49,7 +54,7 @@ export class JigRadioGroup<V>
     invalid: () => this.invalidState(),
   });
 
-  /** The roving-focus host directive that drives keyboard/tab coordination. */
+  /** The roving group host directive that drives keyboard/tab coordination. */
   protected readonly roving = inject(JigRovingGroup);
 
   private readonly _radios = signal<readonly JigRadioRef<V>[]>([]);

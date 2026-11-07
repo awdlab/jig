@@ -86,7 +86,7 @@ export class JigItemView<T extends object, IdField extends keyof T>
   /**
    * Strategy to use when there are more items than can be displayed in the available space.
    * The value determines where the items should start to overflow.
-   * @default 'end'
+   * @default end
    */
   public readonly overflowStrategy = input<OverflowStrategy>('end');
   /**

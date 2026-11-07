@@ -11,7 +11,7 @@ import {
 import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigDefer } from '@awdlab/jig/defer';
 import { JigIcon } from '@awdlab/jig/icon';
-import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
+import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-group';
 import { stepperControlTemplate } from '@awdlab/jig-themes/templates/stepper';
 
 import { JigStep } from './step';

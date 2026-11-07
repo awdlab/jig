@@ -56,7 +56,7 @@
     [ptInt]="this"
     [ptClass]="'body'"
     [ptDep]="'scroller'"
-    jig-scroller
+    jigScroller
     #scroller
     [scrollContainer]="scrollContainer"
     [virtual]="virtual()"
@@ -164,6 +164,6 @@
     [hasNext]="lazyHasMore()"
     [(page)]="pageIndex"
     [(pageSize)]="pageSize"
-    (value)="pageChanged($event)"
+    (stateChange)="pageChanged($event)"
   />
 }

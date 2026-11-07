@@ -14,12 +14,12 @@ export type TooltipOptions = {
   readonly offset: number;
   /**
    * The delay before the tooltip is shown. If a number is provided, it is interpreted as milliseconds.
-   * @default '0.5s'
+   * @default 0.5s
    */
   readonly showDelay: TimeSpan;
   /**
    * The delay before the tooltip is hidden. If a number is provided, it is interpreted as milliseconds.
-   * @default '0.1s'
+   * @default 0.1s
    */
   readonly hideDelay: TimeSpan;
   /**
@@ -50,7 +50,7 @@ export type TooltipOptions = {
   readonly hideOnClick: boolean;
   /**
    * Whether to automatically manage ARIA attributes for the tooltip.
-   * @default 'description'
+   * @default description
    */
   readonly autoAriaMode: 'label' | 'description' | 'none';
 };

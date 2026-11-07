@@ -71,7 +71,7 @@
       [popover]="true"
       [isSubMenu]="true"
       (closing)="menuItem.focus()"
-      (closeAll)="doCloseAll()"
+      (allClosed)="doCloseAll()"
       [elementId]="elementId() + '_submenu_' + item.id"
       [openSubmenuOnHover]="openSubmenuOnHover()"
     />

@@ -36,7 +36,7 @@ export class JigSkeleton extends JigBase<'skeleton'> {
   /**
    * Whether the placeholder is a rectangle or a circle. The shape decides which
    * dimension inputs apply.
-   * @default 'rect'
+   * @default rect
    */
   public readonly shape = input<SkeletonShape>('rect');
   /**

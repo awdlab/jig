@@ -11,8 +11,8 @@ import type { JigDragInfo } from '@awdlab/jig/directives';
       <div
         jigDrag
         class="pad"
-        (dragStart)="dragging.set(true)"
-        (dragEnd)="dragging.set(false)"
+        (dragStarted)="dragging.set(true)"
+        (dragEnded)="dragging.set(false)"
         (dragged)="onDragged($event)"
       >
         <div>{{ dragging() ? 'Dragging…' : 'Press and drag here' }}</div>

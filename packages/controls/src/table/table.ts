@@ -42,9 +42,9 @@ import {
 } from './table-row-model';
 import { TableRowNavigationModel } from './table-row-navigation-model';
 import { TableSelectionModel } from './table-selection-model';
-import { JigTableTemplates } from './table-templates';
+import { TableTemplates } from './table-templates';
 
-import type { JigTableTh } from './table-header-cell';
+import type { JigTableTh } from './table-th';
 import type { JigTableRowActions } from './table-row-actions';
 import type {
   FormattedTableDataRow,
@@ -109,7 +109,7 @@ export class JigTable<
   K extends keyof T,
   G extends Extract<AllKeysOfUnion<T>, string> = never,
 >
-  extends JigTableTemplates<T>
+  extends TableTemplates<T>
   implements OnInit
 {
   protected readonly theme = this.injectThemeTemplate(tableControlTemplate, {
@@ -238,7 +238,7 @@ export class JigTable<
    * The resize distribution mode.
    * - `'adjacent'`: Only columns adjacent to the resize handle change. Total width stays the same.
    * - `'push'`: Column grows/shrinks independently, total width changes (enables horizontal scrolling).
-   * @default 'adjacent'
+   * @default adjacent
    */
   public readonly resizeMode = input<'adjacent' | 'proportional' | 'push'>('adjacent');
 

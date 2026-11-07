@@ -131,7 +131,7 @@ export class JigTree<Items extends readonly JigTreeItem[], Multiple extends bool
   /** Emitted with the node's value whenever a node is clicked/selected. */
   public readonly itemClicked = output<JigTreeItemsValue<Items>>();
   /** Emitted when a branch is expanded (fires before any lazy load resolves). */
-  public readonly nodeExpand = output<JigTreeItem>();
+  public readonly nodeExpanded = output<JigTreeItem>();
 
   protected readonly maybeCallback = maybeCallback;
 
@@ -277,7 +277,7 @@ export class JigTree<Items extends readonly JigTreeItem[], Multiple extends bool
     if (!willExpand) {
       return;
     }
-    this.nodeExpand.emit(item);
+    this.nodeExpanded.emit(item);
 
     const loader = this.loadChildren();
     if (

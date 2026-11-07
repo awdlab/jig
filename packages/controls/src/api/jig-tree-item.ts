@@ -19,7 +19,7 @@ export interface JigTreeItem<T = any, V = any> extends JigItem<T, V> {
   /**
    * Marks a branch whose children are loaded on demand. A lazy node renders as
    * expandable before its children exist; on first expand the tree invokes the
-   * `loadChildren` callback (and emits `nodeExpand`).
+   * `loadChildren` callback (and emits `nodeExpanded`).
    */
   lazy?: boolean;
   /**

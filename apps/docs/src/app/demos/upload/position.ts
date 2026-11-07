@@ -17,7 +17,11 @@ import { JigUpload, type JigUploadFile, type JigUploadListPosition } from '@awdl
         (valueChange)="position.set($event)"
       />
 
-      <jig-upload #up="jigUpload" [listPosition]="position()" (upload)="onUpload($event, up)">
+      <jig-upload
+        #up="jigUpload"
+        [listPosition]="position()"
+        (uploadRequested)="onUpload($event, up)"
+      >
         <input type="file" multiple />
         Drag files here or click to browse
       </jig-upload>

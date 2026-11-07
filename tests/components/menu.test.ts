@@ -179,7 +179,7 @@ test('item callback that destroys the menu does not warn', async ({ page }) => {
   await page.getByRole('menuitem', { name: 'Item 1' }).click();
   await expect(page.locator('jig-menu')).toHaveCount(0);
 
-  // Let the deferred closeAll frame run — the warning would land there.
+  // Let the deferred allClosed frame run — the warning would land there.
   await page.waitForTimeout(150);
   expect(logs.filter(l => l.includes('NG0953'))).toEqual([]);
 });

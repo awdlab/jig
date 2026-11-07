@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
+import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-group';
 
 @Component({
-  selector: 'jig-demo-roving-focus-activedescendant',
+  selector: 'jig-demo-roving-group-activedescendant',
   imports: [JigRovingGroup, JigRovingItem],
   template: `
     <div
       jigRovingGroup
-      rovingMode="activedescendant"
-      orientation="vertical"
+      jigRovingGroupMode="activedescendant"
+      jigRovingGroupOrientation="vertical"
       role="listbox"
       aria-label="Fruit"
       tabindex="0"
@@ -45,6 +45,6 @@ import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
     }
   `,
 })
-export class Demo_RovingFocus_Activedescendant {
+export class Demo_RovingGroup_Activedescendant {
   protected readonly fruits = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry'];
 }

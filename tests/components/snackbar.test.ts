@@ -17,7 +17,7 @@ test('features', async ({ page }, testInfo) => {
         [icon]="inputs().icon"
         [closable]="inputs().closable"
         [autoHide]="false"
-        (closeSnackbar)="output('closeSnackbar', $event)"
+        (closed)="output('closed', $event)"
       />
     `,
       imports: ['snackbar'],
@@ -68,8 +68,8 @@ test('features', async ({ page }, testInfo) => {
     await expectScreenshot(page, testInfo, 'closable');
 
     await snackbar.close();
-    // closeSnackbar is an `output<void>`, so each emission logs `undefined` — assert it fired once.
-    expect((await handle.getOutputLog())['closeSnackbar']).toHaveLength(1);
+    // closed is an `output<void>`, so each emission logs `undefined` — assert it fired once.
+    expect((await handle.getOutputLog())['closed']).toHaveLength(1);
   });
 });
 
@@ -126,7 +126,7 @@ test('actions', async ({ page }, testInfo) => {
         [autoHide]="false"
         [closable]="true"
         [actions]="[{ label: 'UNDO', value: 'undo', color: 'success', kind: 'text' }]"
-        (closeSnackbar)="output('closeSnackbar', $event)"
+        (closed)="output('closed', $event)"
       />
     `,
       imports: ['snackbar'],
@@ -139,7 +139,7 @@ test('actions', async ({ page }, testInfo) => {
 
   await page.getByRole('button', { name: 'UNDO' }).click();
   // Action click always dismisses the snackbar.
-  expect((await handle.getOutputLog())['closeSnackbar']).toHaveLength(1);
+  expect((await handle.getOutputLog())['closed']).toHaveLength(1);
 });
 
 test('progress bar', async ({ page }) => {
@@ -259,7 +259,7 @@ test('rtl', async ({ page }, testInfo) => {
         [icon]="inputs().icon"
         [closable]="inputs().closable"
         [autoHide]="false"
-        (closeSnackbar)="output('closeSnackbar', $event)"
+        (closed)="output('closed', $event)"
       />
     `,
       imports: ['snackbar'],

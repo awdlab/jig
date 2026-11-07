@@ -2,11 +2,11 @@
 
 Selector: `[jigRovingGroup]` · `exportAs: jigRovingGroup`
 
-{{ api: roving-focus/roving-focus JigRovingGroup }}
+{{ api: roving-group/roving-group JigRovingGroup }}
 
 | Method                    | Description                                                                         |
 | ------------------------- | ----------------------------------------------------------------------------------- |
-| `next()` / `prev()`       | Move one step, honouring `rovingWrap` and skipping disabled items.                  |
+| `next()` / `prev()`       | Move one step, honouring `jigRovingGroupWrap` and skipping disabled items.          |
 | `first()` / `last()`      | Jump to the first / last enabled item.                                              |
 | `setActive(index)`        | Activate by index (ignored when out of range); emits `activeItemChange`.            |
 | `syncActiveIndex(index)`  | Move the tab stop without moving DOM focus and without emitting `activeItemChange`. |
@@ -17,7 +17,7 @@ Selector: `[jigRovingGroup]` · `exportAs: jigRovingGroup`
 
 Selector: `[jigRovingItem]` · `exportAs: jigRovingItem`
 
-{{ api: roving-focus/roving-focus JigRovingItem }}
+{{ api: roving-group/roving-group JigRovingItem }}
 
 The `disabled` property is a writable `signal<boolean>` (not an input) — call
 `.set(true)` on it from the host control. `isActive()` is a computed signal you

@@ -148,7 +148,7 @@ export class JigFilterField<T = unknown> extends FilterFieldTemplates<T> {
   public readonly data = input<readonly T[]>([]);
   /**
    * Datatype of the values in {@link data}. Determines the available operators and editor UI.
-   * @default 'string'
+   * @default string
    */
   public readonly dataType = input<JigFilterDataType>('string');
   /**
@@ -184,7 +184,7 @@ export class JigFilterField<T = unknown> extends FilterFieldTemplates<T> {
    * - `inline`: renders the filter rows directly
    * - `input`: renders an input-like trigger that opens a popover (default)
    * - `headless`: renders only the popover and can be opened programmatically via {@link show}
-   * @default 'input'
+   * @default input
    */
   public readonly mode = input<JigFilterMode>('input');
 

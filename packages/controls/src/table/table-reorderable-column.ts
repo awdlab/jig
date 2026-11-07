@@ -12,7 +12,7 @@ import { toggleClass } from '@awdlab/jig/utils';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
 import { JigTable } from './table';
-import { JigTableTh, TABLE_HEADER_INTERACTIVE_SELECTOR } from './table-header-cell';
+import { JigTableTh, TABLE_HEADER_INTERACTIVE_SELECTOR } from './table-th';
 
 /** Minimum distance in pixels before a drag is initiated. */
 const REORDER_DEAD_ZONE_PX = 5;

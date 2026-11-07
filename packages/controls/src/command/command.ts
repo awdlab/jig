@@ -134,7 +134,7 @@ export class JigCommand extends CommandTemplates {
   });
   /**
    * Determines how the palette can be dismissed. See {@link JigDialog.closeBy}.
-   * @default 'any'
+   * @default any
    */
   public readonly closeBy = input<CloseBy>('any');
 

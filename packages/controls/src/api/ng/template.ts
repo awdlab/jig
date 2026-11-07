@@ -4,6 +4,10 @@ import { Directive, input } from '@angular/core';
   selector: 'ng-template[jigTemplate]',
 })
 export class JigTemplate<T> {
+  /**
+   * The context type of the template, usually a control's `templateTypes.*` entry.
+   * Only used for type checking `let-` variables; the value is ignored at runtime.
+   */
   public readonly jigTemplate = input.required<T>();
 
   public static ngTemplateContextGuard<T>(dir: JigTemplate<T>, ctx: unknown): ctx is T {

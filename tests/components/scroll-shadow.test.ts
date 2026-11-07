@@ -132,12 +132,12 @@ test('both - tracks both axes simultaneously', async ({ page }) => {
   await expectClasses(page, '#sc').toContain('scrolled-bottom');
 });
 
-test('scrollShadowTarget - applies classes to target, not the scroll container', async ({
+test('jigScrollShadowTarget - applies classes to target, not the scroll container', async ({
   page,
 }) => {
   await loadComponent(page, {
     template: `
-      <div id="sc" jigScrollShadow="horizontal" [scrollShadowTarget]="target"
+      <div id="sc" jigScrollShadow="horizontal" [jigScrollShadowTarget]="target"
            style="width: 200px; height: 100px; overflow: auto;">
         <div style="width: 800px; height: 40px;"></div>
       </div>

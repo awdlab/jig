@@ -27,7 +27,7 @@ import { JigIcon } from '@awdlab/jig/icon';
 import { I18n } from '@awdlab/jig/i18n';
 import { calculateItemViewLayout, type OverflowOrder } from '@awdlab/jig/item-view';
 import { JigPopover } from '@awdlab/jig/popover';
-import { JigRovingGroup, resolveDisabled, resolveFocusable } from '@awdlab/jig/roving-focus';
+import { JigRovingGroup, resolveDisabled, resolveFocusable } from '@awdlab/jig/roving-group';
 import { JigError } from '@awdlab/jig/utils';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 import { toolbarControlTemplate } from '@awdlab/jig-themes/templates/toolbar';
@@ -89,7 +89,7 @@ export class JigToolbar extends ToolbarTemplates {
    *
    * Vertical overflow only happens when the toolbar's height is bounded by its
    * surroundings — an unbounded column always fits its own content.
-   * @default 'horizontal'
+   * @default horizontal
    */
   public readonly orientation = input<ToolbarOrientation>('horizontal');
   /**
@@ -98,7 +98,7 @@ export class JigToolbar extends ToolbarTemplates {
    * - `'popover'` — items collapse into a `…` trigger per placement. Requires
    *   collapsible content to be declared as `<ng-template #item>` inside a
    *   {@link JigToolbarRegion}.
-   * @default 'wrap'
+   * @default wrap
    */
   public readonly overflow = input<ToolbarOverflow>('wrap');
   /**

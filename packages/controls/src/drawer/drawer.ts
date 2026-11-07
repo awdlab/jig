@@ -75,7 +75,7 @@ export class JigDrawer extends DrawerTemplates implements Openable {
   public readonly open = model<boolean>(false);
   /**
    * How the drawer closes depending on user interaction.
-   * @default 'any'
+   * @default any
    */
   public readonly closeBy = input<PopoverCloseBy>('any');
   /**
@@ -87,12 +87,12 @@ export class JigDrawer extends DrawerTemplates implements Openable {
   /**
    * Edge the drawer is docked to. `'start'`/`'end'` follow the writing direction,
    * so a `'start'` drawer opens from the left in LTR and from the right in RTL.
-   * @default 'start'
+   * @default start
    */
   public readonly position = input<'top' | 'end' | 'bottom' | 'start' | 'fullscreen'>('start');
   /**
    * The width or height of the drawer depending on its position
-   * @default '300px'
+   * @default 300px
    */
   public readonly size = input<string>('300px');
   /**

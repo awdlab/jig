@@ -30,7 +30,7 @@ export class JigScrollShadow {
 
   /**
    * Which scroll axis to track and add shadow classes for.
-   * @default 'horizontal'
+   * @default horizontal
    */
   public readonly jigScrollShadow = input<'horizontal' | 'vertical' | 'both'>('horizontal');
 
@@ -38,8 +38,11 @@ export class JigScrollShadow {
    * Element that receives the shadow classes. Defaults to the host element (which
    * is also the scroll container being observed).
    * @default undefined
+   * @alias jigScrollShadowTarget
    */
-  public readonly scrollShadowTarget = input<HTMLElement | undefined>(undefined);
+  public readonly target = input<HTMLElement | undefined>(undefined, {
+    alias: 'jigScrollShadowTarget',
+  });
 
   /**
    * Suppress the built-in edge-shadow overlay's styling (the theme hides it). The overlay element
@@ -47,6 +50,7 @@ export class JigScrollShadow {
    * Set this when the consumer paints its own shadows off the `scrolled-*` classes — e.g. the
    * table anchors them to its sticky-column edges, reusing the shared `--jig-scroll-shadow-color`.
    * @default false
+   * @alias jigScrollShadowUnstyled
    */
   public readonly unstyled = input(false, {
     alias: 'jigScrollShadowUnstyled',
@@ -73,7 +77,7 @@ export class JigScrollShadow {
       this._injector.get(DestroyRef).onDestroy(() => layer.remove());
 
       const update = () => {
-        const target = this.scrollShadowTarget() ?? scrollEl;
+        const target = this.target() ?? scrollEl;
         const dir = this.jigScrollShadow();
 
         surface.style.setProperty('--jig-scroll-shadow-w', `${scrollEl.clientWidth}px`);

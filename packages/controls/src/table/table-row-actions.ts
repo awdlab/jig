@@ -16,7 +16,7 @@ import { getNearestJigInstanceSig } from '@awdlab/jig/base';
 import { JigMenu, openMenuAt } from '@awdlab/jig/menu';
 
 import { JigTable } from './table';
-import { JigTableBodyTr } from './table-row';
+import { JigTableBodyTr } from './table-body-tr';
 import { JigTableRowActionsBar } from './table-row-actions-bar';
 
 import type { JigActionItem } from '@awdlab/jig/api';

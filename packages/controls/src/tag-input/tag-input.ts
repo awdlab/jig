@@ -21,7 +21,7 @@ import { JigDropdownList } from '@awdlab/jig/dropdown-list';
 import { JigIcon } from '@awdlab/jig/icon';
 import { I18n } from '@awdlab/jig/i18n';
 import { JigInput } from '@awdlab/jig/input';
-import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
+import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-group';
 import { JigScrollShadow } from '@awdlab/jig/scroll-shadow';
 import { maybeCallback } from '@awdlab/jig/utils';
 import { asyncComputed, debounceSignal, explicitEffect } from '@awdlab/jig/utils-ng';

@@ -8,7 +8,7 @@ import {
   input,
 } from '@angular/core';
 import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
-import { JigRovingItem } from '@awdlab/jig/roving-focus';
+import { JigRovingItem } from '@awdlab/jig/roving-group';
 import { radioControlTemplate } from '@awdlab/jig-themes/templates/radio';
 
 import { JIG_RADIO_GROUP } from './radio-group.token';
@@ -59,7 +59,7 @@ export class JigRadio<V> extends JigBase<'radio'> {
   constructor() {
     super();
 
-    // Feed the roving-focus item so keyboard nav / pointer activation skip a
+    // Feed the roving item so keyboard nav / pointer activation skip a
     // disabled radio.
     effect(() => this._rovingItem.disabled.set(this.effectiveDisabled()));
 

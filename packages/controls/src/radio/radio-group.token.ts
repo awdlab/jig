@@ -3,7 +3,7 @@ import { InjectionToken, type Signal } from '@angular/core';
 /**
  * A single radio option registered with its enclosing group. The group keys
  * selection and keyboard coordination off these refs; `element` correlates a
- * roving-focus item back to its payload `value`.
+ * roving item back to its payload `value`.
  */
 export interface JigRadioRef<V> {
   readonly element: HTMLElement;

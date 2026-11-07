@@ -1,5 +1,5 @@
 import { Component, DestroyRef, afterNextRender, computed, inject, signal } from '@angular/core';
-import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
+import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-group';
 import { JigSwitch } from '@awdlab/jig/switch';
 
 import { JigDocsReveal } from './reveal';
@@ -115,9 +115,9 @@ const GUARANTEES: readonly { label: string; body: string }[] = [
               </p>
               <div
                 jigRovingGroup
-                orientation="horizontal"
-                rovingMode="tabindex"
-                [rovingWrap]="true"
+                jigRovingGroupOrientation="horizontal"
+                jigRovingGroupMode="tabindex"
+                [jigRovingGroupWrap]="true"
                 role="toolbar"
                 aria-label="Keyboard navigation demo"
                 class="flex flex-wrap gap-(--jig-size-padding-md) rounded-(--jig-size-rounded-md) border border-(--jig-color-surface-200) bg-(--jig-color-background) p-(--jig-size-padding-md)"

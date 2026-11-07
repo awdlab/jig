@@ -154,7 +154,7 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
    * release, a track click, or a key press. Fires even when the value did not
    * change — use {@link value} for continuous updates.
    */
-  public readonly valueCommit = output<SliderValue<Range>>();
+  public readonly valueCommitted = output<SliderValue<Range>>();
 
   /** Whether the slider runs in two-handle range mode. */
   protected readonly isRange = computed<boolean>(() => !!this.range());
@@ -265,7 +265,7 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
   }
 
   private commitValue(): void {
-    this.valueCommit.emit(this.value());
+    this.valueCommitted.emit(this.value());
   }
 
   protected onKeyDown(event: KeyboardEvent, handle: SliderHandle = 'end') {

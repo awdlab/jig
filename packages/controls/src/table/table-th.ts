@@ -62,19 +62,19 @@ export class JigTableTh extends JigBase<'table'> implements ResizableItem, OnDes
 
   /**
    * The size of this column (e.g. '1fr', '200px', '25%').
-   * @default '1fr'
+   * @default 1fr
    */
   public readonly size = model<ResizeSize>('1fr');
 
   /**
    * The minimum size constraint for this column.
-   * @default '50px'
+   * @default 50px
    */
   public readonly minSize: Signal<ResizeLimit> = input<ResizeLimit>('50px');
 
   /**
    * The maximum size constraint for this column.
-   * @default '100%'
+   * @default 100%
    */
   public readonly maxSize: Signal<ResizeLimit> = input<ResizeLimit>('100%');
 

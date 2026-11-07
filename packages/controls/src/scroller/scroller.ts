@@ -21,7 +21,7 @@ import { ScrollerTemplates } from './scroller-templates';
  * @category control
  */
 @Component({
-  selector: 'jig-scroller, [jig-scroller]',
+  selector: 'jig-scroller, [jigScroller]',
   templateUrl: './scroller.html',
   imports: [NgTemplateOutlet],
   providers: [provideSelf(JigScroller)],
@@ -69,7 +69,7 @@ export class JigScroller<T> extends ScrollerTemplates<T> {
    * on the screen, improving performance for large lists.
    *
    * When virtual scrolling is enabled, {@link itemHeight} must be set to a non-zero value.
-   * @default `false`
+   * @default false
    */
   public readonly virtual = input(false, { transform: booleanAttribute });
   /**
@@ -79,12 +79,12 @@ export class JigScroller<T> extends ScrollerTemplates<T> {
   /**
    * When {@link virtual} scrolling is enabled, this input defines the number of items to be rendered above and below the visible area.
    * This can help to reduce flickering when scrolling.
-   * @default `2`
+   * @default 2
    */
   public readonly virtualPadding = input<number>(2);
   /**
    * Determines whether the scroller should have a tab index and be focusable.
-   * @default `false`
+   * @default false
    */
   public readonly focusable = input(false, { transform: booleanAttribute });
   /**

@@ -1,2 +1,2 @@
 export * from './resolve-item';
-export * from './roving-focus';
+export * from './roving-group';

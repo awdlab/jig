@@ -27,7 +27,7 @@ export class JigSelectButton<V> extends ValueControlBase<'selectButton', V> {
    * - 'auto' - The orientation is determined based on the available space.
    * - 'horizontal' - The buttons are arranged horizontally. (Default for `auto` if enough space)
    * - 'vertical' - The buttons are arranged vertically.
-   * @default 'auto'
+   * @default auto
    */
   public readonly orientation = input<'auto' | 'horizontal' | 'vertical'>('auto');
   /**

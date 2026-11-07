@@ -20,7 +20,7 @@ import { toggleClass } from '@awdlab/jig/utils';
 import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 
 import { JigTable } from './table';
-import { JigTableBodyTr } from './table-row';
+import { JigTableBodyTr } from './table-body-tr';
 
 /**
  * Directive that turns a `<th>` or `<td>` into a selection checkbox column.

@@ -5,7 +5,7 @@ import { JigBase } from '@awdlab/jig/base';
 import type { HeaderTemplateType } from './types';
 
 @Directive()
-export abstract class AccordionTemplates extends JigBase<'accordionPanel'> {
+export abstract class AccordionPanelTemplates extends JigBase<'accordionPanel'> {
   private readonly _defaultHeaderTemplate =
     viewChild.required<TemplateRef<HeaderTemplateType>>('defaultHeaderTemplate');
   private readonly _userHeaderTemplate = contentChild<TemplateRef<HeaderTemplateType>>('header');

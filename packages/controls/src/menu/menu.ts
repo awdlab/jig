@@ -106,7 +106,7 @@ export class JigMenu extends MenuTemplates implements Openable {
    * Emitted when all menus should be closed (including parent menus). Used internally.
    * @internal
    */
-  public readonly closeAll = output<void>();
+  public readonly allClosed = output<void>();
   /**
    * Shows or hides the menu.
    *
@@ -275,7 +275,7 @@ export class JigMenu extends MenuTemplates implements Openable {
       if (this._destroyed) {
         return;
       }
-      this.closeAll.emit();
+      this.allClosed.emit();
     });
   }
 

@@ -57,7 +57,7 @@ other feature is addressed by.
 
 Selector: `[jigTableHeadTr]` — the header `<tr>`.
 
-{{ api: table/table-header-row JigTableHeadTr }}
+{{ api: table/table-head-tr JigTableHeadTr }}
 
 ### JigTableTh
 
@@ -75,14 +75,14 @@ the sort button and keep their own clicks:
 </th>
 ```
 
-{{ api: table/table-header-cell JigTableTh }}
+{{ api: table/table-th JigTableTh }}
 
 ### JigTableBodyTr
 
 Selector: `[jigTableBodyTr]` — a body `<tr>`; bind the row object from the
 `#body` template.
 
-{{ api: table/table-row JigTableBodyTr }}
+{{ api: table/table-body-tr JigTableBodyTr }}
 
 ### JigTableTd
 

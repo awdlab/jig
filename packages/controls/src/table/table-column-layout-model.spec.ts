@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { TableColumnLayoutModel } from './table-column-layout-model';
 
-import type { JigTableTh } from './table-header-cell';
+import type { JigTableTh } from './table-th';
 
 function cell(id: string): JigTableTh {
   return {

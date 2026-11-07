@@ -1,4 +1,5 @@
 import {
+  booleanAttribute,
   Component,
   ComponentRef,
   computed,
@@ -27,7 +28,12 @@ import {
 import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
 import { JigDefer } from '@awdlab/jig/defer';
 import { getTimeSpanMilliseconds, notNullish, type TimeSpan } from '@awdlab/jig/utils';
-import { computedWithPrevious, generateElementId, OverlayLifecycle } from '@awdlab/jig/utils-ng';
+import {
+  computedWithPrevious,
+  generateElementId,
+  optionalBooleanAttribute,
+  OverlayLifecycle,
+} from '@awdlab/jig/utils-ng';
 import { tooltipControlTemplate } from '@awdlab/jig-themes/templates/tooltip';
 
 import {
@@ -49,7 +55,7 @@ export class JigTooltip extends JigBase<'tooltip'> implements OnDestroy {
   protected readonly theme = null;
   private readonly _viewContainerRef = inject(ViewContainerRef);
   private readonly _config = inject(JIG_CONFIG);
-  private readonly _tooltip = signal<ComponentRef<TooltipComponent> | null>(null);
+  private readonly _tooltip = signal<ComponentRef<JigTooltipContent> | null>(null);
   /** The ARIA attribute this directive last wrote, so it never removes an author's. */
   private _ownedAriaAttr: string | null = null;
 
@@ -66,8 +72,9 @@ export class JigTooltip extends JigBase<'tooltip'> implements OnDestroy {
    * @alias jigTooltipShowOnlyIfTruncated
    * @default false
    */
-  public readonly showOnlyIfTruncated = input<boolean | ''>(false, {
+  public readonly showOnlyIfTruncated = input(false, {
     alias: 'jigTooltipShowOnlyIfTruncated',
+    transform: booleanAttribute,
   });
   /**
    * The size constraints for the tooltip.
@@ -91,7 +98,7 @@ export class JigTooltip extends JigBase<'tooltip'> implements OnDestroy {
   /**
    * The placement of the tooltip relative to the anchor element.
    * @alias jigTooltipPlacement
-   * @default 'bottom'
+   * @default bottom
    */
   public readonly placement = input<Placement | null | undefined>(null, {
     alias: 'jigTooltipPlacement',
@@ -107,7 +114,7 @@ export class JigTooltip extends JigBase<'tooltip'> implements OnDestroy {
   /**
    * The delay before the tooltip is shown. If a number is provided, it is interpreted as milliseconds.
    * @alias jigTooltipShowDelay
-   * @default '0.5s'
+   * @default 0.5s
    */
   public readonly showDelay = input<TimeSpan | null | undefined>(null, {
     alias: 'jigTooltipShowDelay',
@@ -115,7 +122,7 @@ export class JigTooltip extends JigBase<'tooltip'> implements OnDestroy {
   /**
    * The delay before the tooltip is hidden. If a number is provided, it is interpreted as milliseconds.
    * @alias jigTooltipHideDelay
-   * @default '0.1s'
+   * @default 0.1s
    */
   public readonly hideDelay = input<TimeSpan | null | undefined>(null, {
     alias: 'jigTooltipHideDelay',
@@ -125,45 +132,50 @@ export class JigTooltip extends JigBase<'tooltip'> implements OnDestroy {
    * @alias jigTooltipShowArrow
    * @default true
    */
-  public readonly showArrow = input<boolean | '' | null | undefined>(null, {
+  public readonly showArrow = input(undefined, {
     alias: 'jigTooltipShowArrow',
+    transform: optionalBooleanAttribute,
   });
   /**
    * Shows the tooltip on hover.
    * @alias jigTooltipShowOnHover
    * @default true
    */
-  public readonly showOnHover = input<boolean | '' | null | undefined>(null, {
+  public readonly showOnHover = input(undefined, {
     alias: 'jigTooltipShowOnHover',
+    transform: optionalBooleanAttribute,
   });
   /**
    * Shows the tooltip on focus.
    * @alias jigTooltipShowOnFocus
    * @default true
    */
-  public readonly showOnFocus = input<boolean | '' | null | undefined>(null, {
+  public readonly showOnFocus = input(undefined, {
     alias: 'jigTooltipShowOnFocus',
+    transform: optionalBooleanAttribute,
   });
   /**
    * Hides the tooltip (without delay) when the mouse hovers over the tooltip.
    * @alias jigTooltipHideOnTooltipHover
    * @default false
    */
-  public readonly hideOnTooltipHover = input<boolean | '' | null | undefined>(null, {
+  public readonly hideOnTooltipHover = input(undefined, {
     alias: 'jigTooltipHideOnTooltipHover',
+    transform: optionalBooleanAttribute,
   });
   /**
    * Hides the tooltip (without delay) when the user clicks on the tooltip.
    * @alias jigTooltipHideOnClick
    * @default true
    */
-  public readonly hideOnClick = input<boolean | '' | null | undefined>(null, {
+  public readonly hideOnClick = input(undefined, {
     alias: 'jigTooltipHideOnClick',
+    transform: optionalBooleanAttribute,
   });
   /**
    * Whether to automatically manage ARIA attributes for the tooltip.
    * @alias jigTooltipAutoAriaMode
-   * @default 'description'
+   * @default description
    */
   public readonly autoAriaMode = input<'label' | 'description' | 'none' | null | undefined>(null, {
     alias: 'jigTooltipAutoAriaMode',
@@ -296,10 +308,10 @@ export class JigTooltip extends JigBase<'tooltip'> implements OnDestroy {
     }
   }
 
-  private getTooltip(): TooltipComponent | undefined {
+  private getTooltip(): JigTooltipContent | undefined {
     let tooltip = this._tooltip();
     if (!tooltip && this.content()) {
-      tooltip = this._viewContainerRef.createComponent(TooltipComponent);
+      tooltip = this._viewContainerRef.createComponent(JigTooltipContent);
       tooltip.setInput('anchor', this.element.nativeElement);
       this.updateContent(tooltip);
       tooltip.setInput('showOnlyIfTruncated', this.showOnlyIfTruncated());
@@ -310,7 +322,7 @@ export class JigTooltip extends JigBase<'tooltip'> implements OnDestroy {
     return tooltip?.instance;
   }
 
-  private updateContent(tooltip: ComponentRef<TooltipComponent>) {
+  private updateContent(tooltip: ComponentRef<JigTooltipContent>) {
     const content = this.content();
     if (content instanceof TemplateRef) {
       tooltip.setInput('text', null);
@@ -326,7 +338,7 @@ export class JigTooltip extends JigBase<'tooltip'> implements OnDestroy {
   selector: 'jig-tooltip',
   templateUrl: './tooltip.html',
   imports: [JigPt, JigDefer],
-  providers: [provideSelf(TooltipComponent)],
+  providers: [provideSelf(JigTooltipContent)],
   host: {
     '[class]': `positionClass()`,
     '[style.--anchor-start]': `toPixels(relativeAnchorElementPosition()?.start)`,
@@ -343,7 +355,7 @@ export class JigTooltip extends JigBase<'tooltip'> implements OnDestroy {
     '[attr.aria-hidden]': `isShown() ? null : true`,
   },
 })
-export class TooltipComponent extends JigBase<'tooltip'> {
+export class JigTooltipContent extends JigBase<'tooltip'> {
   private _showHideTimeout?: ReturnType<typeof setTimeout>;
   protected readonly theme = this.injectThemeTemplate(tooltipControlTemplate, {
     root: true,
@@ -366,9 +378,9 @@ export class TooltipComponent extends JigBase<'tooltip'> {
   public readonly content = input<TemplateRef<unknown>>();
   /**
    * If set to `true`, the tooltip will only be shown if the anchor element is truncated. `""` is equivalent to `true`.
-   * @default `false`
+   * @default false
    */
-  public readonly showOnlyIfTruncated = input<boolean | ''>(false);
+  public readonly showOnlyIfTruncated = input(false, { transform: booleanAttribute });
   /**
    * The size constraints for the tooltip.
    * This can be used to limit the width and height of the tooltip.

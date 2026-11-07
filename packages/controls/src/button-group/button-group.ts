@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { elementSizeSignal, elementsSizesSignal } from '@awdlab/jig/api/ng';
 import { JigBase, JIG_CONTROL, provideSelf, JigPt } from '@awdlab/jig/base';
-import { JigRovingGroup, resolveDisabled, resolveFocusable } from '@awdlab/jig/roving-focus';
+import { JigRovingGroup, resolveDisabled, resolveFocusable } from '@awdlab/jig/roving-group';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 import { buttonGroupControlTemplate } from '@awdlab/jig-themes/templates/button-group';
 
@@ -37,7 +37,7 @@ export class JigButtonGroup extends JigBase<'buttonGroup'> {
   );
 
   /**
-   * The roving-focus group on the inner container. Coordinates a single tab
+   * The roving group on the inner container. Coordinates a single tab
    * stop across the projected buttons: the active button gets `tabindex="0"`,
    * the rest `-1`, and arrow keys move focus between them.
    */
@@ -54,7 +54,7 @@ export class JigButtonGroup extends JigBase<'buttonGroup'> {
    * - 'auto' - The orientation is determined based on the available space.
    * - 'horizontal' - The buttons are arranged horizontally. (Default for `auto` if enough space)
    * - 'vertical' - The buttons are arranged vertically.
-   * @default 'auto'
+   * @default auto
    */
   public readonly orientation = input<'auto' | 'horizontal' | 'vertical'>('auto');
   protected readonly appliedOrientation = computed(() => {

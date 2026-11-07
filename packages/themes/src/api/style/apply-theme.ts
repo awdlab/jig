@@ -10,31 +10,31 @@ export type ApplyThemeOptions = {
    * The document to apply the theme to. Defaults to `window.document`.
    * This is useful for server-side rendering or when you want to apply the theme to a
    * specific document instance.
-   * @default `window.document`
+   * @default window.document
    */
   document: Document;
   /**
    * The CSS layer to apply the theme to.
    * If not provided, the theme will be applied to the default layer.
-   * @default `undefined`
+   * @default undefined
    */
   layer?: string;
   /**
    * Defines whether the theme should be applied globally or scoped to a specific element.
    * If not provided, the theme will be applied globally.
-   * @default `undefined`
+   * @default undefined
    */
   styleScope?: StyleScope;
   /**
    * A prefix to add to the class names and CSS variables of the theme parts.
    * This is useful for avoiding name collisions in the global scope.
-   * @default `'jig-'`
+   * @default jig-
    */
   namePrefix: string;
   /**
    * The CSP nonce to put on the generated `<style>` elements, for apps whose
    * `style-src` policy requires one.
-   * @default `undefined`
+   * @default undefined
    */
   nonce?: string;
 };
