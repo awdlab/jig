@@ -162,7 +162,7 @@ export const inputFieldStyles = createThemePart({
         }
 
         /* Label over */
-        ${c('labelKind-over')}, ${c('labelKind-floatOver')} {
+        ${c('label-kind-over')}, ${c('label-kind-floatOver')} {
           position: relative;
           ${c('label')} {
             position: absolute;
@@ -174,7 +174,7 @@ export const inputFieldStyles = createThemePart({
           }
         }
         /* float: not floating */
-        ${c('labelKind-floatOver')}:not(${getFloating(c('labelKind-floatOver'))}) {
+        ${c('label-kind-floatOver')}:not(${getFloating(c('label-kind-floatOver'))}) {
           ${c('label')} {
             font-size: 1rem;
             pointer-events: none;
@@ -184,7 +184,7 @@ export const inputFieldStyles = createThemePart({
         }
 
         /* Label in */
-        ${c('labelKind-in')}, ${c('labelKind-floatIn')} {
+        ${c('label-kind-in')}, ${c('label-kind-floatIn')} {
           position: relative;
           ${c('root')} {
             /* Published for the base theme, so the input claims the label strip too. */
@@ -201,7 +201,7 @@ export const inputFieldStyles = createThemePart({
           }
         }
         /* float: not floating */
-        ${c('labelKind-floatIn')}:not(${getFloating(c('labelKind-floatIn'))}) {
+        ${c('label-kind-floatIn')}:not(${getFloating(c('label-kind-floatIn'))}) {
           ${c('label')} {
             font-size: 1rem;
             pointer-events: none;
@@ -211,7 +211,7 @@ export const inputFieldStyles = createThemePart({
         }
 
         /* Label on */
-        ${c('labelKind-on')}, ${c('labelKind-floatOn')} {
+        ${c('label-kind-on')}, ${c('label-kind-floatOn')} {
           position: relative;
           ${c('label')} {
             position: absolute;
@@ -237,7 +237,7 @@ export const inputFieldStyles = createThemePart({
           }
         }
         /* float: not floating */
-        ${c('labelKind-floatOn')}:not(${getFloating(c('labelKind-floatOn'))}) {
+        ${c('label-kind-floatOn')}:not(${getFloating(c('label-kind-floatOn'))}) {
           ${c('label')} {
             font-size: 1rem;
             pointer-events: none;
@@ -252,7 +252,7 @@ export const inputFieldStyles = createThemePart({
         }
 
         /* Label hidden */
-        ${c('labelKind-hidden')} ${c('label')} {
+        ${c('label-kind-hidden')} ${c('label')} {
           display: none;
         }
       `;

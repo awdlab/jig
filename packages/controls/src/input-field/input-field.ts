@@ -155,7 +155,7 @@ export class JigInputField extends JigBase<'inputField'> {
 
   constructor() {
     super();
-    this.initializeAutoThemeClasses('labelKind', this.labelKind);
+    this.initializeAutoThemeClasses('label-kind', this.labelKind);
     afterRenderEffect(onCleanup => {
       const labelledBy = this.labelledBy();
       const labelTarget = this.labelTarget();

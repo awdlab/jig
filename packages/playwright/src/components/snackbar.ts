@@ -13,8 +13,8 @@ export class JigSnackbarHarness extends JigHarness {
 
   constructor(locator: Locator) {
     super(locator);
-    this.header = locator.locator(this.classes.defaultHeader);
-    this.content = locator.locator(this.classes.defaultContent);
+    this.header = locator.locator(this.classes['default-header']);
+    this.content = locator.locator(this.classes['default-content']);
     this.icon = this.header.locator('jig-icon').first();
     // The close button is a direct child of the snackbar root (sibling of the body), not inside
     // the header. It is the only <button> in the snackbar, so match it directly.

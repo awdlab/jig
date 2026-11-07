@@ -14,7 +14,7 @@ export const inputFieldControlTemplate = createControlTemplate({
     'label',
     'required-marker',
     'clear-button',
-    'labelKind-*',
+    'label-kind-*',
     'kind-*',
   ],
   dependencies: [

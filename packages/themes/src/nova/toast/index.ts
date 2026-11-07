@@ -39,13 +39,13 @@ export const toastStyles = createThemePart({
         box-shadow: ${v('shadow.lg')};
       }
 
-      ${c('defaultHeaderText')} {
+      ${c('default-header-text')} {
         font-weight: ${v('font.weight.semibold')};
         display: flex;
         align-items: center;
         gap: ${v('size.padding.sm')};
       }
-      ${c('defaultHeaderText')} jig-icon {
+      ${c('default-header-text')} jig-icon {
         color: var(--theme-color-500);
       }
 
@@ -100,7 +100,7 @@ export const toastStyles = createThemePart({
         }
       }
 
-      ${c('defaultContent')} {
+      ${c('default-content')} {
         line-height: 1.5;
       }
     `,

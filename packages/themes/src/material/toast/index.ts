@@ -56,11 +56,11 @@ export const toastStyles = createThemePart({
       ${c('color-surface')} {
         --tst-icon-color: ${ON_SURFACE};
       }
-      ${c('defaultHeaderText')} jig-icon {
+      ${c('default-header-text')} jig-icon {
         color: var(--tst-icon-color);
       }
 
-      ${c('defaultHeaderText')} {
+      ${c('default-header-text')} {
         font-weight: ${v('font.weight.medium')};
         display: flex;
         align-items: center;
@@ -118,7 +118,7 @@ export const toastStyles = createThemePart({
         }
       }
 
-      ${c('defaultContent')} {
+      ${c('default-content')} {
         line-height: 1.5;
       }
     `,

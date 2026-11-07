@@ -173,14 +173,14 @@ test('unstyled - overlay is injected but hidden (display:none) so it never distu
   await expect(page.locator('#on')).toBeVisible();
   await page.bringToFront().catch(() => {});
 
-  // The overlay is always injected (scoped `scrollShadow-overlay` class, prefix-agnostic)...
-  await expect(page.locator('#on [class*="scrollShadow-overlay"]')).toHaveCount(1);
-  await expect(page.locator('#off [class*="scrollShadow-overlay"]')).toHaveCount(1);
+  // The overlay is always injected (scoped `scroll-shadow-overlay` class, prefix-agnostic)...
+  await expect(page.locator('#on [class*="scroll-shadow-overlay"]')).toHaveCount(1);
+  await expect(page.locator('#off [class*="scroll-shadow-overlay"]')).toHaveCount(1);
 
   // ...but styled by default and hidden (display:none) when unstyled.
   const display = (sel: string) => page.locator(sel).evaluate(el => getComputedStyle(el).display);
-  expect(await display('#on [class*="scrollShadow-overlay"]')).not.toBe('none');
-  expect(await display('#off [class*="scrollShadow-overlay"]')).toBe('none');
+  expect(await display('#on [class*="scroll-shadow-overlay"]')).not.toBe('none');
+  expect(await display('#off [class*="scroll-shadow-overlay"]')).toBe('none');
 });
 
 test('visual - theme overlay shadows on all four edges (both axes, mid-scroll)', async ({

@@ -71,7 +71,7 @@ export const snackbarStyles = createThemePart({
         background: var(--theme-color-500);
       }
 
-      ${c('defaultHeaderText')} {
+      ${c('default-header-text')} {
         font-weight: ${v('font.weight.semibold')};
         display: flex;
         align-items: center;
@@ -82,7 +82,7 @@ export const snackbarStyles = createThemePart({
       ${c('color-surface')} {
         --snk-icon-color: ${ON_SURFACE};
       }
-      ${c('defaultHeaderText')} jig-icon {
+      ${c('default-header-text')} jig-icon {
         color: var(--snk-icon-color);
       }
 
@@ -137,7 +137,7 @@ export const snackbarStyles = createThemePart({
         }
       }
 
-      ${c('defaultContent')} {
+      ${c('default-content')} {
         line-height: 1.5;
       }
 
@@ -151,7 +151,7 @@ export const snackbarStyles = createThemePart({
          caller action colors (e.g. a success action) are never overridden. */
       /* Scoped under the root so it wins over the icon-button's resting fill,
          which is a light surface and would sit wrong on the dark snackbar. */
-      ${c('root')} ${c('closeButton')} {
+      ${c('root')} ${c('close-button')} {
         color: ${ON_SURFACE};
         background: transparent;
         &:hover:not(:disabled) {
@@ -164,7 +164,7 @@ export const snackbarStyles = createThemePart({
 
       /* Flush along the bottom edge, full width — the root's overflow:hidden
          clips its corners to the border radius so it touches the border. */
-      ${c('progressBar')} {
+      ${c('progress-bar')} {
         height: 3px;
         inset-inline-start: 0;
         inset-inline-end: 0;

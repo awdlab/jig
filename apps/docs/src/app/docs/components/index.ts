@@ -133,7 +133,6 @@ export const COMPONENT_GROUPS: JigDocsGroup[] = [
       DropdownListPage,
       MenuPage,
       PopoverPage,
-      ScrollShadowPage,
       ScrollerPage,
       SplitterPage,
       StepperPage,
@@ -156,6 +155,7 @@ export const COMPONENT_GROUPS: JigDocsGroup[] = [
       ResizablePage,
       RovingFocusPage,
       ScrollAmountPage,
+      ScrollShadowPage,
     ],
   },
 ];

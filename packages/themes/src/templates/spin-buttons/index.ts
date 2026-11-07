@@ -2,7 +2,7 @@ import { createControlTemplate } from '@awdlab/jig-themes/api';
 import { buttonControlTemplate } from '@awdlab/jig-themes/templates/button';
 
 export const spinButtonsControlTemplate = createControlTemplate({
-  scope: 'spinButtons',
+  scope: 'spin-buttons',
   classNames: [
     'root',
     // Edge the buttons bleed toward (leading = before the input, trailing = after).

@@ -166,7 +166,7 @@ test('progress bar', async ({ page }) => {
       { inputs: { showProgress, autoHide } }
     );
 
-  const bar = page.locator('jig-snackbar >> css=[class*="progressBar"]');
+  const bar = page.locator('jig-snackbar >> css=[class*="progress-bar"]');
 
   await test.step('renders and is styled when auto-hiding', async () => {
     const handle = await setup(true, 100000);
@@ -184,7 +184,7 @@ test('progress bar', async ({ page }) => {
     });
     expect(styles.position).toBe('absolute');
     expect(styles.height).toBe('3px');
-    expect(styles.animationName).toBe('jig-snackbar-progressBar');
+    expect(styles.animationName).toBe('jig-snackbar-progress-bar');
     expect(styles.inlineDuration).toBe('100000ms');
     // Background must resolve to a visible (non-transparent) colour.
     expect(styles.backgroundColor).not.toBe('rgba(0, 0, 0, 0)');

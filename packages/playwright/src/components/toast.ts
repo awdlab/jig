@@ -13,8 +13,8 @@ export class JigToastHarness extends JigHarness {
 
   constructor(locator: Locator) {
     super(locator);
-    this.header = locator.locator(this.classes.defaultHeader);
-    this.content = locator.locator(this.classes.defaultContent);
+    this.header = locator.locator(this.classes['default-header']);
+    this.content = locator.locator(this.classes['default-content']);
     this.icon = this.header.locator('jig-icon').first();
     this.closeButton = this.header.locator('button');
   }

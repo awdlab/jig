@@ -1,7 +1,7 @@
 import { createControlTemplate } from '@awdlab/jig-themes/api';
 
 export const scrollShadowDirectiveTemplate = createControlTemplate({
-  scope: 'scrollShadow',
+  scope: 'scroll-shadow',
   classNames: [
     'root',
     'scrolled-start',

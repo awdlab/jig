@@ -25,7 +25,7 @@ export const toastStyles = createThemePart({
           outline-offset: 2px;
         }
       }
-      ${c('defaultHeader')} {
+      ${c('default-header')} {
         display: flex;
         justify-content: space-between;
         align-items: center;

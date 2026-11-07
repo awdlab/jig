@@ -7,9 +7,9 @@ export const toastControlTemplate = createControlTemplate({
     'host',
     'anim-enter',
     'anim-leave',
-    'defaultHeader',
-    'defaultHeaderText',
-    'defaultContent',
+    'default-header',
+    'default-header-text',
+    'default-content',
     'color-*',
   ],
 });

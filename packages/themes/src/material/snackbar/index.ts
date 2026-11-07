@@ -71,7 +71,7 @@ export const snackbarStyles = createThemePart({
         background: var(--theme-color-500);
       }
 
-      ${c('defaultHeaderText')} {
+      ${c('default-header-text')} {
         font-weight: ${v('font.weight.medium')};
         display: flex;
         align-items: center;
@@ -82,7 +82,7 @@ export const snackbarStyles = createThemePart({
       ${c('color-surface')} {
         --snk-icon-color: ${ON_SURFACE};
       }
-      ${c('defaultHeaderText')} jig-icon {
+      ${c('default-header-text')} jig-icon {
         color: var(--snk-icon-color);
       }
 
@@ -137,7 +137,7 @@ export const snackbarStyles = createThemePart({
         }
       }
 
-      ${c('defaultContent')} {
+      ${c('default-content')} {
         line-height: 1.5;
       }
 
@@ -151,7 +151,7 @@ export const snackbarStyles = createThemePart({
          caller action colors (e.g. a success action) are never overridden. MD3
          state layer: overlay the "on" (contrast) color rather than button's own
          --theme-color-500-based hover, since it sits on a fixed dark surface. */
-      ${c('closeButton')} {
+      ${c('close-button')} {
         color: ${ON_SURFACE};
         &:hover:not(:disabled) {
           background: color-mix(in srgb, ${ON_SURFACE} 8%, transparent);
@@ -166,7 +166,7 @@ export const snackbarStyles = createThemePart({
 
       /* Flush along the bottom edge, full width — the root's overflow:hidden
          clips its corners to the border radius so it touches the border. */
-      ${c('progressBar')} {
+      ${c('progress-bar')} {
         height: 3px;
         inset-inline-start: 0;
         inset-inline-end: 0;

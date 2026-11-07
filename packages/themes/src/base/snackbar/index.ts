@@ -47,7 +47,7 @@ export const snackbarStyles = createThemePart({
         white-space: nowrap;
         border: 0;
       }
-      ${c('defaultHeader')} {
+      ${c('default-header')} {
         display: flex;
         align-items: center;
       }
@@ -55,21 +55,21 @@ export const snackbarStyles = createThemePart({
         display: flex;
         align-items: center;
       }
-      ${c('progressBar')} {
+      ${c('progress-bar')} {
         position: absolute;
         bottom: 0;
         inset-inline-start: 0;
         width: 100%;
         transform-origin: left center;
-        animation-name: ${c('progressBar', 'animation')};
+        animation-name: ${c('progress-bar', 'animation')};
         animation-timing-function: linear;
         animation-fill-mode: forwards;
       }
       /* transform-origin has no logical keyword; the bar must drain from the inline-start edge. */
-      ${c('progressBar')}:dir(rtl) {
+      ${c('progress-bar')}:dir(rtl) {
         transform-origin: right center;
       }
-      @keyframes ${c('progressBar', 'animation')} {
+      @keyframes ${c('progress-bar', 'animation')} {
         from {
           transform: scaleX(1);
         }

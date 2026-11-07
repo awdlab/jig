@@ -75,6 +75,8 @@ When creating or modifying a control, be aware that each control spans these par
 
 New controls must be registered in `packages/themes/src/templates/index.ts` (`ThemeTemplate`), each theme's `index.ts`, and `apps/docs/src/app/docs/components/index.ts` (`COMPONENT_GROUPS`).
 
+`number-input` reuses `inputControlTemplate` (`ThemeTemplate.numberInput`), so it has no theme part of its own; `spin-buttons` is its sub-part and is documented on the number-input page (Spin Buttons API tab), not on its own docs page.
+
 Always check **all** parts when making changes to a control — a rename or new input affects templates, themes, tests, docs, and demos.
 
 ## Testing

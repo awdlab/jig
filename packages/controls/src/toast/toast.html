@@ -8,8 +8,8 @@
     }"
   ></ng-container>
 } @else {
-  <div [ptInt]="this" [ptClass]="'defaultHeader'">
-    <span [ptInt]="this" [ptClass]="'defaultHeaderText'">
+  <div [ptInt]="this" [ptClass]="'default-header'">
+    <span [ptInt]="this" [ptClass]="'default-header-text'">
       @if (icon(); as icon) {
         <jig-icon [icon]="icon" />
       }
@@ -30,7 +30,7 @@
     }"
   ></ng-container>
 } @else {
-  <div [ptInt]="this" [ptClass]="'defaultContent'">
+  <div [ptInt]="this" [ptClass]="'default-content'">
     {{ content() }}
   </div>
 }
