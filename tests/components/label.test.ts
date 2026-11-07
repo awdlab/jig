@@ -72,7 +72,7 @@ test('names a color-picker and a toggle-button through their native buttons', as
       <jig-color-picker #brand />
       <label [jigFor]="bold">Bold</label>
       <jig-toggle-button #bold />`,
-    imports: ['jigFor', 'color-picker', 'toggleButton'],
+    imports: ['jigFor', 'colorPicker', 'toggleButton'],
   });
 
   await expect(page.getByRole('button', { name: 'Brand color' })).toBeVisible();
@@ -133,7 +133,7 @@ test('a wrapping label leaves focus on the clicked option', async ({ page }) => 
 test('an unlabelled color-picker trigger keeps a fallback name', async ({ page }) => {
   await loadComponent(page, {
     template: `<jig-color-picker />`,
-    imports: ['color-picker'],
+    imports: ['colorPicker'],
   });
 
   await expect(page.getByRole('button', { name: 'Select color' })).toBeVisible();
@@ -212,7 +212,7 @@ test('names an inline color-picker as a group', async ({ page }) => {
     template: `
       <label [jigFor]="brand">Brand color</label>
       <jig-color-picker #brand [inline]="true" />`,
-    imports: ['jigFor', 'color-picker'],
+    imports: ['jigFor', 'colorPicker'],
   });
 
   await expect(page.getByRole('group', { name: 'Brand color' })).toBeVisible();

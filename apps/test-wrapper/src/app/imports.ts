@@ -13,7 +13,7 @@ export const IMPORTS = {
   calendar: () => import('@awdlab/jig/calendar').then(m => m.JigCalendar),
   checkbox: () => import('@awdlab/jig/checkbox').then(m => m.JigCheckbox),
   chip: () => import('@awdlab/jig/chip').then(m => m.JigChip),
-  'color-picker': () => import('@awdlab/jig/color-picker').then(m => m.JigColorPicker),
+  colorPicker: () => import('@awdlab/jig/color-picker').then(m => m.JigColorPicker),
   command: () => import('@awdlab/jig/command').then(m => m.JigCommand),
   defer: () => import('@awdlab/jig/defer').then(m => m.JigDefer),
   dialog: () => import('@awdlab/jig/dialog').then(m => m.JigDialog),

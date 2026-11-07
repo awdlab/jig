@@ -27,7 +27,6 @@ export const buttonStyles = createThemePart({
         /* transparent border keeps bordered (outline) and borderless kinds pixel-identical */
         border: 1px solid transparent;
         border-radius: ${v('size.rounded.md')};
-        font-family: ${v('font.family')};
         font-size: ${v('font.size.sm')};
         font-weight: ${v('font.weight.medium')};
         padding: ${v('size.padding.md')} ${v('size.padding.xl')};

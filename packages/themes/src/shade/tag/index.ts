@@ -13,7 +13,7 @@ export const tagStyles = createThemePart({
   base: baseStyles.tag,
   dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
   root: {
-    // shadcn Badge: kind picks the variant; a color-* class recolors the filled kinds.
+    // shadcn Badge: a filled label recolored by the color-* class; pill rounds it fully.
     css: ({ v, c }) => css`
       ${slotColors(c, v)}
 
@@ -25,6 +25,8 @@ export const tagStyles = createThemePart({
         border-radius: ${v('size.rounded.md')};
         font-weight: ${v('font.weight.medium')};
         font-size: ${v('font.size.xs')};
+        background: var(--theme-bg, ${v('color.primary.base')});
+        color: var(--theme-fg, ${v('color.primary.foreground')});
       }
 
       ${c('icon')} {
@@ -32,25 +34,8 @@ export const tagStyles = createThemePart({
         font-size: inherit;
       }
 
-      ${c('kind-default')} {
-        --tag-bg: var(--theme-bg, ${v('color.primary.base')});
-        background: var(--tag-bg);
-        color: var(--theme-fg, ${v('color.primary.foreground')});
-      }
-      ${c('kind-secondary')} {
-        --tag-bg: var(--theme-bg, ${v('color.secondary.base')});
-        background: var(--tag-bg);
-        color: var(--theme-fg, ${v('color.secondary.foreground')});
-      }
-      ${c('kind-destructive')} {
-        --tag-bg: var(--theme-bg, ${v('color.destructive.base')});
-        background: var(--tag-bg);
-        color: var(--theme-fg, ${v('color.destructive.foreground')});
-      }
-      ${c('kind-outline')} {
-        background: transparent;
-        color: ${v('color.foreground')};
-        border-color: ${v('color.border')};
+      ${c('kind-pill')} {
+        border-radius: ${v('size.rounded.full')};
       }
     `,
   },

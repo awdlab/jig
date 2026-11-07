@@ -1,6 +1,6 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
+import { colorsTemplate, sizesTemplate, slotColors } from '@awdlab/jig-themes/shade/base';
 import { spinnerControlTemplate } from '@awdlab/jig-themes/templates/spinner';
 
 export const spinnerStyles = createThemePart({
@@ -8,9 +8,16 @@ export const spinnerStyles = createThemePart({
   base: baseStyles.spinner,
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
-    css: ({ c }) => css`
+    css: ({ v, c }) => css`
+      ${slotColors(c, v)}
+
       ${c('root')} {
-        color: var(--color, currentColor);
+        color: var(--theme-bg, currentColor);
+      }
+
+      /* The surface slot's base is the page background, so the spinner keeps the text color. */
+      ${c('color-surface')} {
+        color: inherit;
       }
 
       ${c('svg')} {

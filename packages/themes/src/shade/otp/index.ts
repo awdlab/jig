@@ -28,7 +28,6 @@ export const otpStyles = createThemePart({
         height: 2.75rem;
         border: 1px solid ${v('color.input')};
         border-radius: ${v('size.rounded.md')};
-        font-family: ${v('font.family')};
         font-size: ${v('font.size.lg')};
         font-weight: ${v('font.weight.medium')};
         background: transparent;

@@ -18,7 +18,6 @@ export const tableStyles = createThemePart({
 
       ${c('root')} {
         gap: ${v('size.padding.md')};
-        font-family: ${v('font.family')};
         font-size: ${v('font.size.sm')};
         color: ${v('color.foreground')};
         ${d('popover', 'root')} {

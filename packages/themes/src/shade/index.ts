@@ -66,9 +66,9 @@ import { tabsStyles } from '@awdlab/jig-themes/shade/tabs';
 import { tagStyles } from '@awdlab/jig-themes/shade/tag';
 import { tagInputStyles } from '@awdlab/jig-themes/shade/tag-input';
 import { toastStyles } from '@awdlab/jig-themes/shade/toast';
+import { toggleButtonStyles } from '@awdlab/jig-themes/shade/toggle-button';
 import { toolbarStyles } from '@awdlab/jig-themes/shade/toolbar';
 import { toolbarRegionStyles } from '@awdlab/jig-themes/shade/toolbar-region';
-import { toggleButtonStyles } from '@awdlab/jig-themes/shade/toggle-button';
 import { tooltipStyles } from '@awdlab/jig-themes/shade/tooltip';
 import { treeStyles } from '@awdlab/jig-themes/shade/tree';
 import { uploadStyles } from '@awdlab/jig-themes/shade/upload';
@@ -82,9 +82,10 @@ import type {} from './theme-types.js';
 // a kind: a destructive button is `kind="primary" color="destructive"`.
 export const KINDS = {
   button: ['primary', 'secondary', 'link', 'text', 'icon'] as const,
-  message: ['default', 'destructive'] as const,
-  tag: ['default', 'secondary', 'outline', 'destructive'] as const,
+  message: ['default', 'outlined', 'simple'] as const,
+  tag: ['default', 'pill'] as const,
   inputFieldLabel: ['in', 'on', 'over', 'floatIn', 'floatOn', 'floatOver', 'hidden'] as const,
+  spinButtons: ['stacked', 'inline'] as const,
   hint: ['default', 'info', 'success', 'warning', 'error'] as const,
   state: ['loading', 'cancelled', 'success', 'warning', 'error'] as const,
   splitter: ['default', 'thin', 'invisible'] as const,
@@ -98,16 +99,16 @@ export const COLORS = PUBLIC_COLOR_SLOTS;
 export const shade = createTheme(
   'Shade',
   [
-    accordionStyles,
     accordionPanelStyles,
+    accordionStyles,
     animation,
     avatarGroupStyles,
     avatarStyles,
     backdrop,
     badgeStyles,
     breadcrumbStyles,
-    buttonStyles,
     buttonGroupStyles,
+    buttonStyles,
     calendarStyles,
     checkboxStyles,
     chipStyles,
@@ -125,17 +126,17 @@ export const shade = createTheme(
     hintStyles,
     iconStyles,
     inplaceStyles,
-    inputStyles,
     inputFieldStyles,
-    maskInputStyles,
+    inputStyles,
     itemViewStyles,
     kbdStyles,
     listBoxStyles,
+    maskInputStyles,
     menuStyles,
     messageStyles,
     meterStyles,
-    otpStyles,
     movableStyles,
+    otpStyles,
     paginatorStyles,
     popoverStyles,
     progressStyles,
@@ -143,10 +144,10 @@ export const shade = createTheme(
     radioStyles,
     ratingStyles,
     resizableStyles,
-    scrollShadowStyles,
     scrollerStyles,
-    selectStyles,
+    scrollShadowStyles,
     selectButtonStyles,
+    selectStyles,
     shadow,
     sizes,
     skeletonStyles,
@@ -160,12 +161,12 @@ export const shade = createTheme(
     switchStyles,
     tableStyles,
     tabsStyles,
-    tagStyles,
     tagInputStyles,
+    tagStyles,
     toastStyles,
-    toolbarStyles,
-    toolbarRegionStyles,
     toggleButtonStyles,
+    toolbarRegionStyles,
+    toolbarStyles,
     tooltipStyles,
     treeStyles,
     uploadStyles,

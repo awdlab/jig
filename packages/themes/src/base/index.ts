@@ -1,5 +1,3 @@
-import { createTheme } from '@awdlab/jig-themes/api';
-
 import { accordionStyles } from '@awdlab/jig-themes/base/accordion';
 import { accordionPanelStyles } from '@awdlab/jig-themes/base/accordion-panel';
 import { movableStyles, resizableStyles, scrollShadowStyles } from '@awdlab/jig-themes/base/api';
@@ -57,9 +55,9 @@ import { tabsStyles } from '@awdlab/jig-themes/base/tabs';
 import { tagStyles } from '@awdlab/jig-themes/base/tag';
 import { tagInputStyles } from '@awdlab/jig-themes/base/tag-input';
 import { toastStyles } from '@awdlab/jig-themes/base/toast';
+import { toggleButtonStyles } from '@awdlab/jig-themes/base/toggle-button';
 import { toolbarStyles } from '@awdlab/jig-themes/base/toolbar';
 import { toolbarRegionStyles } from '@awdlab/jig-themes/base/toolbar-region';
-import { toggleButtonStyles } from '@awdlab/jig-themes/base/toggle-button';
 import { tooltipStyles } from '@awdlab/jig-themes/base/tooltip';
 import { treeStyles } from '@awdlab/jig-themes/base/tree';
 import { uploadStyles } from '@awdlab/jig-themes/base/upload';
@@ -67,11 +65,8 @@ import { uploadStyles } from '@awdlab/jig-themes/base/upload';
 export const baseStyles = {
   accordion: accordionStyles,
   accordionPanel: accordionPanelStyles,
-  movable: movableStyles,
-  resizable: resizableStyles,
-  scrollShadow: scrollShadowStyles,
-  avatarGroup: avatarGroupStyles,
   avatar: avatarStyles,
+  avatarGroup: avatarGroupStyles,
   badge: badgeStyles,
   breadcrumb: breadcrumbStyles,
   button: buttonStyles,
@@ -79,36 +74,39 @@ export const baseStyles = {
   calendar: calendarStyles,
   checkbox: checkboxStyles,
   chip: chipStyles,
-  'color-picker': colorPickerStyles,
+  colorPicker: colorPickerStyles,
   command: commandStyles,
   dialog: dialogStyles,
   drawer: drawerStyles,
   dropdownList: dropdownListStyles,
+  editInplace: editInplaceStyles,
   filterBar: filterBarStyles,
   filterBuilder: filterBuilderStyles,
   filterField: filterFieldStyles,
-  editInplace: editInplaceStyles,
   global: globalStyles,
   hint: hintStyles,
   icon: iconStyles,
   inplace: inplaceStyles,
   input: inputStyles,
   inputField: inputFieldStyles,
-  maskInput: maskInputStyles,
   itemView: itemViewStyles,
   kbd: kbdStyles,
   listBox: listBoxStyles,
+  maskInput: maskInputStyles,
   menu: menuStyles,
   message: messageStyles,
   meter: meterStyles,
+  movable: movableStyles,
   otp: otpStyles,
   paginator: paginatorStyles,
   popover: popoverStyles,
   progress: progressStyles,
-  radioGroup: radioGroupStyles,
   radio: radioStyles,
+  radioGroup: radioGroupStyles,
   rating: ratingStyles,
+  resizable: resizableStyles,
   scroller: scrollerStyles,
+  scrollShadow: scrollShadowStyles,
   select: selectStyles,
   selectButton: selectButtonStyles,
   skeleton: skeletonStyles,
@@ -125,12 +123,10 @@ export const baseStyles = {
   tag: tagStyles,
   tagInput: tagInputStyles,
   toast: toastStyles,
+  toggleButton: toggleButtonStyles,
   toolbar: toolbarStyles,
   toolbarRegion: toolbarRegionStyles,
-  toggleButton: toggleButtonStyles,
   tooltip: tooltipStyles,
   tree: treeStyles,
   upload: uploadStyles,
 };
-
-export const unstyledBase = createTheme('Nova', Object.values(baseStyles));

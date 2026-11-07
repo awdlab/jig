@@ -23,7 +23,6 @@ export const toggleButtonStyles = createThemePart({
         padding: ${v('size.padding.md')} ${v('size.padding.lg')};
         border: none;
         position: relative;
-        font-family: ${v('font.family')};
         font-weight: ${v('font.weight.normal')};
         cursor: pointer;
         transition:

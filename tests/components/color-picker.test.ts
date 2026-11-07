@@ -11,7 +11,7 @@ test('inline: reflects bound value', async ({ page }, testInfo) => {
     page,
     {
       template: `<jig-color-picker [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
-      imports: ['color-picker'],
+      imports: ['colorPicker'],
     },
     { inputs: { value: '#ff0000' } }
   );
@@ -26,7 +26,7 @@ test('clicking hue + sv updates value', async ({ page }) => {
     page,
     {
       template: `<jig-color-picker [inline]="true" [alpha]="false" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
-      imports: ['color-picker'],
+      imports: ['colorPicker'],
     },
     { inputs: { value: '#ff0000' } }
   );
@@ -52,7 +52,7 @@ test('swatch selection sets value', async ({ page }) => {
     page,
     {
       template: `<jig-color-picker [inline]="true" [alpha]="false" [swatches]="inputs().swatches" (valueChange)="output('value', $event)" />`,
-      imports: ['color-picker'],
+      imports: ['colorPicker'],
     },
     { inputs: { swatches: ['#123456', '#abcdef'] } }
   );
@@ -68,7 +68,7 @@ test('trigger opens panel (non-inline)', async ({ page }, testInfo) => {
     page,
     {
       template: `<jig-color-picker [value]="'#00ff00'" />`,
-      imports: ['color-picker'],
+      imports: ['colorPicker'],
     },
     { inputs: {} }
   );
@@ -86,7 +86,7 @@ test('format toggle cycles hex -> rgb -> hsl', async ({ page }) => {
     page,
     {
       template: `<jig-color-picker [inline]="true" [value]="'#3366cc'" />`,
-      imports: ['color-picker'],
+      imports: ['colorPicker'],
     },
     { inputs: {} }
   );
@@ -128,7 +128,7 @@ test('headless mode: opens in a popover from an external anchor', async ({ page 
         <button #anchor (click)="picker.toggle()">Pick color</button>
         <jig-color-picker #picker [popover]="true" [anchor]="anchor" [value]="'#ff0000'" />
       `,
-      imports: ['color-picker'],
+      imports: ['colorPicker'],
     },
     { inputs: {} }
   );
@@ -147,7 +147,7 @@ test('editing an RGB channel updates the value', async ({ page }) => {
     page,
     {
       template: `<jig-color-picker [inline]="true" [alpha]="false" [format]="'rgb'" [value]="'#000000'" (valueChange)="output('value', $event)" />`,
-      imports: ['color-picker'],
+      imports: ['colorPicker'],
     },
     { inputs: {} }
   );
@@ -165,7 +165,7 @@ test('typing a valid hex in the field updates the value', async ({ page }) => {
     page,
     {
       template: `<jig-color-picker [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
-      imports: ['color-picker'],
+      imports: ['colorPicker'],
     },
     { inputs: { value: '#000000' } }
   );
@@ -185,7 +185,7 @@ test('short hex is not expanded while typing — only on commit (regression)', a
     page,
     {
       template: `<jig-color-picker [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
-      imports: ['color-picker'],
+      imports: ['colorPicker'],
     },
     { inputs: { value: '#000000' } }
   );
@@ -218,7 +218,7 @@ test('SV drag to near-black and back preserves hue (regression)', async ({ page 
     page,
     {
       template: `<jig-color-picker [inline]="true" [alpha]="false" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
-      imports: ['color-picker'],
+      imports: ['colorPicker'],
     },
     { inputs: { value: '#00ff00' } }
   );
@@ -241,7 +241,7 @@ test('accessibility (axe): trigger mode', async ({ page }) => {
     page,
     {
       template: `<jig-color-picker [label]="'Pick a color'" />`,
-      imports: ['color-picker'],
+      imports: ['colorPicker'],
     },
     { inputs: {} }
   );
@@ -253,7 +253,7 @@ test('accessibility (axe): inline mode', async ({ page }) => {
     page,
     {
       template: `<jig-color-picker [inline]="true" [label]="'Pick a color'" />`,
-      imports: ['color-picker'],
+      imports: ['colorPicker'],
     },
     { inputs: {} }
   );
@@ -265,7 +265,7 @@ test('format toggle re-commits the value in the new format (same color)', async 
     page,
     {
       template: `<jig-color-picker [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
-      imports: ['color-picker'],
+      imports: ['colorPicker'],
     },
     { inputs: { value: '#3366cc' } }
   );
@@ -292,7 +292,7 @@ test('format toggle on an untouched picker does not emit a value', async ({ page
     page,
     {
       template: `<jig-color-picker [inline]="true" (valueChange)="output('value', $event)" />`,
-      imports: ['color-picker'],
+      imports: ['colorPicker'],
     },
     { inputs: {} }
   );
@@ -308,7 +308,7 @@ test('rtl', async ({ page }, testInfo) => {
     page,
     {
       template: `<jig-color-picker [inline]="true" [value]="inputs().value" (valueChange)="output('value', $event)" />`,
-      imports: ['color-picker'],
+      imports: ['colorPicker'],
     },
     { inputs: { value: '#ff0000' } }
   );

@@ -22,7 +22,6 @@ export const buttonStyles = createThemePart({
         --padding: ${v('size.padding.md')} ${v('size.padding.lg')};
         border-radius: ${v('size.rounded.md')};
         border-style: none;
-        font-family: ${v('font.family')};
         font-weight: ${v('font.weight.medium')};
         padding: var(--padding);
         gap: ${v('size.padding.md')};

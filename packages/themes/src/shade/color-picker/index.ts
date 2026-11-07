@@ -5,7 +5,7 @@ import { colorPickerControlTemplate } from '@awdlab/jig-themes/templates/color-p
 
 export const colorPickerStyles = createThemePart({
   controlTemplate: colorPickerControlTemplate,
-  base: baseStyles['color-picker'],
+  base: baseStyles.colorPicker,
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
     css: ({ v, c }) => css`

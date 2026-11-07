@@ -15,7 +15,7 @@ export type ThemeTemplate = {
   calendar: Awaited<typeof import('./calendar/index.js')>['calendarControlTemplate'];
   checkbox: Awaited<typeof import('./checkbox/index.js')>['checkboxControlTemplate'];
   chip: Awaited<typeof import('./chip/index.js')>['chipControlTemplate'];
-  'color-picker': Awaited<typeof import('./color-picker/index.js')>['colorPickerControlTemplate'];
+  colorPicker: Awaited<typeof import('./color-picker/index.js')>['colorPickerControlTemplate'];
   command: Awaited<typeof import('./command/index.js')>['commandControlTemplate'];
   dialog: Awaited<typeof import('./dialog/index.js')>['dialogControlTemplate'];
   drawer: Awaited<typeof import('./drawer/index.js')>['drawerControlTemplate'];

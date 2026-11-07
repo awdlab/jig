@@ -57,7 +57,7 @@ const DEFAULT_HSVA: HSVA = { h: 0, s: 0, v: 0, a: 1 };
     '(focusout)': 'potentiallyBlurred()',
   },
 })
-export class JigColorPicker extends ValueControlBase<'color-picker', string> implements Openable {
+export class JigColorPicker extends ValueControlBase<'colorPicker', string> implements Openable {
   protected readonly theme = this.injectThemeTemplate(colorPickerControlTemplate, {
     root: true,
     invalid: () => this.invalidState(),

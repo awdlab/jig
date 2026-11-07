@@ -24,7 +24,6 @@ export const inputStyles = createThemePart({
         box-sizing: border-box;
         border: 1px solid ${v('color.input')};
         border-radius: ${v('size.rounded.md')};
-        font-family: ${v('font.family')};
         font-size: ${v('font.size.sm')};
         padding: ${v('size.padding.md')} ${v('size.padding.lg')};
         background: transparent;
