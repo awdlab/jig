@@ -37,7 +37,7 @@ export const buttonStyles = createThemePart({
         transition-property: color, background-color, border-color, box-shadow, transform;
         transition-duration: ${v('anim.time.snappyFade')};
         transition-timing-function: ${v('anim.ease.snappyFade')};
-        ${focusRing}
+        ${focusRing(v)}
         /* universal tactile press feedback for every kind */
         &:active:not(:disabled) {
           transform: scale(0.97);
@@ -46,6 +46,12 @@ export const buttonStyles = createThemePart({
           cursor: default;
           opacity: 0.5;
         }
+      }
+
+      /* Single-line buttons share the field height; inline, link and icon buttons size to content. */
+      ${c('root')}:not(${c('inline')}):not(${c('kind-link')}):not(${c('kind-icon')}) {
+        height: ${v('size.height.control')};
+        padding-block: 0;
       }
 
       /* Shared kind vocabulary across all themes: primary | secondary | text | icon | link.

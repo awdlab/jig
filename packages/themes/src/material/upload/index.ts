@@ -1,10 +1,11 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
 import {
-  colorsTemplate,
-  sizesTemplate,
   animationTemplate,
+  colorsTemplate,
+  focusRing,
   fontTemplate,
+  sizesTemplate,
 } from '@awdlab/jig-themes/material/base';
 import { uploadControlTemplate } from '@awdlab/jig-themes/templates/upload';
 
@@ -31,8 +32,7 @@ export const uploadStyles = createThemePart({
         }
         /* Focus lives on the projected native input; surface the ring on the zone. */
         ${c('zone')}:has(:focus-visible) {
-          outline: 2px solid color-mix(in srgb, ${v('color.primary.500')} 50%, transparent);
-          outline-offset: 2px;
+          ${focusRing(v)}
         }
         /* MD3 state layer: a translucent primary tint over the resting surface,
            rather than a swap to a fixed surface shade. */

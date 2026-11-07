@@ -359,6 +359,9 @@ export class JigFilterBuilder<T = unknown, TData = T> extends FilterBuilderTempl
     });
   });
 
+  /** Whether any condition currently narrows the result. */
+  protected readonly hasActiveFilter = computed(() => this._activeConditions().length > 0);
+
   protected readonly summaryText = computed(() => {
     const active = this._activeConditions();
     if (active.length === 0) {

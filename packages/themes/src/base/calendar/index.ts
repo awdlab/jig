@@ -43,12 +43,6 @@ export const calendarStyles = createThemePart({
         justify-items: center;
         align-items: center;
       }
-      ${c('months')} {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        justify-items: center;
-        align-items: center;
-      }
       ${c('week-day')} {
         font-size: inherit;
       }

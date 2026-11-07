@@ -48,8 +48,7 @@ export const inputFieldStyles = createThemePart({
             box-shadow ${v('anim.time.snappyFade')} ${v('anim.ease.snappyFade')},
             background ${v('anim.time.snappyFade')} ${v('anim.ease.snappyFade')},
             color ${v('anim.time.snappyFade')} ${v('anim.ease.snappyFade')};
-          /** line-height + vertical padding + border */
-          --baseHeight: calc(1lh + 2 * ${v('size.padding.sm')} + 2px);
+          --baseHeight: ${v('size.height.control')};
           height: max(var(--baseHeight), fit-content);
 
           &:hover {

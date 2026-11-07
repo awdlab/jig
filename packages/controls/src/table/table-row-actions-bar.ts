@@ -40,6 +40,7 @@ type BarAction = {
   template: `
     @for (action of barActions(); track action.item.id) {
       <jig-action-button
+        [class]="theme.class('row-action-button')"
         [config]="action.config"
         [inline]="true"
         [attr.aria-haspopup]="action.hasChildren ? 'menu' : null"

@@ -1,12 +1,17 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/material/base';
+import {
+  animationTemplate,
+  colorsTemplate,
+  fontTemplate,
+  sizesTemplate,
+} from '@awdlab/jig-themes/material/base';
 import { tabsControlTemplate } from '@awdlab/jig-themes/templates/tabs';
 
 export const tabsStyles = createThemePart({
   controlTemplate: tabsControlTemplate,
   base: baseStyles.tabs,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate],
   root: {
     css: ({ v, c }) => css`
       ${c('headers')} {
@@ -39,8 +44,8 @@ export const tabsStyles = createThemePart({
       ${c('header-active-indicator')} {
         border-bottom: 2px solid ${v('color.primary.foreground')};
         transition:
-          left 0.2s ease-in-out,
-          width 0.2s ease-in-out;
+          left ${v('anim.time.fade')} ease-in-out,
+          width ${v('anim.time.fade')} ease-in-out;
       }
       ${c('scroll-start')}, ${c('scroll-end')} {
         background: ${v('color.background')};

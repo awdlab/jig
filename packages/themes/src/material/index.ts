@@ -11,6 +11,7 @@ import { avatarGroupStyles, avatarStyles } from '@awdlab/jig-themes/material/ava
 import { badgeStyles } from '@awdlab/jig-themes/material/badge';
 import {
   animation,
+  backdrop,
   font,
   material as materialColors,
   shadow,
@@ -108,6 +109,7 @@ export const material = createTheme(
     animation,
     avatarGroupStyles,
     avatarStyles,
+    backdrop,
     badgeStyles,
     breadcrumbStyles,
     buttonGroupStyles,

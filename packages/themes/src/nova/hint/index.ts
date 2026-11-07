@@ -1,12 +1,17 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/nova/base';
+import {
+  animationTemplate,
+  colorsTemplate,
+  fontTemplate,
+  sizesTemplate,
+} from '@awdlab/jig-themes/nova/base';
 import { hintControlTemplate } from '@awdlab/jig-themes/templates/hint';
 
 export const hintStyles = createThemePart({
   controlTemplate: hintControlTemplate,
   base: baseStyles.hint,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate],
   root: {
     // The neutral `default` kind is muted body text; the semantic kinds pull the
     // matching palette. `700` self-adjusts across modes (nova reverses palettes in
@@ -20,8 +25,8 @@ export const hintStyles = createThemePart({
         line-height: 1.4;
         margin-top: ${v('size.padding.sm')};
         transition:
-          grid-template-rows 0.2s ease-in-out,
-          margin 0.2s ease-in-out;
+          grid-template-rows ${v('anim.time.fade')} ease-in-out,
+          margin ${v('anim.time.fade')} ease-in-out;
       }
 
       ${c('icon')} {

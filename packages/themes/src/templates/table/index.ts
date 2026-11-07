@@ -17,7 +17,6 @@ export const tableControlTemplate = createControlTemplate({
     'body',
     'cell',
     'row',
-    'foot',
     'even',
     'striped',
     'spacer',

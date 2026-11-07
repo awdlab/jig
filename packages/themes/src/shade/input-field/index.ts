@@ -3,6 +3,7 @@ import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
+  focusRingStyles,
   fontTemplate,
   sizesTemplate,
 } from '@awdlab/jig-themes/shade/base';
@@ -38,17 +39,16 @@ export const inputFieldStyles = createThemePart({
           color: ${v('color.foreground')};
           box-shadow: none;
           transition:
-            border-color 0.15s ease-in-out,
-            color 0.15s ease-in-out,
-            box-shadow 0.15s ease-in-out;
-          /** line-height + vertical padding + border */
-          --baseHeight: calc(1lh + 2 * ${v('size.padding.sm')} + 2px);
+            border-color ${v('anim.time.snappyFade')} ease-in-out,
+            color ${v('anim.time.snappyFade')} ease-in-out,
+            box-shadow ${v('anim.time.snappyFade')} ease-in-out;
+          --baseHeight: ${v('size.height.control')};
           height: max(var(--baseHeight), fit-content);
 
           /* regular */
           &:focus-within {
             border-color: ${v('color.ring')};
-            box-shadow: 0 0 0 3px color-mix(in srgb, ${v('color.ring')} 50%, transparent);
+            ${focusRingStyles(v)}
           }
         }
 
@@ -98,8 +98,8 @@ export const inputFieldStyles = createThemePart({
           border-color: ${v('color.destructive.base')};
           &:focus-within {
             border-color: ${v('color.destructive.base')};
-            box-shadow: 0 0 0 3px
-              color-mix(in srgb, ${v('color.destructive.base')} 20%, transparent);
+            --shade-ring: color-mix(in srgb, ${v('color.destructive.base')} 20%, transparent);
+            ${focusRingStyles(v)}
           }
         }
 

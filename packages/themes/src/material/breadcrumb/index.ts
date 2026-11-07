@@ -1,12 +1,18 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/material/base';
+import {
+  animationTemplate,
+  colorsTemplate,
+  focusRing,
+  fontTemplate,
+  sizesTemplate,
+} from '@awdlab/jig-themes/material/base';
 import { breadcrumbControlTemplate } from '@awdlab/jig-themes/templates/breadcrumb';
 
 export const breadcrumbStyles = createThemePart({
   controlTemplate: breadcrumbControlTemplate,
   base: baseStyles.breadcrumb,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate],
   root: {
     css: ({ v, c, d }) => css`
       ${c('root')} {
@@ -26,8 +32,8 @@ export const breadcrumbStyles = createThemePart({
         cursor: default;
         color: ${v('color.surface.600')};
         transition:
-          color 0.2s,
-          background 0.15s ease;
+          color ${v('anim.time.fade')},
+          background ${v('anim.time.snappyFade')} ease;
         background: transparent;
         border: none;
         padding: 0;
@@ -44,8 +50,7 @@ export const breadcrumbStyles = createThemePart({
           background: color-mix(in srgb, ${v('color.text')} 8%, transparent);
         }
         &:focus-visible {
-          outline: 2px solid color-mix(in srgb, ${v('color.primary.500')} 50%, transparent);
-          outline-offset: 2px;
+          ${focusRing(v)}
         }
       }
       ${c('item')}:last-child {

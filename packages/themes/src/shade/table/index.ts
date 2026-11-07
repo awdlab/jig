@@ -3,6 +3,7 @@ import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
+  focusRingStyles,
   fontTemplate,
   sizesTemplate,
 } from '@awdlab/jig-themes/shade/base';
@@ -100,8 +101,7 @@ export const tableStyles = createThemePart({
       /* The grid is the tab stop; sortable header text is a button. */
       ${c('table')}:focus-visible,
       ${c('sortable-column')} ${c('cell-text')}:focus-visible {
-        outline: 2px solid color-mix(in srgb, ${v('color.ring')} 50%, transparent);
-        outline-offset: 2px;
+        ${focusRingStyles(v)}
       }
 
       /* ── Sorting ─────────────────────────────────────────────────────── */
@@ -189,6 +189,26 @@ export const tableStyles = createThemePart({
       }
       ${c('resizing')} ${c('resize-handle')} {
         background: ${v('color.ring')};
+      }
+
+      /* ── Row actions ─────────────────────────────────────────────────── */
+
+      /* Opaque so cell text doesn't show through the sticky bar; redraws the row border it covers. */
+      ${c('row-actions')} {
+        gap: ${v('size.padding.sm')};
+        padding: 0 ${v('size.padding.sm')};
+        background: ${v('color.background')};
+        box-shadow: -8px 0 8px -4px ${v('color.background')};
+        border-bottom: 1px solid ${v('color.border')};
+      }
+
+      /* ── Skeleton & error rows ───────────────────────────────────────── */
+
+      ${c('skeleton-row')} {
+        padding: ${v('size.padding.sm')} ${v('size.padding.lg')};
+      }
+      ${c('error-row')} {
+        color: ${v('color.destructive.base')};
       }
 
       /* ── Sticky Columns ──────────────────────────────────────────── */

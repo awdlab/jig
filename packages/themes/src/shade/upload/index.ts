@@ -3,6 +3,7 @@ import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
+  focusRingStyles,
   fontTemplate,
   sizesTemplate,
 } from '@awdlab/jig-themes/shade/base';
@@ -30,8 +31,7 @@ export const uploadStyles = createThemePart({
       }
       /* Focus lives on the projected native input; surface the ring on the zone. */
       ${c('zone')}:has(:focus-visible) {
-        outline: 2px solid ${v('color.ring')};
-        outline-offset: 2px;
+        ${focusRingStyles(v)}
       }
       ${c('clickable')} ${c('zone')}:hover {
         border-color: ${v('color.primary.base')};

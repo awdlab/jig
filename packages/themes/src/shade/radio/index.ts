@@ -3,6 +3,7 @@ import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
+  focusRingStyles,
   shadowTemplate,
   sizesTemplate,
 } from '@awdlab/jig-themes/shade/base';
@@ -48,9 +49,7 @@ export const radioStyles = createThemePart({
       }
 
       ${c('root')}:focus-visible ${c('circle')} {
-        outline: 2px solid transparent;
-        outline-offset: 2px;
-        box-shadow: 0 0 0 3px color-mix(in srgb, ${v('color.ring')} 50%, transparent);
+        ${focusRingStyles(v)}
       }
     `,
   },

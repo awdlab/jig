@@ -1,7 +1,9 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
 import {
+  animationTemplate,
   colorsTemplate,
+  focusRing,
   fontTemplate,
   shadowTemplate,
   sizesTemplate,
@@ -11,7 +13,7 @@ import { tableControlTemplate } from '@awdlab/jig-themes/templates/table';
 export const tableStyles = createThemePart({
   controlTemplate: tableControlTemplate,
   base: baseStyles.table,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate, animationTemplate],
   root: {
     css: ({ v, c, d }) => css`
       /* ── Layout ──────────────────────────────────────────────────────── */
@@ -46,8 +48,8 @@ export const tableStyles = createThemePart({
         padding: 0 ${v('size.padding.md')};
         text-align: start;
         transition:
-          background 0.1s ease,
-          box-shadow 0.15s ease;
+          background ${v('anim.time.snappyFade')} ease,
+          box-shadow ${v('anim.time.snappyFade')} ease;
         &:not(:has(*)) {
           line-height: var(--jig-table-row-height);
           white-space: nowrap;
@@ -101,8 +103,7 @@ export const tableStyles = createThemePart({
       /* The grid is the tab stop; sortable header text is a button. */
       ${c('table')}:focus-visible,
       ${c('sortable-column')} ${c('cell-text')}:focus-visible {
-        outline: 2px solid color-mix(in srgb, ${v('color.primary.500')} 50%, transparent);
-        outline-offset: 2px;
+        ${focusRing(v)}
       }
 
       /* ── Sorting ─────────────────────────────────────────────────────── */
@@ -145,7 +146,7 @@ export const tableStyles = createThemePart({
       }
       ${c('group-toggle')} {
         color: ${v('color.surface.600')};
-        transition: transform 0.15s;
+        transition: transform ${v('anim.time.snappyFade')};
       }
       ${c('group-expanded')} ${c('group-toggle')} {
         transform: rotate(90deg);
@@ -155,7 +156,7 @@ export const tableStyles = createThemePart({
 
       ${c('drag-source')} {
         opacity: 0.4;
-        transition: opacity 0.15s;
+        transition: opacity ${v('anim.time.snappyFade')};
       }
       ${c('drop-indicator')} {
         width: 3px;
@@ -168,7 +169,7 @@ export const tableStyles = createThemePart({
       ${c('resize-handle')} {
         width: 4px;
         background: transparent;
-        transition: background 0.15s;
+        transition: background ${v('anim.time.snappyFade')};
         &::before {
           content: '';
           position: absolute;

@@ -1,6 +1,7 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
 import {
+  animationTemplate,
   colorsTemplate,
   fontTemplate,
   sizesTemplate,
@@ -11,7 +12,7 @@ import { chipControlTemplate } from '@awdlab/jig-themes/templates/chip';
 export const chipStyles = createThemePart({
   controlTemplate: chipControlTemplate,
   base: baseStyles.chip,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate],
   root: {
     css: ({ v, c, d }) => css`
       ${themedColors(c, v)}
@@ -46,7 +47,7 @@ export const chipStyles = createThemePart({
         border-start-end-radius: ${v('size.rounded.md')};
         border-end-end-radius: ${v('size.rounded.md')};
         font-size: 0.75rem;
-        transition: background 0.15s ease;
+        transition: background ${v('anim.time.snappyFade')} ease;
 
         &:hover {
           background: color-mix(in srgb, currentColor 8%, transparent);
@@ -65,7 +66,7 @@ export const chipStyles = createThemePart({
         ${c('content')} {
           cursor: pointer;
           border-radius: ${v('size.rounded.md')};
-          transition: background 0.15s ease;
+          transition: background ${v('anim.time.snappyFade')} ease;
         }
 
         &:has(${c('content')}:hover) {

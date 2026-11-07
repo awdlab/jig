@@ -1,12 +1,12 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/nova/base';
+import { animationTemplate, colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/nova/base';
 import { filterBuilderControlTemplate } from '@awdlab/jig-themes/templates/filter-builder';
 
 export const filterBuilderStyles = createThemePart({
   controlTemplate: filterBuilderControlTemplate,
   base: baseStyles.filterBuilder,
-  dependencies: [colorsTemplate, sizesTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, animationTemplate],
   root: {
     css: ({ v, c, d }) => css`
       ${c('icon')} {
@@ -44,7 +44,7 @@ export const filterBuilderStyles = createThemePart({
         letter-spacing: 0.05em;
         color: ${v('color.surface.500')};
         cursor: pointer;
-        transition: color 0.15s ease;
+        transition: color ${v('anim.time.snappyFade')} ease;
       }
       ${c('condition-divider')}:hover {
         color: ${v('color.primary.500')};

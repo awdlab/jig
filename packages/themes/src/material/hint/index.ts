@@ -1,12 +1,17 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/material/base';
+import {
+  animationTemplate,
+  colorsTemplate,
+  fontTemplate,
+  sizesTemplate,
+} from '@awdlab/jig-themes/material/base';
 import { hintControlTemplate } from '@awdlab/jig-themes/templates/hint';
 
 export const hintStyles = createThemePart({
   controlTemplate: hintControlTemplate,
   base: baseStyles.hint,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate],
   root: {
     // The neutral `default` kind is muted body text; the semantic kinds pull the
     // matching MD3 role color at its base (500) tone — the scheme-stable shade
@@ -17,8 +22,8 @@ export const hintStyles = createThemePart({
         font-size: ${v('font.size.xs')};
         line-height: ${v('font.size.xs')};
         transition:
-          grid-template-rows 0.2s ease-in-out,
-          margin 0.2s ease-in-out;
+          grid-template-rows ${v('anim.time.fade')} ease-in-out,
+          margin ${v('anim.time.fade')} ease-in-out;
       }
 
       ${c('icon')} {

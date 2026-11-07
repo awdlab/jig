@@ -32,7 +32,7 @@ export const inputStyles = createThemePart({
         transition-property: color, background-color, border-color, box-shadow;
         transition-duration: ${v('anim.time.snappyFade')};
         transition-timing-function: ${v('anim.ease.snappyFade')};
-        ${focusRing}
+        ${focusRing(v)}
         &:focus-visible {
           border-color: ${v('color.ring')};
         }

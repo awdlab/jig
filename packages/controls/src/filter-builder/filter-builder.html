@@ -250,6 +250,9 @@
       {{ summaryText() }}
     </div>
     <jig-icon [ptInt]="this" [ptClass]="'icon'" defaultIcon="search" />
+    @if (hasActiveFilter()) {
+      <span aria-hidden="true" [ptInt]="this" [ptClass]="'active-indicator'"></span>
+    }
   </jig-input-field>
 
   <ng-container

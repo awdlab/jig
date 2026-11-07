@@ -1,12 +1,12 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate } from '@awdlab/jig-themes/shade/base';
+import { animationTemplate, colorsTemplate } from '@awdlab/jig-themes/shade/base';
 import { splitterControlTemplate } from '@awdlab/jig-themes/templates/splitter';
 
 export const splitterStyles = createThemePart({
   controlTemplate: splitterControlTemplate,
   base: baseStyles.splitter,
-  dependencies: [colorsTemplate],
+  dependencies: [colorsTemplate, animationTemplate],
   root: {
     css: ({ v, c }) => css`
       ${c('panel')} {
@@ -17,7 +17,7 @@ export const splitterStyles = createThemePart({
       ${c('kind-default')} {
         ${c('divider-handle')} {
           background: ${v('color.border')};
-          transition: background-color 0.15s ease;
+          transition: background-color ${v('anim.time.snappyFade')} ease;
           &:hover {
             background: ${v('color.accent.base')};
           }
@@ -47,9 +47,9 @@ export const splitterStyles = createThemePart({
         ${c('divider-handle')}::after {
           background: ${v('color.border')};
           transition:
-            width 0.15s ease,
-            height 0.15s ease,
-            background-color 0.15s ease;
+            width ${v('anim.time.snappyFade')} ease,
+            height ${v('anim.time.snappyFade')} ease,
+            background-color ${v('anim.time.snappyFade')} ease;
         }
         ${c('divider-handle')}:hover::after {
           background: ${v('color.accent.base')};

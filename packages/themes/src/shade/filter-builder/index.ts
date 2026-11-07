@@ -1,12 +1,12 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
+import { animationTemplate, colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
 import { filterBuilderControlTemplate } from '@awdlab/jig-themes/templates/filter-builder';
 
 export const filterBuilderStyles = createThemePart({
   controlTemplate: filterBuilderControlTemplate,
   base: baseStyles.filterBuilder,
-  dependencies: [colorsTemplate, sizesTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, animationTemplate],
   root: {
     // color.border swaps automatically between schemes, so no separate dark block is needed.
     css: ({ v, c, d }) => css`
@@ -45,7 +45,7 @@ export const filterBuilderStyles = createThemePart({
         letter-spacing: 0.05em;
         color: ${v('color.muted.foreground')};
         cursor: pointer;
-        transition: color 0.15s ease;
+        transition: color ${v('anim.time.snappyFade')} ease;
       }
       ${c('condition-divider')}:hover {
         color: ${v('color.foreground')};

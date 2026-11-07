@@ -1,4 +1,4 @@
-import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { autoContrast, createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
 import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/material/base';
 import { badgeControlTemplate } from '@awdlab/jig-themes/templates/badge';
@@ -18,7 +18,8 @@ export const badgeStyles = createThemePart({
         /* Background-colored ring so the badge reads on any anchor (icon, button, avatar). */
         box-shadow: 0 0 0 2px ${v('color.background')};
         background: var(--jig-badge-color, ${v('color.primary.500')});
-        color: #fff;
+        /* Adapts to a caller-supplied --jig-badge-color, which can be light. */
+        color: ${autoContrast(`var(--jig-badge-color, ${v('color.primary.500')})`)};
         font-size: ${v('font.size.sm')};
         font-weight: ${v('font.weight.semibold')};
         line-height: 1;

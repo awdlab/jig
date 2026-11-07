@@ -1,6 +1,7 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
 import {
+  animationTemplate,
   colorsTemplate,
   controlRing,
   fontTemplate,
@@ -12,7 +13,7 @@ import { accordionPanelControlTemplate } from '@awdlab/jig-themes/templates/acco
 export const accordionPanelStyles = createThemePart({
   controlTemplate: accordionPanelControlTemplate,
   base: baseStyles.accordionPanel,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, ringTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, ringTemplate, animationTemplate],
   root: {
     css: ({ v, c }) => css`
       ${c('root')} {
@@ -23,7 +24,7 @@ export const accordionPanelStyles = createThemePart({
       }
       ${c('content-expander')} {
         color: ${v('color.text')};
-        transition: grid-template-rows 0.2s ease-in-out;
+        transition: grid-template-rows ${v('anim.time.fade')} ease-in-out;
       }
       ${c('content')} {
         color: ${v('color.surface.700')};
@@ -37,11 +38,11 @@ export const accordionPanelStyles = createThemePart({
         padding: 0;
         cursor: pointer;
         user-select: none;
-        transition: background-color 0.2s ease-in-out;
+        transition: background-color ${v('anim.time.fade')} ease-in-out;
         jig-icon {
           color: ${v('color.surface.600')};
           margin: 0 ${v('size.padding.md')};
-          transition: color 0.2s ease-in-out;
+          transition: color ${v('anim.time.fade')} ease-in-out;
         }
         /* The accordion clips to its rounded corners, so the ring is drawn inside the header. */
         &:focus-visible {
@@ -85,7 +86,7 @@ export const accordionPanelStyles = createThemePart({
         padding: ${v('size.padding.md')} ${v('size.padding.lg')};
         font-weight: ${v('font.weight.semibold')};
         color: ${v('color.text')};
-        transition: color 0.2s ease-in-out;
+        transition: color ${v('anim.time.fade')} ease-in-out;
       }
     `,
   },

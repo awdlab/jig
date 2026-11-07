@@ -14,11 +14,11 @@ export const stateStyles = createThemePart({
       }
 
       ${c('kind-success')} {
-        color: #16a34a;
+        color: ${v('color.success')};
       }
 
       ${c('kind-warning')} {
-        color: #d97706;
+        color: ${v('color.warning')};
       }
 
       ${c('kind-error')} {

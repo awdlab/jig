@@ -3,6 +3,7 @@ import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
+  focusRing,
   fontTemplate,
   sizesTemplate,
 } from '@awdlab/jig-themes/material/base';
@@ -36,8 +37,7 @@ export const toggleButtonStyles = createThemePart({
           cursor: default;
         }
         &:focus-visible {
-          outline: 2px solid color-mix(in srgb, ${v('color.primary.500')} 50%, transparent);
-          outline-offset: 2px;
+          ${focusRing(v)}
         }
       }
       ${c('root')}:not(${c('active')}) ${c(

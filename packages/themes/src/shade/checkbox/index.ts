@@ -3,6 +3,7 @@ import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
+  focusRingStyles,
   shadowTemplate,
   sizesTemplate,
 } from '@awdlab/jig-themes/shade/base';
@@ -56,12 +57,10 @@ export const checkboxStyles = createThemePart({
 
       /* focus lives on the hidden input; mirror the shared 3px ring onto the visible box */
       ${c('root')}:has(${c('input')}:focus-visible) ${c('box')} {
-        outline: 2px solid transparent;
-        outline-offset: 2px;
-        box-shadow: 0 0 0 3px color-mix(in srgb, ${v('color.ring')} 50%, transparent);
+        ${focusRingStyles(v)}
       }
       ${c('invalid')}:has(${c('input')}:focus-visible) ${c('box')} {
-        box-shadow: 0 0 0 3px color-mix(in srgb, ${v('color.destructive.base')} 20%, transparent);
+        --shade-ring: color-mix(in srgb, ${v('color.destructive.base')} 20%, transparent);
       }
 
       ${c('box-icon')} {

@@ -18,6 +18,9 @@ export type ShadeSchemeColors = {
   destructiveForeground: string;
   surface: string;
   surfaceForeground: string;
+  info: string;
+  success: string;
+  warning: string;
 };
 
 export type ShadeColors = {
@@ -66,6 +69,9 @@ export function createShadeColors(baseColor?: string): ShadeColors {
     destructiveForeground: '#fafafa',
     surface: '#ffffff',
     surfaceForeground: '#09090b',
+    info: '#2563eb',
+    success: '#16a34a',
+    warning: '#d97706',
   };
 
   const dark: ShadeSchemeColors = {
@@ -86,6 +92,9 @@ export function createShadeColors(baseColor?: string): ShadeColors {
     destructiveForeground: '#fafafa',
     surface: '#18181b',
     surfaceForeground: '#fafafa',
+    info: '#60a5fa',
+    success: '#4ade80',
+    warning: '#fbbf24',
   };
 
   if (baseColor !== undefined) {

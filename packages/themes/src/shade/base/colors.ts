@@ -90,6 +90,10 @@ export const colorsTemplate = createVariableTemplate({
     border: null,
     input: null,
     ring: null,
+    // Status hues for hint/state only; not public color slots.
+    info: null,
+    success: null,
+    warning: null,
     // Nested like the slots so all paired bg/fg tokens read the same, but intentionally
     // not part of COLOR_SLOTS — popover is not a public recolorable slot.
     popover: {
@@ -137,6 +141,9 @@ function toTemplateValues(scheme: ShadeSchemeColors, isDark: boolean) {
     border: scheme.border,
     input: scheme.input,
     ring: scheme.ring,
+    info: scheme.info,
+    success: scheme.success,
+    warning: scheme.warning,
   };
 }
 

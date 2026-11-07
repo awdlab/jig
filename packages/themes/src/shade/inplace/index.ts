@@ -1,12 +1,17 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
+import {
+  animationTemplate,
+  colorsTemplate,
+  focusRingStyles,
+  sizesTemplate,
+} from '@awdlab/jig-themes/shade/base';
 import { inplaceControlTemplate } from '@awdlab/jig-themes/templates/inplace';
 
 export const inplaceStyles = createThemePart({
   controlTemplate: inplaceControlTemplate,
   base: baseStyles.inplace,
-  dependencies: [sizesTemplate, colorsTemplate],
+  dependencies: [sizesTemplate, colorsTemplate, animationTemplate],
   root: {
     css: ({ v, c }) => css`
       ${c('display')} {
@@ -15,7 +20,7 @@ export const inplaceStyles = createThemePart({
         background-color: transparent;
         border: none;
         border-radius: ${v('size.rounded.md')};
-        transition: background-color 0.15s ease;
+        transition: background-color ${v('anim.time.snappyFade')} ease;
         &:hover {
           background-color: ${v('color.accent.base')};
         }
@@ -23,9 +28,7 @@ export const inplaceStyles = createThemePart({
           background-color: ${v('color.accent.base')};
         }
         &:focus-visible {
-          outline: 2px solid transparent;
-          outline-offset: 2px;
-          box-shadow: 0 0 0 3px color-mix(in srgb, ${v('color.ring')} 50%, transparent);
+          ${focusRingStyles(v)}
         }
       }
     `,

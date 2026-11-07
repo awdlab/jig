@@ -39,9 +39,9 @@ export const inputFieldStyles = createThemePart({
           background: ${v('color.surface.50')};
           color: ${v('color.text')};
           transition:
-            border-color 0.15s ease,
-            color 0.15s ease,
-            outline-color 0.15s ease;
+            border-color ${v('anim.time.snappyFade')} ease,
+            color ${v('anim.time.snappyFade')} ease,
+            outline-color ${v('anim.time.snappyFade')} ease;
           outline-color: transparent;
           outline-width: 3px;
           outline-style: solid;

@@ -1,12 +1,18 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/material/base';
+import {
+  animationTemplate,
+  colorsTemplate,
+  focusRing,
+  fontTemplate,
+  sizesTemplate,
+} from '@awdlab/jig-themes/material/base';
 import { tagInputControlTemplate } from '@awdlab/jig-themes/templates/tag-input';
 
 export const tagInputStyles = createThemePart({
   controlTemplate: tagInputControlTemplate,
   base: baseStyles.tagInput,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate],
   root: {
     // MD3 input chip: outlined, transparent surface, 4dp corner.
     css: ({ v, c, d }) => css`
@@ -40,7 +46,7 @@ export const tagInputStyles = createThemePart({
         /* The icon is sized by font-size (1em), like the chip's close button. */
         font-size: 0.75rem;
         padding-inline: calc(${v('size.padding.sm')} / 2);
-        transition: background 0.15s ease;
+        transition: background ${v('anim.time.snappyFade')} ease;
 
         &:hover {
           color: ${v('color.text')};
@@ -50,7 +56,7 @@ export const tagInputStyles = createThemePart({
           background: color-mix(in srgb, currentColor 12%, transparent);
         }
         &:focus-visible {
-          outline: 2px solid color-mix(in srgb, ${v('color.primary.500')} 50%, transparent);
+          ${focusRing(v)}
           outline-offset: 1px;
         }
       }

@@ -1,12 +1,17 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
+import {
+  animationTemplate,
+  colorsTemplate,
+  fontTemplate,
+  sizesTemplate,
+} from '@awdlab/jig-themes/shade/base';
 import { breadcrumbControlTemplate } from '@awdlab/jig-themes/templates/breadcrumb';
 
 export const breadcrumbStyles = createThemePart({
   controlTemplate: breadcrumbControlTemplate,
   base: baseStyles.breadcrumb,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate],
   root: {
     css: ({ v, c, d }) => css`
       ${c('root')} {
@@ -27,7 +32,7 @@ export const breadcrumbStyles = createThemePart({
       ${c('overflow')} {
         cursor: default;
         color: ${v('color.muted.foreground')};
-        transition: color 0.2s;
+        transition: color ${v('anim.time.fade')};
         background: transparent;
         border: none;
         padding: 0;

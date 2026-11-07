@@ -15,9 +15,6 @@ export const tableStyles = createThemePart({
       ${c('table')} {
         display: grid;
         grid-template-rows: var(--jig-table-row-height) auto;
-        &:has(${c('foot')}) {
-          grid-template-rows: var(--jig-table-row-height) auto var(--jig-table-row-height);
-        }
         grid-template-columns: repeat(var(--jig-table-column-count), 1fr);
         align-content: baseline;
         position: relative;
@@ -74,9 +71,6 @@ export const tableStyles = createThemePart({
          scroll math. Non-virtual leaves the var unset, resolving to auto. */
       ${c('root')}${c('virtual')} ${c('body')} ${c('row')} {
         height: var(--jig-table-row-height);
-      }
-      ${c('foot')} {
-        display: contents;
       }
       ${c('cell')} {
         height: var(--jig-table-row-height);
