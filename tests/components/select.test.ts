@@ -487,8 +487,8 @@ test('combobox points aria-activedescendant at the highlighted option', async ({
   await select.expectOpened(true);
   await page.keyboard.press('ArrowDown');
 
+  await expect(select.combobox).toHaveAttribute('aria-activedescendant', /.+/);
   const activeId = await select.combobox.getAttribute('aria-activedescendant');
-  expect(activeId).toBeTruthy();
   await expect(page.locator(`[id="${activeId}"]`)).toHaveAttribute('role', 'option');
 
   await page.keyboard.press('Escape');
