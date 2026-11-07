@@ -52,6 +52,7 @@ import { splitterStyles } from '@awdlab/jig-themes/base/splitter';
 import { stateStyles } from '@awdlab/jig-themes/base/state';
 import { stepperStyles } from '@awdlab/jig-themes/base/stepper';
 import { switchStyles } from '@awdlab/jig-themes/base/switch';
+import { tableStyles } from '@awdlab/jig-themes/base/table';
 import { tabsStyles } from '@awdlab/jig-themes/base/tabs';
 import { tagStyles } from '@awdlab/jig-themes/base/tag';
 import { tagInputStyles } from '@awdlab/jig-themes/base/tag-input';
@@ -62,8 +63,6 @@ import { toggleButtonStyles } from '@awdlab/jig-themes/base/toggle-button';
 import { tooltipStyles } from '@awdlab/jig-themes/base/tooltip';
 import { treeStyles } from '@awdlab/jig-themes/base/tree';
 import { uploadStyles } from '@awdlab/jig-themes/base/upload';
-
-import { tableStyles } from './table/index.js';
 
 export const baseStyles = {
   accordion: accordionStyles,

@@ -31,6 +31,7 @@ import { editInplaceStyles } from '@awdlab/jig-themes/material/edit-inplace';
 import { filterBarStyles } from '@awdlab/jig-themes/material/filter-bar';
 import { filterBuilderStyles } from '@awdlab/jig-themes/material/filter-builder';
 import { filterFieldStyles } from '@awdlab/jig-themes/material/filter-field';
+import { globalStyles } from '@awdlab/jig-themes/material/global';
 import { hintStyles } from '@awdlab/jig-themes/material/hint';
 import { iconStyles } from '@awdlab/jig-themes/material/icon';
 import { inplaceStyles } from '@awdlab/jig-themes/material/inplace';
@@ -125,6 +126,7 @@ export const material = createTheme(
     filterFieldStyles,
     editInplaceStyles,
     font,
+    globalStyles,
     hintStyles,
     iconStyles,
     shadow,

@@ -29,6 +29,7 @@ import { editInplaceStyles } from '@awdlab/jig-themes/shade/edit-inplace';
 import { filterBarStyles } from '@awdlab/jig-themes/shade/filter-bar';
 import { filterBuilderStyles } from '@awdlab/jig-themes/shade/filter-builder';
 import { filterFieldStyles } from '@awdlab/jig-themes/shade/filter-field';
+import { globalStyles } from '@awdlab/jig-themes/shade/global';
 import { hintStyles } from '@awdlab/jig-themes/shade/hint';
 import { iconStyles } from '@awdlab/jig-themes/shade/icon';
 import { inplaceStyles } from '@awdlab/jig-themes/shade/inplace';
@@ -120,6 +121,7 @@ export const shade = createTheme(
     filterBuilderStyles,
     filterFieldStyles,
     font,
+    globalStyles,
     hintStyles,
     iconStyles,
     inplaceStyles,

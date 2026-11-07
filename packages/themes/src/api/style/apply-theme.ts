@@ -3,7 +3,7 @@ import type { StyleScope } from './style-scope.js';
 import { upsertThemeStyleElement } from './upsert-theme-style-element.js';
 import type { Theme } from '../theme/theme.js';
 import type { ThemePart } from '../theme/theme-part.js';
-import { groupArrayUsing } from '../utils/group-array-using.js';
+import { groupArrayUsing } from '../utils/index.js';
 
 export type ApplyThemeOptions = {
   /**

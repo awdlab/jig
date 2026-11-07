@@ -1,14 +1,8 @@
-import { createThemePart, css } from '@awdlab/jig-themes/api';
+import { createThemePart } from '@awdlab/jig-themes/api';
+import { baseStyles } from '@awdlab/jig-themes/base';
 import { resizableDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
 
 export const resizableStyles = createThemePart({
   controlTemplate: resizableDirectiveTemplate,
-  dependencies: [],
-  root: {
-    css: ({ v, c }) => css`
-      ${c('resizable')} {
-        resize: both;
-      }
-    `,
-  },
+  base: baseStyles.resizable,
 });
