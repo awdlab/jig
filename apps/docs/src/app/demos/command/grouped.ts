@@ -34,7 +34,7 @@ import type { JigActionItem } from '@awdlab/jig/api';
 
 @Component({
   imports: [JigCommand, JigButton],
-  selector: 'jig-demo-command-grouped-demo',
+  selector: 'jig-demo-command-grouped',
   template: `
     <button jigButton (click)="open.set(true)">Open palette</button>
     <jig-command [items]="items" [(open)]="open" />

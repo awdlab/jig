@@ -3,7 +3,7 @@ import { JigListBox } from '@awdlab/jig/list-box';
 
 @Component({
   imports: [JigListBox],
-  selector: 'jig-demo-list-box-virtual-demo',
+  selector: 'jig-demo-list-box-virtual',
   template: `
     <jig-list-box
       [items]="items"

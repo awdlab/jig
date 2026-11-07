@@ -11,7 +11,7 @@ export function getProjectControl(
     return null;
   }
   const projectControls = project.children?.filter(x =>
-    x.categories?.some(cat => cat.title === 'control')
+    x.categories?.some(cat => cat.title === 'control' || cat.title === 'directive')
   );
   const projectControl =
     projectControls

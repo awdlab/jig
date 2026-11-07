@@ -13,7 +13,7 @@
 - Theme injection via `this.injectThemeTemplate(controlTemplate, classMapping)`
 - No component-level CSS/SCSS — all styling flows through the theme system
 - Tailwind CSS for utility classes in templates
-- Barrel exports via `index.ts` in every feature folder
+- Barrel exports via `index.ts` in every feature folder under `packages/` (apps need no barrels)
 - Helpers meant for consumers (e.g. `domEventHandler`, `elementSizeSignal`) live in `@awdlab/jig/api/ng`; helpers only controls use (e.g. `toggleIdRefs`, `classSignal`) live in `@awdlab/jig/utils-ng` — never in both.
 - Use `@awdlab/*` path aliases for imports, never relative cross-package imports
 - 2-space indentation, single quotes (oxfmt formats `.ts`/`.json`/`.md`; Prettier + `@ngneers/prettier-config` formats `.html`)
@@ -81,6 +81,10 @@ When creating or modifying a control, be aware that each control spans these par
 | Tests          | `tests/components/{name}.test.ts`               | Playwright + screenshot snapshots, snapshot dir alongside                    |
 | Docs page      | `apps/docs/src/app/docs/components/{name}/`     | `page.ts`, `index.md`, `api.md`, `a11y.md`, `playground.ts`                  |
 | Demos          | `apps/docs/src/app/demos/{name}/`               | Scenario-based standalone Angular components                                 |
+
+Directive docs pages (autofocus, defer, drag, errors, label, movable, resizable, roving-group, scroll-amount, scroll-shadow) have no `playground.ts`.
+
+Demos are named `jig-demo-{folder}-{file}` / `Demo_{Folder}_{File}` (the docs derive the source path from the class name); helper components are `Demo_{Folder}_{File}_{Part}`. Demos not tied to one control live in `demos/_shared/{folder}/`.
 
 New controls must be registered in `packages/themes/src/templates/index.ts` (`ThemeTemplate`), each theme's `index.ts`, and `apps/docs/src/app/docs/components/index.ts` (`COMPONENT_GROUPS`).
 

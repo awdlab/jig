@@ -5,7 +5,7 @@ import { notNullish } from '@awdlab/jig/utils';
 
 import { JigDocsPageSection } from './section/section';
 import { JigDocsToc } from './toc/toc';
-import { BreadcrumbService } from '../../../frame/breadcrumb.service';
+import { BreadcrumbService } from '../../../frame/breadcrumb';
 import { safeRoutePath } from '../../routing';
 import { Seo } from '../../seo';
 import { JigDocsSourceLink } from '../source-link';

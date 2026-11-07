@@ -1,17 +1,20 @@
 import { Component } from '@angular/core';
 import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
 
-import { exampleData } from '../../helper/data';
-import { DummyLoremIpsumComponent1, DummyLoremIpsumComponent2 } from '../dummies/lorem-ipsum';
+import { exampleData } from '../../utils/sample-data/data';
+import {
+  Demo_Dummies_LoremIpsum_1,
+  Demo_Dummies_LoremIpsum_2,
+} from '../_shared/dummies/lorem-ipsum';
 
 @Component({
-  selector: 'demo-3',
+  selector: 'jig-demo-accordion-lazy-content',
   template: `{{ loremIpsum3 }}`,
 })
-export class Demo3Component {
+export class Demo_Accordion_Lazy_Content {
   protected readonly loremIpsum3 = exampleData.loremIpsum.full.split(' ').slice(200, 300).join(' ');
   constructor() {
-    console.log('Demo3Component initialized');
+    console.log('Demo_Accordion_Lazy_Content initialized');
   }
 }
 
@@ -20,24 +23,24 @@ export class Demo3Component {
   imports: [
     JigAccordion,
     JigAccordionPanel,
-    DummyLoremIpsumComponent1,
-    DummyLoremIpsumComponent2,
-    Demo3Component,
+    Demo_Dummies_LoremIpsum_1,
+    Demo_Dummies_LoremIpsum_2,
+    Demo_Accordion_Lazy_Content,
   ],
   template: `<jig-accordion [lazy]="true">
     <jig-accordion-panel [header]="'Panel 1'">
       <ng-template #content>
-        <dummy-lorem-ipsum-1 />
+        <jig-demo-dummies-lorem-ipsum-1 />
       </ng-template>
     </jig-accordion-panel>
     <jig-accordion-panel [header]="'Panel 2'" [lazy]="false">
       <ng-template #content>
-        <dummy-lorem-ipsum-2 />
+        <jig-demo-dummies-lorem-ipsum-2 />
       </ng-template>
     </jig-accordion-panel>
     <jig-accordion-panel [header]="'Panel 3'" [cache]="true">
       <ng-template #content>
-        <demo-3 />
+        <jig-demo-accordion-lazy-content />
       </ng-template>
     </jig-accordion-panel>
   </jig-accordion>`,

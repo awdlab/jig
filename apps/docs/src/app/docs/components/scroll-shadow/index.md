@@ -10,21 +10,21 @@ Set `jigScrollShadow="horizontal"` (the default axis) on a horizontally
 scrollable element. A shadow fades in on the left once you scroll right, and on
 the right while more content remains — both show together in the middle.
 
-{{ demo: Demo_Scroll_Shadow_Horizontal }}
+{{ demo: Demo_ScrollShadow_Horizontal }}
 
 ### Vertical
 
 Use `jigScrollShadow="vertical"` to track the vertical axis instead, shading the
 top and bottom edges as you scroll a tall list.
 
-{{ demo: Demo_Scroll_Shadow_Vertical }}
+{{ demo: Demo_ScrollShadow_Vertical }}
 
 ### Both Axes
 
 `jigScrollShadow="both"` tracks horizontal and vertical scrolling at once,
 shading whichever of the four edges still has content beyond it.
 
-{{ demo: Demo_Scroll_Shadow_Both }}
+{{ demo: Demo_ScrollShadow_Both }}
 
 ### Bringing Your Own Shadow
 

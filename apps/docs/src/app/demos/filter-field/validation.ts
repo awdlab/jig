@@ -4,7 +4,7 @@ import { JigFilterField, type JigFilterConfig } from '@awdlab/jig/filter-field';
 import { JigHint } from '@awdlab/jig/hint';
 
 @Component({
-  selector: 'jig-demo-filter-validation',
+  selector: 'jig-demo-filter-field-validation',
   imports: [JigErrors, JigFilterField, JigHint],
   template: `
     <div class="flex flex-col gap-2">

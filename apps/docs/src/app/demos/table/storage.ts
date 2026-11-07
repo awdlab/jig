@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { JigTemplate } from '@awdlab/jig/api/ng';
 import { JigTableModule, JigTableReorderableColumn } from '@awdlab/jig/table';
 
-import { exampleData } from '../../helper/data';
+import { exampleData } from '../../utils/sample-data/data';
 
 import type { JigTableStorageConfig } from '@awdlab/jig/table';
 

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { JigTemplate } from '@awdlab/jig/api/ng';
 import { JigScroller, JigScrollerItem } from '@awdlab/jig/scroller';
 
-import { exampleData } from '../../helper/data';
+import { exampleData } from '../../utils/sample-data/data';
 
 @Component({
   imports: [JigScroller, JigTemplate, JigScrollerItem],

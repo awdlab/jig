@@ -7,7 +7,7 @@ let builds = 0;
 
 /** Counts its own constructions, so the deferral is visible. */
 @Component({
-  selector: 'jig-demo-defer-panel',
+  selector: 'jig-demo-defer-base-panel',
   template: `<div class="panel">Panel constructed {{ build }}× since page load</div>`,
   styles: `
     .panel {
@@ -17,13 +17,13 @@ let builds = 0;
     }
   `,
 })
-export class DeferDemoPanel {
+export class Demo_Defer_Base_Panel {
   protected readonly build = ++builds;
 }
 
 @Component({
   selector: 'jig-demo-defer-base',
-  imports: [DeferDemoPanel, JigButton, JigDefer, JigSwitch],
+  imports: [Demo_Defer_Base_Panel, JigButton, JigDefer, JigSwitch],
   template: `
     <div class="flex flex-col items-start gap-3">
       <div class="flex items-center gap-4">
@@ -37,7 +37,7 @@ export class DeferDemoPanel {
       <jig-defer [open]="open()" [cache]="cache()" [lazyContent]="panel" />
 
       <ng-template #panel>
-        <jig-demo-defer-panel />
+        <jig-demo-defer-base-panel />
       </ng-template>
     </div>
   `,

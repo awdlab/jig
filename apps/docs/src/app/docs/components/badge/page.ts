@@ -1,3 +1,4 @@
+import { JigDocsBadgePlayground } from './playground';
 import { Demo_Badge_Base } from '../../../demos/badge/base';
 import { Demo_Badge_Positions } from '../../../demos/badge/positions';
 import { Demo_Badge_Dot } from '../../../demos/badge/dot';
@@ -15,6 +16,11 @@ export const BadgePage: JigDocsPage = {
       title: 'Examples',
       mdFile: 'components/badge/index.md',
       components: [Demo_Badge_Base, Demo_Badge_Positions, Demo_Badge_Dot, Demo_Badge_Color],
+    },
+    {
+      kind: 'component',
+      title: 'Playground',
+      component: JigDocsBadgePlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/badge/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/badge/a11y.md' },

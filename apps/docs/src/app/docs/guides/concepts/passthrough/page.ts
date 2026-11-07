@@ -1,8 +1,8 @@
-import { Demo_Pt_Attributes } from '../../../../demos/pt/attributes';
-import { Demo_Pt_Classes } from '../../../../demos/pt/classes';
-import { Demo_Pt_Deps } from '../../../../demos/pt/deps';
-import { Demo_Pt_Listeners } from '../../../../demos/pt/listeners';
-import { Demo_Pt_Styles } from '../../../../demos/pt/styles';
+import { Demo_Pt_Attributes } from '../../../../demos/_shared/pt/attributes';
+import { Demo_Pt_Classes } from '../../../../demos/_shared/pt/classes';
+import { Demo_Pt_Deps } from '../../../../demos/_shared/pt/deps';
+import { Demo_Pt_Listeners } from '../../../../demos/_shared/pt/listeners';
+import { Demo_Pt_Styles } from '../../../../demos/_shared/pt/styles';
 
 import type { JigDocsPage } from '../../../../utils/page/types';
 

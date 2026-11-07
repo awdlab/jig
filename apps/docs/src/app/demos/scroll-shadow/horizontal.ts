@@ -36,6 +36,6 @@ import { JigScrollShadow } from '@awdlab/jig/scroll-shadow';
     }
   `,
 })
-export class Demo_Scroll_Shadow_Horizontal {
+export class Demo_ScrollShadow_Horizontal {
   protected readonly cards = Array.from({ length: 10 }, (_, i) => i + 1);
 }

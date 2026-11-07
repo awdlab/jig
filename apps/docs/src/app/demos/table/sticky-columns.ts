@@ -3,7 +3,7 @@ import { Component, signal } from '@angular/core';
 import { JigTemplate } from '@awdlab/jig/api/ng';
 import { JigTableModule } from '@awdlab/jig/table';
 
-import { exampleData } from '../../helper/data';
+import { exampleData } from '../../utils/sample-data/data';
 
 @Component({
   imports: [JigTableModule, JigTemplate, CurrencyPipe, JsonPipe],

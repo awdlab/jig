@@ -5,7 +5,7 @@ import { JigSwitch } from '@awdlab/jig/switch';
 import { JigTableModule } from '@awdlab/jig/table';
 type TableResizeMode = 'adjacent' | 'proportional' | 'push';
 
-import { exampleData } from '../../helper/data';
+import { exampleData } from '../../utils/sample-data/data';
 
 @Component({
   imports: [JigTableModule, JigTemplate, JigSelectButton, JigSwitch],

@@ -43,11 +43,11 @@ indeterminate state on a partial selection).
 
 #### Single Selection
 
-{{ demo: Demo_Table_Selection_Single }}
+{{ demo: Demo_Table_SelectionSingle }}
 
 #### Multi Selection
 
-{{ demo: Demo_Table_Selection_Multi }}
+{{ demo: Demo_Table_SelectionMulti }}
 
 ### Sorting Columns
 

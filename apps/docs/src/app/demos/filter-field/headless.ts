@@ -3,7 +3,7 @@ import { JigButton } from '@awdlab/jig/button';
 import { JigFilterField, type JigFilterConfig } from '@awdlab/jig/filter-field';
 
 @Component({
-  selector: 'jig-demo-filter-headless',
+  selector: 'jig-demo-filter-field-headless',
   imports: [JigButton, JigFilterField],
   template: `
     <div class="flex flex-col gap-2">

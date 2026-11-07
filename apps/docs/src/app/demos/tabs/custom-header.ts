@@ -4,7 +4,7 @@ import { JigTabs, JigTab } from '@awdlab/jig/tabs';
 
 @Component({
   imports: [JigTabs, JigTab, JigButton],
-  selector: 'jig-demo-tabs-base',
+  selector: 'jig-demo-tabs-custom-header',
   template: `
     <jig-tabs>
       <ng-template #headerLeft>

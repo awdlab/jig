@@ -28,6 +28,6 @@ import { JigScrollShadow } from '@awdlab/jig/scroll-shadow';
     }
   `,
 })
-export class Demo_Scroll_Shadow_Vertical {
+export class Demo_ScrollShadow_Vertical {
   protected readonly rows = Array.from({ length: 15 }, (_, i) => i + 1);
 }

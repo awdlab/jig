@@ -3,7 +3,7 @@ import { JigEditInplace } from '@awdlab/jig/edit-inplace';
 
 @Component({
   imports: [JigEditInplace],
-  selector: 'jig-demo-inplace-base',
+  selector: 'jig-demo-edit-inplace-base',
   template: ` <jig-edit-inplace #inplace [value]="value()" (valueChange)="value.set($event)" />`,
   host: { style: 'display: block; width: 200px;' },
 })

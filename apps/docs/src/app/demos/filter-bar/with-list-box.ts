@@ -4,7 +4,7 @@ import { JigFilterBar } from '@awdlab/jig/filter-bar';
 import type { JigFilterBuilderConfig, JigFilterProperty } from '@awdlab/jig/filter-builder';
 import { JigListBox } from '@awdlab/jig/list-box';
 
-import { people, ROLES, type Person } from '../../helper/people';
+import { people, ROLES, type Person } from '../../utils/sample-data/people';
 
 const items = transformToJigItems(people, { label: 'name', value: 'id' });
 

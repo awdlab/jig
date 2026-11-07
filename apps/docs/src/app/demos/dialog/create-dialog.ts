@@ -2,7 +2,7 @@ import { Component, inject, Injector } from '@angular/core';
 import { JigButton } from '@awdlab/jig/button';
 import { createDialog } from '@awdlab/jig/dialog';
 
-import { DummyLoremIpsumComponent1 } from '../dummies/lorem-ipsum';
+import { Demo_Dummies_LoremIpsum_1 } from '../_shared/dummies/lorem-ipsum';
 
 @Component({
   selector: 'jig-demo-dialog-create-dialog',
@@ -23,7 +23,7 @@ export class Demo_Dialog_CreateDialog {
   protected showComponentDialog() {
     createDialog(this._injector, {
       title: 'Test Dialog',
-      content: DummyLoremIpsumComponent1,
+      content: Demo_Dummies_LoremIpsum_1,
       size: {
         maxWidth: '70vw',
       },

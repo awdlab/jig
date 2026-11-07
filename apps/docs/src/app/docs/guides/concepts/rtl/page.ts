@@ -1,5 +1,5 @@
-import { Demo_Rtl_Comparison } from '../../../../demos/rtl/comparison';
-import { Demo_Rtl_Subtree } from '../../../../demos/rtl/subtree';
+import { Demo_Rtl_Comparison } from '../../../../demos/_shared/rtl/comparison';
+import { Demo_Rtl_Subtree } from '../../../../demos/_shared/rtl/subtree';
 
 import type { JigDocsPage } from '../../../../utils/page/types';
 

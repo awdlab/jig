@@ -1,7 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { JigFilterBuilder, type JigFilterProperty } from '@awdlab/jig/filter-builder';
 
-import { type Person, people } from '../../helper/people';
+import { type Person, people } from '../../utils/sample-data/people';
 
 @Component({
   selector: 'jig-demo-filter-builder-base',

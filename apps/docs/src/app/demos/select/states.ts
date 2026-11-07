@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { JigInputField } from '@awdlab/jig/input-field';
 import { JigSelect } from '@awdlab/jig/select';
 
-import { exampleData } from '../../helper/data';
+import { exampleData } from '../../utils/sample-data/data';
 
 import type { PopoverOptions } from '@awdlab/jig/popover';
 

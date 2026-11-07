@@ -1,4 +1,4 @@
-import { Demo_DarkMode_Toggle } from '../../../../demos/dark-mode/toggle';
+import { Demo_DarkMode_Toggle } from '../../../../demos/_shared/dark-mode/toggle';
 
 import type { JigDocsPage } from '../../../../utils/page/types';
 

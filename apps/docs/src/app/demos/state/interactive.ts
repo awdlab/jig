@@ -6,7 +6,7 @@ import { JigState } from '@awdlab/jig/state';
 
 @Component({
   imports: [JigState, JigButton, JigInput, JigInputField],
-  selector: 'jig-demo-state-button',
+  selector: 'jig-demo-state-interactive',
   template: `
     <jig-input-field label="Type to test">
       <input jigInput value="" (input)="onInput()" />

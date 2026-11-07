@@ -1,6 +1,4 @@
 import { AccordionPage } from './accordion/page';
-import { FilterBarPage } from './filter-bar/page';
-import { FilterBuilderPage } from './filter-builder/page';
 import { AutofocusPage } from './autofocus/page';
 import { AvatarPage } from './avatar/page';
 import { BadgePage } from './badge/page';
@@ -19,6 +17,8 @@ import { DrawerPage } from './drawer/page';
 import { DropdownListPage } from './dropdown-list/page';
 import { EditInplacePage } from './edit-inplace/page';
 import { ErrorsPage } from './errors/page';
+import { FilterBarPage } from './filter-bar/page';
+import { FilterBuilderPage } from './filter-builder/page';
 import { FilterFieldPage } from './filter-field/page';
 import { HintPage } from './hint/page';
 import { IconPage } from './icon/page';

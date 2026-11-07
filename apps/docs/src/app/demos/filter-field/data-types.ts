@@ -2,7 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { JigFilterField } from '@awdlab/jig/filter-field';
 
 @Component({
-  selector: 'jig-demo-filter-datatypes',
+  selector: 'jig-demo-filter-field-data-types',
   imports: [JigFilterField],
   template: `
     <div class="flex flex-col gap-4">

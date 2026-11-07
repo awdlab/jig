@@ -13,8 +13,7 @@
     "search:index": "tsx tools/search-index-gen.ts",
     "search:check": "tsx tools/search-check.ts",
     "search:model": "tsx tools/quantize-potion.ts",
-    "search:model:verify": "tsx tools/quantize-potion.ts --verify",
-    "serve:ssr": "node ../../dist/demo/server/server.mjs"
+    "search:model:verify": "tsx tools/quantize-potion.ts --verify"
   },
   "private": true,
   "dependencies": {

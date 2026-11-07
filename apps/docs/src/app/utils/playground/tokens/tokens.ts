@@ -16,6 +16,11 @@ import type { ControlName, ControlTemplate } from '@awdlab/jig-themes';
 import type { PlaygroundControl } from '../playground';
 import type { ProjectReflection } from 'typedoc/browser';
 
+function hasPt(component: PlaygroundControl['component']): boolean {
+  const first = Array.isArray(component) ? component[0] : component;
+  return !!first && 'pt' in first;
+}
+
 @Component({
   selector: 'jig-docs-tokens',
   templateUrl: 'tokens.html',
@@ -46,7 +51,8 @@ export class JigDocsPlaygroundTokens<
     const res = controls
       .map(control => {
         const internalName = getInternalControlName(project, control.componentName);
-        if (!internalName) {
+        // Plain directives (e.g. JigBadge) have no `pt`, so their tokens can't be highlighted.
+        if (!internalName || !hasPt(control.component)) {
           return null;
         }
         const classes = injectTheme(internalName, { injector: this._injector }).classNames;
@@ -108,7 +114,7 @@ export class JigDocsPlaygroundTokens<
     effect(() => {
       const components = this.controls()
         .flatMap(x => x.component)
-        .filter(notNullish) as FullAnyJigBase[];
+        .filter(hasPt) as FullAnyJigBase[];
       const pt = this.pt();
       components.forEach(comp => {
         if (pt?.components.includes(comp)) {

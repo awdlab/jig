@@ -3,7 +3,7 @@ import { JigTemplate } from '@awdlab/jig/api/ng';
 import { JigButton } from '@awdlab/jig/button';
 import { JigTableModule } from '@awdlab/jig/table';
 
-import { exampleData } from '../../helper/data';
+import { exampleData } from '../../utils/sample-data/data';
 
 @Component({
   imports: [JigTableModule, JigTemplate, JigButton],

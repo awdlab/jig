@@ -1,10 +1,10 @@
 import { Component, computed, signal } from '@angular/core';
 import { JigFilterBuilder, type JigFilterProperty } from '@awdlab/jig/filter-builder';
 
-import { type Person, people, ROLES } from '../../helper/people';
+import { type Person, people, ROLES } from '../../utils/sample-data/people';
 
 @Component({
-  selector: 'jig-demo-filter-builder-datatypes',
+  selector: 'jig-demo-filter-builder-data-types',
   imports: [JigFilterBuilder],
   template: `
     <div class="flex flex-col gap-2">

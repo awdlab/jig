@@ -390,8 +390,6 @@ function loadMigrations(): Migration[] {
 }
 
 const DEMOS = join(REPO_ROOT, 'apps/docs/src/app/demos');
-// Demo folders that aren't a single control get no primary-control mapping.
-const NON_CONTROL_DEMOS = new Set(['dummies', 'control-state', 'dark-mode', 'pt']);
 
 /** Human-readable scenario name from a demo file base name. */
 function scenarioName(base: string): string {
@@ -412,7 +410,8 @@ function buildExamples(): PackExample[] {
   const examples: PackExample[] = [];
 
   for (const dir of readdirSync(DEMOS, { withFileTypes: true })) {
-    if (!dir.isDirectory() || NON_CONTROL_DEMOS.has(dir.name)) continue;
+    // _shared holds demos that aren't about a single control.
+    if (!dir.isDirectory() || dir.name === '_shared') continue;
     const folder = join(DEMOS, dir.name);
     for (const file of readdirSync(folder)) {
       if (!file.endsWith('.ts') || file === 'index.ts') continue;

@@ -6,7 +6,7 @@ import {
   type JigFilterProperty,
 } from '@awdlab/jig/filter-builder';
 
-import { people, type Person } from '../../helper/people';
+import { people, type Person } from '../../utils/sample-data/people';
 
 type Preset = { label: string; config: JigFilterBuilderConfig };
 

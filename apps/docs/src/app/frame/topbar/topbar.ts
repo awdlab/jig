@@ -12,9 +12,9 @@ import {
   type JigShortcutBinding,
 } from '@awdlab/jig/kbd';
 
-import { AppLocation } from '../../helper/app-location';
+import { AppLocation } from '../../utils/app-location';
 import { DocsSearch, JigDocsSearchDialog } from '../../utils/search';
-import { BreadcrumbService } from '../breadcrumb.service';
+import { BreadcrumbService } from '../breadcrumb';
 import { FrameState } from '../frame-state';
 import { JigDocsTopbarActions } from './actions';
 

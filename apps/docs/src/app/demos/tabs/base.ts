@@ -1,24 +1,27 @@
 import { Component } from '@angular/core';
 import { JigTabs, JigTab } from '@awdlab/jig/tabs';
 
-import { DummyLoremIpsumComponent1, DummyLoremIpsumComponent2 } from '../dummies/lorem-ipsum';
+import {
+  Demo_Dummies_LoremIpsum_1,
+  Demo_Dummies_LoremIpsum_2,
+} from '../_shared/dummies/lorem-ipsum';
 
 @Component({
-  imports: [JigTabs, JigTab, DummyLoremIpsumComponent1, DummyLoremIpsumComponent2],
+  imports: [JigTabs, JigTab, Demo_Dummies_LoremIpsum_1, Demo_Dummies_LoremIpsum_2],
   selector: 'jig-demo-tabs-base',
   template: `
     <jig-tabs>
       <jig-tab tabId="tab1">
         <ng-template #header> Tab 1 </ng-template>
         <ng-template #content>
-          <dummy-lorem-ipsum-1 />
+          <jig-demo-dummies-lorem-ipsum-1 />
         </ng-template>
       </jig-tab>
 
       <jig-tab tabId="tab2">
         <ng-template #header> Tab 2 </ng-template>
         <ng-template #content>
-          <dummy-lorem-ipsum-2 />
+          <jig-demo-dummies-lorem-ipsum-2 />
         </ng-template>
       </jig-tab>
     </jig-tabs>

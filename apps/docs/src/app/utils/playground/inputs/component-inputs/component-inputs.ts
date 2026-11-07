@@ -13,6 +13,7 @@ import { ConsoleLogger, Deserializer, FileRegistry } from 'typedoc/browser';
 
 import { JigDocsPlaygroundInput } from './input/input';
 import { collectParamValues, comboKey, hasParam, resolveParams } from '../../params';
+import { getProjectControl } from '../../../api/api-docs-helper';
 import { getTypedocProject } from '../../../typedoc';
 import { getTypeMatrix } from '../../../type-matrix';
 
@@ -78,19 +79,7 @@ export class JigDocsPlaygroundComponentInputs {
 
   private readonly _projectComponent = computed(() => {
     const project = this._project();
-    const componentName = this.componentName();
-    // Component classes get prefixed with an underscore by the compiler
-
-    if (!project || !componentName) {
-      return null;
-    }
-    const controls = project.children?.filter(x =>
-      x.categories?.some(cat => cat.title === 'control')
-    );
-    const control =
-      controls?.map(x => x.children?.find(c => c.name === componentName)).filter(notNullish)[0] ??
-      null;
-    return control;
+    return project ? getProjectControl(project, this.componentName()) : null;
   });
 
   protected readonly componentInputs = computed(() => {

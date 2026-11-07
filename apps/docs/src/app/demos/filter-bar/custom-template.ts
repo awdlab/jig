@@ -3,7 +3,7 @@ import { JigButton } from '@awdlab/jig/button';
 import { JigFilterBar } from '@awdlab/jig/filter-bar';
 import type { JigFilterBuilderConfig, JigFilterProperty } from '@awdlab/jig/filter-builder';
 
-import { people, ROLES, type Person } from '../../helper/people';
+import { people, ROLES, type Person } from '../../utils/sample-data/people';
 
 @Component({
   selector: 'jig-demo-filter-bar-custom-template',

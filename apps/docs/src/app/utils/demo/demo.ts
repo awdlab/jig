@@ -11,6 +11,8 @@ import { JigDocsLoader } from '../loader/loader';
 
 import type { Type } from '@angular/core';
 
+const SHARED_DEMO_FOLDERS = new Set(['control-state', 'dark-mode', 'dummies', 'pt', 'rtl']);
+
 @Component({
   selector: 'jig-docs-demo',
   templateUrl: 'demo.html',
@@ -48,7 +50,10 @@ export class JigDocsDemo {
       componentNameParts[2] || throwExp('docs:demo', 'Invalid component name format')
     );
 
-    const path = `/demos/${componentShortName}/${demoShortName}.ts`;
+    const folder = SHARED_DEMO_FOLDERS.has(componentShortName)
+      ? `_shared/${componentShortName}`
+      : componentShortName;
+    const path = `/demos/${folder}/${demoShortName}.ts`;
     const res = await fetch(path);
     const text = await res.text();
     this.code.set(text);
